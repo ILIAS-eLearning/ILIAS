@@ -242,7 +242,7 @@ class ilTestServiceGUI
 			}
 
 			$row['pass'] = $pass;
-			$row['date'] = $this->object->getPassFinishDate($testSession->getActiveId(), $pass);
+			$row['date'] = ilObjTest::lookupLastTestPassAccess($testSession->getActiveId(), $pass);
 			if($withResults)
 			{
 				$row['num_workedthrough_questions'] = $result_array['pass']['num_workedthrough'];
@@ -922,7 +922,7 @@ class ilTestServiceGUI
 		$template->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name"), $uname));
 		$template->setVariable("USER_DATA", $user_data);
 
-		$this->populatePassFinishDate($template, $this->object->getPassFinishDate($active_id, $pass));
+		$this->populatePassFinishDate($template, ilObjTest::lookupLastTestPassAccess($active_id, $pass));
 
 		return $template->get();
 	}

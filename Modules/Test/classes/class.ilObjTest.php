@@ -3967,7 +3967,7 @@ function getAnswerFeedbackPoints()
 	*/
 	function isTestFinishedToViewResults($active_id, $currentpass)
 	{
-		$num = $this->getPassFinishDate($active_id, $currentpass);
+		$num = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $currentpass);
 		return ((($currentpass > 0) && ($num == 0)) || $this->isTestFinished($active_id)) ? true : false;
 	}
 
@@ -8367,16 +8367,13 @@ function getAnswerFeedbackPoints()
 		return $workedthrough;
 	}
 
-/**
-* Retrieves the number of answered questions for a given user in a given test
-*
-* @param integer $user_id The user id
-* @param integer $test_id The test id
-* @param integer $pass The pass of the test
-* @return timestamp The SQL timestamp of the finished pass
-* @access public
-*/
-	function getPassFinishDate($active_id, $pass)
+    /**
+     * @param int $active_id
+     * @param int $pass
+     *
+     * @return int
+     */
+    public static function lookupPassResultsUpdateTimestamp($active_id, $pass)
 	{
 		global $ilDB;
 		
@@ -9417,6 +9414,29 @@ function getAnswerFeedbackPoints()
 		}
 		return "";
 	}
+
+	public static function lookupLastTestPassAccess($activeId, $passIndex)
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $query = "
+            SELECT MAX(tst_times.tstamp) as last_pass_access
+            FROM tst_times
+            WHERE active_fi = %s
+            AND pass = %s
+        ";
+
+        $res = $DIC->database()->queryF(
+            $query, array('integer', 'integer'), array($activeId, $passIndex)
+        );
+
+        while($row = $DIC->database()->fetchAssoc($res))
+        {
+            return $row['last_pass_access'];
+        }
+
+        return null;
+    }
 
 	/**
 	* Checks if a given string contains HTML or not

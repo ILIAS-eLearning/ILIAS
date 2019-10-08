@@ -464,7 +464,7 @@ abstract class ilTestExport
 			for($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 			{
 				$col = $startcol;
-				$finishdate = $this->test_obj->getPassFinishDate($active_id, $pass);
+				$finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
 				if($finishdate > 0)
 				{
 					if ($pass > 0)
@@ -979,7 +979,7 @@ abstract class ilTestExport
 				}
 				for ($pass = 0; $pass <= $data->getParticipant($active_id)->getLastPass(); $pass++)
 				{
-					$finishdate = $this->test_obj->getPassFinishDate($active_id, $pass);
+					$finishdate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
 					if ($finishdate > 0)
 					{
 						if ($pass > 0)
