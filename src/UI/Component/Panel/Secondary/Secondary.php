@@ -5,27 +5,13 @@
 namespace ILIAS\UI\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Component\Panel\PanelViewControls;
 
 /**
  * This describes a Secondary Panel.
  */
-interface Secondary extends C\Component
+interface Secondary extends C\Component, PanelViewControls
 {
-    /**
-     * Add View Controls to Secondary panel
-     *
-     * @param array $view_controls Array Of ViewControls
-     * @return \ILIAS\UI\Component\Panel\Secondary\Secondary
-     */
-    public function withViewControls(array $view_controls) : Secondary;
-
-    /**
-     * Get view controls to be shown in the header of the Secondary panel.
-     *
-     * @return array Array of ViewControls
-     */
-    public function getViewControls() : ?array;
-
     /**
      * Sets a Component being displayed below the content
      * @param \ILIAS\UI\Component\Button\Shy $component

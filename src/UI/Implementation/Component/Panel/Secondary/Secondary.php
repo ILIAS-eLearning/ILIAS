@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\Panel\PanelViewControls;
 
 /**
  * Class Secondary
@@ -14,6 +15,7 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 abstract class Secondary implements C\Panel\Secondary\Secondary
 {
     use ComponentHelper;
+    use PanelViewControls;
 
     /**
      * @var string
@@ -25,10 +27,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
      */
     protected $actions = null;
 
-    /**
-     * @var ILIAS\UI\Component\ViewControl[]
-     */
-    protected $view_controls;
 
     /**
      * @var null|\ILIAS\UI\Component\Button\Shy
@@ -64,25 +62,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     public function getActions() : ?C\Dropdown\Standard
     {
         return $this->actions;
-    }
-
-    /**
-     * @param array $view_controls
-     * @return C\Panel\Secondary\Secondary
-     */
-    public function withViewControls(array $view_controls) : C\Panel\Secondary\Secondary
-    {
-        $clone = clone $this;
-        $clone->view_controls = $view_controls;
-        return $clone;
-    }
-
-    /**
-     * @return array|null
-     */
-    public function getViewControls() : ?array
-    {
-        return $this->view_controls;
     }
 
     /**
