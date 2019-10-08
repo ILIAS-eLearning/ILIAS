@@ -228,4 +228,15 @@ class Group extends Input implements C\Input\Field\Group
              */
         };
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getContent()
+    {
+        if (0 === count($this->getInputs())) {
+            return new \ILIAS\Data\Result\Ok([]);
+        }
+        return parent::getContent();
+    }
 }
