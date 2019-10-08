@@ -573,6 +573,10 @@ class ilCopyWizardOptions
 	 	global $DIC;
 
 	 	$ilDB = $DIC['ilDB'];
+
+	 	if (isset(self::$instances[$this->copy_id])) {
+            unset (self::$instances[$this->copy_id]);
+        }
 	 	
 	 	$query = "DELETE FROM copy_wizard_options ".
 	 		"WHERE copy_id = ".$this->db->quote($this->copy_id ,'integer');

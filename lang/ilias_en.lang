@@ -15208,3 +15208,11 @@ common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+wfld#:#wfld_sortation#:#Sortation
+wfld#:#wfld_derive#:#Adopt from parent
+wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
+wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
+wfld#:#wfld_creation_asc#:#Creation Date, asc.
+wfld#:#wfld_creation_desc#:#Creation Date, desc.
+wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
+wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace

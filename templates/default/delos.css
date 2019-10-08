@@ -8256,7 +8256,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 /* common css for characteristic value listing */
 .il-listing-characteristic-value-row {
   /* i tried .ilClearFloat, did not work as expected */
-  border-top: solid #dddddd 1px;
+  border-top: solid #ddd 1px;
   padding: 12px 0;
 }
 .il-listing-characteristic-value-row:before,
@@ -16870,6 +16870,11 @@ div.ilChecklist ul li img {
 /* Modules/WorkspaceFolder */
 #tbl_wfld.table-striped > tbody > tr > td {
   background-color: transparent;
+}
+.ilWspContainerListFooter {
+  background-color: #f9f9f9;
+  margin: 0px -15px -15px -15px;
+  padding: 5px 25px;
 }
 /* Services/FileUpload */
 .ilFileUploadEntryProgressPercent {

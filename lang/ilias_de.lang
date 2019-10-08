@@ -15207,3 +15207,11 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+wfld#:#wfld_sortation#:#Sortierung
+wfld#:#wfld_derive#:#Wie übergeordneter Ordner
+wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
+wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
+wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
+wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
+wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
+wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
