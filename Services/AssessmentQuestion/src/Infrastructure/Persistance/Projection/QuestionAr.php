@@ -120,6 +120,7 @@ class QuestionAr extends AbstractProjectionAr
         $object->question_configuration = json_encode($question->getPlayConfiguration());
         $object->answer_options = json_encode($question->getAnswerOptions()->getOptions());
         $object->container_obj_id = $question->getContainerObjId();
+        $object->feedback = json_encode($question->getFeedback());
         
         return $object;
         
