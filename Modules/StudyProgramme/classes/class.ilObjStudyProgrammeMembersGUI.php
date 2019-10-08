@@ -57,7 +57,7 @@ class ilObjStudyProgrammeMembersGUI {
 	protected $progress_objects;
 
 	public function __construct(
-		\ilTemplate $tpl,
+		\ilGlobalTemplateInterface $tpl,
 		\ilCtrl $ilCtrl,
 		\ilToolbarGUI $ilToolbar,
 		\ilLanguage $lng,

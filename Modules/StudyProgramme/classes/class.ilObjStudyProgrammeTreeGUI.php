@@ -81,7 +81,7 @@ class ilObjStudyProgrammeTreeGUI {
 	public $toolbar;
 
 	public function __construct(
-		\ilTemplate $tpl,
+		\ilGlobalTemplateInterface $tpl,
 		\ilCtrl $ilCtrl,
 		\ilAccess $ilAccess,
 		\ilToolbarGUI $ilToolbar,

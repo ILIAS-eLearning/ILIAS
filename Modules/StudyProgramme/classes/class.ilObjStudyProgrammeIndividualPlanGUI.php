@@ -44,7 +44,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 	protected $sp_user_progress_db;
 
 	public function __construct(
-		\ilTemplate $tpl,
+		\ilGlobalTemplateInterface $tpl,
 		\ilCtrl $ilCtrl,
 		\ilLanguage $lng,
 		\ilObjUser $ilUser,

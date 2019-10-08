@@ -65,7 +65,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	protected $request;
 	public function __construct(
-		ilTemplate $tpl,
+		ilGlobalTemplateInterface $tpl,
 		ilCtrl $ilCtrl,
 		ilToolbarGUI $ilToolbar,
 		ilLanguage $lng,
@@ -155,7 +155,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
 		$form = $this->getModalForm()->withRequest($this->request);
 		$result = $form->getData();
-
 		list($src_type, $sub_values) = array_values($result[self::F_SOURCE_TYPE]);
 		$src_id = (int)$sub_values[self::F_SOURCE_ID];
 
@@ -276,20 +275,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		return $modal;
 	}
 
-	protected function addTypeOption(
-		ILIAS\UI\Component\Input\Field\Radio $radio,
-		ILIAS\UI\Component\Input\Field\Numeric $f_id,
-		string $type
-	): ILIAS\UI\Component\Input\Field\Radio {
-
-		return $radio->withOption(
-			$type,
-			$this->lng->txt($type),
-			'',
-			[self::F_SOURCE_ID => $f_id]
-		);
-	}
-
 	/**
 	 * Build the modal's form.
 	 */
@@ -307,15 +292,67 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		if(! is_null($source_id)) {
 			$f_id = $f_id->withValue($source_id);
 		}
-
-		$f_type = $factory->field()->radio($this->lng->txt('membership_source_type'));
-		$f_type = $this->addTypeOption(
-			$f_type,
-			$f_id->withByline($this->lng->txt('membership_source_id_byline_objid')),
-			ilStudyProgrammeAutoMembershipSource::TYPE_ROLE);
-		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_GROUP);
-		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_COURSE);
-		$f_type = $this->addTypeOption($f_type, $f_id, ilStudyProgrammeAutoMembershipSource::TYPE_ORGU);
+		$role_id_f = $factory->field()->numeric(
+			'',
+			$this->lng->txt('membership_source_id_byline_objid')
+		);
+		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
+			$role_id_f = $role_id_f->withValue($source_id);
+		}
+		$group_id_f = $factory->field()->numeric(
+			'',
+			$this->lng->txt('membership_source_id_byline_refid')
+		);
+		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_GROUP) {
+			$group_id_f = $group_id_f->withValue($source_id);
+		}
+		$course_id_f = $factory->field()->numeric(
+			'',
+			$this->lng->txt('membership_source_id_byline_refid')
+		);
+		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_COURSE) {
+			$course_id_f = $course_id_f->withValue($source_id);
+		}
+		$orgu_id_f = $factory->field()->numeric(
+			'',
+			$this->lng->txt('membership_source_id_byline_refid')
+		);
+		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_ORGU) {
+			$orgu_id_f = $orgu_id_f->withValue($source_id);
+		}
+		$f_type = $factory->field()->switchableGroup(
+			[
+				ilStudyProgrammeAutoMembershipSource::TYPE_ROLE =>
+					$factory->field()->group([self::F_SOURCE_ID =>
+						$factory->field()->numeric(
+							'',
+							$this->lng->txt('membership_source_id_byline_objid')
+						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ROLE)
+					),
+				ilStudyProgrammeAutoMembershipSource::TYPE_GROUP =>
+					$factory->field()->group([self::F_SOURCE_ID =>
+						$factory->field()->numeric(
+							'',
+							$this->lng->txt('membership_source_id_byline_refid')
+						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_GROUP)
+					),
+				ilStudyProgrammeAutoMembershipSource::TYPE_COURSE =>
+					$factory->field()->group([self::F_SOURCE_ID =>
+						$factory->field()->numeric(
+							'',
+							$this->lng->txt('membership_source_id_byline_refid')
+						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_COURSE)
+					),
+				ilStudyProgrammeAutoMembershipSource::TYPE_ORGU =>
+					$factory->field()->group([self::F_SOURCE_ID =>
+						$factory->field()->numeric(
+							'',
+							$this->lng->txt('membership_source_id_byline_refid')
+						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ORGU)
+					)
+			],
+			$this->lng->txt('membership_source_type')
+		);
 
 		if(! is_null($source_type)) {
 			$f_type = $f_type->withValue($source_type);

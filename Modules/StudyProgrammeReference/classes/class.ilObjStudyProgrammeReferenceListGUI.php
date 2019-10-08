@@ -101,7 +101,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 	* @param	string		$a_title		title
 	* @param	string		$a_description	description
 	*/
-	function initItem($a_ref_id, $a_obj_id, $a_title = "", $a_description = "")
+	function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "")
 	{
 		$this->reference_ref_id = $a_ref_id;
 		$this->reference_obj_id = $a_obj_id;
@@ -117,8 +117,8 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 		
 		$this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($target_ref_id,$target_obj_id);
 
-		parent::initItem($target_ref_id, $target_obj_id,$target_title,$target_description);
-
+		parent::initItem($target_ref_id, $target_obj_id,'prg',$target_title,$target_description);
+		$this->setTitle($target_title);
 		$this->commands = ilObjStudyProgrammeReferenceAccess::_getCommands($this->reference_ref_id);
 		
 		if($this->ilAccess->checkAccess('write','',$this->reference_ref_id) || $this->deleted)
@@ -145,7 +145,8 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
 
 		return $props ? $props : array();
 	}	
-	
+
+
 	/**
 	 * 
 	 * @param

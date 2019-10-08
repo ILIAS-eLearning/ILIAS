@@ -41,7 +41,6 @@ class ilObjStudyProgrammeReferenceAccess extends ilContainerReferenceAccess
 				}
 				$tree = $DIC['tree'];
 				$assignment_ids = [];
-
 				$target_ref_id = ilContainerReference::_lookupTargetRefId($a_obj_id);
 				$prg = ilObjStudyProgramme::getInstanceByRefId($target_ref_id);
 				$target_id = $prg->getId();

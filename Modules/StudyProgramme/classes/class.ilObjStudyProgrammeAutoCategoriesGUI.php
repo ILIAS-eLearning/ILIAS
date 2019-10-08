@@ -61,7 +61,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 
 
 	public function __construct(
-		ilTemplate $tpl,
+		ilGlobalTemplateInterface $tpl,
 		ilCtrl $ilCtrl,
 		ilToolbarGUI $ilToolbar,
 		ilLanguage $lng,
