@@ -19,8 +19,10 @@ interface Factory
      *   purpose: >
      *      Standard Panels are used in the center content section to group content.
      *   composition: >
-     *      Standard Panels consist of a title and a content section. The
-     *      structure of this content might be varying from Standard
+     *      Standard Panels consist of a content and a top section.
+     *      The top section may contain a title and a sortation view control.
+     *      The content section may contain a Pagination view controller or a Section view controller.
+     *      The structure of this content might be varying from Standard
      *      Panel to Standard Panel. Standard Panels may contain Sub Panels.
      *   rivals:
      *      Cards: >
@@ -30,6 +32,13 @@ interface Factory
      *   usage:
      *      1: In Forms Standard Panels MUST be used to group different sections into Form Parts.
      *      2: Standard Panels SHOULD be used in the center content as primary Container for grouping content of varying content.
+     *
+     *   composition:
+     *      1: Standard Panels MAY contain a Section view control to change the current presentation of the content.
+     *      2: Standard Panels MAY contain a Pagination view control to display data in chunks.
+     *      3: Standard Panels MUST NOT contain more than one UI ViewControl in the main content.
+     *      4: Standard Panels MAY have a Sortation View Control to perform ordering actions to the presented data.
+
      * ---
      * @param string $title
      * @param Component[]|Component
