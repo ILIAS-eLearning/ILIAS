@@ -234,7 +234,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
         $document_processor = $upload_result->getMimeType() == 'html'
-            ? new ilWebDAVMountInstructionsHtmlDocumentProcessor()
+            ? new ilWebDAVMountInstructionsHtmlDocumentProcessor($this->document_purifier)
             : new ilWebDAVMountInstructionsTextDocumentProcessor();
 
         $processed_mount_instructions = $document_processor->processMountInstructions($raw_mount_instructions);
