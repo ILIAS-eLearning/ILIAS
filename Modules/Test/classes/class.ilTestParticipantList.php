@@ -347,6 +347,10 @@ class ilTestParticipantList implements Iterator
 				$row['percent_result'] = $participant->getScoring()->getPercentResult();
 				$row['passed_status'] = $participant->getScoring()->isPassed();
 				$row['final_mark'] = $participant->getScoring()->getFinalMark();
+
+                $row['pass_finished'] = ilObjTest::lookupLastTestPassAccess(
+                    $participant->getActiveId(), $participant->getScoring()->getScoredPass()
+                );
 			}
 			
 			$rows[] = $row;
