@@ -158,7 +158,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 				{
 					$item_ref_id = $item_data["child"];
 
-					if ($this->block_limit > 0 && $position == $this->block_limit + 1)
+					if ($this->block_limit > 0 && !$this->getContainerGUI()->isActiveItemOrdering() && $position == $this->block_limit + 1)
 					{
 						if ($position == $this->block_limit + 1)
 						{
