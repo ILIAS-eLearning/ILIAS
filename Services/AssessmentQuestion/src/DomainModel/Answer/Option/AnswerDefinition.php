@@ -8,7 +8,7 @@ use JsonSerializable;
 use stdClass;
 
 /**
- * Abstract Class DisplayDefinition
+ * Abstract Class AnswerDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
