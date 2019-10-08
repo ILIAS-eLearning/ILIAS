@@ -29,6 +29,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	const COUNT_POST_VAR = 'option_count';
 
 	const OPTION_ORDER = 'AnswerOptionOrder';
+	const OPTION_HIDE_ADD_REMOVE = 'AnswerOptionHideAddRemove';
 
 	/**
 	 * @var array
@@ -48,7 +49,12 @@ class AnswerOptionForm extends ilTextInputGUI {
 	 */
 	private $form_configuration;
 
-	public function __construct(string $title, ?QuestionPlayConfiguration $configuration, AnswerOptions $options, array $definitions = null) {
+	public function __construct(string $title, 
+	                            ?QuestionPlayConfiguration $configuration, 
+	                            AnswerOptions $options, 
+	                            ?array $definitions = null,
+	                            ?array $form_configuration = null) 
+	{
 		parent::__construct($title);
 
 		//TODO every question that needs answer options requires them until now, if not --> dont set by default
@@ -62,7 +68,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 		    $this->definitions = $definitions;
 		}
 		
-		if (!is_null($configuration)) {
+		if (!is_null($form_configuration)) {
+		    $this->form_configuration = $form_configuration;
+		}
+		else if (!is_null($configuration)) {
 		    $this->form_configuration = $this->collectConfigurations($configuration);
 		}
 		
@@ -103,6 +112,10 @@ class AnswerOptionForm extends ilTextInputGUI {
 		$tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
 		$tpl->parseCurrentBlock();
 
+		if (!in_array(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+		    $tpl->touchBlock('add');
+		}
+		
 		$row_id = 1;
 
 		//add dummy object if no options are defined so that one empty line will be printed
@@ -121,11 +134,12 @@ class AnswerOptionForm extends ilTextInputGUI {
 			}
 
 			if (in_array(self::OPTION_ORDER, $this->form_configuration)) {
-    			$tpl->setCurrentBlock('move');
-    			$tpl->setVariable('X', "");
-    			$tpl->parseCurrentBlock();
+    			$tpl->touchBlock('move');
 			}
 
+			if (!in_array(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+			    $tpl->touchBlock('remove');
+			}
 			
 			$tpl->setCurrentBlock('row');
 			$tpl->setVariable('ID', $row_id);

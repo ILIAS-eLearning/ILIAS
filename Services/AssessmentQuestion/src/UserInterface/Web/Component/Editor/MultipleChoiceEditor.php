@@ -161,7 +161,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 		    self::VAR_MCE_SHUFFLE);
 		
 		$shuffle->setValue(1);
-		$fields[] = $shuffle;
+		$fields[self::VAR_MCE_SHUFFLE] = $shuffle;
 
 		$max_answers = new ilNumberInputGUI(
 		    $DIC->language()->txt('asq_label_max_answer'), 
@@ -169,7 +169,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 		$max_answers->setInfo($DIC->language()->txt('asq_description_max_answer'));
 		$max_answers->setDecimals(0);
 		$max_answers->setSize(2);
-		$fields[] = $max_answers;
+		$fields[self::VAR_MCE_MAX_ANSWERS] = $max_answers;
 
 		$singleline = new ilSelectInputGUI(
 		    $DIC->language()->txt('asq_label_editor'), 
@@ -179,7 +179,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 		    self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'), 
 		    self::STR_FALSE => $DIC->language()->txt('asq_option_multi_line')]);
 		
-		$fields[] = $singleline;
+		$fields[self::VAR_MCE_IS_SINGLELINE] = $singleline;
 		
 		$thumb_size = new ilNumberInputGUI(
 		    $DIC->language()->txt('asq_label_thumb_size'), 
@@ -189,7 +189,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 		$thumb_size->setMinValue(20);
 		$thumb_size->setDecimals(0);
 		$thumb_size->setSize(6);
-		$fields[] = $thumb_size;
+		$fields[self::VAR_MCE_THUMB_SIZE] = $thumb_size;
 
 		if ($config !== null) {
 			$shuffle->setChecked($config->isShuffleAnswers());

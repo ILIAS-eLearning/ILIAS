@@ -82,21 +82,21 @@ class FormulaScoring extends AbstractScoring {
         $formula = new ilTextInputGUI($DIC->language()->txt('asq_label_formula'), self::VAR_FORMULA);
         $formula->setRequired(true);
         $formula->setInfo($DIC->language()->txt('asq_description_formula'));
-        $fields[] = $formula;
+        $fields[self::VAR_FORMULA] = $formula;
         
         $units = new ilTextInputGUI($DIC->language()->txt('asq_label_units'), self::VAR_UNITS);
         $units->setInfo($DIC->language()->txt('asq_description_units'));
-        $fields[] = $units;
+        $fields[self::VAR_UNITS] = $units;
         
         $precision = new ilNumberInputGUI($DIC->language()->txt('asq_label_precision'), self::VAR_PRECISION);
         $precision->setInfo($DIC->language()->txt('asq_description_precision'));
         $precision->setRequired(true);
-        $fields[] = $precision;
+        $fields[self::VAR_PRECISION] = $precision;
         
         $tolerance = new ilNumberInputGUI($DIC->language()->txt('asq_label_tolerance'), self::VAR_TOLERANCE);
         $tolerance->setInfo($DIC->language()->txt('asq_description_tolerance'));
         $tolerance->setSuffix('%');
-        $fields[] = $tolerance;
+        $fields[self::VAR_TOLERANCE] = $tolerance;
         
         $result_type = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_result_type'), self::VAR_RESULT_TYPE);
         $result_type->setRequired(true);
@@ -112,7 +112,7 @@ class FormulaScoring extends AbstractScoring {
         $result_type->addOption(new ilRadioOption($DIC->language()->txt('asq_label_result_coprime_fraction'),
                                                   FormulaScoringConfiguration::TYPE_COPRIME_FRACTION,
                                                   $DIC->language()->txt('asq_description_result_coprime_fraction')));
-        $fields[] = $result_type;
+        $fields[self::VAR_RESULT_TYPE] = $result_type;
         
         if ($config !== null) {
             $formula->setValue($config->getFormula());

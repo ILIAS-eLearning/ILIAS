@@ -66,6 +66,10 @@ class KprimChoiceEditor extends AbstractEditor {
         
         $this->answer_options = $question->getAnswerOptions()->getOptions();
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+        
+        if ($this->configuration->isShuffleAnswers()) {
+            shuffle($this->answer_options);
+        }
     }
     
     public function readAnswer(): string
@@ -150,14 +154,14 @@ class KprimChoiceEditor extends AbstractEditor {
         
         $shuffle = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_shuffle'), self::VAR_SHUFFLE_ANSWERS);
         $shuffle->setValue(1);
-        $fields[] = $shuffle;
+        $fields[self::VAR_SHUFFLE_ANSWERS] = $shuffle;
    
         $singleline = new ilSelectInputGUI($DIC->language()->txt('asq_label_editor'), self::VAR_SINGLE_LINE);
         $singleline->setOptions([
             self::STR_TRUE => $DIC->language()->txt('asq_option_single_line'),
             self::STR_FALSE => $DIC->language()->txt('asq_option_multi_line')]);
         
-        $fields[] = $singleline;
+        $fields[self::VAR_SINGLE_LINE] = $singleline;
         
         $thumb_size = new ilNumberInputGUI(
             $DIC->language()->txt('asq_label_thumb_size'),
@@ -167,10 +171,10 @@ class KprimChoiceEditor extends AbstractEditor {
         $thumb_size->setMinValue(20);
         $thumb_size->setDecimals(0);
         $thumb_size->setSize(6);
-        $fields[] = $thumb_size;
+        $fields[self::VAR_THUMBNAIL_SIZE] = $thumb_size;
         
         $optionLabel = KprimChoiceEditor::GenerateOptionLabelField($config);
-        $fields[] = $optionLabel;
+        $fields[self::VAR_LABEL_TYPE] = $optionLabel;
         
         if ($config !== null) {
             $shuffle->setChecked($config->isShuffleAnswers());
@@ -284,10 +288,14 @@ class KprimChoiceEditor extends AbstractEditor {
                 break;
         }
         
+        $thumbsize = empty($_POST[self::VAR_THUMBNAIL_SIZE]) ? 
+                        null :
+                        intval($_POST[self::VAR_THUMBNAIL_SIZE]);
+        
         return KprimChoiceEditorConfiguration::create(
             boolval($_POST[self::VAR_SHUFFLE_ANSWERS]),
             boolval($_POST[self::VAR_SINGLE_LINE]),
-            intval($_POST[self::VAR_THUMBNAIL_SIZE]),
+            $thumbsize,
             $label_true,
             $label_false);
     }

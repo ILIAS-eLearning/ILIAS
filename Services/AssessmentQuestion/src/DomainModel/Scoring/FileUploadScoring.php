@@ -39,13 +39,13 @@ class FileUploadScoring extends AbstractScoring {
         $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
         $points->setSize(2);
-        $fields[] = $points;
+        $fields[self::VAR_POINTS] = $points;
         
         $completed_by_submition = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_completed_by_submition'), 
                                                          self::VAR_COMPLETED_ON_UPLOAD);
         $completed_by_submition->setInfo($DIC->language()->txt('asq_description_completed_by_submition'));
         $completed_by_submition->setValue(self::CHECKED);
-        $fields[] = $completed_by_submition;
+        $fields[self::VAR_COMPLETED_ON_UPLOAD] = $completed_by_submition;
         
         if ($config !== null) {
             $points->setValue($config->getPoints());

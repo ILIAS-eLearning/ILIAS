@@ -84,7 +84,7 @@ class NumericEditor extends AbstractEditor {
         $max_chars->setInfo($DIC->language()->txt('asq_description_max_nr_chars'));
         $max_chars->setRequired(true);
         $max_chars->setSize(6);
-        $fields[] = $max_chars;
+        $fields[self::VAR_MAX_NR_OF_CHARS] = $max_chars;
 
         if ($config !== null) {
             $max_chars->setValue($config->getMaxNumOfChars());

@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
 use JsonSerializable;
 use stdClass;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 
 /**
  * Abstract Class ScoringDefinition
@@ -16,7 +17,7 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class ScoringDefinition implements JsonSerializable {
-	public abstract static function getFields() : array;
+	public abstract static function getFields(QuestionPlayConfiguration $play) : array;
 
 	public abstract function getValues() : array;
 

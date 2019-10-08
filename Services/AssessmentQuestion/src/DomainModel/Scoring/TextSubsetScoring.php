@@ -137,7 +137,7 @@ class TextSubsetScoring extends AbstractScoring
                 self::TM_LEVENSHTEIN_3 => $DIC->language()->txt('asq_option_levenshtein_3'),
                 self::TM_LEVENSHTEIN_4 => $DIC->language()->txt('asq_option_levenshtein_4'),
                 self::TM_LEVENSHTEIN_5 => $DIC->language()->txt('asq_option_levenshtein_5')]);
-        $fields[] = $text_matching;
+        $fields[self::VAR_TEXT_MATCHING] = $text_matching;
         
         if ($config !== null) {
             $text_matching->setValue($config->getTextMatching());

@@ -25,7 +25,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
      */
     protected $single_line;
     /**
-     * @var int
+     * @var ?int
      */
     protected $thumbnail_size;
     /**
@@ -39,7 +39,7 @@ class KprimChoiceEditorConfiguration extends AbstractConfiguration {
 
     static function create(bool $shuffle_answers = false,
                            bool $single_line = true,
-                           int $thumbnail_size = 0,
+                           ?int $thumbnail_size = null,
                            ?string $label_true = "",
                            ?string $label_false = "") : KprimChoiceEditorConfiguration
         {

@@ -61,11 +61,11 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 *
 	 * @param QuestionDto $question
 	 */
-	public function __construct($question) {
+	public function __construct(QuestionDto $question, ?array $answer_option_configuration = null) {
 	    global $DIC;
 	    $this->lang = $DIC->language();
 	    
-	    $this->initForm($question);
+	    $this->initForm($question, $answer_option_configuration);
 	    $this->setMultipart(true);
 	    $this->setTitle(AsqGUIElementFactory::getQuestionTypes()[$question->getLegacyData()->getAnswerTypeId()]);
 	    
@@ -80,7 +80,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
     /**
      * @param QuestionDto $question
      */
-	private function initForm(QuestionDto $question) {
+	private function initForm(QuestionDto $question, ?array $answer_option_configuration = null) {
 	    global $DIC;
 	    
 	    $id = new ilHiddenInputGUI(self::VAR_AGGREGATE_ID);
@@ -107,7 +107,8 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
             $this->lang->txt('asq_label_answer'),
             $question->getPlayConfiguration(),
             $question->getAnswerOptions(),
-            $this->getAnswerOptionDefinitions($question->getPlayConfiguration()));
+            $this->getAnswerOptionDefinitions($question->getPlayConfiguration()),
+            $answer_option_configuration);
         
         $this->addItem($this->option_form);
 	}
@@ -206,30 +207,6 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	 */
 	protected abstract function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void ;
 
-	/**
-	 * @param array $fields
-	 * @param string $post_var
-	 * @param $value
-	 * @return array
-	 */
-	protected function hideField(array $fields, string $post_var, $value) : array {
-	    $new_fields = [];
-	    
-	    /** @var $field \ilFormPropertyGUI */
-	    foreach ($fields as $field) {
-	        if ($field->getPostVar() === $post_var) {
-	            $hidden = new \ilHiddenInputGUI($post_var);
-	            $hidden->setValue($value);
-	            $new_fields[] = $hidden;
-	        }
-	        else {
-	            $new_fields[] = $field;
-	        }
-	    }
-	    
-	    return $new_fields;
-	}
-	
 	/**
 	 * @param array $definitions
 	 * @param string $post_var

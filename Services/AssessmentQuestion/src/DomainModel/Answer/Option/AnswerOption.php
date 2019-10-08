@@ -39,7 +39,10 @@ class AnswerOption implements JsonSerializable {
      */
     private $answer_option_feedback;
 
-	public function __construct(int $id, ?DisplayDefinition $display_definition = null, ?ScoringDefinition $scoring_definition = null, ?AnswerOptionFeedback $answer_option_feedback = null)
+	public function __construct(int $id, 
+	                            ?DisplayDefinition $display_definition = null, 
+	                            ?ScoringDefinition $scoring_definition = null, 
+	                            ?AnswerOptionFeedback $answer_option_feedback = null)
 	{
 		$this->option_id = $id;
 		$this->display_definition = $display_definition;

@@ -56,17 +56,17 @@ class FileUploadEditor extends AbstractEditor {
         
         $max_upload = new ilNumberInputGUI($DIC->language()->txt('asq_label_max_upload'), self::VAR_MAX_UPLOAD);
         $max_upload->setInfo($DIC->language()->txt('asq_description_max_upload'));
-        $fields[] = $max_upload;
+        $fields[self::VAR_MAX_UPLOAD] = $max_upload;
         
         $allowed_extensions = new ilTextInputGUI($DIC->language()->txt('asq_label_allowed_extensions'), 
                                                  self::VAR_ALLOWED_EXTENSIONS);
         $allowed_extensions->setInfo($DIC->language()->txt('asq_description_allowed_extensions'));
-        $fields[] = $allowed_extensions;
+        $fields[self::VAR_ALLOWED_EXTENSIONS] = $allowed_extensions;
         
         $typ = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_upload_type'), self::VAR_UPLOAD_TYPE);
         $typ->addOption(new ilRadioOption($DIC->language()->txt('asq_label_single_file'), FileUploadEditorConfiguration::AMOUNT_ONE));
         $typ->addOption(new ilRadioOption($DIC->language()->txt('asq_label_many_file'), FileUploadEditorConfiguration::AMOUNT_MANY));
-        $fields[] = $typ;
+        $fields[self::VAR_UPLOAD_TYPE] = $typ;
         
         if ($config !== null) {
             $max_upload->setValue($config->getMaximumSize());

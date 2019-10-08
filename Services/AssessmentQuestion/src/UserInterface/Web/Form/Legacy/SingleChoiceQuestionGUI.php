@@ -8,6 +8,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration;
+use ilHiddenInputGUI;
 
 /**
  * Class SingleChoiceQuestionGUI
@@ -39,7 +40,9 @@ class SingleChoiceQuestionGUI extends LegacyFormGUIBase {
 	{
 	    $fields = MultipleChoiceEditor::generateFields($play->getEditorConfiguration());
 	    
-	    $fields = $this->hideField($fields, MultipleChoiceEditor::VAR_MCE_MAX_ANSWERS, 1);
+	    $hidden = new ilHiddenInputGUI(MultipleChoiceEditor::VAR_MCE_MAX_ANSWERS);
+	    $hidden->setValue(1);
+	    $fields[MultipleChoiceEditor::VAR_MCE_MAX_ANSWERS] = $hidden;
 	    
 	    foreach ($fields as $field) {
 	        $this->addItem($field);

@@ -203,11 +203,11 @@ class ImageMapEditor extends AbstractEditor {
         $mode = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_mode'), self::VAR_MULTIPLE_CHOICE);
         $mode->addOption(new ilRadioOption($DIC->language()->txt('asq_label_single_choice'), self::STR_SINGLECHOICE));
         $mode->addOption(new ilRadioOption($DIC->language()->txt('asq_label_multiple_choice'), self::STR_MULTICHOICE));
-        $fields[] = $mode;
+        $fields[self::VAR_MULTIPLE_CHOICE] = $mode;
         
         $image = new AsqImageUpload($DIC->language()->txt('asq_label_image'), self::VAR_IMAGE);
         $image->setRequired(true);
-        $fields[] = $image;
+        $fields[self::VAR_IMAGE] = $image;
         
         if ($config !== null) {
             $mode->setValue($config->isMultipleChoice() ? self::STR_MULTICHOICE : self::STR_SINGLECHOICE);

@@ -5,6 +5,8 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\ScoringDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use stdClass;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\KprimChoiceEditorConfiguration;
 
 /**
  * Class KprimChoiceScoringDefinition
@@ -43,9 +45,12 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
     /**
      * @return array
      */
-    public static function getFields(): array
+    public static function getFields(QuestionPlayConfiguration $play): array
     {
         global $DIC;
+        
+        /** @var $conf KprimChoiceEditorConfiguration */
+        $conf = $play->getEditorConfiguration();
         
         $fields = [];
         $fields[] = new AnswerOptionFormFieldDefinition(
@@ -53,8 +58,8 @@ class KprimChoiceScoringDefinition extends ScoringDefinition {
             AnswerOptionFormFieldDefinition::TYPE_RADIO,
             self::VAR_KPSD_CORRECT,
             [
-                $DIC->language()->txt('asq_label_right') => self::STR_TRUE, 
-                $DIC->language()->txt('asq_label_wrong') => self::STR_FALSE
+                $conf->getLabelTrue() ?? $DIC->language()->txt('asq_label_right') => self::STR_TRUE, 
+                $conf->getLabelFalse() ?? $DIC->language()->txt('asq_label_wrong') => self::STR_FALSE
             ]);
         
         return $fields;

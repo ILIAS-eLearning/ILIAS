@@ -116,13 +116,13 @@ class ErrorTextEditor extends AbstractEditor {
         $error_text = new ilTextAreaInputGUI($DIC->language()->txt('asq_label_error_text'), self::VAR_ERROR_TEXT);
         $error_text->setInfo($DIC->language()->txt('asq_description_error_text'));
         $error_text->setRequired(true);
-        $fields[] = $error_text;
+        $fields[self::VAR_ERROR_TEXT] = $error_text;
         
         $text_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_text_size'), self::VAR_TEXT_SIZE);
         $text_size->setRequired(true);
         $text_size->setSize(6);
         $text_size->setSuffix('%');
-        $fields[] = $text_size;
+        $fields[self::VAR_TEXT_SIZE] = $text_size;
         
         if ($config !== null) {
             $error_text->setValue($config->getErrorText());

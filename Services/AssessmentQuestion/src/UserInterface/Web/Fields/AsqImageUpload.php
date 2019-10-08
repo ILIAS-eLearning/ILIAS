@@ -84,22 +84,22 @@ class AsqImageUpload extends ilFileInputGUI {
         
         //TODO create template when definitive
         $additional = '<input type="hidden" name="' . $this->getPostVar() . '" value="' . $this->image_path . '" />';
+        $delete = '';
         
         if (!empty($this->image_path)) {
             $additional .= '<img class="image_preview" style="margin: 5px 0px 5px 0px; max-width: 333px;" src="' . $this->image_path . '" border="0" /><br />';
-        }
         
-        $delete = '';
-        if (!$this->required) {
-            $delete = '<div class="checkbox">
+            if (!$this->required) {
+                $delete = '<div class="checkbox">
                         <label>
-                            <input type="checkbox" 
-                                   name="' . $this->getPostVar() . '_delete" 
-                                   id="' . $this->getPostVar() . '_delete" 
+                            <input type="checkbox"
+                                   name="' . $this->getPostVar() . '_delete"
+                                   id="' . $this->getPostVar() . '_delete"
                                    value="1" />' .
-                                   $DIC->language()->txt("delete_existing_file") . 
-                        '</label>
+                                   $DIC->language()->txt("delete_existing_file") .
+                                   '</label>
                        </div>';
+            }
         }
         
         if ($this->getDisabled()) {

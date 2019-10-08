@@ -56,7 +56,7 @@ class OrderingScoring extends AbstractScoring
         $points = new ilNumberInputGUI($DIC->language()->txt('asq_label_points'), self::VAR_POINTS);
         $points->setRequired(true);
         $points->setSize(2);
-        $fields[] = $points;
+        $fields[self::VAR_POINTS] = $points;
 
         if ($config !== null) {
             $points->setValue($config->getPoints());
