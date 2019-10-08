@@ -1375,6 +1375,7 @@ assessment#:#tst_reached_points_of_max#:#%s von %s
 assessment#:#tst_passed#:#Bestanden
 assessment#:#tst_failed#:#Durchgefallen
 assessment#:#tst_tbl_col_scored_pass#:#Bewerteter Durchlauf
+assessment#:#tst_tbl_col_pass_finished#:#Durchlauf beendet
 assessment#:#tst_tbl_col_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_tbl_col_reached_points#:#Erreichte Punkte
 assessment#:#tst_tbl_col_percent_result#:#Ergebnis
