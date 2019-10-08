@@ -3,12 +3,20 @@
 
 class ilWebDAVMountInstructionsHtmlDocumentProcessor extends ilWebDAVMountInstructionsDocumentProcessorBase
 {
-    public function processMountInstructions(string $raw_mount_instructions) : string
+    /** @var ilWebDAVMountInstructionsDocumentPurifier */
+    protected $document_purifier;
+
+    public function __construct(ilHtmlPurifierInterface $a_document_purifier)
+    {
+        $this->document_purifier = $a_document_purifier;
+    }
+
+    public function processMountInstructions(string $a_raw_mount_instructions) : array
     {
         // TODO: Implement function to separate mount instructions from different operating systems
-        return $raw_mount_instructions;
+        //return $raw_mount_instructions;
 
-        $purified_html_content = $this->document_purifier->purify($raw_mount_instructions);
+        $purified_html_content = $this->document_purifier->purify($a_raw_mount_instructions);
 
         $html_validator = new ilWebDAVMountInstructionsDocumentsContainsHtmlValidator($purified_html_content);
         if (!$html_validator->isValid())
@@ -16,9 +24,7 @@ class ilWebDAVMountInstructionsHtmlDocumentProcessor extends ilWebDAVMountInstru
             $purified_html_content = nl2br($purified_html_content);
         }
 
-        $processed_text = $purified_html_content;
-
-        return $processed_text;
+        return $this->parseInstructionsToAssocArray($purified_html_content);
 
     }
 }

@@ -25,13 +25,12 @@ abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDA
                 {
                     $found_instructions[$tag_name] = substr($processing_text, $open_tag_end_pos+1, $close_tag_pos - $open_tag_end_pos -1);
 
-
                     $processing_text = substr($processing_text, $close_tag_pos + strlen($close_tag));
                     $pair_found = true;
                 }
                 else
                 {
-                    $processing_text = substr($processing_text, open_tag_end_pos + 1);
+                    $processing_text = substr($processing_text, $open_tag_end_pos + 1);
                     $pair_found = true;
                 }
             }

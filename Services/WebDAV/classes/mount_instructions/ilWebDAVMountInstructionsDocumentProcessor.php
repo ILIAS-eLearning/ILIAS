@@ -3,8 +3,8 @@
 interface ilWebDAVMountInstructionsDocumentProcessor
 {
     /**
-     * @param string $raw_mount_instructions
+     * @param string $a_raw_mount_instructions
      * @return string
      */
-    public function processMountInstructions(string $raw_mount_instructions) : array ;
+    public function processMountInstructions(string $a_raw_mount_instructions) : array ;
 }
