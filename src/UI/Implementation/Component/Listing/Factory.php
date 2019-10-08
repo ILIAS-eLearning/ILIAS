@@ -37,4 +37,11 @@ class Factory implements \ILIAS\UI\Component\Listing\Factory {
 	public function workflow(){
 		return new Workflow\Factory();
 	}
+
+    /**
+     * @inheritdoc
+     */
+    public function characteristicValue() : \ILIAS\UI\Component\Listing\CharacteristicValue\Factory {
+        return new CharacteristicValue\Factory();
+    }
 }

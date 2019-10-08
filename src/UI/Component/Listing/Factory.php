@@ -1,5 +1,7 @@
 <?php
 namespace ILIAS\UI\Component\Listing;
+
+
 /**
  * This is how a factory for listings looks like.
  */
@@ -69,5 +71,24 @@ interface Factory {
 	 * @return  \ILIAS\UI\Component\Listing\Workflow\Factory
 	 */
 	public function workflow();
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Characteristic Value Listings are used to present characteristic values. A characteristic value
+     *     is understood here as a value to quantify or describe a state indicated by some key.
+     *   composition: >
+     *     Characteristic Value Listings are composed of items containing a key labeling the value
+     *     being displayed side by side.
+     *   rivals:
+     *      DescriptiveListing: >
+     *        The items for a descriptive listing consists of a key as a title
+     *        and a value describing the key.
+     * ----
+     *
+     * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Factory
+     */
+    public function characteristicValue() : \ILIAS\UI\Component\Listing\CharacteristicValue\Factory;
 
 }

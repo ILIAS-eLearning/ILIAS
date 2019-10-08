@@ -36,6 +36,11 @@ class ListingTest extends ILIAS_UI_TestBase {
 		( "ILIAS\\UI\\Component\\Listing\\Descriptive"
 				, $f->descriptive(array("k1"=>"c1"))
 		);
+
+        $this->assertInstanceOf
+        ( "ILIAS\\UI\\Component\\Listing\\CharacteristicValue\\Factory"
+            , $f->characteristicValue()
+        );
 	}
 
 
