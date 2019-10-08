@@ -27,11 +27,11 @@ class AnswerOption implements JsonSerializable {
 	 */
 	private $option_id;
 	/**
-	 * @var ?DisplayDefinition
+	 * @var ?AnswerDefinition
 	 */
 	private $display_definition;
 	/**
-	 * @var ?ScoringDefinition
+	 * @var ?AnswerDefinition
 	 */
 	private $scoring_definition;
     /**
@@ -40,8 +40,8 @@ class AnswerOption implements JsonSerializable {
     private $answer_option_feedback;
 
 	public function __construct(int $id, 
-	                            ?DisplayDefinition $display_definition = null, 
-	                            ?ScoringDefinition $scoring_definition = null, 
+	                            ?AnswerDefinition $display_definition = null, 
+	                            ?AnswerDefinition $scoring_definition = null, 
 	                            ?AnswerOptionFeedback $answer_option_feedback = null)
 	{
 		$this->option_id = $id;
@@ -60,7 +60,7 @@ class AnswerOption implements JsonSerializable {
 
 
 	/**
-	 * @return DisplayDefinition
+	 * @return AnswerDefinition
 	 */
 	public function getDisplayDefinition() {
 		return $this->display_definition;
