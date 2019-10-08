@@ -125,7 +125,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		
 		$this->ctrl->setReturn($this, "questions");
 		
-		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
+		//$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
 		$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
 		
 		if ($_GET["q_id"] < 1)
