@@ -30,4 +30,6 @@ class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return $value ? 1 : 0;
     }
+
+
 }
