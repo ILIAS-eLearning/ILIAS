@@ -82,6 +82,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	public function render(array &$a_html, $a_parent_gui)
 	{		
 		$lng = $this->lng;
+
+        $lng->loadLanguageModule("tagging");
 		
 		$all_tags = $this->getSubTreeTags();				
 		if($all_tags)
