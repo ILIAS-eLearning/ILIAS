@@ -2665,20 +2665,20 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
+common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
-common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -15174,7 +15174,7 @@ pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
 common#:#mm_organisation#:#Organisation
-common#:#mm_staff_list#:#Mitarbeitendenliste
+common#:#mm_staff_list#:#Mitarbeiter
 common#:#mm_enrolments#:#Einschreibungen
 common#:#mm_communication#:#Kommunikation
 common#:#mm_contacts#:#Kontakte
@@ -15182,8 +15182,8 @@ common#:#mm_mail#:#Mail
 common#:#mm_news#:#News
 common#:#mm_notes#:#Notizen
 common#:#mm_comments#:#Kommentare
-common#:#mm_achievements#:#Leistungen
-common#:#mm_learning_history#:#Lernhistorie
+common#:#mm_achievements#:#Lernerfolge
+common#:#mm_learning_history#:#Lernverlauf
 common#:#mm_skills#:#Kompetenzen
 common#:#mm_learning_progress#:#Lernfortschritt
 common#:#mm_badges#:#Badges
@@ -15191,7 +15191,7 @@ common#:#mm_administration#:#Administration
 common#:#mm_repository#:#Magazin
 common#:#mm_dashboard#:#Dashboard
 common#:#mm_repo_tree_view#:#Baumansicht
-common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_task_derived_tasks#:#To-Dos
 common#:#mm_favorites#:#Favoriten
 common#:#mm_calendar#:#Kalender
 common#:#mm_tags#:#Tags
