@@ -2864,7 +2864,7 @@ common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 rbac#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Die Datei wurde hinzugefügt.
 rbac#:#file_delete#:#Datei verschieben oder löschen
-common#:#file_edit#:#Dateieinstellungen bearbeiten und neue Version hochladen
+common#:#file_edit#:#Dateieinstellungen bearbeiten
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
@@ -14547,6 +14547,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
 rbac#:#copa_visible#:#Inhaltsseite ist sichtbar
