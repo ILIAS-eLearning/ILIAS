@@ -103,14 +103,18 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    
 	    $this->initiatePlayConfiguration($question->getPlayConfiguration());
 	    
-        $this->option_form = new AnswerOptionForm(
-            $this->lang->txt('asq_label_answer'),
-            $question->getPlayConfiguration(),
-            $question->getAnswerOptions(),
-            $this->getAnswerOptionDefinitions($question->getPlayConfiguration()),
-            $answer_option_configuration);
-        
-        $this->addItem($this->option_form);
+	    if (!is_null($question->getPlayConfiguration()) &&
+	        $question->getPlayConfiguration()->hasAnswerOptions())
+	    {
+            $this->option_form = new AnswerOptionForm(
+                $this->lang->txt('asq_label_answer'),
+                $question->getPlayConfiguration(),
+                $question->getAnswerOptions(),
+                $this->getAnswerOptionDefinitions($question->getPlayConfiguration()),
+                $answer_option_configuration);
+            
+            $this->addItem($this->option_form);
+	    }
 	}
 
 	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : ?array {

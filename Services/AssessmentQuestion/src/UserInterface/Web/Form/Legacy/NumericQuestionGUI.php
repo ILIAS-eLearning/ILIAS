@@ -31,8 +31,8 @@ class NumericQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            NumericEditorConfiguration::readConfig(),
-            NumericScoringConfiguration::readConfig());
+            NumericEditor::readConfig(),
+            NumericScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

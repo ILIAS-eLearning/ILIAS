@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ilNumberInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
+use ilFormSectionHeaderGUI;
 
 /**
  * Class NumericScoring
@@ -31,8 +32,8 @@ class NumericScoring extends AbstractScoring
         $float_answer = floatval($answer->getValue());
 
         if ($float_answer !== null &&
-            $scoring_conf->getLowerBound() < $float_answer &&
-            $scoring_conf->getUpperBound() > $float_answer) {
+            $scoring_conf->getLowerBound() <= $float_answer &&
+            $scoring_conf->getUpperBound() >= $float_answer) {
             return $scoring_conf->getPoints();
         } else
         {
@@ -57,6 +58,10 @@ class NumericScoring extends AbstractScoring
         $points->setSize(2);
         $fields[self::VAR_POINTS] = $points;
 
+        $spacer = new ilFormSectionHeaderGUI();
+        $spacer->setTitle($DIC->language()->txt('range'));
+        $fields[] = $spacer;
+        
         $lower_bound = new ilNumberInputGUI($DIC->language()->txt('asq_label_lower_bound'), self::VAR_LOWER_BOUND);
         $lower_bound->setRequired(true);
         $lower_bound->allowDecimals(true);
