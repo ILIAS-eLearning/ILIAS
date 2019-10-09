@@ -178,13 +178,7 @@ interface Settings
     /**
      * @return int
      */
-    public function getLimitStart() : int;
-
-
-    /**
-     * @return int
-     */
-    public function getLimitEnd() : int;
+    public function getOffset() : int;
 
 
     /**

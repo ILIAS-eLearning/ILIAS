@@ -416,7 +416,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     protected function handleDisplayCount(Settings $settings, ?Data $data) : void
     {
-        $count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data !== null && $data->getDataCount() > 0 ? ($settings->getLimitStart() + 1) : 0),
+        $count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data !== null && $data->getDataCount() > 0 ? ($settings->getOffset() + 1) : 0),
             ($data === null ? 0 : $data->getMaxCount()));
 
         $this->tpl->setCurrentBlock("count_top");

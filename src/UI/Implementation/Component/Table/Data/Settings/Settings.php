@@ -287,18 +287,9 @@ class Settings implements SettingsInterface
     /**
      * @inheritDoc
      */
-    public function getLimitStart() : int
+    public function getOffset() : int
     {
         return $this->pagination->getOffset();
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getLimitEnd() : int
-    {
-        return (($this->getCurrentPage() + 1) * $this->getRowsCount());
     }
 
 
