@@ -103,7 +103,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     {
         parent::__construct();
 
-        $this->data = new QuestionData();
         $this->answers = [];
         $this->answer_options = new AnswerOptions();
         $this->hints = new Hints();
@@ -232,7 +231,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     /**
      * @return QuestionData
      */
-    public function getData() : QuestionData
+    public function getData() : ?QuestionData
     {
         return $this->data;
     }
