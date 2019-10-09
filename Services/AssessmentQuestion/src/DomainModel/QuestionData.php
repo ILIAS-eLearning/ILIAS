@@ -33,7 +33,7 @@ class QuestionData extends AbstractValueObject {
 	/**
 	 * @var int
 	 */
-	protected $lifecycle;
+	protected $lifecycle = self::LIFECYCLE_DRAFT;
 	/**
 	 * @var string
 	 */
@@ -45,7 +45,7 @@ class QuestionData extends AbstractValueObject {
 	/**
 	 * @var int
 	 */
-	protected $working_time;
+	protected $working_time = 0;
 
 	/**
 	 * @param string      $title
