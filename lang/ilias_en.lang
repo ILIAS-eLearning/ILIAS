@@ -14529,6 +14529,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
 rbac#:#copa_visible#:#Content Page is visible
