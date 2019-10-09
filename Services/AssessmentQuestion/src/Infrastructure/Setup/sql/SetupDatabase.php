@@ -53,6 +53,11 @@ class SetupDatabase {
 
         $this->cleanupContentPages();
 
+        ////////////////////////////////////////////////////
+        /// Test Object Tables
+        $this->changeTestObjectTables();
+        $this->cleanTestObjectTables();
+        ////////////////////////////////////////////////////
 
         echo "Setup wurde durchgefüht, CtrlStruktur neu geladen, Datentabellen wurden installiert / aktualisiert.<br><br>";
         echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";
@@ -101,5 +106,27 @@ class SetupDatabase {
             "DELETE FROM page_object WHERE parent_type = %s",
             ['text'], ['asqa']
         );
+    }
+
+    protected function changeTestObjectTables()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        if( !$DIC->database()->tableColumnExists('tst_test_question', 'question_uid') )
+        {
+            $DIC->database()->addTableColumn('tst_test_question', 'question_uid', array(
+                'type' => 'text',
+                'notnull' => false,
+                'length' => 255,
+                'default' => ''
+            ));
+        }
+    }
+
+    protected function cleanTestObjectTables()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $DIC->database()->manipulate("TRUNCATE TABLE tst_test_question");
     }
 }
