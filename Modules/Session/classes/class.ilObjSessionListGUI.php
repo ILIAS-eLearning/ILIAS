@@ -239,6 +239,11 @@ class ilObjSessionListGUI extends ilObjectListGUI
 			}
 		}
 
+		// booking information
+		$repo = ilObjSessionAccess::getBookingInfoRepo();
+		$book_info = new ilBookingInfoListItemPropertiesAdapter($repo);
+		$props = $book_info->appendProperties($this->obj_id, $props);
+
 		return $props;
 	}
 

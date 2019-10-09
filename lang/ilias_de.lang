@@ -1375,6 +1375,7 @@ assessment#:#tst_reached_points_of_max#:#%s von %s
 assessment#:#tst_passed#:#Bestanden
 assessment#:#tst_failed#:#Durchgefallen
 assessment#:#tst_tbl_col_scored_pass#:#Bewerteter Durchlauf
+assessment#:#tst_tbl_col_pass_finished#:#Durchlauf beendet
 assessment#:#tst_tbl_col_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_tbl_col_reached_points#:#Erreichte Punkte
 assessment#:#tst_tbl_col_percent_result#:#Ergebnis
@@ -15207,3 +15208,18 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+wfld#:#wfld_sortation#:#Sortierung
+wfld#:#wfld_derive#:#Wie übergeordneter Ordner
+wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
+wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
+wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
+wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
+wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
+wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
+book#:#book_select_pool#:#Pool auswählen
+book#:#book_pool_selection#:#Auswahl Buchungspool
+book#:#book_booked_in#:#Gebucht in
+obj#:#obj_tool_booking#:#Ressourcen
+obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
+obj#:#obj_tool_setting_booking#:#Ressourcen
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.

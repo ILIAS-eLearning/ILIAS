@@ -9,36 +9,37 @@ use ILIAS\UI\Component\Image\Image;
  *
  * Represents a item to be displayed inside an interruptive modal
  */
-interface InterruptiveItem {
+interface InterruptiveItem
+{
 
-	/**
-	 * Return an ID of the item
-	 *
-	 * @return string
-	 */
-	public function getId();
-
-
-	/**
-	 * Get the title of the item
-	 *
-	 * @return string
-	 */
-	public function getTitle();
+    /**
+     * Return an ID of the item
+     *
+     * @return string
+     */
+    public function getId();
 
 
-	/**
-	 * Get the description of a title
-	 *
-	 * @return string
-	 */
-	public function getDescription();
+    /**
+     * Get the title of the item
+     *
+     * @return string
+     */
+    public function getTitle();
 
 
-	/**
-	 * Get the icon of the item
-	 *
-	 * @return Image
-	 */
-	public function getIcon();
+    /**
+     * Get the description of a title
+     *
+     * @return string
+     */
+    public function getDescription();
+
+
+    /**
+     * Get the icon of the item
+     *
+     * @return Image
+     */
+    public function getIcon();
 }

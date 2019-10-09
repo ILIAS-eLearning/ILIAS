@@ -4,20 +4,26 @@
 
 use PHPUnit\Framework\TestCase;
 
-class DefaultRendererFactoryForTest extends \ILIAS\UI\Implementation\Render\DefaultRendererFactory {
-	public function __construct() {}
+class DefaultRendererFactoryForTest extends \ILIAS\UI\Implementation\Render\DefaultRendererFactory
+{
+    public function __construct()
+    {
+    }
 
-	public function _getRendererNameFor($component) {
-		return $this->getRendererNameFor($component);
-	}
+    public function _getRendererNameFor($component)
+    {
+        return $this->getRendererNameFor($component);
+    }
 }
 
-class DefaultRendererFactoryTest extends TestCase {
-	public function test_getRendererNameFor() {
-		$f = new DefaultRendererFactoryForTest;
+class DefaultRendererFactoryTest extends TestCase
+{
+    public function test_getRendererNameFor()
+    {
+        $f = new DefaultRendererFactoryForTest;
 
-		$renderer_class = $f->_getRendererNameFor(new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph("up", "up"));
-		$expected = \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer::class;
-		$this->assertEquals($expected, $renderer_class);
-	}
+        $renderer_class = $f->_getRendererNameFor(new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph("up", "up"));
+        $expected = \ILIAS\UI\Implementation\Component\Symbol\Glyph\Renderer::class;
+        $this->assertEquals($expected, $renderer_class);
+    }
 }

@@ -3,7 +3,8 @@
  * Example show how to create and render a basic text input field with an error
  * attached to it. This example does not contain any data processing.
  */
-function with_value() {
+function with_value()
+{
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();

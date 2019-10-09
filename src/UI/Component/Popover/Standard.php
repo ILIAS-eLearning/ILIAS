@@ -9,12 +9,13 @@ use ILIAS\UI\Component\Component;
  *
  * @package ILIAS\UI\Component\Popover
  */
-interface Standard extends Popover {
+interface Standard extends Popover
+{
 
-	/**
-	 * Get the components representing the content of the popover.
-	 *
-	 * @return Component[]
-	 */
-	public function getContent();
+    /**
+     * Get the components representing the content of the popover.
+     *
+     * @return Component[]
+     */
+    public function getContent();
 }

@@ -9,25 +9,25 @@ use ILIAS\UI\Component\Component;
 /**
  * Link base interface.
  */
-interface Link extends Component {
-	/**
-	 * Get the action url of a link
-	 *
-	 * @return	string
-	 */
-	public function getAction();
+interface Link extends Component
+{
+    /**
+     * Get the action url of a link
+     *
+     * @return	string
+     */
+    public function getAction();
 
-	/**
-	 * Set if link should be opened in new viewport
-	 * @param bool $open_in_new_viewport
-	 * @return Link
-	 */
-	public function withOpenInNewViewport($open_in_new_viewport);
+    /**
+     * Set if link should be opened in new viewport
+     * @param bool $open_in_new_viewport
+     * @return Link
+     */
+    public function withOpenInNewViewport($open_in_new_viewport);
 
-	/**
-	 * Get if the link should be opened in new viewport
-	 * @return bool
-	 */
-	public function getOpenInNewViewport();
-
+    /**
+     * Get if the link should be opened in new viewport
+     * @return bool
+     */
+    public function getOpenInNewViewport();
 }

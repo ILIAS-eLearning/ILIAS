@@ -2,7 +2,8 @@
 /**
  * Passwords (when setting) usually have some constraints.
   */
-function with_contraints() {
+function with_contraints()
+{
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
@@ -18,7 +19,7 @@ function with_contraints() {
     $pwd_input = $ui->input()->field()->password("Password", "constraints in place.")
         ->withAdditionalTransformation(
             $refinery->logical()->parallel([
-	            $pw_validation->hasMinLength(8),
+                $pw_validation->hasMinLength(8),
                 $pw_validation->hasLowerChars(),
                 $pw_validation->hasUpperChars(),
                 $pw_validation->hasNumbers(),
@@ -28,9 +29,9 @@ function with_contraints() {
 
     //Step 2: Define the form and attach the field.
     $DIC->ctrl()->setParameterByClass(
-            'ilsystemstyledocumentationgui',
-            'example',
-            'password2'
+        'ilsystemstyledocumentationgui',
+        'example',
+        'password2'
     );
     $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
     $form = $ui->input()->container()->form()->standard($form_action, ['pwd'=>$pwd_input]);
@@ -43,10 +44,8 @@ function with_contraints() {
         $result = $form->getData();
     }
 
-	//Step 4: Render the form/result.
+    //Step 4: Render the form/result.
     return
-	    "<pre>".print_r($result, true)."</pre><br/>".
-	    $renderer->render($form);
+        "<pre>" . print_r($result, true) . "</pre><br/>" .
+        $renderer->render($form);
 }
-
-

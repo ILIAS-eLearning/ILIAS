@@ -10,18 +10,17 @@ use ILIAS\UI\Component\Component;
  */
 interface Footer extends Component
 {
-	/**
-	 * @return \ILIAS\UI\Component\Link\Standard[]
-	 */
-	public function getLinks(): array;
+    /**
+     * @return \ILIAS\UI\Component\Link\Standard[]
+     */
+    public function getLinks() : array;
 
-	public function getText(): string;
+    public function getText() : string;
 
-	/**
-	 * @return \ILIAS\Data\URI | null
-	 */
-	public function getPermanentURL();
+    /**
+     * @return \ILIAS\Data\URI | null
+     */
+    public function getPermanentURL();
 
-	public function withPermanentURL(\ILIAS\Data\URI $url): Footer;
-
+    public function withPermanentURL(\ILIAS\Data\URI $url) : Footer;
 }

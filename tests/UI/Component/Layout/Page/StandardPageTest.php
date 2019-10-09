@@ -3,7 +3,7 @@
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../../Base.php");
+require_once(__DIR__ . "/../../../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Component\MainControls\MetaBar;
@@ -18,82 +18,101 @@ use \ILIAS\UI\Implementation\Component\Legacy\Legacy;
  */
 class StandardPageTest extends ILIAS_UI_TestBase
 {
-	public function setUp(): void {
+    public function setUp() : void
+    {
+        $this->metabar = $this->createMock(MetaBar::class);
+        $this->mainbar = $this->createMock(MainBar::class);
+        $this->crumbs = $this->createMock(Breadcrumbs::class);
+        $this->logo = $this->createMock(Image::class);
+        $this->contents = array(new Legacy('some content'));
+        $this->title = 'pagetitle';
 
+        $this->factory = new Page\Factory();
+        $this->stdpage = $this->factory->standard(
+            $this->contents,
+            $this->metabar,
+            $this->mainbar,
+            $this->crumbs,
+            $this->logo,
+            null,
+            $this->title
+        );
+    }
 
-		$this->metabar = $this->createMock(MetaBar::class);
-		$this->mainbar = $this->createMock(MainBar::class);
-		$this->crumbs = $this->createMock(Breadcrumbs::class);
-		$this->logo = $this->createMock(Image::class);
-		$this->contents = array(new Legacy('some content'));
+    public function testConstruction()
+    {
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
+            $this->stdpage
+        );
+    }
 
-		$this->factory = new Page\Factory();
-		$this->stdpage = $this->factory->standard(
-			$this->contents,
-			$this->metabar,
-			$this->mainbar,
-			$this->crumbs,
-			$this->logo
-		);
-	}
+    public function testGetContent()
+    {
+        $this->assertEquals(
+            $this->contents,
+            $this->stdpage->getContent()
+        );
+    }
 
-	public function testConstruction()
-	{
-		$this->assertInstanceOf(
-			"ILIAS\\UI\\Component\\Layout\\Page\\Standard",
-			$this->stdpage
-		);
-	}
+    public function testGetMetabar()
+    {
+        $this->assertEquals(
+            $this->metabar,
+            $this->stdpage->getMetabar()
+        );
+    }
 
-	public function testGetContent()
-	{
-		$this->assertEquals(
-			$this->contents,
-			$this->stdpage->getContent()
-		);
-	}
+    public function testGetMainbar()
+    {
+        $this->assertEquals(
+            $this->mainbar,
+            $this->stdpage->getMainbar()
+        );
+    }
 
-	public function testGetMetabar()
-	{
-		$this->assertEquals(
-			$this->metabar,
-			$this->stdpage->getMetabar()
-		);
-	}
+    public function testGetBreadcrumbs()
+    {
+        $this->assertEquals(
+            $this->crumbs,
+            $this->stdpage->getBreadcrumbs()
+        );
+    }
 
-	public function testGetMainbar()
-	{
-		$this->assertEquals(
-			$this->mainbar,
-			$this->stdpage->getMainbar()
-		);
-	}
+    public function testGetLogo()
+    {
+        $this->assertEquals(
+            $this->logo,
+            $this->stdpage->getLogo()
+        );
+    }
 
-	public function testGetBreadcrumbs()
-	{
-		$this->assertEquals(
-			$this->crumbs,
-			$this->stdpage->getBreadcrumbs()
-		);
-	}
+    public function testWithWrongContents()
+    {
+        $this->expectException(TypeError::class);
+        $this->stdpage = $this->factory->standard(
+            $this->metabar,
+            $this->mainbar,
+            'string is not allowed here',
+            $this->crumbs,
+            $this->logo
+        );
+    }
 
-	public function testGetLogo()
-	{
-		$this->assertEquals(
-			$this->logo,
-			$this->stdpage->getLogo()
-		);
-	}
+    public function testGetTitle()
+    {
+        $this->assertEquals(
+            $this->title,
+            $this->stdpage->getTitle()
+        );
+    }
 
-	public function testWithWrongContents()
-	{
-		$this->expectException(TypeError::class);
-		$this->stdpage = $this->factory->standard(
-			$this->metabar,
-			$this->mainbar,
-			'string is not allowed here',
-			$this->crumbs,
-			$this->logo
-		);
-	}
+    public function testWithTitle()
+    {
+        $title = 'some title';
+        $this->assertEquals(
+            $title,
+            $this->stdpage->withTitle($title)->getTitle()
+        );
+    }
 }

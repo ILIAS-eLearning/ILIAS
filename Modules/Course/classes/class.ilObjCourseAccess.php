@@ -22,6 +22,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 	protected static $using_code = false;
 
 	/**
+	 * @var ilBookingReservationDBRepository
+	 */
+	protected static $booking_repo = null;
+
+	/**
 	 * Get operators
 	 */
 	public static function getConditionOperators()
@@ -525,7 +530,20 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		$repository = new ilUserCertificateRepository();
 		$coursePreload = new ilCertificateObjectsForUserPreloader($repository);
 		$coursePreload->preLoad($ilUser->getId(), $a_obj_ids);
+
+		$f = new ilBookingReservationDBRepositoryFactory();
+		self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
 	}
+
+	/**
+	 * Get booking info repo
+	 * @return ilBookingReservationDBRepository
+	 */
+	static public function getBookingInfoRepo()
+	{
+		return self::$booking_repo;
+	}
+
 
 	/**
 	 * Using Registration code

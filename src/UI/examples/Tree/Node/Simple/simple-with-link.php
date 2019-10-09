@@ -1,24 +1,24 @@
 <?php
-function simpleWithLink() {
+function simpleWithLink()
+{
+    global $DIC;
+    $factory = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	global $DIC;
-	$factory = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+    $icon = $factory->symbol()
+        ->icon()
+        ->standard("crs", 'Example');
 
-	$icon = $factory->symbol()
-		->icon()
-		->standard("crs", 'Example');
-
-	$node = $factory->tree()
-		->node()
-		->simple('label');
+    $node = $factory->tree()
+        ->node()
+        ->simple('label');
 
 
-	$uri = new \ILIAS\Data\URI('https://ilias.de');
+    $uri = new \ILIAS\Data\URI('https://ilias.de');
 
-	$node2 = $factory->tree()
-		->node()
-		->simple('label', $icon, $uri);
+    $node2 = $factory->tree()
+        ->node()
+        ->simple('label', $icon, $uri);
 
-	return $renderer->render([$node, $node2]);
+    return $renderer->render([$node, $node2]);
 }

@@ -8,42 +8,43 @@ namespace ILIAS\UI\Implementation\Component\Link;
 
 use ILIAS\UI\Component as C;
 
-class Bulky extends Link implements C\Link\Bulky {
+class Bulky extends Link implements C\Link\Bulky
+{
 
-	/**
-	 * @var string
-	 */
-	protected $label;
+    /**
+     * @var string
+     */
+    protected $label;
 
-	/**
-	 * @var Symbol
-	 */
-	protected $symbol;
+    /**
+     * @var Symbol
+     */
+    protected $symbol;
 
-	function __construct(C\Symbol\Symbol $symbol, string $label, \ILIAS\Data\URI $target)
-	{
-		$action = $target->getBaseURI();
-		if($target->getQuery()) {
-			$action .= '?' .$target->getQuery();
-		}
-		parent::__construct($action);
-		$this->label = $label;
-		$this->symbol = $symbol;
-	}
+    public function __construct(C\Symbol\Symbol $symbol, string $label, \ILIAS\Data\URI $target)
+    {
+        $action = $target->getBaseURI();
+        if ($target->getQuery()) {
+            $action .= '?' . $target->getQuery();
+        }
+        parent::__construct($action);
+        $this->label = $label;
+        $this->symbol = $symbol;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel(): string
-	{
-		return $this->label;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return $this->label;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSymbol(): C\Symbol\Symbol
-	{
-		return $this->symbol;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getSymbol() : C\Symbol\Symbol
+    {
+        return $this->symbol;
+    }
 }

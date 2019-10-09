@@ -15,24 +15,23 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Legacy extends Slate implements ISlate\Legacy
 {
-	/**
-	 * @var Component[]
-	 */
-	protected $contents = [];
+    /**
+     * @var Component[]
+     */
+    protected $contents = [];
 
-	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		string $name,
-		Symbol $symbol,
-		ILegacy $content
-	) {
-		parent::__construct($signal_generator, $name, $symbol);
-		$this->contents = [$content];
-	}
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        string $name,
+        Symbol $symbol,
+        ILegacy $content
+    ) {
+        parent::__construct($signal_generator, $name, $symbol);
+        $this->contents = [$content];
+    }
 
-	public function getContents(): array
-	{
-		return $this->contents;
-	}
-
+    public function getContents() : array
+    {
+        return $this->contents;
+    }
 }

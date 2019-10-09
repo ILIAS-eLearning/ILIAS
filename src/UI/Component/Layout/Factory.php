@@ -7,16 +7,15 @@ namespace ILIAS\UI\Component\Layout;
  */
 interface Factory
 {
-	/**
-	 * ---
-	 * description:
-	 *   purpose: >
-	 *     The Page is the user's view upon ILIAS in total.
-	 *
-	 * ----
-	 *
-	 * @return  \ILIAS\UI\Component\Layout\Page\Factory
-	 */
-	public function page(): Page\Factory;
-
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The Page is the user's view upon ILIAS in total.
+     *
+     * ----
+     *
+     * @return  \ILIAS\UI\Component\Layout\Page\Factory
+     */
+    public function page() : Page\Factory;
 }

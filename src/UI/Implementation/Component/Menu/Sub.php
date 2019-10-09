@@ -15,41 +15,40 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  */
 class Sub extends LabeledMenu implements IMenu\Sub
 {
-	use JavaScriptBindable;
+    use JavaScriptBindable;
 
-	/**
-	 * @var bool
-	 */
-	protected $active = false;
+    /**
+     * @var bool
+     */
+    protected $active = false;
 
-	/**
-	 * @param Component\Clickable | string $label
-	 * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
-	 */
-	public function __construct($label, array $items)
-	{
-		$this->checkLabelParameter($label);
-		$this->checkItemParameter($items);
-		$this->label = $label;
-		$this->items = $items;
-	}
+    /**
+     * @param Component\Clickable | string $label
+     * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+     */
+    public function __construct($label, array $items)
+    {
+        $this->checkLabelParameter($label);
+        $this->checkItemParameter($items);
+        $this->label = $label;
+        $this->items = $items;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withInitiallyActive(): IMenu\Sub
-	{
-		$clone = clone $this;
-		$clone->active = true;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withInitiallyActive() : IMenu\Sub
+    {
+        $clone = clone $this;
+        $clone->active = true;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isInitiallyActive(): bool
-	{
-		return $this->active;
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function isInitiallyActive() : bool
+    {
+        return $this->active;
+    }
 }

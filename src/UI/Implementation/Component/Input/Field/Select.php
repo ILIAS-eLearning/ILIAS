@@ -11,67 +11,69 @@ use ILIAS\UI\Component\Signal;
 /**
  * This implements the select.
  */
-class Select extends Input implements C\Input\Field\Select {
+class Select extends Input implements C\Input\Field\Select
+{
+    protected $options;
+    protected $label;
+    protected $value;
 
-	protected $options;
-	protected $label;
-	protected $value;
+    /**
+     * Select constructor.
+     *
+     * @param DataFactory $data_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param string $label
+     * @param array $options
+     * @param string $byline
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        $label,
+        $options,
+        $byline
+    ) {
+        parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->options = $options;
+    }
 
-	/**
-	 * Select constructor.
-	 *
-	 * @param DataFactory $data_factory
-	 * @param \ILIAS\Refinery\Factory $refinery
-	 * @param string $label
-	 * @param array $options
-	 * @param string $byline
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		\ILIAS\Refinery\Factory $refinery,
-		$label,
-		$options,
-		$byline
-	) {
-		parent::__construct($data_factory, $refinery, $label, $byline);
-		$this->options = $options;
-	}
+    /**
+     * @return array with the key/value options.
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
 
-	/**
-	 * @return array with the key/value options.
-	 */
-	public function getOptions()
-	{
-		return $this->options;
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isClientSideValueOk($value)
+    {
+        return
+            in_array($value, array_keys($this->options))
+            || (!$this->isRequired() && $value == "");
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function isClientSideValueOk($value) {
-		return 
-			in_array($value, array_keys($this->options))
-			|| (!$this->isRequired() && $value == "");
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getConstraintForRequirement()
+    {
+        return $this->refinery->string()->hasMinLength(1);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getConstraintForRequirement() {
-		return $this->refinery->string()->hasMinLength(1);
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getUpdateOnLoadCode(): \Closure
-	{
-		return function ($id) {
-			$code = "$('#$id').on('input', function(event) {
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateOnLoadCode() : \Closure
+    {
+        return function ($id) {
+            $code = "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id option:selected').text());";
-			return $code;
-		};
-	}
+            return $code;
+        };
+    }
 }

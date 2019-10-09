@@ -6,18 +6,19 @@
  * il.UI.button interface containing the functions activateLoadingAnimation and
  * deactivateLoadingAnimation as shown bellow.
  */
-function with_load_anim() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function with_load_anim()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render(
-		//Create a button with the LoadingAnimation on click and some additional JS-Magic.
-		$f->button()->standard("Do Something", "")
-			->withLoadingAnimationOnClick(true)
-			->withOnLoadCode(function($id) {
-				return
-					"$('#$id').click(function(e) {
+    return $renderer->render(
+        //Create a button with the LoadingAnimation on click and some additional JS-Magic.
+        $f->button()->standard("Do Something", "")
+            ->withLoadingAnimationOnClick(true)
+            ->withOnLoadCode(function ($id) {
+                return
+                    "$('#$id').click(function(e) {
 							$('#$id').html('Working...');
 							setInterval(
 								function(){
@@ -26,6 +27,6 @@ function with_load_anim() {
 								}
 							,3000);
 					});";
-			})
-	);
+            })
+    );
 }

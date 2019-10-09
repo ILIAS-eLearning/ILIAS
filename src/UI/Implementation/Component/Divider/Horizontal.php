@@ -10,31 +10,35 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 /**
  * Horizontal Divider
  */
-class Horizontal implements C\Divider\Horizontal {
-	use ComponentHelper;
+class Horizontal implements C\Divider\Horizontal
+{
+    use ComponentHelper;
 
-	/**
-	 * @var string
-	 */
-	protected $label;
+    /**
+     * @var string
+     */
+    protected $label;
 
-	public function __construct() {
-	}
+    public function __construct()
+    {
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel() {
-		return $this->label;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withLabel($label) {
-		$this->checkStringArg("label", $label);
-		$clone = clone $this;
-		$clone->label = $label;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withLabel($label)
+    {
+        $this->checkStringArg("label", $label);
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
 }

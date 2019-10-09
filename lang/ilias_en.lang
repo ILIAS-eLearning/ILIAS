@@ -1233,6 +1233,7 @@ assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_passed#:#Passed
 assessment#:#tst_failed#:#Failed
 assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
+assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_reached_points#:#Reached Points
 assessment#:#tst_tbl_col_percent_result#:#Percent Solved
@@ -15208,3 +15209,18 @@ common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+wfld#:#wfld_sortation#:#Sortation
+wfld#:#wfld_derive#:#Adopt from parent
+wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
+wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
+wfld#:#wfld_creation_asc#:#Creation Date, asc.
+wfld#:#wfld_creation_desc#:#Creation Date, desc.
+wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
+wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace
+obj#:#obj_tool_setting_booking#:#Resources
+book#:#book_select_pool#:#Select Pool
+book#:#book_pool_selection#:#Booking Pool Selection
+book#:#book_booked_in#:#Booked in
+obj#:#obj_tool_booking#:#Resources
+obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.

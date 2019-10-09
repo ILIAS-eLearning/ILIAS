@@ -8,5 +8,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes switchable group inputs.
  */
-interface SwitchableGroup extends Group {
+interface SwitchableGroup extends Group
+{
 }

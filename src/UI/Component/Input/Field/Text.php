@@ -7,6 +7,6 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes text inputs.
  */
-interface Text extends FilterInput {
-
+interface Text extends FilterInput
+{
 }

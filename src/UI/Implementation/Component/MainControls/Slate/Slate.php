@@ -16,111 +16,111 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
  */
 abstract class Slate implements ISlate\Slate
 {
-	use ComponentHelper;
-	use JavaScriptBindable;
+    use ComponentHelper;
+    use JavaScriptBindable;
 
-	/**
-	 * @var string
-	 */
-	protected $name;
+    /**
+     * @var string
+     */
+    protected $name;
 
-	/**
-	 * @var Symbol
-	 */
-	protected $symbol;
+    /**
+     * @var Symbol
+     */
+    protected $symbol;
 
-	/**
-	 * @var Signal
-	 */
-	protected $toggle_signal;
+    /**
+     * @var Signal
+     */
+    protected $toggle_signal;
 
-	/**
-	 * @var Signal
-	 */
-	protected $show_signal;
+    /**
+     * @var Signal
+     */
+    protected $show_signal;
 
-	/**
-	 * @var bool
-	 */
-	protected $engaged = false;
+    /**
+     * @var bool
+     */
+    protected $engaged = false;
 
-	/**
-	 * @param string 	$name 	name of the slate, also used as label
-	 * @param Symbol	$symbol
-	 */
-	public function __construct(
-		SignalGeneratorInterface $signal_generator,
-		string $name,
-		Symbol $symbol
-	) {
-		$this->signal_generator = $signal_generator;
-		$this->name = $name;
-		$this->symbol = $symbol;
+    /**
+     * @param string 	$name 	name of the slate, also used as label
+     * @param Symbol	$symbol
+     */
+    public function __construct(
+        SignalGeneratorInterface $signal_generator,
+        string $name,
+        Symbol $symbol
+    ) {
+        $this->signal_generator = $signal_generator;
+        $this->name = $name;
+        $this->symbol = $symbol;
 
-		$this->initSignals();
-	}
+        $this->initSignals();
+    }
 
-	/**
-	 * Set the signals for this component.
-	 */
-	protected function initSignals()
-	{
-		$this->toggle_signal = $this->signal_generator->create();
-		$this->show_signal = $this->signal_generator->create();
-	}
+    /**
+     * Set the signals for this component.
+     */
+    protected function initSignals()
+    {
+        $this->toggle_signal = $this->signal_generator->create();
+        $this->show_signal = $this->signal_generator->create();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getName(): string
-	{
-		return $this->name;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getName() : string
+    {
+        return $this->name;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getSymbol(): Symbol
-	{
-		return $this->symbol;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return $this->symbol;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getToggleSignal(): Signal
-	{
-		return $this->toggle_signal;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getToggleSignal() : Signal
+    {
+        return $this->toggle_signal;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getShowSignal(): Signal
-	{
-		return $this->show_signal;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getShowSignal() : Signal
+    {
+        return $this->show_signal;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withEngaged(bool $state): ISlate\Slate
-	{
-		$clone = clone $this;
-		$clone->engaged = $state;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withEngaged(bool $state) : ISlate\Slate
+    {
+        $clone = clone $this;
+        $clone->engaged = $state;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getEngaged(): bool
-	{
-		return $this->engaged;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getEngaged() : bool
+    {
+        return $this->engaged;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	abstract public function getContents(): array;
+    /**
+     * @inheritdoc
+     */
+    abstract public function getContents() : array;
 }

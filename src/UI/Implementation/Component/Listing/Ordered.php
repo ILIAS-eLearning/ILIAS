@@ -10,5 +10,6 @@ use \ILIAS\UI\Component as C;
  * Class Listing
  * @package ILIAS\UI\Implementation\Component\Listing\Listing
  */
-class Ordered extends Listing  implements C\Listing\Ordered {
+class Ordered extends Listing implements C\Listing\Ordered
+{
 }

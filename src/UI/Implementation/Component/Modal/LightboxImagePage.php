@@ -14,59 +14,63 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class LightboxImagePage implements LightboxDescriptionEnabledPage {
+class LightboxImagePage implements LightboxDescriptionEnabledPage
+{
+    use ComponentHelper;
 
-	use ComponentHelper;
-
-	/**
-	 * @var Image
-	 */
-	protected $image;
-	/**
-	 * @var string
-	 */
-	protected $title;
-	/**
-	 * @var string
-	 */
-	protected $description;
-
-
-	/**
-	 * @param Image  $image
-	 * @param string $title
-	 * @param string $description
-	 */
-	public function __construct(Image $image, $title, $description = '') {
-		$this->checkArgInstanceOf('image', $image, Image::class);
-		$this->checkStringArg('title', $title);
-		$this->checkStringArg('description', $description);
-		$this->image = $image;
-		$this->title = $title;
-		$this->description = $description;
-	}
+    /**
+     * @var Image
+     */
+    protected $image;
+    /**
+     * @var string
+     */
+    protected $title;
+    /**
+     * @var string
+     */
+    protected $description;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param Image  $image
+     * @param string $title
+     * @param string $description
+     */
+    public function __construct(Image $image, $title, $description = '')
+    {
+        $this->checkArgInstanceOf('image', $image, Image::class);
+        $this->checkStringArg('title', $title);
+        $this->checkStringArg('description', $description);
+        $this->image = $image;
+        $this->title = $title;
+        $this->description = $description;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getDescription(): string {
-		return $this->description ? $this->description : $this->image->getAlt();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getComponent() {
-		return $this->image;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getDescription() : string
+    {
+        return $this->description ? $this->description : $this->image->getAlt();
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getComponent()
+    {
+        return $this->image;
+    }
 }

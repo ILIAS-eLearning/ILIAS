@@ -7,5 +7,6 @@ namespace ILIAS\UI\Component\Listing;
  * Interface Unordered
  * @package ILIAS\UI\Component\Listing
  */
-interface Unordered extends Listing {
+interface Unordered extends Listing
+{
 }
