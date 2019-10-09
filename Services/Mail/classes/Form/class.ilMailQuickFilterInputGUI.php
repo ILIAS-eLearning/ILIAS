@@ -80,6 +80,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
 				$tpl->setVariable('PROP_INPUT_TYPE','text');
 		}
 		$tpl->setVariable("ID", $this->getFieldId());
+		$tpl->setVariable("ARIA_LABEL", $this->getTitle());
 		$tpl->setVariable("SIZE", $this->getSize());
 		if($this->getMaxLength() != null)
 			$tpl->setVariable("MAXLENGTH", $this->getMaxLength());
