@@ -94,7 +94,13 @@ class ImageMapEditorDisplayDefinition extends AnswerDefinition {
         
         $fields[] = new AnswerOptionFormFieldDefinition(
             $DIC->language()->txt('asq_label_coordinates'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AnswerOptionFormFieldDefinition::TYPE_LABEL,
+            self::VAR_COORDINATES
+            );
+        
+        $fields[] = new AnswerOptionFormFieldDefinition(
+            '',
+            AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
             self::VAR_COORDINATES
             );
         

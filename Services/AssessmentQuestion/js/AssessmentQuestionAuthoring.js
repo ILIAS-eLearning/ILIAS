@@ -32,7 +32,7 @@ let remove_row = function() {
 };
 
 let clear_row = function(row) {
-    row.find("input, textarea").each(function() {
+    row.find('input[type!="Button"], textarea').each(function() {
     	$input = $(this);
     	
     	if ($input.attr('type') === 'radio' ||
@@ -50,6 +50,8 @@ let clear_row = function(row) {
         }
     });
 
+    row.find('span').html('');
+    
     return row;
 };
 
@@ -158,8 +160,10 @@ class Point {
 
 let popup = null;
 let canvas;
+let buttons;
 let typ;
 let coordinates;
+let label;
 let current_coordinates = null;
 let poly_points;
 let start = null;
@@ -174,7 +178,8 @@ let display_coordinate_selector = function() {
 	$(this).blur();
 	coordinates = $(this).parents('.aot_row').find('input[id$=imedd_coordinates]');
 	typ = $(this).parents('.aot_row').find('select[id$=imedd_type]').val();
-
+	label = $(this).parents('.aot_row').find('span.imedd_coordinates');
+	
 	popup = $('<img />');
 	popup.css('z-index', 1000);
 	popup.css('position', 'absolute');
@@ -200,6 +205,23 @@ let display_coordinate_selector = function() {
 	canvas.attr('width', popup.width());
 	canvas.attr('height', popup.height());
 	$('html').append(canvas);
+	
+	buttons = $('<div />');
+	
+	cancel = $('<input type="button" class="btn btn-default btn-sm" value="Cancel"/>');
+	cancel.click(close_popup);
+	buttons.append(cancel);
+	
+	ok = $('<input type="button" class="btn btn-default btn-sm" value="OK"/>');
+	ok.css('margin-left', '5px');
+	ok.click(submit_popup);
+	buttons.append(ok);
+	
+	buttons.css('z-index', 1002);
+	buttons.css('position', 'absolute');
+	buttons.css('top', popup.height());
+	buttons.css('right', ((window.innerWidth - popup.width()) / 2) + 10);
+	$('html').append(buttons);
 	
 	switch(typ) {
 		case TYPE_RECTANGLE:
@@ -229,16 +251,22 @@ let process_imgkey = function(e) {
 	}
 	//Enter
 	else if (e.keyCode === 13) {
-		if (current_coordinates !== null) {
-			coordinates.val(current_coordinates);
-			close_popup();
-		}
+		submit_popup();
+	}
+}
+
+let submit_popup = function() {
+	if (current_coordinates !== null) {
+		coordinates.val(current_coordinates);
+		label.html(current_coordinates);
+		close_popup();	
 	}
 }
 
 let close_popup = function(e) {
 	popup.remove();
 	canvas.remove();
+	buttons.remove();
 }
 
 let transformToPercentage = function(part, whole) {

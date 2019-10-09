@@ -1,7 +1,13 @@
 let shape_click = function(e) {
 	let shape = $(this);
 	
-	shape.toggleClass('selected');
+	if (shape.hasClass('multiple_choice')) {
+		shape.toggleClass('selected');
+	}
+	else {
+		shape.parents('.imagemap_editor').find('svg .selected').removeClass('selected');
+		shape.addClass('selected');
+	}
 	
 	let selected = [];
 	

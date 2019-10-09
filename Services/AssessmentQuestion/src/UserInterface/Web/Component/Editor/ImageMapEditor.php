@@ -102,7 +102,7 @@ class ImageMapEditor extends AbstractEditor {
     private function generateCircle(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
         $values = $this->decodeCoordinates($display_definition->getCoordinates());
         
-        return '<ellipse class="' . $this->getSelectedClass($id) . '"
+        return '<ellipse class="' . $this->getClass($id) . '"
                       cx="' . $values['cx'] .'"
                       cy="' . $values['cy'] .'"
                       rx="' . $values['rx'] .'"
@@ -120,7 +120,7 @@ class ImageMapEditor extends AbstractEditor {
     private function generatePolygon(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
         $values = $this->decodeCoordinates($display_definition->getCoordinates());
         
-        return '<polygon class="' . $this->getSelectedClass($id) . '" points="' . $values['points'] .'" data-value="' . $id . '">
+        return '<polygon class="' . $this->getClass($id) . '" points="' . $values['points'] .'" data-value="' . $id . '">
                    <title>' . $display_definition->getTooltip() . '</title>
                 </poligon>';
     }
@@ -133,7 +133,7 @@ class ImageMapEditor extends AbstractEditor {
     private function generateRectangle(ImageMapEditorDisplayDefinition $display_definition, int $id) : string {
         $values = $this->decodeCoordinates($display_definition->getCoordinates());
         
-        return '<rect class="' . $this->getSelectedClass($id) . '" 
+        return '<rect class="' . $this->getClass($id) . '" 
                       x="' . $values['x'] .'" 
                       y="' . $values['y'] .'" 
                       width="' . $values['width'] .'" 
@@ -173,8 +173,18 @@ class ImageMapEditor extends AbstractEditor {
      * @param int $id
      * @return string
      */
-    private function getSelectedClass(int $id) : string {
-        return in_array($id, $this->selected_answers) ? 'selected' : '';
+    private function getClass(int $id) : string {
+        $class = '';
+        
+        if (in_array($id, $this->selected_answers)) {
+            $class .= ' selected';
+        }
+        
+        if ($this->configuration->isMultipleChoice()) {
+            $class .= ' multiple_choice';
+        }
+        
+        return  $class;
     }
     
     /**

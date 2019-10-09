@@ -2,6 +2,12 @@
 <style>
 	.imagemap_editor {
 		position: relative;
+		margin-bottom: 10px;
+	}
+	
+	.imagemap_editor img {
+		max-width: 100%;
+		max-height: 100%;
 	}
 	
 	.imagemap_editor svg{
@@ -9,6 +15,7 @@
 		height: 100%;
 		width: 100%;
 		left: 0px;
+		top: 0px;
 	}
 
 	.imagemap_editor rect,
@@ -25,10 +32,15 @@
 		fill-opacity: 0.95;
 		stroke: red;
 		stroke-width: 1px;
+		vector-effect: non-scaling-stroke;
+	}
+	
+	.imagemap_outer {
+		margin-bottom: 10px;
 	}
 </style>
-<div class="ilc_answers answers answer-table ilClearFloat">
-	<div class="ilc_qanswer_Answer imagemap_editor">
+<div class="imagemap_outer">
+	<div class="imagemap_editor">
 		<!-- BEGIN generic -->
 		<input type="hidden" name="{POST_NAME}" value="{VALUE}" />
 		<img border="0" src="{IMAGE_URL}" />

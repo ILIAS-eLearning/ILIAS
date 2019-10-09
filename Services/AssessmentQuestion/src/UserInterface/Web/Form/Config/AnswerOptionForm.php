@@ -263,7 +263,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	        case AnswerOptionFormFieldDefinition::TYPE_BUTTON:
 	            return $this->generateButton($row_id . $definition->getPostVar(), $definition->getOptions());
 	        case AnswerOptionFormFieldDefinition::TYPE_HIDDEN:
-	            return $this->generateHiddenField($row_id . $definition->getPostVar(), $definition->getOptions()[0]);
+	            return $this->generateHiddenField($row_id . $definition->getPostVar(), $value ?? $definition->getOptions()[0]);
 	        case AnswerOptionFormFieldDefinition::TYPE_LABEL:
 	            return $this->generateLabel($value, $definition->getPostVar());
 	        default:
