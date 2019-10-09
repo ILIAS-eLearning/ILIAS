@@ -16,9 +16,11 @@ use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionAnswerOptionsSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionCreatedEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionFeedbackSetEvent;
+use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionHintsSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionLegacyDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionPlayConfigurationSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionRevisionCreatedEvent;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 
 /**
@@ -73,6 +75,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
      */
     private $answer_options;
     /**
+     * @var Hints
+     */
+    private $hints;
+    /**
      * @var array
      */
     private $answers;
@@ -97,9 +103,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     {
         parent::__construct();
 
+        $this->data = new QuestionData();
         $this->answers = [];
         $this->answer_options = new AnswerOptions();
-        //$this->feedback = new Feedback();
+        $this->hints = new Hints();
 
         /**
          * TODO: I guess this is not the right place.
@@ -186,6 +193,15 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
 
     /**
+     * @param QuestionHintsSetEvent $event
+     */
+    protected function applyQuestionHintsSetEvent(QuestionHintsSetEvent $event)
+    {
+        $this->hints = $event->getHints();
+    }
+
+
+    /**
      * @param QuestionAnswerAddedEvent $event
      */
     protected function applyQuestionAnswerAddedEvent(QuestionAnswerAddedEvent $event)
@@ -216,7 +232,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     /**
      * @return QuestionData
      */
-    public function getData() : ?QuestionData
+    public function getData() : QuestionData
     {
         return $this->data;
     }
@@ -305,7 +321,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
         return $this->answer_options;
     }
 
-
     /**
      * @param AnswerOptions $options
      * @param int           $creator_id
@@ -320,6 +335,32 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
             $creator_id,
             $this->getQuestionIntId(),
             $options));
+    }
+
+
+    /**
+     * @return Hints
+     */
+    public function getHints() : Hints
+    {
+        return $this->hints;
+    }
+
+
+    /**
+     * @param Hints $hints
+     * @param int           $creator_id
+     *
+     * @throws ilDateTimeException
+     */
+    public function setHints(Hints $hints, int $container_obj_id, int $creator_id = self::SYSTEM_USER_ID)
+    {
+        $this->ExecuteEvent(new QuestionHintsSetEvent(
+            $this->getAggregateId(),
+            $container_obj_id,
+            $creator_id,
+            $this->getQuestionIntId(),
+            $hints));
     }
 
 

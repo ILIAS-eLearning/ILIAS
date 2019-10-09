@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto as QuestionDtoInterface;
 
@@ -68,6 +69,10 @@ class QuestionDto implements QuestionDtoInterface {
      * @var Feedback
      */
 	private $feedback;
+    /**
+     * @var Hints
+     */
+    private $hints;
 
 
     /**
@@ -95,8 +100,9 @@ class QuestionDto implements QuestionDtoInterface {
 		    $question->getContentEditingMode()
         );
 
-
         $dto->feedback = $question->getFeedback();
+
+        $dto->hints = $question->getHints();
 
 		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
             $question->getFeedbackCorrect()
@@ -291,4 +297,21 @@ class QuestionDto implements QuestionDtoInterface {
         return $this->feedback;
     }
 
+
+    /**
+     * @return Hints
+     */
+    public function getHints() : Hints
+    {
+        return $this->hints;
+    }
+
+
+    /**
+     * @param Hints $hints
+     */
+    public function setHints(Hints $hints) : void
+    {
+        $this->hints = $hints;
+    }
 }
