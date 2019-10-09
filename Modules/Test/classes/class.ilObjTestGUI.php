@@ -69,6 +69,8 @@ class ilObjTestGUI extends ilObjectGUI
 	const AUTHORING_CONTEXT_PARAMETER = 'context';
 	const AUTHORING_CONTEXT_LIST_VIEW = 'listview';
     const AUTHORING_CONTEXT_PAGE_VIEW = 'pageview';
+
+    const CMD_REGISTER_CREATED_QUESTION = 'registerCreatedQuestion';
 	
 	/** @var ilObjTest $object */
 	public $object = null;
@@ -203,10 +205,43 @@ class ilObjTestGUI extends ilObjectGUI
 
         $asqAuthoringGUI = $asqQuestionService->getAuthoringGUI(
             $backLink, $this->object->getRefId(), $this->object->getType(),
-            $DIC->access()->checkAccess('write', '', $this->object->getRefId())
+            $DIC->access()->checkAccess('write', '', $this->object->getRefId()),
+            [self::class], self::CMD_REGISTER_CREATED_QUESTION
         );
 
         $DIC->ctrl()->forwardCommand($asqAuthoringGUI);
+    }
+
+    /**
+     * @throws ilTestException
+     */
+    protected function registerCreatedQuestionObject()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        if( !$this->access->checkAccess('write', '', $this->object->getRefId()) )
+        {
+            throw new ilTestException('permission denied!');
+        }
+
+        if( !$this->object->isFixedTest() )
+        {
+            throw new ilTestException('permission denied!');
+        }
+
+        $DIC->ctrl()->saveParameter($this, self::AUTHORING_CONTEXT_PARAMETER);
+
+        $questionService = $this->asqAuthoringService->question(
+            $this->asqAuthoringService->currentOrNewQuestionId()
+        );
+
+        /* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+        $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->object)->getQuestionSetConfig();
+        $questionSetConfig->registerCreatedQuestion($questionService->getQuestionDto());
+
+        $DIC->ctrl()->redirectToURL(str_replace(
+            '&amp;', '&', $questionService->getEditLink([])->getAction()
+        ));
     }
 
 	/**
@@ -297,6 +332,7 @@ class ilObjTestGUI extends ilObjectGUI
 
                 $this->prepareOutput();
                 $this->addHeaderAction();
+
                 $this->forwardToAsqAuthoring();
 
                 break;
@@ -2412,10 +2448,13 @@ class ilObjTestGUI extends ilObjectGUI
 		
 		$table_gui->init();
 
-		$asqQuestionListAssocArray = $DIC->assessment()->questionProcessing(
+		#$asqQuestionListAssocArray = $DIC->assessment()->questionProcessing(
+		#    $this->object->getId(), $DIC->user()->getId()
+        #)->questionList()->getQuestionsOfContainerAsAssocArray();
+		$asqQuestionListAssocArray = $DIC->assessment()->questionAuthoring(
 		    $this->object->getId(), $DIC->user()->getId()
         )->questionList()->getQuestionsOfContainerAsAssocArray();
-		
+
 		$table_gui->setData($asqQuestionListAssocArray);
 		
 		$this->tpl->setCurrentBlock("adm_content");

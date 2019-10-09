@@ -211,21 +211,21 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	{
 		if( $this->isCheckboxColumnRequired() )
 		{
-			$this->tpl->setVariable("CHECKBOX_QID", $data['question_id']);
+			$this->tpl->setVariable("CHECKBOX_QID", $data['questionintid']);
 		}
 		
 		if( $this->isQuestionPositioningEnabled() )
 		{
 			$this->position += 10;
-			$inputField = $this->buildPositionInput($data['question_id'], $this->position);
+			$inputField = $this->buildPositionInput($data['questionintid'], $this->position);
 			
 			$this->tpl->setVariable("QUESTION_POSITION", $inputField);
-			$this->tpl->setVariable("POSITION_QID", $data['question_id']);
+			$this->tpl->setVariable("POSITION_QID", $data['questionintid']);
 		}
 		
 		if( $this->isColumnSelected('qid') )
 		{
-			$this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
+			$this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['questionintid']);
 		}
 		
 		if( $this->isQuestionTitleLinksEnabled() )
@@ -234,10 +234,10 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+			$this->tpl->setVariable("QUESTION_TITLE", $data["data_title"]);
 		}
 		
-		if (!$data['complete'])
+		if ( !$data['complete'] )
 		{
 			$this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
 			$this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
@@ -251,15 +251,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 		
 		if( $this->isColumnSelected('description') )
 		{
-			$this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
+			$this->tpl->setVariable("QUESTION_COMMENT", $data["data_description"] ? $data["data_description"] : '&nbsp;');
 		}
 		
 		$this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
+		$this->tpl->setVariable("QUESTION_TYPE", $data["legacy_data_answertypeid"]);
 		$this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
-		
+		$this->tpl->setVariable("QUESTION_POINTS", 'nya');
+
 		if( $this->isColumnSelected('author') )
 		{
-			$this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+			$this->tpl->setVariable("QUESTION_AUTHOR", $data["data_author"]);
 		}
 		
 		if( $this->isColumnSelected('lifecycle') )
@@ -268,13 +270,13 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 				$lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle'])->getTranslation($this->lng);
 				$this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle);
 			} catch(ilTestQuestionPoolInvalidArgumentException $e) {
-				$this->tpl->setVariable("QUESTION_LIFECYCLE", '');
+				$this->tpl->setVariable("QUESTION_LIFECYCLE", $data['data_lifecycle']);
 			}
 		}
 
 		if( $this->isColumnSelected('working_time') )
 		{
-			$this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
+			$this->tpl->setVariable("QUESTION_WORKING_TIME", $data["data_workingtime"]);
 		}
 
 		if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl')
@@ -315,21 +317,19 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
 	 */
 	protected function buildQuestionTitleLink(array $rowData): string
 	{
-		$this->ctrl->setParameter(
-			$this->getParentObject(),'eqpl',
-			current(ilObject::_getAllReferences($rowData['obj_fi']))
-		);
-		
-		$this->ctrl->setParameter(
-			$this->getParentObject(), 'eqid', $rowData['question_id']
-		);
-		
-		$questionHref = $this->ctrl->getLinkTarget($this->getParentObject(), $this->getParentCmd());
-		
-		$this->ctrl->setParameter($this->getParentObject(),'eqpl', '');
-		$this->ctrl->setParameter($this->getParentObject(),'eqid', '');
-		
-		return '<a href="'.$questionHref.'">'.$rowData["title"].'</a>';
+	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+	    $authoringService = $DIC->assessment()->questionAuthoring(
+	        $this->parent_obj->object->getId(), $DIC->user()->getId()
+        );
+
+	    $questionService = $authoringService->question(
+            new \ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId($rowData['id'])
+        );
+
+		$questionHref = $questionService->getEditLink([])->getAction();
+
+		return '<a href="'.$questionHref.'">'.$rowData["data_title"].'</a>';
 	}
 	
 	/**

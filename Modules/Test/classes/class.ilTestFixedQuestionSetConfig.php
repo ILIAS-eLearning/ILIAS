@@ -175,4 +175,41 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		return false;
 	}
+
+	public function registerCreatedQuestion(\ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto $questionDto)
+    {
+        $result = $this->db->queryF(
+		    "SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi = %s",
+            array('integer'), array($this->testOBJ->getTestId())
+        );
+
+		$sequencePosition = 1;
+
+		while( $row = $this->db->fetchAssoc($result) )
+        {
+            $sequencePosition = $row['max_seq_pos'] + 1;
+        }
+
+		$nextId = $this->db->nextId('tst_test_question');
+
+        $this->db->insert('tst_test_question', array(
+            'test_question_id' => array('integer', $nextId),
+            'test_fi' => array('integer', $this->testOBJ->getTestId()),
+            'question_fi' => array('integer', $questionDto->getQuestionIntId()),
+            'question_uid' => array('text', $questionDto->getId()),
+            'sequence' => array('integer', $sequencePosition),
+            'tstamp' => array('integer', time())
+        ));
+
+        if (ilObjAssessmentFolder::_enabledAssessmentLogging())
+        {
+            global $DIC; /* @var \ILIAS\DI\Container $DIC */
+            $logMsg = $DIC->language()->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage());
+            $logMsg .= ": {$sequencePosition}";
+            $this->testOBJ->logAction($logMsg, $questionDto->getQuestionIntId());
+        }
+
+		$this->testOBJ->loadQuestions();
+		$this->testOBJ->saveCompleteStatus($this);
+    }
 }

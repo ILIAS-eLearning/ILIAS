@@ -134,9 +134,27 @@ class ilAsqQuestionCreationGUI
             $form->getContentEditingMode()
         );
 
-        $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
-            $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
-        ));
+        $DIC->ctrl()->setParameterByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlCmdClass(),
+            ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,
+            $this->questionId->getId()
+        );
+
+        $DIC->ctrl()->redirectByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlClassPath(),
+            $this->contextContainer->getAfterQuestionCreationCtrlCommand()
+        );
+
+        /*$DIC->ctrl()->setReturnByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlClassPath(),
+            $this->contextContainer->getAfterQuestionCreationCtrlCommand()
+        );
+
+        $DIC->ctrl()->returnToParent($this);*/
+
+        #$DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
+        #    $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
+        #));
     }
 
 
