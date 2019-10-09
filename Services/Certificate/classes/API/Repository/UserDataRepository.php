@@ -112,8 +112,8 @@ FROM
             $result[$id] = $dataObject;
         }
 
-        if ($filter->getLimitStart() !== null && $filter->getLimitEnd() !== null) {
-            $result = array_slice($result, $filter->getLimitStart(), ($filter->getLimitEnd() - $filter->getLimitStart()));
+        if ($filter->getLimitOffset() !== null && $filter->getLimitCount() !== null) {
+            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount());
         }
 
         return $result;
