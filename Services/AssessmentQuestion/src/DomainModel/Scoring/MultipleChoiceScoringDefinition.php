@@ -107,22 +107,30 @@ class MultipleChoiceScoringDefinition extends AnswerDefinition {
 	 * @param string $index
 	 * @return bool
 	 */
-	public static function checkInput(string $index) : bool {
+	public static function checkInput(int $count) : bool {
 	    global $DIC;
 	    
-	    // unselected key does not exist in singlechoicequestion legacyform
-	    if (!is_numeric($_POST[$index . self::VAR_MCSD_SELECTED]) ||
-	           (array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) && 
-	            !is_numeric($_POST[$index . self::VAR_MCSD_UNSELECTED]))) 
-	    {
-	        self::$error_message = $DIC->language()->txt('asq_error_numeric');
-	        return false;
+	    $points_found = false;
+	    
+	    for ($i = 1; $i <= $count; $i++) {
+    	    // unselected key does not exist in singlechoicequestion legacyform
+	        if (!is_numeric($_POST[$i . self::VAR_MCSD_SELECTED]) ||
+	            (array_key_exists($i . self::VAR_MCSD_UNSELECTED, $_POST) && 
+	                !is_numeric($_POST[$i . self::VAR_MCSD_UNSELECTED]))) 
+    	    {
+    	        self::$error_message = $DIC->language()->txt('asq_error_numeric');
+    	        return false;
+    	    }
+    	    
+    	    if (intval($_POST[$i . self::VAR_MCSD_SELECTED]) > 0 ||
+    	        (array_key_exists($i . self::VAR_MCSD_UNSELECTED, $_POST) && 
+    	            intval($_POST[$i . self::VAR_MCSD_UNSELECTED]) > 0)) 
+    	    {
+    	        $points_found = true;
+    	    }
 	    }
 	    
-	    if (intval($_POST[$index . self::VAR_MCSD_SELECTED]) < 1 &&
-	           (!array_key_exists($index . self::VAR_MCSD_UNSELECTED, $_POST) || 
-	            intval($_POST[$index . self::VAR_MCSD_UNSELECTED]) < 1)) 
-	    {
+	    if (!$points_found) {
 	        self::$error_message = $DIC->language()->txt('asq_error_points');;
 	        return false;
 	    }

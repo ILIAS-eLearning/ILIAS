@@ -33,7 +33,7 @@ abstract class AnswerDefinition implements JsonSerializable {
 	/**
 	 * @return bool
 	 */
-	public static function checkInput(string $index) : bool {
+	public static function checkInput(int $count) : bool {
 	    return true;
 	}
 	

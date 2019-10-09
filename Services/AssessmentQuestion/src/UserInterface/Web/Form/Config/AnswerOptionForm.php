@@ -173,17 +173,15 @@ class AnswerOptionForm extends ilTextInputGUI {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
 	    
-	    for ($i = 1; $i <= $count; $i++) {
-	        if(!$dd_class::checkInput($i)) {
-	            $this->setAlert($dd_class::getErrorMessage());
-	            return false;
-	        }
-	        
-	        if(!$sd_class::checkInput($i)) {
-	            $this->setAlert($sd_class::getErrorMessage());
-	            return false;
-	        }
-	    }
+        if(!$dd_class::checkInput($count)) {
+            $this->setAlert($dd_class::getErrorMessage());
+            return false;
+        }
+        
+        if(!$sd_class::checkInput($count)) {
+            $this->setAlert($sd_class::getErrorMessage());
+            return false;
+        }
 	    
 	    return true;
 	}
