@@ -301,7 +301,7 @@ class QuestionDto implements QuestionDtoInterface {
     /**
      * @return Hints
      */
-    public function getHints() : Hints
+    public function getHints() : ?Hints
     {
         return $this->hints;
     }

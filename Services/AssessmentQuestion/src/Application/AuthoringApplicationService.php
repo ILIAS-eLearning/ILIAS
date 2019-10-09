@@ -107,7 +107,8 @@ class AuthoringApplicationService {
             $question->setFeedback($question_dto->getFeedback(), $this->container_obj_id, $this->actor_user_id);
         }
 
-        if (!$question_dto->getHints()->equals($question->getHints())) {
+        if (!is_null($question_dto->getHints()) &&
+            !$question_dto->getHints()->equals($question->getHints())) {
             $question->setHints($question_dto->getHints(), $this->container_obj_id, $this->actor_user_id);
         }
 
