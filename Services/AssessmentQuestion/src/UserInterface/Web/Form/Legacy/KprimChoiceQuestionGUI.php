@@ -32,6 +32,8 @@ class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
      * @param QuestionDto $question
      */
     public function __construct($question) {
+        global $DIC;
+        
         while (count($question->getAnswerOptions()->getOptions()) < 4) {
             $question->getAnswerOptions()->addOption(null);
         }
@@ -42,6 +44,8 @@ class KprimChoiceQuestionGUI extends LegacyFormGUIBase {
         ];
         
         parent::__construct($question, $answer_option_config);
+        
+        $this->option_form->setInfo($DIC->language()->txt('asq_kprim_information'));
     }
 
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration

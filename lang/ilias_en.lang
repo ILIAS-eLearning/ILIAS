@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_kprim_information#:#The multiple choice question type ‘four times decision right/wrong’ (Type K’, also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
 asq#:#asq_header_upload_file#:#Choose File to Upload
 asq#:#asq_text_max_size#:#Maximum Filesize: %d byte
 asq#:#asq_text_allowed_extensions#:#Allowed Extensions: %s
