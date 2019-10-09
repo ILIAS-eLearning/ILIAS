@@ -55,6 +55,18 @@ class ErrorTextEditorConfiguration extends AbstractConfiguration
         return $this->error_text;
     }
     
+    public function getSanitizedErrorText() : string {
+        if ($this->error_text === null) {
+            return '';
+        }
+        
+        $error_text = $this->error_text;
+        $error_text = str_replace('#', '', $error_text);
+        $error_text = str_replace('((', '', $error_text);
+        $error_text = str_replace('))', '', $error_text);
+        return $error_text;
+    }
+    
     /**
      * Compares ValueObjects to each other returns true if they are the same
      *

@@ -2,11 +2,14 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
 
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditorConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**
  * Class ErrorTextQuestionGUI
@@ -19,11 +22,25 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditorC
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ErrorTextQuestionGUI extends LegacyFormGUIBase {
+    /**
+     * QuestionFormGUI constructor.
+     *
+     * @param QuestionDto $question
+     */
+    public function __construct($question) {
+        $answer_option_config = [
+            AnswerOptionForm::OPTION_HIDE_ADD_REMOVE => true,
+            AnswerOptionForm::OPTION_HIDE_EMPTY => true
+        ];
+        
+        parent::__construct($question, $answer_option_config);
+    }
+    
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create
         (
-            new ErrorTextEditorConfiguration(),
+            ErrorTextEditorConfiguration::create('', ErrorTextEditor::DEFAULT_TEXTSIZE_PERCENT),
             new ErrorTextScoringConfiguration()
             );
     }

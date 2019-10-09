@@ -21,6 +21,7 @@ class AnswerOptionFormFieldDefinition {
     const TYPE_DROPDOWN = 6;
     const TYPE_BUTTON = 7;
     const TYPE_HIDDEN = 8;
+    const TYPE_LABEL = 9;
 	
 	/**
 	 * @var string

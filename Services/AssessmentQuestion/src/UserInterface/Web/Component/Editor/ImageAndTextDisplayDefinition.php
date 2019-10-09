@@ -114,13 +114,15 @@ class ImageAndTextDisplayDefinition extends AnswerDefinition {
 	 * @param string $index
 	 * @return bool
 	 */
-	public static function checkInput(string $index) : bool {
+	public static function checkInput(int $count) : bool {
 	    global $DIC;
 	    
-	    if ($_POST[$index . self::VAR_MCDD_TEXT] == null)
-	    {
-	        self::$error_message = $DIC->language()->txt('msg_input_is_required');
-	        return false;
+	    for ($i = 1; $i <= $count; $i++) {
+	        if ($_POST[$i . self::VAR_MCDD_TEXT] == null)
+	        {
+	            self::$error_message = $DIC->language()->txt('msg_input_is_required');
+	            return false;
+	        }
 	    }
 	    
 	    return true;

@@ -18,11 +18,11 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
  */
 class ErrorTextScoringConfiguration extends AbstractConfiguration {
     /**
-     * @var int
+     * @var ?int
      */
     protected $points_wrong;    
     
-    static function create(int $points_wrong) : ErrorTextScoringConfiguration
+    static function create(?int $points_wrong) : ErrorTextScoringConfiguration
     {
         $object = new ErrorTextScoringConfiguration();
         $object->points_wrong = $points_wrong;
@@ -32,7 +32,7 @@ class ErrorTextScoringConfiguration extends AbstractConfiguration {
     /**
      * @return int
      */
-    public function getPointsWrong()
+    public function getPointsWrong() : ?int
     {
         return $this->points_wrong;
     }

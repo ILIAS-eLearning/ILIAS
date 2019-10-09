@@ -43,11 +43,14 @@ class QuestionComponent {
 	}
 
 	public function renderHtml($scoreCommand) : string {
+	    global $DIC;
+	    
 		$tpl = new ilTemplate("tpl.question_view.html", true, true, "Services/AssessmentQuestion");
 
         $tpl->setCurrentBlock('question');
         $tpl->setVariable('SCORE_COMMAND', $scoreCommand);
 		$tpl->setVariable('QUESTION_OUTPUT', $this->presenter->generateHtml());
+		$tpl->setVariable('BUTTON_TITLE', $DIC->language()->txt('check'));
 		$tpl->parseCurrentBlock();
 
 		return $tpl->get();

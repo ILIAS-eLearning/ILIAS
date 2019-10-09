@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ilButton;
 use ilTextAreaInputGUI;
 use ilNumberInputGUI;
 use ilTemplate;
@@ -21,6 +22,7 @@ use ilTemplate;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ErrorTextEditor extends AbstractEditor {
+    const DEFAULT_TEXTSIZE_PERCENT = 100;
     
     const VAR_ERROR_TEXT = 'ete_error_text';
     const VAR_TEXT_SIZE = 'ete_text_size';
@@ -68,7 +70,7 @@ class ErrorTextEditor extends AbstractEditor {
      * @return string
      */
     private function generateErrorText() : string {
-        preg_match_all('/\S+/', $this->configuration->getErrorText(), $matches);
+        preg_match_all('/\S+/', $this->configuration->getSanitizedErrorText(), $matches);
         
         $words = $matches[0];
         
@@ -114,9 +116,13 @@ class ErrorTextEditor extends AbstractEditor {
         $fields = [];
         
         $error_text = new ilTextAreaInputGUI($DIC->language()->txt('asq_label_error_text'), self::VAR_ERROR_TEXT);
-        $error_text->setInfo($DIC->language()->txt('asq_description_error_text'));
+        $error_text->setInfo('<input type="button" id="process_error_text" value="' . 
+                                $DIC->language()->txt('asq_label_process_error_text') . 
+                             '" class="btn btn-default btn-sm" /><br />' . 
+                             $DIC->language()->txt('asq_description_error_text'));
         $error_text->setRequired(true);
         $fields[self::VAR_ERROR_TEXT] = $error_text;
+        
         
         $text_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_text_size'), self::VAR_TEXT_SIZE);
         $text_size->setRequired(true);
@@ -127,6 +133,9 @@ class ErrorTextEditor extends AbstractEditor {
         if ($config !== null) {
             $error_text->setValue($config->getErrorText());
             $text_size->setValue($config->getTextSize());
+        }
+        else {
+            $text_size->setValue(self::DEFAULT_TEXTSIZE_PERCENT);
         }
         
         return $fields;

@@ -79,7 +79,27 @@ let set_input_ids = function(table) {
 let process_row = function(row, current_row) {
     row.find("input[name],textarea[name]").each(function() {
         let input = $(this);
-        input.attr("name", update_input_name(input.attr("name"), current_row));
+        let new_name = update_input_name(input.attr("name"), current_row);
+        
+        // if already an item with the new name exists
+        // (when swapping) set the other element name
+        // to current oldname to prevent name collision
+        // and losing of radio values
+        if (input.attr('type') === 'radio') {
+        	let existing_group = $('[name="' + new_name + '"]');
+        	
+        	if (existing_group.length > 0) {
+	        	let my_name = input.attr("name");
+	        	let my_group = $('[name="' + my_name + '"]');
+	        	my_group.attr("name", "totally_random");
+	        	existing_group.attr("name", my_name);
+	        	my_group.attr("name", new_name);        		
+        	}
+        }
+        else {
+        	input.attr("name", new_name);
+        }
+        
         input.prop("id", update_input_name(input.prop("id"), current_row));
     });	
 };
@@ -120,14 +140,15 @@ $(document).on("click", ".js_up", up_row);
 $(document).on("click", ".js_down", down_row);
 $(document).on("change", "#editor, #presenter, #scoring", update_form);
 
+//**********************************************************************************************
 //ImageMapQuestion Authoring
+//**********************************************************************************************
 
 //consts track definitions in ImageMapEditorDisplayDefinition.php
 const TYPE_RECTANGLE = '1';
 const TYPE_CIRCLE = '2';
 const TYPE_POLYGON = '3';
 
-//point
 class Point {
 	constructor(X, Y) {
 		this.X = X;
@@ -382,3 +403,88 @@ let map_poly = function(g) {
 
 $(document).on('keyup', process_imgkey);
 $(document).on('click', '.js_select_coordinates', display_coordinate_selector);
+
+//**********************************************************************************************
+//ErrorTextQuestion Authoring
+//**********************************************************************************************
+
+class ErrorDefinition {
+	constructor(start, length) {
+		this.start = start;
+		this.length = length;
+	}
+}
+
+let process_error_text = function() {
+	let text = $('#ete_error_text').val().split(' ');
+	
+	let errors = find_errors(text);
+	
+	if (errors.length > 0) {
+		prepare_table(errors.length);
+	}
+	else {
+		$('.aot_table').hide();
+	}
+	
+	display_errors(errors, text);
+}
+
+let display_errors = function(errors, text) {
+	$('.aot_table tbody').children().each(function (i, rrow) {
+		let error = errors[i];
+		let row = $(rrow);
+		let label = text.slice(error.start, error.start + error.length).join(' ');
+		label = label.replace('((', '').replace('))', '').replace('#', '');
+		
+		row.find('.etsd_wrong_text').text(label);
+		row.find('#' + (i + 1) + 'etsd_word_index').val(error.start);
+		row.find('#' + (i + 1) + 'etsd_word_length').val(error.length);
+	});
+}
+
+let prepare_table = function(length) {
+	$('.aot_table').show();
+	let table = $('.aot_table tbody');
+	let row = table.children().eq(0);
+	
+	row.siblings().remove();
+
+	clear_row(row);
+	
+	while (length > table.children().length) {
+		table.append(row.clone());
+	}	
+	
+	set_input_ids(table);
+}
+
+let find_errors = function(text) {
+	let errors = [];
+	
+	let multiword = false;
+	let multilength = 0;
+	
+	for (let i = 0; i < text.length; i++) {
+		if (text[i].startsWith('#')) {
+			errors.push(new ErrorDefinition(i, 1));
+		}
+		else if (text[i].startsWith('((')) {
+			multiword = true;
+			multilength = 0;
+		}
+		
+		if (multiword) {
+			multilength += 1;
+		}
+		
+		if (multiword && text[i].endsWith('))')) {
+			errors.push(new ErrorDefinition(i - (multilength - 1), multilength));
+			multiword = false;
+		}
+	}
+	
+	return errors;
+}
+
+$(document).on('click', '#process_error_text', process_error_text);

@@ -181,15 +181,22 @@ class MultipleChoiceEditor extends AbstractEditor {
 		
 		$fields[self::VAR_MCE_IS_SINGLELINE] = $singleline;
 		
-		$thumb_size = new ilNumberInputGUI(
-		    $DIC->language()->txt('asq_label_thumb_size'), 
-		    self::VAR_MCE_THUMB_SIZE);
-		$thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
-		$thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
-		$thumb_size->setMinValue(20);
-		$thumb_size->setDecimals(0);
-		$thumb_size->setSize(6);
-		$fields[self::VAR_MCE_THUMB_SIZE] = $thumb_size;
+		if ($config === null || $config->isSingleLine()) {
+		    $thumb_size = new ilNumberInputGUI(
+		        $DIC->language()->txt('asq_label_thumb_size'),
+		        self::VAR_MCE_THUMB_SIZE);
+		    $thumb_size->setInfo($DIC->language()->txt('asq_description_thumb_size'));
+		    $thumb_size->setSuffix($DIC->language()->txt('asq_pixel'));
+		    $thumb_size->setMinValue(20);
+		    $thumb_size->setDecimals(0);
+		    $thumb_size->setSize(6);
+		    $fields[self::VAR_MCE_THUMB_SIZE] = $thumb_size;
+		}
+		else {
+		    $thumb_size = new \ilHiddenInputGUI(self::VAR_MCE_THUMB_SIZE);
+		    $fields[self::VAR_MCE_THUMB_SIZE] = $thumb_size;
+		}
+
 
 		if ($config !== null) {
 			$shuffle->setChecked($config->isShuffleAnswers());
