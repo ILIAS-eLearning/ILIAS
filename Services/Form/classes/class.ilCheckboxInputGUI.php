@@ -217,7 +217,9 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
 			// zoom 1; *display:inline for IE6 & 7
 			$tpl->setVariable("STYLE_PAR", 'display: -moz-inline-stack; display:inline-block; zoom: 1; *display:inline;');
 		}
-		
+
+		$tpl->setVariable("ARIA_LABEL", $this->getTitle());
+
 		return $tpl->get();
 	}
 
