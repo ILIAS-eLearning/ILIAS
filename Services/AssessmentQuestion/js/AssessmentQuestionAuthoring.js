@@ -79,7 +79,27 @@ let set_input_ids = function(table) {
 let process_row = function(row, current_row) {
     row.find("input[name],textarea[name]").each(function() {
         let input = $(this);
-        input.attr("name", update_input_name(input.attr("name"), current_row));
+        let new_name = update_input_name(input.attr("name"), current_row);
+        
+        // if already an item with the new name exists
+        // (when swapping) set the other element name
+        // to current oldname to prevent name collision
+        // and losing of radio values
+        if (input.attr('type') === 'radio') {
+        	let existing_group = $('[name="' + new_name + '"]');
+        	
+        	if (existing_group.length > 0) {
+	        	let my_name = input.attr("name");
+	        	let my_group = $('[name="' + my_name + '"]');
+	        	my_group.attr("name", "totally_random");
+	        	existing_group.attr("name", my_name);
+	        	my_group.attr("name", new_name);        		
+        	}
+        }
+        else {
+        	input.attr("name", new_name);
+        }
+        
         input.prop("id", update_input_name(input.prop("id"), current_row));
     });	
 };
