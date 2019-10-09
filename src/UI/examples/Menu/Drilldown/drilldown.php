@@ -5,6 +5,7 @@ function drilldown()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
+
     $ico = $f->symbol()->icon()->standard('', '')->withSize('medium')->withAbbreviation('+');
 
     $image = $f->image()->responsive("src/UI/examples/Image/mountains.jpg", "Image source: https://stocksnap.io, Creative Commons CC0 license");
@@ -16,7 +17,8 @@ function drilldown()
 
     $label = $f->button()->bulky($ico->withAbbreviation('0'), 'root', '');
 
-    $link = $f->link()->bulky($ico->withAbbreviation('>>'), 'link', '#');
+    $uri = new \ILIAS\Data\URI('https://ilias.de');
+    $link = $f->link()->bulky($ico->withAbbreviation('>>'), 'link', $uri);
 
     $items = [
         $f->menu()->sub(toBulky('1'), [

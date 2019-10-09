@@ -14,17 +14,10 @@ function numeric_inputs()
     $number_input = $ui->input()->field()->numeric("Some Number", "Put in a number.")->withValue(133);
 
     //Step 2, define form and form actions
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'numeric_inputs'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [ $number_input]);
+    $form = $ui->input()->container()->form()->standard('#', [ $number_input]);
 
     //Step 4, implement some form data processing.
-    if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

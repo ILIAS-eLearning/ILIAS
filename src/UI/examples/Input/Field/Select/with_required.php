@@ -25,17 +25,10 @@ function with_required()
     $select = $ui->input()->field()->select("Choose an Option", $options, "This is the byline text")->withRequired(true);
 
     //Step 2: define form and form actions
-    $ctrl->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name_required',
-        'select'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [$select]);
+    $form = $ui->input()->container()->form()->standard('#', [$select]);
 
     //Step 3: implement some form data processing.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name_required'] == "select") {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

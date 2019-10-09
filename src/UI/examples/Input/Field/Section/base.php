@@ -39,17 +39,10 @@ function base()
         ->withAdditionalTransformation($equal_ten);
 
     //Step 3, define form and form actions, attach the group to the form
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'numeric_inputs'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [$group]);
+    $form = $ui->input()->container()->form()->standard('#', [$group]);
 
     //Step 4, implement some form data processing.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='numeric_inputs') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData()[0];
     } else {

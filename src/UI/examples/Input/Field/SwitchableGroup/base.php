@@ -16,14 +16,14 @@ function base()
             "field_1_1" => $ui->input()->field()->text("Item 1.1", "Just some field"),
             "field_1_2" => $ui->input()->field()->text("Item 1.2", "Just some other field")
         ],
-        "switchable group number one"
+        "Switchable Group number one"
     );
     $group2 = $ui->input()->field()->group(
         [
             "field_2_1"=>$ui->input()->field()->text("Item 2", "Just another field")
                 ->withValue('some val')
         ],
-        "switchable group number two"
+        "Switchable Group number two"
     );
     $group3 = $ui->input()->field()->group([], 'No items in this group');
 

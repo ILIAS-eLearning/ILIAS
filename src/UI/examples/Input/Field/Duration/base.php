@@ -23,14 +23,8 @@ function base()
         ->withByline('timezone and both time and date');
 
     //Step 2: define form and form actions, attach the input
-    $ctrl->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'duration'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
     $form = $ui->input()->container()->form()->standard(
-        $form_action,
+        '#',
         [
             'duration'=>$duration,
             'time'=>$time,
@@ -39,8 +33,7 @@ function base()
     );
 
     //Step 3: implement some form data processing.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] == "duration") {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $groups = $form->getInputs();
         foreach ($groups as $group) {

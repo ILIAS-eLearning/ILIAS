@@ -16,18 +16,11 @@ function in_form()
         ->withRevelation(true);
 
     //Step 2: Define the form and attach the field.
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example',
-        'password1'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['password'=>$pwd_input]);
+    $form = $ui->input()->container()->form()->standard('#', ['password'=>$pwd_input]);
 
     //Step 3: Define some data processing.
     $result = '';
-    if ($request->getMethod() == "POST"
-            && $request->getQueryParams()['example'] =='password1') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     }
