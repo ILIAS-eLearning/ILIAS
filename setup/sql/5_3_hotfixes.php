@@ -656,6 +656,7 @@ $idx = $setting->get('ilfrmposidx5', 0);
 if (!$idx) {
 	$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
 	$setting->set('ilfrmposidx5', 1);
+}
 ?>
 <#48>
 <?php
