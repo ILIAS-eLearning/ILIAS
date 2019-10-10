@@ -3,7 +3,12 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+use \ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -20,24 +25,49 @@ class Question
 {
 
     /**
+     * @var string
+     */
+    protected $question_revision_uuid;
+    /**
+     * @var int
+     */
+    protected $actor_user_id;
+    /**
+     * @var QuestionConfig
+     */
+    protected $question_config;
+    /**
+     * @var QuestionDto
+     */
+    private $question_dto;
+    /**
+     * @var QuestionComponent
+     */
+    private $question_component;
+
+
+    /**
      * Question constructor.
      *
-     * @param AssessmentEntityId $question_revision_uuid
-     * @param int                $actor_user_id
-     * @param AssessmentEntityId $user_answer_uuid
+     * @param string         $question_revision_uuid
+     * @param int            $actor_user_id
+     * @param QuestionConfig $question_config
+     *
      */
-    public function __construct(AssessmentEntityId $question_revision_uuid, int $actor_user_id, AssessmentEntityId $user_answer_uuid)
+    public function __construct(string $question_revision_uuid, int $actor_user_id, QuestionConfig $question_config)
     {
-        // TODO
+        $this->question_revision_uuid = $question_revision_uuid;
+        $this->actor_user_id = $actor_user_id;
+        $this->question_config = $question_config;
     }
 
 
     /**
-     * @return QuestionForm
+     * @return QuestionComponent
      */
-    public function getQuestionPresentation() : QuestionForm
+    public function getQuestionPresentation(?QuestionCommands $question_commands = null) : QuestionComponent
     {
-        // TODO: Implement GetQuestionPresentation() method.
+        return $this->getQuestionComponent($question_commands);
     }
 
 
@@ -89,5 +119,34 @@ class Question
     public function getUserScore() : ScoredUserAnswerDto
     {
         // TODO: Implement GetUserScore() method.
+    }
+
+
+    /**
+     * @return QuestionDto
+     */
+    private function getQuestionDto() : QuestionDto
+    {
+        if (is_null($this->question_dto)) {
+            $published_question_repository = new PublishedQuestionRepository();
+            $this->question_dto = $published_question_repository->getQuestionByRevisionId($this->question_revision_uuid);
+        }
+
+        return $this->question_dto;
+    }
+
+
+    /**
+     * @param QuestionCommands $question_commands
+     *
+     * @return QuestionComponent
+     */
+    private function getQuestionComponent(?QuestionCommands $question_commands = null) : QuestionComponent
+    {
+        if (is_null($this->question_component)) {
+            $this->question_component = new QuestionComponent($this->getQuestionDto(),$this->question_config,$question_commands);
+        }
+
+        return $this->question_component;
     }
 }

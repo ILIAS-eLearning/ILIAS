@@ -1,6 +1,14 @@
 <!-- BEGIN question -->
 	<div id="ilAsqQuestionView" class="il_ass_question_preview_container">
 			{QUESTION_OUTPUT}
+
+			<!-- BEGIN feedback_button -->
+				<input name="cmd[{FEEDBACK_COMMAND}]" type="submit" class="btn btn-default btn-sm" value="{FEEDBACK_BUTTON_TITLE}" />
+			<!-- END feedback_button -->
+			<!-- BEGIN hint_button -->
+				<input name="cmd[{HINT_COMMAND}]" type="submit" class="btn btn-default btn-sm" value="{HINT_BUTTON_TITLE}" />
+			<!-- END hint_button -->
+
 			<!-- BEGIN instant_response_header -->
 				<div>
 					<h1 class="ilc_page_title_PageTitle">{INSTANT_RESPONSE_HEADER}</h1>
@@ -17,7 +25,6 @@
 				<p><strong>{TXT_CORRECT_SOLUTION}</strong></p>
 				<div class="ilc_question_Standard">{SOLUTION_OUTPUT}</div>
 			<!-- END solution_output -->
-			<input name="cmd[{SCORE_COMMAND}]" type="submit" class="btn btn-default btn-sm" value="{BUTTON_TITLE}" />
 	</div>
 	<!-- BEGIN notes_panel -->{NOTES_PANEL}<!-- END notes_panel -->
 <!-- END question -->

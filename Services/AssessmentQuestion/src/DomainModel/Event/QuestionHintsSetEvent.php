@@ -6,7 +6,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Event;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Event\AbstractIlContainerDomainEvent;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 
 /**
  * Class QuestionHintsSetEvent
@@ -22,7 +22,7 @@ class QuestionHintsSetEvent extends AbstractIlContainerDomainEvent {
 
     public const NAME = 'QuestionHintsSetEvent';
     /**
-     * @var Hints
+     * @var QuestionHints
      */
     protected $hints;
 
@@ -33,7 +33,7 @@ class QuestionHintsSetEvent extends AbstractIlContainerDomainEvent {
      * @param DomainObjectId     $id
      * @param int                $container_obj_id
      * @param int                $initiating_user_id
-     * @param Hints|null $hints
+     * @param QuestionHints|null $hints
      *
      * @throws \ilDateTimeException
      */
@@ -41,7 +41,7 @@ class QuestionHintsSetEvent extends AbstractIlContainerDomainEvent {
         int $container_obj_id,
         int $initiating_user_id,
         int $question_int_id,
-        Hints $hints = null)
+        QuestionHints $hints = null)
     {
         parent::__construct($id, $container_obj_id, $initiating_user_id, $question_int_id);
         $this->hints = $hints;
@@ -58,9 +58,9 @@ class QuestionHintsSetEvent extends AbstractIlContainerDomainEvent {
     }
 
     /**
-     * @return Hints
+     * @return QuestionHints
      */
-    public function getHints(): Hints {
+    public function getHints(): QuestionHints {
         return $this->hints;
     }
 
@@ -72,6 +72,6 @@ class QuestionHintsSetEvent extends AbstractIlContainerDomainEvent {
      * @param string $json_data
      */
     public function restoreEventBody(string $json_data) {
-        $this->hints = Hints::deserialize($json_data);
+        $this->hints = QuestionHints::deserialize($json_data);
     }
 }

@@ -22,16 +22,4 @@ interface QuestionForm
      * Generates HTML code to display the current question
      */
     public function render() : string;
-
-
-    /**
-     * @return bool
-     */
-    public function hasInlineFeedback() : bool;
-
-
-    /**
-     * @return bool
-     */
-    public function isAutoSaveable() : bool;
 }

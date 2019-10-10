@@ -3,7 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto as QuestionDtoInterface;
 
@@ -70,9 +70,9 @@ class QuestionDto implements QuestionDtoInterface {
      */
 	private $feedback;
     /**
-     * @var Hints
+     * @var QuestionHints
      */
-    private $hints;
+    private $question_hints;
 
 
     /**
@@ -102,7 +102,7 @@ class QuestionDto implements QuestionDtoInterface {
 
         $dto->feedback = $question->getFeedback();
 
-        $dto->hints = $question->getHints();
+        $dto->question_hints = $question->getHints();
 
 		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
             $question->getFeedbackCorrect()
@@ -299,19 +299,19 @@ class QuestionDto implements QuestionDtoInterface {
 
 
     /**
-     * @return Hints
+     * @return QuestionHints
      */
-    public function getHints() : ?Hints
+    public function getQuestionHints() : ?QuestionHints
     {
-        return $this->hints;
+        return $this->question_hints;
     }
 
 
     /**
-     * @param Hints $hints
+     * @param QuestionHints $question_hints
      */
-    public function setHints(Hints $hints) : void
+    public function setQuestionHints(QuestionHints $question_hints) : void
     {
-        $this->hints = $hints;
+        $this->question_hints = $question_hints;
     }
 }

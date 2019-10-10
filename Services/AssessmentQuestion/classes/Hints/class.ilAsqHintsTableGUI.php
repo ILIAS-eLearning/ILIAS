@@ -75,7 +75,7 @@ class ilAsqHintsTableGUI extends ilTable2GUI
 		// --> required for ordering via clipboard feature
 		$this->setExternalSegmentation(true);
 		
-		$table_data = $qustion_dto->getHints()->getHints();
+		$table_data = $qustion_dto->getQuestionHints()->getHints();
 		
 		/*if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
 		{
