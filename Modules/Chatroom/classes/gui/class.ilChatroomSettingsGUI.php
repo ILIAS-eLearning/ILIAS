@@ -32,6 +32,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 	{
 		$formFactory  = new ilChatroomFormFactory();
 		$settingsForm = $formFactory->getSettingsForm();
+        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
 
 		if(!$settingsForm->checkInput())
 		{
@@ -59,6 +60,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 			}
 
 			$this->gui->object->update();
+			$this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->saveTileImage();
 			// @todo: Do not rely on raw post data
 			$settings = $_POST;
 			$room     = ilChatRoom::byObjectId($this->gui->object->getId());
@@ -117,6 +119,11 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 				),
 				'access_visibility' => $this->gui->object->getAccessVisibility()
 			);
+
+			$presentationHeader = new ilFormSectionHeaderGUI();
+			$presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
+			$settingsForm->addItem($presentationHeader);
+			$this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->addTileImage();
 
 			if($room)
 			{

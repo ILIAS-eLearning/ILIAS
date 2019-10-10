@@ -48,6 +48,11 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 	protected $user;
 
 	/**
+	 * @var \ilObjectService
+	 */
+	protected $obj_service;
+
+	/**
 	 * @var \ilNavigationHistory
 	 */
 	protected $navHistory;
@@ -76,15 +81,16 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-		$this->dic        = $DIC;
-		$this->request    = $this->dic->http()->request();
-		$this->settings   = $this->dic->settings();
-		$this->access     = $this->dic->access();
-		$this->ctrl       = $this->dic->ctrl();
-		$this->tabs       = $this->dic->tabs();
-		$this->user       = $this->dic->user();
-		$this->navHistory = $this->dic['ilNavigationHistory'];
-		$this->error      = $this->dic['ilErr'];
+		$this->dic          = $DIC;
+		$this->request      = $this->dic->http()->request();
+		$this->settings     = $this->dic->settings();
+		$this->access       = $this->dic->access();
+		$this->ctrl         = $this->dic->ctrl();
+		$this->tabs         = $this->dic->tabs();
+		$this->user         = $this->dic->user();
+		$this->obj_service  = $this->dic->object();
+		$this->navHistory   = $this->dic['ilNavigationHistory'];
+		$this->error        = $this->dic['ilErr'];
 
 		$this->lng->loadLanguageModule('copa');
 		$this->lng->loadLanguageModule('style');
@@ -483,6 +489,11 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
 			)
 		);
+
+		$presentationHeader = new ilFormSectionHeaderGUI();
+		$presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
+		$a_form->addItem($presentationHeader);
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
 	}
 
 	/**
@@ -505,6 +516,7 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
 				\ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY
 			)
 		);
+		$this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
 	}
 
 	/**

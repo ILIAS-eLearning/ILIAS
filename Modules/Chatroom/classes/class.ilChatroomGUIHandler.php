@@ -37,6 +37,11 @@ abstract class ilChatroomGUIHandler
 	protected $webDirectory;
 
 	/**
+	 * @var ilObjectService
+	 */
+	protected $obj_service;
+
+	/**
 	 * @var \ILIAS\FileUpload\FileUpload
 	 */
 	protected $upload;
@@ -79,6 +84,7 @@ abstract class ilChatroomGUIHandler
 		$this->mainTpl = $DIC->ui()->mainTemplate();
 		$this->upload = $DIC->upload();
 		$this->webDirectory = $DIC->filesystem()->web();
+		$this->obj_service = $DIC->object();
 		$this->ilias = $DIC['ilias'];
 		$this->tabs = $DIC->tabs();
 		$this->navigationHistory = $DIC['ilNavigationHistory'];
