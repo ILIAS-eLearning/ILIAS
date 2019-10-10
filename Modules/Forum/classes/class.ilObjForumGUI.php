@@ -17,7 +17,13 @@ use ILIAS\UI\Renderer;
 class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 {
     /** @var array */
-    private $sortationOptions;
+    private $sortationOptions = array(
+            ilForumProperties::VIEW_TREE => 'sort_by_posts',
+            ilForumProperties::VIEW_DATE_ASC => 'sort_by_date'
+        );
+
+    /** @var array */
+    private $sortingDirectionOptions;
 
     /** @var int */
     private $defaultSorting;
@@ -135,12 +141,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         // Model of current post
         $this->objCurrentPost = new ilForumPost((int)$_GET['pos_pk'], $this->is_moderator);
 
-        $this->sortationOptions = array(
-            ilForumProperties::VIEW_TREE => 'sort_by_posts',
-            ilForumProperties::VIEW_DATE => 'sort_by_date'
+        $this->defaultSorting = $this->objProperties->getDefaultView();
+        $this->sortingDirectionOptions= array(
+            ilForumProperties::VIEW_DATE_ASC =>  $this->lng->txt('ascending_order'),
+            ilForumProperties::VIEW_DATE_DESC => $this->lng->txt('descending_order')
         );
-
-        $this->defaultSorting = ilForumProperties::VIEW_TREE;
     }
 
     protected function initSessionStorage()
@@ -260,7 +265,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE
             ) || !(
                 $_SESSION['viewmode'] == 'date' ||
-                $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE
+                $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_ASC  ||
+                $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC
             );
     }
 
@@ -2445,6 +2451,22 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         return $this->forumObjects;
     }
+	
+	public function checkUsersViewMode()
+	{
+		if (!isset($_SESSION['viewmode'])) {
+			$_SESSION['viewmode'] = $this->objProperties->getDefaultView();
+		}
+		
+		if (isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode']) {
+			$_SESSION['viewmode'] = $_GET['viewmode'];
+		}
+		
+		if (isset($_GET['action']) &&  !in_array($_SESSION['viewmode'],  array( ilForumProperties::VIEW_TREE, ilForumProperties::VIEW_DATE_ASC,  ilForumProperties::VIEW_DATE_DESC)))
+		{
+			$_SESSION['viewmode'] = $this->defaultSorting;
+		}
+	}
 
     public function viewThreadObject()
     {
@@ -2452,9 +2474,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $bottom_toolbar_split_button_items = array();
 
         $this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
-        if (!isset($_SESSION['viewmode'])) {
-            $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
-        }
+        
+        $this->checkUsersViewMode();
 
         // quick and dirty: check for treeview
         if (!isset($_SESSION['thread_control']['old'])) {
@@ -2464,17 +2485,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             if (isset($_SESSION['thread_control']['old']) && $_GET['thr_pk'] != $_SESSION['thread_control']['old']) {
                 $_SESSION['thread_control']['new'] = $_GET['thr_pk'];
             }
-        }
-
-        if (isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode']) {
-            $_SESSION['viewmode'] = $_GET['viewmode'];
-        }
-
-        if ((isset($_GET['action']) && $_SESSION['viewmode'] != ilForumProperties::VIEW_DATE)
-            || ($_SESSION['viewmode'] == ilForumProperties::VIEW_TREE)) {
-            $_SESSION['viewmode'] = ilForumProperties::VIEW_TREE;
-        } else {
-            $_SESSION['viewmode'] = ilForumProperties::VIEW_DATE;
         }
 
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
@@ -2571,12 +2581,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $orderField = 'frm_posts_tree.rgt';
             $this->objCurrentTopic->setOrderDirection('DESC');
         } else {
+	        $order_direction = 'ASC';
+	        if (isset($_SESSION['viewmode']) && $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC) {
+		        $order_direction = 'DESC';
+	        }
+
             $orderField = 'frm_posts.pos_date';
-            $this->objCurrentTopic->setOrderDirection(
-                in_array($this->objProperties->getDefaultView(),
-                    array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_TREE))
-                    ? 'ASC' : 'DESC'
-            );
+			$this->objCurrentTopic->setOrderDirection($order_direction);
         }
 
         $numberOfPostings = 0;
@@ -2882,7 +2893,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $sorting = $this->defaultSorting;
         if (isset($_SESSION['viewmode'])) {
-            $sorting = $_SESSION['viewmode'];
+            $sorting = (in_array($_SESSION['viewmode'],  array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC)) ? ilForumProperties::VIEW_DATE: ilForumProperties::VIEW_TREE);
         }
 
         $translationKeys = array();
@@ -2903,13 +2914,17 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         $sortViewControl = $this->uiFactory
-                               ->viewControl()
-                               ->mode($translationKeys, $this->lng->txt($this->sortationOptions[$sorting]))
-                               ->withActive($this->lng->txt($this->sortationOptions[$sorting]));
+            ->viewControl()
+            ->mode($translationKeys, $this->lng->txt($this->sortationOptions[$sorting]))
+            ->withActive($this->lng->txt($this->sortationOptions[$sorting]));
 
         $this->toolbar->addComponent($sortViewControl);
 
-        $permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_' . $this->objCurrentTopic->getId());
+        if($sorting == ilForumProperties::VIEW_DATE) {
+        	$this->getViewControlItemSortingDateDirection();
+        }
+
+		$permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_' . $this->objCurrentTopic->getId());
         $this->tpl->setVariable('PRMLINK', $permalink->getHTML());
 
         $this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
@@ -2927,6 +2942,27 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         return true;
     }
 
+	public function getViewControlItemSortingDateDirection()
+	{
+		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+		$target = $this->ctrl->getLinkTarget(
+			$this,
+			'viewThread',
+			'',
+			false,
+			false
+		);
+
+		$sortingDirectionViewControl = $this->uiFactory
+			->viewControl()
+			->sortation($this->sortingDirectionOptions)
+			->withLabel($this->lng->txt('sorting'))
+			->withTargetURL($target, 'viewmode');
+
+		$this->toolbar->addComponent($sortingDirectionViewControl);
+	}
+	
     private function getModifiedReOnSubject($on_reply = false)
     {
         $subject = $this->objCurrentPost->getSubject();
