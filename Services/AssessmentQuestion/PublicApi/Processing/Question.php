@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ilAsqQuestionPageGUI;
+use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
@@ -63,11 +66,13 @@ class Question
 
 
     /**
-     * @return QuestionComponent
+     * @return ilAsqQuestionPageGUI
      */
-    public function getQuestionPresentation(?QuestionCommands $question_commands = null) : QuestionComponent
+    public function getQuestionPresentation(?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
     {
-        return $this->getQuestionComponent($question_commands);
+        $question_dto  = $this->getQuestionDto();
+        $play_application_service = new PlayApplicationService($question_dto->getContainerObjId(),$this->actor_user_id,$this->question_config);
+        return $play_application_service->getQuestionPresentation($question_dto,$question_commands);
     }
 
 
@@ -136,17 +141,5 @@ class Question
     }
 
 
-    /**
-     * @param QuestionCommands $question_commands
-     *
-     * @return QuestionComponent
-     */
-    private function getQuestionComponent(?QuestionCommands $question_commands = null) : QuestionComponent
-    {
-        if (is_null($this->question_component)) {
-            $this->question_component = new QuestionComponent($this->getQuestionDto(),$this->question_config,$question_commands);
-        }
 
-        return $this->question_component;
-    }
 }

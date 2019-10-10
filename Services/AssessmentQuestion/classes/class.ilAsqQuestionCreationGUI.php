@@ -126,7 +126,7 @@ class ilAsqQuestionCreationGUI
 
         $guid = $this->questionId->getId();
 
-        $this->authoringApplicationService->CreateQuestion(
+        $this->authoringApplicationService->createQuestion(
             new DomainObjectId($guid),
             $this->contextContainer->getObjId(), 
             null, //new questions get dynamic ids

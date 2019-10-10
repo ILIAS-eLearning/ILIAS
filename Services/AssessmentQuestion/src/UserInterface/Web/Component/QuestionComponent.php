@@ -67,7 +67,7 @@ class QuestionComponent
     }
 
 
-    public function renderHtml($scoreCommand) : string
+    public function renderHtml() : string
     {
         global $DIC;
 
@@ -86,7 +86,7 @@ class QuestionComponent
             $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock('question');
-        $tpl->setVariable('SCORE_COMMAND', $scoreCommand);
+        $tpl->setVariable('SCORE_COMMAND', $this->question_commands->getSubmitCommand());
         $tpl->setVariable('QUESTION_OUTPUT', $this->presenter->generateHtml());
         $tpl->setVariable('BUTTON_TITLE', $DIC->language()->txt('check'));
         $tpl->parseCurrentBlock();

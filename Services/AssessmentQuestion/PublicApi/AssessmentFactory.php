@@ -6,6 +6,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 
 /**
@@ -47,12 +48,13 @@ class AssessmentFactory
      *
      * @param int $container_obj_id
      * @param int $actor_user_id
+     * @param int $question_config
      *
      * @return ProcessingService
      */
-    public function questionProcessing(int $container_obj_id, int $actor_user_id)
+    public function questionProcessing(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
-        return new ProcessingService($container_obj_id,$actor_user_id);
+        return new ProcessingService($container_obj_id,$actor_user_id,$question_config);
     }
 
 

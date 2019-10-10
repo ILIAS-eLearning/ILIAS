@@ -63,12 +63,12 @@ class AuthoringApplicationService {
 	 *
 	 * @return QuestionDto
 	 */
-	public function GetQuestion(string $aggregate_id) : QuestionDto {
+	public function getQuestion(string $aggregate_id) : QuestionDto {
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($aggregate_id));
 		return QuestionDto::CreateFromQuestion($question);
 	}
 
-	public function CreateQuestion(
+	public function createQuestion(
 		DomainObjectId $question_uuid,
 		int $container_id,
 	    ?int $object_id = null,
@@ -86,7 +86,7 @@ class AuthoringApplicationService {
 		  $content_editing_mode));
 	}
 
-	public function SaveQuestion(QuestionDto $question_dto) {
+	public function saveQuestion(QuestionDto $question_dto) {
 		// check changes and trigger them on question if there are any
 		/** @var Question $question */
 		$question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
@@ -135,11 +135,11 @@ class AuthoringApplicationService {
     /**
      * @return QuestionDto[]
      */
-	public function GetQuestions():array {
+	public function getQuestions():array {
 	    $questions = [];
 		$event_store = new QuestionEventStoreRepository();
 	    foreach($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
-            $questions[] = $this->GetQuestion($aggregate_id);
+            $questions[] = $this->getQuestion($aggregate_id);
         }
 	    return $questions;
 	}

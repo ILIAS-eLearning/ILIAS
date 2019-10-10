@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto as QuestionDtoInterface;
+
 
 /**
  * Class QuestionDto
@@ -17,7 +17,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto as QuestionDt
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionDto implements QuestionDtoInterface {
+class QuestionDto  {
 
     const IL_COMPONENT_ID = 'asq';
 
@@ -183,7 +183,7 @@ class QuestionDto implements QuestionDtoInterface {
 	}
 
 	/**
-	 * @return number
+	 * @return int
 	 */
 	public function getContainerObjId()
 	{

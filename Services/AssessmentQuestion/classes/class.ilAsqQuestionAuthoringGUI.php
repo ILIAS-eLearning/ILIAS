@@ -193,7 +193,7 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_HINTS);
 
-                $gui = new ilAsqQuestionHintsEditorGUI($this->authoring_application_service->GetQuestion($this->question_id->getId()),
+                $gui = new ilAsqQuestionHintsEditorGUI($this->authoring_application_service->getQuestion($this->question_id->getId()),
                                                         $this->authoring_application_service);
                 $DIC->ctrl()->forwardCommand($gui);
 

@@ -98,7 +98,7 @@ class ilAsqQuestionHintsEditorGUI
         }
 
         $question = $form->getQuestion();
-        $this->authoring_application_service->SaveQuestion($question);
+        $this->authoring_application_service->saveQuestion($question);
 
         $DIC->ctrl()->redirect($this);
     }

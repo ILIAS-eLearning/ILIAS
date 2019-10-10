@@ -2,6 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
@@ -10,6 +11,8 @@ use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 /**
  * Class ilAsqQuestionPreviewGUI
@@ -22,33 +25,30 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
  */
 class ilAsqQuestionPreviewGUI
 {
+
     const CMD_SHOW_PREVIEW = 'showPreview';
     const CMD_SCORE_PREVIEW = 'scorePreview';
-
     /**
      * @var AuthoringContextContainer
      */
     protected $contextContainer;
-
     /**
      * @var AssessmentEntityId
      */
     protected $questionId;
-
     /**
      * @var AuthoringApplicationService
      */
     protected $authoringApplicationService;
-
     /**
      * @var AuthoringService
      */
     protected $publicAuthoringService;
-
     /**
      * @var QuestionComponent
      */
     protected $questionComponent;
+
 
     /**
      * ilAsqQuestionCreationGUI constructor.
@@ -60,8 +60,7 @@ class ilAsqQuestionPreviewGUI
         AssessmentEntityId $questionId,
         AuthoringService $publicAuthoringService,
         AuthoringApplicationService $authoringApplicationService
-    )
-    {
+    ) {
         $this->contextContainer = $contextContainer;
         $this->questionId = $questionId;
         $this->publicAuthoringService = $publicAuthoringService;
@@ -71,10 +70,10 @@ class ilAsqQuestionPreviewGUI
 
     public function executeCommand()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var ILIAS\DI\Container $DIC */
 
-        switch( $DIC->ctrl()->getNextClass() )
-        {
+        switch ($DIC->ctrl()->getNextClass()) {
             case strtolower(self::class):
             default:
 
@@ -83,26 +82,31 @@ class ilAsqQuestionPreviewGUI
         }
     }
 
+
     public function showPreview()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
-        if( $this->questionComponent === null )
-        {
-            $this->questionComponent = $this->publicAuthoringService->questionComponent($this->questionId);
-        }
+        $question_dto = $this->authoringApplicationService->getQuestion($this->questionId->getId());
 
-        $qstPageGUI = $this->publicAuthoringService->getQuestionPage(
-            $this->questionComponent, self::CMD_SCORE_PREVIEW
-        );
+        $question_commands = new QuestionCommands();
+        $question_commands->setShowFeedbackCommand(self::CMD_SCORE_PREVIEW);
+
+        $question_config = new QuestionConfig();
+        $question_config->setFeedbackOnDemand(true);
+
+        $play_application_service = new PlayApplicationService($question_dto->getContainerObjId(), $DIC->user()->getId(), $question_config);
+        $question_page = $play_application_service->getQuestionPresentation($question_dto, $question_commands);
 
         $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
 
         $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW));
-        $tpl->setVariable('QUESTION_OUTPUT', $qstPageGUI->preview());
+        $tpl->setVariable('QUESTION_OUTPUT', $question_page->preview());
 
         $DIC->ui()->mainTemplate()->setContent($tpl->get());
     }
+
 
     public function scorePreview()
     {
@@ -127,7 +131,7 @@ class ilAsqQuestionPreviewGUI
         $scoring_class = QuestionPlayConfiguration::getScoringClass($this->questionComponent->getQuestionDto()->getPlayConfiguration());
         $scoring = new $scoring_class($this->questionComponent->getQuestionDto());
 
-        ilUtil::sendInfo("Score: ".$scoring->score($answer));
+        ilUtil::sendInfo("Score: " . $scoring->score($answer));
 
         $this->showPreview();
     }

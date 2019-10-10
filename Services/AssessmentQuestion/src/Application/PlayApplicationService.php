@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Application;
 
+use ilAsqQuestionPageGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -10,6 +11,9 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Command\AnswerQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 const MSG_SUCCESS = "success";
 
@@ -61,6 +65,29 @@ class PlayApplicationService
     public function AnswerQuestion(Answer $answer)
     {
         CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
+    }
+
+    /**
+     * @return ilAsqQuestionPageGUI
+     */
+    public function getQuestionPresentation(QuestionDto $question_dto, ?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
+    {
+        global $DIC;
+
+        $question_component = new QuestionComponent($question_dto,$this->question_config,$question_commands);
+
+        $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE,$question_dto->getContainerObjId(),$question_dto->getQuestionIntId(),$DIC->language()->getDefaultLanguage());
+        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
+
+        $page_gui->setRenderPageContainer(false);
+        $page_gui->setEditPreview(true);
+        $page_gui->setEnabledTabs(false);
+
+        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
+
+        $page_gui->setPresentationTitle($question_dto->getData()->getTitle());
+
+        return $page_gui;
     }
 
 
@@ -119,4 +146,6 @@ class PlayApplicationService
         $repository = new PublishedQuestionRepository();
         return $repository->getQuestionsByContainer($this->container_obj_id);
     }
+
+
 }

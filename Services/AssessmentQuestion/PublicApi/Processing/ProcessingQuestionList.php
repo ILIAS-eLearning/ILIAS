@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
 
 class ProcessingQuestionList implements QuestionList

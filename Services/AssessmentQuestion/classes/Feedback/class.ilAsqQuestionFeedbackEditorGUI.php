@@ -79,7 +79,7 @@ class ilAsqQuestionFeedbackEditorGUI
                     $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK)
                 );
 
-                $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
+                $question = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
                 $gui = new \ilAsqGenericFeedbackPageGUI($question);
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
@@ -102,7 +102,7 @@ class ilAsqQuestionFeedbackEditorGUI
                     $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK)
                 );
 
-                $question = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
+                $question = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
                 $gui = new \ilAsqAnswerOptionFeedbackPageGUI($question);
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
@@ -153,7 +153,7 @@ class ilAsqQuestionFeedbackEditorGUI
         }
 
         $question = $form->getQuestion();
-        $this->authoringApplicationService->SaveQuestion($question);
+        $this->authoringApplicationService->saveQuestion($question);
 
         ilutil::sendSuccess("Question Saved", true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK);
@@ -169,7 +169,7 @@ class ilAsqQuestionFeedbackEditorGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $question_dto = $this->authoringApplicationService->GetQuestion($this->questionUid->getId());
+        $question_dto = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
         if(!is_object($question_dto->getFeedback())) {
             $question_dto->setFeedback(new Feedback());
         }

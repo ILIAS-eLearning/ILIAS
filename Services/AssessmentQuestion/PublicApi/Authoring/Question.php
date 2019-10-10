@@ -5,9 +5,9 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ilAsqQuestionAuthoringGUI;
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
@@ -91,7 +91,7 @@ class Question
 
     public function getQuestionDto() : QuestionDto
     {
-        return $this->authoring_application_service->GetQuestion(
+        return $this->authoring_application_service->getQuestion(
             $this->question_id
         );
     }
