@@ -121,7 +121,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		if ($seed_str == "")
 		{
-			$this->seed = new ilDate(time(),IL_CAL_UNIX);	// @todo: check this
+			$now = new \ilDate(time(), IL_CAL_UNIX);
+			$this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
 		}
 		else
 		{

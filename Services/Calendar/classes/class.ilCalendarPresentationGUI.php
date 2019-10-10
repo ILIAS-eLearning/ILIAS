@@ -850,7 +850,8 @@ class ilCalendarPresentationGUI
 	public function initSeed()
 	{
 		// default to today
-		$this->seed = new ilDate(time(), IL_CAL_UNIX);
+		$now = new \ilDate(time(), IL_CAL_UNIX);
+		$this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
 		if(array_key_exists('seed',$_REQUEST))
 		{
 			$this->seed = new ilDate($_GET['seed'],IL_CAL_DATE);
