@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIS\AssessmentQuestion\Application;
+namespace ILIAS\AssessmentQuestion\Application;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;

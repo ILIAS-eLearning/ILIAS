@@ -8,7 +8,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class AuthoringService

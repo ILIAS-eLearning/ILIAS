@@ -5,7 +5,7 @@
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**

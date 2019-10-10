@@ -9,7 +9,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class QuestionAuthoring
