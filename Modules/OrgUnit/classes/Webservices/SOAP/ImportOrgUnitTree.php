@@ -63,7 +63,7 @@ class ImportOrgUnitTree extends Base
      */
     public function getName()
     {
-        return "importOrgUnitTree";
+        return "importOrgUnitsSimpleXML";
     }
 
 
@@ -90,6 +90,6 @@ class ImportOrgUnitTree extends Base
      */
     public function getDocumentation()
     {
-        return "Imports ILIAS Organisational Units";
+        return "Imports ILIAS Organisational Units (SimpleXML)";
     }
 }

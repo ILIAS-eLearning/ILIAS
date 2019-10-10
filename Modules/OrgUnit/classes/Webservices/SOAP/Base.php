@@ -2,15 +2,20 @@
 
 namespace ILIAS\OrgUnit\Webservices\SOAP;
 
-use ilAbstractSoapMethod;
+require_once('./webservice/soap/classes/class.ilSoapAdministration.php');
+require_once('./Services/WebServices/SOAP/classes/class.ilSoapPluginException.php');
+
 use ilOrgUnitSOAPServicesPlugin;
+use ilSoapAdministration;
+use ilSoapMethod;
+use ilSoapPluginException;
 
 /**
  * Class Base
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class Base extends ilAbstractSoapMethod
+abstract class Base extends ilSoapAdministration implements ilSoapMethod
 {
 
     /**
@@ -25,6 +30,62 @@ abstract class Base extends ilAbstractSoapMethod
     const POSITION_ID = 'position_id';
     const USR_IDS = 'usr_ids';
     const USR_ID = 'usr_id';
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getServiceStyle()
+    {
+        return 'rpc';
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getServiceUse()
+    {
+        return 'encoded';
+    }
+
+
+    /**
+     * Use this method at the beginning of your execute() method to check if the provided session ID is valid.
+     * This method wraps around ilSoapAdministration::initAuth() and ilSoapAdministration::initILIAS()
+     * which are both required in order to handle the request.
+     *
+     * @param string $session_id
+     *
+     * @throws ilSoapPluginException
+     */
+    protected function initIliasAndCheckSession($session_id)
+    {
+        $this->initAuth($session_id);
+        $this->initIlias();
+        if (!$this->__checkSession($session_id)) {
+            throw new ilSoapPluginException($this->__getMessage());
+        }
+    }
+
+
+    /**
+     * Check that all input parameters are present when executing the soap method
+     *
+     * @param array $params
+     *
+     * @throws ilSoapPluginException
+     */
+    protected function checkParameters(array $params)
+    {
+        for ($i = 0; $i < count($this->getInputParams()); $i++) {
+            if (!isset($params[$i])) {
+                $names = implode(', ', array_keys($this->getInputParams()));
+                throw new ilSoapPluginException("Request is missing at least one of the following parameters: $names");
+            }
+        }
+    }
+
 
 
     /**
@@ -67,7 +128,7 @@ abstract class Base extends ilAbstractSoapMethod
      * @param array $params
      *
      * @return mixed
-     * @throws \ilSoapPluginException
+     * @throws ilSoapPluginException
      */
     public function execute(array $params)
     {
@@ -89,18 +150,18 @@ abstract class Base extends ilAbstractSoapMethod
     /**
      * @param $message
      *
-     * @throws \ilSoapPluginException
+     * @return \soap_fault|\SoapFault
      */
     protected function error($message)
     {
-        throw new \ilSoapPluginException($message);
+        return $this->__raiseError($message, 1);
     }
 
 
     /**
      * @param $session_id
      *
-     * @throws \ilSoapPluginException
+     * @throws ilSoapPluginException
      */
     private function init($session_id)
     {

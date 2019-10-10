@@ -7,6 +7,7 @@ use ILIAS\OrgUnit\Webservices\SOAP\OrgUnitTree;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionIds;
 use ILIAS\OrgUnit\Webservices\SOAP\PositionTitle;
 use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
 use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
@@ -1145,7 +1146,7 @@ class ilSoapFunctions {
 
 
 	public static function getSuperiorPositionId(...$params) {
-		$h = new RemoveUserIdFromPositionInOrgUnit();
+		$h = new SuperiorPositionId();
 
 		return $h->execute($params);
 	}
