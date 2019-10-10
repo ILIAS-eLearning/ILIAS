@@ -7,7 +7,7 @@ declare(strict_types=1);
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableAnswerSpecificFeedbacks;

@@ -31,8 +31,8 @@ class ImageMapQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            ImageMapEditorConfiguration::readConfig(),
-            MultipleChoiceScoringConfiguration::readConfig());
+            ImageMapEditor::readConfig(),
+            MultipleChoiceScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

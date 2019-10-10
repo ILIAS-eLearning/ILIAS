@@ -4,7 +4,7 @@
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionHintFormGUI;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class ilAsqQuestionHintsEditorGUI

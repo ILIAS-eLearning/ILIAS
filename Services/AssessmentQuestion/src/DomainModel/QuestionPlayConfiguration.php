@@ -123,6 +123,6 @@ class QuestionPlayConfiguration extends AbstractValueObject {
         $dd_class = QuestionPlayConfiguration::getEditorClass($this)::getDisplayDefinitionClass();
         
         
-        return (count($dd_class::getFields()) + count($sd_class::getFields())) > 0;
+        return (count($dd_class::getFields($this)) + count($sd_class::getFields($this))) > 0;
     }
 }

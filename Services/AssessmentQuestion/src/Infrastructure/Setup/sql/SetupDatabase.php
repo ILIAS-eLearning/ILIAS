@@ -112,12 +112,17 @@ class SetupDatabase {
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
+        if( $DIC->database()->tableColumnExists('tst_test_question', 'question_uid') )
+        {
+            $DIC->database()->dropTableColumn('tst_test_question', 'question_uid');
+        }
+
         if( !$DIC->database()->tableColumnExists('tst_test_question', 'question_uid') )
         {
             $DIC->database()->addTableColumn('tst_test_question', 'question_uid', array(
                 'type' => 'text',
                 'notnull' => false,
-                'length' => 255,
+                'length' => 64,
                 'default' => ''
             ));
         }

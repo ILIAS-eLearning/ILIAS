@@ -5,7 +5,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 class AuthoringQuestionList implements QuestionList
 {
