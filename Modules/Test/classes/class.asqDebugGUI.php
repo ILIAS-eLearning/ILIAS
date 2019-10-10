@@ -3,6 +3,7 @@
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
@@ -52,8 +53,15 @@ class asqDebugGUI
         $this->authoring_service = $DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
         $this->entity_id_builder = $DIC->assessment()->entityIdBuilder();
         $this->back_link = $DIC->ui()->factory()->link()->standard('Back', $DIC->ctrl()->getLinkTarget($this));
+        $question_config = new QuestionConfig();
+        $question_config->setFeedbackForAnswerOption(true);
+        $question_config->setFeedbackOnDemand(true);
+        $question_config->setFeedbackOnSubmit(true);
+        $question_config->setFeedbackShowCorrectSolution(true);
+        $question_config->setFeedbackShowScore(true);
+        $question_config->setHintsActivated(true);
 
-        $this->processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
+        $this->processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(),$question_config);
     }
 
 

@@ -176,7 +176,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 		return false;
 	}
 
-	public function registerCreatedQuestion(\ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto $questionDto)
+	public function registerCreatedQuestion(\ILIAS\AssessmentQuestion\DomainModel\QuestionDto $questionDto)
     {
         $result = $this->db->queryF(
 		    "SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi = %s",
