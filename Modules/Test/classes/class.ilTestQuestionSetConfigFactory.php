@@ -112,4 +112,22 @@ class ilTestQuestionSetConfigFactory
 
 		return $this->testQuestionSetConfig;
 	}
+
+
+    /**
+     * @param ilObjTest $testOBJ
+     *
+     * @return ilTestQuestionSetConfigFactory
+     */
+	public static function getInstance(ilObjTest $testOBJ) : self
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        return new self(
+            $DIC->repositoryTree(),
+            $DIC->database(),
+            $DIC['ilPluginAdmin'],
+            $testOBJ
+        );
+    }
 }

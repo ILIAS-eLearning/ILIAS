@@ -34,7 +34,18 @@ class ProcessingQuestionList implements QuestionList
 
     public function getQuestionsOfContainerAsAssocArray() : array
     {
-        // TODO: Implement getQuestionsOfContainerAsAssocArray() method.
+        $questions = [];
+
+        foreach($this->getQuestionsOfContainerAsDtoList() as $questionDto)
+        {
+            $questions[] = [
+                //'question_id' => $questionDto->getQuestionIntId(),
+                'title' => $questionDto->getData()->getTitle(),
+                'description' => $questionDto->getData()->getDescription(),
+            ];
+        }
+
+        return $questions;
     }
 
 

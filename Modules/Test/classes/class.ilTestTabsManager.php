@@ -23,8 +23,14 @@ class ilTestTabsManager
 	const TAB_ID_META_DATA = 'meta_data';
 	const TAB_ID_EXPORT = 'export';
 	const TAB_ID_PERMISSIONS = 'perm_settings';
-	
-	const TAB_ID_EXAM_DASHBOARD = 'dashboard_tab';
+
+    const TAB_ID_QUESTIONS = 'questions_tab';
+    const SUBTAB_ID_EXPRESSPAGE = 'expresspage';
+    const SUBTAB_ID_QUESTIONS = 'questions';
+    const SUBTAB_ID_PRINTVIEW = 'printview';
+    const SUBTAB_ID_REVIEW = 'review';
+
+    const TAB_ID_EXAM_DASHBOARD = 'dashboard_tab';
 	const SUBTAB_ID_FIXED_PARTICIPANTS = 'fixedparticipants';
 	const SUBTAB_ID_TIME_EXTENSION = 'timeextension';
 	
@@ -110,13 +116,7 @@ class ilTestTabsManager
 	 */
 	public function activateTab($tabId)
 	{
-		switch($tabId)
-		{
-			case self::TAB_ID_EXAM_DASHBOARD:
-			case self::TAB_ID_RESULTS:
-				
-				$this->tabs->activateTab($tabId);
-		}
+        $this->tabs->activateTab($tabId);
 	}
 	
 	/**
@@ -124,20 +124,7 @@ class ilTestTabsManager
 	 */
 	public function activateSubTab($subTabId)
 	{
-		switch($subTabId)
-		{
-			case self::SUBTAB_ID_FIXED_PARTICIPANTS:
-			case self::SUBTAB_ID_TIME_EXTENSION:
-				
-			case self::SUBTAB_ID_PARTICIPANTS_RESULTS:
-			case self::SUBTAB_ID_MY_RESULTS:
-			case self::SUBTAB_ID_LO_RESULTS:
-			case self::SUBTAB_ID_HIGHSCORE:
-			case self::SUBTAB_ID_SKILL_RESULTS:
-			case self::SUBTAB_ID_MY_SOLUTIONS:
-				
-				$this->tabs->activateSubTab($subTabId);
-		}
+        $this->tabs->activateSubTab($subTabId);
 	}
 	
 	/**
@@ -520,7 +507,15 @@ class ilTestTabsManager
 					$target = $DIC->ctrl()->getLinkTargetByClass(
 						'ilTestExpresspageObjectGUI','showPage'
 					);
-					break;
+
+					////////////////////////////////////////////////////////////
+					// TODO: remove when page view works with asq
+                    $target = $DIC->ctrl()->getLinkTargetByClass(
+                        'ilObjTestGUI','questions'
+                    );
+                    ////////////////////////////////////////////////////////////
+
+                    break;
 				
 				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 					$target = $DIC->ctrl()->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
@@ -531,19 +526,9 @@ class ilTestTabsManager
 					break;
 					
 				default: $target = '';
-			} 
-			
-			$this->tabs->addTarget("assQuestions",
-				$target,
-				array("questions", "browseForQuestions", "questionBrowser", "createQuestion",
-					"randomselect", "filter", "resetFilter", "insertQuestions",
-					"back", "createRandomSelection", "cancelRandomSelect",
-					"insertRandomSelection", "removeQuestions", "moveQuestions",
-					"insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-					"cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					"addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode", "print",
-					"addsource", "removesource", "randomQuestions"),
-				"", "", $force_active);
+			}
+
+            $this->tabs->addTab(self::TAB_ID_QUESTIONS, $DIC->language()->txt('assQuestions'), $target);
 		}
 		
 		// info tab
@@ -770,47 +755,37 @@ class ilTestTabsManager
         ///////////////////
         //////////////////
 
-		$this->tabs->activateTab('assQuestions');
+		$this->tabs->activateTab(self::TAB_ID_QUESTIONS);
 		$a_cmd = $DIC->ctrl()->getCmd();
 		
 		if (!$this->getTestOBJ()->isRandomTest())
 		{
-			$questions_per_page = ($a_cmd == 'questions_per_page' || ($a_cmd == 'removeQuestions' && $_REQUEST['test_express_mode'])) ? true : false;
-			
-			$this->tabs->addSubTabTarget(
-				"questions_per_page_view",
-				$DIC->ctrl()->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage'),
-				"", "", "", $questions_per_page);
+			$this->tabs->addSubTab(self::SUBTAB_ID_EXPRESSPAGE,
+				$DIC->language()->txt('questions_per_page_view'),
+				$DIC->ctrl()->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage')
+            );
 		}
+
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
 		
-		if (!$this->isHiddenTab('questions')) {
-			// questions subtab
-			$this->tabs->addSubTabTarget("edit_test_questions",
-				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','questions'),
-				array("questions", "browseForQuestions", "questionxBrowser", "createQuestion",
-					"randomselect", "filter", "resetFilter", "insertQuestions",
-					"back", "createRandomSelection", "cancelRandomSelect",
-					"insertRandomSelection", "removeQuestions", "moveQuestions",
-					"insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-					"cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					"addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"),
-				"");
-			
-			if (in_array($a_cmd, array('questions', 'createQuestion')) || ($a_cmd == 'removeQuestions' && !$_REQUEST['test_express_mode']))
-				$this->tabs->activateSubTab('edit_test_questions');
+		if (!$this->isHiddenTab(self::SUBTAB_ID_QUESTIONS))
+        {
+			$this->tabs->addSubTab(self::SUBTAB_ID_QUESTIONS,$DIC->language()->txt('edit_test_questions'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','questions')
+            );
 		}
 		
 		// print view subtab
 		if (!$this->getTestOBJ()->isRandomTest())
 		{
-			$this->tabs->addSubTabTarget("print_view",
-				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','print'),
-				"print", "", "", $DIC->ctrl()->getCmd() == 'print');
-			$this->tabs->addSubTabTarget('review_view',
-				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI', 'review'),
-				'review', '', '', $DIC->ctrl()->getCmd() == 'review');
+			$this->tabs->addSubTab(self::SUBTAB_ID_PRINTVIEW, $DIC->language()->txt('print_view'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','print')
+            );
+
+			$this->tabs->addSubTab(self::SUBTAB_ID_REVIEW, $DIC->language()->txt('review_view'),
+				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI', 'review')
+            );
 		}
 	}
 	
