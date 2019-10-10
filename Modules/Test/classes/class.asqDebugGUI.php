@@ -68,7 +68,8 @@ class asqDebugGUI
             case strtolower(ilAsqQuestionAuthoringGUI::class):
                 //Get the specific question authoring service
                 $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getAuthoringGUI(
-                    $this->back_link, $_GET['ref_id'], 'tst', true
+                    $this->back_link, $_GET['ref_id'], 'tst', true,
+                    [ilObjTestGUI::class], ilObjTestGUI::CMD_REGISTER_CREATED_QUESTION
                 );
                 $DIC->ctrl()->forwardCommand($authoring_gui);
                 break;
@@ -165,9 +166,9 @@ class asqDebugGUI
         ]);
 
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-        $btn = ilLinkButton::getInstance();
+        $btn = ilJsLinkButton::getInstance();
         $btn->setCaption($creationLinkComponent->getLabel(), false);
-        $btn->setUrl($creationLinkComponent->getAction());
+        $btn->setOnClick('alert(\'\nBUTTON DEPRECATED :-)\n\nPlease use:\n\nQuestions > List View > Create Question\');');
         $btn->setPrimary(true);
         $DIC->toolbar()->addButtonInstance($btn);
 
