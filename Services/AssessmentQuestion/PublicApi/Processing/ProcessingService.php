@@ -66,6 +66,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id);
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->question_config);
     }
 }
