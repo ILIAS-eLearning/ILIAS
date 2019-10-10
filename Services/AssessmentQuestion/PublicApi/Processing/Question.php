@@ -33,9 +33,9 @@ class Question
 
 
     /**
-     * @return QuestionFormDto
+     * @return QuestionForm
      */
-    public function getQuestionPresentation() : QuestionFormDto
+    public function getQuestionPresentation() : QuestionForm
     {
         // TODO: Implement GetQuestionPresentation() method.
     }

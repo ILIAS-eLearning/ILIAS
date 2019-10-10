@@ -10,6 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Command\AnswerQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 const MSG_SUCCESS = "success";
 
 /**
@@ -33,6 +34,11 @@ class PlayApplicationService
      * @var int
      */
     protected $actor_user_id;
+    /**
+     * @var QuestionConfig
+     */
+    protected $question_config;
+
 
 
     /**
@@ -41,10 +47,11 @@ class PlayApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id)
+    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        $this->question_config = $question_config;
     }
 
 

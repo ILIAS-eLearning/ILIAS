@@ -60,7 +60,6 @@ class ilAsqQuestionPreviewGUI
         AssessmentEntityId $questionId,
         AuthoringService $publicAuthoringService,
         AuthoringApplicationService $authoringApplicationService
-
     )
     {
         $this->contextContainer = $contextContainer;

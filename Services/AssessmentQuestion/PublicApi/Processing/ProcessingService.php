@@ -5,6 +5,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
 use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 /**
  * Class ServiceFactory
@@ -24,32 +25,35 @@ class ProcessingService
      */
     protected $actor_user_id;
     /**
-     * @var PlayApplicationService
+     * @var QuestionConfig
      */
-    protected $processing_application_service;
+    protected $question_config;
+
 
 
     /**
-     * @param int $container_obj_id
-     * @param int $actor_user_id
+     * ProcessingService constructor.
+     *
+     * @param int            $container_obj_id
+     * @param int            $actor_user_id
+     * @param QuestionConfig $question_config
      */
-    public function __construct(int $container_obj_id, int $actor_user_id)
+    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        $this->question_config = $question_config;
 
-        $this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id);
+        //$this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id, $question_config);
     }
 
 
     /**
      * @param string $question_revision_uuid
-     * @param int    $actor_user_id
-     * @param string $userAnswerUuid
      *
      * @return Question
      */
-    public function question(AssessmentEntityId $question_revision_id, AssessmentEntityId $user_answer_id) : Question
+    public function question(AssessmentEntityId $question_revision_id) : Question
     {
         return new Question($question_revision_id, $this->actor_user_id, $user_answer_id);
     }
