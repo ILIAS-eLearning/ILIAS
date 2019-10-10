@@ -22,7 +22,7 @@ class ProcessingService
     /**
      * @var int
      */
-    protected $consumer_obj_id;
+    protected $container_obj_id;
     /**
      * @var int
      */
@@ -37,13 +37,13 @@ class ProcessingService
     /**
      * ProcessingService constructor.
      *
-     * @param int            $consumer_obj_id
+     * @param int            $container_obj_id
      * @param int            $actor_user_id
      * @param QuestionConfig $question_config
      */
-    public function __construct(int $consumer_obj_id, int $actor_user_id, QuestionConfig $question_config)
+    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
-        $this->consumer_obj_id = $consumer_obj_id;
+        $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->question_config = $question_config;
 
