@@ -154,6 +154,9 @@ class ModificationHandler
      */
     private function replaceWithAutoWiredInstance(string $interface, Closure $closure) : void
     {
+        //var_dump($closure);
+        //var_dump('--------------------------------------------------');
+
         $this->current_page_part_provider = new DecoratedPagePartProvider($this->current_page_part_provider, $closure, $interface);
     }
 }

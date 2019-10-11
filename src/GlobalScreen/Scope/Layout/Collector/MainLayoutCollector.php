@@ -106,7 +106,10 @@ class MainLayoutCollector
         $final_page_modification = new NullModification();
         $final_footer_modification = new NullModification();
 
+//var_dump($this->providers);
         foreach ($this->providers as $provider) {
+            var_dump(get_class($provider));
+
             $context_collection = $provider->isInterestedInContexts();
             if (!$context_collection->hasMatch($called_contexts)) {
                 continue;
@@ -133,6 +136,17 @@ class MainLayoutCollector
             // PAGE
             $page_modification = $provider->getPageBuilderDecorator($called_contexts);
             $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
+
+            if(get_class($provider) !== "ILIAS\GlobalScreen\Provider\GSModificationProvider") { //TODO: raus
+
+              $short_title_modification = $provider->getShortTitleModification($called_contexts);
+              $this->replaceModification($final_page_modification, $short_title_modification, 'stitle');
+
+//var_dump($final_page_modification);
+//var_dump(get_class($short_title_modification));
+
+            }
+
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -158,6 +172,7 @@ class MainLayoutCollector
         }
 
         return $this->modification_handler->getPageWithPagePartProviders();
+die('stop');
     }
 
 

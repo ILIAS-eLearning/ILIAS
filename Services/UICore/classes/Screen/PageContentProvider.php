@@ -26,7 +26,14 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
      * @var string
      */
     private static $perma_link = "";
-
+    /**
+     * @var string
+     */
+    private static $short_title = "";
+    /**
+     * @var string
+     */
+    private static $view_title = "";
 
     /**
      * @param string $content
@@ -34,6 +41,22 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     public static function setContent(string $content) : void
     {
         self::$content = $content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setShortTitle(string $short_title) : void
+    {
+        self::$short_title = $short_title;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setViewTitle(string $view_title) : void
+    {
+        self::$view_title = $view_title;
     }
 
 
@@ -62,8 +85,19 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     {
         return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
             $ui = $this->dic->ui();
+            return $ui->factory()->legacy(
+                $ui->renderer()->render($content) .self::$content
+            );
+        })->withLowPriority();
+    }
 
-            return $ui->factory()->legacy($ui->renderer()->render($content) . self::$content);
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ContentModification
+    {
+        //die(self::$short_title);
+        return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
+            //$this->globalScreen()->layout()->factory()->short_title()
+            $ui = $this->dic->ui();
+            return $ui->factory()->legacy(self::$short_title);
         })->withLowPriority();
     }
 

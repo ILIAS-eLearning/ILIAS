@@ -173,4 +173,29 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return $this->ui->factory()->mainControls()->footer([]);
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getTitle() : string
+    {
+        return 'title';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getShortTitle() : string
+    {
+        return 'short';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getViewTitle() : string
+    {
+        return 'view';
+    }
 }
