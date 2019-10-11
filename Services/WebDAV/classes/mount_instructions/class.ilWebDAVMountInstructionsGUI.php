@@ -1,12 +1,9 @@
 <?php
 
-include_once "Services/WebDAV/classes/class.ilWebDAVMountInstructions.php";
-
 /**
  * Class ilWebDAVMountInstructionsGUI
  *
- * This class represents the GUI for the WebDAV mount instructions page. It uses the ilWebDAVMountInstructions to
- * generate its content
+ * This class delivers or prints a representation of the mount instructions
  *
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
@@ -26,58 +23,71 @@ class ilWebDAVMountInstructionsGUI {
     {
         $this->mount_instruction = new ilWebDAVMountInstructions();
     }
-    
-    public function showMountInstructionPage()
-    {
-        global $DIC;
-        
-        $instruction_tpl = $this->getInstructionTemplate();
-        $instruction_text = $this->mount_instruction->setInstructionPlaceholders($instruction_tpl);
-        $this->displayInstructionPage($instruction_text);
-        
-        exit;
-    }
-    
-    protected function displayInstructionPage($instruction_text)
-    {
-        global $DIC;
-        
-        header('Content-Type: text/html; charset=UTF-8');
-        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
-        echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
-        echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-        echo "  <head>\n";
-        echo "  <title>".sprintf($DIC->language()->txt('webfolder_instructions_titletext'), $this->mount_instruction->getWebfolderTitle())."</title>\n";
-        echo "  </head>\n";
-        echo "  <body>\n";
-        echo $instruction_text;
-        echo "  </body>\n";
-        echo "</html>\n";
-    }
-    
-    protected function getInstructionTemplate()
-    {
-        global $DIC;
 
-        $settings = new ilSetting('file_access');
-        $instruction_tpl = '';
-        
-        if($this->mount_instruction->instructionsTplFileExists())
+    public function getMountInstructionsGetRequestParameter()
+    {
+        return 'mount-instructions';
+    }
+
+    protected function getModalBaseURI()
+    {
+        global $DIC;
+        $uri = $DIC->http()->request()->getUri();
+
+        $base_uri = $uri->getScheme() . '://' . $uri->getHost() . '/trunk/webdav.php/' . CLIENT_ID;
+        return $base_uri;
+        // TODO: Replace mock with real URI
+        //return "https://" . $_SERVER["HTTP_HOST"] . "/webdav.php/" . CLIENT_ID;
+        return "http://localhost/trunk/webdav.php/" . CLIENT_ID;
+    }
+
+    protected function getModalURIByRef(int $ref_id)
+    {
+        return $this->getModalBaseURI() . "/$ref_id?".$this->getMountInstructionsGetRequestParameter();
+    }
+
+    protected function getModalURIByLanguage(string $lng)
+    {
+        if(strlen($lng) == 2)
         {
-            $instruction_tpl = $this->mount_instruction->getInstructionsFromTplFile();
-            
+            return $this->getModalBaseURI() . "/$lng?".$this->getMountInstructionsGetRequestParameter();
         }
-        else if($settings->get('custom_webfolder_instructions_enabled'))
+        else
         {
-            $instruction_tpl = $this->mount_instruction->getCustomInstruction();
+            throw new InvalidArgumentException("Language id should be exactly 2 characters");
         }
-        
-        if(strlen($instruction_tpl) == 0)
+    }
+
+    public function getAsyncMountInstructionModalByLanguage(string $lng) : \ILIAS\UI\Component\Modal\Modal
+    {
+        global $DIC;
+        $modal = new ilWebDAVMountInstructionsModalGUI($this->mount_instruction, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
+        return $modal->getAsAsyncModal($this->getModalURIByLanguage($lng));
+    }
+
+    public function renderMontInstructionModal()
+    {
+        global $DIC;
+        $uri = $DIC->http()->request()->getUri();
+        $splitted_uri = explode('/', $uri->getPath());
+
+        // Remove paht elements before webdav script
+        while($value = array_shift($splitted_uri) != 'webdav.php');
+
+        $client_id = array_shift($splitted_uri);
+        $path_value = array_shift($splitted_uri);
+
+        $modal = new ilWebDAVMountInstructionsModalGUI($this->mount_instruction, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
+        $modal->printMountInstructionModalAndExit();
+
+        /**
+        if(str_len($path_value) == 2)
         {
-            $instruction_tpl = $this->mount_instruction->getDefaultInstruction();
+            $this->renderModalByLanguage($path_value);
         }
-        
-        return utf8_encode($instruction_tpl);
+        else if (substr($path_value, 0, 3) == 'ref_')
+        {
+        }
+         * */
     }
 }

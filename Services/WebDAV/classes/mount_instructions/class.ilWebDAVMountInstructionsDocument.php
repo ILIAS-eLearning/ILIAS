@@ -136,5 +136,4 @@ final class ilWebDAVMountInstructionsDocument
     {
         return $this->sorting;
     }
-
 }

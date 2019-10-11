@@ -12,12 +12,12 @@
 // -----------------------------------------------------
 // Retrieve the client id from PATH_INFO
 // Component 1 contains the ILIAS client_id.
+require_once("Services/Init/classes/class.ilInitialisation.php");
 $path_info_components = explode('/',$_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);
 
 // Set context for authentication
-include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
 ilAuthFactory::setContext(ilAuthFactory::CONTEXT_HTTP);
 
 // Launch ILIAS using the client id we have determined
@@ -25,7 +25,6 @@ $_GET["client_id"] = $client_id;
 include_once "Services/Context/classes/class.ilContext.php";
 $context =  ilContext::CONTEXT_WEBDAV;
 ilContext::init($context);
-require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
 if(!ilDAVActivationChecker::_isActive())
@@ -39,18 +38,16 @@ if(!ilDAVActivationChecker::_isActive())
     exit;
 }
 
-if(!$show_mount_instr)
+if($show_mount_instr)
 {
-    // Launch the WebDAV Server
-    include_once "Services/WebDAV/classes/class.ilWebDAVRequestHandler.php";
-    $server =  ilWebDAVRequestHandler::getInstance();
-    $server->handleRequest();
+    // Show mount instructions page for WebDAV
+    $mount_gui = new ilWebDAVMountInstructionsGUI();
+    $mount_gui->renderMontInstructionModal();
 }
 else
 {
-    // Show mount isntructions page for WebDAV
-    include_once "Services/WebDAV/classes/class.ilWebDAVMountInstructionsGUI.php";
-    $mount_gui = new ilWebDAVMountInstructionsGUI();
-    $mount_gui->showMountInstructionPage();
+    // Launch the WebDAV Server
+    $server =  ilWebDAVRequestHandler::getInstance();
+    $server->handleRequest();
 }
 ?>
