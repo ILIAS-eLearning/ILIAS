@@ -116,6 +116,14 @@ class AuthoringApplicationService {
 			// save changes if there are any
 			CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
 		}
+
+        /**
+         * TODO: move this to event subscriber?
+         *
+         * this probably gets moved, but for the moment we keep an
+         * project on any question creation at this place
+         */
+        $this->projectQuestion($question_dto->getId());
 	}
 
 	public function projectQuestion(string $question_id) {
