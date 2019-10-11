@@ -204,7 +204,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
     {
         $sorts = $filter->getSorts();
 
-        if (!empty($sorts)) {
+        if (empty($sorts)) {
             return '';
         }
 
