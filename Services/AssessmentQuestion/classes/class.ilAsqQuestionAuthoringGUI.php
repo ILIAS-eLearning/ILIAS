@@ -402,7 +402,7 @@ class ilAsqQuestionAuthoringGUI
 
         $question = $player->GetQuestion($revision_id);
         
-        $question_component = new QuestionComponent($question);
+        $question_component = new QuestionComponent($question,$this->question_config,new \ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands());
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":

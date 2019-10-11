@@ -17,6 +17,7 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionProcessingGUI
  * @ilCtrl_IsCalledBy asqDebugGUI: ilObjTestGUI
  */
 class asqDebugGUI
@@ -42,6 +43,10 @@ class asqDebugGUI
      * @var ProcessingService
      */
     protected $processing_service;
+    /**
+     * @var QuestionConfig
+     */
+    protected $question_config;
 
 
     public function __construct()
@@ -61,6 +66,8 @@ class asqDebugGUI
         $question_config->setFeedbackShowScore(true);
         $question_config->setHintsActivated(true);
 
+        $this->question_config = $question_config;
+
         $this->processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(),$question_config);
     }
 
@@ -76,7 +83,7 @@ class asqDebugGUI
             case strtolower(ilAsqQuestionAuthoringGUI::class):
                 //Get the specific question authoring service
                 $authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getAuthoringGUI(
-                    $this->back_link, $_GET['ref_id'], 'tst', true,
+                    $this->back_link, $_GET['ref_id'], 'tst', $this->question_config, true,
                     [ilObjTestGUI::class], ilObjTestGUI::CMD_REGISTER_CREATED_QUESTION
                 );
                 $DIC->ctrl()->forwardCommand($authoring_gui);
@@ -90,7 +97,9 @@ class asqDebugGUI
                         $this->setOnline();
                         break;
                     case self::CMD_SHOW_PROCESSING_LIST:
-                        $this->showProcessingList();
+                    case ilAsqQuestionProcessingGUI::CMD_SHWOW_FEEDBACK:
+                        $this->showProcessingQuestion();
+                        break;
                         break;
                     default:
                         $this->showEditList();
@@ -198,7 +207,7 @@ class asqDebugGUI
     ///
     ///
     ////////////////
-    public function showProcessingList()
+    public function showProcessingQuestion()
     {
         global $DIC;
 
@@ -207,13 +216,32 @@ class asqDebugGUI
          */
         $arr_questions = $this->processing_service->questionList()->getQuestionsOfContainerAsDtoList();
 
-        if (count($arr_questions) > 0) {
+        $revision_id = $_GET['revision_id'];
+        if($revision_id == "") {
+            if (count($arr_questions) > 0) {
+                $revision_id = $arr_questions[0]->getRevisionId();
+            }
+        }
+
+        $gui = $this->processing_service->question($revision_id)->getProcessingQuestionGUI();
+        $DIC->ctrl()->forwardCommand($gui);
+
+
+
+        /*
+
+        $question_presentation = $this->processing_service->question($revision_id)->getQuestionPresentation(new \ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands());
+        $DIC->ui()->mainTemplate()->setContent($question_presentation->getHTML());*/
+       /* if (count($arr_questions) > 0) {
             $html = "<ul>";
             foreach ($arr_questions as $question) {
                 $row = array();
                 $row[] = $question->getId();
                 $row[] = $question->getRevisionId();
                 $row[] = $question->getData()->getTitle();
+
+
+                $this->processing_service->question($question->getRevisionId())->getQuestionPresentation();
 
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
@@ -227,7 +255,7 @@ class asqDebugGUI
             $html .= "<ul>";
         }
 
-        $DIC->ui()->mainTemplate()->setContent($html);
+        $DIC->ui()->mainTemplate()->setContent($html);*/
     }
 
 

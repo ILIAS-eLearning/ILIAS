@@ -62,11 +62,11 @@ class ProcessingService
     /**
      * @param string $question_revision_uuid
      *
-     * @return Question
+     * @return ProcessingQuestion
      */
-    public function question(string $question_revision_id) : Question
+    public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new Question($question_revision_id, $this->processing_application_service);
+        return new ProcessingQuestion($question_revision_id, $this->processing_application_service);
     }
 
     /**

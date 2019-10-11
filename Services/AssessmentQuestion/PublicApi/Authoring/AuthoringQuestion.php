@@ -23,7 +23,7 @@ use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Question
+class AuthoringQuestion
 {
 
     /**
@@ -71,7 +71,7 @@ class Question
     }
 
 
-    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : Question
+    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : AuthoringQuestion
     {
 
     }

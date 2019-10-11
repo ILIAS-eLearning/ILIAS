@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ilAsqQuestionAuthoringGUI;
 use ilAsqQuestionPageGUI;
+use ilAsqQuestionProcessingGUI;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use \ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 
 /**
  * Class QuestionProcessing
@@ -24,8 +24,9 @@ use ILIAS\UI\Component\Component;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>$
  */
-class Question
+class ProcessingQuestion
 {
+
     /**
      * @var string
      */
@@ -60,8 +61,35 @@ class Question
      */
     public function getQuestionPresentation(?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
     {
-        $question_dto  = $this->getQuestionDto();
-        return $this->processing_application_service->getQuestionPresentation($question_dto,$question_commands);
+        $question_dto = $this->getQuestionDto();
+
+        return $this->processing_application_service->getQuestionPresentation($question_dto, $question_commands);
+    }
+
+
+    public function getProcessingQuestionGUI() : ilAsqQuestionProcessingGUI
+    {
+        return new ilAsqQuestionProcessingGUI(
+            $this->processing_application_service,
+            $this->question_revision_uuid
+        );
+    }
+
+
+    /**
+     * @return UiStandardLink
+     */
+    public function getQuestionLink(array $ctrl_stack) : UiStandardLink
+    {
+        global $DIC;
+        array_push($ctrl_stack, ilAsqQuestionAuthoringGUI::class);
+        array_push($ctrl_stack, \ilAsqQuestionConfigEditorGUI::class);
+
+        $this->setQuestionUidParameter();
+
+        return $DIC->ui()->factory()->link()->standard(
+            $DIC->language()->txt('asq_authoring_tab_config'),
+            $DIC->ctrl()->getLinkTargetByClass($ctrl_stack));
     }
 
 
@@ -130,5 +158,18 @@ class Question
     }
 
 
+    /**
+     * sets the question uid parameter for the ctrl hub gui ilAsqQuestionAuthoringGUI
+     */
+    protected function setQuestionUidParameter()
+    {
+        global $DIC;
+        /* @var \ILIAS\DI\Container $DIC */
 
+        $DIC->ctrl()->setParameterByClass(
+            ilAsqQuestionProcessingGUI::class,
+            ilAsqQuestionProcessingGUI::VAR_QUESTION_REVISION_UID,
+            $this->question_revision_uuid
+        );
+    }
 }

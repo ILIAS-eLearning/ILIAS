@@ -63,11 +63,11 @@ class AuthoringService
      * @param AssessmentEntityId $question_uuid
      * @param int                $actor_user_id
      *
-     * @return Question
+     * @return AuthoringQuestion
      */
-    public function question(AssessmentEntityId $question_uuid) : Question
+    public function question(AssessmentEntityId $question_uuid) : AuthoringQuestion
     {
-        return new Question($this->container_obj_id, $question_uuid, $this->actor_user_id);
+        return new AuthoringQuestion($this->container_obj_id, $question_uuid, $this->actor_user_id);
     }
 
 

@@ -38,9 +38,7 @@ class AuthoringQuestionList implements QuestionList
         //The lng_key could be used in future as parameter in the constructor
         $lng_key = $DIC->language()->getDefaultLanguage();
 
-
         $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id,$lng_key);
-
     }
 
     public function getQuestionsOfContainerAsAssocArray() : array
