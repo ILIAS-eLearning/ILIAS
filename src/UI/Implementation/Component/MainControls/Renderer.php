@@ -4,15 +4,15 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
-use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
+use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -35,6 +35,9 @@ class Renderer extends AbstractComponentRenderer
         }
         if ($component instanceof Footer) {
             return $this->renderFooter($component, $default_renderer);
+        }
+        if ($component instanceof Component\MainControls\HeadInfo) {
+            return $this->renderHeadInfo($component, $default_renderer);
         }
     }
 
@@ -288,6 +291,22 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+
+    /**
+     * @param Component\MainControls\HeadInfo $component
+     * @param RendererInterface               $default_renderer
+     *
+     * @return string
+     */
+    protected function renderHeadInfo(Component\MainControls\HeadInfo $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.head_info.html", true, true);
+
+        $tpl->setVariable('TITLE', $component->getTitle());
+
+        return $tpl->get();
+    }
+
     /**
      * @inheritdoc
      */
@@ -306,7 +325,8 @@ class Renderer extends AbstractComponentRenderer
         return array(
             MetaBar::class,
             MainBar::class,
-            Footer::class
+            Footer::class,
+            Component\MainControls\HeadInfo::class
         );
     }
 }

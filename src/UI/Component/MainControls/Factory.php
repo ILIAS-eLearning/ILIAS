@@ -313,4 +313,36 @@ interface Factory
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
     public function footer(array $links, string $text = '') : Footer;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The HeadInfo is a section of the page that informs about a certain
+     *     state in which the user is viewing ILIAS. Such states can occur e.g.
+     *     in the preview as a member or in LTI. The HeadInfo SHOULD allow the
+     *     user to leave the state.
+     *
+     *   composition: >
+     *     The HeadInfo contains a title and optionally a description explaining
+     *     the state. The HeadInfo can also contain a CloseButton to leave the
+     *     state.
+     *
+     * context:
+     *   - The HeadInfo is used with the Standard Page.
+     *
+     * rules:
+     *   usage:
+     *     1: The HeadInfo is unique for the page - there MUST be not more than one.
+     *     2: >
+     *        If there is a possibility for the user to leave the state,
+     *        a CloseBotton must be present.
+     * ----
+     *
+     * @param string $title
+     *
+     * @return HeadInfo
+     */
+    public function headInfo(string $title) : HeadInfo;
 }

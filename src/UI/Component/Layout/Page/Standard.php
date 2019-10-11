@@ -3,11 +3,12 @@
 
 namespace ILIAS\UI\Component\Layout\Page;
 
-use ILIAS\UI\Component\MainControls\Metabar;
-use ILIAS\UI\Component\MainControls\Mainbar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\MainControls\HeadInfo;
+use ILIAS\UI\Component\MainControls\Mainbar;
+use ILIAS\UI\Component\MainControls\Metabar;
 
 /**
  * This describes the Page.
@@ -76,7 +77,37 @@ interface Standard extends Page, JavaScriptBindable
      */
     public function getFooter();
 
+
+    /**
+     * @param string $title
+     *
+     * @return Standard
+     */
     public function withTitle(string $title) : Standard;
 
+
+    /**
+     * @return string
+     */
     public function getTitle() : string;
+
+
+    /**
+     * @param HeadInfo $head_info
+     *
+     * @return Standard
+     */
+    public function withHeadInfo(HeadInfo $head_info) : Standard;
+
+
+    /**
+     * @return HeadInfo|null
+     */
+    public function getHeadInfo() : ?HeadInfo;
+
+
+    /**
+     * @return bool
+     */
+    public function hasHeadInfo() : bool;
 }

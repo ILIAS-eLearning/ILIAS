@@ -8422,8 +8422,8 @@ grid-based layout
   grid-gap: 0px;
   -ms-grid-columns: 80px 1fr;
   grid-template-columns: 80px 1fr;
-  -ms-grid-rows: 60px 33px 1fr;
-  grid-template-rows: 60px 33px 1fr;
+  -ms-grid-rows: 60px 33px 50px 1fr;
+  grid-template-rows: 60px 33px 50px 1fr;
   height: 100%;
   overflow: hidden;
   width: 100%;
@@ -8511,12 +8511,30 @@ header {
   color: #bbb;
   font-family: "il-icons";
 }
+/* breadcrumbs */
+.il-headinfo {
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #ff1e26;
+  border-top: 1px solid #ddd;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 3;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 3;
+  z-index: 998;
+}
 /* mainbar */
 nav.il-maincontrols {
   -ms-grid-column: 1;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 1;
-  grid-row: 3;
+  grid-row: 4;
   z-index: 997;
 }
 .il-maincontrols-mainbar {
@@ -8571,9 +8589,9 @@ main {
 }
 .il-layout-page-content {
   -ms-grid-column: 2;
-  -ms-grid-row: 3;
+  -ms-grid-row: 4;
   grid-column: 2;
-  grid-row: 3;
+  grid-row: 4;
   overflow: auto;
   padding: 20px;
 }

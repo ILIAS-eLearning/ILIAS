@@ -3,14 +3,15 @@
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
-use ILIAS\UI\Component\Layout\Page;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\MainControls\MetaBar;
-use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\MainControls\HeadInfo;
+use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 /**
  * Page
@@ -44,6 +45,10 @@ class Standard implements Page\Standard
      * @var	footer|null
      */
     private $footer;
+    /**
+     * @var HeadInfo|null
+     */
+    private $head_info;
     /**
      * @var	string
      */
@@ -266,5 +271,35 @@ class Standard implements Page\Standard
     public function getTitle() : string
     {
         return $this->title;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withHeadInfo(HeadInfo $head_info) : Page\Standard
+    {
+        $clone = clone $this;
+        $clone->head_info = $head_info;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getHeadInfo() : ?HeadInfo
+    {
+        return $this->head_info;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasHeadInfo() : bool
+    {
+        return $this->head_info instanceof HeadInfo;
     }
 }

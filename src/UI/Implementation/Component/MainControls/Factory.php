@@ -4,6 +4,7 @@
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\UI\Component\MainControls as IMainControls;
+use ILIAS\UI\Component\MainControls\HeadInfo;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements IMainControls\Factory
@@ -59,5 +60,14 @@ class Factory implements IMainControls\Factory
     public function footer(array $links, string $text='') : IMainControls\Footer
     {
         return new Footer($links, $text);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function headInfo(string $title) : HeadInfo
+    {
+        return new \ILIAS\UI\Implementation\Component\MainControls\HeadInfo($title);
     }
 }
