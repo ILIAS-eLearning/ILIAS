@@ -71,9 +71,19 @@ class ilUserQuery
 	 *
 	 * @param array $a_val udf filter array	
 	 */
-	function setUdfFilter($a_val)
+	public function setUdfFilter($a_val)
 	{
-		$this->udf_filter = $a_val;
+		$valid_udfs = [];
+
+		$definitions = \ilUserDefinedFields::_getInstance()->getDefinitions();
+		foreach((array) $a_val as $udf_name => $udf_value) {
+
+			list($udf_string, $udf_id) = explode('_',$udf_name);
+			if(array_key_exists((int) $udf_id, $definitions)) {
+				$valid_udfs[$udf_name] = $udf_value;
+			}
+		}
+		$this->udf_filter = $valid_udfs;
 	}
 	
 	/**
@@ -81,7 +91,7 @@ class ilUserQuery
 	 *
 	 * @return array udf filter array
 	 */
-	function getUdfFilter()
+	public function getUdfFilter()
 	{
 		return $this->udf_filter;
 	}
@@ -361,12 +371,14 @@ class ilUserQuery
 		$query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
 
 		// User filter
-		if($this->users and is_array(($this->users)))
-		{
-			$query .= ' AND '.$ilDB->in('usr_data.usr_id',$this->users,false,'integer');
+		$count_query.= " WHERE 1 = 1 ";
+		$count_user_filter = "usr_data.usr_id != ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		if ($this->users and is_array(($this->users))) {
+			$query .= ' AND ' . $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
+			$count_user_filter =  $ilDB->in('usr_data.usr_id', $this->users, false, 'integer');
 		}
 
-		$count_query.= " WHERE usr_data.usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer");
+		$count_query.= " AND " . $count_user_filter . " ";
 		$where = " AND";
 
 		if ($this->first_letter != "")

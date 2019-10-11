@@ -20,6 +20,10 @@ class ilStartUpGUI
 	/** @var \ilCtrl */
 	protected $ctrl;
 	protected $lng;
+
+	/**
+	 * @var \ilLogger | null
+	 */
 	protected $logger;
 
 	/** @var \ilGlobalTemplate */
@@ -193,11 +197,12 @@ class ilStartUpGUI
 		$this->logger->debug('No valid session -> show login');
 		$this->showLoginPage();
 	}
-	
-	
+
+
 	/**
 	 * @todo check for forced authentication like ecs, ...
 	 * Show login page
+	 * @param \ilPropertyFormGUI|null $form
 	 */
 	protected function showLoginPage(ilPropertyFormGUI $form = null)
 	{
@@ -303,7 +308,7 @@ class ilStartUpGUI
 		global $lng, $ilAuth, $ilCtrl;
 		
 		$uname = $_POST["uname"];
-		
+
 		$form = $this->initCodeForm($uname);
 		if($uname && $form->checkInput())
 		{
@@ -316,7 +321,7 @@ class ilStartUpGUI
 				
 				if(!$user_id = ilObjUser::_lookupId($uname))
 				{
-					$this->showLogin();
+					$this->showLoginPage();
 					return false;
 				}
 				
@@ -716,7 +721,8 @@ class ilStartUpGUI
 					return;
 					
 				case ilAuthStatus::STATUS_CODE_ACTIVATION_REQUIRED:
-					return $this->showCodeForm(ilObjUser::_lookupLogin($status->getAuthenticatedUserId()));
+					$uname = ilObjUser::_lookupLogin($status->getAuthenticatedUserId());
+					return $this->showLoginPage($this->initCodeForm($uname));
 
 				case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
 					return $GLOBALS['ilCtrl']->redirect($this, 'showAccountMigration');

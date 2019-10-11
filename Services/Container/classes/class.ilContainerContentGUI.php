@@ -717,13 +717,6 @@ abstract class ilContainerContentGUI
 			$asynch_url = $ilCtrl->getLinkTarget($this->container_gui,
 					"getAsynchItemList", "", true, false);
 			$ilCtrl->setParameter($this->container_gui, "cmdrefid", "");
-
-			//#0020343
-			$fold_set = new ilSetting('fold');
-			if ($a_item_data['type'] == 'fold' && $fold_set->get("bgtask_download") && $fold_set->get("enable_download_folder")) {
-				include_once "Services/BackgroundTask/classes/class.ilFolderDownloadBackgroundTaskHandler.php";
-				ilFolderDownloadBackgroundTaskHandler::initObjectListAction();
-			}
 		}
 					
 		include_once "Services/Object/classes/class.ilObjectActivation.php";

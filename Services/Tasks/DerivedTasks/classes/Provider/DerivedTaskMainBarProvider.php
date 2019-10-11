@@ -27,11 +27,13 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/check.svg"), "");
+
         // derived tasks list
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_derived_task_list'))
             ->withTitle($this->dic->language()->txt("mm_task_derived_tasks"))
             ->withPosition(40)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("task", "")->withIsOutlined(true))
+	        ->withSymbol($icon)
             ->withAction($dic->ctrl()->getLinkTargetByClass(["ilDerivedTasksGUI"], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable(

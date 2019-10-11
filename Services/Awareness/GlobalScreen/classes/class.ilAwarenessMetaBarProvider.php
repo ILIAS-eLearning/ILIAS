@@ -52,6 +52,8 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $online = explode(":", $result["cnt"]);
         $online = $online[0];
 
+        //$icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/people.svg"), "");
+
         $item = $mb
             ->topLegacyItem($this->getId())
             ->withLegacyContent($content())

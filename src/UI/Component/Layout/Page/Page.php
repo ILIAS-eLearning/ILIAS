@@ -10,10 +10,11 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface Page extends Component {
+interface Page extends Component
+{
 
-	/**
-	 * @return Component[]
-	 */
-	public function getContent();
+    /**
+     * @return Component[]
+     */
+    public function getContent();
 }

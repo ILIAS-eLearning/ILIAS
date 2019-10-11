@@ -33,10 +33,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+
         // Home
         $entries[] = $this->getHomeItem()
             ->withParent($top)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
+	        ->withSymbol($icon)
 	        ->withPosition(20);
 
         // Tree-View
@@ -48,12 +51,14 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ? $this->dic->language()->txt("mm_repo_tree_view_act")
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), "");
+
         if ($_GET["baseClass"] == "ilRepositoryGUI") {
             $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
                 ->withAction($link)
                 ->withParent($top)
                 ->withPosition(30)
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true))
+                ->withSymbol($icon)
                 ->withTitle($title);
         }
 
@@ -124,7 +129,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                     $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
                     $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
                         ->withTitle($ititle)
-                        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type']))
+                        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type'])->withIsOutlined(true))
                         ->withAction($item["link"]);
                 }
                 $first = false;

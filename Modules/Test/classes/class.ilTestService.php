@@ -49,7 +49,7 @@ class ilTestService
 
 		for( $pass = 0; $pass <= $lastPass; $pass++)
 		{
-			$passFinishDate = $this->object->getPassFinishDate($active_id, $pass);
+			$passFinishDate = ilObjTest::lookupPassResultsUpdateTimestamp($active_id, $pass);
 			
 			if( $passFinishDate <= 0 )
 			{

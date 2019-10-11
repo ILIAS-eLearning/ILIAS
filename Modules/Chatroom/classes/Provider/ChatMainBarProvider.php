@@ -29,13 +29,16 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $publicChatRefId = (int) \ilObjChatroom::_getPublicRefId();
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('chtr', '')->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
+
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))
                 ->withTitle($dic['ilObjDataCache']->lookupTitle($publicChatObjId))
                 ->withAction('ilias.php?baseClass=ilRepositoryGUI&cmd=view&ref_id=' . $publicChatRefId)
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
-                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('chtr', '')->withIsOutlined(true))
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($publicChatObjId) : bool {

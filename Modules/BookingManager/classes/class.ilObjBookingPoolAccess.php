@@ -3,9 +3,6 @@
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
-
 /**
 * Class ilObjBookingPoolAccess
 *
@@ -105,7 +102,6 @@ class ilObjBookingPoolAccess extends ilObjectAccess implements ilWACCheckingClas
 		#22653
 		if(($a_permission == "visible" || $a_permission == "read") && !$rbacsystem->checkAccessOfUser($a_user_id,'write',$a_ref_id))
 		{
-			include_once "Modules/BookingManager/classes/class.ilObjBookingPool.php";
 			$pool = new ilObjBookingPool($a_ref_id);
 			if($pool->isOffline())
 			{

@@ -152,8 +152,10 @@ class ilLDAPCronSynchronization extends ilCronJob
 		$ilLog = $DIC['ilLog'];
 		
 	 	include_once './Services/User/classes/class.ilObjUser.php';
+
 	 	
 	 	$inactive = [];
+
 	 	foreach($ext = ilObjUser::_getExternalAccountsByAuthMode($server->getAuthenticationMappingKey(),true) as $usr_id => $external_account)
 	 	{
 	 		if(!array_key_exists($external_account,$a_ldap_users))

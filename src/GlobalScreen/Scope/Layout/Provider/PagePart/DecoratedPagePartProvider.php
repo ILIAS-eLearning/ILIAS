@@ -4,6 +4,7 @@ use Closure;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 
@@ -106,5 +107,14 @@ class DecoratedPagePartProvider implements PagePartProvider
     public function getLogo() : ?Image
     {
         return $this->getDecoratedOrOriginal(Image::class, $this->original->getLogo());
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFooter() : ?Footer
+    {
+        return $this->getDecoratedOrOriginal(Footer::class, $this->original->getFooter());
     }
 }

@@ -168,9 +168,16 @@ div.ilEditVAccordICont {
 div.ilTinyMenuSection {
 	float: left;
 	white-space: nowrap;
-	border-right: 1px solid #e0e0e0;
-	padding: 0 10px 4px 0;
+	/* border-right: 1px solid #e0e0e0; */
+	/* padding: 0 10px 4px 0; */
 	margin-right: 10px;
+
+	p {
+		margin: 20px 0 5px 0;
+		padding: 2px 5px;
+		background-color: darken(@il-secondary-container-bg, 4%);
+	}
+
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		height: 28px;
 		margin: 3px 3px 3px 0px;
@@ -208,13 +215,13 @@ div.ilTinyMenuSection {
 }
 
 #iltinymenu {
-	z-index: 1040 !important;
+	/*z-index: 1040 !important;
 	position: fixed;
 	left: 0;
 	right: 0;
 	top: 0;
 	background-color: @il-secondary-container-bg;
-    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));
+    .box-shadow(3px 9px 9px 0 rgba(0, 0, 0, 0.176));*/
 	.bd {
 		div {
 			&.last {

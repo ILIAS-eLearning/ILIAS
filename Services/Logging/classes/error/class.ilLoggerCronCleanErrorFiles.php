@@ -84,7 +84,14 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob {
 	 */
 	public function run() {
 		$result = new ilCronJobResult();
-		$files = $this->readLogDir($this->error_settings->folder());
+		$folder = $this->error_settings->folder();
+		if(! is_dir($folder)) {
+			$result->setStatus(ilCronJobResult::STATUS_OK);
+			$result->setMessage($this->lng->txt("log_error_path_not_configured_or_wrong"));
+			return $result;
+		}
+
+		$files = $this->readLogDir($folder);
 		$delete_date = new ilDateTime(date("Y-m-d"), IL_CAL_DATE);
 		$delete_date->increment(ilDateTime::DAY, (-1 * $this->settings->get('clear_older_then')));
 

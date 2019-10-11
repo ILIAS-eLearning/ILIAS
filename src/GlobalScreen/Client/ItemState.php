@@ -36,15 +36,30 @@ class ItemState
     public function __construct(IdentificationInterface $identification)
     {
         $this->identification = $identification;
-        $this->storage = json_decode($_COOKIE[self::COOKIE_NS_GS], true);
+        $this->storage = $this->getStorage();
     }
 
 
-    public function isItemActive()
+    public function isItemActive() : bool
     {
         $hash = $this->hash($this->identification->serialize());
         $b = isset($this->storage[$hash]) && $this->storage[$hash] == true;
 
         return $b;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getStorage() : array
+    {
+        static $json_decode;
+        if (!isset($json_decode)) {
+            $json_decode = json_decode($_COOKIE[self::COOKIE_NS_GS], true);
+            $json_decode = is_array($json_decode) ? $json_decode : [];
+        }
+
+        return $json_decode;
     }
 }

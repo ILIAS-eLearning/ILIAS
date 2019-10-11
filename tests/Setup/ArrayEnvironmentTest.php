@@ -14,13 +14,15 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase {
 		]);
 	}
 
-	public function testGetResource() {
+	public function testGetResource()
+	{
 		$this->assertEquals("FOO", $this->environment->getResource("foo"));
 		$this->assertEquals("BAR", $this->environment->getResource("bar"));
 		$this->assertNull($this->environment->getResource("baz"));
 	}
 
-	public function testWithResource() {
+	public function testWithResource()
+	{
 		$env = $this->environment->withResource("baz", "BAZ");
 
 		$this->assertEquals("FOO", $env->getResource("foo"));
@@ -28,10 +30,33 @@ class ArrayEnvironmentTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals("BAZ", $env->getResource("baz"));
 	}
 
-	public function testSetResourceRejectsDuplicates() {
+	public function testSetResourceRejectsDuplicates()
+	{
 		$this->expectException(\RuntimeException::class);
 
 		$env = $this->environment->withResource("baz", "BAZ");
 		$env->withResource("baz", "BAZ");
-	}	
+	}
+
+	public function testConfigFor()
+	{
+		$env = $this->environment->withConfigFor("foo", "BAR");
+		$this->assertEquals("BAR", $env->getConfigFor("foo"));
+	}
+
+	public function testDuplicateConfigFor()
+	{
+		$this->expectException(\RuntimeException::class);
+		$env = $this->environment
+			->withConfigFor("foo", "BAR")
+			->withConfigFor("foo", "BAZ");
+	}
+
+	public function testWrongConfigId()
+	{
+		$this->expectException(\RuntimeException::class);
+		$env = $this->environment
+			->getConfigFor("foofoo");
+	}
+
 }

@@ -80,7 +80,9 @@ abstract class AbstractLayoutModification implements LayoutModification
 
 
     /**
-     * @inheritDoc
+     * @param Closure $closure
+     *
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     public final function withModification(Closure $closure) : LayoutModification
     {

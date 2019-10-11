@@ -6,5 +6,6 @@ namespace ILIAS\UI\Implementation\Component\Card;
 
 use ILIAS\UI\Component as C;
 
-class Standard extends Card implements C\Card\Standard {
+class Standard extends Card implements C\Card\Standard
+{
 }

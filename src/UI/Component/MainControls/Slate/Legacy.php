@@ -9,5 +9,4 @@ namespace ILIAS\UI\Component\MainControls\Slate;
  */
 interface Legacy extends Slate
 {
-
 }

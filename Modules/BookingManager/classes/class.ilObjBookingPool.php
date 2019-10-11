@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /**
 * Class ilObjBookingPool
 * 
@@ -229,7 +227,6 @@ class ilObjBookingPool extends ilObject
 		if($this->getScheduleType() == self::TYPE_FIX_SCHEDULE)
 		{			
 			// schedules
-			include_once "Modules/BookingManager/classes/class.ilBookingSchedule.php";
 			foreach(ilBookingSchedule::getList($this->getId()) as $item)
 			{
 				$schedule = new ilBookingSchedule($item["booking_schedule_id"]);
@@ -238,7 +235,6 @@ class ilObjBookingPool extends ilObject
 		}
 		
 		// objects
-		include_once "Modules/BookingManager/classes/class.ilBookingObject.php";
 		foreach(ilBookingObject::getList($this->getId()) as $item)
 		{
 			$bobj = new ilBookingObject($item["booking_object_id"]);
@@ -420,12 +416,10 @@ class ilObjBookingPool extends ilObject
 	{	
 		$fields = array();
 		
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("book", $a_ref_id, "bobj");
 
 		foreach($recs as $record_obj)
 		{
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 			foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_obj->getRecordId()) as $def)
 			{
 				$fields[$def->getFieldId()] = array(

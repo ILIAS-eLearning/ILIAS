@@ -3,12 +3,10 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * User interface hook plugin
+ * Class ilUserInterfaceHookPlugin
  *
  * @author  Alex Killing <alex.killing@gmx.de>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
- *
- * @ingroup ServicesUIComponent
  */
 abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
@@ -16,7 +14,7 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * @return string
      */
-    public final function getComponentType()
+    final public function getComponentType()
     {
         return IL_COMP_SERVICE;
     }
@@ -25,7 +23,7 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * @return string
      */
-    public final function getComponentName()
+    final public function getComponentName()
     {
         return "UIComponent";
     }
@@ -34,7 +32,7 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * @return string
      */
-    public final function getSlot()
+    final public function getSlot()
     {
         return "UserInterfaceHook";
     }
@@ -43,7 +41,7 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * @return string
      */
-    public final function getSlotId()
+    final public function getSlotId()
     {
         return "uihk";
     }
@@ -52,7 +50,7 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    protected final function slotInit()
+    final protected function slotInit()
     {
         // nothing to do here
     }

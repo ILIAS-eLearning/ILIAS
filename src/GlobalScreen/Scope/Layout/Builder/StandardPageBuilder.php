@@ -37,9 +37,9 @@ class StandardPageBuilder implements PageBuilder
         $header_image = $parts->getLogo();
         $main_bar = $parts->getMainBar();
         $meta_bar = $parts->getMetaBar();
-
         $bread_crumbs = $parts->getBreadCrumbs();
+        $footer = $parts->getFooter();
 
-        return $this->ui->factory()->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image);
+        return $this->ui->factory()->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image, $footer);
     }
 }

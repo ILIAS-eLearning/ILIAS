@@ -42,6 +42,7 @@
 		<event type="listen" id="Services/Tracking" />
 		<event type="listen" id="Services/Tree" />
 		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/ContainerReference" />
 		<event type="raise" id="userAssigned" />
 		<event type="raise" id="userDeassigned" />
 		<event type="raise" id="userSuccessful" />

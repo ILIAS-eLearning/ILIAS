@@ -2,7 +2,8 @@
 /**
  * Example for rendering a standard Progress Meter with minimum configuration
  */
-function base() {
+function base()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();

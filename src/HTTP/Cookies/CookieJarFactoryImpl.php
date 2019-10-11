@@ -21,7 +21,7 @@ class CookieJarFactoryImpl implements CookieJarFactory
     /**
      * @inheritdoc
      */
-    public function fromCookieStrings($cookieStrings)
+    public function fromCookieStrings(array $cookieStrings) : \ILIAS\HTTP\Cookies\CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromSetCookieStrings($cookieStrings));
     }
@@ -30,7 +30,7 @@ class CookieJarFactoryImpl implements CookieJarFactory
     /**
      * @inheritdoc
      */
-    public function fromResponse(ResponseInterface $response)
+    public function fromResponse(ResponseInterface $response) : \ILIAS\HTTP\Cookies\CookieJar
     {
         return new CookieJarWrapper(SetCookies::fromResponse($response));
     }

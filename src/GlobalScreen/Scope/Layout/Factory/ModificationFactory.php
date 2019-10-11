@@ -60,4 +60,13 @@ class ModificationFactory
     {
         return new PageBuilderModification();
     }
+
+
+    /**
+     * @return FooterModification
+     */
+    public function footer() : FooterModification
+    {
+        return new FooterModification();
+    }
 }

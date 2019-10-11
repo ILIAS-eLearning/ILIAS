@@ -81,44 +81,79 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         };
         $dic = $this->dic;
 
-        $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
-            ->withTitle($f("mm_repository"))
+        // Dashboard
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), "");
+        $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
+            ->withSymbol($icon)
+            ->withTitle($this->dic->language()->txt("mm_dashboard"))
+            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
             ->withPosition(10)
-            ->withVisibilityCallable($this->getVisibilityCallable());
+            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+            ->withAvailableCallable(
+                function () use ($dic) {
+                    return $dic->settings()->get('disable_my_memberships', 0) == 0;
+                }
+            )
+            ->withVisibilityCallable(
+                function () use ($dic) {
+                    $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
+
+                    return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
+                }
+            );
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+
+        $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
+            ->withSymbol($icon)
+            ->withTitle($f("mm_repository"))
+            ->withPosition(20);
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), "");
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_personal_workspace"))
-            ->withPosition(20)
-            ->withVisibilityCallable($this->getVisibilityCallable());
+            ->withPosition(30);
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), "");
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_achievements"))
-            ->withPosition(30)
-            ->withVisibilityCallable($this->getVisibilityCallable());
+            ->withPosition(40);
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_communication"))
-            ->withPosition(40)
-            ->withVisibilityCallable($this->getVisibilityCallable());
+            ->withPosition(50);
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), "");
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_organisation"))
-            ->withPosition(50)
+            ->withPosition(60)
             ->withAvailableCallable(
                 function () use ($dic) {
                     return (bool) ($dic->settings()->get("enable_my_staff"));
                 }
-            )
-            ->withVisibilityCallable($this->getVisibilityCallable());
+            );
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), "");
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
+            ->withSymbol($icon)
             ->withTitle($f("mm_administration"))
-            ->withPosition(60)
+            ->withPosition(70)
             ->withVisibilityCallable(
-                $this->getVisibilityCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
+                function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }
             );
 
         return [
+            $dashboard,
             $repository,
             $personal_workspace,
             $achievements,
@@ -198,17 +233,5 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function getRepositoryIdentification() : IdentificationInterface
     {
         return $this->repository_identification;
-    }
-
-
-    private function getVisibilityCallable(Callable $existing = null) : Callable
-    {
-        return function () use ($existing): bool {
-            if (is_callable($existing)) {
-                return (!$this->dic->user()->isAnonymous() && $existing());
-            }
-
-            return (!$this->dic->user()->isAnonymous());
-        };
     }
 }

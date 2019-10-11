@@ -15,7 +15,27 @@ require_once "Services/Object/classes/class.ilObject2.php";
 class ilObjWorkspaceFolder extends ilObject2
 {
 	var $folder_tree;
-	
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $current_user;
+
+	/**
+	 * Constructor
+	 * @access	public
+	 * @param	integer	reference_id or object_id
+	 * @param	boolean	treat the id as reference_id (true) or object_id (false)
+	 */
+	function __construct($a_id = 0, $a_reference = true)
+	{
+		global $DIC;
+
+		parent::__construct($a_id, $a_reference);
+
+		$this->current_user = $DIC->user();
+	}
+
 	function initType()
 	{
 		$this->type = "wfld";
@@ -67,6 +87,22 @@ class ilObjWorkspaceFolder extends ilObject2
 	function addAdditionalSubItemInformation(&$a_item_data)
 	{
 		
+	}
+
+	/**
+	 * @return bool
+	 */
+	function gotItems($node_id)
+	{
+		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+		$tree = new ilWorkspaceTree($this->current_user->getId());
+		$nodes = $tree->getChilds($node_id, "title");
+
+		if(sizeof($nodes))
+		{
+			return true;
+		}
+		return false;
 	}
 
 } 

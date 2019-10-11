@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "cd ..; cd ..; php setup/cli.php build-artifacts"
+		  "cd .. && cd .. && php setup/cli.php build-artifacts"
 		]
 	},
 	"require": {
@@ -48,9 +48,20 @@
 		"friendsofphp/php-cs-fixer": "^2.15"
 	},
 	"autoload": {
-		"psr-4" : { "ILIAS\\" : "../../src" },
-		"classmap": ["../../Services/", "../../Modules", "../ilias"],
-		"exclude-from-classmap": ["../../Services/Migration", "../../*/*/lib", "../../*/*/test", "../../Services/CAS/phpcas"]
+		"psr-4" : {
+			"ILIAS\\Tests\\" : "../../tests",
+			"ILIAS\\" : "../../src"
+		},
+		"classmap": [
+			"../../Services/",
+			"../../Modules",
+			"../ilias"
+		],
+		"exclude-from-classmap": [
+			"../../Services/Migration",
+			"../../*/*/lib", "../../*/*/test",
+			"../../Services/CAS/phpcas"
+		]
 	},
 	"extra": {
 		"cweagans/composer-patches" : {

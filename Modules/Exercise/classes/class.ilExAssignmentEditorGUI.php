@@ -305,10 +305,14 @@ class ilExAssignmentEditorGUI
 				$rd_creation_method->addOption($rd_creation_manual);
 
 				//random options
+                $add_info = "";
+                if ($this->getExerciseTotalMembers() < 4) {
+                    $add_info = " <strong>".$lng->txt("exc_team_by_random_add_info")."</strong>";
+                }
 				$rd_creation_random = new ilRadioOption(
 					$lng->txt("exc_team_by_random"),
 					ilExAssignment::TEAMS_FORMED_BY_RANDOM,
-						$lng->txt("exc_team_by_random_info")."<br>".$lng->txt("exc_total_members").": ".$this->getExerciseTotalMembers()
+						$lng->txt("exc_team_by_random_info")."<br>".$lng->txt("exc_total_members").": ".$this->getExerciseTotalMembers().$add_info
 				);
 				$rd_creation_method->addOption($rd_creation_random);
 

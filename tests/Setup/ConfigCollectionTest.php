@@ -4,8 +4,6 @@
 
 namespace ILIAS\Tests\Setup;
 
-require_once(__DIR__."/Helper.php");
-
 use ILIAS\Setup;
 
 class ConfigCollectionTest extends \PHPUnit\Framework\TestCase {
