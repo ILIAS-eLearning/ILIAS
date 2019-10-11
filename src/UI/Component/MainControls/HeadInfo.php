@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\Component\MainControls;
 
-use ILIAS\UI\Component\Button\Button;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -36,15 +36,29 @@ interface HeadInfo extends Component
 
 
     /**
-     * @param Button $button
+     * @param URI $uri
      *
-     * @return mixed
+     * @return HeadInfo
      */
-    public function withCloseButton(Button $button);
+    public function withCloseAction(URI $uri) : HeadInfo;
 
 
     /**
-     * @return Button
+     * @return URI|null
      */
-    public function getCloseButton() : Button;
+    public function getCloseAction() : ?URI;
+
+
+    /**
+     * @param bool $is_interruptive
+     *
+     * @return HeadInfo
+     */
+    public function withInterruptive(bool $is_interruptive) : HeadInfo;
+
+
+    /**
+     * @return bool
+     */
+    public function isInterruptive() : bool;
 }

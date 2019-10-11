@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\UI\Component\Button\Button;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -18,6 +18,14 @@ class HeadInfo implements MainControls\HeadInfo
 
     use ComponentHelper;
     /**
+     * @var bool
+     */
+    private $is_interruptive = false;
+    /**
+     * @var URI
+     */
+    private $close_action;
+    /**
      * @var string
      */
     private $title = '';
@@ -25,10 +33,6 @@ class HeadInfo implements MainControls\HeadInfo
      * @var string
      */
     private $description = '';
-    /**
-     * @var
-     */
-    private $close_button;
 
 
     /**
@@ -54,7 +58,7 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @inheritDoc
      */
-    public function withDescription(string $info_message) : \ILIAS\UI\Component\MainControls\HeadInfo
+    public function withDescription(string $info_message) : MainControls\HeadInfo
     {
         $clone = clone $this;
         $clone->description = $info_message;
@@ -75,10 +79,10 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @inheritDoc
      */
-    public function withCloseButton(Button $button)
+    public function withCloseAction(URI $uri) : \ILIAS\UI\Component\MainControls\HeadInfo
     {
         $clone = clone $this;
-        $clone->close_button = $button;
+        $clone->close_action = $uri;
 
         return $clone;
     }
@@ -87,8 +91,29 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @inheritDoc
      */
-    public function getCloseButton() : Button
+    public function getCloseAction() : ?URI
     {
-        return $this->close_button;
+        return $this->close_action;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withInterruptive(bool $is_interruptive) : \ILIAS\UI\Component\MainControls\HeadInfo
+    {
+        $clone = clone $this;
+        $clone->is_interruptive = $is_interruptive;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isInterruptive() : bool
+    {
+        return $this->is_interruptive;
     }
 }

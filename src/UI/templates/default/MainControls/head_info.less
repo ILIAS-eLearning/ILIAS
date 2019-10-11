@@ -1,0 +1,61 @@
+.il-head_info {
+  //display: flex;
+
+  //align-items: center;
+  //justify-content: center;
+
+  //height: @il-standard-page-headinfo-height;
+  box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.5);
+  background-color: @il-standard-page-headinfo-bg-color;
+  border-top: 1px solid @il-standard-page-border-light-color;
+
+  width: 100%;
+  color: white;
+  padding-left: 15px;
+
+  &.interruptive {
+	background-color: #860400;
+  }
+
+  h1, p {
+	margin: 0;
+	padding: 0;
+	line-height: @il-standard-page-headinfo-height;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	display: inline-block;
+	float: left;
+  }
+
+  * {
+
+  }
+
+  h1 {
+	font-weight: bold;
+	margin-right: 20px;
+  }
+
+  .il-head_info-close {
+	button.close {
+	  //color: white;
+	}
+  }
+}
+
+/*
+**************************************************************
+       mobile Layout
+**************************************************************
+*/
+
+
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+  .il-head_info {
+	border-top: none;
+
+	p {
+	  display: none;
+	}
+  }
+}

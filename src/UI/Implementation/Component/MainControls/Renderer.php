@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
@@ -303,6 +304,14 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.head_info.html", true, true);
 
         $tpl->setVariable('TITLE', $component->getTitle());
+        $tpl->setVariable('DESCRIPTION', $component->getDescription());
+        if ($component->getCloseAction() instanceof URI) {
+
+            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($this->getUIFactory()->button()->close()));
+        }
+        if ($component->isInterruptive()) {
+            $tpl->touchBlock('interruptive');
+        }
 
         return $tpl->get();
     }

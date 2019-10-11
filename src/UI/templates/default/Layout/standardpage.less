@@ -46,8 +46,8 @@ grid-based layout
 	grid-gap: 0px;
 	-ms-grid-columns: @il-mainbar-btn-width 1fr;
     grid-template-columns: @il-mainbar-btn-width 1fr;
-	-ms-grid-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height @il-standard-page-headinfo-height 1fr;
-    grid-template-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height @il-standard-page-headinfo-height 1fr;
+	-ms-grid-rows: @il-standard-page-header-height auto @il-standard-page-breadcrumbs-height 1fr;
+    grid-template-rows: @il-standard-page-header-height auto  @il-standard-page-breadcrumbs-height 1fr;
     height: 100%;
 	overflow: hidden;
 	width: 100%;
@@ -149,11 +149,10 @@ header {
 	}
 }
 /* breadcrumbs */
-.il-headinfo {
+.il-head_info_container {
 	-ms-flex-align: center;
 	align-items: center;
-	background-color: @il-standard-page-headinfo-bg-color;
-	border-top: 1px solid @il-standard-page-border-light-color;
+
 	display: -ms-flexbox;
 	display: flex;
 	-ms-flex-direction: row;
@@ -166,7 +165,6 @@ header {
 	grid-column-start: 1;
 	grid-column-end: 3;
 	grid-row: 2;
-
 	z-index: @il-standard-page-zindex-breadcrumbs;
 }
 
@@ -283,8 +281,8 @@ footer {
 		grid-gap: 0px;
 		-ms-grid-columns: 1fr;
 	    grid-template-columns: 1fr;
-		-ms-grid-rows: @il-standard-page-small-header-height 1fr;
-	    grid-template-rows: @il-standard-page-small-header-height 1fr;
+		-ms-grid-rows: @il-standard-page-small-header-height auto 1fr;
+	    grid-template-rows: @il-standard-page-small-header-height auto 1fr;
 	    height: 100%;
 		overflow: hidden;
 		width: 100%;
@@ -381,6 +379,13 @@ footer {
 		display: none;
 	}
 
+	.il-head_info_container {
+	  -ms-grid-column: 1;
+	  -ms-grid-row: 2;
+	  grid-column: 1;
+	  grid-row: 2;
+	}
+
 	.il-header-locator {
 		.dropdown {
 			position: static;
@@ -431,9 +436,9 @@ footer {
 	/* mainbar */
 	nav.il-maincontrols {
 		-ms-grid-column: 1;
-		-ms-grid-row: 3;
+		-ms-grid-row: 4;
 		grid-column: 1;
-		grid-row: 3;
+		grid-row: 4;
 		width: 100%;
 		z-index: @il-standard-page-zindex-maincontrols;
 	}
@@ -518,9 +523,9 @@ footer {
 
 	.il-layout-page-content {
 		-ms-grid-column: 1;
-		-ms-grid-row: 2;
+		-ms-grid-row: 3;
 		grid-column: 1;
-		grid-row: 2;
+		grid-row: 3;
 		overflow: auto;
 		padding: @il-standard-page-content-padding;
 	}
