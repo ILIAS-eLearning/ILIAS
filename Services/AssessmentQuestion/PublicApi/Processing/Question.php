@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
 use ilAsqQuestionPageGUI;
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
@@ -26,27 +26,18 @@ use ILIAS\UI\Component\Component;
  */
 class Question
 {
-
     /**
      * @var string
      */
     protected $question_revision_uuid;
     /**
-     * @var int
+     * @var ProcessingApplicationService
      */
-    protected $actor_user_id;
-    /**
-     * @var QuestionConfig
-     */
-    protected $question_config;
+    protected $processing_application_service;
     /**
      * @var QuestionDto
      */
     private $question_dto;
-    /**
-     * @var QuestionComponent
-     */
-    private $question_component;
 
 
     /**
@@ -57,11 +48,10 @@ class Question
      * @param QuestionConfig $question_config
      *
      */
-    public function __construct(string $question_revision_uuid, int $actor_user_id, QuestionConfig $question_config)
+    public function __construct(string $question_revision_uuid, ProcessingApplicationService $processing_application_service)
     {
         $this->question_revision_uuid = $question_revision_uuid;
-        $this->actor_user_id = $actor_user_id;
-        $this->question_config = $question_config;
+        $this->processing_application_service = $processing_application_service;
     }
 
 
@@ -71,8 +61,7 @@ class Question
     public function getQuestionPresentation(?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
     {
         $question_dto  = $this->getQuestionDto();
-        $play_application_service = new PlayApplicationService($question_dto->getContainerObjId(),$this->actor_user_id,$this->question_config);
-        return $play_application_service->getQuestionPresentation($question_dto,$question_commands);
+        return $this->processing_application_service->getQuestionPresentation($question_dto,$question_commands);
     }
 
 

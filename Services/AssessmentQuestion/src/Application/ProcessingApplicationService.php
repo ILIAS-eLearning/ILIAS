@@ -11,8 +11,13 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Command\AnswerQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AbstractEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\AnswerFeedbackComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\FeedbackComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 const MSG_SUCCESS = "success";
@@ -27,7 +32,7 @@ const MSG_SUCCESS = "success";
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class PlayApplicationService
+class ProcessingApplicationService
 {
 
     /**
@@ -42,7 +47,10 @@ class PlayApplicationService
      * @var QuestionConfig
      */
     protected $question_config;
-
+    /**
+     * @var string
+     */
+    protected $lng_key;
 
 
     /**
@@ -51,11 +59,12 @@ class PlayApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
+    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config, string $lng_key)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->question_config = $question_config;
+        $this->lng_key = $lng_key;
     }
 
 
@@ -67,27 +76,81 @@ class PlayApplicationService
         CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
     }
 
+
     /**
      * @return ilAsqQuestionPageGUI
      */
-    public function getQuestionPresentation(QuestionDto $question_dto, ?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
+    public function getQuestionPresentation(QuestionDto $question_dto, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
     {
-        global $DIC;
+        $question_component = $this->getQuestionComponent($question_dto, $question_commands);
+        $question_component->readAnswer();
 
-        $question_component = new QuestionComponent($question_dto,$this->question_config,$question_commands);
-
-        $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE,$question_dto->getContainerObjId(),$question_dto->getQuestionIntId(),$DIC->language()->getDefaultLanguage());
-        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
+        $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
+        $page_gui = ilAsqQuestionPageGUI::getGUI($page);
 
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);
 
         $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
-
         $page_gui->setPresentationTitle($question_dto->getData()->getTitle());
 
         return $page_gui;
+    }
+
+
+    public function getQuestionComponent(QuestionDto $question_dto, QuestionCommands $question_commands) : QuestionComponent
+    {
+        $question_component = new QuestionComponent($question_dto, $this->question_config, $question_commands);
+
+        return $question_component;
+    }
+
+
+    /**
+     * @param AssessmentEntityId $question_uuid
+     *
+     * @return QuestionComponent
+     */
+    public function getFeedbackComponent(QuestionDto $question_dto) : FeedbackComponent
+    {
+        return new FeedbackComponent($this->getScoringComponent($question_dto), $this->getAnswerFeedbackComponent($question_dto));
+    }
+
+
+    /**
+     * @param AssessmentEntityId $question_uuid
+     *
+     * @return QuestionComponent
+     */
+    public function getScoringComponent(QuestionDto $question_dto) : ScoringComponent
+    {
+        return new ScoringComponent($question_dto, $this->getCurrentAnswer($question_dto));
+    }
+
+    /**
+     * @param AssessmentEntityId $question_uuid
+     *
+     * @return QuestionComponent
+     */
+    public function getAnswerFeedbackComponent(QuestionDto $question_dto) : AnswerFeedbackComponent
+    {
+        return new AnswerFeedbackComponent($question_dto, $this->getCurrentAnswer($question_dto));
+    }
+
+
+    /**
+     * @param AssessmentEntityId $question_uuid
+     *
+     * @return QuestionComponent
+     */
+    public function getCurrentAnswer(QuestionDto $question_dto) : Answer
+    {
+        $editor_class = QuestionPlayConfiguration::getEditorClass($question_dto->getPlayConfiguration());
+        /** @var AbstractEditor $editor * */
+        $editor = new $editor_class($question_dto);
+
+        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getContainerObjId(), $editor->readAnswer());
     }
 
 
@@ -129,12 +192,14 @@ class PlayApplicationService
         return $scoring->score($question->getAnswer($user_id, $test_id));
     }
 
+
     /**
      * @param string $revision_id
      *
      * @return QuestionDto
      */
-    public function GetQuestion(string $revision_id) : QuestionDto {
+    public function GetQuestion(string $revision_id) : QuestionDto
+    {
         $repository = new PublishedQuestionRepository();
 
         return $repository->getQuestionByRevisionId($revision_id);
@@ -144,8 +209,7 @@ class PlayApplicationService
     public function GetQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
+
         return $repository->getQuestionsByContainer($this->container_obj_id);
     }
-
-
 }

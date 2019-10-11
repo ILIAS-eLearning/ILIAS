@@ -4,10 +4,11 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ilAsqQuestionAuthoringGUI;
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
@@ -101,6 +102,7 @@ class Question
         UiStandardLink $container_back_link,
         int $container_ref_id,
         string $container_obj_type,
+        QuestionConfig $question_config,
         bool $actor_has_write_access,
         array $afterQuestionCreationCtrlClassPath,
         string $afterQuestionCreationCtrlCommand
@@ -117,7 +119,7 @@ class Question
             $afterQuestionCreationCtrlCommand
         );
 
-        return new ilAsqQuestionAuthoringGUI($authoringContextContainer);
+        return new ilAsqQuestionAuthoringGUI($authoringContextContainer, $question_config);
     }
 
 
@@ -171,7 +173,7 @@ class Question
         global $DIC;
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+        $player = new ProcessingApplicationService($this->container_obj_id,$this->actor_user_id);
         return $player->GetPointsByUser($this->question_id,$this->actor_user_id, $this->container_obj_id);
 
     }

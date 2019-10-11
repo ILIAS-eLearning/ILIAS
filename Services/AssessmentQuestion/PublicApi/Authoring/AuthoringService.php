@@ -52,9 +52,9 @@ class AuthoringService
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         //The lng_key could be used in future as parameter in the constructor
-        $this->lng_key = $DIC->language()->getDefaultLanguage();
+        $lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key);
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $lng_key);
     }
 
 
@@ -77,7 +77,7 @@ class AuthoringService
      * @return QuestionComponent
      */
     public function questionComponent(AssessmentEntityId $question_uuid):QuestionComponent {
-       return new QuestionComponent($this->authoring_application_service->getQuestion($question_uuid->getId()));
+       return $this->authoring_application_service->getQuestionComponent($question_uuid);
     }
 
 
