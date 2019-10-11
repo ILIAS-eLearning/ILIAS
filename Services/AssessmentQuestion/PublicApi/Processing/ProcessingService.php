@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
@@ -31,7 +31,10 @@ class ProcessingService
      * @var QuestionConfig
      */
     protected $question_config;
-
+    /**
+     * @var ProcessingApplicationService
+     */
+    protected $processing_application_service;
 
 
     /**
@@ -43,11 +46,16 @@ class ProcessingService
      */
     public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
+        global $DIC;
+
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->question_config = $question_config;
 
-        //$this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id, $question_config);
+        //The lng_key could be used in future as parameter in the constructor
+        $lng_key = $DIC->language()->getDefaultLanguage();
+
+        $this->processing_application_service = new ProcessingApplicationService($this->container_obj_id,  $this->actor_user_id, $this->question_config, $lng_key);
     }
 
 
@@ -58,7 +66,7 @@ class ProcessingService
      */
     public function question(string $question_revision_id) : Question
     {
-        return new Question($question_revision_id, $this->actor_user_id, $this->question_config);
+        return new Question($question_revision_id, $this->processing_application_service);
     }
 
     /**
@@ -66,6 +74,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->question_config);
+        return new ProcessingQuestionList($this->processing_application_service);
     }
 }

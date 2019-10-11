@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
@@ -24,16 +24,14 @@ class ProcessingQuestionList implements QuestionList
      */
     protected $question_config;
     /**
-     * @var PlayApplicationService
+     * @var ProcessingApplicationService
      */
     protected $processing_application_service;
 
 
-    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
+    public function __construct(ProcessingApplicationService $processing_application_service)
     {
-        $this->container_obj_id = $container_obj_id;
-        $this->actor_user_id = $actor_user_id;
-        $this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id, $question_config);
+        $this->processing_application_service = $processing_application_service;
     }
 
 

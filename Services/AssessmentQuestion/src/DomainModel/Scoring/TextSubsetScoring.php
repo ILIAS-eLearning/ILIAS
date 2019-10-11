@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilSelectInputGUI;
 
 /**
@@ -32,7 +33,7 @@ class TextSubsetScoring extends AbstractScoring
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring::score()
      */
-    function score(Answer $answer) : int
+    function score(Answer $answer) : AnswerScoreDto
     {
         /** @var TextSubsetScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
@@ -63,38 +64,48 @@ class TextSubsetScoring extends AbstractScoring
      * @param array $answer_arr
      * @return int
      */
-    private function caseInsensitiveScoring(array $answer_arr) : int {
-        $score = 0;
+    private function caseInsensitiveScoring(array $answer_arr) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
+                $max_points += $correct->getScoringDefinition()->getPoints();
                 if (strtoupper($correct->getScoringDefinition()->getText()) === strtoupper($result)) {
-                    $score += $correct->getScoringDefinition()->getPoints();
+                    $reached_points += $correct->getScoringDefinition()->getPoints();
                     break;
                 }
             }
         }
-        
-        return $score;
+
+        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
     }
     
     /**
      * @param array $answer_arr
      * @return int
      */
-    private function caseSensitiveScoring(array $answer_arr) : int {
-        $score = 0;
+    private function caseSensitiveScoring(array $answer_arr) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
+
+
+        foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
+            $max_points += $correct->getScoringDefinition()->getPoints();
+        }
+
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
+                $max_points += $correct->getScoringDefinition()->getPoints();
                 if ($correct->getScoringDefinition()->getText() === $result) {
-                    $score += $correct->getScoringDefinition()->getPoints();
+                    $reached_points += $correct->getScoringDefinition()->getPoints();
                     break;
                 }
             }
         }
-        
-        return $score;
+
+        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
     }
     
     /**
@@ -102,19 +113,24 @@ class TextSubsetScoring extends AbstractScoring
      * @param int $distance
      * @return int
      */
-    private function levenshteinScoring(array $answer_arr, int $distance) : int {
-        $score = 0;
+    private function levenshteinScoring(array $answer_arr, int $distance) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
+
+        foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
+                $max_points += $correct->getScoringDefinition()->getPoints();
+        }
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
                 if (levenshtein($correct->getScoringDefinition()->getText(), $result) <= $distance) {
-                    $score += $correct->getScoringDefinition()->getPoints();
+                    $reached_points += $correct->getScoringDefinition()->getPoints();
                     break;
                 }
             }
         }
-        
-        return $score;
+
+        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
     }
     
     /**
