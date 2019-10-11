@@ -37,6 +37,9 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 		bool $a_is_editable = false
 	)
 	{
+	    //TODO: Delete this after testing
+        $this->instructions = new ilWebDAVMountInstructionsGUI();
+
 		$this->ui_factory = $a_ui_factory;
 		$this->ui_renderer = $a_ui_renderer;
 		$this->is_editable = $a_is_editable;
@@ -371,8 +374,9 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 	protected function formatTitle(string $a_column, array $a_row)
 	{
 	    if($a_row['processed_text'] == null) $a_row['processed_text'] = '';
-		$modal = $this->ui_factory
-			->modal()->lightbox($this->ui_factory->modal()->lightboxTextPage($a_row['processed_text'], 'Mount Instructions'));
+		$modal = $this->instructions->getAsyncMountInstructionModalByLanguage($a_row['language']);
+            //$this->ui_factory
+			//->modal()->lightbox($this->ui_factory->modal()->lightboxTextPage($a_row['processed_text'], 'Mount Instructions'));
 
 		$title_link = $this->ui_factory
 			->button()

@@ -8,7 +8,7 @@
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  */
-class ilWebDAVMountInstructions
+class ilWebDAVMountInstructions extends ilWebDAVObjectlessMountInstructions
 {
     protected $user_agent;
     protected $request_uri;
@@ -26,13 +26,20 @@ class ilWebDAVMountInstructions
     protected $ref_id;
     protected $obj_id;
     protected $obj_title;
+
+    protected $document_repository;
+    protected $uri_provider;
     
-    public function __construct($a_user_agent = '', $a_request_uri = '', $a_http_host = '', $a_script_name = '', $a_client_id = '')
+    public function __construct($a_user_agent = '', $a_request_uri = '', $a_http_host = '', $a_script_name = '', $a_client_id = '', $uri_provider = NULL)
     {
         global $DIC;
-        
         $this->settings = new ilSetting('file_access');
         $this->lng = $DIC->language();
+        $request = $DIC->http()->request();
+
+        $this->uri_provider = $uri_provider == NULL ? new ilWebDAVUriProvider($DIC->http()->request()) : $uri_provider;
+
+        $this->document_repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
         
         $this->user_agent = $a_user_agent == '' ? strtolower($_SERVER['HTTP_USER_AGENT']) : $a_user_agent;
         $this->request_uri = $a_request_uri == '' ? $_SERVER['REQUEST_URI'] : $a_request_uri;
@@ -51,9 +58,9 @@ class ilWebDAVMountInstructions
         }
         if($this->ref_id == 0)
         {
-            throw new Exception('Bad Request: No ref id given!');
+            //throw new Exception('Bad Request: No ref id given!');
         }
-        else 
+        else
         {
             $this->obj_id = ilObject::_lookupObjectId($this->ref_id);
             $this->obj_title = ilObject::_lookupTitle($this->obj_id);
@@ -67,49 +74,42 @@ class ilWebDAVMountInstructions
             'nautilus' => 'davs://'
         );
         
-        $this->setValuesFromUserAgent($this->user_agent);
+        //$this->setValuesFromUserAgent($this->user_agent);
     }
-    
-    protected function setValuesFromUserAgent($a_user_agent)
-    {
-        // Guess operating system, operating system flavor and browser of the webdav client
-        //
-        // - We need to know the operating system in order to properly
-        // hide hidden resources in directory listings.
-        //
-        // - We need the operating system flavor and the browser to
-        // properly support mounting of a webdav folder.
-        //
-        if (strpos($a_user_agent,'windows') !== false
-            || strpos($a_user_agent,'microsoft') !== false)
-        {
-            $this->clientOS = 'windows';
-            if(strpos($a_user_agent,'nt 5.1') !== false){
-                $this->clientOSFlavor = 'xp';
-            }else{
-                $this->clientOSFlavor = 'nichtxp';
-            }
-            
-        } else if (strpos($this->user_agent,'darwin') !== false
-            || strpos($a_user_agent,'macintosh') !== false
-            || strpos($a_user_agent,'linux') !== false
-            || strpos($a_user_agent,'solaris') !== false
-            || strpos($a_user_agent,'aix') !== false
-            || strpos($a_user_agent,'unix') !== false
-            || strpos($a_user_agent,'gvfs') !== false // nautilus browser uses this ID
-            )
-        {
-            $this->clientOS = 'unix';
-            if (strpos($a_user_agent,'linux') !== false)
-            {
-                $this->clientOSFlavor = 'linux';
-            }
-            else if (strpos($a_user_agent,'macintosh') !== false)
-            {
-                $this->clientOSFlavor = 'osx';
-            }
-        }
-    }
+
+    // Everything below this line needs some refactoring
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     
     public function instructionsTplFileExists()
     {
@@ -136,26 +136,7 @@ class ilWebDAVMountInstructions
         return $this->obj_title;
     }
     
-    public function getDefaultUri()
-    {
-        return $this->protocol_prefixes['default'].$this->base_uri;
-    }
-    
-    public function getIEUri()
-    {
-        // Was in the old webdav the same like default uri and is now still the same
-        return $this->protocol_prefixes['default'].$this->base_uri;
-    }
-    
-    public function getKonquerorUri()
-    {
-        return $this->protocol_prefixes['konqueror'].$this->base_uri;
-    }
-    
-    public function getNautilusUri()
-    {
-        return $this->protocol_prefixes['nautilus'].$this->base_uri;
-    }
+
     
     /**
      * Gets Webfolder mount instructions for the specified webfolder.
