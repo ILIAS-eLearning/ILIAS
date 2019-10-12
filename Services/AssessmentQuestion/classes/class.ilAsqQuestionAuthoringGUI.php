@@ -413,7 +413,7 @@ class ilAsqQuestionAuthoringGUI
                 break;
             case "POST":
                 $answer = new Answer($this->authoring_context_container->getActorId(), $question->getId(), $this->authoring_context_container->getObjId(), $question_component->readAnswer());
-                $player->AnswerQuestion($answer);
+                $player->answerQuestion($answer);
                 $question_component->setAnswer($answer);
                 break;
         }

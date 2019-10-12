@@ -3,8 +3,10 @@
 namespace ILIAS\AssessmentQuestion\Application;
 
 use ilAsqQuestionPageGUI;
+use ilAsqQuestionProcessingGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
@@ -18,6 +20,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringCompone
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ProcessingContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 const MSG_SUCCESS = "success";
@@ -67,11 +70,23 @@ class ProcessingApplicationService
         $this->lng_key = $lng_key;
     }
 
+    public function getProcessingQuestionGUI(string $choose_new_question_cmd, string $revision_key) : ilAsqQuestionProcessingGUI
+    {
+        $processing_context_container = new ProcessingContextContainer($this->container_obj_id, $this->actor_user_id);
+
+        return new ilAsqQuestionProcessingGUI(
+            $choose_new_question_cmd,
+            $revision_key,
+            $processing_context_container,
+            $this->question_config
+        );
+    }
+
 
     /**
      * @param Answer $answer
      */
-    public function AnswerQuestion(Answer $answer)
+    public function answerQuestion(Answer $answer)
     {
         CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
     }
@@ -150,7 +165,7 @@ class ProcessingApplicationService
         /** @var AbstractEditor $editor * */
         $editor = new $editor_class($question_dto);
 
-        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getContainerObjId(), $editor->readAnswer());
+        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getContainerObjId(),$question_dto->getRevisionId(),$editor->readAnswer());
     }
 
 
@@ -167,18 +182,19 @@ class ProcessingApplicationService
 
     /**
      * @param string $question_id
+     * @param string $revision_key
      * @param int    $user_id
      * @param string $test_id
      *
      * @return Answer|null
      */
-    public function GetUserAnswer(string $question_id, int $user_id, int $test_id) : ?Answer
+    public function GetUserAnswer(string $question_id, string $revision_key, int $user_id, int $test_id) : ?Answer
     {
         //TODO get from read side after test ist finished (projected)
         /** @var Question $question */
         $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
 
-        return $question->getAnswer($user_id, $test_id);
+        return $question->getAnswer($user_id, $test_id, $revision_key);
     }
 
 
@@ -194,15 +210,15 @@ class ProcessingApplicationService
 
 
     /**
-     * @param string $revision_id
+     * @param string $revision_key
      *
      * @return QuestionDto
      */
-    public function GetQuestion(string $revision_id) : QuestionDto
+    public function GetQuestion(string $revision_key) : QuestionDto
     {
         $repository = new PublishedQuestionRepository();
 
-        return $repository->getQuestionByRevisionId($revision_id);
+        return $repository->getQuestionByRevisionId($revision_key);
     }
 
 

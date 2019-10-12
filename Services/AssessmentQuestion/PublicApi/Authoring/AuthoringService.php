@@ -3,7 +3,11 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
+use ilAsqQuestionProcessingGUI;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\RevisionFactory;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
@@ -60,14 +64,14 @@ class AuthoringService
 
     /**
      * @param int                $container_obj_id
-     * @param AssessmentEntityId $question_uuid
+     * @param AssessmentEntityId             $question_uuid
      * @param int                $actor_user_id
      *
      * @return AuthoringQuestion
      */
     public function question(AssessmentEntityId $question_uuid) : AuthoringQuestion
     {
-        return new AuthoringQuestion($this->container_obj_id, $question_uuid, $this->actor_user_id);
+        return new AuthoringQuestion($this->container_obj_id, $question_uuid->getId(), $this->actor_user_id);
     }
 
 
@@ -76,8 +80,9 @@ class AuthoringService
      *
      * @return QuestionComponent
      */
-    public function questionComponent(AssessmentEntityId $question_uuid):QuestionComponent {
-       return $this->authoring_application_service->getQuestionComponent($question_uuid);
+    public function questionComponent(AssessmentEntityId $question_uuid) : QuestionComponent
+    {
+        return $this->authoring_application_service->getQuestionComponent($question_uuid);
     }
 
 
@@ -117,8 +122,7 @@ class AuthoringService
         // NOTE: $DIC->http()->request() seems to always comes with EMPTY attributes member ^^
         // lets wait for fixes and use the super global meanwhile
 
-        if( isset($_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]) )
-        {
+        if (isset($_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID])) {
             return $DIC->assessment()->entityIdBuilder()->fromString(
                 $_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]
             );
@@ -126,6 +130,7 @@ class AuthoringService
 
         return $DIC->assessment()->entityIdBuilder()->new();
     }
+
 
     public function getQuestionPageEditor(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
     {
@@ -151,6 +156,7 @@ class AuthoringService
 
         return $pageGUI;
     }
+
 
     public function getGenericFeedbackPageGUI(Page $page) : \ilAsqGenericFeedbackPageGUI
     {

@@ -54,13 +54,13 @@ class AuthoringQuestion
      * @param string $question_uuid
      * @param int    $actor_user_id
      */
-    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id)
+    public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->actor_user_id = $actor_user_id;
         $this->container_obj_id = $container_obj_id;
-        $this->question_id = $question_uuid->getId();
+        $this->question_id = $question_uuid;
 
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
@@ -296,9 +296,6 @@ class AuthoringQuestion
     }
 
 
-    /**
-     *
-     */
     public function publishNewRevision() : void
     {
         $this->authoring_application_service->projectQuestion($this->question_id);

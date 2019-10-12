@@ -25,6 +25,10 @@ class Answer implements Entity, JsonSerializable {
 	 * @var string
 	 */
 	protected $question_id;
+    /**
+     * @var string
+     */
+    protected $revision_key;
 	/**
 	 * @var string
 	 */
@@ -34,10 +38,11 @@ class Answer implements Entity, JsonSerializable {
 	 */
 	protected $test_id;
 
-	public function __construct(int $anwerer_id, string $question_id, int $test_id, string $value) {
+	public function __construct(int $anwerer_id, string $question_id,  int $test_id, string $revision_key, string $value) {
 		$this->answerer_id = $anwerer_id;
 		$this->question_id = $question_id;
 		$this->test_id = $test_id;
+        $this->revision_key = $revision_key;
 		$this->value = $value;
 	}
 
@@ -55,6 +60,17 @@ class Answer implements Entity, JsonSerializable {
 		return $this->question_id;
 	}
 
+
+    /**
+     * @return string
+     */
+    public function getRevisionKey() : string
+    {
+        return $this->revision_key;
+    }
+
+
+
 	/**
 	 * @return string
 	 */
@@ -68,6 +84,7 @@ class Answer implements Entity, JsonSerializable {
 	public function getTestId(): string {
 		return $this->test_id;
 	}
+
 
 	/**
 	 * Specify data which should be serialized to JSON

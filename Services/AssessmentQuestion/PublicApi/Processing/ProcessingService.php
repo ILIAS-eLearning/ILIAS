@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ilAsqQuestionProcessingGUI;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
@@ -32,10 +33,9 @@ class ProcessingService
      */
     protected $question_config;
     /**
-     * @var ProcessingApplicationService
+     * @var string
      */
-    protected $processing_application_service;
-
+    protected $lng_key;
 
     /**
      * ProcessingService constructor.
@@ -53,11 +53,8 @@ class ProcessingService
         $this->question_config = $question_config;
 
         //The lng_key could be used in future as parameter in the constructor
-        $lng_key = $DIC->language()->getDefaultLanguage();
-
-        $this->processing_application_service = new ProcessingApplicationService($this->container_obj_id,  $this->actor_user_id, $this->question_config, $lng_key);
+        $this->lng_key = $DIC->language()->getDefaultLanguage();
     }
-
 
     /**
      * @param string $question_revision_uuid
@@ -66,7 +63,7 @@ class ProcessingService
      */
     public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new ProcessingQuestion($question_revision_id, $this->processing_application_service);
+        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
     }
 
     /**
@@ -74,6 +71,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->processing_application_service);
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
     }
 }

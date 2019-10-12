@@ -8,6 +8,7 @@ use ilAsqQuestionPageGUI;
 use ilAsqQuestionProcessingGUI;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ProcessingContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use \ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -30,7 +31,7 @@ class ProcessingQuestion
     /**
      * @var string
      */
-    protected $question_revision_uuid;
+    protected $question_revision_key;
     /**
      * @var ProcessingApplicationService
      */
@@ -44,17 +45,28 @@ class ProcessingQuestion
     /**
      * Question constructor.
      *
-     * @param string         $question_revision_uuid
+     * @param string         $question_revision_key
      * @param int            $actor_user_id
      * @param QuestionConfig $question_config
      *
      */
-    public function __construct(string $question_revision_uuid, ProcessingApplicationService $processing_application_service)
+    public function __construct(string $question_revision_key, int $container_obj_id, int $actor_user_id, QuestionConfig $question_config, string $lng_key)
     {
-        $this->question_revision_uuid = $question_revision_uuid;
-        $this->processing_application_service = $processing_application_service;
+        $this->question_revision_key = $question_revision_key;
+
+        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $question_config, $lng_key);
     }
 
+
+    /**
+     * @param string $choose_new_question_cmd
+     *
+     * @return ilAsqQuestionProcessingGUI
+     */
+    public function getProcessingQuestionGUI($choose_new_question_cmd) : ilAsqQuestionProcessingGUI
+    {
+        return $this->processing_application_service->getProcessingQuestionGUI($choose_new_question_cmd, $this->question_revision_key);
+    }
 
     /**
      * @return ilAsqQuestionPageGUI
@@ -67,13 +79,7 @@ class ProcessingQuestion
     }
 
 
-    public function getProcessingQuestionGUI() : ilAsqQuestionProcessingGUI
-    {
-        return new ilAsqQuestionProcessingGUI(
-            $this->processing_application_service,
-            $this->question_revision_uuid
-        );
-    }
+
 
 
     /**
@@ -151,7 +157,7 @@ class ProcessingQuestion
     {
         if (is_null($this->question_dto)) {
             $published_question_repository = new PublishedQuestionRepository();
-            $this->question_dto = $published_question_repository->getQuestionByRevisionId($this->question_revision_uuid);
+            $this->question_dto = $published_question_repository->getQuestionByRevisionId($this->question_revision_key);
         }
 
         return $this->question_dto;
@@ -169,7 +175,7 @@ class ProcessingQuestion
         $DIC->ctrl()->setParameterByClass(
             ilAsqQuestionProcessingGUI::class,
             ilAsqQuestionProcessingGUI::VAR_QUESTION_REVISION_UID,
-            $this->question_revision_uuid
+            $this->question_revision_key
         );
     }
 }
