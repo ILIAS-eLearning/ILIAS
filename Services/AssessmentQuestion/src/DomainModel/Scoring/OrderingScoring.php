@@ -41,7 +41,17 @@ class OrderingScoring extends AbstractScoring
         return $scoring_conf->getPoints();
     }
 
-
+    public function getBestAnswer(): Answer
+    {
+        $answers = [];
+        
+        for ($i = 1; $i <= count($this->question->getAnswerOptions()->getOptions()); $i++) {
+            $answers[] = $i;
+        }
+        
+        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+    }
+    
     /**
      * @param AbstractConfiguration|null $config
      *

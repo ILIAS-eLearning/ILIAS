@@ -61,6 +61,22 @@ class ErrorTextScoring extends AbstractScoring {
         return $score;
     }
     
+    public function getBestAnswer() : Answer {
+        $answers = [];
+        
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ErrorTextScoringDefinition $scoring_definition */
+            $scoring_definition = $option->getScoringDefinition();
+            
+            for ($i = 0; $i < $scoring_definition->getWrongWordLength(); $i++) {
+                
+                $answers[] = $scoring_definition->getWrongWordIndex() + $i;
+            }
+        }
+        
+        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+    }
+    
     /**
      * @return array|null
      */

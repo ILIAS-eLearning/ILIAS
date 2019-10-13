@@ -4,7 +4,6 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
@@ -21,7 +20,7 @@ abstract class AbstractScoring {
 	const SCORING_DEFINITION_SUFFIX = 'Definition';
 
 	/**
-	 * @var Question
+	 * @var QuestionDto
 	 */
 	protected $question;
 
@@ -45,6 +44,8 @@ abstract class AbstractScoring {
 	}
 
 	public static abstract function readConfig();
+	
+	public abstract function getBestAnswer() : Answer;
 	
 	/**
 	 * @return string

@@ -69,6 +69,11 @@ class FormulaScoring extends AbstractScoring {
         }
     }
 
+    public function getBestAnswer(): Answer
+    {
+        
+    }
+    
     /**
      * @return array|null
      */

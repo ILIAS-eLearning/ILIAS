@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
+use Exception;
 
 /**
  * Class FileUploadScoring
@@ -69,5 +70,13 @@ class FileUploadScoring extends AbstractScoring {
      */
     public static function getScoringDefinitionClass(): string {
         return EmptyScoringDefinition::class;
+    }
+    
+    /**
+     * Implementation of best answer for upload not possible
+     */
+    public function getBestAnswer(): Answer
+    {
+        throw new Exception("Best Answer for File Upload Impossible");
     }
 }

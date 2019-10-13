@@ -51,6 +51,25 @@ class KprimChoiceScoring extends AbstractScoring {
         }
     }
     
+    public function getBestAnswer(): Answer
+    {
+        $answers = [];
+        
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            /** @var KprimChoiceScoringDefinition $scoring_definition */
+            $scoring_definition = $option->getScoringDefinition();
+            
+            if ($scoring_definition->isCorrect_value()) {
+                $answers[$option->getOptionId()] = self::STR_TRUE;
+            }
+            else {
+                $answers[$option->getOptionId()] = self::STR_FALSE;
+            }
+        }
+        
+        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+    }
+    
     /**
      * @return array|null
      */

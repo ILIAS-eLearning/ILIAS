@@ -33,9 +33,24 @@ class MultipleChoiceScoring extends AbstractScoring {
 		return $score;
 	}
 	
+	public function getBestAnswer(): Answer
+	{
+	    $answers = [];
+	    
+	    /** @var AnswerOption $answer_option */
+	    foreach ($this->question->getAnswerOptions()->getOptions() as $answer_option) {
+	        /** @var MultipleChoiceScoringDefinition $score */
+	        $score = $answer_option->getScoringDefinition();
+	        if ($score->getPointsSelected() > $score->getPointsUnselected()) {
+	            $answers[] = $answer_option->getOptionId();
+	        }
+	    }
+	    
+	    return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+	}
+	
     public static function readConfig()
     {
         return new MultipleChoiceScoringConfiguration();
     }
-
 }

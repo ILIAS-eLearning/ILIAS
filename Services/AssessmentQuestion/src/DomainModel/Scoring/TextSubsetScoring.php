@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ilSelectInputGUI;
+use Exception;
 
 /**
  * Class TextSubsetScoring
@@ -56,7 +57,18 @@ class TextSubsetScoring extends AbstractScoring
                 return $this->levenshteinScoring($answer_arr, 5);
         }
         
-        return 1;
+        throw new Exception("Unknown Test Subset Scoring Method found");
+    }
+    
+    public function getBestAnswer(): Answer
+    {
+        $answers = [];
+        
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            [] = $option->getScoringDefinition()->getText();
+        }
+        
+        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
     }
     
     /**
