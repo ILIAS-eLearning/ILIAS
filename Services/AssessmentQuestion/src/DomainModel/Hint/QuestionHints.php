@@ -11,7 +11,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Hint;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Hints {
+class QuestionHints {
 
 	/**
 	 * @var Hint[]
@@ -46,9 +46,9 @@ class Hints {
        return new Hint($order_number, '', 0);
     }
 	
-	public static function deserialize(string $json_data) : Hints {
+	public static function deserialize(string $json_data) : QuestionHints {
 	    $data = json_decode($json_data);
-	    $hints = new Hints();
+	    $hints = new QuestionHints();
 	    
 	    foreach($data as $hint) {
 	        $a_hint = new Hint($hint->order_number,$hint->content,$hint->point_deduction);
@@ -60,17 +60,17 @@ class Hints {
 	}
 	
 	/**
-	 * @param Hints $other
+	 * @param QuestionHints $other
 	 *
 	 * @return bool
 	 */
-	public function equals(Hints $other) : bool {
+	public function equals(QuestionHints $other) : bool {
 	    return !is_null($other) &&
 	           count($this->hints) === count($other->hints) &&
 	           $this->hintsAreEqual($other);
 	}
 	
-	public function hintsAreEqual(Hints $other) : bool {
+	public function hintsAreEqual(QuestionHints $other) : bool {
 	    /** @var Hint $my_hint */
 	    foreach ($this->hints as $my_hint) {
 	        $found = false;

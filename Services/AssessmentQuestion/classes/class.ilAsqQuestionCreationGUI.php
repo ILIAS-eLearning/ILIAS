@@ -6,7 +6,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionTypeSelectForm;
 
 /**
@@ -126,7 +126,7 @@ class ilAsqQuestionCreationGUI
 
         $guid = $this->questionId->getId();
 
-        $this->authoringApplicationService->CreateQuestion(
+        $this->authoringApplicationService->createQuestion(
             new DomainObjectId($guid),
             $this->contextContainer->getObjId(), 
             null, //new questions get dynamic ids
@@ -134,9 +134,27 @@ class ilAsqQuestionCreationGUI
             $form->getContentEditingMode()
         );
 
-        $DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
-            $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
-        ));
+        $DIC->ctrl()->setParameterByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlCmdClass(),
+            ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,
+            $this->questionId->getId()
+        );
+
+        $DIC->ctrl()->redirectByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlClassPath(),
+            $this->contextContainer->getAfterQuestionCreationCtrlCommand()
+        );
+
+        /*$DIC->ctrl()->setReturnByClass(
+            $this->contextContainer->getAfterQuestionCreationCtrlClassPath(),
+            $this->contextContainer->getAfterQuestionCreationCtrlCommand()
+        );
+
+        $DIC->ctrl()->returnToParent($this);*/
+
+        #$DIC->ctrl()->redirectToURL(str_replace('&amp;', '&',
+        #    $this->publicAuthoringService->question($this->questionId)->getEditLink(array())->getAction()
+        #));
     }
 
 

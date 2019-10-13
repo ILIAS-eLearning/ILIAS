@@ -4,12 +4,14 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
 use ilAsqQuestionAuthoringGUI;
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class QuestionAuthoring
@@ -21,7 +23,7 @@ use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Question
+class AuthoringQuestion
 {
 
     /**
@@ -52,13 +54,13 @@ class Question
      * @param string $question_uuid
      * @param int    $actor_user_id
      */
-    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id)
+    public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->actor_user_id = $actor_user_id;
         $this->container_obj_id = $container_obj_id;
-        $this->question_id = $question_uuid->getId();
+        $this->question_id = $question_uuid;
 
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
@@ -69,7 +71,7 @@ class Question
     }
 
 
-    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : Question
+    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : AuthoringQuestion
     {
 
     }
@@ -88,12 +90,22 @@ class Question
         );
     }
 
+    public function getQuestionDto() : QuestionDto
+    {
+        return $this->authoring_application_service->getQuestion(
+            $this->question_id
+        );
+    }
+
 
     public function getAuthoringGUI(
         UiStandardLink $container_back_link,
         int $container_ref_id,
         string $container_obj_type,
-        bool $actor_has_write_access
+        QuestionConfig $question_config,
+        bool $actor_has_write_access,
+        array $afterQuestionCreationCtrlClassPath,
+        string $afterQuestionCreationCtrlCommand
     ) : ilAsqQuestionAuthoringGUI
     {
         $authoringContextContainer = new AuthoringContextContainer(
@@ -102,10 +114,12 @@ class Question
             $this->container_obj_id,
             $container_obj_type,
             $this->actor_user_id,
-            $actor_has_write_access
+            $actor_has_write_access,
+            $afterQuestionCreationCtrlClassPath,
+            $afterQuestionCreationCtrlCommand
         );
 
-        return new ilAsqQuestionAuthoringGUI($authoringContextContainer);
+        return new ilAsqQuestionAuthoringGUI($authoringContextContainer, $question_config);
     }
 
 
@@ -159,7 +173,7 @@ class Question
         global $DIC;
         $DIC->ctrl()->setParameterByClass(ilAsqQuestionAuthoringGUI::class,ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID,$this->question_id);
 
-        $player = new PlayApplicationService($this->container_obj_id,$this->actor_user_id);
+        $player = new ProcessingApplicationService($this->container_obj_id,$this->actor_user_id);
         return $player->GetPointsByUser($this->question_id,$this->actor_user_id, $this->container_obj_id);
 
     }
@@ -282,9 +296,6 @@ class Question
     }
 
 
-    /**
-     *
-     */
     public function publishNewRevision() : void
     {
         $this->authoring_application_service->projectQuestion($this->question_id);

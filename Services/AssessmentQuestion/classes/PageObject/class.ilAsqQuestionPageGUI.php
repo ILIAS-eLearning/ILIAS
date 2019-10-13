@@ -138,22 +138,23 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     {
         return $this->getRenderPageContainer();
     }
-
+/*
     public function showPage()
     {
         $this->setOriginalPresentationTitle($this->getPresentationTitle());
         $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
-
+*/
         /**
          * enable page toc as placeholder for info and actions block
          * @see self::insertPageToc
          */
+        /*
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
         $this->setPageConfig($config);
 
         return parent::showPage();
-    }
+    }*/
 
     function postOutputProcessing($output)
     {

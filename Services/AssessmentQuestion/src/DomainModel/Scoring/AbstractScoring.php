@@ -4,6 +4,8 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
@@ -17,40 +19,62 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 abstract class AbstractScoring {
-	const SCORING_DEFINITION_SUFFIX = 'Definition';
+    const SCORING_DEFINITION_SUFFIX = 'Definition';
+    /**
+     * @var Question
+     */
+    protected $question;
 
-	/**
-	 * @var QuestionDto
-	 */
-	protected $question;
 
-	/**
-	 * AbstractScoring constructor.
-	 *
-	 * @param QuestionDto $question
-	 * @param array    $configuration
-	 */
-	public function __construct(QuestionDto $question) {
-		$this->question = $question;
-	}
+    /**
+     * AbstractScoring constructor.
+     *
+     * @param QuestionDto $question
+     * @param array       $configuration
+     */
+    public function __construct(QuestionDto $question)
+    {
+        $this->question = $question;
+    }
 
-	abstract function score(Answer $answer) : int;
 
-	/**
-	 * @return array|null
-	 */
-	public static function generateFields(?AbstractConfiguration $config): ?array {
-		return [];
-	}
+    abstract function score(Answer $answer) : AnswerScoreDto;
 
-	public static abstract function readConfig();
-	
-	public abstract function getBestAnswer() : Answer;
-	
-	/**
-	 * @return string
-	 */
-	public static function getScoringDefinitionClass(): string {
-		return get_called_class() . self::SCORING_DEFINITION_SUFFIX;
-	}
+
+    /**
+     * @return array|null
+     */
+    public static function generateFields(?AbstractConfiguration $config) : ?array
+    {
+        return [];
+    }
+
+
+    public static abstract function readConfig();
+
+
+    /**
+     * @return string
+     */
+    public static function getScoringDefinitionClass() : string
+    {
+        return get_called_class() . self::SCORING_DEFINITION_SUFFIX;
+    }
+
+    /**
+     * @param float $reached_points
+     * @param float $max_points
+     *
+     * @return int
+     */
+    public function getAnswerFeedbackType(float $reached_points, float $max_points) : int
+    {
+        if($max_points === 0) {
+            return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_NOT_DETERMINABLLE;
+        }
+        if($reached_points === $max_points) {
+            return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_CORRECT;
+        }
+        return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_INCORRECT;
+    }
 }

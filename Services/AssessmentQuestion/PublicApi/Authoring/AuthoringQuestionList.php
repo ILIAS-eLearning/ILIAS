@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 class AuthoringQuestionList implements QuestionList
 {
@@ -31,17 +31,20 @@ class AuthoringQuestionList implements QuestionList
      */
     public function __construct(int $container_obj_id, int $actor_user_id)
     {
+        global $DIC;
+
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        //The lng_key could be used in future as parameter in the constructor
+        $lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
-
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id,$lng_key);
     }
 
     public function getQuestionsOfContainerAsAssocArray() : array
     {
         $assoc_array = [];
-        foreach($this->authoring_application_service->GetQuestions() as $question_dto) {
+        foreach($this->authoring_application_service->getQuestions() as $question_dto) {
             $assoc_array[] = $this->getArrayFromDto($question_dto);
         }
         return $assoc_array;
@@ -77,6 +80,6 @@ class AuthoringQuestionList implements QuestionList
      */
     public function getQuestionsOfContainerAsDtoList() : array
     {
-        return $this->authoring_application_service->GetQuestions();
+        return $this->authoring_application_service->getQuestions();
     }
 }

@@ -4,7 +4,7 @@
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionHintFormGUI;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class ilAsqQuestionHintsEditorGUI
@@ -88,7 +88,7 @@ class ilAsqQuestionHintsEditorGUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $hint_order_number = intval(filter_input(INPUT_GET, self::VAR_HINT_ORDER_NUMBER, FILTER_VALIDATE_INT));
-        $hint = $this->question_dto->getHints()->getSpecificHint($hint_order_number);
+        $hint = $this->question_dto->getQuestionHints()->getSpecificHint($hint_order_number);
         $form = new QuestionHintFormGUI($this->question_dto, $hint);
 
         if( !$form->checkInput() )
@@ -98,7 +98,7 @@ class ilAsqQuestionHintsEditorGUI
         }
 
         $question = $form->getQuestion();
-        $this->authoring_application_service->SaveQuestion($question);
+        $this->authoring_application_service->saveQuestion($question);
 
         $DIC->ctrl()->redirect($this);
     }
@@ -108,7 +108,7 @@ class ilAsqQuestionHintsEditorGUI
 
         if(!is_object($form)) {
             $hint_order_number = intval(filter_input(INPUT_GET, self::VAR_HINT_ORDER_NUMBER, FILTER_VALIDATE_INT));
-            $hint = $this->question_dto->getHints()->getSpecificHint($hint_order_number);
+            $hint = $this->question_dto->getQuestionHints()->getSpecificHint($hint_order_number);
             $form = new QuestionHintFormGUI($this->question_dto, $hint);
         }
 

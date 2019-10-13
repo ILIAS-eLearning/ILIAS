@@ -20,7 +20,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionHintsSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionLegacyDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionPlayConfigurationSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionRevisionCreatedEvent;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 
 /**
@@ -75,7 +75,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
      */
     private $answer_options;
     /**
-     * @var Hints
+     * @var QuestionHints
      */
     private $hints;
     /**
@@ -105,7 +105,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
         $this->answers = [];
         $this->answer_options = new AnswerOptions();
-        $this->hints = new Hints();
+        $this->hints = new QuestionHints();
 
         /**
          * TODO: I guess this is not the right place.
@@ -206,7 +206,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     protected function applyQuestionAnswerAddedEvent(QuestionAnswerAddedEvent $event)
     {
         $answer = $event->getAnswer();
-        $this->answers[$answer->getTestId()][$answer->getAnswererId()] = $answer;
+        $this->answers[$answer->getTestId()][$answer->getRevisionKey()][$answer->getAnswererId()] = $answer;
     }
 
     /**
@@ -338,21 +338,21 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
 
     /**
-     * @return Hints
+     * @return QuestionHints
      */
-    public function getHints() : Hints
+    public function getHints() : QuestionHints
     {
         return $this->hints;
     }
 
 
     /**
-     * @param Hints $hints
+     * @param QuestionHints $hints
      * @param int           $creator_id
      *
      * @throws ilDateTimeException
      */
-    public function setHints(Hints $hints, int $container_obj_id, int $creator_id = self::SYSTEM_USER_ID)
+    public function setHints(QuestionHints $hints, int $container_obj_id, int $creator_id = self::SYSTEM_USER_ID)
     {
         $this->ExecuteEvent(new QuestionHintsSetEvent(
             $this->getAggregateId(),
@@ -382,12 +382,13 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     /**
      * @param int    $user_id
      * @param string $test_id
+     * @param string $revision_key
      *
      * @return Answer|null
      */
-    public function getAnswer(int $user_id, string $test_id) : ?Answer
+    public function getAnswer(int $user_id, string $test_id, string $revision_key) : ?Answer
     {
-        return $this->answers[$test_id][$user_id];
+        return $this->answers[$test_id][$revision_key][$user_id];
     }
 
 

@@ -3,12 +3,16 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
+use ilAsqQuestionProcessingGUI;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\RevisionFactory;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionList;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 
 /**
  * Class AuthoringService
@@ -52,22 +56,22 @@ class AuthoringService
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         //The lng_key could be used in future as parameter in the constructor
-        $this->lng_key = $DIC->language()->getDefaultLanguage();
+        $lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key);
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $lng_key);
     }
 
 
     /**
      * @param int                $container_obj_id
-     * @param AssessmentEntityId $question_uuid
+     * @param AssessmentEntityId             $question_uuid
      * @param int                $actor_user_id
      *
-     * @return Question
+     * @return AuthoringQuestion
      */
-    public function question(AssessmentEntityId $question_uuid) : Question
+    public function question(AssessmentEntityId $question_uuid) : AuthoringQuestion
     {
-        return new Question($this->container_obj_id, $question_uuid, $this->actor_user_id);
+        return new AuthoringQuestion($this->container_obj_id, $question_uuid->getId(), $this->actor_user_id);
     }
 
 
@@ -76,8 +80,9 @@ class AuthoringService
      *
      * @return QuestionComponent
      */
-    public function questionComponent(AssessmentEntityId $question_uuid):QuestionComponent {
-       return new QuestionComponent($this->authoring_application_service->GetQuestion($question_uuid->getId()));
+    public function questionComponent(AssessmentEntityId $question_uuid) : QuestionComponent
+    {
+        return $this->authoring_application_service->getQuestionComponent($question_uuid);
     }
 
 
@@ -117,8 +122,7 @@ class AuthoringService
         // NOTE: $DIC->http()->request() seems to always comes with EMPTY attributes member ^^
         // lets wait for fixes and use the super global meanwhile
 
-        if( isset($_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]) )
-        {
+        if (isset($_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID])) {
             return $DIC->assessment()->entityIdBuilder()->fromString(
                 $_GET[\ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID]
             );
@@ -127,26 +131,10 @@ class AuthoringService
         return $DIC->assessment()->entityIdBuilder()->new();
     }
 
-    public function getQuestionPage(QuestionComponent $questionComponent, string $scoreCommand) : \ilAsqQuestionPageGUI
-    {
-        $questionHtml = $questionComponent->renderHtml($scoreCommand);
-
-        $pageGUI = $this->authoring_application_service->getQuestionPage(
-            $questionComponent->getQuestionDto()->getQuestionIntId()
-        );
-
-        $pageGUI->setQuestionHTML([
-            $questionComponent->getQuestionDto()->getQuestionIntId() => $questionHtml
-        ]);
-
-        $pageGUI->setPresentationTitle($questionComponent->getQuestionDto()->getData()->getTitle());
-
-        return $pageGUI;
-    }
 
     public function getQuestionPageEditor(AssessmentEntityId $questionUid) : \ilAsqQuestionPageGUI
     {
-        $questionDto = $this->authoring_application_service->GetQuestion(
+        $questionDto = $this->authoring_application_service->getQuestion(
             $questionUid->getId()
         );
 
@@ -168,6 +156,7 @@ class AuthoringService
 
         return $pageGUI;
     }
+
 
     public function getGenericFeedbackPageGUI(Page $page) : \ilAsqGenericFeedbackPageGUI
     {

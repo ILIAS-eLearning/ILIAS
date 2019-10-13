@@ -5,7 +5,7 @@
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
-use ILIS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
 /**
@@ -107,7 +107,7 @@ class ilAsqQuestionConfigEditorGUI
         }
 
         $question = $form->getQuestion();
-        $this->authoringApplicationService->SaveQuestion($question);
+        $this->authoringApplicationService->saveQuestion($question);
 
         ilutil::sendSuccess("Question Saved", true);
         $DIC->ctrl()->redirect($this, self::CMD_SHOW_FORM);
@@ -129,7 +129,7 @@ class ilAsqQuestionConfigEditorGUI
         }
         
         $question = $form->getQuestion();
-        $this->authoringApplicationService->SaveQuestion($question);
+        $this->authoringApplicationService->saveQuestion($question);
 
         $DIC->ctrl()->redirectToUrl(str_replace('&amp;', '&',
             $this->contextContainer->getBackLink()->getAction()
@@ -161,7 +161,7 @@ class ilAsqQuestionConfigEditorGUI
     protected function buildQuestion() : QuestionDto
     {
         $question_id = $this->questionId->getId();
-        $question = $this->authoringApplicationService->GetQuestion($question_id);
+        $question = $this->authoringApplicationService->getQuestion($question_id);
 
         return $question;
     }

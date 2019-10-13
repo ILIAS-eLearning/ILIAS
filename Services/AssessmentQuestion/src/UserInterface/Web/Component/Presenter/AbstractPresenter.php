@@ -26,7 +26,7 @@ abstract class AbstractPresenter {
 	/**
 	 * @var AbstractEditor
 	 */
-	protected $editor;
+	//protected $editor;
 
     /**
      * AbstractPresenter constructor.
@@ -35,22 +35,19 @@ abstract class AbstractPresenter {
      */
 	public function __construct(QuestionDto $question) {
 		$this->question = $question;
-
-		$editor_class = QuestionPlayConfiguration::getEditorClass($question->getPlayConfiguration());
-		$this->editor = new $editor_class($question);
 	}
 
     /**
      * @return AbstractEditor
      */
-	public function getEditor() {
+	/*public function getEditor() {
 		return $this->editor;
-	}
+	}*/
 
 	/**
 	 * @return string
 	 */
-	abstract public function generateHtml(): string;
+	abstract public function generateHtml(AbstractEditor $editor): string;
 
 	/**
 	 * @return array|null

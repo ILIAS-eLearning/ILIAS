@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
 
 /**
@@ -23,7 +24,10 @@ class KprimChoiceScoring extends AbstractScoring {
     const STR_TRUE = "True";
     const STR_FALSE = "False";
     
-    function score(Answer $answer) : int {
+    function score(Answer $answer) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
+
         $answers = json_decode($answer->getValue(), true);
         $count = 0;
         
@@ -40,14 +44,18 @@ class KprimChoiceScoring extends AbstractScoring {
         }
         /** @var KprimChoiceScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
+        $max_points += $scoring_conf->getPoints();
         if ($count === count($answers)) {
-            return $scoring_conf->getPoints();
+            $reached_points = $scoring_conf->getPoints();
+            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         } 
         else if ($count >= $scoring_conf->getHalfPointsAt()) {
-            return floor($scoring_conf->getPoints() / 2);
+            $reached_points = floor($scoring_conf->getPoints() / 2);
+            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         } 
         else {
-            return 0;
+            $reached_points =  0;
+            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         }
     }
     

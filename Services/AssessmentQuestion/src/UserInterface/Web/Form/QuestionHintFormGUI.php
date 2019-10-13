@@ -9,7 +9,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\Hints;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
@@ -91,18 +91,18 @@ class QuestionHintFormGUI extends \ilPropertyFormGUI
 
         $current_hint = Hint::getValueFromPost();
 
-        $hints_to_save = new Hints();
+        $hints_to_save = new QuestionHints();
         $hints_to_save->addHint($current_hint);
 
 
-        foreach($question->getHints()->getHints() as $hint) {
+        foreach($question->getQuestionHints()->getHints() as $hint) {
             if($hint->getOrderNumber() == $current_hint->getOrderNumber()) {
                 continue;
             }
             $hints_to_save->addHint($hint);
         }
 
-        $question->setHints($hints_to_save);
+        $question->setQuestionHints($hints_to_save);
 
         return $question;
     }

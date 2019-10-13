@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use ilFormSectionHeaderGUI;
@@ -24,21 +25,24 @@ class NumericScoring extends AbstractScoring
     const VAR_LOWER_BOUND = 'ns_lower_bound';
     const VAR_UPPER_BOUND = 'ns_upper_bound';
 
-    function score(Answer $answer) : int
+    function score(Answer $answer) : AnswerScoreDto
     {
+        $reached_points = 0;
+        $max_points = 0;
+
         /** @var NumericScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
 
         $float_answer = floatval($answer->getValue());
 
+        $max_points = $scoring_conf->getPoints();
         if ($float_answer !== null &&
             $scoring_conf->getLowerBound() <= $float_answer &&
             $scoring_conf->getUpperBound() >= $float_answer) {
-            return $scoring_conf->getPoints();
-        } else
-        {
-            return 0;
+            $reached_points = $scoring_conf->getPoints();
         }
+
+        return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
     public function getBestAnswer(): Answer

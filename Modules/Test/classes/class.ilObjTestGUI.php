@@ -1,8 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\UI\Component\Link\Link;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as AsqAuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
@@ -57,6 +57,7 @@ require_once 'Modules/Test/classes/class.asqDebugGUI.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestSkillAdministrationGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssQuestionPreviewGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestQuestionBrowserTableGUI, ilTestInfoScreenToolbarGUI, ilLTIProviderObjectSettingGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilAsqQuestionAuthoringGUI
  *
  * @ingroup ModulesTest
  */
@@ -65,6 +66,12 @@ class ilObjTestGUI extends ilObjectGUI
 	private static $infoScreenChildClasses = array(
 		'ilpublicuserprofilegui', 'ilobjportfoliogui'
 	);
+
+	const AUTHORING_CONTEXT_PARAMETER = 'context';
+	const AUTHORING_CONTEXT_LIST_VIEW = 'listview';
+    const AUTHORING_CONTEXT_PAGE_VIEW = 'pageview';
+
+    const CMD_REGISTER_CREATED_QUESTION = 'registerCreatedQuestion';
 	
 	/** @var ilObjTest $object */
 	public $object = null;
@@ -97,13 +104,9 @@ class ilObjTestGUI extends ilObjectGUI
 	protected $testAccess;
 
     /**
-     * @var AuthoringService
+     * @var AsqAuthoringService
      */
-    public $authoring_service;
-    /**
-     * @var Link
-     */
-    public $back_link;
+    public $asqAuthoringService;
 
 	/**
 	 * Constructor
@@ -154,6 +157,101 @@ class ilObjTestGUI extends ilObjectGUI
 			$tabsManager->initSettingsTemplate();
 			$this->setTabsManager($tabsManager);
 		}
+
+		$this->asqAuthoringService = $DIC->assessment()->questionAuthoring(
+		    $this->object->getId(), $DIC->user()->getId()
+        );
+    }
+
+    protected function forwardToAsqAuthoring()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $DIC->ctrl()->saveParameter($this, self::AUTHORING_CONTEXT_PARAMETER);
+
+        $this->getTabsManager()->getQuestionsSubTabs();
+
+        switch($_GET[self::AUTHORING_CONTEXT_PARAMETER])
+        {
+            case self::AUTHORING_CONTEXT_LIST_VIEW:
+
+                $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QUESTIONS);
+
+                $backLink = $DIC->ui()->factory()->link()->standard(
+                    $DIC->language()->txt('back'),
+                    $DIC->ctrl()->getLinkTarget($this, 'questions')
+                );
+
+                break;
+
+            case self::AUTHORING_CONTEXT_PAGE_VIEW:
+
+                $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_EXPRESSPAGE);
+
+                $backLink = $DIC->ui()->factory()->link()->standard(
+                    $DIC->language()->txt('back'),
+                    $DIC->ctrl()->getLinkTargetByClass('ilTestExpresspageObjectGUI','showPage')
+                );
+
+                break;
+
+            default:
+
+                $backLink = $DIC->ui()->factory()->link()->standard('', '#');
+        }
+
+        $asqQuestionService = $this->asqAuthoringService->question(
+            $this->asqAuthoringService->currentOrNewQuestionId()
+        );
+
+        $question_config = new QuestionConfig();
+        //TODO BH - set the settings of test
+        $question_config->setFeedbackOnDemand(true);
+        $question_config->setFeedbackShowScore(true);
+        $question_config->setHintsActivated(true);
+        $question_config->setFeedbackShowCorrectSolution(true);
+        $question_config->setFeedbackOnSubmit(true);
+        $question_config->setFeedbackForAnswerOption(true);
+
+        $asqAuthoringGUI = $asqQuestionService->getAuthoringGUI(
+            $backLink, $this->object->getRefId(), $this->object->getType(),$question_config,
+            $DIC->access()->checkAccess('write', '', $this->object->getRefId()),
+            [self::class], self::CMD_REGISTER_CREATED_QUESTION
+        );
+
+        $DIC->ctrl()->forwardCommand($asqAuthoringGUI);
+    }
+
+    /**
+     * @throws ilTestException
+     */
+    protected function registerCreatedQuestionObject()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        if( !$this->access->checkAccess('write', '', $this->object->getRefId()) )
+        {
+            throw new ilTestException('permission denied!');
+        }
+
+        if( !$this->object->isFixedTest() )
+        {
+            throw new ilTestException('permission denied!');
+        }
+
+        $DIC->ctrl()->saveParameter($this, self::AUTHORING_CONTEXT_PARAMETER);
+
+        $questionService = $this->asqAuthoringService->question(
+            $this->asqAuthoringService->currentOrNewQuestionId()
+        );
+
+        /* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+        $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->object)->getQuestionSetConfig();
+        $questionSetConfig->registerCreatedQuestion($questionService->getQuestionDto());
+
+        $DIC->ctrl()->redirectToURL(str_replace(
+            '&amp;', '&', $questionService->getEditLink([])->getAction()
+        ));
     }
 
 	/**
@@ -240,10 +338,19 @@ class ilObjTestGUI extends ilObjectGUI
             break;
             ///////////////////
 
+            case strtolower(ilAsqQuestionAuthoringGUI::class):
+
+                $this->prepareOutput();
+                $this->addHeaderAction();
+
+                $this->forwardToAsqAuthoring();
+
+                break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->prepareOutput();
 				$this->addHeaderAction();
-				$this->tabsManager->getSettingsSubTabs();
+				$this->getTabsManager()->getSettingsSubTabs();
 				$GLOBALS['DIC']->tabs()->activateTab('settings');
 				$GLOBALS['DIC']->tabs()->activateSubTab('lti_provider');
 				$lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
@@ -783,7 +890,7 @@ class ilObjTestGUI extends ilObjectGUI
 			$this->tpl->printToStdout();
 		}
 	}
-	
+
 	protected function trackTestObjectReadEvent()
 	{
 		/* @var ILIAS\DI\Container $DIC */ global $DIC;
@@ -2031,6 +2138,10 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 	}
 
+
+    /**
+     * @deprecated this form is provided by asq
+     */
 	public function addQuestionObject()
 	{
 		global $DIC;
@@ -2159,7 +2270,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilAccess = $DIC['ilAccess'];
 		$ilTabs = $DIC['ilTabs'];
 
-		$ilTabs->activateTab('assQuestions');
+        $this->getTabsManager()->activateTab(ilTestTabsManager::TAB_ID_QUESTIONS);
 		
 		// #12590
 		$this->ctrl->setParameter($this, 'test_express_mode', '');
@@ -2177,6 +2288,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QUESTIONS);
 
 		// #11631, #12994
 		$this->ctrl->setParameter($this, 'q_id', '');
@@ -2235,12 +2347,23 @@ class ilObjTestGUI extends ilObjectGUI
 				);
 				$DIC->ui()->mainTemplate()->parseCurrentBlock();
 			}
-			else {
-				global $DIC;
-				$ilToolbar = $DIC['ilToolbar'];
+			else
+			{
+                $DIC->ctrl()->setParameter($this,
+                    self::AUTHORING_CONTEXT_PARAMETER,
+                    self::AUTHORING_CONTEXT_LIST_VIEW
+                );
 
-				$ilToolbar->addButton($this->lng->txt("ass_create_question"), $this->ctrl->getLinkTarget($this, "addQuestion"));
-				
+                $ilToolbar = $DIC->toolbar();
+
+			    $this->asqAuthoringService = $DIC->assessment()->questionAuthoring(
+			        $this->object->getId(), $DIC->user()->getId()
+                );
+
+                $newQstId = $this->asqAuthoringService->currentOrNewQuestionId();
+                $creationLink = $this->asqAuthoringService->question($newQstId)->getCreationLink([]);
+				$ilToolbar->addButton($creationLink->getLabel(), $creationLink->getAction());
+
 				if( $this->object->getPoolUsage() )
 				{
 					$ilToolbar->addSeparator();
@@ -2334,8 +2457,15 @@ class ilObjTestGUI extends ilObjectGUI
 		$table_gui->setTotalWorkingTime($this->object->getFixedQuestionSetTotalWorkingTime());
 		
 		$table_gui->init();
-		
-		$table_gui->setData($this->object->getTestQuestions());
+
+		#$asqQuestionListAssocArray = $DIC->assessment()->questionProcessing(
+		#    $this->object->getId(), $DIC->user()->getId()
+        #)->questionList()->getQuestionsOfContainerAsAssocArray();
+		$asqQuestionListAssocArray = $DIC->assessment()->questionAuthoring(
+		    $this->object->getId(), $DIC->user()->getId()
+        )->questionList()->getQuestionsOfContainerAsAssocArray();
+
+		$table_gui->setData($asqQuestionListAssocArray);
 		
 		$this->tpl->setCurrentBlock("adm_content");
 		$this->tpl->setVariable("ACTION_QUESTION_FORM", $this->ctrl->getFormAction($this));

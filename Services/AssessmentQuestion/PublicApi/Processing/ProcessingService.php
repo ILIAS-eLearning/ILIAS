@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ILIAS\AssessmentQuestion\Application\PlayApplicationService;
+use ilAsqQuestionProcessingGUI;
+use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 /**
  * Class ServiceFactory
@@ -18,40 +20,50 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
  */
 class ProcessingService
 {
-
+    /**
+     * @var int
+     */
+    protected $container_obj_id;
     /**
      * @var int
      */
     protected $actor_user_id;
     /**
-     * @var PlayApplicationService
+     * @var QuestionConfig
      */
-    protected $processing_application_service;
-
+    protected $question_config;
+    /**
+     * @var string
+     */
+    protected $lng_key;
 
     /**
-     * @param int $container_obj_id
-     * @param int $actor_user_id
+     * ProcessingService constructor.
+     *
+     * @param int            $container_obj_id
+     * @param int            $actor_user_id
+     * @param QuestionConfig $question_config
      */
-    public function __construct(int $container_obj_id, int $actor_user_id)
+    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
     {
+        global $DIC;
+
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        $this->question_config = $question_config;
 
-        $this->processing_application_service = new PlayApplicationService($container_obj_id, $actor_user_id);
+        //The lng_key could be used in future as parameter in the constructor
+        $this->lng_key = $DIC->language()->getDefaultLanguage();
     }
-
 
     /**
      * @param string $question_revision_uuid
-     * @param int    $actor_user_id
-     * @param string $userAnswerUuid
      *
-     * @return Question
+     * @return ProcessingQuestion
      */
-    public function question(AssessmentEntityId $question_revision_id, AssessmentEntityId $user_answer_id) : Question
+    public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new Question($question_revision_id, $this->actor_user_id, $user_answer_id);
+        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
     }
 
     /**
@@ -59,6 +71,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id);
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
     }
 }
