@@ -76,7 +76,7 @@ class QuestionComponent
             $tpl->setVariable('FEEDBACK_COMMAND', $this->question_commands->getShowFeedbackCommand());
             $tpl->parseCurrentBlock();
         }
-        if ($this->question_config->isHintsActivated() && count($this->question_dto->getQuestionHints()->getHints())) {
+        if ($this->question_config->isHintsActivated() && is_object($this->question_dto->getQuestionHints()) && count($this->question_dto->getQuestionHints()->getHints())) {
             $tpl->setCurrentBlock('hint_button');
             $tpl->setVariable('HINT_BUTTON_TITLE', $DIC->language()->txt('asq_hint_buttom_title'));
             $tpl->setVariable('HINT_COMMAND', $this->question_commands->getGetHintCommand());

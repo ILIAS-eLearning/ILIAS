@@ -147,6 +147,7 @@ class ilAsqQuestionPreviewGUI
             $this->context_container->getActorId(),
             $this->question_id->getId(),
             $this->context_container->getObjId(),
+            '',
             $this->questionComponent->readAnswer()
         );
 

@@ -23,7 +23,7 @@ use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Question
+class AuthoringQuestion
 {
 
     /**
@@ -54,13 +54,13 @@ class Question
      * @param string $question_uuid
      * @param int    $actor_user_id
      */
-    public function __construct(int $container_obj_id, AssessmentEntityId $question_uuid, int $actor_user_id)
+    public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         $this->actor_user_id = $actor_user_id;
         $this->container_obj_id = $container_obj_id;
-        $this->question_id = $question_uuid->getId();
+        $this->question_id = $question_uuid;
 
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
@@ -71,7 +71,7 @@ class Question
     }
 
 
-    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : Question
+    public function widthAdditionalConfigSection(AdditionalConfigSection $additional_config_section) : AuthoringQuestion
     {
 
     }
@@ -296,9 +296,6 @@ class Question
     }
 
 
-    /**
-     *
-     */
     public function publishNewRevision() : void
     {
         $this->authoring_application_service->projectQuestion($this->question_id);

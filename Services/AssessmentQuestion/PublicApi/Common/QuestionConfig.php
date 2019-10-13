@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
+use ILIAS\UI\Component\Button\Primary;
+
 /**
  * Class QuestionConfig
  *
@@ -40,6 +42,14 @@ class QuestionConfig
      * @var bool
      */
     protected $feedback_on_demand = false;
+    /**
+     * @var Primary|Null
+     */
+    protected $btn_next = NULL;
+    /**
+     * @var Primary|Null
+     */
+    protected $btn_prev = NULL;
 
 
     /**
@@ -148,4 +158,44 @@ class QuestionConfig
     {
         $this->feedback_on_demand = $feedback_on_demand;
     }
+
+
+    /**
+     * @return Primary|Null
+     */
+    public function getBtnNext() : ?Primary
+    {
+        return $this->btn_next;
+    }
+
+
+    /**
+     * @param Primary|Null $btn_next
+     */
+    public function setBtnNext(?Primary $btn_next) : void
+    {
+        $this->btn_next = $btn_next;
+    }
+
+
+    /**
+     * @return Primary|Null
+     */
+    public function getBtnPrev() : ?Primary
+    {
+        return $this->btn_prev;
+    }
+
+
+    /**
+     * @param Primary|Null $btn_prev
+     */
+    public function setBtnPrev(?Primary $btn_prev) : void
+    {
+        $this->btn_prev = $btn_prev;
+    }
+
+
+
+
 }

@@ -402,7 +402,7 @@ class ilAsqQuestionAuthoringGUI
 
         $question = $player->GetQuestion($revision_id);
         
-        $question_component = new QuestionComponent($question);
+        $question_component = new QuestionComponent($question,$this->question_config,new \ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands());
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
@@ -413,7 +413,7 @@ class ilAsqQuestionAuthoringGUI
                 break;
             case "POST":
                 $answer = new Answer($this->authoring_context_container->getActorId(), $question->getId(), $this->authoring_context_container->getObjId(), $question_component->readAnswer());
-                $player->AnswerQuestion($answer);
+                $player->answerQuestion($answer);
                 $question_component->setAnswer($answer);
                 break;
         }

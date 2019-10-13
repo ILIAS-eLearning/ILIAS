@@ -21,6 +21,10 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 class QuestionAnswerAddedEvent extends AbstractIlContainerDomainEvent {
 
 	public const NAME = 'QuestionAnswerAddedEvent';
+    /**
+     * @var Answer
+     */
+    private $revision_key;
 	/**
 	 * @var Answer
 	 */
@@ -37,10 +41,10 @@ class QuestionAnswerAddedEvent extends AbstractIlContainerDomainEvent {
      *
      * @throws \ilDateTimeException
      */
-	public function __construct(DomainObjectId $aggregate_id, 
+	public function __construct(DomainObjectId $aggregate_id,
 	                            int $container_obj_id, 
 	                            int $initating_user_id, 
-	                            int $question_int_id, 
+	                            int $question_int_id,
 	                            Answer $answer = null) 
 	{
 	    parent::__construct($aggregate_id, $container_obj_id, $initating_user_id, $question_int_id);
@@ -77,6 +81,7 @@ class QuestionAnswerAddedEvent extends AbstractIlContainerDomainEvent {
 		$this->answer = new Answer($data->answerer_id,
 		                           $data->question_id,
 		                           $data->test_id,
+                                   $data->revision_key,
 		                           $data->value);
 	}
 }
