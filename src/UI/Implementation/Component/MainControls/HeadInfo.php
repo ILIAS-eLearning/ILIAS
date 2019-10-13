@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
@@ -13,107 +14,98 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  *
  * @package ILIAS\UI\Implementation\Component\MainControls
  */
-class HeadInfo implements MainControls\HeadInfo
-{
+class HeadInfo implements MainControls\HeadInfo {
 
-    use ComponentHelper;
-    /**
-     * @var bool
-     */
-    private $is_interruptive = false;
-    /**
-     * @var URI
-     */
-    private $close_action;
-    /**
-     * @var string
-     */
-    private $title = '';
-    /**
-     * @var string
-     */
-    private $description = '';
-
-
-    /**
-     * HeadInfo constructor.
-     *
-     * @param string $title
-     */
-    public function __construct(string $title)
-    {
-        $this->title = $title;
-    }
+	use ComponentHelper;
+	/**
+	 * @var bool
+	 */
+	private $is_important = false;
+	/**
+	 * @var string
+	 */
+	private $title = '';
+	/**
+	 * @var string
+	 */
+	private $description = '';
+	/**
+	 * @var
+	 */
+	private $button;
 
 
-    /**
-     * @inheritDoc
-     */
-    public function getTitle() : string
-    {
-        return $this->title;
-    }
+	/**
+	 * HeadInfo constructor.
+	 *
+	 * @param string $title
+	 */
+	public function __construct(string $title) {
+		$this->title = $title;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function withDescription(string $info_message) : MainControls\HeadInfo
-    {
-        $clone = clone $this;
-        $clone->description = $info_message;
-
-        return $clone;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function getTitle(): string {
+		return $this->title;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function getDescription() : string
-    {
-        return $this->description;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function withDescription(string $info_message): MainControls\HeadInfo {
+		$clone = clone $this;
+		$clone->description = $info_message;
+
+		return $clone;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function withCloseAction(URI $uri) : \ILIAS\UI\Component\MainControls\HeadInfo
-    {
-        $clone = clone $this;
-        $clone->close_action = $uri;
-
-        return $clone;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function getDescription(): string {
+		return $this->description;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function getCloseAction() : ?URI
-    {
-        return $this->close_action;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function withButton(Shy $shy_button): \ILIAS\UI\Component\MainControls\HeadInfo {
+		$clone = clone $this;
+		$clone->button = $shy_button;
+
+		return $clone;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function withInterruptive(bool $is_interruptive) : \ILIAS\UI\Component\MainControls\HeadInfo
-    {
-        $clone = clone $this;
-        $clone->is_interruptive = $is_interruptive;
-
-        return $clone;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function getButton(): Shy {
+		return $this->button;
+	}
 
 
-    /**
-     * @inheritDoc
-     */
-    public function isInterruptive() : bool
-    {
-        return $this->is_interruptive;
-    }
+	/**
+	 * @inheritDoc
+	 */
+	public function withImportance(bool $is_important): \ILIAS\UI\Component\MainControls\HeadInfo {
+		$clone = clone $this;
+		$clone->is_important = $is_important;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isImportant(): bool {
+		return $this->is_important;
+	}
 }

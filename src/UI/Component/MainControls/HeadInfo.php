@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Component\MainControls;
 
 use ILIAS\Data\URI;
+use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -12,53 +13,52 @@ use ILIAS\UI\Component\Component;
  *
  * @package ILIAS\UI\Component\MainControls
  */
-interface HeadInfo extends Component
-{
+interface HeadInfo extends Component {
 
-    /**
-     * @return string
-     */
-    public function getTitle() : string;
-
-
-    /**
-     * @param string $info_message
-     *
-     * @return HeadInfo
-     */
-    public function withDescription(string $info_message) : HeadInfo;
+	/**
+	 * @return string
+	 */
+	public function getTitle(): string;
 
 
-    /**
-     * @return string
-     */
-    public function getDescription() : string;
+	/**
+	 * @param string $info_message
+	 *
+	 * @return HeadInfo
+	 */
+	public function withDescription(string $info_message): HeadInfo;
 
 
-    /**
-     * @param URI $uri
-     *
-     * @return HeadInfo
-     */
-    public function withCloseAction(URI $uri) : HeadInfo;
+	/**
+	 * @return string
+	 */
+	public function getDescription(): string;
 
 
-    /**
-     * @return URI|null
-     */
-    public function getCloseAction() : ?URI;
+	/**
+	 * @param Shy $shy_button
+	 *
+	 * @return HeadInfo
+	 */
+	public function withButton(Shy $shy_button): HeadInfo;
 
 
-    /**
-     * @param bool $is_interruptive
-     *
-     * @return HeadInfo
-     */
-    public function withInterruptive(bool $is_interruptive) : HeadInfo;
+	/**
+	 * @return Shy
+	 */
+	public function getButton(): Shy;
 
 
-    /**
-     * @return bool
-     */
-    public function isInterruptive() : bool;
+	/**
+	 * @param bool $is_important
+	 *
+	 * @return HeadInfo
+	 */
+	public function withImportance(bool $is_important): HeadInfo;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isImportant(): bool;
 }

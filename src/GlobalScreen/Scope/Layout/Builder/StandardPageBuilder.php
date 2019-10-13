@@ -46,8 +46,8 @@ class StandardPageBuilder implements PageBuilder
 
         $head_info = $f->mainControls()->headInfo("Lernsequenz")
             ->withDescription("Meine fancy Lernsequenz")
-            ->withCloseAction(new URI("https://www.google.ch"))
-            ->withInterruptive(false);
+            ->withButton($f->button()->shy("Close me", "http://google.ch"))
+            ->withImportance(true);
 
         $standard = $standard->withHeadInfo($head_info);
 

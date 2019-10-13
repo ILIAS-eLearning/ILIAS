@@ -305,11 +305,11 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('DESCRIPTION', $component->getDescription());
-        if ($component->getCloseAction() instanceof URI) {
+        if ($component->getButton() instanceof Component\Button\Shy) {
 
-            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($this->getUIFactory()->button()->close()));
+            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($component->getButton()));
         }
-        if ($component->isInterruptive()) {
+        if ($component->isImportant()) {
             $tpl->touchBlock('interruptive');
         }
 
