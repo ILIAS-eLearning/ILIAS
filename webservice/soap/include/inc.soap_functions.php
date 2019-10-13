@@ -1110,14 +1110,14 @@ class ilSoapFunctions {
 	}
 
 
-	public static function importOrgUnitTree(...$params) {
+	public static function importOrgUnitsSimpleXML(...$params) {
 		$h = new ImportOrgUnitTree();
 
 		return $h->execute($params);
 	}
 
 
-	public static function getOrgUnitTree(...$params) {
+	public static function getOrgUnitsSimpleXML(...$params) {
 		$h = new OrgUnitTree();
 
 		return $h->execute($params);
