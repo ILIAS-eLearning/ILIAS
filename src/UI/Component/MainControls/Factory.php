@@ -342,7 +342,7 @@ interface Factory
      *
      * @param string $title
      *
-     * @return HeadInfo
+     * @return \ILIAS\UI\Component\MainControls\HeadInfo
      */
     public function headInfo(string $title) : HeadInfo;
 }
