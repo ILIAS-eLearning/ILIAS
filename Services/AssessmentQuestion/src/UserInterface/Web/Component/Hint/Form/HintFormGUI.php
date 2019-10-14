@@ -2,21 +2,11 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Hint\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\Hint\Hint;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerWrongFeedback;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
-use Exception;
-use ilFormSectionHeaderGUI;
 
 /**
  * Class QuestionHintFormGUI
@@ -29,9 +19,8 @@ use ilFormSectionHeaderGUI;
  *
  * @package ILIAS\AssessmentQuestion\UserInterface\Web\Form
  */
-class QuestionHintFormGUI extends \ilPropertyFormGUI
+class HintFormGUI extends \ilPropertyFormGUI
 {
-
     /**
      * @var Page
      */
@@ -77,33 +66,24 @@ class QuestionHintFormGUI extends \ilPropertyFormGUI
 
         $this->setTitle(sprintf($DIC->language()->txt('asq_question_hints_form_header'), $this->question_dto->getData()->getTitle()));
 
-        foreach (Hint::generateField($this->question_dto, $this->hint) as $field) {
-            $this->addItem($field);
-        }
+        //Hint Order Number
+        $order_number = new HintFieldOrderNumber($this->hint->getOrderNumber());
+        $this->addItem($order_number->getField());
+
+        //RTE or PageEditor?
+        $content_rte = new HintFieldContentRte($this->hint->getContent(), $this->question_dto->getContainerObjId(), $this->question_dto->getLegacyData()->getContainerObjType());
+        $this->addItem($content_rte->getField());
+
+        $points_deduction = new HintFieldPointsDeduction($this->hint->getPointDeduction());
+        $this->addItem($points_deduction->getField());
     }
 
-    /**
-     * @return QuestionDto
-     * @throws Exception
-     */
-    public function getQuestion() : QuestionDto {
-        $question = $this->question_dto;
+    public static function getHintFromPost() {
 
-        $current_hint = Hint::getValueFromPost();
+        $hint_order_number =  HintFieldOrderNumber::getValueFromPost();
+        $content_rte = HintFieldContentRte::getValueFromPost();
+        $points_deduction = HintFieldPointsDeduction::getValueFromPost();
 
-        $hints_to_save = new QuestionHints();
-        $hints_to_save->addHint($current_hint);
-
-
-        foreach($question->getQuestionHints()->getHints() as $hint) {
-            if($hint->getOrderNumber() == $current_hint->getOrderNumber()) {
-                continue;
-            }
-            $hints_to_save->addHint($hint);
-        }
-
-        $question->setQuestionHints($hints_to_save);
-
-        return $question;
+        return new Hint($hint_order_number, $content_rte,$points_deduction);
     }
 }

@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\Application;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -79,6 +80,7 @@ class AuthoringApplicationService
     public function createQuestion(
         DomainObjectId $question_uuid,
         int $container_id,
+        ?string $container_obj_type = null,
         ?int $object_id = null,
         ?int $answer_type_id = null,
         ?string $content_editing_mode
@@ -89,6 +91,7 @@ class AuthoringApplicationService
         ($question_uuid,
             $this->actor_user_id,
             $container_id,
+            $container_obj_type,
             $answer_type_id,
             $object_id,
             $content_editing_mode));
@@ -113,7 +116,7 @@ class AuthoringApplicationService
             $question->setAnswerOptions($question_dto->getAnswerOptions(), $this->container_obj_id, $this->actor_user_id);
         }
 
-        if (!AbstractValueObject::isNullableEqual($question_dto->getFeedback(), $question->getFeedback())) {
+        if (is_object($question_dto->getFeedback()) && !AbstractValueObject::isNullableEqual($question_dto->getFeedback(), $question->getFeedback())) {
             $question->setFeedback($question_dto->getFeedback(), $this->container_obj_id, $this->actor_user_id);
         }
 
@@ -202,5 +205,29 @@ class AuthoringApplicationService
         return $page_gui;
     }
 
+
+    /**
+     * @param isValueOfOrderedList[] $items
+     * @param int   $order_gap
+     */
+    public function reOrderListItems(array $items, int $order_gap) {
+        $order_number = $order_gap;
+
+        //reorder hints
+        $ordered_items = [];
+        usort($items, array('ILIAS\AssessmentQuestion\Application\AuthoringApplicationService', 'compareOrderNumber'));
+        foreach ($items as $item) {
+            /** $item */
+            $ordered_items[] = $item::createWithNewOrderNumber($item, $order_number);
+
+            $order_number = $order_number + $order_gap;
+        }
+        return $ordered_items;
+    }
+
+    private static function compareOrderNumber(IsValueOfOrderedList $a, IsValueOfOrderedList $b)
+    {
+        return $a->getOrderNumber() - $b->getOrderNumber();
+    }
 
 }

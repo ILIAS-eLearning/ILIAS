@@ -40,18 +40,6 @@ class FeedbackComponent
     {
         $this->scoring_component = $scoring_component;
         $this->answer_feedback_component = $answer_feedback_component;
-        /*
-        $this->question_config = $question_config;
-        $this->question_commands = $question_commands;
-
-        $presenter_class = QuestionPlayConfiguration::getPresenterClass($question_dto->getPlayConfiguration());
-        $presenter = new $presenter_class($question_dto);
-
-        $editor_class = QuestionPlayConfiguration::getEditorClass($question_dto->getPlayConfiguration());
-        $editor = new $editor_class($question_dto);
-
-        $this->presenter = $presenter;
-        $this->editor = $editor;*/
     }
 
 

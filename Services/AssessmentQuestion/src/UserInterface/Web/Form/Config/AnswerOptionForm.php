@@ -197,7 +197,8 @@ class AnswerOptionForm extends ilTextInputGUI {
         $fd_class = AnswerOptionFeedback::class;
 	    
 	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
-	    
+
+	    //TODO AnswerOption Feeback will be deleted....
 	    $this->options = new AnswerOptions();
 	    for ($i = 1; $i <= $count; $i++) {
 	        $this->options->addOption(new AnswerOption
@@ -205,8 +206,7 @@ class AnswerOptionForm extends ilTextInputGUI {
 	                $i,
 	                $dd_class::getValueFromPost($i),
 	                $sd_class::getValueFromPost($i),
-                    $fd_class::getValueFromPost($i)
-	                ));
+                    new AnswerOptionFeedback()));
 	    }
 	}
 

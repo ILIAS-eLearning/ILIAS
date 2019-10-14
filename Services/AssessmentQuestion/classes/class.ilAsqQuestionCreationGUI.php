@@ -128,7 +128,8 @@ class ilAsqQuestionCreationGUI
 
         $this->authoringApplicationService->createQuestion(
             new DomainObjectId($guid),
-            $this->contextContainer->getObjId(), 
+            $this->contextContainer->getObjId(),
+            $this->contextContainer->getObjType(),
             null, //new questions get dynamic ids
             $form->getQuestionType(),
             $form->getContentEditingMode()
