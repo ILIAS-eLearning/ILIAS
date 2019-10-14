@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Component\Legacy;
 
+use ILIAS\UI\Component\Signal;
+
 /**
  * Interface Legacy
  * @package ILIAS\UI\Component\Legacy
@@ -30,7 +32,7 @@ interface Legacy extends \ILIAS\UI\Component\Component
      * Get signal with custom JavaScript code
      *
      * @param $signal_name
-     * @return \ILIAS\UI\Component\Signal
+     * @return Signal|null
      */
-    public function getCustomSignal(string $signal_name) : \ILIAS\UI\Component\Signal;
+    public function getCustomSignal(string $signal_name);
 }
