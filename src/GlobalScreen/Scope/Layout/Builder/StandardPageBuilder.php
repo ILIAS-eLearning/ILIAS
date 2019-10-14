@@ -1,6 +1,5 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
-use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
 
@@ -41,16 +40,6 @@ class StandardPageBuilder implements PageBuilder
         $bread_crumbs = $parts->getBreadCrumbs();
         $footer = $parts->getFooter();
 
-        $f = $this->ui->factory();
-        $standard = $f->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image, $footer);
-
-        $head_info = $f->mainControls()->headInfo("Lernsequenz")
-            ->withDescription("Meine fancy Lernsequenz")
-            ->withButton($f->button()->shy("Close me", "http://google.ch"))
-            ->withImportance(true);
-
-        $standard = $standard->withHeadInfo($head_info);
-
-        return $standard;
+        return $this->ui->factory()->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image, $footer);
     }
 }
