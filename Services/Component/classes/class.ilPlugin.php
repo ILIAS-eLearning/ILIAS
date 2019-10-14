@@ -1352,7 +1352,7 @@ abstract class ilPlugin
     final public function getGlobalScreenProviderCollection() : PluginProviderCollection
     {
         if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
-            $this->provider_collection->setMetaBarProvider($this->promoteGlobalScreenProvider());
+            $this->provider_collection->setMainBarProvider($this->promoteGlobalScreenProvider());
         }
 
         return $this->provider_collection;
