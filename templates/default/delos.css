@@ -9303,16 +9303,17 @@ footer {
   background-color: #860400;
 }
 .il-head_info h1,
-.il-head_info p {
+.il-head_info p,
+.il-head_info span {
   margin: 0;
   padding: 0;
   line-height: 40px;
   font-size: 0.8em;
-  text-transform: uppercase;
   display: inline-block;
   float: left;
 }
 .il-head_info h1 {
+  text-transform: uppercase;
   font-weight: bold;
   margin-right: 20px;
 }
