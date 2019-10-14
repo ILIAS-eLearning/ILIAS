@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Component\Link;
@@ -14,6 +15,11 @@ use ILIAS\UI\Component\Link;
 class Footer implements MainControls\Footer
 {
     use ComponentHelper;
+    /**
+     * @var URI
+     */
+    protected $permanent_url;
+
 
     public function __construct(array $links, string $text = '')
     {
