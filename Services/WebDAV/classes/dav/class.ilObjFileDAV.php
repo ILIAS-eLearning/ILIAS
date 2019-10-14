@@ -66,6 +66,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {        
         if($this->repo_helper->checkAccess('write', $this->getRefId()))
         {
+            $this->setObjValuesForNewFileVersion();
             $this->handleFileUpload($data);
             return $this->getETag();
         }
@@ -186,6 +187,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function handleFileUpload($a_data)
     {
+        // Set name for uploaded file because due to the versioning, the title can change for different versions. This setter-call here
+        // ensures that the uploaded file is saved with the title of the object. This obj->setFileName() has to be called
+        // before $this->getPathToFile(). Otherwise, the file could be saved under the wrong filename.
+        $this->obj->setFileName($this->getName());
         $file_dest_path = $this->getPathToFile();
 
         // If dir does not exist yet -> create it
@@ -216,7 +221,10 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
-        $this->obj->update();
+        if($this->obj->update() && $this->obj->getMaxVersion() > 1)
+        {
+            $this->createHistoryAndNotificationForObjUpdate();
+        }
     }
 
     /**
@@ -276,7 +284,16 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         return $this->obj->getDirectory($this->obj->getVersion());
     }
-    
+
+    /**
+    * This method is called in 2 use cases:
+    *
+    * Use case 1: Get the path to an already existing file to download it -> read operation
+    * Use case 2: Get the path to save a new file into or overwrite an existing one -> write operation
+     *
+     * @throws ilFileUtilsException
+     * @return string
+    */
     protected function getPathToFile()
     {
         // ilObjFile delivers the filename like it was on the upload. But if the file-extension is forbidden, the file
@@ -298,5 +315,30 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $this->obj->delete();
             throw new Exception\Forbidden('Virus found!');
         }
+    }
+
+    /**
+     * Set object values for a new file version
+     */
+    protected function setObjValuesForNewFileVersion()
+    {
+        // This is necessary for windows explorer. Because windows explorer makes always 2 PUT requests. One with a 0 Byte
+        // file to test, if the user has write permissions and the second one to upload the original file.
+        if($this->obj->getFileSize() > 0)
+        {
+            // Stolen from ilObjFile->addFileVersion
+            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
+            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
+        }
+    }
+
+    /**
+     * Create history entry and a news notification for file object update
+     */
+    protected function createHistoryAndNotificationForObjUpdate()
+    {
+        // Add history entry and notification for new file version (stolen from ilObjFile->addFileVersion)
+        ilHistory::_createEntry($this->obj->getId(), "new_version", $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+        $this->obj->addNewsNotification("file_updated");
     }
 }
