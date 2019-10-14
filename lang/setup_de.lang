@@ -128,7 +128,6 @@ disable_logging#:#Deaktivieren
 disable#:#ausschalten
 disabled#:#ausgeschaltet
 display_clientlist#:#Freie Mandantenauswahl
-duplicate_ctrl#:#Fehler: Doppelte Kontrollstrukturdefinition (Klasse %s) in den Dateien:<br /><br />- %s<br />- %s<br /><br />Bitte entfernen Sie die Datei, die nicht zur offiziellen ILIAS-Distribution gehört.<br />Führen Sie danach die Funktion 'Tools' -> 'Kontrollstrukur' -> 'Neu Laden' im ILIAS-Setup aus.
 email_not_valid#:#Ungültige Emailadresse
 email#:#Email
 en_by_default#:#(Englisch ist standardmässig installiert und kann nicht gelöscht werden).
