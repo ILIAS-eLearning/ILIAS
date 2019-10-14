@@ -51,12 +51,25 @@ class AnswerOption implements JsonSerializable {
 	}
 
 
+    /**
+     * @param AnswerOption         $answer_option
+     * @param AnswerOptionFeedback $answer_option_feedback
+     *
+     * @return AnswerOption
+     */
+    public static function createWithNewAnswerOptionFeedback(AnswerOption $answer_option, AnswerOptionFeedback $answer_option_feedback) {
+        /** @var AnswerOption $answer_option */
+        return new AnswerOption($answer_option->getOptionId(),$answer_option->getScoringDefinition(), $answer_option->getScoringDefinition(), $answer_option_feedback);
+    }
+
+
 	/**
 	 * @return string
 	 */
 	public function getOptionId(): string {
 		return $this->option_id;
 	}
+
 
 
 	/**
@@ -76,9 +89,9 @@ class AnswerOption implements JsonSerializable {
 
 
     /**
-     * @return mixed
+     * @return AnswerOptionFeedback
      */
-    public function getAnswerOptionFeedback()
+    public function getAnswerOptionFeedback():AnswerOptionFeedback
     {
         return $this->answer_option_feedback;
     }

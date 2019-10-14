@@ -116,7 +116,7 @@ class AuthoringApplicationService
             $question->setAnswerOptions($question_dto->getAnswerOptions(), $this->container_obj_id, $this->actor_user_id);
         }
 
-        if (!AbstractValueObject::isNullableEqual($question_dto->getFeedback(), $question->getFeedback())) {
+        if (is_object($question_dto->getFeedback()) && !AbstractValueObject::isNullableEqual($question_dto->getFeedback(), $question->getFeedback())) {
             $question->setFeedback($question_dto->getFeedback(), $this->container_obj_id, $this->actor_user_id);
         }
 

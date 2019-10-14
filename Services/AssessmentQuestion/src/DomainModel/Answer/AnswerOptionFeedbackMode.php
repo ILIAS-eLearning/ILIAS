@@ -24,7 +24,6 @@ class AnswerOptionFeedbackMode extends AbstractValueObject implements JsonSerial
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_CHECKED = 2;
     const OPT_ANSWER_OPTION_FEEDBACK_MODE_CORRECT = 3;
 
-    const VAR_ANSWER_OPTION_FEEDBACK_MODE = 'answer_option_feedback_mode';
     /**
      * var int
      */

@@ -98,6 +98,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
     /**
      * Question constructor.
+     *
+     * @throws \ilAsqException
      */
     public function __construct()
     {

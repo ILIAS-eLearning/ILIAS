@@ -30,7 +30,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionFeedbackEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionHintEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionRecapitulationEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionStatisticsGUI
@@ -185,16 +185,15 @@ class ilAsqQuestionAuthoringGUI
 
                 break;
 
-            case strtolower(ilAsqQuestionFeedbackEditorGUI::class):
+            case strtolower(AsqQuestionFeedbackEditorGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_FEEDBACK);
 
-                $gui = new ilAsqQuestionFeedbackEditorGUI(
-                    $this->authoring_service,
-                    $this->authoring_application_service,
-                    $this->question_id
+                $gui = new AsqQuestionFeedbackEditorGUI(
+                    $this->authoring_application_service->getQuestion($this->question_id->getId()),
+                    $this->authoring_application_service
                 );
                 $DIC->ctrl()->forwardCommand($gui);
 

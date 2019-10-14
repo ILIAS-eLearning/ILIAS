@@ -9,7 +9,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisp
 use ILIAS\UI\Implementation\Component\Link\Standard;
 use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqQuestionFeedbackEditorGUI;
+use AsqQuestionFeedbackEditorGUI;
 use ilFormPropertyGUI;
 use stdClass;
 
@@ -32,7 +32,7 @@ class AnswerOptionFeedback  implements JsonSerializable
      */
     protected $answer_feedback;
 
-    public function __construct(string $answer_feedback = "") {
+    public function __construct(? string $answer_feedback = "") {
         $this->answer_feedback = $answer_feedback;
     }
 
@@ -98,7 +98,7 @@ class AnswerOptionFeedback  implements JsonSerializable
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'parent_int_id',  $question->getId());
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'answer_option_int_id', $page_id);
 
-        $action = $DIC->ctrl()->getLinkTargetByClass([ilAsqQuestionFeedbackEditorGUI::class,ilAsqAnswerOptionFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
+        $action = $DIC->ctrl()->getLinkTargetByClass([AsqQuestionFeedbackEditorGUI::class, ilAsqAnswerOptionFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
 
         $link = new Standard($label,$action);
 

@@ -10,7 +10,7 @@ use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqGenericFeedbackPageGUI;
 use ilAsqQuestionAuthoringGUI;
-use ilAsqQuestionFeedbackEditorGUI;
+use AsqQuestionFeedbackEditorGUI;
 use ilFormPropertyGUI;
 
 /**
@@ -36,7 +36,7 @@ Abstract class AnswerFeedback extends AbstractValueObject implements JsonSeriali
      */
     protected $answer_feedback;
 
-    public function __construct(string $answer_feedback = "") {
+    public function __construct(?string $answer_feedback = "") {
         $this->answer_feedback = $answer_feedback;
     }
 
@@ -69,7 +69,7 @@ Abstract class AnswerFeedback extends AbstractValueObject implements JsonSeriali
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'page_type', ilAsqAnswerOptionFeedbackPageGUI::PAGE_TYPE);
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, $question->getId());
         $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), self::VAR_FEEDBACK_TYPE_INT_ID, $page_id);
-        $action = $DIC->ctrl()->getLinkTargetByClass([ilAsqQuestionFeedbackEditorGUI::class,ilAsqGenericFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
+        $action = $DIC->ctrl()->getLinkTargetByClass([AsqQuestionFeedbackEditorGUI::class, ilAsqGenericFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
 
         $label = $DIC->language()->txt('asq_link_edit_feedback_page');
 

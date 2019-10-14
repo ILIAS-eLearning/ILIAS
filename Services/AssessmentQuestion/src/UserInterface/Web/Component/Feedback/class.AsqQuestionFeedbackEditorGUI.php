@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
@@ -12,7 +14,7 @@ use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
 
 /**
- * Class ilAsqQuestionFeedbackEditorGUI
+ * Class AsqQuestionFeedbackEditorGUI
  *
  * @author       studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author       Adrian Lüthi <al@studer-raimann.ch>
@@ -20,31 +22,26 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls ilAsqQuestionFeedbackEditorGUI: ilAsqGenericFeedbackPageGUI
- * @ilCtrl_Calls ilAsqQuestionFeedbackEditorGUI: ilAsqAnswerOptionFeedbackPageGUI
+ * @ilCtrl_Calls AsqQuestionFeedbackEditorGUI: ilAsqGenericFeedbackPageGUI
+ * @ilCtrl_Calls AsqQuestionFeedbackEditorGUI: ilAsqAnswerOptionFeedbackPageGUI
  */
-class ilAsqQuestionFeedbackEditorGUI
+class AsqQuestionFeedbackEditorGUI
 {
 
-    const CMD_SHOW_FEEDBACK = 'showFeedback';
+    const CMD_SHOW_FEEDBACK_FORM = 'showFeedbackForm';
     const CMD_SAVE_FEEDBACK = 'saveFeedback';
-
     /**
-     * @var PublicAuthoringService
+     * @var QuestionDto
      */
-    protected $publicAuthoringService;
+    protected $question_dto;
     /**
      * @var AuthoringApplicationService
      */
-    protected $authoringApplicationService;
-    /**
-     * @var AssessmentEntityId
-     */
-    protected $questionUid;
+    protected $authoring_application_service;
 
 
     /**
-     * ilAsqQuestionFeedbackEditorGUI constructor.
+     * AsqQuestionFeedbackEditorGUI constructor.
      *
      * @param AuthoringContextContainer   $contextContainer
      * @param PublicAuthoringService      $publicAuthoringService
@@ -52,13 +49,11 @@ class ilAsqQuestionFeedbackEditorGUI
      * @param AssessmentEntityId          $questionUid
      */
     public function __construct(
-        PublicAuthoringService $publicAuthoringService,
-        AuthoringApplicationService $authoringApplicationService,
-        AssessmentEntityId $questionUid
+        QuestionDto $question_dto,
+        AuthoringApplicationService $authoring_application_service
     ) {
-        $this->publicAuthoringService = $publicAuthoringService;
-        $this->authoringApplicationService = $authoringApplicationService;
-        $this->questionUid = $questionUid;
+        $this->question_dto = $question_dto;
+        $this->authoring_application_service = $authoring_application_service;
     }
 
 
@@ -76,11 +71,10 @@ class ilAsqQuestionFeedbackEditorGUI
                 $DIC->tabs()->clearTargets();
 
                 $DIC->tabs()->setBackTarget($DIC->language()->txt('asq_back_to_question_link'),
-                    $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK)
+                    $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK_FORM)
                 );
 
-                $question = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
-                $gui = new \ilAsqGenericFeedbackPageGUI($question);
+                $gui = new \ilAsqGenericFeedbackPageGUI($this->question_dto);
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
                     // workaround for page edit imagemaps, keep in mind
@@ -99,11 +93,10 @@ class ilAsqQuestionFeedbackEditorGUI
                 $DIC->tabs()->clearTargets();
 
                 $DIC->tabs()->setBackTarget($DIC->language()->txt('asq_back_to_question_link'),
-                    $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK)
+                    $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_FEEDBACK_FORM)
                 );
 
-                $question = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
-                $gui = new \ilAsqAnswerOptionFeedbackPageGUI($question);
+                $gui = new \ilAsqAnswerOptionFeedbackPageGUI($this->question_dto);
 
                 if (strlen($DIC->ctrl()->getCmd()) == 0 && !isset($_POST["editImagemapForward_x"])) {
                     // workaround for page edit imagemaps, keep in mind
@@ -120,20 +113,22 @@ class ilAsqQuestionFeedbackEditorGUI
             case strtolower(self::class):
             default:
 
-                $cmd = $DIC->ctrl()->getCmd(self::CMD_SHOW_FEEDBACK);
+                $cmd = $DIC->ctrl()->getCmd(self::CMD_SHOW_FEEDBACK_FORM);
                 $this->{$cmd}();
         }
     }
 
 
-    protected function showFeedback(QuestionFeedbackFormGUI $form = null)
+    protected function showFeedbackForm()
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        if ($form === null) {
-            $form = $this->buildForm();
-        }
+        $form = new QuestionFeedbackFormGUI($this->question_dto,$this->question_dto->getFeedback(), $this->question_dto->getAnswerOptions());
+
+        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK_FORM));
+        $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));
+        $form->addCommandButton(self::CMD_SHOW_FEEDBACK_FORM, $DIC->language()->txt('cancel'));
 
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
@@ -144,42 +139,22 @@ class ilAsqQuestionFeedbackEditorGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $form = $this->buildForm();
+        $current_feedback = QuestionFeedbackFormGUI::getFeedbackFromPost();
+        $answer_options =  QuestionFeedbackFormGUI::getAnswerOptionFeedbacksFromPost($this->question_dto->getAnswerOptions());
+        $form = new QuestionFeedbackFormGUI($this->question_dto, $current_feedback, $answer_options);
 
-        if( !$form->checkInput() )
-        {
-            $this->showFeedback($form);
+        if (!$form->checkInput()) {
+            $this->showFeedbackForm();
             return;
         }
 
-        $question = $form->getQuestion();
-        $this->authoringApplicationService->saveQuestion($question);
+        $this->question_dto->setFeedback($current_feedback);
+        $this->question_dto->setAnswerOptions($answer_options);
+
+
+        $this->authoring_application_service->saveQuestion($this->question_dto);
 
         ilutil::sendSuccess("Question Saved", true);
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK);
-
-    }
-
-
-    /**
-     * @return QuestionFeedbackFormGUI
-     */
-    protected function buildForm() : QuestionFeedbackFormGUI
-    {
-        global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
-        $question_dto = $this->authoringApplicationService->getQuestion($this->questionUid->getId());
-        if(!is_object($question_dto->getFeedback())) {
-            $question_dto->setFeedback(new Feedback());
-        }
-
-        $form = AsqGUIElementFactory::CreateQuestionFeedbackForm($question_dto);
-
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK));
-        $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));
-        $form->addCommandButton(self::CMD_SHOW_FEEDBACK, $DIC->language()->txt('cancel'));
-
-        return $form;
+        $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK_FORM);
     }
 }
