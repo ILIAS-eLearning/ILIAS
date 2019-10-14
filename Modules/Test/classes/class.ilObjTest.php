@@ -3517,6 +3517,7 @@ function getAnswerFeedbackPoints()
 /**
 * Removes a question from the test object
 *
+ * @deprecated (!)
 * @param integer $question_id The database id of the question to be removed
 * @access public
 * @see $test_id

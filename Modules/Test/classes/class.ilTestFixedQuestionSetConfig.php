@@ -13,6 +13,19 @@ require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
  */
 class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 {
+
+    /**
+     * @return ilTestFixedQuestionSetQuestionList
+     */
+    protected function getTestQuestionList()
+    {
+        $questionList = new ilTestFixedQuestionSetQuestionList($this->testOBJ->getTestId());
+        $questionList->load();
+
+        return $questionList;
+    }
+
+
 	/**
 	 * returns the fact wether a useable question set config exists or not
 	 * 
@@ -20,12 +33,7 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function isQuestionSetConfigured()
 	{
-		if( count($this->testOBJ->questions) )
-		{
-			return true;
-		}
-
-		return false;
+        return $this->getTestQuestionList()->hasQuestions();
 	}
 	
 	/**
@@ -43,22 +51,31 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	 */
 	public function removeQuestionSetRelatedData()
 	{
-		$res = $this->db->queryF(
-			"SELECT question_fi FROM tst_test_question WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
-		);
+	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+	    $asqAuthoringService = $DIC->assessment()->questionAuthoring(
+	        $this->testOBJ->getId(), $DIC->user()->getId()
+        );
+
+	    $testQuestionList = $this->getTestQuestionList();
+
+        foreach($testQuestionList as $testQuestion)
+        {
+            $qUid = $DIC->assessment()->entityIdBuilder()->fromString(
+                $testQuestion->getQuestionUid()
+            );
+
+            $asqQuestion = $asqAuthoringService->question($qUid);
+
+            $asqQuestion->deleteQuestion();
+        }
+
+        $testQuestionList->delete();
 
 		while( $row = $this->db->fetchAssoc($res) )
 		{
 			$this->testOBJ->removeQuestion($row["question_fi"]);
 		}
-
-		$this->db->manipulateF(
-			"DELETE FROM tst_test_question WHERE test_fi = %s",
-			array('integer'), array($this->testOBJ->getTestId())
-		);
-
-		$this->testOBJ->questions = array();
 
 		$this->testOBJ->saveCompleteStatus($this);
 	}
@@ -178,35 +195,23 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
 	public function registerCreatedQuestion(\ILIAS\AssessmentQuestion\DomainModel\QuestionDto $questionDto)
     {
-        $result = $this->db->queryF(
-		    "SELECT MAX(sequence) seq FROM tst_test_question WHERE test_fi = %s",
-            array('integer'), array($this->testOBJ->getTestId())
+
+        $testQuestion = new ilTestFixedQuestionSetQuestion();
+        $testQuestion->setTestId($this->testOBJ->getTestId());
+        $testQuestion->setQuestionId($questionDto->getQuestionIntId());
+        $testQuestion->setQuestionUid($questionDto->getId());
+        $testQuestion->setIsObligatory(false);
+
+        $testQuestion->setSequencePosition(
+            $this->getTestQuestionList()->getNextPosition()
         );
-
-		$sequencePosition = 1;
-
-		while( $row = $this->db->fetchAssoc($result) )
-        {
-            $sequencePosition = $row['max_seq_pos'] + 1;
-        }
-
-		$nextId = $this->db->nextId('tst_test_question');
-
-        $this->db->insert('tst_test_question', array(
-            'test_question_id' => array('integer', $nextId),
-            'test_fi' => array('integer', $this->testOBJ->getTestId()),
-            'question_fi' => array('integer', $questionDto->getQuestionIntId()),
-            'question_uid' => array('text', $questionDto->getId()),
-            'sequence' => array('integer', $sequencePosition),
-            'tstamp' => array('integer', time())
-        ));
 
         if (ilObjAssessmentFolder::_enabledAssessmentLogging())
         {
             global $DIC; /* @var \ILIAS\DI\Container $DIC */
             $logMsg = $DIC->language()->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage());
-            $logMsg .= ": {$sequencePosition}";
-            $this->testOBJ->logAction($logMsg, $questionDto->getQuestionIntId());
+            $logMsg .= ": {$testQuestion->getSequencePosition()}";
+            $this->testOBJ->logAction($logMsg, $testQuestion->getQuestionId());
         }
 
 		$this->testOBJ->loadQuestions();

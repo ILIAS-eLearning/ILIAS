@@ -43,6 +43,33 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
     }
 
 
+    /**
+     * @return bool
+     */
+    public function hasQuestions() : bool
+    {
+        return (bool)$this->getNumQuestions();
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getNumQuestions() : int
+    {
+        return count($this->questions);
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getNextPosition() : int
+    {
+        return $this->getNumQuestions() + 1;
+    }
+
+
     public function load()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -53,7 +80,7 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
             ORDER BY sequence ASC
         ";
 
-        $res = $DIC->queryF($query, ['integer'], [$this->testId]);
+        $res = $DIC->database()->queryF($query, ['integer'], [$this->testId]);
 
         while($row = $DIC->database()->fetchAssoc($res))
         {
