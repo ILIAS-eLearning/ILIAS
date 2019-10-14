@@ -1,7 +1,7 @@
 <?php
 
 
-class ilWebDAVUriProvider
+class ilWebDAVUriBuilder
 {
     /** @var \Psr\Http\Message\RequestInterface */
     protected $request;
@@ -40,10 +40,10 @@ class ilWebDAVUriProvider
         // Caution: Its stRRpos (with two 'r'). So the last '/' will be found instead of the first
         $last_slash_pos = strrpos($a_original_path,'/');
 
-        // Cuts of last part of the path to replace it with later with "/webdav.php"
-        $path_without_script = substr($a_original_path,0, $last_slash_pos);
+        // Cuts of last part of the path to replace it with later with "webdav.php"
+        $path_without_script = substr($a_original_path,0, $last_slash_pos + 1);
 
-        return $path_without_script . '/' . $this->webdav_script_name;
+        return $path_without_script . $this->webdav_script_name;
     }
 
     /**
@@ -98,7 +98,7 @@ class ilWebDAVUriProvider
      */
     public function getWebDavKonquerorUri(int $a_ref_id)
     {
-        return $this->getWebDavUriByPlaceholderName('getWebDavKonquerorUri', $a_ref_id);
+        return $this->getWebDavUriByPlaceholderName('konqueror', $a_ref_id);
     }
 
     /**
@@ -118,5 +118,4 @@ class ilWebDAVUriProvider
     {
         return $this->getWebDavPathToLanguageTemplate($language) . '?' . $this->mount_instructions_query;
     }
-
 }

@@ -42,7 +42,7 @@ if($show_mount_instr)
 {
     // Show mount instructions page for WebDAV
     $mount_gui = new ilWebDAVMountInstructionsGUI();
-    $mount_gui->renderMontInstructionModal();
+    $mount_gui->renderMountInstructionModal();
 }
 else
 {
