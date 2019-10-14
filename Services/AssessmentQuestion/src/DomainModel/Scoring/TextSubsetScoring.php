@@ -66,7 +66,7 @@ class TextSubsetScoring extends AbstractScoring
         $answers = [];
         
         foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
-            [] = $option->getScoringDefinition()->getText();
+            $answers[] = $option->getScoringDefinition()->getText();
         }
         
         return new Answer(0, $this->question->getId(), 0, json_encode($answers));
