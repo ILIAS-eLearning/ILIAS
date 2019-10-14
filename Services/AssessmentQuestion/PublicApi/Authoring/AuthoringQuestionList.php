@@ -31,11 +31,14 @@ class AuthoringQuestionList implements QuestionList
      */
     public function __construct(int $container_obj_id, int $actor_user_id)
     {
+        global $DIC;
+
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        //The lng_key could be used in future as parameter in the constructor
+        $lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id);
-
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id,$lng_key);
     }
 
     public function getQuestionsOfContainerAsAssocArray() : array

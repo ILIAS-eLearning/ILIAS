@@ -39,6 +39,9 @@ let clear_row = function(row) {
     		$input.attr('type') === 'checkbox') {
     		$input.attr('checked', false);
     	}
+    	else if ($input.attr('type') === 'hidden') {
+    		//dont clear hidden fields
+    	}
     	else {
     		$input.val('');
     	}

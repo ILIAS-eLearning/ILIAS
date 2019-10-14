@@ -6,6 +6,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Command;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandContract;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandHandlerContract;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 
 /**
@@ -24,6 +25,7 @@ class AnswerQuestionCommandHandler implements CommandHandlerContract {
      * @param CommandContract $command
      */
 	public function handle(CommandContract $command) {
+	    /** @var AnswerQuestionCommand $command $question_id */
 	    $question_id = $command->getAnswer()->getQuestionId();
 	    
 	    /** @var AnswerQuestionCommand $command */

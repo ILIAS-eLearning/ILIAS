@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -43,8 +44,11 @@ class FormulaScoring extends AbstractScoring {
         $this->configuration = $question->getPlayConfiguration()->getScoringConfiguration();
     }
     
-    public function score(Answer $answer): int
+    public function score(Answer $answer): AnswerScoreDto
     {
+        $reached_points = 0;
+        $max_points = 0;
+
         $answers = json_decode($answer->getValue(), true);
         $formula = $this->configuration->getFormula();
         
@@ -60,15 +64,21 @@ class FormulaScoring extends AbstractScoring {
         
         $calculation = $math->evaluate($split[0]);
         $result = $math->evaluate($split[1]);
-        
+
+        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         if($calculation == $result) {
-            return 5;
+            return $answer_score;
         }
         else {
-            return 0;
+            return $answer_score;
         }
     }
 
+    public function getBestAnswer(): Answer
+    {
+        
+    }
+    
     /**
      * @return array|null
      */

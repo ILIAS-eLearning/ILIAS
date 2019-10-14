@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -12,7 +12,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ilTemplate;
 
 /**
- * Class QuestionComponent
+ * Class FeedbackComponent
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -21,35 +21,26 @@ use ilTemplate;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class QuestionComponent
+class FeedbackComponent
 {
+    const FEEDBACK_FOCUS_ANCHOR = 'focus';
 
     /**
-     * @var QuestionDto
+     * @var ScoringComponent
      */
-    private $question_dto;
+    private $scoring_component;
     /**
-     * @var AbstractPresenter
+     * @var AnswerFeedbackComponent
      */
-    private $presenter;
-    /**
-     * @var AbstractEditor
-     */
-    private $editor;
-    /**
-     * @var QuestionConfig
-     */
-    private $question_config;
-
-    /**
-     * @var QuestionCommands
-     */
-    private $question_commands;
+    private $answer_feedback_component;
 
 
-    public function __construct(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands)
+//QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands
+    public function __construct(ScoringComponent $scoring_component, AnswerFeedbackComponent $answer_feedback_component)
     {
-        $this->question_dto = $question_dto;
+        $this->scoring_component = $scoring_component;
+        $this->answer_feedback_component = $answer_feedback_component;
+        /*
         $this->question_config = $question_config;
         $this->question_commands = $question_commands;
 
@@ -60,23 +51,45 @@ class QuestionComponent
         $editor = new $editor_class($question_dto);
 
         $this->presenter = $presenter;
-        $this->editor = $editor;
+        $this->editor = $editor;*/
     }
 
 
-    public function renderHtml() : string
+    public function getHtml() : string
     {
         global $DIC;
 
-        $tpl = new ilTemplate("tpl.question_view.html", true, true, "Services/AssessmentQuestion");
+        $tpl = new ilTemplate("tpl.feedback.html", true, true, "Services/AssessmentQuestion");
 
+        /*$tpl->setCurrentBlock('inst_resp_id');
+        $tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', self::FEEDBACK_FOCUS_ANCHOR);
+        $tpl->parseCurrentBlock();*/
+
+
+        $tpl->setCurrentBlock('feedback_header');
+        $tpl->setVariable('FEEDBACK_HEADER', $DIC->language()->txt('asq_answer_feedback_header'));
+        $tpl->parseCurrentBlock();
+
+        $tpl->setCurrentBlock('answer_feedback');
+        $tpl->setVariable('ANSWER_FEEDBACK', $this->answer_feedback_component->getHtml());
+        $tpl->parseCurrentBlock();
+
+
+        $tpl->setCurrentBlock('answer_scoring');
+        $tpl->setVariable('ANSWER_SCORING', $this->scoring_component->getHtml());
+        $tpl->parseCurrentBlock();
+
+
+
+
+/*
         if ($this->question_config->isFeedbackOnDemand()) {
             $tpl->setCurrentBlock('feedback_button');
             $tpl->setVariable('FEEDBACK_BUTTON_TITLE', $DIC->language()->txt('asq_feedback_buttom_title'));
             $tpl->setVariable('FEEDBACK_COMMAND', $this->question_commands->getShowFeedbackCommand());
             $tpl->parseCurrentBlock();
         }
-        if ($this->question_config->isHintsActivated() && is_object($this->question_dto->getQuestionHints()) && count($this->question_dto->getQuestionHints()->getHints())) {
+        if ($this->question_config->isHintsActivated() && count($this->question_dto->getQuestionHints()->getHints())) {
             $tpl->setCurrentBlock('hint_button');
             $tpl->setVariable('HINT_BUTTON_TITLE', $DIC->language()->txt('asq_hint_buttom_title'));
             $tpl->setVariable('HINT_COMMAND', $this->question_commands->getGetHintCommand());
@@ -86,7 +99,7 @@ class QuestionComponent
         $tpl->setVariable('SCORE_COMMAND', $this->question_commands->getSubmitCommand());
         $tpl->setVariable('QUESTION_OUTPUT', $this->presenter->generateHtml($this->editor));
         $tpl->setVariable('BUTTON_TITLE', $DIC->language()->txt('check'));
-        $tpl->parseCurrentBlock();
+        $tpl->parseCurrentBlock();*/
 
         return $tpl->get();
     }

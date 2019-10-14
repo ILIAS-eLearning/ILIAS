@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as AsqAuthoringService;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
@@ -203,8 +204,17 @@ class ilObjTestGUI extends ilObjectGUI
             $this->asqAuthoringService->currentOrNewQuestionId()
         );
 
+        $question_config = new QuestionConfig();
+        //TODO BH - set the settings of test
+        $question_config->setFeedbackOnDemand(true);
+        $question_config->setFeedbackShowScore(true);
+        $question_config->setHintsActivated(true);
+        $question_config->setFeedbackShowCorrectSolution(true);
+        $question_config->setFeedbackOnSubmit(true);
+        $question_config->setFeedbackForAnswerOption(true);
+
         $asqAuthoringGUI = $asqQuestionService->getAuthoringGUI(
-            $backLink, $this->object->getRefId(), $this->object->getType(),
+            $backLink, $this->object->getRefId(), $this->object->getType(),$question_config,
             $DIC->access()->checkAccess('write', '', $this->object->getRefId()),
             [self::class], self::CMD_REGISTER_CREATED_QUESTION
         );

@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
 
 /**
@@ -19,8 +20,9 @@ use ilNumberInputGUI;
 class ErrorTextScoring extends AbstractScoring {
     const VAR_POINTS_WRONG = 'ets_points_wrong';
     
-    function score(Answer $answer) : int {
-        $score = 0;
+    function score(Answer $answer) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
         
         $selected_words = json_decode($answer->getValue(), true);
         
@@ -30,6 +32,7 @@ class ErrorTextScoring extends AbstractScoring {
             foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
                 /** @var ErrorTextScoringDefinition $scoring_definition */
                 $scoring_definition = $option->getScoringDefinition();
+                $max_points += $scoring_definition->getPoints();
                 
                 if ($scoring_definition->getWrongWordIndex() === $selected_word) {
                     
@@ -46,7 +49,7 @@ class ErrorTextScoring extends AbstractScoring {
                     }
                     
                     if (!$multi_error) {
-                        $score += $scoring_definition->getPoints();
+                        $reached_points += $scoring_definition->getPoints();
                         $wrong = false;
                         break;                        
                     }
@@ -54,11 +57,29 @@ class ErrorTextScoring extends AbstractScoring {
             }
             
             if ($wrong) {
-                $score += $this->question->getPlayConfiguration()->getScoringConfiguration()->getPointsWrong();
+                $reached_points += $this->question->getPlayConfiguration()->getScoringConfiguration()->getPointsWrong();
+            }
+        }
+
+        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
+        
+        return $answer_score;
+    }
+    
+    public function getBestAnswer() : Answer {
+        $answers = [];
+        
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ErrorTextScoringDefinition $scoring_definition */
+            $scoring_definition = $option->getScoringDefinition();
+            
+            for ($i = 0; $i < $scoring_definition->getWrongWordLength(); $i++) {
+                
+                $answers[] = $scoring_definition->getWrongWordIndex() + $i;
             }
         }
         
-        return $score;
+        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
     }
     
     /**

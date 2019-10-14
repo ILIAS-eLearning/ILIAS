@@ -4,9 +4,11 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
+use Exception;
 
 /**
  * Class FileUploadScoring
@@ -24,8 +26,12 @@ class FileUploadScoring extends AbstractScoring {
     
     const CHECKED = 'checked';
     
-    function score(Answer $answer) : int {
-        return 42;
+    function score(Answer $answer) : AnswerScoreDto {
+        $reached_points = 0;
+        $max_points = 0;
+
+        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
+        return $answer_score;
     }
     
     /**
@@ -69,5 +75,13 @@ class FileUploadScoring extends AbstractScoring {
      */
     public static function getScoringDefinitionClass(): string {
         return EmptyScoringDefinition::class;
+    }
+    
+    /**
+     * Implementation of best answer for upload not possible
+     */
+    public function getBestAnswer(): Answer
+    {
+        throw new Exception("Best Answer for File Upload Impossible");
     }
 }

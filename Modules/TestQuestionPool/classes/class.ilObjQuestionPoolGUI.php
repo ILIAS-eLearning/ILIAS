@@ -174,7 +174,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
 				//2. Get the specific question authoring service
 				$authoring_gui = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getAuthoringGUI(
-					$this->back_link, $this->object->getRefId(), $this->object->getType(), $DIC->access()->checkAccess(
+					$this->back_link, $this->object->getRefId(), $this->object->getType(), new \QuestionConfig(), $DIC->access()->checkAccess(
 						'write', '', $this->object->getRefId()
 					)
 				);
