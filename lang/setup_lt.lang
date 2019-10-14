@@ -106,7 +106,6 @@ disable_check#:#išjungti patikrinimą
 disable_logging#:#išjungti įvykių registravimą
 disabled#:#išjungta
 display_clientlist#:#Rodyti klientų parinktį
-duplicate_ctrl#:#Klaida: Rastas dubliuotas užklausos struktūros apibrėžimas (Klasė %s) failuose:<br /><br />- %s<br />- %s<br /><br />Plpašalinkite failą, kuris nepriklauso oficialiam ILIAS paketui.<br />Po to, sužadinkite 'Įrankiai' -> 'Perkrauti Kontrolės Struktūrą' ILIAS Diegime.
 email#:#El.paštas
 email_not_valid#:#El.paštas netinkamas
 en_by_default#:#(Anglų kalbos pašalinti negalima).

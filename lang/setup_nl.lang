@@ -105,7 +105,6 @@ disable_check#:#Zet controleren uit###07 Apr 2005 content changed
 disable_logging#:#Zet logging uit###07 Apr 2005 content changed
 disabled#:#uitgeschakeld###07 Apr 2005 content changed
 display_clientlist#:#Laat cliënt-selectie zien###07 Apr 2005 content changed
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email###07 Apr 2005 content changed
 email_not_valid#:#Foutief email-adres###07 Apr 2005 content changed
 en_by_default#:#(Engels is standaard geïnstalleerd en kan niet worden gewist).###07 Apr 2005 content changed
