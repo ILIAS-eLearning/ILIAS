@@ -5,6 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Answer;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\UI\Implementation\Component\Link\Standard;
+use ilObjAdvancedEditing;
 use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqGenericFeedbackPageGUI;
@@ -44,23 +45,19 @@ Abstract class AnswerFeedback extends AbstractValueObject implements JsonSeriali
 
     public static function generateRteField(QuestionDto $question, string $label, string $post_var, string $answer_feedback) : ilFormPropertyGUI {
         $feedback = new \ilTextAreaInputGUI($label, $post_var);
+        $feedback->setValue($answer_feedback);
         $feedback->setRequired(true);
         $feedback->setRows(10);
-        //TODO FIXME POST IS EMPTY WITH RTE
-        /*$feedback->setUseRte(true);
+
+        /*
+        $feedback->setUseRte(true);
         $feedback->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
         $feedback->addPlugin("latex");
         $feedback->addButton("latex");
         $feedback->addButton("pastelatex");
-        $feedback->setRTESupport($question->getQuestionIntId(), $question->getIlComponentid(), "assessment");*/
-        /*
-       else
-       {
-           $property->setRteTags(\ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
-           $property->setUseTagsForRteOnly(false);
-       }*/
+        $feedback->setRTESupport($question->getQuestionIntId(), $question->getIlComponentid(), "assessment");
 
-        $feedback->setValue($answer_feedback);
+        */
 
         return $feedback;
     }

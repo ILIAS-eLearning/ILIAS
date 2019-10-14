@@ -24,16 +24,21 @@ class QuestionLegacyData extends AbstractValueObject {
 	 * @var ?string
 	 */
 	protected $content_editing_mode;
+    /**
+     * @var ?string
+     */
+    protected $container_obj_type;
 	
 	/**
 	 * @param int      $answer_type_id
 	 *
 	 * @return QuestionLegacyData
 	 */
-	static function create(?int $answer_type_id, ?string $content_editing_mode) : QuestionLegacyData {
+	static function create(?int $answer_type_id, ?string $content_editing_mode, ?string $container_obj_type) : QuestionLegacyData {
 		$object = new QuestionLegacyData();
 		$object->answer_type_id = $answer_type_id;
 		$object->content_editing_mode = $content_editing_mode;
+        $object->container_obj_type = $container_obj_type;
 		return $object;
 	}
 
@@ -48,6 +53,14 @@ class QuestionLegacyData extends AbstractValueObject {
 	    return $this->content_editing_mode;
 	}
 
+
+
+    public function getContainerObjType(): ?string {
+        return $this->container_obj_type;
+    }
+
+
+
     /**
      * @param AbstractValueObject $other
      *
@@ -59,5 +72,6 @@ class QuestionLegacyData extends AbstractValueObject {
         return get_class($this) === get_class($other) &&
                $this->getAnswerTypeId() === $other->getAnswerTypeId() &&
                $this->getContentEditingMode() === $other->getContentEditingMode();
+               $this->getContainerObjType() === $other->getContainerObjType();
     }
 }
