@@ -1,27 +1,18 @@
 <?php
 
 
-class ilWebDAVObjectlessMountInstructions
+class ilWebDAVObjectlessMountInstructions extends ilWebDAVBaseMountInstructions
 {
-    public function __construct(ilWebDAVMountInstructionsRepository $a_document_repository)
+    public function __construct(ilWebDAVMountInstructionsRepository $a_repo,
+        ilWebDAVUriBuilder $a_uri_builder,
+        ilSetting $a_settings,
+        string $a_language)
     {
-
+        parent::__construct($a_repo, $a_uri_builder, $a_settings, $a_language);
     }
 
-
-    public function getMountInstructionsAsArray() : array
+    protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
     {
-        $mount_instructions = array();
-
-        $document = $this->document_repository->getMountInstructionsByLanguage('de');
-        $processed = '{"WINDOWS": "Hello World", "MAC": "Test"}';//$document->getProcessedInstructions();
-        $mount_instructions = json_decode($processed, true);
-
         return $mount_instructions;
-    }
-
-    protected function getMountInstructionsWithFilledPlaceholders(array $a_mount_instructions)
-    {
-        return $a_mount_instructions;
     }
 }

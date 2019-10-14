@@ -3,7 +3,7 @@
 
 class ilWebDAVMountInstructionsModalGUI
 {
-    public function __construct(ilWebDAVMountInstructions $a_mount_instructions
+    public function __construct(ilWebDAVBaseMountInstructions $a_mount_instructions
         , ILIAS\UI\Factory $a_ui_factory
         , ILIAS\UI\Renderer $a_ui_renderer
         , ilLanguage $a_lng)

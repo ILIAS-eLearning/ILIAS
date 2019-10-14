@@ -31,15 +31,14 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 	public  function __construct(
 		ilWebDAVMountInstructionsUploadGUI $a_parent_obj,
+		ilWebDAVUriBuilder $a_uri_builder,
 		string $a_command,
 		ILIAS\UI\Factory $a_ui_factory,
 		ILIAS\UI\Renderer $a_ui_renderer,
 		bool $a_is_editable = false
 	)
 	{
-	    //TODO: Delete this after testing
-        $this->instructions = new ilWebDAVMountInstructionsGUI();
-
+        $this->uri_builder = $a_uri_builder;
 		$this->ui_factory = $a_ui_factory;
 		$this->ui_renderer = $a_ui_renderer;
 		$this->is_editable = $a_is_editable;
@@ -374,9 +373,11 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 	protected function formatTitle(string $a_column, array $a_row)
 	{
 	    if($a_row['processed_text'] == null) $a_row['processed_text'] = '';
-		$modal = $this->instructions->getAsyncMountInstructionModalByLanguage($a_row['language']);
-            //$this->ui_factory
-			//->modal()->lightbox($this->ui_factory->modal()->lightboxTextPage($a_row['processed_text'], 'Mount Instructions'));
+
+	    // Build modal, which is rendered asynchronous
+		$modal = $this->ui_factory->modal()
+            ->lightbox($this->ui_factory->modal()->lightboxTextPage('', ''))
+            ->withAsyncRenderUrl($this->uri_builder->getUriToMountInstructionModalByLanguage($a_row['language']));
 
 		$title_link = $this->ui_factory
 			->button()

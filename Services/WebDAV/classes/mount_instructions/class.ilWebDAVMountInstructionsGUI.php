@@ -12,7 +12,7 @@ class ilWebDAVMountInstructionsGUI {
     
     /**
      * 
-     * @var $mount_instruction ilWebDAVMountInstructions
+     * @var $mount_instruction ilWebDAVObjectMountInstructions
      */
     protected $protocol_prefixes;
     protected $base_url;
@@ -21,73 +21,52 @@ class ilWebDAVMountInstructionsGUI {
     
     public function __construct() 
     {
-        $this->mount_instruction = new ilWebDAVMountInstructions();
-    }
-
-    public function getMountInstructionsGetRequestParameter()
-    {
-        return 'mount-instructions';
-    }
-
-    protected function getModalBaseURI()
-    {
         global $DIC;
-        $uri = $DIC->http()->request()->getUri();
 
-        $base_uri = $uri->getScheme() . '://' . $uri->getHost() . '/trunk/webdav.php/' . CLIENT_ID;
-        return $base_uri;
-        // TODO: Replace mock with real URI
-        //return "https://" . $_SERVER["HTTP_HOST"] . "/webdav.php/" . CLIENT_ID;
-        return "http://localhost/trunk/webdav.php/" . CLIENT_ID;
+        $this->uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+        $this->user_language = $DIC->user()->getLanguage();
+        $this->mount_instruction = $this->buildMountInstructionsFromUri(
+            $DIC->http()->request()->getUri()->getPath(),
+            new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
+        );
+
     }
 
-    protected function getModalURIByRef(int $ref_id)
+    public function buildMountInstructionsFromUri($a_uri, ilWebDAVMountInstructionsRepository $repo)
     {
-        return $this->getModalBaseURI() . "/$ref_id?".$this->getMountInstructionsGetRequestParameter();
-    }
+        $splitted_uri = explode('/', $a_uri);
 
-    protected function getModalURIByLanguage(string $lng)
-    {
-        if(strlen($lng) == 2)
-        {
-            return $this->getModalBaseURI() . "/$lng?".$this->getMountInstructionsGetRequestParameter();
-        }
-        else
-        {
-            throw new InvalidArgumentException("Language id should be exactly 2 characters");
-        }
-    }
-
-    public function getAsyncMountInstructionModalByLanguage(string $lng) : \ILIAS\UI\Component\Modal\Modal
-    {
-        global $DIC;
-        $modal = new ilWebDAVMountInstructionsModalGUI($this->mount_instruction, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
-        return $modal->getAsAsyncModal($this->getModalURIByLanguage($lng));
-    }
-
-    public function renderMontInstructionModal()
-    {
-        global $DIC;
-        $uri = $DIC->http()->request()->getUri();
-        $splitted_uri = explode('/', $uri->getPath());
-
-        // Remove paht elements before webdav script
+        // Remove path elements before and until webdav script
         while($value = array_shift($splitted_uri) != 'webdav.php');
 
         $client_id = array_shift($splitted_uri);
         $path_value = array_shift($splitted_uri);
 
+        if(strlen($path_value) == 2)
+        {
+            return new ilWebDAVObjectlessMountInstructions($repo,
+                $this->uri_builder,
+                new ilSetting('file_access'),
+                $path_value);
+        }
+        else if (substr($path_value, 0, 4) == 'ref_')
+        {
+            return new ilWebDAVObjectMountInstructions($repo,
+                $this->uri_builder,
+                new ilSetting('file_access'),
+                $this->user_language,
+                (int)substr($path_value, 4));
+        }
+        else{
+            throw new InvalidArgumentException("Invalid path given");
+        }
+    }
+
+    public function renderMountInstructionModal()
+    {
+        global $DIC;
+
         $modal = new ilWebDAVMountInstructionsModalGUI($this->mount_instruction, $DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
         $modal->printMountInstructionModalAndExit();
-
-        /**
-        if(str_len($path_value) == 2)
-        {
-            $this->renderModalByLanguage($path_value);
-        }
-        else if (substr($path_value, 0, 3) == 'ref_')
-        {
-        }
-         * */
     }
 }
