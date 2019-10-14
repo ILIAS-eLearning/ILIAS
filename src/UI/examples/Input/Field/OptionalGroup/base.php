@@ -21,18 +21,11 @@ function base()
     );
 
     //Step 3: define form and form actions
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'checkbox'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, [ $checkbox_input]);
+    $form = $ui->input()->container()->form()->standard('#', [ $checkbox_input]);
 
     //Step 4: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='checkbox') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

@@ -26,17 +26,10 @@ function base()
         ->withRequired(true);
 
     //Step 2: define form and form actions
-    $ctrl->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name_required',
-        'multiselect'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['multi' => $multi]);
+    $form = $ui->input()->container()->form()->standard('#', ['multi' => $multi]);
 
     //Step 3: implement some form data processing.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name_required'] == "multiselect") {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {
