@@ -49,10 +49,10 @@ class FeedbackFieldAnswerOptionsContentRte
         foreach($this->answer_options->getOptions() as $answer_option) {
             /** @var AnswerOption $answer_option */
             $arr_option = $answer_option->getDisplayDefinition()->getValues();
-            $label = "2222";//$arr_option[ImageAndTextDisplayDefinition::VAR_MCDD_TEXT];
+            $label = $arr_option[ImageAndTextDisplayDefinition::VAR_MCDD_TEXT];
 
 
-            $field = new FeedbackFieldContentRte($answer_option->getAnswerOptionFeedback()->getAnswerFeedback(),$this->container_obj_id,  $this->container_obj_type, $label,  $this->post_var."_".$answer_option->getOptionId());
+            $field = new FeedbackFieldContentRte($answer_option->getAnswerOptionFeedback()->getAnswerFeedback(),$this->container_obj_id,  $this->container_obj_type, $label,  $this->post_var."[".$answer_option->getOptionId()."]");
 
             $fields[] = $field;
         }
@@ -72,8 +72,9 @@ class FeedbackFieldAnswerOptionsContentRte
         $new_answer_options = new AnswerOptions();
 
         foreach($answer_options->getOptions() as $answer_option) {
+            $data = filter_input(INPUT_POST, $post_var, FILTER_DEFAULT, FILTER_REQUIRE_ARRAY);
             /** @var AnswerOption $answer_option */
-            $new_answer_options->addOption(AnswerOption::createWithNewAnswerOptionFeedback($answer_option,new AnswerOptionFeedback(FeedbackFieldContentRte::getValueFromPost($post_var."_".$answer_option->getOptionId()))));
+            $new_answer_options->addOption(AnswerOption::createWithNewAnswerOptionFeedback($answer_option,new AnswerOptionFeedback($data[$answer_option->getOptionId()])));
         }
 
         return $new_answer_options;

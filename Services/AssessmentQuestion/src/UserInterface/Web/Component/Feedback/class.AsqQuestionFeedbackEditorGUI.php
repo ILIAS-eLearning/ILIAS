@@ -148,6 +148,7 @@ class AsqQuestionFeedbackEditorGUI
             return;
         }
 
+
         $this->question_dto->setFeedback($current_feedback);
         $this->question_dto->setAnswerOptions($answer_options);
 

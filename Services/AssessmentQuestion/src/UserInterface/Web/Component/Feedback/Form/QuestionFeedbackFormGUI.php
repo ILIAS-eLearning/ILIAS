@@ -89,60 +89,6 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         $this->initForm();
     }
 
-
-   /*
-    protected function initRteTextareaForm()
-    {
-
-
-        $feedbackCorrectInput = $this->buildFeedbackContentInputFormProperty(
-            $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_FEEDBACK_CORRECT
-        );
-
-        $feedbackCorrectInput->setValue($this->questionDto->getFeedbackCorrect()->getContent());
-
-        $this->addItem($feedbackCorrectInput);
-
-        $feedbackWrongInput = $this->buildFeedbackContentInputFormProperty(
-            $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_FEEDBACK_WRONG
-        );
-
-        $feedbackWrongInput->setValue($this->questionDto->getFeedbackWrong()->getContent());
-
-        $this->addItem($feedbackWrongInput);
-    }*/
-
-    /**
-     * @param string $label
-     * @param string $postVar
-     * @return \ilTextAreaInputGUI
-     */
-    /*
-    protected function buildFeedbackContentInputFormProperty($label, $postVar)
-    {
-        $property = new \ilTextAreaInputGUI($label, $postVar);
-        $property->setRequired(false);
-        $property->setRows(10);
-
-        if( !$this->preventRteUsage ) // TinyMCE
-        {
-            $property->setUseRte(true);
-            $property->addPlugin("latex");
-            $property->addButton("latex");
-            $property->addButton("pastelatex");
-            $property->setRteTags(\ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-        }
-        else
-        {
-            $property->setRteTags(\ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
-            $property->setUseTagsForRteOnly(false);
-        }
-
-        $property->setRTESupport($this->questionDto->getQuestionIntId(), 'asq', 'assessment');
-
-        return $property;
-    }*/
-
     protected function initForm()
     {
         global $DIC;
