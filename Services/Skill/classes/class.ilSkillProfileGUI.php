@@ -113,10 +113,11 @@ class ilSkillProfileGUI
 				$user_search = new ilRepositorySearchGUI();
 				$user_search->setTitle($lng->txt('skmg_add_user_to_profile'));
 				$user_search->setCallback($this, 'assignUser');
+				$user_search->setRoleCallback($this, 'assignRole');
 
 				// Set tabs
 				//$this->tabs_gui->setTabActive('user_assignment');
-				$ilCtrl->setReturn($this, 'listUsers');
+				$ilCtrl->setReturn($this, 'showUsers');
 				$ret = $ilCtrl->forwardCommand($user_search);
 				break;
 			
@@ -125,7 +126,7 @@ class ilSkillProfileGUI
 					"confirmDeleteProfiles", "deleteProfiles", "showLevels", "assignLevel",
 					"assignLevelSelectSkill", "assignLevelToProfile",
 					"confirmLevelAssignmentRemoval", "removeLevelAssignments",
-					"showUsers", "assignUser",
+					"showUsers", "assignUser", "assignRole",
 					"confirmUserRemoval", "removeUsers", "exportProfiles", "showImportForm", "importProfiles")))
 				{
 					$this->$cmd();
@@ -598,6 +599,13 @@ class ilSkillProfileGUI
 				)
 			);
 		}
+
+		$ilToolbar->addSeparator();
+
+		$button = ilLinkButton::getInstance();
+		$button->setCaption("skmg_add_assignment");
+		$button->setUrl($this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI','start'));
+		$ilToolbar->addButtonInstance($button);
 		
 		$this->setTabs("users");
 		
@@ -623,13 +631,53 @@ class ilSkillProfileGUI
 			return;
 		}
 
+		// user assignment with toolbar
 		$user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST["user_login"]));
 		if ($user_id > 0)
 		{
 			$this->profile->addUserToProfile($user_id);
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}
+
+		// user assignment with ilRepositorySearchGUI
+		$users = $_POST['user'];
+		if (is_array($users)) {
+			foreach ($users as $id) {
+				if ($id > 0) {
+					$this->profile->addUserToProfile($id);
+				}
+			}
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
 	
+		$ilCtrl->redirect($this, "showUsers");
+	}
+
+	/**
+	 * Assign role
+	 */
+	public function assignRole(array $role_ids)
+	{
+		$ilCtrl = $this->ctrl;
+		$lng = $this->lng;
+
+		if (!$this->checkPermissionBool("write"))
+		{
+			return;
+		}
+
+		$success = false;
+		foreach ($role_ids as $id)
+		{
+			if ($id > 0) {
+				$this->profile->addRoleToProfile($id);
+				$success = true;
+			}
+		}
+		if ($success) {
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+		}
+
 		$ilCtrl->redirect($this, "showUsers");
 	}
 	
@@ -665,10 +713,25 @@ class ilSkillProfileGUI
 
 			foreach ($_POST["id"] as $i)
 			{
-				$name = ilObjUser::_lookupName($i);
-				$cgui->addItem("id[]", $i,
-					$name["lastname"].", ".$name["firstname"].
-					" [".$name["login"]."]");
+				$type = ilObject::_lookupType($i);
+
+				switch($type)
+				{
+					case 'usr':
+						$usr_name = ilUserUtil::getNamePresentation($i);
+						$cgui->addItem("id[]", $i,
+							$usr_name);
+						break;
+
+					case 'role':
+						$role_name = ilObjRole::_lookupTitle($i);
+						$cgui->addItem("id[]", $i,
+							$role_name);
+						break;
+
+					default:
+						echo 'not defined';
+				}
 			}
 
 			$tpl->setContent($cgui->getHTML());
@@ -692,7 +755,20 @@ class ilSkillProfileGUI
 		{
 			foreach ($_POST["id"] as $i)
 			{
-				$this->profile->removeUserFromProfile((int) $i);
+				$type = ilObject::_lookupType($i);
+				switch($type)
+				{
+					case 'usr':
+						$this->profile->removeUserFromProfile((int) $i);
+						break;
+
+					case 'role':
+						$this->profile->removeRoleFromProfile((int) $i);
+						break;
+
+					default:
+						echo 'not deleted';
+				}
 			}
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 		}

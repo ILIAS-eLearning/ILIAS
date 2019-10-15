@@ -2209,9 +2209,11 @@ common#:#active#:#Aktiv
 common#:#add#:#Hinzufügen
 common#:#add_condition#:#Neue Vorbedingung erstellen
 common#:#add_member#:#Mitglied hinzufügen
+common#:#add_member_role#:#Mitgliederrolle hinzufügen
 common#:#add_new_user_defined_field#:#Neues benutzerdefiniertes Feld anlegen
 common#:#add_note#:#Notiz hinzufügen
 common#:#add_parameter#:#Neuer Parameter
+common#:#add_role#:#Rolle hinzufügen
 common#:#add_translation#:#Übersetzung hinzufügen
 common#:#add_user#:#Lokalen Benutzer hinzufügen
 common#:#add_user_defined_field#:#Neues Feld anlegen
@@ -3029,6 +3031,7 @@ common#:#grp_err_administrator_required#:#Gruppenmitglied wurde nicht entfernt, 
 common#:#grp_header_edit_members#:#Mitglieder bearbeiten
 rbac#:#grp_join#:#Benutzer kann Gruppe beitreten
 rbac#:#grp_leave#:#Benutzer kann Gruppenmitgliedschaft beenden
+common#:#grp_list_members#:#Teilnehmer auflisten
 common#:#grp_list_users#:#Benutzer auflisten
 common#:#grp_mem_change_status#:#Mitgliedsstatus ändern
 common#:#grp_mem_send_mail#:#Mitglied eine Mail senden
@@ -8386,9 +8389,9 @@ search#:#search_details_info#:#Detailsuche in den unten ausgewählten Objekttype
 search#:#search_direct#:#Direktsuche
 search#:#search_err_user_not_exist#:#Es konnte kein entsprechender Benutzer gefunden werden.
 search#:#search_fast_info#:#Suche nach Titeln, Beschreibungen und Schlagwörtern
-search#:#search_for_crs_members#:#Nach Kursmitgliedern suchen
-search#:#search_for_grp_members#:#Nach Gruppenmitgliedern suchen
-search#:#search_for_role_members#:#Nach Rollenmitgliedern suchen
+search#:#search_for_crs_members#:#Nach Kursen suchen
+search#:#search_for_grp_members#:#Nach Gruppen suchen
+search#:#search_for_role_members#:#Nach Rollen suchen
 search#:#search_for_users#:#Nach Benutzern suchen
 search#:#search_full_info#:#Diese Suchart benutzt einen Index, um in großen Datenmengen zu suchen.
 search#:#search_grp_title#:#Gruppenname
@@ -10897,8 +10900,10 @@ skmg#:#skmg_profile#:#Profil
 skmg#:#skmg_remove_levels#:#Ausprägung löschen
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_confirm_remove_level_ass#:#Wollen Sie wirklich die folgenden Kompetenzausprägungen aus dem Profil entfernen?
-skmg#:#skmg_assigned_users#:#Zugeordnete Benutzer
+skmg#:#skmg_assigned_users#:#Zugeordnete Rollen und Benutzer
 skmg#:#skmg_assign_user#:#Benutzer zuordnen
+skmg#:#skmg_add_assignment#:#Rollen / Mitglieder zuordnen
+skmg#:#skmg_add_user_to_profile#:#Benutzer oder Rollen suchen
 skmg#:#skmg_confirm_user_removal#:#Wollen Sie wirklich die folgenden Benutzer aus dem Profil entfernen?
 skmg#:#skmg_resources#:#Ressourcen
 skmg#:#skmg_add_resource#:#Ressource hinzufügen
