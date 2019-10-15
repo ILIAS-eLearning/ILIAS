@@ -5,7 +5,10 @@ namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\AgentCollection;
+use ILIAS\Setup\AchievementTracker;
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\ArrayEnvironment;
+use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -40,6 +43,8 @@ class InstallCommand extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
+		$io = new IOWrapper($input, $output);
+
 		if ($this->agent->hasConfig()) {
 			$config_file = $input->getArgument("config");
 			$config_content = $this->config_reader->readConfigFile($config_file);
@@ -51,7 +56,14 @@ class InstallCommand extends Command {
 		}
 
 		$goal = $this->agent->getInstallObjective($config);
-		$environment = new ArrayEnvironment([]);
+		$environment = new ArrayEnvironment([
+			Environment::RESOURCE_CONFIRMATION_REQUESTER => $io,
+			// TODO: This needs to be implemented correctly...
+			Environment::RESOURCE_ACHIEVEMENT_TRACKER => new class implements AchievementTracker {
+				public function trackAchievementOf(Objective $objective) : void {}
+				public function isAchieved(Objective $objective) : bool { return false; }
+			}
+		]);
 
 		if ($this->agent instanceof AgentCollection && $config) {
 			foreach ($config->getKeys() as $k) {
@@ -60,7 +72,6 @@ class InstallCommand extends Command {
 		}
 
 		$goals = new ObjectiveIterator($environment, $goal);
-		$io = new IOWrapper($input, $output);
 		while($goals->valid()) {
 			$current = $goals->current();
 			$io->startObjective($current->getLabel(), $current->isNotable());
