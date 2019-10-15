@@ -124,7 +124,7 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
     }
 
 
-    public function load()
+    protected function load()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 

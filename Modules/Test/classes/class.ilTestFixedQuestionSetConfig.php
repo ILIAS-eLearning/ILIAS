@@ -26,7 +26,6 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
         if( $this->testQuestionList === null )
         {
             $this->testQuestionList = new ilTestFixedQuestionSetQuestionList($this->testOBJ->getTestId());
-            $this->testQuestionList->load();
         }
 
         return $this->testQuestionList;
