@@ -10,13 +10,13 @@ declare(strict_types=1);
 class ilLSCurriculumBuilder
 {
 	public function __construct(
-		array $ls_items,
+		ilLSLearnerItemsQueries $ls_items,
 		ILIAS\UI\Factory $ui_factory,
 		ilLanguage $language,
 		string $goto_command,
 		LSUrlBuilder $url_builder = null
 	) {
-		$this->items = $ls_items;
+		$this->ls_items = $ls_items;
 		$this->ui_factory = $ui_factory;
 		$this->lng = $language;
 		$this->goto_command = $goto_command;
@@ -26,7 +26,7 @@ class ilLSCurriculumBuilder
 	public function getLearnerCurriculum(bool $with_action = false)//: ILIAS\UI\Component\Listing\Workflow
 	{
 		$steps = [];
-		foreach ($this->items as $item) {
+		foreach ($this->ls_items->getItems() as $item) {
 			$action = '#';
 			if($with_action) {
 				$action = $this->query .$item->getRefId();
@@ -49,6 +49,12 @@ class ilLSCurriculumBuilder
 			$this->lng->txt('curriculum'),
 			$steps
 		);
+
+		if(count($steps) > 0) {
+			$current_position = max(0, $this->ls_items->getCurrentItemPosition());
+			$workflow = $workflow->withActive($current_position);
+		}
+
 		return $workflow;
 	}
 

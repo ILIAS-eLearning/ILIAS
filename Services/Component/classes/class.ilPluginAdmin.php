@@ -522,9 +522,13 @@ class ilPluginAdmin
      */
     public static function getAllPlugins()
     {
-        $cached_component = ilCachedComponentData::getInstance();
+        static $all_plugins;
+        if (!isset($all_plugins)) {
+            $cached_component = ilCachedComponentData::getInstance();
+            $all_plugins = $cached_component->getIlPluginById();
+        }
 
-        return $cached_component->getIlPluginById();
+        return $all_plugins;
     }
 
 
@@ -535,14 +539,19 @@ class ilPluginAdmin
      */
     public static function getActivePlugins()
     {
-        $cached_component = ilCachedComponentData::getInstance();
-        $plugins = $cached_component->getIlPluginActive();
-        $buf = array();
-        foreach ($plugins as $slot => $plugs) {
-            $buf = array_merge($buf, $plugs);
+        static $active_plugins;
+        if (!isset($active_plugins)) {
+            $cached_component = ilCachedComponentData::getInstance();
+            $plugins = $cached_component->getIlPluginActive();
+            $buf = array();
+            foreach ($plugins as $slot => $plugs) {
+                $buf[] = $plugs;
+            }
+
+            $active_plugins = array_merge([], ...$buf);
         }
 
-        return $buf;
+        return $active_plugins;
     }
 
 
@@ -590,6 +599,7 @@ class ilPluginAdmin
 
 
     /**
+     * @deprecated
      * @return \ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider[]
      */
     public static function getAllGlobalScreenProviders() : array
@@ -604,5 +614,22 @@ class ilPluginAdmin
         }
 
         return $providers;
+    }
+
+
+    /**
+     * @return Generator
+     */
+    public static function getGlobalScreenProviderCollections() : Generator
+    {
+        /**
+         * @var $pl ilPlugin
+         */
+        foreach (self::getActivePlugins() as $plugin) {
+            $pl = self::getPluginObjectById($plugin['plugin_id']);
+            if ($pl->isActive()) {
+                yield $pl->getGlobalScreenProviderCollection();
+            }
+        }
     }
 }

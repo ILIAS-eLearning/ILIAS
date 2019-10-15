@@ -105,7 +105,7 @@ class IdentificationFactoryTest extends TestCase
     public function testPlugin()
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
-        $identification_provider = $this->identification->plugin($this->plugin_mock, $this->provider_mock);
+        $identification_provider = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock);
         $this->assertInstanceOf(IdentificationProviderInterface::class, $identification_provider);
         $identification = $identification_provider->identifier('dummy');
         $this->assertInstanceOf(IdentificationInterface::class, $identification);
@@ -133,7 +133,7 @@ class IdentificationFactoryTest extends TestCase
     public function testUnserializingPlugin()
     {
         $this->plugin_mock->shouldReceive('getId')->once()->andReturn('xdemo');
-        $identification = $this->identification->plugin($this->plugin_mock, $this->provider_mock)->identifier('dummy');
+        $identification = $this->identification->plugin($this->plugin_mock->getId(), $this->provider_mock)->identifier('dummy');
         $serialized_identification = $identification->serialize();
         $this->provider_mock->shouldReceive('getProviderNameForPresentation')->andReturn('Provider');
         $new_identification = $this->identification->fromSerializedIdentification($serialized_identification);

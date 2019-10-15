@@ -19,10 +19,10 @@ class ImplementationOfInterfaceFinder
      */
     private $ignore
         = [
-            '/libs/',
-            '/test/',
-            '/tests/',
-            '/setup/',
+            '.*/libs/',
+            '.*/test/',
+            '.*/tests/',
+            '.*/setup/',
             // Classes using removed Auth-class from PEAR
             '.*ilSOAPAuth.*',
             // Classes using unknown

@@ -394,12 +394,10 @@ wrong_password#:#Sai mật khẩu!
 zip_path#:#Đường dẫn nén
 zip_path_comment#:#bắt buộc để 'xuất khẩu' học phần
 zipcode#:#Mã bưu điện
-
 3rdparty#:#3rd Party add-ons###07 09 2006 new variable
 check_failed_latex#:#Testing LaTeX CGI script failed###07 09 2006 new variable
 ctrl_missing_desc#:#Control Structure Missing. Please hit 'Reload'.###07 09 2006 new variable
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###07 09 2006 new variable
 lang_el#:#Greek###07 09 2006 new variable
 latex_url_comment#:#required for LaTeX support in ILIAS###07 09 2006 new variable

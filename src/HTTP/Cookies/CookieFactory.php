@@ -23,7 +23,7 @@ interface CookieFactory
      *
      * @return Cookie
      */
-    public function create($name, $value = null);
+    public function create(string $name, string $value = null) : Cookie;
 
 
     /**
@@ -34,7 +34,7 @@ interface CookieFactory
      *
      * @return Cookie
      */
-    public function createRememberedForLongTime($name, $value = null);
+    public function createRememberedForLongTime(string $name, string $value = null) : Cookie;
 
 
     /**
@@ -45,7 +45,7 @@ interface CookieFactory
      *
      * @return Cookie
      */
-    public function createExpired($name);
+    public function createExpired(string $name) : Cookie;
 
 
     /**
@@ -55,5 +55,5 @@ interface CookieFactory
      *
      * @return Cookie
      */
-    public function fromSetCookieString($string);
+    public function fromSetCookieString(string $string) : Cookie;
 }

@@ -380,7 +380,6 @@ ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly
 ctrl_structure_reloaded#:#Control Structure Reloaded.###07 09 2006 new variable
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
 db_not_installed#:#Database not installed###07 09 2006 new variable
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
 enter_dir_and_filename#:#Please enter the full (absolute) path and the file name!###07 09 2006 new variable
 example#:#Example###07 09 2006 new variable
 fop_path#:#Path to FOP###07 09 2006 new variable

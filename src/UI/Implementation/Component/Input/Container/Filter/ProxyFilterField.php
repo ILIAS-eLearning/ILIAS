@@ -14,24 +14,25 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  * An internal class for the clickable, non-editable Input Fields within Filters.
  * It reuses the framework concepts JSBindable and Clickable.
  */
-class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable {
+class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable
+{
+    use ComponentHelper;
+    use JavaScriptBindable;
+    use Triggerer;
 
-	use ComponentHelper;
-	use JavaScriptBindable;
-	use Triggerer;
+    /**
+     * @inheritdoc
+     */
+    public function withOnClick(Signal $signal)
+    {
+        return $this->withTriggeredSignal($signal, 'click');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withOnClick(Signal $signal) {
-		return $this->withTriggeredSignal($signal, 'click');
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOnClick(Signal $signal) {
-		return $this->appendTriggeredSignal($signal, 'click');
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function appendOnClick(Signal $signal)
+    {
+        return $this->appendTriggeredSignal($signal, 'click');
+    }
 }

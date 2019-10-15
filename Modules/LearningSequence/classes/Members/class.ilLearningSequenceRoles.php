@@ -50,7 +50,8 @@ class ilLearningSequenceRoles
 	protected $local_roles;
 
 	public function __construct(
-		ilObjLearningSequence $object,
+		int $ls_ref_id,
+		int $ls_obj_id,
 		ilLearningSequenceParticipants $participants,
 		ilCtrl $ctrl,
 		ilRbacAdmin $rbacadmin,
@@ -58,7 +59,9 @@ class ilLearningSequenceRoles
 		ilDBInterface $database,
 		ilObjUser $user
 	) {
-		$this->object = $object;
+		//$this->object = $object;
+		$this->ref_id = $ls_ref_id;
+		$this->obj_id = $ls_obj_id;
 		$this->participants = $participants;
 		$this->ctrl = $ctrl;
 		$this->rbacadmin = $rbacadmin;
@@ -72,17 +75,17 @@ class ilLearningSequenceRoles
 	public function initDefaultRoles()
 	{
 		ilObjRole::createDefaultRole(
-			self::ROLE_LS_ADMIN.'_'.$this->object->getRefId(),
-			"LSO admin learning sequence obj_no.".$this->object->getId(),
+			self::ROLE_LS_ADMIN.'_'.$this->ref_id,
+			"LSO admin learning sequence obj_no.".$this->obj_id,
 			self::ROLE_LS_ADMIN,
-			$this->object->getRefId()
+			$this->ref_id
 		);
 
 		ilObjRole::createDefaultRole(
-			self::ROLE_LS_MEMBER.'_'.$this->object->getRefId(),
-			"LSO member of learning sequence obj_no.".$this->object->getId(),
+			self::ROLE_LS_MEMBER.'_'.$this->ref_id,
+			"LSO member of learning sequence obj_no.".$this->obj_id,
 			self::ROLE_LS_MEMBER,
-			$this->object->getRefId()
+			$this->ref_id
 		);
 	}
 
@@ -93,13 +96,13 @@ class ilLearningSequenceRoles
 	{
 		if (count($this->local_roles) == 0) {
 			$role_ids = $this->rbacreview->getRolesOfRoleFolder(
-				$this->object->getRefId()
+				$this->ref_id
 			);
 
 			foreach ($role_ids as $role_id) {
 				if ($this->rbacreview->isAssignable(
 					$role_id,
-					$this->object->getRefId()) == true
+					$this->ref_id) == true
 				) {
 					$role = $this->getRoleObject((int)$role_id);
 
@@ -120,13 +123,13 @@ class ilLearningSequenceRoles
 	public function getDefaultMemberRole(): int
 	{
 		$local_ls_roles = $this->getLocalLearningSequenceRoles();
-		return $local_ls_roles[self::ROLE_LS_MEMBER."_".$this->object->getRefId()];
+		return $local_ls_roles[self::ROLE_LS_MEMBER."_".$this->ref_id];
 	}
 
 	public function getDefaultAdminRole(): int
 	{
 		$local_ls_roles = $this->getLocalLearningSequenceRoles();
-		return $local_ls_roles[self::ROLE_LS_ADMIN."_".$this->object->getRefId()];
+		return $local_ls_roles[self::ROLE_LS_ADMIN."_".$this->ref_id];
 	}
 
 	public function addLSMember(int $user_id, int $role): bool
@@ -134,16 +137,10 @@ class ilLearningSequenceRoles
 		return $this->join($user_id, $role);
 	}
 
-	public function join(int $user_id, $roles): bool
+	public function join(int $user_id): bool
 	{
-		if (is_array($roles)) {
-			foreach ($roles as $role) {
-				$this->rbacadmin->assignUser($role, $user_id, false);
-			}
-		} else {
-			$this->rbacadmin->assignUser($roles, $user_id, false);
-		}
-
+		$role = $this->getDefaultMemberRole();
+		$this->rbacadmin->assignUser($role, $user_id, false);
 		return true;
 	}
 
@@ -183,7 +180,7 @@ class ilLearningSequenceRoles
 
 	public function leave(int $user_id): bool
 	{
-		$roles = $this->participants::getMemberRoles($this->object->getRefId());
+		$roles = $this->participants::getMemberRoles($this->ref_id);
 
 		if (!is_array($roles)) {
 			return $this->rbacadmin->deassignUser($roles, $user_id);
@@ -231,7 +228,7 @@ class ilLearningSequenceRoles
 	public function getLearningSequenceAdminIds()
 	{
 		$users = array();
-		$roles = $this->getDefaultLearningSequenceRoles((string)$this->object->getRefId());
+		$roles = $this->getDefaultLearningSequenceRoles((string)$this->ref_id);
 
 		foreach ($this->rbacreview->assignedUsers($this->getDefaultAdminRole()) as $admin_id) {
 			array_push($users, $admin_id);
@@ -243,7 +240,7 @@ class ilLearningSequenceRoles
 	public function getDefaultLearningSequenceRoles(string $lso_id): array
 	{
 		if (strlen($lso_id) == 0) {
-			$lso_id = $this->object->getRefId();
+			$lso_id = $this->ref_id;
 		}
 
 		$roles = $this->rbacreview->getRolesOfRoleFolder($lso_id);
@@ -279,16 +276,16 @@ class ilLearningSequenceRoles
 		$privacy = ilPrivacySettings::_getInstance();
 
 		if ($tracking_enabled) {
-			$olp = ilObjectLP::getInstance($this->object->getId());
+			$olp = ilObjectLP::getInstance($this->obj_id);
 			$tracking_enabled = $olp->isActive();
 
-			$completed = ilLPStatusWrapper::_lookupCompletedForObject($this->object->getId());
-			$in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->object->getId());
-			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->object->getId());
+			$completed = ilLPStatusWrapper::_lookupCompletedForObject($this->obj_id);
+			$in_progress = ilLPStatusWrapper::_lookupInProgressForObject($this->obj_id);
+			$failed = ilLPStatusWrapper::_lookupFailedForObject($this->obj_id);
 		}
 
 		if ($privacy->enabledLearningSequenceAccessTimes()) {
-			$progress = ilLearningProgress::_lookupProgressByObjId($this->object->getId());
+			$progress = ilLearningProgress::_lookupProgressByObjId($this->obj_id);
 		}
 
 		if ($portfolio_enabled) {
@@ -310,7 +307,7 @@ class ilLearningSequenceRoles
 			$data['usr_id'] = $usr_id;
 
 			$data['notification'] = 0;
-			if ($this->object->getLSParticipants()->isNotificationEnabled($usr_id)) {
+			if ($this->participants->isNotificationEnabled($usr_id)) {
 				$data['notification'] = 1;
 			}
 
@@ -367,4 +364,18 @@ class ilLearningSequenceRoles
 		}
 		return in_array(self::TYPE_PORTFOLIO, $columns);
 	}
+
+	public function isMember(int $usr_id)
+	{
+		return $this->participants->isMember($usr_id);
+	}
+
+	public function isCompletedByUser(int $usr_id): bool
+	{
+		\ilLPStatusWrapper::_updateStatus($this->obj_id, $usr_id);
+		$tracking_active = ilObjUserTracking::_enabledLearningProgress();
+		$user_completion = ilLPStatus::_hasUserCompleted($this->obj_id, $usr_id);
+		return ($tracking_active && $user_completion);
+	}
+
 }

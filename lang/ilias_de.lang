@@ -1375,6 +1375,7 @@ assessment#:#tst_reached_points_of_max#:#%s von %s
 assessment#:#tst_passed#:#Bestanden
 assessment#:#tst_failed#:#Durchgefallen
 assessment#:#tst_tbl_col_scored_pass#:#Bewerteter Durchlauf
+assessment#:#tst_tbl_col_pass_finished#:#Durchlauf beendet
 assessment#:#tst_tbl_col_answered_questions#:#Beantwortete Fragen
 assessment#:#tst_tbl_col_reached_points#:#Erreichte Punkte
 assessment#:#tst_tbl_col_percent_result#:#Ergebnis
@@ -2664,20 +2665,20 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
+common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
-common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -2863,7 +2864,7 @@ common#:#file_allowed_suffixes#:#Erlaubte Dateitypen:
 rbac#:#file_copy#:#Datei kopieren
 common#:#file_created#:#Die Datei wurde hinzugefügt.
 rbac#:#file_delete#:#Datei verschieben oder löschen
-common#:#file_edit#:#Dateieinstellungen bearbeiten und neue Version hochladen
+common#:#file_edit#:#Dateieinstellungen bearbeiten
 rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
@@ -14546,6 +14547,7 @@ file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Pos
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
 rbac#:#copa_visible#:#Inhaltsseite ist sichtbar
@@ -15172,7 +15174,7 @@ pd#:#pd_presentation_mode_list#:#Listenansicht
 pd#:#pd_presentation_mode_tile#:#Kachelansicht
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
 common#:#mm_organisation#:#Organisation
-common#:#mm_staff_list#:#Mitarbeitendenliste
+common#:#mm_staff_list#:#Mitarbeiter
 common#:#mm_enrolments#:#Einschreibungen
 common#:#mm_communication#:#Kommunikation
 common#:#mm_contacts#:#Kontakte
@@ -15180,8 +15182,8 @@ common#:#mm_mail#:#Mail
 common#:#mm_news#:#News
 common#:#mm_notes#:#Notizen
 common#:#mm_comments#:#Kommentare
-common#:#mm_achievements#:#Leistungen
-common#:#mm_learning_history#:#Lernhistorie
+common#:#mm_achievements#:#Lernerfolge
+common#:#mm_learning_history#:#Lernverlauf
 common#:#mm_skills#:#Kompetenzen
 common#:#mm_learning_progress#:#Lernfortschritt
 common#:#mm_badges#:#Badges
@@ -15189,7 +15191,7 @@ common#:#mm_administration#:#Administration
 common#:#mm_repository#:#Magazin
 common#:#mm_dashboard#:#Dashboard
 common#:#mm_repo_tree_view#:#Baumansicht
-common#:#mm_task_derived_tasks#:#Tasks
+common#:#mm_task_derived_tasks#:#To-Dos
 common#:#mm_favorites#:#Favoriten
 common#:#mm_calendar#:#Kalender
 common#:#mm_tags#:#Tags
@@ -15207,3 +15209,18 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+wfld#:#wfld_sortation#:#Sortierung
+wfld#:#wfld_derive#:#Wie übergeordneter Ordner
+wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
+wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
+wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
+wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
+wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
+wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
+book#:#book_select_pool#:#Pool auswählen
+book#:#book_pool_selection#:#Auswahl Buchungspool
+book#:#book_booked_in#:#Gebucht in
+obj#:#obj_tool_booking#:#Ressourcen
+obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
+obj#:#obj_tool_setting_booking#:#Ressourcen
+book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.

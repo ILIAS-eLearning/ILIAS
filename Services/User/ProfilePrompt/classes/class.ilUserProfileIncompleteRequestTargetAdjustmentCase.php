@@ -33,7 +33,12 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 
 		return (
 			strtolower($this->ctrl->getCmdClass()) == 'ilpersonalprofilegui' &&
-			in_array(strtolower($this->ctrl->getCmd()), array('savepersonaldata', 'showpersonaldata', 'showprofile'))
+			in_array(strtolower($this->ctrl->getCmd()), array(
+			    'savepersonaldata',
+                'showpersonaldata',
+                'showprofile',
+                'showpublicprofile',
+                'savepublicprofile'))
 		);
 	}
 

@@ -2,7 +2,8 @@
 /**
  * Example for rendering a standard Progress Meter with maximum configuration
  */
-function maximum_configuration() {
+function maximum_configuration()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();

@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
  * Class ilObjBookingPoolListGUI
@@ -41,17 +40,7 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 		$this->type = "book";
 		$this->gui_class_name = "ilobjbookingpoolgui";
 
-		/*
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
-		$this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
-		if($this->substitutions->isActive())
-		{
-			$this->substitutions_enabled = true;
-		}
-		 */
-
 		// general commands array
-		include_once('./Modules/BookingManager/classes/class.ilObjBookingPoolAccess.php');
 		$this->commands = ilObjBookingPoolAccess::_getCommands();
 	}
 
@@ -98,7 +87,6 @@ class ilObjBookingPoolListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("./Modules/BookingManager/classes/class.ilObjBookingPool.php");
 		if (!ilObjBookingPool::_lookupOnline($this->obj_id))
 		{
 			$props[] = array("alert" => true, "property" => $lng->txt("status"),

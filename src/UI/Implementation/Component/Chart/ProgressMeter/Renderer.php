@@ -30,20 +30,17 @@ class Renderer extends AbstractComponentRenderer
              * @var Component\Chart\ProgressMeter\FixedSize $component
              */
             return $this->renderFixedSize($component, $default_renderer);
-
         } elseif ($component instanceof Component\Chart\ProgressMeter\Mini) {
             /**
              * @var Component\Chart\ProgressMeter\Mini $component
              */
             return $this->renderMini($component, $default_renderer);
-
         } else {
             /**
              * @var Component\Chart\ProgressMeter\Standard $component
              */
             return $this->renderStandard($component, $default_renderer);
         }
-
     }
 
     /**
@@ -56,9 +53,9 @@ class Renderer extends AbstractComponentRenderer
     protected function renderStandard(Component\Chart\ProgressMeter\Standard $component, RendererInterface $default_renderer)
     {
         $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
-		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
+        $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
         return $tpl->get();
     }
@@ -72,16 +69,16 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function renderFixedSize(Component\Chart\ProgressMeter\FixedSize $component, RendererInterface $default_renderer)
     {
-		$hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
-		$tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
+        $hasComparison = ($component->getComparison() != null && $component->getComparison() > 0);
+        $tpl = $this->getTemplate("tpl.progressmeter.html", true, true);
 
-		$tpl->setCurrentBlock('fixed');
-		$tpl->setVariable('FIXED_CLASS', 'fixed-size');
-		$tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock('fixed');
+        $tpl->setVariable('FIXED_CLASS', 'fixed-size');
+        $tpl->parseCurrentBlock();
 
-		$tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
+        $tpl = $this->getDefaultGraphicByComponent($component, $tpl, $hasComparison);
 
-		return $tpl->get();
+        return $tpl->get();
     }
 
     /**
@@ -95,23 +92,23 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.progressmeter_mini.html", true, true);
 
-		$main_percentage = $component->getMainValueAsPercent();
+        $main_percentage = $component->getMainValueAsPercent();
 
         // set progress bar color class
-		$color_class = 'no-success';
-		if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-			$color_class = 'success';
-		}
-		$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
+        $color_class = 'no-success';
+        if ($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+            $color_class = 'success';
+        }
+        $tpl->setVariable('COLOR_ONE_CLASS', $color_class);
         // set width for process bars
-		$tpl->setVariable('BAR_ONE_WIDTH', (86.5 * ($main_percentage / 100)));
+        $tpl->setVariable('BAR_ONE_WIDTH', (86.5 * ($main_percentage / 100)));
         // set marker position
-		$needle_class = 'no-needle';
-        if($component->getRequired() != $component->getMaximum()) {
-			$needle_class = '';
-			$tpl->setVariable('ROTATE_ONE', $this->getMarkerPos($component->getRequiredAsPercent()));
-		}
-		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
+        $needle_class = 'no-needle';
+        if ($component->getRequired() != $component->getMaximum()) {
+            $needle_class = '';
+            $tpl->setVariable('ROTATE_ONE', $this->getMarkerPos($component->getRequiredAsPercent()));
+        }
+        $tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
 
         $tpl->parseCurrentBlock();
 
@@ -119,66 +116,64 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function getDefaultGraphicByComponent(
-    	Component\Chart\ProgressMeter\ProgressMeter $component,
-		\ILIAS\UI\Implementation\Render\Template $tpl,
-		$hasComparison = false
-	) {
+        Component\Chart\ProgressMeter\ProgressMeter $component,
+        \ILIAS\UI\Implementation\Render\Template $tpl,
+        $hasComparison = false
+    ) {
+        $main_percentage = $component->getMainValueAsPercent();
 
-		$main_percentage = $component->getMainValueAsPercent();
+        if ($hasComparison) {
+            // multicircle
+            $tpl->setCurrentBlock('multicircle');
+            // set first progress bar color class
+            $color_one_class = 'no-success';
+            if ($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+                $color_one_class = 'success';
+            }
+            $tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
+            // set width for first process bar
+            $tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
 
-		if ($hasComparison) {
-			// multicircle
-			$tpl->setCurrentBlock('multicircle');
-			// set first progress bar color class
-			$color_one_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_one_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_one_class);
-			// set width for first process bar
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+            // set second progress bar color class
+            $color_two_class = 'active';
+            if (!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
+                $color_two_class = 'not-active';
+            }
+            $tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
+            // set width for second process bar
+            $tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
 
-			// set second progress bar color class
-			$color_two_class = 'active';
-			if(!$this->getIsValueSet($component->getMainValueAsPercent()) && $this->getIsValueSet($component->getComparison())) {
-				$color_two_class = 'not-active';
-			}
-			$tpl->setVariable('COLOR_TWO_CLASS', $color_two_class);
-			// set width for second process bar
-			$tpl->setVariable('BAR_TWO_WIDTH', (88.8 * ($component->getComparisonAsPercent() / 100)));
+            $tpl->parseCurrentBlock();
+        } else {
+            // monocircle
+            $tpl->setCurrentBlock('monocircle');
+            // set progress bar color class
+            $color_class = 'no-success';
+            if ($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
+                $color_class = 'success';
+            }
+            $tpl->setVariable('COLOR_ONE_CLASS', $color_class);
+            // set width for process bars
+            $tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
 
-			$tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
+        }
 
-		} else {
-			// monocircle
-			$tpl->setCurrentBlock('monocircle');
-			// set progress bar color class
-			$color_class = 'no-success';
-			if($this->getIsReached($main_percentage, $component->getRequiredAsPercent())) {
-				$color_class = 'success';
-			}
-			$tpl->setVariable('COLOR_ONE_CLASS', $color_class);
-			// set width for process bars
-			$tpl->setVariable('BAR_ONE_WIDTH', $main_percentage);
+        // set visible values
+        $tpl = $this->modifyVisibleValues($tpl, $component);
 
-			$tpl->parseCurrentBlock();
-		}
+        // set marker position
+        $needle_class = 'no-needle';
+        if ($component->getRequired() != $component->getMaximum()) {
+            $needle_class = '';
+            $tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
+        }
+        $tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
 
-		// set visible values
-		$tpl = $this->modifyVisibleValues($tpl, $component);
+        $tpl->parseCurrentBlock();
 
-		// set marker position
-		$needle_class = 'no-needle';
-		if($component->getRequired() != $component->getMaximum()) {
-			$needle_class = '';
-			$tpl->setVariable('ROTATE_ONE', (276 / 100 * $component->getRequiredAsPercent() - 138));
-		}
-		$tpl->setVariable('NEEDLE_ONE_CLASS', $needle_class);
-
-		$tpl->parseCurrentBlock();
-
-		return $tpl;
-	}
+        return $tpl;
+    }
 
     /**
      * Modify visible template variables
@@ -189,9 +184,9 @@ class Renderer extends AbstractComponentRenderer
      */
     protected function modifyVisibleValues(\ILIAS\UI\Implementation\Render\Template $tpl, Component\Component $component)
     {
-        $tpl->setVariable("MAIN", $component->getMainValueAsPercent().' %');
-        if($component->getRequired() != $component->getMaximum()) {
-            $tpl->setVariable("REQUIRED", $component->getRequiredAsPercent().' %');
+        $tpl->setVariable("MAIN", $component->getMainValueAsPercent() . ' %');
+        if ($component->getRequired() != $component->getMaximum()) {
+            $tpl->setVariable("REQUIRED", $component->getRequiredAsPercent() . ' %');
         } else {
             $tpl->setVariable("REQUIRED", '');
         }

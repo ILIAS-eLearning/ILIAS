@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Form/classes/class.ilFormPropertyGUI.php";
-
 /**
 * This class represents a text property in a property form.
 *
@@ -228,7 +226,6 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 			$tpl->setVariable("POST_VAR", $this->getPostVar());
 			$tpl->setVariable("TXT_FROM", $lng->txt("cal_from"));
 			$tpl->setVariable("TXT_TO", $lng->txt("cal_until"));
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 			$tpl->setVariable("IMG_MULTI_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
 			$tpl->setVariable("IMG_MULTI_REMOVE", ilGlyphGUI::get(ilGlyphGUI::REMOVE));
 			$tpl->setVariable("TXT_MULTI_ADD", $lng->txt("add"));
