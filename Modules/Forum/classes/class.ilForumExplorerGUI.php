@@ -46,6 +46,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         
         $this->setSkipRootNode(false);
         $this->setAjax(false);
+        $this->setPreloadChilds(true);
 
         $this->thread = $thread;
         $this->root_node = $thread->getFirstPostNode();
@@ -197,10 +198,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     ) : Node {
         $node = parent::build($factory, $record, $environment);
 
-        if ($this->isNodeOpen((int) $record['pos_pk'])) {
-            $node = $node->withExpanded(true);
-        }
-
         return $node->withHighlighted($this->currentPostingId === (int) $record['pos_pk']);
     }
 
@@ -220,6 +217,14 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
             $node['pos_usr_alias'],
             $node['import_name']
         );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNodeId($a_node)
+    {
+        return $a_node['pos_pk'];
     }
 
     /**
@@ -267,12 +272,5 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     public function getNodeContent($a_node)
     {
         return $a_node['pos_subject'];
-    }
-
-    public function getHTML($new = false)
-    {
-        $this->preloadChilds();
-
-        return parent::getHTML($new);
     }
 }
