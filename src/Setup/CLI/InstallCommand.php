@@ -60,12 +60,12 @@ class InstallCommand extends Command {
 		}
 
 		$goals = new ObjectiveIterator($environment, $goal);
+		$io = new IOWrapper($input, $output);
 		while($goals->valid()) {
 			$current = $goals->current();
-			if ($current->isNotable() || $output->isVeryVerbose()  || $output->isDebug()) {
-				$output->writeln($current->getLabel());
-			}
+			$io->startObjective($current->getLabel(), $current->isNotable());
 			$environment = $current->achieve($environment);
+			$io->finishedLastObjective($current->getLabel(), $current->isNotable());
 			$goals->setEnvironment($environment);
 			$goals->next();
 		}
