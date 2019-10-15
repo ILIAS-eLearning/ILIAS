@@ -9332,6 +9332,7 @@ skmg#:#skmg_order_nr#:#Order Number
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference
 skmg#:#skmg_create_skill_category#:#Create Competence Category
+skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
