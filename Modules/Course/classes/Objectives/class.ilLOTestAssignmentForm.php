@@ -135,13 +135,13 @@ class ilLOTestAssignmentForm
 		
 		$random = new ilRadioOption(
 				$this->lng->txt('tst_question_set_type_random'),
-				ilObjTest::QUESTION_SET_TYPE_RANDOM
+            ilTestQuestionSetConfig::TYPE_RANDOM
 		);
 		$qst->addOption($random);
 		
 		$fixed = new ilRadioOption(
 				$this->lng->txt('tst_question_set_type_fixed'),
-				ilObjTest::QUESTION_SET_TYPE_FIXED
+            ilTestQuestionSetConfig::TYPE_FIXED
 		);
 		$qst->addOption($fixed);
 		$new->addSubItem($qst);

@@ -536,7 +536,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 			}
 		}
 
-		if( !$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete( $this->getTestQuestionSetConfig() ) )
+		if( !$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete( $this->getTestOBJ()->getQuestionSetConfig() ) )
 		{
 			if ((!$this->getTestOBJ()->getFixedParticipants() || $online_access) && $this->access->checkAccess("read", "", $this->getTestOBJ()->getRefId()))
 			{

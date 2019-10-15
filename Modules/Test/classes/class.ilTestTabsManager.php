@@ -503,7 +503,7 @@ class ilTestTabsManager
 			
 			switch( $this->getTestOBJ()->getQuestionSetType() )
 			{
-				case ilObjTest::QUESTION_SET_TYPE_FIXED:
+				case ilTestQuestionSetConfig::TYPE_FIXED:
 					$target = $DIC->ctrl()->getLinkTargetByClass(
 						'ilTestExpresspageObjectGUI','showPage'
 					);
@@ -517,11 +517,11 @@ class ilTestTabsManager
 
                     break;
 				
-				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+				case ilTestQuestionSetConfig::TYPE_RANDOM:
 					$target = $DIC->ctrl()->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
 					break;
 				
-				case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+				case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 					$target = $DIC->ctrl()->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
 					break;
 					

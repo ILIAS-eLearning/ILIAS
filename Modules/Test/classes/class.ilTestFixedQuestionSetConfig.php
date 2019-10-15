@@ -13,16 +13,23 @@ require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
  */
 class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 {
+    /**
+     * @var ilTestFixedQuestionSetQuestionList
+     */
+    protected $testQuestionList = null;
 
     /**
      * @return ilTestFixedQuestionSetQuestionList
      */
-    protected function getTestQuestionList()
+    public function getTestQuestionList()
     {
-        $questionList = new ilTestFixedQuestionSetQuestionList($this->testOBJ->getTestId());
-        $questionList->load();
+        if( $this->testQuestionList === null )
+        {
+            $this->testQuestionList = new ilTestFixedQuestionSetQuestionList($this->testOBJ->getTestId());
+            $this->testQuestionList->load();
+        }
 
-        return $questionList;
+        return $this->testQuestionList;
     }
 
 
@@ -195,15 +202,8 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 
 	public function registerCreatedQuestion(\ILIAS\AssessmentQuestion\DomainModel\QuestionDto $questionDto)
     {
-
-        $testQuestion = new ilTestFixedQuestionSetQuestion();
-        $testQuestion->setTestId($this->testOBJ->getTestId());
-        $testQuestion->setQuestionId($questionDto->getQuestionIntId());
-        $testQuestion->setQuestionUid($questionDto->getId());
-        $testQuestion->setIsObligatory(false);
-
-        $testQuestion->setSequencePosition(
-            $this->getTestQuestionList()->getNextPosition()
+        $testQuestion = $this->getTestQuestionList()->appendQuestion(
+            $questionDto->getQuestionIntId(), $questionDto->getId()
         );
 
         if (ilObjAssessmentFolder::_enabledAssessmentLogging())

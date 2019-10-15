@@ -29,17 +29,38 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
      */
     public function __construct(int $testId)
     {
-        $this->questions = [];
         $this->testId = $testId;
+        $this->load();
+    }
+
+
+    public function deleteList()
+    {
+        $this->resetQuestions();
+        $this->deleteAllExisting();
     }
 
 
     /**
-     * @param ilTestFixedQuestionSetQuestion $question
+     * @param int    $questionId
+     * @param string $questionUid
+     *
+     * @return ilTestFixedQuestionSetQuestion
      */
-    public function addQuestion(ilTestFixedQuestionSetQuestion $question)
+    public function appendQuestion(int $questionId, string $questionUid) : ilTestFixedQuestionSetQuestion
     {
-        $this->questions[] = $question;
+        $testQuestion = new ilTestFixedQuestionSetQuestion();
+        $testQuestion->setTestId($this->testId);
+        $testQuestion->setQuestionId($questionId);
+        $testQuestion->setQuestionUid($questionUid);
+        $testQuestion->setIsObligatory(false);
+
+        $testQuestion->setSequencePosition($this->getNextPosition());
+
+        $this->addQuestion($testQuestion);
+        $this->save();
+
+        return $testQuestion;
     }
 
 
@@ -64,15 +85,48 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
     /**
      * @return int
      */
-    public function getNextPosition() : int
+    protected function getNextPosition() : int
     {
         return $this->getNumQuestions() + 1;
+    }
+
+
+    protected function resetQuestions()
+    {
+        $this->questions = [];
+    }
+
+
+    /**
+     * @param ilTestFixedQuestionSetQuestion $question
+     */
+    protected function addQuestion(ilTestFixedQuestionSetQuestion $question)
+    {
+        $this->questions[$question->getSequencePosition()] = $question;
+    }
+
+
+    /**
+     * @return array
+     */
+    protected function getAllTestQuestionIds() : array
+    {
+        $allTestQuestionIds = [];
+
+        foreach($this as $question)
+        {
+            $allTestQuestionIds[] = $question->getId();
+        }
+
+        return $allTestQuestionIds;
     }
 
 
     public function load()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $this->resetQuestions();
 
         $query = "
             SELECT * FROM {$this->getDbTable()}
@@ -90,27 +144,56 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
         }
     }
 
-    public function save()
+    protected function save()
     {
         foreach($this as $question)
         {
             $question->save();
         }
+
+        $this->cleanupMissingDeletion();
     }
 
-    public function delete()
+    protected function cleanupMissingDeletion()
     {
-        foreach($this as $question)
+        if( !$this->hasQuestions() )
         {
-            $question->delete();
+            $this->deleteAllExisting();
+        }
+        else
+        {
+            $this->deleteNonExisting();
         }
     }
 
+    protected function deleteAllExisting()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $DIC->database()->manipulateF(
+            "DELETE FROM {$this->getDbTable()} WHERE test_fi = %s",
+            ['integer'], [$this->testId]
+        );
+    }
+
+    protected function deleteNonExisting()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $NOT_IN_tstQstIds = $DIC->database()->in(
+            'test_question_id', $this->getAllTestQuestionIds(), true, 'integer'
+        );
+
+        $DIC->database()->manipulateF(
+            "DELETE FROM {$this->getDbTable()} WHERE test_fi = %s AND $NOT_IN_tstQstIds",
+            ['integer'], [$this->testId]
+        );
+    }
 
     /**
      * @return string
      */
-    public function getDbTable()
+    protected function getDbTable()
     {
         return ilTestFixedQuestionSetQuestion::DB_TABLE;
     }
