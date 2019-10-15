@@ -112,6 +112,16 @@ class ilMediaPoolExplorerGUI extends ilTreeExplorerGUI
 		return $ret;
 	}
 
+	/**
+	 * @inheritDoc
+	 */
+	protected function getNodeStateToggleCmdClasses($record) : array
+	{
+		return [
+			'ilRepositoryGUI',
+			'ilObjMediaPoolGUI',
+		];
+	}
 }
 
 ?>
