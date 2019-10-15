@@ -50,12 +50,14 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
     public function appendQuestion(int $questionId, string $questionUid) : ilTestFixedQuestionSetQuestion
     {
         $testQuestion = new ilTestFixedQuestionSetQuestion();
+
         $testQuestion->setTestId($this->testId);
         $testQuestion->setQuestionId($questionId);
         $testQuestion->setQuestionUid($questionUid);
-        $testQuestion->setIsObligatory(false);
 
         $testQuestion->setSequencePosition($this->getNextPosition());
+        $testQuestion->setIsObligatory(false);
+        $testQuestion->setUpdateTimestamp(time());
 
         $this->addQuestion($testQuestion);
         $this->save();
@@ -231,7 +233,7 @@ class ilTestFixedQuestionSetQuestionList implements Iterator
      */
     public function valid()
     {
-        return $this->key() !== false;
+        return $this->key() !== null;
     }
 
 

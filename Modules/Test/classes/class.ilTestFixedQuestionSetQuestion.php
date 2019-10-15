@@ -44,6 +44,21 @@ class ilTestFixedQuestionSetQuestion
 
 
     /**
+     * ilTestFixedQuestionSetQuestion constructor.
+     */
+    public function __construct()
+    {
+        $this->id = 0;
+        $this->questionId = 0;
+        $this->questionUid = '';
+        $this->testId = 0;
+        $this->sequencePosition = -1;
+        $this->isObligatory = false;
+        $this->updateTimestamp = 0;
+    }
+
+
+    /**
      * @return int
      */
     public function getId() : int
@@ -178,13 +193,13 @@ class ilTestFixedQuestionSetQuestion
         {
             switch($field)
             {
-                case 'test_question_id': $this->setId($value); break;
-                case 'question_fi': $this->setQuestionId($value); break;
-                case 'question_uid': $this->setQuestionUid($value); break;
-                case 'test_fi': $this->setTestId($value); break;
-                case 'sequence': $this->setSequencePosition($value); break;
-                case 'obligatory': $this->setIsObligatory($value); break;
-                case 'tstamp': $this->setUpdateTimestamp($value); break;
+                case 'test_question_id': $this->setId((int)$value); break;
+                case 'question_fi': $this->setQuestionId((int)$value); break;
+                case 'question_uid': $this->setQuestionUid((string)$value); break;
+                case 'test_fi': $this->setTestId((int)$value); break;
+                case 'sequence': $this->setSequencePosition((int)$value); break;
+                case 'obligatory': $this->setIsObligatory((bool)$value); break;
+                case 'tstamp': $this->setUpdateTimestamp((int)$value); break;
             }
         }
     }
