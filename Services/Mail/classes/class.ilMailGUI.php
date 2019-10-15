@@ -281,4 +281,13 @@ class ilMailGUI
             $DIC->tabs()->setTabActive('fold');
         }
     }
+
+    /**
+     * Toggle explorer tree node
+     */
+    protected function toggleExplorerNodeState() : void
+    {
+        $exp = new ilMailExplorer($this, $this->user->getId());
+        $exp->toggleExplorerNodeState();
+    }
 }
