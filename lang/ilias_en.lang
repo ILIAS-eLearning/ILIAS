@@ -14254,7 +14254,7 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Profiles
-skmg#:#skmg_selected_skills#:#Selected Skills
+skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
 skmg#:#skmg_suggested#:#Suggested Resource

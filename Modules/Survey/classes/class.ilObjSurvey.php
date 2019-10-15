@@ -2910,7 +2910,7 @@ class ilObjSurvey extends ilObject
 		{
 			$user = $this->getUserDataFromActiveId($finished_id);
 			$sskill = new ilSurveySkill($this);
-			$sskill->writeSelfEvalSkills($user['usr_id']);
+			$sskill->writeAndAddSelfEvalSkills($user['usr_id']);
 		}
 
 		$this->checkTutorNotification();
@@ -6007,7 +6007,7 @@ class ilObjSurvey extends ilObject
 		{
 			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 			$sskill = new ilSurveySkill($this);
-			$sskill->writeAppraiseeSkills($a_user_id);
+			$sskill->writeAndAddAppraiseeSkills($a_user_id);
 		}
 
 		// send notification

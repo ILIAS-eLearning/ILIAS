@@ -14251,7 +14251,7 @@ iass#:#iass_usr_amend#:#Prüfungsdaten nachträglich ändern
 iass#:#iass_place#:#Ort der Prüfung
 iass#:#iass_event_time#:#Datum der Prüfung
 skmg#:#skmg_assigned_profiles#:#Zugewiesene Profile
-skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
+skmg#:#skmg_selected_skills#:#Kompetenzeinträge
 skmg#:#skmg_hide_profile_self_eval#:#Profilwerte nach Selbsteinschätzung anzeigen
 skmg#:#skmg_hide_profile_self_eval_info#:#Für einzelne Kompetenzwerte werden Profilwerte erst angezeigt, nachdem der Benutzer eine Selbsteinschätzung abgegeben hat.
 skmg#:#skmg_suggested#:#Vorgeschlagenes Magazinobjekt
