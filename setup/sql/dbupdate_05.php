@@ -1487,3 +1487,22 @@ if(!$ilDB->tableColumnExists('booking_reservation','context_obj_id'))
 <?php
 $ilDB->renameTableColumn('book_obj_use_book', "book_obj_id", 'book_ref_id');
 ?>
+<#5530>
+<?php
+if(!$ilDB->tableColumnExists('skl_tree_node','description'))
+{
+	$ilDB->addTableColumn(
+		'skl_tree_node',
+		'description',
+		array(
+			'type' 		=> 'clob',
+			'notnull'	=> false
+		)
+	);
+}
+?>
+<#5531>
+<?php
+// old competences (+ templates) and competence categories (+ templates) get an empty string as description instead of null
+$ilDB->manipulate("UPDATE skl_tree_node SET description = '' WHERE description IS NULL AND type IN ('scat', 'skll', 'sctp', 'sktp')");
+?>
