@@ -163,26 +163,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
      */
     protected function toggleExplorerNodeStateObject() : void
     {
-        $nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
-        $priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);
-
-        if ($nodeId > 0) {
-            $treeId = 'frm_exp_' . $this->objCurrentTopic->getId();
-
-            $store = new ilSessionIStorage('expl2');
-            $value = $store->get($treeId);
-
-            $openNodes = is_string($value) ? (array) unserialize($value) : [];
-            if (0 === $priorState && !in_array($nodeId, $openNodes)) {
-                $openNodes[] = $nodeId;
-                $store->set($treeId, serialize($openNodes));
-            } elseif (1 === $priorState && in_array($nodeId, $openNodes)) {
-                $key = array_search($nodeId, $openNodes);
-                unset($openNodes[$key]);
-                $store->set($treeId, serialize($openNodes));
-            }
-        }
-        exit();
+        $exp = new ilForumExplorerGUI(
+            'frm_exp_' . $this->objCurrentTopic->getId(),
+           $this,
+            'viewThread',
+            $this->objCurrentTopic
+        );
+        $exp->toggleExplorerNodeState();
     }
     
 

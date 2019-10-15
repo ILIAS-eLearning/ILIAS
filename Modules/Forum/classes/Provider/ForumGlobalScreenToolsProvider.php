@@ -59,7 +59,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                 ->tool($iff('Forum|Tree'))
                 ->withTitle($this->dic->language()->txt('tree'))
                 ->withSymbol($icon)
-                ->withContent($l($exp->getHTML()));
+                ->withContent($l($exp->getHTML(true)));
         }
 
         return $tools;
