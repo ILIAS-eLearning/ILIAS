@@ -54,7 +54,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     }
 
     /**
-     * @return Tree
+     * @inheritDoc
      */
     public function getTreeComponent() : Tree
     {

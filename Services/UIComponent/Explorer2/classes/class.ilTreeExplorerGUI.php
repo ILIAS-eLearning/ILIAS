@@ -433,7 +433,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 			$node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
 		}
 
-		if ($this->isNodeOpen((int) $record['child'])) {
+		if ($this->isNodeOpen((int) $this->getNodeId($record))) {
 			$node = $node->withExpanded(true);
 		}
 
@@ -442,7 +442,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 
 		if (is_string($cmdClass) && strlen($cmdClass) > 0) {
 			$node = $node->withAdditionalOnLoadCode(function ($id) use ($record, $nodeStateToggleCmdClasses, $cmdClass) {
-				$serverNodeId = $record['child'];
+				$serverNodeId = $this->getNodeId($record);
 
 				$this->ctrl->setParameterByClass($cmdClass, 'node_id', $serverNodeId);
 				$url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);

@@ -63,6 +63,9 @@ abstract class ilExplorerBaseGUI
 
 	private $nodeOnclickEnabled;
 
+	/** @var string  */
+	protected $parent_cmd = '';
+
 	/**
 	 * Constructor
 	 */

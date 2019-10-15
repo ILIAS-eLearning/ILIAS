@@ -159,6 +159,21 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     }
 
     /**
+     * Toggle explorer node
+     */
+    protected function toggleExplorerNodeStateObject() : void
+    {
+        $exp = new ilForumExplorerGUI(
+            'frm_exp_' . $this->objCurrentTopic->getId(),
+           $this,
+            'viewThread',
+            $this->objCurrentTopic
+        );
+        $exp->toggleExplorerNodeState();
+    }
+    
+
+    /**
      * @param array       $subtree_nodes
      * @param array       $pagedPostings
      * @param int         $pageSize
@@ -2451,7 +2466,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $bottom_toolbar                    = clone $this->toolbar;
         $bottom_toolbar_split_button_items = array();
 
-        $this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
         if (!isset($_SESSION['viewmode'])) {
             $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
         }
