@@ -283,27 +283,11 @@ class ilMailGUI
     }
 
     /**
-     * Toggle explorer node
+     * Toggle explorer tree node
      */
-    protected function toggleExplorerNodeState()
+    protected function toggleExplorerNodeState() : void
     {
-        $nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
-        $priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);
-
-        if ($nodeId > 0) {
-            $store = new ilSessionIStorage('expl2');
-
-            $openNodes = (array) unserialize($store->get('mail_tree'));
-            if (0 === $priorState && !in_array($nodeId, $openNodes)) {
-                $openNodes[] = $nodeId;
-                $store->set('mail_tree', serialize($openNodes));
-            } elseif (1 === $priorState && in_array($nodeId, $openNodes)) {
-                $key = array_search($nodeId, $openNodes);
-                unset($openNodes[$key]);
-                $store->set('mail_tree', serialize($openNodes));
-            }
-        }
-        exit();
+        $exp = new ilMailExplorer($this, $this->user->getId());
+        $exp->toggleExplorerNodeState();
     }
-
 }

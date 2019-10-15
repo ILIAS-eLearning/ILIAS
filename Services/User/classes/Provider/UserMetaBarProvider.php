@@ -51,23 +51,17 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withPosition(4)
             ->withVisibilityCallable(
                 function () {
-                    return !$this->dic->user()->isAnonymous();
+                    return $this->isUserLoggedIn();
                 }
             )
             ->withChildren($children);
 
-        // Login
-        $item[] = $mb->topLinkItem($id('login'))
-            ->withVisibilityCallable(
-                function () {
-                    return $this->dic->user()->isAnonymous();
-                }
-            )
-            ->withAction("login.php?client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
-            ->withSymbol($f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/question.svg", "login"))
-            ->withTitle("Login")
-            ->withPosition(999);
-
         return $item;
+    }
+
+
+    private function isUserLoggedIn() : bool
+    {
+        return (!$this->dic->user()->isAnonymous() && $this->dic->user()->getId() != 0);
     }
 }

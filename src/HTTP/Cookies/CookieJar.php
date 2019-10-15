@@ -31,7 +31,7 @@ interface CookieJar
      *
      * @return bool         True if the cookie exists otherwise false.
      */
-    public function has($name);
+    public function has(string $name) : bool;
 
 
     /**
@@ -42,7 +42,7 @@ interface CookieJar
      *
      * @return Cookie | null
      */
-    public function get($name);
+    public function get(string $name) : ?Cookie;
 
 
     /**
@@ -50,7 +50,7 @@ interface CookieJar
      *
      * @return Cookie[]
      */
-    public function getAll();
+    public function getAll() : array;
 
 
     /**
@@ -60,7 +60,7 @@ interface CookieJar
      *
      * @return CookieJar           New cookie jar which holds the new cookie.
      */
-    public function with(Cookie $setCookie);
+    public function with(Cookie $setCookie) : CookieJar;
 
 
     /**
@@ -70,7 +70,7 @@ interface CookieJar
      *
      * @return CookieJar   New cookie jar.
      */
-    public function without($name);
+    public function without(string $name) : CookieJar;
 
 
     /**
@@ -80,5 +80,5 @@ interface CookieJar
      *
      * @return ResponseInterface
      */
-    public function renderIntoResponseHeader(ResponseInterface $response);
+    public function renderIntoResponseHeader(ResponseInterface $response) : ResponseInterface;
 }

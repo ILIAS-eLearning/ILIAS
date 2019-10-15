@@ -21,7 +21,7 @@ interface Cookie
      *
      * @return string
      */
-    public function getName();
+    public function getName() : string;
 
 
     /**
@@ -29,7 +29,7 @@ interface Cookie
      *
      * @return string|null
      */
-    public function getValue();
+    public function getValue() : ?string;
 
 
     /**
@@ -37,7 +37,7 @@ interface Cookie
      *
      * @return int
      */
-    public function getExpires();
+    public function getExpires() : int;
 
 
     /**
@@ -46,7 +46,7 @@ interface Cookie
      *
      * @return int
      */
-    public function getMaxAge();
+    public function getMaxAge() : int;
 
 
     /**
@@ -54,7 +54,7 @@ interface Cookie
      *
      * @return string
      */
-    public function getPath();
+    public function getPath() : ?string;
 
 
     /**
@@ -62,7 +62,7 @@ interface Cookie
      *
      * @return string
      */
-    public function getDomain();
+    public function getDomain() : ?string;
 
 
     /**
@@ -70,7 +70,7 @@ interface Cookie
      *
      * @return bool
      */
-    public function getSecure();
+    public function getSecure() : bool;
 
 
     /**
@@ -78,7 +78,7 @@ interface Cookie
      *
      * @return bool
      */
-    public function getHttpOnly();
+    public function getHttpOnly() : bool;
 
 
     /**
@@ -88,7 +88,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withValue($value = null);
+    public function withValue(string $value = null) : Cookie;
 
 
     /**
@@ -102,7 +102,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withExpires($expires = null);
+    public function withExpires($expires = null) : Cookie;
 
 
     /**
@@ -110,7 +110,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function rememberForLongTime();
+    public function rememberForLongTime() : Cookie;
 
 
     /**
@@ -119,7 +119,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function expire();
+    public function expire() : Cookie;
 
 
     /**
@@ -130,7 +130,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withMaxAge($maxAge = null);
+    public function withMaxAge(int $maxAge = null) : Cookie;
 
 
     /**
@@ -140,7 +140,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withPath($path = null);
+    public function withPath(string $path = null) : Cookie;
 
 
     /**
@@ -150,7 +150,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withDomain($domain = null);
+    public function withDomain(string $domain = null) : Cookie;
 
 
     /**
@@ -160,7 +160,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withSecure($secure = null);
+    public function withSecure(bool $secure = null) : Cookie;
 
 
     /**
@@ -170,7 +170,7 @@ interface Cookie
      *
      * @return Cookie
      */
-    public function withHttpOnly($httpOnly = null);
+    public function withHttpOnly(bool $httpOnly = null) : Cookie;
 
 
     /**
@@ -178,5 +178,5 @@ interface Cookie
      *
      * @return string String representation.
      */
-    public function __toString();
+    public function __toString() : string;
 }

@@ -20,14 +20,16 @@ class AbstractEntryPart
     /**
      * AbstractEntryPart constructor.
      */
-    protected function __construct(){
+    protected function __construct()
+    {
         $this->f = new Crawler\Exception\Factory();
     }
 
     /**
      * @return Crawler\Exception\CrawlerAssertion
      */
-    protected function assert(){
+    protected function assert()
+    {
         return $this->f->assertion();
     }
 }

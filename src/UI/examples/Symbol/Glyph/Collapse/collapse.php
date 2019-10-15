@@ -1,17 +1,18 @@
 <?php
-function collapse() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function collapse()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	$glyph = $f->symbol()->glyph()->collapse("#");
+    $glyph = $f->symbol()->glyph()->collapse("#");
 
-	//Showcase the various states of this Glyph
-	$list = $f->listing()->descriptive([
-		"Active"=>$glyph,
-		"Inactive"=>$glyph->withUnavailableAction(),
-		"Highlighted"=>$glyph->withHighlight()
-	]);
+    //Showcase the various states of this Glyph
+    $list = $f->listing()->descriptive([
+        "Active"=>$glyph,
+        "Inactive"=>$glyph->withUnavailableAction(),
+        "Highlighted"=>$glyph->withHighlight()
+    ]);
 
-	return $renderer->render($list);
+    return $renderer->render($list);
 }

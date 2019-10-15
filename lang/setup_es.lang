@@ -105,7 +105,6 @@ disable_check#:#deshabilitar opción###07 Apr 2005 content changed
 disable_logging#:#Deshabilitar 'loggeado' de errores###07 Apr 2005 content changed
 disabled#:#deshabilitado###07 Apr 2005 content changed
 display_clientlist#:#Mostrar selección de instalaciones###07 Apr 2005 content changed
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Correo electrónico###07 Apr 2005 content changed
 email_not_valid#:#Email no válido###07 Apr 2005 content changed
 en_by_default#:#(Instalado por defecto y no se puede borrar).###07 Apr 2005 content changed

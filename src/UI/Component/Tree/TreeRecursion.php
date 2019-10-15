@@ -22,30 +22,29 @@ namespace ILIAS\UI\Component\Tree;
  */
 interface TreeRecursion
 {
-	/**
-	 * Get a list of records (that list can also be empty).
-	 * Each record will be relayed to $this->build to retrieve a Node.
-	 * Also, each record will be asked for Sub-Nodes using this function.
-	 *
-	 * @return array
-	 */
-	public function getChildren(
-		$record,
-		$environment = null
-	): array;
+    /**
+     * Get a list of records (that list can also be empty).
+     * Each record will be relayed to $this->build to retrieve a Node.
+     * Also, each record will be asked for Sub-Nodes using this function.
+     *
+     * @return array
+     */
+    public function getChildren(
+        $record,
+        $environment = null
+    ) : array;
 
-	/**
-	 * Build and return a Node.
-	 * The renderer will provide the $factory-parameter which is the UI-factory
-	 * for nodes, as well as the (unspecified) $environment as configured at the Tree.
-	 * $record is the data the node should be build for.
-	 *
-	 * @return Node
-	 */
-	public function build(
-		Node\Factory $factory,
-		$record,
-		$environment = null
-	): Node\Node;
-
+    /**
+     * Build and return a Node.
+     * The renderer will provide the $factory-parameter which is the UI-factory
+     * for nodes, as well as the (unspecified) $environment as configured at the Tree.
+     * $record is the data the node should be build for.
+     *
+     * @return Node
+     */
+    public function build(
+        Node\Factory $factory,
+        $record,
+        $environment = null
+    ) : Node\Node;
 }

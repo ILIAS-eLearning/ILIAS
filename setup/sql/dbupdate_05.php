@@ -1369,3 +1369,121 @@ $ilDB->modifyTableColumn('il_cert_template', 'version', array(
 <?php
 $ilDB->addIndex('rbac_log', ['created'], 'i2');
 ?>
+<#5522>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5523>
+<?php
+$q = "SELECT prg_settings.obj_id FROM prg_settings"
+	."	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
+	."	JOIN tree ON parent = prg_ref.ref_id"
+	."	LEFT JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
+	."	LEFT JOIN object_data child ON child_ref.obj_id = child.obj_id"
+	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.obj_id IS NULL";
+$res = $ilDB->query($q);
+$to_adjsut = [];
+while($rec = $ilDB->fetchAssoc($res)) {
+		$to_adjust[] = (int)$rec['obj_id'];
+}
+$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 0 WHERE '.$ilDB->in('obj_id',$to_adjust,false,'integer'));
+$q = "SELECT prg_settings.obj_id FROM prg_settings"
+	."	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
+	."	JOIN tree ON parent = prg_ref.ref_id"
+	."	JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
+	."	JOIN object_data child ON child_ref.obj_id = child.obj_id"
+	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.type = 'prg'";
+$res = $ilDB->query($q);
+$to_adjsut = [];
+while($rec = $ilDB->fetchAssoc($res)) {
+		$to_adjust[] = (int)$rec['obj_id'];
+}
+$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE '.$ilDB->in('obj_id',$to_adjust,false,'integer'));
+?>
+<#5524>
+<?php
+if(!$ilDB->tableExists('wfld_user_setting'))
+{
+	$ilDB->createTable('wfld_user_setting', array(
+		'user_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'wfld_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'sortation' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0,
+		)
+	));
+	$ilDB->addPrimaryKey('wfld_user_setting',array('user_id','wfld_id'));
+}
+?>
+<#5525>
+<?php
+	if (!$ilDB->tableExists("book_obj_use_book"))
+	{
+		$fields = array(
+			"obj_id" => array(
+				"type" => "integer",
+				"notnull" => true,
+				"length" => 4,
+				"default" => 0
+			),
+			"book_obj_id" => array(
+				"type" => "integer",
+				"notnull" => true,
+				"length" => 4,
+				"default" => 0
+			)
+		);
+	 	$ilDB->createTable("book_obj_use_book", $fields);
+	 }
+?>
+<#5526>
+<?php
+	$ilDB->addPrimaryKey("book_obj_use_book", array("obj_id", "book_obj_id"));
+?>
+<#5527>
+<?php
+if(!$ilDB->tableColumnExists('booking_reservation','context_obj_id'))
+{
+	$ilDB->addTableColumn(
+		'booking_reservation',
+		'context_obj_id',
+		array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5528>
+<?php
+$ilDB->dropTableColumn('booking_reservation', 'context_obj_id');
+if(!$ilDB->tableColumnExists('booking_reservation','context_obj_id'))
+{
+	$ilDB->addTableColumn(
+		'booking_reservation',
+		'context_obj_id',
+		array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+			'default' => 0
+		));
+}
+?>
+<#5529>
+<?php
+$ilDB->renameTableColumn('book_obj_use_book', "book_obj_id", 'book_ref_id');
+?>

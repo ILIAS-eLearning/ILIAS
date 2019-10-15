@@ -1,5 +1,6 @@
 <?php
 namespace ILIAS\UI\Component;
+
 use ILIAS\UI\Implementation\Component\TriggeredSignal;
 
 /**
@@ -11,19 +12,20 @@ use ILIAS\UI\Implementation\Component\TriggeredSignal;
  *
  * @package ILIAS\UI\Component
  */
-interface Triggerer extends JavaScriptBindable {
+interface Triggerer extends JavaScriptBindable
+{
 
-	/**
-	 * Get a component like this but reset any triggered signals of other components
-	 *
-	 * @return $this
-	 */
-	public function withResetTriggeredSignals();
+    /**
+     * Get a component like this but reset any triggered signals of other components
+     *
+     * @return $this
+     */
+    public function withResetTriggeredSignals();
 
-	/**
-	 * Get all triggered signals of this component
-	 *
-	 * @return TriggeredSignal[]
-	 */
-	public function getTriggeredSignals();
+    /**
+     * Get all triggered signals of this component
+     *
+     * @return TriggeredSignal[]
+     */
+    public function getTriggeredSignals();
 }

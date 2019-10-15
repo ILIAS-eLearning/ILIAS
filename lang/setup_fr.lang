@@ -131,7 +131,6 @@ disable_logging#:#Disable Logging
 disable#:#Disable
 disabled#:#Disabled
 display_clientlist#:#Client selection is accessible for users.
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
 email_not_valid#:#Invalid e-Mail Address
 email#:#e-Mail
 en_by_default#:#(English is installed by default and cannot be deleted).

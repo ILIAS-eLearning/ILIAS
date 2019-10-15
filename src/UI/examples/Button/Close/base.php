@@ -5,7 +5,8 @@
  * such a component. Note that in some cases additional CSS would be needed for placing
  * the button properly by the surrounding component.
  */
-function base() {
+function base()
+{
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();

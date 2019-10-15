@@ -22,5 +22,5 @@ interface ResponseFactory
      *
      * @return ResponseInterface
      */
-    public function create();
+    public function create() : ResponseInterface;
 }

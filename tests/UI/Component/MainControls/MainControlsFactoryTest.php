@@ -9,8 +9,8 @@ use \ILIAS\UI\Component as C;
  *
  * @author Nils Haagen <nhaagen@concepts-and-training.de>
  */
-class MainControlsFactoryTest extends AbstractFactoryTest {
-
-	public $kitchensink_info_settings = [];
-	public $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Factory';
+class MainControlsFactoryTest extends AbstractFactoryTest
+{
+    public $kitchensink_info_settings = [];
+    public $factory_title = 'ILIAS\\UI\\Component\\MainControls\\Factory';
 }

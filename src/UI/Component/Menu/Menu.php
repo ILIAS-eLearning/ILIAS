@@ -12,9 +12,8 @@ use ILIAS\UI\Component\Component;
  */
 interface Menu extends Component
 {
-	/**
-	 * @return Component[]
-	 */
-	public function getItems(): array;
-
+    /**
+     * @return Component[]
+     */
+    public function getItems() : array;
 }

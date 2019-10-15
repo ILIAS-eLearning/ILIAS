@@ -11,30 +11,32 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Class Legacy
  * @package ILIAS\UI\Implementation\Component\Legacy
  */
-class Legacy implements C\Legacy\Legacy {
-	use ComponentHelper;
+class Legacy implements C\Legacy\Legacy
+{
+    use ComponentHelper;
 
-	/**
-	 * @var	string
-	 */
-	private $content;
+    /**
+     * @var	string
+     */
+    private $content;
 
 
-	/**
-	 * Legacy constructor.
-	 * @param string $content
-	 */
-	public function __construct($content) {
-		$this->checkStringArg("content", $content);
+    /**
+     * Legacy constructor.
+     * @param string $content
+     */
+    public function __construct($content)
+    {
+        $this->checkStringArg("content", $content);
 
-		$this->content = $content;
-	}
+        $this->content = $content;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getContent(){
-		return $this->content;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
 }
-?>
