@@ -10,26 +10,28 @@ use ILIAS\UI\Implementation\Component\Signal;
  *
  * @author  Jesús López <lopez@leifos.com>
  */
-class ReplaceSignal extends Signal implements \ILIAS\UI\Component\ReplaceSignal {
+class ReplaceSignal extends Signal implements \ILIAS\UI\Component\ReplaceSignal
+{
+    use ComponentHelper;
 
-	use ComponentHelper;
+    /**
+     * @inheritdoc
+     */
+    public function withAsyncRenderUrl($url)
+    {
+        $this->checkStringArg('url', $url);
+        $clone = clone $this;
+        $clone->addOption('url', $url);
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withAsyncRenderUrl($url) {
-		$this->checkStringArg('url', $url);
-		$clone = clone $this;
-		$clone->addOption('url', $url);
-
-		return $clone;
-	}
+        return $clone;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAsyncRenderUrl() {
-		return (string)$this->getOption('url');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getAsyncRenderUrl()
+    {
+        return (string) $this->getOption('url');
+    }
 }

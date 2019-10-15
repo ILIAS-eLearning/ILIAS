@@ -9,13 +9,13 @@ namespace ILIAS\UI\Component\MainControls\Slate;
  */
 interface Prompt extends Slate
 {
-	/**
-	 * Set the Prompt's Status Counter to $count.
-	 */
-	public function	withUpdatedStatusCounter(int $count): Prompt;
+    /**
+     * Set the Prompt's Status Counter to $count.
+     */
+    public function withUpdatedStatusCounter(int $count) : Prompt;
 
-	/**
-	 * Set the Prompt's Novelty Counter to $count.
-	 */
-	public function withUpdatedNoveltyCounter(int $count): Prompt;
+    /**
+     * Set the Prompt's Novelty Counter to $count.
+     */
+    public function withUpdatedNoveltyCounter(int $count) : Prompt;
 }

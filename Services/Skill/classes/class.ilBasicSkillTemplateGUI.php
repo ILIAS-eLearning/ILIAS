@@ -96,6 +96,11 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 		$ti->setSize(50);
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$ta->setRows(5);
+		$this->form->addItem($ta);
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");
@@ -281,6 +286,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 
 		$it = new ilBasicSkillTemplate();
 		$it->setTitle($this->form->getInput("title"));
+		$it->setDescription($this->form->getInput("description"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);

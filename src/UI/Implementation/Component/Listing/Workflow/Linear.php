@@ -9,6 +9,6 @@ use ILIAS\UI\Component as C;
  * Class Linear
  * @package ILIAS\UI\Implementation\Component\Listing\Workflow
  */
-class Linear extends Workflow implements C\Listing\Workflow\Linear {
-
+class Linear extends Workflow implements C\Listing\Workflow\Linear
+{
 }

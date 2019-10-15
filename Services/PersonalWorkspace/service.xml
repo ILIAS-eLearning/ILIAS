@@ -7,4 +7,5 @@
 	<crons>
 		<cron id="pwsp_recalc_quota" class="ilCronPersonalWorkspaceRecalculateQuota" />
 	</crons>
+	<logging />
 </service>

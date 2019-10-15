@@ -10,106 +10,100 @@ use ILIAS\UI\Component as C;
 
 class Renderer extends AbstractComponentRenderer
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function render(C\Component $component, RendererInterface $default_renderer)
-	{
-		$this->checkComponent($component);
+    /**
+     * @inheritdoc
+     */
+    public function render(C\Component $component, RendererInterface $default_renderer)
+    {
+        $this->checkComponent($component);
 
-		if ($component instanceof C\Panel\Secondary\Listing)
-		{
-			return $this->renderListing($component, $default_renderer);
-		}
-		else if ($component instanceof C\Panel\Secondary\Legacy)
-		{
-			return $this->renderLegacy($component, $default_renderer);
-		}
+        if ($component instanceof C\Panel\Secondary\Listing) {
+            return $this->renderListing($component, $default_renderer);
+        } elseif ($component instanceof C\Panel\Secondary\Legacy) {
+            return $this->renderLegacy($component, $default_renderer);
+        }
+    }
 
-	}
+    /**
+     * @param C\Panel\Secondary\Listing $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderListing(C\Panel\Secondary\Listing $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-	/**
-	 * @param C\Panel\Secondary\Listing $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderListing(C\Panel\Secondary\Listing $component, RendererInterface $default_renderer)
-	{
-		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
+        $tpl->setVariable("TITLE", $component->getTitle());
 
-		$tpl->setVariable("TITLE", $component->getTitle());
+        $actions = $component->getActions();
+        if ($actions) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
 
-		$actions = $component->getActions();
-		if ($actions) {
-			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-		}
+        $view_controls = $component->getViewControls();
 
-		$view_controls = $component->getViewControls();
+        if ($view_controls) {
+            foreach ($view_controls as $view_control) {
+                $tpl->setCurrentBlock("view_controls");
+                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                $tpl->parseCurrentBlock();
+            }
+        }
 
-		if($view_controls) {
-			foreach ($view_controls as $view_control) {
-				$tpl->setCurrentBlock("view_controls");
-				$tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-				$tpl->parseCurrentBlock();
-			}
-		}
+        foreach ($component->getItemGroups() as $group) {
+            if ($group instanceof C\Item\Group) {
+                $tpl->setCurrentBlock("group");
+                $tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
+                $tpl->parseCurrentBlock();
+            }
+        }
 
-		foreach ($component->getItemGroups() as $group)
-		{
-			if ($group instanceof C\Item\Group)
-			{
-				$tpl->setCurrentBlock("group");
-				$tpl->setVariable("ITEM_GROUP", $default_renderer->render($group));
-				$tpl->parseCurrentBlock();
-			}
-		}
+        return $tpl->get();
+    }
 
-		return $tpl->get();
-	}
+    /**
+     * @param C\Panel\Secondary\Legacy $component
+     * @param RendererInterface $default_renderer
+     * @return string
+     */
+    protected function renderLegacy(C\Panel\Secondary\Legacy $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.secondary.html", true, true);
 
-	/**
-	 * @param C\Panel\Secondary\Legacy $component
-	 * @param RendererInterface $default_renderer
-	 * @return string
-	 */
-	protected function renderLegacy(C\Panel\Secondary\Legacy $component, RendererInterface $default_renderer)
-	{
-		$tpl = $this->getTemplate("tpl.secondary.html", true, true);
+        $tpl->setVariable("TITLE", $component->getTitle());
 
-		$tpl->setVariable("TITLE", $component->getTitle());
+        $actions = $component->getActions();
+        if ($actions) {
+            $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
 
-		$actions = $component->getActions();
-		if ($actions) {
-			$tpl->setVariable("ACTIONS", $default_renderer->render($actions));
-		}
+        $view_controls = $component->getViewControls();
 
-		$view_controls = $component->getViewControls();
+        if ($view_controls) {
+            foreach ($view_controls as $view_control) {
+                $tpl->setCurrentBlock("view_controls");
+                $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
+                $tpl->parseCurrentBlock();
+            }
+        }
 
-		if($view_controls) {
-			foreach ($view_controls as $view_control) {
-				$tpl->setCurrentBlock("view_controls");
-				$tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));
-				$tpl->parseCurrentBlock();
-			}
-		}
+        $tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
 
-		$tpl->setVariable("BODY_LEGACY", $default_renderer->render($component->getLegacyComponent()));
+        $footer = $component->getFooter();
+        if ($footer) {
+            $tpl->setCurrentBlock("footer");
+            $tpl->setVariable("FOOTER", $default_renderer->render($footer));
+            $tpl->parseCurrentBlock();
+        }
 
-		$footer = $component->getFooter();
-		if($footer) {
-			$tpl->setCurrentBlock("footer");
-			$tpl->setVariable("FOOTER", $default_renderer->render($footer));
-			$tpl->parseCurrentBlock();
-		}
+        return $tpl->get();
+    }
 
-		return $tpl->get();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getComponentInterfaceName() : array
-	{
-		return array (C\Panel\Secondary\Listing::class, C\Panel\Secondary\Secondary::class);
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName() : array
+    {
+        return array(C\Panel\Secondary\Listing::class, C\Panel\Secondary\Secondary::class);
+    }
 }

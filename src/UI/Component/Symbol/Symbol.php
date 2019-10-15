@@ -6,5 +6,6 @@ namespace ILIAS\UI\Component\Symbol;
 /**
  * This describes a symbol.
  */
-interface Symbol extends \ILIAS\UI\Component\Component {
+interface Symbol extends \ILIAS\UI\Component\Component
+{
 }

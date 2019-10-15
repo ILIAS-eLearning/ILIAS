@@ -35,7 +35,8 @@ class ilObjectServiceSettingsGUI
 	const ORGU_POSITION_ACCESS = 'obj_orgunit_positions';
 	const SKILLS = 'cont_skills';
 	const FILTER = 'filter';
-	
+	const BOOKING = 'cont_bookings';
+
 	private $gui = null;
 	private $modes = array();
 	private $obj_id = 0;
@@ -308,6 +309,19 @@ class ilObjectServiceSettingsGUI
 					false
 				));
 			$filter->addSubItem($filter_show_empty);
+        }
+		// booking tool
+		if(in_array(self::BOOKING, $services))
+		{
+			$book = new ilCheckboxInputGUI($lng->txt('obj_tool_booking'), self::BOOKING);
+			$book->setInfo($lng->txt('obj_tool_booking_info'));
+			$book->setValue(1);
+			$book->setChecked(ilContainer::_lookupContainerSetting(
+				$a_obj_id,
+				self::BOOKING,
+				false
+			));
+			$form->addItem($book);
 		}
 
 		return $form;
@@ -402,6 +416,13 @@ class ilObjectServiceSettingsGUI
 			}
 		}
 		
+		// booking
+		if(in_array(self::BOOKING, $services))
+		{
+			include_once './Services/Container/classes/class.ilContainer.php';
+			ilContainer::_writeContainerSetting($a_obj_id,self::BOOKING,(int) $form->getInput(self::BOOKING));
+		}
+
 		// extended user access
 		if(in_array(self::ORGU_POSITION_ACCESS, $services))
 		{

@@ -45,7 +45,25 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 		$this->enable('select_all');
 		$this->setSelectAllCheckbox("obj[]");
 
-		$this->addMultiCommand('listUsers', $this->lng->txt('grp_list_users'));
+		switch ($this->parent_obj->search_type) {
+			case 'grp':
+			case 'crs':
+				if ($this->parent_obj->role_callback)
+				{
+					$this->addMultiCommand('addRole', $this->lng->txt('add_member_role'));
+				}
+				$this->addMultiCommand('listUsers', $this->lng->txt('grp_list_members'));
+				break;
+
+			case 'role':
+				if ($this->parent_obj->role_callback)
+				{
+					$this->addMultiCommand('addRole', $this->lng->txt('add_role'));
+				}
+				$this->addMultiCommand('listUsers', $this->lng->txt('grp_list_users'));
+				break;
+		}
+
 		if((bool)$a_allow_object_selection)
 		{
 			$this->addMultiCommand('selectObject', $this->lng->txt('grp_select_object'));
@@ -59,10 +77,14 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		if($row['member'])
-		{
+		/*
+		TODO: Checkboxes must be always enabled now because of role assignment. An alternative to pretend showing
+		an empty list of users could be a warning message
+		*/
+		//if($row['member'])
+		//{
 			$this->tpl->setVariable('VAL_ID',$row['id']);
-		}
+		//}
 		$this->tpl->setVariable('VAL_TITLE',$row['title']);
 		if(strlen($row['desc']))
 		{

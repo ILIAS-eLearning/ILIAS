@@ -11,70 +11,70 @@ use ILIAS\Data\DateFormat\DateFormat;
  */
 interface DateTime extends Input
 {
-	/**
-	 * Get an input like this using the given format.
-	 */
-	public function withFormat(DateFormat $format): DateTime;
+    /**
+     * Get an input like this using the given format.
+     */
+    public function withFormat(DateFormat $format) : DateTime;
 
-	/**
-	 * Get the date-format of this input.
-	 */
-	public function getFormat(): DateFormat;
+    /**
+     * Get the date-format of this input.
+     */
+    public function getFormat() : DateFormat;
 
-	/**
-	 * Get an input like this using the given timezone.
-	 */
-	public function withTimezone(string $tz): DateTime;
+    /**
+     * Get an input like this using the given timezone.
+     */
+    public function withTimezone(string $tz) : DateTime;
 
-	/**
-	 * Get the timezone of this input.
-	 * @return null|string
-	 */
-	public function getTimezone();
+    /**
+     * Get the timezone of this input.
+     * @return null|string
+     */
+    public function getTimezone();
 
-	/**
-	 * Limit accepted values to datetime past (and including) the given $datetime.
-	 */
-	public function withMinValue(\DateTimeImmutable $datetime) : DateTime;
+    /**
+     * Limit accepted values to datetime past (and including) the given $datetime.
+     */
+    public function withMinValue(\DateTimeImmutable $datetime) : DateTime;
 
-	/**
-	 * Return the lowest value the input accepts.
-	 * @return  \DateTime | null
-	 */
-	public function getMinValue();
+    /**
+     * Return the lowest value the input accepts.
+     * @return  \DateTime | null
+     */
+    public function getMinValue();
 
-	/**
-	 * Limit accepted values to datetime before (and including) the given value.
-	 */
-	public function withMaxValue(\DateTimeImmutable $datetime) : DateTime;
+    /**
+     * Limit accepted values to datetime before (and including) the given value.
+     */
+    public function withMaxValue(\DateTimeImmutable $datetime) : DateTime;
 
-	/**
-	 * Return the maximum date the input accepts.
-	 * @return  \DateTime | null
-	 */
-	public function getMaxValue();
+    /**
+     * Return the maximum date the input accepts.
+     * @return  \DateTime | null
+     */
+    public function getMaxValue();
 
-	/**
-	 * Input both date and time.
-	 * @return  DateTime
-	 */
-	public function withUseTime(bool $with_time) : DateTime;
+    /**
+     * Input both date and time.
+     * @return  DateTime
+     */
+    public function withUseTime(bool $with_time) : DateTime;
 
-	/**
-	 * Should the input be used to get both date and time?
-	 * @return  DateTime
-	 */
-	public function getUseTime(): bool;
+    /**
+     * Should the input be used to get both date and time?
+     * @return  DateTime
+     */
+    public function getUseTime() : bool;
 
-	/**
-	 * Use this Input for a time-value rather than a date.
-	 * @return  DateTime
-	 */
-	public function withTimeOnly(bool $time_only): DateTime;
+    /**
+     * Use this Input for a time-value rather than a date.
+     * @return  DateTime
+     */
+    public function withTimeOnly(bool $time_only) : DateTime;
 
-	/**
-	 * Should the input be used to get a time only?
-	 * @return  DateTime
-	 */
-	public function getTimeOnly(): bool;
+    /**
+     * Should the input be used to get a time only?
+     * @return  DateTime
+     */
+    public function getTimeOnly() : bool;
 }

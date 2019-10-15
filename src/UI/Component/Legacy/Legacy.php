@@ -8,12 +8,12 @@ namespace ILIAS\UI\Component\Legacy;
  * Interface Legacy
  * @package ILIAS\UI\Component\Legacy
  */
-interface Legacy extends \ILIAS\UI\Component\Component {
-	/**
-	 * Get content as string stored in this component.
-	 *
-	 * @return	string
-	 */
-	public function getContent();
+interface Legacy extends \ILIAS\UI\Component\Component
+{
+    /**
+     * Get content as string stored in this component.
+     *
+     * @return	string
+     */
+    public function getContent();
 }
-

@@ -13,10 +13,11 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.p
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI\Component\Tree\TreeRecursion
 {
-	/**
-	 * @var ilLanguage
-	 */
+	/** @var ilLanguage */
 	protected $lng;
+
+	/** @var \Psr\Http\Message\ServerRequestInterface */
+	protected $httpRequest;
 
 	protected $tree = null;
 	protected $order_field = "";
@@ -41,6 +42,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 	{
 		global $DIC;
 
+		$this->httpRequest = $DIC->http()->request();
 		$this->ui = $DIC->ui();
 		$this->lng = $DIC->language();
 		parent::__construct($a_expl_id, $a_parent_obj, $a_parent_cmd);
@@ -385,29 +387,80 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 	}
 
 	/**
+	 * Creates at tree node, can be overwritten in derivatives if another node type should be used
+	 */
+	protected function createNode(
+		\ILIAS\UI\Component\Tree\Node\Factory $factory,
+		$record
+	): \ILIAS\UI\Component\Tree\Node\Node {
+		$nodeIconPath = $this->getNodeIcon($record);
+
+		$icon = null;
+		if (is_string($nodeIconPath) && strlen($nodeIconPath) > 0) {
+			$icon = $this->ui
+				->factory()
+				->symbol()
+				->icon()
+				->custom($nodeIconPath, $this->getNodeIconAlt($record));
+		}
+
+		return $factory->simple($this->getNodeContent($record), $icon);
+	}
+
+	/**
+	 * Should return an array of ilCtrl-enabled command classes which should be used to build the URL for
+	 * the expand/collapse actions applied on a tree node
+	 * @param $record
+	 * @return array
+	 */
+	protected function getNodeStateToggleCmdClasses($record) : array
+	{
+		return [];
+	}
+
+	/**
 	 * @inheritdoc
 	 */
-	public function build(\ILIAS\UI\Component\Tree\Node\Factory $factory,
-						  $a_node, $environment = null ) : \ILIAS\UI\Component\Tree\Node\Node
-	{
-		$icon = ($this->getNodeIcon($a_node) != "")
-			? $this->ui->factory()->symbol()->icon()->custom($this->getNodeIcon($a_node),
-                $this->getNodeIconAlt($a_node))
-			: null;
+	public function build(
+		\ILIAS\UI\Component\Tree\Node\Factory $factory,
+		$record,
+		$environment = null
+	) : \ILIAS\UI\Component\Tree\Node\Node {
+		$node = $this->createNode($factory, $record);
 
-		$node = $factory->simple($this->getNodeContent($a_node), $icon);
-
-		$href = $this->getNodeHref($a_node);
-		if ($href)
-		{
-			$node = $node->withLink(new \ILIAS\Data\URI($href));
+		$href = $this->getNodeHref($record);
+		if (is_string($href) && strlen($href) > 0 && '#' !== $href) {
+			$node = $node->withLink(new \ILIAS\Data\URI(ILIAS_HTTP_PATH . '/' . $href));
 		}
 
-		if ($this->isNodeOpen($a_node["child"]))
-		{
+		if ($this->isNodeOpen((int) $this->getNodeId($record))) {
 			$node = $node->withExpanded(true);
 		}
-		//$node = $node->withHighlighted(true);
+
+		$nodeStateToggleCmdClasses = $this->getNodeStateToggleCmdClasses($record);
+		$cmdClass = end($nodeStateToggleCmdClasses);
+
+		if (is_string($cmdClass) && strlen($cmdClass) > 0) {
+			$node = $node->withAdditionalOnLoadCode(function ($id) use ($record, $nodeStateToggleCmdClasses, $cmdClass) {
+				$serverNodeId = $this->getNodeId($record);
+
+				$this->ctrl->setParameterByClass($cmdClass, 'node_id', $serverNodeId);
+				$url = $this->ctrl->getLinkTargetByClass($nodeStateToggleCmdClasses, 'toggleExplorerNodeState', '', true, false);
+				$this->ctrl->setParameterByClass($cmdClass, 'node_id', null);
+
+				$javascript = "$('#$id').on('click', function(event) {
+					let node = $(this);
+	
+					if (node.hasClass('expandable')) {
+						il.UI.tree.toggleNodeState(event, '$url', 'prior_state', node.hasClass('expanded'));
+						event.preventDefault();
+						event.stopPropagation();
+					}
+				});";
+
+				return $javascript;
+			});
+		}
 
 		return $node;
 	}
@@ -431,6 +484,27 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI  implements \ILIAS\UI
 			->withHighlightOnNodeClick(true);
 
 		return $tree;
+	}
+
+	/**
+	 * Should be called by an ilCtrl-enabled command class if a tree node toggle action should be processed
+	 */
+	public function toggleExplorerNodeState() : void
+	{
+		$nodeId = (int) ($this->httpRequest->getQueryParams()['node_id'] ?? 0);
+		$priorState = (int) ($this->httpRequest->getQueryParams()['prior_state'] ?? 0);
+
+		if ($nodeId > 0) {
+			if (0 === $priorState && !in_array($nodeId, $this->open_nodes)) {
+				$this->open_nodes[] = $nodeId;
+			} elseif (1 === $priorState && in_array($nodeId, $this->open_nodes)) {
+				$key = array_search($nodeId, $this->open_nodes);
+				unset($this->open_nodes[$key]);
+			}
+
+			$this->store->set('on_' . $this->id, serialize($this->open_nodes));
+		}
+		exit();
 	}
 
 	/**

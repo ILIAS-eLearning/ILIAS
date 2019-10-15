@@ -50,10 +50,10 @@ class UserDataFilter
     private $sorts = [];
 
     /** @var int|null */
-    private $limitStart = null;
+    private $limitOffset = null;
 
     /** @var int|null */
-    private $limitEnd = null;
+    private $limitCount = null;
 
     /** @var bool */
     private $shouldIncludeDeletedObjects = true;
@@ -395,14 +395,14 @@ class UserDataFilter
 
 
     /**
-     * @param int|null $limitStart
+     * @param int|null $limitOffset
      *
      * @return self
      */
-    public function withLimitStart(?int $limitStart) : self
+    public function withLimitOffset(?int $limitOffset) : self
     {
         $clone = clone $this;
-        $clone->limitStart = $limitStart;
+        $clone->limitOffset = $limitOffset;
         return $clone;
     }
 
@@ -410,21 +410,21 @@ class UserDataFilter
     /**
      * @return int|null
      */
-    public function getLimitStart() : ?int
+    public function getLimitOffset() : ?int
     {
-        return $this->limitStart;
+        return $this->limitOffset;
     }
 
 
     /**
-     * @param int|null $limitEnd
+     * @param int|null $limitCount
      *
      * @return self
      */
-    public function withLimitEnd(?int $limitEnd) : self
+    public function withLimitCount(?int $limitCount) : self
     {
         $clone = clone $this;
-        $clone->limitEnd = $limitEnd;
+        $clone->limitCount = $limitCount;
         return $clone;
     }
 
@@ -432,9 +432,9 @@ class UserDataFilter
     /**
      * @return int|null
      */
-    public function getLimitEnd() : ?int
+    public function getLimitCount() : ?int
     {
-        return $this->limitEnd;
+        return $this->limitCount;
     }
 
 

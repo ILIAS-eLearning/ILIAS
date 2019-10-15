@@ -25,7 +25,9 @@ class ilObjFileGUI extends ilObject2GUI
      * @var \ilObjFile
      */
     public $object;
+    public $lng;
     protected $log = null;
+    protected $obj_service;
 
 
     /**
@@ -37,8 +39,11 @@ class ilObjFileGUI extends ilObject2GUI
      */
     function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
+        global $DIC;
+        $this->lng = $DIC->language();
         $this->log = ilLoggerFactory::getLogger('file');
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+        $this->obj_service = $DIC->object();
     }
 
 
@@ -496,6 +501,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->object->setRating($form->getInput('rating'));
 
         $this->update = $this->object->update();
+        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
@@ -616,6 +622,11 @@ class ilObjFileGUI extends ilObject2GUI
             $rate->setInfo($this->lng->txt('rating_activate_rating_info'));
             $form->addItem($rate);
         }
+
+        $presentationHeader = new ilFormSectionHeaderGUI();
+        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
+        $form->addItem($presentationHeader);
+        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         return $form;
     }

@@ -14,6 +14,6 @@ namespace ILIAS\UI\Component\Input\Field;
  *
  * @author killing@leifos.de
  */
-interface FilterInput extends Input {
-
+interface FilterInput extends Input
+{
 }

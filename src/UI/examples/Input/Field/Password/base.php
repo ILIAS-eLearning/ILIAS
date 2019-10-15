@@ -2,7 +2,8 @@
 /**
  * Example of how to create and render a basic password field and attach it to a form.
  */
-function base() {
+function base()
+{
     //Step 0: Declare dependencies.
     global $DIC;
     $ui = $DIC->ui()->factory();

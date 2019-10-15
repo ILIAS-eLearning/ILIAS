@@ -17,110 +17,114 @@ use ILIAS\UI\Component\Input\Field;
 /**
  * This implements the switchable group.
  */
-class SwitchableGroup extends Group implements Field\SwitchableGroup {
+class SwitchableGroup extends Group implements Field\SwitchableGroup
+{
+    use JavaScriptBindable;
+    use Triggerer;
 
-	use JavaScriptBindable;
-	use Triggerer;
+    /**
+     * Only adds a check to the original group-constructor.
+     *
+     * @param DataFactory           $data_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param InputInternal[]       $inputs
+     * @param                       $label
+     * @param                       $byline
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        array $inputs,
+        string $label,
+        string $byline = null
+    ) {
+        $this->checkArgListElements("inputs", $inputs, Group::class);
+        parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
+    }
 
-	/**
-	 * Only adds a check to the original group-constructor.
-	 *
-	 * @param DataFactory           $data_factory
-	 * @param \ILIAS\Refinery\Factory $refinery
-	 * @param InputInternal[]       $inputs
-	 * @param                       $label
-	 * @param                       $byline
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		\ILIAS\Refinery\Factory $refinery,
-		array $inputs,
-		string $label,
-		string $byline = null
-	) {
-		$this->checkArgListElements("inputs", $inputs, Group::class);
-		parent::__construct($data_factory, $refinery, $inputs, $label, $byline);
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getConstraintForRequirement()
+    {
+        return null;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getConstraintForRequirement() {
-		return null;
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isClientSideValueOk($value)
+    {
+        if (!is_string($value) && !is_int($value)) {
+            return false;
+        }
+        return array_key_exists($value, $this->inputs);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function isClientSideValueOk($value) {
-		if (!is_string($value) && !is_int($value)) {
-			return false;
-		}
-		return array_key_exists($value, $this->inputs);
-	}
+    public function withRequired($is_required)
+    {
+        return Input::withRequired($is_required);
+    }
 
-	public function withRequired($is_required) {
-		return Input::withRequired($is_required);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withValue($value)
+    {
+        if (is_string($value) || is_int($value)) {
+            return Input::withValue($value);
+        }
+        if (!is_array($value) || count($value) !== 2) {
+            throw new \InvalidArgumentException(
+                "Expected one key and a group value or one key only as value."
+            );
+        }
+        list($key, $group_value) = $value;
+        $clone = Input::withValue($key);
+        $clone->inputs[$key] = $clone->inputs[$key]->withValue($group_value);
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withValue($value) {
-		if (is_string($value) || is_int($value)) {
-			return Input::withValue($value);
-		}
-		if (!is_array($value) || count($value) !== 2) {
-			throw new \InvalidArgumentException(
-				"Expected one key and a group value or one key only as value."
-			);
-		}
-		list($key, $group_value) = $value;
-		$clone = Input::withValue($key);
-		$clone->inputs[$key] = $clone->inputs[$key]->withValue($group_value);
-		return $clone;
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	public function getValue() {
-		$key = Input::getValue();
-		if(is_null($key)){
-			return null;
-		}
-		return [$key, $this->inputs[$key]->getValue()];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getValue()
+    {
+        $key = Input::getValue();
+        if (is_null($key)) {
+            return null;
+        }
+        return [$key, $this->inputs[$key]->getValue()];
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withInput(InputData $post_input) {
-		if ($this->getName() === null) {
-			throw new \LogicException("Can only collect if input has a name.");
-		}
+    /**
+     * @inheritdoc
+     */
+    public function withInput(InputData $post_input)
+    {
+        if ($this->getName() === null) {
+            throw new \LogicException("Can only collect if input has a name.");
+        }
 
-		if (!$this->isDisabled()) {
-			$key = $post_input->get($this->getName());
-			$clone = $this->withValue($key);
-			$clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
-		}
-		else {
-			$clone = $this;
-		}
+        if (!$this->isDisabled()) {
+            $key = $post_input->get($this->getName());
+            $clone = $this->withValue($key);
+            $clone->inputs[$key] = $clone->inputs[$key]->withInput($post_input);
+        } else {
+            $clone = $this;
+        }
 
-		if ($clone->inputs[$key]->getContent()->isError()) {
-			// TODO: use lng here
-			$clone->content = $clone->data_factory->error("error_in_group");
-		}
-		else {
-			$clone->content = $this->applyOperationsTo($clone->getValue());
-			if ($clone->content->isError()) {
-				return $clone->withError("" . $clone->content->error());
-			}
-		}
+        if ($clone->inputs[$key]->getContent()->isError()) {
+            // TODO: use lng here
+            $clone->content = $clone->data_factory->error("error_in_group");
+        } else {
+            $clone->content = $this->applyOperationsTo($clone->getValue());
+            if ($clone->content->isError()) {
+                return $clone->withError("" . $clone->content->error());
+            }
+        }
 
-		return $clone;
-	}
+        return $clone;
+    }
 }

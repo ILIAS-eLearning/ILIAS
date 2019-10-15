@@ -112,8 +112,8 @@ FROM
             $result[$id] = $dataObject;
         }
 
-        if ($filter->getLimitStart() !== null && $filter->getLimitEnd() !== null) {
-            $result = array_slice($result, $filter->getLimitStart(), ($filter->getLimitEnd() - $filter->getLimitStart()));
+        if ($filter->getLimitOffset() !== null && $filter->getLimitCount() !== null) {
+            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount());
         }
 
         return $result;
@@ -204,7 +204,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
     {
         $sorts = $filter->getSorts();
 
-        if (!empty($sorts)) {
+        if (empty($sorts)) {
             return '';
         }
 

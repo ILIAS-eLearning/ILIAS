@@ -2,7 +2,8 @@
 /**
  * Example for rendering a mini Progress Meter when 100% are reached
  */
-function reached_100_percent() {
+function reached_100_percent()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();

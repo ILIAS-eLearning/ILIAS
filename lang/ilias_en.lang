@@ -1233,6 +1233,7 @@ assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_passed#:#Passed
 assessment#:#tst_failed#:#Failed
 assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
+assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_reached_points#:#Reached Points
 assessment#:#tst_tbl_col_percent_result#:#Percent Solved
@@ -1791,9 +1792,11 @@ common#:#activation#:#Edit Timings
 common#:#active#:#Active
 common#:#add_condition#:#Add Precondition
 common#:#add_member#:#Add Member
+common#:#add_member_role#:#Add Member Role
 common#:#add_new_user_defined_field#:#Add New Custom Field
 common#:#add_note#:#Add Note
 common#:#add_parameter#:#New Parameter
+common#:#add_role#:#Add Role
 common#:#add_translation#:#Add translation
 common#:#add_user_defined_field#:#Add New Field
 common#:#add_user#:#Add Local User
@@ -2546,6 +2549,7 @@ common#:#grp_err_administrator_required#:#Member could not be removed, at least 
 common#:#grp_header_edit_members#:#Edit members
 rbac#:#grp_join#:#User can join group
 rbac#:#grp_leave#:#User can unsubscribe from group
+common#:#grp_list_members#:#List members
 common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_send_mail#:#Send Participants a Message
@@ -6972,9 +6976,9 @@ search#:#search_crs_title#:#Course Name
 search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
-search#:#search_for_crs_members#:#Search for Course Members
-search#:#search_for_grp_members#:#Search for Group Members
-search#:#search_for_role_members#:#Search for Role Members
+search#:#search_for_crs_members#:#Search for Courses
+search#:#search_for_grp_members#:#Search for Groups
+search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for users
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_grp_title#:#Group Name
@@ -7814,20 +7818,20 @@ style#:#sty_glo_char#:#Glossary
 style#:#sty_type_glo_overlay#:#Glossary Overlay
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)
 content#:#cont_sco_glossary#:#Unit Glossary
-common#:#delete_inactive_user_accounts#:#Delete inactive user accounts
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.
+common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
-common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined period of time will be deleted.
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
+common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
-common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
+common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -9331,6 +9335,7 @@ skmg#:#skmg_order_nr#:#Order Number
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference
 skmg#:#skmg_create_skill_category#:#Create Competence Category
+skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
@@ -10880,8 +10885,10 @@ skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
-skmg#:#skmg_assigned_users#:#Assigned Users
+skmg#:#skmg_assigned_users#:#Assigned Roles and Users
 skmg#:#skmg_assign_user#:#Assign User
+skmg#:#skmg_add_assignment#:#Add Roles / Members
+skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_resources#:#Resources
 skmg#:#skmg_add_resource#:#Add Resource
@@ -14252,7 +14259,7 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Profiles
-skmg#:#skmg_selected_skills#:#Selected Skills
+skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
 skmg#:#skmg_suggested#:#Suggested Resource
@@ -14528,6 +14535,7 @@ file#:#file_suffix_custom_white_info#:#These suffixes will be added to the defau
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages
 rbac#:#copa_visible#:#Content Page is visible
@@ -15208,3 +15216,18 @@ common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+wfld#:#wfld_sortation#:#Sortation
+wfld#:#wfld_derive#:#Adopt from parent
+wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
+wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
+wfld#:#wfld_creation_asc#:#Creation Date, asc.
+wfld#:#wfld_creation_desc#:#Creation Date, desc.
+wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
+wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace
+obj#:#obj_tool_setting_booking#:#Resources
+book#:#book_select_pool#:#Select Pool
+book#:#book_pool_selection#:#Booking Pool Selection
+book#:#book_booked_in#:#Booked in
+obj#:#obj_tool_booking#:#Resources
+obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
+book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.

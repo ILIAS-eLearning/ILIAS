@@ -265,6 +265,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 
 		$it = new ilSkillTemplateCategory();
 		$it->setTitle($this->form->getInput("title"));
+		$it->setDescription($this->form->getInput("description"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
 		$it->create();
 		ilSkillTreeNode::putInTree($it, (int) $_GET["obj_id"], IL_LAST_NODE);
@@ -281,6 +282,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
 		}
 
 		$this->node_object->setTitle($this->form->getInput("title"));
+		$this->node_object->setDescription($this->form->getDescription("description"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
 		$this->node_object->update();
