@@ -39,7 +39,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
                 ->tool($identification('mail_folders_tree'))
                 ->withTitle($this->dic->language()->txt('mail_folders'))
                 ->withSymbol($icon)
-                ->withContent($this->dic->ui()->factory()->legacy($exp->getHTML()));
+                ->withContent($this->dic->ui()->factory()->legacy($exp->getHTML(true)));
         }
 
         return $tools;
