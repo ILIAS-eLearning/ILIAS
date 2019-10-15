@@ -36,21 +36,64 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals([], $pre);	
 	}
 
+	public function testAlreadyAchieved() {
+		$env = $this->createMock(Setup\Environment::class);
+		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
+
+		$env
+			->method("getResource")
+			->will($this->returnValueMap([
+				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
+			]));
+
+		$confirmation_requester
+			->expects($this->never())
+			->method("confirmOrDeny");
+
+		$achievement_tracker
+			->expects($this->once())
+			->method("isAchieved")
+			->with($this->o)
+			->willReturn(true);
+
+		$achievement_tracker
+			->expects($this->never())
+			->method("trackAchievementOf");
+
+		$res = $this->o->achieve($env);
+		$this->assertSame($env, $res);
+	}
+
 	public function testAchieveWithConfirmation() {
 		$env = $this->createMock(Setup\Environment::class);
 		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
 		$env
-			->expects($this->once())
 			->method("getResource")
-			->with(Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER)
-			->willReturn($confirmation_requester);
+			->will($this->returnValueMap([
+				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
+			]));
 
 		$confirmation_requester
 			->expects($this->once())
 			->method("confirmOrDeny")
 			->with($this->message)
 			->willReturn(true);
+
+		$achievement_tracker
+			->expects($this->once())
+			->method("isAchieved")
+			->with($this->o)
+			->willReturn(false);
+
+		$achievement_tracker
+			->expects($this->once())
+			->method("trackAchievementOf")
+			->with($this->o);
 
 		$res = $this->o->achieve($env);
 		$this->assertSame($env, $res);
@@ -61,18 +104,30 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 
 		$env = $this->createMock(Setup\Environment::class);
 		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
 		$env
-			->expects($this->once())
 			->method("getResource")
-			->with(Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER)
-			->willReturn($confirmation_requester);
+			->will($this->returnValueMap([
+				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
+			]));
 
 		$confirmation_requester
 			->expects($this->once())
 			->method("confirmOrDeny")
 			->with($this->message)
 			->willReturn(false);
+
+		$achievement_tracker
+			->expects($this->once())
+			->method("isAchieved")
+			->with($this->o)
+			->willReturn(false);
+
+		$achievement_tracker
+			->expects($this->never())
+			->method("trackAchievementOf");
 
 		$res = $this->o->achieve($env);
 	}
