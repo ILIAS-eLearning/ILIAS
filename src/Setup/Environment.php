@@ -13,6 +13,7 @@ interface Environment {
 	// new identifiers, though, to be open for extensions and the future.
 	const RESOURCE_DATABASE = "resource_database";
 	const RESOURCE_CONFIRMATION_REQUESTER = "resource_confirmation_requester";
+	const RESOURCE_ACHIEVEMENT_TRACKER = "resource_achievement_tracker";
 
 	/**
 	 * Consumers of this method should check if the result is what they expect,

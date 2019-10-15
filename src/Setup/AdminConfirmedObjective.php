@@ -55,12 +55,19 @@ class AdminConfirmedObjective implements Objective {
 	 */
 	public function achieve(Environment $environment) : Environment {
 		$confirmation_requester = $environment->getResource(Environment::RESOURCE_CONFIRMATION_REQUESTER);
+		$achievement_tracker = $environment->getResource(Environment::RESOURCE_ACHIEVEMENT_TRACKER);
+
+		if ($achievement_tracker->isAchieved($this)) {
+			return $environment;
+		}
 
 		if(!$confirmation_requester->confirmOrDeny($this->message)) {
 			throw new UnachievableException(
 				"The admin did not confirm the message."
 			);
 		}
+
+		$achievement_tracker->trackAchievementOf($this);
 
 		return $environment;
 	}
