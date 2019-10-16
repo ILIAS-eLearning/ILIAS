@@ -48,7 +48,7 @@ class Standard implements Page\Standard
     /**
      * @var ModeInfo|null
      */
-    private $head_info;
+    private $mode_info;
     /**
      * @var	string
      */
@@ -277,10 +277,10 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withHeadInfo(ModeInfo $head_info) : Page\Standard
+    public function withModeInfo(ModeInfo $head_info) : Page\Standard
     {
         $clone = clone $this;
-        $clone->head_info = $head_info;
+        $clone->mode_info = $head_info;
 
         return $clone;
     }
@@ -289,17 +289,17 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function getHeadInfo() : ?ModeInfo
+    public function getModeInfo() : ?ModeInfo
     {
-        return $this->head_info;
+        return $this->mode_info;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function hasHeadInfo() : bool
+    public function hasModeInfo() : bool
     {
-        return $this->head_info instanceof ModeInfo;
+        return $this->mode_info instanceof ModeInfo;
     }
 }

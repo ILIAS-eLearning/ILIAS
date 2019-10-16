@@ -37,8 +37,8 @@ class Renderer extends AbstractComponentRenderer
         if ($component->hasMainbar()) {
             $tpl->setVariable('MAINBAR', $default_renderer->render($component->getMainbar()));
         }
-        if ($component->hasHeadInfo()) {
-            $tpl->setVariable('HEADINFO', $default_renderer->render($component->getHeadInfo()));
+        if ($component->hasModeInfo()) {
+            $tpl->setVariable('MODEINFO', $default_renderer->render($component->getModeInfo()));
         }
 
         $breadcrumbs = $component->getBreadcrumbs();

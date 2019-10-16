@@ -97,17 +97,17 @@ interface Standard extends Page, JavaScriptBindable
      *
      * @return Standard
      */
-    public function withHeadInfo(ModeInfo $head_info) : Standard;
+    public function withModeInfo(ModeInfo $head_info) : Standard;
 
 
     /**
      * @return ModeInfo|null
      */
-    public function getHeadInfo() : ?ModeInfo;
+    public function getModeInfo() : ?ModeInfo;
 
 
     /**
      * @return bool
      */
-    public function hasHeadInfo() : bool;
+    public function hasModeInfo() : bool;
 }

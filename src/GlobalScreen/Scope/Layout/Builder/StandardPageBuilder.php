@@ -40,6 +40,15 @@ class StandardPageBuilder implements PageBuilder
         $bread_crumbs = $parts->getBreadCrumbs();
         $footer = $parts->getFooter();
 
-        return $this->ui->factory()->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image, $footer);
+        $mode_info = $this->ui->factory()->mainControls()->modeInfo(
+            "Mode",
+            $this->ui->factory()->button()->close()
+        )->withDescription("Description");
+
+        $standard = $this->ui->factory()->layout()->page()->standard([$parts->getContent()], $meta_bar, $main_bar, $bread_crumbs, $header_image, $footer);
+
+        $standard = $standard->withModeInfo($mode_info);
+
+        return $standard;
     }
 }
