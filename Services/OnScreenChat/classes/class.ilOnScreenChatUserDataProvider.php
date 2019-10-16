@@ -106,10 +106,8 @@ class ilOnScreenChatUserDataProvider
 						$publicData[$usr_id]['firstname'],
 					]);
 
-					if ($publicName !== '') {
-						$publicName .= ' [' . $login . ']';
-					} else {
-						$publicName = $login;
+					if ($publicName === '') {
+                        $publicName = $login;
 					}
 				}
 			}
