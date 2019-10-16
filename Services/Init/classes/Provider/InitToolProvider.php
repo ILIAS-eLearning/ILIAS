@@ -21,8 +21,8 @@ class InitToolProvider extends AbstractDynamicToolProvider
      */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
+        return []; // currently disbled tool
         if (!$called_contexts->current()->getAdditionalData()->get('DEVMODE')) {
-            return [];
         }
 
         $content = $this->getDevModeContent();

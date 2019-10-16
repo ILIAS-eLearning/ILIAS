@@ -1792,9 +1792,11 @@ common#:#activation#:#Edit Timings
 common#:#active#:#Active
 common#:#add_condition#:#Add Precondition
 common#:#add_member#:#Add Member
+common#:#add_member_role#:#Add Member Role
 common#:#add_new_user_defined_field#:#Add New Custom Field
 common#:#add_note#:#Add Note
 common#:#add_parameter#:#New Parameter
+common#:#add_role#:#Add Role
 common#:#add_translation#:#Add translation
 common#:#add_user_defined_field#:#Add New Field
 common#:#add_user#:#Add Local User
@@ -2547,6 +2549,7 @@ common#:#grp_err_administrator_required#:#Member could not be removed, at least 
 common#:#grp_header_edit_members#:#Edit members
 rbac#:#grp_join#:#User can join group
 rbac#:#grp_leave#:#User can unsubscribe from group
+common#:#grp_list_members#:#List members
 common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_send_mail#:#Send Participants a Message
@@ -6973,9 +6976,9 @@ search#:#search_crs_title#:#Course Name
 search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
-search#:#search_for_crs_members#:#Search for Course Members
-search#:#search_for_grp_members#:#Search for Group Members
-search#:#search_for_role_members#:#Search for Role Members
+search#:#search_for_crs_members#:#Search for Courses
+search#:#search_for_grp_members#:#Search for Groups
+search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for users
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_grp_title#:#Group Name
@@ -9332,6 +9335,7 @@ skmg#:#skmg_order_nr#:#Order Number
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference
 skmg#:#skmg_create_skill_category#:#Create Competence Category
+skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
@@ -10881,8 +10885,10 @@ skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
-skmg#:#skmg_assigned_users#:#Assigned Users
+skmg#:#skmg_assigned_users#:#Assigned Roles and Users
 skmg#:#skmg_assign_user#:#Assign User
+skmg#:#skmg_add_assignment#:#Add Roles / Members
+skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_resources#:#Resources
 skmg#:#skmg_add_resource#:#Add Resource
@@ -14253,7 +14259,7 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Profiles
-skmg#:#skmg_selected_skills#:#Selected Skills
+skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
 skmg#:#skmg_suggested#:#Suggested Resource

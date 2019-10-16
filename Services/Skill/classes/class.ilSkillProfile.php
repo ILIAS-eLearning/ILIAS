@@ -18,6 +18,11 @@ class ilSkillProfile implements ilSkillUsageInfo
 	 */
 	protected $db;
 
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
 	protected $id;
 	protected $title;
 	protected $description;
@@ -33,6 +38,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 		global $DIC;
 
 		$this->db = $DIC->database();
+		$this->lng = $DIC->language();
 		if ($a_id > 0)
 		{
 			$this->setId($a_id);
@@ -316,13 +322,29 @@ class ilSkillProfile implements ilSkillUsageInfo
 	////
 	//// Skill user assignment
 	////
-	
+
+	/**
+	 * Get all assignments (users and roles)
+	 */
+	function getAssignments()
+	{
+		$assignments = array();
+
+		$users = $this->getAssignedUsers();
+		$roles = $this->getAssignedRoles();
+		$assignments = $users + $roles;
+		ksort($assignments);
+
+		return $assignments;
+	}
+
 	/**
 	 * Get assigned users
 	 */
 	function getAssignedUsers()
 	{
 		$ilDB = $this->db;
+		$lng = $this->lng;
 		
 		$set = $ilDB->query("SELECT * FROM skl_profile_user ".
 			" WHERE profile_id = ".$ilDB->quote($this->getId(), "integer")
@@ -330,12 +352,12 @@ class ilSkillProfile implements ilSkillUsageInfo
 		$users = array();
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
-			$name = ilObjUser::_lookupName($rec["user_id"]);
+			$name = ilUserUtil::getNamePresentation($rec["user_id"]);
+			$type = $lng->txt("user");
 			$users[$rec["user_id"]] = array(
-				"lastname" => $name["lastname"],
-				"firstname" => $name["firstname"],
-				"login" => $name["login"],
-				"id" => $name["user_id"]
+				"type" => $type,
+				"name" => $name,
+				"id" => $rec["user_id"]
 				);
 		}
 		return $users;
@@ -399,8 +421,12 @@ class ilSkillProfile implements ilSkillUsageInfo
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
-		$profiles = array();
+		$rbacreview = $DIC->rbac()->review();
+
+		$all_profiles = array();
+
+		// competence profiles coming from user assignments
+		$user_profiles = array();
 		$set = $ilDB->query("SELECT p.id, p.title FROM skl_profile_user u JOIN skl_profile p ".
 			" ON (u.profile_id = p.id) ".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
@@ -408,9 +434,30 @@ class ilSkillProfile implements ilSkillUsageInfo
 			);
 		while ($rec  = $ilDB->fetchAssoc($set))
 		{
-			$profiles[] = $rec;
+			$user_profiles[] = $rec;
 		}
-		return $profiles;
+
+		// competence profiles coming from role assignments
+		$role_profiles = array();
+		$user_roles = $rbacreview->assignedRoles($a_user_id);
+		foreach ($user_roles as $role)
+		{
+			$profiles = self::getProfilesOfRole($role);
+			foreach ($profiles as $profile)
+			{
+				$role_profiles[] = $profile;
+			}
+		}
+
+		// merge competence profiles and remove multiple occurrences
+		$all_profiles = array_merge($user_profiles, $role_profiles);
+		$temp_profiles = array();
+		foreach ($all_profiles as &$v) {
+			if (!isset($temp_profiles[$v["id"]]))
+				$temp_profiles[$v["id"]] =& $v;
+		}
+		$all_profiles = array_values($temp_profiles);
+		return $all_profiles;
 	}
 
 	/**
@@ -427,6 +474,124 @@ class ilSkillProfile implements ilSkillUsageInfo
 			);
 		$rec = $ilDB->fetchAssoc($set);
 		return (int) $rec["ucnt"];
+	}
+
+	/**
+	 * Get assigned roles
+	 *
+	 * @return array
+	 */
+	function getAssignedRoles()
+	{
+		$ilDB = $this->db;
+		$lng = $this->lng;
+
+		$set = $ilDB->query("SELECT * FROM skl_profile_role ".
+			" WHERE profile_id = ".$ilDB->quote($this->getId(), "integer")
+		);
+		$roles = array();
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$name = ilObjRole::_lookupTitle($rec["role_id"]);
+			$type = $lng->txt("role");
+			$roles[$rec["role_id"]] = array(
+				"type" => $type,
+				"name" => $name,
+				"id" => $rec["role_id"]
+			);
+		}
+		return $roles;
+	}
+
+	/**
+	 * Add role to profile
+	 *
+	 * @param int $a_role_id role id
+	 */
+	public function addRoleToProfile(int $a_role_id)
+	{
+		$ilDB = $this->db;
+
+		$ilDB->replace("skl_profile_role",
+			array("profile_id" => array("integer", $this->getId()),
+				"role_id" => array("integer", (int) $a_role_id),
+			),
+			array()
+		);
+	}
+
+	/**
+	 * Remove role from profile
+	 *
+	 * @param int $a_role_id role id
+	 */
+	public function removeRoleFromProfile(int $a_role_id)
+	{
+		$ilDB = $this->db;
+
+		$ilDB->manipulate("DELETE FROM skl_profile_role WHERE ".
+			" profile_id = ".$ilDB->quote($this->getId(), "integer").
+			" AND role_id = ".$ilDB->quote($a_role_id, "integer")
+		);
+	}
+
+	/**
+	 * Remove role from all profiles
+	 *
+	 * @param int $a_role_id
+	 */
+	public static function removeRoleFromAllProfiles(int $a_role_id)
+	{
+		global $DIC;
+		$ilDB = $DIC->database();
+
+		$ilDB->manipulate("DELETE FROM skl_profile_role WHERE ".
+			" role_id = ".$ilDB->quote($a_role_id, "integer")
+		);
+	}
+
+	/**
+	 * Get profiles of a role
+	 *
+	 * @param int $a_role_id role id
+	 * @return array
+	 */
+	public static function getProfilesOfRole(int $a_role_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$profiles = array();
+		$set = $ilDB->query("SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p ".
+			" ON (r.profile_id = p.id) ".
+			" WHERE role_id = ".$ilDB->quote($a_role_id, "integer").
+			" ORDER BY p.title ASC"
+		);
+		while ($rec  = $ilDB->fetchAssoc($set))
+		{
+			$profiles[] = $rec;
+		}
+		return $profiles;
+	}
+
+	/**
+	 * Count assigned roles of a profile
+	 *
+	 * @param int $a_profile_id
+	 * @return int
+	 */
+	public static function countRoles(int $a_profile_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT count(*) rcnt FROM skl_profile_role ".
+			" WHERE profile_id = ".$ilDB->quote($a_profile_id, "integer")
+		);
+		$rec = $ilDB->fetchAssoc($set);
+		return (int) $rec["rcnt"];
 	}
 	
 	/**

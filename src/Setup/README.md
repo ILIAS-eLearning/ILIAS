@@ -28,12 +28,26 @@ to find out how to use them.
 
 ### On Config
 
-This comes first, because it' probably the most simple of the four concepts. A
+This comes first, because it's probably the most simple of the four concepts. A
 config is basically a glorified key-value map as a data type. It encapsulates
 defaults and checks for the values in the config and acts as an insurance to its
 users that the config has the expected shape. Also, it's a config for the setup
 process and not for the installed system. For an example, have a look into
 [`ilDatabaseSetupConfig`](Services/Database/classes/Setup/class.ilDatabaseSetupConfig.php).
+
+A config-file, when used from the CLI, expects keys according to the array keys used
+for the construction of the AgentCollection in cli.php ($c["agent"] = ...).
+So, e.g., constructing your colllection with "database" => $c["agent.database"] means
+an expected config
+{
+  "database" : {
+      "host": "xxx",
+      "port": "",
+      ...
+  }
+}
+
+
 
 ### On Environment
 

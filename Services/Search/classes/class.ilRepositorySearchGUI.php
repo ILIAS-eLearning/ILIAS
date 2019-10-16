@@ -417,6 +417,32 @@ class ilRepositorySearchGUI
     }
 
 
+	public function addRole()
+	{
+		$class = $this->role_callback['class'];
+		$method = $this->role_callback['method'];
+
+		// call callback if that function does give a return value => show error message
+		// listener redirects if everything is ok.
+		$obj_ids = (array)$_POST['obj'];
+		$role_ids = array();
+		foreach ($obj_ids as $id) {
+			$obj_type = ilObject::_lookupType($id);
+			if ($obj_type == "crs" || $obj_type == "grp") {
+				$refs = ilObject::_getAllReferences($id);
+				$ref_id = end($refs);
+				$mem_role = ilParticipants::getDefaultMemberRole($ref_id);
+				$role_ids[] = $mem_role;
+			}
+			else {
+				$role_ids[] = $id;
+			}
+		}
+		$class->$method((array) $role_ids);
+
+		$this->showSearchResults();
+	}
+
     public function addUser()
     {
         $class = $this->callback['class'];
@@ -548,6 +574,12 @@ class ilRepositorySearchGUI
         $this->callback = array('class' => $class,'method' => $method);
         $this->add_options = $a_add_options ? $a_add_options : array();
     }
+
+	public function setRoleCallback(&$class,$method,$a_add_options = array())
+	{
+		$this->role_callback = array('class' => $class,'method' => $method);
+		$this->add_options = $a_add_options ? $a_add_options : array();
+	}
     
     /**
      * Set callback method for user permission access queries
