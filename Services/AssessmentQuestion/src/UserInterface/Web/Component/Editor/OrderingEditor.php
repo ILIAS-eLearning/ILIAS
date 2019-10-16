@@ -33,9 +33,9 @@ class OrderingEditor extends AbstractEditor {
     private $answer;
     
     public function __construct(QuestionDto $question) {
-        parent::__construct($question);
-        
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+        
+        parent::__construct($question);
     }
 
     /**

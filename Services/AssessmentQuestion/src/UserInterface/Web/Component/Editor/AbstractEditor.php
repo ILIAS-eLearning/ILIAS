@@ -32,6 +32,10 @@ abstract class AbstractEditor {
 	 */
 	public function __construct(QuestionDto $question) {
 		$this->question = $question;
+		
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+		    $this->setAnswer($this->readAnswer());
+		}
 	}
 
 	/**
