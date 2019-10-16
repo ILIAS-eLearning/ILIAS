@@ -95,11 +95,11 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                function () use ($dic) {
+                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) {
                     $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
 
                     return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
-                }
+                })
             );
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
@@ -112,6 +112,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), "");
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
             ->withSymbol($icon)
             ->withTitle($f("mm_personal_workspace"))
             ->withPosition(30);
@@ -119,6 +120,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), "");
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
             ->withSymbol($icon)
             ->withTitle($f("mm_achievements"))
             ->withPosition(40);
@@ -126,6 +128,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
             ->withSymbol($icon)
             ->withTitle($f("mm_communication"))
             ->withPosition(50);
@@ -133,6 +136,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), "");
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
             ->withSymbol($icon)
             ->withTitle($f("mm_organisation"))
             ->withPosition(60)
@@ -149,7 +153,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($f("mm_administration"))
             ->withPosition(70)
             ->withVisibilityCallable(
-                function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }
+                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
             );
 
         return [
@@ -161,6 +165,18 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $organisation,
             $administration,
         ];
+    }
+
+
+    private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
+    {
+        return function () use ($additional) {
+            if ($this->dic->user()->isAnonymous()) {
+                return false;
+            }
+
+            return $additional();
+        };
     }
 
 
