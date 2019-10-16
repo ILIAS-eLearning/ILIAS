@@ -132,6 +132,13 @@ description, factory, renderer, directory...
 
 ## Long Term
 
+### ModeInfo vs. other Mechanism
+The space in the head area of ILIAS is limited. The ModeInfo takes up additional space, which should be reduced in a future version of ILIAS. ILIAS 6 tries to map the status quo (e.g. for the MemberView). 
+
+Tasks for the next version:
+- General concept for the representation of information that influences the view of ILIAS, because the current mode specifies this.
+- Unification of different representations, currently MemberView, LTI and and LearningSequence
+
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`
 
 Currently `Implement\Layout\Page\Renderer::setHeaderVars` contains a special
