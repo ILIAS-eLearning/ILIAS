@@ -72,6 +72,16 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
         } elseif ($component instanceof Password) {
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
+        } elseif ($component instanceof Component\Input\Field\File) {
+            $component = $this->setSignals($component);
+            $component = $component->withAdditionalOnLoadCode(
+                function ($id) {
+                    return "$(document).ready(function() {
+					il.UI.Input.file.init('$id');
+				});";
+                }
+            );
+            $input_tpl = $this->getTemplate("tpl.file.html", true, true);
         } elseif ($component instanceof Select) {
             $input_tpl = $this->getTemplate("tpl.select.html", true, true);
         } elseif ($component instanceof Component\Input\Field\Textarea) {
@@ -105,6 +115,8 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
+        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
+        $registry->register('./src/UI/templates/js/Input/Field/file.js');
     }
 
 
@@ -825,7 +837,8 @@ JS;
             Component\Input\Field\Textarea::class,
             Component\Input\Field\MultiSelect::class,
             Component\Input\Field\DateTime::class,
-            Component\Input\Field\Duration::class
+            Component\Input\Field\Duration::class,
+            Component\Input\Field\File::class
         ];
     }
 }

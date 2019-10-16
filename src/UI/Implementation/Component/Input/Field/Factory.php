@@ -8,6 +8,7 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 /**
@@ -171,5 +172,14 @@ class Factory implements Field\Factory
     public function duration($label, $byline = null)
     {
         return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function file(string $label, string $byline = null) : File
+    {
+        return new \ILIAS\UI\Implementation\Component\Input\Field\File($this->data_factory, $this->refinery, $label, $byline);
     }
 }
