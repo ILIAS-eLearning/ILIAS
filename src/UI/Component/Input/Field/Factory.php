@@ -570,4 +570,31 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
     public function duration($label, $byline = null);
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     A File Input is used to upload a file.
+     *   composition: >
+     *     A File Input is composed as a Dropzone and a list of files.
+     *   effect: >
+     *     According to configuration, the input will accept files of certain types and sizes.
+     *     Invalid files will lead to a error message in the dropzone.
+     *
+     * context:
+     *   - File Input is used in forms.
+     *
+     * rules:
+     *   usage:
+     *     1: .
+     *
+     * ---
+     * @param string $label defines the label.
+     * @param string $byline
+     *
+     * @return \ILIAS\UI\Component\Input\Field\File
+     */
+    public function file(string $label, string $byline = null) : File;
 }

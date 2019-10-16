@@ -32,7 +32,7 @@ class Radio extends Input implements C\Input\Field\Radio
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return ($value === '' || array_key_exists($value, $this->getOptions()));
     }

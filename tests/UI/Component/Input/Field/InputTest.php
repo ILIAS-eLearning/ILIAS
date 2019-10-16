@@ -16,7 +16,7 @@ class DefInput extends Input
     public $value_ok = true;
 
 
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return $this->value_ok;
     }

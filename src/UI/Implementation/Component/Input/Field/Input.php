@@ -238,11 +238,11 @@ abstract class Input implements C\Input\Field\Input, InputInternal
     /**
      * Check if the value is good to be displayed client side.
      *
-     * @param    mixed $value
+     * @param mixed $value
      *
      * @return    bool
      */
-    abstract protected function isClientSideValueOk($value);
+    abstract protected function isClientSideValueOk($value) : bool;
 
 
     /**
