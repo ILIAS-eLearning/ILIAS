@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditorConfiguration;
+use ilNumberInputGUI;
 
 /**
  * Class TextSubsetQuestionGUI
@@ -31,8 +32,8 @@ class TextSubsetQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            TextSubsetEditorConfiguration::readConfig(),
-            TextSubsetScoringConfiguration::readConfig());
+            TextSubsetEditor::readConfig(),
+            TextSubsetScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
@@ -41,8 +42,36 @@ class TextSubsetQuestionGUI extends LegacyFormGUIBase {
             $this->addItem($field);
         }
         
+        $max_available_points = new ilNumberInputGUI($this->lang->txt('asq_label_max_points'));
+        $max_available_points->setDisabled(true);
+        $max_available_points->setValue($this->calculateMaxPoints());
+        $max_available_points->setSize(2);
+        $this->addItem($max_available_points);
+        
         foreach (TextSubsetScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
+    }
+    
+    private function calculateMaxPoints() {
+        $question = $this->initial_question;
+        
+        $amount = $question->getPlayConfiguration()->getEditorConfiguration()->getNumberOfRequestedAnswers();
+        
+        if(empty($amount)) {
+            return '';
+        }
+        
+        $points = array_map(function($option) { 
+                                return $option->getScoringDefinition()->getPoints(); 
+                            },
+                            $question->getAnswerOptions()->getOptions());
+        
+        rsort($points);
+        
+        return array_reduce(array_slice($points, 0, $amount),
+                            function($a, $b) {
+                                return $a + $b;
+                            });
     }
 }
