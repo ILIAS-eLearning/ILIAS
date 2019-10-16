@@ -8,6 +8,7 @@
 	var ACTION_REMOVE_CONV = "remove";
 	var ACTION_STORE_CONV = "store";
 	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
+	let OLD_USER_ID = null;
 
 	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
@@ -901,6 +902,7 @@
 		onMessageInput: function() {
 			var $this = $(this);
 
+
 			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
 		},
 
@@ -917,13 +919,18 @@
 				}
 				return;
 			}
-
+console.log(messageObject.userId , OLD_USER_ID)
 			template = template.replace(/\[\[username\]\]/g, username);
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
+
+			if(prepend !== true && messageObject.userId == OLD_USER_ID) {
+				template = template.replace(/\[\[style\]\]/g, 'display:none');
+				template = template.replace(/\[\[removeStyle\]\]/g, 'margin-bottom: none;padding-bottom: none;border-bottom: none;');
+			}
 
 			if (messageObject.hasOwnProperty("isNeutral") && messageObject.isNeutral) {
 				template = $(template).find('li.neutral').html();
@@ -948,6 +955,10 @@
 			if(prepend === false) {
 				getModule().scrollBottom(chatWindow);
 				getModule().historyBlocked = false;
+			}
+
+			if((OLD_USER_ID === null || OLD_USER_ID !== messageObject.userId) && prepend === false){
+				OLD_USER_ID = messageObject.userId
 			}
 		},
 
