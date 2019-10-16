@@ -109,7 +109,6 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
         $this->answer_options = new AnswerOptions();
         $this->hints = new QuestionHints([]);
 
-
         /**
          * TODO: I guess this is not the right place.
          * It just helps to develop for the moment.

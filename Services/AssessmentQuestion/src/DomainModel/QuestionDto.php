@@ -100,7 +100,7 @@ class QuestionDto  {
 		    $question->getContentEditingMode()
         );
 
-        $dto->feedback = $question->getFeedback();
+        $dto->feedback = $question->getFeedback() ?? new Feedback();
 
         $dto->question_hints = $question->getHints();
 
@@ -155,7 +155,7 @@ class QuestionDto  {
 	 * @return string
 	 */
 	public function getRevisionId(): string {
-		return $this->revision_id;
+		return $this->revision_id ?? $this->id;
 	}
 
 

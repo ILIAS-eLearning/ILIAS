@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
@@ -26,10 +27,32 @@ class FileUploadScoring extends AbstractScoring {
     
     const CHECKED = 'checked';
     
+    /**
+     * @var FileUploadScoringConfiguration
+     */
+    protected $configuration;
+    
+    /**
+     * @param QuestionDto $question
+     */
+    public function __construct($question) {
+        parent::__construct($question);
+        
+        $this->configuration = $question->getPlayConfiguration()->getScoringConfiguration();
+    }
+    
     function score(Answer $answer) : AnswerScoreDto {
         $reached_points = 0;
-        $max_points = 0;
+        
+        $max_points = $this->configuration->getPoints();
 
+        if ($this->configuration->isCompletedBySubmition()) {
+            $reached_points = $max_points;
+        }
+        else {
+            // TODO go look for manual scoring or throw exception
+        }
+        
         $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         return $answer_score;
     }
@@ -67,7 +90,7 @@ class FileUploadScoring extends AbstractScoring {
     public static function readConfig() : ?AbstractConfiguration {
         return FileUploadScoringConfiguration::create(
             intval($_POST[self::VAR_POINTS]),
-            $_POST[self::VAR_COMPLETED_ON_UPLOAD] === self::VAR_COMPLETED_ON_UPLOAD);
+            $_POST[self::VAR_COMPLETED_ON_UPLOAD] === self::CHECKED);
     }
     
     /**

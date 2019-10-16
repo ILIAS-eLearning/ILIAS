@@ -44,34 +44,12 @@ class TextSubsetQuestionGUI extends LegacyFormGUIBase {
         
         $max_available_points = new ilNumberInputGUI($this->lang->txt('asq_label_max_points'));
         $max_available_points->setDisabled(true);
-        $max_available_points->setValue($this->calculateMaxPoints());
+        $max_available_points->setValue(TextSubsetScoring::calculateMaxPoints($this->initial_question));
         $max_available_points->setSize(2);
         $this->addItem($max_available_points);
         
         foreach (TextSubsetScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
-    }
-    
-    private function calculateMaxPoints() {
-        $question = $this->initial_question;
-        
-        $amount = $question->getPlayConfiguration()->getEditorConfiguration()->getNumberOfRequestedAnswers();
-        
-        if(empty($amount)) {
-            return '';
-        }
-        
-        $points = array_map(function($option) { 
-                                return $option->getScoringDefinition()->getPoints(); 
-                            },
-                            $question->getAnswerOptions()->getOptions());
-        
-        rsort($points);
-        
-        return array_reduce(array_slice($points, 0, $amount),
-                            function($a, $b) {
-                                return $a + $b;
-                            });
     }
 }
