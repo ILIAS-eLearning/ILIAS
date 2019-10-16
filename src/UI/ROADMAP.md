@@ -12,6 +12,9 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Page: GlobalScreen and UI-Service
+ILIAS components have to contribute various information to the presentation when they are executed. Currently they can do this - besides the content - already explicitly via the GlobalScree service. Each of this information, like the installation title (see PR #2249) is very explicitly addressable. However, since we can assume that other "pages" than the "standard page" will be in the UI service in the longer term, we have to consider whether this information should be understood as information instead of UI components.
+
 ### Engaged Buttons (advanced, ~4h)
 
 The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)
