@@ -141,7 +141,7 @@ which enables derivatives to
 as action for node state HTTP POST requests. This requests can be processed in the
 client/consumer and delegated to the `ilTreeExplorerGUI` by calling
 [`toggleExplorerNodeState`](../..Services/Mail/classes/class.ilMailGUI.php#L288)
-on the explore instace.
+on the explore instance.
 
 ## Long Term
 
