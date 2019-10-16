@@ -1456,14 +1456,29 @@ if( !$ilDB->tableColumnExists('qpl_questions', 'migrated_to_asq') )
 <?php
 $query = "Select * from qpl_questions as question
 inner join qpl_qst_sc as sc_data on sc_data.question_fi = question.question_id
-/*inner join qpl_a_sc as sc_answers on sc_answers.question_fi = question.question_id
+/*
 left join qpl_fb_generic as fb_generic on fb_generic.question_fi = question.question_id
 left join qpl_fb_specific as fb_specific on fb_specific.question_fi = question.question_id*/";
 $res = $ilDB->query($query);
 $questions = [];
+$uuids = [];
 while($rec = $ilDB->fetchAssoc($res)) {
+    //uuid anlegen
+    $id = new ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId();
     $questions[] = $rec;
+    $uuids[$rec['question_id']] = $id;
 }
+
+
+$query = "Select * from qpl_questions as question
+inner join qpl_qst_sc as sc_data on sc_data.question_fi = question.question_id
+inner join qpl_a_sc as sc_answers on sc_answers.question_fi = question.question_id";
+$res = $ilDB->query($query);
+while($rec = $ilDB->fetchAssoc($res)) {
+    $questions_answer_options[$rec['question_id']][] = $rec;
+}
+
+
 require_once "./Services/AssessmentQuestion/src/Infrastructure/Persistance/EventStore/QuestionEventStoreAr.php";
 require_once "./Services/AssessmentQuestion/src/Application/AuthoringApplicationService.php";
 require_once "./Services/AssessmentQuestion/PublicApi/Common/AssessmentEntityId.php";
@@ -1471,19 +1486,21 @@ require_once "./Services/AssessmentQuestion/src/Application/AuthoringApplication
 require_once "./Services/AssessmentQuestion/src/UserInterface/Web/AsqGUIElementFactory.php";
 require_once "./Services/AssessmentQuestion/PublicApi/Common/entityIdBuilder.php";
 foreach($questions as $question) {
-    $asq_public_service = new ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService($question['obj_fi'], $question['owner']);
 
-    $asq_appliction_service = new ILIAS\AssessmentQuestion\Application\AuthoringApplicationService($question['obj_fi'], $question['owner']);
+    $asq_appliction_service = new ILIAS\AssessmentQuestion\Application\AuthoringApplicationService($question['obj_fi'], $question['owner'], 'de');
 
+    //create question
     $id = new ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId();
-    $asq_appliction_service->CreateQuestion($id,
+    $asq_appliction_service->CreateQuestion($uuids[$question['question_id']],
         $question['obj_fi'],
+        $question['type'],
         $question['question_id'],
         ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory::TYPE_SINGLE_CHOICE,
-        ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode::PAGE_OBJECT);
+        ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode::RTE_TEXTAREA
+    );
 
-    $question_dto = $asq_appliction_service->GetQuestion($id->getId());
-
+    //set question data
+    $question_dto = $asq_appliction_service->getQuestion($uuids[$question['question_id']]->getId());
     $question_data = ILIAS\AssessmentQuestion\DomainModel\QuestionData::create(
         $question['title'],
         $question['question_text'],
@@ -1493,6 +1510,17 @@ foreach($questions as $question) {
     );
     $question_dto->setData($question_data);
 
+    //set answer options
+    $anser_options_dto = new ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions();
+    foreach ($questions_answer_options[$question['question_id']] as $question_answer) {
+        $display_definition = new ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition(strval($question_answer['answertext']), '');
+
+        $scoring_definition = new ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringDefinition();
+
+        $question_answer_option_dto = new \ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption($question_answer['answer_id'], $display_definition, $scoring_definition);
+        $anser_options_dto->addOption($question_answer_option_dto);
+    }
+    $question_dto->setAnswerOptions($anser_options_dto);
     /* ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEditorConfiguration::create(
          $rec['shuffle'],
          $rec['nr_of_tries'],
