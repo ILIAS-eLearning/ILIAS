@@ -129,6 +129,19 @@ are created with methods that share the "group"-suffix. This is a exemplary case
 for the introduction of a new 'Group` family within `Input\Field`, with its own
 description, factory, renderer, directory...
 
+### Improvement of Persistent Node States in `Tree` (advanced)
+
+Currently there is no centralized approach to enhance `TreeRecursion` instances or
+`Node` elements with persistence capabilities for the purpose of storing the state
+(collapsed/expanded) of a `Node`.
+With ILIAS 6 a first low-level approach was introduced in
+[`ilTreeExplorerGUI`](../../Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php#L444),
+which enables derivatives to
+[specify a `ilCtrl` route](../../Services/Mail/classes/class.ilMailExplorer.php#L87) used
+as action for node state HTTP POST requests. This requests can be processed in the
+client/consumer and delegated to the `ilTreeExplorerGUI` by calling
+[`toggleExplorerNodeState`](../..Services/Mail/classes/class.ilMailGUI.php#L288)
+on the explore instace.
 
 ## Long Term
 
