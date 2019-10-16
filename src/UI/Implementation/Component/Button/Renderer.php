@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
+use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -136,12 +137,21 @@ class Renderer extends AbstractComponentRenderer
         $registry->register("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
     }
 
-    protected function renderClose($component)
+    protected function renderClose(Component\Button\Close $component)
     {
         $tpl = $this->getTemplate("tpl.close.html", true, true);
         // This is required as the rendering seems to only create any output at all
         // if any var was set or block was touched.
         $tpl->setVariable("FORCE_RENDERING", "");
+        $URI = $component->getAction();
+        if($URI instanceof URI) {
+            $url = $URI->getBaseURI() . '?' . $URI->getQuery();
+            $component = $component->withAdditionalOnLoadCode(function ($id) use ($url) {
+                return "$('#$id').on('click', function(){
+                    window.location = '{$url}}';
+                })";
+            });
+        }
         $this->maybeRenderId($component, $tpl);
         return $tpl->get();
     }

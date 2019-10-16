@@ -7,7 +7,7 @@ use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls\Footer;
-use ILIAS\UI\Component\MainControls\HeadInfo;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
@@ -46,7 +46,7 @@ class Standard implements Page\Standard
      */
     private $footer;
     /**
-     * @var HeadInfo|null
+     * @var ModeInfo|null
      */
     private $head_info;
     /**
@@ -277,7 +277,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function withHeadInfo(HeadInfo $head_info) : Page\Standard
+    public function withHeadInfo(ModeInfo $head_info) : Page\Standard
     {
         $clone = clone $this;
         $clone->head_info = $head_info;
@@ -289,7 +289,7 @@ class Standard implements Page\Standard
     /**
      * @inheritDoc
      */
-    public function getHeadInfo() : ?HeadInfo
+    public function getHeadInfo() : ?ModeInfo
     {
         return $this->head_info;
     }
@@ -300,6 +300,6 @@ class Standard implements Page\Standard
      */
     public function hasHeadInfo() : bool
     {
-        return $this->head_info instanceof HeadInfo;
+        return $this->head_info instanceof ModeInfo;
     }
 }

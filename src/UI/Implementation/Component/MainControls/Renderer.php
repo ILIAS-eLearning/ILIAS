@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\Data\URI;
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
@@ -37,8 +36,8 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Footer) {
             return $this->renderFooter($component, $default_renderer);
         }
-        if ($component instanceof Component\MainControls\HeadInfo) {
-            return $this->renderHeadInfo($component, $default_renderer);
+        if ($component instanceof Component\MainControls\ModeInfo) {
+            return $this->renderModeInfo($component, $default_renderer);
         }
     }
 
@@ -294,23 +293,20 @@ class Renderer extends AbstractComponentRenderer
 
 
     /**
-     * @param Component\MainControls\HeadInfo $component
+     * @param Component\MainControls\ModeInfo $component
      * @param RendererInterface               $default_renderer
      *
      * @return string
      */
-    protected function renderHeadInfo(Component\MainControls\HeadInfo $component, RendererInterface $default_renderer) : string
+    protected function renderModeInfo(Component\MainControls\ModeInfo $component, RendererInterface $default_renderer) : string
     {
-        $tpl = $this->getTemplate("tpl.head_info.html", true, true);
+        $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
 
         $tpl->setVariable('TITLE', $component->getTitle());
         $tpl->setVariable('DESCRIPTION', $component->getDescription());
-        if ($component->getButton() instanceof Component\Button\Shy) {
+        if ($component->getCloseButton() instanceof Component\Button\Close) {
 
-            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($component->getButton()));
-        }
-        if ($component->isImportant()) {
-            $tpl->touchBlock('interruptive');
+            $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($component->getCloseButton()));
         }
 
         return $tpl->get();
@@ -335,7 +331,7 @@ class Renderer extends AbstractComponentRenderer
             MetaBar::class,
             MainBar::class,
             Footer::class,
-            Component\MainControls\HeadInfo::class
+            Component\MainControls\ModeInfo::class
         );
     }
 }

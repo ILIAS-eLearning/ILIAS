@@ -1,21 +1,11 @@
 .il-head_info {
-  //display: flex;
-
-  //align-items: center;
-  //justify-content: center;
-
-  //height: @il-standard-page-headinfo-height;
-  box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.5);
+  box-shadow: @il-standard-page-modeinfo-shadow-size @il-standard-page-modeinfo-shadow-color;
   background-color: @il-standard-page-headinfo-bg-color;
-  border-top: 1px solid @il-standard-page-border-light-color;
+  border-top: @il-standard-page-modeinfo-border @il-standard-page-border-light-color;
 
   width: 100%;
-  color: white;
-  padding-left: 15px;
-
-  &.interruptive {
-	background-color: #860400;
-  }
+  color: @il-standard-page-modeinfo-text-color;
+  padding-left: @il-logo-margin;
 
   h1, p, span {
 	margin: 0;
@@ -34,12 +24,6 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	margin-right: 20px;
-  }
-
-  .il-head_info-close {
-	button.close {
-	  //color: white;
-	}
   }
 }
 

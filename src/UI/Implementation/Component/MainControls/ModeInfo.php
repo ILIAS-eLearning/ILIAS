@@ -2,16 +2,16 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Button\Close;
 use ILIAS\UI\Component\MainControls;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
- * Class HeadInfo
+ * Class ModeInfo
  *
  * @package ILIAS\UI\Implementation\Component\MainControls
  */
-class HeadInfo implements MainControls\HeadInfo
+class ModeInfo implements MainControls\ModeInfo
 {
 
     use ComponentHelper;
@@ -30,17 +30,19 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @var
      */
-    private $button;
+    private $close_button;
 
 
     /**
-     * HeadInfo constructor.
+     * ModeInfo constructor.
      *
      * @param string $title
+     * @param Close  $close_button
      */
-    public function __construct(string $title)
+    public function __construct(string $title, Close $close_button)
     {
         $this->title = $title;
+        $this->close_button = $close_button;
     }
 
 
@@ -56,7 +58,7 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @inheritDoc
      */
-    public function withDescription(string $info_message) : MainControls\HeadInfo
+    public function withDescription(string $info_message) : MainControls\ModeInfo
     {
         $clone = clone $this;
         $clone->description = $info_message;
@@ -77,41 +79,8 @@ class HeadInfo implements MainControls\HeadInfo
     /**
      * @inheritDoc
      */
-    public function withButton(Shy $shy_button) : \ILIAS\UI\Component\MainControls\HeadInfo
+    public function getCloseButton() : Close
     {
-        $clone = clone $this;
-        $clone->button = $shy_button;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getButton() : Shy
-    {
-        return $this->button;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withImportance(bool $is_important) : \ILIAS\UI\Component\MainControls\HeadInfo
-    {
-        $clone = clone $this;
-        $clone->is_important = $is_important;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function isImportant() : bool
-    {
-        return $this->is_important;
+        return $this->close_button;
     }
 }

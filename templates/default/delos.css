@@ -9297,10 +9297,7 @@ footer {
   border-top: 1px solid #ddd;
   width: 100%;
   color: white;
-  padding-left: 15px;
-}
-.il-head_info.interruptive {
-  background-color: #860400;
+  padding-left: 15px 15px 0;
 }
 .il-head_info h1,
 .il-head_info p,
@@ -15094,12 +15091,12 @@ th.ilSkillEntryHead {
 .ilSkillEvalItem.ilSkillEvalType2 {
   border-color: #21c5d8;
 }
-.ilSkillDescription,
+.ilSkillLevelDescription,
 .ilSkillMaterial,
 .ilSkillSuggResources {
   padding: 5px 10px 5px 15px;
 }
-.ilSkillDescription > .row > div,
+.ilSkillLevelDescription > .row > div,
 .ilSkillMaterial > .row > div,
 .ilSkillSuggResources > .row > div {
   padding-top: 2px;
@@ -15129,6 +15126,9 @@ th.ilSkillEntryHead {
 }
 .ilSkillFilter .ilToolbar select.form-control {
   display: block;
+}
+.ilSkillCategoryDescription {
+  margin: 0px 5px;
 }
 /* Modules/Poll */
 .ilPollDescription {

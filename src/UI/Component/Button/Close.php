@@ -4,9 +4,9 @@
 
 namespace ILIAS\UI\Component\Button;
 
-use \ILIAS\UI\Component\Counter\Counter;
-use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\Data\URI;
 use ILIAS\UI\Component\Clickable;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * This describes a close button.
@@ -16,4 +16,17 @@ use ILIAS\UI\Component\Clickable;
  */
 interface Close extends \ILIAS\UI\Component\Component, JavaScriptBindable, Clickable
 {
+
+    /**
+     * @param URI $uri when you need an URl to be called instead of the JS event
+     *
+     * @return Close
+     */
+    public function withAction(URI $uri) : Close;
+
+
+    /**
+     * @return URI
+     */
+    public function getAction() : ?URI;
 }

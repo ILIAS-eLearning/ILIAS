@@ -3,21 +3,22 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
+use ILIAS\UI\Component\Button\Close;
 use ILIAS\UI\Component\MainControls as IMainControls;
-use ILIAS\UI\Component\MainControls\HeadInfo;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements IMainControls\Factory
 {
+
     /**
      * @var SignalGeneratorInterface
      */
     protected $signal_generator;
-
     /**
      * @var Slate\Factory
      */
     protected $slate_factory;
+
 
     /**
      * @param SignalGeneratorInterface $signal_generator
@@ -30,6 +31,7 @@ class Factory implements IMainControls\Factory
         $this->slate_factory = $slate_factory;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -37,6 +39,7 @@ class Factory implements IMainControls\Factory
     {
         return new MetaBar($this->signal_generator);
     }
+
 
     /**
      * @inheritdoc
@@ -46,6 +49,7 @@ class Factory implements IMainControls\Factory
         return new MainBar($this->signal_generator);
     }
 
+
     /**
      * @inheritdoc
      */
@@ -54,10 +58,11 @@ class Factory implements IMainControls\Factory
         return $this->slate_factory;
     }
 
+
     /**
      * @inheritdoc
      */
-    public function footer(array $links, string $text='') : IMainControls\Footer
+    public function footer(array $links, string $text = '') : IMainControls\Footer
     {
         return new Footer($links, $text);
     }
@@ -66,8 +71,8 @@ class Factory implements IMainControls\Factory
     /**
      * @inheritDoc
      */
-    public function headInfo(string $title) : HeadInfo
+    public function modeInfo(string $title, Close $close_button) : IMainControls\ModeInfo
     {
-        return new \ILIAS\UI\Implementation\Component\MainControls\HeadInfo($title);
+        return new ModeInfo($title, $close_button);
     }
 }
