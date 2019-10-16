@@ -47,8 +47,6 @@ class SlateTest extends ILIAS_UI_TestBase
         $this->assertEquals($name, $slate->getName());
         $this->assertEquals($icon, $slate->getSymbol());
         $this->assertFalse($slate->getEngaged());
-        $this->assertInstanceOf(Signal::class, $slate->getShowSignal());
-        $this->assertInstanceOf(Signal::class, $slate->getToggleSignal());
         return $slate;
     }
 
@@ -59,5 +57,31 @@ class SlateTest extends ILIAS_UI_TestBase
     {
         $slate = $slate->withEngaged(true);
         $this->assertTrue($slate->getEngaged());
+    }
+
+    /**
+     * @depends testConstruction
+     */
+    public function testSignals(Slate $slate)
+    {
+        $signals = [
+            $slate->getToggleSignal(),
+            $slate->getEngageSignal(),
+            $slate->getReplaceSignal()
+        ];
+        foreach ($signals as $signal) {
+            $this->assertInstanceOf(Signal::class, $signal);
+        }
+        return $signals;
+    }
+
+    /**
+     * @depends testSignals
+     */
+    public function testDifferentSignals(array $signals) {
+        $this->assertEquals(
+            $signals,
+            array_unique($signals)
+        );
     }
 }
