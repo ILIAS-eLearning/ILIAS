@@ -122,6 +122,10 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
             return false;
         }
 
+        // bugfix mantis 26271
+        global $DIC;
+        $DIC->upload()->register(new ilCountPDFPagesPreProcessors());
+
         $file = $this->getInput(self::F_FILE);
         $file_temp_name = $file['tmp_name'];
 
