@@ -73,7 +73,7 @@ abstract class Slate implements ISlate\Slate
     {
         $this->toggle_signal = $this->signal_generator->create();
         $this->engage_signal = $this->signal_generator->create();
-        $this->replace_signal = $this->signal_generator->create("ILIAS\\UI\\Implementation\\Component\\ReplaceSignal");
+        $this->replace_signal = $this->signal_generator->create(ILIAS\\UI\\Implementation\\Component\\ReplaceSignal::class);
     }
 
     /**
