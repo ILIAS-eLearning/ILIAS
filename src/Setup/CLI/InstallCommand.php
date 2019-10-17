@@ -57,7 +57,7 @@ class InstallCommand extends Command {
 
 		$goal = $this->agent->getInstallObjective($config);
 		$environment = new ArrayEnvironment([
-			Environment::RESOURCE_CONFIRMATION_REQUESTER => $io,
+			Environment::RESOURCE_ADMIN_INTERACTION => $io,
 			// TODO: This needs to be implemented correctly...
 			Environment::RESOURCE_ACHIEVEMENT_TRACKER => new class implements AchievementTracker {
 				public function trackAchievementOf(Objective $objective) : void {}
