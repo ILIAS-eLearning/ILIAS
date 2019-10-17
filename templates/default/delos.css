@@ -7981,6 +7981,85 @@ ul.breadcrumb li:hover {
   width: 50%;
   float: left;
 }
+.il-input-file .dz-upload {
+  height: 4px;
+  background-color: #4c6586;
+}
+.il-input-file .il-input-file-dropzone {
+  background: white;
+  border: 1px dashed #9C9C9C;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  margin-bottom: 10px;
+  padding: 5px 5px 5px 12px;
+  min-height: 25px;
+}
+.il-input-file .il-input-file-dropzone.dz-max-files-reached {
+  background-color: #F4F4F4;
+  border-color: #F4F4F4;
+}
+.il-input-file .il-input-file-dropzone.dz-drag-hover {
+  border: 1px dashed #606060;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+  background-color: #FFF9BC;
+}
+.il-input-file .il-input-file-fileinfo {
+  padding: 5px 5px 5px 12px;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+  -webkit-justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
+  -webkit-align-content: flex-start;
+  -ms-flex-line-pack: start;
+  align-content: flex-start;
+  -webkit-align-items: flex-start;
+  -ms-flex-align: start;
+  align-items: flex-start;
+}
+.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-title {
+  -webkit-order: 1;
+  -ms-flex-order: 1;
+  order: 1;
+  -webkit-flex: 3 0 auto;
+  -ms-flex: 3 0 auto;
+  flex: 3 0 auto;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+}
+.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-size {
+  -webkit-order: 2;
+  -ms-flex-order: 2;
+  order: 2;
+  -webkit-flex: 0 0 50px;
+  -ms-flex: 0 0 50px;
+  flex: 0 0 50px;
+  -webkit-align-self: flex-start;
+  -ms-flex-item-align: start;
+  align-self: flex-start;
+}
+.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-close {
+  -webkit-order: 3;
+  -ms-flex-order: 3;
+  order: 3;
+  -webkit-flex: 0 1 20px;
+  -ms-flex: 0 1 20px;
+  flex: 0 1 20px;
+  -webkit-align-self: auto;
+  -ms-flex-item-align: auto;
+  align-self: auto;
+}
 .il-table-presentation-viewcontrols {
   display: flex;
   flex-wrap: wrap;
@@ -15033,12 +15112,12 @@ th.ilSkillEntryHead {
 .ilSkillEvalItem.ilSkillEvalType2 {
   border-color: #21c5d8;
 }
-.ilSkillDescription,
+.ilSkillLevelDescription,
 .ilSkillMaterial,
 .ilSkillSuggResources {
   padding: 5px 10px 5px 15px;
 }
-.ilSkillDescription > .row > div,
+.ilSkillLevelDescription > .row > div,
 .ilSkillMaterial > .row > div,
 .ilSkillSuggResources > .row > div {
   padding-top: 2px;
@@ -15068,6 +15147,9 @@ th.ilSkillEntryHead {
 }
 .ilSkillFilter .ilToolbar select.form-control {
   display: block;
+}
+.ilSkillCategoryDescription {
+  margin: 0px 5px;
 }
 /* Modules/Poll */
 .ilPollDescription {

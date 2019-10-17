@@ -82,6 +82,9 @@ class Renderer extends AbstractComponentRenderer
                 }
             );
             $input_tpl = $this->getTemplate("tpl.file.html", true, true);
+            $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy("SELECT", "#")));
+
+
         } elseif ($component instanceof Select) {
             $input_tpl = $this->getTemplate("tpl.select.html", true, true);
         } elseif ($component instanceof Component\Input\Field\Textarea) {

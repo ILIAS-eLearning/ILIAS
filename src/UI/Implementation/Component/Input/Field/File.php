@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -25,7 +26,7 @@ class File extends Input implements C\Input\Field\File
      */
     protected function getConstraintForRequirement()
     {
-        return null; // TODO
+        return $this->refinery->string();
     }
 
 
@@ -67,5 +68,14 @@ class File extends Input implements C\Input\Field\File
     public function getMaxFileFize() : int
     {
         return $this->max_file_size;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withInput(InputData $input)
+    {
+        return parent::withInput($input);
     }
 }
