@@ -3,6 +3,7 @@
 
 namespace ILIAS\Setup\CLI;
 
+use ILIAS\Setup\UnachievableException;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\AgentCollection;
 use ILIAS\Setup\AchievementTracker;
@@ -75,9 +76,14 @@ class InstallCommand extends Command {
 		while($goals->valid()) {
 			$current = $goals->current();
 			$io->startObjective($current->getLabel(), $current->isNotable());
-			$environment = $current->achieve($environment);
-			$io->finishedLastObjective($current->getLabel(), $current->isNotable());
-			$goals->setEnvironment($environment);
+			try {
+				$environment = $current->achieve($environment);
+				$io->finishedLastObjective($current->getLabel(), $current->isNotable());
+				$goals->setEnvironment($environment);
+			}
+			catch (UnachievableException $e) {
+				$io->failedLastObjective($current->getLabel());
+			}
 			$goals->next();
 		}
 	}
