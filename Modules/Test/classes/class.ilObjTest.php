@@ -7634,19 +7634,15 @@ function getAnswerFeedbackPoints()
 
 				$sourcePoolDefinitionList->loadDefinitions();
 
-				$num = $sourcePoolDefinitionList->getQuestionAmount();
+				return $sourcePoolDefinitionList->getQuestionAmount();
 			}
-			else
-			{
-				$num = $questionSetConfig->getQuestionAmountPerTest();
-			}
+
+			return $questionSetConfig->getQuestionAmountPerTest();
 		}
-		else
-		{
-			$num = count($this->questions);
-		}
-		
-		return $num;
+
+        /* @var ilTestFixedQuestionSetConfig $config */
+        $config = $this->getQuestionSetConfig();
+		return $config->getTestQuestionList()->getNumQuestions();
 	}
 
 /**
