@@ -53,10 +53,7 @@ class ObjectiveIterator implements \Iterator {
 		$this->rewind();
 	}
 
-	/**
-	 * @return void
-	 */
-	public function setEnvironment(Environment $environment) {
+	public function setEnvironment(Environment $environment) : void {
 		$this->environment = $environment;
 	}
 
