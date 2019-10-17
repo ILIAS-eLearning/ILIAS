@@ -1068,11 +1068,6 @@ class ilTestTabsManager
 	
 	public function needsMySolutionsSubTab()
 	{
-		if( !$this->needsMyResultsSubTab() )
-		{
-			return false;
-		}
-		
 		return $this->getTestOBJ()->canShowSolutionPrintview($this->getTestSession()->getUserId());
 	}
 	
