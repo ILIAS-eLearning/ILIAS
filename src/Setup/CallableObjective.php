@@ -7,9 +7,17 @@ namespace ILIAS\Setup;
 use ILIAS\UI;
 
 /**
- * A objective collection is a objective that is achieved once all subobjectives are achieved.
+ * A callable objective wraps a callable into an objective. 
+ *
+ * The callable receives the environment as parameter. It may return an updated
+ * version of the environment, other results will be discarded.
  */
-class ObjectiveCollection implements Objective {
+class CallableObjective implements Objective {
+	/**
+	 * @var callable
+	 */
+	protected $callable; 
+
 	/**
 	 * @var string 
 	 */
@@ -23,19 +31,13 @@ class ObjectiveCollection implements Objective {
 	/**
 	 * @var	Objective[]
 	 */
-	protected $objectives;
+	protected $preconditions;
 
-	public function __construct(string $label, bool $is_notable, Objective ...$objectives) {
+	public function __construct(callable $callable, string $label, bool $is_notable, Objective ...$preconditions) {
+		$this->callable = $callable;
 		$this->label = $label;
 		$this->is_notable = $is_notable;
-		$this->objectives = $objectives;
-	}
-
-	/**
-	 * @return Objective[]
-	 */
-	public function getObjectives() : array {
-		return $this->objectives;
+		$this->preconditions = $preconditions;
 	}
 
 	/**
@@ -44,14 +46,8 @@ class ObjectiveCollection implements Objective {
 	public function getHash() : string {
 		return hash(
 			"sha256",
-			get_class($this).
-			implode(
-				array_map(
-					function($g) { return $g->getHash(); },
-					$this->objectives
-				)
-			)
-		); 
+			spl_object_hash($this)
+		);
 	}
 
 	/**
@@ -72,13 +68,17 @@ class ObjectiveCollection implements Objective {
 	 * @inheritdocs
 	 */
 	public function getPreconditions(Environment $environment) : array {
-		return $this->objectives;
+		return $this->preconditions;
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function achieve(Environment $environment) : Environment {
+		$res = call_user_func($this->callable, $environment);
+		if ($res instanceof Environment) {
+			return $res;
+		}
 		return $environment;
 	}
 }
