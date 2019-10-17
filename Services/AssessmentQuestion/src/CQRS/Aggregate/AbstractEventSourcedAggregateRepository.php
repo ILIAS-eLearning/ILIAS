@@ -29,6 +29,10 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 	 */
 	private $has_cache = false;
 
+	/**
+	 * @var array
+	 */
+	private $request_cache = [];
 
 	protected function __construct() {
 		if (self::$cache === null) {
@@ -45,6 +49,8 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 		$this->getEventStore()->commit($events);
 		$aggregate->clearRecordedEvents();
 
+		$this->request_cache[$aggregate->getAggregateId()->getId()] = $aggregate;
+		
 		if ($this->has_cache) {
 			self::$cache->set($aggregate->getAggregateId()->getId(), $aggregate);
 		}
@@ -54,13 +60,17 @@ abstract class AbstractEventSourcedAggregateRepository implements AggregateRepos
 
 
 	public function getAggregateRootById(DomainObjectId $aggregate_id) : AggregateRoot {
-		if (false && $this->has_cache) {
-			return $this->getFromCache($aggregate_id);
-		} else {
-			$this->id = $aggregate_id;
-
-			return $this->reconstituteAggregate($this->getEventStore()->getAggregateHistoryFor($aggregate_id));
-		}
+	    $id_string = $aggregate_id->getId();
+	    
+	    if (empty($this->request_cache[$id_string])) {
+	        if ($this->has_cache) {
+	            $this->request_cache[$id_string] = $this->getFromCache($aggregate_id);
+	        } else {
+	            $this->request_cache[$id_string] = $this->reconstituteAggregate($this->getEventStore()->getAggregateHistoryFor($aggregate_id));
+	        }
+	    }
+	    
+	    return $this->request_cache[$id_string];
 	}
 
 
