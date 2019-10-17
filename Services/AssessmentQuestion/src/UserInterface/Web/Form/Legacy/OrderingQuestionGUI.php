@@ -31,8 +31,8 @@ class OrderingQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            OrderingEditorConfiguration::readConfig(),
-            OrderingScoringConfiguration::readConfig());
+            OrderingEditor::readConfig(),
+            OrderingScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

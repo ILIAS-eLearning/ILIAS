@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_feedback_button_title#:#Rückmeldung anfordern
 asq#:#asq_label_max_points#:#Maximal erreichbare Punktezahl
 asq#:#asq_kprim_information#:#Der Multiple Choice-Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.
 asq#:#asq_header_upload_file#:#Wählen sie eine Datei zum Hochladen
@@ -99,7 +100,9 @@ asq#:#asq_label_correct_text#:#Korrekter Text
 asq#:#asq_label_max_nr_of_chars#:#Maximale Anzahl von Zeichen
 asq#:#asq_label_upper_bound#:#Obere Schranke
 asq#:#asq_label_lower_bound#:#Untere Schranke
-asq#:#asq_label_is_vertical#:#Vertikales Ordnen
+asq#:#asq_label_is_vertical#:#Richtung der Ordnung
+asq#:#asq_label_vertical#:#Vertikal
+asq#:#asq_label_horicontal#:#Horizontal
 asq#:#asq_label_min_size#:#Minimale Höhe
 asq#:#asq_label_geometry#:#Geometrie
 asq#:#asq_label_text_matching#:#Methode für Textvergleiche

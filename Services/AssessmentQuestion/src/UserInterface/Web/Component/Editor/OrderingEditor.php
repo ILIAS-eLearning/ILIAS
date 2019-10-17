@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
-use ilCheckboxInputGUI;
+use ilSelectInputGUI;
 use ilTemplate;
 
 /**
@@ -21,8 +21,9 @@ use ilTemplate;
 class OrderingEditor extends AbstractEditor {
     const VAR_VERTICAL = "oe_vertical";
     const VAR_MINIMUM_SIZE = "oe_minimum_size";
-    const VAR_GEOMETRY = "oe_geometry";
-
+    const VERTICAL = "vertical";
+    const HORICONTAL = "horicontal";
+    
     /**
      * @var OrderingEditorConfiguration
      */
@@ -65,6 +66,11 @@ class OrderingEditor extends AbstractEditor {
             $tpl->setCurrentBlock('item');
             $tpl->setVariable('OPTION_ID', $item->getOptionId());
             $tpl->setVariable('ITEM_TEXT', $item->getDisplayDefinition()->getText());
+            
+            if (!empty($this->configuration->getMinimumSize())) {
+                $tpl->setVariable('HEIGHT', sprintf(' style="height: %spx" ', $this->configuration->getMinimumSize()));
+            }
+            
             $tpl->parseCurrentBlock();
         }
 
@@ -110,8 +116,11 @@ class OrderingEditor extends AbstractEditor {
         
         $fields = [];
         
-        $is_vertical = new ilCheckboxInputGUI($DIC->language()->txt('asq_label_is_vertical'), self::VAR_VERTICAL);
-        $is_vertical->setValue(true);
+        $is_vertical = new ilSelectInputGUI($DIC->language()->txt('asq_label_is_vertical'), self::VAR_VERTICAL);
+        $is_vertical->setOptions([
+            self::VERTICAL => $DIC->language()->txt('asq_label_vertical'),
+            self::HORICONTAL => $DIC->language()->txt('asq_label_horicontal')
+        ]);
         $fields[self::VAR_VERTICAL] = $is_vertical;
         
         $minimum_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_min_size'), self::VAR_MINIMUM_SIZE);
@@ -119,19 +128,12 @@ class OrderingEditor extends AbstractEditor {
         $minimum_size->setSize(6);
         $fields[self::VAR_MINIMUM_SIZE] = $minimum_size;
         
-        $geometry = new ilNumberInputGUI($DIC->language()->txt('asq_label_geometry'), self::VAR_GEOMETRY);
-        $geometry->setRequired(true);
-        $geometry->setSize(6);
-        $fields[self::VAR_GEOMETRY] = $geometry;
-        
         if ($config !== null) {
-            $is_vertical->setChecked($config->isVertical());
             $minimum_size->setValue($config->getMinimumSize());
-            $geometry->setValue($config->getGeometry());
+            $is_vertical->setValue($config->isVertical() ? self::VERTICAL : self::HORICONTAL);
         }
         else {
-            //TODO sane default? why required?
-            $geometry->setValue(100);
+            $is_vertical->setValue(self::VERTICAL);
         }
         
         return $fields;
@@ -140,9 +142,8 @@ class OrderingEditor extends AbstractEditor {
     public static function readConfig()
     {
         return OrderingEditorConfiguration::create(
-            boolval($_POST[self::VAR_VERTICAL]), 
-            intval($_POST[self::VAR_MINIMUM_SIZE]), 
-            intval($_POST[self::VAR_GEOMETRY]));
+            $_POST[self::VAR_VERTICAL] === self::VERTICAL, 
+            !empty($_POST[self::VAR_MINIMUM_SIZE]) ? intval($_POST[self::VAR_MINIMUM_SIZE]) : null);
     }
     
     /**

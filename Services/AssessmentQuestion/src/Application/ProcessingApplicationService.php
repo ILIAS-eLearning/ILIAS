@@ -96,7 +96,6 @@ class ProcessingApplicationService
     public function getQuestionPresentation(QuestionDto $question_dto, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
     {
         $question_component = $this->getQuestionComponent($question_dto, $question_commands);
-        $question_component->readAnswer();
 
         $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
         $page_gui = ilAsqQuestionPageGUI::getGUI($page);

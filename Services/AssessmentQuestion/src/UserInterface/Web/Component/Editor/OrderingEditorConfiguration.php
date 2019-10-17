@@ -22,23 +22,17 @@ class OrderingEditorConfiguration extends AbstractConfiguration
      */
     protected $vertical;
     /**
-     * @var int
+     * @var ?int
      */
     protected $minimum_size;
-    /**
-     * @var int
-     */
-    protected $geometry;
     
     public static function create(
         bool $vertical, 
-        int $minimum_size, 
-        int $geometry) : OrderingEditorConfiguration
+        ?int $minimum_size) : OrderingEditorConfiguration
     {
         $object = new OrderingEditorConfiguration();
         $object->vertical = $vertical;
         $object->minimum_size = $minimum_size;
-        $object->geometry = $geometry;
         return $object;
     }
     
@@ -58,20 +52,11 @@ class OrderingEditorConfiguration extends AbstractConfiguration
         return $this->minimum_size;
     }
 
-    /**
-     * @return int
-     */
-    public function getGeometry()
-    {
-        return $this->geometry;
-    }
-
     public function equals(AbstractValueObject $other): bool
     {
         /** @var OrderingEditorConfiguration $other */
         return get_class($this) === get_class($other) &&
                $this->isVertical() === $other->isVertical() &&
-               $this->getMinimumSize() === $other->getMinimumSize() &&
-               $this->getGeometry() === $other->getGeometry();
+               $this->getMinimumSize() === $other->getMinimumSize();
     }
 }
