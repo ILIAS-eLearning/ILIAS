@@ -4,7 +4,7 @@
 
 namespace ILIAS\Setup\CLI;
 
-use ILIAS\Setup\ConfirmationRequester;
+use ILIAS\Setup\AdminInteraction;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -13,7 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  * Wrapper around symfonies input and output facilities to provide just the
  * functionality required for the ILIAS-setup.
  */
-class IOWrapper implements ConfirmationRequester {
+class IOWrapper implements AdminInteraction {
 	const LABEL_WIDTH = 75;
 	const ELLIPSIS = "...";
 
@@ -53,6 +53,20 @@ class IOWrapper implements ConfirmationRequester {
 		$this->style = new SymfonyStyle($in, $out);
 	}
 
+	// Implementation of AdminInteraction
+
+	public function inform(string $message) : void {
+		$this->outputInObjective();
+		$this->style->note($message);
+	}
+
+	public function confirmOrDeny(string $message) : bool {
+		$this->outputInObjective();
+		return $this->style->confirm($message, false);
+	}
+
+	// For CLI-Setup
+
 	public function startObjective(string $label, bool $is_notable) {
 		$this->last_objective_was_notable = $is_notable;
 		$this->last_objective_label = $label;
@@ -70,11 +84,6 @@ class IOWrapper implements ConfirmationRequester {
 		if ($this->showLastObjectiveLabel()) {
 			$this->style->write("[<fg=green>OK</>]\n");
 		}
-	}
-
-	public function confirmOrDeny(string $message) : bool {
-		$this->outputInObjective();
-		return $this->style->confirm($message, false);
 	}
 
 	protected function outputInObjective() : void {

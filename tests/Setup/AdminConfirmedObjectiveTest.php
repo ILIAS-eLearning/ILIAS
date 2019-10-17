@@ -38,17 +38,17 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 
 	public function testAlreadyAchieved() {
 		$env = $this->createMock(Setup\Environment::class);
-		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$admin_interaction = $this->createMock(Setup\AdminInteraction::class);
 		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
 		$env
 			->method("getResource")
 			->will($this->returnValueMap([
-				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
 				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
 			]));
 
-		$confirmation_requester
+		$admin_interaction
 			->expects($this->never())
 			->method("confirmOrDeny");
 
@@ -68,17 +68,17 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 
 	public function testAchieveWithConfirmation() {
 		$env = $this->createMock(Setup\Environment::class);
-		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$admin_interaction = $this->createMock(Setup\AdminInteraction::class);
 		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
 		$env
 			->method("getResource")
 			->will($this->returnValueMap([
-				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
 				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
 			]));
 
-		$confirmation_requester
+		$admin_interaction
 			->expects($this->once())
 			->method("confirmOrDeny")
 			->with($this->message)
@@ -103,17 +103,17 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 		$this->expectException(Setup\UnachievableException::class);
 
 		$env = $this->createMock(Setup\Environment::class);
-		$confirmation_requester = $this->createMock(Setup\ConfirmationRequester::class);
+		$admin_interaction = $this->createMock(Setup\AdminInteraction::class);
 		$achievement_tracker = $this->createMock(Setup\AchievementTracker::class);
 
 		$env
 			->method("getResource")
 			->will($this->returnValueMap([
-				[Setup\Environment::RESOURCE_CONFIRMATION_REQUESTER, $confirmation_requester],
+				[Setup\Environment::RESOURCE_ADMIN_INTERACTION, $admin_interaction],
 				[Setup\Environment::RESOURCE_ACHIEVEMENT_TRACKER, $achievement_tracker]
 			]));
 
-		$confirmation_requester
+		$admin_interaction
 			->expects($this->once())
 			->method("confirmOrDeny")
 			->with($this->message)

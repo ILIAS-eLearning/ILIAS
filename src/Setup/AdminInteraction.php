@@ -5,8 +5,10 @@
 namespace ILIAS\Setup;
 
 /**
- * Prompts a user to confirm or deny a certain message.
+ * This defines ways in which objectives may interact with admins during the
+ * setup.
  */
-interface ConfirmationRequester {
+interface AdminInteraction {
+	public function inform(string $message) : void;
 	public function confirmOrDeny(string $message) : bool;
 }

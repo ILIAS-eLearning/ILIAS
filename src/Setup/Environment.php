@@ -12,7 +12,7 @@ interface Environment {
 	// We define some resources that will definitely be requried. We allow for
 	// new identifiers, though, to be open for extensions and the future.
 	const RESOURCE_DATABASE = "resource_database";
-	const RESOURCE_CONFIRMATION_REQUESTER = "resource_confirmation_requester";
+	const RESOURCE_ADMIN_INTERACTION = "resource_admin_interaction";
 	const RESOURCE_ACHIEVEMENT_TRACKER = "resource_achievement_tracker";
 
 	/**
