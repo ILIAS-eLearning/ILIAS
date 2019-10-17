@@ -8,7 +8,8 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  * Interface Standard
  * @package ILIAS\UI\Component\Chart\ProgressMeter
  */
-interface Standard extends ProgressMeter {
+interface Standard extends ProgressMeter
+{
 
     /**
      * Get comparison value
@@ -54,6 +55,4 @@ interface Standard extends ProgressMeter {
      * @return string|null
      */
     public function getRequiredText();
-
-
 }

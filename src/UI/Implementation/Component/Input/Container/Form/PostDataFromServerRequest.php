@@ -12,39 +12,43 @@ use Psr\Http\Message\ServerRequestInterface;
  * Implements interaction of input element with post data from
  * psr-7 server request.
  */
-class PostDataFromServerRequest implements PostData {
+class PostDataFromServerRequest implements PostData
+{
 
-	/**
-	 * @var    array
-	 */
-	protected $parsed_body;
-
-
-	public function __construct(ServerRequestInterface $request) {
-		$this->parsed_body = $request->getParsedBody();
-	}
+    /**
+     * @var    array
+     */
+    protected $parsed_body;
 
 
-	/**
-	 * @inheritdocs
-	 */
-	public function get($name) {
-		if (!isset($this->parsed_body[$name])) {
-			throw new \LogicException("'$name' is not contained in posted data.");
-		}
-
-		return $this->parsed_body[$name];
-	}
+    public function __construct(ServerRequestInterface $request)
+    {
+        $this->parsed_body = $request->getParsedBody();
+    }
 
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getOr($name, $default) {
-		if (!isset($this->parsed_body[$name])) {
-			return $default;
-		}
+    /**
+     * @inheritdocs
+     */
+    public function get($name)
+    {
+        if (!isset($this->parsed_body[$name])) {
+            throw new \LogicException("'$name' is not contained in posted data.");
+        }
 
-		return $this->parsed_body[$name];
-	}
+        return $this->parsed_body[$name];
+    }
+
+
+    /**
+     * @inheritdocs
+     */
+    public function getOr($name, $default)
+    {
+        if (!isset($this->parsed_body[$name])) {
+            return $default;
+        }
+
+        return $this->parsed_body[$name];
+    }
 }

@@ -12,40 +12,41 @@ use ILIAS\Data\Result;
  * Describes the interface of inputs that is used for internal
  * processing of data from the client.
  */
-interface InputInternal {
+interface InputInternal
+{
 
-	/**
-	 * The name of the input as used in HTML.
-	 *
-	 * @return string
-	 */
-	public function getName();
-
-
-	/**
-	 * Get an input like this one, with a different name.
-	 *
-	 * @param    NameSource $source
-	 *
-	 * @return    Input
-	 */
-	public function withNameFrom(NameSource $source);
+    /**
+     * The name of the input as used in HTML.
+     *
+     * @return string
+     */
+    public function getName();
 
 
-	/**
-	 * Get an input like this with input from post data.
-	 *
-	 * @param    PostData $input
-	 *
-	 * @return    Input
-	 */
-	public function withInput(PostData $input);
+    /**
+     * Get an input like this one, with a different name.
+     *
+     * @param    NameSource $source
+     *
+     * @return    Input
+     */
+    public function withNameFrom(NameSource $source);
 
 
-	/**
-	 * Get the current content of the input.
-	 *
-	 * @return    Result
-	 */
-	public function getContent();
+    /**
+     * Get an input like this with input from post data.
+     *
+     * @param    PostData $input
+     *
+     * @return    Input
+     */
+    public function withInput(PostData $input);
+
+
+    /**
+     * Get the current content of the input.
+     *
+     * @return    Result
+     */
+    public function getContent();
 }

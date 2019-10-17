@@ -13,78 +13,87 @@ use ILIAS\UI\Implementation\Component\Triggerer;
 /**
  * This implements commonalities between different types of Dropdowns.
  */
-abstract class Dropdown implements C\Dropdown\Dropdown {
-	use ComponentHelper;
-	use JavaScriptBindable;
-	use Triggerer;
+abstract class Dropdown implements C\Dropdown\Dropdown
+{
+    use ComponentHelper;
+    use JavaScriptBindable;
+    use Triggerer;
 
-	/**
-	 * @var string
-	 */
-	protected $label;
+    /**
+     * @var string
+     */
+    protected $label;
 
-	/**
-	 * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
-	 */
-	protected $items;
+    /**
+     * @var array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal>
+     */
+    protected $items;
 
-	/**
-	 * Dropdown constructor.
-	 * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
-	 */
-	public function __construct($items) {
-		$this->items = $items;
-	}
+    /**
+     * Dropdown constructor.
+     * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal> $items
+     */
+    public function __construct($items)
+    {
+        $this->items = $items;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel() {
-		return $this->label;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getItems() {
-		return $this->items;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withLabel($label) {
-		$this->checkStringArg("label", $label);
-		$clone = clone $this;
-		$clone->label = $label;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withLabel($label)
+    {
+        $this->checkStringArg("label", $label);
+        $clone = clone $this;
+        $clone->label = $label;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withOnClick(Signal $signal) {
-		return $this->withTriggeredSignal($signal, 'click');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withOnClick(Signal $signal)
+    {
+        return $this->withTriggeredSignal($signal, 'click');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOnClick(Signal $signal) {
-		return $this->appendTriggeredSignal($signal, 'click');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function appendOnClick(Signal $signal)
+    {
+        return $this->appendTriggeredSignal($signal, 'click');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withOnHover(Signal $signal) {
-		return $this->withTriggeredSignal($signal, 'hover');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withOnHover(Signal $signal)
+    {
+        return $this->withTriggeredSignal($signal, 'hover');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOnHover(Signal $signal) {
-		return $this->appendTriggeredSignal($signal, 'hover');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function appendOnHover(Signal $signal)
+    {
+        return $this->appendTriggeredSignal($signal, 'hover');
+    }
 }

@@ -1,5 +1,6 @@
 <?php
-function base() {
+function base()
+{
     global $DIC;
     $f = $DIC->ui()->factory();
     $df = new \ILIAS\Data\Factory;
@@ -28,9 +29,9 @@ function base() {
 
     $buffer[] = '<hr>with additional class(es):<br>';
     $buffer[] = '<style type="text/css">'
-                .'  .demo_class_for_tags_color{background-color: #ff0000 !important; color: contrast(#ff0000) !important;}'
-                .'  .demo_class_for_tags_bold{font-weight: bold;}'
-                .'</style>';
+                . '  .demo_class_for_tags_color{background-color: #ff0000 !important; color: contrast(#ff0000) !important;}'
+                . '  .demo_class_for_tags_bold{font-weight: bold;}'
+                . '</style>';
     $buffer[] = $renderer->render(
         $tag->withClasses(array('demo_class_for_tags_color'))
     );

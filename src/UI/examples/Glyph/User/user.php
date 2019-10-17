@@ -1,8 +1,9 @@
 <?php
-function user() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function user()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->user("#"));
+    return $renderer->render($f->glyph()->user("#"));
 }

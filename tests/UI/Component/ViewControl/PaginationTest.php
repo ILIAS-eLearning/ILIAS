@@ -2,7 +2,7 @@
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
-require_once(__DIR__."/../../Base.php");
+require_once(__DIR__ . "/../../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation\Component as IC;
@@ -11,86 +11,92 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 /**
  * Test on Pagination view control.
  */
-class PaginationTest extends ILIAS_UI_TestBase {
-	public function getUIFactory() {
+class PaginationTest extends ILIAS_UI_TestBase
+{
+    public function getUIFactory()
+    {
         $sg = new SignalGenerator();
-		return new \ILIAS\UI\Implementation\Factory(
-			$this->createMock(C\Counter\Factory::class),
-			new IC\Glyph\Factory($sg),
-			new IC\Button\Factory($sg),
-			$this->createMock(C\Listing\Factory::class),
-			$this->createMock(C\Image\Factory::class),
-			$this->createMock(C\Panel\Factory::class),
-			$this->createMock(C\Modal\Factory::class),
-			$this->createMock(C\Dropzone\Factory::class),
-			$this->createMock(C\Popover\Factory::class),
-			$this->createMock(C\Divider\Factory::class),
-			$this->createMock(C\Link\Factory::class),
-			new IC\Dropdown\Factory(),
-			$this->createMock(C\Item\Factory::class),
-			$this->createMock(C\Icon\Factory::class),
-			$this->createMock(C\ViewControl\Factory::class),
-			$this->createMock(C\Chart\Factory::class),
-			$this->createMock(C\Input\Factory::class),
-			$this->createMock(C\Table\Factory::class),
-			$this->createMock(C\MessageBox\Factory::class),
-			$this->createMock(C\Card\Factory::class)
-		);
-	}
+        return new \ILIAS\UI\Implementation\Factory(
+            $this->createMock(C\Counter\Factory::class),
+            new IC\Glyph\Factory($sg),
+            new IC\Button\Factory($sg),
+            $this->createMock(C\Listing\Factory::class),
+            $this->createMock(C\Image\Factory::class),
+            $this->createMock(C\Panel\Factory::class),
+            $this->createMock(C\Modal\Factory::class),
+            $this->createMock(C\Dropzone\Factory::class),
+            $this->createMock(C\Popover\Factory::class),
+            $this->createMock(C\Divider\Factory::class),
+            $this->createMock(C\Link\Factory::class),
+            new IC\Dropdown\Factory(),
+            $this->createMock(C\Item\Factory::class),
+            $this->createMock(C\Icon\Factory::class),
+            $this->createMock(C\ViewControl\Factory::class),
+            $this->createMock(C\Chart\Factory::class),
+            $this->createMock(C\Input\Factory::class),
+            $this->createMock(C\Table\Factory::class),
+            $this->createMock(C\MessageBox\Factory::class),
+            $this->createMock(C\Card\Factory::class)
+        );
+    }
 
-	private function getFactory() {
+    private function getFactory()
+    {
         $sg = new SignalGenerator();
-		return new \ILIAS\UI\Implementation\Component\ViewControl\Factory($sg);
-	}
+        return new \ILIAS\UI\Implementation\Component\ViewControl\Factory($sg);
+    }
 
-	public function testConstruction() {
-		$f = $this->getFactory();
-		$pagination = $f->pagination();
-		$this->assertInstanceOf(
-			"ILIAS\\UI\\Component\\ViewControl\\Pagination",
-			$pagination
-		);
-		$this->assertInstanceOf(
-			"ILIAS\\UI\\Component\\Signal",
-			$pagination->getInternalSignal()
-		);
-	}
+    public function testConstruction()
+    {
+        $f = $this->getFactory();
+        $pagination = $f->pagination();
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\ViewControl\\Pagination",
+            $pagination
+        );
+        $this->assertInstanceOf(
+            "ILIAS\\UI\\Component\\Signal",
+            $pagination->getInternalSignal()
+        );
+    }
 
-	public function testAttributes() {
-		$total_entries = 111;
-		$page_size = 100;
-		$current_page = 1;
-		//$select_signal;
-		$target_url = 'http://testurl';
-		$parameter_name = "param_name";
-		$max_page_options = 10;
+    public function testAttributes()
+    {
+        $total_entries = 111;
+        $page_size = 100;
+        $current_page = 1;
+        //$select_signal;
+        $target_url = 'http://testurl';
+        $parameter_name = "param_name";
+        $max_page_options = 10;
 
-		$f = $this->getFactory();
-		$p = $f->pagination()
-			->withTargetURL($target_url, $parameter_name)
-			->withTotalEntries($total_entries)
-			->withPageSize($page_size)
-			->withCurrentPage($current_page)
-			->withMaxPaginationButtons($max_page_options)
-			;
+        $f = $this->getFactory();
+        $p = $f->pagination()
+            ->withTargetURL($target_url, $parameter_name)
+            ->withTotalEntries($total_entries)
+            ->withPageSize($page_size)
+            ->withCurrentPage($current_page)
+            ->withMaxPaginationButtons($max_page_options)
+            ;
 
-		$this->assertEquals($target_url, $p->getTargetURL());
-		$this->assertEquals($parameter_name, $p->getParameterName());
-		$this->assertEquals($page_size, $p->getPageSize());
-		$this->assertEquals($current_page, $p->getCurrentPage());
-		$this->assertEquals($max_page_options, $p->getMaxPaginationButtons());
-		$this->assertEquals(2, $p->getNumberOfPages());
-		$this->assertEquals(11, $p->getPageLength());
-	}
+        $this->assertEquals($target_url, $p->getTargetURL());
+        $this->assertEquals($parameter_name, $p->getParameterName());
+        $this->assertEquals($page_size, $p->getPageSize());
+        $this->assertEquals($current_page, $p->getCurrentPage());
+        $this->assertEquals($max_page_options, $p->getMaxPaginationButtons());
+        $this->assertEquals(2, $p->getNumberOfPages());
+        $this->assertEquals(11, $p->getPageLength());
+    }
 
-	public function testRenderUnlimited() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(2)
-			->withPageSize(1);
+    public function testRenderUnlimited()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(2)
+            ->withPageSize(1);
 
-		//two entries, first one inactive
-		//browse-left disabled
-		$expected_html = <<<EOT
+        //two entries, first one inactive
+        //browse-left disabled
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
@@ -109,19 +115,20 @@ class PaginationTest extends ILIAS_UI_TestBase {
 </div>
 EOT;
 
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 
-	public function testRenderWithCurrentPage() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(2)
-			->withPageSize(1)
-			->withCurrentPage(1);
+    public function testRenderWithCurrentPage()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(2)
+            ->withPageSize(1)
+            ->withCurrentPage(1);
 
-		//two entries, second one inactive
-		//browse-right disabled
-		$expected_html = <<<EOT
+        //two entries, second one inactive
+        //browse-right disabled
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph" href="?pagination_offset=0" aria-label="back">
@@ -140,20 +147,21 @@ EOT;
 </div>
 EOT;
 
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 
-	public function testRenderLimited() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(3)
-			->withPageSize(1)
-			->withMaxPaginationButtons(1);
+    public function testRenderLimited()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(3)
+            ->withPageSize(1)
+            ->withMaxPaginationButtons(1);
 
-		//one entry,
-		//browse-left disabled
-		//boundary-button right
-		$expected_html = <<<EOT
+        //one entry,
+        //browse-left disabled
+        //boundary-button right
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
@@ -174,21 +182,22 @@ EOT;
 	</span>
 </div>
 EOT;
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 
-	public function testRenderLimitedWithCurrentPage() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(3)
-			->withPageSize(1)
-			->withMaxPaginationButtons(1)
-			->withCurrentPage(1);
+    public function testRenderLimitedWithCurrentPage()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(3)
+            ->withPageSize(1)
+            ->withMaxPaginationButtons(1)
+            ->withCurrentPage(1);
 
-		//one entry,
-		//both rockers enabled
-		//both boundary-buttons
-		$expected_html = <<<EOT
+        //one entry,
+        //both rockers enabled
+        //both boundary-buttons
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph" href="?pagination_offset=0" aria-label="back">
@@ -213,21 +222,22 @@ EOT;
 	</span>
 </div>
 EOT;
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 
-	public function testRenderLimitedWithCurrentPage2() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(3)
-			->withPageSize(1)
-			->withMaxPaginationButtons(1)
-			->withCurrentPage(2);
+    public function testRenderLimitedWithCurrentPage2()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(3)
+            ->withPageSize(1)
+            ->withMaxPaginationButtons(1)
+            ->withCurrentPage(2);
 
-		//one entry,
-		//browse-right disabled
-		//boundary-button left only
-		$expected_html = <<<EOT
+        //one entry,
+        //browse-right disabled
+        //boundary-button left only
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph" href="?pagination_offset=1" aria-label="back">
@@ -247,19 +257,20 @@ EOT;
 	</span>
 </div>
 EOT;
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 
 
 
-	public function testRenderDropdown() {
-		$p = $this->getFactory()->pagination()
-			->withTotalEntries(3)
-			->withPageSize(1)
-			->withDropdownAt(1);
+    public function testRenderDropdown()
+    {
+        $p = $this->getFactory()->pagination()
+            ->withTotalEntries(3)
+            ->withPageSize(1)
+            ->withDropdownAt(1);
 
-		$expected_html = <<<EOT
+        $expected_html = <<<EOT
 <div class="il-viewcontrol-pagination">
 	<span class="browse previous">
 		<a class="glyph disabled" aria-label="back" aria-disabled="true">
@@ -283,7 +294,7 @@ EOT;
 	</span>
 </div>
 EOT;
-		$html = $this->getDefaultRenderer()->render($p);
-		$this->assertHTMLEquals($expected_html, $html);
-	}
+        $html = $this->getDefaultRenderer()->render($p);
+        $this->assertHTMLEquals($expected_html, $html);
+    }
 }

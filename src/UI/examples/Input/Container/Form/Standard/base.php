@@ -3,7 +3,8 @@
  * Example show how to create and render a basic form with one input. This example does
  * not contain any data processing.
  */
-function base() {
+function base()
+{
     //Step 0: Declare dependencies
     global $DIC;
     $ui = $DIC->ui()->factory();
@@ -14,7 +15,7 @@ function base() {
 
     //Step 2: Define some section carrying a title and description with the previously
     //defined input
-    $section1 = $ui->input()->field()->section([$text_input],"Section 1","Description of Section 1");
+    $section1 = $ui->input()->field()->section([$text_input], "Section 1", "Description of Section 1");
 
     //Step 3: Define the form and attach the section.
     $form = $ui->input()->container()->form()->standard("#", [$section1]);

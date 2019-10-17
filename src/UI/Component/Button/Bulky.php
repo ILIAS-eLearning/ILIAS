@@ -6,30 +6,30 @@ namespace ILIAS\UI\Component\Button;
 /**
  * This describes a bulky button.
  */
-interface Bulky extends Button {
+interface Bulky extends Button
+{
 
-	/**
-	 * Get the icon or glyph the button was created with.
-	 *
-	 * @return ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph
-	 */
-	public function getIconOrGlyph();
+    /**
+     * Get the icon or glyph the button was created with.
+     *
+     * @return ILIAS\UI\Component\Icon\Icon | \ILIAS\UI\Component\Glyph\Glyph
+     */
+    public function getIconOrGlyph();
 
-	/**
-	 * The button is stateful (engaged or disengaged).
-	 * Get a copy of Bulky Button with engaged state for $state=true
-	 * and with disengaged state for $state=false.
-	 *
-	 * @param 	bool 	$state
-	 * @return 	Bulky
-	 */
-	public function withEngagedState($state);
+    /**
+     * The button is stateful (engaged or disengaged).
+     * Get a copy of Bulky Button with engaged state for $state=true
+     * and with disengaged state for $state=false.
+     *
+     * @param 	bool 	$state
+     * @return 	Bulky
+     */
+    public function withEngagedState($state);
 
-	/**
-	 * Return whether the button is currently engaged.
-	 *
-	 * @return 	bool
-	 */
-	public function isEngaged();
-
+    /**
+     * Return whether the button is currently engaged.
+     *
+     * @return 	bool
+     */
+    public function isEngaged();
 }

@@ -1,8 +1,9 @@
 <?php
-function apply() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function apply()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->apply("#"));
+    return $renderer->render($f->glyph()->apply("#"));
 }

@@ -1,8 +1,9 @@
 <?php
-function dislike() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function dislike()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->dislike("#"));
+    return $renderer->render($f->glyph()->dislike("#"));
 }

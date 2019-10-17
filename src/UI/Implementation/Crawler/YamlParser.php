@@ -3,11 +3,14 @@
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Crawler;
+
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
+
 /**
  * Parses information from UI components. Source are comments in the factories in YAML format.
  */
-interface YamlParser {
+interface YamlParser
+{
     /**
      * Returns an array of all YAML entries as string of the components in the factories in a given file.
      * @param string $filePath
@@ -49,6 +52,4 @@ interface YamlParser {
      * @return Entry\ComponentEntries
      */
     public function parseEntriesFromString($content);
-
-
 }

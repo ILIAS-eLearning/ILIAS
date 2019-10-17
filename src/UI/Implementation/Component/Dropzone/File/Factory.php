@@ -9,20 +9,22 @@ namespace ILIAS\UI\Implementation\Component\Dropzone\File;
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
-class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory {
+class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function standard($url) {
-		return new Standard($url);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function standard($url)
+    {
+        return new Standard($url);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function wrapper($url, $content) {
-		return new Wrapper($url, $content);
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function wrapper($url, $content)
+    {
+        return new Wrapper($url, $content);
+    }
 }
