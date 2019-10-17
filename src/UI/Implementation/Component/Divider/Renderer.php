@@ -8,42 +8,42 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 
-class Renderer extends AbstractComponentRenderer {
-	/**
-	 * @inheritdoc
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		$this->checkComponent($component);
+class Renderer extends AbstractComponentRenderer
+{
+    /**
+     * @inheritdoc
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        $this->checkComponent($component);
 
-		return $this->renderDivider($component, $default_renderer);
-	}
+        return $this->renderDivider($component, $default_renderer);
+    }
 
-	protected function renderDivider(Component\Divider\Horizontal $component, RendererInterface $default_renderer) {
+    protected function renderDivider(Component\Divider\Horizontal $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.horizontal.html", true, true);
 
-		$tpl = $this->getTemplate("tpl.horizontal.html", true, true);
+        $label = $component->getLabel();
 
-		$label = $component->getLabel();
+        if ($label !== null) {
+            $tpl->setCurrentBlock("label");
+            $tpl->setVariable("LABEL", $label);
+            $tpl->parseCurrentBlock();
+            $tpl->touchBlock("with_label");
+        } else {
+            $tpl->touchBlock("divider");
+        }
 
-		if ($label !== null) {
-			$tpl->setCurrentBlock("label");
-			$tpl->setVariable("LABEL", $label);
-			$tpl->parseCurrentBlock();
-			$tpl->touchBlock("with_label");
-		}
-		else
-		{
-			$tpl->touchBlock("divider");
-		}
+        return $tpl->get();
+    }
 
-		return $tpl->get();
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function getComponentInterfaceName() {
-		return array
-		(Component\Divider\Horizontal::class
-		);
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function getComponentInterfaceName()
+    {
+        return array(Component\Divider\Horizontal::class
+        );
+    }
 }

@@ -10,74 +10,75 @@ use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
- * This describes commonalities between standard and primary buttons. 
+ * This describes commonalities between standard and primary buttons.
  */
-interface Button extends Component, JavaScriptBindable, Clickable, Hoverable {
-	/**
-	 * Get the label on the button.
-	 *
-	 * @return	string
-	 */
-	public function getLabel();
+interface Button extends Component, JavaScriptBindable, Clickable, Hoverable
+{
+    /**
+     * Get the label on the button.
+     *
+     * @return	string
+     */
+    public function getLabel();
 
-	/**
-	 * Get a button like this, but with an additional/replaced label.
-	 *
-	 * @param	string	$label
-	 * @return	Button
-	 */
-	public function withLabel($label);
+    /**
+     * Get a button like this, but with an additional/replaced label.
+     *
+     * @param	string	$label
+     * @return	Button
+     */
+    public function withLabel($label);
 
-	/**
-	 * Get the action of the button
-	 *
-	 * @return	string
-	 */
-	public function getAction();
+    /**
+     * Get the action of the button
+     *
+     * @return	string
+     */
+    public function getAction();
 
-	/**
-	 * Get to know if the button is activated.
-	 *
-	 * @return 	bool
-	 */
-	public function isActive();
+    /**
+     * Get to know if the button is activated.
+     *
+     * @return 	bool
+     */
+    public function isActive();
 
-	/**
-	 * Get a button like this, but action should be unavailable atm.
-	 *
-	 * The button will still have an action afterwards, this might be usefull
-	 * at some point where we want to reactivate the button client side.
-	 *
-	 * @return Button
-	 */
-	public function withUnavailableAction();
+    /**
+     * Get a button like this, but action should be unavailable atm.
+     *
+     * The button will still have an action afterwards, this might be usefull
+     * at some point where we want to reactivate the button client side.
+     *
+     * @return Button
+     */
+    public function withUnavailableAction();
 
-	/**
-	 * Get a button like this, but with an additional/replaced aria-label.
-	 *
-	 * @param	string	$aria_label
-	 * @return	Button
-	 */
-	public function withAriaLabel($aria_label);
+    /**
+     * Get a button like this, but with an additional/replaced aria-label.
+     *
+     * @param	string	$aria_label
+     * @return	Button
+     */
+    public function withAriaLabel($aria_label);
 
-	/**
-	 * Get the aria-label on the button.
-	 *
-	 * @return	string
-	 */
-	public function getAriaLabel();
+    /**
+     * Get the aria-label on the button.
+     *
+     * @return	string
+     */
+    public function getAriaLabel();
 
-	/**
-	 * Get a button like this, but setting the aria-checked value as true
-	 *
-	 * @return Button
-	 */
-	public function withAriaChecked();
+    /**
+     * Get a button like this, but setting the aria-checked value as true
+     *
+     * @return Button
+     */
+    public function withAriaChecked();
 
-	/**
-	 * Get to know if the button has the aria-checked attribute
-	 *
-	 * @return 	bool
-	 */
-	public function isAriaChecked();
+    /**
+     * Get to know if the button has the aria-checked attribute
+     *
+     * @return 	bool
+     */
+    public function isAriaChecked();
 }

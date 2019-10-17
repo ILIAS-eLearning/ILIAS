@@ -10,56 +10,57 @@ namespace ILIAS\UI\Component\Image;
  * Interface Image
  * @package ILIAS\UI\Component\Image
  */
-interface Image extends \ILIAS\UI\Component\Component {
-	/**
-	 * Types of images
-	 */
-	const STANDARD = "standard";
-	const RESPONSIVE = "responsive";
+interface Image extends \ILIAS\UI\Component\Component
+{
+    /**
+     * Types of images
+     */
+    const STANDARD = "standard";
+    const RESPONSIVE = "responsive";
 
-	/**
-	 * Set the source (path) of the image. The complete path to the image has to be provided.
-	 * @param string $source
-	 * @return \ILIAS\UI\Component\Image\Image
-	 */
-	public function withSource($source);
+    /**
+     * Set the source (path) of the image. The complete path to the image has to be provided.
+     * @param string $source
+     * @return \ILIAS\UI\Component\Image\Image
+     */
+    public function withSource($source);
 
-	/**
-	 * Get the source (path) of the image.
-	 * @return string
-	 */
-	public function getSource();
+    /**
+     * Get the source (path) of the image.
+     * @return string
+     */
+    public function getSource();
 
-	/**
-	 * Get the type of the image
-	 * @return string
-	 */
-	public function getType();
+    /**
+     * Get the type of the image
+     * @return string
+     */
+    public function getType();
 
-	/**
-	 * Set the alternative text for screen readers.
-	 * @param string $alt
-	 * @return \ILIAS\UI\Component\Image\Image
-	 */
-	public function withAlt($alt);
+    /**
+     * Set the alternative text for screen readers.
+     * @param string $alt
+     * @return \ILIAS\UI\Component\Image\Image
+     */
+    public function withAlt($alt);
 
 
-	/**
-	 * Get the alternative text for screen readers.
-	 * @return string
-	 */
-	public function getAlt();
+    /**
+     * Get the alternative text for screen readers.
+     * @return string
+     */
+    public function getAlt();
 
-	/**
-	 * Get an image like this with an action
-	 * @param string $url
-	 * @return \ILIAS\UI\Component\Image\Image
-	 */
-	public function withAction($url);
+    /**
+     * Get an image like this with an action
+     * @param string $url
+     * @return \ILIAS\UI\Component\Image\Image
+     */
+    public function withAction($url);
 
-	/**
-	 * Get the action of the image
-	 * @return string|null
-	 */
-	public function getAction();
+    /**
+     * Get the action of the image
+     * @return string|null
+     */
+    public function getAction();
 }
