@@ -11,6 +11,20 @@ interface File extends Input
 {
 
     /**
+     * @param array $mime_types
+     *
+     * @return File
+     */
+    public function withAcceptedMimeTypes(array $mime_types) : File;
+
+
+    /**
+     * @return array
+     */
+    public function getAcceptedMimeTypes() : array;
+
+
+    /**
      * @param int $size_in_bytes
      *
      * @return File
