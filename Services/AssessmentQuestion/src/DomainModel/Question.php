@@ -98,6 +98,8 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
     /**
      * Question constructor.
+     *
+     * @throws \ilAsqException
      */
     public function __construct()
     {
@@ -105,7 +107,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
 
         $this->answers = [];
         $this->answer_options = new AnswerOptions();
-        $this->hints = new QuestionHints();
+        $this->hints = new QuestionHints([]);
 
         /**
          * TODO: I guess this is not the right place.
@@ -340,7 +342,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     /**
      * @return QuestionHints
      */
-    public function getHints() : QuestionHints
+    public function getHints() : ?QuestionHints
     {
         return $this->hints;
     }

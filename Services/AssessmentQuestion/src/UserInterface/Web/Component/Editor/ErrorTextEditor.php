@@ -37,10 +37,10 @@ class ErrorTextEditor extends AbstractEditor {
     private $answer;
     
     public function __construct(QuestionDto $question) {
-        parent::__construct($question);
-        
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
         $this->answer = [];
+        
+        parent::__construct($question);
     }
     
     /**

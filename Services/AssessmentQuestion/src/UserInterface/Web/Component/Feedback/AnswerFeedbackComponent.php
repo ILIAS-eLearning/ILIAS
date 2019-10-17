@@ -2,12 +2,11 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring;
-use ilObjStyleSheet;
 use ilTemplate;
 
 /**
@@ -59,12 +58,12 @@ class AnswerFeedbackComponent
         $tpl->setCurrentBlock('answer_feedback');
 
         if($answer_score_dto->getAnswerFeedbackType() === AnswerScoreDto::ANSWER_FEEDBACK_TYPE_CORRECT) {
-            $answer_feedback = $this->question_dto->getFeedback()->getAnswerCorrectFeedback()->getAnswerFeedback();
+            $answer_feedback = $this->question_dto->getFeedback()->getAnswerCorrectFeedback();
             $answer_feedback_css_class = AnswerScoreDto::CSS_CLASS_FEEDBACK_TYPE_CORRECT;
         }
 
         if($answer_score_dto->getAnswerFeedbackType() === AnswerScoreDto::ANSWER_FEEDBACK_TYPE_INCORRECT) {
-            $answer_feedback = $this->question_dto->getFeedback()->getAnswerWrongFeedback()->getAnswerFeedback();
+            $answer_feedback = $this->question_dto->getFeedback()->getAnswerWrongFeedback();
             $answer_feedback_css_class = AnswerScoreDto::CSS_CLASS_FEEDBACK_TYPE_WRONG;
         }
 

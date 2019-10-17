@@ -40,10 +40,10 @@ class ImageMapEditor extends AbstractEditor {
     private $selected_answers;
     
     public function __construct(QuestionDto $question) {
-        parent::__construct($question);
-        
         $this->selected_answers = [];
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+        
+        parent::__construct($question);
     }
     
     /**

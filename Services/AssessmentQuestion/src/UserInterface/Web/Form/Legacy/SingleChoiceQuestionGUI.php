@@ -49,15 +49,13 @@ class SingleChoiceQuestionGUI extends LegacyFormGUIBase {
 	    }
 	}
 	
-	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : array {
-	    global $DIC;
-	    
+	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : array { 
 	    $definitions = array_merge(ImageAndTextDisplayDefinition::getFields($play),
 	                               MultipleChoiceScoringDefinition::getFields($play));
 	    
 	    $definitions = $this->renameColumn($definitions, 
 	                                       MultipleChoiceScoringDefinition::VAR_MCSD_SELECTED, 
-	                                       $DIC->language()->txt('asq_label_points'));
+	                                       $this->lang->txt('asq_label_points'));
 	    
 	    $definitions = $this->hideColumn($definitions, MultipleChoiceScoringDefinition::VAR_MCSD_UNSELECTED, 0);
 	    

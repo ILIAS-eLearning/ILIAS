@@ -47,14 +47,14 @@ class MultipleChoiceEditor extends AbstractEditor {
 	const VAR_MC_POSTNAME = 'multiple_choice_post_';
 
 	public function __construct(QuestionDto $question) {
-		parent::__construct($question);
-
 		$this->answer_options = $question->getAnswerOptions()->getOptions();
 		$this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
 		
 		if ($this->configuration->isShuffleAnswers()) {
 		    shuffle($this->answer_options);
 		}
+		
+		parent::__construct($question);
 	}
 
 

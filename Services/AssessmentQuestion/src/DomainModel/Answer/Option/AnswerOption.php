@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use JsonSerializable;
 use stdClass;
 
@@ -41,8 +42,8 @@ class AnswerOption implements JsonSerializable {
 
 	public function __construct(int $id, 
 	                            ?AnswerDefinition $display_definition = null, 
-	                            ?AnswerDefinition $scoring_definition = null, 
-	                            ?AnswerOptionFeedback $answer_option_feedback = null)
+	                            ?AnswerDefinition $scoring_definition = null,
+                                ?AnswerOptionFeedback $answer_option_feedback = null)
 	{
 		$this->option_id = $id;
 		$this->display_definition = $display_definition;
@@ -51,12 +52,26 @@ class AnswerOption implements JsonSerializable {
 	}
 
 
+    /**
+     * @param AnswerOption         $answer_option
+     * @param AnswerOptionFeedback $answer_option_feedback
+     *
+     * @return AnswerOption
+     */
+    public static function createWithNewAnswerOptionFeedback(AnswerOption $answer_option, AnswerOptionFeedback $answer_option_feedback) {
+        /** @var AnswerOption $answer_option */
+        $answer_option = new AnswerOption($answer_option->getOptionId(),$answer_option->getDisplayDefinition(), $answer_option->getScoringDefinition(),$answer_option_feedback);
+        return $answer_option;
+    }
+
+
 	/**
 	 * @return string
 	 */
 	public function getOptionId(): string {
 		return $this->option_id;
 	}
+
 
 
 	/**
@@ -76,9 +91,9 @@ class AnswerOption implements JsonSerializable {
 
 
     /**
-     * @return mixed
+     * @return AnswerOptionFeedback
      */
-    public function getAnswerOptionFeedback()
+    public function getAnswerOptionFeedback():?AnswerOptionFeedback
     {
         return $this->answer_option_feedback;
     }
@@ -100,7 +115,9 @@ class AnswerOption implements JsonSerializable {
 	public function equals(AnswerOption $other) : bool {
 	    if (get_class($this->display_definition) !== get_class($other->display_definition) ||
 	        get_class($this->scoring_definition) !== get_class($other->scoring_definition) ||
-            get_class($this->answer_option_feedback) !== get_class($other->answer_option_feedback))
+            (is_object($this->answer_option_feedback && (is_object($other->answer_option_feedback) && get_class($this->answer_option_feedback) !== get_class($other->answer_option_feedback)))) ||
+            (is_object($this->answer_option_feedback) && !is_object($other->answer_option_feedback))  ||
+            (!is_object($this->answer_option_feedback) && is_object($other->answer_option_feedback)))
 	    {
 	       return false;        
 	    }

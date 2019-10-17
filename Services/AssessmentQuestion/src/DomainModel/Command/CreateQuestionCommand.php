@@ -28,6 +28,10 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	 * @var ?int;
 	 */
 	protected $container_id;
+    /**
+     * @var ?string;
+     */
+    protected $container_obj_type;
 	/**
 	 * @var ?int
 	 */
@@ -52,6 +56,7 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 		DomainObjectId $question_uuid,
 		int $initiating_user_id,
 		?int $container_id = null,
+		?string $container_obj_type = null,
 		?int $answer_type_id = null,
 	    ?int $question_int_id = null,
 	    ?string $content_editing_mode = null
@@ -59,9 +64,10 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 		parent::__construct($initiating_user_id);
 		$this->question_uuid = $question_uuid;
 		$this->container_id = $container_id;
+		$this->container_obj_type = $container_obj_type;
 		$this->answer_type_id = $answer_type_id;
 		$this->object_id = $question_int_id;
-		$this->content_editing_mode;
+		$this->content_editing_mode = $content_editing_mode;
 	}
 
 	/**
@@ -77,6 +83,15 @@ class CreateQuestionCommand extends AbstractCommand implements CommandContract {
 	public function getQuestionContainerId(): int {
 		return $this->container_id;
 	}
+
+
+    /**
+     * @return mixed
+     */
+    public function getContainerObjType()
+    {
+        return $this->container_obj_type;
+    }
 
 	/**
 	 * @return int

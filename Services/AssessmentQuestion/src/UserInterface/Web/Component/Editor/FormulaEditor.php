@@ -27,11 +27,11 @@ class FormulaEditor extends AbstractEditor {
      */
     private $answers;
     
-    public function __construct(QuestionDto $question) {
-        parent::__construct($question);
-        
+    public function __construct(QuestionDto $question) {      
         $this->selected_answers = [];
         $this->configuration = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        parent::__construct($question);
     }
     
     public function readAnswer(): string

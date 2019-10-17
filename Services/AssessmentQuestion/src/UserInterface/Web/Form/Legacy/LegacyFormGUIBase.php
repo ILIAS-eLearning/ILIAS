@@ -57,6 +57,16 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	protected $lang;
 	
 	/**
+	 * @var QuestionDto
+	 */
+	protected $initial_question;
+	
+	/**
+	 * @var QuestionDto
+	 */
+	protected $post_question;
+	
+	/**
 	 * QuestionFormGUI constructor.
 	 *
 	 * @param QuestionDto $question
@@ -64,6 +74,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	public function __construct(QuestionDto $question, ?array $answer_option_configuration = null) {
 	    global $DIC;
 	    $this->lang = $DIC->language();
+	    $this->initial_question = $question;
 	    
 	    $this->initForm($question, $answer_option_configuration);
 	    $this->setMultipart(true);
@@ -123,10 +134,21 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	
     /**
      * @return QuestionDto
-     * @throws Exception
      */
 	public function getQuestion() : QuestionDto {
-	    $question = new QuestionDto();
+	    if(is_null($this->post_question)) {
+	        $this->post_question = $this->readQuestionFromPost();
+	    }
+	    
+	    return $this->post_question;
+	}
+	
+    /**
+     * 
+     */
+     private function readQuestionFromPost()
+    {
+        $question = new QuestionDto();
 	    $question->setId($_POST[self::VAR_AGGREGATE_ID]);
 	    
 	    $question->setLegacyData(AbstractValueObject::deserialize($_POST[self::VAR_LEGACY]));
@@ -140,9 +162,9 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
             $this->option_form->readAnswerOptions();
 	        $question->setAnswerOptions($this->option_form->getAnswerOptions());
 	    }
-	    
-	    return $question;
-	}
+        return $question;
+    }
+
 
 	/**
 	 * @param QuestionDto $question

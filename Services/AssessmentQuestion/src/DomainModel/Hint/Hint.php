@@ -2,8 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Hint;
 
+use ilAsqException;
 use ilFormPropertyGUI;
 use ilHiddenInputGUI;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\UI\Implementation\Component\Button\Standard;
 use ilNumberInputGUI;
@@ -19,16 +21,21 @@ use stdClass;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Hint implements JsonSerializable
+class Hint implements JsonSerializable, IsValueOfOrderedList
 {
+    const ORDER_GAP = 10;
+
+    const VAR_HINT_INT_ID = "hint_int_id";
     const VAR_HINT_ORDER_NUMBER = "hint_order_number";
+    const VAR_HINT_ORDER_NUMBERS = "hint_order_numbers";
     const VAR_HINT_CONTENT = "hint_content";
-    const VAR_HINT_POINTS_DEDUCTION = "hint_points_deuction";
+    const VAR_HINT_POINTS_DEDUCTION = "hint_points";
+
 
     /**
      * @var integer
      */
-    private $order_number;
+    private $order_number = 0;
     /**
      * @var string
      */
@@ -39,12 +46,37 @@ class Hint implements JsonSerializable
     private $point_deduction;
 
 
+    /**
+     * Hint constructor.
+     *
+     * @param int    $order_number
+     * @param string $content
+     * @param float  $point_deduction
+     *
+     * @throws ilAsqException
+     */
     public function __construct(int $order_number, string $content, float $point_deduction)
     {
         $this->order_number = $order_number;
         $this->content = $content;
         $this->point_deduction = $point_deduction;
+
+        $this->validate();
     }
+
+
+    /**
+     * @param IsValueOfOrderedList $hint
+     * @param                      $order_number
+     *
+     * @return Hint
+     * @throws ilAsqException
+     */
+    public static function createWithNewOrderNumber(IsValueOfOrderedList $hint, $order_number) {
+        /** @var Hint $hint */
+        return new Hint($order_number, $hint->getContent(), $hint->getPointDeduction());
+    }
+
 
 
     /**
@@ -77,9 +109,8 @@ class Hint implements JsonSerializable
     public function equals(Hint $other) : bool
     {
         if ($this->order_number !== $other->order_number
-            || $this->content !== $other->content
-            || $this->point_deduction !== $other->point_deduction
-        ) {
+        || $this->content !== $other->content
+        || $this->point_deduction !== $other->point_deduction) {
             return false;
         }
 
@@ -112,88 +143,20 @@ class Hint implements JsonSerializable
     }
 
 
+
     /**
-     * @param QuestionDto $question
-     * @param Hint        $hint
-     *
-     * @return ilFormPropertyGUI[]
+     * @throws ilAsqException
      */
-    public static function generateField(QuestionDto $question,Hint $hint) : array
-    {
-        global $DIC;
-
-        $fields = [];
-        $label = $DIC->language()->txt('asq_question_hints_label_hint');
-
-        $order_number = new ilHiddenInputGUI(self::VAR_HINT_ORDER_NUMBER);
-        $order_number->setValue($hint->getOrderNumber());
-
-        //TODO -> does not work!
-        if (TRUE || $question->getContentEditingMode()->isRteTextarea()) {
-            $answer_feedback = "";
-
-            $fields[] = self::generateRteField($question, $label, self::VAR_HINT_CONTENT,$hint);
+    public function validate():void {
+        if ($this->getOrderNumber() % self::ORDER_GAP != 0) {
+            throw new ilAsqException('Property hint_order_number - '.$this->getOrderNumber().' - is not valid. It hast be a multiple of '.self::ORDER_GAP);
         }
-
-        //TODO -> does not work!
-        if (FALSE && $question->getContentEditingMode()->isPageObject()) {
-           // $fields[] = self::generatePageObjectField($question, $label, $page_id, self::VAR_HINT_CONTENT,$hint);
-        }
-
-        $point_deduction = new ilNumberInputGUI($DIC->language()->txt('asq_question_hints_label_points_deduction'));
-       // $point_deduction->setRequired(true);
-        $point_deduction->setSize(2);
-        $point_deduction->setValue($hint->getPointDeduction());
-
-        $fields[] = $point_deduction;
-        return $fields;
-    }
-
-
-    public static function generateRteField(QuestionDto $question, string $label, string $post_var, Hint $hint) : ilFormPropertyGUI {
-        $content = new \ilTextAreaInputGUI($label, $post_var);
-        $content->setRequired(true);
-        $content->setRows(10);
-        //TODO FIXME POST IS EMPTY WITH RTE
-        /*$feedback->setUseRte(true);
-        $feedback->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("assessment"));
-        $feedback->addPlugin("latex");
-        $feedback->addButton("latex");
-        $feedback->addButton("pastelatex");
-        $feedback->setRTESupport($question->getQuestionIntId(), $question->getIlComponentid(), "assessment");*/
-        /*
-       else
-       {
-           $property->setRteTags(\ilAssSelfAssessmentQuestionFormatter::getSelfAssessmentTags());
-           $property->setUseTagsForRteOnly(false);
-       }*/
-
-        $content->setValue($hint->getContent());
-
-        return $content;
-    }
-
-    public static function generatePageObjectField(QuestionDto $question, string $label, int $page_id) : ilFormPropertyGUI {
-        global $DIC;
-        $feedback = new \ilNonEditableValueGUI($label,'', true);
-
-        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), 'page_type', ilAsqAnswerOptionFeedbackPageGUI::PAGE_TYPE);
-        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), ilAsqQuestionAuthoringGUI::VAR_QUESTION_ID, $question->getId());
-        $DIC->ctrl()->setParameterByClass($DIC->ctrl()->getCmdClass(), self::VAR_FEEDBACK_TYPE_INT_ID, $page_id);
-        $action = $DIC->ctrl()->getLinkTargetByClass([ilAsqQuestionFeedbackEditorGUI::class,ilAsqGenericFeedbackPageGUI::class], ilAsqAnswerOptionFeedbackPageGUI::CMD_EDIT);
-
-        $label = $DIC->language()->txt('asq_link_edit_feedback_page');
-
-        $link = new Standard($label,$action);
-        $feedback->setValue($DIC->ui()->renderer()->render($link));
-
-        return $feedback;
     }
 
     public static function getValueFromPost():Hint {
-        return new Hint( intval(filter_input(INPUT_POST, self::VAR_HINT_CONTENT, FILTER_VALIDATE_INT)),
+        return new Hint( intval(filter_input(INPUT_POST, self::VAR_HINT_ORDER_NUMBER, FILTER_VALIDATE_INT)),
                          strval(filter_input(INPUT_POST, self::VAR_HINT_CONTENT, FILTER_SANITIZE_STRING)),
-                         intval(filter_input(INPUT_POST, self::VAR_HINT_POINTS_DEDUCTION, FILTER_VALIDATE_INT)));
+                         floatval(filter_input(INPUT_POST, self::VAR_HINT_POINTS_DEDUCTION)));
     }
 
 

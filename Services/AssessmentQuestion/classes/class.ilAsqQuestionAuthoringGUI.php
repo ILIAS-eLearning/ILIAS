@@ -30,8 +30,8 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionHintsEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionFeedbackEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionHintEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionRecapitulationEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionStatisticsGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilCommonActionDispatcherGUI
@@ -185,28 +185,27 @@ class ilAsqQuestionAuthoringGUI
 
                 break;
 
-            case strtolower(ilAsqQuestionFeedbackEditorGUI::class):
+            case strtolower(AsqQuestionFeedbackEditorGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_FEEDBACK);
 
-                $gui = new ilAsqQuestionFeedbackEditorGUI(
-                    $this->authoring_service,
-                    $this->authoring_application_service,
-                    $this->question_id
+                $gui = new AsqQuestionFeedbackEditorGUI(
+                    $this->authoring_application_service->getQuestion($this->question_id->getId()),
+                    $this->authoring_application_service
                 );
                 $DIC->ctrl()->forwardCommand($gui);
 
                 break;
 
-            case strtolower(ilAsqQuestionHintsEditorGUI::class):
+            case strtolower(AsqQuestionHintEditorGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_HINTS);
 
-                $gui = new ilAsqQuestionHintsEditorGUI($this->authoring_application_service->getQuestion($this->question_id->getId()),
+                $gui = new AsqQuestionHintEditorGUI($this->authoring_application_service->getQuestion($this->question_id->getId()),
                                                         $this->authoring_application_service);
                 $DIC->ctrl()->forwardCommand($gui);
 
@@ -324,32 +323,36 @@ class ilAsqQuestionAuthoringGUI
             $this->authoring_context_container->getBackLink()->getAction()
         );
 
-        if( $this->authoring_context_container->hasWriteAccess() )
+        if(is_object($question->getQuestionDto()->getData()) > 0 && $this->authoring_context_container->hasWriteAccess() )
         {
             $link = $question->getEditPageLink();
             $DIC->tabs()->addTab(self::TAB_ID_PAGEVIEW, $link->getLabel(), $link->getAction());
         }
-
-        $link = $question->getPreviewLink(array());
-        $DIC->tabs()->addTab(self::TAB_ID_PREVIEW, $link->getLabel(), $link->getAction());
-
+        if(is_object($question->getQuestionDto()->getData()) > 0) {
+            $link = $question->getPreviewLink(array());
+            $DIC->tabs()->addTab(self::TAB_ID_PREVIEW, $link->getLabel(), $link->getAction());
+        }
         if( $this->authoring_context_container->hasWriteAccess() )
         {
             $link = $question->getEditLink(array());
             $DIC->tabs()->addTab(self::TAB_ID_CONFIG, $link->getLabel(), $link->getAction());
         }
-
-        $link = $question->getEditFeedbacksLink();
-        $DIC->tabs()->addTab(self::TAB_ID_FEEDBACK, $link->getLabel(), $link->getAction());
-
-        $link = $question->getEditHintsLink();
-        $DIC->tabs()->addTab(self::TAB_ID_HINTS, $link->getLabel(), $link->getAction());
-
-        $link = $question->getRecapitulationLink();
-        $DIC->tabs()->addTab(self::TAB_ID_RECAPITULATION, $link->getLabel(), $link->getAction());
-
-        $link = $question->getStatisticLink();
-        $DIC->tabs()->addTab(self::TAB_ID_STATISTIC, $link->getLabel(), $link->getAction());
+        if(is_object($question->getQuestionDto()->getData()) > 0) {
+            $link = $question->getEditFeedbacksLink();
+            $DIC->tabs()->addTab(self::TAB_ID_FEEDBACK, $link->getLabel(), $link->getAction());
+        }
+        if(is_object($question->getQuestionDto()->getData()) > 0) {
+            $link = $question->getEditHintsLink();
+            $DIC->tabs()->addTab(self::TAB_ID_HINTS, $link->getLabel(), $link->getAction());
+        }
+        if(is_object($question->getQuestionDto()->getData()) > 0) {
+            $link = $question->getRecapitulationLink();
+            $DIC->tabs()->addTab(self::TAB_ID_RECAPITULATION, $link->getLabel(), $link->getAction());
+        }
+        if(is_object($question->getQuestionDto()->getData()) > 0) {
+            $link = $question->getStatisticLink();
+            $DIC->tabs()->addTab(self::TAB_ID_STATISTIC, $link->getLabel(), $link->getAction());
+        }
     }
 
 

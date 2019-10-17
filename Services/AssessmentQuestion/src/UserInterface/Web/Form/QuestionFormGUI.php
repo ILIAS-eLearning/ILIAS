@@ -60,6 +60,10 @@ class QuestionFormGUI extends ilPropertyFormGUI {
      * @var \ilLanguage
      */
     private $lang;
+    /**
+     * @var QuestionDto
+     */
+    private $post_question;
     
 	/**
 	 * QuestionFormGUI constructor.
@@ -121,26 +125,37 @@ class QuestionFormGUI extends ilPropertyFormGUI {
         }
 	}
 
-    /**
-     * @return QuestionDto
-     * @throws Exception
-     */
+	/**
+	 * @return QuestionDto
+	 */
 	public function getQuestion() : QuestionDto {
-		$question = new QuestionDto();
-		$question->setId($_POST[self::VAR_AGGREGATE_ID]);
-
-		$question->setLegacyData(AbstractValueObject::deserialize($_POST[self::VAR_LEGACY]));
-
-		$question->setData($this->readQuestionData());
-
-		$question->setPlayConfiguration($this->readPlayConfiguration());
-
-		if (!is_null($this->option_form)) {
-    		$this->option_form->setConfiguration($question->getPlayConfiguration());
-    		$question->setAnswerOptions($this->option_form->getAnswerOptions());
-		}
-		
-		return $question;
+	    if(is_null($this->post_question)) {
+	        $this->post_question = $this->readQuestionFromPost();
+	    }
+	    
+	    return $this->post_question;
+	}
+	
+	/**
+	 *
+	 */
+	private function readQuestionFromPost()
+	{
+	    $question = new QuestionDto();
+	    $question->setId($_POST[self::VAR_AGGREGATE_ID]);
+	    
+	    $question->setLegacyData(AbstractValueObject::deserialize($_POST[self::VAR_LEGACY]));
+	    
+	    $question->setData($this->readQuestionData());
+	    
+	    $question->setPlayConfiguration($this->readPlayConfiguration());
+	    
+	    if (!is_null($this->option_form)) {
+	        $this->option_form->setConfiguration($question->getPlayConfiguration());
+	        $this->option_form->readAnswerOptions();
+	        $question->setAnswerOptions($this->option_form->getAnswerOptions());
+	    }
+	    return $question;
 	}
 
 

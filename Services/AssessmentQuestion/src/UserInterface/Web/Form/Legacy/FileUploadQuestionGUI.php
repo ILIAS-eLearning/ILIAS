@@ -31,8 +31,8 @@ class FileUploadQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            FileUploadEditorConfiguration::readConfig(),
-            FileUploadScoringConfiguration::readConfig());
+            FileUploadEditor::readConfig(),
+            FileUploadScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

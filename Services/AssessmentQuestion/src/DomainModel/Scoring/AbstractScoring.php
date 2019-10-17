@@ -2,11 +2,10 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
 /**
  * Abstract Class AbstractScoring
@@ -21,7 +20,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 abstract class AbstractScoring {
     const SCORING_DEFINITION_SUFFIX = 'Definition';
     /**
-     * @var Question
+     * @var QuestionDto
      */
     protected $question;
 

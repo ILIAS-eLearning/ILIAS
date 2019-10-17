@@ -62,14 +62,14 @@ class KprimChoiceEditor extends AbstractEditor {
     private $configuration;
     
     public function __construct(QuestionDto $question) {
-        parent::__construct($question);
-        
         $this->answer_options = $question->getAnswerOptions()->getOptions();
         $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
         
         if ($this->configuration->isShuffleAnswers()) {
             shuffle($this->answer_options);
         }
+        
+        parent::__construct($question);
     }
     
     public function readAnswer(): string

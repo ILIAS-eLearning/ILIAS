@@ -221,7 +221,7 @@ class AuthoringQuestion
         return $DIC->ui()->factory()->link()->standard(
             $DIC->language()->txt('asq_authoring_tab_feedback'),
             $DIC->ctrl()->getLinkTargetByClass([
-                ilAsqQuestionAuthoringGUI::class, \ilAsqQuestionFeedbackEditorGUI::class
+                ilAsqQuestionAuthoringGUI::class, \AsqQuestionFeedbackEditorGUI::class
             ])
         );
     }
@@ -239,7 +239,7 @@ class AuthoringQuestion
         return $DIC->ui()->factory()->link()->standard(
             $DIC->language()->txt('asq_authoring_tab_hints'),
             $DIC->ctrl()->getLinkTargetByClass([
-                ilAsqQuestionAuthoringGUI::class, \ilAsqQuestionHintsEditorGUI::class
+                ilAsqQuestionAuthoringGUI::class, \AsqQuestionHintEditorGUI::class
             ])
         );
     }

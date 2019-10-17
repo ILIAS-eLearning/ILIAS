@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilSelectInputGUI;
@@ -78,11 +79,10 @@ class TextSubsetScoring extends AbstractScoring
      */
     private function caseInsensitiveScoring(array $answer_arr) : AnswerScoreDto {
         $reached_points = 0;
-        $max_points = 0;
+        $max_points = self::calculateMaxPoints($this->question);
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                $max_points += $correct->getScoringDefinition()->getPoints();
                 if (strtoupper($correct->getScoringDefinition()->getText()) === strtoupper($result)) {
                     $reached_points += $correct->getScoringDefinition()->getPoints();
                     break;
@@ -99,17 +99,10 @@ class TextSubsetScoring extends AbstractScoring
      */
     private function caseSensitiveScoring(array $answer_arr) : AnswerScoreDto {
         $reached_points = 0;
-        $max_points = 0;
-
-
-        foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-            $max_points += $correct->getScoringDefinition()->getPoints();
-        }
-
-        
+        $max_points = self::calculateMaxPoints($this->question);
+ 
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                $max_points += $correct->getScoringDefinition()->getPoints();
                 if ($correct->getScoringDefinition()->getText() === $result) {
                     $reached_points += $correct->getScoringDefinition()->getPoints();
                     break;
@@ -127,11 +120,7 @@ class TextSubsetScoring extends AbstractScoring
      */
     private function levenshteinScoring(array $answer_arr, int $distance) : AnswerScoreDto {
         $reached_points = 0;
-        $max_points = 0;
-
-        foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
-                $max_points += $correct->getScoringDefinition()->getPoints();
-        }
+        $max_points = $max_points = self::calculateMaxPoints($this->question);
         
         foreach ($answer_arr as $result) {
             foreach ($this->question->getAnswerOptions()->getOptions() as $correct) {
@@ -178,5 +167,25 @@ class TextSubsetScoring extends AbstractScoring
     {
         return TextSubsetScoringConfiguration::create(
             intval($_POST[self::VAR_TEXT_MATCHING]));
+    }
+    
+    public static function calculateMaxPoints(QuestionDto $question) :int {
+        $amount = $question->getPlayConfiguration()->getEditorConfiguration()->getNumberOfRequestedAnswers();
+        
+        if(empty($amount)) {
+            return '';
+        }
+        
+        $points = array_map(function($option) {
+            return $option->getScoringDefinition()->getPoints();
+        },
+        $question->getAnswerOptions()->getOptions());
+            
+            rsort($points);
+            
+        return array_reduce(array_slice($points, 0, $amount),
+            function($a, $b) {
+                return $a + $b;
+            });
     }
 }

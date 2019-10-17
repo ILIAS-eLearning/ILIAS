@@ -52,18 +52,28 @@ class Feedback extends AbstractValueObject implements JsonSerializable
     /**
      * @return AnswerCorrectFeedback
      */
-    public function getAnswerCorrectFeedback() : ?AnswerCorrectFeedback
+    public function getAnswerCorrectFeedback() : string
     {
-        return $this->answer_correct_feedback;
+        if (is_null($this->answer_correct_feedback)) {
+            return '';
+        }
+        else {
+            return $this->answer_correct_feedback->getAnswerFeedback();
+        }       
     }
 
 
     /**
      * @return AnswerWrongFeedback
      */
-    public function getAnswerWrongFeedback() : ?AnswerWrongFeedback
+    public function getAnswerWrongFeedback() : string
     {
-        return $this->answer_wrong_feedback;
+        if (is_null($this->answer_wrong_feedback)) {
+            return '';
+        }
+        else {
+            return $this->answer_wrong_feedback->getAnswerFeedback();
+        }  
     }
 
 

@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditorConfiguration;
+use ilNumberInputGUI;
 
 /**
  * Class TextSubsetQuestionGUI
@@ -31,8 +32,8 @@ class TextSubsetQuestionGUI extends LegacyFormGUIBase {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            TextSubsetEditorConfiguration::readConfig(),
-            TextSubsetScoringConfiguration::readConfig());
+            TextSubsetEditor::readConfig(),
+            TextSubsetScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
@@ -40,6 +41,12 @@ class TextSubsetQuestionGUI extends LegacyFormGUIBase {
         foreach (TextSubsetEditor::generateFields($play->getEditorConfiguration()) as $field) {
             $this->addItem($field);
         }
+        
+        $max_available_points = new ilNumberInputGUI($this->lang->txt('asq_label_max_points'));
+        $max_available_points->setDisabled(true);
+        $max_available_points->setValue(TextSubsetScoring::calculateMaxPoints($this->initial_question));
+        $max_available_points->setSize(2);
+        $this->addItem($max_available_points);
         
         foreach (TextSubsetScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
