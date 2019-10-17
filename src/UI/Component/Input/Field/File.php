@@ -2,6 +2,8 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\FileUpload\Handler\UploadHandler;
+
 /**
  * This describes select field.
  */
@@ -20,4 +22,10 @@ interface File extends Input
      * @return int
      */
     public function getMaxFileFize() : int;
+
+
+    /**
+     * @return UploadHandler
+     */
+    public function getUploadHandler() : UploadHandler;
 }

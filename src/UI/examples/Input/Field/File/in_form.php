@@ -12,7 +12,7 @@ function in_form()
     $request = $DIC->http()->request();
 
     //Step 1: Define the input field.
-    $file = $ui->input()->field()->file("File Upload", "You can drop your files here");
+    $file = $ui->input()->field()->file(new ilUIDemoFileUploadHandlerGUI(), "File Upload", "You can drop your files here");
 
     //Step 2: Define the form and attach the field.
     $form = $ui->input()->container()->form()->standard('#', ['file' => $file]);

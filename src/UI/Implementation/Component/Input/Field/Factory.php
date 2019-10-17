@@ -6,8 +6,9 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\FileUpload\Handler\UploadHandler;
+use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
@@ -178,8 +179,8 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function file(string $label, string $byline = null) : File
+    public function file(UploadHandler $handler, string $label, string $byline = null) : File
     {
-        return new \ILIAS\UI\Implementation\Component\Input\Field\File($this->data_factory, $this->refinery, $label, $byline);
+        return new \ILIAS\UI\Implementation\Component\Input\Field\File($this->data_factory, $this->refinery, $handler, $label, $byline);
     }
 }

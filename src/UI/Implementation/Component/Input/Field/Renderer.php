@@ -4,15 +4,15 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\UI\Component;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Component;
-use \ILIAS\UI\Implementation\Render\Template;
-use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Renderer as RendererInterface;
 
 /**
  * Class Renderer
@@ -74,15 +74,16 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
         } elseif ($component instanceof Component\Input\Field\File) {
             $component = $this->setSignals($component);
+            $upload_url = $component->getUploadHandler()->getUploadURL();
             $component = $component->withAdditionalOnLoadCode(
-                function ($id) {
+                function ($id) use ($upload_url) {
                     return "$(document).ready(function() {
-					il.UI.Input.file.init('$id');
+					il.UI.Input.file.init('$id', '{$upload_url}');
 				});";
                 }
             );
             $input_tpl = $this->getTemplate("tpl.file.html", true, true);
-            $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy("SELECT", "#")));
+            $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy($this->txt('select_files_from_computer'), "#")));
 
 
         } elseif ($component instanceof Select) {

@@ -8038,6 +8038,11 @@ ul.breadcrumb li:hover {
   -ms-flex-item-align: start;
   align-self: flex-start;
 }
+.il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-title span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .il-input-file .il-input-file-fileinfo .il-input-file-fileinfo-size {
   -webkit-order: 2;
   -ms-flex-order: 2;
