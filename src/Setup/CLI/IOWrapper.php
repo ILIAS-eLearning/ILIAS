@@ -86,6 +86,17 @@ class IOWrapper implements AdminInteraction {
 		}
 	}
 
+	public function failedLastObjective() {
+		// Always show label of failed objectives.
+		if ($this->output_in_objective || !$this->last_objective_was_notable) {
+			$this->startObjective($this->last_objective_label, true);
+		}
+
+		if ($this->showLastObjectiveLabel()) {
+			$this->style->write("[<fg=red>FAILED</>]\n");
+		}
+	}
+
 	protected function outputInObjective() : void {
 		if (!$this->output_in_objective && $this->showLastObjectiveLabel()) {
 			$this->output_in_objective = true;
