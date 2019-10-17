@@ -2,20 +2,22 @@
 
 /* Copyright (c) 2016 Jesús López <lopez@leifos.de> Extended GPL, see docs/LICENSE */
 
-function with_image_action() {
-	//Init Factory and Renderer
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function with_image_action()
+{
+    //Init Factory and Renderer
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	$image = $f->image()->responsive(
-		"./templates/default/images/HeaderIcon.svg",
-		"Thumbnail Example");
+    $image = $f->image()->responsive(
+        "./templates/default/images/HeaderIcon.svg",
+        "Thumbnail Example"
+    );
 
-	$url = "http://www.ilias.de";
+    $url = "http://www.ilias.de";
 
-	$card = $f->card()->standard("Title", $image)->withImageAction($url);
+    $card = $f->card()->standard("Title", $image)->withImageAction($url);
 
-	//Render
-	return $renderer->render($card);
+    //Render
+    return $renderer->render($card);
 }

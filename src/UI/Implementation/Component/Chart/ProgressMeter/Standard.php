@@ -5,11 +5,13 @@
 namespace ILIAS\UI\Implementation\Component\Chart\ProgressMeter;
 
 use ILIAS\UI\Component as C;
+
 /**
  * Class ProgressMeter
  * @package ILIAS\UI\Implementation\Component\Chart\ProgressMeter
  */
-class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard {
+class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard
+{
 
     /**
      * @var string
@@ -78,5 +80,4 @@ class Standard extends ProgressMeter implements C\Chart\ProgressMeter\Standard {
     {
         return $this->required_text;
     }
-
 }

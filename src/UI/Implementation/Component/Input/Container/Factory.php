@@ -9,22 +9,24 @@ use ILIAS\Data;
 use ILIAS\Validation;
 use ILIAS\Transformation;
 
-class Factory implements I\Container\Factory {
-	/**
-	 * @var Form\Factory
-	 */
-	protected $form_factory;
+class Factory implements I\Container\Factory
+{
+    /**
+     * @var Form\Factory
+     */
+    protected $form_factory;
 
-	public function __construct(
-		Form\Factory $form_factory
-	) {
-		$this->form_factory = $form_factory;
-	}
+    public function __construct(
+        Form\Factory $form_factory
+    ) {
+        $this->form_factory = $form_factory;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function form() {
-		return $this->form_factory;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function form()
+    {
+        return $this->form_factory;
+    }
 }

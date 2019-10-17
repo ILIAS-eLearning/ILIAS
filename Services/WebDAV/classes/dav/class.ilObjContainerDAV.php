@@ -73,6 +73,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_obj->setTitle($name);
                     $file_obj->setFileName($name);
                     $file_obj->setVersion(1);
+                    $file_obj->setMaxVersion(1);
                     $file_obj->createDirectory();
                     $file_obj->create();
 

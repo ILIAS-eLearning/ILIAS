@@ -13,9 +13,10 @@ use \ILIAS\UI\Implementation as I;
  */
 class ChartProgressMeterTest extends ILIAS_UI_TestBase
 {
-	protected function getFactory() {
-		return new I\Component\Chart\ProgressMeter\Factory();
-	}
+    protected function getFactory()
+    {
+        return new I\Component\Chart\ProgressMeter\Factory();
+    }
 
     public function test_implements_factory_interface()
     {
@@ -90,31 +91,31 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
         $expected_html =
             '<div class="il-chart-progressmeter-box ">' .
-			'<div class="il-chart-progressmeter-container">' .
-			'<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
-			'<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
-			'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
-			'<g class="il-chart-progressmeter-multicircle">' .
-			'<path class="il-chart-progressmeter-circle no-success" ' .
-			'd="M9.6514,37.8486 q-6.1948,-6.1948 -6.1948,-14.9552 a1,1 0 1,1 42.30,0 q0,8.7604 -6.1948,14.9552" ' .
-			'stroke-dasharray="75, 100"></path>' .
-			'<path class="il-chart-progressmeter-circle active" ' .
-			'd="M11.2778,36.2222 q-5.5212,-5.5212 -5.5212,-13.3288 a1,1 0 1,1 37.70,0 q0,7.8076 -5.5212,13.3288" ' .
-			'stroke-dasharray="44.4, 100"></path>' .
-			'</g>' .
-			'<g class="il-chart-progressmeter-text">' .
-			'<text class="text-score-info" x="25" y="16"></text>' .
-			'<text class="text-score" x="25" y="25">75 %</text>' .
-			'<text class="text-comparision" x="25" y="31">80 %</text>' .
-			'<text class="text-comparision-info" x="25" y="34"></text>' .
-			'</g>' .
-			'<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
-			'<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
-			'<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
-			'</g>' .
-			'</svg>' .
-			'</div>' .
-			'</div>';
+            '<div class="il-chart-progressmeter-container">' .
+            '<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
+            '<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
+            'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
+            '<g class="il-chart-progressmeter-multicircle">' .
+            '<path class="il-chart-progressmeter-circle no-success" ' .
+            'd="M9.6514,37.8486 q-6.1948,-6.1948 -6.1948,-14.9552 a1,1 0 1,1 42.30,0 q0,8.7604 -6.1948,14.9552" ' .
+            'stroke-dasharray="75, 100"></path>' .
+            '<path class="il-chart-progressmeter-circle active" ' .
+            'd="M11.2778,36.2222 q-5.5212,-5.5212 -5.5212,-13.3288 a1,1 0 1,1 37.70,0 q0,7.8076 -5.5212,13.3288" ' .
+            'stroke-dasharray="44.4, 100"></path>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-text">' .
+            '<text class="text-score-info" x="25" y="16"></text>' .
+            '<text class="text-score" x="25" y="25">75 %</text>' .
+            '<text class="text-comparision" x="25" y="31">80 %</text>' .
+            '<text class="text-comparision-info" x="25" y="34"></text>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
+            '<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
+            '<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
+            '</g>' .
+            '</svg>' .
+            '</div>' .
+            '</div>';
 
         $this->assertHTMLEquals($expected_html, $html);
     }
@@ -131,27 +132,27 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
         $expected_html =
             '<div class="il-chart-progressmeter-box fixed-size">' .
-			'<div class="il-chart-progressmeter-container">' .
-			'<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
-			'<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
-			'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
-			'<g class="il-chart-progressmeter-monocircle">' .
-			'<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" ' .
-			'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
-			'</g>' .
-			'<g class="il-chart-progressmeter-text">' .
-			'<text class="text-score-info" x="25" y="16"></text>' .
-			'<text class="text-score" x="25" y="25">75 %</text>' .
-			'<text class="text-comparision" x="25" y="31">80 %</text>' .
-			'<text class="text-comparision-info" x="25" y="34"></text>' .
-			'</g>' .
-			'<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
-			'<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
-			'<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
-			'</g>' .
-			'</svg>' .
-			'</div>' .
-			'</div>';
+            '<div class="il-chart-progressmeter-container">' .
+            '<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
+            '<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
+            'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
+            '<g class="il-chart-progressmeter-monocircle">' .
+            '<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="75, 100" ' .
+            'd="M10.4646,37.0354 q-5.858,-5.858 -5.858,-14.142 a1,1 0 1,1 40,0 q0,8.284 -5.858,14.142"></path>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-text">' .
+            '<text class="text-score-info" x="25" y="16"></text>' .
+            '<text class="text-score" x="25" y="25">75 %</text>' .
+            '<text class="text-comparision" x="25" y="31">80 %</text>' .
+            '<text class="text-comparision-info" x="25" y="34"></text>' .
+            '</g>' .
+            '<g class="il-chart-progressmeter-needle " style="transform: rotate(82.8deg)">' .
+            '<polygon class="il-chart-progressmeter-needle-border" points="23.5,0.1 25,2.3 26.5,0.1"></polygon>' .
+            '<polygon class="il-chart-progressmeter-needle-fill" points="23.5,0 25,2.2 26.5,0"></polygon>' .
+            '</g>' .
+            '</svg>' .
+            '</div>' .
+            '</div>';
 
         $this->assertHTMLEquals($expected_html, $html);
     }
@@ -168,17 +169,17 @@ class ChartProgressMeterTest extends ILIAS_UI_TestBase
 
         $expected_html =
             '<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">' .
-			'<div class="il-chart-progressmeter-container">' .
-			'<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
-			'<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
-			'd="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>' .
-			'<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="54.495, 100" ' .
-			'd="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>' .
-			'<path class="il-chart-progressmeter-needle " stroke-dasharray="100, 100" d="M25,10 l0,15" ' .
-			'style="transform: rotate(57.5deg)"></path>' .
-			'</svg>' .
-			'</div>' .
-			'</div>';
+            '<div class="il-chart-progressmeter-container">' .
+            '<svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">' .
+            '<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" ' .
+            'd="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>' .
+            '<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="54.495, 100" ' .
+            'd="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>' .
+            '<path class="il-chart-progressmeter-needle " stroke-dasharray="100, 100" d="M25,10 l0,15" ' .
+            'style="transform: rotate(57.5deg)"></path>' .
+            '</svg>' .
+            '</div>' .
+            '</div>';
         
         $this->assertHTMLEquals($expected_html, $html);
     }

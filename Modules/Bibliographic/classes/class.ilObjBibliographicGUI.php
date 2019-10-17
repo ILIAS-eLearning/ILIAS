@@ -646,7 +646,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 		/**
 		 * @var $a_new_object ilObjBibliographic
 		 */
-		$a_new_object->writeSourcefileEntriesToDb();
+		$a_new_object->parseFileToDatabase();
 
 		parent::afterImport($a_new_object);
 	}
