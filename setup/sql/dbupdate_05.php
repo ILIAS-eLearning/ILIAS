@@ -1524,3 +1524,7 @@ if(!$ilDB->tableExists('skl_profile_role'))
 	$ilDB->addPrimaryKey('skl_profile_role', array('profile_id', 'role_id'));
 }
 ?>
+<#5533>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

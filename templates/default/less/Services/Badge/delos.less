@@ -5,13 +5,16 @@ img.ilBadgeImage {
 	max-height: 150px;
 }
 
-img.ilBadgeImageThumbnail {
+.ilBadgeImageThumbnail a .img-responsive {
 	max-width: 50px;
 	max-height: 50px;
+	display: inline-block;
 }
 
-img.ilBadgeImageModal {
+.ilBadgeImageThumbnail .modal .img-responsive {
 	margin: auto;
+	width: 50%;
+	height: auto;
 }
 
 div.ilBadgeBackpackPanelContent {
@@ -26,9 +29,41 @@ span.ilProfileBadge {
 	display: inline-block;
 	padding: 5px;
 
-	a {
-		width:50px;
-		height:50px;
+	> a {
+		width: 50px;
+		height: 50px;
 		display: inline-block;
+
+		img {
+			margin: auto;
+			max-width: 50px;
+			max-height: 50px;
+		}
 	}
+
+	.modal .img-responsive {
+		margin: auto;
+		width: 50%;
+		height: auto;
+	}
+}
+
+.ilBadgeDeck {
+
+	.il-card img {
+		width: 75%;
+		height: auto;
+	}
+
+	.icon img {
+		width: 100%;
+		height: auto;
+	}
+
+	.modal .img-responsive {
+		margin: auto;
+		width: 50%;
+		height: auto;
+	}
+
 }
