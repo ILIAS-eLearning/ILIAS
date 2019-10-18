@@ -139,6 +139,15 @@ class Factory {
 		return new Constraints\IsNumeric($this->data_factory, $this->lng);
 	}
 
+    /**
+     * Get the constraint that some value is a number or null
+     *
+     * @return  Constraint
+     */
+    public function isNumericOrNull() {
+        return new Constraints\isNumericOrNull($this->data_factory, $this->lng);
+    }
+
 	/**
 	 * Get the constraint that some value is null
 	 *

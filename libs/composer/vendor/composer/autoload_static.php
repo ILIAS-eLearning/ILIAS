@@ -1297,6 +1297,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\Validation\\Constraints\\IsInt' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsInt.php',
         'ILIAS\\Validation\\Constraints\\IsNull' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsNull.php',
         'ILIAS\\Validation\\Constraints\\IsNumeric' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsNumeric.php',
+        'ILIAS\\Validation\\Constraints\\IsNumericOrNull' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsNumericOrNull.php',
         'ILIAS\\Validation\\Constraints\\IsString' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/IsString.php',
         'ILIAS\\Validation\\Constraints\\LessThan' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/LessThan.php',
         'ILIAS\\Validation\\Constraints\\LogicalOr' => __DIR__ . '/../..' . '/../../src/Validation/Constraints/LogicalOr.php',
