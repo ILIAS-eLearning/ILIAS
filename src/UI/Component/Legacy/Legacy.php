@@ -22,6 +22,7 @@ interface Legacy extends \ILIAS\UI\Component\Component
     /**
      * Get a legacy component like this, but with an additional signal with custom JavaScript code
      *
+     * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
      * @param $signal_name
      * @param $js_code
      * @return Legacy
@@ -31,6 +32,7 @@ interface Legacy extends \ILIAS\UI\Component\Component
     /**
      * Get signal with custom JavaScript code
      *
+     * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
      * @param $signal_name
      * @throws \InvalidArgumentException
      * @return Signal
