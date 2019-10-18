@@ -1587,11 +1587,133 @@ class ilObjContentObject extends ilObject
 			}
 		}
 
-		// missing check: no lm_tree entry but lm_data entry and no page_object entry (for lang "-")
-		// these pages are visible in the all pages list (as free pages), clicking them leads to error
+		// missing copage entries
+		$set = $ilDB->queryF("SELECT * FROM lm_data ".
+			" WHERE lm_id = %s AND type = %s",
+			array("integer", "text"),
+			array($this->getId(), "pg")
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (!ilPageObject::_exists("lm", $rec["obj_id"], "-")) {
+				$lm_page = new ilLMPage();
+				$lm_page->setId($rec["obj_id"]);
+				$lm_page->setParentId($this->getId());
+				$lm_page->create();
+			}
+		}
 
 	}
 
+	/**
+	 * Check tree (this has been copied from fixTree due to a bug fixing, should be reorganised)
+	 */
+	function checkStructure()
+	{
+		$issues = [];
+		$ilDB = $this->db;
+
+		$tree = $this->getLMTree();
+
+		// check numbering, if errors, renumber
+		// it is very important to keep this step before deleting subtrees
+		// in the following steps
+		$set = $ilDB->query("SELECT l1.child, l1.lft l1lft, l1.rgt l1rgt, l2.parent, l2.lft l2lft, l2.rgt l2rgt".
+			" FROM lm_tree l1".
+			" JOIN lm_tree l2 ON ( l1.child = l2.parent".
+			" AND l1.lm_id = l2.lm_id )".
+			" JOIN lm_data ON ( l1.child = lm_data.obj_id )".
+			" WHERE (l2.lft < l1.lft".
+			" OR l2.rgt > l1.rgt OR l2.lft > l1.rgt OR l2.rgt < l1.lft)".
+			" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer").
+			" ORDER BY lm_data.create_date DESC"
+		);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			$issues[] = "Tree numbering: ".print_r($rec, true);
+		}
+
+		// delete subtrees that have no lm_data records (changed due to #20637)
+		$set = $ilDB->query("SELECT * FROM lm_tree WHERE lm_tree.lm_id = ".$ilDB->quote($this->getId(), "integer"));
+		while ($node = $ilDB->fetchAssoc($set))
+		{
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".
+				$ilDB->quote($node["child"], "integer");
+			$obj_set = $ilDB->query($q);
+			$obj_rec = $ilDB->fetchAssoc($obj_set);
+			if (!$obj_rec)
+			{
+				$issues[] = "Tree entry without data entry: ".print_r($node, true);
+			}
+		}
+
+		// delete subtrees that have pages as parent
+		$nodes = $tree->getSubtree($tree->getNodeData($tree->getRootId()));
+		foreach ($nodes as $node)
+		{
+			$q = "SELECT * FROM lm_data WHERE obj_id = ".
+				$ilDB->quote($node["parent"], "integer");
+			$obj_set = $ilDB->query($q);
+			$obj_rec = $ilDB->fetchAssoc($obj_set);
+			if ($obj_rec["type"] == "pg")
+			{
+				$node_data = $tree->getNodeData($node["child"]);
+				if ($tree->isInTree($node["child"]))
+				{
+					$issues[] = "Subtree with page parent: ".print_r($node_data, true);
+				}
+			}
+		}
+
+		// check for multi-references pages or chapters
+		// if errors -> create copies of them here
+		$set = $ilDB->query("SELECT DISTINCT l1.lm_id".
+			" FROM lm_tree l1".
+			" JOIN lm_tree l2 ON ( l1.child = l2.child AND l1.lm_id <> l2.lm_id )".
+			" JOIN lm_data ON (l1.child = lm_data.obj_id)".
+			" WHERE l1.child <> 1".
+			" AND l1.lm_id <> lm_data.lm_id".
+			" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer"));
+		if ($rec = $ilDB->fetchAssoc($set))
+		{
+			$set = $ilDB->query("SELECT DISTINCT l1.child ".
+				" FROM lm_tree l1".
+				" JOIN lm_tree l2 ON ( l1.child = l2.child AND l1.lm_id <> l2.lm_id )".
+				" JOIN lm_data ON (l1.child = lm_data.obj_id)".
+				" WHERE l1.child <> 1".
+				" AND l1.lm_id <> lm_data.lm_id".
+				" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer"));
+			include_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
+			while ($rec = $ilDB->fetchAssoc($set))
+			{
+				$set3 = $ilDB->queryF("SELECT * FROM lm_tree ".
+					" WHERE child = %s ",
+					array("integer"),
+					array($rec["child"])
+					);
+				while ($rec3 = $ilDB->fetchAssoc($set3))
+				{
+					$issues[] = "Multi-reference item: ".print_r($rec3, true);
+				}
+			}
+		}
+
+		// missing copage entries
+		$set = $ilDB->queryF("SELECT * FROM lm_data ".
+			" WHERE lm_id = %s AND type = %s",
+			array("integer", "text"),
+			array($this->getId(), "pg")
+			);
+		while ($rec = $ilDB->fetchAssoc($set))
+		{
+			if (!ilPageObject::_exists("lm", $rec["obj_id"], "-")) {
+				$issues[] = "Missing COPage: ".print_r($rec, true);
+			}
+		}
+
+
+		return $issues;
+	}
 
 	/**
 	* export object to xml (see ilias_co.dtd)
