@@ -32,7 +32,8 @@ interface Legacy extends \ILIAS\UI\Component\Component
      * Get signal with custom JavaScript code
      *
      * @param $signal_name
-     * @return Signal|null
+     * @throws \InvalidArgumentException
+     * @return Signal
      */
     public function getCustomSignal(string $signal_name);
 }
