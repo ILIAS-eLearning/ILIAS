@@ -75,6 +75,13 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 		$this->setLimit(PHP_INT_MAX);
 
 		$this->setRowTemplate('tpl.webdav_documents_row.html', 'Services/WebDAV');
+
+		if($this->is_editable)
+        {
+            $this->setSelectAllCheckbox('webdav_id[]');
+            $this->addMultiCommand('deleteDocuments', $this->lng->txt('delete'));
+            $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
+        }
 	}
 
 	public function setProvider(ilWebDAVMountInstructionsTableDataProvider $a_provider) : void

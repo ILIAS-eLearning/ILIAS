@@ -166,23 +166,19 @@ class ilWebDAVMountInstructionsUploadGUI {
         if (!$this->rbacsystem->checkAccess('write', $this->file_access_settings->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-
-        $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument());
-        if($form->saveObject())
-        {
-            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-            if($form->hasTranslatedInfo())
-            {
-                ilUtil::sendInfo($form->getTranslatedInfo(), true);
-            }
-            $this->ctrl->redirect($this, 'showDocuments');
-        }
-        else if ($form->hasTranslatedError())
-        {
-            ilUtil::sendFailure($form->getTranslatedError());
+            $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument());
+            if ($form->saveObject()) {
+                ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+                if ($form->hasTranslatedInfo()) {
+                    ilUtil::sendInfo($form->getTranslatedInfo(), true);
+                }
+                $this->ctrl->redirect($this, 'showDocuments');
+            } else  if ($form->hasTranslatedError()) {
+                ilUtil::sendFailure($form->getTranslatedError(), true);
         }
 
-        $this->tpl->setContent($form->getHTML());
+        $html = $form->getHTML();
+         $this->tpl->setContent($html);
     }
 
     /**
@@ -218,5 +214,46 @@ class ilWebDAVMountInstructionsUploadGUI {
             ilUtil::sendSuccess($this->lng->txt('deleted_successfully'), true);
             $this->ctrl->redirect($this, 'showDocuments');
         }
+    }
+
+    protected function deleteDocuments()
+    {
+
+    }
+
+    public function saveDocumentSorting()
+    {
+        if(!$this->rbacsystem->checkAccess('write', $this->file_access_settings->getRefId()))
+        {
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+        }
+
+        $sorting = $this->httpState->request()->getParsedBody()['sorting'] ?? [];
+        if (!is_array($sorting) || 0 === count($sorting)) {
+            $this->showDocuments();
+            return;
+        }
+
+        asort($sorting, SORT_NUMERIC);
+
+        $position = 0;
+        foreach ($sorting as $document_id => $ignored_sort_value) {
+            if (!is_numeric($document_id)) {
+                continue;
+            }
+
+            try {
+                $this->mount_instructions_repository->updateSortingValueById((int)$document_id, $position);
+                $document = $this->mount_instructions_repository->getMountInstructionsDocumentById((int)$document_id)->withSorting(++$position);
+                $this->mount_instructions_repository->updateMountInstructionsById($document->getId());
+                //$document->setSorting(++$position);
+                //$document->store();
+            } catch (ilException $e) {
+                // Empty catch block
+            }
+        }
+
+        ilUtil::sendSuccess($this->lng->txt('webdav_saved_sorting'), true);
+        $this->ctrl->redirect($this);
     }
 }
