@@ -104,6 +104,17 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $document_list;
     }
 
+    public function doMountInstructionsExistByLanguage(string $language) : bool
+    {
+        $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
+            . " WHERE lng=" . $this->db->quote($language, 'text');
+
+        $result = $this->db->query($query);
+        $record = $this->db->fetchAssoc($result);
+
+        return $record != null;
+    }
+
     public function updateMountInstructionsById(ilWebDAVMountInstructionsDocument $document)
     {
         $this->db->update(
@@ -130,6 +141,24 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
 
+    public function updateSortingValueById($id, $a_new_sorting_value)
+    {
+        $this->db->update(
+        // table name
+            self::TABLE_MOUNT_INSTRUCTIONS,
+
+            // values to update
+            array(
+                'sorting' => array('int', $a_new_sorting_value)
+            ),
+
+            // which rows to update
+            array(
+                'id' => array('int', $id),
+            )
+        );
+    }
+
     public function deleteMountInstructionsById(int $id)
     {
         $query = "DELETE FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
@@ -137,7 +166,6 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         $this->db->manipulate($query);
     }
-
     protected function buildDocumentFromDatabaseRecord(array $result)
     {
         return new ilWebDAVMountInstructionsDocument(
