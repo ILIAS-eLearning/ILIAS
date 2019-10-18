@@ -8,14 +8,17 @@ abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDA
 
         $found_instructions = array();
 
+        // Search for pairs, as long as pairs are found (search at a minimum 1 time)
         do {
             $pair_found = false;
 
             $open_tag_pos = strpos($processing_text, '[');
             $open_tag_end_pos = strpos($processing_text, ']');
 
+            // Is there a [ and a ] and are they in this order?
             if($open_tag_pos !== false && $open_tag_end_pos !== false && $open_tag_pos < $open_tag_end_pos)
             {
+                // Extract text between the square brackets "[tag_name]" and create the endtag [/tag_name]
                 $tag_name = substr($processing_text, $open_tag_pos+1, $open_tag_end_pos - $open_tag_pos -1);
                 $close_tag = "[/$tag_name]";
 
