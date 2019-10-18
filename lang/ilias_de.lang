@@ -219,6 +219,26 @@ exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Probleme
 exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
 exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
+book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_schedule_type_none_direct#:#Ohne Zeitplan, direkte Buchung
+book#:#book_schedule_type_none_direct_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können direkt Buchungen vornehmen.
+book#:#book_schedule_type_none_preference#:#Ohne Zeitplan, mit Präferenzen
+book#:#book_schedule_type_none_preference_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können zunächst Präferenzen nennen. Nach einer Frist werden dann die Buchungen automatisch vorgenommen.
+book#:#book_nr_of_preferences#:#Anzahl Präferenzen
+book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen die jeder Teilnehmer abgeben darf.
+book#:#book_pref_deadline#:#Frist
+book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnunge auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
+book#:#book_preferences#:#Präferenzen
+book#:#book_your_bookings#:#Ihre Reservierungen
+book#:#book_your_preferences#:#Ihre Präferenzen
+book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
+book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
+book#:#book_all_users#:#Alle Teilnehmer
+book#:#book_pref_overview#:#Übersicht
+book#:#book_pref_book_cron#:#Buchung mit Präferenzen
+book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
