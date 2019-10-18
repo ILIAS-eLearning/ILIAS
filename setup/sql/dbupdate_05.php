@@ -2552,3 +2552,27 @@ if(!$ilDB->tableExists('lti_consumer_results'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5557>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
+<#5558>
+<?php
+if ($ilDB->tableColumnExists("lng_log", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_log", "identifier", $field);
+}
+?>
