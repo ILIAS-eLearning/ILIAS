@@ -196,8 +196,8 @@ class ilBadgeProfileGUI
 
 			$this->ctrl->setParameter($this, "badge_id", $badge["id"]);
 			$url = $this->ctrl->getLinkTarget($this, $badge["active"]
-				? "deactivate_in_card"
-				: "activate_in_card");
+				? "deactivateInCard"
+				: "activateInCard");
 			$this->ctrl->setParameter($this, "badge_id", "");
 			$profile_button = $this->factory->button()->standard(
 				$this->lng->txt(!$badge["active"] ? "badge_add_to_profile" : "badge_remove_from_profile"),
@@ -344,7 +344,7 @@ class ilBadgeProfileGUI
 		$ilCtrl->redirect($this, "manageBadges");		
 	}
 
-	protected function activate_in_card()
+	protected function activateInCard()
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
@@ -363,7 +363,7 @@ class ilBadgeProfileGUI
 		$ilCtrl->redirect($this, "listBadges");
 	}
 
-	protected function deactivate_in_card()
+	protected function deactivateInCard()
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
