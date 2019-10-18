@@ -4,42 +4,42 @@
 final class ilWebDAVMountInstructionsDocument
 {
     /** @var int */
-    protected $id;
+    private $id;
 
     /** @var string */
-    protected $title;
+    private $title;
 
     /** @var string */
-    protected $uploaded_instructions;
+    private $uploaded_instructions;
 
     /** @var string */
-    protected $processed_instructions;
+    private $processed_instructions;
 
     /** @var string */
-    protected $language;
+    private $language;
 
     /** @var null */
-    protected $creation_ts;
+    private $creation_ts;
 
     /** @var null */
-    protected $modification_ts;
+    private $modification_ts;
 
     /** @var int */
-    protected $owner_usr_id;
+    private $owner_usr_id;
 
     /** @var int */
-    protected $last_modified_usr_id;
+    private $last_modified_usr_id;
 
     /** @var int */
-    protected $sorting;
+    private $sorting;
 
     public function __construct(int $a_id = 0,
                                 string $a_title = "",
                                 string $a_uploaded_instructions = "",
                                 string $a_processed_instructions = "",
                                 string $a_language = "",
-                                $a_creation_ts = NULL,
-                                $a_modification_ts = NULL,
+                                $a_creation_ts = 0,
+                                $a_modification_ts = 0,
                                 int $a_owner_usr_id = 0,
                                 int $a_last_modified_usr_id = 0,
                                 int $a_sorting = 0
@@ -135,5 +135,13 @@ final class ilWebDAVMountInstructionsDocument
     public function getSorting() : int
     {
         return $this->sorting;
+    }
+
+    public function withSorting($a_sorting) : ilWebDAVMountInstructionsDocument
+    {
+        $clone = clone $this;
+        $clone->sorting = $a_sorting;
+
+        return $clone;
     }
 }
