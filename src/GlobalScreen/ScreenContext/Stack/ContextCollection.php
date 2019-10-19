@@ -162,4 +162,14 @@ class ContextCollection
 
         return $this;
     }
+
+
+     /**
+     * @return ContextCollection
+     */
+    public function lti() : ContextCollection
+    {
+        $this->push($this->repo->lti());
+        return $this;
+    }
 }
