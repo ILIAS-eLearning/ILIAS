@@ -44,26 +44,26 @@ class ProcessingService
      * @param int            $actor_user_id
      * @param QuestionConfig $question_config
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
+    public function __construct(int $container_obj_id, int $actor_user_id)
     {
         global $DIC;
 
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
-        $this->question_config = $question_config;
 
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
     }
 
+
     /**
-     * @param string $question_revision_uuid
+     * @param string         $question_revision_id
      *
      * @return ProcessingQuestion
      */
     public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
+        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->lng_key);
     }
 
     /**
@@ -71,6 +71,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->question_config, $this->lng_key);
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->lng_key);
     }
 }

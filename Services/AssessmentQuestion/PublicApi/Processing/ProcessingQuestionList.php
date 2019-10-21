@@ -24,9 +24,9 @@ class ProcessingQuestionList implements QuestionList
      * @param QuestionConfig $question_config
      * @param string         $lng_key
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config, string $lng_key)
+    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key)
     {
-        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $question_config, $lng_key);
+        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $lng_key);
     }
 
 
