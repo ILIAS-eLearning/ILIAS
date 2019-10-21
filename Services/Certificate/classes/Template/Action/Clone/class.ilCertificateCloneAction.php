@@ -146,7 +146,7 @@ class ilCertificateCloneAction
             }
 
             $newCardThumbImage = '';
-            $CardThumbImagePath = $template->getThumbnailImagePath();
+            $CardThumbImagePath = (string) $template->getThumbnailImagePath();
 
             if ($this->fileSystem->has($CardThumbImagePath) && !$this->fileSystem->hasDir($CardThumbImagePath)) {
                 $newCardThumbImage = $certificatePath . basename($CardThumbImagePath);
