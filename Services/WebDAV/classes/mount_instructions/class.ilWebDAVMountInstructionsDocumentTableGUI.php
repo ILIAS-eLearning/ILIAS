@@ -201,7 +201,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 		$columns[++$i] = [
 			'field'    => 'creation_ts',
-			'txt'      => $this->lng->txt('webdav_tbl_docs_head_created'),
+			'txt'      => $this->lng->txt('created'),
 			'default'  => true,
 			'optional' => true,
 			'sortable' => false
@@ -209,7 +209,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 		$columns[++$i] = [
 			'field'    => 'modification_ts',
-			'txt'      => $this->lng->txt('webdav_tbl_docs_head_last_change'),
+			'txt'      => $this->lng->txt('last_change'),
 			'default'  => true,
 			'optional' => true,
 			'sortable' => false
@@ -217,7 +217,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 		$columns[++$i] = [
 			'field'    => 'language',
-			'txt'      => $this->lng->txt('webdav_tbl_docs_head_criteria'),
+			'txt'      => $this->lng->txt('language'),
 			'default'  => true,
 			'optional' => false,
 			'sortable' => false
