@@ -41,7 +41,7 @@ class ilExAssignmentReminder
 		$this->db = $DIC->database();
 		$this->tree = $DIC->repositoryTree();
 		$this->access = $DIC->access();
-		$this->log = $DIC->logger()->root();
+		$this->log = ilLoggerFactory::getLogger("exc");
 
 		if($a_ass_id) {
 			$this->ass_id = $a_ass_id;
@@ -311,24 +311,29 @@ class ilExAssignmentReminder
 
 				foreach($participants_ids as $member_id)
 				{
+                    $this->log->debug("submission reminder: ass: $ass_id, member: $member_id.");
 					if($this->access->checkAccessOfUser($member_id, "read", "", $exc_ref))
 					{
-						$submission = new ilExSubmission($ass_obj, $member_id);
+					    $state = ilExcAssMemberState::getInstanceByIds($ass_id, $member_id);
+					    $days_diff = (($state->getOfficialDeadline() - time()) / (60*60*24));
+                        $this->log->debug("diff: ".$days_diff.", start: ".$rem["start"].", submission allowed: ".$state->isSubmissionAllowed());
+					    if ($state->isSubmissionAllowed() && $days_diff < $rem["start"]) {
+                            $submission = new ilExSubmission($ass_obj, $member_id);
 
-						if(!$submission->getLastSubmission())
-						{
-							$member_data = array(
-								"parent_type" => $parent_obj_type,
-								"parent_id" => $parent_obj_id,
-								"exc_id" => $exc_id,
-								"exc_ref" => $exc_ref,
-								"ass_id" => $ass_id,
-								"member_id" => $member_id,
-								"reminder_type" => $rem["type"],
-								"template_id" => $rem["template_id"]
-							);
-							array_push($users_to_remind, $member_data);
-						}
+                            if (!$submission->getLastSubmission()) {
+                                $member_data = array(
+                                    "parent_type" => $parent_obj_type,
+                                    "parent_id" => $parent_obj_id,
+                                    "exc_id" => $exc_id,
+                                    "exc_ref" => $exc_ref,
+                                    "ass_id" => $ass_id,
+                                    "member_id" => $member_id,
+                                    "reminder_type" => $rem["type"],
+                                    "template_id" => $rem["template_id"]
+                                );
+                                array_push($users_to_remind, $member_data);
+                            }
+                        }
 					}
 				}
 			}
@@ -409,25 +414,27 @@ class ilExAssignmentReminder
 		foreach($reminders as $reminder)
 		{
 			$giver_ids = array_unique(ilExPeerReview::lookupGiversWithPendingFeedback($reminder["ass_id"]));
-
 			foreach($giver_ids as $giver_id)
 			{
-				$exc_refs = ilObject::_getAllReferences($reminder["exc_id"]);
-				foreach ($exc_refs as $exc_ref)
-				{
-					if ($this->access->checkAccessOfUser($giver_id, "read", "", $exc_ref))
-					{
-						$member_data = array(
-							"exc_id" => $reminder["exc_id"],
-							"exc_ref" => $exc_ref,
-							"ass_id" => $reminder["ass_id"],
-							"member_id" => $giver_id,
-							"reminder_type" => $reminder["type"],
-							"template_id" => $reminder["template_id"]
-						);
-						array_push($users_to_remind, $member_data);
-					}
-				}
+                $state = ilExcAssMemberState::getInstanceByIds($reminder["ass_id"], $giver_id);
+                $days_diff = (($state->getPeerReviewDeadline() - time()) / (60*60*24));
+
+                if ($state->isPeerReviewAllowed() && $days_diff < $reminder["start"]) {
+                    $exc_refs = ilObject::_getAllReferences($reminder["exc_id"]);
+                    foreach ($exc_refs as $exc_ref) {
+                        if ($this->access->checkAccessOfUser($giver_id, "read", "", $exc_ref)) {
+                            $member_data = array(
+                                "exc_id" => $reminder["exc_id"],
+                                "exc_ref" => $exc_ref,
+                                "ass_id" => $reminder["ass_id"],
+                                "member_id" => $giver_id,
+                                "reminder_type" => $reminder["type"],
+                                "template_id" => $reminder["template_id"]
+                            );
+                            array_push($users_to_remind, $member_data);
+                        }
+                    }
+                }
 			}
 		}
 
@@ -524,7 +531,7 @@ class ilExAssignmentReminder
 
 				$message = sprintf($ulng->txt('exc_reminder_salutation'), ilObjUser::_lookupFullname($reminder["member_id"]))."\n\n";
 
-				$this->log->debug("MAIL TYPE = ".$rmd_type);
+				$this->log->debug("send: MAIL TYPE = ".$rmd_type.", user: ".$reminder["member_id"].", ass: ".$reminder["ass_id"]);
 
 				switch($rmd_type)
 				{
