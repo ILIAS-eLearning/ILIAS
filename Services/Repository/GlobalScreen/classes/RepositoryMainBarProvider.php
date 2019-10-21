@@ -170,7 +170,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $tree = $DIC->repositoryTree();
         $ref_id = (int) $_GET["ref_id"];
-        if ($ref_id <= 0 || !$tree->isInTree($ref_id)) {
+        if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
 
