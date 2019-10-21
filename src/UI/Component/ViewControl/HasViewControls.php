@@ -18,7 +18,7 @@ interface HasViewControls
     public function withViewControls(array $view_controls) : \ILIAS\UI\Component\Component;
 
     /**
-     * Get view controls
+     * Get View Controls
      *
      * @return array Array of ViewControls
      */
