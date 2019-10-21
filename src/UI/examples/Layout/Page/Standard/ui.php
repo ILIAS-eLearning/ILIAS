@@ -41,7 +41,7 @@ if ($_GET['new_ui'] == '1') {
         $logo,
         $footer,
         'UI PAGE DEMO', //page title
-        'TRUNK -', //short title
+        'ILIAS', //short title
         'Std. Page Demo' //view title
     )
     ->withUIDemo(true);
