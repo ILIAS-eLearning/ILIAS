@@ -5,12 +5,12 @@
 namespace ILIAS\UI\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Component\Panel\PanelViewControls;
+use ILIAS\UI\Component\ViewControl\HasViewControls;
 
 /**
  * This describes a Secondary Panel.
  */
-interface Secondary extends C\Component, PanelViewControls
+interface Secondary extends C\Component, HasViewControls
 {
     /**
      * Sets a Component being displayed below the content

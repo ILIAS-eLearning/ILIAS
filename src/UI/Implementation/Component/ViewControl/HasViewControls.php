@@ -2,12 +2,12 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Implementation\Component\Panel;
+namespace ILIAS\UI\Implementation\Component\ViewControl;
 
 /**
  * Trait for panels supporting view controls
  */
-trait PanelViewControls
+trait HasViewControls
 {
     /**
      * @var array
@@ -15,8 +15,7 @@ trait PanelViewControls
     protected $view_controls;
 
     /**
-     * @param array $view_controls
-     * @return \ILIAS\UI\Component\Component
+     * @inheritDoc
      */
     public function withViewControls(array $view_controls) : \ILIAS\UI\Component\Component
     {
@@ -25,7 +24,7 @@ trait PanelViewControls
         return $clone;
     }
     /**
-     * @return array|null
+     * @inheritDoc
      */
     public function getViewControls(): ?array
     {

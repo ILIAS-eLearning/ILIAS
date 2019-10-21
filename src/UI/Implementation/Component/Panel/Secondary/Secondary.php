@@ -6,7 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Panel\Secondary;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Implementation\Component\Panel\PanelViewControls;
+use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
 /**
  * Class Secondary
@@ -15,7 +15,7 @@ use ILIAS\UI\Implementation\Component\Panel\PanelViewControls;
 abstract class Secondary implements C\Panel\Secondary\Secondary
 {
     use ComponentHelper;
-    use PanelViewControls;
+    use HasViewControls;
 
     /**
      * @var string

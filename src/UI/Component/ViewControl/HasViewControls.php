@@ -2,15 +2,15 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Panel;
+namespace ILIAS\UI\Component\ViewControl;
 
 /**
- * This describes a Standard Panel.
+ * Trait for adding view controls to a component
  */
-interface PanelViewControls
+interface HasViewControls
 {
     /**
-     * Add View Controls to panel
+     * Add View Controls
      *
      * @param array $view_controls Array Of ViewControls
      * @return \ILIAS\UI\Component\Component
@@ -18,7 +18,7 @@ interface PanelViewControls
     public function withViewControls(array $view_controls) : \ILIAS\UI\Component\Component;
 
     /**
-     * Get view controls to be shown in the header of the panel.
+     * Get view controls
      *
      * @return array Array of ViewControls
      */
