@@ -5446,7 +5446,7 @@ grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetr
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
-crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
+crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet bleiben.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
@@ -8363,7 +8363,7 @@ search#:#lucene_err_colon#:#Felddeklarationen (:) muss mindestens ein Buchstabe 
 search#:#lucene_err_exclamation_mark#:#Anfragen mit dem Spezialzeichen ! müssen folgende Form haben: term1 ! term2.
 search#:#lucene_err_parenthesis_empty#:#Klammern dürfen nicht leer sein.
 search#:#lucene_err_parenthesis_not_closed#:#Klammern müssen geschlossen werden.
-search#:#lucene_err_plus_minus#:# (+) und (-) muß mindestens ein Buchstabe oder eine Zahl nachfolgen.
+search#:#lucene_err_plus_minus#:# (+) und (-) muss mindestens ein Buchstabe oder eine Zahl nachfolgen.
 search#:#lucene_err_question_mark#:#Dem Fragezeichen (?) muss mindestens ein Buchstabe oder eine Nummer vorausgehen.
 search#:#lucene_err_quotes#:#Bitte schließen Sie all Anführungszeichen (").
 search#:#lucene_err_quotes_not_empty#:#Anführungszeichen dürfen nicht leer sein.
