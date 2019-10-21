@@ -11,6 +11,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
 
 /**
  * Slate
@@ -73,7 +74,7 @@ abstract class Slate implements ISlate\Slate
     {
         $this->toggle_signal = $this->signal_generator->create();
         $this->engage_signal = $this->signal_generator->create();
-        $this->replace_signal = $this->signal_generator->create(ILIAS\\UI\\Implementation\\Component\\ReplaceSignal::class);
+        $this->replace_signal = $this->signal_generator->create(ReplaceSignalImplementation::class);
     }
 
     /**
