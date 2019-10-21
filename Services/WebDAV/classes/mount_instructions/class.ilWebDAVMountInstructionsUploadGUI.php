@@ -48,7 +48,6 @@ class ilWebDAVMountInstructionsUploadGUI {
 		$this->file_systems                  = $file_systems;
 		$this->file_upload                   = $file_upload;
 		$this->mount_instructions_repository = $mount_instructions_repository;
-		$this->document_purifier = NULL;
 	}
 
 	/**
@@ -94,10 +93,6 @@ class ilWebDAVMountInstructionsUploadGUI {
 		$document_tbl_gui->setProvider(new ilWebDAVMountInstructionsTableDataProvider($this->mount_instructions_repository));
 		$document_tbl_gui->populate();
 
-		$this->tpl->setCurrentBlock('mess');
-		$this->tpl->setVariable('MESSAGE', 'Message');
-		//$this->tpl->setVariable('MESSAGE', $this->getResetMessageBoxHtml());
-		$this->tpl->parseCurrentBlock('mess');
 		$this->tpl->setContent($document_tbl_gui->getHTML());
 	}
 
@@ -123,7 +118,7 @@ class ilWebDAVMountInstructionsUploadGUI {
         $form = new ilWebDAVMountInstructionsDocumentFormGUI(
             $a_document,
             $this->mount_instructions_repository,
-            $this->document_purifier,
+            new ilWebDAVMountInstructionsDocumentPurifier(),
             $this->user,
             $this->file_systems->temp(),
             $this->file_upload,
