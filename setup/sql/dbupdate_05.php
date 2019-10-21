@@ -2576,3 +2576,7 @@ if ($ilDB->tableColumnExists("lng_log", "identifier")) {
     $ilDB->modifyTableColumn("lng_log", "identifier", $field);
 }
 ?>
+<#5559>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
