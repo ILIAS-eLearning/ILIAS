@@ -183,7 +183,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 		$columns[++$i] = [
 			'field'    => 'sorting',
-			'txt'      => $this->lng->txt('webdav_tbl_docs_head_sorting'),
+			'txt'      => $this->lng->txt('meta_order', 'meta'),
 			'default'  => true,
 			'optional' => false,
 			'sortable' => false,
