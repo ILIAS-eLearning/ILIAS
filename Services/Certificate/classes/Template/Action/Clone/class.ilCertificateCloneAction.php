@@ -145,6 +145,21 @@ class ilCertificateCloneAction
                 );
             }
 
+            $newCardThumbImage = '';
+            $CardThumbImagePath = $template->getThumbnailImagePath();
+
+            if ($this->fileSystem->has($CardThumbImagePath) && !$this->fileSystem->hasDir($CardThumbImagePath)) {
+                $newCardThumbImage = $certificatePath . basename($CardThumbImagePath);
+                if ($this->fileSystem->has($newCardThumbImage) && !$this->fileSystem->hasDir($newCardThumbImage)) {
+                    $this->fileSystem->delete($newCardThumbImage);
+                }
+                $this->fileSystem->copy(
+                    $CardThumbImagePath,
+                    $newCardThumbImage
+                );
+
+            }
+
             $newTemplate = new ilCertificateTemplate(
                 $newObject->getId(),
                 $this->objectHelper->lookupObjId((int) $newObject->getId()),
@@ -155,7 +170,8 @@ class ilCertificateCloneAction
                 $iliasVersion,
                 time(),
                 $template->isCurrentlyActive(),
-                $newBackgroundImage
+                $newBackgroundImage,
+                $newCardThumbImage
             );
 
             $this->templateRepository->save($newTemplate);
