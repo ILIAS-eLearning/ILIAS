@@ -297,7 +297,7 @@ class KprimChoiceEditor extends AbstractEditor {
         
         return KprimChoiceEditorConfiguration::create(
             boolval($_POST[self::VAR_SHUFFLE_ANSWERS]),
-            boolval($_POST[self::VAR_SINGLE_LINE]),
+            $_POST[self::VAR_SINGLE_LINE] === self::STR_TRUE,
             $thumbsize,
             $label_true,
             $label_false);
