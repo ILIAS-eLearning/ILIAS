@@ -194,19 +194,16 @@ class AnswerOptionForm extends ilTextInputGUI {
 	public function readAnswerOptions() {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
-        $fd_class = AnswerOptionFeedback::class;
 	    
 	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
 
-	    //TODO AnswerOption Feeback will be deleted....
 	    $this->options = new AnswerOptions();
 	    for ($i = 1; $i <= $count; $i++) {
 	        $this->options->addOption(new AnswerOption
 	            (
 	                $i,
 	                $dd_class::getValueFromPost($i),
-	                $sd_class::getValueFromPost($i),
-                    new AnswerOptionFeedback()));
+	                $sd_class::getValueFromPost($i)));
 	    }
 	}
 

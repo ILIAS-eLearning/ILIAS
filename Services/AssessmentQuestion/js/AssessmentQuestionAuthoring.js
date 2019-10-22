@@ -1,8 +1,8 @@
 // Generic Authoring
-let usingTiny = false;
+let tinyId = '';
 
 let add_row = function() {
-	usingTiny = false;
+	tinyId = '';
     let row = $(this).parents(".aot_table").find(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
 
@@ -14,8 +14,8 @@ let add_row = function() {
     table.append(new_row);
     $(".js_count").val(new_count);
     
-    if (usingTiny) {
-    	tinymce.init(tinymce.get()[0].settings);
+    if (tinyId !== '') {
+    	tinymce.EditorManager.execCommand('mceAddEditor', true, update_input_name(tinyId, new_count));
     }
 };
 
@@ -49,7 +49,7 @@ let clear_row = function(row) {
         if (input.siblings('.mceEditor').length > 0) {
         	input.siblings('.mceEditor').remove();
         	input.show();
-        	usingTiny = true;
+        	tinyId = input.attr('id');
         }
     });
 
