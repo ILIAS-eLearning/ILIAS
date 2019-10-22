@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
@@ -23,6 +25,16 @@ class TopParentItem extends AbstractBaseItem implements isItem, hasSymbol, hasTi
      * @var string
      */
     protected $title = "";
+
+
+    /**
+     * @inheritDoc
+     */
+    public function __construct(IdentificationInterface $provider_identification)
+    {
+        parent::__construct($provider_identification);
+        $this->renderer = new TopParentItemRenderer();
+    }
 
 
     /**

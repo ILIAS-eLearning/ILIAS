@@ -20,6 +20,7 @@
 	</web_access_checker>
 	<crons>
 		<cron id="book_notification" class="ilBookCronNotification" />
+		<cron id="book_pref_book" class="ilBookingPrefBookCron" />
 	</crons>
 	<logging />
 </module>

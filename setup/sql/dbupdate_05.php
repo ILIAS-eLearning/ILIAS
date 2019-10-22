@@ -1524,3 +1524,1059 @@ if(!$ilDB->tableExists('skl_profile_role'))
 	$ilDB->addPrimaryKey('skl_profile_role', array('profile_id', 'role_id'));
 }
 ?>
+<#5533>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5534>
+<?php
+if (!$ilDB->tableColumnExists('booking_settings', 'preference_nr'))
+{
+    $ilDB->addTableColumn('booking_settings', 'preference_nr', array(
+        "type" => "integer",
+        "notnull" => true,
+        "length" => 4,
+        "default" => 0
+    ));
+}
+?>
+<#5535>
+<?php
+if (!$ilDB->tableColumnExists('booking_settings', 'pref_deadline'))
+{
+    $ilDB->addTableColumn('booking_settings', 'pref_deadline', array(
+        "type" => "integer",
+        "notnull" => true,
+        "length" => 4,
+        "default" => 0
+    ));
+}
+?>
+<#5536>
+<?php
+if( !$ilDB->tableExists('booking_preferences') )
+{
+    $ilDB->createTable('booking_preferences', array(
+        'book_pool_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'user_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'book_obj_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        )
+    ));
+    $ilDB->addPrimaryKey('booking_preferences', ['book_pool_id', 'user_id', 'book_obj_id']);
+}
+?>
+<#5537>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5538>
+<?php
+if (!$ilDB->tableColumnExists('booking_settings', 'pref_booking_hash'))
+{
+    $ilDB->addTableColumn('booking_settings', 'pref_booking_hash', array(
+        "type" => "text",
+        "notnull" => true,
+        "length" => 23,
+        "default" => "0"
+    ));
+}
+?>
+<#5539>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5540>
+<?php
+
+include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$ltiTypeId = ilDBUpdateNewObjectType::getObjectTypeId('lti');
+
+if( !$ltiTypeId )
+{
+	// add basic object type
+	
+	$ltiTypeId = ilDBUpdateNewObjectType::addNewType('lti', 'LTI Consumer Object');
+	
+	// common rbac operations
+	
+	$rbacOperations = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+		ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+		ilDBUpdateNewObjectType::RBAC_OP_COPY
+	);
+	
+	ilDBUpdateNewObjectType::addRBACOperations($ltiTypeId, $rbacOperations);
+	
+	// lp rbac operations
+	
+	$operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
+	ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
+	
+	$operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+	ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
+	
+	// custom rbac operations
+	
+	$operationId = ilDBUpdateNewObjectType::addCustomRBACOperation(
+		'read_outcomes', 'Access Outcomes', 'object', '2250'
+	);
+	
+	ilDBUpdateNewObjectType::addRBACOperation($ltiTypeId, $operationId);
+	
+	// add create operation for relevant container types
+	
+	// (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
+	$parentTypes = array('root', 'cat', 'crs', 'fold', 'grp');
+	// (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
+	ilDBUpdateNewObjectType::addRBACCreate('create_lti', 'Create LTI Consumer Object', $parentTypes);
+	ilDBUpdateNewObjectType::applyInitialPermissionGuideline('lti', true);
+}
+
+?>
+<#5541>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5542>
+<?php
+
+include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$cmixTypeId = ilDBUpdateNewObjectType::getObjectTypeId('cmix');
+
+if( !$cmixTypeId )
+{
+	// add basic object type
+	
+	$cmixTypeId = ilDBUpdateNewObjectType::addNewType('cmix', 'cmi5/xAPI Object');
+	
+	// common rbac operations
+	
+	$rbacOperations = array(
+		ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+		ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+		ilDBUpdateNewObjectType::RBAC_OP_READ,
+		ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+		ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+		ilDBUpdateNewObjectType::RBAC_OP_COPY
+	);
+	
+	ilDBUpdateNewObjectType::addRBACOperations($cmixTypeId, $rbacOperations);
+	
+	// lp rbac operations
+	
+	$operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
+	ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
+	
+	$operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+	ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
+	
+	// custom rbac operations
+	
+	$operationId = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_outcomes');
+	ilDBUpdateNewObjectType::addRBACOperation($cmixTypeId, $operationId);
+	
+	// add create operation for relevant container types
+	
+	// (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
+	$parentTypes = array('root', 'cat', 'crs', 'fold', 'grp');
+	// (!) TRUNK SHOULD CONSIDER LSO PARENT AS WELL (!)
+	ilDBUpdateNewObjectType::addRBACCreate('create_cmix', 'Create cmi5/xAPI Object', $parentTypes);
+	ilDBUpdateNewObjectType::applyInitialPermissionGuideline('cmix', true);
+}
+
+?>
+<#5543>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5544>
+<?php
+
+include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+ilDBUpdateNewObjectType::addAdminNode(
+	'cmis', 'cmi5/xAPI Administration'
+);
+
+?>
+<#5545>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5546>
+<?php
+/**
+ * Type definitions
+ */
+if(!$ilDB->tableExists('cmix_lrs_types'))
+{
+	$types = array(
+		'type_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255
+		),
+		'description' => array(
+			'type' => 'text',
+			'length' => 4000
+		),
+		'availability' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1
+		),
+		'remarks' => array(
+			'type' => 'text',
+			'length' => 4000
+		),
+		'time_to_delete' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'lrs_endpoint' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'lrs_key' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => true
+		),
+		'lrs_secret' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => true
+		),
+		'privacy_comment_default' => array(
+			'type' => 'text',
+			'length' => 2000,
+			'notnull' => true
+		),
+		'external_lrs' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'user_ident' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false,
+			'default' => ''
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false,
+			'default' => ''
+		),
+		'force_privacy_settings' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bypass_proxy' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable("cmix_lrs_types", $types);
+	$ilDB->addPrimaryKey("cmix_lrs_types", array("type_id"));
+	$ilDB->createSequence("cmix_lrs_types");
+	
+}
+
+?>
+<#5547>
+<?php
+/**
+ * settings for xapi-objects
+ *
+ * !!! ILIAS 6.0 implementation needs migration of offline status in case of table allready exists !!!
+ */
+if(!$ilDB->tableExists('cmix_settings'))
+{
+	$fields = array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'lrs_type_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'content_type' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+        ),
+		'source_type' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+        ),
+		'activity_id' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'instructions' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'offline_status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 1
+        ),
+		'launch_url' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'auth_fetch_url' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'launch_method' => array (
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+		),
+		'launch_mode' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+		),
+		'mastery_score' => array(
+			'type' => 'float',
+			'notnull' => true,
+			'default' => 0.0
+		),
+		'keep_lp' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+		'user_ident' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+		),
+		'usr_privacy_comment' => array(
+			'type' => 'text',
+			'length' => 4000,
+			'notnull' => false
+		),
+		'show_statements' => array (
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'xml_manifest' => array(
+			'type' => 'clob'
+		),
+		'version' => array (
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 1
+		),
+		'highscore_enabled' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_achieved_ts' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_percentage' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_wtime' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_own_table' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_top_table' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_top_num' => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'bypass_proxy' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable("cmix_settings", $fields);
+	$ilDB->addPrimaryKey("cmix_settings", array("obj_id"));
+}
+?>
+<#5548>
+<?php
+/**
+ * table for detailed learning progress
+ */
+if(!$ilDB->tableExists('cmix_results'))
+{
+	$values = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+		),
+		'version' => array (
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => true,
+			'default' => 1
+		),
+		'score' => array(
+			'type' => 'float',
+			'notnull' => false,
+		),
+		'status' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true,
+			'default' => 0
+		),
+		'last_update' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+			'default' => ''
+		)
+	);
+	$ilDB->createTable("cmix_results", $values);
+	$ilDB->addPrimaryKey("cmix_results", array("id"));
+	$ilDB->createSequence("cmix_results");
+	$ilDB->addIndex("cmix_results", array("obj_id","usr_id"), 'i1', false);
+}
+?>
+<#5549>
+<?php
+
+if(!$ilDB->tableExists('cmix_users'))
+{
+    $ilDB->createTable('cmix_users', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'proxy_success' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'fetched_until' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		),
+		'usr_ident' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		)
+	));
+	
+	$ilDB->addPrimaryKey('cmix_users', array('obj_id', 'usr_id'));
+}
+
+?>
+<#5550>
+<?php
+/**
+ * table token for auth
+ */
+if(!$ilDB->tableExists('cmix_token'))
+{
+	$token = array(
+		'token' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true,
+			'default' => 0
+		),
+		'valid_until' => array(
+			'type' => 'timestamp',
+			'notnull' => true,
+			'default' => ''
+		),
+		'lrs_type_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		)
+	);
+	$ilDB->createTable("cmix_token", $token);
+
+	$ilDB->addPrimaryKey("cmix_token", array('token'));
+	$ilDB->addIndex("cmix_token", array('token', 'valid_until'), 'i1');
+	$ilDB->addUniqueConstraint("cmix_token", array('obj_id', 'usr_id'), 'c1');
+}
+?>
+<#5551>
+<?php
+
+$setting = new ilSetting('cmix');
+
+if( !$setting->get('ilias_uuid', false) )
+{
+    $uuid = (new \Ramsey\Uuid\UuidFactory())->uuid4()->toString();
+	$setting->set('ilias_uuid', $uuid);
+}
+
+?>
+<#5552>
+<?php
+/**
+ * Type definitions
+ */
+if(!$ilDB->tableExists('lti_ext_provider'))
+{
+	$fields = array(
+		'id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255
+		),
+		'description' => array(
+			'type' => 'text',
+			'length' => 4000
+		),
+		'availability' => array(
+			'type' => 'integer',
+			'length' => 2,
+			'notnull' => true,
+			'default' => 1
+		),
+		'remarks' => array(
+			'type' => 'text',
+			'length' => 4000
+		),
+		'time_to_delete' => array(
+			'type' => 'integer',
+			'length' => 4
+		),
+		'provider_url' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'provider_key' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => true
+		),
+		'provider_secret' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => true
+		),
+		'provider_key_customizable' => array( //key and secret changeable
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'provider_icon' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'provider_xml' => array(
+			'type' => 'clob'
+		),
+		'external_provider' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'launch_method' => array ( // Launch Method
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => false
+		),
+		'has_outcome' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'mastery_score' => array(
+			'type' => 'float',
+			'notnull' => false
+		),
+		'keep_lp' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'privacy_comment_default' => array(
+			'type' => 'text',
+			'length' => 2000,
+			'notnull' => true
+		),
+		'creator' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+		),
+		'accepted_by' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => false,
+		),
+		'global' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'use_xapi' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+		'xapi_launch_key' => array(
+			'type' => 'text',
+			'length' => 64,
+			'notnull' => false
+        ),
+		'xapi_launch_secret' => array(
+			'type' => 'text',
+			'length' => 64,
+			'notnull' => false
+        ),
+		'xapi_launch_url' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+        ),
+		'custom_params' => array(
+			'type' => 'text',
+			'length' => 1020,
+			'notnull' => false
+		),
+		'use_provider_id' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+		'always_learner' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+		'xapi_activity_id' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false
+        ),
+		'keywords' => array(
+			'type' => 'text',
+			'length' => 1000,
+			'notnull' => false
+        ),
+		'user_ident' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true,
+			'default' => ''
+		),
+		'user_name' => array(
+			'type' => 'text',
+			'length' => 32,
+			'notnull' => true,
+			'default' => ''
+		),
+		'inc_usr_pic' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'category' => array(
+			'type' => 'text',
+			'length' => 16,
+			'notnull' => true,
+			'default' => ''
+		)
+	);
+	$ilDB->createTable("lti_ext_provider", $fields);
+	$ilDB->addPrimaryKey("lti_ext_provider", array("id"));
+	$ilDB->createSequence("lti_ext_provider");
+}
+
+?>
+<#5553>
+<?php
+
+if(!$ilDB->tableExists('lti_consumer_settings'))
+{
+	$ilDB->createTable('lti_consumer_settings', array(
+		'obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+        'provider_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+		'launch_method' => array(
+			'type' => 'text',
+			'length' => 16,
+			'notnull' => true,
+			'default' => ''
+		),
+        'offline_status' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 1
+		),
+		'show_statements' => array (
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_enabled' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_achieved_ts' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_percentage' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_wtime' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_own_table' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_top_table' => array(
+			'type' => 'integer',
+			'length'  => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'highscore_top_num' => array(
+			'type' => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		),
+        'mastery_score' => array(
+            'type' => 'float',
+            'notnull' => true,
+            'default' => 0.5
+        ),
+        'keep_lp' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+        'use_xapi' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+        ),
+        'activity_id' => array(
+			'type' => 'text',
+			'length' => 128,
+			'notnull' => false
+        ),
+		'launch_key' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		),
+		'launch_secret' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => false
+		)
+    ));
+	
+	$ilDB->addPrimaryKey('lti_consumer_settings', array('obj_id'));
+}
+
+?>
+<#5554>
+<?php
+//changes for celtic/lti
+
+if($ilDB->tableExists('lti2_consumer'))
+{
+	if(!$ilDB->tableColumnExists('lti2_consumer', 'signature_method') )
+	{
+		$ilDB->addTableColumn('lti2_consumer', 'signature_method', array(
+			"type" => "text",
+			"notnull" => true,
+			"length" => 15,
+			"default" => 'HMAC-SHA1'
+		));
+	}
+}
+
+if($ilDB->tableExists('lti2_context'))
+{
+	if(!$ilDB->tableColumnExists('lti2_context', 'title') )
+	{
+		$ilDB->addTableColumn('lti2_context', 'title', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 255,
+			"default" => null
+		));
+	}
+}
+
+if($ilDB->tableExists('lti2_context'))
+{
+	if(!$ilDB->tableColumnExists('lti2_context', 'type') )
+	{
+		$ilDB->addTableColumn('lti2_context', 'type', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 50,
+			"default" => null
+		));
+	}
+}
+
+if($ilDB->tableExists('lti2_resource_link'))
+{
+	if(!$ilDB->tableColumnExists('lti2_resource_link', 'title') )
+	{
+		$ilDB->addTableColumn('lti2_resource_link', 'title', array(
+			"type" => "text",
+			"notnull" => false,
+			"length" => 255,
+			"default" => null
+		));
+	}
+}
+
+//note: field user_result_pk in table lti2_user_result is not used in ILIAS; use user_pk as in implementation of IMSGLOBAL
+
+if($ilDB->tableExists('lti2_nonce'))
+{
+	if($ilDB->tableColumnExists('lti2_nonce', 'value') )
+	{
+		$ilDB->modifyTableColumn('lti2_nonce', 'value', array(
+			'type' => 'text',
+			'length' => 50,
+			'notnull' => true
+		));
+	}
+}
+
+//todo: drop lti2_tool_proxy table
+
+
+?>
+<#5555>
+<?php
+/**
+ * add the table for type input values
+ */
+if(!$ilDB->tableExists('lti_consumer_results'))
+{
+    $values = array(
+        'id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+        ),
+        'obj_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+        ),
+        'usr_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+        ),
+        'result' => array(
+            'type' => 'float',
+            'notnull' => false,
+        ),
+    );
+    $ilDB->createTable("lti_consumer_results", $values);
+    $ilDB->addPrimaryKey("lti_consumer_results", array("id"));
+    $ilDB->createSequence("lti_consumer_results");
+    $ilDB->addIndex("lti_consumer_results",array("obj_id","usr_id"),'i1');
+}
+?>
+<#5556>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5557>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
+<#5558>
+<?php
+if ($ilDB->tableColumnExists("lng_log", "identifier")) {
+    $field = array(
+        'type'    => 'text',
+        'length'  => 200,
+        'notnull' => true,
+        'default' => ' '
+    );
+    $ilDB->modifyTableColumn("lng_log", "identifier", $field);
+}
+?>
+<#5559>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

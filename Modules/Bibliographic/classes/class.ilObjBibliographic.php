@@ -124,10 +124,6 @@ class ilObjBibliographic extends ilObject2
                 "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
             ]
         );
-        //in case the bibliographic list item was copied the filename is empty
-        if (!empty($this->getFilename())) {
-            $this->parseFileToDatabase();
-        }
     }
 
 

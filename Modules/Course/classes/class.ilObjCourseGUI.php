@@ -2278,9 +2278,6 @@ class ilObjCourseGUI extends ilContainerGUI
 	
 		$this->prepareOutput();
 		
-		// show repository tree
-		$this->showRepTree();
-		
 		// add entry to navigation history
 		if(!$this->getCreationMode() &&
 			$ilAccess->checkAccess('read', '', $_GET['ref_id']))

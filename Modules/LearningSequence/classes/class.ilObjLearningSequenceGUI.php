@@ -139,7 +139,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
 		//showRepTree is from containerGUI;
 		//LSO will attach allowed subitems to whitelist
 		//see: $this::getAdditionalWhitelistTypes
-		$this->showRepTree();
 
 		$in_player = (
 			$next_class === 'ilobjlearningsequencelearnergui'

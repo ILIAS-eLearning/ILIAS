@@ -600,7 +600,7 @@ class ilBookingReservation
 	 * @param	array	$a_offset
 	 * @return	array
 	 */
-	static function getList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter)
+	static function getList($a_object_ids, $a_limit = 10, $a_offset = 0, array $filter = [])
 	{
 		global $DIC;
 
