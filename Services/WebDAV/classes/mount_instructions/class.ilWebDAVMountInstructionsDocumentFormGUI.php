@@ -242,7 +242,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $modification_ts = $document_already_exists ? ilUtil::now() : $creation_ts;
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
-        $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 10;
+        $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
         $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
 
         // On creating a new document -> check if language is already in use by another document

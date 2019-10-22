@@ -92,7 +92,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
     public function getAllMountInstructions() : array
     {
-        $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS);
+        $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS). " ORDER BY sorting";
         $result = $this->db->query($query);
 
         $document_list = array();
@@ -115,7 +115,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $record != null;
     }
 
-    public function updateMountInstructionsById(ilWebDAVMountInstructionsDocument $document)
+    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document)
     {
         $this->db->update(
             // table name
@@ -141,7 +141,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
 
-    public function updateSortingValueById($id, $a_new_sorting_value)
+    public function updateSortingValueById(int $id, int $a_new_sorting_value)
     {
         $this->db->update(
         // table name

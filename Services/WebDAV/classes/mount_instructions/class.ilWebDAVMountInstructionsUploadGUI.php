@@ -223,29 +223,24 @@ class ilWebDAVMountInstructionsUploadGUI {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $sorting = $this->httpState->request()->getParsedBody()['sorting'] ?? [];
+        $sorting = $this->http_state->request()->getParsedBody()['sorting'] ?? [];
         if (!is_array($sorting) || 0 === count($sorting)) {
             $this->showDocuments();
             return;
         }
 
+        // Sort array by give sort value
         asort($sorting, SORT_NUMERIC);
 
         $position = 0;
         foreach ($sorting as $document_id => $ignored_sort_value) {
+
+            // Only accept numbers
             if (!is_numeric($document_id)) {
                 continue;
             }
 
-            try {
-                $this->mount_instructions_repository->updateSortingValueById((int)$document_id, $position);
-                $document = $this->mount_instructions_repository->getMountInstructionsDocumentById((int)$document_id)->withSorting(++$position);
-                $this->mount_instructions_repository->updateMountInstructionsById($document->getId());
-                //$document->setSorting(++$position);
-                //$document->store();
-            } catch (ilException $e) {
-                // Empty catch block
-            }
+            $this->mount_instructions_repository->updateSortingValueById((int)$document_id, ++$position);
         }
 
         ilUtil::sendSuccess($this->lng->txt('webdav_saved_sorting'), true);
