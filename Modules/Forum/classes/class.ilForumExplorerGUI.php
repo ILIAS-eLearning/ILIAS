@@ -187,20 +187,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function build(
-        \ILIAS\UI\Component\Tree\Node\Factory $factory,
-        $record,
-        $environment = null
-    ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentPostingId === (int) $record['pos_pk']);
-    }
-
     /**
      * @param array $node
      * @return ilForumAuthorInformation
