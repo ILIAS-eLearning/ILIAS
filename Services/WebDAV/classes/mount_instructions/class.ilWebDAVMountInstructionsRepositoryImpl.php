@@ -18,6 +18,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $this->db = $a_db;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function createMountInstructionsDocumentEntry(ilWebDAVMountInstructionsDocument $document)
     {
         $this->db->insert(
@@ -39,6 +42,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         ));
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getNextMountInstructionsDocumentId() : int
     {
         if(!$this->db->sequenceExists(self::TABLE_MOUNT_INSTRUCTIONS))
@@ -49,6 +55,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $this->db->nextId(self::TABLE_MOUNT_INSTRUCTIONS);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getHighestSortingNumber() : int
     {
         $query = "SELECT max(sorting) as max_sort FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS);
@@ -58,6 +67,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return isset($row) && !is_null($row['max_sort']) ? $row['max_sort'] : 0;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getMountInstructionsDocumentById(int $id) : ilWebDAVMountInstructionsDocument
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
@@ -68,12 +80,15 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         if(!$record)
         {
-            throw new ilException("Document with the id $id not found");
+            throw new InvalidArgumentException("Document with the id $id not found");
         }
 
         return $this->buildDocumentFromDatabaseRecord($record);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getMountInstructionsByLanguage(string $language) : ilWebDAVMountInstructionsDocument
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
@@ -84,12 +99,15 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         if(!$record)
         {
-            throw new ilException("Document for the language $language not found");
+            throw new InvalidArgumentException("Document for the language $language not found");
         }
 
         return $this->buildDocumentFromDatabaseRecord($record);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getAllMountInstructions() : array
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS). " ORDER BY sorting";
@@ -104,6 +122,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $document_list;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function doMountInstructionsExistByLanguage(string $language) : bool
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
@@ -115,6 +136,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return $record != null;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document)
     {
         $this->db->update(
@@ -141,6 +165,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function updateSortingValueById(int $id, int $a_new_sorting_value)
     {
         $this->db->update(
@@ -159,6 +186,9 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function deleteMountInstructionsById(int $id)
     {
         $query = "DELETE FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
@@ -166,6 +196,13 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
 
         $this->db->manipulate($query);
     }
+
+    /**
+     * Fills document with results array from database
+     *
+     * @param array $result
+     * @return ilWebDAVMountInstructionsDocument
+     */
     protected function buildDocumentFromDatabaseRecord(array $result)
     {
         return new ilWebDAVMountInstructionsDocument(
