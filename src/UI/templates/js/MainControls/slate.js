@@ -20,6 +20,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					break;
 				case 'engage':
 					engage(slate);
+					break;
 				case 'replace':
 					replaceFromSignal(id, signalData);
 					break;
