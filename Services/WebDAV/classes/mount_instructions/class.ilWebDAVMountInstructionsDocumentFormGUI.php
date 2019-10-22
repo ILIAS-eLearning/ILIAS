@@ -238,8 +238,8 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         // Get values for document
         $title = $this->getInput('title');
         $language = $this->getInput('lng');
-        $creation_ts = $document_already_exists ? $document->getCreationTs() : time();
-        $modification_ts = $document_already_exists ? time() : $creation_ts;
+        $creation_ts = $document_already_exists ? $document->getCreationTs() : ilUtil::now();
+        $modification_ts = $document_already_exists ? ilUtil::now() : $creation_ts;
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
         $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 10;
