@@ -33,27 +33,32 @@ let remove_row = function() {
 
 let clear_row = function(row) {
     row.find('input[type!="Button"], textarea').each(function() {
-    	$input = $(this);
+    	let input = $(this);
     	
-    	if ($input.attr('type') === 'radio' ||
-    		$input.attr('type') === 'checkbox') {
-    		$input.attr('checked', false);
+    	if (input.attr('type') === 'radio' ||
+    		input.attr('type') === 'checkbox') {
+    		input.attr('checked', false);
     	}
-    	else if ($input.attr('type') === 'hidden') {
+    	else if (input.attr('type') === 'hidden') {
     		//dont clear hidden fields
     	}
     	else {
-    		$input.val('');
+    		input.val('');
     	}
         
-        if ($input.siblings('.mceEditor').length > 0) {
-        	$input.siblings('.mceEditor').remove();
-        	$input.show();
+        if (input.siblings('.mceEditor').length > 0) {
+        	input.siblings('.mceEditor').remove();
+        	input.show();
         	usingTiny = true;
         }
     });
 
-    row.find('span').html('');
+    row.find('span').each(function() {
+    	let span = $(this);
+    	if (span.children().length === 0) {
+    		span.html('');
+    	}
+    });
     
     return row;
 };
