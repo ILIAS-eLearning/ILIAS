@@ -15252,3 +15252,20 @@ obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
 obj#:#obj_tool_setting_booking#:#Ressourcen
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.
 common#:#mm_rep_tree_view#:#Baumansicht
+exc#:#exc_rel_last_submission#:#Letzt möglicher Abgabetermin
+exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
+exc#:#exc_mandatory_rand_determined#:#Zufällige Auswahl
+exc#:#exc_random_selection#:#Zufällige Auswahl
+exc#:#exc_random_selection_info#:#Jedem Benutzer wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
+exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
+exc#:#exc_denied_has_submissions#:#Grund: Benutzer haben bereits Abgaben getätigt.
+exc#:#exc_denied_has_peer_reviews#:#Grund: Einige Übungseinheiten haben Peer-Reviewing aktiviert.
+exc#:#exc_denied_has_team_assignments#:#Grund: Die Übung enthält Team-Abgaben.
+exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
+exc#:#exc_pass_mode_not_changeable_info#:#Diese Option kann nicht mehr geändert werden.
+exc#:#exc_start_exercise#:#Übung beginnen
+exc#:#exc_random_assignment#:#Zufällige Auswahl
+exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine zufällige Auswahl an verpflichtenden Übungseinheiten zugewiesen.
+exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
+exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
+exc#:#exc_random#:#Zufällig

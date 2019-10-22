@@ -15253,3 +15253,20 @@ obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
 common#:#mm_rep_tree_view#:#Tree View
+exc#:#exc_rel_last_submission#:#Last Possible Submission
+exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
+exc#:#exc_mandatory_rand_determined#:#Randomly determined
+exc#:#exc_random_selection#:#Random Selection
+exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.
+exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
+exc#:#exc_denied_has_submissions#:#Reason: Users have already submitted to assignments.
+exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.
+exc#:#exc_denied_has_team_assignments#:#Reason: There are team assignments in this exercise.
+exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.
+exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.
+exc#:#exc_start_exercise#:#Start Exercise
+exc#:#exc_random_assignment#:#Random Assignment
+exc#:#exc_random_assignment_info#:#When starting the exercise some assignments will be randomly selected being mandatory for you.
+exc#:#exc_rand_overall_ass#:#Overall Number of Assignments
+exc#:#exc_rand_nr_mandatory#:#Number of Mandatory Assignments
+exc#:#exc_random#:#Random
