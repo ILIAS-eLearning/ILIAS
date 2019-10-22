@@ -250,7 +250,7 @@ class ilForumAuthorInformation
 		{
 			// The author does not use a pseudonym, but the id does not exist anymore (deleted, lost on import etc.)
 			// We have no import name,so we check the pseudonym  
-			$this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('deleted') . ')';
+			$this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
 			$this->suffix            = $translationLanguage->txt('deleted');
 			$this->buildAuthorProfileLink(false);
 			$this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
