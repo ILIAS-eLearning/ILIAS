@@ -108,8 +108,8 @@ class AsqGUIElementFactory {
      * @throws Exception
      */
 	public static function CreateQuestionForm(QuestionDto $question):ilPropertyFormGUI {
-		if (is_null($question->getLegacyData() ||
-		    is_null($question->getLegacyData()->getAnswerTypeId()))) {
+		if (is_null($question->getLegacyData()) ||
+		    is_null($question->getLegacyData()->getAnswerTypeId())) {
 			return new QuestionFormGUI($question);
 		} else {
 			return self::createLegacyForm($question);

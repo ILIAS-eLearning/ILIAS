@@ -181,6 +181,9 @@ class KprimChoiceEditor extends AbstractEditor {
             $thumb_size->setValue($config->getThumbnailSize());
             $singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
         }
+        else {
+            $shuffle->setChecked(true);
+        }
         
         return $fields;
     }

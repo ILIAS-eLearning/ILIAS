@@ -205,6 +205,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 			$singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
 		}
 		else {
+		    $shuffle->setChecked(true);
 		    $max_answers->setValue(1);
 		}
 
