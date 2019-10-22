@@ -137,12 +137,13 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
-                $application_processing_service = new ProcessingApplicationService($this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->question_config, $this->lng_key);
+                $application_processing_service = new ProcessingApplicationService($this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->lng_key);
 
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->authoring_application_service,
                     $application_processing_service,
-                    $this->question_id
+                    $this->question_id,
+                    $this->question_config
                 );
 
                 $DIC->ctrl()->forwardCommand($gui);

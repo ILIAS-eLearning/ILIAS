@@ -29,10 +29,14 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 class ilAsqQuestionProcessingGUI
 {
 
+    const QUESTION_FORM_ID = 'asqQuestionForm';
+
     const CMD_SHOW_QUESTION = 'showQuestion';
     const CMD_SAVE_ANSWER = 'saveAnswer';
     const CMD_SHWOW_FEEDBACK = 'showFeedback';
-    const CMD_CHOOSE_NEW_QUESTION = 'choose_new_question_cmd_not_set';
+    const CMD_DETECT_CHANGES = 'detectChanges';
+    //Actions
+    const CMD_REVERT_CHANGES = 'revertChanges';
     //const CMD_SCORE_PREVIEW = 'scorePreview';
     /**
      * @var ProcessingApplicationService
@@ -47,10 +51,6 @@ class ilAsqQuestionProcessingGUI
      */
     protected $question_config;
     /**
-     * var string
-     */
-    protected $choose_new_question_cmd = self::CMD_CHOOSE_NEW_QUESTION;
-    /**
      * @var QuestionCommands
      */
     protected $question_comands;
@@ -62,7 +62,6 @@ class ilAsqQuestionProcessingGUI
      * @param AuthoringContextContainer $contextContainer
      */
     public function __construct(
-        string $choose_new_question_cmd,
         string $revision_key,
         ProcessingContextContainer $processing_context_container,
         QuestionConfig $question_config
@@ -72,11 +71,7 @@ class ilAsqQuestionProcessingGUI
         //we could use this in future in constructer
         $lng_key = $DIC->language()->getDefaultLanguage();
 
-        if (!empty($choose_new_question_cmd)) {
-            $this->choose_new_question_cmd = $choose_new_question_cmd;
-        }
-
-        $this->processing_application_service = new ProcessingApplicationService($processing_context_container->getObjId(), $processing_context_container->getActorId(), $question_config, $lng_key);
+        $this->processing_application_service = new ProcessingApplicationService($processing_context_container->getObjId(), $processing_context_container->getActorId(), $lng_key);
         $this->revision_key = $revision_key;
         $this->question_config = $question_config;
 
@@ -99,9 +94,11 @@ class ilAsqQuestionProcessingGUI
             case self::CMD_SHWOW_FEEDBACK:
                 $this->showFeedback();
                 break;
-            case self::CMD_CHOOSE_NEW_QUESTION:
-            case $this->choose_new_question_cmd:
-                throw new ilAsqException("Please implement the the choose_new_question_cmd for your GUI class");
+            case self::CMD_DETECT_CHANGES:
+                $this->detectChanges();
+                break;
+            case self::CMD_REVERT_CHANGES:
+                $this->revertChanges();
                 break;
             case self::CMD_SHOW_QUESTION:
             default:
@@ -125,7 +122,22 @@ class ilAsqQuestionProcessingGUI
         $answer = $this->processing_application_service->getCurrentAnswer($question_dto);
         $this->processing_application_service->answerQuestion($answer);
 
-        $DIC->ctrl()->redirect($this, $this->choose_new_question_cmd);
+        $DIC->ctrl()->redirectByClass(['ilrepositorygui', 'ilObjTestGUI', 'asqdebuggui'], 'showNextQuestion');
+
+        //TODO iCtrl does not work?
+        $DIC->ctrl()->redirectToURL($this->question_config->getShowNextQuestionAction());
+    }
+
+
+    public function revertChanges()
+    {
+        $this->showQuestion();
+    }
+
+
+    public function detectChanges()
+    {
+       exit;
     }
 
 
@@ -144,6 +156,10 @@ class ilAsqQuestionProcessingGUI
     }
 
 
+    /**
+     * @return ilTemplate
+     * @throws ilTemplateException
+     */
     private function getQuestionTpl() : ilTemplate
     {
         global $DIC;
@@ -152,19 +168,61 @@ class ilAsqQuestionProcessingGUI
 
         //TODO
         $question_commands = new QuestionCommands();
-        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto, $question_commands);
+
+        // Normal questions: changes are done in form fields an can be detected there
+        $config['withFormChangeDetection'] = true; //$questionConfig->isFormChangeDetectionEnabled();
+
+        // Flash and Java questions: changes are directly sent to ilias and have to be polled from there
+        $config['withBackgroundChangeDetection'] = true; //$questionConfig->isBackgroundChangeDetectionEnabled();
+        $config['backgroundDetectorUrl'] = $DIC->ctrl()->getLinkTarget($this, ilTestPlayerCommands::DETECT_CHANGES, '', true);
+
+        // Forced feedback will change the navigation saving command
+        $config['forcedInstantFeedback'] = true; //$this->object->isForceInstantFeedbackEnabled();
+        $config['nextQuestionLocks'] = true; //$this->object->isFollowupQuestionAnswerFixationEnabled();
+
+        if(count($this->question_config->getJavaScriptOnLoadPaths()) > 0) {
+            foreach($this->question_config->getJavaScriptOnLoadPaths() as $js_path) {
+                $DIC->ui()->mainTemplate()->addJavascript($js_path);
+            }
+        }
+        //TODO JS on load code
+        /*
+        $DIC->ui()->mainTemplate()->addOnLoadCode('il.QuestionEditControl.init(' . json_encode($config) . ')');
+        */
+
+        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto, $this->question_config, $question_commands);
+
+        if(is_object($this->question_config->getQuestionPageActionMenu())) {
+            //TODO Move template
+            $tpl = new ilTemplate('tpl.tst_question_actions.html', true, true, 'Modules/Test');
+            $tpl->setVariable('ACTION_MENU',$this->question_config->getQuestionPageActionMenu()->getHTML());
+            $question_page->setQuestionActionsHTML($tpl->get());
+        }
+
 
         $tpl_question_navigation_html = "";
-        if (!is_null($this->question_config->getBtnNext()) || !is_null($this->question_config->getBtnPrev())) {
+        if (!is_null($this->question_config->getShowNextQuestionAction()) || !is_null($this->question_config->getShowPreviousQuestionAction())) {
             $tpl_question_navigation = new ilTemplate('tpl.question_navigation.html', true, true, 'Services/AssessmentQuestion');
-            $tpl_question_navigation->setVariable('BTN_NEXT', $DIC->ui()->renderer()->render($this->question_config->getBtnNext()));
+
+            if (!is_null($this->question_config->getShowNextQuestionAction())) {
+                //The Redirect to the parent GUI is after saveing. see saveAnswer
+                $button_next = $DIC->ui()->factory()->button()->primary($DIC->language()->txt('next_question'), '');
+                $tpl_question_navigation->setVariable('BTN_NEXT', $DIC->ui()->renderer()->render($button_next));
+            }
+
+            if (!is_null($this->question_config->getShowPreviousQuestionAction())) {
+                $btn_prev = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('previous_question'), $this->question_config->getShowPreviousQuestionAction());
+                $tpl_question_navigation->setVariable('BTN_PREV', $DIC->ui()->renderer()->render($btn_prev));
+            }
+
             $tpl_question_navigation_html = $tpl_question_navigation->get();
         }
 
         $tpl = new ilTemplate('tpl.question_container.html', true, true, 'Services/AssessmentQuestion');
         $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SAVE_ANSWER));
+        $tpl->setVariable('FORMID', self::QUESTION_FORM_ID);
         $tpl->setVariable('QUESTION_NAVIGATION', $tpl_question_navigation_html);
-        $tpl->setVariable('QUESTION_OUTPUT', $question_page->preview());
+        $tpl->setVariable('QUESTION_OUTPUT', $question_page->showPage());
 
         return $tpl;
     }

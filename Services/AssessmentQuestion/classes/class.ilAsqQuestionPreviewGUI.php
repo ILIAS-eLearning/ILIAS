@@ -34,9 +34,9 @@ class ilAsqQuestionPreviewGUI
      */
     protected $processing_application_service;
     /**
-     * @var AuthoringContextContainer
+     * @var QuestionConfig
      */
-    //  protected $context_container;
+     protected  $question_config;
     /**
      * @var AssessmentEntityId
      */
@@ -62,11 +62,13 @@ class ilAsqQuestionPreviewGUI
     public function __construct(
         AuthoringApplicationService $authoring_application_service,
         ProcessingApplicationService $processing_application_service,
-        AssessmentEntityId $question_id
+        AssessmentEntityId $question_id,
+        QuestionConfig $question_config
     ) {
         $this->authoring_application_service = $authoring_application_service;
         $this->processing_application_service = $processing_application_service;
         $this->question_id = $question_id;
+        $this->question_config = $question_config;
     }
 
 
@@ -119,12 +121,12 @@ class ilAsqQuestionPreviewGUI
         $question_dto = $this->authoring_application_service->getQuestion($this->question_id->getId());
 
         $question_commands = new QuestionCommands();
-        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto, $question_commands);
+        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto,  $this->question_config, $question_commands);
 
         $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
 
         $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW));
-        $tpl->setVariable('QUESTION_OUTPUT', $question_page->preview());
+        $tpl->setVariable('QUESTION_OUTPUT', $question_page->showPage());
 
         return $tpl;
     }
