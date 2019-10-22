@@ -31,7 +31,7 @@ if ($_GET['new_ui'] == '1') {
 
     $entries = $mainbar->getEntries();
     $tools = $mainbar->getToolEntries();
-    $content = pagedemoContent($f, $renderer, $entries, $tools);
+    $content = pagedemoContent($f, $renderer, $mainbar);
 
     $page = $f->layout()->page()->standard(
         $content,
@@ -77,22 +77,32 @@ function pagedemoCrumbs($f)
     return $f->breadcrumbs($crumbs);
 }
 
-function pagedemoContent($f, $r, array $mainbar_entries, array $tools)
+function pagedemoContent($f, $r, $mainbar)
 {
+
+    $tools = $mainbar->getToolEntries();
+
     $second_tool = array_values($tools)[1];
     $url = "./src/UI/examples/Layout/Page/Standard/ui.php?replaced=1";
     $replace_signal = $second_tool->getReplaceSignal()->withAsyncRenderUrl($url);
     $replace_btn = $f->button()->standard('replace contents in 2nd tool', $replace_signal);
 
+    $invisible_tool = array_values($tools)[2];
+    $engage_signal = $mainbar->getEngageToolSignal(array_keys($tools)[2]);
+    $invisible_tool_btn = $f->button()->standard('show the hidden tool', $engage_signal);
+
     return array(
         $f->panel()->standard(
-            'Demo Content',
+            'Using Signals',
             $f->legacy(
                 "This button will replace the contents of the second tool-slate.<br />"
                 ."Goto Tools, second entry and click it.<br />"
                 .$r->render($replace_btn)
+                ."<br><br>This will unhide and activate another tool<br />"
+                .$r->render($invisible_tool_btn)
             )
         ),
+
         $f->panel()->standard(
             'Demo Content 2',
             $f->legacy("some content<br>some content<br>some content<br>x.")
@@ -189,9 +199,12 @@ function pagedemoMainbar($f, $r)
     }
 
     $tools = getDemoEntryTools($f);
-    foreach ($tools as $id => $entry) {
-        $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);
-    }
+    $mainbar = $mainbar
+        ->withAdditionalToolEntry('tool1', $tools['tool1'])
+        ->withAdditionalToolEntry('tool2', $tools['tool2'])
+        ->withAdditionalToolEntry('tool3', $tools['tool3'], true)
+        ;
+
 
     return $mainbar;
 }

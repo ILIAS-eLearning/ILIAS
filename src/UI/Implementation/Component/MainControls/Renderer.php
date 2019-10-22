@@ -18,7 +18,10 @@ class Renderer extends AbstractComponentRenderer
 {
     const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
     const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
+    const BLOCK_MAINBAR_TOOLS_HIDDEN = 'tool_trigger_item_hidden';
     const BLOCK_METABAR_ENTRIES = 'meta_element';
+
+    private $signals_for_tools = [];
 
     /**
      * @inheritdoc
@@ -62,7 +65,8 @@ class Renderer extends AbstractComponentRenderer
 
         if (count($tools) > 0) {
             $tools_button = $component->getToolsButton();
-            $this->addTools($tpl, $default_renderer, $tools_button, $tools, $signals, $active);
+            $initially_hidden_ids = $component->getInitiallyHiddenToolIds();
+            $this->addTools($tpl, $default_renderer, $tools_button, $tools, $signals, $active, $initially_hidden_ids);
         }
 
         $more_button = $component->getMoreButton();
@@ -126,7 +130,8 @@ class Renderer extends AbstractComponentRenderer
         Signal $entry_signal,
         string $block,
         array $entries,
-        string $active = null
+        string $active = null,
+        array $initially_hidden_ids = []
     ) {
         foreach ($entries as $id=>$entry) {
             $engaged = (string) $id === $active;
@@ -149,8 +154,21 @@ class Renderer extends AbstractComponentRenderer
                 $slate = null;
             }
 
+            $button_html = $default_renderer->render($button);
+            if ($block === static::BLOCK_MAINBAR_TOOLS) {
+                $pos_start = strpos($button_html, 'id="') + 4;
+                $pos_end = strpos($button_html, '"', $pos_start);
+                $btn_id = substr($button_html, $pos_start, $pos_end-$pos_start);
+                $this->signals_for_tools[$id] = $btn_id;
+
+                $initially_hidden = in_array($id, $initially_hidden_ids);
+                if($initially_hidden) {
+                    $block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
+                }
+            }
+
             $tpl->setCurrentBlock($block);
-            $tpl->setVariable("BUTTON", $default_renderer->render($button));
+            $tpl->setVariable("BUTTON", $button_html);
             $tpl->parseCurrentBlock();
 
             if ($slate) {
@@ -178,7 +196,8 @@ class Renderer extends AbstractComponentRenderer
         Component\Button\Bulky $tools_button,
         array $tools,
         array $signals,
-        string $active = null
+        string $active = null,
+        array $initially_hidden_ids = []
     ) {
         $f = $this->getUIFactory();
 
@@ -203,7 +222,8 @@ class Renderer extends AbstractComponentRenderer
             $signals['entry'],
             static::BLOCK_MAINBAR_TOOLS,
             $tools,
-            $active
+            $active,
+            $initially_hidden_ids
         );
     }
 
@@ -235,23 +255,36 @@ class Renderer extends AbstractComponentRenderer
         array $signals,
         string $active = null
     ) {
+        $ext_signals =  $this->signals_for_tools;
         $component = $component->withOnLoadCode(
-            function ($id) use ($signals) {
+            function ($id) use ($signals, $ext_signals, $component) {
                 $entry_signal = $signals['entry'];
                 $tools_signal = $signals['tools'];
                 $close_slates_signal = $signals['close_slates'];
                 $tool_removal_signal = $signals['tools_removal'];
-                return "
-					il.UI.maincontrols.mainbar.registerSignals(
-						'{$id}',
-						'{$entry_signal}',
-						'{$close_slates_signal}',
-						'{$tools_signal}',
-						'{$tool_removal_signal}'
-					);
-					il.UI.maincontrols.mainbar.initMore();
-					$(window).resize(il.UI.maincontrols.mainbar.initMore);
+                $js = "
+                    il.UI.maincontrols.mainbar.registerSignals(
+                        '{$id}',
+                        '{$entry_signal}',
+                        '{$close_slates_signal}',
+                        '{$tools_signal}',
+                        '{$tool_removal_signal}'
+                    );
+                    il.UI.maincontrols.mainbar.initMore();
+                    $(window).resize(il.UI.maincontrols.mainbar.initMore);
 				";
+
+                foreach ($ext_signals as $key => $btn_id) {
+                    $ext_signal = $component->getEngageToolSignal($key);
+                    $js .= "
+                        il.UI.maincontrols.mainbar.addExternalSignals(
+                            '{$id}',
+                            '{$ext_signal}',
+                            '{$btn_id}'
+                        );
+                    ";
+                }
+                return $js;
             }
         );
 

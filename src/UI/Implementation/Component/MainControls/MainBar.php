@@ -71,6 +71,17 @@ class MainBar implements MainControls\MainBar
      */
     private $active;
 
+    /**
+     * @var string[]
+     */
+    private $initially_hidden_ids = [];
+
+    /**
+     * @var array<string, Signal>
+     */
+    private $tool_signals = [];
+
+
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
         $this->signal_generator = $signal_generator;
@@ -118,7 +129,12 @@ class MainBar implements MainControls\MainBar
     /**
      * @inheritdoc
      */
-    public function withAdditionalToolEntry(string $id, Slate $entry) : MainControls\MainBar
+    public function withAdditionalToolEntry(
+        string $id,
+        Slate $entry,
+        bool $initially_hidden = false,
+        Button\Close $close_button = null
+    ) : MainControls\MainBar
     {
         if (!$this->tools_button) {
             throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
@@ -130,6 +146,12 @@ class MainBar implements MainControls\MainBar
 
         $clone = clone $this;
         $clone->tool_entries[$id] = $entry;
+        $clone->tool_signals[$id] = $this->signal_generator->create();
+
+        if($initially_hidden) {
+            $clone->initially_hidden_ids[] = $id;
+        }
+
         return $clone;
     }
 
@@ -216,6 +238,9 @@ class MainBar implements MainControls\MainBar
     {
         $clone = clone $this;
         $clone->initSignals();
+        foreach (array_keys($this->tool_entries) as $tool_id) {
+            $this->tool_signals[$tool_id] = $this->signal_generator->create();
+        }
         return $clone;
     }
 
@@ -243,5 +268,21 @@ class MainBar implements MainControls\MainBar
         $clone = clone $this;
         $clone->active = $active;
         return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getInitiallyHiddenToolIds() : array
+    {
+        return array_unique($this->initially_hidden_ids);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getEngageToolSignal(string $tool_id) : Signal
+    {
+        return $this->tool_signals[$tool_id];
     }
 }

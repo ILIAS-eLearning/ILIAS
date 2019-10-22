@@ -9144,6 +9144,12 @@ footer {
 .il-mainbar-tools-entries .btn-bulky.engaged .icon {
   filter: invert(60%);
 }
+.il-mainbar-tools-entries .il-mainbar-tool-trigger-item {
+  display: inline;
+}
+.il-mainbar-tools-entries .il-mainbar-tool-trigger-item .hidden {
+  display: none;
+}
 .il-mainbar-tools-entries-bg {
   height: 80px;
   width: 100%;
