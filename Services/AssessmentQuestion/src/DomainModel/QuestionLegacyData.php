@@ -53,8 +53,6 @@ class QuestionLegacyData extends AbstractValueObject {
 	    return $this->content_editing_mode;
 	}
 
-
-
     public function getContainerObjType(): ?string {
         return $this->container_obj_type;
     }

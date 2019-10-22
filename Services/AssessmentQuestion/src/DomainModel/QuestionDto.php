@@ -62,7 +62,7 @@ class QuestionDto  {
      */
 	private $question_int_id;
     /**
-     * @var ContentEditingModeDto
+     * @var ContentEditingMode
      */
 	private $content_editing_mode;
     /**
@@ -96,22 +96,11 @@ class QuestionDto  {
 		$dto->answer_options = $question->getAnswerOptions();
 		$dto->legacy_data = $question->getLegacyData();
 
-		$dto->content_editing_mode = ContentEditingModeDto::createFromContentEditingMode(
-		    $question->getContentEditingMode()
-        );
+		$dto->content_editing_mode = $question->getContentEditingMode();
 
         $dto->feedback = $question->getFeedback() ?? new Feedback();
 
         $dto->question_hints = $question->getHints();
-
-		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
-            $question->getFeedbackCorrect()
-        );
-
-		$dto->feedback_wrong = FeedbackDto::createFromFeedback(
-            $question->getFeedbackWrong()
-        );*/
-
 
 		return $dto;
 	}
@@ -271,9 +260,9 @@ class QuestionDto  {
 
 
     /**
-     * @return ContentEditingModeDto
+     * @return ContentEditingMode
      */
-    public function getContentEditingMode() : ContentEditingModeDto
+    public function getContentEditingMode() : ContentEditingMode
     {
         return $this->content_editing_mode;
     }
