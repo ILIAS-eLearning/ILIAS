@@ -211,11 +211,6 @@ class ilWebDAVMountInstructionsUploadGUI {
         }
     }
 
-    protected function deleteDocuments()
-    {
-
-    }
-
     public function saveDocumentSorting()
     {
         if(!$this->rbacsystem->checkAccess('write', $this->file_access_settings->getRefId()))
