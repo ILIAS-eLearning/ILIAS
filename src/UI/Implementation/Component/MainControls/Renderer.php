@@ -135,7 +135,7 @@ class Renderer extends AbstractComponentRenderer
                 $f = $this->getUIFactory();
                 $secondary_signal = $entry->getToggleSignal();
                 if ($block === static::BLOCK_MAINBAR_TOOLS) {
-                    $secondary_signal = $entry->getShowSignal();
+                    $secondary_signal = $entry->getEngageSignal();
                 }
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withOnClick($entry_signal)

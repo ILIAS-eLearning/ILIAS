@@ -67,6 +67,11 @@ class ilCalendarCategories
 	 * ilLogger
 	 */
 	protected $logger = null;
+
+    /**
+     * @var ilFavouritesDBRepository
+     */
+	protected $fav_rep;
 	
 	/**
 	 * Singleton instance
@@ -90,6 +95,8 @@ class ilCalendarCategories
 			$this->user_id = $ilUser->getId();
 		}
 		$this->db = $ilDB;
+
+        $this->fav_rep = new ilFavouritesDBRepository();
 	}
 
 	/**
@@ -606,7 +613,7 @@ class ilCalendarCategories
 		$groups = array();
 		$sessions = array();
 		$exercises = array();
-		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess','exc')) as $item)
+		foreach ($this->fav_rep->getFavouritesOfUser($ilUser->getId(),array('crs','grp','sess','exc')) as $item)
 		{
 			if($ilAccess->checkAccess('read','',$item['ref_id']))
 			{

@@ -18,6 +18,7 @@ class GSMetaBarProvider extends AbstractStaticMetaBarProvider
      */
     public function getMetaBarItems() : array
     {
+        return []; // currently removed
         // REMOVE AFTER TESTING
         $t = new ModeToggle();
         $identification = $this->if->identifier('toggle');
