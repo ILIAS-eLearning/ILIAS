@@ -9,7 +9,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisp
 use ILIAS\UI\Implementation\Component\Link\Standard;
 use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
-use AsqQuestionFeedbackEditorGUI;
+use ilAsqQuestionFeedbackEditorGUI;
 use ilFormPropertyGUI;
 use stdClass;
 

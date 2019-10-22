@@ -25,7 +25,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
  * @ilCtrl_Calls AsqQuestionFeedbackEditorGUI: ilAsqGenericFeedbackPageGUI
  * @ilCtrl_Calls AsqQuestionFeedbackEditorGUI: ilAsqAnswerOptionFeedbackPageGUI
  */
-class AsqQuestionFeedbackEditorGUI
+class ilAsqQuestionFeedbackEditorGUI
 {
 
     const CMD_SHOW_FEEDBACK_FORM = 'showFeedbackForm';
@@ -140,8 +140,7 @@ class AsqQuestionFeedbackEditorGUI
         /* @var \ILIAS\DI\Container $DIC */
 
         $current_feedback = QuestionFeedbackFormGUI::getFeedbackFromPost();
-        $answer_options =  QuestionFeedbackFormGUI::getAnswerOptionFeedbacksFromPost($this->question_dto->getAnswerOptions());
-        $form = new QuestionFeedbackFormGUI($this->question_dto, $current_feedback, $answer_options);
+        $form = new QuestionFeedbackFormGUI($this->question_dto, $current_feedback, $this->question_dto->getAnswerOptions());
 
         if (!$form->checkInput()) {
             $this->showFeedbackForm();
@@ -150,8 +149,6 @@ class AsqQuestionFeedbackEditorGUI
 
 
         $this->question_dto->setFeedback($current_feedback);
-        $this->question_dto->setAnswerOptions($answer_options);
-
 
         $this->authoring_application_service->saveQuestion($this->question_dto);
 

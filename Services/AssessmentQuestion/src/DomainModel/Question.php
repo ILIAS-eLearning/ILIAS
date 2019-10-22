@@ -21,7 +21,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionLegacyDataSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionPlayConfigurationSetEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Event\QuestionRevisionCreatedEvent;
 use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 
 /**
  * Class Question

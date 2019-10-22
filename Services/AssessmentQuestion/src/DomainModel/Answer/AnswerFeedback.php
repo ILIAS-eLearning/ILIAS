@@ -10,7 +10,7 @@ use JsonSerializable;
 use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqGenericFeedbackPageGUI;
 use ilAsqQuestionAuthoringGUI;
-use AsqQuestionFeedbackEditorGUI;
+use ilAsqQuestionFeedbackEditorGUI;
 use ilFormPropertyGUI;
 
 /**
