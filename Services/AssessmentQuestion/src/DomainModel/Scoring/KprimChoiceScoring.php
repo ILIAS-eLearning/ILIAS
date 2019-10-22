@@ -75,7 +75,7 @@ class KprimChoiceScoring extends AbstractScoring {
             }
         }
         
-        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+        return new Answer(0, $this->question->getId(), 0, '', json_encode($answers));
     }
     
     /**

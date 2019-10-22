@@ -57,7 +57,7 @@ class OrderingScoring extends AbstractScoring
             $answers[] = $i;
         }
         
-        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+        return new Answer(0, $this->question->getId(), 0, '', json_encode($answers));
     }
     
     /**

@@ -50,7 +50,7 @@ class NumericScoring extends AbstractScoring
         /** @var NumericScoringConfiguration $conf */
         $conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
         
-        return new Answer(0, $this->question->getId(), 0, (string)(($conf->getUpperBound() + $conf->getLowerBound()) / 2));
+        return new Answer(0, $this->question->getId(), 0, '', (string)(($conf->getUpperBound() + $conf->getLowerBound()) / 2));
     }
     
     /**
