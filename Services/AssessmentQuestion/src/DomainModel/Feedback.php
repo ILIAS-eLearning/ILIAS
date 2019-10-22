@@ -36,20 +36,29 @@ class Feedback extends AbstractValueObject
      */
     protected $answer_option_feedback_mode;
 
+    /**
+     * @var string[]
+     */
+    protected $answer_option_feedbacks;
 
     public static function create(
         string $answer_correct_feedback,
         string $answer_wrong_feedback,
-        int $answer_option_feedback_mode
+        int $answer_option_feedback_mode,
+        array $answer_option_feedbacks = []
     ) {
         $obj = new Feedback();
         $obj->answer_correct_feedback = $answer_correct_feedback;
         $obj->answer_wrong_feedback = $answer_wrong_feedback;
         $obj->answer_option_feedback_mode = $answer_option_feedback_mode;
+        $obj->answer_option_feedbacks = $answer_option_feedbacks;
         return $obj;
     }
 
-
+    public function __construct() {
+        $this->answer_option_feedbacks = [];
+    }
+    
     /**
      * @return string
      */
@@ -73,6 +82,18 @@ class Feedback extends AbstractValueObject
     {
         return $this->answer_option_feedback_mode;
     }
+    
+    /**
+     * @param int $option_id
+     * @return bool
+     */
+    public function hasAnswerOptionFeedback(int $option_id) : bool {
+        return array_key_exists($option_id, $this->answer_option_feedbacks);
+    }
+    
+    public function getFeedbackForAnswerOption(int $option_id) : string {
+        return $this->answer_option_feedbacks[$option_id];
+    }
 
     public function equals(AbstractValueObject $other) : bool
     {
@@ -80,6 +101,25 @@ class Feedback extends AbstractValueObject
         return (get_class($this) === get_class($other) &&
                 $this->answer_correct_feedback === $other->answer_correct_feedback &&
                 $this->answer_wrong_feedback === $other->answer_wrong_feedback &&
-                $this->answer_option_feedback_mode === $other->answer_option_feedback_mode);
+                $this->answer_option_feedback_mode === $other->answer_option_feedback_mode &&
+                $this->answerOptionFeedbacksEqual($other->answer_option_feedbacks));
+    }
+    
+    private function answerOptionFeedbacksEqual(array $other_options): bool {
+        if (count($this->answer_option_feedbacks) !== count($other_options)) {
+            return false;
+        }
+        
+        foreach ($this->answer_option_feedbacks as $key => $value) {
+            if (array_key_exists($key, $other_options)) {
+                return false;
+            }
+            
+            if ($this->answer_option_feedbacks[$key] !== $other_options[$key]) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

@@ -2,15 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageFactory;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as PublicAuthoringService;
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
 
 /**
@@ -41,12 +34,8 @@ class ilAsqQuestionFeedbackEditorGUI
 
 
     /**
-     * AsqQuestionFeedbackEditorGUI constructor.
-     *
-     * @param AuthoringContextContainer   $contextContainer
-     * @param PublicAuthoringService      $publicAuthoringService
-     * @param AuthoringApplicationService $authoringApplicationService
-     * @param AssessmentEntityId          $questionUid
+     * @param QuestionDto $question_dto
+     * @param AuthoringApplicationService $authoring_application_service
      */
     public function __construct(
         QuestionDto $question_dto,
@@ -118,41 +107,40 @@ class ilAsqQuestionFeedbackEditorGUI
         }
     }
 
+    protected function saveFeedback() {
+        global $DIC;
+        
+        $form = $this->createForm();
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' &&
+            $form->checkInput()) 
+        {
+            $new_feedback = $form->getFeedbackFromPost();
+            $this->question_dto->setFeedback($new_feedback);
+            $this->authoring_application_service->saveQuestion($this->question_dto);
+            ilutil::sendSuccess("Question Saved", true);
+        }
+            
+        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+    }
 
     protected function showFeedbackForm()
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
-        $form = new QuestionFeedbackFormGUI($this->question_dto,$this->question_dto->getFeedback(), $this->question_dto->getAnswerOptions());
-
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK_FORM));
-        $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));
-        $form->addCommandButton(self::CMD_SHOW_FEEDBACK_FORM, $DIC->language()->txt('cancel'));
+        $form = $this->createForm();
 
         $DIC->ui()->mainTemplate()->setContent($form->getHTML());
     }
 
-
-    protected function saveFeedback()
+    private function createForm()
     {
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
-
-        $current_feedback = QuestionFeedbackFormGUI::getFeedbackFromPost();
-        $form = new QuestionFeedbackFormGUI($this->question_dto, $current_feedback, $this->question_dto->getAnswerOptions());
-
-        if (!$form->checkInput()) {
-            $this->showFeedbackForm();
-            return;
-        }
-
-
-        $this->question_dto->setFeedback($current_feedback);
-
-        $this->authoring_application_service->saveQuestion($this->question_dto);
-
-        ilutil::sendSuccess("Question Saved", true);
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW_FEEDBACK_FORM);
+        $form = new QuestionFeedbackFormGUI($this->question_dto);
+        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FEEDBACK_FORM));
+        $form->addCommandButton(self::CMD_SAVE_FEEDBACK, $DIC->language()->txt('save'));
+        $form->addCommandButton(self::CMD_SHOW_FEEDBACK_FORM, $DIC->language()->txt('cancel'));
+        return $form;
     }
+
 }

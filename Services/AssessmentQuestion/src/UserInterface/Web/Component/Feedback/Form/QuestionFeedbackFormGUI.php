@@ -5,6 +5,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 use ilFormSectionHeaderGUI;
@@ -45,11 +46,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      * @param Feedback $feedback
      * @param AnswerOptions $answer_options
      */
-    public function __construct(
-        QuestionDto $question_dto,
-        ?Feedback $feedback,
-        ?AnswerOptions $answer_options
-    )
+    public function __construct(QuestionDto $question_dto)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -57,10 +54,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 
 
         $this->question_dto = $question_dto;
-        $this->feedback = $feedback;
-        if(!is_object($this->feedback)) {
-            $this->feedback = new Feedback();
-        }
+        $this->feedback = $question_dto->getFeedback();
 
         $this->setTitle($DIC->language()->txt('asq_feedback_form_title'));
 
@@ -93,8 +87,14 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
          
         $this->addItem($feedback_setting);
 
-        for ($i = 1; $i <= count($this->question_dto->getAnswerOptions()->getOptions()); $i++) {
-            $field = new ilTextAreaInputGUI($i, self::VAR_FEEDBACK_FOR_ANSWER . $i);
+        foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
+            /** @var AnswerOption $answer_option */
+            $field = new ilTextAreaInputGUI($i, $this->getPostKey($answer_option));
+            
+            if ($this->feedback->hasAnswerOptionFeedback($answer_option->getOptionId())) {
+                $field->setValue($this->feedback->getFeedbackForAnswerOption($answer_option->getOptionId()));
+            }
+            
             $this->addItem($field);
         }
     }
@@ -105,12 +105,27 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      *
      * @return Feedback
      */
-    public static function getFeedbackFromPost() {
+    public function getFeedbackFromPost() {
 
         $feedback_correct = ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_ANSWER_FEEDBACK_CORRECT]);
         $feedback_wrong = ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_ANSWER_FEEDBACK_WRONG]);
         $answer_option_feedback_mode = intval($_POST[self::VAR_ANSWER_OPTION_FEEDBACK_MODE]);
 
-        return Feedback::create($feedback_correct, $feedback_wrong, $answer_option_feedback_mode);
+        $answer_option_feedbacks = [];
+        foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
+            /** @var AnswerOption $answer_option */
+            $post_key = $this->getPostKey($answer_option);
+            
+            if(!empty($_POST[$post_key])) {
+                $answer_option_feedbacks[$answer_option->getOptionId()] = 
+                    ilAsqHtmlPurifier::getInstance()->purify($_POST[$post_key]);
+            }
+        }
+        
+        return Feedback::create($feedback_correct, $feedback_wrong, $answer_option_feedback_mode, $answer_option_feedbacks);
+    }
+    
+    private function getPostKey(AnswerOption $answer_option) {
+        return self::VAR_FEEDBACK_FOR_ANSWER . $answer_option->getOptionId();
     }
 }

@@ -86,10 +86,16 @@ abstract class AbstractValueObject implements JsonSerializable {
 		foreach ($data as $property=>$value) {
 			if ($value instanceof StdClass)
 			{
-				/** @var AbstractValueObject $object */
-				$object = new $value->{self::VAR_CLASSNAME}();
-				$object->setFromStdClass($value);
-				$this->$property = $object;
+			    if (empty($value->{self::VAR_CLASSNAME})) {
+			        // get array from stdclass
+			        $this->$property = json_decode(json_encode($value), true);
+			    }
+			    else {
+    				/** @var AbstractValueObject $object */
+    				$object = new $value->{self::VAR_CLASSNAME}();
+    				$object->setFromStdClass($value);
+    				$this->$property = $object;
+			    }
 			} else {
 				$this->$property = $value;
 			}
