@@ -79,7 +79,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 		if($this->is_editable)
         {
             $this->setSelectAllCheckbox('webdav_id[]');
-            $this->addMultiCommand('deleteDocuments', $this->lng->txt('delete'));
             $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
         }
 	}
@@ -168,18 +167,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 		$i = 0;
 
 		$columns = [];
-
-		if ($this->is_editable) {
-			$columns[++$i] = [
-				'field'       => 'chb',
-				'txt'         => '',
-				'default'     => true,
-				'optional'    => false,
-				'sortable'    => false,
-				'is_checkbox' => true,
-				'width'       => '1%'
-			];
-		}
 
 		$columns[++$i] = [
 			'field'    => 'sorting',
@@ -323,8 +310,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 			return $this->formatTitle($a_column, $a_row);
 		} elseif ('actions' === $a_column) {
 			return $this->formatActionsDropDown($a_column, $a_row);
-		} elseif ('chb' === $a_column) {
-			return \ilUtil::formCheckbox(false, 'webdav_id[]', $a_row['id']);
 		} elseif ('language' === $a_column) {
 			return $this->formatLanguage($a_column, $a_row);
 		}
@@ -351,7 +336,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 			->modal()
 			->interruptive(
 				$this->lng->txt('webdav_doc_delete'),
-				$this->lng->txt('webdav_sure_delete_documents_s'),
+				$this->lng->txt('webdav_sure_delete_documents_s') . ' ' . $a_row['title'],
 				$this->ctrl->getFormAction($this->getParentObject(), 'deleteDocument')
 			);
 
