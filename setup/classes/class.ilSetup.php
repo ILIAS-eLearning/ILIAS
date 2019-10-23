@@ -492,30 +492,6 @@ class ilSetup
 
 
 	/**
-	 * @return array
-	 */
-	protected function checkOpcacheSettings() {
-		$arr = array();
-		// correct-with-php5-removal FSX start
-		if (version_compare(PHP_VERSION, '7.0.0', '>=')) {
-			$arr["status"] = true;
-
-			return $arr;
-		}
-		// correct-with-php5-removal FSX end
-
-		$load_comments = ini_get("opcache.load_comments");
-		if ($load_comments == 1) {
-			$arr["status"] = true;
-		} else {
-			$arr["status"] = false;
-			$arr["comment"] = $this->lng->txt("pre_opcache_comments");
-		}
-
-		return $arr;
-	}
-
-	/**
 	* preliminaries
 	*
 	* check if different things are ok for setting up ilias
@@ -534,10 +510,6 @@ class ilSetup
 		$a["xsl"] = $this->checkXsl();
 		$a["gd"] = $this->checkGd();
 		$a["memory"] = $this->checkMemoryLimit();
-
-		if ($this->hasOpCacheEnabled()) {
-			$a["load_comments"] = $this->checkOpcacheSettings();
-		}
 
 		return $a;
 	}
@@ -2154,15 +2126,6 @@ class ilSetup
 				}
 			}
 		}
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function hasOpCacheEnabled() {
-		$ini_get = ini_get('opcache.enable');
-
-		return ($ini_get === 1 OR $ini_get === '1' OR strtolower($ini_get) === 'on');
 	}
 
 	/**
