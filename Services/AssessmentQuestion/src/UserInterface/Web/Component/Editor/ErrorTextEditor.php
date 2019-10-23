@@ -125,7 +125,6 @@ class ErrorTextEditor extends AbstractEditor {
         
         
         $text_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_text_size'), self::VAR_TEXT_SIZE);
-        $text_size->setRequired(true);
         $text_size->setSize(6);
         $text_size->setSuffix('%');
         $fields[self::VAR_TEXT_SIZE] = $text_size;

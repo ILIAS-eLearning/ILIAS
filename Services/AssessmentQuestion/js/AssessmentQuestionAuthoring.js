@@ -480,7 +480,7 @@ let display_errors = function(errors, text) {
 }
 
 let prepare_table = function(length) {
-	$('.aot_table').show();
+	$('#answer_form').show();
 	let table = $('.aot_table tbody');
 	let row = table.children().eq(0);
 	

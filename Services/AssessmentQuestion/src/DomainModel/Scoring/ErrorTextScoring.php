@@ -93,6 +93,8 @@ class ErrorTextScoring extends AbstractScoring {
         
         $points_wrong = new ilNumberInputGUI($DIC->language()->txt('asq_label_points_wrong'), self::VAR_POINTS_WRONG);
         $points_wrong->setSize(6);
+        $points_wrong->setRequired(true);
+        $points_wrong->setMaxValue(0);
         $points_wrong->setInfo($DIC->language()->txt('asq_info_points_wrong'));
         $fields[self::VAR_POINTS_WRONG] = $points_wrong;
         
