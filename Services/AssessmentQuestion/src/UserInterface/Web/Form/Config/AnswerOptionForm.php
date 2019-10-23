@@ -108,15 +108,17 @@ class AnswerOptionForm extends ilTextInputGUI {
 			$tpl->setVariable('HEADER_TEXT', $definition->getHeader());
 			$tpl->parseCurrentBlock();
 		}
-
-		$tpl->setCurrentBlock('commands');
-		$tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
-		$tpl->parseCurrentBlock();
-		
-		if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
-		    $tpl->touchBlock('add');
+	
+		if ($this->hasActions()) {
+    		if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+    		    $tpl->touchBlock('add');
+    		}
+    		
+    		$tpl->setCurrentBlock('command_header');
+    		$tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
+    		$tpl->parseCurrentBlock();		    
 		}
-		
+
 		$row_id = 1;
 
 		$empty = false;
@@ -140,12 +142,16 @@ class AnswerOptionForm extends ilTextInputGUI {
 				$tpl->parseCurrentBlock();
 			}
 
-			if (array_key_exists(self::OPTION_ORDER, $this->form_configuration)) {
-    			$tpl->touchBlock('move');
-			}
-
-			if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
-			    $tpl->touchBlock('remove');
+			if ($this->hasActions()) {
+			    if (array_key_exists(self::OPTION_ORDER, $this->form_configuration)) {
+			        $tpl->touchBlock('move');
+			    }
+			    
+			    if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+			        $tpl->touchBlock('remove');
+			    }
+			    
+			    $tpl->touchBlock('command_row');
 			}
 			
 			$tpl->setCurrentBlock('row');
@@ -164,6 +170,15 @@ class AnswerOptionForm extends ilTextInputGUI {
 		return $tpl->get();
 	}
 
+	/**
+	 * @return bool
+	 */
+	private function hasActions() :bool {
+	    return array_key_exists(self::OPTION_ORDER, $this->form_configuration) ||
+	           !array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration);
+	    
+	}
+	
 	/**
 	 * @return bool
 	 */
