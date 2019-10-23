@@ -304,6 +304,8 @@ class FinderTest extends TestCase
      */
     public function testSortingWorksAsExpected(Filesystem\Filesystem $fs) : void
     {
+        $this->assertGreaterThan(0, count($fs->listContents('/')));
+        
         $finder = (new Finder($fs))->in(['/']);
 
         $this->assertEquals('file_1.txt', current($finder->files()->sortByTime()->getIterator())->getPath());
