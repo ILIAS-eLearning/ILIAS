@@ -67,6 +67,7 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 						123456789,
 						true,
 						'/some/where/background.jpg',
+						'/some/where/card_thumb.jpg',
 						$id = null
 					),
 					new ilCertificateTemplate(
@@ -80,6 +81,7 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 						123456789,
 						true,
 						'/some/where/background.jpg',
+						'/some/where/card_thumb.jpg',
 						$id = null
 					)
 				)
@@ -96,7 +98,7 @@ class ilCertificateCloneActionTest extends PHPUnit_Framework_TestCase
 			->willReturn(true);
 
 		$fileSystem
-			->expects($this->exactly(4))
+			->expects($this->exactly(6))
 			->method('copy');
 
 		$logger = $this->getMockBuilder('ilLogger')
