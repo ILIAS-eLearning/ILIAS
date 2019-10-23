@@ -33,9 +33,6 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 
 	/**
 	 * @inheritdocs
-	 *
-	 * TODO: Use \DatabaseSetupConfig as return type once variance is implemented
-	 * in PHP.
 	 */
 	public function getArrayToConfigTransformation() : Transformation {
 		// TODO: Migrate this to refinery-methods once possible.
