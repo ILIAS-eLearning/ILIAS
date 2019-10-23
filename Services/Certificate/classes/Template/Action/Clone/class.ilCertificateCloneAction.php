@@ -138,15 +138,15 @@ class ilCertificateCloneAction
 			}
 
 			$newCardThumbImage = '';
-			$CardThumbImagePath = $template->getThumbnailImagePath();
+			$cardThumbImagePath = $template->getThumbnailImagePath();
 
-			if ($this->fileSystem->has($CardThumbImagePath) && !$this->fileSystem->hasDir($CardThumbImagePath)) {
-				$newCardThumbImage = $newCertificate->getBackgroundImageDirectory() . basename($CardThumbImagePath);
+			if ($this->fileSystem->has($cardThumbImagePath) && !$this->fileSystem->hasDir($cardThumbImagePath)) {
+				$newCardThumbImage = $newCertificate->getBackgroundImageDirectory() . basename($cardThumbImagePath);
 				if ($this->fileSystem->has($newCardThumbImage) && !$this->fileSystem->hasDir($newCardThumbImage)) {
 					$this->fileSystem->delete($newCardThumbImage);
 				}
 				$this->fileSystem->copy(
-					$CardThumbImagePath,
+					$cardThumbImagePath,
 					$newCardThumbImage
 				);
 
