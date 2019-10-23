@@ -66,7 +66,17 @@ class Renderer extends AbstractComponentRenderer
         if (count($tools) > 0) {
             $tools_button = $component->getToolsButton();
             $initially_hidden_ids = $component->getInitiallyHiddenToolIds();
-            $this->addTools($tpl, $default_renderer, $tools_button, $tools, $signals, $active, $initially_hidden_ids);
+            $close_buttons = $component->getCloseButtons();
+            $this->addTools(
+                $tpl,
+                $default_renderer,
+                $tools_button,
+                $tools,
+                $signals,
+                $active,
+                $initially_hidden_ids,
+                $close_buttons
+            );
         }
 
         $more_button = $component->getMoreButton();
@@ -131,9 +141,12 @@ class Renderer extends AbstractComponentRenderer
         string $block,
         array $entries,
         string $active = null,
-        array $initially_hidden_ids = []
+        array $initially_hidden_ids = [],
+        array $close_buttons = [],
+        Signal $tool_removal_signal = null
     ) {
         foreach ($entries as $id=>$entry) {
+            $use_block = $block;
             $engaged = (string) $id === $active;
 
             if ($entry instanceof Slate) {
@@ -163,11 +176,21 @@ class Renderer extends AbstractComponentRenderer
 
                 $initially_hidden = in_array($id, $initially_hidden_ids);
                 if($initially_hidden) {
-                    $block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
+                    $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
+                }
+
+                if(array_key_exists($id, $close_buttons)) {
+                    $btn_removetool = $close_buttons[$id]
+                        ->appendOnClick($tool_removal_signal);
+
+                    $tpl->setCurrentBlock("tool_removal");
+                    $tpl->setVariable("REMOVE_TOOL_ID", $btn_id);
+                    $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
+                    $tpl->parseCurrentBlock();
                 }
             }
 
-            $tpl->setCurrentBlock($block);
+            $tpl->setCurrentBlock($use_block);
             $tpl->setVariable("BUTTON", $button_html);
             $tpl->parseCurrentBlock();
 
@@ -197,7 +220,8 @@ class Renderer extends AbstractComponentRenderer
         array $tools,
         array $signals,
         string $active = null,
-        array $initially_hidden_ids = []
+        array $initially_hidden_ids = [],
+        array $close_buttons
     ) {
         $f = $this->getUIFactory();
 
@@ -205,16 +229,18 @@ class Renderer extends AbstractComponentRenderer
             ->withOnClick($signals['tools'])
             ->withEngagedState(false); //if a tool-entry is active, onLoadCode will "click" the button
 
-        $btn_removetool = $f->button()->close()
-            ->withOnClick($signals['tools_removal']);
-
         $tpl->setCurrentBlock("tools_trigger");
         $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
         $tpl->parseCurrentBlock();
 
+/*
+        $btn_removetool = $f->button()->close()
+            ->withOnClick($signals['tools_removal']);
+
         $tpl->setCurrentBlock("tool_removal");
         $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
         $tpl->parseCurrentBlock();
+*/
 
         $this->renderTriggerButtonsAndSlates(
             $tpl,
@@ -223,7 +249,9 @@ class Renderer extends AbstractComponentRenderer
             static::BLOCK_MAINBAR_TOOLS,
             $tools,
             $active,
-            $initially_hidden_ids
+            $initially_hidden_ids,
+            $close_buttons,
+            $signals['tools_removal']
         );
     }
 

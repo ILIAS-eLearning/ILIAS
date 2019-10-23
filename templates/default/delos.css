@@ -9159,7 +9159,7 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
-  display: block;
+  /*display: block;*/
   position: absolute;
   top: 0;
   right: 0;

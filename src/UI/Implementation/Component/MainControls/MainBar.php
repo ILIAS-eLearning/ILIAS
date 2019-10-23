@@ -81,6 +81,10 @@ class MainBar implements MainControls\MainBar
      */
     private $tool_signals = [];
 
+    /**
+     * @var array<string, Button\Close>
+     */
+    private $close_button = [];
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -152,6 +156,9 @@ class MainBar implements MainControls\MainBar
             $clone->initially_hidden_ids[] = $id;
         }
 
+        if($close_button) {
+            $clone->close_buttons[$id] = $close_button;
+        }
         return $clone;
     }
 
@@ -284,5 +291,13 @@ class MainBar implements MainControls\MainBar
     public function getEngageToolSignal(string $tool_id) : Signal
     {
         return $this->tool_signals[$tool_id];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getCloseButtons() : array
+    {
+        return $this->close_buttons;
     }
 }

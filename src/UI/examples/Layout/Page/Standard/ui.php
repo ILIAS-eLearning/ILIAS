@@ -199,12 +199,12 @@ function pagedemoMainbar($f, $r)
     }
 
     $tools = getDemoEntryTools($f);
-    $mainbar = $mainbar
-        ->withAdditionalToolEntry('tool1', $tools['tool1'])
-        ->withAdditionalToolEntry('tool2', $tools['tool2'])
-        ->withAdditionalToolEntry('tool3', $tools['tool3'], true)
-        ;
 
+    $mainbar = $mainbar
+        ->withAdditionalToolEntry('tool1', $tools['tool1'], false, $f->button()->close())
+        ->withAdditionalToolEntry('tool2', $tools['tool2'])
+        ->withAdditionalToolEntry('tool3', $tools['tool3'], true, $f->button()->close())
+        ->withAdditionalToolEntry('tool4', $tools['tool4'], false, $f->button()->close());
 
     return $mainbar;
 }
@@ -374,6 +374,7 @@ function getDemoEntryTools($f)
         $f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>')
     );
     $tools['tool1'] = $slate;
+
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/pencil.svg', '')
         ->withSize('small');
@@ -383,15 +384,24 @@ function getDemoEntryTools($f)
         $f->legacy('<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>')
     );
     $tools['tool2'] = $slate;
+
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/notebook.svg', '')
         ->withSize('small');
     $slate = $f->maincontrols()->slate()->legacy(
-        'Local Navigation',
+        'Initially hidden',
         $symbol,
         $f->legacy(loremIpsum())
     );
     $tools['tool3'] = $slate;
+
+    $slate = $f->maincontrols()->slate()->legacy(
+        'Closable Tool',
+        $symbol,
+        $f->legacy(loremIpsum())
+    );
+    $tools['tool4'] = $slate;
+
 
     return $tools;
 }

@@ -92,6 +92,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(_isToolButton(btn)) {
 					_setToolsActive(true);
 					_engageButton(_getToolsButton());
+
+					var search = '.il-mainbar-remove-tool.' + btn.attr('id');
+					$('.il-mainbar-remove-tool').hide();
+					$(search).show();
 				} else {
 					_setToolsActive(false);
 					_disengageButton(_getToolsButton());
@@ -110,6 +114,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			var btn = signalData.triggerer,
 				active_tool_button;
 
+				console.log(btn);
 			if(_isEngaged(btn)) {
 				_setPageSlatesActive(false);
 				_setToolsActive(false);

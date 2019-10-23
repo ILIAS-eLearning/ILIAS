@@ -108,4 +108,10 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      */
     public function getEngageToolSignal(string $tool_id) : Signal;
 
+    /**
+     * Buttons to close tools; maybe configure with callback.
+     * @return array <string, Button\Close>
+     */
+    public function getCloseButtons() : array;
+
 }
