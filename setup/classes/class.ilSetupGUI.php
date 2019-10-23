@@ -941,9 +941,6 @@ class ilSetupGUI
 
 		$preliminaries = array("php", "root", "folder_create",
 			"cookies_enabled", "dom", "xsl", "gd", "memory");
-		if ($this->setup->hasOpCacheEnabled()) {
-			$preliminaries[] = 'load_comments';
-		}
 
 		foreach ($preliminaries as $preliminary)
 		{
