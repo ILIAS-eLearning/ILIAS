@@ -26,11 +26,7 @@ trait SlateSessionStateCode
      */
     public function addOnloadCode(Slate $slate, isItem $item) : Slate
     {
-        if ($item instanceof Tool) {
-            $signal = $slate->getShowSignal();
-        } else {
-            $signal = $slate->getToggleSignal();
-        }
+        $signal = $slate->getEngageSignal();
 
         $identification = $item->getProviderIdentification()->serialize();
 
