@@ -54,6 +54,7 @@ class Factory {
 		}
 		return $this->colorfactory->build($value);
 	}
+
 	/**
 	 * Object representing an uri valid according to RFC 3986
 	 * with restrictions imposed on valid characters and obliagtory
@@ -65,6 +66,29 @@ class Factory {
 	public function uri($uri_string)
 	{
 		return new URI($uri_string);
+	}
+
+	/**
+	 * Represents the size of some data.
+	 *
+	 * @param	string|int	$size	string might be a string like "126 MB"
+	 * @throw	\InvalidArgumentException if first argument is int and second is not a valid unit.
+	 * @throw	\InvalidArgumentException if string size can't be interpreted
+	 */
+	public function dataSize($size, string $unit = null) : DataSize {
+		if (is_string($size)) {
+			$match = [];
+			if (!preg_match("/(\d+)\s*([a-zA-Z]+)/", $size, $match)) {
+				throw \InvalidArgumentException("'$size' can't be interpreted as data size.");
+			}
+			return $this->dataSize((int)$match[1], $match[2]);
+		}
+		if (is_int($size) && (is_null($unit) || !array_key_exists($unit, DataSize::$abbreviations))) {
+			throw new \InvalidArgumentException(
+				"Expected second argument to be a unit for data, '$unit' is unknown."
+			);
+		}
+		return new DataSize($size, DataSize::$abbreviations[$unit]);
 	}
 
 	/**
