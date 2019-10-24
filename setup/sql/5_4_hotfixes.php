@@ -1138,3 +1138,10 @@ if ($ilDB->tableColumnExists("lng_log", "identifier")) {
 	$ilDB->modifyTableColumn("lng_log", "identifier", $field);
 }
 ?>
+<#79>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
+    $ilDB->addIndex('object_data', ['owner'], 'i5');
+}
+?>
