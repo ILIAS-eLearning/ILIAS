@@ -11,13 +11,13 @@ use ILIAS\UI\Component\Component;
  * This describes the Month Button. Note that actions are bound to the month by using the JavaScriptBindable
  * withOnLoadCodeFunction.
  */
-interface Month extends Component, JavaScriptBindable {
+interface Month extends Component, JavaScriptBindable
+{
 
-	/**
-	 * Get the default value of the button
-	 *
-	 * @return	string
-	 */
-	public function getDefault();
-
+    /**
+     * Get the default value of the button
+     *
+     * @return	string
+     */
+    public function getDefault();
 }

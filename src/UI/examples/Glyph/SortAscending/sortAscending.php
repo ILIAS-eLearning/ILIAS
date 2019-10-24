@@ -1,5 +1,6 @@
 <?php
-function sortAscending() {
+function sortAscending()
+{
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
