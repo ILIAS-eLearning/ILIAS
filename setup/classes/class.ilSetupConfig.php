@@ -64,13 +64,20 @@ class ilSetupConfig implements Setup\Config {
 	) {
 		$this->master_password = $master_password;
 		$this->server_timezone = $server_timezone;
-		$this->path_to_convert = $path_to_convert;
-		$this->path_to_zip = $path_to_zip;
-		$this->path_to_unzip = $path_to_unzip;
-		$this->path_to_ghostscript = $path_to_ghostscript;
-		$this->path_to_ffmpeg = $path_to_ffmpeg;
-		$this->path_to_phantom_js = $path_to_phantom_js;
-		$this->path_to_latex_cgi = $path_to_latex_cgi;
+		$this->path_to_convert = $this->toLinuxConvention($path_to_convert);
+		$this->path_to_zip = $this->toLinuxConvention($path_to_zip);
+		$this->path_to_unzip = $this->toLinuxConvention($path_to_unzip);
+		$this->path_to_ghostscript = $this->toLinuxConvention($path_to_ghostscript);
+		$this->path_to_ffmpeg = $this->toLinuxConvention($path_to_ffmpeg);
+		$this->path_to_phantom_js = $this->toLinuxConvention($path_to_phantom_js);
+		$this->path_to_latex_cgi = $this->toLinuxConvention($path_to_latex_cgi);
+	}
+
+	protected function toLinuxConvention(?string $p) : ?string {
+		if (!$p) {
+			return null;
+		}
+		return preg_replace("/\\\\/","/",$p);
 	}
 
 	public function getMasterPassword() : Password {
