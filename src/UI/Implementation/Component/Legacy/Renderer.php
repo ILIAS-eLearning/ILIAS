@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
+use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
@@ -24,7 +25,7 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
 
-        return $component->getContent();
+        return $component->getContent() . $this->renderCustomSignals($component);
     }
 
     /**
@@ -33,5 +34,30 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName()
     {
         return [Component\Legacy\Legacy::class];
+    }
+
+    /**
+     * Renders the custom signals of the given legacy component
+     *
+     * @param $component
+     * @return string
+     */
+    protected function renderCustomSignals(Legacy $component)
+    {
+        $signal_list = $component->getAllSignals();
+
+        if(count($signal_list) < 1)
+        {
+            return '';
+        }
+
+        $code = "<script>";
+        foreach($signal_list as $signal)
+        {
+            $code .= "$(this).on('{$signal['signal']->getId()}', function(e){".$signal['js_code']."});";
+        }
+        $code .= "</script>";
+
+        return $code;
     }
 }
