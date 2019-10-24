@@ -107,6 +107,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+        PageContentProvider::setTitle('PAGE-xx');
         PageContentProvider::setShortTitle('SHORT-xx');
         PageContentProvider::setViewTitle('VIEW-xx');
 

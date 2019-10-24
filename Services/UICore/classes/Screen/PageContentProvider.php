@@ -9,6 +9,9 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class ilPageContentProvider
@@ -29,6 +32,10 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     /**
      * @var string
      */
+    private static $title = "";
+    /**
+     * @var string
+     */
     private static $short_title = "";
     /**
      * @var string
@@ -41,6 +48,14 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     public static function setContent(string $content) : void
     {
         self::$content = $content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public static function setTitle(string $title) : void
+    {
+        self::$title = $title;
     }
 
     /**
@@ -91,16 +106,33 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
         })->withLowPriority();
     }
 
-    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ContentModification
+
+    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
-        //die(self::$short_title);
-        return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content) : Legacy {
-            //$this->globalScreen()->layout()->factory()->short_title()
-            $ui = $this->dic->ui();
-            return $ui->factory()->legacy(self::$short_title);
-        })->withLowPriority();
+        return $this->globalScreen()->layout()->factory()->title()->withModification(
+            function (string $content) : string {
+                return self::$title;
+            }
+        )->withLowPriority();
     }
 
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    {
+        return $this->globalScreen()->layout()->factory()->short_title()->withModification(
+            function (string $content) : string {
+                return self::$short_title;
+            }
+        )->withLowPriority();
+    }
+
+    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
+    {
+        return $this->globalScreen()->layout()->factory()->view_title()->withModification(
+            function (string $content) : string {
+                return self::$view_title;
+            }
+        )->withLowPriority();
+    }
 
     /**
      * @inheritDoc
