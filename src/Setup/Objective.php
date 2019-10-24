@@ -4,8 +4,6 @@
 
 namespace ILIAS\Setup;
 
-use ILIAS\UI;
-
 /**
  * An objective is a desired state of the system that is supposed to be created
  * by the setup.
