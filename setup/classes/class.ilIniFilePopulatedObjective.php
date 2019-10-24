@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilPopulateIniFileObjective extends ilSetupObjective {
+class ilIniFilePopulatedObjective implements Setup\Objective {
 	public function getHash() : string {
 		return hash("sha256", self::class);
 	}
