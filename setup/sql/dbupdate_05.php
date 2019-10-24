@@ -2644,3 +2644,10 @@ if(!$ilDB->tableColumnExists('exc_assignment','rel_deadline_last_subm'))
         ));
 }
 ?>
+<#5563>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
+    $ilDB->addIndex('object_data', ['owner'], 'i5');
+}
+?>
