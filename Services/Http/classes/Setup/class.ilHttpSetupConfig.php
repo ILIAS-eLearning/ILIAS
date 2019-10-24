@@ -6,6 +6,11 @@ use ILIAS\Setup;
 
 class ilHttpSetupConfig implements Setup\Config {
 	/**
+	 * @var	string
+	 */
+	protected $http_path;
+
+	/**
 	 * @var	bool
 	 */
 	protected $autodetection_enabled;
@@ -21,6 +26,7 @@ class ilHttpSetupConfig implements Setup\Config {
 	protected $header_value;
 
 	public function __construct(
+		string $http_path,
 		bool $autodetection_enabled,
 		?string $header_name,
 		?string $header_value
@@ -30,6 +36,7 @@ class ilHttpSetupConfig implements Setup\Config {
 				"Expected header name and value for https autodetection if that feature is enabled."
 			);
 		}
+		$this->http_path = $http_path;
 		$this->autodetection_enabled = $autodetection_enabled;
 		$this->header_name = $header_name;
 		$this->header_value = $header_value;
