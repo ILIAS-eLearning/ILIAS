@@ -464,12 +464,12 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderInterfa
 
 			default:
 				if (substr($rule->getAttribute(), 0, 4) != 'udf_') {
-					continue;
+					break;
 				}
 
 				$udf_data = explode('_', $rule->getAttribute());
 				if (!isset($udf_data[1])) {
-					continue;
+					break;
 				}
 
 				$definition = ilUserDefinedFields::_getInstance()->getDefinition($udf_data[1]);
