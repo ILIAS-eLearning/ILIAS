@@ -17,43 +17,46 @@ use ILIAS\UI\Component\Component;
  * * make a special case for the components the new factory may create renderers for in
  *   FSLoader::getRendererFactoryFor
  */
-class FSLoader implements Loader {
-	use LoaderHelper;
+class FSLoader implements Loader
+{
+    use LoaderHelper;
 
-	/**
-	 * @var	DefaultRendererFactory
-	 */
-	private $default_renderer_factory;
+    /**
+     * @var	DefaultRendererFactory
+     */
+    private $default_renderer_factory;
 
-	/**
-	 * @var	RendererFactory
-	 */
-	private $glyph_renderer_factory;
+    /**
+     * @var	RendererFactory
+     */
+    private $glyph_renderer_factory;
 
-	public function __construct(
-		RendererFactory $default_renderer_factory,
-		RendererFactory $glyph_renderer_factory
-	) {
-		$this->default_renderer_factory = $default_renderer_factory;
-		$this->glyph_renderer_factory = $glyph_renderer_factory;
+    public function __construct(
+        RendererFactory $default_renderer_factory,
+        RendererFactory $glyph_renderer_factory
+    ) {
+        $this->default_renderer_factory = $default_renderer_factory;
+        $this->glyph_renderer_factory = $glyph_renderer_factory;
     }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getRendererFor(Component $component, array $contexts) {
-		$context_names = $this->getContextNames($contexts);
-		$factory = $this->getRendererFactoryFor($component);
-		return $factory->getRendererInContext($component, $context_names);
+    /**
+     * @inheritdocs
+     */
+    public function getRendererFor(Component $component, array $contexts)
+    {
+        $context_names = $this->getContextNames($contexts);
+        $factory = $this->getRendererFactoryFor($component);
+        return $factory->getRendererInContext($component, $context_names);
     }
 
-	/**
-	 * @inheritdocs
-	 */
-	public function getRendererFactoryFor(Component $component) {
-		if($component instanceof \ILIAS\UI\Implementation\Component\Glyph\Glyph) {
-			return $this->glyph_renderer_factory;
-		}
-		return $this->default_renderer_factory;
-	}
+    /**
+     * @inheritdocs
+     */
+    public function getRendererFactoryFor(Component $component)
+    {
+        if ($component instanceof \ILIAS\UI\Implementation\Component\Glyph\Glyph) {
+            return $this->glyph_renderer_factory;
+        }
+        return $this->default_renderer_factory;
+    }
 }

@@ -6,12 +6,13 @@ namespace ILIAS\UI\Component\Icon;
 /**
  * This describes the behavior of an custom icon.
  */
-interface Custom extends Icon {
+interface Custom extends Icon
+{
 
-	/**
-	 * Return the path to the icon's image
-	 *
-	 * @return string
-	 */
-	public function getIconPath();
+    /**
+     * Return the path to the icon's image
+     *
+     * @return string
+     */
+    public function getIconPath();
 }

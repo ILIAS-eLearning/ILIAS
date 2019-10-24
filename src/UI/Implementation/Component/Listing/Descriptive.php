@@ -11,54 +11,60 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Class Descriptive
  * @package ILIAS\UI\Implementation\Component\Listing\Descriptive
  */
-class Descriptive implements C\Listing\Descriptive {
-	use ComponentHelper;
+class Descriptive implements C\Listing\Descriptive
+{
+    use ComponentHelper;
 
-	/**
-	 * @var	array
-	 */
-	private  $items;
+    /**
+     * @var	array
+     */
+    private $items;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __construct(array $items) {
-		$this->checkArgList(
-				"Descriptive List items",
-				$items,
-				function($k,$v) {
-					return is_string($k) && (is_string($v) || $v instanceof C\Component);
-				},
-				function($k, $v) {
-					return "expected keys of type string and values of type string|Component, got ($k => $v)";
-				});
+    /**
+     * @inheritdoc
+     */
+    public function __construct(array $items)
+    {
+        $this->checkArgList(
+            "Descriptive List items",
+            $items,
+            function ($k, $v) {
+                return is_string($k) && (is_string($v) || $v instanceof C\Component);
+            },
+            function ($k, $v) {
+                return "expected keys of type string and values of type string|Component, got ($k => $v)";
+            }
+        );
 
-		$this->items = $items;
-	}
+        $this->items = $items;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withItems(array $items){
-		$this->checkArgList(
-				"Descriptive List items",
-				$items,
-				function($k,$v) {
-					return is_string($k) && (is_string($v) || $v instanceof C\Component);
-				},
-				function($k, $v) {
-					return "expected keys of type string and values of type string|Component, got ($k => $v)";
-				});
+    /**
+     * @inheritdoc
+     */
+    public function withItems(array $items)
+    {
+        $this->checkArgList(
+            "Descriptive List items",
+            $items,
+            function ($k, $v) {
+                return is_string($k) && (is_string($v) || $v instanceof C\Component);
+            },
+            function ($k, $v) {
+                return "expected keys of type string and values of type string|Component, got ($k => $v)";
+            }
+        );
 
-		$clone = clone $this;
-		$clone->items = $items;
-		return $clone;
-	}
+        $clone = clone $this;
+        $clone->items = $items;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getItems() {
-		return $this->items;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
 }

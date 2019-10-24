@@ -4,10 +4,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Glyph;
 
-class ButtonContextRenderer extends Renderer {
-
-	protected function getTemplateFilename() {
-		return "tpl.glyph.context_btn.html";
-	}
-
+class ButtonContextRenderer extends Renderer
+{
+    protected function getTemplateFilename()
+    {
+        return "tpl.glyph.context_btn.html";
+    }
 }

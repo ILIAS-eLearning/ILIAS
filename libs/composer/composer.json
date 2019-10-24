@@ -37,7 +37,8 @@
 		"phpunit/php-code-coverage": "^4.0",
 		"mockery/mockery": "^0.9.9",
 		"phpunit/php-token-stream": "^1.4",
-		"phpdocumentor/reflection-docblock": "^3.3"
+		"phpdocumentor/reflection-docblock": "^3.3",
+		"friendsofphp/php-cs-fixer": "^2.15"
 	},
 	"autoload": {
 		"psr-4" : { "ILIAS\\" : "../../src" },

@@ -1114,3 +1114,34 @@ while($rec = $ilDB->fetchAssoc($res)) {
 }
 $ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE '.$ilDB->in('obj_id',$to_adjust,false,'integer'));
 ?>
+<#77>
+<?php
+if ($ilDB->tableColumnExists("lng_data", "identifier")) {
+	$field = array(
+		'type'    => 'text',
+		'length'  => 200,
+		'notnull' => true,
+		'default' => ' '
+	);
+	$ilDB->modifyTableColumn("lng_data", "identifier", $field);
+}
+?>
+<#78>
+<?php
+if ($ilDB->tableColumnExists("lng_log", "identifier")) {
+	$field = array(
+		'type'    => 'text',
+		'length'  => 200,
+		'notnull' => true,
+		'default' => ' '
+	);
+	$ilDB->modifyTableColumn("lng_log", "identifier", $field);
+}
+?>
+<#79>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
+    $ilDB->addIndex('object_data', ['owner'], 'i5');
+}
+?>

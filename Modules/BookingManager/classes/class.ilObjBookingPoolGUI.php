@@ -186,6 +186,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 				break;
 
 			case 'ilbookingparticipantgui':
+                $this->checkPermission('write');
 				$this->tabs_gui->setTabActive('participants');
 				include_once("Modules/BookingManager/classes/class.ilBookingParticipantGUI.php");
 				$object_gui = new ilBookingParticipantGUI($this);
@@ -431,13 +432,15 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 			}	
 		}
 
-		if($this->checkPermissionBool('edit_permission'))
-		{
-			$this->tabs_gui->addTab("participants",
-				$this->lng->txt("participants"),
-				$this->ctrl->getLinkTargetByClass("ilbookingparticipantgui", "render"));
+		if($this->checkPermissionBool('write')) {
+            $this->tabs_gui->addTab("participants",
+                $this->lng->txt("participants"),
+                $this->ctrl->getLinkTargetByClass("ilbookingparticipantgui", "render"));
+        }
 
-			$this->tabs_gui->addTab("perm_settings",
+        if($this->checkPermissionBool('edit_permission'))
+        {
+                $this->tabs_gui->addTab("perm_settings",
 				$this->lng->txt("perm_settings"),
 				$this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm"));
 		}

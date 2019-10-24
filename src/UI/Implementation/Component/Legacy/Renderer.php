@@ -12,23 +12,26 @@ use ILIAS\UI\Component;
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Legacy\Html
  */
-class Renderer extends AbstractComponentRenderer {
-	/**
-	 * @inheritdocs
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		/**
-		 * @var Component\Legacy\Legacy $component
-		 */
-		$this->checkComponent($component);
+class Renderer extends AbstractComponentRenderer
+{
+    /**
+     * @inheritdocs
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        /**
+         * @var Component\Legacy\Legacy $component
+         */
+        $this->checkComponent($component);
 
-		return $component->getContent();
-	}
+        return $component->getContent();
+    }
 
-	/**
-	 * @inheritdocs
-	 */
-	protected function getComponentInterfaceName() {
-		return [Component\Legacy\Legacy::class];
-	}
+    /**
+     * @inheritdocs
+     */
+    protected function getComponentInterfaceName()
+    {
+        return [Component\Legacy\Legacy::class];
+    }
 }

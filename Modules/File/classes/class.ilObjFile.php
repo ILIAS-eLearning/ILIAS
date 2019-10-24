@@ -956,15 +956,8 @@ class ilObjFile extends ilObject2
         ilUtil::rCopy($this->getDirectory(), $a_new_obj->getDirectory());
 
         // object created now copy other settings
-        $query = "INSERT INTO file_data (file_id,file_name,file_type,file_size,version,rating,f_mode) VALUES ("
-            . $ilDB->quote($a_new_obj->getId(), 'integer') . ","
-            . $ilDB->quote($this->getFileName(), 'text') . ","
-            . $ilDB->quote($this->getFileType(), 'text') . ","
-            . $ilDB->quote((int) $this->getFileSize(), 'integer') . ", "
-            . $ilDB->quote($this->getVersion(), 'integer') . ", "
-            . $ilDB->quote($this->hasRating(), 'integer') . ", "
-            . $ilDB->quote($this->getMode(), 'text') . ")";
-        $res = $ilDB->manipulate($query);
+        // bugfix mantis 26131
+        $DIC->database()->insert('file_data', $this->getArrayForDatabase($a_new_obj->getId()));
 
         // copy all previews
         require_once("./Services/Preview/classes/class.ilPreview.php");
@@ -1616,12 +1609,17 @@ class ilObjFile extends ilObject2
 
 
     /**
+     * @param int $file_id (part of bugfix mantis 26131)
+     *
      * @return array
      */
-    private function getArrayForDatabase()
+    private function getArrayForDatabase($file_id = 0)
     {
+        if($file_id == 0) {
+            $file_id = $this->getId();
+        }
         return [
-            'file_id'     => ['integer', $this->getId()],
+            'file_id'     => ['integer', $file_id],
             'file_name'   => ['text', $this->getFileName()],
             'file_type'   => ['text', $this->getFileType()],
             'file_size'   => ['integer', (int) $this->getFileSize()],
