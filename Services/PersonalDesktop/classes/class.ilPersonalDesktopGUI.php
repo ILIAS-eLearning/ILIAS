@@ -827,7 +827,20 @@ class ilPersonalDesktopGUI
 	{
 		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
 	}
-	
+
+	/**
+	 * Temporary workaround for toggling the help
+	 */
+	protected function toggleHelp()
+	{
+		if (ilSession::get("show_help_tool") == "1") {
+			ilSession::set("show_help_tool", "0");
+		} else {
+			ilSession::set("show_help_tool", "1");
+		}
+		$this->ctrl->redirect($this, "show");
+	}
+
 
 }
 ?>

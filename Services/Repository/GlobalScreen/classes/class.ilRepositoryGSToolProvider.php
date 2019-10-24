@@ -39,17 +39,13 @@ class ilRepositoryGSToolProvider extends AbstractDynamicToolProvider
 
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
+        /*
         if ($additional_data->is(self::SHOW_TREE_TOOL, true)) {
 
             $iff = function ($id) { return $this->identification_provider->identifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
             $type = ilObject::_lookupType((int) $ref_id, true);
-
-            /*$mode = ($_SESSION["il_rep_mode"] != "")
-                ? $_SESSION["il_rep_mode"]
-                : "flat";
-            $mode = "tree";*/
 
             if (
                 (strtolower($_GET["baseClass"]) != "iladministrationgui") &&
@@ -58,7 +54,7 @@ class ilRepositoryGSToolProvider extends AbstractDynamicToolProvider
                     ->withTitle($lng->txt("tree"))
                     ->withContent($l($this->getTree($ref_id)));
             }
-        }
+        }*/
 
         return $tools;
     }

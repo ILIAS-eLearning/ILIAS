@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="tag">
 	<baseclasses>
+		<baseclass name="ilTaggingSlateContentGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="tags" class_name="TaggingSettings" dir="classes"

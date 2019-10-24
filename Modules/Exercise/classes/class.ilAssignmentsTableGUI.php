@@ -19,6 +19,11 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 	 */
 	protected $types;
 
+    /**
+     * @var ilExcRandomAssignmentManager
+     */
+	protected $random_manager;
+
 	/**
 	* Constructor
 	*/
@@ -35,6 +40,11 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 
 		$this->exc_id = $a_exc_id;
 		$this->setId("excass".$this->exc_id);
+
+		$request = $DIC->exercise()->internal()->request();
+		$this->random_manager = $DIC->exercise()->internal()->service()->getRandomAssignmentManager(
+            $request->getRequestedExercise()
+        );
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 	
@@ -118,15 +128,28 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = new ilExAssignment($d["id"]);
 
-		if ($d["deadline"] > 0)
-		{
-			$dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"],IL_CAL_UNIX));
-			if($d["deadline2"] > 0)
-			{
-				$dl .= "<br />(".ilDatePresentation::formatDate(new ilDateTime($d["deadline2"],IL_CAL_UNIX)).")";
-			}
-			$this->tpl->setVariable("TXT_DEADLINE", $dl);
-		}
+		if ($ass->getDeadlineMode() == ilExAssignment::DEADLINE_ABSOLUTE) {
+            if ($d["deadline"] > 0) {
+                $dl = ilDatePresentation::formatDate(new ilDateTime($d["deadline"], IL_CAL_UNIX));
+                if ($d["deadline2"] > 0) {
+                    $dl .= "<br />(" . ilDatePresentation::formatDate(new ilDateTime($d["deadline2"],
+                            IL_CAL_UNIX)) . ")";
+                }
+                $this->tpl->setVariable("TXT_DEADLINE", $dl);
+            } else {
+                $this->tpl->setVariable("TXT_DEADLINE", "-");
+            }
+        } else {
+            if ($ass->getRelativeDeadline() > 0) {
+
+                $dl = "".$ass->getRelativeDeadline()." ".$this->lng->txt("days");
+            }
+            if ($ass->getRelDeadlineLastSubmission() > 0) {
+                if ($dl != "") $dl.= " / ";
+                $dl.= ilDatePresentation::formatDate(new ilDateTime($ass->getRelDeadlineLastSubmission(), IL_CAL_UNIX));
+            }
+            $this->tpl->setVariable("TXT_DEADLINE", $dl);
+        }
 		if ($d["start_time"] > 0)
 		{
 			$this->tpl->setVariable("TXT_START_TIME",
@@ -134,15 +157,16 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		}
 		$this->tpl->setVariable("TXT_INSTRUCTIONS",
 			nl2br(trim(ilUtil::shortenText(strip_tags($d["instruction"]), 200, true))));
-		
-		if ($d["mandatory"])
-		{
-			$this->tpl->setVariable("TXT_MANDATORY", $lng->txt("yes"));
-		}
-		else
-		{
-			$this->tpl->setVariable("TXT_MANDATORY", $lng->txt("no"));
-		}
+
+		if (!$this->random_manager->isActivated()) {
+            if ($d["mandatory"]) {
+                $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("yes"));
+            } else {
+                $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("no"));
+            }
+        } else {
+            $this->tpl->setVariable("TXT_MANDATORY", $lng->txt("exc_random"));
+        }
 		
 		$ilCtrl->setParameter($this->parent_obj, "ass_id", $d["id"]);
 		

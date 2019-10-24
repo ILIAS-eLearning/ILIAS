@@ -33,6 +33,7 @@
     4 => 'ILIAS\\Search\\Provider\\SearchMetaBarProvider',
     5 => 'ILIAS\\User\\Provider\\UserMetaBarProvider',
     6 => 'ilAwarenessMetaBarProvider',
+    7 => 'ilHelpMetaBarProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Tool\\Provider\\DynamicToolProvider' => 
   array (
@@ -42,21 +43,24 @@
     3 => 'MailGlobalScreenToolProvider',
     4 => 'ilAdminGSToolProvider',
     5 => 'ilCOPageEditGSToolProvider',
-    6 => 'ilLMEditGSToolProvider',
-    7 => 'ilLMGSToolProvider',
-    8 => 'ilMediaPoolGSToolProvider',
-    9 => 'ilRepositoryGSToolProvider',
-    10 => 'ilSAHSEditGSToolProvider',
-    11 => 'ilSkillGSToolProvider',
-    12 => 'ilTaxonomyGSToolProvider',
-    13 => 'ilWorkspaceGSToolProvider',
+    6 => 'ilHelpGSToolProvider',
+    7 => 'ilLMEditGSToolProvider',
+    8 => 'ilLMGSToolProvider',
+    9 => 'ilMediaPoolGSToolProvider',
+    10 => 'ilRepositoryGSToolProvider',
+    11 => 'ilSAHSEditGSToolProvider',
+    12 => 'ilSkillGSToolProvider',
+    13 => 'ilTaxonomyGSToolProvider',
+    14 => 'ilWorkspaceGSToolProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Layout\\Provider\\ModificationProvider' => 
   array (
     0 => 'ILIAS\\Container\\Screen\\MemberViewLayoutProvider',
     1 => 'ILIAS\\GlobalScreen\\Provider\\GSModificationProvider',
     2 => 'ILIAS\\Init\\Provider\\StartUpModificationProvider',
-    3 => 'ILIAS\\UICore\\PageContentProvider',
+    3 => 'ILIAS\\LTI\\Screen\\LtiViewLayoutProvider',
+    4 => 'ILIAS\\UICore\\PageContentProvider',
+    5 => 'ilHTMLExportViewLayoutProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
   array (

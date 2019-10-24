@@ -11,7 +11,7 @@
 class ilWikiHTMLExport
 {
 	/**
-	 * @var ilDB
+	 * @var ilDBInterface
 	 */
 	protected $db;
 
@@ -30,9 +30,17 @@ class ilWikiHTMLExport
 	 */
 	protected $tabs;
 
+	/**
+	 * @var ilObjWiki
+	 */
 	protected $wiki;
+
 	const MODE_DEFAULT = "html";
 	const MODE_USER = "user_html";
+
+	/**
+	 * @var string
+	 */
 	protected $mode = self::MODE_DEFAULT;
 
 	/**
@@ -41,12 +49,36 @@ class ilWikiHTMLExport
 	protected $log;
 
 	/**
+	 * @var ilCOPageHTMLExport
+	 */
+	protected $co_page_html_export;
+
+	/**
+	 * @var string
+	 */
+	protected $export_dir;
+
+	/**
+	 * @var \ILIAS\GlobalScreen\Services
+	 */
+	protected $global_screen;
+
+	/**
+	 * @var \ilGlobalPageTemplate
+	 */
+	protected $main_tpl;
+
+	/**
+	 * @var ilWikiUserHTMLExport
+	 */
+	protected $user_html_exp;
+
+	/**
 	 * Constructor
 	 *
-	 * @param
-	 * @return
+	 * @param ilObjWiki $a_wiki
 	 */
-	function __construct($a_wiki)
+	function __construct(ilObjWiki $a_wiki)
 	{
 		global $DIC;
 
@@ -56,6 +88,8 @@ class ilWikiHTMLExport
 		$this->tabs = $DIC->tabs();
 		$this->wiki = $a_wiki;
 		$this->log = ilLoggerFactory::getLogger('wiki');
+		$this->global_screen = $DIC->globalScreen();
+		$this->main_tpl = $DIC->ui()->mainTemplate();
 	}
 	
 	/**
@@ -63,7 +97,7 @@ class ilWikiHTMLExport
 	 *
 	 * @param int $a_val MODE_DEFAULT|MODE_USER	
 	 */
-	function setMode($a_val)
+	function setMode(string $a_val)
 	{
 		$this->mode = $a_val;
 	}
@@ -73,7 +107,7 @@ class ilWikiHTMLExport
 	 *
 	 * @return int MODE_DEFAULT|MODE_USER
 	 */
-	function getMode()
+	function getMode(): string
 	{
 		return $this->mode;
 	}
@@ -81,11 +115,14 @@ class ilWikiHTMLExport
 	/**
 	 * Build export file
 	 *
-	 * @param
 	 * @return string
+	 * @throws ilTemplateException
+	 * @throws ilWikiExportException
 	 */
 	function buildExportFile()
 	{
+		$global_screen = $this->global_screen;
+
 		$this->log->debug("buildExportFile...");
         //init the mathjax rendering for HTML export
 		include_once './Services/MathJax/classes/class.ilMathJax.php';
@@ -114,14 +151,14 @@ class ilWikiHTMLExport
 
 		if ($this->getMode() == self::MODE_USER)
 		{
-			$this->subdir = $ascii_name;
+			$subdir = $ascii_name;
 		}
 		else
 		{
-			$this->subdir = $this->wiki->getType()."_".$this->wiki->getId();
+			$subdir = $this->wiki->getType()."_".$this->wiki->getId();
 		}
-		$this->export_dir = $exp_dir."/".$this->subdir;
-//echo "+".$this->export_dir."+";
+		$this->export_dir = $exp_dir."/".$subdir;
+
 		// initialize temporary target directory
 		ilUtil::delDir($this->export_dir);
 		ilUtil::makeDir($this->export_dir);
@@ -130,9 +167,9 @@ class ilWikiHTMLExport
 
 		// system style html exporter
 		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
-		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
-		$this->sys_style_html_export->addImage("icon_wiki.svg");
-		$this->sys_style_html_export->export();
+		$sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
+		$sys_style_html_export->addImage("icon_wiki.svg");
+		$sys_style_html_export->export();
 
 		// init co page html exporter
 		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
@@ -145,6 +182,7 @@ class ilWikiHTMLExport
 
 		// export pages
 		$this->log->debug("export pages");
+		$global_screen->tool()->context()->current()->addAdditionalData(ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
 		$this->exportHTMLPages();
 
 		$date = time();
@@ -167,21 +205,26 @@ class ilWikiHTMLExport
 
 	/**
 	 * Export all pages
+	 * @throws ilTemplateException
+	 * @throws ilWikiExportException
 	 */
 	function exportHTMLPages()
 	{
+		$tpl = $this->main_tpl;
+
 		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$cnt = 0;
+		$this->co_page_html_export->getPreparedMainTemplate($tpl);
 		foreach ($pages as $page)
 		{
 			$this->log->debug("page: ".$page["id"]);
 			if (ilWikiPage::_exists("wpg", $page["id"]))
 			{
 				$this->log->debug("export page");
-				$this->exportPageHTML($page["id"]);
+				$this->exportPageHTML($page["id"], $tpl);
 				$this->log->debug("collect page elements");
 				$this->co_page_html_export->collectPageElements("wpg:pg", $page["id"]);
 			}
@@ -213,18 +256,20 @@ class ilWikiHTMLExport
 
 	/**
 	 * Export page html
+	 * @param $a_page_id
+	 * @throws ilTemplateException
+	 * @throws ilWikiExportException
 	 */
-	function exportPageHTML($a_page_id)
+	function exportPageHTML($a_page_id, \ilGlobalPageTemplate $tpl)
 	{
-		$ilUser = $this->user;
 		$lng = $this->lng;
 		$ilTabs = $this->tabs;
 
 		$ilTabs->clearTargets();
 		
-		$this->tpl = $this->co_page_html_export->getPreparedMainTemplate();
+
 		
-		$this->tpl->loadStandardTemplate();
+		//$this->tpl->loadStandardTemplate();
 		$file = $this->export_dir."/wpg_".$a_page_id.".html";
 		// return if file is already existing
 		if (@is_file($file))
@@ -251,21 +296,18 @@ class ilWikiHTMLExport
 		$bl = new ilWikiImportantPagesBlockGUI();
 		$ep_tpl->setVariable("RIGHT_CONTENT", $bl->getHTML(true));
 
-		// workaround
-//		$this->tpl->setVariable("MAINMENU", "<div style='min-height:40px;'></div>");
-		$this->tpl->setVariable("MAINMENU", "");
 
 		$this->log->debug("set title");
-		$this->tpl->setTitle($this->wiki->getTitle());
-		$this->tpl->setTitleIcon("./images/icon_wiki.svg",
+		$tpl->setTitle($this->wiki->getTitle());
+		$tpl->setTitleIcon("./images/icon_wiki.svg",
 			$lng->txt("obj_wiki"));
 
-		$this->tpl->setContent($ep_tpl->get());
-		//$this->tpl->fillMainContent();
-		$content = $this->tpl->getSpecial("DEFAULT", false, false, false,
-			true, true, true);
+		$tpl->setContent($ep_tpl->get());
 
-//echo htmlentities($content); exit;
+		// this currently fails since we run through the whole
+		// global screen procedure and on creating a second notification center instance, an error occurs
+		$content = $tpl->printToString();
+
 		// open file
 		$this->log->debug("write file: ".$file);
 		if (!($fp = @fopen($file,"w+")))
