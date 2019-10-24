@@ -230,7 +230,7 @@ class Factory implements \ILIAS\UI\Factory
      */
     public function legacy($content)
     {
-        return new Component\Legacy\Legacy($content);
+        return new Component\Legacy\Legacy($content, new SignalGenerator());
     }
 
     /**
