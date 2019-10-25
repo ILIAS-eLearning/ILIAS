@@ -2644,7 +2644,7 @@ if(!$ilDB->tableColumnExists('exc_assignment','rel_deadline_last_subm'))
         ));
 }
 ?>
-<#5563>
+<#5564>
 <?php
 // Add new index
 if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
