@@ -113,13 +113,13 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         if($document_already_exists)
         {
-            $document_label = $this->lng->txt('webdav_form_document_new');
-            $document_by_line = $this->lng->txt('webdav_form_document_new_info');
+            $document_label = $this->lng->txt('webdav_form_document');
+            $document_by_line = $this->lng->txt('webdav_form_document_info');
         }
         else
         {
             $document_label = $this->lng->txt('webdav_form_document');
-            $document_by_line = $this->lng->txt('webdav_form_info');
+            $document_by_line = $this->lng->txt('webdav_form_document_info');
         }
 
         $language_selection = new ilSelectInputGUI(
