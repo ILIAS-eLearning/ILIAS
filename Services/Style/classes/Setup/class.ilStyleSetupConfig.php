@@ -21,7 +21,14 @@ class ilStyleSetupConfig implements Setup\Config {
 		?string $path_to_lessc
 	) {
 		$this->manage_system_styles = $manage_system_styles;
-		$this->path_to_lessc = $path_to_lessc;
+		$this->path_to_lessc = $this->toLinuxConvention($path_to_lessc);
+	}
+
+	protected function toLinuxConvention(?string $p) : ?string {
+		if (!$p) {
+			return null;
+		}
+		return preg_replace("/\\\\/","/",$p);
 	}
 
 	public function getManageSystemStyles() : bool {
