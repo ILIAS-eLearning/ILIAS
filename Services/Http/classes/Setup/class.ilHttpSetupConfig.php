@@ -42,6 +42,10 @@ class ilHttpSetupConfig implements Setup\Config {
 		$this->header_value = $header_value;
 	}
 
+	public function getHttpPath() : string {
+		return $this->http_path;
+	}
+
 	public function isAutodetectionEnabled() : bool {
 		return $this->autodetection_enabled;
 	}
