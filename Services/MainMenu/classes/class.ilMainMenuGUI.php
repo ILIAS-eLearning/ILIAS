@@ -676,6 +676,8 @@ class ilMainMenuGUI
         $main_tpl = $this->main_tpl;
 
         if ($DIC->user()->isAnonymous() || (int) $DIC->user()->getId() === 0) {
+            // bugfix mantis 25348
+            $this->tpl->setVariable('BGT_HIDDEN', 'true');
             return;
         }
 
@@ -684,6 +686,8 @@ class ilMainMenuGUI
         $persistence = $DIC->backgroundTasks()->persistence();
         $metas = $persistence->getBucketMetaOfUser($DIC->user()->getId());
         if (!count($metas)) {
+            // bugfix mantis 25348
+            $this->tpl->setVariable('BGT_HIDDEN', 'true');
             return;
         }
 
@@ -727,6 +731,9 @@ class ilMainMenuGUI
             'BACKGROUNDTASKS',
             $DIC->ui()->renderer()->render([$glyph, $popover])
         );
+
+        // bugfix mantis 25348
+        $this->tpl->setVariable('BGT_HIDDEN', 'false');
 
         $this->tpl->setVariable('BACKGROUNDTASKS_REFRESH_URI', $url);
 
