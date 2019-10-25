@@ -22,17 +22,25 @@ class ilLoggingSetupConfig implements Setup\Config {
 
 	public function __construct(
 		bool $enabled,
-		string $path_to_logfile,
-		string $path_to_errorlogfiles
+		?string $path_to_logfile,
+		?string $errorlog_dir
 	) {
-		if ($enable && !$path_to_logfile) {
+		if ($enabled && !$path_to_logfile) {
 			throw new \InvalidArgumentException(
 				"Expected a path to the logfile, if logging is enabled."
 			);
 		}
 		$this->enabled = $enabled;
-		$this->path_to_logfile = $path_to_logfile;
-		$this->path_to_errorlogfiles = $path_to_errorlogfiles;
+		$this->path_to_logfile = $this->normalizePath($path_to_logfile);
+		$this->errorlog_dir = $this->normalizePath($errorlog_dir);
+	}
+
+	protected function normalizePath(?string $p) : ?string {
+		if (!$p) {
+			return null;
+		}
+		$p = preg_replace("/\\\\/","/",$p);
+		return preg_replace("%/+$%","",$p);
 	}
 
 	public function isEnabled() : bool {
@@ -43,7 +51,7 @@ class ilLoggingSetupConfig implements Setup\Config {
 		return $this->path_to_logfile;
 	}
 
-	public function getPathToErrorLogfiles() : ?string {
-		return $this->path_to_errorlogfiles;
+	public function getErrorlogDir() : ?string {
+		return $this->errorlog_dir;
 	}
 }
