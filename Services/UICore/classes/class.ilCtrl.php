@@ -1001,7 +1001,7 @@ class ilCtrl
      * @param	string		fallback command
      * @param	string		anchor
      * @param	bool		asynchronous call
-     * @param	bool		xml style t/f
+     * @param	bool		deprecated: xml style t/f
      * @return	string		script url
      */
     public function getFormAction(
@@ -1009,14 +1009,13 @@ class ilCtrl
         $a_fallback_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         $script =  $this->getFormActionByClass(
             strtolower(get_class($a_gui_obj)),
             $a_fallback_cmd,
             $a_anchor,
-            $a_asynch,
-            $xml_style
+            $a_asynch
         );
         return $script;
     }
@@ -1028,7 +1027,7 @@ class ilCtrl
      * @param	string		fallback command
      * @param	string		anchor
      * @param	bool		asynchronous call
-     * @param	bool		xml style t/f
+     * @param	bool		deprecated: xml style t/f
      * @return	string		script url
      */
     public function getFormActionByClass(
@@ -1036,7 +1035,7 @@ class ilCtrl
         $a_fallback_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         if (!is_array($a_class)) {
             $a_class = strtolower($a_class);
@@ -1048,14 +1047,14 @@ class ilCtrl
             $xml_style = false;
         }
 
-        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
+        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
         if ($a_fallback_cmd != "") {
-            $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, $xml_style);
+            $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, false);
         }
         $script = ilUtil::appendUrlParameterString(
             $script,
             self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            $xml_style
+            false
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
@@ -1068,14 +1067,14 @@ class ilCtrl
      * Append request token as url parameter
      *
      * @param	string	url
-     * @param	boolean	xml style
+     * @param	deprecated: boolean	xml style
      */
-    public function appendRequestTokenParameterString($a_url, $xml_style = true)
+    public function appendRequestTokenParameterString($a_url, $xml_style = false)
     {
         return ilUtil::appendUrlParameterString(
             $a_url,
             self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            $xml_style
+            false
         );
     }
     
@@ -1325,7 +1324,7 @@ class ilCtrl
      * @param	string		command
      * @param	string		# anchor
      * @param	boolean		asynchronous mode
-     * @param	boolean		xml style t/f
+     * @param	boolean		deprecated: xml style t/f
      *
      * @return	string		target link
      */
@@ -1334,14 +1333,13 @@ class ilCtrl
         $a_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         $script = $this->getLinkTargetByClass(
             strtolower(get_class($a_gui_obj)),
             $a_cmd,
             $a_anchor,
-            $a_asynch,
-            $xml_style
+            $a_asynch
         );
         return $script;
     }
@@ -1354,7 +1352,7 @@ class ilCtrl
      * @param	string		command
      * @param	string		# anchor
      * @param	boolean		asynchronous mode
-     * @param	boolean		xml style t/f
+     * @param	boolean		deprecated: xml style t/f
      *
      * @return	string		target link
      */
@@ -1363,14 +1361,14 @@ class ilCtrl
         $a_cmd  = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         if ($a_asynch) {
             $xml_style = false;
         }
         
         $script = $this->getTargetScript();
-        $script = $this->getUrlParameters($a_class, $script, $a_cmd, $xml_style);
+        $script = $this->getUrlParameters($a_class, $script, $a_cmd);
 
         if ($a_asynch) {
             $amp = "&";
@@ -1505,6 +1503,11 @@ class ilCtrl
 
     /**
      * Get URL parameters for a class and append them to a string
+     * @param $a_class
+     * @param $a_str
+     * @param string $a_cmd command
+     * @param bool $xml_style deprecated
+     * @return string
      */
     public function getUrlParameters($a_class, $a_str, $a_cmd = "", $xml_style = false)
     {
@@ -1512,7 +1515,7 @@ class ilCtrl
 
         foreach ($params as $par => $value) {
             if (strlen((string) $value)) {
-                $a_str = ilUtil::appendUrlParameterString($a_str, $par . "=" . $value, $xml_style);
+                $a_str = ilUtil::appendUrlParameterString($a_str, $par . "=" . $value, false);
             }
         }
 
