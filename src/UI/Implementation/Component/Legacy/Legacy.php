@@ -79,13 +79,29 @@ class Legacy implements C\Legacy\Legacy
     }
 
     /**
-     * @inheritdoc
+     * Get a list of all registered signals and their custom JavaScript code. The list is an associative array, where
+     * the key for each item is the given custom name. Each item of this list is an associative array itself.
+     *
+     * The items in this list have the following structure:
+     * item = array (
+     *     'signal'  => $signal  : Signal
+     *     'js_code' => $js_code : String
+     * )
+     *
+     * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
+     * @return array
      */
     public function getAllSignals() : array
     {
         return $this->signal_list;
     }
 
+    /**
+     * Registers new signal with its JavaScript code in the signal list
+     *
+     * @param string $signal_name
+     * @param string $js_code
+     */
     private function registerSignalAndCustomCode(string $signal_name, string $js_code)
     {
         $this->signal_list[$signal_name] = array(
