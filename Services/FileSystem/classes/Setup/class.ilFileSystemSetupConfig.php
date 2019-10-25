@@ -13,7 +13,12 @@ class ilFileSystemSetupConfig implements Setup\Config {
 	public function __construct(
 		string $data_dir
 	) {
-		$this->data_dir = $data_dir;
+		$this->data_dir = $this->normalizePath($data_dir);
+	}
+
+	protected function normalizePath(string $p) : string {
+		$p = preg_replace("/\\\\/","/",$p);
+		return preg_replace("%/+$%","",$p);
 	}
 
 	public function getDataDir() : string {
