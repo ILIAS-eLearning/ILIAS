@@ -38,19 +38,4 @@ interface Legacy extends \ILIAS\UI\Component\Component
      * @return Signal
      */
     public function getCustomSignal(string $signal_name);
-
-    /**
-     * Get a list of all registered signals and their custom JavaScript code. The list is an associative array, where
-     * the key for each item is the given custom name. Each item of this list is an associative array itself.
-     *
-     * The items in this list have the following structure:
-     * item = array (
-     *     'signal'  => $signal  : Signal
-     *     'js_code' => $js_code : String
-     * )
-     *
-     * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
-     * @return array
-     */
-    public function getAllSignals() : array;
 }
