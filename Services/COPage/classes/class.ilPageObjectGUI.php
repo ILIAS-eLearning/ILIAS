@@ -123,7 +123,8 @@ class ilPageObjectGUI
 	 * @var \ILIAS\DI\UIServices
 	 */
 	protected $ui;
-	
+
+
 	/**
 	 * Constructor
 	 *
@@ -139,7 +140,7 @@ class ilPageObjectGUI
 		global $DIC;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
-		$this->tpl = $DIC["tpl"];
+		$this->tpl = $DIC->ui()->mainTemplate();
 		$this->ctrl = $DIC->ctrl();
 		$this->lng = $DIC->language();
 		$this->tabs_gui = $DIC->tabs();
@@ -193,6 +194,7 @@ class ilPageObjectGUI
 		$this->ctrl->saveParameter($this, "transl");
 		
 		$this->afterConstructor();
+
 	}
 	
 	/**
@@ -1212,6 +1214,8 @@ return;
 	 */
 	function showPage()
 	{
+		$main_tpl = $this->tpl;
+
 		// jquery and jquery ui are always provided for components
 		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
 		iljQueryUtil::initjQuery();
@@ -1220,16 +1224,16 @@ return;
 //		$this->initSelfAssessmentRendering();
 		
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
-		ilObjMediaObjectGUI::includePresentationJS($GLOBALS["tpl"]);
+		ilObjMediaObjectGUI::includePresentationJS($main_tpl);
 
-		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
+		$main_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
 
 		// needed for overlays in iim
 		include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
 		ilOverlayGUI::initJavascript();
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-		ilPlayerUtil::initMediaElementJs($GLOBALS["tpl"]);
+		ilPlayerUtil::initMediaElementJs($main_tpl);
 		
 		// init template
 		//if($this->outputToTemplate())
@@ -1293,8 +1297,8 @@ return;
 					ilYuiUtil::initDragDrop();
 					ilYuiUtil::initConnection();
 					ilYuiUtil::initPanel(false);
-					$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-					$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+					$main_tpl->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
+					$main_tpl->addJavascript("Services/COPage/js/page_editing.js");
 
 					include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 					ilModalGUI::initJS();
@@ -1303,7 +1307,7 @@ return;
 					$this->lng->toJS("cont_sel_el_copied_use_paste");
 
 					include_once './Services/Style/Content/classes/class.ilObjStyleSheet.php';
-					$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
+					$main_tpl->addOnloadCode("var preloader = new Image();
 						preloader.src = './templates/default/images/loader.svg';
 						ilCOPage.setUser('".$this->user->getLogin()."');
 						ilCOPage.setContentCss('".
@@ -1314,10 +1318,10 @@ return;
 					include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
 					foreach (ilPCParagraphGUI::_getTextCharacteristics($this->getStyleId()) as $c)
 					{
-						$GLOBALS["tpl"]->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
+						$main_tpl->addOnloadCode("ilCOPage.addTextFormat('".$c."');");
 					}
 
-					$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
+					$main_tpl->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
 					$tpl->touchBlock("init_dragging");
 
 					$cfg = $this->getPageConfig();
@@ -1342,7 +1346,7 @@ return;
 
 					include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 					ilYuiUtil::initConnection();
-					$GLOBALS["tpl"]->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
+					$main_tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
 
 				}
 
@@ -1912,21 +1916,21 @@ return;
 			$js_files = $pc_obj->getJavascriptFiles($this->getOutputMode());
 			foreach ($js_files as $js)
 			{
-				$GLOBALS["tpl"]->addJavascript($js);
+				$main_tpl->addJavascript($js);
 			}
 
 			// css files
 			$css_files = $pc_obj->getCssFiles($this->getOutputMode());
 			foreach ($css_files as $css)
 			{
-				$GLOBALS["tpl"]->addCss($css);
+				$main_tpl->addCss($css);
 			}
 
 			// onload code
 			$onload_code = $pc_obj->getOnloadCode($this->getOutputMode());
 			foreach ($onload_code as $code)
 			{
-				$GLOBALS["tpl"]->addOnloadCode($code);
+				$main_tpl->addOnloadCode($code);
 			}
 		}
 		

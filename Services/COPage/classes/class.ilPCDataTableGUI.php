@@ -24,6 +24,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 
 	/**
+	 * @var \ilTemplate
+	 */
+	protected $main_tpl;
+
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -31,6 +37,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	{
 		global $DIC;
 
+		$this->main_tpl = $DIC->ui()->mainTemplate();
 		$this->lng = $DIC->language();
 		$this->ctrl = $DIC->ctrl();
 		$this->tabs = $DIC->tabs();
@@ -493,6 +500,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
+		$main_tpl = $this->main_tpl;
 
 
 		if (!ilPageEditorGUI::_doJSEditing())
@@ -708,12 +716,11 @@ class ilPCDataTableGUI extends ilPCTableGUI
 		ilYuiUtil::initDragDrop();
 		ilYuiUtil::initConnection();
 		ilYuiUtil::initPanel(false);
-		//$GLOBALS["tpl"]->addJavascript("Services/COPage/tiny/4_2_4/tinymce.js");
-		$GLOBALS["tpl"]->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
-		$GLOBALS["tpl"]->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
-		$GLOBALS["tpl"]->addJavascript("Services/COPage/js/page_editing.js");
+		$main_tpl->addJavascript("./libs/bower/bower_components/tinymce/tinymce.min.js");
+        $main_tpl->addJavaScript("./Services/COPage/js/ilcopagecallback.js");
+        $main_tpl->addJavascript("Services/COPage/js/page_editing.js");
 
-		$GLOBALS["tpl"]->addOnloadCode("var preloader = new Image();
+        $main_tpl->addOnloadCode("var preloader = new Image();
 			preloader.src = './templates/default/images/loader.svg';
 			ilCOPage.setContentCss('".
 			ilObjStyleSheet::getContentStylePath((int) $this->getStyleId()).
