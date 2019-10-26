@@ -17,7 +17,7 @@ use ilTextAreaInputGUI;
 use ilTextInputGUI;
 use ilSelectInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -245,9 +245,9 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    /** @var $definition AnswerOptionFormFieldDefinition */
 	    foreach ($definitions as $definition) {
 	        if ($definition->getPostVar() === $post_var) {
-	            $new_definitions[] = new AnswerOptionFormFieldDefinition(
+	            $new_definitions[] = new AsqTableInputFieldDefinition(
 	                '',
-	                AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
+	                AsqTableInputFieldDefinition::TYPE_HIDDEN,
 	                $post_var,
 	                [$value]);
 	        }
@@ -271,7 +271,7 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    /** @var $definition AnswerOptionFormFieldDefinition */
 	    foreach ($definitions as $definition) {
 	        if ($definition->getPostVar() === $post_var) {
-	            $new_definitions[] = new AnswerOptionFormFieldDefinition(
+	            $new_definitions[] = new AsqTableInputFieldDefinition(
 	                $new_name,
 	                $definition->getType(),
 	                $post_var,

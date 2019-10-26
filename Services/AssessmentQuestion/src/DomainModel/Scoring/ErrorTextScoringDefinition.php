@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -98,29 +98,29 @@ class ErrorTextScoringDefinition extends AnswerDefinition {
         self::$error_text_words = explode(' ', $play->getEditorConfiguration()->getSanitizedErrorText());
         
         $fields = [];
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_wrong_text'),
-            AnswerOptionFormFieldDefinition::TYPE_LABEL,
+            AsqTableInputFieldDefinition::TYPE_LABEL,
             self::VAR_WRONG_TEXT);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             '',
-            AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
+            AsqTableInputFieldDefinition::TYPE_HIDDEN,
             self::VAR_WORD_INDEX);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             '',
-            AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
+            AsqTableInputFieldDefinition::TYPE_HIDDEN,
             self::VAR_WORD_LENGTH);
             
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_correct_text'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_CORRECT_TEXT);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_points'),
-            AnswerOptionFormFieldDefinition::TYPE_NUMBER,
+            AsqTableInputFieldDefinition::TYPE_NUMBER,
             self::VAR_POINTS);
         
         return $fields;

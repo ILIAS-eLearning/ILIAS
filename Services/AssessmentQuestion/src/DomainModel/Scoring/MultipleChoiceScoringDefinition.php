@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -63,15 +63,15 @@ class MultipleChoiceScoringDefinition extends AnswerDefinition {
 	    global $DIC;
 	    
 	    $fields = [];
-		$fields[] = new AnswerOptionFormFieldDefinition(
+	    $fields[] = new AsqTableInputFieldDefinition(
 		    $DIC->language()->txt('asq_label_checked'),
-			AnswerOptionFormFieldDefinition::TYPE_NUMBER,
+	        AsqTableInputFieldDefinition::TYPE_NUMBER,
 			self::VAR_MCSD_SELECTED
 		);
 
-		$fields[] = new AnswerOptionFormFieldDefinition(
+	    $fields[] = new AsqTableInputFieldDefinition(
 		    $DIC->language()->txt('asq_label_unchecked'),
-			AnswerOptionFormFieldDefinition::TYPE_NUMBER,
+	        AsqTableInputFieldDefinition::TYPE_NUMBER,
 			self::VAR_MCSD_UNSELECTED
 		);
 
