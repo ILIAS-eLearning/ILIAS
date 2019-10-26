@@ -1145,3 +1145,7 @@ if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
     $ilDB->addIndex('object_data', ['owner'], 'i5');
 }
 ?>
+<#80>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
