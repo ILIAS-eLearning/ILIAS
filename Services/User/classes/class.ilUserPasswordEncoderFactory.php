@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/User/exceptions/class.ilUserException.php';
-
 /**
  * Class ilUserPasswordEncoderFactory
  * @author  Michael Jansen <mjansen@databay.de>
@@ -45,6 +43,7 @@ class ilUserPasswordEncoderFactory
     protected function getValidEncoders($config) : array
     {
         return [
+            new ilArgon2idPasswordEncoder($config),
             new ilBcryptPhpPasswordEncoder($config),
             new ilBcryptPasswordEncoder($config),
             new ilMd5PasswordEncoder($config),

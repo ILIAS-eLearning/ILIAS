@@ -86,12 +86,12 @@ class ilUserPasswordManager
             [
                 'encoder_factory' => new ilUserPasswordEncoderFactory(
                     [
-                        'default_password_encoder' => 'bcryptphp',
+                        'default_password_encoder' => 'argon2id',
                         'ignore_security_flaw' => true,
                         'data_directory' => ilUtil::getDataDir()
                     ]
                 ),
-                'password_encoder' => 'bcryptphp',
+                'password_encoder' => 'argon2id',
                 'settings' => $DIC->isDependencyAvailable('settings') ? $DIC->settings() : null,
                 'db' => $DIC->database(),
             ]

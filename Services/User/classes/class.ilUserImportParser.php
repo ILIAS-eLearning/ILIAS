@@ -527,6 +527,9 @@ class ilUserImportParser extends ilSaxParser
 
             case 'Password':
                 $this->currPasswordType = $a_attribs['Type'];
+				if (is_string($this->currPasswordType) && 'bcrypt' === strtolower($this->currPasswordType)) {
+					$this->currPasswordType = 'bcryptphp';
+				}
                 break;
             case "AuthMode":
                 if (array_key_exists("type", $a_attribs)) {
@@ -666,6 +669,9 @@ class ilUserImportParser extends ilSaxParser
 
             case 'Password':
                 $this->currPasswordType = $a_attribs['Type'];
+				if (is_string($this->currPasswordType) && 'bcrypt' === strtolower($this->currPasswordType)) {
+					$this->currPasswordType = 'bcryptphp';
+				}
                 break;
             case "AuthMode":
                 if (array_key_exists("type", $a_attribs)) {
@@ -1073,14 +1079,15 @@ class ilUserImportParser extends ilSaxParser
                             $this->logFailure($this->userObj->getLogin(), $lng->txt("usrimport_cant_insert"));
                         } else {
                             if (!strlen($this->currPassword) == 0) {
-                                switch (strtoupper($this->currPasswordType)) {
-                                    case "BCRYPT":
+                                switch (strtolower($this->currPasswordType)) {
+                                    case "argon2id":
+                                    case "bcryptphp":
                                         $this->userObj->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-                                        $this->userObj->setPasswordEncodingType('bcryptphp');
+                                        $this->userObj->setPasswordEncodingType(strtolower($this->currPasswordType));
                                         $this->userObj->setPasswordSalt(null);
                                         break;
 
-                                    case "PLAIN":
+                                    case "plain":
                                         $this->userObj->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
                                         $this->acc_mail->setUserPassword($this->currPassword);
                                         break;
@@ -1204,14 +1211,15 @@ class ilUserImportParser extends ilSaxParser
                             $updateUser->read();
                             $updateUser->readPrefs();
                             if ($this->currPassword != null) {
-                                switch (strtoupper($this->currPasswordType)) {
-                                    case "BCRYPT":
+                                switch (strtolower($this->currPasswordType)) {
+                                    case "argon2id":
+                                    case "bcryptphp":
                                         $updateUser->setPasswd($this->currPassword, IL_PASSWD_CRYPTED);
-                                        $updateUser->setPasswordEncodingType('bcryptphp');
+                                        $updateUser->setPasswordEncodingType(strtolower($this->currPasswordType));
                                         $updateUser->setPasswordSalt(null);
                                         break;
 
-                                    case "PLAIN":
+                                    case "plain":
                                         $updateUser->setPasswd($this->currPassword, IL_PASSWD_PLAIN);
                                         $this->acc_mail->setUserPassword($this->currPassword);
                                         break;
@@ -1779,14 +1787,15 @@ class ilUserImportParser extends ilSaxParser
                 break;
 
             case "Password":
-                switch ($this->currPasswordType) {
-                    case "BCRYPT":
+                switch (strtolower($this->currPasswordType)) {
+                    case "argon2id":
+                    case "bcryptphp":
                         $this->userObj->setPasswd($this->cdata, IL_PASSWD_CRYPTED);
-                        $this->userObj->setPasswordEncodingType('bcryptphp');
+                        $this->userObj->setPasswordEncodingType(strtolower($this->currPasswordType));
                         $this->userObj->setPasswordSalt(null);
                         break;
 
-                    case "PLAIN":
+                    case "plain":
                         $this->userObj->setPasswd($this->cdata, IL_PASSWD_PLAIN);
                         $this->acc_mail->setUserPassword($this->currPassword);
                         break;

@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
-
 /**
  * Class ilBcryptPasswordEncoder
  * @author  Michael Jansen <mjansen@databay.de>
@@ -11,20 +9,15 @@ require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncode
 class ilBcryptPasswordEncoder extends ilBcryptPhpPasswordEncoder
 {
     /** @var int */
-    const MIN_SALT_SIZE = 16;
-
+    private const MIN_SALT_SIZE = 16;
     /** @var string */
-    const SALT_STORAGE_FILENAME = 'pwsalt.txt';
-
+    public const SALT_STORAGE_FILENAME = 'pwsalt.txt';
     /** @var string|null */
     private $client_salt = null;
-
     /** @var bool */
     private $is_security_flaw_ignored = false;
-
     /** @var bool */
     private $backward_compatibility = false;
-
     /** @var string */
     private $data_directory = '';
 

@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPhpPasswordEncoder.php';
 require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 /**
@@ -13,10 +12,8 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
     const VALID_COSTS = '08';
-
     /** @var string */
     const PASSWORD = 'password';
-
     /** @var string */
     const WRONG_PASSWORD = 'wrong_password';
 
@@ -57,7 +54,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
         $encoder = new ilBcryptPhpPasswordEncoder([
             'cost' => self::VALID_COSTS
         ]);
-        $this->assertInstanceOf('ilBcryptPhpPasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilBcryptPhpPasswordEncoder::class, $encoder);
         $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
         return $encoder;
     }
@@ -174,7 +171,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
         $this->assertTrue($costs_target > 4 && $costs_target < 32);
         $this->assertIsInt($costs_default);
         $this->assertIsInt($costs_target);
-        $this->assertNotEquals($costs_default, $costs_target);
+        $this->assertGreaterThanOrEqual($costs_default, $costs_target);
     }
 
     /**

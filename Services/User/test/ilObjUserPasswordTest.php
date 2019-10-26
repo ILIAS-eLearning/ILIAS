@@ -4,12 +4,6 @@
 use org\bovigo\vfs;
 
 require_once 'libs/composer/vendor/autoload.php';
-require_once 'Services/User/classes/class.ilUserPasswordManager.php';
-require_once 'Services/User/classes/class.ilUserPasswordEncoderFactory.php';
-require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
-require_once 'Services/Utilities/classes/class.ilUtil.php';
-require_once 'Services/User/classes/class.ilObjUser.php';
-require_once 'Services/User/exceptions/class.ilUserException.php';
 require_once 'Services/User/test/ilUserBaseTest.php';
 
 /**

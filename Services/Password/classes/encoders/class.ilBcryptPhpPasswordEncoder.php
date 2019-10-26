@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
-
 /**
  * Class ilBcryptPhpPasswordEncoder
  * @author  Michael Jansen <mjansen@databay.de>
@@ -10,9 +8,7 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
  */
 class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $costs = '08';
 
     /**
@@ -47,43 +43,6 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     }
 
     /**
-     * @see http://php.net/manual/en/function.password-hash.php#example-984
-     * @param float $time_target
-     * @return int
-     * @throws ilPasswordException
-     */
-    public function benchmarkCost(float $time_target = 0.05) : int
-    {
-        $cost = 8;
-
-        do {
-            $cost++;
-            $start = microtime(true);
-            $encoder = new self(['cost' => (string) $cost]);
-            $encoder->encodePassword('test', '');
-            $end = microtime(true);
-        } while (($end - $start) < $time_target && $cost < 32);
-
-        return $cost;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() : string
-    {
-        return 'bcryptphp';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function isSupportedByRuntime() : bool
-    {
-        return parent::isSupportedByRuntime() && version_compare(phpversion(), '5.5.0', '>=');
-    }
-
-    /**
      * @return string
      */
     public function getCosts() : string
@@ -107,6 +66,43 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     }
 
     /**
+     * @see http://php.net/manual/en/function.password-hash.php#example-984
+     * @param float $time_target
+     * @return int
+     * @throws ilPasswordException
+     */
+    public function benchmarkCost(float $time_target = 0.05) : int
+    {
+        $cost = 8;
+
+        do {
+            $cost++;
+            $start = microtime(true);
+            $encoder = new self(['cost' => (string) $cost]);
+            $encoder->encodePassword('test', '');
+            $end = microtime(true);
+        } while (($end - $start) < $time_target && $cost < 31);
+
+        return $cost;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName() : string
+    {
+        return 'bcryptphp';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isSupportedByRuntime() : bool
+    {
+        return parent::isSupportedByRuntime() && version_compare(phpversion(), '5.5.0', '>=');
+    }
+
+    /**
      * @inheritDoc
      * @throws ilPasswordException
      */
@@ -117,7 +113,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
         }
 
         return password_hash($raw, PASSWORD_BCRYPT, [
-            'cost' => $this->getCosts()
+            'cost' => $this->getCosts(),
         ]);
     }
 
@@ -135,7 +131,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
     public function requiresReencoding(string $encoded) : bool
     {
         return password_needs_rehash($encoded, PASSWORD_BCRYPT, [
-            'cost' => $this->getCosts()
+            'cost' => $this->getCosts(),
         ]);
     }
 }

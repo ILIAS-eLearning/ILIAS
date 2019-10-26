@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
-
 /**
  * Class ilMd5PasswordEncoder
  * This class implements the ILIAS password encryption mechanism used in ILIAS3/ILIAS4
@@ -13,6 +11,13 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
  */
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
+    /**
+     * @param array $config
+     */
+    public function __construct(array $config = [])
+    {
+    }
+
     /**
      * @inheritDoc
      * @throws ilPasswordException

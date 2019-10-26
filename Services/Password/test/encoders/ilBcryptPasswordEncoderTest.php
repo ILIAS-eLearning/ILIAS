@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Password/classes/encoders/class.ilBcryptPasswordEncoder.php';
 require_once 'Services/Password/test/ilPasswordBaseTest.php';
 
 use org\bovigo\vfs;
@@ -15,22 +14,17 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 {
     /** @var string */
     const VALID_COSTS = '08';
-
     /** @var string */
     const PASSWORD = 'password';
-
     /** @var string */
     const WRONG_PASSWORD = 'wrong_password';
-
     /** @var string */
     const CLIENT_SALT = 'homer!12345_/';
-
     /** @var string */
     const PASSWORD_SALT = 'salt';
 
     /** @var vfs\vfsStreamDirectory */
     protected $testDirectory;
-
     /** @var string */
     protected $testDirectoryUrl;
 
@@ -148,7 +142,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
             'cost' => self::VALID_COSTS,
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
-        $this->assertInstanceOf('ilBcryptPasswordEncoder', $encoder);
+        $this->assertInstanceOf(ilBcryptPasswordEncoder::class, $encoder);
         $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
         $this->assertFalse($encoder->isSecurityFlawIgnored());
         $encoder->setClientSalt(self::CLIENT_SALT);

@@ -110,7 +110,10 @@ class ilSetupPasswordManager
                 },
                 'bcryptphp' => function ($encoded) {
                     return is_string($encoded) && substr($encoded, 0, 4) === '$2y$' && strlen($encoded) === 60;
-                }
+                },
+                'argon2id'   => function ($encoded) {
+                    return is_string($encoded) && substr($encoded, 0, 10) === '$argon2id$' && strlen($encoded) === 96;
+                },
             ]
         );
 

@@ -4312,4 +4312,13 @@ if (!$idx) {
     $ilDB->addIndex('frm_user_read', ['usr_id', 'post_id'], 'i1');
     $setting->set('ilfrmreadidx1', 1);
 }
-?> 
+?>
+<#5666>
+<?php
+$ilDB->modifyTableColumn('usr_data', 'passwd', array(
+    'type'    => 'text',
+    'length'  => 100,
+    'notnull' => false,
+    'default' => null
+));
+?>
