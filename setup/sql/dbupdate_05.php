@@ -2651,3 +2651,24 @@ if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
     $ilDB->addIndex('object_data', ['owner'], 'i5');
 }
 ?>
+<#5565>
+<?php
+include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$typeId = ilDBUpdateNewObjectType::getObjectTypeId('ltis');
+
+$opsId = ilDBUpdateNewObjectType::addCustomRBACOperation(
+        'add_consume_provider', 'Allow Add Own Provider', 'object', 3510
+);
+
+ilDBUpdateNewObjectType::addRBACOperation($typeId, $opsId);
+
+?>
+<#5566>
+<?php
+
+require_once 'Services/Administration/classes/class.ilSetting.php';
+$setting = new ilSetting('lti');
+$setting->delete('custom_provider_create_role');
+
+?>
