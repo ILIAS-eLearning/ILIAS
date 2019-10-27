@@ -21,7 +21,6 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
-const MSG_SUCCESS = "success";
 
 /**
  * Class AuthoringApplicationService
@@ -48,6 +47,8 @@ class AuthoringApplicationService
      * @var string
      */
     protected $lng_key;
+
+    const QTI_FIELD_LABEL_QUESTION_TYPE = "QUESTIONTYPE";
 
 
     /**
@@ -130,6 +131,13 @@ class AuthoringApplicationService
             // save changes if there are any
             CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
         }
+    }
+
+    public function importQtiQuestion(string $qti_item_xml) {
+
+        $qti_application_service = new QtiApplicationService();
+        $question_dto = $qti_application_service->getQuestionDtoFromXml($qti_item_xml);
+        print_r($question_dto);exit;
     }
 
 

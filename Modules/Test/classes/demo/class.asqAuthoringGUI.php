@@ -9,7 +9,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Class asqDebugGUI
+ * Class asqAuthoringGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author            Adrian Lüthi <al@studer-raimann.ch>
@@ -17,11 +17,11 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionAuthoringGUI
- * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionProcessingGUI
- * @ilCtrl_IsCalledBy asqDebugGUI: ilObjTestGUI
+ * @ilCtrl_Calls      asqAuthoringGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      asqAuthoringGUI: ilAsqQuestionProcessingGUI
+ * @ilCtrl_IsCalledBy asqAuthoringGUI: asqDebugGUI
  */
-class asqDebugGUI
+class asqAuthoringGUI
 {
     const CMD_START_TEST = "startTest";
     const CMD_SHOW_NEXT_QUESTION = "showNextQuestion";
@@ -52,6 +52,8 @@ class asqDebugGUI
     public function __construct()
     {
         global $DIC;
+
+        $DIC->tabs()->activateSubTab($DIC->ctrl()->getCmd(self::CMD_SHOW_EDIT_LIST));
 
         $this->renderSubTabs();
 
@@ -338,15 +340,7 @@ class asqDebugGUI
     ///
     ///
     ////////////////
-    public function renderSubTabs()
-    {
-        global $DIC;
-        $DIC->tabs()->addSubTab(self::CMD_SHOW_EDIT_LIST, self::CMD_SHOW_EDIT_LIST, $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_EDIT_LIST));
 
-        // $DIC->tabs()->addSubTab(self::CMD_SHOW_PROCESSING_LIST, self::CMD_SHOW_PROCESSING_LIST, $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_PROCESSING_LIST));
-
-        $DIC->tabs()->activateSubTab($DIC->ctrl()->getCmd(self::CMD_SHOW_EDIT_LIST));
-    }
 
 
     /**
@@ -361,12 +355,12 @@ class asqDebugGUI
         $actions->setAsDropDown(true, true);
 
         $actions->addEntry($DIC->language()->txt('tst_revert_changes'), $DIC->ctrl()->getLinkTarget($this, ''),
-                '', '', '', 'asq_revert_changes_action');
+            '', '', '', 'asq_revert_changes_action');
         $actions->addEntry($DIC->language()->txt('discard_answer'),'#',
-                '','','ilTestQuestionAction ilTestDiscardSolutionAction','tst_discard_solution_action');
+            '','','ilTestQuestionAction ilTestDiscardSolutionAction','tst_discard_solution_action');
         $actions->addSeparator();
         $actions->addEntry($DIC->language()->txt('char_selector_btn_label'),'#',
-                '','','ilAsqAction ilCharSelectorMenuToggle','ilCharSelectorMenuToggleLink');
+            '','','ilAsqAction ilCharSelectorMenuToggle','ilCharSelectorMenuToggleLink');
 
 
         $list = new ilAdvancedSelectionListGUI();

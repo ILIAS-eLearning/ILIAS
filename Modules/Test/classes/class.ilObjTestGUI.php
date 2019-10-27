@@ -18,7 +18,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  */
 ///////////////////
 ///////////////////
-require_once 'Modules/Test/classes/class.asqDebugGUI.php';
+require_once 'Modules/Test/classes/demo/class.asqDebugGUI.php';
 //////////////////
 
 /**

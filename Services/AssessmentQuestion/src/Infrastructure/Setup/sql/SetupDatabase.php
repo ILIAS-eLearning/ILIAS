@@ -20,8 +20,6 @@ class SetupDatabase {
 	public function run():void {
 	    global $DIC;
 
-      // $ilCtrlStructureReader = new ilCtrlStructureReader($DIC->clientIni());
-      // $ilCtrlStructureReader->readStructure(true);
 
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
@@ -59,7 +57,7 @@ class SetupDatabase {
         $this->cleanTestObjectTables();
         ////////////////////////////////////////////////////
 
-        echo "Setup wurde durchgefüht, CtrlStruktur neu geladen, Datentabellen wurden installiert / aktualisiert.<br><br>";
+        echo "Setup wurde durchgefüht. Datentabellen wurden installiert / aktualisiert. ACHTUNG allenfalls muss vorher via setup/setup.php die Ctrl-Struktur neu geladen werden. In diesem Fall dieses Setup erneut ausführen.<br><br>";
         echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";
 
         echo "<a href='../../../../../'>zurück zu ILIAS</a>";
