@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id$" id="cmix">
+	<baseclasses>
+		<baseclass name="CmiXapiGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="cmix" class_name="CmiXapi" dir="classes" checkbox="1"
+			inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" group="lres"
+			default_pos="120" export="1" lti_provider="0" orgunit_permissions="0">
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+			<!-- <parent id="root">lso</parent> -->
+		</object>
+		<object id="cmis" class_name="CmiXapiAdministration" dir="classes" translate="sys" rbac="1" system="1" administration="1">
+			<parent id="adm" max="1">adm</parent>
+		</object>
+	</objects>
+	<crons>
+		<cron id="xapi_results_evaluation" class="ilXapiResultsCronjob" />
+	</crons>
+	<copage />
+	<web_access_checker />
+	<logging />
+</module>
