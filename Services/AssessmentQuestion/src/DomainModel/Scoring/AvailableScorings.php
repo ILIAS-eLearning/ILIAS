@@ -24,6 +24,7 @@ class AvailableScorings {
 		$scorings[OrderingScoring::class] = "OrderingScoring";
 		$scorings[FileUploadScoring::class] = "FileUploadScoring";
 		$scorings[FormulaScoring::class] = "FormulaScoring";
+		$scorings[MatchingScoring::class] = "MatchingScoring";
 		return $scorings;
 	}
 

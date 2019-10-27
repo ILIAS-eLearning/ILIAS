@@ -49,8 +49,8 @@ class AsqTableInput extends ilTextInputGUI {
     {
         parent::__construct($title);
 
-        $this->definitions = $definitions;
-        $this->form_configuration = $form_configuration;
+        $this->definitions = $definitions ?? [];
+        $this->form_configuration = $form_configuration ?? [];
         
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->readValues();

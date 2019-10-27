@@ -33,7 +33,6 @@ class AnswerOptionForm extends AsqTableInput {
 	                            ?array $definitions = null,
 	                            ?array $form_configuration = null) 
 	{
-	    //TODO every question that needs answer options requires them until now, if not --> dont set by default
 	    $this->setRequired(true);
 	    $this->configuration = $configuration;
 	    
