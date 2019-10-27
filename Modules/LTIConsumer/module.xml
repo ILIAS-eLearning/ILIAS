@@ -1,0 +1,23 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<module xmlns="http://www.w3.org" version="$Id$" id="lti">
+	<baseclasses>
+		<baseclass name="LTIConsumerGUI" dir="classes" />
+	</baseclasses>
+	<objects>
+		<object id="lti" class_name="LTIConsumer" dir="classes" checkbox="1"
+			inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" group="lres"
+			default_pos="120" export="0" lti_provider="0" orgunit_permissions="0">
+			<parent id="cat">cat</parent>
+			<parent id="crs">crs</parent>
+			<parent id="fold">fold</parent>
+			<parent id="grp">grp</parent>
+			<parent id="recf">recf</parent>
+			<parent id="root">root</parent>
+			<!-- <parent id="root">lso</parent> -->
+		</object>
+	</objects>
+	<crons />
+	<copage />
+	<web_access_checker />
+	<logging />
+</module>
