@@ -33,11 +33,7 @@ require_once "./Services/Object/classes/class.ilObject.php";
 */
 class ilObjCertificateSettings extends ilObject
 {
-	/**
-	 * @var string
-	 */
-	protected $backgroundImageName = 'background.jpg';
-
+	
 	/**
 	* Constructor
 	* @access	public
@@ -48,12 +44,6 @@ class ilObjCertificateSettings extends ilObject
 	{
 		parent::__construct($a_id, $a_reference);
 		$this->type = "cert";
-
-		global $DIC;
-		$name = $DIC->settings()->get('global_background_image');
-		if($name) {
-			$this->backgroundImageName = $name;
-		}
 	}
 
 	public function hasBackgroundImage()
@@ -90,7 +80,7 @@ class ilObjCertificateSettings extends ilObject
 	*/
 	public function getBackgroundImageName()
 	{
-		return $this->backgroundImageName;
+		return "background.jpg";
 	}
 
 	/**
@@ -152,9 +142,6 @@ class ilObjCertificateSettings extends ilObject
 			{
 				ilUtil::makeDirParents($imagepath);
 			}
-			if (file_exists($this->getBackgroundImagePath())) {
-				$this->nextBackgroundImageName();
-			}
 			// upload the file
 			if (!ilUtil::moveUploadedFile(
 					$image_tempfilename,
@@ -190,16 +177,20 @@ class ilObjCertificateSettings extends ilObject
 	*/
 	public function deleteBackgroundImage()
 	{
-		global $DIC;
-		return $DIC->settings()->set('global_background_image', '');
-	}
-
-	private function nextBackgroundImageName() {
-		$files = [0] + array_map( function ($x) {return (int) $x;},glob($this->getBackgroundImageDefaultFolder() . 'background_*'));
-		$current_version = max($files);
-		global $DIC;
-		$DIC->settings()->set('global_background_image', 'background_' . (++$current_version) . '.jpg');
-		$this->backgroundImageName = 'background_' . (++$current_version) . '.jpg';
+		$result = TRUE;
+		if (file_exists($this->getBackgroundImageThumbPath()))
+		{
+			$result = $result & unlink($this->getBackgroundImageThumbPath());
+		}
+		if (file_exists($this->getBackgroundImagePath()))
+		{
+			$result = $result & unlink($this->getBackgroundImagePath());
+		}
+		if (file_exists($this->getBackgroundImageTempfilePath()))
+		{
+			$result = $result & unlink($this->getBackgroundImageTempfilePath());
+		}
+		return $result;
 	}
 	
 } // END class.ilObjCertificateSettings
