@@ -29,6 +29,16 @@ class ilPortfolioExerciseGUI
 	protected $obj_id; // [int]
 	protected $ass_id; // [int]
 	protected $file; // [string]
+
+    /**
+     * @var ilPortfolioExercise
+     */
+    protected $pe;
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 	
 	public function __construct($a_user_id, $a_obj_id)
 	{
@@ -40,6 +50,7 @@ class ilPortfolioExerciseGUI
 		$this->obj_id = $a_obj_id;
 		$this->ass_id = (int)$_GET["ass"];
 		$this->file = trim($_GET["file"]);
+		$this->ui = $DIC->ui();
 	}
 	
 	function executeCommand()
@@ -66,53 +77,37 @@ class ilPortfolioExerciseGUI
 	}
 	
 	public static function checkExercise($a_user_id, $a_obj_id, $a_add_submit = false, $as_array = false)
-	{			
-		global $DIC;
+	{
+        $pe = new ilPortfolioExercise($a_user_id, $a_obj_id);
 
-		$tree = $DIC->repositoryTree();
-		
-		$info = array();
-		
-		$exercises = ilExSubmission::findUserFiles($a_user_id, $a_obj_id);
-		// #0022794
-		if (!$exercises)
-		{
-			$exercises = ilExSubmission::findUserFiles($a_user_id, $a_obj_id.".sec");
-		}
-		if($exercises)
-		{
-			foreach($exercises as $exercise)
-			{
-				// #9988
-				$active_ref = false;
-				foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
-				{
-					if(!$tree->isSaved($ref_id))
-					{
-						$active_ref = true;
-						break;
-					}
-				}
-				if($active_ref)
-				{				
-					$part = self::getExerciseInfo($a_user_id, $exercise["ass_id"], $a_add_submit, $as_array);
-					if($part)
-					{
-						$info[] = $part;
-					}
-				}
-			}
-			if(sizeof($info) && !$as_array)
-			{
-				return implode("<br />", $info);				
-			}
-		}
-		if ($as_array)
-		{
-			return $info;
-		}
-	}	
-	
+        $info = [];
+        foreach($pe->getAssignmentsOfPortfolio() as $exercise)
+        {
+            $part = self::getExerciseInfo($a_user_id, $exercise["ass_id"], $a_add_submit, $as_array);
+            if($part)
+            {
+                $info[] = $part;
+            }
+        }
+        if(sizeof($info) && !$as_array)
+        {
+            return implode("<br />", $info);
+        }
+
+        if ($as_array)
+        {
+            return $info;
+        }
+    }
+
+    /**
+     * @deprecated
+     * @param $a_user_id
+     * @param $a_assignment_id
+     * @param bool $a_add_submit
+     * @param bool $as_array
+     * @return string
+     */
 	protected static function getExerciseInfo($a_user_id, $a_assignment_id, $a_add_submit = false, $as_array = false)
 	{				
 		global $DIC;
@@ -306,5 +301,88 @@ class ilPortfolioExerciseGUI
 		ilUtil::sendSuccess($lng->txt("prtf_finalized"), true);
 		$ilCtrl->returnToParent($this);
 	}
+
+    /**
+     * Get submit link
+     *
+     * @param int $ass_id
+     * @return object
+     */
+    public function getSubmitButton(int $ass_id)
+    {
+        $ilCtrl = $this->ctrl;
+        $ui = $this->ui;
+        $lng = $this->lng;
+
+        $state = ilExcAssMemberState::getInstanceByIds($ass_id, $this->user_id);
+
+        if ($state->isSubmissionAllowed()) {
+            $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $ass_id);
+            $submit_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "finalize");
+            $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+            $button = $ui->factory()->button()->primary($lng->txt("prtf_finalize_portfolio"), $submit_link);
+            return $button;
+        }
+        return null;
+    }
+
+    /**
+     * Get download button
+     *
+     * @param
+     * @return
+     */
+    public function getDownloadSubmissionButton(int $ass_id)
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ui = $this->ui;
+
+        // submitted files
+        include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+        $submission = new ilExSubmission(new ilExAssignment($ass_id), $this->user_id);
+        if ($submission->hasSubmitted()) {
+            // #16888
+            $submitted = $submission->getSelectedObject();
+            if ($submitted["ts"] != "") {
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", $ass_id);
+                $dl_link = $ilCtrl->getLinkTargetByClass("ilportfolioexercisegui", "downloadExcSubFile");
+                $ilCtrl->setParameterByClass("ilportfolioexercisegui", "ass", "");
+                $button = $ui->factory()->button()->standard($lng->txt("prtf_download_submission"), $dl_link);
+                return $button;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Get action buttons
+     *
+     * @return array
+     */
+    public function getActionButtons()
+    {
+        $pe = new ilPortfolioExercise($this->user_id, $this->obj_id);
+
+        $buttons = [];
+        foreach($pe->getAssignmentsOfPortfolio() as $exercise)
+        {
+            $ass_id = $exercise["ass_id"];
+            $buttons[$ass_id] = [];
+            $submit_button = $this->getSubmitButton($ass_id);
+            if ($submit_button != null) {
+                $buttons[$ass_id][] = $submit_button;
+            }
+            $download_button = $this->getDownloadSubmissionButton($ass_id);
+            if ($download_button != null) {
+                $buttons[$ass_id][] = $download_button;
+            }
+        }
+
+        return $buttons;
+    }
+
+
 }	
 	

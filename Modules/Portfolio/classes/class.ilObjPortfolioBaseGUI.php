@@ -344,7 +344,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		// exercise portfolio?			
 		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
-		$message = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
+		//$message = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
 		
 		$this->tpl->setContent($message.$table->getHTML());
 	}

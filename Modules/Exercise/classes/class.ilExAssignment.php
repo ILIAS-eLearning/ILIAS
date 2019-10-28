@@ -444,6 +444,26 @@ class ilExAssignment
 	}
 
 	/**
+	 * Get instruction presentation
+	 *
+	 * @return string
+	 */
+	public function getInstructionPresentation()
+	{
+        $inst = $this->getInstruction();
+        if(trim($inst))
+        {
+            $is_html = (strlen($inst) != strlen(strip_tags($inst)));
+            if(!$is_html)
+            {
+                $inst = nl2br(ilUtil::makeClickable($inst, true));
+            }
+        }
+        return $inst;
+    }
+
+
+	/**
 	 * Set title
 	 *
 	 * @param	string		title
