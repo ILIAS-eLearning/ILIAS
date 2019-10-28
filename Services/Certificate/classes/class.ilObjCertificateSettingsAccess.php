@@ -84,11 +84,6 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
 	*/
 	public static function getBackgroundImageName()
 	{
-		global $DIC;
-		$name = $DIC->settings()->get('global_background_image');
-		if($name) {
-			return $name;
-		}
 		return "background.jpg";
 	}
 
