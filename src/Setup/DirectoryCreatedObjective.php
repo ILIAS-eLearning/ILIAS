@@ -26,6 +26,11 @@ class DirectoryCreatedObjective implements Objective
 		string $path,
 		int $permissions = self::DEFAULT_DIRECTORY_PERMISSIONS
 	) {
+		if ($path == "") {
+			throw new \InvalidArgumentException(
+				"Path is empty."
+			);
+		}
 		$this->path = $path;
 		$this->permissions = $permissions;
 	}
