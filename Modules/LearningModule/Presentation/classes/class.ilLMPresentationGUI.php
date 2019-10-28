@@ -2131,7 +2131,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -2387,7 +2386,6 @@ class ilLMPresentationGUI
 		}
 		
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -3241,7 +3239,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -3259,9 +3256,6 @@ class ilLMPresentationGUI
 		$this->tpl->loadStandardTemplate();
 
         $this->renderTabs("download", 0);
-		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "download", true,false, 0,
-			$this->lang, $this->export_all_languages));*/
 
 		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();
