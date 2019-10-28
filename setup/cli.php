@@ -2,6 +2,9 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+chdir(__DIR__."/..");
+
+require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
 // according to ./Services/Feeds/classes/class.ilExternalFeed.php:
 if (!defined("MAGPIE_DIR")) {
@@ -11,7 +14,13 @@ if (!defined("MAGPIE_DIR")) {
 require_once(__DIR__."/classes/class.ilSetupLanguage.php");
 require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
-require_once(__DIR__."/../libs/composer/vendor/autoload.php");
+require_once(__DIR__."/classes/class.ilSetupObjective.php");
+require_once(__DIR__."/classes/class.ilSetupAgent.php");
+require_once(__DIR__."/classes/class.ilSetupConfig.php");
+require_once(__DIR__."/classes/class.ilIniFilePopulatedObjective.php");
+require_once(__DIR__."/classes/class.ilSetupSetIniObjective.php");
+require_once(__DIR__."/classes/class.ilSetupPasswordManager.php");
+require_once(__DIR__."/classes/class.ilSetupPasswordEncoderFactory.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Tag;
@@ -48,11 +57,25 @@ function build_container_for_setup() {
 			$c["refinery"],
 			// TODO: use ImplementationOfInterfaceFinder here instead of fixed list
 			[
-				"database" => $c["agent.database"],
+				"common" => $c["agent.common"],
+				"filesystem" => $c["agent.filesystem"],
+				"http" => $c["agent.http"],
+				"logging" => $c["agent.logging"],
+				"style" => $c["agent.style"],
+				"virusscanner" => $c["agent.virusscanner"]
+				/*"database" => $c["agent.database"],
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
-				"ctrl_structure" => $c["agent.ctrl_structure"]
+				"ctrl_structure" => $c["agent.ctrl_structure"]*/
 			]
+		);
+	};
+
+	$c["agent.common"] = function ($c) {
+		return new \ilSetupAgent(
+			$c["refinery"],
+			$c["data_factory"],
+			$c["password_manager"],
 		);
 	};
 
@@ -64,6 +87,36 @@ function build_container_for_setup() {
 
 	$c["agent.global_screen"] = function($c) {
 		return new \ilGlobalScreenSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.http"] = function ($c) {
+		return new \ilHttpSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.filesystem"] = function ($c) {
+		return new \ilFileSystemSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.logging"] = function ($c) {
+		return new \ilLoggingSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.style"] = function ($c) {
+		return new \ilStyleSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.virusscanner"] = function ($c) {
+		return new \ilVirusScannerSetupAgent(
 			$c["refinery"]
 		);
 	};
@@ -151,6 +204,15 @@ function build_container_for_setup() {
 
 	$c["ctrlstructure_reader"] = function($c) {
 		return new \ilCtrlStructureReader();
+	};
+
+	$c["password_manager"] = function($c) {
+		return new \ilSetupPasswordManager([
+			'password_encoder' => 'bcryptphp',
+			'encoder_factory'  => new \ilSetupPasswordEncoderFactory([
+				'default_password_encoder' => 'bcryptphp'
+			])
+		]);
 	};
 
 	return $c;

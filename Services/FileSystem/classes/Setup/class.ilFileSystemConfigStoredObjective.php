@@ -5,7 +5,7 @@
 
 use ILIAS\Setup;
 
-class ilFileSystemSetIniObjective implements Setup\Objective {
+class ilFileSystemConfigStoredObjective implements Setup\Objective {
 	/**
 	 * @var	\ilFileSystemSetupConfig
 	 */
@@ -26,7 +26,7 @@ class ilFileSystemSetIniObjective implements Setup\Objective {
 	}
 
 	public function isNotable() : bool {
-		return true;
+		return false;
 	}
 
 	public function getPreconditions(Setup\Environment $environment) : array {
