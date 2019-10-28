@@ -703,7 +703,7 @@ class ilLMPresentationGUI
 
 	function media()
 	{
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, true);
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
 
         $this->ilMedia();
@@ -729,7 +729,7 @@ class ilLMPresentationGUI
         //}
         //else
         //{
-			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
@@ -768,7 +768,7 @@ class ilLMPresentationGUI
         //}
         //else
         //{
-        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, true);
+        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "Modules/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
 
