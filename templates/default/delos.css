@@ -17230,7 +17230,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .chat li {
   margin-bottom: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
@@ -17239,6 +17238,13 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   margin: 0;
   color: #777;
   font-size: .9em;
+}
+#onscreenchat-container .chat-window-wrapper .chat .clearStyle {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+#onscreenchat-container .chat-window-wrapper .chat .footerNewMessage {
+  border-bottom: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .panel .slidedown .glyphicon,
 #onscreenchat-container .chat-window-wrapper .chat .glyphicon {

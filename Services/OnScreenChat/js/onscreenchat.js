@@ -912,6 +912,8 @@
 			var message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
 			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
 			var username = findUsernameInConversationByMessage(messageObject);
+			let clearStyle = '';
+			let footer = '';
 
 			if (username === "") {
 				if(prepend === false) {
@@ -929,9 +931,10 @@ console.log(messageObject.userId , OLD_USER_ID)
 
 			if(prepend !== true && messageObject.userId == OLD_USER_ID) {
 				template = template.replace(/\[\[style\]\]/g, 'display:none');
-				template = template.replace(/\[\[removeStyle\]\]/g, 'margin-bottom: none;padding-bottom: none;border-bottom: none;');
+				clearStyle = "clearStyle"
+			}else{
+				//footer = 'footerNewMessage';
 			}
-
 			if (messageObject.hasOwnProperty("isNeutral") && messageObject.isNeutral) {
 				template = $(template).find('li.neutral').html();
 			} else {
@@ -942,6 +945,8 @@ console.log(messageObject.userId , OLD_USER_ID)
 			var item = $('<li></li>')
 				.addClass(position)
 				.addClass('clearfix')
+				.addClass(clearStyle)
+				.addClass(footer)
 				.append(template);
 
 			if(prepend === true) {
