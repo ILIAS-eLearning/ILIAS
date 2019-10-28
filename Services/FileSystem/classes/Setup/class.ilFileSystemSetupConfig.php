@@ -24,4 +24,8 @@ class ilFileSystemSetupConfig implements Setup\Config {
 	public function getDataDir() : string {
 		return $this->data_dir;
 	}
+
+	public function getWebDir() : string {
+		return dirname(__DIR__, 4)."/data";
+	}
 }
