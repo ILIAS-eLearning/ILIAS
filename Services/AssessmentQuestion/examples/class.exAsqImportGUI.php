@@ -1,15 +1,9 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingQuestion;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
-use ILIAS\UI\Component\Link\Link;
 
 /**
- * Class asqImportGUI
+ * Class exAsqImportGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author            Adrian Lüthi <al@studer-raimann.ch>
@@ -17,11 +11,11 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls      asqImportGUI: ilAsqQuestionAuthoringGUI
- * @ilCtrl_Calls      asqImportGUI: ilAsqQuestionProcessingGUI
- * @ilCtrl_IsCalledBy asqImportGUI: asqDebugGUI
+ * @ilCtrl_Calls      exAsqImportGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      exAsqImportGUI: ilAsqQuestionProcessingGUI
+ * @ilCtrl_IsCalledBy exAsqImportGUI: exAsqExamplesGUI
  */
-class asqImportGUI
+class exAsqImportGUI
 {
 
     const CMD_SHOW_IMPORT_FORM = "showImportForm";

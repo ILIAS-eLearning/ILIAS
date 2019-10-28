@@ -1,15 +1,12 @@
 <?php
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingQuestion;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Class asqPlayerGUI
+ * Class exAsqPlayerGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author            Adrian Lüthi <al@studer-raimann.ch>
@@ -17,11 +14,11 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls      asqPlayerGUI: ilAsqQuestionAuthoringGUI
- * @ilCtrl_Calls      asqPlayerGUI: ilAsqQuestionProcessingGUI
- * @ilCtrl_IsCalledBy asqPlayerGUI: asqDebugGUI
+ * @ilCtrl_Calls      exAsqPlayerGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      exAsqPlayerGUI: ilAsqQuestionProcessingGUI
+ * @ilCtrl_IsCalledBy exAsqPlayerGUI: exAsqExamplesGUI
  */
-class asqPlayerGUI
+class exAsqPlayerGUI
 {
     const CMD_SHOW_TEST_START = "showTestStart";
     const CMD_START_TEST = "startTest";

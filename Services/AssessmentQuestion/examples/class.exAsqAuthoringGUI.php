@@ -1,15 +1,13 @@
 <?php
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingQuestion;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Class asqAuthoringGUI
+ * Class exAsqAuthoringGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author            Adrian Lüthi <al@studer-raimann.ch>
@@ -17,11 +15,11 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls      asqAuthoringGUI: ilAsqQuestionAuthoringGUI
- * @ilCtrl_Calls      asqAuthoringGUI: ilAsqQuestionProcessingGUI
- * @ilCtrl_IsCalledBy asqAuthoringGUI: asqDebugGUI
+ * @ilCtrl_Calls      exAsqAuthoringGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      exAsqAuthoringGUI: ilAsqQuestionProcessingGUI
+ * @ilCtrl_IsCalledBy exAsqAuthoringGUI: exAsqExamplesGUI
  */
-class asqAuthoringGUI
+class exAsqAuthoringGUI
 {
     const CMD_START_TEST = "startTest";
     const CMD_SHOW_NEXT_QUESTION = "showNextQuestion";
@@ -284,13 +282,13 @@ class asqAuthoringGUI
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
                             $question['id'])
-                    )->getEditLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
+                    )->getEditLink([ilRepositoryGUI::class, ilObjTestGUI::class, exAsqExamplesGUI::class])
                 );
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
                             $question['id'])
-                    )->getPreviewLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
+                    )->getPreviewLink([ilRepositoryGUI::class, ilObjTestGUI::class, exAsqExamplesGUI::class])
                 );
                 $html .= '<li>' . implode($row, " | ") . '</li>';
             }
@@ -309,7 +307,7 @@ class asqAuthoringGUI
         $creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getCreationLink([
             ilRepositoryGUI::class,
             ilObjTestGUI::class,
-            asqDebugGUI::class,
+            exAsqExamplesGUI::class,
         ]);
 
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';

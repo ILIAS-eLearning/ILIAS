@@ -31,6 +31,10 @@ class QtiApplicationService
 
     public function getQuestionDtoFromXml(string $qti_item_xml) {
         $question_xml =  simplexml_load_string($qti_item_xml);
+
+
+        print_r($question_xml);
+
         $question_dto = new QuestionDto();
 
         $qti_metadata_fields = $question_xml->itemmetadata->qtimetadata->qtimetadatafield;
@@ -40,7 +44,6 @@ class QtiApplicationService
                         $question_author = (string)$qti_metadata_field->fieldentry;
                         break;
                 }
-
             }
 
         $qti_presentation = $question_xml->presentation;
@@ -49,6 +52,8 @@ class QtiApplicationService
 
         $question_data = QuestionData::create($question_title,$question_text,$question_author);
         $question_dto->setData($question_data);
+
+        print_r($question_dto);exit;
 
         return $question_dto;
     }

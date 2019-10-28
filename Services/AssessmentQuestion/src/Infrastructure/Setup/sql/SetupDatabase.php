@@ -58,7 +58,7 @@ class SetupDatabase {
         ////////////////////////////////////////////////////
 
         echo "Setup wurde durchgefüht. Datentabellen wurden installiert / aktualisiert. ACHTUNG allenfalls muss vorher via setup/setup.php die Ctrl-Struktur neu geladen werden. In diesem Fall dieses Setup erneut ausführen.<br><br>";
-        echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'asqDebugGUI' angezeigt werden<br><br>";
+        echo "Es müsste nun neben dem Setup / Resetup ASQ ein neuer Tab 'exAsqExamplesGUI' angezeigt werden<br><br>";
 
         echo "<a href='../../../../../'>zurück zu ILIAS</a>";
 

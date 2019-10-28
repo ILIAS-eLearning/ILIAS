@@ -122,7 +122,7 @@ class ilAsqQuestionProcessingGUI
         $answer = $this->processing_application_service->getCurrentAnswer($question_dto);
         $this->processing_application_service->answerQuestion($answer);
 
-        $DIC->ctrl()->redirectByClass(['ilrepositorygui', 'ilObjTestGUI', 'asqdebuggui'], 'showNextQuestion');
+        $DIC->ctrl()->redirectByClass(['ilrepositorygui', 'ilObjTestGUI', 'exAsqExamplesGUI'], 'showNextQuestion');
 
         //TODO iCtrl does not work?
         $DIC->ctrl()->redirectToURL($this->question_config->getShowNextQuestionAction());
