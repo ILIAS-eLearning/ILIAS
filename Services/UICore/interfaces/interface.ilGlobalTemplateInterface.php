@@ -207,6 +207,14 @@ interface ilGlobalTemplateInterface
 
 
     /**
+     * Use this method to get the finally rendered page as string
+     *
+     * @return string
+     */
+    public function printToString() : string;
+
+
+    /**
      * set tree/flat icon
      *
      * @param string        link target
