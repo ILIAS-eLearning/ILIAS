@@ -121,6 +121,7 @@ class ilObjMainMenuGUI extends ilObject2GUI
     private function initLocator()
     {
         $path = $this->tree->getPathFull((int) $_GET["ref_id"]);
+        array_shift($path);
         foreach ((array) $path as $key => $row) {
             if ($row["title"] == "Main Menu") {
                 $row["title"] = $this->lng->txt("obj_mme");
