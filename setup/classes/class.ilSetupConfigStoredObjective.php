@@ -67,7 +67,7 @@ class ilSetupConfigStoredObjective extends ilSetupObjective {
 		$ini->setVariable("clients", "default", $this->config->getClientId());
 
 		if (!$ini->write()) {
-			throw new \RuntimeException("Could not write ilias.ini.php");
+			throw new \UnachievableException("Could not write ilias.ini.php");
 		}
 
 		return $environment;

@@ -43,7 +43,7 @@ class ilStyleConfigStoredObjective implements Setup\Objective {
 		$ini->setVariable("tools", "enable_system_styles_management", $this->config->getManageSystemStyles() ? "1" : "0");
 
 		if (!$ini->write()) {
-			throw new \RuntimeException("Could not write ilias.ini.php");
+			throw new Setup\UnachievableException("Could not write ilias.ini.php");
 		}
 
 		return $environment;

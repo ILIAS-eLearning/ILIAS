@@ -44,7 +44,7 @@ class ilHttpSetIniObjective implements Setup\Objective {
 		$ini->setVariable("https","auto_https_detect_header_value", $this->config->getHeaderValue());
 
 		if (!$ini->write()) {
-			throw new \RuntimeException("Could not write ilias.ini.php");
+			throw new Setup\UnachievableException("Could not write ilias.ini.php");
 		}
 
 		return $environment;

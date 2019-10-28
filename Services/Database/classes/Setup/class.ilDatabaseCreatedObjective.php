@@ -40,7 +40,7 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective {
 		}
 
 		if (!$db->createDatabase($c->getDatabase(), "utf8", $c->getCollation())) {
-			throw new \RuntimeException(
+			throw new \UnachievableException(
 				"Database cannot be created."
 			);
 		}
