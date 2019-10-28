@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2019 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -15220,7 +15220,7 @@ common#:#mm_repository#:#Repository
 common#:#mm_dashboard#:#Dashboard
 common#:#mm_repo_tree_view#:#Tree View
 common#:#mm_task_derived_tasks#:#Tasks
-common#:#mm_favorites#:#Favorites
+common#:#mm_favorites#:#Favourites
 common#:#mm_calendar#:#Calendar
 common#:#mm_tags#:#Tags
 common#:#mm_portfolio#:#Portfolio
