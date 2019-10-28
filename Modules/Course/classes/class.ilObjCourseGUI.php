@@ -866,8 +866,12 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// period
 		$crs_period = $form->getItemByPostVar("period");
-		$this->object->setCourseStart($crs_period->getStart());
-		$this->object->setCourseEnd($crs_period->getEnd());
+
+
+		$this->object->setCoursePeriod(
+			$crs_period->getStart(),
+			$crs_period->getEnd()
+		);
 
 		// activation/online
 		$this->object->setOfflineStatus((bool) !$form->getInput('activation_online'));
@@ -1135,17 +1139,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// period		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');			
-		$cdur->setInfo($this->lng->txt('crs_period_info'));			
-		if($this->object->getCourseStart())
-		{
-			$cdur->setStart($this->object->getCourseStart());
-		}		
-		if($this->object->getCourseStart())
-		{
-			$cdur->setEnd($this->object->getCourseEnd());
-		}	
-		$form->addItem($cdur);			
+		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');
+		$this->lng->loadLanguageModule('mem');
+		$cdur->enableToggleFullTime(
+			$this->lng->txt('mem_period_without_time'),
+			!$this->object->getCourseStartTimeIndication()
+		);
+		$cdur->setShowTime(true);
+		$cdur->setInfo($this->lng->txt('crs_period_info'));
+		$cdur->setStart($this->object->getCourseStart());
+		$cdur->setEnd($this->object->getCourseEnd());
+		$form->addItem($cdur);
 		
 			
 		// activation/availability
