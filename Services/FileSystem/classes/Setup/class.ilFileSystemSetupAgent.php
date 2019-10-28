@@ -51,7 +51,7 @@ class ilFileSystemSetupAgent implements Setup\Agent {
 		return new Setup\ObjectiveCollection(
 			"Services/FileSystem objectives.",
 			false,
-			new ilFileSystemSetIniObjective($config)
+			new ilFileSystemConfigStoredObjective($config)
 		);
 	}
 
