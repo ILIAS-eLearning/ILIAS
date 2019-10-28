@@ -102,32 +102,6 @@ class ilObjMainMenuGUI extends ilObject2GUI
 
 
     /**
-     * @return void
-     */
-    private function initLocator()
-    {
-        $path = $this->tree->getPathFull((int) $_GET["ref_id"]);
-        foreach ((array) $path as $key => $row) {
-            if ($row["title"] == "Main Menu") {
-                $row["title"] = $this->lng->txt("obj_mme");
-            }
-
-            $this->ctrl->setParameter($this, "ref_id", $row["child"]);
-            $this->locator->addItem(
-                $row["title"],
-                $this->ctrl->getLinkTarget($this, self::TAB_MAIN),
-                ilFrameTargetInfo::_getFrame("MainContent"),
-                $row["child"]
-            );
-
-            $this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
-        }
-
-        $this->tpl->setLocator();
-    }
-
-
-    /**
      * @inheritDoc
      */
     public function getType()
