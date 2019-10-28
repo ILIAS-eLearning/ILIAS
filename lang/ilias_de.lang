@@ -2322,7 +2322,7 @@ common#:#assf_questiontypes#:#Frageneinstellungen
 rbac#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
 rbac#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
 rbac#:#assf_write#:#Bearbeiten der Test und Assessment-Administration
-common#:#assign#:#Als Mitglied aufnehmen
+common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
