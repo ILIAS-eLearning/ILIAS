@@ -7,6 +7,11 @@ use ILIAS\Data\Password;
 
 class ilSetupConfig implements Setup\Config {
 	/**
+	 * @var	client_id
+	 */
+	protected $client_id;
+
+	/**
 	 * @var	Password
 	 */
 	protected $master_password;
@@ -52,6 +57,7 @@ class ilSetupConfig implements Setup\Config {
 	protected $path_to_latex_cgi;
 
 	public function __construct(
+		string $client_id,
 		Password $master_password,
 		\DateTimeZone $server_timezone,
 		string $path_to_convert,
@@ -62,6 +68,12 @@ class ilSetupConfig implements Setup\Config {
 		?string $path_to_phantom_js,
 		?string $path_to_latex_cgi
 	) {
+		if (!preg_match("/^[A-Za-z0-9]+$/", $client_id)) {
+			throw new \InvalidArgumentException(
+				"client_id must not be empty and may only contain alphanumeric characters"
+			);
+		}
+		$this->client_id = $client_id;
 		$this->master_password = $master_password;
 		$this->server_timezone = $server_timezone;
 		$this->path_to_convert = $this->toLinuxConvention($path_to_convert);
@@ -78,6 +90,10 @@ class ilSetupConfig implements Setup\Config {
 			return null;
 		}
 		return preg_replace("/\\\\/","/",$p);
+	}
+
+	public function getClientId() : string {
+		return $this->client_id;
 	}
 
 	public function getMasterPassword() : Password {

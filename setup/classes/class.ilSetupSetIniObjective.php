@@ -64,6 +64,8 @@ class ilSetupSetIniObjective extends ilSetupObjective {
 		$ini->setVariable("tools", "latex", $this->config->getPathToConvert());
 		$ini->setVariable("tools", "phantomjs", $this->config->getPathToConvert());
 
+		$ini->setVariable("clients", "default", $this->config->getClientId());
+
 		if (!$ini->write()) {
 			throw new \RuntimeException("Could not write ilias.ini.php");
 		}
