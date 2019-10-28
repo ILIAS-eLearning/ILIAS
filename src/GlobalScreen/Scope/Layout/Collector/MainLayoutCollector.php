@@ -141,19 +141,15 @@ class MainLayoutCollector
             // PAGE
             $page_modification = $provider->getPageBuilderDecorator($called_contexts);
             $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
+            // Pagetitle
+            $title_modification = $provider->getTitleModification($called_contexts);
+            $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
 
-            if(get_class($provider) !== "ILIAS\GlobalScreen\Provider\GSModificationProvider") { //TODO: raus
+            $short_title_modification = $provider->getShortTitleModification($called_contexts);
+            $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
 
-                $title_modification = $provider->getTitleModification($called_contexts);
-                $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
-
-                $short_title_modification = $provider->getShortTitleModification($called_contexts);
-                $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
-
-                $view_title_modification = $provider->getViewTitleModification($called_contexts);
-                $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
-            }
-
+            $view_title_modification = $provider->getViewTitleModification($called_contexts);
+            $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
