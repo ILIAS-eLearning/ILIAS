@@ -43,7 +43,7 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective {
 		$ini->setVariable("tools", "cleancommand", $this->config->getPathToClean());
 
 		if (!$ini->write()) {
-			throw new \RuntimeException("Could not write ilias.ini.php");
+			throw new Setup\UnachievableException("Could not write ilias.ini.php");
 		}
 
 		return $environment;

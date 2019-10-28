@@ -42,7 +42,7 @@ class ilFileSystemConfigStoredObjective implements Setup\Objective {
 		$ini->setVariable("clients", "datadir", $this->config->getDataDir());
 
 		if (!$ini->write()) {
-			throw new \RuntimeException("Could not write ilias.ini.php");
+			throw new Setup\UnachievableException("Could not write ilias.ini.php");
 		}
 
 		return $environment;
