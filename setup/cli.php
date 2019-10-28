@@ -60,6 +60,7 @@ function build_container_for_setup() {
 				"common" => $c["agent.common"],
 				"filesystem" => $c["agent.filesystem"],
 				"http" => $c["agent.http"],
+				"language" => $c["agent.language"],
 				"logging" => $c["agent.logging"],
 				"style" => $c["agent.style"],
 				"virusscanner" => $c["agent.virusscanner"],
@@ -99,6 +100,12 @@ function build_container_for_setup() {
 
 	$c["agent.filesystem"] = function ($c) {
 		return new \ilFileSystemSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.language"] = function ($c) {
+		return new \ilLanguageSetupAgent(
 			$c["refinery"]
 		);
 	};
