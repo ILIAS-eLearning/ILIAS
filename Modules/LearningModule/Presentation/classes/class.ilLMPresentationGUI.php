@@ -1710,7 +1710,8 @@ class ilLMPresentationGUI
 						{
 							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
-							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
+							$href = $ilCtrl->getLinkTarget($this, "downloadFile",
+								"",false, true);
 							$ilCtrl->setParameter($this, "file_id", "");
 							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
@@ -1720,7 +1721,8 @@ class ilLMPresentationGUI
 						$obj_type = ilObject::_lookupType($target_id);
 						if ($obj_type == "usr")
 						{
-							$back = $this->ctrl->getLinkTarget($this, "layout");
+							$back = $this->ctrl->getLinkTarget($this, "layout",
+								"",false, true);
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
@@ -1728,7 +1730,8 @@ class ilLMPresentationGUI
 							$href = "";
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML",
+									"",false, true);
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
