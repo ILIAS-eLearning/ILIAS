@@ -921,7 +921,7 @@
 				}
 				return;
 			}
-console.log(messageObject.userId , OLD_USER_ID)
+
 			template = template.replace(/\[\[username\]\]/g, username);
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
