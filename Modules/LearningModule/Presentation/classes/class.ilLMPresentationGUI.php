@@ -903,7 +903,7 @@ class ilLMPresentationGUI
 		}
 
 
-		$tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, true);
+		$tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "Modules/LearningModule");
 
 		$pg_id = $this->getCurrentPageId();
 		if ($pg_id == 0)
