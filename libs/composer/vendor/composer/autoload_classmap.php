@@ -952,7 +952,6 @@ return array(
     'ILIAS\\Validation\\Constraints\\IsInt' => $baseDir . '/../../src/Validation/Constraints/IsInt.php',
     'ILIAS\\Validation\\Constraints\\IsNull' => $baseDir . '/../../src/Validation/Constraints/IsNull.php',
     'ILIAS\\Validation\\Constraints\\IsNumeric' => $baseDir . '/../../src/Validation/Constraints/IsNumeric.php',
-    'ILIAS\\Validation\\Constraints\\IsNumericOrNull' => $baseDir . '/../../src/Validation/Constraints/IsNumericOrNull.php',
     'ILIAS\\Validation\\Constraints\\IsString' => $baseDir . '/../../src/Validation/Constraints/IsString.php',
     'ILIAS\\Validation\\Constraints\\LessThan' => $baseDir . '/../../src/Validation/Constraints/LessThan.php',
     'ILIAS\\Validation\\Constraints\\LogicalOr' => $baseDir . '/../../src/Validation/Constraints/LogicalOr.php',

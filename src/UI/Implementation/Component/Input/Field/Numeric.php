@@ -34,7 +34,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
 
         //TODO: Is there a better way to do this? Note, that "withConstraint" is not
         // usable here (clone).
-        $this->setAdditionalConstraint($this->validation_factory->isNumericOrNull());
+        $this->setAdditionalConstraint($this->validation_factory->or([$this->validation_factory->isNumeric(), $this->validation_factory->isNull()]));
     }
 
 
