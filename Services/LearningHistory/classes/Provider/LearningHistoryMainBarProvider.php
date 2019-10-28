@@ -30,11 +30,12 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $entries = [];
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("lhist", "")->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/rocket.svg"), "");
+        $title = $this->dic->language()->txt("mm_learning_history");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("lhist", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/rocket.svg"), $title);
 
         $entries[] = $this->mainmenu->link($this->if->identifier('learning_history'))
-            ->withTitle($this->dic->language()->txt("mm_learning_history"))
+            ->withTitle($title)
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
                 ilPersonalDesktopGUI::class,
                 ilAchievementsGUI::class,

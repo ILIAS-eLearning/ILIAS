@@ -29,14 +29,15 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
 
         //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
+        $title = $this->dic->language()->txt("mm_tags");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), $title);
 
         $tag_ui = new \ilTaggingSlateContentGUI();
         $contents = $f->legacy($tag_ui->render());
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
-                ->withTitle($this->dic->language()->txt("mm_tags"))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContent($contents)
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
