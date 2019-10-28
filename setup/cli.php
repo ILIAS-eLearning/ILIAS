@@ -62,8 +62,8 @@ function build_container_for_setup() {
 				"http" => $c["agent.http"],
 				"logging" => $c["agent.logging"],
 				"style" => $c["agent.style"],
-				"virusscanner" => $c["agent.virusscanner"]
-				/*"database" => $c["agent.database"],
+				"virusscanner" => $c["agent.virusscanner"],
+				"database" => $c["agent.database"]/*,
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
 				"ctrl_structure" => $c["agent.ctrl_structure"]*/
