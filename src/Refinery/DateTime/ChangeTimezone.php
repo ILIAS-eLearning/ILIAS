@@ -9,7 +9,7 @@ use ILIAS\Refinery\Transformation;
 
 /**
  * Change the timezone (and only the timezone) of php's \DateTimeImmutable WITHOUT changing the date-value.
- * This will effectively result in a different DateTime.
+ * This will effectively be another point in time and space.
  */
 class ChangeTimezone implements Transformation
 {
