@@ -88,7 +88,7 @@ class ilSetupAgent implements Setup\Agent {
 			new Setup\PHPExtensionLoadedCondition("xsl"),
 			new Setup\PHPExtensionLoadedCondition("gd"),
 			$this->getPHPMemoryLimitCondition(),
-			new ilSetupSetIniObjective($config, $this->password_manager)
+			new ilSetupConfigStoredObjective($config, $this->password_manager)
 		);
 	}
 

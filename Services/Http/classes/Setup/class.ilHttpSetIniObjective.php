@@ -29,8 +29,9 @@ class ilHttpSetIniObjective implements Setup\Objective {
 	}
 
 	public function getPreconditions(Setup\Environment $environment) : array {
+		$common_config = $environment->getConfigFor("common");
 		return [
-			new ilIniFilePopulatedObjective() 
+			new ilIniFilePopulatedObjective($common_config)
 		];
 	}
 

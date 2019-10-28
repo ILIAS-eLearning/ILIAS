@@ -5,7 +5,7 @@
 
 use ILIAS\Setup;
 
-class ilSetupSetIniObjective extends ilSetupObjective {
+class ilSetupConfigStoredObjective extends ilSetupObjective {
 	/**
 	 * @var \ilSetupPasswordManager
 	 */
@@ -28,12 +28,12 @@ class ilSetupSetIniObjective extends ilSetupObjective {
 	}
 
 	public function isNotable() : bool {
-		return true;
+		return false;
 	}
 
 	public function getPreconditions(Setup\Environment $environment) : array {
 		return [
-			new ilIniFilePopulatedObjective() 
+			new ilIniFilePopulatedObjective($this->config)
 		];
 	}
 
