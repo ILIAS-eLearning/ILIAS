@@ -116,6 +116,7 @@ il.Util = {
 	
 	ajaxReplace: function(url, el_id)
 	{
+		console.log(url);
 		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: false}, this.ajaxReplaceSuccess)
 	},
 	

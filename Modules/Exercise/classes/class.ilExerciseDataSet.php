@@ -86,6 +86,7 @@ class ilExerciseDataSet extends ilDataSet
 						"Description" => "text",
 						"PassMode" => "text",
 						"PassNr" => "integer",
+						"NrMandatoryRandom" => "integer",
 						"ShowSubmissions" => "integer",
 						"ComplBySubmission" => "integer",
 						"Tfeedback" => "integer"
@@ -221,6 +222,7 @@ class ilExerciseDataSet extends ilDataSet
 						,"FeedbackDate" => "integer"
 						,"FeedbackDir" => "directory"
 						,"FbDateCustom" => "integer"
+						,"RelDeadlineLastSubm" => "integer"
 					);
 			}
 		}
@@ -335,7 +337,7 @@ class ilExerciseDataSet extends ilDataSet
 				case "5.2.0":
 				case "5.3.0":
 					$this->getDirectDataFromQuery("SELECT exc_data.obj_id id, title, description,".
-						" pass_mode, pass_nr, show_submissions, compl_by_submission, tfeedback".
+						" pass_mode, pass_nr, show_submissions, compl_by_submission, tfeedback,nr_mandatory_random".
 						" FROM exc_data JOIN object_data ON (exc_data.obj_id = object_data.obj_id)".
 						" WHERE ".$ilDB->in("exc_data.obj_id", $a_ids, false, "integer"));
 					break;
@@ -376,7 +378,7 @@ class ilExerciseDataSet extends ilDataSet
 						" instruction, title, start_time, mandatory, order_nr, team_tutor, max_file, peer, peer_min,".
 						" peer_dl peer_deadline, peer_file, peer_prsl peer_personal, peer_char, peer_unlock, peer_valid,".
 						" peer_text, peer_rating, peer_crit_cat, fb_file feedback_file, fb_cron feedback_cron, fb_date feedback_date,".
-						" fb_date_custom".
+						" fb_date_custom, rel_deadline_last_subm".
 						" FROM exc_assignment".
 						" WHERE ".$ilDB->in("exc_id", $a_ids, false, "integer"));
 					break;
@@ -586,6 +588,7 @@ class ilExerciseDataSet extends ilDataSet
 				$newObj->setDescription($a_rec["Description"]);
 				$newObj->setPassMode($a_rec["PassMode"]);
 				$newObj->setPassNr($a_rec["PassNr"]);
+				$newObj->setNrMandatoryRandom((int) $a_rec["NrMandatoryRandom"]);
 				$newObj->setShowSubmissions($a_rec["ShowSubmissions"]);
 				$newObj->setCompletionBySubmission($a_rec["ComplBySubmission"]);
 				$newObj->setTutorFeedback($a_rec["Tfeedback"]);
@@ -663,6 +666,7 @@ class ilExerciseDataSet extends ilDataSet
 
 					// 5.3
 					$ass->setFeedbackDateCustom($a_rec["FbDateCustom"]);
+					$ass->setRelDeadlineLastSubmission($a_rec["RelDeadlineLastSubm"]);
 					
 					// criteria catalogue
 					if($a_rec["PeerCritCat"])

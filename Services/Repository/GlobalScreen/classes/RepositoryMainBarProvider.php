@@ -53,6 +53,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), "");
 
+        /*
         if ($_GET["baseClass"] == "ilRepositoryGUI") {
             $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
                 ->withAction($link)
@@ -60,7 +61,17 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(30)
                 ->withSymbol($icon)
                 ->withTitle($title);
-        }
+        }*/
+
+        $contents = $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+        $entries[] =
+            $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
+                ->withTitle($this->dic->language()->txt("mm_rep_tree_view"))
+                ->withSymbol($icon)
+                ->withContent($contents)
+                ->withParent($top)
+                ->withAlwaysAvailable(true)
+                ->withPosition(20);
 
         // LastVisited
         $entries[] = $this->getLastVisitedItem()
@@ -147,4 +158,26 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             );
     }
+
+    /**
+     * Render repository tree
+     *
+     * @return string
+     */
+    protected function renderRepoTree()
+    {
+        global $DIC;
+
+        $tree = $DIC->repositoryTree();
+        $ref_id = (int) $_GET["ref_id"];
+        if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
+            $ref_id = $tree->readRootId();
+        }
+
+        $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
+        $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
+        return $exp->getHTML();
+    }
+
+
 }

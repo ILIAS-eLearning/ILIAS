@@ -45,7 +45,9 @@ class ilLTIViewGUI
 	/**
 	 * private variables
 	 */ 
+	private $dic = null;
 	private $user = null;
+	private $log = null;
 	private $home_id = "";
 	private $home_obj_id = "";
 	private $home_type = "";
@@ -63,34 +65,29 @@ class ilLTIViewGUI
 	public $member_view_url = "";
 	public $member_view_close_txt = "";
 	
-	/**
-	 * Constructor
-	 * @return 
-	 */
-	public function __construct(\ilObjUser $user)
-	{
-		if(ilContext::hasUser()) {
-			$this->user = $user;
-			$this->init();
-		}
-		else {
-			if ($this->isActive()) {
-				$this->deactivate();
-			}
-		}
+	
+	public function __construct() {
+		global $DIC;
+		$this->dic = $DIC;
+		$this->user = $this->dic->user();
+		$this->log = $this->dic->logger()->lti();
 	}
 	
 	/**
 	 * Init LTI mode for lit authenticated users
 	 */
-	private function init()
+	public function init()
 	{
 		$this->link_dir = (defined("ILIAS_MODULE"))
 					? "../"
 					: "";
+		
 		if ($this->isLTIUser())
 		{
+			$context = $this->dic->globalScreen()->tool()->context();
+			$context->claim()->lti();
 			$this->activate();
+			$this->log->info("LTI ScreenContext claimed");
 		}
 		else
 		{
@@ -99,7 +96,6 @@ class ilLTIViewGUI
 			}
 		}
 	}
-	
 	
 	/**
 	 * for compatiblity with ilLTIRouterGUI
@@ -119,6 +115,9 @@ class ilLTIViewGUI
 			return false;
 		}
 		return (strpos($this->user->getAuthMode(),'lti_') === 0);
+		/* for testing standalone faking a LTI session by special user with login name '*_lti' */
+		//$_SESSION['lti_launch_css_url'] = "https://ilias.example.com/lti.css";
+		//return (strpos($this->user->getLogin(),'lti_') === 0);
 	}
 	
 	/**
@@ -140,10 +139,12 @@ class ilLTIViewGUI
 	 * */
 	public function activate() 
 	{
+		if ($this->isActive()) {
+			return;
+		}
 		$this->findEffectiveRefId();
 		$_SESSION['il_lti_mode'] = "1";
- 		$this->initGUI();
- 		$this->log("lti view activated");
+		$this->initGUI();
 	}
 	
 	/** 
@@ -353,8 +354,8 @@ class ilLTIViewGUI
 	{
 		global $lng;
 		$lng->loadLanguageModule("lti");
-		$this->log("exitLti");
-		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
+		$this->dic->logger()->lti()->info("exitLTI");
+		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') { // ToDo
 			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
 			$tplExit->setVariable('TXT_LTI_EXITED',$lng->txt('lti_exited'));
 			$tplExit->setVariable('LTI_EXITED_INFO',$lng->txt('lti_exited_info'));
@@ -375,9 +376,9 @@ class ilLTIViewGUI
 	 */
 	function logout() 
 	{
-		//$DIC->logger()->root()->debug("logout");
+		$this->dic->logger()->lti()->info("logout");
 		$this->deactivate();
-		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);		
+		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
 		//$this->dic['ilAuthSession']->logout();
 		$GLOBALS['DIC']['ilAuthSession']->logout();
 		// reset cookie
@@ -408,7 +409,7 @@ class ilLTIViewGUI
 	/**
 	 * @return bool
 	 */
-	private function showLocator($obj_type) {
+	public function showLocator($obj_type) {
 		//return true;
 		return preg_match("/(crs|grp|cat|root|fold|lm)/",$obj_type);
 	}
@@ -416,7 +417,7 @@ class ilLTIViewGUI
 	/**
 	 * helper function for cmd link creation
 	 */ 
-	protected function getCmdLink($cmd) {
+	public function getCmdLink($cmd) {
 		global $ilCtrl;
 		$targetScript = ($ilCtrl->getTargetScript() !== 'ilias.php') ? "ilias.php" : "";
 		return $this->link_dir.$targetScript.$ilCtrl->getLinkTargetByClass(array('illtiroutergui',strtolower(get_class($this))),$cmd)."&baseClass=illtiroutergui";

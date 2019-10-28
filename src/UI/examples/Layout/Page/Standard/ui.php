@@ -19,7 +19,6 @@ if ($_GET['new_ui'] == '1') {
 
     $logo = $f->image()->responsive("src/UI/examples/Image/HeaderIconLarge.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
-    $content = pagedemoContent($f);
     $metabar = pagedemoMetabar($f);
     $mainbar = pagedemoMainbar($f, $renderer)
         ->withActive("pws")
@@ -28,8 +27,11 @@ if ($_GET['new_ui'] == '1') {
          * ->withActive("tool2")
          */
         ;
-
     $footer = pagedemoFooter($f);
+
+    $entries = $mainbar->getEntries();
+    $tools = $mainbar->getToolEntries();
+    $content = pagedemoContent($f, $renderer, $entries, $tools);
 
     $page = $f->layout()->page()->standard(
         $content,
@@ -44,6 +46,12 @@ if ($_GET['new_ui'] == '1') {
     ;
 
     echo $renderer->render($page);
+}
+
+
+if ($_GET['replaced'] == '1') {
+    echo('Helo. Content from RPC.');
+    exit();
 }
 
 /**
@@ -69,12 +77,21 @@ function pagedemoCrumbs($f)
     return $f->breadcrumbs($crumbs);
 }
 
-function pagedemoContent($f)
+function pagedemoContent($f, $r, array $mainbar_entries, array $tools)
 {
+    $second_tool = array_values($tools)[1];
+    $url = "./src/UI/examples/Layout/Page/Standard/ui.php?replaced=1";
+    $replace_signal = $second_tool->getReplaceSignal()->withAsyncRenderUrl($url);
+    $replace_btn = $f->button()->standard('replace contents in 2nd tool', $replace_signal);
+
     return array(
         $f->panel()->standard(
             'Demo Content',
-            $f->legacy("some content<br>some content<br>some content<br>x.")
+            $f->legacy(
+                "This button will replace the contents of the second tool-slate.<br />"
+                ."Goto Tools, second entry and click it.<br />"
+                .$r->render($replace_btn)
+            )
         ),
         $f->panel()->standard(
             'Demo Content 2',
@@ -170,6 +187,7 @@ function pagedemoMainbar($f, $r)
     foreach ($entries as $id => $entry) {
         $mainbar = $mainbar->withAdditionalEntry($id, $entry);
     }
+
     $tools = getDemoEntryTools($f);
     foreach ($tools as $id => $entry) {
         $mainbar = $mainbar->withAdditionalToolEntry($id, $entry);

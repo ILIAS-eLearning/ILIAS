@@ -71,6 +71,17 @@ class ilExAssignmentEditorGUI
 	 */
 	protected $types;
 
+
+    /**
+     * @var ilExcRandomAssignmentManager
+     */
+	protected $random_manager;
+
+    /**
+     * @var ilObjExercise|null
+     */
+	protected $exc;
+
 	/**
 	 * Constructor
 	 * 
@@ -97,6 +108,11 @@ class ilExAssignmentEditorGUI
 		$this->types = ilExAssignmentTypes::getInstance();
 		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
 		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
+		$request = $DIC->exercise()->internal()->request();
+		$this->exc = $request->getRequestedExercise();
+		$this->random_manager = $DIC->exercise()->internal()->service()->getRandomAssignmentManager(
+            $request->getRequestedExercise()
+        );
 	}
 	
 	public function executeCommand()
@@ -205,7 +221,7 @@ class ilExAssignmentEditorGUI
 		$lng = $this->lng;
 
 		$types = [];
-		foreach ($this->types->getAllActivated() as $k => $t)
+		foreach ($this->types->getAllAllowed($this->exc) as $k => $t)
 		{
 			$types[$k] = $t->getTitle();
 		}
@@ -379,10 +395,17 @@ class ilExAssignmentEditorGUI
 		}
 
 		// mandatory
-		$cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
-		$cb->setInfo($lng->txt("exc_mandatory_info"));
-		$cb->setChecked(true);
-		$form->addItem($cb);
+        if (!$this->random_manager->isActivated()) {
+            $cb = new ilCheckboxInputGUI($lng->txt("exc_mandatory"), "mandatory");
+            $cb->setInfo($lng->txt("exc_mandatory_info"));
+            $cb->setChecked(true);
+            $form->addItem($cb);
+        } else {
+		    //
+		    $ne = new ilNonEditableValueGUI($lng->txt("exc_mandatory"), "");
+		    $ne->setValue($lng->txt("exc_mandatory_rand_determined"));
+		    $form->addItem($ne);
+        }
 
 		// Work Instructions
 		$sub_header = new ilFormSectionHeaderGUI();
@@ -485,9 +508,16 @@ class ilExAssignmentEditorGUI
 		$ti->setMaxLength(3);
 		$ti->setSize(3);
 		$op2->addSubItem($ti);
-		
 
-		// max number of files
+        // last submission for relative deadline
+        $last_submission = new ilDateTimeInputGUI($lng->txt("exc_rel_last_submission"), "rel_deadline_last_subm");
+        $last_submission->setInfo($lng->txt("exc_rel_last_submission_info"));
+        $last_submission->setShowTime(true);
+        $op2->addSubItem($last_submission);
+
+
+
+        // max number of files
 		if($ass_type->usesFileUpload())
 		{
 			$sub_header = new ilFormSectionHeaderGUI();
@@ -508,7 +538,8 @@ class ilExAssignmentEditorGUI
 		$sub_header = new ilFormSectionHeaderGUI();
 		$sub_header->setTitle($lng->txt("exc_after_submission"), "after_submission");
 		$form->addItem($sub_header);
-		if (!$ass_type->usesTeams())
+
+        if (!$ass_type->usesTeams() && !$this->random_manager->isActivated())
 		{
 			// peer review
 			$peer = new ilCheckboxInputGUI($lng->txt("exc_peer_review"), "peer");		
@@ -784,7 +815,6 @@ class ilExAssignmentEditorGUI
 					"type" => $a_form->getInput("type")
 					,"title" => trim($a_form->getInput("title"))
 					,"instruction" => trim($a_form->getInput("instruction"))
-					,"mandatory" => $a_form->getInput("mandatory")					
 					// dates
 					,"start" => $time_start
 					,"deadline" => $time_deadline
@@ -793,8 +823,11 @@ class ilExAssignmentEditorGUI
 						? $a_form->getInput("max_file")
 						: null
 				);
+                if (!$this->random_manager->isActivated()) {
+                    $res["mandatory"] = $a_form->getInput("mandatory");
+                }
 
-				if($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
+                    if($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR)
 				{
 					$res['team_creator'] = $a_form->getInput("team_creator");
 					$res["team_creation"] = $a_form->getInput("team_creation");
@@ -839,6 +872,11 @@ class ilExAssignmentEditorGUI
 				if ($res["deadline_mode"] == ilExAssignment::DEADLINE_RELATIVE)
 				{
 					$res["relative_deadline"] = $a_form->getInput("relative_deadline");
+                    $rel_deadline_last_subm = $a_form->getItemByPostVar("rel_deadline_last_subm")->getDate();
+                    $rel_deadline_last_subm = $rel_deadline_last_subm
+                        ? $rel_deadline_last_subm->get(IL_CAL_UNIX)
+                        : null;
+                    $res["rel_deadline_last_subm"] = $rel_deadline_last_subm;
 				}
 
 				// peer
@@ -905,14 +943,17 @@ class ilExAssignmentEditorGUI
 		$is_create = !(bool)$a_ass->getId();
 		
 		$a_ass->setTitle($a_input["title"]);
-		$a_ass->setInstruction($a_input["instruction"]);			
-		$a_ass->setMandatory($a_input["mandatory"]);	
+		$a_ass->setInstruction($a_input["instruction"]);
+        if (!$this->random_manager->isActivated()) {
+            $a_ass->setMandatory($a_input["mandatory"]);
+        }
 
 		$a_ass->setStartTime($a_input["start"]);
 		$a_ass->setDeadline($a_input["deadline"]);
 		$a_ass->setExtendedDeadline($a_input["deadline_ext"]);
 		$a_ass->setDeadlineMode($a_input["deadline_mode"]);
 		$a_ass->setRelativeDeadline($a_input["relative_deadline"]);
+        $a_ass->setRelDeadlineLastSubmission($a_input["rel_deadline_last_subm"]);
 									
 		$a_ass->setMaxFile($a_input["max_file"]);		
 		$a_ass->setTeamTutor($a_input["team_creator"]);
@@ -922,7 +963,9 @@ class ilExAssignmentEditorGUI
 		//$a_ass->setMinCharLimit($a_input['min_char_limit']);
 		//$a_ass->setMaxCharLimit($a_input['max_char_limit']);
 
-		$a_ass->setPeerReview((bool)$a_input["peer"]);
+        if (!$this->random_manager->isActivated()) {
+            $a_ass->setPeerReview((bool)$a_input["peer"]);
+        }
 		
 		// peer review default values (on separate form)
 		if($is_create)
@@ -1154,6 +1197,8 @@ class ilExAssignmentEditorGUI
 
 		$values["deadline_mode"] = $this->assignment->getDeadlineMode();
 		$values["relative_deadline"] = $this->assignment->getRelativeDeadline();
+        $values["rel_deadline_last_subm"] = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
+
 
 		$a_form->setValuesByArray($values);
 		

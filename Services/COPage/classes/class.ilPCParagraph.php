@@ -731,7 +731,8 @@ echo htmlentities($a_text);*/
 				{
 					$ancstr = ' Anchor="'.$attribs["anchor"].'" ';
 				}
-				$a_text = preg_replace('/\['.$found[1].'\]/i',
+				// see 26066 for addcslashes
+				$a_text = preg_replace('/\['.addcslashes($found[1],  '/').'\]/i',
 					"<IntLink Target=\"il_".$inst_str."_pg_".$attribs['page']."\" Type=\"PageObject\"".$tframestr.$ancstr.">", $a_text);
 			}
 			// chapters

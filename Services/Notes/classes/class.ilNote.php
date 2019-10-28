@@ -575,6 +575,8 @@ class ilNote
 	{
 		global $DIC;
 
+        $fav_rep = new ilFavouritesDBRepository();
+
 		$ilDB = $DIC->database();
 		$ilUser = $DIC->user();
 		$tree = $DIC->repositoryTree();
@@ -624,7 +626,7 @@ class ilNote
 			
 			// additionally all objects on the personal desktop of the user
 			// that have at least on comment
-			$dis = ilObjUser::_lookupDesktopItems($ilUser->getId());
+			$dis = $fav_rep->getFavouritesOfUser($ilUser->getId());
 			$obj_ids = array();
 			foreach($dis as $di)
 			{

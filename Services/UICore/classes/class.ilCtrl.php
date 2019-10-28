@@ -6,22 +6,14 @@ require_once('class.ilCachedCtrl.php');
  * This class provides processing control methods.
  * A global instance is available via variable $ilCtrl
  *
+ * xml_style parameters: This mode was activated per default in the past, is now set to false but still being
+ * used and needed, if link information is passed to the xslt processing e.g. in content pages.
+ *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  */
 class ilCtrl
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
     const IL_RTOKEN_NAME = 'rtoken';
     
     /**
@@ -49,7 +41,9 @@ class ilCtrl
     /**
      * Return commands per class.
      *
-     * TODO: What is this?
+     * Return command sare defined by an upper context classes. If a subcontext calls
+     * returnToParent() it will redirect to the return command of the next upper context that defined
+     * a return command.
      *
      * This is used in: setReturn, setReturnByClass, getParentReturnByClass, searchReturnClass
      *
@@ -89,6 +83,11 @@ class ilCtrl
     protected $target_script = "ilias.php";
 
     /**
+     * @var string
+     */
+    protected $module_dir;
+
+    /**
      * control class constructor
      */
     public function __construct()
@@ -105,8 +104,6 @@ class ilCtrl
      * Initialize member variables.
      *
      * This is used in __construct and initBaseClass.
-     *
-     * @return	null
      */
     protected function initializeMemberVariables()
     {
@@ -115,8 +112,6 @@ class ilCtrl
         $this->return = array();			// return commmands
         $this->tab = array();
         $this->current_node = 0;
-        $this->module_dir = "";
-        $this->service_dir = "";
         $this->call_node = array();
         $this->root_class = "";
     }
@@ -126,6 +121,7 @@ class ilCtrl
      * passed via $_GET["baseClass"] and is the first class in
      * the call sequence of the request. Do not call this method
      * within other scripts than ilias.php.
+     * @throws ilCtrlException
      */
     public function callBaseClass()
     {
@@ -146,8 +142,6 @@ class ilCtrl
             $m_set = $ilDB->query("SELECT * FROM il_component WHERE name = " .
                 $ilDB->quote($module, "text"));
             $m_rec = $ilDB->fetchAssoc($m_set);
-            $this->module_dir = $m_rec["type"] . "/" . $m_rec["name"];
-            include_once $this->module_dir . "/" . $class_dir . "/class." . $class . ".php";
         } else {		// check whether class belongs to a service
             $mc_rec = $module_class->lookupServiceClass($baseClass);
 
@@ -163,10 +157,6 @@ class ilCtrl
 
             $m_rec = ilComponent::getComponentInfo('Services', $service);
 
-            $this->service_dir = $m_rec["type"] . "/" . $m_rec["name"];
-            
-            include_once $this->service_dir . "/" . $class_dir . "/class." . $class . ".php";
-            ;
         }
         
         // forward processing to base class
@@ -176,11 +166,15 @@ class ilCtrl
     }
 
     /**
-    * get directory of current module
-    */
+     * get directory of current module
+     * @deprecated
+     * @return mixed
+     * @throws Exception
+     */
     public function getModuleDir()
     {
-        return $this->module_dir;
+        throw new Exception("ilCtrl::getModuleDir is deprecated.");
+        //return $this->module_dir;
     }
     
     /**
@@ -188,9 +182,9 @@ class ilCtrl
      * this invokes the executeCommand() method of the
      * gui object that is passed via reference
      *
-     * @param	object		gui object that should receive
-     *						the flow of control
-     * @return	mixed		return data of invoked executeCommand() method
+     * @param object $a_gui_object gui object that should receive
+     * @return mixed return data of invoked executeCommand() method
+     * @throws ilCtrlException
      */
     public function forwardCommand($a_gui_object)
     {
@@ -1009,7 +1003,7 @@ class ilCtrl
         $a_fallback_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         $script =  $this->getFormActionByClass(
             strtolower(get_class($a_gui_obj)),
@@ -1036,7 +1030,7 @@ class ilCtrl
         $a_fallback_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         if (!is_array($a_class)) {
             $a_class = strtolower($a_class);
@@ -1048,7 +1042,7 @@ class ilCtrl
             $xml_style = false;
         }
 
-        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
+        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
         if ($a_fallback_cmd != "") {
             $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, $xml_style);
         }
@@ -1070,7 +1064,7 @@ class ilCtrl
      * @param	string	url
      * @param	boolean	xml style
      */
-    public function appendRequestTokenParameterString($a_url, $xml_style = true)
+    public function appendRequestTokenParameterString($a_url, $xml_style = false)
     {
         return ilUtil::appendUrlParameterString(
             $a_url,
@@ -1334,7 +1328,7 @@ class ilCtrl
         $a_cmd = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         $script = $this->getLinkTargetByClass(
             strtolower(get_class($a_gui_obj)),
@@ -1363,7 +1357,7 @@ class ilCtrl
         $a_cmd  = "",
         $a_anchor = "",
         $a_asynch = false,
-        $xml_style = true
+        $xml_style = false
     ) {
         if ($a_asynch) {
             $xml_style = false;
@@ -1505,6 +1499,11 @@ class ilCtrl
 
     /**
      * Get URL parameters for a class and append them to a string
+     * @param $a_class
+     * @param $a_str
+     * @param string $a_cmd command
+     * @param bool $xml_style
+     * @return string
      */
     public function getUrlParameters($a_class, $a_str, $a_cmd = "", $xml_style = false)
     {

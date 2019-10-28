@@ -19,8 +19,19 @@ class ilObjBookingPool extends ilObject
 	protected $reminder_status = 0; // [int]
 	protected $reminder_day = 1; // [int]
 
+    /**
+     * @var int
+     */
+    protected $pref_deadline;
+
+    /**
+     * @var int
+     */
+    protected $preference_nr;
+
 	const TYPE_FIX_SCHEDULE = 1;
 	const TYPE_NO_SCHEDULE = 2;
+    const TYPE_NO_SCHEDULE_PREFERENCES = 3;
 	
 	/**
 	* Constructor
@@ -49,7 +60,9 @@ class ilObjBookingPool extends ilObject
 			"ovlimit" => array("integer", $this->getOverallLimit()),
 			"reminder_status" => array("integer", $this->getReminderStatus()),
 			"reminder_day" => array("integer", $this->getReminderDay()),
-			"rsv_filter_period" => array("integer", $this->getReservationFilterPeriod())
+			"rsv_filter_period" => array("integer", $this->getReservationFilterPeriod()),
+			"preference_nr" => array("integer", (int) $this->getPreferenceNumber()),
+			"pref_deadline" => array("integer", (int) $this->getPreferenceDeadline())
 		);
 		
 		return $fields;
@@ -115,6 +128,8 @@ class ilObjBookingPool extends ilObject
 			$this->setReminderStatus($row['reminder_status']);
 			$this->setReminderDay($row['reminder_day']);
 			$this->setReservationFilterPeriod($row['rsv_filter_period']);
+			$this->setPreferenceNumber($row['preference_nr']);
+			$this->setPreferenceDeadline($row['pref_deadline']);
 		}
 	}
 
@@ -222,6 +237,8 @@ class ilObjBookingPool extends ilObject
 		$new_obj->setOverallLimit($this->getOverallLimit());
 		$new_obj->setReminderStatus($this->getReminderStatus());
 		$new_obj->setReminderDay($this->getReminderDay());
+		$new_obj->setPreferenceNumber($this->getPreferenceNumber());
+		$new_obj->setPreferenceDeadline($this->getPreferenceDeadline());
 
 		$smap = null;
 		if($this->getScheduleType() == self::TYPE_FIX_SCHEDULE)
@@ -339,6 +356,48 @@ class ilObjBookingPool extends ilObject
 	{
 		return $this->reminder_day;
 	}
+	
+	/**
+	 * Set preference number
+	 *
+	 * @param int $a_val number of preferences	
+	 */
+	function setPreferenceNumber($a_val)
+	{
+		$this->preference_nr = $a_val;
+	}
+	
+	/**
+	 * Get preference number
+	 *
+	 * @return int number of preferences
+	 */
+	function getPreferenceNumber()
+	{
+		return $this->preference_nr;
+	}
+	
+	/**
+	 * Set preference deadline
+	 *
+	 * @param int $a_val preference deadline unix timestamp	
+	 */
+	function setPreferenceDeadline($a_val)
+	{
+		$this->pref_deadline = $a_val;
+	}
+	
+	/**
+	 * Get preference deadline
+	 *
+	 * @return int preference deadline unix timestamp
+	 */
+	function getPreferenceDeadline()
+	{
+		return $this->pref_deadline;
+	}
+	
+	
 	
 	/**
 	 * Check object status

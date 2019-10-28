@@ -347,7 +347,8 @@ var ilCOPage =
 		 st_sel.select('style_' + stype[t]); // Must be runned after */
 
 		tinymce.activeEditor.formatter.toggle(t);
-
+		ed.focus();
+		ed.selection.collapse(false);
 		this.autoResize(ed);
 	},
 
@@ -2411,9 +2412,9 @@ function editParagraph(div_id, mode, switched)
 					// removing does not seem to work, also the functions do not
 					// seem to be executed, but this way the shortcut is at least disabled
 					// on chrome/mac, see also 0008662
-					ed.shortcuts.add('meta+b', function() {tinymce.activeEditor.formatter.toggle("Strong");});
-					ed.shortcuts.add('meta+u', function() {console.log("test 1");});
-					ed.shortcuts.add('meta+i', function() {console.log("test 2");});
+					ed.shortcuts.add('meta+b', '', function() {ilCOPage.cmdSpan('Strong');});
+					ed.shortcuts.add('meta+u', '', function() {ilCOPage.cmdSpan('Important');});
+					ed.shortcuts.add('meta+i', '', function() {ilCOPage.cmdSpan('Emph');});
 
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
