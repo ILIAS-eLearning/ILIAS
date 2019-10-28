@@ -590,11 +590,11 @@ class ilCertificateGUI
 							$cardThumbnailImagePath = $this->certificatePath . $cardThumbnailFileName;
 						}
 					} catch (ilException $exception) {
-						$form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
+						$form->getFileUpload('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
 					}
 					if (false === $this->fileSystem->has($cardThumbnailImagePath)) {
-						$form->getFileUpload('background')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
-						$backgroundImagePath = '';
+						$form->getFileUpload('certificate_card_thumbnail_image')->setAlert($this->lng->txt("certificate_error_upload_ctimage"));
+                        $cardThumbnailImagePath = '';
 					}
 				}
 				if($cardThumbnailImagePath === '' && !$_POST['certificate_card_thumbnail_image_delete']) {
