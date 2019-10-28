@@ -35,6 +35,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
 			$this->refinery->logical->logicalOr(
 				$this->refinery->numeric()->isNumeric(),
 				$this->refinery->null()
+			)
 		);
     }
 
