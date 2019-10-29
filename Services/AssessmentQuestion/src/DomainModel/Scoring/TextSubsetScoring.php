@@ -39,7 +39,8 @@ class TextSubsetScoring extends AbstractScoring
     {
         /** @var TextSubsetScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
-        
+
+
         $answer_arr = json_decode($answer->getValue(), true);
         
         switch ($scoring_conf->getTextMatching()) {
@@ -173,7 +174,7 @@ class TextSubsetScoring extends AbstractScoring
         $amount = $question->getPlayConfiguration()->getEditorConfiguration()->getNumberOfRequestedAnswers();
         
         if(empty($amount)) {
-            return '';
+            return 0;
         }
         
         $points = array_map(function($option) {

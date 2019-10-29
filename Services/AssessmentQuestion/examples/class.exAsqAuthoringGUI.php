@@ -1,15 +1,13 @@
 <?php
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingQuestion;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
 
 /**
- * Class asqDebugGUI
+ * Class exAsqAuthoringGUI
  *
  * @author            studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author            Adrian Lüthi <al@studer-raimann.ch>
@@ -17,11 +15,11 @@ use ILIAS\UI\Component\Link\Link;
  * @author            Martin Studer <ms@studer-raimann.ch>
  * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
- * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionAuthoringGUI
- * @ilCtrl_Calls      asqDebugGUI: ilAsqQuestionProcessingGUI
- * @ilCtrl_IsCalledBy asqDebugGUI: ilObjTestGUI
+ * @ilCtrl_Calls      exAsqAuthoringGUI: ilAsqQuestionAuthoringGUI
+ * @ilCtrl_Calls      exAsqAuthoringGUI: ilAsqQuestionProcessingGUI
+ * @ilCtrl_IsCalledBy exAsqAuthoringGUI: exAsqExamplesGUI
  */
-class asqDebugGUI
+class exAsqAuthoringGUI
 {
     const CMD_START_TEST = "startTest";
     const CMD_SHOW_NEXT_QUESTION = "showNextQuestion";
@@ -52,6 +50,8 @@ class asqDebugGUI
     public function __construct()
     {
         global $DIC;
+
+        $DIC->tabs()->activateSubTab($DIC->ctrl()->getCmd(self::CMD_SHOW_EDIT_LIST));
 
         $this->renderSubTabs();
 
@@ -282,13 +282,13 @@ class asqDebugGUI
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
                             $question['id'])
-                    )->getEditLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
+                    )->getEditLink([ilRepositoryGUI::class, ilObjTestGUI::class, exAsqExamplesGUI::class])
                 );
                 $row[] = $DIC->ui()->renderer()->render(
                     $this->authoring_service->question(
                         $this->entity_id_builder->fromString(
                             $question['id'])
-                    )->getPreviewLink([ilRepositoryGUI::class, ilObjTestGUI::class, asqDebugGUI::class])
+                    )->getPreviewLink([ilRepositoryGUI::class, ilObjTestGUI::class, exAsqExamplesGUI::class])
                 );
                 $html .= '<li>' . implode($row, " | ") . '</li>';
             }
@@ -307,7 +307,7 @@ class asqDebugGUI
         $creationLinkComponent = $this->authoring_service->question($this->authoring_service->currentOrNewQuestionId())->getCreationLink([
             ilRepositoryGUI::class,
             ilObjTestGUI::class,
-            asqDebugGUI::class,
+            exAsqExamplesGUI::class,
         ]);
 
         require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
@@ -338,15 +338,7 @@ class asqDebugGUI
     ///
     ///
     ////////////////
-    public function renderSubTabs()
-    {
-        global $DIC;
-        $DIC->tabs()->addSubTab(self::CMD_SHOW_EDIT_LIST, self::CMD_SHOW_EDIT_LIST, $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_EDIT_LIST));
 
-        // $DIC->tabs()->addSubTab(self::CMD_SHOW_PROCESSING_LIST, self::CMD_SHOW_PROCESSING_LIST, $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_PROCESSING_LIST));
-
-        $DIC->tabs()->activateSubTab($DIC->ctrl()->getCmd(self::CMD_SHOW_EDIT_LIST));
-    }
 
 
     /**
@@ -361,12 +353,12 @@ class asqDebugGUI
         $actions->setAsDropDown(true, true);
 
         $actions->addEntry($DIC->language()->txt('tst_revert_changes'), $DIC->ctrl()->getLinkTarget($this, ''),
-                '', '', '', 'asq_revert_changes_action');
+            '', '', '', 'asq_revert_changes_action');
         $actions->addEntry($DIC->language()->txt('discard_answer'),'#',
-                '','','ilTestQuestionAction ilTestDiscardSolutionAction','tst_discard_solution_action');
+            '','','ilTestQuestionAction ilTestDiscardSolutionAction','tst_discard_solution_action');
         $actions->addSeparator();
         $actions->addEntry($DIC->language()->txt('char_selector_btn_label'),'#',
-                '','','ilAsqAction ilCharSelectorMenuToggle','ilCharSelectorMenuToggleLink');
+            '','','ilAsqAction ilCharSelectorMenuToggle','ilCharSelectorMenuToggleLink');
 
 
         $list = new ilAdvancedSelectionListGUI();

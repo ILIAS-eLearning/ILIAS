@@ -306,4 +306,8 @@ class AuthoringQuestion
     {
         // TODO: Implement changeQuestionContainer() method.
     }
+
+    public function importQtiQuestion(string $qti_item_xml) {
+        $this->authoring_application_service->importQtiQuestion($qti_item_xml);
+    }
 }

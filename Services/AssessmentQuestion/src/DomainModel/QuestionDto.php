@@ -271,7 +271,7 @@ class QuestionDto  {
     /**
      * @param Feedback $feedback
      */
-    public function setFeedback(Feedback $feedback) : void
+    public function setFeedback(?Feedback $feedback) : void
     {
         $this->feedback = $feedback;
     }
