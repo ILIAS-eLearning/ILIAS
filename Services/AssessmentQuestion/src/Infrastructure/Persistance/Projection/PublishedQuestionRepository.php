@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionLegacyData;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 
 class PublishedQuestionRepository
 {

@@ -2,10 +2,12 @@
 
 namespace ILIAS\AssessmentQuestion\Application;
 
+use ILIAS\AssessmentQuestion\Application\QtiV2\Import\QtiImportService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
@@ -13,6 +15,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
+use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
@@ -20,8 +23,7 @@ use ilAsqQuestionPageGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-
-const MSG_SUCCESS = "success";
+use srag\CustomInputGUIs\MultiLineInputGUI\MultiLineInputGUI;
 
 /**
  * Class AuthoringApplicationService
@@ -48,6 +50,8 @@ class AuthoringApplicationService
      * @var string
      */
     protected $lng_key;
+
+    const QTI_FIELD_LABEL_QUESTION_TYPE = "QUESTIONTYPE";
 
 
     /**
@@ -130,6 +134,26 @@ class AuthoringApplicationService
             // save changes if there are any
             CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
         }
+    }
+
+    public function importQtiQuestion(string $qti_item_xml) {
+        global $DIC;
+
+        $qti_application_service = new QtiImportService($this->container_obj_id);
+        $question_dto = $qti_application_service->getQuestionDtoFromXml($qti_item_xml);
+
+        $uid = new DomainObjectId();
+
+        $this->createQuestion($uid,
+            $this->container_obj_id,
+            $question_dto->getLegacyData()->getContainerObjType(),
+            NULL,
+            $question_dto->getLegacyData()->getAnswerTypeId(),
+            $question_dto->getLegacyData()->getContentEditingMode()
+        );
+
+        $question_dto->setId($uid->getId());
+        $this->saveQuestion($question_dto);
     }
 
 
