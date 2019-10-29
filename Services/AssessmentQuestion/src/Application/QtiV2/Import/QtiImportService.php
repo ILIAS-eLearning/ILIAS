@@ -41,7 +41,7 @@ class QtiImportService
     }
 
 
-    public function getQuestionDtoFromXml(string $qti_item_xml)
+    public function getQuestionDtoFromXml(string $qti_item_xml):?QuestionDto
     {
         global $DIC;
 
@@ -56,6 +56,8 @@ class QtiImportService
         $correct_response_identifier = $this->getCorrectResponseFromXmlElement($simple_xml_element);
         $max_score = $this->getMaxScoreFromXmlElement($simple_xml_element);
 
+
+        //Todo -> the followings should be transfered in a factory
         if (isset($simple_xml_element->itemBody->choiceInteraction)) {
             $answer_options = $this->getSingleChoiceAnswerOptionsFromXmlElement($simple_xml_element, $correct_response_identifier, $max_score);
 
@@ -75,6 +77,10 @@ class QtiImportService
             //TODO?
             $editor = TextSubsetEditorConfiguration::create(1);
             $scoring = TextSubsetScoringConfiguration::create(1);
+        }
+
+        if(!is_object($answer_options)) {
+            return null;
         }
 
         $question_data = QuestionData::create($question_title, $question_text, $question_author);

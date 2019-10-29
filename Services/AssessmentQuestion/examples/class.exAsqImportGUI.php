@@ -103,6 +103,8 @@ class exAsqImportGUI
                 continue;
             }
 
+            $DIC->logger()->root()->log($file);
+
             if (strpos($file, 'xml')) {
                 $xmldata = simplexml_load_file($qti_file_name);
                 $authoring_service = $DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
