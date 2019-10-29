@@ -33,6 +33,11 @@ class ilBlogExerciseGUI
 	protected $node_id; // [int]
 	protected $ass_id; // [int]
 	protected $file; // [string]
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 	
 	public function __construct($a_node_id)
 	{
@@ -44,6 +49,7 @@ class ilBlogExerciseGUI
 		$this->node_id = $a_node_id;
 		$this->ass_id = (int)$_GET["ass"];
 		$this->file = trim(ilUtil::stripSlashes($_GET["file"]));
+		$this->ui = $DIC->ui();
 	}
 	
 	function executeCommand()
@@ -68,49 +74,23 @@ class ilBlogExerciseGUI
 		return true;
 	}
 	
-	public static function checkExercise($a_node_id)
-	{			
-		global $DIC;
+    public static function checkExercise($a_node_id)
+    {
+        $be = new ilBlogExercise($a_node_id);
 
-		$tree = $DIC->repositoryTree();
-		$ilUser = $DIC->user();
-	
-		$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id);
-		// #0022794
-		if (!$exercises)
-		{
-			$exercises = ilExSubmission::findUserFiles($ilUser->getId(), $a_node_id.".sec");
-		}
-		if($exercises)
-		{
-			$info = array();				
-			foreach($exercises as $exercise)
-			{					
-				// #9988
-				$active_ref = false;
-				foreach(ilObject::_getAllReferences($exercise["obj_id"]) as $ref_id)
-				{
-					if(!$tree->isSaved($ref_id))
-					{
-						$active_ref = true;
-						break;
-					}
-				}
-				if($active_ref)
-				{					
-					$part = self::getExerciseInfo($exercise["ass_id"]);
-					if($part)
-					{
-						$info[] = $part;
-					}
-				}
-			}				
-			if(sizeof($info))
-			{
-				return implode("<br />", $info);										
-			}
-		}		
-	}
+        foreach ($be->getAssignmentsOfBlog() as $ass) {
+            $part = self::getExerciseInfo($ass["ass_id"]);
+            if($part)
+            {
+                $info[] = $part;
+            }
+        }
+        if(sizeof($info))
+        {
+            return implode("<br />", $info);
+        }
+        return "";
+    }
 
 	protected static function getExerciseInfo($a_assignment_id)
 	{		
@@ -283,5 +263,87 @@ class ilBlogExerciseGUI
 
 		ilUtil::sendSuccess($lng->txt("blog_finalized"), true);
 		$ilCtrl->returnToParent($this);		
-	}	
+	}
+
+    /**
+     * Get submit link
+     *
+     * @param int $ass_id
+     * @return object
+     */
+    public function getSubmitButton(int $ass_id)
+    {
+        $ilCtrl = $this->ctrl;
+        $ui = $this->ui;
+        $lng = $this->lng;
+
+        $state = ilExcAssMemberState::getInstanceByIds($ass_id, $this->user->getId());
+
+        if ($state->isSubmissionAllowed()) {
+            $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $ass_id);
+            $submit_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "finalize");
+            $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
+            $button = $ui->factory()->button()->primary($lng->txt("blog_finalize_blog"), $submit_link);
+            return $button;
+        }
+        return null;
+    }
+
+    /**
+     * Get download button
+     *
+     * @param
+     * @return
+     */
+    public function getDownloadSubmissionButton(int $ass_id)
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+        $ui = $this->ui;
+
+        // submitted files
+        $submission = new ilExSubmission(new ilExAssignment($ass_id), $this->user->getId());
+        if ($submission->hasSubmitted()) {
+            // #16888
+            $submitted = $submission->getSelectedObject();
+            if ($submitted["ts"] != "") {
+
+                $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", $ass_id);
+                $dl_link = $ilCtrl->getLinkTargetByClass("ilblogexercisegui", "downloadExcSubFile");
+                $ilCtrl->setParameterByClass("ilblogexercisegui", "ass", "");
+                $button = $ui->factory()->button()->standard($lng->txt("blog_download_submission"), $dl_link);
+                return $button;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * Get action buttons
+     *
+     * @return array
+     */
+    public function getActionButtons()
+    {
+        $be = new ilBlogExercise($this->node_id);
+
+        $buttons = [];
+        foreach($be->getAssignmentsOfBlog() as $exercise)
+        {
+            $ass_id = $exercise["ass_id"];
+            $buttons[$ass_id] = [];
+            $submit_button = $this->getSubmitButton($ass_id);
+            if ($submit_button != null) {
+                $buttons[$ass_id][] = $submit_button;
+            }
+            $download_button = $this->getDownloadSubmissionButton($ass_id);
+            if ($download_button != null) {
+                $buttons[$ass_id][] = $download_button;
+            }
+        }
+
+        return $buttons;
+    }
+
 }

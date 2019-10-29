@@ -162,6 +162,40 @@ class ObjectiveIteratorTest extends \PHPUnit\Framework\TestCase {
 		$iterator->next();
 	}
 
+	public function testMarkFailed() {
+		$this->expectException(Setup\UnachievableException::class);
+
+		$env = new Setup\ArrayEnvironment([]);
+
+		$objective_fail = $this->newObjective();
+		$objective_1 = $this->newObjective();
+		$objective_2 = $this->newObjective();
+		$objective_3 = $this->newObjective();
+
+		$objective_1
+			->method("getPreconditions")
+			->willReturn([]);
+
+		$objective_2
+			->method("getPreconditions")
+			->willReturn([]);
+
+		$objective_3
+			->method("getPreconditions")
+			->willReturn([$objective_1, $objective_fail, $objective_2]);
+
+		$iterator = new Setup\ObjectiveIterator($env, $objective_3);
+
+
+		$this->assertEquals($objective_1, $iterator->current());
+		$iterator->next();
+		$this->assertEquals($objective_fail, $iterator->current());
+		$iterator->markAsFailed($objective_fail);
+		$iterator->next();
+		$this->assertEquals($objective_2, $iterator->current());
+		$iterator->next();
+	}
+
 	protected function newObjective($hash = null) {
 		static $no = 0;
 

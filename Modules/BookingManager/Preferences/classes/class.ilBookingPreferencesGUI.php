@@ -213,7 +213,9 @@ class ilBookingPreferencesGUI
                 $preferences = $this->service->data()->preferencesFactory()->preferences(
                     [$this->user->getId() => $obj_ids]
                 );
+
                 $repo->savePreferencesOfUser($this->pool->getId(), $this->user->getId(), $preferences);
+                $part = new ilBookingParticipant($this->user->getId(), $this->pool->getId());
                 ilUtil::sendSuccess($lng->txt("book_preferences_saved"), true);
             }
         }

@@ -146,6 +146,7 @@ class ilBookingPreferencesManager
         // phase one: assign lowest popular items to random user
         while (!$end_phase_one) {
             $popularity = $this->calculatePopularity($booking_object_ids, $preferences);
+
             $low_pop_book_obj_id = $this->getObjectWithLowestPopularity($popularity, $availability);
             if ($low_pop_book_obj_id > 0) {
                 $user_ids = $this->getUsersForObject($preferences, $low_pop_book_obj_id);
@@ -342,7 +343,8 @@ class ilBookingPreferencesManager
     }
 
     /**
-     * Get an available object within the preferences of a user that is currently minimal assigned
+     * Get an available object within the preferences (if no preferences left, even outside of preferences)
+     * of a user that is currently minimal assigned
      *
      * @param int[] $booking_object_ids
      * @param int[][] $bookings
@@ -365,7 +367,10 @@ class ilBookingPreferencesManager
         // sort the objects by number of assignments, return the first one being found in the user preferences
         asort($count_assignments, SORT_NUMERIC);
         foreach ($count_assignments as $obj_id => $cnt) {
-            if (in_array($obj_id, $user_preferences) && $availability[$obj_id] > 0) {
+            // if no preferences left for user, even assign object outside preferences
+            // otherwise choose object from preferences
+            if ((count($user_preferences) == 0 || in_array($obj_id, $user_preferences))
+                && $availability[$obj_id] > 0) {
                 return (int) $obj_id;
             }
         }
