@@ -96,12 +96,17 @@ class exAsqImportGUI
         foreach ($files as $file) {
             $qti_file_name = $tmp_dir . "/" . $file;
 
+            //TODO we should read an interpret the  imsmanifest.xml and get the relevant paths of question.xml from there!
             if (strpos($file, 'manifest') !== false) {
                 continue;
             }
             if (strpos($file, 'Test') !== false) {
                 continue;
             }
+            if (strpos($file, 'assessment') !== false) {
+                continue;
+            }
+
 
             $DIC->logger()->root()->log($file);
 
