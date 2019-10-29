@@ -167,27 +167,34 @@ class Renderer extends AbstractComponentRenderer
                 $slate = null;
             }
 
-            $button_html = $default_renderer->render($button);
             if ($block === static::BLOCK_MAINBAR_TOOLS) {
-                $pos_start = strpos($button_html, 'id="') + 4;
-                $pos_end = strpos($button_html, '"', $pos_start);
-                $btn_id = substr($button_html, $pos_start, $pos_end-$pos_start);
-                $this->signals_for_tools[$id] = $btn_id;
+                $this->button_id = null;
+                $button = $button->withAdditionalOnLoadCode(
+                    function ($id) use ($button_id) {
+                        $this->button_id = $id;
+                    }
+                );
+                $button_html = $default_renderer->render($button);
+                $button_id = $this->button_id;
 
-                $initially_hidden = in_array($id, $initially_hidden_ids);
-                if($initially_hidden) {
-                    $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
-                }
-
+                //closeable tool
                 if(array_key_exists($id, $close_buttons)) {
                     $btn_removetool = $close_buttons[$id]
                         ->appendOnClick($tool_removal_signal);
-
                     $tpl->setCurrentBlock("tool_removal");
-                    $tpl->setVariable("REMOVE_TOOL_ID", $btn_id);
+                    $tpl->setVariable("REMOVE_TOOL_ID", $button_id);
                     $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
                     $tpl->parseCurrentBlock();
                 }
+
+                //initially hidden
+                if(in_array($id, $initially_hidden_ids)) {
+                    $this->signals_for_tools[$id] = $button_id;
+                    $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
+                }
+
+            } else {
+                $button_html = $default_renderer->render($button);
             }
 
             $tpl->setCurrentBlock($use_block);
@@ -232,15 +239,6 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setCurrentBlock("tools_trigger");
         $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
         $tpl->parseCurrentBlock();
-
-/*
-        $btn_removetool = $f->button()->close()
-            ->withOnClick($signals['tools_removal']);
-
-        $tpl->setCurrentBlock("tool_removal");
-        $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
-        $tpl->parseCurrentBlock();
-*/
 
         $this->renderTriggerButtonsAndSlates(
             $tpl,
