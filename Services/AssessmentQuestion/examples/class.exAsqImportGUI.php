@@ -20,7 +20,6 @@ class exAsqImportGUI
 
     const CMD_SHOW_IMPORT_FORM = "showImportForm";
     const CMD_PROCESS_IMPORT_QUESTIONS = "processImportQuestions";
-
     /**
      * @var QuestionConfig
      */
@@ -64,27 +63,29 @@ class exAsqImportGUI
         $form_gui = new ilPropertyFormGUI();
         $form_gui->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_PROCESS_IMPORT_QUESTIONS));
         $form_gui->setTitle('Import');
-            $file_input = new ilFileInputGUI('import_file', 'import_file');
+        $file_input = new ilFileInputGUI('import_file', 'import_file');
         $form_gui->addItem($file_input);
-        $form_gui->addCommandButton(self::CMD_PROCESS_IMPORT_QUESTIONS,self::CMD_PROCESS_IMPORT_QUESTIONS,self::CMD_PROCESS_IMPORT_QUESTIONS);
+        $form_gui->addCommandButton(self::CMD_PROCESS_IMPORT_QUESTIONS, self::CMD_PROCESS_IMPORT_QUESTIONS, self::CMD_PROCESS_IMPORT_QUESTIONS);
         $DIC->ui()->mainTemplate()->setContent($form_gui->getHTML());
     }
 
-    public function processImportQuestions() {
+
+    public function processImportQuestions()
+    {
         global $DIC;
 
         //Do not us this code in prodictive environment! It's a fast coded example
         $tmp_file = $_FILES["import_file"]["tmp_name"];
         $time_stamp = time();
-        $dir = ilUtil::getDataDir() ."/asq_demo/";
+        $dir = ilUtil::getDataDir() . "/asq_demo/";
         $tmp_dir = $dir . $time_stamp;
-        if (!file_exists ($tmp_dir)) {
-            mkdir ($tmp_dir, 0755, true);
+        if (!file_exists($tmp_dir)) {
+            mkdir($tmp_dir, 0755, true);
         }
         $zip_archive = new ZipArchive();
         $zip_archive->open($tmp_file);
 
-        $zip_archive->extractTo ($tmp_dir);
+        $zip_archive->extractTo($tmp_dir);
         $zip_archive->close();
 
         $dir_content = scandir($tmp_dir, 1);
@@ -92,13 +93,13 @@ class exAsqImportGUI
 
         $files = scandir($tmp_dir);
 
-        foreach($files as $file) {
+        foreach ($files as $file) {
             $qti_file_name = $tmp_dir . "/" . $file;
 
-            if (strpos($file, 'manifest')) {
+            if (strpos($file, 'manifest') !== false) {
                 continue;
             }
-            if (strpos($file, 'test')) {
+            if (strpos($file, 'Test') !== false) {
                 continue;
             }
 
@@ -109,7 +110,6 @@ class exAsqImportGUI
                 $question_authoring->importQtiQuestion($xmldata->asXML());
             }
         }
-
         /*
         foreach($files as $file) {
             if(strpos($file, 'qti')) {
