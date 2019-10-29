@@ -239,7 +239,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());			
 		}
 
-		$tpl->setVariable("ARIA_LABEL", $this->getTitle());
+		$tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
 
 		return $tpl->get();
 	}

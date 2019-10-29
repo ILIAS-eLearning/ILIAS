@@ -547,7 +547,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
 		}
 
-		$tpl->setVariable("ARIA_LABEL", $this->getTitle());
+		$tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
 
 		return $tpl->get();
 	}
