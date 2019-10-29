@@ -68,6 +68,9 @@ class ilAsqQuestionProcessingGUI
     ) {
         global $DIC;
 
+        //TODO - weshalb ist language asq nicht immer geladen?
+        $DIC->language()->loadLanguageModule('asq');
+
         //we could use this in future in constructer
         $lng_key = $DIC->language()->getDefaultLanguage();
 
