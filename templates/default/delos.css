@@ -16510,6 +16510,20 @@ div.ilRatingOverlay {
   background-color: #F9F9F9;
   padding: 9px;
 }
+.ilExcAssignmentInfoTool {
+  padding: 10px;
+}
+.ilExcAssignmentInfoTool h4 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.ilExcAssignmentInfoTool p {
+  padding: 0px;
+}
+.ilExcAssignmentInfoTool ul {
+  padding-left: 30px;
+  margin: 0;
+}
 .progress {
   height: 15px;
   min-width: 100px;

@@ -6,6 +6,9 @@ require_once('class.ilCachedCtrl.php');
  * This class provides processing control methods.
  * A global instance is available via variable $ilCtrl
  *
+ * xml_style parameters: This mode was activated per default in the past, is now set to false but still being
+ * used and needed, if link information is passed to the xslt processing e.g. in content pages.
+ *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  */
@@ -992,7 +995,7 @@ class ilCtrl
      * @param	string		fallback command
      * @param	string		anchor
      * @param	bool		asynchronous call
-     * @param	bool		deprecated: xml style t/f
+     * @param	bool		xml style t/f
      * @return	string		script url
      */
     public function getFormAction(
@@ -1006,7 +1009,8 @@ class ilCtrl
             strtolower(get_class($a_gui_obj)),
             $a_fallback_cmd,
             $a_anchor,
-            $a_asynch
+            $a_asynch,
+            $xml_style
         );
         return $script;
     }
@@ -1018,7 +1022,7 @@ class ilCtrl
      * @param	string		fallback command
      * @param	string		anchor
      * @param	bool		asynchronous call
-     * @param	bool		deprecated: xml style t/f
+     * @param	bool		xml style t/f
      * @return	string		script url
      */
     public function getFormActionByClass(
@@ -1038,14 +1042,14 @@ class ilCtrl
             $xml_style = false;
         }
 
-        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
+        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
         if ($a_fallback_cmd != "") {
-            $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, false);
+            $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, $xml_style);
         }
         $script = ilUtil::appendUrlParameterString(
             $script,
             self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            false
+            $xml_style
         );
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
@@ -1058,14 +1062,14 @@ class ilCtrl
      * Append request token as url parameter
      *
      * @param	string	url
-     * @param	deprecated: boolean	xml style
+     * @param	boolean	xml style
      */
     public function appendRequestTokenParameterString($a_url, $xml_style = false)
     {
         return ilUtil::appendUrlParameterString(
             $a_url,
             self::IL_RTOKEN_NAME . '=' . $this->getRequestToken(),
-            false
+            $xml_style
         );
     }
     
@@ -1315,7 +1319,7 @@ class ilCtrl
      * @param	string		command
      * @param	string		# anchor
      * @param	boolean		asynchronous mode
-     * @param	boolean		deprecated: xml style t/f
+     * @param	boolean		xml style t/f
      *
      * @return	string		target link
      */
@@ -1330,7 +1334,8 @@ class ilCtrl
             strtolower(get_class($a_gui_obj)),
             $a_cmd,
             $a_anchor,
-            $a_asynch
+            $a_asynch,
+            $xml_style
         );
         return $script;
     }
@@ -1343,7 +1348,7 @@ class ilCtrl
      * @param	string		command
      * @param	string		# anchor
      * @param	boolean		asynchronous mode
-     * @param	boolean		deprecated: xml style t/f
+     * @param	boolean		xml style t/f
      *
      * @return	string		target link
      */
@@ -1359,7 +1364,7 @@ class ilCtrl
         }
         
         $script = $this->getTargetScript();
-        $script = $this->getUrlParameters($a_class, $script, $a_cmd);
+        $script = $this->getUrlParameters($a_class, $script, $a_cmd, $xml_style);
 
         if ($a_asynch) {
             $amp = "&";
@@ -1497,7 +1502,7 @@ class ilCtrl
      * @param $a_class
      * @param $a_str
      * @param string $a_cmd command
-     * @param bool $xml_style deprecated
+     * @param bool $xml_style
      * @return string
      */
     public function getUrlParameters($a_class, $a_str, $a_cmd = "", $xml_style = false)
@@ -1506,7 +1511,7 @@ class ilCtrl
 
         foreach ($params as $par => $value) {
             if (strlen((string) $value)) {
-                $a_str = ilUtil::appendUrlParameterString($a_str, $par . "=" . $value, false);
+                $a_str = ilUtil::appendUrlParameterString($a_str, $par . "=" . $value, $xml_style);
             }
         }
 

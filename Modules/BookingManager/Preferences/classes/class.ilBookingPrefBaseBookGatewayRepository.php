@@ -93,7 +93,6 @@ class ilBookingPrefBasedBookGatewayRepository
     public function storeBookings(int $pool_id, $bookings)
     {
         if ($this->checkProcessHash($pool_id)) {
-
             foreach ($bookings as $user_id => $obj_ids) {
 
                 foreach ($obj_ids as $obj_id) {
