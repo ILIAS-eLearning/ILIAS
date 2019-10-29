@@ -216,7 +216,12 @@ class ilBookingPreferencesGUI
 
                 $repo->savePreferencesOfUser($this->pool->getId(), $this->user->getId(), $preferences);
                 $part = new ilBookingParticipant($this->user->getId(), $this->pool->getId());
-                ilUtil::sendSuccess($lng->txt("book_preferences_saved"), true);
+
+                $titles = implode(", ", array_map(function($id) {
+                    return ilBookingObject::lookupTitle($id);
+                }, $obj_ids));
+
+                ilUtil::sendSuccess($lng->txt("book_preferences_saved")." (".$titles.")", true);
             }
         }
         $ctrl->redirect($this, "show");
