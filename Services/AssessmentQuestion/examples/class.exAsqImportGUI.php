@@ -88,10 +88,29 @@ class exAsqImportGUI
         $zip_archive->close();
 
         $dir_content = scandir($tmp_dir, 1);
-        $import_directory = $tmp_dir."/".$dir_content[0];
+        //$import_directory = $tmp_dir."/".$dir_content[0];
 
-        $files = scandir($import_directory);
+        $files = scandir($tmp_dir);
 
+        foreach($files as $file) {
+            $qti_file_name = $tmp_dir . "/" . $file;
+
+            if (strpos($file, 'manifest')) {
+                continue;
+            }
+            if (strpos($file, 'test')) {
+                continue;
+            }
+
+            if (strpos($file, 'xml')) {
+                $xmldata = simplexml_load_file($qti_file_name);
+                $authoring_service = $DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
+                $question_authoring = $authoring_service->question($DIC->assessment()->entityIdBuilder()->new());
+                $question_authoring->importQtiQuestion($xmldata->asXML());
+            }
+        }
+
+        /*
         foreach($files as $file) {
             if(strpos($file, 'qti')) {
                 $qti_file_name = $import_directory."/".$file;
@@ -104,6 +123,6 @@ class exAsqImportGUI
         $items = $xmldata->xpath('assessment/section/item');
         foreach($items as $item) {
             $question_authoring->importQtiQuestion($item->asXML());
-        }
+        }*/
     }
 }

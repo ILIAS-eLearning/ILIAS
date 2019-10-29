@@ -54,9 +54,9 @@ class exAsqExamplesGUI
             ->addSubTab(exAsqPlayerGUI::CMD_SHOW_TEST_START, exAsqPlayerGUI::CMD_SHOW_TEST_START,
                 $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqPlayerGUI'], exAsqPlayerGUI::CMD_SHOW_TEST_START));
 
-        $DIC->tabs()
+        /*$DIC->tabs()
             ->addSubTab(exAsqAuthoringGUI::CMD_SHOW_EDIT_LIST, exAsqAuthoringGUI::CMD_SHOW_EDIT_LIST,
-                $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqAuthoringGUI'], exAsqAuthoringGUI::CMD_SHOW_EDIT_LIST));
+                $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqAuthoringGUI'], exAsqAuthoringGUI::CMD_SHOW_EDIT_LIST));*/
 
         $DIC->tabs()
             ->addSubTab(exAsqImportGUI::CMD_SHOW_IMPORT_FORM, exAsqImportGUI::CMD_SHOW_IMPORT_FORM,
