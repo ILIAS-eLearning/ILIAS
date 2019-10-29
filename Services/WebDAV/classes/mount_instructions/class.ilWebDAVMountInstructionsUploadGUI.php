@@ -82,9 +82,13 @@ class ilWebDAVMountInstructionsUploadGUI {
 			$this->toolbar->addStickyItem($addDocumentBtn);
 		}
 
+		$uri_builder = new ilWebDAVUriBuilder($this->http_state->request());
+		$mount_instructions = new ilWebDAVObjectlessMountInstructions($this->mount_instructions_repository, $uri_builder, new ilSetting('file_access'));
+		$mount_instructions_gui = new ilWebDAVMountInstructionsGUI($mount_instructions);
+
 		$document_tbl_gui = new ilWebDAVMountInstructionsDocumentTableGUI(
 			$this,
-			new ilWebDAVUriBuilder($DIC->http()->request()),
+            $mount_instructions_gui,
 			'showDocuments',
 			$this->ui_factory,
 			$this->ui_renderer,

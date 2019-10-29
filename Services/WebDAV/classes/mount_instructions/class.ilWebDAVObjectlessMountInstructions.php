@@ -5,10 +5,9 @@ class ilWebDAVObjectlessMountInstructions extends ilWebDAVBaseMountInstructions
 {
     public function __construct(ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
-        ilSetting $a_settings,
-        string $a_language)
+        ilSetting $a_settings)
     {
-        parent::__construct($a_repo, $a_uri_builder, $a_settings, $a_language);
+        parent::__construct($a_repo, $a_uri_builder, $a_settings);
     }
 
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array

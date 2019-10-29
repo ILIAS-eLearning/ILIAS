@@ -33,7 +33,6 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     public function __construct(ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
-        string $a_language,
         int $a_ref_id)
     {
         global $DIC;
@@ -43,7 +42,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
         $this->obj_id = ilObject::_lookupObjectId($this->ref_id);
         $this->obj_title = ilObject::_lookupTitle($this->obj_id);
 
-        parent::__construct($a_repo, $a_uri_builder, $a_settings, $a_language);
+        parent::__construct($a_repo, $a_uri_builder, $a_settings);
     }
 
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
