@@ -299,8 +299,54 @@
 //** Border color of inactive buttons
 @il-disabled-btn-border:		#e0e0e0;
 
-//** Minimal size of non-empty buttons inside forms
-@il-button-min-width:		60px;
+@btn-default-color:		@link-color;
+@btn-default-border:		#d0d0d0;
+@btn-default-bg:		#fefefe;
+@disabled-btn-bg:		#b0b0b0;
+@disabled-btn-border:		#b0b0b0;
+@disabled-btn-color:		#e0e0e0;
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@btn-tag-bg:		#75deea;
+@btn-tag-bg-relevance-verylow:		desaturate(@btn-tag-bg, 80%);
+@btn-tag-bg-relevance-low:		desaturate(@btn-tag-bg, 60%);
+@btn-tag-bg-relevance-middle:		desaturate(@btn-tag-bg, 40%);
+@btn-tag-bg-relevance-high:		desaturate(@btn-tag-bg, 20%);
+@btn-tag-bg-relevance-veryhigh:		@btn-tag-bg;
+//** Foreground colors for tags; usually black/white depending on the background color
+@btn-tag-fg-relevance-verylow:		contrast(desaturate(@btn-tag-bg, 80%));
+@btn-tag-fg-relevance-low:		contrast(desaturate(@btn-tag-bg, 60%));
+@btn-tag-fg-relevance-middle:		contrast(desaturate(@btn-tag-bg, 40%));
+@btn-tag-fg-relevance-high:		contrast(desaturate(@btn-tag-bg, 20%));
+@btn-tag-fg-relevance-veryhigh:		contrast(@btn-tag-bg);
+//** Border radius of tags
+@btn-tag-border-radius:		3px;
+//** margin of tags
+@btn-tag-margin:		2px 4px 2px 0;
+
+
+//== Toggle Buttons
+//
+//##
+
+//** The Toggle Button without the Switch
+@il-btn-toggle-height:		19px;
+@il-btn-toggle-padding:		25px;
+@il-btn-toggle-border:		1px solid;
+@il-btn-toggle-border-color:		rgba(0,0,0,0.1);
+@il-btn-toggle-border-radius:		40px;
+@il-enabled-btn-toggle-bg:		lighten(@il-enabled-btn-toggle-switch-color, 30%);
+@il-disabled-btn-toggle-bg:		lighten(@il-disabled-btn-toggle-switch-color, 30%);
+
+//** The Switch of the Toggle Button
+@il-btn-toggle-switch-position-top:		-4px;
+@il-btn-toggle-switch-size:		25px;
+@il-btn-toggle-switch-border-color:		rgba(0,0,0,0.2);
+@il-btn-toggle-switch-transition:		all 0.25s ease-in-out;
+@il-enabled-btn-toggle-switch-color:		@brand-primary;
+@il-enabled-btn-toggle-switch-position-left:		53%;
+@il-disabled-btn-toggle-switch-color:		#808080;
+@il-disabled-btn-toggle-switch-position-left:		-6%;
+
 
 //== Breadcrumbs
 //
@@ -331,34 +377,6 @@
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:		"»";
 
-//== Buttons
-//
-//##
-
-@btn-default-color:		@link-color;
-@btn-default-border:		#d0d0d0;
-@btn-default-bg:		#fefefe;
-@disabled-btn-bg:		#b0b0b0;
-@disabled-btn-border:		#b0b0b0;
-@disabled-btn-color:		#e0e0e0;
-//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
-@btn-tag-bg:		#75deea;
-@btn-tag-bg-relevance-verylow:		desaturate(@btn-tag-bg, 80%);
-@btn-tag-bg-relevance-low:		desaturate(@btn-tag-bg, 60%);
-@btn-tag-bg-relevance-middle:		desaturate(@btn-tag-bg, 40%);
-@btn-tag-bg-relevance-high:		desaturate(@btn-tag-bg, 20%);
-@btn-tag-bg-relevance-veryhigh:		@btn-tag-bg;
-//** Foreground colors for tags; usually black/white depending on the background color
-@btn-tag-fg-relevance-verylow:		contrast(desaturate(@btn-tag-bg, 80%));
-@btn-tag-fg-relevance-low:		contrast(desaturate(@btn-tag-bg, 60%));
-@btn-tag-fg-relevance-middle:		contrast(desaturate(@btn-tag-bg, 40%));
-@btn-tag-fg-relevance-high:		contrast(desaturate(@btn-tag-bg, 20%));
-@btn-tag-fg-relevance-veryhigh:		contrast(@btn-tag-bg);
-//** Border radius of tags
-@btn-tag-border-radius:		3px;
-//** margin of tags
-@btn-tag-margin:		2px 4px 2px 0;
-
 
 //== Badges
 //
@@ -378,19 +396,51 @@
 @badge-line-height:		1;
 @badge-border-radius:		10px;
 
-//== Forms
+
+
+//== Standard Form
 //
-//##
+//## Variables used to style the ILIAS standard form used e.g. in the "Settings"-Tab
+
+//** Textcolor used in the forms sections bodies
+@il-standard-form-color:		#808080;
+//** Textcolor used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-color:		lighten(@il-standard-form-color, 10%);
+//** Textcolor used in the labels (identifiers) of the input fields of a form
+@il-standard-form-label-color:		darken(@il-standard-form-color, 20%);
+//** Background color used in the
+@il-standard-form-bg:		#fdfdfd;
+//** Textsize used in the forms body
+@il-standard-form-font-size:		@font-size-small;
+//** Textsize used in the bylines (descriptions) of the input fields of a form
+@il-standard-form-byline-font-size:		90%;
+
+//** Textcolor used in the forms header, the sections header and the footer
+@il-standard-form-header-color:		lighten(@il-standard-form-color, 10%);
+//** Background color used in the forms header, the sections header and the footer
+@il-standard-form-header-bg:		@body-bg;
+//** Textsize color used in the forms header and the sections header
+@il-standard-form-header-font-size:		@font-size-h3;
+//** Textsize color used in the form headers the section headers byline (description)
+@il-standard-form-header-byline-font-size:		@font-size-small;
+//** Background color used for dependant groups (sub forms) in standard forms
+@il-standard-form-dependant-group-bg:		darken(@il-standard-form-bg, 2%);
+
+//** Minimal size of non-empty buttons inside forms
+@il-button-min-width-forms:		60px;
+
+//== Input Fields
+//
+//## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 @input-border-radius:		0;
-@input-border:		#ccc;
+@input-border:		#CCCCCC;
 @input-border-focus:		lighten(@brand-primary, 20%);
 @ilFormInputFontSize:		@font-size-small;
-//@input-height-base:	(floor((@ilFormInputFontSize * @line-height-base)) + (@padding-base-vertical * 2) + 2);
-@input-height-base:		(@line-height-computed + (@padding-base-vertical * 2) + 2);
+@input-height-base:		(floor((@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
 @ilFormColor:		#808080;
-@ilFormBgColor:		#fdfdfd;
-
+@ilFormBgColor:		#FDFDFD;
 @input-color-placeholder:		lighten(@gray-light, 30%);
+@il-textarea-height:		(floor(4 * (@il-standard-form-font-size * @line-height-base)) + (@padding-base-vertical * 2) + 2);
 
 //== Panels
 //
@@ -448,6 +498,16 @@
 @il-data-table-bg:		@il-secondary-container-bg;
 @il-table-cmd-bg:		@il-secondary-container-bg;
 
+//** Presentation Table borders
+@il-table-presentation-rowborder-top:		1px solid @table-border-color; ;
+
+//** Presentation Table colum widths
+@il-table-presentation-rowcontrol-colwidth:		5%;
+@il-table-presentation-contents-colwidth:		95%;
+
+@il-table-presentation-details-viewcontrols-bg-color:		lighten(@brand-primary,50%);
+@il-table-presentation-details-viewcontrols-btn-color:		@brand-primary;
+@il-table-presentation-details-viewcontrols-btn-bg:		white;
 
 //== Toolbar
 //
@@ -488,6 +548,7 @@
 @il-glyph-hover-color:		@link-hover-color;
 @il-glyph-highlighted-color:		@brand-warning;
 @il-glyph-highlighted-hover-color:		darken(@brand-warning, 15%);
+@il-glyph-disabled-color:		#e0e0e0;
 
 
 //== Counter
@@ -612,7 +673,7 @@
 
 //== Charts
 //
-//##
+//## Charts are used to graphically represent data in various forms such as maps, graphs or diagrams.
 
 @il-chart-item-active-bg:		@brand-primary;
 @il-chart-item-active-color:		white;
@@ -620,18 +681,77 @@
 @il-chart-item-inactive-color:		@il-light-text-color;
 @il-chart-item-space:		2px;
 
+//** Progress Meter: minimal width
+@il-chart-progressmeter-min-width:		80px;
+//** Progress Meter: maximal width / height
+@il-chart-progressmeter-max-width:		800px;
+//** Progress Meter: background stroke width
+@il-chart-progressmeter-bg-stroke-width:		6;
+//** Progress Meter: multi bar progress stroke width
+@il-chart-progressmeter-multi-stroke-width:		(@il-chart-progressmeter-mini-bg-stroke-width / 3);
+//** Progress Meter: single bar progress stroke width
+@il-chart-progressmeter-mono-stroke-width:		(@il-chart-progressmeter-mini-bg-stroke-width - 1);
+//** Progress Meter: background color
+@il-chart-progressmeter-bg-color:		#dddddd;
+//** Progress Meter: marker color
+@il-chart-progressmeter-marker-color:		#efefef;
+//** Progress Meter: marker border color
+@il-chart-progressmeter-marker-shadow-color:		#bcbcbc;
+//** Progress Meter main bar: success color
+@il-chart-progressmeter-success:		#6ea03c;
+//** Progress Meter main bar: no-success color
+@il-chart-progressmeter-no-success:		#d9534f;
+//** Progress Meter comparision bar: no-user-score color
+@il-chart-progressmeter-not-active:		#f0ad4e;
+//** Progress Meter comparision bar: user-score color
+@il-chart-progressmeter-active:		#aaaaaa;
+//** Progress Meter score text color
+@il-chart-progressmeter-score-text-color:		#000000;
+//** Progress Meter info-text color
+@il-chart-progressmeter-info-text-color:		#bcbcbc;
+
+//** Progress Meter Fixed-Size: width
+@il-chart-progressmeter-fixed-size:		350px;
+
+//** Progress Meter Mini: minimal width
+@il-chart-progressmeter-mini-min-width:		20px;
+//** Progress Meter Mini: maximal width / height
+@il-chart-progressmeter-mini-max-width:		250px;
+//** Progress Meter Mini: background stroke width
+@il-chart-progressmeter-mini-bg-stroke-width:		5;
+//** Progress Meter Mini: progress stroke width
+@il-chart-progressmeter-mini-stroke-width:		@il-chart-progressmeter-mini-bg-stroke-width;
+//** Progress Meter Mini: marker stroke width
+@il-chart-progressmeter-mini-marker-stroke-width:		4;
+//** Progress Meter Mini: background color
+@il-chart-progressmeter-mini-bg-color:		#dddddd;
+//** Progress Meter Mini: marker color
+@il-chart-progressmeter-mini-marker-color:		#bcbcbc;
+//** Progress Meter Mini: progress stroke color (no success)
+@il-chart-progressmeter-mini-no-success:		#d9534f;
+//** Progress Meter Mini: progress stroke color (success)
+@il-chart-progressmeter-mini-success:		#6ea03c;
 
 //== Icons
 //
 //## Icons are used to represent (and quickly identify) objects.
 
-//**Size for icons: Small is used in the tree. e.g.
+//** Size for icons: Small is used in the tree. e.g.
 @icon-size-small:		20px;
-//**Size for icons: Medium is used in the content-listing. e.g.
+//** Size for icons: Medium is used in the content-listing. e.g.
 @icon-size-medium:		35px;
-//**Size for icons: Large is used in the header. e.g.
+//** Size for icons: Large is used in the header. e.g.
 @icon-size-large:		45px;
-
+//** Path for standard icons in ILIAS
+@il-standard-icon-path:		@background-images-path;
+//** Path for standard icons in ILIAS
+@il-standard-outlined-icon-path:		"@{il-standard-icon-path}outlined/";
+//** Standard filter for the outlined icons to be used (rendering them with a black outline). This may be different in each context.
+@il-standard-outlined-icon-filter:		brightness(0);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-disabled-icon-filter:		grayscale(100%);
+//** Standard filter for the outlined icons to be used if disabled (rendering them with a grey outline).
+@il-standard-outlined-disabled-icon-filter:		brightness(0.3);
 
 //== View Control
 //
@@ -648,3 +768,31 @@
 @il-card-highlight-bg:		@brand-warning;
 @il-card-highlight-height:		@padding-large-vertical;
 @il-card-list-key-color:		@il-light-text-color;
+@il-card-repository-head-color:		rgba(0,0,0,0.5);
+@il-card-repository-dropdown-border:		#e0e0e0 1px solid;
+@il-card-repository-outlined-icon-filter:		brightness(1);
+@il-card-repository-outlined-disabled-icon-filter:		@il-card-repository-outlined-icon-filter;
+//** Sets the maximum width of cards in small screens
+@il-card-max-width-xs:		350px;
+
+//== Workflow
+//
+//##
+//##Workflow-steps have an icon indicating their status. The label changes color and size accordingly.
+@workflow-icon-size:		20px;
+@workflow-icon-font-color:		white;
+@workflow-available-text-color:		#333;
+@workflow-unavailable-text-color:		#ddd;
+
+//== Message Boxes
+//
+//##
+@il-messagebox-link-bullet:		"\00BB \0020";
+@il-messagebox-margin-top:		10px;
+@il-messagebox-link-list-margin-top:		15px;
+
+//== Modal
+//
+//## Variables that modify and minpulate the appearance of modals
+//** Controls the speed of the fade in/out of the modal
+@il-modal-transition-speed:		0.15s;

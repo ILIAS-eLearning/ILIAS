@@ -1,0 +1,49 @@
+.ilMainHeader > header > .row > a.navbar-brand > img {
+    height: 50px;
+    width: auto;
+}
+div#il_startup_logo img {
+    height: 50px;
+    width: auto;
+}
+.ilStartupSection {
+    padding-top: 0px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.ilStartupFrame .alert.alert-danger {
+    margin-left: -15px;
+    margin-right: 15px;
+}
+.ilStartupFrame .help-block {
+    margin-right: 0px !important;
+    margin-left: 0px !important;
+}
+
+/***************MOBILE***************/
+.ilMainHeader {
+  @media  (max-width: 767px) {
+    background-color: transparent;
+    top: 0 !important;
+    position: absolute;
+ }
+}
+div#il_startup_logo img {
+  @media  (max-width: 767px) {
+    margin: 0px;
+    height: 55px;
+    padding-left: 1px;
+    padding-top: 1px;
+ }
+}
+div.ilStartupFrame {
+  @media  (max-width: 767px) {
+    margin-top: -15px;
+ }
+}
+.ilStartupFrame .alert.alert-danger {
+  @media  (max-width: 767px) {
+    margin-left: -15px;
+    margin-right: -15px;
+ }
+}
