@@ -4,18 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilLanguageConfigStoredObjective implements Setup\Objective {
-	/**
-	 * @var	\ilLanguageSetupConfig
-	 */
-	protected $config;
-
-	public function __construct(
-		\ilLanguageSetupConfig $config
-	) {
-		$this->config = $config;
-	}
-
+class ilLanguageConfigStoredObjective extends ilLanguageObjective {
 	public function getHash() : string {
 		return hash("sha256", self::class);
 	}
