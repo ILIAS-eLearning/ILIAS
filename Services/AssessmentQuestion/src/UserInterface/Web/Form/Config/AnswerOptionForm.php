@@ -18,6 +18,8 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInput;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AnswerOptionForm extends AsqTableInput {
+    const VAR_POST = 'answer_options';
+    
     /**
      * @var AnswerOptions
      */
@@ -45,6 +47,7 @@ class AnswerOptionForm extends AsqTableInput {
 	    }    
 	    
 		parent::__construct($title, 
+		                    self::VAR_POST,
                 		    array_map(function($option) {
                 		        return $option->rawValues();
                 		    }, $options->getOptions()),
@@ -94,7 +97,7 @@ class AnswerOptionForm extends AsqTableInput {
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();
 	    
-	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
+	    $count = intval($_POST[Answeroptionform::VAR_POST]);
 
 	    $this->options = new AnswerOptions();
 	    for ($i = 1; $i <= $count; $i++) {

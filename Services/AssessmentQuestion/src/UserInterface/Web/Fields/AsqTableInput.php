@@ -22,9 +22,6 @@ use ilTextInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AsqTableInput extends ilTextInputGUI {
-    
-    const COUNT_POST_VAR = 'value_count';
-    
     const OPTION_ORDER = 'AnswerOptionOrder';
     const OPTION_HIDE_ADD_REMOVE = 'AnswerOptionHideAddRemove';
     const OPTION_HIDE_EMPTY = 'AnswerOptionHideEmpty';
@@ -43,11 +40,12 @@ class AsqTableInput extends ilTextInputGUI {
     private $form_configuration;
     
     public function __construct(string $title,
-        array $values,
+        string $post_var,
+        ?array $values = null,
         ?array $definitions = null,
         ?array $form_configuration = null)
     {
-        parent::__construct($title);
+        parent::__construct($title, $post_var);
 
         $this->definitions = $definitions ?? [];
         $this->form_configuration = $form_configuration ?? [];
@@ -55,7 +53,7 @@ class AsqTableInput extends ilTextInputGUI {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $this->readValues();
         } else {
-            $this->values = $values;
+            $this->values = $values ?? [];
         }
     }
     
@@ -129,7 +127,7 @@ class AsqTableInput extends ilTextInputGUI {
         }
         
         $tpl->setCurrentBlock('count');
-        $tpl->setVariable('COUNT_POST_VAR', self::COUNT_POST_VAR);
+        $tpl->setVariable('COUNT_POST_VAR', $this->getPostVar());
         $tpl->setVariable('COUNT', sizeof($this->values));
         $tpl->parseCurrentBlock();
         
@@ -157,10 +155,10 @@ class AsqTableInput extends ilTextInputGUI {
     /**
      * @param QuestionPlayConfiguration $play
      *
-     * @return AnswerOptions
+     * @return array
      */
     public function readValues() {
-        $count = intval($_POST[AsqTableInput::COUNT_POST_VAR]);
+        $count = intval($_POST[$this->getPostVar()]);
         
         $this->values = [];
         for ($i = 1; $i <= $count; $i++) {
@@ -172,6 +170,8 @@ class AsqTableInput extends ilTextInputGUI {
             
             $this->values[] = $new_value;
         }
+        
+        return $this->values;
     }
     
     /**

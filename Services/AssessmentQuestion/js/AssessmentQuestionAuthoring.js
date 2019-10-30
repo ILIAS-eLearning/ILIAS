@@ -12,7 +12,7 @@ let add_row = function() {
     new_count = table.children().length + 1;
     process_row(new_row, new_count);
     table.append(new_row);
-    $(".js_count").val(new_count);
+    $(this).parents(".aot_table").siblings(".js_count").val(new_count);
     
     if (tinyId !== '') {
     	tinymce.EditorManager.execCommand('mceAddEditor', true, update_input_name(tinyId, new_count));

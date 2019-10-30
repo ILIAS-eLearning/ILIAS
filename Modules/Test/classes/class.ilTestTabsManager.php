@@ -746,12 +746,8 @@ class ilTestTabsManager
         $this->tabs->addSubTabTarget('Setup / Resetup ASQ', 'Services/AssessmentQuestion/src/Infrastructure/Setup/index.php');
 
         require_once "./Services/AssessmentQuestion/examples/class.exAsqExamplesGUI.php";
-        try {
-            $DIC->ctrl()->saveParameterByClass('exAsqExamplesGUI','ref_id');
-            $this->tabs->addSubTabTarget('ASQ Demo', $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI','ilObjTestGUI','exAsqExamplesGUI','exAsqPlayerGUI']));
-        } catch (Exception $e) {
-            echo "Fehler! Bitte Subtab -Setup / Resetup ASQ- klicken.". $e->getMessage();
-        }
+        $DIC->ctrl()->saveParameterByClass('exAsqExamplesGUI','ref_id');
+        $this->tabs->addSubTabTarget('ASQ Demo', $DIC->ctrl()->getLinkTargetByClass(['ilRepositoryGUI','ilObjTestGUI','exAsqExamplesGUI','exAsqPlayerGUI']));
         ///////////////////
         //////////////////
 
