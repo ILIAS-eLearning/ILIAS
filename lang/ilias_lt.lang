@@ -15060,3 +15060,8 @@ skmg#:#skmg_edit_sctp#:#Edit Template Category###29 08 2019 new variable
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###29 08 2019 new variable
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###29 08 2019 new variable
 crs#:#crs_objective_result_details#:#« Show Details###29 08 2019 new variable
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###11 10 2019 new variable
+assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
+logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
+exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
+exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable

@@ -70,7 +70,7 @@ class ilCertificateTemplateRepository
 			'certificate_content'   => array('clob', $certificateTemplate->getCertificateContent()),
 			'certificate_hash'      => array('text', $certificateTemplate->getCertificateHash()),
 			'template_values'       => array('clob', $certificateTemplate->getTemplateValues()),
-			'version'               => array('text', $certificateTemplate->getVersion()),
+			'version'               => array('integer', $certificateTemplate->getVersion()),
 			'ilias_version'         => array('text', $certificateTemplate->getIliasVersion()),
 			'created_timestamp'     => array('integer', $certificateTemplate->getCreatedTimestamp()),
 			'currently_active'      => array('integer', (integer)$certificateTemplate->isCurrentlyActive()),

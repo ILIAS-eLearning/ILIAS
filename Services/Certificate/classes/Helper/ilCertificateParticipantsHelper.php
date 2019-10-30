@@ -13,6 +13,6 @@ class ilCertificateParticipantsHelper
 	 */
 	public function getDateTimeOfPassed(int $objectId, int $userId) : string
 	{
-		return ilCourseParticipants::getDateTimeOfPassed($objectId, $userId);
+		return (string) ilCourseParticipants::getDateTimeOfPassed($objectId, $userId);
 	}
 }

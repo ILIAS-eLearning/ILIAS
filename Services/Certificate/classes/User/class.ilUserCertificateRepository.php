@@ -79,7 +79,7 @@ class ilUserCertificateRepository
 			'certificate_content'    => array('clob', $userCertificate->getCertificateContent()),
 			'template_values'        => array('clob', $userCertificate->getTemplateValues()),
 			'valid_until'            => array('integer', $userCertificate->getValidUntil()),
-			'version'                => array('text', $version),
+			'version'                => array('integer', $version),
 			'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
 			'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
 			'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),

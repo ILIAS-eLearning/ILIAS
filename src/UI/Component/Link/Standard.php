@@ -7,11 +7,12 @@ namespace ILIAS\UI\Component\Link;
 /**
  * Standard link
  */
-interface Standard extends Link {
-	/**
-	 * Get the label of the link
-	 *
-	 * @return	string
-	 */
-	public function getLabel();
+interface Standard extends Link
+{
+    /**
+     * Get the label of the link
+     *
+     * @return	string
+     */
+    public function getLabel();
 }

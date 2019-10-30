@@ -512,7 +512,7 @@ assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um d
 assessment#:#cannot_export_archive#:#Archivexport kann nicht erzeugt werden.
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Test noch keine Fragen und/oder Noten hinzugefügt wurden!
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da dem Test noch keine Fragen und/oder Noten hinzugefügt wurden!
 assessment#:#categories#:#Kategorien
 assessment#:#category#:#Kategorie
 assessment#:#change_adm_categories_not_allowed#:#An dieser Stelle haben Sie keine Schreibberechtigung an der Kategorie.
@@ -1787,6 +1787,7 @@ assessment#:#tst_tbl_col_passed_status#:#Bewertung
 assessment#:#tst_tbl_col_percent_result#:#Ergebnis
 assessment#:#tst_tbl_col_reached_points#:#Erreichte Punkte
 assessment#:#tst_tbl_col_scored_pass#:#Bewerteter Durchlauf
+assessment#:#tst_tbl_col_pass_finished#:#Durchlauf beendet
 assessment#:#tst_tbl_invited_users#:#Ausgewählte Teilnehmer
 assessment#:#tst_tbl_participants#:#Teilnehmer
 assessment#:#tst_tbl_results_grades#:#Ergebnisse und Noten
@@ -3393,18 +3394,18 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Benutzerkonten werden %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerkonten werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
-common#:#delete_inactive_user_accounts_desc#:#Benutzerkonten werden abhängig vom Zeitpunkt des letzten Logins gelöscht.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
+common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
+common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Benutzerkonten werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -9354,6 +9355,7 @@ logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Error-Log-Dateien
 logging#:#log_error_folder#:#Dateipfad
 logging#:#log_error_mail#:#E-Mail-Empfänger
@@ -15062,3 +15064,4 @@ crs#:#crs_objective_result_summary_initial#:#Einstiegstest: %1$s (%2$s benötigt
 crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benötigt)
 crs#:#crs_objective_result_details#:#« Details anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
+exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.

@@ -56,6 +56,11 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected $objects; // array
 
+    /**
+     * @var ilObjBookingPool
+     */
+    protected $pool;
+
 	/**
 	 * Constructor
 	 * @param	ilBookingObjectGUI 	$a_parent_obj
@@ -76,6 +81,7 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 		$this->bp_object_id = $a_booking_obj_id;
 		$this->pool_id = $a_pool_id;
 		$this->bp_object = new ilBookingObject($a_booking_obj_id);
+		$this->pool = new ilObjBookingPool($this->pool_id, false);
 
 		$this->setId("bkaprt".$a_ref_id);
 
@@ -85,7 +91,9 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 
 		$this->addColumn("", "", 1);
 		$this->addColumn($this->lng->txt("name"), "name");
-		$this->addColumn($this->lng->txt("book_bobj"));
+        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            $this->addColumn($this->lng->txt("book_bobj"));
+        }
 		$this->addColumn($this->lng->txt("action"));
 
 		$this->setDefaultOrderField("name");
@@ -119,7 +127,11 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	function getItems()
 	{
 		include_once "Modules/BookingManager/classes/class.ilBookingParticipant.php";
-		$data = ilBookingParticipant::getAssignableParticipants($this->bp_object_id);
+		if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            $data = ilBookingParticipant::getList($this->pool_id, []);
+        } else {
+            $data = ilBookingParticipant::getAssignableParticipants($this->bp_object_id);
+        }
 		$this->setMaxCount(sizeof($data));
 		$this->setData($data);
 	}
@@ -133,11 +145,16 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("MULTI_ID", $a_set['user_id']);
 		$this->tpl->setVariable("TXT_NAME", $a_set['name']);
 		$this->tpl->setCurrentBlock('object_titles');
-		foreach($a_set['object_title'] as $obj_title)
-		{
-			$this->tpl->setVariable("TXT_OBJECT", $obj_title);
-			$this->tpl->parseCurrentBlock();
-		}
+
+        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            foreach ($a_set['object_title'] as $obj_title) {
+                $this->tpl->setCurrentBlock("object_title");
+                $this->tpl->setVariable("TXT_OBJECT", $obj_title);
+                $this->tpl->parseCurrentBlock();
+            }
+            $this->tpl->setCurrentBlock("object_titles");
+            $this->tpl->parseCurrentBlock();
+        }
 
 		$this->ctrl->setParameter($this->parent_obj, 'bkusr', $a_set['user_id']);
 		$this->ctrl->setParameter($this->parent_obj, 'object_id', $this->bp_object_id);

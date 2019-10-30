@@ -629,7 +629,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$tpl->getStandardTemplate();
 				}
 
-				if(!$this->checkPermissionBool("read"))
+				if(!$this->checkPermissionBool("read") && !$this->prtf_embed)
 				{
 					ilUtil::sendInfo($lng->txt("no_permission"));
 					return;
@@ -1492,7 +1492,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
-		
+
 		// quick editing in portfolio
 		if ($this->prt_id > 0 &&
 			stristr($a_cmd, "embedded"))
@@ -1762,8 +1762,15 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// title
 			$wtpl->setVariable("URL_TITLE", $preview);
 			$wtpl->setVariable("TITLE", $item["title"]);
+
+            $kw = ilBlogPosting::getKeywords($this->obj_id, $item["id"]);
+            natcasesort($kw);
+            $keywords = (count($kw) > 0)
+                ? "<br>".$this->lng->txt("keywords").": ".implode(", ", $kw)
+                : "";
+
 			$wtpl->setVariable("DATETIME", $author.
-				ilDatePresentation::formatDate($item["created"]));
+				ilDatePresentation::formatDate($item["created"]).$keywords);
 
 			// content			
 			$wtpl->setVariable("CONTENT", $snippet);			
@@ -2167,6 +2174,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		$f = $DIC->ui()->factory();
 
+		$cmd = ($this->prtf_embed)
+            ? "previewEmbedded"
+            : "previewFullscreen";
+
 		if ($single_posting)	// single posting view
 		{
 			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
@@ -2176,7 +2187,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $latest_posting);
 				$mb = $f->button()->standard($lng->txt("blog_latest_posting"),
-					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", $cmd));
 			}
 			else
 			{
@@ -2188,7 +2199,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $prev_posting);
 				$pb = $f->button()->standard($lng->txt("previous"),
-					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", $cmd));
 			} else
 			{
 				$pb = $f->button()->standard($lng->txt("previous"), "#")->withUnavailableAction();
@@ -2199,7 +2210,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 				$ctrl->setParameterByClass("ilblogpostinggui", "blpg", $next_posting);
 				$nb = $f->button()->standard($lng->txt("next"),
-					$ctrl->getLinkTargetByClass("ilblogpostinggui", "previewFullscreen"));
+					$ctrl->getLinkTargetByClass("ilblogpostinggui", $cmd));
 			} else
 			{
 				$nb = $f->button()->standard($lng->txt("next"), "#")->withUnavailableAction();
@@ -2436,12 +2447,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$keywords = $this->lng->txt("blog_no_keywords");
 				}
 				$cmd = null;
-				if($may_edit_keywords)
-				{
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $blpg);
-					$cmd = 	$ilCtrl->getLinkTargetByClass("ilblogpostinggui", "editKeywords");	
-					$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", "");
-				}
 				$blocks[$order["keywords"]] = array(
 					$this->lng->txt("blog_keywords"),
 					$keywords,

@@ -7,7 +7,8 @@ namespace ILIAS\UI\Component\Button;
 use \ILIAS\UI\Component\Counter\Counter;
 
 /**
- * This describes a standard button. 
+ * This describes a standard button.
  */
-interface Primary extends Button, LoadingAnimationOnClick {
+interface Primary extends Button, LoadingAnimationOnClick
+{
 }

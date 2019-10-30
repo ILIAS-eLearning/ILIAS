@@ -281,6 +281,13 @@ class ilAdvancedMDRecord
 		{
 			$records[$row->obj_type][] = self::_getInstanceByRecordId($row->record_id);
 		}
+		// #13359 hide ecs if not configured
+		if(!ilECSSetting::ecsConfigured()){
+			$filter = ilECSUtils::getPossibleRemoteTypes(false);
+			$filter[] = 'rtst';
+			$records = array_diff_key($records, array_flip($filter));
+		}
+
 		return $records;
 	}
 	

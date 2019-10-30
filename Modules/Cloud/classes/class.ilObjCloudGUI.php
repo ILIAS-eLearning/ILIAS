@@ -199,12 +199,28 @@ class ilObjCloudGUI extends ilObject2GUI {
 	 * @param string $a_target
 	 */
 	public static function _goto($a_target) {
+		// Using slashes in the URL for the destination path led to errors
+		// As a result it was converted into underscores
+
 		$content = explode("_", $a_target);
+
+		// The empty spot is where the double underscores are
+		// It is used to identify the location of the path easier
+		$path_begin_pos = array_search("", $content) + 1;
+		$path_end_pos = count($content) - 1;
+
 		$_GET["ref_id"] = $content[0];
-		$_POST["path"] = $content[2];
 		$_GET["baseClass"] = "ilrepositorygUI";
 		$_GET["cmdClass"] = "ilobjcloudgui";
 		$_GET["cmd"] = "render";
+
+		// Convert path components back to a default path
+		$path = "";
+		for ($i = $path_begin_pos; $i < $path_end_pos; $i++) {
+			$path .= "/" . $content[$i];
+		}
+
+		$_POST["path"] = $path;
 		include("ilias.php");
 	}
 

@@ -57,6 +57,9 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 
 	protected $type_grps = array();
 	protected $session_materials = array();
+
+	protected $parent_node_id = [];
+	protected $node_data = [];
 	
 	/**
 	 * Constructor
@@ -139,12 +142,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 	{
 		if ($this->top_node_id > 0)
 		{
-			return $this->getTree()->getNodeData($this->top_node_id);
+			$root_node = $this->getTree()->getNodeData($this->top_node_id);
 		}
 		else
 		{
-			return parent::getRootNode();
+			$root_node = parent::getRootNode();
 		}
+		$this->node_data[$root_node["child"]] = $root_node;
+		return $root_node;
 	}
 
 	/**
@@ -319,34 +324,51 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 		{
 			return false;
 		}
-		
-		$is_course = false;
-		$container_parent_id = $tree->checkForParentType($a_node["child"], 'grp');
-		if(!$container_parent_id)
-		{
-			$is_course = true;
-			$container_parent_id = $tree->checkForParentType($a_node["child"], 'crs');
-		}	
-		if($container_parent_id)
-		{
-			// do not display session materials for container course/group
-			if($ilSetting->get("repository_tree_pres")  == "all_types" && $container_parent_id != $a_node["child"])
-			{
-				// get container event items only once
-				if(!isset($this->session_materials[$container_parent_id]))
-				{
-					include_once './Modules/Session/classes/class.ilEventItems.php';
-					$this->session_materials[$container_parent_id] = ilEventItems::_getItemsOfContainer($container_parent_id);
-				}			
-				if(in_array($a_node["child"], $this->session_materials[$container_parent_id]))
-				{
-					return false;
+
+		if ($ilSetting->get("repository_tree_pres")  == "all_types") {
+			/*$container_parent_id = $tree->checkForParentType($a_node["child"], 'grp');
+			if (!$container_parent_id) {
+				$container_parent_id = $tree->checkForParentType($a_node["child"], 'crs');
+			}*/
+			// see #21215
+			$container_parent_id = $this->getParentCourseOrGroup($a_node["child"]);
+			if ($container_parent_id > 0) {
+				// do not display session materials for container course/group
+				if ($container_parent_id != $a_node["child"]) {
+					// get container event items only once
+					if (!isset($this->session_materials[$container_parent_id])) {
+						include_once './Modules/Session/classes/class.ilEventItems.php';
+						$this->session_materials[$container_parent_id] = ilEventItems::_getItemsOfContainer($container_parent_id);
+					}
+					if (in_array($a_node["child"], $this->session_materials[$container_parent_id])) {
+						return false;
+					}
 				}
-			}					
+			}
 		}
 		
 		return true;		
 	}
+	
+	/**
+	 * Get upper course or group
+	 *
+	 * @param int $node_id
+	 * @return int
+	 */
+	protected function getParentCourseOrGroup($node_id)
+	{
+		$current_node_id = $node_id;
+		while (isset($this->parent_node_id[$current_node_id])) {
+			$parent_node_id = $this->parent_node_id[$current_node_id];
+			if (isset($this->node_data[$parent_node_id]) && in_array($this->node_data[$parent_node_id]["type"], ["grp", "crs"])) {
+				return $parent_node_id;
+			}
+			$current_node_id = $parent_node_id;
+		}
+		return 0;
+	}
+	
 	
 	/**
 	 * Sort childs
@@ -564,7 +586,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 			return array();
 		}
 
-		return parent::getChildsOfNode($a_parent_node_id);
+		$childs = parent::getChildsOfNode($a_parent_node_id);
+
+		foreach ($childs as $c) {
+			$this->parent_node_id[$c["child"]] = $a_parent_node_id;
+			$this->node_data[$c["child"]] = $c;
+		}
+
+		return $childs;
 	}
 	
 	/**

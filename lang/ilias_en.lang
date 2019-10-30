@@ -1197,6 +1197,7 @@ assessment#:#tst_reached_points_of_max#:#%s of %s
 assessment#:#tst_passed#:#Passed
 assessment#:#tst_failed#:#Failed
 assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
+assessment#:#tst_tbl_col_pass_finished#:#Pass Finished
 assessment#:#tst_tbl_col_answered_questions#:#Answered Questions
 assessment#:#tst_tbl_col_reached_points#:#Reached Points
 assessment#:#tst_tbl_col_percent_result#:#Percent Solved
@@ -7770,20 +7771,20 @@ style#:#sty_glo_char#:#Glossary
 style#:#sty_type_glo_overlay#:#Glossary Overlay
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)
 content#:#cont_sco_glossary#:#Unit Glossary
-common#:#delete_inactive_user_accounts#:#Delete inactive user accounts
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.
+common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
-common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined period of time will be deleted.
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
+common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
-common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
+common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -13502,6 +13503,7 @@ logging#:#log_error_settings#:#Error logging settings
 logging#:#error_settings_saved#:#Saved settings
 logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 blog#:#blog_show_latest#:#Show latest postings/drafts
@@ -14781,7 +14783,7 @@ exc#:#exc_team_by_assignment_info#:#Teams formed in other Assignments will be us
 exc#:#exc_num_teams#:#Number
 exc#:#exc_min_team_participants#:#Minimal Number
 exc#:#exc_max_team_participants#:#Maximal Number
-exc#:#exc_total_members#:#Total Exercise Members
+exc#:#exc_total_members#:#Total Exercise Participants
 exc#:#exc_value_can_not_set#:#This value can not be set.
 exc#:#exc_teams_assignment_adopted#:#Teams adopted from existing assignment
 exc#:#exc_team_minimal_too_big#:#Minimal number of team participants %s is too big, please decrease the value.
@@ -15062,3 +15064,4 @@ crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
 exc#:#exc_text_saved#:#Text has been saved.
+exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.

@@ -1,8 +1,9 @@
 <?php
-function laugh() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function laugh()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->laugh("#"));
+    return $renderer->render($f->glyph()->laugh("#"));
 }

@@ -9,13 +9,15 @@ use ILIAS\UI\Component\Image\Image;
  *
  * @author Jesús López <lopez@leifos.com>
  */
-class Factory implements Component\Card\Factory {
+class Factory implements Component\Card\Factory
+{
+    public function standard($title, $image = null)
+    {
+        return new Standard($title, $image);
+    }
 
-	public function standard($title, $image = null){
-		return new Standard($title, $image);
-	}
-
-	public function repositoryObject($title, $image){
-		return new RepositoryObject($title, $image);
-	}
+    public function repositoryObject($title, $image)
+    {
+        return new RepositoryObject($title, $image);
+    }
 }

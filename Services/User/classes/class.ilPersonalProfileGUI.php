@@ -1042,21 +1042,7 @@ class ilPersonalProfileGUI
 				
 				ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 
-				if(ilSession::get('orig_request_target'))
-				{
-					$target = ilSession::get('orig_request_target');
-					ilSession::set('orig_request_target', '');
-					ilUtil::redirect($target);
-				}
-				else if($redirect = $_SESSION['profile_complete_redirect'])
-				{
-					unset($_SESSION['profile_complete_redirect']);
-					ilUtil::redirect($redirect);
-				}
-				else
-				{
-					$ilCtrl->redirect($this, "showPersonalData");
-				}
+				$ilCtrl->redirect($this, "showPublicProfile");
 			}
 		}
 		
@@ -1451,7 +1437,22 @@ class ilPersonalProfileGUI
 			ilLuceneIndexer::updateLuceneIndex(array((int) $GLOBALS['DIC']['ilUser']->getId()));
 			
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-			$ilCtrl->redirect($this, "showPublicProfile");
+
+            if(ilSession::get('orig_request_target'))
+            {
+                $target = ilSession::get('orig_request_target');
+                ilSession::set('orig_request_target', '');
+                ilUtil::redirect($target);
+            }
+            else if($redirect = $_SESSION['profile_complete_redirect'])
+            {
+                unset($_SESSION['profile_complete_redirect']);
+                ilUtil::redirect($redirect);
+            }
+            else
+            {
+                $ilCtrl->redirect($this, "showPublicProfile");
+            }
 		}
 		$this->form->setValuesByPost();
 		$tpl->showPublicProfile(true);
