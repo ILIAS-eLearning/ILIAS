@@ -99,7 +99,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    string      languagecode (two characters), e.g. "de", "en", "in"
 	 * @return   boolean     false if reading failed
 	 */
-	function __construct($a_lang_key)
+	public function __construct($a_lang_key)
 	{
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
 
@@ -156,7 +156,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    string  topic
 	 * @return   string  text clear-text
 	 */
-	function txt($a_topic, $a_default_lang_fallback_mod = '')
+	public function txt($a_topic, $a_default_lang_fallback_mod = '')
 	{
 		global $log;
 		
@@ -194,7 +194,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @access   public
 	 * @return   array   langs
 	 */
-	function getLanguages()
+	public function getLanguages()
 	{
 		$d = dir($this->lang_path);
 		$tmpPath = getcwd();
@@ -221,7 +221,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    array   array with lang_keys of languages to install
 	 * @return   boolean true on success
 	 */
-	function installLanguages($a_lang_keys, $a_local_keys)
+	public function installLanguages($a_lang_keys, $a_local_keys)
 	{
 		global $ilDB;
 		
@@ -339,7 +339,7 @@ class ilSetupLanguage extends ilLanguage
 	 * 
 	 * @return   array   array with inforamtion about each installed language
 	 */
-	function getInstalledLanguages()
+	public function getInstalledLanguages()
 	{
 		global $ilDB;
 		
@@ -363,7 +363,7 @@ class ilSetupLanguage extends ilLanguage
 	 * 
 	 * @return   array   array with inforamtion about each installed language
 	 */
-	function getInstalledLocalLanguages()
+	public function getInstalledLocalLanguages()
 	{
 		global $ilDB;
 		
@@ -386,7 +386,7 @@ class ilSetupLanguage extends ilLanguage
 	 * get already registered languages (in db)
 	 * @return   array   array with information about languages that has been registered in db
 	 */
-	function getAvailableLanguages()
+	protected function getAvailableLanguages()
 	{
 		global $ilDB;
 		
@@ -416,7 +416,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    string      $scope          empty (global) or "local"
 	 * @return   string      $info_text      message about results of check OR "1" if all checks successfully passed
 	 */
-	function checkLanguage($a_lang_key, $scope = '')
+	protected function checkLanguage($a_lang_key, $scope = '')
 	{
 		if (!empty($scope))
 		{
@@ -485,7 +485,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @return   string      $content    content without header info OR false if no valid header was found
 	 * @access   private
 	 */
-	function cut_header($content)
+	protected function cut_header($content)
 	{
 		foreach ($content as $key => $val)
 		{
@@ -504,7 +504,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param   string     language key
 	 * @param   string     "all" or "keep_local"
 	 */
-	function flushLanguage($a_lang_key, $a_mode = 'all')
+	protected function flushLanguage($a_lang_key, $a_mode = 'all')
 	{
 		$ilDB = $this->db;
 		
@@ -546,7 +546,7 @@ class ilSetupLanguage extends ilLanguage
 	* @param    string  	maximum change date "yyyy-mm-dd hh:mm:ss"
 	* @return   array       [module][identifier] => value
 	*/
-	function getLocalChanges($a_lang_key, $a_min_date = "", $a_max_date = "")
+	protected function getLocalChanges($a_lang_key, $a_min_date = "", $a_max_date = "")
 	{
 		$ilDB = $this->db;
 		
@@ -582,7 +582,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @param    string  $scope      empty (global) or "local"
 	 * @return   void
 	 */
-	function insertLanguage($lang_key, $scope = '')
+	protected function insertLanguage($lang_key, $scope = '')
 	{
 		$ilDB =& $this->db;
 		
@@ -769,7 +769,7 @@ class ilSetupLanguage extends ilLanguage
 	 *
 	 * return    $local_langs    array of language keys
 	 */
-	function getLocalLanguages()
+	public function getLocalLanguages()
 	{
 		$local_langs = array();
 		if (is_dir($this->cust_lang_path))
@@ -794,7 +794,7 @@ class ilSetupLanguage extends ilLanguage
 		return $local_langs;
 	}
 
-	function getInstallableLanguages()
+	public function getInstallableLanguages()
 	{
 		$setup_langs = $this->getLanguages();
 
@@ -824,7 +824,7 @@ class ilSetupLanguage extends ilLanguage
 	 * @string   object      db handler
 	 * @return   boolean     true on success
 	 */
-	function setDbHandler($a_db_handler)
+	public function setDbHandler($a_db_handler)
 	{
 		if (empty($a_db_handler) or !is_object($a_db_handler))
 		{
