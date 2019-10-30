@@ -142,18 +142,20 @@ class AuthoringApplicationService
         $qti_application_service = new QtiImportService($this->container_obj_id);
         $question_dto = $qti_application_service->getQuestionDtoFromXml($qti_item_xml);
 
-        $uid = new DomainObjectId();
+        if(is_object($question_dto)) {
+            $uid = new DomainObjectId();
 
-        $this->createQuestion($uid,
-            $this->container_obj_id,
-            $question_dto->getLegacyData()->getContainerObjType(),
-            NULL,
-            $question_dto->getLegacyData()->getAnswerTypeId(),
-            $question_dto->getLegacyData()->getContentEditingMode()
-        );
+            $this->createQuestion($uid,
+                $this->container_obj_id,
+                $question_dto->getLegacyData()->getContainerObjType(),
+                NULL,
+                $question_dto->getLegacyData()->getAnswerTypeId(),
+                $question_dto->getLegacyData()->getContentEditingMode()
+            );
 
-        $question_dto->setId($uid->getId());
-        $this->saveQuestion($question_dto);
+            $question_dto->setId($uid->getId());
+            $this->saveQuestion($question_dto);
+        }
     }
 
 
