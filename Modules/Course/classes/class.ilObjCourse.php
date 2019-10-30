@@ -2480,7 +2480,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				" OR (leave_end IS NULL".
 				" AND sub_end IS NOT NULL".
 				" AND sub_end < ".$ilDB->quote($now, "text")."))".
-			" AND (crs_start IS NULL OR crs_start > ".$ilDB->quote($now, "integer").")");
+			" AND (period_start IS NULL OR period_start > ".$ilDB->quote($now, "integer").")");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$refs = ilObject::_getAllReferences($row['obj_id']);
