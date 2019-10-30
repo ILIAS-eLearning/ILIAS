@@ -182,9 +182,9 @@ class ilObjContentPage extends \ilObject2 implements \ilContentPageObjectConstan
 			$usrId
 		);
 
-		\ilLPStatusWrapper::_refreshStatus(
+		\ilLPStatusWrapper::_updateStatus(
 			$this->getId(),
-			[$usrId]
+			$usrId
 		);
 	}
 }
