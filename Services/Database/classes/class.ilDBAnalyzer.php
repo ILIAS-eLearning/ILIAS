@@ -66,7 +66,7 @@ class ilDBAnalyzer {
 		foreach ($fields as $field) {
 			$rdef = $this->reverse->getTableFieldDefinition($a_table, $field);
 			// is this possible?
-			if ($rdef["type"] != $rdef["mdb2type"]) {
+			if (isset($rdef["mdb2type"]) && isset($rdef["type"]) && $rdef["type"] != $rdef["mdb2type"]) {
 				throw new ilDatabaseException("ilDBAnalyzer::getFielInformation: Found type != mdb2type: $a_table, $field");
 			}
 
@@ -77,19 +77,19 @@ class ilDBAnalyzer {
 			$alt_types = "";
 			foreach ($rdef as $k => $rd) {
 				if ($k != $best_alt) {
-					$alt_types .= $rdef[$k]["type"] . $rdef[$k]["length"] . " ";
+					$alt_types .= ($rdef[$k]["type"] ?? "") . ($rdef[$k]["length"] ?? ""). " ";
 				}
 			}
 
 			$inf[$field] = array(
-				"notnull"       => $rdef[$best_alt]["notnull"],
-				"nativetype"    => $rdef[$best_alt]["nativetype"],
-				"length"        => $rdef[$best_alt]["length"],
-				"unsigned"      => $rdef[$best_alt]["unsigned"],
-				"default"       => $rdef[$best_alt]["default"],
-				"fixed"         => $rdef[$best_alt]["fixed"],
-				"autoincrement" => $rdef[$best_alt]["autoincrement"],
-				"type"          => $rdef[$best_alt]["type"],
+				"notnull"       => $rdef[$best_alt]["notnull"] ?? null,
+				"nativetype"    => $rdef[$best_alt]["nativetype"] ?? null,
+				"length"        => $rdef[$best_alt]["length"] ?? null,
+				"unsigned"      => $rdef[$best_alt]["unsigned"] ?? null,
+				"default"       => $rdef[$best_alt]["default"] ?? null,
+				"fixed"         => $rdef[$best_alt]["fixed"] ?? null,
+				"autoincrement" => $rdef[$best_alt]["autoincrement"] ?? null,
+				"type"          => $rdef[$best_alt]["type"] ?? null,
 				"alt_types"     => $alt_types,
 			);
 
