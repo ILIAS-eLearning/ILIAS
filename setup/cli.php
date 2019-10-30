@@ -105,7 +105,8 @@ function build_container_for_setup() {
 
 	$c["agent.language"] = function ($c) {
 		return new \ilLanguageSetupAgent(
-			$c["refinery"]
+			$c["refinery"],
+			$c["lng"]
 		);
 	};
 

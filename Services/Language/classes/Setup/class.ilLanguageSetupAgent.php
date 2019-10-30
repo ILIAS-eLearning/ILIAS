@@ -13,10 +13,17 @@ class ilLanguageSetupAgent implements Setup\Agent {
 	 */
 	protected $refinery;
 
+	/**
+	 * @var \ilSetupLanguage
+	 */
+	protected $il_setup_language;
+
 	public function __construct(
-		Refinery\Factory $refinery
+		Refinery\Factory $refinery,
+		\ilSetupLanguage $il_setup_language
 	) {
 		$this->refinery = $refinery;
+		$this->il_setup_language = $il_setup_language;
 	}
 
 	/**
@@ -40,8 +47,8 @@ class ilLanguageSetupAgent implements Setup\Agent {
 		return $this->refinery->custom()->transformation(function($data) {
 			return new \ilLanguageSetupConfig(
 				$data["default_language"],
-				$data["install_languages"],
-				$data["install_local_languages"]
+				$data["install_languages"] ?? [$data["default_language"]],
+				$data["install_local_languages"] ?? []
 			);
 		});	
 	}
@@ -51,9 +58,11 @@ class ilLanguageSetupAgent implements Setup\Agent {
 	 */
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		return new Setup\ObjectiveCollection(
-			"Services/Language objectives.",
+			"Complete objectives from Services/Language",
 			false,
-			new ilLanguageConfigStoredObjective($config)
+			new ilLanguageConfigStoredObjective($config),
+			new ilLanguagesInstalledObjective($config, $this->il_setup_language),
+			new ilDefaultLanguageSetObjective($config)
 		);
 	}
 

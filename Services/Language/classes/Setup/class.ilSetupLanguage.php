@@ -247,7 +247,7 @@ class ilSetupLanguage extends ilLanguage
 				$this->flushLanguage($lang_key, 'keep_local');
 				$this->insertLanguage($lang_key);
 				
-				if (in_array($lang_key, $a_local_keys))
+				if (in_array($lang_key, $a_local_keys) && is_dir($this->cust_lang_path))
 				{
 					if ($this->checkLanguage($lang_key, "local"))
 					{
@@ -419,6 +419,7 @@ class ilSetupLanguage extends ilLanguage
 	 */
 	protected function checkLanguage($a_lang_key, $scope = '')
 	{
+		$scopeExtension = "";
 		if (!empty($scope))
 		{
 			if ($scope == 'global')
@@ -589,6 +590,7 @@ class ilSetupLanguage extends ilLanguage
 		
 		$lang_array = array();
 		
+		$scopeExtension = "";
 		if (!empty($scope))
 		{
 			if ($scope == 'global')
@@ -647,7 +649,12 @@ class ilSetupLanguage extends ilLanguage
 					}
 
 					// check if the value has a local change
-					$local_value = $local_changes[$separated[0]][$separated[1]];
+					if (isset($local_changes[$separated[0]])) {
+						$local_value = $local_changes[$separated[0]][$separated[1]];
+					}
+					else {
+						$local_value = null;
+					}
 
 					if (empty($scope))
 					{
