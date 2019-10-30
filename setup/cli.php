@@ -11,7 +11,6 @@ if (!defined("MAGPIE_DIR")) {
 	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 }
 
-require_once(__DIR__."/classes/class.ilSetupLanguage.php");
 require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
 require_once(__DIR__."/classes/class.ilSetupObjective.php");

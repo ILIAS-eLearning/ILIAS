@@ -21,7 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
 
 
 /**
@@ -42,6 +41,8 @@ require_once(__DIR__."/../../Services/Language/classes/class.ilLanguage.php");
  * @todo The DATE field is not set correctly on changes of a language (update, install, your stable).
  *  The format functions do not belong in class.Language. Those are also applicable elsewhere.
  *  Therefore, they would be better placed in class.Format
+ * @todo This somehow needs to be reconciled with the base class and most probably be factored
+ *  into two classes, one for management, one for retrieval.
  */
 class ilSetupLanguage extends ilLanguage
 {
@@ -103,7 +104,7 @@ class ilSetupLanguage extends ilLanguage
 	{
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
 
-		$il_absolute_path = realpath(dirname(__FILE__) .'/../../');
+		$il_absolute_path = realpath(dirname(__FILE__) .'/../../../../');
 		$this->lang_path = $il_absolute_path."/lang";
 		$this->cust_lang_path = $il_absolute_path."/Customizing/global/lang";
 

@@ -43,7 +43,6 @@ define("DEBUG",false);
 
 //require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
-require_once "./setup/classes/class.ilSetupLanguage.php";	// modified class. needs to be merged with base language class
 require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
