@@ -144,7 +144,7 @@ A new/separate case MUST be added in the following classes:
 A new/separate case MAY be added in the following classes:
 * [`ilCertificatePdfFileNameFactory::fetchCertificateGenerator`](classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php)
 
-Beside integrating the settings into the [GUI](#gui) there are two classes that
+Beside integrating the settings into the [GUI](#gui-1) there are two classes that
 also MUST be created for the purpose of providing/resolving placeholders.
 
 The first class that MUST be added is a `Placeholder Description` class
