@@ -3,20 +3,21 @@ let tinyId = '';
 
 let add_row = function() {
 	tinyId = '';
-    let row = $(this).parents(".aot_table").find(".aot_row").eq(0);
+    let row = $(this).parents(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
 
     let new_row = row.clone();
 
     new_row = clear_row(new_row);
-    new_count = table.children().length + 1;
-    process_row(new_row, new_count);
-    table.append(new_row);
+    row.after(new_row);
     $(this).parents(".aot_table").siblings(".js_count").val(new_count);
+    set_input_ids(table);
     
     if (tinyId !== '') {
     	tinymce.EditorManager.execCommand('mceAddEditor', true, update_input_name(tinyId, new_count));
     }
+    
+    return false;
 };
 
 let remove_row = function() {

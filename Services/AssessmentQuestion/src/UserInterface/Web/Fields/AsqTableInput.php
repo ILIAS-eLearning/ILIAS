@@ -75,11 +75,7 @@ class AsqTableInput extends ilTextInputGUI {
             $tpl->parseCurrentBlock();
         }
         
-        if ($this->hasActions()) {
-            if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
-                $tpl->touchBlock('add');
-            }
-            
+        if ($this->hasActions()) {     
             $tpl->setCurrentBlock('command_header');
             $tpl->setVariable('COMMANDS_TEXT', $DIC->language()->txt('asq_label_actions'));
             $tpl->parseCurrentBlock();
@@ -110,6 +106,10 @@ class AsqTableInput extends ilTextInputGUI {
             if ($this->hasActions()) {
                 if (array_key_exists(self::OPTION_ORDER, $this->form_configuration)) {
                     $tpl->touchBlock('move');
+                }
+                
+                if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
+                    $tpl->touchBlock('add');
                 }
                 
                 if (!array_key_exists(self::OPTION_HIDE_ADD_REMOVE, $this->form_configuration)) {
