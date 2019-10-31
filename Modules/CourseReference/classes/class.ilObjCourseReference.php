@@ -70,6 +70,25 @@ class ilObjCourseReference extends ilContainerReference
 		return $this->member_update;
 	}
 
+	/**
+	 * @param int $obj_id
+	 * @return bool
+	 */
+	public static function lookupMemberUpdateEnabled(int $obj_id) : bool
+	{
+		global $DIC;
+
+		$db = $DIC->database();
+
+		$query = 'select member_update from crs_reference_settings where '.
+			'obj_id = ' . $db->quote($obj_id, ilDBConstants::T_INTEGER);
+		$res = $db->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+			return (bool) $row->member_update;
+		}
+		return false;
+	}
+
 
 	/**
 	 * @return @inheritdoc

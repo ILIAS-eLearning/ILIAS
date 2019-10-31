@@ -50,6 +50,12 @@ class ilCourseReferencePathInfo
 
 
 	/**
+	 * @var bool
+	 */
+	private $member_update_enabled = false;
+
+
+	/**
 	 * ilCourseReferencePathInfo constructor.
 	 */
 	public function __construct(int $ref_id,int $target_ref_id = 0)
@@ -109,6 +115,14 @@ class ilCourseReferencePathInfo
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function isMemberUpdateEnabled() : bool
+	{
+		return $this->member_update_enabled;
+	}
+
+	/**
 	 * Check manage member for both target and parent course
 	 * @return bool
 	 */
@@ -133,9 +147,9 @@ class ilCourseReferencePathInfo
 			$target_obj_id = ilObjCourseReference::_lookupTargetId(ilObject::_lookupObjId($this->ref_id));
 			$target_ref_ids = ilObject::_getAllReferences($target_obj_id);
 			$this->target_ref_id = end($target_ref_ids);
-
 		}
 
+		$this->member_update_enabled = ilObjCourseReference::lookupMemberUpdateEnabled(ilObject::_lookupObjId($this->ref_id));
 		$this->parent_course_ref_id = $this->tree->checkForParentType($this->ref_id, 'crs');
 
 		if($this->getParentCourseRefId() && !$this->tree->checkForParentType($this->ref_id, 'grp'))
