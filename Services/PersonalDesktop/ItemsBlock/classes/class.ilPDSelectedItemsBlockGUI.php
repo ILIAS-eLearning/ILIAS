@@ -54,6 +54,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	/** @var \ilObjectService */
 	protected $objectService;
 
+    /**
+     * @var ilFavouritesManager
+     */
+    protected $favourites;
+
 	/**
 	 * ilPDSelectedItemsBlockGUI constructor.
 	 */
@@ -68,6 +73,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->ui = $DIC->ui();
 		$this->http = $DIC->http();
 		$this->objectService = $DIC->object();
+        $this->favourites = new ilFavouritesManager();
 
 		parent::__construct();
 
@@ -130,8 +136,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	public function addToDeskObject()
 	{
-		ilDesktopItemGUI::addToDesktop();
-		ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
+        $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
+        ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
 		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
 	}
@@ -141,7 +147,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	public function removeFromDeskObject()
 	{
-		ilDesktopItemGUI::removeFromDesktop();
+        $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
 		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
 		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
 		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
@@ -552,8 +558,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		foreach ($refIds as $ref_id) {
-			$type = ilObject::_lookupType((int) $ref_id, true);
-			ilObjUser::_dropDesktopItem($this->user->getId(), (int) $ref_id, $type);
+		    // @todo: decline and remove favourites
 		}
 
 		// #12909

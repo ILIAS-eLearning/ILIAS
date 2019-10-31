@@ -658,35 +658,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     }
 
 
-    /**
-     * Add desktop item
-     *
-     * @access public
-     */
-    public function addToDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::addToDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("added_to_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
-
-
-    /**
-     * Remove from desktop
-     *
-     * @access public
-     */
-    public function removeFromDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::removeFromDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("removed_from_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
-
 
     /**
      * Add desktop item. Alias for addToDeskObject.

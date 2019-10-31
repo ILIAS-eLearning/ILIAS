@@ -49,6 +49,11 @@ class ilLearningSequenceRoles
 	 */
 	protected $local_roles;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
+
 	public function __construct(
 		int $ls_ref_id,
 		int $ls_obj_id,
@@ -57,7 +62,8 @@ class ilLearningSequenceRoles
 		ilRbacAdmin $rbacadmin,
 		ilRbacReview $rbacreview,
 		ilDBInterface $database,
-		ilObjUser $user
+		ilObjUser $user,
+        ilRecommendedContentManager $recommended_content_manager
 	) {
 		//$this->object = $object;
 		$this->ref_id = $ls_ref_id;
@@ -70,6 +76,7 @@ class ilLearningSequenceRoles
 		$this->user = $user;
 
 		$this->local_roles = array();
+        $this->recommended_content_manager = $recommended_content_manager;
 	}
 
 	public function initDefaultRoles()
@@ -153,8 +160,7 @@ class ilLearningSequenceRoles
 		} else {
 			if (!$this->isAdmin($this->user->getId())) {
 				$this->leave($this->user->getId());
-				$member = new ilObjUser($this->user->getId());
-				$member->dropDesktopItem($this->getRefId(), "lso");
+                $this->recommended_content_manager->removeObjectRecommendation($this->user->getId(), $this->getRefId());
 				return 0;
 			} else if (count($this->getLearningSequenceAdminIds()) == 1) {
 				return 1;

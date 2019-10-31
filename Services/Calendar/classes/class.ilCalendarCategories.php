@@ -168,7 +168,7 @@ class ilCalendarCategories
 	
 	/**
 	 * Delete cache (add remove desktop item)
-	 * @param object $a_usr_id
+	 * @param int $a_usr_id
 	 * @return 
 	 */
 	public static function deletePDItemsCache($a_usr_id)

@@ -25,6 +25,49 @@ class ilFavouritesDBRepository
             : $tree;
     }
 
+
+    /**
+     * Add favourite
+     * @param int $user_id
+     * @param int $ref_id
+     */
+    public function add(int $user_id, int $ref_id)
+    {
+        $db = $this->db;
+
+        $type = ilObject::_lookupType($ref_id, true);
+
+        $item_set = $db->queryF("SELECT * FROM desktop_item WHERE ".
+            "item_id = %s AND type = %s AND user_id = %s",
+            ["integer", "text", "integer"],
+            [$ref_id, $type, $user_id]);
+
+        // only insert if item is not already on desktop
+        if (!$db->fetchAssoc($item_set))
+        {
+            $db->manipulateF("INSERT INTO desktop_item (item_id, type, user_id, parameters) VALUES ".
+                " (%s,%s,%s,%s)", array("integer", "text", "integer", "text"),
+                array($ref_id,$type,$user_id,""));
+        }
+    }
+
+    /**
+     * Remove favourite
+     *
+     * @param int $user_id
+     * @param int $ref_id
+     */
+    public function remove(int $user_id, int $ref_id)
+    {
+        $db = $this->db;
+
+        $db->manipulateF("DELETE FROM desktop_item WHERE ".
+            " item_id = %s AND user_id = %s",
+            array("integer", "integer"),
+            array($ref_id, $user_id));
+    }
+
+
     /**
      * get all desktop items of user and specified type
      *

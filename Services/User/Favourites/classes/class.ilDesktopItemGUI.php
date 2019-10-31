@@ -32,60 +32,6 @@
 */
 class ilDesktopItemGUI
 {
-	/**
-	 * Add desktop item
-	 * @access public 
-	 */
-	public static function addToDesktop()
-	{
-		global $DIC;
-
-		$ilUser = $DIC->user();
-		
-		if ($_GET["item_ref_id"] and $_GET["type"])
-		{
-			ilObjUser::_addDesktopItem($ilUser->getId(),(int) $_GET['item_ref_id'], $_GET['type']);
-		}
-		else
-		{
-			if ($_POST["items"])
-			{
-				foreach ($_POST["items"] as $item)
-				{
-					$type = ilObject::_lookupType($item, true);
-					ilObjUser::_addDesktopItem($ilUser->getId(),$item,$type);
-				}
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Remove item from personal desktop
-	 * @access public
-	 */
-	public static function removeFromDesktop()
-	{
-		global $DIC;
-
-		$ilUser = $DIC->user();
-
-		if ($_GET["item_ref_id"] and $_GET["type"])
-		{
-			ilObjUser::_dropDesktopItem($ilUser->getId(),(int) $_GET['item_ref_id'], $_GET['type']);
-		}
-		else
-		{
-			if ($_POST["items"])
-			{
-				foreach ($_POST["items"] as $item)
-				{
-					$type = ilObject::_lookupType($item, true);
-					ilObjUser::_dropDesktopItem($ilUser->getId(),$item,$type);
-				}
-			}
-		}
-		return true;
-	}
+    // obsolete
 }
 ?>

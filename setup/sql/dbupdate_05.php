@@ -2672,7 +2672,6 @@ $setting = new ilSetting('lti');
 $setting->delete('custom_provider_create_role');
 
 ?>
-
 <#5567>
 <?php
 if(!$ilDB->tableExists('crs_reference_settings'))
@@ -2697,5 +2696,31 @@ if(!$ilDB->tableExists('crs_reference_settings'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
-
-
+<#5569>
+<?php
+	$ilDB->dropPrimaryKey('role_desktop_items');
+?>
+<#5570>
+<?php
+	$ilDB->renameTableColumn('role_desktop_items', "item_id", 'ref_id');
+?>
+<#5571>
+<?php
+	$ilDB->renameTable('role_desktop_items', 'rep_rec_content_role');
+?>
+<#5572>
+<?php
+	$ilDB->dropTableColumn("rep_rec_content_role", "role_item_id");
+?>
+<#5573>
+<?php
+	$ilDB->dropTableColumn("rep_rec_content_role", "item_type");
+?>
+<#5574>
+<?php
+	$ilDB->addPrimaryKey('rep_rec_content_role', ['role_id','ref_id']);
+?>
+<#5575>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

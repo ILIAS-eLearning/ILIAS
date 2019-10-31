@@ -129,6 +129,11 @@ class ilObjectGUI
 	const CFORM_CLONE = 3;
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $favourites;
+
+	/**
 	* Constructor
 	* @access	public
 	* @param	array	??
@@ -154,6 +159,8 @@ class ilObjectGUI
 		$ilErr = $DIC["ilErr"];
 		$lng = $DIC->language();
 		$ilTabs = $DIC->tabs();
+
+		$this->favourites = new ilFavouritesManager();
 
 		$this->ilias = $DIC["ilias"];
 
@@ -2235,6 +2242,32 @@ class ilObjectGUI
 		$ctrl = $this->ctrl;
 		$link = ilLink::_getLink($this->object->getRefId());
 		$ctrl->redirectToURL($link);
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function addToDeskObject()
+	{
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$user = $this->user;
+		$this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
+		ilUtil::sendSuccess($lng->txt("added_to_desktop"), true);
+		$ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));
+	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function removeFromDeskObject()
+	{
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+		$user = $this->user;
+		$this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
+		ilUtil::sendSuccess($lng->txt("removed_from_desktop"), true);
+		$ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));
 	}
 
 }

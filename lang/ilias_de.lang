@@ -4065,7 +4065,7 @@ common#:#select_at_least_one_object#:#Bitte wählen Sie mindestens ein Objekt au
 common#:#select_file#:#Datei wählen
 common#:#select_max_one_item#:#Bitte wählen Sie nur ein Objekt aus.
 common#:#select_object_to_link#:#Bitte wählen Sie das zu verknüpfende Objekt aus.
-common#:#select_one#:#Bitte treffen Sie eine Auswahl
+common#:#select_one#:#Bitte treffen Sie eine Auswahl.
 common#:#select_questionpool#:#Fragen einfügen in
 common#:#select_question_pool_info#:#Sofern die Import Datei Fragen enthält, werden diese ebenfalls in den ausgewählten Fragenpool importiert.
 common#:#selected#:#Ausgewählte
@@ -15278,3 +15278,9 @@ exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
 exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_random#:#Zufällig
 book#:#book_no_objects#:#Keine Zuweisung
+rep#:#rep_recommended_content#:#Empfohlende Inhalte
+rep#:#rep_rec_content_removed#:#Empfohlender Inhalt wurde entfernt.
+rep#:#rep_added_rec_content#:#Empfohlender Inhalt wurde hinzugefügt.
+rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
+rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
+rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.

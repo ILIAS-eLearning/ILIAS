@@ -3780,32 +3780,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         return ($grpRefId > 0 || $crsRefId > 0);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addToDeskObject()
-    {
-        if (!(int)$this->settings->get('disable_my_offers')) {
-            \ilDesktopItemGUI::addToDesktop();
-            \ilUtil::sendSuccess($this->lng->txt('added_to_desktop'));
-        }
-
-        $this->showThreadsObject();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeFromDeskObject()
-    {
-        if (!(int)$this->settings->get('disable_my_offers')) {
-            \ilDesktopItemGUI::removeFromDesktop();
-            \ilUtil::sendSuccess($this->lng->txt('removed_from_desktop'));
-        }
-
-        $this->showThreadsObject();
-    }
-
     protected function saveThreadSortingObject()
     {
         if (!$this->is_moderator) {

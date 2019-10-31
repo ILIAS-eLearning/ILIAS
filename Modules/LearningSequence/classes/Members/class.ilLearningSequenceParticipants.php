@@ -86,7 +86,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 	public function add($usr_id, $role): bool
 	{
 		if (parent::add($usr_id, $role)) {
-			$this->addDesktopItem($usr_id);
+			$this->addRecommendation($usr_id);
 			return true;
 		}
 

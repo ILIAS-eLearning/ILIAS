@@ -205,7 +205,11 @@ class ilObjSurvey extends ilObject
 	const RESULTS_SELF_EVAL_NONE = 0;
 	const RESULTS_SELF_EVAL_OWN = 1;
 	const RESULTS_SELF_EVAL_ALL = 2;
-	
+
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
 
 	/**
 	* Constructor
@@ -244,6 +248,8 @@ class ilObjSurvey extends ilObject
 		$this->log = ilLoggerFactory::getLogger("svy");
 		$this->mode = self::MODE_STANDARD;
 		$this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
+
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -2758,8 +2764,7 @@ class ilObjSurvey extends ilObject
 			array('integer','integer'),
 			array($this->getSurveyId(), $user_id)
 		);
-		include_once './Services/User/classes/class.ilObjUser.php';
-		ilObjUser::_dropDesktopItem($user_id, $this->getRefId(), "svy");
+        $this->recommended_content_manager->removeObjectRecommendation($user_id, $this->getRefId());
 	}
 
 /**
@@ -2787,8 +2792,7 @@ class ilObjSurvey extends ilObject
 		}
 		if ($this->getInvitation() == self::INVITATION_ON)
 		{
-			include_once './Services/User/classes/class.ilObjUser.php';
-			ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
+            $this->recommended_content_manager->addObjectRecommendation($user_id, $this->getRefId());
 		}
 	}
 
@@ -5432,8 +5436,7 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendAppraiseeNotification($a_user_id);
-				$type = ilObject::_lookupType($this->getRefId(), true);
-				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
+                $this->recommended_content_manager->addObjectRecommendation($a_user_id, $this->getRefId());
 			}
 		}				
 	}
@@ -5625,8 +5628,7 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendRaterNotification($a_user_id, $a_appraisee_id);
-				$type = ilObject::_lookupType($this->getRefId(), true);
-				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
+                $this->recommended_content_manager->addObjectRecommendation($a_user_id, $this->getRefId());
 			}
 
 		}				

@@ -128,7 +128,7 @@ class ilObjectListGUIPreloader
 			$ilObjDataCache->preloadReferenceCache($this->ref_ids, false);			
 			$rbacsystem->preloadRbacPaCache($this->ref_ids, $ilUser->getId());
 			
-			if($ilUser->getId != ANONYMOUS_USER_ID && 
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 				$this->context != ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP)
 			{
 				ilObjUser::preloadIsDesktopItem($ilUser->getId(), $this->ref_ids);

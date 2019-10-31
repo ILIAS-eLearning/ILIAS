@@ -104,6 +104,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
 	var $m_roleAdminId;
 
+
 	/**
 	* Constructor
 	* @access	public
@@ -1109,8 +1110,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			if (!$this->isAdmin($this->ilias->account->getId()))
 			{
 				$this->leave($this->ilias->account->getId());
-				$member = new ilObjUser($this->ilias->account->getId());
-				$member->dropDesktopItem($this->getRefId(), "grp");
+				$this->recommended_content_manager->removeObjectRecommendation($this->user->getId(), $this->getRefId());
 
 				return 0;
 			}
