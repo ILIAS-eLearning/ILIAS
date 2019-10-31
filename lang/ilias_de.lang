@@ -10020,11 +10020,17 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
+objref#:#objref_custom_title#:#Eigenen Titel verwenden
 objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
 objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
+crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
+crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
+crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
+crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+crs#:#crs_ref_delete_confirmation_info#:#Möchten Sie folgende Mitglieder aus diesem Kurs austragen? Wenn diese Mitglieder auch aus den im Kurs enthaltenden verlinkten Kursen ausgetragen werden sollen, dann aktivieren Sie die entsprechenden Checkboxen.
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
