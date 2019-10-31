@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\FileUpload\Handler\UploadHandler;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 
 /**
  * This describes select field.
@@ -39,7 +39,7 @@ interface File extends Input
 
 
     /**
-     * @return UploadHandler
+     * @return ilCtrlAwareUploadHandler
      */
-    public function getUploadHandler() : UploadHandler;
+    public function getUploadHandler() : ilCtrlAwareUploadHandler;
 }

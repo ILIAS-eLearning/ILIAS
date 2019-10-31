@@ -5,7 +5,7 @@ namespace ILIAS\FileUpload\Handler;
 use JsonSerializable;
 
 /**
- * Interface UploadHandler
+ * Interface HandlerResult
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */

@@ -5,7 +5,7 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 
-use ILIAS\FileUpload\Handler\UploadHandler;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 
 /**
  * This is what a factory for input fields looks like.
@@ -594,11 +594,11 @@ interface Factory
      *     1: .
      *
      * ---
-     * @param UploadHandler $handler
-     * @param string        $label defines the label.
-     * @param string        $byline
+     * @param ilCtrlAwareUploadHandler $handler
+     * @param string                   $label defines the label.
+     * @param string                   $byline
      *
      * @return \ILIAS\UI\Component\Input\Field\File
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : File;
+    public function file(ilCtrlAwareUploadHandler $handler, string $label, string $byline = null) : File;
 }

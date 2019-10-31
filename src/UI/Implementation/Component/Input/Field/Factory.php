@@ -6,7 +6,7 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\FileUpload\Handler\UploadHandler;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field\File;
@@ -180,7 +180,7 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : File
+    public function file(ilCtrlAwareUploadHandler $handler, string $label, string $byline = null) : File
     {
         throw new NotImplementedException();
     }
