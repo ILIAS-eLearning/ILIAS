@@ -208,26 +208,26 @@ class ilObjStudyProgrammeTreeGUI {
 	protected function saveTreeOrder() {
 		$this->checkAccessOrFail('write');
 
-		if(!isset($_POST['tree']) || is_null(json_decode(stripslashes($_POST['tree'])))) {
+		$treeAsJson = ilUtil::stripSlashes($_POST['tree'] ?? '');
+		$treeData   = json_decode($treeAsJson);
+
+		if (!is_array($treeData) || [] === $treeData) {
 			throw new ilStudyProgrammeTreeException("There is no tree data to save!");
 		}
 
 		// saves order recursive
-		$data = json_decode(stripslashes($_POST['tree']));
-		$this->storeTreeOrder($data);
+		$this->storeTreeOrder($treeData);
 
 		return ilAsyncOutputHandler::encodeAsyncResponse(array('success'=>true, 'message'=>$this->lng->txt('prg_saved_order_successful')));
 	}
 
-
 	/**
 	 * Recursive function for saving the tree order
-	 *
-	 * @param string[]						$nodes_ref_ids
-	 * @param ilContainerSorting|null       $container_sorting
-	 * @param int|null                      $parent_ref_id
+	 * @param array                   $nodes
+	 * @param ilContainerSorting|null $container_sorting
+	 * @param int|null                $parent_ref_id
 	 */
-	protected function storeTreeOrder(array $nodes_ref_ids, $container_sorting = null, int $parent_ref_id = null)
+	protected function storeTreeOrder(array $nodes, $container_sorting = null, int $parent_ref_id = null)
 	{
 		$sorting_position = array();
 		$position_count = 10;
@@ -235,9 +235,10 @@ class ilObjStudyProgrammeTreeGUI {
 		$parent_node = ($parent_ref_id === null)? ilObjectFactoryWrapper::singleton()->getInstanceByRefId($this->ref_id) : ilObjectFactoryWrapper::singleton()->getInstanceByRefId($parent_ref_id);
 		$container_sorting = ($container_sorting === null) ? ilContainerSorting::_getInstance(ilObject::_lookupObjectId($this->ref_id)) : $container_sorting;
 
-		foreach($nodes_ref_ids as $node_ref) {
+		foreach($nodes as $node) {
 			// get ref_id from json
-			$id = substr($node_ref, strrpos($node_ref, "_")+1);
+			$id = $node->id;
+			$id = substr($id, strrpos($id, "_") + 1);
 
 			$sorting_position[$id] = $position_count;
 			$position_count+= 10;
