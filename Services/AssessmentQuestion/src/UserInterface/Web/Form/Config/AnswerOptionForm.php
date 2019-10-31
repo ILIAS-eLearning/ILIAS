@@ -68,7 +68,7 @@ class AnswerOptionForm extends AsqTableInput {
 	 * @return bool
 	 */
 	public function checkInput() : bool {    
-	    $count = intval($_POST[Answeroptionform::COUNT_POST_VAR]);
+	    $count = intval($_POST[Answeroptionform::VAR_POST]);
 	    
 	    $sd_class = QuestionPlayConfiguration::getScoringClass($this->configuration)::getScoringDefinitionClass();
 	    $dd_class = QuestionPlayConfiguration::getEditorClass($this->configuration)::getDisplayDefinitionClass();

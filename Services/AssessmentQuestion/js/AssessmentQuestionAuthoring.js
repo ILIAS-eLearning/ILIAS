@@ -1,8 +1,14 @@
 // Generic Authoring
-let tinyId = '';
+let has_tiny = false;
+let tiny_settings;
 
 let add_row = function() {
-	tinyId = '';
+	has_tiny = tinymce.editors.length > 0;
+
+	if (has_tiny) {
+		clear_tiny();
+	}
+	
     let row = $(this).parents(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
 
@@ -10,17 +16,47 @@ let add_row = function() {
 
     new_row = clear_row(new_row);
     row.after(new_row);
-    $(this).parents(".aot_table").siblings(".js_count").val(new_count);
     set_input_ids(table);
     
-    if (tinyId !== '') {
-    	tinymce.EditorManager.execCommand('mceAddEditor', true, update_input_name(tinyId, new_count));
+    if (has_tiny) {
+    	tinymce.init(tiny_settings);
     }
     
     return false;
 };
 
+let clear_tiny = function() {	
+	tiny_settings = tinymce.editors[0].settings;
+	
+	while (tinymce.editors.length > 0) {
+		let editor = tinymce.editors[0];
+		let element = $(editor.getElement());
+		
+		element.val(editor.getContent());
+		element.show();
+		
+		tinymce.EditorManager.remove(tinymce.editors[0]);
+		
+		element.siblings('.mceEditor').remove();
+	}
+};
+
+let save_tiny = function() {
+	for (let i = 0; i < tinymce.editors.length; i++) {
+		let editor = tinymce.editors[i];
+		let element = $(editor.getElement());
+		
+		element.val(editor.getContent());		
+	}
+}
+
 let remove_row = function() {
+	has_tiny = tinymce.editors.length > 0;
+
+	if (has_tiny) {
+		clear_tiny();
+	}
+	
     let row = $(this).parents(".aot_row");
     let table = $(this).parents(".aot_table").children("tbody");
 
@@ -29,6 +65,10 @@ let remove_row = function() {
         set_input_ids(table);
     } else {
         clear_row(row);
+    }
+    
+    if (has_tiny) {
+    	tinymce.init(tiny_settings);
     }
 };
 
@@ -41,17 +81,11 @@ let clear_row = function(row) {
     		input.attr('checked', false);
     	}
     	else if (input.attr('type') === 'hidden') {
-    		//dont clear hidden fields
+    		// dont clear hidden fields
     	}
     	else {
     		input.val('');
     	}
-        
-        if (input.siblings('.mceEditor').length > 0) {
-        	input.siblings('.mceEditor').remove();
-        	input.show();
-        	tinyId = input.attr('id');
-        }
     });
 
     row.find('span').each(function() {
@@ -141,7 +175,7 @@ let update_form = function() {
 };
 
 $(document).ready(function() {
-	//TODO hack to prevent image verification error
+	// TODO hack to prevent image verification error
 	$('[name=ilfilehash]').remove();
 });
 
@@ -150,12 +184,13 @@ $(document).on("click", ".js_remove", remove_row);
 $(document).on("click", ".js_up", up_row);
 $(document).on("click", ".js_down", down_row);
 $(document).on("change", "#editor, #presenter, #scoring", update_form);
+$(document).on("submit", "form", save_tiny);
 
-//**********************************************************************************************
-//ImageMapQuestion Authoring
-//**********************************************************************************************
+// **********************************************************************************************
+// ImageMapQuestion Authoring
+// **********************************************************************************************
 
-//consts track definitions in ImageMapEditorDisplayDefinition.php
+// consts track definitions in ImageMapEditorDisplayDefinition.php
 const TYPE_RECTANGLE = '1';
 const TYPE_CIRCLE = '2';
 const TYPE_POLYGON = '3';
@@ -254,11 +289,11 @@ let process_imgkey = function(e) {
 		return;
 	}
 	
-	//ESC
+	// ESC
 	if (e.keyCode === 27) {
 		close_popup();
 	}
-	//Enter
+	// Enter
 	else if (e.keyCode === 13) {
 		submit_popup();
 	}
@@ -441,9 +476,9 @@ let map_poly = function(g) {
 $(document).on('keyup', process_imgkey);
 $(document).on('click', '.js_select_coordinates', display_coordinate_selector);
 
-//**********************************************************************************************
-//ErrorTextQuestion Authoring
-//**********************************************************************************************
+// **********************************************************************************************
+// ErrorTextQuestion Authoring
+// **********************************************************************************************
 
 class ErrorDefinition {
 	constructor(start, length) {
