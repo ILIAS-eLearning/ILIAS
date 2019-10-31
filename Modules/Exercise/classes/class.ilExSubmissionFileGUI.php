@@ -121,6 +121,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$ilUser = $this->user;
 
 
+		$this->triggerAssignmentTool();
+
 		$this->handleTabs();
 
 		$ilHelp->setScreenIdComponent("exc");

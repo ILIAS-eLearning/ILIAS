@@ -24,6 +24,35 @@ class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
 		parent::__construct($ref);
 	}
 
+
+	/**
+	 * Start writing xml
+	 */
+	public function export($a_with_header = true)
+	{
+		if($this->getMode() == self::MODE_EXPORT)
+		{
+			if($a_with_header)
+			{
+				$this->buildHeader();
+			}
+			$this->buildReference();
+			$this->buildTarget();
+			$this->buildTitle();
+			$this->buildCourseSettings();
+			$this->buildFooter();
+		}
+	}
+
+	/**
+	 * Add member update setting
+	 */
+	protected function buildCourseSettings()
+	{
+		$this->xmlElement('MemberUpdate', [] , $this->getReference()->isMemberUpdateEnabled() ? 1 : 0);
+	}
+
+
 	/**
 	 * Build xml header
 	 * @global <type> $ilSetting

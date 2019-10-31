@@ -684,7 +684,7 @@ class ilBookingProcessGUI
 		$success = false;
 		$rsv_ids = array();
 
-		if($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
+		if($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE)
 		{
 			if($this->book_obj_id > 0)
 			{

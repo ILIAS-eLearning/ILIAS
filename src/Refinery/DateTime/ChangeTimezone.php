@@ -8,7 +8,8 @@ use ILIAS\Data\Result;
 use ILIAS\Refinery\Transformation;
 
 /**
- * change the timezone of php's \DateTimeImmutable
+ * Change the timezone (and only the timezone) of php's \DateTimeImmutable WITHOUT changing the date-value.
+ * This will effectively be another point in time and space.
  */
 class ChangeTimezone implements Transformation
 {
@@ -32,17 +33,6 @@ class ChangeTimezone implements Transformation
     }
 
     /**
-     * calculate the difference beween two timezones in seconds
-     */
-    protected function getTimezoneDelta(\DateTimeZone $tz1, \DateTimeZone $tz2) : int
-    {
-        $date1 = new \DateTimeImmutable('now', $tz1);
-        $date2 = new \DateTimeImmutable('now', $tz2);
-        $delta = $tz1->getOffset($date1) - $tz2->getOffset($date2);
-        return $delta;
-    }
-
-    /**
      * @inheritdoc
      */
     public function transform($from)
@@ -50,16 +40,9 @@ class ChangeTimezone implements Transformation
         if (!$from instanceof \DateTimeImmutable) {
             throw new \InvalidArgumentException("$from is not a DateTimeImmutable-object", 1);
         }
-
-        $offset = $this->getTimezoneDelta(
-            $from->getTimezone(),
-            $this->timezone
-        );
-
-        $to = clone $from;
-        $to = $to
-            ->setTimezone($this->timezone)
-            ->modify("$offset seconds");
+        
+        $ts = $from->format('Y-m-d H:i:s');
+        $to = new \DateTimeImmutable($ts, $this->timezone);
         return $to;
     }
 

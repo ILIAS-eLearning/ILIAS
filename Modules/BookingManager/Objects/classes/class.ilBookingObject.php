@@ -597,6 +597,26 @@ class ilBookingObject
 		return (int) $rec["pool_id"];
 	}
 
+    /**
+     * Lookup pool id
+     *
+     * @param int $object_id
+     * @return int
+     */
+    public static function lookupTitle($object_id)
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+        $set = $db->queryF("SELECT title FROM booking_object ".
+            " WHERE booking_object_id = %s ",
+            array("integer"),
+            array($object_id)
+        );
+        $rec = $db->fetchAssoc($set);
+        return $rec["title"];
+    }
+
 }
 
 ?>
