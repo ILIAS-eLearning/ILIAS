@@ -67,7 +67,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             {
                 if ($this->childExists($name)) {
                     $file_dav = $this->getChild($name);
-                    $file_dav->handleFileUpload($data);
+                    $file_dav->put($data);
                 } else {
                     $file_obj = new ilObjFile();
                     $file_obj->setTitle($name);
@@ -83,7 +83,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_obj->update();
 
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
-                    $file_dav->handleFileUpload($data);
+                    $file_dav->handleFileUpload($data, "create");
                 }
             }
             else

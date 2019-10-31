@@ -328,8 +328,9 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $form->addItem($cb_prop);
 
         // Enable versioning
-        $cb_prop = new ilCheckboxInputGUI($lng->txt("enable_versioning_webdav"), "enable_versioning_webdav");
+        $cb_prop = new ilCheckboxInputGUI($lng->txt("webdav_enable_versioning"), "enable_versioning_webdav");
         $cb_prop->setValue('1');
+        $cb_prop->setInfo($lng->txt("webdav_versioning_info"));
         $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
         $form->addItem($cb_prop);
 
