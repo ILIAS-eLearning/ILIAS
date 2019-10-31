@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilRadioGroupInputGUI;
@@ -234,5 +235,10 @@ class ImageMapEditor extends AbstractEditor {
         return ImageMapEditorConfiguration::create(
             ImageUploader::getInstance()->processImage(self::VAR_IMAGE),
             $_POST[self::VAR_MULTIPLE_CHOICE] === self::STR_MULTICHOICE);
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

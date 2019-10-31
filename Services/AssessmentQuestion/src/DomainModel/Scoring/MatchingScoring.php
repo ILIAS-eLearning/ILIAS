@@ -3,6 +3,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 
 /**
@@ -31,5 +32,10 @@ class MatchingScoring extends AbstractScoring
     public static function getScoringDefinitionClass() : string
     {
         return EmptyScoringDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

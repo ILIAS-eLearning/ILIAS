@@ -2,6 +2,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ilSelectInputGUI;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
@@ -227,5 +228,10 @@ class MatchingEditor extends AbstractEditor
     static function getDisplayDefinitionClass(): string
     {
         return EmptyDisplayDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

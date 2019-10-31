@@ -542,6 +542,10 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     }
 
 
+    /**
+     * @param DomainEvents $event_history
+     * @return AggregateRoot
+     */
     public static function reconstitute(DomainEvents $event_history) : AggregateRoot
     {
         $question = new Question();
@@ -552,9 +556,22 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
         return $question;
     }
 
-
-    function getAggregateId() : DomainObjectId
+    public function getAggregateId() : DomainObjectId
     {
         return $this->id;
+    }
+    
+    public function isQuestionComplete() : bool {
+        //TODO as soon as presenter gets meat, check for presence of presenter
+        if (is_null($this->data) ||
+            is_null($this->play_configuration) ||
+            is_null($this->play_configuration->getEditorConfiguration()) ||
+            is_null($this->play_configuration->getScoringConfiguration())) 
+        {
+            return false;        
+        }
+        
+        return $this->data->isComplete() &&
+               QuestionPlayConfiguration::isComplete($this);
     }
 }

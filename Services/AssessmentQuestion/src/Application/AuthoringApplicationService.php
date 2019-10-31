@@ -7,23 +7,18 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
-use ILIAS\AssessmentQuestion\DomainModel\ContentEditingMode;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
-use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ilAsqQuestionPageGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use srag\CustomInputGUIs\MultiLineInputGUI\MultiLineInputGUI;
+use ilAsqQuestionPageGUI;
 
 /**
  * Class AuthoringApplicationService
@@ -179,12 +174,20 @@ class AuthoringApplicationService
     /**
      * @return QuestionDto[]
      */
-    public function getQuestions() : array
+    public function getQuestions(?bool $is_complete = null) : array
     {
         $questions = [];
         $event_store = new QuestionEventStoreRepository();
         foreach ($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
-            $questions[] = $this->getQuestion($aggregate_id);
+            $question = $this->getQuestion($aggregate_id);
+            
+            if(!is_null($is_complete)) {
+                if ($question->isComplete() !== $is_complete) {
+                    continue;
+                }
+            }
+            
+            $questions[] = $question;
         }
 
         return $questions;

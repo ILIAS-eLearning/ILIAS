@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
@@ -106,5 +107,10 @@ class FileUploadScoring extends AbstractScoring {
     public function getBestAnswer(): Answer
     {
         throw new Exception("Best Answer for File Upload Impossible");
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
@@ -132,5 +133,14 @@ class TextSubsetEditor extends AbstractEditor {
      */
     static function getDisplayDefinitionClass() : string {
         return EmptyDisplayDefinition::class;
+    }
+    
+    /**
+     * @param Question $question
+     * @return bool
+     */
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

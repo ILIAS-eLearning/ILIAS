@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
@@ -110,5 +111,10 @@ class ErrorTextScoring extends AbstractScoring {
      */
     public static function readConfig() : ?AbstractConfiguration {
         return ErrorTextScoringConfiguration::create(empty($_POST[self::VAR_POINTS_WRONG]) ? null : intval($_POST[self::VAR_POINTS_WRONG]));
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -146,5 +147,10 @@ class FormulaScoring extends AbstractScoring {
                                                    intval($_POST[self::VAR_PRECISION]), 
                                                    floatval($_POST[self::VAR_TOLERANCE]), 
                                                    intval($_POST[self::VAR_RESULT_TYPE]));
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

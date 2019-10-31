@@ -3,6 +3,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 
 /**
  * Class MultipleChoiceScoring
@@ -74,5 +75,10 @@ class MultipleChoiceScoring extends AbstractScoring
     public static function readConfig()
     {
         return new MultipleChoiceScoringConfiguration();
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

@@ -129,4 +129,12 @@ class QuestionPlayConfiguration extends AbstractValueObject {
         
         return (count($dd_class::getFields($this)) + count($sd_class::getFields($this))) > 0;
     }
+    
+    /**
+     * @param Question $question
+     */
+    public static function isComplete(Question $question) : bool{
+        return QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration())::isComplete($question) &&
+               QuestionPlayConfiguration::getEditorClass($question->getPlayConfiguration())::isComplete($question);
+    }
 }

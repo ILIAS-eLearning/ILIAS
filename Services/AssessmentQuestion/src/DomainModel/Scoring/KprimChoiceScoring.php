@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
@@ -111,5 +112,10 @@ class KprimChoiceScoring extends AbstractScoring {
         return KprimChoiceScoringConfiguration::create(
             intval($_POST[self::VAR_POINTS]),
             intval($_POST[self::VAR_HALF_POINTS]));
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

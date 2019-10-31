@@ -74,6 +74,10 @@ class QuestionDto  {
      */
     private $question_hints;
 
+    /**
+     * @var bool
+     */
+    private $complete;
 
     /**
 	 * @param Question $question
@@ -85,7 +89,8 @@ class QuestionDto  {
 		$dto->id = $question->getAggregateId()->getId();
         $dto->container_obj_id = $question->getContainerObjId();
 		$dto->question_int_id = $question->getQuestionIntId();
-        
+        $dto->complete = $question->isQuestionComplete();
+		
 		if ($question->getRevisionId() !== null) {
 			$dto->revision_id = $question->getRevisionId()->getKey();
 			$dto->revision_name = $question->getRevisionName();
@@ -132,7 +137,20 @@ class QuestionDto  {
 		return $this->id;
 	}
 
-
+	/**
+	 * @param bool $complete
+	 */
+	public function setComplete(bool $complete) {
+	    $this->complete = $complete;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isComplete() : bool {
+	    return $this->complete;
+	}
+	
 	/**
 	 * @param string $id
 	 */
