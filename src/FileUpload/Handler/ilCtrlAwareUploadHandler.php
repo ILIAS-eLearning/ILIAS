@@ -43,7 +43,9 @@ interface ilCtrlAwareUploadHandler
 
 
     /**
-     * @return HandlerResult
+     * @return HandlerResult this MUST use the same getFileIdentifierParameterName
+     *                       for the UploadResponse as the ilCtrlAwareUploadHandler
+     *                       when echoed as JSON. e.g. {'file_id': 'th6djr46xfgrst6t45eb6bt6zn45stb6aebr68bt'}
      */
     public function getResult() : HandlerResult;
 }
