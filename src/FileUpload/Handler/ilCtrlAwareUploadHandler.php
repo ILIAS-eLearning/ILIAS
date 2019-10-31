@@ -35,7 +35,7 @@ interface ilCtrlAwareUploadHandler
 
 
     /**
-     * Sine this is a ilCtrl aware UploadHandler executeCommand MUST be
+     * Since this is a ilCtrl aware UploadHandler executeCommand MUST be
      * implemented. The Implementation MUST make sure, the Upload and the Removal
      * Command are handled correctly
      */
