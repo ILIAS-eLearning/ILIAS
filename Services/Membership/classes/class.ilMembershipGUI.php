@@ -692,7 +692,10 @@ class ilMembershipGUI
 			}
 		}
 
-		
+		if(ilCourseReferencePathInfo::isReferenceMemberUpdateConfirmationRequired($this->repository_object->getRefId())) {
+			return $this->showDeleteParticipantsConfirmationWithLinkedCourses($participants);
+		}
+
 		include_once('./Services/Utilities/classes/class.ilConfirmationGUI.php');
 		$confirm = new ilConfirmationGUI();
 		$confirm->setFormAction($this->ctrl->getFormAction($this,'confirmDeleteParticipants'));
