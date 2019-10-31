@@ -63,7 +63,8 @@ function build_container_for_setup() {
 				"logging" => $c["agent.logging"],
 				"style" => $c["agent.style"],
 				"virusscanner" => $c["agent.virusscanner"],
-				"database" => $c["agent.database"]/*,
+				"database" => $c["agent.database"],
+				"systemfolder" => $c["agent.systemfolder"]/*,
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
 				"ctrl_structure" => $c["agent.ctrl_structure"]*/
@@ -118,6 +119,12 @@ function build_container_for_setup() {
 
 	$c["agent.style"] = function ($c) {
 		return new \ilStyleSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.systemfolder"] = function ($c) {
+		return new \ilSystemFolderSetupAgent(
 			$c["refinery"]
 		);
 	};
