@@ -546,7 +546,9 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
 			$tpl->touchBlock("inline_in_bl");
 			$tpl->setVariable("MULTI_ICONS", $this->getMultiIconsHTML());
 		}
-		
+
+		$tpl->setVariable("ARIA_LABEL", ilUtil::prepareFormOutput($this->getTitle()));
+
 		return $tpl->get();
 	}
 	
