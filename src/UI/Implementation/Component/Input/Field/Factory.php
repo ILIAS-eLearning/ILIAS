@@ -6,9 +6,12 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\FileUpload\Handler\UploadHandler;
 use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\NotImplementedException;
 
 /**
  * Class Factory
@@ -171,5 +174,14 @@ class Factory implements Field\Factory
     public function duration($label, $byline = null)
     {
         return new Duration($this->data_factory, $this->refinery, $this, $label, $byline);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function file(UploadHandler $handler, string $label, string $byline = null) : File
+    {
+        throw new NotImplementedException();
     }
 }
