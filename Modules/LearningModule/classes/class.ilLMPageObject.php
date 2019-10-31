@@ -1,10 +1,15 @@
 <?php
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-define ("IL_CHAPTER_TITLE", "st_title");
-define ("IL_PAGE_TITLE", "pg_title");
-define ("IL_NO_HEADER", "none");
+if (!defined('IL_CHAPTER_TITLE')) {
+	define("IL_CHAPTER_TITLE", "st_title");
+}
+if (!defined('IL_PAGE_TITLE')) {
+	define("IL_PAGE_TITLE", "pg_title");
+}
+if (!defined('IL_NO_HEADER')) {
+	define("IL_NO_HEADER", "none");
+}
 
 /**
 * Class ilLMPageObject
