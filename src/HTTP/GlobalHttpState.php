@@ -5,6 +5,7 @@ namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,7 +30,7 @@ interface GlobalHttpState
      *
      * @return ServerRequestInterface
      */
-    public function request();
+    public function request() : RequestInterface;
 
 
     /**
@@ -37,7 +38,7 @@ interface GlobalHttpState
      *
      * @return ResponseInterface
      */
-    public function response();
+    public function response() : ResponseInterface;
 
 
     /**
@@ -47,7 +48,7 @@ interface GlobalHttpState
      *
      * @return CookieJar
      */
-    public function cookieJar();
+    public function cookieJar() : CookieJar;
 
 
     /**
@@ -59,7 +60,7 @@ interface GlobalHttpState
      *
      * @return void
      */
-    public function saveRequest(ServerRequestInterface $request);
+    public function saveRequest(ServerRequestInterface $request) : void;
 
 
     /**
@@ -69,7 +70,7 @@ interface GlobalHttpState
      *
      * @return void
      */
-    public function saveResponse(ResponseInterface $response);
+    public function saveResponse(ResponseInterface $response) : void;
 
 
     /**
@@ -78,5 +79,5 @@ interface GlobalHttpState
      * @return void
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
-    public function sendResponse();
+    public function sendResponse() : void;
 }

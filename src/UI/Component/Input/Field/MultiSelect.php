@@ -7,10 +7,11 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * This describes a multi-select input.
  */
-interface MultiSelect extends FilterInput {
+interface MultiSelect extends FilterInput
+{
 
-	/**
-	 * Get options as value=>label.
-	 */
-	public function getOptions() :array;
+    /**
+     * Get options as value=>label.
+     */
+    public function getOptions() : array;
 }

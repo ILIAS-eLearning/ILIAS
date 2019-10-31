@@ -25,7 +25,12 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 	 */
 	protected $obj_definition;
 
-	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_access_handler)
+	/**
+	 * @var bool
+	 */
+	protected $admin = false;
+
+	function __construct($a_parent_obj, $a_parent_cmd, $a_node_id, $a_access_handler, $admin = false)
 	{
 		global $DIC;
 
@@ -37,6 +42,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$this->node_id = $a_node_id;
 		$this->setId("tbl_wfld");
 		$this->access_handler = $a_access_handler;
+		$this->admin = $admin;
 
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -103,7 +109,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
 		$item_list_gui->enableRelevance(false);
 		$item_list_gui->enableIcon(true);
 		$item_list_gui->enableTimings(false);
-		// $item_list_gui->enableCheckbox(false);
+		$item_list_gui->enableCheckbox($this->admin);
 		// $item_list_gui->setSeparateCommands(true);
 		
 		$item_list_gui->enableNotes(true);		

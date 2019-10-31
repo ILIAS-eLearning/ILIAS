@@ -292,7 +292,7 @@ class ilSurveySkill
 			}
 		}
 		
-		if(!sizeof($finished_ids))
+		if(!is_array($finished_ids))
 		{
 			$finished_ids = array(-1);
 		}
@@ -392,33 +392,42 @@ class ilSurveySkill
 	}
 
 	/**
-	 * Write appraisee skills
+	 * Write appraisee skills and add them to user's competence records
 	 *
 	 * @param int $user_id
 	 */
-	function writeAppraiseeSkills($a_app_id)
+	function writeAndAddAppraiseeSkills(int $user_id)
 	{
 		// write raters evaluation
-		$new_levels = $this->determineSkillLevelsForAppraisee($a_app_id);
+		$new_levels = $this->determineSkillLevelsForAppraisee($user_id);
 		foreach ($new_levels as $nl)
 		{
 			if ($nl["new_level_id"] > 0)
 			{
 				ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
-					$a_app_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true);
+					$user_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true);
+
+				if ($nl["tref_id"] > 0)
+				{
+					ilPersonalSkill::addPersonalSkill($user_id, $nl["tref_id"]);
+				}
+				else
+				{
+					ilPersonalSkill::addPersonalSkill($user_id, $nl["base_skill_id"]);
+				}
 			}
 		}
 
 		// write self evaluation
-		$this->writeSelfEvalSkills($a_app_id);
+		$this->writeAndAddSelfEvalSkills($user_id);
 	}
 
 	/**
-	 * Write skills on self evaluation
+	 * Write skills on self evaluation and add them to user's competence records
 	 *
 	 * @param int $user_id
 	 */
-	public function writeSelfEvalSkills(int $user_id)
+	public function writeAndAddSelfEvalSkills(int $user_id)
 	{
 		if ($user_id > 0 && in_array($this->survey->getMode(), [ilObjSurvey::MODE_SELF_EVAL, ilObjSurvey::MODE_360]))
 		{
@@ -429,6 +438,15 @@ class ilSurveySkill
 				{
 					ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
 						$user_id, $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED, true, 1);
+
+					if ($nl["tref_id"] > 0)
+					{
+						ilPersonalSkill::addPersonalSkill($user_id, $nl["tref_id"]);
+					}
+					else
+					{
+						ilPersonalSkill::addPersonalSkill($user_id, $nl["base_skill_id"]);
+					}
 				}
 			}
 		}

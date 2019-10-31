@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
@@ -56,6 +57,14 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      * @return BreadCrumbsModification|null
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification;
+
+
+    /**
+     * @param CalledContexts $screen_context_stack
+     *
+     * @return FooterModification|null
+     */
+    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification;
 
 
     /**

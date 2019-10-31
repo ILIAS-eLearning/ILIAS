@@ -44,6 +44,9 @@ class ilServicesDatabaseSuite extends TestSuite
         require_once('./Services/Database/test/Atom/ilDatabaseAtomSuite.php'); // This seems to be needed in UnitTests
         $suite->addTestSuite(new ilDatabaseAtomSuite());
 
+        require_once('./Services/Database/test/Setup/ilDatabaseSetupSuite.php'); // This seems to be needed in UnitTests
+        $suite->addTestSuite(ilDatabaseSetupSuite::suite());
+
         return $suite;
     }
 }

@@ -19,28 +19,25 @@ class ClientSettings implements JsonSerializable
         = [
             ItemState::LEVEL_OF_TOPITEM => [ItemState::LEVEL_OF_TOPITEM],
             ItemState::LEVEL_OF_TOOL    => [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL],
+            ItemState::LEVEL_OF_SUBITEM => [],
         ];
     /**
      * @var bool
      */
     private $hashing = true;
     /**
+     * @var bool
+     */
+    private $logging = false;
+    /**
      * @var array
      */
-    private $store_state_for_levels = [ItemState::LEVEL_OF_TOPITEM, ItemState::LEVEL_OF_TOOL, ItemState::LEVEL_OF_SUBITEM];
-
-
-    /**
-     * @param array $clear_states_for_levels
-     *
-     * @return ClientSettings
-     */
-    public function setClearStatesForlevels(array $clear_states_for_levels) : ClientSettings
-    {
-        $this->clear_states_for_levels = $clear_states_for_levels;
-
-        return $this;
-    }
+    private $store_state_for_levels
+        = [
+            ItemState::LEVEL_OF_TOPITEM,
+            ItemState::LEVEL_OF_TOOL,
+            ItemState::LEVEL_OF_SUBITEM,
+        ];
 
 
     /**
@@ -70,6 +67,19 @@ class ClientSettings implements JsonSerializable
 
 
     /**
+     * @param bool $logging
+     *
+     * @return ClientSettings
+     */
+    public function setLogging(bool $logging) : ClientSettings
+    {
+        $this->logging = $logging;
+
+        return $this;
+    }
+
+
+    /**
      * @inheritDoc
      */
     public function jsonSerialize()
@@ -77,6 +87,7 @@ class ClientSettings implements JsonSerializable
         return [
             'clear_states_for_levels' => $this->clear_states_for_levels,
             'hashing'                 => $this->hashing,
+            'logging'                 => $this->logging,
             'store_state_for_levels'  => $this->store_state_for_levels,
         ];
     }

@@ -10,8 +10,10 @@ namespace ILIAS\Setup;
  */
 interface Environment {
 	// We define some resources that will definitely be requried. We allow for
-	// new identifiers, though, to be open for extensions and the future, though.
+	// new identifiers, though, to be open for extensions and the future.
 	const RESOURCE_DATABASE = "resource_database";
+	const RESOURCE_ADMIN_INTERACTION = "resource_admin_interaction";
+	const RESOURCE_ACHIEVEMENT_TRACKER = "resource_achievement_tracker";
 
 	/**
 	 * Consumers of this method should check if the result is what they expect,
@@ -25,4 +27,17 @@ interface Environment {
 	 * @throw \RuntimeException if this resource is already in the environment.
 	 */
 	public function withResource(string $id, $resource) : Environment;
+
+	 /**
+	  * Stores a config for some component in the environment.
+	  *
+	  * @throw \RuntimeException if this config is already in the environment.
+	  */
+	public function withConfigFor(string $component, $config) : Environment;
+
+	/**
+	 * @throw \RuntimeException if there is no config for the component
+	 * @return mixed 
+	 */
+	public function getConfigFor(string $component);
 }

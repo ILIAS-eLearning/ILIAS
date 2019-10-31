@@ -11,29 +11,31 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  * Class Sub
  * @package ILIAS\UI\Implementation\Component\Sub
  */
-class Sub extends Panel implements C\Panel\Sub {
-	use ComponentHelper;
+class Sub extends Panel implements C\Panel\Sub
+{
+    use ComponentHelper;
 
-	/**
-	 * Card to be displayed on the right of the Sub Panel
-	 * @var C\Card\Card
-	 */
-	private $card = null;
+    /**
+     * Card to be displayed on the right of the Sub Panel
+     * @var C\Card\Card
+     */
+    private $card = null;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withCard(C\Card\Card $card){
-		$clone = clone $this;
-		$clone->card = $card;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withCard(C\Card\Card $card)
+    {
+        $clone = clone $this;
+        $clone->card = $card;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getCard() {
-		return $this->card;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getCard()
+    {
+        return $this->card;
+    }
 }
-?>

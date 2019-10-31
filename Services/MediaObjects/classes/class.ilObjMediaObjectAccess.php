@@ -113,8 +113,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 				// media objects in news (media casts)
 				include_once("./Modules/MediaCast/classes/class.ilObjMediaCastAccess.php");
 				include_once("./Services/News/classes/class.ilNewsItem.php");
-
-				if ($this->checkAccessObject($oid, 'mcst')) {
+				if ($this->checkAccessObject($oid)) {
 					return true;
 				} elseif (ilObjMediaCastAccess::_lookupPublicFiles($oid) && ilNewsItem::_lookupVisibility($usage["id"]) == NEWS_PUBLIC) {
 					return true;

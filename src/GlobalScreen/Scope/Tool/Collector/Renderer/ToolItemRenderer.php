@@ -3,6 +3,7 @@
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\BaseTypeRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
@@ -15,6 +16,9 @@ use ILIAS\UI\Component\Component;
  */
 class ToolItemRenderer extends BaseTypeRenderer
 {
+
+    use SlateSessionStateCode;
+
 
     /**
      * @param Link $item
@@ -29,6 +33,10 @@ class ToolItemRenderer extends BaseTypeRenderer
 
         $symbol = $this->getStandardSymbol($item);
 
-        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
+        $slate = $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getContent());
+
+        $slate = $this->addOnloadCode($slate, $item);
+
+        return $slate;
     }
 }

@@ -733,21 +733,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 								'download'
 							);
 						}
-						else
-						{
-
-							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui"), "", "", true, false);
-							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
-							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-							$main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
-
-							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-							$button = ilSubmitButton::getInstance();
-							$button->setCaption("download_selected_items");
-							$button->addCSSClass("ilbgtasksubmit");
-							$button->setCommand("download");
-							$toolbar->addButtonInstance($button);
-						}
 					}
 				}
 				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
@@ -3382,67 +3367,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		exit;
 	}
 	// begin-patch fm
-
-	/**
-	 * Show tree
-	 */
-	function showRepTree()
-	{
-		$tpl = $this->tpl;
-		$ilUser = $this->user;
-		$ilSetting = $this->settings;
-		$ilCtrl = $this->ctrl;
-		
-		// set current repository view mode
-		if (!empty($_GET["set_mode"]))
-		{
-			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$ilUser->writePref("il_rep_mode", $_GET["set_mode"]);
-			}
-		}
-
-		// get user setting
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
-			}
-		}
-
-		// if nothing set, get default view
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			$_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
-		}
-		
-		$mode = ($_SESSION["il_rep_mode"] != "")
-			? $_SESSION["il_rep_mode"]
-			: "flat";
-
-		$mode = "tree";
-
-		// check for administration context, see #0016312
-		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
-		{
-			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
-			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
-			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
-				$whitelist = array_merge (
-					$exp->getTypeWhiteList(),
-					$this->getAdditionalWhitelistTypes()
-				);
-				$exp->setTypeWhiteList($whitelist);
-			}
-
-			if (!$exp->handleCommand())
-			{
-//				$tpl->setLeftNavContent($exp->getHTML());
-			}
-		}
-	}
 
 	/**
 	 * Init object edit form

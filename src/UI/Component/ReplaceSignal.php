@@ -2,7 +2,6 @@
 
 namespace ILIAS\UI\Component;
 
-
 /**
  * This signal replaces a component by ajax
  *
@@ -11,19 +10,19 @@ namespace ILIAS\UI\Component;
 interface ReplaceSignal extends Signal
 {
 
-	/**
-	 * Get the same signal returning an element from the given url
-	 *
-	 * @param string $url
-	 *
-	 * @return ReplaceSignal
-	 */
-	public function withAsyncRenderUrl($url);
+    /**
+     * Get the same signal returning an element from the given url
+     *
+     * @param string $url
+     *
+     * @return ReplaceSignal
+     */
+    public function withAsyncRenderUrl($url);
 
-	/**
-	 * Get the url called to return the content.
-	 *
-	 * @return string
-	 */
-	public function getAsyncRenderUrl();
+    /**
+     * Get the url called to return the content.
+     *
+     * @return string
+     */
+    public function getAsyncRenderUrl();
 }

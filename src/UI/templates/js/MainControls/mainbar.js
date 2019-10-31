@@ -53,8 +53,11 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			id = component_id;
 			var btn = _getAllButtons()
 				.filter('.' + _cls_btn_engaged);
+			if(btn.length == 0) {
+				 btn = _getAllToolButtons()
+					.filter('.' + _cls_btn_engaged);
+			}
 			_disengageButton(btn);
-
 			if(!il.UI.page.isSmallScreen()) {
 				btn.click();
 			}

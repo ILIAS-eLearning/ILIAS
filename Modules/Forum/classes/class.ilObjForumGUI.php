@@ -137,7 +137,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->sortationOptions = array(
             ilForumProperties::VIEW_TREE => 'sort_by_posts',
-            ilForumProperties::VIEW_DATE => 'order_by_date'
+            ilForumProperties::VIEW_DATE => 'sort_by_date'
         );
 
         $this->defaultSorting = ilForumProperties::VIEW_TREE;
@@ -157,6 +157,21 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             \ilSession::set('frm', $forumValues);
         }
     }
+
+    /**
+     * Toggle explorer node
+     */
+    protected function toggleExplorerNodeStateObject() : void
+    {
+        $exp = new ilForumExplorerGUI(
+            'frm_exp_' . $this->objCurrentTopic->getId(),
+           $this,
+            'viewThread',
+            $this->objCurrentTopic
+        );
+        $exp->toggleExplorerNodeState();
+    }
+    
 
     /**
      * @param array       $subtree_nodes
@@ -2451,7 +2466,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $bottom_toolbar                    = clone $this->toolbar;
         $bottom_toolbar_split_button_items = array();
 
-        $this->tpl->addCss('./Modules/Forum/css/forum_tree.css');
         if (!isset($_SESSION['viewmode'])) {
             $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
         }
@@ -2541,10 +2555,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 }
             } catch (Exception $e) {
             }
-        }
-
-        if ($this->isHierarchicalView()) {
-            $exp = new ilForumExplorerGUI('frm_exp_' . $this->objCurrentTopic->getId(), $this, 'viewThread', $this->objCurrentTopic);
         }
 
         $this->lng->loadLanguageModule('forum');

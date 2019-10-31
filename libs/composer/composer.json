@@ -8,7 +8,7 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-		  "cd ..; cd ..; php setup/cli.php build-artifacts"
+		  "cd .. && cd .. && php setup/cli.php build-artifacts"
 		]
 	},
 	"require": {

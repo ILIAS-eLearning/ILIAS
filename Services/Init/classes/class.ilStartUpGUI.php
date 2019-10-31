@@ -205,18 +205,19 @@ class ilStartUpGUI
 	protected function showLoginPage(ilPropertyFormGUI $form = null)
 	{
 		global $tpl, $ilSetting;
-		
+
+
 		$this->getLogger()->debug('Showing login page');
 
 		$frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
 		$frontend->tryAuthenticationOnLoginPage();
-		
+
 		// Instantiate login template
-		self::initStartUpTemplate("tpl.login.html");
-		
+		$tpl = self::initStartUpTemplate("tpl.login.html");
+
 		$page_editor_html = $this->getLoginPageEditorHTML();
 		$page_editor_html = $this->showOpenIdConnectLoginForm($page_editor_html);
-		$page_editor_html = $this->showLoginInformation($page_editor_html);
+		$page_editor_html = $this->showLoginInformation($page_editor_html, $tpl);
 		$page_editor_html = $this->showLoginForm($page_editor_html, $form);
 		$page_editor_html = $this->showCASLoginForm($page_editor_html);
 		$page_editor_html = $this->showShibbolethLoginForm($page_editor_html);
@@ -226,32 +227,33 @@ class ilStartUpGUI
 
 		$page_editor_html = $this->purgePlaceholders($page_editor_html);
 
-		// not controlled by login page editor
-		$tpl->setVariable("PAGETITLE",  "- ".$this->lng->txt("startpage"));
-		$tpl->setVariable("ILIAS_RELEASE", $ilSetting->get("ilias_version"));
-		
 		// check expired session and send message
 		if($GLOBALS['DIC']['ilAuthSession']->isExpired())
 		{
 			ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
 		}
-		
 
 		if(strlen($page_editor_html))
 		{
 			$tpl->setVariable('LPE',$page_editor_html);
 		}
 
-		$tpl->fillWindowTitle();
-		$tpl->fillCssFiles();
-		$tpl->fillJavaScriptFiles();
-		$tpl->printToStdout("DEFAULT", false);
+		self::printToGlobalTemplate($tpl);
+	}
+
+
+	public static function printToGlobalTemplate($tpl)
+	{
+		global $DIC;
+		$gtpl = $DIC['tpl'];
+		$gtpl->setContent($tpl->get());
+		$gtpl->printToStdout("DEFAULT", false, true);
 	}
 
 	protected function showCodeForm($a_username = null, $a_form = null)
 	{
 		global $tpl, $lng;
-		
+
 		self::initStartUpTemplate("tpl.login_reactivate_code.html");
 
 		ilUtil::sendFailure($lng->txt("time_limit_reached"));
@@ -777,9 +779,9 @@ class ilStartUpGUI
 	 * @param string $page_editor_html
 	 * @return string $page_editor_html
 	 */
-	protected function showLoginInformation($page_editor_html)
+	protected function showLoginInformation($page_editor_html, $tpl)
 	{
-		global $lng,$tpl;
+		global $lng;
 
 		if(strlen($page_editor_html))
 		{
@@ -936,15 +938,6 @@ class ilStartUpGUI
 		{
 			return '';
 		}
-
-		include_once './Services/Authentication/classes/class.ilLoginPage.php';
-		include_once './Services/Authentication/classes/class.ilLoginPageGUI.php';
-
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		$tpl->setVariable("LOCATION_CONTENT_STYLESHEET",ilObjStyleSheet::getContentStylePath(0));
-		$tpl->setCurrentBlock("SyntaxStyle");
-		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",ilObjStyleSheet::getSyntaxStylePath());
-		$tpl->parseCurrentBlock();
 
 		// get page object
 		$page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
@@ -1303,8 +1296,6 @@ class ilStartUpGUI
 	{
 		global $DIC;
 
-
-		$tpl = $DIC->ui()->mainTemplate();
 		$ilSetting = $DIC->settings();
 		$lng = $DIC->language();
 		$ilIliasIniFile = $DIC['ilIliasIniFile'];
@@ -1339,8 +1330,8 @@ class ilStartUpGUI
 		}
 
 		//instantiate logout template
-		self::initStartUpTemplate("tpl.logout.html");
-		
+		$tpl = self::initStartUpTemplate("tpl.logout.html");
+
 		if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']))
 		{
 			$tpl->setCurrentBlock("homelink");
@@ -1365,7 +1356,74 @@ class ilStartUpGUI
 		$tpl->setVariable("TXT_LOGIN", $lng->txt("login_to_ilias"));
 		$tpl->setVariable("CLIENT_ID","?client_id=".$client_id."&lang=".$lng->getLangKey());
 
-		$tpl->printToStdout();
+		self::printToGlobalTemplate($tpl);
+	}
+
+	/**
+	* Show user selection screen, if external account could not be mapped
+	* to an ILIAS account, but the provided e-mail address is known.
+	*/
+	function showUserMappingSelection()
+	{
+		global $ilAuth, $tpl, $lng;
+
+		$valid = $ilAuth->getValidationData();
+
+		$tpl = self::initStartUpTemplate("tpl.user_mapping_selection.html");
+		$email_user = ilObjUser::_getLocalAccountsForEmail($valid["email"]);
+
+
+		if ($ilAuth->getSubStatus() == AUTH_WRONG_LOGIN)
+		{
+			ilUtil::sendFailure($lng->txt("err_wrong_login"));
+		}
+
+		include_once('./Services/User/classes/class.ilObjUser.php');
+		if (count($email_user) == 1)
+		{
+			//$user = new ilObjUser(key($email_user));
+			$tpl->setCurrentBlock("one_user");
+			$tpl->setVariable("TXT_USERNAME", $lng->txt("username"));
+			$tpl->setVariable("VAL_USERNAME", current($email_user));
+			$tpl->setVariable("USER_ID", key($email_user));
+			$tpl->parseCurrentBlock();
+		}
+		else
+		{
+			foreach($email_user as $key => $login)
+			{
+				$tpl->setCurrentBlock("user");
+				$tpl->setVariable("USR_ID", $key);
+				$tpl->setVariable("VAL_USER", $login);
+				$tpl->parseCurrentBlock();
+			}
+			$tpl->setCurrentBlock("multpiple_user");
+			$tpl->parseCurrentBlock();
+		}
+
+		$tpl->setCurrentBlock("content");
+		$this->ctrl->setParameter($this, "ext_uid", urlencode($_GET["ext_uid"]));
+		$this->ctrl->setParameter($this, "soap_pw", urlencode($_GET["soap_pw"]));
+		$this->ctrl->setParameter($this, "auth_stat", $_GET["auth_stat"]);
+		$tpl->setVariable("FORMACTION",
+			$this->ctrl->getFormAction($this));
+		$tpl->setVariable("TXT_ILIAS_LOGIN", $lng->txt("login_to_ilias"));
+		if (count($email_user) == 1)
+		{
+			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation"));
+			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_2"));
+		}
+		else
+		{
+			$tpl->setVariable("TXT_EXPLANATION", $lng->txt("ums_explanation_3"));
+			$tpl->setVariable("TXT_EXPLANATION_2", $lng->txt("ums_explanation_4"));
+		}
+		$tpl->setVariable("TXT_CREATE_USER", $lng->txt("ums_create_new_account"));
+		$tpl->setVariable("TXT_PASSWORD", $lng->txt("password"));
+		$tpl->setVariable("PASSWORD", ilUtil::prepareFormOutput($_POST["password"]));
+		$tpl->setVariable("TXT_SUBMIT", $lng->txt("login"));
+
+		self::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -1527,8 +1585,7 @@ class ilStartUpGUI
 			$this->user->setId(ANONYMOUS_USER_ID);
 		}
 
-		self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
-		$this->mainTemplate->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('usr_agreement'));
+		$tpl = self::initStartUpTemplate('tpl.view_terms_of_service.html', $back_to_login, !$back_to_login);
 
 		$handleDocument = \ilTermsOfServiceHelper::isEnabled() && $this->termsOfServiceEvaluation->hasDocument();
 		if ($handleDocument) {
@@ -1548,16 +1605,16 @@ class ilStartUpGUI
 					}
 				}
 
-				$this->mainTemplate->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
-				$this->mainTemplate->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
-				$this->mainTemplate->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
-				$this->mainTemplate->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
+				$tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, $this->ctrl->getCmd()));
+				$tpl->setVariable('ACCEPT_CHECKBOX', ilUtil::formCheckbox(0, 'status', 'accepted'));
+				$tpl->setVariable('ACCEPT_TERMS_OF_SERVICE', $this->lng->txt('accept_usr_agreement'));
+				$tpl->setVariable('TXT_SUBMIT', $this->lng->txt('submit'));
 			}
 
-			$this->mainTemplate->setPermanentLink('usr', null, 'agreement');
-			$this->mainTemplate->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
+			$tpl->setPermanentLink('usr', null, 'agreement');
+			$tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
 		} else {
-			$this->mainTemplate->setVariable(
+			$tpl->setVariable(
 				'TERMS_OF_SERVICE_CONTENT',
 				sprintf(
 					$this->lng->txt('no_agreement_description'),
@@ -1566,7 +1623,7 @@ class ilStartUpGUI
 			);
 		}
 
-		$this->mainTemplate->printToStdout();
+		self::printToGlobalTemplate($tpl);
 	}
 
 	/**
@@ -1893,25 +1950,16 @@ class ilStartUpGUI
 		 * @var $ilSetting ilSetting
 		 * @var $ilAccess  ilAccessHandler
 		 */
-		global $tpl, $lng, $ilCtrl, $ilSetting, $ilAccess;
+		global $lng, $ilAccess;
+		$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
 
-		// #13574 - basic.js is included with ilTemplate, so jQuery is needed, too
-		include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-		iljQueryUtil::initjQuery();
-
-		// framework is needed for language selection
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
-		ilUIFramework::init();
-		
 		$tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
-		$tpl->setVariable('HEADER_ICON', ilUtil::getImagePath('HeaderIcon.svg'));
-		$tpl->setVariable("HEADER_ICON_RESPONSIVE", ilUtil::getImagePath("HeaderIconResponsive.svg"));
 
 		if($a_show_back)
 		{
 			// #13400
 			$param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
-			
+
 			$tpl->setCurrentBlock('link_item_bl');
 			$tpl->setVariable('LINK_TXT', $lng->txt('login_to_ilias'));
 			$tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&'.$param);
@@ -1945,37 +1993,8 @@ class ilStartUpGUI
 			$template_dir  = 'Services/Init';
 		}
 
-		//Header Title
-		include_once("./Modules/SystemFolder/classes/class.ilObjSystemFolder.php");
-		$header_top_title = ilObjSystemFolder::_getHeaderTitle();
-		if (trim($header_top_title) != "" && $tpl->blockExists("header_top_title"))
-		{
-			$tpl->setCurrentBlock("header_top_title");
-			$tpl->setVariable("TXT_HEADER_TITLE", $header_top_title);
-			$tpl->parseCurrentBlock();
-		}
-
-		// language selection
-		$selection = self::getLanguageSelection();
-		if($selection)
-		{
-			$tpl->setCurrentBlock("lang_select");
-			$tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-			$tpl->setVariable("LANG_SELECT", $selection);
-			$tpl->parseCurrentBlock();
-		}
-
 		$tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
-	}
-
-	/**
-	 * language selection list
-	 * @return string ilGroupedList
-	 */
-	protected static function getLanguageSelection()
-	{
-		include_once("./Services/MainMenu/classes/class.ilMainMenuGUI.php");
-		return ilMainMenuGUI::getLanguageSelection(true);
+		return $tpl;
 	}
 
 	/**

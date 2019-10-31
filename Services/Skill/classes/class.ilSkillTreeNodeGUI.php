@@ -419,6 +419,7 @@ class ilSkillTreeNodeGUI
 		$values = array();
 		
 		$values["title"] = $this->node_object->getTitle();
+		$values["description"] = $this->node_object->getDescription();
 		$values["order_nr"] = $this->node_object->getOrderNr();
 		$values["self_eval"] = $this->node_object->getSelfEvaluation();
 		$values["status"] = $this->node_object->getStatus();
@@ -524,6 +525,11 @@ class ilSkillTreeNodeGUI
 		$ti->setSize(50);
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$ta->setRows(5);
+		$this->form->addItem($ta);
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");

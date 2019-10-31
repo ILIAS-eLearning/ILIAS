@@ -309,7 +309,7 @@ class ilBlogGlobalTemplate implements ilGlobalTemplateInterface
 	private function initHelp()
 	{
 		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initHelp($this);
+		//ilHelpGUI::initHelp($this);
 	}
 
 
