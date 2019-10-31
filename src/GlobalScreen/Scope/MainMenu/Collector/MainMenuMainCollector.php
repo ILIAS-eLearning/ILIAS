@@ -80,6 +80,24 @@ class MainMenuMainCollector implements Collector
     }
 
 
+    public function collectStructure() : void
+    {
+        // TODO: Implement collectStructure() method.
+    }
+
+
+    public function filterItemsByVisibilty() : void
+    {
+        // TODO: Implement filterItemsByVisibilty() method.
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        // TODO: Implement prepareItemsForUIRepresentation() method.
+    }
+
+
     /**
      * @return isItem[]
      */
@@ -107,7 +125,7 @@ class MainMenuMainCollector implements Collector
      * @return isTopItem[]
      * @throws \Throwable
      */
-    public function getItems() : array
+    public function getItemsForUITranslation() : array
     {
         return $this->getStackedTopItems();
     }

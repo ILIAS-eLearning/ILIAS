@@ -71,7 +71,7 @@ class StandardPagePartProvider implements PagePartProvider
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
-        foreach ($this->gs->collector()->metaBar()->getItems() as $item) {
+        foreach ($this->gs->collector()->metaBar()->getItemsForUITranslation() as $item) {
 
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -96,7 +96,7 @@ class StandardPagePartProvider implements PagePartProvider
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
-        foreach ($this->gs->collector()->mainmenu()->getItems() as $item) {
+        foreach ($this->gs->collector()->mainmenu()->getItemsForUITranslation() as $item) {
             /**
              * @var $component Combined
              */
@@ -123,7 +123,7 @@ class StandardPagePartProvider implements PagePartProvider
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
-            foreach ($this->gs->collector()->tool()->getItems() as $tool) {
+            foreach ($this->gs->collector()->tool()->getItemsForUITranslation() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);

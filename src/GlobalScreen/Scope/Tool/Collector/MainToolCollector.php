@@ -57,19 +57,31 @@ class MainToolCollector implements Collector
     }
 
 
-    public function collect() : void
+    public function collectStructure() : void
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
+        $tools_to_merge = [];
+
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
             if ($context_collection->hasMatch($called_contexts)) {
-                $this->tools = array_merge($this->tools, $provider->getToolsForContextStack($called_contexts));
+                $tools_to_merge[] = $provider->getToolsForContextStack($called_contexts);
             }
         }
+        $this->tools = array_merge([], ...$tools_to_merge);
+    }
 
+
+    public function filterItemsByVisibilty() : void
+    {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
         array_walk($this->tools, function (Tool $tool) {
             $this->applyTypeInformation($tool);
         });
@@ -78,10 +90,18 @@ class MainToolCollector implements Collector
     }
 
 
+    public function collect() : void
+    {
+        $this->collectStructure();
+        $this->filterItemsByVisibilty();
+        $this->prepareItemsForUIRepresentation();
+    }
+
+
     /**
      * @return Tool[]
      */
-    public function getItems() : array
+    public function getItemsForUITranslation() : array
     {
         return $this->tools;
     }

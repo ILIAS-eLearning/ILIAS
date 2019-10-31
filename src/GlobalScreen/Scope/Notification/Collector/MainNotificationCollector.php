@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Collector;
 
+use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -9,7 +11,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainNotificationCollector
+class MainNotificationCollector implements Collector
 {
 
     /**
@@ -30,7 +32,6 @@ class MainNotificationCollector
     public function __construct(array $providers)
     {
         $this->providers = $providers;
-        $this->load();
     }
 
 
@@ -42,19 +43,47 @@ class MainNotificationCollector
     }
 
 
-    private function load() : void
+    public function collect() : void
     {
         $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
     }
 
 
+    public function collectStructure() : void
+    {
+        // TODO: Implement collectStructure() method.
+    }
+
+
+    public function filterItemsByVisibilty() : void
+    {
+        // TODO: Implement filterItemsByVisibilty() method.
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        // TODO: Implement prepareItemsForUIRepresentation() method.
+    }
+
+
     /**
-     * @return bool
+     * @inheritDoc
      */
-    public function hasNotifications() : bool
+    public function getItemsForUITranslation() : array
+    {
+        // TODO: Implement getItemsForUITranslation() method.
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
     {
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
+
 
 
     /**

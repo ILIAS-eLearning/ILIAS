@@ -41,23 +41,39 @@ class MetaBarMainCollector implements Collector
      */
     public function collect() : void
     {
-        $items = [];
+        $this->collectStructure();
+        $this->filterItemsByVisibilty();
+        $this->prepareItemsForUIRepresentation();
+    }
+
+
+    public function collectStructure() : void
+    {
+        $items_to_merge = [];
         foreach ($this->providers as $provider) {
-            $items = array_merge($items, $provider->getMetaBarItems());
+            $items_to_merge[] = $provider->getMetaBarItems();
         }
+        $this->items = array_merge([], ...$items_to_merge);
+    }
 
-        $this->sortItems($items);
 
-        array_walk($items, $this->getChildSorter());
+    public function filterItemsByVisibilty() : void
+    {
+        $this->items = array_filter($this->items, $this->getVisibleFilter());
+    }
 
-        $this->items = array_filter($items, $this->getVisibleFilter());
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        $this->sortItems($this->items);
+        array_walk($this->items, $this->getChildSorter());
     }
 
 
     /**
      * @return isItem[]
      */
-    public function getItems() : array
+    public function getItemsForUITranslation() : array
     {
         return $this->items;
     }

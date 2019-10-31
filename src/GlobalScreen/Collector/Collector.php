@@ -10,8 +10,19 @@ namespace ILIAS\GlobalScreen\Collector;
 interface Collector
 {
 
+    public function collectStructure() : void;
+
+
+    public function filterItemsByVisibilty() : void;
+
+
+    public function prepareItemsForUIRepresentation() : void;
+
+
     /**
      * Runs the Collection of all items from the providers
+     *
+     * @deprecated
      */
     public function collect() : void;
 
@@ -19,7 +30,7 @@ interface Collector
     /**
      * @return array
      */
-    public function getItems() : array;
+    public function getItemsForUITranslation() : array;
 
 
     /**

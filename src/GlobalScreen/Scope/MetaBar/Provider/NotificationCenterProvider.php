@@ -33,8 +33,11 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 })
                 ->withVisibilityCallable(
                     function () {
-                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasNotifications();
+                        return true;
                     }
+                // function () {
+                //     return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasNotifications();
+                // }
                 ),
         ];
     }
