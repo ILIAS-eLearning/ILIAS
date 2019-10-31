@@ -4,7 +4,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel;
 
-use http\Exception\InvalidArgumentException;
+use InvalidArgumentException;
 
 /**
  * Class ContentEditingMode
@@ -48,6 +48,22 @@ class ContentEditingMode
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function isRteTextarea() : bool
+    {
+        return $this->mode == ContentEditingMode::RTE_TEXTAREA;
+    }
+    
+    
+    /**
+     * @return bool
+     */
+    public function isPageObject() : bool
+    {
+        return $this->mode == ContentEditingMode::PAGE_OBJECT;
+    }
 
     /**
      * @return string

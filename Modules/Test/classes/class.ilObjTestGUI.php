@@ -18,7 +18,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  */
 ///////////////////
 ///////////////////
-require_once 'Modules/Test/classes/class.asqDebugGUI.php';
+require_once './Services/AssessmentQuestion/examples/class.exAsqExamplesGUI.php';
 //////////////////
 
 /**
@@ -213,13 +213,13 @@ class ilObjTestGUI extends ilObjectGUI
         $question_config->setFeedbackOnSubmit(true);
         $question_config->setFeedbackForAnswerOption(true);
 
-        $asqAuthoringGUI = $asqQuestionService->getAuthoringGUI(
+        $exAsqAuthoringGUI = $asqQuestionService->getAuthoringGUI(
             $backLink, $this->object->getRefId(), $this->object->getType(),$question_config,
             $DIC->access()->checkAccess('write', '', $this->object->getRefId()),
             [self::class], self::CMD_REGISTER_CREATED_QUESTION
         );
 
-        $DIC->ctrl()->forwardCommand($asqAuthoringGUI);
+        $DIC->ctrl()->forwardCommand($exAsqAuthoringGUI);
     }
 
     /**
@@ -321,7 +321,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 		
 		$this->determineObjectiveOrientedContainer();
-		
+
 		switch($next_class)
 		{
             /**
@@ -329,11 +329,11 @@ class ilObjTestGUI extends ilObjectGUI
              */
             ///////////////////
             ///////////////////
-            case "asqdebuggui":
+            case strtolower(exAsqExamplesGUI::class):
                 $this->prepareOutput();
                 $this->addHeaderAction();
                 $DIC->tabs()->activateTab('assQuestions');
-                $gui = new asqDebugGUI();
+                $gui = new exAsqExamplesGUI();
                 $DIC->ctrl()->forwardCommand($gui);
             break;
             ///////////////////

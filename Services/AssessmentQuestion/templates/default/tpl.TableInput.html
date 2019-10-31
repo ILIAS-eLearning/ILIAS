@@ -1,18 +1,15 @@
-<div id="answer_form" class="form-inline" id="{ELEMENT_ID}" <!-- BEGIN hide -->style="display: none;"<!-- END hide -->>
+<div class="form-inline" id="{ELEMENT_ID}" <!-- BEGIN hide -->style="display: none;"<!-- END hide -->>
 	<table class="aot_table table table-condensed table-striped">
 		<thead>
 			<tr>
 				<!-- BEGIN header_entry -->
 					<th>{HEADER_TEXT}</th>
 				<!-- END header_entry -->
+				<!-- BEGIN command_header -->
 				<th>
-					<!-- BEGIN commands -->{COMMANDS_TEXT}<!-- END commands -->
-					<!-- BEGIN add -->
-					<button type="button" class="js_add btn btn-link">
-						<span class="glyphicon glyphicon-plus"></span>
-					</button>
-					<!-- END add -->
+					{COMMANDS_TEXT}
 				</th>
+				<!-- END command_header -->
 			</tr>
 		</thead>
 		<tbody>
@@ -23,7 +20,13 @@
 					{ENTRY}
 				</td>
 				<!-- END body_entry -->
+				<!-- BEGIN command_row -->
 				<td class="ilValignTop">
+					<!-- BEGIN add -->
+					<button type="button" class="js_add btn btn-link">
+						<span class="glyphicon glyphicon-plus"></span>
+					</button>
+					<!-- END add -->
 					<!-- BEGIN remove -->
 					<button type="button" class="js_remove btn btn-link">
 						<span class="glyphicon glyphicon-minus"></span>
@@ -38,6 +41,7 @@
 					</button>
 					<!-- END move -->
 				</td>
+				<!--  END command_row -->
 			</tr>
 		<!-- END row -->
 		</tbody>

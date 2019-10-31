@@ -6,7 +6,7 @@ use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -59,23 +59,23 @@ class ImageAndTextDisplayDefinition extends AnswerDefinition {
 	        method_exists($play->getEditorConfiguration(), 'isSingleLine') &&
 	        !$play->getEditorConfiguration()->isSingleLine()) 
 	    {
-	        $fields[] = new AnswerOptionFormFieldDefinition(
+	        $fields[] = new AsqTableInputFieldDefinition(
 	            $DIC->language()->txt('asq_label_answer_text'),
-	            AnswerOptionFormFieldDefinition::TYPE_TEXT_AREA,
+	            AsqTableInputFieldDefinition::TYPE_TEXT_AREA,
 	            self::VAR_MCDD_TEXT
 	            );
 	    }
 	    else 
 	    {
-	        $fields[] = new AnswerOptionFormFieldDefinition(
+	        $fields[] = new AsqTableInputFieldDefinition(
 	            $DIC->language()->txt('asq_label_answer_text'),
-	            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+	            AsqTableInputFieldDefinition::TYPE_TEXT,
 	            self::VAR_MCDD_TEXT
 	            );
 	        
-	        $fields[] = new AnswerOptionFormFieldDefinition(
+	        $fields[] = new AsqTableInputFieldDefinition(
 	            $DIC->language()->txt('asq_label_answer_image'),
-	            AnswerOptionFormFieldDefinition::TYPE_IMAGE,
+	            AsqTableInputFieldDefinition::TYPE_IMAGE,
 	            self::VAR_MCDD_IMAGE
 	            );
 	    }

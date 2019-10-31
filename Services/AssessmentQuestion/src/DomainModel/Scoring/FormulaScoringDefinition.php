@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -131,38 +131,38 @@ class FormulaScoringDefinition extends AnswerDefinition {
         
         $fields = [];
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_type'),
-            AnswerOptionFormFieldDefinition::TYPE_RADIO,
+            AsqTableInputFieldDefinition::TYPE_RADIO,
             self::VAR_TYPE,
             [
                 'VAR' => self::TYPE_VARIABLE,
                 'RESULT' => self::TYPE_RESULT
             ]);
  
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_unit'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_UNIT);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_min'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_MIN);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_max'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_MAX);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_multiple_of'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_MULTIPLE_OF);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_points'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_POINTS);
         
         return $fields;

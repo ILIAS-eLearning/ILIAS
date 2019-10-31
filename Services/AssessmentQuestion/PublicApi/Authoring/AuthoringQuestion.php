@@ -221,7 +221,7 @@ class AuthoringQuestion
         return $DIC->ui()->factory()->link()->standard(
             $DIC->language()->txt('asq_authoring_tab_feedback'),
             $DIC->ctrl()->getLinkTargetByClass([
-                ilAsqQuestionAuthoringGUI::class, \AsqQuestionFeedbackEditorGUI::class
+                ilAsqQuestionAuthoringGUI::class, \ilAsqQuestionFeedbackEditorGUI::class
             ])
         );
     }
@@ -305,5 +305,9 @@ class AuthoringQuestion
     public function changeQuestionContainer(int $container_obj_id) : void
     {
         // TODO: Implement changeQuestionContainer() method.
+    }
+
+    public function importQtiQuestion(string $qti_item_xml) {
+        $this->authoring_application_service->importQtiQuestion($qti_item_xml);
     }
 }

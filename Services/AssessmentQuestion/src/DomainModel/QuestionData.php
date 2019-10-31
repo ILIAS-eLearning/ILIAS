@@ -108,6 +108,13 @@ class QuestionData extends AbstractValueObject {
 	public function getWorkingTime(): int {
 		return $this->working_time;
 	}
+	
+	public function isComplete() : bool {
+	    return !empty($this->title) &&
+	           !empty($this->working_time) &&
+	           !empty($this->author) &&
+	           !empty($this->question_text);
+	}
 
     /**
      * @param AbstractValueObject $other

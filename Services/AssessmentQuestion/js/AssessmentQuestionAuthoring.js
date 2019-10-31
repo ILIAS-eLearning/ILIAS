@@ -1,22 +1,23 @@
 // Generic Authoring
-let usingTiny = false;
+let tinyId = '';
 
 let add_row = function() {
-	usingTiny = false;
-    let row = $(this).parents(".aot_table").find(".aot_row").eq(0);
+	tinyId = '';
+    let row = $(this).parents(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
 
     let new_row = row.clone();
 
     new_row = clear_row(new_row);
-    new_count = table.children().length + 1;
-    process_row(new_row, new_count);
-    table.append(new_row);
-    $(".js_count").val(new_count);
+    row.after(new_row);
+    $(this).parents(".aot_table").siblings(".js_count").val(new_count);
+    set_input_ids(table);
     
-    if (usingTiny) {
-    	tinymce.init(tinymce.get()[0].settings);
+    if (tinyId !== '') {
+    	tinymce.EditorManager.execCommand('mceAddEditor', true, update_input_name(tinyId, new_count));
     }
+    
+    return false;
 };
 
 let remove_row = function() {
@@ -33,27 +34,32 @@ let remove_row = function() {
 
 let clear_row = function(row) {
     row.find('input[type!="Button"], textarea').each(function() {
-    	$input = $(this);
+    	let input = $(this);
     	
-    	if ($input.attr('type') === 'radio' ||
-    		$input.attr('type') === 'checkbox') {
-    		$input.attr('checked', false);
+    	if (input.attr('type') === 'radio' ||
+    		input.attr('type') === 'checkbox') {
+    		input.attr('checked', false);
     	}
-    	else if ($input.attr('type') === 'hidden') {
+    	else if (input.attr('type') === 'hidden') {
     		//dont clear hidden fields
     	}
     	else {
-    		$input.val('');
+    		input.val('');
     	}
         
-        if ($input.siblings('.mceEditor').length > 0) {
-        	$input.siblings('.mceEditor').remove();
-        	$input.show();
-        	usingTiny = true;
+        if (input.siblings('.mceEditor').length > 0) {
+        	input.siblings('.mceEditor').remove();
+        	input.show();
+        	tinyId = input.attr('id');
         }
     });
 
-    row.find('span').html('');
+    row.find('span').each(function() {
+    	let span = $(this);
+    	if (span.children().length === 0) {
+    		span.html('');
+    	}
+    });
     
     return row;
 };
@@ -475,7 +481,7 @@ let display_errors = function(errors, text) {
 }
 
 let prepare_table = function(length) {
-	$('.aot_table').show();
+	$('#answer_form').show();
 	let table = $('.aot_table tbody');
 	let row = table.children().eq(0);
 	

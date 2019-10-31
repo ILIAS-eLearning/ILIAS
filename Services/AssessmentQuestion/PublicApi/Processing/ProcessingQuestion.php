@@ -50,32 +50,31 @@ class ProcessingQuestion
      * @param QuestionConfig $question_config
      *
      */
-    public function __construct(string $question_revision_key, int $container_obj_id, int $actor_user_id, QuestionConfig $question_config, string $lng_key)
+    public function __construct(string $question_revision_key, int $container_obj_id, int $actor_user_id, string $lng_key)
     {
         $this->question_revision_key = $question_revision_key;
 
-        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $question_config, $lng_key);
+        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $lng_key);
     }
 
 
     /**
-     * @param string $choose_new_question_cmd
      *
      * @return ilAsqQuestionProcessingGUI
      */
-    public function getProcessingQuestionGUI($choose_new_question_cmd) : ilAsqQuestionProcessingGUI
+    public function getProcessingQuestionGUI(QuestionConfig $question_config) : ilAsqQuestionProcessingGUI
     {
-        return $this->processing_application_service->getProcessingQuestionGUI($choose_new_question_cmd, $this->question_revision_key);
+        return $this->processing_application_service->getProcessingQuestionGUI($this->question_revision_key, $question_config);
     }
 
     /**
      * @return ilAsqQuestionPageGUI
      */
-    public function getQuestionPresentation(?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
+    public function getQuestionPresentation(QuestionConfig $question_config, ?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
     {
         $question_dto = $this->getQuestionDto();
 
-        return $this->processing_application_service->getQuestionPresentation($question_dto, $question_commands);
+        return $this->processing_application_service->getQuestionPresentation($question_dto, $question_config, $question_commands);
     }
 
 

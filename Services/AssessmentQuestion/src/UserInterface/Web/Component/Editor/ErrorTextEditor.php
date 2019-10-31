@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilButton;
@@ -125,7 +126,6 @@ class ErrorTextEditor extends AbstractEditor {
         
         
         $text_size = new ilNumberInputGUI($DIC->language()->txt('asq_label_text_size'), self::VAR_TEXT_SIZE);
-        $text_size->setRequired(true);
         $text_size->setSize(6);
         $text_size->setSuffix('%');
         $fields[self::VAR_TEXT_SIZE] = $text_size;
@@ -155,5 +155,10 @@ class ErrorTextEditor extends AbstractEditor {
      */
     static function getDisplayDefinitionClass() : string {
         return EmptyDisplayDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

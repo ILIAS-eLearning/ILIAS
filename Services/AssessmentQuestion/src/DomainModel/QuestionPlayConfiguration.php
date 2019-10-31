@@ -119,10 +119,22 @@ class QuestionPlayConfiguration extends AbstractValueObject {
     }
     
     public function hasAnswerOptions(): bool {
+        if (is_null($this->getScoringConfiguration()) || is_null($this->getEditorConfiguration())) {
+            return false;    
+        }
+        
         $sd_class = QuestionPlayConfiguration::getScoringClass($this)::getScoringDefinitionClass();
         $dd_class = QuestionPlayConfiguration::getEditorClass($this)::getDisplayDefinitionClass();
         
         
         return (count($dd_class::getFields($this)) + count($sd_class::getFields($this))) > 0;
+    }
+    
+    /**
+     * @param Question $question
+     */
+    public static function isComplete(Question $question) : bool{
+        return QuestionPlayConfiguration::getScoringClass($question->getPlayConfiguration())::isComplete($question) &&
+               QuestionPlayConfiguration::getEditorClass($question->getPlayConfiguration())::isComplete($question);
     }
 }

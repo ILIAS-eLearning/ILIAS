@@ -7,7 +7,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
 
 /**
- * Class ilAsqQuestionPageEditorGUI
+ * Class ilAsqQuestionPageGUI
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -138,23 +138,20 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     {
         return $this->getRenderPageContainer();
     }
-/*
+
     public function showPage()
     {
-        $this->setOriginalPresentationTitle($this->getPresentationTitle());
-        $this->setPresentationTitle(self::TEMP_PRESENTATION_TITLE_PLACEHOLDER);
-*/
         /**
          * enable page toc as placeholder for info and actions block
          * @see self::insertPageToc
          */
-        /*
+
         $config = $this->getPageConfig();
         $config->setEnablePageToc('y');
         $this->setPageConfig($config);
 
         return parent::showPage();
-    }*/
+    }
 
     function postOutputProcessing($output)
     {

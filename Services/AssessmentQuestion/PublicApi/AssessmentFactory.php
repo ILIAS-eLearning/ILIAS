@@ -52,9 +52,9 @@ class AssessmentFactory
      *
      * @return ProcessingService
      */
-    public function questionProcessing(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config)
+    public function questionProcessing(int $container_obj_id, int $actor_user_id)
     {
-        return new ProcessingService($container_obj_id,$actor_user_id,$question_config);
+        return new ProcessingService($container_obj_id,$actor_user_id);
     }
 
 

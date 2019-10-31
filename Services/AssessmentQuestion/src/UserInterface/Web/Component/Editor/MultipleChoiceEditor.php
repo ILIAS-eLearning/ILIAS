@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilSelectInputGUI;
 use JsonSerializable;
@@ -205,6 +206,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 			$singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
 		}
 		else {
+		    $shuffle->setChecked(true);
 		    $max_answers->setValue(1);
 		}
 
@@ -245,5 +247,10 @@ class MultipleChoiceEditor extends AbstractEditor {
 	 */
 	static function getDisplayDefinitionClass() : string {
 	    return ImageAndTextDisplayDefinition::class;
+	}
+	
+	public static function isComplete(Question $question): bool
+	{
+	    return false;
 	}
 }

@@ -2,7 +2,6 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
 use JsonSerializable;
 use stdClass;
 
@@ -35,35 +34,15 @@ class AnswerOption implements JsonSerializable {
 	 * @var ?AnswerDefinition
 	 */
 	private $scoring_definition;
-    /**
-     * @var ?AnswerOptionFeedback
-     */
-    private $answer_option_feedback;
 
 	public function __construct(int $id, 
 	                            ?AnswerDefinition $display_definition = null, 
-	                            ?AnswerDefinition $scoring_definition = null,
-                                ?AnswerOptionFeedback $answer_option_feedback = null)
+	                            ?AnswerDefinition $scoring_definition = null)
 	{
 		$this->option_id = $id;
 		$this->display_definition = $display_definition;
 		$this->scoring_definition = $scoring_definition;
-		$this->answer_option_feedback = $answer_option_feedback;
 	}
-
-
-    /**
-     * @param AnswerOption         $answer_option
-     * @param AnswerOptionFeedback $answer_option_feedback
-     *
-     * @return AnswerOption
-     */
-    public static function createWithNewAnswerOptionFeedback(AnswerOption $answer_option, AnswerOptionFeedback $answer_option_feedback) {
-        /** @var AnswerOption $answer_option */
-        $answer_option = new AnswerOption($answer_option->getOptionId(),$answer_option->getDisplayDefinition(), $answer_option->getScoringDefinition(),$answer_option_feedback);
-        return $answer_option;
-    }
-
 
 	/**
 	 * @return string
@@ -89,35 +68,19 @@ class AnswerOption implements JsonSerializable {
 		return $this->scoring_definition;
 	}
 
-
-    /**
-     * @return AnswerOptionFeedback
-     */
-    public function getAnswerOptionFeedback():?AnswerOptionFeedback
-    {
-        return $this->answer_option_feedback;
-    }
-
-
-
-
 	/**
 	 * @return array
 	 */
 	public function rawValues() : array {
 		$dd_fields = $this->display_definition !== null ? $this->display_definition->getValues() : [];
 		$sd_fields = $this->scoring_definition !== null ? $this->scoring_definition->getValues() : [];
-        $fd_fields = $this->answer_option_feedback !== null ? $this->answer_option_feedback->getValues() : [];
 
-		return array_merge($dd_fields, $sd_fields, $fd_fields);
+		return array_merge($dd_fields, $sd_fields);
 	}
 
 	public function equals(AnswerOption $other) : bool {
 	    if (get_class($this->display_definition) !== get_class($other->display_definition) ||
-	        get_class($this->scoring_definition) !== get_class($other->scoring_definition) ||
-            (is_object($this->answer_option_feedback && (is_object($other->answer_option_feedback) && get_class($this->answer_option_feedback) !== get_class($other->answer_option_feedback)))) ||
-            (is_object($this->answer_option_feedback) && !is_object($other->answer_option_feedback))  ||
-            (!is_object($this->answer_option_feedback) && is_object($other->answer_option_feedback)))
+	        get_class($this->scoring_definition) !== get_class($other->scoring_definition))
 	    {
 	       return false;        
 	    }
@@ -148,7 +111,6 @@ class AnswerOption implements JsonSerializable {
 		$vars = get_object_vars($this);
 		$vars[self::DISPLAY_DEF_CLASS] = get_class($this->display_definition);
 		$vars[self::SCORING_DEF_CLASS] = get_class($this->scoring_definition);
-        $vars[self::ANSWER_OPTION_FEEDBACK_CLASS] = get_class($this->answer_option_feedback);
 		return $vars;
 	}
 
@@ -159,8 +121,5 @@ class AnswerOption implements JsonSerializable {
 
 		$sd_class = $option->{self::SCORING_DEF_CLASS};
 		$this->scoring_definition = call_user_func(array($sd_class, 'deserialize'), $option->scoring_definition);
-
-        $fd_class = $option->{self::ANSWER_OPTION_FEEDBACK_CLASS};
-        $this->answer_option_feedback = call_user_func(array($fd_class, 'deserialize'), $option->answer_option_feedback);
 	}
 }

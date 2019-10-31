@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 
 /**
  * Class ImageMapEditorDisplayDefinition
@@ -76,15 +76,15 @@ class ImageMapEditorDisplayDefinition extends AnswerDefinition {
         
         $fields = [];
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_tooltip'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_TOOLTIP
             );
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_type'),
-            AnswerOptionFormFieldDefinition::TYPE_DROPDOWN,
+            AsqTableInputFieldDefinition::TYPE_DROPDOWN,
             self::VAR_TYPE,
             [
                 self::TYPE_RECTANGLE => $DIC->language()->txt('asq_option_rectangle'),
@@ -92,21 +92,21 @@ class ImageMapEditorDisplayDefinition extends AnswerDefinition {
                 self::TYPE_POLYGON => $DIC->language()->txt('asq_option_polygon')
             ]);
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_coordinates'),
-            AnswerOptionFormFieldDefinition::TYPE_LABEL,
+            AsqTableInputFieldDefinition::TYPE_LABEL,
             self::VAR_COORDINATES
             );
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             '',
-            AnswerOptionFormFieldDefinition::TYPE_HIDDEN,
+            AsqTableInputFieldDefinition::TYPE_HIDDEN,
             self::VAR_COORDINATES
             );
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             '',
-            AnswerOptionFormFieldDefinition::TYPE_BUTTON,
+            AsqTableInputFieldDefinition::TYPE_BUTTON,
             'btn-coordinates',
             [
                 'css' => 'js_select_coordinates',

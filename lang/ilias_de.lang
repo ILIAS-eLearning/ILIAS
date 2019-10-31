@@ -14,6 +14,27 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_shuffle_answers#:#Antworten mischen
+asq#:#asq_option_shuffle_none#:#Nein
+asq#:#asq_option_shuffle_definitions#:#Nur Definitionen
+asq#:#asq_option_shuffle_terms#:#Nur Terme
+asq#:#asq_option_shuffle_both#:#Beides (Terme und Definitionen)
+asq#:#asq_label_thumbnail#:#Vorschaugröße
+asq#:#asq_label_matching_mode#:#Zuordnungsmodus
+asq#:#asq_option_one_to_one#:#Ein Term kann einer Definition zugeordnet werden (1:1)
+asq#:#asq_option_many_to_one#:#Mehrere Terme können einer Definition zugeordnet werden (n:1)
+asq#:#asq_option_many_to_many#:#Ein oder mehrere Terme können einer oder mehreren Definitionen zugeordnet werden (n:n)
+asq#:#asq_label_definitions#:#Definitionen
+asq#:#asq_header_definition_text#:#Text
+asq#:#asq_header_definition_image#:#Bild
+asq#:#asq_label_terms#:#Terme
+asq#:#asq_header_term_text#:#Text
+asq#:#asq_header_term_image#:#Bild
+asq#:#asq_label_matches#:#Zuordnungspaare
+asq#:#asq_header_matches_definition#:#Definition
+asq#:#asq_header_matches_term#:#Term
+asq#:#asq_header_points#:#Punkte
+asq#:#asq_label_process_error_text#:#Text analysieren
 asq#:#asq_feedback_button_title#:#Rückmeldung anfordern
 asq#:#asq_label_max_points#:#Maximal erreichbare Punktezahl
 asq#:#asq_kprim_information#:#Der Multiple Choice-Fragetyp "Vierfache Entscheidung richtig/falsch" (Typ K', genannt Kprim) zeichnet sich dadurch aus, dass auf eine Frage oder unvollständige Aussage vier Antworten oder Ergänzungen folgen. Für jede dieser vier Möglichkeiten muss jeweils entschieden werden, ob sie zutrifft (richtig/+) oder nicht zutrifft (falsch/-). Um die maximal erreichbare Punktezahl zu erhalten, müssen alle vier Antworten korrekt sein.

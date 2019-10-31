@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
@@ -50,7 +51,7 @@ class NumericScoring extends AbstractScoring
         /** @var NumericScoringConfiguration $conf */
         $conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
         
-        return new Answer(0, $this->question->getId(), 0, (string)(($conf->getUpperBound() + $conf->getLowerBound()) / 2));
+        return new Answer(0, $this->question->getId(), 0, '', (string)(($conf->getUpperBound() + $conf->getLowerBound()) / 2));
     }
     
     /**
@@ -107,5 +108,10 @@ class NumericScoring extends AbstractScoring
      */
     public static function getScoringDefinitionClass(): string {
         return EmptyScoringDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

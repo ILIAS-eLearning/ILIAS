@@ -66,6 +66,11 @@ class AnswerOptions {
 	        
 	        /** @var AnswerOption $other_option */
 	        foreach ($other->options as $other_option) {
+	            
+	            if (is_null($other_option)) {
+	                continue;
+	            }
+	            
 	            if ($my_option->getOptionId() === $other_option->getOptionId() &&
 	                $my_option->equals($other_option)) {
 	                    $found = true;

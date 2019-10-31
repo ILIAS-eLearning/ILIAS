@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
@@ -60,6 +61,8 @@ abstract class AbstractScoring {
         return get_called_class() . self::SCORING_DEFINITION_SUFFIX;
     }
 
+    public static abstract function isComplete(Question $question) : bool;
+    
     /**
      * @param float $reached_points
      * @param float $max_points

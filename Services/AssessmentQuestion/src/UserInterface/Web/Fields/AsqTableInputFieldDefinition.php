@@ -1,9 +1,9 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Fields;
 
 /**
- * Class AnswerOptionFormFieldDefinition
+ * Class AsqTableInputFieldDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -12,7 +12,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AnswerOptionFormFieldDefinition {
+class AsqTableInputFieldDefinition {
 	const TYPE_TEXT = 1;
 	const TYPE_TEXT_AREA = 2;
 	const TYPE_NUMBER = 3;

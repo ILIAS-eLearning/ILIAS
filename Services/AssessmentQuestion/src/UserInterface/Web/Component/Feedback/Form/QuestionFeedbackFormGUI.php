@@ -6,21 +6,13 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedback;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptionFeedbackMode;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feecback\Form\FeedbackFieldAnswerCorrectRte;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feecback\Form\FeedbackFieldAnswerOption;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feecback\Form\FeedbackFieldAnswerOptionsContentRte;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feecback\Form\FeedbackFieldAnswerWrongRte;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feecback\Form\FeedbackFieldContentRte;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerCorrectFeedback;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\AnswerWrongFeedback;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
-use Exception;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 use ilFormSectionHeaderGUI;
+use ilRadioGroupInputGUI;
+use ilRadioOption;
+use ilTextAreaInputGUI;
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 
 /**
  * Class QuestionFeedbackFormGUI
@@ -41,11 +33,6 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
     const VAR_FEEDBACK_FOR_ANSWER = "feedback_for_answer";
 
     /**
-     * @var Page
-     */
-    protected $page;
-
-    /**
      * @var QuestionDto
      */
     protected $question_dto;
@@ -53,22 +40,13 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      * @var Feedback
      */
     protected $feedback;
-    /**
-     * @var AnswerOptionFeedback[]
-     */
-    protected $answer_option_feedbacks;
 
     /**
-     * QuestionFeedbackFormGUI constructor.
-     *
-     * @param Page                      $page
-     * @param QuestionDto               $questionDto
+     * @param QuestionDto $question_dto
+     * @param Feedback $feedback
+     * @param AnswerOptions $answer_options
      */
-    public function __construct(
-        QuestionDto $question_dto,
-        ?Feedback $feedback,
-        ?AnswerOptions $answer_options
-    )
+    public function __construct(QuestionDto $question_dto)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -76,13 +54,7 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
 
 
         $this->question_dto = $question_dto;
-        $this->feedback = $feedback;
-        if(!is_object($this->feedback)) {
-            $this->feedback = new Feedback();
-        }
-
-
-        $this->answer_options = $answer_options;
+        $this->feedback = $question_dto->getFeedback();
 
         $this->setTitle($DIC->language()->txt('asq_feedback_form_title'));
 
@@ -94,36 +66,36 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $feedback = "";
-        if(is_object($this->feedback->getAnswerCorrectFeedback())) {
-            $feedback = $this->feedback->getAnswerCorrectFeedback()->getAnswerFeedback();
-        }
-        $field = new FeedbackFieldContentRte($feedback,$this->question_dto->getContainerObjId(), $this->question_dto->getLegacyData()->getContainerObjType(),  $DIC->language()->txt('asq_input_feedback_correct'), self::VAR_ANSWER_FEEDBACK_CORRECT);
-        $this->addItem($field->getField());
-
-        $feedback = "";
-        if(is_object($this->feedback->getAnswerWrongFeedback())) {
-            $feedback = $this->feedback->getAnswerWrongFeedback()->getAnswerFeedback();
-        }
-        $field = new FeedbackFieldContentRte($feedback,$this->question_dto->getContainerObjId(), $this->question_dto->getLegacyData()->getContainerObjType(),  $DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_ANSWER_FEEDBACK_WRONG);
-        $this->addItem($field->getField());
-
+        $feedback_correct = new ilTextAreaInputGUI($DIC->language()->txt('asq_input_feedback_correct'),  self::VAR_ANSWER_FEEDBACK_CORRECT);
+        $feedback_correct->setValue($this->feedback->getAnswerCorrectFeedback());
+        $this->addItem($feedback_correct);
+        
+        $feedback_wrong = new ilTextAreaInputGUI($DIC->language()->txt('asq_input_feedback_wrong'), self::VAR_ANSWER_FEEDBACK_WRONG);
+        $feedback_wrong->setValue($this->feedback->getAnswerWrongFeedback());
+        $this->addItem($feedback_wrong);
 
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($DIC->language()->txt('asq_header_feedback_answers'));
         $this->addItem($header);
+        
+        $feedback_setting = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_feedback_setting'),  self::VAR_ANSWER_OPTION_FEEDBACK_MODE);
+        $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_all'), Feedback::OPT_ANSWER_OPTION_FEEDBACK_MODE_ALL));
+        $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_checked'), Feedback::OPT_ANSWER_OPTION_FEEDBACK_MODE_CHECKED));
+        $feedback_setting->addOption(new ilRadioOption($DIC->language()->txt('asq_option_feedback_correct'), Feedback::OPT_ANSWER_OPTION_FEEDBACK_MODE_CORRECT));
+        $feedback_setting->setRequired(true);
+        $feedback_setting->setValue($this->feedback->getAnswerOptionFeedbackMode());
+         
+        $this->addItem($feedback_setting);
 
-        $feedback_mode = 0;
-        if(is_object($this->feedback->getAnswerOptionFeedbackMode())) {
-           $feedback_mode = $this->feedback->getAnswerOptionFeedbackMode()->getMode();
-         }
-        $field = new FeedbackFieldAnswerOption($feedback_mode,self::VAR_ANSWER_OPTION_FEEDBACK_MODE);
-        $this->addItem($field->getField());
-
-
-        $field_group = new FeedbackFieldAnswerOptionsContentRte($this->question_dto->getAnswerOptions(),$this->question_dto->getContainerObjId(), $this->question_dto->getLegacyData()->getContainerObjType(),   self::VAR_FEEDBACK_FOR_ANSWER);
-        foreach ($field_group->getFields() as $field) {
-            $this->addItem($field->getField());
+        foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
+            /** @var AnswerOption $answer_option */
+            $field = new ilTextAreaInputGUI($i, $this->getPostKey($answer_option));
+            
+            if ($this->feedback->hasAnswerOptionFeedback($answer_option->getOptionId())) {
+                $field->setValue($this->feedback->getFeedbackForAnswerOption($answer_option->getOptionId()));
+            }
+            
+            $this->addItem($field);
         }
     }
 
@@ -133,17 +105,27 @@ class QuestionFeedbackFormGUI extends \ilPropertyFormGUI
      *
      * @return Feedback
      */
-    public static function getFeedbackFromPost() {
+    public function getFeedbackFromPost() {
 
-        $feedback_correct = FeedbackFieldContentRte::getValueFromPost(self::VAR_ANSWER_FEEDBACK_CORRECT);
-        $feedback_wrong = FeedbackFieldContentRte::getValueFromPost(self::VAR_ANSWER_FEEDBACK_WRONG);
-        $answer_option_feedback_mode = FeedbackFieldAnswerOption::getValueFromPost(self::VAR_ANSWER_OPTION_FEEDBACK_MODE);
+        $feedback_correct = ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_ANSWER_FEEDBACK_CORRECT]);
+        $feedback_wrong = ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_ANSWER_FEEDBACK_WRONG]);
+        $answer_option_feedback_mode = intval($_POST[self::VAR_ANSWER_OPTION_FEEDBACK_MODE]);
 
-        return new Feedback(new AnswerCorrectFeedback($feedback_correct), new AnswerWrongFeedback($feedback_wrong), new AnswerOptionFeedbackMode($answer_option_feedback_mode));
+        $answer_option_feedbacks = [];
+        foreach ($this->question_dto->getAnswerOptions()->getOptions() as $answer_option) {
+            /** @var AnswerOption $answer_option */
+            $post_key = $this->getPostKey($answer_option);
+            
+            if(!empty($_POST[$post_key])) {
+                $answer_option_feedbacks[$answer_option->getOptionId()] = 
+                    ilAsqHtmlPurifier::getInstance()->purify($_POST[$post_key]);
+            }
+        }
+        
+        return Feedback::create($feedback_correct, $feedback_wrong, $answer_option_feedback_mode, $answer_option_feedbacks);
     }
-
-    public static function getAnswerOptionFeedbacksFromPost(AnswerOptions $answer_options) {
-       return FeedbackFieldAnswerOptionsContentRte::getValueFromPostAnswerOptions($answer_options, self::VAR_FEEDBACK_FOR_ANSWER);
+    
+    private function getPostKey(AnswerOption $answer_option) {
+        return self::VAR_FEEDBACK_FOR_ANSWER . $answer_option->getOptionId();
     }
-
 }

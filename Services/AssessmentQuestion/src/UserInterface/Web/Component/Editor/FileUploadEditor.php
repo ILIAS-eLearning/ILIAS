@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
 use ilTextInputGUI;
@@ -201,5 +202,10 @@ class FileUploadEditor extends AbstractEditor {
 
     public static function getDisplayDefinitionClass() : string {
         return EmptyDisplayDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

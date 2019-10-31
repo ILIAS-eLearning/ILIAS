@@ -4,17 +4,15 @@ declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
+use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
-use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\AvailableAnswerSpecificFeedbacks;
-
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 /**
@@ -30,7 +28,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPreviewGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionPageGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionConfigEditorGUI
- * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionFeedbackEditorGUI
+ * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionFeedbackEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: AsqQuestionHintEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionRecapitulationEditorGUI
  * @ilCtrl_Calls ilAsqQuestionAuthoringGUI: ilAsqQuestionStatisticsGUI
@@ -137,12 +135,13 @@ class ilAsqQuestionAuthoringGUI
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_PREVIEW);
 
-                $application_processing_service = new ProcessingApplicationService($this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->question_config, $this->lng_key);
+                $application_processing_service = new ProcessingApplicationService($this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->lng_key);
 
                 $gui = new ilAsqQuestionPreviewGUI(
                     $this->authoring_application_service,
                     $application_processing_service,
-                    $this->question_id
+                    $this->question_id,
+                    $this->question_config
                 );
 
                 $DIC->ctrl()->forwardCommand($gui);
@@ -185,13 +184,13 @@ class ilAsqQuestionAuthoringGUI
 
                 break;
 
-            case strtolower(AsqQuestionFeedbackEditorGUI::class):
+            case strtolower(ilAsqQuestionFeedbackEditorGUI::class):
 
                 $this->initHeaderAction();
                 $this->initAuthoringTabs();
                 $DIC->tabs()->activateTab(self::TAB_ID_FEEDBACK);
 
-                $gui = new AsqQuestionFeedbackEditorGUI(
+                $gui = new ilAsqQuestionFeedbackEditorGUI(
                     $this->authoring_application_service->getQuestion($this->question_id->getId()),
                     $this->authoring_application_service
                 );
@@ -371,9 +370,6 @@ class ilAsqQuestionAuthoringGUI
         $name = $_GET['class'];
 
         $class = array_search($name, AvailableEditors::getAvailableEditors());
-        if($class === false) {
-            $class = array_search($name, AvailableAnswerSpecificFeedbacks::getAvailableScorings());
-        }
         if($class === false) {
             $class = array_search($name, AvailablePresenters::getAvailablePresenters());
         }

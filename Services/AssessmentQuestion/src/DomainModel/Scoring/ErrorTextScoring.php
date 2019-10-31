@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ilNumberInputGUI;
@@ -79,7 +80,7 @@ class ErrorTextScoring extends AbstractScoring {
             }
         }
         
-        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+        return new Answer(0, $this->question->getId(), 0, '', json_encode($answers));
     }
     
     /**
@@ -93,6 +94,8 @@ class ErrorTextScoring extends AbstractScoring {
         
         $points_wrong = new ilNumberInputGUI($DIC->language()->txt('asq_label_points_wrong'), self::VAR_POINTS_WRONG);
         $points_wrong->setSize(6);
+        $points_wrong->setRequired(true);
+        $points_wrong->setMaxValue(0);
         $points_wrong->setInfo($DIC->language()->txt('asq_info_points_wrong'));
         $fields[self::VAR_POINTS_WRONG] = $points_wrong;
         
@@ -108,5 +111,10 @@ class ErrorTextScoring extends AbstractScoring {
      */
     public static function readConfig() : ?AbstractConfiguration {
         return ErrorTextScoringConfiguration::create(empty($_POST[self::VAR_POINTS_WRONG]) ? null : intval($_POST[self::VAR_POINTS_WRONG]));
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

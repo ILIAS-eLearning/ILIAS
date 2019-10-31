@@ -3,7 +3,9 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
+use ilAdvancedSelectionListGUI;
 use ILIAS\UI\Component\Button\Primary;
+use ILIAS\UI\Component\Button\Standard;
 
 /**
  * Class QuestionConfig
@@ -18,6 +20,40 @@ use ILIAS\UI\Component\Button\Primary;
 class QuestionConfig
 {
 
+    /**
+     * @var null|string
+     *
+     * The ilAsqQuestionProcessingGUI will redirect to this action for getting the next question
+     * If don't set this action no Next Button will not be displayed
+     * Forward your command after choosing the question to the ilAsqQuestionProcessingGUI
+     */
+    protected $show_next_question_action = null;
+    /**
+     * @var null|string
+     *
+     * The ilAsqQuestionProcessingGUI will redirect to this action for getting the previous question.
+     * If don't set this action no Previous Button will not be displayed
+     */
+    protected $show_previous_question_action = null;
+    /**
+     * @var null|string
+     *
+     * The ilAsqQuestionProcessingGUI will show this subline direct under the question title. E.g. Question 4 of 4 (2 Points)
+     * If don't set the subline nothing will be displayed
+     */
+    protected $subline = null;
+    /**
+     * @var null|ilAdvancedSelectionListGUI
+     */
+    protected $question_page_action_menu = null;
+    /**
+     * @var array
+     */
+    protected $java_script_on_load_paths = [];
+    /**
+     * @var bool
+     */
+    protected $show_total_points_of_question = false;
     /**
      * @var bool
      */
@@ -42,14 +78,113 @@ class QuestionConfig
      * @var bool
      */
     protected $feedback_on_demand = false;
+
+
     /**
-     * @var Primary|Null
+     * @return string|null
      */
-    protected $btn_next = NULL;
+    public function getShowNextQuestionAction() : ?string
+    {
+        return $this->show_next_question_action;
+    }
+
+
     /**
-     * @var Primary|Null
+     * @param string|null $show_next_question_action
      */
-    protected $btn_prev = NULL;
+    public function setShowNextQuestionAction(?string $show_next_question_action) : void
+    {
+        $this->show_next_question_action = $show_next_question_action;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getShowPreviousQuestionAction() : ?string
+    {
+        return $this->show_previous_question_action;
+    }
+
+
+    /**
+     * @return string|null
+     */
+    public function getSubline() : ?string
+    {
+        return $this->subline;
+    }
+
+
+    /**
+     * @param string|null $subline
+     */
+    public function setSubline(?string $subline) : void
+    {
+        $this->subline = $subline;
+    }
+
+
+    /**
+     * @return ilAdvancedSelectionListGUI|null
+     */
+    public function getQuestionPageActionMenu() : ?ilAdvancedSelectionListGUI
+    {
+        return $this->question_page_action_menu;
+    }
+
+
+    /**
+     * @param ilAdvancedSelectionListGUI|null $question_page_action_menu
+     */
+    public function setQuestionPageActionMenu(?ilAdvancedSelectionListGUI $question_page_action_menu) : void
+    {
+        $this->question_page_action_menu = $question_page_action_menu;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getJavaScriptOnLoadPaths() : array
+    {
+        return $this->java_script_on_load_paths;
+    }
+
+
+    /**
+     * @param array $java_script_on_load_paths
+     */
+    public function setJavaScriptOnLoadPaths(array $java_script_on_load_paths) : void
+    {
+        $this->java_script_on_load_paths = $java_script_on_load_paths;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowTotalPointsOfQuestion() : bool
+    {
+        return $this->show_total_points_of_question;
+    }
+
+
+    /**
+     * @param bool $show_total_points_of_question
+     */
+    public function setShowTotalPointsOfQuestion(bool $show_total_points_of_question) : void
+    {
+        $this->show_total_points_of_question = $show_total_points_of_question;
+    }
+
+
+    /**
+     * @param string|null $show_previous_question_action
+     */
+    public function setShowPreviousQuestionAction(?string $show_previous_question_action) : void
+    {
+        $this->show_previous_question_action = $show_previous_question_action;
+    }
 
 
     /**
@@ -158,44 +293,4 @@ class QuestionConfig
     {
         $this->feedback_on_demand = $feedback_on_demand;
     }
-
-
-    /**
-     * @return Primary|Null
-     */
-    public function getBtnNext() : ?Primary
-    {
-        return $this->btn_next;
-    }
-
-
-    /**
-     * @param Primary|Null $btn_next
-     */
-    public function setBtnNext(?Primary $btn_next) : void
-    {
-        $this->btn_next = $btn_next;
-    }
-
-
-    /**
-     * @return Primary|Null
-     */
-    public function getBtnPrev() : ?Primary
-    {
-        return $this->btn_prev;
-    }
-
-
-    /**
-     * @param Primary|Null $btn_prev
-     */
-    public function setBtnPrev(?Primary $btn_prev) : void
-    {
-        $this->btn_prev = $btn_prev;
-    }
-
-
-
-
 }

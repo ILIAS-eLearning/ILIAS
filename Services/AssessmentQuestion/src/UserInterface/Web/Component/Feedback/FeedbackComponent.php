@@ -53,7 +53,6 @@ class FeedbackComponent
         $tpl->setVariable('INSTANT_RESPONSE_FOCUS_ID', self::FEEDBACK_FOCUS_ANCHOR);
         $tpl->parseCurrentBlock();*/
 
-
         $tpl->setCurrentBlock('feedback_header');
         $tpl->setVariable('FEEDBACK_HEADER', $DIC->language()->txt('asq_answer_feedback_header'));
         $tpl->parseCurrentBlock();

@@ -5,7 +5,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -61,15 +61,15 @@ class TextSubsetScoringDefinition extends AnswerDefinition {
         global $DIC;
         
         $fields = [];
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_answer_text'),
-            AnswerOptionFormFieldDefinition::TYPE_TEXT,
+            AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_TSSD_TEXT
             );
         
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_points'),
-            AnswerOptionFormFieldDefinition::TYPE_NUMBER,
+            AsqTableInputFieldDefinition::TYPE_NUMBER,
             self::VAR_TSSD_POINTS
             );
         

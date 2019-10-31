@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerDefinition;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use stdClass;
 
 /**
@@ -52,9 +52,9 @@ class KprimChoiceScoringDefinition extends AnswerDefinition {
         $conf = $play->getEditorConfiguration();
         
         $fields = [];
-        $fields[] = new AnswerOptionFormFieldDefinition(
+        $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_options'),
-            AnswerOptionFormFieldDefinition::TYPE_RADIO,
+            AsqTableInputFieldDefinition::TYPE_RADIO,
             self::VAR_KPSD_CORRECT,
             [
                 $conf->getLabelTrue() ?? $DIC->language()->txt('asq_label_right') => self::STR_TRUE, 

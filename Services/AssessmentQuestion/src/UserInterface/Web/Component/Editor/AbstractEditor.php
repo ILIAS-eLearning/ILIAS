@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 
@@ -64,6 +65,7 @@ abstract class AbstractEditor {
 
 	public static abstract function readConfig();
 	
+	public static abstract function isComplete(Question $question): bool;
 	/**
 	 * @return string
 	 */

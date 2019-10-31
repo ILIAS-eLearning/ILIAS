@@ -45,10 +45,6 @@ class ProcessingApplicationService
      */
     protected $actor_user_id;
     /**
-     * @var QuestionConfig
-     */
-    protected $question_config;
-    /**
      * @var string
      */
     protected $lng_key;
@@ -60,23 +56,21 @@ class ProcessingApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, QuestionConfig $question_config, string $lng_key)
+    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
-        $this->question_config = $question_config;
         $this->lng_key = $lng_key;
     }
 
-    public function getProcessingQuestionGUI(string $choose_new_question_cmd, string $revision_key) : ilAsqQuestionProcessingGUI
+    public function getProcessingQuestionGUI(string $revision_key, QuestionConfig $question_config) : ilAsqQuestionProcessingGUI
     {
         $processing_context_container = new ProcessingContextContainer($this->container_obj_id, $this->actor_user_id);
 
         return new ilAsqQuestionProcessingGUI(
-            $choose_new_question_cmd,
             $revision_key,
             $processing_context_container,
-            $this->question_config
+            $question_config
         );
     }
 
@@ -93,9 +87,11 @@ class ProcessingApplicationService
     /**
      * @return ilAsqQuestionPageGUI
      */
-    public function getQuestionPresentation(QuestionDto $question_dto, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
+    public function getQuestionPresentation(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
     {
-        $question_component = $this->getQuestionComponent($question_dto, $question_commands);
+        global $DIC;
+
+        $question_component = $this->getQuestionComponent($question_dto, $question_config, $question_commands);
 
         $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
         $page_gui = ilAsqQuestionPageGUI::getGUI($page);
@@ -107,13 +103,22 @@ class ProcessingApplicationService
         $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
         $page_gui->setPresentationTitle($question_dto->getData()->getTitle());
 
+        $subbline = "";
+        if($question_config->getSubline()) {
+            $subbline .= $question_config->getSubline()." ";
+        }
+        if($question_config->isShowTotalPointsOfQuestion()) {
+            $subbline .= "(TODO ".$DIC->language()->txt('points').")";
+        }
+        $page_gui->setQuestionInfoHTML($subbline);
+
         return $page_gui;
     }
 
 
-    public function getQuestionComponent(QuestionDto $question_dto, QuestionCommands $question_commands) : QuestionComponent
+    public function getQuestionComponent(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands) : QuestionComponent
     {
-        $question_component = new QuestionComponent($question_dto, $this->question_config, $question_commands);
+        $question_component = new QuestionComponent($question_dto, $question_config, $question_commands);
 
         return $question_component;
     }

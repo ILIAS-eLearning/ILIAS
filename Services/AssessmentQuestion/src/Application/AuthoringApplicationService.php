@@ -2,26 +2,23 @@
 
 namespace ILIAS\AssessmentQuestion\Application;
 
+use ILIAS\AssessmentQuestion\Application\QtiV2\Import\QtiImportService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
-use ilAsqQuestionPageGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-
-const MSG_SUCCESS = "success";
+use ilAsqQuestionPageGUI;
 
 /**
  * Class AuthoringApplicationService
@@ -48,6 +45,8 @@ class AuthoringApplicationService
      * @var string
      */
     protected $lng_key;
+
+    const QTI_FIELD_LABEL_QUESTION_TYPE = "QUESTIONTYPE";
 
 
     /**
@@ -140,6 +139,28 @@ class AuthoringApplicationService
         $this->projectQuestion($question_dto->getId());
     }
 
+    public function importQtiQuestion(string $qti_item_xml) {
+        global $DIC;
+
+        $qti_application_service = new QtiImportService($this->container_obj_id);
+        $question_dto = $qti_application_service->getQuestionDtoFromXml($qti_item_xml);
+
+        if(is_object($question_dto)) {
+            $uid = new DomainObjectId();
+
+            $this->createQuestion($uid,
+                $this->container_obj_id,
+                $question_dto->getLegacyData()->getContainerObjType(),
+                NULL,
+                $question_dto->getLegacyData()->getAnswerTypeId(),
+                $question_dto->getLegacyData()->getContentEditingMode()
+            );
+
+            $question_dto->setId($uid->getId());
+            $this->saveQuestion($question_dto);
+        }
+    }
+
 
     public function projectQuestion(string $question_id)
     {
@@ -161,12 +182,20 @@ class AuthoringApplicationService
     /**
      * @return QuestionDto[]
      */
-    public function getQuestions() : array
+    public function getQuestions(?bool $is_complete = null) : array
     {
         $questions = [];
         $event_store = new QuestionEventStoreRepository();
         foreach ($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
-            $questions[] = $this->getQuestion($aggregate_id);
+            $question = $this->getQuestion($aggregate_id);
+            
+            if(!is_null($is_complete)) {
+                if ($question->isComplete() !== $is_complete) {
+                    continue;
+                }
+            }
+            
+            $questions[] = $question;
         }
 
         return $questions;

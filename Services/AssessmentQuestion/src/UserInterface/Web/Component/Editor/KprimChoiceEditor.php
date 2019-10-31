@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
@@ -181,6 +182,9 @@ class KprimChoiceEditor extends AbstractEditor {
             $thumb_size->setValue($config->getThumbnailSize());
             $singleline->setValue($config->isSingleLine() ? self::STR_TRUE : self::STR_FALSE);
         }
+        else {
+            $shuffle->setChecked(true);
+        }
         
         return $fields;
     }
@@ -294,7 +298,7 @@ class KprimChoiceEditor extends AbstractEditor {
         
         return KprimChoiceEditorConfiguration::create(
             boolval($_POST[self::VAR_SHUFFLE_ANSWERS]),
-            boolval($_POST[self::VAR_SINGLE_LINE]),
+            $_POST[self::VAR_SINGLE_LINE] === self::STR_TRUE,
             $thumbsize,
             $label_true,
             $label_false);
@@ -305,5 +309,10 @@ class KprimChoiceEditor extends AbstractEditor {
      */
     static function getDisplayDefinitionClass() : string {
         return ImageAndTextDisplayDefinition::class;
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

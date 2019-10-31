@@ -78,8 +78,8 @@ class AuthoringQuestionList implements QuestionList
     /**
      * @return QuestionDto[]
      */
-    public function getQuestionsOfContainerAsDtoList() : array
+    public function getQuestionsOfContainerAsDtoList(?bool $is_complete = null) : array
     {
-        return $this->authoring_application_service->getQuestions();
+        return $this->authoring_application_service->getQuestions($is_complete);
     }
 }

@@ -3,6 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
@@ -39,7 +40,8 @@ class TextSubsetScoring extends AbstractScoring
     {
         /** @var TextSubsetScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
-        
+
+
         $answer_arr = json_decode($answer->getValue(), true);
         
         switch ($scoring_conf->getTextMatching()) {
@@ -70,7 +72,7 @@ class TextSubsetScoring extends AbstractScoring
             $answers[] = $option->getScoringDefinition()->getText();
         }
         
-        return new Answer(0, $this->question->getId(), 0, json_encode($answers));
+        return new Answer(0, $this->question->getId(), 0, '', json_encode($answers));
     }
     
     /**
@@ -173,7 +175,7 @@ class TextSubsetScoring extends AbstractScoring
         $amount = $question->getPlayConfiguration()->getEditorConfiguration()->getNumberOfRequestedAnswers();
         
         if(empty($amount)) {
-            return '';
+            return 0;
         }
         
         $points = array_map(function($option) {
@@ -187,5 +189,10 @@ class TextSubsetScoring extends AbstractScoring
             function($a, $b) {
                 return $a + $b;
             });
+    }
+    
+    public static function isComplete(Question $question): bool
+    {
+        return false;
     }
 }

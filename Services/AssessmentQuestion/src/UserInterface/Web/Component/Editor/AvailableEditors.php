@@ -25,6 +25,7 @@ class AvailableEditors {
         $editors[ImageMapEditor::class] = 'ImageMapEditor';
         $editors[FileUploadEditor::class] = 'FileuploadEditor';
         $editors[FormulaEditor::class] = 'FormulaEditor';
+        $editors[MatchingEditor::class] = 'MatchingEditor';
 		return $editors;
 	}
 

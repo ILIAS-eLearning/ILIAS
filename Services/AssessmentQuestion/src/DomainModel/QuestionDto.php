@@ -4,7 +4,7 @@ namespace ILIAS\AssessmentQuestion\DomainModel;
 
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\Hint\QuestionHints;
-use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback\Feedback;
+use ILIAS\Services\AssessmentQuestion\DomainModel\Feedback;
 
 
 /**
@@ -62,7 +62,7 @@ class QuestionDto  {
      */
 	private $question_int_id;
     /**
-     * @var ContentEditingModeDto
+     * @var ContentEditingMode
      */
 	private $content_editing_mode;
     /**
@@ -74,6 +74,10 @@ class QuestionDto  {
      */
     private $question_hints;
 
+    /**
+     * @var bool
+     */
+    private $complete;
 
     /**
 	 * @param Question $question
@@ -85,7 +89,8 @@ class QuestionDto  {
 		$dto->id = $question->getAggregateId()->getId();
         $dto->container_obj_id = $question->getContainerObjId();
 		$dto->question_int_id = $question->getQuestionIntId();
-        
+        $dto->complete = $question->isQuestionComplete();
+		
 		if ($question->getRevisionId() !== null) {
 			$dto->revision_id = $question->getRevisionId()->getKey();
 			$dto->revision_name = $question->getRevisionName();
@@ -96,22 +101,11 @@ class QuestionDto  {
 		$dto->answer_options = $question->getAnswerOptions();
 		$dto->legacy_data = $question->getLegacyData();
 
-		$dto->content_editing_mode = ContentEditingModeDto::createFromContentEditingMode(
-		    $question->getContentEditingMode()
-        );
+		$dto->content_editing_mode = $question->getContentEditingMode();
 
         $dto->feedback = $question->getFeedback() ?? new Feedback();
 
         $dto->question_hints = $question->getHints();
-
-		/*$dto->feedback_correct = FeedbackDto::createFromFeedback(
-            $question->getFeedbackCorrect()
-        );
-
-		$dto->feedback_wrong = FeedbackDto::createFromFeedback(
-            $question->getFeedbackWrong()
-        );*/
-
 
 		return $dto;
 	}
@@ -143,7 +137,20 @@ class QuestionDto  {
 		return $this->id;
 	}
 
-
+	/**
+	 * @param bool $complete
+	 */
+	public function setComplete(bool $complete) {
+	    $this->complete = $complete;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isComplete() : bool {
+	    return $this->complete;
+	}
+	
 	/**
 	 * @param string $id
 	 */
@@ -271,9 +278,9 @@ class QuestionDto  {
 
 
     /**
-     * @return ContentEditingModeDto
+     * @return ContentEditingMode
      */
-    public function getContentEditingMode() : ContentEditingModeDto
+    public function getContentEditingMode() : ContentEditingMode
     {
         return $this->content_editing_mode;
     }
@@ -282,7 +289,7 @@ class QuestionDto  {
     /**
      * @param Feedback $feedback
      */
-    public function setFeedback(Feedback $feedback) : void
+    public function setFeedback(?Feedback $feedback) : void
     {
         $this->feedback = $feedback;
     }

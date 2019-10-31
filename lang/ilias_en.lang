@@ -14,6 +14,27 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_shuffle_answers#:#Shuffle Answers
+asq#:#asq_option_shuffle_none#:#No
+asq#:#asq_option_shuffle_definitions#:#Definitions only
+asq#:#asq_option_shuffle_terms#:#Terms only
+asq#:#asq_option_shuffle_both#:#Both (Terms and Definitions)
+asq#:#asq_label_thumbnail#:#Thumbnail Geometry
+asq#:#asq_label_matching_mode#:#Matching Mode
+asq#:#asq_option_one_to_one#:#One Term Matches One Definition (1:1)
+asq#:#asq_option_many_to_one#:#Multiple Terms can match One Definition (n:1)
+asq#:#asq_option_many_to_many#:#One or More Terms match One or More Definitions (n:n)
+asq#:#asq_label_definitions#:#Definitions
+asq#:#asq_header_definition_text#:#Definition Text
+asq#:#asq_header_definition_image#:#Definition Image
+asq#:#asq_label_terms#:#Terms
+asq#:#asq_header_term_text#:#Term Text
+asq#:#asq_header_term_image#:#Term Image
+asq#:#asq_label_matches#:#Matching Pairs
+asq#:#asq_header_matches_definition#:#Definition
+asq#:#asq_header_matches_term#:#Term
+asq#:#asq_header_points#:#Points
+asq#:#asq_label_process_error_text#:#Analyze Error Text
 asq#:#asq_feedback_button_title#:#Request Feedback
 asq#:#asq_label_max_points#:#Maximum Available Points
 asq#:#asq_kprim_information#:#The multiple choice question type ‘four times decision right/wrong’ (Type K’, also known as Kprim) gives four answers or additions to a question or an incomplete statement. A decision about the correctness is to be done on all four answers/additions. The maximum points are granted only, if all decisions are correct.
