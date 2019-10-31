@@ -380,34 +380,59 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->form = $form;
 		return $form;
 	}
+
+
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	protected function loadPropertiesFromSettingsForm(\ilPropertyFormGUI $form) : bool
+	{
+		global $DIC;
+
+		$ok = true;
+		$access = $DIC->access();
+
+		$this->object->setTitleType($form->getInput('title_type'));
+		if($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
+			$this->object->setTitle($form->getInput('title'));
+		}
+
+		// check access
+		if(
+			!$access->checkAccess('visible','', (int) $form->getInput('target_id'))
+		) {
+			$ok = false;
+			$form->getItemByPostVar('target_id')->setAlert($this->lng->txt('permission_denied'));
+		}
+		// check target type
+		if(ilObject::_lookupType($form->getInput('target_id'),true) != $this->target_type) {
+			$ok = false;
+			$form->getItemByPostVar('target_id')->setAlert(
+				$this->lng->txt('objref_failure_target_type').
+				': ' .
+				$this->lng->txt('obj_' . $this->target_type)
+			);
+		}
+
+		return $ok;
+	}
+
 	
 	/**
 	 * update title
 	 */
 	public function updateObject()
 	{
+		$this->checkPermission('write');
+
 		$ilAccess = $this->access;
 		$form = $this->initForm();
-		if($form->checkInput())
+		if(
+			$form->checkInput() &&
+			$this->loadPropertiesFromSettingsForm($form)
+		)
 		{
-			$this->object->setTitleType($form->getInput('title_type'));
-			if($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM)
-			{
-				$this->object->setTitle($form->getInput('title'));
-			}
-
-			if(!$ilAccess->checkAccess('visible','',(int) $form->getInput('target_id')) ||
-				ilObject::_lookupType($form->getInput('target_id'), true) != $this->target_type)
-			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'));
-				$this->editObject();
-				return false;
-			}
-			$this->checkPermission('write');
-
-			$target_obj_id = ilObject::_lookupObjId((int) $form->getInput('target_id'));
-			$this->object->setTargetId($target_obj_id);
-
 
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);

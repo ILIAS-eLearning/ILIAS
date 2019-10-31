@@ -35,6 +35,11 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
+	/**
+	 * @var \ilLogger | null
+	 */
+	private $logger = null;
+
 	protected $target_type = 'crs';
 	protected $reference_type = 'crsr';
 
@@ -45,7 +50,13 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		 parent::__construct($a_data, $a_id,true,false);
+		global $DIC;
+
+		$this->logger = $DIC->logger()->crsr();
+
+		parent::__construct($a_data, $a_id, true, false);
+
+		$this->lng->loadLanguageModule('crs');
 	}
 	
 	/**
@@ -58,8 +69,64 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	{
 		parent::executeCommand();
 	}
-	
-	
+	/**
+	 * @inheritdoc
+	 */
+	public function initForm($a_mode = self::MODE_EDIT)
+	{
+		$form = parent::initForm($a_mode);
+
+		if($a_mode == self::MODE_CREATE) {
+			return $form;
+		}
+
+		$path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+
+
+		// nothing todo if no parent course is in path
+		if(!$path_info->hasParentCourse())
+		{
+			return $form;
+		}
+
+		$access = $path_info->checkManagmentAccess();
+
+		$auto_update = new \ilCheckboxInputGUI($this->lng->txt('crs_ref_member_update'),'member_update');
+		$auto_update->setChecked($this->object->isMemberUpdateEnabled());
+		$auto_update->setInfo($this->lng->txt('crs_ref_member_update_info'));
+		$auto_update->setDisabled(!$access);
+		$form->addItem($auto_update);
+
+		return $form;
+	}
+
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form): bool
+	{
+		$ok = true;
+		$ok = parent::loadPropertiesFromSettingsForm($form);
+
+		$path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+
+		$auto_update = $form->getInput('member_update');
+		if($auto_update && !$path_info->hasParentCourse()) {
+			$ok = false;
+			$form->getItemByPostVar('member_update')->setAlert($this->lng->txt('crs_ref_missing_parent_crs'));
+		}
+		if($auto_update && !$path_info->checkManagmentAccess()) {
+			$ok = false;
+			$form->getItemByPostVar('member_update')->setAlert($this->lng->txt('crs_ref_missing_access'));
+		}
+
+		// check manage members
+		$this->object->enableMemberUpdate((bool) $form->getInput('member_update'));
+
+		return $ok;
+	}
+
 
 	/**
 	 * Support for goto php
