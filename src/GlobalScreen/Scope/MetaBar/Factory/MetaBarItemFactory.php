@@ -65,7 +65,7 @@ class MetaBarItemFactory
     {
         static $created;
         if ($created === true) {
-            throw new \LogicException("only one NotificationCenter can exist");
+            // throw new \LogicException("only one NotificationCenter can exist");
         }
         $created = true;
 
