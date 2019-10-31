@@ -62,7 +62,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	 */
 	protected function showDeleteParticipantsConfirmationWithLinkedCourses($participants)
 	{
-		ilUtil::sendQuestion($this->lng->txt('crs_header_delete_members'));
+		ilUtil::sendQuestion($this->lng->txt('crs_ref_delete_confirmation_info'));
 
 		$table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(),'confirmDeleteParticipants');
 		$table->init();
@@ -73,6 +73,9 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	protected function deleteParticipantsWithLinkedCourses()
 	{
 		global $DIC;
