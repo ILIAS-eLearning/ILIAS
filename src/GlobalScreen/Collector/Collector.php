@@ -13,7 +13,7 @@ interface Collector
     public function collectStructure() : void;
 
 
-    public function filterItemsByVisibilty() : void;
+    public function filterItemsByVisibilty(bool $skip_async = false) : void;
 
 
     public function prepareItemsForUIRepresentation() : void;
@@ -28,9 +28,9 @@ interface Collector
 
 
     /**
-     * @return array
+     * @return \Generator
      */
-    public function getItemsForUITranslation() : array;
+    public function getItemsForUIRepresentation() : \Generator;
 
 
     /**

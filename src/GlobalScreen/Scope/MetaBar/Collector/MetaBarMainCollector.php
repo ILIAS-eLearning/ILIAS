@@ -42,7 +42,7 @@ class MetaBarMainCollector implements Collector
     public function collect() : void
     {
         $this->collectStructure();
-        $this->filterItemsByVisibilty();
+        $this->filterItemsByVisibilty(false);
         $this->prepareItemsForUIRepresentation();
     }
 
@@ -57,7 +57,7 @@ class MetaBarMainCollector implements Collector
     }
 
 
-    public function filterItemsByVisibilty() : void
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
     {
         $this->items = array_filter($this->items, $this->getVisibleFilter());
     }
@@ -71,11 +71,11 @@ class MetaBarMainCollector implements Collector
 
 
     /**
-     * @return isItem[]
+     * @return \Generator
      */
-    public function getItemsForUITranslation() : array
+    public function getItemsForUIRepresentation() : \Generator
     {
-        return $this->items;
+        yield from $this->items;
     }
 
 

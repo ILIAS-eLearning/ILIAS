@@ -26,7 +26,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
         return [
             $mb->notificationCenter($id('notification_center'))
                 ->withAmountOfNotifications($nc->getAmountOfNotifications())
-                ->withNotifications($nc->getNotifications())
+                ->withNotifications(iterator_to_array($nc->getItemsForUIRepresentation()))
                 ->withAvailableCallable(static function () {
                     // Check if notifications available
                     return true;

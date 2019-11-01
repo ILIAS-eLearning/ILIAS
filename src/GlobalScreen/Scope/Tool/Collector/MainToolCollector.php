@@ -74,7 +74,7 @@ class MainToolCollector implements Collector
     }
 
 
-    public function filterItemsByVisibilty() : void
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
     {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
     }
@@ -93,17 +93,17 @@ class MainToolCollector implements Collector
     public function collect() : void
     {
         $this->collectStructure();
-        $this->filterItemsByVisibilty();
+        $this->filterItemsByVisibilty(false);
         $this->prepareItemsForUIRepresentation();
     }
 
 
     /**
-     * @return Tool[]
+     * @return \Generator
      */
-    public function getItemsForUITranslation() : array
+    public function getItemsForUIRepresentation() : \Generator
     {
-        return $this->tools;
+        yield from $this->tools;
     }
 
 

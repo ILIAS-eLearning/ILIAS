@@ -55,7 +55,7 @@ class MainNotificationCollector implements Collector
     }
 
 
-    public function filterItemsByVisibilty() : void
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
     {
         // TODO: Implement filterItemsByVisibilty() method.
     }
@@ -70,9 +70,9 @@ class MainNotificationCollector implements Collector
     /**
      * @inheritDoc
      */
-    public function getItemsForUITranslation() : array
+    public function getItemsForUIRepresentation() : \Generator
     {
-        // TODO: Implement getItemsForUITranslation() method.
+        yield from $this->notifications;
     }
 
 
@@ -83,7 +83,6 @@ class MainNotificationCollector implements Collector
     {
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
-
 
 
     /**
@@ -105,14 +104,5 @@ class MainNotificationCollector implements Collector
         }
 
         return 0;
-    }
-
-
-    /**
-     * @return isItem[]
-     */
-    public function getNotifications() : array
-    {
-        return $this->notifications;
     }
 }

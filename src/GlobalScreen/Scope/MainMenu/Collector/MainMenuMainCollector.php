@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -58,6 +59,10 @@ class MainMenuMainCollector implements Collector
      * @var bool
      */
     private $loaded = false;
+    /**
+     * @var ItemMap
+     */
+    private $item_map;
 
 
     /**
@@ -70,40 +75,106 @@ class MainMenuMainCollector implements Collector
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
-        if (self::$constructed === true) {
-            throw new \LogicException("only one Instance of MainMenuMainCollector Collector is possible");
-        }
-        self::$constructed = true;
         $this->information = $information;
         $this->providers = $providers;
+        $this->item_map = new ItemMap();
         $this->type_information_collection = new TypeInformationCollection();
+    }
+
+
+    /**
+     * @return \Generator|StaticMainMenuProvider[]
+     */
+    private function getProvidersFromList() : \Generator
+    {
+        yield from $this->providers;
+    }
+
+
+    /**
+     * @return bool
+     * @throws \Throwable
+     */
+    public function collect() : void
+    {
+        $this->collectStructure();
+        $this->filterItemsByVisibilty(false);
+        $this->prepareItemsForUIRepresentation();
     }
 
 
     public function collectStructure() : void
     {
-        // TODO: Implement collectStructure() method.
+        foreach ($this->getProvidersFromList() as $provider) {
+            $this->type_information_collection->append($provider->provideTypeInformation());
+            $this->item_map->addMultiple(...$provider->getStaticTopItems());
+            $this->item_map->addMultiple(...$provider->getStaticSubItems());
+        }
+
+        $this->item_map->walk(function (isItem &$item) {
+            if ($item instanceof isChild && $item->hasParent()) {
+                $parent = $this->item_map->get($this->information->getParent($item));
+                if ($parent instanceof isParent) {
+                    $parent->appendChild($item);
+                    $item->overrideParent($parent->getProviderIdentification());
+                }
+                // TODO if parent is NullIdentification, add to map
+            }
+        });
     }
 
 
-    public function filterItemsByVisibilty() : void
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
     {
-        // TODO: Implement filterItemsByVisibilty() method.
+        // apply filter
+        $this->item_map->filter(function (isItem $item) {
+            // make parent available if one child is always available
+            if ($item instanceof isParent) {
+                foreach ($item->getChildren() as $child) {
+                    if ($child->isAlwaysAvailable()) {
+                        return true;
+                    }
+                }
+            }
+
+            $is_visible = $item->isVisible();
+            $is_item_active = $this->information->isItemActive($item);
+            $is_always_available = $item->isAlwaysAvailable();
+
+            return !(!$is_visible || (!$is_item_active && !$is_always_available));
+        });
+
+        $this->item_map->filter(function (isItem $item) {
+            return true;
+        });
+
+        // apply special filters such as double dividers etc.
+        // TODO!!
     }
 
 
     public function prepareItemsForUIRepresentation() : void
     {
-        // TODO: Implement prepareItemsForUIRepresentation() method.
+        $this->item_map->walk(function (isItem &$item) {
+            $item_information = $this->getTypeInformationForItem($item);
+            $item->setTypeInformation($item_information);
+
+            // Apply the TypeHandler
+            $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
+            // Translate Item
+            if ($item instanceof hasTitle) {
+                $item = $this->getItemInformation()->translateItemForUser($item);
+            }
+        });
     }
 
 
     /**
-     * @return isItem[]
+     * @return \Generator|isItem[]
      */
-    public function getAllItems() : array
+    public function getRawItems() : \Generator
     {
-        return self::$items;
+        yield from $this->item_map->getAll();
     }
 
 
@@ -112,7 +183,7 @@ class MainMenuMainCollector implements Collector
      */
     public function hasItems() : bool
     {
-        return (is_array(self::$items) && count(self::$items) > 0);
+        return $this->item_map->has();
     }
 
 
@@ -122,12 +193,18 @@ class MainMenuMainCollector implements Collector
      * Additionally this will filter sequent Separators to avoid double Separators
      * in the UI.
      *
-     * @return isTopItem[]
+     * @return \Generator
      * @throws \Throwable
      */
-    public function getItemsForUITranslation() : array
+    public function getItemsForUIRepresentation() : \Generator
     {
-        return $this->getStackedTopItems();
+        foreach ($this->item_map->getAll() as $item) {
+            // $this->applyTypeHandler($item);
+            if ($item instanceof isTopItem) {
+                yield $item;
+            }
+        }
+        // return $this->getStackedTopItems();
     }
 
 
@@ -195,34 +272,16 @@ class MainMenuMainCollector implements Collector
 
 
     /**
-     * @param isItem $item
-     *
-     * @return bool
-     */
-
-    private function checkAvailability(isItem $item) : bool
-    {
-        $is_visible = $item->isVisible();
-        $is_item_active = $this->information->isItemActive($item);
-        $is_always_available = $item->isAlwaysAvailable();
-
-        return !(!$is_visible || !$is_item_active && !$is_always_available);
-    }
-
-
-    /**
      * @param IdentificationInterface $identification
      *
      * @return isItem
      * @throws \Throwable
+     *
+     * @deprecated
      */
     public function getSingleItem(IdentificationInterface $identification) : isItem
     {
-        try {
-            return self::$items[$identification->serialize()];
-        } catch (\Throwable $e) {
-            return $this->getLostItem($identification);
-        }
+        return $this->item_map->get($identification);
     }
 
 
@@ -248,108 +307,40 @@ class MainMenuMainCollector implements Collector
 
 
     /**
-     * @return bool
-     * @throws \Throwable
-     */
-    public function collect() : void
-    {
-        if ($this->loaded === false || $this->loaded === null) {
-            /**
-             * @var $provider            \ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider
-             * @var $top_item            \ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem
-             * @var $sub_item            \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild
-             */
-            try {
-                $this->loaded = true;
-                $this->loadTypeInformation();
-                $this->loadTopItems();
-                $this->loadSubItems();
-            } catch (\Throwable $e) {
-                throw $e;
-            }
-        }
-    }
-
-
-    private function loadTopItems()
-    {
-        foreach ($this->providers as $provider) {
-            foreach ($provider->getStaticTopItems() as $top_item) {
-                if ($top_item instanceof hasTitle && $this->information) {
-                    $top_item = $this->information->translateItemForUser($top_item);
-                }
-                $this->addItemToMap($top_item);
-            }
-        }
-    }
-
-
-    private function loadSubItems()
-    {
-        foreach ($this->providers as $provider) {
-            foreach ($provider->getStaticSubItems() as $sub_item) {
-                if ($sub_item instanceof hasTitle && $this->information) {
-                    $sub_item = $this->information->translateItemForUser($sub_item);
-                }
-                if ($sub_item instanceof isChild && $sub_item->hasParent()) {
-                    $new_parent_identification = $this->information->getParent($sub_item);
-                    $parent_item = $this->getSingleItem($new_parent_identification);
-                    if ($parent_item->getProviderIdentification() instanceof NullIdentification) {
-                        $this->addItemToMap($parent_item);
-                        // self::$items[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
-                        // self::$topitems[$parent_item->getProviderIdentification()->serialize()] = $parent_item;
-                        $sub_item->overrideParent($parent_item->getProviderIdentification());
-                    } else {
-                        $sub_item->overrideParent($new_parent_identification);
-                    }
-                    if ($this->itemExistsInMap($sub_item->getParent()) && $this->getItemFromMap($sub_item->getParent()) instanceof isParent) {
-                        $this->getItemFromMap($sub_item->getParent())->appendChild($sub_item);
-                        // self::$topitems[$sub_item->getParent()->serialize()]->appendChild($sub_item);
-                        if ($sub_item->isAlwaysAvailable()) {
-                            $parent = $this->getItemFromMap($sub_item->getParent())->withAlwaysAvailable(true);
-                            $this->addItemToMap($parent);
-                            // self::$topitems[$sub_item->getParent()->serialize()] = self::$topitems[$sub_item->getParent()->serialize()]->withAlwaysAvailable(true);
-                        }
-                    }
-                }
-                $this->addItemToMap($sub_item);
-                // self::$items[$sub_item->getProviderIdentification()->serialize()] = $sub_item; // register them always since they could be lost
-            }
-        }
-    }
-
-
-    /**
-     * @param isItem $item
-     *
-     * @return isItem
-     */
-    private function applyTypeHandler(isItem $item) : isItem
-    {
-        $item = $this->getHandlerForItem($item)->enrichItem($item);
-
-        return $item;
-    }
-
-
-    /**
      * @param isItem $item
      *
      * @return TypeHandler
      */
-    public function getHandlerForItem(isItem $item) : TypeHandler
+    public function getTypeHandlerForItem(isItem $item) : TypeHandler
     {
-        /**
-         * @var $handler TypeHandler
-         */
-        $type = get_class($item);
-        $type_information = $this->type_information_collection->get($type);
-        if (is_null($type_information)) {
+        $type_information = $this->getTypeInformationForItem($item);
+        if ($type_information === null) {
             return new BaseTypeHandler();
         }
-        $handler = $type_information->getTypeHandler();
 
-        return $handler;
+        return $type_information->getTypeHandler();
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return ItemInformation
+     */
+    public function getItemInformation() : ItemInformation
+    {
+        return $this->information;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return TypeInformation
+     */
+    public function getTypeInformationForItem(isItem $item) : TypeInformation
+    {
+        return $this->getTypeInformationCollection()->get(get_class($item));
     }
 
 
@@ -373,6 +364,15 @@ class MainMenuMainCollector implements Collector
         }
 
         return $children;
+    }
+
+
+    /**
+     * @return TypeInformationCollection
+     */
+    public function getTypeInformationCollection() : TypeInformationCollection
+    {
+        return $this->type_information_collection;
     }
 
 
@@ -404,71 +404,9 @@ class MainMenuMainCollector implements Collector
                     unset($children[$position]);
                     continue;
                 }
-
             }
         }
 
         return $children;
-    }
-
-
-    /**
-     * @return TypeInformationCollection
-     */
-    public function getTypeInformationCollection() : TypeInformationCollection
-    {
-        return $this->type_information_collection;
-    }
-
-
-    private function loadTypeInformation()
-    {
-        foreach ($this->providers as $provider) {
-            if ($provider instanceof StaticMainMenuProvider) {
-                $this->type_information_collection->append($provider->provideTypeInformation());
-            }
-        }
-    }
-
-
-    /**
-     * @param isItem $item
-     */
-    private function addItemToMap(isItem $item)
-    {
-        if ($item instanceof isItem) {
-            $item->setTypeInformation($this->type_information_collection->get(get_class($item)));
-        }
-
-        if ($item instanceof isTopItem) {
-            self::$topitems[$item->getProviderIdentification()->serialize()] = $item;
-        }
-        self::$items[$item->getProviderIdentification()->serialize()] = $item;
-    }
-
-
-    /**
-     * @param IdentificationInterface $identification
-     *
-     * @return bool
-     */
-    private function itemExistsInMap(IdentificationInterface $identification) : bool
-    {
-        return isset(self::$items[$identification->serialize()]);
-    }
-
-
-    /**
-     * @param IdentificationInterface $identification
-     *
-     * @return isItem|mixed
-     */
-    private function getItemFromMap(IdentificationInterface $identification)
-    {
-        if (!$this->itemExistsInMap($identification)) {
-            // Exception?
-        }
-
-        return self::$items[$identification->serialize()];
     }
 }
