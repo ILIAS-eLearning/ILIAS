@@ -597,6 +597,12 @@ class ilExerciseDataSet extends ilDataSet
 				$this->current_exc = $newObj;
 
 				$a_mapping->addMapping("Modules/Exercise", "exc", $a_rec["Id"], $newObj->getId());
+				$a_mapping->addMapping('Services/Object','objs', $a_rec['Id'], $newObj->getId());
+				$a_mapping->addMapping('Services/AdvancedMetaData','parent', $a_rec['Id'], $newObj->getId());
+				$a_mapping->addMapping(
+					"Services/MetaData",
+					"md",
+					$a_rec["Id"].":0:exc", $newObj->getId().":0:exc");
 				break;
 
 			case "exc_assignment":

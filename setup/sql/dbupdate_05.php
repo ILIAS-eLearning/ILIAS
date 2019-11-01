@@ -2672,3 +2672,30 @@ $setting = new ilSetting('lti');
 $setting->delete('custom_provider_create_role');
 
 ?>
+
+<#5567>
+<?php
+if(!$ilDB->tableExists('crs_reference_settings'))
+{
+	$ilDB->createTable('crs_reference_settings', [
+		'obj_id' => [
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'member_update' => [
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		]
+	]);
+}
+?>
+<#5568>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+
