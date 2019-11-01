@@ -304,21 +304,19 @@ class FinderTest extends TestCase
      */
     public function testSortingWorksAsExpected(Filesystem\Filesystem $fs) : void
     {
-        $this->assertGreaterThan(0, count($fs->listContents('/')));
-        
         $finder = (new Finder($fs))->in(['/']);
 
-        $this->assertEquals('file_1.txt', current($finder->files()->sortByTime()->getIterator())->getPath());
+        $this->assertEquals('file_1.txt', $finder->files()->sortByTime()->getIterator()->current()->getPath());
         $this->assertEquals(
             'dir_1/dir_1_2/file_7.cpp',
-            current($finder->files()->sortByTime()->reverseSorting()->getIterator())->getPath()
+            $finder->files()->sortByTime()->reverseSorting()->getIterator()->current()->getPath()
         );
 
-        $this->assertEquals('dir_1', current($finder->sortByName()->getIterator())->getPath());
-        $this->assertEquals('file_2.mp3', current($finder->sortByName()->reverseSorting()->getIterator())->getPath());
+        $this->assertEquals('dir_1', $finder->sortByName()->getIterator()->current()->getPath());
+        $this->assertEquals('file_2.mp3', $finder->sortByName()->reverseSorting()->getIterator()->current()->getPath());
 
-        $this->assertEquals('dir_1', current($finder->sortByType()->getIterator())->getPath());
-        $this->assertEquals('file_2.mp3', current($finder->sortByType()->reverseSorting()->getIterator())->getPath());
+        $this->assertEquals('dir_1', $finder->sortByType()->getIterator()->current()->getPath());
+        $this->assertEquals('file_2.mp3', $finder->sortByType()->reverseSorting()->getIterator()->current()->getPath());
 
         $customSortFinder = $finder->sort(function (Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) {
             if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
@@ -327,7 +325,7 @@ class FinderTest extends TestCase
 
             return 1;
         });
-        $this->assertEquals('dir_1/dir_1_1/file_5.cpp', current($customSortFinder->getIterator())->getPath());
+        $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $customSortFinder->getIterator()->current()->getPath());
         $all = array_values(iterator_to_array($customSortFinder->reverseSorting()->getIterator()));
         $last = $all[iterator_count($customSortFinder) - 1];
         $this->assertEquals('dir_1/dir_1_1/file_5.cpp', $last->getPath());
