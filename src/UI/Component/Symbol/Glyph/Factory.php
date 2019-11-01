@@ -951,4 +951,28 @@ interface Factory
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function close($action = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The More Glyph is used to symbolize an action that closes something
+     *      or leaves a previously initiated context.
+     *   composition: >
+     *      The More Glyph uses the glyphicon-option-vertical.
+     *   effect: >
+     *       Clicking the More Glyph displays the actions hidden behind the Glyph.
+     *
+     * context:
+     *    - This Glyph is currently used in the responsive view of the Meta Bar.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'More'.
+     * ---
+     * @param string|null	$action
+     * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function more($action = null);
 }

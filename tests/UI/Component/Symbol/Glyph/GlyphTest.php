@@ -53,7 +53,9 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::HELP				=> "glyphicon glyphicon-question-sign"
         , G\Glyph::CALENDAR			=> "glyphicon glyphicon-calendar"
         , G\Glyph::TIME				=> "glyphicon glyphicon-time"
-        );
+        , G\Glyph::CLOSE            => "glyphicon glyphicon-remove"
+        , G\Glyph::MORE             => "glyphicon glyphicon-option-vertical"
+    );
 
     public static $aria_labels = array(
           G\Glyph::SETTINGS			=> "settings"
@@ -87,6 +89,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::HELP				=> "help"
         , G\Glyph::CALENDAR			=> "calendar"
         , G\Glyph::TIME				=> "time"
+        , G\Glyph::CLOSE            => "close"
+        , G\Glyph::MORE             => "more"
     );
 
     /**

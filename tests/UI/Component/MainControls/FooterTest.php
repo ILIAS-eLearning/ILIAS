@@ -92,13 +92,6 @@ class FooterTest extends ILIAS_UI_TestBase
         return $footer;
     }
 
-    protected function brutallyTrimHTML($html)
-    {
-        $html = str_replace(["\n", "\r", "\t"], "", $html);
-        $html = preg_replace('# {2,}#', " ", $html);
-        return trim($html);
-    }
-
     public function getUIFactory()
     {
         $factory = new class extends NoUIFactory {

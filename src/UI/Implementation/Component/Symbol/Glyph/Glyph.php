@@ -83,6 +83,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::CALENDAR
         , self::TIME
         , self::CLOSE
+        , self::MORE
         );
 
 
