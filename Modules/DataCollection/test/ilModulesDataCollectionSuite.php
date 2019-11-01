@@ -11,8 +11,6 @@ class ilModulesDataCollectionSuite extends TestSuite
 {
     public static function suite()
     {
-        PHPUnit\Framework\Error\Deprecated::$enabled = false;
-
         $suite = new ilModulesDataCollectionSuite();
 
         // add each test class of the component
