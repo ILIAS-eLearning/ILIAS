@@ -156,7 +156,6 @@ il.Form = {
 			$("input[name=" + il.Form.escapeSelector(id) + "_ajax_target]").val('');
 			$("#" + il.Form.escapeSelector(id) + "_value").html('');
 			$(this.parentNode).css('display', 'none');
-			console.log(id);
 		});
 	},
 	
@@ -416,7 +415,6 @@ il.Form = {
 		content = content.replace(/&lt;/g, "<");
 		content = content.replace(/&gt;/g, ">");
 		content = content.replace(/&amp;/g, "&");
-		console.log(content);
 		var text_length = content.length;
 
 		var max_limit = $('#textarea_feedback_'+ed.id).data("maxchars");
