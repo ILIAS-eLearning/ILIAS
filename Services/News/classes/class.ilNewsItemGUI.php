@@ -4,10 +4,18 @@
 
 include_once("./Services/News/classes/class.ilNewsItem.php");
 
-define("IL_FORM_EDIT", 0);
-define("IL_FORM_CREATE", 1);
-define("IL_FORM_RE_EDIT", 2);
-define("IL_FORM_RE_CREATE", 3);
+if (!defined('IL_FORM_EDIT')) {
+	define("IL_FORM_EDIT", 0);
+}
+if (!defined('IL_FORM_CREATE')) {
+	define("IL_FORM_CREATE", 1);
+}
+if (!defined('IL_FORM_RE_EDIT')) {
+	define("IL_FORM_RE_EDIT", 2);
+}
+if (!defined('IL_FORM_RE_CREATE')) {
+	define("IL_FORM_RE_CREATE", 3);
+}
 
 /**
  * User Interface for NewsItem entities.
