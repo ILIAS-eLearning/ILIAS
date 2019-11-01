@@ -3,7 +3,9 @@
 
 require_once './Services/Http/classes/class.ilProxySettings.php';
 
-define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+if (!defined("MAGPIE_DIR")) {
+	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+}
 define("MAGPIE_CACHE_ON", true);
 if (defined('ILIAS_WEB_DIR') && defined('CLIENT_ID')) {
 	define("MAGPIE_CACHE_DIR", "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/magpie_cache");
