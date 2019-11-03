@@ -62,13 +62,14 @@ class ProcessingApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id,  int $attempt_number, string $lng_key)
+    public function __construct(int $container_obj_id, int $actor_user_id, int $attempt_number, string $lng_key)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->attempt_number = $attempt_number;
         $this->lng_key = $lng_key;
     }
+
 
     public function getProcessingQuestionGUI(string $revision_key, QuestionConfig $question_config) : ilAsqQuestionProcessingGUI
     {
@@ -91,13 +92,13 @@ class ProcessingApplicationService
         CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
     }
 
-    public function scoreAndProjectTestAttempt() : void {
 
-
-            CommandBusBuilder::getCommandBus()->handle(new ScoreTestAttemptCommand($question_id, $this->actor_user_id));
-
-
-
+    /**
+     * @param Answer[] $answers
+     */
+    public function scoreAndProjectTestAttempt(array $answers) : void
+    {
+        CommandBusBuilder::getCommandBus()->handle(new ScoreTestAttemptCommand($answers, $this->actor_user_id));
     }
 
 
@@ -121,11 +122,11 @@ class ProcessingApplicationService
         $page_gui->setPresentationTitle($question_dto->getData()->getTitle());
 
         $subbline = "";
-        if($question_config->getSubline()) {
-            $subbline .= $question_config->getSubline()." ";
+        if ($question_config->getSubline()) {
+            $subbline .= $question_config->getSubline() . " ";
         }
-        if($question_config->isShowTotalPointsOfQuestion()) {
-            $subbline .= "(TODO ".$DIC->language()->txt('points').")";
+        if ($question_config->isShowTotalPointsOfQuestion()) {
+            $subbline .= "(TODO " . $DIC->language()->txt('points') . ")";
         }
         $page_gui->setQuestionInfoHTML($subbline);
 
@@ -162,6 +163,7 @@ class ProcessingApplicationService
         return new ScoringComponent($question_dto, $this->getCurrentAnswer($question_dto));
     }
 
+
     /**
      * @param AssessmentEntityId $question_uuid
      *
@@ -184,7 +186,7 @@ class ProcessingApplicationService
         /** @var AbstractEditor $editor * */
         $editor = new $editor_class($question_dto);
 
-        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getRevisionId(),$question_dto->getContainerObjId(),$this->attempt_number,$editor->readAnswer());
+        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getRevisionId(), $question_dto->getContainerObjId(), $this->attempt_number, $editor->readAnswer());
     }
 
 
@@ -204,7 +206,7 @@ class ProcessingApplicationService
      * @param string $revision_key
      * @param int    $user_id
      * @param string $test_id
-     * @param int $attempt_number
+     * @param int    $attempt_number
      *
      * @return Answer|null
      */
@@ -258,27 +260,30 @@ class ProcessingApplicationService
         $repository = new PublishedQuestionRepository();
 
         $answered_quetsion_answera = [];
-        foreach($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
+        foreach ($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
 
-            $answer = $this->getUserAnswer($question->getId(),$question->getRevisionId(),$this->actor_user_id,$this->container_obj_id);
+            $answer = $this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->actor_user_id, $this->container_obj_id);
 
-            if(is_object($answer)) {
+            if (is_object($answer)) {
                 $answered_quetsion_answera[] = $answer;
             }
         }
+
         return $answered_quetsion_answera;
     }
+
 
     public function getUnansweredQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
 
         $unanswered_quetsions = [];
-        foreach($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
-            if(is_null($this->getUserAnswer($question->getId(),$question->getRevisionId(),$this->actor_user_id,$this->container_obj_id))) {
+        foreach ($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
+            if (is_null($this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->actor_user_id, $this->container_obj_id))) {
                 $unanswered_quetsions[] = $question;
             }
         }
+
         return $unanswered_quetsions;
     }
 }
