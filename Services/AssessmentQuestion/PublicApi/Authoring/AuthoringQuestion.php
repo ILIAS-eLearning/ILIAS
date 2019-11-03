@@ -35,6 +35,10 @@ class AuthoringQuestion
      */
     protected $actor_user_id;
     /**
+     * @var AuthoringQuestionAfterSaveCommandHandler
+     */
+    protected $authoring_question_after_save_command_handler;
+    /**
      * var string
      */
     protected $question_id;
@@ -47,14 +51,15 @@ class AuthoringQuestion
      */
     protected $authoring_application_service;
 
+
     /**
-     * QuestionAuthoring constructor.
+     * AuthoringQuestion constructor.
      *
-     * @param int    $container_obj_id
-     * @param string $question_uuid
-     * @param int    $actor_user_id
+     * @param int                                           $container_obj_id
+     * @param string                                        $question_uuid
+     * @param int                                           $actor_user_id
      */
-    public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id)
+    public function __construct(int $container_obj_id, string $question_uuid, int $actor_user_id,         ?AuthoringQuestionAfterSaveCommandHandler $authoring_question_after_save_command_handler = null)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
@@ -65,7 +70,9 @@ class AuthoringQuestion
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key);
+        $this->authoring_question_after_save_command_handler = $authoring_question_after_save_command_handler;
+
+        $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id, $this->lng_key, $authoring_question_after_save_command_handler);
 
         $DIC->language()->loadLanguageModule('asq');
     }
@@ -119,7 +126,7 @@ class AuthoringQuestion
             $afterQuestionCreationCtrlCommand
         );
 
-        return new ilAsqQuestionAuthoringGUI($authoringContextContainer, $question_config);
+        return new ilAsqQuestionAuthoringGUI($authoringContextContainer, $question_config, $this->authoring_question_after_save_command_handler);
     }
 
 

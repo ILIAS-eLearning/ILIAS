@@ -570,7 +570,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
         {
             return false;        
         }
-        
+
         return $this->data->isComplete() &&
                QuestionPlayConfiguration::isComplete($this);
     }

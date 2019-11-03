@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\Command\TestAuthoringQuestionAfterSaveCommandHandler;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as AsqAuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
@@ -201,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         $asqQuestionService = $this->asqAuthoringService->question(
-            $this->asqAuthoringService->currentOrNewQuestionId()
+            $this->asqAuthoringService->currentOrNewQuestionId(), new TestAuthoringQuestionAfterSaveCommandHandler()
         );
 
         $question_config = new QuestionConfig();
@@ -339,24 +340,6 @@ class ilObjTestGUI extends ilObjectGUI
             ///////////////////
 
             case strtolower(ilAsqQuestionAuthoringGUI::class):
-                switch ($this->ctrl->getCmd()) {
-                    default:
-                        $questionService = $this->asqAuthoringService->question(
-                            $this->asqAuthoringService->currentOrNewQuestionId()
-                        );
-
-                        if($questionService->getQuestionDto()->isComplete()) {
-                           $questionService->publishNewRevision();
-                            //get the question again with the new revision id
-                            $questionService = $this->asqAuthoringService->question(
-                                $this->asqAuthoringService->currentOrNewQuestionId()
-                            );
-                            $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->object)->getQuestionSetConfig();
-                            $questionSetConfig->updateRevisionId($questionService->getQuestionDto()->getId(), $questionService->getQuestionDto()->getRevisionId());
-                        }
-                        break;
-                }
-
                 $this->prepareOutput();
                 $this->addHeaderAction();
 

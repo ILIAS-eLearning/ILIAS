@@ -10,6 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\AvailableEditors;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Presenter\AvailablePresenters;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringQuestionAfterSaveCommandHandler;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
@@ -81,7 +82,7 @@ class ilAsqQuestionAuthoringGUI
      *
      * @param AuthoringContextContainer $authoring_context_container
      */
-	function __construct(AuthoringContextContainer $authoring_context_container, QuestionConfig $question_config)
+	function __construct(AuthoringContextContainer $authoring_context_container, QuestionConfig $question_config, ?AuthoringQuestionAfterSaveCommandHandler $authoring_question_after_save_command_handler = null)
 	{
 	    global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -92,7 +93,7 @@ class ilAsqQuestionAuthoringGUI
 	    $this->lng_key = $DIC->language()->getDefaultLanguage();
 
         $this->authoring_application_service = new AuthoringApplicationService(
-            $this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->lng_key
+            $this->authoring_context_container->getObjId(), $this->authoring_context_container->getActorId(), $this->lng_key, $authoring_question_after_save_command_handler
         );
 
         $this->authoring_service = $DIC->assessment()->questionAuthoring(

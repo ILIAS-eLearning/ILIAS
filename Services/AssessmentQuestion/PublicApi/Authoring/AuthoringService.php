@@ -63,15 +63,13 @@ class AuthoringService
 
 
     /**
-     * @param int                $container_obj_id
-     * @param AssessmentEntityId             $question_uuid
-     * @param int                $actor_user_id
+     * @param AssessmentEntityId                            $question_uuid
      *
      * @return AuthoringQuestion
      */
-    public function question(AssessmentEntityId $question_uuid) : AuthoringQuestion
+    public function question(AssessmentEntityId $question_uuid, ?AuthoringQuestionAfterSaveCommandHandler $authoring_question_after_save_command_handler = null) : AuthoringQuestion
     {
-        return new AuthoringQuestion($this->container_obj_id, $question_uuid->getId(), $this->actor_user_id);
+        return new AuthoringQuestion($this->container_obj_id, $question_uuid->getId(), $this->actor_user_id, $authoring_question_after_save_command_handler);
     }
 
 
