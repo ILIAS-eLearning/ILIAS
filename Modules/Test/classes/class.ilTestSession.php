@@ -103,7 +103,7 @@ class ilTestSession
 		$this->lastPresentationMode = null;
 		$this->submitted = FALSE;
 		$this->submittedTimestamp = "";
-		$this->pass = 0;
+		$this->pass = 1;
 		$this->ref_id = 0;
 		$this->tstamp = 0;
 

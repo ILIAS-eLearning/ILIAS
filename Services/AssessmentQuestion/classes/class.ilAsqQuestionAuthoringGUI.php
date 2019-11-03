@@ -405,13 +405,13 @@ class ilAsqQuestionAuthoringGUI
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->GetUserAnswer($question->getId(), (int)$this->authoring_context_container->getActorId(), $this->authoring_context_container->getObjId());
+                $answer = $player->getUserAnswer($question->getId(), '',(int)$this->authoring_context_container->getActorId(), $this->authoring_context_container->getObjId());
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
                 break;
             case "POST":
-                $answer = new Answer($this->authoring_context_container->getActorId(), $question->getId(), $this->authoring_context_container->getObjId(), $question_component->readAnswer());
+                $answer = new Answer($this->authoring_context_container->getActorId(), $question->getId(),'', $this->authoring_context_container->getObjId(),0, $question_component->readAnswer());
                 $player->answerQuestion($answer);
                 $question_component->setAnswer($answer);
                 break;

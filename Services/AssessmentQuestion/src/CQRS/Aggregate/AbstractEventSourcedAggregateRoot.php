@@ -71,5 +71,5 @@ abstract class AbstractEventSourcedAggregateRoot implements AggregateRoot, Recor
 	}
 
 
-	abstract function getAggregateId(): DomainObjectId;
+	abstract function getAggregateId(): ?DomainObjectId;
 }

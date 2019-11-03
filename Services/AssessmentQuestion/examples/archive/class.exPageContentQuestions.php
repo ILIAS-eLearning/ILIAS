@@ -23,7 +23,7 @@ class exPageContentQuestions
         global $DIC;
         /* @var ILIAS\DI\Container $DIC */
 
-        $this->question_processing = $DIC->assessment()->questionProcessing($DIC->user()->getId());
+        $this->question_processing = $DIC->assessment()->questionProcessing($DIC->user()->getId(), 1, 1);
 
         //TODO
         //	$this->questions_ressource_collector =

@@ -22,11 +22,12 @@ class ProcessingQuestionList implements QuestionList
      * @param int            $container_obj_id
      * @param int            $actor_user_id
      * @param QuestionConfig $question_config
+     * @param int            $attempt_number
      * @param string         $lng_key
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key)
+    public function __construct(int $container_obj_id, int $actor_user_id,  int $attempt_number, string $lng_key)
     {
-        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $lng_key);
+        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $attempt_number, $lng_key);
     }
 
 
@@ -53,5 +54,21 @@ class ProcessingQuestionList implements QuestionList
     public function getQuestionsOfContainerAsDtoList() : array
     {
         return $this->processing_application_service->GetQuestions();
+    }
+
+    /**
+     * @return QuestionDto[]
+     */
+    public function getAnsweredQuestionsOfContainerAsDtoList() : array
+    {
+        return $this->processing_application_service->getAnsweredQuestions();
+    }
+
+    /**
+     * @return QuestionDto[]
+     */
+    public function getUnAnsweredQuestionsOfContainerAsDtoList() : array
+    {
+        return $this->processing_application_service->getUnansweredQuestions();
     }
 }

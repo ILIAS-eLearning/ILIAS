@@ -72,7 +72,12 @@ class AuthoringApplicationService
     {
         $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($aggregate_id));
 
-        return QuestionDto::CreateFromQuestion($question);
+        if(is_object($question->getAggregateId())) {
+            return QuestionDto::CreateFromQuestion($question);
+        }
+        $question_dto = new QuestionDto();
+        $question_dto->setId($aggregate_id);
+        return $question_dto;
     }
 
 
@@ -129,14 +134,6 @@ class AuthoringApplicationService
             // save changes if there are any
             CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
         }
-
-        /**
-         * TODO: move this to event subscriber?
-         *
-         * this probably gets moved, but for the moment we keep an
-         * project on any question creation at this place
-         */
-        $this->projectQuestion($question_dto->getId());
     }
 
     public function importQtiQuestion(string $qti_item_xml) {
@@ -210,7 +207,7 @@ class AuthoringApplicationService
     public function getQuestionComponent(AssessmentEntityId $question_uuid) : QuestionComponent
     {
 
-        $question_config = new QuestionConfig();
+        $question_config = new QuestionConfig([]);
         $question_commands = new QuestionCommands();
 
         return new QuestionComponent($this->getQuestion($question_uuid->getId()), $question_config, $question_commands);

@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/Test/classes/class.ilTestPlayerCommands.php';
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
@@ -26,6 +28,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 {
 	const PRESENTATION_MODE_VIEW = 'view';
 	const PRESENTATION_MODE_EDIT = 'edit';
+
+    const CMD_REDIRECT_TO_NEXT_QUESTION = 'redirectToNextQuestion';
+    const CMD_REDIRECT_TO_PREVIOUS_QUESTION = 'redirectToPreviousQuestion';
+    const CMD_FINISH_TEST_SESSION = 'confirmFinishTest';
 
 	const FIXED_SHUFFLER_SEED_MIN_LENGTH = 8;
 	
@@ -60,6 +66,10 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
 	 */
 	protected $testSequence = null;
+    /**
+     * @var QuestionConfig
+     */
+    protected $question_config;
 
 	/**
 	* ilTestOutputGUI constructor
@@ -68,6 +78,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	*/
 	public function __construct($a_object)
 	{
+	    global $ilDB, $ilPluginAdmin;
+
 		parent::__construct($a_object);
 		$this->ref_id = $_GET["ref_id"];
 		
@@ -81,6 +93,17 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		$this->processLocker = null;
 		$this->testSession = null;
 		$this->assSettings = null;
+
+        $testSessionFactory = new ilTestSessionFactory($this->object);
+        $this->testSession = $testSessionFactory->getSession($_GET['active_id']);
+
+        $testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
+        $this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
+        $this->testSequence->loadFromDb();
+        $this->testSequence->loadQuestions();
+
+		//TODO please set those settings by Test setting!
+        $this->question_config = $this->getQuestionConfig();
 	}
 
 	protected function checkReadAccess()
@@ -1357,7 +1380,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	// hey.
 
+    abstract protected function getQuestionConfig():QuestionConfig;
+
 	abstract protected function showQuestionCmd();
+
+	abstract protected function redirectToNextQuestionCmd();
+
+    abstract protected function redirectToPreviousQuestionCmd();
 
 	abstract protected function editSolutionCmd();
 
@@ -3018,4 +3047,24 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
 		}
 	}
+
+    protected function isValidSequenceElement($sequenceElement)
+    {
+        if( $sequenceElement === false )
+        {
+            return false;
+        }
+
+        if( $sequenceElement < 1 )
+        {
+            return false;
+        }
+
+        if( !$this->testSequence->getPositionOfSequence($sequenceElement) )
+        {
+            return false;
+        }
+
+        return true;
+    }
 }

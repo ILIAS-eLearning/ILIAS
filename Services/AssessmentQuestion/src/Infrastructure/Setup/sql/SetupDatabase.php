@@ -124,6 +124,16 @@ class SetupDatabase {
                 'default' => ''
             ));
         }
+
+        if( !$DIC->database()->tableColumnExists('tst_test_question', 'revision_id') )
+        {
+            $DIC->database()->addTableColumn('tst_test_question', 'revision_id', array(
+                'type' => 'text',
+                'notnull' => false,
+                'length' => 64,
+                'default' => ''
+            ));
+        }
     }
 
     protected function cleanTestObjectTables()

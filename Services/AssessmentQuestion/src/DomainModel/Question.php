@@ -208,7 +208,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
     protected function applyQuestionAnswerAddedEvent(QuestionAnswerAddedEvent $event)
     {
         $answer = $event->getAnswer();
-        $this->answers[$answer->getTestId()][$answer->getRevisionKey()][$answer->getAnswererId()] = $answer;
+        $this->answers[$answer->getTestId()][$answer->getRevisionKey()][$answer->getAnswererId()][$answer->getAttemptNumber()] = $answer;
     }
 
     /**
@@ -388,9 +388,9 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
      *
      * @return Answer|null
      */
-    public function getAnswer(int $user_id, string $test_id, string $revision_key) : ?Answer
+    public function getAnswer(int $user_id, string $test_id, string $revision_key, int $attempt_number) : ?Answer
     {
-        return $this->answers[$test_id][$revision_key][$user_id];
+        return $this->answers[$test_id][$revision_key][$user_id][$attempt_number];
     }
 
 
@@ -556,7 +556,7 @@ class Question extends AbstractEventSourcedAggregateRoot implements IsRevisable
         return $question;
     }
 
-    public function getAggregateId() : DomainObjectId
+    public function getAggregateId() : ?DomainObjectId
     {
         return $this->id;
     }

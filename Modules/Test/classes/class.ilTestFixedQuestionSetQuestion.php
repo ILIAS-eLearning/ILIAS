@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+
 /**
  * Class ilTestFixedQuestionSetQuestion
  *
@@ -25,6 +27,10 @@ class ilTestFixedQuestionSetQuestion
      * @var string
      */
     protected $questionUid;
+    /**
+     * @var string
+     */
+    protected $questionRevisionId;
     /**
      * @var int
      */
@@ -51,12 +57,12 @@ class ilTestFixedQuestionSetQuestion
         $this->id = 0;
         $this->questionId = 0;
         $this->questionUid = '';
+        $this->questionRevisionId = '';
         $this->testId = 0;
         $this->sequencePosition = -1;
         $this->isObligatory = false;
         $this->updateTimestamp = 0;
     }
-
 
     /**
      * @return int
@@ -109,6 +115,24 @@ class ilTestFixedQuestionSetQuestion
     public function setQuestionUid(string $questionUid) : void
     {
         $this->questionUid = $questionUid;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getQuestionRevisionId() : string
+    {
+        return $this->questionRevisionId;
+    }
+
+
+    /**
+     * @param string $questionRevisionId
+     */
+    public function setQuestionRevisionId(string $questionRevisionId) : void
+    {
+        $this->questionRevisionId = $questionRevisionId;
     }
 
 
@@ -196,6 +220,7 @@ class ilTestFixedQuestionSetQuestion
                 case 'test_question_id': $this->setId((int)$value); break;
                 case 'question_fi': $this->setQuestionId((int)$value); break;
                 case 'question_uid': $this->setQuestionUid((string)$value); break;
+                case 'revision_id': $this->setQuestionRevisionId((string)$value); break;
                 case 'test_fi': $this->setTestId((int)$value); break;
                 case 'sequence': $this->setSequencePosition((int)$value); break;
                 case 'obligatory': $this->setIsObligatory((bool)$value); break;
@@ -224,6 +249,7 @@ class ilTestFixedQuestionSetQuestion
             [
                 'question_fi' => ['integer', $this->getQuestionId()],
                 'question_uid' => ['text', $this->getQuestionUid()],
+                'revision_id' => ['text', $this->getQuestionRevisionId()],
                 'test_fi' => ['integer', $this->getTestId()],
                 'sequence' => ['integer', $this->getSequencePosition()],
                 'obligatory' => ['integer', $this->isObligatory()],
@@ -245,6 +271,7 @@ class ilTestFixedQuestionSetQuestion
             'test_question_id' => ['integer', $this->getId()],
             'question_fi' => ['integer', $this->getQuestionId()],
             'question_uid' => ['text', $this->getQuestionUid()],
+            'revision_id' => ['text', $this->getQuestionRevisionId()],
             'test_fi' => ['integer', $this->getTestId()],
             'sequence' => ['integer', $this->getSequencePosition()],
             'obligatory' => ['integer', $this->isObligatory()],

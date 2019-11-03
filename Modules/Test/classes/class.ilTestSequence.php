@@ -26,8 +26,16 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	* The mapping of the sequence numbers to the questions
 	*
 	* @var array
+	 * @deprecated please use $question_revision_ids
 	*/
 	var $questions;
+
+	/**
+	 * The mapping of the sequence numbers to the $question_revision_ids
+	 *
+	 * @var array
+	 */
+	var $question_revision_ids;
 
 	/**
 	* The active id of the sequence data
@@ -155,6 +163,8 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 		foreach($testQuestionList as $testQuestion)
 		{
 			$this->questions[$index++] = $testQuestion->getQuestionId();
+
+			$this->question_revision_ids[$testQuestion->getSequencePosition()] = $testQuestion->getQuestionRevisionId();
 		}
 	}
 	
@@ -702,12 +712,34 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 		return $result;
 	}
 
-	function getQuestionForSequence($sequence)
+
+	/**
+	 * @deprecated use getQuestionRevisionIdForSequence
+	 */
+	function getQuestionForSequence(int $sequence)
 	{
 		if ($sequence < 1) return FALSE;
 		if (array_key_exists($sequence, $this->questions))
 		{
 			return $this->questions[$sequence];
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @param int $sequence
+	 *
+	 * @return string $revision_id
+	 */
+	function getQuestionRevisionIdForSequence(int $sequence): string
+	{
+		if ($sequence < 1) return FALSE;
+		if (array_key_exists($sequence, $this->questions))
+		{
+			return $this->question_revision_ids[$sequence];
 		}
 		else
 		{

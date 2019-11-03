@@ -150,6 +150,8 @@ class ilAsqQuestionPreviewGUI
             $this->question_id->getId(),
             $this->context_container->getObjId(),
             '',
+            '',
+            0,
             $this->questionComponent->readAnswer()
         );
 
