@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
@@ -78,5 +79,29 @@ abstract class AbstractScoring {
             return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_CORRECT;
         }
         return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_INCORRECT;
+    }
+
+    protected function createScoreDto(Answer $answer, float $max_points, float $reached_points, $answer_feedback_type):AnswerScoreDto {
+
+        $percent_solved = 0;
+        if($max_points > 0) {
+            $percent_solved = $reached_points / $max_points * 100;
+        }
+
+        return new AnswerScoreDto(
+            $this->question->getContainerObjId(),
+            AnswerScoreDto::ANSWER_IMPORTED_SOURCE_TYPE_NONE,
+            $answer->getAnswererId(),
+            $this->question->getId(),
+            $this->question->getRevisionId(),
+            $answer->getAttemptNumber(),
+            new ilDateTime(time(), IL_CAL_UNIX),
+            $this->question->getQuestionIntId(),
+            $this->question->getData()->getTitle(),
+            $answer->getValue(),
+            $reached_points,
+            $max_points,
+            $percent_solved,
+            $answer_feedback_type);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -43,7 +44,11 @@ class NumericScoring extends AbstractScoring
             $reached_points = $scoring_conf->getPoints();
         }
 
-        return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
+        if($max_points > 0) {
+            $percent_solved = $reached_points / $max_points * 100;
+        }
+
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
     public function getBestAnswer(): Answer

@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
@@ -66,7 +67,7 @@ class FormulaScoring extends AbstractScoring {
         $calculation = $math->evaluate($split[0]);
         $result = $math->evaluate($split[1]);
 
-        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
+        $answer_score =  $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
         if($calculation == $result) {
             return $answer_score;
         }

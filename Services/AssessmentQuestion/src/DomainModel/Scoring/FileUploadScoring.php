@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -53,9 +54,8 @@ class FileUploadScoring extends AbstractScoring {
         else {
             // TODO go look for manual scoring or throw exception
         }
-        
-        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
-        return $answer_score;
+
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     /**

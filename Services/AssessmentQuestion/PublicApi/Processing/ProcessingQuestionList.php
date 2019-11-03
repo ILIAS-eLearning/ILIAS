@@ -30,6 +30,11 @@ class ProcessingQuestionList implements QuestionList
         $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $attempt_number, $lng_key);
     }
 
+    public function scoreAndProjectTestAttempt() : void
+    {
+        $this->processing_application_service->scoreAndProjectTestAttempt();
+    }
+
 
     public function getQuestionsOfContainerAsAssocArray() : array
     {
@@ -61,7 +66,7 @@ class ProcessingQuestionList implements QuestionList
      */
     public function getAnsweredQuestionsOfContainerAsDtoList() : array
     {
-        return $this->processing_application_service->getAnsweredQuestions();
+        return $this->processing_application_service->getAnswersFromAnsweredQuestions();
     }
 
     /**

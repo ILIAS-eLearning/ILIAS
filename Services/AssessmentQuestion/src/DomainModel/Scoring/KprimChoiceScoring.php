@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -48,16 +49,12 @@ class KprimChoiceScoring extends AbstractScoring {
         $max_points += $scoring_conf->getPoints();
         if ($count === count($answers)) {
             $reached_points = $scoring_conf->getPoints();
-            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         } 
         else if ($count >= $scoring_conf->getHalfPointsAt()) {
             $reached_points = floor($scoring_conf->getPoints() / 2);
-            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
-        } 
-        else {
-            $reached_points =  0;
-            return new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         }
+
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     public function getBestAnswer(): Answer

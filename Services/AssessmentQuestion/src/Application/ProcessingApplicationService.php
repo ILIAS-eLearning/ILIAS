@@ -4,6 +4,8 @@ namespace ILIAS\AssessmentQuestion\Application;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
+use ILIAS\AssessmentQuestion\DomainModel\Command\ScoreTestAttemptCommand;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
@@ -87,6 +89,15 @@ class ProcessingApplicationService
     public function answerQuestion(Answer $answer)
     {
         CommandBusBuilder::getCommandBus()->handle(new AnswerQuestionCommand($answer));
+    }
+
+    public function scoreAndProjectTestAttempt() : void {
+
+
+            CommandBusBuilder::getCommandBus()->handle(new ScoreTestAttemptCommand($question_id, $this->actor_user_id));
+
+
+
     }
 
 
@@ -240,19 +251,22 @@ class ProcessingApplicationService
 
 
     /**
-     * @return QuestionDto[]
+     * @return Answer[]
      */
-    public function getAnsweredQuestions() : array
+    public function getAnswersFromAnsweredQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
 
-        $unanswered_quetsions = [];
+        $answered_quetsion_answera = [];
         foreach($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
-            if(is_object($this->getUserAnswer($question->getId(),$question->getRevisionId(),$this->actor_user_id,$this->container_obj_id))) {
-                $unanswered_quetsions[] = $question;
+
+            $answer = $this->getUserAnswer($question->getId(),$question->getRevisionId(),$this->actor_user_id,$this->container_obj_id);
+
+            if(is_object($answer)) {
+                $answered_quetsion_answera[] = $answer;
             }
         }
-        return $unanswered_quetsions;
+        return $answered_quetsion_answera;
     }
 
     public function getUnansweredQuestions() : array

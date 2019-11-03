@@ -105,7 +105,7 @@ class QuestionProcessingToolbarGUI extends ilToolbarGUI
 			$this->addSuspendTestButton();
 		}*/
 
-		if(is_object($this->question_config->getShowNextQuestionAction()))
+		if(is_object($this->question_config->getShowFinishTestSessionAction()))
 		{
 			$this->addFinishTestButton();
 		}

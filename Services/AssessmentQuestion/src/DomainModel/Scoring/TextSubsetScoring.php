@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -22,6 +23,11 @@ use Exception;
  */
 class TextSubsetScoring extends AbstractScoring
 {
+
+    /**
+     * @var Answer
+     */
+    protected $answer;
     
     const VAR_TEXT_MATCHING = 'tss_text_matching';
     const TM_CASE_INSENSITIVE = 1;
@@ -36,11 +42,12 @@ class TextSubsetScoring extends AbstractScoring
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring::score()
      */
-    function score(Answer $answer) : AnswerScoreDto
+    public function score(Answer $answer) : AnswerScoreDto
     {
+        $this->answer = $answer;
+
         /** @var TextSubsetScoringConfiguration $scoring_conf */
         $scoring_conf = $this->question->getPlayConfiguration()->getScoringConfiguration();
-
 
         $answer_arr = json_decode($answer->getValue(), true);
         
@@ -72,8 +79,10 @@ class TextSubsetScoring extends AbstractScoring
             $answers[] = $option->getScoringDefinition()->getText();
         }
         
-        return new Answer(0, $this->question->getId(), '',,'',0,  json_encode($answers));
+        return new Answer(0, $this->question->getId(), '',0,0, json_encode($answers));
     }
+
+
     
     /**
      * @param array $answer_arr
@@ -92,7 +101,7 @@ class TextSubsetScoring extends AbstractScoring
             }
         }
 
-        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        return $this->createScoreDto($this->answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     /**
@@ -112,7 +121,7 @@ class TextSubsetScoring extends AbstractScoring
             }
         }
 
-        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        return $this->createScoreDto($this->answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     /**
@@ -133,7 +142,7 @@ class TextSubsetScoring extends AbstractScoring
             }
         }
 
-        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        return $this->createScoreDto($this->answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     /**

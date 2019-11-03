@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -47,20 +48,26 @@ class OrderingScoring extends AbstractScoring
             }
         }
 
-        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        if ($max_points > 0) {
+            $percent_solved = $reached_points / $max_points * 100;
+        }
+
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
-    public function getBestAnswer(): Answer
+
+    public function getBestAnswer() : Answer
     {
         $answers = [];
-        
+
         for ($i = 1; $i <= count($this->question->getAnswerOptions()->getOptions()); $i++) {
             $answers[] = $i;
         }
-        
-        return new Answer(0, $this->question->getId(), '','',0, json_encode($answers));
+
+        return new Answer(0, $this->question->getId(), '', '', 0, json_encode($answers));
     }
-    
+
+
     /**
      * @param AbstractConfiguration|null $config
      *
@@ -100,8 +107,9 @@ class OrderingScoring extends AbstractScoring
     {
         return EmptyScoringDefinition::class;
     }
-    
-    public static function isComplete(Question $question): bool
+
+
+    public static function isComplete(Question $question) : bool
     {
         return false;
     }

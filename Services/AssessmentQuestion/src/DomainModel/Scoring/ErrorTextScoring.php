@@ -2,6 +2,8 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
+use ilDateTimeException;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
@@ -61,10 +63,8 @@ class ErrorTextScoring extends AbstractScoring {
                 $reached_points += $this->question->getPlayConfiguration()->getScoringConfiguration()->getPointsWrong();
             }
         }
-
-        $answer_score = new AnswerScoreDto($reached_points,$max_points,$this->getAnswerFeedbackType($reached_points,$max_points));
         
-        return $answer_score;
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
     
     public function getBestAnswer() : Answer {
