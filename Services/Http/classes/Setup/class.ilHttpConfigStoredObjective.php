@@ -4,7 +4,7 @@
 
 use ILIAS\Setup;
 
-class ilHttpSetIniObjective implements Setup\Objective {
+class ilHttpConfigStoredObjective implements Setup\Objective {
 	/**
 	 * @var	\ilHttpSetupConfig
 	 */
@@ -21,7 +21,7 @@ class ilHttpSetIniObjective implements Setup\Objective {
 	}
 
 	public function getLabel() : string {
-		return "Fill ini with settings for Services/Http";
+		return "Store configuration of Services/Http";
 	}
 
 	public function isNotable() : bool {
@@ -31,7 +31,8 @@ class ilHttpSetIniObjective implements Setup\Objective {
 	public function getPreconditions(Setup\Environment $environment) : array {
 		$common_config = $environment->getConfigFor("common");
 		return [
-			new ilIniFilePopulatedObjective($common_config)
+			new ilIniFilePopulatedObjective($common_config),
+			new \ilSettingsFactoryExistsObjective()
 		];
 	}
 
@@ -43,9 +44,16 @@ class ilHttpSetIniObjective implements Setup\Objective {
 		$ini->setVariable("https","auto_https_detect_header_name", $this->config->getHeaderName());
 		$ini->setVariable("https","auto_https_detect_header_value", $this->config->getHeaderValue());
 
+
 		if (!$ini->write()) {
 			throw new Setup\UnachievableException("Could not write ilias.ini.php");
 		}
+
+		$factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+		$settings = $factory->settingsFor("common");
+		$settings->set("proxy_status", (int) $this->config->isProxyEnabled());
+		$settings->set("proxy_host", $this->config->getProxyHost());
+		$settings->set("proxy_port", $this->config->getProxyPort());
 
 		return $environment;
 	}
