@@ -58,6 +58,7 @@ function build_container_for_setup() {
 			[
 				"common" => $c["agent.common"],
 				"filesystem" => $c["agent.filesystem"],
+				"globalcache" => $c["agent.globalcache"],
 				"http" => $c["agent.http"],
 				"language" => $c["agent.language"],
 				"logging" => $c["agent.logging"],
@@ -100,6 +101,12 @@ function build_container_for_setup() {
 
 	$c["agent.filesystem"] = function ($c) {
 		return new \ilFileSystemSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.globalcache"] = function ($c) {
+		return new \ilGlobalCacheSetupAgent(
 			$c["refinery"]
 		);
 	};
