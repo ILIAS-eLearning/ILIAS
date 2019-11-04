@@ -956,8 +956,8 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *      The More Glyph is used to symbolize an action that closes something
-     *      or leaves a previously initiated context.
+     *      The More Glyph is used to symbolize a set of actions that can not
+     *      be displayed directly due to scarce space.
      *   composition: >
      *      The More Glyph uses the glyphicon-option-vertical.
      *   effect: >
@@ -965,8 +965,13 @@ interface Factory
      *
      * context:
      *    - This Glyph is currently used in the responsive view of the Meta Bar.
+     *    - This Glyph is currently used in the responsive view of the Main Bar.
      *
      * rules:
+     *   usage:
+     *       1: >
+     *          The usage of this Glyph SHOULD be avoided if possible. Invisible
+     *          actual reduce the afordance of a screen.
      *   accessibility:
      *       1: >
      *          The aria-label MUST be 'More'.
