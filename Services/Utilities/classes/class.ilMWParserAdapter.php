@@ -16,7 +16,9 @@ if (!function_exists("wfProfileOut"))
 include_once("./include/Unicode/UtfNormalUtil.php");
 
 // From include/Unicode/UtfNormal.php
-define( 'UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/ );
+if (!defined('UTF8_REPLACEMENT')) {
+	define('UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/);
+}
 
 /**
  * Returns a regular expression of url protocols

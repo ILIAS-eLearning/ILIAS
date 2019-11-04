@@ -184,6 +184,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				tools_area.addClass(_cls_btn_engaged);
 			} else {
 				tools_area.removeClass(_cls_btn_engaged);
+				_disengageButton(_getToolsButton());
 			}
 		};
 

@@ -982,7 +982,7 @@ class ilObjContentObject extends ilObject
 	}
 
 	/**
-	* get page header mode (IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER)
+	* get page header mode (ilLMOBject::CHAPTER_TITLE | ilLMOBject::PAGE_TITLE | ilLMOBject::NO_HEADER)
 	*/
 	function getPageHeader()
 	{
@@ -992,9 +992,9 @@ class ilObjContentObject extends ilObject
 	/**
 	* set page header mode
 	*
-	* @param string $a_pg_header		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
+	* @param string $a_pg_header		ilLMOBject::CHAPTER_TITLE | ilLMOBject::PAGE_TITLE | ilLMOBject::NO_HEADER
 	*/
-	function setPageHeader($a_pg_header = IL_CHAPTER_TITLE)
+	function setPageHeader($a_pg_header = ilLMObject::CHAPTER_TITLE)
 	{
 		$this->pg_header = $a_pg_header;
 	}

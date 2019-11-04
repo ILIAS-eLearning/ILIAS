@@ -107,6 +107,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
+            ->withVisibilityCallable(function () {
+                return (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            })
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(20);

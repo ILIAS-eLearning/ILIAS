@@ -38,7 +38,12 @@ include_once("./Services/Feeds/classes/class.ilExternalFeed.php");
 */
 class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 {
-	/**
+    const FORM_EDIT = 0;
+    const FORM_CREATE = 1;
+    const FORM_RE_EDIT = 2;
+    const FORM_RE_CREATE = 2;
+
+    /**
 	 * @var ilSetting
 	 */
 	protected $settings;
@@ -395,7 +400,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 	* FORM FeedBlock: Init form. (We need to overwrite, because Generator
 	* does not know FeedUrl Inputs yet.
 	*
-	* @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param	int	$a_mode	Form Edit Mode
 	*/
 	public function initFormFeedBlock($a_mode)
 	{
@@ -423,7 +428,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		
 		// save and cancel commands
-		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE)))
 		{
 			$this->form_gui->addCommandButton("saveFeedBlock", $lng->txt("save"));
 			$this->form_gui->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));

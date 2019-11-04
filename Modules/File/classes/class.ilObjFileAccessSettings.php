@@ -342,7 +342,8 @@ class ilObjFileAccessSettings extends ilObject
         $settings = new ilSetting('file_access');
         $ilClientIniFile = $DIC['ilClientIniFile'];
         $this->webdavEnabled = $ilClientIniFile->readVariable('file_access', 'webdav_enabled') == '1';
-        $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '0') == '1';
+        // default_value = 1 for versionigEnabled because it was already standard before ilias5.4
+        $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '1') == '1';
         $this->webdavActionsVisible = $ilClientIniFile->readVariable('file_access', 'webdav_actions_visible') == '1';
         $this->downloadWithUploadedFilename = $ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename') == '1';
         $ilClientIniFile->ERROR = false;
