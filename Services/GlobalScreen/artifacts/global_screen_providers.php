@@ -58,7 +58,9 @@
     0 => 'ILIAS\\Container\\Screen\\MemberViewLayoutProvider',
     1 => 'ILIAS\\GlobalScreen\\Provider\\GSModificationProvider',
     2 => 'ILIAS\\Init\\Provider\\StartUpModificationProvider',
-    3 => 'ILIAS\\UICore\\PageContentProvider',
+    3 => 'ILIAS\\LTI\\Screen\\LtiViewLayoutProvider',
+    4 => 'ILIAS\\UICore\\PageContentProvider',
+    5 => 'ilHTMLExportViewLayoutProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
   array (

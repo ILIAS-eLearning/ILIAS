@@ -115,6 +115,10 @@ class ilExAssignment
 	protected $relative_deadline = 0;
 	protected $starting_timestamp = null;
 
+    /**
+     * @var
+     */
+	protected $rel_deadline_last_subm;
 	
 	protected $member_status = array(); // [array]
 
@@ -325,6 +329,27 @@ class ilExAssignment
 	{
 		return $this->relative_deadline;
 	}
+	
+	/**
+	 * Set relative deadline last submission
+	 *
+	 * @param int $a_val 	
+	 */
+	function setRelDeadlineLastSubmission($a_val)
+	{
+		$this->rel_deadline_last_subm = $a_val;
+	}
+	
+	/**
+	 * Get relative deadline last submission
+	 *
+	 * @return int 
+	 */
+	function getRelDeadlineLastSubmission()
+	{
+		return $this->rel_deadline_last_subm;
+	}
+	
 	
 	/**
 	 * Get individual deadline (max of common or idl (team) deadline = Official Deadline)
@@ -997,6 +1022,7 @@ class ilExAssignment
 		$this->setMaxCharLimit($a_set["max_char_limit"]);
 		$this->setDeadlineMode($a_set["deadline_mode"]);
 		$this->setRelativeDeadline($a_set["relative_deadline"]);
+		$this->setRelDeadlineLastSubmission($a_set["rel_deadline_last_subm"]);
 	}
 	
 	/**
@@ -1046,6 +1072,7 @@ class ilExAssignment
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
 			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
 			"relative_deadline" => array("integer", $this->getRelativeDeadline()),
+			"rel_deadline_last_subm" => array("integer", (int) $this->getRelDeadlineLastSubmission()),
 			"deadline_mode" => array("integer", $this->getDeadlineMode())
 			));
 		$this->setId($next_id);
@@ -1095,7 +1122,8 @@ class ilExAssignment
 			"min_char_limit" => array("integer", $this->getMinCharLimit()),
 			"max_char_limit" => array("integer", $this->getMaxCharLimit()),
 			"deadline_mode" => array("integer", $this->getDeadlineMode()),
-			"relative_deadline" => array("integer", $this->getRelativeDeadline())
+			"relative_deadline" => array("integer", $this->getRelativeDeadline()),
+			"rel_deadline_last_subm" => array("integer", (int) $this->getRelDeadlineLastSubmission())
 			),
 			array(
 			"id" => array("integer", $this->getId()),
@@ -1168,7 +1196,8 @@ class ilExAssignment
 				"fb_date" => $rec["fb_date"],
 				"fb_cron" => $rec["fb_cron"],
 				"deadline_mode" => $rec["deadline_mode"],
-				"relative_deadline" => $rec["relative_deadline"]
+				"relative_deadline" => $rec["relative_deadline"],
+				"rel_deadline_last_subm" => $rec["rel_deadline_last_subm"]
 				);
 			$order_val += 10;
 		}
@@ -1218,7 +1247,8 @@ class ilExAssignment
 			$new_ass->setPortfolioTemplateId($d->getPortfolioTemplateId());
 			$new_ass->setDeadlineMode($d->getDeadlineMode());
 			$new_ass->setRelativeDeadline($d->getRelativeDeadline());
-			
+			$new_ass->setRelDeadlineLastSubmission($d->getRelDeadlineLastSubmission());
+
 			// criteria catalogue(s)
 			if($d->getPeerReviewCriteriaCatalogue() &&
 				array_key_exists($d->getPeerReviewCriteriaCatalogue(), $a_crit_cat_map))
@@ -1427,7 +1457,7 @@ class ilExAssignment
 	}
 
 	/**
-	 * Order assignments by deadline date
+	 * Count the number of mandatory assignments
 	 */
 	static function countMandatory($a_ex_id)
 	{
@@ -1441,6 +1471,41 @@ class ilExAssignment
 			);
 		$rec = $ilDB->fetchAssoc($set);
 		return $rec["cntm"];
+	}
+
+	/**
+	 * Order assignments by deadline date
+	 */
+	static function count($a_ex_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT count(*) cntm FROM exc_assignment ".
+			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer")
+			);
+		$rec = $ilDB->fetchAssoc($set);
+		return $rec["cntm"];
+	}
+
+	/**
+	 * Is assignment in exercise?
+	 */
+	static function isInExercise($a_ass_id, $a_ex_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$set = $ilDB->query("SELECT * FROM exc_assignment ".
+			" WHERE exc_id = ".$ilDB->quote($a_ex_id, "integer").
+			" AND id = ".$ilDB->quote($a_ass_id, "integer")
+			);
+		if ($rec = $ilDB->fetchAssoc($set)) {
+		    return true;
+        }
+        return false;
 	}
 
 ///

@@ -36,11 +36,20 @@ class ilObjExercise extends ilObject
 	var $certificate_visibility;
 	
 	var $tutor_feedback = 7; // [int]
+
+    /**
+     * @var int number of mandatory assignments in random pass mode
+     */
+	protected $nr_random_mand;
 	
 	const TUTOR_FEEDBACK_MAIL = 1;
 	const TUTOR_FEEDBACK_TEXT = 2;
 	const TUTOR_FEEDBACK_FILE = 4;
-	
+
+	const PASS_MODE_NR = "nr";
+	const PASS_MODE_ALL = "all";
+	const PASS_MODE_RANDOM = "random";
+
 	/**
 	 * 
 	 * Indicates whether completion by submission is enabled or not
@@ -55,6 +64,11 @@ class ilObjExercise extends ilObject
 	 * @var \ILIAS\Filesystem\Filesystem
 	 */
 	private $webFilesystem;
+
+    /**
+     * @var ilExcMandatoryAssignmentManager
+     */
+	protected $mandatory_manager;
 
 	/**
 	* Constructor
@@ -75,6 +89,8 @@ class ilObjExercise extends ilObject
 		$this->webFilesystem = $DIC->filesystem()->web();
 
 		parent::__construct($a_id,$a_call_by_reference);
+
+		$this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this);
 	}
 
 	// SET, GET METHODS
@@ -165,6 +181,26 @@ class ilObjExercise extends ilObject
 		return $this->show_submissions;
 	}
 	
+	/**
+	 * Set number of mandatory assignments in random pass mode
+	 *
+	 * @param int $a_val 	
+	 */
+	function setNrMandatoryRandom($a_val)
+	{
+		$this->nr_random_mand = $a_val;
+	}
+	
+	/**
+	 * Get number of mandatory assignments in random pass mode
+	 *
+	 * @return int 
+	 */
+	function getNrMandatoryRandom()
+	{
+		return $this->nr_random_mand;
+	}
+	
 
 /*	function getFiles()
 	{
@@ -215,6 +251,7 @@ class ilObjExercise extends ilObject
 			"instruction" => array("clob", $this->getInstruction()),
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
+			"nr_mandatory_random" => array("integer", (int) $this->getNrMandatoryRandom()),
 			"pass_nr" => array("text", $this->getPassNr()),
 			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
 			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled()),
@@ -240,6 +277,7 @@ class ilObjExercise extends ilObject
 	 	$new_obj->setInstruction($this->getInstruction());
 	 	$new_obj->setTimestamp($this->getTimestamp());
 	 	$new_obj->setPassMode($this->getPassMode());
+	 	$new_obj->setNrMandatoryRandom($this->getNrMandatoryRandom());
 	 	$new_obj->saveData();
 	 	$new_obj->setPassNr($this->getPassNr());
 	 	$new_obj->setShowSubmissions($this->getShowSubmissions());
@@ -343,6 +381,7 @@ class ilObjExercise extends ilObject
 			{
 				$this->setPassNr($row->pass_nr);
 			}
+			$this->setNrMandatoryRandom($row->nr_mandatory_random);
 			$this->setCompletionBySubmission($row->compl_by_submission == 1 ? true : false);
 			$this->setCertificateVisibility($row->certificate_visibility);
 			$this->setTutorFeedback($row->tfeedback);
@@ -373,6 +412,7 @@ class ilObjExercise extends ilObject
 			"time_stamp" => array("integer", $this->getTimestamp()),
 			"pass_mode" => array("text", $this->getPassMode()),
 			"pass_nr" => array("integer", $this->getPassNr()),
+			"nr_mandatory_random" => array("integer", (int) $this->getNrMandatoryRandom()),
 			"show_submissions" => array("integer", (int) $this->getShowSubmissions()),
 			'compl_by_submission' => array('integer', (int)$this->isCompletionBySubmissionEnabled()),
 			'tfeedback' => array('integer', (int)$this->getTutorFeedback()),
@@ -480,6 +520,8 @@ class ilObjExercise extends ilObject
 	{
 		$ilUser = $this->user;
 
+        $mandatory_manager = $this->mandatory_manager;
+
 		if ($a_user_id == 0)
 		{
 			$a_user_id = $ilUser->getId();
@@ -492,16 +534,17 @@ class ilObjExercise extends ilObject
 		$failed_a_mandatory = false;
 		$cnt_passed = 0;
 		$cnt_notgraded = 0;
-		$passed_at_least_one = false;
-		
+
+		/** @var ilExAssignment $a */
 		foreach ($ass as $a)
 		{
 			$stat = $a->getMemberStatus($a_user_id)->getStatus();
-			if ($a->getMandatory() && ($stat == "failed" || $stat == "notgraded"))
+			$mandatory = $mandatory_manager->isMandatoryForUser($a->getId(), $a_user_id);
+			if ($mandatory && ($stat == "failed" || $stat == "notgraded"))
 			{
 				$passed_all_mandatory = false;
 			}
-			if ($a->getMandatory() && ($stat == "failed"))
+			if ($mandatory && ($stat == "failed"))
 			{
 				$failed_a_mandatory = true;
 			}
@@ -520,39 +563,44 @@ class ilObjExercise extends ilObject
 			$passed_all_mandatory = false;
 		}
 		
-		if ($this->getPassMode() != "nr")
+		if ($this->getPassMode() == self::PASS_MODE_ALL)
 		{
-//echo "5";
 			$overall_stat = "notgraded";
 			if ($failed_a_mandatory)
 			{
-//echo "6";
 				$overall_stat = "failed";
 			}
 			else if ($passed_all_mandatory && $cnt_passed > 0)
 			{
-//echo "7";
 				$overall_stat = "passed";
 			}
 		}
-		else
+		else if ($this->getPassMode() == self::PASS_MODE_NR)
 		{
-//echo "8";
 			$min_nr = $this->getPassNr();
 			$overall_stat = "notgraded";
-//echo "*".$cnt_passed."*".$cnt_notgraded."*".$min_nr."*";
 			if ($failed_a_mandatory || ($cnt_passed + $cnt_notgraded < $min_nr))
 			{
-//echo "9";
 				$overall_stat = "failed";
 			}
 			else if ($passed_all_mandatory && $cnt_passed >= $min_nr)
 			{
-//echo "A";
 				$overall_stat = "passed";
 			}
 		}
-		
+        else if ($this->getPassMode() == self::PASS_MODE_RANDOM)
+        {
+            $overall_stat = "notgraded";
+            if ($failed_a_mandatory)
+            {
+                $overall_stat = "failed";
+            }
+            else if ($passed_all_mandatory)
+            {
+                $overall_stat = "passed";
+            }
+        }
+
 		$ret =  array(
 			"overall_status" => $overall_stat,
 			"failed_a_mandatory" => $failed_a_mandatory);

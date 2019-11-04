@@ -159,7 +159,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     break;
 
 				case 'consultation_hour':
-					$this->tpl->setCurrentBlock('custom_field');
+					$this->tpl->setCurrentBlock('custom_fields');
 					$dts = array();
 					foreach((array) $a_set['consultation_hours'] as $ch)
 					{

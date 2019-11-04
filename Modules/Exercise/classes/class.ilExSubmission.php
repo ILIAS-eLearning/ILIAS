@@ -1173,6 +1173,9 @@ class ilExSubmission
 			else
 			{
 				$targetdir = self::getDirectoryNameFromUserData($id);
+				if ($a_ass->getAssignmentType()->usesTeams()) {
+                    $targetdir = $team_dir.$targetdir;
+                }
 			}
 			ilUtil::makeDir($targetdir);			
 						

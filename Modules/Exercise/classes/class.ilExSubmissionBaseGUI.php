@@ -35,6 +35,11 @@ abstract class ilExSubmissionBaseGUI
 	protected $submission; // [ilExSubmission]
 	protected $assignment; // [ilExAssignment]
 
+    /**
+     * @var ilExcMandatoryAssignmentManager
+     */
+    protected $mandatory_manager;
+
 	/**
 	 * @var ilExAssignmentTypesGUI
 	 */
@@ -52,6 +57,8 @@ abstract class ilExSubmissionBaseGUI
 		$this->exercise = $a_exercise;
 		$this->submission = $a_submission;
 		$this->assignment = $a_submission->getAssignment();
+
+		$this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this->exercise);
 		
 		// :TODO:
 		$this->ctrl = $ilCtrl;

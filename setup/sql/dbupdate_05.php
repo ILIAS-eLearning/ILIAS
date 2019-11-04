@@ -2580,3 +2580,74 @@ if ($ilDB->tableColumnExists("lng_log", "identifier")) {
 <?php
 	$ilCtrlStructureReader->getStructure();
 ?>
+<#5560>
+<?php
+if(!$ilDB->tableColumnExists('exc_data','nr_mandatory_random'))
+{
+    $ilDB->addTableColumn(
+        'exc_data',
+        'nr_mandatory_random',
+        array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ));
+}
+?>
+<#5561>
+<?php
+
+if( !$ilDB->tableExists('exc_mandatory_random') )
+{
+    $ilDB->createTable('exc_mandatory_random', array(
+        'exc_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'usr_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+        'ass_id' => array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ),
+    ));
+
+    $ilDB->addPrimaryKey('exc_mandatory_random', array('exc_id', 'usr_id', 'ass_id'));
+}
+
+?>
+<#5562>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5563>
+<?php
+if(!$ilDB->tableColumnExists('exc_assignment','rel_deadline_last_subm'))
+{
+    $ilDB->addTableColumn(
+        'exc_assignment',
+        'rel_deadline_last_subm',
+        array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ));
+}
+?>
+<#5563>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
+    $ilDB->addIndex('object_data', ['owner'], 'i5');
+}
+?>
