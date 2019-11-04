@@ -45,7 +45,7 @@ class exTestPlayerGUI
     {
         /* @var ILIAS\DI\Container $DIC */ global $DIC;
 
-        $this->processing_service = $DIC->assessment()->questionProcessing($DIC->user()->getId());
+        $this->processing_service = $DIC->assessment()->questionProcessing(0, $DIC->user()->getId(), 1);
     }
 
 

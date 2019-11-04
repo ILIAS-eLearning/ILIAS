@@ -37,12 +37,18 @@ class Answer implements Entity, JsonSerializable {
 	 * @var int
 	 */
 	protected $test_id;
+    /**
+     * @var int
+     */
+    protected $attempt_number;
 
-	public function __construct(int $anwerer_id, string $question_id,  int $test_id, string $revision_key, string $value) {
+	public function __construct(int $anwerer_id, string $question_id,  string $revision_key, int $test_id, int $attempt_number, string $value) {
 		$this->answerer_id = $anwerer_id;
 		$this->question_id = $question_id;
-		$this->test_id = $test_id;
         $this->revision_key = $revision_key;
+		$this->test_id = $test_id;
+		$this->attempt_number = $attempt_number;
+
 		$this->value = $value;
 	}
 
@@ -84,6 +90,26 @@ class Answer implements Entity, JsonSerializable {
 	public function getTestId(): string {
 		return $this->test_id;
 	}
+
+
+    /**
+     * @return int
+     */
+    public function getAttemptNumber() : int
+    {
+        return $this->attempt_number;
+    }
+
+
+    /**
+     * @param int $attempt_number
+     */
+    public function setAttemptNumber(int $attempt_number) : void
+    {
+        $this->attempt_number = $attempt_number;
+    }
+
+
 
 
 	/**

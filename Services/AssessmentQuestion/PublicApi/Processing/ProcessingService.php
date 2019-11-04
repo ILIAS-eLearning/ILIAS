@@ -29,6 +29,10 @@ class ProcessingService
      */
     protected $actor_user_id;
     /**
+     * @var int
+     */
+    protected $attempt_number;
+    /**
      * @var QuestionConfig
      */
     protected $question_config;
@@ -42,14 +46,16 @@ class ProcessingService
      *
      * @param int            $container_obj_id
      * @param int            $actor_user_id
+     * @param int            $attempt_number
      * @param QuestionConfig $question_config
      */
-    public function __construct(int $container_obj_id, int $actor_user_id)
+    public function __construct(int $container_obj_id, int $actor_user_id, int $attempt_number)
     {
         global $DIC;
 
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
+        $this->attempt_number = $attempt_number;
 
         //The lng_key could be used in future as parameter in the constructor
         $this->lng_key = $DIC->language()->getDefaultLanguage();
@@ -63,7 +69,7 @@ class ProcessingService
      */
     public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->lng_key);
+        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->attempt_number, $this->lng_key);
     }
 
     /**
@@ -71,6 +77,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id, $this->lng_key);
+        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id,  $this->attempt_number, $this->lng_key);
     }
 }

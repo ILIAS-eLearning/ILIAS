@@ -44,7 +44,7 @@ class PublishedQuestionRepository
     {
         /** @var QuestionAr $question */
         $question = QuestionAr::where(['revision_id' => $revision_id])->first();
-        
+
         $dto = $this->GenerateDtoFromAr($question);
         
         return $dto;
@@ -70,7 +70,11 @@ class PublishedQuestionRepository
     }
 
 
-
+    /**
+     * @param $container_obj_id
+     *
+     * @return QuestionDto[]
+     */
     public function getQuestionsByContainer($container_obj_id) : array
     {
         $questions = [];

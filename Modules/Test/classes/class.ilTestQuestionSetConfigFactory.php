@@ -82,7 +82,7 @@ class ilTestQuestionSetConfigFactory
 		{
 			switch( $questionSetType )
 			{
-				case ilObjTest::QUESTION_SET_TYPE_FIXED:
+				case ilTestQuestionSetConfig::TYPE_FIXED:
 
 					require_once 'Modules/Test/classes/class.ilTestFixedQuestionSetConfig.php';
 					$this->testQuestionSetConfig = new ilTestFixedQuestionSetConfig(
@@ -90,7 +90,7 @@ class ilTestQuestionSetConfigFactory
 					);
 					break;
 
-				case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+				case ilTestQuestionSetConfig::TYPE_RANDOM:
 
 					require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 					$this->testQuestionSetConfig = new ilTestRandomQuestionSetConfig(
@@ -98,7 +98,7 @@ class ilTestQuestionSetConfigFactory
 					);
 					break;
 
-				case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+				case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 
 					require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 					$this->testQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig(

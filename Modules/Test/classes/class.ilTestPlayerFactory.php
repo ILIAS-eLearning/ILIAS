@@ -38,17 +38,17 @@ class ilTestPlayerFactory
 	{
 		switch( $this->testOBJ->getQuestionSetType() )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 
 				require_once 'Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php';
 				return new ilTestPlayerFixedQuestionSetGUI($this->testOBJ);
 
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 				
 				require_once 'Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php';
 				return new ilTestPlayerRandomQuestionSetGUI($this->testOBJ);
 				
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 				
 				require_once 'Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php';
 				return new ilTestPlayerDynamicQuestionSetGUI($this->testOBJ);

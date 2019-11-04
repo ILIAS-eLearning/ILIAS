@@ -22,23 +22,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
 	#region Properties
-	
-	/**
-	 * type setting value for fixed question set
-	 */
-	const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
-	
-	/**
-	 * type setting value for random question set
-	 */
-	const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-	
-	/**
-	 * type setting value for dynamic question set (continues testing mode)
-	 */
-	const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
-
-	/**
+    /**
 	 *
 	 */
 	const HIGHSCORE_SHOW_OWN_TABLE = 1;
@@ -58,7 +42,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 	 *
 	 * @var string
 	 */
-	private $questionSetType = self::QUESTION_SET_TYPE_FIXED;
+	private $questionSetType = ilTestQuestionSetConfig::TYPE_FIXED;
+
+    /**
+     * @var ilTestQuestionSetConfig
+     */
+	protected $questionSetConfig = null;
 
 	/**
 	 * @var bool
@@ -707,6 +696,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
 		parent::__construct($a_id, $a_call_by_reference);
 	}
+
+	public function getQuestionSetConfig()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        if( $this->questionSetConfig === null )
+        {
+            $factory = new ilTestQuestionSetConfigFactory(
+                $DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this
+            );
+
+            $this->questionSetConfig = $factory->getQuestionSetConfig();
+        }
+
+        return $this->questionSetConfig;
+    }
 	
 	/**
 	 * returns the object title prepared to be used as a filename
@@ -1628,7 +1633,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
 		if (!$properties_only)
 		{
-			if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
+			if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
 			{
 				$this->saveQuestionsToDb();
 			}
@@ -3517,6 +3522,7 @@ function getAnswerFeedbackPoints()
 /**
 * Removes a question from the test object
 *
+ * @deprecated (!)
 * @param integer $question_id The database id of the question to be removed
 * @access public
 * @see $test_id
@@ -3831,7 +3837,7 @@ function getAnswerFeedbackPoints()
 	function &getQuestionTitles()
 	{
 		$titles = array();
-		if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
+		if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
 		{
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
@@ -3857,7 +3863,7 @@ function getAnswerFeedbackPoints()
 	function &getQuestionTitlesAndIndexes()
 	{
 		$titles = array();
-		if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED)
+		if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
 		{
 			global $DIC;
 			$ilDB = $DIC['ilDB'];
@@ -3887,7 +3893,7 @@ function getAnswerFeedbackPoints()
 	{
 		if ($this->getTitleOutput() == 2)
 		{
-			if( $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC )
+			if( $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_DYNAMIC)
 			{
 				// avoid legacy setting combination: ctm without question titles
 				return $title;
@@ -5316,7 +5322,7 @@ function getAnswerFeedbackPoints()
 
 		switch( $questionSetType )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 				
 				$res = $ilDB->queryF("
 						SELECT		COUNT(qpl_questions.question_id) qcount,
@@ -5338,7 +5344,7 @@ function getAnswerFeedbackPoints()
 				
 				break;
 			
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 
 				$res = $ilDB->queryF("
 						SELECT		tst_test_rnd_qst.pass,
@@ -5361,7 +5367,7 @@ function getAnswerFeedbackPoints()
 
 				break;
 
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				
 				$res = $ilDB->queryF("
 						SELECT		COUNT(tst_test_question.question_fi) qcount,
@@ -6138,11 +6144,11 @@ function getAnswerFeedbackPoints()
 				case "random_test":
 					if( $metadata["entry"] )
 					{
-						$this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+						$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_RANDOM);
 					}
 					else
 					{
-						$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+						$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_FIXED);
 					}
 					break;
 				case "results_presentation":
@@ -7628,19 +7634,15 @@ function getAnswerFeedbackPoints()
 
 				$sourcePoolDefinitionList->loadDefinitions();
 
-				$num = $sourcePoolDefinitionList->getQuestionAmount();
+				return $sourcePoolDefinitionList->getQuestionAmount();
 			}
-			else
-			{
-				$num = $questionSetConfig->getQuestionAmountPerTest();
-			}
+
+			return $questionSetConfig->getQuestionAmountPerTest();
 		}
-		else
-		{
-			$num = count($this->questions);
-		}
-		
-		return $num;
+
+        /* @var ilTestFixedQuestionSetConfig $config */
+        $config = $this->getQuestionSetConfig();
+		return $config->getTestQuestionList()->getNumQuestions();
 	}
 
 /**
@@ -10367,11 +10369,11 @@ function getAnswerFeedbackPoints()
 		{
 			if( $testsettings["isRandomTest"] )
 			{
-				$this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+				$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_RANDOM);
 			}
 			else
 			{
-				$this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+				$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_FIXED);
 			}
 		}
 		elseif( isset($testsettings["questionSetType"]) )
@@ -12567,7 +12569,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function isFixedTest()
 	{
-		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED;
+		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED;
 	}
 
 	/**
@@ -12577,7 +12579,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function isRandomTest()
 	{
-		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
+		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_RANDOM;
 	}
 
 	/**
@@ -12587,7 +12589,7 @@ function getAnswerFeedbackPoints()
 	 */
 	public function isDynamicTest()
 	{
-		return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC;
+		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_DYNAMIC;
 	}
 	
 	/**
@@ -12599,20 +12601,20 @@ function getAnswerFeedbackPoints()
 	 */
 	public static function _lookupRandomTest($a_obj_id)
 	{
-		return self::lookupQuestionSetType($a_obj_id) == self::QUESTION_SET_TYPE_RANDOM;
+		return self::lookupQuestionSetType($a_obj_id) == ilTestQuestionSetConfig::TYPE_RANDOM;
 	}
 
 	public function getQuestionSetTypeTranslation(ilLanguage $lng, $questionSetType)
 	{
 		switch( $questionSetType )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				return $lng->txt('tst_question_set_type_fixed');
 
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 				return $lng->txt('tst_question_set_type_random');
 
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 				return $lng->txt('tst_question_set_type_dynamic');
 		}
 

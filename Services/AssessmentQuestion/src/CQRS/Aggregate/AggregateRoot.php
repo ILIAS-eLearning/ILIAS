@@ -14,5 +14,5 @@ namespace ILIAS\AssessmentQuestion\CQRS\Aggregate;
  */
 interface AggregateRoot {
 
-	public function getAggregateId(): DomainObjectId;
+	public function getAggregateId(): ?DomainObjectId;
 }

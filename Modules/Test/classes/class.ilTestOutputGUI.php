@@ -48,18 +48,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->initAssessmentSettings();
 
-		$testSessionFactory = new ilTestSessionFactory($this->object);
-		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		
 		$this->ensureExistingTestSession($this->testSession);
 		$this->checkTestSessionUser($this->testSession);
 		
 		$this->initProcessLocker($this->testSession->getActiveId());
-		
-		$testSequenceFactory = new ilTestSequenceFactory($ilDB, $lng, $ilPluginAdmin, $this->object);
-		$this->testSequence = $testSequenceFactory->getSequenceByTestSession($this->testSession);
-		$this->testSequence->loadFromDb();
-		$this->testSequence->loadQuestions();
 
 		require_once 'Modules/Test/classes/class.ilTestQuestionRelatedObjectivesList.php';
 		$this->questionRelatedObjectivesList = new ilTestQuestionRelatedObjectivesList();
@@ -75,6 +68,13 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		
 		switch($next_class)
 		{
+            case strtolower(ilAsqQuestionProcessingGUI::class):
+                switch (strtolower($DIC->ctrl()->getCmd())) {
+                    default:
+                       $this->showQuestionCmd();
+                        break;
+                }
+                break;
 			case 'ilassquestionpagegui':
 
 				$this->checkTestExecutable();
@@ -241,28 +241,38 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 	}
 	
-	private function isValidSequenceElement($sequenceElement)
-	{
-		if( $sequenceElement === false )
-		{
-			return false;
-		}
-		
-		if( $sequenceElement < 1 )
-		{
-			return false;
-		}
-		
-		if( !$this->testSequence->getPositionOfSequence($sequenceElement) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
 	protected function showQuestionCmd()
 	{
+	    global $DIC;
+
+	    //TODO BH -> I think those lines should be part of a Sequence Service
+        $sequenceElement = $this->getCurrentSequenceElement();
+        if( !$this->isValidSequenceElement($sequenceElement) )
+        {
+            $sequenceElement = $this->testSequence->getFirstSequence();
+        }
+        $this->testSession->setLastSequence($sequenceElement);
+        $this->testSession->saveToDb();
+
+        $_SESSION['tst_pass_finish'] = 0;
+
+        $_SESSION["active_time_id"]= $this->object->startWorkingTime(
+            $this->testSession->getActiveId(), $this->testSession->getPass()
+        );
+
+        $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($sequenceElement);
+
+        $processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(), $this->testSession->getPass());
+        $question_processing_service = $processing_service->question($revision_id);
+
+        $question_config =  $this->question_config;
+        $question_config->setSubline( sprintf($DIC->language()->txt("tst_position"), $sequenceElement,$this->testSequence->getLastSequence()));
+        $processing_question_gui = $question_processing_service->getProcessingQuestionGUI($question_config);
+
+        $DIC->ctrl()->forwardCommand($processing_question_gui);
+
+
+	    /*
 		$_SESSION['tst_pass_finish'] = 0;
 
 		$_SESSION["active_time_id"]= $this->object->startWorkingTime(
@@ -309,6 +319,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$instantResponse = $this->getInstantResponseParameter();
 		}
 // fau.
+
 
 		$questionGui = $this->getQuestionGuiInstance($questionId);
 
@@ -405,8 +416,41 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 			$this->unregisterForcedFeedbackNavUrl();
 		}
 // fau.
-
+*/
 	}
+
+	protected function redirectToNextQuestionCmd() {
+        $nextSequenceElement = $this->testSequence->getNextSequence($this->getCurrentSequenceElement());
+
+        if(!$this->isValidSequenceElement($nextSequenceElement))
+        {
+            $nextSequenceElement = $this->testSequence->getFirstSequence();
+        }
+
+        $this->testSession->setLastSequence($nextSequenceElement);
+        $this->testSession->saveToDb();
+
+        $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+        $this->ctrl->setParameter($this, 'pmode', '');
+
+        $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+    }
+
+    protected function redirectToPreviousQuestionCmd() {
+        $nextSequenceElement = $this->testSequence->getPreviousSequence($this->getCurrentSequenceElement());
+
+        if(!$this->isValidSequenceElement($nextSequenceElement))
+        {
+            $nextSequenceElement = $this->testSequence->getFirstSequence();
+        }
+        $this->testSession->setLastSequence($nextSequenceElement);
+        $this->testSession->saveToDb();
+
+        $this->ctrl->setParameter($this, 'sequence', $nextSequenceElement);
+        $this->ctrl->setParameter($this, 'pmode', '');
+
+        $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
+    }
 
 	protected function editSolutionCmd()
 	{
@@ -414,6 +458,10 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		$this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
 	}
 
+
+    /**
+     * @deprecated
+     */
 	protected function submitSolutionAndNextCmd()
 	{
 		if( $this->object->isForceInstantFeedbackEnabled() )

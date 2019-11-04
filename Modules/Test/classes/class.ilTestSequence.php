@@ -26,8 +26,16 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	* The mapping of the sequence numbers to the questions
 	*
 	* @var array
+	 * @deprecated please use $question_revision_ids
 	*/
 	var $questions;
+
+	/**
+	 * The mapping of the sequence numbers to the $question_revision_ids
+	 *
+	 * @var array
+	 */
+	var $question_revision_ids;
 
 	/**
 	* The active id of the sequence data
@@ -144,22 +152,19 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	*/
 	public function loadQuestions(ilTestQuestionSetConfig $testQuestionSetConfig = null, $taxonomyFilterSelection = array())
 	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-
-		$this->questions = array();
-
-		$result = $ilDB->queryF("SELECT tst_test_question.* FROM tst_test_question, qpl_questions, tst_active WHERE tst_active.active_id = %s AND tst_test_question.test_fi = tst_active.test_fi AND qpl_questions.question_id = tst_test_question.question_fi ORDER BY tst_test_question.sequence",
-			array('integer'),
-			array($this->active_id)
+		$testQuestionList = new ilTestFixedQuestionSetQuestionList(
+			ilObjTest::_getTestIDFromObjectID(
+				ilObjTest::_getObjectIDFromActiveID($this->active_id)
+			)
 		);
 
 		$index = 1;
 
-		// TODO bheyser: There might be "sequence" gaps which lead to issues with tst_sequence when deleting/adding questions before any participant starts the test
-		while ($data = $ilDB->fetchAssoc($result))
+		foreach($testQuestionList as $testQuestion)
 		{
-			$this->questions[$index++] = $data["question_fi"];
+			$this->questions[$index++] = $testQuestion->getQuestionId();
+
+			$this->question_revision_ids[$testQuestion->getSequencePosition()] = $testQuestion->getQuestionRevisionId();
 		}
 	}
 	
@@ -707,12 +712,34 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 		return $result;
 	}
 
-	function getQuestionForSequence($sequence)
+
+	/**
+	 * @deprecated use getQuestionRevisionIdForSequence
+	 */
+	function getQuestionForSequence(int $sequence)
 	{
 		if ($sequence < 1) return FALSE;
 		if (array_key_exists($sequence, $this->questions))
 		{
 			return $this->questions[$sequence];
+		}
+		else
+		{
+			return FALSE;
+		}
+	}
+
+	/**
+	 * @param int $sequence
+	 *
+	 * @return string $revision_id
+	 */
+	function getQuestionRevisionIdForSequence(int $sequence): string
+	{
+		if ($sequence < 1) return FALSE;
+		if (array_key_exists($sequence, $this->questions))
+		{
+			return $this->question_revision_ids[$sequence];
 		}
 		else
 		{

@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionCommand;
@@ -15,6 +16,8 @@ use ILIAS\AssessmentQuestion\DomainModel\Command\SaveQuestionCommand;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringQuestionAfterSaveCommand;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringQuestionAfterSaveCommandHandler;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
@@ -42,6 +45,10 @@ class AuthoringApplicationService
      */
     protected $actor_user_id;
     /**
+     * var AuthoringQuestionAfterSaveCommandHandler
+     */
+    protected $authoring_question_after_save_command_handler;
+    /**
      * @var string
      */
     protected $lng_key;
@@ -55,11 +62,12 @@ class AuthoringApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key)
+    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key, ?AuthoringQuestionAfterSaveCommandHandler $authoring_question_after_save_command_handler = null)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->lng_key = $lng_key;
+        $this->authoring_question_after_save_command_handler = $authoring_question_after_save_command_handler;
     }
 
 
@@ -72,7 +80,12 @@ class AuthoringApplicationService
     {
         $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($aggregate_id));
 
-        return QuestionDto::CreateFromQuestion($question);
+        if(is_object($question->getAggregateId())) {
+            return QuestionDto::CreateFromQuestion($question);
+        }
+        $question_dto = new QuestionDto();
+        $question_dto->setId($aggregate_id);
+        return $question_dto;
     }
 
 
@@ -128,6 +141,11 @@ class AuthoringApplicationService
         if (count($question->getRecordedEvents()->getEvents()) > 0) {
             // save changes if there are any
             CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
+        }
+
+        if(is_object($this->authoring_question_after_save_command_handler)) {
+            $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
+            $this->authoring_question_after_save_command_handler->handle(new AuthoringQuestionAfterSaveCommand($this->actor_user_id, QuestionDto::CreateFromQuestion($question)));
         }
     }
 
@@ -202,7 +220,7 @@ class AuthoringApplicationService
     public function getQuestionComponent(AssessmentEntityId $question_uuid) : QuestionComponent
     {
 
-        $question_config = new QuestionConfig();
+        $question_config = new QuestionConfig([]);
         $question_commands = new QuestionCommands();
 
         return new QuestionComponent($this->getQuestion($question_uuid->getId()), $question_config, $question_commands);

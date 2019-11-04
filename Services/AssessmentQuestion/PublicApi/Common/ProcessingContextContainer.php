@@ -7,7 +7,7 @@ namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 
 /**
- * Class AuthoringContextContainer
+ * Class ProcessingContextContainer
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>

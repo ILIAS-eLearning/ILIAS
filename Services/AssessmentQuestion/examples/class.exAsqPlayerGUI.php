@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ilCtrlCallBackCmd;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 use ILIAS\UI\Component\Link\Link;
@@ -53,9 +54,12 @@ class exAsqPlayerGUI
         $this->entity_id_builder = $DIC->assessment()->entityIdBuilder();
         $this->back_link = $DIC->ui()->factory()->link()->standard('Back', $DIC->ctrl()->getLinkTarget($this));
 
-        $this->processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
+        $this->processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(), 1);
 
         $this->question_config = new QuestionConfig();
+
+        //
+
         $this->question_config->setQuestionPageActionMenu($this->getActionsList());
         $this->question_config->setFeedbackForAnswerOption(true);
         $this->question_config->setFeedbackOnDemand(true);
@@ -67,11 +71,11 @@ class exAsqPlayerGUI
 
         //NEXT
         $action = $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_NEXT_QUESTION);
-        $this->question_config ->setShowNextQuestionAction($action);
+        $this->question_config ->setShowNextQuestionAction(new ilCtrlCallBackCmd(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqPlayerGUI'],$action));
         //Previous
         if ($this->getPreviousQuestionKey()) {
             $action = $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_PREVIOUS_QUESTION);
-            $this->question_config ->setShowPreviousQuestionAction($action);
+            $this->question_config ->setShowPreviousQuestionAction(new ilCtrlCallBackCmd(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqPlayerGUI'],$action));
         }
     }
 
@@ -190,7 +194,7 @@ class exAsqPlayerGUI
         $total_questions = count($this->processing_service->questionList()->getQuestionsOfContainerAsDtoList());
         $current_question = 1;
         foreach ($this->processing_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
-            if (is_null($processing_application_service->GetUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
+            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
                 $processing_question =  $this->processing_service->question($question_dto->getRevisionId());
 
                 $question_config =  $this->question_config;
@@ -212,14 +216,14 @@ class exAsqPlayerGUI
         $previous_revision_key = "";
         $revision_key = "";
 
-        $processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId());
+        $processing_service = $DIC->assessment()->questionProcessing($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(), 1);
         $processing_application_service = new \ILIAS\AssessmentQuestion\Application\ProcessingApplicationService($DIC->ctrl()->getContextObjId(), $DIC->user()->getId(), $DIC->language()->getDefaultLanguage());
 
         $total_questions = count($this->processing_service->questionList()->getQuestionsOfContainerAsDtoList());
         $current_question = 1;
         foreach ($processing_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
             //The Test will choose the answer himself - we choose the next unanswered answer by the private application - service for this demo!
-            if (is_null($processing_application_service->GetUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
+            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
                 $processing_question =  $this->processing_service->question($previous_revision_key);
 
                 $question_config =  $this->question_config;

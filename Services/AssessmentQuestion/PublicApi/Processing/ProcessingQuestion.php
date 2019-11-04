@@ -33,6 +33,10 @@ class ProcessingQuestion
      */
     protected $question_revision_key;
     /**
+     * int
+     */
+    protected $attempt_number;
+    /**
      * @var ProcessingApplicationService
      */
     protected $processing_application_service;
@@ -50,11 +54,12 @@ class ProcessingQuestion
      * @param QuestionConfig $question_config
      *
      */
-    public function __construct(string $question_revision_key, int $container_obj_id, int $actor_user_id, string $lng_key)
+    public function __construct(string $question_revision_key, int $container_obj_id, int $actor_user_id, int $attempt_number, string $lng_key)
     {
         $this->question_revision_key = $question_revision_key;
+        $this->attempt_number = $attempt_number;
 
-        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $lng_key);
+        $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $attempt_number, $lng_key);
     }
 
 

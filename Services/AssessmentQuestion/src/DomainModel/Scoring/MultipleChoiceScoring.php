@@ -1,6 +1,7 @@
 <?php
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
+use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
@@ -24,7 +25,7 @@ class MultipleChoiceScoring extends AbstractScoring
 
         $max_points = $this->scoreAnswer($this->getBestAnswer());
 
-        return new AnswerScoreDto($reached_points, $max_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
     /**
@@ -69,7 +70,7 @@ class MultipleChoiceScoring extends AbstractScoring
             ->getMaxAnswers();
         $answers = array_slice($answers, 0, $length);
 
-        return new Answer(0, $this->question->getId(), 0, '', json_encode($answers));
+        return new Answer(0, $this->question->getId(), '','',0, json_encode($answers));
     }
 
     public static function readConfig()
@@ -79,6 +80,8 @@ class MultipleChoiceScoring extends AbstractScoring
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        //TODO
+        return true;
+       // return false;
     }
 }

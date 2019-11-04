@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Toolbar\QuestionProcessingToolbarGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
@@ -47,6 +48,10 @@ class ilAsqQuestionProcessingGUI
      */
     protected $revision_key;
     /**
+     * @var int
+     */
+    protected $attempt_number;
+    /**
      * @var QuestionConfig
      */
     protected $question_config;
@@ -62,7 +67,8 @@ class ilAsqQuestionProcessingGUI
      * @param AuthoringContextContainer $contextContainer
      */
     public function __construct(
-        string $revision_key,
+        string $question_revision_key,
+        int $attempt_number,
         ProcessingContextContainer $processing_context_container,
         QuestionConfig $question_config
     ) {
@@ -74,8 +80,8 @@ class ilAsqQuestionProcessingGUI
         //we could use this in future in constructer
         $lng_key = $DIC->language()->getDefaultLanguage();
 
-        $this->processing_application_service = new ProcessingApplicationService($processing_context_container->getObjId(), $processing_context_container->getActorId(), $lng_key);
-        $this->revision_key = $revision_key;
+        $this->processing_application_service = new ProcessingApplicationService($processing_context_container->getObjId(), $processing_context_container->getActorId(), $attempt_number, $lng_key);
+        $this->revision_key = $question_revision_key;
         $this->question_config = $question_config;
 
         $this->question_comands = new QuestionCommands();
@@ -125,10 +131,8 @@ class ilAsqQuestionProcessingGUI
         $answer = $this->processing_application_service->getCurrentAnswer($question_dto);
         $this->processing_application_service->answerQuestion($answer);
 
-        $DIC->ctrl()->redirectByClass(['ilRepositoryGUI', 'ilObjTestGUI', 'exAsqExamplesGUI', 'exAsqPlayerGUI'], 'showNextQuestion');
 
-        //TODO iCtrl does not work?
-        $DIC->ctrl()->redirectToURL($this->question_config->getShowNextQuestionAction());
+        $DIC->ctrl()->redirectByClass($this->question_config->getShowNextQuestionAction()->getCtrlStack(), $this->question_config->getShowNextQuestionAction()->getCommand());
     }
 
 
@@ -214,16 +218,19 @@ class ilAsqQuestionProcessingGUI
             }
 
             if (!is_null($this->question_config->getShowPreviousQuestionAction())) {
-                $btn_prev = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('previous_question'), $this->question_config->getShowPreviousQuestionAction());
+                $btn_prev = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('previous_question'), $DIC->ctrl()->getLinkTargetByClass($this->question_config->getShowPreviousQuestionAction()->getCtrlStack(),$this->question_config->getShowPreviousQuestionAction()->getCommand()));
                 $tpl_question_navigation->setVariable('BTN_PREV', $DIC->ui()->renderer()->render($btn_prev));
             }
 
             $tpl_question_navigation_html = $tpl_question_navigation->get();
         }
 
+        $question_processing_toolbar = new QuestionProcessingToolbarGUI($this->question_config);
+
         $tpl = new ilTemplate('tpl.question_container.html', true, true, 'Services/AssessmentQuestion');
         $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SAVE_ANSWER));
         $tpl->setVariable('FORMID', self::QUESTION_FORM_ID);
+        $tpl->setVariable('QUESTION_PROCESSING_TOOLBAR', $question_processing_toolbar->getHTML());
         $tpl->setVariable('QUESTION_NAVIGATION', $tpl_question_navigation_html);
         $tpl->setVariable('QUESTION_OUTPUT', $question_page->showPage());
 
@@ -247,8 +254,9 @@ class ilAsqQuestionProcessingGUI
         $answer = new Answer(
             $this->context_container->getActorId(),
             $this->question_id->getId(),
-            $this->context_container->getObjId(),
             $question_dto->getRevisionId(),
+            $this->context_container->getObjId(),
+           0,
             $this->questionComponent->readAnswer()
         );
 

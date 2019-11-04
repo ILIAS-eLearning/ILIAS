@@ -6,6 +6,8 @@ use ilCtrlStructureReader;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\UserAnswerScoreAr;
+use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\UserTestAttemptScoreAr;
 
 /**
  * Class SetupDatabase
@@ -24,12 +26,18 @@ class SetupDatabase {
         $DIC->database()->dropTable(QuestionEventStoreAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionListItemAr::STORAGE_NAME, false);
         $DIC->database()->dropTable(QuestionAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(UserAnswerScoreAr::STORAGE_NAME, false);
+        $DIC->database()->dropTable(UserTestAttemptScoreAr::STORAGE_NAME, false);
 
 
         
         QuestionEventStoreAr::updateDB();
 	    QuestionListItemAr::updateDB();
 	    QuestionAr::updateDB();
+        UserAnswerScoreAr::updateDB();
+        UserTestAttemptScoreAr::updateDB();
+
+
 
 	    //Migration
         //Migrate Contentpage Definition (here for the implementation the migration)
@@ -118,6 +126,16 @@ class SetupDatabase {
         if( !$DIC->database()->tableColumnExists('tst_test_question', 'question_uid') )
         {
             $DIC->database()->addTableColumn('tst_test_question', 'question_uid', array(
+                'type' => 'text',
+                'notnull' => false,
+                'length' => 64,
+                'default' => ''
+            ));
+        }
+
+        if( !$DIC->database()->tableColumnExists('tst_test_question', 'revision_id') )
+        {
+            $DIC->database()->addTableColumn('tst_test_question', 'revision_id', array(
                 'type' => 'text',
                 'notnull' => false,
                 'length' => 64,

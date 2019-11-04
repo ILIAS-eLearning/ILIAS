@@ -256,7 +256,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		$qstSetSetting = $form->getItemByPostVar('question_set_type');
 		$qTitleSetting = $form->getItemByPostVar('title_output');
 		
-		if( $qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2 )
+		if( $qstSetSetting->getValue() == ilTestQuestionSetConfig::TYPE_DYNAMIC && $qTitleSetting->getValue() == 2 )
 		{
 			$qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
 			$qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
@@ -331,7 +331,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 				{
 					if( !$isConfirmedSave )
 					{
-						if( $oldQuestionSetType == ilObjTest::QUESTION_SET_TYPE_FIXED )
+						if( $oldQuestionSetType == ilTestQuestionSetConfig::TYPE_FIXED)
 						{
 							return $this->showConfirmation(
 									$form, $oldQuestionSetType, $newQuestionSetType,
@@ -369,7 +369,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		// adjust settings due to chosen question set type
 
-		if( $newQuestionSetType != ilObjTest::QUESTION_SET_TYPE_FIXED )
+		if( $newQuestionSetType != ilTestQuestionSetConfig::TYPE_FIXED)
 		{
 			$form->getItemByPostVar('chb_use_previous_answers')->setChecked(false);
 		}
@@ -607,17 +607,17 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		// test mode (question set type)
 		$questSetType = new ilRadioGroupInputGUI($this->lng->txt("tst_question_set_type"), 'question_set_type');
 		$questSetTypeFixed = new ilRadioOption(
-			$this->lng->txt("tst_question_set_type_fixed"), ilObjTest::QUESTION_SET_TYPE_FIXED,
+			$this->lng->txt("tst_question_set_type_fixed"), ilTestQuestionSetConfig::TYPE_FIXED,
 			$this->lng->txt("tst_question_set_type_fixed_desc")
 		);
 		$questSetType->addOption($questSetTypeFixed);
 		$questSetTypeRandom = new ilRadioOption(
-			$this->lng->txt("tst_question_set_type_random"), ilObjTest::QUESTION_SET_TYPE_RANDOM,
+			$this->lng->txt("tst_question_set_type_random"), ilTestQuestionSetConfig::TYPE_RANDOM,
 			$this->lng->txt("tst_question_set_type_random_desc")
 		);
 		$questSetType->addOption($questSetTypeRandom);
 		$questSetTypeContinues = new ilRadioOption(
-			$this->lng->txt("tst_question_set_type_dynamic"), ilObjTest::QUESTION_SET_TYPE_DYNAMIC,
+			$this->lng->txt("tst_question_set_type_dynamic"), ilTestQuestionSetConfig::TYPE_DYNAMIC,
 			$this->lng->txt("tst_question_set_type_dynamic_desc")
 		);
 		$questSetType->addOption($questSetTypeContinues);

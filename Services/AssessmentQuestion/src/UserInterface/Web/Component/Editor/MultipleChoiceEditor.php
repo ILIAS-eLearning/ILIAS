@@ -251,6 +251,8 @@ class MultipleChoiceEditor extends AbstractEditor {
 	
 	public static function isComplete(Question $question): bool
 	{
+	    //TODO
+        return true;
 	    return false;
 	}
 }

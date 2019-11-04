@@ -80,8 +80,9 @@ class QuestionAnswerAddedEvent extends AbstractIlContainerDomainEvent {
 		$data = json_decode($json_data);
 		$this->answer = new Answer($data->answerer_id,
 		                           $data->question_id,
-		                           $data->test_id,
                                    $data->revision_key,
+		                           $data->test_id,
+		                           $data->attempt_number,
 		                           $data->value);
 	}
 }

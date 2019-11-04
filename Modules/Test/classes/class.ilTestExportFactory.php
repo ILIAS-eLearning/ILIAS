@@ -28,17 +28,17 @@ class ilTestExportFactory
 	{
 		switch($this->testOBJ->getQuestionSetType())
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				
 				require_once 'Modules/Test/classes/class.ilTestExportFixedQuestionSet.php';
 				return new ilTestExportFixedQuestionSet($this->testOBJ, $mode);
 
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 
 				require_once 'Modules/Test/classes/class.ilTestExportRandomQuestionSet.php';
 				return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
 
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 
 				require_once 'Modules/Test/classes/class.ilTestExportDynamicQuestionSet.php';
 				return new ilTestExportDynamicQuestionSet($this->testOBJ, $mode);

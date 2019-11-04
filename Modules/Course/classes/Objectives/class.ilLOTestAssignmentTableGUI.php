@@ -182,11 +182,11 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 
 		switch($set['ttype'])
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				$type = $this->lng->txt('tst_question_set_type_fixed');
 				break;
 			
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 				$type = $this->lng->txt('tst_question_set_type_random');
 				break;
 		}
@@ -274,7 +274,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
 		
 		switch($tst->getQuestionSetType())
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				$tst_data['qst_info'] = $this->lng->txt('crs_loc_tst_num_qst');
 				$tst_data['qst_info'] .= (' ' . count($tst->getAllQuestions()));
 				break;

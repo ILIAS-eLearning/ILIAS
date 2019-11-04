@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\Command\TestAuthoringQuestionAfterSaveCommandHandler;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as AsqAuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
@@ -201,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         $asqQuestionService = $this->asqAuthoringService->question(
-            $this->asqAuthoringService->currentOrNewQuestionId()
+            $this->asqAuthoringService->currentOrNewQuestionId(), new TestAuthoringQuestionAfterSaveCommandHandler()
         );
 
         $question_config = new QuestionConfig();
@@ -339,12 +340,10 @@ class ilObjTestGUI extends ilObjectGUI
             ///////////////////
 
             case strtolower(ilAsqQuestionAuthoringGUI::class):
-
                 $this->prepareOutput();
                 $this->addHeaderAction();
 
                 $this->forwardToAsqAuthoring();
-
                 break;
 
 			case 'illtiproviderobjectsettinggui':
@@ -947,13 +946,13 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		switch( $this->object->getQuestionSetType() )
 		{
-			case ilObjTest::QUESTION_SET_TYPE_FIXED:
+			case ilTestQuestionSetConfig::TYPE_FIXED:
 				$this->ctrl->redirectByClass('ilTestExpressPageObjectGUI', 'showPage');
 
-			case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+			case ilTestQuestionSetConfig::TYPE_RANDOM:
 				$this->ctrl->redirectByClass('ilTestRandomQuestionSetConfigGUI');
 				
-			case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
 				$this->ctrl->redirectByClass('ilObjTestDynamicQuestionSetConfigGUI');
 		}
 	}
@@ -1215,7 +1214,7 @@ class ilObjTestGUI extends ilObjectGUI
 		$_SESSION["tst_import_qti_file"] = $qti_file;
 		$_SESSION["tst_import_subdir"] = $subdir;
 		
-		if( $qtiParser->getQuestionSetType() != ilObjTest::QUESTION_SET_TYPE_FIXED )
+		if( $qtiParser->getQuestionSetType() != ilTestQuestionSetConfig::TYPE_FIXED)
 		{
 			$this->importVerifiedFileObject();
 			return;
@@ -2871,13 +2870,13 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			if( $defaultSettings['isRandomTest'] )
 			{
-				$newQuestionSetType = ilObjTest::QUESTION_SET_TYPE_RANDOM;
-				$this->object->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_RANDOM);
+				$newQuestionSetType = ilTestQuestionSetConfig::TYPE_RANDOM;
+				$this->object->setQuestionSetType(ilTestQuestionSetConfig::TYPE_RANDOM);
 			}
 			else
 			{
-				$newQuestionSetType = ilObjTest::QUESTION_SET_TYPE_FIXED;
-				$this->object->setQuestionSetType(ilObjTest::QUESTION_SET_TYPE_FIXED);
+				$newQuestionSetType = ilTestQuestionSetConfig::TYPE_FIXED;
+				$this->object->setQuestionSetType(ilTestQuestionSetConfig::TYPE_FIXED);
 			}
 		}
 		elseif( isset($defaultSettings['questionSetType']) )

@@ -92,9 +92,9 @@ class ilTestSettingsTemplateConfig extends ilSettingsTemplateConfig
 			true,
 			0,
 			array(
-				ilObjTest::QUESTION_SET_TYPE_FIXED => $this->lng->txt("tst_question_set_type_fixed"),
-				ilObjTest::QUESTION_SET_TYPE_RANDOM => $this->lng->txt("tst_question_set_type_random"),
-				ilObjTest::QUESTION_SET_TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
+                ilTestQuestionSetConfig::TYPE_FIXED   => $this->lng->txt("tst_question_set_type_fixed"),
+                ilTestQuestionSetConfig::TYPE_RANDOM  => $this->lng->txt("tst_question_set_type_random"),
+                ilTestQuestionSetConfig::TYPE_DYNAMIC => $this->lng->txt("tst_question_set_type_dynamic"),
 			)
 		);
 	}

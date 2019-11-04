@@ -19,22 +19,27 @@ use ILIAS\UI\Component\Button\Standard;
  */
 class QuestionConfig
 {
-
     /**
-     * @var null|string
+     * @var null|ilCtrlCallBackCmd
      *
      * The ilAsqQuestionProcessingGUI will redirect to this action for getting the next question
      * If don't set this action no Next Button will not be displayed
-     * Forward your command after choosing the question to the ilAsqQuestionProcessingGUI
      */
     protected $show_next_question_action = null;
     /**
-     * @var null|string
+     * @var null|ilCtrlCallBackCmd
      *
      * The ilAsqQuestionProcessingGUI will redirect to this action for getting the previous question.
      * If don't set this action no Previous Button will not be displayed
      */
     protected $show_previous_question_action = null;
+    /**
+     * @var null|ilCtrlCallBackCmd
+     *
+     * The ilAsqQuestionProcessingGUI will redirect to this action after finish test session
+     * If don't set this action the Finish Button will not be displayed
+     */
+    protected $show_finish_test_session_action = null;
     /**
      * @var null|string
      *
@@ -81,29 +86,56 @@ class QuestionConfig
 
 
     /**
-     * @return string|null
+     * @return ilCtrlCallBackCmd|null
      */
-    public function getShowNextQuestionAction() : ?string
+    public function getShowNextQuestionAction() : ?ilCtrlCallBackCmd
     {
         return $this->show_next_question_action;
     }
 
 
     /**
-     * @param string|null $show_next_question_action
+     * @param ilCtrlCallBackCmd|null $show_next_question_action
      */
-    public function setShowNextQuestionAction(?string $show_next_question_action) : void
+    public function setShowNextQuestionAction(?ilCtrlCallBackCmd $show_next_question_action) : void
     {
         $this->show_next_question_action = $show_next_question_action;
     }
 
 
+
     /**
-     * @return string|null
+     * @return ilCtrlCallBackCmd|null
      */
-    public function getShowPreviousQuestionAction() : ?string
+    public function getShowPreviousQuestionAction() : ?ilCtrlCallBackCmd
     {
         return $this->show_previous_question_action;
+    }
+
+    /**
+     * @param ilCtrlCallBackCmd|null $show_previous_question_action
+     */
+    public function setShowPreviousQuestionAction(?ilCtrlCallBackCmd $show_previous_question_action) : void
+    {
+        $this->show_previous_question_action = $show_previous_question_action;
+    }
+
+
+    /**
+     * @return ilCtrlCallBackCmd|null
+     */
+    public function getShowFinishTestSessionAction() : ?ilCtrlCallBackCmd
+    {
+        return $this->show_finish_test_session_action;
+    }
+
+
+    /**
+     * @param ilCtrlCallBackCmd|null $show_finish_test_session_action
+     */
+    public function setShowFinishTestSessionAction(?ilCtrlCallBackCmd $show_finish_test_session_action) : void
+    {
+        $this->show_finish_test_session_action = $show_finish_test_session_action;
     }
 
 
@@ -160,6 +192,7 @@ class QuestionConfig
         $this->java_script_on_load_paths = $java_script_on_load_paths;
     }
 
+
     /**
      * @return bool
      */
@@ -175,15 +208,6 @@ class QuestionConfig
     public function setShowTotalPointsOfQuestion(bool $show_total_points_of_question) : void
     {
         $this->show_total_points_of_question = $show_total_points_of_question;
-    }
-
-
-    /**
-     * @param string|null $show_previous_question_action
-     */
-    public function setShowPreviousQuestionAction(?string $show_previous_question_action) : void
-    {
-        $this->show_previous_question_action = $show_previous_question_action;
     }
 
 
