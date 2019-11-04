@@ -39,10 +39,25 @@ class ilHttpSetupAgent implements Setup\Agent {
 	public function getArrayToConfigTransformation() : Refinery\Transformation {
 		return $this->refinery->custom()->transformation(function($data) {
 			return new \ilHttpSetupConfig(
-				$data["http_path"],
-				$data["https_autodetection"],
-				$data["https_header_name"],
-				$data["https_header_value"]	
+				$data["path"],
+				(isset($data["https_autodetection"]) && $data["https_autodetection"])
+					? true
+					: false,
+				(isset($data["https_autodetection"]) && $data["https_autodetection"])
+					? $data["https_autodetection"]["header_name"]
+					: null,
+				(isset($data["https_autodetection"]) && $data["https_autodetection"])
+					? $data["https_autodetection"]["header_value"]
+					: null,
+				(isset($data["proxy"]) && $data["proxy"])
+					? true
+					: false,
+				(isset($data["proxy"]) && $data["proxy"])
+					? $data["proxy"]["host"]
+					: null,
+				(isset($data["proxy"]) && $data["proxy"])
+					? $data["proxy"]["port"]
+					: null,
 			);
 		});	
 	}
@@ -52,9 +67,9 @@ class ilHttpSetupAgent implements Setup\Agent {
 	 */
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		return new Setup\ObjectiveCollection(
-			"Services/Http objectives.",
+			"Complete objectives from Services/Http",
 			false,
-			new ilHttpSetIniObjective($config)
+			new ilHttpConfigStoredObjective($config)
 		);
 	}
 
