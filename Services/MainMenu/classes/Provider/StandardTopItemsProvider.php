@@ -106,8 +106,8 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
             ->withSymbol($icon)
-            ->withVisibilityCallable(function (){
-                return (bool)$this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            ->withVisibilityCallable(function () {
+                return (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
             })
             ->withTitle($f("mm_repository"))
             ->withPosition(20);
@@ -173,8 +173,13 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
     private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
     {
-        return function () use ($additional) {
-            if ($this->dic->user()->isAnonymous()) {
+        static $logged_in;
+        if (!isset($logged_in)) {
+            $logged_in = !$this->dic->user()->isAnonymous();
+        }
+
+        return function () use ($additional, $logged_in) {
+            if (!$logged_in) {
                 return false;
             }
 
