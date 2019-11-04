@@ -33,45 +33,26 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true);
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
 
         // Home
         $entries[] = $this->getHomeItem()
             ->withParent($top)
-	        ->withSymbol($icon)
-	        ->withPosition(20);
+            ->withSymbol($icon)
+            ->withPosition(20);
 
         // Tree-View
-        $mode = ($_SESSION["il_rep_mode"] == "flat")
-            ? "tree"
-            : "flat";
-        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=".$mode."&ref_id=".$_GET["ref_id"];
-        $title = ($mode == "flat")
-            ? $this->dic->language()->txt("mm_repo_tree_view_act")
-            : $this->dic->language()->txt("mm_repo_tree_view_deact");
-
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), "");
 
-        /*
-        if ($_GET["baseClass"] == "ilRepositoryGUI") {
-            $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
-                ->withAction($link)
-                ->withParent($top)
-                ->withPosition(30)
-                ->withSymbol($icon)
-                ->withTitle($title);
-        }*/
-
-        $contents = $this->dic->ui()->factory()->legacy($this->renderRepoTree());
-        $entries[] =
-            $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
-                ->withTitle($this->dic->language()->txt("mm_rep_tree_view"))
-                ->withSymbol($icon)
-                ->withContent($contents)
-                ->withParent($top)
-                ->withAlwaysAvailable(true)
-                ->withPosition(20);
+        $entries[]
+            = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
+            ->withTitle($this->dic->language()->txt("mm_rep_tree_view"))
+            ->withSymbol($icon)
+            ->withContentWrapper(function () {
+                return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+            })
+            ->withParent($top)
+            ->withPosition(20);
 
         // LastVisited
         $entries[] = $this->getLastVisitedItem()
@@ -159,6 +140,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             );
     }
 
+
     /**
      * Render repository tree
      *
@@ -176,8 +158,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
+
         return $exp->getHTML();
     }
-
-
 }

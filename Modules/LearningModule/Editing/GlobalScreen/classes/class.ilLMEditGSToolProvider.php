@@ -40,7 +40,9 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Chapters")
                 ->withSymbol($icon)
-                ->withContent($l($this->getContent()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getContent());
+                });
         }
 
         return $tools;
@@ -58,6 +60,7 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
         $lm = $service->getLearningModule();
 
         $exp = new ilLMEditorExplorerGUI("illmeditorgui", "showTree", $lm);
+
         return $exp->getHTML();
     }
 }

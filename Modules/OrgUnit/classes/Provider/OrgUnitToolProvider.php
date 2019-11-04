@@ -45,7 +45,9 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Tree")
-                ->withContent($l($this->getTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getTree());
+                });
         }
 
         return $tools;

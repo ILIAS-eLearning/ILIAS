@@ -25,20 +25,20 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
-        $f = $this->dic->ui()->factory();
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
-
-        $tag_ui = new \ilTaggingSlateContentGUI();
-        $contents = $f->legacy($tag_ui->render());
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
                 ->withTitle($this->dic->language()->txt("mm_tags"))
                 ->withSymbol($icon)
-                ->withContent($contents)
+                ->withContentWrapper(function () {
+                    $tag_ui = new \ilTaggingSlateContentGUI();
+
+                    return $this->dic->ui()->factory()->legacy($tag_ui->render());
+                })
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                ->withPosition(20)
+                ->withPosition(20),
         ];
     }
 }
