@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define("IL_FORM_EDIT", 0);
-define("IL_FORM_CREATE", 1);
-define("IL_FORM_RE_EDIT", 2);
-define("IL_FORM_RE_CREATE", 3);
 
 /**
 * BlockGUI class for external feed block. This is the one that is used
@@ -20,6 +16,11 @@ define("IL_FORM_RE_CREATE", 3);
 */
 class ilExternalFeedBlockGUI extends ilBlockGUI
 {
+	const FORM_EDIT = 0;
+	const FORM_CREATE = 1;
+	const FORM_RE_EDIT = 2;
+	const FORM_RE_CREATE = 2;
+
 	protected $gui_object;
 	protected $form_edit_mode;
 
@@ -162,7 +163,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	/**
 	 * Set FormEditMode.
 	 *
-	 * @param	int	$a_form_edit_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 * @param	int	$a_form_edit_mode	Form Edit Mode
 	 */
 	public function setFormEditMode($a_form_edit_mode)
 	{
@@ -172,7 +173,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	/**
 	 * Get FormEditMode.
 	 *
-	 * @return	int	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 * @return	int	Form Edit Mode
 	 */
 	public function getFormEditMode()
 	{
@@ -185,7 +186,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	 */
 	public function createFeedBlock()
 	{
-		$this->initFormFeedBlock(IL_FORM_CREATE);
+		$this->initFormFeedBlock(self::FORM_CREATE);
 		return $this->form_gui->getHtml();
 
 	}
@@ -196,7 +197,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	 */
 	public function editFeedBlock()
 	{
-		$this->initFormFeedBlock(IL_FORM_EDIT);
+		$this->initFormFeedBlock(self::FORM_EDIT);
 		$this->getValuesFeedBlock();
 		return $this->form_gui->getHtml();
 
@@ -208,7 +209,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	 */
 	public function saveFeedBlock()
 	{
-		$this->initFormFeedBlock(IL_FORM_CREATE);
+		$this->initFormFeedBlock(self::FORM_CREATE);
 
 		if ($this->form_gui->checkInput())
 		{
@@ -233,7 +234,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	 */
 	public function updateFeedBlock()
 	{
-		$this->initFormFeedBlock(IL_FORM_EDIT);
+		$this->initFormFeedBlock(self::FORM_EDIT);
 		if ($this->form_gui->checkInput())
 		{
 
@@ -644,7 +645,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 	* FORM FeedBlock: Init form. (We need to overwrite, because Generator
 	* does not know FeedUrl Inputs yet.
 	*
-	* @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param	int	$a_mode	Form Edit Mode
 	*/
 	public function initFormFeedBlock($a_mode)
 	{
@@ -672,7 +673,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 		
 		
 		// save and cancel commands
-		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		if (in_array($a_mode, array(self::FORM_CREATE,self::FORM_RE_CREATE)))
 		{
 			$this->form_gui->addCommandButton("saveFeedBlock", $lng->txt("save"));
 			$this->form_gui->addCommandButton("cancelSaveFeedBlock", $lng->txt("cancel"));

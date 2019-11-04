@@ -3,9 +3,13 @@
 
 require_once './Services/Http/classes/class.ilProxySettings.php';
 
-define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+if (!defined("MAGPIE_DIR")) {
+	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+}
 define("MAGPIE_CACHE_ON", true);
-define("MAGPIE_CACHE_DIR", "./".ILIAS_WEB_DIR."/".CLIENT_ID."/magpie_cache");
+if (defined('ILIAS_WEB_DIR') && defined('CLIENT_ID')) {
+	define("MAGPIE_CACHE_DIR", "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/magpie_cache");
+}
 define('MAGPIE_OUTPUT_ENCODING', "UTF-8");
 define('MAGPIE_CACHE_AGE', 900);			// 900 seconds = 15 minutes
 include_once(MAGPIE_DIR."/rss_fetch.inc");
