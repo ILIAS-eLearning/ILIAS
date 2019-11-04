@@ -294,9 +294,12 @@ class ilPDNotesGUI
 			$rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");
 			$rel->setOptions($options);
 			$rel->setValue($this->current_rel_obj);			
-			$ilToolbar->addInputItem($rel);
-			
-			$ilToolbar->addFormButton($lng->txt("change"), "changeRelatedObject");			
+			$ilToolbar->addStickyItem($rel);
+
+			$btn = ilSubmitButton::getInstance();
+			$btn->setCaption('change');
+			$btn->setCommand('changeRelatedObject');
+			$ilToolbar->addStickyItem($btn);
 		}
 		
 		$this->tpl->setContent($html);	
