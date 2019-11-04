@@ -48,7 +48,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 
 		$this->lng = $lng;
 		$this->ctrl = $ctrl;
-
+		$this->setId('tstSkillLevelThreshold');
 		$this->lng->loadLanguageModule('form');
 
 		$this->setStyle('table', 'fullwidth');
