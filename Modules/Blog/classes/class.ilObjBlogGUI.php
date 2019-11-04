@@ -114,6 +114,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	protected $prt_id;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+	protected $tool_context;
+
 	protected static $keyword_export_map; // [array]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -148,6 +153,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
 		$this->author = (int) $_REQUEST["ath"];
 		$this->prt_id = (int) $_REQUEST["prt_id"];
+
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		
@@ -588,6 +595,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$ilNavigationHistory = $this->nav_history;
 
+		$this->triggerAssignmentTool();
+
 		// goto link to blog posting
 		if($this->gtp > 0)
 		{
@@ -915,8 +924,29 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		return true;
 	}
-	
-	/**
+
+    /**
+     * Trigger assignment tool
+     *
+     * @param
+     */
+    protected function triggerAssignmentTool()
+    {
+        $be = new ilBlogExercise($this->node_id);
+        $be_gui = new ilBlogExerciseGUI($this->node_id);
+        $assignments = $be->getAssignmentsOfBlog();
+        if (count($assignments) > 0) {
+            $ass_ids = array_map(function ($i) {
+                return $i["ass_id"];
+            }, $assignments);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_IDS, $ass_ids);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_BUTTONS,
+                $be_gui->getActionButtons());
+        }
+    }
+
+    /**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
@@ -1068,7 +1098,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
-			$message = ilBlogExerciseGUI::checkExercise($this->node_id);
+			//$message = ilBlogExerciseGUI::checkExercise($this->node_id);
 		}
 								
 		// $is_owner = ($this->object->getOwner() == $ilUser->getId());

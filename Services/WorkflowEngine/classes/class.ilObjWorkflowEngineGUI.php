@@ -243,6 +243,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 	public function initLocator()
 	{
 		$path = $this->tree->getPathFull((int)$_GET["ref_id"]);
+        array_shift($path);
 		foreach ((array)$path as $key => $row) {
 			if ($row["title"] == "Workflow Engine") {
 				$row["title"] = $this->lng->txt("obj_wfe");

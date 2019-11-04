@@ -2,10 +2,6 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define ("IL_CHAPTER_TITLE", "st_title");
-define ("IL_PAGE_TITLE", "pg_title");
-define ("IL_NO_HEADER", "none");
-
 /**
 * Class ilLMPageObject
 *
@@ -374,13 +370,13 @@ class ilLMPageObject extends ilLMObject
 	* presentation title doesn't have to be page title, it may be
 	* chapter title + page title or chapter title only, depending on settings
 	*
-	* @param	string	$a_mode		IL_CHAPTER_TITLE | IL_PAGE_TITLE | IL_NO_HEADER
+	* @param	string	$a_mode		ilLMOBject::CHAPTER_TITLE | ilLMOBject::PAGE_TITLE | ilLMOBject::NO_HEADER
 	*/
-	static function _getPresentationTitle($a_pg_id, $a_mode = IL_CHAPTER_TITLE,
+	static function _getPresentationTitle($a_pg_id, $a_mode = self::CHAPTER_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
 		$a_force_content = false, $a_lm_id = 0, $a_lang = "-", $a_include_short = false)
 	{
-		if($a_mode == IL_NO_HEADER && !$a_force_content)
+		if($a_mode == self::NO_HEADER && !$a_force_content)
 		{
 			return "";
 		}
@@ -428,7 +424,7 @@ class ilLMPageObject extends ilLMObject
 			}
 		}
 
-		if($a_mode == IL_PAGE_TITLE)
+		if($a_mode == self::PAGE_TITLE)
 		{
 			return $title;
 		}
@@ -472,7 +468,7 @@ class ilLMPageObject extends ilLMObject
 					$cnt_str = " (".$cur_cnt."/".$cnt.")";
 				}
 			}
-			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], IL_CHAPTER_TITLE,
+			return ilStructureObject::_getPresentationTitle($pred_node["obj_id"], self::CHAPTER_TITLE,
 				$a_include_numbers, false, false, 0, $a_lang, true).$cnt_str;
 		}
 		else

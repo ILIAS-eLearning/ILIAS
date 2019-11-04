@@ -2644,10 +2644,58 @@ if(!$ilDB->tableColumnExists('exc_assignment','rel_deadline_last_subm'))
         ));
 }
 ?>
-<#5563>
+<#5564>
 <?php
 // Add new index
 if (!$ilDB->indexExistsByFields('object_data', ['owner'])) {
     $ilDB->addIndex('object_data', ['owner'], 'i5');
 }
 ?>
+<#5565>
+<?php
+include_once 'Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$typeId = ilDBUpdateNewObjectType::getObjectTypeId('ltis');
+
+$opsId = ilDBUpdateNewObjectType::addCustomRBACOperation(
+        'add_consume_provider', 'Allow Add Own Provider', 'object', 3510
+);
+
+ilDBUpdateNewObjectType::addRBACOperation($typeId, $opsId);
+
+?>
+<#5566>
+<?php
+
+require_once 'Services/Administration/classes/class.ilSetting.php';
+$setting = new ilSetting('lti');
+$setting->delete('custom_provider_create_role');
+
+?>
+
+<#5567>
+<?php
+if(!$ilDB->tableExists('crs_reference_settings'))
+{
+	$ilDB->createTable('crs_reference_settings', [
+		'obj_id' => [
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'member_update' => [
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		]
+	]);
+}
+?>
+<#5568>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+
+

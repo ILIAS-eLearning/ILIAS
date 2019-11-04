@@ -158,7 +158,7 @@ class ilStructureObject extends ilLMObject
 	* get presentation title
 	*
 	*/
-	static function _getPresentationTitle($a_st_id, $a_mode = IL_CHAPTER_TITLE, $a_include_numbers = false,
+	static function _getPresentationTitle($a_st_id, $a_mode = self::CHAPTER_TITLE, $a_include_numbers = false,
 		$a_time_scheduled_activation = false, $a_force_content = false, $a_lm_id = 0, $a_lang = "-", $a_include_short = false)
 	{
 		global $DIC;

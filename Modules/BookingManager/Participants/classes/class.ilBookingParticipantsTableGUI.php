@@ -93,7 +93,10 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 			$this->objects[$item["booking_object_id"]] = $item["title"];
 		}
 		$item = $this->addFilterItemByMetaType("object", ilTable2GUI::FILTER_SELECT);
-		$item->setOptions(array(""=>$this->lng->txt('book_all'))+$this->objects);
+		$item->setOptions([
+		    "" => $this->lng->txt('book_all'),
+            -1 => $this->lng->txt('book_no_objects')
+            ] + $this->objects);
 		$this->filter["object"] = $item->getValue();
 
 		$title = $this->addFilterItemByMetaType(
@@ -141,8 +144,14 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 	 */
 	function getItems(array $filter)
 	{
-		if($filter["object"]) {
+
+		if($filter["object"] > 0) {
 			$data = ilBookingParticipant::getList($this->pool_id, $filter, $filter["object"]);
+		} else if ($filter["object"] == -1) {
+			$data = ilBookingParticipant::getList($this->pool_id, $filter);
+			$data = array_filter($data, function($item) {
+                return $item["obj_count"] == 0;
+            });
 		} else {
 			$data = ilBookingParticipant::getList($this->pool_id, $filter);
 		}

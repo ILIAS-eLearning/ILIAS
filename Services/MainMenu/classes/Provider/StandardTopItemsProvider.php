@@ -106,6 +106,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
             ->withSymbol($icon)
+            ->withVisibilityCallable(function (){
+                return (bool)$this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            })
             ->withTitle($f("mm_repository"))
             ->withPosition(20);
 
