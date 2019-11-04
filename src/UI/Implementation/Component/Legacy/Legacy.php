@@ -109,4 +109,31 @@ class Legacy implements C\Legacy\Legacy
             'js_code' => $js_code
         );
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function withOnLoadCode(\Closure $binder)
+    {
+    // TODO: Implement withOnLoadCode() method.
+        throw new NotImplementedException("Not implemented yet");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAdditionalOnLoadCode(\Closure $binder)
+    {
+        // TODO: Implement withAdditionalOnLoadCode() method.
+        throw new NotImplementedException("Not implemented yet");
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getOnLoadCode()
+    {
+        // TODO: Implement getOnLoadCode() method.
+        throw new NotImplementedException("Not implemented yet");
+    }
 }
