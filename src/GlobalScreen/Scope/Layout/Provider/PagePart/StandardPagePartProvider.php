@@ -106,11 +106,6 @@ class StandardPagePartProvider implements PagePartProvider
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
             }
-
-            // $item_state = new ItemState($item->getProviderIdentification());
-            // if ($item_state->isItemActive()) {
-            //     $main_bar = $main_bar->withActive($identifier);
-            // }
         }
 
         $grid_icon = $f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small");
