@@ -27,8 +27,6 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $f = $this->dic->ui()->factory();
 
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
-
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
 
         $tag_ui = new \ilTaggingSlateContentGUI();
@@ -40,7 +38,6 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withContent($contents)
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                ->withAlwaysAvailable(true)
                 ->withPosition(20)
         ];
     }
