@@ -1974,8 +1974,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$cgui->setHeaderText($this->lng->txt("cont_fix_tree_confirm"));
 		$cgui->setCancel($this->lng->txt("cancel"), "showMaintenance");
 		$cgui->setConfirm($this->lng->txt("cont_fix_tree"), "fixTree");
-		
-		$this->tpl->setContent($cgui->getHTML());
+		$issues = $this->object->checkStructure();
+		$mess = "";
+		if (count($issues) > 0) {
+			$mess = "Found Issues: <br>".implode("<br>", $issues);
+		}
+		$this->tpl->setContent($cgui->getHTML().$mess);
 	}
 
 	/**

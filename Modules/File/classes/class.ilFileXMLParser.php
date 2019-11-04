@@ -437,17 +437,25 @@ class ilFileXMLParser extends ilSaxParser
             ilFileUtils::rename($version["tmpFilename"], $filename);
 
             // Add version history
+            // bugfix mantis 26236: add rollback info to version instead of max_version to ensure compatibility with older ilias versions
             if ($version["rollback_version"] != "" AND $version["rollback_version"] != null
                 AND $version["rollback_user_id"] != "" AND $version["rollback_user_id"] != null
             ) {
 
-                ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . "," . $version["version"] . "," . $version["max_version"]
-                    . "|" . $version["rollback_version"] . "|" . $version["rollback_user_id"]);
+                ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . ","
+                    . $version["version"] . "|"
+                    . $version["rollback_version"] . "|"
+                    . $version["rollback_user_id"] . ","
+                    . $version["max_version"]);
             } else {
                 if ($version["action"] != "" AND $version["action"] != null) {
-                    ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
+                    ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . ","
+                        . $version["version"] . ","
+                        . $version["max_version"]);
                 } else {
-                    ilHistory::_createEntry($this->file->getId(), "new_version", basename($filename) . "," . $version["version"] . "," . $version["max_version"]);
+                    ilHistory::_createEntry($this->file->getId(), "new_version", basename($filename) . ","
+                        . $version["version"] . ","
+                        . $version["max_version"]);
                 }
             }
         }

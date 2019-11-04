@@ -1025,8 +1025,8 @@ class ilBookmarkAdministrationGUI
 				switch($object['type'])
 				{
 					case 'bm':
-						if(!$object["title"]) continue;
-						if(!$object["target"]) continue;
+						if(!$object["title"]) continue 2;
+						if(!$object["target"]) continue 2;
 						$bm = new ilBookmark();
 						$bm->setTitle($object["title"]);
 						$bm->setDescription($object["description"]);
@@ -1036,7 +1036,7 @@ class ilBookmarkAdministrationGUI
 						$num_create['bm']++;
 						break;
 					case 'bmf':
-						if(!$object["title"]) continue;
+						if(!$object["title"]) continue 2;
 						$bmf = new ilBookmarkFolder();
 						$bmf->setTitle($object["title"]);
 						$bmf->setParent($folder_id);

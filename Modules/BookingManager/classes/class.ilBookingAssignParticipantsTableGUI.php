@@ -103,13 +103,16 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setRowTemplate("tpl.booking_assign_participant_row.html", "Modules/BookingManager");
 
-		$this->setSelectAllCheckbox('mass');
+
 		$this->addHiddenInput('object_id', $a_booking_obj_id);
-		$this->addMultiCommand("bookMultipleParticipants",$this->lng->txt("assign"));
+        if($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            $this->setSelectAllCheckbox('mass');
+            $this->addMultiCommand("bookMultipleParticipants", $this->lng->txt("assign"));
+        }
 		$this->getItems();
 
-		$pool = new ilObjBookingPool($a_pool_id, false);
-		if($pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
+
+		if($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE)
 		{
 			ilUtil::sendInfo(
 				sprintf(
@@ -142,7 +145,12 @@ class ilBookingAssignParticipantsTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($a_set)
 	{
-		$this->tpl->setVariable("MULTI_ID", $a_set['user_id']);
+        if($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+            $this->tpl->setCurrentBlock("multi");
+            $this->tpl->setVariable("MULTI_ID", $a_set['user_id']);
+            $this->tpl->parseCurrentBlock();
+        }
+
 		$this->tpl->setVariable("TXT_NAME", $a_set['name']);
 		$this->tpl->setCurrentBlock('object_titles');
 

@@ -518,10 +518,13 @@ class ilBookingReservation
 		global $DIC;
 		$ilDB = $DIC->database();
 
+        $pool_id = ilBookingObject::lookupPoolId($a_object_id);
+
 		$res = array();
 		$query = 'SELECT DISTINCT bm.user_id user_id'.
 			' FROM booking_member bm'.
-			' WHERE bm.user_id NOT IN ('.
+            ' WHERE bm.booking_pool_id = '.$ilDB->quote($pool_id, 'integer').
+			' AND bm.user_id NOT IN ('.
 			'SELECT user_id'.
 			' FROM booking_reservation'.
 			' WHERE object_id = '.$ilDB->quote($a_object_id, 'integer').
