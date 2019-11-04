@@ -5685,7 +5685,7 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_change_to_folder#:#Switch to folder:
+mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.

@@ -9520,7 +9520,7 @@ mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge 
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
-mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
+mail#:#mail_change_to_folder#:#Wechseln zu Ordner: %s
 mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.
 mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.

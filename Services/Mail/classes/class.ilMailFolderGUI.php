@@ -310,7 +310,10 @@ class ilMailFolderGUI
 					}
 				}
 
-				$folder_options[$folder['obj_id']] = $this->lng->txt('mail_' . $folder['title']);
+				$folder_options[$folder['obj_id']] = sprintf(
+					$this->lng->txt('mail_change_to_folder'),
+					$this->lng->txt('mail_' . $folder['title'])
+				);
 				if ($folder['type'] === 'user_folder') {
 					$pre = '';
 					for ($i = 2; $i < $folder_d['depth'] - 1; $i++) {
@@ -321,20 +324,25 @@ class ilMailFolderGUI
 						$pre .= '+';
 					}
 
-					$folder_options[$folder['obj_id']] = $pre . ' ' . $folder['title'];
+					$folder_options[$folder['obj_id']] = sprintf(
+						$this->lng->txt('mail_change_to_folder'),
+						$pre . ' ' . $folder['title']
+					);
 				}
 			}
 		}
 
 		if ($oneConfirmationDialogueRendered === false && $this->confirmTrashDeletion === false) {
 			if('tree' !== \ilSession::get(\ilMailGUI::VIEWMODE_SESSION_KEY)) {
-				$this->toolbar->addText($this->lng->txt('mail_change_to_folder'));
 				$si = new \ilSelectInputGUI('', 'mobj_id');
 				$si->setOptions($folder_options);
 				$si->setValue($this->currentFolderId);
-				$this->toolbar->addInputItem($si);
+				$this->toolbar->addStickyItem($si);
 
-				$this->toolbar->addFormButton($this->lng->txt('change'),'showFolder');
+				$btn = ilSubmitButton::getInstance();
+				$btn->setCaption('change');
+				$btn->setCommand('showFolder');
+				$this->toolbar->addStickyItem($btn);
 				$this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));
 			}
 			if ($isUserRootFolder == true || $isUserSubFolder == true) {
