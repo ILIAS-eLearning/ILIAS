@@ -56,7 +56,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getContent() : ?Legacy
     {
-        return $this->content ?? new LegacyImplementation("", new SignalGenerator());
+        return $this->content ?? $this->ui->factory()->legacy("");
     }
 
 
