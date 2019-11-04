@@ -105,8 +105,8 @@ class CounterTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($r->render($c));
 
         $css_classes = self::$canonical_css_classes[$type];
-        $expected = "<span class=\"$css_classes\">$number</span>";
-        $this->assertEquals($expected, $html);
+        $expected = "<span class=\"il-counter\"><span class=\"$css_classes\">$number</span></span>";
+        $this->assertHTMLEquals($expected, $html);
     }
 
     public function counter_type_and_number_provider()
