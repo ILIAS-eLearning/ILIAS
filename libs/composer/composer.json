@@ -112,10 +112,10 @@
 		},
 		"ezyang/htmlpurifier" : {
 			"source" : "http://repo.or.cz/htmlpurifier.git",
-			"used_version" : "v4.10.0",
+			"used_version" : "v4.12.0",
 			"wrapped_by" : "Services/Html",
 			"added_by" : "Michael Jansen <mjansen@databay.de>",
-			"last_update" : "2019-07-15",
+			"last_update" : "2019-10-31",
 			"last_update_by" : "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
