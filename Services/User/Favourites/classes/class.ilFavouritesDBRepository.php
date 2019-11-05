@@ -6,10 +6,15 @@
  *
  *
  * @author killing@leifos.de
- * @ingroup
  */
 class ilFavouritesDBRepository
 {
+
+    /**
+     * @var array
+     */
+    static $is_desktop_item = [];
+
     /**
      * Constructor
      */
@@ -166,4 +171,97 @@ class ilFavouritesDBRepository
         return $items;
     }
 
+    /**
+     * removes object from all user's desktops
+     * @access	public
+     * @param	integer	ref_id
+     * @return	array	user_ids of all affected users
+     */
+    static function _removeItemFromDesktops($a_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $r = $ilDB->queryF("SELECT user_id FROM desktop_item WHERE item_id = %s",
+            array("integer"), array($a_id));
+
+        $users = array();
+
+        while ($row = $ilDB->fetchObject($r))
+        {
+            $users[] = $row->user_id;
+        } // while
+
+        if (count($users) > 0)
+        {
+            $ilDB->manipulateF("DELETE FROM desktop_item WHERE item_id = %s",
+                array("integer"), array($a_id));
+        }
+
+        return $users;
+    }
+
+    /**
+     * check wether an item is on the users desktop or not
+     * @param $user_id
+     * @param $ref_id
+     * @return bool
+     */
+    public function ifIsFavourite($user_id, $ref_id)
+    // public static function _isDesktopItem($a_usr_id, $a_item_id, $a_type)
+    // function isDesktopItem($a_item_id, $a_type)
+    {
+        $db = $this->db;
+
+        if (!isset(self::$is_desktop_item[$user_id . ":" . $ref_id])) {
+            $item_set = $db->queryF("SELECT item_id FROM desktop_item WHERE " .
+                "item_id = %s AND user_id = %s",
+                array("integer", "integer"),
+                array($ref_id, $user_id));
+
+            if ($db->fetchAssoc($item_set)) {
+                self::$is_desktop_item[$user_id . ":" . $ref_id] = true;
+            } else {
+                self::$is_desktop_item[$user_id . ":" . $ref_id] = false;
+            }
+        }
+        return self::$is_desktop_item[$user_id . ":" . $ref_id];
+    }
+
+    /**
+     * Load favourites data
+     * @param int $user_id
+     * @param array $ref_ids
+     */
+    public function loadData(int $user_id, array $ref_ids)
+    //static function preloadIsDesktopItem($a_usr_id, $a_item_ids)
+    {
+        $db = $this->db;
+        if (!is_array($ref_ids)) {
+            return;
+        }
+
+        $load_ref_ids = [];
+        foreach ($ref_ids as $ref_id) {
+            if (!isset(self::$is_desktop_item[$user_id.":".$ref_id])) {
+                $load_ref_ids[] = $ref_id;
+            }
+        }
+
+        if (count($load_ref_ids) > 0)
+        {
+            $item_set = $db->query("SELECT item_id FROM desktop_item WHERE ".
+                $db->in("item_id", $load_ref_ids, false, "integer").
+                " AND user_id = ".$db->quote($user_id, "integer"));
+            while ($r = $db->fetchAssoc($item_set)) {
+                self::$is_desktop_item[$user_id.":".$r["item_id"]] = true;
+            }
+            foreach ($load_ref_ids as $ref_id) {
+                if (!isset(self::$is_desktop_item[$user_id.":".$ref_id])) {
+                    self::$is_desktop_item[$user_id.":".$ref_id] = false;
+                }
+            }
+        }
+    }
 }
