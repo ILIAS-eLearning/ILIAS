@@ -42,6 +42,7 @@ class CardTest extends ILIAS_UI_TestBase
             $this->createMock(C\MainControls\Factory::class),
             $this->createMock(C\Tree\Factory::class),
             $this->createMock(C\Menu\Factory::class),
+            $this->createMock(C\Symbol\Factory::class),
             $this->createMock(C\Symbol\Factory::class)
         );
     }
