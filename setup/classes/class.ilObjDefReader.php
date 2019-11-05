@@ -139,9 +139,9 @@ class ilObjDefReader extends ilSaxParser
 					}
 	
 					$this->current_object = $a_attribs["id"];
-					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, component,location,".
+					$ilDB->manipulateF("INSERT INTO il_object_def (id, class_name, `component`,location,".
 						"checkbox,inherit,translate,devmode,allow_link,allow_copy,rbac,default_pos,".
-						"default_pres_pos,sideblock,grp,system,export,repository,workspace,administration,".
+						"default_pres_pos,sideblock,grp,`system`,`export`,repository,workspace,administration,".
 						"amet,orgunit_permissions,lti_provider,offline_handling) VALUES ".
 						"(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
 						array("text", "text", "text", "text", "integer", "integer", "text", "integer","integer","integer",
