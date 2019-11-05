@@ -225,7 +225,7 @@ il.UI = il.UI || {};
 			 */
 			this.setTotalNoveltyToStatusCount = function() {
 				console.assert(this.hasStatusObject(),"Status "+MISSING_COUNTERTYPE_EXCEPTION_MSG);
-				console.assert(this.hasStatusObject(),"Novelty "+MISSING_COUNTERTYPE_EXCEPTION_MSG);
+				console.assert(this.hasNoveltyObject(),"Novelty "+MISSING_COUNTERTYPE_EXCEPTION_MSG);
 
 				return this.incrementStatusCount(this.getNoveltyCount()).setNoveltyTo(0);
 			};
