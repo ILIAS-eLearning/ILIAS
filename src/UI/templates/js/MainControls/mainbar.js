@@ -49,6 +49,16 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			});
 		};
 
+		var addExternalSignals = function(component_id, signal, triggerer_id) {
+			console.log(signal);
+			$(document).on(signal, function(event, signalData) {
+				var btn = $('#' + triggerer_id);
+				btn.click();
+				btn.parent().removeClass('hidden');
+			});
+
+		}
+
 		var initActive = function(component_id) {
 			id = component_id;
 			var btn = _getAllButtons()
@@ -82,6 +92,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				if(_isToolButton(btn)) {
 					_setToolsActive(true);
 					_engageButton(_getToolsButton());
+
+					var search = '.il-mainbar-remove-tool.' + btn.attr('id');
+					$('.il-mainbar-remove-tool').hide();
+					$(search).show();
 				} else {
 					_setToolsActive(false);
 					_disengageButton(_getToolsButton());
@@ -100,6 +114,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			var btn = signalData.triggerer,
 				active_tool_button;
 
+				console.log(btn);
 			if(_isEngaged(btn)) {
 				_setPageSlatesActive(false);
 				_setToolsActive(false);
@@ -145,7 +160,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 
 		var _isToolButton = function(btn) {
-			return btn.parent().hasClass(_cls_tools_wrapper);
+			return btn.parent().parent().hasClass(_cls_tools_wrapper);
 		};
 
 		var _isAnyToolActive = function(btn) {
@@ -306,7 +321,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		return {
 			registerSignals: registerSignals,
 			initActive: initActive,
-			initMore: initMore
+			initMore: initMore,
+			addExternalSignals: addExternalSignals
 		}
 
 	})($);
