@@ -15,7 +15,7 @@ class ilTermsOfServiceTableDataProviderFactory
 
     /**
      * @param string $context
-     * @return ilTermsOfServiceAcceptanceHistoryProvider
+     * @return ilTermsOfServiceTableDataProvider
      * @throws ilTermsOfServiceMissingDatabaseAdapterException
      * @throws InvalidArgumentException
      */
