@@ -148,14 +148,14 @@ class ilCtrlStructureReader
 
 			public function accept()
 			{
-				/** @var SplFileInfo $file */
-				$file = $this->current();
-				if (!$file->isDir()) {
-					return preg_match($this->file_matching_regex, $file->getFilename());
+				/** @var SplFileInfo $fileInfo */
+				$fileInfo = $this->current();
+				if (!$fileInfo->isDir()) {
+					return preg_match($this->file_matching_regex, $fileInfo->getFilename());
 				}
 
 				return !in_array(
-					$file->getFilename(),
+					$fileInfo->getFilename(),
 					$this->directory_blacklist,
 					true
 				);
@@ -168,26 +168,28 @@ class ilCtrlStructureReader
 		};
 
 		foreach (new RecursiveIteratorIterator($filtered_directory_iter,
-			RecursiveIteratorIterator::LEAVES_ONLY) as $file) {
-			/** @var SplFileInfo $file */
-			$this->readFile($file, $ilDB);
+			RecursiveIteratorIterator::LEAVES_ONLY) as $fileInfo) {
+			/** @var SplFileInfo $fileInfo */
+			$this->readFile($fileInfo, $ilDB);
 		}
 	}
 
-	private function readFile(SplFileInfo $file, ilDBInterface $ilDB) : void
+	private function readFile(SplFileInfo $fileInfo, ilDBInterface $ilDB) : void
 	{
-		$handle = fopen($file->getPathname(), 'r');
-		if (!is_resource($handle)) {
+		if (!$fileInfo->isReadable()) {
 			throw new \Exception(sprintf(
 				'Error: Could not open file: %s',
-				$file->getPathname()
+				$fileInfo->getPathname()
 			));
 		}
+		$file = $fileInfo->openFile('r');
 
-		while (!feof($handle)) {
-			$line = fgets($handle, 4096);
+		foreach ($file as $line) {
+			if (strpos(strtolower($line), "__construct")) {
+				// Performance improvement, skip processing if we reach a constructor
+				break;
+			}
 
-			// handle @ilctrl_calls
 			$pos = strpos(strtolower($line), "@ilctrl_calls");
 			if (is_int($pos))
 			{
@@ -200,7 +202,7 @@ class ilCtrlStructureReader
 					
 					// check file duplicates
 					if ($parent != "" && isset($this->class_script[$parent]) &&
-						$this->class_script[$parent] != $file->getPathname())
+						$this->class_script[$parent] != $fileInfo->getPathname())
 					{
 						// delete all class to file assignments
 						$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
@@ -233,12 +235,12 @@ class ilCtrlStructureReader
 								$msg,
 								$parent,
 								$this->class_script[$parent],
-								$file->getPathname()
+								$fileInfo->getPathname()
 							)
 						);
 					}
 
-					$this->class_script[$parent] = $file->getPathname();
+					$this->class_script[$parent] = $fileInfo->getPathname();
 					$childs = explode(",", $com_arr[1]);
 					foreach($childs as $child)
 					{
@@ -251,7 +253,6 @@ class ilCtrlStructureReader
 				}
 			}
 
-			// handle isCalledBy comments
 			$pos = strpos(strtolower($line), "@ilctrl_iscalledby");
 			if (is_int($pos))
 			{
@@ -261,7 +262,7 @@ class ilCtrlStructureReader
 				{
 					$com_arr = explode(":", $com);
 					$child = strtolower(trim($com_arr[0]));
-					$this->class_script[$child] = $file->getPathname();
+					$this->class_script[$child] = $fileInfo->getPathname();
 
 					$parents = explode(",", $com_arr[1]);
 					foreach($parents as $parent)
@@ -274,18 +275,17 @@ class ilCtrlStructureReader
 					}
 				}
 			}
-			
-			if (preg_match("~^class\.(.*GUI)\.php$~i", $file->getFilename(), $res))
+
+			if (preg_match("~^class\.(.*GUI)\.php$~i", $fileInfo->getFilename(), $res))
 			{
 				$cl = strtolower($res[1]);
 				$pos = strpos(strtolower($line), "class ".$cl);
 				if (is_int($pos) && $this->class_script[$cl] == "")
 				{
-					$this->class_script[$cl] = $file->getPathname();
+					$this->class_script[$cl] = $fileInfo->getPathname();
 				}
 			}
 		}
-		fclose($handle);
 	}
 
 	/**
