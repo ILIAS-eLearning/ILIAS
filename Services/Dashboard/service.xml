@@ -1,8 +1,8 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$"
-	id="pdsk">
+	id="dash">
 	<baseclasses>
-		<baseclass name="ilPersonalDesktopGUI" dir="classes" />
+		<baseclass name="ilDashboardGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="pdts" class_name="PersonalDesktopSettings" dir="classes"

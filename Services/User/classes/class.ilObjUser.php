@@ -178,10 +178,6 @@ class ilObjUser extends ilObject
 	 */
 	protected $first_login;	// timestamp
 
-    /**
-     * @var ilFavouritesDBRepository
-     */
-    protected $fav_rep;
 
 	/**
 	* Constructor
@@ -232,8 +228,6 @@ class ilObjUser extends ilObject
 			//style (css)
 		 	$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 		}
-
-        $this->fav_rep = new ilFavouritesDBRepository();
 	}
 
 	/**
@@ -3208,12 +3202,6 @@ class ilObjUser extends ilObject
 			self::_writePref($usr_rec["usr_id"], "skin", $a_to_skin);
 			self::_writePref($usr_rec["usr_id"], "style", $a_to_style);
 		}
-	}
-
-
-	function getDesktopItems($a_types = "")
-	{
-        return $this->fav_rep->getFavouritesOfUser($this->getId(), $a_types);
 	}
 
 

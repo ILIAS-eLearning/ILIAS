@@ -4,7 +4,7 @@ use ilAchievementsGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilLearningHistoryGUI;
-use ilPersonalDesktopGUI;
+use ilDashboardGUI;
 
 /**
  * Class LearningHistoryMainBarProvider
@@ -36,7 +36,7 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
         $entries[] = $this->mainmenu->link($this->if->identifier('learning_history'))
             ->withTitle($this->dic->language()->txt("mm_learning_history"))
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
-                ilPersonalDesktopGUI::class,
+                ilDashboardGUI::class,
                 ilAchievementsGUI::class,
                 ilLearningHistoryGUI::class,
             ], ""))

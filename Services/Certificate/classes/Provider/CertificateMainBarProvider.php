@@ -34,7 +34,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_cert'))
                 ->withTitle($this->dic->language()->txt("mm_certificates"))
-                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI",
+                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
                     "ilAchievementsGUI","ilUserCertificateGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withSymbol($icon)

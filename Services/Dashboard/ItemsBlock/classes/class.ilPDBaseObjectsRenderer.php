@@ -70,7 +70,7 @@ abstract class ilPDBaseObjectsRenderer implements ilPDObjectsRenderer
 		$this->objectService = $objectService;
 		$this->ctrl = $ctrl;
 
-		$this->tpl = new ilTemplate('tpl.pd_list_block.html', true, true, 'Services/PersonalDesktop');
+		$this->tpl = new ilTemplate('tpl.dashboard_list_block.html', true, true, 'Services/Dashboard');
 	}
 
 	/**

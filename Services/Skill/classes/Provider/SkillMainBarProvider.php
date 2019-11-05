@@ -35,7 +35,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_skill'))
                 ->withTitle($this->dic->language()->txt("mm_skills"))
-                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
+                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
 	            ->withSymbol($icon)

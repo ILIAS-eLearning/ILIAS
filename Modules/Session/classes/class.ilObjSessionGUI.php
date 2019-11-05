@@ -4,7 +4,6 @@
 include_once('./Services/Object/classes/class.ilObjectGUI.php');
 include_once('./Modules/Session/classes/class.ilObjSession.php');
 include_once('./Modules/Session/classes/class.ilSessionFile.php');
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 *

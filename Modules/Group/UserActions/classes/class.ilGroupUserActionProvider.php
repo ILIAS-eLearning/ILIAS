@@ -94,7 +94,7 @@ class ilGroupUserActionProvider extends ilUserActionProvider
 		$ctrl->setParameterByClass("ilGroupAddToGroupActionGUI", "user_id", $a_target_user);
 		$f->setData(array(
 			"grp-action-add-to" => "1",
-			"url" => $ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilGroupUserActionsGUI", "ilGroupAddToGroupActionGUI"), "", "", true, false)
+			"url" => $ctrl->getLinkTargetByClass(array("ildashboardgui", "ilGroupUserActionsGUI", "ilGroupAddToGroupActionGUI"), "", "", true, false)
 		));
 		$coll->addAction($f);
 

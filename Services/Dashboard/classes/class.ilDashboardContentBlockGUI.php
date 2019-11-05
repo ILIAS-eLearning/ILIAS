@@ -11,9 +11,9 @@ include_once("Services/Block/classes/class.ilBlockGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 */
-class ilPDContentBlockGUI extends ilBlockGUI
+class ilDashboardContentBlockGUI extends ilBlockGUI
 {
-	static $block_type = "pdcontent";
+	static $block_type = "dashcontent";
 	
 	/**
 	* Constructor

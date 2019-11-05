@@ -33,7 +33,7 @@ class PortfolioMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_port'))
                 ->withTitle($this->dic->language()->txt("mm_portfolio"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(50)
 	            ->withSymbol($icon)

@@ -1145,7 +1145,7 @@ class ilPersonalProfileGUI
 			{
 				// #10826
 				$prtf = "<br />".$lng->txt("user_profile_portfolio");
-				$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio\">&raquo; ".
+				$prtf .= "<br /><a href=\"ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio\">&raquo; ".
 					$lng->txt("user_portfolios")."</a>";	
 				$info .= $prtf;
 			}
@@ -1155,7 +1155,7 @@ class ilPersonalProfileGUI
 		else
 		{
 			$prtf = $lng->txt("user_profile_portfolio_selected");
-			$prtf .= "<br /><a href=\"ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio&prt_id=".$portfolio_id."\">&raquo; ".
+			$prtf .= "<br /><a href=\"ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio&prt_id=".$portfolio_id."\">&raquo; ".
 				$lng->txt("portfolio")."</a>";
 			
 			$info = new ilCustomInputGUI($lng->txt("user_activate_public_profile"));

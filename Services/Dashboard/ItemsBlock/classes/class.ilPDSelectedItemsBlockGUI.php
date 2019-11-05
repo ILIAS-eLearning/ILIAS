@@ -138,8 +138,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
         $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 
 	/**
@@ -149,8 +149,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	{
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
 		ilUtil::sendSuccess($this->lng->txt("removed_from_desktop"), true);
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 
 	/**
@@ -473,8 +473,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 			exit;
 		}
 
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 
 	function manageObject()
@@ -563,8 +563,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		// #12909
 		ilUtil::sendSuccess($this->lng->txt('pd_remove_multi_confirm'), true);
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 	
 	public function confirmedUnsubscribe()
@@ -615,8 +615,8 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-		$this->ctrl->setParameterByClass('ilpersonaldesktopgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 
 	//

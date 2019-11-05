@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 include_once("./Services/Object/classes/class.ilObjectGUI.php");
 include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
-require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 
 /**
 * News Settings.

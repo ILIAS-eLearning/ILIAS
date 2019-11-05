@@ -27,13 +27,13 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
 
         $children = array();
         $children[] = $mb->linkItem($id('personal_profile'))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile")
+            ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile")
             ->withTitle($txt("personal_profile"))
             ->withPosition(1)
             ->withSymbol($f->symbol()->glyph()->user());
 
         $children[] = $mb->linkItem($id('personal_settings'))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings")
+            ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings")
             ->withTitle($txt("personal_settings"))
             ->withPosition(2)
             ->withSymbol($f->symbol()->glyph()->settings());

@@ -1683,9 +1683,6 @@ class ilObject
 			// Remove applied didactic template setting
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 			ilDidacticTemplateObjSettings::deleteByRefId($this->getRefId());
-
-			// Remove desktop items
-			ilUtil::removeItemFromDesktops($this->getRefId());
 		}
 
 		// remove conditions

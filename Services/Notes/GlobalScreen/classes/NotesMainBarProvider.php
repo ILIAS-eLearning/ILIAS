@@ -32,7 +32,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/speech.svg"), "");
         $comments = $this->mainmenu->link($this->if->identifier('mm_pd_comments'))
             ->withTitle($dic->language()->txt("mm_comments"))
-            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPublicComments"))
+            ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPublicComments"))
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
             ->withPosition(40)
             ->withSymbol($icon)
@@ -48,7 +48,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
         // Notes
         $notes = $this->mainmenu->link($this->if->identifier('mm_pd_notes'))
             ->withTitle($dic->language()->txt("mm_notes"))
-            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPrivateNotes"))
+            ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPrivateNotes"))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withPosition(70)
             ->withSymbol($icon)

@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * Class ilContainerGUI

@@ -33,7 +33,7 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_news'))
                 ->withTitle($this->dic->language()->txt("mm_news"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToNews")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(30)
 	            ->withSymbol($icon)

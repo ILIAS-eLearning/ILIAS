@@ -74,17 +74,20 @@ class ilFavouritesDBRepository
 
 
     /**
-     * get all desktop items of user and specified type
+     * Get all desktop items of user and specified type
      *
      * note: the implementation of this method is not good style (directly
      * reading tables object_data and object_reference), must be revised someday...
+     * @param int $user_id
+     * @param array|null $a_types
+     * @return array
      */
-    function getFavouritesOfUser($user_id, $a_types = "")
+    public function getFavouritesOfUser(int $user_id, array $a_types = null): array
     {
         $tree = $this->tree;
         $ilDB = $this->db;
 
-        if ($a_types == "")
+        if (is_null($a_types))
         {
             $item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
                 " FROM desktop_item it, object_reference oref ".
@@ -132,11 +135,6 @@ class ilFavouritesDBRepository
         }
         else
         {
-            // due to bug 11508
-            if (!is_array($a_types))
-            {
-                $a_types = array($a_types);
-            }
             $items = array();
             foreach($a_types as $a_type)
             {
@@ -172,45 +170,12 @@ class ilFavouritesDBRepository
     }
 
     /**
-     * removes object from all user's desktops
-     * @access	public
-     * @param	integer	ref_id
-     * @return	array	user_ids of all affected users
-     */
-    static function _removeItemFromDesktops($a_id)
-    {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $r = $ilDB->queryF("SELECT user_id FROM desktop_item WHERE item_id = %s",
-            array("integer"), array($a_id));
-
-        $users = array();
-
-        while ($row = $ilDB->fetchObject($r))
-        {
-            $users[] = $row->user_id;
-        } // while
-
-        if (count($users) > 0)
-        {
-            $ilDB->manipulateF("DELETE FROM desktop_item WHERE item_id = %s",
-                array("integer"), array($a_id));
-        }
-
-        return $users;
-    }
-
-    /**
      * check wether an item is on the users desktop or not
      * @param $user_id
      * @param $ref_id
      * @return bool
      */
     public function ifIsFavourite($user_id, $ref_id)
-    // public static function _isDesktopItem($a_usr_id, $a_item_id, $a_type)
-    // function isDesktopItem($a_item_id, $a_type)
     {
         $db = $this->db;
 
@@ -235,7 +200,6 @@ class ilFavouritesDBRepository
      * @param array $ref_ids
      */
     public function loadData(int $user_id, array $ref_ids)
-    //static function preloadIsDesktopItem($a_usr_id, $a_item_ids)
     {
         $db = $this->db;
         if (!is_array($ref_ids)) {
@@ -264,4 +228,37 @@ class ilFavouritesDBRepository
             }
         }
     }
+
+    /**
+     * Remove favourite entries of a repository item
+     *
+     * @param int $ref_id
+     */
+    public function removeFavouritesOfRefId(int $ref_id)
+    {
+        $db = $this->db;
+
+        $db->manipulateF("DELETE FROM desktop_item WHERE ".
+            " item_id = %s",
+            ["integer"],
+            [$ref_id]
+        );
+    }
+
+    /**
+     * Remove favourite entries of a user
+     *
+     * @param int $user_id
+     */
+    public function removeFavouritesOfUser(int $user_id)
+    {
+        $db = $this->db;
+
+        $db->manipulateF("DELETE FROM desktop_item WHERE ".
+            " user_id = %s",
+            ["integer"],
+            [$user_id]
+        );
+    }
+
 }

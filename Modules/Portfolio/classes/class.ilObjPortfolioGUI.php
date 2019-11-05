@@ -353,7 +353,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 				// #18147
 				$this->lng->loadLanguageModule('pd');
-				$url = $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumpToWorkspace");
+				$url = $this->ctrl->getLinkTargetByClass("ilDashboardGUI", "jumpToWorkspace");
 				$text = $this->lng->txt("pd_personal_workspace");
 
 				$text = sprintf($this->lng->txt("prtf_no_blogs_info"), $text);

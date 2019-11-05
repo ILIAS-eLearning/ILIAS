@@ -81,7 +81,7 @@ class ilColumnGUI
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
-		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
+		"ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
 		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",

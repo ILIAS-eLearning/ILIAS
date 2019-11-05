@@ -32,7 +32,7 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_contacts'))
                 ->withTitle($this->dic->language()->txt("mm_contacts"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(20)
 	            ->withSymbol($icon)

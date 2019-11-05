@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewGUI.php';
 
 /**
  * Class ilPDSelectedItemsBlockSelectedItemsViewGUI
@@ -50,7 +49,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 	 */
 	public function getIntroductionHtml()
 	{
-		$tpl = new ilTemplate('tpl.pd_intro.html', true, true, 'Services/PersonalDesktop');
+		$tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
 		$tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
 		$tpl->setVariable('TXT_WELCOME', $this->lng->txt('pdesk_intro'));
 		$tpl->setVariable("TXT_INTRO_1", sprintf($this->lng->txt('pdesk_intro2'), $this->lng->txt('to_desktop')));

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockMembershipsViewGUI.php';
 
 /**
  * Class ilPDSelectedItemsBlockMembershipsViewGUI
@@ -62,7 +61,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
 	 */
 	public function getIntroductionHtml()
 	{
-		$tpl = new ilTemplate('tpl.pd_my_memberships_intro.html', true, true, 'Services/PersonalDesktop');
+		$tpl = new ilTemplate('tpl.dashboard_my_memberships_intro.html', true, true, 'Services/Dashboard');
 		$tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
 		$tpl->setVariable('TXT_WELCOME', $this->lng->txt('pd_my_memberships_intro'));
 		$tpl->setVariable('TXT_INTRO_1', $this->lng->txt('pd_my_memberships_intro2'));

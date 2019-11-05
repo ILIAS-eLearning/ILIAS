@@ -33,7 +33,7 @@ class BadgeMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_badges'))
                 ->withTitle($this->dic->language()->txt("mm_badges"))
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
                 ->withPosition(40)
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
 	            ->withSymbol($icon)

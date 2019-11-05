@@ -86,7 +86,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
             ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_dashboard"))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
+            ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")
             ->withPosition(10)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(

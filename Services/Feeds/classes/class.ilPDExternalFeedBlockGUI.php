@@ -286,7 +286,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 		
 		$_SESSION["il_feed_js"] = "n";
 		$ilUser->writePref("il_feed_js", "n");
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		$ilCtrl->redirectByClass("ildashboardgui", "show");
 	}
 	
 	function enableJS()
@@ -375,8 +375,7 @@ class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
 			$tpl->setVariable("VAL_TITLE", $c_item->getTitle());			// title
 		}
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($this->getTitle());
 

@@ -223,8 +223,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		include_once("./Services/Mail/classes/class.ilPDMailGUI.php");
 		$mail_gui = new ilPDMailGUI();
 
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($mail_gui->getPDMailHTML($_GET["mail_id"],
 			$_GET["mobj_id"]));
 		$content_block->setTitle($this->lng->txt("message"));
@@ -262,7 +261,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 		} else {
 			\ilUtil::sendInfo($this->lng->txt('mail_move_error'), true);
 		}
-		$this->ctrl->redirectByClass('ilpersonaldesktopgui', 'show');
+		$this->ctrl->redirectByClass('ildashboardgui', 'show');
 	}
 
 	/**

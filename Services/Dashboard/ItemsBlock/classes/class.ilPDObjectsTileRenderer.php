@@ -13,7 +13,7 @@ class ilPDObjectsTileRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
 	 */
 	public function render(array $groupedItems, bool $showHeader): string
 	{
-		$tpl = new ilTemplate('tpl.block_tiles.html', true, true, 'Services/PersonalDesktop');
+		$tpl = new ilTemplate('tpl.block_tiles.html', true, true, 'Services/Dashboard');
 
 		$itemRendered = false;
 

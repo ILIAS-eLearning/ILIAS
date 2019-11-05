@@ -13,17 +13,17 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilObjUserGUI, ilPDNotesGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilMailSearchGUI, ilContactGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilMyStaffGUI
-* @ilCtrl_Calls ilPersonalDesktopGUI: ilGroupUserActionsGUI, ilAchievementsGUI
+* @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+* @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
+* @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
+* @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
+* @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
+* @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
+* @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
+* @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
 *
 */
-class ilPersonalDesktopGUI
+class ilDashboardGUI
 {
 	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
 	/**
@@ -155,7 +155,7 @@ class ilPersonalDesktopGUI
 				if ($ilSetting->get('disable_bookmarks'))
 				{
 					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+					ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 					return;
 				}				
 				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
@@ -206,7 +206,7 @@ class ilPersonalDesktopGUI
 				if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments'))
 				{
 					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-					ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+					ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 					return;
 				}
 				
@@ -320,10 +320,6 @@ class ilPersonalDesktopGUI
 		include_once("Services/Block/classes/class.ilBlockSetting.php");
 		ilBlockSetting::preloadPDBlockSettings();
 
-		// add template for content
-		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
-//		$this->tpl->getStandardTemplate();
-
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
@@ -407,7 +403,7 @@ class ilPersonalDesktopGUI
 
 					// user interface plugin slot + default rendering
 					include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-					$uip = new ilUIHookProcessor("Services/PersonalDesktop", "center_column",
+					$uip = new ilUIHookProcessor("Services/Dashboard", "center_column",
 						array("personal_desktop_gui" => $this));
 					if (!$uip->replaced())
 					{
@@ -454,7 +450,7 @@ class ilPersonalDesktopGUI
 				
 				// user interface plugin slot + default rendering
 				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-				$uip = new ilUIHookProcessor("Services/PersonalDesktop", "right_column",
+				$uip = new ilUIHookProcessor("Services/Dashboard", "right_column",
 					array("personal_desktop_gui" => $this));
 				if (!$uip->replaced())
 				{
@@ -500,7 +496,7 @@ class ilPersonalDesktopGUI
 				
 				// user interface plugin slot + default rendering
 				include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
-				$uip = new ilUIHookProcessor("Services/PersonalDesktop", "left_column",
+				$uip = new ilUIHookProcessor("Services/Dashboard", "left_column",
 					array("personal_desktop_gui" => $this));
 				if (!$uip->replaced())
 				{
@@ -515,8 +511,6 @@ class ilPersonalDesktopGUI
 
 	function prepareContentView()
 	{
-		// add template for content
-		$this->pd_tpl = new ilTemplate("tpl.usr_personaldesktop.html", true, true, "Services/PersonalDesktop");
 		$this->tpl->loadStandardTemplate();
 				
 		// display infopanel if something happened
@@ -584,7 +578,6 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToMemberships()
 	{
-		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledMemberships())
 		{
@@ -600,7 +593,6 @@ class ilPersonalDesktopGUI
 	 */
 	public function jumpToSelectedItems()
 	{
-		require_once 'Services/PersonalDesktop/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewSettings.php';
 		$viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int)$_GET['view']);
 		if($viewSettings->enabledSelectedItems())
 		{
@@ -659,7 +651,7 @@ class ilPersonalDesktopGUI
 		if ($ilSetting->get("disable_bookmarks"))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			return;
 		}
 		
@@ -676,7 +668,7 @@ class ilPersonalDesktopGUI
 		if ($ilSetting->get('disable_notes'))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			return;
 		}		
 		
@@ -693,7 +685,7 @@ class ilPersonalDesktopGUI
 		if ($ilSetting->get('disable_comments'))
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			return;
 		}
 
@@ -729,7 +721,7 @@ class ilPersonalDesktopGUI
 	 */
 	function jumpToContacts()
 	{
-		$this->ctrl->redirectByClass(array('ilpersonaldesktopgui', 'ilcontactgui'));
+		$this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
 	}
 
 	/**
@@ -784,7 +776,7 @@ class ilPersonalDesktopGUI
 	
 	function __loadNextClass()
 	{
-		$stored_classes = array('ilpersonaldesktopgui',
+		$stored_classes = array('ildashboardgui',
 								'ilpersonalprofilegui',
 								'ilpdnotesgui',
 								'ilcalendarpresentationgui',

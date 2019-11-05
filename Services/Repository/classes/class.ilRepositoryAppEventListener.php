@@ -21,16 +21,32 @@ class ilRepositoryAppEventListener implements ilAppEventListener
                 switch ($a_event)
                 {
                     case "deleteReference":
+                        // remove recommended content
                         $rec_manager = new ilRecommendedContentManager();
                         $rec_manager->removeRecommendationsOfRefId((int) $a_params["ref_id"]);
+
+                        // remove favourites
+                        $rec_manager = new ilFavouritesManager();
+                        $rec_manager->removeFavouritesOfRefId((int) $a_params["ref_id"]);
                         break;
 
                     case "beforeDeletion":
+
+
                         if ($a_params["object"]->getType() == "usr") {
+
+                            // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();
                             $rec_manager->removeRecommendationsOfUser((int) $a_params["object"]->getId());
+
+                            // remove favourites
+                            $rec_manager = new ilFavouritesManager();
+                            $rec_manager->removeFavouritesOfUser((int) $a_params["object"]->getId());
                         }
+
                         if ($a_params["object"]->getType() == "role") {
+
+                            // remove recommended content
                             $rec_manager = new ilRecommendedContentManager();
                             $rec_manager->removeRecommendationsOfRole((int) $a_params["object"]->getId());
                         }

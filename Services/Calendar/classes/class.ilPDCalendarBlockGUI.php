@@ -77,7 +77,7 @@ class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 
 		$ilCtrl = $DIC['ilCtrl'];
 		
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		$ilCtrl->redirectByClass("ildashboardgui", "show");
 	}
 
 }

@@ -68,7 +68,7 @@ class ilFavouritesListGUI
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
         $link = $f->link()->standard("Configure",
-            $ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
+            $ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
                 "manage"));
         return $this->ui->renderer()->render([$link, $panel]);
     }

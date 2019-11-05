@@ -132,7 +132,7 @@ class ilAchievementsGUI
 		$first_service = current($this->achievements->getActiveServices());
 		if ($first_service)
 		{
-			$ctrl->redirectByClass(["ilpersonaldesktopgui", "ilachievementsgui", $gui_classes[$first_service]]);
+			$ctrl->redirectByClass(["ildashboardgui", "ilachievementsgui", $gui_classes[$first_service]]);
 		}
 	}
 
@@ -185,7 +185,7 @@ class ilAchievementsGUI
 
 		foreach ($links as $k => $v)
 		{
-			$links[$k]["link"] = $ctrl->getLinkTargetByClass(["ilpersonaldesktopgui", "ilachievementsgui", $gui_classes[$k]]);
+			$links[$k]["link"] = $ctrl->getLinkTargetByClass(["ildashboardgui", "ilachievementsgui", $gui_classes[$k]]);
 		}
 
 		return $links;
