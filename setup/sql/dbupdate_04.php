@@ -23314,33 +23314,83 @@ while ($row = $ilDB->fetchAssoc($res)) {
 ?>
 <#5322>
 <?php
-// Migrate accepted criteria for missing documents (file did not exists during migration)
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
-	WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
-	",
-	['text', 'text'],
-	['[{"id":"usr_language","value":{"lng":"', '"}}]']
-);
+/** @var $ilDB ilDBInterface */
+if (in_array($ilDB->getDBType(), [ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES])) {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $res = $ilDB->query("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions ON tos_versions.id = tos_acceptance_track.tosv_id
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        "
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":{"lng":"', '"}}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
 
-// Migrate accepted criteria for already migrated documents
-$ilDB->manipulateF("
-	UPDATE tos_acceptance_track
-	INNER JOIN tos_versions
-		ON tos_versions.id = tos_acceptance_track.tosv_id
-	INNER JOIN tos_documents
-		ON tos_documents.id = tos_versions.doc_id
-	INNER JOIN tos_criterion_to_doc
-		ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
-	SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
-	WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
-	",
-	['text', 'text', 'text'],
-	['usr_language', '[{"id":"usr_language","value":', '}]']
-);
+    // Migrate accepted criteria for already migrated documents
+    $res = $ilDB->queryF("
+        SELECT tos_acceptance_track.*
+        FROM tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text'],
+        ['usr_language']
+    );
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->manipulateF(
+            "
+                UPDATE tos_acceptance_track
+                SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+                WHERE tos_acceptance_track.tosv_id = %s AND tos_acceptance_track.usr_id = %s AND tos_acceptance_track.ts = %s
+            ",
+            ['text', 'text', 'integer', 'integer', 'integer'],
+            ['[{"id":"usr_language","value":', '}]', $row['tosv_id'], $row['usr_id'], $row['ts']]
+        );
+    }
+} else {
+    // Migrate accepted criteria for missing documents (file did not exists during migration)
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_versions.lng, %s))
+        WHERE tos_versions.doc_id = 0 AND tos_acceptance_track.criteria IS NULL AND tos_versions.lng IS NOT NULL
+        ",
+        ['text', 'text'],
+        ['[{"id":"usr_language","value":{"lng":"', '"}}]']
+    );
+
+    // Migrate accepted criteria for already migrated documents
+    $ilDB->manipulateF("
+        UPDATE tos_acceptance_track
+        INNER JOIN tos_versions
+            ON tos_versions.id = tos_acceptance_track.tosv_id
+        INNER JOIN tos_documents
+            ON tos_documents.id = tos_versions.doc_id
+        INNER JOIN tos_criterion_to_doc
+            ON  tos_criterion_to_doc.doc_id = tos_documents.id AND criterion_id = %s
+        SET tos_acceptance_track.criteria = CONCAT(%s, CONCAT(tos_criterion_to_doc.criterion_value, %s))
+        WHERE tos_versions.lng IS NOT NULL AND tos_acceptance_track.criteria IS NULL
+        ",
+        ['text', 'text', 'text'],
+        ['usr_language', '[{"id":"usr_language","value":', '}]']
+    );
+}
 ?>
 <#5323>
 <?php
@@ -23760,68 +23810,161 @@ $ilCtrlStructureReader->getStructure();
 <#5341>
 <?php
 if($ilDB->tableExists('certificate_template')) {
-	// Insert all current templates as database entries
 	$web_path = CLIENT_WEB_DIR;
 
 	$directories = array(
-		'exc' => '/exercise/certificates/',
-		'crs' => '/course/certificates/',
-		'tst' => '/assessment/certificates/',
+		'exc'  => '/exercise/certificates/',
+		'crs'  => '/course/certificates/',
+		'tst'  => '/assessment/certificates/',
 		'sahs' => '/certificates/scorm/'
 	);
 
+	$GLOBALS['ilLog']->info(sprintf(
+		"Started certificate template XML file migration"
+	));
+
+	$migratedObjectIds             = [];
+	$has_errors                    = false;
+	$stmtSelectObjCertWithTemplate = $ilDB->prepare(
+		"
+			SELECT od.obj_id, COUNT(certificate_template.obj_id) as num_migrated_cer_templates
+			FROM object_data od
+			LEFT JOIN certificate_template ON certificate_template.obj_id = od.obj_id
+			WHERE od.obj_id = ?
+			GROUP BY od.obj_id
+		",
+		['integer']
+	);
+
 	foreach ($directories as $type => $relativePath) {
-		$directory = $web_path . $relativePath;
+		try {
+			$directory = $web_path . $relativePath;
 
-		if (false === file_exists($directory)) {
-			continue;
-		}
+			$GLOBALS['ilLog']->info(sprintf(
+				"Started migration for object type directory: %s",
+				$directory
+			));
 
-		$directoryInformation = ilUtil::getDir($directory);
+			$iter = new \RegExIterator(
+				new \RecursiveIteratorIterator(
+					new \RecursiveDirectoryIterator(
+						$directory,
+						\RecursiveDirectoryIterator::SKIP_DOTS
+					),
+					\RecursiveIteratorIterator::CHILD_FIRST
+				),
+				'/certificate\.xml$/'
+			);
 
-		$objectIds = array();
-		foreach ($directoryInformation as $file) {
-			if (strcmp($file['type'], 'dir') == 0) {
-				if (true === is_numeric($file['entry'])) {
-					$objectIds[] = $file['entry'];
+			foreach ($iter as $certificateFile) {
+				/** @var $certificateFile \SplFileInfo */
+				$pathToFile = $certificateFile->getPathname();
+
+				$GLOBALS['ilLog']->info(sprintf(
+					"Found certificate template XML file (type: %s): %s",
+					$type, $pathToFile
+				));
+
+				$objectId = basename($certificateFile->getPathInfo());
+				if (!is_numeric($objectId) || !($objectId > 0)) {
+					$GLOBALS['ilLog']->warning(sprintf(
+						"Could not extract valid obj_id, cannot migrate certificate XML template file: %s",
+						$pathToFile
+					));
+					continue;
+				}
+
+				$GLOBALS['ilLog']->info(sprintf(
+					"Extracted obj_id %s from certificate file: %s",
+					$objectId, $pathToFile
+				));
+
+				if (isset($migratedObjectIds[$objectId])) {
+					$GLOBALS['ilLog']->warning(sprintf(
+						"Already created a database based certificate template for obj_id %s, cannot migrate file: %s",
+						$objectId, $pathToFile
+					));
+					continue;
+				}
+
+				$res = $ilDB->execute($stmtSelectObjCertWithTemplate, [$objectId]);
+				if (0 === (int)$ilDB->numRows($res)) {
+					$GLOBALS['ilLog']->warning(sprintf(
+						"Could not find an existing ILIAS object for obj_id %s, cannot migrate file: %s",
+						$objectId, $pathToFile
+					));
+					continue;
+				}
+
+				$row = $ilDB->fetchAssoc($res);
+				if ((int)$row['num_migrated_cer_templates'] > 0) {
+					$GLOBALS['ilLog']->warning(sprintf(
+						"Already created a database based certificate template for obj_id %s, cannot migrate file: %s",
+						$objectId, $pathToFile
+					));
+					continue;
+				}
+
+				$content   = file_get_contents($pathToFile);
+				$timestamp = $certificateFile->getMTime();
+
+				if (false !== $content) {
+					$backgroundImagePath = $relativePath . $relativePath . '/background.jpg';
+
+					$id      = $ilDB->nextId('certificate_template');
+					$columns = [
+						'id'                    => ['integer', $id],
+						'obj_id'                => ['integer', $objectId],
+						'obj_type'              => ['text', $type],
+						'certificate_content'   => ['text', $content],
+						'certificate_hash'      => ['text', md5($content)],
+						'template_values'       => ['text', ''],
+						'version'               => ['text', '1'],
+						'ilias_version'         => ['text', ILIAS_VERSION_NUMERIC],
+						'created_timestamp'     => ['integer', $timestamp],
+						'currently_active'      => ['integer', 1],
+						'background_image_path' => ['text', $backgroundImagePath],
+					];
+
+					$ilDB->insert('certificate_template', $columns);
+					$migratedObjectIds[$objectId] = true;
+
+					$GLOBALS['ilLog']->info(sprintf(
+						"Successfully migrated certificate template XML file for obj_id: %s/type: %s/id: %s",
+						$objectId, $type, $id
+					));
+				} else {
+					$GLOBALS['ilLog']->warning(sprintf(
+						"Empty content, cannot migrate certificate XML template file: %s",
+						$pathToFile
+					));
 				}
 			}
-		}
 
-		foreach ($objectIds as $objectId) {
-			$actualDirectory = $directory . $objectId;
-
-			$certificateXml = $actualDirectory . '/certificate.xml';
-			if (false === file_exists($certificateXml)) {
-				continue;
-			}
-
-			$content = file_get_contents($certificateXml);
-			$timestamp = filemtime($certificateXml);
-
-			if (false !== $content) {
-				$backgroundImagePath = $relativePath . $objectId . '/background.jpg';
-
-				$id = $ilDB->nextId('certificate_template');
-
-				$columns = array(
-					'id' => array('integer', $id),
-					'obj_id' => array('integer', $objectId),
-					'obj_type' => array('text', $type),
-					'certificate_content' => array('text', $content),
-					'certificate_hash' => array('text', md5($content)),
-					'template_values' => array('text', ''),
-					'version' => array('text', '1'),
-					'ilias_version' => array('text', ILIAS_VERSION_NUMERIC),
-					'created_timestamp' => array('integer', $timestamp),
-					'currently_active' => array('integer', 1),
-					'background_image_path' => array('text', $backgroundImagePath),
-				);
-
-				$ilDB->insert('certificate_template', $columns);
-			}
+			$GLOBALS['ilLog']->info(sprintf(
+				"Finished migration for directory: %s",
+				$directory
+			));
+		} catch (\Exception $e) {
+			$has_errors = true;
+			$GLOBALS['ilLog']->error(sprintf(
+				"Cannot migrate directory, exception raised: %s",
+				$e->getMessage()
+			));
+		} catch (\Throwable $e) {
+			$has_errors = true;
+			$GLOBALS['ilLog']->error(sprintf(
+				"Cannot migrate directory, exception raised: %s",
+				$e->getMessage()
+			));
 		}
 	}
+
+	$GLOBALS['ilLog']->info(sprintf(
+		"Finished certificate template (%s templates created) XML file migration%s",
+		count($migratedObjectIds),
+		($has_errors ? ' with errors' : '')
+	));
 }
 ?>
 <#5342>

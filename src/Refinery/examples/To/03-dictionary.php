@@ -4,14 +4,15 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toDictionary() {
-	global $DIC;
+function toDictionary()
+{
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->to()->dictOf(new \ILIAS\Refinery\To\Transformation\IntegerTransformation());
+    $transformation = $refinery->to()->dictOf(new \ILIAS\Refinery\To\Transformation\IntegerTransformation());
 
-	$result = $transformation->transform(array('sum' => 5, 'user_id' => 1, 'size' => 4));
+    $result = $transformation->transform(array('sum' => 5, 'user_id' => 1, 'size' => 4));
 
-	return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4) === $result);
+    return assert(array('sum' => 5, 'user_id' => 1, 'size' => 4) === $result);
 }

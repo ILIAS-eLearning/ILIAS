@@ -14,7 +14,7 @@ class LSControlBuilderTest extends TestCase
 {
 	use IliasMocks;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$ui_factory = $this->mockUIFactory();
 		$lang = $this->mockIlLanguage();

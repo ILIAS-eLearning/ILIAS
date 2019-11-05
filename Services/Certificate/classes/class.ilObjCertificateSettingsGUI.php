@@ -35,6 +35,10 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
+    /**
+     * @var string
+     */
+    private $type;
 
     /**
      * @var ilAccessHandler
@@ -170,7 +174,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         if (strlen($this->object->hasBackgroundImage())) {
             require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
             ilWACSignedPath::setTokenMaxLifetimeInSeconds(15);
-            $bgimage->setImage(ilWACSignedPath::signFile($this->object->getBackgroundImageThumbPathWeb()));
+            $bgimage->setImage(ilWACSignedPath::signFile($this->object->getDefaultBackgroundImagePathWeb()));
         }
         $bgimage->setInfo($this->lng->txt("default_background_info"));
         $form->addItem($bgimage);
@@ -224,7 +228,6 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             }
         }
     }
-
 
     public function save()
     {

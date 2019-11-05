@@ -396,6 +396,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		}
 
 		// exercise information
+		/*
 		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
 		$ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->getWikiRefId(), $ilUser->getId());
 		$message = "";
@@ -455,6 +456,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
 			//ilUtil::sendInfo($info);
 		}
+		*/
 
 
 		$this->increaseViewCount();
@@ -1422,7 +1424,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 		$exc_gui->submitBlog($this->node_id);*/
 
 		ilUtil::sendSuccess($lng->txt("wiki_finalized"), true);
-		$ilCtrl->redirect($this, "preview");
+		$ilCtrl->redirectByClass("ilObjWikiGUI", "gotoStartPage");
 	}
 
 	protected function downloadExcSubFile()

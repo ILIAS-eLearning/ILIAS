@@ -13,35 +13,34 @@ require_once('./tests/Refinery/TestCase.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $group;
+    /**
+     * @var Group
+     */
+    private $group;
 
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	private $language;
+    /**
+     * @var \ilLanguage
+     */
+    private $language;
 
-	public function setUp() : void
-	{
-		$this->dataFactory = new Factory();
-		$this->language    = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+    public function setUp() : void
+    {
+        $this->dataFactory = new Factory();
+        $this->language    = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->group = new Group($this->dataFactory);
-	}
+        $this->group = new Group($this->dataFactory);
+    }
 
-	public function testCustomConstraint()
-	{
-		$instance = $this->group->addLabels(array('hello', 'world'));
-		$this->assertInstanceOf(AddLabels::class, $instance);
-	}
-
+    public function testCustomConstraint()
+    {
+        $instance = $this->group->addLabels(array('hello', 'world'));
+        $this->assertInstanceOf(AddLabels::class, $instance);
+    }
 }

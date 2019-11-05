@@ -78,6 +78,20 @@ class Group
         return new StripTags();
     }
 
+	/**
+	 * Creates a transformation that can be used to format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
+	 *
+	 * Throws a LogicException in the transform method, if a not supported language is passed
+	 *
+	 * @param string $language_key
+	 *
+	 * @return CaseOfLabel
+	 */
+	public function caseOfLabel(string $language_key) : CaseOfLabel
+	{
+		return new CaseOfLabel($language_key, $this->dataFactory);
+	}
+
     /**
      * Creates a transformation to determine the estimated reading
      * time of an human adult (roughly 275 WPM)

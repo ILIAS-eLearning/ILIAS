@@ -21,6 +21,11 @@ class ilPCMediaObject extends ilPageContent
 	protected $user;
 
 	protected $mob_node;
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+	protected $ui;
 	
 	/**
 	* Init page content component.
@@ -31,6 +36,7 @@ class ilPCMediaObject extends ilPageContent
 
 		$this->user = $DIC->user();
 		$this->setType("media");
+		$this->ui = $DIC->ui();
 	}
 
 	/**
@@ -462,7 +468,12 @@ class ilPCMediaObject extends ilPageContent
 			}
 		}
 
-		return $a_html;
+		// add fullscreen modals
+		$modal = $this->ui->factory()->modal()->roundtrip("Fullscreen",
+            $this->ui->factory()->legacy("<iframe id='il-copg-mob-fullscreen'></iframe>"));
+		$show_signal = $modal->getShowSignal();
+        return $a_html.$this->ui->renderer()->render($modal)."<script>$(function () { il.COPagePres.setFullscreenModalShowSignal('".
+	        $show_signal."'); });</script>";
 	}
 
 

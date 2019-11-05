@@ -6,66 +6,58 @@
  *
  * Representation of a node (a file or a folder) in the file tree
  *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @ingroup ModulesCloud
  */
 class ilCloudFileNode
 {
+
     /**
      * @var int
      */
     protected $id = 0;
-
     /**
      * @var string
      */
     protected $path = "";
-
     /**
      * @var int
      */
     protected $parent_id = -1;
-
     /**
      * @var array
      */
     protected $children = array();
-
     /**
      * @var bool
      */
     protected $loading_complete = false;
-
     /**
      * @var bool
      */
     protected $is_dir = false;
-
     /**
      * @var int
      */
     protected $size = 0;
-
     /**
      * @var int
      */
     protected $modified = 0;
-
     /**
      * @var int
      */
     protected $created = 0;
-
     /**
      * @var string
      */
     protected $icon_path = "";
-
     /**
      * @var mixed
      */
     protected $mixed;
+
 
     /**
      * @param string $path
@@ -76,6 +68,7 @@ class ilCloudFileNode
         $this->setId($id);
     }
 
+
     /**
      * @param $id
      */
@@ -83,6 +76,7 @@ class ilCloudFileNode
     {
         $this->id = $id;
     }
+
 
     /**
      * @return int
@@ -92,6 +86,7 @@ class ilCloudFileNode
         return $this->id;
     }
 
+
     /**
      * @param bool $complete
      */
@@ -99,6 +94,7 @@ class ilCloudFileNode
     {
         $this->loading_complete = $complete;
     }
+
 
     /**
      * @return bool
@@ -108,13 +104,15 @@ class ilCloudFileNode
         return $this->loading_complete;
     }
 
+
     /**
      * @param string $path
      */
     public function setPath($path = "/")
     {
-        $this->path = ilCloudUtil::normalizePath($path,$this->is_dir);
+        $this->path = ilCloudUtil::normalizePath($path, $this->is_dir);
     }
+
 
     /**
      * @return string
@@ -124,42 +122,41 @@ class ilCloudFileNode
         return $this->path;
     }
 
+
     /**
      * @param $path
      */
     public function addChild($path)
     {
-        if (!isset($this->children[$path]))
-        {
+        if (!isset($this->children[$path])) {
             $this->children[$path] = $path;
         }
-
     }
+
 
     /**
      * @param $path
      */
     public function removeChild($path)
     {
-        if (isset($this->children[$path]))
-        {
+        if (isset($this->children[$path])) {
             unset($this->children[$path]);
         }
-
     }
+
 
     /**
      * @return array|null
      */
     public function getChildrenPathes()
     {
-        if ($this->hasChildren())
-        {
+        if ($this->hasChildren()) {
             return $this->children;
         }
-        return null;
 
+        return null;
     }
+
 
     /**
      * @return bool
@@ -178,6 +175,7 @@ class ilCloudFileNode
         $this->parent_id = $id;
     }
 
+
     /**
      * @return int
      */
@@ -185,6 +183,7 @@ class ilCloudFileNode
     {
         return $this->parent_id;
     }
+
 
     /**
      * @param $is_dir
@@ -194,6 +193,7 @@ class ilCloudFileNode
         $this->is_dir = $is_dir;
     }
 
+
     /**
      * @return bool
      */
@@ -201,6 +201,7 @@ class ilCloudFileNode
     {
         return $this->is_dir;
     }
+
 
     /**
      * @param $size
@@ -210,6 +211,7 @@ class ilCloudFileNode
         $this->size = $size;
     }
 
+
     /**
      * @return int
      */
@@ -217,6 +219,7 @@ class ilCloudFileNode
     {
         return $this->size;
     }
+
 
     /**
      * @param $modified
@@ -226,6 +229,7 @@ class ilCloudFileNode
         $this->modified = $modified;
     }
 
+
     /**
      * @return int
      */
@@ -233,6 +237,7 @@ class ilCloudFileNode
     {
         return $this->modified;
     }
+
 
     /**
      * @param $path
@@ -242,6 +247,7 @@ class ilCloudFileNode
         $this->icon_path = $path;
     }
 
+
     /**
      * @return string
      */
@@ -250,6 +256,7 @@ class ilCloudFileNode
         return $this->icon_path;
     }
 
+
     /**
      * @param mixed $mixed
      */
@@ -257,6 +264,7 @@ class ilCloudFileNode
     {
         $this->mixed = $mixed;
     }
+
 
     /**
      * @return mixed
@@ -272,14 +280,14 @@ class ilCloudFileNode
      */
     public function getJSONEncode()
     {
-        $node                     = array();
-        $node["id"]               = $this->getId();
-        $node["is_dir"]           = $this->getIsDir();
-        $node["path"]             = $this->getPath();
-        $node["parent_id"]        = $this->getParentId();
+        $node = array();
+        $node["id"] = $this->getId();
+        $node["is_dir"] = $this->getIsDir();
+        $node["path"] = $this->getPath();
+        $node["parent_id"] = $this->getParentId();
         $node["loading_complete"] = $this->getLoadingComplete();
-        $node["children"]         = $this->getChildrenPathes();
-        $node["size"]             = $this->getSize();
+        $node["children"] = $this->getChildrenPathes();
+        $node["size"] = $this->getSize();
 
         return $node;
     }

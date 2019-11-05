@@ -363,31 +363,43 @@ class ilObjTaxonomyGUI extends ilObject2GUI
 		}
 	}
 
-	/**
-	 * Show Editing Tree
-	 */
-	function showTree($a_ass_items = false)
-	{
-		$ilUser = $this->user;
-		$tpl = $this->tpl;
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
+    /**
+     * Show Editing Tree
+     * @param bool $a_ass_items
+     * @throws ilCtrlException
+     */
+    function showTree($a_ass_items = false)
+    {
+        global $DIC;
 
-		$tax = $this->getCurrentTaxonomy();
-		
-		include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
-		$cmd = $a_ass_items
-			? "listAssignedItems"
-			: "listNodes";
-		$tax_exp = new ilTaxonomyExplorerGUI($this, "showTree", $tax->getId(),
-			"ilobjtaxonomygui", $cmd);
-		if (!$tax_exp->handleCommand())
-		{
-			//$tpl->setLeftNavContent($tax_exp->getHTML());
-			$tpl->setLeftContent($tax_exp->getHTML()."&nbsp;");
-		}
-		return;
-	}
+        $tax = $this->getCurrentTaxonomy();
+        $ctrl = $this->ctrl;
+
+        $cmd = $a_ass_items
+            ? "listAssignedItems"
+            : "listNodes";
+
+        $DIC->globalScreen()->tool()->context()->current()
+            ->addAdditionalData(ilTaxonomyGSToolProvider::SHOW_TAX_TREE,
+            true);
+        $DIC->globalScreen()->tool()->context()->current()
+            ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
+            $ctrl->getCurrentClassPath());
+        $DIC->globalScreen()->tool()->context()->current()
+            ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_ID,
+                $tax->getId());
+        $DIC->globalScreen()->tool()->context()->current()
+            ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_CMD,
+                $cmd);
+        $DIC->globalScreen()->tool()->context()->current()
+            ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_PARENT_CMD,
+                "showTree");
+
+        $tax_exp = new ilTaxonomyExplorerGUI($this, "showTree", $tax->getId(),
+            "ilobjtaxonomygui", $cmd);
+        $tax_exp->handleCommand();
+        return;
+    }
 	
 	/**
 	 * Get tree html

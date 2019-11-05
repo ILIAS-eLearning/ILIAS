@@ -776,7 +776,33 @@ il.COPagePres =
 		});
 
 		il.COPagePres.initAudioVideo(acc_el);
+	},
+
+	setFullscreenModalShowSignal: function (signal) {
+		il.COPagePres.fullscreen_signal = signal;
+		$('#il-copg-mob-fullscreen').closest(".modal").on('shown.bs.modal', function () {
+			il.COPagePres.resizeFullScreenModal();
+		}).on('hidden.bs.modal', function () {
+			$("#il-copg-mob-fullscreen").attr("src", "");
+		});
+	},
+
+	openFullScreenModal: function (target) {
+		$("#il-copg-mob-fullscreen").attr("src", target);
+		$(document).trigger(il.COPagePres.fullscreen_signal, {
+			id: il.COPagePres.fullscreen_signal,
+			event: 'click',
+			triggerer: $(document),
+			options: JSON.parse('[]')
+		});
+	},
+
+	resizeFullScreenModal: function () {
+		var vp = il.Util.getViewportRegion();
+		var ifr = il.Util.getRegion('#il-copg-mob-fullscreen');
+		$('#il-copg-mob-fullscreen').css("height", (vp.height - ifr.top + vp.top - 120) + "px");
 	}
+
 
 };
 il.Util.addOnLoad(function() {il.COPagePres.init();});

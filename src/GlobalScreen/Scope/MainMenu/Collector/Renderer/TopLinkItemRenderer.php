@@ -28,6 +28,6 @@ class TopLinkItemRenderer extends BaseTypeRenderer
      */
     public function getComponentForItem(isItem $item) : Component
     {
-        return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), $item->getTitle(), $item->getAction());
+        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
     }
 }

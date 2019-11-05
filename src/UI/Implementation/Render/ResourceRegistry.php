@@ -9,12 +9,13 @@ namespace ILIAS\UI\Implementation\Render;
  *
  * @author	Richard Klees <richard.klees@concepts-and-training.de>
  */
-interface ResourceRegistry {
-	/**
-	 * Add a dependency.
-	 *
-	 * @param	$name	string
-	 * @return	self
-	 */
-	public function register($name);
+interface ResourceRegistry
+{
+    /**
+     * Add a dependency.
+     *
+     * @param	$name	string
+     * @return	self
+     */
+    public function register($name);
 }

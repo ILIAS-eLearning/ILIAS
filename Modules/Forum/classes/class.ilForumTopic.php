@@ -38,8 +38,9 @@ class ilForumTopic
 	private $is_closed = 0;
 	
 	private $orderField = '';
-	
-	private $posts = array();
+
+	/** @var null|ilForumPost */
+	private $last_post = null;
 
 	private $db = null;
 	
@@ -1286,5 +1287,21 @@ class ilForumTopic
 		$row = $ilDB->fetchAssoc($res);
 		
 		return $row['thr_date'] ? $row['thr_date'] : '0000-00-00 00:00:00';
+	}
+
+	/**
+	 * @return ilForumPost|null
+	 */
+	public function getLastPostForThreadOverview()
+	{
+		return $this->last_post;
+	}
+
+	/**
+	 * @param ilForumPost $post
+	 */
+	public function setLastPostForThreadOverview(ilForumPost $post)
+	{
+		$this->last_post = $post;
 	}
 }

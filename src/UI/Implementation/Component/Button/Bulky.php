@@ -13,26 +13,25 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 class Bulky extends Button implements C\Button\Bulky
 {
-	use Engageable;
+    use Engageable;
 
-	/**
-	 * @var Symbol
-	 */
-	protected $icon_or_glyph;
+    /**
+     * @var Symbol
+     */
+    protected $icon_or_glyph;
 
-	public function __construct(Symbol $icon_or_glyph, string $label, string $action)
-	{
-		$this->icon_or_glyph = $icon_or_glyph;
-		$this->label = $label;
-		$this->action = $action;
-	}
+    public function __construct(Symbol $icon_or_glyph, string $label, string $action)
+    {
+        $this->icon_or_glyph = $icon_or_glyph;
+        $this->label = $label;
+        $this->action = $action;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getIconOrGlyph()
-	{
-		return $this->icon_or_glyph;
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function getIconOrGlyph()
+    {
+        return $this->icon_or_glyph;
+    }
 }

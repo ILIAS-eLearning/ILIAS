@@ -13,8 +13,8 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
     public function stringsToTrimProvider() : array
     {
         return [
-            [' phpunit ', 'phpunit',],
-            ["\n\r\tphpunit\n\r\t", 'phpunit',],
+            'Text with or without Spaces' => [' phpunit ', 'phpunit',],
+            'Text with or without Line Endings and Tabs' => ["\n\r\tphpunit\n\r\t", 'phpunit',],
         ];
     }
 
@@ -24,8 +24,8 @@ class ilTermsOfServiceTrimmedDocumentPurifierTest extends ilTermsOfServiceCriter
     public function stringElementsArrayToTrimProvider() : array
     {
         return [
-            [[' phpunit '], ['phpunit'],],
-            [["\n\r\tphpunit\n\r\t"], ['phpunit'],],
+            'Text with or without Spaces' => [[' phpunit '], ['phpunit'],],
+            'Text with or without Line Endings and Tabs' => [["\n\r\tphpunit\n\r\t"], ['phpunit'],],
         ];
     }
 

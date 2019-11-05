@@ -74,8 +74,12 @@ require_once('class.soap_server.php');*/
 // cf. http://www.webkreator.com/php/techniques/php-static-class-variables.html
 
 // alex patch: we need an object here, otherwise we will get a warning in php 5.4
-if (!is_object($GLOBALS['_transient']['static']['nusoap_base']))
-{
+if (
+	!isset($GLOBALS['_transient']) ||
+	!isset($GLOBALS['_transient']['static']) ||
+	!isset($GLOBALS['_transient']['static']['nusoap_base']) ||
+	!is_object($GLOBALS['_transient']['static']['nusoap_base'])
+) {
 	$GLOBALS['_transient']['static']['nusoap_base'] = new stdClass();
 }
 $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 0;

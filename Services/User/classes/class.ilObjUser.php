@@ -178,6 +178,11 @@ class ilObjUser extends ilObject
 	 */
 	protected $first_login;	// timestamp
 
+    /**
+     * @var ilFavouritesDBRepository
+     */
+    protected $fav_rep;
+
 	/**
 	* Constructor
 	* @access	public
@@ -227,6 +232,8 @@ class ilObjUser extends ilObject
 			//style (css)
 		 	$this->prefs["style"] = $this->ilias->ini->readVariable("layout","style");
 		}
+
+        $this->fav_rep = new ilFavouritesDBRepository();
 	}
 
 	/**
@@ -1342,7 +1349,7 @@ class ilObjUser extends ilObject
 	{
 		global $DIC;
 
-		$rbacadmin = $DIC['rbacadmin'];
+		$rbacadmin = $DIC->rbac()->admin();
 		$ilDB = $DIC['ilDB'];
 
 		// deassign from ldap groups
@@ -3424,122 +3431,9 @@ class ilObjUser extends ilObject
 
 	function getDesktopItems($a_types = "")
 	{
-		return $this->_lookupDesktopItems($this->getId(), $a_types);
+        return $this->fav_rep->getFavouritesOfUser($this->getId(), $a_types);
 	}
 
-	/**
-	* get all desktop items of user and specified type
-	*
-	* note: the implementation of this method is not good style (directly
-	* reading tables object_data and object_reference), must be revised someday...
-	*/
-	static function _lookupDesktopItems($user_id, $a_types = "")
-	{
-		global $DIC;
-
-		$ilUser = $DIC['ilUser'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
-
-		if ($a_types == "")
-		{
-			$is_nested_set = ($tree->getTreeImplementation() instanceof ilNestedSetTree);
-			
-			$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title, obj.type ".
-				" FROM desktop_item it, object_reference oref ".
-					", object_data obj".
-				" WHERE ".
-				"it.item_id = oref.ref_id AND ".
-				"oref.obj_id = obj.obj_id AND ".
-				"it.user_id = %s", array("integer"), array($user_id));
-			$items = $all_parent_path = array();
-			while ($item_rec = $ilDB->fetchAssoc($item_set))
-			{
-				if ($tree->isInTree($item_rec["ref_id"])
-					&& $item_rec["type"] != "rolf"
-					&& $item_rec["type"] != "itgr")	// due to bug 11508
-				{
-					$parent_ref = $tree->getParentId($item_rec["ref_id"]);
-					
-					if(!isset($all_parent_path[$parent_ref]))
-					{					
-						// #15746
-						//if($is_nested_set)
-						//{
-						//	$par_left = $tree->getLeftValue($parent_ref);
-						//	$all_parent_path[$parent_ref] = sprintf("%010d", $par_left);
-						//}
-						//else
-						//{
-							if ($parent_ref > 0)	// workaround for #0023176
-							{
-								$node = $tree->getNodeData($parent_ref);
-								$all_parent_path[$parent_ref] = $node["title"];
-							}
-							else
-							{
-								$all_parent_path[$parent_ref] = "";
-							}
-						//}
-					}
-					
-					$parent_path = $all_parent_path[$parent_ref];
-
-					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
-					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
-					$items[$parent_path.$title.$item_rec["ref_id"]] =
-						array("ref_id" => $item_rec["ref_id"],
-							"obj_id" => $item_rec["obj_id"],
-							"type" => $item_rec["type"],
-							"title" => $title,
-							"description" => $desc,
-							"parent_ref" => $parent_ref);
-				}
-			}
-			ksort($items);
-		}
-		else
-		{
-			// due to bug 11508
-			if (!is_array($a_types))
-			{
-				$a_types = array($a_types);
-			}
-			$items = array();
-			$foundsurveys = array();
-			foreach($a_types as $a_type)
-			{
-				if ($a_type == "itgr")
-				{
-					continue;
-				}
-				$item_set = $ilDB->queryF("SELECT obj.obj_id, obj.description, oref.ref_id, obj.title FROM desktop_item it, object_reference oref ".
-					", object_data obj WHERE ".
-					"it.item_id = oref.ref_id AND ".
-					"oref.obj_id = obj.obj_id AND ".
-					"it.type = %s AND ".
-					"it.user_id = %s ".
-					"ORDER BY title",
-					array("text", "integer"),
-					array($a_type, $user_id));
-				
-				while ($item_rec = $ilDB->fetchAssoc($item_set))
-				{
-					$title = ilObject::_lookupTitle($item_rec["obj_id"]);
-					$desc = ilObject::_lookupDescription($item_rec["obj_id"]);
-					$items[$title.$a_type.$item_rec["ref_id"]] =
-						array("ref_id" => $item_rec["ref_id"],
-						"obj_id" => $item_rec["obj_id"], "type" => $a_type,
-						"title" => $title, "description" => $desc);
-				}
-
-			}
-			ksort($items);
-		}
-
-		return $items;
-	}
 
 	////
 	////

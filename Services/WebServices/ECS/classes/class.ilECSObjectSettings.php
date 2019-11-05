@@ -264,14 +264,17 @@ abstract class ilECSObjectSettings
 					{
 						$export = false;
 					}
-					if(!count($mids[$server_id]))
+					if(
+						!isset($mids[$server_id]) ||
+						!is_array($mids[$server_id]) ||
+						!count($mids[$server_id]))
 					{
 						$export = false;
 					}				
 					$this->handleSettingsForServer(					
 						$server,
 						$export,
-						$mids[$server_id]
+						isset($mids[$server_id]) ? $mids[$server_id] : []
 					);
 				}
 			}

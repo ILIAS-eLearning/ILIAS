@@ -76,6 +76,11 @@ class ilAccess implements ilAccessHandler {
 	protected $stored_rbac_access = array();
 
 
+    /**
+     * @var ilLogger
+     */
+	protected $ac_logger;
+
 	public function __construct() {
 		global $DIC;
 
@@ -97,6 +102,8 @@ class ilAccess implements ilAccessHandler {
 		$this->obj_tree_cache = array();
 
 		$this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess();
+
+        $this->ac_logger = ilLoggerFactory::getLogger('ac');
 	}
 
 
@@ -692,12 +699,28 @@ class ilAccess implements ilAccessHandler {
 			return true;
 		}
 
+		// if user has write permission
+		if($this->checkAccessOfUser($a_user_id, "write", "", $a_ref_id))
+		{
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
+			return true;
+		}
+
 		// if current permission is visible and visible is set in activation
 		if($a_permission == 'visible' and $item_data['visible'])
 		{
 			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
 			return true;
 		}
+
+		// learning progress must be readable, regardless of the activation
+		if($a_permission == 'read_learning_progress') {
+			$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
+			$ilBench->stop("AccessControl", "3150_checkAccess_check_course_activation");
+			return true;
+		}
+
 		// no access
 		$this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = false;
 		return false;
@@ -789,6 +812,12 @@ class ilAccess implements ilAccessHandler {
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
+
+        if ($class == "") {
+            $this->ac_logger->error("Cannot find class for object type $a_type, obj id $a_obj_id, ref id $a_ref_id. Abort status check.");
+            return false;
+        }
+
 		include_once($location."/class.".$full_class.".php");
 		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 

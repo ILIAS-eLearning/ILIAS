@@ -7,6 +7,6 @@ namespace ILIAS\UI\Component\Input\Container\Filter;
 /**
  * This describes a standard filter.
  */
-interface Standard extends Filter {
-
+interface Standard extends Filter
+{
 }

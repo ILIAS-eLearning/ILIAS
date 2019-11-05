@@ -14,31 +14,31 @@ require_once('./tests/Refinery/TestCase.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $group;
+    /**
+     * @var Group
+     */
+    private $group;
 
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	public function setUp() : void
-	{
-		$this->dataFactory = new Factory();
-		$this->group = new Group($this->dataFactory);
-	}
+    public function setUp() : void
+    {
+        $this->dataFactory = new Factory();
+        $this->group = new Group($this->dataFactory);
+    }
 
-	public function testChangeTimezone()
-	{
-		$instance = $this->group->changeTimezone('Europe/Berlin');
-		$this->assertInstanceOf(ChangeTimezone::class, $instance);
-	}
+    public function testChangeTimezone()
+    {
+        $instance = $this->group->changeTimezone('Europe/Berlin');
+        $this->assertInstanceOf(ChangeTimezone::class, $instance);
+    }
 
-	public function testChangeTimezoneWrongConstruction()
-	{
-		$this->expectException(\InvalidArgumentException::class);
-		$instance = $this->group->changeTimezone('MiddleEarth/Minas_Morgul');
-	}
+    public function testChangeTimezoneWrongConstruction()
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $instance = $this->group->changeTimezone('MiddleEarth/Minas_Morgul');
+    }
 }

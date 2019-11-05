@@ -4,7 +4,6 @@
 include_once("./Services/Component/classes/class.ilPluginConfigGUI.php");
 include_once("class.ilCloudPluginConfig.php");
 
-
 /**
  * Class ilCloudPluginConfigGUI
  *
@@ -18,22 +17,23 @@ include_once("class.ilCloudPluginConfig.php");
  *  );
  * }
  *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @extends ilPluginConfigGUI
  * @ingroup ModulesCloud
  */
 abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 {
+
     /**
      * @var ilCloudPluginConfig
      */
     protected $object;
-
     /**
      * @var array
      */
     protected $fields = array();
+
 
     /**
      * @return array
@@ -52,6 +52,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         return $this->getPluginObject()->getPrefix() . "_config";
     }
 
+
     /**
      * @return ilCloudPluginConfig
      */
@@ -59,6 +60,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     {
         return $this->object;
     }
+
 
     /**
      * Handles all commmands, default is "configure"
@@ -68,15 +70,14 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         include_once("class.ilCloudPluginConfig.php");
         $this->object = new ilCloudPluginConfig($this->getTableName());
         $this->fields = $this->getFields();
-        switch ($cmd)
-        {
+        switch ($cmd) {
             case "configure":
             case "save":
                 $this->$cmd();
                 break;
-
         }
     }
+
 
     /**
      * Configure screen
@@ -91,24 +92,22 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         $tpl->setContent($this->form->getHTML());
     }
 
+
     public function getValues()
     {
-        foreach ($this->fields as $key => $item)
-        {
+        foreach ($this->fields as $key => $item) {
 
             $values[$key] = $this->object->getValue($key);
-            if (is_array($item["subelements"]))
-            {
-                foreach ($item["subelements"] as $subkey => $subitem)
-                {
+            if (is_array($item["subelements"])) {
+                foreach ($item["subelements"] as $subkey => $subitem) {
                     $values[$key . "_" . $subkey] = $this->object->getValue($key . "_" . $subkey);
                 }
             }
-
         }
 
         $this->form->setValuesByArray($values);
     }
+
 
     /**
      * @return ilPropertyFormGUI
@@ -122,14 +121,11 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
 
-        foreach ($this->fields as $key => $item)
-        {
+        foreach ($this->fields as $key => $item) {
             $field = new $item["type"]($this->plugin_object->txt($key), $key);
             $field->setInfo($this->plugin_object->txt($item["info"]));
-            if (is_array($item["subelements"]))
-            {
-                foreach ($item["subelements"] as $subkey => $subitem)
-                {
+            if (is_array($item["subelements"])) {
+                foreach ($item["subelements"] as $subkey => $subitem) {
                     $subfield = new $subitem["type"]($this->plugin_object->txt($key . "_" . $subkey), $key . "_" . $subkey);
                     $subfield->setInfo($this->plugin_object->txt($subitem["info"]));
                     $field->addSubItem($subfield);
@@ -147,6 +143,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         return $this->form;
     }
 
+
     public function save()
     {
         global $DIC;
@@ -154,30 +151,25 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         $this->initConfigurationForm();
-        if ($this->form->checkInput())
-        {
+        if ($this->form->checkInput()) {
 
             // Save Checkbox Values
-            foreach ($this->fields as $key => $item)
-            {
+            foreach ($this->fields as $key => $item) {
 
                 $this->object->setValue($key, $this->form->getInput($key));
-                if (is_array($item["subelements"]))
-                {
-                    foreach ($item["subelements"] as $subkey => $subitem)
-                    {
+                if (is_array($item["subelements"])) {
+                    foreach ($item["subelements"] as $subkey => $subitem) {
                         $this->object->setValue($key . "_" . $subkey, $this->form->getInput($key . "_" . $subkey));
                     }
                 }
-
             }
 
             $ilCtrl->redirect($this, "configure");
-        } else
-        {
+        } else {
             $this->form->setValuesByPost();
             $tpl->setContent($this->form->getHtml());
         }
     }
 }
+
 ?>

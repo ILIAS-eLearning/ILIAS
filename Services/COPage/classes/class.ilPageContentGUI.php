@@ -332,7 +332,7 @@ class ilPageContentGUI
 		}
 
 		include_once("./Services/COPage/classes/class.ilPCParagraphGUI.php");
-		$btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), true, $this->getStyleId()));
+		$btpl->setVariable("CHAR_STYLE_SELECT", ilPCParagraphGUI::getCharStyleSelector($this->pg_obj->getParentType(), "il.COPageBB.setCharacterClass", $this->getStyleId()));
 		
 		// footnote
 //		$btpl->setVariable("TXT_FN", $this->lng->txt("cont_text_fn"));

@@ -12,7 +12,7 @@ require_once "Services/Object/classes/class.ilObject2.php";
 *
 * @extends ilObject2
 */
-class ilObjWorkspaceRootFolder extends ilObject2
+class ilObjWorkspaceRootFolder extends ilObjWorkspaceFolder
 {
 
 	/**

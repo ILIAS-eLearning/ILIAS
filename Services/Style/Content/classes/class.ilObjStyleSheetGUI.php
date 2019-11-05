@@ -671,7 +671,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Init tag style editing form
 	*
-	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param        int        $a_mode        Form Edit Mode
 	*/
 	public function initTagStyleForm($a_mode, $a_cur_tag)
 	{
@@ -1650,7 +1650,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Init tag style editing form
 	*
-	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param        int        $a_mode        Form Edit Mode
 	*/
 	public function initCharacteristicForm($a_mode)
 	{
@@ -1663,7 +1663,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		// title
 		$txt_input = new ilRegExpInputGUI($lng->txt("title"), "new_characteristic");
 		$txt_input->setPattern("/^[a-zA-Z]+[a-zA-Z0-9]*$/");
-		$txt_input->setNoMatchMessage($lng->txt("sty_msg_characteristic_must_only_include")." A-Z, a-z, 1-9");
+		$txt_input->setNoMatchMessage($lng->txt("sty_msg_characteristic_must_only_include")." A-Z, a-z, 0-9");
 		$txt_input->setRequired(true);
 		$this->form_gui->addItem($txt_input);
 		

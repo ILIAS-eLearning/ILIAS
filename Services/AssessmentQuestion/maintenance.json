@@ -1,14 +1,18 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "",
-    "second_maintainer": "",
+    "first_maintainer": "mstuder(8473)",
+    "second_maintainer": "bheyser(14300)",
     "implicit_maintainers": [],
     "coordinator": [
         ""
     ],
-    "tester": "",
-    "testcase_writer": "",
+    "tester": "SIG EA",
+    "testcase_writer": "Fabian(27631)",
     "path": "Services/AssessmentQuestion",
     "belong_to_component": "None",
-    "used_in_components": []
+    "used_in_components": [
+        "Test",
+        "TestQuestionPool",
+        "LearningModule"
+    ]
 }

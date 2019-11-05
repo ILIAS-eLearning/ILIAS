@@ -61,7 +61,7 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		if (!($config instanceof \ilDatabaseSetupConfig)) {
 			throw new \InvalidArgumentException(
-				"Expected \\DatabaseSetupConfig, go '".get_class($config)."' instead."
+				"Expected \\DatabaseSetupConfig, got '".get_class($config)."' instead."
 			);
 		}
 		return new \ilDatabasePopulatedObjective($config);

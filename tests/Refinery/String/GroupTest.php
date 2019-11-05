@@ -13,29 +13,29 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $group;
+    /**
+     * @var Group
+     */
+    private $group;
 
-	public function setUp() : void
-	{
-		$dataFactory = new Factory();
-		$language    = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+    public function setUp() : void
+    {
+        $dataFactory = new Factory();
+        $language    = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->group = new Group($dataFactory, $language);
-	}
+        $this->group = new Group($dataFactory, $language);
+    }
 
-	public function testGreaterThanInstance()
-	{
-		$instance = $this->group->hasMaxLength(42);
-		$this->assertInstanceOf(HasMaxLength::class, $instance);
-	}
-	public function testLowerThanInstance()
-	{
-		$instance = $this->group->hasMinLength(42);
-		$this->assertInstanceOf(HasMinLength::class, $instance);
-	}
+    public function testGreaterThanInstance()
+    {
+        $instance = $this->group->hasMaxLength(42);
+        $this->assertInstanceOf(HasMaxLength::class, $instance);
+    }
+    public function testLowerThanInstance()
+    {
+        $instance = $this->group->hasMinLength(42);
+        $this->assertInstanceOf(HasMinLength::class, $instance);
+    }
 }

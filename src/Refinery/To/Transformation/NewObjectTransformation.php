@@ -13,36 +13,36 @@ use ILIAS\Refinery\Transformation;
 
 class NewObjectTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	private $className;
+    private $className;
 
-	/**
-	 * @param string $className
-	 */
-	public function __construct(string $className)
-	{
-		$this->className  = $className;
-	}
+    /**
+     * @param string $className
+     */
+    public function __construct(string $className)
+    {
+        $this->className  = $className;
+    }
 
-	/**
-	 * @inheritdoc
-	 * @throws \ReflectionException
-	 */
-	public function transform($from)
-	{
-		$class = new \ReflectionClass($this->className);
-		$instance = $class->newInstanceArgs($from);
+    /**
+     * @inheritdoc
+     * @throws \ReflectionException
+     */
+    public function transform($from)
+    {
+        $class = new \ReflectionClass($this->className);
+        $instance = $class->newInstanceArgs($from);
 
-		return $instance;
-	}
+        return $instance;
+    }
 
-	/**
-	 * @inheritdoc
-	 * @throws \ReflectionException
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     * @throws \ReflectionException
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

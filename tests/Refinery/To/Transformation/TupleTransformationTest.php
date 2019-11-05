@@ -19,117 +19,117 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class TupleTransformationTest extends TestCase
 {
-	/**
-	 * @throws \ilException
-	 */
-	public function testTupleTransformationsAreCorrect()
-	{
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation())
-		);
+    /**
+     * @throws \ilException
+     */
+    public function testTupleTransformationsAreCorrect()
+    {
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new IntegerTransformation())
+        );
 
-		$result = $transformation->transform(array(1, 2));
+        $result = $transformation->transform(array(1, 2));
 
-		$this->assertEquals(array(1, 2), $result);
-	}
+        $this->assertEquals(array(1, 2), $result);
+    }
 
-	public function testTupleIsIncorrectAndWillThrowException()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testTupleIsIncorrectAndWillThrowException()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation())
-		);
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new StringTransformation())
+        );
 
-		try {
-			$result = $transformation->transform(array(1, 2));
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $result = $transformation->transform(array(1, 2));
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testTupleIsIncorrectAndWillThrowException2()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testTupleIsIncorrectAndWillThrowException2()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), 'hello' => new IntegerTransformation())
-		);
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), 'hello' => new IntegerTransformation())
+        );
 
-		try {
-			$result = $transformation->transform(array(1, 2));
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        try {
+            $result = $transformation->transform(array(1, 2));
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
-
-
-	public function testToManyValuesForTransformation()
-	{
-		$this->expectNotToPerformAssertions();
-
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation())
-		);
-
-		try {
-			$result = $transformation->transform(array(1, 2, 3));
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
-		$this->fail();
-	}
-
-	public function testTupleAppliesAreCorrect()
-	{
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new IntegerTransformation())
-		);
-
-		$result = $transformation->applyTo(new Result\Ok(array(1, 2)));
-
-		$this->assertEquals(array(1, 2), $result->value());
-	}
-
-	public function testTupleAppliesAreIncorrectAndWillReturnErrorResult()
-	{
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation())
-		);
-
-		$result = $transformation->applyTo(new Result\Ok(array(1, 2)));
-
-		$this->assertTrue($result->isError());
-	}
-
-	public function testToManyValuesForApply()
-	{
-		$transformation = new TupleTransformation(
-			array(new IntegerTransformation(), new StringTransformation())
-		);
-
-		$result = $transformation->applyTo(new Result\Ok(array(1, 2, 3)));
-
-		$this->assertTrue($result->isError());
-	}
-
-	public function testInvalidTransformationWillThrowException()
-	{
-		$this->expectNotToPerformAssertions();
-
-		try {
-			$transformation = new TupleTransformation(
-				array(new IntegerTransformation(), 'hello')
-			);
-		} catch (ConstraintViolationException $exception) {
-			return;
-		}
+        $this->fail();
+    }
 
 
-		$this->fail();
-	}
+    public function testToManyValuesForTransformation()
+    {
+        $this->expectNotToPerformAssertions();
+
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new IntegerTransformation())
+        );
+
+        try {
+            $result = $transformation->transform(array(1, 2, 3));
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
+        $this->fail();
+    }
+
+    public function testTupleAppliesAreCorrect()
+    {
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new IntegerTransformation())
+        );
+
+        $result = $transformation->applyTo(new Result\Ok(array(1, 2)));
+
+        $this->assertEquals(array(1, 2), $result->value());
+    }
+
+    public function testTupleAppliesAreIncorrectAndWillReturnErrorResult()
+    {
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new StringTransformation())
+        );
+
+        $result = $transformation->applyTo(new Result\Ok(array(1, 2)));
+
+        $this->assertTrue($result->isError());
+    }
+
+    public function testToManyValuesForApply()
+    {
+        $transformation = new TupleTransformation(
+            array(new IntegerTransformation(), new StringTransformation())
+        );
+
+        $result = $transformation->applyTo(new Result\Ok(array(1, 2, 3)));
+
+        $this->assertTrue($result->isError());
+    }
+
+    public function testInvalidTransformationWillThrowException()
+    {
+        $this->expectNotToPerformAssertions();
+
+        try {
+            $transformation = new TupleTransformation(
+                array(new IntegerTransformation(), 'hello')
+            );
+        } catch (ConstraintViolationException $exception) {
+            return;
+        }
+
+
+        $this->fail();
+    }
 }

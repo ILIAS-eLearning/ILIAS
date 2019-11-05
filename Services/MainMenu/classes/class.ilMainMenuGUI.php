@@ -60,7 +60,6 @@ class ilMainMenuGUI
     var $tpl;
     var $target;
     var $start_template;
-    var $mail; // [bool]
     /**
      * @var ilGlobalTemplate
      */
@@ -109,13 +108,6 @@ class ilMainMenuGUI
         );
         $this->target = $a_target;
         $this->start_template = $a_use_start_template;
-
-        $this->mail = false;
-        if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            if ($rbacsystem->checkAccess('internal_mail', ilMailGlobalServices::getMailObjectRefId())) {
-                $this->mail = true;
-            }
-        }
 
         $this->setMode(self::MODE_FULL);
 
@@ -178,7 +170,7 @@ class ilMainMenuGUI
 
 
     /**
-     * @param string $a_active "desktop"|"repository"|"search"|"mail"|"chat_invitation"|"administration"
+     * @param string $a_active "desktop"|"repository"|"search"|"chat_invitation"|"administration"
      *
      * @deprecated
      *
@@ -207,43 +199,6 @@ class ilMainMenuGUI
     public function getLoginTargetPar()
     {
         return $this->login_target_par;
-    }
-
-
-    /**
-     * @param bool $a_in_topbar
-     *
-     * @return string
-     * @deprecated
-     */
-    public static function getLanguageSelection($a_in_topbar = false) : string
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $gr_list = new ilGroupedListGUI();
-        $gr_list->setAsDropDown(true);
-
-        $languages = $lng->getInstalledLanguages();
-        if (sizeof($languages) > 1) // #11237
-        {
-            foreach ($languages as $lang_key) {
-                $base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
-                $base = preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
-                $link = ilUtil::appendUrlParameterString(
-                    $base,
-                    "lang=" . $lang_key
-                );
-                $link = str_replace("?&", "?", $link);
-
-                $gr_list->addEntry($lng->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key), $link);
-            }
-
-            return $gr_list->getHTML();
-        }
-
-        return "";
     }
 
 
@@ -306,8 +261,6 @@ class ilMainMenuGUI
             $this->renderHelpButtons();
 
             $this->renderOnScreenChatMenu();
-            $this->populateWithBuddySystem();
-            $this->populateWithOnScreenChat();
             $this->renderBackgroundTasks();
             $this->renderAwareness();
         }
@@ -330,12 +283,6 @@ class ilMainMenuGUI
                     $this->tpl->parseCurrentBlock();
                 }
 
-                // language selection
-                $selection = self::getLanguageSelection();
-                if ($selection) {
-                    $this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-                    $this->tpl->setVariable("LANG_SELECT", $selection);
-                }
 
                 $this->tpl->setCurrentBlock("userisanonymous");
                 $this->tpl->setVariable("TXT_NOT_LOGGED_IN", $lng->txt("not_logged_in"));
@@ -351,8 +298,6 @@ class ilMainMenuGUI
                 );
                 $this->tpl->parseCurrentBlock();
             } else {
-                $this->renderOnScreenNotifications($ilUser, $main_tpl, $lng);
-
                 $this->tpl->setCurrentBlock("userisloggedin");
                 $this->tpl->setVariable("TXT_LOGIN_AS", $lng->txt("login_as"));
                 $user_img_src = $ilUser->getPersonalPicturePath("small", true);
@@ -420,23 +365,6 @@ class ilMainMenuGUI
         $ilUser = $this->user;
         $ui_factory = $this->ui->factory();
         $ui_renderer = $this->ui->renderer();
-
-        if ($this->mail) {
-            $new_mails = ilMailGlobalServices::getNumberOfNewMailsByUserId($ilUser->getId());
-
-            $a_tpl->setCurrentBlock('status_box');
-
-            $glyph = $ui_factory->symbol()->glyph()->mail("ilias.php?baseClass=ilMailGUI");
-
-            if ($new_mails > 0) {
-                $glyph = $glyph->withCounter($ui_factory->counter()->novelty($new_mails));
-            }
-
-            $a_tpl->setVariable('GLYPH', $ui_renderer->render($glyph));
-            $a_tpl->setVariable('STATUS_ID', "sb_mail");
-            $this->addToolbarTooltip("sb_mail", "mm_tb_mail");
-            $a_tpl->parseCurrentBlock();
-        }
     }
 
 
@@ -582,24 +510,6 @@ class ilMainMenuGUI
         }
     }
 
-
-    /**
-     * Includes all buddy system/user connections related javascript code
-     */
-    private function populateWithBuddySystem()
-    {
-        if (ilBuddySystem::getInstance()->isEnabled()) {
-            ilBuddySystemGUI::initializeFrontend();
-        }
-    }
-
-
-    private function populateWithOnScreenChat()
-    {
-        ilOnScreenChatGUI::initializeFrontend();
-    }
-
-
     private function renderOnScreenChatMenu()
     {
         $menu = new ilOnScreenChatMenuGUI();
@@ -619,23 +529,6 @@ class ilMainMenuGUI
         $this->tpl->setVariable("AWARENESS", $aw->getMainMenuHTML());
         $this->addToolbarTooltip("awareness_trigger", "mm_tb_aware");
     }
-
-
-    /**
-     * @param \ilObjUser  $user
-     * @param \ilTemplate $mainTpl
-     * @param \ilLanguage $lng
-     */
-    private function renderOnScreenNotifications(\ilObjUser $user, \ilGlobalTemplateInterface $mainTpl, \ilLanguage $lng)
-    {
-        if ($this->getMode() != self::MODE_TOPBAR_REDUCED && !$user->isAnonymous()) {
-            $this->tpl->touchBlock('osd_container');
-
-            $osdGui = new ilNotificationOSDGUI($user, $mainTpl, $lng);
-            $osdGui->render();
-        }
-    }
-
 
     /**
      * Toggle rendering of main menu, search, user info

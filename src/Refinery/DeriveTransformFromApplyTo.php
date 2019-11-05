@@ -7,35 +7,34 @@
 
 namespace ILIAS\Refinery;
 
-
 use ILIAS\Data\Result;
 
 trait DeriveTransformFromApplyTo
 {
-	/**
-	 * @param Result $result
-	 * @return Result
-	 */
-	abstract public function applyTo(Result $result) : Result;
+    /**
+     * @param Result $result
+     * @return Result
+     */
+    abstract public function applyTo(Result $result) : Result;
 
-	/**
-	 * @param mixed $from
-	 * @return mixed
-	 * @throws \Exception
-	 */
-	public function transform($from)
-	{
-		/** @var Result $result */
-		$result = $this->applyTo(new Result\Ok($from));
-		if (true === $result->isError()) {
-			$error = $result->error();
+    /**
+     * @param mixed $from
+     * @return mixed
+     * @throws \Exception
+     */
+    public function transform($from)
+    {
+        /** @var Result $result */
+        $result = $this->applyTo(new Result\Ok($from));
+        if (true === $result->isError()) {
+            $error = $result->error();
 
-			if ($error instanceof \Exception) {
-				throw $error;
-			}
+            if ($error instanceof \Exception) {
+                throw $error;
+            }
 
-			throw new \Exception($error);
-		}
-		return $result->value();
-	}
+            throw new \Exception($error);
+        }
+        return $result->value();
+    }
 }

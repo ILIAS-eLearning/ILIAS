@@ -39,6 +39,9 @@ class ilObjMediaCast extends ilObject
 	 * @var 0 = logged in users, 1 = public access
 	 */
 	protected $defaultAccess = 0;
+
+	// mapping for copy process
+	protected $mob_mapping = [];
 	
 	/**
 	* Constructor
@@ -492,6 +495,15 @@ class ilObjMediaCast extends ilObject
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
 
+        /** @var ilScormLP $olp */
+
+        $olp = ilObjectLP::getInstance($this->getId());
+        $collection = $olp->getCollectionInstance();
+        if($collection)
+        {
+            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId(), $this->mob_mapping);
+        }
+
 		return $new_obj;
 	}
 
@@ -527,7 +539,7 @@ class ilObjMediaCast extends ilObject
 			$mc_item->setContent($item["content"]);
 			$mc_item->setVisibility($item["visibility"]);
 			$mc_item->create();
-
+			$this->mob_mapping[$mob_id] = $new_mob->getId();
 		}
 	}
 	

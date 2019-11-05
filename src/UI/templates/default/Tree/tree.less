@@ -2,41 +2,37 @@
 	list-style-type: none;
 	ul {
 		list-style-type: none;
-		padding-left: @il-tree-node-indentation;
+		padding: 4px 0 4px @il-tree-node-indentation;
 	}
-
-	li.il-tree-node .node-line {
-		cursor: pointer;
-	}
-
-	.il-tree-node > ul {
-		display: none;
-	}
-
-	.il-tree-node.expanded > ul {
-		display: block;
-	}
-
-	.il-tree-node.expandable {
-
-		.node-label {
-			padding-left: 2px;
+	li.il-tree-node {
+		.node-line {
+			cursor: pointer;
+			display: flex;
+			flex-wrap: wrap;
+			> .node-label .icon{
+				vertical-align: text-bottom;
+			}
+			> .node-byline {
+				width: 100%;
+			}
 		}
-
-		> .node-line:before {
-			font-family: 'Glyphicons Halflings';
-			content: "\e250";
+		&.highlighted > .node-line {
+			background-color: @il-highlight-bg;
 		}
-
-		&.expanded > .node-line:before {
-			font-family: 'Glyphicons Halflings';
-			content: "\e252";
+		&.expandable {
+			> .node-line:before {
+				font-family: 'Glyphicons Halflings';
+				content: "\e250";
+				position: absolute;
+				margin-left: -@il-tree-node-indentation;
+			}
+			&.expanded > .node-line:before {
+				content: "\e252";
+			}
+		}
+		&:not(.expanded) > ul{
+			display: none;
 		}
 	}
-
-	.il-tree-node.highlighted > .node-line {
-		background-color: @il-highlight-bg;
-	}
-
 }
 

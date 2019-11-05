@@ -14,50 +14,50 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class Parallel implements Transformation
 {
-	use DeriveApplyToFromTransform;
-	/**
-	 * @var Transformation[]
-	 */
-	private $transformationStrategies;
+    use DeriveApplyToFromTransform;
+    /**
+     * @var Transformation[]
+     */
+    private $transformationStrategies;
 
-	/**
-	 * @param array $transformations
-	 * @throws \InvalidArgumentException
-	 */
-	public function __construct(array $transformations)
-	{
-		foreach ($transformations as $transformation) {
-			if (!$transformation instanceof Transformation) {
-				$transformationClassName = Transformation::class;
+    /**
+     * @param array $transformations
+     * @throws \InvalidArgumentException
+     */
+    public function __construct(array $transformations)
+    {
+        foreach ($transformations as $transformation) {
+            if (!$transformation instanceof Transformation) {
+                $transformationClassName = Transformation::class;
 
-				throw new ConstraintViolationException(
-					sprintf('The array MUST contain only "%s" instances', $transformationClassName),
-					'not_a_transformation',
-					$transformationClassName
-				);
-			}
-		}
-		$this->transformationStrategies = $transformations;
-	}
+                throw new ConstraintViolationException(
+                    sprintf('The array MUST contain only "%s" instances', $transformationClassName),
+                    'not_a_transformation',
+                    $transformationClassName
+                );
+            }
+        }
+        $this->transformationStrategies = $transformations;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		$results = array();
-		foreach ($this->transformationStrategies as $strategy) {
-			$results[] = $strategy->transform($from);
-		}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        $results = array();
+        foreach ($this->transformationStrategies as $strategy) {
+            $results[] = $strategy->transform($from);
+        }
 
-		return $results;
-	}
+        return $results;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

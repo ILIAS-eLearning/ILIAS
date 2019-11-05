@@ -15,27 +15,27 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class FloatTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		if (false === is_float($from)) {
-			throw new ConstraintViolationException(
-				'The value MUST be of type float',
-				'not_float'
-			);
-		}
-		return (float) $from;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        if (false === is_float($from)) {
+            throw new ConstraintViolationException(
+                'The value MUST be of type float',
+                'not_float'
+            );
+        }
+        return (float) $from;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

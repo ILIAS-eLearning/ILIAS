@@ -425,6 +425,10 @@ class ilPublicUserProfileGUI
 		{
 			$imagefile = basename($imagefile);			
 		}
+		else
+        {
+            $imagefile = ilWACSignedPath::signFile($imagefile."?t=1");
+        }
 
 		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
 			($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g"))

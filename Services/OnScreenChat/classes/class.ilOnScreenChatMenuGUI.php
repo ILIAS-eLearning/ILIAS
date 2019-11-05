@@ -21,11 +21,6 @@ class ilOnScreenChatMenuGUI
 	/**
 	 * @var bool
 	 */
-	protected $publicChatRoomAccess = false;
-
-	/**
-	 * @var bool
-	 */
 	protected $oscAccess = false;
 
 	/**
@@ -51,9 +46,6 @@ class ilOnScreenChatMenuGUI
 	{
 		global $DIC;
 
-		require_once 'Modules/Chatroom/classes/class.ilObjChatroom.php';
-		$this->pub_ref_id = ilObjChatroom::_getPublicRefId();
-
 		if(!$DIC->user() || $DIC->user()->isAnonymous())
 		{
 			$this->accessible = false;
@@ -62,10 +54,8 @@ class ilOnScreenChatMenuGUI
 
 		$chatSettings = new ilSetting('chatroom');
 
-		$this->publicChatRoomAccess = $DIC->rbac()->system()->checkAccessOfUser($DIC->user()->getId(), 'read', $this->pub_ref_id);
-		$this->oscAccess            = $chatSettings->get('enable_osc');
-
-		$this->accessible = $chatSettings->get('chat_enabled') && ($this->oscAccess || $this->publicChatRoomAccess);
+		$this->oscAccess = $chatSettings->get('enable_osc');
+		$this->accessible = $chatSettings->get('chat_enabled') && $this->oscAccess;
 	}
 
 	/**
@@ -95,15 +85,6 @@ class ilOnScreenChatMenuGUI
 
 		$config['rooms'] = array();
 
-		if($this->publicChatRoomAccess)
-		{
-			$config['rooms'][] = array(
-				'name' => $DIC['ilObjDataCache']->lookupTitle($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id)),
-				'url'  => './ilias.php?baseClass=ilRepositoryGUI&amp;cmd=view&amp;ref_id=' . $this->pub_ref_id,
-				'icon' => ilObject::_getIcon($DIC['ilObjDataCache']->lookupObjId($this->pub_ref_id), 'small', 'chtr')
-			);
-		}
-
 		$config['showAcceptMessageChange'] = (
 			!ilUtil::yn2tf($DIC->user()->getPref('chat_osc_accept_msg')) &&
 			!(bool)$DIC['ilSetting']->get('usr_settings_hide_chat_osc_accept_msg', false) &&
@@ -113,7 +94,7 @@ class ilOnScreenChatMenuGUI
 
 		$DIC->language()->loadLanguageModule('chatroom');
 		$DIC->language()->toJS(array(
-			'chat_osc_conversations', 'chat_osc_section_head_other_rooms',
+			'chat_osc_conversations',
 			'chat_osc_sure_to_leave_grp_conv', 'chat_osc_user_left_grp_conv',
 			'confirm', 'cancel', 'chat_osc_leave_grp_conv', 'chat_osc_no_conv'
 		));

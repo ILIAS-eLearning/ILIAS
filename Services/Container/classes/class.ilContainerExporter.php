@@ -98,8 +98,14 @@ class ilContainerExporter extends ilXmlExporter
 				"ids" => $style_ids
 			);
 		}
-				
-		return $res;
+
+        // service settings
+        $res[] = array(
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids);
+
+        return $res;
 	}
 	
 	/**

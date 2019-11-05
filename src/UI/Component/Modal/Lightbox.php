@@ -6,12 +6,13 @@ namespace ILIAS\UI\Component\Modal;
  *
  * @package ILIAS\UI\Component\Modal
  */
-interface Lightbox extends Modal {
+interface Lightbox extends Modal
+{
 
-	/**
-	 * Get the lightbox pages of this modal
-	 *
-	 * @return LightboxPage[]
-	 */
-	public function getPages();
+    /**
+     * Get the lightbox pages of this modal
+     *
+     * @return LightboxPage[]
+     */
+    public function getPages();
 }

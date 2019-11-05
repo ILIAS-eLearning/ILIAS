@@ -65,6 +65,11 @@ class ilPersonalWorkspaceGUI
 
 	protected $tree; // [ilTree]
 	protected $node_id; // [int]
+
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
 	
 	/**
 	 * constructor
@@ -97,6 +102,7 @@ class ilPersonalWorkspaceGUI
 		{
 			$this->node_id = $this->tree->getRootId();
 		}
+		$this->tool_context = $DIC->globalScreen()->tool()->context();
 	}
 	
 	/**
@@ -112,7 +118,9 @@ class ilPersonalWorkspaceGUI
 		$ilCtrl->setReturn($this, "render");		
 		$cmd = $ilCtrl->getCmd();
 
-		// new type
+        $this->tool_context->current()->addAdditionalData(ilWorkspaceGSToolProvider::SHOW_WS_TREE, true);
+
+        // new type
 		if($_REQUEST["new_type"])
 		{
 			$class_name = $objDefinition->getClassName($_REQUEST["new_type"]);

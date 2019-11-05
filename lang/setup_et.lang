@@ -105,7 +105,6 @@ disable_check#:#disable check
 disable_logging#:#disable logging
 disabled#:#disabled
 display_clientlist#:#Display client selection
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.
 email#:#Email
 email_not_valid#:#Kehtetu e-posti aadress
 en_by_default#:#(English is installed by default and cannot be deleted).

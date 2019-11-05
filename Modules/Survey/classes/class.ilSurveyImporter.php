@@ -81,9 +81,15 @@ class ilSurveyImporter extends ilXmlImporter
 	/**
 	 * Import XML
 	 *
-	 * @param
-	 * @return
-	 */
+     * @param $a_entity
+     * @param $a_id
+     * @param $a_xml
+     * @param ilImportMapping $a_mapping
+     * @return bool|string
+     * @throws ilDatabaseException
+     * @throws ilImportException
+     * @throws ilObjectNotFoundException
+     */
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		if ($a_entity == "svy")
@@ -185,8 +191,8 @@ class ilSurveyImporter extends ilXmlImporter
 				$newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
 				$newObj->saveToDb();
 			}
-
-			$a_mapping->addMapping("Modules/Survey", "svy", $a_id, $newObj->getId());
+			$a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, (int) $newObj->getId());
+			return $newObj->getId();
 		}
 		else
 		{

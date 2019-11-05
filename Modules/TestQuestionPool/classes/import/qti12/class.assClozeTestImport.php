@@ -430,7 +430,7 @@ class assClozeTestImport extends assQuestionImport
 			$import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
 		}
 		$this->object->saveToDb();
-		if(count($combination) > 0)
+		if(is_array($combination) && count($combination) > 0)
 		{
 			require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
 			assClozeGapCombination::clearGapCombinationsFromDb($this->object->getId());

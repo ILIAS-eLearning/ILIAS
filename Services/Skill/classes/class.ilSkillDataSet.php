@@ -160,6 +160,7 @@ class ilSkillDataSet extends ilDataSet
 							"Depth" => "integer",
 							"Type" => "text",
 							"Title" => "text",
+							"Description" => "text",
 							"SelfEval" => "integer",
 							"OrderNr" => "integer",
 							"Status" => "integer",
@@ -180,6 +181,7 @@ class ilSkillDataSet extends ilDataSet
 							"Depth" => "integer",
 							"Type" => "text",
 							"Title" => "text",
+							"Description" => "text",
 							"SelfEval" => "integer",
 							"OrderNr" => "integer",
 							"Status" => "integer"
@@ -287,6 +289,7 @@ class ilSkillDataSet extends ilDataSet
 									"Depth" => $s["depth"],
 									"Type" => $s["type"],
 									"Title" => $s["title"],
+									"Description" => $s["description"],
 									"SelfEval" => $s["self_eval"],
 									"OrderNr" => $s["order_nr"],
 									"Status" => $s["status"],
@@ -320,6 +323,7 @@ class ilSkillDataSet extends ilDataSet
 									"Depth" => $s["depth"],
 									"Type" => $s["type"],
 									"Title" => $s["title"],
+									"Description" => $s["description"],
 									"SelfEval" => $s["self_eval"],
 									"OrderNr" => $s["order_nr"],
 									"Status" => $s["status"]
@@ -497,6 +501,7 @@ class ilSkillDataSet extends ilDataSet
 						include_once("./Services/Skill/classes/class.ilSkillCategory.php");
 						$scat = new ilSkillCategory();
 						$scat->setTitle($a_rec["Title"]);
+						$scat->setDescription($a_rec["Description"]);
 						$scat->setImportId("il_" . $source_inst_id . "_scat_" . $a_rec["Child"]);
 						$scat->setSelfEvaluation($a_rec["SelfEval"]);
 						$scat->setOrderNr($order);
@@ -510,6 +515,7 @@ class ilSkillDataSet extends ilDataSet
 						include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 						$skll = new ilBasicSkill();
 						$skll->setTitle($a_rec["Title"]);
+						$skll->setDescription($a_rec["Description"]);
 						$skll->setImportId("il_" . $source_inst_id . "_skll_" . $a_rec["Child"]);
 						$skll->setSelfEvaluation($a_rec["SelfEval"]);
 						$skll->setOrderNr($order);
@@ -527,6 +533,7 @@ class ilSkillDataSet extends ilDataSet
 							include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 							$sktr = new ilSkillTemplateReference();
 							$sktr->setTitle($a_rec["Title"]);
+							$sktr->setDescription($a_rec["Description"]);
 							$sktr->setImportId("il_" . $source_inst_id . "_sktr_" . $a_rec["Child"]);
 							$sktr->setSelfEvaluation($a_rec["SelfEval"]);
 							$sktr->setOrderNr($order);
@@ -557,6 +564,7 @@ class ilSkillDataSet extends ilDataSet
 						include_once("./Services/Skill/classes/class.ilSkillTemplateCategory.php");
 						$sctp = new ilSkillTemplateCategory();
 						$sctp->setTitle($a_rec["Title"]);
+						$sctp->setDescription($a_rec["Description"]);
 						$sctp->setImportId("il_" . $source_inst_id . "_sctp_" . $a_rec["Child"]);
 						$sctp->setOrderNr($order);
 						$sctp->create();
@@ -568,6 +576,7 @@ class ilSkillDataSet extends ilDataSet
 						include_once("./Services/Skill/classes/class.ilBasicSkillTemplate.php");
 						$sktp = new ilBasicSkillTemplate();
 						$sktp->setTitle($a_rec["Title"]);
+						$sktp->setDescription($a_rec["Description"]);
 						$sktp->setImportId("il_" . $source_inst_id . "_sktp_" . $a_rec["Child"]);
 						$sktp->setOrderNr($order);
 						$sktp->create();

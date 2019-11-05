@@ -196,7 +196,61 @@ abstract class ilParticipants
 		// User is not assigned to course/group => no read access
 		return false;
 	}
-	
+
+
+	/**
+	 * Get user membership assignments by type
+	 *
+	 * @param int[] $a_user_ids
+	 * @param string[] $a_type
+	 * @param bool $a_only_member_roles
+	 */
+	public static function getUserMembershipAssignmentsByType($a_user_ids, $a_type, $a_only_member_roles)
+	{
+		global $DIC;
+
+		$logger = $DIC->logger()->mmbr();
+		$ilDB = $DIC->database();
+
+		if($a_only_member_roles)
+		{
+			$j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
+			$a2 = 'AND obd2.title = '.$ilDB->concat(
+					array(
+						array($ilDB->quote('il_','text')),
+						array('obd.type'),
+						array($ilDB->quote('_member_','text')),
+						array('obr.ref_id'),
+					),
+					false
+				);
+		}
+
+		$query = "SELECT DISTINCT obd.obj_id,obr.ref_id,ua.usr_id FROM rbac_ua ua ".
+			"JOIN rbac_fa fa ON ua.rol_id = fa.rol_id ".
+			"JOIN object_reference obr ON fa.parent = obr.ref_id ".
+			"JOIN object_data obd ON obr.obj_id = obd.obj_id ".
+			$j2.
+			"WHERE ".$ilDB->in("obd.type", $a_type, false, "text").
+			"AND fa.assign = 'y' ".
+			'AND '.$ilDB->in('ua.usr_id',$a_user_ids,false,'integer').' '.
+			$a2;
+
+		$logger->debug($query);
+
+
+		$obj_ids = [];
+		$res = $ilDB->query($query);
+		while($row = $ilDB->fetchObject($res))
+		{
+			$obj_ids[$row->obj_id][] = $row->usr_id;
+		}
+
+		$logger->dump($obj_ids, \ilLogLevel::DEBUG);
+
+		return $obj_ids;
+	}
+
 	/**
 	 * get membership by type
 	 * Get course or group membership
@@ -302,7 +356,7 @@ abstract class ilParticipants
 	{
 		global $DIC;
 
-		$rbacreview = $DIC['rbacreview'];
+		$rbacreview = $DIC->rbac()->review();
 		$ilObjDataCache = $DIC['ilObjDataCache'];
 
 		$has_policies = $rbacreview->getLocalPolicies($a_ref_id);

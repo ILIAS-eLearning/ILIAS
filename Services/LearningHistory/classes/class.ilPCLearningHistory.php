@@ -240,7 +240,7 @@ class ilPCLearningHistory extends ilPageContent
 	 */
 	protected function getPresentation($from, $to, $classes, $a_mode): string
 	{
-		if ($a_mode == "preview" || $a_mode == "presentation")
+		if ($a_mode == "preview" || $a_mode == "presentation" || $a_mode == "print")
 		{
 			if ($this->getPage()->getParentType() == "prtf")
 			{
@@ -265,7 +265,7 @@ class ilPCLearningHistory extends ilPageContent
 			{
 				$classes = null;
 			}
-			$tpl->setVariable("LHIST", $hist_gui->getEmbeddedHtml($from_unix, $to_unix, $classes));
+			$tpl->setVariable("LHIST", $hist_gui->getEmbeddedHtml($from_unix, $to_unix, $classes, $a_mode));
 			return $tpl->get();
 		}
 

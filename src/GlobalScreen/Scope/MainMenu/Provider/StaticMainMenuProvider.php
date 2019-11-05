@@ -1,4 +1,6 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
+<?php
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Provider\StaticProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
@@ -13,20 +15,16 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 interface StaticMainMenuProvider extends StaticProvider, MainMenuProviderInterface
 {
 
-    const PURPOSE_MAINBAR = 'mainmenu';
-
-
     /**
      * @return TopParentItem[] These are Slates which will be
-     * available for configuration and will be collected once during a
-     * StructureReload.
+     * available for configuration.
      */
     public function getStaticTopItems() : array;
 
 
     /**
      * @return isItem[] These are Entries which will be available for
-     * configuration and will be collected once during a StructureReload
+     * configuration.
      */
     public function getStaticSubItems() : array;
 

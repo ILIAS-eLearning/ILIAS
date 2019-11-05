@@ -6,8 +6,9 @@
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilDclTextSelectionFieldModel extends ilDclSelectionFieldModel {
+class ilDclTextSelectionFieldModel extends ilDclSelectionFieldModel
+{
 
-	const PROP_SELECTION_TYPE = 'text_selection_type';
-	const PROP_SELECTION_OPTIONS = 'text_selection_options';
+    const PROP_SELECTION_TYPE = 'text_selection_type';
+    const PROP_SELECTION_OPTIONS = 'text_selection_options';
 }

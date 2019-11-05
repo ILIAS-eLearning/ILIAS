@@ -3,8 +3,13 @@
 
 namespace ILIAS\Setup\CLI;
 
+use ILIAS\Setup\UnachievableException;
 use ILIAS\Setup\Agent;
+use ILIAS\Setup\AgentCollection;
+use ILIAS\Setup\AchievementTracker;
+use ILIAS\Setup\Objective;
 use ILIAS\Setup\ArrayEnvironment;
+use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,6 +44,8 @@ class InstallCommand extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
+		$io = new IOWrapper($input, $output);
+
 		if ($this->agent->hasConfig()) {
 			$config_file = $input->getArgument("config");
 			$config_content = $this->config_reader->readConfigFile($config_file);
@@ -50,16 +57,33 @@ class InstallCommand extends Command {
 		}
 
 		$goal = $this->agent->getInstallObjective($config);
-		$environment = new ArrayEnvironment([]);
+		$environment = new ArrayEnvironment([
+			Environment::RESOURCE_ADMIN_INTERACTION => $io,
+			// TODO: This needs to be implemented correctly...
+			Environment::RESOURCE_ACHIEVEMENT_TRACKER => new class implements AchievementTracker {
+				public function trackAchievementOf(Objective $objective) : void {}
+				public function isAchieved(Objective $objective) : bool { return false; }
+			}
+		]);
+
+		if ($this->agent instanceof AgentCollection && $config) {
+			foreach ($config->getKeys() as $k) {
+				$environment = $environment->withConfigFor($k, $config->getConfig($k));
+			}
+		}
 
 		$goals = new ObjectiveIterator($environment, $goal);
 		while($goals->valid()) {
 			$current = $goals->current();
-			if ($current->isNotable() || $output->isVeryVerbose()  || $output->isDebug()) {
-				$output->writeln($current->getLabel());
+			$io->startObjective($current->getLabel(), $current->isNotable());
+			try {
+				$environment = $current->achieve($environment);
+				$io->finishedLastObjective($current->getLabel(), $current->isNotable());
+				$goals->setEnvironment($environment);
 			}
-			$environment = $current->achieve($environment);
-			$goals->setEnvironment($environment);
+			catch (UnachievableException $e) {
+				$io->failedLastObjective($current->getLabel());
+			}
 			$goals->next();
 		}
 	}

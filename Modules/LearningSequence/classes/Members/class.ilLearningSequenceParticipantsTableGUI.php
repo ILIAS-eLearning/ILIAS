@@ -76,6 +76,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 		if (
 			$this->obj_user_tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS) &&
 			ilObjUserTracking::_enabledLearningProgress()
+
 		) {
 			$this->addColumn($this->lng->txt('first_access'), "first_access");
 			$this->addColumn($this->lng->txt('last_access'), "last_access");
@@ -152,8 +153,16 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 		}
 
 		$this->tpl->setVariable('VAL_POSTNAME', 'participants');
-		$this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int)$set['usr_id']));
-		$this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int)$set['usr_id']));
+
+		if (
+			$this->obj_user_tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS) &&
+			ilObjUserTracking::_enabledLearningProgress()
+
+		) {
+			$this->tpl->setVariable('FIRST_ACCESS', $this->getFirstAccess((int)$set['usr_id']));
+			$this->tpl->setVariable('LAST_ACCESS', $this->getLastAccess((int)$set['usr_id']));
+		}
+
 		$this->tpl->setVariable('COMPLETED_STEPS', $this->getCompletedSteps((int)$set['usr_id']));
 		$this->tpl->setVariable('LAST_VISITED_STEP', $this->getLastVisitedStep((int)$set['usr_id']));
 
@@ -246,8 +255,8 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 		$ls_participants = $this->participants->getParticipants();
 
 		$ls_participants = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
-			'manage_members', 
-			'manage_members', 
+			'manage_members',
+			'manage_members',
 			$this->getRepositoryObject()->getRefId(),
 			$ls_participants
 		);

@@ -29,6 +29,11 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	protected $ui;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+	protected $tool_context;
+
 	/**
 	 * @var ilPortfolioDeclarationOfAuthorship
 	 */
@@ -45,6 +50,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$this->user = $DIC->user();
 		$this->ctrl = $DIC->ctrl();
 		$this->ui = $DIC->ui();
+
+		$this->tool_context = $DIC->globalScreen()->tool()->context();
 
 		parent::__construct($a_id, self::PORTFOLIO_OBJECT_ID, 0);
 		$this->declaration_authorship = new ilPortfolioDeclarationOfAuthorship();
@@ -87,14 +94,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd("view");		
 		
-		/*
-		if($_REQUEST["ecal"])
-		{	
-			$cmd = "preview";
-			$next_class = "";
-		}
-		*/
-		
+
+		// trigger assignment tool
+		$this->triggerAssignmentTool();
+
 		switch($next_class)
 		{
 			case "ilworkspaceaccessgui";	
@@ -181,7 +184,30 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 		return true;
 	}
-	
+
+	/**
+	 * Trigger assignment tool
+	 *
+	 * @param
+	 */
+	protected function triggerAssignmentTool()
+	{
+		if (!is_object($this->object) || $this->object->getId() <= 0) {
+			return;
+		}
+        $pe = new ilPortfolioExercise($this->user_id, $this->object->getId());
+        $pe_gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());
+        $assignments = $pe->getAssignmentsOfPortfolio();
+        if (count($assignments) > 0) {
+            $ass_ids = array_map(function ($i) {
+                return $i["ass_id"];
+            }, $assignments);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_IDS, $ass_ids);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_BUTTONS, $pe_gui->getActionButtons());
+        }
+    }
+
 	protected function setTabs()
 	{
 		$ilHelp = $this->help;
@@ -1550,7 +1576,8 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$page_gui = new ilPortfolioPageGUI($this->object->getId(), $page["id"]);
 				$page_gui->setOutputMode("print");
 				$page_gui->setPresentationTitle($page["title"]);
-				$page_content .= $page_head_str.$page_gui->showPage();
+				$html = $this->ctrl->getHTML($page_gui);
+				$page_content .= $page_head_str.$html;
 
 				if ($a_pdf_export)
 				{

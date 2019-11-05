@@ -1,8 +1,18 @@
 <?php
-function attachment() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function attachment()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->symbol()->glyph()->attachment("#"));
+    $glyph = $f->symbol()->glyph()->attachment("#");
+
+    //Showcase the various states of this Glyph
+    $list = $f->listing()->descriptive([
+        "Active"=>$glyph,
+        "Inactive"=>$glyph->withUnavailableAction(),
+        "Highlighted"=>$glyph->withHighlight()
+    ]);
+
+    return $renderer->render($list);
 }

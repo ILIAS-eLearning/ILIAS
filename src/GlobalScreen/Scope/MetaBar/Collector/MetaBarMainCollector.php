@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use Closure;
+use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -10,13 +12,17 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MetaBarMainCollector
+class MetaBarMainCollector implements Collector
 {
 
     /**
      * @var StaticMetaBarProvider[]
      */
     private $providers = [];
+    /**
+     * @var isItem[]
+     */
+    private $items = [];
 
 
     /**
@@ -31,9 +37,9 @@ class MetaBarMainCollector
 
 
     /**
-     * @return isItem[]
+     * @inheritDoc
      */
-    public function getStackedItems() : array
+    public function collect() : void
     {
         $items = [];
         foreach ($this->providers as $provider) {
@@ -44,9 +50,25 @@ class MetaBarMainCollector
 
         array_walk($items, $this->getChildSorter());
 
-        $items = array_filter($items, $this->getVisibleFilter());
+        $this->items = array_filter($items, $this->getVisibleFilter());
+    }
 
-        return $items;
+
+    /**
+     * @return isItem[]
+     */
+    public function getItems() : array
+    {
+        return $this->items;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return count($this->items) > 0;
     }
 
 
@@ -91,7 +113,9 @@ class MetaBarMainCollector
     protected function getVisibleFilter() : Closure
     {
         return function (isItem $item) {
-            return ($item->isAvailable() && $item->isVisible());
+            $b = ($item->isAvailable() && $item->isVisible());
+
+            return $b;
         };
     }
 }

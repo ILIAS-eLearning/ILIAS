@@ -239,6 +239,10 @@ class ilRepositoryGUI
 		$ilErr = $this->error;
 
 		$this->tool_context->claim()->repository();
+        $show_tree = ($_SESSION["il_rep_mode"] == "flat")
+            ? true
+            : false;
+        $this->tool_context->current()->addAdditionalData(ilRepositoryGSToolProvider::SHOW_TREE_TOOL, $show_tree);
 
 		// check creation mode
 		// determined by "new_type" parameter
@@ -265,6 +269,7 @@ class ilRepositoryGUI
 			$this->ctrl->setCmd("");
 			$cmd = "";
 		}
+
 
 		// determine next class
 		if ($cmd != "frameset")
@@ -316,7 +321,7 @@ class ilRepositoryGUI
 
 		// commands that are always handled by repository gui
 		// to do: move to container
-		if ($cmd == "showTree")
+		if ($cmd == "showRepTree")
 		{
 			$next_class = "";
 		}
@@ -448,9 +453,9 @@ class ilRepositoryGUI
 
 		$active_node = ($_GET["active_node"] > 1)
 			? $_GET["active_node"]
-			: ($_GET["ref_id"] > 1)
+			: (($_GET["ref_id"] > 1)
 				? $_GET["ref_id"]
-				: 0;
+				: 0);
 		$top_node = 0;
 		if ($ilSetting->get("rep_tree_limit_grp_crs") && $active_node > 0)
 		{
@@ -553,6 +558,16 @@ class ilRepositoryGUI
 		iljQueryUtil::initjQuery($this->tpl);
 		
 		$this->tpl->printToStdout(false);
+		exit;
+	}
+
+	/**
+	 * Show tree
+	 */
+	function showRepTree()
+	{
+		$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+		$exp->handleCommand();
 		exit;
 	}
 

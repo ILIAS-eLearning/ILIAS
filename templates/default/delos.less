@@ -19,6 +19,7 @@ In theory, you should also invert shadow... but i think we could postpone this t
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
 
+
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
 // This part should be a copy of the less/bootstrap.less file
@@ -97,6 +98,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Input/input.less";
 @import "@{uibase}Table/table.less";
 @import "@{uibase}Listing/workflow.less";
+@import "@{uibase}Listing/characteristic_value.less";
 @import "@{uibase}MessageBox/messagebox.less";
 @import "@{uibase}Modal/modal.less";
 @import "@{uibase}Tree/tree.less";
@@ -104,6 +106,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}MainControls/maincontrols.less";
 @import "@{uibase}Menu/menu.less";
 @import "@{uibase}Symbol/symbol.less";
+@import "@{uibase}Link/link.less";
 
 @import "less/variables.less";             // customized
 
@@ -1055,6 +1058,7 @@ div.il_info {
 	text-align: right;
 }
 
+
 /* ---------------- headlines ------------------ */
 
 a#il_mhead_t_focus {
@@ -1654,7 +1658,7 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 }
 
 div.ilSideBarHead{
-	background-color: #f0f0f0;
+	margin-top: 10px;
 	margin-bottom: 5px;
 	padding: 5px;
 }
@@ -1663,6 +1667,7 @@ div.ilSideBarHead h3{
 	font-size: 110%;
 	color: #606060;
 	display: inline;
+	padding: 0;
 }
 
 div.ilSideBarContent{

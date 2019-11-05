@@ -152,6 +152,8 @@ class ilObjQuestionPoolSettingsGeneralGUI
 
 	private function performSaveForm(ilPropertyFormGUI $form)
 	{
+	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
+	    
 		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->poolOBJ->getId(), 0, "qpl");
 		$md_section = $md_obj->getGeneral();
@@ -188,6 +190,8 @@ class ilObjQuestionPoolSettingsGeneralGUI
 		$navTax = $form->getItemByPostVar('nav_taxonomy');
 		$this->poolOBJ->setNavTaxonomyId($navTax->getValue());
 
+        $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->saveTileImage();
+
 		if( $this->formPropertyExists($form, 'skill_service') )
 		{
 			$skillService = $form->getItemByPostVar('skill_service');
@@ -199,6 +203,8 @@ class ilObjQuestionPoolSettingsGeneralGUI
 	
 	private function buildForm()
 	{
+	    global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
 		$form = new ilPropertyFormGUI();
 		
@@ -253,10 +259,20 @@ class ilObjQuestionPoolSettingsGeneralGUI
 			$navTax->setOptions($taxSelectOptions);
 		$showTax->addSubItem($navTax);
 
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('tst_presentation_settings_section'));
+        $form->addItem($section);
+
+        $DIC->object()->commonSettings()->legacyForm($form, $this->poolOBJ)->addTileImage();
+
 		// skill service activation
 		
 		if( ilObjQuestionPool::isSkillManagementGloballyActivated() )
 		{
+            $otherHead = new ilFormSectionHeaderGUI();
+            $otherHead->setTitle($this->lng->txt('obj_features'));
+            $form->addItem($otherHead);
+
 			$skillService = new ilCheckboxInputGUI($this->lng->txt('tst_activate_skill_service'), 'skill_service');
 			$skillService->setChecked($this->poolOBJ->isSkillServiceEnabled());
 			$form->addItem($skillService);

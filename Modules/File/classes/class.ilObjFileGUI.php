@@ -25,7 +25,9 @@ class ilObjFileGUI extends ilObject2GUI
      * @var \ilObjFile
      */
     public $object;
+    public $lng;
     protected $log = null;
+    protected $obj_service;
 
 
     /**
@@ -37,8 +39,11 @@ class ilObjFileGUI extends ilObject2GUI
      */
     function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
+        global $DIC;
+        $this->lng = $DIC->language();
         $this->log = ilLoggerFactory::getLogger('file');
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+        $this->obj_service = $DIC->object();
     }
 
 
@@ -484,11 +489,19 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         $title = $form->getInput('title');
+        // bugfix mantis 26045:
+        $filename = empty($data["name"]) ? $this->object->getFileName() : $data["name"];
+        if (strlen(trim($title)) == 0) {
+            $title = $filename;
+        } else {
+            $title = $this->object->checkFileExtension($filename, $title);
+        }
         $this->object->setTitle($title);
         $this->object->setDescription($form->getInput('description'));
         $this->object->setRating($form->getInput('rating'));
 
         $this->update = $this->object->update();
+        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->saveTileImage();
 
         // BEGIN ChangeEvent: Record update event.
         if (!empty($data["name"])) {
@@ -609,6 +622,11 @@ class ilObjFileGUI extends ilObject2GUI
             $rate->setInfo($this->lng->txt('rating_activate_rating_info'));
             $form->addItem($rate);
         }
+
+        $presentationHeader = new ilFormSectionHeaderGUI();
+        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
+        $form->addItem($presentationHeader);
+        $this->obj_service->commonSettings()->legacyForm($form, $this->object)->addTileImage();
 
         return $form;
     }
@@ -1142,12 +1160,14 @@ class ilObjFileGUI extends ilObject2GUI
                 }
             }
         } else {
-            if (trim($title) == "") {
-                $title = $filename;
-            }
-
             // create and insert file in grp_tree
             $fileObj = new ilObjFile();
+            // bugfix mantis 0026043
+            if(strlen(trim($title)) == 0) {
+                $title = $filename;
+            } else {
+                $title = $fileObj->checkFileExtension($filename,$title);
+            }
             $fileObj->setTitle($title);
             $fileObj->setDescription($description);
             $fileObj->setFileName($filename);
@@ -1181,51 +1201,6 @@ class ilObjFileGUI extends ilObject2GUI
         }
 
         return $response;
-    }
-
-
-    /**
-     * Deletes the file versions that were confirmed by the user.
-     */
-    function confirmDeleteVersions()
-    {
-        global $DIC;
-        $ilTabs = $DIC['ilTabs'];
-
-        // has the user the rights to delete versions?
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // delete versions after confirmation
-        if (count($_POST["hist_id"]) > 0) {
-            $this->object->deleteVersions($_POST["hist_id"]);
-            ilUtil::sendSuccess($this->lng->txt("file_versions_deleted"), true);
-        }
-
-        $this->ctrl->setParameter($this, "hist_id", "");
-        $this->ctrl->redirect($this, self::CMD_VERSIONS);
-    }
-
-
-    /**
-     * Deletes this file object.
-     */
-    function confirmDeleteFile()
-    {
-        // has the user the rights to delete the file?
-        if (!$this->checkPermissionBool("write")) {
-            $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
-        }
-
-        // delete this file object
-        include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-        $ru = new ilRepUtilGUI($this);
-        $ru->deleteObjects($this->parent_id, array($this->ref_id));
-
-        // redirect to parent object
-        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->parent_id);
-        $this->ctrl->redirectByClass("ilrepositorygui");
     }
 
 

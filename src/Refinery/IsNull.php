@@ -14,23 +14,25 @@ use ILIAS\Refinery\Constraint;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class IsNull extends CustomConstraint implements Constraint {
+class IsNull extends CustomConstraint implements Constraint
+{
 
-	/**
-	 * IsNull constructor.
-	 *
-	 * @param Data\Factory $data_factory
-	 */
-	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
-		parent::__construct(
-			function ($value) {
-				return is_null($value);
-			},
-			function ($txt, $value) {
-				return $txt("not_a_null", gettype($value));
-			},
-			$data_factory,
-			$lng
-		);
-	}
+    /**
+     * IsNull constructor.
+     *
+     * @param Data\Factory $data_factory
+     */
+    public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
+    {
+        parent::__construct(
+            function ($value) {
+                return is_null($value);
+            },
+            function ($txt, $value) {
+                return $txt("not_a_null", gettype($value));
+            },
+            $data_factory,
+            $lng
+        );
+    }
 }

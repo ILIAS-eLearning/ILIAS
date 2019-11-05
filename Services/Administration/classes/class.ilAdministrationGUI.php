@@ -364,21 +364,17 @@ class ilAdministrationGUI
 	*/
 	function showTree()
 	{
-		$tpl = $this->tpl;
-		$tree = $this->tree;
-		$lng = $this->lng;
-		
+		global $DIC;
+
 		if ($_GET["admin_mode"] != "repository")
 		{
 			return;
 		}
-		
-		include_once("./Services/Administration/classes/class.ilAdministrationExplorerGUI.php");
+
+		$DIC->globalScreen()->tool()->context()->current()->addAdditionalData(ilAdminGSToolProvider::SHOW_ADMIN_TREE, true);
+
 		$exp = new ilAdministrationExplorerGUI($this, "showTree");
-		if (!$exp->handleCommand())
-		{
-			$tpl->setLeftNavContent($exp->getHTML());
-		}
+		$exp->handleCommand();
 	}
 	
 	/**

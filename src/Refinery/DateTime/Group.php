@@ -13,8 +13,8 @@ use ILIAS\Refinery\Transformation;
  */
 class Group
 {
-	public function changeTimezone(string $timezone): Transformation
-	{
-		return new ChangeTimezone($timezone);
-	}
+    public function changeTimezone(string $timezone) : Transformation
+    {
+        return new ChangeTimezone($timezone);
+    }
 }

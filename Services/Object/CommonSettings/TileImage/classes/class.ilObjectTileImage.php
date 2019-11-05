@@ -180,7 +180,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
 	/**
 	 * @return string
 	 */
-	protected function getRelativeDirectory()
+	public function getRelativeDirectory()
 	{
 		return implode(DIRECTORY_SEPARATOR, [
 			"obj_data",
@@ -226,10 +226,27 @@ class ilObjectTileImage implements ilObjectTileImageInterface
 	{
 		// TODO: Currently there is no option to get the relative base directory of a filesystem
 		return implode(DIRECTORY_SEPARATOR, [
-			\ilUtil::getWebspaceDir(),
-			$this->getRelativePath()
-		]);
+            \ilUtil::getWebspaceDir(),
+            $this->getRelativePath()
+        ]);
 	}
+
+    /**
+     * @param $source_dir
+     * @param $ext
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    public function createFromImportDir($source_dir, $ext)
+    {
+        $target_dir = implode(DIRECTORY_SEPARATOR, [
+            \ilUtil::getWebspaceDir(),
+            $this->getRelativeDirectory()
+        ]);
+        ilUtil::rCopy($source_dir, $target_dir);
+        ilContainer::_writeContainerSetting($this->obj_id, 'tile_image', $ext);
+    }
 
 
 }

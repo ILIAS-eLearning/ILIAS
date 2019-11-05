@@ -4,14 +4,15 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toList() {
-	global $DIC;
+function toList()
+{
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->to()->listOf(new \ILIAS\Refinery\To\Transformation\IntegerTransformation());
+    $transformation = $refinery->to()->listOf(new \ILIAS\Refinery\To\Transformation\IntegerTransformation());
 
-	$result = $transformation->transform(array(5, 1, 4));
+    $result = $transformation->transform(array(5, 1, 4));
 
-	return assert(array(5, 1, 4) === $result);
+    return assert(array(5, 1, 4) === $result);
 }

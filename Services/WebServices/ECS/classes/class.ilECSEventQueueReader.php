@@ -94,7 +94,7 @@ class ilECSEventQueueReader
 	 * 
 	 * @return array
 	 */
-	protected static function getAllEContentTypes()
+	public static function getAllEContentTypes()
 	{
 		return array(self::TYPE_REMOTE_COURSE, self::TYPE_REMOTE_CATEGORY, 
 			self::TYPE_REMOTE_FILE, self::TYPE_REMOTE_GLOSSARY, self::TYPE_REMOTE_GROUP, 

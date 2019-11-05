@@ -11,6 +11,7 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 	const GLUE_SIMPLE = ' - ';
 	const ORG_SEPARATOR = ' | ';
 	const TABLE_NAME = 'orgu_path_storage';
+	const MAX_MIDDLE_PATH_LENGTH = 50;
 	/**
 	 * @var int
 	 *
@@ -133,7 +134,17 @@ class ilOrgUnitPathStorage extends ActiveRecord {
 			}
 		}
 
-		$expression = reset($path) . self::GLUE_SIMPLE . end($path);
+		if (count($path) > 2) {
+			$first = array_shift($path);
+			$last = array_pop($path);
+			$middle = implode(self::GLUE_SIMPLE, $path);
+			if (strlen($middle) > self::MAX_MIDDLE_PATH_LENGTH) {
+				$middle = substr($middle, 0, self::MAX_MIDDLE_PATH_LENGTH) . " ...";
+			}
+			$expression = implode(self::GLUE_SIMPLE, [ $first, $middle, $last ]);
+		} else {
+			$expression = implode(self::GLUE_SIMPLE, $path);
+		}
 		/**
 		 * @var $ilOrgUnitPathStorage ilOrgUnitPathStorage
 		 */

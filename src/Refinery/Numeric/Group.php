@@ -11,24 +11,24 @@ use ILIAS\Refinery\Numeric\IsNumeric;
  */
 class Group
 {
-	/**
-	 * @var Factory
-	 */
-	private $dataFactory;
+    /**
+     * @var Factory
+     */
+    private $dataFactory;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	private $language;
+    /**
+     * @var \ilLanguage
+     */
+    private $language;
 
-	public function __construct(Factory $dataFactory, \ilLanguage $language)
-	{
-		$this->dataFactory = $dataFactory;
-		$this->language = $language;
-	}
+    public function __construct(Factory $dataFactory, \ilLanguage $language)
+    {
+        $this->dataFactory = $dataFactory;
+        $this->language = $language;
+    }
 
-	public function isNumeric() : IsNumeric
-	{
-		return new IsNumeric($this->dataFactory, $this->language);
-	}
+    public function isNumeric() : IsNumeric
+    {
+        return new IsNumeric($this->dataFactory, $this->language);
+    }
 }

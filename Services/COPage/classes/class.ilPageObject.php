@@ -5,9 +5,6 @@ define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
 define("IL_INSERT_CHILD", 2);
 
-define ("IL_CHAPTER_TITLE", "st_title");
-define ("IL_PAGE_TITLE", "pg_title");
-define ("IL_NO_HEADER", "none");
 
 /** @defgroup ServicesCOPage Services/COPage
  */

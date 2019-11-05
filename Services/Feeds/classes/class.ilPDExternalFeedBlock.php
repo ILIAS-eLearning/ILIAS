@@ -21,8 +21,6 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Block/classes/class.ilExternalFeedBlock.php");
-
 /**
 * Custom block for external feeds on personal desktop.
 *

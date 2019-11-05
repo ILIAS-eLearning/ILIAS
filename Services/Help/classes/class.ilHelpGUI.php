@@ -41,7 +41,12 @@ class ilHelpGUI
 	const ID_PART_COMPONENT = "component";
 	var $def_screen_id = array();
 	var $screen_id = array();
-	
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+	protected $ui;
+
 	/**
 	* constructor
 	*/
@@ -55,6 +60,7 @@ class ilHelpGUI
 		$ilCtrl = $DIC->ctrl();
 				
 		$this->ctrl = $ilCtrl;
+		$this->ui = $DIC->ui();
 	}
 	
 	/**
@@ -212,6 +218,8 @@ class ilHelpGUI
 	function showHelp()
 	{
 		$lng = $this->lng;
+		$lng->loadLanguageModule("help");
+        $ui = $this->ui;
 
 		if ($_GET["help_screen_id"] != "")
 		{
@@ -226,27 +234,26 @@ class ilHelpGUI
 		ilSession::set("help_search_term", "");
 
 		$this->resetCurrentPage();
-		
+
 		$id_arr = explode(".", $help_screen_id);
 		include_once("./Services/Help/classes/class.ilHelpMapping.php");
 		include_once("./Services/Help/classes/class.ilHelp.php");
 
 		$help_arr = ilHelpMapping::getHelpSectionsForId($id_arr[0], $id_arr[1]);
 		$oh_lm_id = ilHelp::getHelpLMId();
-		
-		if ($oh_lm_id > 0 && count($help_arr) > 0)
+
+		if ($oh_lm_id > 0)
 		{
 			include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 			$acc = new ilAccordionGUI();
 			$acc->setId("oh_acc_".$h_id);
 			$acc->setUseSessionStorage(true);
 			$acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
-			
+
 			foreach ($help_arr as $h_id)
 			{
 				include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 				$st_id = $h_id;
-				
 				if (!ilLMObject::_exists($st_id))
 				{
 					continue;
@@ -263,15 +270,22 @@ class ilHelpGUI
 				
 				$acc->addItem(ilLMObject::_lookupTitle($st_id), $grp_list->getHTML());
 			}
+
 			$h_tpl = new ilTemplate("tpl.help.html", true, true, "Services/Help");
-			$h_tpl->setVariable("HEAD", $lng->txt("help"));
+			//$h_tpl->setVariable("HEAD", $lng->txt("help"));
 
 			$h_tpl->setCurrentBlock("search");
 			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 			$h_tpl->setVariable("GL_SEARCH", ilGlyphGUI::get(ilGlyphGUI::SEARCH));
 			$h_tpl->parseCurrentBlock();
 
-			$h_tpl->setVariable("CONTENT", $acc->getHTML());
+            if (count($help_arr) > 0) {
+                $h_tpl->setVariable("CONTENT", $acc->getHTML());
+            } else {
+                $mess = $ui->factory()->messageBox()->info($lng->txt("help_no_content"));
+                $h_tpl->setVariable("CONTENT", $ui->renderer()->render([$mess]));
+            }
+
 			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 			$h_tpl->setVariable("CLOSE_IMG", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
 			echo $h_tpl->get();
@@ -310,7 +324,7 @@ class ilHelpGUI
 		$h_tpl->parseCurrentBlock();
 		
 		
-		$h_tpl->setVariable("HEAD", $lng->txt("help")." - ".
+		$h_tpl->setVariable("HEAD",
 			ilLMObject::_lookupTitle($page_id));
 		
 		include_once("./Services/COPage/classes/class.ilPageUtil.php");
@@ -395,22 +409,38 @@ class ilHelpGUI
 	 * @param
 	 * @return
 	 */
-	static function initHelp($a_tpl)
+	function initHelp($a_tpl, $ajax_url)
 	{
 		global $DIC;
 
 		$ilUser = $DIC->user();
 		$ilSetting = $DIC->settings();
+		$ctrl = $DIC->ctrl();
 
-		$module_id = (int) $ilSetting->get("help_module");
+		ilYuiUtil::initConnection();
+        $a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
+        $a_tpl->addJavascript("./Services/Accordion/js/accordion.js");
+
+        $this->setCtrlPar();
+        $a_tpl->addOnLoadCode(
+            "il.Help.setAjaxUrl('" .
+            $ctrl->getLinkTargetByClass("ilhelpgui", "", "", true)
+            . "');"
+        );
+
+
+        $module_id = (int) $ilSetting->get("help_module");
 
 		if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de")
 		{
 			if (ilSession::get("help_pg") > 0)
 			{
 				$a_tpl->addOnLoadCode("il.Help.showCurrentPage(".ilSession::get("help_pg").");", 3);
-			}
-			$a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
+			} else {
+                $a_tpl->addOnLoadCode("il.Help.listHelp(null);", 3);
+            }
+
+
 			if ($ilUser->getPref("hide_help_tt"))
 			{
 				$a_tpl->addOnLoadCode("if (il && il.Help) {il.Help.switchTooltips();}", 3);

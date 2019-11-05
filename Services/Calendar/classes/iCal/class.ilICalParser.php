@@ -234,7 +234,7 @@ class ilICalParser
 				if(strpos(trim($line),'BEGIN') === 0)
 				{
 					$this->log->info('Do not handling line:'.$line);
-					continue;
+					break;
 				}
 				if(strpos(trim($line),'X-WR-TIMEZONE') === 0)
 				{

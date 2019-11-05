@@ -110,7 +110,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		if ($seed_str == "")
 		{
-			$this->seed = new ilDate(time(),IL_CAL_UNIX);	// @todo: check this
+			$now = new \ilDate(time(), IL_CAL_UNIX);
+			$this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
 		}
 		else
 		{
@@ -519,7 +520,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		$myseed = clone($this->seed);
+		$first_of_month = substr($this->seed->get(IL_CAL_DATE), 0, 7)."-01";
+		$myseed = new ilDate($first_of_month, IL_CAL_DATE);
 
 		$myseed->increment(ilDateTime::MONTH, -1);
 		$ilCtrl->setParameter($this,'seed',$myseed->get(IL_CAL_DATE));

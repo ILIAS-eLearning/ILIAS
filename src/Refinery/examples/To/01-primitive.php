@@ -4,14 +4,15 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function primitive() {
-	global $DIC;
+function primitive()
+{
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->to()->int();
+    $transformation = $refinery->to()->int();
 
-	$result = $transformation->transform(5);
+    $result = $transformation->transform(5);
 
-	return assert(5 === $result);
+    return assert(5 === $result);
 }

@@ -4,36 +4,39 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-function toNewObject() {
-	class SomeClass {
-		private $firstParameter;
-		private $secondParameter;
-		private $thirdParameter;
+function toNewObject()
+{
+    class SomeClass
+    {
+        private $firstParameter;
+        private $secondParameter;
+        private $thirdParameter;
 
-		public function __construct(
-			string $firstParameter,
-			int $secondParameter,
-			string $thirdParameter
-		) {
-			$this->firstParameter = $firstParameter;
-			$this->secondParameter = $secondParameter;
-			$this->thirdParameter = $thirdParameter;
-		}
+        public function __construct(
+            string $firstParameter,
+            int $secondParameter,
+            string $thirdParameter
+        ) {
+            $this->firstParameter = $firstParameter;
+            $this->secondParameter = $secondParameter;
+            $this->thirdParameter = $thirdParameter;
+        }
 
-		public function say() {
-			return $this->firstParameter;
-		}
-	}
+        public function say()
+        {
+            return $this->firstParameter;
+        }
+    }
 
-	global $DIC;
+    global $DIC;
 
-	$refinery = $DIC->refinery();
+    $refinery = $DIC->refinery();
 
-	$transformation = $refinery->to()->toNew(
-		'SomeClass'
-	);
+    $transformation = $refinery->to()->toNew(
+        'SomeClass'
+    );
 
-	$result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
+    $result = $transformation->transform(array('firstParameter', 2, 'thirdParameter'));
 
-	return assert('firstParameter' === $result->say());
+    return assert('firstParameter' === $result->say());
 }

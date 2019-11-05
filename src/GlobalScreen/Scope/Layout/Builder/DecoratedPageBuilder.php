@@ -44,6 +44,8 @@ class DecoratedPageBuilder implements PageBuilder
     {
         $deco = $this->deco;
 
-        return $deco($this->original->build($parts));
+        // $page = $this->original->build($parts);
+
+        return $deco($parts);
     }
 }

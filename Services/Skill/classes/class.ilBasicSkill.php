@@ -90,6 +90,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 	{
 		$skill = new ilBasicSkill();
 		$skill->setTitle($this->getTitle());
+		$skill->setDescription($this->getDescription());
 		$skill->setType($this->getType());
 		$skill->setSelfEvaluation($this->getSelfEvaluation());
 		$skill->setOrderNr($this->getOrderNr());

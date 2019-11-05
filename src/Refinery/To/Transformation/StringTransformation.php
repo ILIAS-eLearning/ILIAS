@@ -15,27 +15,27 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class StringTransformation implements Transformation
 {
-	use DeriveApplyToFromTransform;
+    use DeriveApplyToFromTransform;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function transform($from)
-	{
-		if (false === is_string($from)) {
-			throw new ConstraintViolationException(
-				'The value MUST be of type string',
-				'not_string'
-			);
-		}
-		return (string) $from;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function transform($from)
+    {
+        if (false === is_string($from)) {
+            throw new ConstraintViolationException(
+                'The value MUST be of type string',
+                'not_string'
+            );
+        }
+        return (string) $from;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function __invoke($from)
-	{
-		return $this->transform($from);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function __invoke($from)
+    {
+        return $this->transform($from);
+    }
 }

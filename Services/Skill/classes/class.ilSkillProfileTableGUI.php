@@ -50,6 +50,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1px", true);
 		$this->addColumn($this->lng->txt("title"), "title");
 		$this->addColumn($this->lng->txt("users"));
+		$this->addColumn($this->lng->txt("roles"));
 		$this->addColumn($this->lng->txt("actions"));
 
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
@@ -94,6 +95,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("ID", $a_set["id"]);
 		$this->tpl->setVariable("TITLE", $a_set["title"]);
 		$this->tpl->setVariable("NUM_USERS", ilSkillProfile::countUsers($a_set["id"]));
+		$this->tpl->setVariable("NUM_ROLES", ilSkillProfile::countRoles($a_set["id"]));
 	}
 
 }

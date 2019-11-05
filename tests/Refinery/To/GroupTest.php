@@ -26,140 +26,140 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class GroupTest extends TestCase
 {
-	/**
-	 * @var Group
-	 */
-	private $basicGroup;
+    /**
+     * @var Group
+     */
+    private $basicGroup;
 
-	public function setUp() : void
-	{
-		$this->basicGroup = new Group(new \ILIAS\Data\Factory());
-	}
+    public function setUp() : void
+    {
+        $this->basicGroup = new Group(new \ILIAS\Data\Factory());
+    }
 
-	public function testIsIntegerTransformationInstance()
-	{
-		$transformation = $this->basicGroup->int();
+    public function testIsIntegerTransformationInstance()
+    {
+        $transformation = $this->basicGroup->int();
 
-		$this->assertInstanceOf(IntegerTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(IntegerTransformation::class, $transformation);
+    }
 
-	public function testIsStringTransformationInstance()
-	{
-		$transformation = $this->basicGroup->string();
+    public function testIsStringTransformationInstance()
+    {
+        $transformation = $this->basicGroup->string();
 
-		$this->assertInstanceOf(StringTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(StringTransformation::class, $transformation);
+    }
 
-	public function testIsFloatTransformationInstance()
-	{
-		$transformation = $this->basicGroup->float();
+    public function testIsFloatTransformationInstance()
+    {
+        $transformation = $this->basicGroup->float();
 
-		$this->assertInstanceOf(FloatTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(FloatTransformation::class, $transformation);
+    }
 
-	public function testIsBooleanTransformationInstance()
-	{
-		$transformation = $this->basicGroup->bool();
+    public function testIsBooleanTransformationInstance()
+    {
+        $transformation = $this->basicGroup->bool();
 
-		$this->assertInstanceOf(BooleanTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(BooleanTransformation::class, $transformation);
+    }
 
-	public function testListOfTransformation()
-	{
-		$transformation = $this->basicGroup->listOf(new StringTransformation());
+    public function testListOfTransformation()
+    {
+        $transformation = $this->basicGroup->listOf(new StringTransformation());
 
-		$this->assertInstanceOf(ListTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(ListTransformation::class, $transformation);
+    }
 
-	public function testTupleOfTransformation()
-	{
-		$transformation = $this->basicGroup->tupleOf(array(new StringTransformation()));
+    public function testTupleOfTransformation()
+    {
+        $transformation = $this->basicGroup->tupleOf(array(new StringTransformation()));
 
-		$this->assertInstanceOf(TupleTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(TupleTransformation::class, $transformation);
+    }
 
-	/**
-	 * @throws \ilException
-	 */
-	public function testRecordOfTransformation()
-	{
-		$transformation = $this->basicGroup->recordOf(array('toString' => new StringTransformation()));
+    /**
+     * @throws \ilException
+     */
+    public function testRecordOfTransformation()
+    {
+        $transformation = $this->basicGroup->recordOf(array('toString' => new StringTransformation()));
 
-		$this->assertInstanceOf(RecordTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(RecordTransformation::class, $transformation);
+    }
 
-	public function testDictionaryOfTransformation()
-	{
-		$transformation = $this->basicGroup->dictOf(new StringTransformation());
+    public function testDictionaryOfTransformation()
+    {
+        $transformation = $this->basicGroup->dictOf(new StringTransformation());
 
-		$this->assertInstanceOf(DictionaryTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(DictionaryTransformation::class, $transformation);
+    }
 
-	/**
-	 * @throws \ilException
-	 */
-	public function testNewObjectTransformation()
-	{
-		$transformation = $this->basicGroup->toNew((string) MyClass::class);
+    /**
+     * @throws \ilException
+     */
+    public function testNewObjectTransformation()
+    {
+        $transformation = $this->basicGroup->toNew((string) MyClass::class);
 
-		$this->assertInstanceOf(NewObjectTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(NewObjectTransformation::class, $transformation);
+    }
 
-	/**
-	 * @throws \ilException
-	 */
-	public function testNewMethodTransformation()
-	{
-		$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
+    /**
+     * @throws \ilException
+     */
+    public function testNewMethodTransformation()
+    {
+        $transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
 
-		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
-	}
+        $this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+    }
 
-	public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
-		} catch (\InvalidArgumentException $exception) {
-			return;
-		}
+        try {
+            $transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
+        } catch (\InvalidArgumentException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
+    {
+        $this->expectNotToPerformAssertions();
 
-		try {
-			$transformation = $this->basicGroup->toNew(array(new MyClass()));
-		} catch (\InvalidArgumentException $exception) {
-			return;
-		}
+        try {
+            $transformation = $this->basicGroup->toNew(array(new MyClass()));
+        } catch (\InvalidArgumentException $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	/**
-	 * @throws \ilException
-	 */
-	public function testCreateDataTransformation()
-	{
-		$transformation = $this->basicGroup->data('alphanumeric');
+    /**
+     * @throws \ilException
+     */
+    public function testCreateDataTransformation()
+    {
+        $transformation = $this->basicGroup->data('alphanumeric');
 
-		$this->assertInstanceOf(NewMethodTransformation::class, $transformation);
+        $this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 
-		$result = $transformation->transform(array('hello'));
+        $result = $transformation->transform(array('hello'));
 
-		$this->assertInstanceOf(Alphanumeric::class, $result);
-	}
+        $this->assertInstanceOf(Alphanumeric::class, $result);
+    }
 }
 
 class MyClass
 {
-	public function myMethod()
-	{
-		return array($this->string, $this->integer);
-	}
+    public function myMethod()
+    {
+        return array($this->string, $this->integer);
+    }
 }

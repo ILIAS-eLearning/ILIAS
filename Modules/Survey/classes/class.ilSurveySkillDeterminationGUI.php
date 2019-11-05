@@ -59,7 +59,7 @@ class ilSurveySkillDeterminationGUI
 		
 		//$ilCtrl->saveParameter($this, array("sk_id", "tref_id"));
 		
-		if (in_array($cmd, array("listSkillChanges", "writeSkills")))
+		if (in_array($cmd, array("listSkillChanges", "writeAndAddSkills")))
 		{
 			$this->$cmd();
 		}
@@ -78,7 +78,7 @@ class ilSurveySkillDeterminationGUI
 		include_once("./Modules/Survey/classes/class.ilSurveySkillChangesTableGUI.php");
 
 //		$ilToolbar->addButton($lng->txt("survey_write_skills"),
-//			$ilCtrl->getLinkTarget($this, "writeSkills"));
+//			$ilCtrl->getLinkTarget($this, "writeAndAddSkills"));
 		if($this->survey->get360Mode())
 		{
 			$apps = $this->survey->getAppraiseesData();
@@ -106,12 +106,12 @@ class ilSurveySkillDeterminationGUI
 	}
 	
 	/**
-	 * Write skills
+	 * Write skills and add them to user's competence records
 	 *
 	 * @param
 	 * @return
 	 */
-	function writeSkills()
+	function writeAndAddSkills()
 	{
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
@@ -129,6 +129,15 @@ return;
 				{
 					ilBasicSkill::writeUserSkillLevelStatus($nl["new_level_id"],
 						$app["user_id"], $this->survey->getRefId(), $nl["tref_id"], ilBasicSkill::ACHIEVED);
+
+					if ($nl["tref_id"] > 0)
+					{
+						ilPersonalSkill::addPersonalSkill($app["user_id"], $nl["tref_id"]);
+					}
+					else
+					{
+						ilPersonalSkill::addPersonalSkill($app["user_id"], $nl["base_skill_id"]);
+					}
 				}
 			}
 		}

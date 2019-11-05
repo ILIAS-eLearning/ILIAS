@@ -4,6 +4,15 @@
 /**
  * Parent class for all plugin config gui classes
  *
+ * You can provide a configuration screen in the ILIAS administration if you implement the
+ * class class.il<plugin_name>ConfigGUI.php which should extend ilPluginConfigGUI.
+ *
+ * The access the configuration class open the ILIAS Administration > Plugins > Actions (of your Plugin) > Configure
+ *
+ * IMPORTANT: Note, that for the configure action to be displayed in your plugins actions dropdown, you need to reload
+ * the plugins control structure. You can force your plugin to do so, by updating the plugins version in plugin.php
+ * and select Update in the plugins actions in the table in the plugin administration.
+ *
  * @author Alex Killing <alex.killing>
  * @version $Id$
  * @ingroup ServicesComponent

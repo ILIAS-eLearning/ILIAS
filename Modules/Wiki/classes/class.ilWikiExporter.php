@@ -108,7 +108,7 @@ class ilWikiExporter extends ilXmlExporter
 		// service settings
 		$deps[] = array(
 			"component" => "Services/Object",
-			"entity" => "service_settings",
+			"entity" => "common",
 			"ids" => $a_ids);
 
 		return $deps;

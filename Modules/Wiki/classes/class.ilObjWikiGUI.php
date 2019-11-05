@@ -43,6 +43,16 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	protected $log;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+    protected $tool_context;
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
 	/**
 	* Constructor
 	* @access public
@@ -69,6 +79,9 @@ class ilObjWikiGUI extends ilObjectGUI
 
 		$this->log = ilLoggerFactory::getLogger('wiki');
 
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
+        $this->ui = $DIC->ui();
+
 		parent::__construct($a_data,$a_id,$a_call_by_reference,$a_prepare_output);
 		$lng->loadLanguageModule("obj");
 		$lng->loadLanguageModule("wiki");
@@ -89,6 +102,8 @@ class ilObjWikiGUI extends ilObjectGUI
   
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
+
+        $this->triggerAssignmentTool();
 
 		$this->prepareOutput();
 		
@@ -2270,6 +2285,66 @@ class ilObjWikiGUI extends ilObjectGUI
 		$this->object->deliverUserHTMLExport();
 	}
 
+    /**
+     * Trigger assignment tool
+     *
+     * @param
+     */
+    protected function triggerAssignmentTool()
+    {
+        $ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->object->getRefId(),
+            $this->user->getId());
+        if (count($ass_info) > 0) {
+            $ass_ids = array_map(function ($i) {
+                return $i->getId();
+            }, $ass_info);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_IDS, $ass_ids);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_BUTTONS,
+                $this->getAssignmentButtons());
+        }
+    }
+
+    /**
+     * Get assignment buttons
+     */
+    protected function getAssignmentButtons()
+    {
+        $ilCtrl = $this->ctrl;
+        $ui = $this->ui;
+        $lng = $this->lng;
+
+        $ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->object->getRefId(),
+            $this->user->getId());
+        $buttons = [];
+        foreach ($ass_info as $i)	// should be only one
+        {
+            $ass = new ilExAssignment($i->getId());
+            $times_up = $ass->afterDeadlineStrict();
+
+            // submit button
+            if (!$times_up) {
+                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+                $submit_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "finalizeAssignment");
+                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+
+                $buttons[$i->getId()][] = $ui->factory()->button()->primary($lng->txt("wiki_finalize_wiki"), $submit_link);
+            }
+
+            // submitted files
+            include_once "Modules/Exercise/classes/class.ilExSubmission.php";
+            $submission = new ilExSubmission($ass, $this->user->getId());
+            if ($submission->hasSubmitted()) {
+                $submitted = $submission->getSelectedObject();
+                if ($submitted["ts"] != "")
+                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", $ass->getId());
+                $dl_link = $ilCtrl->getLinkTargetByClass("ilwikipagegui", "downloadExcSubFile");
+                $ilCtrl->setParameterByClass("ilwikipagegui", "ass", "");
+                $buttons[$i->getId()][] = $ui->factory()->button()->standard($lng->txt("wiki_download_submission"), $dl_link);
+            }
+        }
+        return $buttons;
+    }
 
 }
 

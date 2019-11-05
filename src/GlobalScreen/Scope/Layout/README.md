@@ -1,21 +1,21 @@
 Scope Layout
 ============
-The GlobalScreen service takes care of the mediation between the Command-Classes and UI components and is the instance that assembles all components of the finished page and transfers them to rendering.
+The GlobalScreen service takes care of the mediation between the command classes and UI components and is responsible for assembling all necessary elements into a complete `Page` and submitting it to rendering. 
 
-> Currently (ILIAS 6.0), the services and modules deliver their content via an `ilGlobalPageTemplate`, an implementation of the `ilGlobalTemplateInterface` to maintain compatibility. Internally this instance delegates all relevant parts to the Scope `Layout` of the GlobalScreen service.
+> Currently (ILIAS 6.0), the services and modules deliver their content via an `ilGlobalPageTemplate`, an implementation of the `ilGlobalTemplateInterface`. This is done for compatibility reasons. Internally, this instance delegates all relevant elements to the scope layout of the GlobalScreen service.
 
-The Scope `Layout` assumes by default a completely filled `Page` to be displayed. This `page` is filled with UI components, which in turn are filled with information from the other scopes (e.g., `MetaBar` or `MainBar`). Now not all places in ILIAS need the same `Page` or all elements of a `Page`.  For this purpose, a developer can influence the composition of the page from within his code before passing it to rendering.
+The Scope `Layout` assumes by default that a completely filled `page` is displayed. This `page` is filled with UI components, which in turn are filled with information from the other areas (e.g. `MetaBar` or `MainBar`). Now not all places in ILIAS need the same `Page` or all elements of a `Page` anymore.  For this purpose, a developer can influence the composition of the page from his code before passing it to rendering.
 
-He can do this for the whole page (omitting the `MainBar` for example) or he can provide a completely own `MainBar` because this is required (e.g. LTI).
+He can do this for the whole page (e.g. without the `MainBar`) or he can provide a completely custom `MainBar` if required (e.g. LTI).
 
-All possibilities to modify the components of a `Page` can be found via the GlobalScreen service in the `DIC`:
+All possibilities to change the components of a `page` can be found via the GlobalScreen service in the `DIC`:
 
 ```php
 global $DIC;
-$DIC->globalScreen()->layout()->modifiers()->...
+$DIC->globalScreen()->layout()->factory()->...
 ```
 
-Currently the following components can be modified:
+Currently the following areas can be addressed:
 - Page
 - MetaBar
 - MainBar
@@ -23,167 +23,61 @@ Currently the following components can be modified:
 - Icon
 - Content
 
-All these components can be modified in two ways, either as `Closure` or as a class of a certain interface.
-
-## As Closure 
-
-For example, if you want to modify the `MetaBar`, pass a `Closure` in the following form to the method `modifyMetaBarWithClosure()`:
+## Register modification 
+Like all other scopes, this scope works in the provider/collector procedure. In order to be able to make a change to the page, you implement your own `ModificationProvider`. These providers are `ScreenContextAwareProviders`, further information can be found at [src/GlobalScreen/ScreenContext/README.md](../../ScreenContext/README.md)
 
 ```php
-function (ILIAS\UI\Component\MainControls\MetaBar $current) : ILIAS\UI\Component\MainControls\MetaBar {
-    ...
+<?php namespace ILIAS\Container\Screen;
+
+//...
+
+class MemberViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+{
+
+    public function isInterestedInContexts() : ContextCollection
+    {
+        return $this->context_collection->repository();
+    }
+
+    public function getLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    {
+        if (!$screen_context_stack->current()->hasReferenceId()) {
+            return null;
+        }
+
+        $mv = ilMemberViewSettings::getInstance();
+        if ($mv->isActive()) {
+            return $this->globalScreen()->layout()->factory()->logo()->withModification(function (Image $current) use ($mv) : Image {
+                $ref_id = $mv->getCurrentRefId();
+
+                $image = $this->dic->ui()->factory()->image()->responsive("https://www.colourbox.com/preview/5559052-icon-user-red.jpg", "mv");
+                if ($ref_id) {
+                    $url = ilLink::_getLink(
+                        $ref_id,
+                        ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
+                        array('mv' => 0)
+                    );
+                    $image = $image->withAction($url);
+                }
+
+                return $image;
+            })->withHighPriority();
+        }
+
+        return null;
+    }
 }
+
 ```
 
-The first parameter as well as the return value must correspond to `ILIAS\UI\Component\MainControls\MetaBar`. Within the `Closure` the current state of the `MetaBar` can be changed (in `$current`) or a completely own `Metabar` can be returned.
+The example returns - if in the `ScreenContext` 'repository', if a Ref-ID is present and if the MemberView is used in a course, – a change to the logo (which is only offered as an example until a dedicated message for it is offered in the UI service).
 
-The correct parameters and return values are checked.
+Since multiple `ModificationProviders` could modify the same area of the page at the same time, a priority is set for each modification (in this case `->withHighPriority()`). Same priorities lead to an exception and it must be decided in JourFixe which of the two modifications gets the higher priority. 
 
-## As Instance
-The same result can be achieved by passing an instance of the required interface.
 
-Again for the MetaBar, you can pass an anonymous class to the `modifyPageWithInstance()` method (of course you can also implement effective classes):
-
-```php
-new class implements ILIAS\GlobalScreen\Scope\Layout\LayoutModification\MetaBarModifier
-{
-    public function getMetaBar(MetaBar $current) : MetaBar
-    {
-        ...
-    }
-}
-```
-
-Have a look at the following concrete examples:
-
-### All Examples
-```php
-//
-// PAGE
-//
-$this->gs->layout()->modifiers()->modifyPageWithClosure(function (Page $current) : Page {
-    return $this->ui->factory()->layout()->page()->standard([]);
-});
-
-$this->gs->layout()->modifiers()->modifyPageWithInstance(new class implements PageBuilder
-{
-
-    public function build(PagePartProvider $parts) : Page
-    {
-        global $DIC;
-
-        return $DIC->ui()->factory()->layout()->page()->standard(
-            [$parts->getContent()],
-            $parts->getMetaBar(),
-            $parts->getMainBar(),
-            $parts->getBreadCrumbs(),
-            $parts->getLogo());
-    }
-});
-
-//
-// MetaBar
-//
-$this->gs->layout()->modifiers()->modifyMetaBarWithClosure(function (MetaBar $current) : MetaBar {
-    $f = $this->ui->factory();
-
-    $symbol = $f->symbol()->glyph()->sortDescending();
-    $content = $f->legacy('This is a completely replaced MetaBar');
-    $entry = $f->mainControls()->slate()->legacy('test', $symbol, $content);
-
-    return $f->mainControls()->metaBar()
-        ->withAdditionalEntry('lorem', $entry);
-});
-
-$this->gs->layout()->modifiers()->modifyMetaBarWithInstance(new class implements MetaBarModifier
-{
-
-    public function getMetaBar(MetaBar $current) : MetaBar
-    {
-        global $DIC;
-        $f = $DIC->ui()->factory();
-
-        $symbol = $f->symbol()->glyph()->sortDescending();
-        $content = $f->legacy('This is a completely replaced MetaBar');
-        $entry = $f->mainControls()->slate()->legacy('test', $symbol, $content);
-
-        return $f->mainControls()->metaBar()
-            ->withAdditionalEntry('lorem', $entry);
-    }
-});
-
-//
-// MainBar
-//
-$this->gs->layout()->modifiers()->modifyMainBarWithClosure(function (MainBar $current) : MainBar {
-    $f = $this->ui->factory();
-
-    $symbol = $f->symbol()->glyph()->up();
-    $content = $f->legacy("Hi there!");
-    $entry = $f->mainControls()->slate()->legacy('entry', $symbol, $content);
-
-    return $current->withAdditionalEntry('lorem', $entry);
-});
-
-$this->gs->layout()->modifiers()->modifyMainBarWithInstance(new class implements MainBarModifier
-{
-
-    public function getMainBar(MainBar $current) : MainBar
-    {
-        global $DIC;
-        $f = $DIC->ui()->factory();
-
-        $symbol = $f->symbol()->glyph()->up();
-        $content = $f->legacy("Hi there!");
-        $entry = $f->mainControls()->slate()->legacy('entry', $symbol, $content);
-
-        return $current->withAdditionalEntry('lorem2', $entry);
-    }
-});
-
-//
-// BreadCrumbs
-//
-
-$this->gs->layout()->modifiers()->modifyBreadCrumbsWithClosure(function (Breadcrumbs $current) : Breadcrumbs {
-    return $current->withAppendedItem($this->ui->factory()->link()->standard("Additional Item!", "#"));
-});
-
-$this->gs->layout()->modifiers()->modifyBreadCrumbsWithInstance(new class implements BreadCrumbsModifier
-{
-
-    public function getBreadCrumbs(Breadcrumbs $current) : Breadcrumbs
-    {
-        global $DIC;
-
-        return $current->withAppendedItem($DIC->ui()->factory()->link()->standard("another Item!", "#"));
-    }
-});
-
-//
-// Logo
-//
-$this->gs->layout()->modifiers()->modifyLogoWithClosure(function (Image $current) : Image {
-    return $this->ui->factory()->image()->responsive("https://brandmark.io/logo-rank/random/apple.png", "ILIAS");
-});
-
-$this->gs->layout()->modifiers()->modifyLogoWithInstance(new class implements LogoModifier
-{
-
-    /**
-     * @inheritDoc
-     */
-    public function getLogo(Image $current) : Image
-    {
-        global $DIC;
-
-        return $DIC->ui()->factory()->image()->responsive("https://brandmark.io/logo-rank/random/apple.png", "ILIAS");
-    }
-});
-```
 
 #Attention
 
-The possibility of influencing the components of the `Page` holds dangers:
-- You can never be sure that before or after you do not make a modification.
-- Do not use this possibility to bring menu entries or `Tools` into the `MainBar`. Use the methods provided for this as `providers`.
+The possibility of influencing the components of the "page" holds dangers:
+- You can never be sure that you will not make any changes before or after the change.
+- Do not use this option to bring menu items or `Tools` into the `MainBar`. Use the methods provided for this purpose as `Providers` in the respective scopes.

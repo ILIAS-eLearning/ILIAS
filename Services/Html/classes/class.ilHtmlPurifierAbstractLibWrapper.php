@@ -23,7 +23,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
     /**
      * @inheritDoc
      */
-    final public function purify($html) : string
+    final public function purify(string $html) : string
     {
         return $this->purifier->purify($html);
     }

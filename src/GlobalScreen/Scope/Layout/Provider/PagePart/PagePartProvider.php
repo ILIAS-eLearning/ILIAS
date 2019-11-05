@@ -3,6 +3,7 @@
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 
@@ -15,31 +16,37 @@ interface PagePartProvider
 {
 
     /**
-     * @return Legacy
+     * @return Legacy|null
      */
-    public function getContent() : Legacy;
+    public function getContent() : ?Legacy;
 
 
     /**
-     * @return MetaBar
+     * @return MetaBar|null
      */
-    public function getMetaBar() : MetaBar;
+    public function getMetaBar() : ?MetaBar;
 
 
     /**
-     * @return MainBar
+     * @return MainBar|null
      */
-    public function getMainBar() : MainBar;
+    public function getMainBar() : ?MainBar;
 
 
     /**
-     * @return Breadcrumbs
+     * @return Breadcrumbs|null
      */
-    public function getBreadCrumbs() : Breadcrumbs;
+    public function getBreadCrumbs() : ?Breadcrumbs;
 
 
     /**
-     * @return Image
+     * @return Image|null
      */
-    public function getLogo() : Image;
+    public function getLogo() : ?Image;
+
+
+    /**
+     * @return Footer|null
+     */
+    public function getFooter() : ?Footer;
 }

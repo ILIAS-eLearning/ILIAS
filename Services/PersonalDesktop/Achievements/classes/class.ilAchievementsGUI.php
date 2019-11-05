@@ -61,30 +61,33 @@ class ilAchievementsGUI
 		$main_tpl = $this->main_tpl;
 		$lng = $this->lng;
 
+        $lng->loadLanguageModule("lhist");
+
 		$next_class = $ctrl->getNextClass($this);
 		$cmd = $ctrl->getCmd("show");
 
-		$main_tpl->setTitle($lng->txt("pd_achievements"));
-		$main_tpl->setTitleIcon(ilUtil::getImagePath("icon_lhist.svg"));	// needs a final decision
 
 		switch ($next_class)
 		{
 			case "illearningprogressgui":
-				$this->setTabs(ilAchievements::SERV_LEARNING_PROGRESS);
+                $main_tpl->setTitle($lng->txt("learning_progress"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_trac.svg"));
 				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_PERSONAL_DESKTOP,0);
 				$ctrl->forwardCommand($new_gui);
 				break;
 
 			case 'illearninghistorygui':
-				$this->setTabs(ilAchievements::SERV_LEARNING_HISTORY);
+                $main_tpl->setTitle($lng->txt("lhist_learning_history"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_lhist.svg"));
 				$lhistgui = new ilLearningHistoryGUI();
 				$ctrl->forwardCommand($lhistgui);
 				$this->main_tpl->printToStdout();
 				break;
 
 			case 'ilpersonalskillsgui':
-				$this->setTabs(ilAchievements::SERV_COMPETENCES);
+                $main_tpl->setTitle($lng->txt("skills"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_skmg.svg"));
 				include_once './Services/Skill/classes/class.ilPersonalSkillsGUI.php';
 				$skgui = new ilPersonalSkillsGUI();
 				$ctrl->forwardCommand($skgui);
@@ -92,7 +95,8 @@ class ilAchievementsGUI
 				break;
 
 			case 'ilbadgeprofilegui':
-				$this->setTabs(ilAchievements::SERV_BADGES);
+                $main_tpl->setTitle($lng->txt("obj_bdga"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_bdga.svg"));
 				include_once './Services/Badge/classes/class.ilBadgeProfileGUI.php';
 				$bgui = new ilBadgeProfileGUI();
 				$ctrl->forwardCommand($bgui);
@@ -100,7 +104,8 @@ class ilAchievementsGUI
 				break;
 
 			case 'ilusercertificategui':
-				$this->setTabs(ilAchievements::SERV_CERTIFICATES);
+                $main_tpl->setTitle($lng->txt("obj_cert"));
+                $main_tpl->setTitleIcon(ilUtil::getImagePath("icon_cert.svg"));
 				$cgui = new ilUserCertificateGUI();
 				$ctrl->forwardCommand($cgui);
 				$this->main_tpl->printToStdout();

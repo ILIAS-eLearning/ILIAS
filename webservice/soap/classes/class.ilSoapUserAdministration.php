@@ -114,8 +114,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		$this->sauth->setUsername($username);
 		$this->sauth->setPT($PT);
 		$authenticated = true;
-		//include_once("./Services/CAS/classes/class.ilCASAuth.php");
-		//include_once("./Services/CAS/phpcas/source/CAS/CAS.php");
 		if(!$this->sauth->authenticate())
 		{
 			$authenticated = false;

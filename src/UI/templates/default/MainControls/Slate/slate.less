@@ -6,23 +6,27 @@
 	&.disengaged {
 		display:none;
 	}
-	.btn-bulky {
-		align-items: center;
+	.btn-bulky,
+	.link-bulky {
+		align-items: flex-start;
 		background-color: @il-slate-bulky-bg-color;
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
 		padding: @il-slate-bulky-padding;
-		&.disengaged:before {
-				content: " \e606";
+		position: relative;
+		&.engaged:after,
+		&.disengaged:after {
 				font-family: "il-icons";
-				font-size: 2.1rem;
-				margin-right: 10px;
+				font-size: 1.7rem;
+				position: absolute;
+				right: 10px;
+				top: 20px;
 		}
-		&.engaged:before {
+		&.engaged:after {
 				content: " \e604";
-				font-family: "il-icons";
-				font-size: 2.1rem;
-				margin-right: 10px;
+		}
+		&.disengaged:after {
+				content: " \e606";
 		}
 		&:hover,
 		&.engaged {
@@ -36,6 +40,9 @@
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
+			line-height: @il-slate-bulky-label-size * 1.133333333333333;
+			text-align: left;
+			word-break: normal;
 		}
 	}
 	.il-maincontrols-slate .btn-bulky {

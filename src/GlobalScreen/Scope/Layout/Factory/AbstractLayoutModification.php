@@ -80,7 +80,9 @@ abstract class AbstractLayoutModification implements LayoutModification
 
 
     /**
-     * @inheritDoc
+     * @param Closure $closure
+     *
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     public final function withModification(Closure $closure) : LayoutModification
     {
@@ -116,23 +118,27 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         $closure = $this->modification;
         $return_type = $this->getClosureReturnType();
-        $first_argument_type = $this->getClosureFirstArgumentTypeOrNull();
+
         try {
             $r = new ReflectionFunction($closure);
-
-            if ($first_argument_type !== null) {
+            // First Argument
+            if (!$this->firstArgumentAllowsNull()) {
+                $first_argument_type = $this->getClosureFirstArgumentType();
                 if (!isset($r->getParameters()[0])
                     || !$r->getParameters()[0]->hasType()
-                    || $r->getParameters()[0]->getType()->getName() !== $first_argument_type
+                    || ($r->getParameters()[0]->getType()->getName() !== $first_argument_type)
                 ) {
                     return false;
                 }
             }
 
-            if (!$r->hasReturnType()
-                || $r->getReturnType()->getName() !== $return_type
-            ) {
-                return false;
+            // Return type
+            if (!$this->returnTypeAllowsNull()) {
+                if (!$r->hasReturnType()
+                    || ($r->getReturnType()->getName() !== $return_type)
+                ) {
+                    return false;
+                }
             }
         } catch (\ReflectionException $e) {
             return false;

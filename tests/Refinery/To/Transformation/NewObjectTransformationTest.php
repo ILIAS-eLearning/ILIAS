@@ -15,113 +15,113 @@ require_once('./libs/composer/vendor/autoload.php');
 
 class NewObjectTransformationTest extends TestCase
 {
-	/**
-	 * @throws \ReflectionException
-	 */
-	public function testNewObjectTransformation()
-	{
-		$transformation = new NewObjectTransformation(MyClass::class);
+    /**
+     * @throws \ReflectionException
+     */
+    public function testNewObjectTransformation()
+    {
+        $transformation = new NewObjectTransformation(MyClass::class);
 
-		$object = $transformation->transform(array('hello', 42));
+        $object = $transformation->transform(array('hello', 42));
 
-		$result = $object->myMethod();
+        $result = $object->myMethod();
 
-		$this->assertEquals(array('hello', 42), $result);
-	}
+        $this->assertEquals(array('hello', 42), $result);
+    }
 
-	public function testNewObjectTransformationThrowsTypeErrorOnInvalidConstructorArguments()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testNewObjectTransformationThrowsTypeErrorOnInvalidConstructorArguments()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new NewObjectTransformation(MyClass::class);
+        $transformation = new NewObjectTransformation(MyClass::class);
 
-		try {
-			$object = $transformation->transform(array('hello', 'world'));
-		} catch (\TypeError $exception) {
-			return;
-		}
+        try {
+            $object = $transformation->transform(array('hello', 'world'));
+        } catch (\TypeError $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	/**
-	 * @throws \ReflectionException
-	 */
-	public function testNewObjectApply()
-	{
-		$transformation = new NewObjectTransformation(MyClass::class);
+    /**
+     * @throws \ReflectionException
+     */
+    public function testNewObjectApply()
+    {
+        $transformation = new NewObjectTransformation(MyClass::class);
 
-		$resultObject = $transformation->applyTo(new Ok(array('hello', 42)));
+        $resultObject = $transformation->applyTo(new Ok(array('hello', 42)));
 
-		$object = $resultObject->value();
+        $object = $resultObject->value();
 
-		$result = $object->myMethod();
+        $result = $object->myMethod();
 
-		$this->assertEquals(array('hello', 42), $result);
-	}
+        $this->assertEquals(array('hello', 42), $result);
+    }
 
-	public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testNewObjectApplyResultsErrorObjectOnInvalidConstructorArguments()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new NewObjectTransformation(MyClass::class);
+        $transformation = new NewObjectTransformation(MyClass::class);
 
-		try {
-			$resultObject = $transformation->applyTo(new Ok(array('hello', 'world')));
-		} catch (\Error $error) {
-			return;
-		}
+        try {
+            $resultObject = $transformation->applyTo(new Ok(array('hello', 'world')));
+        } catch (\Error $error) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 
-	public function testExceptionInConstructorWillResultInErrorObject()
-	{
-		$transformation = new NewObjectTransformation(MyClassThrowsException::class);
+    public function testExceptionInConstructorWillResultInErrorObject()
+    {
+        $transformation = new NewObjectTransformation(MyClassThrowsException::class);
 
-		$resultObject = $transformation->applyTo(new Ok(array('hello', 100)));
+        $resultObject = $transformation->applyTo(new Ok(array('hello', 100)));
 
-		$this->assertTrue($resultObject->isError());
-	}
+        $this->assertTrue($resultObject->isError());
+    }
 
-	public function testExceptionInConstructorWillThrowException()
-	{
-		$this->expectNotToPerformAssertions();
+    public function testExceptionInConstructorWillThrowException()
+    {
+        $this->expectNotToPerformAssertions();
 
-		$transformation = new NewObjectTransformation(MyClassThrowsException::class);
+        $transformation = new NewObjectTransformation(MyClassThrowsException::class);
 
-		try {
-			$resultObject = $transformation->transform(array('hello', 100));
-		} catch (\Exception $exception) {
-			return;
-		}
+        try {
+            $resultObject = $transformation->transform(array('hello', 100));
+        } catch (\Exception $exception) {
+            return;
+        }
 
-		$this->fail();
-	}
+        $this->fail();
+    }
 }
 
 class MyClass
 {
-	private $string;
+    private $string;
 
-	private $integer;
+    private $integer;
 
-	public function __construct(string $string, int $integer)
-	{
-		$this->string = $string;
-		$this->integer = $integer;
-	}
+    public function __construct(string $string, int $integer)
+    {
+        $this->string = $string;
+        $this->integer = $integer;
+    }
 
-	public function myMethod()
-	{
-		return array($this->string, $this->integer);
-	}
+    public function myMethod()
+    {
+        return array($this->string, $this->integer);
+    }
 }
 
 class MyClassThrowsException
 {
-	public function __construct(string $string, int $integer)
-	{
-		throw new \Exception();
-	}
+    public function __construct(string $string, int $integer)
+    {
+        throw new \Exception();
+    }
 }

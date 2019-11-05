@@ -190,14 +190,14 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
             ->willReturn(false);
 
         return [
-            [$user1],
-            [$user2],
-            [$user3],
+            'User 1' => [$user1],
+            'User 2' => [$user2],
+            'User 3' => [$user3],
         ];
     }
 
     /**
-     * @dataProvider  userProvider
+     * @dataProvider userProvider
      * @param ilObjUser $user
      * @throws ReflectionException
      */

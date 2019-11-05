@@ -100,7 +100,7 @@ class Color {
 	 */
 	public function asRGBString() {
 		return 'rgb('
-			.implode($this->asArray(), ', ')
+			.implode(', ', $this->asArray())
 			.')';
 	}
 

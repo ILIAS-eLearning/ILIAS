@@ -2,7 +2,8 @@
 /**
  * Example for rendering a mini Progress Meter with minimum configuration
  */
-function maximum_configuration() {
+function maximum_configuration()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();

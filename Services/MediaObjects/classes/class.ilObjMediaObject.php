@@ -37,7 +37,6 @@ class ilObjMediaObject extends ilObject
 
 	var $is_alias;
 	var $origin_id;
-	var $id;
 	var $media_items;
 	var $contains_int_link;
 
@@ -410,19 +409,6 @@ class ilObjMediaObject extends ilObject
 
 		// get media items
 		ilMediaItem::_getMediaItemsOfMOb($this);
-	}
-
-	/**
-	* set id
-	*/
-	function setId($a_id)
-	{
-		$this->id = $a_id;
-	}
-
-	function getId()
-	{
-		return $this->id;
 	}
 
 	/**
@@ -799,7 +785,10 @@ class ilObjMediaObject extends ilObject
 					}
 					else
 					{
-						$location = ilUtil::secureUrl($item->getLocation());
+                        $location = $item->getLocation();
+                        if($item->getLocationType() != "LocalFile") {  //#25941
+                            $location = ilUtil::secureUrl($location); //#23518
+                        }
 					}
 
 					$xml.= "<Location Type=\"".$item->getLocationType()."\">".

@@ -2,7 +2,8 @@
 /**
  * Example for rendering a mini Progress Meter as part of a headline
  */
-function headline() {
+function headline()
+{
     //Loading factories
     global $DIC;
     $f = $DIC->ui()->factory();
@@ -13,6 +14,6 @@ function headline() {
 
     // render
     return '<h3>Your Progress: <span style="display: inline-block; height: 19px">' .
-		$renderer->render($progressmeter) .
-		'</span></h3>';
+        $renderer->render($progressmeter) .
+        '</span></h3>';
 }

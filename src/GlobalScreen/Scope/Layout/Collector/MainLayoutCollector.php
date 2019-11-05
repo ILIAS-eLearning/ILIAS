@@ -1,12 +1,19 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Collector;
 
+use ILIAS\GlobalScreen\Client\Client;
+use ILIAS\GlobalScreen\Client\ClientSettings;
+use ILIAS\GlobalScreen\Client\ItemState;
+use ILIAS\GlobalScreen\Client\ModeToggle;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LayoutModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -36,7 +43,7 @@ class MainLayoutCollector
     /**
      * MainLayoutCollector constructor.
      *
-     * @param ModificationProvider[] $providers
+     * @param array $providers
      */
     public function __construct(array $providers)
     {
@@ -67,6 +74,28 @@ class MainLayoutCollector
      */
     public function getFinalPage() : Page
     {
+        // Client
+        $settings = new ClientSettings();
+        $settings->setHashing(true);
+        $settings->setLogging(true);
+
+        if ((new ModeToggle())->getMode() === ModeToggle::MODE1) {
+            $settings->setStoreStateForLevels(
+                [
+                    ItemState::LEVEL_OF_TOPITEM,
+                    ItemState::LEVEL_OF_TOOL,
+                    ItemState::LEVEL_OF_SUBITEM,
+                ]
+            );
+        } else {
+            $settings->setStoreStateForLevels(
+                []
+            );
+        }
+
+        $client = new Client($settings);
+        $client->init($this->getMetaContent());
+
         $called_contexts = $this->getContextStack();
 
         $final_content_modification = new NullModification();
@@ -74,6 +103,8 @@ class MainLayoutCollector
         $final_breadcrumbs_modification = new NullModification();
         $final_main_bar_modification = new NullModification();
         $final_meta_bar_modification = new NullModification();
+        $final_page_modification = new NullModification();
+        $final_footer_modification = new NullModification();
 
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
@@ -96,6 +127,12 @@ class MainLayoutCollector
             // METABAR
             $meta_bar_modification = $provider->getMetaBarModification($called_contexts);
             $this->replaceModification($final_meta_bar_modification, $meta_bar_modification, MetaBarModification::class);
+            // FOOTER
+            $footer_modification = $provider->getFooterModification($called_contexts);
+            $this->replaceModification($final_footer_modification, $footer_modification, FooterModification::class);
+            // PAGE
+            $page_modification = $provider->getPageBuilderDecorator($called_contexts);
+            $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -113,6 +150,12 @@ class MainLayoutCollector
         if ($final_meta_bar_modification->hasValidModification()) {
             $this->modification_handler->modifyMetaBarWithClosure($final_meta_bar_modification->getModification());
         }
+        if ($final_footer_modification->hasValidModification()) {
+            $this->modification_handler->modifyFooterWithClosure($final_footer_modification->getModification());
+        }
+        if ($final_page_modification->hasValidModification()) {
+            $this->modification_handler->modifyPageBuilderWithClosure($final_page_modification->getModification());
+        }
 
         return $this->modification_handler->getPageWithPagePartProviders();
     }
@@ -127,5 +170,16 @@ class MainLayoutCollector
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
         return $called_contexts;
+    }
+
+
+    /**
+     * @return MetaContent
+     */
+    private function getMetaContent() : MetaContent
+    {
+        global $DIC;
+
+        return $DIC->globalScreen()->layout()->meta();
     }
 }

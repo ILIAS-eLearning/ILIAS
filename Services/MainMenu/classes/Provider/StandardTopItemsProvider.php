@@ -81,39 +81,93 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         };
         $dic = $this->dic;
 
-        $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
-            ->withTitle($f("mm_repository"))
-            ->withPosition(10);
+        // Dashboard
+        $title = $this->dic->language()->txt("mm_dashboard");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), $title);
+        $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
+            ->withSymbol($icon)
+            ->withTitle($title)
+            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
+            ->withPosition(10)
+            ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+            ->withAvailableCallable(
+                function () use ($dic) {
+                    return $dic->settings()->get('disable_my_memberships', 0) == 0;
+                }
+            )
+            ->withVisibilityCallable(
+                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) {
+                    $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
 
-        $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
-            ->withTitle($f("mm_personal_workspace"))
+                    return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
+                })
+            );
+
+        $title = $f("mm_repository");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
+
+        $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
+            ->withVisibilityCallable(function () {
+                return (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
+            })
+            ->withSymbol($icon)
+            ->withTitle($title)
             ->withPosition(20);
 
-        $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
-            ->withTitle($f("mm_achievements"))
+        $title = $f("mm_personal_workspace");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), $title);
+
+        $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withSymbol($icon)
+            ->withTitle($title)
             ->withPosition(30);
 
-        $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
-            ->withTitle($f("mm_communication"))
+        $title = $f("mm_achievements");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), $title);
+
+        $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withSymbol($icon)
+            ->withTitle($title)
             ->withPosition(40);
 
+        $title = $f("mm_communication");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
+
+        $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withSymbol($icon)
+            ->withTitle($title)
+            ->withPosition(50);
+
+        $title = $f("mm_organisation");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
+
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withTitle($f("mm_organisation"))
-            ->withPosition(50)
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withSymbol($icon)
+            ->withTitle($title)
+            ->withPosition(60)
             ->withAvailableCallable(
                 function () use ($dic) {
                     return (bool) ($dic->settings()->get("enable_my_staff"));
                 }
             );
 
+        $title = $f("mm_administration");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), $title);
+
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
-            ->withTitle($f("mm_administration"))
-            ->withPosition(60)
+            ->withSymbol($icon)
+            ->withTitle($title)
+            ->withPosition(70)
             ->withVisibilityCallable(
-                function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }
+                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
             );
 
         return [
+            $dashboard,
             $repository,
             $personal_workspace,
             $achievements,
@@ -121,6 +175,18 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $organisation,
             $administration,
         ];
+    }
+
+
+    private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
+    {
+        return function () use ($additional) {
+            if ($this->dic->user()->isAnonymous()) {
+                return false;
+            }
+
+            return $additional();
+        };
     }
 
 
