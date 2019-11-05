@@ -30,13 +30,27 @@ class Factory implements ISlate\Factory
         $this->counter_factory = $counter_factory;
     }
 
+    /**
+     * @inheritdocs
+     */
     public function legacy(string $name, Symbol $symbol, ILegacy $content) : ISlate\Legacy
     {
         return new Legacy($this->signal_generator, $name, $symbol, $content);
     }
 
+    /**
+     * @inheritdocs
+     */
     public function combined(string $name, Symbol $symbol) : ISlate\Combined
     {
         return new Combined($this->signal_generator, $name, $symbol);
+    }
+
+    /**
+     * @inheritdocs
+     */
+    public function notification(string $name, array $notification_items) : ISlate\Notification
+    {
+        return new Notification($this->signal_generator, $name, $notification_items);
     }
 }

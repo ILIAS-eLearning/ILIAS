@@ -24,4 +24,11 @@ class Factory implements I\Factory
     {
         return new Group($title, $items);
     }
+    /**
+     * @inheritdoc
+     */
+    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon)
+    {
+        return new Notification($title,$icon);
+    }
 }

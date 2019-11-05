@@ -48,6 +48,33 @@
 	.il-maincontrols-slate .btn-bulky {
 		background-color: @il-slate-bulky-level2-bg-color;
 	}
+
+	&.il-maincontrols-slate-notification{
+		.il-maincontrols-slate-notification-title{
+			text-transform: uppercase;
+			padding: @padding-large-horizontal;
+			.btn-bulky{
+				.glyph{
+					:before{
+						content: " \e605";
+						font-family: "il-icons";
+						font-size: 1.7rem;
+						margin-right: 10px;
+					}
+				}
+				margin: -@padding-large-horizontal;
+				border: none;
+				border-right: solid 3px;
+				border-right-color: @il-primary-container-bg;;
+				padding: @padding-large-horizontal;
+
+				background-color: transparent;
+				text-transform: uppercase;
+
+				width: 50%;
+			}
+		}
+	}
 }
 
 

@@ -8,16 +8,21 @@ use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This describes a Slate
  */
 interface Slate extends Component, JavaScriptBindable
 {
+    /**
+     * Get the name of this slate
+     */
     public function getName() : string;
 
-    public function getSymbol() : Symbol;
+    /**
+     * Get the Symbol of the slate
+     */
+    public function getSymbol();
 
     /**
      * Signal that toggles the slate when triggered.
