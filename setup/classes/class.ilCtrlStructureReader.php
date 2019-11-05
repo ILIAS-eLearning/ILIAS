@@ -288,7 +288,7 @@ class ilCtrlStructureReader
 
 		foreach($this->class_script as $class => $script)
 		{
-			$file = substr($script, strlen($this->start_dir) + 1);
+			$file = substr($script, strlen($this->start_dir));
 			
 			// store class to file assignment
 			$ilDB->manipulate(sprintf("INSERT INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) ".
