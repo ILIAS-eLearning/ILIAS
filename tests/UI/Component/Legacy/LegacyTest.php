@@ -92,7 +92,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $signal_name_2 = 'Custom Signal 2';
 
         $g = $f->legacy('')->withCustomSignal($signal_name_1, '')->withCustomSignal($signal_name_2, '');
-        $l = $g->getAllSignals();
+        $l = $g->getAllCustomSignals();
 
         $this->assertIsArray($l);
     }
@@ -108,7 +108,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $g = $f->legacy('')
             ->withCustomSignal($signal_name_1, $custom_code_1)
             ->withCustomSignal($signal_name_2, $custom_code_2);
-        $signal_list = $g->getAllSignals();
+        $signal_list = $g->getAllCustomSignals();
 
         $this->assertEquals(count($signal_list), 2);
         $this->assertEquals($signal_list[$signal_name_1]['js_code'], $custom_code_1);

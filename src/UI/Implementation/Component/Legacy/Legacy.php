@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Legacy;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\NotImplementedException;
 
@@ -17,6 +18,7 @@ use ILIAS\UI\NotImplementedException;
 class Legacy implements C\Legacy\Legacy
 {
     use ComponentHelper;
+    use JavaScriptBindable;
 
     /**
      * @var	string
@@ -91,7 +93,7 @@ class Legacy implements C\Legacy\Legacy
      * @deprecated Should only be used to connect legacy components. Will be removed in the future. Use at your own risk
      * @return array
      */
-    public function getAllSignals() : array
+    public function getAllCustomSignals() : array
     {
         return $this->signal_list;
     }
@@ -108,32 +110,5 @@ class Legacy implements C\Legacy\Legacy
             'signal'   => $this->signal_generator->create(),
             'js_code' => $js_code
         );
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withOnLoadCode(\Closure $binder)
-    {
-    // TODO: Implement withOnLoadCode() method.
-        throw new NotImplementedException("Not implemented yet");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withAdditionalOnLoadCode(\Closure $binder)
-    {
-        // TODO: Implement withAdditionalOnLoadCode() method.
-        throw new NotImplementedException("Not implemented yet");
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getOnLoadCode()
-    {
-        // TODO: Implement getOnLoadCode() method.
-        throw new NotImplementedException("Not implemented yet");
     }
 }

@@ -25,7 +25,9 @@ class Renderer extends AbstractComponentRenderer
          */
         $this->checkComponent($component);
 
-        return $component->getContent() . $this->renderCustomSignals($component);
+        $component = $this->registerSignals($component);
+        $this->bindJavaScript($component);
+        return $component->getContent();
     }
 
     /**
@@ -37,27 +39,22 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * Renders the custom signals of the given legacy component
-     *
-     * @param $component
-     * @return string
+     * @param Legacy $component
+     * @return \ILIAS\UI\Implementation\Component\JavaScriptBindable
      */
-    protected function renderCustomSignals(Legacy $component)
+    protected function registerSignals(Legacy $component)
     {
-        $signal_list = $component->getAllSignals();
+        $custom_signals = $component->getAllCustomSignals();
 
-        if(count($signal_list) < 1)
-        {
-            return '';
-        }
-
-        $code = "<script>";
-        foreach($signal_list as $signal)
-        {
-            $code .= "$(this).on('{$signal['signal']->getId()}', function(e){".$signal['js_code']."});";
-        }
-        $code .= "</script>";
-
-        return $code;
+        return $component->withAdditionalOnLoadCode(function ($id) use ($custom_signals) {
+            $code = "";
+            foreach($custom_signals as $custom_signal)
+            {
+                $signal_id = $custom_signal['signal'];
+                $signal_code = $custom_signal['js_code'];
+                $code .= "$(document).on('$signal_id', function(event, signalData) { $signal_code });";
+            }
+            return $code;
+        });
     }
 }
