@@ -88,9 +88,7 @@ class ilTestPlayerLayoutProvider extends AbstractModificationProvider implements
 
     public function getFooterModification(CalledContexts $calledContexts) : ?FooterModification
     {
-        $additionalData = $calledContexts->current()->getAdditionalData();
-
-        if( $additionalData->is(self::TEST_PLAYER_KIOSK_MODE_ENABLED, true) )
+        if( $this->isKioskModeEnabled($calledContexts) )
         {
             $footer = $this->globalScreen()->layout()->factory()->footer();
 
