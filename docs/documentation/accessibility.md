@@ -142,7 +142,7 @@ Color MUST not be used as the only visual means of conveying information, indica
 
 #### Success Criterion Audio Control
 Reference: WCAG 2.1 > 1.4.2 Level A / EN 301 549 > 9.1.4.2
-Target group: developer
+Target group: creator of content
 If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism MUST be available to pause or stop the audio, or a mechanism MUST be available to control audio volume independently from the overall system volume level.
 
 #### Success Criterion Contrast Minimum
