@@ -1,3 +1,4 @@
+<script src="Services/AssessmentQuestion/js/MatchingEditor.js"></script>
 <style>
 	.droparea {
 		border: 2px solid #666;
@@ -6,7 +7,7 @@
 		margin: 5px;
 	}
 	
-	.draggable {
+	.draggable, .draggableHelper {
 		border: 2px solid #666;
 		background-color: #eee;
 		padding: 0.5em;
@@ -14,11 +15,41 @@
 		text-align: center;
 		cursor: pointer;
 	}
+	
+	.draggableDisabled
+	{
+	    opacity: 0.5;
+	}
+	
+	.droppableTarget
+	{
+	    border:2px dashed #666;
+	    background-color: #ffa;
+	}
+	
+	.droppableHover
+	{
+	    background-color: #cff;
+	}
+	
+	.droparea, .draggable{
+		overflow-wrap: break-word;
+		word-wrap: break-word;
+		-ms-word-break: break-all;
+		word-break: break-all;
+		word-break: break-word;
+		-ms-hyphens: auto;
+		-moz-hyphens: auto;
+		-webkit-hyphens: auto;
+		hyphens: auto;
+	}
 </style>
 <div class="ilc_answers answers ilClearFloat row" id="ilMatchingQuestionContainer_{QUESTION_ID}" data-type="ilMatchingQuestion" data-id="{QUESTION_ID}">
+	<input type="hidden" class="js_matching_type" value="{MATCHING_TYPE}" />
+	<input type="hidden" class="answer" name="answer_{QUESTION_ID}" />
 	<div id="targetArea" class="col-md-8">
 		<!-- BEGIN droparea -->
-		<div class="row droparea" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
+		<div class="row droparea js_definition" id="definition_{ID_DROPAREA}" data-id="{ID_DROPAREA}" data-type="definition">
 			<div class="ilMatchingQuestionDefinition col-md-6">
 				<!-- BEGIN definition_text -->
 				<div class="ilc_qanswer_Answer">{DEFINITION}</div>
@@ -36,7 +67,7 @@
 	</div>
 	<div id="sourceArea" class="col-md-4">
 		<!-- BEGIN draggable -->
-		<div class="draggable row" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
+		<div class="draggable row js_term" id="term_{ID_DRAGGABLE}" data-id="{ID_DRAGGABLE}" data-type="term">
 			<!-- BEGIN term_text -->
 			<div class="ilc_qanswer_Answer">{TERM}</div>
 			<!-- END term_text -->

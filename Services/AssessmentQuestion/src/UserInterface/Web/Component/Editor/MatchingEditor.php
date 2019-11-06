@@ -76,6 +76,7 @@ class MatchingEditor extends AbstractEditor
         
         $tpl = new ilTemplate("tpl.MatchingEditor.html", true, true, "Services/AssessmentQuestion");
         $tpl->setVariable('QUESTION_ID', $this->question->getId());
+        $tpl->setVariable('MATCHING_TYPE', $config->getMatchingMode());
         
         foreach ($config->getDefinitions() as $id=>$definition) {
             if (!empty($definition[self::VAR_DEFINITION_IMAGE])) {

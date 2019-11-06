@@ -94,7 +94,7 @@ class MatchingEditorConfiguration extends AbstractConfiguration {
     }
 
     /**
-     * @return number
+     * @return int
      */
     public function getMatchingMode()
     {
