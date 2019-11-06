@@ -6,7 +6,7 @@ ILIAS aims to to be "Usable for Everyone" including users with special needs.
 ILIAS is to be perceivable, operable, understandable and of robust use for all users.
 ILIAS enables users to locate, identify, access, and operate objects and services provided. 
 These guidelines outline functional accessibility requirements as set out by EN 301 549. V2.1.2 of August 2018. Please consult [https://www.etsi.org/deliver/etsi_en/301500_301599/301549/02.01.02_30/en_301549v020102v.pdf](url)
-EN 301 549 reflects WCAG 2.1 Recommendation Level A and AA. 
+EN 301 549 reflects WCAG 2.1 Recommendation Level A and AA. Please sonsult https://www.w3.org/TR/WCAG21/
 These guidelines reference both documents. 
 Because ILIAS is rendered in a browser it is categorised as a ‘web page’ by EN 301 549. This is not how it feels to us. 
 
