@@ -8,7 +8,6 @@
 	var ACTION_REMOVE_CONV = "remove";
 	var ACTION_STORE_CONV = "store";
 	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
-	let OLD_USER_ID = null;
 
 	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
@@ -126,6 +125,7 @@
 		historyTimestamps: {},
 		emoticons: {},
 		messageFormatter: {},
+		lastUserByConvMap: {},
 		participantsImages: {},
 		participantsNames: {},
 		chatWindowWidth: 278,
@@ -264,7 +264,8 @@
 		},
 
 		open: function(conversation) {
-			var conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']');
+			let conversationWindow = $('[data-onscreenchat-window=' + conversation.id + ']'),
+				newDomElementsCreated = false;
 
 			if (conversationWindow.is(':visible')) {
 				return;
@@ -318,10 +319,12 @@
 
 					messageField.popover('hide');
 				});
+
+				newDomElementsCreated = true;
 			}
 
 			if(conversation.latestMessage != null) {
-				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id]);
+				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id], newDomElementsCreated); 
 			}
 
 			conversationWindow.show();
@@ -756,7 +759,7 @@
 					(!getModule().historyTimestamps.hasOwnProperty(conversation.id) ||
 					getModule().historyTimestamps[conversation.id] > messages[index].timestamp)
 				) {
-					getModule().addMessage(messages[index], true);
+					getModule().addMessage(messages[index], !conversation.reverseSorting);
 				}
 			}
 
@@ -929,12 +932,15 @@
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 
-			if(prepend !== true && messageObject.userId == OLD_USER_ID) {
+			if (
+				prepend === false &&
+				getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) &&
+				messageObject.userId == getModule().lastUserByConvMap[messageObject.conversationId]
+			) {
 				template = template.replace(/\[\[style\]\]/g, 'display:none');
-				clearStyle = "clearStyle"
-			}else{
-				//footer = 'footerNewMessage';
+				clearStyle = "clearStyle";
 			}
+
 			if (messageObject.hasOwnProperty("isNeutral") && messageObject.isNeutral) {
 				template = $(template).find('li.neutral').html();
 			} else {
@@ -962,8 +968,13 @@
 				getModule().historyBlocked = false;
 			}
 
-			if((OLD_USER_ID === null || OLD_USER_ID !== messageObject.userId) && prepend === false){
-				OLD_USER_ID = messageObject.userId
+			if (
+				prepend === false && (
+					!getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) ||
+					messageObject.userId !== getModule().lastUserByConvMap[messageObject.conversationId]
+				)
+			) {
+				getModule().lastUserByConvMap[messageObject.conversationId] = messageObject.userId;
 			}
 		},
 
