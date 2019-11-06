@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Modules\Test\Command\TestAuthoringQuestionAfterSaveCommandHandler;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService as AsqAuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
@@ -202,7 +201,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         $asqQuestionService = $this->asqAuthoringService->question(
-            $this->asqAuthoringService->currentOrNewQuestionId(), new TestAuthoringQuestionAfterSaveCommandHandler()
+            $this->asqAuthoringService->currentOrNewQuestionId()
         );
 
         $question_config = new QuestionConfig();
@@ -2329,6 +2328,11 @@ class ilObjTestGUI extends ilObjectGUI
 		$total = $this->object->evalTotalPersons();
 		if ($ilAccess->checkAccess("write", "", $this->ref_id))
 		{
+            $messages = [];
+		    if(!$this->object->getOfflineStatus()) {
+                $message = $DIC->language()->txt("test_is_online_no_editing_possible");
+                $messages[] = $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->info($message));
+            }
 			if($total != 0)
 			{
 				$link = $DIC->ui()->factory()->link()->standard(
@@ -2337,15 +2341,16 @@ class ilObjTestGUI extends ilObjectGUI
 				);
 				
 				$message = $DIC->language()->txt("test_has_datasets_warning_page_view");
-				
-				$msgBox = $DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link));
-				
-				$DIC->ui()->mainTemplate()->setCurrentBlock('mess');
-				$DIC->ui()->mainTemplate()->setVariable('MESSAGE',
-					$DIC->ui()->renderer()->render($msgBox)
-				);
-				$DIC->ui()->mainTemplate()->parseCurrentBlock();
+
+                $messages[] =  $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->info($message)->withLinks(array($link)));
 			}
+
+			if(count($messages) > 0) {
+                $DIC->ui()->mainTemplate()->setCurrentBlock('mess');
+                $DIC->ui()->mainTemplate()->setVariable('MESSAGE',
+                    implode("<br>",$messages));
+                $DIC->ui()->mainTemplate()->parseCurrentBlock();
+            }
 			else
 			{
                 $DIC->ctrl()->setParameter($this,
@@ -2447,9 +2452,9 @@ class ilObjTestGUI extends ilObjectGUI
 			&& count($_SESSION['tst_qst_move_' . $this->object->getTestId()])
 		);
 		
-		$table_gui->setQuestionTitleLinksEnabled( !$total );
-		$table_gui->setQuestionPositioningEnabled( !$total );
-		$table_gui->setQuestionManagingEnabled( !$total );
+		$table_gui->setQuestionTitleLinksEnabled( $this->isTestEditable());
+		$table_gui->setQuestionPositioningEnabled( $this->isTestEditable() );
+		$table_gui->setQuestionManagingEnabled( $this->isTestEditable() );
 		$table_gui->setObligatoryQuestionsHandlingEnabled($this->object->areObligationsEnabled());
 
 		$table_gui->setTotalPoints($this->object->getFixedQuestionSetTotalPoints());
@@ -4169,4 +4174,19 @@ class ilObjTestGUI extends ilObjectGUI
 	{
 		return $this->objectiveOrientedContainer;
 	}
+
+	protected function isTestEditable(): bool {
+        global $ilAccess;
+        if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
+            $total = $this->object->evalTotalPersons();
+            if($total > 0) {
+                return false;
+            }
+            if(!$this->object->getOfflineStatus()) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
 }

@@ -41,6 +41,12 @@ class AuthoringQuestionList implements QuestionList
         $this->authoring_application_service = new AuthoringApplicationService($container_obj_id, $actor_user_id,$lng_key);
     }
 
+    public function publishNewRevisions() {
+        foreach($this->authoring_application_service->getQuestions(true) as $question_dto)  {
+            $this->authoring_application_service->projectQuestion($question_dto->getId());
+        }
+    }
+
     public function getQuestionsOfContainerAsAssocArray() : array
     {
         $assoc_array = [];

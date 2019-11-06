@@ -45,10 +45,6 @@ class AuthoringApplicationService
      */
     protected $actor_user_id;
     /**
-     * var AuthoringQuestionAfterSaveCommandHandler
-     */
-    protected $authoring_question_after_save_command_handler;
-    /**
      * @var string
      */
     protected $lng_key;
@@ -62,12 +58,11 @@ class AuthoringApplicationService
      * @param int $container_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key, ?AuthoringQuestionAfterSaveCommandHandler $authoring_question_after_save_command_handler = null)
+    public function __construct(int $container_obj_id, int $actor_user_id, string $lng_key)
     {
         $this->container_obj_id = $container_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->lng_key = $lng_key;
-        $this->authoring_question_after_save_command_handler = $authoring_question_after_save_command_handler;
     }
 
 
@@ -141,11 +136,6 @@ class AuthoringApplicationService
         if (count($question->getRecordedEvents()->getEvents()) > 0) {
             // save changes if there are any
             CommandBusBuilder::getCommandBus()->handle(new SaveQuestionCommand($question, $this->actor_user_id));
-        }
-
-        if(is_object($this->authoring_question_after_save_command_handler)) {
-            $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_dto->getId()));
-            $this->authoring_question_after_save_command_handler->handle(new AuthoringQuestionAfterSaveCommand($this->actor_user_id, QuestionDto::CreateFromQuestion($question)));
         }
     }
 

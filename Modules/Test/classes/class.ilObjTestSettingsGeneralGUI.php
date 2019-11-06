@@ -237,9 +237,43 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
 		}
+
+        //ASQ Provision each time the test is saved with setOnline
+        if($form->getItemByPostVar('online')->getChecked() == 1) {
+            global $DIC;
+
+            switch($this->testOBJ->getQuestionSetType()) {
+                case ilTestQuestionSetConfig::TYPE_FIXED;
+                    $question_list = $DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId())->questionList();
+                    $question_list->publishNewRevisions();
+                    break;
+                case  ilTestQuestionSetConfig::TYPE_DYNAMIC:
+                case  ilTestQuestionSetConfig::TYPE_RANDOM:
+                    //TODO
+                    throw new ilTestException('Publishing is not possible for Random / Dynamic Tests');
+                    break;
+                default:
+                    throw new ilTestException('Undefined Question Set Type');
+                    break;
+            }
+
+
+            $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->testOBJ)->getQuestionSetConfig();
+
+            foreach($DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId())->questionList()->getQuestionsOfContainerAsDtoList(true) as $question_dto) {
+                $questionSetConfig->updateRevisionId($question_dto->getId(), $question_dto->getRevisionId());
+            }
+
+
+
+
+
+
+            //Random Question Set - Provision for each pool!
+        }
+
 		
 		// return to form when online is to be set, but no questions are configured
-
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
 		if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete($currentQuestionSetConfig) )
 		{
@@ -668,7 +702,13 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
 		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+
+
+
+
 		$this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
+
+
 		$this->testOBJ->update();
 
 		// pool usage setting

@@ -9766,6 +9766,7 @@ rbac#:#tst_tst_statistics#:#User has access to test statistics
 common#:#ignore_required_fields#:#Ignore required fields
 common#:#ignore_required_fields_info#:#If activated, you can submit this form without filling out all mandatory fields. The new user has to add the missing information on the personal profile after the next login.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains data sets. You cannot edit the test questions until you remove these data sets.
+assessment#:#test_is_online_no_editing_possible#:#The test is already online. You can't edit in questions in online tests!
 assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
