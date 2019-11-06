@@ -34,48 +34,56 @@ include_once('./Services/Object/classes/class.ilObjectGUI.php');
 */
 class ilContainerReferenceGUI extends ilObjectGUI
 {
+	const MAX_SELECTION_ENTRIES = 50;
+
+	const MODE_CREATE = 1;
+	const MODE_EDIT = 2;
+
 	/**
-	 * @var ilTabsGUI
+	 * @var \ilTabsGUI
 	 */
 	protected $tabs;
 
 	/**
-	 * @var ilLocatorGUI
+	 * @var \ilLocatorGUI
 	 */
 	protected $locator;
 
 	/**
-	 * @var ilObjUser
+	 * @var \ilObjUser
 	 */
 	protected $user;
 
 	/**
-	 * @var ilAccessHandler
+	 * @var \ilAccessHandler
 	 */
 	protected $access;
 
 	/**
-	 * @var ilErrorHandling
+	 * @var \ilErrorHandling
 	 */
 	protected $error;
 
 	/**
-	 * @var ilSetting
+	 * @var \ilSetting
 	 */
 	protected $settings;
 
-	const MAX_SELECTION_ENTRIES = 50;
-	
-	const MODE_CREATE = 1;
-	const MODE_EDIT = 2;
-	
+
 	protected $existing_objects = array();
 
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $target_type;
-	/** @var string */
+	/**
+	 * @var string
+	 */
 	protected $reference_type;
-	/** @var ilPropertyFormGUI */
+
+	/**
+	 * @var \ilPropertyFormGUI
+	 */
 	protected $form;
 
 	/**
@@ -372,34 +380,59 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		$this->form = $form;
 		return $form;
 	}
+
+
+	/**
+	 * @param \ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	protected function loadPropertiesFromSettingsForm(\ilPropertyFormGUI $form) : bool
+	{
+		global $DIC;
+
+		$ok = true;
+		$access = $DIC->access();
+
+		$this->object->setTitleType($form->getInput('title_type'));
+		if($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
+			$this->object->setTitle($form->getInput('title'));
+		}
+
+		// check access
+		if(
+			!$access->checkAccess('visible','', (int) $form->getInput('target_id'))
+		) {
+			$ok = false;
+			$form->getItemByPostVar('target_id')->setAlert($this->lng->txt('permission_denied'));
+		}
+		// check target type
+		if(ilObject::_lookupType($form->getInput('target_id'),true) != $this->target_type) {
+			$ok = false;
+			$form->getItemByPostVar('target_id')->setAlert(
+				$this->lng->txt('objref_failure_target_type').
+				': ' .
+				$this->lng->txt('obj_' . $this->target_type)
+			);
+		}
+
+		return $ok;
+	}
+
 	
 	/**
 	 * update title
 	 */
 	public function updateObject()
 	{
+		$this->checkPermission('write');
+
 		$ilAccess = $this->access;
 		$form = $this->initForm();
-		if($form->checkInput())
+		if(
+			$form->checkInput() &&
+			$this->loadPropertiesFromSettingsForm($form)
+		)
 		{
-			$this->object->setTitleType($form->getInput('title_type'));
-			if($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM)
-			{
-				$this->object->setTitle($form->getInput('title'));
-			}
-
-			if(!$ilAccess->checkAccess('visible','',(int) $form->getInput('target_id')) ||
-				ilObject::_lookupType($form->getInput('target_id'), true) != $this->target_type)
-			{
-				ilUtil::sendFailure($this->lng->txt('permission_denied'));
-				$this->editObject();
-				return false;
-			}
-			$this->checkPermission('write');
-
-			$target_obj_id = ilObject::_lookupObjId((int) $form->getInput('target_id'));
-			$this->object->setTargetId($target_obj_id);
-
 
 			$this->object->update();
 			ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -431,6 +464,34 @@ class ilContainerReferenceGUI extends ilObjectGUI
 	public function getReferenceType()
 	{
 		return $this->reference_type;
+	}
+
+	/**
+	 * get tabs
+	 *
+	 * @access public
+	 * @param	object	tabs gui object
+	 */
+	public function getTabs()
+	{
+		global $DIC;
+
+		$ilHelp = $DIC['ilHelp'];
+		$ilHelp->setScreenIdComponent($this->getReferenceType());
+
+		if($this->access->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTarget("settings",
+				$this->ctrl->getLinkTarget($this, "edit"),
+				array(),
+				"");
+		}
+		if ($this->access->checkAccess('edit_permission','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTarget("perm_settings",
+				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+				array("perm","info","owner"), 'ilpermissiongui');
+		}
 	}
 
 	/**

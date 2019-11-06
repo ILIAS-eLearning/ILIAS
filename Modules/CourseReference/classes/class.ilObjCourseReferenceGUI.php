@@ -35,6 +35,11 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
+	/**
+	 * @var \ilLogger | null
+	 */
+	private $logger = null;
+
 	protected $target_type = 'crs';
 	protected $reference_type = 'crsr';
 
@@ -45,7 +50,13 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
 	{
-		 parent::__construct($a_data, $a_id,true,false);
+		global $DIC;
+
+		$this->logger = $DIC->logger()->crsr();
+
+		parent::__construct($a_data, $a_id, true, false);
+
+		$this->lng->loadLanguageModule('crs');
 	}
 	
 	/**
@@ -58,51 +69,81 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	{
 		parent::executeCommand();
 	}
-	
-	
 	/**
-	 * get tabs
-	 *
-	 * @access public
-     * @param	object	tabs gui object
+	 * @inheritdoc
 	 */
-	public function getTabs()
+	public function initForm($a_mode = self::MODE_EDIT)
 	{
-		global $ilAccess, $ilHelp;
+		$form = parent::initForm($a_mode);
 
-		$ilHelp->setScreenIdComponent("crsr");
+		if($a_mode == self::MODE_CREATE) {
+			return $form;
+		}
 
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
+		$path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+
+
+		// nothing todo if no parent course is in path
+		if(!$path_info->hasParentCourse())
 		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"),
-				array(),
-				"");
+			return $form;
 		}
-		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
-				array("perm","info","owner"), 'ilpermissiongui');
-		}
+
+		$access = $path_info->checkManagmentAccess();
+
+		$auto_update = new \ilCheckboxInputGUI($this->lng->txt('crs_ref_member_update'),'member_update');
+		$auto_update->setChecked($this->object->isMemberUpdateEnabled());
+		$auto_update->setInfo($this->lng->txt('crs_ref_member_update_info'));
+		$auto_update->setDisabled(!$access);
+		$form->addItem($auto_update);
+
+		return $form;
 	}
-	
+
 	/**
-	 * Support for goto php 
+	 * @param \ilPropertyFormGUI $form
+	 * @return bool
+	 */
+	protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form): bool
+	{
+		$ok = true;
+		$ok = parent::loadPropertiesFromSettingsForm($form);
+
+		$path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(), $this->object->getTargetRefId());
+
+		$auto_update = $form->getInput('member_update');
+		if($auto_update && !$path_info->hasParentCourse()) {
+			$ok = false;
+			$form->getItemByPostVar('member_update')->setAlert($this->lng->txt('crs_ref_missing_parent_crs'));
+		}
+		if($auto_update && !$path_info->checkManagmentAccess()) {
+			$ok = false;
+			$form->getItemByPostVar('member_update')->setAlert($this->lng->txt('crs_ref_missing_access'));
+		}
+
+		// check manage members
+		$this->object->enableMemberUpdate((bool) $form->getInput('member_update'));
+
+		return $ok;
+	}
+
+
+	/**
+	 * Support for goto php
 	 *
 	 * @return void
 	 * @static
 	 */
-	 public static function _goto($a_target)
-	 {
+	public static function _goto($a_target)
+	{
 		global $ilAccess, $ilErr, $lng;
-		
+
 		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
 		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
-		
+
 		include_once('./Modules/Course/classes/class.ilObjCourseGUI.php');
 		ilObjCourseGUI::_goto($target_ref_id);
-	 }
-		
 	}
+
+}
 ?>

@@ -39,22 +39,6 @@ class ilExerciseExporter extends ilXmlExporter
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
 	}
 
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-    {
-        $res = [];
-
-        if ($a_entity == "exc") {
-            // service settings
-            $res[] = array(
-                "component" => "Services/Object",
-                "entity" => "common",
-                "ids" => $a_ids
-            );
-        }
-
-        return $res;
-    }
-
     /**
 	 * Returns schema versions that the component can export to.
 	 * ILIAS chooses the first one, that has min/max constraints which
@@ -104,6 +88,86 @@ class ilExerciseExporter extends ilXmlExporter
 		);
 	}
 
+	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+	{
+        $deps = [];
+
+        if ($a_entity == "exc") {
+            // service settings
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "common",
+                "ids" => $a_ids
+            );
+
+            $advmd_ids = array();
+            foreach ($a_ids as $id) {
+                $rec_ids = $this->getActiveAdvMDRecords($id);
+                if (sizeof($rec_ids)) {
+                    foreach ($rec_ids as $rec_id) {
+                        $advmd_ids[] = $id . ":" . $rec_id;
+                    }
+                }
+            }
+
+            if (sizeof($advmd_ids)) {
+                $deps[] = array(
+                    "component" => "Services/AdvancedMetaData",
+                    "entity" => "advmd",
+                    "ids" => $advmd_ids
+                );
+            }
+
+            $md_ids = array();
+            foreach ($a_ids as $exc_id) {
+                $md_ids[] = $exc_id . ":0:exc";
+            }
+            if ($md_ids) {
+                $deps[] =
+                    array(
+                        "component" => "Services/MetaData",
+                        "entity" => "md",
+                        "ids" => $md_ids
+                    );
+            }
+
+            // service settings
+            $deps[] = array(
+                "component" => "Services/Object",
+                "entity" => "service_settings",
+                "ids" => $a_ids
+            );
+        }
+		
+		return $deps;
+	}
+
+	protected function getActiveAdvMDRecords($a_id)
+	{
+		$active = array();
+
+		foreach(ilAdvancedMDRecord::_getActivatedRecordsByObjectType("exc") as $record_obj)
+		{
+			foreach($record_obj->getAssignedObjectTypes() as $obj_info)
+			{
+				if($obj_info['obj_type'] == 'exc' && $obj_info['optional'] == 0)
+				{
+					$active[] = $record_obj->getRecordId();
+				}
+				// local activation
+				if(
+					$obj_info['obj_type'] == 'exc' &&
+					$obj_info['optional'] == 1 &&
+					$a_id == $record_obj->getParentObject()
+				)
+				{
+					$active[] = $record_obj->getRecordId();
+				}
+			}
+		}
+
+		return $active;
+	}
 }
 
 ?>

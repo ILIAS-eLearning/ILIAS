@@ -1,8 +1,13 @@
 // mainbar
 .il-maincontrols-mainbar {
-	.btn-bulky {
+	.btn-bulky,
+	.link-bulky {
 		font-size: @il-mainbar-btn-label-size;
 		line-height: @il-mainbar-btn-label-size * 1.11111111;
+		&:focus,
+		&:active {
+			box-shadow: none;
+		}
 	}
 	.bulky-label {
 		white-space: normal;
@@ -16,8 +21,8 @@
 	.btn {
 	  &:focus,
 	  &:active {
-		  border: 0;
 		  outline: 0;
+		  outline-offset: 0;
 	  }
 	}
 
@@ -33,33 +38,43 @@
 	position: relative;
 	width: @il-mainbar-btn-width;
 	z-index: 1;
-	.btn-bulky {
-		height: @il-mainbar-btn-height;
-		width: @il-mainbar-btn-height;
-		justify-content: center;
-		padding: 0;
-		display: inline-flex;
-		flex-flow: column wrap;
+	.btn-bulky,
+	.il-link.link-bulky {
 		align-items: center;
-		width: 100%;
-		border: 0;
 		background: @il-mainbar-btn-bg-color;
+		border: 0;
 		border-bottom: @il-mainbar-btn-border;
 		color: @il-mainbar-btn-bg-color-engaged;
+		display: inline-flex;
+		flex-flow: column wrap;
+		height: @il-mainbar-btn-height;
+		justify-content: center;
+		margin-bottom: 0;
+		padding: 0;
+		width: @il-mainbar-btn-height;
+		width: 100%;
 		img {
 			filter: invert(100%);
 		}
+		&:hover,
 		&.engaged {
 			background-color: @il-mainbar-btn-bg-color-engaged;
 			color: @il-mainbar-btn-bg-color;
 			img {
 				filter: invert(50%);
 			}
+			.bulky-label {
+				color: @il-mainbar-btn-bg-color;
+			}
+		}
+		&:hover {
+			transition: all .15s ease-in;
 		}
 		&:focus {
 			outline: none;
 		}
 		.bulky-label {
+			color: @il-mainbar-btn-bg-color-engaged;
 			display: -webkit-box;
 			margin-top: @il-mainbar-bulky-label-margin-top;
 			white-space: normal;
@@ -75,9 +90,15 @@
 	}
 }
 
+// mainbar entries
+.il-mainbar-entries {
+	min-width: 100%;
+}
+
 // mainbar slates
 .il-mainbar-slates {
 	.shadow-right;
+	background: @il-mainbar-slates-bg-color;
 	display: none;
 	position: relative;
 	width: @il-standard-page-slate-width;
@@ -110,7 +131,8 @@
 		height: @il-mainbar-btn-height;
 		flex-shrink: 0;
 	}
-	.btn-bulky {
+	.btn-bulky,
+	.il-link.link-bulky {
 		background-color: lighten(@brand-primary, 25%);
 		color: @il-mainbar-btn-color;
 		padding: 0;
@@ -126,6 +148,12 @@
 			}
 		}
 	}
+	.il-mainbar-tool-trigger-item{
+		display: inline;
+		.hidden {
+			display: none;
+		}
+	}
 }
 
 .il-mainbar-tools-entries-bg {
@@ -138,7 +166,7 @@
 .il-mainbar-remove-tool {
 	display: none;
 	.il-mainbar-tools-entries.engaged & {
-		display: block;
+		/*display: block;*/
 		position: absolute;
 	    top: 0;
 	    right: 0;
@@ -167,7 +195,7 @@
 		display: flex;
 		flex-direction: row;
 		height: @il-mainbar-close-slate-btn-height;
-		justify-content: flex-end;
+		justify-content: center;
 		align-items: center;
 		.bulky-label {
 			display: none;
@@ -221,7 +249,8 @@
 	   position: relative;
 	   width: 100%;
 	   z-index: 1;
-	   .btn-bulky {
+	   .btn-bulky,
+	   .il-link.link-bulky {
 	   	   flex-shrink: 0;
 		   border: 0;
 		   height: @il-mainbar-small-btn-height;

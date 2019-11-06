@@ -20,8 +20,19 @@ trait isSupportedTrait
      *
      * @return bool
      */
-    private function isComponentSupportedForCombinedSlate(Component $component) : bool
+    protected function isComponentSupportedForCombinedSlate(Component $component) : bool
     {
         return ($component instanceof BulkyButton || $component instanceof Slate || $component instanceof BulkyLink);
+    }
+
+
+    /**
+     * @param Component $component
+     *
+     * @return bool
+     */
+    protected function isSupportedForMetaBar(Component $component) : bool
+    {
+        return ($component instanceof BulkyButton || $component instanceof Slate);
     }
 }

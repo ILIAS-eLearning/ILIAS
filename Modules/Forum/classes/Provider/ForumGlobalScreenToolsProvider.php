@@ -53,10 +53,14 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                 $thread
             );
 
+            $title = $this->dic->language()->txt('tree');
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
+
             $tools[] = $this->factory
                 ->tool($iff('Forum|Tree'))
-                ->withTitle($this->dic->language()->txt("tree"))
-                ->withContent($l($exp->getHTML()));
+                ->withTitle($title)
+                ->withSymbol($icon)
+                ->withContent($l($exp->getHTML(true)));
         }
 
         return $tools;

@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2018 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2019 ILIAS open source eLearning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
@@ -24,6 +25,26 @@ chatroom_adm#:#osc_adm_browser_noti_label#:#Browser Notifications
 chatroom_adm#:#osc_adm_browser_noti_info#:#If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Time between Browser Notifications
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages..
+book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
+book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
+book#:#book_preferences_saved#:#The preferences have been saved.
+book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
+book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
+book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
+book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
+book#:#book_nr_of_preferences#:#Number of Preferences
+book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
+book#:#book_pref_deadline#:#Deadline
+book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
+book#:#book_preferences#:#Preferences
+book#:#book_your_bookings#:#Your Reservations
+book#:#book_your_preferences#:#Your Preferences
+book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
+book#:#book_all_users#:#All Participants
+book#:#book_pref_overview#:#Overview
+book#:#book_pref_book_cron#:#Booking with Preferences
+book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
+book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -1792,9 +1813,11 @@ common#:#activation#:#Edit Timings
 common#:#active#:#Active
 common#:#add_condition#:#Add Precondition
 common#:#add_member#:#Add Member
+common#:#add_member_role#:#Add Member Role
 common#:#add_new_user_defined_field#:#Add New Custom Field
 common#:#add_note#:#Add Note
 common#:#add_parameter#:#New Parameter
+common#:#add_role#:#Add Role
 common#:#add_translation#:#Add translation
 common#:#add_user_defined_field#:#Add New Field
 common#:#add_user#:#Add Local User
@@ -2547,6 +2570,7 @@ common#:#grp_err_administrator_required#:#Member could not be removed, at least 
 common#:#grp_header_edit_members#:#Edit members
 rbac#:#grp_join#:#User can join group
 rbac#:#grp_leave#:#User can unsubscribe from group
+common#:#grp_list_members#:#List members
 common#:#grp_list_users#:#List users
 common#:#grp_mem_change_status#:#Change Participant Status
 common#:#grp_mem_send_mail#:#Send Participants a Message
@@ -3890,6 +3914,8 @@ common#:#visitors#:#Visitors
 common#:#visits#:#Visits
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#webdav_enable_versioning#:#File Versioning
+common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.
@@ -5724,7 +5750,7 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_change_to_folder#:#Switch to folder:
+mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
@@ -6973,9 +6999,9 @@ search#:#search_crs_title#:#Course Name
 search#:#search_details_info#:#Detailed search. Please select one or more resource types.
 search#:#search_direct#:#Direct search
 search#:#search_fast_info#:#Search for titles, descriptions and keywords in all object types
-search#:#search_for_crs_members#:#Search for Course Members
-search#:#search_for_grp_members#:#Search for Group Members
-search#:#search_for_role_members#:#Search for Role Members
+search#:#search_for_crs_members#:#Search for Courses
+search#:#search_for_grp_members#:#Search for Groups
+search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for users
 search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_grp_title#:#Group Name
@@ -7815,20 +7841,20 @@ style#:#sty_glo_char#:#Glossary
 style#:#sty_type_glo_overlay#:#Glossary Overlay
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)
 content#:#cont_sco_glossary#:#Unit Glossary
-common#:#delete_inactive_user_accounts#:#Delete inactive user accounts
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.
+common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
-common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined period of time will be deleted.
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
+common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
-common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
+common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -9332,6 +9358,7 @@ skmg#:#skmg_order_nr#:#Order Number
 skmg#:#skmg_create_skll#:#Create Competence
 skmg#:#skmg_create_skill_template_reference#:#Create Competence Template Reference
 skmg#:#skmg_create_skill_category#:#Create Competence Category
+skmg#:#skmg_description_info#:#The description comes from the template.
 common#:#notice#:#Notice
 common#:#public_room#:#Public room
 chatroom#:#server_further_information#:#You can find further information about the server configuration in the <a href="%1$s" target="_blank">readme file</a>.
@@ -10075,11 +10102,17 @@ trac#:#trac_filter_has_status#:#Show also objects with status ‘not attempted�
 cat#:#cat_import#:#Import Category
 mcst#:#mcst_preview_picture#:#Preview Picture
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
-objref#:#objref_edit_ref#:#Target Settings
-objref#:#objref_edit_title#:#Title Settings
-objref#:#objref_title_settings#:#Edit Reference Title
-objref#:#objref_reuse_title#:#Reuse Title of Reference
-objref#:#objref_custom_title#:#Use Custom Title
+objref#:#objref_custom_title#:#Eigenen Titel verwenden
+objref#:#objref_edit_ref#:#Ziel des Links
+objref#:#objref_edit_title#:#Titel
+objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
+crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
+crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
+crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
+crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.
 news#:#news_keep_minimal_x_items#:#Keeping Older Items
 news#:#news_keep_minimal_x_items_info#:#Number of older items held available regardless of the system wide defined RSS period.
 dateplaner#:#cal_add_calendar#:#Add Calendar
@@ -10881,8 +10914,10 @@ skmg#:#skmg_profile#:#Profile
 skmg#:#skmg_remove_levels#:#Remove Levels
 skmg#:#skmg_select_skill_level_assign#:#Please select a skill.
 skmg#:#skmg_confirm_remove_level_ass#:#So you really want to remove the following competence levels from the profile?
-skmg#:#skmg_assigned_users#:#Assigned Users
+skmg#:#skmg_assigned_users#:#Assigned Roles and Users
 skmg#:#skmg_assign_user#:#Assign User
+skmg#:#skmg_add_assignment#:#Add Roles / Members
+skmg#:#skmg_add_user_to_profile#:#Add users or roles to profile
 skmg#:#skmg_confirm_user_removal#:#Do you really want to remove the following users from this profile?
 skmg#:#skmg_resources#:#Resources
 skmg#:#skmg_add_resource#:#Add Resource
@@ -14253,7 +14288,7 @@ common#:#second_email#:#Second E-Mail
 survey#:#svy_print_show_labels#:#Show labels
 survey#:#svy_print_hide_labels#:#Hide labels
 skmg#:#skmg_assigned_profiles#:#Assigned Profiles
-skmg#:#skmg_selected_skills#:#Selected Skills
+skmg#:#skmg_selected_skills#:#Competence Records
 skmg#:#skmg_hide_profile_self_eval#:#Hide Profile without Self Evaluation
 skmg#:#skmg_hide_profile_self_eval_info#:#Profile target values will not be shown to a user, if no self evaluation has been done for a specific skill.
 skmg#:#skmg_suggested#:#Suggested Resource
@@ -15193,7 +15228,7 @@ common#:#mm_repository#:#Repository
 common#:#mm_dashboard#:#Dashboard
 common#:#mm_repo_tree_view#:#Tree View
 common#:#mm_task_derived_tasks#:#Tasks
-common#:#mm_favorites#:#Favorites
+common#:#mm_favorites#:#Favourites
 common#:#mm_calendar#:#Calendar
 common#:#mm_tags#:#Tags
 common#:#mm_portfolio#:#Portfolio
@@ -15225,3 +15260,22 @@ book#:#book_booked_in#:#Booked in
 obj#:#obj_tool_booking#:#Resources
 obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
 book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
+common#:#mm_rep_tree_view#:#Tree View
+exc#:#exc_rel_last_submission#:#Last Possible Submission
+exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
+exc#:#exc_mandatory_rand_determined#:#Randomly determined
+exc#:#exc_random_selection#:#Random Selection
+exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.
+exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
+exc#:#exc_denied_has_submissions#:#Reason: Users have already submitted to assignments.
+exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.
+exc#:#exc_denied_has_team_assignments#:#Reason: There are team assignments in this exercise.
+exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.
+exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.
+exc#:#exc_start_exercise#:#Start Exercise
+exc#:#exc_random_assignment#:#Random Assignment
+exc#:#exc_random_assignment_info#:#When starting the exercise some assignments will be randomly selected being mandatory for you.
+exc#:#exc_rand_overall_ass#:#Overall Number of Assignments
+exc#:#exc_rand_nr_mandatory#:#Number of Mandatory Assignments
+exc#:#exc_random#:#Random
+book#:#book_no_objects#:#No Assignment

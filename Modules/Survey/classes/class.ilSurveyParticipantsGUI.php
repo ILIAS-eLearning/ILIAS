@@ -892,7 +892,8 @@ class ilSurveyParticipantsGUI
 			$reader->open($_FILES['codes']['tmp_name']);			
 			foreach($reader->getDataArrayFromCSVFile() as $row)
 			{
-				if(sizeof($row) == 8)
+				// numeric check of used column due to #26176
+				if(sizeof($row) == 8 && is_numeric($row[5]))
 				{
 					// used/sent/url are not relevant when importing
 					list($code, $email, $last_name, $first_name, $created, $used, $sent, $url) = $row;

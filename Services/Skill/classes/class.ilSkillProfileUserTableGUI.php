@@ -41,17 +41,17 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 		
 		$this->profile = $a_profile;
 		parent::__construct($a_parent_obj, $a_parent_cmd);
-		$this->setData($this->profile->getAssignedUsers());
+		$this->setData($this->profile->getAssignments());
 		$this->setTitle($lng->txt("skmg_assigned_users"));
 		
 		$this->addColumn("", "", "1px", true);
-		$this->addColumn($this->lng->txt("lastname"), "lastname");
-		$this->addColumn($this->lng->txt("firstname"), "firstname");
-		$this->addColumn($this->lng->txt("login"), "login");
+		$this->addColumn($this->lng->txt("type"), "type");
+		$this->addColumn($this->lng->txt("name"), "name");
 //		$this->addColumn($this->lng->txt("actions"));
 		
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");
+		$this->setSelectAllCheckbox("id[]");
 
 		if ($a_write_permission)
 		{
@@ -67,9 +67,8 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
 	{
 		$lng = $this->lng;
 
-		$this->tpl->setVariable("LASTNAME", $a_set["lastname"]);
-		$this->tpl->setVariable("FIRSTNAME", $a_set["firstname"]);
-		$this->tpl->setVariable("LOGIN", $a_set["login"]);
+		$this->tpl->setVariable("TYPE", $a_set["type"]);
+		$this->tpl->setVariable("NAME", $a_set["name"]);
 		$this->tpl->setVariable("ID", $a_set["id"]);
 	}
 

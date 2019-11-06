@@ -6,6 +6,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
@@ -162,5 +163,14 @@ class StandardPagePartProvider implements PagePartProvider
     public function getLogo() : ?Image
     {
         return $this->ui->factory()->image()->standard(ilUtil::getImagePath("HeaderIcon.svg"), "ILIAS");
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFooter() : ?Footer
+    {
+        return $this->ui->factory()->mainControls()->footer([]);
     }
 }

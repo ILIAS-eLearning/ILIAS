@@ -29,20 +29,12 @@ function base()
         ->withOption('value2', 'label2', 'byline2', $dependant_fields)
         ->withOption('value3', 'label3', 'byline3', [$radio_d]);
 
-
     //Step 3: define form and form actions
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'radio'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ['radio' => $radio]);
+    $form = $ui->input()->container()->form()->standard('#', ['radio' => $radio]);
 
     //Step 4: implement some form data processing. Note, the value of the checkbox will
     // be 'checked' if checked an null if unchecked.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='radio') {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

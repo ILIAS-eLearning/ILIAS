@@ -15,11 +15,30 @@ include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
 */
 class ilExGradesTableGUI extends ilTable2GUI
 {
-	
+    /**
+     * @var ilExerciseInternalService
+     */
+	protected $service;
+
+    /**
+     * @var ilExcRandomAssignmentManager
+     */
+	protected $random_ass_manager;
+
+    /**
+     * @var ilObjExercise|null
+     */
+	protected $exc;
+
+    /**
+     * @var int
+     */
+	protected $exc_id;
+
 	/**
 	* Constructor
 	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_exc, $a_mem_obj)
+	function __construct($a_parent_obj, $a_parent_cmd, ilExerciseInternalService $service, $a_mem_obj)
 	{
 		global $DIC;
 
@@ -27,8 +46,12 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
+		$request = $DIC->exercise()->internal()->request();
 		
-		$this->exc = $a_exc;
+		$this->exc = $request->getRequestedExercise();
+		$this->service = $service;
+		$this->random_ass_manager = $service->getRandomAssignmentManager($this->exc);
+
 		$this->exc_id = $this->exc->getId();
 		
 		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
@@ -68,7 +91,7 @@ class ilExGradesTableGUI extends ilTable2GUI
 		{
 			$ilCtrl->setParameter($this->parent_obj, "ass_id", $ass->getId());
 			$cnt_str = '<a href="'.$ilCtrl->getLinkTarget($this->parent_obj, "members").'">'.$cnt.'</a>';
-			if ($ass->getMandatory())
+			if (!$this->random_ass_manager->isActivated() && $ass->getMandatory())
 			{
 				$this->addColumn("<u>".$cnt_str."</u>", "", "", false, "", $ass->getTitle()." ".
 					"(".$lng->txt("exc_mandatory").")");

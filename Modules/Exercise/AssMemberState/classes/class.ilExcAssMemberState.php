@@ -3,7 +3,29 @@
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * State of a participant in the progress of an exercise assignment
+ * Handles everything about the state (current phase) of a user in an assignment using
+ * assignment, individual deadline, user and team information.
+ *
+ * - General Start: As entered in settings. For absolute deadlines, this also starts the submission, for relative
+ *   deadline this allows the user to start the submission period. (0 = immediately)
+ * - Individual Start: TS when user hits "Start" button for an assignment using a relative deadline
+ * - Submission Start: For absolute deadlines this is General Start, for relative deadlines Individual Start
+ * - Deadline: absolute Deadline (e.g. 5.12.2017) as set in settings
+ * - Relative Deadline: relative Deadline (e.g. 10 Days) as set in settings
+ * - Last Submission for Relative Deadlines: As set in the settings
+ * - Calculated Deadline: Min of (Starting Timestamp + Relative Deadline, Last Submission for Relative Deadlines)
+ * - Individual Deadline: Set by tutor in "Submissions and Grade" screen
+ * - Common Deadline: Deadline or Calculated Deadline
+ *   Used for "Ended on" or "Edit Until" presentation
+ * - Official Deadline: Max of (Deadline and Individual Deadline) or (Calculated Deadline and Individual Deadline)
+ * - Effective Deadline: Max of official deadline and grace period end date
+ * - Grace Period End Date: As being set in the settings of assignmet by tutor
+ * - Grace Period: Period between Official Deadline and Grace Period End Date.
+ * - Submission Period: From Submission Start (if not given immediately) to Max of (Official Deadline and Grace Period End Date)
+ * - Late Submission Period: Submissions being handed in during Grace Period
+ * - Peer Review Start: Max of (Official Deadline OF ALL USERS and Grace Period End Date)
+ * - Peer Review Deadline: As being set in the settings of assignmet by tutor
+ * - Peer Review Period: From Peer Feedback Start to Peer Feedback Deadline (may be infinite, if no deadline given)
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @ingroup ModulesExercise
@@ -183,6 +205,7 @@ class ilExcAssMemberState
 
 	/**
 	 * Calculated deadline is only given, if a relative deadline is given and the user started the assignment
+     * the value may be restricted by the last submission date for relative deadlines
 	 *
 	 * @return int
 	 */
@@ -195,6 +218,10 @@ class ilExcAssMemberState
 			{
 				$calculated_deadline = $this->idl->getStartingTimestamp() + ($this->assignment->getRelativeDeadline() * 24 * 60 * 60);
 			}
+            if ($this->assignment->getRelDeadlineLastSubmission() > 0 &&
+                $calculated_deadline > $this->assignment->getRelDeadlineLastSubmission()) {
+                $calculated_deadline = $this->assignment->getRelDeadlineLastSubmission();
+            }
 		}
 		return $calculated_deadline;
 	}
@@ -213,7 +240,22 @@ class ilExcAssMemberState
 		return 0;
 	}
 
-	/**
+    /**
+     * Get last submission for relative deadline
+     *
+     * @return int
+     */
+    function getLastSubmissionOfRelativeDeadline()
+    {
+        if ($this->assignment->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE)
+        {
+            return $this->assignment->getRelDeadlineLastSubmission();
+        }
+        return 0;
+    }
+
+
+    /**
 	 * Get relative deadline presentation
 	 *
 	 * @return string
@@ -262,6 +304,23 @@ class ilExcAssMemberState
 
 		return "";
 	}
+
+	/**
+	 * Get last submission for relative deadlines
+	 *
+	 * @return string
+	 */
+	function getLastSubmissionOfRelativeDeadlinePresentation()
+	{
+		if ($this->getLastSubmissionOfRelativeDeadline() > 0)
+		{
+			return $this->getTimePresentation($this->getLastSubmissionOfRelativeDeadline());
+		}
+
+		return "";
+	}
+
+
 
 	/**
 	 * Check if official deadline exists and has ended

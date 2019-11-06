@@ -111,6 +111,20 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function printToString($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
+    {
+        $this->prepareOutputHeaders();
+        $this->prepareBasicJS();
+        $this->prepareBasicCSS();
+
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+
+        return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+    }
+
 
     //
     // NEEDED METHODS, but wrapped and will triage to the internal template or to the
@@ -446,7 +460,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
-        // Nothing to do
+        $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
+        PageContentProvider::setPermaLink($href);
     }
 
 

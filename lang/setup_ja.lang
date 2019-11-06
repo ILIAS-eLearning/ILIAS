@@ -155,7 +155,6 @@ disable_check#:#確認
 disable_logging#:#ログを作成しない
 disabled#:#不可
 display_clientlist#:#クライアントの選択をユーザーへ表示します。
-duplicate_ctrl#:#エラー　重複<br /><br />- %s<br />- %s<br /><br />公式にILIASが配布していないファイルを削除してください。<br />その後 'Tools' -> ILIASセットアップの'制御構造'を呼び出す。
 email#:#email
 email_not_valid#:#メールアドレスの間違い
 en_by_default#:#初期設定では英語がインストールされていて削除する事はできません。

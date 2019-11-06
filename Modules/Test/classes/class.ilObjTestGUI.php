@@ -467,6 +467,7 @@ class ilObjTestGUI extends ilObjectGUI
 			case 'iltestexpresspageobjectgui':
 				
 				$this->getTabsManager()->getQuestionsSubTabs();
+				$this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_PAGE_VIEW);
 
 				require_once 'Modules/TestQuestionPool/classes/class.ilAssIncompleteQuestionPurger.php';
 				$incompleteQuestionPurger = new ilAssIncompleteQuestionPurger($ilDB);
@@ -1385,6 +1386,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		$this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE);
 		$this->tpl->setCurrentBlock("option");
@@ -1433,6 +1435,7 @@ class ilObjTestGUI extends ilObjectGUI
 	function createRandomSelectionObject()
 	{
 		$this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 		$question_array = $this->object->randomSelectQuestions($_POST["nr_of_questions"], $_POST["sel_qpl"]);
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_random_question_offer.html", "Modules/Test");
 		$color_class = array("tblrow1", "tblrow2");
@@ -1622,6 +1625,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 		$this->getTabsManager()->getQuestionsSubTabs();
+		$this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 		//$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_as_tst_qpl_select.html", "Modules/Test");
 		$questionpools =& $this->object->getAvailableQuestionpools(FALSE, FALSE, FALSE, TRUE, FALSE, "write");
 		
@@ -1999,6 +2003,9 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		$ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
 
+        $this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
+
 		$subScreenId = array('createQuestion');
 
 		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
@@ -2118,8 +2125,6 @@ class ilObjTestGUI extends ilObjectGUI
 		$ilAccess = $DIC['ilAccess'];
 		$ilTabs = $DIC['ilTabs'];
 
-		$ilTabs->activateTab('assQuestions');
-		
 		// #12590
 		$this->ctrl->setParameter($this, 'test_express_mode', '');
 
@@ -2136,6 +2141,7 @@ class ilObjTestGUI extends ilObjectGUI
 		}
 
 		$this->getTabsManager()->getQuestionsSubTabs();
+        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
 		// #11631, #12994
 		$this->ctrl->setParameter($this, 'q_id', '');
@@ -3570,7 +3576,7 @@ class ilObjTestGUI extends ilObjectGUI
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
 		$this->getTabsManager()->getQuestionsSubTabs();
-		$DIC->tabs()->activateSubTab('edit_test_questions');
+		$this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
 
 		$questionpools = $this->object->getAvailableQuestionpools(
 			FALSE,

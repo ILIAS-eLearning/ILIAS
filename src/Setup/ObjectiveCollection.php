@@ -44,6 +44,7 @@ class ObjectiveCollection implements Objective {
 	public function getHash() : string {
 		return hash(
 			"sha256",
+			get_class($this).
 			implode(
 				array_map(
 					function($g) { return $g->getHash(); },

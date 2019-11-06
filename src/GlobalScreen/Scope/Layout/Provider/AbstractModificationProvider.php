@@ -4,6 +4,7 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\LogoModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
@@ -81,6 +82,15 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
      * @inheritDoc
      */
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification
+    {
+        return null;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
         return null;
     }

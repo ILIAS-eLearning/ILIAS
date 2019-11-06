@@ -147,6 +147,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
 		$it = new ilBasicSkill();
 		$it->setTitle($this->form->getInput("title"));
+		$it->setDescription($this->form->getInput("description"));
 		$it->setOrderNr($this->form->getInput("order_nr"));
 		$it->setStatus($this->form->getInput("status"));
 		$it->setSelfEvaluation($_POST["self_eval"]);
@@ -178,6 +179,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		}
 
 		$this->node_object->setTitle($this->form->getInput("title"));
+		$this->node_object->setDescription($this->form->getInput("description"));
 		$this->node_object->setOrderNr($this->form->getInput("order_nr"));
 		$this->node_object->setSelfEvaluation($_POST["self_eval"]);
 		$this->node_object->setStatus($_POST["status"]);
@@ -233,6 +235,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 		$ti->setSize(50);
 		$ti->setRequired(true);
 		$this->form->addItem($ti);
+
+		// description
+		$ta = new ilTextAreaInputGUI($lng->txt("description"), "description");
+		$ta->setRows(5);
+		$this->form->addItem($ta);
 		
 		// order nr
 		$ni = new ilNumberInputGUI($lng->txt("skmg_order_nr"), "order_nr");

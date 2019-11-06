@@ -92,7 +92,7 @@ class ilObjectGUI
 
 	/**
 	* object
-	* @var          object
+	* @var          \ilObject
 	* @access       private
 	*/
 	var $object;
