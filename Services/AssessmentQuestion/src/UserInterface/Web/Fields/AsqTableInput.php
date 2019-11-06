@@ -168,7 +168,7 @@ class AsqTableInput extends ilTextInputGUI {
                 $new_value[$definition->getPostVar()] = $_POST[$i . $definition->getPostVar()];
             }
             
-            $this->values[] = $new_value;
+            $this->values[$i] = $new_value;
         }
         
         return $this->values;

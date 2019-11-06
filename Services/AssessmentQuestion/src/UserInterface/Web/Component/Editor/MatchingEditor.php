@@ -9,6 +9,7 @@ use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInput;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
+use ilTemplate;
 
 /**
  * Class KprimChoiceEditor
@@ -69,7 +70,49 @@ class MatchingEditor extends AbstractEditor
     {}
 
     public function generateHtml(): string
-    {}
+    {
+        /** @var MatchingEditorConfiguration $config */
+        $config = $this->question->getPlayConfiguration()->getEditorConfiguration();
+        
+        $tpl = new ilTemplate("tpl.MatchingEditor.html", true, true, "Services/AssessmentQuestion");
+        $tpl->setVariable('QUESTION_ID', $this->question->getId());
+        
+        foreach ($config->getDefinitions() as $id=>$definition) {
+            if (!empty($definition[self::VAR_DEFINITION_IMAGE])) {
+                $tpl->setCurrentBlock('definition_picture');
+                $tpl->setVariable('DEFINITION', $definition[self::VAR_DEFINITION_TEXT]);
+                $tpl->setVariable('IMAGE', $definition[self::VAR_DEFINITION_IMAGE]);
+                $tpl->parseCurrentBlock();
+            }
+            else {
+                $tpl->setCurrentBlock('definition_text');
+                $tpl->setVariable('DEFINITION', $definition[self::VAR_DEFINITION_TEXT]);
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock('droparea');
+            $tpl->setVariable('ID_DROPAREA', $id);
+            $tpl->parseCurrentBlock();
+        }
+        
+        foreach ($config->getTerms() as $id=>$term) {
+            if (!empty($term[self::VAR_DEFINITION_IMAGE])) {
+                $tpl->setCurrentBlock('term_picture');
+                $tpl->setVariable('TERM', $term[self::VAR_TERM_TEXT]);
+                $tpl->setVariable('IMAGE', $term[self::VAR_TERM_IMAGE]);
+                $tpl->parseCurrentBlock();
+            }
+            else {
+                $tpl->setCurrentBlock('term_text');
+                $tpl->setVariable('TERM', $term[self::VAR_TERM_TEXT]);
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock('draggable');
+            $tpl->setVariable('ID_DRAGGABLE', $id);
+            $tpl->parseCurrentBlock();
+        }
+        
+        return $tpl->get();
+    }
 
     /**
      *
