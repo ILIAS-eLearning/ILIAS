@@ -42,6 +42,7 @@ forms people need, such as large print, braille, speech, symbols or simpler lang
 #### Success Criterion Non-text Content
 Reference: WCAG 2.1 > 1.1.1 Level A / EN 301 549 > 9.1.1.1
 Target group: creator of content, developers for non-text-controls
+
 All non-text content that is presented to the user MUST have a text
 alternative that serves the equivalent purpose, except for the situations listed below:
 
@@ -68,11 +69,13 @@ alternative that serves the equivalent purpose, except for the situations listed
 ### Guideline Time-based Media
 Reference: WCAG 2.1 > 1.2 / EN 301 549 > 9.1.2
 Target group: creator of content
+
 One MUST provide alternatives for time-based media.
 
 #### Success Criterion Audio-only and Video-only (Prerecorded)
 Reference: WCAG 2.1 > 1.2.1 Level A / EN 301 549 > 9.1.2.1
 Target group: creator of content
+
 An alternative for time-based media or audio description of the prerecorded video content MUST be provided for synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
  - **Prerecorded Audio-only**: An alternative for time-based media MUST be provided that presents equivalent information for prerecorded audio-only content.
@@ -81,11 +84,13 @@ An alternative for time-based media or audio description of the prerecorded vide
 #### Success Criterion Captions (Prerecorded)
 Reference: WCAG 2.1 > 1.2.2 Level A / EN 301 549 > 9.1.2.2 
 Target group: creator of content
+
 Captions MUST be provided for all prerecorded audio content in synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
 #### Success Criterion Audio Description or Media Alternative (Prerecorded)
 Reference: WCAG 2.1 > 1.2.3 Level A  / EN 301 549 > 9.1.2.3
 Target group: creator of content
+
 An alternative for time-based media or audio description of the prerecorded video content MUST be provided for synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
 #### Success Criterion Captions (Live)
@@ -96,37 +101,44 @@ Captions MUST be provided for all live audio content in synchronized media.
 #### Success Criterion Audio Description (Prerecorded)
 Reference: WCAG 2.1 > 1.2.5 Level AA / EN 301 549 > 9.1.2.5
 Target group: creator of content
+
 Audio description MUST be provided for all prerecorded video content in synchronized media.
 
 #### Guideline Adaptable
 Reference: WCAG 2.1 > 1.3 / EN 301 549 > 9.1.3
 Target group: creator of content
+
 One MUST create content that can be presented in different ways (for example simpler layout)
 without losing information or structure.
 
 #### Success Criterion Info and Relationships
 Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
 Target group: creator of content, developer
+
 Information, structure, and relationships conveyed through presentation MUST be programmatically determined or are available in text.
 
 #### Success Criterion Meaningful Sequence
 Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
 Target group: creator of content, developer
+
 When the sequence in which content is presented affects its meaning, a correct reading sequence MUST be programmatically determined.
 
 #### Success Criterion Sensory Characteristics
 Reference: WCAG 2.1 > 1.3.3 Level A / EN 301 549 > 9.1.3.3
 Target group: creator of content, developer
+
 Instructions provided for understanding and operating content MUST not rely solely on sensory characteristics of components such as shape, size, visual location, orientation, or sound.
 
 #### Success Criterion Criterion Orientation
 Reference: WCAG 2.1 > 1.3.4 Level AA / EN 301 549 > 9.1.3.4
 Target group: creator of content, developer
+
 Content MUST not restrict its view and operation to a single display orientation, such as portrait or landscape, unless a specific display orientation is essential.
 
 #### Success Criterion Identify Input Purpose
 Reference: WCAG 2.1 > 1.3.5 Level AA / EN 301 549 > 9.1.3.5
 Target group: developer
+
 The purpose of each input field collecting information about the user MUST be programmatically determined when:
 
 - The input field serves a purpose identified in the Input Purposes for User Interface Components section; and
@@ -135,16 +147,19 @@ The purpose of each input field collecting information about the user MUST be pr
 ### Guideline 1.4 Distinguishable
 Reference: WCAG 2.1 > 1.4 / EN 301 549 > 9.1.4
 Target group: creator of content, developer
+
 One MUST make it easier for users to see and hear content including separating foreground from background.
 
 #### Success Criterion Use of Color
 Reference: WCAG 2.1 > 1.4.1 Level A / EN 301 549 > 9.1.4.1
 Target group: creator of content, developer
+
 Color MUST not be used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.
 
 #### Success Criterion Audio Control
 Reference: WCAG 2.1 > 1.4.2 Level A / EN 301 549 > 9.1.4.2
 Target group: creator of content
+
 If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism MUST be available to pause or stop the audio, or a mechanism MUST be available to control audio volume independently from the overall system volume level.
 
 #### Success Criterion Contrast Minimum
