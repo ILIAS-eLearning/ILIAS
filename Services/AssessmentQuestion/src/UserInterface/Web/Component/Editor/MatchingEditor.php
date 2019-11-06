@@ -51,6 +51,11 @@ class MatchingEditor extends AbstractEditor
     const VAR_MATCH_POINTS = 'me_match_points';
     
     /**
+     * @var string
+     */
+    private $answer;
+    
+    /**
      * @var AsqTableInput
      */
     private static $definitions;
@@ -64,10 +69,14 @@ class MatchingEditor extends AbstractEditor
     private static $matches;
     
     public function readAnswer(): string
-    {}
+    {
+        return $_POST[$this->question->getId()];
+    }
 
     public function setAnswer(string $answer): void
-    {}
+    {
+        $this->answer = $answer;
+    }
 
     public function generateHtml(): string
     {
@@ -76,6 +85,7 @@ class MatchingEditor extends AbstractEditor
         
         $tpl = new ilTemplate("tpl.MatchingEditor.html", true, true, "Services/AssessmentQuestion");
         $tpl->setVariable('QUESTION_ID', $this->question->getId());
+        $tpl->setVariable('ANSWER', $this->answer);
         $tpl->setVariable('MATCHING_TYPE', $config->getMatchingMode());
         
         foreach ($config->getDefinitions() as $id=>$definition) {

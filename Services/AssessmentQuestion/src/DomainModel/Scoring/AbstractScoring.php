@@ -99,8 +99,9 @@ abstract class AbstractScoring {
             $this->question->getQuestionIntId(),
             $this->question->getData()->getTitle(),
             $answer->getValue(),
-            $reached_points,
+            0,
             $max_points,
+            $reached_points,
             $percent_solved,
             $answer_feedback_type);
     }
