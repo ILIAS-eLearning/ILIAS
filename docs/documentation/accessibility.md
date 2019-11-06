@@ -29,11 +29,13 @@ If proposing a new KS component, one MUST make sure the element conforms with th
 ## Principle 1: Perceivable
 Reference: WCAG 2.1 > 1 / EN 301 549 > 9.1 
 Target group: creator of content, developers
+
 Information and user interface components MUST be presentable to users in ways they can perceive.
 
 ### Guideline Text Alternatives
 Reference: WCAG 2.1 > 1.1 / EN 301 549 > 9.1.1
 Target group: creator of content, developers for non-text-controls
+
 One MUST provide text alternatives for any non-text content so that it can be changed into other
 forms people need, such as large print, braille, speech, symbols or simpler language.
   
