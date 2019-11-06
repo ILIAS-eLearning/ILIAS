@@ -749,22 +749,17 @@ class ilPCFileListGUI extends ilPageContentGUI
 		$fileObj->setType("file");
 		$fileObj->setTitle($_FILES["file"]["name"]);
 		$fileObj->setDescription("");
+		$fileObj->setVersion(0);
+		$fileObj->setMaxVersion(0);
 		$fileObj->setFileName($_FILES["file"]["name"]);
 		$fileObj->setFileType($_FILES["file"]["type"]);
 		$fileObj->setFileSize($_FILES["file"]["size"]);
 		$fileObj->setMode("filelist");
 		$fileObj->create();
-		$fileObj->raiseUploadError(false);
-		// upload file to filesystem
 		$fileObj->createDirectory();
-
-		$upload = $DIC->upload();
-		if ($upload->hasBeenProcessed() !== true) {
-			$upload->process();
-		}
-
-		$fileObj->getUploadFile($_FILES["file"]["tmp_name"],
-			$_FILES["file"]["name"]);
+		$fileObj->raiseUploadError(false);
+		$fileObj->getUploadFile($_FILES["file"]["tmp_name"], $_FILES["file"]["name"]);
+		// upload file to filesystem
 
 		return $fileObj;
 	}

@@ -338,19 +338,21 @@ class ilObjFile extends ilObject2
 
                 // bugfix mantis 26236:
                 // ensure that version and max_version are correct to prevent the upload file from being versioned incorrectly
-                $file_hist_entries = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
-                $highest_version = 0;
-                foreach ($file_hist_entries as $file_hist_entry) {
-                    $version = $this->parseInfoParams($file_hist_entry)['version'];
-                    if($version > $highest_version) {
-                        $highest_version = $version;
+                if ($this->getVersion() > 0) {
+                    $file_hist_entries = (array) ilHistory::_getEntriesForObject($this->getId(), $this->getType());
+                    $highest_version = 0;
+                    foreach ($file_hist_entries as $file_hist_entry) {
+                        $version = $this->parseInfoParams($file_hist_entry)['version'];
+                        if ($version > $highest_version) {
+                            $highest_version = $version;
+                        }
                     }
-                }
-                if($this->getVersion() < $highest_version) {
-                    $this->setVersion($highest_version);
-                }
-                if($this->getVersion() > $this->getMaxVersion()) {
-                    $this->setMaxVersion($this->getVersion());
+                    if ($this->getVersion() < $highest_version) {
+                        $this->setVersion($highest_version);
+                    }
+                    if ($this->getVersion() > $this->getMaxVersion()) {
+                        $this->setMaxVersion($this->getVersion());
+                    }
                 }
 
                 $this->setVersion($this->getMaxVersion() + 1);
@@ -853,6 +855,7 @@ class ilObjFile extends ilObject2
             $data = $this->parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
+
 
         if ($this->file_storage->fileExists($file)) {
             global $DIC;

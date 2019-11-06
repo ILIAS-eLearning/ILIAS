@@ -92,6 +92,18 @@ class FilePathSanitizer
      */
     public function sanitizeIfNeeded() /* : void */
     {
+        $versions = count($this->file_object->getVersions());
+        if ($versions === 1) {
+            $version_one = $this->file_object->getDirectory(1) . "/" . $this->file_object->getFileName();
+            $relative_version_one = LegacyPathHelper::createRelativePath($version_one);
+            $version_two = $this->file_object->getDirectory(2) . "/" . $this->file_object->getFileName();
+            $relative_version_two = LegacyPathHelper::createRelativePath($version_two);
+            if (!$this->fs->has($relative_version_one) && $this->fs->has($relative_version_two)) {
+                $this->fs->copy($relative_version_two, $relative_version_one);
+                $this->fs->delete($relative_version_two);
+            }
+        }
+
         if ($this->needsSanitation()) {
             // First Try: using FileSystemService
             $dirname = dirname($this->relative_path);
