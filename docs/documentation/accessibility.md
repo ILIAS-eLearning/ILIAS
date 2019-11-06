@@ -174,7 +174,7 @@ The visual presentation of text and images of text MUST have a contrast ratio of
 #### Success Criterion Resize text
 Reference: WCAG 2.1 > 1.4.4 Level AA / EN 301 549 > 9.1.4.4
 Target group: developer
-Except for captions and images of text, it MUST be psooible to resize text without assistive technology up to 200 percent without loss of content or functionality.
+Except for captions and images of text, it MUST be possible to resize text without assistive technology up to 200 percent without loss of content or functionality.
 
 #### Success Criterion Images of Text
 Reference: WCAG 2.1 > 1.4.5 Level AA / EN 301 549 > 9.1.4.5
