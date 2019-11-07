@@ -40,7 +40,6 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $factory = $this->globalScreen()->notifications()->factory();
 
-        $group = $factory->standardGroup($id('mail_group'))->withTitle($this->dic->language()->txt('mail'));
 
         if (1 === $numberOfNewMessages) {
             $body = $this->dic->language()->txt('nc_mail_unread_messages_number_s');
@@ -48,11 +47,25 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             $body = sprintf($this->dic->language()->txt('nc_mail_unread_messages_number_p'), $numberOfNewMessages);
         }
 
-        $notification = $factory->standard($id('mail'))
-            ->withTitle($body)
-            ->withAction('ilias.php?baseClass=ilMailGUI');
+        //Creating a mail Notification Item
+        $mail_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("mail","mail");
+        $mail_title = $this->dic->ui()->factory()->link()->standard("Inbox", 'ilias.php?baseClass=ilMailGUI');
+        $mail_notification_item = $this->dic->ui()->factory()->item()->notification($mail_title,$mail_icon)
+                                                   ->withDescription($body);
 
-        $group->addNotification($notification);
+        $group = $factory->standardGroup($id('mail_bucket_group'))->withTitle($this->dic->language()->txt('mail'))
+            ->addNotification($factory->standard($id('mail_bucket'))->withNotificationItem($mail_notification_item)
+                ->withClosedCallable(
+                    function(){
+                        //@Todo: Memories, that those notifications have been closed.
+                        var_dump("Mail Notifications received closed event.");
+                    })
+                ->withNewAmount($numberOfNewMessages)
+            )
+            ->withOpenedCallable(function(){
+                //@Todo: Memories, that those notifications have been seen.
+                var_dump("Mail Notifications received opened event.");
+            });
 
         return [
             $group,

@@ -1,9 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer;
 
-use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
+use ILIAS\GlobalScreen\Scope\Notification\Factory\canHaveSymbol;
+use ILIAS\GlobalScreen\Scope\Notification\Factory\hasActions;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Notification;
 
 /**
  * Class StandardNotificationGroupRenderer
@@ -13,33 +14,24 @@ use ILIAS\UI\Component\Component;
 class StandardNotificationGroupRenderer extends AbstractBaseNotificationRenderer implements NotificationRenderer
 {
 
-    use isSupportedTrait;
-
-
     /**
-     * @param isItem $item
+     * @param isItem|canHaveSymbol $item
      *
-     * @return Component
-     * @throws \Exception
+     * @return Notification
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getNotificationComponentForItem(isItem $item)
     {
         if (!$item instanceof StandardNotificationGroup) {
             throw new \LogicException("item is not a StandardNotificationGroup");
         }
-        /**
-         * @var $item StandardNotificationGroup
-         */
 
-        $slate = $this->ui_factory->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
-
+        $slate =  $this->ui_factory->mainControls()->slate()->notification($item->getTitle(),[]);
         foreach ($item->getNotifications() as $standard_notification) {
-            $component = $standard_notification->getRenderer()->getComponentForItem($standard_notification);
-            if ($this->isComponentSupportedForCombinedSlate($component)) {
-                $slate = $slate->withAdditionalEntry($component);
-            }
+            $slate = $slate->withAdditionalEntry($standard_notification->getRenderer($this->ui_factory)
+                                                                       ->getNotificationComponentForItem($standard_notification));
         }
 
         return $slate;
     }
+
 }
