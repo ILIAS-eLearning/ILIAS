@@ -66,6 +66,7 @@ function build_container_for_setup() {
 				"virusscanner" => $c["agent.virusscanner"],
 				"database" => $c["agent.database"],
 				"systemfolder" => $c["agent.systemfolder"],
+				"preview" => $c["agent.preview"],
 				"backgroundtasks" => $c["agent.backgroundtasks"]/*,
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
@@ -145,6 +146,12 @@ function build_container_for_setup() {
 
 	$c["agent.virusscanner"] = function ($c) {
 		return new \ilVirusScannerSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.preview"] = function ($c) {
+		return new \ilPreviewSetupAgent(
 			$c["refinery"]
 		);
 	};

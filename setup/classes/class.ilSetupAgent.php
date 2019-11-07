@@ -68,7 +68,6 @@ class ilSetupAgent implements Setup\Agent {
 				$data["path_to_convert"],
 				$data["path_to_zip"],
 				$data["path_to_unzip"],
-				$data["path_to_ghostscript"] ?? null,
 				$data["path_to_ffmpeg"] ?? null,
 				$data["path_to_phantom_js"] ?? null,
 				$data["path_to_latex_cgi"] ?? null
@@ -81,7 +80,7 @@ class ilSetupAgent implements Setup\Agent {
 	 */
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		return new Setup\ObjectiveCollection(
-			"Common ILIAS objectives.",
+			"Complete common ILIAS objectives.",
 			false,
 			new Setup\PHPVersionCondition("7.3.0"),
 			new Setup\PHPExtensionLoadedCondition("dom"),
