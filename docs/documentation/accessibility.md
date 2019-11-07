@@ -150,7 +150,7 @@ Target group: creator of content, developer
 Information, structure, and relationships conveyed through presentation MUST be programmatically determined or are available in text.
 
 #### Success Criterion Meaningful Sequence
-Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
+Reference: WCAG 2.1 > 1.3.2 Level A / EN 301 549 > 9.1.3.1
 
 Target group: creator of content, developer
 
