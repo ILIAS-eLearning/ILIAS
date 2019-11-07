@@ -21,28 +21,10 @@ class ilSetupConfig implements Setup\Config {
 	 */
 	protected $server_timezone;
 
-	/**
-	 * @var string
-	 */
-	protected $path_to_convert;
-
-	/**
-	 * @var string
-	 */
-	protected $path_to_zip;
-
-	/**
-	 * @var string
-	 */
-	protected $path_to_unzip;
-
 	public function __construct(
 		string $client_id,
 		Password $master_password,
-		\DateTimeZone $server_timezone,
-		string $path_to_convert,
-		string $path_to_zip,
-		string $path_to_unzip
+		\DateTimeZone $server_timezone
 	) {
 		if (!preg_match("/^[A-Za-z0-9]+$/", $client_id)) {
 			throw new \InvalidArgumentException(
@@ -52,16 +34,6 @@ class ilSetupConfig implements Setup\Config {
 		$this->client_id = $client_id;
 		$this->master_password = $master_password;
 		$this->server_timezone = $server_timezone;
-		$this->path_to_convert = $this->toLinuxConvention($path_to_convert);
-		$this->path_to_zip = $this->toLinuxConvention($path_to_zip);
-		$this->path_to_unzip = $this->toLinuxConvention($path_to_unzip);
-	}
-
-	protected function toLinuxConvention(?string $p) : ?string {
-		if (!$p) {
-			return null;
-		}
-		return preg_replace("/\\\\/","/",$p);
 	}
 
 	public function getClientId() : string {
@@ -74,17 +46,5 @@ class ilSetupConfig implements Setup\Config {
 
 	public function getServerTimeZone() : \DateTimeZone {
 		return $this->server_timezone;
-	}
-
-	public function getPathToConvert() : string {
-		return $this->path_to_convert;
-	}
-
-	public function getPathToZip() : string {
-		return $this->path_to_zip;
-	}
-
-	public function getPathToUnzip() : string {
-		return $this->path_to_unzip;
 	}
 }

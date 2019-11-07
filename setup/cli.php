@@ -69,6 +69,7 @@ function build_container_for_setup() {
 				"preview" => $c["agent.preview"],
 				"mediaobject" => $c["agent.mediaobject"],
 				"mathjax" => $c["agent.mathjax"],
+				"utilities" => $c["agent.utilities"],
 				"pdfgeneration" => $c["agent.pdfgeneration"],
 				"backgroundtasks" => $c["agent.backgroundtasks"]/*,
 				"global_screen" => $c["agent.global_screen"],
@@ -173,6 +174,12 @@ function build_container_for_setup() {
 
 	$c["agent.mathjax"] = function ($c) {
 		return new \ilMathJaxSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.utilities"] = function ($c) {
+		return new \ilUtilitiesSetupAgent(
 			$c["refinery"]
 		);
 	};
