@@ -55,11 +55,6 @@ class ilSetupConfigStoredObjective extends ilSetupObjective {
 			$this->config->getServerTimeZone()->getName()
 		);
 
-		$ini->setVariable("tools", "convert", $this->config->getPathToConvert());
-		$ini->setVariable("tools", "zip", $this->config->getPathToZip());
-		$ini->setVariable("tools", "unzip", $this->config->getPathToUnzip());
-		$ini->setVariable("tools", "java", $this->config->getPathToConvert());
-
 		$ini->setVariable("clients", "default", $this->config->getClientId());
 
 		if (!$ini->write()) {
