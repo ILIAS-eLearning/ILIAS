@@ -4,7 +4,6 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
 use ILIAS\UI;
 
 class ilLanguageSetupAgent implements Setup\Agent {
@@ -20,6 +19,7 @@ class ilLanguageSetupAgent implements Setup\Agent {
 
 	public function __construct(
 		Refinery\Factory $refinery,
+		$_, // this is Data\Factory, but we do not need it...
 		\ilSetupLanguage $il_setup_language
 	) {
 		$this->refinery = $refinery;
