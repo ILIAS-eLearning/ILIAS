@@ -111,7 +111,12 @@ class ilCtrlStructureReader
 	function read($a_cdir)
 	{
 		$ilDB = $this->getDB();
-		$il_absolute_path = realpath(dirname(__FILE__) .'/../../');
+		if (defined(ILIAS_ABSOLUTE_PATH)) {
+			$il_absolute_path = ILIAS_ABSOLUTE_PATH;
+		}
+		else {
+			$il_absolute_path = dirname(__FILE__, 5);
+		}
 
 		// check wether $a_cdir is a directory
 		if (!@is_dir($a_cdir))

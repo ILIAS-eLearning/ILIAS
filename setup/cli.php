@@ -11,8 +11,6 @@ if (!defined("MAGPIE_DIR")) {
 	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
 }
 
-require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
-
 require_once(__DIR__."/classes/class.ilSetupObjective.php");
 require_once(__DIR__."/classes/class.ilSetupAgent.php");
 require_once(__DIR__."/classes/class.ilSetupConfig.php");
@@ -263,10 +261,6 @@ function build_container_for_setup() {
 
 	$c["config_reader"] = function($c) {
 		return new \ILIAS\Setup\CLI\ConfigReader();
-	};
-
-	$c["ctrlstructure_reader"] = function($c) {
-		return new \ilCtrlStructureReader();
 	};
 
 	$c["password_manager"] = function($c) {

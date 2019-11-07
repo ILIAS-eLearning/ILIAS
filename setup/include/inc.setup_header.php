@@ -52,7 +52,7 @@ require_once "./setup/classes/class.Session.php";
 require_once "./setup/classes/class.ilClientList.php";
 require_once "./setup/classes/class.ilClient.php";
 require_once "./Services/FileSystem/classes/class.ilFile.php";
-require_once "./setup/classes/class.ilCtrlStructureReader.php";
+require_once "./Services/UICore/classes/Setup/class.ilCtrlStructureReader.php";
 require_once "./Services/Xml/classes/class.ilSaxParser.php";
 require_once "./include/inc.ilias_version.php";
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';
