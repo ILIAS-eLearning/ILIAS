@@ -152,6 +152,24 @@ class FormulaScoring extends AbstractScoring {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        //TODO
+        /** @var FormulaScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (false) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var FormulaScoringDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (false)
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

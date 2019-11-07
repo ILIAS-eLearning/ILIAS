@@ -60,6 +60,7 @@ class MatchingScoring extends AbstractScoring
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        // matching question definition is solely done in the editor
+        return true;
     }
 }

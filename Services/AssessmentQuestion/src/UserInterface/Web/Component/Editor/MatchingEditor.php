@@ -286,6 +286,16 @@ class MatchingEditor extends AbstractEditor
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var MatchingEditorConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (count($config->getDefinitions()) < 1 ||
+            count($config->getTerms()) < 1 ||
+            count($config->getMatches()) < 1) 
+        {
+            return false;
+        }
+        
+        return true;
     }
 }

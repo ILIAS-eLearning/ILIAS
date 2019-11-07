@@ -107,6 +107,7 @@ class NumericEditor extends AbstractEditor {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        //numeric editor always works
+        return true;
     }
 }

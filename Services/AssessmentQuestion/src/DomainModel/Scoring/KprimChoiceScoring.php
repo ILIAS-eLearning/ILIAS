@@ -113,6 +113,27 @@ class KprimChoiceScoring extends AbstractScoring {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var KprimChoiceScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getPoints())) {
+            return false;
+        }
+        
+        if (count($question->getAnswerOptions()->getOptions()) < 1) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var KprimChoiceScoringDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->isCorrect_value()))
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

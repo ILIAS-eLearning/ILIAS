@@ -206,6 +206,13 @@ class FileUploadEditor extends AbstractEditor {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var FileUploadEditorConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getUploadType())) {
+            return false;
+        }
+        
+        return true;
     }
 }

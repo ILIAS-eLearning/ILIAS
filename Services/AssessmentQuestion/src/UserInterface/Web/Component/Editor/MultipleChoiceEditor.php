@@ -250,9 +250,17 @@ class MultipleChoiceEditor extends AbstractEditor {
 	}
 	
 	public static function isComplete(Question $question): bool
-	{
-	    //TODO
-        return true;
-	    return false;
+	{	    
+	    foreach ($question->getAnswerOptions()->getOptions() as $option) {
+	        /** @var ImageAndTextDisplayDefinition $option_config */
+	        $option_config = $option->getScoringDefinition();
+	        
+	        if (empty($option_config->getText()))
+	        {
+	            return false;
+	        }
+	    }
+	    
+	    return true;
 	}
 }

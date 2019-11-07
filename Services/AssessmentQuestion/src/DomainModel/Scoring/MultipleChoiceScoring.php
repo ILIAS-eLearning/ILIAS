@@ -79,9 +79,22 @@ class MultipleChoiceScoring extends AbstractScoring
     }
     
     public static function isComplete(Question $question): bool
-    {
-        //TODO
+    {    
+        if (count($question->getAnswerOptions()->getOptions()) < 2) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var MultipleChoiceScoringDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->getPointsSelected()) ||
+                empty($option_config->getPointsUnselected()))
+            {
+                return false;
+            }
+        }
+        
         return true;
-       // return false;
     }
 }

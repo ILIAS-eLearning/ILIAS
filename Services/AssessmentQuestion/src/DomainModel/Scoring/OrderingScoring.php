@@ -111,6 +111,13 @@ class OrderingScoring extends AbstractScoring
 
     public static function isComplete(Question $question) : bool
     {
-        return false;
+        /** @var OrderingScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getPoints())) {
+            return false;
+        }
+        
+        return true;
     }
 }

@@ -141,6 +141,13 @@ class TextSubsetEditor extends AbstractEditor {
      */
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var TextSubsetEditorConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getNumberOfRequestedAnswers())) {
+            return false;
+        }
+        
+        return true;
     }
 }

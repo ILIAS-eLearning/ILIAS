@@ -202,6 +202,24 @@ class TextSubsetScoring extends AbstractScoring
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var TextSubsetScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getTextMatching())) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var TextSubsetScoringDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->getText()) ||
+                empty($option_config->getPoints()))
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

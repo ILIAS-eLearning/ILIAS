@@ -117,6 +117,16 @@ class NumericScoring extends AbstractScoring
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var NumericScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getPoints()) ||
+            empty($config->getLowerBound() ||
+            empty($config->getUpperBound()))) 
+        {
+            return false;
+        }
+        
+        return true;
     }
 }

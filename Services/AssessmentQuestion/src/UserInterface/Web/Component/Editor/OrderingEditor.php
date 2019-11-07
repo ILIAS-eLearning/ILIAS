@@ -156,6 +156,16 @@ class OrderingEditor extends AbstractEditor {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ImageAndTextDisplayDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->getText()))
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

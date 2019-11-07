@@ -239,6 +239,24 @@ class ImageMapEditor extends AbstractEditor {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var ImageMapEditorConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getImage())) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ImageMapEditorDisplayDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->getType()) ||
+                empty($option_config->getCoordinates()))
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }

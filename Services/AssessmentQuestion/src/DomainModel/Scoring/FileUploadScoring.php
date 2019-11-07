@@ -111,6 +111,7 @@ class FileUploadScoring extends AbstractScoring {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        // file upload can roll with all values
+        return true;
     }
 }

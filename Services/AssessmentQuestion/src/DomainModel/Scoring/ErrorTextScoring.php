@@ -115,6 +115,29 @@ class ErrorTextScoring extends AbstractScoring {
     
     public static function isComplete(Question $question): bool
     {
-        return false;
+        /** @var ErrorTextScoringConfiguration $config */
+        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        
+        if (empty($config->getPointsWrong())) {
+            return false;
+        }
+        
+        if (count($question->getAnswerOptions()->getOptions()) < 1) {
+            return false;
+        }
+        
+        foreach ($question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ErrorTextScoringDefinition $option_config */
+            $option_config = $option->getScoringDefinition();
+            
+            if (empty($option_config->getPoints()) ||
+                empty($option_config->getWrongWordIndex() ||
+                empty($option_config->getWrongWordLength()))) 
+            {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
