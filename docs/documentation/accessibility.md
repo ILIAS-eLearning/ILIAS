@@ -28,20 +28,23 @@ If proposing a new KS component, one MUST make sure the element conforms with th
 
 ## Principle 1: Perceivable
 Reference: WCAG 2.1 > 1 / EN 301 549 > 9.1 
-Target group: creator of content, developers
 
 Information and user interface components MUST be presentable to users in ways they can perceive.
 
 ### Guideline Text Alternatives
 Reference: WCAG 2.1 > 1.1 / EN 301 549 > 9.1.1
-Target group: creator of content, developers for non-text-controls
 
 One MUST provide text alternatives for any non-text content so that it can be changed into other
 forms people need, such as large print, braille, speech, symbols or simpler language.
   
 #### Success Criterion Non-text Content
 Reference: WCAG 2.1 > 1.1.1 Level A / EN 301 549 > 9.1.1.1
+
 Target group: creator of content, developers for non-text-controls
+
+[Understanding Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html)
+
+[Meeting Non-text Content](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content)
 
 All non-text content that is presented to the user MUST have a text
 alternative that serves the equivalent purpose, except for the situations listed below:
@@ -68,13 +71,17 @@ alternative that serves the equivalent purpose, except for the situations listed
 
 ### Guideline Time-based Media
 Reference: WCAG 2.1 > 1.2 / EN 301 549 > 9.1.2
-Target group: creator of content
 
 One MUST provide alternatives for time-based media.
 
 #### Success Criterion Audio-only and Video-only (Prerecorded)
 Reference: WCAG 2.1 > 1.2.1 Level A / EN 301 549 > 9.1.2.1
+
 Target group: creator of content
+
+[Understanding Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-only-and-video-only-prerecorded.html)
+
+[Meeting Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-only-and-video-only-prerecorded)
 
 An alternative for time-based media or audio description of the prerecorded video content MUST be provided for synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
@@ -83,61 +90,106 @@ An alternative for time-based media or audio description of the prerecorded vide
 
 #### Success Criterion Captions (Prerecorded)
 Reference: WCAG 2.1 > 1.2.2 Level A / EN 301 549 > 9.1.2.2 
+
 Target group: creator of content
+
+[Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
+
+[Meeting Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#captions-prerecorded)
 
 Captions MUST be provided for all prerecorded audio content in synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
 #### Success Criterion Audio Description or Media Alternative (Prerecorded)
 Reference: WCAG 2.1 > 1.2.3 Level A  / EN 301 549 > 9.1.2.3
+
 Target group: creator of content
+
+[Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
+
+[Meeting Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-description-or-media-alternative-prerecorded)
 
 An alternative for time-based media or audio description of the prerecorded video content MUST be provided for synchronized media, except when the media is a media alternative for text and is clearly labeled as such.
 
 #### Success Criterion Captions (Live)
 Reference: WCAG 2.1 > 1.2.4 Level AA  / EN 301 549 > 9.1.2.4
+
 Target group: creator of content
+
+[Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
+
+[Meeting Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#captions-prerecorded)
+
 Captions MUST be provided for all live audio content in synchronized media.
 
 #### Success Criterion Audio Description (Prerecorded)
 Reference: WCAG 2.1 > 1.2.5 Level AA / EN 301 549 > 9.1.2.5
+
 Target group: creator of content
+
+[Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
+
+[Meeting Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-description-or-media-alternative-prerecorded)
 
 Audio description MUST be provided for all prerecorded video content in synchronized media.
 
 #### Guideline Adaptable
 Reference: WCAG 2.1 > 1.3 / EN 301 549 > 9.1.3
-Target group: creator of content
 
 One MUST create content that can be presented in different ways (for example simpler layout)
 without losing information or structure.
 
 #### Success Criterion Info and Relationships
 Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
+
 Target group: creator of content, developer
+
+[Understanding Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)
+
+[Meeting Info and Relationships](https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships)
 
 Information, structure, and relationships conveyed through presentation MUST be programmatically determined or are available in text.
 
 #### Success Criterion Meaningful Sequence
 Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
+
 Target group: creator of content, developer
+
+[Understanding Meaningful Sequence](https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html)
+
+[Meeting Meaningful Sequence](https://www.w3.org/WAI/WCAG21/quickref/#meaningful-sequence)
 
 When the sequence in which content is presented affects its meaning, a correct reading sequence MUST be programmatically determined.
 
 #### Success Criterion Sensory Characteristics
 Reference: WCAG 2.1 > 1.3.3 Level A / EN 301 549 > 9.1.3.3
+
 Target group: creator of content, developer
+
+[Understanding Sensory Characteristics](https://www.w3.org/WAI/WCAG21/Understanding/sensory-characteristics.html)
+
+[Meeting Sensory Characteristics](https://www.w3.org/WAI/WCAG21/quickref/#sensory-characteristics)
 
 Instructions provided for understanding and operating content MUST not rely solely on sensory characteristics of components such as shape, size, visual location, orientation, or sound.
 
 #### Success Criterion Criterion Orientation
 Reference: WCAG 2.1 > 1.3.4 Level AA / EN 301 549 > 9.1.3.4
+
 Target group: creator of content, developer
+
+[Understanding Orientation](https://www.w3.org/WAI/WCAG21/Understanding/orientation.html)
+
+[Meeting Orientation](https://www.w3.org/WAI/WCAG21/quickref/#orientation)
 
 Content MUST not restrict its view and operation to a single display orientation, such as portrait or landscape, unless a specific display orientation is essential.
 
 #### Success Criterion Identify Input Purpose
 Reference: WCAG 2.1 > 1.3.5 Level AA / EN 301 549 > 9.1.3.5
+
 Target group: developer
+
+[Understanding Identify Input Purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html)
+
+[Meeting Identify Input Purpose](https://www.w3.org/WAI/WCAG21/quickref/#identify-input-purpose)
 
 The purpose of each input field collecting information about the user MUST be programmatically determined when:
 
@@ -146,25 +198,40 @@ The purpose of each input field collecting information about the user MUST be pr
 
 ### Guideline 1.4 Distinguishable
 Reference: WCAG 2.1 > 1.4 / EN 301 549 > 9.1.4
-Target group: creator of content, developer
 
 One MUST make it easier for users to see and hear content including separating foreground from background.
 
 #### Success Criterion Use of Color
 Reference: WCAG 2.1 > 1.4.1 Level A / EN 301 549 > 9.1.4.1
+
 Target group: creator of content, developer
+
+[Understanding Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
+
+[Meeting Use of Color](https://www.w3.org/WAI/WCAG21/quickref/#use-of-color)
 
 Color MUST not be used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.
 
 #### Success Criterion Audio Control
 Reference: WCAG 2.1 > 1.4.2 Level A / EN 301 549 > 9.1.4.2
+
 Target group: creator of content
+
+[Understanding Audio Control](https://www.w3.org/WAI/WCAG21/Understanding/audio-control.html)
+
+[Meeting Audio Control](https://www.w3.org/WAI/WCAG21/quickref/#audio-control)
 
 If any audio on a Web page plays automatically for more than 3 seconds, either a mechanism MUST be available to pause or stop the audio, or a mechanism MUST be available to control audio volume independently from the overall system volume level.
 
 #### Success Criterion Contrast Minimum
 Reference: WCAG 2.1 > 1.4.3 Level AA / EN 301 549 > 9.1.4.3
+
 Target group: creator of content, developer
+
+[Understanding 
+Contrast Minimum](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
+
+[Meeting Contrast Minimum](https://www.w3.org/WAI/WCAG21/quickref/#contrast-minimum)
 
 The visual presentation of text and images of text MUST have a contrast ratio of at least 4.5:1, except for the following:
 
@@ -174,13 +241,23 @@ The visual presentation of text and images of text MUST have a contrast ratio of
 
 #### Success Criterion Resize text
 Reference: WCAG 2.1 > 1.4.4 Level AA / EN 301 549 > 9.1.4.4
+
 Target group: developer
+
+[Understanding Resize text](https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html)
+
+[Meeting Resize text](https://www.w3.org/WAI/WCAG21/quickref/#resize-text)
 
 Except for captions and images of text, it MUST be possible to resize text without assistive technology up to 200 percent without loss of content or functionality.
 
 #### Success Criterion Images of Text
 Reference: WCAG 2.1 > 1.4.5 Level AA / EN 301 549 > 9.1.4.5
+
 Target group: creator of content, developer
+
+[Understanding Images of Text](https://www.w3.org/WAI/WCAG21/Understanding/images-of-text.html)
+
+[Meeting Images of Text](https://www.w3.org/WAI/WCAG21/quickref/#images-of-text)
 
 If the technologies being used can achieve the visual presentation, text is MUST be used to convey information rather than images of text except for the following:
 
@@ -189,7 +266,12 @@ If the technologies being used can achieve the visual presentation, text is MUST
 
 #### Success Criterion Criterion Reflow
 Reference: WCAG 2.1 > 1.4.10 Level AA / EN 301 549 > 9.1.4.10
+
 Target group: creator of content, developer
+
+[Understanding Reflow](https://www.w3.org/WAI/WCAG21/Understanding/reflow.html)
+
+[Meeting Reflow](https://www.w3.org/WAI/WCAG21/quickref/#reflow)
 
 Content MUST be presented without loss of information or functionality, and without requiring scrolling in two dimensions for:
 
@@ -202,7 +284,12 @@ Examples of content which require two-dimensional layout are images, maps, diagr
 
 #### Success Criterion Non-text Contrast
 Reference: WCAG 2.1 > 1.4.11 Level AA / EN 301 549 > 9.1.4.11
+
 Target group: creator of content, developer
+
+[Understanding Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html)
+
+[Meeting Non-text Contrast](https://www.w3.org/WAI/WCAG21/quickref/#non-text-contrast)
 
 The visual presentation of the following MUST have a contrast ratio of at least 3:1 against adjacent color(s):
 
@@ -210,9 +297,14 @@ The visual presentation of the following MUST have a contrast ratio of at least 
 
 - **Graphical Objects**: Parts of graphics required to understand the content, except when a particular presentation of graphics is essential to the information being conveyed.
 
-#### Success Criterion Text Spacing$$
+#### Success Criterion Text Spacing
 Reference: WCAG 2.1 > 1.4.12 Level AA / EN 301 549 > 9.1.4.12
+
 Target group: creator of content, developer
+
+[Understanding Text Spacing](https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html)
+
+[Meeting Text Spacing](https://www.w3.org/WAI/WCAG21/quickref/#text-spacing)
 
 In content implemented using markup languages that support the following text style properties, no loss of content or functionality MUST occurs by setting all of the following and by changing no other style property:
 
@@ -228,7 +320,12 @@ Exception: Human languages and scripts that do not make use of one or more of th
 
 #### Success Criterion Content on Hover or Focus
 Reference: WCAG 2.1 > 1.4.13 Level AA / EN 301 549 > 9.1.4.13
+
 Target group: developer
+
+[Understanding Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
+
+[Meeting Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/quickref/#content-on-hover-or-focus)
 
 Where receiving and then removing pointer hover or keyboard focus triggers additional content to become visible and then hidden, the following MUST be true:
 
@@ -243,26 +340,33 @@ Custom tooltips, sub-menus, and other nonmodal popups that display on hover and 
 
 ### Principle Operable
 Reference: WCAG 2.1 > 2. / EN 301 549 > 9.2
-Target group: creator of content, developer
 
 User interface components and navigation MUST be operable.
 
 #### Guideline Keyboard Accessible
 Reference: WCAG 2.1 > 2.1 / EN 301 549 > 9.2.1
-Target group: creator of content, developer
 
 All functionality MUST be available from a keyboard.
 
 #### Success Criterion Keyboard
 Reference: WCAG 2.1 > 2.1.1 Level A / EN 301 549 > 9.2.1.1
+
 Target group: creator of content, developer
 
+[Understanding Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html)
+
+[Meeting Keyboard](https://www.w3.org/WAI/WCAG21/quickref/#keyboard)
 All functionality of the content MUST be operable through a keyboard interface without requiring specific timings for individual keystrokes, except where the underlying function requires input that depends on the path of the user's movement and
 not just the endpoints. This exception relates to the underlying function, not the input technique. For example, if using handwriting to enter text, the input technique (handwriting) requires path-dependent input but the underlying function (text input) does not.  This does not forbid and should not discourage providing mouse input or other input methods in addition to keyboard operation.
 
 #### Success Criterion No Keyboard Trap
 Reference: WCAG 2.1 > 2.1.2 Level A / EN 301 549 > 9.2.1.2
+
 Target group: developer
+
+[Understanding No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html)
+
+[Meeting No Keyboard Trap](https://www.w3.org/WAI/WCAG21/quickref/#no-keyboard-trap)
 
 If keyboard focus can be moved to a component of the page using a keyboard interface, then focus MUST be movable away from that component using only a keyboard interface, and, if it requires more than unmodified arrow or tab keys or other
 standard exit methods, the user is advised of the method for moving focus away.  
@@ -270,7 +374,12 @@ Note: Since any content that does not meet this success criterion can interfere 
 
 #### Success Criterion Character Key Shortcuts
 Reference: WCAG 2.1 > 2.1.4 Level A / EN 301 549 > 9.2.1.4
+
 Target group: developer
+
+[Understanding Character Key Shortcuts](https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html)
+
+[Meeting Character Key Shortcuts](https://www.w3.org/WAI/WCAG21/quickref/#character-key-shortcuts)
 
 If a keyboard shortcut is implemented in content using only letter (including upper- and lower-case letters), punctuation, number, or symbol characters, then at least one of the following MUST be true:
 
@@ -280,13 +389,17 @@ If a keyboard shortcut is implemented in content using only letter (including up
 
 ### Guideline 2.2 Enough Time
 Reference: WCAG 2.1 > 2.2 / EN 301 549 > 9.2.2
-Target group: creator of content
 
 Users MUST be provided enough time to read and use content.
 
 #### Success Criterion Timing Adjustable
 Reference: WCAG 2.1 > 2.2.1 Level A / EN 301 549 > 9.2.2.1
+
 Target group: creator of content
+
+[Understanding Timing Adjustable](https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html)
+
+[Meeting Timing Adjustable](https://www.w3.org/WAI/WCAG21/quickref/#timing-adjustable)
 
 For each time limit that is set by the content, at least one of the following MUST be true:
 
@@ -309,7 +422,12 @@ For each time limit that is set by the content, at least one of the following MU
 
 #### Success Criterion Pause, Stop, Hide
 Reference: WCAG 2.1 > 2.2.2 Level A / EN 301 549 > 9.2.2.2
+
 Target group: creator of content
+
+[Understanding Pause, Stop, Hide](https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide.html)
+
+[Meeting Pause, Stop, Hide](https://www.w3.org/WAI/WCAG21/quickref/#pause-stop-hide)
 
 For moving, blinking, scrolling, or auto-updating information, all of the following MUST be true:
 
@@ -326,80 +444,127 @@ For moving, blinking, scrolling, or auto-updating information, all of the follow
 
 ### Guideline Seizures
 Reference: WCAG 2.1 > 2.3 / EN 301 549 > 9.2.3
-Target group: creator of content
 
 One MUST not design content in a way that is known to cause seizures.
 
 #### Success Criterion Three Flashes or Below Threshold
 Reference: WCAG 2.1 > 2.3.1 Level A / EN 301 549 > 9.2.3.1
+
 Target group: creator of content
+
+[Understanding Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html)
+
+[Meeting Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/quickref/#three-flashes-or-below-threshold)
 
 Web pages MUST not contain anything that flashes more than three times in any one second period, or the flash is below the general flash nd red flash thresholds.
 
 ### Guideline Navigable
 Reference: WCAG 2.1 > 2.4 / EN 301 549 > 9.2.4
-Target group: developer
 
 One MUST provide ways to help users navigate, find content, and determine where they are.
 
 #### Success Criterion Bypass Blocks
 Reference: WCAG 2.1 > 2.4.1 Level A / EN 301 549 > 9.2.4.1 
+
 Target group: developer
+
+[Understanding Bypass Blocks](https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html)
+
+[Meeting Bypass Blocks](https://www.w3.org/WAI/WCAG21/quickref/#bypass-blocks)
 
 A mechanism MUST be available to bypass blocks of content that are repeated on multiple Web pages.
 
 #### Success Criterion Page Titled
 Reference: WCAG 2.1 > 2.4.2 Level A  / EN 301 549 > 9.2.4.2
+
 Target group: developer
+
+[Understanding Page Titled](https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html)
+
+[Meeting Page Titled](https://www.w3.org/WAI/WCAG21/quickref/#page-titled)
 
 Web pages MUST have titles that describe topic or purpose.
 
 #### Success Criterion Focus Order
 Reference: WCAG 2.1 > 2.4.3 Level A  / EN 301 549 > 9.2.4.3
+
 Target group: developer
+
+[Understanding Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html)
+
+[Meeting Focus Order](https://www.w3.org/WAI/WCAG21/quickref/#focus-order)
 
 If a Web page can be navigated sequentially and the navigation sequences affect meaning or operation, focusable components MUST receive focus in an order that preserves meaning and operability.
 
 #### Success Criterion Link Purpose (In Context)
 Reference: WCAG 2.1 > 2.4.4 Level A  / EN 301 549 > 9.2.4.4
+
 Target group: creator of content, developer
+
+[Understanding Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)
+
+[Meeting Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/quickref/#link-purpose-in-context)
 
 One MUST be able to determine the purpose of each link from the link text alone or from the link text together with its programmatically determined link context, except where the purpose of the link would be ambiguous to users in general.
 
 #### Success Criterion Multiple Ways
 Reference: WCAG 2.1 > 2.4.5 Level AA / EN 301 549 > 9.2.4.5
+
 Target group: developer
+
+[Understanding Multiple Ways](https://www.w3.org/WAI/WCAG21/Understanding/multiple-ways.html)
+
+[Meeting Multiple Ways](https://www.w3.org/WAI/WCAG21/quickref/#multiple-ways)
 
 More than one way MUST be available to locate a Web page within a set of Web pages except where the Web Page is the result of, or a step in, a process.
 
 #### Success Criterion Headings and Labels
 Reference: WCAG 2.1 > 2.4.6 Level AA / EN 301 549 > 9.2.4.6
+
 Target group: creator of content, developer
+
+[Understanding Headings and Labels](https://www.w3.org/WAI/WCAG21/Understanding/headings-and-labels.html)
+
+[Meeting Headings and Labels](https://www.w3.org/WAI/WCAG21/quickref/#headings-and-labels)
 
 Headings and labels MUST describe topic or purpose.
 
 #### Success Criterion Focus Visible
 Reference: WCAG 2.1 > 2.4.7 Level AA  / EN 301 549 > 9.2.4.7
+
 Target group: developer
+
+[Understanding Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html)
+
+[Meeting Focus Visible](https://www.w3.org/WAI/WCAG21/quickref/#focus-visible)
 
 Any keyboard operable user interface MUST have a mode of operation where the keyboard focus indicator is visible.
 
 ### Guideline Modalities
 Reference: WCAG 2.1 > 2.5 / EN 301 549 > 9.2.5
-Target group: developer
 
 One SHOULD make it easier for users to operate functionality through various inputs beyond keyboard.
 
 #### Success Criterion Pointer Gestures
 Reference: WCAG 2.1 > 2.5.1 Level A / EN 301 549 > 9.2.5.1
+
 Target group: developer
+
+[Understanding Pointer Gestures](https://www.w3.org/WAI/WCAG21/Understanding/pointer-gestures.html)
+
+[Meeting Pointer Gestures](https://www.w3.org/WAI/WCAG21/quickref/#pointer-gestures)
 
 All functionality that uses multipoint or path-based gestures for operation MUST be able to be operated with a single pointer without a path-based gesture, unless a multipoint or path-based gesture is essential.
 This requirement applies to web content that interprets pointer actions (i.e. this does not apply to actions that are required to operate the user agent or assistive technology).
 
 #### Success Criterion Pointer Cancellation
 Reference: WCAG 2.1 > 2.5.2 Level A / EN 301 549 > 9.2.5.2
+
 Target group: developer
+
+[Understanding Pointer Cancellation](https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation.html)
+
+[Meeting Pointer Cancellation](https://www.w3.org/WAI/WCAG21/quickref/#pointer-cancellation)
 
 For functionality that can be operated using a single pointer, at least one of the following MUST be true:
 
@@ -413,13 +578,23 @@ For functionality that can be operated using a single pointer, at least one of t
 
 #### Success Criterion  Label in Name
 Reference: WCAG 2.1 > 2.5.3 Level A / EN 301 549 > 9.2.5.3
+
 Target group: developer
+
+[Understanding Label in Name](https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html)
+
+[Meeting Label in Name](https://www.w3.org/WAI/WCAG21/quickref/#label-in-name)
 
 For user interface components with labels that include text or images of text, the name MUST contain the text that is presented visually. A best practice is to have the text of the label at the start of the name.
 
 #### Success Criterion Motion Actuation
 Reference: WCAG 2.1 > 2.5.4 Level A / EN 301 549 > 9.2.5.4
+
 Target group: developer
+
+[Understanding Motion Actuation](https://www.w3.org/WAI/WCAG21/Understanding/motion-actuation.html)
+
+[Meeting Motion Actuation](https://www.w3.org/WAI/WCAG21/quickref/#motion-actuation)
 
 Functionality that can be operated by device motion or user motion MUST also be operable by user interface components and responding to the motion can be disabled to prevent accidental actuation, except when:
 
@@ -428,85 +603,130 @@ Functionality that can be operated by device motion or user motion MUST also be 
 
 ## Principle Understandable
 Reference: WCAG 2.1 > 3. / EN 301 549 > 9.3
-Target group: developer
 
 Information and the operation of user interface MUST be understandable.
 
 ### Guideline Readable
 Reference: WCAG 2.1 > 3.1 / EN 301 549 > 9.3.1
-Target group: creator of content, developer
 
 Text content MUST be readable and understandable.
 
 #### Success Criterion Language of Page
 Reference: WCAG 2.1 > 3.1.1 Level A / EN 301 549 > 9.3.1.1
+
 Target group: developer
+
+[Understanding Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html)
+
+[Meeting Language of Page](https://www.w3.org/WAI/WCAG21/quickref/#language-of-page)
 
 The default human language of each Web page MUST be determinable programmatically.
 
 #### Success Criterion Language of Parts
 Reference: WCAG 2.1 > 3.1.2 Level AA / EN 301 549 > 9.3.1.2
+
 Target group: developer
+
+[Understanding Language of Parts](https://www.w3.org/WAI/WCAG21/Understanding/language-of-parts.html)
+
+[Meeting Language of Parts](https://www.w3.org/WAI/WCAG21/quickref/#language-of-parts)
 
 The human language of each passage or phrase in the content MUST be determinable programmatically except for proper names, technical terms, words of indeterminate language, and words or phrases that have become part of the vernacular of the immediately surrounding text.
 
 ### Guideline Predictable
 Reference: WCAG 2.1 > 3. / EN 301 549 > 9.3
-Target group: developer
 
 Web pages MUST appear and operate in predictable ways.
 
 #### Success Criterion On Focus
 Reference: WCAG 2.1 > 3.2.1 Level A / EN 301 549 > 9.3.2.1
+
 Target group: developer
+
+[Understanding On Focus](https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html)
+
+[Meeting On Focus](https://www.w3.org/WAI/WCAG21/quickref/#on-focus)
 
 When any component receives focus, it MUST not initiate a change of context.
 
 #### Success Criterion On Input
 Reference: WCAG 2.1 > 3.2.2 Level A / EN 301 549 > 9.3.2.2
+
 Target group: developer
+
+[Understanding On Input](https://www.w3.org/WAI/WCAG21/Understanding/on-input.html)
+
+[Meeting On Input](https://www.w3.org/WAI/WCAG21/quickref/#on-input)
 
 Changing the setting of any user interface component MUST not automatically cause a change of context unless the user has been advised of the behavior before using the component.
 
 #### Success Criterion Consistent Navigation
 Reference: WCAG 2.1 > 3.2.3 Level AA / EN 301 549 > 9.3.2.3
+
 Target group: developer
+
+[Understanding Consistent Navigation](https://www.w3.org/WAI/WCAG21/Understanding/consistent-navigation.html)
+
+[Meeting Consistent Navigation](https://www.w3.org/WAI/WCAG21/quickref/#consistent-navigation)
 
 Navigational mechanisms that are repeated on multiple Web pages within a set of Web pages MUST occur in the same relative order each time they are repeated, unless a change is initiated by the user.
 
 #### Success Criterion Consistent Identification
 Reference: WCAG 2.1 > 3.2.4 Level AA / EN 301 549 > 9.3.2.4
+
 Target group: developer
+
+[Understanding Consistent Identification](https://www.w3.org/WAI/WCAG21/Understanding/consistent-identification.html)
+
+[Meeting Consistent Identification](https://www.w3.org/WAI/WCAG21/quickref/#consistent-identification)
 
 Components that have the same functionality within a set of Web pages MUST be identified consistently.
 
 ### Guideline Input Assistance
 Reference: WCAG 2.1 > 3.3 / EN 301 549 > 9.3.3
-Target group: developer
 
 One MUST help users avoid and correct mistakes.
 
 #### Success Criterion Error Identification
 Reference: WCAG 2.1 > 3.3.1 Level A / EN 301 549 > 9.3.3.1
+
 Target group: developer
+
+[Understanding Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification.html)
+
+[Meeting Error Identification](https://www.w3.org/WAI/WCAG21/quickref/#error-identification)
 
 If an input error is automatically detected, the item that is in error MUST be identified and the error MUST be described to the user in text.
 
 #### Success Criterion Labels or Instructions
 Reference: WCAG 2.1 > 3.3.2 Level A / EN 301 549 > 9.3.3.2
+
 Target group: developer
+
+[Understanding Labels or Instructions](https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html)
+
+[Meeting Labels or Instructions](https://www.w3.org/WAI/WCAG21/quickref/#labels-or-instructions)
 
 Labels or instructions MUST be provided when content requires user input.
 
 #### Success Criterion Error Suggestion
 Reference: WCAG 2.1 > 3.3.3 Level AA / EN 301 549 > 9.3.3.3
+
 Target group: developer
+[Understanding Error Suggestion](https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion.html)
+
+[Meeting Error Suggestion](https://www.w3.org/WAI/WCAG21/quickref/#error-suggestion)
 
 If an input error is automatically detected and suggestions for correction are known, then the suggestions MUST be provided to the user, unless it would jeopardize the security or purpose of the content.
 
 #### Success Criterion Error Prevention (Legal, Financial, Data)
 Reference: WCAG 2.1 > 3.3.4 Level AA / EN 301 549 > 9.3.3.4
+
 Target group: developer
+
+[Understanding Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG21/Understanding/error-prevention-legal-financial-data.html)
+
+[Meeting Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG21/quickref/#error-prevention-legal-financial-data)
 
 For Web pages that cause legal commitments or financial transactions for the user to occur, that modify or delete user-controllable data in data storage systems, or that submit user test responses, at least one of the following MUST be true:
 
@@ -516,31 +736,44 @@ For Web pages that cause legal commitments or financial transactions for the use
 
 ### Principle Robust
 Reference: WCAG 2.1 > 4. / EN 301 549 > 9.4
-Target group: developer
 
 Content MUST be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.
 
 ### Guideline Compatible
 Reference: WCAG 2.1 > 4.1 / EN 301 549 > 9.4.1
-Target group: developer
 
 One MUST maximize compatibility with current and future user agents, including assistive technologies.
 
 #### Success Criterion Parsing
 Reference: WCAG 2.1 > 4.1.1 Level A / EN 301 549 > 9.4.1.1
+
 Target group: developer
+
+[Understanding Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing.html)
+
+[Meeting Parsing](https://www.w3.org/WAI/WCAG21/quickref/#parsing)
 
 In content implemented using markup languages, elements MUST have complete start and end tags, elements MUST be nested according to their specifications, elements MUST not contain duplicate attributes, and any IDs MUST be unique, except where the specifications allow these features. Start and end tags that are missing a critical character in their formation, such as a closing angle bracket or a mismatched attribute value quotation mark are not complete.
 
 #### Success Criterion Name, Role, Value
 Reference: WCAG 2.1 > 4.1.2 Level A / EN 301 549 > 9.4.1.2
+
 Target group: developer
+
+[Understanding Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html)
+
+[Meeting Name, Role, Value](https://www.w3.org/WAI/WCAG21/quickref/#name-role-value)
 
 For all user interface components (including but not limited to: form elements, links and components generated by scripts), the name and role MUST be determinable programmatically; states, properties, and values that can be set by the user MUST be programmatically settable; and notification of changes to these items MUST be available to user agents, including assistive technologies. This success criterion is primarily for Web authors who develop or script their own user interface components. For example, standard HTML controls already meet this success criterion when used according to specification.
 
 #### Success Criterion Status Messages
 Reference: WCAG 2.1 > 4.1.3 Level AA / EN 301 549 > 9.4.1.3
+
 Target group: developer
+
+[Understanding Status Messages](https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html)
+
+[Meeting Status Messages](https://www.w3.org/WAI/WCAG21/quickref/#status-messages)
 
 In content implemented using markup languages, status messages MUST be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
 
