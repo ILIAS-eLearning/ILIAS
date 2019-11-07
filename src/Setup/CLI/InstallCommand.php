@@ -82,6 +82,7 @@ class InstallCommand extends Command {
 				$goals->setEnvironment($environment);
 			}
 			catch (UnachievableException $e) {
+				$goals->markAsFailed($current);
 				$io->failedLastObjective($current->getLabel());
 			}
 			$goals->next();
