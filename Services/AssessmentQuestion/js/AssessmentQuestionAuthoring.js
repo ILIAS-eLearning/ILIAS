@@ -560,3 +560,42 @@ let find_errors = function(text) {
 }
 
 $(document).on('click', '#process_error_text', process_error_text);
+
+//**********************************************************************************************
+//ErrorTextQuestion Authoring
+//**********************************************************************************************
+
+let update_definitions = function() {
+	update_values('me_definition_text', 'me_match_definition');
+}
+
+let update_terms = function() {
+	update_values('me_term_text', 'me_match_term');
+}
+
+let update_values = function(source, destination) {
+	let values = [];
+	
+	$('input[id$="' + source + '"]').each(function() {
+		values.push($(this).val());
+	});
+	
+	$('select[id$="' + destination + '"]').each(function() {
+		let that = $(this);
+		let selected = that.val();
+		that.empty();
+		
+		for (let i = 1; i <= values.length; i++) {
+			that.append(new Option(values[i - 1], i));
+		}
+		
+		if (selected <= values.length) {
+			that.val(selected);
+		}
+	});
+}
+
+$(document).on('change', 'input[id$="me_definition_text"]', update_definitions);
+$(document).on('click', '#il_prop_cont_me_definitions .js_remove', update_definitions);
+$(document).on('change', 'input[id$="me_term_text"]', update_terms);
+$(document).on('click', '#il_prop_cont_me_terms .js_remove', update_terms);
