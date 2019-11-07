@@ -209,7 +209,7 @@ class ilCtrlStructureReader
 									foreach($childs as $child)
 									{
 										$child = trim(strtolower($child));
-										if (!is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
+										if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
 										{
 											$this->class_childs[$parent][] = $child;
 										}
@@ -233,7 +233,7 @@ class ilCtrlStructureReader
 									foreach($parents as $parent)
 									{
 										$parent = trim(strtolower($parent));
-										if (!is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
+										if (!isset($this->class_childs[$parent]) || !is_array($this->class_childs[$parent]) || !in_array($child, $this->class_childs[$parent]))
 										{
 											$this->class_childs[$parent][] = $child;
 										}
@@ -245,7 +245,7 @@ class ilCtrlStructureReader
 							{
 								$cl = strtolower($res[1]);
 								$pos = strpos(strtolower($line), "class ".$cl);
-								if (is_int($pos) && $this->class_script[$cl] == "")
+								if (is_int($pos) && (!isset($this->class_script[$cl]) || $this->class_script[$cl] == ""))
 								{
 									$this->class_script[$cl] = $a_cdir."/".$file;
 		//echo "<br>".$cl."-".$this->class_script[$cl]."-";
