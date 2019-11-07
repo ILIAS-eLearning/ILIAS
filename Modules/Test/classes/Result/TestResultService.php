@@ -2,9 +2,6 @@
 
 namespace ILIAS\Modules\Test\Result;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\AnswerScoreDto;
-use ilObjTest;
-
 /**
  * Class TestResultService
  *

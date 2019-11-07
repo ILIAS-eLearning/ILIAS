@@ -2,7 +2,7 @@
 
 namespace ILIAS\Modules\Test\Result;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 
 /**
  * Class TestResultRepository
