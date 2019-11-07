@@ -954,7 +954,7 @@
 					items.push(
 						$("<li></li>").append(
 							$(template).find("li.with-header." + position).html()
-						).addClass("header")
+						).addClass("header " + position)
 					);
 				}
 
@@ -970,7 +970,7 @@
 			}
 
 			items.forEach(function ($template) {
-				let item = $template.addClass([position, "clearfix"].join(" "));
+				let item = $template.addClass("clearfix");
 
 				if (prepend === true) {
 					chatBody.prepend(item);
