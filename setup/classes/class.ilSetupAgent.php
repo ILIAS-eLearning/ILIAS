@@ -68,7 +68,6 @@ class ilSetupAgent implements Setup\Agent {
 				$data["path_to_convert"],
 				$data["path_to_zip"],
 				$data["path_to_unzip"],
-				$data["path_to_ffmpeg"] ?? null,
 				$data["path_to_phantom_js"] ?? null,
 				$data["path_to_latex_cgi"] ?? null
 			);
