@@ -203,7 +203,7 @@ class exAsqAuthoringGUI
         $total_questions = count($this->processing_service->questionList()->getQuestionsOfContainerAsDtoList());
         $current_question = 1;
         foreach ($this->processing_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
-            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
+            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->ctrl()->getContextObjId()))) {
                 $processing_question =  $this->processing_service->question($question_dto->getRevisionId());
 
                 $question_config =  $this->question_config;
@@ -232,7 +232,7 @@ class exAsqAuthoringGUI
         $current_question = 1;
         foreach ($processing_service->questionList()->getQuestionsOfContainerAsDtoList() as $question_dto) {
             //The Test will choose the answer himself - we choose the next unanswered answer by the private application - service for this demo!
-            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->user()->getId(), $DIC->ctrl()->getContextObjId()))) {
+            if (is_null($processing_application_service->getUserAnswer($question_dto->getId(), $question_dto->getRevisionId(), $DIC->ctrl()->getContextObjId()))) {
                 $processing_question =  $this->processing_service->question($previous_revision_key);
 
                 $question_config =  $this->question_config;
