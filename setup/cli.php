@@ -67,6 +67,7 @@ function build_container_for_setup() {
 				"database" => $c["agent.database"],
 				"systemfolder" => $c["agent.systemfolder"],
 				"preview" => $c["agent.preview"],
+				"mediaobject" => $c["agent.mediaobject"],
 				"backgroundtasks" => $c["agent.backgroundtasks"]/*,
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
@@ -152,6 +153,12 @@ function build_container_for_setup() {
 
 	$c["agent.preview"] = function ($c) {
 		return new \ilPreviewSetupAgent(
+			$c["refinery"]
+		);
+	};
+
+	$c["agent.mediaobject"] = function ($c) {
+		return new \ilMediaObjectSetupAgent(
 			$c["refinery"]
 		);
 	};
