@@ -19,18 +19,13 @@ class PublishedQuestionRepository
         $old_question = QuestionAr::where(['question_id' => $question->getAggregateId()->getId()])->first();
         
         if (!is_null($old_question)) {
-            if ($old_question->getRevisionId() === $question->getRevisionId()) {
-                //same revision already published
+            if ($old_question->getRevisionId() === $question->getRevisionId() ||
+                $this->contentEquals($question, $this->GenerateDtoFromAr($old_question))) {
+                //same question already published
                 return;
             }
             
-            $old_question->delete();
-        }
-
-        $old_question_list = QuestionListItemAr::where(['question_id' => $question->getAggregateId()->getId()])->first();
-        
-        if (!is_null($old_question_list)) {
-            $old_question_list->delete();
+            
         }
         
         $question_ar = QuestionAr::createNew($question);
@@ -38,6 +33,12 @@ class PublishedQuestionRepository
         
         $question_list = QuestionListItemAr::createNew($question);
         $question_list->create();
+    }
+    
+    private function contentEquals(Question $current, QuestionDto $old) {
+        return $current->getData()->equals($old->getData()) &&
+               $current->getPlayConfiguration()->equals($old->getPlayConfiguration()) &&
+               $current->getAnswerOptions()->equals($old->getAnswerOptions());
     }
     
     public function getQuestionByRevisionId(string $revision_id) : QuestionDto
