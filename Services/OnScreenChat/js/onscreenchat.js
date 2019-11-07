@@ -910,13 +910,11 @@
 		},
 
 		addMessage: function(messageObject, prepend) {
-			var template = getModule().config.messageTemplate;
-			var position = (messageObject.userId == getModule().config.userId)? 'right' : 'left';
-			var message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />');
-			var chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']');
-			var username = findUsernameInConversationByMessage(messageObject);
-			let clearStyle = '';
-			let footer = '';
+			let template = getModule().config.messageTemplate,
+				position = (messageObject.userId == getModule().config.userId)? 'right' : 'left',
+				message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />'),
+				chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']'),
+				username = findUsernameInConversationByMessage(messageObject);
 
 			if (username === "") {
 				if(prepend === false) {
@@ -931,35 +929,55 @@
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
+			template = template.replace(/\[\[position\]\]/g, position);
 
+			let renderHeader = true;
 			if (
 				prepend === false &&
 				getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) &&
 				messageObject.userId == getModule().lastUserByConvMap[messageObject.conversationId]
 			) {
-				template = template.replace(/\[\[style\]\]/g, 'display:none');
-				clearStyle = "clearStyle";
+				renderHeader = false;
 			}
+
+			let chatBody = chatWindow.find("[data-onscreenchat-body]"),
+				items = [];
 
 			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
-				template = $(template).find('li.system').html();
+				items.push(
+					$("<li></li>").append(
+						(template).find("li.system.with-header").html()
+					)
+				);
 			} else {
-				template = $(template).find('li.' + position).html();
+				if (renderHeader) {
+					items.push(
+						$("<li></li>").append(
+							$(template).find("li.with-header." + position).html()
+						).addClass("header")
+					);
+				}
+
+				items.push(
+					$("<li></li>").append(
+						$(template).find("li.message").html()
+					)
+				);
 			}
 
-			var chatBody = chatWindow.find('[data-onscreenchat-body]');
-			var item = $('<li></li>')
-				.addClass(position)
-				.addClass('clearfix')
-				.addClass(clearStyle)
-				.addClass(footer)
-				.append(template);
-
-			if(prepend === true) {
-				chatBody.prepend(item);
-			} else {
-				chatBody.append(item);
+			if (prepend === true) {
+				items = items.reverse();
 			}
+
+			items.forEach(function ($template) {
+				let item = $template.addClass([position, "clearfix"].join(" "));
+
+				if (prepend === true) {
+					chatBody.prepend(item);
+				} else {
+					chatBody.append(item);
+				}
+			});
 
 			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
 
