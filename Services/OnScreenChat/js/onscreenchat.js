@@ -749,25 +749,24 @@
 		},
 
 		onHistory: function (conversation) {
-			var container = $('[data-onscreenchat-window=' + conversation.id + ']');
-			var messages = conversation.messages;
-			var messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+			let container = $('[data-onscreenchat-window=' + conversation.id + ']'),
+				messages = Object.values(conversation.messages),
+				messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 
-			for (var index in messages) {
+			messages.forEach(function(message) {
 				if (
-					messages.hasOwnProperty(index) &&
-					(!getModule().historyTimestamps.hasOwnProperty(conversation.id) ||
-					getModule().historyTimestamps[conversation.id] > messages[index].timestamp)
+					!getModule().historyTimestamps.hasOwnProperty(conversation.id) ||
+					getModule().historyTimestamps[conversation.id] > message.timestamp
 				) {
-					getModule().addMessage(messages[index], !conversation.reverseSorting);
+					getModule().addMessage(message, !conversation.reverseSorting);
 				}
-			}
+			});
 
 			if (
 				undefined === getModule().historyTimestamps[conversation.id] ||
 				conversation.oldestMessageTimestamp < getModule().historyTimestamps[conversation.id]
 			) {
-				var newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+				let newMessagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
 				container.find('.panel-body').scrollTop(newMessagesHeight - messagesHeight);
 				getModule().historyTimestamps[conversation.id] = conversation.oldestMessageTimestamp;
 			}
@@ -914,7 +913,9 @@
 				position = (messageObject.userId == getModule().config.userId)? 'right' : 'left',
 				message = messageObject.message.replace(/(?:\r\n|\r|\n)/g, '<br />'),
 				chatWindow = $('[data-onscreenchat-window=' + messageObject.conversationId + ']'),
-				username = findUsernameInConversationByMessage(messageObject);
+				username = findUsernameInConversationByMessage(messageObject),
+				chatBody = chatWindow.find("[data-onscreenchat-body]"),
+				items = [];
 
 			if (username === "") {
 				if(prepend === false) {
@@ -931,17 +932,26 @@
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
 			template = template.replace(/\[\[position\]\]/g, position);
 
-			let renderHeader = true;
-			if (
-				prepend === false &&
-				getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) &&
-				messageObject.userId == getModule().lastUserByConvMap[messageObject.conversationId]
-			) {
-				renderHeader = false;
+			let $firstHeader = chatBody.find("li.header").first(),
+				firstHeaderUsrId = $firstHeader.data("header-usr-id"),
+				renderHeader = true,
+				insertAfterFirstHeader = false;
+			
+			if (prepend === true) {
+				// 1. Only when scrolled back
+				// 2. Sorting is descending
+				if (firstHeaderUsrId !== undefined && parseInt(firstHeaderUsrId) === parseInt(messageObject.userId)) {
+					renderHeader = false;
+					insertAfterFirstHeader = true;
+				}
+ 			} else {
+				if (
+					getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) &&
+					messageObject.userId == getModule().lastUserByConvMap[messageObject.conversationId]
+				) {
+					renderHeader = false;
+				}
 			}
-
-			let chatBody = chatWindow.find("[data-onscreenchat-body]"),
-				items = [];
 
 			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
 				items.push(
@@ -953,8 +963,10 @@
 				if (renderHeader) {
 					items.push(
 						$("<li></li>").append(
-							$(template).find("li.with-header." + position).html()
-						).addClass("header " + position)
+								$(template).find("li.with-header." + position).html()
+							)
+							.addClass("header " + position)
+							.data("header-usr-id", messageObject.userId)
 					);
 				}
 
@@ -973,7 +985,11 @@
 				let item = $template.addClass("clearfix");
 
 				if (prepend === true) {
-					chatBody.prepend(item);
+					if (insertAfterFirstHeader) {
+						item.insertAfter($firstHeader);
+					} else {
+						chatBody.prepend(item);
+					}
 				} else {
 					chatBody.append(item);
 				}
@@ -997,16 +1013,16 @@
 		},
 
 		resizeWindow: function() {
-			var width = $(this).outerWidth();
-			var space = parseInt(width / getModule().chatWindowWidth);
+			let width = $(this).outerWidth(),
+				space = parseInt(width / getModule().chatWindowWidth);
 
 			if (space != getModule().numWindows) {
-				var openWindows = countOpenChatWindows();
-				var diff = openWindows - space;
+				let openWindows = countOpenChatWindows(),
+					diff = openWindows - space;
 				getModule().numWindows = space;
 
 				if(diff > 0) {
-					for(var i=0; i<diff;i++) {
+					for (let i = 0; i < diff; i++) {
 						getModule().closeWindowWithLongestInactivity();
 					}
 				}
