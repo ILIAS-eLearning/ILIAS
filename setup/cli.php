@@ -26,6 +26,16 @@ $c = build_container_for_setup();
 $app = $c["app"];
 $app->run();
 
+function get_agent_name_by_class(string $class_name) : string {
+	// We assume that the name of an agent in the class ilXYZSetupAgent really
+	// is XYZ. If that does not fit we just use the class name.
+	$match = [];
+	if (preg_match("/il(\w+)SetupAgent/", $class_name, $match)) {
+		return $match[1];
+	}
+	return $class_name;
+}
+
 function build_container_for_setup() {
 	$c = new \Pimple\Container;
 
@@ -52,143 +62,43 @@ function build_container_for_setup() {
 		return new ILIAS\Setup\AgentCollection(
 			$c["ui.field_factory"],
 			$c["refinery"],
-			// TODO: use ImplementationOfInterfaceFinder here instead of fixed list
-			[
-				"common" => $c["agent.common"],
-				"filesystem" => $c["agent.filesystem"],
-				"globalcache" => $c["agent.globalcache"],
-				"http" => $c["agent.http"],
-				"language" => $c["agent.language"],
-				"logging" => $c["agent.logging"],
-				"style" => $c["agent.style"],
-				"virusscanner" => $c["agent.virusscanner"],
-				"database" => $c["agent.database"],
-				"systemfolder" => $c["agent.systemfolder"],
-				"preview" => $c["agent.preview"],
-				"mediaobject" => $c["agent.mediaobject"],
-				"mathjax" => $c["agent.mathjax"],
-				"utilities" => $c["agent.utilities"],
-				"pdfgeneration" => $c["agent.pdfgeneration"],
-				"backgroundtasks" => $c["agent.backgroundtasks"]/*,
-				"global_screen" => $c["agent.global_screen"],
-				"ui_structure" => $c["agent.ui_structure"],
-				"ctrl_structure" => $c["agent.ctrl_structure"]*/
-			]
+			$c["agents"]
 		);
 	};
 
-	$c["agent.common"] = function ($c) {
+	$c["agent_finder"] = function ($c) {
+		return new ILIAS\Setup\ImplementationOfInterfaceFinder(
+			ILIAS\Setup\Agent::class
+		);
+	};
+
+	$c["common_agent"] = function ($c) {
 		return new \ilSetupAgent(
 			$c["refinery"],
 			$c["data_factory"],
-			$c["password_manager"],
+			$c["password_manager"]
 		);
 	};
 
-	$c["agent.backgroundtasks"] = function ($c) {
-		return new \ilBackgroundTasksSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.database"] = function ($c) {
-		return new \ilDatabaseSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.global_screen"] = function($c) {
-		return new \ilGlobalScreenSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.http"] = function ($c) {
-		return new \ilHttpSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.filesystem"] = function ($c) {
-		return new \ilFileSystemSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.globalcache"] = function ($c) {
-		return new \ilGlobalCacheSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.language"] = function ($c) {
-		return new \ilLanguageSetupAgent(
-			$c["refinery"],
-			$c["lng"]
-		);
-	};
-
-	$c["agent.logging"] = function ($c) {
-		return new \ilLoggingSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.style"] = function ($c) {
-		return new \ilStyleSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.systemfolder"] = function ($c) {
-		return new \ilSystemFolderSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.virusscanner"] = function ($c) {
-		return new \ilVirusScannerSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.preview"] = function ($c) {
-		return new \ilPreviewSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.mediaobject"] = function ($c) {
-		return new \ilMediaObjectSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.pdfgeneration"] = function ($c) {
-		return new \ilPDFGenerationSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.mathjax"] = function ($c) {
-		return new \ilMathJaxSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.utilities"] = function ($c) {
-		return new \ilUtilitiesSetupAgent(
-			$c["refinery"]
-		);
-	};
-
-	$c["agent.ui_structure"] = function($c) {
-		return new \ilUIStructureSetupAgent();
-	};
-	$c["agent.ctrl_structure"] = function($c) {
-		return new \ilUICoreSetupAgent(
-			$c["ctrlstructure_reader"]
-		);
+	$c["agents"] = function ($c) {
+		$agents["common"] = $c["common_agent"];
+		foreach ($c["agent_finder"]->getMatchingClassNames() as $cls) {
+			if (preg_match("/ILIAS\\\\Setup\\\\.*/", $cls)) {
+				continue;
+			}
+			$name = get_agent_name_by_class($cls);
+			if (isset($agents[$name])) {
+				throw new \RuntimeException(
+					"Encountered duplicate agent $name in $cls"
+				);
+			}
+			$agents[strtolower($name)] = new $cls(
+				$c["refinery"],
+				$c["data_factory"],
+				$c["lng"]
+			);
+		};
+		return $agents;
 	};
 
 	$c["ui.field_factory"] = function($c) {
