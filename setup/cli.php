@@ -65,7 +65,8 @@ function build_container_for_setup() {
 				"style" => $c["agent.style"],
 				"virusscanner" => $c["agent.virusscanner"],
 				"database" => $c["agent.database"],
-				"systemfolder" => $c["agent.systemfolder"]/*,
+				"systemfolder" => $c["agent.systemfolder"],
+				"backgroundtasks" => $c["agent.backgroundtasks"]/*,
 				"global_screen" => $c["agent.global_screen"],
 				"ui_structure" => $c["agent.ui_structure"],
 				"ctrl_structure" => $c["agent.ctrl_structure"]*/
@@ -78,6 +79,12 @@ function build_container_for_setup() {
 			$c["refinery"],
 			$c["data_factory"],
 			$c["password_manager"],
+		);
+	};
+
+	$c["agent.backgroundtasks"] = function ($c) {
+		return new \ilBackgroundTasksSetupAgent(
+			$c["refinery"]
 		);
 	};
 
