@@ -11,8 +11,7 @@ class ilLSLocalDI extends Container
 	public function init(
 		ilLSDI $dic,
 		DataFactory $data_factory,
-		ilObjLearningSequence $object,
-        ilRecommendedContentManager $recommended_content_manager
+		ilObjLearningSequence $object
 	) {
 
 		foreach ($dic->keys() as $key) {
@@ -192,7 +191,7 @@ class ilLSLocalDI extends Container
 			);
 		};
 
-		$this["roles"] = function($c) use ($dic, $current_user, $recommended_content_manager): ilLearningSequenceRoles
+		$this["roles"] = function($c) use ($dic, $current_user): ilLearningSequenceRoles
 		{
 			return new ilLearningSequenceRoles(
 				$c["obj.ref_id"],
@@ -202,8 +201,7 @@ class ilLSLocalDI extends Container
 				$dic["rbacadmin"],
 				$dic["rbacreview"],
 				$dic["ilDB"],
-				$current_user,
-                $recommended_content_manager
+				$current_user
 			);
 		};
 	}

@@ -239,8 +239,7 @@ class ilObjLearningSequence extends ilContainer
 			$di->init(
 				$this->getDI(),
 				new \ILIAS\Data\Factory(),
-				$this,
-                new \ilRecommendedContentManager()
+				$this
 			);
 			$this->local_di = $di;
 		}
