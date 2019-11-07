@@ -202,7 +202,7 @@ class ilObjTestGUI extends ilObjectGUI
         }
 
         $asqQuestionService = $this->asqAuthoringService->question(
-            $this->asqAuthoringService->currentOrNewQuestionId(), new TestAuthoringQuestionAfterSaveCommandHandler()
+            $this->asqAuthoringService->currentOrNewQuestionId()
         );
 
         $question_config = new QuestionConfig();

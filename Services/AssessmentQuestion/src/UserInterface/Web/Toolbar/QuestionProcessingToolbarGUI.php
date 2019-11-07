@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Toolbar;
 
+use ilAsqQuestionProcessingGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ilTestPlayerNavButton;
 use ilToolbarGUI;
@@ -22,6 +23,10 @@ class QuestionProcessingToolbarGUI extends ilToolbarGUI
      * QuestionConfig
      */
     protected $question_config;
+    /**
+     * @var ilAsqQuestionProcessingGUI
+     */
+    protected $asq_processing_gui;
 
 	/**
 	 * @var bool
@@ -74,11 +79,12 @@ class QuestionProcessingToolbarGUI extends ilToolbarGUI
      *
      * @param QuestionConfig $question_config
      */
-	public function __construct(QuestionConfig $question_config)
+	public function __construct(QuestionConfig $question_config, ilAsqQuestionProcessingGUI $asq_processing_gui)
 	{
 		parent::__construct();
 
 		$this->question_config = $question_config;
+		$this->asq_processing_gui = $asq_processing_gui;
 		$this->build();
 	}
 
@@ -176,8 +182,7 @@ class QuestionProcessingToolbarGUI extends ilToolbarGUI
 
 		$btn = ilTestPlayerNavButton::getInstance();
 		$btn->setNextCommand($this->question_config->getShowFinishTestSessionAction()->getCommand());
-		$btn->setUrl($DIC->ctrl()->getLinkTargetByClass(
-			$this->question_config->getShowFinishTestSessionAction()->getCtrlStack(), $this->question_config->getShowFinishTestSessionAction()->getCommand()
+		$btn->setUrl($DIC->ctrl()->getLinkTarget($this->asq_processing_gui, ilAsqQuestionProcessingGUI::CMD_FINISH_TEST_PASS
 		));
 		$btn->setCaption('finish_test');
 		//$btn->setDisabled($this->isDisabledStateEnabled());

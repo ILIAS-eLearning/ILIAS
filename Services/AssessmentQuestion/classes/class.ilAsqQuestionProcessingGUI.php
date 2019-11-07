@@ -36,6 +36,9 @@ class ilAsqQuestionProcessingGUI
     const CMD_SAVE_ANSWER = 'saveAnswer';
     const CMD_SHWOW_FEEDBACK = 'showFeedback';
     const CMD_DETECT_CHANGES = 'detectChanges';
+    const CMD_PREVIOUS_QUESTION = 'previousQuestion';
+    const CMD_NEXT_QUESTION = 'nextQuestion';
+    const CMD_FINISH_TEST_PASS = 'finishTestPass';
     //Actions
     const CMD_REVERT_CHANGES = 'revertChanges';
     //const CMD_SCORE_PREVIEW = 'scorePreview';
@@ -109,6 +112,15 @@ class ilAsqQuestionProcessingGUI
             case self::CMD_REVERT_CHANGES:
                 $this->revertChanges();
                 break;
+            case self::CMD_NEXT_QUESTION:
+                $this->nextQuestion();
+                break;
+            case self::CMD_PREVIOUS_QUESTION:
+                $this->previousQuestion();
+                break;
+            case self::CMD_FINISH_TEST_PASS:
+                $this->finishTestPass();
+                break;
             case self::CMD_SHOW_QUESTION:
             default:
                 $this->showQuestion();
@@ -124,15 +136,11 @@ class ilAsqQuestionProcessingGUI
     }
 
 
-    public function saveAnswer()
+    protected function saveAnswer()
     {
-        global $DIC;
         $question_dto = $this->processing_application_service->getQuestion($this->revision_key);
         $answer = $this->processing_application_service->getCurrentAnswer($question_dto);
         $this->processing_application_service->answerQuestion($answer);
-
-
-        $DIC->ctrl()->redirectByClass($this->question_config->getShowNextQuestionAction()->getCtrlStack(), $this->question_config->getShowNextQuestionAction()->getCommand());
     }
 
 
@@ -160,6 +168,36 @@ class ilAsqQuestionProcessingGUI
         $question_tpl->parseCurrentBlock();
 
         $DIC->ui()->mainTemplate()->setContent($question_tpl->get());
+    }
+
+    public function nextQuestion() {
+        $this->saveAnswer();
+
+        global $DIC;
+        $DIC->ctrl()->redirectByClass(
+            $this->question_config->getShowNextQuestionAction()->getCtrlStack(),
+            $this->question_config->getShowNextQuestionAction()->getCommand());
+    }
+
+    public function previousQuestion() {
+
+        $this->saveAnswer();
+
+        global $DIC;
+        $DIC->ctrl()->redirectByClass(
+            $this->question_config->getShowPreviousQuestionAction()->getCtrlStack(),
+            $this->question_config->getShowPreviousQuestionAction()->getCommand());
+    }
+
+    public function finishTestPass() {
+        global $DIC;
+
+        $this->saveAnswer();
+
+        $DIC->ctrl()->redirectByClass(
+            $this->question_config->getShowFinishTestSessionAction()->getCtrlStack(),
+            $this->question_config->getShowFinishTestSessionAction()->getCommand()
+        );
     }
 
 
@@ -218,17 +256,17 @@ class ilAsqQuestionProcessingGUI
             }
 
             if (!is_null($this->question_config->getShowPreviousQuestionAction())) {
-                $btn_prev = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('previous_question'), $DIC->ctrl()->getLinkTargetByClass($this->question_config->getShowPreviousQuestionAction()->getCtrlStack(),$this->question_config->getShowPreviousQuestionAction()->getCommand()));
+                $btn_prev = $DIC->ui()->factory()->button()->standard($DIC->language()->txt('previous_question'),$DIC->ctrl()->getLinkTarget($this, self::CMD_PREVIOUS_QUESTION));
                 $tpl_question_navigation->setVariable('BTN_PREV', $DIC->ui()->renderer()->render($btn_prev));
             }
 
             $tpl_question_navigation_html = $tpl_question_navigation->get();
         }
 
-        $question_processing_toolbar = new QuestionProcessingToolbarGUI($this->question_config);
+        $question_processing_toolbar = new QuestionProcessingToolbarGUI($this->question_config, $this);
 
         $tpl = new ilTemplate('tpl.question_container.html', true, true, 'Services/AssessmentQuestion');
-        $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SAVE_ANSWER));
+        $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_NEXT_QUESTION));
         $tpl->setVariable('FORMID', self::QUESTION_FORM_ID);
         $tpl->setVariable('QUESTION_PROCESSING_TOOLBAR', $question_processing_toolbar->getHTML());
         $tpl->setVariable('QUESTION_NAVIGATION', $tpl_question_navigation_html);
