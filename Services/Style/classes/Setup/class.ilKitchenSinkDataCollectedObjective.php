@@ -3,9 +3,8 @@
 use ILIAS\Setup;
 use ILIAS\UI\Implementation\Crawler as Crawler;
 
-class ilUIBuildDataStructureObjective extends Setup\BuildArtifactObjective
+class ilKitchenSinkDataCollectedObjective extends Setup\BuildArtifactObjective
 {
-
 	public function __construct()
 	{
 		$this->crawler_path = ilSystemStyleDocumentationGUI::ROOT_FACTORY_PATH;
@@ -17,7 +16,6 @@ class ilUIBuildDataStructureObjective extends Setup\BuildArtifactObjective
 	{
 		return $this->data_path;
 	}
-
 
 	public function build() : Setup\Artifact
 	{

@@ -67,6 +67,6 @@ class ilStyleSetupAgent implements Setup\Agent {
 	 * @inheritdoc
 	 */
 	public function getBuildArtifactObjective() : Setup\Objective {
-		return new Setup\NullObjective();
+		return new ilKitchenSinkDataCollectedObjective();
 	}
 }
