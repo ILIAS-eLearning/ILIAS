@@ -493,7 +493,7 @@
 				});
 
 				if (
-					(!messageObject.hasOwnProperty("isNeutral") || !messageObject.isNeutral) &&
+					(!messageObject.hasOwnProperty("isSystem") || !messageObject.isSystem) &&
 					messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
 					getModule().user !== undefined &&
 					getConfig().enabledBrowserNotifications &&
@@ -511,7 +511,7 @@
 		},
 
 		onParticipantsSuppressedMessages: function(messageObject) {
-			messageObject.isNeutral = true;
+			messageObject.isSystem = true;
 
 			if (messageObject.hasOwnProperty("ignoredParticipants")) {
 				var ignoredParticipants = messageObject["ignoredParticipants"];
@@ -536,7 +536,7 @@
 		},
 
 		onSenderSuppressesMessages: function(messageObject)  {
-			messageObject.isNeutral = true;
+			messageObject.isSystem = true;
 
 			messageObject.message = il.Language.txt('chat_osc_self_rej_msgs');
 			getModule().receiveMessage(messageObject);
@@ -941,8 +941,8 @@
 				clearStyle = "clearStyle";
 			}
 
-			if (messageObject.hasOwnProperty("isNeutral") && messageObject.isNeutral) {
-				template = $(template).find('li.neutral').html();
+			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
+				template = $(template).find('li.system').html();
 			} else {
 				template = $(template).find('li.' + position).html();
 			}
