@@ -68,7 +68,7 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 	 * @inheritdocs
 	 */
 	public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective {
-		throw new \LogicException("NYI!");
+		return new Setup\NullObjective();
 	}
 
 	/**
