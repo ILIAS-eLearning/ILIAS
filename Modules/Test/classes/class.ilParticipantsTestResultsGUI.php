@@ -396,7 +396,7 @@ class ilParticipantsTestResultsGUI
 		
 		$show_user_results = $_SESSION["show_user_results"];
 		
-		if (count($show_user_results) == 0)
+		if (!is_array($show_user_results) || count($show_user_results) == 0)
 		{
 			ilUtil::sendInfo($DIC->language()->txt("select_one_user"), TRUE);
 			$DIC->ctrl()->redirect($this, self::CMD_SHOW_PARTICIPANTS);
