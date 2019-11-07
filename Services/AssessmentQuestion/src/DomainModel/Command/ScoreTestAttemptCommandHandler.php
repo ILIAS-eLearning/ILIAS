@@ -4,12 +4,8 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Command;
 
 
 
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
-use ILIAS\AssessmentQuestion\CQRS\Aggregate\RevisionFactory;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandContract;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandHandlerContract;
-use ILIAS\AssessmentQuestion\DomainModel\Projection\ProjectQuestions;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 
 /**
  * Class ScoreTestAttemptCommandHandler

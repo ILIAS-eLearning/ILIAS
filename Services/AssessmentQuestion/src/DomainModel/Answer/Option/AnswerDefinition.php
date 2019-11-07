@@ -3,9 +3,9 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionFormFieldDefinition;
 use JsonSerializable;
 use stdClass;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 
 /**
  * Abstract Class AnswerDefinition
@@ -20,7 +20,7 @@ use stdClass;
 abstract class AnswerDefinition implements JsonSerializable {
 
     /**
-     * @return AnswerOptionFormFieldDefinition[]
+     * @return AsqTableInputFieldDefinition[]
      */
     public abstract static function getFields(QuestionPlayConfiguration $play) : array;
 

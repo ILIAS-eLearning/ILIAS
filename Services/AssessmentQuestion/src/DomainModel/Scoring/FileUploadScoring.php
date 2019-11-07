@@ -2,16 +2,15 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
+use Exception;
 use ilCheckboxInputGUI;
 use ilNumberInputGUI;
-use Exception;
 
 /**
  * Class FileUploadScoring

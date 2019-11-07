@@ -2,14 +2,13 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
-use ilNumberInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use ilFormSectionHeaderGUI;
+use ilNumberInputGUI;
 
 /**
  * Class NumericScoring
@@ -42,10 +41,6 @@ class NumericScoring extends AbstractScoring
             $scoring_conf->getLowerBound() <= $float_answer &&
             $scoring_conf->getUpperBound() >= $float_answer) {
             $reached_points = $scoring_conf->getPoints();
-        }
-
-        if($max_points > 0) {
-            $percent_solved = $reached_points / $max_points * 100;
         }
 
         return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));

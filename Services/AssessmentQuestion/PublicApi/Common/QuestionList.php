@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+
 /**
  * Class AuthoringQueryService
  *

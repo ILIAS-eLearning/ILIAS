@@ -1,10 +1,9 @@
 <?php
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
 /**
  * Class MultipleChoiceScoring

@@ -2,14 +2,9 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Hint;
 
-use ilAsqException;
-use ilFormPropertyGUI;
-use ilHiddenInputGUI;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\IsValueOfOrderedList;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\UI\Implementation\Component\Button\Standard;
-use ilNumberInputGUI;
 use JsonSerializable;
+use ilAsqException;
 use stdClass;
 
 /**
