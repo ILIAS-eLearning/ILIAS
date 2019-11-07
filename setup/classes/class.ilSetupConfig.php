@@ -36,25 +36,13 @@ class ilSetupConfig implements Setup\Config {
 	 */
 	protected $path_to_unzip;
 
-	/**
-	 * @var string|null
-	 */
-	protected $path_to_phantom_js;
-
-	/**
-	 * @var string|null
-	 */
-	protected $path_to_latex_cgi;
-
 	public function __construct(
 		string $client_id,
 		Password $master_password,
 		\DateTimeZone $server_timezone,
 		string $path_to_convert,
 		string $path_to_zip,
-		string $path_to_unzip,
-		?string $path_to_phantom_js,
-		?string $path_to_latex_cgi
+		string $path_to_unzip
 	) {
 		if (!preg_match("/^[A-Za-z0-9]+$/", $client_id)) {
 			throw new \InvalidArgumentException(
@@ -67,8 +55,6 @@ class ilSetupConfig implements Setup\Config {
 		$this->path_to_convert = $this->toLinuxConvention($path_to_convert);
 		$this->path_to_zip = $this->toLinuxConvention($path_to_zip);
 		$this->path_to_unzip = $this->toLinuxConvention($path_to_unzip);
-		$this->path_to_phantom_js = $this->toLinuxConvention($path_to_phantom_js);
-		$this->path_to_latex_cgi = $this->toLinuxConvention($path_to_latex_cgi);
 	}
 
 	protected function toLinuxConvention(?string $p) : ?string {
@@ -100,13 +86,5 @@ class ilSetupConfig implements Setup\Config {
 
 	public function getPathToUnzip() : string {
 		return $this->path_to_unzip;
-	}
-
-	public function getPathToPhantomJS() : ?string {
-		return $this->path_to_phantom_js;
-	}
-
-	public function getPathToLatexCGI() : ?string {
-		return $this->path_to_latex_cgi;
 	}
 }

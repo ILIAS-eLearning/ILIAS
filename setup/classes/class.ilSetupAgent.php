@@ -67,9 +67,7 @@ class ilSetupAgent implements Setup\Agent {
 				$datetimezone->transform([$data["server_timezone"]]),
 				$data["path_to_convert"],
 				$data["path_to_zip"],
-				$data["path_to_unzip"],
-				$data["path_to_phantom_js"] ?? null,
-				$data["path_to_latex_cgi"] ?? null
+				$data["path_to_unzip"]
 			);
 		});	
 	}
