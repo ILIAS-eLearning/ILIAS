@@ -20,7 +20,12 @@ abstract class BaseCommand extends Command {
 	protected static $defaultName = "install";
 
 	/**
-	 * @var Agent
+	 * @var callable
+	 */
+	protected $lazy_agent;
+
+	/**
+	 * @var Agent|null
 	 */
 	protected $agent;
 
@@ -29,10 +34,19 @@ abstract class BaseCommand extends Command {
 	 */
 	protected $config_reader;
 
-	public function __construct(Agent $agent, ConfigReader $config_reader) {
+	public function __construct(callable $lazy_agent, ConfigReader $config_reader) {
 		parent::__construct();
-		$this->agent = $agent;
+		$this->lazy_agent = $lazy_agent;
+		$this->agent = null;
 		$this->config_reader = $config_reader;
+	}
+
+	protected function getAgent() : Agent {
+		if ($this->agent !== null) {
+			return $this->agent;
+		}
+		$this->agent = ($this->lazy_agent)();
+		return $this->agent;
 	}
 
 	public function configure() {
@@ -42,12 +56,12 @@ abstract class BaseCommand extends Command {
 
 	public function execute(InputInterface $input, OutputInterface $output) {
 		$io = new IOWrapper($input, $output);
-		$config = $this->readAgentConfig($this->agent, $input);
-		$environment = $this->buildEnvironment($this->agent, $config, $io);
-		$goal = $this->getObjective($this->agent, $config);
-		$goals = new ObjectiveIterator($environment, $goal);
-
 		$this->printIntroMessage($io);
+
+		$config = $this->readAgentConfig($this->getAgent(), $input);
+		$environment = $this->buildEnvironment($this->getAgent(), $config, $io);
+		$goal = $this->getObjective($this->getAgent(), $config);
+		$goals = new ObjectiveIterator($environment, $goal);
 
 		while($goals->valid()) {
 			$current = $goals->current();

@@ -15,7 +15,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$agent = $this->createMock(Setup\Agent::class);
 		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-		$command = new Setup\CLI\InstallCommand($agent, $config_reader);
+		$command = new Setup\CLI\InstallCommand(function() use ($agent) { return $agent; }, $config_reader);
 
 		$tester = new CommandTester($command);
 
