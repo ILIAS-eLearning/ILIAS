@@ -59,11 +59,13 @@ function build_container_for_setup() {
 	};
 
 	$c["agent"] = function($c) {
-		return new ILIAS\Setup\AgentCollection(
-			$c["ui.field_factory"],
-			$c["refinery"],
-			$c["agents"]
-		);
+		return function () use ($c) {
+			return new ILIAS\Setup\AgentCollection(
+				$c["ui.field_factory"],
+				$c["refinery"],
+				$c["agents"]
+			);
+		};
 	};
 
 	$c["agent_finder"] = function ($c) {
