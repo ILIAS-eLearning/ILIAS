@@ -38,7 +38,7 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
 	 */
 	public function isNotable(): bool
 	{
-		return false;
+		return true;
 	}
 
 	/**

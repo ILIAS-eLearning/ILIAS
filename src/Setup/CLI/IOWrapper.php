@@ -67,6 +67,18 @@ class IOWrapper implements AdminInteraction {
 
 	// For CLI-Setup
 
+	public function title(string $title) : void {
+		$this->style->title($title);
+	}
+
+	public function success(string $text) : void {
+		$this->style->success($text);
+	}
+
+	public function error(string $text) : void {
+		$this->style->error($text);
+	}
+
 	public function startObjective(string $label, bool $is_notable) {
 		$this->last_objective_was_notable = $is_notable;
 		$this->last_objective_label = $label;
