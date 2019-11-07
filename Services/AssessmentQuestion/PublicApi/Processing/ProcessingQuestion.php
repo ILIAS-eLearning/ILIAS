@@ -7,6 +7,9 @@ use ilAsqQuestionAuthoringGUI;
 use ilAsqQuestionPageGUI;
 use ilAsqQuestionProcessingGUI;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ProcessingContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
@@ -58,6 +61,7 @@ class ProcessingQuestion
     {
         $this->question_revision_key = $question_revision_key;
         $this->attempt_number = $attempt_number;
+        $this->container_obj_id = $container_obj_id;
 
         $this->processing_application_service = new ProcessingApplicationService($container_obj_id, $actor_user_id, $attempt_number, $lng_key);
     }
@@ -119,45 +123,9 @@ class ProcessingQuestion
 
 
     /**
-     * @return Component
-     */
-    public function getGenericFeedbackOutput() : Component
-    {
-        // TODO: Implement getGenericFeedbackOutput() method.
-    }
-
-
-    /**
-     * @return Component
-     */
-    public function getSpecificFeedbackOutput() : Component
-    {
-        // TODO: Implement getSpecificFeedbackOutput() method.
-    }
-
-
-    /**
-     * @param UserAnswerSubmit $user_answer
-     */
-    public function storeUserAnswer(UserAnswerSubmit $user_answer) : void
-    {
-        // TODO: Implement SaveUserAnswer() method.
-    }
-
-
-    /**
-     * @return ScoredUserAnswerDto
-     */
-    public function getUserScore() : ScoredUserAnswerDto
-    {
-        // TODO: Implement GetUserScore() method.
-    }
-
-
-    /**
      * @return QuestionDto
      */
-    private function getQuestionDto() : QuestionDto
+    public function getQuestionDto() : QuestionDto
     {
         if (is_null($this->question_dto)) {
             $published_question_repository = new PublishedQuestionRepository();

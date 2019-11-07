@@ -1,6 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\Result\TestResultService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -769,6 +770,11 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		 */
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
+
+        //Last Question Revision ID
+        $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($this->getCurrentSequenceElement());
+        $this->persistUserAnswerResult($revision_id);
+
 
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
@@ -3066,5 +3072,21 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         return true;
+    }
+
+    /**
+     * @param \ILIAS\DI\Container $DIC
+     * @param string              $revision_id
+     */
+    protected function persistUserAnswerResult(string $revision_id) : void
+    {
+        global $DIC;
+
+        $test_result_service = new TestResultService(
+            $DIC->ctrl()->getContextObjId(),
+            $this->testSession->getActiveId(),
+            $this->testSession->getPass(),
+            $DIC->user()->getId());
+        $test_result_service->persistAnswerResult($revision_id, 0);
     }
 }

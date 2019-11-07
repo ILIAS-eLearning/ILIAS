@@ -2,7 +2,6 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
@@ -19,7 +18,9 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class AbstractScoring {
+abstract class AbstractScoring
+{
+
     const SCORING_DEFINITION_SUFFIX = 'Definition';
     /**
      * @var QuestionDto
@@ -62,8 +63,10 @@ abstract class AbstractScoring {
         return get_called_class() . self::SCORING_DEFINITION_SUFFIX;
     }
 
+
     public static abstract function isComplete(Question $question) : bool;
-    
+
+
     /**
      * @param float $reached_points
      * @param float $max_points
@@ -72,37 +75,26 @@ abstract class AbstractScoring {
      */
     public function getAnswerFeedbackType(float $reached_points, float $max_points) : int
     {
-        if($max_points === 0) {
+        if ($max_points === 0) {
             return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_NOT_DETERMINABLLE;
         }
-        if($reached_points === $max_points) {
+        if ($reached_points === $max_points) {
             return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_CORRECT;
         }
+
         return AnswerScoreDto::ANSWER_FEEDBACK_TYPE_INCORRECT;
     }
 
-    protected function createScoreDto(Answer $answer, float $max_points, float $reached_points, $answer_feedback_type):AnswerScoreDto {
 
-        $percent_solved = 0;
-        if($max_points > 0) {
-            $percent_solved = $reached_points / $max_points * 100;
-        }
+    protected function createScoreDto(Answer $answer, float $max_points, float $reached_points, $answer_feedback_type) : AnswerScoreDto
+    {
 
-        return new AnswerScoreDto(
-            $this->question->getContainerObjId(),
-            AnswerScoreDto::ANSWER_IMPORTED_SOURCE_TYPE_NONE,
-            $answer->getAnswererId(),
-            $this->question->getId(),
-            $this->question->getRevisionId(),
-            $answer->getAttemptNumber(),
-            new ilDateTime(time(), IL_CAL_UNIX),
-            $this->question->getQuestionIntId(),
-            $this->question->getData()->getTitle(),
-            $answer->getValue(),
-            0,
+
+        return AnswerScoreDto::createNew(
             $max_points,
             $reached_points,
-            $percent_solved,
+            0, //TODO
+            0, //TODO
             $answer_feedback_type);
     }
 }

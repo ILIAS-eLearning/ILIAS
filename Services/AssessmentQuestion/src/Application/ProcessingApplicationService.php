@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\ScoreTestAttemptCommand;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
@@ -41,7 +42,7 @@ class ProcessingApplicationService
     /**
      * @var int
      */
-    protected $container_obj_id;
+    protected $processing_obj_id;
     /**
      * @var int
      */
@@ -59,12 +60,12 @@ class ProcessingApplicationService
     /**
      * AsqAuthoringService constructor.
      *
-     * @param int $container_obj_id
+     * @param int $processing_obj_id
      * @param int $actor_user_id
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, int $attempt_number, string $lng_key)
+    public function __construct(int $processing_obj_id, int $actor_user_id, int $attempt_number, string $lng_key)
     {
-        $this->container_obj_id = $container_obj_id;
+        $this->processing_obj_id = $processing_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->attempt_number = $attempt_number;
         $this->lng_key = $lng_key;
@@ -73,7 +74,7 @@ class ProcessingApplicationService
 
     public function getProcessingQuestionGUI(string $revision_key, QuestionConfig $question_config) : ilAsqQuestionProcessingGUI
     {
-        $processing_context_container = new ProcessingContextContainer($this->container_obj_id, $this->actor_user_id);
+        $processing_context_container = new ProcessingContextContainer($this->processing_obj_id, $this->actor_user_id);
 
         return new ilAsqQuestionProcessingGUI(
             $revision_key,
@@ -210,13 +211,11 @@ class ProcessingApplicationService
      *
      * @return Answer|null
      */
-    public function getUserAnswer(string $question_id, string $revision_key, int $user_id, int $test_id) : ?Answer
+    public function getUserAnswer(string $question_id, string $revision_key) : ?Answer
     {
-        //TODO get from read side after test ist finished (projected)
-        /** @var Question $question */
         $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
 
-        return $question->getAnswer($user_id, $test_id, $revision_key, $this->attempt_number);
+        return $question->getAnswer($this->actor_user_id,$this->processing_obj_id, $revision_key, $this->attempt_number);
     }
 
 
@@ -248,21 +247,21 @@ class ProcessingApplicationService
     {
         $repository = new PublishedQuestionRepository();
 
-        return $repository->getQuestionsByContainer($this->container_obj_id);
+        return $repository->getQuestionsByContainer($this->processing_obj_id);
     }
 
 
     /**
      * @return Answer[]
      */
-    public function getAnswersFromAnsweredQuestions() : array
+    /*public function getAnswersFromAnsweredQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
 
         $answered_quetsion_answera = [];
         foreach ($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
 
-            $answer = $this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->actor_user_id, $this->container_obj_id);
+            $answer = $this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->container_obj_id);
 
             if (is_object($answer)) {
                 $answered_quetsion_answera[] = $answer;
@@ -270,20 +269,20 @@ class ProcessingApplicationService
         }
 
         return $answered_quetsion_answera;
-    }
+    }*/
 
 
-    public function getUnansweredQuestions() : array
+    /*public function getUnansweredQuestions() : array
     {
         $repository = new PublishedQuestionRepository();
 
         $unanswered_quetsions = [];
         foreach ($repository->getQuestionsByContainer($this->container_obj_id) as $question) {
-            if (is_null($this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->actor_user_id, $this->container_obj_id))) {
+            if (is_null($this->getUserAnswer($question->getId(), $question->getRevisionId(), $this->container_obj_id))) {
                 $unanswered_quetsions[] = $question;
             }
         }
 
         return $unanswered_quetsions;
-    }
+    }*/
 }

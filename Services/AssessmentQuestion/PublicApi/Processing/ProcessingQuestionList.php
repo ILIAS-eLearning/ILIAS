@@ -64,16 +64,18 @@ class ProcessingQuestionList implements QuestionList
     /**
      * @return QuestionDto[]
      */
+    /*
     public function getAnsweredQuestionsOfContainerAsDtoList() : array
     {
         return $this->processing_application_service->getAnswersFromAnsweredQuestions();
-    }
+    }*/
 
     /**
      * @return QuestionDto[]
      */
+    /*
     public function getUnAnsweredQuestionsOfContainerAsDtoList() : array
     {
         return $this->processing_application_service->getUnansweredQuestions();
-    }
+    }*/
 }

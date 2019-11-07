@@ -23,7 +23,7 @@ class ProcessingService
     /**
      * @var int
      */
-    protected $container_obj_id;
+    protected $processing_obj_id;
     /**
      * @var int
      */
@@ -44,16 +44,16 @@ class ProcessingService
     /**
      * ProcessingService constructor.
      *
-     * @param int            $container_obj_id
+     * @param int            $processing_obj_id
      * @param int            $actor_user_id
      * @param int            $attempt_number
      * @param QuestionConfig $question_config
      */
-    public function __construct(int $container_obj_id, int $actor_user_id, int $attempt_number)
+    public function __construct(int $processing_obj_id, int $actor_user_id, int $attempt_number)
     {
         global $DIC;
 
-        $this->container_obj_id = $container_obj_id;
+        $this->processing_obj_id = $processing_obj_id;
         $this->actor_user_id = $actor_user_id;
         $this->attempt_number = $attempt_number;
 
@@ -69,7 +69,18 @@ class ProcessingService
      */
     public function question(string $question_revision_id) : ProcessingQuestion
     {
-        return new ProcessingQuestion($question_revision_id, $this->container_obj_id, $this->actor_user_id, $this->attempt_number, $this->lng_key);
+        return new ProcessingQuestion($question_revision_id, $this->processing_obj_id, $this->actor_user_id, $this->attempt_number, $this->lng_key);
+    }
+
+
+    /**
+     * @param string $question_revision_key
+     *
+     * @return ProcessingUserAnswer
+     */
+    public function userAnswer(string $question_revision_key) : ProcessingUserAnswer
+    {
+        return new ProcessingUserAnswer($this->processing_obj_id, $this->actor_user_id, $this->attempt_number, $question_revision_key, $this->lng_key);
     }
 
     /**
@@ -77,6 +88,6 @@ class ProcessingService
      */
     public function questionList() : ProcessingQuestionList
     {
-        return new ProcessingQuestionList($this->container_obj_id, $this->actor_user_id,  $this->attempt_number, $this->lng_key);
+        return new ProcessingQuestionList($this->processing_obj_id, $this->actor_user_id,  $this->attempt_number, $this->lng_key);
     }
 }

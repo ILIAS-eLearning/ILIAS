@@ -1340,7 +1340,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
-		
+
 		$result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
 
 		$command_solution_details = "";
@@ -2224,19 +2224,19 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$questionList->load();
 
 		$filteredTestResult = array();
-		
+
 		foreach($resultData as $resultItemKey => $resultItemValue)
 		{
 			if($resultItemKey === 'test' || $resultItemKey === 'pass')
 			{
 				continue;
 			}
-
+/*
 			if( !$questionList->isInList($resultItemValue['qid']) )
 			{
 				continue;
 			}
-
+*/
 			$filteredTestResult[] = $resultItemValue;
 		}
 
