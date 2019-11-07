@@ -8,21 +8,21 @@ include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
 include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
 /**
-* GUI class for personal desktop
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
-* @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
-* @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
-* @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
-* @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
-* @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
-* @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
-* @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
-*
-*/
+ * Dashboard UI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalWorkspaceGUI, ilPersonalSettingsGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI
+ *
+ */
 class ilDashboardGUI
 {
 	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
@@ -108,7 +108,8 @@ class ilDashboardGUI
 		$ilMainMenu->setActive("desktop");
 		$this->lng->loadLanguageModule("pdesk");
 		$this->lng->loadLanguageModule("pd"); // #16813
-		
+		$this->lng->loadLanguageModule("dash");
+
 		// catch hack attempts
 		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
 		{
@@ -323,12 +324,11 @@ class ilDashboardGUI
 		// display infopanel if something happened
 		ilUtil::infoPanel();
 		
-		$this->tpl->setTitle($this->lng->txt("overview"));
+		$this->tpl->setTitle($this->lng->txt("dash_dashboard"));
 		$this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
 		
 		$this->tpl->setContent($this->getCenterColumnHTML());
 		$this->tpl->setRightContent($this->getRightColumnHTML());
-		$this->tpl->setLeftContent($this->getLeftColumnHTML());
 
 		if(count($this->action_menu->getItems()))
 		{
@@ -407,7 +407,8 @@ class ilDashboardGUI
 						array("personal_desktop_gui" => $this));
 					if (!$uip->replaced())
 					{
-						$html = $ilCtrl->getHTML($column_gui);
+						$html = $this->getMainContent();
+						//$html = $ilCtrl->getHTML($column_gui);
 					}
 					$html = $uip->getHTML($html);
 
@@ -833,6 +834,69 @@ class ilDashboardGUI
 		$this->ctrl->redirect($this, "show");
 	}
 
+
+	/**
+	 * Get main content
+	 * @return string
+	 */
+	protected function getMainContent()
+	{
+		$html = $this->renderFavourites();
+		$html.= $this->renderRecommendedContent();
+		$html.= $this->renderStudyProgrammes();
+		$html.= $this->renderMemberships();
+
+		return $html;
+	}
+
+	/**
+	 * Render favourites
+	 *
+	 * @return string
+	 */
+	protected function renderFavourites()
+	{
+		$block = new ilPDSelectedItemsBlockGUI();
+		return $block->getHTML();
+	}
+
+	/**
+	 * Render recommended content
+	 *
+	 * @return string
+	 */
+	protected function renderRecommendedContent()
+	{
+		$db_rec_content = new ilDashboardRecommendedContentGUI();
+		return $db_rec_content->render();
+	}
+
+	/**
+	 * Render study programmes
+	 *
+	 * @return string
+	 */
+	protected function renderStudyProgrammes()
+	{
+		$st_block = new ilPDStudyProgrammeSimpleListGUI();
+		$html = $st_block->getHTML();
+		if ($html == "") {
+			$st_block = new ilPDStudyProgrammeExpandableListGUI();
+			$html = $st_block->getHTML();
+		}
+		return $html;
+	}
+
+	/**
+	 * Render memberships
+	 *
+	 * @return string
+	 */
+	protected function renderMemberships()
+	{
+		$block = new ilPDMembershipBlockGUI();
+		return $block->getHTML();
+	}
 
 }
 ?>

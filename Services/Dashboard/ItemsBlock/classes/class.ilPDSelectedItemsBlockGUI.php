@@ -104,9 +104,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 	 */
 	protected function initViewSettings()
 	{
-		$view = (int) ($this->http->request()->getQueryParams()['view'] ?? 0);
+        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user,
+            ilPDSelectedItemsBlockViewSettings::VIEW_SELECTED_ITEMS);
 
-		$this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user, $view);
 		$this->viewSettings->parse();
 
 		$this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
@@ -206,10 +206,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		// workaround to show details row
 		$this->setData([['dummy']]);
 
+		/*
 		ilObjectListGUI::prepareJSLinks('',
 			$this->ctrl->getLinkTargetByClass(['ilcommonactiondispatchergui', 'ilnotegui'], '', '', true, false),
 			$this->ctrl->getLinkTargetByClass(['ilcommonactiondispatchergui', 'iltagginggui'], '', '', true, false)
-		);
+		);*/
 
 		$DIC['ilHelp']->setDefaultScreenId(ilHelpGUI::ID_PART_SCREEN, $this->blockView->getScreenId());
 

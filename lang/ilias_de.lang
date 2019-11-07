@@ -14,6 +14,53 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+common#:#obj_nots_desc#:#Notizfunktion administrieren
+common#:#obj_nots#:#Notizen
+note#:#note_enable_notes#:#Notizen aktivieren
+common#:#obj_coms_desc#:#Kommentarfunktion administrieren
+common#:#obj_coms#:#Kommentare
+note#:#note_enable_comments#:#Kommentare aktivieren
+administration#:#adm_communication#:#Kommunikation
+note#:#note_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
+note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
+note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
+note#:#note_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
+note#:#note_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
+common#:#obj_lhts_desc#:#Lernverlauf administrieren
+common#:#obj_lhts#:#Lernverlauf
+common#:#obj_dshs_desc#:#Dashboard administrieren
+common#:#obj_dshs#:#Dashboard
+lhist#:#lhist_enable_learning_history#:#Lernverlauf
+lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
+common#:#obj_prss_desc#:#Persönliche Ressourcen administrieren
+common#:#obj_prss#:#Persönliche Ressourcen
+pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
+pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
+pwsp#:#pwsp_enable_wsp_certificates#:#Zertifikate aktivieren
+pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
+pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
+dash#:#dash_main_panel#:#Hauptbereich
+dash#:#dash_side_panel#:#Seitenbereich
+dash#:#dash_enable_favourites#:#Favoriten
+dash#:#dash_enable_memberships#:#Meine Mitgliedschaften
+dash#:#dash_view_courses_groups#:#Block ‘Meine Mitgliedschaften’
+dash#:#dash_view_favourites#:#Block ‘Favoriten’
+dash#:#dash_enable_cal#:#Kalender
+dash#:#dash_enable_news#:#Neuigkeiten
+dash#:#dash_enable_mail#:#Mail
+dash#:#dash_enable_task#:#To-Dos
+dash#:#dash_avail_sortation#:#Verfügbare Sortierungen
+dash#:#dash_default_sortation#:#Standardsortierung
+dash#:#dash_sortation#:#Sortierung
+dash#:#dash_presentation#:#Präsentation
+dash#:#dash_avail_presentation#:#Verfügbare Präsentationen
+dash#:#dash_default_presentation#:#Standardpräsentation
+dash#:#dash_list#:#Liste
+dash#:#dash_tile#:#Kacheln
+dash#:#dash_sort_by_location#:#Nach Ort sortieren
+dash#:#dash_sort_by_type#:#Nach Typ sortieren
+dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
+dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
@@ -2441,9 +2488,6 @@ common#:#btn_previous#:#Zurück
 common#:#btn_remove_system#:#Aus System entfernen
 common#:#btn_undelete#:#Wiederherstellen
 common#:#by#:#durch
-pd#:#pd_sort_by_location#:#Nach Ort sortieren
-pd#:#pd_sort_by_type#:#Nach Typ sortieren
-pd#:#pd_sort_by_start_date#:#Nach Startdatum sortieren
 pd#:#pd_my_memberships_sort_default#:#Standard-Sortierung
 pd#:#pd_upcoming#:#Bevorstehend
 pd#:#pd_ongoing#:#Aktuell
@@ -7645,7 +7689,6 @@ pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
 pd#:#pd_enable_my_offers_info#:#Die Sicht 'Ausgewählte Angebote' enthält alle Objekte, die sich auf dem Persönlichen Schreibtisch des Benutzers befinden.
-pd#:#pd_enable_notes#:#Notizen aktivieren
 pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
@@ -12147,8 +12190,6 @@ wiki#:#wiki_stat_page_footnotes#:#Anzahl Fußnoten
 wiki#:#wiki_stat_page_ratings#:#Anzahl Bewertungen
 rbac#:#statistics_read#:#Statistiken einsehen
 rbac#:#wiki_statistics_read#:#Statistiken einsehen
-pd#:#pd_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
-pd#:#pd_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
@@ -13008,8 +13049,6 @@ content#:#sahs_insert_st_from_clip_inside_chap#:#Kapitel aus ILIAS-Lernmodul imp
 content#:#sahs_insert_pg_from_clip#:#Seiten aus ILIAS-Lernmodul importieren
 content#:#cont_active_from#:#Aktiv ab
 content#:#cont_active_to#:#Aktiv bis
-pd#:#pd_comments_notification#:#Generelle Benachrichtigung über alle Kommentare
-pd#:#pd_comments_notification_info#:#Kommagetrennte Liste von Benutzeraccounts, welche jeden Kommentar als e-Mail erhalten.
 note#:#note_comment_notification_subject#:#Neuer Kommentar in "%s".
 note#:#note_comment_notification_subjectc#:#Geänderter Kommentar in "%s".
 note#:#note_comment_notification_salutation#:#Hallo %s,
@@ -13480,7 +13519,6 @@ prg#:#prg_show_programmes_on_pd_always#:#Studienprogramme sind auf dem persönli
 prg#:#prg_show_programmes_on_pd_only_read#:#Studienprogramme sind auf dem persönlichen Schreibtisch nur sichtbar, wenn der Lesezugriff möglich ist.
 prg#:#prg_more_objects_without_read_permission#:#Das Studienprogramm beinhaltet weitere Elemente, die Sie aufgrund von fehlenden Rechten nicht einsehen dürfen.
 cmps#:#cmps_uninstall_inactive_confirm#:#Das Plugin "%1$s" ist aktuell nicht aktivierbar ("%2$s"). In diesem Status können Plugins nicht komplett deinstalliert werden. Da nur die Systemintegration entfernt wird, könnten Plugin-eigene Daten zurückbleiben. Möchten Sie mit der teilweisen Deinstallation fortfahren?
-pd#:#pd_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
 log#:#log_cache_info#:#Erst wenn eine Nachricht den eingestellten Caching-Level erreicht oder überschreitet, werden innerhalb des aktuellen Server-Requests alle Nachrichten protokolliert, deren Level mindestens dem Log-Level entspricht.
 content#:#cont_ov_preview#:#Die Fragenübersicht funktioniert nicht im Seiteneditor-Kontext. Benutzen Sie stattdessen die Vorschau auf SCO- oder SCORM-Level.
 wiki#:#wiki_copy#:#Wiki kopieren
@@ -14715,8 +14753,6 @@ mme#:#type_link_list#:#Link Liste
 mme#:#type_complex#:#Komplex
 mme#:#type_repository_link#:#Magazin-Link
 lhist#:#lhist_no_entries#:#Verfolgen Sie weiter Ihre Ziele! Lernen Sie heute etwas, um Ihren Lernverlauf zu erweitern.
-pd#:#pd_enable_learning_history#:#Lernverlauf
-pd#:#pd_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 blog#:#blog_keyword_enter#:#Geben Sie ein Schlagwort ein und drücken Sie Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#Alle Objekttypen
@@ -15192,17 +15228,6 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
-pd#:#pd_avail_sortation#:#Verfügbare Sortierungen
-pd#:#pd_default_sortation#:#Standardsortierung
-pd#:#pd_sortation#:#Sortierung
-pd#:#pd_presentation#:#Präsentation
-pd#:#pd_avail_presentation#:#Verfügbare Präsentationen
-pd#:#pd_default_presentation#:#Standardpräsentation
-pd#:#pd_list#:#Liste
-pd#:#pd_tile#:#Kacheln
-pd#:#pd_activation#:#Aktivierung
-pd#:#pd_view_courses_groups#:#Ansicht ‘Meine Mitgliedschaften’
-pd#:#pd_view_favourites#:#Ansicht ‘Ausgewählte Angebote’
 rbac#:#pdts_change_presentation#:#Schreibtisch-Präsentation ändern (Liste/Kacheln)
 rbac#:#change_presentation#:#Präsentation ändern
 pd#:#pd_presentation_mode_list#:#Listenansicht

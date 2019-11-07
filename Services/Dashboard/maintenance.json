@@ -8,7 +8,7 @@
     ],
     "tester": "",
     "testcase_writer": "kunkel(115)",
-    "path": "Services/PersonalDesktop",
-    "belong_to_component": "Personal Desktop",
+    "path": "Services/Dashboard",
+    "belong_to_component": "Dashboard",
     "used_in_components": []
 }

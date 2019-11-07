@@ -184,12 +184,10 @@ class ilColumnGUI
 			"cal"	=> true,
 			"pdcal"	=> true,
 			"pdnews" => true,
-			"pdfeed" => true,			
-			"pdbookm" => true,
 			"pdtag" => true,
-			"pdnotes" => true,
+            "pdmail" => true,
+            "pdtasks" => true,
 			"tagcld" => true,
-			"pdportf" => true,
 			"clsfct" => true);
 			
 	protected $check_nr_limit =
@@ -212,6 +210,8 @@ class ilColumnGUI
 		$this->settings = $DIC->settings();
 		$this->setColType($a_col_type);
 		$this->setSide($a_side);
+
+		$this->dash_side_panel_settings = new ilDashboardSidePanelSettingsRepository();
 	}
 
 	/**
@@ -1059,33 +1059,17 @@ class ilColumnGUI
 
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
-			if ($a_type == 'pdbookm')
+			if ($a_type == 'pdnews')
 			{
-				if (!$ilSetting->get("disable_bookmarks"))
-				{
-					return true;
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS);
 			}
-			else if ($a_type == 'pdnotes')
+			else if ($a_type == 'pdmail')
 			{
-				if (!$ilSetting->get("disable_notes"))
-				{
-					return true;
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::MAIL);
 			}
-			else if ($a_type == 'pdportf')
+			else if ($a_type == 'pdtasks')
 			{
-				if ($ilSetting->get("user_portfolios"))
-				{
-					$prfa_set = new ilSetting("prfa");
-					if ($prfa_set->get("pd_block", false))
-					{
-						return true;
-					}
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::TASKS);
 			}
 			elseif($a_type == 'news')
 			{
@@ -1110,6 +1094,9 @@ class ilColumnGUI
 			}
 			elseif($a_type == 'pdcal')
 			{
+			    if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
+			        return false;
+                }
 				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 				return ilCalendarSettings::_getInstance()->isEnabled();
 			}

@@ -14,6 +14,54 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+common#:#obj_nots_desc#:#Notes settings
+common#:#obj_nots#:#Notes
+note#:#note_enable_notes#:#Enable Notes
+common#:#obj_coms_desc#:#Comments settings
+common#:#obj_coms#:#Comments
+note#:#note_enable_comments#:#Enable Comments
+administration#:#adm_communication#:#Communication
+note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
+note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
+note#:#note_comments_notification#:#General notification about all comments
+note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+common#:#obj_lhts_desc#:#Learning history settings
+common#:#obj_lhts#:#Learning History
+common#:#obj_dshs_desc#:#Dashboard settings
+common#:#obj_dshs#:#Dashboard
+lhist#:#lhist_enable_learning_history#:#Learning History
+lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+common#:#obj_prss_desc#:#Personal resources settings
+common#:#obj_prss#:#Personal Resources
+pwsp#:#pwsp_enable_personal_workspace#:#Enable Personal Workspace
+pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
+pwsp#:#pwsp_enable_wsp_files#:#Enable Files
+pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates
+pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+dash#:#dash_main_panel#:#Main Panel
+dash#:#dash_side_panel#:#Side Panel
+dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_memberships#:#Memberships
+dash#:#dash_view_courses_groups#:#Section ‘Courses and Groups’
+dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#dash_enable_cal#:#Calendar
+dash#:#dash_enable_news#:#News
+dash#:#dash_enable_mail#:#Mail
+dash#:#dash_enable_task#:#Tasks
+dash#:#dash_avail_sortation#:#Available Sortations
+dash#:#dash_default_sortation#:#Default Sortation
+dash#:#dash_sortation#:#Sortation
+dash#:#dash_presentation#:#Presentation
+dash#:#dash_avail_presentation#:#Available Presentations
+dash#:#dash_default_presentation#:#Default Presentation
+dash#:#dash_list#:#List
+dash#:#dash_tile#:#Tile
+dash#:#dash_activation#:#activation
+dash#:#dash_sort_by_location#:#Sort by Location
+dash#:#dash_sort_by_type#:#Sort by Type
+dash#:#dash_sort_by_start_date#:#Sort by Start Date
+dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
@@ -2011,9 +2059,6 @@ common#:#btn_next#:#Continue
 common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Restore
-pd#:#pd_sort_by_location#:#Sort by Location
-pd#:#pd_sort_by_type#:#Sort by Type
-pd#:#pd_sort_by_start_date#:#Sort by Start Date
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_ongoing#:#Ongoing
@@ -6598,7 +6643,6 @@ pd#:#pd_enable_my_memberships_info#:#‘Courses and Groups’ contains all cours
 pd#:#pd_enable_my_memberships#:#Enable ‘Courses and Groups’
 pd#:#pd_enable_my_offers_info#:#The view ‘Selected Items’ contains all objects which are placed on the user's Personal Desktop.
 pd#:#pd_enable_my_offers#:#Enable ‘Selected Items’
-pd#:#pd_enable_notes#:#Enable Notes
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
 pd#:#pd_my_memberships#:#My Memberships
@@ -9170,11 +9214,6 @@ auth#:#auth_account_code_title#:#Account Code
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.
 prtf#:#prtf_no_blogs_info#:#Your "%s" does not contain any blogs. Create blogs to use them as part of your portfolios.
 prtf#:#prtf_add_blog#:#Add Blog
-pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace
-pd#:#pd_enable_wsp_blogs#:#Enable Blogs
-pd#:#pd_enable_wsp_files#:#Enable Files
-pd#:#pd_enable_wsp_certificates#:#Enable Certificates
-pd#:#pd_enable_wsp_links#:#Enable Links
 pd#:#pd_enable_prtf#:#Enable Portfolios
 survey#:#svy_save_sync#:#Save and Sync Question Copies
 grp#:#grp_setting_header_presentation#:#Group Presentation
@@ -11250,7 +11289,6 @@ rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_custom_icons#:#Custom Icons
 cmps#:#cmps_enable_creation#:#Enable Creation
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Personal Workspace
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_crss#:#Course
@@ -12196,8 +12234,6 @@ wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes
 wiki#:#wiki_stat_page_ratings#:#Number of Ratings
 rbac#:#statistics_read#:#View Statistics
 rbac#:#wiki_statistics_read#:#View Statistics
-pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors
-pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 notes#:#notes_sort_asc#:#Sort Ascending
 notes#:#notes_sort_desc#:#Sort Descending
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
@@ -12981,8 +13017,6 @@ content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Lear
 content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#cont_active_from#:#Activation Start
 content#:#cont_active_to#:#Activation End
-pd#:#pd_comments_notification#:#General notification about all comments
-pd#:#pd_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
 note#:#note_comment_notification_salutation#:#Hello %s,
@@ -13445,7 +13479,6 @@ prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on 
 prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
-pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
 content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.
 wiki#:#wiki_copy#:#Copy Wiki
@@ -14723,8 +14756,6 @@ mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
 mme#:#type_repository_link#:#Repository-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
-pd#:#pd_enable_learning_history#:#Learning History
-pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
@@ -15190,17 +15221,6 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
-pd#:#pd_avail_sortation#:#Available Sortations
-pd#:#pd_default_sortation#:#Default Sortation
-pd#:#pd_sortation#:#Sortation
-pd#:#pd_presentation#:#Presentation
-pd#:#pd_avail_presentation#:#Available Presentations
-pd#:#pd_default_presentation#:#Default Presentation
-pd#:#pd_list#:#List
-pd#:#pd_tile#:#Tile
-pd#:#pd_activation#:#activation
-pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
-pd#:#pd_view_favourites#:#View ‘Selected Items’
 rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
 rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
