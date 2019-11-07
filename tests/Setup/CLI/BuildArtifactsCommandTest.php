@@ -15,7 +15,7 @@ class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$agent = $this->createMock(Setup\Agent::class);
 		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-		$command = new Setup\CLI\BuildArtifactsCommand(function() use ($agent) { return $agent; }, $config_reader);
+		$command = new Setup\CLI\BuildArtifactsCommand(function() use ($agent) { return $agent; }, $config_reader, []);
 
 		$tester = new CommandTester($command);
 
