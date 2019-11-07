@@ -15,7 +15,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$agent = $this->createMock(Setup\Agent::class);
 		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-		$command = new Setup\CLI\InstallCommand(function() use ($agent) { return $agent; }, $config_reader);
+		$command = new Setup\CLI\InstallCommand(function() use ($agent) { return $agent; }, $config_reader, []);
 
 		$tester = new CommandTester($command);
 
@@ -51,6 +51,18 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			->method("getInstallObjective")
 			->with($config)
 			->willReturn($objective);
+
+		$agent
+			->expects($this->once())
+			->method("getBuildArtifactObjective")
+			->with()
+			->willReturn(new Setup\NullObjective());
+
+		$agent
+			->expects($this->once())
+			->method("getUpdateObjective")
+			->with($config)
+			->willReturn(new Setup\NullObjective());
 
 		$objective
 			->expects($this->once())

@@ -20,7 +20,7 @@ class ilLanguageConfigStoredObjective extends ilLanguageObjective {
 	public function getPreconditions(Setup\Environment $environment) : array {
 		$common_config = $environment->getConfigFor("common");
 		return [
-			new ilIniFilePopulatedObjective($common_config)
+			new ilIniFilesPopulatedObjective($common_config)
 		];
 	}
 

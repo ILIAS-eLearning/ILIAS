@@ -4,13 +4,13 @@
 
 use ILIAS\Setup;
 
-class ilIniFilePopulatedObjective extends ilSetupObjective {
+class ilIniFilesPopulatedObjective extends ilSetupObjective {
 	public function getHash() : string {
 		return hash("sha256", self::class);
 	}
 
 	public function getLabel() : string {
-		return "The ilias.ini.php and client.ini.php are populated with defaults.";
+		return "The ilias.ini.php and client.ini.php are populated.";
 	}
 
 	public function isNotable() : bool {
@@ -43,6 +43,14 @@ class ilIniFilePopulatedObjective extends ilSetupObjective {
 		return $environment
 			->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini)
 			->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
+	}
+
+	public function iniExists() {
+		return file_exists(dirname(__DIR__, 2)."/ilias.ini.php");
+	}
+
+	public function clientIniExists() {
+		return file_exists($this->getClientDir()."/client.ini.php");
 	}
 
 	protected function getClientDir() : string {

@@ -14,7 +14,7 @@ if (!defined("MAGPIE_DIR")) {
 require_once(__DIR__."/classes/class.ilSetupObjective.php");
 require_once(__DIR__."/classes/class.ilSetupAgent.php");
 require_once(__DIR__."/classes/class.ilSetupConfig.php");
-require_once(__DIR__."/classes/class.ilIniFilePopulatedObjective.php");
+require_once(__DIR__."/classes/class.ilIniFilesPopulatedObjective.php");
 require_once(__DIR__."/classes/class.ilSetupConfigStoredObjective.php");
 require_once(__DIR__."/classes/class.ilSetupPasswordManager.php");
 require_once(__DIR__."/classes/class.ilSetupPasswordEncoderFactory.php");
