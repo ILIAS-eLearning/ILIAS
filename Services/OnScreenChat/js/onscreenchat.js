@@ -273,7 +273,11 @@
 
 			if (conversationWindow.size() === 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
-				conversationWindow.find('.panel-body').scroll(getModule().onScroll);
+				conversationWindow.find('.panel-body')
+					.on("dblclick", function() {
+						$(this).trigger("scroll");
+					}).
+					scroll(getModule().onScroll);
 				conversationWindow
 					.find('[data-onscreenchat-emoticons]')
 					.append(getModule().getEmoticons().getTriggerHtml())
@@ -939,8 +943,6 @@
 				insertAfterFirstHeader = false;
 			
 			if (prepend === true) {
-				// 1. Only when scrolled back
-				// 2. Sorting is descending
 				if (firstHeaderUsrId !== undefined && parseInt(firstHeaderUsrId) === parseInt(messageObject.userId)) {
 					renderHeader = false;
 					insertAfterFirstHeader = true;
