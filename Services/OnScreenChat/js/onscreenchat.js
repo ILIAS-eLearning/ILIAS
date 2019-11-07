@@ -926,6 +926,7 @@
 
 			template = template.replace(/\[\[username\]\]/g, username);
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
+			// TODO: Use latest "livestamp" for each "communication path"
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
