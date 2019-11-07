@@ -59,8 +59,6 @@ class ilSetupConfigStoredObjective extends ilSetupObjective {
 		$ini->setVariable("tools", "zip", $this->config->getPathToZip());
 		$ini->setVariable("tools", "unzip", $this->config->getPathToUnzip());
 		$ini->setVariable("tools", "java", $this->config->getPathToConvert());
-		$ini->setVariable("tools", "latex", $this->config->getPathToConvert());
-		$ini->setVariable("tools", "phantomjs", $this->config->getPathToConvert());
 
 		$ini->setVariable("clients", "default", $this->config->getClientId());
 
