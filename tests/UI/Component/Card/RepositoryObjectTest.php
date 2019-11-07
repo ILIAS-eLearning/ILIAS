@@ -13,41 +13,42 @@ use \ILIAS\UI\Implementation as I;
  */
 class RepositoryObjectTest extends ILIAS_UI_TestBase
 {
-
     /**
      * @return \ILIAS\UI\Implementation\Factory
      */
     public function getFactory()
     {
-        return new \ILIAS\UI\Implementation\Factory(
-            $this->createMock(C\Counter\Factory::class),
-            $this->createMock(C\Button\Factory::class),
-            $this->createMock(C\Listing\Factory::class),
-            $this->createMock(C\Image\Factory::class),
-            $this->createMock(C\Panel\Factory::class),
-            $this->createMock(C\Modal\Factory::class),
-            $this->createMock(C\Dropzone\Factory::class),
-            $this->createMock(C\Popover\Factory::class),
-            $this->createMock(C\Divider\Factory::class),
-            $this->createMock(C\Link\Factory::class),
-            $this->createMock(C\Dropdown\Factory::class),
-            $this->createMock(C\Item\Factory::class),
-            $this->createMock(C\ViewControl\Factory::class),
-            $this->createMock(C\Chart\Factory::class),
-            $this->createMock(C\Input\Factory::class),
-            $this->createMock(C\Table\Factory::class),
-            $this->createMock(C\MessageBox\Factory::class),
-            $this->createMock(C\Card\Factory::class),
-            $this->createMock(C\Layout\Factory::class),
-            $this->createMock(C\MainControls\Factory::class),
-            $this->createMock(C\Tree\Factory::class),
-            $this->createMock(C\Menu\Factory::class),
-            new I\Component\Symbol\Factory(
-                new I\Component\Symbol\Icon\Factory(),
-                new I\Component\Symbol\Glyph\Factory()
-            ),
-            $this->createMock(C\Symbol\Factory::class)
-        );
+        $mocks = [
+            'button' =>  $this->createMock(C\Button\Factory::class),
+            'divider' =>  $this->createMock(C\Button\Divider::class),
+        ];
+        $factory = new class($mocks) extends NoUIFactory {
+            public function __construct($mocks)
+            {
+                $this->mocks = $mocks;
+            }
+            public function legacy($content)
+            {
+                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
+                return $f->legacy($content);
+            }
+            public function button()
+            {
+                return $this->mocks['button'];
+            }
+            public function divider()
+            {
+                return $this->mocks['devider'];
+            }
+            public function symbol(): C\Symbol\Factory
+            {
+                return new I\Component\Symbol\Factory(
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory()
+                );
+            }
+        };
+        return $factory;
     }
 
     private function getCardFactory()
@@ -128,7 +129,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 
         $expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
 			<div class="icon crs medium" aria-label="Course">
@@ -138,10 +139,10 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 
 		</div>
 		<div>
-			
+
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -149,7 +150,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -168,10 +169,10 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
 			<div class="icon cert medium outlined" aria-label="Certificate">
@@ -181,7 +182,7 @@ EOT;
 
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -189,7 +190,7 @@ EOT;
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -207,27 +208,27 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
 			<div class="il-chart-progressmeter-box il-chart-progressmeter-mini">
 <div class="il-chart-progressmeter-container">
 <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
-<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100" 
+<path class="il-chart-progressmeter-circle-bg" stroke-dasharray="100, 100"
 d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100" 
+<path class="il-chart-progressmeter-circle no-success" stroke-dasharray="69.2, 100"
 d="M9,35 q-4.3934,-4.3934 -4.3934,-10.6066 a1,1 0 1,1 40,0 q0,6.2132 -4.3934,10.6066"></path>
-<path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100" 
+<path class="il-chart-progressmeter-needle no-needle" stroke-dasharray="100, 100"
 d="M25,10 l0,15" style="transform: rotate(deg)"></path>
 </svg>
 </div>
 </div>
 		</div>
 		<div class="il-card-repository-dropdown">
-			
+
 		</div>
 	</div>
 <img src="src" class="img-standard" alt="alt" />
@@ -235,7 +236,7 @@ d="M25,10 l0,15" style="transform: rotate(deg)"></path>
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 
@@ -256,13 +257,13 @@ EOT;
 
         $expected_html = <<<EOT
 <div class="il-card thumbnail">
-	
+
 	<div class="il-card-repository-head">
 		<div>
-			
+
 		</div>
 		<div>
-			
+
 		</div>
 		<div class="il-card-repository-dropdown">
 			<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
@@ -279,7 +280,7 @@ EOT;
 	<div class="caption">
 		<h5 class="card-title">Card Title</h5>
 	</div>
-	
+
 </div>
 EOT;
 

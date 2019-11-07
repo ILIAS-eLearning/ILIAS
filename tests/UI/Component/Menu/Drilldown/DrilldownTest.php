@@ -25,6 +25,10 @@ class DrilldownTest extends ILIAS_UI_TestBase
             {
                 return new I\Button\Factory();
             }
+            public function legacy($content)
+            {
+                return new I\Legacy\Factory($content, new I\SignalGenerator());
+            }
         };
         return $factory;
     }
