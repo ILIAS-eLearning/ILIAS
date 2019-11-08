@@ -293,6 +293,11 @@ class ilDashboardGUI
 				$this->redirect();
 				break;
 
+			case "ildashboardrecommendedcontentgui":
+				$gui = new ilDashboardRecommendedContentGUI();
+				$this->ctrl->forwardCommand($gui);
+				break;
+
 			default:
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -841,10 +846,16 @@ class ilDashboardGUI
 	 */
 	protected function getMainContent()
 	{
-		$html = $this->renderFavourites();
+		$settings = new ilPDSelectedItemsBlockViewSettings($this->user);
+
+		if ($settings->enabledSelectedItems()) {
+			$html = $this->renderFavourites();
+		}
 		$html.= $this->renderRecommendedContent();
 		$html.= $this->renderStudyProgrammes();
-		$html.= $this->renderMemberships();
+		if ($settings->enabledMemberships()) {
+			$html .= $this->renderMemberships();
+		}
 
 		return $html;
 	}

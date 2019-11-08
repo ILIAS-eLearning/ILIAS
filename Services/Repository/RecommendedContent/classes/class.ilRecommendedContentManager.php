@@ -21,9 +21,15 @@ class ilRecommendedContentManager
     protected $rbacreview;
 
     /**
+     * @var ilFavouritesManager
+     */
+    protected $fav_manager;
+
+    /**
      * Constructor
      */
-    public function __construct(ilRecommendedContentDBRepository $repo = null, ilRbacReview $rbacreview = null)
+    public function __construct(ilRecommendedContentDBRepository $repo = null, ilRbacReview $rbacreview = null,
+        ilFavouritesManager $fav_manager = null)
     {
         global $DIC;
 
@@ -34,6 +40,10 @@ class ilRecommendedContentManager
         $this->rbacreview = (is_null($rbacreview))
             ? $DIC->rbac()->review()
             : $rbacreview;
+
+        $this->fav_manager = (is_null($fav_manager))
+            ? new ilFavouritesManager()
+            : $fav_manager;
     }
 
     /**
@@ -130,6 +140,26 @@ class ilRecommendedContentManager
 
         $role_ids = $review->assignedRoles($user_id);
 
-        return $repo->getOpenRecommendationsOfUser($user_id, $role_ids);
+        $recommendations = $repo->getOpenRecommendationsOfUser($user_id, $role_ids);
+
+        // filter out favourites
+        $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
+        $favourites_ref_ids = array_column($favourites, "ref_id");
+
+        return array_filter($recommendations, function($i) use ($favourites_ref_ids) {
+            return !in_array($i, $favourites_ref_ids);
+        });
+
+    }
+
+    /**
+     * Decline object recommendation
+     *
+     * @param int $user_id
+     * @param int $ref_id
+     */
+    public function declineObjectRecommendation(int $user_id, int $ref_id)
+    {
+        $this->repo->declineObjectRecommendation($user_id, $ref_id);
     }
 }

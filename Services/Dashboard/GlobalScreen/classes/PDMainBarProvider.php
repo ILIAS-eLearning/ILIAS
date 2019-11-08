@@ -45,11 +45,13 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(10)
                 ->withAvailableCallable(
                     function () use ($dic) {
+                        return true;
                         return $dic->settings()->get('disable_my_offers', 0) == 0;
                     }
                 )
                 ->withVisibilityCallable(
                     function () use ($dic) {
+                        return true;
                         $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
                         return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();

@@ -14,6 +14,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+dash#:#dash_remove_from_list#:#Aus Liste entfernen
+dash#:#dash_make_favourite#:#Zu Favouriten hinzufügen
+dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
+dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favouriten hinzugefügt.
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren

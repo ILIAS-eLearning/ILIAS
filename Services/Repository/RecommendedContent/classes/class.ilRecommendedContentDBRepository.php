@@ -183,7 +183,7 @@ class ilRecommendedContentDBRepository
      * @param int $user_id
      * @param int $ref_id
      */
-    protected function declineObjectRecommendation(int $user_id, int $ref_id)
+    public function declineObjectRecommendation(int $user_id, int $ref_id)
     {
         $db = $this->db;
 

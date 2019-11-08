@@ -91,11 +91,13 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
+                    return true;
                     return $dic->settings()->get('disable_my_memberships', 0) == 0;
                 }
             )
             ->withVisibilityCallable(
                 $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) {
+                    return true;
                     $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
 
                     return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();

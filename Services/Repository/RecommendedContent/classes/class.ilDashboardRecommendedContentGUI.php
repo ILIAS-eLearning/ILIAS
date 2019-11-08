@@ -40,6 +40,15 @@ class ilDashboardRecommendedContentGUI
      */
     protected $lng;
 
+    /**
+     * @var \ilCtrl
+     */
+    protected $ctrl;
+
+    /**
+     * @var ilFavouritesManager
+     */
+    protected $fav_manager;
 
     /**
      * Constructor
@@ -50,13 +59,37 @@ class ilDashboardRecommendedContentGUI
 
         $this->user = $DIC->user();
         $this->rec_manager = new ilRecommendedContentManager();
+        $this->fav_manager = new ilFavouritesManager();
         $this->objDefinition = $DIC["objDefinition"];
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
 
         $this->lng->loadLanguageModule("rep");
 
+        $this->requested_item_ref_id = (int) $_GET["item_ref_id"];
+
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
+    }
+
+    /**
+     * Execute command
+     */
+    function executeCommand()
+    {
+        $ctrl = $this->ctrl;
+
+        $next_class = $ctrl->getNextClass($this);
+        $cmd = $ctrl->getCmd();
+
+        switch ($next_class)
+        {
+            default:
+                if (in_array($cmd, array("remove", "makeFavourite")))
+                {
+                    $this->$cmd();
+                }
+        }
     }
 
     /**
@@ -66,6 +99,9 @@ class ilDashboardRecommendedContentGUI
      */
     public function render()
     {
+        if (count($this->recommendations) == 0) {
+            return "";
+        }
         return $this->ui->renderer()->render(
             $this->ui->factory()->panel()->listing()->standard(
                 $this->lng->txt("rep_recommended_content"),
@@ -107,6 +143,9 @@ class ilDashboardRecommendedContentGUI
      */
     protected function getListItemForData($ref_id): \ILIAS\UI\Component\Item\Item
     {
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+
         $obj_id = ilObject::_lookupObjectId($ref_id);
         $type = ilObject::_lookupType($obj_id);
         $title = ilObject::_lookupTitle($obj_id);
@@ -120,10 +159,25 @@ class ilDashboardRecommendedContentGUI
         ];
 
         /** @var ilObjectListGUI $itemListGui */
-        $itemListGui = $this->byType($type);
-        ilObjectActivation::addListGUIActivationProperty($itemListGui, $item);
+        $item_gui = $this->byType($type);
+        ilObjectActivation::addListGUIActivationProperty($item_gui, $item);
 
-        $list_item = $itemListGui->getAsListItem(
+        $ctrl->setParameter($this, "item_ref_id", $ref_id);
+
+        $item_gui->addCustomCommand(
+            $ctrl->getLinkTarget($this, "remove"),
+            "dash_remove_from_list"
+        );
+
+        $item_gui->addCustomCommand(
+            $ctrl->getLinkTarget($this, "makeFavourite"),
+            "dash_make_favourite"
+        );
+
+        $ctrl->clearParameterByClass(self::class, "item_ref_id");
+
+
+        $list_item = $item_gui->getAsListItem(
             (int) $ref_id,
             (int) $obj_id,
             (string) $type,
@@ -178,6 +232,31 @@ class ilDashboardRecommendedContentGUI
         }
 
         return (clone self::$list_by_type[$a_type]);
+    }
+
+    /**
+     * Remove from list
+     */
+    protected function remove()
+    {
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $this->rec_manager->declineObjectRecommendation($this->user->getId(), $this->requested_item_ref_id);
+        ilUtil::sendSuccess($lng->txt("dash_item_removed"), true);
+        $ctrl->returnToParent($this);
+    }
+
+
+    /**
+     * Make favourite
+     */
+    protected function makeFavourite()
+    {
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $this->fav_manager->add($this->user->getId(), $this->requested_item_ref_id);
+        ilUtil::sendSuccess($lng->txt("dash_added_to_favs"), true);
+        $ctrl->returnToParent($this);
     }
 
 }
