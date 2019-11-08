@@ -56,6 +56,95 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 		return $context_options;
 	}
 
+	/**
+	 * Show deletion confirmation with linked courses.
+	 * @param int[] participants
+	 */
+	protected function showDeleteParticipantsConfirmationWithLinkedCourses($participants)
+	{
+		ilUtil::sendQuestion($this->lng->txt('crs_ref_delete_confirmation_info'));
+
+		$table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(),'confirmDeleteParticipants');
+		$table->init();
+		$table->setParticipants($participants);
+		$table->parse();
+
+		$this->tpl->setContent($table->getHTML());
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	protected function deleteParticipantsWithLinkedCourses()
+	{
+		global $DIC;
+
+		$ilAccess = $DIC['ilAccess'];
+
+		$participants = (array) $_POST['participants'];
+
+		if(!is_array($participants) or !count($participants))
+		{
+			ilUtil::sendFailure($this->lng->txt("no_checkbox"),true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+
+		// If the user doesn't have the edit_permission and is not administrator, he may not remove
+		// members who have the course administrator role
+		if (
+			!$ilAccess->checkAccess('edit_permission', '', $this->getParentObject()->getRefId()) &&
+			!$this->getMembersObject()->isAdmin($GLOBALS['DIC']['ilUser']->getId())
+		)
+		{
+			foreach($participants as $part)
+			{
+				if($this->getMembersObject()->isAdmin($part))
+				{
+					ilUtil::sendFailure($this->lng->txt('msg_no_perm_perm'),true);
+					$this->ctrl->redirect($this, 'participants');
+				}
+			}
+		}
+
+		if(!$this->getMembersObject()->deleteParticipants($participants))
+		{
+			ilUtil::sendFailure('Error deleting participants.', true);
+			$this->ctrl->redirect($this, 'participants');
+		}
+		else
+		{
+			foreach((array) $_POST["participants"] as $usr_id)
+			{
+				$mail_type = 0;
+				switch($this->getParentObject()->getType())
+				{
+					case 'crs':
+						$mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+						break;
+				}
+				$this->getMembersObject()->sendNotification($mail_type, $usr_id);
+			}
+		}
+
+		// Delete course reference assignments
+		if(count((array) $_POST['refs']))
+		{
+			foreach($_POST['refs'] as $usr_id => $usr_info) {
+				foreach((array) $usr_info as $course_ref_id => $tmp) {
+					$part = ilParticipants::getInstance($course_ref_id);
+					$part->delete($usr_id);
+				}
+			}
+		}
+
+		ilUtil::sendSuccess($this->lng->txt($this->getParentObject()->getType()."_members_deleted"), true);
+		$this->ctrl->redirect($this, "participants");
+
+		return true;
+
+	}
+
 
 	/**
 	 * callback from repository search gui

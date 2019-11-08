@@ -757,6 +757,8 @@ class ilNewsItem
 
 		$ilAccess = $DIC->access();
 
+		$fav_rep = new ilFavouritesDBRepository();
+
 		$news_item = new ilNewsItem();
 		$news_set = new ilSetting("news");
 		
@@ -771,7 +773,7 @@ class ilNewsItem
 		if (ilObjUser::_lookupPref($a_user_id, "pd_items_news") != "n")
 		{
 			// get all items of the personal desktop
-			$pd_items = ilObjUser::_lookupDesktopItems($a_user_id);
+			$pd_items = $fav_rep->getFavouritesOfUser($a_user_id);
 			foreach($pd_items as $item)
 			{
 				if (!in_array($item["ref_id"], $ref_ids))

@@ -1,4 +1,4 @@
-* Copyright (c) 1998-2018 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten einer Konversation mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
@@ -218,6 +219,26 @@ exc#:#exc_wait_for_files#:#Der Download sollte automatisch starten. Bei Probleme
 exc#:#exc_target_not_valid#:#Das Link-Ziel ist nicht mehr gültig.
 exc#:#exc_no_get_target#:#Kein gültiges Link-Ziel gefunden.
 exc#:#exc_all_new_files_offered_already#:#Alle neuen Dateien wurden bereits zum Download angeboten. Für einen erneuten Download klicken Sie bitte auf die entsprechenden Aktionslinks in der untenstehenden Liste.
+book#:#book_too_many_preferences#:#Sie haben zu viele Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_not_enough_preferences#:#Sie haben nicht genügend Präferenzen ausgewählt. Die Präferenzen wurden nicht gespeichert.
+book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
+book#:#book_schedule_type_none_direct#:#Ohne Zeitplan, direkte Buchung
+book#:#book_schedule_type_none_direct_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können direkt Buchungen vornehmen.
+book#:#book_schedule_type_none_preference#:#Ohne Zeitplan, mit Präferenzen
+book#:#book_schedule_type_none_preference_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc. Teilnehmer können zunächst Präferenzen nennen. Nach einer Frist werden dann die Buchungen automatisch vorgenommen.
+book#:#book_nr_of_preferences#:#Anzahl Präferenzen
+book#:#book_nr_of_preferences_info#:#Anzahl an Präferenzen die jeder Teilnehmer abgeben darf.
+book#:#book_pref_deadline#:#Frist
+book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnungen auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
+book#:#book_preferences#:#Präferenzen
+book#:#book_your_bookings#:#Ihre Reservierungen
+book#:#book_your_preferences#:#Ihre Präferenzen
+book#:#book_no_bookings_for_you#:#Es wurden keine Reservierungen für Sie durchgeführt.
+book#:#book_no_preferences_for_you#:#Sie haben keine Präferenzen abgespeichert.
+book#:#book_all_users#:#Alle Teilnehmer
+book#:#book_pref_overview#:#Übersicht
+book#:#book_pref_book_cron#:#Buchung mit Präferenzen
+book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -2301,7 +2322,7 @@ common#:#assf_questiontypes#:#Frageneinstellungen
 rbac#:#assf_read#:#Zugriff auf die Test und Assessment-Administration
 rbac#:#assf_visible#:#Test und Assessment-Administration ist sichtbar
 rbac#:#assf_write#:#Bearbeiten der Test und Assessment-Administration
-common#:#assign#:#Als Mitglied aufnehmen
+common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
@@ -4440,6 +4461,8 @@ common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#webdav_enable_versioning#:#Datei Versionierung
+common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
 common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
@@ -5425,7 +5448,7 @@ grp#:#grp_members_deleted#:#Das/die Mitglied(er) wurde(n) aus der Gruppe ausgetr
 crs#:#crs_members_groups#:#Gruppenmitgliedschaften
 crs#:#crs_members_map#:#Karte Kursmitglieder
 crs#:#crs_members_print_title#:#Kursmitglieder
-crs#:#crs_min_one_admin#:#Diesem Kurs muß mindestens ein Administrator zugeordnet bleiben.
+crs#:#crs_min_one_admin#:#Diesem Kurs muss mindestens ein Administrator zugeordnet bleiben.
 crs#:#crs_new_status#:#Ihr Status:
 crs#:#crs_new_subscription#:#Beitritt zum Kurs "%s"
 crs#:#crs_new_subscription_body#:#%1$s ist dem Kurs %2$s beigetreten.
@@ -8342,7 +8365,7 @@ search#:#lucene_err_colon#:#Felddeklarationen (:) muss mindestens ein Buchstabe 
 search#:#lucene_err_exclamation_mark#:#Anfragen mit dem Spezialzeichen ! müssen folgende Form haben: term1 ! term2.
 search#:#lucene_err_parenthesis_empty#:#Klammern dürfen nicht leer sein.
 search#:#lucene_err_parenthesis_not_closed#:#Klammern müssen geschlossen werden.
-search#:#lucene_err_plus_minus#:# (+) und (-) muß mindestens ein Buchstabe oder eine Zahl nachfolgen.
+search#:#lucene_err_plus_minus#:# (+) und (-) muss mindestens ein Buchstabe oder eine Zahl nachfolgen.
 search#:#lucene_err_question_mark#:#Dem Fragezeichen (?) muss mindestens ein Buchstabe oder eine Nummer vorausgehen.
 search#:#lucene_err_quotes#:#Bitte schließen Sie all Anführungszeichen (").
 search#:#lucene_err_quotes_not_empty#:#Anführungszeichen dürfen nicht leer sein.
@@ -9997,11 +10020,17 @@ administration#:#adm_imprint_inactive#:#Das Impressum ist nicht aktiviert und so
 common#:#imprint#:#Impressum
 trac#:#trac_filter_has_status#:#Zeige auch Objekte mit Status 'Noch nicht begonnen'
 cat#:#cat_import#:#Kategorie importieren
+objref#:#objref_custom_title#:#Eigenen Titel verwenden
 objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
-objref#:#objref_title_settings#:#Titel des verlinkten Objekts
 objref#:#objref_reuse_title#:#Titel des verlinkten Objekts übernehmen
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
+objref#:#objref_title_settings#:#Titel des verlinkten Objekts
+objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
+crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen
+crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
+crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
+crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
+crs#:#crs_ref_delete_confirmation_info#:#Möchten Sie folgende Mitglieder aus diesem Kurs austragen? Wenn diese Mitglieder auch aus den im Kurs enthaltenden verlinkten Kursen ausgetragen werden sollen, dann aktivieren Sie die entsprechenden Checkboxen.
 dateplaner#:#cal_add_calendar#:#Neuen Kalender anlegen
 dateplaner#:#cal_import_appointments#:#Termine importieren
 dateplaner#:#cal_import_tbl#:#Kalendertermine importieren
@@ -15230,3 +15259,22 @@ obj#:#obj_tool_booking#:#Ressourcen
 obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
 obj#:#obj_tool_setting_booking#:#Ressourcen
 book#:#book_all_pools_need_schedules#:#Die Änderungen wurden nicht gespeichert. Alle zugeordneten Buchungspools benötigen mindestens einen Zeitplan.
+common#:#mm_rep_tree_view#:#Baumansicht
+exc#:#exc_rel_last_submission#:#Letzt möglicher Abgabetermin
+exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
+exc#:#exc_mandatory_rand_determined#:#Zufällige Auswahl
+exc#:#exc_random_selection#:#Zufällige Auswahl
+exc#:#exc_random_selection_info#:#Jedem Benutzer wird eine zufällige Auswahl an verpflichtenden Übungseinheiten zugeordnet.
+exc#:#exc_nr_random_mand#:#Anzahl verpflichtender Übungseinheiten
+exc#:#exc_denied_has_submissions#:#Grund: Benutzer haben bereits Abgaben getätigt.
+exc#:#exc_denied_has_peer_reviews#:#Grund: Einige Übungseinheiten haben Peer-Reviewing aktiviert.
+exc#:#exc_denied_has_team_assignments#:#Grund: Die Übung enthält Team-Abgaben.
+exc#:#exc_random_selection_not_changeable_info#:#Diese Option kann nicht aktiviert werden.
+exc#:#exc_pass_mode_not_changeable_info#:#Diese Option kann nicht mehr geändert werden.
+exc#:#exc_start_exercise#:#Übung beginnen
+exc#:#exc_random_assignment#:#Zufällige Auswahl
+exc#:#exc_random_assignment_info#:#Wenn Sie die Übung starten, wird Ihnen eine zufällige Auswahl an verpflichtenden Übungseinheiten zugewiesen.
+exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
+exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
+exc#:#exc_random#:#Zufällig
+book#:#book_no_objects#:#Keine Zuweisung

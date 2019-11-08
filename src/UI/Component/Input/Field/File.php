@@ -1,31 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\FileUpload\Handler\UploadHandler;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 
 /**
- * This describes select field.
+ * This describes file field.
  */
 interface File extends Input
 {
 
-    /**
-     * @param int $size_in_bytes
-     *
-     * @return File
-     */
+    public function withAcceptedMimeTypes(array $mime_types) : File;
+
+
+    public function getAcceptedMimeTypes() : array;
+
+
     public function withMaxFileSize(int $size_in_bytes) : File;
 
 
-    /**
-     * @return int
-     */
     public function getMaxFileFize() : int;
 
 
-    /**
-     * @return UploadHandler
-     */
-    public function getUploadHandler() : UploadHandler;
+    public function getUploadHandler() : ilCtrlAwareUploadHandler;
 }

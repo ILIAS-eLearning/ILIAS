@@ -12,6 +12,20 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Improving FileInput and Dropzones (advanced, vaiable)
+General Dropzone functionality:
+ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
+
+With ILIAS 7, FileInput (or specific variants thereof) should have at least the following functions and properties:
+- Upload several files at once
+- Displaying existing files
+- Restriction to file extensions
+- Restriction to MimeTypes
+
+With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
+- Preview of uploaded images
+- Crop functionality for images
+
 ### Engaged Buttons (advanced, ~4h)
 
 The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)

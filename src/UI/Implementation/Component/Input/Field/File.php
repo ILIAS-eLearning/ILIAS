@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\UploadHandler;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
@@ -19,11 +20,15 @@ class File extends Input implements C\Input\Field\File
     use JavaScriptBindable;
     use Triggerer;
     /**
+     * @var array
+     */
+    private $accepted_mime_types;
+    /**
      * @var int
      */
     private $max_file_size;
     /**
-     * @var UploadHandler
+     * @var ilCtrlAwareUploadHandler
      */
     private $upload_handler;
 
@@ -100,8 +105,23 @@ class File extends Input implements C\Input\Field\File
     /**
      * @inheritDoc
      */
-    public function getUploadHandler() : UploadHandler
+    public function getUploadHandler() : ilCtrlAwareUploadHandler
     {
         return $this->upload_handler;
+    }
+
+
+    public function withAcceptedMimeTypes(array $mime_types) : \ILIAS\UI\Component\Input\Field\File
+    {
+        $clone = clone $this;
+        $clone->accepted_mime_types = $mime_types;
+
+        return $clone;
+    }
+
+
+    public function getAcceptedMimeTypes() : array
+    {
+        return $this->accepted_mime_types;
     }
 }

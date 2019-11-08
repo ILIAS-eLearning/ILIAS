@@ -56,18 +56,27 @@ class ilTemplate extends HTML_Template_ITX
 	 */
 	protected $tplIdentifier;
 
-	/**
-	* constructor
-	* @param	string	$file 		templatefile (mit oder ohne pfad)
-	* @param	boolean	$flag1 		remove unknown variables
-	* @param	boolean	$flag2 		remove empty blocks
-	* @param	boolean	$in_module	should be set to true, if template file is in module subdirectory
-	* @param	array	$vars 		variables to replace
-	* @access	public
-	*/
-	public function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false, $a_use_cache = true)
-	{
+    /**
+     * constructor
+     * ilTemplate constructor.
+     * @param string $file template file
+     * @param bool $flag1 remove unknown variables
+     * @param bool $flag2 remove empty blocks
+     * @param string $in_module module/service subdirectory
+     * @param string $vars variables to replace
+     * @param bool $plugin plugin template
+     * @param bool $a_use_cache us cache
+     * @throws ilTemplateException
+     */
+    public function __construct(
+        string $file,
+        bool $flag1,
+        bool $flag2,
+        string $in_module = "",
+        string $vars = "DEFAULT",
+        bool $plugin = false,
+        bool $a_use_cache = true)
+    {
 		$this->activeBlock = "__global__";
 		$this->vars = array();
 		
@@ -421,27 +430,13 @@ class ilTemplate extends HTML_Template_ITX
 		
 		$fname = "";
 		
-		// if baseClass functionality is used (ilias.php):
-		// get template directory from ilCtrl
-		if (!empty($_GET["baseClass"]) && $a_in_module === true)
-		{
-			$a_in_module = $ilCtrl->getModuleDir();
-		}
-
 		if (strpos($a_tplname,"/") === false)
 		{
 			$module_path = "";
 			
-			if ($a_in_module)
+			if ($a_in_module != "")
 			{
-				if ($a_in_module === true)
-				{
-					$module_path = ILIAS_MODULE."/";
-				}
-				else
-				{
-					$module_path = $a_in_module."/";
-				}
+				$module_path = $a_in_module."/";
 			}
 
 			// use ilStyleDefinition instead of account to get the current skin
