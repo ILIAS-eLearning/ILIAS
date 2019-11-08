@@ -176,7 +176,14 @@ class ilObjDashboardSettingsGUI extends ilObjectGUI
 
 		$fields["enable_favourites"] = $f->input()->field()->checkbox($lng->txt("dash_enable_favourites"))
 			->withValue($this->viewSettings->enabledSelectedItems());
-		$fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"))
+		$info_text = ($this->viewSettings->enabledMemberships())
+			? ""
+			: $lng->txt("dash_member_main_alt")." ".$ui->renderer()->render(
+				$ui->factory()->link()->standard(
+					$lng->txt("dash_click_here"),
+					$ctrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjMainMenuGUI", "ilmmsubitemgui"])));
+
+		$fields["enable_memberships"] = $f->input()->field()->checkbox($lng->txt("dash_enable_memberships"), $info_text)
 			->withValue($this->viewSettings->enabledMemberships());
 
 		// main panel

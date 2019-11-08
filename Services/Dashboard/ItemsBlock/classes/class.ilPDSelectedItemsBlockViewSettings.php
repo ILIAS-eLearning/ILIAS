@@ -417,6 +417,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 	{
 		$this->validViews = self::$availableViews;
 
+		/*
 		foreach (array_filter([
 			$this->getMembershipsView() => !$this->enabledMemberships(),
 			$this->getSelectedItemsView() => !$this->enabledSelectedItems()
@@ -427,6 +428,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 			}
 		}
 
+
 		if (1 === count($this->validViews)) {
 			$this->storeDefaultView($this->getSelectedItemsView());
 			$this->validViews[] = $this->getSelectedItemsView();
@@ -434,7 +436,7 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
 
 		if (!$this->isValidView($this->getCurrentView())) {
 			$this->currentView = $this->getDefaultView();
-		}
+		}*/
 
 		$this->currentSortOption = $this->getEffectiveSortingMode();
 		$this->currentPresentationOption = $this->getEffectivePresentationMode();

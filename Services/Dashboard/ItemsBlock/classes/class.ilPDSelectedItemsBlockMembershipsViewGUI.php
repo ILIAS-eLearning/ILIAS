@@ -37,7 +37,7 @@ class ilPDSelectedItemsBlockMembershipsViewGUI extends ilPDSelectedItemsBlockVie
 	 */
 	public function getTitle()
 	{
-		return $this->lng->txt('pd_my_memberships');
+		return $this->lng->txt('my_courses_groups');
 	}
 
 	/**
