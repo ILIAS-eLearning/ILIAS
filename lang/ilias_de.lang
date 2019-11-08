@@ -66,6 +66,16 @@ dash#:#dash_sort_by_type#:#Nach Typ sortieren
 dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
 dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
+user#:#user_privacy_checklist#:#Datenschutz Checkliste
+user#:#user_profile_data#:#Profildaten
+user#:#user_publish_options#:#Profile veröffentlichen
+user#:#user_visibility_settings#:#Sichtbarkeit
+user#:#user_save_continue#:#Speichern und Weiter
+user#:#user_profile_data_checked#:#Profildaten überprüft
+user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
+user#:#show_own_online_status#:#Eigenen Online-Status anzeigen
+user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
+user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht
 chatroom#:#osc_enable_browser_notifications_label#:#Browser-Benachrichtigungen
 chatroom#:#osc_enable_browser_notifications_info#:#Wenn aktiviert, erhalten Sie beim Eintreffen neuer Konversationen oder Chat-Nachrichten eine Browser-Benachrichtigung, wenn zwischen zwei Nachrichten einer Konversation mehr als %s Minute(n) vergangen ist/sind. Befindet sich ILIAS im Hintergrund und arbeiten Sie in anderen Browser-Tabs, oder ist der Browser ausgeblendet, erhalten Sie ebenfalls eine Benachrichtigung.
@@ -3872,7 +3882,7 @@ common#:#person_title#:#Titel
 common#:#personal_data#:#Persönliche Daten
 common#:#personal_desktop#:#Persönlicher Schreibtisch
 common#:#personal_picture#:#Profilbild
-common#:#personal_profile#:#Persönliche Daten und Profil
+common#:#personal_profile#:#Profil und Datenschutz
 common#:#personal_settings#:#Einstellungen
 common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen

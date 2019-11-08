@@ -39,6 +39,7 @@ define ("IL_USER_MAPPING_ID", 2);
 require_once("./Services/Xml/classes/class.ilSaxParser.php");
 require_once ('Services/User/classes/class.ilUserXMLWriter.php');
 
+
 /**
 * User Import Parser
 *
@@ -271,6 +272,12 @@ class ilUserImportParser extends ilSaxParser
 	protected $recommended_content_manager;
 
 	/**
+	 * @var ilUserSettingsConfig
+	 */
+	protected $user_settings_config;
+
+
+	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file		xml file
@@ -296,6 +303,8 @@ class ilUserImportParser extends ilSaxParser
 		$this->parentRolesCache = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
+
+		$this->user_settings_config = new ilUserSettingsConfig();
 		
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
@@ -319,23 +328,8 @@ class ilUserImportParser extends ilSaxParser
 			}
 		}
 
-		$settings = $global_settings->getAll();
-		if ($settings["usr_settings_hide_skin_style"] == 1)
-		{
-			$this->hideSkin = TRUE;
-		}
-		else
-		{
-			$this->hideSkin = FALSE;
-		}
-		if ($settings["usr_settings_disable_skin_style"] == 1)
-		{
-			$this->disableSkin = TRUE;
-		}
-		else
-		{
-			$this->disableSkin = FALSE;
-		}
+		$this->hideSkin = (!$this->user_settings_config->isVisible("skin_style"));
+		$this->disableSkin = (!$this->user_settings_config->isChangeable("skin_style"));
 
 		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();

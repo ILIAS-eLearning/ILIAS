@@ -67,6 +67,16 @@ dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_sort_by_start_date#:#Sort by Start Date
 dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
+user#:#user_privacy_checklist#:#Privacy Checklist
+user#:#user_profile_data#:#Profile Data
+user#:#user_publish_options#:#Publish Profile
+user#:#user_visibility_settings#:#Visibility
+user#:#user_save_continue#:#Save and Continue
+user#:#user_profile_data_checked#:#Profile data checked
+user#:#user_check_profile_data#:#Check profile data
+user#:#show_own_online_status#:#Show My Online Status
+user#:#user_set_visibilty_options#:#Set visibility options
+user#:#user_set_publishing_options#:#Set publishing options
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
@@ -2117,7 +2127,7 @@ common#:#change_header_title#:#Edit Header Title
 common#:#change_owner#:#Change owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#change#:#Change
-common#:#changeable#:#Changeable in Personal Data and Profile
+common#:#changeable#:#Changeable in Profile
 common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
@@ -3361,7 +3371,7 @@ common#:#person_title#:#Title
 common#:#personal_data#:#Personal Data
 common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Avatar
-common#:#personal_profile#:#Personal Data and Profile
+common#:#personal_profile#:#Profile and Privacy
 common#:#persons#:#Persons
 common#:#pg_add#:#Add page
 common#:#pg_new#:#New page
@@ -7788,7 +7798,7 @@ user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
 user#:#usr_public_profile_disabled#:#Profile Disabled
 user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet
-user#:#usr_public_profile_logged_in#:#Visible for Logged in Users
+user#:#usr_public_profile_logged_in#:#Visible for logged in Users
 webr#:#webr_active#:#Active
 webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
 webr#:#webr_deactivate#:#Deactivate Weblink

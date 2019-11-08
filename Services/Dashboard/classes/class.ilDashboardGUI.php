@@ -170,7 +170,6 @@ class ilDashboardGUI
 			case "ilpersonalprofilegui":
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once("./Services/User/classes/class.ilPersonalProfileGUI.php");
 				$profile_gui = new ilPersonalProfileGUI();
 				$ret = $this->ctrl->forwardCommand($profile_gui);
 				break;
@@ -179,7 +178,6 @@ class ilDashboardGUI
 			case "ilpersonalsettingsgui":
 				$this->getStandardTemplates();
 				$this->setTabs();
-				include_once("./Services/User/classes/class.ilPersonalSettingsGUI.php");
 				$settings_gui = new ilPersonalSettingsGUI();
 				$ret = $this->ctrl->forwardCommand($settings_gui);
 				break;

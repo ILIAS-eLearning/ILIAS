@@ -2792,3 +2792,7 @@ $ilDB->update("object_data", [
 include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
 ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
 ?>
+<#5583>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>

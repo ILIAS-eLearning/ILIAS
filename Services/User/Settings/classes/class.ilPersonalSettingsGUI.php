@@ -16,6 +16,11 @@ class ilPersonalSettingsGUI
 	var $ctrl;
 
 	/**
+	 * @var ilUserSettingsConfig
+	 */
+	protected $user_settings_config;
+
+	/**
 	 * constructor
 	 */
     function __construct()
@@ -40,6 +45,8 @@ class ilPersonalSettingsGUI
 		$this->password_error = "";
 		$lng->loadLanguageModule("user");
 		$ilCtrl->saveParameter($this, "user_page");
+
+	    $this->user_settings_config = new ilUserSettingsConfig();
 	}
 
 	/**
@@ -398,50 +405,30 @@ class ilPersonalSettingsGUI
 	//
 
 	/**
-	 * Returns TRUE if working with the given
-	 * user setting is allowed, FALSE otherwise
+	 * @param string $setting
+	 * @return bool
 	 */
-	function workWithUserSetting($setting)
+	function workWithUserSetting(string $setting): bool
 	{
-		$result = TRUE;
-		if ($this->settings["usr_settings_hide_".$setting] == 1)
-		{
-			$result = FALSE;
-		}
-		if ($this->settings["usr_settings_disable_".$setting] == 1)
-		{
-			$result = FALSE;
-		}
-		return $result;
+		return $this->user_settings_config->isVisibleAndChangeable($setting);
 	}
 
 	/**
-	 * Returns TRUE if user setting is
-	 * visible, FALSE otherwise
+	 * @param string $setting
+	 * @return bool
 	 */
-	function userSettingVisible($setting)
+	function userSettingVisible(string $setting): bool
 	{
-		$result = TRUE;
-		if (isset($this->settings["usr_settings_hide_".$setting]) &&
-			$this->settings["usr_settings_hide_".$setting] == 1)
-		{
-			$result = FALSE;
-		}
-		return $result;
+		return $this->user_settings_config->isVisible($setting);
 	}
 
 	/**
-	 * Returns TRUE if user setting is
-	 * enabled, FALSE otherwise
+	 * @param string $setting
+	 * @return bool
 	 */
-	function userSettingEnabled($setting)
+	function userSettingEnabled(string $setting): bool
 	{
-		$result = TRUE;
-		if ($this->settings["usr_settings_disable_".$setting] == 1)
-		{
-			$result = FALSE;
-		}
-		return $result;
+		return $this->user_settings_config->isChangeable($setting);
 	}
 
 	/**
@@ -598,28 +585,6 @@ class ilPersonalSettingsGUI
 		$lv->setValue((int) $ilUser->prefs["store_last_visited"]);
 		$this->form->addItem($lv);
 
-		// hide_own_online_status
-		$awrn_set = new ilSetting("awrn");
-		if ($awrn_set->get("awrn_enabled", false) && $this->userSettingVisible("hide_own_online_status"))
-		{
-			$this->lng->loadLanguageModule("awrn");
-			$cb = new ilCheckboxInputGUI($this->lng->txt("awrn_hide_from_awareness"), "hide_own_online_status");
-			$cb->setInfo($this->lng->txt("awrn_hide_from_awareness_info"));
-			$cb->setChecked($ilUser->prefs["hide_own_online_status"] == "y");
-			$cb->setDisabled($ilSetting->get("usr_settings_disable_hide_own_online_status"));
-			$this->form->addItem($cb);
-		}
-
-		require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-		if(ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me'))
-		{
-			$this->lng->loadLanguageModule('buddysystem');
-			$allow_to_contact_be = new ilCheckboxInputGUI($this->lng->txt('buddy_allow_to_contact_me'), 'bs_allow_to_contact_me');
-			$allow_to_contact_be->setInfo($this->lng->txt('buddy_allow_to_contact_me_info'));
-			$allow_to_contact_be->setChecked($ilUser->prefs['bs_allow_to_contact_me'] == 'y');
-			$allow_to_contact_be->setDisabled($ilSetting->get('usr_settings_disable_bs_allow_to_contact_me'));
-			$this->form->addItem($allow_to_contact_be);
-		}
 
 		include_once 'Services/Authentication/classes/class.ilSessionReminder.php';
 		if(ilSessionReminder::isGloballyActivated())
@@ -831,32 +796,6 @@ class ilPersonalSettingsGUI
 				}
 			}
 
-			// set hide own online_status
-			if ($this->workWithUserSetting("hide_own_online_status"))
-			{
-				if ($_POST["hide_own_online_status"] == 1)
-				{
-					$ilUser->setPref("hide_own_online_status","y");
-				}
-				else
-				{
-					$ilUser->setPref("hide_own_online_status","n");
-				}
-			}
-
-			require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
-			if(ilBuddySystem::getInstance()->isEnabled() && $this->workWithUserSetting('bs_allow_to_contact_me'))
-			{
-				if(isset($_POST['bs_allow_to_contact_me']) && $_POST['bs_allow_to_contact_me'] == 1)
-				{
-					$ilUser->setPref('bs_allow_to_contact_me', 'y');
-				}
-				else
-				{
-					$ilUser->setPref('bs_allow_to_contact_me', 'n');
-				}
-			}
-
 			// set show users online
 			if ($this->workWithUserSetting("screen_reader_optimization"))
 			{
@@ -903,6 +842,7 @@ class ilPersonalSettingsGUI
 			$user_settings->save();
 						
 			ilUtil::sendSuccess($lng->txtlng("common", "msg_obj_modified", $ilUser->getLanguage()), true);
+
 			$ilCtrl->redirect($this, "showGeneralSettings");
 		}
 
