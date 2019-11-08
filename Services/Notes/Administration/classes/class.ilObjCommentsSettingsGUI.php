@@ -216,11 +216,10 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
             if (is_array($data["sec"]))
             {
                 $data = $data["sec"]["enable_comments"];
-                $setting->set("disable_comments", (int) (is_array($data) ? 0 : 1));
-
-                $setting->set("comments_del_user", (int) ($data["comm_del_user"] ? 1 : 0));
-                $setting->set("comments_del_tutor", (int) ($data["comm_del_tutor"] ? 1 : 0));
-                $setting->set("comments_noti_recip", ilUtil::stripSlashes($data["comments_noti_recip"]));
+                $setting->set("disable_comments", (is_array($data) ? 0 : 1));
+                $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
+                $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
+                $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
 
                 ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
             }
