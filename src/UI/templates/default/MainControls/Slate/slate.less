@@ -6,13 +6,18 @@
 	&.disengaged {
 		display:none;
 	}
+	.btn-bulky {
+		padding: @il-slate-bulky-padding;
+	}
+	.link-bulky {
+		padding: @il-slate-bulky-link-padding;
+	}
 	.btn-bulky,
 	.link-bulky {
 		align-items: flex-start;
 		background-color: @il-slate-bulky-bg-color;
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
-		padding: @il-slate-bulky-padding;
 		position: relative;
 		&.engaged:after,
 		&.disengaged:after {
@@ -37,6 +42,12 @@
 		.icon {
 			filter: invert(50%);
 			margin-right: @il-slate-bulky-icon-margin-right;
+		}
+		.icon.small {
+			min-width: @icon-size-small;
+		}
+		.icon.medium {
+			min-width: @icon-size-medium;
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
