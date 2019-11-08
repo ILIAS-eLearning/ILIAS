@@ -710,8 +710,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $threadsTemplate->setVariable('THREADS_TABLE', $tbl->getHTML());
         }
 
-        $permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId());
-        $this->tpl->setVariable('PRMLINK', $permalink->getHTML());
+        $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId(), '', '_top');
+
         $this->tpl->setContent($threadsTemplate->get());
     }
 
