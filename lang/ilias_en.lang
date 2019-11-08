@@ -15306,3 +15306,5 @@ rep#:#rep_added_rec_content#:#Recommended content has been added.
 rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
 rbac#:#rbac_add_recommended_content#:#Recommended Content
 rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.
+dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
+dash#:#dash_click_here#:#Click here

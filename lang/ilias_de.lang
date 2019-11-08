@@ -15313,3 +15313,5 @@ rep#:#rep_added_rec_content#:#Empfohlender Inhalt wurde hinzugefügt.
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
 rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
 rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.
+dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
+dash#:#dash_click_here#:#Hier klicken
