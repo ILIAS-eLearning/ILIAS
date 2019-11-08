@@ -2923,8 +2923,11 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         $this->toolbar->addComponent($sortViewControl);
 
-        $permalink = new ilPermanentLinkGUI('frm', $this->object->getRefId(), '_' . $this->objCurrentTopic->getId());
-        $this->tpl->setVariable('PRMLINK', $permalink->getHTML());
+        $this->tpl->setPermanentLink(
+            $this->object->getType(),
+            $this->object->getRefId(), '_' . $this->objCurrentTopic->getId(),
+            '_top'
+        );
 
         $this->tpl->addOnLoadCode('$(".ilFrmPostContent img").each(function() {
 			var $elm = $(this);
