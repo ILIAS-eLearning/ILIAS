@@ -814,7 +814,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilCalendarPresentationGUI
     //    - ilContainerGUI
     //    - ilObjDataCollectionGUI
-    //    - ilPersonalDesktopGUI
+    //    - ilDashboardGUI
     //    - ilObjPortfolioTemplateGUI
     //    - ilWikiPageGUI
     //    - ilObjWikiGUI

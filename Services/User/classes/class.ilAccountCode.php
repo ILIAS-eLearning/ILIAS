@@ -14,7 +14,8 @@ class ilAccountCode
 {
 	const DB_TABLE = 'usr_account_codes';
 	const CODE_LENGTH = 10;
-	
+
+
 	public static function create($valid_until, $stamp)
 	{
 		global $DIC;
@@ -243,6 +244,8 @@ class ilAccountCode
 	public static function applyRoleAssignments(ilObjUser $user, $code)
 	{
 		include_once './Services/Registration/classes/class.ilRegistrationCode.php';
+
+		$recommended_content_manager = new ilRecommendedContentManager();
 		
 		$grole = ilRegistrationCode::getCodeRole($code);
 		if($grole)
@@ -265,7 +268,7 @@ class ilAccountCode
 					case 'grp':
 						$role_refs = ilObject::_getAllReferences($role_obj);
 						$role_ref = end($role_refs);
-						ilObjUser::_addDesktopItem($user->getId(),$role_ref,ilObject::_lookupType($role_obj));
+                        $recommended_content_manager->addObjectRecommendation($user->getId(), $role_ref);
 						break;
 				}
 			}

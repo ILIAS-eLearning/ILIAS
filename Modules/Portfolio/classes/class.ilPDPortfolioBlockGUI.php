@@ -103,9 +103,9 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 
 		$lng->loadLanguageModule("prtf");
 		$this->setTitle($lng->txt('prtf_tab_portfolios'));
-		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), ""),
+		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilDashboardGUI", "ilportfoliorepositorygui"), ""),
 			$lng->txt("prtf_manage_portfolios"));
-		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create"),
+		$this->addBlockCommand($ilCtrl->getLinkTargetByClass(array("ilDashboardGUI", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create"),
 			$lng->txt("prtf_add_portfolio"));
 
 		$html = parent::getHTML();
@@ -144,7 +144,7 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 
 		$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", $p["id"]);
-		$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));
+		$this->tpl->setVariable("HREF", $ilCtrl->getLinkTargetByClass(array("ilDashboardGUI", "ilportfoliorepositorygui", "ilobjportfoliogui"), "preview"));
 		$this->tpl->setVariable("TITLE", trim($p["title"]));
 
 		if ($this->default_portfolio == $p["id"])
@@ -166,9 +166,8 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 
 		if (count($this->getData()) == 0)
 		{
-			// ilias.php?cmd=create&cmdClass=ilobjportfoliogui&cmdNode=5f:o8:oh&baseClass=ilPersonalDesktopGUI
 			return '<div class="small"><a href="'.
-				$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create").
+				$ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create").
 				'">'.$lng->txt("prtf_add_portfolio").'</a></div>';
 		}
 		else
@@ -177,7 +176,7 @@ class ilPDPortfolioBlockGUI extends ilBlockGUI
 				? $lng->txt("obj_prtf")
 				: $lng->txt("prtf_portfolios");
 			return '<div class="small"><a href="'.
-				$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "").
+				$ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui"), "").
 				'">'.((int)count($this->getData()))." ".$t."</a></div>";
 		}
 	}

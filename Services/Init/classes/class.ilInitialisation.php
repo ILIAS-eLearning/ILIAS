@@ -1986,7 +1986,7 @@ class ilInitialisation
 		}
 
 		// for password change and incomplete profile
-		// see ilPersonalDesktopGUI
+		// see ilDashboardGUI
 		if(!$_GET["target"])
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');

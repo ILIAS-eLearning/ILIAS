@@ -175,6 +175,11 @@ class ilObjectListGUI
 	protected $object_service;
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $fav_manager;
+
+	/**
 	* constructor
 	*
 	*/
@@ -209,6 +214,7 @@ class ilObjectListGUI
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$this->fav_manager = new ilFavouritesManager();
 
 		$this->lng->loadLanguageModule("obj");
 	}
@@ -1274,7 +1280,7 @@ class ilObjectListGUI
 							"alert" => false, 
 							"property" => $lng->txt("in_use_by"),
 							"value" => $lock_user->getLogin(),
-							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&baseClass=ilPersonalDesktopGUI',
+							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
 						);
 					}
 				}
@@ -2455,7 +2461,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
 			}
 
-			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
+			if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $this->getCommandId()))
 			{
 				// Pass type and object ID to ilAccess to improve performance
     			if ($this->checkCommandAccess("read", "", $this->ref_id, $this->type, $this->obj_id))

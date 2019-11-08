@@ -16,14 +16,19 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 {
 	private $server = null;
 	private $mid = 0;
-	
-	
+
+	/**
+	 * @var ilRecommendedContentManager
+	 */
+	protected $recommended_content_manager;
+
 	/**
 	 * Constructor
 	 */
 	public function __construct(ilECSSetting $server)
 	{
 		$this->server = $server;
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 	
 	/**
@@ -144,16 +149,16 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 				break;
 				
 			case ilECSEnrolmentStatus::STATUS_ACTIVE:
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Add desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
-				ilObjUser::_addDesktopItem($a_usr_id, $ref_id, ilObject::_lookupType($obj_id));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Add recommended content: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
+				$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $ref_id);
 				break;
 			
 			case ilECSEnrolmentStatus::STATUS_ACCOUNT_DEACTIVATED:
 			case ilECSEnrolmentStatus::STATUS_DENIED:
 			case ilECSEnrolmentStatus::STATUS_REJECTED:
 			case ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED:
-				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Remove desktop item: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
-				ilObjUser::_dropDesktopItem($a_usr_id, $ref_id, ilObject::_lookupType($obj_id));
+				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Remove recommended content: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
+				$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $ref_id);
 				break;
 		}
 		return TRUE;

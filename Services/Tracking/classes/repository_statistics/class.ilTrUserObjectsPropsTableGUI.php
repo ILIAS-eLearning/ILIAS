@@ -410,7 +410,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 			$this->tpl->setCurrentBlock('title_linked');
 
 			// link structure gets too complicated
-			if($_GET["baseClass"] != "ilPersonalDesktopGUI" && $_GET["baseClass"] != "ilAdministrationGUI")
+			if($_GET["baseClass"] != "ilDashboardGUI" && $_GET["baseClass"] != "ilAdministrationGUI")
 			{
 				$old = $ilCtrl->getParameterArrayByClass('illplistofobjectsgui');
 				$ilCtrl->setParameterByClass('illplistofobjectsgui', 'ref_id', $data["ref_id"]);

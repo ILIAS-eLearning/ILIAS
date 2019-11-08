@@ -40,6 +40,11 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 	protected $start_object; // [ilContainerStartObjects]
 	protected $item_list_guis; // [array]
 	protected $enable_desktop; // [bool]
+
+    /**
+     * @var ilFavouritesManager
+     */
+    protected $fav_manager;
 	
 	public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects, $a_enable_desktop = true)
 	{
@@ -73,6 +78,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField('nr');
 		$this->setDefaultOrderDirection('asc');
+        $this->fav_manager = new ilFavouritesManager();
 	 	
 		$this->getItems();
 	}
@@ -117,7 +123,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 			if((bool)$this->enable_desktop)
 			{						
 				// add to desktop link
-				if(!$ilUser->isDesktopItem($ref_id,$type))
+				if(!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id))
 				{
 					if ($ilAccess->checkAccess('read','',$ref_id))
 					{					

@@ -24,6 +24,11 @@ class ilCourseContentGUI
 	var $tabs_gui;
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $fav_manager;
+
+	/**
 	 * Constructor
 	 * @access public
 	 * @param ilObjectGUI
@@ -46,6 +51,7 @@ class ilCourseContentGUI
 
 		$this->container_gui =& $container_gui_obj;
 		$this->container_obj =& $this->container_gui->object;
+		$this->fav_manager = new ilFavouritesManager();
 
 		$this->__initCourseObject();
 	}
@@ -234,31 +240,30 @@ class ilCourseContentGUI
 			}
 
 			// add to desktop link
-			if(!$ilUser->isDesktopItem($ref_id,$type) and
-			   $this->course_obj->getAboStatus())
-			{
-				if ($ilAccess->checkAccess('read','',$ref_id))
-				{
-					$this->tpl->setCurrentBlock("link");
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
+			if ($this->course_obj->getAboStatus()) {
+				if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id)) {
+					if ($ilAccess->checkAccess('read', '', $ref_id)) {
+						$this->tpl->setCurrentBlock("link");
+						$this->ctrl->setParameterByClass(get_class($this->container_gui), 'item_ref_id', $ref_id);
+						$this->ctrl->setParameterByClass(get_class($this->container_gui), 'item_id', $ref_id);
+						$this->ctrl->setParameterByClass(get_class($this->container_gui), 'type', $type);
 
-					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'addToDesk'));
-					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
-					$this->tpl->parseCurrentBlock();
-				}
-			}
-			elseif($this->course_obj->getAboStatus())
-			{
+						$this->tpl->setVariable("LINK_HREF",
+							$this->ctrl->getLinkTarget($this->container_gui, 'addToDesk'));
+						$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
+						$this->tpl->parseCurrentBlock();
+					}
+				} else {
 					$this->tpl->setCurrentBlock("link");
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_ref_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'item_id',$ref_id);
-					$this->ctrl->setParameterByClass(get_class($this->container_gui),'type',$type);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui), 'item_ref_id', $ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui), 'item_id', $ref_id);
+					$this->ctrl->setParameterByClass(get_class($this->container_gui), 'type', $type);
 
-					$this->tpl->setVariable("LINK_HREF",$this->ctrl->getLinkTarget($this->container_gui,'removeFromDesk'));
+					$this->tpl->setVariable("LINK_HREF",
+						$this->ctrl->getLinkTarget($this->container_gui, 'removeFromDesk'));
 					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
 					$this->tpl->parseCurrentBlock();
+				}
 			}
 
 
