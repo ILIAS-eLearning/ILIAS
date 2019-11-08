@@ -1801,7 +1801,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 */
 	public function getContentBlockName()
 	{
-		if ($this->object->getKioskMode())
+        return "ADM_CONTENT";
+
+        if ($this->object->getKioskMode())
 		{
 			$this->tpl->setBodyClass("kiosk");
 			$this->tpl->hideFooter();

@@ -62,6 +62,7 @@
     3 => 'ILIAS\\LTI\\Screen\\LtiViewLayoutProvider',
     4 => 'ILIAS\\UICore\\PageContentProvider',
     5 => 'ilHTMLExportViewLayoutProvider',
+    6 => 'ilTestPlayerLayoutProvider',
   ),
   'ILIAS\\GlobalScreen\\Scope\\Notification\\Provider\\NotificationProvider' => 
   array (

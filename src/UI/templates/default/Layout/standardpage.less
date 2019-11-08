@@ -244,7 +244,7 @@ main {
 /* Footer */
 footer {
 	background-color: @brand-primary;
-	height: @il-footer-height;
+	min-height: @il-footer-height;
 	padding: @il-footer-padding;
 	z-index: 2;
 }
@@ -256,6 +256,14 @@ footer {
 **************************************************************
 */
 
+// Sidepanel in right column under content
+@media only screen and (max-width: @screen-lg) {
+	#il_center_col.col-sm-9,
+	#il_right_col.col-sm-3 {
+		float: none;
+		width: 100%;
+	}
+}
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	// main grid without slates
