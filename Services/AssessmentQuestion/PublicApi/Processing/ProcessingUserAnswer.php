@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
+use ilAsqQuestionPageGUI;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
@@ -10,6 +11,8 @@ use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 
 /**
  * Class ProcessingUserAnswer
@@ -54,7 +57,7 @@ class ProcessingUserAnswer
 
     public function getUserAnswer() : ?Answer
     {
-        return $this->processing_application_service->getUserAnswer($this->question_dto->getId(), $this->question_dto->getRevisionId());
+        return $this->processing_application_service->getUserAnswer($this->question_dto->getRevisionId());
     }
 
 
@@ -75,4 +78,40 @@ class ProcessingUserAnswer
 
         return null;
     }
+
+    /**
+     * @return ilAsqQuestionPageGUI
+     */
+    public function getAnsweredQuestionPresentation(QuestionConfig $question_config) : ilAsqQuestionPageGUI
+    {
+        $page_gui = $this->processing_application_service->getQuestionPageGUI( $this->question_dto, $question_config);
+
+        $question_component = $this->processing_application_service->getQuestionComponent( $this->question_dto, $question_config, new QuestionCommands());
+        $question_component->setAnswer($this->processing_application_service->getUserAnswer( $this->question_dto->getRevisionId()));
+
+        $page_gui->setQuestionHTML([ $this->question_dto->getQuestionIntId() => $question_component->renderHtml()]);
+
+        return $page_gui;
+    }
+
+    public function getBestAnswerQuestionPresentation(QuestionConfig $question_config, ?QuestionCommands $question_commands = null) : ilAsqQuestionPageGUI
+    {
+
+        $page_gui = $this->processing_application_service->getQuestionPageGUI( $this->question_dto, $question_config);
+
+        $scoring_class = QuestionPlayConfiguration::getScoringClass( $this->question_dto->getPlayConfiguration());
+
+        $score = new $scoring_class( $this->question_dto);
+
+        $best_answer = $score->getBestAnswer();
+
+        $question_component = $this->processing_application_service->getQuestionComponent( $this->question_dto, $question_config, new QuestionCommands());
+        $question_component->setAnswer($best_answer);
+
+        $page_gui->setQuestionHTML([ $this->question_dto->getQuestionIntId() => $question_component->renderHtml()]);
+
+        return $page_gui;
+    }
+
+
 }

@@ -737,7 +737,9 @@ class ilTestServiceGUI
         global $DIC;
         $asq_processing_service = $DIC->assessment()->questionProcessing($this->object->getId(), $DIC->user()->getId(), $pass);
 
-        $question = $asq_processing_service->question($revision_key);
+        $user_answer_service = $asq_processing_service->userAnswer($revision_key);
+
+        $question_dto = $asq_processing_service->question($revision_key)->getQuestionDto();
         $question_config = new QuestionConfig();
         $question_commands = new QuestionCommands();
 
@@ -745,11 +747,12 @@ class ilTestServiceGUI
 
         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
 
-        $result_output = $question->getQuestionPresentation($question_config,$question_commands)->getHTML();
 
-        // $question_gui->getSolutionOutput($active_id, $pass, TRUE, FALSE, $show_question_only, $this->object->getShowSolutionFeedback(), FALSE, FALSE, TRUE);
 
-        $best_output = "";// $question_gui->getSolutionOutput($active_id, $pass, FALSE, FALSE, $show_question_only, FALSE, TRUE, FALSE, FALSE);
+        $result_output = $user_answer_service->getAnsweredQuestionPresentation($question_config)->getHTML();
+
+        $best_output = $user_answer_service->getBestAnswerQuestionPresentation($question_config,$question_commands)->getHTML();
+
         if( $this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution' )
         {
             $specificAnswerFeedback = "";/*$question_gui->getSpecificFeedbackOutput(
@@ -772,25 +775,23 @@ class ilTestServiceGUI
             $template->parseCurrentBlock();
         }
         $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
-        $maxpoints = "";//$question_gui->object->getMaximumPoints();
+        $maxpoints = $asq_processing_service->userAnswer($revision_key)->getUserAnswerScore()->getMaxPoints();
         if ($maxpoints == 1)
         {
-            /*
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
-        */
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_dto->getData()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
             }
         else
         {
-            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle(""));//$question_gui->object->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_dto->getData()->getTitle()). " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
         }
         if( $objectivesList !== null )
         {
             $objectives = $this->lng->txt('tst_res_lo_objectives_header').': ';
-            $objectives .= $objectivesList->getQuestionRelatedObjectiveTitles("");//$question_gui->object->getId());
+            $objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_dto->getQuestionIntId());
             $template->setVariable('OBJECTIVES', $objectives);
         }
         $template->setVariable("SOLUTION_OUTPUT", $result_output);
-        $template->setVariable("RECEIVED_POINTS", "");//sprintf($this->lng->txt("you_received_a_of_b_points"), ""));//$question_gui->object->getReachedPoints($active_id, $pass), $maxpoints));
+        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $asq_processing_service->userAnswer($revision_key)->getUserAnswerScore()->getReachedPoints(), $maxpoints));
         $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
         return $template->get();

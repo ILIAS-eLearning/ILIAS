@@ -115,21 +115,24 @@ class TestResultService
             );
         }
 
-        $test_pass_result = $test_result_repository->calculateTestPassResult(
-            $this->active_id,
-            $this->test_pass,
-            $this->getWorkingTimeOfParticipantForPass(),
-            ilObjTest::buildExamId( $this->active_id, $this->test_pass, $this->obj_id)
+        if(is_object($test_result_repository)) {
+            $test_pass_result = $test_result_repository->calculateTestPassResult(
+                $this->active_id,
+                $this->test_pass,
+                $this->getWorkingTimeOfParticipantForPass(),
+                ilObjTest::buildExamId( $this->active_id, $this->test_pass, $this->obj_id)
             );
 
 
-        $test_pass_result_repository = new TestPassResultRepository();
-        $test_pass_result_repository->persistPassResult($test_pass_result);
+            $test_pass_result_repository = new TestPassResultRepository();
+            $test_pass_result_repository->persistPassResult($test_pass_result);
 
 
-        // Update objective status
-        include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
-        ilCourseObjectiveResult::_updateObjectiveResult($this->user_id,$this->active_id,$this->obj_id);
+            // Update objective status
+            include_once 'Modules/Course/classes/class.ilCourseObjectiveResult.php';
+            ilCourseObjectiveResult::_updateObjectiveResult($this->user_id,$this->active_id,$this->obj_id);
+        }
+
 
 
     }
