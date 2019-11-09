@@ -2253,6 +2253,7 @@ class ilObjectGUI
 		$ctrl = $this->ctrl;
 		$user = $this->user;
 		$this->favourites->add($user->getId(), (int) $_GET["item_ref_id"]);
+		$lng->loadLanguageModule("rep");
 		ilUtil::sendSuccess($lng->txt("rep_added_to_favourites"), true);
 		$ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));
 	}
@@ -2265,6 +2266,7 @@ class ilObjectGUI
 		$lng = $this->lng;
 		$ctrl = $this->ctrl;
 		$user = $this->user;
+		$lng->loadLanguageModule("rep");
 		$this->favourites->remove($user->getId(), (int) $_GET["item_ref_id"]);
 		ilUtil::sendSuccess($lng->txt("rep_removed_from_favourites"), true);
 		$ctrl->redirectToURL(ilLink::_getLink((int) $_GET["ref_id"]));

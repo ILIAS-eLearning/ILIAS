@@ -217,6 +217,7 @@ class ilObjectListGUI
 		$this->fav_manager = new ilFavouritesManager();
 
 		$this->lng->loadLanguageModule("obj");
+		$this->lng->loadLanguageModule("rep");
 	}
 
 
