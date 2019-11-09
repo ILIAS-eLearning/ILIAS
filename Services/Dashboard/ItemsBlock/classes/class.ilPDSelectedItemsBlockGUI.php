@@ -522,10 +522,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		if ($this->viewSettings->isSelectedItemsViewActive()) {
-			$question = $this->lng->txt('pd_info_delete_sure_remove');
+			$question = $this->lng->txt('rep_info_sure_remove_from_favs');
 			$cmd = 'confirmedRemove';
 		} else {
-			$question = $this->lng->txt('pd_info_delete_sure_unsubscribe');
+			$question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
 			$cmd = 'confirmedUnsubscribe';
 		}
 

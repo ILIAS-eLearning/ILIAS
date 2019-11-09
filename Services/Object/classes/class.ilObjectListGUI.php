@@ -2471,7 +2471,7 @@ class ilObjectListGUI
 						$this->ctrl->setParameter($this->container_obj, "type", $type);
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
+						$this->insertCommand($cmd_link, $this->lng->txt("rep_add_to_favourites"), "",
 							"");
 					}					
 				}
@@ -2483,7 +2483,7 @@ class ilObjectListGUI
 					$this->ctrl->setParameter($this->container_obj, "type", $type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
-					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
+					$this->insertCommand($cmd_link, $this->lng->txt("rep_remove_from_favourites"), "",
 						"");
 				}
 			}

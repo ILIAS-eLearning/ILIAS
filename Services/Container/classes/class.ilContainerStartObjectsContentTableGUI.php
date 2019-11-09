@@ -131,7 +131,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 						$this->ctrl->setParameter($this->getParentObject(),'item_id',$ref_id);
 						$this->ctrl->setParameter($this->getParentObject(),'type',$type);
 						$url = $this->ctrl->getLinkTarget($this->getParentObject(),'addToDesk');
-						$actions[$url] = $this->lng->txt("to_desktop");										
+						$actions[$url] = $this->lng->txt("rep_add_to_favourites");
 					}
 				}
 				else
@@ -140,7 +140,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 					$this->ctrl->setParameter($this->getParentObject(),'item_id',$ref_id);
 					$this->ctrl->setParameter($this->getParentObject(),'type',$type);
 					$url = $this->ctrl->getLinkTarget($this->getParentObject(),'removeFromDesk');
-					$actions[$url] = $this->lng->txt("unsubscribe");												
+					$actions[$url] = $this->lng->txt("rep_remove_from_favourites");
 				}
 			}
 			

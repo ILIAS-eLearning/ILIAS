@@ -250,7 +250,7 @@ class ilCourseContentGUI
 
 						$this->tpl->setVariable("LINK_HREF",
 							$this->ctrl->getLinkTarget($this->container_gui, 'addToDesk'));
-						$this->tpl->setVariable("LINK_NAME", $this->lng->txt("to_desktop"));
+						$this->tpl->setVariable("LINK_NAME", $this->lng->txt("rep_add_to_favourites"));
 						$this->tpl->parseCurrentBlock();
 					}
 				} else {
@@ -261,7 +261,7 @@ class ilCourseContentGUI
 
 					$this->tpl->setVariable("LINK_HREF",
 						$this->ctrl->getLinkTarget($this->container_gui, 'removeFromDesk'));
-					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("unsubscribe"));
+					$this->tpl->setVariable("LINK_NAME", $this->lng->txt("rep_remove_from_favourites"));
 					$this->tpl->parseCurrentBlock();
 				}
 			}

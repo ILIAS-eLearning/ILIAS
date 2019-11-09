@@ -52,7 +52,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 		$tpl = new ilTemplate('tpl.dashboard_intro.html', true, true, 'Services/Dashboard');
 		$tpl->setVariable('IMG_PD_LARGE', ilObject::_getIcon('', 'big', 'pd'));
 		$tpl->setVariable('TXT_WELCOME', $this->lng->txt('pdesk_intro'));
-		$tpl->setVariable("TXT_INTRO_1", sprintf($this->lng->txt('pdesk_intro2'), $this->lng->txt('to_desktop')));
+		//$tpl->setVariable("TXT_INTRO_1", sprintf($this->lng->txt('pdesk_intro2'), $this->lng->txt('rep_add_to_favourites')));
 		
 		require_once 'Services/Link/classes/class.ilLink.php';
 		$tpl->setVariable('TXT_INTRO_2', sprintf(
