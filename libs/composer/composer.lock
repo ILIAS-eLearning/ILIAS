@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "43a9ae0a8b98a45a49b2bc57d9b5d770",
+    "content-hash": "3f7701ffd56498526e91a880b3a7a9d1",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -2253,6 +2253,11 @@
                 "predis/predis": "Needed if a Redis server is used to store session information"
             },
             "type": "project",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "SimpleSAML\\": "lib/SimpleSAML"
