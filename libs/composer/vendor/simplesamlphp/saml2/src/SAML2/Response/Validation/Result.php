@@ -12,10 +12,13 @@ class Result
     /**
      * @var array
      */
-    private $errors = array();
+    private $errors = [];
+
 
     /**
      * @param $message
+     * @throws InvalidArgumentException
+     * @return void
      */
     public function addError($message)
     {
@@ -26,6 +29,7 @@ class Result
         $this->errors[] = $message;
     }
 
+
     /**
      * @return bool
      */
@@ -33,6 +37,7 @@ class Result
     {
         return empty($this->errors);
     }
+
 
     /**
      * @return array

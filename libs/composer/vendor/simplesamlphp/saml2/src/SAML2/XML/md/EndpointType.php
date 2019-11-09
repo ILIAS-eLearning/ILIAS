@@ -3,6 +3,7 @@
 namespace SAML2\XML\md;
 
 use SAML2\Constants;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 EndpointType.
@@ -37,7 +38,8 @@ class EndpointType
      *
      * @var array
      */
-    private $attributes = array();
+    private $attributes = [];
+
 
     /**
      * Initialize an EndpointType.
@@ -52,31 +54,32 @@ class EndpointType
         }
 
         if (!$xml->hasAttribute('Binding')) {
-            throw new \Exception('Missing Binding on ' . $xml->tagName);
+            throw new \Exception('Missing Binding on '.$xml->tagName);
         }
-        $this->Binding = $xml->getAttribute('Binding');
+        $this->setBinding($xml->getAttribute('Binding'));
 
         if (!$xml->hasAttribute('Location')) {
-            throw new \Exception('Missing Location on ' . $xml->tagName);
+            throw new \Exception('Missing Location on '.$xml->tagName);
         }
-        $this->Location = $xml->getAttribute('Location');
+        $this->setLocation($xml->getAttribute('Location'));
 
         if ($xml->hasAttribute('ResponseLocation')) {
-            $this->ResponseLocation = $xml->getAttribute('ResponseLocation');
+            $this->setResponseLocation($xml->getAttribute('ResponseLocation'));
         }
 
         foreach ($xml->attributes as $a) {
             if ($a->namespaceURI === null) {
                 continue; /* Not namespace-qualified -- skip. */
             }
-            $fullName = '{' . $a->namespaceURI . '}' . $a->localName;
-            $this->attributes[$fullName] = array(
+            $fullName = '{'.$a->namespaceURI.'}'.$a->localName;
+            $this->attributes[$fullName] = [
                 'qualifiedName' => $a->nodeName,
                 'namespaceURI' => $a->namespaceURI,
                 'value' => $a->value,
-            );
+            ];
         }
     }
+
 
     /**
      * Check if a namespace-qualified attribute exists.
@@ -87,13 +90,14 @@ class EndpointType
      */
     public function hasAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        Assert::string($namespaceURI);
+        Assert::string($localName);
 
-        $fullName = '{' . $namespaceURI . '}' . $localName;
+        $fullName = '{'.$namespaceURI.'}'.$localName;
 
         return isset($this->attributes[$fullName]);
     }
+
 
     /**
      * Get a namespace-qualified attribute.
@@ -104,16 +108,17 @@ class EndpointType
      */
     public function getAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        Assert::string($namespaceURI);
+        Assert::string($localName);
 
-        $fullName = '{' . $namespaceURI . '}' . $localName;
+        $fullName = '{'.$namespaceURI.'}'.$localName;
         if (!isset($this->attributes[$fullName])) {
             return '';
         }
 
         return $this->attributes[$fullName]['value'];
     }
+
 
     /**
      * Get a namespace-qualified attribute.
@@ -122,11 +127,12 @@ class EndpointType
      * @param string $qualifiedName The local name.
      * @param string $value         The attribute value.
      * @throws \Exception
+     * @return void
      */
     public function setAttributeNS($namespaceURI, $qualifiedName, $value)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($qualifiedName));
+        Assert::string($namespaceURI);
+        Assert::string($qualifiedName);
 
         $name = explode(':', $qualifiedName, 2);
         if (count($name) < 2) {
@@ -134,28 +140,97 @@ class EndpointType
         }
         $localName = $name[1];
 
-        $fullName = '{' . $namespaceURI . '}' . $localName;
-        $this->attributes[$fullName] = array(
+        $fullName = '{'.$namespaceURI.'}'.$localName;
+        $this->attributes[$fullName] = [
             'qualifiedName' => $qualifiedName,
             'namespaceURI' => $namespaceURI,
             'value' => $value,
-        );
+        ];
     }
+
 
     /**
      * Remove a namespace-qualified attribute.
      *
      * @param string $namespaceURI The namespace URI.
      * @param string $localName    The local name.
+     * @return void
      */
     public function removeAttributeNS($namespaceURI, $localName)
     {
-        assert(is_string($namespaceURI));
-        assert(is_string($localName));
+        Assert::string($namespaceURI);
+        assert::string($localName);
 
-        $fullName = '{' . $namespaceURI . '}' . $localName;
+        $fullName = '{'.$namespaceURI.'}'.$localName;
         unset($this->attributes[$fullName]);
     }
+
+
+    /**
+     * Collect the value of the Binding-property
+     * @return string
+     */
+    public function getBinding()
+    {
+        return $this->Binding;
+    }
+
+
+    /**
+     * Set the value of the Binding-property
+     * @param string $binding
+     * @return void
+     */
+    public function setBinding($binding)
+    {
+        Assert::string($binding);
+        $this->Binding = $binding;
+    }
+
+
+    /**
+     * Collect the value of the Location-property
+     * @return string|null
+     */
+    public function getLocation()
+    {
+        return $this->Location;
+    }
+
+
+    /**
+     * Set the value of the Location-property
+     * @param string|null $location
+     * @return void
+     */
+    public function setLocation($location)
+    {
+        Assert::nullOrString($location);
+        $this->Location = $location;
+    }
+
+
+    /**
+     * Collect the value of the ResponseLocation-property
+     * @return string|null
+     */
+    public function getResponseLocation()
+    {
+        return $this->ResponseLocation;
+    }
+
+
+    /**
+     * Set the value of the ResponseLocation-property
+     * @param string|null $responseLocation
+     * @return void
+     */
+    public function setResponseLocation($responseLocation)
+    {
+        Assert::nullOrString($responseLocation);
+        $this->ResponseLocation = $responseLocation;
+    }
+
 
     /**
      * Add this endpoint to an XML element.
@@ -166,19 +241,19 @@ class EndpointType
      */
     public function toXML(\DOMElement $parent, $name)
     {
-        assert(is_string($name));
-        assert(is_string($this->Binding));
-        assert(is_string($this->Location));
-        assert(is_null($this->ResponseLocation) || is_string($this->ResponseLocation));
+        Assert::string($name);
+        Assert::string($this->getBinding());
+        Assert::string($this->getLocation());
+        Assert::nullOrString($this->getResponseLocation());
 
         $e = $parent->ownerDocument->createElementNS(Constants::NS_MD, $name);
         $parent->appendChild($e);
 
-        $e->setAttribute('Binding', $this->Binding);
-        $e->setAttribute('Location', $this->Location);
+        $e->setAttribute('Binding', $this->getBinding());
+        $e->setAttribute('Location', $this->getLocation());
 
-        if (isset($this->ResponseLocation)) {
-            $e->setAttribute('ResponseLocation', $this->ResponseLocation);
+        if ($this->getResponseLocation() !== null) {
+            $e->setAttribute('ResponseLocation', $this->getResponseLocation());
         }
 
         foreach ($this->attributes as $a) {

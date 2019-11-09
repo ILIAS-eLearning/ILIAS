@@ -41,9 +41,9 @@ In `metadata/saml20-idp-hosted.php`:
 
 In `config/authsources.php`:
 
-    'default-sp' => array(
+    'default-sp' => [
         'saml:SP',
-    ),
+    ],
 
 
 
@@ -127,7 +127,7 @@ Example code for the function with GeoIP country check:
         }
 
         if ($init) {
-            $session->setData($data_type, $data_key, $remote_addr, SimpleSAML_Session::DATA_TIMEOUT_SESSION_END);
+            $session->setData($data_type, $data_key, $remote_addr, \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END);
             return;
         }
 
@@ -147,7 +147,7 @@ Example code for the function with GeoIP country check:
 
         if ($country_a === $country_b) {
             if ($stored_remote_addr !== $remote_addr) {
-                $session->setData($data_type, $data_key, $remote_addr, SimpleSAML_Session::DATA_TIMEOUT_SESSION_END);
+                $session->setData($data_type, $data_key, $remote_addr, \SimpleSAML\Session::DATA_TIMEOUT_SESSION_END);
             }
 
             return TRUE;

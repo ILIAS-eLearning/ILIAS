@@ -7,16 +7,17 @@ namespace Gettext;
  */
 class Translation
 {
+    protected $id;
     protected $context;
     protected $original;
     protected $translation = '';
     protected $plural;
-    protected $pluralTranslation = array();
-    protected $references = array();
-    protected $comments = array();
-    protected $extractedComments = array();
-    protected $flags = array();
-    protected $translationCount;
+    protected $pluralTranslation = [];
+    protected $references = [];
+    protected $comments = [];
+    protected $extractedComments = [];
+    protected $flags = [];
+    protected $disabled = false;
 
     /**
      * Generates the id of a translation (context + glue + original).
@@ -29,6 +30,21 @@ class Translation
     public static function generateId($context, $original)
     {
         return "{$context}\004{$original}";
+    }
+
+    /**
+     * Create a new instance of a Translation object.
+     *
+     * This is a factory method that will work even when Translation is extended.
+     *
+     * @param string $context  The context of the translation
+     * @param string $original The original string
+     * @param string $plural   The original plural string
+     * @return static New Translation instance
+     */
+    public static function create($context, $original, $plural = '')
+    {
+        return new static($context, $original, $plural);
     }
 
     /**
@@ -51,6 +67,8 @@ class Translation
      *
      * @param null|string $context  Optional new context
      * @param null|string $original Optional new original
+     *
+     * @return Translation
      */
     public function getClone($context = null, $original = null)
     {
@@ -68,13 +86,29 @@ class Translation
     }
 
     /**
+     * Sets the id of this translation.
+     * @warning The use of this function to set a custom ID will prevent
+     *  Translations::find from matching this translation.
+     *
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+
+    /**
      * Returns the id of this translation.
      *
      * @return string
      */
     public function getId()
     {
-        return static::generateId($this->context, $this->original);
+        if ($this->id === null) {
+            return static::generateId($this->context, $this->original);
+        }
+        return $this->id;
     }
 
     /**
@@ -88,6 +122,30 @@ class Translation
     public function is($context, $original = '')
     {
         return (($this->context === $context) && ($this->original === $original)) ? true : false;
+    }
+
+    /**
+     * Enable or disable the translation
+     *
+     * @param bool $disabled
+     *
+     * @return self
+     */
+    public function setDisabled($disabled)
+    {
+        $this->disabled = (bool) $disabled;
+
+        return $this;
+    }
+
+    /**
+     * Returns whether the translation is disabled
+     *
+     * @return bool
+     */
+    public function isDisabled()
+    {
+        return $this->disabled;
     }
 
     /**
@@ -114,10 +172,14 @@ class Translation
      * Sets the translation string.
      *
      * @param string $translation
+     *
+     * @return self
      */
     public function setTranslation($translation)
     {
         $this->translation = (string) $translation;
+
+        return $this;
     }
 
     /**
@@ -144,12 +206,14 @@ class Translation
      * Sets the plural translation string.
      *
      * @param string $plural
+     *
+     * @return self
      */
     public function setPlural($plural)
     {
         $this->plural = (string) $plural;
 
-        $this->normalizeTranslationCount();
+        return $this;
     }
 
     /**
@@ -175,95 +239,69 @@ class Translation
     /**
      * Set a new plural translation.
      *
-     * @param string $plural The plural string to add
-     * @param int    $key    The key of the plural translation.
+     * @param array $plural
+     *
+     * @return self
      */
-    public function setPluralTranslation($plural, $key = 0)
+    public function setPluralTranslations(array $plural)
     {
-        $this->pluralTranslation[$key] = $plural;
-        $this->normalizeTranslationCount();
+        $this->pluralTranslation = $plural;
+
+        return $this;
     }
 
     /**
-     * Gets one or all plural translations.
+     * Gets all plural translations.
      *
-     * @param int|null $key The key to return. If is null, return all translations
+     * @param int $size
      *
-     * @return string|array
+     * @return array
      */
-    public function getPluralTranslation($key = null)
+    public function getPluralTranslations($size = null)
     {
-        if ($key === null) {
+        if ($size === null) {
             return $this->pluralTranslation;
         }
 
-        return isset($this->pluralTranslation[$key]) ? (string) $this->pluralTranslation[$key] : '';
+        $current = count($this->pluralTranslation);
+
+        if ($size > $current) {
+            return $this->pluralTranslation + array_fill(0, $size, '');
+        }
+
+        if ($size < $current) {
+            return array_slice($this->pluralTranslation, 0, $size);
+        }
+
+        return $this->pluralTranslation;
     }
 
     /**
      * Checks if there are any plural translation.
      *
+     * @param bool $checkContent
+     *
      * @return bool
      */
-    public function hasPluralTranslation()
+    public function hasPluralTranslations($checkContent = false)
     {
-        return implode('', $this->pluralTranslation) !== '';
+        if ($checkContent) {
+            return implode('', $this->pluralTranslation) !== '';
+        }
+
+        return !empty($this->pluralTranslation);
     }
 
     /**
      * Removes all plural translations.
+     *
+     * @return self
      */
     public function deletePluralTranslation()
     {
-        $this->pluralTranslation = array();
+        $this->pluralTranslation = [];
 
-        $this->normalizeTranslationCount();
-    }
-
-    /**
-     * Set the number of singular + plural translations allowed.
-     *
-     * @param int $count
-     */
-    public function setTranslationCount($count)
-    {
-        $this->translationCount = is_null($count) ? null : intval($count);
-
-        $this->normalizeTranslationCount();
-    }
-
-    /**
-     * Returns the number of singular + plural translations
-     * Returns null if this Translation is not a plural one.
-     *
-     * @return int|null
-     */
-    public function getTranslationCount()
-    {
-        return $this->hasPlural() ? $this->translationCount : null;
-    }
-
-    /**
-     * Normalizes the translation count.
-     */
-    protected function normalizeTranslationCount()
-    {
-        if ($this->translationCount === null) {
-            return;
-        }
-
-        if ($this->hasPlural()) {
-            $allowed = $this->translationCount - 1;
-            $current = count($this->pluralTranslation);
-
-            if ($allowed > $current) {
-                $this->pluralTranslation = $this->pluralTranslation + array_fill(0, $allowed, '');
-            } elseif ($current > $allowed) {
-                $this->pluralTranslation = array_slice($this->pluralTranslation, 0, $allowed);
-            }
-        } else {
-            $this->pluralTranslation = array();
-        }
+        return $this;
     }
 
     /**
@@ -291,11 +329,15 @@ class Translation
      *
      * @param string   $filename The file path where the translation has been found
      * @param null|int $line     The line number where the translation has been found
+     *
+     * @return self
      */
     public function addReference($filename, $line = null)
     {
         $key = "{$filename}:{$line}";
-        $this->references[$key] = array($filename, $line);
+        $this->references[$key] = [$filename, $line];
+
+        return $this;
     }
 
     /**
@@ -320,20 +362,30 @@ class Translation
 
     /**
      * Removes all references.
+     *
+     * @return self
      */
     public function deleteReferences()
     {
-        $this->references = array();
+        $this->references = [];
+
+        return $this;
     }
 
     /**
      * Adds a new comment for this translation.
      *
      * @param string $comment
+     *
+     * @return self
      */
     public function addComment($comment)
     {
-        $this->comments[] = $comment;
+        if (!in_array($comment, $this->comments, true)) {
+            $this->comments[] = $comment;
+        }
+
+        return $this;
     }
 
     /**
@@ -358,20 +410,30 @@ class Translation
 
     /**
      * Removes all comments.
+     *
+     * @return self
      */
     public function deleteComments()
     {
-        $this->comments = array();
+        $this->comments = [];
+
+        return $this;
     }
 
     /**
      * Adds a new extracted comment for this translation.
      *
      * @param string $comment
+     *
+     * @return self
      */
     public function addExtractedComment($comment)
     {
-        $this->extractedComments[] = $comment;
+        if (!in_array($comment, $this->extractedComments, true)) {
+            $this->extractedComments[] = $comment;
+        }
+
+        return $this;
     }
 
     /**
@@ -396,20 +458,30 @@ class Translation
 
     /**
      * Removes all extracted comments.
+     *
+     * @return self
      */
     public function deleteExtractedComments()
     {
-        $this->extractedComments = array();
+        $this->extractedComments = [];
+
+        return $this;
     }
 
     /**
-     * Adds a new flat for this translation.
+     * Adds a new flag for this translation.
      *
      * @param string $flag
+     *
+     * @return self
      */
     public function addFlag($flag)
     {
-        $this->flags[] = $flag;
+        if (!in_array($flag, $this->flags, true)) {
+            $this->flags[] = $flag;
+        }
+
+        return $this;
     }
 
     /**
@@ -434,46 +506,32 @@ class Translation
 
     /**
      * Removes all flags.
+     *
+     * @return self
      */
     public function deleteFlags()
     {
-        $this->flags = array();
+        $this->flags = [];
+
+        return $this;
     }
 
     /**
      * Merges this translation with other translation.
      *
      * @param Translation $translation The translation to merge with
-     * @param int|null    $method      One or various Translations::MERGE_* constants to define how to merge the translations
+     * @param int         $options
+     *
+     * @return self
      */
-    public function mergeWith(Translation $translation, $method = null)
+    public function mergeWith(Translation $translation, $options = Merge::DEFAULTS)
     {
-        if ($method === null) {
-            $method = Translations::$mergeDefault;
-        }
+        Merge::mergeTranslation($translation, $this, $options);
+        Merge::mergeReferences($translation, $this, $options);
+        Merge::mergeComments($translation, $this, $options);
+        Merge::mergeExtractedComments($translation, $this, $options);
+        Merge::mergeFlags($translation, $this, $options);
 
-        if (!$this->hasTranslation() || ($translation->hasTranslation() && ($method & Translations::MERGE_OVERRIDE))) {
-            $this->setTranslation($translation->getTranslation());
-        }
-
-        if (($method & Translations::MERGE_PLURAL) && !$this->hasPlural()) {
-            $this->setPlural($translation->getPlural());
-        }
-
-        if ($this->hasPlural() && !$this->hasPluralTranslation() && $translation->hasPluralTranslation()) {
-            $this->pluralTranslation = $translation->getPluralTranslation();
-        }
-
-        if ($method & Translations::MERGE_REFERENCES) {
-            foreach ($translation->getReferences() as $reference) {
-                $this->addReference($reference[0], $reference[1]);
-            }
-        }
-
-        if ($method & Translations::MERGE_COMMENTS) {
-            $this->comments = array_values(array_unique(array_merge($translation->getComments(), $this->comments)));
-            $this->extractedComments = array_values(array_unique(array_merge($translation->getExtractedComments(), $this->extractedComments)));
-            $this->flags = array_values(array_unique(array_merge($translation->getFlags(), $this->flags)));
-        }
+        return $this;
     }
 }

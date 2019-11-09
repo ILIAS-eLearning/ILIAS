@@ -18,11 +18,23 @@ class Validator
      */
     private $logger;
 
+
+    /**
+     * Constructor for Validator
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
+
+    /**
+     * @param SignedElement $signedElement
+     * @oaram CertificateProvider $configuration
+     * @return bool
+     */
     public function hasValidSignature(
         SignedElement $signedElement,
         CertificateProvider $configuration
@@ -30,10 +42,10 @@ class Validator
         // should be DI
         $validator = new ValidatorChain(
             $this->logger,
-            array(
+            [
                 new PublicKeyValidator($this->logger, new KeyLoader()),
                 new FingerprintValidator($this->logger, new FingerprintLoader())
-            )
+            ]
         );
 
         return $validator->hasValidSignature($signedElement, $configuration);

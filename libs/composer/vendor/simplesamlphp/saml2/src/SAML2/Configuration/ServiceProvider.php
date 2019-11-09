@@ -12,22 +12,35 @@ class ServiceProvider extends ArrayAdapter implements
     DecryptionProvider,
     EntityIdProvider
 {
+    /**
+     * @return mixed
+     */
     public function getKeys()
     {
         return $this->get('keys');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getCertificateData()
     {
         return $this->get('certificateData');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getCertificateFile()
     {
         return $this->get('certificateFile');
     }
 
+
     /**
+     * @return mixed
      * @deprecated Please use getCertificateData() or getCertificateFile().
      */
     public function getCertificateFingerprints()
@@ -35,21 +48,39 @@ class ServiceProvider extends ArrayAdapter implements
         return $this->get('certificateFingerprints');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getEntityId()
     {
         return $this->get('entityId');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function isAssertionEncryptionRequired()
     {
         return $this->get('assertionEncryptionEnabled');
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getSharedKey()
     {
         return $this->get('sharedKey');
     }
 
+
+    /**
+     * @param string $name
+     * @param bool $required
+     * @return mixed|null
+     */
     public function getPrivateKey($name, $required = false)
     {
         $privateKeys = $this->get('privateKeys');
@@ -74,8 +105,12 @@ class ServiceProvider extends ArrayAdapter implements
         return array_pop($key);
     }
 
+
+    /**
+     * @return mixed
+     */
     public function getBlacklistedAlgorithms()
     {
-        return $this->get('blacklistedEncryptionAlgorithms', array(XMLSecurityKey::RSA_1_5));
+        return $this->get('blacklistedEncryptionAlgorithms', [XMLSecurityKey::RSA_1_5]);
     }
 }

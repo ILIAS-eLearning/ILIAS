@@ -5,6 +5,7 @@ namespace SAML2\XML\md;
 use SAML2\Constants;
 use SAML2\Utils;
 use SAML2\XML\saml\Attribute;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 IDPSSODescriptor.
@@ -27,7 +28,7 @@ class IDPSSODescriptor extends SSODescriptorType
      *
      * @var \SAML2\XML\md\EndpointType[]
      */
-    public $SingleSignOnService = array();
+    public $SingleSignOnService = [];
 
     /**
      * List of NameIDMappingService endpoints.
@@ -36,7 +37,7 @@ class IDPSSODescriptor extends SSODescriptorType
      *
      * @var \SAML2\XML\md\EndpointType[]
      */
-    public $NameIDMappingService = array();
+    public $NameIDMappingService = [];
 
     /**
      * List of AssertionIDRequestService endpoints.
@@ -45,7 +46,7 @@ class IDPSSODescriptor extends SSODescriptorType
      *
      * @var \SAML2\XML\md\EndpointType[]
      */
-    public $AssertionIDRequestService = array();
+    public $AssertionIDRequestService = [];
 
     /**
      * List of supported attribute profiles.
@@ -54,7 +55,7 @@ class IDPSSODescriptor extends SSODescriptorType
      *
      * @var array
      */
-    public $AttributeProfile = array();
+    public $AttributeProfile = [];
 
     /**
      * List of supported attributes.
@@ -63,7 +64,8 @@ class IDPSSODescriptor extends SSODescriptorType
      *
      * @var \SAML2\XML\saml\Attribute[]
      */
-    public $Attribute = array();
+    public $Attribute = [];
+
 
     /**
      * Initialize an IDPSSODescriptor.
@@ -78,26 +80,198 @@ class IDPSSODescriptor extends SSODescriptorType
             return;
         }
 
-        $this->WantAuthnRequestsSigned = Utils::parseBoolean($xml, 'WantAuthnRequestsSigned', null);
+        $this->setWantAuthnRequestsSigned(Utils::parseBoolean($xml, 'WantAuthnRequestsSigned', null));
 
         foreach (Utils::xpQuery($xml, './saml_metadata:SingleSignOnService') as $ep) {
-            $this->SingleSignOnService[] = new EndpointType($ep);
+            $this->addSingleSignOnService(new EndpointType($ep));
         }
 
         foreach (Utils::xpQuery($xml, './saml_metadata:NameIDMappingService') as $ep) {
-            $this->NameIDMappingService[] = new EndpointType($ep);
+            $this->addNameIDMappingService(new EndpointType($ep));
         }
 
         foreach (Utils::xpQuery($xml, './saml_metadata:AssertionIDRequestService') as $ep) {
-            $this->AssertionIDRequestService[] = new EndpointType($ep);
+            $this->addAssertionIDRequestService(new EndpointType($ep));
         }
 
-        $this->AttributeProfile = Utils::extractStrings($xml, Constants::NS_MD, 'AttributeProfile');
+        $this->setAttributeProfile(Utils::extractStrings($xml, Constants::NS_MD, 'AttributeProfile'));
 
         foreach (Utils::xpQuery($xml, './saml_assertion:Attribute') as $a) {
-            $this->Attribute[] = new Attribute($a);
+            $this->addAttribute(new Attribute($a));
         }
     }
+
+
+    /**
+     * Collect the value of the WantAuthnRequestsSigned-property
+     * @return bool|null
+     */
+    public function wantAuthnRequestsSigned()
+    {
+        return $this->WantAuthnRequestsSigned;
+    }
+
+
+    /**
+     * Set the value of the WantAuthnRequestsSigned-property
+     * @param bool|null $flag
+     * @return void
+     */
+    public function setWantAuthnRequestsSigned($flag = null)
+    {
+        Assert::nullOrBoolean($flag);
+        $this->WantAuthnRequestsSigned = $flag;
+    }
+
+
+    /**
+     * Collect the value of the SingleSignOnService-property
+     * @return \SAML2\XML\md\EndpointType[]
+     */
+    public function getSingleSignOnService()
+    {
+        return $this->SingleSignOnService;
+    }
+
+
+    /**
+     * Set the value of the SingleSignOnService-property
+     * @param array $singleSignOnService
+     * @return void
+     */
+    public function setSingleSignOnService(array $singleSignOnService)
+    {
+        $this->SingleSignOnService = $singleSignOnService;
+    }
+
+
+    /**
+     * Add the value to the SingleSignOnService-property
+     * @param \SAML2\XML\md\EndpointType $singleSignOnService
+     * @return void
+     */
+    public function addSingleSignOnService(EndpointType $singleSignOnService)
+    {
+        $this->SingleSignOnService[] = $singleSignOnService;
+    }
+
+
+    /**
+     * Collect the value of the NameIDMappingService-property
+     * @return \SAML2\XML\md\EndpointType[]
+     */
+    public function getNameIDMappingService()
+    {
+        return $this->NameIDMappingService;
+    }
+
+
+    /**
+     * Set the value of the NameIDMappingService-property
+     * @param array $nameIDMappingService
+     * @return void
+     */
+    public function setNameIDMappingService(array $nameIDMappingService)
+    {
+        $this->NameIDMappingService = $nameIDMappingService;
+    }
+
+
+    /**
+     * Add the value to the NameIDMappingService-property
+     * @param \SAML2\XML\md\EndpointType $nameIDMappingService
+     * @return void
+     */
+    public function addNameIDMappingService(EndpointType $nameIDMappingService)
+    {
+        $this->NameIDMappingService[] = $nameIDMappingService;
+    }
+
+
+    /**
+     * Collect the value of the AssertionIDRequestService-property
+     * @return \SAML2\XML\md\EndpointType[]
+     */
+    public function getAssertionIDRequestService()
+    {
+        return $this->AssertionIDRequestService;
+    }
+
+
+    /**
+     * Set the value of the AssertionIDRequestService-property
+     * @param array $assertionIDRequestService
+     * @return void
+     */
+    public function setAssertionIDRequestService(array $assertionIDRequestService)
+    {
+        $this->AssertionIDRequestService = $assertionIDRequestService;
+    }
+
+
+    /**
+     * Add the value to the AssertionIDRequestService-property
+     * @param \SAML2\XML\md\EndpointType $assertionIDRequestService
+     * @return void
+     */
+    public function addAssertionIDRequestService(EndpointType $assertionIDRequestService)
+    {
+        $this->AssertionIDRequestService[] = $assertionIDRequestService;
+    }
+
+
+    /**
+     * Collect the value of the AttributeProfile-property
+     * @return array
+     */
+    public function getAttributeProfile()
+    {
+        return $this->AttributeProfile;
+    }
+
+
+    /**
+     * Set the value of the AttributeProfile-property
+     * @param array $attributeProfile
+     * @return void
+     */
+    public function setAttributeProfile(array $attributeProfile)
+    {
+        $this->AttributeProfile = $attributeProfile;
+    }
+
+
+    /**
+     * Collect the value of the Attribute-property
+     * @return \SAML2\XML\saml\Attribute[]
+     */
+    public function getAttribute()
+    {
+        return $this->Attribute;
+    }
+
+
+    /**
+     * Set the value of the Attribute-property
+     * @param array $attribute
+     * @return void
+     */
+    public function setAttribute(array $attribute)
+    {
+        $this->Attribute = $attribute;
+    }
+
+
+    /**
+     * Addthe value to the Attribute-property
+     * @param \SAML2\XML\saml\Attribute $attribute
+     * @return void
+     */
+    public function addAttribute(Attribute $attribute)
+    {
+        $this->Attribute[] = $attribute;
+    }
+
 
     /**
      * Add this IDPSSODescriptor to an EntityDescriptor.
@@ -107,36 +281,36 @@ class IDPSSODescriptor extends SSODescriptorType
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_null($this->WantAuthnRequestsSigned) || is_bool($this->WantAuthnRequestsSigned));
-        assert(is_array($this->SingleSignOnService));
-        assert(is_array($this->NameIDMappingService));
-        assert(is_array($this->AssertionIDRequestService));
-        assert(is_array($this->AttributeProfile));
-        assert(is_array($this->Attribute));
+        Assert::nullOrBoolean($this->WantAuthnRequestsSigned());
+        Assert::isArray($this->getSingleSignOnService());
+        Assert::isArray($this->getNameIDMappingService());
+        Assert::isArray($this->getAssertionIDRequestService());
+        Assert::isArray($this->getAttributeProfile());
+        Assert::isArray($this->getAttribute());
 
         $e = parent::toXML($parent);
 
-        if ($this->WantAuthnRequestsSigned === true) {
+        if ($this->WantAuthnRequestsSigned() === true) {
             $e->setAttribute('WantAuthnRequestsSigned', 'true');
-        } elseif ($this->WantAuthnRequestsSigned === false) {
+        } elseif ($this->WantAuthnRequestsSigned() === false) {
             $e->setAttribute('WantAuthnRequestsSigned', 'false');
         }
 
-        foreach ($this->SingleSignOnService as $ep) {
+        foreach ($this->getSingleSignOnService() as $ep) {
             $ep->toXML($e, 'md:SingleSignOnService');
         }
 
-        foreach ($this->NameIDMappingService as $ep) {
+        foreach ($this->getNameIDMappingService() as $ep) {
             $ep->toXML($e, 'md:NameIDMappingService');
         }
 
-        foreach ($this->AssertionIDRequestService as $ep) {
+        foreach ($this->getAssertionIDRequestService() as $ep) {
             $ep->toXML($e, 'md:AssertionIDRequestService');
         }
 
-        Utils::addStrings($e, Constants::NS_MD, 'md:AttributeProfile', false, $this->AttributeProfile);
+        Utils::addStrings($e, Constants::NS_MD, 'md:AttributeProfile', false, $this->getAttributeProfile());
 
-        foreach ($this->Attribute as $a) {
+        foreach ($this->getAttribute() as $a) {
             $a->toXML($e);
         }
 

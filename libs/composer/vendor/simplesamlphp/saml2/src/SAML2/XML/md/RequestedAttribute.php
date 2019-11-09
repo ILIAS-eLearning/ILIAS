@@ -5,6 +5,7 @@ namespace SAML2\XML\md;
 use SAML2\Constants;
 use SAML2\Utils;
 use SAML2\XML\saml\Attribute;
+use Webmozart\Assert\Assert;
 
 /**
  * Class representing SAML 2 metadata RequestedAttribute.
@@ -20,6 +21,7 @@ class RequestedAttribute extends Attribute
      */
     public $isRequired = null;
 
+
     /**
      * Initialize an RequestedAttribute.
      *
@@ -33,8 +35,31 @@ class RequestedAttribute extends Attribute
             return;
         }
 
-        $this->isRequired = Utils::parseBoolean($xml, 'isRequired', null);
+        $this->setIsRequired(Utils::parseBoolean($xml, 'isRequired', null));
     }
+
+
+    /**
+     * Collect the value of the isRequired-property
+     * @return boolean|null
+     */
+    public function getIsRequired()
+    {
+        return $this->isRequired;
+    }
+
+
+    /**
+     * Set the value of the isRequired-property
+     * @param boolean|null $flag
+     * @return void
+     */
+    public function setIsRequired($flag = null)
+    {
+        Assert::nullOrBoolean($flag);
+        $this->isRequired = $flag;
+    }
+
 
     /**
      * Convert this RequestedAttribute to XML.
@@ -44,13 +69,13 @@ class RequestedAttribute extends Attribute
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_bool($this->isRequired) || is_null($this->isRequired));
+        Assert::nullOrBoolean($this->isRequired);
 
         $e = $this->toXMLInternal($parent, Constants::NS_MD, 'md:RequestedAttribute');
 
-        if ($this->isRequired === true) {
+        if ($this->getIsRequired() === true) {
             $e->setAttribute('isRequired', 'true');
-        } elseif ($this->isRequired === false) {
+        } elseif ($this->getIsRequired() === false) {
             $e->setAttribute('isRequired', 'false');
         }
 

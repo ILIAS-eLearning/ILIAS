@@ -5,6 +5,7 @@ namespace SAML2\XML\mdattr;
 use SAML2\Utils;
 use SAML2\XML\Chunk;
 use SAML2\XML\saml\Attribute;
+use Webmozart\Assert\Assert;
 
 /**
  * Class for handling the EntityAttributes metadata extension.
@@ -28,6 +29,7 @@ class EntityAttributes
      */
     public $children;
 
+
     /**
      * Create a EntityAttributes element.
      *
@@ -41,12 +43,46 @@ class EntityAttributes
 
         foreach (Utils::xpQuery($xml, './saml_assertion:Attribute|./saml_assertion:Assertion') as $node) {
             if ($node->localName === 'Attribute') {
-                $this->children[] = new Attribute($node);
+                $this->addChildren(new Attribute($node));
             } else {
-                $this->children[] = new Chunk($node);
+                $this->addChildren(new Chunk($node));
             }
         }
     }
+
+
+    /**
+     * Collect the value of the children-property
+     * @return (\SAML2\XML\Chunk|\SAML2\XML\saml\Attribute)[]
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+
+    /**
+     * Set the value of the childen-property
+     * @param array $children
+     * @return void
+     */
+    public function setChildren(array $children)
+    {
+        $this->children = $children;
+    }
+
+
+    /**
+     * Add the value to the children-property
+     * @param \SAML2\XML\Chunk|\SAML2\XML\saml\Attribute $child
+     * @return void
+     */
+    public function addChildren($child)
+    {
+        Assert::isInstanceOfAny($child, [Chunk::class, Attribute::class]);
+        $this->children[] = $child;
+    }
+
 
     /**
      * Convert this EntityAttributes to XML.
@@ -56,7 +92,7 @@ class EntityAttributes
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_array($this->children));
+        Assert::isArray($this->getChildren());
 
         $doc = $parent->ownerDocument;
 
@@ -64,7 +100,7 @@ class EntityAttributes
         $parent->appendChild($e);
 
         /** @var \SAML2\XML\saml\Attribute|\SAML2\XML\Chunk $child */
-        foreach ($this->children as $child) {
+        foreach ($this->getChildren() as $child) {
             $child->toXML($e);
         }
 

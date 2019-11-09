@@ -14,6 +14,7 @@ class Response extends StatusResponse
      */
     private $assertions;
 
+
     /**
      * Constructor for SAML 2 response messages.
      *
@@ -23,7 +24,7 @@ class Response extends StatusResponse
     {
         parent::__construct('Response', $xml);
 
-        $this->assertions = array();
+        $this->assertions = [];
 
         if ($xml === null) {
             return;
@@ -42,6 +43,7 @@ class Response extends StatusResponse
         }
     }
 
+
     /**
      * Retrieve the assertions in this response.
      *
@@ -52,15 +54,18 @@ class Response extends StatusResponse
         return $this->assertions;
     }
 
+
     /**
      * Set the assertions that should be included in this response.
      *
-     * @param \SAML2\Assertion[]|\SAML2\EncryptedAssertion[] The assertions.
+     * @param \SAML2\Assertion[]|\SAML2\EncryptedAssertion[] $assertions The assertions.
+     * @return void
      */
     public function setAssertions(array $assertions)
     {
         $this->assertions = $assertions;
     }
+
 
     /**
      * Convert the response message to an XML element.

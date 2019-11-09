@@ -15,37 +15,36 @@ class Mo extends Extractor implements ExtractorInterface
     const MAGIC2 = -569244523;
     const MAGIC3 = 2500072158;
 
+    protected static $stringReaderClass = 'Gettext\Utils\StringReader';
+
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        if ($translations === null) {
-            $translations = new Translations();
-        }
+        /** @var StringReader $stream */
+        $stream = new static::$stringReaderClass($string);
+        $magic = static::readInt($stream, 'V');
 
-        $stream = new StringReader($string);
-        $magic = self::readInt($stream, 'V');
-
-        if (($magic === self::MAGIC1) || ($magic === self::MAGIC3)) { //to make sure it works for 64-bit platforms
+        if (($magic === static::MAGIC1) || ($magic === static::MAGIC3)) { //to make sure it works for 64-bit platforms
             $byteOrder = 'V'; //low endian
-        } elseif ($magic === (self::MAGIC2 & 0xFFFFFFFF)) {
+        } elseif ($magic === (static::MAGIC2 & 0xFFFFFFFF)) {
             $byteOrder = 'N'; //big endian
         } else {
             throw new Exception('Not MO file');
         }
 
-        self::readInt($stream, $byteOrder);
+        static::readInt($stream, $byteOrder);
 
-        $total = self::readInt($stream, $byteOrder); //total string count
-        $originals = self::readInt($stream, $byteOrder); //offset of original table
-        $tran = self::readInt($stream, $byteOrder); //offset of translation table
+        $total = static::readInt($stream, $byteOrder); //total string count
+        $originals = static::readInt($stream, $byteOrder); //offset of original table
+        $tran = static::readInt($stream, $byteOrder); //offset of translation table
 
         $stream->seekto($originals);
-        $table_originals = self::readIntArray($stream, $byteOrder, $total * 2);
+        $table_originals = static::readIntArray($stream, $byteOrder, $total * 2);
 
         $stream->seekto($tran);
-        $table_translations = self::readIntArray($stream, $byteOrder, $total * 2);
+        $table_translations = static::readIntArray($stream, $byteOrder, $total * 2);
 
         for ($i = 0; $i < $total; ++$i) {
             $next = $i * 2;
@@ -99,23 +98,17 @@ class Mo extends Extractor implements ExtractorInterface
                 continue;
             }
 
-            foreach (explode("\x00", $translated) as $pluralIndex => $pluralValue) {
-                if ($pluralIndex === 0) {
-                    $translation->setTranslation($pluralValue);
-                } else {
-                    $translation->setPluralTranslation($pluralValue, $pluralIndex - 1);
-                }
-            }
+            $v = explode("\x00", $translated);
+            $translation->setTranslation(array_shift($v));
+            $translation->setPluralTranslations($v);
         }
-
-        return $translations;
     }
 
     /**
      * @param StringReader $stream
      * @param string       $byteOrder
      */
-    private static function readInt(StringReader $stream, $byteOrder)
+    protected static function readInt(StringReader $stream, $byteOrder)
     {
         if (($read = $stream->read(4)) === false) {
             return false;
@@ -131,7 +124,7 @@ class Mo extends Extractor implements ExtractorInterface
      * @param string       $byteOrder
      * @param int          $count
      */
-    private static function readIntArray(StringReader $stream, $byteOrder, $count)
+    protected static function readIntArray(StringReader $stream, $byteOrder, $count)
     {
         return unpack($byteOrder.$count, $stream->read(4 * $count));
     }

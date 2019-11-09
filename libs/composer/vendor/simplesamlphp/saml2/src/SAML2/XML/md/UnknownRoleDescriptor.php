@@ -18,6 +18,7 @@ class UnknownRoleDescriptor extends RoleDescriptor
      */
     private $xml;
 
+
     /**
      * Initialize an unknown RoleDescriptor.
      *
@@ -29,6 +30,7 @@ class UnknownRoleDescriptor extends RoleDescriptor
 
         $this->xml = new Chunk($xml);
     }
+
 
     /**
      * Add this RoleDescriptor to an EntityDescriptor.

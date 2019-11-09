@@ -2,6 +2,9 @@
 
 namespace SAML2;
 
+use SAML2\XML\saml\NameID;
+use Webmozart\Assert\Assert;
+
 /**
  * Base class for SAML 2 subject query messages.
  *
@@ -46,6 +49,7 @@ abstract class SubjectQuery extends Request
      *
      * @param \DOMElement $xml The SubjectQuery XML element.
      * @throws \Exception
+     * @return void
      */
     private function parseSubject(\DOMElement $xml)
     {
@@ -54,7 +58,7 @@ abstract class SubjectQuery extends Request
             /* No Subject node. */
             throw new \Exception('Missing subject in subject query.');
         } elseif (count($subject) > 1) {
-            throw new \Exception('More than one <saml:Subject> in <saml:Assertion>.');
+            throw new \Exception('More than one <saml:Subject> in subject query.');
         }
         $subject = $subject[0];
 
@@ -65,7 +69,7 @@ abstract class SubjectQuery extends Request
             throw new \Exception('More than one <saml:NameID> in <saml:Subject>.');
         }
         $nameId = $nameId[0];
-        $this->nameId = new XML\saml\NameID($nameId);
+        $this->nameId = new NameID($nameId);
     }
 
 
@@ -84,13 +88,14 @@ abstract class SubjectQuery extends Request
      * Set the NameId of the subject in the query.
      *
      * @param \SAML2\XML\saml\NameID|array|null $nameId The name identifier of the assertion.
+     * @return void
      */
     public function setNameId($nameId)
     {
-        assert(is_array($nameId) || is_null($nameId) || $nameId instanceof XML\saml\NameID);
+        Assert::true(is_array($nameId) || is_null($nameId) || $nameId instanceof NameID);
 
         if (is_array($nameId)) {
-            $nameId = XML\saml\NameID::fromArray($nameId);
+            $nameId = NameID::fromArray($nameId);
         }
         $this->nameId = $nameId;
     }

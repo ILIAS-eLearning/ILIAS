@@ -33,6 +33,16 @@ use SAML2\Signature\Validator;
  */
 class ProcessorBuilder
 {
+    /**
+     * Constructor for ProcessorBuilder
+     *
+     * @param LoggerInterface $logger
+     * @param Validator $signatureValidator
+     * @param Destination $currentDestination
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @param Response $response
+     */
     public static function build(
         LoggerInterface $logger,
         Validator $signatureValidator,
@@ -69,6 +79,12 @@ class ProcessorBuilder
         );
     }
 
+
+    /**
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @return AssertionValidator
+     */
     private static function createAssertionValidator(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider
@@ -82,6 +98,14 @@ class ProcessorBuilder
         return $validator;
     }
 
+
+    /**
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @param Destination $currentDestination
+     * @param Response $response
+     * @return SubjectConfirmationValidator
+     */
     private static function createSubjectConfirmationValidator(
         IdentityProvider $identityProvider,
         ServiceProvider $serviceProvider,
@@ -112,6 +136,13 @@ class ProcessorBuilder
         return $validator;
     }
 
+    /**
+     * @param LoggerInterface $logger
+     * @param PrivateKeyLoader $keyLoader
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @return TransformerChain
+     */
     private static function createAssertionTransformerChain(
         LoggerInterface $logger,
         PrivateKeyLoader $keyloader,

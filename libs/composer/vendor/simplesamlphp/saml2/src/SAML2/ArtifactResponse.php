@@ -2,6 +2,8 @@
 
 namespace SAML2;
 
+use Webmozart\Assert\Assert;
+
 /**
  * The \SAML2\ArtifactResponse, is the response to the \SAML2\ArtifactResolve.
  *
@@ -19,13 +21,19 @@ class ArtifactResponse extends StatusResponse
     private $any;
 
 
+    /**
+     * Constructor for SAML 2 ArtifactResponse.
+     *
+     * @param \DOMElement|null $xml The input assertion.
+     * @throws \Exception
+     */
     public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('ArtifactResponse', $xml);
 
         if (!is_null($xml)) {
             $status = Utils::xpQuery($xml, './saml_protocol:Status');
-            assert(!empty($status)); /* Will have failed during StatusResponse parsing. */
+            Assert::notEmpty($status); /* Will have failed during StatusResponse parsing. */
 
             $status = $status[0];
 
@@ -39,15 +47,25 @@ class ArtifactResponse extends StatusResponse
         }
     }
 
+
+    /**
+     * @param \DOMElement|null $any
+     * @return void
+     */
     public function setAny(\DOMElement $any = null)
     {
         $this->any = $any;
     }
 
+
+    /**
+     * @return \DOMElement|null
+    */
     public function getAny()
     {
         return $this->any;
     }
+
 
     /**
      * Convert the response message to an XML element.

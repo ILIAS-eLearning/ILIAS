@@ -2,6 +2,8 @@
 
 namespace SAML2;
 
+use Webmozart\Assert\Assert;
+
 /**
  * The Artifact is part of the SAML 2.0 IdP code, and it builds an artifact object.
  * I am using strings, because I find them easier to work with.
@@ -14,6 +16,12 @@ class ArtifactResolve extends Request
 {
     private $artifact;
 
+
+    /**
+     * Constructor for SAML 2 ArtifactResolve.
+     *
+     * @param \DOMElement|null $xml The input assertion.
+     */
     public function __construct(\DOMElement $xml = null)
     {
         parent::__construct('ArtifactResolve', $xml);
@@ -34,16 +42,19 @@ class ArtifactResolve extends Request
         return $this->artifact;
     }
 
+
     /**
      * Set the artifact that should be included in this response.
      *
      * @param string $artifact
+     * @return void
      */
     public function setArtifact($artifact)
     {
-        assert(is_string($artifact));
+        Assert::string($artifact);
         $this->artifact = $artifact;
     }
+
 
     /**
      * Convert the response message to an XML element.

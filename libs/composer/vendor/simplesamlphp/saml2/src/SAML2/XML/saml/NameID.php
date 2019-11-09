@@ -2,7 +2,6 @@
 
 namespace SAML2\XML\saml;
 
-
 /**
  * Class representing the saml:NameID element.
  *

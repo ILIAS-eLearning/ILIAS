@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SAML NameIDType abstract data type.
  *
@@ -8,6 +9,7 @@
 
 namespace SAML2\XML\saml;
 
+use Webmozart\Assert\Assert;
 
 abstract class NameIDType extends BaseIDType
 {
@@ -63,14 +65,80 @@ abstract class NameIDType extends BaseIDType
         }
 
         if ($xml->hasAttribute('Format')) {
-            $this->Format = $xml->getAttribute('Format');
+            $this->setFormat($xml->getAttribute('Format'));
         }
 
         if ($xml->hasAttribute('SPProvidedID')) {
-            $this->SPProvidedID = $xml->getAttribute('SPProvidedID');
+            $this->setSPProvidedID($xml->getAttribute('SPProvidedID'));
         }
 
-        $this->value = trim($xml->textContent);
+        $this->setValue(trim($xml->textContent));
+    }
+
+
+    /**
+     * Collect the value of the Format-property
+     * @return string|null
+     */
+    public function getFormat()
+    {
+        return $this->Format;
+    }
+
+
+    /**
+     * Set the value of the Format-property
+     * @param string|null $format
+     * @return void
+     */
+    public function setFormat($format = null)
+    {
+        Assert::nullOrString($format);
+        $this->Format = $format;
+    }
+
+
+    /**
+     * Collect the value of the value-property
+     * @return string|null
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+
+    /**
+     * Set the value of the value-property
+     * @param string|null $value
+     * @return void
+     */
+    public function setValue($value)
+    {
+        Assert::nullOrString($value);
+        $this->value = $value;
+    }
+
+
+    /**
+     * Collect the value of the SPProvidedID-property
+     * @return string|null
+     */
+    public function getSPProvidedID()
+    {
+        return $this->SPProvidedID;
+    }
+
+
+    /**
+     * Set the value of the SPProvidedID-property
+     * @param string|null $spProvidedID
+     * @return void
+     */
+    public function setSPProvidedID($spProvidedID)
+    {
+        Assert::nullOrString($spProvidedID);
+        $this->SPProvidedID = $spProvidedID;
     }
 
 
@@ -78,9 +146,8 @@ abstract class NameIDType extends BaseIDType
      * Create a \SAML2\XML\saml\NameID object from an array with its contents.
      *
      * @param array $nameId An array whose keys correspond to the fields of a NameID.
-     * @return \SAML2\XML\saml\NameID The corresponding NameID object.
-     *
      * @throws \InvalidArgumentException If the array does not contain the "Value" key.
+     * @return \SAML2\XML\saml\NameID The corresponding NameID object.
      *
      * @deprecated
      */
@@ -90,19 +157,19 @@ abstract class NameIDType extends BaseIDType
         if (!array_key_exists('Value', $nameId)) {
             throw new \InvalidArgumentException('Missing "Value" in array, cannot create NameID from it.');
         }
-        $nid->value = $nameId['Value'];
+        $nid->setValue($nameId['Value']);
 
         if (array_key_exists('NameQualifier', $nameId) && $nameId['NameQualifier'] !== null) {
-            $nid->NameQualifier = $nameId['NameQualifier'];
+            $nid->setNameQualifier($nameId['NameQualifier']);
         }
         if (array_key_exists('SPNameQualifier', $nameId) && $nameId['SPNameQualifier'] !== null) {
-            $nid->SPNameQualifier = $nameId['SPNameQualifier'];
+            $nid->setSPNameQualifier($nameId['SPNameQualifier']);
         }
-        if (array_key_exists('SPProvidedID', $nameId) && $nameId['SPProvidedId'] !== null) {
-            $nid->SPProvidedID = $nameId['SPProvidedID'];
+        if (array_key_exists('SPProvidedID', $nameId) && $nameId['SPProvidedID'] !== null) {
+            $nid->setSPProvidedID($nameId['SPProvidedID']);
         }
         if (array_key_exists('Format', $nameId) && $nameId['Format'] !== null) {
-            $nid->Format = $nameId['Format'];
+            $nid->setFormat($nameId['Format']);
         }
         return $nid;
     }
@@ -111,27 +178,26 @@ abstract class NameIDType extends BaseIDType
     /**
      * Convert this NameIDType to XML.
      *
-     * @param \DOMElement $element The element we are converting to XML.
-     *
+     * @param \DOMElement $parent The element we are converting to XML.
      * @return \DOMElement The XML element after adding the data corresponding to this NameIDType.
      */
     public function toXML(\DOMElement $parent = null)
     {
-        assert(is_string($this->Format) || is_null($this->Format));
-        assert(is_string($this->SPProvidedID) || is_null($this->SPProvidedID));
-        assert(is_string($this->value));
+        Assert::nullOrString($this->getFormat());
+        Assert::nullOrString($this->getSPProvidedID());
+        Assert::string($this->getValue());
 
         $element = parent::toXML($parent);
 
-        if ($this->Format !== null) {
-            $element->setAttribute('Format', $this->Format);
+        if ($this->getFormat() !== null) {
+            $element->setAttribute('Format', $this->getFormat());
         }
 
-        if ($this->SPProvidedID !== null) {
-            $element->setAttribute('SPProvidedID', $this->SPProvidedID);
+        if ($this->getSPProvidedID() !== null) {
+            $element->setAttribute('SPProvidedID', $this->getSPProvidedID());
         }
 
-        $value = $element->ownerDocument->createTextNode($this->value);
+        $value = $element->ownerDocument->createTextNode($this->getValue());
         $element->appendChild($value);
 
         return $element;

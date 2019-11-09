@@ -10,11 +10,16 @@ use SAML2\XML\saml\SubjectConfirmation;
 class SubjectConfirmationNotOnOrAfter implements
     SubjectConfirmationConstraintValidator
 {
+    /**
+     * @param SubjectConfirmation $subjectConfirmation
+     * @param Result $result
+     * @return void
+     */
     public function validate(
         SubjectConfirmation $subjectConfirmation,
         Result $result
     ) {
-        $notOnOrAfter = $subjectConfirmation->SubjectConfirmationData->NotOnOrAfter;
+        $notOnOrAfter = $subjectConfirmation->getSubjectConfirmationData()->getNotOnOrAfter();
         if ($notOnOrAfter && $notOnOrAfter <= Temporal::getTime() - 60) {
             $result->addError('NotOnOrAfter in SubjectConfirmationData is in the past');
         }

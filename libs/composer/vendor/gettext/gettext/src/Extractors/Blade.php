@@ -11,17 +11,19 @@ use Illuminate\View\Compilers\BladeCompiler;
  */
 class Blade extends Extractor implements ExtractorInterface
 {
-    public static $cachePath;
-
     /**
      * {@inheritdoc}
      */
-    public static function fromString($string, Translations $translations = null, $file = '')
+    public static function fromString($string, Translations $translations, array $options = [])
     {
-        $cachePath = empty(static::$cachePath) ? sys_get_temp_dir() : static::$cachePath;
-        $bladeCompiler = new BladeCompiler(new Filesystem(), $cachePath);
-        $string = $bladeCompiler->compileString($string);
+        if (empty($options['facade'])) {
+            $cachePath = empty($options['cachePath']) ? sys_get_temp_dir() : $options['cachePath'];
+            $bladeCompiler = new BladeCompiler(new Filesystem(), $cachePath);
+            $string = $bladeCompiler->compileString($string);
+        } else {
+            $string = $options['facade']::compileString($string);
+        }
 
-        return PhpCode::fromString($string, $translations, $file);
+        PhpCode::fromString($string, $translations, $options);
     }
 }

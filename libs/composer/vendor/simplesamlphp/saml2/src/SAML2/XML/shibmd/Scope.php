@@ -3,6 +3,7 @@
 namespace SAML2\XML\shibmd;
 
 use SAML2\Utils;
+use Webmozart\Assert\Assert;
 
 /**
  * Class which represents the Scope element found in Shibboleth metadata.
@@ -31,6 +32,7 @@ class Scope
      */
     public $regexp = false;
 
+
     /**
      * Create a Scope.
      *
@@ -42,9 +44,54 @@ class Scope
             return;
         }
 
-        $this->scope = $xml->textContent;
-        $this->regexp = Utils::parseBoolean($xml, 'regexp', false);
+        $this->setScope($xml->textContent);
+        $this->setIsRegexpScope(Utils::parseBoolean($xml, 'regexp', false));
     }
+
+
+    /**
+     * Collect the value of the scope-property
+     * @return string
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+
+    /**
+     * Set the value of the scope-property
+     * @param string $scope
+     * @return void
+     */
+    public function setScope($scope)
+    {
+        Assert::string($scope);
+        $this->scope = $scope;
+    }
+
+
+    /**
+     * Collect the value of the regexp-property
+     * @return boolean
+     */
+    public function isRegexpScope()
+    {
+        return $this->regexp;
+    }
+
+
+    /**
+     * Set the value of the regexp-property
+     * @param boolean $regexp
+     * @return void
+     */
+    public function setIsRegexpScope($regexp)
+    {
+        Assert::boolean($regexp);
+        $this->regexp = $regexp;
+    }
+
 
     /**
      * Convert this Scope to XML.
@@ -54,17 +101,17 @@ class Scope
      */
     public function toXML(\DOMElement $parent)
     {
-        assert(is_string($this->scope));
-        assert(is_bool($this->regexp) || is_null($this->regexp));
+        Assert::string($this->getScope());
+        Assert::nullOrBoolean($this->isRegexpScope());
 
         $doc = $parent->ownerDocument;
 
         $e = $doc->createElementNS(Scope::NS, 'shibmd:Scope');
         $parent->appendChild($e);
 
-        $e->appendChild($doc->createTextNode($this->scope));
+        $e->appendChild($doc->createTextNode($this->getScope()));
 
-        if ($this->regexp === true) {
+        if ($this->isRegexpScope() === true) {
             $e->setAttribute('regexp', 'true');
         } else {
             $e->setAttribute('regexp', 'false');

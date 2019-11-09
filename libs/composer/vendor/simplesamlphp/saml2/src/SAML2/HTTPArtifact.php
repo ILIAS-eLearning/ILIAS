@@ -4,10 +4,9 @@ namespace SAML2;
 
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 use SAML2\Utilities\Temporal;
-use SimpleSAML_Configuration;
-use SimpleSAML_Metadata_MetaDataStorageHandler;
-use SimpleSAML_Store;
-use SimpleSAML_Utilities;
+use SimpleSAML\Configuration;
+use SimpleSAML\Metadata\MetaDataStorageHandler;
+use SimpleSAML\Store;
 
 /**
  * Class which implements the HTTP-Artifact binding.
@@ -20,41 +19,43 @@ use SimpleSAML_Utilities;
 class HTTPArtifact extends Binding
 {
     /**
-     * @var \SimpleSAML_Configuration
+     * @var \SimpleSAML\Configuration
      */
     private $spMetadata;
+
 
     /**
      * Create the redirect URL for a message.
      *
      * @param  \SAML2\Message $message The message.
-     * @return string        The URL the user should be redirected to in order to send a message.
      * @throws \Exception
+     * @return string        The URL the user should be redirected to in order to send a message.
      */
     public function getRedirectURL(Message $message)
     {
-        $store = SimpleSAML_Store::getInstance();
+        $store = Store::getInstance();
         if ($store === false) {
             throw new \Exception('Unable to send artifact without a datastore configured.');
         }
 
-        $generatedId = pack('H*', ((string) SimpleSAML_Utilities::stringToHex(SimpleSAML_Utilities::generateRandomBytes(20))));
-        $artifact = base64_encode("\x00\x04\x00\x00" . sha1($message->getIssuer(), true) . $generatedId) ;
+        $generatedId = pack('H*', bin2hex(openssl_random_pseudo_bytes(20)));
+        $artifact = base64_encode("\x00\x04\x00\x00".sha1($message->getIssuer(), true).$generatedId);
         $artifactData = $message->toUnsignedXML();
         $artifactDataString = $artifactData->ownerDocument->saveXML($artifactData);
 
         $store->set('artifact', $artifact, $artifactDataString, Temporal::getTime() + 15*60);
 
-        $params = array(
+        $params = [
             'SAMLart' => $artifact,
-        );
+        ];
         $relayState = $message->getRelayState();
         if ($relayState !== null) {
             $params['RelayState'] = $relayState;
         }
 
-        return SimpleSAML_Utilities::addURLparameter($message->getDestination(), $params);
+        return \SimpleSAML\Utils\HTTP::addURLparameter($message->getDestination(), $params);
     }
+
 
     /**
      * Send a SAML 2 message using the HTTP-Redirect binding.
@@ -62,6 +63,7 @@ class HTTPArtifact extends Binding
      * Note: This function never returns.
      *
      * @param \SAML2\Message $message The message we should send.
+     * @retrun void
      */
     public function send(Message $message)
     {
@@ -69,35 +71,36 @@ class HTTPArtifact extends Binding
         Utils::getContainer()->redirect($destination);
     }
 
+
     /**
      * Receive a SAML 2 message sent using the HTTP-Artifact binding.
      *
      * Throws an exception if it is unable receive the message.
      *
-     * @return \SAML2\Message The received message.
      * @throws \Exception
+     * @return \SAML2\Message The received message.
      */
     public function receive()
     {
         if (array_key_exists('SAMLart', $_REQUEST)) {
             $artifact = base64_decode($_REQUEST['SAMLart']);
-            $endpointIndex =  bin2hex(substr($artifact, 2, 2));
+            $endpointIndex = bin2hex(substr($artifact, 2, 2));
             $sourceId = bin2hex(substr($artifact, 4, 20));
         } else {
             throw new \Exception('Missing SAMLart parameter.');
         }
 
-        $metadataHandler = SimpleSAML_Metadata_MetaDataStorageHandler::getMetadataHandler();
+        $metadataHandler = MetaDataStorageHandler::getMetadataHandler();
 
         $idpMetadata = $metadataHandler->getMetaDataConfigForSha1($sourceId, 'saml20-idp-remote');
 
         if ($idpMetadata === null) {
-            throw new \Exception('No metadata found for remote provider with SHA1 ID: ' . var_export($sourceId, true));
+            throw new \Exception('No metadata found for remote provider with SHA1 ID: '.var_export($sourceId, true));
         }
 
         $endpoint = null;
         foreach ($idpMetadata->getEndpoints('ArtifactResolutionService') as $ep) {
-            if ($ep['index'] ===  hexdec($endpointIndex)) {
+            if ($ep['index'] === hexdec($endpointIndex)) {
                 $endpoint = $ep;
                 break;
             }
@@ -107,7 +110,7 @@ class HTTPArtifact extends Binding
             throw new \Exception('No ArtifactResolutionService with the correct index.');
         }
 
-        Utils::getContainer()->getLogger()->debug("ArtifactResolutionService endpoint being used is := " . $endpoint['Location']);
+        Utils::getContainer()->getLogger()->debug("ArtifactResolutionService endpoint being used is := ".$endpoint['Location']);
 
         //Construct the ArtifactResolve Request
         $ar = new ArtifactResolve();
@@ -119,7 +122,7 @@ class HTTPArtifact extends Binding
         $ar->setDestination($endpoint['Location']);
 
         /* Sign the request */
-        \sspmod_saml_Message::addSign($this->spMetadata, $idpMetadata, $ar); // Shoaib - moved from the SOAPClient.
+        \SimpleSAML\Module\saml\Message::addSign($this->spMetadata, $idpMetadata, $ar); // Shoaib - moved from the SOAPClient.
 
         $soap = new SOAPClient();
 
@@ -139,7 +142,7 @@ class HTTPArtifact extends Binding
         }
 
         $samlResponse = Message::fromXML($xml);
-        $samlResponse->addValidator(array(get_class($this), 'validateSignature'), $artifactResponse);
+        $samlResponse->addValidator([get_class($this), 'validateSignature'], $artifactResponse);
 
         if (isset($_REQUEST['RelayState'])) {
             $samlResponse->setRelayState($_REQUEST['RelayState']);
@@ -148,13 +151,16 @@ class HTTPArtifact extends Binding
         return $samlResponse;
     }
 
+
     /**
-     * @param \SimpleSAML_Configuration $sp
+     * @param \SimpleSAML\Configuration $sp
+     * @return void
      */
-    public function setSPMetadata(SimpleSAML_Configuration $sp)
+    public function setSPMetadata(Configuration $sp)
     {
         $this->spMetadata = $sp;
     }
+
 
     /**
      * A validator which returns true if the ArtifactResponse was signed with the given key

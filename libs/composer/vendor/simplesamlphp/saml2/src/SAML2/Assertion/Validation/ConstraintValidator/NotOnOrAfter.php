@@ -10,10 +10,15 @@ use SAML2\Utilities\Temporal;
 class NotOnOrAfter implements
     AssertionConstraintValidator
 {
+    /**
+     * @param Assertion $assertion
+     * @param Result $result
+     * @return void
+     */
     public function validate(Assertion $assertion, Result $result)
     {
         $notValidOnOrAfterTimestamp = $assertion->getNotOnOrAfter();
-        if ($notValidOnOrAfterTimestamp && $notValidOnOrAfterTimestamp <= Temporal::getTime() - 60) {
+        if (($notValidOnOrAfterTimestamp !== null) && ($notValidOnOrAfterTimestamp <= (Temporal::getTime() - 60))) {
             $result->addError(
                 'Received an assertion that has expired. Check clock synchronization on IdP and SP.'
             );

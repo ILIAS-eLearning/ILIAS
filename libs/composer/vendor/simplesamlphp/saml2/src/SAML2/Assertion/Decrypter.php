@@ -31,6 +31,15 @@ class Decrypter
      */
     private $logger;
 
+
+    /**
+     * Constructor for Decrypter.
+     *
+     * @param LoggerInterface $logger
+     * @param IdentityProvider $identityProvider
+     * @param ServiceProvider $serviceProvider
+     * @param PrivateKeyLoader $privateKeyLoader
+     */
     public function __construct(
         LoggerInterface $logger,
         IdentityProvider $identityProvider,
@@ -43,14 +52,18 @@ class Decrypter
         $this->privateKeyLoader = $privateKeyLoader;
     }
 
+
     /**
      * Allows for checking whether either the SP or the IdP requires assertion encryption
+     *
+     * @return bool
      */
     public function isEncryptionRequired()
     {
         return $this->identityProvider->isAssertionEncryptionRequired()
             || $this->serviceProvider->isAssertionEncryptionRequired();
     }
+
 
     /**
      * @param \SAML2\EncryptedAssertion $assertion

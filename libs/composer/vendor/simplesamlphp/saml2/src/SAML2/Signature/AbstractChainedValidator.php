@@ -13,10 +13,17 @@ abstract class AbstractChainedValidator implements ChainedValidator
      */
     protected $logger;
 
+
+    /**
+     * Constructor for AbstractChainedValidator
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
+
 
     /**
      * BC compatible version of the signature check
@@ -32,7 +39,7 @@ abstract class AbstractChainedValidator implements ChainedValidator
     {
         $lastException = null;
         foreach ($pemCandidates as $index => $candidateKey) {
-            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, array('type' => 'public'));
+            $key = new XMLSecurityKey(XMLSecurityKey::RSA_SHA256, ['type' => 'public']);
             $key->loadKey($candidateKey->getCertificate());
 
             try {
