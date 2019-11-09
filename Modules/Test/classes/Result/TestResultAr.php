@@ -47,6 +47,14 @@ class TestResultAr extends ActiveRecord
      */
     protected $question_fi;
     /**
+     * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_is_notnull true
+     */
+    protected $revision_key;
+    /**
      * @var int
      *
      * @con_has_field  true
@@ -54,6 +62,14 @@ class TestResultAr extends ActiveRecord
      * @con_is_notnull true
      */
     protected $points;
+    /**
+     * @var int
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     * @con_is_notnull true
+     */
+    protected $max_points;
     /**
      * @var int
      *
@@ -107,6 +123,21 @@ class TestResultAr extends ActiveRecord
      * @con_fieldtype  integer
      */
     protected $step;
+    /**
+     * @var int
+     *
+     * @con_has_field  true
+     * @con_fieldtype  integer
+     */
+    protected $order_by;
+    /**
+     * @var float
+     *
+     * @con_has_field  true
+     * @con_fieldtype  float
+     */
+    protected $percent;
+
 
 
     /**
@@ -127,21 +158,27 @@ class TestResultAr extends ActiveRecord
         int $test_result_id,
         int $active_fi,
         int $question_fi,
+        string $revision_key,
         int $points,
+        int $max_points,
         int $pass,
         int $manual,
         int $tstamp,
         int $hint_count,
         int $hint_points,
         int $answered,
-        int $step
+        int $step,
+        float $percent,
+        int $order_by
     ) : TestResultAr {
         $object = new TestResultAr();
 
         $object->test_result_id = $test_result_id;
         $object->active_fi = $active_fi;
         $object->question_fi = $question_fi;
+        $object->revision_key = $revision_key;
         $object->points = $points;
+        $object->max_points = $max_points;
         $object->pass = $pass;
         $object->manual = $manual;
         $object->tstamp = $tstamp;
@@ -149,6 +186,8 @@ class TestResultAr extends ActiveRecord
         $object->hint_points = $hint_points;
         $object->answered = $answered;
         $object->step = $step;
+        $object->percent = $percent;
+        $object->order_by = $order_by;
 
         return $object;
     }
@@ -182,11 +221,30 @@ class TestResultAr extends ActiveRecord
 
 
     /**
+     * @return string
+     */
+    public function getRevisionKey() : string
+    {
+        return $this->revision_key;
+    }
+
+
+
+    /**
      * @return int
      */
     public function getPoints() : int
     {
         return $this->points;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getMaxPoints() : int
+    {
+        return $this->max_points;
     }
 
 
@@ -251,6 +309,26 @@ class TestResultAr extends ActiveRecord
     {
         return $this->step;
     }
+
+
+    /**
+     * @return int
+     */
+    public function getOrder() : int
+    {
+        return $this->order_by;
+    }
+
+
+    /**
+     * @return float
+     */
+    public function getPercent() : float
+    {
+        return $this->percent;
+    }
+
+
 
 
     /**

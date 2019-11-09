@@ -114,6 +114,12 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         $DIC->ui()->mainTemplate()->parseCurrentBlock();
     }
 
+    //Reset Page GUI Stuffs
+    function determineFileDownloadLink() { return ""; }
+    function determineFullscreenLink() { return ""; }
+    function determineSourcecodeDownloadScript() { return ""; }
+
+
 
     /**
      * @param Page $page

@@ -238,7 +238,6 @@ class ProcessingApplicationService
     public function GetQuestion(string $revision_key) : QuestionDto
     {
         $repository = new PublishedQuestionRepository();
-
         return $repository->getQuestionByRevisionId($revision_key);
     }
 

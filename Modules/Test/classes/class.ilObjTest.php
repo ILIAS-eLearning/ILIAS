@@ -4250,7 +4250,7 @@ function getAnswerFeedbackPoints()
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
 		$results = $this->getResultsForActiveId($active_id);
-		
+
 		if( is_null($pass) )
 		{
 			$pass = $results['pass'];
@@ -12418,7 +12418,7 @@ function getAnswerFeedbackPoints()
 	 * @param  $active_id
 	 * @param  $pass
 	 * @param  $test_obj_id
-	 * @return array
+	 * @return string
 	 */
 	public static function buildExamId($active_id, $pass, $test_obj_id = null)
 	{

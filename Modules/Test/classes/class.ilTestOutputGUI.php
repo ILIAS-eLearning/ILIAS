@@ -261,7 +261,6 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($sequenceElement);
 
-
         $question_processing_service = $processing_service->question($revision_id);
 
         $question_config = $this->question_config;
@@ -423,7 +422,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         //Last Question Revision ID
         $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($this->getCurrentSequenceElement());
-        $this->persistUserAnswerResult($revision_id);
+        $this->persistUserAnswerResult($revision_id,$this->getCurrentSequenceElement());
 
         $nextSequenceElement = $this->testSequence->getNextSequence($this->getCurrentSequenceElement());
 

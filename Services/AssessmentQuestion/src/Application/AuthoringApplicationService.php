@@ -188,7 +188,6 @@ class AuthoringApplicationService
         $event_store = new QuestionEventStoreRepository();
         foreach ($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
             $question = $this->getQuestion($aggregate_id);
-            
             if(!is_null($is_complete)) {
                 if ($question->isComplete() !== $is_complete) {
                     continue;
