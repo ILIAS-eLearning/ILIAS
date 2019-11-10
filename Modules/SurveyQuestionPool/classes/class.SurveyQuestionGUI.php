@@ -136,7 +136,6 @@ abstract class SurveyQuestionGUI
 	*/
 	static function _getQuestionGUI($questiontype, $question_id = -1)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if ((!$questiontype) and ($question_id > 0))
 		{
 			$questiontype = SurveyQuestion::_getQuestiontype($question_id);
@@ -149,8 +148,6 @@ abstract class SurveyQuestionGUI
 	
 	static function _getGUIClassNameForId($a_q_id)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_type = SurveyQuestion::_getQuestiontype($a_q_id);
 		$class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
 		return $class_name;
@@ -259,7 +256,6 @@ abstract class SurveyQuestionGUI
 	
 	protected function initEditForm()
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
 		$form->setTitle($this->lng->txt($this->getQuestionType()));
@@ -294,7 +290,6 @@ abstract class SurveyQuestionGUI
 		$question->setRows(10);
 		$question->setCols(80);
 		$question->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$question->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$question->addPlugin("latex");
 		$question->addButton("latex");
@@ -408,7 +403,6 @@ abstract class SurveyQuestionGUI
 
 			$originalexists = SurveyQuestion::_questionExists($this->object->original_id);
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 
 			// pool question?
 			if($a_sync)
@@ -441,7 +435,6 @@ abstract class SurveyQuestionGUI
 		
 		$ilTabs->activateTab("edit_properties");
 		
-		include_once "Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php";
 		$tbl = new ilSurveySyncTableGUI($this, "copySyncForm", $this->object);
 		
 		$this->tpl->setContent($tbl->getHTML());		
@@ -506,7 +499,6 @@ abstract class SurveyQuestionGUI
 		
 		$this->ctrl->saveParameter($this, "rtrn");
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("confirm_sync_questions"));
 
@@ -640,7 +632,6 @@ abstract class SurveyQuestionGUI
 		
 		$tpl->setVariable("QUESTION_OUTPUT", $this->getWorkingForm());
 		
-		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 		$panel = ilPanelGUI::getInstance();
 		$panel->setBody($tpl->get());
 		
@@ -699,7 +690,6 @@ abstract class SurveyQuestionGUI
 		$add_html = '';
 		if ($rbacsystem->checkAccess('write', $_GET['ref_id']))
 		{
-			include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 			$form = new ilPropertyFormGUI();
 			$form->setFormAction($this->ctrl->getFormAction($this));
 			$form->setTitle($this->lng->txt('add_material'));
@@ -733,7 +723,6 @@ abstract class SurveyQuestionGUI
 		$mat_html = "";
 		if (count($this->object->getMaterial()))
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyMaterialsTableGUI.php";
 			$table_gui = new ilSurveyMaterialsTableGUI($this, 'material', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
 			$data = array();
 			foreach ($this->object->getMaterial() as $material)
@@ -786,7 +775,6 @@ abstract class SurveyQuestionGUI
 		
 		if (strlen($_SESSION["link_new_type"]) || !$this->material(true))
 		{
-			include_once("./Modules/SurveyQuestionPool/classes/class.ilMaterialExplorer.php");
 			switch ($_POST["internalLinkType"])
 			{
 				case "lm":
@@ -811,7 +799,6 @@ abstract class SurveyQuestionGUI
 			$exp->setPathOpen((int)$_GET["ref_id"]);
 			if (!$exp->handleCommand())
 			{	
-				include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 				$panel = ilPanelGUI::getInstance();
 				$panel->setHeading($this->lng->txt("select_object_to_link"));
 				$panel->setBody($exp->getHTML());
@@ -873,8 +860,6 @@ abstract class SurveyQuestionGUI
 		switch ($_SESSION["search_link_type"])
 		{
 			case "pg":
-				include_once "./Modules/LearningModule/classes/class.ilLMPageObject.php";
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 				$cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				$pages = ilLMPageObject::getPageList($cont_obj->getId());										
@@ -892,7 +877,6 @@ abstract class SurveyQuestionGUI
 				break;
 				
 			case "st":				
-				include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 				$cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
 				$cont_obj = $cont_obj_gui->object;
 				// get all chapters
@@ -912,7 +896,6 @@ abstract class SurveyQuestionGUI
 				break;
 				
 			case "glo":				
-				include_once "./Modules/Glossary/classes/class.ilObjGlossary.php";
 				$glossary = new ilObjGlossary($source_id, true);
 				// get all glossary items
 				$terms = $glossary->getTermList();				
@@ -937,7 +920,6 @@ abstract class SurveyQuestionGUI
 			$this->ctrl->setParameter($this, "q_id", $this->object->getId());
 			$this->ctrl->setParameter($this, "source_id", $source_id);
 				
-			include_once "Modules/SurveyQuestionPool/classes/tables/class.SurveyMaterialsSourceTableGUI.php";
 			$tbl = new SurveyMaterialsSourceTableGUI($this, "linkChilds", "addMaterial");
 			$tbl->setData($selectable_items);
 			$this->tpl->setContent($tbl->getHTML());	
@@ -967,7 +949,6 @@ abstract class SurveyQuestionGUI
 	
 	protected function initPhrasesForm()
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "addSelectedPhrase"));
 		$form->setTitle($this->lng->txt("add_phrase"));
@@ -977,7 +958,6 @@ abstract class SurveyQuestionGUI
 		$group->setRequired(true);
 		$form->addItem($group);
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
 		foreach (ilSurveyPhrases::_getAvailablePhrases() as $phrase_id => $phrase_array)
 		{
 			$categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
@@ -1092,13 +1072,11 @@ abstract class SurveyQuestionGUI
 			}						
 		}
 		
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$txt = new ilTextInputGUI($this->lng->txt("enter_phrase_title"), "phrase_title");
 		$ilToolbar->addInputItem($txt, true);		
 		$ilToolbar->addFormButton($this->lng->txt("confirm"), "confirmSavePhrase");
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 		
-		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveySavePhraseTableGUI.php";
 		$table_gui = new ilSurveySavePhraseTableGUI($this, 'editQuestion');
 		$table_gui->setDescription($this->lng->txt("save_phrase_introduction"));
 		

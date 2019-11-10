@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.php";
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey mc evaluation 
  *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesSurveyQuestionPool
  */
 class SurveyMultipleChoiceQuestionEvaluation extends SurveyQuestionEvaluation
 {

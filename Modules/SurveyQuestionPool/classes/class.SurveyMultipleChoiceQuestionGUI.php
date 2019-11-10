@@ -1,45 +1,20 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
 
-include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* MultipleChoice survey question GUI representation
-*
-* The SurveyMultipleChoiceQuestionGUI class encapsulates the GUI representation
-* for multiple choice survey question types.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @extends SurveyQuestionGUI
-* @ingroup ModulesSurveyQuestionPool
-*/
+ * MultipleChoice survey question GUI representation
+ *
+ * The SurveyMultipleChoiceQuestionGUI class encapsulates the GUI representation
+ * for multiple choice survey question types.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI 
 {
 	protected function initObject( )
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMultipleChoiceQuestion.php";
-		$this->object = new SurveyMultipleChoiceQuestion();		
+		$this->object = new SurveyMultipleChoiceQuestion();
 	}
 
 	// 
@@ -83,7 +58,6 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 		$a_form->addItem($minanswers);
 
 		// Answers
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
 		$answers = new ilCategoryWizardInputGUI($this->lng->txt("answers"), "answers");
 		$answers->setRequired(false);
 		$answers->setAllowMove(true);

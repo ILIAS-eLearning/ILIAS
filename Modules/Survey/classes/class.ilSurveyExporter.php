@@ -1,14 +1,12 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
  * Used for container export with tests
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id$
- * @ingroup ModulesSurvey
  */
 class ilSurveyExporter extends ilXmlExporter
 {
@@ -22,7 +20,6 @@ class ilSurveyExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Survey/classes/class.ilSurveyDataSet.php");
 		$this->ds = new ilSurveyDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
@@ -41,11 +38,9 @@ class ilSurveyExporter extends ilXmlExporter
 	{
 		if ($a_entity == "svy")
 		{
-			include_once './Modules/Survey/classes/class.ilObjSurvey.php';
 			$svy = new ilObjSurvey($a_id, false);
 			$svy->loadFromDb();
 
-			include_once("./Modules/Survey/classes/class.ilSurveyExport.php");
 			$svy_exp = new ilSurveyExport($svy, 'xml');
 			$zip = $svy_exp->buildExportFile();
 

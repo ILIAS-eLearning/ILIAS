@@ -2,15 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for competence thresholds
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 {
@@ -38,13 +33,11 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 			$lng->txt("survey_skill_nr_q").": ".count($this->question_ids).
 			", ".$lng->txt("survey_skill_max_scale_points").": ".$this->scale_sum);
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 		$this->skill_thres = new ilSurveySkillThresholds($this->object);
 		$this->thresholds = $this->skill_thres->getThresholds();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$this->skill_survey = new ilSurveySkill($a_survey);
 		$this->setData($this->getLevels());
 		$this->setTitle(ilBasicSkill::_lookupTitle($this->base_skill_id, $this->tref_id));
@@ -67,8 +60,6 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 	 */
 	function determineMaxScalesAndQuestions()
 	{
-		include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$ssk = new ilSurveySkill($this->object);
 		$this->question_ids = $ssk->getQuestionsForSkill($this->base_skill_id,
 			$this->tref_id);
@@ -85,7 +76,6 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
 	 */
 	function getLevels()
 	{
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$bs = new ilBasicSkill($this->base_skill_id);
 		return $bs->getLevelData();
 	}

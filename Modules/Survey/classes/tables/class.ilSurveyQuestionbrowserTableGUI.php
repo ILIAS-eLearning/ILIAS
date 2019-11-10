@@ -1,36 +1,11 @@
 <?php
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
 
-include_once('./Services/Table/classes/class.ilTable2GUI.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 *
 * @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-* @ingroup ModulesSurvey
 */
-
 class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 {
 	/**
@@ -99,7 +74,6 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setDefaultOrderField("title");
 		$this->setDefaultOrderDirection("asc");
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$this->questionpools = ilObjSurveyQuestionPool::_getAvailableQuestionpools(true, false, true);
 		
 		$this->enable('sort');
@@ -152,7 +126,6 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$ilUser = $this->user;
 		
 		// title
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($lng->txt("survey_question_title"), "title");
 		$ti->setMaxLength(64);
 		$ti->setValidationRegexp('/^[^%]+$/is');
@@ -180,8 +153,6 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 		$this->filter["author"] = $ti->getValue();
 		
 		// questiontype
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
-		include_once("./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php");
 		$types = ilObjSurveyQuestionPool::_getQuestionTypes();
 		$options = array();
 		$options[""] = $lng->txt('filter_all_question_types');

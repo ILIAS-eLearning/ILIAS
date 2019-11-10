@@ -101,7 +101,6 @@ class ilSurveyExport
 
 		// get Log File
 		$expDir = $this->survey_obj->getExportDirectory();
-		include_once "./Services/Logging/classes/class.ilLog.php";
 		$expLog = new ilLog($expDir, "export.log");
 		$expLog->delete();
 		$expLog->setLogFormat("");
@@ -133,7 +132,6 @@ class ilSurveyExport
 
 	function exportXHTMLMediaObjects($a_export_dir)
 	{
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->survey_obj->getId());
 		foreach ($mobs as $mob)

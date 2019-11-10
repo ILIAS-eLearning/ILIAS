@@ -1,40 +1,14 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjSurveyAdministrationGUI
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI, ilSettingsTemplateGUI
-*
-* @extends ilObjectGUI
-* @ingroup ModulesSurvey
-* 
-*/
+ * Class ilObjSurveyAdministrationGUI
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ *
+ * @ilCtrl_Calls ilObjSurveyAdministrationGUI: ilPermissionGUI, ilSettingsTemplateGUI
+ */
 class ilObjSurveyAdministrationGUI extends ilObjectGUI
 {
 	/**
@@ -76,14 +50,12 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("perm_settings");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case 'ilsettingstemplategui':
 				$ilTabs->activateTab("templates");
-				include_once("./Services/Administration/classes/class.ilSettingsTemplateGUI.php");
 				$set_tpl_gui = new ilSettingsTemplateGUI($this->getSettingsTemplateConfig());
 				$this->ctrl->forwardCommand($set_tpl_gui);
 				break;
@@ -134,7 +106,6 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$unlimited_invitation = array_key_exists("unlimited_invitation", $_GET) ? $_GET["unlimited_invitation"] : $surveySetting->get("unlimited_invitation");	
 		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
 		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt("survey_defaults"));
@@ -282,9 +253,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 		$lng = $this->lng;
 
 		$lng->loadLanguageModule("survey");
-		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 
-		include_once("./Services/Administration/classes/class.ilSettingsTemplateConfig.php");
 		$config = new ilSettingsTemplateConfig("svy");
 
 		$config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor_settings_template"));

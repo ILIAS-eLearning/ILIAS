@@ -73,7 +73,6 @@ class ilSurveyPhrasesGUI
 		$ilCtrl = $DIC->ctrl();
 		$tree = $DIC->repositoryTree();
 
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyPhrases.php";
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 		$this->ctrl = $ilCtrl;
@@ -146,13 +145,11 @@ class ilSurveyPhrasesGUI
 		
 		if ($rbacsystem->checkAccess("write", $this->ref_id))
 		{			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("phrase_new");								
 			$button->setUrl($this->ctrl->getLinkTarget($this, "newPhrase"));										
 			$ilToolbar->addButtonInstance($button);		
 		
-			include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 			$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases');
 			$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
 			$data = array();
@@ -193,7 +190,6 @@ class ilSurveyPhrasesGUI
 	{
 		$ilDB = $this->db;
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$categories = new SurveyCategories();
 		$result = $ilDB->queryF("SELECT svy_category.title, svy_category.neutral, svy_phrase_cat.sequence FROM svy_phrase_cat, svy_category WHERE svy_phrase_cat.phrase_fi = %s AND svy_phrase_cat.category_fi = svy_category.category_id ORDER BY svy_phrase_cat.sequence ASC",
 			array('integer'),
@@ -232,7 +228,6 @@ class ilSurveyPhrasesGUI
 	*/
 	public function deletePhrasesForm($checked_phrases)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/tables/class.ilSurveyPhrasesTableGUI.php";
 		$table_gui = new ilSurveyPhrasesTableGUI($this, 'phrases', true);
 		$phrases =& ilSurveyPhrases::_getAvailablePhrases(1);
 		$data = array();
@@ -283,7 +278,6 @@ class ilSurveyPhrasesGUI
 		if (!$hasErrors)
 		{
 			$this->object->title = $_POST["title"];
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 			$categories = new SurveyCategories();
 			foreach ($_POST['answers']['answer'] as $key => $value) 
 			{
@@ -331,7 +325,6 @@ class ilSurveyPhrasesGUI
 	{
 		$save = (strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0) ? TRUE : FALSE;
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, 'phraseEditor'));
 		$form->setTitle($this->lng->txt('edit_phrase'));
@@ -348,7 +341,6 @@ class ilSurveyPhrasesGUI
 		$form->addItem($title);
 
 		// Answers
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
 		$answers = new ilCategoryWizardInputGUI($this->lng->txt("answers"), "answers");
 		$answers->setRequired(true);
 		$answers->setAllowMove(true);
@@ -357,7 +349,6 @@ class ilSurveyPhrasesGUI
 		$answers->setUseOtherAnswer(false);
 		$answers->setShowNeutralCategory(true);
 		$answers->setNeutralCategoryTitle($this->lng->txt('matrix_neutral_answer'));
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$categories =& $this->getCategoriesForPhrase($phrase_id);
 		if (!$categories->getCategoryCount())
 		{

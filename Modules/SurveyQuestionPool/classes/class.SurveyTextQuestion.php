@@ -1,39 +1,15 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
 
-include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Text survey question
-*
-* The SurveyTextQuestion class defines and encapsulates basic methods and attributes
-* for text survey question types.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @extends SurveyQuestion
-* @ingroup ModulesSurveyQuestionPool
-*/
+ * Text survey question
+ *
+ * The SurveyTextQuestion class defines and encapsulates basic methods and attributes
+ * for text survey question types.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class SurveyTextQuestion extends SurveyQuestion 
 {
 	var $maxchars;
@@ -109,7 +85,6 @@ class SurveyTextQuestion extends SurveyQuestion
 			$this->setObjId($data["obj_fi"]);
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner_fi"]);
-			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
 			$this->setObligatory($data["obligatory"]);
 			$this->setComplete($data["complete"]);
@@ -198,7 +173,6 @@ class SurveyTextQuestion extends SurveyQuestion
 	*/
 	function toXML($a_include_header = TRUE, $obligatory_state = "")
 	{
-		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlHeader();
 		$this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
@@ -335,7 +309,6 @@ class SurveyTextQuestion extends SurveyQuestion
 		if (strlen($entered_value) == 0) return $this->lng->txt("text_question_not_filled_out");
 
 		// see bug #22648
-		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if ($this->getMaxChars() > 0 && ilStr::strLen($entered_value) > $this->getMaxChars())
 		{
 			return str_replace("%s", ilStr::strLen($entered_value), $this->lng->txt("svy_answer_too_long"));
@@ -351,7 +324,6 @@ class SurveyTextQuestion extends SurveyQuestion
 		$entered_value = $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_text_question"]);
 		$maxchars = $this->getMaxChars();
 
-		include_once("./Services/Utilities/classes/class.ilStr.php");
 		if ($maxchars > 0)
 		{
 			$entered_value = ilStr::subStr($entered_value, 0, $maxchars);

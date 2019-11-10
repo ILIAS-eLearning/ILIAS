@@ -2,18 +2,11 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
-
 /**
  * Explorer for skill management
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesSkill
  */
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-
 class ilSurveySkillExplorer extends ilExplorer
 {
 	/**
@@ -59,7 +52,6 @@ class ilSurveySkillExplorer extends ilExplorer
 //		$this->addFilter("sktr");
 		$this->setTitleLength(999);
 		
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->tree = new ilSkillTree();
 		$this->root_id = $this->tree->readRootId();
 		
@@ -160,16 +152,9 @@ class ilSurveySkillExplorer extends ilExplorer
 		
 		if ($a_type == "sktr")
 		{
-			include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
 			$tid = ilSkillTemplateReference::_lookupTemplateId($a_id);
-//			$a_title.= " (".ilSkillTreeNode::_lookupTitle($tid).")";
 		}
 		
-/*		if (ilSkillTreeNode::_lookupSelfEvaluation($a_id))
-		{
-			$a_title.= " [".$lng->txt("add")."]";
-		}*/
-
 		return $a_title;
 	}
 

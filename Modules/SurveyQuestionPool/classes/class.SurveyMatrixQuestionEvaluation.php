@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.php";
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey matrix evaluation 
  *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesSurveyQuestionPool
  */
 class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 {
@@ -130,8 +128,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
 	{
 		$lng = $this->lng;
 		
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());				
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results[0][1]->getQuestion()->getId());
 		$chart->setXAxisToInteger(true);
 		$chart->setStacked(true);
 			

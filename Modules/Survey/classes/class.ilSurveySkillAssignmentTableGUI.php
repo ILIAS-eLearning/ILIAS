@@ -2,15 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for survey questions to skill assignment
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 {
@@ -35,10 +30,8 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 		$lng = $DIC->language();
 		
 		$this->object = $a_survey;
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$this->skill_survey = new ilSurveySkill($a_survey);
 		
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -128,7 +121,6 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("TXT_CMD", $lng->txt("survey_remove_competence"));
 				$this->tpl->parseCurrentBlock();
 				
-				include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 				$this->tpl->setVariable("COMPETENCE",
 					ilBasicSkill::_lookupTitle($s["base_skill_id"], $s["tref_id"]));
 
@@ -145,9 +137,6 @@ class ilSurveySkillAssignmentTableGUI extends ilTable2GUI
 				$this->tpl->setVariable("PATH", implode($path_nodes, " > "));
 				$this->tpl->setVariable("COMP_ID", "comp_".$a_set["id"]);
 				
-				/*include_once("./Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php");
-				ilTooltipGUI::addTooltip("comp_".$a_set["id"],
-					ilBasicSkill::_lookupDescription($s["base_skill_id"]));*/
 			}
 		}
 		else

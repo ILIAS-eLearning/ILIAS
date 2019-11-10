@@ -2,17 +2,11 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
-include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 
 /**
  * TableGUI class for survey skill changes
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilSurveySkillChangesTableGUI extends ilTable2GUI
 {
@@ -31,8 +25,6 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
 		$this->survey = $a_survey;
 		$this->appraisee = $a_appraisee;
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
-		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 		$this->survey_skill = new ilSurveySkill($a_survey);
 		$this->thresholds = new ilSurveySkillThresholds($a_survey);
 		

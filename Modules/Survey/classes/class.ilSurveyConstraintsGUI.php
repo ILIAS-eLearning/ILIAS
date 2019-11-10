@@ -86,7 +86,6 @@ class ilSurveyConstraintsGUI
 		
 		$hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
 		
-		include_once "Modules/Survey/classes/tables/class.SurveyConstraintsTableGUI.php";
 		$tbl = new SurveyConstraintsTableGUI($this, "constraints", $this->object, $hasDatasets);
 
 		$mess = "";
@@ -221,7 +220,6 @@ class ilSurveyConstraintsGUI
 	{
 		if (strlen($_GET["start"])) $this->ctrl->setParameter($this, "start", $_GET["start"]);
 		$this->ctrl->saveParameter($this, "precondition");
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
@@ -292,7 +290,6 @@ class ilSurveyConstraintsGUI
 		{
 			$variables =& $this->object->getVariables($postvalues["q"]);
 			$question_type = $survey_questions[$postvalues["q"]]["type_tag"];
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
 			$question->loadFromDb($postvalues["q"]);
@@ -362,7 +359,6 @@ class ilSurveyConstraintsGUI
 		$relation = $relation["title"];
 		
 		// see ilSurveyConstraintsTableGUI
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($constraint["question_fi"]);
 		SurveyQuestion::_includeClass($question_type);
 		$question_obj = new $question_type();
@@ -373,7 +369,6 @@ class ilSurveyConstraintsGUI
 		
 		$this->ctrl->saveParameter($this, "precondition");
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText(sprintf($this->lng->txt("survey_sure_delete_constraint"), $title, $relation));
 

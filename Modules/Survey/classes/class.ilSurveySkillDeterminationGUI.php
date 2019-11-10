@@ -75,10 +75,6 @@ class ilSurveySkillDeterminationGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		include_once("./Modules/Survey/classes/class.ilSurveySkillChangesTableGUI.php");
-
-//		$ilToolbar->addButton($lng->txt("survey_write_skills"),
-//			$ilCtrl->getLinkTarget($this, "writeAndAddSkills"));
 		if($this->survey->get360Mode())
 		{
 			$apps = $this->survey->getAppraiseesData();
@@ -116,7 +112,6 @@ class ilSurveySkillDeterminationGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 return;
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$sskill = new ilSurveySkill($this->survey);
 		$apps = $this->survey->getAppraiseesData();
 		$ctpl = new ilTemplate("tpl.svy_skill_list_changes.html", true, true, "Modules/Survey");

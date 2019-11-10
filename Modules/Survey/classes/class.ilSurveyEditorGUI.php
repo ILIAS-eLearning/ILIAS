@@ -120,7 +120,6 @@ class ilSurveyEditorGUI
 		{
 			case 'ilsurveypagegui':
 				$this->questionsSubtabs("page");
-				include_once './Modules/Survey/classes/class.ilSurveyPageGUI.php';
 				$pg = new ilSurveyPageGUI($this->object, $this);
 				$this->ctrl->forwardCommand($pg);
 				break;
@@ -132,7 +131,6 @@ class ilSurveyEditorGUI
 					$ilTabs->clearTargets();
 					$this->ctrl->saveParameter($this, array("new_for_survey"));
 					
-					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 					$q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);
 					if (is_object($q_gui->object))
 					{
@@ -172,7 +170,6 @@ class ilSurveyEditorGUI
 		$template = $this->object->getTemplate();
 		if($template)
 		{
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template);
 			$hidden_tabs = $template->getHiddenTabs();
 		}
@@ -243,21 +240,16 @@ class ilSurveyEditorGUI
 		if (!$read_only)
 		{			
 			$qtypes = array();
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			foreach (ilObjSurveyQuestionPool::_getQuestiontypes() as $translation => $data)
 			{
 				$qtypes[$data["type_tag"]] = $translation;
 			}
 
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$types = new ilSelectInputGUI($this->lng->txt("create_new"), "sel_question_types");
 			$types->setOptions($qtypes);
 			$ilToolbar->addStickyItem($types, "");
 
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-			
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("svy_create_question");								
 			$button->setCommand("createQuestion");
@@ -293,8 +285,6 @@ class ilSurveyEditorGUI
 		}
 
 		// table gui
-		
-		include_once "Modules/Survey/classes/class.ilSurveyQuestionTableGUI.php";
 		$table = new ilSurveyQuestionTableGUI($this, "questions", $this->object,
 			$read_only);
 		$this->tpl->setContent($mess.$table->getHTML());
@@ -512,7 +502,6 @@ class ilSurveyEditorGUI
 
 	public function removeQuestionsForm($checked_questionblocks, $checked_questions, $checked_headings)
 	{
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("survey_sure_delete_questions"));
 
@@ -522,7 +511,6 @@ class ilSurveyEditorGUI
 		
 		$counter = 0;
 		$surveyquestions =& $this->object->getSurveyQuestions();
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach ($surveyquestions as $question_id => $data)
 		{
 			if (in_array($data["question_id"], $checked_questions))
@@ -623,7 +611,6 @@ class ilSurveyEditorGUI
 		{
 			$this->questionsSubtabs("questions");
 
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$form = new ilPropertyFormGUI();
 
 			$form->setFormAction($this->ctrl->getFormAction($this, "executeCreateQuestion"));
@@ -683,7 +670,6 @@ class ilSurveyEditorGUI
 		{			
 			$this->questionsSubtabs("questions");
 			
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$form = new ilPropertyFormGUI();
 
 			$sel_question_types = (strlen($_POST["sel_question_types"])) ? $_POST["sel_question_types"] : $_GET["sel_question_types"];
@@ -774,7 +760,6 @@ class ilSurveyEditorGUI
 		
 		// create question and redirect to question form
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		$q_gui = SurveyQuestionGUI::_getQuestionGUI($q_type);
 		$q_gui->object->setObjId($obj_id); // survey/pool!
 		$q_gui->object->createNewQuestion();		
@@ -799,7 +784,6 @@ class ilSurveyEditorGUI
 		
 		$parent_ref = $tree->getParentId($this->object->getRefId());
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$qpl = new ilObjSurveyQuestionPool();
 		$qpl->setType("spl");
 		$qpl->setTitle($name);
@@ -836,7 +820,6 @@ class ilSurveyEditorGUI
 		$ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $link);
 				
 		// type selector
-		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$types = new ilSelectInputGUI($this->lng->txt("display_all_available"), "datatype");
 		$types->setOptions(array(
 			1 =>  $this->lng->txt("questions"),
@@ -871,7 +854,6 @@ class ilSurveyEditorGUI
 	{				
 		$this->setBrowseForQuestionsSubtabs();
 		
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions', $this->object, true);
 		$table_gui->setEditable(true);		
 		$this->tpl->setContent($table_gui->getHTML());							
@@ -879,7 +861,6 @@ class ilSurveyEditorGUI
 
 	public function filterQuestionBrowserObject()
 	{
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions', $this->object);
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, 'browseForQuestions');
@@ -887,7 +868,6 @@ class ilSurveyEditorGUI
 
 	public function resetfilterQuestionBrowserObject()
 	{
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions', $this->object);
 		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, 'browseForQuestions');
@@ -900,7 +880,6 @@ class ilSurveyEditorGUI
 		{
 			if($_REQUEST["pgov"])
 			{
-				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
 				$page_gui = new ilSurveyPageGUI($this->object, $this);
 				$page_gui->determineCurrentPage();	
 				
@@ -959,7 +938,6 @@ class ilSurveyEditorGUI
 	{		
 		$this->setBrowseForQuestionsSubtabs();
 				
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks', $this->object, true);
 		$table_gui->setEditable(true);				
 		$this->tpl->setContent($table_gui->getHTML());	
@@ -967,7 +945,6 @@ class ilSurveyEditorGUI
 	
 	public function filterQuestionblockBrowserObject()
 	{
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks', $this->object);
 		$table_gui->writeFilterToSession();
 		$this->ctrl->redirect($this, 'browseForQuestionblocks');
@@ -975,7 +952,6 @@ class ilSurveyEditorGUI
 
 	public function resetfilterQuestionblockBrowserObject()
 	{
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyQuestionblockbrowserTableGUI.php";
 		$table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks', $this->object);
 		$table_gui->resetFilter();
 		$this->ctrl->redirect($this, 'browseForQuestionblocks');
@@ -988,7 +964,6 @@ class ilSurveyEditorGUI
 		{
 			if($_REQUEST["pgov"])
 			{
-				include_once "Modules/Survey/classes/class.ilSurveyPageGUI.php";
 				$page_gui = new ilSurveyPageGUI($this->object, $this);
 				$page_gui->determineCurrentPage();	
 				
@@ -1079,7 +1054,6 @@ class ilSurveyEditorGUI
 	
 	protected function initQuestionblockForm($a_block_id = null, $a_question_ids = null)
 	{
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
 		$form->setTitle($this->lng->txt("define_questionblock"));
@@ -1178,7 +1152,6 @@ class ilSurveyEditorGUI
 	{
 		$survey_questions = $this->object->getSurveyQuestions();
 		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, ""));
 
@@ -1187,7 +1160,6 @@ class ilSurveyEditorGUI
 		$heading->setRows(10);
 		$heading->setCols(80);
 		$heading->setUseRte(TRUE);
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$heading->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$heading->removePlugin(ilRTE::ILIAS_IMG_MANAGER_PLUGIN);
 		$heading->setRTESupport($this->object->getId(), "svy", "survey");
@@ -1262,8 +1234,7 @@ class ilSurveyEditorGUI
 		$form = $this->initHeadingForm($q_id);		
 		if ($form->checkInput())
 		{			
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-			$this->object->saveHeading(ilUtil::stripSlashes($form->getInput("heading"), 
+			$this->object->saveHeading(ilUtil::stripSlashes($form->getInput("heading"),
 				true, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), 
 				$form->getInput("insertbefore"));
 			$this->ctrl->redirect($this, "questions");
@@ -1285,7 +1256,6 @@ class ilSurveyEditorGUI
 		
 		$this->questionsSubtabs("questions");
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("confirm_remove_heading"));
 
@@ -1323,14 +1293,7 @@ class ilSurveyEditorGUI
 		if(!$current_title = (int) $_REQUEST['export_label']) {
 			$current_title = $this->object->getShowQuestionTitles();
 		}
-		/*if(!isset($_POST["export_label"]))
-		{fir
-			$_POST["export_label"] = $this->object->getShowQuestionTitles();
-		}
-		$current_title = (int)$_REQUEST["export_label"];
-		*/
-		
-		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
+
 		$label = new ilSelectInputGUI($this->lng->txt("title")."/".$this->lng->txt("label"), "export_label");
 
 		#19448 comment none and label only options.
@@ -1341,7 +1304,6 @@ class ilSurveyEditorGUI
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "printView"));
 		
-		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption("show");
 		$button->setCommand("printView");			
@@ -1349,14 +1311,12 @@ class ilSurveyEditorGUI
 		
 		$ilToolbar->addSeparator();
 	
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("print");								
 		$button->setOnClick("window.print(); return false;");				
 		$button->setOmitPreventDoubleSubmission(true);
 		$ilToolbar->addButtonInstance($button);				
 			
-		include_once './Services/WebServices/RPC/classes/class.ilRPCServerSettings.php';
 		if(ilRPCServerSettings::getInstance()->isEnabled())
 		{
 			$this->ctrl->setParameter($this, "export_label", $current_title);

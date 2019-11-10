@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 2010 Leifos, GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey question table GUI class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
- * @version $Id$
- *
- * @ingroup ModulesSurvey
  */
 class ilSurveyQuestionTableGUI extends ilTable2GUI
 {
@@ -100,7 +96,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 		$survey_questions = $this->object->getSurveyQuestions();
 		if (count($survey_questions) > 0)
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
 
 			$questionpools = $this->object->getQuestionpoolTitles(true);
@@ -328,7 +323,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 			
 			$ilCtrl->setParameter($this->parent_obj, "q_id", $a_set["id"]);
 			
-			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 			$list = new ilAdvancedSelectionListGUI();
 			$list->setId($a_set["id"]);
 			$list->setListTitle($lng->txt("actions"));

@@ -1,39 +1,15 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
 
-include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Metric survey question
-*
-* The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
-* for metric survey question types.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @extends SurveyQuestion
-* @ingroup ModulesSurveyQuestionPool
-*/
+ * Metric survey question
+ *
+ * The SurveyMetricQuestion class defines and encapsulates basic methods and attributes
+ * for metric survey question types.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class SurveyMetricQuestion extends SurveyQuestion 
 {
 	/**
@@ -232,7 +208,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 			$this->setAuthor($data["author"]);
 			$this->setOwner($data["owner_fi"]);
 			$this->label = $data['label'];
-			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
 			$this->setObligatory($data["obligatory"]);
 			$this->setComplete($data["complete"]);
@@ -338,7 +313,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	function toXML($a_include_header = TRUE, $obligatory_state = "")
 	{
-		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		$a_xml_writer->xmlHeader();
 		$this->insertXML($a_xml_writer, $a_include_header, $obligatory_state);
@@ -643,7 +617,6 @@ class SurveyMetricQuestion extends SurveyQuestion
 	*/
 	public function getPreconditionSelectValue($default = "", $title, $variable)
 	{
-		include_once "./Services/Form/classes/class.ilNumberInputGUI.php";
 		$step3 = new ilNumberInputGUI($title, $variable);
 		$step3->setValue($default);
 		return $step3;

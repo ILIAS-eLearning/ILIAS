@@ -2,15 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for skill list in survey
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesSurvey
  */
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
@@ -32,10 +27,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 		$this->getSkills();
 		$this->setTitle($lng->txt("survey_competences"));
 
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
 		$this->skill_tree = new ilSkillTree();
 
-		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 		$this->skill_thres = new ilSurveySkillThresholds($a_survey);
 		$this->thresholds = $this->skill_thres->getThresholds();
 
@@ -60,7 +53,6 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 	 */
 	function getSkills()
 	{
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$sskill = new ilSurveySkill($this->survey);
 		$opts = $sskill->getAllAssignedSkillsAsOptions();
 		$data = array();
@@ -114,7 +106,6 @@ class ilSurveySkillTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("CMD", $ilCtrl->getLinkTarget($this->parent_obj, "listSkillThresholds"));
 		$this->tpl->setVariable("ACTION", $lng->txt("edit"));
 		
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		$bs = new ilBasicSkill($a_set["base_skill"]);
 		$ld = $bs->getLevelData();
 		foreach ($ld as $l)

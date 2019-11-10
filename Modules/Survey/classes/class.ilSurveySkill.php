@@ -53,8 +53,6 @@ class ilSurveySkill
 			" WHERE survey_id = ".$ilDB->quote($this->survey->getId(), "integer")
 			);
 		
-		include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
-		
 		while ($rec = $ilDB->fetchAssoc($set))
 		{
 			if (SurveyQuestion::_questionExists($rec["q_id"]))
@@ -126,7 +124,6 @@ class ilSurveySkill
 			"tref_id" => $a_tref_id);
 		
 		// add usage
-		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
 		ilSkillUsage::setUsage($this->survey->getId(), $a_base_skill_id, $a_tref_id);
 
 	}
@@ -173,7 +170,6 @@ class ilSurveySkill
 		if (ilObject::_lookupType($a_obj_id) == "svy")
 		{
 			// mantis 11691
-			include_once './Modules/Survey/classes/class.ilObjSurvey.php';
 			$svy = new ilObjSurvey($a_obj_id, false);
 			$svy_skill = new ilSurveySkill($svy);
 			$svy_skill->removeQuestionSkillAssignment($a_question_id);
@@ -199,9 +195,6 @@ class ilSurveySkill
 		reset($a_skills);
 		
 		// now remove all usages that have been confirmed
-		include_once("./Services/Skill/classes/class.ilSkillUsage.php");
-//var_dump($a_skills);
-//var_dump($used_skills); exit;
 		foreach ($a_skills as $skill)
 		{
 			if (!in_array($skill["skill_id"].":".$skill["tref_id"], $used_skills))
@@ -243,7 +236,6 @@ class ilSurveySkill
 	function getAllAssignedSkillsAsOptions()
 	{
 		$skills = array();
-		include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 		foreach ($this->q_skill as $sk)
 		{
 			$skills[$sk["base_skill_id"].":".$sk["tref_id"]] = 
@@ -333,7 +325,6 @@ class ilSurveySkill
 			}
 			$skills[$k]["mean_sum"] = $mean_sum;
 			
-			include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 			$skthr = new ilSurveySkillThresholds($this->survey);
 			$thresholds = $skthr->getThresholds();
 			foreach ($skills[$k]["level_data"] as $l)
@@ -358,8 +349,6 @@ class ilSurveySkill
 	 */
 	function determineMaxScale($a_base_skill, $a_tref_id = 0)
 	{
-		include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$ssk = new ilSurveySkill($this->survey);
 		$question_ids = $ssk->getQuestionsForSkill($a_base_skill, $a_tref_id);
 		$scale_sum = 0;

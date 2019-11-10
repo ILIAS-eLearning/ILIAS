@@ -1,46 +1,21 @@
 <?php
- /*
-   +----------------------------------------------------------------------------+
-   | ILIAS open source                                                          |
-   +----------------------------------------------------------------------------+
-   | Copyright (c) 1998-2001 ILIAS open source, University of Cologne           |
-   |                                                                            |
-   | This program is free software; you can redistribute it and/or              |
-   | modify it under the terms of the GNU General Public License                |
-   | as published by the Free Software Foundation; either version 2             |
-   | of the License, or (at your option) any later version.                     |
-   |                                                                            |
-   | This program is distributed in the hope that it will be useful,            |
-   | but WITHOUT ANY WARRANTY; without even the implied warranty of             |
-   | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              |
-   | GNU General Public License for more details.                               |
-   |                                                                            |
-   | You should have received a copy of the GNU General Public License          |
-   | along with this program; if not, write to the Free Software                |
-   | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. |
-   +----------------------------------------------------------------------------+
-*/
 
-include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Matrix question GUI representation
-*
-* The SurveyMatrixQuestionGUI class encapsulates the GUI representation
-* for matrix question types.
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version	$Id$
-* @extends SurveyQuestionGUI
-* @ingroup ModulesSurveyQuestionPool
-*/
+ * Matrix question GUI representation
+ *
+ * The SurveyMatrixQuestionGUI class encapsulates the GUI representation
+ * for matrix question types.
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class SurveyMatrixQuestionGUI extends SurveyQuestionGUI 
 {
 	protected $show_layout_row;
 	
 	protected function initObject()
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyMatrixQuestion.php";
 		$this->object = new SurveyMatrixQuestion();
 	}
 
@@ -106,7 +81,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$a_form->addItem($header);
 		
 		// Answers
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilCategoryWizardInputGUI.php";
 		$columns = new ilCategoryWizardInputGUI("", "columns");
 		$columns->setRequired(false);
 		$columns->setAllowMove(true);
@@ -145,7 +119,6 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 		$a_form->addItem($header);
 
 		// matrix rows
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php";
 		$rows = new ilMatrixRowWizardInputGUI("", "rows");
 		$rows->setRequired(false);
 		$rows->setAllowMove(true);

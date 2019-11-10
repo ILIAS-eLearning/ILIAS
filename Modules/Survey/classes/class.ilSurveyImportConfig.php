@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilImportConfig.php");
 /**
  * Import configuration for learning modules
  *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
- * @ingroup ModulesSurvey
  */
 class ilSurveyImportConfig extends ilImportConfig
 {

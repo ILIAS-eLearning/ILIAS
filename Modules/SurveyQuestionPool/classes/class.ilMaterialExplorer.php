@@ -30,8 +30,6 @@
 * @ingroup ModulesSurveyQuestionPool
 */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
-
 class ilMaterialExplorer extends ilTreeExplorerGUI
 {
 	protected $current_type; // [string]

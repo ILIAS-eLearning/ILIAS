@@ -666,7 +666,6 @@ class SurveyQuestion
 	*/
 	function copyXHTMLMediaObjectsOfQuestion($a_q_id)
 	{
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $a_q_id);
 		foreach ($mobs as $mob)
 		{
@@ -691,7 +690,6 @@ class SurveyQuestion
 		$this->material = array();
 		if ($result->numRows())
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterial.php";
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$mat = new ilSurveyMaterial();
@@ -772,7 +770,6 @@ class SurveyQuestion
 		$ilDB = $this->db;
 		
 		// cleanup RTE images which are not inserted into the question text
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		ilRTE::_cleanupMediaObjectUsage($this->getQuestiontext(), "spl:html", $this->getId());
 		$affectedRows = 0;
 		if ($this->getId() == -1) 
@@ -829,8 +826,6 @@ class SurveyQuestion
 	{
 		$ilDB = $this->db;
 		
-		include_once "./Services/Link/classes/class.ilInternalLink.php";
-
 		$this->log->debug("DELETE: svy_material question_fi=".$this->getId());
 
 		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
@@ -1107,7 +1102,6 @@ class SurveyQuestion
 
 		$this->log->debug("SET OF DELETES svy_answer, svy_constraint, svy_qst_constraint, svy_qblk_qst, svy_qst_oblig, svy_svy_qst, svy_variable, svy_question, svy_material WHERE question_fi = ".$question_id);
 
-		include_once "./Services/Link/classes/class.ilInternalLink.php";
 		ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 		$directory = CLIENT_WEB_DIR . "/survey/" . $obj_id . "/$question_id";
@@ -1116,7 +1110,6 @@ class SurveyQuestion
 			ilUtil::delDir($directory);
 		}
 
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("spl:html", $question_id);
 		// remaining usages are not in text anymore -> delete them
 		// and media objects (note: delete method of ilObjMediaObject
@@ -1129,7 +1122,6 @@ class SurveyQuestion
 			$mob_obj->delete();
 		}
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		ilSurveySkill::handleQuestionDeletion($question_id, $obj_id);
 
 		$this->log->debug("UPDATE svy_question");
@@ -1252,7 +1244,6 @@ class SurveyQuestion
 
 			$this->log->debug("DELETE FROM svy_material WHERE question_fi = ".$this->getOriginalId());
 
-			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			$affectedRows = $ilDB->manipulateF("DELETE FROM svy_material WHERE question_fi = %s",
 				array('integer'),
 				array($this->getOriginalId())
@@ -1355,33 +1346,28 @@ class SurveyQuestion
 					switch ($type)
 					{
 						case "lm":
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
+
 						case "pg":
-							include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
 							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
+
 						case "st":
-							include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
 							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
+
 						case "git":
-							include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 							$material_title = $this->lng->txt("glossary_term") . ": " . ilGlossaryTerm::_lookGlossaryTerm($target_id);
 							break;
 						case "mob":
@@ -1389,7 +1375,7 @@ class SurveyQuestion
 					}
 				}
 			}
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilSurveyMaterial.php";
+
 			$mat = new ilSurveyMaterial();
 			$mat->type = 0;
 			$mat->internal_link = $material_id;
@@ -1469,33 +1455,28 @@ class SurveyQuestion
 					switch ($type)
 					{
 						case "lm":
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $target_id, true);
 							$cont_obj = $cont_obj_gui->object;
 							$material_title .= $cont_obj->getTitle();
 							break;
+
 						case "pg":
-							include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
 							$pg_obj = new ilLMPageObject($cont_obj, $target_id);
 							$material_title .= $pg_obj->getTitle();
 							break;
+
 						case "st":
-							include_once("./Modules/LearningModule/classes/class.ilStructureObject.php");
-							include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 							$lm_id = ilLMObject::_lookupContObjID($target_id);
-							include_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 							$cont_obj_gui = new ilObjContentObjectGUI("", $lm_id, FALSE);
 							$cont_obj = $cont_obj_gui->object;
 							$st_obj = new ilStructureObject($cont_obj, $target_id);
 							$material_title .= $st_obj->getTitle();
 							break;
+
 						case "git":
-							include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 							$material_title = $this->lng->txt("glossary_term") . ": " . ilGlossaryTerm::_lookGlossaryTerm($target_id);
 							break;
 						case "mob":
@@ -1516,9 +1497,6 @@ class SurveyQuestion
 	{
 		if (preg_match("/il_(\d+)_(\w+)_(\d+)/", $internal_link, $matches))
 		{
-			include_once "./Services/Link/classes/class.ilInternalLink.php";
-			include_once "./Modules/LearningModule/classes/class.ilLMObject.php";
-			include_once "./Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			switch ($matches[2])
 			{
 				case "lm":
@@ -1564,7 +1542,6 @@ class SurveyQuestion
 			while ($row = $ilDB->fetchAssoc($result))
 			{
 				$internal_link = $row["internal_link"];
-				include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 				$resolved_link = self::_resolveInternalLink($internal_link);
 				if (strcmp($internal_link, $resolved_link) != 0)
 				{
@@ -1582,7 +1559,6 @@ class SurveyQuestion
 			// there are resolved links -> reenter theses links to the database
 
 			// delete all internal links from the database
-			include_once "./Services/Link/classes/class.ilInternalLink.php";
 			ilInternalLink::_deleteAllLinksOfSource("sqst", $question_id);
 
 			$result = $ilDB->queryF("SELECT * FROM svy_material WHERE question_fi = %s",
@@ -1666,7 +1642,6 @@ class SurveyQuestion
 		{
 			$row = $ilDB->fetchAssoc($result);
 			$qpl_object_id = $row["obj_fi"];
-			include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 			return ilObjSurveyQuestionPool::_isWriteable($qpl_object_id, $user_id);
 		}
 		else
@@ -1724,7 +1699,6 @@ class SurveyQuestion
 		else if ($gui == 2) $type .= "Evaluation";
 		if (file_exists("./Modules/SurveyQuestionPool/classes/class.".$type.".php"))
 		{
-			include_once "./Modules/SurveyQuestionPool/classes/class.".$type.".php";
 			return true;
 		}
 		else
@@ -1898,12 +1872,9 @@ class SurveyQuestion
 	* @param object $a_xml_writer Reference to the ILIAS XML writer
 	* @param string $a_material plain text or html text containing the material
 	* @return string XML material tag
-	* @access public
 	*/
 	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE, $a_attrs = null)
 	{
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$a_xml_writer->xmlStartTag("material");
 		$attrs = array(

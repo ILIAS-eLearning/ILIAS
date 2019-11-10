@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/SurveyQuestionPool/classes/class.SurveyQuestionEvaluation.php";
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey metric  evaluation 
  *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesSurveyQuestionPool
  */
 class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 {
@@ -113,7 +111,6 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 	{
 		$lng = $this->lng;
 		
-		include_once "Services/Chart/classes/class.ilChart.php";
 		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
 		$chart->setYAxisToInteger(true);
 		

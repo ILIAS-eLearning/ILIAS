@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Used for container export with tests
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
- * @version $Id$
- * @ingroup ModulesSurvey
  */
 class ilSurveyQuestionPoolExporter extends ilXmlExporter
 {
@@ -35,11 +32,9 @@ class ilSurveyQuestionPoolExporter extends ilXmlExporter
 		$refs = ilObject::_getAllReferences($a_id);
 		$sql_ref_id = current($refs);
 		
-		include_once './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php';
 		$spl = new ilObjSurveyQuestionPool($a_id,false);
 		$spl->loadFromDb();
 		
-		include_once("./Modules/SurveyQuestionPool/classes/class.ilSurveyQuestionpoolExport.php");
 		$spl_exp = new ilSurveyQuestionpoolExport($spl, 'xml');
 		$zip = $spl_exp->buildExportFile();
 		$GLOBALS['ilLog']->write(__METHOD__.': Created zip file '.$zip);

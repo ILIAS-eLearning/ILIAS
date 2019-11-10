@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Importer class for files
  *
  * @author Helmut Schottmüller <ilias@aurealis.de>
- * @version $Id: $
- * @ingroup ModulesSurvey
  */
 class ilSurveyQuestionPoolImporter extends ilXmlImporter
 {
@@ -33,8 +30,6 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
 			return false;
 		}
 		
-		
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		
 		list($xml_file) = $this->parseXmlFileNames();
 

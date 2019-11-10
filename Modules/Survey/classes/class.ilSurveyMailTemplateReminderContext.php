@@ -1,13 +1,11 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Handles survey reminder mail placeholders
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @package ModulesSurvey
  */
 class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
 {

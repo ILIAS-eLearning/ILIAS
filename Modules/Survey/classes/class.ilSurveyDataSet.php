@@ -1,7 +1,7 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
 
 /**
  * Survey Data set class
@@ -14,8 +14,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - svy_skill_threshold: skill threshold values
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesSurvey
  */
 class ilSurveyDataSet extends ilDataSet
 {
@@ -155,12 +153,10 @@ class ilSurveyDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "svy_quest_skill":
-				include_once("./Services/Skill/classes/class.ilBasicSkill.php");
 				$skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);
 				$q_id = $a_mapping->getMapping("Modules/Survey", "svy_q", $a_rec["QId"]);
 				if ($q_id > 0 && count($skill_data) > 0)
 				{
-					include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 					$skill_survey = new ilSurveySkill($this->getImport()->getSurvey());
 					$skill_survey->addQuestionSkillAssignment($q_id, $skill_data[0]["skill_id"], $skill_data[0]["tref_id"]);
 				}
@@ -170,9 +166,7 @@ class ilSurveyDataSet extends ilDataSet
 				$l = ilBasicSkill::getLevelIdForImportIdMatchSkill($this->getCurrentInstallationId(), $a_rec["LevelId"], $a_rec["BaseSkillId"], $a_rec["TrefId"]);
 				if (count($l) > 0)
 				{
-					include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 					$skill_thres = new ilSurveySkillThresholds($this->getImport()->getSurvey());
-					//echo "<br>".$l[0]["skill_id"]."-".$l[0]["tref_id"]."-".$l[0]["level_id"]."-".$a_rec["Threshold"]."-".$sid."-"; exit;
 					$skill_thres->writeThreshold($l[0]["skill_id"], $l[0]["tref_id"], $l[0]["level_id"], $a_rec["Threshold"]);
 				}
 				break;

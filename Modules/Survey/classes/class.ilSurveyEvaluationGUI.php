@@ -96,7 +96,6 @@ class ilSurveyEvaluationGUI
 	*/
 	function executeCommand()
 	{
-		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
@@ -135,7 +134,6 @@ class ilSurveyEvaluationGUI
 		$ilTabs = $this->tabs;
 		$ilAccess = $this->access;
 
-		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		if ($this->object->getSkillService() && $skmg_set->isActivated())
 		{
@@ -262,7 +260,6 @@ class ilSurveyEvaluationGUI
 			return true;
 		}
 		
-		include_once "Modules/Survey/classes/class.ilObjSurveyAccess.php";
 		if(ilObjSurveyAccess::_hasEvaluationAccess(ilObject::_lookupObjId($_GET["ref_id"]), $ilUser->getId()))
 		{
 			if($this->object->getAnonymize() == 1)
@@ -409,7 +406,6 @@ class ilSurveyEvaluationGUI
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
-				include_once "Services/Excel/classes/class.ilExcel.php";
 				$excel = new ilExcel();
 				$excel->addSheet($this->lng->txt("svy_eval_cumulated"));				
 				$excel->setCellArray(array($title_row), "A1");
@@ -424,7 +420,6 @@ class ilSurveyEvaluationGUI
 		
 		// parse answer data in evaluation results
 		$ov_row = 2;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 		foreach($this->object->getSurveyQuestions() as $qdata)
 		{						
 			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
@@ -769,12 +764,10 @@ class ilSurveyEvaluationGUI
 		// hide modal on form submit
 		$tpl->addOnLoadCode('$("#form_'.$form_id.'").submit(function() { $("#'.$a_id.'").modal("hide"); });');
 		
-		include_once "Services/UIComponent/Modal/classes/class.ilModalGUI.php";
 		$modal = ilModalGUI::getInstance();
 		$modal->setId($a_id);
 		$modal->setHeading(($this->lng->txt("svy_export_format")));
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setId($form_id);
 		$form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));
@@ -839,7 +832,6 @@ class ilSurveyEvaluationGUI
 		}
 		
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_evaluation.html", "Modules/Survey");
 				
@@ -872,7 +864,6 @@ class ilSurveyEvaluationGUI
 				$view->setValue($_POST["vw"]);
 				$ilToolbar->addInputItem($view, true);
 
-				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
 				$button = ilSubmitButton::getInstance();
 				$button->setCaption("ok");							
 				$button->setCommand("evaluationdetails");									
@@ -893,7 +884,6 @@ class ilSurveyEvaluationGUI
 				? 'exportDetailData'
 				: 'exportData');
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("export");
 			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
@@ -901,7 +891,6 @@ class ilSurveyEvaluationGUI
 			
 			$ilToolbar->addSeparator();
 
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("print");
 			$button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
@@ -935,10 +924,8 @@ class ilSurveyEvaluationGUI
 			);
 
 			// parse answer data in evaluation results
-			include_once("./Services/UIComponent/NestedList/classes/class.ilNestedList.php");
 			$list = new ilNestedList();
 
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 			foreach($this->object->getSurveyQuestions() as $qdata)
 			{						
 				$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
@@ -991,8 +978,7 @@ class ilSurveyEvaluationGUI
 		$this->tpl->setVariable('MODAL', $modal);	
 		if(!$details)
 		{
-			include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsCumulatedTableGUI.php";
-			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);	
+			$table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);
 			$this->tpl->setVariable('CUMULATED', $table_gui->getHTML());
 		}
 		unset($dtmpl);
@@ -1011,8 +997,7 @@ class ilSurveyEvaluationGUI
 		}
 		
 		ilDatePresentation::setUseRelativeDates(false);
-		include_once "Services/Link/classes/class.ilLink.php";
-		
+
 		$props = array(
 			$this->lng->txt("link") => ilLink::_getStaticLink($this->object->getRefId()),
 			$this->lng->txt("path") => $path,			
@@ -1155,7 +1140,6 @@ class ilSurveyEvaluationGUI
 			}
 			else
 			{
-				include_once "Services/Accordion/classes/class.ilAccordionGUI.php";
 				$acc = new ilAccordionGUI();
 				$acc->setId("svyevaltxt".$question->getId());
 
@@ -1260,13 +1244,11 @@ class ilSurveyEvaluationGUI
 					$this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL ||
 					$this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_ALL)
 				{
-					include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 					$appr = new ilSelectInputGUI($this->lng->txt("svy_participant"), "appr_id");
 					$appr->setOptions($options);
 					$appr->setValue($this->getAppraiseeId());
 					$ilToolbar->addInputItem($appr, true);
 					
-					include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";		
 					$button = ilSubmitButton::getInstance();
 					$button->setCaption("survey_360_select_appraisee");								
 					$button->setCommand($this->ctrl->getCmd());															
@@ -1356,7 +1338,6 @@ class ilSurveyEvaluationGUI
 		
 		$questions = array();
 				
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach($this->object->getSurveyQuestions() as $qdata)
 		{
 			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);		
@@ -1422,7 +1403,6 @@ class ilSurveyEvaluationGUI
 		//$participants = $this->object->getSurveyParticipants($finished_ids);
 		$participants = $this->filterSurveyParticipantsByAccess($finished_ids);
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";	
 		foreach($participants as $user)
 		{	
 			$user_id = $user["active_id"];
@@ -1472,7 +1452,6 @@ class ilSurveyEvaluationGUI
 		switch ($_POST["export_format"])
 		{
 			case self::TYPE_XLS:
-				include_once "Services/Excel/classes/class.ilExcel.php";
 				$excel = new ilExcel();
 				$excel->addSheet($this->lng->txt("svy_eval_user"));
 							
@@ -1521,7 +1500,6 @@ class ilSurveyEvaluationGUI
 			$this->ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
 		}
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "evaluationuser"));
 		
 		if($this->object->get360Mode())
@@ -1536,7 +1514,6 @@ class ilSurveyEvaluationGUI
 			$modal_id = "svy_ev_exp";
 			$modal = $this->buildExportModal($modal_id, "exportevaluationuser");
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("export");
 			$button->setOnClick('$(\'#'.$modal_id.'\').modal(\'show\')');
@@ -1544,7 +1521,6 @@ class ilSurveyEvaluationGUI
 						
 			$ilToolbar->addSeparator();
 
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setCaption("print");
 			$button->setOnClick("window.print(); return false;");
@@ -1564,15 +1540,6 @@ class ilSurveyEvaluationGUI
 			$data = $this->parseUserSpecificResults($finished_ids);
 		}
 		
-		/*
-		$this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
-		$this->tpl->setCurrentBlock("generic_css");
-		$this->tpl->setVariable("LOCATION_GENERIC_STYLESHEET", "./Modules/Survey/templates/default/evaluation_print.css");
-		$this->tpl->setVariable("MEDIA_GENERIC_STYLESHEET", "print");
-		$this->tpl->parseCurrentBlock();				
-		*/
-		
-		include_once "./Modules/Survey/classes/tables/class.ilSurveyResultsUserTableGUI.php";
 		$table_gui = new ilSurveyResultsUserTableGUI($this, 'evaluationuser', $this->object->hasAnonymizedResults());
 		$table_gui->setData($data);
 		$this->tpl->setContent($table_gui->getHTML().$modal);			
@@ -1617,7 +1584,6 @@ class ilSurveyEvaluationGUI
 		
 		$participants = $this->filterSurveyParticipantsByAccess($a_finished_ids);
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";						
 		foreach($this->object->getSurveyQuestions() as $qdata)
 		{	
 			$q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $a_finished_ids);		
@@ -1703,7 +1669,6 @@ class ilSurveyEvaluationGUI
 		$eval_modes = array();
 		
 		// get all competences of survey
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$sskill = new ilSurveySkill($survey);
 		$opts = $sskill->getAllAssignedSkillsAsOptions();
 		$skills = array();
@@ -1713,11 +1678,9 @@ class ilSurveyEvaluationGUI
 			$skills[$id] = array("id" => $id, "title" => $o, "profiles" => array(),
 				"base_skill" => $idarr[0], "tref_id" => $idarr[1]);
 		}
-//var_dump($opts);
-		
+
 		// get matching user competence profiles
 		// -> add gap analysis to profile
-		include_once("./Services/Skill/classes/class.ilSkillProfile.php");
 		$profiles = ilSkillProfile::getProfilesOfUser($appr_id);
 		foreach ($profiles as $p)
 		{
@@ -1765,7 +1728,6 @@ class ilSurveyEvaluationGUI
 		
 		$ilCtrl->saveParameter($this, "comp_eval_mode");
 		
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$mode_sel = new ilSelectInputGUI($lng->txt("svy_analysis"), "comp_eval_mode");
 		$mode_sel->setOptions($eval_modes);
 		$mode_sel->setValue($comp_eval_mode);
@@ -1778,7 +1740,6 @@ class ilSurveyEvaluationGUI
 			// gap analysis
 			$profile_id = (int) substr($comp_eval_mode, 4);
 			
-			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 			$pskills_gui = new ilPersonalSkillsGUI();
 			$pskills_gui->setProfileId($profile_id);
 			$pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
@@ -1798,7 +1759,6 @@ class ilSurveyEvaluationGUI
 		}
 		else // must be all survey competences
 		{
-			include_once("./Services/Skill/classes/class.ilPersonalSkillsGUI.php");
 			$pskills_gui = new ilPersonalSkillsGUI();
 			#23743
 			if($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL) {

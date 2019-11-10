@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Importer class for files
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesSurvey
  */
 class ilSurveyImporter extends ilXmlImporter
 {
@@ -47,7 +44,6 @@ class ilSurveyImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Survey/classes/class.ilSurveyDataSet.php");
 		$this->ds = new ilSurveyDataSet();
 		$this->ds->setDSPrefix("ds");
 		$this->ds->setImport($this);
@@ -106,7 +102,6 @@ class ilSurveyImporter extends ilXmlImporter
 			}
 			$this->setSurvey($newObj);
 
-			include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 
 			list($xml_file) = $this->parseXmlFileNames();
 
@@ -127,9 +122,6 @@ class ilSurveyImporter extends ilXmlImporter
 			// this is "written" by Services/Survey/classes/class.ilSurveyImportParser
 			if (is_array($_SESSION["import_mob_xhtml"]))
 			{
-				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-				include_once "./Services/RTE/classes/class.ilRTE.php";
-				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 				foreach ($_SESSION["import_mob_xhtml"] as $mob)
 				{
 					$this->svy_log->debug("import mob xhtml, type: ".$mob["type"].", id: ".$mob["mob"]);
@@ -196,7 +188,6 @@ class ilSurveyImporter extends ilXmlImporter
 		}
 		else
 		{
-			include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 			$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 					$a_xml, $this->ds, $a_mapping);
 		}

@@ -68,7 +68,6 @@ class ilSurveySkillGUI
 		{
 			case 'ilsurveyskillthresholdsgui':
 				$this->setSubTabs("skill_thresholds");
-				include_once("./Modules/Survey/classes/class.ilSurveySkillThresholdsGUI.php");
 				$gui = new ilSurveySkillThresholdsGUI($this->survey);
 				$ilCtrl->forwardCommand($gui);
 				break;
@@ -92,7 +91,6 @@ class ilSurveySkillGUI
 	{
 		$tpl = $this->tpl;
 
-		include_once("./Modules/Survey/classes/class.ilSurveySkillAssignmentTableGUI.php");
 		$tab = new ilSurveySkillAssignmentTableGUI($this, "listQuestionAssignment",
 			$this->survey);
 		$tpl->setContent($tab->getHTML());
@@ -112,45 +110,11 @@ class ilSurveySkillGUI
 		$ilCtrl->saveParameter($this, "q_id");
 		
 
-		include_once("./Services/Skill/classes/class.ilSkillSelectorGUI.php");		
 		$sel = new ilSkillSelectorGUI($this, "assignSkillToQuestion", $this, "selectSkillForQuestion");
 		if (!$sel->handleCommand())
 		{
 			$tpl->setContent($sel->getHTML());
 		}
-
-return;
-		/*
-		include_once("./Services/Skill/classes/class.ilSkillTree.php");
-		$skill_tree = new ilSkillTree();
-		
-		require_once ("./Modules/Survey/classes/class.ilSurveySkillExplorer.php");
-		$exp = new ilSurveySkillExplorer($ilCtrl->getLinkTarget($this, "assignSkillToQuestion"));
-		$exp->setTargetGet("obj_id");
-		
-		$exp->setExpandTarget($ilCtrl->getLinkTarget($this, "assignSkillToQuestion"));
-		
-		if ($_GET["skpexpand"] == "")
-		{
-			$expanded = $skill_tree->readRootId();
-		}
-		else
-		{
-			$expanded = $_GET["skpexpand"];
-		}
-
-		$exp->setExpand($expanded);
-		// build html-output
-		$exp->setOutput(0);
-		$output = $exp->getOutput();
-
-		// asynchronous output
-		if ($ilCtrl->isAsynch())
-		{
-			echo $output; exit;
-		}
-
-		$tpl->setContent($output); */
 	}
 	
 	/**
@@ -161,7 +125,6 @@ return;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$skill_survey = new ilSurveySkill($this->survey);
 		$skill_id_parts = explode(":", $_GET["selected_skill"]);
 		$skill_survey->addQuestionSkillAssignment((int) $_GET["q_id"],
@@ -179,7 +142,6 @@ return;
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 		$skill_survey = new ilSurveySkill($this->survey);
 		$skill_survey->removeQuestionSkillAssignment((int) $_GET["q_id"]);
 		ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

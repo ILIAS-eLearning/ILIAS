@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Survey/classes/class.ilSurveyEvaluationResults.php";
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey question evaluation 
  *
  * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesSurveyQuestionPool
  */
 abstract class SurveyQuestionEvaluation
 {
@@ -365,8 +363,7 @@ abstract class SurveyQuestionEvaluation
 	 */
 	public function getChart($a_results)
 	{		
-		include_once "Services/Chart/classes/class.ilChart.php";
-		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());			
+		$chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, $a_results->getQuestion()->getId());
 		$chart->setYAxisToInteger(true);
 
 		$colors = $this->getChartColors();
@@ -416,7 +413,6 @@ abstract class SurveyQuestionEvaluation
 	 */	
 	public function getSkippedValue()
 	{
-		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		return ilObjSurvey::getSurveySkippedValue();
 	}
 	

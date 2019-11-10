@@ -82,7 +82,6 @@ class ilSurveySkillThresholdsGUI
 	{
 		$tpl = $this->tpl;
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkillTableGUI.php");
 		$tab = new ilSurveySkillTableGUI($this, "listCompetences", $this->survey);
 		$tpl->setContent($tab->getHTML());
 	}
@@ -103,7 +102,6 @@ class ilSurveySkillThresholdsGUI
 		$ilTabs->setBackTarget($lng->txt("svy_back"),
 			$ilCtrl->getLinkTarget($this, "listCompetences"));
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholdsTableGUI.php");
 		$tab = new ilSurveySkillThresholdsTableGUI($this, "listSkillThresholds",
 			$this->survey, (int) $_GET["sk_id"], (int) $_GET["tref_id"]);
 		$tpl->setContent($tab->getHTML());
@@ -136,7 +134,6 @@ class ilSurveySkillThresholdsGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Modules/Survey/classes/class.ilSurveySkillThresholds.php");
 		$thres = new ilSurveySkillThresholds($this->survey);
 
 		if (is_array($_POST["threshold"]))

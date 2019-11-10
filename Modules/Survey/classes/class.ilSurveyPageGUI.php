@@ -262,7 +262,6 @@ class ilSurveyPageGUI
 		$ilDB = $this->db;
 		$lng = $this->lng;
 
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if (!SurveyQuestion::_isComplete($a_new_id))
 		{
 			ilUtil::sendFailure($lng->txt("survey_error_insert_incomplete_question"));
@@ -411,7 +410,6 @@ class ilSurveyPageGUI
 		$ilTabs = $this->tabs;
 		
 		// get translated type
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
 		foreach($questiontypes as $item)
 		{
@@ -471,7 +469,6 @@ class ilSurveyPageGUI
 		{
 			// create question and redirect to question form
 		
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 			$q_gui = SurveyQuestionGUI::_getQuestionGUI($type_trans);
 			$q_gui->object->setObjId($this->object->getId());
 			$q_gui->object->createNewQuestion();		
@@ -1138,20 +1135,17 @@ class ilSurveyPageGUI
 		$ilCtrl = $this->ctrl;
 		$tpl = $this->tpl;
 
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "addQuestionToolbar"));
 		$form->setTitle($lng->txt("survey_add_new_question"));
 
 		// question types
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
 		$type_map = array();
 		foreach($questiontypes as $trans => $item)
 		{
 			$type_map[$item["questiontype_id"]] = $trans;
 		}
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($lng->txt("question_type"), "qtype");
 		$si->setOptions($type_map);
 		$form->addItem($si);
@@ -1231,7 +1225,6 @@ class ilSurveyPageGUI
 		$ilCtrl = $this->ctrl;
 		$tpl = $this->tpl;
 
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "movePage"));
 		$form->setTitle($lng->txt("survey_move_page"));
@@ -1333,8 +1326,6 @@ class ilSurveyPageGUI
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-
 		if(!$this->has_datasets)
 		{			
 			$button = ilLinkButton::getInstance();
@@ -1435,7 +1426,6 @@ class ilSurveyPageGUI
 
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 
-			include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 			$si = new ilSelectInputGUI($lng->txt("survey_jump_to"), "jump");
 			$si->addCustomAttribute("onChange=\"forms['ilToolbar'].submit();\"");
 			$si->setOptions($pages_drop);
@@ -1530,7 +1520,6 @@ class ilSurveyPageGUI
 				$lng->loadLanguageModule("content");							
 				$ttpl->setCurrentBlock("help_section");
 				$ttpl->setVariable("TXT_ADD_EL", $lng->txt("cont_add_elements"));
-				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$ttpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
 				$ttpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
 				$ttpl->setVariable("TXT_DRAG", $lng->txt("cont_drag_and_drop_elements"));
@@ -1542,7 +1531,6 @@ class ilSurveyPageGUI
 
 				// tiny mce
 				
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$tags = ilObjAdvancedEditing::_getUsedHTMLTags("survey");
 
 				/**
@@ -1551,8 +1539,7 @@ class ilSurveyPageGUI
 				 * of this function. Currently I have no idea when this tiny will be presented...
 				 * Maybe a bug will come out of this during 5.4 testing
 				 */
-				include_once "./Services/RTE/classes/class.ilTinyMCE.php";
-				$tiny = new ilTinyMCE();				
+				$tiny = new ilTinyMCE();
 				$ttpl->setVariable("WYSIWYG_BLOCKFORMATS", $tiny->_buildAdvancedBlockformatsFromHTMLTags($tags));
 				$ttpl->setVariable("WYSIWYG_VALID_ELEMENTS", $tiny->_getValidElementsFromHTMLTags($tags));
 
@@ -1591,7 +1578,6 @@ class ilSurveyPageGUI
 			$tpl->setContent($mess.$ttpl->get());
 
 			// add js to template
-			include_once("./Services/YUI/classes/class.ilYuiUtil.php");
 			ilYuiUtil::initDragDrop();
 			$tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
 		}
@@ -1645,7 +1631,6 @@ class ilSurveyPageGUI
 
 		// questions/headings
 
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
 		$questionpools = array_keys($this->object->getQuestionpoolTitles(true));
 		
@@ -1808,7 +1793,6 @@ class ilSurveyPageGUI
 			}
 
 			$a_tpl->setCurrentBlock("drop_area");
-			include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
 			$a_tpl->setVariable("ICON_ADD", ilGlyphGUI::get(ilGlyphGUI::ADD));
 			$a_tpl->setVariable("DROP_ID", $a_id);
 			$a_tpl->parseCurrentBlock();

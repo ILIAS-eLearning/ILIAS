@@ -45,7 +45,6 @@ class ilObjSurveyAdministration extends ilObject
 	*/
 	function __construct($a_id = 0,$a_call_by_reference = true)
 	{
-		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$this->setting = new ilSetting("survey");
 		$this->type = "svyf";
 		parent::__construct($a_id,$a_call_by_reference);
