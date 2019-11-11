@@ -42,6 +42,7 @@ class AuthoringQuestionList implements QuestionList
     }
 
     public function publishNewRevisions() {
+        //TODO
         foreach($this->authoring_application_service->getQuestions(true) as $question_dto)  {
             $this->authoring_application_service->projectQuestion($question_dto->getId());
         }

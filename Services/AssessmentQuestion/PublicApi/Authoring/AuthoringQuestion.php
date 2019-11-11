@@ -12,6 +12,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
+use ilQTIItem;
 
 /**
  * Class QuestionAuthoring
@@ -309,7 +310,7 @@ class AuthoringQuestion
         // TODO: Implement changeQuestionContainer() method.
     }
 
-    public function importQtiQuestion(string $qti_item_xml) {
-        $this->authoring_application_service->importQtiQuestion($qti_item_xml);
+    public function importIlQtiQuestion(ilQTIItem $il_qti_item) {
+        $this->authoring_application_service->importIlQtiQuestion($this->question_id, $il_qti_item);
     }
 }

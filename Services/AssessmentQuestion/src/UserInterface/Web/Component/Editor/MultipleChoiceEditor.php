@@ -262,7 +262,7 @@ class MultipleChoiceEditor extends AbstractEditor {
 	        }
             */
 	    }
-	    
+
 	    return true;
 	}
 }
