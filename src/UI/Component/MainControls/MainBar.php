@@ -118,4 +118,9 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      * Get a copy of this Mainbar without any entries.
      */
     public function withClearedEntries() : MainBar;
+
+    /**
+     * Signal to toggle the tools-section.
+     */
+    public function getToggleToolsSignal() : Signal;
 }

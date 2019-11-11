@@ -39,11 +39,31 @@ class Renderer extends AbstractComponentRenderer
                 if ($entry->getEngaged()) {
                     $init_state = 'engaged';
                 }
+
+                $trigger_signal = $entry->getToggleSignal();
+
+                list($mb_parent, $mb_id) = $entry->getMainBarId();
+                if($mb_id) {
+                    $trigger_signal = $component->getTriggerSignal($mb_id);
+                }
+
                 $triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withOnClick($entry->getToggleSignal())
+                    ->withOnClick($trigger_signal)
                     ->withAdditionalOnloadCode(
-                        function ($id) use ($init_state) {
-                            return "$('#{$id}').addClass('{$init_state}');";
+                        function ($id) use ($init_state, $mb_id, $mb_parent, $trigger_signal) {
+                            $js ="
+                                $('#{$id}').addClass('{$init_state}');
+                            ";
+
+                            if($mb_id) {
+                                $js .= "
+                                    il.UI.maincontrols.mainbar.registerEntry(
+                                        '{$mb_id}', 'triggerer', '{$mb_parent}', '{$id}'
+                                    );";
+                                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');";
+                            }
+
+                            return $js;
                         }
                     );
 
@@ -75,14 +95,25 @@ class Renderer extends AbstractComponentRenderer
             'engage'  => $component->getEngageSignal(),
             'replace' => $component->getReplaceSignal()
         ];
-        $component     = $component->withAdditionalOnLoadCode(function ($id) use ($slate_signals) {
-            $js = "fn = il.UI.maincontrols.slate.onSignal;";
-            foreach ($slate_signals as $key => $signal) {
-                $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
-            }
-            return $js;
-        });
-        $id            = $this->bindJavaScript($component);
+
+        list($mb_parent, $mb_id) = $component->getMainBarId();
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($slate_signals, $mb_id, $mb_parent) {
+                $js = "fn = il.UI.maincontrols.slate.onSignal;";
+                foreach ($slate_signals as $key => $signal) {
+                    $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
+                }
+
+                if($mb_id) {
+                    $js .= "
+                        il.UI.maincontrols.mainbar.registerEntry(
+                            '{$mb_id}', 'slate', '{$mb_parent}', '{$id}'
+                        );";
+                }
+
+                return $js;
+            });
+        $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
 
         return $tpl->get();

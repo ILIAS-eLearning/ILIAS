@@ -342,11 +342,27 @@ function getDemoEntryOrganisation($f)
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')
         ->withSize('small');
-    $slate = $f->maincontrols()->slate()->legacy(
-        'Organisation',
-        $symbol,
-        $f->legacy('content: Organisation')
-    );
+
+    $sf = $f->maincontrols()->slate();
+    $slate = $sf->combined('Organisation', $symbol, '')
+        ->withAdditionalEntry(
+            $sf->combined('1', $symbol, '')
+                ->withAdditionalEntry($sf->combined('1.1', $symbol, ''))
+                ->withAdditionalEntry(
+                    $sf->combined('1.2', $symbol, '')
+                        ->withAdditionalEntry($sf->combined('1.2.1', $symbol, ''))
+                        ->withAdditionalEntry($sf->combined('1.2.2', $symbol, ''))
+                )
+        )
+        ->withAdditionalEntry(
+            $sf->combined('2', $symbol, '')
+                ->withAdditionalEntry($sf->combined('2.1', $symbol, ''))
+        )
+        ->withAdditionalEntry($sf->combined('3', $symbol, ''))
+        ->withAdditionalEntry($sf->combined('4', $symbol, ''))
+    ;
+
+
     return $slate;
 }
 

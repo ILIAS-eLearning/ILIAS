@@ -229,7 +229,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							</div>
 						</button>
 
-						<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
+						<button class="btn btn-bulky" id="id_3" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>

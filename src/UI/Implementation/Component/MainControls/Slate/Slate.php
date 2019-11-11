@@ -54,6 +54,16 @@ abstract class Slate implements ISlate\Slate
     protected $engaged = false;
 
     /**
+     * @var string
+     */
+    protected $mainbar_parent_id;
+
+    /**
+     * @var string
+     */
+    protected $mainbar_id;
+
+    /**
      * @param string 	$name 	name of the slate, also used as label
      * @param Symbol	$symbol
      */
@@ -142,9 +152,26 @@ abstract class Slate implements ISlate\Slate
         return $this->replace_signal;
     }
 
-
     public function appendOnInView(Signal $signal) : \ILIAS\UI\Component\MainControls\Slate\Slate
     {
         return $this->appendTriggeredSignal($signal, 'in_view');
+    }
+
+    abstract public function withMappedSubNodes(callable $f);
+
+    public function withMainBarId(string $parent_id, string $id)
+    {
+        $clone = clone $this;
+        $clone->mainbar_parent_id = $parent_id;
+        $clone->mainbar_id = $id;
+        return $clone;
+    }
+
+    public function getMainBarId()
+    {
+        return [
+            $this->mainbar_parent_id,
+            $this->mainbar_id
+        ];
     }
 }
