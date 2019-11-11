@@ -33,6 +33,7 @@ class ilBasicSkillTemplate extends ilBasicSkill
 	{
 		$skill = new ilBasicSkillTemplate();
 		$skill->setTitle($this->getTitle());
+		$skill->setDescription($this->getDescription());
 		$skill->setType($this->getType());
 		$skill->setOrderNr($this->getOrderNr());
 		$skill->create();

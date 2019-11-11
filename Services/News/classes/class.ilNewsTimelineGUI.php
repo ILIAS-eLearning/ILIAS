@@ -332,7 +332,7 @@ class ilNewsTimelineGUI
 	function save()
 	{
 		include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-		$form = ilNewsItemGUI::getEditForm(IL_FORM_CREATE, $this->ref_id);
+		$form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_CREATE, $this->ref_id);
 		if ($form->checkInput())
 		{
 			$news_item = new ilNewsItem();
@@ -378,7 +378,7 @@ class ilNewsTimelineGUI
 	function update()
 	{
 		include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-		$form = ilNewsItemGUI::getEditForm(IL_FORM_EDIT, $this->ref_id);
+		$form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
 		if ($form->checkInput())
 		{
 			$news_item = new ilNewsItem((int) $_POST["id"]);
@@ -457,7 +457,7 @@ class ilNewsTimelineGUI
 		$modal->setType(ilModalGUI::TYPE_LARGE);
 
 		include_once("./Services/News/classes/class.ilNewsItemGUI.php");
-		$form = ilNewsItemGUI::getEditForm(IL_FORM_EDIT, $this->ref_id);
+		$form = ilNewsItemGUI::getEditForm(ilNewsItemGUI::FORM_EDIT, $this->ref_id);
 		$form->setShowTopButtons(false);
 		$form->setFormAction($this->ctrl->getFormAction($this));
 

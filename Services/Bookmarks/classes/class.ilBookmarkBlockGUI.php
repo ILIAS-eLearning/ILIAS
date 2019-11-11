@@ -279,7 +279,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 
@@ -299,7 +299,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 
@@ -311,7 +311,7 @@ class ilBookmarkBlockGUI extends ilBlockGUI
 		$ilCtrl = $this->ctrl;
 		
 		$_SESSION["ilCurBMFolder"] = $_GET["curBMFolder"];
-		$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		$ilCtrl->redirectByClass("ildashboardgui", "show");
 	}
 
 }

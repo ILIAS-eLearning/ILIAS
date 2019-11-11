@@ -27,15 +27,17 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $f = $this->dic->ui()->factory();
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
+        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("tags", "")->withIsOutlined(true);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
+        $title = $this->dic->language()->txt("mm_tags");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), $title);
 
-        $contents = $f->legacy("<div style='padding:20px;'>Tag One, Tag Two</div>");
+        $tag_ui = new \ilTaggingSlateContentGUI();
+        $contents = $f->legacy($tag_ui->render());
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
-                ->withTitle($this->dic->language()->txt("mm_tags"))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContent($contents)
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())

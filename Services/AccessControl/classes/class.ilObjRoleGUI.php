@@ -13,7 +13,7 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 *
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI
+* @ilCtrl_Calls ilObjRoleGUI: ilRepositorySearchGUI, ilExportGUI, ilRecommendedContentRoleConfigGUI
 *
 * @ingroup	ServicesAccessControl
 */
@@ -121,6 +121,12 @@ class ilObjRoleGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($exp);
 				break;
 
+			case 'ilrecommendedcontentroleconfiggui':
+				$this->tabs_gui->setTabActive('rep_recommended_content');
+				$ui = new ilRecommendedContentRoleConfigGUI($this->object->getId(), $this->obj_ref_id);
+				$this->ctrl->forwardCommand($ui);
+				break;
+
 			default:
 				if(!$cmd)
 				{
@@ -214,196 +220,7 @@ class ilObjRoleGUI extends ilObjectGUI
 	}
 
 
-	function listDesktopItemsObject()
-	{
-		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$rbacreview = $DIC['rbacreview'];
-
-		if(!$rbacreview->isAssignable($this->object->getId(),$this->obj_ref_id) &&
-			$this->obj_ref_id != ROLE_FOLDER_ID)
-		{
-			ilUtil::sendInfo($this->lng->txt('role_no_users_no_desk_items'));
-			return true;
-		}
-
-		if($rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-		{
-			$this->__showButton('selectDesktopItem',$this->lng->txt('role_desk_add'));
-		}
-		
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItemsTableGUI.php';
-		$tbl = new ilRoleDesktopItemsTableGUI($this, 'listDesktopItems', $this->object);
-		$this->tpl->setContent($tbl->getHTML());
-		
-		return true;
-	}
-
-	function askDeleteDesktopItemObject()
-	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		
-		
-		if(!$this->checkAccess('edit_permission'))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-		if(!count($_POST['del_desk_item']))
-		{
-			ilUtil::sendFailure($this->lng->txt('role_select_one_item'));
-
-			$this->listDesktopItemsObject();
-
-			return true;
-		}		
-		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
-		$confirmation_gui = new ilConfirmationGUI();
-		$confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
-		$confirmation_gui->setHeaderText($this->lng->txt('role_assigned_desk_items').
-			' "'.$this->object->getTitle().'": '.
-			$this->lng->txt('role_sure_delete_desk_items'));
-		$confirmation_gui->setCancel($this->lng->txt("cancel"), "listDesktopItems");
-		$confirmation_gui->setConfirm($this->lng->txt("delete"), "deleteDesktopItems");
-		
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
-		$counter = 0;
-		foreach($_POST['del_desk_item'] as $role_item_id)
-		{
-			$item_data = $role_desk_item_obj->getItem($role_item_id);
-			$tmp_obj =& ilObjectFactory::getInstanceByRefId($item_data['item_id']);
-									
-			if(strlen($desc = $tmp_obj->getDescription()))
-			{				
-				$desc = '<div class="il_Description_no_margin">'.$desc.'</div>';				
-			}
-			
-			$confirmation_gui->addItem("del_desk_item[]", $role_item_id, $tmp_obj->getTitle().$desc);
-		}
-		
-		$this->tpl->setContent($confirmation_gui->getHTML());
-
-		return true;
-	}
-
-	function deleteDesktopItemsObject()
-	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		
-		if(!$this->checkAccess('edit_permission'))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-		}
-
-		if (!count($_POST['del_desk_item']))
-		{
-			ilUtil::sendFailure($this->lng->txt('role_select_one_item'));
-
-			$this->listDesktopItemsObject();
-
-			return true;
-		}
-
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-
-		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
-
-		foreach ($_POST['del_desk_item'] as $role_item_id)
-		{
-			$role_desk_item_obj->delete($role_item_id);
-		}
-
-		ilUtil::sendSuccess($this->lng->txt('role_deleted_desktop_items'));
-		$this->listDesktopItemsObject();
-
-		return true;
-	}
-
-
-	function selectDesktopItemObject()
-	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItemSelector.php';
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-
-		if(!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-		{
-			#$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			ilUtil::sendFailure($this->lng->txt('permission_denied'));
-			$this->listDesktopItemsObject();
-			return false;
-		}
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.role_desktop_item_selector.html", "Services/AccessControl");
-		$this->__showButton('listDesktopItems',$this->lng->txt('back'));
-
-		ilUtil::sendInfo($this->lng->txt("role_select_desktop_item"));
-		
-		$exp = new ilRoleDesktopItemSelector($this->ctrl->getLinkTarget($this,'selectDesktopItem'),
-											 new ilRoleDesktopItem($this->object->getId()));
-		$exp->setExpand($_GET["role_desk_item_link_expand"] ? $_GET["role_desk_item_link_expand"] : $tree->readRootId());
-		$exp->setExpandTarget($this->ctrl->getLinkTarget($this,'selectDesktopItem'));
-		
-		$exp->setOutput(0);
-		
-		$output = $exp->getOutput();
-		$this->tpl->setVariable("EXPLORER",$output);
-		//$this->tpl->setVariable("EXPLORER", $exp->getOutput());
-
-		return true;
-	}
-
-	function assignDesktopItemObject()
-	{
-		global $DIC;
-
-		$rbacsystem = $DIC['rbacsystem'];
-
-		if (!$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-		{
-			$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
-			return false;
-		}
-	
-
-		if (!isset($_GET['item_id']))
-		{
-			ilUtil::sendFailure($this->lng->txt('role_no_item_selected'));
-			$this->selectDesktopItemObject();
-
-			return false;
-		}
-
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-
-		$role_desk_item_obj = new ilRoleDesktopItem($this->object->getId());
-		$role_desk_item_obj->add((int) $_GET['item_id'],ilObject::_lookupType((int) $_GET['item_id'],true));
-
-		ilUtil::sendSuccess($this->lng->txt('role_assigned_desktop_item'));
-
-		$this->ctrl->redirect($this,'listDesktopItems');
-		return true;
-	}
-	
 	/**
 	 * Create role prperty form
 	 * @return 
@@ -1578,10 +1395,9 @@ class ilObjRoleGUI extends ilObjectGUI
 
 		if($this->checkAccess('write','edit_permission') && $activate_role_edit  && $this->object->getId() != ANONYMOUS_ROLE_ID)
 		{
-			$this->tabs_gui->addTarget("desktop_items",
-				$this->ctrl->getLinkTarget($this, "listDesktopItems"),
-				array("listDesktopItems", "deleteDesktopItems", "selectDesktopItem", "askDeleteDesktopItem"),
-				get_class($this));
+			$this->lng->loadLanguageModule("rep");
+			$this->tabs_gui->addTarget("rep_recommended_content",
+				$this->ctrl->getLinkTargetByClass("ilrecommendedcontentroleconfiggui", ""));
 		}
 		if($this->checkAccess('write','edit_permission'))
 		{

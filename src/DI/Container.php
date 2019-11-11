@@ -247,6 +247,13 @@ class Container extends \Pimple\Container {
 		return new \ilObjectService($this->language(), $this->settings(), $this->filesystem(), $this->upload());
 	}
 
+    /**
+     * @return \ilExerciseFactory
+     */
+    public function exercise() {
+        return new \ilExerciseFactory();
+    }
+
 	/**
 	 * @return \ilTaskService
 	 */
@@ -269,6 +276,15 @@ class Container extends \Pimple\Container {
 	public function uiService() {
 		return new \ilUIService($this->http()->request(), $this->ui());
 	}
+
+
+    /**
+     * @return \ilBookingManagerService
+     */
+    public function bookingManager()
+    {
+        return new \ilBookingManagerService();
+    }
 
 
 	/**

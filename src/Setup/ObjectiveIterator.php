@@ -42,6 +42,11 @@ class ObjectiveIterator implements \Iterator {
 	protected $returned;
 
 	/**
+	 * @var	array<string, bool>
+	 */
+	protected $failed;
+
+	/**
 	 * @var array<string, string[]>
 	 */
 	protected $reverse_dependencies;
@@ -53,17 +58,25 @@ class ObjectiveIterator implements \Iterator {
 		$this->rewind();
 	}
 
-	/**
-	 * @return void
-	 */
-	public function setEnvironment(Environment $environment) {
+	public function setEnvironment(Environment $environment) : void {
 		$this->environment = $environment;
+	}
+
+	public function markAsFailed(Objective $objective) {
+		if (!isset($this->returned[$objective->getHash()])) {
+			throw new \LogicException(
+				"You may only mark objectives as failed that have been returned by this iterator."
+			);
+		}
+
+		$this->failed[$objective->getHash()] = true;
 	}
 
 	public function rewind() {
 		$this->stack = [$this->objective];
 		$this->current = null; 
 		$this->returned = [];
+		$this->failed = [];
 		$this->reverse_dependencies = [];
 		$this->next();
 	}
@@ -92,10 +105,27 @@ class ObjectiveIterator implements \Iterator {
 		$preconditions = array_filter(
 			$cur->getPreconditions($this->environment),
 			function ($p) {
-				return !isset($this->returned[$p->getHash()]);
+				$h = $p->getHash();
+				return !isset($this->returned[$h]) || isset($this->failed[$h]);
 			}
 		);
 
+		$failed_preconditions = array_filter(
+			$preconditions,
+			function ($p) {
+				return isset($this->failed[$p->getHash()]);
+			}
+		);
+
+		// We only have preconditions left that we know to have failed.
+		if (count($preconditions) !== 0
+		&& count($preconditions) === count($failed_preconditions)) {
+			throw new UnachievableException(
+				"Objective only has failed preconditions."
+			);
+		}
+
+		// No preconditions open, we can proceed with the objective.
 		if (count($preconditions) === 0) {
 			$this->returned[$hash] = true;
 			$this->current = $cur;

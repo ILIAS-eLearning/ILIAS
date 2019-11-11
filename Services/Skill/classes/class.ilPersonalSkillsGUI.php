@@ -570,8 +570,29 @@ class ilPersonalSkillsGUI
 			$level_data = $skill->getLevelData();
 
 
-			// skill description
-			$panel_comps[] = $this->ui_fac->legacy($this->getSkillDescription($skill));
+			$title = $sep = "";
+			$description = "";
+			$found = false;
+			foreach ($path as $p)
+			{
+				if ($found)
+				{
+					$title.= $sep.$p["title"];
+					$sep = " > ";
+					$description = $p["description"];
+				}
+				if ($a_top_skill_id == $p["child"])
+				{
+					$found = true;
+				}
+			}
+
+			//  skill description
+			$panel_comps[] = $this->ui_fac->legacy($this->getBasicSkillDescription($description));
+
+
+			// skill level description
+			$panel_comps[] = $this->ui_fac->legacy($this->getSkillLevelDescription($skill));
 
 
 			if ($this->getProfileId() > 0)
@@ -643,21 +664,6 @@ class ilPersonalSkillsGUI
 				$panel_comps[] = $this->ui_fac->legacy($sugg);
 			}
 
-			$title = $sep = "";
-			$found = false;
-			foreach ($path as $p)
-			{
-				if ($found)
-				{
-					$title.= $sep.$p["title"];
-					$sep = " > ";
-				}
-				if ($a_top_skill_id == $p["child"])
-				{
-					$found = true;
-				}
-			}
-
 			$sub = $this->ui_fac->panel()->sub((string) $title, $panel_comps);
 			if ($a_edit)
 			{
@@ -680,6 +686,11 @@ class ilPersonalSkillsGUI
 			$tpl->parseCurrentBlock();
 			
 		}
+
+		$des = $this->getSkillCategoryDescription($skill_id, $tref_id);
+
+		//put the description of the skill category to the very top of the sub panels
+		$sub_panels = $this->ui_fac->legacy($des . $this->ui_ren->render($sub_panels));
 		
 		$panel = $this->ui_fac->panel()->standard((string) ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
 			$sub_panels);
@@ -937,7 +948,7 @@ class ilPersonalSkillsGUI
 
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
-			$url = 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace';
+			$url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
 			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
 				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
 					$url)]);
@@ -1822,12 +1833,56 @@ class ilPersonalSkillsGUI
 	}
 
 	/**
+	 * Get description for skill category
+	 *
+	 * @param int $skill_id
+	 * @param int $tref_id
+	 *
+	 * @return string
+	 */
+	protected function getSkillCategoryDescription(int $skill_id, int $tref_id) : string
+	{
+		$tpl = new ilTemplate("tpl.skill_description_category.html", true, true, "Services/Skill");
+
+		//if (ilSkillTreeNode::_lookupType($skill_id) == "scat") {
+			$des = ilSkillTreeNode::_lookupDescription($skill_id);
+			if (!is_null($des) && !empty($des)) {
+				$tpl->setCurrentBlock("description_category");
+				$tpl->setVariable("DESCRIPTION_CATEGORY", $des);
+				$tpl->parseCurrentBlock();
+			}
+		//}
+
+		return $tpl->get();
+	}
+
+	/**
+	 * Get description for basic skill
+	 *
+	 * @param string $description
+	 *
+	 * @return string
+	 */
+	protected function getBasicSkillDescription(string $description) : string
+	{
+		$tpl = new ilTemplate("tpl.skill_description_basic.html", true, true, "Services/Skill");
+
+		if (!is_null($description) && !empty($description)) {
+			$tpl->setCurrentBlock("description_basic");
+			$tpl->setVariable("DESCRIPTION_BASIC", $description);
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
+	/**
 	 * Get level description
 	 *
 	 * @param
 	 * @return
 	 */
-	function getSkillDescription($skill)
+	function getSkillLevelDescription($skill)
 	{
 		$level_data = $skill->getLevelData();
 		$tpl = new ilTemplate("tpl.skill_desc.html", true, true, "Services/Skill");

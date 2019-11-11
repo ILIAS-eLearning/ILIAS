@@ -304,7 +304,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	private function initHelp()
 	{
 		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initHelp($this);
+		//ilHelpGUI::initHelp($this);
 	}
 
 
@@ -941,7 +941,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	//    - ilCalendarPresentationGUI
 	//    - ilContainerGUI
 	//    - ilObjDataCollectionGUI
-	//    - ilPersonalDesktopGUI
+	//    - ilDashboardGUI
 	//    - ilObjPortfolioTemplateGUI
 	//    - ilWikiPageGUI
 	//    - ilObjWikiGUI

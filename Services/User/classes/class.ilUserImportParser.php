@@ -39,6 +39,7 @@ define ("IL_USER_MAPPING_ID", 2);
 require_once("./Services/Xml/classes/class.ilSaxParser.php");
 require_once ('Services/User/classes/class.ilUserXMLWriter.php');
 
+
 /**
 * User Import Parser
 *
@@ -266,6 +267,17 @@ class ilUserImportParser extends ilSaxParser
 	private $current_messenger_type;
 
 	/**
+	 * @var ilRecommendedContentManager
+	 */
+	protected $recommended_content_manager;
+
+	/**
+	 * @var ilUserSettingsConfig
+	 */
+	protected $user_settings_config;
+
+
+	/**
 	* Constructor
 	*
 	* @param	string		$a_xml_file		xml file
@@ -291,6 +303,8 @@ class ilUserImportParser extends ilSaxParser
 		$this->parentRolesCache = array();
 		$this->send_mail = false;
 		$this->mapping_mode = IL_USER_MAPPING_LOGIN;
+
+		$this->user_settings_config = new ilUserSettingsConfig();
 		
 		// get all active style  instead of only assigned ones -> cannot transfer all to another otherwise
 		$this->userStyles = array();
@@ -314,28 +328,15 @@ class ilUserImportParser extends ilSaxParser
 			}
 		}
 
-		$settings = $global_settings->getAll();
-		if ($settings["usr_settings_hide_skin_style"] == 1)
-		{
-			$this->hideSkin = TRUE;
-		}
-		else
-		{
-			$this->hideSkin = FALSE;
-		}
-		if ($settings["usr_settings_disable_skin_style"] == 1)
-		{
-			$this->disableSkin = TRUE;
-		}
-		else
-		{
-			$this->disableSkin = FALSE;
-		}
+		$this->hideSkin = (!$this->user_settings_config->isVisible("skin_style"));
+		$this->disableSkin = (!$this->user_settings_config->isChangeable("skin_style"));
 
 		include_once("Services/Mail/classes/class.ilAccountMail.php");
 		$this->acc_mail = new ilAccountMail();
 		$this->acc_mail->setAttachConfiguredFiles(true);
 		$this->acc_mail->useLangVariablesAsFallback(true);
+
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 
 		parent::__construct($a_xml_file);
 	}
@@ -877,7 +878,7 @@ class ilUserImportParser extends ilSaxParser
 				$ref_id = current((array) $ref_ids);
 				if($ref_id)
 				{
-					ilObjUser::_addDesktopItem($a_user_obj->getId(),$ref_id,$type);
+					$this->recommended_content_manager->addObjectRecommendation($a_user_obj->getId(), $ref_id);
 				}
 				break;
 			default:
@@ -973,7 +974,7 @@ class ilUserImportParser extends ilSaxParser
 			$obj = $rbacreview->getObjectOfRole($a_role_id);
 			$ref = ilObject::_getAllReferences($obj);
 			$ref_id = end($ref);
-			ilObjUser::_dropDesktopItem($a_user_obj->getId(), $ref_id, ilObject::_lookupType($obj));
+			$this->recommended_content_manager->removeObjectRecommendation($a_user_obj->getId(), $ref_id);
 		}
 }
 

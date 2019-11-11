@@ -94,8 +94,14 @@ class ilBookingObjectGUI
 
 		/** @var ilObjBookingPoolGUI $this->pool_gui */
 		$this->pool_gui = $a_parent_obj;
+		$this->pool_has_schedule =
+			($a_parent_obj->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+		$this->pool_overall_limit = $this->pool_has_schedule 
+			? null
+			: $a_parent_obj->object->getOverallLimit();
 
 		$this->object_id = (int) $_REQUEST['object_id'];
+		$this->ref_id = (int) $_REQUEST['ref_id'];
 		$this->ctrl->saveParameter($this, "object_id");
 
 		$this->rsv_ids = array_map('intval', explode(";", $_GET["rsv_ids"]));
@@ -149,7 +155,7 @@ class ilBookingObjectGUI
 	 */
 	protected function hasPoolSchedule(): bool
 	{
-		return ($this->pool_gui->object->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE);
+		return ($this->pool_gui->object->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
 	}
 
 	/**

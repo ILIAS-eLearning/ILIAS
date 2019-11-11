@@ -4,7 +4,6 @@
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/Blog/classes/class.ilBlogPosting.php";
-require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php";
 
 /**
 * Class ilObjBlogGUI
@@ -114,6 +113,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	protected $prt_id;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+	protected $tool_context;
+
 	protected static $keyword_export_map; // [array]
 	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
@@ -148,6 +152,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
 		$this->author = (int) $_REQUEST["ath"];
 		$this->prt_id = (int) $_REQUEST["prt_id"];
+
+        $this->tool_context = $DIC->globalScreen()->tool()->context();
 
 		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 		
@@ -588,6 +594,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$lng = $this->lng;
 		$ilNavigationHistory = $this->nav_history;
 
+		$this->triggerAssignmentTool();
+
 		// goto link to blog posting
 		if($this->gtp > 0)
 		{
@@ -915,8 +923,29 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		return true;
 	}
-	
-	/**
+
+    /**
+     * Trigger assignment tool
+     *
+     * @param
+     */
+    protected function triggerAssignmentTool()
+    {
+        $be = new ilBlogExercise($this->node_id);
+        $be_gui = new ilBlogExerciseGUI($this->node_id);
+        $assignments = $be->getAssignmentsOfBlog();
+        if (count($assignments) > 0) {
+            $ass_ids = array_map(function ($i) {
+                return $i["ass_id"];
+            }, $assignments);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::SHOW_EXC_ASSIGNMENT_INFO, true);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_IDS, $ass_ids);
+            $this->tool_context->current()->addAdditionalData(ilExerciseGSToolProvider::EXC_ASS_BUTTONS,
+                $be_gui->getActionButtons());
+        }
+    }
+
+    /**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
 	* works through ilCtrl in the future this may be changed
@@ -1068,7 +1097,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						
 			// exercise blog?			
 			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
-			$message = ilBlogExerciseGUI::checkExercise($this->node_id);
+			//$message = ilBlogExerciseGUI::checkExercise($this->node_id);
 		}
 								
 		// $is_owner = ($this->object->getOwner() == $ilUser->getId());
@@ -1288,7 +1317,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// from shared/deeplink		
 			if($this->id_type == self::WORKSPACE_NODE_ID)
 			{	
-				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
+				$back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
 			}
 			// from editor (#10073)
 			else if($this->mayContribute())
@@ -1315,7 +1344,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// workspace (always shared)
 			if($this->id_type == self::WORKSPACE_NODE_ID)
 			{	
-				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
+				$back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=".$owner;
 			}
 			// contributor
 			else if($this->mayContribute())
@@ -3387,31 +3416,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "contributors");				
 	}
-	
-	/**
-	 * @see ilDesktopItemHandling::addToDesk()
-	 */
-	public function addToDeskObject()
-	{
-		$lng = $this->lng;
 
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-		ilDesktopItemGUI::addToDesktop();
-		ilUtil::sendSuccess($lng->txt("added_to_desktop"));		
-	}
-	
-	/**
-	 * @see ilDesktopItemHandling::removeFromDesk()
-	 */
-	public function removeFromDeskObject()
-	{
-		$lng = $this->lng;
-
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-		ilDesktopItemGUI::removeFromDesktop();
-		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
-	}
-	
 	public function deactivateAdmin()
 	{
 		if($this->checkPermissionBool("write") && $this->apid > 0)

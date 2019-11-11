@@ -296,7 +296,7 @@ class ilLMGlobalTemplate implements ilGlobalTemplateInterface
 	 */
 	private function initHelp()
 	{
-		ilHelpGUI::initHelp($this);
+		//ilHelpGUI::initHelp($this);
 	}
 
 
@@ -864,7 +864,7 @@ class ilLMGlobalTemplate implements ilGlobalTemplateInterface
 	//    - ilCalendarPresentationGUI
 	//    - ilContainerGUI
 	//    - ilObjDataCollectionGUI
-	//    - ilPersonalDesktopGUI
+	//    - ilDashboardGUI
 	//    - ilObjPortfolioTemplateGUI
 	//    - ilWikiPageGUI
 	//    - ilObjWikiGUI

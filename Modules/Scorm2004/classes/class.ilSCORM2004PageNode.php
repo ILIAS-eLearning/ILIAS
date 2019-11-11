@@ -4,10 +4,6 @@
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Node.php");
 require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
 
-// unclear whether we need this somehow...
-//define ("IL_CHAPTER_TITLE", "st_title");
-//define ("IL_PAGE_TITLE", "pg_title");
-//define ("IL_NO_HEADER", "none");
 
 /**
  * Class ilSCORM2004PageNode

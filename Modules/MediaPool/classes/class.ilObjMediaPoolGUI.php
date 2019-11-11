@@ -624,21 +624,17 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 				$ilCtrl->getLinkTarget($this, "bulkUpload"));
 		}
 
-		// tree
-		include_once("./Modules/MediaPool/classes/class.ilMediaPoolExplorerGUI.php");
-		$exp = new ilMediaPoolExplorerGUI($this, "listMedia", $this->object);
-		if (!$exp->handleCommand())
-		{
-			$this->tpl->setLeftNavContent($exp->getHTML());
-		}
-		else
-		{
-			return;
-		}
-
-		include_once("./Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php");
 		$mep_table_gui = new ilMediaPoolTableGUI($this, "listMedia", $this->object, "mepitem_id");
 		$tpl->setContent($mep_table_gui->getHTML());
+	}
+
+	/**
+	 * Toggle explorer node
+	 */
+	protected function toggleExplorerNodeState() : void
+	{
+		$exp = new ilMediaPoolExplorerGUI($this, "listMedia", $this->object);
+		$exp->toggleExplorerNodeState();
 	}
 
 	/**

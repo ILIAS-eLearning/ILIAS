@@ -25,6 +25,7 @@ class ilSkillTreeNode
 	var $type;
 	var $id;
 	var $title;
+	var $description;
 
 	/**
 	* @param	int		node id
@@ -62,6 +63,26 @@ class ilSkillTreeNode
 	function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	 * Set description
+	 *
+	 * @param	string		$a_description	description
+	 */
+	function setDescription($a_description)
+	{
+		$this->description = $a_description;
+	}
+
+	/**
+	 * Get description
+	 *
+	 * @return	string		description
+	 */
+	function getDescription()
+	{
+		return $this->description;
 	}
 
 	/**
@@ -239,6 +260,7 @@ class ilSkillTreeNode
 		}
 		$this->setType($this->data_record["type"]);
 		$this->setTitle($this->data_record["title"]);
+		$this->setDescription($this->data_record["description"]);
 		$this->setOrderNr($this->data_record["order_nr"]);
 		$this->setSelfEvaluation($this->data_record["self_eval"]);
 		$this->setStatus($this->data_record["status"]);
@@ -293,7 +315,22 @@ class ilSkillTreeNode
 		}
 		return self::_lookup($a_obj_id, "title");
 	}
-	
+
+	/**
+	 * Lookup Description
+	 *
+	 * @param	int			node ID
+	 * @return	string		description
+	 */
+	static function _lookupDescription($a_obj_id)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		return self::_lookup($a_obj_id, "description");
+	}
+
 	/**
 	 * Lookup self evaluation
 	 *
@@ -384,6 +421,25 @@ class ilSkillTreeNode
 	}
 
 	/**
+	 * Write Description
+	 *
+	 * @param	int			Node ID
+	 * @param	string		Description
+	 */
+	static function _writeDescription($a_obj_id, $a_description)
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$query = "UPDATE skl_tree_node SET ".
+			" description = ".$ilDB->quote($a_description, "clob").
+			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer");
+
+		$ilDB->manipulate($query);
+	}
+
+	/**
 	 * Write Order Nr
 	 *
 	 * @param	int			Node ID
@@ -412,10 +468,11 @@ class ilSkillTreeNode
 
 		// insert object data
 		$id = $ilDB->nextId("skl_tree_node");
-		$query = "INSERT INTO skl_tree_node (obj_id, title, type, create_date, self_eval, order_nr, status, creation_date, import_id) ".
+		$query = "INSERT INTO skl_tree_node (obj_id, title, description, type, create_date, self_eval, order_nr, status, creation_date, import_id) ".
 			"VALUES (".
 			$ilDB->quote($id, "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
+			$ilDB->quote($this->getDescription(), "clob").",".
 			$ilDB->quote($this->getType(), "text").", ".
 			$ilDB->now().", ".
 			$ilDB->quote((int) $this->getSelfEvaluation(), "integer").", ".
@@ -437,6 +494,7 @@ class ilSkillTreeNode
 
 		$query = "UPDATE skl_tree_node SET ".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
+			" ,description = ".$ilDB->quote($this->getDescription(), "clob").
 			" ,self_eval = ".$ilDB->quote((int) $this->getSelfEvaluation(), "integer").
 			" ,order_nr = ".$ilDB->quote((int) $this->getOrderNr(), "integer").
 			" ,status = ".$ilDB->quote((int) $this->getStatus(), "integer").

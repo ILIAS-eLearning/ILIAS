@@ -129,7 +129,7 @@ class ilPCProfileGUI extends ilPageContentGUI
 		if(!$is_template)
 		{
 			$ilToolbar->addButton($this->lng->txt("cont_edit_personal_data"), 
-				$ilCtrl->getLinkTargetByClass("ilpersonaldesktopgui", "jumptoprofile"),
+				$ilCtrl->getLinkTargetByClass("ildashboardgui", "jumptoprofile"),
 				"profile");		
 			
 			$lng_suffix = "";

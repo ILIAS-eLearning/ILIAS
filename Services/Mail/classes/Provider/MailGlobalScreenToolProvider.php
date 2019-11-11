@@ -33,10 +33,14 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
         if ($additional_data->exists(self::SHOW_MAIL_FOLDERS_TOOL) && $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true) {
             $exp = new ilMailExplorer(new ilMailGUI(), $this->dic->user()->getId());
 
+            $title = $this->dic->language()->txt('mail_folders');
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title)->withIsOutlined(true);
+
             $tools[] = $this->factory
-                ->tool($identification('tree'))
-                ->withTitle($this->dic->language()->txt("mail_folders"))
-                ->withContent($this->dic->ui()->factory()->legacy($exp->getHTML()));
+                ->tool($identification('mail_folders_tree'))
+                ->withTitle($title)
+                ->withSymbol($icon)
+                ->withContent($this->dic->ui()->factory()->legacy($exp->getHTML(true)));
         }
 
         return $tools;

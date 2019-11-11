@@ -230,18 +230,22 @@ main {
 }
 
 .il-layout-page-content {
+	display: -ms-grid;
+	display: grid;
+	-ms-grid-rows: 1fr auto;
+	grid-template-rows: 1fr auto;
 	-ms-grid-column: 2;
 	-ms-grid-row: 3;
 	grid-column: 2;
 	grid-row: 3;
 	overflow: auto;
-	padding: @il-standard-page-content-padding;
 }
 
 /* Footer */
 footer {
 	background-color: @brand-primary;
-	grid-area: footer;
+	min-height: @il-footer-height;
+	padding: @il-footer-padding;
 	z-index: 2;
 }
 
@@ -252,6 +256,14 @@ footer {
 **************************************************************
 */
 
+// Sidepanel in right column under content
+@media only screen and (max-width: @screen-lg) {
+	#il_center_col.col-sm-9,
+	#il_right_col.col-sm-3 {
+		float: none;
+		width: 100%;
+	}
+}
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	// main grid without slates
@@ -501,6 +513,5 @@ footer {
 		grid-column: 1;
 		grid-row: 2;
 		overflow: auto;
-		padding: @il-standard-page-content-padding;
 	}
 }

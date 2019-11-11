@@ -4,10 +4,6 @@
 
 include_once("./Services/News/classes/class.ilNewsItem.php");
 
-define("IL_FORM_EDIT", 0);
-define("IL_FORM_CREATE", 1);
-define("IL_FORM_RE_EDIT", 2);
-define("IL_FORM_RE_CREATE", 3);
 
 /**
  * User Interface for NewsItem entities.
@@ -19,7 +15,12 @@ define("IL_FORM_RE_CREATE", 3);
  */
 class ilNewsItemGUI
 {
-	/**
+    const FORM_EDIT = 0;
+    const FORM_CREATE = 1;
+    const FORM_RE_EDIT = 2;
+    const FORM_RE_CREATE = 2;
+
+    /**
 	 * @var ilCtrl
 	 */
 	protected $ctrl;
@@ -239,7 +240,7 @@ class ilNewsItemGUI
 	/**
 	 * Set FormEditMode.
 	 *
-	 * @param	int	$a_form_edit_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 * @param	int	$a_form_edit_mode	Form Edit Mode
 	 */
 	public function setFormEditMode($a_form_edit_mode)
 	{
@@ -249,7 +250,7 @@ class ilNewsItemGUI
 	/**
 	 * Get FormEditMode.
 	 *
-	 * @return	int	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE | IL_FORM_RE_EDIT | IL_FORM_RE_CREATE)
+	 * @return	int	Form Edit Mode
 	 */
 	public function getFormEditMode()
 	{
@@ -262,7 +263,7 @@ class ilNewsItemGUI
 	 */
 	public function createNewsItem()
 	{
-		$form = $this->initFormNewsItem(IL_FORM_CREATE);
+		$form = $this->initFormNewsItem(self::FORM_CREATE);
 		return $form->getHtml();
 	}
 
@@ -272,7 +273,7 @@ class ilNewsItemGUI
 	 */
 	public function editNewsItem()
 	{
-		$form = $this->initFormNewsItem(IL_FORM_EDIT);
+		$form = $this->initFormNewsItem(self::FORM_EDIT);
 		$this->getValuesNewsItem($form);
 		return $form->getHtml();
 
@@ -282,7 +283,7 @@ class ilNewsItemGUI
 	/**
 	 * FORM NewsItem: Init form.
 	 *
-	 * @param int $a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	 * @param int $a_mode	Form Edit Mode
 	 * @return ilPropertyFormGUI form
 	 */
 	protected function initFormNewsItem($a_mode)
@@ -299,7 +300,7 @@ class ilNewsItemGUI
 	/**
 	 * FORM NewsItem: Init form.
 	 *
-	 * @param	int	$a_mode	Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	 * @param	int	$a_mode	Form Edit Mode
 	 * @return ilPropertyFormGUI form
 	 */
 	static public function getEditForm($a_mode, $a_ref_id)
@@ -360,7 +361,7 @@ class ilNewsItemGUI
 
 
 		// save and cancel commands
-		if (in_array($a_mode, array(IL_FORM_CREATE,IL_FORM_RE_CREATE)))
+		if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE)))
 		{
 			$form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
 			$form->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"), "news_btn_cancel_create");
@@ -421,7 +422,7 @@ class ilNewsItemGUI
 			return;
 		}
 
-		$form = $this->initFormNewsItem(IL_FORM_CREATE);
+		$form = $this->initFormNewsItem(self::FORM_CREATE);
 		if ($form->checkInput())
 		{
 			$this->news_item = new ilNewsItem();
@@ -494,7 +495,7 @@ class ilNewsItemGUI
 			return "";
 		}
 
-		$form = $this->initFormNewsItem(IL_FORM_EDIT);
+		$form = $this->initFormNewsItem(self::FORM_EDIT);
 		if ($form->checkInput())
 		{
 			$this->news_item->setUpdateUserId($ilUser->getId());

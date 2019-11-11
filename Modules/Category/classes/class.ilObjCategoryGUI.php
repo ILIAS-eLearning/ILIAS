@@ -90,9 +90,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		// show repository tree
-		$this->showRepTree();
-		
 		switch($next_class)
 		{
 			case "ilobjusergui":

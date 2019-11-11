@@ -44,7 +44,6 @@ class ilLPStatusSurveyFinished extends ilLPStatus
 		
 		$status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;		
 		
-		include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';		
 		if(ilObjSurveyAccess::_isSurveyParticipant($a_user_id, $survey_id))
 		{
 			$status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;

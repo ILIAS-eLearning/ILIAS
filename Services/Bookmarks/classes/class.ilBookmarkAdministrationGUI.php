@@ -267,12 +267,6 @@ class ilBookmarkAdministrationGUI
 		$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
 		$this->tpl->touchBlock("locator_separator");
 		$this->tpl->touchBlock("locator_item");
-		//$this->tpl->setCurrentBlock("locator_item");
-		//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-		//$this->tpl->setVariable("LINK_ITEM", $this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-		//$this->tpl->setVariable("LINK_TARGET","target=\"".
-		//	ilFrameTargetInfo::_getFrame("MainContent")."\"");
-		//$this->tpl->parseCurrentBlock();
 
 		foreach($path as $key => $row)
 		{
@@ -964,7 +958,7 @@ class ilBookmarkAdministrationGUI
 	function getHTML()
 	{
 		include_once("./Services/Bookmarks/classes/class.ilBookmarkBlockGUI.php");
-		$bookmark_block_gui = new ilBookmarkBlockGUI("ilpersonaldesktopgui", "show");
+		$bookmark_block_gui = new ilBookmarkBlockGUI("ildashboardgui", "show");
 
 		return $bookmark_block_gui->getHTML();
 	}

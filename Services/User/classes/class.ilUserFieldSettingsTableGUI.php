@@ -14,8 +14,13 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilUserFieldSettingsTableGUI extends ilTable2GUI
 {
 	private $confirm_change = false;
-	
-	/**
+
+    /**
+     * @var ilUserSettingsConfig
+     */
+    protected $user_settings_config;
+
+    /**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd)
@@ -26,6 +31,8 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 		$lng = $DIC['lng'];
 		$ilAccess = $DIC['ilAccess'];
 		$lng = $DIC['lng'];
+
+        $this->user_settings_config = new ilUserSettingsConfig();
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setTitle($lng->txt("usr_settings_header_profile"));
@@ -67,6 +74,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
 		$lng = $DIC['lng'];
 		$ilSetting = $DIC['ilSetting'];
+        $user_settings_config = $this->user_settings_config;
 		
 		$field = $a_set["key"];
 		
@@ -97,11 +105,11 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 				
 				// determine checked status
 				$checked = false;
-				if ($prop == "visible" && $ilSetting->get("usr_settings_hide_".$field) != "1")
+				if ($prop == "visible" && $user_settings_config->isVisible($field))
 				{
 					$checked = true;
 				}
-				if ($prop == "changeable" && $ilSetting->get("usr_settings_disable_".$field) != "1")
+				if ($prop == "changeable" && $user_settings_config->isChangeable($field))
 				{
 					$checked = true;
 				}
