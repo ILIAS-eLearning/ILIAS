@@ -12,7 +12,7 @@ class CanCreateDirectoriesInDirectoryCondition extends ExternalConditionObjectiv
 			"Can create directories in '$which'",
 			function(Environment $env) use ($which): bool {
 				$probe = $which."/".self::PROBE_NAME;
-				if(!mkdir($probe, 0774)) {
+				if(!@mkdir($probe, 0774)) {
 					return false;
 				}
 				rmdir($probe);
