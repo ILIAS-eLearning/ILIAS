@@ -102,6 +102,12 @@ class ObjectiveIterator implements \Iterator {
 
 		$cur = array_pop($this->stack);
 		$hash = $cur->getHash();
+
+		if (isset($this->returned[$hash]) || isset($this->filed[$hash])) {
+			$this->next();
+			return;
+		}
+
 		$preconditions = array_filter(
 			$cur->getPreconditions($this->environment),
 			function ($p) {
