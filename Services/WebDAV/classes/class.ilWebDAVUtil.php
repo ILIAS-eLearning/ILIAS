@@ -625,27 +625,4 @@ class ilWebDAVUtil
         }
         return self::$instance = new ilWebDAVUtil();
     }
-
-    /**
-     *
-     * @return
-     */
-    public function isLocalPasswordInstructionRequired()
-    {
-        global $DIC;
-        $ilUser = $DIC->user();
-
-        if($this->pwd_instruction !== NULL)
-        {
-            return $this->pwd_instruction;
-        }
-        include_once './Services/Authentication/classes/class.ilAuthUtils.php';
-        $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
-        if($status != ilAuthUtils::LOCAL_PWV_USER)
-        {
-            return $this->pwd_instruction = false;
-        }
-        // Check if user has local password
-        return $this->pwd_instruction = (bool) !strlen($ilUser->getPasswd());
-    }
 }
