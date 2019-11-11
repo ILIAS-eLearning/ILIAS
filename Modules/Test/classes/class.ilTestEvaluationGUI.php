@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\Result\TestResultService;
+
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
 require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
@@ -1341,8 +1343,15 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
 		}
 
+		$test_result_service = new TestResultService($this->object->getId(), $active_id, $pass, $testSession->getUserId());
+
+		$result_array = $test_result_service->getResultsAsAssocArray();
+        /*
 		$result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
 
+
+
+print_r($result_array);exit;*/
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
 		{
@@ -1400,7 +1409,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			$result_array, $active_id, $pass, $this, "outUserPassDetails",
 			$command_solution_details, $questionAnchorNav, $objectivesList
 		);
-		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
+		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass));
 		$tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
 		if( $this->object->canShowSolutionPrintview() )
@@ -1424,7 +1433,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 				$tpl->setVariable("TEXT_HEADING", $this->lng->txt("tst_result_pass"));
 			} else
 			{
-				$tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+				$tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass, $uname));
 				$tpl->setVariable("USER_DATA", $user_data);
 			}
 		}
@@ -2180,7 +2189,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 		$ilDB = $DIC['ilDB'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
+
+
 		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
+
 		$questionIds = array();
 		foreach($resultData as $resultItemKey => $resultItemValue)
 		{

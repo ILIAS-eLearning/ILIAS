@@ -17,16 +17,24 @@ class PublishedQuestionRepository
     public function saveNewQuestionRevision(Question $question) {
         /** @var QuestionAr $old_question */
         $old_question = QuestionAr::where(['question_id' => $question->getAggregateId()->getId()])->first();
-        
+
+
         if (!is_null($old_question)) {
+            if ($old_question->getRevisionId() === $question->getRevisionId()) {
+                //same question already published
+                return;
+            }
+        }
+
+        //TODO we should compare the content with creating revision ids and not at this place here!
+            /*
             if ($old_question->getRevisionId() === $question->getRevisionId() ||
                 $this->contentEquals($question, $this->GenerateDtoFromAr($old_question))) {
                 //same question already published
                 return;
             }
-            
-            
-        }
+
+        }*/
         
         $question_ar = QuestionAr::createNew($question);
         $question_ar->create();

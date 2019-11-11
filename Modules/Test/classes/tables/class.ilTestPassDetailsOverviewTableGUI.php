@@ -176,7 +176,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 	 */
 	public function fillRow($row)
 	{
-		$this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
+		$this->ctrl->setParameter($this->parent_obj, 'revision_key', $row['revision_key']);
 		
 		if( isset($row['pass']) )
 		{

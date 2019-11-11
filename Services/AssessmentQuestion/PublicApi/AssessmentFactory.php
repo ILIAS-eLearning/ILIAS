@@ -7,6 +7,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Evaluation\EvaluationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 
 /**
@@ -56,7 +57,6 @@ class AssessmentFactory
     {
         return new ProcessingService($container_obj_id,$actor_user_id, $attempt_number);
     }
-
 
     /**
      * As consumer you are responsible for creating the uuids

@@ -243,7 +243,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             global $DIC;
 
             switch($this->testOBJ->getQuestionSetType()) {
-                case ilTestQuestionSetConfig::TYPE_FIXED;
+                case ilTestQuestionSetConfig::TYPE_FIXED:
                     $question_list = $DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId())->questionList();
                     $question_list->publishNewRevisions();
                     break;
@@ -257,9 +257,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
                     break;
             }
 
-
             $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->testOBJ)->getQuestionSetConfig();
-
             foreach($DIC->assessment()->questionAuthoring($DIC->ctrl()->getContextObjId(), $DIC->user()->getId())->questionList()->getQuestionsOfContainerAsDtoList(true) as $question_dto) {
                 $questionSetConfig->updateRevisionId($question_dto->getId(), $question_dto->getRevisionId());
             }

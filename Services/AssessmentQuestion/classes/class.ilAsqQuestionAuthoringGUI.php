@@ -406,7 +406,7 @@ class ilAsqQuestionAuthoringGUI
         switch($_SERVER['REQUEST_METHOD'])
         {
             case "GET":
-                $answer = $player->getUserAnswer($question->getId(), '', $this->authoring_context_container->getObjId());
+                $answer = $player->getUserAnswer($question->getRevisionId());
                 if (!is_null($answer)) {
                     $question_component->setAnswer($answer);
                 }
