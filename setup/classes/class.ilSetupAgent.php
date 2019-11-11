@@ -73,15 +73,18 @@ class ilSetupAgent implements Setup\Agent {
 	 * @inheritdoc
 	 */
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
-		return new Setup\ObjectiveCollection(
-			"Complete common ILIAS objectives.",
-			false,
-			new Setup\PHPVersionCondition("7.3.0"),
-			new Setup\PHPExtensionLoadedCondition("dom"),
-			new Setup\PHPExtensionLoadedCondition("xsl"),
-			new Setup\PHPExtensionLoadedCondition("gd"),
-			$this->getPHPMemoryLimitCondition(),
-			new ilSetupConfigStoredObjective($config, $this->password_manager)
+		return new Setup\ObjectiveWithPreconditions(
+			new \ilMakeInstallationAccessibleObjective($config),
+			new Setup\ObjectiveCollection(
+					"Complete common ILIAS objectives.",
+					false,
+					new Setup\PHPVersionCondition("7.3.0"),
+					new Setup\PHPExtensionLoadedCondition("dom"),
+					new Setup\PHPExtensionLoadedCondition("xsl"),
+					new Setup\PHPExtensionLoadedCondition("gd"),
+					$this->getPHPMemoryLimitCondition(),
+					new ilSetupConfigStoredObjective($config, $this->password_manager)
+			)
 		);
 	}
 
