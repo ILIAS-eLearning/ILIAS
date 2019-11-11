@@ -88,13 +88,11 @@ class MultipleChoiceScoring extends AbstractScoring
             /** @var MultipleChoiceScoringDefinition $option_config */
             $option_config = $option->getScoringDefinition();
 
-            //TODO does not work for single choice questions!
-           /* if (empty($option_config->getPointsSelected()) ||
+            if (empty($option_config->getPointsSelected()) &&
                 empty($option_config->getPointsUnselected()))
             {
                 return false;
             }
-           */
         }
 
         return true;

@@ -158,7 +158,7 @@ class OrderingEditor extends AbstractEditor {
     {
         foreach ($question->getAnswerOptions()->getOptions() as $option) {
             /** @var ImageAndTextDisplayDefinition $option_config */
-            $option_config = $option->getScoringDefinition();
+            $option_config = $option->getDisplayDefinition();
             
             if (empty($option_config->getText()))
             {

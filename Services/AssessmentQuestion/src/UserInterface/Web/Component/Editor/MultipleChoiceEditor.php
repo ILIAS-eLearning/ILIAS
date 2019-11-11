@@ -253,14 +253,12 @@ class MultipleChoiceEditor extends AbstractEditor {
 	{	    
 	    foreach ($question->getAnswerOptions()->getOptions() as $option) {
 	        /** @var ImageAndTextDisplayDefinition $option_config */
-	        $option_config = $option->getScoringDefinition();
-            //TODO does not work!
-            /*
+	        $option_config = $option->getDisplayDefinition();
+	        
 	        if (empty($option_config->getText()))
 	        {
 	            return false;
 	        }
-            */
 	    }
 	    
 	    return true;

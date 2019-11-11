@@ -160,7 +160,7 @@ class ErrorTextEditor extends AbstractEditor {
     public static function isComplete(Question $question): bool
     {
         /** @var ErrorTextEditorConfiguration $config */
-        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        $config = $question->getPlayConfiguration()->getEditorConfiguration();
         
         if (empty($config->getErrorText())) {
             return false;
