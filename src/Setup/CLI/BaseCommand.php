@@ -9,6 +9,7 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\ObjectiveIterator;
+use ILIAS\Setup\ObjectiveWithPreconditions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,11 +35,21 @@ abstract class BaseCommand extends Command {
 	 */
 	protected $config_reader;
 
-	public function __construct(callable $lazy_agent, ConfigReader $config_reader) {
+	/**
+	 * var Objective[]
+	 */
+	protected $preconditions;
+
+	/**
+	 * @var callable $lazy_agent must return a Setup\Agent
+	 * @var Objective[] $preconditions will be achieved before command invocation
+	 */
+	public function __construct(callable $lazy_agent, ConfigReader $config_reader, array $preconditions) {
 		parent::__construct();
 		$this->lazy_agent = $lazy_agent;
 		$this->agent = null;
 		$this->config_reader = $config_reader;
+		$this->preconditions = $preconditions;
 	}
 
 	protected function getAgent() : Agent {
@@ -61,6 +72,12 @@ abstract class BaseCommand extends Command {
 		$config = $this->readAgentConfig($this->getAgent(), $input);
 		$environment = $this->buildEnvironment($this->getAgent(), $config, $io);
 		$goal = $this->getObjective($this->getAgent(), $config);
+		if (count($this->preconditions) > 0) {
+			$goal = new ObjectiveWithPreconditions(
+				$goal,
+				...$this->preconditions
+			);
+		}
 		$goals = new ObjectiveIterator($environment, $goal);
 
 		while($goals->valid()) {
