@@ -773,7 +773,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
         //Last Question Revision ID
         $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($this->getCurrentSequenceElement());
-        $this->persistUserAnswerResult($revision_id);
+        $this->persistUserAnswerResult($revision_id,$this->getCurrentSequenceElement());
 
 
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
@@ -1741,13 +1741,13 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		}
 
 		$this->tpl->setCurrentBlock("adm_content");
-		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
+		$solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);/*
 		$this->tpl->setVariable("OUTPUT_SOLUTION", $solution);
 		$this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
 		$this->ctrl->saveParameter($this, "pass");
 		$this->ctrl->saveParameter($this, "active_id");
 		$this->tpl->setVariable("URL_BACK", $this->ctrl->getLinkTarget($this, "outUserResultsOverview"));
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 	}
 
 	/**
@@ -3078,7 +3078,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      * @param \ILIAS\DI\Container $DIC
      * @param string              $revision_id
      */
-    protected function persistUserAnswerResult(string $revision_id) : void
+    protected function persistUserAnswerResult(string $revision_id, $order) : void
     {
         global $DIC;
 
@@ -3087,6 +3087,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $this->testSession->getActiveId(),
             $this->testSession->getPass(),
             $DIC->user()->getId());
-        $test_result_service->persistAnswerResult($revision_id, 0);
+        $test_result_service->persistAnswerResult($revision_id, 0, $order);
     }
 }

@@ -17,6 +17,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\AnswerFeedbackComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\FeedbackComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\ScoringComponent;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Solution\SolutionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ProcessingContextContainer;
@@ -108,9 +109,34 @@ class ProcessingApplicationService
      */
     public function getQuestionPresentation(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
     {
-        global $DIC;
+        $page_gui = $this->getQuestionPageGUI($question_dto, $question_config);
 
         $question_component = $this->getQuestionComponent($question_dto, $question_config, $question_commands);
+
+        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
+
+        return $page_gui;
+    }
+
+    /**
+     * @return ilAsqQuestionPageGUI
+     */
+    public function getQuestionEvaluationPresentation(QuestionDto $question_dto, QuestionConfig $question_config) : ilAsqQuestionPageGUI
+    {
+        $page_gui = $this->getQuestionPageGUI($question_dto, $question_config);
+
+        $question_component = $this->getQuestionComponent($question_dto, $question_config, new QuestionCommands());
+        $question_component->setAnswer($this->getUserAnswer($question_dto->getRevisionId()));
+
+        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
+
+        return $page_gui;
+    }
+
+
+    public function getQuestionPageGUI(QuestionDto $question_dto, QuestionConfig $question_config): ilAsqQuestionPageGUI
+    {
+        global $DIC;
 
         $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
         $page_gui = ilAsqQuestionPageGUI::getGUI($page);
@@ -118,8 +144,6 @@ class ProcessingApplicationService
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);
-
-        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
         $page_gui->setPresentationTitle($question_dto->getData()->getTitle());
 
         $subbline = "";
@@ -203,17 +227,16 @@ class ProcessingApplicationService
 
 
     /**
-     * @param string $question_id
      * @param string $revision_key
-     * @param int    $user_id
-     * @param string $test_id
-     * @param int    $attempt_number
      *
      * @return Answer|null
      */
-    public function getUserAnswer(string $question_id, string $revision_key) : ?Answer
+    public function getUserAnswer(string $revision_key) : ?Answer
     {
-        $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question_id));
+        $question_published_repository = new PublishedQuestionRepository();
+        $question = $question_published_repository->getQuestionByRevisionId($revision_key);
+
+        $question = QuestionRepository::getInstance()->getAggregateRootById(new DomainObjectId($question->getId()));
 
         return $question->getAnswer($this->actor_user_id,$this->processing_obj_id, $revision_key, $this->attempt_number);
     }
@@ -270,7 +293,6 @@ class ProcessingApplicationService
 
         return $answered_quetsion_answera;
     }*/
-
 
     /*public function getUnansweredQuestions() : array
     {

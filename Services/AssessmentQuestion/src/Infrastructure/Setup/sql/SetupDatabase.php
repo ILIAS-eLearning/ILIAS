@@ -6,6 +6,7 @@ use ilCtrlStructureReader;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\EventStore\QuestionEventStoreAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionListItemAr;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\QuestionAr;
+use ILIAS\Modules\Test\Result\TestResultAr;
 
 /**
  * Class SetupDatabase
@@ -32,6 +33,7 @@ class SetupDatabase {
         QuestionEventStoreAr::updateDB();
 	    QuestionListItemAr::updateDB();
 	    QuestionAr::updateDB();
+        TestResultAr::updateDB();
 
 
 

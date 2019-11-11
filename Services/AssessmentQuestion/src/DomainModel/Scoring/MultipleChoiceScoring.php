@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
@@ -82,18 +83,20 @@ class MultipleChoiceScoring extends AbstractScoring
         if (count($question->getAnswerOptions()->getOptions()) < 2) {
             return false;
         }
-        
+
         foreach ($question->getAnswerOptions()->getOptions() as $option) {
             /** @var MultipleChoiceScoringDefinition $option_config */
             $option_config = $option->getScoringDefinition();
-            
-            if (empty($option_config->getPointsSelected()) ||
+
+            //TODO does not work for single choice questions!
+           /* if (empty($option_config->getPointsSelected()) ||
                 empty($option_config->getPointsUnselected()))
             {
                 return false;
             }
+           */
         }
-        
+
         return true;
     }
 }

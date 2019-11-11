@@ -737,7 +737,7 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 	function getQuestionRevisionIdForSequence(int $sequence): string
 	{
 		if ($sequence < 1) return FALSE;
-		if (array_key_exists($sequence, $this->questions))
+		if (array_key_exists($sequence, $this->question_revision_ids))
 		{
 			return $this->question_revision_ids[$sequence];
 		}
@@ -880,9 +880,9 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
 		return array_values($this->questions);
 	}
 
-	public function questionExists($questionId)
+	public function questionExists($revision_key)
 	{
-		return in_array($questionId, $this->questions);
+		return in_array($revision_key, $this->question_revision_ids);
 	}
 
 	public function setQuestionOptional($questionId)

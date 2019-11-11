@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once 'Modules/Test/classes/class.ilTestService.php';
 
@@ -729,8 +732,86 @@ class ilTestServiceGUI
 	 * @return string HTML code of the correct solution comparison
 	 * @access public
 	 */
+	function getCorrectSolutionOutput($revision_key, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectivesList = null)
+    {
+        global $DIC;
+        $asq_processing_service = $DIC->assessment()->questionProcessing($this->object->getId(), $DIC->user()->getId(), $pass);
+
+        $user_answer_service = $asq_processing_service->userAnswer($revision_key);
+
+        $question_dto = $asq_processing_service->question($revision_key)->getQuestionDto();
+        $question_config = new QuestionConfig();
+        $question_commands = new QuestionCommands();
+
+        $template = new ilTemplate("tpl.il_as_tst_correct_solution_output.html", TRUE, TRUE, "Modules/Test");
+
+        $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? TRUE : FALSE;
+
+
+
+        $result_output = $user_answer_service->getAnsweredQuestionPresentation($question_config)->getHTML();
+
+        $best_output = $user_answer_service->getBestAnswerQuestionPresentation($question_config,$question_commands)->getHTML();
+
+        if( $this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution' )
+        {
+            $specificAnswerFeedback = "";/*$question_gui->getSpecificFeedbackOutput(
+                $question_gui->object->fetchIndexedValuesFromValuePairs(
+                    $question_gui->object->getSolutionValues($active_id, $pass)
+                )
+            );*/
+            if( strlen($specificAnswerFeedback) )
+            {
+                $template->setCurrentBlock("outline_specific_feedback");
+                $template->setVariable("OUTLINE_SPECIFIC_FEEDBACK", $specificAnswerFeedback);
+                $template->parseCurrentBlock();
+            }
+        }
+        if ($this->object->isBestSolutionPrintedWithResult() && strlen($best_output))
+        {
+            $template->setCurrentBlock("best_solution");
+            $template->setVariable("TEXT_BEST_SOLUTION", $this->lng->txt("tst_best_solution_is"));
+            $template->setVariable("BEST_OUTPUT", $best_output);
+            $template->parseCurrentBlock();
+        }
+        $template->setVariable("TEXT_YOUR_SOLUTION", $this->lng->txt("tst_your_answer_was"));
+        $maxpoints = $asq_processing_service->userAnswer($revision_key)->getUserAnswerScore()->getMaxPoints();
+        if ($maxpoints == 1)
+        {
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_dto->getData()->getTitle()) . " (" . $maxpoints . " " . $this->lng->txt("point") . ")");
+            }
+        else
+        {
+            $template->setVariable("QUESTION_TITLE", $this->object->getQuestionTitle($question_dto->getData()->getTitle()). " (" . $maxpoints . " " . $this->lng->txt("points") . ")");
+        }
+        if( $objectivesList !== null )
+        {
+            $objectives = $this->lng->txt('tst_res_lo_objectives_header').': ';
+            $objectives .= $objectivesList->getQuestionRelatedObjectiveTitles($question_dto->getQuestionIntId());
+            $template->setVariable('OBJECTIVES', $objectives);
+        }
+        $template->setVariable("SOLUTION_OUTPUT", $result_output);
+        $template->setVariable("RECEIVED_POINTS", sprintf($this->lng->txt("you_received_a_of_b_points"), $asq_processing_service->userAnswer($revision_key)->getUserAnswerScore()->getReachedPoints(), $maxpoints));
+        $template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+        $template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
+        return $template->get();
+
+    }
+
+
+            /**
+             * Returns an output of the solution to an answer compared to the correct solution
+             *
+             * @param integer $question_id Database ID of the question
+             * @param integer $active_id Active ID of the active user
+             * @param integer $pass Test pass
+             * @return string HTML code of the correct solution comparison
+             * @access public
+             */
+            /*
 	function getCorrectSolutionOutput($question_id, $active_id, $pass, ilTestQuestionRelatedObjectivesList $objectivesList = null)
-	{
+    {
+
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
@@ -788,7 +869,7 @@ class ilTestServiceGUI
 		$template->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 		$template->setVariable("BACKLINK_TEXT", "&lt;&lt; " . $this->lng->txt("back"));
 		return $template->get();
-	}
+	}*/
 
 	/**
 	 * Output of the pass overview for a test called by a test participant
@@ -1213,13 +1294,13 @@ class ilTestServiceGUI
 		$this->ctrl->saveParameter($this, "pass");
 		$pass = (int)$_GET['pass'];
 
-		$questionId = (int)$_GET['evaluation'];
+		$revision_key = $_GET['revision_key'];
 		
 		$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
 		$testSequence->loadFromDb();
 		$testSequence->loadQuestions();
 		
-		if( !$testSequence->questionExists($questionId) )
+		if( !$testSequence->questionExists($revision_key) )
 		{
 			ilObjTestGUI::accessViolationRedirect();
 		}
@@ -1272,7 +1353,7 @@ class ilTestServiceGUI
 			$this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print_hide_content.css", "Modules/Test"), "print");
 		}
 
-		$solution = $this->getCorrectSolutionOutput($questionId, $activeId, $pass, $objectivesList);
+		$solution = $this->getCorrectSolutionOutput($revision_key, $activeId, $pass, $objectivesList);
 
 		$this->tpl->setContent($solution);
 	}
