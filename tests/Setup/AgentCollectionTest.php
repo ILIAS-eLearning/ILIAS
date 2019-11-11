@@ -205,6 +205,59 @@ class AgentCollectionTest extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($conf3, $conf->getConfig("c3"));
 	}
 
+	public function testArrayToConfigTransformationAllowsUnsetFields() {
+		$ff = $this->createMock(FieldFactory::class);
+		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+
+		$c1 = $this->newAgent();
+		$c2 = $this->newAgent();
+		$c3 = $this->newAgent();
+
+		$conf1 = $this->newConfig();
+		$conf3 = $this->newConfig();
+
+		foreach([$c1,$c3] as $c) {
+			$c
+				->method("hasConfig")
+				->willReturn(true);
+		}
+		$c2
+			->method("hasConfig")
+			->willReturn(false);
+
+		$arr = ["c1" => ["c1_data"]];
+
+		$c1
+			->expects($this->once())
+			->method("getArrayToConfigTransformation")
+			->with()
+			->willReturn($refinery->custom()->transformation(function($v) use ($conf1) {
+				$this->assertEquals($v, ["c1_data"]);
+				return $conf1;
+			 }));
+		$c2
+			->expects($this->never())
+			->method("getArrayToConfigTransformation");
+		$c3
+			->expects($this->once())
+			->method("getArrayToConfigTransformation")
+			->with()
+			->willReturn($refinery->custom()->transformation(function($v) use ($conf3) {
+				$this->assertEquals($v, null);
+				return $conf3;
+			 }));
+
+		$col = new Setup\AgentCollection($ff, $refinery, ["c1"=>$c1,"c2"=>$c2,"c3"=>$c3]);
+		$trafo = $col->getArrayToConfigTransformation();
+		$conf = $trafo($arr);
+
+		$this->assertInstanceOf(Setup\ConfigCollection::class, $conf);
+		$this->assertEquals(["c1", "c3"], $conf->getKeys());
+		$this->assertEquals($conf1, $conf->getConfig("c1"));
+		$this->assertEquals($conf3, $conf->getConfig("c3"));
+	}
+
+
 	public function testGetInstallObjective() {
 		$ff = $this->createMock(FieldFactory::class);
 		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
