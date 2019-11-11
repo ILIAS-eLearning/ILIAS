@@ -224,7 +224,8 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			'toggleStickiness', 'cancelPost', 'savePost', 'saveTopLevelPost', 'createTopLevelPost', 'quoteTopLevelPost', 'quotePost', 'getQuotationHTMLAsynch',
 			'autosaveDraftAsync', 'autosaveThreadDraftAsync',
 			'saveAsDraft', 'editDraft', 'updateDraft', 'deliverDraftZipFile', 'deliverZipFile', 'cancelDraft',
-			'deleteThreadDrafts'
+			'deleteThreadDrafts',
+			'deletePosting', 'deletePostingDraft', 'revokeCensorship', 'addCensorship',
 		);
 
 		if (!in_array($cmd, $exclude_cmds)) {
@@ -1445,6 +1446,85 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 		$this->viewThreadObject();
 	}
 
+	private function deletePostingObject()
+	{
+		if (
+			!$this->objCurrentTopic->isClosed() && (
+				$this->is_moderator ||
+				($this->objCurrentPost->isOwner($this->user->getId()) && !$this->objCurrentPost->hasReplies())
+			) &&
+			!$this->user->isAnonymous()
+		) {
+			$this->ensureThreadBelongsToForum((int)$this->object->getId(), $this->objCurrentPost->getThread());
+
+			$oForumObjects = $this->getForumObjects();
+			/** @var $forumObj ilObjForum */
+			$forumObj = $oForumObjects['forumObj'];
+
+			$frm = new ilForum();
+			$frm->setForumId($forumObj->getId());
+			$frm->setForumRefId($forumObj->getRefId());
+			$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
+
+			// if complete thread was deleted ...
+			if ($dead_thr == $this->objCurrentTopic->getId()) {
+				$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
+				$topicData = $frm->getOneTopic();
+				ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
+				if ($topicData['top_num_threads'] > 0) {
+					$this->ctrl->redirect($this, 'showThreads');
+				} else {
+					$this->ctrl->redirect($this, 'createThread');
+				}
+			}
+			ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
+			$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+			$this->ctrl->redirect($this, 'viewThread');
+		}
+
+		$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+	}
+
+	private function deletePostingDraftObject()
+	{
+		$this->deleteSelectedDraft();
+	}
+
+	private function revokeCensorshipObject()
+	{
+		$this->handleCensorship(true);
+	}
+	
+	private function addCensorshipObject()
+	{
+		$this->handleCensorship();
+	}
+
+	private function handleCensorship($wasRevoked = false)
+	{
+		if (!$this->objCurrentTopic->isClosed() && $this->is_moderator) {
+			$message = $this->handleFormInput($_POST['formData']['cens_message']);
+			$this->ensureThreadBelongsToForum((int)$this->object->getId(), $this->objCurrentPost->getThread());
+
+			$oForumObjects = $this->getForumObjects();
+			/** @var $frm ilForum */
+			$frm = $oForumObjects['frm'];
+
+			if ($wasRevoked) {
+				$frm->postCensorship($message, $this->objCurrentPost->getId());
+				ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
+			} else {
+				$frm->postCensorship($message, $this->objCurrentPost->getId(), 1);
+				ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
+			}
+
+			$this->viewThreadObject();
+			return;
+		}
+
+		$this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+	}
+
 	public function askForPostActivationObject()
 	{
 		if (!$this->is_moderator) {
@@ -1552,16 +1632,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	{
 		/** @var $form_tpl ilTemplate */
 		$form_tpl = new ilTemplate('tpl.frm_delete_post_form.html', true, true, 'Modules/Forum');
-
 		$form_tpl->setVariable('ANKER', $this->objCurrentPost->getId());
 		$form_tpl->setVariable('SPACER', '<hr noshade="noshade" width="100%" size="1" align="center" />');
 		$form_tpl->setVariable('TXT_DELETE', $this->lng->txt('forums_info_delete_post'));
-		$this->ctrl->setParameter($this, 'action', 'ready_delete');
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-		$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$this->ctrl->setParameter($this, 'orderby', ilUtil::stripSlashes($_GET['orderby']));
+		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'viewThread'));
 		$this->ctrl->clearParameters($this);
+		$form_tpl->setVariable('CMD_CONFIRM', 'deletePosting');
+		$form_tpl->setVariable('CMD_CANCEL', 'viewThread');
 		$form_tpl->setVariable('CANCEL_BUTTON', $this->lng->txt('cancel'));
 		$form_tpl->setVariable('CONFIRM_BUTTON', $this->lng->txt('confirm'));
 
@@ -1571,29 +1651,28 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 	{
 		/** @var $form_tpl ilTemplate */
 		$form_tpl = new ilTemplate('tpl.frm_delete_post_form.html', true, true, 'Modules/Forum');
-		
 		$form_tpl->setVariable('SPACER', '<hr noshade="noshade" width="100%" size="1" align="center" />');
 		$form_tpl->setVariable('TXT_DELETE', $this->lng->txt('forums_info_delete_draft'));
-		$this->ctrl->setParameter($this, 'action', 'ready_delete_draft');
 		$this->ctrl->setParameter($this, 'draft_id', (int)$_GET['draft_id']);
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-		$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$this->ctrl->setParameter($this, 'orderby', ilUtil::stripSlashes($_GET['orderby']));
+		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'viewThread'));
 		$this->ctrl->clearParameters($this);
+		$form_tpl->setVariable('CMD_CONFIRM', 'deletePostingDraft');
+		$form_tpl->setVariable('CMD_CANCEL', 'viewThread');
 		$form_tpl->setVariable('CANCEL_BUTTON', $this->lng->txt('cancel'));
 		$form_tpl->setVariable('CONFIRM_BUTTON', $this->lng->txt('confirm'));
-		
+
 		return $form_tpl->get();
 	}
 
 	public function getActivationFormHTML()
 	{
 		$form_tpl = new ilTemplate('tpl.frm_activation_post_form.html', true, true, 'Modules/Forum');
-
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-		$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
+		$this->ctrl->setParameter($this, 'orderby', ilUtil::stripSlashes($_GET['orderby']));
 		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performPostActivation'));
 		$form_tpl->setVariable('SPACER', '<hr noshade="noshade" width="100%" size="1" align="center" />');
 		$form_tpl->setVariable('ANCHOR', $this->objCurrentPost->getId());
@@ -1614,11 +1693,10 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
 		$form_tpl->setVariable('ANCHOR', $this->objCurrentPost->getId());
 		$form_tpl->setVariable('SPACER', '<hr noshade="noshade" width="100%" size="1" align="center" />');
-		$this->ctrl->setParameter($this, 'action', 'ready_censor');
 		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
 		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-		$this->ctrl->setParameter($this, 'orderby', $_GET['orderby']);
-		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+		$this->ctrl->setParameter($this, 'orderby', ilUtil::stripSlashes($_GET['orderby']));
+		$form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'viewThread'));
 		$this->ctrl->clearParameters($this);
 		$form_tpl->setVariable('TXT_CENS_MESSAGE', $this->lng->txt('forums_the_post'));
 		$form_tpl->setVariable('TXT_CENS_COMMENT', $this->lng->txt('forums_censor_comment').':');
@@ -1629,12 +1707,16 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 			$form_tpl->setVariable('TXT_CENS', $this->lng->txt('forums_info_censor2_post'));
 			$form_tpl->setVariable('YES_BUTTON', $this->lng->txt('confirm'));
 			$form_tpl->setVariable('NO_BUTTON', $this->lng->txt('cancel'));
+			$form_tpl->setVariable('CMD_REVOKE_CENSORSHIP', 'revokeCensorship');
+			$form_tpl->setVariable('CMD_CANCEL_REVOKE_CENSORSHIP', 'viewThread');
 		}
 		else
 		{
 			$form_tpl->setVariable('TXT_CENS', $this->lng->txt('forums_info_censor_post'));
 			$form_tpl->setVariable('CANCEL_BUTTON', $this->lng->txt('cancel'));
 			$form_tpl->setVariable('CONFIRM_BUTTON', $this->lng->txt('confirm'));
+			$form_tpl->setVariable('CMD_ADD_CENSORSHIP', 'addCensorship');
+			$form_tpl->setVariable('CMD_CANCEL_ADD_CENSORSHIP', 'viewThread');
 		}
 
   		return $form_tpl->get(); 
@@ -2719,68 +2801,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 				ilUtil::sendInfo($this->lng->txt('forums_thread_marked'), true);
 			}
 
-			// delete post and its sub-posts
-			if ($action === 'ready_delete' && $_POST['confirm'] != '') {
-				if(!$this->objCurrentTopic->isClosed() &&
-				   ($this->is_moderator ||
-					   ($this->objCurrentPost->isOwner($this->user->getId()) && !$this->objCurrentPost->hasReplies())) &&
-				   $this->user->getId() != ANONYMOUS_USER_ID)
-				{
-					$this->ensureThreadBelongsToForum((int)$this->object->getId(), $this->objCurrentPost->getThread());
-
-					$frm = new ilForum();
-	
-					$frm->setForumId($forumObj->getId());
-					$frm->setForumRefId($forumObj->getRefId());
-	
-					$dead_thr = $frm->deletePost($this->objCurrentPost->getId());
-	
-					// if complete thread was deleted ...
-					if ($dead_thr == $this->objCurrentTopic->getId())
-					{
-	
-						$frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($forumObj->getId()));
-	
-						$topicData = $frm->getOneTopic();
-	
-						ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
-	
-						if ($topicData['top_num_threads'] > 0)
-						{
-							$this->ctrl->redirect($this, 'showThreads');
-						}
-						else
-						{
-							$this->ctrl->redirect($this, 'createThread');
-						}
-					}
-					ilUtil::sendInfo($this->lng->txt('forums_post_deleted'), true);
-					$this->ctrl->setParameter($this, 'thr_pk',  $this->objCurrentTopic->getId());
-					$this->ctrl->redirect($this, 'viewThread');
-				}
-			}
-
-			if ($action === 'ready_delete_draft' && $_POST['confirm'] != '') {
-				$this->deleteSelectedDraft();
-				ilUtil::sendInfo($this->lng->txt('forums_post_deleted'));
-			}
-
-			// form processing (censor)			
-			if (!$this->objCurrentTopic->isClosed() && $action === 'ready_censor') {
-				$cens_message = $this->handleFormInput($_POST['formData']['cens_message']);
-
-				if (($_POST['confirm'] != '' || $_POST['no_cs_change'] != '') && $action === 'ready_censor') {
-					$this->ensureThreadBelongsToForum((int)$this->object->getId(), $this->objCurrentPost->getThread());
-					$frm->postCensorship($cens_message, $this->objCurrentPost->getId(), 1);
-					ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
-				} elseif (($_POST['cancel'] != '' || $_POST['yes_cs_change'] != '') && $action === 'ready_censor') {
-					$this->ensureThreadBelongsToForum((int)$this->object->getId(), $this->objCurrentPost->getThread());
-					$frm->postCensorship($cens_message, $this->objCurrentPost->getId());
-					ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
-				}
-			}
-
-			// get complete tree of thread	
+			// get complete tree of thread
 			$first_node = $this->objCurrentTopic->getFirstPostNode();
 			$this->objCurrentTopic->setOrderField($orderField);
 			$subtree_nodes = $this->objCurrentTopic->getPostTree($first_node);
