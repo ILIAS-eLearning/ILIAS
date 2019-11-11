@@ -2,6 +2,7 @@
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+$executed_in_directory = getcwd();
 chdir(__DIR__."/..");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
@@ -22,7 +23,7 @@ require_once(__DIR__."/classes/class.ilSetupPasswordEncoderFactory.php");
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Tag;
 
-$c = build_container_for_setup();
+$c = build_container_for_setup($executed_in_directory);
 $app = $c["app"];
 $app->run();
 
@@ -36,7 +37,7 @@ function get_agent_name_by_class(string $class_name) : string {
 	return $class_name;
 }
 
-function build_container_for_setup() {
+function build_container_for_setup(string $executed_in_directory) {
 	$c = new \Pimple\Container;
 
 	$c["app"] =  function($c) {
@@ -171,8 +172,10 @@ function build_container_for_setup() {
 		return new \ilSetupLanguage("en");
 	};
 
-	$c["config_reader"] = function($c) {
-		return new \ILIAS\Setup\CLI\ConfigReader();
+	$c["config_reader"] = function($c) use ($executed_in_directory) {
+		return new \ILIAS\Setup\CLI\ConfigReader(
+			$executed_in_directory
+		);
 	};
 
 	$c["password_manager"] = function($c) {

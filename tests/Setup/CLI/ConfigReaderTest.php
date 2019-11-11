@@ -25,4 +25,36 @@ class ConfigReaderTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals($expected, $config);
 	}
+
+	public function testBaseDir() {
+		$filename = tempnam("/tmp", "ILIAS");
+		$expected = [
+			"some" => [
+				"nested" => "config"
+			]
+		];
+		file_put_contents($filename, json_encode($expected));
+
+		$obj = new Setup\CLI\ConfigReader("/tmp");
+
+		$config = $obj->readConfigFile(basename($filename));
+
+		$this->assertEquals($expected, $config);
+	}
+
+	public function testTotalDir() {
+		$filename = tempnam("/tmp", "ILIAS");
+		$expected = [
+			"some" => [
+				"nested" => "config"
+			]
+		];
+		file_put_contents($filename, json_encode($expected));
+
+		$obj = new Setup\CLI\ConfigReader("/foo");
+
+		$config = $obj->readConfigFile($filename);
+
+		$this->assertEquals($expected, $config);
+	}
 }
