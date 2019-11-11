@@ -137,8 +137,13 @@
 			moment.locale(config.locale);
 			window.setInterval(function() {
 				$('[data-livestamp]').each(function() {
-					var $this = $(this);
+					let $this = $(this);
 					$this.html(momentFromNowToTime($this.data('livestamp')));
+				});
+				$('[data-message-time]').each(function() {
+					let $this = $(this);
+					$this.attr("title", momentFromNowToTime($this.data('message-time')));
+					console.log("time set: " + momentFromNowToTime($this.data('message-time')));
 				});
 			}, 60000);
 		},
