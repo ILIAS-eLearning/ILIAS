@@ -1664,7 +1664,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
         $this->ctrl->setParameter($this, 'orderby',
             ilUtil::stripSlashes($this->httpRequest->getQueryParams()['orderby']));
-        $form_tpl->setVariable('FORM_ACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+        $form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'viewThread'));
         $this->ctrl->clearParameters($this);
         $form_tpl->setVariable('CMD_CONFIRM', 'deletePosting');
         $form_tpl->setVariable('CMD_CANCEL', 'viewThread');
@@ -1685,7 +1685,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
         $this->ctrl->setParameter($this, 'orderby',
             ilUtil::stripSlashes($this->httpRequest->getQueryParams()['orderby']));
-        $form_tpl->setVariable('FORM_ACTION', $this->ctrl->getLinkTarget($this, 'viewThread'));
+        $form_tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'viewThread'));
         $this->ctrl->clearParameters($this);
         $form_tpl->setVariable('CMD_CONFIRM', 'deletePostingDraft');
         $form_tpl->setVariable('CMD_CANCEL', 'viewThread');
