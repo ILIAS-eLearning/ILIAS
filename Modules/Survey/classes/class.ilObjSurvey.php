@@ -2769,10 +2769,6 @@ class ilObjSurvey extends ilObject
 				array($next_id, $this->getSurveyId(), $user_id, time())
 			);
 		}
-		if ($this->getInvitation() == self::INVITATION_ON)
-		{
-            $this->recommended_content_manager->addObjectRecommendation($user_id, $this->getRefId());
-		}
 	}
 
 /**

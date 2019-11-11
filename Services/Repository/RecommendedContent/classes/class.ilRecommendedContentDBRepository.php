@@ -164,6 +164,8 @@ class ilRecommendedContentDBRepository
      */
     protected function ifExistsObjectRecommendation(int $user_id, int $ref_id)
     {
+        $db = $this->db;
+
         $set = $db->queryF("SELECT * FROM rep_rec_content_obj ".
             " WHERE user_id = %s AND ref_id = %s",
             ["integer","integer"],

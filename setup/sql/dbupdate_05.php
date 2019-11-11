@@ -2796,3 +2796,21 @@ ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
 <?php
     $ilCtrlStructureReader->getStructure();
 ?>
+<#5584>
+<?php
+
+	$set = $ilDB->queryF("SELECT * FROM svy_svy ".
+		" WHERE invitation_mode = %s ",
+		["integer"],
+		[0]
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+        $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE ".
+			" survey_fi = %s",
+			["integer"],
+			[$rec["survey_id"]]
+		);
+	}
+
+?>
