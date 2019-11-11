@@ -17352,6 +17352,13 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .chat li {
   padding-bottom: 5px;
 }
+#onscreenchat-container .chat-window-wrapper .chat li.separator {
+  text-align: center;
+}
+#onscreenchat-container .chat-window-wrapper .chat li.separator p {
+  font-size: 1em;
+  font-weight: bold;
+}
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
 }
