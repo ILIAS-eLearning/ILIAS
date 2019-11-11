@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2018 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file (All entries)
 *
@@ -518,7 +518,7 @@ assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデ
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
 assessment#:#coordinates#:#座標
-assessment#:#copy_and_link_to_questionpool#:#コピーして問題集をへンク
+assessment#:#copy_and_link_to_questionpool#:#問題集へ追加
 assessment#:#copy_no_questions_selected#:#コピーするには問題のどれかひとつを選択してください。
 assessment#:#copy_questions_success#:#問題がコピーされました。
 assessment#:#correct_answers#:#正解:
@@ -579,6 +579,7 @@ assessment#:#end_tag#:#エンドタグ
 assessment#:#enlarge#:#拡大
 assessment#:#enter_anonymous_code#:#匿名アクセスコードを入力
 assessment#:#enter_enough_positive_points#:#最高点は0以上にしなけれなりません! 答案に対する妥当な点数を入力してください。
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
 assessment#:#enter_valid_values#:#値を入力してください。不正な文字はチエックされます!
 assessment#:#err_category_in_use#:#カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。
 assessment#:#err_duplicate_results#:#利用可能な結果を複数回使用しています。問題文章中にこれは使用できません。
@@ -1886,7 +1887,7 @@ awrn#:#awrn_use_osd#:#ポップアップオンラインユーザ
 awrn#:#awrn_use_osd_info#:#オンラインはだれ?'リスト上へ新しいオンラインユーザを示すポップアップを表示する。
 background_tasks#:#abort#:#強制終了
 background_tasks#:#background_tasks#:#バックグランドタスク
-background_tasks#:#background_tasks_running#:#実行中のタスク
+background_tasks#:#background_tasks_running#:#バックグランドタスク
 background_tasks#:#completed#:#完了しました
 background_tasks#:#proceed_job#:#続行
 background_tasks#:#remove#:#削除
@@ -2267,6 +2268,7 @@ buddysystem#:#buddy_bs_state_unlinked_a#:#リンクなし
 buddysystem#:#buddy_enable#:#‘コンタクト’を有効化
 buddysystem#:#buddy_enable_info#:#有効にするとコンタクト要求開始により互いにユーザがコンタクト許可されるようになります。さらに、コンタクトをする準備または許可するパーソナル設定があります。
 buddysystem#:#buddy_handle_contact_request#:#コンタクト要求
+buddysystem#:#buddy_noti_cr_profile_not_published#:#プロファイルが未公開です
 buddysystem#:#buddy_notification_contact_request#:#コンタクト要求
 buddysystem#:#buddy_notification_contact_request_ignore#:#要求を無視しました: 
 buddysystem#:#buddy_notification_contact_request_ignore_osd#:#要求を無視
@@ -3266,7 +3268,7 @@ common#:#enable#:#有効にする
 common#:#enable_anonymous_fora#:#ペンネームでの投稿を許可
 common#:#enable_anonymous_fora_desc#:#無効にすると掲示板における"ペンネームでの投稿"機能は以降機能しなくなります。
 common#:#enable_calendar#:#カレンダーを有効
-common#:#enable_course_group_notifications#:#グループとコースニュース用の毎日メール
+common#:#enable_course_group_notifications#:#グループとコースニュース用の日刊メール
 common#:#enable_course_group_notifications_desc#:#有効にすると受講者は毎日のニュースサマリーを購読できます。
 common#:#enable_custom_icons#:#カスタムアイコンを有効
 common#:#enable_custom_icons_info#:#シングルのカテゴリ、コースやグループ用のカスタムアイコンを定義できます。カテゴリ、コースやグループのプロパティセクションがイメージアップロードダイアログで提供されます。
@@ -3940,10 +3942,10 @@ common#:#movePage#:#移動
 common#:#msg_cancel#:#アクションキャンセル
 common#:#msg_clear_clipboard#:#クリップボードを消去しました
 common#:#msg_cloned#:#選択したオブジェクトのコピー
-common#:#msg_copy_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"ペースト"ボタンをクリックしてください。
+common#:#msg_copy_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"貼り付け"ボタンをクリックしてください。
 common#:#msg_copy_clipboard_container#:#選択されたオブジェクトがペーストされる希望の場所を選択して"継続"ボタンをクリックしてください。
 common#:#msg_copy_clipboard_source#:#選択されたオブジェクトがペーストされる希望の場所を選択して"次へ"ボタンをクリックしてください。
-common#:#msg_cut_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"ペースト"ボタンをクリックしてください。
+common#:#msg_cut_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"貼り付け"ボタンをクリックしてください。
 common#:#msg_cut_copied#:#選択したオブジェクトを移動しました。
 common#:#msg_deleted_export_files#:#エクスポートファイルを削除しました
 common#:#msg_deleted_role#:#役割削除
@@ -4607,8 +4609,8 @@ common#:#rolt#:#役割テンプレート
 common#:#rolt_added#:#役割テンプレート追加
 common#:#rolt_edit#:#役割 テンプレート編集
 common#:#rolt_new#:#新規役割 テンプレート
-common#:#row#:#列
-common#:#rows#:#列
+common#:#row#:#行
+common#:#rows#:#行
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#PDFファイル作成用の追加フォントです。"Helvetica" と "unifont"以外のフォントはILIASサーバ上にインストールする必要があります。
 common#:#rpc_pdf_generation#:#PDF－作成
@@ -4925,7 +4927,7 @@ common#:#ums_explanation_3#:#外部アカウントはILIASアカウントへマ�
 common#:#ums_explanation_4#:#どれもあなたのアカウントではない場合は'新規アカウントを作成'を押してください。
 common#:#unambiguousness#:#識別マーク
 common#:#uncheck_all#:#すべてをチェックしない
-common#:#unchecked#:#全てをチェック済
+common#:#unchecked#:#チェック済
 common#:#uninstall#:#アンインストール
 common#:#uninstalled#:#アンインストール済
 common#:#unknown#:#不明
@@ -6174,6 +6176,7 @@ content#:#mob_upload_dir_info#:#複数ファイルからサーバディレクト
 content#:#msg_entry_added#:#メニューエントリー追加
 content#:#msg_entry_removed#:#メニューエントリー削除
 content#:#msg_entry_updated#:#メニューエントリー更新
+content#:#msg_no_page_access#:#このページへのアクセス権がありません
 content#:#msg_page_no_public_access#:#コールしたページはパブリックエリアでは利用できません。登録済ユーザのみがこのページを表示できます。最初にログインしてこのページへアクセスしてください。
 content#:#msg_page_not_public#:#ページはパブリックではありません
 content#:#offline_mode_manager#:#オフライン利用
@@ -6399,7 +6402,7 @@ crs#:#crs_info_reg_direct#:#直接このコースへ参加できます。
 crs#:#crs_info_reg_password#:#コース管理者からコースのパスワードを入手するとこのコースへ参加できます。
 crs#:#crs_info_settings#:#コース情報
 crs#:#crs_info_start#:#以下に列記されている全てのコース科目を完了してください。<br />マークされている全てのオブジェクトを完了すると新規コース科目が使用可能になります。
-crs#:#crs_intro_course_group_notification_for#:#日刊ニュースダイジェスト:%s
+crs#:#crs_intro_course_group_notification_for#:#通知を有効にしているコースとグループのニュースです。
 crs#:#crs_intro_course_group_notification_index#:#次のコースとグループには%1$sから%2$sの期間内にニュースがあります:
 crs#:#crs_item_presetting_info#:#選択すると学習者へ標準の編集時間を表示します。
 crs#:#crs_join_request#:#送る
@@ -6892,7 +6895,7 @@ dateplaner#:#cal_booking_confirmation_link#:#予定へのリンク
 dateplaner#:#cal_booking_confirmation_subject#:#予定 "%s" が予約されました
 dateplaner#:#cal_booking_confirmation_user#:#ユーザへのオリジナルメールのコピーです。
 dateplaner#:#cal_booking_confirmed#:#予定を正しく予約しました。
-dateplaner#:#cal_booking_failed_info#:#この予約はもれています。他の予約を選択してください。
+dateplaner#:#cal_booking_failed_info#:#この予約は満席です。他の予約を選択してください。
 dateplaner#:#cal_cache#:#カレンダー キャッシュ
 dateplaner#:#cal_cache_disabled#:#無効
 dateplaner#:#cal_cache_enabled#:#設定
@@ -6955,7 +6958,7 @@ dateplaner#:#cal_ch_grp_add_tbl#:#新規会議時間グループを作成
 dateplaner#:#cal_ch_grp_delete_sure#:#本当に次の会議時間グループを削除しますか?
 dateplaner#:#cal_ch_grp_header#:#会議時間グループ
 dateplaner#:#cal_ch_grp_multiple#:#ユーザ当たりの予約
-dateplaner#:#cal_ch_grp_multiple_info#:#ユーザ当たりの最大予約数を定義できます。
+dateplaner#:#cal_ch_grp_multiple_info#:#ユーザごとの最大予約数を定義できます。
 dateplaner#:#cal_ch_grp_no_assignment#:#-- 割り当てがありません --
 dateplaner#:#cal_ch_grp_selection#:#会議時間グループの割り当て
 dateplaner#:#cal_ch_grp_update_tbl#:#会議時間グループを編集
@@ -6971,7 +6974,7 @@ dateplaner#:#cal_ch_personal_book#:#パーソナル予約
 dateplaner#:#cal_ch_personal_ch#:#パーソナル会議時間
 dateplaner#:#cal_ch_reject_booking#:#予約をキャンセル
 dateplaner#:#cal_ch_target_object#:#リポジトリオブジェクト
-dateplaner#:#cal_ch_target_object_info#:#既知のリポジトリオブジェクトに対する予定登録を制限します。
+dateplaner#:#cal_ch_target_object_info#:#会議時間はコース／グループコンテンツの右の方のブロック内へ表示されます。特定のコースまたはブループへ会議時間を表示制限するには、申し立てのオブジェクトのRef-IＤを入力してください。複数のRef-IDを入力するにはコンマで区切ります。それとは関係なく会議時間はe-ポートフォリオ内へ表示されます。
 dateplaner#:#cal_ch_unknown_repository_object#:#そのオブジェクトref-idは有効ではありません。
 dateplaner#:#cal_ch_unknown_user#:#そのログインユーザはいません
 dateplaner#:#cal_ch_user_assignment_failed_info#:#最大予約数を超えているため次のユーザを日程へ割り当てできませんでした。
@@ -6997,11 +7000,11 @@ dateplaner#:#cal_daily#:#毎日
 dateplaner#:#cal_date_booked#:#予約済み
 dateplaner#:#cal_date_format_info#:#日付入力形式を選択してください。
 dateplaner#:#cal_day_end#:#一日の終わり時間
-dateplaner#:#cal_day_of_month#:#月の日
-dateplaner#:#cal_day_overview#:#日のあらまし
+dateplaner#:#cal_day_of_month#:#月の特定の日
+dateplaner#:#cal_day_overview#:#一日の概要
 dateplaner#:#cal_day_s#:#日
 dateplaner#:#cal_day_selection#:#日を選択
-dateplaner#:#cal_day_start#:#一日の開始時間
+dateplaner#:#cal_day_start#:#開始日
 dateplaner#:#cal_day_week_view#:#日・週間表示設定
 dateplaner#:#cal_deadline#:#期限
 dateplaner#:#cal_declined#:#拒否
@@ -7170,6 +7173,7 @@ dateplaner#:#cal_user_notification_info#:#選択されたユーザはメール�
 dateplaner#:#cal_user_settings#:#カレンダー設定
 dateplaner#:#cal_user_time_format#:#時間形式
 dateplaner#:#cal_user_timezone#:#タイムゾーン
+dateplaner#:#cal_usr_info#:#アポイントインフォメーション
 dateplaner#:#cal_usr_show_weeks#:#週の列を表示
 dateplaner#:#cal_usr_show_weeks_info#:#カレンダーサイドブロックの週列を有効にする。
 dateplaner#:#cal_webcal_sync#:#外部カレンダ同期
@@ -7398,7 +7402,7 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダード�
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
 dcl#:#dcl_no_warnings#:#警告無しにインポートを完了しました。
-dcl#:#dcl_not_checked#:#チェックされていません。
+dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
 dcl#:#dcl_notification_activate_dcl#:#データ収集用の通知を有効にする
 dcl#:#dcl_notification_activated#:#通知が有効化されました
@@ -7907,7 +7911,7 @@ exc#:#exc_msg_public_submission#:#すべての応募締め切り後に公開さ�
 exc#:#exc_msg_saved_grades#:#グレードとコメントが保存されました。
 exc#:#exc_msg_sure_to_deassign_participant#:#本当に全ての演習の課題から受講者を削除しますか？ これによりリソースの全ての手動設定も削除されます。
 exc#:#exc_multi_feedb_info#:#この画面では1個のファイルに複数フィードバックをアップロードできます。最初に"ZIP構造をダウンロード"をクリックしてZIPファイルを保存してローカルコンピュータ上に展開します。フィードバックファイルを対象のユーザディレクトリへ置きます。全ディレクトリが1個のZIPファイルへ再度圧縮されます。ローカルファイルシステムのファイルを参照して以下のフォームの"マルチ-フィードバックファイル"を選択します。その後"アップロード"をクリックします。確認画面にファイル一覧が表示されます。ファイル名には特殊文字を使わないでください。
-exc#:#exc_multi_feedback#:#大量受験者用の評価
+exc#:#exc_multi_feedback#:#大量受験者の評価
 exc#:#exc_multi_feedback_file#:#マルチ-フィードバックファイル
 exc#:#exc_multi_feedback_files#:#マルチ-フィードバックファイル
 exc#:#exc_needs_deadline#:#この機能は課題締切り一つでのみしか動作しません。
@@ -8294,7 +8298,7 @@ forum#:#forums_new_thread#:#新しいスレッド
 forum#:#forums_no_posts_available#:#このスレッドにはまだ未投稿かモデレータが最初の投稿をアクティブ解除しています。
 forum#:#forums_notification_disabled#:#通知しない
 forum#:#forums_notification_enabled#:#通知する
-forum#:#forums_notification_intro#:#このメールはILIASシステム%sから自動的に送信されたものです。
+forum#:#forums_notification_intro#:#これは自動送信メールです。ILIASシステム %s, %s
 forum#:#forums_notification_show_frm#:#掲示板:%sを表示
 forum#:#forums_notification_show_post#:#投稿:%sを表示
 forum#:#forums_post_activation_mail#:#次の投稿がアクティブにならないと掲示板のユーザは表示されません。モデレータ役なので投稿を有効にする役割としてemailを受信します。
@@ -8346,6 +8350,7 @@ forum#:#frm_moderators_detached_role_successfully#:#モデレータの役割が�
 forum#:#frm_moderators_not_exist_yet#:#モデレータを選んでください。
 forum#:#frm_moderators_select_at_least_one#:#モデレータを一人は選んでください。
 forum#:#frm_moderators_select_one#:#ユーザを一人選んでください。
+forum#:#frm_move_invalid_file_type#:#スレッド "%s" に未サポートのファイルタイプが添付されています。ファイルを削除するかシステム管理者へコンタクトしてこのファイルタイプをファイルタイプホワイトリストへ追加してもらってください
 forum#:#frm_my_posting_drafts#:#自分の投稿ドラフト
 forum#:#frm_noti_message#:#メッセージ:
 forum#:#frm_noti_new_post#:#新しい投稿が掲示板"%1$s"内に作成されました。
@@ -8497,6 +8502,7 @@ grp#:#grp_info_settings#:#グループ情報
 grp#:#grp_information#:#重要情報
 grp#:#grp_information_info#:#この情報はinfoページ上で新規登録用に表示されます。
 grp#:#grp_join_request#:#送る
+grp#:#grp_lim_assigned#:#関連のグループ"%s"へすでに割当てられています。
 grp#:#grp_mail_admission_new_bod#:#グループ "%s"へ登録された事をご案内します。
 grp#:#grp_mail_admission_new_sub#:#グループ "%s"の登録
 grp#:#grp_mail_all#:#全ての参加者用
@@ -8951,6 +8957,7 @@ logging#:#log_error_folder#:#Path
 logging#:#log_error_mail#:#メール受信者
 logging#:#log_error_message#:#エラー %s が発生しました。
 logging#:#log_error_message_send_mail#:#メールをここへ送って下さい<a href="mailto:%s?subject=code: %s">%s</a>
+logging#:#log_error_path_not_configured_or_wrong#:#エラーへのPat (error_path) が未設定またはアクセスできません。
 logging#:#log_error_settings#:#エラーロギング設定
 logging#:#logs_settings#:#ロギング設定
 lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティブにする。
@@ -12279,6 +12286,7 @@ skmg#:#skmg_delete_profiles#:#本当にこの次のプロファイルを削除�
 skmg#:#skmg_edit_level#:#レベル編集
 skmg#:#skmg_edit_profile#:#プロファイル編集
 skmg#:#skmg_edit_scat#:#能力カテゴリ編集
+skmg#:#skmg_edit_sctp#:#テンプレートカテゴリを編集
 skmg#:#skmg_edit_skll#:#能力設定を編集
 skmg#:#skmg_edit_sktr#:#能力テンプレートレファレンスを編集
 skmg#:#skmg_enable_skmg#:#能力管理を稼動
@@ -13613,8 +13621,8 @@ tos#:#tos_status_desc#:#アクティブにするとユーザはILIASログイン
 tos#:#tos_status_enable#:#有効
 tos#:#tos_sure_reset_tos#:#本当にシステム内の全ユーザのサービス使用許諾をリセットしますか?SOAP webサービス、chatサービス、クローンjobを使用しているユーザアカウントに対しても適用される事になります。
 tos#:#tos_tos_settings#:#設定
-trac#:#create_date_max#:#最新登録
-trac#:#create_date_min#:#初期登録
+trac#:#create_date_max#:#一番遅い登録
+trac#:#create_date_min#:#一番早い登録
 trac#:#info_valid_request#:#1ユーザによる二つのリクエスト間の最大有効時間
 trac#:#last_login#:#前回ログイン
 trac#:#meta_typical_learning_time#:#標準学習時間
@@ -14242,11 +14250,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###04 07 2019 new variable
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###04 07 2019 new variable
-dateplaner#:#cal_usr_info#:#Appointment Information###04 07 2019 new variable
-content#:#msg_no_page_access#:#You do not have the permission to access this page.###04 07 2019 new variable
-skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
-forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
-assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
