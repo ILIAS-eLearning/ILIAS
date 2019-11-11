@@ -1,51 +1,80 @@
-* [API](#api)
-* [General Documentation](#general-documentation)
+**Component** Documentation
 
+* [Public Services](#public-services)
+* [Internal Documentation](#internal-documentation)
 
-# API
+# Public Services
 
-Currently the survey does not provide any API for other components.
+This component does currently not offer any public services.
 
-# General Documentation
+# Internal Documentation
 
 This section documents the general concepts and structures of the Survey Module. These are internal implementations which SHOULD not be used outside of this module unless mentioned in the API section of this README.
 
-* [Survey](#exercise)
-* [Assignment](#assignment)
-* [Assignment Types](#assignment-types)
-* [Member](#member)
-* [Team](#team)
-* [Assignment Member State](#assignment-member-state)
-* [Submission](#submission)
-* [Peer Review](#peer-review)
-* [Criteria Catalog](#criteria-catalog)
+* [Overview](#overview)
+* [Survey Question Pool](#survey-question-pool)
+* [Questions](#questions)
+* [Question Type](#question-type)
+* [Question Category](#question-category)
+* [Phrases](#phrases)
+* [Variables](#variables)
+* [Survey](#survey)
+* [Survey Questions](#survey-questions)
+* [Question Block](#question-block)
+* [Constraints](#constraints)
+* [Question Constraint](#question-constraint)
+* [Survey Run](#survey-run)
+* [Answer](#answer)
+
+## Overview
+
+* A **Survey Question Pool** enables authoring of questions. Questions of pools can be reused in Surveys.
+* A **Question** has a certain **Question Type**. Current Types are: Singel Choice, Multiple Choice, Metric, Matrix and Test.
+* A **Question Category** is a general answer option of a question.
+* A **Phrase** is a predefined set of answer options, which can be re-used during question editing.
+* A **Variable** is an answer option of a concrete question (referencing a category and a question).
+* A **Survey** contains a number of **Survey Questions** that are asked to participants.
+* A **Question Block** groups multiple questions on one page. 
+* A **Constraint** uses a relation and scale value (e.g. >1) to define a conditional presentation of questions.
+* A **Question Constraint** imposes a constraint on a question of the survey.
+* A **Survey Run** represents the current state of a user progress during a survey (access to pages, finished state)
+* An **Answer** represents an answer given by a user during a Survey Run.
 
 
-# Survey Question Pool (Modules/SurveyQuestionPool)
-* Main question editing/storing
-* Storing of phrases
+## Survey Question Pool
+* **Code**: `Modules/SurveyQuestinoPool`
+* **DB Tables**: `svy_qpl`
 
-## Question Types
-* stored in table svy_qtype
-* Can we get rid of legacy plugin architecture?
-* Can we get of the table completely?
+### Properties
+
+* **Property**: ... (`table.column`)
+
+### Business Rules
+
+...
+
 
 ## Questions
-* Code: `SurveyQuestionPool/Exercise/AssMemberState`
+* **Code**: `Modules/SurveyQuestinoPool/Questions`
+* **DB Tables**: `svy_question`
 
-* class SurveyQuestion (parent for specialized question classes)
-* table svy_question (general question properties)
-  * questiontype_fi: question type -> svy_qtype
-  * obj_fi: survey or survey pool object -> object_data
-  * owner_fi: author user -> usr_data and object_data
-  * complete: 1 or 0 depending if the user saved any data
-  * original_id: 
-  * ...
-* Problem: If we do not save any answer and press "back to de Survey" or we leave this page without save.
-  In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and
-  "tstamp" with value 0  (Look for services/cron which delete this rows)
-
+### Properties
+* **Question Type**:  (`svy_question.questiontype_fi`)
+* **Pool or Survey**: Object ID of parent Pool or Survey (`svy_question.obj_fi`)
+* **Author**: Object ID of author user (`svy_question.owner_fi`)
+* : 1 or 0 depending if the user saved any data (`svy_question.complete`)
+* : (`svy_question.original_id`)
+* ...
   
+### Issues
+* If we do not save any answer and press "back to de Survey" or we leave this page without save. In the "svy_question" we have the records "title" and "questiontext" with NULL values and also "complete" and "tstamp" with value 0  (Look for services/cron which delete this rows).
+
+## Question Type
+* **Code**: `Modules/SurveyQuestinoPool/Questions`
+* **DB Tables**: `svy_qtype`
+
+Can we get rid of legacy plugin architecture?
+Can we get of the table completely?
 
 ### Single Choice Question
 ...
@@ -63,7 +92,12 @@ This section documents the general concepts and structures of the Survey Module.
 ...
 
 
-## Question "Categories" (General Answer Options)
+## Question Category
+A question category is an answer option of a question. There are predefined answer options, and custom options which are created during question editing.
+* **Code**: `Modules/SurveyQuestinoPool/Categories`
+* **DB Tables**: `svy_category`
+
+[WIP]
 * Categories are reused by all questions, depending on the category title (answer option text)
 * If a question is edited and a category title (answer option) already exists, it
   will be assigned to the question
@@ -81,8 +115,30 @@ This section documents the general concepts and structures of the Survey Module.
   * defaultvalue: is set to "1" for categories predefined by the system? or for user defined phrases
   * neutral:
   * ..
+  
+## Phrases
+* **Code**: `Modules/SurveyQuestinoPool/Phrases`
+* **DB Tables**: `svy_phrase`,`svy_phrase_cat`
 
-## "Variables" (Answer Options of Concrete Questions)
+[WIP]
+* Reusable sets of answer options (only for single choice and matrix questions) 
+* table svy_phrase
+    * title (of the answer option set/phrase)
+    * defaultvalue...
+* table svy_phrase_cat (Answer options of phrase)
+  * phrase_fi -> phrase in svy_phrase
+  * category_fi -> general answer option in svy_category
+  * sequence: order of the options in the question presentation
+  * other:
+  * scale: always NULL?, editing provides only disabled input fields
+* problem: why scale field when always NULL?
+
+
+## Variables
+* **Code**: 
+* **DB Tables**: `svy_variable`
+
+[WIP]
 * Answer options for each question
 * Hold Scale Values
 * table svy_variable
@@ -96,96 +152,86 @@ This section documents the general concepts and structures of the Survey Module.
 * problem: value1/value2 values seem to be redundant or belong to other tables (e.g. metric)
 
 
-## "Phrases"
-* Reusable sets of answer options (only for single choice and matrix questions) 
-* table svy_phrase
-  * title (of the answer option set/phrase)
-  * defaultvalue...
-  
-## Phrase Categories (Answer options of phrase)
-* table svy_phrase_cat
-  * phrase_fi -> phrase in svy_phrase
-  * category_fi -> general answer option in svy_category
-  * sequence: order of the options in the question presentation
-  * other:
-  * scale: always NULL?, editing provides only disabled input fields
-* problem: why scale field when always NULL?
-
-
 ## Question Editing
 * Question GUI classes 
   * Save process: save() -> saveForm() -> importEditFormValues() -> question object saveToDb()
   
 
-# Survey (Modules/Survey)
-* Represents Survey Repository Object
-* Manages question of survey
-* Stores given answers
-* ...
-
 ## Survey
+* **Code**: `Modules/Survey`
+* **DB Tables**: `svy_svy`
+
+[WIP]
 * table svy_svy (general settings of the survey)
   * obj_fi: general object -> object_data
   * ...
 
-## Questions in a survey
+## Survey Questions
+* **Code**:
+* **DB Tables**: `svy_svy_qst`,`svy_qst_oblig`
+
+[WIP]
 * table svy_svy_qst
   * survey_fi: survey -> svy_svy
   * question_fi: question -> svy_question
   * sequence: ordering of the questions in the survey (increments +1 normally through question blocks)
   * ...
-  
-## Compulsory questions in a survey
-* Stores compulsory (obligatory/mandatory) state of each question in a survey
-* problem: Why is this not a simple property in svy_svy_qst?
-* table svy_qst_oblig
+* table svy_qst_oblig (compulsory (obligatory/mandatory) property)
   * survey_fi: survey -> svy_svy
   * question_fi: question -> svy_question
   * obligatory: 1 for true
+* problem: Why is this not a simple property in svy_svy_qst?
   
-## Question Block / Page
-* All questions of a block will be presented on one page
+## Question Block
+* **Code**:
+* **DB Tables**: `svy_qblk`, `svy_qblk_qst`
+
+[WIP]
 * table svy_qblk
   * title: block title
   * show_questiontext: enables to show/hide question texts for questions of the block
   * show_blocktitle: show/hide title of the block in presentation
-
-## Question Block Questions
-* Questions of a question block
-* table svy_qblk_qst
+* table svy_qblk_qst (Questions of a question block)
   * survey_fi: survey -> svy_svy
   * question_fi: question -> svy_question (could have pointed to svy_svy_qst instead, but does not do)
   * question_block_fi: block -> svy_qblk
   
-## Rules/Routing
-* General Idea: Conditional presentation of questions or question blocks (pages) depending on former answers
+## Constraints
+* **Code**:
+* **DB Tables**: `svy_relation`, `svy_constraint`
 
-## Rule Relation
-* <, <=, =>, ...
-* table svy_relation (fixed set of relations, should be moved from table to class constants)
+General Idea: Conditional presentation of questions or question blocks (pages) depending on former answers. Constraints can be defined using single choice, multiple choice and metric questions.
+
+[WIP]
+* table svy_relation (<, <=, =>, ..., fixed set of relations, should be moved from table to class constants)
   * longname, e.g. less
   * shortname, e.g. <
-* problem: why storing this in a table, its static?
-
-## Rule / Condition Definition
-* Rules can be defined using single choice, multiple choice and metric questions
+  * problem: why storing this in a table, its static?
 * table svy_constraint
   * question_fi: "source" question -> svy_question
   * relation_fi: relation -> svy_relation
   * value: scale value - 1 !?
   * conjunction: or/and (but why on this level?)
 
-## Rules / Condition used on a Question
-* "If condition is met, show the question"
+## Question Constraint
+* **Code**:
+* **DB Tables**: `svy_qst_constraint`
+
+If the constraint is met, show the question.
+
+[WIP]
 * table svy_qst_constraint 
   * survey_fi: survey -> svy_svy
   * question_fi: "target" question -> svy_question
   * constraint_fi: constraint definition -> svy_constraint
 * problem: it seems that svy_constraint and svy_qst_constraint could be merged into one table
 
-## Survey Run ("Finished")
-* Stores progress of user working through a survey
-* table svy_finished
+## Survey Run
+* **Code**:
+* **DB Tables**: `svy_finished`,`svy_times`
+
+[WIP]
+* table svy_finished (progress of user)
   * finished_id: autoincrement and pk of this table
   * survey_fi: survey -> svy_svy
   * user_fi: user -> usr_data (and object_data)
@@ -193,16 +239,17 @@ This section documents the general concepts and structures of the Survey Module.
   * state: 1 if finished? 0 otherwise?
   * lastpage:
   * appr_id:
-  
-## Survey Run Access Times
-* Access times to survey pages during a run. Back and forward navigation lead to multiple entries per run for a page
-* table svy_times
+* table svy_times (Access times to survey pages during a run. Back and forward navigation lead to multiple entries per run for a page)
   * finished_fi: survey run -> svy_finished
   * first_question: first question id of page/block -> svy_question (does not seem to point to svy_svy_qst)
   * entered_page: timestamp when page has been rendered
   * left_page: timestamp when answers of page have been saved
   
-## Given Answers
+## Answer
+* **Code**:
+* **DB Tables**: `svy_answer`
+
+[WIP]
 * Given answers by user during test run, mc question answers may lead to multiple entries for one question in a run
 * table svy_answer
   * active_fi: survey run -> svy_finished
