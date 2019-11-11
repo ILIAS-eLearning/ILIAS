@@ -991,17 +991,19 @@
 			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
 				items.push(
 					$("<li></li>").append(
-						$(template).find("li.system").html()
-					)
+							$(template).find("li.system").html()
+						)
+						.addClass(position)
 				);
 			} else {
 				if (renderSeparator) {
 					items.push(
 						$("<li></li>").append(
-							$(template).find("li.system").find(".iosOnScreenChatBodyMsg").html(
-								momentFormatDate(messageObject.timestamp, 'LL')
+								$(template).find("li.system").find(".iosOnScreenChatBodyMsg").html(
+									momentFormatDate(messageObject.timestamp, 'LL')
+								)
 							)
-						)
+							.addClass("separator")
 					);
 				}
 
