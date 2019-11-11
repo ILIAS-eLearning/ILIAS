@@ -16,21 +16,38 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConfigReader {
 	/**
+	 * @var string
+	 */
+	protected $base_dir;
+
+	public function __construct($base_dir = null) {
+		$this->base_dir = $base_dir ?? getcwd();
+	}
+
+	/**
 	 * TODO: We could use the "give me a transformation and I'll give you your
 	 *       result" pattern from the input paper here.
 	 */
 	public function readConfigFile(string $name) : array {
+		$name = $this->getRealFilename($name);
 		if (!file_exists($name) || !is_readable($name)) {
 			throw new \InvalidArgumentException(
-				"Config-file $name does not exist or is not readable."
+				"Config-file '$name' does not exist or is not readable."
 			);
 		}
 		$json = json_decode(file_get_contents($name), JSON_OBJECT_AS_ARRAY);
 		if (!is_array($json)) {
 			throw new \InvalidArgumentException(
-				"Could not find JSON-array in $name."
+				"Could not find JSON-array in '$name'."
 			);
 		}
 		return $json;
+	}
+
+	protected function getRealFilename(string $name) : string {
+		if (in_array($name[0], ["/", "\\"])) {
+			return $name;
+		}
+		return $this->base_dir."/".$name;
 	}
 }
