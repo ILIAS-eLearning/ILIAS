@@ -928,9 +928,11 @@
 				return;
 			}
 
+			let messageDate = new Date();
+			messageDate.setTime(messageObject.timestamp);
+
 			template = template.replace(/\[\[username\]\]/g, username);
 			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
-			// TODO: Use latest "livestamp" for each "communication path"
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
@@ -938,17 +940,47 @@
 			template = template.replace(/\[\[position\]\]/g, position);
 
 			let $firstHeader = chatBody.find("li.header").first(),
+				$messages = chatBody.find("li.message"),
 				firstHeaderUsrId = $firstHeader.data("header-usr-id"),
+				renderSeparator = false,
 				renderHeader = true,
-				insertAfterFirstHeader = false;
-			
+				insertAfterFirstHeader = false,
+				insertBeforeFirstHeader = false;
+
 			if (prepend === true) {
-				if (firstHeaderUsrId !== undefined && parseInt(firstHeaderUsrId) === parseInt(messageObject.userId)) {
-					renderHeader = false;
-					insertAfterFirstHeader = true;
+				let firstMessageMessageDate = new Date();
+				firstMessageMessageDate.setTime($messages.first().find(".iosOnScreenChatBodyMsg").attr("data-message-time"));
+
+				if (
+					messageDate.getDay() !== firstMessageMessageDate.getDay() ||
+					messageDate.getMonth() !== firstMessageMessageDate.getMonth() ||
+					messageDate.getYear() !== firstMessageMessageDate.getYear()
+				) {
+					renderSeparator = true;
+				} else {
+					insertBeforeFirstHeader = true;
+					if (firstHeaderUsrId !== undefined && parseInt(firstHeaderUsrId) === parseInt(messageObject.userId)) {
+						renderHeader = false;
+						insertAfterFirstHeader = true;
+						insertBeforeFirstHeader = false;
+					}
 				}
  			} else {
+				let lastMessageDate = new Date();
+				lastMessageDate.setTime($messages.last().find(".iosOnScreenChatBodyMsg").attr("data-message-time"));
+
 				if (
+					0 === $messages.size() || (
+						messageDate.getDay() !== lastMessageDate.getDay() ||
+						messageDate.getMonth() !== lastMessageDate.getMonth() ||
+						messageDate.getYear() !== lastMessageDate.getYear()
+					)
+				) {
+					renderSeparator = true;
+				}
+
+				if (
+					!renderSeparator &&
 					getModule().lastUserByConvMap.hasOwnProperty(messageObject.conversationId) &&
 					messageObject.userId == getModule().lastUserByConvMap[messageObject.conversationId]
 				) {
@@ -959,10 +991,20 @@
 			if (messageObject.hasOwnProperty("isSystem") && messageObject.isSystem) {
 				items.push(
 					$("<li></li>").append(
-						(template).find("li.system.with-header").html()
+						$(template).find("li.system").html()
 					)
 				);
 			} else {
+				if (renderSeparator) {
+					items.push(
+						$("<li></li>").append(
+							$(template).find("li.system").find(".iosOnScreenChatBodyMsg").html(
+								momentFormatDate(messageObject.timestamp, 'LL')
+							)
+						)
+					);
+				}
+
 				if (renderHeader) {
 					items.push(
 						$("<li></li>").append(
@@ -975,8 +1017,9 @@
 
 				items.push(
 					$("<li></li>").append(
-						$(template).find("li.message").html()
-					)
+							$(template).find("li.message").html()
+						)
+						.addClass("message")
 				);
 			}
 
@@ -988,7 +1031,9 @@
 				let item = $template.addClass("clearfix");
 
 				if (prepend === true) {
-					if (insertAfterFirstHeader) {
+					if (insertBeforeFirstHeader) {
+						item.insertBefore($firstHeader);
+					} else if (insertAfterFirstHeader) {
 						item.insertAfter($firstHeader);
 					} else {
 						chatBody.prepend(item);
