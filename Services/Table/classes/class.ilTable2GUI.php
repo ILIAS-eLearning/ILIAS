@@ -2199,8 +2199,6 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 	*/
 	public function resetFilter()
 	{
-		$lng = $this->lng;
-
 		$filter = $this->getFilterItems();
 		$opt_filter = $this->getFilterItems(true);
 
@@ -2208,7 +2206,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}
@@ -2216,7 +2214,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}
