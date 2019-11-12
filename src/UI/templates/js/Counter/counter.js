@@ -42,7 +42,10 @@ il.UI = il.UI || {};
 				$counter = $object_containing_counter.find("."+_cls_counter);
 			}
 			console.assert($counter.length > 0, "Passed jQuery Object does not contain a counter");
-			return generateCounterObject($counter);
+
+			//Make sure *this* in generateCounterObject is properly bound.
+			var CounterObjectConstructor = generateCounterObject.bind({});
+			return CounterObjectConstructor($counter);
 		};
 
 		/**
