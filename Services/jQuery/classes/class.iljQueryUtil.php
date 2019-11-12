@@ -46,7 +46,7 @@ class iljQueryUtil {
 			$a_tpl = $DIC["tpl"];
 		}
 
-		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 0);
 	}
 
 
