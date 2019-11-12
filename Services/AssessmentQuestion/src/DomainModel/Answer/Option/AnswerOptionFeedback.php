@@ -4,13 +4,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer\Option;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
-use ILIAS\UI\Implementation\Component\Link\Standard;
 use JsonSerializable;
-use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqQuestionFeedbackEditorGUI;
-use ilFormPropertyGUI;
 use stdClass;
 
 /**

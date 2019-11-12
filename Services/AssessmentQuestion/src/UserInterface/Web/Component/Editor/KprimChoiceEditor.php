@@ -314,7 +314,7 @@ class KprimChoiceEditor extends AbstractEditor {
     public static function isComplete(Question $question): bool
     {
         /** @var KprimChoiceEditorConfiguration $config */
-        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        $config = $question->getPlayConfiguration()->getEditorConfiguration();
         
         if (empty($config->getLabelFalse()) ||
             empty($config->getLabelTrue())) 
@@ -324,7 +324,7 @@ class KprimChoiceEditor extends AbstractEditor {
         
         foreach ($question->getAnswerOptions()->getOptions() as $option) {
             /** @var ImageAndTextDisplayDefinition $option_config */
-            $option_config = $option->getScoringDefinition();
+            $option_config = $option->getDisplayDefinition();
             
             if (empty($option_config->getText()))
             {

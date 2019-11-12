@@ -3,14 +3,11 @@
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
 use ILIAS\Data\UUID\Factory as UUID;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 
 class entityIdBuilder {
 
     public function new() : AssessmentEntityId
     {
-        global $DIC;
-
         $uuid = new UUID();
         return new AssessmentEntityId($uuid->uuid4AsString());
     }

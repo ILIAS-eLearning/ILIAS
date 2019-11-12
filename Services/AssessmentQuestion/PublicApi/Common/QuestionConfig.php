@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Common;
 
 use ilAdvancedSelectionListGUI;
-use ILIAS\UI\Component\Button\Primary;
-use ILIAS\UI\Component\Button\Standard;
 
 /**
  * Class QuestionConfig

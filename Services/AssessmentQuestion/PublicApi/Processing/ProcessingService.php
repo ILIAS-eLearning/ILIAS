@@ -3,10 +3,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Processing;
 
-use ilAsqQuestionProcessingGUI;
-use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingUserAnswer;
 
 /**
  * Class ServiceFactory

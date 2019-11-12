@@ -2,10 +2,9 @@
 declare(strict_types=1);
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
 /**
  * Class MultipleChoiceScoring
@@ -89,13 +88,11 @@ class MultipleChoiceScoring extends AbstractScoring
             /** @var MultipleChoiceScoringDefinition $option_config */
             $option_config = $option->getScoringDefinition();
 
-            //TODO does not work for single choice questions!
-           /* if (empty($option_config->getPointsSelected()) ||
+            if (empty($option_config->getPointsSelected()) &&
                 empty($option_config->getPointsUnselected()))
             {
                 return false;
             }
-           */
         }
 
         return true;

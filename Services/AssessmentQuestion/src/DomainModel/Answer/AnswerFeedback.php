@@ -3,15 +3,7 @@
 namespace ILIAS\AssessmentQuestion\DomainModel\Answer;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\UI\Implementation\Component\Link\Standard;
-use ilObjAdvancedEditing;
 use JsonSerializable;
-use ilAsqAnswerOptionFeedbackPageGUI;
-use ilAsqGenericFeedbackPageGUI;
-use ilAsqQuestionAuthoringGUI;
-use ilAsqQuestionFeedbackEditorGUI;
-use ilFormPropertyGUI;
 
 /**
  * Abstract Class FeedbackDefinition

@@ -5,10 +5,8 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
-use ILIAS\Services\AssessmentQuestion\PublicApi\AdditionalConfigSection;
-use ilPropertyFormGUI;
-use ilFormSectionHeaderGUI;
 use ilFormPropertyGUI;
+use ilFormSectionHeaderGUI;
 
 /**
  * Class AbstractAdditionalConfigSection
@@ -47,6 +45,6 @@ class AdditionalConfigSectionDto
 
     public function appendSectionInput(ilFormPropertyGUI $section_input) : void
     {
-        $sectionInputs[] = $section_input;
+        $this->sectionInputs[] = $section_input;
     }
 }

@@ -149,7 +149,7 @@ class FormulaEditor extends AbstractEditor {
     public static function isComplete(Question $question): bool
     {
         /** @var FormulaEditorConfiguration $config */
-        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        $config = $question->getPlayConfiguration()->getEditorConfiguration();
         
         if (false) {
             return false;

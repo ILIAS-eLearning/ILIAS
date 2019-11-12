@@ -6,7 +6,6 @@ namespace ILIAS\AssessmentQuestion\DomainModel\Command;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandContract;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandHandlerContract;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 
 /**

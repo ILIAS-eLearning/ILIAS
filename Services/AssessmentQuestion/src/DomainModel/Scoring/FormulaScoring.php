@@ -2,18 +2,17 @@
 
 namespace ILIAS\AssessmentQuestion\DomainModel\Scoring;
 
-use ilDateTime;
-use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
-use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
+use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
-use ilTextInputGUI;
+use EvalMath;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
-use EvalMath;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ilTextInputGUI;
 
 /**
  * Class FormulaScoring

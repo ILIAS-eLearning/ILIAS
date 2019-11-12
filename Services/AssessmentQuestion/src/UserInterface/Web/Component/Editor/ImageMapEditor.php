@@ -240,7 +240,7 @@ class ImageMapEditor extends AbstractEditor {
     public static function isComplete(Question $question): bool
     {
         /** @var ImageMapEditorConfiguration $config */
-        $config = $question->getPlayConfiguration()->getScoringConfiguration();
+        $config = $question->getPlayConfiguration()->getEditorConfiguration();
         
         if (empty($config->getImage())) {
             return false;
@@ -248,7 +248,7 @@ class ImageMapEditor extends AbstractEditor {
         
         foreach ($question->getAnswerOptions()->getOptions() as $option) {
             /** @var ImageMapEditorDisplayDefinition $option_config */
-            $option_config = $option->getScoringDefinition();
+            $option_config = $option->getDisplayDefinition();
             
             if (empty($option_config->getType()) ||
                 empty($option_config->getCoordinates()))
