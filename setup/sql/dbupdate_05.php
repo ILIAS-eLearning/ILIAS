@@ -22,7 +22,8 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote($template,'text');
 $result = $ilDB->query($query);
-$rol_id = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id = array_shift($row);
 
 $op_ids = [];
 $query = "SELECT ops_id FROM rbac_operations"
@@ -48,7 +49,8 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote($template,'text');
 $result = $ilDB->query($query);
-$rol_id = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id = array_shift($row);
 
 ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', [$op_id], ROLE_FOLDER_ID);
 ?>
@@ -243,7 +245,8 @@ foreach($tpl_perms as $template=>$perms){
 		." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 		." AND title = " .$ilDB->quote($template,'text');
 	$result = $ilDB->query($query);
-	$rol_id = array_shift($ilDB->fetchAssoc($result));
+	$row = $ilDB->fetchAssoc($result);
+	$rol_id = array_shift($row);
 
 	$op_ids = [];
 	$query = "SELECT ops_id FROM rbac_operations"
@@ -601,13 +604,15 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote('il_lso_member','text');
 $result = $ilDB->query($query);
-$rol_id_member = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id_member = array_shift($row);
 
 $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote('il_lso_admin','text');
 $result = $ilDB->query($query);
-$rol_id_admin = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id_admin = array_shift($row);
 
 $op_ids = [];
 $query = "SELECT operation, ops_id FROM rbac_operations";
@@ -1382,7 +1387,7 @@ $q = "SELECT prg_settings.obj_id FROM prg_settings"
 	."	LEFT JOIN object_data child ON child_ref.obj_id = child.obj_id"
 	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.obj_id IS NULL";
 $res = $ilDB->query($q);
-$to_adjsut = [];
+$to_adjust = [];
 while($rec = $ilDB->fetchAssoc($res)) {
 		$to_adjust[] = (int)$rec['obj_id'];
 }
@@ -1394,7 +1399,7 @@ $q = "SELECT prg_settings.obj_id FROM prg_settings"
 	."	JOIN object_data child ON child_ref.obj_id = child.obj_id"
 	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.type = 'prg'";
 $res = $ilDB->query($q);
-$to_adjsut = [];
+$to_adjust = [];
 while($rec = $ilDB->fetchAssoc($res)) {
 		$to_adjust[] = (int)$rec['obj_id'];
 }
