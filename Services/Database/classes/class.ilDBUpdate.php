@@ -562,7 +562,7 @@ class ilDBUpdate {
 	public function getHotfixCurrentVersion() {
 		$this->readHotfixInfo();
 
-		return $this->hotfix_current_version;
+		return $this->hotfix_current_version ?? null;
 	}
 
 
@@ -586,7 +586,7 @@ class ilDBUpdate {
 	public function getHotfixFileVersion() {
 		$this->readHotfixInfo();
 
-		return $this->hotfix_file_version;
+		return $this->hotfix_file_version ?? null;
 	}
 
 
@@ -611,7 +611,7 @@ class ilDBUpdate {
 	 * Get status of hotfix file
 	 */
 	public function readHotfixInfo($a_force = false) {
-		if ($this->hotfix_info_read && !$a_force) {
+		if (isset($this->hotfix_info_read) && $this->hotfix_info_read && !$a_force) {
 			return;
 		}
 		$this->hotfix_setting = new ilSetting("common", true);
@@ -636,7 +636,7 @@ class ilDBUpdate {
 	 */
 	public function hotfixAvailable() {
 		$this->readHotfixInfo();
-		if ($this->hotfix_file_version > $this->hotfix_current_version) {
+		if (isset($this->hotfix_file_version) && $this->hotfix_file_version > $this->hotfix_current_version) {
 			return true;
 		}
 

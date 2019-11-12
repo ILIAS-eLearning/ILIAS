@@ -1476,7 +1476,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface {
 		// check attributes
 		$ilDBPdoFieldDefinition = $this->field_definition;
 
-		$type = ($a_attributes["type"] != "") ? $a_attributes["type"] : $def["type"];
+		$type = ($a_attributes["type"] ?? "" != "") ? $a_attributes["type"] : $def["type"];
 		foreach ($def as $k => $v) {
 			if ($k != "type" && !$ilDBPdoFieldDefinition->isAllowedAttribute($k, $type)) {
 				unset($def[$k]);
