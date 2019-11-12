@@ -111,8 +111,8 @@ class QuestionData extends AbstractValueObject {
 	
 	public function isComplete() : bool {
 	    return !empty($this->title) &&
-	           //!empty($this->working_time) &&
-	           //!empty($this->author) &&
+	           !empty($this->working_time) &&
+	           !empty($this->author) &&
 	           !empty($this->question_text);
 	}
 

@@ -186,7 +186,7 @@ class ilQtiImportService
 
 
 
-        $question_data = QuestionData::create($question_title, $question_text, $question_author);
+        $question_data = QuestionData::create($question_title, $question_text, $question_author, '', 10);
         $play_configuration = QuestionPlayConfiguration::create($editor, $scoring);
 
         $feedback = Feedback::create($DIC->language()->txt('asq_label_right'), $DIC->language()->txt('asq_label_wrong'),Feedback::OPT_ANSWER_OPTION_FEEDBACK_MODE_ALL,[]);
@@ -194,13 +194,13 @@ class ilQtiImportService
         $question_dto->setData($question_data);
 
         if(is_null($legacy_data)) {
-            print_r($il_qti_item);exit;
+           // print_r($il_qti_item);exit;
         }
 
         $question_dto->setLegacyData($legacy_data);
 
         if(!is_object($answer_options)) {
-            print_r($il_qti_item);exit;
+           // print_r($il_qti_item);exit;
         }
 
         $question_dto->setAnswerOptions($answer_options);
