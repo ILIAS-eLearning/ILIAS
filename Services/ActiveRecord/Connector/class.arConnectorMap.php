@@ -29,7 +29,7 @@ class arConnectorMap {
 	 * @return arConnector
 	 */
 	public static function get(ActiveRecord $ar) {
-		if (self::$map[get_class($ar)] instanceof arConnector) {
+		if (isset(self::$map[get_class($ar)]) && self::$map[get_class($ar)] instanceof arConnector) {
 			return self::$map[get_class($ar)];
 		}
 
