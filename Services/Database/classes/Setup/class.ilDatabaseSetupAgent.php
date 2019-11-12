@@ -60,7 +60,7 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 			"Complete objectives from Services\Database",
 			false,
 			new ilDatabaseConfigStoredObjective($config),
-			new \ilDatabasePopulatedObjective($config)
+			new \ilDatabaseUpdatedObjective($config)
 		);
 	}
 

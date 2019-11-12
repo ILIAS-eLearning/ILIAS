@@ -259,7 +259,7 @@ class ilDBUpdate {
 				} //else
 			} //if
 		} //for
-		if ($q != "") {
+		if (isset($q) && $q != "") {
 			echo "incomplete_statement: " . $q . "<br>";
 
 			return false;
@@ -343,7 +343,7 @@ class ilDBUpdate {
 
 				$this->initStep($i);
 
-				if ($this->applyUpdateNr($i, $inifile) == false) {
+				if ($this->applyUpdateNr($i) == false) {
 					$msg[] = array("msg" => "update_error: " . $this->error,
 					               "nr"  => $i,);
 					$this->updateMsg = $msg;
