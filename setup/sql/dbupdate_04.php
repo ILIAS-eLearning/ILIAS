@@ -23840,6 +23840,10 @@ if($ilDB->tableExists('certificate_template')) {
 		try {
 			$directory = $web_path . $relativePath;
 
+			if (!is_dir($directory)) {
+				continue;
+			}
+
 			$GLOBALS['ilLog']->info(sprintf(
 				"Started migration for object type directory: %s",
 				$directory
