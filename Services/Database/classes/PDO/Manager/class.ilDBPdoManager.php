@@ -112,7 +112,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 				$result[] = $sqn;
 			}
 		}
-		if ($this->db_instance->options['portability']) {
+		if ($this->db_instance->options['portability'] ?? null) {
 			$result = array_map(($this->db_instance->options['field_case'] == CASE_LOWER ? 'strtolower' : 'strtoupper'), $result);
 		}
 
@@ -407,7 +407,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 	public function listTableIndexes($table) {
 		$key_name = 'Key_name';
 		$non_unique = 'Non_unique';
-		if ($this->db_instance->options['portability']) {
+		if ($this->db_instance->options['portability'] ?? null) {
 			if ($this->db_instance->options['field_case'] == CASE_LOWER) {
 				$key_name = strtolower($key_name);
 				$non_unique = strtolower($non_unique);
@@ -431,7 +431,7 @@ class ilDBPdoManager implements ilDBManager, ilDBPdoManagerInterface {
 			}
 		}
 
-		if ($this->db_instance->options['portability']) {
+		if ($this->db_instance->options['portability'] ?? null) {
 			$result = array_change_key_case($result, $this->db_instance->options['field_case']);
 		}
 
