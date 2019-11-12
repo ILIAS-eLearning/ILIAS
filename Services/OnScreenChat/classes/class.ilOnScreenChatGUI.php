@@ -220,7 +220,7 @@ class ilOnScreenChatGUI
                 'username' => $DIC->user()->getLogin(),
             );
 
-            $DIC->language()->toJS(array(
+            $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
                 'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
@@ -234,8 +234,10 @@ class ilOnScreenChatGUI
                 'chat_osc_self_rej_msgs',
                 'chat_osc_search_modal_info',
                 'chat_osc_head_grp_x_persons',
-                'osc_noti_title'
-            ), $page);
+                'osc_noti_title',
+                'today',
+                'yesterday',
+            ], $page);
 
             iljQueryUtil::initjQuery($page);
             iljQueryUtil::initjQueryUI($page);
