@@ -90,6 +90,7 @@ abstract class BaseCommand extends Command {
 			}
 			catch (UnachievableException $e) {
 				$goals->markAsFailed($current);
+				$io->error($e->getMessage());
 				$io->failedLastObjective($current->getLabel());
 			}
 			$goals->next();
