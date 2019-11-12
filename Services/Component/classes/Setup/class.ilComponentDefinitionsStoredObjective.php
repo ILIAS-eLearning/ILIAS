@@ -43,11 +43,9 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 	 */
 	public function getPreconditions(Setup\Environment $environment): array
 	{
-		return []; //remove
-
 		$config = $environment->getConfigFor('database');
 		return [
-			new \ilDatabasePopulatedObjective($config)
+			new \ilDatabaseUpdatedObjective($config)
 		];
 	}
 
