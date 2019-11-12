@@ -1,4 +1,4 @@
-(function($, $scope, $chat){
+(function($, $scope, $chat, dateTimeFormatter){
 	'use strict';
 
 	var TYPE_CONSTANT	= 'osc';
@@ -135,15 +135,14 @@
 			getModule().config = config;
 
 			moment.locale(config.locale);
-			window.setInterval(function() {
-				$('[data-livestamp]').each(function() {
+			window.setInterval(() => {
+				$('[data-livestamp]').each(() => {
 					let $this = $(this);
-					$this.html(momentFromNowToTime($this.data('livestamp')));
+					$this.html(dateTimeFormatter.fromNowToTime($this.data("livestamp")));
 				});
-				$('[data-message-time]').each(function() {
+				$('[data-message-time]').each(() => {
 					let $this = $(this);
-					$this.attr("title", momentFromNowToTime($this.data('message-time')));
-					console.log("time set: " + momentFromNowToTime($this.data('message-time')));
+					$this.attr("title", dateTimeFormatter.format($this.data("message-time", 'LT')));
 				});
 			}, 60000);
 		},
@@ -937,8 +936,9 @@
 			messageDate.setTime(messageObject.timestamp);
 
 			template = template.replace(/\[\[username\]\]/g, username);
-			template = template.replace(/\[\[time\]\]/g, momentFromNowToTime(messageObject.timestamp));
 			template = template.replace(/\[\[time_raw\]\]/g, messageObject.timestamp);
+			template = template.replace(/\[\[time\]\]/g, dateTimeFormatter.fromNowToTime(messageObject.timestamp));
+			template = template.replace(/\[\[time_only\]\]/g, dateTimeFormatter.format(messageObject.timestamp, 'LT'));
 			template = template.replace(/\[\[message]\]/g, getModule().getMessageFormatter().format(message));
 			template = template.replace(/\[\[avatar\]\]/g, getProfileImage(messageObject.userId));
 			template = template.replace(/\[\[userId\]\]/g, messageObject.userId);
@@ -1005,7 +1005,7 @@
 					items.push(
 						$("<li></li>").append(
 								$(template).find("li.system").find(".iosOnScreenChatBodyMsg").html(
-									momentFormatDate(messageObject.timestamp, 'LL')
+									dateTimeFormatter.formatDate(messageObject.timestamp)
 								)
 							)
 							.addClass("separator")
@@ -1051,6 +1051,11 @@
 			});
 
 			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
+			chatBody.find('[data-toggle="tooltip"]').tooltip({
+				placement: 'left',
+				container: 'body',
+				viewport: { selector: 'body', padding: 10 }
+			});
 
 			if(prepend === false) {
 				getModule().scrollBottom(chatWindow);
@@ -1440,4 +1445,4 @@
 		};
 	};
 
-})(jQuery, window, window.il.Chat);
+})(jQuery, window, window.il.Chat, window.il.ChatDateTimeFormatter);
