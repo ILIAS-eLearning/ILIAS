@@ -3,6 +3,10 @@
 
 	scope.ChatDateTimeFormatter = {};
 
+	scope.ChatDateTimeFormatter.setLocale = function (locale) {
+		moment.locale(locale);
+	};
+
 	scope.ChatDateTimeFormatter.fromNowToTime = function (time) {
 		let currentTime = new Date().getTime();
 
@@ -39,5 +43,5 @@
 				return "[" + fromNow + "]";
 			}
 		});
-	}
+	};
 })(jQuery, moment, window.il);

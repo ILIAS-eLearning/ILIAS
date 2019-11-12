@@ -133,18 +133,7 @@
 
 		setConfig: function(config) {
 			getModule().config = config;
-
-			moment.locale(config.locale);
-			window.setInterval(() => {
-				$('[data-livestamp]').each(() => {
-					let $this = $(this);
-					$this.html(dateTimeFormatter.fromNowToTime($this.data("livestamp")));
-				});
-				$('[data-message-time]').each(() => {
-					let $this = $(this);
-					$this.attr("title", dateTimeFormatter.format($this.data("message-time", 'LT')));
-				});
-			}, 60000);
+			dateTimeFormatter.setLocale(config.locale);
 		},
 
 		init: function() {
@@ -190,18 +179,29 @@
 				}
 			});
 
-			setInterval(function(){
+			setInterval(() => {
 				$.ajax(
 					getConfig().verifyLoginURL
-				).done(function(result) {
+				).done(result => {
 					result = JSON.parse(result);
-					if(!result.loggedIn) {
+					if (!result.loggedIn) {
 						window.location = './login.php';
 					}
-				}).fail(function(e){
+				}).fail(e => {
 					window.location = './login.php';
 				});
-			}, 300000); // 5 minutes
+			}, 300000);
+
+			setInterval(() => {
+				$('[data-livestamp]').each(() => {
+					let $this = $(this);
+					$this.html(dateTimeFormatter.fromNowToTime($this.data("livestamp")));
+				});
+				$('[data-message-time]').each(() => {
+					let $this = $(this);
+					$this.attr("title", dateTimeFormatter.format($this.data("message-time", "LT")));
+				});
+			}, 60000);
 
 			$chat.init(getConfig().userId, getConfig().username, getModule().onLogin);
 			$chat.receiveMessage(getModule().receiveMessage);
