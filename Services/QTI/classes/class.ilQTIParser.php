@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use ILIAS\AssessmentQuestion\Application\Import\ilQti\ilQtiImportService;
+
 include_once("./Services/Xml/classes/class.ilSaxParser.php");
 include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/class.ilAssQuestionTypeList.php';
 
@@ -1335,14 +1337,37 @@ class ilQTIParser extends ilSaxParser
 				}
 				
 				include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-				assQuestion::_includeClass($qt);
+
+				global $DIC;
+				$question_uid = $DIC->assessment()->entityIdBuilder()->new();
+				$asq_auhthoring_question_service = $DIC->assessment()->questionAuthoring($this->tst_id,$DIC->user()->getId())->question($question_uid);
+                $asq_auhthoring_question_service->importIlQtiQuestion($this->item);
+
+
+                $questionService = $DIC->assessment()->questionAuthoring($this->tst_id,$DIC->user()->getId())->question($question_uid);
+
+                /* @var ilTestFixedQuestionSetConfig $questionSetConfig */
+                $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance(new ilObjTest($this->tst_id, false))->getQuestionSetConfig();
+                $questionSetConfig->registerCreatedQuestion($questionService->getQuestionDto());
+
+
+                //print_r($this->item); exit;
+
+
+              /*assQuestion::_includeClass($qt);
 				$question = new $qt();
 				$fbt = str_replace('ass', 'ilAss', $qt).'Feedback';
 				$question->feedbackOBJ = new $fbt(
 						$question, $GLOBALS['ilCtrl'], $GLOBALS['ilDB'], $GLOBALS['lng']
 				);
+
+
+
 				$question->fromXML($this->item, $this->qpl_id, $this->tst_id, $this->tst_object, $this->question_counter, $this->import_mapping);
-				$this->numImportedItems++;
+				$this->numImportedItems++;*/
+
+
+
 				break;
 			case "material":
 				if ($this->material)

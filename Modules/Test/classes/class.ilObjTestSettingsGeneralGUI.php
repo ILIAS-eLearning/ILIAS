@@ -273,7 +273,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 		
 		// return to form when online is to be set, but no questions are configured
 		$currentQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
-		if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete($currentQuestionSetConfig) )
+
+        //TODO check the status at the asq question servcie
+        /*
+		 if( $form->getItemByPostVar('online')->getChecked() && !$this->testOBJ->isComplete($currentQuestionSetConfig) )
 		{
 			$form->getItemByPostVar('online')->setAlert(
 					$this->lng->txt("cannot_switch_to_online_no_questions_andor_no_mark_steps")
@@ -281,7 +284,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 
 			ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
 			return $this->showFormCmd($form);
-		}
+		}*/
 		
 		// avoid settings conflict "ctm" and "do not show question titles"
 		

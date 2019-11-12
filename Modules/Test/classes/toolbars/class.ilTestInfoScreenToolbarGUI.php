@@ -536,7 +536,9 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 			}
 		}
 
-		if( !$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete( $this->getTestOBJ()->getQuestionSetConfig() ) )
+		//TODO check the complete at the asq service!
+		/*if( !$this->getTestOBJ()->getOfflineStatus() && $this->getTestOBJ()->isComplete( $this->getTestOBJ()->getQuestionSetConfig() ) )*/
+        if( !$this->getTestOBJ()->getOfflineStatus())
 		{
 			if ((!$this->getTestOBJ()->getFixedParticipants() || $online_access) && $this->access->checkAccess("read", "", $this->getTestOBJ()->getRefId()))
 			{
