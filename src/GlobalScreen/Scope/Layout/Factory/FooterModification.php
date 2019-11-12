@@ -51,7 +51,7 @@ class FooterModification extends AbstractLayoutModification implements LayoutMod
      */
     public function returnTypeAllowsNull() : bool
     {
-        return false;
+        return true;
     }
 }
 
