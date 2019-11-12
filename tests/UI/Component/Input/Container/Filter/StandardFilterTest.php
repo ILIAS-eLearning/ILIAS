@@ -46,7 +46,7 @@ class WithNoUIFactories extends NoUIFactory
 
     public function legacy($content)
     {
-        return $this->legacy_factory;
+        return $this->legacy_factory->legacy($content);
     }
 
     public function listing()
@@ -100,7 +100,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 
     protected function buildLegacyFactory()
     {
-        return new ILIAS\UI\Implementation\Component\Legacy\Legacy("");
+        return new ILIAS\UI\Implementation\Component\Legacy\Factory(new SignalGenerator());
     }
 
     protected function buildListingFactory()

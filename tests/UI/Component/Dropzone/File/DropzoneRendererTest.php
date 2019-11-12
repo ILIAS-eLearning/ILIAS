@@ -19,12 +19,18 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
     const WRAPPER = "ILIAS\\UI\\Component\\Dropzone\\File\\Wrapper";
 
 
+
+    public function setUp(): void
+    {
+        $sig_gen = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+        $this->legacy_factory = new I\Component\Legacy\Factory($sig_gen);
+    }
+
     public function test_implements_factory_interface()
     {
         $f = $this->dropzone();
-
         $this->assertInstanceOf(self::STANDARD, $f->standard(''));
-        $this->assertInstanceOf(self::WRAPPER, $f->wrapper('', new I\Component\Legacy\Legacy('')));
+        $this->assertInstanceOf(self::WRAPPER, $f->wrapper('', $this->legacy_factory->legacy('')));
     }
 
 
@@ -80,8 +86,8 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
         $expectedHtml = '<div id="id_1" class="il-dropzone-base"><div class="il-dropzone wrapper" data-upload-id="id_1"><p>Pretty smart, isn\'t it?</p><p>Yeah, this is really smart.</p></div><div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_2"><div class="modal-dialog" role="document" data-replace-marker="component"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">upload</h4></div><div class="modal-body"><div class="il-upload-file-list" ><div class="container-fluid il-upload-file-items"><div class="error-messages" style="display: none;"><div class="alert alert-danger" role="alert"><!-- General error messages are inserted here with javascript --></div></div><!-- rows from templates are cloned here with javascript --></div><!-- Templates --><div class="container-fluid" ><!-- hidden Template --><div class="il-upload-file-item il-upload-file-item-template clearfix row standard hidden"><div class="col-xs-12 col-no-padding"><!-- Display Filename--><span class="file-info filename">FILENAME<!-- File name is inserted with javascript here --></span><!-- Display Filesize--><span class="file-info filesize">100KB<!-- File size is inserted with javascript here --></span><!-- Dropdown with actions--><span class="pull-right remove"><!--<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button><ul class="dropdown-menu"><li><button class="btn btn-link" aria-label="delete_file" data-action="">remove</button></li></ul></div>--><button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button></span><!-- Progress Bar--><div class="progress" style="margin: 10px 0; display: none;"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0"aria-valuemin="0"aria-valuemax="100"></div></div><!-- Error Messages --><div class="file-error-message alert alert-danger" role="alert" style="display: none;"><!-- Error message for file is inserted with javascript here --></div><div class="file-success-message alert alert-success" role="alert" style="display: none;"><!-- Success message for file is inserted with javascript here --></div></div></div><!-- li from templates are cloned here with javascript --></div></div></div><div class="modal-footer"><button class="btn btn-default btn-primary ilSubmitInactive disabled" data-action="">upload</button><a class="btn btn-default" data-dismiss="modal" aria-label="Close">cancel</a></div></div></div></div></div>';
 
         // start test
-        $exampleTextQuestion = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Pretty smart, isn't it?</p>");
-        $exampleTextAnswer = new \ILIAS\UI\Implementation\Component\Legacy\Legacy("<p>Yeah, this is really smart.</p>");
+        $exampleTextQuestion = $this->legacy_factory->legacy("<p>Pretty smart, isn't it?</p>");
+        $exampleTextAnswer = $this->legacy_factory->legacy("<p>Yeah, this is really smart.</p>");
         $wrapperDropzone = $this->dropzone()->wrapper('', [
             $exampleTextQuestion,
             $exampleTextAnswer,
@@ -160,37 +166,37 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
 
     public function getUIFactory()
     {
-        return new \ILIAS\UI\Implementation\Factory(
-            $this->createMock(C\Counter\Factory::class),
-            new I\Component\Button\Factory(),
-            $this->createMock(C\Listing\Factory::class),
-            $this->createMock(C\Image\Factory::class),
-            $this->createMock(C\Panel\Factory::class),
-            new I\Component\Modal\Factory(
-                new I\Component\SignalGenerator()
-            ),
-            $this->createMock(C\Dropzone\Factory::class),
-            $this->createMock(C\Popover\Factory::class),
-            $this->createMock(C\Divider\Factory::class),
-            new I\Component\Link\Factory(),
-            new I\Component\Dropdown\Factory(),
-            $this->createMock(C\Item\Factory::class),
-            $this->createMock(C\ViewControl\Factory::class),
-            $this->createMock(C\Chart\Factory::class),
-            $this->createMock(C\Input\Factory::class),
-            $this->createMock(C\Table\Factory::class),
-            $this->createMock(C\MessageBox\Factory::class),
-            $this->createMock(C\Card\Factory::class),
-            $this->createMock(C\Layout\Factory::class),
-            $this->createMock(C\MainControls\Factory::class),
-            $this->createMock(C\Tree\Factory::class),
-            $this->createMock(C\Menu\Factory::class),
-            new I\Component\Symbol\Factory(
-                new I\Component\Symbol\Icon\Factory(),
-                new I\Component\Symbol\Glyph\Factory()
-            ),
-            $this->createMock(C\Symbol\Factory::class)
-        );
+
+        $factory = new class extends NoUIFactory {
+            public function button()
+            {
+                return new I\Component\Button\Factory(new I\Component\SignalGenerator());
+            }
+            public function modal()
+            {
+                return new I\Component\Modal\Factory(new I\Component\SignalGenerator());
+            }
+            public function link()
+            {
+                return new I\Component\Link\Factory(new I\Component\SignalGenerator());
+            }
+            public function dropdown()
+            {
+                return new I\Component\Dropdown\Factory(new I\Component\SignalGenerator());
+            }
+            public function symbol(): C\Symbol\Factory
+            {
+               return new I\Component\Symbol\Factory(
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory()
+                );
+            }
+            public function legacy($content)
+            {
+               return new I\Component\Legacy\Legacy($content, new I\Component\SignalGenerator());
+            }
+        };
+        return $factory;
     }
 
     public function normalizeHTML($html)

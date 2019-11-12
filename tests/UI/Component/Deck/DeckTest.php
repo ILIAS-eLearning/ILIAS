@@ -13,38 +13,23 @@ use \ILIAS\UI\Implementation as I;
  */
 class DeckTest extends ILIAS_UI_TestBase
 {
-
     /**
      * @return \ILIAS\UI\Implementation\Factory
      */
     public function getFactory()
     {
-        return new \ILIAS\UI\Implementation\Factory(
-            $this->createMock(C\Counter\Factory::class),
-            $this->createMock(C\Button\Factory::class),
-            $this->createMock(C\Listing\Factory::class),
-            $this->createMock(C\Image\Factory::class),
-            $this->createMock(C\Panel\Factory::class),
-            $this->createMock(C\Modal\Factory::class),
-            $this->createMock(C\Dropzone\Factory::class),
-            $this->createMock(C\Popover\Factory::class),
-            $this->createMock(C\Divider\Factory::class),
-            $this->createMock(C\Link\Factory::class),
-            $this->createMock(C\Dropdown\Factory::class),
-            $this->createMock(C\Item\Factory::class),
-            $this->createMock(C\ViewControl\Factory::class),
-            $this->createMock(C\Chart\Factory::class),
-            $this->createMock(C\Input\Factory::class),
-            $this->createMock(C\Table\Factory::class),
-            $this->createMock(C\MessageBox\Factory::class),
-            new I\Component\Card\Factory(),
-            $this->createMock(C\Layout\Factory::class),
-            $this->createMock(C\MainControls\Factory::class),
-            $this->createMock(C\Tree\Factory::class),
-            $this->createMock(C\Menu\Factory::class),
-            $this->createMock(C\Symbol\Factory::class),
-            $this->createMock(C\Symbol\Factory::class)
-        );
+        $factory = new class($mocks) extends NoUIFactory {
+            public function card()
+            {
+                return new I\Component\Card\Factory();
+            }
+            public function deck(array $cards)
+            {
+                return new I\Component\Deck\Deck($cards, I\Component\Deck\Deck::SIZE_S);
+            }
+
+        };
+        return $factory;
     }
 
     public function test_implements_factory_interface()

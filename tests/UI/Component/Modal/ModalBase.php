@@ -21,7 +21,8 @@ abstract class ModalBase extends ILIAS_UI_TestBase
             }
             public function legacy($content)
             {
-                return new I\Component\Legacy\Legacy($content);
+                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
+                return $f->legacy($content);
             }
         };
         return $factory;

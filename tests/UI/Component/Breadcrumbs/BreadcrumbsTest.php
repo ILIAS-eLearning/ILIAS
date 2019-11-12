@@ -15,43 +15,23 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
 {
     public function getFactory()
     {
-        return new \ILIAS\UI\Implementation\Factory(
-            $this->createMock(C\Counter\Factory::class),
-            $this->createMock(C\Button\Factory::class),
-            $this->createMock(C\Listing\Factory::class),
-            $this->createMock(C\Image\Factory::class),
-            $this->createMock(C\Panel\Factory::class),
-            $this->createMock(C\Modal\Factory::class),
-            $this->createMock(C\Dropzone\Factory::class),
-            $this->createMock(C\Popover\Factory::class),
-            $this->createMock(C\Divider\Factory::class),
-            $this->createMock(C\Link\Factory::class),
-            $this->createMock(C\Dropdown\Factory::class),
-            $this->createMock(C\Item\Factory::class),
-            $this->createMock(C\ViewControl\Factory::class),
-            $this->createMock(C\Chart\Factory::class),
-            $this->createMock(C\Input\Factory::class),
-            $this->createMock(C\Table\Factory::class),
-            $this->createMock(C\MessageBox\Factory::class),
-            $this->createMock(C\Card\Factory::class),
-            $this->createMock(C\Layout\Factory::class),
-            $this->createMock(C\MainControls\Factory::class),
-            $this->createMock(C\Tree\Factory::class),
-            $this->createMock(C\Menu\Factory::class),
-            $this->createMock(C\Symbol\Factory::class),
-            $this->createMock(C\Symbol\Factory::class)
-        );
+        return new class extends NoUIFactory {
+            public function breadcrumbs(array $crumbs)
+            {
+                return new I\Component\Breadcrumbs\Breadcrumbs($crumbs);
+            }
+        };
     }
 
     public function test_implements_factory_interface()
     {
         $f = $this->getFactory();
-        $c = $f->Breadcrumbs(array());
+        $c = $f->breadcrumbs(array());
 
         $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Breadcrumbs\\Breadcrumbs",
-            $f->Breadcrumbs(array())
+            $f->breadcrumbs(array())
         );
     }
 
@@ -63,7 +43,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
             new I\Component\Link\Standard("label2", '#')
         );
 
-        $c = $f->Breadcrumbs($crumbs);
+        $c = $f->breadcrumbs($crumbs);
         $this->assertEquals($crumbs, $c->getItems());
     }
 
