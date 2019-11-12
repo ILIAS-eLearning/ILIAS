@@ -23,31 +23,24 @@
 
 
 /**
-* Meta Data class (element location)
+* Meta Data class (element format)
 *
+* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDLocation extends ilMDBase
+class ilMD5295Format extends ilMD5295Base
 {
 	// SET/GET
-	function setLocation($a_location)
+	function setFormat($a_format)
 	{
-		$this->location = $a_location;
+		$this->format = $a_format;
 	}
-	function getLocation()
+	function getFormat()
 	{
-		return $this->location;
-	}
-	function setLocationType($a_location_type)
-	{
-		$this->location_type = $a_location_type;
-	}
-	function getLocationType()
-	{
-		return $this->location_type;
+		return $this->format;
 	}
 
 	function save()
@@ -55,11 +48,11 @@ class ilMDLocation extends ilMDBase
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		
+
 		$fields = $this->__getFields();
-		$fields['meta_location_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_location'));
+		$fields['meta_format_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_format'));
 		
-		if($this->db->insert('il_meta_location',$fields))
+		if($this->db->insert('il_meta_format',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -72,12 +65,12 @@ class ilMDLocation extends ilMDBase
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		
+
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_location',
+			if($this->db->update('il_meta_format',
 									$this->__getFields(),
-									array("meta_location_id" => array('integer',$this->getMetaId()))))
+									array("meta_format_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -93,8 +86,8 @@ class ilMDLocation extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_location ".
-				"WHERE meta_location_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "DELETE FROM il_meta_format ".
+				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			$res = $ilDB->manipulate($query);
 			
 			return true;
@@ -108,10 +101,7 @@ class ilMDLocation extends ilMDBase
 		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
-					 'parent_type' => array('text',$this->getParentType()),
-					 'parent_id' => array('integer',$this->getParentId()),
-					 'location'	=> array('text',$this->getLocation()),
-					 'location_type' => array('text',$this->getLocationType()));
+					 'format'	=> array('text',$this->getFormat()));
 	}
 
 	function read()
@@ -120,12 +110,12 @@ class ilMDLocation extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_location ".
-				"WHERE meta_location_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_format ".
+				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -133,10 +123,7 @@ class ilMDLocation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setParentId($row->parent_id);
-				$this->setParentType($row->parent_type);
-				$this->setLocation($row->location);
-				$this->setLocationType($row->location_type);
+				$this->setFormat($row->format);
 			}
 		}
 		return true;
@@ -144,35 +131,33 @@ class ilMDLocation extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Location',array('Type' => $this->getLocationType()
-											 ? $this->getLocationType()
-											 : 'LocalFile'),
-							$this->getLocation());
+		if($this->getFormat())
+		{
+			$writer->xmlElement('Format',null,$this->getFormat());
+		}
 	}
 
 
 	// STATIC
-	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id)
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_location_id FROM il_meta_location ".
+		$query = "SELECT meta_format_id FROM il_meta_format ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_location_id;
+			$ids[] = $row->meta_format_id;
 		}
 		return $ids ? $ids : array();
 	}

@@ -28,35 +28,35 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDEducational extends ilMDBase
+class ilMD5295Educational extends ilMD5295Base
 {
 	// Methods for child objects (TypicalAgeRange, Description, Language)
 	function &getTypicalAgeRangeIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTypicalAgeRange.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TypicalAgeRange.php';
 
-		return ilMDTypicalAgeRange::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
+		return ilMD5295TypicalAgeRange::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getTypicalAgeRange($a_typical_age_range_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTypicalAgeRange.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TypicalAgeRange.php';
 
 		if(!$a_typical_age_range_id)
 		{
 			return false;
 		}
-		$typ = new ilMDTypicalAgeRange();
+		$typ = new ilMD5295TypicalAgeRange();
 		$typ->setMetaId($a_typical_age_range_id);
 
 		return $typ;
 	}
 	function &addTypicalAgeRange()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTypicalAgeRange.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TypicalAgeRange.php';
 
-		$typ = new ilMDTypicalAgeRange($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$typ = new ilMD5295TypicalAgeRange($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$typ->setParentId($this->getMetaId());
 		$typ->setParentType('meta_educational');
 
@@ -64,28 +64,28 @@ class ilMDEducational extends ilMDBase
 	}
 	function &getDescriptionIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
-		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
+		return ilMD5295Description::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getDescription($a_description_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
 		if(!$a_description_id)
 		{
 			return false;
 		}
-		$des = new ilMDDescription();
+		$des = new ilMD5295Description();
 		$des->setMetaId($a_description_id);
 
 		return $des;
 	}
 	function &addDescription()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
-		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMD5295Description($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_educational');
 
@@ -93,28 +93,28 @@ class ilMDEducational extends ilMDBase
 	}
 	function &getLanguageIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 
-		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
+		return ilMD5295Language::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_educational');
 	}
 	function &getLanguage($a_language_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 
 		if(!$a_language_id)
 		{
 			return false;
 		}
-		$lan = new ilMDLanguage();
+		$lan = new ilMD5295Language();
 		$lan->setMetaId($a_language_id);
 
 		return $lan;
 	}
 	function &addLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 		
-		$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lan = new ilMD5295Language($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$lan->setParentId($this->getMetaId());
 		$lan->setParentType('meta_educational');
 
@@ -317,9 +317,9 @@ class ilMDEducational extends ilMDBase
 
 	function getTypicalLearningTimeSeconds()
 	{
-		include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDUtils.php';
+		include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295Utils.php';
 
-		$time_arr = ilMDUtils::_LOMDurationToArray($this->getTypicalLearningTime());
+		$time_arr = ilMD5295Utils::_LOMDurationToArray($this->getTypicalLearningTime());
 
 		return 60 * 60 * 24 * 30 * $time_arr[0] + 60 * 60 * 24 * $time_arr[1] + 60 * 60 * $time_arr[2] + 60 * $time_arr[3] + $time_arr[4];
 	} 
@@ -444,7 +444,7 @@ class ilMDEducational extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -486,8 +486,8 @@ class ilMDEducational extends ilMDBase
 		}
 		if(!count($typ_ages))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTypicalAgeRange.php';
-			$typ = new ilMDTypicalAgeRange($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TypicalAgeRange.php';
+			$typ = new ilMD5295TypicalAgeRange($this->getRBACId(),$this->getObjId());
 			$typ->toXML($writer);
 		}
 
@@ -541,9 +541,9 @@ class ilMDEducational extends ilMDBase
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDUtils.php';
+			include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295Utils.php';
 
-			$time_arr = ilMDUtils::_LOMDurationToArray($row->typical_learning_time);
+			$time_arr = ilMD5295Utils::_LOMDurationToArray($row->typical_learning_time);
 
 			return 60 * 60 * 24 * 30 * $time_arr[0] + 
 				60 * 60 * 24 * $time_arr[1] + 

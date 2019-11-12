@@ -28,9 +28,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDRequirement extends ilMDBase
+class ilMD5295Requirement extends ilMD5295Base
 {
 	// SET/GET
 	function setOrCompositeId($a_or_composite_id)
@@ -192,7 +192,7 @@ class ilMDRequirement extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -221,7 +221,7 @@ class ilMDRequirement extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)

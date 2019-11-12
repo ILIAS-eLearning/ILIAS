@@ -27,9 +27,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDIdentifier extends ilMDBase
+class ilMD5295Identifier extends ilMD5295Base
 {
 
 	// SET/GET
@@ -143,7 +143,7 @@ class ilMDIdentifier extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer, $a_overwrite_id = false)

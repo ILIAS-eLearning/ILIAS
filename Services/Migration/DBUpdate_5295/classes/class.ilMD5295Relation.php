@@ -28,35 +28,35 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDRelation extends ilMDBase
+class ilMD5295Relation extends ilMD5295Base
 {
 	// METHODS OF CHILD OBJECTS (Taxon)
 	function &getIdentifier_Ids()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier_.php';
 
-		return ilMDIdentifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
+		return ilMD5295Identifier_::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getIdentifier_($a_identifier__id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier_.php';
 
 		if(!$a_identifier__id)
 		{
 			return false;
 		}
-		$ide = new ilMDIdentifier_();
+		$ide = new ilMD5295Identifier_();
 		$ide->setMetaId($a_identifier__id);
 
 		return $ide;
 	}
 	function &addIdentifier_()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier_.php';
 
-		$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMD5295Identifier_($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_relation');
 
@@ -65,28 +65,28 @@ class ilMDRelation extends ilMDBase
 
 	function &getDescriptionIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
 		return ilMdDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_relation');
 	}
 	function &getDescription($a_description_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 		
 		if(!$a_description_id)
 		{
 			return false;
 		}
-		$des = new ilMDDescription();
+		$des = new ilMD5295Description();
 		$des->setMetaId($a_description_id);
 
 		return $des;
 	}
 	function &addDescription()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 		
-		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMD5295Description($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_relation');
 
@@ -219,7 +219,7 @@ class ilMDRelation extends ilMDBase
 
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -238,8 +238,8 @@ class ilMDRelation extends ilMDBase
 		}
 		if(!count($ides))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier_.php';
-			$ide = new ilMDIdentifier_($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier_.php';
+			$ide = new ilMD5295Identifier_($this->getRBACId(),$this->getObjId());
 			$ide->toXML($writer);
 		}
 
@@ -252,8 +252,8 @@ class ilMDRelation extends ilMDBase
 		}
 		if(!count($dess))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
-			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
+			$des = new ilMD5295Description($this->getRBACId(),$this->getObjId());
 			$des->toXML($writer);
 		}
 

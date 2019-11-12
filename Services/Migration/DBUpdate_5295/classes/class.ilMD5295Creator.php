@@ -26,14 +26,14 @@
 
 /**
 * Base class for creating meta data sets for object types
-* If you need special element values, inherit from this class. E.g class.ilMDCourseCreator extends class.ilMDCreator
+* If you need special element values, inherit from this class. E.g class.ilMD5295CourseCreator extends class.ilMD5295Creator
 *
 * @package ilias-core
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 */
 
-class ilMDCreator
+class ilMD5295Creator
 {
 	var $md_obj = null;
 
@@ -54,7 +54,7 @@ class ilMDCreator
 
 	function __construct($a_rbac_id,$a_obj_id,$a_type)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295.php';
 
 		if ($a_obj_id == 0)
 		{
@@ -65,7 +65,7 @@ class ilMDCreator
 		$this->obj_id = $a_obj_id;
 		$this->obj_type = $a_type;
 
-		$this->md_obj = new ilMD($a_rbac_id,$a_obj_id,$a_type);
+		$this->md_obj = new ilMD5295($a_rbac_id,$a_obj_id,$a_type);
 	}
 
 	// SET/GET
@@ -91,9 +91,9 @@ class ilMDCreator
 	}
 	function &getTitleLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
-		return new ilMDLanguageItem($this->title_lng);
+		return new ilMD5295LanguageItem($this->title_lng);
 	}
 	function setDescriptionLanguage($a_lng)
 	{
@@ -101,9 +101,9 @@ class ilMDCreator
 	}
 	function &getDescriptionLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
-		return new ilMDLanguageItem($this->title_lng);
+		return new ilMD5295LanguageItem($this->title_lng);
 	}
 	function setLanguage($a_lng)
 	{
@@ -111,9 +111,9 @@ class ilMDCreator
 	}
 	function &getLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
-		return new ilMDLanguageItem($this->title_lng);
+		return new ilMD5295LanguageItem($this->title_lng);
 	}
 	function setKeyword($a_key)
 	{
@@ -143,9 +143,9 @@ class ilMDCreator
 	}
 	function &getKeywordLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
-		return new ilMDLanguageItem($this->title_lng);
+		return new ilMD5295LanguageItem($this->title_lng);
 	}
 	function setCatalog($a_cat)
 	{

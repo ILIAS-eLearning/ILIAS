@@ -29,9 +29,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDGeneral extends ilMDBase
+class ilMD5295General extends ilMD5295Base
 {
 	function getPossibleSubelements()
 	{
@@ -47,28 +47,28 @@ class ilMDGeneral extends ilMDBase
 	// Subelements (Identifier, Language, Description, Keyword)
 	function &getIdentifierIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier.php';
 
-		return ilMDIdentifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
+		return ilMD5295Identifier::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getIdentifier($a_identifier_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier.php';
 		
 		if(!$a_identifier_id)
 		{
 			return false;
 		}
-		$ide = new ilMDIdentifier();
+		$ide = new ilMD5295Identifier();
 		$ide->setMetaId($a_identifier_id);
 		
 		return $ide;
 	}
 	function &addIdentifier()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier.php';
 
-		$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ide = new ilMD5295Identifier($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ide->setParentId($this->getMetaId());
 		$ide->setParentType('meta_general');
 
@@ -76,19 +76,19 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getLanguageIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 
-		return ilMDLanguage::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
+		return ilMD5295Language::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getLanguage($a_language_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 
 		if(!$a_language_id)
 		{
 			return false;
 		}
-		$lan = new ilMDLanguage();
+		$lan = new ilMD5295Language();
 		$lan->setMetaId($a_language_id);
 
 		return $lan;
@@ -96,9 +96,9 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &addLanguage()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
 		
-		$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$lan = new ilMD5295Language($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$lan->setParentId($this->getMetaId());
 		$lan->setParentType('meta_general');
 
@@ -106,29 +106,29 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getDescriptionIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
-		return ilMDDescription::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
+		return ilMD5295Description::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getDescription($a_description_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
 
 		if(!$a_description_id)
 		{
 			return false;
 		}
-		$des = new ilMDDescription();
+		$des = new ilMD5295Description();
 		$des->setMetaId($a_description_id);
 
 		return $des;
 	}
 	function &addDescription()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
 
-		$des = new ilMDDescription($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$des = new ilMD5295Description($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$des->setParentId($this->getMetaId());
 		$des->setParentType('meta_general');
 
@@ -136,28 +136,28 @@ class ilMDGeneral extends ilMDBase
 	}
 	function &getKeywordIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 
-		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
+		return ilMD5295Keyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_general');
 	}
 	function &getKeyword($a_keyword_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 		
 		if(!$a_keyword_id)
 		{
 			return false;
 		}
-		$key = new ilMDKeyword();
+		$key = new ilMD5295Keyword();
 		$key->setMetaId($a_keyword_id);
 
 		return $key;
 	}
 	function &addKeyword()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 
-		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key = new ilMD5295Keyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
 		$key->setParentType('meta_general');
 
@@ -344,7 +344,7 @@ class ilMDGeneral extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -359,9 +359,9 @@ class ilMDGeneral extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setStructure($row->general_structure);
 				$this->setTitle($row->title);
-				$this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
+				$this->setTitleLanguage(new ilMD5295LanguageItem($row->title_language));
 				$this->setCoverage($row->coverage);
-				$this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));
+				$this->setCoverageLanguage(new ilMD5295LanguageItem($row->coverage_language));
 			}
 		}
 		return true;
@@ -369,7 +369,7 @@ class ilMDGeneral extends ilMDBase
 
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -392,8 +392,8 @@ class ilMDGeneral extends ilMDBase
 		}
 		if(!count($identifiers))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDIdentifier.php';
-			$ide = new ilMDIdentifier($this->getRBACId(),$this->getObjId(),
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Identifier.php';
+			$ide = new ilMD5295Identifier($this->getRBACId(),$this->getObjId(),
 				$this->getObjType());		// added type, alex, 31 Oct 2007
 			$ide->setExportMode(true);
 			$ide->toXML($writer,true);
@@ -415,8 +415,8 @@ class ilMDGeneral extends ilMDBase
 		if(!count($languages))
 		{
 			// Default
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguage.php';
-			$lan = new ilMDLanguage($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Language.php';
+			$lan = new ilMD5295Language($this->getRBACId(),$this->getObjId());
 			$lan->toXML($writer);
 		}
 
@@ -430,8 +430,8 @@ class ilMDGeneral extends ilMDBase
 		if(!count($descriptions))
 		{
 			// Default
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDDescription.php';
-			$des = new ilMDDescription($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Description.php';
+			$des = new ilMD5295Description($this->getRBACId(),$this->getObjId());
 			$des->toXML($writer);
 		}
 			
@@ -446,8 +446,8 @@ class ilMDGeneral extends ilMDBase
 		if(!count($keywords))
 		{
 			// Default
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
-			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
+			$key = new ilMD5295Keyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		

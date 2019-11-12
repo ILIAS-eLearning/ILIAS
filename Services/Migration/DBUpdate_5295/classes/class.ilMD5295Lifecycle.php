@@ -29,9 +29,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDLifecycle extends ilMDBase
+class ilMD5295Lifecycle extends ilMD5295Base
 {
 	function getPossibleSubelements()
 	{
@@ -43,28 +43,28 @@ class ilMDLifecycle extends ilMDBase
 	// Get subelemsts 'Contribute'
 	function &getContributeIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Contribute.php';
 
-		return ilMDContribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_lifecycle');
+		return ilMD5295Contribute::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_lifecycle');
 	}
 	function &getContribute($a_contribute_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Contribute.php';
 		
 		if(!$a_contribute_id)
 		{
 			return false;
 		}
-		$con = new ilMDContribute();
+		$con = new ilMD5295Contribute();
 		$con->setMetaId($a_contribute_id);
 
 		return $con;
 	}
 	function &addContribute()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Contribute.php';
 
-		$con = new ilMDContribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$con = new ilMD5295Contribute($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$con->setParentId($this->getMetaId());
 		$con->setParentType('meta_lifecycle');
 
@@ -195,7 +195,7 @@ class ilMDLifecycle extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -210,7 +210,7 @@ class ilMDLifecycle extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setStatus($row->lifecycle_status);
 				$this->setVersion($row->meta_version);
-				$this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
+				$this->setVersionLanguage(new ilMD5295LanguageItem($row->version_language));
 			}
 		}
 		return true;
@@ -218,7 +218,7 @@ class ilMDLifecycle extends ilMDBase
 
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -240,8 +240,8 @@ class ilMDLifecycle extends ilMDBase
 		}
 		if(!count($contributes))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDContribute.php';
-			$con = new ilMDContribute($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Contribute.php';
+			$con = new ilMD5295Contribute($this->getRBACId(),$this->getObjId());
 			$con->toXML($writer);
 		}
 		$writer->xmlEndTag('Lifecycle');

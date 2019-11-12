@@ -29,10 +29,10 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
-include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
+include_once 'class.ilMD5295Base.php';
+include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Requirement.php';
 
-class ilMDOrComposite extends ilMDRequirement
+class ilMD5295OrComposite extends ilMD5295Requirement
 {
 	// SET/GET
 	function setOrCompositeId($a_or_composite_id)
@@ -63,9 +63,9 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &getRequirementIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Requirement.php';
 
-		return ilMDRequirement::_getIds($this->getRBACId(),
+		return ilMD5295Requirement::_getIds($this->getRBACId(),
 										$this->getObjId(),
 										$this->getParentId(),
 										'meta_technical',
@@ -74,13 +74,13 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &getRequirement($a_requirement_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Requirement.php';
 
 		if(!$a_requirement_id)
 		{
 			return false;
 		}
-		$req = new ilMDRequirement();
+		$req = new ilMD5295Requirement();
 		$req->setMetaId($a_requirement_id);
 
 		return $req;
@@ -88,9 +88,9 @@ class ilMDOrComposite extends ilMDRequirement
 
 	function &addRequirement()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Requirement.php';
 
-		$req = new ilMDRequirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$req = new ilMD5295Requirement($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$req->setParentId($this->getParentId());
 		$req->setParentType('meta_technical');
 		$req->setOrCompositeId($this->getOrCompositeId());
@@ -104,7 +104,7 @@ class ilMDOrComposite extends ilMDRequirement
 	 */
 	function save()
 	{
-		echo 'Use ilMDOrcomposite::addRequirement()';
+		echo 'Use ilMD5295Orcomposite::addRequirement()';
 	}
 
 	function delete()
@@ -119,7 +119,7 @@ class ilMDOrComposite extends ilMDRequirement
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -135,8 +135,8 @@ class ilMDOrComposite extends ilMDRequirement
 		}
 		if(!count($reqs))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDRequirement.php';
-			$req = new ilMDRequirement($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Requirement.php';
+			$req = new ilMD5295Requirement($this->getRBACId(),$this->getObjId());
 			$req->toXML($writer);
 		}
 		$writer->xmlEndTag('OrComposite');

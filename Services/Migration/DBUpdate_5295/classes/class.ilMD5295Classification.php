@@ -28,35 +28,35 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDClassification extends ilMDBase
+class ilMD5295Classification extends ilMD5295Base
 {
 	// METHODS OF CLIENT OBJECTS (TaxonPath, Keyword)
 	function &getTaxonPathIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TaxonPath.php';
 
-		return ilMDTaxonPath::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
+		return ilMD5295TaxonPath::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
 	}
 	function &getTaxonPath($a_taxon_path_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TaxonPath.php';
 
 		if(!$a_taxon_path_id)
 		{
 			return false;
 		}
-		$tax = new ilMDTaxonPath();
+		$tax = new ilMD5295TaxonPath();
 		$tax->setMetaId($a_taxon_path_id);
 
 		return $tax;
 	}
 	function &addTaxonPath()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TaxonPath.php';
 
-		$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax = new ilMD5295TaxonPath($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$tax->setParentId($this->getMetaId());
 		$tax->setParentType('meta_classification');
 
@@ -65,28 +65,28 @@ class ilMDClassification extends ilMDBase
 
 	function &getKeywordIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 
-		return ilMDKeyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
+		return ilMD5295Keyword::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_classification');
 	}
 	function &getKeyword($a_keyword_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 		
 		if(!$a_keyword_id)
 		{
 			return false;
 		}
-		$key = new ilMDKeyword();
+		$key = new ilMD5295Keyword();
 		$key->setMetaId($a_keyword_id);
 
 		return $key;
 	}
 	function &addKeyword()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
 
-		$key = new ilMDKeyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$key = new ilMD5295Keyword($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$key->setParentId($this->getMetaId());
 		$key->setParentType('meta_classification');
 
@@ -223,7 +223,7 @@ class ilMDClassification extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -238,7 +238,7 @@ class ilMDClassification extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setPurpose($row->purpose);
 				$this->setDescription($row->description);
-				$this->description_language = new ilMDLanguageItem($row->description_language);
+				$this->description_language = new ilMD5295LanguageItem($row->description_language);
 			}
 		}
 		return true;
@@ -246,7 +246,7 @@ class ilMDClassification extends ilMDBase
 
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -264,8 +264,8 @@ class ilMDClassification extends ilMDBase
 		}
 		if(!count($taxs))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxonPath.php';
-			$tax = new ilMDTaxonPath($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295TaxonPath.php';
+			$tax = new ilMD5295TaxonPath($this->getRBACId(),$this->getObjId());
 			$tax->toXML($writer);
 		}
 
@@ -284,8 +284,8 @@ class ilMDClassification extends ilMDBase
 		}
 		if(!count($keys))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDKeyword.php';
-			$key = new ilMDKeyword($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Keyword.php';
+			$key = new ilMD5295Keyword($this->getRBACId(),$this->getObjId());
 			$key->toXML($writer);
 		}
 		$writer->xmlEndTag('Classification');
