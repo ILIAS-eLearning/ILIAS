@@ -59,7 +59,13 @@ function with_js()
                 return "
                 $(\"#$id\").click(function() { 
                     var counter = il.UI.counter.getCounterObject($(this));
-                    console.log(counter.setNoveltyTo(3).setStatusTo(3).incrementStatusCount(1).setTotalNoveltyToStatusCount().getStatusCount());
+                    counter.setNoveltyTo(3);
+                    counter.setStatusTo(3);
+                    counter.incrementStatusCount(1);
+                    counter.setTotalNoveltyToStatusCount();
+                    console.log(
+                        counter.getStatusCount()
+                    );
                 });";
             }
         );
