@@ -23,24 +23,38 @@
 
 
 /**
-* Meta Data class (element entity)
+* Meta Data class (element description)
 *
-* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDEntity extends ilMDBase
+class ilMD5295Description extends ilMD5295Base
 {
 	// SET/GET
-	function setEntity($a_entity)
+	function setDescription($a_description)
 	{
-		$this->entity = $a_entity;
+		$this->description = $a_description;
 	}
-	function getEntity()
+	function getDescription()
 	{
-		return $this->entity;
+		return $this->description;
+	}
+	function setDescriptionLanguage(&$lng_obj)
+	{
+		if(is_object($lng_obj))
+		{
+			$this->description_language = $lng_obj;
+		}
+	}
+	function &getDescriptionLanguage()
+	{
+		return is_object($this->description_language) ? $this->description_language : false;
+	}
+	function getDescriptionLanguageCode()
+	{
+		return is_object($this->description_language) ? $this->description_language->getLanguageCode() : false;
 	}
 
 	function save()
@@ -50,9 +64,9 @@ class ilMDEntity extends ilMDBase
 		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
-		$fields['meta_entity_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_entity'));
+		$fields['meta_description_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_description'));
 		
-		if($this->db->insert('il_meta_entity',$fields))
+		if($this->db->insert('il_meta_description',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -68,9 +82,9 @@ class ilMDEntity extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_entity',
+			if($this->db->update('il_meta_description',
 									$this->__getFields(),
-									array("meta_entity_id" => array('integer',$this->getMetaId()))))
+									array("meta_description_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -86,11 +100,9 @@ class ilMDEntity extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_entity ".
-				"WHERE meta_entity_id = ".$ilDB->quote($this->getMetaId(),'integer');
+			$query = "DELETE FROM il_meta_description ".
+				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			$res = $ilDB->manipulate($query);
-			
-			$this->db->query($query);
 			
 			return true;
 		}
@@ -105,7 +117,8 @@ class ilMDEntity extends ilMDBase
 					 'obj_type'	=> array('text',$this->getObjType()),
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
-					 'entity'	=> array('text',$this->getEntity()));
+					 'description'	=> array('clob',$this->getDescription()),
+					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
 	}
 
 	function read()
@@ -114,10 +127,12 @@ class ilMDEntity extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
+
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_entity ".
-				"WHERE meta_entity_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_description ".
+				"WHERE meta_description_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -127,7 +142,8 @@ class ilMDEntity extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setEntity($row->entity);
+				$this->setDescription($row->description);
+				$this->setDescriptionLanguage(new ilMD5295LanguageItem($row->description_language));
 			}
 		}
 		return true;
@@ -135,33 +151,36 @@ class ilMDEntity extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Entity',null,$this->getEntity());
+		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode() ?
+												$this->getDescriptionLanguageCode() :
+												'en'),
+							$this->getDescription());
 	}
 
 
 	// STATIC
-	public static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_entity_id FROM il_meta_entity ".
-			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
-			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
-			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text')." ".
-			"ORDER BY meta_entity_id ";
+		$query = "SELECT meta_description_id FROM il_meta_description ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id)." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id)." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id)." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type)." ".
+			"ORDER BY meta_description_id";
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_entity_id;
+			$ids[] = $row->meta_description_id;
 		}
 		return $ids ? $ids : array();
 	}

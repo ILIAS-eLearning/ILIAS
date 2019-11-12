@@ -29,35 +29,35 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDContribute extends ilMDBase
+class ilMD5295Contribute extends ilMD5295Base
 {
 	// Subelements
 	function &getEntityIds()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Entity.php';
 
-		return ilMDEntity::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_contribute');
+		return ilMD5295Entity::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_contribute');
 	}
 	function &getEntity($a_entity_id)
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Entity.php';
 		
 		if(!$a_entity_id)
 		{
 			return false;
 		}
-		$ent = new ilMDEntity();
+		$ent = new ilMD5295Entity();
 		$ent->setMetaId($a_entity_id);
 
 		return $ent;
 	}
 	function &addEntity()
 	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Entity.php';
 
-		$ent = new ilMDEntity($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$ent = new ilMD5295Entity($this->getRBACId(),$this->getObjId(),$this->getObjType());
 		$ent->setParentId($this->getMetaId());
 		$ent->setParentType('meta_contribute');
 
@@ -182,7 +182,7 @@ class ilMDContribute extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -206,7 +206,7 @@ class ilMDContribute extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -224,8 +224,8 @@ class ilMDContribute extends ilMDBase
 		}
 		if(!count($entities))
 		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDEntity.php';
-			$ent = new ilMDEntity($this->getRBACId(),$this->getObjId());
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Entity.php';
+			$ent = new ilMD5295Entity($this->getRBACId(),$this->getObjId());
 			$ent->toXML($writer);
 		}
 			

@@ -23,59 +23,33 @@
 
 
 /**
-* Meta Data class (element annotation)
+* Meta Data class (element identifier_)
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDAnnotation extends ilMDBase
+class ilMD5295Identifier_ extends ilMD5295Base
 {
 	// SET/GET
-	function setEntity($a_entity)
+	function setCatalog($a_catalog)
 	{
-		$this->entity = $a_entity;
+		$this->catalog = $a_catalog;
 	}
-	function getEntity()
+	function getCatalog()
 	{
-		return $this->entity;
+		return $this->catalog;
 	}
-	function setDate($a_date)
+	function setEntry($a_entry)
 	{
-	    $this->date = $a_date;
+		$this->entry = $a_entry;
 	}
-	function getDate()
+	function getEntry()
 	{
-		return $this->date;
+		return $this->entry;
 	}
-	function setDescription($a_desc)
-	{
-		$this->description = $a_desc;
-	}
-	function getDescription()
-	{
-		return $this->description;
-	}
-	function setDescriptionLanguage($lng_obj)
-	{
-		if(is_object($lng_obj))
-		{
-			$this->description_language =& $lng_obj;
-		}
-	}
-	function &getDescriptionLanguage()
-	{
-		return $this->description_language;
-	}
-	function getDescriptionLanguageCode()
-	{
-		if(is_object($this->description_language))
-		{
-			return $this->description_language->getLanguageCode();
-		}
-		return false;
-	}
+
 
 	function save()
 	{
@@ -84,9 +58,9 @@ class ilMDAnnotation extends ilMDBase
 		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
-		$fields['meta_annotation_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_annotation'));
+		$fields['meta_identifier__id'] = array('integer',$next_id = $ilDB->nextId('il_meta_identifier_'));
 		
-		if($this->db->insert('il_meta_annotation',$fields))
+		if($this->db->insert('il_meta_identifier_',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -102,9 +76,9 @@ class ilMDAnnotation extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_annotation',
+			if($this->db->update('il_meta_identifier_',
 									$this->__getFields(),
-									array("meta_annotation_id" => array('integer',$this->getMetaId()))))
+									array("meta_identifier__id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -120,10 +94,9 @@ class ilMDAnnotation extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "DELETE FROM il_meta_identifier_ ".
+				"WHERE meta_identifier__id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			$res = $ilDB->manipulate($query);
-			
 			return true;
 		}
 		return false;
@@ -135,10 +108,10 @@ class ilMDAnnotation extends ilMDBase
 		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
-					 'entity'	=> array('clob',$this->getEntity()),
-					 'a_date'		=> array('clob',$this->getDate()),
-					 'description' => array('clob',$this->getDescription()),
-					 'description_language' => array('text',$this->getDescriptionLanguageCode()));
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'catalog'	=> array('text',$this->getCatalog()),
+					 'entry'	=> array('text',$this->getEntry()));
 	}
 
 	function read()
@@ -147,12 +120,10 @@ class ilMDAnnotation extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
-
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_annotation ".
-				"WHERE meta_annotation_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_identifier_ ".
+				"WHERE meta_identifier__id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -160,50 +131,45 @@ class ilMDAnnotation extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setEntity($row->entity);
-				$this->setDate($row->a_date);
-				$this->setDescription($row->description);
-				$this->description_language = new ilMDLanguageItem($row->description_language);
+				$this->setParentId($row->parent_id);
+				$this->setParentType($row->parent_type);
+				$this->setCatalog($row->catalog);
+				$this->setEntry($row->entry);
 			}
 		}
 		return true;
 	}
-
+				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('Annotation');
-		$writer->xmlElement('Entity',null,$this->getEntity());
-		$writer->xmlElement('Date',null,$this->getDate());
-		$writer->xmlElement('Description',array('Language' => $this->getDescriptionLanguageCode()
-												? $this->getDescriptionLanguageCode()
-												: 'en'),
-							$this->getDescription());
-		$writer->xmlEndTag('Annotation');
+		$writer->xmlElement('Identifier_',array('Catalog' => $this->getCatalog(),
+												'Entry'	  => $this->getEntry() ? $this->getEntry() : "ID1"));
 	}
 
-				
 
 	// STATIC
-	static function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_annotation_id FROM il_meta_annotation ".
+		$query = "SELECT meta_identifier__id FROM il_meta_identifier_ ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_annotation_id;
+			$ids[] = $row->meta_identifier__id;
 		}
 		return $ids ? $ids : array();
 	}

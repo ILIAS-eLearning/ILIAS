@@ -23,71 +23,32 @@
 
 
 /**
-* Meta Data class (element taxon_path)
+* Meta Data class (element location)
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDTaxonPath extends ilMDBase
+class ilMD5295Location extends ilMD5295Base
 {
-	// METHODS OF CHILD OBJECTS (Taxon)
-	function &getTaxonIds()
-	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
-
-		return ilMDTaxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_taxon_path');
-	}
-	function &getTaxon($a_taxon_id)
-	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
-
-		if(!$a_taxon_id)
-		{
-			return false;
-		}
-		$tax = new ilMDTaxon();
-		$tax->setMetaId($a_taxon_id);
-
-		return $tax;
-	}
-	function &addTaxon()
-	{
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
-
-		$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
-		$tax->setParentId($this->getMetaId());
-		$tax->setParentType('meta_taxon_path');
-
-		return $tax;
-	}
-
 	// SET/GET
-	function setSource($a_source)
+	function setLocation($a_location)
 	{
-		$this->source = $a_source;
+		$this->location = $a_location;
 	}
-	function getSource()
+	function getLocation()
 	{
-		return $this->source;
+		return $this->location;
 	}
-	function setSourceLanguage(&$lng_obj)
+	function setLocationType($a_location_type)
 	{
-		if(is_object($lng_obj))
-		{
-			$this->source_language = $lng_obj;
-		}
+		$this->location_type = $a_location_type;
 	}
-	function &getSourceLanguage()
+	function getLocationType()
 	{
-		return is_object($this->source_language) ? $this->source_language : false;
+		return $this->location_type;
 	}
-	function getSourceLanguageCode()
-	{
-		return is_object($this->source_language) ? $this->source_language->getLanguageCode() : false;
-	} 
-
 
 	function save()
 	{
@@ -96,9 +57,9 @@ class ilMDTaxonPath extends ilMDBase
 		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
-		$fields['meta_taxon_path_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon_path'));
+		$fields['meta_location_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_location'));
 		
-		if($this->db->insert('il_meta_taxon_path',$fields))
+		if($this->db->insert('il_meta_location',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -114,9 +75,9 @@ class ilMDTaxonPath extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_taxon_path',
+			if($this->db->update('il_meta_location',
 									$this->__getFields(),
-									array("meta_taxon_path_id" => array('integer',$this->getMetaId()))))
+									array("meta_location_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -132,15 +93,9 @@ class ilMDTaxonPath extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_taxon_path ".
-				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId(), 'integer');
+			$query = "DELETE FROM il_meta_location ".
+				"WHERE meta_location_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			$res = $ilDB->manipulate($query);
-
-			foreach($this->getTaxonIds() as $id)
-			{
-				$tax = $this->getTaxon($id);
-				$tax->delete();
-			}
 			
 			return true;
 		}
@@ -155,8 +110,8 @@ class ilMDTaxonPath extends ilMDBase
 					 'obj_type'	=> array('text',$this->getObjType()),
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
-					 'source'	=> array('text',$this->getSource()),
-					 'source_language' => array('text',$this->getSourceLanguageCode()));
+					 'location'	=> array('text',$this->getLocation()),
+					 'location_type' => array('text',$this->getLocationType()));
 	}
 
 	function read()
@@ -165,14 +120,14 @@ class ilMDTaxonPath extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_taxon_path ".
-				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_location ".
+				"WHERE meta_location_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
-			$res = $ilDB->query($query);
+			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 			{
 				$this->setRBACId($row->rbac_id);
@@ -180,45 +135,26 @@ class ilMDTaxonPath extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setSource($row->source);
-				$this->source_language = new ilMDLanguageItem($row->source_language);
+				$this->setLocation($row->location);
+				$this->setLocationType($row->location_type);
 			}
 		}
 		return true;
 	}
-
+				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlStartTag('TaxonPath');
-
-		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()
-										   ? $this->getSourceLanguageCode()
-										   : 'en'),
-							$this->getSource());
-
-		// Taxon
-		$taxs = $this->getTaxonIds();
-		foreach($taxs as $id)
-		{
-			$tax =& $this->getTaxon($id);
-			$tax->toXML($writer);
-		}
-		if(!count($taxs))
-		{
-			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDTaxon.php';
-			$tax = new ilMDTaxon($this->getRBACId(),$this->getObjId());
-			$tax->toXML($writer);
-		}
-		
-		$writer->xmlEndTag('TaxonPath');
+		$writer->xmlElement('Location',array('Type' => $this->getLocationType()
+											 ? $this->getLocationType()
+											 : 'LocalFile'),
+							$this->getLocation());
 	}
 
-				
 
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
@@ -227,7 +163,7 @@ class ilMDTaxonPath extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_taxon_path_id FROM il_meta_taxon_path ".
+		$query = "SELECT meta_location_id FROM il_meta_location ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
@@ -236,7 +172,7 @@ class ilMDTaxonPath extends ilMDBase
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_taxon_path_id;
+			$ids[] = $row->meta_location_id;
 		}
 		return $ids ? $ids : array();
 	}

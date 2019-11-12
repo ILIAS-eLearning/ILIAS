@@ -23,33 +23,48 @@
 
 
 /**
-* Meta Data class (element identifier_)
+* Meta Data class (element taxon)
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDIdentifier_ extends ilMDBase
+class ilMD5295Taxon extends ilMD5295Base
 {
 	// SET/GET
-	function setCatalog($a_catalog)
+	function setTaxon($a_taxon)
 	{
-		$this->catalog = $a_catalog;
+		$this->taxon = $a_taxon;
 	}
-	function getCatalog()
+	function getTaxon()
 	{
-		return $this->catalog;
+		return $this->taxon;
 	}
-	function setEntry($a_entry)
+	function setTaxonLanguage(&$lng_obj)
 	{
-		$this->entry = $a_entry;
+		if(is_object($lng_obj))
+		{
+			$this->taxon_language = $lng_obj;
+		}
 	}
-	function getEntry()
+	function &getTaxonLanguage()
 	{
-		return $this->entry;
+		return is_object($this->taxon_language) ? $this->taxon_language : false;
 	}
-
+	function getTaxonLanguageCode()
+	{
+		return is_object($this->taxon_language) ? $this->taxon_language->getLanguageCode() : false;
+	}
+	function setTaxonId($a_taxon_id)
+	{
+		$this->taxon_id = $a_taxon_id;
+	}
+	function getTaxonId()
+	{
+		return $this->taxon_id;
+	}
+	
 
 	function save()
 	{
@@ -58,9 +73,9 @@ class ilMDIdentifier_ extends ilMDBase
 		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
-		$fields['meta_identifier__id'] = array('integer',$next_id = $ilDB->nextId('il_meta_identifier_'));
+		$fields['meta_taxon_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon'));
 		
-		if($this->db->insert('il_meta_identifier_',$fields))
+		if($this->db->insert('il_meta_taxon',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -76,9 +91,9 @@ class ilMDIdentifier_ extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_identifier_',
+			if($this->db->update('il_meta_taxon',
 									$this->__getFields(),
-									array("meta_identifier__id" => array('integer',$this->getMetaId()))))
+									array("meta_taxon_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -94,9 +109,11 @@ class ilMDIdentifier_ extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_identifier_ ".
-				"WHERE meta_identifier__id = ".$ilDB->quote($this->getMetaId() ,'integer');
-			$res = $ilDB->manipulate($query);
+			$query = "DELETE FROM il_meta_taxon ".
+				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			
+			$this->db->query($query);
+			
 			return true;
 		}
 		return false;
@@ -110,8 +127,9 @@ class ilMDIdentifier_ extends ilMDBase
 					 'obj_type'	=> array('text',$this->getObjType()),
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
-					 'catalog'	=> array('text',$this->getCatalog()),
-					 'entry'	=> array('text',$this->getEntry()));
+					 'taxon'	=> array('text',$this->getTaxon()),
+					 'taxon_language' => array('text',$this->getTaxonLanguageCode()),
+					 'taxon_id'	=> array('text',$this->getTaxonId()));
 	}
 
 	function read()
@@ -120,10 +138,12 @@ class ilMDIdentifier_ extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
+
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_identifier_ ".
-				"WHERE meta_identifier__id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_taxon ".
+				"WHERE meta_taxon_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -133,8 +153,9 @@ class ilMDIdentifier_ extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setCatalog($row->catalog);
-				$this->setEntry($row->entry);
+				$this->setTaxon($row->taxon);
+				$this->taxon_language = new ilMD5295LanguageItem($row->taxon_language);
+				$this->setTaxonId($row->taxon_id);
 			}
 		}
 		return true;
@@ -142,13 +163,17 @@ class ilMDIdentifier_ extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('Identifier_',array('Catalog' => $this->getCatalog(),
-												'Entry'	  => $this->getEntry() ? $this->getEntry() : "ID1"));
+		$writer->xmlElement('Taxon',array('Language' => $this->getTaxonLanguageCode()
+										  ? $this->getTaxonLanguageCode()
+										  : 'en',
+										  'Id'		 => $this->getTaxonId() ? 
+										  	$this->getTaxonId() : ("ID".rand())),
+							$this->getTaxon());
 	}
 
 
@@ -159,7 +184,7 @@ class ilMDIdentifier_ extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_identifier__id FROM il_meta_identifier_ ".
+		$query = "SELECT meta_taxon_id FROM il_meta_taxon ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
@@ -169,7 +194,7 @@ class ilMDIdentifier_ extends ilMDBase
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_identifier__id;
+			$ids[] = $row->meta_taxon_id;
 		}
 		return $ids ? $ids : array();
 	}

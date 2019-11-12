@@ -28,9 +28,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDRights extends ilMDBase
+class ilMD5295Rights extends ilMD5295Base
 {
 	// SET/GET
 	function setCosts($a_costs)
@@ -162,7 +162,7 @@ class ilMDRights extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 
 		if($this->getMetaId())
@@ -179,7 +179,7 @@ class ilMDRights extends ilMDBase
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
 				$this->setDescription($row->description);
-				$this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
+				$this->setDescriptionLanguage(new ilMD5295LanguageItem($row->description_language));
 				$this->setCosts($row->costs);
 				$this->setCopyrightAndOtherRestrictions($row->cpr_and_or);
 			}
@@ -190,7 +190,7 @@ class ilMDRights extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -201,12 +201,12 @@ class ilMDRights extends ilMDBase
 											'CopyrightAndOtherRestrictions' => $this->getCopyrightAndOtherRestrictions()
 											? $this->getCopyrightAndOtherRestrictions()
 											: 'No'));
-		include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCopyrightSelectionEntry.php';
+		include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295CopyrightSelectionEntry.php';
 		$writer->xmlElement(
 			'Description',array('Language' => $this->getDescriptionLanguageCode()
 												? $this->getDescriptionLanguageCode()
 												: 'en'),
-			ilMDCopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
+			ilMD5295CopyrightSelectionEntry::lookupCopyyrightTitle($this->getDescription())
 		);
 		$writer->xmlEndTag('Rights');
 	}

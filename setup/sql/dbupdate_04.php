@@ -22784,10 +22784,10 @@ if(!$ilDB->tableColumnExists('file_data', 'max_version'))
 ?>
 <#5302>
 <?php
-include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCreator.php';
-include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295Creator.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295.php';
 
-ilMD::_deleteAllByType('grp');
+ilMD5295::_deleteAllByType('grp');
 
 $group_ids = [];
 $query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
@@ -22796,7 +22796,7 @@ $query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
-	$md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'grp');
+	$md_creator = new ilMD5295Creator($row->obj_id, $row->obj_id, 'grp');
 	$md_creator->setTitle($row->title);
 	$md_creator->setTitleLanguage('en');
 	$md_creator->setDescription($row->description);

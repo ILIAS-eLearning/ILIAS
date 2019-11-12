@@ -28,9 +28,9 @@
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDKeyword extends ilMDBase
+class ilMD5295Keyword extends ilMD5295Base
 {
 	// SET/GET
 	function setKeyword($a_keyword)
@@ -127,7 +127,7 @@ class ilMDKeyword extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
@@ -143,7 +143,7 @@ class ilMDKeyword extends ilMDBase
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
 				$this->setKeyword($row->keyword);
-				$this->setKeywordLanguage( new ilMDLanguageItem($row->keyword_language));
+				$this->setKeywordLanguage( new ilMD5295LanguageItem($row->keyword_language));
 			}
 		}
 		return true;
@@ -151,7 +151,7 @@ class ilMDKeyword extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
@@ -229,7 +229,7 @@ class ilMDKeyword extends ilMDBase
 	 */
 	public static function _getKeywordsByLanguageAsString($a_rbac_id,$a_obj_id,$a_type)
 	{
-		foreach(ilMDKeyword::_getKeywordsByLanguage($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $keywords)
+		foreach(ilMD5295Keyword::_getKeywordsByLanguage($a_rbac_id,$a_obj_id,$a_type) as $lng_code => $keywords)
 		{
 			$key_string[$lng_code] = implode(",",$keywords);
 		}
@@ -350,10 +350,10 @@ class ilMDKeyword extends ilMDBase
 	
 	/**
 	 * Update keywords from input array
-	 * @param ilMDGeneral $a_md_section
+	 * @param ilMD5295General $a_md_section
 	 * @param array $a_keywords lang => keywords
 	 */
-	public static function updateKeywords(ilMDGeneral $a_md_section, array $a_keywords)
+	public static function updateKeywords(ilMD5295General $a_md_section, array $a_keywords)
 	{
 		// trim keywords
 		$new_keywords = array();
@@ -398,7 +398,7 @@ class ilMDKeyword extends ilMDBase
 				{
 					$md_key = $a_md_section->addKeyword();
 					$md_key->setKeyword(ilUtil::stripSlashes($keyword));
-					$md_key->setKeywordLanguage(new ilMDLanguageItem($lang));
+					$md_key->setKeywordLanguage(new ilMD5295LanguageItem($lang));
 					$md_key->save();
 				}
 			}

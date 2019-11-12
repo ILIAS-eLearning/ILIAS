@@ -23,24 +23,60 @@
 
 
 /**
-* Meta Data class (element format)
+* Meta Data class (element language)
 *
-* @author Stefan Meyer <meyer@leifos.com>
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDFormat extends ilMDBase
+class ilMD5295Language extends ilMD5295Base
 {
-	// SET/GET
-	function setFormat($a_format)
+	/**
+	 * Lookup first language
+	 *
+	 * @access public
+	 * @static
+	 *
+	 * @param
+	 */
+	public static function _lookupFirstLanguage($a_rbac_id,$a_obj_id,$a_obj_type)
 	{
-		$this->format = $a_format;
+		global $DIC;
+
+		$ilDB = $DIC['ilDB'];
+		
+		$lang = '';
+		$query = "SELECT language FROM il_meta_language ".
+			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND obj_type = ".$ilDB->quote($a_obj_type ,'text')." ".
+			"AND parent_type = 'meta_general' ".
+			"ORDER BY meta_language_id ";
+		$ilDB->setLimit(1);
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
+		{
+			$lang = $row->language;
+		}
+		return $lang;
 	}
-	function getFormat()
+
+	// SET/GET
+	function setLanguage(&$lng_obj)
 	{
-		return $this->format;
+		if(is_object($lng_obj))
+		{
+			$this->language =& $lng_obj;
+		}
+	}
+	function &getLanguage()
+	{
+		return is_object($this->language) ? $this->language : false;
+	}
+	function getLanguageCode()
+	{
+		return is_object($this->language) ? $this->language->getLanguageCode() : false;
 	}
 
 	function save()
@@ -48,11 +84,11 @@ class ilMDFormat extends ilMDBase
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-
-		$fields = $this->__getFields();
-		$fields['meta_format_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_format'));
 		
-		if($this->db->insert('il_meta_format',$fields))
+		$fields = $this->__getFields();
+		$fields['meta_language_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_language'));
+		
+		if($this->db->insert('il_meta_language',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -65,12 +101,12 @@ class ilMDFormat extends ilMDBase
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-
+		
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_format',
+			if($this->db->update('il_meta_language',
 									$this->__getFields(),
-									array("meta_format_id" => array('integer',$this->getMetaId()))))
+									array("meta_language_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -86,8 +122,8 @@ class ilMDFormat extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_format ".
-				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "DELETE FROM il_meta_language ".
+				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 			$res = $ilDB->manipulate($query);
 			
 			return true;
@@ -101,7 +137,9 @@ class ilMDFormat extends ilMDBase
 		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
-					 'format'	=> array('text',$this->getFormat()));
+					 'parent_type' => array('text',$this->getParentType()),
+					 'parent_id' => array('integer',$this->getParentId()),
+					 'language' => array('text',$this->getLanguageCode()));
 	}
 
 	function read()
@@ -110,12 +148,12 @@ class ilMDFormat extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_format ".
-				"WHERE meta_format_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_language ".
+				"WHERE meta_language_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $this->db->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -123,7 +161,9 @@ class ilMDFormat extends ilMDBase
 				$this->setRBACId($row->rbac_id);
 				$this->setObjId($row->obj_id);
 				$this->setObjType($row->obj_type);
-				$this->setFormat($row->format);
+				$this->setParentId($row->parent_id);
+				$this->setParentType($row->parent_type);
+				$this->setLanguage(new ilMD5295LanguageItem($row->language));
 			}
 		}
 		return true;
@@ -131,33 +171,35 @@ class ilMDFormat extends ilMDBase
 				
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		if($this->getFormat())
-		{
-			$writer->xmlElement('Format',null,$this->getFormat());
-		}
+		$writer->xmlElement('Language',array('Language' => $this->getLanguageCode() ? 
+											 $this->getLanguageCode() :
+											 'en'),
+							$this->getLanguage());
 	}
 
 
 	// STATIC
-	static function _getIds($a_rbac_id,$a_obj_id)
+	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_format_id FROM il_meta_format ".
+		$query = "SELECT meta_language_id FROM il_meta_language ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
-			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer');
+			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
+			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
 
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_format_id;
+			$ids[] = $row->meta_language_id;
 		}
 		return $ids ? $ids : array();
 	}

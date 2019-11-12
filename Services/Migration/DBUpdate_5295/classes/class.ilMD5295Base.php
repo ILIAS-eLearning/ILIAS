@@ -29,7 +29,7 @@
 * @version $Id$
 */
 
-class ilMDBase
+class ilMD5295Base
 {
 	/*
 	 * object id (NOT ref_id!) of rbac object (e.g for page objects the obj_id
@@ -200,7 +200,7 @@ class ilMDBase
 	/*
 	 * Should be overwritten in all inherited classes
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)

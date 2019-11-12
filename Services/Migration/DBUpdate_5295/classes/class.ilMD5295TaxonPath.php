@@ -23,56 +23,70 @@
 
 
 /**
-* Meta Data class (element typicalagerange)
+* Meta Data class (element taxon_path)
 *
 * @package ilias-core
 * @version $Id$
 */
-include_once 'class.ilMDBase.php';
+include_once 'class.ilMD5295Base.php';
 
-class ilMDTypicalAgeRange extends ilMDBase
+class ilMD5295TaxonPath extends ilMD5295Base
 {
+	// METHODS OF CHILD OBJECTS (Taxon)
+	function &getTaxonIds()
+	{
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Taxon.php';
+
+		return ilMD5295Taxon::_getIds($this->getRBACId(),$this->getObjId(),$this->getMetaId(),'meta_taxon_path');
+	}
+	function &getTaxon($a_taxon_id)
+	{
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Taxon.php';
+
+		if(!$a_taxon_id)
+		{
+			return false;
+		}
+		$tax = new ilMD5295Taxon();
+		$tax->setMetaId($a_taxon_id);
+
+		return $tax;
+	}
+	function &addTaxon()
+	{
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Taxon.php';
+
+		$tax = new ilMD5295Taxon($this->getRBACId(),$this->getObjId(),$this->getObjType());
+		$tax->setParentId($this->getMetaId());
+		$tax->setParentType('meta_taxon_path');
+
+		return $tax;
+	}
+
 	// SET/GET
-	function setTypicalAgeRange($a_typical_age_range)
+	function setSource($a_source)
 	{
-		$this->typical_age_range = $a_typical_age_range;
+		$this->source = $a_source;
 	}
-	function getTypicalAgeRange()
+	function getSource()
 	{
-		return $this->typical_age_range;
+		return $this->source;
 	}
-	function setTypicalAgeRangeLanguage(&$lng_obj)
+	function setSourceLanguage(&$lng_obj)
 	{
 		if(is_object($lng_obj))
 		{
-			$this->typical_age_range_language = $lng_obj;
+			$this->source_language = $lng_obj;
 		}
 	}
-	function &getTypicalAgeRangeLanguage()
+	function &getSourceLanguage()
 	{
-		return is_object($this->typical_age_range_language) ? $this->typical_age_range_language : false;
+		return is_object($this->source_language) ? $this->source_language : false;
 	}
-	function getTypicalAgeRangeLanguageCode()
+	function getSourceLanguageCode()
 	{
-		return is_object($this->typical_age_range_language) ? $this->typical_age_range_language->getLanguageCode() : false;
-	}
-
-	function setTypicalAgeRangeMinimum($a_min)
-	{
-		$this->typical_age_range_minimum = $a_min;
-	}
-	function getTypicalAgeRangeMinimum()
-	{
-		return $this->typical_age_range_minimum;
-	}
-	function setTypicalAgeRangeMaximum($a_max)
-	{
-		$this->typical_age_range_maximum = $a_max;
-	}
-	function getTypicalAgeRangeMaximum()
-	{
-		return $this->typical_age_range_maximum;
-	}
+		return is_object($this->source_language) ? $this->source_language->getLanguageCode() : false;
+	} 
 
 
 	function save()
@@ -82,9 +96,9 @@ class ilMDTypicalAgeRange extends ilMDBase
 		$ilDB = $DIC['ilDB'];
 		
 		$fields = $this->__getFields();
-		$fields['meta_tar_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_tar'));
+		$fields['meta_taxon_path_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon_path'));
 		
-		if($this->db->insert('il_meta_tar',$fields))
+		if($this->db->insert('il_meta_taxon_path',$fields))
 		{
 			$this->setMetaId($next_id);
 			return $this->getMetaId();
@@ -98,12 +112,11 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		$this->__parseTypicalAgeRange();
 		if($this->getMetaId())
 		{
-			if($this->db->update('il_meta_tar',
+			if($this->db->update('il_meta_taxon_path',
 									$this->__getFields(),
-									array("meta_tar_id" => array('integer',$this->getMetaId()))))
+									array("meta_taxon_path_id" => array('integer',$this->getMetaId()))))
 			{
 				return true;
 			}
@@ -119,9 +132,16 @@ class ilMDTypicalAgeRange extends ilMDBase
 		
 		if($this->getMetaId())
 		{
-			$query = "DELETE FROM il_meta_tar ".
-				"WHERE meta_tar_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "DELETE FROM il_meta_taxon_path ".
+				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId(), 'integer');
 			$res = $ilDB->manipulate($query);
+
+			foreach($this->getTaxonIds() as $id)
+			{
+				$tax = $this->getTaxon($id);
+				$tax->delete();
+			}
+			
 			return true;
 		}
 		return false;
@@ -130,15 +150,13 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 	function __getFields()
 	{
-		 return array('rbac_id'	=> array('integer',$this->getRBACId()),
+		return array('rbac_id'	=> array('integer',$this->getRBACId()),
 					 'obj_id'	=> array('integer',$this->getObjId()),
 					 'obj_type'	=> array('text',$this->getObjType()),
 					 'parent_type' => array('text',$this->getParentType()),
 					 'parent_id' => array('integer',$this->getParentId()),
-					 'typical_age_range'	=> array('text',$this->getTypicalAgeRange()),
-					 'tar_language' => array('text',$this->getTypicalAgeRangeLanguageCode()),
-					 'tar_min' => array('text',$this->getTypicalAgeRangeMinimum()),
-					 'tar_max' => array('text',$this->getTypicalAgeRangeMaximum()));
+					 'source'	=> array('text',$this->getSource()),
+					 'source_language' => array('text',$this->getSourceLanguageCode()));
 	}
 
 	function read()
@@ -147,12 +165,12 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 		
-		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMDLanguageItem.php';
+		include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295LanguageItem.php';
 
 		if($this->getMetaId())
 		{
-			$query = "SELECT * FROM il_meta_tar ".
-				"WHERE meta_tar_id = ".$ilDB->quote($this->getMetaId() ,'integer');
+			$query = "SELECT * FROM il_meta_taxon_path ".
+				"WHERE meta_taxon_path_id = ".$ilDB->quote($this->getMetaId() ,'integer');
 
 			$res = $ilDB->query($query);
 			while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
@@ -162,28 +180,45 @@ class ilMDTypicalAgeRange extends ilMDBase
 				$this->setObjType($row->obj_type);
 				$this->setParentId($row->parent_id);
 				$this->setParentType($row->parent_type);
-				$this->setTypicalAgeRange($row->typical_age_range);
-				$this->setTypicalAgeRangeLanguage(new ilMDLanguageItem($row->tar_language));
-				$this->setTypicalAgeRangeMinimum($row->tar_min);
-				$this->setTypicalAgeRangeMaximum($row->tar_max);
+				$this->setSource($row->source);
+				$this->source_language = new ilMD5295LanguageItem($row->source_language);
 			}
 		}
 		return true;
 	}
-				
+
 	/*
 	 * XML Export of all meta data
-	 * @param object (xml writer) see class.ilMD2XML.php
+	 * @param object (xml writer) see class.ilMD52952XML.php
 	 * 
 	 */
 	function toXML(&$writer)
 	{
-		$writer->xmlElement('TypicalAgeRange',array('Language' => $this->getTypicalAgeRangeLanguageCode()
-													? $this->getTypicalAgeRangeLanguageCode()
-													: 'en'),
-							$this->getTypicalAgeRange());
+		$writer->xmlStartTag('TaxonPath');
+
+		$writer->xmlElement('Source',array('Language' => $this->getSourceLanguageCode()
+										   ? $this->getSourceLanguageCode()
+										   : 'en'),
+							$this->getSource());
+
+		// Taxon
+		$taxs = $this->getTaxonIds();
+		foreach($taxs as $id)
+		{
+			$tax =& $this->getTaxon($id);
+			$tax->toXML($writer);
+		}
+		if(!count($taxs))
+		{
+			include_once 'Services/Migration/DBUpdate_5295/classes/class.ilMD5295Taxon.php';
+			$tax = new ilMD5295Taxon($this->getRBACId(),$this->getObjId());
+			$tax->toXML($writer);
+		}
+		
+		$writer->xmlEndTag('TaxonPath');
 	}
 
+				
 
 	// STATIC
 	static function _getIds($a_rbac_id,$a_obj_id,$a_parent_id,$a_parent_type)
@@ -192,52 +227,18 @@ class ilMDTypicalAgeRange extends ilMDBase
 
 		$ilDB = $DIC['ilDB'];
 
-		$query = "SELECT meta_tar_id FROM il_meta_tar ".
+		$query = "SELECT meta_taxon_path_id FROM il_meta_taxon_path ".
 			"WHERE rbac_id = ".$ilDB->quote($a_rbac_id ,'integer')." ".
 			"AND obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
 			"AND parent_id = ".$ilDB->quote($a_parent_id ,'integer')." ".
 			"AND parent_type = ".$ilDB->quote($a_parent_type ,'text');
-			
+
 		$res = $ilDB->query($query);
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
-			$ids[] = $row->meta_tar_id;
+			$ids[] = $row->meta_taxon_path_id;
 		}
 		return $ids ? $ids : array();
 	}
-
-	// PRIVATE
-	function __parseTypicalAgeRange()
-	{
-		if(preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/",$this->getTypicalAgeRange(),$matches))
-		{
-			if(!$matches[2] and !$matches[3])
-			{
-				$min = $max = $matches[1];
-			}
-			elseif($matches[2] and !$matches[3])
-			{
-				$min = $matches[1];
-				$max = 99;
-			}
-			else
-			{
-				$min = $matches[1];
-				$max = $matches[3];
-			}
-			$this->setTypicalAgeRangeMaximum($max);
-			$this->setTypicalAgeRangeMinimum($min);
-
-			return true;
-		}
-
-		if(!$this->getTypicalAgeRange())
-		{
-			$this->setTypicalAgeRangeMinimum(-1);
-			$this->setTypicalAgeRangeMaximum(-1);
-		}
-		return true;
-	}
-			
 }
 ?>
