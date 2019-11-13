@@ -4512,6 +4512,10 @@ common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
+common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da andere Objekte dieselbe Bezeichnung besitzen:
+common#:#webdav_problem_info_duplicate#:#Es existiert eine Date mit dem selben Titel wie der des Infofiles.
+common#:#webdav_problem_free_container#:#In diesem Ordner wurden keine Objekte welche Probleme verursachen gefunden.
 common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
 common#:#edit_metadata#:#Metadaten bearbeiten
