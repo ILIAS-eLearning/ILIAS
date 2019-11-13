@@ -55,6 +55,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs = $gs;
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
+        $this->il_settings = $DIC->settings();
     }
 
 
@@ -107,7 +108,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
-        PageContentProvider::setShortTitle(CLIENT_NAME);
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
@@ -219,6 +219,12 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setTitle($a_title);
         PageContentProvider::setTitle($a_title);
         PageContentProvider::setViewTitle($a_title);
+
+        $short_title = $this->il_settings->get('short_inst_name');
+        if (trim($short_title) === "") {
+            $short_title = CLIENT_NAME;
+        }
+        PageContentProvider::setShortTitle($short_title);
     }
 
 
