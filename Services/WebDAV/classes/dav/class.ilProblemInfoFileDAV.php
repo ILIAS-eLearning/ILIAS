@@ -70,7 +70,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      */
     function getContentType()
     {
-        return 'txt/plain';
+        return 'text/plain';
     }
 
     /**
@@ -170,22 +170,25 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      */
     protected function createMessageStringFromProblemInfoArray(array $problem_infos)
     {
+        global $DIC;
+
+        $lng = $DIC->language();
         $message_string = "";
 
         // If there is a file with the same name of the problem info file -> print message about it
         if($problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE])
         {
-            $message_string .= "There is a file with the same title as the info file\n\n";
+            $message_string .= "# " . $lng->txt('webdav_problem_info_duplicate') . "\n\n";
         }
 
         // Print list with duplicate file names
         $duplicates_list = $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME];
         if(count($duplicates_list) > 0)
         {
-            $message_string .= "# Duplicates detected:\n";
+            $message_string .= "# " . $lng->txt('webdav_duplicate_detected_title') . "\n";
             foreach($duplicates_list as $duplicate_title)
             {
-                $message_string .= "- $duplicate_title\n";
+                $message_string .= $duplicate_title . "\n";
             }
             $message_string .= "\n";
         }
@@ -194,10 +197,10 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
         $forbidden_character_titles_list = $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS];
         if(count($forbidden_character_titles_list) > 0)
         {
-            $message_string .= "# Forbidden characters detected:\n";
+            $message_string .= "# " . $lng->txt('webdav_forbidden_chars_title') . "\n";
             foreach($forbidden_character_titles_list as $forbidden_character_title)
             {
-                $message_string .= "- $forbidden_character_title\n";
+                $message_string .= $forbidden_character_title . "\n";
             }
             $message_string .= "\n";
         }
@@ -205,7 +208,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
         // If no problems were found -> create a default message (this happens only if the file is called directly)
         if(strlen($message_string) == 0)
         {
-            $message_string = "There are no problems in this container";
+            $message_string = $lng->txt('webdav_problem_free_container');
         }
 
         return $message_string;
