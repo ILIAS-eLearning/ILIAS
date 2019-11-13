@@ -7331,7 +7331,7 @@ survey#:#codes#:#Access Codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
-survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
+survey#:#confirm_delete_single_user_data#:#Are you sure you want remove the participants? This will delete any survey data of the selected users.
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraint_add#:#Add Routing Rule
@@ -7381,7 +7381,6 @@ survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define Question Block
-survey#:#delete_user_data#:#Delete the Survey Data of the Selected Users
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
@@ -15273,3 +15272,14 @@ rbac#:#rbac_add_recommended_content#:#Recommended Content
 rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.
 dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
 dash#:#dash_click_here#:#Click here
+svy#:#svy_remove_all_participants#:#Remove all Participants
+svy#:#svy_invite_participants#:#Invite Participants
+svy#:#svy_codes#:#Access Codes
+svy#:#svy_part_overview#:#Overview
+svy#:#svy_remove_participants#:#Remove Participants
+svy#:#svy_status#:#Status
+svy#:#svy_status_invited#:#Invited
+svy#:#svy_status_in_progress#:#In Progress
+svy#:#svy_status_finished#:#Finished
+svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_finish_survey#:#Finish survey '%1'

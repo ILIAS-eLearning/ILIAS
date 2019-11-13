@@ -581,7 +581,7 @@ class ilSurveyExecutionGUI
 				$question_output = $question_gui->getWorkingForm($working_data, $this->object->getShowQuestionTitles(), $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId());
 				$this->tpl->setVariable("QUESTION_OUTPUT", $question_output);
 				$this->ctrl->setParameter($this, "qid", $data["question_id"]);
-				$this->tpl->parse("survey_content");
+				//$this->tpl->parse("survey_content");
 				if ($data["obligatory"]) $required = true;
 			}
 			if ($required)

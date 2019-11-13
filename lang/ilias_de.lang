@@ -8878,7 +8878,7 @@ survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Benutzerdaten der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmer löschen wollen?
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie diese Teilnehmer entfernen wollen? Dies löscht alle Umfragedaten für die ausgewählten Benutzer.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
@@ -15289,3 +15289,14 @@ rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
 rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_click_here#:#Hier klicken
+svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
+svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_codes#:#Zugriffscodes
+svy#:#svy_part_overview#:#Übersicht
+svy#:#svy_remove_participants#:#Teilnehmer entfernen
+svy#:#svy_status#:#Status
+svy#:#svy_status_invited#:#Eingeladen
+svy#:#svy_status_in_progress#:#In Bearbeitung
+svy#:#svy_status_finished#:#Beendet
+svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
+svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten

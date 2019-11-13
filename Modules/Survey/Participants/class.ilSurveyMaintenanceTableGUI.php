@@ -43,9 +43,10 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("login"),'login', '');
 		$this->addColumn($this->lng->txt("last_access"),'last_access', '');
 		$this->addColumn($this->lng->txt("workingtime"),'workingtime', '');
+        $this->addColumn($this->lng->txt("svy_status"),'', '');
 		$this->addColumn($this->lng->txt("survey_results_finished"),'finished', '');
 	
-		$this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey");
+		$this->setRowTemplate("tpl.il_svy_svy_maintenance_row.html", "Modules/Survey/Participants");
 
 		if ($confirmdelete)
 		{
@@ -54,7 +55,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));			
+			$this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('svy_remove_participants'));
 		}
 
 		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -91,20 +92,37 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
 		if (!$this->confirmdelete)
 		{
 			$this->tpl->setCurrentBlock('checkbox');
-			$this->tpl->setVariable("CB_USER_ID", $data['id']);
+			if ($data["invited"]) {
+                $this->tpl->setVariable("CB_USER_ID", "inv".$data['usr_id']);
+            } else {
+                $this->tpl->setVariable("CB_USER_ID", $data['id']);
+            }
 			$this->tpl->parseCurrentBlock();
 		}
 		else
 		{
 			$this->tpl->setCurrentBlock('hidden');
-			$this->tpl->setVariable('HIDDEN_USER_ID', $data["id"]);
+            if ($data["invited"]) {
+                $this->tpl->setVariable("HIDDEN_USER_ID", "inv".$data['usr_id']);
+            } else {
+                $this->tpl->setVariable("HIDDEN_USER_ID", $data['id']);
+            }
 			$this->tpl->parseCurrentBlock();
 		}
 		$this->tpl->setVariable("USER_ID", $data["id"]);
 		$this->tpl->setVariable("VALUE_USER_NAME", $data['name']);
 		$this->tpl->setVariable("VALUE_USER_LOGIN", $data['login']);
 		$this->tpl->setVariable("LAST_ACCESS", ilDatePresentation::formatDate(new ilDateTime($data['last_access'],IL_CAL_UNIX)));
-		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));		
+		$this->tpl->setVariable("WORKINGTIME", $this->formatTime($data['workingtime']));
+
+		$state = $this->lng->txt("svy_status_in_progress");
+		if ($data['last_access'] == "" && $data["invited"]) {
+            $state = $this->lng->txt("svy_status_invited");
+        }
+		if ($data["finished"] !== false) {
+            $state = $this->lng->txt("svy_status_finished");
+        }
+        $this->tpl->setVariable("STATUS", $state);
 		
 		if($data["finished"] !== null)
 		{			
