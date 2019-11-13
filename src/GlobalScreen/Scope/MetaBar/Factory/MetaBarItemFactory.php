@@ -61,7 +61,7 @@ class MetaBarItemFactory
      *
      * @return NotificationCenter
      */
-    public function notificationCenter(IdentificationInterface $identification)
+    public function notificationCenter(IdentificationInterface $identification) : NotificationCenter
     {
         static $created;
         if ($created === true) {
