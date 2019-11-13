@@ -5,6 +5,7 @@ include_once ("libs/composer/vendor/geshi/geshi/src/geshi.php");
 
 
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
+use ILIAS\UI\Implementation\Crawler as Crawler;
 
 /**
  *
@@ -55,19 +56,22 @@ class ilKSDocumentationEntryGUI
 	 * @param Entry\ComponentEntries $entries
 	 */
 	public function __construct(
-			ilSystemStyleDocumentationGUI $parent,
-			ilKSDocumentationExplorerGUI $explorer,
-			Entry\ComponentEntries $entries
+			ilSystemStyleDocumentationGUI $parent
 	) {
 		global $DIC;
 
 		$this->f = $DIC->ui()->factory();
 		$this->r = $DIC->ui()->renderer();
 
-		$this->explorer = $explorer;
-		$entry = $explorer->getCurrentOpenedNode();
 
-		$this->setEntry($entry);
+        $entries = Crawler\Entry\ComponentEntries::createFromArray(include ilSystemStyleDocumentationGUI::$DATA_PATH);
+        $current_opened_node_id = $_GET["node_id"];
+
+        if($current_opened_node_id){
+            $this->setEntry($entries->getEntryById($_GET["node_id"]));
+        }else{
+            $this->setEntry($entries->getRootEntry());
+        }
 		$this->setEntries($entries);
 		$this->setParent($parent);
 		$this->ctrl = $DIC->ctrl();
@@ -85,6 +89,7 @@ class ilKSDocumentationEntryGUI
 		foreach($this->entry->getFeatureWikiReferences()as $href){
 			$feature_wiki_links[] = $href;
 		}
+
 
 		$sub_panels[] = $this->f->panel()->sub("Description",
 			array(
@@ -142,29 +147,18 @@ class ilKSDocumentationEntryGUI
 				$sub_panels[] = $this->f->panel()->sub($title, $content);
 			}
 		}
-
-
-		$relations_card = $this->f->card()
-			->standard('Relations')
-			->withSections([
-				$this->f->listing()->descriptive(
-					array(
-						"Parents" => $this->f->listing()->ordered(
-							$this->entries->getParentsOfEntryTitles($this->entry->getId())
-						),
-						"Descendants" => $this->f->listing()->unordered(
-							$this->entries->getDescendantsOfEntryTitles($this->entry->getId())
-						)
-					)
-				)
-			]);
-
-
-		$sub_panels[] = $this->f->panel()->sub("Navigation",
-			$this->f->legacy($this->explorer->getHTML())
-		)
-		->withCard($relations_card);
-
+        $sub_panels[] = $this->f->panel()->sub('Relations',[
+                                    $this->f->listing()->descriptive(
+                                        array(
+                                            "Parents" => $this->f->listing()->ordered(
+                                                $this->entries->getParentsOfEntryTitles($this->entry->getId())
+                                            ),
+                                            "Descendants" => $this->f->listing()->unordered(
+                                                $this->entries->getDescendantsOfEntryTitles($this->entry->getId())
+                                            )
+                                        )
+                                    )
+                                ]);
 
 
 		$report = $this->f->panel()
