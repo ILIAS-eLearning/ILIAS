@@ -249,7 +249,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
 				}
 				
 				// should not happen
-				ilUtil::redirect("ilias.php?baseClass=ilPersonalDesktopGUI");
+				ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
 				
 			case self::LP_CONTEXT_USER_FOLDER:
 			case self::LP_CONTEXT_ORG_UNIT:

@@ -44,11 +44,12 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
         if ($additional_data->exists(self::SHOW_FORUM_THREADS_TOOL) && $additional_data->get(self::SHOW_FORUM_THREADS_TOOL) === true) {
             $isModerator = $this->dic->access()->checkAccess('moderate_frm', '', $refId);
 
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', '')->withIsOutlined(true);
+            $title = $this->dic->language()->txt('tree');
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
 
             $tools[] = $this->factory
                 ->tool($iff('Forum|Tree'))
-                ->withTitle($this->dic->language()->txt('tree'))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(static function () use ($l, $threadId, $isModerator, $refId) {
                     $thread = new ilForumTopic((int) $threadId, $isModerator);

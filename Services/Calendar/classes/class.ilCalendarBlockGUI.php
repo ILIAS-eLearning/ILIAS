@@ -331,7 +331,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$target_class = array();
 		if (!$this->getRepositoryMode())
 		{
-			$target_class = array("ilpersonaldesktopgui", "ilcalendarpresentationgui");
+			$target_class = array("ildashboardgui", "ilcalendarpresentationgui");
 		}
 		else
 		{
@@ -894,7 +894,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 	
@@ -913,7 +913,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 

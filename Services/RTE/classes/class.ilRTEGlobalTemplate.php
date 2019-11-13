@@ -848,7 +848,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
 	//    - ilCalendarPresentationGUI
 	//    - ilContainerGUI
 	//    - ilObjDataCollectionGUI
-	//    - ilPersonalDesktopGUI
+	//    - ilDashboardGUI
 	//    - ilObjPortfolioTemplateGUI
 	//    - ilWikiPageGUI
 	//    - ilObjWikiGUI

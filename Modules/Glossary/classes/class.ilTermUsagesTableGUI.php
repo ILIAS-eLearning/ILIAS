@@ -209,7 +209,6 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 
 			case "sqst":
 				$item["obj_type_txt"] = $this->lng->txt("cont_sqst");
-				include_once("./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php");
 				$obj_id = SurveyQuestion::lookupObjFi($usage["id"]);
 				$item["obj_title"] = ilObject::_lookupTitle($obj_id);
 				$item["sub_txt"] = $this->lng->txt("question");

@@ -154,7 +154,6 @@ class ilSurveyExecutionGUI
 			if(!$rbacsystem->checkAccess("write", $this->object->ref_id))
 			{				
 				// only with write access it is possible to preview the survey
-				include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 				throw new ilSurveyException($this->lng->txt("survey_cannot_preview_survey"));
 			}
 			
@@ -165,7 +164,6 @@ class ilSurveyExecutionGUI
 			!$rbacsystem->checkAccess("read", $this->object->ref_id)) 
 		{
 			// only with read access it is possible to run the test
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
 		}
 		
@@ -501,8 +499,7 @@ class ilSurveyExecutionGUI
 			
 			if($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				include_once "Services/Tracking/classes/class.ilLearningProgress.php";
-				ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->ref_id, "svy");		
+				ilLearningProgress::_tracProgress($ilUser->getId(), $this->object->getId(), $this->object->ref_id, "svy");
 			}
 
 			$required = false;
@@ -512,7 +509,6 @@ class ilSurveyExecutionGUI
 			{			
 				$appr_id = $_SESSION["appr_id"][$this->object->getId()];
 				
-				include_once "Services/User/classes/class.ilUserUtil.php";
 				$this->tpl->setTitle($this->object->getTitle()." (".
 					$this->lng->txt("survey_360_appraisee").": ".
 					ilUserUtil::getNamePresentation($appr_id).")");
@@ -545,7 +541,6 @@ class ilSurveyExecutionGUI
 			
 			$percentage = (int)(($page[0]["position"])*100);
 			
-			include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
 			$pbar = ilProgressBar::getInstance();
 			$pbar->setCurrent($percentage);			
 			$this->tpl->setVariable("NEW_PBAR", $pbar->render());
@@ -717,7 +712,6 @@ class ilSurveyExecutionGUI
 	{
 		$ilUser = $this->user;
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($data["question_id"]);
 		$error = $question->checkUserInput($_POST, $this->object->getSurveyId());
 		if (strlen($error) == 0)
@@ -769,8 +763,7 @@ class ilSurveyExecutionGUI
 		
 		$has_button = false;
 		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-		
+
 		if(!$this->preview)
 		{
 			if($this->object->hasViewOwnResults())
@@ -801,7 +794,6 @@ class ilSurveyExecutionGUI
 								
 				$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
 								
-				include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 				$button = ilSubmitButton::getInstance();
 				$button->setCaption("svy_mail_send_confirmation");
 				$button->setCommand("mailUserResults");
@@ -811,7 +803,6 @@ class ilSurveyExecutionGUI
 			}			
 			
 			// #6307
-			include_once "Modules/Survey/classes/class.ilObjSurveyAccess.php";
 			if(ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 			{
 				$button = ilLinkButton::getInstance();
@@ -842,7 +833,6 @@ class ilSurveyExecutionGUI
 		
 			if(strlen($this->object->getOutro()))
 			{	
-				include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 				$panel = ilPanelGUI::getInstance();
 				$panel->setBody($this->object->prepareTextareaOutput($this->object->getOutro()));
 				$this->tpl->setContent($panel->getHTML());			
@@ -865,8 +855,7 @@ class ilSurveyExecutionGUI
 			$target_ref_id = $tree->getParentId($this->object->getRefId());
 		}
 				
-		include_once "Services/Link/classes/class.ilLink.php";
-		ilUtil::redirect(ilLink::_getLink($target_ref_id));	
+		ilUtil::redirect(ilLink::_getLink($target_ref_id));
 	}
 
 /**
@@ -941,7 +930,6 @@ class ilSurveyExecutionGUI
 		
 		$this->checkAuth(false, true);		
 				
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("btn_back");								
 		$button->setUrl($this->ctrl->getLinkTarget($this, "runShowFinishedPage"));										
@@ -987,7 +975,6 @@ class ilSurveyExecutionGUI
 	{
 		$tpl = $this->tpl;
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("survey_execution_sure_finish"));
 
@@ -1008,7 +995,6 @@ class ilSurveyExecutionGUI
 						
 			if($ilUser->getId() != ANONYMOUS_USER_ID)
 			{
-				include_once "Services/Tracking/classes/class.ilLPStatusWrapper.php";
 				ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 			}
 									
@@ -1020,12 +1006,6 @@ class ilSurveyExecutionGUI
 			}		
 		}
 
-		/*
-		unset($_SESSION["anonymous_id"][$this->object->getId()]);
-		unset($_SESSION["appr_id"][$this->object->getId()]);
-		unset($_SESSION["finished_id"][$this->object->getId()]);
-		*/ 
-			
 		$this->ctrl->redirect($this, "runShowFinishedPage");
 	}
 }

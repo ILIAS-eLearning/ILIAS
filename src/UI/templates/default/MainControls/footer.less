@@ -4,17 +4,17 @@
 	padding: 2px 10px;
 
 	.il-footer-content div {
-		float: left;
+		display: inline-block;
 	}
 
 	.il-footer-links ul {
 		list-style: none;
-		paddinng: 0px;
+		padding: 0px;
 		margin: 0px;
 
 		li {
 			display: inline-block;
-			margin-left: 5px;
+			margin-right: 5px;
 			a {
 				color: white;
 			}
@@ -22,7 +22,13 @@
 	}
 
 	.il-footer-permanent-url {
-		display: inline-block;
-		border: 1px solid gray;
+		background-color: #fff;
+		color: @brand-primary;
+		padding: 2px;
+		margin-right: 5px;
+	}
+
+	.il-footer-text {
+		margin-right: 5px;
 	}
 }

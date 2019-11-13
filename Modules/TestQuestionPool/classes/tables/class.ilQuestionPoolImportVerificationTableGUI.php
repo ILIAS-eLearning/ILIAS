@@ -35,8 +35,8 @@ class ilQuestionPoolImportVerificationTableGUI extends ilTable2GUI
 	protected function initColumns()
 	{
 		$this->addColumn('', '', '1%', true);
-		$this->addColumn($this->lng->txt('question_type'));
 		$this->addColumn($this->lng->txt('question_title'));
+		$this->addColumn($this->lng->txt('question_type'));
 	}
 
 	/**

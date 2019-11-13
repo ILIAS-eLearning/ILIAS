@@ -115,4 +115,21 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
+    public function testWithShortTitle()
+    {
+        $title = 'some short title';
+        $this->assertEquals(
+            $title,
+            $this->stdpage->withShortTitle($title)->getShortTitle()
+        );
+    }
+    public function testWithViewTitle()
+    {
+        $title = 'some view title';
+        $this->assertEquals(
+            $title,
+            $this->stdpage->withViewTitle($title)->getViewTitle()
+        );
+    }
+
 }

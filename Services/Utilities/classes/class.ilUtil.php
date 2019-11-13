@@ -3100,20 +3100,6 @@ class ilUtil
 
 
 	/**
-	* removes object from all user's desktops
-	* @access	public
-	* @param	integer	ref_id
-	* @return	array	user_ids of all affected users
-	* @static
-	* 
-	*/
-	public static function removeItemFromDesktops($a_id)
-	{
-		return ilObjUser::_removeItemFromDesktops($a_id);
-	}
-
-
-	/**
 	* extracts parameter value pairs from a string into an array
 	*
 	* @param	string		$a_parstr		parameter string (format: par1="value1", par2="value2", ...)

@@ -5,15 +5,12 @@
 include_once ('./Services/Object/classes/class.ilObject2GUI.php');
 
 /**
-* GUI class for scorm verification
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
-*
-* @ilCtrl_Calls ilObjSCORMVerificationGUI: ilWorkspaceAccessGUI
-*
-* @ingroup ModulesScormAicc
-*/
+ * GUI class for scorm verification
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjSCORMVerificationGUI: ilWorkspaceAccessGUI
+ */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
 	public function getType()

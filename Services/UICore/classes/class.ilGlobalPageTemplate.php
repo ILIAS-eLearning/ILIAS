@@ -107,7 +107,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
-
+        PageContentProvider::setShortTitle(CLIENT_NAME);
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
@@ -218,6 +218,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setTitle($a_title)
     {
         $this->legacy_content_template->setTitle($a_title);
+        PageContentProvider::setTitle($a_title);
+        PageContentProvider::setViewTitle($a_title);
     }
 
 

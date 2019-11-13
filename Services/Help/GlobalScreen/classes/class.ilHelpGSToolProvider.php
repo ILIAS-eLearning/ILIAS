@@ -38,7 +38,8 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
 
-        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), "");
+        $title = $lng->txt("help");
+        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
 
         if ($this->showHelpTool()) {
 
@@ -46,7 +47,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
-                ->withTitle($lng->txt("help"))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {
                     return $l($this->getHelpContent());

@@ -1,5 +1,4 @@
 <?php
-include_once ("./Services/Component/classes/class.ilPlugin.php");
 
 /**
  * Abstract parent class for all question plugin classes.

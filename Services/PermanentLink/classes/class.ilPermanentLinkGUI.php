@@ -283,7 +283,7 @@ class ilPermanentLinkGUI
 				'ilbookmarkadministrationgui', 'return_to_url', urlencode($_SERVER['REQUEST_URI'])
 			);
 			$link = $GLOBALS['DIC']->ctrl()->getLinkTargetByClass(
-				['ilPersonalDesktopGUI', 'ilbookmarkadministrationgui'],
+				['ilDashboardGUI', 'ilbookmarkadministrationgui'],
 				'newFormBookmark'
 			);
 			$current_selection_list->addItem($GLOBALS['DIC']['lng']->txt("bm_add_to_ilias"), '', $link, '' , $GLOBALS['DIC']['lng']->txt('bm_add_to_ilias'), '_top');

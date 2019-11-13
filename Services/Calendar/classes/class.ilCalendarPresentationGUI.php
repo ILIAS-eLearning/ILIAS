@@ -196,7 +196,7 @@ class ilCalendarPresentationGUI
 		if(!ilCalendarSettings::_getInstance()->isEnabled())
 		{
 			ilUtil::sendFailure($this->lng->txt('permission_denied'),true);
-			ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 		}
 
 		$this->initSeed();
@@ -604,7 +604,7 @@ class ilCalendarPresentationGUI
 			{
 				$this->tabs_gui->setBack2Target(
 					$this->lng->txt('back_to_pd'),
-					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
+					$this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
 				);
 			}
 			$label = $this->lng->txt('back_to_' . ilObject::_lookupType($this->ref_id,true));
@@ -678,7 +678,7 @@ class ilCalendarPresentationGUI
 			{
 				$this->tabs_gui->setBack2Target(
 					$this->lng->txt('back_to_pd'),
-					$this->ctrl->getLinkTargetByClass(ilPersonalDesktopGUI::class, 'jumpToCalendar')
+					$this->ctrl->getLinkTargetByClass(ilDashboardGUI::class, 'jumpToCalendar')
 				);
 			}
 			$label = $this->lng->txt('back_to_' . ilObject::_lookupType($this->ref_id,true));

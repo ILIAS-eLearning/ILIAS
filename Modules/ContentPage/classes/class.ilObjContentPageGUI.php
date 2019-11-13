@@ -483,33 +483,6 @@ class ilObjContentPageGUI extends \ilObject2GUI implements \ilContentPageObjectC
         $this->infoScreenForward();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addToDeskObject()
-    {
-        if ((int) $this->settings->get('disable_my_offers')) {
-            $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-        }
-
-        \ilDesktopItemGUI::addToDesktop();
-        \ilUtil::sendSuccess($this->lng->txt('added_to_desktop'), true);
-        $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function removeFromDeskObject()
-    {
-        if ((int) $this->settings->get('disable_my_offers')) {
-            $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-        }
-
-        \ilDesktopItemGUI::removeFromDesktop();
-        \ilUtil::sendSuccess($this->lng->txt('removed_from_desktop'), true);
-        $this->ctrl->redirect($this, self::UI_CMD_VIEW);
-    }
 
     /**
      * Shows the content of the object

@@ -26,11 +26,12 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), "");
+        $title = $this->dic->language()->txt("mm_tags");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/tag.svg"), $title);
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
-                ->withTitle($this->dic->language()->txt("mm_tags"))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () {
                     $tag_ui = new \ilTaggingSlateContentGUI();
