@@ -19,6 +19,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\TextSubsetQuestionGUI
 use Exception;
 use ilPropertyFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MatchingQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\EssayQuestionGUI;
 
 const MSG_SUCCESS = "success";
 
@@ -39,6 +40,7 @@ class AsqGUIElementFactory {
     const TYPE_MATCHING = 4;
     const TYPE_ORDERING = 5;
     const TYPE_IMAGE_MAP = 6;
+    const TYPE_ESSAY = 8;
     const TYPE_NUMERIC = 9;
     const TYPE_TEXT_SUBSET = 10;
     const TYPE_FILE_UPLOAD = 13;
@@ -88,6 +90,7 @@ class AsqGUIElementFactory {
 	    $question_types[self::TYPE_MATCHING] = $DIC->language()->txt('asq_question_matching');
 	    $question_types[self::TYPE_KPRIM_CHOICE] = $DIC->language()->txt('asq_question_kprim_answer');
 	    $question_types[self::TYPE_ERROR_TEXT] = $DIC->language()->txt('asq_question_error_text');
+	    $question_types[self::TYPE_ESSAY] = $DIC->language()->txt('asq_question_essay');
 	    $question_types[self::TYPE_IMAGE_MAP] = $DIC->language()->txt('asq_question_image_map');
 	    $question_types[self::TYPE_NUMERIC] = $DIC->language()->txt('asq_question_numeric');
 	    $question_types[self::TYPE_FORMULA] = $DIC->language()->txt('asq_question_formula');
@@ -95,8 +98,7 @@ class AsqGUIElementFactory {
 	    $question_types[self::TYPE_ORDERING] = $DIC->language()->txt('asq_question_ordering');
 	    $question_types[self::TYPE_FILE_UPLOAD] = $DIC->language()->txt('asq_question_file_upload');
 	    /*$question_types[3] = 'Cloze Test ';
-	     
-	     $question_types[8] = 'Text Question ';
+	    
 	     $question_types[17] = 'Long Menu ';*/
 	    return $question_types;
 	}
@@ -147,6 +149,8 @@ class AsqGUIElementFactory {
 	            return new FileUploadQuestionGUI($question);
 	        case self::TYPE_MATCHING:
 	            return new MatchingQuestionGUI($question);
+	        case self::TYPE_ESSAY:
+	            return new EssayQuestionGUI($question);
 	        default:
 	            throw new Exception("Implement missing case please");
 	    }

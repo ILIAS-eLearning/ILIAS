@@ -26,6 +26,7 @@ class AvailableEditors {
         $editors[FileUploadEditor::class] = 'FileuploadEditor';
         $editors[FormulaEditor::class] = 'FormulaEditor';
         $editors[MatchingEditor::class] = 'MatchingEditor';
+        $editors[EssayEditor::class] = 'EssayEditor';
 		return $editors;
 	}
 
