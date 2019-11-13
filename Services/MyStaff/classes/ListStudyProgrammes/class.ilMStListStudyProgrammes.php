@@ -1,14 +1,15 @@
 <?php
-namespace ILIAS\MyStaff\ListCourses;
+namespace ILIAS\MyStaff\ListStudyProgrammes;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ilLPStatus;
 use ilOrgUnitOperation;
 
 /**
- * Class ilMStListCourses
+ * Class ilMStListStudyProgrammes
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMStListCourses {
+class ilMStListStudyProgrammes {
 
 	/**
 	 * @param array $arr_usr_ids
@@ -37,15 +38,15 @@ class ilMStListCourses {
 		$options = array_merge($_options, $options);
 
 		$select = 'SELECT crs_ref.ref_id AS crs_ref_id, crs.title AS crs_title, reg_status, lp_status, usr_data.usr_id AS usr_id, usr_data.login AS usr_login, usr_data.lastname AS usr_lastname, usr_data.firstname AS usr_firstname, usr_data.email AS usr_email  FROM (
-	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
+	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
                          WHERE ' . $DIC->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
 		            UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
+	                    SELECT obj_id, usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
 	                    WHERE ' . $DIC->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
                     UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REQUESTED . ' AS reg_status, 0 AS lp_status FROM il_subscribers AS requested
+	                    SELECT obj_id, usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_REQUESTED . ' AS reg_status, 0 AS lp_status FROM il_subscribers AS requested
 	                  WHERE ' . $DIC->database()->in('requested.usr_id', $arr_usr_ids, false, 'integer') . '  
 	                    ) AS memb
 	           
@@ -73,7 +74,7 @@ class ilMStListCourses {
 		$crs_data = array();
 
 		while ($crs = $DIC->database()->fetchAssoc($result)) {
-			$list_course = new ilMStListCourse();
+			$list_course = new ilMStListStudyProgramme();
 			$list_course->setCrsRefId($crs['crs_ref_id']);
 			$list_course->setCrsTitle($crs['crs_title']);
 			$list_course->setUsrRegStatus($crs['reg_status']);

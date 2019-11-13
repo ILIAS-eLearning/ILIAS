@@ -1,5 +1,8 @@
 <?php
 
+use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ShowUser\ilMStShowUserCoursesTableGUI;
+
 /**
  * Class ilMStShowUserGUI
  *

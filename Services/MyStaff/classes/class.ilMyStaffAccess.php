@@ -1,4 +1,8 @@
 <?php
+namespace ILIAS\MyStaff;
+use ilObjectAccess;
+use ilOrgUnitOperation;
+use ilOrgUnitOperationQueries;
 
 /**
  * Class ilMyStaffAccess

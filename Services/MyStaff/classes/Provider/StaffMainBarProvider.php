@@ -1,8 +1,10 @@
-<?php namespace ILIAS\MyStaff\Provider;
+<?php
+
+namespace ILIAS\MyStaff\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
-use ilMyStaffAccess;
+use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class StaffMainBarProvider

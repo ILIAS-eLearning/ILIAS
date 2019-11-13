@@ -1,4 +1,6 @@
 <?php
+namespace ILIAS\MyStaff\ListUsers;
+use ilObjUser;
 
 /**
  * Class ilMStListUser

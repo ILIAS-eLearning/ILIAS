@@ -1,5 +1,5 @@
 <?php
-
+namespace ILIAS\MyStaff\ListUsers;
 /**
  * Class ilListUser
  *

@@ -1,4 +1,18 @@
 <?php
+namespace ILIAS\MyStaff\ListUsers;
+use Closure;
+use ilAdvancedSelectionListGUI;
+use ilCSVWriter;
+use ilExcel;
+use ILIAS\MyStaff\ilMyStaffAccess;
+use ilMStListUsersGUI;
+use ilObjOrgUnit;
+use ilObjOrgUnitTree;
+use ilOrgUnitPathStorage;
+use ilSelectInputGUI;
+use ilTable2GUI;
+use ilTextInputGUI;
+use ilUserSearchOptions;
 
 /**
  * Class ilMStListUsersTableGUI
