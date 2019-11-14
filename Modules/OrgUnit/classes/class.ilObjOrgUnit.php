@@ -197,39 +197,42 @@ class ilObjOrgUnit extends ilContainer {
 	}
 
 
-	/**
-	 * @return int
-	 */
-	public static function getRootOrgRefId() {
-		self::loadRootOrgRefIdAndId();
+    /**
+     * @return int
+     */
+    public static function getRootOrgRefId() : int
+    {
+        self::loadRootOrgRefIdAndId();
 
-		return self::$root_ref_id;
-	}
-
-
-	/**
-	 * @return int
-	 */
-	public static function getRootOrgId() {
-		self::loadRootOrgRefIdAndId();
-
-		return self::$root_id;
-	}
+        return self::$root_ref_id;
+    }
 
 
-	private static function loadRootOrgRefIdAndId() {
-		if (self::$root_ref_id === NULL || self::$root_id === NULL) {
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$q = "SELECT o.obj_id, r.ref_id FROM object_data o
+    /**
+     * @return int
+     */
+    public static function getRootOrgId() : int
+    {
+        self::loadRootOrgRefIdAndId();
+
+        return self::$root_id;
+    }
+
+
+    private static function loadRootOrgRefIdAndId() : void
+    {
+        if (self::$root_ref_id === null || self::$root_id === null) {
+            global $DIC;
+            $ilDB = $DIC['ilDB'];
+            $q = "SELECT o.obj_id, r.ref_id FROM object_data o
 			INNER JOIN object_reference r ON r.obj_id = o.obj_id
 			WHERE title = " . $ilDB->quote('__OrgUnitAdministration', 'text') . "";
-			$set = $ilDB->query($q);
-			$res = $ilDB->fetchAssoc($set);
-			self::$root_id = $res["obj_id"];
-			self::$root_ref_id = $res["ref_id"];
-		}
-	}
+            $set = $ilDB->query($q);
+            $res = $ilDB->fetchAssoc($set);
+            self::$root_id = (int) $res["obj_id"];
+            self::$root_ref_id = (int) $res["ref_id"];
+        }
+    }
 
 
 	/**
