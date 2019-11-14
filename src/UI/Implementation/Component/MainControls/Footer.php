@@ -15,6 +15,11 @@ class Footer implements MainControls\Footer
 {
     use ComponentHelper;
 
+    /**
+     * @var string
+     */
+    protected $permanent_url = "";
+
     public function __construct(array $links, string $text = '')
     {
         $types = [\ILIAS\UI\Component\Link\Link::class];

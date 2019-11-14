@@ -12,7 +12,11 @@ class ilTestTabsManager
 	/**
 	 * (Sub-)Tab ID constants
 	 */
-	
+
+	const TAB_ID_QUESTIONS = 'assQuestions';
+	const SUBTAB_ID_QST_LIST_VIEW = 'qst_list_view';
+	const SUBTAB_ID_QST_PAGE_VIEW = 'qst_page_view';
+
 	const TAB_ID_INFOSCREEN = 'info_short';
 	const TAB_ID_SETTINGS = 'settings';
 	const TAB_ID_LEARNING_PROGRESS = 'learning_progress';
@@ -135,7 +139,10 @@ class ilTestTabsManager
 			case self::SUBTAB_ID_HIGHSCORE:
 			case self::SUBTAB_ID_SKILL_RESULTS:
 			case self::SUBTAB_ID_MY_SOLUTIONS:
-				
+
+            case self::SUBTAB_ID_QST_LIST_VIEW:
+            case self::SUBTAB_ID_QST_PAGE_VIEW:
+
 				$this->tabs->activateSubTab($subTabId);
 		}
 	}
@@ -753,36 +760,21 @@ class ilTestTabsManager
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		$this->tabs->activateTab('assQuestions');
-		$a_cmd = $DIC->ctrl()->getCmd();
-		
+		$this->tabs->activateTab(self::TAB_ID_QUESTIONS);
+
 		if (!$this->getTestOBJ()->isRandomTest())
 		{
-			$questions_per_page = ($a_cmd == 'questions_per_page' || ($a_cmd == 'removeQuestions' && $_REQUEST['test_express_mode'])) ? true : false;
-			
-			$this->tabs->addSubTabTarget(
-				"questions_per_page_view",
-				$DIC->ctrl()->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage'),
-				"", "", "", $questions_per_page);
+		    $this->tabs->addSubTab(self::SUBTAB_ID_QST_PAGE_VIEW, $DIC->language()->txt('questions_per_page_view'),
+                $DIC->ctrl()->getLinkTargetByClass('iltestexpresspageobjectgui', 'showPage')
+            );
 		}
 		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($this->getTestOBJ()->getTemplate(), ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
 		
 		if (!$this->isHiddenTab('questions')) {
-			// questions subtab
-			$this->tabs->addSubTabTarget("edit_test_questions",
-				$DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','questions'),
-				array("questions", "browseForQuestions", "questionxBrowser", "createQuestion",
-					"randomselect", "filter", "resetFilter", "insertQuestions",
-					"back", "createRandomSelection", "cancelRandomSelect",
-					"insertRandomSelection", "removeQuestions", "moveQuestions",
-					"insertQuestionsBefore", "insertQuestionsAfter", "confirmRemoveQuestions",
-					"cancelRemoveQuestions", "executeCreateQuestion", "cancelCreateQuestion",
-					"addQuestionpool", "saveRandomQuestions", "saveQuestionSelectionMode"),
-				"");
-			
-			if (in_array($a_cmd, array('questions', 'createQuestion')) || ($a_cmd == 'removeQuestions' && !$_REQUEST['test_express_mode']))
-				$this->tabs->activateSubTab('edit_test_questions');
+            $this->tabs->addSubTab(self::SUBTAB_ID_QST_LIST_VIEW, $DIC->language()->txt('edit_test_questions'),
+                $DIC->ctrl()->getLinkTargetByClass('ilObjTestGUI','questions')
+            );
 		}
 		
 		// print view subtab
@@ -973,7 +965,7 @@ class ilTestTabsManager
 	 */
 	protected function needsResultsTab()
 	{
-		return $this->needsParticipantsResultsSubTab() || $this->testOBJ->isScoreReportingEnabled();
+		return $this->needsParticipantsResultsSubTab() || $this->testOBJ->isScoreReportingEnabled() || $this->needsMySolutionsSubTab();
 	}
 	
 	/**
@@ -997,7 +989,12 @@ class ilTestTabsManager
 		{
 			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestResultsGUI', 'ilTestEvaluationGUI'));
 		}
-		
+
+		if( $this->needsMySolutionsSubTab() )
+		{
+			return $DIC->ctrl()->getLinkTargetByClass(array('ilTestResultsGUI', 'ilMyTestSolutionsGUI', 'ilTestEvaluationGUI'));
+		}
+
 		return $DIC->ctrl()->getLinkTargetByClass('ilTestResultsGUI');
 	}
 	

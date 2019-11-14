@@ -202,63 +202,6 @@ class ilObjUserTest extends TestCase
 			$value);
 	}
 
-	/**
-	* Personal Desktop Items
-	 * @group IL_Init
-	*/
-	public function testPersonalDesktopItems()
-	{
-		include_once("./Services/User/classes/class.ilObjUser.php");
-		
-		$value = "";
-		
-		// creation
-		$user = new ilObjUser();
-		$d = array(
-			"login" => "aatestuser3",
-			"passwd_type" => IL_PASSWD_PLAIN,
-			"passwd" => "password",
-			"gender" => "f",
-			"firstname" => "Heidi",
-			"lastname" => "Kabel",
-			"email" => "de@de.de"
-		);
-		$user->assignData($d);
-		$user->setActive(true);
-		$user->create();
-		$user->saveAsNew();
-		$user->setLanguage("de");
-		$user->writePrefs();
-		$id = $user->getId();
-		
-		$user->addDesktopItem(ROOT_FOLDER_ID, "root");
-		if ($user->isDesktopItem(ROOT_FOLDER_ID, "root"))
-		{
-			$value.= "desk1-";
-		}
-		$user->setDesktopItemParameters(ROOT_FOLDER_ID, "root", "par1");
-		$di = $user->getDesktopItems();
-		if ($item = current($di))
-		{
-			if ($item["type"] == "root" && $item["ref_id"] == ROOT_FOLDER_ID)
-			{
-				$value.= "desk2-";
-			}
-		}
-		
-		$user->dropDesktopItem(ROOT_FOLDER_ID, "root");
-		if (!$user->isDesktopItem(ROOT_FOLDER_ID, "root"))
-		{
-			$value.= "desk3-";
-		}
-		$user->_removeItemFromDesktops(ROOT_FOLDER_ID);
-		
-		// deletion
-		$user->delete();
-		
-		$this->assertEquals("desk1-desk2-desk3-",
-			$value);
-	}
 
 	/**
 	* Search methods

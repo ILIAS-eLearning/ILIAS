@@ -95,7 +95,7 @@ class ilCtrl
         $this->initializeMemberVariables();
 
         // this information should go to xml files one day
-        $this->stored_trees = array("ilrepositorygui", "ilpersonaldesktopgui",
+        $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
     }

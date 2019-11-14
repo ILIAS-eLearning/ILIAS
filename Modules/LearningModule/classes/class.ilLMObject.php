@@ -14,6 +14,10 @@
 */
 class ilLMObject
 {
+	const CHAPTER_TITLE = "st_title";
+	const PAGE_TITLE = "pg_title";
+	const NO_HEADER = "none";
+
 	/**
 	 * @var ilObjUser
 	 */
@@ -1577,7 +1581,7 @@ class ilLMObject
 	 * @param
 	 * @return
 	 */
-	static function _getPresentationTitle($a_node, $a_mode = IL_PAGE_TITLE,
+	static function _getPresentationTitle($a_node, $a_mode = self::PAGE_TITLE,
 		$a_include_numbers = false, $a_time_scheduled_activation = false,
 		$a_force_content = false, $a_lm_id = 0, $a_lang = "-")
 	{
@@ -1588,7 +1592,7 @@ class ilLMObject
 		
 		if ($a_node["type"] == "st")
 		{
-			return ilStructureObject::_getPresentationTitle($a_node["child"], IL_CHAPTER_TITLE,
+			return ilStructureObject::_getPresentationTitle($a_node["child"], self::CHAPTER_TITLE,
 				$a_include_numbers, $a_time_scheduled_activation, $a_force_content, $a_lm_id, $a_lang);
 		}
 		else

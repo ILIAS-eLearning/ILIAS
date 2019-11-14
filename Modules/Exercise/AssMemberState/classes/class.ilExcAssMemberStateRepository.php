@@ -98,7 +98,7 @@ class ilExcAssMemberStateRepository
 		$db = $this->db;
 
 		// peer groups exist
-		$set = $db->queryF('SELECT ass.id, count(*) nr_given, ass.peer_min, max(idl.tstamp) maxidl, max(peer.tstamp) maxpeer 
+		$set = $db->queryF('SELECT ass.id, count(*) nr_given, ass.peer_dl, ass.peer_min, max(idl.tstamp) maxidl, max(peer.tstamp) maxpeer 
 			FROM exc_assignment ass
 			LEFT JOIN exc_assignment_peer peer ON (ass.id = peer.ass_id)
 			LEFT JOIN exc_idl idl ON (ass.id = idl.ass_id)
@@ -123,7 +123,7 @@ class ilExcAssMemberStateRepository
 		}
 
 		// peer groups do not exist
-		$set = $db->queryF('SELECT ass.id, count(*) nr_given, ass.peer_min, max(idl.tstamp) maxidl, max(peer.tstamp) maxpeer 
+		$set = $db->queryF('SELECT ass.id, count(*) nr_given, ass.peer_dl, ass.peer_min, max(idl.tstamp) maxidl, max(peer.tstamp) maxpeer 
 			FROM exc_assignment ass
 			LEFT JOIN exc_assignment_peer peer ON (ass.id = peer.ass_id)
 			LEFT JOIN exc_idl idl ON (ass.id = idl.ass_id)
@@ -138,8 +138,8 @@ class ilExcAssMemberStateRepository
 			GROUP BY (ass.id)
 			HAVING (maxpeer IS NULL) AND (maxidl < %s OR maxidl IS NULL)
 					',
-			array("integer", "integer", "integer", "integer", "integer", "integer", "integer"),
-			array(0, time(), time(), 1, $user_id, time(), time())
+			array("integer", "integer", "integer", "integer", "integer", "integer"),
+			array(0, time(), time(), 1, time(), time())
 		);
 		while ($rec = $db->fetchAssoc($set))
 		{

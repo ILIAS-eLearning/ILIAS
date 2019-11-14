@@ -128,8 +128,7 @@ class ilObjectLP
 					return  "ilSessionLP";		
 					
 				case "svy":
-					include_once "Modules/Survey/classes/class.ilSurveyLP.php";
-					return  "ilSurveyLP";		
+					return  "ilSurveyLP";
 
 				case "prg":
 					include_once "Modules/StudyProgramme/classes/class.ilStudyProgrammeLP.php";

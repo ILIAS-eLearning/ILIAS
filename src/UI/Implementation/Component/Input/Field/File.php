@@ -3,8 +3,6 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
-use ILIAS\FileUpload\Handler\UploadHandler;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -28,7 +26,7 @@ class File extends Input implements C\Input\Field\File
      */
     private $max_file_size;
     /**
-     * @var ilCtrlAwareUploadHandler
+     * @var C\Input\Field\UploadHandler
      */
     private $upload_handler;
 
@@ -36,7 +34,7 @@ class File extends Input implements C\Input\Field\File
     /**
      * @inheritDoc
      */
-    public function __construct(DataFactory $data_factory, Factory $refinery, UploadHandler $handler, $label, $byline)
+    public function __construct(DataFactory $data_factory, Factory $refinery, C\Input\Field\UploadHandler $handler, $label, $byline)
     {
         $this->upload_handler = $handler;
         parent::__construct($data_factory, $refinery, $label, $byline);

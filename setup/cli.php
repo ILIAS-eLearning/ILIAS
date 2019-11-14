@@ -4,17 +4,19 @@
 
 
 // according to ./Services/Feeds/classes/class.ilExternalFeed.php:
-define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+if (!defined("MAGPIE_DIR")) {
+	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+}
 
 require_once(__DIR__."/classes/class.ilSetupLanguage.php");
 require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
-use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 $c = build_container_for_setup();
 $app = $c["app"];
@@ -127,7 +129,7 @@ function build_container_for_setup() {
 			public function duration($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
-            public function file(ilCtrlAwareUploadHandler $handler, string $label, string $byline = null) : File
+            public function file(UploadHandler $handler, string $label, string $byline = null) : File
             {
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }

@@ -21,7 +21,7 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
     {
         if (
             !isset($this->request->getQueryParams()['baseClass']) ||
-            strtolower($this->request->getQueryParams()['baseClass']) !== 'ilpersonaldesktopgui'
+            strtolower($this->request->getQueryParams()['baseClass']) !== 'ildashboardgui'
         ) {
             return false;
         }
@@ -53,9 +53,9 @@ class ilUserPasswordResetRequestTargetAdjustmentCase extends ilUserRequestTarget
      */
     public function adjust() : void
     {
-        $this->ctrl->initBaseClass('ilpersonaldesktopgui');
+        $this->ctrl->initBaseClass('ildashboardgui');
         $this->ctrl->redirectByClass(
-            ['ilpersonaldesktopgui', 'ilpersonalsettingsgui'],
+            ['ildashboardgui', 'ilpersonalsettingsgui'],
             'showPassword'
         );
     }

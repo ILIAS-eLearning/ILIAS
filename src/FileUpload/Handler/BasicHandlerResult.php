@@ -2,6 +2,8 @@
 
 namespace ILIAS\FileUpload\Handler;
 
+use ILIAS\UI\Component\Input\Field\HandlerResult;
+
 /**
  * Class BasicHandlerResult
  *
@@ -13,15 +15,15 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @var int
      */
-    private $status = 0;
+    private $status;
     /**
      * @var string
      */
-    private $file_identifier = '';
+    private $file_identifier;
     /**
      * @var string
      */
-    private $message = '';
+    private $message;
 
 
     /**
@@ -60,7 +62,7 @@ class BasicHandlerResult implements HandlerResult
     /**
      * @inheritDoc
      */
-    public final function jsonSerialize()
+    final public function jsonSerialize()
     {
         return [
             'status'          => $this->status,

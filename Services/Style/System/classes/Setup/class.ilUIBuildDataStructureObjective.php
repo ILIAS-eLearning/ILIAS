@@ -22,8 +22,6 @@ class ilUIBuildDataStructureObjective extends Setup\BuildArtifactObjective
 	public function build() : Setup\Artifact
 	{
 		$crawler = new Crawler\FactoriesCrawler();
-		$entries = $crawler->crawlFactory($this->crawler_path);
-		$entries_array = json_decode(json_encode($entries), true);
-		return new Setup\ArrayArtifact($entries_array);
+		return new Setup\ArrayArtifact($crawler->crawlFactory($this->crawler_path)->jsonSerialize());
 	}
 }

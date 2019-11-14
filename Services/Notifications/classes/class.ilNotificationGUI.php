@@ -9,7 +9,7 @@ require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
  * @author            Jan Posselt <jposselt@databay.de.de>
  * @version           $Id$
  * @ilCtrl_Calls      ilNotificationGUI:
- * @ilCtrl_IsCalledBy ilNotificationGUI: ilPersonalProfileGUI, ilPersonalDesktopGUI
+ * @ilCtrl_IsCalledBy ilNotificationGUI: ilPersonalProfileGUI, ilDashboardGUI
  * @ingroup           ServicesNotifications
  */
 class ilNotificationGUI
