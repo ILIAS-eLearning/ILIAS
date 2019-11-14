@@ -112,7 +112,7 @@ class ilPDTaggingBlockGUI extends ilBlockGUI
 	}
 	
 	/**
-	* get tree bookmark list for personal desktop
+	* get tree list for personal desktop
 	*/
 	function getTagCloud()
 	{

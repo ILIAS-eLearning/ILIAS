@@ -82,7 +82,6 @@ class ilColumnGUI
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
-		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
@@ -99,7 +98,6 @@ class ilColumnGUI
 		"ilPDNotesBlockGUI" => "pdnotes",
 		"ilPDTasksBlockGUI" => "pdtasks",
 		"ilPDNewsBlockGUI" => "pdnews",
-		"ilBookmarkBlockGUI" => "pdbookm",
 		"ilNewsForContextBlockGUI" => "news",
 		"ilCalendarBlockGUI" => "cal",
 		"ilPDCalendarBlockGUI" => "pdcal",
@@ -144,22 +142,6 @@ class ilColumnGUI
 			"ilPDMailBlockGUI" => IL_COL_RIGHT
 			)
 		);
-	/*
-		"pd" => array(
-			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
-			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
-			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
-			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
-			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
-			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
-			"ilPDMailBlockGUI" => IL_COL_RIGHT,
-			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
-			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
-			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			)
-		);
-	*/
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
