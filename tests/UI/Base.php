@@ -309,4 +309,14 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $expected->loadXML($this->normalizeHTML($expected_html_as_string));
         $this->assertEquals($expected->saveHTML(), $html->saveHTML());
     }
+
+    protected function brutallyTrimHTML($html)
+    {
+        $html = str_replace(["\n", "\r", "\t"], "", $html);
+        $html = preg_replace('# {2,}#', " ", $html);
+        $html = str_replace("> <", "><", $html);
+        $html = str_replace(" >", ">", $html);
+
+        return trim($html);
+    }
 }

@@ -18,7 +18,7 @@ class DeckTest extends ILIAS_UI_TestBase
      */
     public function getFactory()
     {
-        $factory = new class($mocks) extends NoUIFactory {
+        $factory = new class extends NoUIFactory {
             public function card()
             {
                 return new I\Component\Card\Factory();
