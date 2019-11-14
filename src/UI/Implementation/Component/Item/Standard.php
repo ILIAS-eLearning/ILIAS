@@ -30,7 +30,7 @@ class Standard extends Item implements C\Item\Standard
     /**
      * @inheritdoc
      */
-    public function getColor()
+    public function getColor() : ?\ILIAS\Data\Color
     {
         return $this->color;
     }

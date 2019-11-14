@@ -21,7 +21,7 @@ interface Standard extends Item
     /**
      * Return the given color
      */
-    public function getColor(): Color ;
+    public function getColor(): ?Color ;
 
     /**
      * Set image as lead
