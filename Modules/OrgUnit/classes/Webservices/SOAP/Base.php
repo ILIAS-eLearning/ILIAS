@@ -87,7 +87,6 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     }
 
 
-
     /**
      * @inheritdoc
      */
