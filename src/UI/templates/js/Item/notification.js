@@ -21,7 +21,7 @@ il.UI.item = il.UI.item || {};
 			console.log(id);
 
 			$close_button.click(function(){
-				closeNotificationItem($close_button);
+				removeNotificationItem($close_button);
 				callCloseActionAsync(url);
 			});
 		};
@@ -45,18 +45,32 @@ il.UI.item = il.UI.item || {};
 			});
 		};
 
+		/**
+		 * Note that the Name "Public Interface" here indicates, that those two functions will be
+		 * used outside of this scope. However, the only consumer currently is the "withAdditionalOnLoadCode"
+		 * function in the renderer of the items.
+		 *
+		 * @type {{registerCloseAction: registerCloseAction, registerAggregatesToggle: registerAggregatesToggle}}
+		 */
 		var public_interface =  {
 			/**
-			 * Used to register the close action on the Item if such an action is given
+			 * Used to register the close action on the Item if such an action is given.
+			 * Note that not all items are closable. Close action removes the item
+			 * from the list, and fires a callback to the server to notify the respective
+			 * endpoint on the server, that this item has been closed.
+			 *
 			 */
 			registerCloseAction: registerCloseAction,
 			/**
-			 * Used to register the toggling interaction, if such an interaction is given
+			 * If an item contains aggregate items, they will be shown if the aggregating item
+			 * is clicked. This interaction is registered on the item here.
 			 */
 			registerAggregatesToggle: registerAggregatesToggle
 		}
 
 		/**
+		 * Showing aggregates if aggregating item is clicked.
+		 *
 		 * @private
 		 * @param $item
 		 * @param $aggregates
@@ -76,6 +90,8 @@ il.UI.item = il.UI.item || {};
 		};
 
 		/**
+		 * Hiding aggregates, if the user navigates back to the top level.
+		 *
 		 * @private
 		 * @param $item
 		 * @param $aggregates
@@ -92,6 +108,8 @@ il.UI.item = il.UI.item || {};
 		};
 
 		/**
+		 * Firing to callback to the endpoint on the server
+		 *
 		 * @private
 		 * @param $item
 		 * @param $aggregates
@@ -105,11 +123,13 @@ il.UI.item = il.UI.item || {};
 		};
 
 		/**
+		 * Removing the closed item from the list.
+		 *
 		 * @private
 		 * @param $item
 		 * @param $aggregates
 		 */
-		var closeNotificationItem = function ($close_button) {
+		var removeNotificationItem = function ($close_button) {
 			var $item = $close_button.parents(".il-notification-item");
 			var $item_siblings = $item.siblings(".il-notification-item");
 			if(!$item_siblings.length){
@@ -119,6 +139,8 @@ il.UI.item = il.UI.item || {};
 		};
 
 		/**
+		 * Get the slate, that contains the item given
+		 * 
 		 * @private
 		 * @param $item
 		 * @param $aggregates
