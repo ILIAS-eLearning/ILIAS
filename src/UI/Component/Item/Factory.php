@@ -65,7 +65,7 @@ interface Factory
      *     some repository holding the entry which fired the notification.
      *     Clicking on the close button removes the Notification permanently.
      *     Exceptions are Notification Items displaying aggregated information.
-     *     In such a case, Clicking on the title displays the list of the Notifications
+     *     In such a case, clicking on the title displays the list of the Notifications
      *     being aggregated and it will only be closed if all Notifications being aggregated are closed.
      * rules:
      *   interaction:
