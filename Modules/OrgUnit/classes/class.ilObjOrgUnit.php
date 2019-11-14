@@ -210,7 +210,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * @return int
      */
-    public static function getRootOrgRefId()
+    public static function getRootOrgRefId() : int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -221,7 +221,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * @return int
      */
-    public static function getRootOrgId()
+    public static function getRootOrgId() : int
     {
         self::loadRootOrgRefIdAndId();
 
@@ -229,7 +229,7 @@ class ilObjOrgUnit extends ilContainer
     }
 
 
-    private static function loadRootOrgRefIdAndId()
+    private static function loadRootOrgRefIdAndId() : void
     {
         if (self::$root_ref_id === null || self::$root_id === null) {
             global $DIC;
@@ -239,8 +239,8 @@ class ilObjOrgUnit extends ilContainer
 			WHERE title = " . $ilDB->quote('__OrgUnitAdministration', 'text') . "";
             $set = $ilDB->query($q);
             $res = $ilDB->fetchAssoc($set);
-            self::$root_id = $res["obj_id"];
-            self::$root_ref_id = $res["ref_id"];
+            self::$root_id = (int) $res["obj_id"];
+            self::$root_ref_id = (int) $res["ref_id"];
         }
     }
 
