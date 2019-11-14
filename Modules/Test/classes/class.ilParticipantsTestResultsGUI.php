@@ -271,7 +271,7 @@ class ilParticipantsTestResultsGUI
 	{
 		global $DIC; /* @var ILIAS\DI\Container $DIC */
 		
-		if (count($_POST["chbUser"]) == 0)
+		if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0)
 		{
 			ilUtil::sendInfo($DIC->language()->txt("select_one_user"), TRUE);
 			$DIC->ctrl()->redirect($this);
@@ -351,7 +351,7 @@ class ilParticipantsTestResultsGUI
 	 */
 	protected function showDetailedResultsCmd()
 	{
-		if (count($_POST))
+		if (is_array($_POST) && count($_POST))
 		{
 			$_SESSION["show_user_results"] = $_POST["chbUser"];
 		}
@@ -363,7 +363,7 @@ class ilParticipantsTestResultsGUI
 	 */
 	protected function showUserAnswersCmd()
 	{
-		if (count($_POST))
+		if (is_array($_POST) && count($_POST))
 		{
 			$_SESSION["show_user_results"] = $_POST["chbUser"];
 		}
@@ -375,7 +375,7 @@ class ilParticipantsTestResultsGUI
 	 */
 	protected function showPassOverviewCmd()
 	{
-		if (count($_POST))
+		if (is_array($_POST) && count($_POST))
 		{
 			$_SESSION["show_user_results"] = $_POST["chbUser"];
 		}
