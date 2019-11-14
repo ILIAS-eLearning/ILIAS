@@ -80,7 +80,7 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getSymbol()
+    public function getSymbol() : Symbol
     {
         return $this->symbol;
     }

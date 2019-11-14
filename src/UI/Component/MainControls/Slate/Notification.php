@@ -12,8 +12,6 @@ interface Notification extends Slate
 {
     /**
      * Get a Notification Slate like this, but with one additional Notification Item entry.
-     * @param NotificationItem $entry
-     * @return Notification
      */
     public function withAdditionalEntry(NotificationItem $entry) : Notification;
 }

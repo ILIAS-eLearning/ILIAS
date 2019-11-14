@@ -16,16 +16,13 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);
+
         if ($component instanceof Component\Item\Notification) {
             return $this->renderNotification($component, $default_renderer);
-        } else {
-            if ($component instanceof Component\Item\Group) {
-                return $this->renderGroup($component, $default_renderer);
-            } else {
-                if ($component instanceof Component\Item\Standard) {
-                    return $this->renderStandard($component, $default_renderer);
-                }
-            }
+        } elseif($component instanceof Component\Item\Group){
+            return $this->renderGroup($component, $default_renderer);
+        } elseif ($component instanceof Component\Item\Standard) {
+            return $this->renderStandard($component, $default_renderer);
         }
     }
 

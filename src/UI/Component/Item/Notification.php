@@ -3,6 +3,7 @@
 
 namespace ILIAS\UI\Component\Item;
 
+use \ILIAS\UI\Component\Legacy\Legacy;
 /**
  * Interface Notification
  * @package ILIAS\UI\Component\Item
@@ -15,12 +16,12 @@ interface Notification extends Item
      * needs to hold legacy content that currently does not have a place in the
      * UI components.
      */
-    public function withAdditionalContent(\ILIAS\UI\Component\Legacy\Legacy $component) : Notification;
+    public function withAdditionalContent(Legacy $component) : Notification;
 
     /**
      * Get the additional content of the item or null.
      */
-    public function getAdditionalContent() : ?\ILIAS\UI\Component\Legacy\Legacy;
+    public function getAdditionalContent() : ?Legacy;
 
     /**
      * Get an Item like this with an url to consulted async, when to close button is pressed.
@@ -32,7 +33,7 @@ interface Notification extends Item
     /**
      * Get the url attached to this Notification Item
      */
-    public function getCloseAction() : Notification;
+    public function getCloseAction() : ?string;
 
     /**
      * Get an Notification Item like this, but with a set of

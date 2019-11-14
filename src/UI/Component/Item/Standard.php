@@ -4,6 +4,9 @@
 
 namespace ILIAS\UI\Component\Item;
 
+use \ILIAS\UI\Component\Symbol\Icon\Icon;
+use \ILIAS\UI\Component\Image\Image;
+use \ILIAS\Data\Color;
 /**
  * Interface Standard Item
  * @package ILIAS\UI\Component\Panel\Listing
@@ -12,42 +15,33 @@ interface Standard extends Item
 {
     /**
      * Set a color
-     * @param \ILIAS\Data\Color $a_color color
-     * @return Item
      */
-    public function withColor(\ILIAS\Data\Color $a_color);
+    public function withColor(Color $a_color): Item;
 
     /**
-     * @return \ILIAS\Data\Color color
+     * Return the given color
      */
-    public function getColor();
+    public function getColor(): Color ;
 
     /**
      * Set image as lead
-     * @param \ILIAS\UI\Component\Image\Image $image lead image
-     * @return Item
      */
-    public function withLeadImage(\ILIAS\UI\Component\Image\Image $image);
+    public function withLeadImage(Image $image): Item;
 
     /**
      * Set icon as lead
-     * @param \ILIAS\UI\Component\Symbol\Icon\Icon $icon lead icon
-     * @return Icon
      */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon);
+    public function withLeadIcon(Icon $icon): Item;
 
     /**
      * Set image as lead
-     * @param string $text lead text
-     * @return Item
      */
-    public function withLeadText($text);
+    public function withLeadText(string $text): Item;
 
     /**
      * Reset lead to null
-     * @return Item
      */
-    public function withNoLead();
+    public function withNoLead(): Item;
 
     /**
      * @return null|string|\ILIAS\UI\Component\Image\Image|\ILIAS\UI\Component\Symbol\Icon\Icon

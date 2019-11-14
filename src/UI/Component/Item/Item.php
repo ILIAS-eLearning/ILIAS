@@ -18,10 +18,8 @@ interface Item extends \ILIAS\UI\Component\Component
 
     /**
      * Create a new item with an attached description.
-     * @param string $description
-     * @return Item
      */
-    public function withDescription($description);
+    public function withDescription(string $description) : Item;
 
     /**
      * Get the description of the item.

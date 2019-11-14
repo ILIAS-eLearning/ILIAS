@@ -27,7 +27,7 @@ class Factory implements I\Factory
     /**
      * @inheritdoc
      */
-    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon)
+    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon) : I\Notification
     {
         return new Notification($title,$icon);
     }

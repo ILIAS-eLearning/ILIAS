@@ -38,6 +38,10 @@ abstract class Item implements C\Item\Item
      */
     protected $lead = null;
 
+    /**
+     * Item constructor.
+     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Standard|string $title
+     */
     public function __construct($title)
     {
         if (!$title instanceof \ILIAS\UI\Component\Button\Shy &&
@@ -59,7 +63,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withDescription($desc)
+    public function withDescription(string $desc) : C\Item\Item
     {
         $this->checkStringArg("description", $desc);
         $clone = clone $this;

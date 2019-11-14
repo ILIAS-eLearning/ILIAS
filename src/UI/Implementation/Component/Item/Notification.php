@@ -4,7 +4,7 @@
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Item\Notification as INotification;
-use \ILIAS\UI\Component\Legacy\Legacy as Legacy;
+use \ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use \ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
 
@@ -51,7 +51,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getAdditionalContent()
+    public function getAdditionalContent() : ?Legacy
     {
         return $this->additional_content;
     }
@@ -69,7 +69,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function getCloseAction()
+    public function getCloseAction() : ?string
     {
         return $this->close_action;
     }
@@ -99,7 +99,7 @@ class Notification extends Item implements INotification, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon)
+    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon) : INotification
     {
         $clone            = clone $this;
         $clone->lead_icon = $icon;
