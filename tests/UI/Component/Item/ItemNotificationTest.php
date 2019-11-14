@@ -58,7 +58,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function test_implements_factory_interface()
+    public function testImplementsFactoryInterface()
     {
         $f = $this->getUIFactory()->item();
 
@@ -66,7 +66,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_get_title()
+    public function testGetTitle()
     {
         $f = $this->getUIFactory()->item();
         $c = $f->standard("title");
@@ -74,7 +74,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getTitle(), "title");
     }
 
-    public function test_get_title_as_link()
+    public function testGetTitleAsLink()
     {
         $f = $this->getUIFactory()->item();
         $title_link = $this->getUIFactory()->link()->standard("TestLink","");
@@ -84,7 +84,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_with_description()
+    public function testWithDescription()
     {
         $f = $this->getUIFactory()->item();
 
@@ -93,7 +93,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getDescription(), "description");
     }
 
-    public function test_with_properties()
+    public function testWithProperties()
     {
         $f = $this->getUIFactory()->item();
 
@@ -103,7 +103,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getProperties(), $props);
     }
 
-    public function test_with_actions()
+    public function testWithActions()
     {
         $f = $this->getUIFactory()->item();
 
@@ -116,7 +116,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getActions(), $actions);
     }
 
-    public function test_with_lead_icon()
+    public function testWithLeadIcon()
     {
         $f = $this->getUIFactory()->item();
 
@@ -128,7 +128,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
     }
 
-    public function test_with_close_action()
+    public function testWithCloseAction()
     {
         $f = $this->getUIFactory()->item();
 
@@ -137,7 +137,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getCloseAction(), "closeAction");
     }
 
-    public function test_with_additional_content()
+    public function testWithAdditionalContent()
     {
         $f = $this->getUIFactory()->item();
 
@@ -147,7 +147,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAdditionalContent(), $content);
     }
 
-    public function test_with_aggregate_notifications()
+    public function testWithAggregateNotifications()
     {
         $f = $this->getUIFactory()->item();
 
@@ -159,7 +159,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAggregateNotifications(), [$aggregate,$aggregate]);
     }
 
-    public function test_render_fully_featured(){
+    public function testRenderFullyFeatured(){
         $f = $this->getUIFactory()->item();
         $r = $this->getDefaultRenderer();
 
