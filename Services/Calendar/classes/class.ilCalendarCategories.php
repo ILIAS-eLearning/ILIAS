@@ -294,7 +294,9 @@ class ilCalendarCategories
 		}
 
 		$this->setMode($a_mode);
-		if($a_use_cache)
+
+		// see comments in https://mantis.ilias.de/view.php?id=25254
+		if($a_use_cache && $this->getMode() != self::MODE_REPOSITORY_CONTAINER_ONLY)
 		{
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
