@@ -52,8 +52,8 @@ abstract class Slate implements ISlate\Slate
     protected $engaged = false;
 
     /**
-     * @param string $name name of the slate, also used as label
-     * @param Symbol $symbol
+     * @param string 	$name 	name of the slate, also used as label
+     * @param Symbol	$symbol
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -63,6 +63,7 @@ abstract class Slate implements ISlate\Slate
         $this->signal_generator = $signal_generator;
         $this->name = $name;
         $this->symbol = $symbol;
+        
         $this->initSignals();
     }
 
