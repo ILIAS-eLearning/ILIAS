@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 use \ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Item\Notification as NotificationItem;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Notification
@@ -21,12 +22,12 @@ class Notification extends Slate implements ISlate\Notification
     public function __construct(
         SignalGeneratorInterface $signal_generator,
         string $name,
-        $notification_items
+        $notification_items,
+        Symbol $symbol
+
     ) {
-        $this->name             = $name;
-        $this->signal_generator = $signal_generator;
-        $this->contents         = $notification_items;
-        $this->initSignals();
+        $this->contents = $notification_items;
+        parent::__construct($signal_generator, $name, $symbol);
     }
 
     /**

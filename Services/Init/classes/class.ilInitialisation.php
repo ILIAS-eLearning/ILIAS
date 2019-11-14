@@ -1516,7 +1516,8 @@ class ilInitialisation
 		$c["ui.factory.maincontrols.slate"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
 				$c['ui.signal_generator'],
-				$c['ui.factory.counter']
+				$c['ui.factory.counter'],
+                $c["ui.factory.symbol"]
 			);
 		};
 		$c["ui.factory.maincontrols"] = function($c) {

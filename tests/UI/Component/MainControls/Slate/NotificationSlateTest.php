@@ -46,7 +46,9 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
             {
                 return new I\MainControls\Factory($this->sig_gen,
                     new I\MainControls\Slate\Factory($this->sig_gen
-                    , new \ILIAS\UI\Implementation\Component\Counter\Factory())
+                    , new \ILIAS\UI\Implementation\Component\Counter\Factory()
+                    , $this->symbol()
+                    )
                 );
             }
             public function icon() : I\Symbol\Icon\Factory

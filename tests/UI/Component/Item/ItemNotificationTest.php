@@ -50,7 +50,9 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                     $this->sig_gen,
                     new I\Component\MainControls\Slate\Factory(
                         $this->sig_gen
-                        , new \ILIAS\UI\Implementation\Component\Counter\Factory())
+                        , new \ILIAS\UI\Implementation\Component\Counter\Factory()
+                        , $this->symbol()
+                    )
                 );
             }
         };
