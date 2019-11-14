@@ -17,7 +17,7 @@
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_make_favourite#:#Zu Favouriten hinzufügen
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
-dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favouriten hinzugefügt.
+dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
@@ -38,7 +38,6 @@ lhist#:#lhist_enable_learning_history#:#Lernverlauf
 lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 common#:#obj_prss_desc#:#Persönliche Ressourcen administrieren
 common#:#obj_prss#:#Persönliche Ressourcen
-pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_certificates#:#Zertifikate aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
@@ -46,8 +45,8 @@ pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_enable_favourites#:#Favoriten
-dash#:#dash_enable_memberships#:#Meine Mitgliedschaften
-dash#:#dash_view_courses_groups#:#Block ‘Meine Mitgliedschaften’
+dash#:#dash_enable_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#dash_enable_cal#:#Kalender
 dash#:#dash_enable_news#:#Neuigkeiten
@@ -263,8 +262,8 @@ forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
-common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
+common#:#pwsp_recalculate_disk_quota#:#Persönlicher Ressourcen: Neuberechnung Disk-Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für die persönlichen Ressourcen neu.
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 itgr#:#itgr_behaviour#:#Verhalten
@@ -3592,7 +3591,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Kurse und Gruppen
+common#:#my_courses_groups#:#Meine Kurse und Gruppen
 common#:#name#:#Name
 common#:#never#:#Nie
 common#:#new#:#Neu
@@ -3879,7 +3878,6 @@ common#:#personal_data#:#Persönliche Daten
 common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Profil und Datenschutz
 common#:#personal_settings#:#Einstellungen
-common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen
 common#:#pg_add#:#Seite anlegen
 common#:#pg_new#:#Neue Seite
@@ -4841,7 +4839,7 @@ content#:#cont_file#:#Datei
 content#:#cont_file_created#:#Datei wurde angelegt.
 content#:#cont_file_deleted#:#Die Dateien wurden gelöscht.
 content#:#cont_file_from_repository#:#Datei aus Magazin
-content#:#cont_file_from_workspace#:#Datei aus meinem Arbeitsraum
+content#:#cont_file_from_workspace#:#Datei aus persönlichen Ressourcen
 content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
@@ -7689,7 +7687,6 @@ pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
-pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
@@ -9705,8 +9702,6 @@ wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt 
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
-wsp#:#wsp_personal_workspace#:#Arbeitsraum
-wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -10554,7 +10549,7 @@ rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
 rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
-skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihrem Arbeitsraum (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihrem Arbeitsraum hinzufügen wollen, klicken Sie bitten den folgenden Link.
+skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitten den folgenden Link.
 help#:#help_imported_on#:#Importiert am
 help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_help_only#:#Nur Handlungsanweisungen
@@ -11084,12 +11079,7 @@ crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
 rep#:#rep_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#ollen Sie sich wirklich aus den folgenden Objekten abmelden?
-file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
-file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
-file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
-file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
-file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
@@ -11283,7 +11273,6 @@ rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Arbeitsraum
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_crss#:#Kurs
@@ -12018,7 +12007,7 @@ content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
 prtf#:#prtf_page_element_my_courses_title#:#Kurs-Mitgliedschaften
 prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
-prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
+prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog aus Ihren persönlichen Ressourcen.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
 user#:#interests#:#Interessen
@@ -13511,7 +13500,6 @@ administration#:#adm_search_and_find#:#Suchen und Finden
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
-administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
@@ -14388,7 +14376,7 @@ svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktivier
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
-prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
+prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihren persönlichen Ressourcen hinzugefügt.
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
@@ -15152,7 +15140,7 @@ sess#:#sess_assign#:#Zuordnen
 assessment#:#answer_of#:#Antwort von
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
-common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
+common#:#certificate_workspace_option#:#Zertifikate aus persönlichen Ressourcen
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
@@ -15254,7 +15242,7 @@ wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
 wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
 wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
 wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
-wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
+wsp#:#wsp_switch_to_wsp_tree#:#Zu persönlichen Ressourcen wechseln
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_booked_in#:#Gebucht in
@@ -15300,3 +15288,13 @@ svy#:#svy_status_in_progress#:#In Bearbeitung
 svy#:#svy_status_finished#:#Beendet
 svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
 svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
+pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+common#:#personal_resources#:#Persönliche Ressourcen
+file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
+file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
+wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
+dash#:#dash_favourites#:#Favoriten
+dash#:#dash_memberships#:#Meine Kurse und Gruppen

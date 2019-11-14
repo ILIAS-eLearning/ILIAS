@@ -1407,7 +1407,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$lng->loadLanguageModule("file");
 		
 			$quota_head = new ilFormSectionHeaderGUI();
-			$quota_head->setTitle($lng->txt("personal_workspace_disk_quota"));
+			$quota_head->setTitle($lng->txt("personal_resources_disk_quota"));
 			$this->form_gui->addItem($quota_head);
 			
 			// personal workspace disk quota

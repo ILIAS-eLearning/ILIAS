@@ -38,7 +38,6 @@ lhist#:#lhist_enable_learning_history#:#Learning History
 lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 common#:#obj_prss_desc#:#Personal resources settings
 common#:#obj_prss#:#Personal Resources
-pwsp#:#pwsp_enable_personal_workspace#:#Enable Personal Workspace
 pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
 pwsp#:#pwsp_enable_wsp_files#:#Enable Files
 pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates
@@ -46,8 +45,8 @@ pwsp#:#pwsp_enable_wsp_links#:#Enable Links
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_enable_favourites#:#Favourites
-dash#:#dash_enable_memberships#:#Memberships
-dash#:#dash_view_courses_groups#:#Section ‘Courses and Groups’
+dash#:#dash_enable_memberships#:#My Courses and Groups
+dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_news#:#News
@@ -291,8 +290,8 @@ forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
-common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
+common#:#pwsp_recalculate_disk_quota#:#Personal Resources: Recalculation of Disk Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal resources.
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_behaviour#:#Block Behaviour
@@ -6640,8 +6639,6 @@ notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
-pd#:#pd_my_memberships#:#My Memberships
-pd#:#pd_my_offers#:#Selected Items
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
@@ -8488,9 +8485,6 @@ content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
-common#:#personal_workspace#:#Workspace
-wsp#:#wsp_personal_workspace#:#Workspace
-wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
 wsp#:#wsp_type_blog#:#Blog
@@ -9361,7 +9355,7 @@ scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
-content#:#cont_file_from_workspace#:#File From Workspace
+content#:#cont_file_from_workspace#:#File From Personal Resources
 skmg#:#skmg_create_skill_template#:#Create Competence Template
 skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
 skmg#:#skmg_save_order#:#Save Order
@@ -9386,7 +9380,7 @@ exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#Courses and Groups
+common#:#my_courses_groups#:#My Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
@@ -9681,7 +9675,7 @@ trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)
 trac#:#trac_log_info_link#:#Update
-pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.
+pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, personal resources and portfolios on the Web.
 pd#:#pd_enable_user_publish#:#Enable User Content Publishing
 trac#:#trac_object_stat_lp#:#Learning Progress Statistics Course
 trac#:#trac_object_stat_lp_min#:#Min.
@@ -10491,7 +10485,7 @@ rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administr
 rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
-skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal resources to competence levels. If you would like to add materials to your personal resources now, please click the following link.
 help#:#help_imported_on#:#Imported on
 help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_help_only#:#Workflow Help Only
@@ -11052,12 +11046,7 @@ crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
 rep#:#rep_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace
-file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
-file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
-file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
@@ -11873,7 +11862,7 @@ skmg#:#skmg_usage#:#Usage
 skmg#:#skmg_type#:#Type
 skmg#:#skmg_number#:#Number
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace
+skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill
 skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
@@ -12035,7 +12024,7 @@ content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
 prtf#:#prtf_page_element_my_courses_title#:#Course Memberships
 prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.
-prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal resources here.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
 prtf#:#prtf_page_element_teaser_settings#:#Settings
 user#:#interests#:#Interests
@@ -13460,7 +13449,6 @@ administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_maintenance#:#System Settings and Maintenance
 administration#:#adm_user_administration#:#User Administration
-administration#:#adm_personal_workspace#:#Personal Workspace
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
@@ -14372,7 +14360,7 @@ svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appra
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
 prtf#:#prtf_add_new_blog#:#Add New Blog
-prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
+prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
 user#:#usr_letter_avatars#:#Letter Avatars
@@ -15134,7 +15122,7 @@ sess#:#sess_assign#:#Assign
 assessment#:#answer_of#:#Answer of
 common#:#certificate_selection#:#Origin of Certificates
 common#:#certificate_persistent_option#:#Certificates of Achievements
-common#:#certificate_workspace_option#:#Certificates of Workspace
+common#:#certificate_workspace_option#:#Certificates of Personal Resources
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -15237,7 +15225,7 @@ wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
 wfld#:#wfld_creation_asc#:#Creation Date, asc.
 wfld#:#wfld_creation_desc#:#Creation Date, desc.
 wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
-wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace
+wsp#:#wsp_switch_to_wsp_tree#:#Switch to Personal Resources
 obj#:#obj_tool_setting_booking#:#Resources
 book#:#book_select_pool#:#Select Pool
 book#:#book_pool_selection#:#Booking Pool Selection
@@ -15283,3 +15271,13 @@ svy#:#svy_status_in_progress#:#In Progress
 svy#:#svy_status_finished#:#Finished
 svy#:#svy_users_invited#:#Users have been invited.
 svy#:#svy_finish_survey#:#Finish survey '%1'
+pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
+file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
+file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+common#:#personal_resources#:#Personal Resources
+file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
+file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
+wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+administration#:#adm_personal_workspace#:#Personal Workspace
+dash#:#dash_favourites#:#Favourites
+dash#:#dash_memberships#:#My Courses and Groups

@@ -33,7 +33,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 			if(!ilDiskQuotaHandler::isUploadPossible())
 			{				
 				$this->lng->loadLanguageModule("file");
-				ilUtil::sendFailure($this->lng->txt("personal_workspace_quota_exceeded_warning"), true);
+				ilUtil::sendFailure($this->lng->txt("personal_resources_quota_exceeded_warning"), true);
 				$this->ctrl->redirect($this, "cancel");
 			}
 		}

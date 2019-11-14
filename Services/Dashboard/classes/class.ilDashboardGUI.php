@@ -12,7 +12,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
@@ -152,20 +152,7 @@ class ilDashboardGUI
 
 		switch($next_class)
 		{
-			case "ilbookmarkadministrationgui":
-				if ($ilSetting->get('disable_bookmarks'))
-				{
-					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-					ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-					return;
-				}				
-				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
-				$bookmark_gui = new ilBookmarkAdministrationGUI();
-				$this->getStandardTemplates();
-				$this->setTabs();
-				$ret = $this->ctrl->forwardCommand($bookmark_gui);
-				break;
-			
+
 				// profile
 			case "ilpersonalprofilegui":
 				$this->getStandardTemplates();
@@ -645,23 +632,7 @@ class ilDashboardGUI
 		$this->ctrl->redirectByClass("ilpersonalsettingsgui");
 	}
 	
-	/**
-	* workaround for menu in calendar only
-	*/
-	function jumpToBookmarks()
-	{
-		$ilSetting = $this->settings;
 
-		if ($ilSetting->get("disable_bookmarks"))
-		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-			return;
-		}
-		
-		$this->ctrl->redirectByClass("ilbookmarkadministrationgui");
-	}
-	
 	/**
 	* workaround for menu in calendar only
 	*/
@@ -784,7 +755,6 @@ class ilDashboardGUI
 								'ilpersonalprofilegui',
 								'ilpdnotesgui',
 								'ilcalendarpresentationgui',
-								'ilbookmarkadministrationgui',
 								'illearningprogressgui');
 
 		if(isset($_SESSION['il_pd_history']) and in_array($_SESSION['il_pd_history'],$stored_classes))

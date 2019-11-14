@@ -33,7 +33,7 @@ class ilPDSelectedItemsBlockSelectedItemsViewGUI extends ilPDSelectedItemsBlockV
 	 */
 	public function getTitle()
 	{
-		return $this->lng->txt('pd_my_offers');
+		return $this->lng->txt('dash_favourites');
 	}
 
 	/**

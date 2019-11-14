@@ -1613,11 +1613,7 @@ class ilPersonalProfileGUI
 		// settings
 		$cb = new ilCheckboxInputGUI($this->lng->txt("settings"), "settings");
 		$this->form->addItem($cb);
-		
-		// bookmarks
-		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_bookmarks"), "bookmarks");
-		$this->form->addItem($cb);
-		
+
 		// personal notes
 		$cb = new ilCheckboxInputGUI($this->lng->txt("pd_notes"), "notes");
 		$this->form->addItem($cb);
@@ -1656,7 +1652,6 @@ class ilPersonalProfileGUI
 			$ilUser->importPersonalData($_FILES["file"],
 				(int) $_POST["profile_data"],
 				(int) $_POST["settings"],
-				(int) $_POST["bookmarks"],
 				(int) $_POST["notes"],
 				(int) $_POST["calendar"]
 				);

@@ -950,7 +950,7 @@ class ilPersonalSkillsGUI
 		{
 			$url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
 			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
-				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
+				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_resources"),
 					$url)]);
 			$message =  $ui->renderer()->render($mbox);
 		}

@@ -170,7 +170,8 @@ class MainBarTest extends ILIAS_UI_TestBase
             }
             public function legacy($legacy)
             {
-                return new I\Legacy\Legacy($legacy);
+                $sig_gen = new I\SignalGenerator();
+                return new I\Legacy\Legacy($legacy, $sig_gen);
             }
         };
         $factory->button_factory = $this->button_factory;

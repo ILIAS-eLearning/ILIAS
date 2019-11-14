@@ -196,10 +196,10 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
 
         // Enable disk quota
         $lng->loadLanguageModule("file");
-        $cb_prop = new ilCheckboxInputGUI($lng->txt("personal_workspace_disk_quota"), "enable_personal_workspace_disk_quota");
+        $cb_prop = new ilCheckboxInputGUI($lng->txt("personal_resources_disk_quota"), "enable_personal_workspace_disk_quota");
         $cb_prop->setValue('1');
         $cb_prop->setChecked($disk_quota_obj->isPersonalWorkspaceDiskQuotaEnabled());
-        $cb_prop->setInfo($lng->txt('enable_personal_workspace_disk_quota_info'));
+        $cb_prop->setInfo($lng->txt('personal_resources_disk_quota_info'));
         $form->addItem($cb_prop);
 
         if($this->rbacsystem->checkAccess('write',$this->object->getRefId()))
