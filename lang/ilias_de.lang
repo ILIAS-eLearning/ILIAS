@@ -17,7 +17,7 @@
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_make_favourite#:#Zu Favouriten hinzufügen
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
-dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favouriten hinzugefügt.
+dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
@@ -45,8 +45,8 @@ pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_enable_favourites#:#Favoriten
-dash#:#dash_enable_memberships#:#Meine Mitgliedschaften
-dash#:#dash_view_courses_groups#:#Block ‘Meine Mitgliedschaften’
+dash#:#dash_enable_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#dash_enable_cal#:#Kalender
 dash#:#dash_enable_news#:#Neuigkeiten
@@ -3591,7 +3591,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Kurse und Gruppen
+common#:#my_courses_groups#:#Meine Kurse und Gruppen
 common#:#name#:#Name
 common#:#never#:#Nie
 common#:#new#:#Neu
@@ -15295,3 +15295,6 @@ common#:#personal_resources#:#Persönliche Ressourcen
 file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
 file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
+dash#:#dash_favourites#:#Favoriten
+dash#:#dash_memberships#:#Meine Kurse und Gruppen

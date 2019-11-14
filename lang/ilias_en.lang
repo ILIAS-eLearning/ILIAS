@@ -45,8 +45,8 @@ pwsp#:#pwsp_enable_wsp_links#:#Enable Links
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_enable_favourites#:#Favourites
-dash#:#dash_enable_memberships#:#Memberships
-dash#:#dash_view_courses_groups#:#Section ‘Courses and Groups’
+dash#:#dash_enable_memberships#:#My Courses and Groups
+dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
 dash#:#dash_view_favourites#:#Section ‘Favourites’
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_news#:#News
@@ -6639,8 +6639,6 @@ notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
-pd#:#pd_my_memberships#:#My Memberships
-pd#:#pd_my_offers#:#Selected Items
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
@@ -9382,7 +9380,7 @@ exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#Courses and Groups
+common#:#my_courses_groups#:#My Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
@@ -15280,3 +15278,6 @@ common#:#personal_resources#:#Personal Resources
 file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
 file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+administration#:#adm_personal_workspace#:#Personal Workspace
+dash#:#dash_favourites#:#Favourites
+dash#:#dash_memberships#:#My Courses and Groups
