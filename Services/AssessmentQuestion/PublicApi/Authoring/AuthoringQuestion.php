@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Authoring;
 
+use ilAsqQuestionAuthoringGUI;
 use ILIAS\AssessmentQuestion\Application\AuthoringApplicationService;
 use ILIAS\AssessmentQuestion\Application\ProcessingApplicationService;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AuthoringContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ILIAS\UI\Component\Link\Standard as UiStandardLink;
-use ilAsqQuestionAuthoringGUI;
+use ilQTIItem;
 
 /**
  * Class QuestionAuthoring
@@ -307,7 +308,7 @@ class AuthoringQuestion
         // TODO: Implement changeQuestionContainer() method.
     }
 
-    public function importQtiQuestion(string $qti_item_xml) {
-        $this->authoring_application_service->importQtiQuestion($qti_item_xml);
+    public function importIlQtiQuestion(ilQTIItem $il_qti_item) {
+        $this->authoring_application_service->importIlQtiQuestion($this->question_id, $il_qti_item);
     }
 }

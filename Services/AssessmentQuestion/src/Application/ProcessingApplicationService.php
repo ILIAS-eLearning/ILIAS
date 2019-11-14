@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\Application;
 
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
 use ILIAS\AssessmentQuestion\CQRS\Command\CommandBusBuilder;
+use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Command\CreateQuestionRevisionCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Command\ScoreTestAttemptCommand;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
@@ -12,6 +13,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionRepository;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Command\AnswerQuestionCommand;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\AbstractScoring;
 use ILIAS\AssessmentQuestion\Infrastructure\Persistence\Projection\PublishedQuestionRepository;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Feedback\AnswerFeedbackComponent;
@@ -151,13 +153,31 @@ class ProcessingApplicationService
             $subbline .= $question_config->getSubline() . " ";
         }
         if ($question_config->isShowTotalPointsOfQuestion()) {
-            $subbline .= "(TODO " . $DIC->language()->txt('points') . ")";
+
+            $subbline .= "(".$this->getScoreOfBestAnswer($question_dto)->getMaxPoints()." ".$DIC->language()->txt('points') . ")";
         }
         $page_gui->setQuestionInfoHTML($subbline);
 
         return $page_gui;
     }
 
+    /**
+     * @var AnswerScoreDto $scored
+     */
+    public function getScoring(QuestionDto $question_dto):AbstractScoring {
+        $scoring_class = QuestionPlayConfiguration::getScoringClass( $question_dto->getPlayConfiguration());
+        return new $scoring_class($question_dto);
+    }
+
+    public function getBestAnswer(QuestionDto $question_dto):Answer
+    {
+        return $this->getScoring($question_dto)->getBestAnswer();
+    }
+
+    public function getScoreOfBestAnswer(QuestionDto $question_dto):AnswerScoreDto {
+        $scoring = $this->getScoring($question_dto);
+        return $scoring->score($this->getBestAnswer($question_dto));
+    }
 
     public function getQuestionComponent(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands) : QuestionComponent
     {

@@ -2,6 +2,7 @@
 
 namespace ILIAS\AssessmentQuestion\Application;
 
+use ILIAS\AssessmentQuestion\Application\Import\ilQti\ilQtiImportService;
 use ILIAS\AssessmentQuestion\Application\QtiV2\Import\QtiImportService;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
 use ILIAS\AssessmentQuestion\CQRS\Aggregate\DomainObjectId;
@@ -22,6 +23,7 @@ use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
 use ilAsqQuestionPageGUI;
+use ilQTIItem;
 
 /**
  * Class AuthoringApplicationService
@@ -139,7 +141,36 @@ class AuthoringApplicationService
         }
     }
 
-    public function importQtiQuestion(string $qti_item_xml) {
+    public function importIlQtiQuestion(string $question_uuid, ilQTIItem $il_qti_item) {
+        global $DIC;
+
+        if($il_qti_item->getQuestiontype() == ilQtiImportService::MATCHING_QUESTION ||
+            $il_qti_item->getQuestiontype() == ilQtiImportService::TEXT_QUESTION ||
+        $il_qti_item->getQuestiontype() == ilQtiImportService::FILE_UPLOAD_QUESTION ||
+            $il_qti_item->getQuestiontype() ==   ilQtiImportService::NUMERIC_QUESTION ||
+            $il_qti_item->getQuestiontype() ==   ilQtiImportService::ERROR_TEXT) {
+            return;
+        }
+
+        $qti_application_service = new ilQtiImportService($this->container_obj_id);
+        $question_dto = $qti_application_service->getQuestionDtoFromIlQtiItem($il_qti_item);
+
+        if(is_object($question_dto)) {
+
+            $this->createQuestion(new DomainObjectId($question_uuid),
+                $this->container_obj_id,
+                $question_dto->getLegacyData()->getContainerObjType(),
+                NULL,
+                $question_dto->getLegacyData()->getAnswerTypeId(),
+                $question_dto->getLegacyData()->getContentEditingMode()
+            );
+
+            $question_dto->setId($question_uuid);
+            $this->saveQuestion($question_dto);
+        }
+    }
+
+    /*public function importQtiQuestion(string $qti_item_xml) {
         global $DIC;
 
         $qti_application_service = new QtiImportService($this->container_obj_id);
@@ -159,7 +190,7 @@ class AuthoringApplicationService
             $question_dto->setId($uid->getId());
             $this->saveQuestion($question_dto);
         }
-    }
+    }*/
 
 
     public function projectQuestion(string $question_id)
@@ -188,6 +219,7 @@ class AuthoringApplicationService
         $event_store = new QuestionEventStoreRepository();
         foreach ($event_store->allStoredQuestionIdsForContainerObjId($this->container_obj_id) as $aggregate_id) {
             $question = $this->getQuestion($aggregate_id);
+
             if(!is_null($is_complete)) {
                 if ($question->isComplete() !== $is_complete) {
                     continue;

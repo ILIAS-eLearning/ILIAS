@@ -1223,7 +1223,21 @@ class ilObjTestGUI extends ilObjectGUI
 		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.tst_import_verification.html", "Modules/Test");
 		$row_class = array("tblrow1", "tblrow2");
 		$counter = 0;
-		foreach ($founditems as $item)
+
+		$arr_row = [];
+        foreach ($founditems as $item) {
+            $arr_row[] = '<tr class="{ROW_CLASS}">
+	<td class="std"><input type="checkbox" name="ident[]" id="{QUESTION_IDENT}" value="'.$item["ident"].'" checked="checked" /></td>
+	<td class="std">'.$item["title"].'</td>
+	<td class="std"></td>
+</tr>';
+        }
+
+        $this->tpl->setCurrentBlock("question_row");
+        $this->tpl->setVariable("QUESTION", implode("",$arr_row));
+        $this->tpl->parseCurrentBlock();
+
+		/*foreach ($founditems as $item)
 		{
 			$this->tpl->setCurrentBlock("verification_row");
 			$this->tpl->setVariable("ROW_CLASS", $row_class[$counter++ % 2]);
@@ -1302,7 +1316,7 @@ class ilObjTestGUI extends ilObjectGUI
 					break;
 			}
 			$this->tpl->parseCurrentBlock();
-		}
+		}*/
 
 		// on import creation screen the pool was chosen (-1 for no pool)
 		// BUT when no pool is available the input on creation screen is missing, so the field value -1 for no pool is not submitted.
@@ -2397,7 +2411,9 @@ class ilObjTestGUI extends ilObjectGUI
 					}
 				}
 
-				if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+				//TODO check the is Complete at the ASQ Question Service side
+                if( !$this->object->getOfflineStatus()  )
+				/*if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )*/
 				{
 					if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 					{
@@ -2407,7 +2423,7 @@ class ilObjTestGUI extends ilObjectGUI
 						$testPlayerGUI = $this->testPlayerFactory->getPlayerGUI();
 
 						$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE);
-						
+
 						if ($executable["executable"])
 						{
 							if ($testSession->getActiveId() > 0)
@@ -3050,7 +3066,7 @@ class ilObjTestGUI extends ilObjectGUI
 		{
 			$info->enablePrivateNotes();
 		}
-		
+
 		if (strlen($this->object->getIntroduction()))
 		{
 			$info->addSection($this->lng->txt("tst_introduction"));
@@ -3069,7 +3085,9 @@ class ilObjTestGUI extends ilObjectGUI
 			$info->addProperty($this->lng->txt("author"), $this->object->getAuthor());
 			$info->addProperty($this->lng->txt("title"), $this->object->getTitle());
 		}
-		if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )
+		/*if( !$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ) )*/
+        //TODO check the is complete at the asq question service side
+        if( !$this->object->getOfflineStatus())
 		{
 			// note smeyer: $online_access is not defined here
 			if ((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
@@ -3525,15 +3543,16 @@ class ilObjTestGUI extends ilObjectGUI
 				$online_access = true;
 			}
 		}
-
-		if(!$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))
+		//TODO Check the is Complete at the ASQ Question Service side
+		/*if(!$this->object->getOfflineStatus() && $this->object->isComplete( $this->testQuestionSetConfigFactory->getQuestionSetConfig() ))*/
+        if(!$this->object->getOfflineStatus() )
 		{
 			if((!$this->object->getFixedParticipants() || $online_access) && $ilAccess->checkAccess("read", "", $this->ref_id))
 			{
 				$testSession = $this->testSessionFactory->getSession();
 
 				$executable = $this->object->isExecutable($testSession, $ilUser->getId(), $allowPassIncrease = TRUE);
-				
+
 				if($executable["executable"])
 				{
 					$player_factory = new ilTestPlayerFactory($this->object);
