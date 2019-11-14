@@ -34,12 +34,15 @@
 			time = currentTime;
 		}
 
-		let fromNow = moment(time).fromNow();
+		let fromNow = moment(time).format('LL');
 
 		return moment(time).calendar(null, {
-			lastDay: '[' + il.Language.txt('yesterday') + ']',
 			sameDay: '[' + il.Language.txt('today') + ']',
-			sameElse: function () {
+			lastDay: '[' + il.Language.txt('yesterday') + ']',
+			lastWeek: function (now) {
+				return "[" + fromNow + "]";
+			},
+			sameElse: function (now) {
 				return "[" + fromNow + "]";
 			}
 		});
