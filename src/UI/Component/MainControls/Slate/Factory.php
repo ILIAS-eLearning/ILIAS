@@ -77,13 +77,13 @@ interface Factory
      *     Notifications Slates are used by the system to publish information to
      *     the user in the form of Notification Items. The aim of the Notification
      *     Slates and the Notification Items they contain, is to make notifications
-     *     visible and quickly accessible. They form a centralized channel into
-     *     which notifications are bundled into. Note that the Notification Slates
+     *     visible and quickly accessible. They form a centralized channel which bundles notifications.
+     *     Note that the Notification Slates
      *     and Items do not replace the short-lived message displayed on the screen without
      *     page loading (like "You have received 1 Contact Request") currently called "toasts".
      *   composition: >
      *     Notifications Slates hold Notification Items, displaying information
-     *     on and possible interactions with the displayed Notifications. They
+     *     on and possible interactions with the displayed notifications. They
      *     display the Notification Items chronological order (with the latest on top).
      *     Each Notification Slate bundles Notification Items of one specific
      *     type of source (service, e.g. Mail).
