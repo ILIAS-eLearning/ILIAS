@@ -220,7 +220,9 @@ class ilObjCloudGUI extends ilObject2GUI {
 			$path .= "/" . $content[$i];
 		}
 
-		$_POST["path"] = $path;
+		if ($path !== "") {
+			$_POST["path"] = $path;
+		}
 		include("ilias.php");
 	}
 
