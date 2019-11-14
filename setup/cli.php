@@ -13,7 +13,7 @@ require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
-use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
+use ILIAS\FileUpload\Handler\UploadHandler;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
@@ -129,7 +129,7 @@ function build_container_for_setup() {
 			public function duration($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
-            public function file(ilCtrlAwareUploadHandler $handler, string $label, string $byline = null) : File
+            public function file(UploadHandler $handler, string $label, string $byline = null) : File
             {
                 throw new \LogicException("The CLI-setup does not support the UI-Framework.");
             }
