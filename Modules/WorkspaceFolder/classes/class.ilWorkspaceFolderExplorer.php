@@ -189,7 +189,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 	
-		$title = $lng->txt("wsp_personal_workspace");
+		$title = $lng->txt("personal_resources");
 		
 		$tpl->setCurrentBlock("icon");
 		$tpl->setVariable("ICON_IMAGE", ilUtil::getImagePath("icon_wsrt.svg"));
