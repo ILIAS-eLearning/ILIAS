@@ -10,9 +10,6 @@ include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php"
  * Access handler for personal workspace
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
- * 
- * @ingroup ServicesPersonalWorkspace
  */
 class ilWorkspaceAccessHandler
 {

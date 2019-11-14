@@ -156,15 +156,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				foreach ($subnodes as $subnode)
 				{
 					$rbacadmin->revokePermission($subnode["child"]);
-					// remove item from all user desktops
-					$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
-					
+
 					$affected_ids[$subnode["child"]] = $subnode["child"];
 					$affected_parents[$subnode["child"]] = $subnode["parent"];
-					
-					// TODO: inform users by mail that object $id was deleted
-					//$mail->sendMail($id,$msg,$affected_users);
-					// should go to appevents at the end
 				}
 				
 				// TODO: needs other handling
@@ -182,13 +176,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				$log->write("ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$id.
 					" to trash");
 				
-				// remove item from all user desktops
-				$affected_users = ilUtil::removeItemFromDesktops($id);
-				
 				$affected_ids[$id] = $id;
-
-				// TODO: inform users by mail that object $id was deleted
-				//$mail->sendMail($id,$msg,$affected_users);
 			}
 			
 			// send global events

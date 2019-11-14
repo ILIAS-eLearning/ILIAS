@@ -95,6 +95,15 @@ class ilCtrlStructureReader
 	}
 
 	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function normalizePath(string $path) : string 
+	{
+		return str_replace(['//'], ['/'], $path);
+	}
+
+	/**
 	* read structure into internal variables
 	*
 	* @access private
@@ -121,8 +130,8 @@ class ilCtrlStructureReader
 				// directories
 				if (@is_dir($a_cdir."/".$file))
 				{
-					if ($a_cdir."/".$file != $il_absolute_path ."/data" &&
-						$a_cdir."/".$file != $il_absolute_path ."/Customizing"
+					if ($this->normalizePath($a_cdir."/".$file) != $this->normalizePath($il_absolute_path ."/data") &&
+						$this->normalizePath($a_cdir."/".$file) != $this->normalizePath($il_absolute_path ."/Customizing")
 					)
 					{
 						$this->read($a_cdir."/".$file);

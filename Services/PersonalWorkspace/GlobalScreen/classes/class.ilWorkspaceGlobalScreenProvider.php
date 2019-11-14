@@ -34,7 +34,7 @@ class WorkspaceMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_wsp'))
                 ->withTitle($title)
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(60)
 	            ->withSymbol($icon)

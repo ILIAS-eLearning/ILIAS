@@ -10,7 +10,6 @@ use ILIAS\UI\Component\MainControls;
 
 class Factory implements Page\Factory
 {
-
     /**
      * @inheritdoc
      */
@@ -21,8 +20,20 @@ class Factory implements Page\Factory
         Breadcrumbs $locator = null,
         Image $logo = null,
         MainControls\Footer $footer = null,
-        string $title = ''
+        string $title = '',
+        string $short_title = '',
+        string $view_title = ''
     ) : Page\Standard {
-        return new Standard($content, $metabar, $mainbar, $locator, $logo, $footer, $title);
+        return new Standard(
+            $content,
+            $metabar,
+            $mainbar,
+            $locator,
+            $logo,
+            $footer,
+            $title,
+            $short_title,
+            $view_title
+        );
     }
 }

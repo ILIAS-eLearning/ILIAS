@@ -4,7 +4,6 @@
 
 require_once "./Services/Object/classes/class.ilObject2GUI.php";
 require_once "./Modules/Blog/classes/class.ilBlogPosting.php";
-require_once "./Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php";
 
 /**
 * Class ilObjBlogGUI
@@ -1318,7 +1317,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// from shared/deeplink		
 			if($this->id_type == self::WORKSPACE_NODE_ID)
 			{	
-				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
+				$back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&wsp_id=".$this->node_id;
 			}
 			// from editor (#10073)
 			else if($this->mayContribute())
@@ -1345,7 +1344,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// workspace (always shared)
 			if($this->id_type == self::WORKSPACE_NODE_ID)
 			{	
-				$back = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".$owner;
+				$back = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=".$owner;
 			}
 			// contributor
 			else if($this->mayContribute())
@@ -3417,31 +3416,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$this->ctrl->redirect($this, "contributors");				
 	}
-	
-	/**
-	 * @see ilDesktopItemHandling::addToDesk()
-	 */
-	public function addToDeskObject()
-	{
-		$lng = $this->lng;
 
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-		ilDesktopItemGUI::addToDesktop();
-		ilUtil::sendSuccess($lng->txt("added_to_desktop"));		
-	}
-	
-	/**
-	 * @see ilDesktopItemHandling::removeFromDesk()
-	 */
-	public function removeFromDeskObject()
-	{
-		$lng = $this->lng;
-
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-		ilDesktopItemGUI::removeFromDesktop();
-		ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
-	}
-	
 	public function deactivateAdmin()
 	{
 		if($this->checkPermissionBool("write") && $this->apid > 0)

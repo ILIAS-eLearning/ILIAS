@@ -42,6 +42,11 @@ class ilObjectListGUIPreloader
 	protected $ref_ids; // [array]
 	protected $ref_ids_by_type; // [array]
 	protected $types; // [array]
+
+    /**
+     * @var ilFavouritesManager
+     */
+    protected $fav_manager;
 	
 	public function __construct($a_context)
 	{
@@ -52,7 +57,8 @@ class ilObjectListGUIPreloader
 		$this->obj_data_cache = $DIC["ilObjDataCache"];
 		$this->user = $DIC->user();
 		$this->rbacsystem = $DIC->rbac()->system();
-		$this->context = $a_context;		
+		$this->context = $a_context;
+        $this->fav_manager = new ilFavouritesManager();
 	}
 	
 	public function addItem($a_obj_id, $a_type, $a_ref_id = null)
@@ -128,10 +134,10 @@ class ilObjectListGUIPreloader
 			$ilObjDataCache->preloadReferenceCache($this->ref_ids, false);			
 			$rbacsystem->preloadRbacPaCache($this->ref_ids, $ilUser->getId());
 			
-			if($ilUser->getId != ANONYMOUS_USER_ID && 
+			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 				$this->context != ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP)
 			{
-				ilObjUser::preloadIsDesktopItem($ilUser->getId(), $this->ref_ids);
+                $this->fav_manager->loadData($ilUser->getId(), $this->ref_ids);
 			}
 			
 			include_once("./Services/Object/classes/class.ilObjectActivation.php");

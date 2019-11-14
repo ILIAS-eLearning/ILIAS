@@ -524,7 +524,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 
 		$link = $this->ui->renderer()->render(
 			$this->ui->factory()->button()->shy($cat_info["title"],
-				$this->ctrl->getLinkTargetByClass(array("ilPersonalDesktopGUI", "ilCalendarPresentationGUI"), "")));
+				$this->ctrl->getLinkTargetByClass(array("ilDashboardGUI", "ilCalendarPresentationGUI"), "")));
 
 		$this->ctrl->setParameterByClass("ilCalendarPresentationGUI", "category_id", $_GET["category_id"]);
 
@@ -612,9 +612,9 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 		{
 			$ctrl_path[] = "ilobjgroupgui";
 		}
-		if (strtolower($_GET["baseClass"]) == "ilpersonaldesktopgui")
+		if (strtolower($_GET["baseClass"]) == "ildashboardgui")
 		{
-			$ctrl_path[] = "ilpersonaldesktopgui";
+			$ctrl_path[] = "ildashboardgui";
 		}
 		$ctrl_path[] = "ilCalendarPresentationGUI";
 		$ctrl_path[] = "ilpublicuserprofilegui";

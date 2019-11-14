@@ -11,6 +11,15 @@
 			padding-left: 10px;
 		}
 	}
+	.input-group {
+		display: block;
+	}
+	p {
+		padding: 0;
+	}
+	form#mm_search_form {
+		padding: 20px;
+	}
 }
 
 .il-metabar-entries {
@@ -100,13 +109,15 @@
 	.shadow-right;
     background-color: @il-metabar-slates-bg-color;
 	position: absolute;
+
 	max-width: @il-metabar-slates-width;
 	.il-maincontrols-slate{
 		min-width: @il-metabar-slates-width;
 	}
 	max-height: 90vh;
 	overflow-y: scroll;
-	right: 20px;
+	right: 0;
+
 	top: @il-metabar-entry-height;
 
 	@media only screen and (max-width: @grid-float-breakpoint-max) {

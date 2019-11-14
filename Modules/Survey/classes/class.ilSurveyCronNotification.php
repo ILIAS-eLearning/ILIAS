@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
 /**
  * Cron for survey notifications
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup Cron
  */
 class ilSurveyCronNotification extends ilCronJob
 {		
@@ -81,8 +78,6 @@ class ilSurveyCronNotification extends ilCronJob
 	public function run()
 	{
 		$tree = $this->tree;
-		
-		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		
 		$status = ilCronJobResult::STATUS_NO_ACTION;
 		$message = array();

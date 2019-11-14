@@ -12,6 +12,9 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\ToolFactory;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class AbstractModificationProvider
@@ -100,6 +103,30 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
      * @inheritDoc
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
     {
         return null;
     }

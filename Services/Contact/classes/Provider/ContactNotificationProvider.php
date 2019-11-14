@@ -56,7 +56,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                     $contactRequestsCount
                 )
             )
-            ->withAction('ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts');
+            ->withAction('ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts');
 
         return [
             $group->addNotification($notification),

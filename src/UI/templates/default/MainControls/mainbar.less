@@ -56,6 +56,7 @@
 		img {
 			filter: invert(100%);
 		}
+		&:hover,
 		&.engaged {
 			background-color: @il-mainbar-btn-bg-color-engaged;
 			color: @il-mainbar-btn-bg-color;
@@ -65,6 +66,9 @@
 			.bulky-label {
 				color: @il-mainbar-btn-bg-color;
 			}
+		}
+		&:hover {
+			transition: all .15s ease-in;
 		}
 		&:focus {
 			outline: none;
@@ -83,6 +87,32 @@
 	}
 	&.engaged {
 		background: @il-maincontrols-mainbar-bg-color;
+	}
+	// no hover on mobile devices
+	@media (hover: none) {
+		.btn-bulky,
+		.il-link.link-bulky {
+			&:hover {
+				background-color: @il-mainbar-btn-bg-color;
+				color: @il-mainbar-btn-bg-color-engaged;
+				img {
+					filter: invert(100%);
+				}
+				.bulky-label {
+					color: @il-mainbar-btn-bg-color-engaged;
+				}
+			}
+			&.engaged {
+				background-color: @il-mainbar-btn-bg-color-engaged;
+				color: @il-mainbar-btn-bg-color;
+				img {
+					filter: invert(50%);
+				}
+				.bulky-label {
+					color: @il-mainbar-btn-bg-color;
+				}
+			}
+		}
 	}
 }
 
@@ -144,6 +174,12 @@
 			}
 		}
 	}
+	.il-mainbar-tool-trigger-item{
+		display: inline;
+		.hidden {
+			display: none;
+		}
+	}
 }
 
 .il-mainbar-tools-entries-bg {
@@ -156,7 +192,7 @@
 .il-mainbar-remove-tool {
 	display: none;
 	.il-mainbar-tools-entries.engaged & {
-		display: block;
+		/*display: block;*/
 		position: absolute;
 	    top: 0;
 	    right: 0;

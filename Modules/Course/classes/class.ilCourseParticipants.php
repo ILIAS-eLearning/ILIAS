@@ -92,7 +92,7 @@ class ilCourseParticipants extends ilParticipants
 	{
 		if(parent::add($a_usr_id, $a_role))
 		{
-			$this->addDesktopItem($a_usr_id);
+			$this->addRecommendation($a_usr_id);
 			return true;
 		}
 		return false;

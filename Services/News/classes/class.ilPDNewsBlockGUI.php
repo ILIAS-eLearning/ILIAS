@@ -318,8 +318,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
 			ILIAS_HTTP_PATH."/feed.php?client_id=".rawurlencode(CLIENT_ID)."&<br />user_id=".$ilUser->getId().
 				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
 
