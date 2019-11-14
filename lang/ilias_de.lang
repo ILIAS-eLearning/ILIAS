@@ -4199,7 +4199,7 @@ common#:#shib_update#:#Dieses Feld bei jeder Anmeldung aktualisieren
 common#:#shib_user_default_role#:#Generelle Rolle für Shibboleth-Benutzer
 common#:#shib_zipcode#:#Attribut für Postleitzahl
 common#:#short_inst_name#:#Kurztitel
-common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint der Name der Installation.
+common#:#short_inst_name_info#:#Dieser Titel erscheint in der Kopfzeile des Browsers. Wird hier nichts eingetragen, erscheint 'ILIAS'.
 common#:#show#:#Anzeigen
 common#:#show_details#:#Details anzeigen
 common#:#show_filter#:#Filter anzeigen

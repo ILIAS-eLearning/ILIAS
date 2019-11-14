@@ -222,7 +222,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
         $short_title = $this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
-            $short_title = CLIENT_NAME;
+            $short_title = 'ILIAS';
         }
         PageContentProvider::setShortTitle($short_title);
     }
