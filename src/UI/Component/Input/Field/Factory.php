@@ -5,8 +5,6 @@
 namespace ILIAS\UI\Component\Input\Field;
 
 
-use ILIAS\FileUpload\Handler\UploadHandler;
-
 /**
  * This is what a factory for input fields looks like.
  */

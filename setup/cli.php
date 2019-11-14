@@ -13,10 +13,10 @@ require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
-use ILIAS\FileUpload\Handler\UploadHandler;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 $c = build_container_for_setup();
 $app = $c["app"];

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\FileUpload\Handler;
+namespace ILIAS\UI\Component\Input\Field;
 
 use JsonSerializable;
 

@@ -6,10 +6,10 @@ declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\FileUpload\Handler\UploadHandler;
-use ILIAS\UI\Component\Input\Field;
 use ILIAS\Data;
+use ILIAS\UI\Component\Input\Field;
 use ILIAS\UI\Component\Input\Field\File;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\NotImplementedException;
 
