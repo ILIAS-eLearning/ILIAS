@@ -3960,7 +3960,7 @@ common#:#visits#:#Visits
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
 common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):
-common#:#webdav_duplicate_detected_title#:#Following objects are having the same title and could therefore not be displayed:
+common#:#webdav_duplicate_detected_title#:#Following objects could not be displayed, because an object with the same Title is already being shown:
 common#:#webdav_problem_info_duplicate#:#There is a file with the same title as the info file.
 common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_enable_versioning#:#File Versioning
