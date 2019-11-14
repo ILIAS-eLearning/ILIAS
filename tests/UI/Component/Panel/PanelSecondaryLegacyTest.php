@@ -23,7 +23,8 @@ class PanelSecodaryLegacyTest extends ILIAS_UI_TestBase
             }
             public function legacy($content)
             {
-                return new I\Component\Legacy\Legacy($content);
+                $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
+                return $f->legacy($content);
             }
             public function dropdown()
             {
@@ -216,7 +217,7 @@ EOT;
 					<li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button></li>
 				</ul>
 			</div>
-		</div>	
+		</div>
 	</div>
 	<div class="panel-body">
 		Legacy content
