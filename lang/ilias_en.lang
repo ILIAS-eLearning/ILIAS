@@ -3959,6 +3959,10 @@ common#:#visitors#:#Visitors
 common#:#visits#:#Visits
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#webdav_forbidden_chars_title#:#Following files cannot be displayed, because they contain one or more forbidden characters (\<>/:*?"|#):
+common#:#webdav_duplicate_detected_title#:#Following objects are having the same title and could therefore not be displayed:
+common#:#webdav_problem_info_duplicate#:#There is a file with the same title as the info file.
+common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.

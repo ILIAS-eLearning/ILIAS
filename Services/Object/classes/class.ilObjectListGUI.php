@@ -1291,56 +1291,6 @@ class ilObjectListGUI
 				{
 					return $props;
 				}
-
-				// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
-				if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_filename"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/^\\./', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-						"value" => $lng->txt("filename_hidden_unix_file"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/~$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-						"value" => $lng->txt("filename_hidden_backup_file"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/[\\/]/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_characters"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/[\\\\\\/:*?"<>|]/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_special_characters"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/\\.$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_empty_extension"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_filename"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/#/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_webdav_issue"),
-						'propertyNameVisible' => false);
-				}
 			}
 			// END WebDAV Display warning for invisible files and files with special characters
 		}
