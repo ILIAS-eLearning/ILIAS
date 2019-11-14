@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
@@ -19,26 +20,32 @@ abstract class Slate implements ISlate\Slate
 {
     use ComponentHelper;
     use JavaScriptBindable;
+
     /**
      * @var string
      */
     protected $name;
+
     /**
      * @var Symbol
      */
     protected $symbol;
+
     /**
      * @var Signal
      */
     protected $toggle_signal;
+
     /**
      * @var Signal
      */
     protected $engage_signal;
+
     /**
      * @var ReplaceSignal
      */
     protected $replace_signal;
+
     /**
      * @var bool
      */
@@ -54,8 +61,8 @@ abstract class Slate implements ISlate\Slate
         Symbol $symbol
     ) {
         $this->signal_generator = $signal_generator;
-        $this->name             = $name;
-        $this->symbol           = $symbol;
+        $this->name = $name;
+        $this->symbol = $symbol;
         $this->initSignals();
     }
 
@@ -64,8 +71,8 @@ abstract class Slate implements ISlate\Slate
      */
     protected function initSignals()
     {
-        $this->toggle_signal  = $this->signal_generator->create();
-        $this->engage_signal  = $this->signal_generator->create();
+        $this->toggle_signal = $this->signal_generator->create();
+        $this->engage_signal = $this->signal_generator->create();
         $this->replace_signal = $this->signal_generator->create(ReplaceSignalImplementation::class);
     }
 
@@ -106,7 +113,7 @@ abstract class Slate implements ISlate\Slate
      */
     public function withEngaged(bool $state) : ISlate\Slate
     {
-        $clone          = clone $this;
+        $clone = clone $this;
         $clone->engaged = $state;
         return $clone;
     }
