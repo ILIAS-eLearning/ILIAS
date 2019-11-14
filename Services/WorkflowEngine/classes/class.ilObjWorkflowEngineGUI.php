@@ -115,7 +115,7 @@ class ilObjWorkflowEngineGUI extends ilObject2GUI
 		);
 
 		ilUtil::sendSuccess($lng->txt('ok'), true);
-		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 	}
 
 	public function executeCommand()

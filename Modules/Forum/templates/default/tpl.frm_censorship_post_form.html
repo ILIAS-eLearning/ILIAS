@@ -13,12 +13,12 @@
 <p class="warning">{TXT_CENS}</p>	
 <div class="ilRight">
 <!-- BEGIN change_censorship_yn -->	
-<input class="btn btn-default btn-sm" type="submit" name="yes_cs_change" value="{YES_BUTTON}" />&nbsp;&nbsp;
-<input class="btn btn-default btn-sm" type="submit" name="no_cs_change" value="{NO_BUTTON}" />
+<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_REVOKE_CENSORSHIP}]" value="{YES_BUTTON}" />&nbsp;&nbsp;
+<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_CANCEL_REVOKE_CENSORSHIP}]" value="{NO_BUTTON}" />
 <!-- END change_censorship_yn -->	
 <!-- BEGIN censorship -->	
-<input class="btn btn-default btn-sm" type="submit" name="confirm" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
-<input class="btn btn-default btn-sm" type="submit" name="cancel" value="{CANCEL_BUTTON}" />
+<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_ADD_CENSORSHIP}]" value="{CONFIRM_BUTTON}" />&nbsp;&nbsp;
+<input class="btn btn-default btn-sm" type="submit" name="cmd[{CMD_CANCEL_ADD_CENSORSHIP}]" value="{CANCEL_BUTTON}" />
 <!-- END censorship -->	
 </div>
 </form>

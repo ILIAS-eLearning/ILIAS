@@ -2672,7 +2672,6 @@ $setting = new ilSetting('lti');
 $setting->delete('custom_provider_create_role');
 
 ?>
-
 <#5567>
 <?php
 if(!$ilDB->tableExists('crs_reference_settings'))
@@ -2697,5 +2696,161 @@ if(!$ilDB->tableExists('crs_reference_settings'))
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5569>
+<?php
+	$ilDB->dropPrimaryKey('role_desktop_items');
+?>
+<#5570>
+<?php
+	$ilDB->renameTableColumn('role_desktop_items', "item_id", 'ref_id');
+?>
+<#5571>
+<?php
+	$ilDB->renameTable('role_desktop_items', 'rep_rec_content_role');
+?>
+<#5572>
+<?php
+	$ilDB->dropTableColumn("rep_rec_content_role", "role_item_id");
+?>
+<#5573>
+<?php
+	$ilDB->dropTableColumn("rep_rec_content_role", "item_type");
+?>
+<#5574>
+<?php
+	$ilDB->addPrimaryKey('rep_rec_content_role', ['role_id','ref_id']);
+?>
+<#5575>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>
+<#5576>
+<?php
+if(!$ilDB->tableExists('rep_rec_content_obj'))
+{
+    $ilDB->createTable('rep_rec_content_obj', [
+        'user_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'ref_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'declined' => [
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+        ]
+    ]);
+}
+?>
+<#5577>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('nots', 'Notes Settings');
+?>
+<#5578>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('coms', 'Comments Settings');
+?>
+<#5579>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('lhts', 'Learning History Settings');
+?>
+<#5580>
+<?php
+$ilDB->update("object_data", [
+		"title" => ["text", "dshs"],
+		"description" => ["text", "Dashboard Settings"]
+	], [	// where
+		"title" => ["text", "pdts"],
+		"type" => ["text", "typ"],
+	]
+);
+?>
+<#5581>
+<?php
+$ilDB->update("object_data", [
+    "type" => ["text", "dshs"],
+    "title" => ["text", "__DashboardSettings"],
+    "description" => ["text", "Dashboard Settings"]
+], [	// where
+        "type" => ["text", "pdts"]
+    ]
+);
+?>
+<#5582>
+<?php
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
+?>
+<#5583>
+<?php
+    $ilCtrlStructureReader->getStructure();
+?>
+<#5584>
+<?php
 
+	$set = $ilDB->queryF("SELECT * FROM svy_svy ".
+		" WHERE invitation_mode = %s ",
+		["integer"],
+		[0]
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+        $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE ".
+			" survey_fi = %s",
+			["integer"],
+			[$rec["survey_id"]]
+		);
+	}
 
+?>
+<#5585>
+<?php
+if(!$ilDB->tableExists('svy_invitation'))
+{
+    $ilDB->createTable('svy_invitation', [
+        'user_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'survey_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ]
+    ]);
+    $ilDB->addPrimaryKey("svy_invitation", ["user_id", "survey_id"]);
+}
+?>
+<#5586>
+<?php
+	$set = $ilDB->queryF("SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
+		[],
+		[]
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+        $ilDB->insert("svy_invitation", [
+        	"survey_id" => ["integer", $rec["survey_fi"]],
+        	"user_id" => ["integer", $rec["user_fi"]]
+        ]);
+	}
+
+?>
+<#5587>
+<?php
+	$ilDB->dropTable('svy_inv_usr');
+?>

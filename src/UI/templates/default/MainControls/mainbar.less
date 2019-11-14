@@ -88,6 +88,32 @@
 	&.engaged {
 		background: @il-maincontrols-mainbar-bg-color;
 	}
+	// no hover on mobile devices
+	@media (hover: none) {
+		.btn-bulky,
+		.il-link.link-bulky {
+			&:hover {
+				background-color: @il-mainbar-btn-bg-color;
+				color: @il-mainbar-btn-bg-color-engaged;
+				img {
+					filter: invert(100%);
+				}
+				.bulky-label {
+					color: @il-mainbar-btn-bg-color-engaged;
+				}
+			}
+			&.engaged {
+				background-color: @il-mainbar-btn-bg-color-engaged;
+				color: @il-mainbar-btn-bg-color;
+				img {
+					filter: invert(50%);
+				}
+				.bulky-label {
+					color: @il-mainbar-btn-bg-color;
+				}
+			}
+		}
+	}
 }
 
 // mainbar entries

@@ -570,7 +570,7 @@ class ilMailSearchCoursesGUI
 		if ($_GET["view"] == "mycourses")
 		{
 			$ids = $_REQUEST["search_crs"];
-			if (sizeof($ids))
+			if (is_array($ids) && sizeof($ids))
 			{
 				$this->addPermission($ids);
 			}
@@ -583,7 +583,7 @@ class ilMailSearchCoursesGUI
 		else if ($_GET["view"] == "crs_members")
 		{
 			$ids = $_REQUEST["search_members"];
-			if (sizeof($ids))
+			if (is_array($ids) && sizeof($ids))
 			{
 				$this->addPermission($ids);
 			}

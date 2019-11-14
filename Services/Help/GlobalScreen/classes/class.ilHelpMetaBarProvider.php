@@ -49,7 +49,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
 
         if ($this->showHelpItem()) {
             $item = $mb->topLinkItem($this->getId())
-                ->withAction($ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "toggleHelp"))
+                ->withAction($ctrl->getLinkTargetByClass("ildashboardgui", "toggleHelp"))
                 ->withSymbol($icon)
                 ->withTitle($title)
                 ->withPosition(2)

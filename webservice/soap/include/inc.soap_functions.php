@@ -1072,12 +1072,13 @@ class ilSoapFunctions {
 	 * @param $reference_ids
 	 * @return int
 	 */
+	/* abandonded with 6.0
 	public static function addDesktopItems($sid, $user_id, $reference_ids)
 	{
 		include_once './webservice/soap/classes/class.ilSoapObjectAdministration.php';
 		$obj_handler = new ilSoapObjectAdministration();
 		return $obj_handler->addDesktopItems($sid, $user_id, $reference_ids);
-	}
+	}*/
 
 	/**
 	 * Add desktop items for user

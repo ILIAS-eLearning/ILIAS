@@ -8,7 +8,6 @@
  * This can be used in contexts where no (proper) access handling is possible
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
  */
 class ilDummyAccessHandler
 {

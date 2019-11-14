@@ -172,7 +172,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 	}
 	
 	/**
-	* get flat bookmark list for personal desktop
+	* get flat list for personal desktop
 	*/
 	function fillRow($a_set)
 	{
@@ -221,7 +221,7 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $a_set["id"]);
 		$ilCtrl->setParameterByClass("ilnotegui", "note_type", IL_NOTE_PRIVATE);
 		$this->tpl->setVariable("LINK_EDIT_NOTE",
-			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"), "editNoteForm")
+			$ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilpdnotesgui", "ilnotegui"), "editNoteForm")
 			."#note_edit");
 		$this->tpl->parseCurrentBlock();
 		$ilCtrl->clearParametersByClass("ilnotegui");
@@ -247,11 +247,10 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		include_once("./Services/Notes/classes/class.ilNoteGUI.php");
 		$note_gui = new ilNoteGUI();
 		$note_gui->enableTargets();
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($note_gui->getPDNoteHTML($_GET["note_id"]));
 		$content_block->setTitle($lng->txt("note"));
 

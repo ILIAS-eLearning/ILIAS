@@ -40,6 +40,11 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 	protected $start_object; // [ilContainerStartObjects]
 	protected $item_list_guis; // [array]
 	protected $enable_desktop; // [bool]
+
+    /**
+     * @var ilFavouritesManager
+     */
+    protected $fav_manager;
 	
 	public function __construct($a_parent_obj, $a_parent_cmd, ilContainerStartObjects $a_start_objects, $a_enable_desktop = true)
 	{
@@ -73,6 +78,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 		
 		$this->setDefaultOrderField('nr');
 		$this->setDefaultOrderDirection('asc');
+        $this->fav_manager = new ilFavouritesManager();
 	 	
 		$this->getItems();
 	}
@@ -117,7 +123,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 			if((bool)$this->enable_desktop)
 			{						
 				// add to desktop link
-				if(!$ilUser->isDesktopItem($ref_id,$type))
+				if(!$this->fav_manager->ifIsFavourite($ilUser->getId(), $ref_id))
 				{
 					if ($ilAccess->checkAccess('read','',$ref_id))
 					{					
@@ -125,7 +131,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 						$this->ctrl->setParameter($this->getParentObject(),'item_id',$ref_id);
 						$this->ctrl->setParameter($this->getParentObject(),'type',$type);
 						$url = $this->ctrl->getLinkTarget($this->getParentObject(),'addToDesk');
-						$actions[$url] = $this->lng->txt("to_desktop");										
+						$actions[$url] = $this->lng->txt("rep_add_to_favourites");
 					}
 				}
 				else
@@ -134,7 +140,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
 					$this->ctrl->setParameter($this->getParentObject(),'item_id',$ref_id);
 					$this->ctrl->setParameter($this->getParentObject(),'type',$type);
 					$url = $this->ctrl->getLinkTarget($this->getParentObject(),'removeFromDesk');
-					$actions[$url] = $this->lng->txt("unsubscribe");												
+					$actions[$url] = $this->lng->txt("rep_remove_from_favourites");
 				}
 			}
 			

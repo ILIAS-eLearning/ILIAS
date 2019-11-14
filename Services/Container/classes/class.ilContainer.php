@@ -123,6 +123,11 @@ class ilContainer extends ilObject
 	 */
 	protected $obj_trans = null;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
+
 	function __construct($a_id = 0, $a_reference = true)
 	{
 		global $DIC;
@@ -145,6 +150,7 @@ class ilContainer extends ilObject
 		{
 			$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
 		}
+        $this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 
 	/**

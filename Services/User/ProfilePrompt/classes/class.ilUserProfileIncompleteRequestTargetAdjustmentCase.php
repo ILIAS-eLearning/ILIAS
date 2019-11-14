@@ -26,7 +26,7 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 	 */
 	public function isInFulfillment() : bool
 	{
-		if(!isset($_GET['baseClass']) || strtolower($_GET['baseClass']) != 'ilpersonaldesktopgui')
+		if(!isset($_GET['baseClass']) || strtolower($_GET['baseClass']) != 'ildashboardgui')
 		{
 			return false;
 		}
@@ -130,10 +130,10 @@ class ilUserProfileIncompleteRequestTargetAdjustmentCase extends ilUserRequestTa
 			$user_prompt_service->data()->saveLastUserPrompt((int) $this->user->getId());
 		}
 
-		$_GET['baseClass'] = 'ilpersonaldesktopgui';
+		$_GET['baseClass'] = 'ildashboardgui';
 		// sm: directly redirect to personal desktop -> personal profile
 		$this->ctrl->setTargetScript('ilias.php');
 		$this->ctrl->setParameterByClass("ilpersonalprofilegui", "prompted","1");
-		ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ilpersonaldesktopgui', 'ilpersonalprofilegui'), 'showPersonalData', '', false, false));
+		ilUtil::redirect($this->ctrl->getLinkTargetByClass(array('ildashboardgui', 'ilpersonalprofilegui'), 'showPersonalData', '', false, false));
 	}
 }

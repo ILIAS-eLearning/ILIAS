@@ -76,7 +76,7 @@ if(!ilStartUpGUI::_checkGoto($_GET["target"]))
 				ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))), true);
 		}
 	
-		ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+		ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 	}
 }
 

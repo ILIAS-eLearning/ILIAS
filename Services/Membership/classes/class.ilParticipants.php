@@ -62,7 +62,11 @@ abstract class ilParticipants
 	 * @var \ilLogger
 	 */
 	protected $logger = null;
-	
+
+	/**
+	 * @var ilRecommendedContentManager
+	 */
+	protected $recommended_content_manager;
 
 	/**
 	 * Singleton Constructor
@@ -86,6 +90,7 @@ abstract class ilParticipants
 	 	
 	 	$this->readParticipants();
 	 	$this->readParticipantsStatus();
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 	
 	/**
@@ -842,8 +847,9 @@ abstract class ilParticipants
 
 		$rbacadmin = $DIC['rbacadmin'];
 		$ilDB = $DIC['ilDB'];
-		
-		$this->dropDesktopItem($a_usr_id);
+
+		$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+
 		foreach($this->roles as $role_id)
 		{
 			$rbacadmin->deassignUser($role_id,$a_usr_id);
@@ -1100,33 +1106,15 @@ abstract class ilParticipants
 	 * @param int usr_id
 	 * 
 	 */
-	public function addDesktopItem($a_usr_id)
+	public function addRecommendation($a_usr_id)
 	{
-		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
-		{
-			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
-		}
+		// deactivated for now, see discussion at
+		// https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+		// $this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
 		return true;
 	}
 	
-	/**
-	 * Drop desktop item
-	 *
-	 * @access public
-	 * @param int usr_id
-	 * 
-	 */
-	function dropDesktopItem($a_usr_id)
-	{
-		if(ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
-		{
-			ilObjUser::_dropDesktopItem($a_usr_id, $this->ref_id,$this->type);
-		}
 
-		return true;
-	}
-	
-	
 	
 	/**
 	 * check if notification is enabled

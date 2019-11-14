@@ -28,13 +28,13 @@ class BadgeMainBarProvider extends AbstractStaticMainMenuProvider
     {
 
         $title = $this->dic->language()->txt("mm_badges");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
+        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/badge.svg"), $title);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_badges'))
                 ->withTitle($title)
-                ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
+                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
                 ->withPosition(40)
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
 	            ->withSymbol($icon)

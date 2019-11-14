@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * Class ilContainerGUI
@@ -1457,43 +1456,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return false;
 	}
 			
-    /**
-     * @see ilDesktopItemHandling::addToDesk()
-     */
-    public function addToDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
-	 	ilUtil::sendSuccess($lng->txt("added_to_desktop"));
-		$this->renderObject();
-    }
-    
-    /**
-     * @see ilDesktopItemHandling::removeFromDesk()
-     */
-    public function removeFromDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
-		$this->renderObject();
-    }
 
 	// bugfix mantis 24559
 	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins

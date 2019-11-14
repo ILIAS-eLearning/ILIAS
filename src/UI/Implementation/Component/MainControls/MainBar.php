@@ -84,7 +84,7 @@ class MainBar implements MainControls\MainBar
     /**
      * @var array<string, Button\Close>
      */
-    private $close_button = [];
+    private $close_buttons = [];
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
