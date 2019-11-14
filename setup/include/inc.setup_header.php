@@ -195,7 +195,8 @@ $c["ui.factory"] = function ($c) {
 		$c["ui.factory.maincontrols"],
 		$c["ui.factory.tree"],
 		$c["ui.factory.menu"],
-		$c["ui.factory.symbol"]
+		$c["ui.factory.symbol"],
+		$c["ui.factory.legacy"]
 	);
 };
 $c["ui.signal_generator"] = function($c) {
@@ -328,6 +329,9 @@ $c["ui.factory.input.container.form"] = function($c) {
 };
 $c["ui.factory.panel.listing"] = function($c) {
 	return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
+};
+$c["ui.factory.legacy"] = function($c) {
+	return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
 };
 
 $c["ui.renderer"] = function($c) {

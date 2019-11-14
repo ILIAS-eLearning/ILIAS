@@ -1202,7 +1202,7 @@ class ilLMPresentationGUI
 					{
 						$ilLocator->addItem(
 							ilUtil::shortenText(
-								ilStructureObject::_getPresentationTitle($row["child"], IL_CHAPTER_TITLE,
+								ilStructureObject::_getPresentationTitle($row["child"], ilLMOBject::CHAPTER_TITLE,
 									$this->lm->isActiveNumbering(),
 									$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang),
 								50,true),
@@ -2489,7 +2489,7 @@ class ilLMPresentationGUI
 				// chapter
 				case "st":
 					$text =
-						ilStructureObject::_getPresentationTitle($node["obj_id"], IL_CHAPTER_TITLE,
+						ilStructureObject::_getPresentationTitle($node["obj_id"], ilLMOBject::CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
 							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 					if($ilUser->getId() == ANONYMOUS_USER_ID && 
@@ -2813,7 +2813,7 @@ class ilLMPresentationGUI
 					$this->tpl->setVariable("CHAP_TITLE",
 						$chapter_title);
 						
-					if ($this->lm->getPageHeader() == IL_CHAPTER_TITLE)
+					if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE)
 					{
 						if ($nodes[$node_key + 1]["type"] == "pg")
 						{
@@ -2859,7 +2859,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setOutputMode("print");
 					$page_object_gui->setPresentationTitle("");
 					
-					if ($this->lm->getPageHeader() == IL_PAGE_TITLE || $node["free"] === true)
+					if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || $node["free"] === true)
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 								$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
@@ -2883,7 +2883,7 @@ class ilLMPresentationGUI
 					$hcont = $header_page_content;
 					$fcont = $footer_page_content;
 
-					if ($this->lm->getPageHeader() == IL_CHAPTER_TITLE)
+					if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE)
 					{
 						if ($did_chap_page_header)
 						{
@@ -2901,7 +2901,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setFullscreenLink("#");
 					$page_object_gui->setSourceCodeDownloadScript("#");
 					$page_content = $page_object_gui->showPage();
-					if ($this->lm->getPageHeader() != IL_PAGE_TITLE)
+					if ($this->lm->getPageHeader() != ilLMObject::PAGE_TITLE)
 					{
 						$this->tpl->setVariable("CONTENT",
 							$hcont.$page_content.$fcont);
@@ -3116,7 +3116,7 @@ class ilLMPresentationGUI
 					}
 					$this->tpl->setCurrentBlock("toc_entry");
 					$this->tpl->setVariable("TXT_TOC_TITLE",
-						ilStructureObject::_getPresentationTitle($node2["obj_id"], IL_CHAPTER_TITLE,
+						ilStructureObject::_getPresentationTitle($node2["obj_id"], ilLMOBject::CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
 							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 					$this->tpl->parseCurrentBlock();

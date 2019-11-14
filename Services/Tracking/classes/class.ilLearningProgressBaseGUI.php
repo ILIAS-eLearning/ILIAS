@@ -256,27 +256,6 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
-			//$this->tpl->setTitle($this->lng->txt("learning_progress"));
-			
-			// set locator
-/*
-			$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-			$this->tpl->touchBlock("locator_separator");
-			$this->tpl->touchBlock("locator_item");
-			//$this->tpl->setCurrentBlock("locator_item");
-			//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-			//$this->tpl->setVariable("LINK_ITEM",
-			//						$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-			//$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
-			$this->tpl->setVariable("LINK_ITEM",
-									$this->ctrl->getLinkTargetByClass('illearningprogressgui'));
-			$this->tpl->parseCurrentBlock();
-*/
-		
-			// display infopanel if something happened
 			ilUtil::infoPanel();
 		}
 

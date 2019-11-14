@@ -41,7 +41,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 		$lang = ($_GET["transl"] != "")
 			? $_GET["transl"]
 			: "-";
-		return ilLMObject::_getPresentationTitle($a_node, IL_PAGE_TITLE,
+		return ilLMObject::_getPresentationTitle($a_node, ilLMObject::PAGE_TITLE,
 			$this->lm->isActiveNumbering(), false, false, $this->lm->getId(), $lang);
 	}
 

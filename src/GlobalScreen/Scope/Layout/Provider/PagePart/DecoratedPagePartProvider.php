@@ -17,6 +17,9 @@ use ILIAS\UI\Component\MainControls\MetaBar;
  */
 class DecoratedPagePartProvider implements PagePartProvider
 {
+    const PURPOSE_TITLE = 'ptitle';
+    const PURPOSE_SHORTTITLE = 'stitle';
+    const PURPOSE_VIEWTITLE = 'vtitle';
 
     /**
      * @var PagePartProvider
@@ -116,5 +119,29 @@ class DecoratedPagePartProvider implements PagePartProvider
     public function getFooter() : ?Footer
     {
         return $this->getDecoratedOrOriginal(Footer::class, $this->original->getFooter());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getTitle() : string
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_TITLE, $this->original->getTitle());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getShortTitle() : string
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_SHORTTITLE, $this->original->getShortTitle());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getViewTitle() : string
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_VIEWTITLE, $this->original->getViewTitle());
     }
 }

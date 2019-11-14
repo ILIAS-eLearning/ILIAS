@@ -14,7 +14,68 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+dash#:#dash_remove_from_list#:#Remove from List
+dash#:#dash_make_favourite#:#Add to Favourites
+dash#:#dash_item_removed#:#Recommendation has been removed from the list.
+dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
+common#:#obj_nots_desc#:#Notes settings
+common#:#obj_nots#:#Notes
+note#:#note_enable_notes#:#Enable Notes
+common#:#obj_coms_desc#:#Comments settings
+common#:#obj_coms#:#Comments
+note#:#note_enable_comments#:#Enable Comments
+administration#:#adm_communication#:#Communication
+note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
+note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
+note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
+note#:#note_comments_notification#:#General notification about all comments
+note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
+common#:#obj_lhts_desc#:#Learning history settings
+common#:#obj_lhts#:#Learning History
+common#:#obj_dshs_desc#:#Dashboard settings
+common#:#obj_dshs#:#Dashboard
+lhist#:#lhist_enable_learning_history#:#Learning History
+lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+common#:#obj_prss_desc#:#Personal resources settings
+common#:#obj_prss#:#Personal Resources
+pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
+pwsp#:#pwsp_enable_wsp_files#:#Enable Files
+pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates
+pwsp#:#pwsp_enable_wsp_links#:#Enable Links
+dash#:#dash_main_panel#:#Main Panel
+dash#:#dash_side_panel#:#Side Panel
+dash#:#dash_enable_favourites#:#Favourites
+dash#:#dash_enable_memberships#:#My Courses and Groups
+dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
+dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#dash_enable_cal#:#Calendar
+dash#:#dash_enable_news#:#News
+dash#:#dash_enable_mail#:#Mail
+dash#:#dash_enable_task#:#Tasks
+dash#:#dash_avail_sortation#:#Available Sortations
+dash#:#dash_default_sortation#:#Default Sortation
+dash#:#dash_sortation#:#Sortation
+dash#:#dash_presentation#:#Presentation
+dash#:#dash_avail_presentation#:#Available Presentations
+dash#:#dash_default_presentation#:#Default Presentation
+dash#:#dash_list#:#List
+dash#:#dash_tile#:#Tile
+dash#:#dash_activation#:#activation
+dash#:#dash_sort_by_location#:#Sort by Location
+dash#:#dash_sort_by_type#:#Sort by Type
+dash#:#dash_sort_by_start_date#:#Sort by Start Date
+dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
+user#:#user_privacy_checklist#:#Privacy Checklist
+user#:#user_profile_data#:#Profile Data
+user#:#user_publish_options#:#Publish Profile
+user#:#user_visibility_settings#:#Visibility
+user#:#user_save_continue#:#Save and Continue
+user#:#user_profile_data_checked#:#Profile data checked
+user#:#user_check_profile_data#:#Check profile data
+user#:#show_own_online_status#:#Show My Online Status
+user#:#user_set_visibilty_options#:#Set visibility options
+user#:#user_set_publishing_options#:#Set publishing options
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
@@ -213,9 +274,7 @@ forum#:#restore#:#Restore
 forum#:#restore_draft_from_autosave#:#Restore draft
 forum#:#autosave_draft_info#:#<span class="asterisk">This draft will be saved automatically every %s seconds.</span>
 forum#:#autosave_post_draft_info#:#<span class="asterisk">This post will be saved automatically as draft every %s seconds.</span>
-forum#:#edit_thread_draft#:#Edit thread draft
-common#:#pd_enable_pdfrmpostdraft#:#Enabled 'My Posting Drafts'
-common#:#pd_enable_pdfrmpostdraft_info#:#If enabled, a block 'My Posting Drafts' can be placed on the user's Personal Desktop. This block contains drafts of postings created in forums.
+forum#:#edit_thread_draft#:#Edit thread draft postings created in forums.
 forum#:#forums_thread_drafts_deleted#:#The selected thread including all postings and drafts have been deleted.
 forum#:#forums_threads_drafts_deleted#:#The selected threads including all postings and drafts have been deleted.
 forum#:#save_draft_successfully#:#The draft was saved successfully.
@@ -231,8 +290,8 @@ forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
-common#:#pwsp_recalculate_disk_quota#:#Personal Workspace: Recalculation of Disk Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal workspace.
+common#:#pwsp_recalculate_disk_quota#:#Personal Resources: Recalculation of Disk Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Recalculates all disk quota values for the personal resources.
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_behaviour#:#Block Behaviour
@@ -2013,9 +2072,6 @@ common#:#btn_next#:#Continue
 common#:#btn_previous#:#Back
 common#:#btn_remove_system#:#Remove from System
 common#:#btn_undelete#:#Restore
-pd#:#pd_sort_by_location#:#Sort by Location
-pd#:#pd_sort_by_type#:#Sort by Type
-pd#:#pd_sort_by_start_date#:#Sort by Start Date
 pd#:#pd_my_memberships_sort_default#:#Default of Sort Option
 pd#:#pd_upcoming#:#Upcoming
 pd#:#pd_ongoing#:#Ongoing
@@ -2070,7 +2126,7 @@ common#:#change_header_title#:#Edit Header Title
 common#:#change_owner#:#Change owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#change#:#Change
-common#:#changeable#:#Changeable in Personal Data and Profile
+common#:#changeable#:#Changeable in Profile
 common#:#changed_to#:#changed to
 common#:#changing_loginname_not_possible_info#:#You changed your login name at last at %s. The next change can be performed at %s.
 common#:#chapter#:#Chapter
@@ -2254,7 +2310,6 @@ common#:#desc#:#Description
 forum#:#descending_order#:#Latest postings at the top
 common#:#description#:#Description
 common#:#desired_password#:#Desired Password
-common#:#desktop_items#:#Personal Desktop Items
 common#:#details#:#Details
 common#:#disable_check#:#Disable check
 common#:#disable_ext_lang_maint#:#Disable Extended Maintenance
@@ -3160,8 +3215,6 @@ common#:#obj_nwss#:#News and Web Feeds
 common#:#obj_objf_desc#:#Manage ILIAS object types and object permissions. (only for experts!)
 common#:#obj_objf#:#Object Definitions
 common#:#obj_page#:#Page
-common#:#obj_pdts_desc#:#Configure the Personal Desktop
-common#:#obj_pdts#:#Personal Desktop
 common#:#obj_pg#:#Page
 common#:#obj_ps_desc#:#Configure global privacy and security settings here.
 common#:#obj_ps#:#Privacy and Security
@@ -3313,9 +3366,8 @@ common#:#permission_settings#:#Object Permission Settings
 common#:#permission#:#Permission
 common#:#person_title#:#Title
 common#:#personal_data#:#Personal Data
-common#:#personal_desktop#:#Personal Desktop
 common#:#personal_picture#:#Avatar
-common#:#personal_profile#:#Personal Data and Profile
+common#:#personal_profile#:#Profile and Privacy
 common#:#persons#:#Persons
 common#:#pg_add#:#Add page
 common#:#pg_new#:#New page
@@ -3444,21 +3496,15 @@ common#:#right#:#Right
 common#:#rights#:#Rights
 common#:#role_add_user#:#Add User(s) to role
 common#:#role_added#:#Role added
-common#:#role_assigned_desk_items#:#Assigned desktop items
-common#:#role_assigned_desktop_item#:#Created new assignment.
 common#:#role_assignment_updated#:#Role assignment has been updated.
 common#:#role_assignment#:#Role Assignment
-common#:#role_deleted_desktop_items#:#Deleted assignment.
-common#:#role_desk_add#:#Assign desktop item
 common#:#role_edit#:#Edit Role
 common#:#role_mailto#:#Mail to all assigned Users
 common#:#role_new_search#:#New search
 common#:#role_new#:#New Role
 common#:#role_no_roles_selected#:#Please select a role
-common#:#role_no_users_no_desk_items#:#It is not possible to assign personal desktop items, since you cannot assign users to this role.
 common#:#role_protect_permissions_desc#:#The object permissions cannot be changed by systems operations anymore. Furthermore only administrator of higher levels may change the permissions.
 common#:#role_protect_permissions#:#Protect Permissions
-common#:#role_select_desktop_item#:#Please select one object that will be assigned to this role.
 common#:#role_select_one_item#:#Please select one object.
 common#:#role_sure_delete_desk_items#:#Are you sure you want to delete the following assignments?
 common#:#role_templates_only#:#Role templates only
@@ -3543,7 +3589,7 @@ common#:#select_at_least_one_object#:#Please choose at least one object.
 common#:#select_file#:#Select File
 common#:#select_max_one_item#:#Please select one item only
 common#:#select_object_to_link#:#Please select the object which you want to link
-common#:#select_one#:#Please select one.
+common#:#select_one#:#Please select one item.
 common#:#select_questionpool#:#Insert questions into
 common#:#select_question_pool_info#:#As long as the import file contains questions, these questions will be imported to the selected questionpool as well.
 common#:#select#:#Select
@@ -3673,7 +3719,6 @@ common#:#success_message#:#Success Message
 common#:#summary#:#Summary
 common#:#sure_delete_selected_users#:#Are you sure you want to delete the selected user(s)
 common#:#survey_defaults#:#Default Settings for Surveys
-common#:#survey_unlimited_invitation_desc#:#Allows unlimited invitation in surveys. Unlimited invitation adds the survey to the personal desktop of every registered user.
 common#:#survey_unlimited_invitation#:#Unlimited Invitation
 common#:#svy_add#:#Add survey
 rbac#:#svy_copy#:#User can copy survey
@@ -3730,7 +3775,7 @@ common#:#time#:#Time
 common#:#title_required#:#Please insert a title.
 common#:#title#:#Title
 common#:#to_client_list#:#Client Selection
-common#:#to_desktop#:#Add to Desktop
+rep#:#rep_add_to_favourites#:#Add to Favourites
 common#:#to#:#To
 common#:#today#:#Today
 common#:#toggleGlobalDefault#:#Toggle Global Default
@@ -3797,7 +3842,7 @@ common#:#uninstall#:#Uninstall
 common#:#uninstalled#:#uninstalled.
 common#:#unknown#:#UNKNOWN
 common#:#unread#:#Unread
-common#:#unsubscribe#:#Remove from Desktop
+rep#:#rep_remove_from_favourites#:#Remove from Favourites
 common#:#unzip#:#Unzip
 common#:#up#:#Up
 common#:#update_applied#:#Update Applied
@@ -3860,7 +3905,7 @@ common#:#usr_filter_role#:#Assigned role
 common#:#usr_inactive_only#:#Inactive Users only
 common#:#usr_limited_access_only#:#Users with limited access only
 common#:#usr_new#:#New User
-common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal data on the personal desktop. Check ‘Changeable’ to allow the user to change the value in the personal data. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal data. All data can be changed in the user administration independent on these settings.
+common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal settings. Check ‘Changeable’ to allow the user to change the values. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal settings. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#Standard User Data Fields
 common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
@@ -3871,7 +3916,7 @@ common#:#usr#:#User
 rbac#:#usrf_delete#:#User can delete user accounts
 rbac#:#usrf_edit_permission#:#User can change permission settings in User administration
 rbac#:#usrf_edit_roleassignment#:#User can change role assignment of user account
-rbac#:#usrf_push_desktop_items#:#User is allowed to push items on the personal desktop.of role members
+rbac#:#usrf_push_desktop_items#:#User is allowed to add recommended content for role members.
 rbac#:#usrf_read_users#:#User has read access to local user accounts (local administrators)
 rbac#:#usrf_read#:#User has read access to User administration
 rbac#:#usrf_visible#:#User administration is visible
@@ -3919,7 +3964,7 @@ common#:#webdav_versioning_info#:#If enabled, already existing files will get a 
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.
-common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Press the Alt-Key. The menu appears.</li>	<li>Choose "Add Network Place" in the toolbar.</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Desktop - Settings".[/IF_WINDOWS]	[IF_MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Desktop - Settings".[/IF_MAC][IF_LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed via "Personal Desktop - Settings".[/IF_LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Press the Alt-Key. The menu appears.</li>	<li>Choose "Add Network Place" in the toolbar.</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/IF_WINDOWS]	[IF_MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/IF_MAC][IF_LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/IF_LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
 common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder
 common#:#webfolder_instructions#:#Webfolder instructions
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
@@ -4587,8 +4632,8 @@ crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_add_grouping#:#Add Membership Limitation
 crs#:#crs_add_html_archive#:#Add HTML archive
 crs#:#crs_add_objective#:#Add Objective
-crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
-crs#:#crs_add_remove_from_desktop#:#Add to Desktop
+crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to their favourites
+crs#:#crs_add_remove_from_desktop#:#Add to Favourites
 crs#:#crs_add_starter#:#Add Start Object
 crs#:#crs_added_member_body#:#we are pleased to announce your registration for the course "%s".
 crs#:#crs_added_member#:#Your registration for course "%s"
@@ -4645,7 +4690,7 @@ crs#:#grp_grp_already_assigned#:#You are already member of this grouping of grou
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
-crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your settings on the personal desktop.
+crs#:#crs_grp_matriculation_required#:#This course grouping requires an unique matriculation number. <br />Please insert this value in your personal settings.
 crs#:#crs_grp_no_courses_assigned#:#No assigned courses.
 crs#:#crs_grp_table_assigned_courses#:#Assigned courses
 crs#:#crs_header_archives#:#Course Archives
@@ -4943,7 +4988,7 @@ dateplaner#:#cal_apps#:#Number of Appointments
 dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
 dateplaner#:#cal_cache_disabled#:#Disabled
 dateplaner#:#cal_cache_enabled#:#Enabled
-dateplaner#:#cal_cache_info#:#If activated, calendar appointments on the personal desktop and in the repository are calculated only every x-minutes.
+dateplaner#:#cal_cache_info#:#If activated, personal calendar appointments and appointments in the repository are calculated only every x-minutes.
 dateplaner#:#cal_cache#:#Calendar Cache
 dateplaner#:#cal_cal_details#:#Calendar Details
 dateplaner#:#cal_cal_type#:#Calendar Type
@@ -5312,8 +5357,6 @@ feed#:#feed_feed_items#:#Feed Item(s)
 feed#:#feed_loading_feed#:#Loading Feed...
 feed#:#feed_no_js_click_here#:#If feed is not displayed, click here.
 feed#:#feed_no_valid_url#:#The Feed URL is not valid.
-feed#:#feed_nr_pd_feeds_info#:#Sets the maximum number of external web feeds, that users may add to their personal desktop. Existing feeds are not deleted, if option is set to a lower value. ‘0‘ disables the feature completely.
-feed#:#feed_nr_pd_feeds#:#Number of External Feeds on Personal Desktop
 feed#:#feed_open_source_page#:#Open in New Window
 feed#:#feed_settings#:#External Web Feeds Settings
 file#:#file_new_version_info#:#Create new file version. Previous versions will not be modified.
@@ -5657,10 +5700,10 @@ ldap#:#ldap_group_scope#:#Search Scope
 ldap#:#ldap_group_search_base#:#Group Search Base
 ldap#:#ldap_group_user_filter#:#User Filter
 ldap#:#ldap_ilias_role#:#ILIAS Role Name
-ldap#:#ldap_info_text_info#:#If entered, this text will be shown on the info screen for the object this role is assigned to. Optionally this text is available in the Repository and on the Personal Desktop.
+ldap#:#ldap_info_text_info#:#If entered, this text will be shown on the info screen for the object this role is assigned to. Optionally this text is available in the Repository.
 ldap#:#ldap_info_text#:#Information Text
 ldap#:#ldap_local_role#:#Local Role
-ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository/Personal Desktop
+ldap#:#ldap_mapping_info_type#:#Show Information also in the Repository
 ldap#:#ldap_mapping_table#:#Assignment of LDAP Attributes to ILIAS User Profile
 ldap#:#ldap_mapping_template#:#Template for objectClass:
 ldap#:#ldap_member_info#:#The attribute of the group object where the user dn may be found.
@@ -5750,7 +5793,7 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_change_to_folder#:#Switch to folder:
+mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
@@ -5950,7 +5993,7 @@ meta#:#md_adv_records#:#Included Data Sets
 meta#:#md_adv_searchable#:#Searchable
 meta#:#md_adv_select_one_file#:#Please choose one file.
 meta#:#md_adv_show#:#Show
-meta#:#md_adv_substitution_table#:#Presentation in the Repository/Personal Desktop
+meta#:#md_adv_substitution_table#:#Presentation in the Repository
 meta#:#md_advanced#:#Custom Metadata
 meta#:#md_copyright_add#:#Add Copyright Default
 meta#:#md_copyright_edit#:#Edit Copyright Default
@@ -6512,18 +6555,18 @@ meta#:#sco_propagate#:#Propagate to all SCOs
 news#:#news_1_file_created#:#One file has been added.
 news#:#news_1_file_updated#:#One file has been updated.
 news#:#news_1_postings#:#One posting has been added.
-news#:#news_all_items#:#News for all items on Personal Desktop
-news#:#news_allow_longer_periods_info#:#Users may select longer news periods on personal desktop.
+news#:#news_all_items#:#News for all favourite items
+news#:#news_allow_longer_periods_info#:#Users may select longer news periods on the dashboard.
 news#:#news_allow_longer_periods#:#Allow Longer Periods
-news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on personal desktop.
+news#:#news_allow_shorter_periods_info#:#Users may select shorter news periods on the dashboard.
 news#:#news_allow_shorter_periods#:#Allow Shorter Periods
-news#:#news_block_information#:#The <b>News</b> block lists all news that are related to the <b>Personal Items</b> you have selected on the personal desktop.
+news#:#news_block_information#:#The <b>News</b> block lists all news that are related to your <b>Favourites</b>.
 news#:#news_block_news_for_context#:#News
 news#:#news_cache_info#:#Update news blocks all x minutes. ‘0’ means every time. Higher values improve performance, but news may link to non-accessible items.
 news#:#news_cache#:#News Cache (Minutes)
 news#:#news_default_visibility#:#Default Access
 news#:#news_edit_news_settings#:#Edit Settings
-news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the personal desktop.
+news#:#news_enable_internal_news_info#:#Activates news blocks for categories, courses, groups and other objects. Users can subscribe to news and news are presented on the dashboard.
 news#:#news_enable_internal_news#:#Enable Internal News
 news#:#news_enable_internal_rss_info#:#Allows publishing news items via RSS. These items will be accessible outside of the system without authentication.
 news#:#news_enable_internal_rss#:#Enable RSS for Internal News
@@ -6560,8 +6603,8 @@ news#:#news_notifications_public#:#Public Notifications
 news#:#news_notifications#:#Notifications
 news#:#news_nr_of_items_info#:#Number of news items that are kept for an object (e.g. a file or a learning module) in the database. Please note, that container objects (e.g. categories, courses) may list more items, because they aggregate news of sub-objects.
 news#:#news_nr_of_items#:#Number of Maximum News Items per Object
-news#:#news_pd_period_info#:#Defines the time period used for news on the personal desktop. Select lower values, if you experience any performance problems.
-news#:#news_pd_period#:#Personal Desktop News Period
+news#:#news_pd_period_info#:#Defines the time period used for news on the dashboard. Select lower values, if you experience any performance problems.
+news#:#news_pd_period#:#Dashboard News Period
 news#:#news_period_1_month#:#Last Month
 news#:#news_period_1_week#:#Last Week
 news#:#news_period_1_year#:#Last Year
@@ -6594,28 +6637,11 @@ notes#:#notes_note_deleted#:#The note has been deleted.
 notes#:#notes_notes_deleted#:#The notes have been deleted.
 notes#:#notes_public_comments#:#Public Comments
 notes#:#notes_show_comments#:#Show Comments
-pd#:#pd_enable_block_moving_info#:#Allow users to reorganize the content blocks on the personal desktop.
-pd#:#pd_enable_block_moving#:#Enable Block Moving
-pd#:#pd_enable_bookmarks#:#Enable Bookmarks
-pd#:#pd_enable_my_memberships_info#:#‘Courses and Groups’ contains all courses and groups the user is assigned to as a member.
-pd#:#pd_enable_my_memberships#:#Enable ‘Courses and Groups’
-pd#:#pd_enable_my_offers_info#:#The view ‘Selected Items’ contains all objects which are placed on the user's Personal Desktop.
-pd#:#pd_enable_my_offers#:#Enable ‘Selected Items’
-pd#:#pd_enable_notes#:#Enable Notes
 pd#:#pd_my_memberships_intro#:#Welcome to Your Memberships
 pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and groups you participate in. Currently, there aren't any memberships assigned to you. To become a member of a course or group, there are two ways:<br /><ol><li>You can join courses or groups provided that joining them has been allowed by their administrators.</li><li>An administratrator of a course or group can assign a membership to you.</li></ol><br />In any case, the respective objects will appear automatically in this place.
-pd#:#pd_my_memberships#:#My Memberships
-pd#:#pd_my_offers#:#Selected Items
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
-pd#:#pd_settings#:#Personal Desktop
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
-pdesk#:#bm_num_bookmark_folders#:#Folder(s)
-pdesk#:#bm_num_bookmarks#:#Bookmark(s)
-pdesk#:#pdesk_intro#:#Welcome to your Personal Desktop!
-pdesk#:#pdesk_intro2#:#This is your personal space for organising your working and learning. You can put resources from other areas on your personal desktop. Doing so takes two steps:
-pdesk#:#pdesk_intro3#:#Click on '%s' and browse the existing working and learning resources.
-pdesk#:#pdesk_intro4#:#If you have found something of interest, put it on your desktop by clicking <i>Add to Desktop</i> in the object's <i>Actions</i> menu.
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
@@ -6764,10 +6790,10 @@ rbac#:#mme_visible#:#Administration of Main Menu is visible
 rbac#:#mme_read#:#User has read access to administration of Main Menu
 rbac#:#mme_write#:#User can edit settings of Main Menu administration
 rbac#:#mme_edit_permission#:#User can change permission settings of Main Menu administration
-rbac#:#pdts_edit_permission#:#User can change permission settings of Personal Desktop administration
-rbac#:#pdts_read#:#User has read access to Personal Desktop administration
-rbac#:#pdts_visible#:#Personal Desktop administration is visible
-rbac#:#pdts_write#:#Edit settings of Personal Desktop administration
+rbac#:#dshs_edit_permission#:#User can change permission settings of Dashboard administration
+rbac#:#dshs_read#:#User has read access to Dashboard administration
+rbac#:#dshs_visible#:#Dashboard administration is visible
+rbac#:#dshs_write#:#Edit settings of Dashboard administration
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
 rbac#:#perm_class_create#:#Create new Objects
 rbac#:#perm_class_object_desc#:#Object-specific operations.
@@ -7302,7 +7328,7 @@ survey#:#codes#:#Access Codes
 survey#:#combobox#:#Combobox
 survey#:#concatenation#:#Concatenation
 survey#:#confirm_delete_all_user_data#:#Are you sure you want to delete all user data of the survey?
-survey#:#confirm_delete_single_user_data#:#Are you sure you want to delete the survey data of the selected users?
+survey#:#confirm_delete_single_user_data#:#Are you sure you want remove the participants? This will delete any survey data of the selected users.
 survey#:#confirm_remove_heading#:#Are you sure you want to remove the heading?
 survey#:#confirm_sync_questions#:#The question you changed is a copy which has been created for use with the active survey. Do you want to change the original of the question too?
 survey#:#constraint_add#:#Add Routing Rule
@@ -7352,9 +7378,7 @@ survey#:#dc_varying#:#varying
 survey#:#dc_verygood#:#very good
 survey#:#dc_yes#:#yes
 survey#:#define_questionblock#:#Define Question Block
-survey#:#delete_user_data#:#Delete the Survey Data of the Selected Users
 survey#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-survey#:#disinvite#:#Take from Personal Desktop
 survey#:#display_all_available#:#Display all available
 survey#:#dp_standard_attitude_agree_disagree#:#Standard Attitude (agree-disagree)
 survey#:#dp_standard_attitude_agree_undecided_disagree#:#Standard Attitude (agree-undecided-disagree)
@@ -7417,10 +7441,6 @@ survey#:#insert_missing_question#:#Please select at least one question to insert
 survey#:#insert_missing_questionblock#:#Please select at least one question block to insert it into the survey!
 survey#:#internal_link#:#Internal Link
 survey#:#introduction#:#Introductory Message
-survey#:#invitation_mode_desc#:#A link reference to the survey is created on the users' personal desktop.
-survey#:#invitation_mode#:#Put Link to Survey on the Personal Desktop of
-survey#:#invitation_off#:#Do not put on any Desktop
-survey#:#invitation#:#Put Link On Personal Desktop
 survey#:#invited_users#:#Selected Users
 survey#:#language_changed#:#Language changed
 survey#:#last_update#:#Updated
@@ -7471,7 +7491,6 @@ survey#:#mode_text#:#Most Selected Value (Text)
 survey#:#mode#:#Most Selected Value
 survey#:#msg_deleted_export_files#:#Export file(s) deleted
 survey#:#msg_enter_value_for_valid_constraint#:#Please enter a value to create a valid routing rule!
-survey#:#msg_users_disinvited#:#User(s) disinvited
 survey#:#new_survey_codes#:#new survey access code(s)
 survey#:#no_question_selected_for_move#:#Please check at least one question to move it!
 survey#:#no_question_selected_for_removal#:#Please check at least one question or question block to remove it!
@@ -7491,7 +7510,6 @@ survey#:#percentage_of_selections#:#Percentage of selections
 survey#:#phrase_added#:#Phrase added
 survey#:#phrase_saved#:#The phrase was saved successfully!
 survey#:#please_select#:#-- please select --
-survey#:#predefined_users#:#Put on desktops of selected users
 survey#:#preview#:#Preview
 survey#:#qpl_confirm_delete_phrases#:#Are you sure you want to delete the following phrase(s)?
 survey#:#qpl_confirm_delete_questions#:#Are you sure you want to delete the following question(s)?
@@ -7598,7 +7616,6 @@ survey#:#svy_show_questiontitles#:#Show Question Title
 survey#:#text_maximum_chars_allowed#:#Please do not enter more than a maximum of %s characters. Any characters above will be cut.
 survey#:#text_question_not_filled_out#:#Please fill out the answer field!
 survey#:#unfold#:#Unfold
-survey#:#unlimited_users#:#Put on desktops of all registered users
 survey#:#upper_limit_must_be_greater#:#The upper limit must be greater than the lower limit!
 survey#:#upper_limit#:#Upper Limit
 survey#:#use_anonymous_id_desc#:#If checked, the username in anonymized surveys will be shown as the survey code, otherwise the text ‘Anonymous’ will be shown.
@@ -7743,7 +7760,7 @@ user#:#user_visible_in_profile#:#Visible in Personal Data
 user#:#usr_public_profile_disabled_info#:#Your information is only visible to administrative staff.
 user#:#usr_public_profile_disabled#:#Profile Disabled
 user#:#usr_public_profile_global#:#WWW / Accessible for all Users on the Internet
-user#:#usr_public_profile_logged_in#:#Visible for Logged in Users
+user#:#usr_public_profile_logged_in#:#Visible for logged in Users
 webr#:#webr_active#:#Active
 webr#:#webr_container_info#:#Please enter a title and optionally a description for the presentation of this Weblink List in the repository.
 webr#:#webr_deactivate#:#Deactivate Weblink
@@ -8045,8 +8062,6 @@ dateplaner#:#cal_ch_personal_ch#:#Personal Consultation Hours
 dateplaner#:#cal_ch_ch#:#Consultation Hours
 ps#:#rbac_log_age#:#Keep Log Entries
 ps#:#rbac_log_age_info#:#Maximum age of log entries in month
-rbac#:#rbac_role_add_to_desktop#:#Add To Personal Desktop
-rbac#:#rbac_role_add_to_desktop_info#:#Make object a selected desktop item for all role members
 rbac#:#rbac_role_rights_copy#:#Copy Permissions
 rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_rights_copy_change_existing#:#Change Existing Objects
@@ -8299,7 +8314,6 @@ dateplaner#:#cal_ch_unknown_user#:#The given login does not match any user.
 dateplaner#:#cal_ch_target_object#:#Repository Object
 dateplaner#:#cal_ch_target_object_info#:#Consultation hours will be displayed in a block to the right of the course / group content. To restrict the display of consultation hours to specific courses or groups, please enter the Ref-ID of the said objects. You find the Ref-ID in the URL of the respective objects. Add more than one Ref-ID separated by comma. Regardless of that, consultation hours may also appear in your e-portfolios.
 dateplaner#:#cal_ch_unknown_repository_object#:#The given repository object ref-id is not valid.
-rbac#:#push_desktop_items#:#Push Items on the Personal Desktop
 rbac#:#smtp_mail#:#SMTP E-Mail
 rbac#:#mail_to_global_roles#:#Global Mails
 rbac#:#add_reply#:#Add Reply
@@ -8471,9 +8485,6 @@ content#:#cont_layout_template#:#Layout Template
 content#:#cont_special_page#:#Special Content Page
 wiki#:#wiki_public_comments#:#Public Comments
 trac#:#trac_learning_progress_of#:#Learning Progress of %s
-common#:#personal_workspace#:#Workspace
-wsp#:#wsp_personal_workspace#:#Workspace
-wsp#:#wsp_personal_workspace_description#:#Here you can manage your private files, blogs and artifacts.
 wsp#:#wsp_type_file#:#File
 wsp#:#wsp_type_wfld#:#Folder
 wsp#:#wsp_type_blog#:#Blog
@@ -9063,8 +9074,8 @@ notes#:#note_add_note#:#Add Note
 notes#:#note_add_comment#:#Add Comment
 notes#:#note_update_comment#:#Update Comment
 notes#:#note_update_note#:#Update Note
-common#:#added_to_desktop#:#The item has been added to the desktop.
-common#:#removed_from_desktop#:#The item has been removed from the desktop.
+rep#:#rep_added_to_favourites#:#The item has been added to your favourites.
+rep#:#rep_removed_from_favourites#:#The item has been removed from your favourites.
 notes#:#notes_comments#:#Comments
 rbac#:#chtr_visible#:#Chat Room is visible
 rbac#:#chtr_read#:#User can join and participate at chat room
@@ -9173,11 +9184,6 @@ auth#:#auth_account_code_title#:#Account Code
 auth#:#auth_account_code_used#:#Your account has been re-activated. Please login once again for security reasons.
 prtf#:#prtf_no_blogs_info#:#Your "%s" does not contain any blogs. Create blogs to use them as part of your portfolios.
 prtf#:#prtf_add_blog#:#Add Blog
-pd#:#pd_enable_personal_workspace#:#Enable Personal Workspace
-pd#:#pd_enable_wsp_blogs#:#Enable Blogs
-pd#:#pd_enable_wsp_files#:#Enable Files
-pd#:#pd_enable_wsp_certificates#:#Enable Certificates
-pd#:#pd_enable_wsp_links#:#Enable Links
 pd#:#pd_enable_prtf#:#Enable Portfolios
 survey#:#svy_save_sync#:#Save and Sync Question Copies
 grp#:#grp_setting_header_presentation#:#Group Presentation
@@ -9349,7 +9355,7 @@ scormdebug#:#debugwindow_download#:#Download
 scormdebug#:#debugwindow_open#:#Open
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
-content#:#cont_file_from_workspace#:#File From Workspace
+content#:#cont_file_from_workspace#:#File From Personal Resources
 skmg#:#skmg_create_skill_template#:#Create Competence Template
 skmg#:#skmg_create_skill_template_category#:#Create Competence Template Category
 skmg#:#skmg_save_order#:#Save Order
@@ -9374,11 +9380,11 @@ exc#:#exc_select_blog_change#:#Use different blog
 exc#:#exc_select_portfolio_change#:#Use different portfolio
 exc#:#exc_blog_selected#:#The blog has been assigned.
 exc#:#exc_portfolio_selected#:#The portfolio has been assigned.
-common#:#my_courses_groups#:#Courses and Groups
+common#:#my_courses_groups#:#My Courses and Groups
 content#:#cont_sc_auto_continue#:#Redirect Users
 content#:#cont_sc_auto_continue_info#:#After finishing their last activity users will be automatically redirected to the next SCO. This function is not supported by all SCORM 1.2 Learning Modules.
 user#:#user_profile_portfolio_selected#:#You are currently using a portfolio as your profile. Activation can be set there using the ‘Share’ tab.
-blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Desktop Administration.
+blog#:#blog_admin_toggle_info#:#You can deactivate the blog feature completely in the Personal Resources Administration.
 skmg#:#skmg_edit_skll#:#Edit Competence Settings
 skmg#:#skmg_sktr#:#Competence Template Reference
 skmg#:#skmg_items#:#Items
@@ -9590,7 +9596,7 @@ rbac#:#blga_visible#:#Blog Administration is visible
 rbac#:#blga_read#:#User has read access to Blog Administration
 rbac#:#blga_write#:#User can edit settings in Blog Administration
 rbac#:#blga_edit_permission#:#User can change permission settings of Blog administration
-blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Desktop Administration.
+blog#:#blog_admin_inactive_info#:#You can activate the blog feature in the Personal Resources Administration.
 prtf#:#prtf_set_default_publish_confirmation#:#The portfolio needs to be shared at least with all registered users. Should it be visible to the internet without registration, too?
 prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
 survey#:#svy_participation#:#Participation
@@ -9638,7 +9644,7 @@ assessment#:#test_has_datasets_warning_page_view#:#The test already contains dat
 assessment#:#test_has_datasets_warning_page_view_link#:#Participant Results
 wsp#:#wsp_share_with_users#:#Share with users
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
-acc#:#acc_personal_desktop#:#Personal Desktop
+acc#:#acc_dashboard#:#Dashboard
 dateplaner#:#cal_reg_registered#:#You have been registered.
 dateplaner#:#cal_reg_unregistered#:#You have been unregistered.
 content#:#cont_lm_comments_desc#:#Allow users to share comments on every page of the learning module.
@@ -9669,7 +9675,7 @@ trac#:#trac_manual_no_display#:#Do not display in Learning Progress
 trac#:#trac_manual_is_displayed#:#Is Displayed
 trac#:#trac_log_info#:#Last Aggregation: %s (Unprocessed items: %s)
 trac#:#trac_log_info_link#:#Update
-pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, workspace objects and portfolios on the Web.
+pd#:#pd_enable_user_publish_info#:#If enabled, users can publish their profiles, personal resources and portfolios on the Web.
 pd#:#pd_enable_user_publish#:#Enable User Content Publishing
 trac#:#trac_object_stat_lp#:#Learning Progress Statistics Course
 trac#:#trac_object_stat_lp_min#:#Min.
@@ -9920,8 +9926,6 @@ tax#:#tax_add_taxonomy#:#Add Taxonomy
 content#:#cont_show_activation_info#:#Show Activation Info
 content#:#cont_show_activation_info_info#:#If the scheduled activation is not yet reached, the page will not be skipped. The information when the page will be activated will be displayed to the user.
 content#:#cont_page_activation_on#:#The content will be activated on %s.
-trac#:#trac_lp_on_personal_desktop#:#Learning Progress on Personal Desktop
-trac#:#trac_lp_learner_access#:#Accessible Personal Learning Progress
 rating#:#rating_categories#:#Rating Categories
 rating#:#rating_add_category#:#Add Category
 rating#:#rating_category_create#:#Create Category
@@ -10088,7 +10092,6 @@ pd#:#pd_download_last_export_file#:#Download Last Export File
 pd#:#pd_import_personal_data#:#Import Personal Data
 pd#:#pd_profile_data#:#Profile Data
 pd#:#pd_bookmarks#:#Bookmarks
-pd#:#pd_notes#:#Personal Desktop Notes
 pd#:#pd_private_calendars#:#Private Calendars
 exc#:#exc_team_log#:#Team Log
 exc#:#exc_team_log_remove_member#:#Removed member %s.
@@ -10482,7 +10485,7 @@ rbac#:#ecss_edit_permission#:#User can edit permission settings of ECS administr
 rbac#:#ecss_read#:#User can read general ECS settings
 rbac#:#ecss_visible#:#ECS settings are visible
 rbac#:#ecss_write#:#User can edit ECS settings
-skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal workspace to competence levels. If you would like to add materials to your personal workspace now, please click the following link.
+skmg#:#skmg_ass_materials_from_workspace#:#Here you can assign materials, e.g. files, from your personal resources to competence levels. If you would like to add materials to your personal resources now, please click the following link.
 help#:#help_imported_on#:#Imported on
 help#:#help_tooltips_and_help#:#Tooltips and Workflow Help
 help#:#help_help_only#:#Workflow Help Only
@@ -10635,7 +10638,6 @@ tos#:#tos_crit_type_usr_language#:#Profile Language
 tos#:#tos_crit_type_usr_language_info#:#The criterion is fulfilled if the selected language is set for a user profile. Please note that this criterion type can be attached only once.
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 ecs#:#ecs_sync_trees#:#Synchronise Directory Trees
-survey#:#svy_invite_action#:#Put on Personal Desktop
 rbac#:#chtr_delete#:#User can move or delete chat room
 ecs#:#ecs_role_mappings#:#Course/Group Role Mappings
 ecs#:#ecs_role_mapping_value#:#Attribute Value
@@ -10841,7 +10843,7 @@ trac#:#trac_collection_manual_learner_changed_ts#:#Changed on
 trac#:#trac_collection_manual_learner_lm_info#:#Activate all chapters you completed.
 trac#:#trac_collection_tlt_learner_info#:#The learning progress for this object is based on the typical learning time.
 trac#:#trac_collection_tlt_learner_subitem#:#You have spent %s of the %s needed for completion (%s%%).
-trac#:#trac_lp_list_gui#:#Personal Desktop, Repository, Search
+trac#:#trac_lp_list_gui#:#Dashboard, Repository, Search
 trac#:#trac_lp_list_gui_info#:#If activated, the learning progress status is included in objects lists.
 common#:#hide_all_details#:#Hide all details
 common#:#show_all_details#:#Show all details
@@ -10978,7 +10980,6 @@ survey#:#survey_reminder_frequency_days#:#Days
 survey#:#survey_notification_target_group#:#Target Group
 survey#:#survey_notification_target_group_parent_course#:#All members of parent course/group
 survey#:#survey_notification_target_group_parent_course_inactive#:#No parent course/group given - no reminders will be sent!
-survey#:#survey_notification_target_group_invited#:#All users who got the survey put on their Personal Desktop
 survey#:#survey_notification_target_group_invited_info#:#Number of current recipients: %s
 survey#:#survey_notification_tutor_setting#:#One E-Mail after all Participants Finished
 survey#:#survey_notification_tutor_recipients#:#Tutors (Login[s])
@@ -11043,14 +11044,9 @@ registration#:#registration_codes_override_info#:#This setting overrides any val
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
 crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
-pd#:#pd_info_delete_sure_remove#:#Are you sure you want to remove the following objects from your Personal Desktop?
-pd#:#pd_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
-file#:#enable_personal_workspace_disk_quota#:#Activate Hard Quota for Personal Workspace
-file#:#enable_personal_workspace_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal workspace and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
-file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace
+rep#:#rep_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
+mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
-file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.
-file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
 pd#:#pd_unsubscribe_multiple_memberships#:#Unsubscribe Multiple
 pd#:#pd_unsubscribe_memberships#:#Unsubscribe
@@ -11253,7 +11249,6 @@ rep#:#rep_object_lists#:#Object Lists
 rep#:#rep_custom_icons#:#Custom Icons
 cmps#:#cmps_enable_creation#:#Enable Creation
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Personal Workspace
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#General settings for Web Links
 common#:#obj_crss#:#Course
@@ -11718,20 +11713,20 @@ obj#:#obj_tool_setting_info_tab#:#Info Tab
 adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
 adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests
 adve#:#char_selector_test#:#Selector Special Characters (Unicode)
-adve#:#char_selector_inherit_info_test#:#Depending on the settings made in the platforms' administration or those made by individual users on their personal desktop the Ω-button is displayed in the test or not.
+adve#:#char_selector_inherit_info_test#:#Depending on the settings made in the platforms' administration or those made by individual users in their settings the Ω-button is displayed in the test or not.
 adve#:#char_selector_inherit_info_user#:#The settings that were made by the administrator of the platform as a whole will be used.
 adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied
 adve#:#char_selector_inherit_user#:#Use Standard-Settings
 adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on
-adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users on their Personal Desktop and or in individual tests or questions pools. Test Settings will override user settings.
+adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users in their settings and or in individual tests or questions pools. Test Settings will override user settings.
 adve#:#char_selector_disabled_info_test#:#Regardless of a user's individual setting the special character selector is switched off for taking this test.
 adve#:#char_selector_disabled_info_user#:#In tests a menu for selecting special characters will be not displayed. However individual tests ‘force switch on’ the menu though your deactivated it here.
 adve#:#char_selector_disabled_test#:#Special Character Selector is Off
 adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters
 adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters
-adve#:#char_selector_inactive_info_admin#:#The menu for selecting special characters is deactivated for the whole system. Users cannot make individual settings on their Personal Desktop nor can individual tests or questions pools switch on the setting.
+adve#:#char_selector_inactive_info_admin#:#The menu for selecting special characters is deactivated for the whole system. Users cannot make individual settings in their personal settings nor can individual tests or questions pools switch on the setting.
 adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default
-adve#:#char_selector_enabled_info_admin#:#The menu for selecting special characters (Unicode) is activated in tests and question pools. It will present users with the selection of Unicode blocks composed below. Users can make individual settings on their Personal Desktop and the setting can be switched on for individual tests or questions pools.
+adve#:#char_selector_enabled_info_admin#:#The menu for selecting special characters (Unicode) is activated in tests and question pools. It will present users with the selection of Unicode blocks composed below. Users can make individual settings in their personal settings and the setting can be switched on for individual tests or questions pools.
 adve#:#char_selector_enabled_info_test#:#Regardless of a user's individual setting the Ω-button for switching on the special character selector will be displayed in the test. Special characters can be entered.
 adve#:#char_selector_enabled_info_user#:#In tests a menu for selecting special characters will be displayed. However individual tests can prevent this setting from becoming effective and not display the special character menu despite your choice about activating it.
 adve#:#char_selector_enabled_test#:#Special Character Selector is On
@@ -11867,7 +11862,7 @@ skmg#:#skmg_usage#:#Usage
 skmg#:#skmg_type#:#Type
 skmg#:#skmg_number#:#Number
 skmg#:#skmg_usage_type_info_gen#:#General Use in Repository Objects
-skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal workspace
+skmg#:#skmg_usage_type_info_mat#:#Users assigned material from their personal resources
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_usage_type_info_pers#:#Selected by Users as Personal Skill
 skmg#:#skmg_usage_type_info_prof#:#Used in Skill Profiles
@@ -12029,7 +12024,7 @@ content#:#cont_update_my_courses#:#Edit My Courses
 prtf#:#prtf_page_element_teaser_my_courses#:#The portfolio will display a list of your current courses here.
 prtf#:#prtf_page_element_my_courses_title#:#Course Memberships
 prtf#:#prtf_page_element_teaser_skills#:#The portfolio will display your competence level here.
-prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal workspace here.
+prtf#:#prtf_page_element_teaser_blog_template#:#The portfolio will display a blog of your personal resources here.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#The portfolio will display a consultation hours calendar here.
 prtf#:#prtf_page_element_teaser_settings#:#Settings
 user#:#interests#:#Interests
@@ -12119,7 +12114,6 @@ survey#:#svy_view_own_results#:#View given answers
 survey#:#svy_mail_own_results#:#Mail given answers
 survey#:#svy_mail_own_results_subject#:#Survey "%s" - Your Answers
 survey#:#svy_results_view_own#:#Participants can View Own Answers
-exercise#:#exc_to_desktop_info#:#Add exercise to desktop of participant after hand-in
 wiki#:#wiki_wpg#:#Wiki Page
 wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
 content#:#cont_ed_insert_amd_page_list#:#Insert Page List
@@ -12199,8 +12193,6 @@ wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes
 wiki#:#wiki_stat_page_ratings#:#Number of Ratings
 rbac#:#statistics_read#:#View Statistics
 rbac#:#wiki_statistics_read#:#View Statistics
-pd#:#pd_enable_comments_del_user#:#Comments may be deleted by their authors
-pd#:#pd_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
 notes#:#notes_sort_asc#:#Sort Ascending
 notes#:#notes_sort_desc#:#Sort Descending
 obj#:#obj_tool_setting_tag_cloud#:#Tag Cloud
@@ -12984,8 +12976,6 @@ content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Lear
 content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#cont_active_from#:#Activation Start
 content#:#cont_active_to#:#Activation End
-pd#:#pd_comments_notification#:#General notification about all comments
-pd#:#pd_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
 note#:#note_comment_notification_subject#:#A comment has been added to "%s"
 note#:#note_comment_notification_subjectc#:#A comment has been changed in "%s"
 note#:#note_comment_notification_salutation#:#Hello %s,
@@ -13231,8 +13221,6 @@ content#:#cont_mastery_score_12#:#overwrite mastery_score
 content#:#cont_mastery_score_12_info#:#If a SCO does not autonomously determines a status, a SCO is considered passed if the score reached at least a certain level - the mastery_score. This value can be overwritten here e.g. to reduce the requirement level. If the field is empty, the information in the SCORM manifest are valid. The following values are provided in the manifest-file:
 prtf#:#prtf_manage_portfolios#:#Manage Portfolios
 pd#:#block_show_pdportf#:#Show Portfolios
-prtf#:#prtf_pd_block#:#Personal Desktop Block
-prtf#:#prtf_pd_block_info#:#Aktivates a block on the personal desktop that lists all portfolios of the user.
 common#:#obj_logs#:#Logging
 common#:#obj_logs_desc#:#General Logging Settings
 rbac#:#logs_edit_permission#:#User can edit permission settings of Logging administration
@@ -13444,11 +13432,10 @@ administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 survey#:#svy_export_format#:#Export survey data as
 survey#:#svy_fraction_of_selections#:#Fraction of selections
-prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Personal Desktop.
-prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Personal Desktop with ‘read’ permissions.
+prg#:#prg_show_programmes_on_pd_always#:#Study Programmes are always visible on Dashboard.
+prg#:#prg_show_programmes_on_pd_only_read#:#Study Programmes are only visible on Dashboard with ‘read’ permissions.
 prg#:#prg_more_objects_without_read_permission#:#Study Programme contains more objects you can't see because of less permissions.
 cmps#:#cmps_uninstall_inactive_confirm#:#The plugin "%1$s" can currently not be activated ("%2$s"). In this state plugins cannot be uninstalled completely. As only the core integration is reverted, plugin custom data may remain. Would you like to continue with the partial uninstall?
-pd#:#pd_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
 log#:#log_cache_info#:#Only if a message reaches or surpasses the caching level, all messages which have at least the log level will be added to the log for the current request.
 content#:#cont_ov_preview#:#The question overview does not work in the page editor context. Use the SCO or SCORM level preview instead.
 wiki#:#wiki_copy#:#Copy Wiki
@@ -13462,7 +13449,6 @@ administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_achievements#:#Achievements
 administration#:#adm_maintenance#:#System Settings and Maintenance
 administration#:#adm_user_administration#:#User Administration
-administration#:#adm_personal_workspace#:#Personal Workspace
 common#:#enter_new_name#:#Please enter a name
 rbac#:#awra_visible#:#‘Who is online?’ administration is visible
 rbac#:#awra_read#:#User has read access to ‘Who is online?’ administration
@@ -13482,7 +13468,7 @@ crs#:#event_tbl_admin#:#Administrator
 crs#:#event_tbl_member#:#Member
 crs#:#event_tbl_tutor#:#Tutor
 news#:#news_sorry_not_accessible_anymore#:#Sorry, this item is not accessible anymore.
-note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration (Personal Desktop settings).
+note#:#note_comment_notification_reason#:#You receive this message because your account is listed as a global recipient for all comments in the ILIAS administration.
 note#:#note_comment_notification_user_has_written#:#%s has written:
 prg#:#prg_show_programmes#:#Visibility
 content#:#cont_not_saved_edit_lock_expired#:#Sorry, but another user obtained the edit lock for this page in the meantime. You may close this message and copy the content to your clipboard.
@@ -14374,7 +14360,7 @@ svy#:#survey_360_appraisees_remind_info#:#If self evaluation is activated, appra
 svy#:#survey_360_raters_remind_info#:#Raters that have not yet finished the survey will be reminded.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Please finish to rate the following appraisees:
 prtf#:#prtf_add_new_blog#:#Add New Blog
-prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal workspace.
+prtf#:#prtf_add_new_blog_info#:#The new blog will be added to your personal resources.
 prtf#:#prtf_add_existing_blog#:#Use Existing Blog
 blog#:#blog_draft_text#:#Unpublished Post
 user#:#usr_letter_avatars#:#Letter Avatars
@@ -14726,8 +14712,6 @@ mme#:#type_link_list#:#Link List
 mme#:#type_complex#:#Complex
 mme#:#type_repository_link#:#Repository-Link
 lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
-pd#:#pd_enable_learning_history#:#Learning History
-pd#:#pd_enable_learning_history_info#:#Enables an overview of all achievements of a user.
 blog#:#blog_keyword_enter#:#Write a keyword and press Enter.
 news#:#news_news_block#:#News Block
 sess#:#sess_filter_all_types#:#All types
@@ -15138,7 +15122,7 @@ sess#:#sess_assign#:#Assign
 assessment#:#answer_of#:#Answer of
 common#:#certificate_selection#:#Origin of Certificates
 common#:#certificate_persistent_option#:#Certificates of Achievements
-common#:#certificate_workspace_option#:#Certificates of Workspace
+common#:#certificate_workspace_option#:#Certificates of Personal Resources
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
@@ -15193,18 +15177,7 @@ content#:#cont_notification_comment_lm#:#the following Learning Module Page has 
 content#:#cont_notification_update_lm#:#the following Learning Module has been updated
 content#:#cont_commented_by#:#Commented by
 content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
-pd#:#pd_avail_sortation#:#Available Sortations
-pd#:#pd_default_sortation#:#Default Sortation
-pd#:#pd_sortation#:#Sortation
-pd#:#pd_presentation#:#Presentation
-pd#:#pd_avail_presentation#:#Available Presentations
-pd#:#pd_default_presentation#:#Default Presentation
-pd#:#pd_list#:#List
-pd#:#pd_tile#:#Tile
-pd#:#pd_activation#:#activation
-pd#:#pd_view_courses_groups#:#View ‘Courses and Groups’
-pd#:#pd_view_favourites#:#View ‘Selected Items’
-rbac#:#pdts_change_presentation#:#Change presentation of personal desktop view
+rbac#:#dshs_change_presentation#:#Change presentation of dashboard view
 rbac#:#change_presentation#:#Change Presentation
 pd#:#pd_presentation_mode_list#:#Item List Presentation
 pd#:#pd_presentation_mode_tile#:#Tile Presentation
@@ -15252,7 +15225,7 @@ wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
 wfld#:#wfld_creation_asc#:#Creation Date, asc.
 wfld#:#wfld_creation_desc#:#Creation Date, desc.
 wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
-wsp#:#wsp_switch_to_wsp_tree#:#Switch to Workspace
+wsp#:#wsp_switch_to_wsp_tree#:#Switch to Personal Resources
 obj#:#obj_tool_setting_booking#:#Resources
 book#:#book_select_pool#:#Select Pool
 book#:#book_pool_selection#:#Booking Pool Selection
@@ -15279,3 +15252,32 @@ exc#:#exc_rand_overall_ass#:#Overall Number of Assignments
 exc#:#exc_rand_nr_mandatory#:#Number of Mandatory Assignments
 exc#:#exc_random#:#Random
 book#:#book_no_objects#:#No Assignment
+rep#:#rep_recommended_content#:#Recommended Content
+rep#:#rep_rec_content_removed#:#Recommended content has been removed.
+rep#:#rep_added_rec_content#:#Recommended content has been added.
+rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
+rbac#:#rbac_add_recommended_content#:#Recommended Content
+rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.
+dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
+dash#:#dash_click_here#:#Click here
+svy#:#svy_remove_all_participants#:#Remove all Participants
+svy#:#svy_invite_participants#:#Invite Participants
+svy#:#svy_codes#:#Access Codes
+svy#:#svy_part_overview#:#Overview
+svy#:#svy_remove_participants#:#Remove Participants
+svy#:#svy_status#:#Status
+svy#:#svy_status_invited#:#Invited
+svy#:#svy_status_in_progress#:#In Progress
+svy#:#svy_status_finished#:#Finished
+svy#:#svy_users_invited#:#Users have been invited.
+svy#:#svy_finish_survey#:#Finish survey '%1'
+pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
+file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
+file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
+common#:#personal_resources#:#Personal Resources
+file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
+file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
+wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
+administration#:#adm_personal_workspace#:#Personal Workspace
+dash#:#dash_favourites#:#Favourites
+dash#:#dash_memberships#:#My Courses and Groups

@@ -654,7 +654,6 @@ class ilAccess implements ilAccessHandler {
 		if($a_user_id == $ilUser->getId())
 		{
 			// #10905 - activate parent container ONLY
-			include_once './Services/Container/classes/class.ilMemberViewSettings.php';
 			$memview = ilMemberViewSettings::getInstance();
 			if($memview->isActiveForRefId($a_ref_id) &&
 				$memview->getContainer() == $a_ref_id)
@@ -680,7 +679,6 @@ class ilAccess implements ilAccessHandler {
 			return false;
 		}
 
-		include_once 'Services/Object/classes/class.ilObjectActivation.php';
 		$item_data = ilObjectActivation::getItem($a_ref_id);
 
 		// if activation isn't enabled
@@ -817,9 +815,6 @@ class ilAccess implements ilAccessHandler {
             $this->ac_logger->error("Cannot find class for object type $a_type, obj id $a_obj_id, ref id $a_ref_id. Abort status check.");
             return false;
         }
-
-		include_once($location."/class.".$full_class.".php");
-		// static call to ilObj..::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id)
 
 		$full_class = new $full_class();
 

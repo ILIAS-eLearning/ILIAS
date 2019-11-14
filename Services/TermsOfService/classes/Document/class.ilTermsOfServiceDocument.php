@@ -49,7 +49,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
      * @con_fieldtype   integer
      * @con_length      4
      */
-    protected $last_modified_usr_id = '';
+    protected $last_modified_usr_id = 0;
 
     /**
      * @var int

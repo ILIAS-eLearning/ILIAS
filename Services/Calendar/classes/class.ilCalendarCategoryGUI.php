@@ -85,6 +85,7 @@ class ilCalendarCategoryGUI
 		$this->seed = $seed;
 		$this->lng = $DIC->language();
 		$this->lng->loadLanguageModule('dateplaner');
+        $this->lng->loadLanguageModule('dash');
 		$this->ctrl = $DIC->ctrl();
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($a_ref_id);
@@ -1300,7 +1301,7 @@ class ilCalendarCategoryGUI
 		switch(ilCalendarUserSettings::_getInstance()->getCalendarSelectionType())
 		{
 			case ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP:
-				$tpl->setVariable('HTEXT',$this->lng->txt('pd_my_memberships'));
+				$tpl->setVariable('HTEXT',$this->lng->txt('dash_memberships'));
 				$tpl->touchBlock('head_item');
 				$tpl->touchBlock('head_delim');
 				$tpl->touchBlock('head_item');
@@ -1308,7 +1309,7 @@ class ilCalendarCategoryGUI
 				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_ITEMS);
 				$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
-				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_offers'));
+				$tpl->setVariable('HLINK',$this->lng->txt('dash_favourites'));
 				$tpl->touchBlock('head_item');
 				break;
 				
@@ -1316,12 +1317,12 @@ class ilCalendarCategoryGUI
 				$this->ctrl->setParameter($this,'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
 				$this->ctrl->setParameter($this,'seed',$this->seed->get(IL_CAL_DATE));
 				$tpl->setVariable('HHREF',$this->ctrl->getLinkTarget($this,'switchCalendarMode'));
-				$tpl->setVariable('HLINK',$this->lng->txt('pd_my_memberships'));
+				$tpl->setVariable('HLINK',$this->lng->txt('dash_memberships'));
 				$tpl->touchBlock('head_item');
 				$tpl->touchBlock('head_delim');
 				$tpl->touchBlock('head_item');
 				
-				$tpl->setVariable('HTEXT',$this->lng->txt('pd_my_offers'));
+				$tpl->setVariable('HTEXT',$this->lng->txt('dash_favourites'));
 				$tpl->touchBlock('head_item');
 				break;
 			

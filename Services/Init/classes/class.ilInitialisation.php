@@ -1446,7 +1446,8 @@ class ilInitialisation
 				$c["ui.factory.maincontrols"],
 				$c["ui.factory.tree"],
 				$c["ui.factory.menu"],
-				$c["ui.factory.symbol"]
+				$c["ui.factory.symbol"],
+				$c["ui.factory.legacy"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1626,6 +1627,10 @@ class ilInitialisation
 
 		$c["ui.factory.tree"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+		};
+
+		$c["ui.factory.legacy"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
 		};
 
 		$plugins = ilPluginAdmin::getActivePlugins();
@@ -1986,7 +1991,7 @@ class ilInitialisation
 		}
 
 		// for password change and incomplete profile
-		// see ilPersonalDesktopGUI
+		// see ilDashboardGUI
 		if(!$_GET["target"])
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');

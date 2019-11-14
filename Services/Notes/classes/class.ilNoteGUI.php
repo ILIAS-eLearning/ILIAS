@@ -1165,7 +1165,7 @@ return;
 		$ilCtrl->setParameterByClass("ilnotegui", "note_id", $note_id);
 		$ilCtrl->setParameterByClass("ilnotegui", "note_type", $note->getType());
 		$tpl->setVariable("LINK_EDIT_NOTE",
-			$ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpdnotesgui", "ilnotegui"),
+			$ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilpdnotesgui", "ilnotegui"),
 			"editNoteForm"));
 		$tpl->setVariable("TXT_EDIT_NOTE", $lng->txt("edit"));
 		$tpl->parseCurrentBlock();
@@ -1350,7 +1350,7 @@ return;
 
 						if(!$parent["title"])
 						{
-							$parent["title"] = $this->lng->txt("wsp_personal_workspace");
+							$parent["title"] = $this->lng->txt("personal_resources");
 						}
 
 						// sub-objects
@@ -1374,7 +1374,7 @@ return;
 						$parent["title"] = $this->lng->txt("wsp_tab_shared").
 							" (".ilObject::_lookupOwnerName($owner).")";
 						$item["title"] = ilObject::_lookupTitle($target["rep_obj_id"]);
-						$link = "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace&dsh=".
+						$link = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=".
 							$owner;
 					}
 

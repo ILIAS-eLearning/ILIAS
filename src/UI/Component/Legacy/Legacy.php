@@ -4,13 +4,14 @@
 
 namespace ILIAS\UI\Component\Legacy;
 
+use ILIAS\UI\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Signal;
 
 /**
  * Interface Legacy
  * @package ILIAS\UI\Component\Legacy
  */
-interface Legacy extends \ILIAS\UI\Component\Component
+interface Legacy extends \ILIAS\UI\Component\Component, JavaScriptBindable
 {
     /**
      * Get content as string stored in this component.

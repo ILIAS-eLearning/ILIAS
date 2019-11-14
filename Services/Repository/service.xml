@@ -15,4 +15,7 @@
 		<pluginslot id="robj" name="RepositoryObject" />
 	</pluginslots>
 	<logging />
+	<events>
+		<event type="listen" id="Services/Object" />
+	</events>
 </service>

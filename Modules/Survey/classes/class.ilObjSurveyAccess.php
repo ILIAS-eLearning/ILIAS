@@ -1,39 +1,13 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-include_once "./Services/Object/classes/class.ilObjectAccess.php";
-include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjSurveyAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @ingroup ModulesSurvey
-*/
+ * Class ilObjSurveyAccess
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 {
 	/**
@@ -76,7 +50,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 	 */
 	public static function getConditionOperators()
 	{
-		include_once './Services/Conditions/classes/class.ilConditionHandler.php';
 		return array(
 			ilConditionHandler::OPERATOR_FINISHED
 		);
@@ -96,7 +69,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		switch($a_operator)
 		{
 			case ilConditionHandler::OPERATOR_FINISHED:
-				include_once("./Modules/Survey/classes/class.ilObjSurveyAccess.php");
 				if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id))
 				{
 					return true;
@@ -321,7 +293,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 				switch($svy_mode)
 				{
 					case ilObjSurvey::MODE_360:
-						include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 						$svy = new ilObjSurvey($a_obj_id, false);
 						$svy->read();
 						switch($svy->get360Results())
@@ -338,7 +309,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 						break;
 
 					case ilObjSurvey::MODE_SELF_EVAL:
-						include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 						$svy = new ilObjSurvey($a_obj_id, false);
 						$svy->read();
 						switch($svy->getSelfEvaluationResults())
@@ -486,7 +456,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 		// 360° external raters
 		if ($_GET["accesscode"])
 		{			
-			include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 			if(ilObjSurvey::validateExternalRaterCode($t_arr[1], $_GET["accesscode"]))
 			{
 				return true;

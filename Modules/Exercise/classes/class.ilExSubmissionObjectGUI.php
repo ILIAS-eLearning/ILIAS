@@ -77,7 +77,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			{
 				// #10116						
 				$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", $blog_id);
-				$blog_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilpersonalworkspacegui", "ilobjbloggui"), "");
+				$blog_link = $ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilpersonalworkspacegui", "ilobjbloggui"), "");
 				$ilCtrl->setParameterByClass("ilobjbloggui", "wsp_id", "");
 				$files_str = '<a href="'.$blog_link.'">'.
 					$node["title"].'</a>';
@@ -167,7 +167,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 
 					$ilCtrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
 
-					$prtf_link = $ilCtrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "view");
+					$prtf_link = $ilCtrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "view");
 					$ilCtrl->setParameterByClass("ilobjportfoliogui", "prt_id", "");
 					$ilCtrl->setParameterByClass("ilobjportfoliogui", "ref_id", "");
 
@@ -491,7 +491,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $template_object_id);
 		}
 		$ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
-		$ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
+		$ctrl->redirectByClass(array("ildashboardgui", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromAssignment");
 	}
 
 	protected function createPortfolioTemplateObject(ilPropertyFormGUI $a_form = null)
@@ -544,7 +544,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "pt", $title);
 				$this->ctrl->setParameterByClass("ilObjPortfolioGUI", "prtt", $prtt);
 				$this->ctrl->setParameterByClass("ilobjportfoliogui", "exc_back_ref_id", (int) $_GET["ref_id"]);
-				$this->ctrl->redirectByClass(array("ilPersonalDesktopGUI", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
+				$this->ctrl->redirectByClass(array("ildashboardgui", "ilPortfolioRepositoryGUI", "ilObjPortfolioGUI"), "createPortfolioFromTemplate");
 			}
 			else
 			{

@@ -20,7 +20,6 @@ We are delighted when solutions are offered together with the initial report. Pl
 Please subscribe to our admin mailing list (ilias-admins@lists.ilias.de) to get notifications about security updates, updates in general and announcements for ILIAS server administrators.
 
 ## Contributors
-* Denis Klöpfer, CAT Concepts and Training, Cologne, Germany
 * Fabian Sesterhenn, TH Köln, Cologne, Germany
 * Nadimo Staszak, University of Cologne, Cologne, Germany
 * Robin Baumgartner, studer + raimann ag, Burgdorf, Switzerland

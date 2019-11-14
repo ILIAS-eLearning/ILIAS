@@ -1,26 +1,24 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
+use \ILIAS\Survey\Participants;
+
 
 /**
-* Class ilObjSurveyGUI
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version  $Id$
-*
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilObjectMetaDataGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
-* @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
-*
-*
-* @ingroup ModulesSurvey
-*/
+ * Class ilObjSurveyGUI
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ *
+ * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEvaluationGUI, ilSurveyExecutionGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilObjectMetaDataGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilSurveySkillDeterminationGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilCommonActionDispatcherGUI, ilSurveySkillGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyEditorGUI, ilSurveyConstraintsGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
+ * @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
+ */
 class ilObjSurveyGUI extends ilObjectGUI
 {
 	/**
@@ -48,6 +46,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	 */
 	protected $log;
 
+	/**
+	 * @var Participants\InvitationsManager
+	 */
+	protected $invitation_manager;
+
+
 	public function __construct()
 	{
 		global $DIC;
@@ -73,6 +77,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "ref_id");
 
 		$this->log = ilLoggerFactory::getLogger("svy");
+
+		$this->invitation_manager = new Participants\InvitationsManager();
 
 		parent::__construct("", (int)$_GET["ref_id"], true, false);
 	}
@@ -156,7 +162,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					// #16891
 					$ilTabs->clearTargets();
-					include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 					$info = new ilInfoScreenGUI($this);
 					$this->ctrl->forwardCommand($info);
 				}
@@ -166,22 +171,19 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$this->checkPermission("write");
 				$ilTabs->activateTab("meta_data");
 				$this->addHeaderAction();				
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
-				$md_gui = new ilObjectMetaDataGUI($this->object);				
+				$md_gui = new ilObjectMetaDataGUI($this->object);
 				$this->ctrl->forwardCommand($md_gui);
 				break;
 			
 			case "ilsurveyevaluationgui":
 				$ilTabs->activateTab("svy_results");
 				$this->addHeaderAction();
-				include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 				$eval_gui = new ilSurveyEvaluationGUI($this->object);
 				$this->ctrl->forwardCommand($eval_gui);
 				break;
 
 			case "ilsurveyexecutiongui":
 				$ilTabs->clearTargets();
-				include_once("./Modules/Survey/classes/class.ilSurveyExecutionGUI.php");
 				$exec_gui = new ilSurveyExecutionGUI($this->object);
 				$this->ctrl->forwardCommand($exec_gui);
 				break;
@@ -189,20 +191,17 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("perm_settings");
 				$this->addHeaderAction();
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case 'ilobjectcopygui':
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('svy');
 				$this->ctrl->forwardCommand($cp);
 				break;
 
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -210,14 +209,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 			// 360, skill service
 			case 'ilsurveyskillgui':
 				$ilTabs->activateTab("survey_competences");
-				include_once("./Modules/Survey/classes/class.ilSurveySkillGUI.php");
 				$gui = new ilSurveySkillGUI($this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
 
 			case 'ilsurveyskilldeterminationgui':
 				$ilTabs->activateTab("maintenance");
-				include_once("./Modules/Survey/classes/class.ilSurveySkillDeterminationGUI.php");
 				$gui = new ilSurveySkillDeterminationGUI($this->object);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -225,7 +222,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case 'ilsurveyeditorgui':
 				$this->checkPermission("write");				
 				$ilTabs->activateTab("survey_questions");
-				include_once("./Modules/Survey/classes/class.ilSurveyEditorGUI.php");
 				$gui = new ilSurveyEditorGUI($this);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -233,7 +229,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			case 'ilsurveyconstraintsgui':
 				$this->checkPermission("write");			
 				$ilTabs->activateTab("constraints");
-				include_once("./Modules/Survey/classes/class.ilSurveyConstraintsGUI.php");
 				$gui = new ilSurveyConstraintsGUI($this);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -247,15 +242,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 				{
 					$ilTabs->activateTab("survey_360_appraisees");
 				}
-				include_once("./Modules/Survey/classes/class.ilSurveyParticipantsGUI.php");
-				//$gui = new ilSurveyParticipantsGUI($this, $this->checkPermissionBool("write"));
 				$gui = new ilSurveyParticipantsGUI($this, $this->checkRbacOrPositionPermission('read_results', 'access_results'));
 				$this->ctrl->forwardCommand($gui);
 				break;
 				
 			case "illearningprogressgui":
 				$ilTabs->activateTab("learning_progress");
-				include_once("./Services/Tracking/classes/class.ilLearningProgressGUI.php");
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId());
 				$this->ctrl->forwardCommand($new_gui);				
@@ -263,8 +255,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 			case 'ilexportgui':				
 				$ilTabs->activateTab("export");
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
-				$exp_gui = new ilExportGUI($this); 
+				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
@@ -295,7 +286,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	*/
 	public function evaluationObject()
 	{
-		include_once("./Modules/Survey/classes/class.ilSurveyEvaluationGUI.php");
 		$eval_gui = new ilSurveyEvaluationGUI($this->object);
 		$this->ctrl->setCmdClass(get_class($eval_gui));
 		$this->ctrl->redirect($eval_gui, "evaluation");
@@ -303,7 +293,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 	protected function addDidacticTemplateOptions(array &$a_options)
 	{
-		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
 		if($templates)
 		{
@@ -390,7 +379,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$template = $this->object->getTemplate();
 		if($template)
 		{
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template);
 			$hidden_tabs = $template->getHiddenTabs();
 		}
@@ -447,7 +435,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			switch($this->object->getMode()) {
 				case ilObjSurvey::MODE_360:
 					// 360 mode + competence service
-					include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 					$skmg_set = new ilSkillManagementSettings();
 					if ($this->object->getSkillService() && $skmg_set->isActivated())
 					{
@@ -461,7 +448,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 					break;
 
 				case ilObjSurvey::MODE_SELF_EVAL:
-					include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 					$skmg_set = new ilSkillManagementSettings();
 					if ($this->object->getSkillService() && $skmg_set->isActivated())
 					{
@@ -485,7 +471,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			}
 		}
 
-		include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
 		if(
 			$this->checkRbacOrPositionPermission('read_results','access_results') ||
 			ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
@@ -497,7 +482,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		}
 		
 		// learning progress
-		include_once "./Services/Tracking/classes/class.ilLearningProgressAccess.php";
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("learning_progress",
@@ -511,8 +495,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			if(!in_array("meta_data", $hidden_tabs))
 			{
 				// meta data			
-				include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
-				$mdgui = new ilObjectMetaDataGUI($this->object);					
+				$mdgui = new ilObjectMetaDataGUI($this->object);
 				$mdtab = $mdgui->getTab();
 				if($mdtab)
 				{								
@@ -663,12 +646,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				$template = $this->object->getTemplate();
 				if($template)
 				{
-					include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 					$template = new ilSettingsTemplate($template);
 					$template_settings = $template->getSettings();
 				}
 
-				include_once 'Services/MetaData/classes/class.ilMD.php';
 				$md_obj = new ilMD($this->object->getId(), 0, "svy");
 				$md_section = $md_obj->getGeneral();
 
@@ -742,7 +723,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 				}
 
 				
-				include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 				$introduction = $_POST["introduction"];
 				$this->object->setIntroduction($introduction);
 				$outro = $_POST["outro"];
@@ -886,14 +866,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$template = $this->object->getTemplate();
 		if($template)
 		{			
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template = new ilSettingsTemplate($template);
 
 			$template_settings = $template->getSettings();
 			$hide_rte_switch = $template_settings["rte_switch"]["hide"];
 		}
 		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTableWidth("100%");
@@ -907,7 +885,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		// title & description (meta data)
 		
-		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->object->getId(), 0, "svy");
 		$md_section = $md_obj->getGeneral();
 
@@ -960,8 +937,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		
 		// activation
-		
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$this->lng->loadLanguageModule('rep');
 		
 		$section = new ilFormSectionHeaderGUI();
@@ -981,7 +956,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$online->setChecked(!$this->object->getOfflineStatus());
 		$form->addItem($online);				
 		
-		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt('rep_visibility_until'), "access_period");
 		$dur->setShowTime(true);						
 		$date = $this->object->getActivationStartDate();				
@@ -1020,7 +994,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$intro->setCols(80);
 		$intro->setUseRte(TRUE);
 		$intro->setInfo($this->lng->txt("survey_introduction_info"));
-		include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 		$intro->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("survey"));
 		$intro->addPlugin("latex");
 		$intro->addButton("latex");
@@ -1171,7 +1144,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
 			}
-			$num_inv = sizeof($this->object->getInvitedUsers());
+			$num_inv = count($this->invitation_manager->getAllForSurvey($this->object->getSurveyId()));
 			
 			// notification
 			$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");
@@ -1432,7 +1405,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			
 		// competence service activation for 360 mode
 		
-		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		$svy_mode = $this->object->getMode();
 		if(($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL) && $skmg_set->isActivated())
@@ -1561,7 +1533,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 	{
 		$fields = array('login','firstname','lastname','email');
 				
-		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
 		$auto->setSearchFields($fields);
 		$auto->setResultField('login');
@@ -1611,19 +1582,16 @@ class ilObjSurveyGUI extends ilObjectGUI
 	
 	protected function initImportForm($a_new_type)
 	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("import_svy"));
 
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
 		$fi->setSuffixes(array("zip"));
 		$fi->setRequired(true);
 		$form->addItem($fi);
 
-		include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 		$svy = new ilObjSurvey();
 		$questionspools = $svy->getAvailableQuestionpools(true, true, true);
 
@@ -1657,7 +1625,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$form = $this->initImportForm($new_type);
 		if ($form->checkInput())
 		{
-			include_once("./Modules/Survey/classes/class.ilObjSurvey.php");
 			$newObj = new ilObjSurvey();
 			$newObj->setType($new_type);
 			$newObj->setTitle("dummy");
@@ -1681,11 +1648,10 @@ class ilObjSurveyGUI extends ilObjectGUI
 				"&baseClass=ilObjSurveyGUI");
 
 			// using template?
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$templates = ilSettingsTemplate::getAllSettingsTemplates("svy");
 			if($templates)
 			{
-		$tpl = $this->tpl;
+				$tpl = $this->tpl;
 				$tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery.js");
 				// $tpl->addJavaScript("./Modules/Scorm2004/scripts/questions/jquery-ui-min.js");
 
@@ -1758,10 +1724,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		
 		$ilTabs->activateTab("info_short");
 		
-		include_once "./Modules/Survey/classes/class.ilSurveyExecutionGUI.php";
 		$output_gui = new ilSurveyExecutionGUI($this->object);
 		
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
 		
@@ -1782,7 +1746,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 			if(!$appr_data["closed"])
 			{
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("survey_360_appraisee_close_action");
 				$button->setUrl($this->ctrl->getLinkTargetByClass("ilsurveyparticipantsgui", "confirmappraiseeclose"));
@@ -1887,7 +1850,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				if($this->object->hasViewOwnResults())
 				{
-					include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 					$button = ilLinkButton::getInstance();
 					$button->setCaption("svy_view_own_results");								
 					$button->setUrl($this->ctrl->getLinkTarget($this, "viewUserResults"));										
@@ -1914,7 +1876,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 					$ilToolbar->setFormAction($this->ctrl->getFormAction($this, "mailUserResults"));
 
-					include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 					$button = ilSubmitButton::getInstance();
 					$button->setCaption("svy_mail_send_confirmation");
 					$button->setCommand("mailUserResults");
@@ -2035,7 +1996,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 
 						$info->addSection($this->lng->txt("survey_360_rate_other_appraisees"));
 						
-						include_once "Services/User/classes/class.ilUserUtil.php";
 						foreach($list as $appr_id => $item)
 						{					
 							$appr_name = ilUserUtil::getNamePresentation($appr_id, false, false, "", true);
@@ -2050,7 +2010,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 								$href = $this->ctrl->getLinkTarget($output_gui, $item[0]);
 								$this->ctrl->setParameter($output_gui, "appr_id", "");
 								
-								include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 								$button = ilLinkButton::getInstance();
 								$button->setCaption($item[1], false);
 								$button->setUrl($href);								
@@ -2082,7 +2041,6 @@ class ilObjSurveyGUI extends ilObjectGUI
 		{			
 			$ilToolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 			
-			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption($big_button[1], false);
 			$button->setCommand($big_button[0]);
@@ -2123,8 +2081,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					? $this->lng->txt("survey_results_personalized_info")
 					: $this->lng->txt("survey_results_anonymized_info"));
 					
-			include_once "./Modules/Survey/classes/class.ilObjSurveyAccess.php";
-			if ($this->checkPermissionBool("write") || 
+			if ($this->checkPermissionBool("write") ||
 				ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId()))
 			{
 				$info->addProperty($this->lng->txt("evaluation_access"), $this->lng->txt("evaluation_access_info"));
@@ -2172,8 +2129,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 					// not on create
 					// see ilObjSurveyQuestionPool::addLocatorItems
 					$q_id = (int)$_GET["q_id"];
-					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-					$q_type = SurveyQuestion::_getQuestionType($q_id)."GUI";					
+					$q_type = SurveyQuestion::_getQuestionType($q_id)."GUI";
 					$this->ctrl->setParameterByClass($q_type, "q_id", $q_id);
 					$ilLocator->addItem(SurveyQuestion::_getTitle($q_id), 
 						$this->ctrl->getLinkTargetByClass(array("ilSurveyEditorGUI", $q_type), "editQuestion"));																			

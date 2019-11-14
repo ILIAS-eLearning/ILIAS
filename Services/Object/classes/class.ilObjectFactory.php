@@ -128,7 +128,6 @@ class ilObjectFactory
 		$location = $objDefinition->getLocation($object_rec["type"]);
 
 		// create instance
-		include_once($location."/class.".$class_name.".php");
 		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($a_obj_id);
 		$obj->read();
@@ -203,7 +202,6 @@ class ilObjectFactory
 		$location = $objDefinition->getLocation($object_rec["type"]);
 
 		// create instance
-		include_once($location."/class.".$class_name.".php");
 		$obj = new $class_name(0, false);	// this avoids reading of data
 		$obj->setId($object_rec["obj_id"]);
 		$obj->setRefId($a_ref_id);
@@ -271,11 +269,9 @@ class ilObjectFactory
 
 		$objDefinition = $DIC["objDefinition"];
 
-		$location = $objDefinition->getLocation($a_obj_type);
 		$class_name = "ilObj".$objDefinition->getClassName($a_obj_type);
 
 		// create instance
-		include_once($location."/class.".$class_name.".php");
 		return $class_name;
 	}
 }

@@ -671,7 +671,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Init tag style editing form
 	*
-	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param        int        $a_mode        Form Edit Mode
 	*/
 	public function initTagStyleForm($a_mode, $a_cur_tag)
 	{
@@ -1650,7 +1650,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	/**
 	* Init tag style editing form
 	*
-	* @param        int        $a_mode        Form Edit Mode (IL_FORM_EDIT | IL_FORM_CREATE)
+	* @param        int        $a_mode        Form Edit Mode
 	*/
 	public function initCharacteristicForm($a_mode)
 	{

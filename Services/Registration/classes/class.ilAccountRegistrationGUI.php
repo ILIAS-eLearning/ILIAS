@@ -32,6 +32,11 @@ class ilAccountRegistrationGUI
 	/** @var \ilTermsOfServiceDocumentEvaluation */
 	protected $termsOfServiceEvaluation;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
+
 	public function __construct()
 	{
 		global $DIC;
@@ -54,7 +59,8 @@ class ilAccountRegistrationGUI
 			$this->registration_settings->getAllowCodes());
 
 		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
-	}
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    }
 
 	public function executeCommand()
 	{
@@ -700,8 +706,10 @@ class ilAccountRegistrationGUI
 						case 'grp':
 							$role_refs = ilObject::_getAllReferences($role_obj);
 							$role_ref = end($role_refs);
-							ilObjUser::_addDesktopItem($this->userObj->getId(),$role_ref,ilObject::_lookupType($role_obj));
-							break;
+                            // deactivated for now, see discussion at
+                            // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+                            // $this->recommended_content_manager->addObjectRecommendation($this->userObj->getId(), $role_ref);
+                            break;
 					}
 				}
 			}

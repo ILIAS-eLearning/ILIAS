@@ -24,7 +24,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->any())
             ->method('getCmdClass')
-            ->willReturn('ilPersonalDesktopGUI');
+            ->willReturn('ilDashboardGUI');
 
         $ctrl
             ->expects($this->any())
@@ -212,7 +212,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->any())
             ->method('getCmdClass')
-            ->willReturn('ilPersonalDesktopGUI');
+            ->willReturn('ilDashboardGUI');
 
         $ctrl
             ->expects($this->any())

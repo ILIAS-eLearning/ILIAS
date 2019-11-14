@@ -25,6 +25,10 @@ class DrilldownTest extends ILIAS_UI_TestBase
             {
                 return new I\Button\Factory();
             }
+            public function legacy($content)
+            {
+                return new I\Legacy\Legacy($content, new I\SignalGenerator());
+            }
         };
         return $factory;
     }
@@ -39,7 +43,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $this->glyph = $glyph_factory->user('');
         $this->button = $button_factory->standard('', '');
         $this->divider = $divider_factory->horizontal();
-        $this->legacy = new I\Legacy\Legacy('');
+        $this->legacy = $this->getUIFactory()->legacy('');
     }
 
     public function testConstruction()

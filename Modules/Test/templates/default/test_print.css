@@ -1,3 +1,5 @@
+@media print {
+
 @page { size: auto;
         margin-top: 1cm;
         margin-bottom:1cm;
@@ -213,4 +215,7 @@ table.freefield_bottom {
 #targetArea, #sourceArea {
 	width: 50%;
 	float:left;
+}
+
+
 }
