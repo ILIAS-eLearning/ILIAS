@@ -63,7 +63,7 @@ abstract class Slate implements ISlate\Slate
         $this->signal_generator = $signal_generator;
         $this->name = $name;
         $this->symbol = $symbol;
-        
+
         $this->initSignals();
     }
 
