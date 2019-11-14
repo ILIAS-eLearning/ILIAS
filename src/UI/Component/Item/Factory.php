@@ -71,7 +71,7 @@ interface Factory
      *   interaction:
      *     1: >
      *       The main interaction offered by clicking on the Notification Items
-     *       title SHOULD open to some repository holding the entry which fired
+     *       title SHOULD open some repository holding the entry which fired
      *       the notification (e.g. Mailbox in case of new Mail).
      *     2: >
      *       Clicking on the title of a Notification Item displaying aggregated
