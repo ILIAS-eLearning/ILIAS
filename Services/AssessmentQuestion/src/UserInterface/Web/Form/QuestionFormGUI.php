@@ -19,6 +19,7 @@ use ilPropertyFormGUI;
 use ilSelectInputGUI;
 use ilTextAreaInputGUI;
 use ilTextInputGUI;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**
  * Class QuestionFormGUI
@@ -150,12 +151,19 @@ class QuestionFormGUI extends ilPropertyFormGUI {
 	    
 	    $question->setPlayConfiguration($this->readPlayConfiguration());
 	    
+	    $question->setAnswerOptions($this->readAnswerOptions($question));
+	    
+	    return $question;
+	}
+	
+	private function readAnswerOptions(QuestionDto $question) : AnswerOptions {
 	    if (!is_null($this->option_form)) {
 	        $this->option_form->setConfiguration($question->getPlayConfiguration());
 	        $this->option_form->readAnswerOptions();
-	        $question->setAnswerOptions($this->option_form->getAnswerOptions());
+	        return $this->option_form->getAnswerOptions();
 	    }
-	    return $question;
+
+	    return new AnswerOptions();
 	}
 
 

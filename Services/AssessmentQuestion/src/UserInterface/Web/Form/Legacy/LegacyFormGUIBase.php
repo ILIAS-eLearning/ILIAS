@@ -18,6 +18,7 @@ use ilTextInputGUI;
 use ilSelectInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\AsqGUIElementFactory;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -157,14 +158,21 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    
 	    $question->setPlayConfiguration($this->readPlayConfiguration());
 	    
-	    if (!is_null($this->option_form)) {
-	        $this->option_form->setConfiguration($question->getPlayConfiguration());
-            $this->option_form->readAnswerOptions();
-	        $question->setAnswerOptions($this->option_form->getAnswerOptions());
-	    }
+        $question->setAnswerOptions($this->readAnswerOptions($question));
+        
         return $question;
     }
 
+    protected function readAnswerOptions(QuestionDto $question) : AnswerOptions {
+        if (!is_null($this->option_form)) {
+            $this->option_form->setConfiguration($question->getPlayConfiguration());
+            $this->option_form->readAnswerOptions();
+            return $this->option_form->getAnswerOptions();
+        }
+        
+        return new AnswerOptions();
+    }
+    
 
 	/**
 	 * @param QuestionDto $question

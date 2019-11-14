@@ -20,7 +20,9 @@ use ilTemplate;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class EssayEditor extends AbstractEditor {
-        
+      
+    const VAR_MAX_LENGTH = "ee_max_length";
+    
     /**
      * @var EssayEditorConfiguration
      */
@@ -70,6 +72,14 @@ class EssayEditor extends AbstractEditor {
         
         $fields = [];
         
+        $max_length = new ilNumberInputGUI($DIC->language()->txt('asq_label_max_length'), self::VAR_MAX_LENGTH);
+        $max_length->setSize(2);
+        $max_length->setInfo($DIC->language()->txt('asq_info_max_length'));
+        $fields[self::VAR_MAX_LENGTH] = $max_length;
+        
+        if (!is_null($config)) {
+            $max_length->setValue($config->getMaxLength());
+        }
         
         return $fields;
     }
@@ -78,7 +88,7 @@ class EssayEditor extends AbstractEditor {
      * @return AbstractConfiguration|null
      */
     public static function readConfig() : ?AbstractConfiguration {
-        return TextSubsetEditorConfiguration::create(intval($_POST[self::VAR_REQUESTED_ANSWERS]));
+        return EssayEditorConfiguration::create(intval($_POST[self::VAR_MAX_LENGTH]));
     }
     
     /**

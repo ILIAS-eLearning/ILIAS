@@ -19,7 +19,8 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class EssayScoringDefinition extends AnswerDefinition {
-    const VAR_POINTS = 'fsd_points';
+    const VAR_POINTS = 'esd_points';
+    const VAR_TEXT = 'esd_text';
     
     /**
      * @var ?int
@@ -39,7 +40,7 @@ class EssayScoringDefinition extends AnswerDefinition {
      * @param float $multiple_of
      * @param int $points
      */
-    public function __construct(?int $points, ?string $text) {
+    public function __construct(?string $text, ?int $points) {
         $this->points = $points;
         $this->text = $text;
     }
@@ -63,17 +64,21 @@ class EssayScoringDefinition extends AnswerDefinition {
     public function getValues(): array
     {
         return [
-            self::VAR_POINTS => $this->points
+            self::VAR_POINTS => $this->points,
+            self::VAR_TEXT => $this->text
         ];
     }
 
     public static function getValueFromPost(string $index)
     {
-        return new EssayScoringDefinition(intval($_POST[$index . self::VAR_POINTS]));            
+        $pointkey = $index . self::VAR_POINTS;
+        
+        return new EssayScoringDefinition(ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_TEXT]),
+                                          array_key_exists($pointkey, $_POST) ? intval($_POST[$pointkey]) : 0);            
     }
 
     public static function deserialize(stdClass $data)
     {
-        return new EssayScoringDefinition($data->points);
+        return new EssayScoringDefinition($data->text, $data->points);
     }
 }

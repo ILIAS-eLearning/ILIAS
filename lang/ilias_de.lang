@@ -14,6 +14,17 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_max_length#:#Maximale Anzahl von Zeichen
+asq#:#asq_info_max_length#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
+asq#:#asq_label_manual_scoring#:#Keine automatische Bewertung
+asq#:#asq_info_manual_scoring#:#Es werden keine Punkte automatisiert vergeben. Die Punktevergabe ist nur mit manueller Bewertung möglich.
+asq#:#asq_label_automatic_any#:#Automatische Bewertung bei Nennung einzelner Begriffe
+asq#:#asq_info_automatic_any#:#Für jeden gefundenen Begriff werden die entsprechenden Punkte vergeben.
+asq#:#asq_label_automatic_all#:#Automatische Bewertung bei Nennung aller Begriffe
+asq#:#asq_info_automatic_all#:#Die Punkte werden automatisch vergeben, wenn alle Begriffe gefunden werden.
+asq#:#asq_label_answers#:#Antworten
+asq#:#asq_label_automatic_one#:#Automatische Bewertung bei Nennung eines Begriffs
+asq#:#asq_info_automatic_one#:#Die Punkte werden automatisch vergeben, wenn mindestens ein Begriff gefunden wird.
 asq#:#asq_label_shuffle_answers#:#Antworten mischen
 asq#:#asq_option_shuffle_none#:#Nein
 asq#:#asq_option_shuffle_definitions#:#Nur Definitionen

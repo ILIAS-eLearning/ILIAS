@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**
  * Abstract Class AbstractScoring
@@ -46,7 +47,7 @@ abstract class AbstractScoring
     /**
      * @return array|null
      */
-    public static function generateFields(?AbstractConfiguration $config) : ?array
+    public static function generateFields(?AbstractConfiguration $config, AnswerOptions $options = null) : ?array
     {
         return [];
     }

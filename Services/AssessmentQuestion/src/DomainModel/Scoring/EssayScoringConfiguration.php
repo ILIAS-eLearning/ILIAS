@@ -33,9 +33,9 @@ class EssayScoringConfiguration extends AbstractConfiguration {
     
     public static function create(int $matching_mode,
                                   int $scoring_mode,
-                                  ?int $points) : EssayScoringConfiguration {
+                                  int $points) : EssayScoringConfiguration {
         
-        $object = new FormulaScoringConfiguration();
+        $object = new EssayScoringConfiguration();
         
         $object->matching_mode = $matching_mode;
         $object->scoring_mode = $scoring_mode;

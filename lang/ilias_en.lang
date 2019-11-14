@@ -14,6 +14,17 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_max_length#:#Maximum Number of Characters
+asq#:#asq_info_max_length#:#If nothing entered the maximum number of characters for this text answer is unlimited.
+asq#:#asq_label_manual_scoring#:#No Automatic Scoring
+asq#:#asq_info_manual_scoring#:#No points are granted unless the tutor's manual scoring.
+asq#:#asq_label_automatic_any#:#Automatic Scoring with Keywords on Finding ANY
+asq#:#asq_info_automatic_any#:#For any found keyword the corresponding points are granted automatically.
+asq#:#asq_label_automatic_all#:#Automatic Scoring with Keywords on Finding ALL
+asq#:#asq_info_automatic_all#:#The points are granted automatically, if all keywords are found.
+asq#:#asq_label_answers#:#Answers
+asq#:#asq_label_automatic_one#:#Automatic Scoring with Keywords on Finding ONE
+asq#:#asq_info_automatic_one#:#The points are granted automatically, if at least one keyword is found.
 asq#:#asq_label_shuffle_answers#:#Shuffle Answers
 asq#:#asq_option_shuffle_none#:#No
 asq#:#asq_option_shuffle_definitions#:#Definitions only
