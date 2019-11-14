@@ -90,7 +90,6 @@ interface Factory
      *       The purpose of each interaction MUST be clearly labeled by text.
      * ---
      * @param string|\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Standard $title Title of the item holding the main interaction
-     * @return \ILIAS\UI\Component\Item\Notification
      */
-    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon);
+    public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $lead) : Notification;
 }
