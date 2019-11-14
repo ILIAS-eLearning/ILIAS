@@ -88,7 +88,6 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
-		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
 		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
 		"ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/",
 	);
@@ -107,7 +106,6 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
-		'ilPDPortfolioBlockGUI' => 'pdportf',
 		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
 		"ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist",
 	);
