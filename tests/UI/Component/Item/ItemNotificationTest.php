@@ -143,7 +143,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     {
         $f = $this->getUIFactory()->item();
 
-        $content = new I\Component\Legacy\Legacy("someContent");
+        $content = new I\Component\Legacy\Legacy("someContent", $this->sig_gen);
         $c = $f->notification("title", $this->getIcon())->withAdditionalContent($content);
 
         $this->assertEquals($c->getAdditionalContent(), $content);
@@ -163,10 +163,24 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
     public function testRenderFullyFeatured(){
         $f = $this->getUIFactory()->item();
-        $r = $this->getDefaultRenderer();
+        $r = $this->getDefaultRenderer(new class implements \ILIAS\UI\Implementation\Render\JavaScriptBinding
+        {
+            public function createId()
+            {
+                return "id";
+            }
+            public $on_load_code = array();
+            public function addOnLoadCode($code)
+            {
+                $this->on_load_code[] = $code;
+            }
+            public function getOnLoadCodeAsync()
+            {
+            }
+        });
 
         $props = array("prop1" => "val1", "prop2" => "val2");
-        $content = new I\Component\Legacy\Legacy("someContent");
+        $content = new I\Component\Legacy\Legacy("someContent", $this->sig_gen);
         $actions = new I\Component\Dropdown\Standard(array(
             new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
             new I\Component\Button\Shy("GitHub", "https://www.github.com")
@@ -185,23 +199,23 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = <<<EOT
-<div class="il-item il-notification-item" id="id_4">
+<div class="il-item il-notification-item" id="id">
     <div class="media">
         <div class="media-left">
             <div class="icon name small" aria-label="aria_label"></div>
         </div>
         <div class="media-body">
             <h5 class="il-item-notification-title"><a href="" >TestLink</a></h5>
-            <button type="button" class="close" data-dismiss="modal" id="id_3"> <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
+            <button type="button" class="close" data-dismiss="modal" id="id"> <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
             <div class="il-item-description">description</div>
             <div class="dropdown">
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li>
-                        <button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button>
+                        <button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
                     </li>
                     <li>
-                        <button class="btn btn-link" data-action="https://www.github.com" id="id_2">GitHub</button>
+                        <button class="btn btn-link" data-action="https://www.github.com" id="id">GitHub</button>
                     </li>
                 </ul>
             </div>
@@ -221,7 +235,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                     </div>
                 </div>
             </div>
-            <div class="il-aggregate-notifications" data-aggregatedby="id_4">
+            <div class="il-aggregate-notifications" data-aggregatedby="id">
                 <div class="il-maincontrols-slate il-maincontrols-slate-notification">
                     <div class="il-maincontrols-slate-notification-title">
                         <button class="btn btn-bulky" data-action=""><span class="glyph" aria-label="back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
