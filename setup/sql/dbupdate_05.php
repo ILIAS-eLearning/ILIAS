@@ -2861,6 +2861,6 @@ background_image_path = REPLACE( REPLACE( REPLACE( REPLACE(background_image_path
     $ilDB->quote('//exercise/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
     $ilDB->quote('//course/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
     $ilDB->quote('//assessment/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
-    $ilDB->quote('//certificates/scorm//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
+    $ilDB->quote('//certificates/scorm//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ) " .
     "WHERE background_image_path LIKE " . $ilDB->quote('%//background.jpg', 'text'));
 ?>
