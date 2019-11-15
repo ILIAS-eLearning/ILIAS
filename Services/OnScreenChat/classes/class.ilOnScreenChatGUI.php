@@ -257,11 +257,11 @@ class ilOnScreenChatGUI
             $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
-                'conversationIdleTimeThreshold' => max(1,
-                    (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
-                ),
-                'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
-            ]) . ');');
+                    'conversationIdleTimeThreshold' => max(1,
+                        (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
+                    ),
+                    'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
+                ]) . ');');
 
             self::$frontend_initialized = true;
         }
