@@ -17,12 +17,10 @@ class ilCertificateValueReplacementTest extends \PHPUnit_Framework_TestCase
 Hurray [NAME] you have received [PRIZE]
 </xml>';
 
-		$backgroundPath = '/some/where/path/background.jpg';
-
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
+		$replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
 		$expected = '<xml> 
-/some/where/path/background.jpg
+[BACKGROUND_IMAGE]
 Hurray Peter you have received a fantastic prize
 </xml>';
 
@@ -41,13 +39,11 @@ Hurray Peter you have received a fantastic prize
 Hurray [NAME] you have received [PRIZE]
 </xml>';
 
-		$backgroundPath = '/some/where/path/background.jpg';
-
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
+		$replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
 		$expected = '<xml> 
-/some/where/path/background.jpg
-/some/where/background.jpg
+[BACKGROUND_IMAGE]
+[CLIENT_WEB_DIR]/background.jpg
 Hurray Peter you have received a fantastic prize
 </xml>';
 
