@@ -44,6 +44,11 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 	 */
 	protected $error;
 
+    /**
+     * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
+     */
+	protected $tool_context;
+
 	/**
 	* Constructor
 	*
@@ -65,6 +70,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->help = $DIC["ilHelp"];
 		$this->error = $DIC["ilErr"];
 		$this->user = $DIC->user();
+		$this->tool_context = $DIC->globalScreen()->tool()->context();
 		$lng = $DIC->language();
 
 		$lng->loadLanguageModule("content");
@@ -160,20 +166,12 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
 	/**
 	 * Show tree
-	 *
-	 * @param
-	 * @return
 	 */
 	function showEditTree()
 	{
-		$tpl = $this->tpl;
-
-		include_once("./Modules/Scorm2004/classes/class.ilSCORM2004EditorExplorerGUI.php");
+		$this->tool_context->current()->addAdditionalData(ilSAHSEditGSToolProvider::SHOW_SCORM_EDIT_TREE, true);
 		$exp = new ilSCORM2004EditorExplorerGUI($this, "showEditTree", $this->object);
-		if (!$exp->handleCommand())
-		{
-			$tpl->setLeftNavContent($exp->getHTML());
-		}
+		$exp->handleCommand();
 	}
 	
 	

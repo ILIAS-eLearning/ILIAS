@@ -5,35 +5,33 @@
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
+class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilOrgUnitType
      */
     protected $type;
-
     /**
      * @var ilTemplate
      */
     protected $tpl;
-
     /**
      * @var
      */
     protected $lng;
-
     /**
      * @var ilCtrl
      */
     protected $ctrl;
-
     /**
      * @var
      */
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilOrgUnitType $type) {
+    public function __construct($parent_gui, ilOrgUnitType $type)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -53,17 +51,21 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject() {
+    public function saveObject()
+    {
         if (!$this->fillObject()) {
             return false;
         }
+
         return true;
     }
+
 
     /**
      * Add all fields to the form
      */
-    protected function initForm() {
+    protected function initForm()
+    {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_type_assign_amd_sets'));
         $options = array();
@@ -84,12 +86,14 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
         $this->addCommandButton('updateAMD', $this->lng->txt('save'));
     }
 
+
     /**
      * Check validity of form and pass values from form to object
      *
      * @return bool
      */
-    protected function fillObject() {
+    protected function fillObject()
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return false;
@@ -106,11 +110,12 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
             foreach ($record_ids_removed as $record_id) {
                 $this->type->deassignAdvancedMdRecord($record_id);
             }
+
             return true;
         } catch (ilException $e) {
             ilUtil::sendFailure($e->getMessage());
+
             return false;
         }
     }
-
 }

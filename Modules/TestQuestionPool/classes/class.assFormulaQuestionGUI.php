@@ -690,7 +690,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
 			}
 		}
 
-		if(count($result_has_undefined_res) > 0)
+		if(is_array($result_has_undefined_res) && count($result_has_undefined_res) > 0)
 		{
 			$error_message .= $this->lng->txt("res_contains_undef_res"). '<br>';
 			$checked =  false;

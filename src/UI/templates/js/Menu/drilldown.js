@@ -31,12 +31,15 @@ il.UI.menu = il.UI.menu || {};
 			entries.children('.il-menu-item-label').click(
 				function() {
 					var entry = $(this).parent('.il-menu-item');
-					setActive(entry);
+					if(entry.attr('id')) {
+						setActive(entry);
+					}
 				}
 			);
 		};
 
 		var setActive = function(entry) {
+
 			var dd = entry.parents('.il-drilldown'),
 				structure = dd.children('.il-drilldown-structure'),
 				all_entries = structure.children('.il-menu-item');

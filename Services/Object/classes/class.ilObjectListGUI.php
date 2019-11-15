@@ -175,6 +175,11 @@ class ilObjectListGUI
 	protected $object_service;
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $fav_manager;
+
+	/**
 	* constructor
 	*
 	*/
@@ -209,8 +214,10 @@ class ilObjectListGUI
 		
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$this->ldap_mapping = ilLDAPRoleGroupMapping::_getInstance();
+		$this->fav_manager = new ilFavouritesManager();
 
 		$this->lng->loadLanguageModule("obj");
+		$this->lng->loadLanguageModule("rep");
 	}
 
 
@@ -1274,7 +1281,7 @@ class ilObjectListGUI
 							"alert" => false, 
 							"property" => $lng->txt("in_use_by"),
 							"value" => $lock_user->getLogin(),
-							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&baseClass=ilPersonalDesktopGUI',
+							"link" => 	"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ildashboardgui&baseClass=ilDashboardGUI',
 						);
 					}
 				}
@@ -1283,56 +1290,6 @@ class ilObjectListGUI
 				if($this->getDetailsLevel() == self::DETAILS_SEARCH)
 				{
 					return $props;
-				}
-
-				// BEGIN WebDAV Display warning for invisible Unix files and files with special characters
-				if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_filename"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/^\\./', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-						"value" => $lng->txt("filename_hidden_unix_file"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/~$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_visibility"),
-						"value" => $lng->txt("filename_hidden_backup_file"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/[\\/]/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_characters"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/[\\\\\\/:*?"<>|]/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_special_characters"),
-						'propertyNameVisible' => false);
-				}
-				else if (preg_match('/\\.$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_empty_extension"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/^(\\.|\\.\\.)$/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_special_filename"),
-						'propertyNameVisible' => false);
-				} 
-				else if (preg_match('/#/', $this->title))
-				{
-					$props[] = array("alert" => false, "property" => $lng->txt("filename_interoperability"),
-						"value" => $lng->txt("filename_windows_webdav_issue"),
-						'propertyNameVisible' => false);
 				}
 			}
 			// END WebDAV Display warning for invisible files and files with special characters
@@ -2455,7 +2412,7 @@ class ilObjectListGUI
 				$this->ctrl->setParameter($this->container_obj, "ref_id", $this->container_obj->object->getRefId());
 			}
 
-			if (!$ilUser->isDesktopItem($this->getCommandId(), $type))
+			if (!$this->fav_manager->ifIsFavourite($ilUser->getId(), $this->getCommandId()))
 			{
 				// Pass type and object ID to ilAccess to improve performance
     			if ($this->checkCommandAccess("read", "", $this->ref_id, $this->type, $this->obj_id))
@@ -2465,7 +2422,7 @@ class ilObjectListGUI
 						$this->ctrl->setParameter($this->container_obj, "type", $type);
 						$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 						$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "addToDesk");
-						$this->insertCommand($cmd_link, $this->lng->txt("to_desktop"), "",
+						$this->insertCommand($cmd_link, $this->lng->txt("rep_add_to_favourites"), "",
 							"");
 					}					
 				}
@@ -2477,7 +2434,7 @@ class ilObjectListGUI
 					$this->ctrl->setParameter($this->container_obj, "type", $type);
 					$this->ctrl->setParameter($this->container_obj, "item_ref_id", $this->getCommandId());
 					$cmd_link = $this->ctrl->getLinkTarget($this->container_obj, "removeFromDesk");
-					$this->insertCommand($cmd_link, $this->lng->txt("unsubscribe"), "",
+					$this->insertCommand($cmd_link, $this->lng->txt("rep_remove_from_favourites"), "",
 						"");
 				}
 			}

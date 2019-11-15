@@ -151,7 +151,10 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         }
 
         if (null === $backgroundImageFileService) {
-            $backgroundImageFileService = new ilCertificateBackgroundImageFileService($certificatePath, $filesystem);
+            $backgroundImageFileService = new ilCertificateBackgroundImageFileService(
+                $certificatePath,
+                $filesystem
+            );
         }
         $this->backGroundImageFileService = $backgroundImageFileService;
     }

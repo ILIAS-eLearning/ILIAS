@@ -122,7 +122,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		{
 			// :TODO: container presentation
 			$container_url = null;
-			$container = '<img src="'.
+			$container = '<img class="ilIcon" src="'.
 					ilObject::_getIcon($badge_item["parent_id"], "big", $badge_item["parent_type"]).
 					'" alt="'.$lng->txt("obj_".$badge_item["parent_type"]).
 					'" title="'.$lng->txt("obj_".$badge_item["parent_type"]).'" /> '.

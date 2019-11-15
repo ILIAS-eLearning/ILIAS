@@ -2,17 +2,25 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Symbol\Glyph;
+use ILIAS\UI\Component\Symbol\Icon;
 
 /**
  * Class TopLinkItem
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem
+class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTopItem, hasSymbol
 {
 
+    /**
+     * @var Symbol
+     */
+    protected $symbol;
     /**
      * @var bool
      */
@@ -93,5 +101,41 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
     public function isLinkWithExternalAction() : bool
     {
         return $this->is_external_action;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        // bugfix mantis 25526: make aria labels mandatory
+        if(($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
+            && ($symbol->getAriaLabel() === "")) {
+            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+        }
+
+        $clone = clone $this;
+        $clone->symbol = $symbol;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return $this->symbol;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
+    {
+        return $this->symbol instanceof Symbol;
     }
 }

@@ -73,6 +73,17 @@
 	clear: both;
 }
 
+.il-notification-item{
+	&:not(:first-child){
+		margin-top: @padding-large-vertical;
+	}
+
+	.dropdown{
+		margin-top: -(@font-size-base+@padding-large-vertical);
+	}
+
+}
+
 /* this is currently experimental, could be removed */
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1)) {
 
@@ -125,7 +136,9 @@
 			float: none;
 			zoom: 1;
 			vertical-align: top;
-			width: auto;
+			/* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+				see known issues at https://caniuse.com/#search=calc */
+			width: 100%;
 		}
 
 		.dropdown {
@@ -166,7 +179,7 @@
 }
 
 /* otherwise dropdowns in items with icon do not work */
-.il-std-item .media .media-body, .il-std-item .media {
+.il-std-item .media .media-body, .il-std-item .media, .il-notification-item .media, .il-notification-item .media .media-body {
 	overflow: visible;
 }
 

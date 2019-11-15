@@ -55,14 +55,14 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs = $gs;
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
+        $this->il_settings = $DIC->settings();
     }
 
 
     private function prepareOutputHeaders()
     {
-        $response = $this->http->response();
-        $this->http->saveResponse($response->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
-        $this->http->saveResponse($response->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('P3P', 'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'));
+        $this->http->saveResponse($this->http->response()->withAddedHeader('Content-type', 'text/html; charset=UTF-8'));
 
         if (defined("ILIAS_HTTP_PATH")) {
             $this->gs->layout()->meta()->setBaseURL((substr(ILIAS_HTTP_PATH, -1) == '/' ? ILIAS_HTTP_PATH : ILIAS_HTTP_PATH . '/'));
@@ -76,6 +76,18 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         \iljQueryUtil::initjQueryUI($this);
         $this->gs->layout()->meta()->addJs("./Services/JavaScript/js/Basic.js", true, 1);
         \ilUIFramework::init($this);
+        \ilBuddySystemGUI::initializeFrontend($this);
+        \ilOnScreenChatGUI::initializeFrontend($this);
+
+        $sessionReminder = new ilSessionReminderGUI(
+            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            $this,
+            $this->lng
+        );
+        $sessionReminder->populatePage();
+
+        $onScreenNotifier = new ilNotificationOSDGUI($this, $this->lng);
+        $onScreenNotifier->populatePage();
     }
 
 
@@ -96,8 +108,21 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
-
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function printToString($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
+    {
+        $this->prepareOutputHeaders();
+        $this->prepareBasicJS();
+        $this->prepareBasicCSS();
+
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+
+        return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
 
@@ -192,6 +217,14 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setTitle($a_title)
     {
         $this->legacy_content_template->setTitle($a_title);
+        PageContentProvider::setTitle($a_title);
+        PageContentProvider::setViewTitle($a_title);
+
+        $short_title = $this->il_settings->get('short_inst_name');
+        if (trim($short_title) === "") {
+            $short_title = 'ILIAS';
+        }
+        PageContentProvider::setShortTitle($short_title);
     }
 
 
@@ -435,7 +468,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
-        // Nothing to do
+        $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
+        PageContentProvider::setPermaLink($href);
     }
 
 

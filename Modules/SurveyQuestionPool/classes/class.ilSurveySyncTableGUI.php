@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 2010 Leifos, GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey sync table GUI class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.de>
- * @version $Id$
- *
- * @ingroup ModulesSurveyQuestionPool
  */
 class ilSurveySyncTableGUI extends ilTable2GUI
 {
@@ -73,8 +69,6 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 	{
 		$ilAccess = $this->access;
 		$lng = $this->lng;
-		
-		include_once "Modules/Survey/classes/class.ilObjSurvey.php";
 		
 		$table_data = array();
 		foreach($this->question->getCopyIds(true) as $survey_obj_id => $questions)
@@ -176,8 +170,6 @@ class ilSurveySyncTableGUI extends ilTable2GUI
 		$tree = $this->tree;
 		$ilCtrl = $this->ctrl;
 
-		include_once './Services/Link/classes/class.ilLink.php';
-		
 		if(!count($ref_ids))
 		{
 			return false;

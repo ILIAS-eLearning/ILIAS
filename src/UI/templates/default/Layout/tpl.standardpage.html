@@ -9,6 +9,8 @@
 	<base href="{BASE}" />
 	<!-- END base -->
 
+	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
+
 	<style type="text/css">
 		{CSS_INLINE}
 	</style>
@@ -31,6 +33,11 @@
 				<div class="il-logo">
 					{LOGO}
 				</div>
+
+				<div class="il-pagetitle">
+					{TITLE}
+				</div>
+
 				<!-- BEGIN header_locator -->
 				<nav class="il-header-locator">
 					{HEADER_BREADCRUMBS}
@@ -51,20 +58,23 @@
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
 			{CONTENT}
+
+			<footer>
+				{FOOTER}
+			</footer>
 		</main>
 
-		<footer>
-			{FOOTER}
-		</footer>
+
 	</section>
+
 
 <!-- BEGIN on_load_code -->
 <script type="text/javascript">
-	il.Util.addOnLoad(function() {
 	<!-- BEGIN on_load_code_inner -->
-		{OLCODE}
+		il.Util.addOnLoad(function() {
+			{OLCODE}
+		});
 	<!-- END on_load_code_inner -->
-});
 </script>
 <!-- END on_load_code -->
 

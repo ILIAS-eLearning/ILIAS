@@ -69,40 +69,35 @@ class ilLMNavigationRendererGUI
      * Constructor
      */
     public function __construct(
-        int $current_page,
-        ilObjLearningModule $lm,
-        bool $offline,
-        bool $chapter_has_no_active_page,
-        bool $deactivated_page,
-        string $lang,
-        ilSetting $lm_set,
-        ilLMTree $lm_tree,
+        ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
-        ilLMTracker $tracker,
         ilLanguage $lng,
         ilObjUser $user,
-        ilGlobalPageTemplate $main_tpl
+        ilGlobalPageTemplate $main_tpl,
+        int $requested_obj_id,
+        string $requested_back_pg,
+        string $requested_frame
     ) {
         global $DIC;
 
         $this->user = $user;
-        $this->lm_tree = $lm_tree;
-        $this->current_page = $current_page;
-        $this->lm = $lm;
-        $this->lm_set = $lm_set;
+        $this->lm_tree = $service->getLMTree();
+        $this->current_page = $service->getNavigationStatus()->getCurrentPage();
+        $this->lm = $service->getLearningModule();
+        $this->lm_set = $service->getSettings();
         $this->lng = $lng;
-        $this->offline = $offline;
-        $this->tracker = $tracker;
+        $this->offline = $service->getPresentationStatus()->offline();
+        $this->tracker = $service->getTracker();
         $this->parent_gui = $parent_gui;
-        $this->chapter_has_no_active_page = $chapter_has_no_active_page;
-        $this->deactivated_page = $deactivated_page;
+        $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
+        $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
 
-        $this->requested_obj_id = (int) $_GET["obj_id"];
-        $back_pg = explode(":", $_GET["back_pg"]);
+        $this->requested_obj_id = $requested_obj_id;
+        $back_pg = explode(":", $requested_back_pg);
         $this->requested_back_pg = (int) $back_pg[0];
-        $this->requested_frame = $_GET["frame"];
+        $this->requested_frame = $requested_frame;
         $this->main_tpl = $main_tpl;
-        $this->lang = $lang;
+        $this->lang = $service->getPresentationStatus()->getLang();
     }
 
     /**

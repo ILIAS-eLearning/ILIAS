@@ -55,6 +55,11 @@ class ilCertificateTemplateImportAction
     private $installationID;
 
     /**
+     * @var ilCertificateBackgroundImageFileService
+     */
+    private $fileService;
+
+    /**
      * @param integer $objectId
      * @param string $certificatePath
      * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
@@ -75,7 +80,8 @@ class ilCertificateTemplateImportAction
         ilCertificateTemplateRepository $templateRepository = null,
         ilCertificateObjectHelper $objectHelper = null,
         ilCertificateUtilHelper $utilHelper = null,
-        ilDBInterface $database = null
+        ilDBInterface $database = null,
+        ilCertificateBackgroundImageFileService $fileService = null
     ) {
         $this->objectId = $objectId;
         $this->certificatePath = $certificatePath;
@@ -104,6 +110,14 @@ class ilCertificateTemplateImportAction
             $utilHelper = new ilCertificateUtilHelper();
         }
         $this->utilHelper = $utilHelper;
+
+        if (null === $fileService) {
+            $fileService = new ilCertificateBackgroundImageFileService(
+                $certificatePath,
+                $filesystem
+            );
+        }
+        $this->fileService = $fileService;
     }
 
     /**
@@ -181,7 +195,7 @@ class ilCertificateTemplateImportAction
                     // as long as we cannot make RPC calls in a given directory, we have
                     // to add the complete path to every url
                     $xsl = preg_replace_callback("/url\([']{0,1}(.*?)[']{0,1}\)/", function (array $matches) use ($rootDir) {
-                        $basePath = rtrim(dirname($this->getBackgroundImageDirectory($rootDir)), '/');
+                        $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
                         $fileName = basename($matches[1]);
 
                         return 'url(' . $basePath . '/' . $fileName . ')';
@@ -267,19 +281,6 @@ class ilCertificateTemplateImportAction
         return $dir;
     }
 
-
-    /**
-     * @param string $rootDir
-     * @return mixed|string
-     */
-    private function getBackgroundImageDirectory(string $rootDir) : string
-    {
-        return str_replace(
-            array($rootDir, '//'),
-            array('[CLIENT_WEB_DIR]', '/'),
-            ''
-        );
-    }
 
     /**
      * @return string

@@ -2208,7 +2208,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				// see #26490
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}
@@ -2216,7 +2217,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				// see #26490
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}
@@ -2328,7 +2330,7 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		}
 
 		// column selector
-		if (count($this->getSelectableColumns()) > 0)
+		if (is_array($this->getSelectableColumns()) && count($this->getSelectableColumns()) > 0)
 		{
 			$items = array();
 			foreach ($this->getSelectableColumns() as $k => $c)

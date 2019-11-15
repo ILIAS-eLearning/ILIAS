@@ -600,7 +600,7 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				$this->populateDeleteDynamicTestResultsButton();
 			}
 
-			if($_SESSION["AccountId"] == ANONYMOUS_USER_ID)
+			if($this->DIC->user()->getId() == ANONYMOUS_USER_ID)
 			{
 				if( $this->getItems() )
 				{
@@ -611,7 +611,10 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 				$anonymous_id = new ilTextInputGUI($this->lng->txt('enter_anonymous_code'), 'anonymous_id');
 				$anonymous_id->setSize(8);
 				$this->addInputItem($anonymous_id, true);
-				$this->addFormButton($this->lng->txt('submit'), 'setAnonymousId');
+				$button = ilSubmitButton::getInstance();
+			    $button->setCaption('submit');
+			    $button->setCommand('setAnonymousId');
+			    $this->addButtonInstance($button);
 			}
 		}
 		if( $this->getTestOBJ()->getOfflineStatus() && !$this->getTestQuestionSetConfig()->areDepenciesBroken() )

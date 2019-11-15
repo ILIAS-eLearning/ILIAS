@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\ComplexItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
@@ -11,6 +12,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Complex;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
@@ -142,6 +144,10 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new LostItemRenderer());
         $lost->setCreationPrevented(true);
         $c->add($lost);
+        // Complex
+        $complex = new TypeInformation(Complex::class, $this->translateType(Complex::class), new ComplexItemRenderer());
+        $complex->setCreationPrevented(true);
+        $c->add($complex);
 
         return $c;
     }

@@ -83,6 +83,12 @@ class ilInfoScreenGUI
 	var $form_action;
 
 	/**
+	 * @var bool
+	 */
+	protected $booking_enabled = false;
+
+
+	/**
 	* Constructor
 	*
 	* @param	object	$a_gui_object	GUI instance of related object
@@ -197,6 +203,15 @@ class ilInfoScreenGUI
 	function enableLearningProgress($a_enable = true)
 	{
 		$this->learning_progress_enabled = $a_enable;
+	}
+
+	/**
+	 * booking info
+	 * @param bool $a_enable
+	 */
+	function enableBookingInfo($a_enable = true)
+	{
+		$this->booking_enabled = $a_enable;
 	}
 
 
@@ -496,7 +511,13 @@ class ilInfoScreenGUI
 		$ilUser = $this->user;
 		$ilAccess = $this->access;
 		$tree = $this->tree;
-		
+
+		// ressource bookings
+		if ($this->booking_enabled) {
+			$booking_adapter = new ilBookingInfoScreenAdapter($this);
+			$booking_adapter->add();
+		}
+
 		$this->addSection($lng->txt("additional_info"));
 		$a_obj = $this->gui_object->object;
                 
@@ -526,8 +547,6 @@ class ilInfoScreenGUI
 					""
 					);
 			
-				// bookmarks
-
 				// links to resource
 				if ($ilAccess->checkAccess("write", "", $ref_id) ||
 					$ilAccess->checkAccess("edit_permissions", "", $ref_id))
@@ -667,7 +686,7 @@ class ilInfoScreenGUI
 						$this->addProperty($this->lng->txt("in_use_by"),
 							$lock_user->getPublicName()
 							,
-							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ildashboardgui&cmdNode=1&baseClass=ilDashboardGUI'
 						);
 					}
 				}

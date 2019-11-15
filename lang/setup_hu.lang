@@ -142,7 +142,6 @@ disable_logging#:#Naplózás tiltása
 disable#:#Tiltás
 disabled#:#Tiltva
 display_clientlist#:#A kliensválasztás elérhető a felhasználók számára.
-duplicate_ctrl#:#Hiba: Duplikált hívási struktúradefiníció (%s osztály) ezekben a fájlokban:<br /><br />- %s<br />- %s<br /><br />Távolítsa el a fájlt, hogy ne legyen része a IIAS hivatalos disztribúciójának.<br />Aztán válassza az 'Eszközök' -> 'Irányítási struktúra újra letöltés'-t az ILIAS setup-ban.
 email_not_valid#:#Nem megfelelő e-mail cím
 email#:#E-mail
 en_by_default#:#(Az angol alapértelmezettként telepített és nem törölhető).

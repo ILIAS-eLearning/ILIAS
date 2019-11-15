@@ -4,9 +4,12 @@
 
 
 // according to ./Services/Feeds/classes/class.ilExternalFeed.php:
-define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+if (!defined("MAGPIE_DIR")) {
+	define("MAGPIE_DIR", "./Services/Feeds/magpierss/");
+}
 
 require_once(__DIR__."/classes/class.ilSetupLanguage.php");
+require_once(__DIR__."/classes/class.ilCtrlStructureReader.php");
 
 require_once(__DIR__."/../libs/composer/vendor/autoload.php");
 
@@ -46,7 +49,9 @@ function build_container_for_setup() {
 			// TODO: use ImplementationOfInterfaceFinder here instead of fixed list
 			[
 				"database" => $c["agent.database"],
-				"global_screen" => $c["agent.global_screen"]
+				"global_screen" => $c["agent.global_screen"],
+				"ui_structure" => $c["agent.ui_structure"],
+				"ctrl_structure" => $c["agent.ctrl_structure"]
 			]
 		);
 	};
@@ -60,6 +65,15 @@ function build_container_for_setup() {
 	$c["agent.global_screen"] = function($c) {
 		return new \ilGlobalScreenSetupAgent(
 			$c["refinery"]
+		);
+	};
+
+	$c["agent.ui_structure"] = function($c) {
+		return new \ilUIStructureSetupAgent();
+	};
+	$c["agent.ctrl_structure"] = function($c) {
+		return new \ilUICoreSetupAgent(
+			$c["ctrlstructure_reader"]
 		);
 	};
 
@@ -133,6 +147,10 @@ function build_container_for_setup() {
 
 	$c["config_reader"] = function($c) {
 		return new \ILIAS\Setup\CLI\ConfigReader();
+	};
+
+	$c["ctrlstructure_reader"] = function($c) {
+		return new \ilCtrlStructureReader();
 	};
 
 	return $c;

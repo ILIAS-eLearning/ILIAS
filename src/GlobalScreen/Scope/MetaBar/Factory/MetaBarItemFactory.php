@@ -54,4 +54,22 @@ class MetaBarItemFactory
     {
         return new TopLinkItem($identification);
     }
+
+
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return NotificationCenter
+     */
+    public function notificationCenter(IdentificationInterface $identification) : NotificationCenter
+    {
+        static $created;
+        if ($created === true) {
+            // I currently disabled this since we have unresolved problems in https://mantis.ilias.de/view.php?id=26374
+            // throw new \LogicException("only one NotificationCenter can exist");
+        }
+        $created = true;
+
+        return new NotificationCenter($identification);
+    }
 }

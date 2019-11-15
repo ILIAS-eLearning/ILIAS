@@ -57,8 +57,30 @@ class ilWebResourceExporter extends ilXmlExporter
 			return '';
 		}
 	}
-	
-	/**
+
+    /**
+     * Get tail dependencies
+     *
+     * @param		string		entity
+     * @param		string		target release
+     * @param		array		ids
+     * @return		array		array of array with keys "component", entity", "ids"
+     */
+    function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
+        $deps = [];
+
+        // service settings
+        $deps[] = [
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids
+        ];
+
+        return $deps;
+    }
+
+    /**
 	 * Returns schema versions that the component can export to.
 	 * ILIAS chooses the first one, that has min/max constraints which
 	 * fit to the target release. Please put the newest on top.

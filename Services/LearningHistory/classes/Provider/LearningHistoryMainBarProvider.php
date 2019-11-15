@@ -4,7 +4,7 @@ use ilAchievementsGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilLearningHistoryGUI;
-use ilPersonalDesktopGUI;
+use ilDashboardGUI;
 
 /**
  * Class LearningHistoryMainBarProvider
@@ -30,16 +30,20 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $entries = [];
 
+        $title = $this->dic->language()->txt("mm_learning_history");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("lhist", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/rocket.svg"), $title);
+
         $entries[] = $this->mainmenu->link($this->if->identifier('learning_history'))
-            ->withTitle($this->dic->language()->txt("mm_learning_history"))
+            ->withTitle($title)
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
-                ilPersonalDesktopGUI::class,
+                ilDashboardGUI::class,
                 ilAchievementsGUI::class,
                 ilLearningHistoryGUI::class,
             ], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
             ->withPosition(10)
-	        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard("lhist", "")->withIsOutlined(true))
+	        ->withSymbol($icon)
             ->withAvailableCallable(
                 function () {
                     $achievements = new \ilAchievements();

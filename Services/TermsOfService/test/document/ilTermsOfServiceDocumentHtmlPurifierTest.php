@@ -33,19 +33,19 @@ class ilTermsOfServiceDocumentHtmlPurifierTest extends ilTermsOfServiceCriterion
     public function documentTextProvider() : array
     {
         return [
-            [
+            'Simple HTML Elements' => [
                 '<h1><b>This</b> <i>is</i> <u>a</u> <em>Headline</em>!</h1><p>And a<br>paragraph.</p>',
                 '<h1><b>This</b> <i>is</i> <span style="text-decoration:underline;">a</span> <em>Headline</em>!</h1><p>And a<br />paragraph.</p>',
             ],
-            [
+            'Simple HTML Elements with an Invalid Tag' => [
                 '<h1>This is a <a href="mailto:info@ilias.de">Headline</a>!</h1><p>And a paragraph with an invalid element: ILIAS e.V. <info@ilias.de>.</p>',
                 '<h1>This is a <a href="mailto:info@ilias.de">Headline</a>!</h1><p>And a paragraph with an invalid element: ILIAS e.V. .</p>',
             ],
-            [
+            'Block Elements and Nested Lists' => [
                 '<div><ul><li>Php</li></ul><hr><ol><li>Unit</li></ol><dl><dt>Test</dt><dd><code>Success or Failure!</code></dd></dl></div>',
                 '<div><ul><li>Php</li></ul><hr /><ol><li>Unit</li></ol><dl><dt>Test</dt><dd><code>Success or Failure!</code></dd></dl></div>',
             ],
-            [
+            'Blockquote' => [
                 '<pre>Text</pre><blockquote><cite><sup>Q</sup>uote</cite></blockquote>',
                 '<pre>Text</pre><blockquote><p><cite><sup>Q</sup>uote</cite></p></blockquote>',
             ]

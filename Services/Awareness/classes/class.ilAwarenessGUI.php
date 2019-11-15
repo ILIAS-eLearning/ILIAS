@@ -72,6 +72,23 @@ class ilAwarenessGUI
 		return new ilAwarenessGUI();
 	}
 
+	function initJS() {
+        $ilUser = $this->user;
+        // init js
+        $GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
+        $this->ctrl->setParameter($this, "ref_id", $this->ref_id);
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
+                "", "", true, false)."');");
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
+        $GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
+
+        // include user action js
+        include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
+        include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
+        $ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
+        $ua_gui->init();
+    }
+
 	/**
 	 * Get main menu html
 	 */
@@ -89,19 +106,7 @@ class ilAwarenessGUI
 		$last_update = ilSession::get("awrn_last_update");
 		$now = time();
 
-		// init js
-		$GLOBALS["tpl"]->addJavascript("./Services/Awareness/js/Awareness.js");
-		$this->ctrl->setParameter($this, "ref_id", $this->ref_id);
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setBaseUrl('".$this->ctrl->getLinkTarget($this,
-				"", "", true, false)."');");
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.setLoaderSrc('".ilUtil::getImagePath("loader.svg")."');");
-		$GLOBALS["tpl"]->addOnloadCode("il.Awareness.init();");
-
-		// include user action js
-		include_once("./Services/User/Actions/classes/class.ilUserActionGUI.php");
-		include_once("./Services/Awareness/classes/class.ilAwarenessUserActionContext.php");
-		$ua_gui = ilUserActionGUI::getInstance(new ilAwarenessUserActionContext(), $GLOBALS["tpl"], $ilUser->getId());
-		$ua_gui->init();
+		$this->initJS();
 
 		$tpl = new ilTemplate("tpl.awareness.html", true, true, "Services/Awareness");
 
@@ -172,7 +177,7 @@ class ilAwarenessGUI
 	/**
 	 * Get awareness list (ajax)
 	 */
-	function getAwarenessList()
+	function getAwarenessList($return = false)
 	{
 		$ilUser = $this->user;
 
@@ -276,8 +281,16 @@ class ilAwarenessGUI
 		$tpl->setVariable("VAL_FILTER", ilUtil::prepareFormOutput($filter));
 		$tpl->parseCurrentBlock();
 
-		echo json_encode(array("html" => $tpl->get(),
-			"cnt" => $ad["cnt"]));
+
+        $result = ["html" => $tpl->get(),
+            "cnt" => $ad["cnt"]];
+
+		if ($return) {
+            $this->initJS();
+		    return $result;
+        }
+
+		echo json_encode($result);
 		exit;
 	}
 	

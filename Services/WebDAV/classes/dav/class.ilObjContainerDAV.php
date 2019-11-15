@@ -67,7 +67,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             {
                 if ($this->childExists($name)) {
                     $file_dav = $this->getChild($name);
-                    $file_dav->handleFileUpload($data);
+                    $file_dav->put($data);
                 } else {
                     $file_obj = new ilObjFile();
                     $file_obj->setTitle($name);
@@ -83,7 +83,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_obj->update();
 
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
-                    $file_dav->handleFileUpload($data);
+                    $file_dav->handleFileUpload($data, "create");
                 }
             }
             else
@@ -158,6 +158,14 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     {
         $child_node = NULL;
         $child_exists = false;
+
+        // Early exit if the problem info file is opened
+        if($name == ilProblemInfoFileDAV::PROBLEM_INFO_FILE_NAME)
+        {
+            return new ilProblemInfoFileDAV($this, $this->repo_helper, $this->dav_helper);
+        }
+
+        // Search for the desired file
         foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
             // Check if a DAV Object exists for this type
@@ -195,11 +203,25 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function getChildren()
     {
         $child_nodes = array();
+        $already_seen_titles = array();
+        $problem_info_file_needed = false;
+
         foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
         {
             // Check if is davable object types
             if($this->dav_helper->isDAVableObject($child_ref, true))
             {
+                // Check for duplicates
+                $title = $this->repo_helper->getObjectTitleFromRefId($child_ref);
+                if(!in_array($title, $already_seen_titles))
+                {
+                    $already_seen_titles[] = $title;
+                }
+                else
+                {
+                    $problem_info_file_needed = true;
+                }
+
                 // Check if read permission is given
                 if($this->repo_helper->checkAccess("read", $child_ref))
                 {
@@ -207,7 +229,20 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $child_nodes[$child_ref] = $this->dav_helper->createDAVObjectForRefId($child_ref);
                 }
             }
+            // if title is not davable because of forbidden characters in title -> problem info file will be created
+            else if(!$problem_info_file_needed
+                && $this->dav_helper->isDAVableObjType($this->repo_helper->getObjectTypeFromRefId($child_ref))
+                && $this->dav_helper->hasTitleForbiddenChars($this->repo_helper->getObjectTitleFromRefId($child_ref)))
+            {
+                $problem_info_file_needed = true;
+            }
         }
+
+        if($problem_info_file_needed)
+        {
+            $child_nodes[] = new ilProblemInfoFileDAV($this, $this->repo_helper, $this->dav_helper);
+        }
+
         return $child_nodes;
     }
     

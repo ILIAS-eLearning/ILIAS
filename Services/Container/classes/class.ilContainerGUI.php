@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * Class ilContainerGUI
@@ -733,21 +732,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 								'download'
 							);
 						}
-						else
-						{
-
-							$url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui"), "", "", true, false);
-							$main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
-							$main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-							$main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
-
-							include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
-							$button = ilSubmitButton::getInstance();
-							$button->setCaption("download_selected_items");
-							$button->addCSSClass("ilbgtasksubmit");
-							$button->setCommand("download");
-							$toolbar->addButtonInstance($button);
-						}
 					}
 				}
 				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
@@ -1472,43 +1456,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return false;
 	}
 			
-    /**
-     * @see ilDesktopItemHandling::addToDesk()
-     */
-    public function addToDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
-	 	ilUtil::sendSuccess($lng->txt("added_to_desktop"));
-		$this->renderObject();
-    }
-    
-    /**
-     * @see ilDesktopItemHandling::removeFromDesk()
-     */
-    public function removeFromDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
-		$this->renderObject();
-    }
 
 	// bugfix mantis 24559
 	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
@@ -2298,6 +2245,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$ilErr = $this->error;
 
+        $exists = [];
+        $no_paste = [];
+        $is_child = [];
+        $not_allowed_subobject = [];
+
 		// BEGIN ChangeEvent: Record paste event.
 		require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 		// END ChangeEvent: Record paste event.
@@ -2351,25 +2303,25 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		////////////////////////////
 		// process checking results
 		// BEGIN WebDAV: Copying an object into the same container is allowed
-		if (count($exists) && $_SESSION["clipboard"]["cmd"] != "copy")
+		if (count($exists) > 0 && $_SESSION["clipboard"]["cmd"] != "copy")
 		// END WebDAV: Copying an object into the same container is allowed
 		{
 			$ilErr->raiseError($this->lng->txt("msg_obj_exists"), $ilErr->MESSAGE);
 		}
 
-		if (count($is_child))
+		if (count($is_child) > 0)
 		{
 			$ilErr->raiseError($this->lng->txt("msg_not_in_itself")." ".implode(',',$is_child),
 				$ilErr->MESSAGE);
 		}
 
-		if (count($not_allowed_subobject))
+		if (count($not_allowed_subobject) > 0)
 		{
 			$ilErr->raiseError($this->lng->txt("msg_may_not_contain")." ".implode(',',$not_allowed_subobject),
 				$ilErr->MESSAGE);
 		}
 
-		if (count($no_paste))
+		if (count($no_paste) > 0)
 		{
 			$ilErr->raiseError($this->lng->txt("msg_no_perm_paste")." ".
 									 implode(',',$no_paste), $ilErr->MESSAGE);
@@ -3377,65 +3329,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		exit;
 	}
 	// begin-patch fm
-		
-	/**
-	 * Show tree
-	 */
-	function showRepTree()
-	{
-		$tpl = $this->tpl;
-		$ilUser = $this->user;
-		$ilSetting = $this->settings;
-		$ilCtrl = $this->ctrl;
-		
-		// set current repository view mode
-		if (!empty($_GET["set_mode"]))
-		{
-			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$ilUser->writePref("il_rep_mode", $_GET["set_mode"]);
-			}
-		}
-
-		// get user setting
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
-			}
-		}
-
-		// if nothing set, get default view
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			$_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
-		}
-		
-		$mode = ($_SESSION["il_rep_mode"] != "")
-			? $_SESSION["il_rep_mode"]
-			: "flat";
-
-		// check for administration context, see #0016312
-		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
-		{
-			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
-			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
-			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
-				$whitelist = array_merge (
-					$exp->getTypeWhiteList(),
-					$this->getAdditionalWhitelistTypes()
-				);
-				$exp->setTypeWhiteList($whitelist);
-			}
-
-			if (!$exp->handleCommand())
-			{
-				$tpl->setLeftNavContent($exp->getHTML());
-			}
-		}
-	}
 
 	/**
 	 * Init object edit form

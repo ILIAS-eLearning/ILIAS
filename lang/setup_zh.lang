@@ -104,7 +104,6 @@ disable_check#:# 禁止选择 ###07 Apr 2005 content changed
 disable_logging#:# 禁止日志 ###07 Apr 2005 content changed
 disabled#:#已禁止###07 Apr 2005 content changed
 display_clientlist#:#显示客户选择 ###07 Apr 2005 content changed
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#电子邮件 ###07 Apr 2005 content changed
 email_not_valid#:#无效电子邮件地址 ###07 Apr 2005 content changed
 en_by_default#:#（英语为缺省安装，不能删除）。 ###07 Apr 2005 content changed

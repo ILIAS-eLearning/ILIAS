@@ -64,23 +64,28 @@ class ilRbacAdmin
 
 	/**
 	 * deletes a user from rbac_ua
-	 *  all user <-> role relations are deleted
+	 * all user <-> role relations are deleted
 	 * @access	public
-	 * @param	integer	user_id
+	 * @param	int	user_id
 	 * @return	boolean	true on success
 	 */
 	public function removeUser($a_usr_id)
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
-		
+		$ilDB = $DIC->database();
+		$review = $DIC->rbac()->review();
+
 		if (!isset($a_usr_id))
 		{
 			$message = get_class($this)."::removeUser(): No usr_id given!";
 			$this->ilErr->raiseError($message,$this->ilErr->WARNING);
 		}
 
+		foreach($review->assignedRoles($a_usr_id) as $role_id) {
+			$this->deassignUser($role_id, $a_usr_id);
+		}
+		
 		$query = "DELETE FROM rbac_ua WHERE usr_id = ".$ilDB->quote($a_usr_id,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -252,29 +257,11 @@ class ilRbacAdmin
 		}
 
 		$GLOBALS['DIC']['rbacreview']->setAssignedCacheEntry($a_role_id,$a_usr_id,TRUE);
-		
-		$this->addDesktopItem($a_role_id,$a_usr_id);
-	
+
 		include_once('Services/LDAP/classes/class.ilLDAPRoleGroupMapping.php');
 		$mapping = ilLDAPRoleGroupMapping::_getInstance();
 		$mapping->assign($a_role_id,$a_usr_id); 
 		return TRUE;
-	}
-
-	/**
-	 * Add desktop item
-	 * @param type $a_rol_id
-	 * @param type $a_usr_id
-	 */
-	protected function addDesktopItem($a_rol_id, $a_usr_id)
-	{
-		include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-		$role_desk_item_obj = new ilRoleDesktopItem($a_rol_id);
-		foreach($role_desk_item_obj->getAll() as $item_data)
-		{
-			include_once './Services/User/classes/class.ilObjUser.php';
-			ilObjUser::_addDesktopItem($a_usr_id, $item_data['item_id'], $item_data['item_type']);
-		}
 	}
 
 
@@ -309,8 +296,6 @@ class ilRbacAdmin
 			 "VALUES (".$ilDB->quote($a_usr_id,'integer').",".$ilDB->quote($a_rol_id,'integer').")";
 			$res = $ilDB->manipulate($query);
 		
-			$this->addDesktopItem($a_rol_id, $a_usr_id);
-
 			$rbacreview->setAssignedCacheEntry($a_rol_id,$a_usr_id,true);
 		}
 		
@@ -354,7 +339,7 @@ class ilRbacAdmin
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$rbacreview = $DIC['rbacreview'];
+		$rbacreview = $DIC->rbac()->review();
 		
 		if (!isset($a_rol_id) or !isset($a_usr_id))
 		{

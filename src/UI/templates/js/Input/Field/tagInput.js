@@ -94,7 +94,7 @@ il.UI.Input = il.UI.Input || {};
             });
 
             $(id).on('itemRemoved', function (event) {
-                var hidden = $("#tag-" + _CONFIG.id + "-" + event.item);
+                var hidden = $("[id='tag-" + _CONFIG.id + "-" + event.item + "']");
                 _log('remove_hidden', hidden);
                 hidden.remove();
             });

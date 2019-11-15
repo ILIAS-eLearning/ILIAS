@@ -382,7 +382,7 @@ class ilImport
 		}
 
 		// @TODO new id is not always set
-		if($new_id)
+		if($new_id && $new_id !== true)
 		{
 			$this->mapping->addMapping($this->comp ,$a_entity, $a_id, $new_id);
 		}

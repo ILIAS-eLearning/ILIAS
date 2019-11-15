@@ -58,6 +58,15 @@ class NullProviderFactory implements ProviderFactory
     /**
      * @inheritDoc
      */
+    public function getNotificationsProvider() : array
+    {
+        return [];
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function getProviderByClassName(string $class_name) : Provider
     {
         // return new NullP;

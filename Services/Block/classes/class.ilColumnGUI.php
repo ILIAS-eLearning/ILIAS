@@ -81,15 +81,13 @@ class ilColumnGUI
 		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
-		"ilPDSelectedItemsBlockGUI" => "Services/PersonalDesktop/ItemsBlock/",
-		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
+		"ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
 		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
-		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
 		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
 		"ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/",
 	);
@@ -99,7 +97,6 @@ class ilColumnGUI
 		"ilPDNotesBlockGUI" => "pdnotes",
 		"ilPDTasksBlockGUI" => "pdtasks",
 		"ilPDNewsBlockGUI" => "pdnews",
-		"ilBookmarkBlockGUI" => "pdbookm",
 		"ilNewsForContextBlockGUI" => "news",
 		"ilCalendarBlockGUI" => "cal",
 		"ilPDCalendarBlockGUI" => "pdcal",
@@ -109,7 +106,6 @@ class ilColumnGUI
 		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
-		'ilPDPortfolioBlockGUI' => 'pdportf',
 		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
 		"ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist",
 	);
@@ -144,22 +140,6 @@ class ilColumnGUI
 			"ilPDMailBlockGUI" => IL_COL_RIGHT
 			)
 		);
-	/*
-		"pd" => array(
-			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
-			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
-			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
-			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
-			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
-			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
-			"ilPDMailBlockGUI" => IL_COL_RIGHT,
-			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
-			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
-			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			)
-		);
-	*/
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -184,12 +164,10 @@ class ilColumnGUI
 			"cal"	=> true,
 			"pdcal"	=> true,
 			"pdnews" => true,
-			"pdfeed" => true,			
-			"pdbookm" => true,
 			"pdtag" => true,
-			"pdnotes" => true,
+            "pdmail" => true,
+            "pdtasks" => true,
 			"tagcld" => true,
-			"pdportf" => true,
 			"clsfct" => true);
 			
 	protected $check_nr_limit =
@@ -212,6 +190,8 @@ class ilColumnGUI
 		$this->settings = $DIC->settings();
 		$this->setColType($a_col_type);
 		$this->setSide($a_side);
+
+		$this->dash_side_panel_settings = new ilDashboardSidePanelSettingsRepository();
 	}
 
 	/**
@@ -1059,33 +1039,17 @@ class ilColumnGUI
 
 		if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type])
 		{
-			if ($a_type == 'pdbookm')
+			if ($a_type == 'pdnews')
 			{
-				if (!$ilSetting->get("disable_bookmarks"))
-				{
-					return true;
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS);
 			}
-			else if ($a_type == 'pdnotes')
+			else if ($a_type == 'pdmail')
 			{
-				if (!$ilSetting->get("disable_notes"))
-				{
-					return true;
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::MAIL);
 			}
-			else if ($a_type == 'pdportf')
+			else if ($a_type == 'pdtasks')
 			{
-				if ($ilSetting->get("user_portfolios"))
-				{
-					$prfa_set = new ilSetting("prfa");
-					if ($prfa_set->get("pd_block", false))
-					{
-						return true;
-					}
-				}
-				return false;
+                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::TASKS);
 			}
 			elseif($a_type == 'news')
 			{
@@ -1110,6 +1074,9 @@ class ilColumnGUI
 			}
 			elseif($a_type == 'pdcal')
 			{
+			    if (!$this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::CALENDAR)) {
+			        return false;
+                }
 				include_once('./Services/Calendar/classes/class.ilCalendarSettings.php');
 				return ilCalendarSettings::_getInstance()->isEnabled();
 			}

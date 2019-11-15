@@ -1595,34 +1595,44 @@ class ilGlossaryPresentationGUI
 	
 	/**
 	 * Show taxonomy
-	 *
-	 * @param
-	 * @return
-	 */
+     * @throws ilCtrlException
+     */
 	function showTaxonomy()
 	{
+		global $DIC;
+
 		$tpl = $this->tpl;
-		$lng = $this->lng;
+		$ctrl = $this->ctrl;
 		if (!$this->offlineMode() && $this->glossary->getShowTaxonomy())
 		{
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax_ids = ilObjTaxonomy::getUsageOfObject($this->glossary->getId());
 			if (count($tax_ids) > 0)
 			{
-				include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
-				$tax_exp = new ilTaxonomyExplorerGUI($this, "showTaxonomy", $tax_ids[0],
+				$tax_id = $tax_ids[0];
+                $DIC->globalScreen()->tool()->context()->current()
+                    ->addAdditionalData(ilTaxonomyGSToolProvider::SHOW_TAX_TREE,
+                        true);
+                $DIC->globalScreen()->tool()->context()->current()
+                    ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
+                        $ctrl->getCurrentClassPath());
+                $DIC->globalScreen()->tool()->context()->current()
+                    ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_ID,
+                        $tax_id);
+                $DIC->globalScreen()->tool()->context()->current()
+                    ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_CMD,
+                        "listTerms");
+                $DIC->globalScreen()->tool()->context()->current()
+                    ->addAdditionalData(ilTaxonomyGSToolProvider::TAX_TREE_PARENT_CMD,
+                        "showTaxonomy");
+
+                $tax_exp = new ilTaxonomyExplorerGUI($this, "showTaxonomy", $tax_id,
 					"ilglossarypresentationgui", "listTerms");
 				if (!$tax_exp->handleCommand())
 				{
 					//$tpl->setLeftNavContent($tax_exp->getHTML());
-					$tpl->setLeftContent($tax_exp->getHTML()."&nbsp;");
+					//$tpl->setLeftContent($tax_exp->getHTML()."&nbsp;");
 				}
 				return;
-				
-				
-				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
-				$tpl->setLeftNavContent(ilObjTaxonomyGUI::getTreeHTML($tax_ids[0],
-					"ilglossarypresentationgui", "listTerms", $lng->txt("cont_all_topics")));
 			}
 		}
 

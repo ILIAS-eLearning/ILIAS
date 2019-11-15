@@ -1,17 +1,15 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObject.php";
+use \ILIAS\Survey\Participants;
+
 
 /**
-* Class ilObjSurvey
-* 
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @extends ilObject
-* @defgroup ModulesSurvey Modules/Survey
-*/
+ * Class ilObjSurvey
+ *
+ * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilObjSurvey extends ilObject
 {
 	/**
@@ -33,12 +31,7 @@ class ilObjSurvey extends ilObject
 	const EVALUATION_ACCESS_ALL = 1;
 	const EVALUATION_ACCESS_PARTICIPANTS = 2;
 	
-	const INVITATION_OFF = 0;
-	const INVITATION_ON = 1;
-	
-	const MODE_UNLIMITED = 0;
-	const MODE_PREDEFINED_USERS = 1;
-	
+
 	const ANONYMIZE_OFF = 0; // personalized, no codes
 	const ANONYMIZE_ON = 1; // anonymized, codes
 	const ANONYMIZE_FREEACCESS = 2; // anonymized, no codes
@@ -110,20 +103,7 @@ class ilObjSurvey extends ilObject
 	*/
 	var $questions;
 
-	/**
-	* Defines if the survey will be places on users personal desktops
-	*
-	* @var integer
-	*/
-	var $invitation;
 
-	/**
-	* Defines the type of user invitation
-	*
-	* @var integer
-	*/
-	var $invitation_mode;
-	
 	/**
 	* Indicates the anonymization of the survey
 	* @var integer
@@ -205,7 +185,12 @@ class ilObjSurvey extends ilObject
 	const RESULTS_SELF_EVAL_NONE = 0;
 	const RESULTS_SELF_EVAL_OWN = 1;
 	const RESULTS_SELF_EVAL_ALL = 2;
-	
+
+
+    /**
+     * @var Participants\InvitationsManager
+     */
+    protected $invitation_manager;
 
 	/**
 	* Constructor
@@ -234,8 +219,6 @@ class ilObjSurvey extends ilObject
 		$this->author = $ilUser->getFullname();
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
-		$this->invitation = self::INVITATION_OFF;
-		$this->invitation_mode = self::MODE_PREDEFINED_USERS;
 		$this->anonymize = self::ANONYMIZE_OFF;
 		$this->display_question_titles = self::QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
@@ -244,6 +227,8 @@ class ilObjSurvey extends ilObject
 		$this->log = ilLoggerFactory::getLogger("svy");
 		$this->mode = self::MODE_STANDARD;
 		$this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
+
+		$this->invitation_manager = new Participants\InvitationsManager();
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -401,7 +386,6 @@ class ilObjSurvey extends ilObject
 			ilUtil::delDir($directory);
 		}
 
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mobs = ilObjMediaObject::_getMobsOfObject("svy:html", $this->getId());
 		// remaining usages are not in text anymore -> delete them
 		// and media objects (note: delete method of ilObjMediaObject
@@ -453,7 +437,6 @@ class ilObjSurvey extends ilObject
 		}
 
 		if ($reset_LP) {
-			include_once "Services/Object/classes/class.ilObjectLP.php";
 			$lp_obj = ilObjectLP::getInstance($this->getId());
 			$lp_obj->resetLPDataForCompleteObject();
 		}
@@ -501,13 +484,12 @@ class ilObjSurvey extends ilObject
 		
 		if(sizeof($user_ids))
 		{
-			include_once "Services/Object/classes/class.ilObjectLP.php";
 			$lp_obj = ilObjectLP::getInstance($this->getId());
 			$lp_obj->resetLPDataForUserIds($user_ids);
 		}
 	}
 	
-	function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false)
+	function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false, $include_invites = false)
 	{
 		$ilDB = $this->db;
 		
@@ -530,7 +512,28 @@ class ilObjSurvey extends ilObject
 				$participants[$userdata["sortname"] . $userdata["active_id"]] = $userdata;
 			}
 		}
-		return $participants;
+        $participant_ids = array_column($participants, "usr_id");
+		if ($include_invites) {
+            foreach ($this->invitation_manager->getAllForSurvey($this->getSurveyId()) as $usr_id) {
+                if (!in_array($usr_id, $participant_ids)) {
+                    $name = ilObjUser::_lookupName($usr_id);
+                    $participants[$name["lastname"].",".$name["firstname"].$usr_id] = [
+                        "fullname" => ilObjUser::_lookupFullname($usr_id),
+                        "sortname" => $name["lastname"].",".$name["firstname"],
+                        "fistname" => $name["firstname"],
+                        "lastname" => $name["lastname"],
+                        "login" => $name["login"],
+                        "gender" => "",
+                        "usr_id" => $usr_id,
+                        "finished" => false,
+                        "finished_tstamp" => 0,
+                        "invited" => true
+                    ];
+                }
+            }
+        }
+
+        return $participants;
 	}
 
 /**
@@ -609,7 +612,6 @@ class ilObjSurvey extends ilObject
 
 		$this->log->debug("insert question, id:".$question_id);
 
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		if (!SurveyQuestion::_isComplete($question_id))
 		{
 			$this->log->debug("question is not complete");
@@ -766,7 +768,6 @@ class ilObjSurvey extends ilObject
 			$rmd_end = $rmd_end->get(IL_CAL_DATE);
 		}
 		
-		include_once("./Services/RTE/classes/class.ilRTE.php");
 		if ($this->getSurveyId() < 1)
 		{
 			$next_id = $ilDB->nextId('svy_svy');
@@ -779,8 +780,6 @@ class ilObjSurvey extends ilObject
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
-				"invitation" => array("text", $this->getInvitation()),
-				"invitation_mode" => array("text", $this->getInvitationMode()),
 				"complete" => array("text", $this->isComplete()),
 				"created" => array("integer", time()),
 				"anonymize" => array("text", $this->getAnonymize()),
@@ -829,8 +828,6 @@ class ilObjSurvey extends ilObject
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
-				"invitation" => array("text", $this->getInvitation()),
-				"invitation_mode" => array("text", $this->getInvitationMode()),
 				"complete" => array("text", $this->isComplete()),
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
@@ -879,7 +876,6 @@ class ilObjSurvey extends ilObject
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
 		{
-			include_once "./Services/Object/classes/class.ilObjectActivation.php";		
 			ilObjectActivation::getItem($this->ref_id);
 			
 			$item = new ilObjectActivation;			
@@ -1015,7 +1011,6 @@ class ilObjSurvey extends ilObject
 */
 	function getQuestionGUI($questiontype, $question_id)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestionGUI.php";
 		return SurveyQuestionGUI::_getQuestionGUI($questiontype, $question_id);
 	}
 	
@@ -1125,7 +1120,6 @@ class ilObjSurvey extends ilObject
 			$data = $ilDB->fetchAssoc($result);
 			$this->setSurveyId($data["survey_id"]);
 			$this->setAuthor($data["author"]);
-			include_once("./Services/RTE/classes/class.ilRTE.php");
 			$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data["introduction"], 1));
 			if (strcmp($data["outro"], "survey_finished") == 0)
 			{
@@ -1135,8 +1129,6 @@ class ilObjSurvey extends ilObject
 			{
 				$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data["outro"], 1));
 			}
-			$this->setInvitation($data["invitation"]);
-			$this->setInvitationMode($data["invitation_mode"]);
 			$this->setShowQuestionTitles($data["show_question_titles"]);
 			$this->setStartDate($data["startdate"]);
 			$this->setEndDate($data["enddate"]);
@@ -1181,8 +1173,7 @@ class ilObjSurvey extends ilObject
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
 		{
-			include_once "./Services/Object/classes/class.ilObjectActivation.php";
-			$activation = ilObjectActivation::getItem($this->ref_id);			
+			$activation = ilObjectActivation::getItem($this->ref_id);
 			switch($activation["timing_type"])
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:	
@@ -1332,7 +1323,6 @@ class ilObjSurvey extends ilObject
   function getAuthor() 
 	{
 		$author = array();
-		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($this->getId(), 0, $this->getType());
 		$md_life =& $md->getLifecycle();
 		if ($md_life)
@@ -1400,65 +1390,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Sets the invitation status
-*
-* @param integer $invitation The invitation status
-* @access public
-* @see $invitation
-*/
-	function setInvitation($invitation = 0) 
-	{
-		$ilDB = $this->db;
-		$ilAccess = $this->access;
-		
-		$this->invitation = $invitation;
-		if ($invitation == self::INVITATION_OFF)
-		{
-			$this->disinviteAllUsers();
-		}
-		else if ($invitation == self::INVITATION_ON)
-		{
-			if ($this->getInvitationMode() == self::MODE_UNLIMITED)
-			{
-				$result = $ilDB->query("SELECT usr_id FROM usr_data");
-				while ($row = $ilDB->fetchAssoc($result))
-				{					
-					if ($ilAccess->checkAccessOfUser($row["usr_id"], "read", "", $this->getRefId(), "svy", $this->getId()))
-					{
-						$this->inviteUser($row['usr_id']);
-					}
-				}
-			}
-		}
-  }
-
-/**
-* Sets the invitation mode
-*
-* @param integer $invitation_mode The invitation mode
-* @access public
-* @see $invitation_mode
-*/
-  function setInvitationMode($invitation_mode = 0) 
-	{
-		$this->invitation_mode = $invitation_mode;
-  }
-	
-/**
-* Sets the invitation status and mode (a more performant solution if you change both)
-*
-* @param integer $invitation The invitation status
-* @param integer $invitation_mode The invitation mode
-* @access public
-* @see $invitation_mode
-*/
-	function setInvitationAndMode($invitation = 0, $invitation_mode = 0)
-	{
-		$this->invitation_mode = $invitation_mode;
-		$this->setInvitation($invitation);
-	}
-
-/**
 * Sets the introduction text
 *
 * @param string $introduction A string containing the introduction
@@ -1480,39 +1411,6 @@ class ilObjSurvey extends ilObject
 		$this->outro = $outro;
 	}
 
-/**
-* Gets the invitation status
-*
-* @return integer The invitation status
-* @access public
-* @see $invitation
-*/
-	function getInvitation() 
-	{
-		return ($this->invitation) ? $this->invitation : self::INVITATION_OFF;
-	}
-
-/**
-* Gets the invitation mode
-*
-* @return integer The invitation mode
-* @access public
-* @see $invitation
-*/
-	function getInvitationMode() 
-	{
-		include_once "./Services/Administration/classes/class.ilSetting.php";
-		$surveySetting = new ilSetting("survey");
-		$unlimited_invitation = $surveySetting->get("unlimited_invitation");
-		if (!$unlimited_invitation && $this->invitation_mode == self::MODE_UNLIMITED)
-		{
-			return self::MODE_PREDEFINED_USERS;
-		}
-		else
-		{
-			return ($this->invitation_mode) ? $this->invitation_mode : self::MODE_UNLIMITED;
-		}
-	}
 
 /**
 * Gets the start date of the survey
@@ -1788,7 +1686,6 @@ class ilObjSurvey extends ilObject
 */
 	function &getQuestionpoolTitles($could_be_offline = FALSE, $showPath = FALSE) 
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_object_id = TRUE, $could_be_offline, $showPath);
 	}
 	
@@ -1853,7 +1750,6 @@ class ilObjSurvey extends ilObject
 */
 	function removeQuestion($question_id)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question = self::_instanciateQuestion($question_id);
 		#20610 if no question found, do nothing.
 		if($question)
@@ -2252,7 +2148,6 @@ class ilObjSurvey extends ilObject
 			array('integer'),
 			array($this->getSurveyId())
 		);
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		while ($row = $ilDB->fetchAssoc($result))
 		{
 			$add = true;
@@ -2507,7 +2402,6 @@ class ilObjSurvey extends ilObject
 */
 	function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = FALSE, $permission = "read")
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath, $permission);
 	}
 	
@@ -2554,7 +2448,6 @@ class ilObjSurvey extends ilObject
 		);
 		while ($row = $ilDB->fetchAssoc($result))
 		{	
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			$question_type = SurveyQuestion::_getQuestionType($row["question_fi"]);
 			SurveyQuestion::_includeClass($question_type);
 			$question = new $question_type();
@@ -2729,90 +2622,8 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
-	/**
-	* Disinvite all users
-	*/
-	public function disinviteAllUsers()
-	{
-		$ilDB = $this->db;
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$this->disinviteUser($row['user_fi']);
-		}
-	}
 
-/**
-* Disinvites a user from a survey
-*
-* @param integer $user_id The database id of the disinvited user
-*/
-	public function disinviteUser($user_id)
-	{
-		$ilDB = $this->db;
-		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE survey_fi = %s AND user_fi = %s",
-			array('integer','integer'),
-			array($this->getSurveyId(), $user_id)
-		);
-		include_once './Services/User/classes/class.ilObjUser.php';
-		ilObjUser::_dropDesktopItem($user_id, $this->getRefId(), "svy");
-	}
 
-/**
-* Invites a user to a survey
-*
-* @param integer $user_id The database id of the invited user
-* @access public
-*/
-	function inviteUser($user_id)
-	{
-		$ilDB = $this->db;
-		
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE user_fi = %s AND survey_fi = %s",
-			array('integer','integer'),
-			array($user_id, $this->getSurveyId())
-		);
-		if ($result->numRows() < 1)
-		{
-			$next_id = $ilDB->nextId('svy_inv_usr');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_inv_usr (invited_user_id, survey_fi, user_fi, tstamp) " .
-				"VALUES (%s, %s, %s, %s)",
-				array('integer','integer','integer','integer'),
-				array($next_id, $this->getSurveyId(), $user_id, time())
-			);
-		}
-		if ($this->getInvitation() == self::INVITATION_ON)
-		{
-			include_once './Services/User/classes/class.ilObjUser.php';
-			ilObjUser::_addDesktopItem($user_id, $this->getRefId(), "svy");
-		}
-	}
-
-/**
-* Returns a list of all invited users in a survey
-*
-* @return array The user id's of the invited users
-* @access public
-*/
-	function &getInvitedUsers()
-	{
-		$ilDB = $this->db;
-		
-		$result_array = array();
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($result_array, $row["user_fi"]);
-		}
-		return $result_array;
-	}
 
 /**
 * Deletes the working data of a question in the database
@@ -2910,7 +2721,7 @@ class ilObjSurvey extends ilObject
 		{
 			$user = $this->getUserDataFromActiveId($finished_id);
 			$sskill = new ilSurveySkill($this);
-			$sskill->writeSelfEvalSkills($user['usr_id']);
+			$sskill->writeAndAddSelfEvalSkills($user['usr_id']);
 		}
 
 		$this->checkTutorNotification();
@@ -3286,7 +3097,6 @@ class ilObjSurvey extends ilObject
 	{		
 		$evaluation = array();
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		foreach (array_keys($this->getSurveyQuestions()) as $question_id)
 		{
 			// get question instance			
@@ -3322,7 +3132,7 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 
 		$surveySetting = new ilSetting("survey");
-		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
+		$use_anonymous_id = $surveySetting->get("use_anonymous_id");
 		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE finished_id = %s",
 			array('integer'),
 			array($active_id)
@@ -3351,7 +3161,6 @@ class ilObjSurvey extends ilObject
 						!$this->get360Mode()) ||  // 360° uses ANONYMIZE_CODE_ALL which is wrong - see ilObjSurveyGUI::afterSave()
 					(bool)$force_non_anonymous))
 			{
-				include_once './Services/User/classes/class.ilObjUser.php';
 				if (strlen(ilObjUser::_lookupLogin($row["user_fi"])) == 0)
 				{
 					$userdata["fullname"] = $userdata["sortname"] = $this->lng->txt("deleted_user");
@@ -3470,7 +3279,6 @@ class ilObjSurvey extends ilObject
 			$existing = " AND " . $ilDB->in('svy_question.question_id', $existing_questions, true, 'integer');
 		}
 		
-		include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 		$trans = ilObjSurveyQuestionPool::_getQuestionTypeTranslations();
 		
 		$query_result = $ilDB->query("SELECT svy_question.*, svy_qtype.type_tag, svy_qtype.plugin, object_reference.ref_id".
@@ -3574,7 +3382,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function toXML()
 	{
-		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();
@@ -3714,7 +3521,6 @@ class ilObjSurvey extends ilObject
 
 		$a_xml_writer->xmlStartTag("metadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
-		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($this->getId(),0, $this->getType());
 		$writer = new ilXmlWriter();
 		$md->toXml($writer);
@@ -3775,7 +3581,6 @@ class ilObjSurvey extends ilObject
 	static function _instanciateQuestion($question_id) 
 	{
 		if ($question_id < 1) return FALSE;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question_type = SurveyQuestion::_getQuestionType($question_id);
 		if (strlen($question_type) == 0) return FALSE;
 		SurveyQuestion::_includeClass($question_type);
@@ -3923,7 +3728,6 @@ class ilObjSurvey extends ilObject
 			unset($_SESSION["import_mob_xhtml"]);
 			if (strpos($xml, "questestinterop"))
 			{
-				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
 				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
 			}
 			else
@@ -3931,7 +3735,6 @@ class ilObjSurvey extends ilObject
 				$this->log->debug("survey id = ".$this->getId());
 				$this->log->debug("question pool id = ".$svy_qpl_id);
 
-				include_once("./Services/Export/classes/class.ilImport.php");
 				$imp = new ilImport();
 				$config = $imp->getConfig("Modules/Survey");
 				$config->setQuestionPoolID($svy_qpl_id);
@@ -3941,7 +3744,6 @@ class ilObjSurvey extends ilObject
 				return "";
 
 				//old code
-				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				$import = new SurveyImportParser($svy_qpl_id, "", TRUE);
 				$import->setSurveyObject($this);
 				$import->setXMLContent($xml);
@@ -3950,9 +3752,6 @@ class ilObjSurvey extends ilObject
 
 			if (is_array($_SESSION["import_mob_xhtml"]))
 			{
-				include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-				include_once "./Services/RTE/classes/class.ilRTE.php";
-				include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
 				foreach ($_SESSION["import_mob_xhtml"] as $mob)
 				{
 					$importfile = $import_subdir . "/" . $mob["uri"];
@@ -4039,8 +3838,6 @@ class ilObjSurvey extends ilObject
 		$newObj->setEvaluationAccess($this->getEvaluationAccess());
 		$newObj->setStartDate($this->getStartDate());
 		$newObj->setEndDate($this->getEndDate());
-		$newObj->setInvitation($this->getInvitation());
-		$newObj->setInvitationMode($this->getInvitationMode());
 		$newObj->setAnonymize($this->getAnonymize());
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
 		$newObj->setTemplate($this->getTemplate());
@@ -4087,8 +3884,7 @@ class ilObjSurvey extends ilObject
 		$question_pointer = array();
 		// clone the questions
 		$mapping = array();
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
-		
+
 		foreach ($this->questions as $key => $question_id)
 		{
 			$question = self::_instanciateQuestion($question_id);
@@ -4118,7 +3914,6 @@ class ilObjSurvey extends ilObject
 		if(($svy_type == ilObjSurvey::MODE_360 || $svy_type == ilObjSurvey::MODE_SELF_EVAL) &&
 			$this->getSkillService())
 		{
-			include_once "./Modules/Survey/classes/class.ilSurveySkill.php";
 			$src_skills = new ilSurveySkill($this);
 			$tgt_skills = new ilSurveySkill($newObj);
 			
@@ -4187,7 +3982,6 @@ class ilObjSurvey extends ilObject
 		}
 
 		// #16210 - clone LP settings
-		include_once('./Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($newObj->getId());
 		unset($obj_settings);
@@ -4223,7 +4017,6 @@ class ilObjSurvey extends ilObject
 		foreach ($mapping as $original_id => $new_id)
 		{
 			$textblock = $this->getTextblock($original_id);
-			include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 			$this->saveHeading(ilUtil::stripSlashes($textblock, TRUE, ilObjAdvancedEditing::_getUsedHTMLTagsAsString("survey")), $new_id);
 		}
 	}
@@ -4241,7 +4034,6 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_data_dir);
 		if(!is_writable($svy_data_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 		
@@ -4250,7 +4042,6 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
@@ -4258,7 +4049,6 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Export Directory failed.");
 		}
 	}
@@ -4287,7 +4077,6 @@ class ilObjSurvey extends ilObject
 		
 		if(!is_writable($svy_data_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Survey Data Directory (".$svy_data_dir.") not writeable.");
 		}
 
@@ -4296,7 +4085,6 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($svy_dir);
 		if(!@is_dir($svy_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Directory failed.");
 		}
 
@@ -4305,7 +4093,6 @@ class ilObjSurvey extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Import Directory failed.");
 		}
 	}
@@ -4421,8 +4208,6 @@ class ilObjSurvey extends ilObject
 		$ilUser = $this->user;
 		$lng = $this->lng;
 		
-		include_once "./Services/Link/classes/class.ilLink.php";
-
 		$sql = "SELECT svy_anonymous.*, svy_finished.state".
 			" FROM svy_anonymous".
 			" LEFT JOIN svy_finished ON (svy_anonymous.survey_key = svy_finished.anonymous_id)".
@@ -4502,8 +4287,6 @@ class ilObjSurvey extends ilObject
 	public function getSurveyCodesTableData(array $ids = null, $lang = null)
 	{
 		$ilDB = $this->db;
-		
-		include_once "./Services/Link/classes/class.ilLink.php";
 		
 		$codes = array();
 
@@ -4649,8 +4432,6 @@ class ilObjSurvey extends ilObject
 		 */		
 		$check_finished = ($not_sent > 1);
 		
-		include_once "./Services/Mail/classes/class.ilMail.php";
-		include_once "./Services/Link/classes/class.ilLink.php";
 
 		#19956
 		$user_id = $DIC->user()->getId();
@@ -4918,8 +4699,6 @@ class ilObjSurvey extends ilObject
 	*/
 	function addMaterialTag(&$a_xml_writer, $a_material, $close_material_tag = TRUE, $add_mobs = TRUE, $attribs = NULL)
 	{
-		include_once "./Services/RTE/classes/class.ilRTE.php";
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
 		$a_xml_writer->xmlStartTag("material", $attribs);
 		$attrs = array(
@@ -5051,7 +4830,6 @@ class ilObjSurvey extends ilObject
 		$fo_file = ilUtil::ilTempnam() . ".fo";
 		$fp = fopen($fo_file, "w"); fwrite($fp, $fo); fclose($fp);
 
-		include_once './Services/WebServices/RPC/classes/class.ilRpcClientFactory.php';
 		try
 		{
 			$pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
@@ -5226,7 +5004,6 @@ class ilObjSurvey extends ilObject
 		$template_settings = $this->getTemplate();
 		if($template_settings)
 		{
-			include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 			$template_settings = new ilSettingsTemplate($template_settings);
 			$template_settings = $template_settings->getSettings();
 			$template_settings = $template_settings["use_pool"];
@@ -5250,7 +5027,6 @@ class ilObjSurvey extends ilObject
 			return;
 		}
 		
-		include_once "Services/Administration/classes/class.ilSettingsTemplate.php";
 		$template = new ilSettingsTemplate($template_id);
 		$template_settings = $template->getSettings();
 		//ilUtil::dumpVar($template_settings); exit;
@@ -5432,8 +5208,6 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendAppraiseeNotification($a_user_id);
-				$type = ilObject::_lookupType($this->getRefId(), true);
-				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
 			}
 		}				
 	}
@@ -5445,7 +5219,6 @@ class ilObjSurvey extends ilObject
 	 */
 	function sendAppraiseeNotification($a_user_id)
 	{
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("svy", "survey"));
 		$ntf->setRefId($this->getRefId());
@@ -5474,7 +5247,6 @@ class ilObjSurvey extends ilObject
 	 */
 	function sendAppraiseeCloseNotification($a_user_id)
 	{
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("svy", "survey"));
 		$ntf->setRefId($this->getRefId());
@@ -5503,7 +5275,6 @@ class ilObjSurvey extends ilObject
 	 */
 	function sendRaterNotification($a_user_id, $a_appraisee_id)
 	{
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("svy", "survey"));
 		$ntf->setRefId($this->getRefId());
@@ -5625,8 +5396,6 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendRaterNotification($a_user_id, $a_appraisee_id);
-				$type = ilObject::_lookupType($this->getRefId(), true);
-				ilObjUser::_addDesktopItem($a_user_id,$this->getRefId(),$type);
 			}
 
 		}				
@@ -6001,13 +5770,11 @@ class ilObjSurvey extends ilObject
 			" AND user_id = ".$ilDB->quote($a_user_id, "integer"));
 		
 		// write competences
-		include_once("./Services/Skill/classes/class.ilSkillManagementSettings.php");
 		$skmg_set = new ilSkillManagementSettings();
 		if ($this->getSkillService() && $skmg_set->isActivated())
 		{
-			include_once("./Modules/Survey/classes/class.ilSurveySkill.php");
 			$sskill = new ilSurveySkill($this);
-			$sskill->writeAppraiseeSkills($a_user_id);
+			$sskill->writeAndAddAppraiseeSkills($a_user_id);
 		}
 
 		// send notification
@@ -6281,7 +6048,6 @@ class ilObjSurvey extends ilObject
 	{
 		$this->log->debug("Send mail to:".$a_user_id);
 
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("svy", "survey"));
 		$ntf->setRefId($this->getRefId());
@@ -6315,13 +6081,12 @@ class ilObjSurvey extends ilObject
 
 		if ((bool)$a_use_invited)
 		{
-			$user_ids = $this->getInvitedUsers();
+			$user_ids = $this->invitation_manager->getAllForSurvey($this->getSurveyId());
 		} else
 		{
 			$parent_grp_ref_id = $tree->checkForParentType($this->getRefId(), "grp");
 			if ($parent_grp_ref_id)
 			{
-				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$part = new ilGroupParticipants(ilObject::_lookupObjId($parent_grp_ref_id));
 				$user_ids = $part->getMembers();
 			} else
@@ -6329,7 +6094,6 @@ class ilObjSurvey extends ilObject
 				$parent_crs_ref_id = $tree->checkForParentType($this->getRefId(), "crs");
 				if ($parent_crs_ref_id)
 				{
-					include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 					$part = new ilCourseParticipants(ilObject::_lookupObjId($parent_crs_ref_id));
 					$user_ids = $part->getMembers();
 				}
@@ -6340,11 +6104,6 @@ class ilObjSurvey extends ilObject
 	
 	protected function sendTutorNotification()
 	{		
-		include_once "./Services/Mail/classes/class.ilMail.php";
-		include_once "./Services/User/classes/class.ilObjUser.php";
-		include_once "./Services/Language/classes/class.ilLanguageFactory.php";
-		include_once "./Services/User/classes/class.ilUserUtil.php";		
-		include_once "./Services/Link/classes/class.ilLink.php";
 		$link = ilLink::_getStaticLink($this->getRefId(), "svy");
 			
 		foreach($this->getTutorNotificationRecipients() as $user_id)
@@ -6408,8 +6167,7 @@ class ilObjSurvey extends ilObject
 		$this->log->debug("Check access period.");
 
 		// object access period
-		include_once "Services/Object/classes/class.ilObjectActivation.php";	
-		$item_data = ilObjectActivation::getItem($this->getRefId());				
+		$item_data = ilObjectActivation::getItem($this->getRefId());
 		if($item_data["timing_type"] == ilObjectActivation::TIMINGS_ACTIVATION &&
 			($now < $item_data["timing_start"] ||
 			$now > $item_data["timing_end"]))
@@ -6502,12 +6260,8 @@ class ilObjSurvey extends ilObject
 		else
 		{
 			$tmpl = null;
-			
-			include_once "./Services/Link/classes/class.ilLink.php";
-			$link = ilLink::_getStaticLink($this->getRefId(), "svy");	
-			
-			include_once "./Services/Language/classes/class.ilLanguageFactory.php";		
-		}			
+			$link = ilLink::_getStaticLink($this->getRefId(), "svy");
+		}
 			
 		foreach($a_recipient_ids as $user_id)
 		{																
@@ -6606,7 +6360,6 @@ class ilObjSurvey extends ilObject
 		
 		// #13541
 		
-		include_once "./Services/Administration/classes/class.ilSetting.php";
 		$surveySetting = new ilSetting("survey");
 		if(!$surveySetting->get("skipped_is_custom", false))
 		{

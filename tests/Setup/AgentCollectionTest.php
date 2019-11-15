@@ -4,8 +4,6 @@
 
 namespace ILIAS\Tests\Setup;
 
-require_once(__DIR__."/Helper.php");
-
 use ILIAS\Setup;
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
 use ILIAS\UI\Component\Input\Field\Input as Input;

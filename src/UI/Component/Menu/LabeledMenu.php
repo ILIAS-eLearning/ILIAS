@@ -12,14 +12,14 @@ use ILIAS\UI\Component\Component;
  */
 interface LabeledMenu extends Menu
 {
-	/**
-	 * Get the label for this menu.
-	 * @return Component\Clickable | string
-	 */
-	public function getLabel();
+    /**
+     * Get the label for this menu.
+     * @return Component\Clickable | string
+     */
+    public function getLabel();
 
-	/**
-	 * @param Component\Clickable | string 	$label
-	 */
-	public function withLabel($label): LabeledMenu;
+    /**
+     * @param Component\Clickable | string 	$label
+     */
+    public function withLabel($label) : LabeledMenu;
 }

@@ -1050,6 +1050,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 
 		$cloneAction->cloneCertificate($this, $new_obj);
 
+		$book_service = new ilBookingService();
+		$book_service->cloneSettings($this->getId(), $new_obj->getId());
+
+
 		return $new_obj;
 	}
 

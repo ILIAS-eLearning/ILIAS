@@ -5,52 +5,53 @@
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
 
-interface ilBiblOverviewModelInterface {
+interface ilBiblOverviewModelInterface
+{
 
-	/**
-	 * @return int
-	 */
-	public function getOvmId();
-
-
-	/**
-	 * @param int $ovm_id
-	 */
-	public function setOvmId($ovm_id);
+    /**
+     * @return int
+     */
+    public function getOvmId();
 
 
-	/**
-	 * @return int
-	 */
-	public function getFileTypeId();
+    /**
+     * @param int $ovm_id
+     */
+    public function setOvmId($ovm_id);
 
 
-	/**
-	 * @param int $file_type
-	 */
-	public function setFileTypeId($file_type);
+    /**
+     * @return int
+     */
+    public function getFileTypeId();
 
 
-	/**
-	 * @return string
-	 */
-	public function getLiteratureType();
+    /**
+     * @param int $file_type
+     */
+    public function setFileTypeId($file_type);
 
 
-	/**
-	 * @param string $literature_type
-	 */
-	public function setLiteratureType($literature_type);
+    /**
+     * @return string
+     */
+    public function getLiteratureType();
 
 
-	/**
-	 * @return string
-	 */
-	public function getPattern();
+    /**
+     * @param string $literature_type
+     */
+    public function setLiteratureType($literature_type);
 
 
-	/**
-	 * @param string $pattern
-	 */
-	public function setPattern($pattern);
+    /**
+     * @return string
+     */
+    public function getPattern();
+
+
+    /**
+     * @param string $pattern
+     */
+    public function setPattern($pattern);
 }

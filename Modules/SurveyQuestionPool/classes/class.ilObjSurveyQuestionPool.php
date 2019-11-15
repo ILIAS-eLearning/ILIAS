@@ -1,38 +1,12 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjSurveyQuestionPool
-* 
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @extends ilObject
-* @defgroup ModulesSurveyQuestionPool Modules/SurveyQuestionPool
-*/
-
-include_once "./Services/Object/classes/class.ilObject.php";
-
+ * Class ilObjSurveyQuestionPool
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class ilObjSurveyQuestionPool extends ilObject
 {
 	/**
@@ -138,7 +112,6 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 
 			// clone meta data
-			include_once "./Services/MetaData/classes/class.ilMD.php";
 			$md = new ilMD($this->getId(),0,$this->getType());
 			$new_md =& $md->cloneMD($newObj->getId(),0,$newObj->getType());
 
@@ -154,7 +127,6 @@ class ilObjSurveyQuestionPool extends ilObject
 				$question_type = $this->getQuestiontype($question_id);
 			}
 
-			include_once "./Modules/SurveyQuestionPool/classes/class.".$question_type."GUI.php";
 			$question_type_gui = $question_type . "GUI";
 			$question = new $question_type_gui();
 
@@ -305,7 +277,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	function removeQuestion($question_id)
 	{
 		if ($question_id < 1) return;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question =& SurveyQuestion::_instanciateQuestion($question_id);
 		$question->delete($question_id);
 	}
@@ -420,7 +391,6 @@ class ilObjSurveyQuestionPool extends ilObject
 	function duplicateQuestion($question_id, $obj_id = "") 
 	{
 		$ilUser = $this->user;
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 		$question = SurveyQuestion::_instanciateQuestion($question_id);
 		$suffix = "";
 		$counter = 1;
@@ -507,7 +477,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($spl_data_dir);
 		if(!is_writable($spl_data_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Survey Questionpool Data Directory (".$spl_data_dir.") not writeable.");
 		}
 		
@@ -516,7 +485,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($spl_dir);
 		if(!@is_dir($spl_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
 		}
 		// create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
@@ -524,7 +492,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($export_dir);
 		if(!@is_dir($export_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Questionpool Export Directory failed.");
 		}
 	}
@@ -590,7 +557,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		
 		if(!is_writable($spl_data_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Survey Questionpool Data Directory (".$spl_data_dir.") not writeable.");
 		}
 
@@ -599,7 +565,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($spl_dir);
 		if(!@is_dir($spl_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Questionpool Directory failed.");
 		}
 
@@ -608,7 +573,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		ilUtil::makeDir($import_dir);
 		if(!@is_dir($import_dir))
 		{
-			include_once "Modules/Survey/exceptions/class.ilSurveyException.php";
 			throw new ilSurveyException("Creation of Survey Questionpool Import Directory failed.");
 		}
 	}
@@ -645,7 +609,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		}
 		$xml = "";
 
-		include_once("./Services/Xml/classes/class.ilXmlWriter.php");
 		$a_xml_writer = new ilXmlWriter;
 		// set xml header
 		$a_xml_writer->xmlHeader();
@@ -665,7 +628,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		$a_xml_writer->xmlStartTag("metadata");
 		$a_xml_writer->xmlStartTag("metadatafield");
 		$a_xml_writer->xmlElement("fieldlabel", NULL, "SCORM");
-		include_once "./Services/MetaData/classes/class.ilMD.php";
 		$md = new ilMD($this->getId(),0, $this->getType());
 		$writer = new ilXmlWriter();
 		$md->toXml($writer);
@@ -683,7 +645,6 @@ class ilObjSurveyQuestionPool extends ilObject
 		foreach ($questions as $key => $value)
 		{
 			$questiontype = $this->getQuestiontype($value);
-			include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 			SurveyQuestion::_includeClass($questiontype);
 			$question = new $questiontype();
 			$question->loadFromDb($value);
@@ -746,13 +707,11 @@ class ilObjSurveyQuestionPool extends ilObject
 			}
 			if (strpos($xml, "questestinterop") > 0)
 			{
-				include_once("./Modules/Survey/exceptions/class.ilInvalidSurveyImportFileException.php");
 				throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
 			}
 			else
 			{
 				// survey questions for ILIAS >= 3.8
-				include_once "./Services/Survey/classes/class.SurveyImportParser.php";
 				$import = new SurveyImportParser($this->getId(), "", $spl_exists);
 				$import->setXMLContent($xml);
 				$import->startParsing();

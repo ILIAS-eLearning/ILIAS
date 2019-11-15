@@ -4,7 +4,6 @@
 include_once('./Services/Object/classes/class.ilObjectGUI.php');
 include_once('./Modules/Session/classes/class.ilObjSession.php');
 include_once('./Modules/Session/classes/class.ilSessionFile.php');
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 *
@@ -14,6 +13,7 @@ include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandl
 * @ilCtrl_Calls ilObjSessionGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSessionGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilMembershipMailGUI
 * @ilCtrl_Calls ilObjSessionGUI:  ilLearningProgressGUI, ilSessionMembershipGUI, ilObjectMetaDataGUI, ilPropertyFormGUI
+* @ilCtrl_Calls ilObjSessionGUI: ilBookingGatewayGUI
 *
 * @ingroup ModulesSession 
 */
@@ -178,6 +178,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 					}
 				}
 				$ilCtrl->forwardCommand($form);
+				break;
+
+			case "ilbookinggatewaygui":
+				$tree = $DIC['tree'];
+				$parent_id = $tree->getParentId((int) $_REQUEST['ref_id']);
+
+				$this->tabs_gui->activateTab('obj_tool_setting_booking');
+				$gui = new ilBookingGatewayGUI($this, $parent_id);
+				$this->ctrl->forwardCommand($gui);
 				break;
 
 			default:
@@ -449,26 +458,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 	}
 	
-    /**
-     * @see ilDesktopItemHandling::addToDesk()
-     */
-    public function addToDeskObject()
-    {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
-		$this->infoScreenObject();
-    }
-    
-    /**
-     * @see ilDesktopItemHandling::removeFromDesk()
-     */
-    public function removeFromDeskObject()
-    {
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-		$this->infoScreenObject();
-    }
-	
+
 	
 	/**
 	* this one is called from the info button in the repository
@@ -644,7 +634,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
-		
+		$info->enableBookingInfo(true);
 		
 		$eventItems = ilObjectActivation::getItemsByEvent($this->object->getId());			
 		$parent_id = $tree->getParentId($this->object->getRefId());
@@ -817,8 +807,11 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		if(!$this->record_gui->importEditFormPostValues())
+
+		if(
+			$this->record_gui instanceof \ilAdvancedMDRecordGUI &&
+			!$this->record_gui->importEditFormPostValues()
+		)
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
@@ -848,9 +841,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			array(
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 			)
-		);		
-		$this->record_gui->writeEditForm($this->object->getId());
-		
+		);
+		if($this->record_gui instanceof \ilAdvancedMDRecordGUI)
+		{
+			$this->record_gui->writeEditForm($this->object->getId());
+		}
+
 		
 		// apply didactic template?
 		$dtpl = $this->getDidacticTemplateVar("dtpl");
@@ -1080,13 +1076,15 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		if(!$this->record_gui->importEditFormPostValues())
+
+		if(
+			$this->record_gui instanceof \ilAdvancedMDRecordGUI &&
+			!$this->record_gui->importEditFormPostValues()
+		)
 		{
 			$ilErr->setMessage($this->lng->txt('err_check_input'));
 		}
-		
-		
+
 		$this->load();
 		
 		$this->object->validate();
@@ -1109,9 +1107,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				ilObjectServiceSettingsGUI::CUSTOM_METADATA,
 			)
 		);
-		$this->record_gui->writeEditForm();
+		if($this->record_gui instanceof \ilAdvancedMDRecordGUI)
+		{
+			$this->record_gui->writeEditForm();
+		}
 		$this->handleFileUpload();
-		
+
 		// if autofill has been activated trigger process
 		if(!$old_autofill &&
 			$this->object->hasWaitingListAutoFill())
@@ -2102,6 +2103,17 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			);
 	 	}
 
+		// booking
+		$tree = $DIC['tree'];
+		$parent_id = $tree->getParentId((int) $_REQUEST['ref_id']);
+
+		if($ilAccess->checkAccess('write','',$this->ref_id) && ilContainer::_lookupContainerSetting(
+			ilObject::_lookupObjId($parent_id),
+			ilObjectServiceSettingsGUI::BOOKING, false))
+		{
+			$this->tabs_gui->addTarget("obj_tool_setting_booking",
+				$this->ctrl->getLinkTargetByClass(array("ilbookinggatewaygui"), ""));
+		}
 
 		// member tab
 		$is_participant = $this->object->getMembersObject()->isAssigned($ilUser->getId());

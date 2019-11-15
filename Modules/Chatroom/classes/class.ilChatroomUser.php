@@ -155,7 +155,7 @@ class ilChatroomUser
 	{
 		$firstname = $this->user->getFirstname();
 
-		return $firstname{0} . '. ' . $this->user->getLastname();
+		return $firstname[0] . '. ' . $this->user->getLastname();
 	}
 
 	/**

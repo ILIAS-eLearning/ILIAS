@@ -519,8 +519,8 @@ class ilYuiUtil {
 		global $DIC;
 
 		$tpl = $DIC["tpl"];
-
-		$tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js");
+        $tpl->addJavaScript(self::YUI_BASE . "/yahoo/yahoo-min.js", 1);
+		$tpl->addJavaScript(self::YUI_BASE . "/cookie/cookie.js", 1);
 	}
 
 

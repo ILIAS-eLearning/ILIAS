@@ -32,4 +32,7 @@
 		<cron id="frm_notification" class="ilForumCronNotification" />
 	</crons>
 	<logging />
+	<gsproviders>
+		<gsprovider purpose="tools" class_name="ilForumGlobalScreenToolsProvider" />
+	</gsproviders>
 </module>

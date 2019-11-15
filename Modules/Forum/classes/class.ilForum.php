@@ -1251,11 +1251,48 @@ class ilForum
 			$this->db->setLimit($limit, $offset);
 		}
 		$res = $this->db->queryF($query, $data_types, $data);
-		while($row = $this->db->fetchAssoc($res))
-		{
+
+		$threadIds = [];
+		while($row = $this->db->fetchAssoc($res)) {
 			$thread = new ilForumTopic($row['thr_pk'], $params['is_moderator'], true);
 			$thread->assignData($row);
-			$threads[] = $thread;
+			$threads[$row['thr_pk']] = $thread;
+			$threadIds[] = $row['thr_pk'];
+		}
+
+		$inner_last_active_post_condition = "";
+		if (true || !$params['is_moderator']) {
+			$inner_last_active_post_condition = sprintf(
+				" AND (iposts.pos_status = %s OR (iposts.pos_status = %s AND iposts.pos_author_id = %s)) ",
+				$this->db->quote(1, 'integer'),
+				$this->db->quote(0, 'integer'),
+				$this->db->quote($this->user->getId(), 'integer')
+			);
+		}
+
+		$post_res = $this->db->query('
+			SELECT frm_posts.*
+			FROM frm_posts
+			INNER JOIN (
+				SELECT pos_thr_fk, MAX(iposts.pos_date) i_pos_date
+				FROM frm_posts iposts
+				WHERE ' . $this->db->in('iposts.pos_thr_fk', $threadIds, false, 'integer') . ' 
+				' . $inner_last_active_post_condition . '
+				GROUP BY pos_thr_fk
+			) opost ON frm_posts.pos_thr_fk = opost.pos_thr_fk AND frm_posts.pos_date = opost.i_pos_date'
+		);
+
+		while ($post_row = $this->db->fetchAssoc($post_res)) {
+			$tmp_obj = new ilForumPost($post_row['pos_pk'], $params['is_moderator'], true);
+
+			$tmp_obj->setPosAuthorId($post_row['pos_author_id']);
+			$tmp_obj->setDisplayUserId($post_row['pos_display_user_id']);
+			$tmp_obj->setUserAlias($post_row['pos_usr_alias']);
+			$tmp_obj->setImportName($post_row['import_name']);
+			$tmp_obj->setId($post_row['pos_pk']);
+			$tmp_obj->setCreateDate($post_row['pos_date']);
+
+			$threads[$post_row['pos_thr_fk']]->setLastPostForThreadOverview($tmp_obj);
 		}
 
 		return array(

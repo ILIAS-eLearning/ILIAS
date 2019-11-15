@@ -651,11 +651,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
 		//$selection->setSelectedValue($a_selected);
 		$selection->setUseImages(false);
 		$selection->setOnClickMode(ilAdvancedSelectionListGUI::ON_ITEM_CLICK_NOP);
-		if ($a_use_callback)
-		{
+		if (is_string($a_use_callback)) {
+			$selection->setSelectCallback($a_use_callback);
+		} else if ($a_use_callback === true) {
 			$selection->setSelectCallback("ilCOPage.setCharacterClass");
 		}
-		
+
 		//$chars = $a_chars;
 		//$title_char = ($chars[$a_selected] != "")
 		//	? $chars[$a_selected]

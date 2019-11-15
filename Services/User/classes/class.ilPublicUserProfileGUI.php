@@ -144,7 +144,7 @@ class ilPublicUserProfileGUI
 		if(!$back)
 		{
 			// #15984
-			$back = 'ilias.php?baseClass=ilPersonalDesktopGUI';
+			$back = 'ilias.php?baseClass=ilDashboardGUI';
 		}
 
 		if((bool)$a_is_portfolio)
@@ -298,7 +298,7 @@ class ilPublicUserProfileGUI
 
 			if(!$is_active)
 			{
-				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			}
 			
 			// Check from Database if value
@@ -316,7 +316,7 @@ class ilPublicUserProfileGUI
 				($current != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
-				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			}
 
 			$this->renderTitle();
@@ -425,6 +425,10 @@ class ilPublicUserProfileGUI
 		{
 			$imagefile = basename($imagefile);			
 		}
+		else
+        {
+            $imagefile = ilWACSignedPath::signFile($imagefile."?t=1");
+        }
 
 		if ($this->getPublicPref($user, "public_upload")=="y" && $imagefile != "" &&
 			($ilUser->getId() != ANONYMOUS_USER_ID || $user->getPref("public_profile") == "g"))

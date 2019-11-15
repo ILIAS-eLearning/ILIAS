@@ -17,6 +17,9 @@ include_once("./Services/Skill/classes/class.ilSkillProfile.php");
  */
 class ilPersonalSkillsGUI
 {
+    const LIST_SELECTED = "";
+    const LIST_PROFILES = "profiles";
+
 	protected $offline_mode;
 	protected $skill_tree;
 	static $skill_tt_cnt = 1;
@@ -95,6 +98,11 @@ class ilPersonalSkillsGUI
 	 */
 	protected $filter;
 
+    /**
+     * @var string
+     */
+	protected $list_mode = self::LIST_SELECTED;
+
 	/**
 	 * Contructor
 	 *
@@ -129,6 +137,9 @@ class ilPersonalSkillsGUI
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "profile_id");
+		$ilCtrl->saveParameter($this, "list_mode");
+
+		$this->list_mode = $_GET["list_mode"];
 
 		$this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
 
@@ -351,26 +362,47 @@ class ilPersonalSkillsGUI
 		$ilTabs = $this->tabs;
 
 		// list skills
-		$ilTabs->addSubTab("list_skills",
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
+		$ilTabs->addTab("list_skills",
 			$lng->txt("skmg_selected_skills"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 
 		if (count($this->user_profiles) > 0)
 		{
-			$ilTabs->addSubTab("profile",
+            $ilCtrl->setParameter($this, "list_mode", self::LIST_PROFILES);
+			$ilTabs->addTab("profile",
 				$lng->txt("skmg_assigned_profiles"),
-				$ilCtrl->getLinkTarget($this, "listAssignedProfile"));
+				$ilCtrl->getLinkTarget($this, "render"));
 		}
+
+        $ilCtrl->clearParameterByClass(get_class($this), "list_mode");
 
 		// assign materials
 
-		$ilTabs->activateSubTab($a_activate);
+		$ilTabs->activateTab($a_activate);
 	}
 	
 	function setOfflineMode($a_file_path)
 	{
 		$this->offline_mode = $a_file_path;
 	}
+
+    /**
+     * Render
+     */
+    protected function render()
+    {
+        switch($this->list_mode) {
+            case self::LIST_PROFILES:
+                $this->listAssignedProfile();
+                break;
+
+            default:
+                $this->listSkills();
+                break;
+        }
+    }
+
 
 	/**
 	 * List skills
@@ -538,8 +570,29 @@ class ilPersonalSkillsGUI
 			$level_data = $skill->getLevelData();
 
 
-			// skill description
-			$panel_comps[] = $this->ui_fac->legacy($this->getSkillDescription($skill));
+			$title = $sep = "";
+			$description = "";
+			$found = false;
+			foreach ($path as $p)
+			{
+				if ($found)
+				{
+					$title.= $sep.$p["title"];
+					$sep = " > ";
+					$description = $p["description"];
+				}
+				if ($a_top_skill_id == $p["child"])
+				{
+					$found = true;
+				}
+			}
+
+			//  skill description
+			$panel_comps[] = $this->ui_fac->legacy($this->getBasicSkillDescription($description));
+
+
+			// skill level description
+			$panel_comps[] = $this->ui_fac->legacy($this->getSkillLevelDescription($skill));
 
 
 			if ($this->getProfileId() > 0)
@@ -611,21 +664,6 @@ class ilPersonalSkillsGUI
 				$panel_comps[] = $this->ui_fac->legacy($sugg);
 			}
 
-			$title = $sep = "";
-			$found = false;
-			foreach ($path as $p)
-			{
-				if ($found)
-				{
-					$title.= $sep.$p["title"];
-					$sep = " > ";
-				}
-				if ($a_top_skill_id == $p["child"])
-				{
-					$found = true;
-				}
-			}
-
 			$sub = $this->ui_fac->panel()->sub((string) $title, $panel_comps);
 			if ($a_edit)
 			{
@@ -648,6 +686,11 @@ class ilPersonalSkillsGUI
 			$tpl->parseCurrentBlock();
 			
 		}
+
+		$des = $this->getSkillCategoryDescription($skill_id, $tref_id);
+
+		//put the description of the skill category to the very top of the sub panels
+		$sub_panels = $this->ui_fac->legacy($des . $this->ui_ren->render($sub_panels));
 		
 		$panel = $this->ui_fac->panel()->standard((string) ilSkillTreeNode::_lookupTitle($skill_id, $tref_id),
 			$sub_panels);
@@ -827,7 +870,7 @@ class ilPersonalSkillsGUI
 
 
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
@@ -905,9 +948,9 @@ class ilPersonalSkillsGUI
 
 		if(!$ilSetting->get("disable_personal_workspace"))
 		{
-			$url = 'ilias.php?baseClass=ilPersonalDesktopGUI&amp;cmd=jumpToWorkspace';
+			$url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
 			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
-				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
+				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_resources"),
 					$url)]);
 			$message =  $ui->renderer()->render($mbox);
 		}
@@ -1019,7 +1062,7 @@ class ilPersonalSkillsGUI
 
 
 		$ilTabs->setBackTarget($lng->txt("back"),
-			$ilCtrl->getLinkTarget($this, "listSkills"));
+			$ilCtrl->getLinkTarget($this, "render"));
 		
 		$ilCtrl->saveParameter($this, "skill_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");
@@ -1096,7 +1139,7 @@ class ilPersonalSkillsGUI
 		$ilCtrl->saveParameter($this, "tref_id");
 		$ilCtrl->saveParameter($this, "basic_skill_id");*/
 		
-		$ilCtrl->redirect($this, "listSkills");
+		$ilCtrl->redirect($this, "render");
 
 	}
 	
@@ -1790,12 +1833,56 @@ class ilPersonalSkillsGUI
 	}
 
 	/**
+	 * Get description for skill category
+	 *
+	 * @param int $skill_id
+	 * @param int $tref_id
+	 *
+	 * @return string
+	 */
+	protected function getSkillCategoryDescription(int $skill_id, int $tref_id) : string
+	{
+		$tpl = new ilTemplate("tpl.skill_description_category.html", true, true, "Services/Skill");
+
+		//if (ilSkillTreeNode::_lookupType($skill_id) == "scat") {
+			$des = ilSkillTreeNode::_lookupDescription($skill_id);
+			if (!is_null($des) && !empty($des)) {
+				$tpl->setCurrentBlock("description_category");
+				$tpl->setVariable("DESCRIPTION_CATEGORY", $des);
+				$tpl->parseCurrentBlock();
+			}
+		//}
+
+		return $tpl->get();
+	}
+
+	/**
+	 * Get description for basic skill
+	 *
+	 * @param string $description
+	 *
+	 * @return string
+	 */
+	protected function getBasicSkillDescription(string $description) : string
+	{
+		$tpl = new ilTemplate("tpl.skill_description_basic.html", true, true, "Services/Skill");
+
+		if (!is_null($description) && !empty($description)) {
+			$tpl->setCurrentBlock("description_basic");
+			$tpl->setVariable("DESCRIPTION_BASIC", $description);
+			$tpl->parseCurrentBlock();
+		}
+
+		return $tpl->get();
+	}
+
+	/**
 	 * Get level description
 	 *
 	 * @param
 	 * @return
 	 */
-	function getSkillDescription($skill)
+	function getSkillLevelDescription($skill)
 	{
 		$level_data = $skill->getLevelData();
 		$tpl = new ilTemplate("tpl.skill_desc.html", true, true, "Services/Skill");

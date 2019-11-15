@@ -14,7 +14,7 @@ class ilMailAddressListTest extends ilMailBaseTest
     public function addressProvider() : array
     {
         return [
-            [
+           'Username Addresses' => [
                 [
                     new ilMailAddress('phpunit', 'ilias'),
                 ],
@@ -24,7 +24,7 @@ class ilMailAddressListTest extends ilMailBaseTest
                 ],
                 1
             ],
-            [
+            'Role Addresses' => [
                 [
                     new ilMailAddress('#il_ml_4711', 'ilias'),
                     new ilMailAddress('#il_ml_4712', 'ilias'),

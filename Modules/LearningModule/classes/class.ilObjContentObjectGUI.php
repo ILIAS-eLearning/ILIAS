@@ -206,7 +206,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 					$pg_gui->setLMPageObject($obj);
 				}
 				$ret = $this->ctrl->forwardCommand($pg_gui);
-				break;
+                break;
 
 			case "ilstructureobjectgui":
 				$ilTabs->setBackTarget($lng->txt("learning module"),
@@ -478,13 +478,15 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
 		// default layout
+		/*
 		$layout = self::getLayoutOption($lng->txt("cont_def_layout"), "lm_layout");
-		$this->form->addItem($layout);
+		$this->form->addItem($layout);*/
 
 		// layout per page
+		/*
 		$lpp = new ilCheckboxInputGUI($lng->txt("cont_layout_per_page"), "layout_per_page");
 		$lpp->setInfo($this->lng->txt("cont_layout_per_page_info"));
-		$this->form->addItem($lpp);
+		$this->form->addItem($lpp);*/
 
 		// page header
 		$page_header = new ilSelectInputGUI($lng->txt("cont_page_header"), "lm_pg_header");
@@ -595,7 +597,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$values["cobj_online"] = true;
 		}
-		$values["lm_layout"] = $this->object->getLayout();
+		//$values["lm_layout"] = $this->object->getLayout();
 		$values["lm_pg_header"] = $this->object->getPageHeader();
 		if ($this->object->isActiveNumbering())
 		{
@@ -614,7 +616,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		{
 			$values["cobj_user_comments"] = true;
 		}
-		$values["layout_per_page"] = $this->object->getLayoutPerPage();
+		//$values["layout_per_page"] = $this->object->getLayoutPerPage();
 		$values["rating"] = $this->object->hasRating();
 		$values["rating_pages"] = $this->object->hasRatingPages();
 		$values["disable_def_feedback"] = $this->object->getDisableDefaultFeedback();
@@ -653,7 +655,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
 			$this->object->setTitle($_POST['title']);
 			$this->object->setDescription($_POST['description']);
-			$this->object->setLayout($_POST["lm_layout"]);
+			//$this->object->setLayout($_POST["lm_layout"]);
 			$this->object->setPageHeader($_POST["lm_pg_header"]);
 			$this->object->setTOCMode($_POST["toc_mode"]);
 			$this->object->setOfflineStatus(!($_POST['cobj_online']));
@@ -664,7 +666,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$this->object->setPublicNotes($_POST["cobj_pub_notes"]);
 			}
 			$this->object->setHistoryUserComments($_POST["cobj_user_comments"]);
-			$this->object->setLayoutPerPage($_POST["layout_per_page"]);
+			//$this->object->setLayoutPerPage($_POST["layout_per_page"]);
 			$this->object->setRating($_POST["rating"]);
 			$this->object->setRatingPages($_POST["rating_pages"]);
 			$this->object->setDisableDefaultFeedback((int) $_POST["disable_def_feedback"]);
@@ -1930,8 +1932,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$cgui->setHeaderText($this->lng->txt("cont_fix_tree_confirm"));
 		$cgui->setCancel($this->lng->txt("cancel"), "showMaintenance");
 		$cgui->setConfirm($this->lng->txt("cont_fix_tree"), "fixTree");
-		
-		$this->tpl->setContent($cgui->getHTML());
+		$issues = $this->object->checkStructure();
+		$mess = "";
+		if (count($issues) > 0) {
+			$mess = "Found Issues: <br>".implode("<br>", $issues);
+		}
+		$this->tpl->setContent($cgui->getHTML().$mess);
 	}
 
 	/**

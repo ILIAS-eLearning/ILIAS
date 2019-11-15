@@ -6,7 +6,7 @@
     "coordinator": [
         ""
     ],
-    "tester": "",
+    "tester": "vimotion(25105)",
     "testcase_writer": "FH Aachen",
     "path": "Services/CAS",
     "belong_to_component": "Login, Auth & Registration",

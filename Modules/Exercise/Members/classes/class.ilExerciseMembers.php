@@ -25,6 +25,11 @@ class ilExerciseMembers
 //	var $status_returned;
 //	var $notice;
 
+	/**
+	 * @var ilRecommendedContentManager
+	 */
+	protected $recommended_content_manager;
+
 	function __construct($a_exc)
 	{
 		global $DIC;
@@ -34,6 +39,8 @@ class ilExerciseMembers
 		$this->obj_id = $a_exc->getId();
 		$this->ref_id = $a_exc->getRefId();
 		$this->read();
+
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 
 	/**
@@ -85,11 +92,9 @@ class ilExerciseMembers
 	{
 		$ilDB = $this->db;
 
-		if($this->exc->hasAddToDesktop())
+		/*if($this->exc->hasAddToDesktop())
 		{
-			$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
-			$tmp_user->addDesktopItem($this->getRefId(),"exc");
-		}
+		}*/
 
 		$ilDB->manipulate("DELETE FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".
@@ -159,8 +164,7 @@ class ilExerciseMembers
 	{
 		$ilDB = $this->db;
 
-		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
-		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
+		$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->getRefId());
 
 		$query = "DELETE FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".
@@ -215,7 +219,9 @@ class ilExerciseMembers
 		$res = $ilDB->query($query);
 		while($row = $ilDB->fetchObject($res))
 		{
-			$tmp_arr_members[] = $row->usr_id;
+			if (ilObject::_lookupType($row->usr_id) == "usr") {
+                $tmp_arr_members[] = $row->usr_id;
+            }
 		}
 		$this->setMembers($tmp_arr_members);
 

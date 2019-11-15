@@ -28,7 +28,7 @@ class ArrayArtifact implements Artifact {
 
 	private function check(array $a) {
 		foreach ($a as $item) {
-			if (is_string($item) || is_int($item) || is_float($item) || is_bool($item)) {
+			if (is_string($item) || is_int($item) || is_float($item) || is_bool($item) || is_null($item)) {
 				continue;
 			}
 			if (is_array($item)) {

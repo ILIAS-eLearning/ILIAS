@@ -14,4 +14,7 @@
 			<parent id="crs">crs</parent>
 		</object>
 	</objects>
+	<events>
+		<event type="listen" id="Services/AccessControl" />
+	</events>
 </module>

@@ -7,12 +7,13 @@ namespace ILIAS\UI\Component\Popover;
  *
  * @package ILIAS\UI\Component\Popover
  */
-interface Listing extends Popover {
+interface Listing extends Popover
+{
 
-	/**
-	 * Get the list items of this popover.
-	 *
-	 * @return Item[]
-	 */
-	public function getItems();
+    /**
+     * Get the list items of this popover.
+     *
+     * @return Item[]
+     */
+    public function getItems();
 }

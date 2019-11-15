@@ -304,7 +304,7 @@ class ilPortfolioGlobalTemplate implements ilGlobalTemplateInterface
 	private function initHelp()
 	{
 		include_once("./Services/Help/classes/class.ilHelpGUI.php");
-		ilHelpGUI::initHelp($this);
+		//ilHelpGUI::initHelp($this);
 	}
 
 
@@ -720,7 +720,7 @@ class ilPortfolioGlobalTemplate implements ilGlobalTemplateInterface
 		}
 		foreach($this->inline_css as $css)
 		{
-			$this->setCurrentBlock("css_file");
+			$this->setCurrentBlock("css_inline");
 			$this->setVariable("CSS_INLINE", $css["css"]);
 			$this->parseCurrentBlock();
 		}
@@ -849,7 +849,7 @@ class ilPortfolioGlobalTemplate implements ilGlobalTemplateInterface
 	//    - ilCalendarPresentationGUI
 	//    - ilContainerGUI
 	//    - ilObjDataCollectionGUI
-	//    - ilPersonalDesktopGUI
+	//    - ilDashboardGUI
 	//    - ilObjPortfolioTemplateGUI
 	//    - ilWikiPageGUI
 	//    - ilObjWikiGUI
@@ -1518,15 +1518,6 @@ class ilPortfolioGlobalTemplate implements ilGlobalTemplateInterface
 					{
 						$this->getMainMenu();
 						$this->initHelp();
-					}
-
-					if($this->blockExists("content") && $this->variableExists('MAINMENU'))
-					{
-						$tpl = $DIC["tpl"];
-
-						include_once 'Services/Authentication/classes/class.ilSessionReminderGUI.php';
-						$session_reminder_gui = new ilSessionReminderGUI(ilSessionReminder::createInstanceWithCurrentUserSession());
-						$tpl->setVariable('SESSION_REMINDER', $session_reminder_gui->getHtml());
 					}
 
 					// these fill blocks in tpl.main.html

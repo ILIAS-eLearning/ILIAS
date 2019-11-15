@@ -23,9 +23,9 @@ class LSLearnerItemTest extends TestCase
 	 */
 	protected $post_condition;
 
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->post_condition = new ilLSPostCondition(666, 1);
+		$this->post_condition = new ilLSPostCondition(666, 'always');
 	}
 
 	public function testCreate(): LSLearnerItem

@@ -13,40 +13,40 @@ use ILIAS\UI\Component\Button\Engageable as EngageableInterface;
  */
 trait Engageable
 {
-	/**
-	 * @var	bool
-	 */
-	protected $is_engageable = false;
+    /**
+     * @var	bool
+     */
+    protected $is_engageable = false;
 
-	/**
-	 * @var	bool
-	 */
-	protected $engaged = false;
+    /**
+     * @var	bool
+     */
+    protected $engaged = false;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isEngageable(): bool
-	{
-		return $this->is_engageable;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isEngageable() : bool
+    {
+        return $this->is_engageable;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function withEngagedState(bool $state): EngageableInterface
-	{
-		$clone = clone $this;
-		$clone->is_engageable = true;
-		$clone->engaged = $state;
-		return $clone;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function withEngagedState(bool $state) : EngageableInterface
+    {
+        $clone = clone $this;
+        $clone->is_engageable = true;
+        $clone->engaged = $state;
+        return $clone;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isEngaged(): bool
-	{
-		return $this->engaged;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isEngaged() : bool
+    {
+        return $this->engaged;
+    }
 }

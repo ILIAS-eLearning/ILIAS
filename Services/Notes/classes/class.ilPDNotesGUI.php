@@ -152,6 +152,12 @@ class ilPDNotesGUI
 			$t = $this->lng->txt("notes_comments");
 		}
 
+		if ($this->getMode() == self::PRIVATE_NOTES) {
+            $t = $this->lng->txt("private_notes");
+		} else {
+            $t = $this->lng->txt("notes_public_comments");
+		}
+
 		$this->tpl->setTitle($t);
 
 		// catch feedback message
@@ -294,9 +300,12 @@ class ilPDNotesGUI
 			$rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");
 			$rel->setOptions($options);
 			$rel->setValue($this->current_rel_obj);			
-			$ilToolbar->addInputItem($rel);
-			
-			$ilToolbar->addFormButton($lng->txt("change"), "changeRelatedObject");			
+			$ilToolbar->addStickyItem($rel);
+
+			$btn = ilSubmitButton::getInstance();
+			$btn->setCaption('change');
+			$btn->setCommand('changeRelatedObject');
+			$ilToolbar->addStickyItem($btn);
 		}
 		
 		$this->tpl->setContent($html);	
@@ -323,6 +332,7 @@ class ilPDNotesGUI
 		$ilSetting = $this->settings;
 		$ilCtrl = $this->ctrl;
 
+		/*
 		if(!$ilSetting->get("disable_notes"))
 		{
 			$ilTabs->addTarget("private_notes",
@@ -335,7 +345,7 @@ class ilPDNotesGUI
 			$ilTabs->addTarget("notes_public_comments",
 				$ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
 				($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
-		}
+		}*/
 	}
 	
 	/**

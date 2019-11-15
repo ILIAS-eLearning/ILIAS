@@ -32,9 +32,13 @@ for 'Certificates' to their component.
     * [Preview](#preview)
   * [Events](#events)
     * [updateStatus](#updatestatus)
+* [API](#api)
+  * [UserCertificateAPI](#usercertificateapi)
+  * [UserDataFilter](#userdatafilter)
 * [Migration](#migration)
   * [Certificate Templates](#certificate-templates)
   * [User Certificates](#user-certificates)
+
 
 ## General
 
@@ -126,15 +130,22 @@ A change to a previous version is currently not supported.
 ## GUI
 
 The table with persisted user certificates will be displayed
-in a separated tab in `Personal Desktop -> Badges`.
+in a separated tab in `Learning History`.
 
 The subtab `Certificate` is only visible when certificates
 are activates via the [certificate settings](#certificate-settings).
 
 ## Implementation for new Services/Module
 
-Beside integrating the settings into the GUI there are two classes that
-also MUST be created.
+A new/separate case MUST be added in the following classes:
+* [`ilCertificateGUIFactory::create`](classes/Gui/class.ilCertificateGUIFactory.php)
+* [`ilCertificatePathFactory::create`](classes/File/Template/Path/class.ilCertificatePathFactory.php)
+
+A new/separate case MAY be added in the following classes:
+* [`ilCertificatePdfFileNameFactory::fetchCertificateGenerator`](classes/File/Certificate/Filename/class.ilCertificatePdfFileNameFactory.php)
+
+Beside integrating the settings into the [GUI](#gui-1) there are two classes that
+also MUST be created for the purpose of providing/resolving placeholders.
 
 The first class that MUST be added is a `Placeholder Description` class
 which contain all the placeholders with the given descriptions.
@@ -144,10 +155,13 @@ The second class that MUST be implemented is a `Placeholder Values` class
 which will calculate based on the user and given component the values that
 should be replaced for the placeholders.
 
+**Important**: This class has to be appended to the map
+defined in [`ilCertificateTypeClassMap`](classes/Cron/class.ilCertificateTypeClassMap.php).
+
 ### Placeholder Description
 
 A `Placeholder Description` class is an implementation of
-`ilCertificatePlaceholderDescription`.
+[`ilCertificatePlaceholderDescription`](classes/Placeholder/Description/interface.ilCertificatePlaceholderDescription.php).
 
 This class defines the description for the placeholders and
 will create a HTML-View of these parameters that will be displayed in
@@ -178,7 +192,7 @@ A default template can be used which is located in
 ### Placeholder Values
 
 A `Placeholder Values` class is an implementation of
-`ilCertificatePlaceholderValues`.
+[`ilCertificatePlaceholderValues`](classes/Placeholder/Values/interface.ilCertificatePlaceholderValues.php).
 
 This class is used to calculate the values for the placeholders
 based on the user data and object data.
@@ -189,7 +203,7 @@ based on the user data and object data.
 ilCertificatePlaceholderValues::getPlaceholderValues($userId: integer, $objId: integer)
 ```
 
-This method will return an associative with the placeholder as key and the actual
+This method will return an associative array with the placeholder as key and the actual
 data as value.
 The value data will be calculated on the method call.
 If the values can't be calculated or the user is not permitted to have certificate,
@@ -422,6 +436,31 @@ The course is NOT supported for this behaviour, but Modules/Services
 can be added via the certificates template settings UI.
 Completing all of the selected events will add the user
 into the [queue](#cron-queue-classes).
+
+## API
+
+This service also provides an API to fetch data related to the certificates.
+Currently an endpoint is provided to fetch user certificate related data.
+
+Public API classes:
+* `Certificate\API\UserCertificateAPI`
+
+### UserCertificateAPI 
+
+`UserCertificateAPI::getUserCertificateData` will return an `array` of `UserCertificateDto`.
+  `UserCertificateDto` contains specific information of users who achieved a certificate.
+  The method will need an `UserDataFilter` object and an array of
+  `ilCtrl-enabled GUI class` names that will be used to create a link to download the certificate.
+
+_Attention: This API will not check if a user has access to the certificate link.
+Please make sure the user using this API has every privilege to download the certificates.
+This is valid for the querying purpose as well as for the certificate delivery purpose._
+
+### UserDataFilter
+
+The `UserDataFilter` contains the elements to limit the final result set.
+The first parameter MUST be an `array` of `usr_id`.
+
 
 ## Migration
 

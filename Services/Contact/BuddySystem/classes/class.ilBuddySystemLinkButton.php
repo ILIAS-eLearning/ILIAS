@@ -76,8 +76,6 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
     {
         $this->lng->loadLanguageModule('buddysystem');
 
-        ilBuddySystemGUI::initializeFrontend();
-
         if (!ilBuddySystem::getInstance()->isEnabled()) {
             return '';
         }

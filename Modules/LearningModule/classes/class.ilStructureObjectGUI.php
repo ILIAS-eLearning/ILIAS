@@ -344,7 +344,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
 			// title
 			$this->tpl->setVariable("TEXT_CONTENT",
-				ilStructureObject::_getPresentationTitle($child["obj_id"], IL_CHAPTER_TITLE,
+				ilStructureObject::_getPresentationTitle($child["obj_id"], ilLMObject::CHAPTER_TITLE,
 					$this->content_object->isActiveNumbering()));
 
 			$this->tpl->parseCurrentBlock();

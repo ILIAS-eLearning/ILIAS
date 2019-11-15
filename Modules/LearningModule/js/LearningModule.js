@@ -92,6 +92,11 @@ il.LearningModule = {
 
 		doc = (window.top != window.self)
 			? window.parent.document : document;
+console.log(el_id);
+console.log(href);
+		$("#" + el_id).parent().css("height", "100%");	// workaround for slate height
+		$("#" + el_id + " > iframe", doc).attr("src", href);
+		return false;
 
 //console.log("LoadContentFrame:" + href + ":" + t +":");
 		// exception we should get rid off

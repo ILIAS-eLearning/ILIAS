@@ -69,9 +69,11 @@ class ilWikiHandlerGUI
 		$this->nav_history = $DIC["ilNavigationHistory"];
 		$ilCtrl = $DIC->ctrl();
 
+
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
-		
+
+        $DIC->globalScreen()->tool()->context()->claim()->repository();
 	}
 	
 	/**

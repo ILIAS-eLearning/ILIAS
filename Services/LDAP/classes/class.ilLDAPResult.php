@@ -3,7 +3,7 @@
 	+-----------------------------------------------------------------------------+
 	| ILIAS open source                                                           |
 	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
+	| Copyright (c) 1998-20019 ILIAS open source, University of Cologne            |
 	|                                                                             |
 	| This program is free software; you can redistribute it and/or               |
 	| modify it under the terms of the GNU General Public License                 |
@@ -21,180 +21,180 @@
 	+-----------------------------------------------------------------------------+
 */
 
-/** 
-* 
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-* 
-* 
-* @ilCtrl_Calls 
-* @ingroup ServicesLDAP
-*/
-
+/**
+ * Class ilLDAPPagedResult
+ *
+ * @author Fabian Wolf
+ */
 class ilLDAPResult
 {
-	private $ldap_handle = null;
-	private $result = null;
-	private $entries = null;
-	
-	private $num_results = null;
-	private $data = null;
-	
 	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param resource ldap connection
-	 * @param resource ldap result
-	 * 
+	 * @var resource
 	 */
-	public function __construct($a_ldap_connection,$a_result)
-	{
-	 	$this->ldap_handle = $a_ldap_connection;
-	 	$this->result = $a_result;
-	 	
-	 	$this->toSimpleArray();
-	}
-	
+	private $handle;
+
 	/**
-	 * Get search result as array
-	 *
-	 * @access public
-	 * @param
-	 * 
+	 * @var resource
 	 */
-	public function get()
-	{
-	 	return $this->data ? $this->data : array();
-	}
-	
+	private $result;
+
 	/**
-	 * Get all result rows
-	 *
-	 * @access public
-	 * 
+	 * @var array
 	 */
-	public function getRows()
-	{
-		return $this->all_rows ? $this->all_rows : array();	 	
-	}
-	
+	private $rows;
+
 	/**
-	 * get number of rows
-	 *
-	 * @access public
-	 * @param
-	 * 
+	 * @var array
+	 */
+	private $last_row;
+
+	/**
+	 * ilLDAPPagedResult constructor.
+	 * @param resource $a_ldap_handle from ldap_connect()
+	 * @param resource $a_result from ldap_search()
+	 */
+	public function __construct($a_ldap_handle, $a_result = null)
+	{
+		$this->handle = $a_ldap_handle;
+
+		if($a_result != null)
+		{
+			$this->result = $a_result;
+		}
+	}
+
+	/**
+	 * Total count of resulted rows
+	 * @return int
 	 */
 	public function numRows()
 	{
-	 	return $this->num_results;
+		return is_array($this->rows) ? count($this->rows) : 0;
 	}
-	
+
 	/**
-	 * Transform ldap result in simple array
-	 *
-	 * @access private
-	 * @param
-	 * 
+	 * Resource from ldap_search()
+	 * @return resource
 	 */
-	private function toSimpleArray()
+	public function getResult()
 	{
-		$this->data = array();
-		$this->num_results = 0;
-		
-		if(!$this->entries = $this->getEntries())
-		{
-			return false;	
-		}
-		
-		$this->num_results = $this->entries['count'];
-		if($this->entries['count'] == 0)
-		{
-			return true;
-		}
-		
-		for($row_counter = 0; $row_counter < $this->entries['count'];$row_counter++)
-		{
- 			$data = array();
-		 	foreach($this->entries[$row_counter] as $key => $value)
-	 		{
-		 		$key = strtolower($key);
-				
-		 		if(is_int($key))
-		 		{
-		 			continue;
-		 		}
-		 		if($key == 'dn')
-		 		{
-		 			$data['dn'] = $value;
-		 			continue;
-		 		}
-				if(is_array($value))
-				{
-					if($value['count'] > 1)
-					{
-						for($i = 0; $i < $value['count']; $i++)
-						{
-							$data[$key][] = $value[$i];
-						}
-					}
-					elseif($value['count'] == 1)
-					{
-						$data[$key] = $value[0];
-					}
-				}
-				else
-				{
-					$data[$key] = $value;
-				}
-		 	}
-		 	$this->all_rows[] = $data;
-		 	if($row_counter == 0)
-		 	{
-		 		$this->data = $data;
-		 	}
-		}
-		return true;
+		return $this->result;
 	}
-	
+
+	/**
+	 * Resource from ldap_search()
+	 * @param resource $result
+	 */
+	public function setResult($result)
+	{
+		$this->result = $result;
+	}
+
+	/**
+	 * Returns last result
+	 * @return array
+	 */
+	public function get()
+	{
+		return is_array($this->last_row) ? $this->last_row : array();
+	}
+
+	/**
+	 * Returns complete results
+	 * @return array
+	 */
+	public function getRows()
+	{
+		return is_array($this->rows) ? $this->rows : array();
+	}
+
+	/**
+	 * Starts ldap_get_entries() and transforms results
+	 * @return self $this
+	 */
+	public function run()
+	{
+		$entries = @ldap_get_entries($this->handle, $this->result);
+		$this->addEntriesToRows($entries);
+
+		return $this;
+	}
+
+	/**
+	 * Adds Results from ldap_get_entries() to rows
+	 * @param array $entries
+	 */
+	private function addEntriesToRows($entries)
+	{
+		if(!$entries)
+		{
+			return;
+		}
+
+		$num = $entries['count'];
+
+		if($num == 0)
+		{
+			return;
+		}
+
+		for($row_counter = 0; $row_counter < $num;$row_counter++)
+		{
+			$data = $this->toSimpleArray($entries[$row_counter]);
+			$this->rows[] = $data;
+			$this->last_row = $data;
+		}
+	}
+
+	/**
+	 * Transforms results from ldap_get_entries() to a simple format
+	 * @param array $entry
+	 * @return array
+	 */
+	private function toSimpleArray($entry)
+	{
+		$data = array();
+		foreach($entry as $key => $value)
+		{
+			$key = strtolower($key);
+
+			if(is_int($key))
+			{
+				continue;
+			}
+			if($key == 'dn')
+			{
+				$data['dn'] = $value;
+				continue;
+			}
+			if(is_array($value))
+			{
+				if($value['count'] > 1)
+				{
+					for($i = 0; $i < $value['count']; $i++)
+					{
+						$data[$key][] = $value[$i];
+					}
+				}
+				elseif($value['count'] == 1)
+				{
+					$data[$key] = $value[0];
+				}
+			}
+			else
+			{
+				$data[$key] = $value;
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Destructor
+	 */
 	public function __destruct()
 	{
 		@ldap_free_result($this->result);
 	}
-	
-	/**
-	 * Wrapper for ldap_get_entries
-	 *
-	 * @access private
-	 * 
-	 */
-	private function getEntries()
-	{
-		return $this->entries = @ldap_get_entries($this->ldap_handle,$this->result);
-
-		// this way ldap_get_entries is binary safe
-
-		$i=0;
-		$tmp_entries = array();
-		$entry = ldap_first_entry($this->ldap_handle,$this->result);
-		do {
-			$attributes = @ldap_get_attributes($this->ldap_handle, $entry);
-			for($j=0; $j<$attributes['count']; $j++) 
-			{
-				$values = ldap_get_values_len($this->ldap_handle, $entry,$attributes[$j]);
-				$tmp_entries[$i][strtolower($attributes[$j])] = $values;
-			}
-			$i++;               
-		} while ($entry = @ldap_next_entry($this->ldap_handle,$entry));
-
-		if($i)
-		{
-			$tmp_entries['count'] = $i;
-		}
-		$this->entries = $tmp_entries;
-		return $this->entries;
-	}
 }
-
-?>

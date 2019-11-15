@@ -109,7 +109,7 @@ class ilObjectCustomIconFactory
 				break;
 
 			default:
-				$presenter = new \ilObjectCustomIconPresenterImpl($this->getByObjId((int)$objId, $objType));
+				$presenter = new \ilObjectCustomIconPresenterImpl($this->getByObjId((int)$objId, (string) $objType));
 				break;
 
 		}

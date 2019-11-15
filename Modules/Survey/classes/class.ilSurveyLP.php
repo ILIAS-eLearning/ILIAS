@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectLP.php";
+/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Survey to lp connector
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilLPStatusPlugin.php 43734 2013-07-29 15:27:58Z jluetzen $
- * @package ModulesSurvey
  */
 class ilSurveyLP extends ilObjectLP
 {
@@ -35,7 +32,6 @@ class ilSurveyLP extends ilObjectLP
 	
 	public function isAnonymized()
 	{
-		include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';
 		return (bool)ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
 	}
 

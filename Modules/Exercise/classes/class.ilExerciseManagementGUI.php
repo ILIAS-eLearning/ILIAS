@@ -86,13 +86,18 @@ class ilExerciseManagementGUI
 	const GRADE_PASSED = "passed";
 	const GRADE_FAILED = "failed";
 
+    /**
+     * @var ilExerciseInternalService
+     */
+	protected $service;
+
 	/**
 	 * Constructor
 	 * 
 	 * @param int $a_exercise_id
 	 * @return object
 	 */
-	public function __construct(ilObjExercise $a_exercise, ilExAssignment $a_ass = null)
+	public function __construct(ilExerciseInternalService $service, ilExAssignment $a_ass = null)
 	{		
 		global $DIC;
 
@@ -109,8 +114,11 @@ class ilExerciseManagementGUI
 
 		$this->task_factory = $DIC->backgroundTasks()->taskFactory();
 
-		
-		$this->exercise = $a_exercise;
+		$request = $DIC->exercise()->internal()->request();
+
+		$this->service = $service;
+
+		$this->exercise = $request->getRequestedExercise();
 		if($a_ass)
 		{
 			$this->assignment = $a_ass;
@@ -1078,9 +1086,8 @@ class ilExerciseManagementGUI
 		
 		$this->ctrl->setParameter($this, "vw", self::VIEW_GRADES);
 
-		include_once("./Modules/Exercise/classes/class.ilExGradesTableGUI.php");
 		$grades_tab = new ilExGradesTableGUI($this, "showGradesOverview",
-			$this->exercise, $mem_obj);
+			$this->service, $mem_obj);
 		$tpl->setContent($grades_tab->getHTML()); 
 	}
 

@@ -150,14 +150,14 @@ class ilLearningProgressBaseGUI
 				if(ilObjUserTracking::_hasLearningProgressLearner() && 
 					ilObjUserTracking::_enabledUserRelatedData())
 				{
-					$this->tabs_gui->addSubTabTarget('trac_progress',
+					$this->tabs_gui->addTarget('trac_progress',
 													$this->ctrl->getLinkTargetByClass('illplistofprogressgui',''),
 													"","","",$a_active == self::LP_ACTIVE_PROGRESS);
 				}
 
 				if(ilObjUserTracking::_hasLearningProgressOtherUsers())
 				{
-					$this->tabs_gui->addSubTabTarget('trac_objects',
+					$this->tabs_gui->addTarget('trac_objects',
 													 $this->ctrl->getLinkTargetByClass("illplistofobjectsgui",''),
 													 "","","",$a_active == self::LP_ACTIVE_OBJECTS);
 				}
@@ -256,27 +256,6 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
-			//$this->tpl->setTitle($this->lng->txt("learning_progress"));
-			
-			// set locator
-/*
-			$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-			$this->tpl->touchBlock("locator_separator");
-			$this->tpl->touchBlock("locator_item");
-			//$this->tpl->setCurrentBlock("locator_item");
-			//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-			//$this->tpl->setVariable("LINK_ITEM",
-			//						$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-			//$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
-			$this->tpl->setVariable("LINK_ITEM",
-									$this->ctrl->getLinkTargetByClass('illearningprogressgui'));
-			$this->tpl->parseCurrentBlock();
-*/
-		
-			// display infopanel if something happened
 			ilUtil::infoPanel();
 		}
 

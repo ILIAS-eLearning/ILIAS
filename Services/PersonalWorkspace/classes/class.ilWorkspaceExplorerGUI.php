@@ -204,9 +204,11 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 		}
 		
 		$ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
-		$ret = $ilCtrl->getLinkTargetByClass($target_class, $this->select_cmd);
+		$ret = $ilCtrl->getLinkTargetByClass(["ilPersonalWorkspaceGUI", $target_class], $this->select_cmd);
 		$ilCtrl->setParameterByClass($target_class, $this->select_par, $_GET[$this->select_par]);
-		
+
+		$ret = ILIAS_HTTP_PATH."/".$ret;
+
 		return $ret;
 	}
 
@@ -222,7 +224,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
 		if ($a_node["child"] == $this->tree->getRootId())
 		{
-			return $lng->txt("wsp_personal_workspace");
+			return $lng->txt("personal_resources");
 		}
 
 		return $a_node["title"];

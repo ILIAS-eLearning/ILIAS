@@ -9,18 +9,20 @@
  * @version $Id$
  * @ingroup ModulesDataCollection
  */
-class ilDclDetailedViewDefinitionConfig extends ilPageConfig {
+class ilDclDetailedViewDefinitionConfig extends ilPageConfig
+{
 
-	/**
-	 * Init
-	 */
-	function init() {
-		// config
-		$this->setPreventHTMLUnmasking(true);
-		$this->setEnableInternalLinks(false);
-		$this->setEnableWikiLinks(false);
-		$this->setEnableActivation(false);
-	}
+    /**
+     * Init
+     */
+    function init()
+    {
+        // config
+        $this->setPreventHTMLUnmasking(true);
+        $this->setEnableInternalLinks(false);
+        $this->setEnableWikiLinks(false);
+        $this->setEnableActivation(false);
+    }
 }
 
 ?>

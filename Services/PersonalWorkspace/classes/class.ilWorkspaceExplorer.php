@@ -291,7 +291,7 @@ class ilWorkspaceExplorer extends ilRepositoryExplorer
 		$title = $title["title"];
 		if(!$title)
 		{
-			$title = $lng->txt("personal_workspace");
+			$title = $lng->txt("personal_resources");
 		}
 
 		$tpl->setVariable("ICON_IMAGE", $path);

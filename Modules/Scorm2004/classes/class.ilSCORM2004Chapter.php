@@ -52,7 +52,7 @@ class ilSCORM2004Chapter extends ilSCORM2004Node
 			{
 				if ($obj->getType() == "chap")
 				{
-					$obj->delete_rec($a_tree, $a_delete_meta_data);
+					$obj->delete_rec($a_delete_meta_data);
 				}
 				if ($obj->getType() == "sco")
 				{

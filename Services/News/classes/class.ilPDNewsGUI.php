@@ -41,6 +41,11 @@ class ilPDNewsGUI
 
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $fav_manager;
+
+	/**
 	* Constructor
 	*
 	* @access	public
@@ -66,6 +71,8 @@ class ilPDNewsGUI
 		$lng->loadLanguageModule("news");
 		
 		$this->ctrl->saveParameter($this, "news_ref_id");
+		$this->fav_manager = new ilFavouritesManager();
+
 	}
 
 	/**
@@ -84,7 +91,7 @@ class ilPDNewsGUI
 				$this->$cmd();
 				break;
 		}
-		$this->tpl->show(true);
+		$this->tpl->printToStdout();
 		return true;
 	}
 
@@ -111,7 +118,7 @@ class ilPDNewsGUI
 
 		$ref_ids = array();
 		$obj_ids = array();
-		$pd_items = $ilUser->getDesktopItems();
+		$pd_items = $this->fav_manager->getFavouritesOfUser($ilUser->getId());
 		foreach($pd_items as $item)
 		{
 			$ref_ids[] = $item["ref_id"];

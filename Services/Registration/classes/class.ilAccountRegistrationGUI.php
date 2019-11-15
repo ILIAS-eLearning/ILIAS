@@ -32,6 +32,11 @@ class ilAccountRegistrationGUI
 	/** @var \ilTermsOfServiceDocumentEvaluation */
 	protected $termsOfServiceEvaluation;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
+
 	public function __construct()
 	{
 		global $DIC;
@@ -54,43 +59,35 @@ class ilAccountRegistrationGUI
 			$this->registration_settings->getAllowCodes());
 
 		$this->termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
-	}
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    }
 
 	public function executeCommand()
 	{
 		global $DIC;
 
 		$ilErr = $DIC['ilErr'];
-		$tpl = $DIC['tpl'];
 
 		if($this->registration_settings->getRegistrationType() == IL_REG_DISABLED)
 		{
 			$ilErr->raiseError($this->lng->txt('reg_disabled'),$ilErr->FATAL);
 		}
 
-		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
-
-		switch($next_class)
-		{
-			default:
-				if($cmd)
-				{
-					$this->$cmd();
-				}
-				else
-				{
-					$this->displayForm();
-				}
+		switch ($cmd) {
+			case 'saveForm':
+				$tpl = $this->$cmd();
 				break;
+			default:
+				$tpl = $this->displayForm();
 		}
-		$tpl->setPermanentLink('usr', null, 'registration');
-		$tpl->printToStdout();
-		return true;
+
+		//$tpl->setPermanentLink('usr', null, 'registration');
+		ilStartUpGUI::printToGlobalTemplate($tpl);
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	public function displayForm()
 	{
@@ -101,16 +98,17 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 
-		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
-		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
+		$tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
+		$tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
 		if(!$this->form)
 		{
 			$this->__initForm();
 		}
-		$this->tpl->setVariable('FORM', $this->form->getHTML());
+		$tpl->setVariable('FORM', $this->form->getHTML());
+		return $tpl;
 	}
-	
+
 	protected function __initForm()
 	{
 		global $DIC;
@@ -439,15 +437,12 @@ class ilAccountRegistrationGUI
 		{
 			$password = $this->__createUser($valid_role);
 			$this->__distributeMails($password);
-			$this->login($password);
-			return true;
-		}		
-
+			return $this->login($password);
+		}
 		$this->form->setValuesByPost();
-		$this->displayForm();
-		return false;
+		return $this->displayForm();
 	}
-	
+
 	protected function __createUser($a_role)
 	{
 		/**
@@ -711,8 +706,10 @@ class ilAccountRegistrationGUI
 						case 'grp':
 							$role_refs = ilObject::_getAllReferences($role_obj);
 							$role_ref = end($role_refs);
-							ilObjUser::_addDesktopItem($this->userObj->getId(),$role_ref,ilObject::_lookupType($role_obj));
-							break;
+                            // deactivated for now, see discussion at
+                            // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+                            // $this->recommended_content_manager->addObjectRecommendation($this->userObj->getId(), $role_ref);
+                            break;
 					}
 				}
 			}
@@ -767,7 +764,11 @@ class ilAccountRegistrationGUI
 			);
 			$mail->send();
 		} else {
-			$accountMail = new \ilAccountRegistrationMail($this->registration_settings, $this->lng);
+			$accountMail = new ilAccountRegistrationMail(
+				$this->registration_settings,
+				$this->lng,
+				ilLoggerFactory::getLogger('user')
+			);
 			$accountMail->withDirectRegistrationMode()->send($this->userObj, $password, $this->code_was_used);
 		}
 	}
@@ -784,10 +785,10 @@ class ilAccountRegistrationGUI
 
 		$lng = $DIC['lng'];
 
-		ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
+		$tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
 		$this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
-		$this->tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
+		$tpl->setVariable("TXT_WELCOME", $lng->txt("welcome") . ", " . $this->userObj->getTitle() . "!");
 		if(
 			(
 				$this->registration_settings->getRegistrationType() == IL_REG_DIRECT ||
@@ -799,35 +800,36 @@ class ilAccountRegistrationGUI
 		{
 			// store authenticated user in session
 			ilSession::set('registered_user', $this->userObj->getId());
-			
-			$this->tpl->setCurrentBlock('activation');
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
-			
+
+			$tpl->setCurrentBlock('activation');
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered'));
+
 			$action = $GLOBALS['DIC']->ctrl()->getFormAction($this, 'login').'&target='. ilUtil::stripSlashes($_GET['target']);
-			$this->tpl->setVariable('FORMACTION', $action);
-			
-			$this->tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
-			$this->tpl->parseCurrentBlock();
+			$tpl->setVariable('FORMACTION', $action);
+
+			$tpl->setVariable('TXT_LOGIN', $lng->txt('login_to_ilias'));
+			$tpl->parseCurrentBlock();
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_APPROVE)
 		{
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_submitted'));
 		}
 		else if($this->registration_settings->getRegistrationType() == IL_REG_ACTIVATION)
 		{
 			$login_url = './login.php?cmd=force_login&lang=' . $this->userObj->getLanguage();
-			$this->tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
-			$this->tpl->setVariable('REDIRECT_URL', $login_url);
+			$tpl->setVariable('TXT_REGISTERED', sprintf($lng->txt('reg_confirmation_link_successful'), $login_url));
+			$tpl->setVariable('REDIRECT_URL', $login_url);
 		}
 		else
 		{
-			$this->tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
+			$tpl->setVariable('TXT_REGISTERED', $lng->txt('txt_registered_passw_gen'));
 		}
+		return $tpl;
 	}
-	
+
 	/**
 	 * Do Login
-	 * @todo refactor this method should be renamed, but i don't wanted to make changed in 
+	 * @todo refactor this method should be renamed, but i don't wanted to make changed in
 	 * tpl.usr_registered.html in stable release.
 	 */
 	protected function showLogin()

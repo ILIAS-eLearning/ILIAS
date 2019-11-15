@@ -16,18 +16,38 @@ class ilWhiteListUrlValidatorTest extends TestCase
     public function domainProvider() : array
     {
         return [
-            ['', [], false],
-            ['ilias.de', [], false],
-            ['https://ilias.de', [], false],
-            ['ilias.de', ['ilias.de'], false],
-            ['https://ilias.de', ['ilias.de'], true],
-            ['https://www.ilias.de', ['ilias.de'], true],
-            ['https://server01.www.ilias.de', ['ilias.de'], true],
-            ['https://server01.www.ilias.de', ['.ilias.de'], true],
-            ['https://server01.www.ilias.de', ['www.ilias.de'], true],
-            ['https://server01.www.ilias.de', ['.www.ilias.de'], true],
-            ['https://server01.www.ilias.de', ['server01.www.ilias.de'], true],
-            ['https://server01.www.ilias.de', ['.server01.www.ilias.de'], false],
+            'Empty String / Empty Whitelist' => ['', [], false],
+            'Host without Schema / Empty Whitelist' => ['ilias.de', [], false],
+            'Schema with Host / Empty Whitelist' => ['https://ilias.de', [], false],
+            'Host without Schema' => ['ilias.de', ['ilias.de'], false],
+            'Schema with Host' => ['https://ilias.de', ['ilias.de'], true],
+            'Sub Domain' => ['https://www.ilias.de', ['ilias.de'], true],
+            'Multiple Sub Domains' => ['https://server01.www.ilias.de', ['ilias.de'], true],
+            'Multiple Sub Domains / Whitelist Entry with Leading Dot' => [
+                'https://server01.www.ilias.de',
+                ['.ilias.de'],
+                true
+            ],
+            'Multiple Sub Domains / Whitelist Entry with Sub Domain' => [
+                'https://server01.www.ilias.de',
+                ['www.ilias.de'],
+                true
+            ],
+            'Multiple Sub Domains / Whitelist Entry with Sub Domain and Leading Dot' => [
+                'https://server01.www.ilias.de',
+                ['.www.ilias.de'],
+                true
+            ],
+            'Multiple Sub Domains / Whitelist Entry with Multiple Sub Domains' => [
+                'https://server01.www.ilias.de',
+                ['server01.www.ilias.de'],
+                true
+            ],
+            'Multiple Sub Domains / Whitelist Entry with Multiple Sub Domains and Leading Dot' => [
+                'https://server01.www.ilias.de',
+                ['.server01.www.ilias.de'],
+                false
+            ],
         ];
     }
 

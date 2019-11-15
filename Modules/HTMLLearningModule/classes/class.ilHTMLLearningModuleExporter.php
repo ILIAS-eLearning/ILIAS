@@ -26,30 +26,37 @@ class ilHTMLLearningModuleExporter extends ilXmlExporter
 	}
 
 
-	/**
-	 * Get tail dependencies
-	 *
-	 * @param		string		entity
-	 * @param		string		target release
-	 * @param		array		ids
-	 * @return		array		array of array with keys "component", entity", "ids"
-	 */
-	function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-	{
+    /**
+     * Get tail dependencies
+     *
+     * @param		string		entity
+     * @param		string		target release
+     * @param		array		ids
+     * @return		array		array of array with keys "component", entity", "ids"
+     */
+    function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
+        $deps = [];
+        $md_ids = [];
+        foreach ($a_ids as $id) {
+            $md_ids[] = $id.":0:htlm";
+        }
 
-		$md_ids = array();
-		foreach ($a_ids as $id)
-		{
-			$md_ids[] = $id.":0:htlm";
-		}
+        $deps[] = [
+            "component" => "Services/MetaData",
+            "entity" => "md",
+            "ids" => $md_ids
+        ];
 
-		return array (
-			array(
-				"component" => "Services/MetaData",
-				"entity" => "md",
-				"ids" => $md_ids)
-			);
-	}
+        // service settings
+        $deps[] = [
+            "component" => "Services/Object",
+            "entity" => "common",
+            "ids" => $a_ids
+        ];
+
+        return $deps;
+    }
 
 	/**
 	 * Get xml representation

@@ -37,6 +37,21 @@ class ilBadgeProfileGUI
 	 */
 	protected $user;
 
+	/**
+	 * @var ilAccessHandler
+	 */
+	protected $access;
+
+	/**
+	 * @var \ILIAS\UI\Factory
+	 */
+	protected $factory;
+
+	/**
+	 * @var \ILIAS\UI\Renderer
+	 */
+	protected $renderer;
+
 
 	/**
 	 * Constructor
@@ -50,6 +65,9 @@ class ilBadgeProfileGUI
 		$this->tpl = $DIC["tpl"];
 		$this->tabs = $DIC->tabs();
 		$this->user = $DIC->user();
+		$this->access = $DIC->access();
+		$this->factory = $DIC->ui()->factory();
+		$this->renderer = $DIC->ui()->renderer();
 	}
 
 	const BACKPACK_EMAIL = "badge_mozilla_bp";
@@ -117,13 +135,13 @@ class ilBadgeProfileGUI
 		}
 		else
 		{
-			$ilTabs->addSubTab("list",
+			$ilTabs->addTab("list",
 				$lng->txt("badge_profile_view"),
 				$ilCtrl->getLinkTarget($this, "listBadges"));
-			$ilTabs->addSubTab("manage",
+			$ilTabs->addTab("manage",
 				$lng->txt("badge_profile_manage"),
 				$ilCtrl->getLinkTarget($this, "manageBadges"));
-			$ilTabs->activateSubTab($a_active);
+			$ilTabs->activateTab($a_active);
 		}
 		
 	}
@@ -150,30 +168,78 @@ class ilBadgeProfileGUI
 				"title" => $badge->getTitle(),
 				"description" => $badge->getDescription(),
 				"image" => $badge->getImagePath(),
+				"name" => $badge->getImage(),
 				"issued_on" => $ass->getTimestamp(),
+				"active" => (bool)$ass->getPosition(),
+				"object" => $badge->getParentMeta(),
 				"renderer" => new ilBadgeRenderer($ass)
 			);			
 		}	
 		
 		// :TODO:
 		$data = ilUtil::sortArray($data, "issued_on", "desc", true);
-		
+
 		$tmpl = new ilTemplate("tpl.badge_backpack.html", true, true, "Services/Badge");
 
 		ilDatePresentation::setUseRelativeDates(false);
 
+		$cards = array();
+		$badge_components = array();
+
 		foreach($data as $badge)
-		{																	
-			$tmpl->setCurrentBlock("badge_bl");
-			$tmpl->setVariable("BADGE_TITLE", $badge["title"]);
-			// $tmpl->setVariable("BADGE_DESC", $badge["description"]); :TODO:
-			$tmpl->setVariable("BADGE_IMAGE", $badge["image"]);
-			$tmpl->setVariable("BADGE_CRITERIA", $badge["renderer"]->getHref());
-			$tmpl->setVariable("BADGE_DATE", ilDatePresentation::formatDate(new ilDateTime($badge["issued_on"], IL_CAL_UNIX)));
-			$tmpl->parseCurrentBlock();															
+		{
+			$modal = $this->factory->modal()->roundtrip(
+				$badge["title"], $this->factory->legacy($badge["renderer"]->renderModalContent())
+			)->withCancelButtonLabel("ok");
+			$image = $this->factory->image()->responsive($badge["image"], $badge["name"])
+				->withAction($modal->getShowSignal());
+
+			$this->ctrl->setParameter($this, "badge_id", $badge["id"]);
+			$url = $this->ctrl->getLinkTarget($this, $badge["active"]
+				? "deactivateInCard"
+				: "activateInCard");
+			$this->ctrl->setParameter($this, "badge_id", "");
+			$profile_button = $this->factory->button()->standard(
+				$this->lng->txt(!$badge["active"] ? "badge_add_to_profile" : "badge_remove_from_profile"),
+				$url);
+
+			if ($badge["object"]["type"] != "bdga") {
+				$parent_icon = $this->factory->symbol()->icon()->custom(
+					ilObject::_getIcon($badge["object"]["id"],"big", $badge["object"]["type"]),
+					$this->lng->txt("obj_".$badge["object"]["type"]),
+					"medium"
+				);
+
+				$parent_ref_id = array_shift(ilObject::_getAllReferences($badge["object"]["id"]));
+				if($this->access->checkAccess("read", "", $parent_ref_id)) {
+					$parent_link = $this->factory->link()->standard($badge["object"]["title"], ilLink::_getLink($parent_ref_id));
+				} else {
+					$parent_link = $this->factory->legacy($badge["object"]["title"]);
+				}
+
+				$badge_sections = [
+					$this->factory->listing()->descriptive([
+						$this->lng->txt("object") => $this->factory->legacy(
+							$this->renderer->render($parent_icon) . $this->renderer->render($parent_link)
+						)
+					]),
+					$profile_button
+				];
+			} else {
+				$badge_sections = [$profile_button];
+			}
+
+			$cards[] = $this->factory->card()->standard($badge["title"], $image)->withSections($badge_sections)
+				->withTitleAction($modal->getShowSignal());
+
+			$badge_components[] = $modal;
 		}
 
-		$tpl->setContent($tmpl->get());		
+		$deck = $this->factory->deck($cards);
+		$badge_components[] = $deck;
+
+		$tmpl->setVariable("DECK", $this->renderer->render($badge_components));
+		$tpl->setContent($tmpl->get());
 	}
 	
 	protected function manageBadges()
@@ -276,6 +342,44 @@ class ilBadgeProfileGUI
 		
 		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
 		$ilCtrl->redirect($this, "manageBadges");		
+	}
+
+	protected function activateInCard()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		foreach($this->getMultiSelection() as $ass)
+		{
+			// already active?
+			if(!$ass->getPosition())
+			{
+				$ass->setPosition(999);
+				$ass->store();
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listBadges");
+	}
+
+	protected function deactivateInCard()
+	{
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+
+		foreach($this->getMultiSelection() as $ass)
+		{
+			// already inactive?
+			if($ass->getPosition())
+			{
+				$ass->setPosition(null);
+				$ass->store();
+			}
+		}
+
+		ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+		$ilCtrl->redirect($this, "listBadges");
 	}
 	
 	
