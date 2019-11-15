@@ -17,8 +17,6 @@ class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
 Hurray [NAME] you have received [PRIZE]
 </xml>';
 
-        $backgroundPath = '/some/where/path/background.jpg';
-
         $replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
         $expected = '<xml> 
@@ -40,8 +38,6 @@ Hurray Peter you have received a fantastic prize
 [CLIENT_WEB_DIR]/background.jpg
 Hurray [NAME] you have received [PRIZE]
 </xml>';
-
-        $backgroundPath = '/some/where/path/background.jpg';
 
         $replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
