@@ -6806,20 +6806,16 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-@media only screen and (min-width: 769px) {
-  .panel-secondary .il-panel-listing-std-container > h3,
-  .panel-secondary .il-panel-listing-std-container > h4 {
-    display: block;
-    padding: 3px 6px;
-    font-size: 12px;
-    background-color: #ececec;
-    color: #909090;
-    white-space: nowrap;
-    margin: 0;
-  }
-  .panel-secondary .panel-body {
-    padding: 3px 8px;
-  }
+.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .panel-body h4 {
+  display: block;
+  padding: 3px 6px;
+  font-size: 12px;
+  color: #909090;
+  margin: 0;
+}
+.panel-secondary .panel-body {
+  padding: 0;
 }
 .panel-secondary .panel-heading {
   display: flex;
