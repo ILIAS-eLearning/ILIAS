@@ -2,8 +2,6 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
-
 /**
  * This describes file field.
  */
@@ -22,5 +20,5 @@ interface File extends Input
     public function getMaxFileFize() : int;
 
 
-    public function getUploadHandler() : ilCtrlAwareUploadHandler;
+    public function getUploadHandler() : UploadHandler;
 }
