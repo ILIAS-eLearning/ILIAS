@@ -49,7 +49,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		
 		$this->lng = $lng;
 		parent::__construct();
-		$lng->loadLanguageModule('pd');
+		$lng->loadLanguageModule('dash');
 		$lng->loadLanguageModule('dateplaner');
 		$this->ref_id = $a_ref_id;
 		$this->obj_id = ilObject::_lookupObjId($this->ref_id);
@@ -69,14 +69,14 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_offers'));
+			$lng->txt('dash_favourites'));
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'seed',$this->seed->get(IL_CAL_DATE));
 
 		// @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
 		$this->addBlockCommand(
 			$ilCtrl->getLinkTargetByClass("ilcalendarcategorygui",'switchCalendarMode'),
-			$lng->txt('pd_my_memberships'));
+			$lng->txt('dash_memberships'));
 
 		$ilCtrl->setParameterByClass("ilcalendarcategorygui",'calendar_mode',"");
 		$this->addBlockCommand(

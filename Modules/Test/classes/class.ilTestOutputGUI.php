@@ -48,6 +48,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
 		$this->initAssessmentSettings();
 
+		$DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
+            $this->object->getKioskMode()
+        );
+
 		$testSessionFactory = new ilTestSessionFactory($this->object);
 		$this->testSession = $testSessionFactory->getSession($_GET['active_id']);
 		

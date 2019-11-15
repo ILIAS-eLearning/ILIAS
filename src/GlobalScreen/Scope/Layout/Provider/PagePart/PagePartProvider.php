@@ -49,4 +49,8 @@ interface PagePartProvider
      * @return Footer|null
      */
     public function getFooter() : ?Footer;
+
+    public function getTitle() : string;
+    public function getShortTitle() : string;
+    public function getViewTitle() : string;
 }

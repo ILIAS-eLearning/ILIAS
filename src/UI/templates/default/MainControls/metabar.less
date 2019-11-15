@@ -11,6 +11,15 @@
 			padding-left: 10px;
 		}
 	}
+	.input-group {
+		display: block;
+	}
+	p {
+		padding: 0;
+	}
+	form#mm_search_form {
+		padding: 20px;
+	}
 }
 
 .il-metabar-entries {
@@ -37,9 +46,9 @@
 	}
 	.btn {
 		position: relative;
-		.badge {
-	    	margin-top: -20px;
-		}
+	}
+	.il-counter-novelty {
+		margin-top: -20px;
 	}
 	.il-counter-status {
 		margin-top: -4px;
@@ -100,8 +109,17 @@
 	.shadow-right;
     background-color: @il-metabar-slates-bg-color;
 	position: absolute;
-	right: 20px;
+
+	max-width: @il-metabar-slates-width;
+	.il-maincontrols-slate{
+		min-width: @il-metabar-slates-width;
+	}
+	max-height: 90vh;
+	overflow-y: scroll;
+	right: 0;
+
 	top: @il-metabar-entry-height;
+
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		width: 100%;
 		top: @il-metabar-small-entry-height;
@@ -109,7 +127,6 @@
 	}
 	/*TODO: remove hack*/
 	.il-maincontrols-slate {
-		min-width: 500px;
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
 			min-width: 260px;
 		}

@@ -55,6 +55,11 @@ abstract class ilParticipant
 	private $participants_status = array();
 
 	/**
+	 * @var ilRecommendedContentManager
+	 */
+	protected $recommended_content_manager;
+
+	/**
 	 * Singleton Constructor
 	 *
 	 * @access protected
@@ -74,6 +79,8 @@ abstract class ilParticipant
 		$this->ref_id = current($ref_ids);
 		
 		$this->component = $a_component_name;
+
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 	 	
 	 	$this->readParticipant();
 	 	$this->readParticipantStatus();
@@ -458,7 +465,7 @@ abstract class ilParticipant
 	 	}
 
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
-		$this->addDesktopItem($a_usr_id);
+		$this->addRecommendation($a_usr_id);
 		
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
@@ -492,8 +499,9 @@ abstract class ilParticipant
 		$rbacadmin = $DIC['rbacadmin'];
 		$ilDB = $DIC['ilDB'];
 		$ilAppEventHandler = $DIC['ilAppEventHandler'];
-		
-		$this->dropDesktopItem($a_usr_id);
+
+		$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+
 		foreach($this->roles as $role_id)
 		{
 			$rbacadmin->deassignUser($role_id,$a_usr_id);
@@ -540,32 +548,15 @@ abstract class ilParticipant
 	 * @param int usr_id
 	 * 
 	 */
-	public function addDesktopItem($a_usr_id)
+	public function addRecommendation($a_usr_id)
 	{
-		if(!ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
-		{
-			ilObjUser::_addDesktopItem($a_usr_id, $this->ref_id,$this->type);
-		}
+		// deactivated for now, see discussion at
+		// https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+		//$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
 		return true;
 	}
 	
-	/**
-	 * Drop desktop item
-	 *
-	 * @access public
-	 * @param int usr_id
-	 * 
-	 */
-	function dropDesktopItem($a_usr_id)
-	{
-		if(ilObjUser::_isDesktopItem($a_usr_id, $this->ref_id,$this->type))
-		{
-			ilObjUser::_dropDesktopItem($a_usr_id, $this->ref_id,$this->type);
-		}
 
-		return true;
-	}
-	
 	// cognos-blu-patch: begin
 	/**
 	 * 

@@ -84,7 +84,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 	*/
 	function setValue($a_value)
 	{
-		include_once "./Modules/SurveyQuestionPool/classes/class.SurveyCategories.php";
 		$this->values = new SurveyCategories();
 		if (is_array($a_value))
 		{
@@ -254,7 +253,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 					$tpl->setVariable("CMD_UP", "cmd[up" . $this->getFieldId() . "][$i]");
 					$tpl->setVariable("CMD_DOWN", "cmd[down" . $this->getFieldId() . "][$i]");
 					$tpl->setVariable("ID", $this->getPostVar() . "[$i]");
-					include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 					$tpl->setVariable("UP_BUTTON", ilGlyphGUI::get(ilGlyphGUI::UP));
 					$tpl->setVariable("DOWN_BUTTON", ilGlyphGUI::get(ilGlyphGUI::DOWN));					
 					$tpl->parseCurrentBlock();
@@ -276,7 +274,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
 
 				$tpl->setVariable("CMD_ADD", "cmd[add" . $this->getFieldId() . "][$i]");
 				$tpl->setVariable("CMD_REMOVE", "cmd[remove" . $this->getFieldId() . "][$i]");
-				include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 				$tpl->setVariable("ADD_BUTTON", ilGlyphGUI::get(ilGlyphGUI::ADD));
 				$tpl->setVariable("REMOVE_BUTTON", ilGlyphGUI::get(ilGlyphGUI::REMOVE));				
 				$tpl->parseCurrentBlock();

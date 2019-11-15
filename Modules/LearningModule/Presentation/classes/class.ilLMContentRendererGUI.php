@@ -287,9 +287,6 @@ class ilLMContentRendererGUI
 
         $page_object_gui->setTemplateOutput(false);
 
-        // Update personal desktop items
-        $ilUser->setDesktopItemParameters($this->lm->getRefId(), $this->lm->getType(), $page_id);
-
         // Update course items
         ilCourseLMHistory::_updateLastAccess($ilUser->getId(), $this->lm->getRefId(), $page_id);
 

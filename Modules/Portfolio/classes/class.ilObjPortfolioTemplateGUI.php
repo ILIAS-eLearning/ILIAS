@@ -538,13 +538,13 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	public function createFromTemplateOld()
 	{		
 		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
-		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");		
+		$this->ctrl->redirectByClass(array("ilDashboardGUI", "ilportfoliorepositorygui", "ilobjportfoliogui"), "create");
 	}
 
 	public function createFromTemplate()
 	{
 		$this->ctrl->setParameterByClass("ilobjportfoliogui", "prtt_pre", $this->object->getId());
-		$this->ctrl->redirectByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui", "ilobjportfoliogui"), "createFromTemplateDirect");
+		$this->ctrl->redirectByClass(array("ilDashboardGUI", "ilportfoliorepositorygui", "ilobjportfoliogui"), "createFromTemplateDirect");
 	}
 
 	public static function _goto($a_target)

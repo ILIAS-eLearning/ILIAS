@@ -83,6 +83,7 @@ class ilPropertyFormGUI extends ilFormGUI
 	protected $show_top_buttons = true;
 	protected $hide_labels = false;
 
+	protected $force_top_buttons = false;
 
 	/**
 	* Constructor
@@ -282,6 +283,27 @@ class ilPropertyFormGUI extends ilFormGUI
 	{
 		return $this->show_top_buttons;
 	}
+	
+	/**
+	 * Set force top buttons
+	 *
+	 * @param bool $a_val force top buttons	
+	 */
+	function setForceTopButtons($a_val)
+	{
+		$this->force_top_buttons = $a_val;
+	}
+	
+	/**
+	 * Get force top buttons
+	 *
+	 * @return bool force top buttons
+	 */
+	function getForceTopButtons()
+	{
+		return $this->force_top_buttons;
+	}
+	
 	
 	/**
 	* Add Item (Property, SectionHeader).
@@ -693,7 +715,7 @@ class ilPropertyFormGUI extends ilFormGUI
 		if ($this->getTitle() != "")
 		{
 			// commands on top
-			if (count($this->buttons) > 0 && $this->getShowTopButtons() && count($this->items) > 2)
+			if (count($this->buttons) > 0 && $this->getShowTopButtons() && (count($this->items) > 2 || $this->force_top_buttons))
 			{
 				// command buttons
 				foreach($this->buttons as $button)

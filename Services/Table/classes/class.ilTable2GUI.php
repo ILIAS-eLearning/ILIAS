@@ -2208,7 +2208,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				// see #26490
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}
@@ -2216,7 +2217,8 @@ echo "ilTabl2GUI->addSelectionButton() has been deprecated with 4.2. Please try 
 		{
 			if ($item->checkInput())
 			{
-				$item->setValueByArray($_POST);
+				// see #26490
+				$item->setValueByArray([]);
 				$item->clearFromSession();
 			}
 		}

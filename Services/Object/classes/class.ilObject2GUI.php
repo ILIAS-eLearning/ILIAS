@@ -61,7 +61,8 @@ abstract class ilObject2GUI extends ilObjectGUI
 		$tree  = $DIC["tree"];
 		$ilAccess  = $DIC["ilAccess"];
 		$this->object_service = $DIC->object();
-		
+        $this->favourites = new ilFavouritesManager();
+
 		if (!isset($ilErr))
 		{
 			$ilErr = new ilErrorHandling();

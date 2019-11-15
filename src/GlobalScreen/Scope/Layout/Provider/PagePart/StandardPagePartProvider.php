@@ -11,6 +11,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ilUtil;
 
 /**
@@ -55,7 +56,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getContent() : ?Legacy
     {
-        return $this->content ?? new LegacyImplementation("");
+        return $this->content ?? $this->ui->factory()->legacy("");
     }
 
 
@@ -172,5 +173,30 @@ class StandardPagePartProvider implements PagePartProvider
     public function getFooter() : ?Footer
     {
         return $this->ui->factory()->mainControls()->footer([]);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getTitle() : string
+    {
+        return 'title';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getShortTitle() : string
+    {
+        return 'short';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getViewTitle() : string
+    {
+        return 'view';
     }
 }

@@ -39,7 +39,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withTitle($title)
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
-                \ilPersonalDesktopGUI::class,
+                \ilDashboardGUI::class,
                 \ilMyStaffGUI::class,
                 \ilMStListCoursesGUI::class,
             ], \ilMStListCoursesGUI::CMD_INDEX))
@@ -64,7 +64,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withTitle($title)
             ->withAction($this->dic->ctrl()->getLinkTargetByClass([
-                \ilPersonalDesktopGUI::class,
+                \ilDashboardGUI::class,
                 \ilMyStaffGUI::class,
                 \ilMStListCoursesGUI::class,
             ], \ilMStListCoursesGUI::CMD_INDEX))

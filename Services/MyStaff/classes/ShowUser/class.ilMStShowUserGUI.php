@@ -54,7 +54,7 @@ class ilMStShowUserGUI {
 
 		if (!$this->usr_id) {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 
 		if ($this->access->hasCurrentUserAccessToMyStaff()
@@ -62,7 +62,7 @@ class ilMStShowUserGUI {
 			return;
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 	}
 

@@ -18,11 +18,23 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
 
         $tpl = $this->getTemplate("tpl.counter.html", true, true);
+        if($component->getNumber() === 0){
+            $tpl->touchBlock("hidden_".$component->getType());
+        }
         $tpl->setCurrentBlock($component->getType());
         $tpl->setVariable("NUMBER", $component->getNumber());
         $tpl->parseCurrentBlock();
-
         return $tpl->get();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    {
+        parent::registerResources($registry);
+        $registry->register('./src/UI/templates/js/Counter/counter.js');
+
     }
 
     /**

@@ -42,7 +42,7 @@ class ilMStListUsersGUI {
 			return;
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 	}
 
@@ -136,7 +136,7 @@ class ilMStListUsersGUI {
 
 			$DIC->ctrl()->setParameterByClass(ilMStShowUserGUI::class, 'usr_id', $mst_lus_usr_id);
 			$selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
-				ilPersonalDesktopGUI::class,
+                ilDashboardGUI::class,
 				ilMyStaffGUI::class,
 				ilMStShowUserGUI::class,
 			)));
