@@ -75,10 +75,13 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Input\Field\File) {
             $component = $this->setSignals($component);
             $upload_url = $component->getUploadHandler()->getUploadURL();
+            $remove_url = $component->getUploadHandler()->getFileRemovalURL();
+            $file_identification_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+
             $component = $component->withAdditionalOnLoadCode(
-                function ($id) use ($upload_url) {
+                function ($id) use ($upload_url, $remove_url, $file_identification_key) {
                     return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$upload_url}');
+					il.UI.Input.file.init('$id', '{$upload_url}', '{$remove_url}','{$file_identification_key}');
 				});";
                 }
             );

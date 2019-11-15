@@ -12,15 +12,15 @@ il.UI.Input = il.UI.Input || {};
     il.UI.Input.file = (function ($) {
 
 
-        var init = function (container_id, upload_url) {
+        var init = function (container_id, upload_url, removal_url, file_identifier_key) {
 
-            let replacer = new RegExp('amp;', 'g');
+            var replacer = new RegExp('amp;', 'g');
             upload_url = upload_url.replace(replacer, '');
 
             console.log(upload_url);
-            let container = '#' + container_id;
-            let dropzone = container + ' .il-input-file-dropzone';
-            let input_template = $(container + ' .input-template').clone();
+            var container = '#' + container_id;
+            var dropzone = container + ' .il-input-file-dropzone';
+            var input_template = $(container + ' .input-template').clone();
             $(container + ' .input-template').remove();
             console.log(input_template);
 
@@ -52,7 +52,7 @@ il.UI.Input = il.UI.Input || {};
                 }
                 console.log(json);
                 if (json.hasOwnProperty('file_identifier')) {
-                    let clone = input_template.clone();
+                    var clone = input_template.clone();
                     clone.val(json.file_identifier);
                     $(container).append(clone);
                 }

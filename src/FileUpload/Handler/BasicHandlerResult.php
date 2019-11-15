@@ -3,6 +3,7 @@
 namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\UI\Component\Input\Field\HandlerResult;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
  * Class BasicHandlerResult
@@ -12,6 +13,10 @@ use ILIAS\UI\Component\Input\Field\HandlerResult;
 class BasicHandlerResult implements HandlerResult
 {
 
+    /**
+     * @var string
+     */
+    private $file_identification_key;
     /**
      * @var int
      */
@@ -33,8 +38,9 @@ class BasicHandlerResult implements HandlerResult
      * @param string $file_identifier
      * @param string $message
      */
-    public function __construct(int $status, string $file_identifier, string $message)
+    public function __construct(string $file_identification_key, int $status, string $file_identifier, string $message)
     {
+        $this->file_identification_key = $file_identification_key;
         $this->status = $status;
         $this->file_identifier = $file_identifier;
         $this->message = $message;
@@ -64,10 +70,12 @@ class BasicHandlerResult implements HandlerResult
      */
     final public function jsonSerialize()
     {
+        $str = $this->file_identification_key ?? UploadHandler::DEFAULT_FILE_ID_PARAMETER;
+
         return [
-            'status'          => $this->status,
-            'message'         => $this->message,
-            'file_identifier' => $this->file_identifier,
+            'status'  => $this->status,
+            'message' => $this->message,
+            $str      => $this->file_identifier,
         ];
     }
 

@@ -103,7 +103,7 @@ class File extends Input implements C\Input\Field\File
     /**
      * @inheritDoc
      */
-    public function getUploadHandler() : ilCtrlAwareUploadHandler
+    public function getUploadHandler() : C\Input\Field\UploadHandler
     {
         return $this->upload_handler;
     }
