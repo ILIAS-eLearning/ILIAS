@@ -82,7 +82,7 @@ class DirectoryCreatedObjective implements Objective
 			mkdir($this->path, $this->permissions);
 		}
 		if (!is_dir($this->path)) {
-			throw new \UnachievableException(
+			throw new UnachievableException(
 				"Could not create directory '{$this->path}'"
 			);
 		}
