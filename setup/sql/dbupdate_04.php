@@ -23916,7 +23916,7 @@ if($ilDB->tableExists('certificate_template')) {
 				$timestamp = $certificateFile->getMTime();
 
 				if (false !== $content) {
-					$backgroundImagePath = $relativePath . $relativePath . '/background.jpg';
+					$backgroundImagePath = $relativePath . $objectId . '/background.jpg';
 
 					$id      = $ilDB->nextId('certificate_template');
 					$columns = [
