@@ -1133,49 +1133,6 @@ if ($ilDB->tableExists('il_bt_bucket')) {
 ?>
 <#5506>
 <?php
-if ($ilDB->tableExists('event'))
-{
-    $ilDB->addTableColumn(
-        'event',
-        'reg_notification', array(
-            'type'    => 'integer',
-            'notnull' => true,
-            'default' => 0
-        )
-    );
-
-    $ilDB->addTableColumn(
-        'event',
-        'notification_opt',
-        array(
-            'type'    => 'text',
-            'length'  => '50',
-            'notnull' => false,
-            'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
-        )
-    );
-}
-?>
-<#5507>
-<?php
-if ($ilDB->tableExists('event_participants'))
-{
-    $ilDB->addTableColumn(
-        'event_participants',
-        'notification_enabled', array(
-            'type'    => 'integer',
-            'notnull' => true,
-            'default' => 0
-        )
-    );
-}
-?>
-<#5508>
-<?php
-$ilCtrlStructureReader->getStructure();
-?>
-<#5506>
-<?php
 
 // get pdts type id
 $row = $ilDB->fetchAssoc($ilDB->queryF(
@@ -2895,4 +2852,47 @@ if(!$ilDB->tableExists('svy_invitation'))
 <#5587>
 <?php
 	$ilDB->dropTable('svy_inv_usr');
+?>
+<#5588>
+<?php
+if ($ilDB->tableExists('event'))
+{
+    $ilDB->addTableColumn(
+        'event',
+        'reg_notification', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+
+    $ilDB->addTableColumn(
+        'event',
+        'notification_opt',
+        array(
+            'type'    => 'text',
+            'length'  => '50',
+            'notnull' => false,
+            'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
+        )
+    );
+}
+?>
+<#5589>
+<?php
+if ($ilDB->tableExists('event_participants'))
+{
+    $ilDB->addTableColumn(
+        'event_participants',
+        'notification_enabled', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5590>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
