@@ -305,4 +305,12 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::MORE, "more", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function disclosure($action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::DISCLOSURE, "disclosure", $action);
+    }
 }

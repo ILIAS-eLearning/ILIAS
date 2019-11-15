@@ -84,6 +84,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::TIME
         , self::CLOSE
         , self::MORE
+        , self::DISCLOSURE
         );
 
 

@@ -128,7 +128,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 				</button>
 				<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
 				    <span class="glyph" aria-label="more">
-				        <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+				        <span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
 				        <span class="badge badge-notify il-counter-status">0</span>
 				        <span class="badge badge-notify il-counter-novelty">0</span>
 				    </span>

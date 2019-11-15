@@ -50,6 +50,7 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, \ILIAS\UI\Component\J
     const TIME = "time";
     const CLOSE = "close";
     const MORE = "more";
+    const DISCLOSURE = "disclosure";
 
     /**
      * Get the type of the glyph.
