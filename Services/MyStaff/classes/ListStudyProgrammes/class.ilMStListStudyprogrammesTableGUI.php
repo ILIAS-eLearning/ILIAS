@@ -111,10 +111,10 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 	public function initFilter() {
 		global $DIC;
 
-		$item = new ilTextInputGUI($DIC->language()->txt("crs_title"), "crs_title");
+		$item = new ilTextInputGUI($DIC->language()->txt("st_prog_title"), "st_prog_title");
 		$this->addFilterItem($item);
 		$item->readFromSession();
-		$this->filter['crs_title'] = $item->getValue();
+		$this->filter['st_prog_title'] = $item->getValue();
 
 		// course members
 		$item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
@@ -191,26 +191,55 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 
 		$arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
 
-		$cols['crs_title'] = array(
-			'txt' => $DIC->language()->txt('crs_title'),
+		$cols['st_prog_title'] = array(
+			'txt' => $DIC->language()->txt('st_prog_title'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'crs_title',
+			'sort_field' => 'st_prog_title',
 		);
-		$cols['usr_reg_status'] = array(
-			'txt' => $DIC->language()->txt('member_status'),
+		$cols['st_prog_usr_status'] = array(
+			'txt' => $DIC->language()->txt('st_prog_usr_status'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'reg_status',
+			'sort_field' => 'st_prog_usr_status',
 		);
-		if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToStudyProgrammeLearningProgressForAtLeastOneUser()) {
-			$cols['usr_lp_status'] = array(
-				'txt' => $DIC->language()->txt('learning_progress'),
-				'default' => true,
-				'width' => 'auto',
-				'sort_field' => 'lp_status',
-			);
-		}
+        $cols['st_prog_points_required'] = array(
+            'txt' => $DIC->language()->txt('st_prog_points_required'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_points_required',
+        );
+        $cols['st_prog_usr_status'] = array(
+            'txt' => $DIC->language()->txt('st_prog_points_current'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_points_current',
+        );
+        $cols['st_prog_assignment_date'] = array(
+            'txt' => $DIC->language()->txt('st_prog_assignment_date'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_assignment_date',
+        );
+        $cols['st_prog_completion_date'] = array(
+            'txt' => $DIC->language()->txt('st_prog_completion_date'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_completion_date',
+        );
+        $cols['st_prog_expiry_date'] = array(
+            'txt' => $DIC->language()->txt('st_prog_expiry_date'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_expiry_date',
+        );
+        $cols['st_prog_validity'] = array(
+            'txt' => $DIC->language()->txt('st_prog_validity'),
+            'default' => true,
+            'width' => 'auto',
+            'sort_field' => 'st_prog_validity',
+        );
+
 
 		if ($arr_searchable_user_columns['login']) {
 			$cols['usr_login'] = array(

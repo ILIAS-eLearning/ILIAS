@@ -37,23 +37,41 @@ class ilMStListStudyProgrammes {
 		);
 		$options = array_merge($_options, $options);
 
-		$select = 'SELECT crs_ref.ref_id AS crs_ref_id, crs.title AS crs_title, reg_status, lp_status, usr_data.usr_id AS usr_id, usr_data.login AS usr_login, usr_data.lastname AS usr_lastname, usr_data.firstname AS usr_firstname, usr_data.email AS usr_email  FROM (
-	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
-		          AS reg
-                        LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $DIC->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
-		            UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
-	                    WHERE ' . $DIC->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
-                    UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListStudyProgramme::MEMBERSHIP_STATUS_REQUESTED . ' AS reg_status, 0 AS lp_status FROM il_subscribers AS requested
-	                  WHERE ' . $DIC->database()->in('requested.usr_id', $arr_usr_ids, false, 'integer') . '  
-	                    ) AS memb
-	           
-                    INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $DIC->database()
-				->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
-                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
-	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
+		//see Services/MyStaff/classes/ListStudyProgrammes/class.ilMStListStudyprogrammesTableGUI.php
+		$select = 'SELECT 
+    prgrs.id prgrs_id,
+    pcp.firstname,
+    pcp.lastname,
+    pcp.login,
+    prgrs.points,
+    prgrs.points_cur * ABS(prgrs.status - 3) / (GREATEST(ABS(prgrs.status - 3), 1)) + prgrs.points * (1 - ABS(prgrs.status - 3) / (GREATEST(ABS(prgrs.status - 3), 1))) points_current,
+    prgrs.last_change_by,
+    prgrs.status,
+    blngs.title belongs_to,
+    cmpl_usr.login accredited_by,
+    cmpl_obj.title completion_by,
+    cmpl_obj.type completion_by_type,
+    prgrs.completion_by completion_by_id,
+    prgrs.assignment_id assignment_id,
+    ass.root_prg_id root_prg_id,
+    ass.last_change prg_assign_date,
+    ass_usr.login prg_assigned_by,
+    CONCAT(pcp.firstname, pcp.lastname) name,
+    (prgrs.last_change_by IS NOT NULL) custom_plan
+FROM
+    prg_usr_progress prgrs
+        JOIN
+    usr_data pcp ON pcp.usr_id = prgrs.usr_id
+        JOIN
+    prg_usr_assignments ass ON ass.id = prgrs.assignment_id
+        JOIN
+    object_data blngs ON blngs.obj_id = ass.root_prg_id
+        LEFT JOIN
+    usr_data ass_usr ON ass_usr.usr_id = ass.last_change_by
+        LEFT JOIN
+    usr_data cmpl_usr ON cmpl_usr.usr_id = prgrs.completion_by
+        LEFT JOIN
+    object_data cmpl_obj ON cmpl_obj.obj_id = prgrs.completion_by';
 
 		$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
 
@@ -64,31 +82,31 @@ class ilMStListStudyProgrammes {
 		}
 
 		if ($options['sort']) {
-			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+			//$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
 		}
 
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+			//$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
 		$result = $DIC->database()->query($select);
 		$crs_data = array();
 
-		while ($crs = $DIC->database()->fetchAssoc($result)) {
-			$list_course = new ilMStListStudyProgramme();
-			$list_course->setCrsRefId($crs['crs_ref_id']);
-			$list_course->setCrsTitle($crs['crs_title']);
-			$list_course->setUsrRegStatus($crs['reg_status']);
-			$list_course->setUsrLpStatus($crs['lp_status']);
-			$list_course->setUsrLogin($crs['usr_login']);
-			$list_course->setUsrLastname($crs['usr_lastname']);
-			$list_course->setUsrFirstname($crs['usr_firstname']);
-			$list_course->setUsrEmail($crs['usr_email']);
-			$list_course->setUsrId($crs['usr_id']);
+		while ($row = $DIC->database()->fetchAssoc($result)) {
+			$obj = new ilMStListStudyProgramme();
+            $obj->setCrsRefId($row['crs_ref_id']);
+            $obj->setCrsTitle($row['crs_title']);
+            $obj->setUsrRegStatus($row['reg_status']);
+            $obj->setUsrLpStatus($row['lp_status']);
+            $obj->setUsrLogin($row['usr_login']);
+            $obj->setUsrLastname($row['usr_lastname']);
+            $obj->setUsrFirstname($row['usr_firstname']);
+            $obj->setUsrEmail($row['usr_email']);
+            $obj->setUsrId($row['usr_id']);
 
-			$crs_data[] = $list_course;
+			$data[] = $obj;
 		}
 
-		return $crs_data;
+		return $data;
 	}
 
 
@@ -106,21 +124,21 @@ class ilMStListStudyProgrammes {
 
 		$where = array();
 
-		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * FROM ' . $tmp_table_user_matrix . ')';
+		//$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * FROM ' . $tmp_table_user_matrix . ')';
 
 		if (count($arr_usr_ids)) {
-			$where[] = $DIC->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+			//$where[] = $DIC->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 		}
 
 		if (!empty($arr_filter['crs_title'])) {
-			$where[] = '(crs.title LIKE ' . $DIC->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
+			//$where[] = '(crs.title LIKE ' . $DIC->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['course'] > 0) {
-			$where[] = '(crs_ref.ref_id = ' . $DIC->database()->quote($arr_filter['course'], 'integer') . ')';
+			//$where[] = '(crs_ref.ref_id = ' . $DIC->database()->quote($arr_filter['course'], 'integer') . ')';
 		}
 
-		if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
+		/*if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
 
 			switch ($arr_filter['lp_status']) {
 				case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
@@ -131,23 +149,23 @@ class ilMStListStudyProgrammes {
 					$where[] = '(lp_status = ' . $DIC->database()->quote($arr_filter['lp_status'], 'integer') . ')';
 					break;
 			}
-		}
+		}*/
 
 		if (!empty($arr_filter['memb_status'])) {
-			$where[] = '(reg_status = ' . $DIC->database()->quote($arr_filter['memb_status'], 'integer') . ')';
+			//$where[] = '(reg_status = ' . $DIC->database()->quote($arr_filter['memb_status'], 'integer') . ')';
 		}
-
+/*
 		if (!empty($arr_filter['user'])) {
 			$where[] = "(" . $DIC->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
 					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
 					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
 					->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
-		}
+		}*/
 
-		if (!empty($arr_filter['org_unit'])) {
+		/*if (!empty($arr_filter['org_unit'])) {
 			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $DIC->database()
 					->quote($arr_filter['org_unit'], 'integer') . ')';
-		}
+		}*/
 
 		if (!empty($where)) {
 			return ' WHERE ' . implode(' AND ', $where) . ' ';
