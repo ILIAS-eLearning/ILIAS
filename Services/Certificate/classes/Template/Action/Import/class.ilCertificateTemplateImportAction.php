@@ -184,7 +184,11 @@ class ilCertificateTemplateImportAction
 						$basePath = rtrim(dirname($this->getBackgroundImageDirectory($rootDir)), '/');
 						$fileName = basename($matches[1]);
 
-						return 'url(' . $basePath . '/' . $fileName . ')';
+						if (strlen($basePath) > 0) {
+							$basePath .= '/';
+						}
+
+						return 'url(' . $basePath . $fileName . ')';
 					}, $xsl);
 				} elseif (strpos($file['entry'], '.jpg') !== false) {
 					$newBackgroundImageName = 'background_' . $newVersion . '.jpg';
