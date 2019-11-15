@@ -29,18 +29,13 @@ class ilCertificateValueReplacement
 	 *
 	 * @param array $placeholderValues
 	 * @param string $certificateContent
-	 * @param string $backgroundPath
 	 * @return string
 	 */
-	public function replace(array $placeholderValues, string $certificateContent, string $backgroundPath) : string
+	public function replace(array $placeholderValues, string $certificateContent) : string
 	{
-
 		foreach ($placeholderValues as $placeholder => $value) {
 			$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
 		}
-
-		$certificateContent = str_replace('[BACKGROUND_IMAGE]',  $backgroundPath, $certificateContent);
-		$certificateContent = str_replace('[CLIENT_WEB_DIR]',  $this->clientWebDirectory, $certificateContent);
 
 		return $certificateContent;
 	}

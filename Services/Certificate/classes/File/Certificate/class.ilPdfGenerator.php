@@ -104,6 +104,18 @@ class ilPdfGenerator
 	private function createPDFScalar(ilUserCertificate $certificate) : string
 	{
 		$certificateContent = $certificate->getCertificateContent();
+
+		$certificateContent = str_replace(
+			'[BACKGROUND_IMAGE]',
+			'[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(),
+			$certificateContent
+		);
+		$certificateContent = str_replace(
+			'[CLIENT_WEB_DIR]',
+			CLIENT_WEB_DIR,
+			$certificateContent
+		);
+
 		$pdf_base64 = $this->rpcHelper->ilFO2PDF('RPCTransformationHandler', $certificateContent);
 
 		return $pdf_base64->scalar;

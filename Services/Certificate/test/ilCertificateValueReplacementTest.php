@@ -19,10 +19,10 @@ Hurray [NAME] you have received [PRIZE]
 
 		$backgroundPath = '/some/where/path/background.jpg';
 
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
+		$replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
 		$expected = '<xml> 
-/some/where/path/background.jpg
+[BACKGROUND_IMAGE]
 Hurray Peter you have received a fantastic prize
 </xml>';
 
@@ -43,11 +43,11 @@ Hurray [NAME] you have received [PRIZE]
 
 		$backgroundPath = '/some/where/path/background.jpg';
 
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
+		$replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
 		$expected = '<xml> 
-/some/where/path/background.jpg
-/some/where/background.jpg
+[BACKGROUND_IMAGE]
+[CLIENT_WEB_DIR]/background.jpg
 Hurray Peter you have received a fantastic prize
 </xml>';
 
