@@ -814,6 +814,7 @@ class ilDashboardGUI
 	 */
 	protected function getMainContent()
 	{
+		$tpl = new ilTemplate("tpl.dashboard.html", true, true, "Services/Dashboard");
 		$settings = new ilPDSelectedItemsBlockViewSettings($this->user);
 
 		if ($settings->enabledSelectedItems()) {
@@ -825,7 +826,9 @@ class ilDashboardGUI
 			$html .= $this->renderMemberships();
 		}
 
-		return $html;
+		$tpl->setVariable("CONTENT", $html);
+
+		return $tpl->get();
 	}
 
 	/**
