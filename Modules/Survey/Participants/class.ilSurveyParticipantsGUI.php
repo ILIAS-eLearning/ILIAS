@@ -1,5 +1,8 @@
 <?php
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use \ILIAS\Survey\Participants;
 
 /**
 * Class ilSurveyParticipantsGUI
@@ -62,6 +65,11 @@ class ilSurveyParticipantsGUI
 	protected $object; // [ilObjSurvey]
 	protected $ref_id; // [int]
 	protected $has_write; // [bool]
+
+	/**
+	 * @var Participants\InvitationsManager
+	 */
+	protected $invitation_manager;
 	
 	public function __construct(ilObjSurveyGUI $a_parent_gui, $a_has_write_access)
 	{		
@@ -84,7 +92,8 @@ class ilSurveyParticipantsGUI
 		
 		$this->ctrl = $ilCtrl;
 		$this->lng = $lng;
-		$this->tpl = $tpl;		
+		$this->tpl = $tpl;
+		$this->invitation_manager = new Participants\InvitationsManager();
 	}
 	
 	protected function handleWriteAccess()
@@ -99,6 +108,7 @@ class ilSurveyParticipantsGUI
 	{
 		$ilCtrl = $this->ctrl;
 		$ilTabs = $this->tabs;
+		$lng = $this->lng;
 		
 		$cmd = $ilCtrl->getCmd("maintenance");		
 		$next_class = $this->ctrl->getNextClass($this);
@@ -112,18 +122,18 @@ class ilSurveyParticipantsGUI
 				{					
 					$ilTabs->clearTargets();
 					$ilTabs->setBackTarget($this->lng->txt("btn_back"), 
-						$this->ctrl->getLinkTarget($this, "invite"));	
-					
+						$this->ctrl->getLinkTarget($this, "maintenance"));
+
 					$rep_search->setCallback($this,
-						'inviteUserGroupObject',
+						'inviteUsers',
 						array(
 							)
 						);
-
+					$rep_search->setTitle($lng->txt("svy_invite_participants"));
 					// Set tabs
-					$this->ctrl->setReturn($this, 'invite');
+					$this->ctrl->setReturn($this, 'maintenance');
 					$this->ctrl->forwardCommand($rep_search);
-					$ilTabs->setTabActive('invitation');
+					$ilTabs->setTabActive('maintenance');
 				}
 				else if($_REQUEST["rate360"])
 				{				
@@ -170,20 +180,20 @@ class ilSurveyParticipantsGUI
 	
 	protected function filterSurveyParticipantsByAccess($a_finished_ids = null)
 	{
-		$all_participants = $this->object->getSurveyParticipants($a_finished_ids);
+		$all_participants = $this->object->getSurveyParticipants($a_finished_ids, false, true);
 		$participant_ids = [];
 		foreach($all_participants as $participant)
 		{
 			$participant_ids[] = $participant['usr_id'];
 		}
-		
-		
+
 		$filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_results',
 			'access_results',
 			$this->object->getRefId(),
 			$participant_ids
 		);
+
 		$participants = [];
 		foreach($all_participants as $username => $user_data)
 		{
@@ -196,6 +206,7 @@ class ilSurveyParticipantsGUI
 				$participants[$username] = $user_data;
 			}
 		}
+
 		return $participants;
 	}
 	
@@ -206,6 +217,7 @@ class ilSurveyParticipantsGUI
 	public function maintenanceObject()
 	{
 		$ilToolbar = $this->toolbar;
+		$lng = $this->lng;
 		
 		if($this->object->get360Mode())
 		{
@@ -224,14 +236,20 @@ class ilSurveyParticipantsGUI
 		}
 
 		$this->handleWriteAccess();		
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("overview");
 
-		$ilToolbar->addButton($this->lng->txt('svy_delete_all_user_data'),
+		$ilToolbar->addButton($this->lng->txt('svy_remove_all_participants'),
 			$this->ctrl->getLinkTarget($this, 'deleteAllUserData'));
 
+		$ilToolbar->addSeparator();
+
+		if ($this->object->isAccessibleWithoutCode()) {
+			$ilToolbar->addButton($this->lng->txt("svy_invite_participants"),
+				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI', ''));
+		}
+
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance');
-		
-		//$total =& $this->object->getSurveyParticipants();
+
 		$total = $this->filterSurveyParticipantsByAccess();
 		$data = array();
 		foreach ($total as $user_data)
@@ -246,10 +264,12 @@ class ilSurveyParticipantsGUI
 			array_push($data, array(
 				'id' => $user_data["active_id"],
 				'name' => $user_data["sortname"],
+				'usr_id' => $user_data["usr_id"],
 				'login' => $user_data["login"],
 				'last_access' => $last_access,
 				'workingtime' => $wt,
-				'finished' => $finished
+				'finished' => $finished,
+				'invited' => $user_data["invited"]
 			));
 		}
 		$table_gui->setData($data);
@@ -259,8 +279,9 @@ class ilSurveyParticipantsGUI
 	protected function isAnonymousListActive()
 	{	
 		$surveySetting = new ilSetting("survey");
+
 		if($surveySetting->get("anonymous_participants", false))
-		{		
+		{
 			if($this->object->hasAnonymizedResults() &&
 				$this->object->hasAnonymousUserList())
 			{
@@ -280,213 +301,51 @@ class ilSurveyParticipantsGUI
 	}
 	
 	/**
-	* Set the tabs for the access codes section
-	*
-	* @access private
-	*/
-	function setCodesSubtabs()
+	 * Set the tabs for the access codes section
+	 *
+	 * @param string $active
+	 */
+	protected function setParticipantSubTabs(string $active)
 	{
 		$ilTabs = $this->tabs;
 		
 		// not used in 360° mode
 	
-		// maintenance
-		$ilTabs->addSubTabTarget("sub_tab_dashboard",
-			 $this->ctrl->getLinkTarget($this,'maintenance'),
-			 array("maintenance", "deleteAllUserData"),					 
-			 "");
+		// overview
+		$ilTabs->addSubTab("overview",
+			 $this->lng->txt("svy_part_overview"),
+			 $this->ctrl->getLinkTarget($this,'maintenance'));
 		
 		if($this->isAnonymousListActive())
 		{
-			$ilTabs->addSubTabTarget("svy_anonymous_participants_svy",
-			 $this->ctrl->getLinkTarget($this,'listParticipants'),
-			 array("listParticipants"),					 
-			 "");
+			$ilTabs->addSubTab("anon_participants",
+				$this->lng->txt("svy_anonymous_participants_svy"),
+				$this->ctrl->getLinkTarget($this,'listParticipants')
+			);
 		}
 
 		if(!$this->object->isAccessibleWithoutCode())
 		{
-			$ilTabs->addSubTabTarget("codes", 
-				$this->ctrl->getLinkTarget($this,'codes'),
-				array("codes", "editCodes", "createSurveyCodes", "setCodeLanguage", "deleteCodes", "exportCodes",
-					"importExternalMailRecipientsFromFileForm", "importExternalMailRecipientsFromTextForm"),
-				""
-			);
+			$ilTabs->addSubTab("codes",
+				$this->lng->txt("svy_codes"),
+				$this->ctrl->getLinkTarget($this,'codes'));
 		}
 		
-		$hidden_tabs = array();
-		$template = $this->object->getTemplate();
-		if($template)
-		{
-			$template = new ilSettingsTemplate($template);
-			$hidden_tabs = $template->getHiddenTabs();
-		}
 
-		// #12277 - invite
-		if(!in_array("invitation", $hidden_tabs))
-		{
-			if($this->access->checkAccess('write', '', $this->object->getRefId()))
-			{
-			$ilTabs->addSubTabTarget("invitation",
-				 $this->ctrl->getLinkTarget($this, 'invite'),
-				 array("invite", "saveInvitationStatus",
-				 "inviteUserGroup", "disinviteUserGroup"),
-				 "");		
-		}
-		}
-		
 		$data = $this->object->getExternalCodeRecipients();
 		if (count($data))
 		{
-			$ilTabs->addSubTabTarget
-			(
-				"mail_survey_codes", 
-				$this->ctrl->getLinkTarget($this, "mailCodes"), 
-				array("mailCodes", "sendCodesMail", "insertSavedMessage", "deleteSavedMessage"),	
-				""
+			$ilTabs->addSubTab(
+				"mail_survey_codes",
+				$this->lng->txt("mail_survey_codes"),
+				$this->ctrl->getLinkTarget($this, "mailCodes")
 			);
 		}
+
+		$ilTabs->activateSubTab($active);
 	}
 	
-		/**
-	* Disinvite users or groups from a survey
-	*/
-	public function disinviteUserGroupObject()
-	{
-		// disinvite users
-		if (is_array($_POST["user_select"]))
-		{
-			foreach ($_POST["user_select"] as $user_id)
-			{
-				$this->object->disinviteUser($user_id);
-			}
-		}
-		ilUtil::sendSuccess($this->lng->txt('msg_users_disinvited'), true);
-		$this->ctrl->redirect($this, "invite");
-	}
-	
-	/**
-	* Invite users or groups to a survey
-	*/
-	public function inviteUserGroupObject($a_user_ids = array())
-	{
-		$invited = 0;
-		// add users to invitation
-		if (is_array($a_user_ids))
-		{
-			foreach ($a_user_ids as $user_id)
-			{
-				$this->object->inviteUser($user_id);
-				$invited++;
-			}
-		}
-		if ($invited == 0)
-		{
-			ilUtil::sendFailure($this->lng->txt('no_user_invited'), TRUE);
-			return false;
-		}
-		else
-		{
-			ilUtil::sendSuccess(sprintf($this->lng->txt('users_invited'), $invited), TRUE);
-			return false;
-		}
-		$this->ctrl->redirect($this, "invite");
-	}
 
-	/**
-	* Saves the status of the invitation tab
-	*/
-	public function saveInvitationStatusObject()
-	{
-		$mode = $_POST['invitation'];
-		switch ($mode)
-		{
-			case 0:
-				$this->object->setInvitation(ilObjSurvey::INVITATION_OFF);
-				break;
-			case 1:
-				$this->object->setInvitationAndMode(ilObjSurvey::INVITATION_ON, ilObjSurvey::MODE_UNLIMITED);							
-				break;
-			case 2:
-				$this->object->setInvitationAndMode(ilObjSurvey::INVITATION_ON, ilObjSurvey::MODE_PREDEFINED_USERS);					
-				break;
-		}
-		$this->object->saveToDb();
-		ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-		$this->ctrl->redirect($this, "invite");
-	}
-	
-	/**
-	* Creates the output for user/group invitation to a survey
-	*/
-	public function inviteObject()
-	{
-		$ilAccess = $this->access;
-		$rbacsystem = $this->rbacsystem;
-		$ilToolbar = $this->toolbar;
-		$lng = $this->lng;
-		
-		$this->handleWriteAccess();		
-		$this->setCodesSubtabs();
-
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this));
-		$form->setTableWidth("500");
-		$form->setId("invite");
-
-		// invitation
-		$header = new ilFormSectionHeaderGUI();
-		$header->setTitle($this->lng->txt("invitation"));
-		$form->addItem($header);
-		
-		// invitation mode
-		$invitation = new ilRadioGroupInputGUI($this->lng->txt('invitation_mode'), "invitation");
-		$invitation->setInfo($this->lng->txt('invitation_mode_desc'));
-		$invitation->addOption(new ilRadioOption($this->lng->txt("invitation_off"), 0, ''));
-		$surveySetting = new ilSetting("survey");
-		if ($surveySetting->get("unlimited_invitation"))
-		{
-			$invitation->addOption(new ilRadioOption($this->lng->txt("unlimited_users"), 1, ''));
-		}
-		$invitation->addOption(new ilRadioOption($this->lng->txt("predefined_users"), 2, ''));
-		$inv = 0;
-		if ($this->object->getInvitation())
-		{
-			$inv = $this->object->getInvitationMode() + 1;
-		}
-		$invitation->setValue($inv);
-		$form->addItem($invitation);
-		
-		$form->addCommandButton("saveInvitationStatus", $this->lng->txt("save"));
-
-		$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_invite.html", "Modules/Survey");
-		$this->tpl->setVariable("INVITATION_TABLE", $form->getHTML());
-
-		if ($this->object->getInvitation() && $this->object->getInvitationMode() == 1)
-		{
-			// search button
-			ilRepositorySearchGUI::fillAutoCompleteToolbar(
-				$this,
-				$tb,
-				array(
-					'auto_complete_name'	=> $lng->txt('user'),
-					'submit_name'			=> $lng->txt('svy_invite_action')
-				)
-			);
-
-			$ilToolbar->addSpacer();
-
-			$ilToolbar->addButton($this->lng->txt("svy_search_users"),
-				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''));
-
-			$this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
-
-			$invited_users = $this->object->getUserData($this->object->getInvitedUsers());
-			$table_gui = new ilSurveyInvitedUsersTableGUI($this, 'invite');
-			$table_gui->setData($invited_users);
-			$this->tpl->setVariable('TBL_INVITED_USERS', $table_gui->getHTML());	
-		}
-	}
 
 	/**
 	* Creates a confirmation form for delete all user data
@@ -544,8 +403,20 @@ class ilSurveyParticipantsGUI
 	*/
 	public function confirmDeleteSelectedUserDataObject()
 	{
-		$this->object->removeSelectedSurveyResults($_POST["chbUser"]);
-		ilUtil::sendSuccess($this->lng->txt("svy_selected_user_data_deleted"), true);
+		if (is_array($_POST["chbUser"])) {
+			$this->object->removeSelectedSurveyResults(array_filter($_POST["chbUser"], function ($i) {
+				return is_numeric($i);
+			}));
+
+			$invitations = array_filter($_POST["chbUser"], function ($i) {
+				return (substr($i, 0, 3) == "inv");
+			});
+			foreach ($invitations as $i) {
+				$this->invitation_manager->remove($this->object->getSurveyId(), (int)substr($i, 3));
+			}
+
+			ilUtil::sendSuccess($this->lng->txt("svy_selected_user_data_deleted"), true);
+		}
 		$this->ctrl->redirect($this, "maintenance");
 	}
 	
@@ -573,18 +444,21 @@ class ilSurveyParticipantsGUI
 
 		ilUtil::sendQuestion($this->lng->txt("confirm_delete_single_user_data"));
 		$table_gui = new ilSurveyMaintenanceTableGUI($this, 'maintenance', true);
-		$total =& $this->object->getSurveyParticipants();
+		$total = $this->object->getSurveyParticipants(null, false, true);
 		$data = array();
 		foreach ($total as $user_data)
 		{
-			if (in_array($user_data['active_id'], $_POST['chbUser']))
+			if (in_array($user_data['active_id'], $_POST['chbUser'])
+				|| ($user_data['invited'] && in_array("inv".$user_data['usr_id'], $_POST['chbUser'])))
 			{
 				$last_access = $this->object->getLastAccess($user_data["active_id"]);
 				array_push($data, array(
 					'id' => $user_data["active_id"],
 					'name' => $user_data["sortname"],
 					'login' => $user_data["login"],
-					'last_access' => $last_access
+					'last_access' => $last_access,
+					'usr_id' => $user_data["usr_id"],
+					'invited' => $user_data["invited"]
 				));
 			}
 		}
@@ -615,7 +489,7 @@ class ilSurveyParticipantsGUI
 		$ilToolbar = $this->toolbar;
 		
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 		
 		if ($this->object->isAccessibleWithoutCode())
 		{
@@ -698,7 +572,7 @@ class ilSurveyParticipantsGUI
 		}
 	
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 		
 		$table_gui = new ilSurveyCodesEditTableGUI($this, 'editCodes');
 		$table_gui->setData($this->object->getSurveyCodesTableData($ids));		
@@ -832,7 +706,7 @@ class ilSurveyParticipantsGUI
 	protected function importAccessCodesObject()
 	{		
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 		
 		$form_import_file = new ilPropertyFormGUI();
 		$form_import_file->setFormAction($this->ctrl->getFormAction($this));
@@ -931,7 +805,7 @@ class ilSurveyParticipantsGUI
 	public function insertSavedMessageObject()
 	{
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 
 		$form_gui = new FormMailCodesGUI($this);
 		$form_gui->setValuesByPost();
@@ -960,7 +834,7 @@ class ilSurveyParticipantsGUI
 	public function deleteSavedMessageObject()
 	{
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 
 		$form_gui = new FormMailCodesGUI($this);
 		$form_gui->setValuesByPost();
@@ -989,7 +863,7 @@ class ilSurveyParticipantsGUI
 	public function mailCodesObject()
 	{
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("codes");
 
 		$mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
 		$mailData['m_message'] = (array_key_exists('m_message', $_POST)) ? $_POST['m_message'] : $this->lng->txt('default_codes_mail_message');
@@ -1005,7 +879,7 @@ class ilSurveyParticipantsGUI
 		$ilUser = $this->user;
 		
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("mail_survey_codes");
 
 		$form_gui = new FormMailCodesGUI($this);
 		if ($form_gui->checkInput())
@@ -1198,7 +1072,7 @@ class ilSurveyParticipantsGUI
 		$ilAccess = $this->access;
 		
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("mail_survey_codes");
 		
 		$form_import_file = new ilPropertyFormGUI();
 		$form_import_file->setFormAction($this->ctrl->getFormAction($this));
@@ -1224,7 +1098,7 @@ class ilSurveyParticipantsGUI
 		$ilAccess = $this->access;
 		
 		$this->handleWriteAccess();
-		$this->setCodesSubtabs();
+		$this->setParticipantSubTabs("mail_survey_codes");
 		
 		$form_import_text = new ilPropertyFormGUI();
 		$form_import_text->setFormAction($this->ctrl->getFormAction($this));
@@ -1927,21 +1801,21 @@ class ilSurveyParticipantsGUI
     protected function listParticipantsObject()
    {
 		$ilToolbar = $this->toolbar;
-		
+
 	    if(!$this->isAnonymousListActive())
 	    {
 		   $this->ctrl->redirect($this, "maintenance");
 	    }
-	   
+
 	    $this->handleWriteAccess();
-		$this->setCodesSubtabs();
-		
+	    $this->setParticipantSubTabs("anon_participants");
+
 		$button = ilLinkButton::getInstance();
-		$button->setCaption("print");								
-		$button->setOnClick("window.print(); return false;");				
+		$button->setCaption("print");
+		$button->setOnClick("window.print(); return false;");
 		$button->setOmitPreventDoubleSubmission(true);
-		$ilToolbar->addButtonInstance($button);		
-		
+		$ilToolbar->addButtonInstance($button);
+
 		$tbl = new ilSurveyParticipantsTableGUI($this, "listParticipants", $this->object);
 		$this->tpl->setContent($tbl->getHTML());
    }
@@ -1950,6 +1824,26 @@ class ilSurveyParticipantsGUI
 	{
 		return $this->object;
 	}
+
+	/**
+	 * Invite users
+	 *
+	 * @param int[]
+	 */
+	public function inviteUsers($user_ids)
+	{
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		if (is_array($user_ids)) {
+			foreach ($user_ids as $user_id) {
+				$this->invitation_manager->add($this->object->getSurveyId(), (int) $user_id);
+			}
+		}
+		ilUtil::sendSuccess($lng->txt("svy_users_invited"), true);
+		$ctrl->redirect($this, "maintenance");
+	}
+
 }
 
 ?>

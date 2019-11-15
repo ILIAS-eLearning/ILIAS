@@ -562,11 +562,7 @@ class ilObjUser extends ilObject
 		$mail_options = new ilMailOptions($this->id);
 		$mail_options->createMailOptionsEntry();
 
-		// create personal bookmark folder tree
-		include_once "./Services/Bookmarks/classes/class.ilBookmarkFolder.php";
-		$bmf = new ilBookmarkFolder(0, $this->id);
-		$bmf->createNewBookmarkTree();
-		
+
 		$ilAppEventHandler->raise("Services/User", "afterCreate",
 			array("user_obj" => $this));
 		
@@ -5251,7 +5247,7 @@ class ilObjUser extends ilObject
 	 * @return
 	 */
 	function importPersonalData($a_file, $a_profile_data, $a_settings,
-		$a_bookmarks, $a_notes, $a_calendar)
+		$a_notes, $a_calendar)
 	{
 		include_once("./Services/Export/classes/class.ilImport.php");
 		$imp = new ilImport();
@@ -5262,10 +5258,6 @@ class ilObjUser extends ilObject
 		if (!$a_settings)
 		{
 			$imp->addSkipEntity("Services/User", "usr_setting");
-		}
-		if (!$a_bookmarks)
-		{
-			$imp->addSkipEntity("Services/Bookmarks", "bookmarks");
 		}
 		if (!$a_notes)
 		{

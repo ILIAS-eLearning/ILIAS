@@ -4,6 +4,7 @@
 include_once("Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php");
 
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
+use ILIAS\UI\Implementation\Crawler as Crawler;
 
 /**
  * Explorer example
@@ -38,27 +39,29 @@ class ilKSDocumentationExplorerGUI extends ilExplorerBaseGUI
 	/**
 	 * ilKSDocumentationExplorerGUI constructor.
 	 * @param ilSystemStyleDocumentationGUI $a_parent_obj
-	 * @param $a_parent_cmd
 	 * @param Entry\ComponentEntries $entries
 	 * @param $current_opened_node_id
 	 */
-	public function __construct(ilSystemStyleDocumentationGUI $a_parent_obj, $a_parent_cmd, Entry\ComponentEntries $entries, $current_opened_node_id)
+	public function __construct()
 	{
 		global $DIC;
 		$this->ctrl = $DIC->ctrl();
 
-		parent::__construct($this->id, $a_parent_obj, $a_parent_cmd);
+		parent::__construct($this->id, null, "");
 
-		$this->setParentLink($this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd));
+		$this->setParentLink($this->ctrl->getLinkTargetByClass(["ilAdministrationGUI","ilObjStyleSettingsGUI","ilSystemStyleMainGUI","ilSystemStyleDocumentationGUI"], "entries"));
 
-		$this->setEntries($entries);
+        $entries = Crawler\Entry\ComponentEntries::createFromArray(include ilSystemStyleDocumentationGUI::$DATA_PATH);
+
+        $this->setEntries($entries);
 		$this->setOfflineMode(true);
+        $current_opened_node_id = $_GET["node_id"];
 
-		if(!$current_opened_node_id){
-			$this->setCurrentOpenedNodeId($this->getEntries()->getRootEntryId());
+		if($current_opened_node_id){
+            $this->setCurrentOpenedNodeId($current_opened_node_id);
 		}else{
-			$this->setCurrentOpenedNodeId($current_opened_node_id);
-		}
+            $this->setCurrentOpenedNodeId($this->getEntries()->getRootEntryId());
+        }
 
 		$this->openNodesRecursively($this->getCurrentOpenedNodeId());
 	}

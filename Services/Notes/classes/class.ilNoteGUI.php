@@ -1350,7 +1350,7 @@ return;
 
 						if(!$parent["title"])
 						{
-							$parent["title"] = $this->lng->txt("wsp_personal_workspace");
+							$parent["title"] = $this->lng->txt("personal_resources");
 						}
 
 						// sub-objects

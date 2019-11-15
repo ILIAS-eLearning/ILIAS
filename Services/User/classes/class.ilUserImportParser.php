@@ -878,7 +878,9 @@ class ilUserImportParser extends ilSaxParser
 				$ref_id = current((array) $ref_ids);
 				if($ref_id)
 				{
-					$this->recommended_content_manager->addObjectRecommendation($a_user_obj->getId(), $ref_id);
+					// deactivated for now, see discussion at
+					// https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+					//$this->recommended_content_manager->addObjectRecommendation($a_user_obj->getId(), $ref_id);
 				}
 				break;
 			default:

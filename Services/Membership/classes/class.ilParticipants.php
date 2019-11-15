@@ -1108,7 +1108,9 @@ abstract class ilParticipants
 	 */
 	public function addRecommendation($a_usr_id)
 	{
-		$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
+		// deactivated for now, see discussion at
+		// https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+		// $this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->ref_id);
 		return true;
 	}
 	

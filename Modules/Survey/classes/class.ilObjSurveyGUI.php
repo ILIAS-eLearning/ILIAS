@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Survey\Participants;
+
 
 /**
  * Class ilObjSurveyGUI
@@ -44,6 +46,12 @@ class ilObjSurveyGUI extends ilObjectGUI
 	 */
 	protected $log;
 
+	/**
+	 * @var Participants\InvitationsManager
+	 */
+	protected $invitation_manager;
+
+
 	public function __construct()
 	{
 		global $DIC;
@@ -69,6 +77,8 @@ class ilObjSurveyGUI extends ilObjectGUI
 		$this->ctrl->saveParameter($this, "ref_id");
 
 		$this->log = ilLoggerFactory::getLogger("svy");
+
+		$this->invitation_manager = new Participants\InvitationsManager();
 
 		parent::__construct("", (int)$_GET["ref_id"], true, false);
 	}
@@ -1134,7 +1144,7 @@ class ilObjSurveyGUI extends ilObjectGUI
 			{
 				$has_parent = $tree->checkForParentType($this->object->getRefId(), "crs");
 			}
-			$num_inv = sizeof($this->object->getInvitedUsers());
+			$num_inv = count($this->invitation_manager->getAllForSurvey($this->object->getSurveyId()));
 			
 			// notification
 			$tut = new ilCheckboxInputGUI($this->lng->txt("survey_notification_tutor_setting"), "tut");

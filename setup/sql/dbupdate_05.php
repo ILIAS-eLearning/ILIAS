@@ -2814,3 +2814,43 @@ ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
 	}
 
 ?>
+<#5585>
+<?php
+if(!$ilDB->tableExists('svy_invitation'))
+{
+    $ilDB->createTable('svy_invitation', [
+        'user_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'survey_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ]
+    ]);
+    $ilDB->addPrimaryKey("svy_invitation", ["user_id", "survey_id"]);
+}
+?>
+<#5586>
+<?php
+	$set = $ilDB->queryF("SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
+		[],
+		[]
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+        $ilDB->insert("svy_invitation", [
+        	"survey_id" => ["integer", $rec["survey_fi"]],
+        	"user_id" => ["integer", $rec["user_fi"]]
+        ]);
+	}
+
+?>
+<#5587>
+<?php
+	$ilDB->dropTable('svy_inv_usr');
+?>

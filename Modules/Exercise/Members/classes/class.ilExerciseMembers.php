@@ -92,10 +92,9 @@ class ilExerciseMembers
 	{
 		$ilDB = $this->db;
 
-		if($this->exc->hasAddToDesktop())
+		/*if($this->exc->hasAddToDesktop())
 		{
-			$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $this->getRefId());
-		}
+		}*/
 
 		$ilDB->manipulate("DELETE FROM exc_members ".
 			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".

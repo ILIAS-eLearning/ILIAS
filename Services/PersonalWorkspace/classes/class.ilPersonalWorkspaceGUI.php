@@ -257,7 +257,7 @@ class ilPersonalWorkspaceGUI
 				switch($node["type"])
 				{			
 					case "wsrt":
-						$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
+						$ilLocator->addItem($lng->txt("personal_resources"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 						break;
 
 					case "blog":

@@ -706,7 +706,9 @@ class ilAccountRegistrationGUI
 						case 'grp':
 							$role_refs = ilObject::_getAllReferences($role_obj);
 							$role_ref = end($role_refs);
-                            $this->recommended_content_manager->addObjectRecommendation($this->userObj->getId(), $role_ref);
+                            // deactivated for now, see discussion at
+                            // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+                            // $this->recommended_content_manager->addObjectRecommendation($this->userObj->getId(), $role_ref);
                             break;
 					}
 				}

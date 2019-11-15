@@ -503,18 +503,31 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
      */
     public function jsonSerialize()
     {
+        $description = $this->getDescription();
+        if($description){
+            $description_serialized = $description->jsonSerialize();
+        }else{
+            $description_serialized = "";
+        }
+
+        $rules = $this->getRules();
+        if($rules){
+            $rules_serialized = $rules->jsonSerialize();
+        }else{
+            $rules_serialized = "";
+        }
         return array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
             'abstract' => $this->isAbstract(),
             'status_entry' => $this->getStatusEntry(),
             'status_implementation' => $this->getStatusImplementation(),
-            'description' => $this->getDescription(),
+            'description' => $description_serialized,
             'background' => $this->getBackground(),
             'context' => $this->getContext(),
             'selector' => $this->getSelector(),
-            'feature_wiki_references ' => $this->getFeatureWikiReferences(),
-            'rules' => $this->getRules(),
+            'feature_wiki_references' => $this->getFeatureWikiReferences(),
+            'rules' => $rules_serialized,
             'parent' => $this->getParent(),
             'children' => $this->getChildren(),
             'less_variables' => $this->getLessVariables(),

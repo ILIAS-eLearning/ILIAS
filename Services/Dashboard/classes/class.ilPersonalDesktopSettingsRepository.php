@@ -23,25 +23,6 @@ class ilPersonalDesktopSettingsRepository
 		$this->settings = $settings;
 	}
 
-	/**
-	 * Bookmarks enabled?
-	 *
-	 * @return bool
-	 */
-	protected function ifBookmarksEnabled()
-	{
-		return (bool) !$this->settings->get("disable_bookmarks");
-	}
-
-	/**
-	 * Enable bookmarks
-	 *
-	 * @param bool $active
-	 */
-	protected function enableBookmarks(bool $active = true)
-	{
-		$this->settings->set("disable_bookmarks", (int) !$active);
-	}
 
 	/**
 	 * Notes enabled?

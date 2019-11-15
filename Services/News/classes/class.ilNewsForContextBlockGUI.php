@@ -421,7 +421,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	}
 	
 	/**
-	* get flat bookmark list for personal desktop
+	* get flat list for personal desktop
 	*/
 	function fillRow($data)
 	{
