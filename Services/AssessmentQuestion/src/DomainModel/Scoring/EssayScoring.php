@@ -65,7 +65,7 @@ class EssayScoring extends AbstractScoring {
     
     public function score(Answer $answer): AnswerScoreDto
     {
-
+        return new AnswerScoreDto();
     }
 
     public function getBestAnswer(): Answer
@@ -210,19 +210,23 @@ class EssayScoring extends AbstractScoring {
         /** @var EssayScoringConfiguration $config */
         $config = $question->getPlayConfiguration()->getScoringConfiguration();
         
-        if (false) {
+        if (empty($config->getScoringMode())) {
             return false;
         }
         
-        foreach ($question->getAnswerOptions()->getOptions() as $option) {
-            /** @var EssayScoringDefinition $option_config */
-            $option_config = $option->getScoringDefinition();
-            
-            if (false)
-            {
-                return false;
-            }
+        if ($config->getScoringMode() !== self::SCORING_MANUAL) {
+            foreach ($question->getAnswerOptions()->getOptions() as $option) {
+                /** @var EssayScoringDefinition $option_config */
+                $option_config = $option->getScoringDefinition();
+                
+                if (empty($option_config->getText()) ||
+                    ($config->getScoringMode() === self::SCORING_AUTOMATIC_ANY && empty($option_config->getPoints())))
+                {
+                    return false;
+                }
+            }            
         }
+
         
         return true;
     }

@@ -8,6 +8,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilNumberInputGUI;
 use ilTemplate;
+use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 
 /**
  * Class EssayEditor
@@ -43,9 +44,29 @@ class EssayEditor extends AbstractEditor {
      */
     public function generateHtml() : string
     {
+        global $DIC;
+        
         $tpl = new ilTemplate("tpl.EssayEditor.html", true, true, "Services/AssessmentQuestion");
         
-
+        $tpl->setVariable('ESSAY', $this->answer);
+        $tpl->setVariable('POST_VAR', $this->question->getId());
+        
+        if (!empty($this->configuration->getMaxLength())) {
+            $tpl->setCurrentBlock('maximum_char_hint');
+            $tpl->setVariable('MAXIMUM_CHAR_HINT', $this->configuration->getMaxLength());
+            $tpl->parseCurrentBlock();
+            
+            $tpl->setCurrentBlock('maxchars_counter');
+            $tpl->setVariable('CHARACTERS', $DIC->language()->txt('asq_char_count'));
+            $tpl->parseCurrentBlock();
+        }
+        
+        // TODO wordcount??
+        if (false) {
+            $tpl->setCurrentBlock('maxchars_counter');
+            $tpl->setVariable('CHARACTERS', $DIC->language()->txt('asq_'));
+            $tpl->parseCurrentBlock();
+        }
 
         return $tpl->get();
     }
@@ -55,7 +76,7 @@ class EssayEditor extends AbstractEditor {
      */
     public function readAnswer() : string
     {
-        return '';
+        return ilAsqHtmlPurifier::getInstance()->purify($_POST[$this->question->getId()]);
     }
     
     /**
