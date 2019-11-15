@@ -309,8 +309,7 @@ class ilCertificateCron extends \ilCronJob
 
         $certificateContent = $this->valueReplacement->replace(
             $placeholderValues,
-            $certificateContent,
-            CLIENT_WEB_DIR . $template->getBackgroundImagePath()
+            $certificateContent
         );
 
         $thumbnailImagePath = (string)$template->getThumbnailImagePath();
