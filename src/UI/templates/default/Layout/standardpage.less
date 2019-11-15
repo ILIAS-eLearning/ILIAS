@@ -534,3 +534,20 @@ footer {
 		overflow: auto;
 	}
 }
+
+/*
+**************************************************************
+       print styles
+**************************************************************
+*/
+
+@media print {
+	.il-layout-page {
+		display: block;
+		header,
+		nav,
+		footer {
+			display: none;
+		}
+	}
+}
