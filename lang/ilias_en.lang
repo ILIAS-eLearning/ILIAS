@@ -13608,7 +13608,7 @@ badge#:#badge_subtype_manual#:#manual
 badge#:#badge_subtype_auto#:#automatic
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 trac#:#trac_defaults#:#Completion Status
-trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types.
+trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types and certificates.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav

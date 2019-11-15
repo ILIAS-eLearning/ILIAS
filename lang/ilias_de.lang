@@ -14420,7 +14420,7 @@ trac#:#trac_current_system_load#:#Aktuelle Systemlast
 trac#:#trac_data_deleted#:#Die Daten wurden gelöscht.
 trac#:#trac_defaults#:#Bearbeitet-Status
 trac#:#trac_defaults_inactive#:#Inaktiv
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges und Zertifikaten verwendet.
 trac#:#trac_delete_data#:#Daten löschen
 trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.
