@@ -45,7 +45,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 
 			case ilConditionHandler::OPERATOR_FAILED:
 				include_once './Services/Tracking/classes/class.ilLPStatus.php';
-				ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
+				return ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
 				break;
 			
 			case ilConditionHandler::OPERATOR_FINISHED:
