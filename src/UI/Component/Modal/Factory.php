@@ -83,7 +83,7 @@ interface Factory
      * @param Image $icon
      * @param string $description
      *
-     * @return InterruptiveItem
+     * @return \ILIAS\UI\Component\Modal\InterruptiveItem
      */
     public function interruptiveItem($id, $title, Image $icon = null, $description = '');
 
@@ -189,7 +189,7 @@ interface Factory
      * @param string $title
      * @param string $description
      *
-     * @return LightboxImagePage
+     * @return \ILIAS\UI\Component\Modal\LightboxImagePage
      */
     public function lightboxImagePage(Image $image, $title, $description = '');
 
@@ -214,7 +214,7 @@ interface Factory
      * @param string $text
      * @param string $title
      *
-     * @return LightboxTextPage
+     * @return \ILIAS\UI\Component\Modal\LightboxTextPage
      */
     public function lightboxTextPage(string $text, string $title);
 }
