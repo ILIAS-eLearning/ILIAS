@@ -1407,7 +1407,7 @@ class ilObjUserGUI extends ilObjectGUI
 			$lng->loadLanguageModule("file");
 		
 			$quota_head = new ilFormSectionHeaderGUI();
-			$quota_head->setTitle($lng->txt("personal_workspace_disk_quota"));
+			$quota_head->setTitle($lng->txt("personal_resources_disk_quota"));
 			$this->form_gui->addItem($quota_head);
 			
 			// personal workspace disk quota
@@ -2545,8 +2545,8 @@ class ilObjUserGUI extends ilObjectGUI
 			if($ilUser->getId() != ANONYMOUS_USER_ID &&
 				$ilUser->hasDeletionFlag())
 			{
-				$ilCtrl->initBaseClass("ilpersonaldesktopgui");
-				$ilCtrl->redirectByClass(array("ilpersonaldesktopgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");						
+				$ilCtrl->initBaseClass("ildashboardgui");
+				$ilCtrl->redirectByClass(array("ildashboardgui", "ilpersonalsettingsgui"), "deleteOwnAccount3");
 			}
 			exit("This account is not flagged for deletion."); // #12160
 		}
@@ -2554,7 +2554,7 @@ class ilObjUserGUI extends ilObjectGUI
 		// badges
 		if(substr($a_target, -4) == "_bdg")
 		{
-			$_GET["baseClass"] = "ilPersonalDesktopGUI";
+			$_GET["baseClass"] = "ilDashboardGUI";
 			$_GET["cmd"] = "jumpToBadges";
 			include("ilias.php");
 			exit();
@@ -2579,8 +2579,8 @@ class ilObjUserGUI extends ilObjectGUI
 		{
 			if ($ilUser->getId() > 0 && !$ilUser->isAnonymous()) {
 				$ilCtrl->setTargetScript('ilias.php');
-				$ilCtrl->initBaseClass('ilpersonaldesktopgui');
-				$ilCtrl->redirectByClass(array('ilpersonaldesktopgui', 'ilpersonalprofilegui'), 'showUserAgreement');
+				$ilCtrl->initBaseClass('ildashboardgui');
+				$ilCtrl->redirectByClass(array('ildashboardgui', 'ilpersonalprofilegui'), 'showUserAgreement');
 			} else {
 				$_GET['baseClass'] = 'ilStartUpGUI';
 				$ilCtrl->setTargetScript('ilias.php');

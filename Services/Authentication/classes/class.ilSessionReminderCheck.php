@@ -96,7 +96,7 @@ class ilSessionReminderCheck
         }
 
         $response = array(
-            'extend_url' => './ilias.php?baseClass=ilPersonalDesktopGUI',
+            'extend_url' => './ilias.php?baseClass=ilDashboardGUI',
             'txt' => str_replace("\\n", '%0A',
                 sprintf(
                     $lng->txt('session_reminder_alert'),

@@ -40,7 +40,9 @@ if ($_GET['new_ui'] == '1') {
         $breadcrumbs,
         $logo,
         $footer,
-        'UI PAGE DEMO'
+        'UI PAGE DEMO', //page title
+        'ILIAS', //short title
+        'Std. Page Demo' //view title
     )
     ->withUIDemo(true);
     ;

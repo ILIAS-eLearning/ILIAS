@@ -224,7 +224,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
 		if ($a_node["child"] == $this->tree->getRootId())
 		{
-			return $lng->txt("wsp_personal_workspace");
+			return $lng->txt("personal_resources");
 		}
 
 		return $a_node["title"];

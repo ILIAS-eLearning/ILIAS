@@ -8,7 +8,6 @@ include_once "Services/Tree/classes/class.ilTree.php";
  * Tree handler for personal workspace
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
  */
 class ilWorkspaceTree extends ilTree
 {

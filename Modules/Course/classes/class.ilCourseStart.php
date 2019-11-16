@@ -235,7 +235,6 @@ class ilCourseStart
 				}
 				break;
 			case 'svy':
-				include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';
 				if(!ilObjSurveyAccess::_lookupFinished($obj_id, $user_id))
 				{
 					return false;

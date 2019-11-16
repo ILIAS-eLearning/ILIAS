@@ -84,7 +84,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
 			if(!ilDiskQuotaHandler::isUploadPossible())
 			{
 				$lng->loadLanguageModule("file");
-				return $lng->txt("personal_workspace_quota_exceeded_warning");			
+				return $lng->txt("personal_resources_quota_exceeded_warning");
 			}
 			else
 			{							

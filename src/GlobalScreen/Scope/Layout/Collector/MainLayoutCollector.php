@@ -19,6 +19,9 @@ use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\UI\Component\Layout\Page\Page;
 use LogicException;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class MainLayoutCollector
@@ -105,8 +108,13 @@ class MainLayoutCollector
         $final_meta_bar_modification = new NullModification();
         $final_page_modification = new NullModification();
         $final_footer_modification = new NullModification();
+        $final_title_modification = new NullModification();
+        $final_short_title_modification = new NullModification();
+        $final_view_title_modification = new NullModification();
+
 
         foreach ($this->providers as $provider) {
+
             $context_collection = $provider->isInterestedInContexts();
             if (!$context_collection->hasMatch($called_contexts)) {
                 continue;
@@ -133,6 +141,15 @@ class MainLayoutCollector
             // PAGE
             $page_modification = $provider->getPageBuilderDecorator($called_contexts);
             $this->replaceModification($final_page_modification, $page_modification, PageBuilderModification::class);
+            // Pagetitle
+            $title_modification = $provider->getTitleModification($called_contexts);
+            $this->replaceModification($final_title_modification, $title_modification, TitleModification::class);
+
+            $short_title_modification = $provider->getShortTitleModification($called_contexts);
+            $this->replaceModification($final_short_title_modification, $short_title_modification, ShortTitleModification::class);
+
+            $view_title_modification = $provider->getViewTitleModification($called_contexts);
+            $this->replaceModification($final_view_title_modification, $view_title_modification, ViewTitleModification::class);
         }
 
         if ($final_content_modification->hasValidModification()) {
@@ -155,6 +172,15 @@ class MainLayoutCollector
         }
         if ($final_page_modification->hasValidModification()) {
             $this->modification_handler->modifyPageBuilderWithClosure($final_page_modification->getModification());
+        }
+        if ($final_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyTitleWithClosure($final_title_modification->getModification());
+        }
+        if ($final_short_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyShortTitleWithClosure($final_short_title_modification->getModification());
+        }
+        if ($final_view_title_modification->hasValidModification()) {
+            $this->modification_handler->modifyViewTitleWithClosure($final_view_title_modification->getModification());
         }
 
         return $this->modification_handler->getPageWithPagePartProviders();

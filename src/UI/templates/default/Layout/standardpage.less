@@ -38,6 +38,25 @@ section {
 grid-based layout
 *********************
 */
+
+// IE 10,11 support hint
+ @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	 body {
+		 background-image: url("../../templates/default/images/HeaderIcon.svg");
+		 background-position: center 43%;
+		 background-repeat: no-repeat;
+		 display: -ms-flexbox;
+		 align-items: center;
+		 justify-content: center;
+		 &:after {
+			content: "Microsoft Internet Explorer is no longer supported!";
+		 }
+		.il-layout-page {
+ 	    	display: none;
+		}
+	}
+}
+
 // main grid without slates
 .il-layout-page {
 	background: @body-bg;
@@ -256,6 +275,14 @@ footer {
 **************************************************************
 */
 
+// Sidepanel in right column under content
+@media only screen and (max-width: @screen-lg) {
+	#il_center_col.col-sm-9,
+	#il_right_col.col-sm-3 {
+		float: none;
+		width: 100%;
+	}
+}
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	// main grid without slates
@@ -505,5 +532,22 @@ footer {
 		grid-column: 1;
 		grid-row: 2;
 		overflow: auto;
+	}
+}
+
+/*
+**************************************************************
+       print styles
+**************************************************************
+*/
+
+@media print {
+	.il-layout-page {
+		display: block;
+		header,
+		nav,
+		footer {
+			display: none;
+		}
 	}
 }

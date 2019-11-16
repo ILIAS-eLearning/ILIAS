@@ -1,37 +1,12 @@
 <?php
-/*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
-*/
 
-require_once("./Services/Xml/classes/class.ilSaxParser.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Survey Question Import Parser
-*
-* @author Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version $Id$
-*
-* @extends ilSaxParser
-* @ingroup ServicesSurvey
-*/
+ * Survey Question Import Parser
+ *
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ */
 class SurveyImportParser extends ilSaxParser
 {
 	var $path;
@@ -229,7 +204,6 @@ class SurveyImportParser extends ilSaxParser
 						case "online":
 							if ($this->spl_id > 0)
 							{
-								include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 								$spl = new ilObjSurveyQuestionPool($this->spl_id, false);
 								$spl->setOnline($value);
 								$spl->saveToDb();
@@ -320,7 +294,6 @@ class SurveyImportParser extends ilSaxParser
 				}
 				if (strlen($type))
 				{
-					include_once "./Modules/SurveyQuestionPool/classes/class.SurveyQuestion.php";
 					if (SurveyQuestion::_includeClass($type))
 					{
 						$this->activequestion = new $type();
@@ -678,8 +651,6 @@ class SurveyImportParser extends ilSaxParser
 								{
 									if (is_object($this->survey))
 									{
-										include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-										include_once "./Services/MetaData/classes/class.ilMD.php";
 										$md_sax_parser = new ilMDSaxParser();
 										$md_sax_parser->setXMLContent($value["entry"]);
 										$md_sax_parser->setMDObject($tmp = new ilMD($this->survey->getId(),0, "svy"));
@@ -756,9 +727,6 @@ class SurveyImportParser extends ilSaxParser
 								{
 									if ($this->spl_id > 0)
 									{
-										include_once "./Services/MetaData/classes/class.ilMDSaxParser.php";
-										include_once "./Services/MetaData/classes/class.ilMD.php";
-										include_once "./Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPool.php";
 										$md_sax_parser = new ilMDSaxParser();
 										$md_sax_parser->setXMLContent($value["entry"]);
 										$md_sax_parser->setMDObject($tmp = new ilMD($this->spl_id,0, "spl"));

@@ -539,8 +539,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
 			$tpl->setVariable("VAL_TITLE", $c_item->getTitle());			// title
 		}
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($this->getTitle());
 

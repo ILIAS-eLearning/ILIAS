@@ -86,8 +86,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		$all_tags = $this->getSubTreeTags();				
 		if($all_tags)
 		{						
-			// see ilPDTaggingBlockGUI::getTagCloud();
-			
+
 		    $map = array(
 				"personal" => $lng->txt("tagging_my_tags"),
 				"other" =>  $lng->txt("tagging_other_users")
