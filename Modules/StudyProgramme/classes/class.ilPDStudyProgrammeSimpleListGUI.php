@@ -211,4 +211,15 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI {
 		$progress_gui->setOnlyRelevant(true);
 		return $progress_gui;
 	}
+
+    /**
+     * Get legacy content
+     *
+     * @return string
+     */
+    protected function getLegacyContent(): string
+    {
+        return $this->getDataSectionContent();
+    }
+
 }
