@@ -1,5 +1,6 @@
 <?php namespace ILIAS\Administration;
 
+use ILIAS\DI\Exceptions\Exception;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
@@ -41,8 +42,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         continue;
                     }
 
-                    $path = \ilObject::_getIcon("", "tiny", $titems[$group_item]["type"]);
-                    $icon = $this->dic->ui()->factory()->symbol()->icon()->custom($path, $titems[$group_item]["type"]);
+                    //$path = \ilObject::_getIcon("", "tiny", $titems[$group_item]["type"]);
+                    //$icon = $this->dic->ui()->factory()->symbol()->icon()->custom($path, $titems[$group_item]["type"]);
+                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
+                        ->withIsOutlined(true);
 
                     if ($_GET["admin_mode"] == "settings" && $titems[$group_item]["ref_id"] == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');

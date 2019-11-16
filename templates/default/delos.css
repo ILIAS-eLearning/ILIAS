@@ -6806,20 +6806,16 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-@media only screen and (min-width: 769px) {
-  .panel-secondary .il-panel-listing-std-container > h3,
-  .panel-secondary .il-panel-listing-std-container > h4 {
-    display: block;
-    padding: 3px 6px;
-    font-size: 12px;
-    background-color: #ececec;
-    color: #909090;
-    white-space: nowrap;
-    margin: 0;
-  }
-  .panel-secondary .panel-body {
-    padding: 3px 8px;
-  }
+.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .panel-body h4 {
+  display: block;
+  padding: 3px 6px;
+  font-size: 12px;
+  color: #909090;
+  margin: 0;
+}
+.panel-secondary .panel-body {
+  padding: 0;
 }
 .panel-secondary .panel-heading {
   display: flex;
@@ -7437,6 +7433,12 @@ hr.il-divider-with-label {
 .il-item-group-items {
   clear: both;
 }
+.il-notification-item:not(:first-child) {
+  margin-top: 6px;
+}
+.il-notification-item .dropdown {
+  margin-top: -20px;
+}
 /* this is currently experimental, could be removed */
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
@@ -7519,7 +7521,9 @@ hr.il-divider-with-label {
 }
 /* otherwise dropdowns in items with icon do not work */
 .il-std-item .media .media-body,
-.il-std-item .media {
+.il-std-item .media,
+.il-notification-item .media,
+.il-notification-item .media .media-body {
   overflow: visible;
 }
 @media only screen and (max-width: 768px) {
@@ -8819,6 +8823,21 @@ footer {
     overflow: auto;
   }
 }
+/*
+**************************************************************
+       print styles
+**************************************************************
+*/
+@media print {
+  .il-layout-page {
+    display: block;
+  }
+  .il-layout-page header,
+  .il-layout-page nav,
+  .il-layout-page footer {
+    display: none;
+  }
+}
 .il-maincontrols-slate.disengaged {
   display: none;
 }
@@ -8884,6 +8903,26 @@ footer {
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #e3e3e3;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
+  text-transform: uppercase;
+  padding: 12px;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
+  margin: -12px;
+  border: none;
+  border-right: solid 3px;
+  border-right-color: white;
+  padding: 12px;
+  background-color: transparent;
+  text-transform: uppercase;
+  width: 50%;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
+  content: " \e605";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-right: 10px;
 }
 .il-maincontrols-slate-content p,
 .il-maincontrols-slate-content h1,
@@ -8985,7 +9024,7 @@ footer {
 .il-metabar-entries .btn {
   position: relative;
 }
-.il-metabar-entries .btn .badge {
+.il-metabar-entries .il-counter-novelty {
   margin-top: -20px;
 }
 .il-metabar-entries .il-counter-status {
@@ -9042,10 +9081,16 @@ footer {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   position: absolute;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: scroll;
   right: 0;
   top: 60px;
   /*TODO: remove hack*/
   /*end of hack*/
+}
+.il-metabar-slates .il-maincontrols-slate {
+  min-width: 500px;
 }
 @media only screen and (max-width: 768px) {
   .il-metabar-slates {
@@ -9053,9 +9098,6 @@ footer {
     top: 45px;
     right: 0;
   }
-}
-.il-metabar-slates .il-maincontrols-slate {
-  min-width: 500px;
 }
 @media only screen and (max-width: 768px) {
   .il-metabar-slates .il-maincontrols-slate {
@@ -16884,6 +16926,18 @@ span.ilNewsRssIcon:hover {
 .ilTimeline .ilNotes {
   margin: 0 -20px -20px -20px;
   padding: 10px 20px;
+}
+.ilDashboardMainContent .il-panel-listing-std-container {
+  margin-bottom: 15px;
+}
+.ilDashboardMainContent .il-item-group {
+  background-color: #f9f9f9;
+}
+.ilDashboardMainContent .il-item-group h4 {
+  margin: 0;
+  padding: 3px 8px;
+  text-transform: none;
+  font-size: 12px;
 }
 div.ilSurveyPageEditDropArea {
   border-color: #88be51;
