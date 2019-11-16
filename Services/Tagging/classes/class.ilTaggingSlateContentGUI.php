@@ -171,7 +171,7 @@ class ilTaggingSlateContentGUI
         }
         $item_groups[] = $f->item()->group(sprintf($lng->txt("tagging_resources_for_tag"),
             "<i>".$tag."</i>"), $items);
-        $panel = $f->panel()->listing()->standard("", $item_groups);
+        $panel = $f->panel()->secondary()->listing("", $item_groups);
 
         /*
         if ($unaccessible)
