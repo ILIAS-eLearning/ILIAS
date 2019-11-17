@@ -550,8 +550,10 @@ class ilObjLTIConsumer extends ilObject2
     protected $_highscore_top_num = 10;
 
     const HIGHSCORE_SHOW_ALL_TABLES = 1;
-    const HIGHSCORE_SHOW_TOP_TABLE = 2;
-    const HIGHSCORE_SHOW_OWN_TABLE = 3;
+
+    const HIGHSCORE_SHOW_TOP_TABLE = 1;
+
+    const HIGHSCORE_SHOW_OWN_TABLE = 1;
 
 
 

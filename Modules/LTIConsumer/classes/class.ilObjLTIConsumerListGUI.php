@@ -158,24 +158,6 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
 			'value' => $DIC->language()->txt('obj_lti')
 		);
 		
-		if( ilObjLTIConsumerAccess::hasActiveCertificate($this->obj_id, $DIC->user()->getId()) )
-		{
-			$DIC->ctrl()->setParameterByClass(ilLTIConsumerSettingsGUI::class, 'ref_id', $this->ref_id);
-			
-			$certLink = $DIC->ui()->factory()->link()->standard(
-				$DIC->language()->txt('download_certificate'),
-				$DIC->ctrl()->getLinkTargetByClass(
-					[ilObjLTIConsumerGUI::class, ilLTIConsumerSettingsGUI::class],
-					ilLTIConsumerSettingsGUI::CMD_DELIVER_CERTIFICATE
-				)
-			);
-			
-			$props[] = array(
-				'alert' => false, 'property' => $DIC->language()->txt('certificate'),
-				'value' => $DIC->ui()->renderer()->render($certLink)
-			);
-		}
-
 		return $props;
 	}
 	

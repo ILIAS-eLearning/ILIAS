@@ -25,9 +25,9 @@ class ilXapiStatementEvaluation
 	);
 	
 	/**
-	 * @var ilObjCmiXapi
+	 * @var int
 	 */
-	protected $object;
+	protected $objId;
 	
 	/**
 	 * @var ilLogger
@@ -37,15 +37,13 @@ class ilXapiStatementEvaluation
 	/**
 	 * ilXapiStatementEvaluation constructor.
 	 * @param ilLogger $log
-	 * @param ilObjCmiXapi $object
+	 * @param int $objId
+	 * @param int $usrId
 	 */
-	public function __construct(ilLogger $log, ilObjCmiXapi $object)
+	public function __construct(ilLogger $log, int $objId)
 	{
 		$this->log = $log;
-		$this->object = $object;
-		
-		$objLP = ilObjectLP::getInstance($this->object->getId());
-		$this->lpMode = $objLP->getCurrentMode();
+		$this->objId = $objId;
 	}
 	
 	public function evaluateReport(ilCmiXapiStatementsReport $report)
@@ -60,7 +58,7 @@ class ilXapiStatementEvaluation
 			$xapiStatement = json_decode(json_encode($xapiStatement));
 			
 			$cmixUser = ilCmiXapiUser::getInstanceByObjectIdAndUsrIdent(
-				$this->object->getId(), str_replace('mailto:', '', $xapiStatement->actor->mbox)
+				$this->objId, str_replace('mailto:', '', $xapiStatement->actor->mbox)
 			);
 			
 			$this->evaluateStatement($xapiStatement, $cmixUser->getUsrId());
@@ -84,14 +82,10 @@ class ilXapiStatementEvaluation
 			}
 			
 			$userResult = $this->getUserResult($usrId);
-			
-			$oldResultStatus = $userResult->getStatus();
-			$newResultStatus = $this->getResultStatusForXapiVerb($xapiVerb);
-			
-			if( $this->isResultStatusToBeReplaced($oldResultStatus, $newResultStatus) )
-			{
-				$userResult->setStatus($newResultStatus);
-			}
+
+			$userResult->setStatus(
+				$this->getResultStatusForXapiVerb($xapiVerb)
+			);
 			
 			if( $this->hasXapiScore($xapiStatement) )
 			{
@@ -195,109 +189,15 @@ class ilXapiStatementEvaluation
 	{
 		try
 		{
-			$result = ilCmiXapiResult::getInstanceByObjIdAndUsrId($this->object->getId(), $usrId);
+			$result = ilCmiXapiResult::getInstanceByObjIdAndUsrId($this->objId, $usrId);
 		}
 		catch(ilCmiXapiException $e)
 		{
 			$result = ilCmiXapiResult::getEmptyInstance();
-			$result->setObjId($this->object->getId());
+			$result->setObjId($this->objId);
 			$result->setUsrId($usrId);
 		}
 		
 		return $result;
-	}
-	
-	protected function isResultStatusToBeReplaced($oldResultStatus, $newResultStatus)
-	{
-		if( !$this->isLpModeInterestedInResultStatus($newResultStatus) )
-		{
-			return false;
-		}
-		
-		if( !$this->doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus) )
-		{
-			return false;
-		}
-		
-		if( $this->needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus) )
-		{
-			return false;
-		}
-		
-		return true;
-	}
-	
-	protected function isLpModeInterestedInResultStatus($resultStatus)
-	{
-		if( $this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED )
-		{
-			return true;
-		}
-		
-		switch( $resultStatus )
-		{
-			case 'failed':
-				
-				return in_array($this->lpMode, [
-					ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-					ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
-				]);
-			
-			case 'passed':
-				
-				return in_array($this->lpMode, [
-					ilLPObjSettings::LP_MODE_CMIX_PASSED,
-					ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
-				]);
-			
-			case 'completed':
-				
-				return in_array($this->lpMode, [
-					ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
-					ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED
-				]);
-		}
-		
-		return false;
-	}
-	
-	protected function doesNewResultStatusDominateOldOne($oldResultStatus, $newResultStatus)
-	{
-		if( $oldResultStatus == '' )
-		{
-			return true;
-		}
-		
-		if( in_array($newResultStatus, ['passed', 'failed']) )
-		{
-			return true;
-		}
-		
-		if( !in_array($oldResultStatus, ['passed', 'failed']) )
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	protected function needsAvoidFailedEvaluation($oldResultStatus, $newResultStatus)
-	{
-		if( !$this->object->isKeepLpStatusEnabled() )
-		{
-			return false;
-		}
-		
-		if( $newResultStatus != 'failed' )
-		{
-			return false;
-		}
-		
-		return $oldResultStatus == 'completed' || $oldResultStatus == 'passed';
 	}
 }

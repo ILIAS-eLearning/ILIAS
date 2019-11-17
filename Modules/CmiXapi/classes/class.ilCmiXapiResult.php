@@ -227,21 +227,6 @@ class ilCmiXapiResult
 		));
 	}
 	
-	/**
-	 * @param ilCmiXapiResult $result
-	 * @param $row
-	 */
-	protected function assignFromDbRow($row)
-	{
-		$this->setId($row['id']);
-		$this->setObjId($row['obj_id']);
-		$this->setUsrId($row['usr_id']);
-		$this->setVersion($row['version']);
-		$this->setScore($row['score']);
-		$this->setStatus($row['status']);
-		$this->setLastUpdate($row['last_update']);
-	}
-	
 	public static function getInstanceByObjIdAndUsrId($objId, $usrId)
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -256,7 +241,13 @@ class ilCmiXapiResult
 		while($row = $DIC->database()->fetchAssoc($res))
 		{
 			$result = new self();
-			$result->assignFromDbRow($row);
+			$result->setId($row['id']);
+			$result->setObjId($row['obj_id']);
+			$result->setUsrId($row['usr_id']);
+			$result->setVersion($row['version']);
+			$result->setScore($row['score']);
+			$result->setStatus($row['status']);
+			$result->setLastUpdate($row['last_update']);
 			
 			return $result;
 		}
@@ -269,31 +260,5 @@ class ilCmiXapiResult
 	public static function getEmptyInstance()
 	{
 		return new self();
-	}
-	
-	/**
-	 * @param $objId
-	 * @return ilCmiXapiResult[]
-	 */
-	public static function getResultsForObject($objId)
-	{
-		global $DIC;
-		
-		$query = 'SELECT * FROM cmix_results'
-			.' WHERE obj_id = '. $DIC->database()->quote($objId,'integer');
-		
-		$res = $DIC->database()->query($query);
-		
-		$results = [];
-		
-		if( $row = $DIC->database()->fetchAssoc($res) )
-		{
-			$result = new self();
-			$result->assignFromDbRow($row);
-			
-			$results[$result->getUsrId()] = $result;
-		}
-		
-		return $results;
 	}
 }

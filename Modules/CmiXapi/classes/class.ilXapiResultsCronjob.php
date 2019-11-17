@@ -124,16 +124,20 @@ class ilXapiResultsCronjob extends ilCronJob
 			
 			$object = ilObjectFactory::getInstanceByObjId($objId, false);
 			
-			$evaluation = new ilXapiStatementEvaluation($this->log, $object);
-			
-			if( $object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL )
+			if( $object instanceof ilObjCmiXapi )
 			{
-				$this->log->debug('skipped object due to launch mode ('.$objId.')');
+				$report = $this->getCmixXapiStatementsReport($object, $filter);
+			}
+			elseif( $object instanceof ilObjLTIConsumer )
+			{
+				$report = $this->getLtiXapiStatementsReport($object, $filter);
+			}
+			else
+			{
 				continue;
 			}
 			
-			$report = $this->getXapiStatementsReport($object, $filter);
-			
+			$evaluation = new ilXapiStatementEvaluation($this->log, $objId);
 			$evaluation->evaluateReport($report);
 			
 			$this->log->debug('update lp for object ('.$objId.')');
@@ -153,7 +157,7 @@ class ilXapiResultsCronjob extends ilCronJob
 		return $result;
 	}
 	
-	protected function getXapiStatementsReport(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
+	protected function getCmixXapiStatementsReport(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
 	{
 		$filter->setActivityId($object->getActivityId());
 		
@@ -165,6 +169,33 @@ class ilXapiResultsCronjob extends ilCronJob
 		
 		$request = new ilCmiXapiStatementsReportRequest(
 			$object->getLrsType()->getBasicAuth(), $linkBuilder
+		);
+		
+		return $request->queryReport($object->getId());
+	}
+	
+	protected function getLtiXapiStatementsReport(ilObjLTIConsumer $object, ilCmiXapiStatementsReportFilter $filter)
+	{
+		$aggregateEndPointUrl = str_replace(
+			'data/xAPI', 'api/statements/aggregate',
+			$object->getProvider()->getXapiLaunchUrl() // should be named endpoint not launch url
+		);
+		
+		$basicAuth = ilCmiXapiLrsType::buildBasicAuth(
+			$object->getProvider()->getXapiLaunchKey(), // is not for launch, is simply -> key
+			$object->getProvider()->getXapiLaunchSecret() // is not for launch, is simply -> secret
+		);
+		
+		$filter->setActivityId($object->getActivityId());
+		
+		$linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
+			$object->getId(),
+			$aggregateEndPointUrl,
+			$filter
+		);
+		
+		$request = new ilCmiXapiStatementsReportRequest(
+			$basicAuth, $linkBuilder
 		);
 		
 		return $request->queryReport($object->getId());
@@ -196,7 +227,7 @@ class ilXapiResultsCronjob extends ilCronJob
 	protected function getObjectsToBeReported(): array
 	{
 		$objects = array_unique(array_merge(
-			ilCmiXapiUser::getCmixObjectsHavingUsersMissingProxySuccess(),
+			ilCmiXapiUser::getObjectsHavingUsersMissingProxySuccess(),
 			ilObjCmiXapi::getObjectsHavingBypassProxyEnabledAndRegisteredUsers()
 		));
 		

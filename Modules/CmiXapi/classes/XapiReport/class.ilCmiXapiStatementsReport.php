@@ -85,7 +85,7 @@ class ilCmiXapiStatementsReport
 				'verb_display' => $this->fetchVerbDisplay($statement),
 				'object' => $this->fetchObjectName($statement),
 				'object_info' => $this->fetchObjectInfo($statement),
-				'statement' => json_encode($statement, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+				'statement' => json_encode($statement, JSON_PRETTY_PRINT)
 			];
 		}
 		

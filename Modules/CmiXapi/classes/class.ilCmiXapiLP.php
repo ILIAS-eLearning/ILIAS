@@ -18,50 +18,28 @@ class ilCmiXapiLP extends ilObjectLP
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		$modeCompleted = new ilRadioOption(
-			$DIC->language()->txt('cmix_lp_mode_deactivated'),
-			ilLPObjSettings::LP_MODE_DEACTIVATED
-		);
-		$modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_deactivated_info'));
+		$modeCompleted = new ilRadioOption('Deactivated', ilLPObjSettings::LP_MODE_DEACTIVATED);
 		$modeRadio->addOption($modeCompleted);
 		
-		$modeCompleted = new ilRadioOption(
-			$DIC->language()->txt('cmix_lp_mode_when_completed'),
-			ilLPObjSettings::LP_MODE_CMIX_COMPLETED
-		);
-		$modeCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_when_completed_info'));
+		$modeCompleted = new ilRadioOption('Completed when Completed', ilLPObjSettings::LP_MODE_CMIX_COMPLETED);
 		$modeRadio->addOption($modeCompleted);
-		$modeCompletedFailed = new ilCheckboxInputGUI(
-			$DIC->language()->txt('cmix_lp_mode_with_failed'),
+		$modeCompletedFailed = new ilCheckboxInputGUI('Also Consider Failed',
 			'modus_'.ilLPObjSettings::LP_MODE_CMIX_COMPLETED.'_failed'
 		);
-		$modeCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
 		$modeCompleted->addSubItem($modeCompletedFailed);
 		
-		$modePassed = new ilRadioOption(
-			$DIC->language()->txt('cmix_lp_mode_when_passed'),
-			ilLPObjSettings::LP_MODE_CMIX_PASSED
-		);
-		$modePassed->setInfo($DIC->language()->txt('cmix_lp_mode_when_passed_info'));
+		$modePassed = new ilRadioOption('Completed when Passed', ilLPObjSettings::LP_MODE_CMIX_PASSED);
 		$modeRadio->addOption($modePassed);
-		$modePassedFailed = new ilCheckboxInputGUI(
-			$DIC->language()->txt('cmix_lp_mode_with_failed'),
+		$modePassedFailed = new ilCheckboxInputGUI('Also Consider Failed',
 			'modus_'.ilLPObjSettings::LP_MODE_CMIX_PASSED.'_failed'
 		);
-		$modePassedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
 		$modePassed->addSubItem($modePassedFailed);
 		
-		$modePassedOrCompleted = new ilRadioOption(
-			$DIC->language()->txt('cmix_lp_mode_when_passed_or_completed'),
-			ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED
-		);
-		$modePassedOrCompleted->setInfo($DIC->language()->txt('cmix_lp_mode_when_passed_or_completed_info'));
+		$modePassedOrCompleted = new ilRadioOption('Completed when Passed or Completed', ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED);
 		$modeRadio->addOption($modePassedOrCompleted);
-		$modePassedOrCompletedFailed = new ilCheckboxInputGUI(
-			$DIC->language()->txt('cmix_lp_mode_with_failed'),
+		$modePassedOrCompletedFailed = new ilCheckboxInputGUI('Also Consider Failed',
 			'modus_'.ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED.'_failed'
 		);
-		$modePassedOrCompletedFailed->setInfo($DIC->language()->txt('cmix_lp_mode_with_failed_info'));
 		$modePassedOrCompleted->addSubItem($modePassedOrCompletedFailed);
 		
 		switch($this->getCurrentMode())

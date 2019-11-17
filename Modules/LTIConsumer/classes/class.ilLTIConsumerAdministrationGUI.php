@@ -2,8 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use \GuzzleHttp\Client;
-use \GuzzleHttp\Psr7\Uri;
+
 /**
  * Class ilLTIConsumingAdministrationGUI
  *
@@ -21,8 +20,6 @@ class ilLTIConsumerAdministrationGUI
 	const CMD_RESET_GLOBAL_PROVIDER_FILTER = 'resetGlobalProviderFilter';
 	const CMD_SHOW_GLOBAL_PROVIDER_FORM = 'showGlobalProviderForm';
 	const CMD_SAVE_GLOBAL_PROVIDER_FORM = 'saveGlobalProviderForm';
-	const CMD_SHOW_GLOBAL_PROVIDER_IMPORT = 'showGlobalProviderImport';
-	const CMD_SAVE_GLOBAL_PROVIDER_IMPORT = 'saveGlobalProviderImport';
 	
 	const CMD_SHOW_USER_PROVIDER = 'showUserProvider';
 	const CMD_SHOW_USER_PROVIDER_FORM = 'showUserProviderForm';
@@ -44,19 +41,12 @@ class ilLTIConsumerAdministrationGUI
 	const CMD_ROLE_AUTOCOMPLETE = 'roleAutocomplete';
 	
 	const CMD_SHOW_USAGES = 'showUsages';
-
-	const ALLOWED_FILE_EXT = ['jpg', 'jpeg', 'png', 'gif', 'ico', 'svg'];
-
-	/** @var array $_importedXmlData */
-	private $_importedXmlData = [];
 	
 	public function __construct()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
 		$DIC->language()->loadLanguageModule("rep");
-
-		//$this->performProviderImport($this->xml2());
 	}
 	
 	protected function initSubTabs()
@@ -82,10 +72,10 @@ class ilLTIConsumerAdministrationGUI
 		);*/
 		
 		// TODO: Implement Screen showing all Objects in Reporsitory
-		$DIC->tabs()->addSubTab('usage',
+		/*$DIC->tabs()->addSubTab('usage',
 			$DIC->language()->txt('usage_subtab'),
-			$DIC->ctrl()->getLinkTarget($this, 'showUsages')
-		);
+			$DIC->ctrl()->getLinkTarget($this, 'showUsage')
+		);*/
 	}
 	
 	public function executeCommand()
@@ -128,13 +118,6 @@ class ilLTIConsumerAdministrationGUI
 		$button = $DIC->ui()->factory()->button()->standard(
 			$DIC->language()->txt('lti_add_global_provider'),
 			$DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM)
-		);
-		
-		$DIC->toolbar()->addComponent($button);
-		
-		$button = $DIC->ui()->factory()->button()->standard(
-			$DIC->language()->txt('lti_import_global_provider'),
-			$DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_GLOBAL_PROVIDER_IMPORT)
 		);
 		
 		$DIC->toolbar()->addComponent($button);
@@ -241,213 +224,7 @@ class ilLTIConsumerAdministrationGUI
 		
 		$this->showGlobalProviderFormCmd($form);
 	}
-
-	protected function showGlobalProviderImportCmd(ilPropertyFormGUI $form = null)
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$DIC->tabs()->activateSubTab('global_provider');
-		
-		if( $form === null )
-		{
-			$form = $this->buildProviderImportForm(
-				self::CMD_SAVE_GLOBAL_PROVIDER_IMPORT,
-				self::CMD_SHOW_GLOBAL_PROVIDER
-			);
-		}
-		
-		$DIC->ui()->mainTemplate()->setContent($form->getHTML());
-	}
-
-	protected function saveGlobalProviderImportCmd()
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$form = $this->buildProviderImportForm(
-			self::CMD_SAVE_GLOBAL_PROVIDER_IMPORT,
-			self::CMD_SHOW_GLOBAL_PROVIDER
-		);
-		
-		if( !$form->checkInput() )
-		{
-			$this->showGlobalProviderImportCmd($form);
-			return;
-		}
-		
-		$fileData = $_POST['provider_xml'];
-		
-		if( !$fileData['tmp_name'] )
-		{
-			$this->showGlobalProviderImportCmd($form);
-			return;
-		}
-		
-		$providerXml = file_get_contents($fileData['tmp_name']);
-		
-		$provider = $this->performProviderImport($providerXml);
-		
-		ilUtil::sendSuccess($DIC->language()->txt('provider_import_success_msg'));
-		$DIC->ctrl()->setParameter($this, 'provider_id', $provider->getId());
-		$DIC->ctrl()->redirect($this, self::CMD_SHOW_GLOBAL_PROVIDER_FORM);
-	}
 	
-	/**
-	 * @param $saveCommand
-	 * @param $cancelCommand
-	 * @return ilPropertyFormGUI
-	 */
-	protected function buildProviderImportForm($saveCommand, $cancelCommand)
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$form = new ilPropertyFormGUI();
-		
-		$form->setTitle($DIC->language()->txt('form_import_provider'));
-		
-		$form->setFormAction($DIC->ctrl()->getFormAction($this));
-		
-		$form->addCommandButton($saveCommand, $DIC->language()->txt('import'));
-		$form->addCommandButton($cancelCommand, $DIC->language()->txt('cancel'));
-		
-		$provXmlUpload = new ilFileInputGUI($DIC->language()->txt('field_provider_xml'), 'provider_xml');
-		$provXmlUpload->setInfo($DIC->language()->txt('field_provider_xml_info'));
-		$provXmlUpload->setRequired(true);
-		$provXmlUpload->setSuffixes(['xml']);
-		$form->addItem($provXmlUpload);
-		
-		return $form;
-	}
-	
-	/**
-	 * @param string $providerXml
-	 * @return ilLTIConsumeProvider
-	 */
-	protected function performProviderImport(string $providerXml)
-	{
-        $doc = new DOMDocument;
-        $doc->loadXML($providerXml);
-        $xPath = new DOMXPath($doc);
-        $this->_importedXmlData = [
-            'title'         => $xPath->query("//*[local-name() = 'title']")->item(0)->nodeValue,
-            'description'=> null !== ($desc = $xPath->query("//*[local-name() = 'description']")->item(0)->nodeValue)?$desc:'',
-            'provider_url'=> $xPath->query("//*[local-name() = 'launch_url']")->item(0)->nodeValue,
-            'provider_icon'=> $xPath->query("//*[local-name() = 'icon']")->item(0)->nodeValue,
-            'launch_method'=> 'newWin',
-        ];
-
-        // DONE ?
-	    /**
-		 * TODO: parse xml and initialise provider object
-		 * --> consider two kind xmls
-		 */
-
-		return $this->prepareProvider();
-	}
-
-    /**
-     * @return ilLTIConsumeProvider
-     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
-	private function prepareProvider()
-    {
-        $provider = new ilLTIConsumeProvider();
-        $provider->setTitle($this->getInput('title'));
-        $provider->setDescription($this->getInput('description'));
-        if (null !== $this->getInput('provider_url')){
-            $provider->setProviderUrl($this->getInput('provider_url'));
-        }
-        $provider->setIsGlobal(true);
-        $provider->save();
-
-        // PROVIDER ICON
-        $pId = $provider->getId();
-        if( null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), $pId) ) {
-            $provider->setProviderIconFilename($pIconFileName);
-            $provider->update();
-            $provider->update();
-        }
-
-        return $provider;
-    }
-
-    /**
-     * @param $key
-     * @return mixed
-     */
-    private function getInput($key) {
-	    /*if( !is_bool($this->_importedXmlData[$key]) ) {
-            $this->_importedXmlData[$key] = trim($this->_importedXmlData[$key]);
-        }*/
-	    return $this->_importedXmlData[$key];
-    }
-
-    /**
-     * @param string $url
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     * @return string|null
-     */
-    private function getIconXml($url, $pId)
-    {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        require_once('libs/composer/vendor/guzzlehttp/guzzle/src/Client.php');
-        require_once('libs/composer/vendor/guzzlehttp/psr7/src/Uri.php');
-
-        $regex = '~(.+)://([^/]+)/([^?]+)\??(.*)~';
-        preg_match_all($regex,$url,$urlPart, PREG_SET_ORDER);
-        $urlPart = $urlPart[0];
-        //var_dump([$url, $urlPart]); exit;
-        $fileExt = strtolower(substr($urlPart[3], strrpos($urlPart[3], '.')+1));
-        //var_dump($fileExt); exit;
-        if( true !== $this->checkIconFileExtension($fileExt) ) {
-            return null;
-        }
-        $finalIcoName = $pId . '.' . $fileExt;
-
-        /** @var GuzzleHttp\Psr7\Uri $uri */
-        $uri = new Uri($urlPart[0]);
-        $uri->withScheme($urlPart[1])
-            ->withHost($urlPart[2])
-            ->withPath($urlPart[3])
-            ->withQuery($urlPart[4]);
-        //var_dump($uri); exit;
-        /** @var GuzzleHttp\Client $httpClient */
-        $httpClient = new Client();
-        $response = $httpClient->get($uri);
-        //var_dump($response); exit;
-        /** @var GuzzleHttp\Psr7\Stream $icoResource */
-        $icoResource = $response->getBody();
-        $ico = $icoResource->getContents();
-
-        if( false === $this->checkIconFileVirus($ico) ) {
-            $DIC->filesystem()->web()->put('lti_data/provider_icon/' . $finalIcoName, $ico); // $DIC->filesystem()->web()->readAndDelete('lti_data/provider_icon/' . $tempIcoName)
-        } else {
-            return null;
-        }
-
-        return $finalIcoName;
-    }
-
-    /**
-     * @param string $ext
-     * @return bool
-     */
-    private function checkIconFileExtension($ext) {
-        return false !== ($check = array_search($ext, self::ALLOWED_FILE_EXT)) ? true : false;
-    }
-
-    /**
-     * @param string $ico
-     * @return bool
-     */
-    private function checkIconFileVirus($ico) {
-        $virusScan = ilVirusScannerFactory::_getInstance();
-		if (!$virusScan) return false;
-		return $virusScan->scanBuffer($ico);
-        // return false === (bool)$virusScan->scanBuffer($ico) ? false : true;
-    }
-
 	protected function showUserProviderCmd()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -738,7 +515,7 @@ class ilLTIConsumerAdministrationGUI
 		
 		$confirmationGUI->setFormAction($DIC->ctrl()->getFormAction($this));
 		$confirmationGUI->setCancel($DIC->language()->txt('cancel'), $cancelCommand);
-		$confirmationGUI->setConfirm($DIC->language()->txt('confirm'), self::CMD_PERFORM_DELETE_PROVIDERS);
+		$confirmationGUI->setConfirm($DIC->language()->txt('delete'), self::CMD_PERFORM_DELETE_PROVIDERS);
 		
 		$confirmationGUI->setHeaderText($DIC->language()->txt('lti_confirm_delete_providers'));
 		
@@ -779,7 +556,7 @@ class ilLTIConsumerAdministrationGUI
 				$provider->delete();
 			}
 			
-			ilUtil::sendSuccess($DIC->language()->txt('lti_success_delete_provider'), true);
+			ilUtil::sendSuccess($DIC->language()->txt('lti_success_delete_provider_multi'), true);
 		}
 		
 		$DIC->ctrl()->redirect($this, $_GET[self::REDIRECTION_CMD_PARAMETER]);
@@ -809,22 +586,13 @@ class ilLTIConsumerAdministrationGUI
 		return $table;
 	}
 	
-	protected function showUsagesCmd()
+	protected function showUsageCmd()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		require_once('./Modules/LTIConsumer/classes/class.ilLTIConsumerProviderUsageTableGUI.php');
 		
 		$DIC->tabs()->activateSubTab('usage');
-
-        $providerList = new ilLTIConsumeProviderList();
-        $providerList->setScopeFilter(ilLTIConsumeProviderList::SCOPE_GLOBAL);
-        $providerList->load();
-
-        $table = new ilLTIConsumerProviderUsageTableGUI($this, self::CMD_SHOW_USAGES);
-        $table->setData($providerList->getTableDataUsedBy());
-        $table->init();
-
-        $DIC->ui()->mainTemplate()->setContent($table->getHTML());
+		
+		$DIC->ui()->mainTemplate()->setContent(__METHOD__);
 	}
 	
 	/**
@@ -957,5 +725,4 @@ class ilLTIConsumerAdministrationGUI
 		$providerList->loadUsages();
 		return $providerList;
 	}
-
 }

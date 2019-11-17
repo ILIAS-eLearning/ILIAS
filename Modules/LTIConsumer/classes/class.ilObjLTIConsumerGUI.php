@@ -58,7 +58,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 			$this->ltiAccess = new ilLTIConsumerAccess($this->object);
 		}
 		
-		$DIC->language()->loadLanguageModule("lti");
+		$DIC->language()->loadLanguageModule("lticonsumer");
 		$DIC->language()->loadLanguageModule("rep");
 	}
 	
@@ -261,41 +261,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 		
 		$keywords = $object->getProvider()->getKeywordsArray();
 		ilMDKeyword::updateKeywords($generalMetadata, $keywords);
-	}
-	
-	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$return = parent::initHeaderAction($a_sub_type, $a_sub_id);
-		
-		if( $this->creation_mode )
-		{
-			return $return;
-		}
-		
-		if( ilObjLTIConsumerAccess::hasActiveCertificate($this->object->getId(), $DIC->user()->getId()) )
-		{
-			$certLink = $DIC->ctrl()->getLinkTargetByClass(
-				[ilObjLTIConsumerGUI::class, ilLTIConsumerSettingsGUI::class],
-				ilLTIConsumerSettingsGUI::CMD_DELIVER_CERTIFICATE
-			);
-			
-			$DIC->language()->loadLanguageModule('certificate');
-			
-			$return->addCustomCommand($certLink, 'download_certificate');
-			
-			$return->addHeaderIcon(
-				'cert_icon',
-				ilUtil::getImagePath('icon_cert.svg'),
-				$DIC->language()->txt('download_certificate'),
-				null,
-				null,
-				$certLink
-			);
-		}
-		
-		return $return;
 	}
 	
 	public static function _goto($a_target)
@@ -584,13 +549,13 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 			$this->object->getId(),
 			$DIC->user()->getId()
 		);
-		
-		ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
 	}
 	
 	protected function infoScreen()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
 
 		$DIC->tabs()->activateTab(self::TAB_ID_INFO);
 		

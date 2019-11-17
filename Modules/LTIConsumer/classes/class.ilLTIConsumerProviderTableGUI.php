@@ -453,7 +453,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
 		];
 		
 		$columns['keywords'] = [
-			'default' => true, 'txt' => $DIC->language()->txt('tbl_lti_prov_keywords')
+			'default' => false, 'txt' => $DIC->language()->txt('tbl_lti_prov_keywords')
 		];
 		
 		$columns['outcome'] = [
@@ -521,6 +521,15 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
 		$keyword->readFromSession();
 		$this->filter['keyword'] = $keyword->getValue();
 		
+		$category = new ilSelectInputGUI($DIC->language()->txt('tbl_lti_prov_category'), 'category');
+		$category->setOptions(array_merge(
+			['' => $DIC->language()->txt('tbl_lti_prov_all_categories')],
+			ilLTIConsumeProvider::getCategoriesSelectOptions()
+		));
+		$this->addFilterItem($category);
+		$category->readFromSession();
+		$this->filter['category'] = $category->getValue();
+		
 		$hasOutcome = new ilCheckboxInputGUI($DIC->language()->txt('tbl_lti_prov_outcome'), 'outcome');
 		$this->addFilterItem($hasOutcome);
 		$hasOutcome->readFromSession();
@@ -535,15 +544,6 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
 		$this->addFilterItem($isWithKey);
 		$isWithKey->readFromSession();
 		$this->filter['with_key'] = $isWithKey->getValue();
-
-		$category = new ilSelectInputGUI($DIC->language()->txt('tbl_lti_prov_category'), 'category');
-		$category->setOptions(array_merge(
-			['' => $DIC->language()->txt('tbl_lti_prov_all_categories')],
-			ilLTIConsumeProvider::getCategoriesSelectOptions()
-		));
-		$this->addFilterItem($category);
-		$category->readFromSession();
-		$this->filter['category'] = $category->getValue();
 	}
 	
 	protected function fillRow($data)

@@ -123,7 +123,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $data['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
+        $highlight = $data['user_ident'] === true ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
 	}
 

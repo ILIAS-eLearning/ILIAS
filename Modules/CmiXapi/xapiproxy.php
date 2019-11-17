@@ -19,23 +19,14 @@ if (strtoupper($_SERVER["REQUEST_METHOD"]) == "OPTIONS") {
 	exit;
 }
 
-if( !empty($_SERVER['PHP_AUTH_USER']) && !empty($_SERVER['PHP_AUTH_PW']) )
-{
-	$client = $_SERVER['PHP_AUTH_USER'];
-	$token = $_SERVER['PHP_AUTH_PW'];
-}
-elseif( !empty($_SERVER['HTTP_AUTHORIZATION']) )
-{
-	$basicAuth = explode(':' , base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
-	$client = $basicAuth[0];
-	$token = $basicAuth[1];
-}
-else
-{
+$no_credentials = (empty($_SERVER['PHP_AUTH_USER']) || empty($_SERVER['PHP_AUTH_PW']));
+if ($no_credentials) {
 	//$log->info("no credentials:\nREQUEST_METHOD=".$_SERVER["REQUEST_METHOD"]."\nPHP_AUTH_USER=".$_SERVER['PHP_AUTH_USER']."\nPHP_AUTH_PW=".$_SERVER['PHP_AUTH_PW']);
 	header('HTTP/1.1 401 Authorization Required');
 	exit;
 }
+$client = $_SERVER['PHP_AUTH_USER'];
+$token = $_SERVER['PHP_AUTH_PW'];
 
 require_once 'Modules/CmiXapi/classes/XapiProxy/DataService.php';
 \XapiProxy\DataService::initIlias($client);
@@ -220,11 +211,8 @@ function modifyBody($body)
 function handleStatementEvaluation($xapiStatement)
 {
 	global $authToken, $log;
-	
-	/* @var ilObjCmiXapi $object */
-	$object = ilObjectFactory::getInstanceByObjId($authToken->getObjId());
 
-	$statementEvaluation = new ilXapiStatementEvaluation($log, $object);
+	$statementEvaluation = new ilXapiStatementEvaluation($log, $authToken->getObjId());
 	$statementEvaluation->evaluateStatement($xapiStatement, $authToken->getUsrId());
 	
 	ilLPStatusWrapper::_updateStatus(

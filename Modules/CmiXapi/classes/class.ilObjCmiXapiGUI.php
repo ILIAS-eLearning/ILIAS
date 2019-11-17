@@ -18,7 +18,6 @@
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilPermissionGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilInfoScreenGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilLearningProgressGUI
- * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiRegistrationGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiLaunchGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiSettingsGUI
  * @ilCtrl_Calls ilObjCmiXapiGUI: ilCmiXapiStatementsGUI
@@ -110,11 +109,11 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		$source->setRequired(true);
 		
 		$srcRemoteContent = new ilRadioOption($this->lng->txt('cmix_add_source_url'), 'resource');
-		$srcRemoteContent->setInfo($this->lng->txt('cmix_add_source_url_info'));
+		// $srcRemoteContent->setInfo('');
 		$source->addOption($srcRemoteContent);
 		
 		$srcUploadContent = new ilRadioOption($this->lng->txt('cmix_add_source_local_dir'), 'upload');
-		$srcUploadContent->setInfo($this->lng->txt('cmix_add_source_local_dir_info'));
+		$srcUploadContent->setInfo('');
 		$source->addOption($srcUploadContent);
 		
 		$srcUpload = new ilFileInputGUI($this->lng->txt("select_file"), "uploadfile");
@@ -123,27 +122,13 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		$srcUpload->setRequired(true);
 		$srcUploadContent->addSubItem($srcUpload);
 		
-		if( ilUploadFiles::_getUploadDirectory() )
-		{
-			$srcServerContent = new ilRadioOption($this->lng->txt('cmix_add_source_upload_dir'), 'server');
-			$srcServerContent->setInfo($this->lng->txt('cmix_add_source_upload_dir_info'));
-			$source->addOption($srcServerContent);
-			
-			$options = ['' => $this->lng->txt('cmix_add_source_upload_select')];
-			
-			foreach( ilUploadFiles::_getUploadFiles() as $file )
-			{
-				$options[$file] = $file;
-			}
-			
-			$srcSelect = new ilSelectInputGUI($this->lng->txt("select_file"), "serverfile");
-			$srcSelect->setOptions($options);
-			$srcServerContent->addSubItem($srcSelect);
-		}
-		
-		$srcExternalApp = new ilRadioOption($this->lng->txt('cmix_add_source_external_app'), 'external');
-		$srcExternalApp->setInfo($this->lng->txt('cmix_add_source_external_app_info'));
-		$source->addOption($srcExternalApp);
+		$srcServerContent = new ilRadioOption($this->lng->txt('cmix_add_source_upload_dir'), 'server');
+		// $srcServerContent->setInfo('');
+		$source->addOption($srcServerContent);
+
+		$srcSelect = new ilSelectInputGUI($this->lng->txt("select_file"), "sub_type");
+		$srcSelect->setOptions(['' => $this->lng->txt('cmix_add_source_upload_select')]);
+		$srcServerContent->addSubItem($srcSelect);
 		
 		$form->addItem($source);
 		
@@ -182,7 +167,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 					try
 					{
 						$uploadImporter = new ilCmiXapiContentUploadImporter($newObject);
-						$uploadImporter->importFormUpload($form->getItemByPostVar('uploadfile'));
+						$uploadImporter->import($form->getItemByPostVar('uploadfile'));
 						
 						$newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
 					}
@@ -195,34 +180,10 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 					
 					break;
 					
-				case 'server': // from upload directory
+				case 'select': // from upload directory
 					
-					if( !ilUploadFiles::_getUploadDirectory() )
-					{
-						throw new ilCmiXapiException('access denied!');
-					}
-					
-					$serverFile = $form->getInput('serverfile');
-					
-					if( !ilUploadFiles::_checkUploadFile($serverFile) )
-					{
-						throw new ilCmiXapiException($DIC->language()->txt('upload_error_file_not_found'));
-					}
-					
-					$uploadImporter = new ilCmiXapiContentUploadImporter($newObject);
-					
-					$uploadImporter->importServerFile(implode(DIRECTORY_SEPARATOR, [
-						ilUploadFiles::_getUploadDirectory(), $serverFile
-					]));
-					
+					// TODO: handle content from uploaded directory (zip or xml)
 					$newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_LOCAL);
-					
-					break;
-					
-				case 'external':
-					
-					$newObject->setSourceType(ilObjCmiXapi::SRC_TYPE_EXTERNAL);
-					$newObject->setBypassProxyEnabled(true);
 					break;
 			}
 			
@@ -254,41 +215,6 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		$id->setCatalog('ILIAS');
 		$id->setEntry('il__'.$object->getType().'_'.$object->getId());
 		$id->save();
-	}
-	
-	protected function initHeaderAction($a_sub_type = null, $a_sub_id = null)
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$return = parent::initHeaderAction($a_sub_type, $a_sub_id);
-		
-		if( $this->creation_mode )
-		{
-			return $return;
-		}
-		
-		if( ilObjCmiXapiAccess::hasActiveCertificate($this->object->getId(), $DIC->user()->getId()) )
-		{
-			$certLink = $DIC->ctrl()->getLinkTargetByClass(
-				[ilObjCmiXapiGUI::class, ilCmiXapiSettingsGUI::class],
-				ilCmiXapiSettingsGUI::CMD_DELIVER_CERTIFICATE
-			);
-			
-			$DIC->language()->loadLanguageModule('certificate');
-			
-			$return->addCustomCommand($certLink, 'download_certificate');
-			
-			$return->addHeaderIcon(
-				'cert_icon',
-				ilUtil::getImagePath('icon_cert.svg'),
-				$DIC->language()->txt('download_certificate'),
-				null,
-				null,
-				$certLink
-			);
-		}
-		
-		return $return;
 	}
 	
 	public static function _goto($a_target)
@@ -413,15 +339,6 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 $gui = new ilCmiXapiExportGUI($this);
                 $DIC->ctrl()->forwardCommand($gui);
 
-				break;
-			
-			case strtolower(ilCmiXapiRegistrationGUI::class):
-				
-				$DIC->tabs()->activateTab(self::TAB_ID_INFO);
-				
-				$gui = new ilCmiXapiRegistrationGUI($this->object);
-				$DIC->ctrl()->forwardCommand($gui);
-				
 				break;
 			
 			case strtolower(ilCmiXapiLaunchGUI::class):
@@ -631,37 +548,17 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		$info->addMetaDataSections($this->object->getId(),0, $this->object->getType());
 		
         // Info about privacy
-        if( $this->object->isSourceTypeExternal() )
-		{
-			$info->addSection($DIC->language()->txt("cmix_info_privacy_section"));
-		}
-		else
-		{
-			$info->addSection($DIC->language()->txt("cmix_info_privacy_section_launch"));
-		}
+        $info->addSection($DIC->language()->txt("cmix_info_privacy_section"));
 
         $info->addProperty($DIC->language()->txt('cmix_lrs_type'), $this->object->getLrsType()->getTitle());
 
-        if( $this->object->isSourceTypeExternal() )
-		{
-			$cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
-			if ( $cmixUser->getUsrIdent() )
-			{
-				$info->addProperty($DIC->language()->txt("conf_user_registered_mail"),
-					$cmixUser->getUsrIdent()
-				);
-			}
-		}
-		else
-		{
-			$info->addProperty($DIC->language()->txt("conf_user_name"),
-				$DIC->language()->txt('conf_user_name_'.$this->object->getUserName())
-			);
-			
-			$info->addProperty($DIC->language()->txt("conf_user_ident"),
-				$DIC->language()->txt('conf_user_ident_'.$this->object->getUserIdent())
-			);
-		}
+        $info->addProperty($DIC->language()->txt("conf_user_name"),
+            $DIC->language()->txt('conf_user_name_'.$this->object->getUserName())
+        );
+
+        $info->addProperty($DIC->language()->txt("conf_user_ident"),
+            $DIC->language()->txt('conf_user_ident_'.$this->object->getUserIdent())
+        );
 
         if( $this->object->getLrsType()->getExternalLrs() )
         {
@@ -688,64 +585,34 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		
 		if( !$this->object->isOffline() && $this->object->getLrsType()->isAvailable() )
 		{
-			$cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
+			$launchButton = ilLinkButton::getInstance();
+			$launchButton->setPrimary(true);
+			$launchButton->setCaption('launch');
 			
-			if( $this->object->isSourceTypeExternal() )
+			if( $this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN )
 			{
-				$registerButton = ilLinkButton::getInstance();
-				
-				if($cmixUserExists)
-				{
-					$registerButton->setCaption('change_registration');
-				}
-				else
-				{
-					$registerButton->setPrimary(true);
-					$registerButton->setCaption('create_registration');
-				}
-				
-				$registerButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
-					ilCmiXapiRegistrationGUI::class
-				));
-				
-				$DIC->toolbar()->addButtonInstance($registerButton);
-			}
-			else
-			{
-				$launchButton = ilLinkButton::getInstance();
-				$launchButton->setPrimary(true);
-				$launchButton->setCaption('launch');
-				
-				if( $this->object->getLaunchMethod() == ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN )
-				{
-					$launchButton->setTarget('_blank');
-				}
-				
-				$launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
-					ilCmiXapiLaunchGUI::class
-				));
-				
-				$DIC->toolbar()->addButtonInstance($launchButton);
+				$launchButton->setTarget('_blank');
 			}
 			
+			$launchButton->setUrl($DIC->ctrl()->getLinkTargetByClass(
+				ilCmiXapiLaunchGUI::class
+			));
 			
-			if( $cmixUserExists )
+			$DIC->toolbar()->addButtonInstance($launchButton);
+			
+			$cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
+			if( $this->isFetchXapiStatementsRequired($cmixUser) )
 			{
-				$cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
+				$fetchButton = ilLinkButton::getInstance();
+				$fetchButton->setCaption('fetch_xapi_statements');
 				
-				if( $this->isFetchXapiStatementsRequired($cmixUser) )
-				{
-					$fetchButton = ilLinkButton::getInstance();
-					$fetchButton->setCaption('fetch_xapi_statements');
-					
-					$fetchButton->setUrl($DIC->ctrl()->getLinkTarget(
-						$this, self::CMD_FETCH_XAPI_STATEMENTS
-					));
-					
-					$DIC->toolbar()->addButtonInstance($fetchButton);
-					
-					$this->sendLastFetchInfo($cmixUser);
-				}
+				$fetchButton->setUrl($DIC->ctrl()->getLinkTarget(
+					$this, self::CMD_FETCH_XAPI_STATEMENTS
+				));
+				
+				$DIC->toolbar()->addButtonInstance($fetchButton);
+				
+				$this->sendLastFetchInfo($cmixUser);
 			}
 		}
 	}
@@ -762,7 +629,9 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 	
 	protected function isFetchXapiStatementsRequired(ilCmiXapiUser $cmixUser)
 	{
-		if( $this->object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL )
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		if( !ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId()) )
 		{
 			return false;
 		}
@@ -803,11 +672,6 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		$logger = ilLoggerFactory::getLogger($this->object->getType());
 		
-		if( $this->object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL )
-		{
-			throw new ilCmiXapiException('access denied!');
-		}
-		
 		$cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
 		
 		$fetchedUntil = $cmixUser->getFetchUntil();
@@ -817,7 +681,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 		
 		if( $report->hasStatements() )
 		{
-			$evaluation = new ilXapiStatementEvaluation($logger, $this->object);
+			$evaluation = new ilXapiStatementEvaluation($logger, $this->object->getId());
 			$evaluation->evaluateReport($report);
 			
 			$logger->debug('update lp for object ('.$this->object->getId().')');

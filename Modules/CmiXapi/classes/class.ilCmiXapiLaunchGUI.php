@@ -171,20 +171,8 @@ class ilCmiXapiLaunchGUI
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		$doLpUpdate = false;
-		
-		if( !ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId()) )
-		{
-			$doLpUpdate = true;
-		}
-		
 		$this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
 		$this->cmixUser->setUsrIdent(ilCmiXapiUser::getIdent($this->object->getUserIdent(), $DIC->user()));
 		$this->cmixUser->save();
-		
-		if($doLpUpdate)
-		{
-			ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-		}
 	}
 }

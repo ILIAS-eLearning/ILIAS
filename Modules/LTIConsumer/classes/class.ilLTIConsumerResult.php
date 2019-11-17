@@ -170,30 +170,4 @@ class ilLTIConsumerResult
 	{
 		return $this->result;
 	}
-	
-	/**
-	 * @param $objId
-	 * @return ilLTIConsumerResult[]
-	 */
-	public static function getResultsForObject($objId)
-	{
-		global $DIC;
-		
-		$query = 'SELECT * FROM lti_consumer_results'
-			.' WHERE obj_id = '. $DIC->database()->quote($objId,'integer');
-		
-		$res = $DIC->database()->query($query);
-		
-		$results = [];
-		
-		if( $row = $DIC->database()->fetchAssoc($res) )
-		{
-			$resObj = new ilLTIConsumerResult;
-			$resObj->fillData($row);
-			
-			$results[$resObj->getUsrId()] = $resObj;
-		}
-		
-		return $results;
-	}
 }

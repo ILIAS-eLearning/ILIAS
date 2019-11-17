@@ -230,16 +230,16 @@ class ilLTIConsumerResultService
             $this->result->result = (float) $result;
             $this->result->save();
 
-            #if ($result >= $this->getMasteryScore())
-            #{
-            #    $lp_status = ilLTIConsumerLPStatus::LP_STATUS_COMPLETED_NUM;
-            #}
-            #else
-            #{
-            #    $lp_status = ilLTIConsumerLPStatus::LP_STATUS_FAILED_NUM;
-            #}
-            #$lp_percentage = 100 * $result;
-            #ilLTIConsumerLPStatus::trackResult($this->result->usr_id, $this->result->obj_id, $lp_status, $lp_percentage);
+            if ($result >= $this->getMasteryScore())
+            {
+                $lp_status = ilLTIConsumerLPStatus::LP_STATUS_COMPLETED_NUM;
+            }
+            else
+            {
+                $lp_status = ilLTIConsumerLPStatus::LP_STATUS_FAILED_NUM;
+            }
+            $lp_percentage = 100 * $result;
+            ilLTIConsumerLPStatus::trackResult($this->result->usr_id, $this->result->obj_id, $lp_status, $lp_percentage);
 
             $code = "success";
             $severity = "status";
@@ -267,9 +267,9 @@ class ilLTIConsumerResultService
         $this->result->result = null;
         $this->result->save();
 
-        #$lp_status = ilLTIConsumerLPStatus::LP_STATUS_IN_PROGRESS_NUM;
-        #$lp_percentage = 0;
-        #ilLTIConsumerLPStatus::trackResult($this->result->usr_id, $this->result->obj_id, $lp_status, $lp_percentage);
+        $lp_status = ilLTIConsumerLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+        $lp_percentage = 0;
+        ilLTIConsumerLPStatus::trackResult($this->result->usr_id, $this->result->obj_id, $lp_status, $lp_percentage);
 
         $code = "success";
         $severity = "status";

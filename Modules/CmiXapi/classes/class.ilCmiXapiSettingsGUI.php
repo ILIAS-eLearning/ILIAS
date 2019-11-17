@@ -11,20 +11,13 @@
  * @author      Stefan Schneider <info@eqsoft.de>
  *
  * @package     Module/CmiXapi
- *
- * @ilCtrl_Calls ilCmiXapiSettingsGUI: ilCertificateGUI
  */
 class ilCmiXapiSettingsGUI
 {
 	const CMD_SHOW = 'show';
-	const CMD_DELIVER_CERTIFICATE = 'deliverCertificate';
-	
 	const CMD_SAVE = 'save';
 	
 	const DEFAULT_CMD = self::CMD_SHOW;
-	
-	const SUBTAB_ID_SETTINGS = 'settings';
-	const SUBTAB_ID_CERTIFICATE = 'certificate';
 	
 	/**
 	 * @var ilObjCmiXapi
@@ -39,50 +32,13 @@ class ilCmiXapiSettingsGUI
 		$this->object = $object;
 	}
 	
-	public function initSubtabs()
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$DIC->tabs()->addSubTab(self::SUBTAB_ID_SETTINGS,
-			$DIC->language()->txt(self::SUBTAB_ID_SETTINGS),
-			$DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW)
-		);
-		
-		if( ilCertificate::isActive() )
-		{
-			$DIC->tabs()->addSubTab(self::SUBTAB_ID_CERTIFICATE,
-				$DIC->language()->txt(self::SUBTAB_ID_CERTIFICATE),
-				$DIC->ctrl()->getLinkTargetByClass(ilCertificateGUI::class, 'certificateEditor')
-			);
-		}
-	}
-	
 	public function executeCommand()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		$this->initSubtabs();
+		$command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD).'Cmd';
 		
-		switch( $DIC->ctrl()->getNextClass() )
-		{
-			case strtolower(ilCertificateGUI::class):
-				
-				if( !ilCertificate::isActive() )
-				{
-					throw new ilCmiXapiException('access denied!');
-				}
-				
-				$DIC->tabs()->activateSubTab(self::SUBTAB_ID_CERTIFICATE);
-				
-				$gui = new ilCertificateGUI(new ilCmiXapiCertificateAdapater($this->object));
-				$DIC->ctrl()->forwardCommand($gui);
-				
-				break;
-				
-			default:
-				$command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD).'Cmd';
-				$this->{$command}();
-		}
+		$this->{$command}();
 	}
 	
 	protected function saveCmd()
@@ -95,7 +51,7 @@ class ilCmiXapiSettingsGUI
 		{
 			$this->saveSettings($form);
 			
-			ilUtil::sendSuccess($DIC->language()->txt('msg_obj_modified'), true);
+			ilUtil::sendSuccess('obj_modfied');
 			$DIC->ctrl()->redirect($this, self::CMD_SHOW);
 		}
 		
@@ -105,8 +61,6 @@ class ilCmiXapiSettingsGUI
 	protected function showCmd(ilPropertyFormGUI $form = null)
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$DIC->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
 		
 		$form = $this->buildForm();
 		
@@ -138,7 +92,6 @@ class ilCmiXapiSettingsGUI
 		$form->addItem($item);
 		
 		$item = new ilTextInputGUI($DIC->language()->txt('activity_id'), 'activity_id');
-		$item->setRequired(true);
 		$item->setSize(40);
 		$item->setMaxLength(128);
 		// $item->setRequired(true);
@@ -155,159 +108,149 @@ class ilCmiXapiSettingsGUI
 		}
 		$form->addItem($item);
 		
-		if( !$this->object->isSourceTypeExternal() )
+		$item = new ilFormSectionHeaderGUI();
+		$item->setTitle($DIC->language()->txt("launch_options"));
+		$form->addItem($item);
+		
+		if( $this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE )
 		{
-			$item = new ilFormSectionHeaderGUI();
-			$item->setTitle($DIC->language()->txt("launch_options"));
+			$item = new ilTextInputGUI($DIC->language()->txt('launch_url'), 'launch_url');
+			$item->setSize(40);
+			$item->setMaxLength(128);
+			$item->setRequired(true);
+			$item->setInfo($DIC->language()->txt('launch_url_info'));
+			$item->setValue($this->object->getLaunchUrl());
 			$form->addItem($item);
-			
-			if( $this->object->isSourceTypeRemote() )
-			{
-				$item = new ilTextInputGUI($DIC->language()->txt('launch_url'), 'launch_url');
-				$item->setSize(40);
-				$item->setMaxLength(128);
-				$item->setRequired(true);
-				$item->setInfo($DIC->language()->txt('launch_url_info'));
-				$item->setValue($this->object->getLaunchUrl());
-				$form->addItem($item);
-			}
-			
-			$item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
-			$item->setInfo($DIC->language()->txt("use_fetch_info"));
-			$item->setValue("1");
-			
-			if( $this->object->isAuthFetchUrlEnabled() )
-			{
-				$item->setChecked(true);
-			}
-			$form->addItem($item);
-			
-			$display = new ilRadioGroupInputGUI($DIC->language()->txt('launch_options'), 'display');
-			$display->setRequired(true);
-			$display->setValue($this->object->getLaunchMethod());
-			$optOwnWindow = new ilRadioOption($DIC->language()->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
-			$optOwnWindow->setInfo($DIC->language()->txt('conf_own_window_info'));
-			$display->addOption($optOwnWindow);
-			$optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_any_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
-			$optAnyWindow->setInfo($DIC->language()->txt('conf_any_window_info'));
-			$display->addOption($optAnyWindow);
-			$form->addItem($display);
-			
-			$launchMode = new ilRadioGroupInputGUI($DIC->language()->txt('conf_launch_mode'), 'launch_mode');
-			$launchMode->setRequired(true);
-			$launchMode->setValue($this->object->getLaunchMode());
-			$optNormal = new ilRadioOption($DIC->language()->txt('conf_launch_mode_normal'), ilObjCmiXapi::LAUNCH_MODE_NORMAL);
-			$launchMode->addOption($optNormal);
-			$optBrowse = new ilRadioOption($DIC->language()->txt('conf_launch_mode_browse'), ilObjCmiXapi::LAUNCH_MODE_BROWSE);
-			$launchMode->addOption($optBrowse);
-			$optReview = new ilRadioOption($DIC->language()->txt('conf_launch_mode_review'), ilObjCmiXapi::LAUNCH_MODE_REVIEW);
-			$launchMode->addOption($optReview);
-			$form->addItem($launchMode);
-			
-			$lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
-			$lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
-			if( $this->object->isKeepLpStatusEnabled() )
-			{
-				$lpDeterioration->setChecked(true);
-			}
-			$optNormal->addSubItem($lpDeterioration);
+		}
+
+		$item = new ilCheckboxInputGUI($DIC->language()->txt('use_fetch'), 'use_fetch');
+		$item->setInfo($DIC->language()->txt("use_fetch_info"));
+		$item->setValue("1");
+		if( $this->object->isAuthFetchUrlEnabled() )
+		{
+			$item->setChecked(true);
+		}
+		$form->addItem($item);
+		
+		$display = new ilRadioGroupInputGUI($DIC->language()->txt('launch_options'), 'display');
+		$display->setRequired(true);
+		$display->setValue($this->object->getLaunchMethod());
+		$optOwnWindow = new ilRadioOption($DIC->language()->txt('conf_own_window'), ilObjCmiXapi::LAUNCH_METHOD_OWN_WIN);
+		$optOwnWindow->setInfo($DIC->language()->txt('conf_own_window_info'));
+		$display->addOption($optOwnWindow);
+		$optAnyWindow = new ilRadioOption($DIC->language()->txt('conf_any_window'), ilObjCmiXapi::LAUNCH_METHOD_NEW_WIN);
+		$optAnyWindow->setInfo($DIC->language()->txt('conf_any_window_info'));
+		$display->addOption($optAnyWindow);
+		$form->addItem($display);
+		
+		$launchMode = new ilRadioGroupInputGUI($DIC->language()->txt('conf_launch_mode'), 'launch_mode');
+		$launchMode->setRequired(true);
+		$launchMode->setValue($this->object->getLaunchMode());
+		$optNormal = new ilRadioOption($DIC->language()->txt('conf_launch_mode_normal'), ilObjCmiXapi::LAUNCH_MODE_NORMAL);
+		$launchMode->addOption($optNormal);
+		$optBrowse = new ilRadioOption($DIC->language()->txt('conf_launch_mode_browse'), ilObjCmiXapi::LAUNCH_MODE_BROWSE);
+		$launchMode->addOption($optBrowse);
+		$optReview = new ilRadioOption($DIC->language()->txt('conf_launch_mode_review'), ilObjCmiXapi::LAUNCH_MODE_REVIEW);
+		$launchMode->addOption($optReview);
+		$form->addItem($launchMode);
+		
+		// $masteryScore = new ilNumberInputGUI('Mastery Score', 'mastery_score');
+		// $masteryScore->setInfo('Percentage above which the status is set to passed.');
+		// $masteryScore->setSuffix('%');
+		// $masteryScore->allowDecimals(true);
+		// $masteryScore->setDecimals(2);
+		// $masteryScore->setMinvalueShouldBeGreater(false);
+		// $masteryScore->setMinValue(0);
+		// $masteryScore->setMaxvalueShouldBeLess(false);
+		// $masteryScore->setMaxValue(100);
+		// $masteryScore->setSize(4);
+		// $masteryScore->setValue($this->object->getMasteryScorePercent());
+		// $optNormal->addSubItem($masteryScore);
+		
+		$lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
+		$lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
+		if( $this->object->isKeepLpStatusEnabled() )
+		{
+			$lpDeterioration->setChecked(true);
+		}
+		$optNormal->addSubItem($lpDeterioration);
+		
+		$sectionHeader = new ilFormSectionHeaderGUI();
+		$sectionHeader->setTitle($DIC->language()->txt('sect_learning_progress_options'));
+		$form->addItem($sectionHeader);
+		
+		$bypassProxy = new ilRadioGroupInputGUI($DIC->language()->txt('conf_bypass_proxy'), 'bypass_proxy');
+		$bypassProxy->setInfo($DIC->language()->txt('conf_bypass_proxy_info'));
+		$bypassProxy->setValue($this->object->isBypassProxyEnabled());
+		$opt1 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_disabled'), 0);
+		$bypassProxy->addOption($opt1);
+		$opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), 1);
+		$bypassProxy->addOption($opt2);
+		$form->addItem($bypassProxy);
+		
+		if( $this->object->getLrsType()->isBypassProxyEnabled() )
+		{
+			$bypassProxy->setDisabled(true);
 		}
 		
-		if( !$this->object->isSourceTypeExternal() )
-		{
-			$sectionHeader = new ilFormSectionHeaderGUI();
-			$sectionHeader->setTitle($DIC->language()->txt('sect_learning_progress_options'));
-			$form->addItem($sectionHeader);
-			
-			$bypassProxy = new ilRadioGroupInputGUI($DIC->language()->txt('conf_bypass_proxy'), 'bypass_proxy');
-			$bypassProxy->setInfo($DIC->language()->txt('conf_bypass_proxy_info'));
-			$bypassProxy->setValue($this->object->isBypassProxyEnabled());
-			$opt1 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_disabled'), 0);
-			$bypassProxy->addOption($opt1);
-			$opt2 = new ilRadioOption($DIC->language()->txt('conf_bypass_proxy_enabled'), 1);
-			$bypassProxy->addOption($opt2);
-			$form->addItem($bypassProxy);
-			
-			if( $this->object->getLrsType()->isBypassProxyEnabled() )
-			{
-				$bypassProxy->setDisabled(true);
-			}
-			
-			// $masteryScore = new ilNumberInputGUI('Mastery Score', 'mastery_score');
-			// $masteryScore->setInfo('Percentage above which the status is set to passed.');
-			// $masteryScore->setSuffix('%');
-			// $masteryScore->allowDecimals(true);
-			// $masteryScore->setDecimals(2);
-			// $masteryScore->setMinvalueShouldBeGreater(false);
-			// $masteryScore->setMinValue(0);
-			// $masteryScore->setMaxvalueShouldBeLess(false);
-			// $masteryScore->setMaxValue(100);
-			// $masteryScore->setSize(4);
-			// $masteryScore->setValue($this->object->getMasteryScorePercent());
-			// $optNormal->addSubItem($masteryScore);
-		}
+		$item = new ilFormSectionHeaderGUI();
+		$item->setTitle($DIC->language()->txt("privacy_options"));
+		$form->addItem($item);
 		
-		if( !$this->object->isSourceTypeExternal() )
+		$userIdent = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_ident'), 'user_ident');
+		$op = new ilRadioOption(
+			$DIC->language()->txt('conf_user_ident_il_uuid_user_id'),
+			ilCmiXapiLrsType::USER_IDENT_IL_UUID_USER_ID
+		);
+		$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_user_id_info'));
+		$userIdent->addOption($op);
+		$op = new ilRadioOption(
+			$DIC->language()->txt('conf_user_ident_il_uuid_login'),
+			ilCmiXapiLrsType::USER_IDENT_IL_UUID_LOGIN
+		);
+		$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_login_info'));
+		$userIdent->addOption($op);
+		$op = new ilRadioOption(
+			$DIC->language()->txt('conf_user_ident_il_uuid_ext_account'),
+			ilCmiXapiLrsType::USER_IDENT_IL_UUID_EXT_ACCOUNT
+		);
+		$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
+		$userIdent->addOption($op);
+		$op = new ilRadioOption(
+			$DIC->language()->txt('conf_user_ident_real_email'),
+			ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
+		);
+		$op->setInfo($DIC->language()->txt('conf_user_ident_real_email_info'));
+		$userIdent->addOption($op);
+		$userIdent->setValue($this->object->getUserIdent());
+		$userIdent->setInfo(
+			$DIC->language()->txt('conf_user_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
+		);
+		$userIdent->setRequired(false);
+		$form->addItem($userIdent);
+		
+		$userName = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_name'), 'user_name');
+		$op = new ilRadioOption($DIC->language()->txt('conf_user_name_none'), ilCmiXapiLrsType::USER_NAME_NONE);
+		$op->setInfo($DIC->language()->txt('conf_user_name_none_info'));
+		$userName->addOption($op);
+		$op = new ilRadioOption($DIC->language()->txt('conf_user_name_firstname'), ilCmiXapiLrsType::USER_NAME_FIRSTNAME);
+		$op->setInfo($DIC->language()->txt('conf_user_name_firstname_info'));
+		$userName->addOption($op);
+		$op = new ilRadioOption($DIC->language()->txt('conf_user_name_lastname'), ilCmiXapiLrsType::USER_NAME_LASTNAME);
+		$op->setInfo($DIC->language()->txt('conf_user_name_lastname_info'));
+		$userName->addOption($op);
+		$op = new ilRadioOption($DIC->language()->txt('conf_user_name_fullname'), ilCmiXapiLrsType::USER_NAME_FULLNAME);
+		$op->setInfo($DIC->language()->txt('conf_user_name_fullname_info'));
+		$userName->addOption($op);
+		$userName->setValue($this->object->getUserName());
+		$userName->setInfo($DIC->language()->txt('conf_user_name_info'));
+		$userName->setRequired(false);
+		$form->addItem($userName);
+		
+		if( $this->object->getLrsType()->getForcePrivacySettings() )
 		{
-			$item = new ilFormSectionHeaderGUI();
-			$item->setTitle($DIC->language()->txt("privacy_options"));
-			$form->addItem($item);
-			
-			$userIdent = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_ident'), 'user_ident');
-			$op = new ilRadioOption(
-				$DIC->language()->txt('conf_user_ident_il_uuid_user_id'),
-				ilCmiXapiLrsType::USER_IDENT_IL_UUID_USER_ID
-			);
-			$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_user_id_info'));
-			$userIdent->addOption($op);
-			$op = new ilRadioOption(
-				$DIC->language()->txt('conf_user_ident_il_uuid_login'),
-				ilCmiXapiLrsType::USER_IDENT_IL_UUID_LOGIN
-			);
-			$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_login_info'));
-			$userIdent->addOption($op);
-			$op = new ilRadioOption(
-				$DIC->language()->txt('conf_user_ident_il_uuid_ext_account'),
-				ilCmiXapiLrsType::USER_IDENT_IL_UUID_EXT_ACCOUNT
-			);
-			$op->setInfo($DIC->language()->txt('conf_user_ident_il_uuid_ext_account_info'));
-			$userIdent->addOption($op);
-			$op = new ilRadioOption(
-				$DIC->language()->txt('conf_user_ident_real_email'),
-				ilCmiXapiLrsType::USER_IDENT_REAL_EMAIL
-			);
-			$op->setInfo($DIC->language()->txt('conf_user_ident_real_email_info'));
-			$userIdent->addOption($op);
-			$userIdent->setValue($this->object->getUserIdent());
-			$userIdent->setInfo(
-				$DIC->language()->txt('conf_user_ident_info') . ' ' . ilCmiXapiUser::getIliasUuid()
-			);
-			$userIdent->setRequired(false);
-			$form->addItem($userIdent);
-			
-			$userName = new ilRadioGroupInputGUI($DIC->language()->txt('conf_user_name'), 'user_name');
-			$op = new ilRadioOption($DIC->language()->txt('conf_user_name_none'), ilCmiXapiLrsType::USER_NAME_NONE);
-			$op->setInfo($DIC->language()->txt('conf_user_name_none_info'));
-			$userName->addOption($op);
-			$op = new ilRadioOption($DIC->language()->txt('conf_user_name_firstname'), ilCmiXapiLrsType::USER_NAME_FIRSTNAME);
-			$op->setInfo($DIC->language()->txt('conf_user_name_firstname_info'));
-			$userName->addOption($op);
-			$op = new ilRadioOption($DIC->language()->txt('conf_user_name_lastname'), ilCmiXapiLrsType::USER_NAME_LASTNAME);
-			$op->setInfo($DIC->language()->txt('conf_user_name_lastname_info'));
-			$userName->addOption($op);
-			$op = new ilRadioOption($DIC->language()->txt('conf_user_name_fullname'), ilCmiXapiLrsType::USER_NAME_FULLNAME);
-			$op->setInfo($DIC->language()->txt('conf_user_name_fullname_info'));
-			$userName->addOption($op);
-			$userName->setValue($this->object->getUserName());
-			$userName->setInfo($DIC->language()->txt('conf_user_name_info'));
-			$userName->setRequired(false);
-			$form->addItem($userName);
-			
-			if ($this->object->getLrsType()->getForcePrivacySettings())
-			{
-				$userIdent->setDisabled(true);
-				$userName->setDisabled(true);
-			}
+			$userIdent->setDisabled(true);
+			$userName->setDisabled(true);
 		}
 		
 		$item = new ilFormSectionHeaderGUI();
@@ -381,40 +324,36 @@ class ilCmiXapiSettingsGUI
 		$this->object->setActivityId($form->getInput('activity_id'));
 		$this->object->setOffline(!(bool)$form->getInput('online'));
 		
-		if( !$this->object->isSourceTypeExternal() )
+		$this->object->setLaunchMethod($form->getInput('display'));
+		
+		$this->object->setLaunchMode($form->getInput('launch_mode'));
+		if( $this->object->getLaunchMode() == ilObjCmiXapi::LAUNCH_MODE_NORMAL )
 		{
-			$this->object->setLaunchMethod($form->getInput('display'));
-			
-			$this->object->setLaunchMode($form->getInput('launch_mode'));
-			
-			if ($this->object->getLaunchMode() == ilObjCmiXapi::LAUNCH_MODE_NORMAL)
-			{
-				// $this->object->setMasteryScorePercent($form->getInput('mastery_score'));
-				$this->object->setKeepLpStatusEnabled((bool)$form->getInput('avoid_lp_deterioration'));
-			}
-			else
-			{
-				$this->object->setMasteryScorePercent(0.0);
-				$this->object->setKeepLpStatusEnabled(true);
-			}
-			
-			if ($this->object->isSourceTypeRemote())
-			{
-				$this->object->setLaunchUrl($form->getInput('launch_url'));
-			}
-			
-			$this->object->setAuthFetchUrlEnabled((bool)$form->getInput('use_fetch'));
-			
-			if (!$this->object->getLrsType()->isBypassProxyEnabled())
-			{
-				$this->object->setBypassProxyEnabled((bool)$form->getInput('bypass_proxy'));
-			}
-			
-			if (!$this->object->getLrsType()->getForcePrivacySettings())
-			{
-				$this->object->setUserIdent($form->getInput('user_ident'));
-				$this->object->setUserName($form->getInput('user_name'));
-			}
+			// $this->object->setMasteryScorePercent($form->getInput('mastery_score'));
+			$this->object->setKeepLpStatusEnabled((bool)$form->getInput('avoid_lp_deterioration'));
+		}
+		else
+		{
+			$this->object->setMasteryScorePercent(0.0);
+			$this->object->setKeepLpStatusEnabled(true);
+		}
+		
+		if( $this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE )
+		{
+			$this->object->setLaunchUrl($form->getInput('launch_url'));
+		}
+		
+		$this->object->setAuthFetchUrlEnabled((bool)$form->getInput('use_fetch'));
+		
+		if( !$this->object->getLrsType()->isBypassProxyEnabled() )
+		{
+			$this->object->setBypassProxyEnabled((bool)$form->getInput('bypass_proxy'));
+		}
+
+		if( !$this->object->getLrsType()->getForcePrivacySettings() )
+		{
+			$this->object->setUserIdent($form->getInput('user_ident'));
+			$this->object->setUserName($form->getInput('user_name'));
 		}
 		
 		$this->object->setStatementsReportEnabled((bool)$form->getInput('show_debug'));
@@ -431,26 +370,8 @@ class ilCmiXapiSettingsGUI
 			$this->object->setHighscoreTopNum((int) $form->getInput('highscore_top_num'));
 		}
 		
-		$this->object->update();
-	}
-	
-	protected function deliverCertificateCmd()
-	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		if( ilObjCmiXapiAccess::hasActiveCertificate($this->object->getId(), $DIC->user()->getId()) )
-		{
-			$params = [
-				'user_id' => $DIC->user()->getId()
-			];
-			
-			$certificate = new ilCertificate(new ilCmiXapiCertificateAdapater($this->object));
-			
-			if( !$certificate->outCertificate($params, true) )
-			{
-				ilUtil::sendFailure($DIC->language()->txt('cert_generation_failed'), true);
-				$DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
-			}
-		}
+		
+		$this->object->update();
 	}
 }
