@@ -312,7 +312,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		foreach ($sortings as $sorting) {
 			$this->ctrl->setParameter($this, 'sorting', $sorting);
 			$sortingCommands[] = [
-				'txt' => $this->lng->txt('pd_sort_by_' . $sorting),
+				'txt' => $this->lng->txt('dash_sort_by_' . $sorting),
 				'url' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting'),
 				'xxxasyncUrl' => $this->ctrl->getLinkTarget($this, 'changePDItemSorting', '', true),
 				'active' => $sorting === $effectiveSorting,
@@ -497,7 +497,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$button2 = ilSubmitButton::getInstance();
 		$button2->setCaption('cancel');
-		$button2->setCommand('getHTML');
+		$button2->setCommand('cancel');
 		$top_tb->addStickyItem($button2);
 
 		$top_tb->setCloseFormTag(false);
@@ -508,8 +508,20 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$bot_tb->addStickyItem($button2);
 		$bot_tb->setOpenFormTag(false);
 
-		return $top_tb->getHTML() . $this->getHTML() . $bot_tb->getHTML();
+		return $top_tb->getHTML() . $this->renderManageList() . $bot_tb->getHTML();
 	}
+
+	/**
+	 * Cancel
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function cancel()
+	{
+	    $this->ctrl->returnToParent($this);
+	}
+
 	
 	public function confirmRemoveObject()
 	{
@@ -522,7 +534,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		if ($this->viewSettings->isSelectedItemsViewActive()) {
-			$question = $this->lng->txt('rep_info_sure_remove_from_favs');
+			$question = $this->lng->txt('dash_info_sure_remove_from_favs');
 			$cmd = 'confirmedRemove';
 		} else {
 			$question = $this->lng->txt('mmbr_info_delete_sure_unsubscribe');
@@ -559,7 +571,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		}
 
 		foreach ($refIds as $ref_id) {
-		    // @todo: decline and remove favourites
+            $this->favourites->remove($this->user->getId(), $ref_id);
 		}
 
 		// #12909
@@ -611,13 +623,12 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 				}											
 		
 				include_once './Modules/Forum/classes/class.ilForumNotification.php';
-				ilForumNotification::checkForumsExistsDelete($ref_id, $ilUser->getId());				
+				ilForumNotification::checkForumsExistsDelete($ref_id, $this->user->getId());
 			}
 		}
 
-		ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-		$this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
-		$this->ctrl->redirectByClass('ildashboardgui', 'show');
+		ilUtil::sendSuccess($this->lng->txt('mmbr_unsubscribed_from_objs'), true);
+		$this->ctrl->returnToParent($this);
 	}
 
 	//
@@ -756,5 +767,25 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		return $renderer->render($grouped_items, false);
 	}
+
+    protected function renderManageList(): string
+    {
+        $groupedCommands = $this->getGroupedCommandsForView();
+        foreach ($groupedCommands as $group) {
+            foreach ($group as $command) {
+                $this->addBlockCommand(
+                    (string) $command['url'],
+                    (string) $command['txt'],
+                    (string) $command['asyncUrl']
+                );
+            }
+        }
+
+        $grouped_items = $this->blockView->getItemGroups();
+
+        $renderer = new ilDashObjectsTableRenderer($this);
+
+        return $renderer->render($grouped_items);
+    }
 
 }

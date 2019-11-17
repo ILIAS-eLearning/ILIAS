@@ -52,6 +52,17 @@ class ilMembershipOverviewGUI
 
         switch ($next_class)
         {
+            case "ilpdmembershipblockgui":
+                $ctrl->setReturn($this, "show");
+                $block = new ilPDMembershipBlockGUI();
+                $ret = $this->ctrl->forwardCommand($block);
+                if($ret!= "") {
+                    //$this->displayHeader();
+                    $this->main_tpl->setContent($ret);
+                    //$this->tpl->printToStdout();
+                }
+                break;
+
             default:
                 if (in_array($cmd, array("show")))
                 {
