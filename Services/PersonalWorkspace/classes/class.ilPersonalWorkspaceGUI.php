@@ -13,6 +13,8 @@
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilObjCourseVerificationGUI
 * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjSCORMVerificationGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjCmiXapiVerificationGUI
+* @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIConsumerVerificationGUI
 *
 * @ingroup ServicesPersonalWorkspace
 */
