@@ -144,7 +144,7 @@ class ilPublicUserProfileGUI
 		if(!$back)
 		{
 			// #15984
-			$back = 'ilias.php?baseClass=ilPersonalDesktopGUI';
+			$back = 'ilias.php?baseClass=ilDashboardGUI';
 		}
 
 		if((bool)$a_is_portfolio)
@@ -298,7 +298,7 @@ class ilPublicUserProfileGUI
 
 			if(!$is_active)
 			{
-				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			}
 			
 			// Check from Database if value
@@ -316,7 +316,7 @@ class ilPublicUserProfileGUI
 				($current != "g" || !$ilSetting->get('enable_global_profiles')) &&
 				!$this->custom_prefs)
 			{
-				ilUtil::redirect('ilias.php?baseClass=ilPersonalDesktopGUI');
+				ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
 			}
 
 			$this->renderTitle();

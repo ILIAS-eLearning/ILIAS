@@ -361,7 +361,13 @@ class ilUserProfile
 						"group" => "settings")
 		
 		);
-		
+
+
+	/**
+	 * @var ilUserSettingsConfig
+	 */
+	protected $user_settings_config;
+
 	/**
 	 * Constructor
 	 */
@@ -378,6 +384,8 @@ class ilUserProfile
 		// not nicest workaround, but better than using common block
 		$lng->loadLanguageModule("awrn");
 		$lng->loadLanguageModule("buddysystem");
+
+		$this->user_settings_config = new ilUserSettingsConfig();
 	}
 	
 	/**
@@ -872,9 +880,12 @@ class ilUserProfile
 
 		$ilSetting = $DIC['ilSetting'];
 
+
+		$user_settings_config = new ilUserSettingsConfig();
+
 		if(self::$mode == self::MODE_DESKTOP)
 		{
-			return ($ilSetting->get("usr_settings_hide_".$a_setting) != 1);
+			return ($user_settings_config->isVisible($a_setting));
 		}
 		else
 		{
@@ -913,12 +924,14 @@ class ilUserProfile
 		global $DIC;
 
 		$ilSetting = $DIC['ilSetting'];
+
+		$user_settings_config = new ilUserSettingsConfig();
 		
 		// standard fields
 		foreach(self::$user_field as $field => $definition)
 		{
 			// only if visible in personal data
-			if($a_personal_data_only && $ilSetting->get("usr_settings_hide_".$field))
+			if($a_personal_data_only && !$user_settings_config->isVisible($field))
 			{
 				continue;
 			}
@@ -971,24 +984,8 @@ class ilUserProfile
 	 */
 	protected static function isEditableByUser($setting)
 	{
-		/**
-		 * 
-		 * @global	ilSetting
-		 * 
-		 */
-		global $DIC;
-
-		$ilSetting = $DIC['ilSetting'];
-		
-		// Not visible in personal data or not changeable
-		if( $ilSetting->get('usr_settings_hide_'.$setting) == 1 ||
-			$ilSetting->get('usr_settings_disable_'.$setting) == 1 )
-		{
-			// User has no chance to edit this field
-			return false;
-		}
-		
-		return true;
+		$user_settings_config = new ilUserSettingsConfig();
+		return $user_settings_config->isVisibleAndChangeable($setting);
 	}
 	
 	/**

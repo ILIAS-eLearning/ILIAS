@@ -7,7 +7,7 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  * Exporter class for user data
  * Note: this is currently NOT used for the classic user export/import
  * It is mainly used for export personsl user data from the personal desktop
- * (settings, profile, bookmarks, calendar entries)
+ * (settings, profile, calendar entries)
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id: $
@@ -62,10 +62,6 @@ class ilUserExporter extends ilXmlExporter
 				array(
 					"component" => "Services/User",
 					"entity" => "usr_setting",
-					"ids" => $a_ids),
-				array(
-					"component" => "Services/Bookmarks",
-					"entity" => "bookmarks",
 					"ids" => $a_ids),
 				array(
 					"component" => "Services/Notes",

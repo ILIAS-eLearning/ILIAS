@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
 /**
@@ -41,6 +40,16 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	var $tpl = null;
 
 	/**
+	 * @var ilFavouritesManager
+	 */
+	protected $favourites;
+
+	/**
+	 * @var ilObjUser
+	 */
+	protected $user;
+
+	/**
 	* Constructor
 	* @access public
 	*/
@@ -62,6 +71,8 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
 		$ilMainMenu->setActive('search');
 		$this->settings = new ilSearchSettings();
+		$this->favourites = new ilFavouritesManager();
+		$this->user = $DIC->user();
 	}
 
 	function prepareOutput()
@@ -244,8 +255,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 */
 	public function addToDeskObject()
 	{
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
+		$this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
 	 	$this->showSavedResults();
 	}
 	 
@@ -254,8 +264,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 */
 	public function removeFromDeskObject()
 	{
-		include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-		ilDesktopItemGUI::removeFromDesktop();
+		$this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
 		$this->showSavedResults();
 	}
 	 
@@ -264,7 +273,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 	 */
 	public function delete()
 	{
-		include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
 		$admin = new ilAdministrationCommandGUI($this);
 		$admin->delete();
 	}

@@ -66,35 +66,6 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
 		parent::executeCommand();
 	}
 	
-	
-	/**
-	 * get tabs
-	 *
-	 * @access public
-     * @param	object	tabs gui object
-	 */
-	public function getTabs()
-	{
-		$ilAccess = $this->access;
-		$ilHelp = $this->help;
-
-		$ilHelp->setScreenIdComponent("catr");
-		
-		if($ilAccess->checkAccess('write','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("settings",
-				$this->ctrl->getLinkTarget($this, "edit"),
-				array(),
-				"");
-		}
-		if ($ilAccess->checkAccess('edit_permission','',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTarget("perm_settings",
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"), 
-				array("perm","info","owner"), 'ilpermissiongui');
-		}
-	}
-	
 	/**
 	 * Support for goto php 
 	 *

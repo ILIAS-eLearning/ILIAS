@@ -320,11 +320,7 @@ class ilContainerReference extends ilObject
 	}
 	
 	/**
-	 * update object
-	 *
-	 * @access public
-	 * @param
-	 * @return
+	 * @inheritdoc
 	 */
 	public function update()
 	{
@@ -343,6 +339,7 @@ class ilContainerReference extends ilObject
 			$ilDB->quote($this->getTitleType(),'integer').' '.
 			")";
 		$ilDB->manipulate($query);
+		return true;
 	}
 	
 	/**
@@ -394,5 +391,4 @@ class ilContainerReference extends ilObject
 	}
 	
 }
-
 ?>

@@ -1,10 +1,15 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
+<?php declare(strict_types=1);
+
+namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Glyph;
+use ILIAS\UI\Component\Symbol\Icon;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -12,7 +17,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbol
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbol, isToolItem
 {
 
     /**
@@ -38,7 +43,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
      *
      * @return Tool
      */
-    public function withTitle(string $title) : Tool
+    public function withTitle(string $title) : hasTitle
     {
         $clone = clone($this);
         $clone->title = $title;
@@ -82,6 +87,13 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
+        // bugfix mantis 25526: make aria labels mandatory
+        if (($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
+            && ($symbol->getAriaLabel() === "")
+        ) {
+            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+        }
+
         $clone = clone($this);
         $clone->icon = $symbol;
 

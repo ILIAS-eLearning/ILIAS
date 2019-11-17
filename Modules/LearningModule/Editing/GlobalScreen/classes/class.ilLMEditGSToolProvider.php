@@ -33,12 +33,13 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TREE, true)) {
 
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/list.svg"), "");
+            $title = $this->dic->language()->txt('objs_st');
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/list.svg"), $title);
 
             $iff = function ($id) { return $this->identification_provider->identifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Chapters")
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContent($l($this->getContent()));
         }

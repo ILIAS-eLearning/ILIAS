@@ -59,7 +59,7 @@ with the methods `getStaticTopItems()` and `getStaticSubItems()`.
 return [
   $this->gs->mainmenu()->link($this->gs->identification()->internal('mm_pd_badges')))
     #WithTitle($lng->txt("obj_bdga"))
-    ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBadges")
+    ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToBadges")
     ->&lt;font color="#ffff00"&gt;-==- proudly presents
     # WithAvailableCallable #
         function () {

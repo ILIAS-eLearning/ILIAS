@@ -243,7 +243,6 @@ class ilContainerStartObjects
 				
 			case 'svy':
 				
-				include_once './Modules/Survey/classes/class.ilObjSurveyAccess.php';
 				if(!ilObjSurveyAccess::_lookupFinished($obj_id, $a_user_id))
 				{
 					return false;

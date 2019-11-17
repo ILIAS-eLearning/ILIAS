@@ -462,8 +462,9 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
     protected function readExamples()
     {
         $this->examples = array();
-        if (is_dir($this->getExamplesPath())) {
-            foreach (scandir($this->getExamplesPath()) as $file_name) {
+        $case_insensitive_path = $this->getCaseInsensitiveExampleFolder();
+        if (is_dir($case_insensitive_path)) {
+            foreach (scandir($case_insensitive_path) as $file_name) {
                 $example_path = $this->getExamplesPath() . "/" . $file_name;
                 if (is_file($example_path) && pathinfo($example_path)["extension"] =="php") {
                     $example_name = str_replace(".php", "", $file_name);
@@ -471,6 +472,25 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
                 }
             }
         }
+    }
+
+    /**
+     * Note case handling of is dir is different from OS to OS, therefore while
+     * reading the examples from the folders, we ignore the case of the folder.
+     * See also #26451
+     */
+    protected function getCaseInsensitiveExampleFolder(): string{
+        $parent_folder = dirname($this->getExamplesPath());
+
+        if (is_dir($parent_folder)) {
+            foreach (scandir($parent_folder) as $folder_name) {
+                if (strtolower($folder_name) == strtolower(basename($this->getExamplesPath()))) {
+                    return $parent_folder . "/" . $folder_name;
+                }
+            }
+        }
+
+        return "";
     }
 
     public function getExamplesPath()
@@ -503,18 +523,31 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
      */
     public function jsonSerialize()
     {
+        $description = $this->getDescription();
+        if($description){
+            $description_serialized = $description->jsonSerialize();
+        }else{
+            $description_serialized = "";
+        }
+
+        $rules = $this->getRules();
+        if($rules){
+            $rules_serialized = $rules->jsonSerialize();
+        }else{
+            $rules_serialized = "";
+        }
         return array(
             'id' => $this->getId(),
             'title' => $this->getTitle(),
             'abstract' => $this->isAbstract(),
             'status_entry' => $this->getStatusEntry(),
             'status_implementation' => $this->getStatusImplementation(),
-            'description' => $this->getDescription(),
+            'description' => $description_serialized,
             'background' => $this->getBackground(),
             'context' => $this->getContext(),
             'selector' => $this->getSelector(),
-            'feature_wiki_references ' => $this->getFeatureWikiReferences(),
-            'rules' => $this->getRules(),
+            'feature_wiki_references' => $this->getFeatureWikiReferences(),
+            'rules' => $rules_serialized,
             'parent' => $this->getParent(),
             'children' => $this->getChildren(),
             'less_variables' => $this->getLessVariables(),

@@ -45,6 +45,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	 */
 	public function addDesktopItems($sid, $user_id, $reference_ids)
 	{
+	    return; // abandonded
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -88,11 +89,11 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}
 
 			$num_added++;
-			ilObjUser::_addDesktopItem(
+/*			ilObjUser::_addDesktopItem(
 				$user->getId(),
 				$ref_id,
 				ilObject::_lookupType($ref_id,true)
-			);
+			);*/
 
 		}
 		return $num_added;
@@ -108,6 +109,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 	 */
 	public function removeDesktopItems($sid, $user_id, $reference_ids)
 	{
+	    return; // abandonded with 6.0
 		$this->initAuth($sid);
 		$this->initIlias();
 
@@ -151,11 +153,12 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 			}
 
 			$num_added++;
+			/*
 			ilObjUser::_dropDesktopItem(
 				$user->getId(),
 				$ref_id,
 				ilObject::_lookupType($ref_id,true)
-			);
+			);*/
 
 		}
 		return $num_removed;
@@ -1051,8 +1054,6 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 		foreach($subnodes as $subnode)
 		{
 			$rbacadmin->revokePermission($subnode["child"]);
-			// remove item from all user desktops
-			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
 		}
 		if(!$tree->saveSubTree($reference_id,true))
 		{

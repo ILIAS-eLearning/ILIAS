@@ -24,6 +24,11 @@ class ilPermissionGUI extends ilPermission2GUI
 
 	protected $current_obj = null;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+	protected $recommended_content_manager;
+
 	/**
 	 * Constructor
 	 * @param object $a_gui_obj
@@ -32,6 +37,8 @@ class ilPermissionGUI extends ilPermission2GUI
 	public function __construct($a_gui_obj)
 	{
 		parent::__construct($a_gui_obj);
+
+		$this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 	
 	/**
@@ -718,8 +725,14 @@ class ilPermissionGUI extends ilPermission2GUI
 		$pro->setValue(1);
 		$form->addItem($pro);
 
-		$pd = new ilCheckboxInputGUI($this->lng->txt('rbac_role_add_to_desktop'),'desktop');
-		$pd->setInfo($this->lng->txt('rbac_role_add_to_desktop_info'));
+		$pd = new ilCheckboxInputGUI($this->lng->txt('rbac_add_recommended_content'),'desktop');
+		$pd->setInfo(
+		    str_replace(
+		        "%1",
+                $this->getCurrentObject()->getTitle(),
+                $this->lng->txt('rbac_add_recommended_content_info')
+            )
+        );
 		$pd->setValue(1);
 		$form->addItem($pd);
 
@@ -853,12 +866,8 @@ class ilPermissionGUI extends ilPermission2GUI
 			// add to desktop items
 			if($form->getInput("desktop"))
 			{
-				include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-				$role_desk_item_obj = new ilRoleDesktopItem($role->getId());
-				$role_desk_item_obj->add(
-						$this->getCurrentObject()->getRefId(),
-						ilObject::_lookupType($this->getCurrentObject()->getRefId(),true));
-			}		
+                $this->recommended_content_manager->addRoleRecommendation($role->getId(), $this->getCurrentObject()->getRefId());
+			}
 
 			ilUtil::sendSuccess($this->lng->txt("role_added"),true);
 			$this->ctrl->redirect($this,'perm');

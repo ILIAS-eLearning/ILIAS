@@ -33,8 +33,9 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+        $title = $this->getHomeItem()->getTitle();
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         // Home
         $entries[] = $this->getHomeItem()
@@ -51,7 +52,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ? $this->dic->language()->txt("mm_repo_tree_view_act")
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), "");
+        $title = $this->dic->language()->txt("mm_rep_tree_view");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), $title);
 
         /*
         if ($_GET["baseClass"] == "ilRepositoryGUI") {
@@ -66,7 +68,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $contents = $this->dic->ui()->factory()->legacy($this->renderRepoTree());
         $entries[] =
             $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
-                ->withTitle($this->dic->language()->txt("mm_rep_tree_view"))
+                ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContent($contents)
                 ->withParent($top)

@@ -340,8 +340,7 @@ class ilObjectMetaDataGUI
 				"lm", "lm:st", "lm:pg",
 				"sahs", "sahs:sco", "sahs:page",
 				'sess', "iass",
-				'lti',
-				'cmix'
+				'exc', 'lti', 'cmix'
 		)));
 	}
 	

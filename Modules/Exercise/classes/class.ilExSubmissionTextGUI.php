@@ -169,7 +169,10 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			ilUtil::sendFailure($this->lng->txt("exercise_time_over"), true);
 			$ilCtrl->redirect($this, "returnToParent");
 		}
-		
+
+        $this->triggerAssignmentTool();
+
+		/*
 		$deadline = max($this->assignment->getDeadline(), $this->assignment->getExtendedDeadline());
 		if($deadline)
 		{			
@@ -188,7 +191,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 			}
 			
 			ilUtil::sendInfo($this->lng->txt("exc_edit_until").": ".$dl_info);
-		}
+		}*/
 		
 		$this->handleTabs();
 

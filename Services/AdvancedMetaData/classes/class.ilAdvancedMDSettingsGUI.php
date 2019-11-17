@@ -233,8 +233,8 @@ class ilAdvancedMDSettingsGUI
 		foreach(ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type)
 		{			
 			$perm = null;
-			// :TODO: hardwired?
-			if(in_array($obj_type, ['cat','crs','sess','grp','iass']))
+
+			if(in_array($obj_type, $this->permissions->getAllowedObjectTypes()))
 			{
 				$perm =	$this->getPermissions()->hasPermissions(
 					ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
@@ -1523,6 +1523,24 @@ class ilAdvancedMDSettingsGUI
 			,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_IASS_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
 			);
 		}
+		else if($a_obj_type == "exc")
+		{
+			$perm =	$this->getPermissions()->hasPermissions(
+				ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION_EXERCISE,
+				$a_field_id,
+				array(
+					ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD)
+				,array(ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY,
+					ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE)
+				));
+			return array(
+				"show" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_SHOW_FIELD]
+			,"bold" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_BOLD]
+			,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
+			);
+		}
 	}
 	
 	/**
@@ -1551,8 +1569,8 @@ class ilAdvancedMDSettingsGUI
 		foreach($visible_records as $obj_type => $records)
 		{
 			$perm = null;
-			// :TODO: hardwird ?
-			if(in_array($obj_type, ['crs','cat','sess','grp','iass']))
+
+			if(in_array($obj_type, $this->permissions->getAllowedObjectTypes()))
 			{
 				$perm =	$this->getPermissions()->hasPermissions(
 					ilAdvancedMDPermissionHelper::CONTEXT_SUBSTITUTION,
@@ -1564,7 +1582,6 @@ class ilAdvancedMDSettingsGUI
 				));
 			}
 			
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
 			$sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
 			
 			// Show section

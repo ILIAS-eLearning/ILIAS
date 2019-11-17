@@ -2531,7 +2531,8 @@ return;
 					case "MediaObject":
 						$this->ctrl->setParameter($this, "mob_id", $target_id);
 						//$this->ctrl->setParameter($this, "pg_id", $this->obj->getId());
-						$href = $this->ctrl->getLinkTarget($this, "displayMedia");
+						$href = $this->ctrl->getLinkTarget($this, "displayMedia",
+							"", false, true);
 						$this->ctrl->setParameter($this, "mob_id", "");
 						break;
 
@@ -2570,7 +2571,8 @@ return;
 							include_once("./Services/User/classes/class.ilUserUtil.php");
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass(["ilpersonaldesktopgui", "ilpublicuserprofilegui"], "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass(["ildashboardgui", "ilpublicuserprofilegui"], "getHTML",
+									"", false, true);
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);

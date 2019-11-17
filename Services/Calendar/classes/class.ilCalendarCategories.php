@@ -168,7 +168,7 @@ class ilCalendarCategories
 	
 	/**
 	 * Delete cache (add remove desktop item)
-	 * @param object $a_usr_id
+	 * @param int $a_usr_id
 	 * @return 
 	 */
 	public static function deletePDItemsCache($a_usr_id)
@@ -301,12 +301,15 @@ class ilCalendarCategories
 		}
 
 		$this->setMode($a_mode);
-		if($a_use_cache)
+
+		// see comments in https://mantis.ilias.de/view.php?id=25254
+		if($a_use_cache && $this->getMode() != self::MODE_REPOSITORY_CONTAINER_ONLY)
 		{
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
-				if($this->getMode() != self::MODE_CONSULTATION &&
+				if($this->getMode() != self::MODE_REPOSITORY &&
+				    $this->getMode() != self::MODE_CONSULTATION &&
 					$this->getMode() != self::MODE_PORTFOLIO_CONSULTATION)
 				{
 					$this->wakeup($cats);

@@ -20,7 +20,7 @@ class ilAccessKey
 	const REPLY = 7;
 	const FORWARD_MAIL = 8;
 	const MARK_ALL_READ = 9;
-	const PERSONAL_DESKTOP = 10;
+	const DASHBOARD = 10;
 	
 	public static $func_def = array(
 		ilAccessKey::NEXT => array(
@@ -50,9 +50,9 @@ class ilAccessKey
 		ilAccessKey::MARK_ALL_READ => array(
 			"component" => array("frm"),
 			"lang" => "acc_mark_all_read"),
-		ilAccessKey::PERSONAL_DESKTOP => array(
+		ilAccessKey::DASHBOARD => array(
 			"component" => array("global"),
-			"lang" => "acc_personal_desktop")
+			"lang" => "acc_dashboard")
 		);
 	
 	/**
