@@ -15285,3 +15285,427 @@ wsp#:#wsp_personal_resources_description#:#Here you can manage your private file
 administration#:#adm_personal_workspace#:#Personal Workspace
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_memberships#:#My Courses and Groups
+rbac#:#read_outcomes#:#View learning experiences of other users
+rbac#:#add_consume_provider#:#Add Own LTI Provider Settings
+rbac#:#ltis_add_consume_provider#:#User can add own provider settings for LTI consumer
+rbac#:#lti_visible#:#LTI consumer is visible
+rbac#:#lti_read#:#User can see LTI consumer
+rbac#:#lti_read_outcomes#:#User can see learning experiences and ranking of other users
+rbac#:#lti_read_learning_progress#:#User can view learning progress of other users
+rbac#:#lti_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#lti_copy#:#User can copy LTI consumer
+rbac#:#lti_write#:#User can edit settings of LTI consumer
+rbac#:#lti_delete#:#User can move or delete LTI consumer
+rbac#:#lti_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_lti#:#Create LTI Consumer
+rbac#:#cmix_visible#:#xAPI/cmi5 Object is visible
+rbac#:#cmix_read#:#User can see xAPI/cmi5 Object
+rbac#:#cmix_read_outcomes#:#User can see learning experiences and ranking of other users
+rbac#:#cmix_read_learning_progress#:#User can view learning progress of other users
+rbac#:#cmix_edit_learning_progress#:#User can edit learning progress settings
+rbac#:#cmix_copy#:#User can copy xAPI/cmi5 Object
+rbac#:#cmix_write#:#User can edit settings of xAPI/cmi5 Object
+rbac#:#cmix_delete#:#User can move or delete xAPI/cmi5 Object
+rbac#:#cmix_edit_permission#:#User can change permission settings
+rbac#:#rbac_create_cmix#:#Create xAPI/cmi5 Object
+common#:#obj_lti#:#LTI Consumer
+common#:#objs_lti#:#LTI Consumers
+common#:#obj_cmis#:#xAPI/cmi5
+common#:#obj_cmis_desc#:#Learning Record Store Types Configuration
+common#:#obj_cmix#:#xAPI/cmi5
+common#:#objs_cmix#:#Objects xAPI/cmi5
+certificate#:#cmix_cert_ph_object_title#:#Title of the xAPI/cmi5 Object
+certificate#:#cmix_cert_ph_object_description#:#Description
+certificate#:#cmix_cert_ph_reached_score#:#Reached score as percentage
+certificate#:#lti_cert_ph_object_title#:#Title of the LTI Consumer Object
+certificate#:#lti_cert_ph_object_description#:#Description
+certificate#:#lti_cert_ph_mastery_score#:#Mastery score as percentage
+certificate#:#lti_cert_ph_reached_score#:#Reached score as percentage
+wsp#:#wsp_type_cmxv#:#Certificate: xAPI/cmi5
+wsp#:#wsp_list_cmxv#:#Certificate of xAPI/cmi5 Object
+wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
+wsp#:#wsp_list_ltiv#:#Certificate of LTI Consumer Object
+ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
+ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
+cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
+cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
+trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
+trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
+trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
+trac#:#cmix_lp_mode_when_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'.
+trac#:#cmix_lp_mode_with_failed#:#Also consider failed
+trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of 'in progress'.
+trac#:#cmix_lp_mode_when_passed#:#Completed when 'passed'
+trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'.
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when passed or completed
+trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'.
+trac#:#trac_mode_lti_outcome#:#Mastery Score Must be reached
+trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.
+lti#:#launch_method_own_win#:#Own Window
+lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
+lti#:#launch_method_new_win#:#New Window
+lti#:#launch_method_new_win_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+lti#:#launch_method_embedded#:#Embedded Content
+lti#:#launch_method_embedded_info#:#The content is opened within the ILIAS context. It is presented as embedded content within the content tab.
+lti#:#learning_progress_options#:#Options for Learning Progress
+lti#:#mastery_score#:#Mastery Score
+lti#:#mastery_score_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
+lti#:#lti_form_section_appearance#:#Options for launch
+lti#:#launched#:#Resource was already launched.
+lti#:#lti_info_learning_progress_section#:#Info about Determination of the Learning Progress
+lti#:#lti_info_privacy_section#:#Info about personal data transmitted to the provider at launch
+lti#:#lti_info_external_provider_label#:#Additional Info about this Provider
+lti#:#lti_info_external_provider_info#:#The used Provider is an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
+lti#:#lti_select_provider#:#Select Provider
+lti#:#lti_custom_new#:#Create Own Provider Settings
+lti#:#lti_copy#:#Copy Consumer
+lti#:#lti_providing_tab#:#ILIAS as LTI Provider
+lti#:#lti_consuming_tab#:#ILIAS as LTI Consumer
+lti#:#global_provider_subtab#:#Global Providers for all Users
+lti#:#user_provider_subtab#:#Providers Defined by Users
+lti#:#usage_subtab#:#Usage
+lti#:#tbl_provider_usage_header#:#LTI Provider
+lti#:#tbl_provider_usage_header_info#:#Before deleting providers, trashed usages must also be deleted.
+lti#:#tbl_lti_prov_used_by#:#Provider Used by Objects in Tree
+lti#:#settings_subtab#:#Settings
+lti#:#lti_global_settings_form#:#Global Settings
+lti#:#lti_add_global_provider#:#Add Global Provider for all Users
+lti#:#lti_import_global_provider#:#Import Global Provider for all Users with XML-File
+lti#:#form_import_provider#:#Import Global Provider
+lti#:#field_provider_xml#:#XML-File
+lti#:#field_provider_xml_info#:#Supported are XML-Files for Tool Consumer and for Common Cartridge according to https://www.imsglobal.org/specs/lti/xml.
+lti#:#lti_add_own_provider#:#Add Own Provider (not for all Users)
+lti#:#tbl_provider_header#:#LTI Provider
+lti#:#lti_form_provider_create#:#Create Provider Settings
+lti#:#lti_con_prov_authentication#:#Authentication
+lti#:#lti_con_prov_privacy_settings#:#Privacy Settings
+lti#:#lti_con_prov_learning_progress_options#:#Options for Learning Progress
+lti#:#lti_con_prov_launch_options#:#Launch Options
+lti#:#lti_form_provider_edit#:#Edit Provider Settings
+lti#:#tbl_lti_prov_icon#:#Icon
+lti#:#tbl_lti_prov_title#:#Title of Provider
+lti#:#tbl_lti_prov_description#:#Description
+lti#:#tbl_lti_prov_availability#:#Availability
+lti#:#tbl_lti_prov_usages#:#Usages
+lti#:#tbl_lti_prov_usages_trashed#:#Trashed Usages
+lti#:#tbl_lti_prov_usages_untrashed#:#Repository Usages
+lti#:#tbl_lti_prov_provider_creator#:#Creator
+lti#:#tbl_lti_prov_own_provider#:#Own Provider
+lti#:#lti_action_delete_providers#:#Delete Providers
+lti#:#lti_delete_provider#:#Delete Provider
+lti#:#lti_success_delete_provider#:#Successfully deleted
+lti#:#lti_confirm_delete_providers#:#Are you sure that you want to delete the following provider(s)?
+lti#:#lti_success_accept_as_global#:#Successfully accepted as Global Provider for all Users
+lti#:#lti_success_accept_as_global_multi#:#Successfully accepted as Global Provider for all Users
+lti#:#lti_success_reset_to_usr_def#:#Successfully reseted as User Defined Provider
+lti#:#lti_success_reset_to_usr_def_multi#:#Successfully reseted as User Defined Provider
+lti#:#lti_no_provider_selected#:#No provider selected
+lti#:#lti_at_least_one_prov_has_usages#:#At least one provider could not be deleted because this provider has usages (might be in trash).
+lti#:#tbl_lti_prov_keyword#:#Keyword
+lti#:#tbl_lti_prov_keywords#:#Keywords
+lti#:#tbl_lti_prov_category#:#Category
+lti#:#tbl_lti_prov_all_categories#:#All Categories
+lti#:#tbl_lti_prov_outcome#:#Outcome Service
+lti#:#tbl_lti_prov_internal#:#Internal Provider
+lti#:#tbl_lti_prov_with_key#:#Predefined with Key / Secret
+lti#:#lti_con_prov_inc_usr_pic#:#Send User Picture
+lti#:#lti_con_prov_inc_usr_pic_info#:#Links to ILIAS user pictures are included at launch of LTI consumer object.
+lti#:#lti_con_prov_title#:#Title
+lti#:#lti_con_prov_description#:#Description
+lti#:#lti_con_prov_icon#:#Icon
+lti#:#obj_tile_image_info#:#Use an Image in Square Format
+lti#:#lti_con_prov_availability#:#Availability
+lti#:#lti_con_prov_availability_create#:#For Creating Objects
+lti#:#lti_con_prov_availability_existing#:#Only for existing Objects
+lti#:#lti_con_prov_availability_non#:#not available
+lti#:#lti_con_prov_url#:#URL of Provider
+lti#:#lti_con_prov_provider_key_global#:#Predefined Key and Secret
+lti#:#lti_con_prov_provider_key_global_info#:#If not set, users have to add key and secret to use the provider.
+lti#:#lti_con_prov_key#:#Key
+lti#:#lti_con_prov_secret#:#Secret
+lti#:#lti_con_prov_has_outcome_service#:#Provider supports Outcome Service
+lti#:#lti_con_prov_has_outcome_service_info#:#If the LTI Outcome Service is supported, Learning Progress could be activated. The Provider returns a value between 0 and 1 to indicate the Learning Progress.
+lti#:#lti_con_prov_always_learner#:#LTI User is always Learner
+lti#:#lti_con_prov_always_learner_info#:#Usually the role in ILIAS is mapped to a LTI role. Course Administrators could have more rights in the Provider, e.g. to manipulate the object. Activate this option to avoid the Role Mapping.
+lti#:#lti_con_prov_use_provider_id#:#Use Provider ID
+lti#:#lti_con_prov_use_provider_id_info#:#Usually the Ref-Id of the LTI Consumer is transferred to the Provider. Some Providers map this Ref-Id with the Resource of the Provider. To get always the same Resource for these Providers this Option should be activated.
+lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
+lti#:#lti_con_prov_xapi_activity_id_info#:#The Activity ID is necessary to request data from the Learning Record Store. Only enter something here if the assignment of the provider's resource to an Activity Id is unique! If nothing is entered here, the Activity Id can be entered in LTI Consumer. The Activity Id could be requested from the LTI Provider.
+lti#:#lti_con_prov_use_xapi#:#Provider supports request of xAPI-Statements
+lti#:#lti_con_prov_keywords#:#Keywords
+lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.
+lti#:#lti_con_prov_category#:#Category
+lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.
+lti#:#conf_user_ident#:#User identification
+lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
+lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
+lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
+lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
+lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+lti#:#conf_user_ident_real_email#:#E-Mail Address
+lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+lti#:#conf_user_name#:#User name
+lti#:#conf_user_name_info#:#Sending an user name is usually not required.
+lti#:#conf_user_name_none#:#No one
+lti#:#conf_user_name_none_info#:#Sends '-' instead of a name
+lti#:#conf_user_name_firstname#:#First name
+lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
+lti#:#conf_user_name_lastname#:#Title and last name
+lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+lti#:#conf_user_name_fullname#:#Entire name
+lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name
+lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options
+lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings
+lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects
+lti#:#lti_con_prov_privacy_setting_force#:#Settings are not changeable for Objects
+lti#:#lti_con_prov_external_provider#:#External Provider
+lti#:#lti_con_prov_external_provider_info#:#A hint will be shown to users when dealing with an external Provider. An external Provider is characterized by insufficient influence on the Provider by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
+lti#:#lti_con_prov_mastery_score_default#:#Default Mastery Score
+lti#:#lti_con_prov_mastery_score_default_info#:#The Learning Progress will be evaluated from the Provider Outcome Service and the mastery score threshold.
+lti#:#lti_con_prov_use_xapi_info#:#Provider supports xAPI-Statements
+lti#:#lti_con_prov_xapi_launch_url#:#URL of LRS Endpoint
+lti#:#lti_con_prov_xapi_launch_url_info#:#Please add full URL with https://
+lti#:#lti_con_prov_xapi_launch_key#:#Key of LRS Endpoint
+lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
+lti#:#lti_con_prov_xapi_launch_secret#:#Secret of LRS Endpoint
+lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
+lti#:#lti_con_prov_custom_params#:#Custom Parameters for this specific Provider
+lti#:#lti_con_prov_custom_params_info#:#Please enter them in the form param1=value1; param2=value2
+lti#:#lti_con_prov_group_options#:#Options to group and filter Providers
+lti#:#lti_con_prov_hints#:#Hints
+lti#:#lti_con_prov_remarks#:#Internal Remarks
+lti#:#lti_action_edit_provider#:#Edit Provider
+lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
+lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
+lti#:#lti_action_reset_provider_to_user_scope#:#Reset Provider as User Defined Provider
+lti#:#lti_action_reset_providers_to_user_scope#:#Reset Providers as User Defined
+lti#:#lti_delete_consume_provider#:#Delete Provider
+lti#:#lti_delete_consume_providers#:#Delete Providers
+lti#:#tab_info#:#Info
+lti#:#tab_content#:#Content
+lti#:#tab_settings#:#Settings
+lti#:#tab_statements#:#Learning Experiences
+lti#:#lti_provider_not_avail_msg#:#LTI Provider is set to 'Not Available'
+lti#:#subtab_object_settings#:#Object Settings
+lti#:#subtab_certificate#:#Certificate
+lti#:#subtab_provider_settings#:#LTI Provider Settings
+lti#:#lti_settings_form#:#Object Settings
+lti#:#provider_info#:#Used Provider
+lti#:#title_info#:#Give the object a title.
+lti#:#description_info#:#The description will be shown below the title.
+lti#:#online_info#:#This makes the object visible and usable for the users.
+lti#:#launch_method#:#Options for Launch
+lti#:#use_xapi#:#Use xAPI-Support
+lti#:#use_xapi_info#:#This LTI Provider supports xAPI-Statements.
+lti#:#activity_id#:#Activity ID
+lti#:#activity_id_info#:#This Activity ID is used by the LTI Provider to identify Statements.
+lti#:#show_statements#:#Display Learning Experiences
+lti#:#show_statements_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
+lti#:#tab_scoring#:#Ranking
+lti#:#highscore_enabled#:#Ranking
+lti#:#highscore_description#:#The names of other users could be displayed if the right 'View learning experiences of other users' is set.
+lti#:#highscore_achieved_ts#:#Date
+lti#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.
+lti#:#highscore_score#:#Score
+lti#:#highscore_score_description#:#A column containing the score will be included in the ranking.
+lti#:#highscore_percentage#:#Percentage
+lti#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.
+lti#:#highscore_wtime#:#Duration
+lti#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
+lti#:#highscore_mode#:#Mode
+lti#:#highscore_own_table#:#Participant's Own Rank
+lti#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.
+lti#:#highscore_top_table#:#Top Ranking
+lti#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
+lti#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking
+lti#:#highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.
+lti#:#highscore_top_num#:#Length of Top Ranking
+lti#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
+lti#:#highscore_top_num_unit#:#entries
+cmix#:#cmix_new#:#New xAPI/cmi5 Object
+cmix#:#cmix_add#:#Add xAPI/cmi5 Object
+cmix#:#cmix_add_cmi5_lm#:#cmi5 Learning Module
+cmix#:#cmix_add_cmi5_lm_info#:#This option should be used when the content is a cmi5 compliant learning module. Related features like suitable reportings are available without further configurations.
+cmix#:#cmix_add_xapi_standard_object#:#xAPI Standard Object
+cmix#:#cmix_add_xapi_standard_object_info#:#Use this option to have a generic content module offering all features like different reportings. This option comes with the greatest possible flexibility but requires a more complex configuration.
+cmix#:#cmix_add_lrs_type#:#LRS-Type
+cmix#:#cmix_add_source#:#Source
+cmix#:#cmix_add_source_url#:#Resource URL
+cmix#:#cmix_add_source_url_info#:#Use this option for an external resource.
+cmix#:#cmix_add_source_local_dir#:#Local Directory
+cmix#:#cmix_add_source_local_dir_info#:#Use this option for content packages on your local device.
+cmix#:#cmix_add_source_upload_dir#:#Upload Directory
+cmix#:#cmix_add_source_upload_dir_info#:#Use this option for content packages already uploaded into the ILIAS upload directory which is also used for SCORM and HTML packages.
+cmix#:#cmix_add_source_upload_select#:#--- Please select ---
+cmix#:#cmix_add_source_external_app#:#Resource not launched by ILIAS
+cmix#:#cmix_add_source_external_app_info#:#Use this option for separately launched resources as e.g. apps or simulations. Users must agree to the fetching of data.
+cmix#:#create_registration#:#Register your E-Mail address
+cmix#:#form_create_registration#:#Registration
+cmix#:#field_user_ident#:#E-Mail-Address
+cmix#:#field_user_ident_info#:#Enter the e-mail address used in the external application to identify you.
+cmix#:#btn_create_registration#:#Submit
+cmix#:#registration_saved_successfully#:#Registration saved successfully
+cmix#:#change_registration#:#E-Mail address for Registration
+cmix#:#form_change_registration#:#Registration
+cmix#:#btn_change_registration#:#Submit
+cmix#:#conf_user_registered_mail#:#Registered E-Mail-Address
+cmix#:#cmix_import#:#Import xAPI/cmi5 Object
+cmix#:#cmix_copy#:#Copy xAPI/cmi5 Object
+cmix#:#cmix_info_privacy_section_launch#:#Info about personal data transmitted at launch
+cmix#:#cmix_info_privacy_section#:#Info about personal data
+cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
+cmix#:#cmix_info_external_lrs_label#:#Additional Info about this LRS
+cmix#:#cmix_info_external_lrs_info#:#This Learning Record Store is an external LRS. An external LRS is characterized by insufficient influence on the LRS by the operator of the ILIAS-Installation. This is the case e.g. if there are no rights to delete data.
+cmix#:#cmix_indication_to_user#:#Further Hints for this LRS
+cmix#:#conf_cronjob_neccessary#:#CronJob necessary for Learning Progress
+cmix#:#conf_cronjob_neccessary_info#:#By activating this option, xAPI-Objects using this LRS-Type could not use the xAPI-Proxy to get immediately data for Detection of Learning Progress. Use only the CronJob in case of limitations regarding resources or server.
+cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
+cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
+cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
+cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
+cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
+cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
+cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
+cmix#:#xapi_statements_not_fetched_yet#:#Results from Learning Record Store are not fetched yet
+cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store were fetched successfully
+cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
+cmix#:#tab_info#:#Info
+cmix#:#tab_settings#:#Settings
+cmix#:#tab_statements#:#Learning Experiences
+cmix#:#tab_export#:#Export
+cmix#:#tab_scoring#:#Ranking
+cmix#:#tbl_statements_date#:#Date
+cmix#:#tbl_statements_actor#:#User
+cmix#:#tbl_statements_verb#:#Verb
+cmix#:#tbl_statements_object#:#Object
+cmix#:#tbl_action_raw_data#:#View Raw Data
+cmix#:#tab_lrs_types#:#LRS-Types
+cmix#:#btn_create_lrs_type#:#Add LRS-Type
+cmix#:#tbl_lrs_types_header#:#LRS-Types
+cmix#:#tbl_lrs_type_title#:#Title
+cmix#:#tbl_lrs_type_availability#:#Availability
+cmix#:#tbl_lrs_type_usages#:#Usages Count
+cmix#:#create_lrs_type_form#:#New LRS-Type
+cmix#:#edit_lrs_type_form#:#LRS-Type
+cmix#:#lrs_authentication#:#Authentication
+cmix#:#sect_learning_progress_options#:#Options for Learning Progress
+cmix#:#conf_title#:#Title
+cmix#:#info_title#:#This title will be shown when choosing the type for new objects.
+cmix#:#conf_description#:#Description
+cmix#:#info_description#:#This description will be shown when choosing the type for new objects.
+cmix#:#conf_availability#:#Availability
+cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-type within the magazine. All types can set on "allow existing ones" instead of being deleted.
+cmix#:#conf_availability_0#:#Not available
+cmix#:#conf_availability_1#:#Existing ones allowed
+cmix#:#conf_availability_2#:#New producible
+cmix#:#conf_lrs_endpoint#:#Endpoint
+cmix#:#info_lrs_endpoint#:#URL of the endpoint without '/' at the end
+cmix#:#conf_lrs_key#:#Key / Login
+cmix#:#info_lrs_key#:#Key or login for access, i.e. 12345
+cmix#:#conf_lrs_secret#:#Secret / Password
+cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
+cmix#:#conf_own_window#:#Own Window
+cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
+cmix#:#conf_any_window#:#Any Window
+cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
+cmix#:#conf_launch_mode#:#Launch Mode
+cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_review#:#Review
+cmix#:#conf_keep_lp#:#Keep Learning Progress
+cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
+cmix#:#conf_external_lrs#:#External LRS
+cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
+cmix#:#conf_user_ident#:#User identification
+cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#conf_user_ident_real_email#:#E-Mail Address
+cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
+cmix#:#conf_user_name#:#User name
+cmix#:#conf_user_name_info#:#Sending an user name is usually not required.
+cmix#:#conf_user_name_none#:#No one
+cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name
+cmix#:#conf_user_name_firstname#:#First name
+cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
+cmix#:#conf_user_name_lastname#:#Title and last name
+cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
+cmix#:#conf_user_name_fullname#:#Entire name
+cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name
+cmix#:#conf_privacy_setting_conf#:#Configuration Options
+cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings
+cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects
+cmix#:#conf_privacy_setting_force#:#Settings are not changeable for Objects
+cmix#:#conf_privacy_comment_default#:#Indication to user
+cmix#:#info_privacy_comment_default#:#Please insert, if required, an additional indication on data security when using this LRS.
+cmix#:#conf_remarks#:#Internal comments
+cmix#:#info_remarks#:#Place to write down your comments on this LRS-type here.
+cmix#:#title_info#:#Give the object a title.
+cmix#:#description_info#:#The description will be shown below the title.
+cmix#:#online_info#:#This makes the object visible and usable for the users.
+cmix#:#launch_options#:#Options for Launch
+cmix#:#launch_url#:#URL of the resource
+cmix#:#launch_url_info#:#Insert here the Internet address by adding http:// or https:// . Options for data security are also relevant for remote resources.
+cmix#:#activity_id#:#Activity-ID
+cmix#:#activity_id_info#:#This ID is primarily used for the display of data from the LRS. You receive this ID from the resource provider.
+cmix#:#use_fetch#:#Authorization through Fetch-URL
+cmix#:#use_fetch_info#:#As long as the resource supports this option, you should use this option to increase data security.
+cmix#:#privacy_options#:#Options for data security
+cmix#:#content_privacy_ident#:#User identification for resource
+cmix#:#content_privacy_name#:#User name for resource
+cmix#:#log_options#:#Options for the display of transmitted data
+cmix#:#show_debug#:#Display Learning Experiences
+cmix#:#show_debug_info#:#The Learning Experiences of other users could be displayed if the right 'View learning experiences of other users' is set.
+cmix#:#cmix_all_verbs#:#All Verbs
+cmix#:#cmix_adlnetgov_expapi_verbs_answered#:#Answered
+cmix#:#cmix_adlnetgov_expapi_verbs_asked#:#Asked
+cmix#:#cmix_adlnetgov_expapi_verbs_attempted#:#Attempted
+cmix#:#cmix_adlnetgov_expapi_verbs_attended#:#Attended
+cmix#:#cmix_adlnetgov_expapi_verbs_commented#:#Commented
+cmix#:#cmix_adlnetgov_expapi_verbs_completed#:#Completed
+cmix#:#cmix_adlnetgov_expapi_verbs_exited#:#Exited
+cmix#:#cmix_adlnetgov_expapi_verbs_experienced#:#Experienced
+cmix#:#cmix_adlnetgov_expapi_verbs_failed#:#Failed
+cmix#:#cmix_adlnetgov_expapi_verbs_imported#:#Imported
+cmix#:#cmix_adlnetgov_expapi_verbs_initialized#:#Initialized
+cmix#:#cmix_adlnetgov_expapi_verbs_interacted#:#Interacted
+cmix#:#cmix_adlnetgov_expapi_verbs_launched#:#Launched
+cmix#:#cmix_adlnetgov_expapi_verbs_mastered#:#Mastered
+cmix#:#cmix_adlnetgov_expapi_verbs_passed#:#Passed
+cmix#:#cmix_adlnetgov_expapi_verbs_preferred#:#Preferred
+cmix#:#cmix_adlnetgov_expapi_verbs_progressed#:#Progressed
+cmix#:#cmix_adlnetgov_expapi_verbs_registered#:#Registered
+cmix#:#cmix_adlnetgov_expapi_verbs_responded#:#Responded
+cmix#:#cmix_adlnetgov_expapi_verbs_resumed#:#Resumed
+cmix#:#cmix_adlnetgov_expapi_verbs_scored#:#Scored
+cmix#:#cmix_adlnetgov_expapi_verbs_shared#:#Shared
+cmix#:#cmix_adlnetgov_expapi_verbs_suspended#:#Suspended
+cmix#:#cmix_adlnetgov_expapi_verbs_terminated#:#Terminated
+cmix#:#cmix_adlnetgov_expapi_verbs_voided#:#Voided
+cmix#:#highscore_enabled#:#Ranking
+cmix#:#highscore_description#:#The names of other users could be displayed if the right 'View learning experiences of other users' is set.
+cmix#:#highscore_achieved_ts#:#Date
+cmix#:#highscore_achieved_ts_description#:#A column containing the date will be included in the ranking.
+cmix#:#highscore_score#:#Score
+cmix#:#highscore_score_description#:#A column containing the score will be included in the ranking.
+cmix#:#highscore_percentage#:#Percentage
+cmix#:#highscore_percentage_description#:#A column containing the score as percentage will be included in the ranking.
+cmix#:#highscore_wtime#:#Duration
+cmix#:#highscore_wtime_description#:#A column containing the duration will be included in the ranking.
+cmix#:#highscore_mode#:#Mode
+cmix#:#highscore_own_table#:#Participant's Own Rank
+cmix#:#highscore_own_table_description#:#Participants are advised of their own position in the ranking.
+cmix#:#highscore_top_table#:#Top Ranking
+cmix#:#highscore_top_table_description#:#Participants are presented with a table containing the top rankings.
+cmix#:#highscore_all_tables#:#Participant's Own Rank and Top Ranking
+cmix#:#highscore_all_tables_description#:#Participants get information about the top ranking and their own position in the ranking.
+cmix#:#highscore_top_num#:#Length of Top Ranking
+cmix#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
+cmix#:#highscore_top_num_unit#:#entries
+cmix#:#download_certificate#:#Download Certificate
