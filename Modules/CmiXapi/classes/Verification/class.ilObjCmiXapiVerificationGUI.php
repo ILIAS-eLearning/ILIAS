@@ -52,14 +52,31 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
 	 */
 	public function save()
 	{
-		global $ilUser;
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
 		$objId = $_REQUEST["cmix_id"];
 		if($objId)
 		{
-			$object = new ilObjCmiXapi($objId, false);
-			
-			$newObj = ilObjCmiXapiVerification::createFromObject($object, $ilUser->getId());
+            $certificateVerificationFileService = new ilCertificateVerificationFileService(
+                $DIC->language(),
+                $DIC->database(),
+                $DIC->logger()->root(),
+                new ilCertificateVerificationClassMap()
+            );
+
+            $userCertificateRepository = new ilUserCertificateRepository();
+
+            $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
+                (int) $DIC->user()->getId(),
+                (int) $objId
+            );
+
+            try {
+                $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
+            } catch (\Exception $exception) {
+                ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
+                return $this->create();
+            }
 			
 			if($newObj)
 			{

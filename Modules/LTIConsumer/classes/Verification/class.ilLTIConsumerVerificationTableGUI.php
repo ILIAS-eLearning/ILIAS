@@ -43,31 +43,22 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
 	protected function getItems()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		$data = array();
-		
-		$obj_ids = ilCmiXapiUser::lookupObjectIds($DIC->user()->getId(), 'lti');
-		
-		if($obj_ids)
-		{
-			foreach($obj_ids as $obj_id)
-			{
-				if(ilLTIConsumerCertificateAdapter::hasCurrentUserCertificate($obj_id))
-				{
-					/* @var ilObjLTIConsumer $object */
-					$object = ilObjectFactory::getInstanceByObjId($obj_id);
-					
-					$adapter = new ilLTIConsumerCertificateAdapter($object);
-					if(ilCertificate::_isComplete($adapter))
-					{
-						$data[] = array("id" => $obj_id,
-							"title" => ilObject::_lookupTitle($obj_id),
-							"passed" => true);
-					}
-				}
-			}
-		}
-		
+
+        $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
+            $DIC->user()->getId(), 'lti'
+        );
+
+        $data = array();
+
+        foreach ($certificateArray as $certificate)
+        {
+            $data[] = array(
+                'id'     => $certificate->getUserCertificate()->getObjId(),
+                'title'  => $certificate->getObjectTitle(),
+                'passed' => true
+            );
+        }
+
 		$this->setData($data);
 	}
 	
