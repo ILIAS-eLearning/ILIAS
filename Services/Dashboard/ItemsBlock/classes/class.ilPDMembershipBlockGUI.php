@@ -20,6 +20,8 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
     public function __construct()
     {
         parent::__construct();
+        $this->lng->loadLanguageModule("dash");
+        $this->lng->loadLanguageModule("mmbr");
     }
 
     /**

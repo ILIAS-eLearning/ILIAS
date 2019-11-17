@@ -11048,7 +11048,6 @@ registration#:#registration_codes_override_info#:#This setting overrides any val
 registration#:#registration_codes_override_global_info#:#These settings may be overridden by registration codes.
 crs#:#event_list_registered_only#:#Only Registered
 didactic#:#didactic_default_type#:#Default
-rep#:#rep_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 file#:#repository_disk_quota#:#Soft Disk Quota for Repository
 pd#:#pd_remove_multiple#:#Remove Multiple Objects
@@ -15709,3 +15708,5 @@ cmix#:#highscore_top_num#:#Length of Top Ranking
 cmix#:#highscore_top_num_description#:#Specify how many ranks are to be included in the top ranking list.
 cmix#:#highscore_top_num_unit#:#entries
 cmix#:#download_certificate#:#Download Certificate
+dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
+mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.

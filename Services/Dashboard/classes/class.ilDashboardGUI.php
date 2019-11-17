@@ -109,6 +109,7 @@ class ilDashboardGUI
 		$this->lng->loadLanguageModule("pdesk");
 		$this->lng->loadLanguageModule("pd"); // #16813
 		$this->lng->loadLanguageModule("dash");
+		$this->lng->loadLanguageModule("mmbr");
 
 		// catch hack attempts
 		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
@@ -219,6 +220,26 @@ class ilDashboardGUI
 				$column_gui = new ilColumnGUI("pd");
 				$this->initColumn($column_gui);
 				$this->show();
+				break;
+
+			case "ilpdselecteditemsblockgui":
+				$block = new ilPDSelectedItemsBlockGUI();
+				$ret = $this->ctrl->forwardCommand($block);
+				if($ret!= "") {
+					$this->displayHeader();
+					$this->tpl->setContent($ret);
+					$this->tpl->printToStdout();
+				}
+				break;
+
+			case "ilpdmembershipblockgui":
+				$block = new ilPDMembershipBlockGUI();
+				$ret = $this->ctrl->forwardCommand($block);
+				if($ret!= "") {
+					$this->displayHeader();
+					$this->tpl->setContent($ret);
+					$this->tpl->printToStdout();
+				}
 				break;
 
 			case 'ilcontactgui':
@@ -791,7 +812,7 @@ class ilDashboardGUI
 	*/
 	function displayHeader()
 	{
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("dash_dashboard"));
 	}
 
 	/**
