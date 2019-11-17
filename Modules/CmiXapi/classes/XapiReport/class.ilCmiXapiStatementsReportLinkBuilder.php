@@ -65,7 +65,9 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
 		$stage = array();
 		
 		$stage['statement.object.objectType'] = 'Activity';
-		$stage['statement.object.id'] = $this->filter->getActivityId();
+		$stage['statement.object.id'] = [
+			'$regex' => '^'.preg_quote($this->filter->getActivityId()).''
+		];
 		
 		$stage['statement.actor.objectType'] = 'Agent';
 		

@@ -52,6 +52,24 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
 			'value' => $DIC->language()->txt('obj_cmix')
 		);
 		
+		if( ilObjCmiXapiAccess::hasActiveCertificate($this->obj_id, $DIC->user()->getId()) )
+		{
+			$DIC->ctrl()->setParameterByClass(ilCmiXapiSettingsGUI::class, 'ref_id', $this->ref_id);
+			
+			$certLink = $DIC->ui()->factory()->link()->standard(
+				$DIC->language()->txt('download_certificate'),
+				$DIC->ctrl()->getLinkTargetByClass(
+					[ilObjCmiXapiGUI::class, ilCmiXapiSettingsGUI::class],
+					ilCmiXapiSettingsGUI::CMD_DELIVER_CERTIFICATE
+				)
+			);
+			
+			$props[] = array(
+				'alert' => false, 'property' => $DIC->language()->txt('certificate'),
+				'value' => $DIC->ui()->renderer()->render($certLink)
+			);
+		}
+		
 		return $props;
 	}
 	

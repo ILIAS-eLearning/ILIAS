@@ -411,7 +411,7 @@ class ilLTIConsumeProviderList implements Iterator
 			AND oref.deleted IS NOT NULL
 			GROUP BY oset.provider_id
 		");
-		
+
 		while( $row = $DIC->database()->fetchAssoc($res) )
 		{
 			if( $row['query'] == 'untrashed' )
@@ -499,7 +499,53 @@ class ilLTIConsumeProviderList implements Iterator
 		
 		return $tableData;
 	}
-	
+
+	public function getTableDataUsedBy()
+    {
+	    $tableData = [];
+	    $i = 0;
+        foreach( $this->getTableData() as $key => $tableRow )
+        {
+            if( !(bool)$tableRow['usages_trashed'] && !(bool)$tableRow['usages_untrashed'] ) {
+                continue;
+            }
+            foreach( $this->loadUsedBy($tableRow['id']) as $usedByObjId => $usedByData )
+            {
+                $tableData[$i] = $tableRow;
+                $tableData[$i]['usedByObjId'] = $usedByObjId;
+                $tableData[$i]['usedByRefId'] = $usedByData['ref_id'];
+                $tableData[$i]['usedByTitle'] = $usedByData['title'];
+                $tableData[$i]['usedByIsTrashed'] = $usedByData['trashed'];
+                $i++;
+            } // EOF foreach( $this->loadUsedBy($tableRow['id'])
+	    } // EOF foreach($this->getTableData()
+        return $tableData;
+    }
+
+    private function loadUsedBy($providerId)
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $retArr = [];
+        $pId = $DIC->database()->quote($providerId, 'integer');
+        $res = $DIC->database()->query(
+            "SELECT oset.obj_id AS obj_id, oref.ref_id AS ref_id, oref.deleted as trashed, odata.title AS title" .
+            " FROM lti_consumer_settings oset, object_reference oref, object_data odata" .
+            " WHERE oset.provider_id = " . $pId .
+            " AND oref.obj_id = oset.obj_id" .
+            " AND odata.obj_id = oset.obj_id"
+        );
+        while( $row = $DIC->database()->fetchAssoc($res) )
+        {
+            $retArr[$row['obj_id']] = [
+                'ref_id' => $row['ref_id'],
+                'title' => $row['title'],
+                'trashed' => null !== $row['trashed'] ? true : false
+            ];
+        }
+        return $retArr;
+    }
+
 	public function current() { return current($this->providers); }
 	public function next() { return next($this->providers); }
 	public function key() { return key($this->providers); }

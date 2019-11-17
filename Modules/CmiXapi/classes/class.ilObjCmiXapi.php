@@ -48,6 +48,7 @@ class ilObjCmiXapi extends ilObject2
 	protected $sourceType;
 	const SRC_TYPE_REMOTE = 'remoteSource';
 	const SRC_TYPE_LOCAL = 'localSource';
+	const SRC_TYPE_EXTERNAL = 'externalSource';
 	
 	/**
 	 * @var string
@@ -327,6 +328,22 @@ class ilObjCmiXapi extends ilObject2
 	public function getSourceType()
 	{
 		return $this->sourceType;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSourceTypeRemote()
+	{
+		return $this->sourceType == self::SRC_TYPE_REMOTE;
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function isSourceTypeExternal()
+	{
+		return $this->sourceType == self::SRC_TYPE_EXTERNAL;
 	}
 	
 	/**
@@ -858,16 +875,14 @@ class ilObjCmiXapi extends ilObject2
      * @var int
      */
     protected $_highscore_top_num = 10;
-
-    const HIGHSCORE_SHOW_ALL_TABLES = 1;
-
-    const HIGHSCORE_SHOW_TOP_TABLE = 1;
-
-    const HIGHSCORE_SHOW_OWN_TABLE = 1;
-
-
-
-    /**
+	
+	const HIGHSCORE_SHOW_ALL_TABLES = 1;
+	const HIGHSCORE_SHOW_TOP_TABLE = 2;
+	const HIGHSCORE_SHOW_OWN_TABLE = 3;
+	
+	
+	
+	/**
      * Sets if the highscore feature should be enabled.
      *
      * @param bool $a_enabled
