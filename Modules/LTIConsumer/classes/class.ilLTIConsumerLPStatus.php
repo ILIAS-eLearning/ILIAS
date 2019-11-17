@@ -74,6 +74,8 @@ class ilLTIConsumerLPStatus extends ilLPStatus
      * @param $a_obj_id
      * @param $a_status
      * @param $a_percentage
+	 *
+	 * @deprecated
      */
     public static function trackResult($a_user_id, $a_obj_id, $a_status = self::LP_STATUS_IN_PROGRESS_NUM, $a_percentage)
     {

@@ -420,11 +420,19 @@ class ilCmiXapiUser
 		return false;
 	}
 	
-	public static function getObjectsHavingUsersMissingProxySuccess()
+	public static function getCmixObjectsHavingUsersMissingProxySuccess()
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		$query = "SELECT DISTINCT obj_id FROM cmix_users WHERE proxy_success != %s";
+		$query = "
+			SELECT DISTINCT cu.obj_id
+			FROM cmix_users cu
+			INNER JOIN object_data od
+			ON od.obj_id = cu.obj_id
+			AND od.type = 'cmix'
+			WHERE cu.proxy_success != %s
+		";
+		
 		$res = $DIC->database()->queryF($query, array('integer'), array(1));
 		
 		$objects = array();
@@ -445,5 +453,39 @@ class ilCmiXapiUser
 		
 		$query = "UPDATE cmix_users SET fetched_until = %s WHERE $IN_objIds";
 		$DIC->database()->manipulateF($query, array('timestamp'), array($fetchedUntil->get(IL_CAL_DATETIME)));
+	}
+	
+	public static function lookupObjectIds($usrId, $type = '')
+	{
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$TYPE_JOIN = '';
+		
+		if( strlen($type) )
+		{
+			$TYPE_JOIN = "
+				INNER JOIN object_data od
+				ON od.obj_id = cu.obj_id
+				AND od.type = {$DIC->database()->quote($type, 'text')}
+			";
+		}
+		
+		$query = "
+			SELECT cu.obj_id
+			FROM cmix_users cu
+			{$TYPE_JOIN}
+			WHERE cu.usr_id = {$DIC->database()->quote($usrId, 'integer')}
+		";
+		
+		$res = $DIC->database()->query($query);
+		
+		$objIds = [];
+		
+		while($row = $DIC->database()->fetchAssoc($res))
+		{
+			$objIds[] = $row['obj_id'];
+		}
+		
+		return $objIds;
 	}
 }

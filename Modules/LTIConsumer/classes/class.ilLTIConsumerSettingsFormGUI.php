@@ -175,13 +175,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
 			$highscore_tables = new ilRadioGroupInputGUI($DIC->language()->txt('highscore_mode'), 'highscore_mode');
 			$highscore_tables->setRequired(true);
 			$highscore_tables->setValue($this->object->getHighscoreMode());
-			$highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), ilObjCmiXapi::HIGHSCORE_SHOW_OWN_TABLE);
+			$highscore_table_own = new ilRadioOption($DIC->language()->txt('highscore_own_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_OWN_TABLE);
 			$highscore_table_own->setInfo($DIC->language()->txt('highscore_own_table_description'));
 			$highscore_tables->addOption($highscore_table_own);
-			$highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), ilObjCmiXapi::HIGHSCORE_SHOW_TOP_TABLE);
+			$highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_top_table'), ilObjLTIConsumer::HIGHSCORE_SHOW_TOP_TABLE);
 			$highscore_table_other->setInfo($DIC->language()->txt('highscore_top_table_description'));
 			$highscore_tables->addOption($highscore_table_other);
-			$highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), ilObjCmiXapi::HIGHSCORE_SHOW_ALL_TABLES);
+			$highscore_table_other = new ilRadioOption($DIC->language()->txt('highscore_all_tables'), ilObjLTIConsumer::HIGHSCORE_SHOW_ALL_TABLES);
 			$highscore_table_other->setInfo($DIC->language()->txt('highscore_all_tables_description'));
 			$highscore_tables->addOption($highscore_table_other);
 			$highscore->addSubItem($highscore_tables);

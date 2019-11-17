@@ -21,8 +21,8 @@ class ilCmiXapiContentUploadImporter
 	
 	const RELATIVE_XSD_DIRECTORY = 'Modules/CmiXapi/xml/contentschema';
 	
-	const UPLOAD_EXTENSION_XML = 'xml';
-	const UPLOAD_EXTENSION_ZIP = 'zip';
+	const IMP_FILE_EXTENSION_XML = 'xml';
+	const IMP_FILE_EXTENSION_ZIP = 'zip';
 	
 	const CMI5_XML = 'cmi5.xml';
 	const CMI5_XSD = 'cmi5_v1_CourseStructure.xsd';
@@ -72,13 +72,62 @@ class ilCmiXapiContentUploadImporter
 		}
 	}
 	
+	protected function sanitizeObjectDirectory()
+	{
+		ilUtil::renameExecutables(implode(DIRECTORY_SEPARATOR, [
+			\ilUtil::getWebspaceDir(), $this->getWebDataDirRelativeObjectDirectory()
+		]));
+	}
+	
+	/**
+	 * @param $serverFile
+	 * @throws \ILIAS\Filesystem\Exception\IOException
+	 * @throws ilCmiXapiInvalidUploadContentException
+	 */
+	public function importServerFile($serverFile)
+	{
+		$this->ensureCreatedObjectDirectory();
+		
+		$this->handleFile($serverFile);
+		
+		$this->sanitizeObjectDirectory();
+	}
+	
+	/**
+	 * @param string $serverFile
+	 * @throws ilCmiXapiInvalidUploadContentException
+	 */
+	protected function handleFile(string $serverFile)
+	{
+		$fileInfo = pathinfo($serverFile);
+		
+		switch( $fileInfo['extension'] )
+		{
+			case self::IMP_FILE_EXTENSION_XML:
+				
+				$this->handleXmlFile($serverFile);
+				break;
+			
+			case self::IMP_FILE_EXTENSION_ZIP:
+				
+				$this->handleZipContentUpload($serverFile);
+				
+				if( $this->hasStoredContentXml() )
+				{
+					$this->handleXmlFile($this->getStoredContentXml());
+				}
+				
+				break;
+		}
+	}
+	
 	/**
 	 * @param ilFileInputGUI $uploadInput
 	 * @throws \ILIAS\FileUpload\Exception\IllegalStateException
 	 * @throws \ILIAS\Filesystem\Exception\IOException
 	 * @throws ilCmiXapiInvalidUploadContentException
 	 */
-	public function import(ilFileInputGUI $uploadInput)
+	public function importFormUpload(ilFileInputGUI $uploadInput)
 	{
 		$this->ensureCreatedObjectDirectory();
 		
@@ -89,6 +138,8 @@ class ilCmiXapiContentUploadImporter
 		);
 		
 		$this->handleUpload($uploadResult);
+		
+		$this->sanitizeObjectDirectory();
 	}
 	
 	/**
@@ -141,12 +192,12 @@ class ilCmiXapiContentUploadImporter
 	{
 		switch( $this->fetchFileExtension($uploadResult) )
 		{
-			case self::UPLOAD_EXTENSION_XML:
+			case self::IMP_FILE_EXTENSION_XML:
 				
 				$this->handleXmlFile($uploadResult->getName());
 				break;
 				
-			case self::UPLOAD_EXTENSION_ZIP:
+			case self::IMP_FILE_EXTENSION_ZIP:
 				
 				$this->handleZipContentUpload($uploadResult->getPath());
 				
@@ -184,7 +235,7 @@ class ilCmiXapiContentUploadImporter
 				$xsdFilePath = $this->getXsdFilePath(self::TINCAN_XSD);
 				$this->validateXmlFile($dom, $xsdFilePath);
 				
-				// TODO: evaluate xml and init object!
+				$this->initObjectFromTincanXml($dom);
 				
 				break;
 		}
@@ -288,7 +339,7 @@ class ilCmiXapiContentUploadImporter
 		$this->object->setDescription(trim($description));
 		
 		$activityId = $courseNode->getAttribute('id');
-		$this->object->setActivityId($activityId);
+		$this->object->setActivityId(trim($activityId));
 		
 		foreach($xPath->query("//*[local-name()='au']") as $assignedUnitNode)
 		{
@@ -297,6 +348,32 @@ class ilCmiXapiContentUploadImporter
 			
 			break; // TODO: manage multi au imports
 		}
+		
+		$this->object->update();
+		$this->object->save();
+	}
+	
+	protected function initObjectFromTincanXml($dom)
+	{
+		$xPath = new DOMXPath($dom);
+		
+		foreach($xPath->query("//*[local-name()='activity']") as $activityNode)
+		{
+			$title = $xPath->query("//*[local-name()='name']", $activityNode)->item(0)->nodeValue;
+			$this->object->setTitle(trim($title));
+			
+			$description = $xPath->query("//*[local-name()='description']", $activityNode)->item(0)->nodeValue;
+			$this->object->setDescription(trim($description));
+			
+			$activityId = $activityNode->getAttribute('id');
+			$this->object->setActivityId(trim($activityId));
+			
+			$relativeLaunchUrl = $xPath->query("//*[local-name()='launch']", $activityNode)->item(0)->nodeValue;
+			$this->object->setLaunchUrl(trim($relativeLaunchUrl));
+			
+			break; // TODO: manage multi activities imports
+		}
+		
 		
 		$this->object->update();
 		$this->object->save();

@@ -11,7 +11,7 @@
  *
  * @package     Modules/LTIConsumer
  */
-class ilObjLTIConsumerAccess extends ilObjectAccess
+class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandling
 {
 	public static function _getCommands()
 	{
@@ -54,4 +54,41 @@ class ilObjLTIConsumerAccess extends ilObjectAccess
 		return (bool)$row['cnt'];
 	}
 	
+	public static function hasActiveCertificate($objId, $usrId)
+	{
+		if( !ilCertificate::isActive() )
+		{
+			return false;
+		}
+		
+		if( !ilCertificate::isObjectActive($objId) )
+		{
+			return false;
+		}
+		
+		if( !ilLTIConsumerCertificateAdapter::hasCertificate($objId, $usrId) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static function getConditionOperators()
+	{
+		return [
+			ilConditionHandler::OPERATOR_PASSED
+		];
+	}
+	
+	public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+	{
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_PASSED:
+				return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
+		}
+		
+		return false;
+	}
 }

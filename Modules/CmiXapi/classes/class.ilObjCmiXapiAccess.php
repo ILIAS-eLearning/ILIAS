@@ -12,7 +12,7 @@
  *
  * @package     Module/CmiXapi
  */
-class ilObjCmiXapiAccess extends ilObjectAccess
+class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
 {
 	static function _getCommands()
 	{
@@ -58,4 +58,45 @@ class ilObjCmiXapiAccess extends ilObjectAccess
 		return (bool)$row['cnt'];
 	}
 	
+	public static function hasActiveCertificate($objId, $usrId)
+	{
+		if( !ilCertificate::isActive() )
+		{
+			return false;
+		}
+		
+		if( !ilCertificate::isObjectActive($objId) )
+		{
+			return false;
+		}
+		
+		if( !ilCmiXapiCertificateAdapater::hasCertificate($objId, $usrId) )
+		{
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public static function getConditionOperators()
+	{
+		return [
+			ilConditionHandler::OPERATOR_FINISHED,
+			ilConditionHandler::OPERATOR_FAILED
+		];
+	}
+	
+	public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+	{
+		switch($a_operator)
+		{
+			case ilConditionHandler::OPERATOR_FAILED:
+				return ilLPStatus::_lookupStatus($a_trigger_obj_id, $a_usr_id) == ilLPStatus::LP_STATUS_FAILED_NUM;
+			
+			case ilConditionHandler::OPERATOR_FINISHED:
+				return ilLPStatus::_hasUserCompleted($a_trigger_obj_id, $a_usr_id);
+		}
+		
+		return false;
+	}
 }

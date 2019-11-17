@@ -118,7 +118,7 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $data['user_ident'] === true ? 'tblrowmarked' : '';
+        $highlight = $data['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
 	}
 	
