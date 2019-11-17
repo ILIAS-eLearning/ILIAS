@@ -686,7 +686,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		
-		if( !$this->object->isOffline() && $this->object->getLrsType()->isAvailable() )
+		if( !$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable() )
 		{
 			$cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
 			

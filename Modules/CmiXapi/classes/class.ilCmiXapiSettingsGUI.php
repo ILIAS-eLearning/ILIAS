@@ -149,7 +149,7 @@ class ilCmiXapiSettingsGUI
 		$item = new ilCheckboxInputGUI($DIC->language()->txt('online'), 'online');
 		$item->setInfo($DIC->language()->txt("online_info"));
 		$item->setValue("1");
-		if (!$this->object->isOffline())
+		if (!$this->object->getOfflineStatus())
 		{
 			$item->setChecked(true);
 		}
@@ -379,7 +379,7 @@ class ilCmiXapiSettingsGUI
 		$this->object->setDescription($form->getInput('description'));
 		
 		$this->object->setActivityId($form->getInput('activity_id'));
-		$this->object->setOffline(!(bool)$form->getInput('online'));
+		$this->object->setOfflineStatus(!(bool)$form->getInput('online'));
 		
 		if( !$this->object->isSourceTypeExternal() )
 		{

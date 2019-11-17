@@ -61,11 +61,6 @@ class ilObjCmiXapi extends ilObject2
 	protected $instructions;
 	
 	/**
-	 * @var bool
-	 */
-	protected $offline; // to be migrated to ilObject offline status for ILIAS 6.0
-	
-	/**
 	 * @var string
 	 */
 	protected $launchUrl;
@@ -165,8 +160,6 @@ class ilObjCmiXapi extends ilObject2
 		$this->activityId = '';
 		
 		$this->instructions = '';
-
-		$this->offline = 1;
 
 		$this->launchUrl = '';
 		$this->authFetchUrlEnabled = 0;
@@ -385,23 +378,7 @@ class ilObjCmiXapi extends ilObject2
 	{
 		$this->instructions = $instructions;
 	}
-	
-	/**
-	 * @return bool
-	 */
-	public function isOffline()
-	{
-		return $this->offline;
-	}
-	
-	/**
-	 * @param bool $offline
-	 */
-	public function setOffline($offline)
-	{
-		$this->offline = $offline;
-	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -652,8 +629,6 @@ class ilObjCmiXapi extends ilObject2
 			$this->setActivityId($row['activity_id']);
 			$this->setInstructions($row['instructions']);
 			
-			$this->setOffline((bool)$row['offline_status']);
-			
 			$this->setLaunchUrl($row['launch_url']);
 			$this->setAuthFetchUrlEnabled((bool)$row['auth_fetch_url']);
 			
@@ -704,7 +679,6 @@ class ilObjCmiXapi extends ilObject2
 			'source_type'			=> ['text', $this->getSourceType()],
 			'activity_id'			=> ['text', $this->getActivityId()], // TODO: needs unique constraint, right?
 			'instructions'			=> ['text', $this->getInstructions()],
-			'offline_status'		=> ['integer', (int)$this->isOffline()],
 			'launch_url'			=> ['text', $this->getLaunchUrl()],
 			'auth_fetch_url'		=> ['integer', (int)$this->isAuthFetchUrlEnabled()],
 			'launch_method'			=> ['text', $this->getLaunchMethod()],
@@ -1094,7 +1068,6 @@ class ilObjCmiXapi extends ilObject2
             'source_type'			=> $this->getSourceType(),
             'activity_id'			=> $this->getActivityId(),
             'instructions'			=> $this->getInstructions(),
-            'offline_status'		=> (int)$this->isOffline(),
             'launch_url'			=> $this->getLaunchUrl(),
             'auth_fetch_url'		=> (int)$this->isAuthFetchUrlEnabled(),
             'launch_method'			=> $this->getLaunchMethod(),

@@ -47,12 +47,7 @@ class ilObjLTIConsumer extends ilObject2
 	 * @var string
 	 */
 	protected $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
-	
-	/**
-	 * @var bool
-	 */
-	protected $offlineStatus = true;
-	
+
 	/**
 	 * @var string
 	 */
@@ -241,23 +236,7 @@ class ilObjLTIConsumer extends ilObject2
 	{
 		$this->launchMethod = $launchMethod;
 	}
-	
-	/**
-	 * @return bool
-	 */
-	public function getOfflineStatus(): bool
-	{
-		return $this->offlineStatus;
-	}
-	
-	/**
-	 * @param bool $offlineStatus
-	 */
-	public function setOfflineStatus(bool $offlineStatus)
-	{
-		$this->offlineStatus = $offlineStatus;
-	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -401,9 +380,7 @@ class ilObjLTIConsumer extends ilObject2
 			}
 			
 			$this->setLaunchMethod($row['launch_method']);
-			
-			$this->setOfflineStatus((bool)$row['offline_status']);
-			
+
 			$this->setCustomLaunchKey((string)$row['launch_key']);
 			$this->setCustomLaunchSecret((string)$row['launch_secret']);
 
@@ -438,7 +415,6 @@ class ilObjLTIConsumer extends ilObject2
 		], [
 			'provider_id' => ['integer', $this->getProviderId()],
 			'launch_method' => ['text', $this->getLaunchMethod()],
-			'offline_status' => ['text', $this->getOfflineStatus()],
 			'launch_key' => ['text', $this->getCustomLaunchKey()],
 			'launch_secret' => ['text', $this->getCustomLaunchSecret()],
 			'use_xapi' => ['integer',$this->getUseXapi()],

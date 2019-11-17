@@ -215,7 +215,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setSourceType($this->_moduleProperties['SourceType']);
         $this->_cmixObj->setActivityId($this->_moduleProperties['ActivityId']);
         $this->_cmixObj->setInstructions($this->_moduleProperties['Instructions']);
-        $this->_cmixObj->setOffline($this->_moduleProperties['OfflineStatus']);
+        $this->_cmixObj->setOfflineStatus($this->_moduleProperties['OfflineStatus']);
         $this->_cmixObj->setLaunchUrl($this->_moduleProperties['LaunchUrl']);
         $this->_cmixObj->setAuthFetchUrlEnabled($this->_moduleProperties['AuthFetchUrl']);
         $this->_cmixObj->setLaunchMethod($this->_moduleProperties['LaunchMethod']);
