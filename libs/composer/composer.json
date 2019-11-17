@@ -36,7 +36,9 @@
 		"symfony/console" : "^4.2",
 		"slim/slim": "^3.11",
 		"ramsey/uuid": "^3.8",
-		"enshrined/svg-sanitize": "^0.10.0"
+		"enshrined/svg-sanitize": "^0.10.0",
+		"guzzlehttp/guzzle": "^6.3",
+		"zendframework/zend-httphandlerrunner": "^1.1.0"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -211,6 +213,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
 		},
+		"guzzlehttp/guzzle" : {
+			"source": "https://github.com/guzzle/guzzle",
+			"used_version": "v6.3.3",
+			"added_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
+			"wrapped_by": "",
+			"last_update": "2019-07-23",
+			"last_update_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
+			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
+		},
 		"ralouphie/getallheaders" : {
 			"source": "https://github.com/ralouphie/getallheaders",
 			"used_version": "v2.0.5",
@@ -331,6 +343,16 @@
 			"approved-by": "Jour Fixe",
 			"approved-date": "2018-12-03"
 		},
+		"zendframework/zend-httphandlerrunner" : {
+			"source": "https://github.com/zendframework/zend-httphandlerrunner",
+			"used_version": "v1.1",
+			"added_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
+			"wrapped_by": "",
+			"last_update": "2019-07-23",
+			"last_update_by": "Stefan Schneider <schneider@hrz.uni-marburg.de>",
+			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
+		},
 		"friendsofphp/php-cs-fixer": {
 			"source": "https://github.com/FriendsOfPHP/PHP-CS-Fixer",
 			"used_version": "2.15",
@@ -379,6 +401,12 @@
 			},
 			"simplesamlphp/simplesamlphp": {
 				"ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+			},
+			"zendframework/zend-httphandlerrunner": {
+				"ILIAS HttpHandlerRunner Patches": "patches/zend-httphandlerrunner.patch"
+			},
+			"imsglobal/lti": {
+				"ILIAS LTI Patches": "patches/lti.patch"
 			}
 		}
 	}
