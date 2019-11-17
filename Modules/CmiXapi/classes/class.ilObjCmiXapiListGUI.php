@@ -51,8 +51,9 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
 			'alert' => false, 'property' => $DIC->language()->txt('type'),
 			'value' => $DIC->language()->txt('obj_cmix')
 		);
-		
-		if( ilObjCmiXapiAccess::hasActiveCertificate($this->obj_id, $DIC->user()->getId()) )
+
+        $validator = new ilCertificateDownloadValidator();
+        if( $validator->isCertificateDownloadable((int)$DIC->user()->getId(), (int)$this->obj_id) )
 		{
 			$DIC->ctrl()->setParameterByClass(ilCmiXapiSettingsGUI::class, 'ref_id', $this->ref_id);
 			

@@ -273,8 +273,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 		{
 			return $return;
 		}
-		
-		if( ilObjLTIConsumerAccess::hasActiveCertificate($this->object->getId(), $DIC->user()->getId()) )
+
+        $validator = new ilCertificateDownloadValidator();
+		if( $validator->isCertificateDownloadable((int)$DIC->user()->getId(), (int)$this->object->getId()) )
 		{
 			$certLink = $DIC->ctrl()->getLinkTargetByClass(
 				[ilObjLTIConsumerGUI::class, ilLTIConsumerSettingsGUI::class],

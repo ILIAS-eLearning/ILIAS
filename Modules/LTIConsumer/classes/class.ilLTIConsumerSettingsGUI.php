@@ -60,8 +60,10 @@ class ilLTIConsumerSettingsGUI
 				$DIC->ctrl()->getLinkTargetByClass(ilLTIConsumeProviderSettingsGUI::class)
 			);
 		}
-		
-		if( ilCertificate::isActive() )
+
+        $validator = new ilCertificateActiveValidator();
+
+		if( $validator->validate() )
 		{
 			$DIC->tabs()->addSubTab(self::SUBTAB_ID_CERTIFICATE,
 				$DIC->language()->txt(self::SUBTAB_ID_CERTIFICATE),
@@ -101,15 +103,19 @@ class ilLTIConsumerSettingsGUI
 		switch( $nc )
 		{
 			case strtolower(ilCertificateGUI::class):
-				
-				if( !ilCertificate::isActive() )
+
+                $validator = new ilCertificateActiveValidator();
+
+                if( !$validator->validate() )
 				{
 					throw new ilCmiXapiException('access denied!');
 				}
 				
 				$DIC->tabs()->activateSubTab(self::SUBTAB_ID_CERTIFICATE);
-				
-				$gui = new ilCertificateGUI(new ilLTIConsumerCertificateAdapter($this->object));
+
+                $guiFactory = new ilCertificateGUIFactory();
+                $gui = $guiFactory->create($this->object);
+
 				$DIC->ctrl()->forwardCommand($gui);
 				
 				break;
@@ -182,21 +188,28 @@ class ilLTIConsumerSettingsGUI
 	
 	protected function deliverCertificateCmd()
 	{
-		global $DIC; /* @var \ILIAS\DI\Container $DIC */
-		
-		if( ilObjLTIConsumerAccess::hasActiveCertificate($this->object->getId(), $DIC->user()->getId()) )
-		{
-			$params = [
-				'user_id' => $DIC->user()->getId()
-			];
-			
-			$certificate = new ilCertificate(new ilLTIConsumerCertificateAdapter($this->object));
-			
-			if( !$certificate->outCertificate($params, true) )
-			{
-				ilUtil::sendFailure($DIC->language()->txt('cert_generation_failed'), true);
-				$DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
-			}
-		}
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $validator = new ilCertificateDownloadValidator();
+
+        if ( !$validator->isCertificateDownloadable((int)$DIC->user()->getId(), (int)$this->object->getId()) )
+        {
+            ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
+            $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
+        }
+
+        $repository = new ilUserCertificateRepository();
+
+        $certLogger = $DIC->logger()->cert();
+        $pdfGenerator = new ilPdfGenerator($repository, $certLogger);
+
+        $pdfAction = new ilCertificatePdfAction(
+            $certLogger,
+            $pdfGenerator,
+            new ilCertificateUtilHelper(),
+            $DIC->language()->txt('error_creating_certificate_pdf')
+        );
+
+        $pdfAction->downloadPdf((int)$DIC->user()->getId(), (int)$this->object->getId());
 	}
 }
