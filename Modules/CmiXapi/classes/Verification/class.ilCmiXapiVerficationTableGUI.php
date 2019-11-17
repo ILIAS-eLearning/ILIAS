@@ -44,8 +44,12 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
 	{
 		global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
-            $DIC->user()->getId(), 'lti'
+        $userCertificateRepository = new ilUserCertificateRepository(
+            $DIC->database(), $DIC->logger()->root()
+        );
+
+        $certificateArray = $userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
+            $DIC->user()->getId(), 'cmix'
         );
 
         $data = array();
