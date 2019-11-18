@@ -9,7 +9,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefiniti
 use stdClass;
 
 /**
- * Class FormulaScoringDefinition
+ * Class EssayScoringDefinition
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>

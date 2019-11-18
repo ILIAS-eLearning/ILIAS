@@ -10,7 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInput;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
-use ilHiddenInputGUI;
+use Exception;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
@@ -55,6 +55,16 @@ class EssayScoring extends AbstractScoring {
     protected $configuration;
     
     /**
+     * @var string[]
+     */
+    private $words;
+    
+    /**
+     * @var EssayScoringProcessedAnswerOption[]
+     */
+    private $answer_options;
+    
+    /**
      * @param QuestionDto $question
      */
     public function __construct($question) {
@@ -63,14 +73,130 @@ class EssayScoring extends AbstractScoring {
         $this->configuration = $question->getPlayConfiguration()->getScoringConfiguration();
     }
     
-    public function score(Answer $answer): AnswerScoreDto
-    {
-        return new AnswerScoreDto();
+    public function score(Answer $answer): AnswerScoreDto {
+        if ($this->configuration->getScoringMode() === self::SCORING_MANUAL) {
+            // TODO handle manual scoring
+            throw new Exception("Dont run score on manual scoring");
+        }
+        else {
+            $reached_points = $this->generateScore($answer->getValue());
+            $max_points = $this->getMaxPoints();
+            
+            return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points, $max_points));
+        }
+    }
+    
+    private function generateScore(string $text) : float {
+        
+        if ($this->configuration->getMatchingMode() === self::TM_CASE_INSENSITIVE) {
+            $text = strtoupper($text);
+        }
+        
+        //ignore punctuation
+        $this->words = explode(' ', preg_replace("#[[:punct:]]#", "", $text));
+        
+        $this->answer_options = array_map(function($answer_option) {
+            return new EssayScoringProcessedAnswerOption($answer_option->getScoringDefinition(), $this->configuration->getMatchingMode() === self::TM_CASE_INSENSITIVE);
+        }, $this->question->getAnswerOptions()->getOptions());
+        
+        $points = 0;
+        
+        foreach ($this->answer_options as $answer_option) {
+            $found = $this->textContainsOption($answer_option);
+            
+            // one match found
+            if ($found && $this->configuration->getScoringMode() === self::SCORING_AUTOMATIC_ONE) {
+                return $this->configuration->getPoints();
+            }
+            
+            // one error found
+            if (!$found && $this->configuration->getScoringMode() === self::SCORING_AUTOMATIC_ALL) {
+                return 0;
+            }
+            
+            // match found
+            if ($found) {
+                $points += $answer_option->getPoints();
+            }
+            
+        }
+        
+        switch ($this->configuration->getScoringMode()) {
+            case self::SCORING_AUTOMATIC_ALL:
+                // all matches found
+                return $this->configuration->getPoints();
+            case self::SCORING_AUTOMATIC_ANY:
+                return $points;
+            case self::SCORING_AUTOMATIC_ONE:
+                // no match found
+                return 0;
+        }
     }
 
+    private function textContainsOption(EssayScoringProcessedAnswerOption $answer_option) : bool {
+        $answer_words = $answer_option->getWords();
+        
+        switch($this->configuration->getMatchingMode()) {
+            case self::TM_LEVENSHTEIN_1:
+                $max_distance = 1;
+                break;
+            case self::TM_LEVENSHTEIN_2:
+                $max_distance = 2;
+                break;
+            case self::TM_LEVENSHTEIN_3:
+                $max_distance = 3;
+                break;
+            case self::TM_LEVENSHTEIN_4:
+                $max_distance = 4;
+                break;
+            case self::TM_LEVENSHTEIN_5:
+                $max_distance = 5;
+                break;
+            default:
+                $max_distance = 0;
+                break;
+        }
+        
+        for ($i = 0; $i < (count($this->words) - (count($answer_words) - 1)); $i++) {
+            $distance = 0;
+            
+            for ($j = 0; $j < count($answer_words); $j++) {
+                $distance += levenshtein($this->words[$i + $j], $answer_words[$j]);
+                
+                if ($distance > $max_distance) {
+                    break;
+                }
+            }
+            
+            if ($distance <= $max_distance) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    private function getMaxPoints() : float {
+        if ($this->configuration->getScoringMode() === self::SCORING_AUTOMATIC_ANY) {
+            return array_sum(
+                array_map(function($answer_option) {
+                    return $answer_option->getScoringDefinition()->getPoints();
+                }, 
+                $this->question->getAnswerOptions()->getOptions()
+            ));
+        }
+        else {
+            return $this->configuration->getPoints();
+        }
+    }
+    
     public function getBestAnswer(): Answer
     {
+        $texts = implode(' ',array_map(function($answer_option) {
+            return $answer_option->getScoringDefinition()->getText();
+        }, $this->question->getAnswerOptions()->getOptions()));
         
+        return new Answer(0, '', '', 0, 0, $texts);
     }
     
     /**
