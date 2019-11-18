@@ -3,6 +3,7 @@
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
 use ILIAS\UI\Component\Input\Field\HandlerResult;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
@@ -11,7 +12,7 @@ use ILIAS\UI\Component\Input\Field\UploadHandler;
  *
  * @ilCtrl_isCalledBy ilUIDemoFileUploadHandlerGUI: ilUIPluginRouterGUI
  */
-class ilUIDemoFileUploadHandlerGUI implements UploadHandler
+class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHandler
 {
 
     private const CMD_UPLOAD = 'upload';

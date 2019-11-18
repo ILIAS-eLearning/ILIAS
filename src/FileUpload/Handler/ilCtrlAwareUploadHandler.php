@@ -2,7 +2,6 @@
 
 namespace ILIAS\FileUpload\Handler;
 
-use ILIAS\UI\Component\Input\Field\HandlerResult;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
@@ -19,13 +18,5 @@ interface ilCtrlAwareUploadHandler extends UploadHandler
      * Command are handled correctly
      */
     public function executeCommand() : void;
-
-
-    /**
-     * @return HandlerResult this MUST use the same getFileIdentifierParameterName
-     *                       for the UploadResponse as the ilCtrlAwareUploadHandler
-     *                       when echoed as JSON. e.g. {'file_id': 'th6djr46xfgrst6t45eb6bt6zn45stb6aebr68bt'}
-     */
-    public function getResult() : HandlerResult;
 }
 

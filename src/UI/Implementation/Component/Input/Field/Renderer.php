@@ -74,17 +74,22 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
         } elseif ($component instanceof Component\Input\Field\File) {
             $component = $this->setSignals($component);
-            $upload_url = $component->getUploadHandler()->getUploadURL();
-            $remove_url = $component->getUploadHandler()->getFileRemovalURL();
-            $file_identification_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+
+            $settings = new \stdClass();
+            $settings->upload_url = $component->getUploadHandler()->getUploadURL();
+            $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+            $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
 
             $component = $component->withAdditionalOnLoadCode(
-                function ($id) use ($upload_url, $remove_url, $file_identification_key) {
+                function ($id) use ($settings) {
+                    $settings = json_encode($settings);
+
                     return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$upload_url}', '{$remove_url}','{$file_identification_key}');
+					il.UI.Input.file.init('$id', '{$settings}');
 				});";
                 }
             );
+
             $input_tpl = $this->getTemplate("tpl.file.html", true, true);
             $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy($this->txt('select_files_from_computer'), "#")));
 

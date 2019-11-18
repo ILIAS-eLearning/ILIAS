@@ -11,24 +11,34 @@ il.UI.Input = il.UI.Input || {};
 
     il.UI.Input.file = (function ($) {
 
+        var _default_settings = {
+            'upload_url': '',
+            'removal_url': '',
+            'file_identifier_key': 'file_id',
+            'max_files': 1
+        };
 
-        var init = function (container_id, upload_url, removal_url, file_identifier_key) {
 
+        var init = function (container_id, settings) {
             var replacer = new RegExp('amp;', 'g');
-            upload_url = upload_url.replace(replacer, '');
+            console.log(settings);
+            settings = Object.assign(JSON.parse(settings), _default_settings);
+            settings.upload_url = settings.upload_url.replace(replacer, '');
+            settings.removal_url = settings.removal_url.replace(replacer, '');
 
-            console.log(upload_url);
+            console.log(settings);
+
             var container = '#' + container_id;
             var dropzone = container + ' .il-input-file-dropzone';
             var input_template = $(container + ' .input-template').clone();
             $(container + ' .input-template').remove();
-            console.log(input_template);
+            
 
             var myDropzone = new Dropzone(dropzone, {
                 url: encodeURI(upload_url),
                 method: 'post',
                 createImageThumbnails: false,
-                maxFiles: 1,
+                maxFiles: 10,
                 dictDefaultMessage: '',
                 previewsContainer: container + ' .il-input-file-filelist',
                 previewTemplate: document.querySelector(container + ' .il-input-file-template').innerHTML,
@@ -60,6 +70,7 @@ il.UI.Input = il.UI.Input || {};
             };
 
             myDropzone.on("removedfile", function (file) {
+                console.log(file);
                 myDropzone.setupEventListeners();
                 myDropzone._updateMaxFilesReachedClass();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", false);

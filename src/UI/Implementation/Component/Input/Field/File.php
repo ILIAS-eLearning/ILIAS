@@ -38,6 +38,7 @@ class File extends Input implements C\Input\Field\File
     {
         $this->upload_handler = $handler;
         parent::__construct($data_factory, $refinery, $label, $byline);
+
     }
 
 
