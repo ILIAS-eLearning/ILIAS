@@ -964,31 +964,33 @@ interface Factory
      *      The More Glyph uses the glyphicon-option-horizontal.
      *   effect: >
      *       Clicking the More Glyph shows the rest of the set of entries.
+     *   rivals:
+     *      Disclosure Glyph: >
+     *         The Disclosure Glyph hides the complete set of entries, wherear the
+     *         More Glyph only hides parts of it.
+     *      Mini-Action-Drop-Down: >
+     *         The in ListGUI without text is used to offer a
+     *         set of actions that cannot be displayed directly due to scarce space.
+     *         This is different because the set of entries of the More Glyph does not entail actions.
+     *      Show More Less Button: >
+     *         The Show-More /Show Less Button in Timeline unhides
+     *         a full individual entry of a timeline. Entries are caped at a certain
+     *         length and Show-More-Buttons allow viewing all the content of this entry.
+     *         This is different, because the unhidden entirety is an individual entry
+     *         and not a set of entries. The Show-More /Show Less Button in filtered Categories with loads of
+     *         objects shows the next x objects in the list GUI. This is different,
+     *         because what is shown is not an entirety but a part of an entirety.
+     *      The Hamburg Glyph: >
+     *         The Hamburg Glyph is an icon introduced on the web,
+     *         which in most cases represents a complete main menu. This is different
+     *         from More Glyph, which abbreviates part of the menu. The hamburger
+     *         icon currently used in the shortened toolbar (on small screens) should
+     *         actually be replaced because it doesn't show the entire main menu, but
+     *         more actions are displayed when you click on it.
+     *
      * context:
      *    - This Glyph is currently used in the responsive view of the Main Bar.
-     * rivals:
-     *    Disclosure Glyph: >
-     *       The Disclosure Glyph hides the complete set of entries, wherear the
-     *       More Glyph only hides parts of it.
-     *    Mini-Action-Drop-Down: >
-     *       The in ListGUI without text is used to offer a
-     *       set of actions that cannot be displayed directly due to scarce space.
-     *       This is different because the set of entries of the More Glyph does not entail actions.
-     *    Show More Less Button: >
-     *       The Show-More /Show Less Button in Timeline unhides
-     *       a full individual entry of a timeline. Entries are caped at a certain
-     *       length and Show-More-Buttons allow viewing all the content of this entry.
-     *       This is different, because the unhidden entirety is an individual entry
-     *       and not a set of entries. The Show-More /Show Less Button in filtered Categories with loads of
-     *       objects shows the next x objects in the list GUI. This is different,
-     *       because what is shown is not an entirety but a part of an entirety.
-     *    The Hamburg Glyph: >
-     *       The Hamburg Glyph is an icon introduced on the web,
-     *       which in most cases represents a complete main menu. This is different
-     *       from More Glyph, which abbreviates part of the menu. The hamburger
-     *       icon currently used in the shortened toolbar (on small screens) should
-     *       actually be replaced because it doesn't show the entire main menu, but
-     *       more actions are displayed when you click on it.
+     *
      * rules:
      *   usage:
      *       1: >
@@ -1019,32 +1021,33 @@ interface Factory
      *      The Disclosure Glyph uses the glyphicon-option-vertical.
      *   effect: >
      *       Clicking the Disclose Glyph shows the entire set of entries.
+     *   rivals:
+     *      More Glyph: >
+     *         The More Glyph hides part of the set of entries.
+     *         This is a difference to the Disclose Glyph, because here the
+     *         complete set of entries is collected in a glyph.
+     *      Mini-Action-Drop-Down: >
+     *         The in ListGUI without text is used to offer a
+     *         set of actions that cannot be displayed directly due to scarce space.
+     *         This is different because the set of entries of the More Glyph does not entail actions.
+     *      Show More Less Button: >
+     *         The Show-More /Show Less Button in Timeline unhides
+     *         a full individual entry of a timeline. Entries are caped at a certain
+     *         length and Show-More-Buttons allow viewing all the content of this entry.
+     *         This is different, because the unhidden entirety is an individual entry
+     *         and not a set of entries. The Show-More /Show Less Button in filtered Categories with loads of
+     *         objects shows the next x objects in the list GUI. This is different,
+     *         because what is shown is not an entirety but a part of an entirety.
+     *      The Hamburg Glyph: >
+     *         The Hamburg Glyph is an icon introduced on the web,
+     *         which in most cases represents a complete main menu. This is different
+     *         from More Glyph, which abbreviates part of the menu. The hamburger
+     *         icon currently used in the shortened toolbar (on small screens) should
+     *         actually be replaced because it doesn't show the entire main menu, but
+     *         more actions are displayed when you click on it.
+     *
      * context:
      *    - This Glyph is currently used in the responsive view of the Meta Bar.
-     * rivals:
-     *    More Glyph: >
-     *       The More Glyph hides part of the set of entries.
-     *       This is a difference to the Disclose Glyph, because here the
-     *       complete set of entries is collected in a glyph.
-     *    Mini-Action-Drop-Down: >
-     *       The in ListGUI without text is used to offer a
-     *       set of actions that cannot be displayed directly due to scarce space.
-     *       This is different because the set of entries of the More Glyph does not entail actions.
-     *    Show More Less Button: >
-     *       The Show-More /Show Less Button in Timeline unhides
-     *       a full individual entry of a timeline. Entries are caped at a certain
-     *       length and Show-More-Buttons allow viewing all the content of this entry.
-     *       This is different, because the unhidden entirety is an individual entry
-     *       and not a set of entries. The Show-More /Show Less Button in filtered Categories with loads of
-     *       objects shows the next x objects in the list GUI. This is different,
-     *       because what is shown is not an entirety but a part of an entirety.
-     *    The Hamburg Glyph: >
-     *       The Hamburg Glyph is an icon introduced on the web,
-     *       which in most cases represents a complete main menu. This is different
-     *       from More Glyph, which abbreviates part of the menu. The hamburger
-     *       icon currently used in the shortened toolbar (on small screens) should
-     *       actually be replaced because it doesn't show the entire main menu, but
-     *       more actions are displayed when you click on it.
      * rules:
      *   usage:
      *       1: >
