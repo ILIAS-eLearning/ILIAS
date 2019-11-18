@@ -15727,3 +15727,11 @@ cmix#:#highscore_top_num_unit#:#Platzierungen
 cmix#:#download_certificate#:#Zertifikat herunterladen
 dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
+cont#:#cont_std_filter_title_9#:#Online/Offline
+rep#:#rep_export_limitation#:#Container-Exportbegrenzung
+rep#:#rep_export_limitation_info#:#Begrenzt die Anzahl an exportierten Unterobjekten beim Export von Containern (Kategorien, Kurse, ...) im Magazin.
+rep#:#rep_export_limitation_disabled#:#Container-Export deaktiviert
+rep#:#rep_export_limitation_limited#:#Limit
+rep#:#rep_export_limit_number#:#Anzahl Objekte
+rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den Export ist zu hoch (max. %1). Bitte wählen Sie weniger Objekte für den Export aus.
+rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.

@@ -240,12 +240,14 @@ abstract class ilContainerContentGUI
 			$column_gui->getCmdSide() == IL_COL_RIGHT &&
 			$column_gui->getScreenMode() == IL_SCREEN_SIDE)
 		{
-
 			$html = $ilCtrl->forwardCommand($column_gui);
 		}
 		else
 		{
-			if (!$ilCtrl->isAsynch())
+		    $render_content = ($ilCtrl->getNextClass() == "" &&
+                in_array($ilCtrl->getCmd(), ["view", "render"]));
+		    $render_content = false;
+			if (!$ilCtrl->isAsynch() || $render_content)
 			{
 				$html = "";
 				
@@ -260,7 +262,7 @@ abstract class ilContainerContentGUI
 				$html = $uip->getHTML($html);
 			}
 		}
-		
+
 		return $html;
 	}
 

@@ -82,7 +82,7 @@ class ilContainerFilterUtil
 	 * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
 	 * @throws ilException
 	 */
-	public function getFilterForRefId($ref_id, $action): \ILIAS\UI\Component\Input\Container\Filter\Standard
+	public function getFilterForRefId($ref_id, $action, bool $admin = false): \ILIAS\UI\Component\Input\Container\Filter\Standard
 	{
 		global $DIC;
 		$ui = $DIC->ui()->factory();
@@ -94,6 +94,22 @@ class ilContainerFilterUtil
 		$set = $service->data()->getFilterSetForRefId($ref_id);
 
 		$fields = $fields_act = [];
+
+        // if admin mode
+        if ($admin) {
+
+            // always add online/offline filter
+            $options = [
+                1 => $this->lng->txt("online"),
+                2 => $this->lng->txt("offline")
+            ];
+            $fields["std_".ilContainerFilterField::STD_FIELD_ONLINE] =
+                $ui->input()->field()->select(
+                    $service->util()->getContainerFieldTitle(0, ilContainerFilterField::STD_FIELD_ONLINE), $options
+                );
+            $fields_act[] = false;
+        }
+
 		foreach ($set->getFields() as $field)
 		{
 			// standard fields

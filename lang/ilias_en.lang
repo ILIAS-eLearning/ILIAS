@@ -15710,3 +15710,11 @@ cmix#:#highscore_top_num_unit#:#entries
 cmix#:#download_certificate#:#Download Certificate
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
+cont#:#cont_std_filter_title_9#:#Online/Offline
+rep#:#rep_export_limitation#:#Container Export Limitation
+rep#:#rep_export_limitation_info#:#Limits the number of objects for container exports (courses, categories, ...) in the repository.
+rep#:#rep_export_limitation_disabled#:#Container Export Disabled
+rep#:#rep_export_limitation_limited#:#Limit Export
+rep#:#rep_export_limit_number#:#Number of Objects
+exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
+exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
