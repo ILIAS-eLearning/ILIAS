@@ -12,6 +12,7 @@ require_once 'Services/LTI/classes/class.ilLTIDataConnector.php';
  * @author Jesús López <lopez@leifos.com>
  *
  * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilPermissionGUI
+ * @ilCtrl_Calls      ilObjLTIAdministrationGUI: ilLTIConsumerAdministrationGUI
  * @ilCtrl_isCalledBy ilObjLTIAdministrationGUI: ilAdministrationGUI
  *
  * @ingroup ServicesLTI
@@ -50,7 +51,14 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 
-			default:
+            case 'illticonsumeradministrationgui':
+                $this->tabs_gui->activateTab('lti_consuming');
+                $gui = new ilLTIConsumerAdministrationGUI();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
+            default:
+                $this->tabs_gui->activateTab('lti_providing');
 				if (!$cmd || $cmd == 'view')
 				{
 					$cmd = 'listConsumers';
@@ -71,33 +79,55 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
 	public function getAdminTabs()
 	{
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
 		global $rbacsystem;
 
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
+        {
+            $this->tabs_gui->addTab('lti_providing', $this->lng->txt("lti_providing_tab"),
+                $this->ctrl->getLinkTarget($this, "listConsumers")
+            );
+
+            $this->tabs_gui->addTab('lti_consuming', $this->lng->txt("lti_consuming_tab"),
+                $this->ctrl->getLinkTargetByClass('ilLTIConsumerAdministrationGUI')
+            );
+
+            if( $DIC->ctrl()->getCmdClass() == 'ilobjltiadministrationgui' )
+            {
+                $this->addProvidingSubtabs();
+            }
+        }
+
+        if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
+        {
+            $this->tabs_gui->addTab("perm_settings",
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
+        }
+    }
+
+    protected function addProvidingSubtabs()
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $rbacsystem = $DIC->rbac()->system();
+
+        if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
 			// currently no general settings.
 //			$this->tabs_gui->addTab("settings",
 //				$this->lng->txt("settings"),
 //				$this->ctrl->getLinkTarget($this, "initSettingsForm"));
 
-			$this->tabs_gui->addTab("consumers",
+			$this->tabs_gui->addSubTab("consumers",
 				$this->lng->txt("consumers"),
 				$this->ctrl->getLinkTarget($this, "listConsumers"));
 		}
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
-			$this->tabs_gui->addTab("releasedObjects",
+			$this->tabs_gui->addSubTab("releasedObjects",
 				$this->lng->txt("lti_released_objects"),
 				$this->ctrl->getLinkTarget($this, "releasedObjects"));
 		}
-
-		if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-		{
-			$this->tabs_gui->addTab("perm_settings",
-				$this->lng->txt("perm_settings"),
-				$this->ctrl->getLinkTargetByClass('ilpermissiongui',"perm"));
-		}
-
 	}
 
 	protected function initSettingsForm(ilPropertyFormGUI $form = null)
@@ -106,7 +136,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 		{
 			$form = $this->getSettingsForm();
 		}
-		$this->tabs_gui->activateTab("settings");
+		$this->tabs_gui->activateSubTab("settings");
 		$this->tpl->setContent($form->getHTML());
 	}
 
@@ -190,7 +220,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	 */
 	protected function getConsumerForm($a_mode = '')
 	{
-		$this->tabs_gui->activateTab("consumers");
+		$this->tabs_gui->activateSubTab("consumers");
 
 		require_once ("Services/Form/classes/class.ilPropertyFormGUI.php");
 
@@ -406,7 +436,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 			);
 		}
 
-		$this->tabs_gui->activateTab("consumers");
+		$this->tabs_gui->activateSubTab("consumers");
 
 		include_once "Services/LTI/classes/Consumer/class.ilLTIConsumerTableGUI.php";
 		$tbl = new ilObjectConsumerTableGUI(
@@ -454,7 +484,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 	 */
 	protected function releasedObjects()
 	{
-		$GLOBALS['DIC']->tabs()->activateTab('releasedObjects');
+		$GLOBALS['DIC']->tabs()->activateSubTab('releasedObjects');
 		
 		$table = new ilLTIProviderReleasedObjectsTableGUI($this,'releasedObjects','ltireleases');
 		$table->init();

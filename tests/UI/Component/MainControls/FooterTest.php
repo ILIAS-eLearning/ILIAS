@@ -29,8 +29,11 @@ class FooterTest extends ILIAS_UI_TestBase
         $sig_gen = 	new I\SignalGenerator();
         $sig_gen = 	new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
-        $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
-        $factory = new I\MainControls\Factory($sig_gen, $slate_factory);
+        $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory,
+            new I\Symbol\Factory(
+                new I\Symbol\Icon\Factory(),
+                new I\Symbol\Glyph\Factory()
+            ));        $factory = new I\MainControls\Factory($sig_gen, $slate_factory);
         return $factory;
     }
 

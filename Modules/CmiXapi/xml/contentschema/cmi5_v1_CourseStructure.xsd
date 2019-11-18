@@ -1,0 +1,151 @@
+<xs:schema xmlns="https://w3id.org/xapi/profiles/cmi5/v1/CourseStructure.xsd"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://w3id.org/xapi/profiles/cmi5/v1/CourseStructure.xsd" elementFormDefault="qualified"
+           id="cmi5CourseStructure">
+  <xs:element name="courseStructure" type="courseType"/>
+  <xs:complexType name="courseType">
+    <xs:sequence>
+      <xs:element name="course">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="title" type="textType"/>
+            <xs:element name="description" type="textType"/>
+            <xs:group ref="anyElement"/>
+          </xs:sequence>
+          <xs:attributeGroup ref="anyAttribute"/>
+          <xs:attribute name="id" type="xs:anyURI" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="objectives" type="objectivesType" minOccurs="0"/>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="au" type="auType"/>
+        <xs:element name="block" type="blockType"/>
+      </xs:choice>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+  </xs:complexType>
+  <xs:complexType name="blockType">
+    <xs:sequence>
+      <xs:element name="title" type="textType"/>
+      <xs:element name="description" type="textType"/>
+      <xs:element name="objectives" type="referencesObjectivesType" minOccurs="0"/>
+      <xs:choice minOccurs="1" maxOccurs="unbounded">
+        <xs:element name="au" type="auType"/>
+        <xs:element name="block" type="blockType"/>
+      </xs:choice>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+    <xs:attribute name="id" type="xs:anyURI" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="auType">
+    <xs:sequence>
+      <xs:element name="title" type="textType"/>
+      <xs:element name="description" type="textType"/>
+      <xs:element name="objectives" type="referencesObjectivesType" minOccurs="0"/>
+      <xs:element name="url">
+        <xs:simpleType>
+          <xs:restriction base="xs:anyURI">
+            <xs:minLength value="1"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="launchParameters" minOccurs="0"/>
+      <xs:element name="entitlementKey" minOccurs="0"/>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+    <xs:attribute name="id" type="xs:anyURI" use="required"/>
+    <xs:attribute name="moveOn" default="NotApplicable">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="NotApplicable"/>
+          <xs:enumeration value="Passed"/>
+          <xs:enumeration value="Completed"/>
+          <xs:enumeration value="CompletedAndPassed"/>
+          <xs:enumeration value="CompletedOrPassed"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="masteryScore" use="optional">
+      <xs:simpleType>
+        <xs:restriction base="xs:decimal">
+          <xs:minInclusive value="0"/>
+          <xs:maxInclusive value="1"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="launchMethod" default="AnyWindow">
+      <xs:simpleType>
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="AnyWindow"/>
+          <xs:enumeration value="OwnWindow"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="activityType" use="optional" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="objectivesType">
+    <xs:sequence>
+      <xs:element name="objective" minOccurs="1" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:all>
+            <xs:element name="title" type="textType"/>
+            <xs:element name="description" type="textType"/>
+          </xs:all>
+          <xs:attribute name="id" type="xs:anyURI" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+  </xs:complexType>
+  <xs:complexType name="referencesObjectivesType">
+    <xs:sequence>
+      <xs:element name="objective" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="idref" type="xs:anyURI"></xs:attribute>
+        </xs:complexType>
+      </xs:element>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+  </xs:complexType>
+  <xs:complexType name="textType">
+    <xs:sequence>
+      <xs:element name="langstring" maxOccurs="unbounded" minOccurs="1">
+        <xs:complexType>
+          <xs:simpleContent>
+            <xs:extension base="xs:string">
+              <xs:attribute name="lang" type="xs:language"/>
+              <xs:attributeGroup ref="anyAttribute"/>
+            </xs:extension>
+          </xs:simpleContent>
+        </xs:complexType>
+      </xs:element>
+      <xs:group ref="anyElement"/>
+    </xs:sequence>
+    <xs:attributeGroup ref="anyAttribute"/>
+  </xs:complexType>
+  <xs:simpleType name="baseLanguagesType">
+    <xs:list itemType="xs:language"></xs:list>
+  </xs:simpleType>
+  <xs:complexType name="languagesType">
+    <xs:simpleContent>
+      <xs:extension base="baseLanguagesType">
+        <xs:attributeGroup ref="anyAttribute"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:group name="anyElement">
+    <xs:sequence>
+      <xs:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:attributeGroup name="anyAttribute">
+    <xs:anyAttribute namespace="##other" processContents="lax"/>
+  </xs:attributeGroup>
+</xs:schema>
+

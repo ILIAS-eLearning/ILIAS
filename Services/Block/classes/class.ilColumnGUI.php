@@ -78,14 +78,12 @@ class ilColumnGUI
 		"ilNewsForContextBlockGUI" => "Services/News/",
 		"ilCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDCalendarBlockGUI" => "Services/Calendar/",
-		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
-		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
 		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
@@ -94,7 +92,6 @@ class ilColumnGUI
 	
 	static protected $block_types = array(
 		"ilPDMailBlockGUI" => "pdmail",
-		"ilPDNotesBlockGUI" => "pdnotes",
 		"ilPDTasksBlockGUI" => "pdtasks",
 		"ilPDNewsBlockGUI" => "pdnews",
 		"ilNewsForContextBlockGUI" => "news",
@@ -103,7 +100,6 @@ class ilColumnGUI
 		"ilExternalFeedBlockGUI" => "feed",
 		"ilPDExternalFeedBlockGUI" => "pdfeed",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
-		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
 		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
@@ -587,19 +583,6 @@ class ilColumnGUI
 				
 				$html = $ilCtrl->getHTML($block_gui);
 
-				// dummy block, if non visible, but movement is ongoing
-				if ($html == "" && $this->getRepositoryMode() &&
-					$this->getMovementMode())
-				{
-					include_once("./Services/Block/classes/class.ilDummyBlockGUI.php");
-					$bl = new ilDummyBlockGUI();
-					$bl->setBlockId($block["id"]);
-					$bl->setBlockType($block["type"]);
-					$bl->setTitle($lng->txt("invisible_block"));
-					$bl->setConfigMode($this->getMovementMode());
-					$html = $bl->getHTML();
-				}
-				
 				// don't render a block if it's empty
 				if ($html != "")
 				{
