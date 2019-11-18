@@ -31,38 +31,25 @@ class File extends Input implements C\Input\Field\File
     private $upload_handler;
 
 
-    /**
-     * @inheritDoc
-     */
     public function __construct(DataFactory $data_factory, Factory $refinery, C\Input\Field\UploadHandler $handler, $label, $byline)
     {
         $this->upload_handler = $handler;
         parent::__construct($data_factory, $refinery, $label, $byline);
-
     }
 
 
-    /**
-     * @inheritDoc
-     */
     protected function getConstraintForRequirement()
     {
         return $this->refinery->string();
     }
 
 
-    /**
-     * @inheritDoc
-     */
     protected function isClientSideValueOk($value) : bool
     {
         return true; // TODO
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getUpdateOnLoadCode() : \Closure
     {
         return function ($id) { // TODO
@@ -71,9 +58,6 @@ class File extends Input implements C\Input\Field\File
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
     {
         $clone = clone $this;
@@ -83,27 +67,18 @@ class File extends Input implements C\Input\Field\File
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getMaxFileFize() : int
     {
         return $this->max_file_size;
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function withInput(InputData $input)
     {
         return parent::withInput($input);
     }
 
 
-    /**
-     * @inheritDoc
-     */
     public function getUploadHandler() : C\Input\Field\UploadHandler
     {
         return $this->upload_handler;

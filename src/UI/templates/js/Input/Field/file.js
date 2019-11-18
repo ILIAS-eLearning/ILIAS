@@ -21,8 +21,7 @@ il.UI.Input = il.UI.Input || {};
 
         var init = function (container_id, settings) {
             var replacer = new RegExp('amp;', 'g');
-            console.log(settings);
-            settings = Object.assign(JSON.parse(settings), _default_settings);
+            settings = Object.assign(_default_settings, JSON.parse(settings));
             settings.upload_url = settings.upload_url.replace(replacer, '');
             settings.removal_url = settings.removal_url.replace(replacer, '');
 
@@ -32,13 +31,13 @@ il.UI.Input = il.UI.Input || {};
             var dropzone = container + ' .il-input-file-dropzone';
             var input_template = $(container + ' .input-template').clone();
             $(container + ' .input-template').remove();
-            
+
 
             var myDropzone = new Dropzone(dropzone, {
-                url: encodeURI(upload_url),
+                url: encodeURI(settings.upload_url),
                 method: 'post',
                 createImageThumbnails: false,
-                maxFiles: 10,
+                maxFiles: settings.max_files,
                 dictDefaultMessage: '',
                 previewsContainer: container + ' .il-input-file-filelist',
                 previewTemplate: document.querySelector(container + ' .il-input-file-template').innerHTML,
@@ -61,9 +60,15 @@ il.UI.Input = il.UI.Input || {};
                     return;
                 }
                 console.log(json);
-                if (json.hasOwnProperty('file_identifier')) {
+                console.log(files);
+                if (json.hasOwnProperty(settings.file_identifier_key)) {
                     var clone = input_template.clone();
-                    clone.val(json.file_identifier);
+                    var file_id = json[settings.file_identifier_key];
+                    clone.val(file_id);
+                    clone.attr('data-file-id', file_id);
+
+                    files.file_id = file_id;
+
                     $(container).append(clone);
                 }
 
@@ -74,6 +79,16 @@ il.UI.Input = il.UI.Input || {};
                 myDropzone.setupEventListeners();
                 myDropzone._updateMaxFilesReachedClass();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", false);
+                // remove input
+                var file_id = file.file_id;
+                $(container + ' *[data-file-id="' + file_id + '"]').remove();
+
+                // Call removal-URL
+                var data = {};
+                data[settings.file_identifier_key] = file_id;
+                $.get(settings.removal_url, data, function (response) {
+                    console.log(response);
+                });
             });
             myDropzone.on("successmultiple", function (files, response) {
                 success(files, response);
