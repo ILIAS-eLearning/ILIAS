@@ -43,11 +43,12 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("exc_ass_info"))
                 ->withTitle($lng->txt("exc_assignment"))
-                ->withContent($l($this->getAssignmentInfo(
+                ->withContentWrapper(function () use ($l, $additional_data) {
+                    return $l($this->getAssignmentInfo(
                         $additional_data->get(self::EXC_ASS_IDS),
                         $additional_data->get(self::EXC_ASS_BUTTONS)
-                    ))
-                );
+                    ));
+                });
         }
 
         return $tools;

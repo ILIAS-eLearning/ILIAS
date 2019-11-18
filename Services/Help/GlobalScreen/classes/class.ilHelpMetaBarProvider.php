@@ -44,13 +44,14 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
 
         $f = $DIC->ui()->factory();
 
-        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), "");
+        $title = $DIC->language()->txt("help");
+        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
 
         if ($this->showHelpItem()) {
             $item = $mb->topLinkItem($this->getId())
-                ->withAction($ctrl->getLinkTargetByClass("ilpersonaldesktopgui", "toggleHelp"))
+                ->withAction($ctrl->getLinkTargetByClass("ildashboardgui", "toggleHelp"))
                 ->withSymbol($icon)
-                ->withTitle("Help")
+                ->withTitle($title)
                 ->withPosition(2)
                 ->withAvailableCallable(
                     function () use ($DIC) {

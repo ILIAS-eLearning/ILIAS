@@ -376,10 +376,10 @@ class GlyphTest extends ILIAS_UI_TestBase
 
         $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
                     "<span class=\"$css_classes\" aria-hidden=\"true\"></span>" .
-                    "<span class=\"badge badge-notify il-counter-$type\">42</span>" .
+                    "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-$type\">42</span></span>" .
                     "<span class=\"il-counter-spacer\">42</span>" .
                     "</a>";
-        $this->assertEquals($expected, $html);
+        $this->assertHTMLEquals($expected, $html);
     }
 
     public function test_render_withTwoCounters()
@@ -397,11 +397,11 @@ class GlyphTest extends ILIAS_UI_TestBase
         $aria_label = self::$aria_labels[G\Glyph::MAIL];
         $expected = "<a class=\"glyph\" href=\"http://www.ilias.de\" aria-label=\"$aria_label\">" .
                     "<span class=\"$css_classes\" aria-hidden=\"true\"></span>" .
-                    "<span class=\"badge badge-notify il-counter-status\">7</span>" .
-                    "<span class=\"badge badge-notify il-counter-novelty\">42</span>" .
+                    "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-status\">7</span></span>" .
+                    "<span class=\"il-counter\"><span class=\"badge badge-notify il-counter-novelty\">42</span></span>" .
                     "<span class=\"il-counter-spacer\">42</span>" .
                     "</a>";
-        $this->assertEquals($expected, $html);
+        $this->assertHTMLEquals($expected, $html);
     }
 
     public function test_dont_render_counter()

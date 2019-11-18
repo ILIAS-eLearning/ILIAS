@@ -46,7 +46,9 @@ class NotificationCenterRenderer implements MetaBarItemRenderer
 
         $combined = $f->mainControls()->slate()->combined("Notification Center", $item->getSymbol());
 
-        foreach ($this->gs->collector()->notifications()->getNotifications() as $notification) {
+        $this->gs->collector()->notifications()->collect();
+
+        foreach ($this->gs->collector()->notifications()->getItemsForUIRepresentation() as $notification) {
             $component = $notification->getRenderer()->getComponentForItem($notification);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $combined = $combined->withAdditionalEntry($component);

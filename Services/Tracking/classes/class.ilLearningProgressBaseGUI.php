@@ -256,27 +256,6 @@ class ilLearningProgressBaseGUI
 	{
 		if($this->getMode() == self::LP_CONTEXT_PERSONAL_DESKTOP)
 		{
-			//$this->tpl->setTitle($this->lng->txt("learning_progress"));
-			
-			// set locator
-/*
-			$this->tpl->setVariable("TXT_LOCATOR", $this->lng->txt("locator"));
-			$this->tpl->touchBlock("locator_separator");
-			$this->tpl->touchBlock("locator_item");
-			//$this->tpl->setCurrentBlock("locator_item");
-			//$this->tpl->setVariable("ITEM", $this->lng->txt("personal_desktop"));
-			//$this->tpl->setVariable("LINK_ITEM",
-			//						$this->ctrl->getLinkTargetByClass("ilpersonaldesktopgui"));
-			//$this->tpl->parseCurrentBlock();
-			
-			$this->tpl->setCurrentBlock("locator_item");
-			$this->tpl->setVariable("ITEM", $this->lng->txt("learning_progress"));
-			$this->tpl->setVariable("LINK_ITEM",
-									$this->ctrl->getLinkTargetByClass('illearningprogressgui'));
-			$this->tpl->parseCurrentBlock();
-*/
-		
-			// display infopanel if something happened
 			ilUtil::infoPanel();
 		}
 
@@ -532,6 +511,8 @@ class ilLearningProgressBaseGUI
 			case 'grp':
 			case 'iass':
 			case 'copa':
+			case 'cmix':
+			case 'lti':
 			case 'sess':
 			case 'lso':
 				// display status as image
@@ -547,6 +528,13 @@ class ilLearningProgressBaseGUI
 				if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 					ilLPObjSettings::LP_MODE_VISITS, 
 					// ilLPObjSettings::LP_MODE_OBJECTIVES, 
+					ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+					ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+					ilLPObjSettings::LP_MODE_CMIX_PASSED,
+					ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
 					ilLPObjSettings::LP_MODE_SCORM,
 					ilLPObjSettings::LP_MODE_TEST_PASSED)))
 				{

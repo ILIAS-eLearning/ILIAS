@@ -299,8 +299,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
 					
 					$preloader->preload();
 
-					// see ilPDTaggingBlockGUI::showResourcesForTag()
-
 					$this->item_list_gui = array();
 					foreach($valid_objects as $block)
 					{

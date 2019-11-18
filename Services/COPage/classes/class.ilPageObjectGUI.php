@@ -2571,7 +2571,7 @@ return;
 							include_once("./Services/User/classes/class.ilUserUtil.php");
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass(["ilpersonaldesktopgui", "ilpublicuserprofilegui"], "getHTML",
+								$href = $this->ctrl->getLinkTargetByClass(["ildashboardgui", "ilpublicuserprofilegui"], "getHTML",
 									"", false, true);
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");

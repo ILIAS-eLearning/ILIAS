@@ -62,6 +62,11 @@ class ilTestPlayerDynamicQuestionSetGUI extends ilTestPlayerAbstractGUI
 
 		$this->initAssessmentSettings();
 
+        $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
+            ilTestPlayerLayoutProvider::TEST_PLAYER_KIOSK_MODE_ENABLED,
+            $this->object->getKioskMode()
+        );
+
 		require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
 		$this->dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->object);
 		$this->dynamicQuestionSetConfig->loadFromDb();

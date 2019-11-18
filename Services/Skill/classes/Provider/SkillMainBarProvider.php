@@ -28,14 +28,15 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
     {
         global $DIC;
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", "")->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/magic-wand.svg"), "");
+        $title = $this->dic->language()->txt("mm_skills");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/magic-wand.svg"), $title);
 
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_skill'))
-                ->withTitle($this->dic->language()->txt("mm_skills"))
-                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
+                ->withTitle($title)
+                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
 	            ->withSymbol($icon)

@@ -212,8 +212,6 @@ class ilPermanentLinkGUI
 
 		$title = '';
 		
-		// fetch default title for bookmark
-
 		if ($this->getTitle() != "")
 		{
 			$title = $this->getTitle();
@@ -223,8 +221,6 @@ class ilPermanentLinkGUI
 			$obj_id = $ilObjDataCache->lookupObjId($this->getId());
 			$title = $ilObjDataCache->lookupTitle($obj_id);
 		}
-		#if (!$title)
-		#	$bookmark->setTitle("untitled");
 
 		$tpl->setVariable("TXT_BOOKMARK_DEFAULT", $title);
 
@@ -244,52 +240,7 @@ class ilPermanentLinkGUI
 			$tpl->setVariable("TARGET", 'target="'.$this->getTarget().'"');
 		}
 
-		$bm_html = self::getBookmarksSelectionList($title, $href);
-		if($bm_html)
-		{
-			$tpl->setVariable('SELECTION_LIST', $bm_html);
-		}
-
 		return $tpl->get();
 	}
 	
-	/**
-	 * @return string
-	 */
-	protected static function getBookmarksSelectionList($title, $href)
-	{
-		require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-
-		$current_selection_list = new ilAdvancedSelectionListGUI();
-		$current_selection_list->setId('socialbm_actions_' . md5(uniqid(rand(), true)));
-
-		$html = '';
-
-		if(!$GLOBALS['DIC']['ilUser']->isAnonymous() && !$GLOBALS['DIC']['ilSetting']->get('disable_bookmarks'))
-		{
-			$GLOBALS['DIC']->ctrl()->setParameterByClass(
-				'ilbookmarkadministrationgui', 'bmf_id', 1
-			);
-			$GLOBALS['DIC']->ctrl()->setParameterByClass(
-				'ilbookmarkadministrationgui', 'return_to', 'true'
-			);
-			$GLOBALS['DIC']->ctrl()->setParameterByClass(
-				'ilbookmarkadministrationgui', 'bm_title', urlencode($title)
-			);
-			$GLOBALS['DIC']->ctrl()->setParameterByClass(
-				'ilbookmarkadministrationgui', 'bm_link', urlencode($href)
-			);
-			$GLOBALS['DIC']->ctrl()->setParameterByClass(
-				'ilbookmarkadministrationgui', 'return_to_url', urlencode($_SERVER['REQUEST_URI'])
-			);
-			$link = $GLOBALS['DIC']->ctrl()->getLinkTargetByClass(
-				['ilPersonalDesktopGUI', 'ilbookmarkadministrationgui'],
-				'newFormBookmark'
-			);
-			$current_selection_list->addItem($GLOBALS['DIC']['lng']->txt("bm_add_to_ilias"), '', $link, '' , $GLOBALS['DIC']['lng']->txt('bm_add_to_ilias'), '_top');
-			$html = $current_selection_list->getHTML();
-		}
-
-		return $html;
-	}
 }

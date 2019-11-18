@@ -22,12 +22,13 @@ class TreeToolItemRenderer extends BaseTypeRenderer
      */
     public function getComponentForItem(isItem $item) : Component
     {
+        global $DIC;
         /**
          * @var $item TreeTool
          */
 
         $symbol = $this->getStandardSymbol($item);
 
-        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $item->getTree());
+        return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $this->ui_factory->legacy($DIC->ui()->renderer()->render([$item->getTree()])));
     }
 }

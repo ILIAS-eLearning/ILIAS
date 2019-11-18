@@ -69,6 +69,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
     {
         $this->resetMailer();
 
+        $this->getMailer()->XMailer = ' ';
+
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {

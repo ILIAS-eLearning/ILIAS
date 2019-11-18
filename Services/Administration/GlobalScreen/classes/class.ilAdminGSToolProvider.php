@@ -37,7 +37,9 @@ class ilAdminGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Tree")
-                ->withContent($l($this->getTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getTree());
+                });
         }
 
         return $tools;
@@ -52,6 +54,7 @@ class ilAdminGSToolProvider extends AbstractDynamicToolProvider
     private function getTree() : string
     {
         $exp = new ilAdministrationExplorerGUI("ilAdministrationGUI", "showTree");
+
         return $exp->getHTML();
     }
 }

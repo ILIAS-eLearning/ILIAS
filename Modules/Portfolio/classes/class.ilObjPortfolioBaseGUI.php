@@ -652,7 +652,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 				if($this->getType() == "prtf")
 				{
 					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", $this->object->getOwner());
-					$back = $this->ctrl->getLinkTargetByClass(array("ilpersonaldesktopgui", "ilportfoliorepositorygui"), "showOther");
+					$back = $this->ctrl->getLinkTargetByClass(array("ildashboardgui", "ilportfoliorepositorygui"), "showOther");
 					$this->ctrl->setParameterByClass("ilportfoliorepositorygui", "shr_id", "");
 				}
 				// listgui / parent container

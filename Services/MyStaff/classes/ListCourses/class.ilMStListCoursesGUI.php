@@ -42,7 +42,7 @@ class ilMStListCoursesGUI {
 			return;
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 	}
 

@@ -12,9 +12,6 @@ require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClas
  * Access handler for portfolio
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: class.ilPersonalDesktopGUI.php 26976 2010-12-16 13:24:38Z akill $
- * 
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioAccessHandler implements ilWACCheckingClass
 {

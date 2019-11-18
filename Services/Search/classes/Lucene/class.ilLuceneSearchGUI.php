@@ -24,7 +24,6 @@
 include_once './Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Search/classes/class.ilSearchBaseGUI.php';
 include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
 /** 

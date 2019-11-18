@@ -1,0 +1,42 @@
+diff --git a/src/HTTPMessage.php b/src/HTTPMessage.php
+index 3c043bb..9dc3f69 100644
+--- a/src/HTTPMessage.php
++++ b/src/HTTPMessage.php
+@@ -132,8 +132,10 @@ class HTTPMessage
+             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+             curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+             curl_setopt($ch, CURLOPT_HEADER, true);
+-            curl_setopt($ch, CURLOPT_SSLVERSION,3);
++            #curl_setopt($ch, CURLOPT_SSLVERSION,3);
+             $chResp = curl_exec($ch);
++            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
++            \ilLoggerFactory::getLogger('lti')->dump(curl_error($ch), \ilLogLevel::DEBUG);
+             $this->ok = $chResp !== false;
+             if ($this->ok) {
+                 $chResp = str_replace("\r\n", "\n", $chResp);
+diff --git a/src/OAuth/OAuthRequest.php b/src/OAuth/OAuthRequest.php
+index b7498f8..6e13262 100644
+--- a/src/OAuth/OAuthRequest.php
++++ b/src/OAuth/OAuthRequest.php
+@@ -39,7 +39,7 @@ class OAuthRequest {
+                 ? 'http'
+                 : 'https';
+       $http_url = ($http_url) ? $http_url : $scheme .
+-                                '://' . $_SERVER['SERVER_NAME'] .
++                                '://' . $_SERVER['HTTP_HOST'] .
+                                 ':' .
+                                 $_SERVER['SERVER_PORT'] .
+                                 $_SERVER['REQUEST_URI'];
+diff --git a/src/ToolProvider/ResourceLink.php b/src/ToolProvider/ResourceLink.php
+index f08f11c..5006230 100644
+--- a/src/ToolProvider/ResourceLink.php
++++ b/src/ToolProvider/ResourceLink.php
+@@ -282,7 +282,7 @@ class ResourceLink
+     {
+ 
+         if (is_null($this->consumer)) {
+-            if (!is_null($this->context) || !is_null($this->contextId)) {
++            if($this->context || $this->contextId) {
+                 $this->consumer = $this->getContext()->getConsumer();
+             } else {
+                 $this->consumer = ToolConsumer::fromRecordId($this->consumerId, $this->getDataConnector());

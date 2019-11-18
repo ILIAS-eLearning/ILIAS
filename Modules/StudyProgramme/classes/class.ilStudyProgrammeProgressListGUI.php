@@ -128,11 +128,11 @@ class ilStudyProgrammeProgressListGUI {
 	}
 	
 	protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress) {
-		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", $a_progress->getId());
-		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "expand", 1);
-		$link = $this->il_ctrl->getLinkTargetByClass("ilPersonalDesktopGUI", "jumpToSelectedItems");
-		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "prg_progress_id", null);
-		$this->il_ctrl->setParameterByClass("ilPersonalDesktopGUI", "expand", null);
+		$this->il_ctrl->setParameterByClass("ilDashboardGUI", "prg_progress_id", $a_progress->getId());
+		$this->il_ctrl->setParameterByClass("ilDashboardGUI", "expand", 1);
+		$link = $this->il_ctrl->getLinkTargetByClass("ilDashboardGUI", "jumpToSelectedItems");
+		$this->il_ctrl->setParameterByClass("ilDashboardGUI", "prg_progress_id", null);
+		$this->il_ctrl->setParameterByClass("ilDashboardGUI", "expand", null);
 		return $link;
 	}
 	

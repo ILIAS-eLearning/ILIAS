@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Modal;
 use ILIAS\UI\Component\Modal\LightboxPage;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * Class LightboxTextPage
@@ -48,6 +49,6 @@ class LightboxTextPage implements LightboxPage
      */
     public function getComponent()
     {
-        return new Legacy($this->text);
+        return new Legacy($this->text, new SignalGenerator());
     }
 }

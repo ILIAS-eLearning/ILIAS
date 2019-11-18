@@ -421,7 +421,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 	}
 	
 	/**
-	* get flat bookmark list for personal desktop
+	* get flat list for personal desktop
 	*/
 	function fillRow($data)
 	{
@@ -857,8 +857,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			$tpl->parseCurrentBlock();
 		}
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		if ($this->getProperty("title") != "")
 		{
@@ -1289,8 +1288,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 				"&obj_id=".$this->block_id.
 				"&hash=".ilObjUser::_lookupFeedHash($ilUser->getId(), true));
 		
-		include_once("./Services/PersonalDesktop/classes/class.ilPDContentBlockGUI.php");
-		$content_block = new ilPDContentBlockGUI();
+		$content_block = new ilDashboardContentBlockGUI();
 		$content_block->setContent($tpl->get());
 		$content_block->setTitle($lng->txt("news_internal_news"));
 
@@ -1383,8 +1381,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 		$_SESSION["il_feed_js"] = "n";
 		$ilUser->writePref("il_feed_js", "n");
-$ilCtrl->returnToParent($this);
-		//$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+		$ilCtrl->returnToParent($this);
 	}
 	
 	function enableJS()

@@ -50,6 +50,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->template = new ilTemplate($file, $flag1, $flag2, $in_module, $vars, $plugin, $a_use_cache);
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function printToString() : string
+    {
+        throw new ilException('not implemented');
+    }
+
 
     //***********************************
     //
@@ -814,7 +822,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilCalendarPresentationGUI
     //    - ilContainerGUI
     //    - ilObjDataCollectionGUI
-    //    - ilPersonalDesktopGUI
+    //    - ilDashboardGUI
     //    - ilObjPortfolioTemplateGUI
     //    - ilWikiPageGUI
     //    - ilObjWikiGUI

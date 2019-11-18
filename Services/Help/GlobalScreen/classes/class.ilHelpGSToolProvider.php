@@ -31,7 +31,6 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
 
-
         $lng = $DIC->language();
         $lng->loadLanguageModule("help");
         $f = $DIC->ui()->factory();
@@ -39,7 +38,8 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
 
-        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), "");
+        $title = $lng->txt("help");
+        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
 
         if ($this->showHelpTool()) {
 
@@ -47,30 +47,33 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
-                ->withTitle($lng->txt("help"))
+                ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContent($l($this->getHelpContent()))
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getHelpContent());
+                })
                 ->withPosition(90);
         }
 
         return $tools;
     }
 
+
     /**
      * Show help tool?
      *
      * @param
+     *
      * @return
      */
-    protected function showHelpTool(): bool
+    protected function showHelpTool() : bool
     {
         global $DIC;
 
         $user = $DIC->user();
         $settings = $DIC->settings();
 
-        if ($user->getLanguage() != "de")
-        {
+        if ($user->getLanguage() != "de") {
             return false;
         }
 
@@ -78,32 +81,28 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             return false;
         }
 
-        if ($settings->get("help_mode") == "2")
-        {
+        if ($settings->get("help_mode") == "2") {
             return false;
         }
 
-        if ((defined("OH_REF_ID") && OH_REF_ID > 0))
-        {
+        if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
             true;
-        }
-        else
-        {
+        } else {
             $module = (int) $settings->get("help_module");
-            if ($module == 0)
-            {
+            if ($module == 0) {
                 return false;
             }
         }
+
         return true;
     }
-
 
 
     /**
      * help
      *
      * @param int $ref_id
+     *
      * @return string
      */
     private function getHelpContent() : string
@@ -120,10 +119,10 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 
         $html = "";
         if ((defined("OH_REF_ID") && OH_REF_ID > 0) || DEVMODE == 1) {
-            $html = "<div class='ilHighlighted small'>Screen ID: ".$help_gui->getScreenId()."</div>";
+            $html = "<div class='ilHighlighted small'>Screen ID: " . $help_gui->getScreenId() . "</div>";
         }
 
-        $html.= "<div id='ilHelpPanel'>&nbsp;</div>";
+        $html .= "<div id='ilHelpPanel'>&nbsp;</div>";
 
         return $html;
     }

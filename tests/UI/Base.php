@@ -317,11 +317,13 @@ abstract class ILIAS_UI_TestBase extends TestCase
      * @param $html
      * @return string
      */
-    public function brutallyTrimHTML($html)
+    protected function brutallyTrimHTML($html)
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
-        $html = str_replace('> <', "><", $html);
+        $html = str_replace("> <", "><", $html);
+        $html = str_replace(" >", ">", $html);
+
         return trim($html);
     }
 }

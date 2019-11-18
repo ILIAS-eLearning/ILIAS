@@ -187,6 +187,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 	 *
 	 */
 	private function addColumns() {
+	    global $DIC;
+
 		foreach ($this->getSelectableColumns() as $k => $v) {
 			if ($this->isColumnSelected($k)) {
 				if (isset($v['sort_field'])) {
@@ -197,6 +199,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 				$this->addColumn($v['txt'], $sort, $v['width']);
 			}
 		}
+        //Actions
+        if (!$this->getExportMode()) {
+            $this->addColumn($DIC->language()->txt('actions'));
+        }
 	}
 
 
@@ -204,6 +210,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 	 * @param ilMStListCourse $my_staff_course
 	 */
 	public function fillRow($my_staff_course) {
+	    global $DIC;
+
 		$propGetter = Closure::bind(function ($prop) {
 			return $this->$prop;
 		}, $my_staff_course, $my_staff_course);
@@ -213,12 +221,12 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 				switch ($k) {
 					case 'usr_reg_status':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus()));
+						$this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($my_staff_course->getUsrRegStatus())));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'usr_lp_status':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($my_staff_course));
+						$this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($my_staff_course)));
 						$this->tpl->parseCurrentBlock();
 						break;
 					default:
@@ -235,6 +243,19 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 				}
 			}
 		}
+
+        $actions = new ilAdvancedSelectionListGUI();
+        $actions->setListTitle($DIC->language()->txt("actions"));
+        $actions->setAsynch(true);
+        $actions->setId($my_staff_course->getUsrId() . "-" . $my_staff_course->getCrsRefId());
+
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserGUI::class, 'mst_lco_usr_id', $my_staff_course->getUsrId());
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserGUI::class, 'mst_lco_crs_ref_id', $my_staff_course->getCrsRefId());
+
+        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
+            ->getLinkTarget($this->parent_obj, ilMStShowUserGUI::CMD_GET_ACTIONS, "", true)));
+        $this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $this->tpl->parseCurrentBlock();
 	}
 
 
@@ -288,4 +309,13 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI {
 
 		return $field_values;
 	}
+
+	protected function getSpaceOrValue(string $string) {
+	    if(!$this->getExportMode()) {
+	        if(empty($string)) {
+	            return "&nbsp";
+            }
+        }
+	    return $string;
+    }
 }

@@ -46,7 +46,8 @@ class iljQueryUtil {
 			$a_tpl = $DIC["tpl"];
 		}
 
-		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 1);
+		// Important: jQueryUI has to be included before(!) the bootstrap JS file
+		$a_tpl->addJavaScript(self::getLocaljQueryUIPath(), true, 0);
 	}
 
 

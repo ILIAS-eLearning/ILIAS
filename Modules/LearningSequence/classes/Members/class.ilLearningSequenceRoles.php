@@ -49,6 +49,7 @@ class ilLearningSequenceRoles
 	 */
 	protected $local_roles;
 
+
 	public function __construct(
 		int $ls_ref_id,
 		int $ls_obj_id,
@@ -153,8 +154,8 @@ class ilLearningSequenceRoles
 		} else {
 			if (!$this->isAdmin($this->user->getId())) {
 				$this->leave($this->user->getId());
-				$member = new ilObjUser($this->user->getId());
-				$member->dropDesktopItem($this->getRefId(), "lso");
+				//$member = new ilObjUser($this->user->getId());
+				//$member->dropDesktopItem($this->getRefId(), "lso");
 				return 0;
 			} else if (count($this->getLearningSequenceAdminIds()) == 1) {
 				return 1;
