@@ -968,8 +968,8 @@ interface Factory
      *      Disclosure Glyph: >
      *         The Disclosure Glyph hides the complete set of entries, wherear the
      *         More Glyph only hides parts of it.
-     *      Mini-Action-Drop-Down: >
-     *         The in ListGUI without text is used to offer a
+     *      Mini Action Dropdown: >
+     *         The Dropdown in the ListGUI without text is used to offer a
      *         set of actions that cannot be displayed directly due to scarce space.
      *         This is different because the set of entries of the More Glyph does not entail actions.
      *      Show More Less Button: >
@@ -1026,8 +1026,8 @@ interface Factory
      *         The More Glyph hides part of the set of entries.
      *         This is a difference to the Disclose Glyph, because here the
      *         complete set of entries is collected in a glyph.
-     *      Mini-Action-Drop-Down: >
-     *         The in ListGUI without text is used to offer a
+     *      Mini Action Dropdown: >
+     *         The Dropdown in the ListGUI without text is used to offer a
      *         set of actions that cannot be displayed directly due to scarce space.
      *         This is different because the set of entries of the More Glyph does not entail actions.
      *      Show More Less Button: >
