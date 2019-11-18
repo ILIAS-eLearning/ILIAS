@@ -321,16 +321,13 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The ModeInfo is a section of the page that informs about a certain
-     *     (application wide) mode in which the user is viewing ILIAS.
-     *     Such modes can occur e.g. in the preview as a member or in LTI.
-     *     The Mode Info MUST allow the user to leave the mode.
-     *     Such a mode can be leaved by the user by clicking the Close Button.
+     *     The ModeInfo is a section on a page that informs the user that he is
+     *     in a certain mode (e.g. in the preview as a member of a course).
      *
      *   composition: >
-     *     The Mode Info contains a title explaining the state.
-     *     The ModeInfo MUST also contain a Close Button to leave the
-     *     state.
+     *     The Mode Info MUST contain a title explaining the mode.
+     *     The ModeInfo MUST contain a Close Button to leave the
+     *     mode.
      *   effect: >
      *      By clicking the Close Button, the user leaves the current
      *      (application wide) mode.
@@ -341,12 +338,13 @@ interface Factory
      * rules:
      *   usage:
      *     1: The Mode Info is unique for the page - there MUST be not more than one.
+     *   interaction:
+     *     1: The Mode Info MUST allow the user to leave the mode.
+     *   accessibility:
+     *     1: The ModeInfo informs about an important circumstance, which must be
+     *     recognizable in particular also for persons with a handicap. Therefore a
+     *     role="alert" MUST be implemented.
      * ----
-     *
-     * @param string $title
-     * @param URI    $close_action
-     *
-     * @return ModeInfo
      */
     public function modeInfo(string $title, URI $close_action) : ModeInfo;
 }
