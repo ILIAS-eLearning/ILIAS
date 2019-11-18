@@ -53,7 +53,9 @@ class EssayEditor extends AbstractEditor {
         
         if (!empty($this->configuration->getMaxLength())) {
             $tpl->setCurrentBlock('maximum_char_hint');
-            $tpl->setVariable('MAXIMUM_CHAR_HINT', $this->configuration->getMaxLength());
+            $tpl->setVariable('MAXIMUM_CHAR_HINT', $DIC->language()->txt('asq_max_characters'));
+            $tpl->setVariable('MAX_LENGTH', $this->configuration->getMaxLength());
+            $tpl->setVariable('ERROR_MESSAGE', $DIC->language()->txt('asq_error_too_long'));
             $tpl->parseCurrentBlock();
             
             $tpl->setCurrentBlock('maxchars_counter');

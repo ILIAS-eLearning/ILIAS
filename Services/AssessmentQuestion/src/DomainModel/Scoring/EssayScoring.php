@@ -88,6 +88,8 @@ class EssayScoring extends AbstractScoring {
     
     private function generateScore(string $text) : float {
         
+        $text = strip_tags($text);
+        
         if ($this->configuration->getMatchingMode() === self::TM_CASE_INSENSITIVE) {
             $text = strtoupper($text);
         }
