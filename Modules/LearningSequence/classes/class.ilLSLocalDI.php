@@ -150,6 +150,7 @@ class ilLSLocalDI extends Container
 				$dic["global_screen"]->layout()->meta(),
 				$dic["ui.factory"],
 				$dic["ui.renderer"],
+				$dic['lng'],
 				$kiosk_template,
 				$c["gui.toc"],
 				$c["gui.loc"],

@@ -20,6 +20,7 @@ class ilKioskPageRenderer
 		MetaContent $layout_meta_content,
 		Factory $ui_factory,
 		Renderer $ui_renderer,
+		ilLanguage $lng,
 		ilTemplate $kiosk_template,
 		ilLSTOCGUI $toc_gui,
 		ilLSLocatorGUI $loc_gui,
@@ -29,6 +30,7 @@ class ilKioskPageRenderer
 		$this->layout_meta_content = $layout_meta_content;
 		$this->ui_factory = $ui_factory;
 		$this->ui_renderer = $ui_renderer;
+		$this->lng = $lng;
 		$this->tpl = $kiosk_template;
 		$this->toc_gui = $toc_gui;
 		$this->loc_gui = $loc_gui;
@@ -38,7 +40,7 @@ class ilKioskPageRenderer
 	public function buildCurriculumSlate(Workflow $curriculum): Slate
 	{
 		return $this->ui_factory->maincontrols()->slate()->legacy(
-			'Curriculum',
+			$this->lng->txt('lso_mainbar_button_label_curriculum'),
 			$this->ui_factory->symbol()->glyph()->briefcase(),
 			$this->ui_factory->legacy(
 				$this->ui_renderer->render($curriculum)
@@ -57,7 +59,7 @@ class ilKioskPageRenderer
 		*/
 		$html = "ToC";
 		return $this->ui_factory->maincontrols()->slate()->legacy(
-			'ToC',
+			$this->lng->txt('lso_mainbar_button_label_toc'),
 			$this->ui_factory->symbol()->glyph()->user(),
 			$this->ui_factory->legacy($html)
 		);
