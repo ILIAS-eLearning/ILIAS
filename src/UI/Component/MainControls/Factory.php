@@ -4,6 +4,8 @@
 
 namespace ILIAS\UI\Component\MainControls;
 
+use ILIAS\Data\URI;
+
 /**
  * This is what a factory for main controls looks like.
  */
@@ -313,4 +315,38 @@ interface Factory
      * @return  \ILIAS\UI\Component\MainControls\Footer
      */
     public function footer(array $links, string $text = '') : Footer;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     The ModeInfo is a section of the page that informs about a certain
+     *     (application wide) mode in which the user is viewing ILIAS.
+     *     Such modes can occur e.g. in the preview as a member or in LTI.
+     *     The Mode Info MUST allow the user to leave the mode.
+     *     Such a mode can be leaved by the user by clicking the Close Button.
+     *
+     *   composition: >
+     *     The Mode Info contains a title explaining the state.
+     *     The ModeInfo MUST also contain a Close Button to leave the
+     *     state.
+     *   effect: >
+     *      By clicking the Close Button, the user leaves the current
+     *      (application wide) mode.
+     *
+     * context:
+     *   - The Mode Info is used with the Standard Page.
+     *
+     * rules:
+     *   usage:
+     *     1: The Mode Info is unique for the page - there MUST be not more than one.
+     * ----
+     *
+     * @param string $title
+     * @param URI    $close_action
+     *
+     * @return ModeInfo
+     */
+    public function modeInfo(string $title, URI $close_action) : ModeInfo;
 }
