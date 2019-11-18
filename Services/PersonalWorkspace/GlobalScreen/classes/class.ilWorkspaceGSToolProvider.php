@@ -38,7 +38,9 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Folders")
-                ->withContent($l($this->getTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getTree());
+                });
         }
 
         return $tools;
@@ -61,6 +63,7 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
         $exp->setLinkToNodeClass(true);
         $exp->setAjax(false);
         $exp->setActivateHighlighting(true);
+
         return $exp->getHTML(true);
     }
 }

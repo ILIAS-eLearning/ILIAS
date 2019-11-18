@@ -2,6 +2,7 @@
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
+use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
@@ -21,17 +22,17 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
 {
 
     /**
-     * @var
+     * @var Symbol
      */
-    protected $icon;
+    protected $symbol;
     /**
      * @var Component
      */
     protected $content;
     /**
-     * @var string
+     * @var Closure
      */
-    protected $async_content_url;
+    protected $content_wrapper;
     /**
      * @var string
      */
@@ -64,6 +65,18 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
     /**
      * @inheritDoc
      */
+    public function withContentWrapper(Closure $content_wrapper) : hasContent
+    {
+        $clone = clone($this);
+        $clone->content_wrapper = $content_wrapper;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function withContent(Component $ui_component) : hasContent
     {
         $clone = clone($this);
@@ -78,6 +91,12 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
      */
     public function getContent() : Component
     {
+        if ($this->content_wrapper !== null) {
+            $wrapper = $this->content_wrapper;
+
+            return $wrapper();
+        }
+
         return $this->content;
     }
 
@@ -95,7 +114,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
         }
 
         $clone = clone($this);
-        $clone->icon = $symbol;
+        $clone->symbol = $symbol;
 
         return $clone;
     }
@@ -106,7 +125,7 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
      */
     public function getSymbol() : Symbol
     {
-        return $this->icon;
+        return $this->symbol;
     }
 
 
@@ -115,6 +134,6 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
      */
     public function hasSymbol() : bool
     {
-        return ($this->icon instanceof Symbol);
+        return ($this->symbol instanceof Symbol);
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
+use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
@@ -87,6 +88,15 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
      * @inheritDoc
      */
     public function withContent(Component $ui_component) : hasContent
+    {
+        return $this;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
         return $this;
     }
