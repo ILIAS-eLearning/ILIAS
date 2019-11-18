@@ -342,8 +342,7 @@ interface Factory
      *     1: The Mode Info MUST allow the user to leave the mode.
      *   accessibility:
      *     1: The Mode Info informs about an important circumstance, which must be
-     *     recognizable in particular also for persons with a handicap. Therefore a
-     *     role="alert" MUST be implemented.
+     *     recognizable in particular also for persons with a handicap.
      * ----
      */
     public function modeInfo(string $title, URI $close_action) : ModeInfo;
