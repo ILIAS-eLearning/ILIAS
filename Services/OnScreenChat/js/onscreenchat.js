@@ -1013,13 +1013,19 @@
 				}
 
 				if (renderHeader) {
-					items.push(
-						$("<li></li>").append(
-								$(template).find("li.with-header." + position).html()
-							)
-							.addClass("header " + position)
-							.data("header-usr-id", messageObject.userId)
-					);
+					let $header = $("<li></li>").append(
+							$(template).find("li.with-header." + position).html()
+						)
+						.addClass("header " + position)
+						.data("header-usr-id", messageObject.userId);
+
+					let now = new Date();
+					now.setHours(0, 0, 0, 0);
+					if (messageObject.timestamp < now.getTime()) {
+						$header.find('[data-time-info]').hide();
+					}
+
+					items.push($header);
 				}
 
 				items.push(
