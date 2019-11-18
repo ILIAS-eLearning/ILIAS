@@ -11,9 +11,9 @@ class ilMathJaxSetupConfig implements Setup\Config {
 	protected $path_to_latex_cgi;
 
 	public function __construct(
-		?string $path_to_phantom_js
+		?string $path_to_latex_cgi
 	) {
-		$this->path_to_latex_cgi = $this->toLinuxConvention($path_to_phantom_js);
+		$this->path_to_latex_cgi = $this->toLinuxConvention($path_to_latex_cgi);
 	}
 
 	protected function toLinuxConvention(?string $p) : ?string {
