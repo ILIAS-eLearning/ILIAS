@@ -321,12 +321,12 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The ModeInfo is a section on a page that informs the user that he is
+     *     The Mode Info is a section on a page that informs the user that he is
      *     in a certain mode (e.g. in the preview as a member of a course).
      *
      *   composition: >
      *     The Mode Info MUST contain a title explaining the mode.
-     *     The ModeInfo MUST contain a Close Button to leave the
+     *     The Mode Info MUST contain a Close Button to leave the
      *     mode.
      *   effect: >
      *      By clicking the Close Button, the user leaves the current
@@ -341,7 +341,7 @@ interface Factory
      *   interaction:
      *     1: The Mode Info MUST allow the user to leave the mode.
      *   accessibility:
-     *     1: The ModeInfo informs about an important circumstance, which must be
+     *     1: The Mode Info informs about an important circumstance, which must be
      *     recognizable in particular also for persons with a handicap. Therefore a
      *     role="alert" MUST be implemented.
      * ----
