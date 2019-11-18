@@ -94,4 +94,7 @@ interface Standard extends Page, JavaScriptBindable
 
 
     public function getModeInfo() : ModeInfo;
+
+
+    public function hasModeInfo() : bool;
 }
