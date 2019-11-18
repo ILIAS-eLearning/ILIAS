@@ -1,11 +1,8 @@
 <?php
-//namespace ILIAS\LTI\Screen;
-
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
-
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
@@ -35,9 +32,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
      */
     public function isInterestedInContexts() : ContextCollection
     {
-        //return $this->context_collection->kiosk();
         return $this->context_collection->main();
-        return $this->context_collection->repository();
     }
 
     /**
@@ -53,80 +48,80 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
     {
-        if($this->isKioskModeEnabled($screen_context_stack)) {
-            return $this->globalScreen()->layout()->factory()->mainbar()
-                ->withModification(
-                    function(MainBar $mainbar) : ?MainBar {
-                        $mainbar = $mainbar->withClearedEntries();
-                        foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS) as $key => $entry) {
-                            $mainbar = $mainbar->withAdditionalEntry($key, $entry);
-                        }
-                        return $mainbar;
-                    }
-                )->withHighPriority();
+        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
         }
-        return null;
+        return $this->globalScreen()->layout()->factory()->mainbar()
+            ->withModification(
+                function(MainBar $mainbar) : ?MainBar {
+                    $mainbar = $mainbar->withClearedEntries();
+                    foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS) as $key => $entry) {
+                        $mainbar = $mainbar->withAdditionalEntry($key, $entry);
+                    }
+                    return $mainbar;
+                }
+            )->withHighPriority();
     }
 
     public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification
     {
-
-        if($this->isKioskModeEnabled($screen_context_stack)) {
-            return $this->globalScreen()->layout()->factory()->metabar()
-                ->withModification(
-                    function(MetaBar $metabar) {
-                        $metabar = $metabar->withClearedEntries();
-                        foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
-                            $metabar = $metabar->withAdditionalEntry($key, $entry);
-                        }
-                        return $metabar;
-                    }
-                )
-                ->withHighPriority();
+        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
         }
-        return null;
+        return $this->globalScreen()->layout()->factory()->metabar()
+            ->withModification(
+                function(MetaBar $metabar) {
+                    $metabar = $metabar->withClearedEntries();
+                    foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
+                        $metabar = $metabar->withAdditionalEntry($key, $entry);
+                    }
+                    return $metabar;
+                }
+            )
+            ->withHighPriority();
     }
 
     public function getFooterModification(CalledContexts $screen_context_stack) : ?FooterModification
     {
-        if($this->isKioskModeEnabled($screen_context_stack)) {
-            return $this->globalScreen()->layout()->factory()->footer()
-                ->withModification(
-                    function(Footer $current) {
-                        return null;
-                    }
-                )->withHighPriority();
+        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
         }
-        return null;
+        return $this->globalScreen()->layout()->factory()->footer()
+            ->withModification(
+                function(Footer $current) {
+                    return null;
+                }
+            )->withHighPriority();
     }
 
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification
     {
-        if($this->isKioskModeEnabled($screen_context_stack)) {
-            return $this->globalScreen()->layout()->factory()->breadcrumbs()
-                ->withModification(
-                    function(Breadcrumbs $current) {
-                        return null;
-                    }
-                )
-                ->withHighPriority();
+        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
         }
-        return null;
+
+        return $this->globalScreen()->layout()->factory()->breadcrumbs()
+            ->withModification(
+                function(Breadcrumbs $current) {
+                    return null;
+                }
+            )
+            ->withHighPriority();
     }
 
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
     {
-        if($this->isKioskModeEnabled($screen_context_stack)) {
-            $html = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_CONTENT);
-            return $this->globalScreen()->layout()->factory()->content()
-                ->withModification(
-                    function (Legacy $content) use ($html): Legacy {
-                        $ui = $this->dic->ui();
-                        return $ui->factory()->legacy($html);
-                    }
-                )
-                ->withHighPriority();
+        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+            return null;
         }
-        return null;
+        $html = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_CONTENT);
+        return $this->globalScreen()->layout()->factory()->content()
+            ->withModification(
+                function (Legacy $content) use ($html): Legacy {
+                    $ui = $this->dic->ui();
+                    return $ui->factory()->legacy($html);
+                }
+            )
+            ->withHighPriority();
     }
 }
