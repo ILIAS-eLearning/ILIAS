@@ -2856,11 +2856,36 @@ if(!$ilDB->tableExists('svy_invitation'))
 ?>
 <#5588>
 <?php
-$ilDB->manipulate("UPDATE il_cert_template SET
-background_image_path = REPLACE( REPLACE( REPLACE( REPLACE(background_image_path, " .
-    $ilDB->quote('//exercise/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
-    $ilDB->quote('//course/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
-    $ilDB->quote('//assessment/certificates//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ), " .
-    $ilDB->quote('//certificates/scorm//', 'text') . " ,  CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ) " .
-    "WHERE background_image_path LIKE " . $ilDB->quote('%//background.jpg', 'text'));
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//exercise/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//course/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//assessment/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//certificates/scorm//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
 ?>
