@@ -1,29 +1,61 @@
 <?php
-
+/**
+ * This is a rather extended example on the usage of the Notification Item async
+ * functionality provided by src/UI/templates/js/Item/notification.js.
+ * See notification.js for a detailed description of the function. Note that
+ * we use some il.DemoScope to store some JS for Demo purposes, it contains the
+ * following three items:
+ *  - DemoScopeRemaining: Integer, Counting how many Items are still there
+ *  - DemoScopeAdded: Integer, Counting how many Items have been addedf
+ *  - DemoScopeItem: Most importantly, the Notification Object for executing all the
+ *      Async logic.
+ *
+ * @return string
+ */
 function extended_notifications()
 {
+    //Set up the gears as always
     global $DIC;
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-
-    $async_close              = $_SERVER['REQUEST_URI'].'&close_item=true&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=false';
-    $async_replace_url               = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=true&async_load_replace_content=false&async_add_aggregate=false';
-    $async_replace_content_load_url               = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=true&async_add_aggregate=false';
-    $async_add_aggregate = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=true';
-
-    //Creating a Mail Notification Item
+    //Create some bare UI Components Notification Item to be used all over the place
     $icon              = $f->symbol()->icon()->standard("chtr", "chtr");
     $title             = $f->link()->standard("Some Title", "#");
     $item = $f->item()->notification($title, $icon);
+
+    //We provide 4 async endpoints here
+    //Endpoint if element ist closed
+    $async_close = $_SERVER['REQUEST_URI'].'&close_item=true&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=false';
+    //Attach this directly to all items to be closable (showing the Close Button)
     $closable_item = $item->withCloseAction($async_close);
+    //Endpoint if replace button is pressed
+    $async_replace_url = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=true&async_load_replace_content=false&async_add_aggregate=false';
+    //Endpoint if for only replacing data of the item (description, title etc.)
+    $async_replace_content_load_url = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=true&async_add_aggregate=false';
+    //Endpoint for adding one single aggreate item
+    $async_add_aggregate = $_SERVER['REQUEST_URI'] . '&close_item=false&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=true';
+
+    if ($_GET['close_item']==="true") {
+        //Note that we passe back JS logic here for further processing here
+        $js = $f->legacy("")->withOnLoadCode(function($id) use($async_replace_content_load_url){
+            return "
+                il.DemoScopeRemaining--;
+                il.DemoScopeItem.replaceContentByAsyncItemContent('$async_replace_content_load_url',{remaining: il.DemoScopeRemaining,added: il.DemoScopeAdded});
+            ";
+        });
+        echo $renderer->renderAsync($js);
+        exit;
+    }
 
     if ($_GET['async_load_replace']==="true") {
         $remaining = $_POST["remaining"];
         $added = $_POST["added"];
 
+        //We create to amount of aggregates send to us by post and put an according
+        //description into the newly create Notification Item
         $items = [];
-        for($i = 1; $i<$remaining+1; $i++){
+        for($i = 1; $i<$added+1; $i++){
             $items[] = $closable_item->withDescription("This item is number: ".$i." of a fix set of 10 entries.");
         }
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: ".$remaining.", totally created: ".$added)
@@ -41,17 +73,6 @@ function extended_notifications()
         exit;
     }
 
-    if ($_GET['close_item']==="true") {
-        $js = $f->legacy("")->withOnLoadCode(function($id) use($async_replace_content_load_url){
-            return "
-                il.DemoScopeRemaining--;
-                il.DemoScopeItem.replaceContentByAsyncItemContent('$async_replace_content_load_url',{remaining: il.DemoScopeRemaining,added: il.DemoScopeAdded});
-            ";
-        });
-        echo $renderer->renderAsync($js);
-        exit;
-    }
-
     if ($_GET['async_add_aggregate']==="true") {
         $remaining = $_POST["remaining"];
         $added = $_POST["added"];
@@ -62,6 +83,9 @@ function extended_notifications()
         exit;
     }
 
+    //Button with attached js logic to add one new Notification, note, that
+    //we also change the description of the already existing parent Notification
+    //Item holding the aggregates.
     $add_button = $f->button()->standard("Add Chat Notification", "#")
                     ->withAdditionalOnLoadCode(function($id) use ($async_replace_url,$async_add_aggregate) {
                         return "
@@ -70,10 +94,11 @@ function extended_notifications()
                                 il.DemoScopeAdded++;
                                 il.DemoScopeRemaining++;
                                 il.DemoScopeItem.addAsyncAggregate('$async_add_aggregate',{remaining: il.DemoScopeAdded,added: il.DemoScopeAdded});
-                                il.DemoScopeItem.replaceContentByAsyncItemContent('$async_replace_url',{remaining: il.DemoScopeAdded,added: il.DemoScopeAdded});
+                                il.DemoScopeItem.replaceContentByAsyncItemContent('$async_replace_url',{remaining: il.DemoScopeRemaining,added: il.DemoScopeAdded});
                             });";
                     });
 
+    //Resetting all counts to 0, remove all aggregates
     $reset_button = $f->button()->standard("Reset Chat", "#")
                       ->withAdditionalOnLoadCode(function($id) use ($async_replace_url) {
                           return "
@@ -85,6 +110,7 @@ function extended_notifications()
                             });";
                       });
 
+    //Set all counts to a fixed value of ten.
     $set_button = $f->button()->standard("Set to 10 chat entries", "#")
                     ->withAdditionalOnLoadCode(function($id) use ($async_replace_url) {
                         return "
@@ -97,6 +123,11 @@ function extended_notifications()
                             });";
                     });
 
+    /**
+     * Important, this is the heart of the example. By creating our Notification Item
+     * we attach in additionalOnLoad code the logic to store access to our freshly
+     * created Notification Item.
+     */
     $async_item = $item
         ->withDescription("This is the original Version after the Page has loaded. Will be replaced completely.")
         ->withAdditionalOnLoadCode(function($id) {
@@ -106,10 +137,21 @@ function extended_notifications()
                 il.DemoScopeItem = il.UI.item.notification.getNotificationItemObject($($id));
             ";
         });
+
+    /**
+     * Note the work from here on is usually done by the global screen. This is
+     * just done to get the example up and running and to give it a more realistic
+     * look. See ilias/src/GlobalScreen/Scope/Notification/README.md
+     */
+    return usuallyDoneByGlobalScreenProbablyIgnore($async_item,$f,$renderer,$add_button,$set_button,$reset_button);
+}
+
+function usuallyDoneByGlobalScreenProbablyIgnore($async_item,$f,$renderer,$add_button,$set_button,$reset_button){
+    //Put the item in some slate.
     $async_slate = $f->mainControls()->slate()->notification("Chat", [$async_item]);
 
 
-    //This item and its group is loaded regularly
+    //Just some candy, to give the whole example a more realistic look.
     $mail_icon              = $f->symbol()->icon()->standard("mail", "mail");
     $mail_title             = $f->link()->standard("Inbox", "link_to_inbox");
     $mail_notification_item = $f->item()->notification($mail_title, $mail_icon)
@@ -118,8 +160,9 @@ function extended_notifications()
     $mail_slate    = $f->mainControls()->slate()->notification("Mail", [$mail_notification_item]);
 
 
+    //Note
     $notification_glyph = $f->symbol()->glyph()->notification("notification", "notification")
-                             ->withCounter($f->counter()->novelty(1));
+                            ->withCounter($f->counter()->novelty(1));
 
     $notification_center = $f->mainControls()->slate()
                              ->combined("Notification Center",$notification_glyph )

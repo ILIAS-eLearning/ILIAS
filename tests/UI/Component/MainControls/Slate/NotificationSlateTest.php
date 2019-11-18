@@ -102,19 +102,36 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-maincontrols-slate il-maincontrols-slate-notification">
-    <div class="il-maincontrols-slate-notification-title">slate title</div>
-    <div class="il-maincontrols-slate-content">
-        <div class="il-item il-notification-item">
-            <div class="media">
-                <div class="media-left">
-                    <div class="icon name small" aria-label="aria_label"></div>
-                </div>
-                <div class="media-body">
-                    <h5 class="il-item-notification-title">item title</h5>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="il-maincontrols-slate-notification-title">slate title</div>
+	<div class="il-maincontrols-slate-content">
+		<span class="il-item-notification-replacement-container">
+			<div class="il-item il-notification-item" id="id_1">
+				<div class="media">
+					<div class="media-left">
+						<div class="icon name small" aria-label="aria_label"></div>
+					</div>
+					<div class="media-body">
+						<h5 class="il-item-notification-title">item title</h5>
+						<div class="il-aggregate-notifications" data-aggregatedby="id_1">
+							<div class="il-maincontrols-slate il-maincontrols-slate-notification">
+								<div class="il-maincontrols-slate-notification-title">
+									<button class="btn btn-bulky" data-action="">
+										<span class="glyph" aria-label="back">
+											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+										</span>
+										<div>
+											<span class="bulky-label">Back</span>
+										</div>
+									</button>
+								</div>
+								<div class="il-maincontrols-slate-content"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</span>
+	</div>
 </div>
 EOT;
         $this->assertEquals(

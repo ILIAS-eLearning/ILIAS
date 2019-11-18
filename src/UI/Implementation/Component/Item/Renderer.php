@@ -106,11 +106,6 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param Component\Item\Notification $component
-     * @param RendererInterface           $default_renderer
-     * @return string
-     */
     protected function renderNotification(Component\Item\Notification $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
