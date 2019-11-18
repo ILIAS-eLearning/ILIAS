@@ -1056,6 +1056,13 @@
 				}
 			});
 
+			if (prepend !== true) {
+				$firstHeader
+					.find(".header [data-livestamp]")
+					.data("livestamp", messageObject.timestamp)
+					.html(dateTimeFormatter.fromNowToTime(messageObject.timestamp))
+			}
+
 			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
 			chatBody.find('[data-toggle="tooltip"]').tooltip({
 				placement: 'left',
