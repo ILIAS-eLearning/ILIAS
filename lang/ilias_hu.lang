@@ -14,104 +14,104 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-dash#:#dash_remove_from_list#:#Remove from List###XXX
-dash#:#dash_make_favourite#:#Add to Favourites
-dash#:#dash_item_removed#:#Recommendation has been removed from the list.
-dash#:#dash_added_to_favs#:#Recommendation has been added to personal favourites.
-common#:#obj_nots_desc#:#Notes settings
-common#:#obj_nots#:#Notes
-note#:#note_enable_notes#:#Enable Notes
-common#:#obj_coms_desc#:#Comments settings
-common#:#obj_coms#:#Comments
-note#:#note_enable_comments#:#Enable Comments
-administration#:#adm_communication#:#Communication
-note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
-note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
-note#:#note_enable_comments_del_tutor_info#:#User with "Edit Settings" permission for an object can delete any comment made in this object.
-note#:#note_comments_notification#:#General notification about all comments
-note#:#note_comments_notification_info#:#Comma separated list of accounts that are notified for each comment
-common#:#obj_lhts_desc#:#Learning history settings
-common#:#obj_lhts#:#Learning History
-common#:#obj_dshs_desc#:#Dashboard settings
-common#:#obj_dshs#:#Dashboard
-lhist#:#lhist_enable_learning_history#:#Learning History
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
-common#:#obj_prss_desc#:#Personal resources settings
-common#:#obj_prss#:#Personal Resources
-pwsp#:#pwsp_enable_wsp_blogs#:#Enable Blogs
-pwsp#:#pwsp_enable_wsp_files#:#Enable Files
-pwsp#:#pwsp_enable_wsp_certificates#:#Enable Certificates
-pwsp#:#pwsp_enable_wsp_links#:#Enable Links
-dash#:#dash_main_panel#:#Main Panel
-dash#:#dash_side_panel#:#Side Panel
-dash#:#dash_enable_favourites#:#Favourites
-dash#:#dash_enable_memberships#:#My Courses and Groups
-dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
-dash#:#dash_view_favourites#:#Section ‘Favourites’
-dash#:#dash_enable_cal#:#Calendar
-dash#:#dash_enable_news#:#News
-dash#:#dash_enable_mail#:#Mail
-dash#:#dash_enable_task#:#Tasks
-dash#:#dash_avail_sortation#:#Available Sortations
-dash#:#dash_default_sortation#:#Default Sortation
-dash#:#dash_sortation#:#Sortation
-dash#:#dash_presentation#:#Presentation
-dash#:#dash_avail_presentation#:#Available Presentations
-dash#:#dash_default_presentation#:#Default Presentation
-dash#:#dash_list#:#List
-dash#:#dash_tile#:#Tile
-dash#:#dash_activation#:#activation
-dash#:#dash_sort_by_location#:#Sort by Location
-dash#:#dash_sort_by_type#:#Sort by Type
-dash#:#dash_sort_by_start_date#:#Sort by Start Date
-dash#:#dash_dashboard#:#Dashboard
-help#:#help_no_content#:#There is no help content available for the current screen. You may use the search tool.
-user#:#user_privacy_checklist#:#Privacy Checklist
-user#:#user_profile_data#:#Profile Data
-user#:#user_publish_options#:#Publish Profile
-user#:#user_visibility_settings#:#Visibility
-user#:#user_save_continue#:#Save and Continue
-user#:#user_profile_data_checked#:#Profile data checked
-user#:#user_check_profile_data#:#Check profile data
-user#:#show_own_online_status#:#Show My Online Status
-user#:#user_set_visibilty_options#:#Set visibility options
-user#:#user_set_publishing_options#:#Set publishing options
-chatroom#:#osc_noti_title#:#New Chat Message
-chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
-chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
+dash#:#dash_remove_from_list#:#Eltávolítás a listáról
+dash#:#dash_make_favourite#:#Hozzáadás a Kedvenceimhez
+dash#:#dash_item_removed#:#Az ajánlást sikeresen törölték a listáról.
+dash#:#dash_added_to_favs#:#Az ajánlást sikeresen hozzáadta a kedvenceihez.
+common#:#obj_nots_desc#:#Jegyzetek beállításai
+common#:#obj_nots#:#Jegyzetek
+note#:#note_enable_notes#:#Jegyzetek bekapcsolása
+common#:#obj_coms_desc#:#Hozzászólások beállításai
+common#:#obj_coms#:#Hozzászólások
+note#:#note_enable_comments#:#Hozzászólások bekapcsolása
+administration#:#adm_communication#:#Kommunikáció
+note#:#note_enable_comments_del_user#:#A szerzők törlhetik hozzászólásaikat
+note#:#note_enable_comments_del_tutor#:#A tutorok törlhetik bármelyik hozzászólást
+note#:#note_enable_comments_del_tutor_info#:#A 'Beállítások módosítása' jogosultsággal rendelkező felhasználók törölhetik az objektumban lévő bármelyik hozzászólást.
+note#:#note_comments_notification#:#Az összes hozzászólásról általános értesítés
+note#:#note_comments_notification_info#:#A felhazsnálói fiókok vesszővel elválasztott felsorolása, akik az összes hozzászólásról értesítést kapnak
+common#:#obj_lhts_desc#:#Tanulási történelem beállításai
+common#:#obj_lhts#:#Tanulási történelem
+common#:#obj_dshs_desc#:#Műszerfal beállításai
+common#:#obj_dshs#:#Műszerfal
+lhist#:#lhist_enable_learning_history#:#Tanulási történelem
+lhist#:#lhist_enable_learning_history_info#:#Egy felhasználó összes elért eredménye áttekintésének bekapcsolása.
+common#:#obj_prss_desc#:#Személyes erőforrások beállításai
+common#:#obj_prss#:#Személyes erőforrások kezelése
+pwsp#:#pwsp_enable_wsp_blogs#:#Blogok bekapcsolása
+pwsp#:#pwsp_enable_wsp_files#:#Fájlok bekapcsolása
+pwsp#:#pwsp_enable_wsp_certificates#:#Tanúsítványok bekapcsolása
+pwsp#:#pwsp_enable_wsp_links#:#Linkek bekapcsolása
+dash#:#dash_main_panel#:#Főpanel
+dash#:#dash_side_panel#:#Oldalpanel
+dash#:#dash_enable_favourites#:#Kedvenceim
+dash#:#dash_enable_memberships#:#Kurzusaim és csoportjaim
+dash#:#dash_view_courses_groups#:#'Kurzusaim és csoportjaim' rész
+dash#:#dash_view_favourites#:#'Kedvenceim' rész
+dash#:#dash_enable_cal#:#Naptár
+dash#:#dash_enable_news#:#Hírek
+dash#:#dash_enable_mail#:#Levelezés
+dash#:#dash_enable_task#:#Feladatok
+dash#:#dash_avail_sortation#:#Elérhető rendezések
+dash#:#dash_default_sortation#:#Alapértelmezett rendezés
+dash#:#dash_sortation#:#Rendezés
+dash#:#dash_presentation#:#Megjelenítés
+dash#:#dash_avail_presentation#:#AElérhető megjelenítések
+dash#:#dash_default_presentation#:#Alapértelmezett megjelenítése
+dash#:#dash_list#:#Felsorolás
+dash#:#dash_tile#:#Csempe
+dash#:#dash_activation#:#aktiválás
+dash#:#dash_sort_by_location#:#Hely alapján
+dash#:#dash_sort_by_type#:#Típus alapján
+dash#:#dash_sort_by_start_date#:#Kezdődátum alapján
+dash#:#dash_dashboard#:#Műszerfal
+help#:#help_no_content#:#Nincs segítő tartalom ehhez a képernyőhöz. Megpróbálhatja a keresővel.
+user#:#user_privacy_checklist#:#Adatvédelmi ellenőrzőlista
+user#:#user_profile_data#:#Profiladat
+user#:#user_publish_options#:#Profil közzététele
+user#:#user_visibility_settings#:#Láthatóság
+user#:#user_save_continue#:#Mentés és folytatás
+user#:#user_profile_data_checked#:#A profiladatokat ellenőriztük
+user#:#user_check_profile_data#:#A profiladatokat ellenőrzése
+user#:#show_own_online_status#:#Online állapotom beállítása
+user#:#user_set_visibilty_options#:#Láthatóság beállítása
+user#:#user_set_publishing_options#:#Közzététel beállítása
+chatroom#:#osc_noti_title#:#Új üzenet
+chatroom#:#osc_enable_browser_notifications_label#:#Böngésző-értesítések
+chatroom#:#osc_enable_browser_notifications_info#:#Ha be van kapcsolva, értesítést kap a böngészőjében az új beszélgetésekről és üzenetekről amikor az ILIAS másik böngészőfülön vagy a háttérben van, illetve az előtérben %s percnyi tételenségi idő után is.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
-chatroom#:#osc_browser_noti_no_permission_error#:#Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system. Otherwise you will not be able to receive browser notifications.
-chatroom#:#osc_browser_noti_req_permission_error#:#The browser notifications could not be enabled because you did not grant access. Please remove this domain from the list of blocked domains in the notification settings of your browser or operating system.
-chatroom_adm#:#osc_adm_browser_noti_label#:#Browser Notifications
-chatroom_adm#:#osc_adm_browser_noti_info#:#If enabled, users may individually decide whether or not they want to receive browser notifications for new conversations and messages. Notifications are triggered if the user works in different browser tabs or the browser is hidden and ILIAS was put into the background. Users will also receive browser notifications after a certain idle time in a conversation if ILIAS is in the foreground.
-chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Time between Browser Notifications
-chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Cut off notifications by given a minimum interval at which browser notifications are triggered for incoming chat messages..
-book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
-book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
-book#:#book_preferences_saved#:#The preferences have been saved.
-book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
-book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
-book#:#book_nr_of_preferences#:#Number of Preferences
-book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
-book#:#book_pref_deadline#:#Deadline
-book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
-book#:#book_preferences#:#Preferences
-book#:#book_your_bookings#:#Your Reservations
-book#:#book_your_preferences#:#Your Preferences
-book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
-book#:#book_all_users#:#All Participants
-book#:#book_pref_overview#:#Overview
-book#:#book_pref_book_cron#:#Booking with Preferences
-book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
-book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
-crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
-crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
-crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
-crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
-crs#:#timings_reminder_notifications#:#Course Timings Notifications
-crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
+chatroom#:#osc_browser_noti_no_permission_error#:#Kérem, távolítsa el ezt a domaint böngészője vagy operációs rendszere értesítési tiltólistájáról. Amíg ezt nem teszi meg, nem kap értesítéseket.
+chatroom#:#osc_browser_noti_req_permission_error#:#A böngésző-értesítések nem kapcsolhatóak be, mert nem adott hozzáférést. Kérem, távolítsa el ezt a domaint böngészője vagy operációs rendszere értesítési tiltólistájáról.
+chatroom_adm#:#osc_adm_browser_noti_label#:#Böngésző-értesítések
+chatroom_adm#:#osc_adm_browser_noti_info#:#Ha be van kapcsolva, a felhasználók maguk eldönthetik, hogy kérnek-e értesítést böngészőjükben az új beszélgetésekről és üzenetekről. Az értesítések aktiválódnak amikor az ILIAS másik böngészőfülön vagy a háttérben van, illetve az előtérben egy bizonyos tételenségi idő után is.
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Böngész-értesítési időköz
+chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Az értesítés számának csökkentése egy minimális időköz megadásával, mely időzíti a bejövő üzenetek böngésző-értesítéseit.
+book#:#book_too_many_preferences#:#Az előzetes választása túl sok, azokat nem mentettük.
+book#:#book_not_enough_preferences#:#Az előzetes választása túl kevés, azokat nem mentettük.
+book#:#book_preferences_saved#:#Az előzetes választásait sikeresen mentette.
+book#:#book_schedule_type_none_direct#:#Nincs ütemezés, közvetlen a foglalalás
+book#:#book_schedule_type_none_direct_info#:#Ez a feladatokhoz, termekhez, stb. használható. A résztvevők közvetlenül foglalhatnak elemeket.
+book#:#book_schedule_type_none_preference#:#Nincs ütemezés, az előzetes választásokat használjuk.
+book#:#book_schedule_type_none_preference_info#:#Ez a feladatokhoz, termekhez, stb. használható. A résztvevők előzetesen választhatnak, majd a tényleges foglalások az előzetes választások határideje után történik meg.
+book#:#book_nr_of_preferences#:#Választási lehetőségek száma
+book#:#book_nr_of_preferences_info#:#A felhasználók által előzetes választható elemek száma.
+book#:#book_pref_deadline#:#Határidő
+book#:#book_preference_info#:#Kérem, válasszon %1 lehetőséget %2-ig. A foglalásokat automatikusan megtesszük a határidő után az összes felhasználó előzetes választása alapján.
+book#:#book_preferences#:#Előzetes választások
+book#:#book_your_bookings#:#Foglalásaim
+book#:#book_your_preferences#:#Előzetes választásaim
+book#:#book_no_bookings_for_you#:#Nem foglaltunk le semmi az Ön számára.
+book#:#book_all_users#:#Összes résztvevő
+book#:#book_pref_overview#:#Áttekintés
+book#:#book_pref_book_cron#:#Foglalás előzetes választási lehetőségekkel
+book#:#book_pref_book_cron_info#:#Automatikus foglalások az előzetes választások alapján a határidő után
+book#:#book_no_preferences_for_you#:#Egy előzetes választását sem tároltunk el.
+crs#:#timings_cron_reminder_freshly_start#:#A feldolgozási időszak kezdete:
+crs#:#timings_cron_reminder_started_subject#:#Megkezdődött a feldolgozási időszak
+crs#:#timings_cron_reminder_exceeded_subject#:#Túllépte a feldolgozási időszakot
+crs#:#timings_cron_reminder_exceeded_start#:#A feldolgozási időszak vége:
+crs#:#timings_reminder_notifications#:#A kurzusértesítések időzítése
+crs#:#timings_reminder_notifications_info#:#Ha be van kapcsolva, a kurzusrésztvevők értesítéset kapnak a lejárú határidejű segédanyagokról.
 meta#:#meta_oer_harvester#:#NyOE-összegyűjtő
 meta#:#meta_oer_harvester_desc#:#NyOE-tartalmak (Nyílt Oktatási Erőforrások, OER) összegyűjtéséré szolgáltatás
 meta#:#meta_oer_copyright_selection#:#Licenc kiválasztása
@@ -171,25 +171,25 @@ auth#:#auth_oidc_role_mapping_table#:#ILIAS-szerepek és OpenID-attribútumok ö
 auth#:#auth_oidc_update_role_info#:#Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk
 content#:#cont_lpe_openid_connect_login#:#OpenID-felhasználónév
 common#:#msg_wrong_filetypes#:#Engedélyezett fájltípusok:
-obj#:#cont_filter_empty#:#Please use the filter to see any objects.###XXX
-obj#:#obj_tool_setting_filter#:#Filter
-obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
-obj#:#obj_tool_setting_filter_empty#:#Show on Empty Filter
-obj#:#obj_tool_setting_filter_empty_info#:#Show all items while filter is empty.
-cont#:#cont_std_filter_title_1#:#Title
-cont#:#cont_std_filter_title_2#:#Description
-cont#:#cont_std_filter_title_3#:#Title/Description
-cont#:#cont_std_filter_title_4#:#Keyword
-cont#:#cont_std_filter_title_5#:#Author
-cont#:#cont_std_filter_title_6#:#Copyright
-cont#:#cont_std_filter_title_7#:#Tutorial Support
-cont#:#cont_std_filter_title_8#:#Object Type
-cont#:#cont_filter#:#Filter
-cont#:#cont_select_fields#:#Select Fields
+obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
+obj#:#obj_tool_setting_filter#:#Szűrés
+obj#:#obj_tool_setting_filter_info#:#A szűrés a tartalom fülön fog megjelenni.
+obj#:#obj_tool_setting_filter_empty#:#Üres szűrő
+obj#:#obj_tool_setting_filter_empty_info#:#Az összes elem jelenjen meg, amikor a szűrő üres.
+cont#:#cont_std_filter_title_1#:#Cím
+cont#:#cont_std_filter_title_2#:#Leírás
+cont#:#cont_std_filter_title_3#:#Cím/Leírás
+cont#:#cont_std_filter_title_4#:#Kulcsszó
+cont#:#cont_std_filter_title_5#:#Szerző
+cont#:#cont_std_filter_title_6#:#Szerzői jog
+cont#:#cont_std_filter_title_7#:#Oktatói támogatás
+cont#:#cont_std_filter_title_8#:#Objektumtípus
+cont#:#cont_filter#:#Szűrés
+cont#:#cont_select_fields#:#Válasszon mezőket
 cont#:#cont_std_record_title#:#Standard
-cont#:#cont_filter_record#:#Record
-cont#:#cont_filter_field#:#Field
-cont#:#cont_filter_fields#:#Filter Fields
+cont#:#cont_filter_record#:#Bejegyzések
+cont#:#cont_filter_field#:#Szűrő
+cont#:#cont_filter_fields#:#Szűrőmezők
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Tanulási eszközök átjárhatósága (Learning Tools Interoperability)
 common#:#lti_outcome#:#LTI tanulási haladás bejelentése
@@ -461,9 +461,9 @@ adve#:#adve_text_content_features#:#Szövegtartalom menü
 assessment#:#autosave#:#Automatikus mentés
 assessment#:#autosave_info#:#A válaszokat meghatározott időközönként automatikusan mentjük, az adatvesztés elkerülése érdekében.
 assessment#:#autosave_ival#:#Időköz
-assessment#:#tst_block_passes_after_passed#:#Block Additional Passes After Test is Passed###XXX
-assessment#:#tst_block_passes_after_passed_info#:#After a participant has passed the test, no further test passes are allowed to the participant with this option.
-assessment#:#tst_addit_passes_blocked_after_passed_msg#:#You have passed the test. The test cannot be started again.
+assessment#:#tst_block_passes_after_passed#:#További kitöltések tiltás sikeres kitöltés után
+assessment#:#tst_block_passes_after_passed_info#:#A résztvevő sikeres kitöltés után már nem töltheti ki többször a tesztet.
+assessment#:#tst_addit_passes_blocked_after_passed_msg#:#A tesztet sikeresen kitöltötte, több kitöltést nem indíthat el.
 assessment#:#for#:#ehhez
 assessment#:#tst_presentation_settings_section#:#Megjelenítés
 assessment#:#wait_for_next_pass_hint_msg#:#További kitöltés lehetséges ekkor: %s
@@ -932,11 +932,11 @@ assessment#:#matching_type#:#Párosító kérdés altípusa
 assessment#:#material_file#:#Fájl
 assessment#:#material#:#Segítség
 assessment#:#maxchars#:#Karakterek maximális száma
-assessment#:#qst_essay_chars_remaining#:#Remaining characters:###XXX
-assessment#:#qst_essay_written_words#:#Number of entered words:
-assessment#:#qst_essay_allready_written_words#:#Already entered words:
-assessment#:#qst_essay_wordcounter_enabled#:#Count Words
-assessment#:#qst_essay_wordcounter_enabled_info#:#The entered words are counted. The number of written words is shown to the participants below the text input field.
+assessment#:#qst_essay_chars_remaining#:#Fennmaradó karakterek száma:
+assessment#:#qst_essay_written_words#:#Szavak megadott száma:
+assessment#:#qst_essay_allready_written_words#:#Beírt szavak száma:
+assessment#:#qst_essay_wordcounter_enabled#:#Szavak számolása
+assessment#:#qst_essay_wordcounter_enabled_info#:#A beírt szavak számát számoljuk és megjelenítjük a felhasználóknak a bevitelő mező alatt .
 assessment#:#maximum_nr_of_tries_reached#:#Elfogyott az összes próbálkozási lehetősége ebben a tesztben. A teszt nem nyitható meg.
 assessment#:#maximum_points#:#Maximálisan elérhető pont
 assessment#:#maxsize_info#:#Adja meg bájtban a feltölthető fájlméretet. Ha üresen hagyja ezt a mezőt, a rendszerben beállított maximális méret kerül használatra.
@@ -6692,8 +6692,8 @@ ps#:#ps_files_deleted#:#Exportfájlokat sikeresen törölte
 ps#:#ps_login_max_attempts_info#:#Hibás bejelentkezési próbálkozások maximális számának beállítása. Hagyja üresen az opció letiltásához.
 ps#:#ps_login_max_attempts#:#Maximális bejelentkezési próbálkozásszám
 ps#:#ps_not_accepted#:#Nincs elfogadva
-ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?###XXX
-ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.
+ps#:#ps_passwd_policy_changed_force_user_reset#:#A módosításokat sikeresen mentette. Az egyik jelszószabályt módosította. Kényszerítsük az összes felhasználót jelszava cseréjére a következő bejelentkezéskor?
+ps#:#ps_passwd_policy_change_force_user_reset_succ#:#A módosításokat sikeresen alkalmazta.
 ps#:#ps_password_change_on_first_login_enabled_info#:#Ha be van kapcsolva, a felhasználóknak le kell cserélniük jelszavukat első bejelentkezéskor (kivéve azoknak a felhasználóknak, akik magukat regisztrálták).
 ps#:#ps_password_change_on_first_login_enabled#:#Jelszó cseréje első bejelentkezéskor
 ps#:#ps_password_chars_and_numbers_enabled_info#:#Ha be van kapcsolva, a jelszavaknak karaktereket és számokat is kell tartalmaznia.
@@ -10111,11 +10111,11 @@ objref#:#objref_edit_title#:#Címbeállítások
 objref#:#objref_title_settings#:#Hivatkozási címek módosítása
 objref#:#objref_reuse_title#:#Hivatkozás címének használata
 objref#:#objref_custom_title#:#Egyéni cím használata
-crs#:#crs_ref_member_update#:#Neue Mitglieder hinzufügen###XXX
-crs#:#crs_ref_member_update_info#:#Alle neuen Mitglieder des übergeordneten Kurses werden automatisch in den Kurs, auf den dieser Kurs-Link verweist, eingetragen.
-crs#:#crs_ref_missing_parent_crs#:#Die Option kann nicht ausgewählt werden, da dieser Kurs-Link keinen übergeordneten Kurs besitzt.
-crs#:#crs_ref_missing_access#:#Die Option kann nicht ausgewählt werden, da Sie nicht die Berechtigung "Mitglieder verwalten" für beide Kurse besitzen.
-crs#:#crs_ref_delete_confirmation_info#:#Would you like to remove the following members from this course? If these members are to be removed from courses linked into this course, please activate the respective checkboxes.
+crs#:#crs_ref_member_update#:#Új tagok felvétele
+crs#:#crs_ref_member_update_info#:#A linkelt kurzus összes új tagját automatikusan hozzáadjuk a forráskurzushoz is tagként.
+crs#:#crs_ref_missing_parent_crs#:#Ezt az lehetőséget nem lehet kiválasztani, mert ennek a kurzuslinkek nem található a forráskurzusa.
+crs#:#crs_ref_missing_access#:#Ezt az lehetőséget nem lehet kiválasztani, mert nem rendelkezik mind a két kurzuhoz a 'Tagok kezelése' jogosultsággal.
+crs#:#crs_ref_delete_confirmation_info#:#Biztos, hogy eltávolítja az alábbi tagokat a kurzusból? Amennyiben ezeket a tagokat az ide linkelő forráskurzusból is el kívánja távolítani, pipálja be a megfelelő jelölőnégyzetet.
 news#:#news_keep_minimal_x_items#:#Legalább x elem megtartása
 news#:#news_keep_minimal_x_items_info#:#Elérhető régi elemek száma, az RSS-életidőt figyelmen kívül hagyva.
 dateplaner#:#cal_add_calendar#:#Naptár létrehozása
@@ -14178,10 +14178,10 @@ background_tasks#:#completed#:#Befejeződött
 background_tasks#:#waiting#:#Várakozó
 background_tasks#:#proceed_job#:#Folytatás
 background_tasks#:#task_might_be_failed#:#Ez a folyamat egy ideje nem válaszol, ha szükséges, bezárhatja.
-background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?###XXX
-background_tasks#:#ui_msg_no_files_found#:#No files have been found. The download will be aborted.
-background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?
-background_tasks#:#ui_msg_files_violate_maxsize#:#The total download size violates the global limit. The download will be aborted.
+background_tasks#:#ui_msg_num_files#:#%s fájlt találtunk a letöltéshez, biztos, hogy folytatja?
+background_tasks#:#ui_msg_no_files_found#:#Egy fájlt sem találtunk. A letöltést megszakadt.
+background_tasks#:#ui_msg_sum_file_sizes#:#A letöltés mérete a zip készítése előtt %s. Biztos, hogy folytatja?
+background_tasks#:#ui_msg_files_violate_maxsize#:#A letöltés mérete meghaladja az engedélyezett maximumot. A letöltést megszakadt.
 grp#:#grp_period#:#Esemény időköze
 grp#:#grp_period_info#:#Információ a csoport által támogatott esemény kezdő és záró dátumáról.
 exc#:#exc_settings_feedback_mail_info#:#A tutorok az értékeléseiket egy levél űrlapon adják meg, amit elküldünk a résztvevőknek.
@@ -14515,13 +14515,13 @@ content#:#cont_sc_name_setting_fullname#:#Titulus, keresztnév és családnév
 content#:#cont_sc_name_setting_salutation_lastname#:#Megszólítás és keresztnév
 content#:#cont_sc_name_setting_first_name#:#Családnév
 content#:#cont_sc_name_setting_no_name#:#nincs név
-common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.###XXX
-common#:#cron_users_without_login_del_role_whitelist#:#Included Roles
-common#:#cron_users_without_login_del_role_whitelist_info#:#The deletion will only processed for users assigned to at least one of the selected roles
-common#:#cron_users_without_login_del_create_date_thr#:#Thresholt
-common#:#cron_users_without_login_del_create_date_thr_info#:#All user accounts created before the defined threshold will be taken into consideration.
-common#:#user_never_logged_in#:#Delete user accounts without login
-common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
+common#:#user_never_logged_in_info_threshold_err_num#:#Csak pozitív egész számot fogadunk el.
+common#:#cron_users_without_login_del_role_whitelist#:#Tartalmazza a szerepet
+common#:#cron_users_without_login_del_role_whitelist_info#:#Csak azokat a felhasználókat törlöljük, akik legalább az egyik szerephez hozzá vannak rendelve
+common#:#cron_users_without_login_del_create_date_thr#:#Küszöbérték
+common#:#cron_users_without_login_del_create_date_thr_info#:#A megadott dátum előtt létrehozott összes felhazsnálói fiókot megfontolás tárgyává tesszük.
+common#:#user_never_logged_in#:#Bejelentkeezés nélküli fiókok törlése
+common#:#user_never_logged_in_info#:#Az összes bejelentkezés nélküli felhasználói fiókot töröljük.
 dateplaner#:#cal_download_files_started#:#Az összes elérhető fájlból egy ZIP-fájl készítünk. A bal felül lévő táskaikonra kattintva tudja letülteni.
 poll#:#poll_voting_period_full_info#:#Szavazási időköz: %s → %s
 common#:#usr_name_undisclosed#:#Nem publikus
@@ -14539,8 +14539,8 @@ content#:#cont_lpe_user_agreement_link#:#Szolgáltatási feltételek linkje
 common#:#obj_fold_duplicate#:#Mappa másolása
 common#:#fold_wizard_page#:#Mappa másolása (2/2 lépés)
 common#:#fold_copy_threads_info#:#Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat.
-file#:#file_suffix_custom_expl_black#:#Explizite Blacklist###XXX
-file#:#file_suffix_custom_expl_black_info#:#Dateien mit diesen Endungen werden nicht akzeptiert.
+file#:#file_suffix_custom_expl_black#:#Explicit tiltólista
+file#:#file_suffix_custom_expl_black_info#:#Az ilyen végződésekkel rendelkező fájlokat nem fogadjuk el.
 file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
 file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
 file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
@@ -14550,7 +14550,7 @@ file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az
 file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
 file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
-common#:#settings_presentation_header#:#Bemutató###XXX
+common#:#settings_presentation_header#:#Megjelenítés
 common#:#obj_copa#:#Tartalomlap
 common#:#objs_copa#:#Tartalomlapok
 rbac#:#copa_visible#:#A tartalomlapok láthatóak
@@ -15155,15 +15155,15 @@ content#:#cont_Background#:#Háttér
 dateplaner#:#cal_usr_info#:#Kinevezési információk
 certificate#:#certificate_learning_progress_must_be_active#:#Csak tanulási haladású objektumok választhatóak ki. A tanulási haladás ki van kapcsolva a következő objektumoknál: %s
 certificate#:#learning_progress_deactivated#:#A tanulási haladás ki van kapcsolva ennél az objektumnál. Az igazolássablon módosításához és a felhasználók igazolásának legeneráláshoz be kell kapcsolni.
-exc#:#exc_tbl_action_open_submission#:#Open Submission###XXX
-exc#:#exc_copy_zip_error#:#The submission can not be opened. An error occurred when copying the files.
-exc#:#exc_find_zip_error#:#The submission can not be opened. The original files are not found.
+exc#:#exc_tbl_action_open_submission#:#Beadás megnyitása
+exc#:#exc_copy_zip_error#:#A beküldés nem nyitható meg. Hiba a fájl másololásakor.
+exc#:#exc_find_zip_error#:#A beküldés nem nyitható meg. Az eredeti fájl nem található.
 content#:#msg_no_page_access#:#Nincs jogosultsága az oldal eléréséhez.
-exc#:#exc_compare_submissions#:#Compare submissions
-exc#:#exc_compare_selected_submissions#:#Compare selected submissions
-wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
-wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
-wiki#:#wiki_commented_by#:#Commented by
+exc#:#exc_compare_submissions#:#Beadások összehasonlítása
+exc#:#exc_compare_selected_submissions#:#A kiválasztott beküldések összehasonlítása
+wiki#:#wiki_notification_comment_subject#:#Új hozzászólás keletkezett %s: %s
+wiki#:#wiki_notification_comment#:#a következő wikioldalhoz hozzászóltak.
+wiki#:#wiki_commented_by#:#A hozzászólást írta
 content#:#cont_notification_activated#:#Notification Activated (Whole LM)
 content#:#cont_page_notification_activated#:#Notification Activated (Single Page)
 content#:#cont_notification_deactivate_lm#:#Deactivate Notification for Learning Module
@@ -15172,112 +15172,112 @@ content#:#cont_notification_activate_lm#:#Activate Notification for Learning Mod
 content#:#cont_notification_activate_page#:#Activate Notification for Page
 content#:#cont_notification_deactivated#:#Notification Deactivated
 content#:#cont_notification_comment_subject_lm#:#A comment was added to %s: %s
-content#:#cont_change_notification_salutation#:#Hello %s,
-content#:#cont_notification_comment_lm#:#the following Learning Module Page has been commented
-content#:#cont_notification_update_lm#:#the following Learning Module has been updated
-content#:#cont_commented_by#:#Commented by
-content#:#cont_change_notification_subject_lm#:#Learning Module "%1$s" has been changed: %2$s
-rbac#:#dshs_change_presentation#:#Change presentation of dashboard view
-rbac#:#change_presentation#:#Change Presentation
-pd#:#pd_presentation_mode_list#:#Item List Presentation
-pd#:#pd_presentation_mode_tile#:#Tile Presentation
+content#:#cont_change_notification_salutation#:#Tisztelt %s,
+content#:#cont_notification_comment_lm#:#ezúton tájékoztatjuk, hogy a következő tananyagoldalhoz írtak hozzászólást
+content#:#cont_notification_update_lm#:#ezúton tájékoztatjuk, hogy a következő tananyag frissült
+content#:#cont_commented_by#:#A hozzászólást írta
+content#:#cont_change_notification_subject_lm#:#'%1$s' tananyag megváltozott: %2$s
+rbac#:#dshs_change_presentation#:#Műszerfal megjelenítésének módosítása
+rbac#:#change_presentation#:#Megjelenítés módosítása
+pd#:#pd_presentation_mode_list#:#Felsorolás
+pd#:#pd_presentation_mode_tile#:#Csempe
 forum#:#frm_move_invalid_file_type#:#'%s' témához tiltott típusú fájlt töltöttek fel. Távolítsa el a fájlt vagy jelezze az üzemeltetőknek, hogy adják hozzá ezt a fájltípust az engedélyzettekhez.
-common#:#mm_organisation#:#Organisation
-common#:#mm_staff_list#:#Staff List
-common#:#mm_enrolments#:#Enrolments
-common#:#mm_communication#:#Communication
-common#:#mm_contacts#:#Contacts
-common#:#mm_mail#:#Mail
-common#:#mm_news#:#News
-common#:#mm_notes#:#Notes
-common#:#mm_comments#:#Comments
-common#:#mm_achievements#:#Achievements
-common#:#mm_learning_history#:#Learning History
-common#:#mm_skills#:#Competences
-common#:#mm_learning_progress#:#Learning Progress
-common#:#mm_badges#:#Badges
-common#:#mm_administration#:#Administration
-common#:#mm_repository#:#Repository
-common#:#mm_dashboard#:#Dashboard
-common#:#mm_repo_tree_view#:#Tree View
-common#:#mm_task_derived_tasks#:#Tasks
-common#:#mm_favorites#:#Favourites
-common#:#mm_calendar#:#Calendar
+common#:#mm_organisation#:#Szervezeti egység
+common#:#mm_staff_list#:#Személyzeti lista
+common#:#mm_enrolments#:#Beiratkozások
+common#:#mm_communication#:#Kommunikáció
+common#:#mm_contacts#:#Kapcsolatok
+common#:#mm_mail#:#Levelek
+common#:#mm_news#:#Hírek
+common#:#mm_notes#:#Jegyzetek
+common#:#mm_comments#:#Hozzászólások
+common#:#mm_achievements#:#Teljesítmények
+common#:#mm_learning_history#:#Tanulási történelem
+common#:#mm_skills#:#Kompetenciák
+common#:#mm_learning_progress#:#Tanulási haladás
+common#:#mm_badges#:#Érmek
+common#:#mm_administration#:#Rendszerbeállítások
+common#:#mm_repository#:#Taneszköztároló
+common#:#mm_dashboard#:#Műszerfal
+common#:#mm_repo_tree_view#:#Fa nézet
+common#:#mm_task_derived_tasks#:#Feladatok
+common#:#mm_favorites#:#Kedvenceim
+common#:#mm_calendar#:#Naptár
 common#:#mm_tags#:#Tags
-common#:#mm_portfolio#:#Portfolio
-common#:#mm_certificates#:#Certificates
-common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
-common#:#mm_personal_workspace#:#Personal Workspace
-content#:#lm_editing_view#:#Editing View
-common#:#mm_repo_tree_view_act#:#Activate Tree
-common#:#mm_repo_tree_view_deact#:#Deactivate Tree
-content#:#cont_tool_media#:#Media
-content#:#cont_tool_faq#:#FAQ
-exc#:#exc_text_saved#:#Text has been saved.
-common#:#nc_contact_requests_headline#:#Contact Requests
-common#:#nc_contact_requests_number_s#:#You have %s Contact Request
-common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
-exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
-wfld#:#wfld_sortation#:#Sortation
+common#:#mm_portfolio#:#Portfólió
+common#:#mm_certificates#:#Tanúsítványok
+common#:#mm_personal_and_shared_r#:#Személyes és megosztott erőforrások
+common#:#mm_personal_workspace#:#Személyes munkaterület
+content#:#lm_editing_view#:#Szerkesztőnézet
+common#:#mm_repo_tree_view_act#:#Fa bekapcsolása
+common#:#mm_repo_tree_view_deact#:#Fa kikapcsolása
+content#:#cont_tool_media#:#Média
+content#:#cont_tool_faq#:#GyÍK
+exc#:#exc_text_saved#:#A szöveget sikeresen mentette.
+common#:#nc_contact_requests_headline#:#Kapcsolatfelvételi kérés
+common#:#nc_contact_requests_number_s#:#%s kapcsolatfelvételi kérése van
+common#:#nc_contact_requests_number_p#:#%s kapcsolatfelvételi kérése van
+exc#:#exc_team_by_random_add_info#:#Ezen mód használata előtt az összes felhasználót hozzá kell rendelnie.
+wfld#:#wfld_sortation#:#Rendezés
 wfld#:#wfld_derive#:#Adopt from parent
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
-wfld#:#wfld_creation_asc#:#Creation Date, asc.
-wfld#:#wfld_creation_desc#:#Creation Date, desc.
-wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
-wsp#:#wsp_switch_to_wsp_tree#:#Switch to Personal Resources
-obj#:#obj_tool_setting_booking#:#Resources
-book#:#book_select_pool#:#Select Pool
-book#:#book_pool_selection#:#Booking Pool Selection
-book#:#book_booked_in#:#Booked in
-obj#:#obj_tool_booking#:#Resources
-obj#:#obj_tool_booking_info#:#Use the booking pools to book resources.
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
-common#:#mm_rep_tree_view#:#Tree View
-exc#:#exc_rel_last_submission#:#Last Possible Submission
-exc#:#exc_rel_last_submission_info#:#If this optional date is set, all user have to submit until this deadline is reached.
-exc#:#exc_mandatory_rand_determined#:#Randomly determined
-exc#:#exc_random_selection#:#Random Selection
-exc#:#exc_random_selection_info#:#Each user gets assigned a random selection of mandatory assignments.
-exc#:#exc_nr_random_mand#:#Number of Mandatory Assignments
-exc#:#exc_denied_has_submissions#:#Reason: Users have already submitted to assignments.
-exc#:#exc_denied_has_peer_reviews#:#Reason: Some assignments have peer reviewing activated.
-exc#:#exc_denied_has_team_assignments#:#Reason: There are team assignments in this exercise.
-exc#:#exc_random_selection_not_changeable_info#:#This mode cannot be activated.
-exc#:#exc_pass_mode_not_changeable_info#:#The pass mode cannot be changed anymore.
-exc#:#exc_start_exercise#:#Start Exercise
-exc#:#exc_random_assignment#:#Random Assignment
-exc#:#exc_random_assignment_info#:#When starting the exercise some assignments will be randomly selected being mandatory for you.
-exc#:#exc_rand_overall_ass#:#Overall Number of Assignments
-exc#:#exc_rand_nr_mandatory#:#Number of Mandatory Assignments
-exc#:#exc_random#:#Random
-book#:#book_no_objects#:#No Assignment
-rep#:#rep_recommended_content#:#Recommended Content
-rep#:#rep_rec_content_removed#:#Recommended content has been removed.
-rep#:#rep_added_rec_content#:#Recommended content has been added.
-rep#:#rep_remove_rec_content#:#Are you sure you want to remove the following recommended content?
-rbac#:#rbac_add_recommended_content#:#Recommended Content
-rbac#:#rbac_add_recommended_content_info#:#Adds the current object '%1' for all members of the role as recommended content.
-dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
-dash#:#dash_click_here#:#Click here
-svy#:#svy_remove_all_participants#:#Remove all Participants
-svy#:#svy_invite_participants#:#Invite Participants
-svy#:#svy_codes#:#Access Codes
-svy#:#svy_part_overview#:#Overview
-svy#:#svy_remove_participants#:#Remove Participants
-svy#:#svy_status#:#Status
-svy#:#svy_status_invited#:#Invited
-svy#:#svy_status_in_progress#:#In Progress
-svy#:#svy_status_finished#:#Finished
-svy#:#svy_users_invited#:#Users have been invited.
-svy#:#svy_finish_survey#:#Finish survey '%1'
-pwsp#:#pwsp_enable_personal_resources#:#Enable personal resources
-file#:#personal_resources_disk_quota#:#Hard Disk Quota for Personal Resources
-file#:#personal_resources_disk_quota_info#:#Allows definition of a hard disk quota for each user account and each global role. This quota only affects files in the personal resources and in portfolios. As soon as a user exceeds the defined quota, ILIAS will prohibit the user to upload more files until the used disk space is again under quota.
-common#:#personal_resources#:#Personal Resources
-file#:#personal_resources_quota_exceeded_warning#:#You have exceeded the disk quota for your personal resources.
-file#:#personal_resources_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).
-wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
-administration#:#adm_personal_workspace#:#Personal Workspace
-dash#:#dash_favourites#:#Favourites
-dash#:#dash_memberships#:#My Courses and Groups
+wfld#:#wfld_alphabetically_asc#:#Betűrend, növ.
+wfld#:#wfld_alphabetically_desc#:#Betűrend csökk.
+wfld#:#wfld_creation_asc#:#étrehozás dátuma, növ.
+wfld#:#wfld_creation_desc#:#Létrehozás dátuma, csökk.
+wsp#:#wsp_switch_to_repo_tree#:#Ugrás a Taneszköztárolóhoz
+wsp#:#wsp_switch_to_wsp_tree#:#Ugrás a Személyes Erőforrásokhoz
+obj#:#obj_tool_setting_booking#:#Erőforrások
+book#:#book_select_pool#:#Válasszon gyűjteményt
+book#:#book_pool_selection#:#Foglalásgyűjtemény kiválasztása
+book#:#book_booked_in#:#Lefoglalt
+obj#:#obj_tool_booking#:#Erőforrások
+obj#:#obj_tool_booking_info#:#A foglalásgyűjtemények használata a foglalási erőforrásokhoz.
+book#:#book_all_pools_need_schedules#:#A beállításokat nem mentettük. Az összes hozzárendelt gyűjteménynek kell, hogy legyen időzítése.
+common#:#mm_rep_tree_view#:#Fa nézet
+exc#:#exc_rel_last_submission#:#Utolsó lehetséges beadás
+exc#:#exc_rel_last_submission_info#:#Ha ez az opcionális dátum be van állítva, eddig a határidőig az összes felhasználónak be kell adnia a megoldását.
+exc#:#exc_mandatory_rand_determined#:#Véletlenszerűen meghatározott
+exc#:#exc_random_selection#:#Véletlenszerű kiválasztás
+exc#:#exc_random_selection_info#:#Az összes felhasználóhoz véletlenszerűen rendelünk kötelező feladatokat.
+exc#:#exc_nr_random_mand#:#Kötelező hozzárendelések száma
+exc#:#exc_denied_has_submissions#:#Ok: a felhasználók már beadták a feladatot.
+exc#:#exc_denied_has_peer_reviews#:#Ok: néhány feladathoz aktiválták a tanulói visszajelzést.
+exc#:#exc_denied_has_team_assignments#:#Ok: a feladtaban csapathozzárendelések vannak.
+exc#:#exc_random_selection_not_changeable_info#:#Ez a mód nem aktiválható.
+exc#:#exc_pass_mode_not_changeable_info#:#A kitöltés módja már nem módosítható.
+exc#:#exc_start_exercise#:#Feladat indítása
+exc#:#exc_random_assignment#:#Véletlenszerű hozzárendelés
+exc#:#exc_random_assignment_info#:#A feladat indulásakor néhány hozzárendelt feladat véletlenszerűen kötelezőnek lesz megjelölve az Ön számára.
+exc#:#exc_rand_overall_ass#:#Összes hozzárendelt feladat száma
+exc#:#exc_rand_nr_mandatory#:#Kötelező feladatok száma
+exc#:#exc_random#:#Véletlenszerű
+book#:#book_no_objects#:#Nincs hozzárendelés
+rep#:#rep_recommended_content#:#Ajánlott tartalom
+rep#:#rep_rec_content_removed#:#Az ajánlott tartalmat sikeresen eltávolította.
+rep#:#rep_added_rec_content#:#Az ajánlott tartalmat sikeresen hozzáadta.
+rep#:#rep_remove_rec_content#:#Biztos, hogy eltávolítja az alábbi ajánlott tartalmat?
+rbac#:#rbac_add_recommended_content#:#Ajánlott tartalom
+rbac#:#rbac_add_recommended_content_info#:#'%1' objektumot hozzáadja ajánlott tartalomként a szerep összes tagjának.
+dash#:#dash_member_main_alt#:#A kurzusok és a csoportok szintén beállíthatóak, mint egy különálló főmenű-bejegyzés.
+dash#:#dash_click_here#:#Kattintson ide
+svy#:#svy_remove_all_participants#:#Összes résztvevő eltávolítása
+svy#:#svy_invite_participants#:#Résztvevők meghívása
+svy#:#svy_codes#:#Hozzáférési kódok
+svy#:#svy_part_overview#:#Áttekintés
+svy#:#svy_remove_participants#:#Résztvevő eltávolítása
+svy#:#svy_status#:#Állapot
+svy#:#svy_status_invited#:#Meghívva
+svy#:#svy_status_in_progress#:#Folyamatban
+svy#:#svy_status_finished#:#Befejezve
+svy#:#svy_users_invited#:#A felhasználókat sikeresen meghívta.
+svy#:#svy_finish_survey#:#'%1' kérdőív befejezése
+pwsp#:#pwsp_enable_personal_resources#:#Személyes erőforrások bekapcsolása
+file#:#personal_resources_disk_quota#:#A Személyes erőforrások kemény lemezkorlátja
+file#:#personal_resources_disk_quota_info#:#Az összes globális szerep és az összes felhasználói fiók kemény lemezkorlátjának meghatározása. Ez a korlát csak a személyes erőforrásokban és a portfóliókban lévő fájlokra értendő. Amikor a felhasználó meghaladja ezt a korlátot, az ILIAS megakadályozza a további fájlok feltöltését mindaddig, míg a lemezhasználat újra a korlát alá nem került.
+common#:#personal_resources#:#Személyes erőforrások
+file#:#personal_resources_quota_exceeded_warning#:#Elérte személyes erőforrási lemezkorlátját.
+file#:#personal_resources_quota_status_legend#:#%1$s tárhelyet használ az elérhető %2$s lemezkorlátból (%3$d%%).
+wsp#:#wsp_personal_resources_description#:#Itt kezelheti személyes fájlait, blogjait és alkotásait.
+administration#:#adm_personal_workspace#:#Személyes munkaterület
+dash#:#dash_favourites#:#Kedvenceim
+dash#:#dash_memberships#:#Kurzusaim és coportjaim
