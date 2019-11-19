@@ -15755,3 +15755,5 @@ rep#:#rep_export_limitation_limited#:#Limit
 rep#:#rep_export_limit_number#:#Anzahl Objekte
 rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den Export ist zu hoch (max. %1). Bitte wählen Sie weniger Objekte für den Export aus.
 rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.
+lso#:#lso_mainbar_button_label_toc#:#Inhalte
+lso#:#lso_mainbar_button_label_curriculum#:#Curriculum

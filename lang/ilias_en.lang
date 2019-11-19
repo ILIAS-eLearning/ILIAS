@@ -15738,3 +15738,5 @@ rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limit_number#:#Number of Objects
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
+lso#:#lso_mainbar_button_label_toc#:#Content
+lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
