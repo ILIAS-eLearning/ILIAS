@@ -32,9 +32,14 @@ class MainNotificationCollector implements Collector
     public function __construct(array $providers)
     {
         $this->providers = $providers;
+        $this->collect();
     }
 
-
+    /**
+     * Generator yielding the Notifications from the set of providers
+     *
+     * @return \Generator
+     */
     private function returnNotificationsFromProviders() : \Generator
     {
         foreach ($this->providers as $provider) {
@@ -85,18 +90,50 @@ class MainNotificationCollector implements Collector
     }
 
 
+
     /**
+     * Returns the sum of all old notifications values in the
+     * Standard Notifications
+     *
      * @return int
      */
-    public function getAmountOfNotifications() : int
+    public function getAmountOfOldNotifications() : int
     {
         if (is_array($this->notifications)) {
             $count = 0;
             foreach ($this->notifications as $notification) {
-                if ($notification instanceof StandardNotificationGroup) {
-                    $count += count($notification->getNotifications());
-                } else {
-                    $count++;
+                if($notification instanceof StandardNotificationGroup){
+                    foreach ($notification->getNotifications()as $notification) {
+                        $count += $notification->getOldAmount();
+                    }
+                }else{
+                    $count += $notification->getOldAmount();
+                }
+
+            }
+            return $count;
+        }
+
+        return 0;
+    }
+
+    /**
+     * Returns the sum of all new notifications values in the
+     * Standard Notifications
+     *
+     * @return int
+     */
+    public function getAmountOfNewNotifications() : int
+    {
+        if (is_array($this->notifications)) {
+            $count = 0;
+            foreach ($this->notifications as $notification) {
+                if($notification instanceof StandardNotificationGroup){
+                    foreach ($notification->getNotifications()as $notification) {
+                        $count += $notification->getNewAmount();
+                    }
+                }else{
+                    $count += $notification->getNewAmount();
                 }
             }
 
@@ -104,5 +141,29 @@ class MainNotificationCollector implements Collector
         }
 
         return 0;
+    }
+
+    /**
+     * Returns the set of collected informations
+     *
+     * @return isItem[]
+     */
+    public function getNotifications() : array
+    {
+
+        return $this->notifications;
+    }
+
+    public function getNotificationsIdentifiersAsArray(){
+        $identifiers = [];
+        foreach ($this->notifications as $notification) {
+            if($notification instanceof StandardNotificationGroup){
+                foreach ($notification->getNotifications() as $item) {
+                    $identifiers[] = $item->getProviderIdentification()->getInternalIdentifier();
+                }
+            }
+            $identifiers[] = $notification->getProviderIdentification()->getInternalIdentifier();
+        }
+        return $identifiers;
     }
 }
