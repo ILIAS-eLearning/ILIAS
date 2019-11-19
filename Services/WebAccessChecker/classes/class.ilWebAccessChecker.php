@@ -2,9 +2,7 @@
 // declare(strict_types=1);
 
 use ILIAS\HTTP\Cookies\CookieFactory;
-use ILIAS\HTTP\Cookies\CookieWrapper;
 use ILIAS\HTTP\GlobalHttpState;
-use Psr\Http\Message\UriInterface;
 
 require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 require_once('./Services/WebAccessChecker/classes/class.ilWACPath.php');
@@ -64,7 +62,7 @@ class ilWebAccessChecker {
 	 */
 	protected $applied_checking_methods = array();
 	/**
-	 * @var \ILIAS\DI\HTTPServices $http
+	 * @var \ILIAS\HTTP\HTTPServices $http
 	 */
 	private $http;
 	/**

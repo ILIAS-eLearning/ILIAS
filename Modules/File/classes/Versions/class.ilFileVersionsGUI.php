@@ -1,7 +1,7 @@
 <?php
 
-use ILIAS\DI\HTTPServices;
 use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\HTTP\HTTPServices;
 
 /**
  * Class ilFileVersionsGUI

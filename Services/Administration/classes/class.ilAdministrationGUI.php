@@ -128,7 +128,7 @@ class ilAdministrationGUI
 		else
 		{
 			//$this->cur_ref_id = $this->tree->getRootId();
-			$_POST = array();
+			// $_POST = array();
 			if ($_GET["cmd"] != "getDropDown")
 			{
 				$_GET["cmd"] = "";

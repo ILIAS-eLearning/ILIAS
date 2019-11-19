@@ -119,10 +119,12 @@ class ilRepositoryGUI
 		if (!ilUtil::isAPICall())
 			$this->ctrl->setReturn($this,"");
 
+		// $ref_id = $DIC->http()->_GET("ref_id", $DIC->refinery()->kindlyTo()->int());
+
 		// determine current ref id and mode
-		if (!empty($_GET["ref_id"]) || $this->ctrl->getCmd() == "showTree")
+		if (!empty($ref_id) || $this->ctrl->getCmd() == "showTree")
 		{
-			$this->cur_ref_id = $_GET["ref_id"];
+			$this->cur_ref_id = $ref_id;
 		}
 		else
 		{
@@ -152,8 +154,8 @@ class ilRepositoryGUI
 						"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
 				}
 				// #10033
-				$_GET = array("baseClass"=>"ilRepositoryGUI");
-				$_POST = array();
+				// $_GET = array("baseClass"=>"ilRepositoryGUI");
+				// $_POST = array();
 				$this->ctrl->setCmd("frameset");
 			}
 		}
@@ -178,8 +180,8 @@ class ilRepositoryGUI
 				$ilLog->write("Repository: command called with ref_id that is not in tree.".
 					"GET:".$get_str."-POST:".$post_str, $ilLog->WARNING);
 			}
-			$_GET = array();
-			$_POST = array();
+			// $_GET = array();
+			// $_POST = array();
 			$this->ctrl->setCmd("frameset");
 		}
 

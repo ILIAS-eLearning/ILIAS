@@ -54,7 +54,7 @@ class ilWACSignedPath {
 	 */
 	protected $checked = false;
 	/**
-	 * @var \ILIAS\DI\HTTPServices $httpService
+	 * @var \ILIAS\HTTP\HTTPServices $httpService
 	 */
 	private $httpService;
 	/**

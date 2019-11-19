@@ -9,6 +9,7 @@ namespace ILIAS\DI;
 
 use ILIAS\HTTP\Cookies\CookieJarFactory;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\HTTPServices;
 use ILIAS\HTTP\Request\RequestFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;

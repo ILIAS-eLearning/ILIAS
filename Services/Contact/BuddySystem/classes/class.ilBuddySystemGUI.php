@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\HTTPServices;
+use ILIAS\HTTP\HTTPServices;
 
 /**
  * Class ilBuddySystemGUI

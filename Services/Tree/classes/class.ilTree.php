@@ -2581,7 +2581,7 @@ class ilTree
 		$do_cache = ($this->__isMainTree() && count($this->parent_type_cache) < 1000);
 
 		// ref_id is not in tree
-		if(!$this->isInTree($a_ref_id))
+		if(!$this->isInTree((string)$a_ref_id))
 		{
             if($do_cache) 
 			{

@@ -1,8 +1,9 @@
 <?php
 
-use ILIAS\DI\HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\HTTPServices;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
@@ -47,7 +48,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     /**
      * @inheritDoc
      */
-    public function __construct(Services $gs, UIServices $ui, HTTPServices $http)
+    public function __construct(Services $gs, UIServices $ui, GlobalHttpState $http)
     {
         global $DIC;
         $this->lng = $DIC->language();

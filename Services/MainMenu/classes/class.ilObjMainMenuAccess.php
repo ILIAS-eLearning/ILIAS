@@ -9,7 +9,7 @@ class ilObjMainMenuAccess extends ilObjectAccess
 {
 
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\HTTPServices
      */
     private $http;
     /**

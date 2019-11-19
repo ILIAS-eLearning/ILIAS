@@ -1,5 +1,8 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\HTTP\Wrapper\DirectArrayAccessDropInReplacement as D;
+
 require_once('class.ilCachedCtrl.php');
 
 /**
@@ -15,7 +18,14 @@ require_once('class.ilCachedCtrl.php');
 class ilCtrl
 {
     const IL_RTOKEN_NAME = 'rtoken';
-    
+    /**
+     * @var \ILIAS\Refinery\Factory
+     */
+    private $refinery;
+    /**
+     * @var \ILIAS\HTTP\HTTPServices
+     */
+    private $http;
     /**
      * Maps lowercase class names to lists of parameter names that saved for them.
      *
@@ -92,7 +102,10 @@ class ilCtrl
      */
     public function __construct()
     {
+        global $DIC;
         $this->initializeMemberVariables();
+        $this->http = $DIC->http();
+        // $this->refinery = $DIC->refinery();
 
         // this information should go to xml files one day
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
@@ -163,6 +176,8 @@ class ilCtrl
         $this->getCallStructure(strtolower($baseClass));
         $base_class_gui = new $class();
         $this->forwardCommand($base_class_gui);
+
+        $this->tearDown();
     }
 
     /**
@@ -889,15 +904,23 @@ class ilCtrl
      */
     public function getCmd($a_default_cmd = "", $a_safe_commands = "")
     {
-        $cmd = "";
-        if (isset($_GET["cmd"])) {
-            $cmd = $_GET["cmd"];
+        global $DIC;
+        $cmd = '';
+        $get = $this->http->wrapper()->query();
+        $post = $this->http->wrapper()->post();
+        $to_string = $DIC->refinery()->to()->string();
+        $to_array_of_strings = $DIC->refinery()->to()->dictOf($to_string);
+
+
+        if ($get->has('cmd')) {
+            $cmd = $get->retrieve('cmd', $to_string);
         }
         if ($cmd == "post") {
-            if (isset($_POST["cmd"]) && is_array($_POST["cmd"])) {
-                reset($_POST["cmd"]);
+            if ($post->has('cmd')) {
+                $post_command = $post->retrieve('cmd', $to_array_of_strings);
+                reset($post_command);
             }
-            $cmd = @key($_POST["cmd"]);
+            $cmd = @key($post_command);
 
             // verify command
             if ($this->verified_cmd != "") {
@@ -1829,4 +1852,20 @@ class ilCtrl
         return $path;
     }
 
+
+    /**
+     * Superglobals MUST not be overridden during the Request!
+     *
+     * @throws Exception
+     */
+    private function tearDown() : void
+    {
+        if (!$_GET instanceof D
+            || !$_POST instanceof D
+            || !$_REQUEST instanceof D
+            || !$_COOKIE instanceof D
+        ) {
+            throw new Exception("\$_GET or \$_POST has been overridden");
+        }
+    }
 }

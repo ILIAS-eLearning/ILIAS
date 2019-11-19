@@ -1,14 +1,13 @@
 <?php
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\DI;
+namespace ILIAS\HTTP;
 
 use ILIAS\HTTP\Cookies\CookieJar;
 use ILIAS\HTTP\Cookies\CookieJarFactory;
-use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Request\RequestFactory;
 use ILIAS\HTTP\Response\ResponseFactory;
 use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -61,6 +60,12 @@ class HTTPServices implements GlobalHttpState
 
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+    }
+
+
+    public function wrapper() : WrapperFactory
+    {
+        return new WrapperFactory($this->request());
     }
 
 

@@ -4,8 +4,8 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
 
 require_once('./libs/composer/vendor/autoload.php');
 
-use ILIAS\DI\HTTPServices;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\HTTPServices;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;

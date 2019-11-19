@@ -521,13 +521,13 @@ class ilPropertyFormGUI extends ilFormGUI
 				$ok = false;
 			}
 		}
-		
+
 		// check if POST is missint completely (if post_max_size exceeded)
-		if (count($this->items) > 0 && !is_array($_POST))
-		{
-			$ok = false;
-		}
-		
+		// if (count($this->items) > 0 && !is_array((array)$_POST))
+		// {
+		// 	$ok = false;
+		// }
+
 		$this->check_input_called = true;
 		
 		

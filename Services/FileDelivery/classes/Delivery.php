@@ -9,10 +9,10 @@ require_once('./Services/Http/classes/class.ilHTTPS.php');
 require_once('./Services/FileDelivery/classes/FileDeliveryTypes/FileDeliveryTypeFactory.php');
 require_once './Services/FileDelivery/classes/FileDeliveryTypes/DeliveryMethod.php';
 
-use ILIAS\DI\HTTPServices;
 use ILIAS\FileDelivery\FileDeliveryTypes\DeliveryMethod;
 use ILIAS\FileDelivery\FileDeliveryTypes\FileDeliveryTypeFactory;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\HTTPServices;
 use ILIAS\HTTP\Response\ResponseHeader;
 
 /**

@@ -16,7 +16,7 @@ class ilMMTopItemFormGUI
 
     use Hasher;
     /**
-     * @var \ILIAS\DI\HTTPServices
+     * @var \ILIAS\HTTP\HTTPServices
      */
     private $http;
     /**
@@ -59,7 +59,7 @@ class ilMMTopItemFormGUI
     const F_TYPE = 'type';
 
 
-    public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, \ILIAS\DI\HTTPServices $http, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
+    public function __construct(ilCtrl $ctrl, Factory $ui_fa, Renderer $ui_re, ilLanguage $lng, \ILIAS\HTTP\HTTPServices $http, ilMMItemFacadeInterface $item, ilMMItemRepository $repository)
     {
         $this->repository = $repository;
         $this->http = $http;

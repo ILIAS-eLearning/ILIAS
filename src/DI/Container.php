@@ -6,6 +6,7 @@ namespace ILIAS\DI;
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\HTTP\HTTPServices;
 use ILIAS\Refinery\Factory;
 
 /**

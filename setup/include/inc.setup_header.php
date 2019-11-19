@@ -161,7 +161,7 @@ $DIC['http.response_sender_strategy'] = function ($c) {
 	return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
 };
 $DIC["http"] = function ($c) {
-	return new \ILIAS\DI\HTTPServices(
+	return new \ILIAS\HTTP\HTTPServices(
 		$c['http.response_sender_strategy'],
 		$c['http.cookie_jar_factory'],
 		$c['http.request_factory'],

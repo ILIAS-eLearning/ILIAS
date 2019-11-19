@@ -10,6 +10,8 @@ use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\HTTP\Wrapper\DirectArrayAccessDropInReplacement;
+use ILIAS\HTTP\Wrapper\DirectValueAccessDropInReplacement;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -1169,10 +1171,10 @@ class ilInitialisation
 		include_once "Services/Authentication/classes/class.ilSession.php";
 		if (ilSession::get("message"))
 		{
-			$_POST = ilSession::get("post_vars");
+			// $_POST = ilSession::get("post_vars");
 		}
 
-		self::removeUnsafeCharacters();
+		// self::removeUnsafeCharacters();
 
 		self::initIliasIniFile();
 
@@ -1379,30 +1381,8 @@ class ilInitialisation
 	 * @param \ILIAS\DI\Container $container
 	 */
 	protected static function initHTTPServices(\ILIAS\DI\Container $container) {
-
-		$container['http.request_factory'] = function ($c) {
-			return new \ILIAS\HTTP\Request\RequestFactoryImpl();
-		};
-
-		$container['http.response_factory'] = function ($c) {
-			return new \ILIAS\HTTP\Response\ResponseFactoryImpl();
-		};
-
-		$container['http.cookie_jar_factory'] = function ($c) {
-			return new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
-		};
-
-		$container['http.response_sender_strategy'] = function ($c) {
-			return new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
-		};
-
 		$container['http'] = function ($c) {
-			return new \ILIAS\DI\HTTPServices(
-				$c['http.response_sender_strategy'],
-				$c['http.cookie_jar_factory'],
-				$c['http.request_factory'],
-				$c['http.response_factory']
-			);
+			return new \ILIAS\HTTP\Services();
 		};
 	}
 
@@ -1660,6 +1640,11 @@ class ilInitialisation
 
 			return new \ILIAS\Refinery\Factory($dataFactory, $language);
 		};
+
+		$_GET = new DirectArrayAccessDropInReplacement($container['refinery'], $_GET);
+		$_POST = new DirectArrayAccessDropInReplacement($container['refinery'], $_POST);
+		$_COOKIE = new DirectArrayAccessDropInReplacement($container['refinery'], $_COOKIE);
+		$_REQUEST = new DirectArrayAccessDropInReplacement($container['refinery'], $_REQUEST);
 	}
 
 	/**
