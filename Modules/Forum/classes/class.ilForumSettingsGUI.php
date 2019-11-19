@@ -168,7 +168,7 @@ class ilForumSettingsGUI
             $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'grp');
             $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'crs');
 
-            if ((int)$grp_ref_id > 0 || (int)$crs_ref_id > 0) {
+            if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
                 if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
                     $mem_active = array('showMembers', 'forums_notification_settings');
@@ -201,17 +201,17 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        $default_view = (int)$this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_TREE
+        $default_view = (int) $this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_TREE
             ? ilForumProperties::VIEW_DATE
             : ilForumProperties::VIEW_TREE;
 
-        $default_view_sort_dir = (int)$this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_DATE_ASC
+        $default_view_sort_dir = (int) $this->parent_obj->objProperties->getDefaultView() > ilForumProperties::VIEW_DATE_ASC
             ? ilForumProperties::VIEW_DATE_DESC
             : ilForumProperties::VIEW_DATE_ASC;
 
         $a_values['default_view'] = $default_view;
         $a_values['default_view_sort_dir'] = $default_view_sort_dir;
-        $a_values['file_upload_allowed'] = (bool)$this->parent_obj->objProperties->getFileUploadAllowed();
+        $a_values['file_upload_allowed'] = (bool) $this->parent_obj->objProperties->getFileUploadAllowed();
     }
 
     /**
@@ -219,9 +219,12 @@ class ilForumSettingsGUI
      */
     public function updateCustomValues(ilPropertyFormGUI $a_form)
     {
-        if (in_array((int)$a_form->getInput('default_view'), array(ilForumProperties::VIEW_TREE,
-            ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC))) {
-            $default_view = (int)$a_form->getInput('default_view');
+        if (in_array((int) $a_form->getInput('default_view'), array(
+            ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE_ASC,
+            ilForumProperties::VIEW_DATE_DESC
+        ))) {
+            $default_view = (int) $a_form->getInput('default_view');
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
@@ -233,18 +236,18 @@ class ilForumSettingsGUI
         }
 
         if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
-            $this->parent_obj->objProperties->setAnonymisation((int)$a_form->getInput('anonymized'));
+            $this->parent_obj->objProperties->setAnonymisation((int) $a_form->getInput('anonymized'));
         }
         if ($this->settings->get('enable_fora_statistics', false)) {
-            $this->parent_obj->objProperties->setStatisticsStatus((int)$a_form->getInput('statistics_enabled'));
+            $this->parent_obj->objProperties->setStatisticsStatus((int) $a_form->getInput('statistics_enabled'));
         }
-        $this->parent_obj->objProperties->setPostActivation((int)$a_form->getInput('post_activation'));
+        $this->parent_obj->objProperties->setPostActivation((int) $a_form->getInput('post_activation'));
         $this->parent_obj->objProperties->setSubjectSetting($a_form->getInput('subject_setting'));
-        $this->parent_obj->objProperties->setMarkModeratorPosts((int)$a_form->getInput('mark_mod_posts'));
-        $this->parent_obj->objProperties->setThreadSorting((int)$a_form->getInput('thread_sorting'));
-        $this->parent_obj->objProperties->setIsThreadRatingEnabled((bool)$a_form->getInput('thread_rating'));
+        $this->parent_obj->objProperties->setMarkModeratorPosts((int) $a_form->getInput('mark_mod_posts'));
+        $this->parent_obj->objProperties->setThreadSorting((int) $a_form->getInput('thread_sorting'));
+        $this->parent_obj->objProperties->setIsThreadRatingEnabled((bool) $a_form->getInput('thread_rating'));
         if (!ilForumProperties::isFileUploadGloballyAllowed()) {
-            $this->parent_obj->objProperties->setFileUploadAllowed((bool)$a_form->getInput('file_upload_allowed'));
+            $this->parent_obj->objProperties->setFileUploadAllowed((bool) $a_form->getInput('file_upload_allowed'));
         }
         $this->parent_obj->objProperties->update();
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
@@ -264,8 +267,8 @@ class ilForumSettingsGUI
             // if the form was just created set the values fetched from database
             $this->notificationSettingsForm->setValuesByArray(array(
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType(),
-                'adm_force' => (bool)$this->parent_obj->objProperties->isAdminForceNoti(),
-                'usr_toggle' => (bool)$this->parent_obj->objProperties->isUserToggleNoti()
+                'adm_force' => (bool) $this->parent_obj->objProperties->isAdminForceNoti(),
+                'usr_toggle' => (bool) $this->parent_obj->objProperties->isUserToggleNoti()
             ));
         }
 
@@ -371,7 +374,7 @@ class ilForumSettingsGUI
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
             foreach ($_POST['user_id'] as $user_id) {
-                $frm_noti->setUserId((int)$user_id);
+                $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
 
                 $frm_noti->setUserToggle(0);
@@ -400,7 +403,7 @@ class ilForumSettingsGUI
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
             foreach ($_POST['user_id'] as $user_id) {
-                $frm_noti->setUserId((int)$user_id);
+                $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
 
                 if ($is_enabled) {
@@ -426,7 +429,7 @@ class ilForumSettingsGUI
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
             foreach ($_POST['user_id'] as $user_id) {
-                $frm_noti->setUserId((int)$user_id);
+                $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
                 $frm_noti->setUserToggle(1);
 
@@ -457,7 +460,7 @@ class ilForumSettingsGUI
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
 
             foreach ($_POST['user_id'] as $user_id) {
-                $frm_noti->setUserId((int)$user_id);
+                $frm_noti->setUserId((int) $user_id);
                 $is_enabled = $frm_noti->isAdminForceNotification();
                 $frm_noti->setUserToggle(0);
                 if ($is_enabled) {
@@ -590,7 +593,7 @@ class ilForumSettingsGUI
             if (isset($_POST['notification_type']) && $_POST['notification_type'] == 'all_users') {
                 // set values and call update
                 $this->parent_obj->objProperties->setAdminForceNoti(1);
-                $this->parent_obj->objProperties->setUserToggleNoti((int)$this->notificationSettingsForm->getInput('usr_toggle'));
+                $this->parent_obj->objProperties->setUserToggleNoti((int) $this->notificationSettingsForm->getInput('usr_toggle'));
                 $this->parent_obj->objProperties->setNotificationType('all_users');
                 $this->updateUserNotifications(true);
             } else {
