@@ -69,14 +69,16 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		{
 			$this->createMetaData();
 		}
+		$this->db->insert('glossary',
+			array(
+				'id' => array('integer', $this->getId()),
+				'is_online' => array('text', 'n'),
+				'virtual' => array('text', $this->getVirtualMode()),
+				'pres_mode' => array('text', 'table'),
+				'snippet_length' => array('integer', 200)
+			)
+		);
 
-		$this->db->manipulate("INSERT INTO glossary (id, is_online, virtual, pres_mode, snippet_length) VALUES (".
-			$this->db->quote($this->getId(), "integer").",".
-			$this->db->quote("n", "text").",".
-			$this->db->quote($this->getVirtualMode(), "text").",".
-			$this->db->quote("table", "text").",".
-			$this->db->quote(200, "integer").
-			")");
 		$this->setPresentationMode("table");
 		$this->setSnippetLength(200);
 
@@ -419,18 +421,22 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	{
 		$this->updateMetaData();
 
-		$this->db->manipulate("UPDATE glossary SET ".
-			" is_online = ".$this->db->quote(ilUtil::tf2yn($this->getOnline()), "text").",".
-			" virtual = ".$this->db->quote($this->getVirtualMode(), "text").",".
-			" public_xml_file = ".$this->db->quote($this->getPublicExportFile("xml"), "text").",".
-			" public_html_file = ".$this->db->quote($this->getPublicExportFile("html"), "text").",".
-			" glo_menu_active = ".$this->db->quote(ilUtil::tf2yn($this->isActiveGlossaryMenu()), "text").",".
-			" downloads_active = ".$this->db->quote(ilUtil::tf2yn($this->isActiveDownloads()), "text").", ".
-			" pres_mode = ".$this->db->quote($this->getPresentationMode(), "text").", ".
-			" show_tax = ".$this->db->quote((int) $this->getShowTaxonomy(), "integer").", ".
-			" snippet_length = ".$this->db->quote((int)$this->getSnippetLength(), "integer")." ".
-			" WHERE id = ".$this->db->quote($this->getId(), "integer"));
-		
+		$this->db->update('glossary', 
+			array(
+				'is_online' => array('text', ilUtil::tf2yn($this->getOnline())),
+				'virtual' => array('text', $this->getVirtualMode()),
+				'public_xml_file' => array('text', $this->getPublicExportFile("xml")),
+				'public_html_file' => array('text', $this->getPublicExportFile("html")),
+				'glo_menu_active' => array('text', ilUtil::tf2yn($this->isActiveGlossaryMenu())),
+				'downloads_active' => array('text', ilUtil::tf2yn($this->isActiveDownloads())),
+				'pres_mode' => array('text', $this->getPresentationMode()),
+				'show_tax' => array('integer', $this->getShowTaxonomy()),
+				'snippet_length' => array('integer', $this->getSnippetLength())
+			),
+			array(
+				'id' => array('integer', $this->getId())
+			)
+		);
 		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
@@ -453,11 +459,12 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		);
 		foreach ($this->getAutoGlossaries() as $glo_id)
 		{
-			$this->db->manipulate("INSERT INTO glo_glossaries ".
-				"(id, glo_id) VALUES (".
-				$this->db->quote($this->getId(), "integer").",".
-				$this->db->quote($glo_id, "integer").
-				")");
+			$this->db->insert('glo_glossaries',
+				array(
+					'id' => array('integer', $this->getId()),
+					'glo_id' => array('integer', $glo_id)
+				)
+			);
 		}
 	}
 
