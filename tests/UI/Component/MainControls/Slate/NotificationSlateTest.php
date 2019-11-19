@@ -120,7 +120,7 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 											<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 										</span>
 										<div>
-											<span class="bulky-label">Back</span>
+											<span class="bulky-label">back</span>
 										</div>
 									</button>
 								</div>

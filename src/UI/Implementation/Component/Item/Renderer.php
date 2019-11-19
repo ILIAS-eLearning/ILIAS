@@ -130,7 +130,7 @@ class Renderer extends AbstractComponentRenderer
         $aggregates_html = "";
 
         // aggregate notification
-        $title           = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), "Back", "");
+        $title           = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), $this->txt("back"), "");
         $aggregates_html = $default_renderer->render(
             $this->getUIFactory()->mainControls()->slate()->notification($default_renderer->render($title), $component->getAggregateNotifications())
         );
