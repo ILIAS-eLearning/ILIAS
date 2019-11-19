@@ -153,7 +153,14 @@ class Renderer extends AbstractComponentRenderer
                 $code = "$('#$id').on('click', function(event) {
 							il.UI.filter.onCmd(event, '$id', 'apply');
 							return false; // stop event propagation
-					});";
+					});
+					$('#$id').closest('.il-filter').find(':text').on('keypress', function(ev) {
+						if (typeof ev != 'undefined' && typeof ev.keyCode != 'undefined' && ev.keyCode == 13) {
+							il.UI.filter.onCmd(event, '$id', 'apply');
+							return false; // stop event propagation
+						}
+					});
+					";
                 return $code;
             });
 
