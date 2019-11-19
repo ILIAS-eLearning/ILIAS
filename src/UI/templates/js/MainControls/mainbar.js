@@ -1,9 +1,238 @@
 il = il || {};
 il.UI = il.UI || {};
 il.UI.maincontrols = il.UI.maincontrols || {};
+il.UI.maincontrols.mainbar2 = il.UI.maincontrols.mainbar2 || {};
+
+/**
+ * The Mainbar holds a collection of entries that each consist of some triggerer
+ * and an according slate; in case of Tools, these entries might be hidden at first
+ * or may be removed by the users.
+ * The usage of combined slates leads to nested submenus and ultimately a tree-structure.
+ *
+ * First of all, there is a redux-like model of the moving parts of the mainbar:
+ * All entries and tools (which are enhanced entries) are stored in a state.
+ * Whenever something changes, i.e. the engagement and thus visibility of elements
+ * should change, these changes are applied to the model first, so that calculations
+ * of dependencies can be done _before_ rendering.
+  */
+
+(function($, mainbar) {
+	mainbar.model = (function($) {
+		var
+		state,
+		classes = {
+			bar: {
+				any_entry_engaged : false,
+				tools_engaged: false,
+				tools: {},
+				entries: {}
+			},
+			entry: {
+				id: null,
+				removeable: false,
+				engaged: false,
+				hidden: false,
+				isTopLevel: () => this.id.split(':').length === 2
+			}
+		},
+
+		factories = {
+			entry: (id) => factories.cloned(classes.entry, {id: id}),
+			cloned: (state, params) => Object.assign({}, state, params)
+		},
+
+		reducers = {
+			entry: {
+				engage: (entry) => {entry.engaged = true; return entry;},
+				disengage: (entry) => {entry.engaged = false; return entry;},
+				unhide: (entry) => {entry.hidden = false; return entry;}
+			},
+			bar:  {
+				engageTools: (bar) => {bar.tools_engaged = true; return bar;},
+				disengageTools: (bar) => {bar.tools_engaged = false; return bar;},
+				anySlates: (bar) => {bar.any_entry_engaged = true; return bar;},
+				noSlates: (bar) => {bar.any_entry_engaged = false; return bar;}
+			},
+			entries: {
+				disengageTopLevel: function(entries) {
+					for(id in entries) {
+						entries[id] = reducers.entry.disengage(entries[id]);
+					}
+					return entries;
+				},
+				engageEntryPath: function(entries, entry_id) {
+					var hops = entry_id.split(':');
+					hops.map(function(v, idx, hops) {
+						var id = hops.slice(0, idx+1).join(':');
+						if(id && id != '0') {
+							entries[id] = reducers.entry.engage(entries[id]);
+						}
+					});
+					return entries;
+				}
+			}
+		},
+
+		actions = {
+			addEntry: function (entry_id) {
+				state.entries[entry_id] = factories.entry(entry_id);
+			},
+			addTool: function (entry_id, removeable, hidden) {
+				var tool = factories.entry(entry_id);
+				tool.removeable = removeable ? removeable : false;
+				tool.hidden = hidden ? hidden : false;
+				state.tools[entry_id] = tool;
+			},
+			engageEntry: function (entry_id) {
+				state.entries = reducers.entries.disengageTopLevel(state.entries),
+				state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
+				state = reducers.bar.anySlates(state);
+			},
+			engageTool: function (entry_id) {
+				state.entries = reducers.entries.disengageTopLevel(state.entries)
+				state.tools = reducers.entries.disengageTopLevel(state.tools)
+				state.tools[entry_id] = reducers.entry.engage(state.tools[entry_id]);
+				state = reducers.bar.anySlates(state);
+				state = reducers.bar.engageTools(state);
+			},
+			disengageAll: function () {
+				state.entries = reducers.entries.disengageTopLevel(state.entries)
+				state.tools = reducers.entries.disengageTopLevel(state.tools)
+				state = reducers.bar.noSlates(state);
+				state = reducers.bar.disengageTools(state);
+			}
+		},
+
+		public_interface = {
+			entry_factory: factories.entry,
+			actions: actions,
+			getState: () => factories.cloned(state)
+		},
+
+		init = function() {
+			state = factories.cloned(classes.bar);
+			actions.addEntry('0:0')
+			actions.addEntry('0:1');
+			actions.addEntry('0:2');
+			actions.addEntry('0:2:0');
+			actions.addEntry('0:2:0:0');
+			actions.addEntry('0:2:1');
+			actions.addEntry('0:2:1:0');
+			actions.addEntry('0:2:1:1');
+			actions.addEntry('0:2:1:2');
+			actions.addEntry('0:3');
+			actions.addEntry('0:3:0');
+			actions.addEntry('0:3:1');
+			actions.addTool('0:0');
+			actions.addTool('0:1');
+			actions.addTool('0:2');
+			actions.addTool('0:3');
+		};
+
+		init();
+		return public_interface;
+	})($);
+})($, il.UI.maincontrols.mainbar2);
+
+
+
+(function($, mainbar) {
+	mainbar.renderer = (function($) {
+		var
+		dom_references = {},
+
+		part_actions = {
+			triggerer: {
+				withId: function (html_id) {
+					return Object.assign({}, this, {html_id: html_id});
+				},
+				engage: function() {},
+				disengage: function() {},
+				unhide: function() {},
+				remove: function() {}
+			},
+			slate: {
+				withId: function (html_id) {
+					return Object.assign({}, this, {html_id: html_id});
+				},
+				engage: function() {},
+				disengage: function() {}
+			},
+			remover: {
+				withId: function (html_id) {
+					return Object.assign({}, this, {html_id: html_id});
+				},
+				show: function() {},
+				hide: function() {},
+				remove: function() {}
+			}
+		},
+
+/*
+		var renderEntry = function(entry) {
+			var triggerer = $('#' + entry.htmlids.triggerer),
+				slate = $('#' + entry.htmlids.slate);
+
+			//slate:
+			applyClassToDom(slate, cls_engaged, entry.isEngaged)
+			applyClassToDom(slate, cls_disengaged, !entry.isEngaged)
+
+			//triggerer
+			applyClassToDom(triggerer.parent(), cls_hidden, entry.isHidden)
+			applyClassToDom(triggerer, cls_engaged, entry.isEngaged)
+
+			if(entry.htmlids.remover) {
+				var remover = $('#' + entry.htmlids.remover).parent();
+				if(entry.isEngaged) {
+					remover.show();
+				} else {
+					remover.hide();
+				}
+			}
+		};
+*/
+
+
+		actions = {
+			addEntry: function (entry_id, part, html_id) {
+				dom_references[entry_id] = dom_references[entry_id] || {}; //{triggerer:'', slate:'', remover:''}
+				dom_references[entry_id][part] = html_id;
+			},
+			render: function (model_state) {
+
+			}
+		}
+
+		public_interface = {
+			registerElement: actions.addEntry,
+			render: actions.render,
+			parts: part_actions
+		},
+
+		init = function() {};
+
+		init();
+		return public_interface;
+	})($);
+})($, il.UI.maincontrols.mainbar2);
+
+
+
 
 (function($, maincontrols) {
 	maincontrols.mainbar = (function($) {
+
+		/**
+		 * Mainbar  provides the ->bar as collection of ->entries
+		 * and a ->renderer to project the datamodel onto the DOM.
+		 * Last, there is >mapping to adress entries from the outside.
+		 */
+
+		 var entry = function() {
+
+		 }
+
+
 
 		var ROOT_ID = "0",
 			TOOL_ROOT_ID = "1"
