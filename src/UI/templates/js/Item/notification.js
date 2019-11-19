@@ -12,11 +12,9 @@ il.UI.item = il.UI.item || {};
  * This scope contains only the getNotificationItemObject through which a Notification Item object can
  * be accessed.
  *
- * See the public_object_interface bellow for a list of functions of this object offered
+ * See the public_object_interface below for a list of functions of this object offered
  * to the public. Also see the extended asyc Main Controls Meta Bar example for a detailed
  * show case of the provided functionality.
- *
- * Note that this can be used
  *
  * Example Usage:
  *
@@ -246,7 +244,7 @@ il.UI.item = il.UI.item || {};
 
 			/**
 			 * Interface returned by this function for public use
-			 * The contained functions are implemented bellow
+			 * The contained functions are implemented below
 			 */
 			var public_object_interface = {
 				registerCloseAction: this.registerCloseAction,
