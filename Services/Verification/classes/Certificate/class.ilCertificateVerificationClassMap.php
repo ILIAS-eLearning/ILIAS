@@ -10,7 +10,9 @@ class ilCertificateVerificationClassMap
 		'crs'  => 'crsv',
 		'tst'  => 'tstv',
 		'exc'  => 'excv',
-		'sahs' => 'scov'
+		'sahs' => 'scov',
+        'cmix' => 'cmiv',
+        'lti' => 'ltiv'
 	);
 
 	/**

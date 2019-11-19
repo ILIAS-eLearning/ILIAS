@@ -239,7 +239,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	
 	public function importDefinitionFormPostValuesNeedsConfirmation()
 	{
-		return sizeof($this->confirm_objects);
+		return sizeof((array)$this->confirm_objects);
 	}
 	
 	public function prepareCustomDefinitionFormConfirmation(ilPropertyFormGUI $a_form)

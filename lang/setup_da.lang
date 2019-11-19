@@ -384,7 +384,6 @@ ctrl_structure_desc#:#Please do not invoke this function unless it is explicitly
 ctrl_structure_reloaded#:#Kontrolstruktur genindlæst.
 db_control_structure_missing#:#Control Structure Missing (See 'Details' -> 'Tools')###07 09 2006 new variable
 db_not_installed#:#Database ikke installeret
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###07 09 2006 new variable
 example#:#Example###07 09 2006 new variable
 include_local#:#inkluder lokal
 info_text_3rdparty#:#Here you setup the third party add-ons which are needed by ILIAS. Follow the setup information for every add-on to complete this step.###07 09 2006 new variable

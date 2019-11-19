@@ -149,10 +149,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		foreach ($subnodes as $subnode)
 		{
 			$rbacadmin->revokePermission($subnode["child"]);
-
-			// remove item from all user desktops
-			$affected_users = ilUtil::removeItemFromDesktops($subnode["child"]);
-				
 		}
 		if(!$tree->saveSubTree($course_id,true))
 		{
@@ -161,9 +157,6 @@ class ilSoapCourseAdministration extends ilSoapAdministration
 		
 		// write log entry
 		$log->write("SOAP ilObjectGUI::confirmedDeleteObject(), moved ref_id ".$course_id." to trash");
-		
-		// remove item from all user desktops
-		$affected_users = ilUtil::removeItemFromDesktops($course_id);
 		
 		return true;
 	}

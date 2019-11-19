@@ -18,7 +18,7 @@ class LegacyTest extends ILIAS_UI_TestBase
         $factory = new class extends NoUIFactory {
             public function legacy($content)
             {
-                return new IC\Legacy\Legacy($content);
+                return new IC\Legacy\Legacy($content, new IC\SignalGenerator());
             }
         };
         return $factory;
@@ -52,5 +52,66 @@ class LegacyTest extends ILIAS_UI_TestBase
         $g = $f->legacy("Legacy Content");
 
         $this->assertEquals($r->render($g), "Legacy Content");
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function test_create_with_custom_signal()
+    {
+        $f = $this->getUIFactory();
+        $signal_name = 'Custom Signal';
+
+        $g = $f->legacy('')->withCustomSignal($signal_name, '');
+    }
+
+    public function test_get_existing_custom_signal()
+    {
+        $f = $this->getUIFactory();
+        $signal_name = 'Custom Signal';
+        $g = $f->legacy('')->withCustomSignal($signal_name, '');
+
+        $this->assertNotNull($g->getCustomSignal($signal_name));
+    }
+
+    public function test_get_non_existing_custom_signal()
+    {
+        $f = $this->getUIFactory();
+        $signal_name = 'Custom Signal';
+        $g = $f->legacy('');
+
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage("Signal with name $signal_name is not registered");
+        $g->getCustomSignal($signal_name);
+    }
+
+    public function test_get_list_of_signals()
+    {
+        $f = $this->getUIFactory();
+        $signal_name_1 = 'Custom Signal 1';
+        $signal_name_2 = 'Custom Signal 2';
+
+        $g = $f->legacy('')->withCustomSignal($signal_name_1, '')->withCustomSignal($signal_name_2, '');
+        $l = $g->getAllCustomSignals();
+
+        $this->assertIsArray($l);
+    }
+
+    public function test_get_list_with_custom_signals_and_code()
+    {
+        $f = $this->getUIFactory();
+        $signal_name_1 = 'Custom Signal 1';
+        $custom_code_1 = 'custom_js1();';
+        $signal_name_2 = 'Custom Signal 2';
+        $custom_code_2 = 'custom_js2();';
+
+        $g = $f->legacy('')
+            ->withCustomSignal($signal_name_1, $custom_code_1)
+            ->withCustomSignal($signal_name_2, $custom_code_2);
+        $signal_list = $g->getAllCustomSignals();
+
+        $this->assertEquals(count($signal_list), 2);
+        $this->assertEquals($signal_list[$signal_name_1]['js_code'], $custom_code_1);
+        $this->assertEquals($signal_list[$signal_name_2]['js_code'], $custom_code_2);
     }
 }

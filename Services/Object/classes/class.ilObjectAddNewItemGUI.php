@@ -135,6 +135,8 @@ class ilObjectAddNewItemGUI
 				"tstv" => "certificates",
 				"excv" => "certificates",
 				"crsv" => "certificates",
+				"cmxv" => "certificates",
+				"ltiv" => "certificates",
 				"scov" => "certificates",
 				"webr" => "links");
 	

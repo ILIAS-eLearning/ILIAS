@@ -502,10 +502,6 @@ class ilObjRole extends ilObject
 				$query = "DELETE FROM role_data WHERE role_id = ".$ilDB->quote($this->getId(),'integer');
 				$res = $ilDB->manipulate($query);
 
-				include_once 'Services/AccessControl/classes/class.ilRoleDesktopItem.php';
-				$role_desk_item_obj = new ilRoleDesktopItem($this->getId());
-				$role_desk_item_obj->deleteAll();
-
 			}
 		}
 		else

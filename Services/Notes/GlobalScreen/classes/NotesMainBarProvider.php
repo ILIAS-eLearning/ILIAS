@@ -29,10 +29,11 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
         $ctrl = $dic->ctrl();
 
         // Comments
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/speech.svg"), "");
+        $title = $dic->language()->txt("mm_comments");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/speech.svg"), $title);
         $comments = $this->mainmenu->link($this->if->identifier('mm_pd_comments'))
-            ->withTitle($dic->language()->txt("mm_comments"))
-            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPublicComments"))
+            ->withTitle($title)
+            ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPublicComments"))
             ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
             ->withPosition(40)
             ->withSymbol($icon)
@@ -43,12 +44,13 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
                 }
             );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/note.svg"), "");
+        $title = $dic->language()->txt("mm_notes");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/note.svg"), $title);
 
         // Notes
         $notes = $this->mainmenu->link($this->if->identifier('mm_pd_notes'))
-            ->withTitle($dic->language()->txt("mm_notes"))
-            ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI", "ilPDNotesGUI"], "showPrivateNotes"))
+            ->withTitle($title)
+            ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPrivateNotes"))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withPosition(70)
             ->withSymbol($icon)

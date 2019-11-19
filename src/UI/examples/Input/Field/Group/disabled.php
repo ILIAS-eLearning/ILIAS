@@ -35,17 +35,10 @@ function disabled()
         ->withAdditionalTransformation($equal_ten);
 
     //Step 4: define form and form actions, attach the group to the form
-    $DIC->ctrl()->setParameterByClass(
-        'ilsystemstyledocumentationgui',
-        'example_name',
-        'numeric_inputs_disabled'
-    );
-    $form_action = $DIC->ctrl()->getFormActionByClass('ilsystemstyledocumentationgui');
-    $form = $ui->input()->container()->form()->standard($form_action, ["custom_group"=>$group]);
+    $form = $ui->input()->container()->form()->standard('#', ["custom_group"=>$group]);
 
     //Step 4: Implement some form data processing.
-    if ($request->getMethod() == "POST"
-        && $request->getQueryParams()['example_name'] =='numeric_inputs_disabled') {
+    if ($request->getMethod() == "POST") {
         //Step 4.1: Device some context dependant logic to display the potential
         // constraint error on the group.
         $form = $form->withRequest($request);

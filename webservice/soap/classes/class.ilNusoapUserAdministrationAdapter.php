@@ -30,8 +30,19 @@
 *
 * @package ilias
 */
-include_once './libs/composer/vendor/autoload.php';
+require_once('./libs/composer/vendor/autoload.php');
 use ILIAS\BackgroundTasks\Implementation\TaskManager\AsyncTaskManager;
+use ILIAS\OrgUnit\Webservices\SOAP\AddUserIdToPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\Base;
+use ILIAS\OrgUnit\Webservices\SOAP\EmployeePositionId;
+use ILIAS\OrgUnit\Webservices\SOAP\ImportOrgUnitTree;
+use ILIAS\OrgUnit\Webservices\SOAP\OrgUnitTree;
+use ILIAS\OrgUnit\Webservices\SOAP\PositionIds;
+use ILIAS\OrgUnit\Webservices\SOAP\PositionTitle;
+use ILIAS\OrgUnit\Webservices\SOAP\RemoveUserIdFromPositionInOrgUnit;
+use ILIAS\OrgUnit\Webservices\SOAP\SuperiorPositionId;
+use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPosition;
+use ILIAS\OrgUnit\Webservices\SOAP\UserIdsOfPositionAndOrgUnit;
 
 include_once './webservice/soap/lib/nusoap.php';
 include_once './webservice/soap/include/inc.soap_functions.php';
@@ -1367,6 +1378,36 @@ class ilNusoapUserAdministrationAdapter
 			SERVICE_USE,
 			'Remove desktop items for user'
 		);
+
+		// OrgUnits Functions
+		/**
+		 * @var $f Base[]
+		 */
+		$f = [
+			new AddUserIdToPositionInOrgUnit(),
+			new EmployeePositionId(),
+			new ImportOrgUnitTree(),
+			new OrgUnitTree(),
+			new PositionIds(),
+			new PositionTitle(),
+			new RemoveUserIdFromPositionInOrgUnit(),
+			new SuperiorPositionId(),
+			new UserIdsOfPosition(),
+			new UserIdsOfPositionAndOrgUnit()
+		];
+
+		foreach ($f as $function) {
+			$this->server->register(
+				$function->getName(),
+				$function->getInputParams(),
+				$function->getOutputParams(),
+				SERVICE_NAMESPACE,
+				SERVICE_NAMESPACE . '#orgu',
+				SERVICE_STYLE,
+				SERVICE_USE,
+				$function->getDocumentation()
+			);
+		}
 
 		// If a client ID is submitted, there might be some SOAP plugins registering methods/types
 		if (isset($_GET['client_id'])) {

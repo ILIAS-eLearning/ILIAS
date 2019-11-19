@@ -23,6 +23,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 	protected $log;
 
+    /**
+     * @var ilUserSettingsConfig
+     */
+    protected $user_settings_config;
+
 	/**
 	* Constructor
 	* @access public
@@ -43,6 +48,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$this->lng->loadLanguageModule("user");
 
 		$ilCtrl->saveParameter($this, "letter");
+
+		$this->user_settings_config = new ilUserSettingsConfig();
 
 		$this->log = ilLoggerFactory::getLogger("user");
 	}
@@ -2029,6 +2036,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		$ilias = $DIC['ilias'];
 		$ilSetting = $DIC['ilSetting'];
+
+        $user_settings_config = $this->user_settings_config;
 		
 		// see ilUserFieldSettingsTableGUI
 		include_once("./Services/User/classes/class.ilUserProfile.php");
@@ -2106,20 +2115,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		
 			if (!$_POST["chb"]["visible_".$field] && !$field_properties[$field]["visible_hide"])
 			{
-				$ilias->setSetting("usr_settings_hide_".$field, "1");
+                $user_settings_config->setVisible($field, false);
 			}
 			else
 			{
-				$ilias->deleteSetting("usr_settings_hide_".$field);
+                $user_settings_config->setVisible($field, true);
 			}
 
 			if (!$_POST["chb"]["changeable_" . $field] && !$field_properties[$field]["changeable_hide"])
 			{
-				$ilias->setSetting("usr_settings_disable_".$field, "1");
+                $user_settings_config->setChangeable($field, false);
 			}
 			else
 			{
-				$ilias->deleteSetting("usr_settings_disable_".$field);
+                $user_settings_config->setChangeable($field, true);
 			}
 
 			// registration visible			

@@ -220,7 +220,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
             ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
+            $this->ctrl->redirectByClass('ilDashboardGUI', '');
         }
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
         $info = new ilInfoScreenGUI($this);
@@ -658,35 +658,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     }
 
 
-    /**
-     * Add desktop item
-     *
-     * @access public
-     */
-    public function addToDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::addToDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("added_to_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
-
-
-    /**
-     * Remove from desktop
-     *
-     * @access public
-     */
-    public function removeFromDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::removeFromDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("removed_from_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
-
 
     /**
      * Add desktop item. Alias for addToDeskObject.
@@ -718,7 +689,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         /**
          * @var $a_new_object ilObjBibliographic
          */
-        $a_new_object->writeSourcefileEntriesToDb();
+        $a_new_object->parseFileToDatabase();
 
         parent::afterImport($a_new_object);
     }

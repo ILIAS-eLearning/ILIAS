@@ -13,12 +13,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 abstract class Item implements C\Item\Item
 {
     use ComponentHelper;
-
-    /**
-     * @var \ILIAS\Data\Color color
-     */
-    protected $color = null;
-
     /**
      * @var string|\ILIAS\UI\Component\Button\Shy
      */
@@ -44,9 +38,14 @@ abstract class Item implements C\Item\Item
      */
     protected $lead = null;
 
+    /**
+     * Item constructor.
+     * @param \ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Link\Standard|string $title
+     */
     public function __construct($title)
     {
-        if (!$title instanceof \ILIAS\UI\Component\Button\Shy) {
+        if (!$title instanceof \ILIAS\UI\Component\Button\Shy &&
+            !$title instanceof \ILIAS\UI\Component\Link\Standard) {
             $this->checkStringArg("title", $title);
         }
         $this->title = $title;
@@ -64,7 +63,7 @@ abstract class Item implements C\Item\Item
     /**
      * @inheritdoc
      */
-    public function withDescription($desc)
+    public function withDescription(string $desc) : C\Item\Item
     {
         $this->checkStringArg("description", $desc);
         $clone = clone $this;
@@ -114,73 +113,5 @@ abstract class Item implements C\Item\Item
     public function getActions()
     {
         return $this->actions;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withColor(\ILIAS\Data\Color $color)
-    {
-        $clone = clone $this;
-        $clone->color = $color;
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getColor()
-    {
-        return $this->color;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLeadImage(\ILIAS\UI\Component\Image\Image $image)
-    {
-        $clone = clone $this;
-        $clone->lead = $image;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $icon)
-    {
-        $clone = clone $this;
-        $clone->lead = $icon;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withLeadText($text)
-    {
-        $this->checkStringArg("lead_text", $text);
-        $clone = clone $this;
-        $clone->lead = (string) $text;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withNoLead()
-    {
-        $clone = clone $this;
-        $clone->lead = null;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getLead()
-    {
-        return $this->lead;
     }
 }

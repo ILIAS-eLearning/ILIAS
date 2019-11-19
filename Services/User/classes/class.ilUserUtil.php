@@ -13,7 +13,6 @@ class ilUserUtil
 {
 	const START_PD_OVERVIEW = 1;
 	const START_PD_SUBSCRIPTION = 2;
-	const START_PD_BOOKMARKS = 3;
 	const START_PD_NOTES = 4;
 	const START_PD_NEWS = 5;
 	const START_PD_WORKSPACE = 6;
@@ -433,21 +432,11 @@ class ilUserUtil
 
 			default:
 				$map = array(
-					self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSelectedItems',
-					self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships',
-					// self::START_PD_BOOKMARKS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToBookmarks',
-					// self::START_PD_NOTES => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNotes',
-					// self::START_PD_NEWS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToNews',
-					self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToWorkspace',
-					// self::START_PD_PORTFOLIO => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToPortfolio',
-					// self::START_PD_SKILLS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSkills',
-					/// self::START_PD_LP => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToLP',
-					self::START_PD_CALENDAR => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToCalendar',
-					// self::START_PD_MAIL => 'ilias.php?baseClass=ilMailGUI',
-					// self::START_PD_CONTACTS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToContacts',
-					// self::START_PD_PROFILE => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile',
-					// self::START_PD_SETTINGS => 'ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings'
-					self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilPersonalDesktopGUI::class . '&cmd=' . ilPersonalDesktopGUI::CMD_JUMP_TO_MY_STAFF
+					self::START_PD_OVERVIEW => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSelectedItems',
+					self::START_PD_SUBSCRIPTION => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships',
+					self::START_PD_WORKSPACE => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace',
+					self::START_PD_CALENDAR => 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToCalendar',
+					self::START_PD_MYSTAFF => 'ilias.php?baseClass=' . ilDashboardGUI::class . '&cmd=' . ilDashboardGUI::CMD_JUMP_TO_MY_STAFF
 				);				
 				return $map[$current];		
 		}		

@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
 
 /**
  * Repository settings.
@@ -61,7 +60,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -114,7 +112,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$ilSetting = $this->settings;
 		$ilAccess = $this->access;
 		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("settings"));
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveSettings'));					
@@ -209,7 +206,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$form->addItem($cb);
 	
 		// change event
-		require_once 'Services/Tracking/classes/class.ilChangeEvent.php';
 		$this->lng->loadLanguageModule("trac");
 		$event = new ilCheckboxInputGUI($this->lng->txt('trac_show_repository_views'), 'change_event_tracking');
 		$event->setInfo($this->lng->txt("trac_show_repository_views_info"));
@@ -217,14 +213,35 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$form->addItem($event);
 		
 		
-		include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
 		ilAdministrationSettingsFormHandler::addFieldsToForm(
 			ilAdministrationSettingsFormHandler::FORM_REPOSITORY, 
 			$form,
 			$this
-		);		
-		
-		
+		);
+
+        // export limitations
+        $limiter = new ilExportLimitation();
+        $exp_limit = new ilRadioGroupInputGUI($this->lng->txt("rep_export_limitation"), "rep_export_limitation");
+        $exp_limit->setValue($limiter->getLimitationMode());
+        $exp_limit->setInfo($this->lng->txt("rep_export_limitation_info"));
+
+        $op_disabled = new ilRadioOption($this->lng->txt("rep_export_limitation_disabled"),
+            ilExportLimitation::SET_EXPORT_DISABLED);
+        $exp_limit->addOption($op_disabled);
+
+        $op_limited = new ilRadioOption($this->lng->txt("rep_export_limitation_limited"),
+            ilExportLimitation::SET_EXPORT_LIMITED);
+        $exp_limit->addOption($op_limited);
+
+        // limit items in tree (number)
+        $exp_limit_num = new ilNumberInputGUI($this->lng->txt("rep_export_limit_number"), "rep_export_limit_number");
+        $exp_limit_num->setMaxLength(6);
+        $exp_limit_num->setSize(6);
+        $exp_limit_num->setValue($ilSetting->get("rep_export_limit_number"));
+        $op_limited->addSubItem($exp_limit_num);
+
+        $form->addItem($exp_limit);
+
 		// object lists
 		
 		$lists = new ilFormSectionHeaderGUI();
@@ -295,7 +312,10 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				$_POST["rep_tree_limit_grp_crs"] = false;
 			}
 			$ilSetting->set("rep_tree_limit_grp_crs", $_POST["rep_tree_limit_grp_crs"]);
-						
+
+            $ilSetting->set("rep_export_limitation", $_POST["rep_export_limitation"]);
+            $ilSetting->set("rep_export_limit_number", $_POST["rep_export_limit_number"]);
+
 			// $ilSetting->set('rep_cache',(int) $_POST['rep_cache']);
 			// $ilSetting->set("rep_tree_synchronize", $_POST["rep_tree_synchronize"]);	
 			
@@ -354,8 +374,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$ilSetting = $this->settings;
 		$ilAccess = $this->access;
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		include_once "Services/Form/classes/class.ilCombinationInputGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("rep_custom_icons"));
 		$form->setFormAction($this->ctrl->getFormAction($this, 'saveCustomIcons'));			
@@ -418,7 +436,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				
 		$has_write = $ilAccess->checkAccess('write','',$this->object->getRefId());
 		
-		include_once("./Services/Repository/classes/class.ilModulesTableGUI.php");
 		$comp_table = new ilModulesTableGUI($this, "listModules", $has_write);
 				
 		$this->tpl->setContent($comp_table->getHTML());
@@ -439,7 +456,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		}
 		
 		$grp_pos_map = array(0 => 9999);
-		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
 		{
 			$grp_pos_map[$item["id"]] = $item["pos"];
@@ -503,7 +519,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, "addNewItemGroupSeparator"));
 		}
 		
-		include_once("./Services/Repository/classes/class.ilNewItemGroupTableGUI.php");
 		$grp_table = new ilNewItemGroupTableGUI($this, "listNewItemGroups", $has_write);
 				
 		$this->tpl->setContent($grp_table->getHTML());
@@ -513,7 +528,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	{
 		$this->setModuleSubTabs("new_item_groups");
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		
 		$this->lng->loadLanguageModule("meta");
@@ -547,7 +561,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			$form->setTitle($this->lng->txt("rep_new_item_group_edit"));
 			$form->setFormAction($this->ctrl->getFormAction($this, "updateNewItemGroup"));
 			
-			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			$grp = ilObjRepositorySettings::getNewItemGroups();
 			$grp = $grp[$a_grp_id];
 			
@@ -588,7 +601,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				$titles[$lang_id] = $form->getInput("title_".$lang_id);
 			}
 			
-			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			if(ilObjRepositorySettings::addNewItemGroup($titles))
 			{
 				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -636,7 +648,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 				$titles[$lang_id] = $form->getInput("title_".$lang_id);
 			}
 			
-			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			if(ilObjRepositorySettings::updateNewItemGroup($grp_id, $titles))
 			{
 				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -650,7 +661,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 	
 	protected function addNewItemGroupSeparator()
 	{
-		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		if(ilObjRepositorySettings::addNewItemGroupSeparator())
 		{
 			ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
@@ -664,11 +674,9 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		
 		if(is_array($_POST["grp_order"]))	
 		{
-			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			ilObjRepositorySettings::updateNewItemGroupOrder($_POST["grp_order"]);
 									
 			$grp_pos_map = array();
-			include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 			foreach(ilObjRepositorySettings::getNewItemGroups() as $item)
 			{
 				$grp_pos_map[$item["id"]] = str_pad($item["pos"], 4, "0", STR_PAD_LEFT);
@@ -707,7 +715,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		
 		$this->setModuleSubTabs("new_item_groups");
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("rep_new_item_group_delete_sure"));
 
@@ -715,7 +722,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 		$cgui->setCancel($this->lng->txt("cancel"), "listNewItemGroups");
 		$cgui->setConfirm($this->lng->txt("confirm"), "deleteNewItemGroup");
 		
-		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		$groups = ilObjRepositorySettings::getNewItemGroups();
 
 		foreach ($_POST["grp_id"] as $grp_id)
@@ -733,7 +739,6 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 			return $this->listNewItemGroups();
 		}
 		
-		include_once("Services/Repository/classes/class.ilObjRepositorySettings.php");
 		foreach($_POST["grp_id"] as $grp_id)
 		{
 			ilObjRepositorySettings::deleteNewItemGroup($grp_id);

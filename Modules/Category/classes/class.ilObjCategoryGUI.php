@@ -90,9 +90,6 @@ class ilObjCategoryGUI extends ilContainerGUI
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
 		
-		// show repository tree
-		$this->showRepTree();
-		
 		switch($next_class)
 		{
 			case "ilobjusergui":
@@ -819,6 +816,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 					ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 					ilObjectServiceSettingsGUI::TAXONOMIES,
 					ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+					ilObjectServiceSettingsGUI::TAG_CLOUD,
 					ilObjectServiceSettingsGUI::FILTER
 				)
 			);
@@ -893,6 +891,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 						ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
 						ilObjectServiceSettingsGUI::TAXONOMIES,						
 						ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+						ilObjectServiceSettingsGUI::TAG_CLOUD,
 						ilObjectServiceSettingsGUI::FILTER
 					)
 				);

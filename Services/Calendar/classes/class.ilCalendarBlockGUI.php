@@ -110,7 +110,8 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
 		if ($seed_str == "")
 		{
-			$this->seed = new ilDate(time(),IL_CAL_UNIX);	// @todo: check this
+			$now = new \ilDate(time(), IL_CAL_UNIX);
+			$this->seed = new \ilDate($now->get(IL_CAL_DATE), IL_CAL_DATE);
 		}
 		else
 		{
@@ -330,7 +331,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		$target_class = array();
 		if (!$this->getRepositoryMode())
 		{
-			$target_class = array("ilpersonaldesktopgui", "ilcalendarpresentationgui");
+			$target_class = array("ildashboardgui", "ilcalendarpresentationgui");
 		}
 		else
 		{
@@ -893,7 +894,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 	
@@ -912,7 +913,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$ilCtrl->redirectByClass("ilpersonaldesktopgui", "show");
+			$ilCtrl->redirectByClass("ildashboardgui", "show");
 		}
 	}
 

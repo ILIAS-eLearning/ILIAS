@@ -123,6 +123,11 @@ class ilContainer extends ilObject
 	 */
 	protected $obj_trans = null;
 
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
+
 	function __construct($a_id = 0, $a_reference = true)
 	{
 		global $DIC;
@@ -145,6 +150,7 @@ class ilContainer extends ilObject
 		{
 			$this->obj_trans = ilObjectTranslation::getInstance($this->getId());
 		}
+        $this->recommended_content_manager = new ilRecommendedContentManager();
 	}
 
 	/**
@@ -774,6 +780,28 @@ class ilContainer extends ilObject
 		$objects = $this->applyContainerUserFilter($objects, $container_user_filter);
 		$objects = self::getCompleteDescriptions($objects);
 
+		// apply container classification filters
+        $repo = new ilClassificationSessionRepository($this->getRefId());
+        foreach (ilClassificationProvider::getValidProviders($this->getRefId(), $this->getId(), $this->getType()) as $class_provider) {
+            $id = get_class($class_provider);
+            $current = $repo->getValueForProvider($id);
+            if($current)
+            {
+                $class_provider->setSelection($current);
+                $filtered = $class_provider->getFilteredObjects();
+                $objects = array_filter ($objects, function ($i) use ($filtered) {
+                    return (is_array($filtered) && in_array($i["obj_id"], $filtered));
+                });
+                //if (count($filtered) > 0) {
+                //    var_dump($filtered);
+                //    echo "<br><br>";
+                //    var_dump($objects);
+                //    exit;
+                //}
+            }
+        }
+
+
 		$found = false;
 		$all_ref_ids = array();
 		
@@ -1278,7 +1306,26 @@ class ilContainer extends ilObject
 						$result_obj_ids[] = $rec["obj_id"];
 					}
 					$obj_ids = array_intersect($obj_ids, $result_obj_ids);
-				}
+				} else if ($field_id == ilContainerFilterField::STD_FIELD_ONLINE)
+                {
+                    if (in_array($val, [1,2])) {
+                        $online_where = ($val == 1)
+                            ? " (offline <> ".$db->quote(1, "integer")." OR offline IS NULL) "
+                            :" offline = ".$db->quote(1, "integer")." ";
+                        $result = null;
+                        $set = $db->queryF("SELECT obj_id FROM object_data " .
+                            " WHERE  " . $db->in("obj_id", $obj_ids, false, "integer") .
+                            " AND ".$online_where,
+                            [],
+                            []
+                        );
+                        $result_obj_ids = [];
+                        while ($rec = $db->fetchAssoc($set)) {
+                            $result_obj_ids[] = $rec["obj_id"];
+                        }
+                        $obj_ids = array_intersect($obj_ids, $result_obj_ids);
+                    }
+                }
 				else if ($field_id == ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT)
 				{
 					$result = null;

@@ -547,8 +547,6 @@ class ilInfoScreenGUI
 					""
 					);
 			
-				// bookmarks
-
 				// links to resource
 				if ($ilAccess->checkAccess("write", "", $ref_id) ||
 					$ilAccess->checkAccess("edit_permissions", "", $ref_id))
@@ -688,7 +686,7 @@ class ilInfoScreenGUI
 						$this->addProperty($this->lng->txt("in_use_by"),
 							$lock_user->getPublicName()
 							,
-							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ilpersonaldesktopgui&cmdNode=1&baseClass=ilPersonalDesktopGUI'
+							"./ilias.php?user=".$lock_user->getId().'&cmd=showUserProfile&cmdClass=ildashboardgui&cmdNode=1&baseClass=ilDashboardGUI'
 						);
 					}
 				}

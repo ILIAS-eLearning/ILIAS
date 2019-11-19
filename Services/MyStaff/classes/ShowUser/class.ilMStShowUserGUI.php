@@ -16,6 +16,7 @@ class ilMStShowUserGUI {
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const TAB_SHOW_COURSES = 'show_courses';
 	const TAB_SHOW_USER = 'show_user';
+    const CMD_GET_ACTIONS = "getActions";
 	/**
 	 * @var int
 	 */
@@ -54,7 +55,7 @@ class ilMStShowUserGUI {
 
 		if (!$this->usr_id) {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 
 		if ($this->access->hasCurrentUserAccessToMyStaff()
@@ -62,7 +63,7 @@ class ilMStShowUserGUI {
 			return;
 		} else {
 			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilPersonalDesktopGUI::class, "");
+			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 	}
 
@@ -89,6 +90,7 @@ class ilMStShowUserGUI {
 					case self::CMD_RESET_FILTER:
 					case self::CMD_APPLY_FILTER:
 					case self::CMD_INDEX:
+                    case self::CMD_GET_ACTIONS:
 						$this->addTabs(self::TAB_SHOW_COURSES);
 						$this->$cmd();
 						break;
@@ -211,4 +213,40 @@ class ilMStShowUserGUI {
 			$DIC->tabs()->activateTab($active_tab_id);
 		}
 	}
+
+    /**
+     *
+     */
+    public function getActions() {
+        global $DIC;
+
+        $mst_co_usr_id = $DIC->http()->request()->getQueryParams()['mst_lco_usr_id'];
+        $mst_lco_crs_ref_id = $DIC->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
+
+        if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
+            $selection = new ilAdvancedSelectionListGUI();
+
+            if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+                $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
+                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
+            };
+
+            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
+            foreach (ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
+                'user_id' => $mst_co_usr_id,
+                'object_reference.deleted' => null
+            ), array( 'user_id' => '=', 'object_reference.deleted' => '!=' ))->get() as $org_unit_assignment) {
+                if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+                    $link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
+                    $selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
+                }
+            }
+
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
+                ->getLinkTarget($this, self::CMD_INDEX)));
+
+            echo $selection->getHTML(true);
+        }
+        exit;
+    }
 }

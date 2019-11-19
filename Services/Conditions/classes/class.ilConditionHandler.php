@@ -501,7 +501,7 @@ class ilConditionHandler
 		/** @var ilObjectDefinition $objDefinition */
 		$objDefinition = $DIC['objDefinition'];
 		
-		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa');
+		$trigger_types =  array('crs','exc','tst','sahs', 'svy', 'lm', 'iass', 'prg', 'copa', 'lti', 'cmix');
 
 		// Add operator lp trigger
 		if (ilObjUserTracking::_enabledLearningProgress())

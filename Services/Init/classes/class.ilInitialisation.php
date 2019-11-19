@@ -1446,7 +1446,8 @@ class ilInitialisation
 				$c["ui.factory.maincontrols"],
 				$c["ui.factory.tree"],
 				$c["ui.factory.menu"],
-				$c["ui.factory.symbol"]
+				$c["ui.factory.symbol"],
+				$c["ui.factory.legacy"]
 			);
 		};
 		$c["ui.signal_generator"] = function($c) {
@@ -1516,7 +1517,8 @@ class ilInitialisation
 		$c["ui.factory.maincontrols.slate"] = function($c) {
 			return new ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
 				$c['ui.signal_generator'],
-				$c['ui.factory.counter']
+				$c['ui.factory.counter'],
+                $c["ui.factory.symbol"]
 			);
 		};
 		$c["ui.factory.maincontrols"] = function($c) {
@@ -1628,6 +1630,10 @@ class ilInitialisation
 			return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
 		};
 
+		$c["ui.factory.legacy"] = function($c) {
+			return new ILIAS\UI\Implementation\Component\Legacy\Factory($c["ui.signal_generator"]);
+		};
+
 		$plugins = ilPluginAdmin::getActivePlugins();
 		foreach ($plugins as $plugin_data){
 			$plugin = ilPluginAdmin::getPluginObject($plugin_data["component_type"],$plugin_data["component_name"]
@@ -1663,10 +1669,6 @@ class ilInitialisation
 	{
 		global $ilUser, $DIC;
 
-		require_once "./Services/LTI/classes/class.ilLTIViewGUI.php";
-		$lti = new ilLTIViewGUI($ilUser);
-		$GLOBALS["DIC"]["lti"] = $lti;
-
 		if(ilContext::hasUser())
 		{
 			// load style definitions
@@ -1675,58 +1677,7 @@ class ilInitialisation
 		}
 
 		self::initUIFramework($GLOBALS["DIC"]);
-
-		// LTI
-		if ($lti->isActive())
-		{
-			include_once "./Services/LTI/classes/class.ilTemplate.php";
-			$tpl = new LTI\ilGlobalTemplate("tpl.main.html", true, true, "Services/LTI");
-		}
-		/*else if (
-			$_REQUEST["baseClass"] == "ilLMPresentationGUI" ||
-			$_GET["baseClass"] == "ilLMPresentationGUI" ||
-			$_REQUEST["baseClass"] == "ilLMEditorGUI" ||
-			$_GET["baseClass"] == "ilLMEditorGUI"
-		) {
-			$tpl = new ilLMGlobalTemplate("tpl.main.html", true, true);
-		}*/
-		else if (
-			$_REQUEST["cmdClass"] == "ilobjbloggui" ||
-			$_GET["cmdClass"] == "ilobjbloggui"		||
-			$_REQUEST["cmdClass"] == "ilblogpostinggui" ||
-			$_GET["cmdClass"] == "ilblogpostinggui"
-		) {
-			//$tpl = new ilBlogGlobalTemplate("tpl.main.html", true, true);
-			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-		}
-		else if (
-			$_REQUEST["cmdClass"] == "ilobjportfoliotemplategui" ||
-			$_GET["cmdClass"] == "ilobjportfoliotemplategui" ||
-			$_REQUEST["cmdClass"] == "ilobjportfoliogui" ||
-			$_GET["cmdClass"] == "ilobjportfoliogui" ||
-			$_REQUEST["cmdClass"] == "ilobjportfoliobasegui" ||
-			$_GET["cmdClass"] == "ilobjportfoliobasegui" ||
-			$_REQUEST["baseClass"] == "ilObjPortfolioGUI" ||
-			$_GET["baseClass"] == "ilObjPortfolioGUI"
-		) {
-			//$tpl = new ilPortfolioGlobalTemplate("tpl.main.html", true, true);
-			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-		}
-		else if (
-			$_REQUEST["baseClass"] == "ilStartUpGUI" ||
-			$_GET["baseClass"] == "ilStartUpGUI" ||
-			preg_match("%^.*/login.php$%", $_SERVER["SCRIPT_NAME"]) == 1
-		) {
-			$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-			// $tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-		} else {
-			if (preg_match("%^.*/error.php$%", $_SERVER["SCRIPT_NAME"]) == 1) {
-				$tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
-			} else {
-				$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
-			}
-		}
-
+		$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		self::initGlobal("tpl", $tpl);
 
 		if (ilContext::hasUser()) {
@@ -1765,17 +1716,8 @@ class ilInitialisation
 
 		if(ilContext::hasUser())
 		{
-			// LTI
-			if ($lti->isActive())
-			{
-				include_once './Services/LTI/classes/class.ilMainMenuGUI.php';
-				$ilMainMenu = new LTI\ilMainMenuGUI("_top");
-			}
-			else
-			{
-				include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
-				$ilMainMenu = new ilMainMenuGUI("_top");
-			}
+			include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
+			$ilMainMenu = new ilMainMenuGUI("_top");
 
 			self::initGlobal("ilMainMenu", $ilMainMenu);
 			unset($ilMainMenu);
@@ -1797,6 +1739,8 @@ class ilInitialisation
 				$_GET['offset'] = (int) $_GET['offset'];		// old code
 			}
 
+			self::initGlobal("lti","ilLTIViewGUI","./Services/LTI/classes/class.ilLTIViewGUI.php");
+			$GLOBALS["DIC"]["lti"]->init();
 			self::initKioskMode($GLOBALS["DIC"]);
 		}
 		else
@@ -2048,7 +1992,7 @@ class ilInitialisation
 		}
 
 		// for password change and incomplete profile
-		// see ilPersonalDesktopGUI
+		// see ilDashboardGUI
 		if(!$_GET["target"])
 		{
 			ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');

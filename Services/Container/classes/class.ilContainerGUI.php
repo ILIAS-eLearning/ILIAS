@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
 require_once "./Services/Container/classes/class.ilContainer.php";
-include_once './Services/PersonalDesktop/interfaces/interface.ilDesktopItemHandling.php';
 
 /**
 * Class ilContainerGUI
@@ -1457,43 +1456,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		return false;
 	}
 			
-    /**
-     * @see ilDesktopItemHandling::addToDesk()
-     */
-    public function addToDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::addToDesktop();
-	 	ilUtil::sendSuccess($lng->txt("added_to_desktop"));
-		$this->renderObject();
-    }
-    
-    /**
-     * @see ilDesktopItemHandling::removeFromDesk()
-     */
-    public function removeFromDeskObject()
-    {
-		$ilSetting = $this->settings;
-		$lng = $this->lng;
-		
-    	if((int)$ilSetting->get('disable_my_offers'))
-		{
-			return $this->renderObject();
-		}
-		
-	 	include_once './Services/PersonalDesktop/classes/class.ilDesktopItemGUI.php';
-	 	ilDesktopItemGUI::removeFromDesktop();
-	 	ilUtil::sendSuccess($lng->txt("removed_from_desktop"));
-		$this->renderObject();
-    }
 
 	// bugfix mantis 24559
 	// undoing an erroneous change inside mantis 23516 by adding "Download Multiple Objects"-functionality for non-admins
@@ -3369,67 +3331,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	// begin-patch fm
 
 	/**
-	 * Show tree
-	 */
-	function showRepTree()
-	{
-		$tpl = $this->tpl;
-		$ilUser = $this->user;
-		$ilSetting = $this->settings;
-		$ilCtrl = $this->ctrl;
-		
-		// set current repository view mode
-		if (!empty($_GET["set_mode"]))
-		{
-			$_SESSION["il_rep_mode"] = $_GET["set_mode"];
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$ilUser->writePref("il_rep_mode", $_GET["set_mode"]);
-			}
-		}
-
-		// get user setting
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			if ($ilUser->getId() != ANONYMOUS_USER_ID)
-			{
-				$_SESSION["il_rep_mode"] = $ilUser->getPref("il_rep_mode");
-			}
-		}
-
-		// if nothing set, get default view
-		if ($_SESSION["il_rep_mode"] == "")
-		{
-			$_SESSION["il_rep_mode"] = $ilSetting->get("default_repository_view");
-		}
-		
-		$mode = ($_SESSION["il_rep_mode"] != "")
-			? $_SESSION["il_rep_mode"]
-			: "flat";
-
-		$mode = "tree";
-
-		// check for administration context, see #0016312
-		if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui"))
-		{
-			include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
-			$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
-			if(method_exists($this, 'getAdditionalWhitelistTypes')) {
-				$whitelist = array_merge (
-					$exp->getTypeWhiteList(),
-					$this->getAdditionalWhitelistTypes()
-				);
-				$exp->setTypeWhiteList($whitelist);
-			}
-
-			if (!$exp->handleCommand())
-			{
-//				$tpl->setLeftNavContent($exp->getHTML());
-			}
-		}
-	}
-
-	/**
 	 * Init object edit form
 	 *
 	 * @return ilPropertyFormGUI
@@ -3875,7 +3776,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$request = $DIC->http()->request();
 
 		$filter = $filter_service->util()->getFilterForRefId($this->ref_id,
-			$DIC->ctrl()->getLinkTarget($this, "render", "", true));
+			$DIC->ctrl()->getLinkTarget($this, "render", "", true),
+            (bool) $this->isActiveAdministrationPanel());
 
 
 		$filter_data = [];

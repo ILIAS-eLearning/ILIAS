@@ -6,10 +6,12 @@ namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
 
 /**
  * Slate
@@ -37,7 +39,12 @@ abstract class Slate implements ISlate\Slate
     /**
      * @var Signal
      */
-    protected $show_signal;
+    protected $engage_signal;
+
+    /**
+     * @var ReplaceSignal
+     */
+    protected $replace_signal;
 
     /**
      * @var bool
@@ -66,7 +73,8 @@ abstract class Slate implements ISlate\Slate
     protected function initSignals()
     {
         $this->toggle_signal = $this->signal_generator->create();
-        $this->show_signal = $this->signal_generator->create();
+        $this->engage_signal = $this->signal_generator->create();
+        $this->replace_signal = $this->signal_generator->create(ReplaceSignalImplementation::class);
     }
 
     /**
@@ -96,9 +104,9 @@ abstract class Slate implements ISlate\Slate
     /**
      * @inheritdoc
      */
-    public function getShowSignal() : Signal
+    public function getEngageSignal() : Signal
     {
-        return $this->show_signal;
+        return $this->engage_signal;
     }
 
     /**
@@ -123,4 +131,12 @@ abstract class Slate implements ISlate\Slate
      * @inheritdoc
      */
     abstract public function getContents() : array;
+
+    /**
+     * @inheritdoc
+     */
+    public function getReplaceSignal() : ReplaceSignal
+    {
+        return $this->replace_signal;
+    }
 }

@@ -26,6 +26,8 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjIndividualAssessmentGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjLTIConsumerGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCmiXapiGUI
 *
 */
 class ilRepositoryGUI
@@ -270,6 +272,7 @@ class ilRepositoryGUI
 			$cmd = "";
 		}
 
+
 		// determine next class
 		if ($cmd != "frameset")
 		{
@@ -320,7 +323,7 @@ class ilRepositoryGUI
 
 		// commands that are always handled by repository gui
 		// to do: move to container
-		if ($cmd == "showTree")
+		if ($cmd == "showRepTree")
 		{
 			$next_class = "";
 		}
@@ -557,6 +560,16 @@ class ilRepositoryGUI
 		iljQueryUtil::initjQuery($this->tpl);
 		
 		$this->tpl->printToStdout(false);
+		exit;
+	}
+
+	/**
+	 * Show tree
+	 */
+	function showRepTree()
+	{
+		$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+		$exp->handleCommand();
 		exit;
 	}
 

@@ -203,43 +203,6 @@ class ilMainMenuGUI
 
 
     /**
-     * @param bool $a_in_topbar
-     *
-     * @return string
-     * @deprecated
-     */
-    public static function getLanguageSelection($a_in_topbar = false) : string
-    {
-        global $DIC;
-
-        $lng = $DIC->language();
-
-        $gr_list = new ilGroupedListGUI();
-        $gr_list->setAsDropDown(true);
-
-        $languages = $lng->getInstalledLanguages();
-        if (sizeof($languages) > 1) // #11237
-        {
-            foreach ($languages as $lang_key) {
-                $base = substr($_SERVER["REQUEST_URI"], strrpos($_SERVER["REQUEST_URI"], "/") + 1);
-                $base = preg_replace("/&*lang=[a-z]{2}&*/", "", $base);
-                $link = ilUtil::appendUrlParameterString(
-                    $base,
-                    "lang=" . $lang_key
-                );
-                $link = str_replace("?&", "?", $link);
-
-                $gr_list->addEntry($lng->_lookupEntry($lang_key, "meta", "meta_l_" . $lang_key), $link);
-            }
-
-            return $gr_list->getHTML();
-        }
-
-        return "";
-    }
-
-
-    /**
      * Set all template variables (images, scripts, target frames, ...)
      */
     private function setTemplateVars()
@@ -320,12 +283,6 @@ class ilMainMenuGUI
                     $this->tpl->parseCurrentBlock();
                 }
 
-                // language selection
-                $selection = self::getLanguageSelection();
-                if ($selection) {
-                    $this->tpl->setVariable("TXT_LANGSELECT", $lng->txt("language"));
-                    $this->tpl->setVariable("LANG_SELECT", $selection);
-                }
 
                 $this->tpl->setCurrentBlock("userisanonymous");
                 $this->tpl->setVariable("TXT_NOT_LOGGED_IN", $lng->txt("not_logged_in"));
@@ -346,9 +303,9 @@ class ilMainMenuGUI
                 $user_img_src = $ilUser->getPersonalPicturePath("small", true);
                 $user_img_alt = $ilUser->getFullname();
                 $this->tpl->setVariable("USER_IMG", ilUtil::img($user_img_src, $user_img_alt));
-                $this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToProfile");
+                $this->tpl->setVariable("USR_LINK_PROFILE", "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile");
                 $this->tpl->setVariable("USR_TXT_PROFILE", $lng->txt("personal_profile"));
-                $this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToSettings");
+                $this->tpl->setVariable("USR_LINK_SETTINGS", "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings");
                 $this->tpl->setVariable("USR_TXT_SETTINGS", $lng->txt("personal_settings"));
                 $this->tpl->setVariable("TXT_LOGOUT2", $lng->txt("logout"));
                 $this->tpl->setVariable("LINK_LOGOUT2", $link_dir . "logout.php?lang=" . $ilUser->getCurrentLanguage());

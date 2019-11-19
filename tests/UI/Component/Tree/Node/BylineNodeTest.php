@@ -165,11 +165,4 @@ EOT;
         );
         return new TestDefaultRenderer($component_renderer_loader);
     }
-
-    private function brutallyTrimHTML($html)
-    {
-        $html = str_replace(["\n", "\r", "\t"], "", $html);
-        $html = preg_replace('# {2,}#', " ", $html);
-        return trim($html);
-    }
 }

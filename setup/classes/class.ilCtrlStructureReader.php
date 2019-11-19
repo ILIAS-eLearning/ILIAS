@@ -15,6 +15,7 @@ class ilCtrlStructureReader
 	var $class_script;
 	var $class_childs;
 	var $executed;
+	var $db = null;
 
 	function __construct($a_ini_file = null)
 	{
@@ -34,8 +35,8 @@ class ilCtrlStructureReader
 	*/
 	function getStructure()
 	{
-		global $ilDB;
-		
+		$ilDB = $this->getDB();
+
 		$this->ini->setVariable("db","structure_reload", "1");
 		$this->ini->write();
 		if ($this->ini->readVariable("db","structure_reload") != "1")
@@ -51,8 +52,8 @@ class ilCtrlStructureReader
 	function readStructure($a_force = false, $a_dir = "", $a_comp_prefix = "",
 		$a_plugin_path = "")
 	{
-		global $ilDB;
-		
+		$ilDB = $this->getDB();
+
 		if (!$a_force && $this->ini->readVariable("db","structure_reload") != "1")
 		{
 			return;
@@ -94,14 +95,24 @@ class ilCtrlStructureReader
 	}
 
 	/**
+	 * @param string $path
+	 * @return string
+	 */
+	private function normalizePath(string $path) : string 
+	{
+		return str_replace(['//'], ['/'], $path);
+	}
+
+	/**
 	* read structure into internal variables
 	*
 	* @access private
 	*/
 	function read($a_cdir)
 	{
-		global $ilDB, $lng;
-		
+		$ilDB = $this->getDB();
+		$il_absolute_path = realpath(dirname(__FILE__) .'/../../');
+
 		// check wether $a_cdir is a directory
 		if (!@is_dir($a_cdir))
 		{
@@ -119,8 +130,9 @@ class ilCtrlStructureReader
 				// directories
 				if (@is_dir($a_cdir."/".$file))
 				{
-					if ($a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/data" &&
-						$a_cdir."/".$file != ILIAS_ABSOLUTE_PATH."/Customizing")
+					if ($this->normalizePath($a_cdir."/".$file) != $this->normalizePath($il_absolute_path ."/data") &&
+						$this->normalizePath($a_cdir."/".$file) != $this->normalizePath($il_absolute_path ."/Customizing")
+					)
 					{
 						$this->read($a_cdir."/".$file);
 					}
@@ -168,9 +180,18 @@ class ilCtrlStructureReader
 											$ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
 										}
 
+										$msg = implode("\n", [
+											"Error: Duplicate call structure definition found (Class %s) in files:",
+											"- %s",
+											"- %s",
+											"",
+											"Please remove the file, that does not belong to the official ILIAS distribution.",
+											"After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
+										]);
+
 										throw new \Exception(
 											sprintf(
-												$lng->txt("duplicate_ctrl"),
+												$msg,
 												$parent,
 												$this->class_script[$parent],
 												$a_cdir."/".$file
@@ -240,7 +261,7 @@ class ilCtrlStructureReader
 	*/
 	function store($a_cdir = "./..")
 	{
-		global $ilDB;
+		$ilDB = $this->getDB();
 
 		// delete all class to file assignments
 		$ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = ".
@@ -300,8 +321,8 @@ class ilCtrlStructureReader
 	*/
 	function determineClassFileIds()
 	{
-		global $ilDB;
-	
+		$ilDB = $this->getDB();
+
 		$ilDB->manipulate("UPDATE ctrl_classfile SET ".
 			" cid = ".$ilDB->quote("", "text")
 			);
@@ -317,5 +338,21 @@ class ilCtrlStructureReader
 			$cnt++;
 		}
 	}
+
+	public function withDB(\ilDBInterface $db)
+	{
+		$clone = clone $this;
+		$clone->db = $db;
+		return $clone;
+	}
+
+	protected function getDB(): \ilDBInterface
+	{
+		if(! is_null($this->db)) {
+			return $this->db;
+		}
+		//return ilDB in any case - backward compat.
+		global $ilDB;
+		return $ilDB;
+	}
 }
-?>

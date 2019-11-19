@@ -271,12 +271,14 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 							if ($type == "PageObject")
 							{
 								$this->ctrl->setParameter($this, "obj_id", $target_id);
-								$href = $this->ctrl->getLinkTargetByClass(get_class($this), "edit");
+								$href = $this->ctrl->getLinkTargetByClass(get_class($this), "edit", "",
+									false, true);
 							}
 							else
 							{
 								$this->ctrl->setParameterByClass("ilstructureobjectgui", "obj_id", $target_id);
-								$href = $this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view");
+								$href = $this->ctrl->getLinkTargetByClass("ilstructureobjectgui", "view",
+									"",false, true);
 							}
 							$href = str_replace("&", "&amp;", $href);
 							$this->ctrl->setParameter($this, "obj_id", $_GET["obj_id"]);
@@ -322,7 +324,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 
 					case "File":
 						$this->ctrl->setParameter($this, "file_id", "il__file_".$target_id);
-						$href = $this->ctrl->getLinkTarget($this, "downloadFile");
+						$href = $this->ctrl->getLinkTarget($this, "downloadFile",
+							"",false, true);
 						$this->ctrl->setParameter($this, "file_id", "");
 						break;
 
@@ -330,7 +333,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 						$obj_type = ilObject::_lookupType($target_id);
 						if ($obj_type == "usr")
 						{
-							$back = $this->ctrl->getLinkTarget($this, "edit");
+							$back = $this->ctrl->getLinkTarget($this, "edit",
+								"",false, true);
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
@@ -338,7 +342,8 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 							$href = "";
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML",
+									"",false, true);
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);

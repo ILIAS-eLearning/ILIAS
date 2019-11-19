@@ -104,7 +104,6 @@ disable_check#:#Wyłącz test
 disable_logging#:#wyłącz rejestrowanie
 disabled#:#wyłączony
 display_clientlist#:#Wyświetl wybór klienta
-duplicate_ctrl#:#Błąd: Podwójna definicja wywołania w strukturze (klasa %s) w plikach:<br /><br />- %s<br />- %s<br /><br />Usuń plik, który nie należy do oficjalnej dystrybucji ILIAS-a.<br />Później wywołaj 'Narzędzia' -> 'Przeładuj strukturę kontrolną' w programie instalacyjnym ILIAS.
 email#:#Email
 email_not_valid#:#Adres Email jest nieprawidłowy
 en_by_default#:#(Angielski jest zainstalowany domyślnie i nie może być usunięty).

@@ -14,13 +14,6 @@ require_once 'Services/Password/classes/class.ilBasePasswordEncoder.php';
 class ilMd5PasswordEncoder extends ilBasePasswordEncoder
 {
     /**
-     * @param array $config
-     */
-    public function __construct(array $config = [])
-    {
-    }
-
-    /**
      * @inheritDoc
      * @throws ilPasswordException
      */

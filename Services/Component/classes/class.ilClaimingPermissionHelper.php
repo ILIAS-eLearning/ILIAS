@@ -312,7 +312,30 @@ abstract class ilClaimingPermissionHelper
 		}		
 		
 		return $valid;		 
-	}		
+	}
+
+	/**
+	 * @return array of object type strings
+	 */
+	public function getAllowedObjectTypes(): array
+	{
+		$accepted_types = ['cat','crs','sess','grp','iass', 'exc'];
+
+		$obj_def = new ilObjectDefinition();
+		$adv_md_types = $obj_def->getAdvancedMetaDataTypes();
+
+		$valid_accepted_types = array();
+		foreach($adv_md_types as $idx => $value)
+		{
+			if(in_array($value['obj_type'], $accepted_types) || in_array($value['sub_type'], $accepted_types))
+			{
+				array_push($valid_accepted_types, $value['obj_type']);
+			}
+		}
+
+		return $valid_accepted_types;
+	}
+
 }
 
 ?>

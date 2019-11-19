@@ -20,7 +20,7 @@ require_once("Services/Language/classes/class.ilObjLanguageAccess.php");
 * @version $Id: class.ilObjLanguageExtGUI.php $
 *
 * @ilCtrl_Calls ilObjLanguageExtGUI:
-* @ilCtrl_IsCalledBy ilObjLanguageExtGUI: ilPersonalDesktopGUI
+* @ilCtrl_IsCalledBy ilObjLanguageExtGUI: ilDashboardGUI
 *
 * @ingroup ServicesLanguage
 */

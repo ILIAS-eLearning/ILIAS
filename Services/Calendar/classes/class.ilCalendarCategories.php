@@ -67,6 +67,11 @@ class ilCalendarCategories
 	 * ilLogger
 	 */
 	protected $logger = null;
+
+    /**
+     * @var ilFavouritesDBRepository
+     */
+	protected $fav_rep;
 	
 	/**
 	 * Singleton instance
@@ -90,6 +95,8 @@ class ilCalendarCategories
 			$this->user_id = $ilUser->getId();
 		}
 		$this->db = $ilDB;
+
+        $this->fav_rep = new ilFavouritesDBRepository();
 	}
 
 	/**
@@ -161,7 +168,7 @@ class ilCalendarCategories
 	
 	/**
 	 * Delete cache (add remove desktop item)
-	 * @param object $a_usr_id
+	 * @param int $a_usr_id
 	 * @return 
 	 */
 	public static function deletePDItemsCache($a_usr_id)
@@ -294,12 +301,15 @@ class ilCalendarCategories
 		}
 
 		$this->setMode($a_mode);
-		if($a_use_cache)
+
+		// see comments in https://mantis.ilias.de/view.php?id=25254
+		if($a_use_cache && $this->getMode() != self::MODE_REPOSITORY_CONTAINER_ONLY)
 		{
 			// Read categories from cache
 			if($cats = ilCalendarCache::getInstance()->getEntry($this->user_id.':'.$a_mode.':categories:'.(int) $a_source_ref_id))
 			{
-				if($this->getMode() != self::MODE_CONSULTATION &&
+				if($this->getMode() != self::MODE_REPOSITORY &&
+				    $this->getMode() != self::MODE_CONSULTATION &&
 					$this->getMode() != self::MODE_PORTFOLIO_CONSULTATION)
 				{
 					$this->wakeup($cats);
@@ -606,7 +616,7 @@ class ilCalendarCategories
 		$groups = array();
 		$sessions = array();
 		$exercises = array();
-		foreach(ilObjUser::_lookupDesktopItems($ilUser->getId(),array('crs','grp','sess','exc')) as $item)
+		foreach ($this->fav_rep->getFavouritesOfUser($ilUser->getId(),array('crs','grp','sess','exc')) as $item)
 		{
 			if($ilAccess->checkAccess('read','',$item['ref_id']))
 			{

@@ -1658,7 +1658,9 @@ class ilObject
 		{			
 			include_once "Services/Object/classes/class.ilObjectActivation.php";
 			ilObjectActivation::deleteAllEntries($this->getRefId());
-			
+
+			$ilAppEventHandler->raise('Services/Object', 'deleteReference', array( 'ref_id' => $this->getRefId()));
+
 			// delete entry in object_reference
 			$query = "DELETE FROM object_reference ".
 				"WHERE ref_id = ".$ilDB->quote($this->getRefId(),'integer');
@@ -1681,9 +1683,6 @@ class ilObject
 			// Remove applied didactic template setting
 			include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 			ilDidacticTemplateObjSettings::deleteByRefId($this->getRefId());
-
-			// Remove desktop items
-			ilUtil::removeItemFromDesktops($this->getRefId());
 		}
 
 		// remove conditions

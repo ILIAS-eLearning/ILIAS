@@ -703,7 +703,7 @@ class ilLMPresentationGUI
 
 	function media()
 	{
-        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, true);
+        $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
 
         $this->ilMedia();
@@ -729,7 +729,7 @@ class ilLMPresentationGUI
         //}
         //else
         //{
-			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, true);
+			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
 			$GLOBALS["tpl"] = $this->tpl;
 			$this->renderPageTitle();
 
@@ -768,7 +768,7 @@ class ilLMPresentationGUI
         //}
         //else
         //{
-        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, true);
+        $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "Modules/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
 
@@ -903,7 +903,7 @@ class ilLMPresentationGUI
 		}
 
 
-		$tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, true);
+		$tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "Modules/LearningModule");
 
 		$pg_id = $this->getCurrentPageId();
 		if ($pg_id == 0)
@@ -1202,7 +1202,7 @@ class ilLMPresentationGUI
 					{
 						$ilLocator->addItem(
 							ilUtil::shortenText(
-								ilStructureObject::_getPresentationTitle($row["child"], IL_CHAPTER_TITLE,
+								ilStructureObject::_getPresentationTitle($row["child"], ilLMOBject::CHAPTER_TITLE,
 									$this->lm->isActiveNumbering(),
 									$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang),
 								50,true),
@@ -1710,7 +1710,8 @@ class ilLMPresentationGUI
 						{
 							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
 							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
-							$href = $ilCtrl->getLinkTarget($this, "downloadFile");
+							$href = $ilCtrl->getLinkTarget($this, "downloadFile",
+								"",false, true);
 							$ilCtrl->setParameter($this, "file_id", "");
 							$ilCtrl->setParameter($this, "obj_id", $_GET["obj_id"]);
 						}
@@ -1720,7 +1721,8 @@ class ilLMPresentationGUI
 						$obj_type = ilObject::_lookupType($target_id);
 						if ($obj_type == "usr")
 						{
-							$back = $this->ctrl->getLinkTarget($this, "layout");
+							$back = $this->ctrl->getLinkTarget($this, "layout",
+								"",false, true);
 							//var_dump($back); exit;
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
@@ -1728,7 +1730,8 @@ class ilLMPresentationGUI
 							$href = "";
 							if (ilUserUtil::hasPublicProfile($target_id))
 							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
+								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML",
+									"",false, true);
 							}
 							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
 							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
@@ -2128,7 +2131,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -2384,7 +2386,6 @@ class ilLMPresentationGUI
 		}
 		
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -2488,7 +2489,7 @@ class ilLMPresentationGUI
 				// chapter
 				case "st":
 					$text =
-						ilStructureObject::_getPresentationTitle($node["obj_id"], IL_CHAPTER_TITLE,
+						ilStructureObject::_getPresentationTitle($node["obj_id"], ilLMOBject::CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
 							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang);
 					if($ilUser->getId() == ANONYMOUS_USER_ID && 
@@ -2812,7 +2813,7 @@ class ilLMPresentationGUI
 					$this->tpl->setVariable("CHAP_TITLE",
 						$chapter_title);
 						
-					if ($this->lm->getPageHeader() == IL_CHAPTER_TITLE)
+					if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE)
 					{
 						if ($nodes[$node_key + 1]["type"] == "pg")
 						{
@@ -2858,7 +2859,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setOutputMode("print");
 					$page_object_gui->setPresentationTitle("");
 					
-					if ($this->lm->getPageHeader() == IL_PAGE_TITLE || $node["free"] === true)
+					if ($this->lm->getPageHeader() == ilLMObject::PAGE_TITLE || $node["free"] === true)
 					{
 						$page_title = ilLMPageObject::_getPresentationTitle($lm_pg_obj->getId(),
 								$this->lm->getPageHeader(), $this->lm->isActiveNumbering(),
@@ -2882,7 +2883,7 @@ class ilLMPresentationGUI
 					$hcont = $header_page_content;
 					$fcont = $footer_page_content;
 
-					if ($this->lm->getPageHeader() == IL_CHAPTER_TITLE)
+					if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE)
 					{
 						if ($did_chap_page_header)
 						{
@@ -2900,7 +2901,7 @@ class ilLMPresentationGUI
 					$page_object_gui->setFullscreenLink("#");
 					$page_object_gui->setSourceCodeDownloadScript("#");
 					$page_content = $page_object_gui->showPage();
-					if ($this->lm->getPageHeader() != IL_PAGE_TITLE)
+					if ($this->lm->getPageHeader() != ilLMObject::PAGE_TITLE)
 					{
 						$this->tpl->setVariable("CONTENT",
 							$hcont.$page_content.$fcont);
@@ -3115,7 +3116,7 @@ class ilLMPresentationGUI
 					}
 					$this->tpl->setCurrentBlock("toc_entry");
 					$this->tpl->setVariable("TXT_TOC_TITLE",
-						ilStructureObject::_getPresentationTitle($node2["obj_id"], IL_CHAPTER_TITLE,
+						ilStructureObject::_getPresentationTitle($node2["obj_id"], ilLMOBject::CHAPTER_TITLE,
 							$this->lm->isActiveNumbering(),
 							$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang));
 					$this->tpl->parseCurrentBlock();
@@ -3238,7 +3239,6 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		//$this->tpl = new ilTemplate("tpl.lm_toc.html", true, true, true);
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -3256,9 +3256,6 @@ class ilLMPresentationGUI
 		$this->tpl->loadStandardTemplate();
 
         $this->renderTabs("download", 0);
-		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "download", true,false, 0,
-			$this->lang, $this->export_all_languages));*/
 
 		$this->ilLocator(true);
 		//$this->tpl->stopTitleFloating();

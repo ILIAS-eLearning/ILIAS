@@ -48,7 +48,7 @@ class ilCachedCtrl {
 
 
 	/**
-	 * @return ilCachedComponentData
+	 * @return ilCachedCtrl
 	 */
 	public static function getInstance() {
 		if (!isset(self::$instance)) {

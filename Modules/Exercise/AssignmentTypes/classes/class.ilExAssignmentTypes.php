@@ -13,11 +13,22 @@ class ilExAssignmentTypes
 {
 	const STR_IDENTIFIER_PORTFOLIO = "prtf";
 
+    /**
+     * @var ilExerciseInternalService
+     */
+    protected $service;
+
+
 	/**
 	 * Constructor
 	 */
-	protected function __construct()
+	protected function __construct(ilExerciseInternalService $service = null)
 	{
+	    global $DIC;
+
+	    $this->service = ($service == null)
+            ? $DIC->exercise()->internal()->service()
+            : $service;
 	}
 
 	/**
@@ -89,7 +100,26 @@ class ilExAssignmentTypes
 			return $at->isActive();
 		});
 	}
-	
+
+    /**
+     * Get all allowed types for an exercise for an exercise
+     *
+     * @param ilObjExercise $exc
+     * @return array
+     */
+    public function getAllAllowed(ilObjExercise $exc)
+    {
+        $random_manager = $this->service->getRandomAssignmentManager($exc);
+        $active = $this->getAllActivated();
+
+        // no team assignments, if random mandatory assignments is activated
+        if ($random_manager->isActivated()) {
+            $active = array_filter($active, function(ilExAssignmentTypeInterface $at) {
+                return !$at->usesTeams();
+            });
+        }
+        return $active;
+    }
 
 	/**
 	 * Get type object by id

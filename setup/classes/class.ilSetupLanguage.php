@@ -102,8 +102,10 @@ class ilSetupLanguage extends ilLanguage
 	function __construct($a_lang_key)
 	{
 		$this->lang_key = ($a_lang_key) ? $a_lang_key : $this->lang_default;
-		$this->lang_path = ILIAS_ABSOLUTE_PATH."/lang";
-		$this->cust_lang_path = ILIAS_ABSOLUTE_PATH."/Customizing/global/lang";
+
+		$il_absolute_path = realpath(dirname(__FILE__) .'/../../');
+		$this->lang_path = $il_absolute_path."/lang";
+		$this->cust_lang_path = $il_absolute_path."/Customizing/global/lang";
 
 		// set lang file...
 		$txt = file($this->lang_path."/setup_lang_sel_multi.lang");
@@ -116,7 +118,9 @@ class ilSetupLanguage extends ilLanguage
 				if ($row[0] != "#")
 				{
 					$a = explode($this->separator,trim($row));
-					$this->text[trim($a[0])] = trim($a[1]);
+					if(count($a) == 2) {
+						$this->text[trim($a[0])] = trim($a[1]);
+					}
 				}
 			}
 		}
@@ -132,7 +136,9 @@ class ilSetupLanguage extends ilLanguage
 				if ($row[0] != "#")
 				{
 					$a = explode($this->separator,trim($row));
-					$this->text[trim($a[0])] = trim($a[1]);
+					if(count($a) == 2) {
+						$this->text[trim($a[0])] = trim($a[1]);
+					}
 				}
 			}
 

@@ -45,6 +45,12 @@ abstract class ilExplorerBaseGUI
 	protected $enable_dnd = false;
 	protected $search_term = "";
 
+	/** @var array */
+	protected $open_nodes = [];
+
+	/** @var ilSessionIStorage */
+	protected $store;
+
     /**
      * @var string|object
      */
@@ -56,6 +62,9 @@ abstract class ilExplorerBaseGUI
 	protected $child_limit = 0;
 
 	private $nodeOnclickEnabled;
+
+	/** @var string  */
+	protected $parent_cmd = '';
 
 	/**
 	 * Constructor

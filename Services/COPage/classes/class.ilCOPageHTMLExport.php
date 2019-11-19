@@ -265,6 +265,7 @@ class ilCOPageHTMLExport
 	 */
 	function getPreparedMainTemplate($a_tpl = "")
 	{
+		global $DIC;
 		$this->log->debug("get main template");
 		
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
@@ -276,7 +277,8 @@ class ilCOPageHTMLExport
 		else
 		{
 			// template workaround: reset of template
-			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+			//$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
 		}
 		
 		// scripts needed
@@ -304,9 +306,10 @@ class ilCOPageHTMLExport
 
 		foreach ($scripts as $script)
 		{
-			$tpl->setCurrentBlock("js_file");
-			$tpl->setVariable("JS_FILE", $script);
-			$tpl->parseCurrentBlock();
+			$tpl->addJavaScript($script);
+			//$tpl->setCurrentBlock("js_file");
+			//$tpl->setVariable("JS_FILE", $script);
+			//$tpl->parseCurrentBlock();
 		}
 
 		// css files needed
@@ -325,9 +328,10 @@ class ilCOPageHTMLExport
 
 		foreach ($css_files as $css)
 		{
-			$tpl->setCurrentBlock("css_file");
-			$tpl->setVariable("CSS_FILE", $css);
-			$tpl->parseCurrentBlock();
+			$tpl->addCss($css);
+			//$tpl->setCurrentBlock("css_file");
+			//$tpl->setVariable("CSS_FILE", $css);
+			//$tpl->parseCurrentBlock();
 		}
 
 		return $tpl;
@@ -454,8 +458,20 @@ class ilCOPageHTMLExport
 											$this->files_direct[$obj_id] = array($obj->getFilePath(),
 												$obj->getOfflineFilename());	
 											break;	
-										
-										case "scov":										
+
+										case "cmxv":
+											$obj = new ilObjCmiXapiVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											                                     $obj->getOfflineFilename());
+											break;
+
+										case "ltiv":
+											$obj = new ilObjLTIConsumerVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											                                     $obj->getOfflineFilename());
+											break;
+
+										case "scov":
 											include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
 											$obj = new ilObjSCORMVerification($obj_id, false);
 											$this->files_direct[$obj_id] = array($obj->getFilePath(),

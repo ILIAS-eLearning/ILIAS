@@ -17,6 +17,9 @@ class Renderer extends AbstractComponentRenderer
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);
+        if ($component instanceof ISlate\Notification) {
+            return $this->renderNotificationSlate($component, $default_renderer);
+        }
         if ($component instanceof ISlate\Combined) {
             $contents = $this->getCombinedSlateContents($component);
         } else {
@@ -31,7 +34,7 @@ class Renderer extends AbstractComponentRenderer
         $f = $this->getUIFactory();
         $contents = [];
         foreach ($component->getContents() as $entry) {
-            if ($entry instanceof ISlate\Slate) {
+            if ($entry instanceof ISlate\Slate && !$entry instanceof ISlate\Notification) {
                 $init_state = 'disengaged';
                 if ($entry->getEngaged()) {
                     $init_state = 'engaged';
@@ -55,7 +58,8 @@ class Renderer extends AbstractComponentRenderer
         ISlate\Slate $component,
         $contents,
         RendererInterface $default_renderer
-    ) {
+    )
+    {
         $tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
 
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
@@ -66,23 +70,35 @@ class Renderer extends AbstractComponentRenderer
             $tpl->touchBlock('disengaged');
         }
 
-        $toggle_signal = $component->getToggleSignal();
-        $show_signal = $component->getShowSignal();
-        $component = $component->withAdditionalOnLoadCode(function ($id) use ($toggle_signal, $show_signal) {
-            return "
-				$(document).on('{$toggle_signal}', function(event, signalData) {
-					il.UI.maincontrols.slate.onToggleSignal(event, signalData, '{$id}');
-					return false;
-				});
-				$(document).on('{$show_signal}', function(event, signalData) {
-					il.UI.maincontrols.slate.onShowSignal(event, signalData, '{$id}');
-					return false;
-				});
-			";
+        $slate_signals = [
+            'toggle'  => $component->getToggleSignal(),
+            'engage'  => $component->getEngageSignal(),
+            'replace' => $component->getReplaceSignal()
+        ];
+        $component     = $component->withAdditionalOnLoadCode(function ($id) use ($slate_signals) {
+            $js = "fn = il.UI.maincontrols.slate.onSignal;";
+            foreach ($slate_signals as $key => $signal) {
+                $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
+            }
+            return $js;
         });
-        $id = $this->bindJavaScript($component);
+        $id            = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
 
+        return $tpl->get();
+    }
+
+    protected function renderNotificationSlate(
+        ISlate\Slate $component,
+        RendererInterface $default_renderer
+    ) {
+        $contents = [];
+        foreach ($component->getContents() as $entry) {
+            $contents[] = $entry;
+        }
+        $tpl = $this->getTemplate("Slate/tpl.notification.html", true, true);
+        $tpl->setVariable('NAME', $component->getName());
+        $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
         return $tpl->get();
     }
 
@@ -102,7 +118,8 @@ class Renderer extends AbstractComponentRenderer
     {
         return array(
             ISlate\Legacy::class,
-            ISlate\Combined::class
+            ISlate\Combined::class,
+            ISlate\Notification::class
         );
     }
 }
