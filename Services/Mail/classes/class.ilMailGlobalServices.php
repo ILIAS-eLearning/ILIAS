@@ -84,12 +84,13 @@ class ilMailGlobalServices
      * Determines the number of new mails for the passed user id and stores this information in a local cache variable
      *
      * @access    public
-     * @param integer    A user id of an ILIAS user account
+     * @param $usr_id
+     * @param int $leftInterval
+     * @return    integer    The number on unread mails (system messages + inbox mails) for the passed user id
      * @static
      *
-     * @return    integer    The number on unread mails (system messages + inbox mails) for the passed user id
      */
-    public static function getNumberOfNewMailsByUserId($usr_id) : int
+    public static function getNumberOfNewMailsByUserId($usr_id, int $leftInterval = 0) : int
     {
         global $DIC;
 
@@ -97,35 +98,46 @@ class ilMailGlobalServices
             return 0;
         }
 
+        $cacheKey = implode('_', [self::CACHE_TYPE_NEW_MAILS, $usr_id, $leftInterval]);
+
         if (
-            isset(self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id]) &&
-            null !== self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id]) {
-            return (int) self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
+            isset(self::$global_mail_services_cache[$cacheKey]) &&
+            null !== self::$global_mail_services_cache[$cacheKey]) {
+            return (int) self::$global_mail_services_cache[$cacheKey];
         }
 
-        $res = $DIC->database()->queryF('
-			SELECT COUNT(mail_id) cnt FROM mail 
-			WHERE folder_id = %s 
-			AND user_id = %s
-			AND m_status = %s',
-            array('integer', 'integer', 'text'),
-            array('0', $usr_id, 'unread'));
+        $query = 'SELECT COUNT(mail_id) cnt FROM mail WHERE folder_id = %s AND user_id = %s AND m_status = %s';
+        if ($leftInterval > 0) {
+            $query .= ' AND send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
+        }
 
+        $res = $DIC->database()->queryF(
+            $query,
+            ['integer', 'integer', 'text'],
+            ['0', $usr_id, 'unread']
+        );
         $row = $DIC->database()->fetchAssoc($res);
 
-        $res = $DIC->database()->queryF('
-			SELECT COUNT(mail_id) cnt FROM mail m,mail_obj_data mo 
-		 	WHERE m.user_id = mo.user_id 
-		 	AND m.folder_id = mo.obj_id 
+        $query = '
+            SELECT COUNT(mail_id) cnt
+            FROM mail m, mail_obj_data mo
+            WHERE m.user_id = mo.user_id
+            AND m.folder_id = mo.obj_id 
 		 	AND mo.m_type = %s
 			AND m.user_id = %s
-	 		AND m.m_status = %s',
-            array('text', 'integer', 'text'),
-            array('inbox', $usr_id, 'unread'));
+	 		AND m.m_status = %s';
+        if ($leftInterval > 0) {
+            $query .= ' AND m.send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
+        }
 
+        $res = $DIC->database()->queryF(
+            $query,
+            ['text', 'integer', 'text'],
+            ['inbox', $usr_id, 'unread']
+        );
         $row2 = $DIC->database()->fetchAssoc($res);
 
-        self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id] = $row['cnt'] + $row2['cnt'];
-        return (int) self::$global_mail_services_cache[self::CACHE_TYPE_NEW_MAILS][$usr_id];
+        self::$global_mail_services_cache[$cacheKey] = (int) ($row['cnt'] + $row2['cnt']);
+        return self::$global_mail_services_cache[$cacheKey];
     }
 }
