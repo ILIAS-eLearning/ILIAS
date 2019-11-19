@@ -39,9 +39,9 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 		return $this->refinery->custom()->transformation(function($data) {
 			$password = $this->refinery->to()->data("password");
 			return new \ilDatabaseSetupConfig(
-				$data["type"] ?? null,
-				$data["host"] ?? null,
-				$data["database"] ?? null,
+				$data["type"] ?? "innodb",
+				$data["host"] ?? "localhost",
+				$data["database"] ?? "ilias",
 				$data["user"] ?? null,
 				$data["password"] ? $password->transform($data["password"]) : null,
 				$data["create_database"] ?? null,

@@ -6,7 +6,7 @@ use ILIAS\Setup;
 
 class ilSystemFolderSetupConfig implements Setup\Config {
 	/**
-	 * @var	string
+	 * @var	string|null
 	 */
 	protected $client_name;
 
@@ -76,7 +76,7 @@ class ilSystemFolderSetupConfig implements Setup\Config {
 	protected $contact_email;
 
 	public function __construct(
-		string $client_name,
+		?string $client_name,
 		?string $client_description,
 		?string $client_institution,
 		string $contact_firstname,
@@ -91,19 +91,19 @@ class ilSystemFolderSetupConfig implements Setup\Config {
 		?string $contact_phone,
 		string $contact_email
 	) {
-		$this->client_name = trim($client_name);
-		$this->client_description = trim($client_description);
-		$this->client_institution = trim($client_institution);
+		$this->client_name = $client_name ? trim($client_name) : null;
+		$this->client_description = $client_description ? trim($client_description) : null;
+		$this->client_institution = $client_institution ? trim($client_institution) : null;
 		$this->contact_firstname = trim($contact_firstname);
 		$this->contact_lastname = trim($contact_lastname);
-		$this->contact_title = trim($contact_title);
-		$this->contact_position = trim($contact_position);
-		$this->contact_institution = trim($contact_institution);
-		$this->contact_street = trim($contact_street);
-		$this->contact_zipcode = trim($contact_zipcode);
-		$this->contact_city = trim($contact_city);
-		$this->contact_country = trim($contact_country);
-		$this->contact_phone = trim($contact_phone);
+		$this->contact_title = $contact_title ? trim($contact_title) : null;
+		$this->contact_position = $contact_position ? trim($contact_position) : null;
+		$this->contact_institution = $contact_institution ? trim($contact_institution) : null;
+		$this->contact_street = $contact_street ? trim($contact_street) : null;
+		$this->contact_zipcode = $contact_zipcode ? trim($contact_zipcode) : null;
+		$this->contact_city = $contact_city ? trim($contact_city) : null;
+		$this->contact_country = $contact_country ? trim($contact_country) : null;
+		$this->contact_phone = $contact_phone ? trim($contact_phone) : null;
 		$this->contact_email = trim($contact_email);
 	}
 

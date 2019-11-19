@@ -42,12 +42,13 @@ class ilInstallationInformationStoredObjective implements Setup\Objective {
 
 	public function achieve(Setup\Environment $environment) : Setup\Environment {
 		$factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+		$common_config = $environment->getConfigFor("common");
 
 		$settings = $factory->settingsFor("common");
 		$ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
 		$settings->set("inst_name", $this->config->getClientName());
-		$ini->setVariable("client", "name", $this->config->getClientName());
+		$ini->setVariable("client", "name", $this->config->getClientName() ?? $common_config->getClientId());
 		$ini->setVariable("client", "description", $this->config->getClientDescription());
 		$settings->set("inst_institution", $this->config->getClientInstitution());
 		$settings->set("admin_firstname", $this->config->getContactFirstname());

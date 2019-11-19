@@ -45,6 +45,9 @@ class ilLanguageSetupAgent implements Setup\Agent {
 	 */
 	public function getArrayToConfigTransformation() : Refinery\Transformation {
 		return $this->refinery->custom()->transformation(function($data) {
+			if (!isset($data["default_language"])) {
+				$data["default_language"] = "en";
+			}
 			return new \ilLanguageSetupConfig(
 				$data["default_language"],
 				$data["install_languages"] ?? [$data["default_language"]],

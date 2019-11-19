@@ -64,7 +64,7 @@ class ilSetupAgent implements Setup\Agent {
 			return new \ilSetupConfig(
 				$data["client_id"],
 				$password->transform($data["master_password"]),	
-				$datetimezone->transform([$data["server_timezone"]])
+				$datetimezone->transform([$data["server_timezone"] ?? "UTC"])
 			);
 		});	
 	}
