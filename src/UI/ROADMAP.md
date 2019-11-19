@@ -134,6 +134,10 @@ description, factory, renderer, directory...
 There are several tests still using snake cases as function names, remove it.
 See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
 
+### Slates only accept string for titles (beginner, ~2h)
+
+In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
+to also accept buttons. We should extend that.
 
 ## Long Term
 
