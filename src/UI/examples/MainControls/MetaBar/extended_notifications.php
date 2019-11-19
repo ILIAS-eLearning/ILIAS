@@ -63,10 +63,10 @@ function extended_notifications()
     }
 
     if ($_GET['async_load_replace']==="true") {
-        $remaining = $_POST["remaining"];
-        $added = $_POST["added"];
+        $remaining = $_GET["remaining"];
+        $added = $_GET["added"];
 
-        //We create to amount of aggregates send to us by post and put an according
+        //We create the amount of aggregates send to us by get and put an according
         //description into the newly create Notification Item
         $items = [];
         for($i = 1; $i<$added+1; $i++){
@@ -80,16 +80,16 @@ function extended_notifications()
     }
 
     if ($_GET['async_load_replace_content']==="true") {
-        $remaining = $_POST["remaining"];
-        $added = $_POST["added"];
+        $remaining = $_GET["remaining"];
+        $added = $_GET["added"];
         $replacement = $item->withDescription("Number of Async non-closed Aggregates: ".$remaining.", totally created: ".$added);
         echo $renderer->renderAsync([$replacement]);
         exit;
     }
 
     if ($_GET['async_add_aggregate']==="true") {
-        $remaining = $_POST["remaining"];
-        $added = $_POST["added"];
+        $remaining = $_GET["remaining"];
+        $added = $_GET["added"];
 
         $new_aggregate = $closable_item->withDescription("The item has been added, Nr: ".$added);
 

@@ -99,8 +99,6 @@ il.UI.item = il.UI.item || {};
 			 * aggregates. Note that $item remains valid, since
 			 * it points to an outer container.
 			 *
-			 * Note, POST is used to send large amounts of DATA back here.
-			 *
 			 * @public
 			 * @param url
 			 * @param send_data
@@ -122,8 +120,6 @@ il.UI.item = il.UI.item || {};
 			 * e.g. only a time property or description text has to be
 			 * changed, and not the whole list of aggregates.
 			 *
-			 * Note, POST is used to send large amounts of DATA back here.
-			 *
 			 * @public
 			 * @param url
 			 * @param send_data
@@ -143,8 +139,6 @@ il.UI.item = il.UI.item || {};
 			/**
 			 * Adds an additional aggregate to the Notification Item returned
 			 * by the URL called async.
-			 *
-			 * Note, POST is used to send large amounts of DATA back here.
 			 *
 			 * @public
 			 * @param url
@@ -271,11 +265,9 @@ il.UI.item = il.UI.item || {};
 
 			/**
 			 * Just some syntactic sugar for the ajax call.
-			 * Note that we send data per POST, in case
-			 * we need to send larger amounts. POST should
-			 * be fine also in a semantical sense, since
-			 * often we really do POST back data here, to be
-			 * stored permanently.
+			 * Note that we send data per GET, due to semantical
+			 * correctness, see discussion in:
+			 * https://github.com/ILIAS-eLearning/ILIAS/pull/2329
 			 *
 			 * @private
 			 * @param url
@@ -286,7 +278,7 @@ il.UI.item = il.UI.item || {};
 				$.ajax({
 					url: url,
 					data: send_data,
-					type: "POST"
+					type: "GET"
 				}).done(function(data) {
 					callback(data);
 				});
