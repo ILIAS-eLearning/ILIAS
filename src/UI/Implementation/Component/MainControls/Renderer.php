@@ -19,7 +19,7 @@ class Renderer extends AbstractComponentRenderer
 {
     const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
     const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
-    const BLOCK_MAINBAR_TOOLS_HIDDEN = 'tool_trigger_item_hidden';
+    //const BLOCK_MAINBAR_TOOLS_HIDDEN = 'tool_trigger_item_hidden';
     const BLOCK_METABAR_ENTRIES = 'meta_element';
 
     private $signals_for_tools = [];
@@ -74,18 +74,29 @@ class Renderer extends AbstractComponentRenderer
 
             if ($entry instanceof Slate) {
                 list($mb_parent, $mb_id) = $entry->getMainBarId();
+                $is_tool = $block === static::BLOCK_MAINBAR_TOOLS;
+                $is_removeable = array_key_exists($k, $close_buttons);
+                $is_hidden = in_array($k, $hidden);
 
                 $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
                 $this->trigger_signals[] = $trigger_signal;
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withAdditionalOnLoadCode(
-                        function ($id) use ($mb_id, $mb_parent, $k) {
-                            return "
-                            il.UI.maincontrols.mainbar.registerEntry(
-                                '{$mb_id}', 'triggerer', '{$mb_parent}', '{$id}'
-                            );
-                            il.UI.maincontrols.mainbar.addMapping('{$k}','{$mb_id}');
+                        function ($id) use ($mb_id, $k, $is_tool, $is_removeable, $is_hidden ) {
+                            $js = '';
+                            if($is_tool) {
+                                $is_tool = 'true';
+                                $is_removeable = $is_removeable ? 'true':'false';
+                                $is_hidden = $is_hidden ? 'true':'false';
+                                $js .= "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
+                            } else {
+                                $is_tool = 'false';
+                            }
+                            $js .= "
+                                il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}', {$is_tool});
+                                il.UI.maincontrols.mainbar.addMapping('{$k}','{$mb_id}');
                             ";
+                            return $js;
                         }
                     )
                     ->withOnClick($trigger_signal);
@@ -97,10 +108,7 @@ class Renderer extends AbstractComponentRenderer
                     $btn_removetool = $close_buttons[$k]
                        ->withAdditionalOnloadCode(
                             function ($id) use ($mb_id, $mb_parent) {
-                                return "
-                                il.UI.maincontrols.mainbar.registerEntry(
-                                    '{$mb_id}', 'remover', '{$mb_parent}', '{$id}'
-                                );";
+                                return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
                             }
                         )
                         ->withOnClick($trigger_signal);
@@ -110,16 +118,6 @@ class Renderer extends AbstractComponentRenderer
                     $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
                     $tpl->parseCurrentBlock();
                 }
-
-                if(in_array($k, $hidden)) {
-                    $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
-                    $button = $button->withAdditionalOnLoadCode(
-                        function ($id) use ($mb_id, $mb_parent) {
-                            return "il.UI.maincontrols.mainbar.entries.entries['{$mb_id}'].isHidden = true;";
-                        }
-                    );
-                }
-
                 $slate = $entry;
 
             } else {
@@ -164,7 +162,8 @@ class Renderer extends AbstractComponentRenderer
 
         foreach ($mb_entries as $block => $entries) {
             $this->renderMainbarEntry(
-            $entries, $block,
+                $entries,
+                $block,
                 $component, $tpl, $f, $default_renderer
             );
         }
@@ -277,7 +276,7 @@ class Renderer extends AbstractComponentRenderer
                     ->withEngagedState($engaged);
 
                 $slate = $entry;
-                $slate = $slate->withEngaged(false); //init disengaged, onLoadCode will "click" the button
+//                $slate = $slate->withEngaged(false); //init disengaged, onLoadCode will "click" the button
             } else {
                 $button = $entry;
                 $slate = null;
@@ -304,13 +303,9 @@ class Renderer extends AbstractComponentRenderer
             function ($id) use ($component, $trigger_signals)  {
                 $disengage_all_signal = $component->getDisengageAllSignal();
                 $tools_toggle_signal = $component->getToggleToolsSignal();
-                $js = "
-                    il.UI.maincontrols.mainbar.registerSignals(
-                        '{$id}',
-                        '{$disengage_all_signal}',
-                        '{$tools_toggle_signal}'
-                    );
-                ";
+
+                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$disengage_all_signal}');";
+                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$tools_toggle_signal}');";
 
                 foreach ($trigger_signals as $signal) {
                     $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$signal}');";
@@ -321,24 +316,14 @@ class Renderer extends AbstractComponentRenderer
                     $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$signal}');";
                 }
 
-
                 $js .= "
-                    il.UI.maincontrols.mainbar.readAndRender();
-                    il.UI.maincontrols.mainbar.initMore();
-                    $(window).resize(il.UI.maincontrols.mainbar.initMore);
+                    $(window).resize(il.UI.maincontrols.mainbar.adjustToScreenSize);
+                    il.UI.maincontrols.mainbar.init();
                 ";
                 return $js;
             }
         );
-/*
-        if ($active) {
-            $component = $component->withAdditionalOnLoadCode(
-                function ($id) {
-                    return "il.UI.maincontrols.mainbar.initActive('{$id}');";
-                }
-            );
-        }
-*/
+
         $id = $this->bindJavaScript($component);
         return $id;
     }

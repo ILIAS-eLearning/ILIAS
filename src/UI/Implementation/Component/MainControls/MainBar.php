@@ -24,6 +24,8 @@ class MainBar implements MainControls\MainBar
     const ENTRY_ACTION_TRIGGER = 'trigger';
     const ENTRY_ACTION_REMOVE = 'remove';
     const ENTRY_ACTION_TRIGGER_MAPPED = 'trigger_mapped';
+    const ENTRY_ACTION_TOGGLE_TOOLS = 'toggle_tools';
+    const ENTRY_ACTION_DISENGAGE_ALL = 'disengage_all';
 
     /**
      * @var SignalGeneratorInterface
@@ -264,7 +266,9 @@ class MainBar implements MainControls\MainBar
         $this->tools_click_signal = $this->signal_generator->create();
         $this->tools_removal_signal = $this->signal_generator->create();
         $this->disengage_all_signal = $this->signal_generator->create();
+        $this->disengage_all_signal->addOption('action', self::ENTRY_ACTION_DISENGAGE_ALL);
         $this->toggle_tools_signal = $this->signal_generator->create();
+        $this->toggle_tools_signal->addOption('action', self::ENTRY_ACTION_TOGGLE_TOOLS);
     }
 
     public function withResetSignals() : MainControls\MainBar

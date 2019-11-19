@@ -35,6 +35,8 @@ class Renderer extends AbstractComponentRenderer
         $contents = [];
         foreach ($component->getContents() as $entry) {
             if ($entry instanceof ISlate\Slate && !$entry instanceof ISlate\Notification) {
+
+                //TODO: initially engaged
                 $init_state = 'disengaged';
                 if ($entry->getEngaged()) {
                     $init_state = 'engaged';
@@ -51,16 +53,17 @@ class Renderer extends AbstractComponentRenderer
                     ->withOnClick($trigger_signal)
                     ->withAdditionalOnloadCode(
                         function ($id) use ($init_state, $mb_id, $mb_parent, $trigger_signal) {
+
+                            //TODO: initially engaged
                             $js ="
                                 $('#{$id}').addClass('{$init_state}');
                             ";
 
                             if($mb_id) {
-                                $js .= "
-                                    il.UI.maincontrols.mainbar.registerEntry(
-                                        '{$mb_id}', 'triggerer', '{$mb_parent}', '{$id}'
-                                    );";
                                 $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');";
+                                $js .= "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}');";
+
+
                             }
 
                             return $js;
@@ -105,11 +108,9 @@ class Renderer extends AbstractComponentRenderer
                 }
 
                 if($mb_id) {
-                    $js .= "
-                        il.UI.maincontrols.mainbar.registerEntry(
-                            '{$mb_id}', 'slate', '{$mb_parent}', '{$id}'
-                        );";
+                    $js .= "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'slate', '{$id}');";
                 }
+
 
                 return $js;
             });
