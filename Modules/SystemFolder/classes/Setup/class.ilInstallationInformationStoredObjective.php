@@ -4,6 +4,10 @@
 
 use ILIAS\Setup;
 
+/**
+ * Store information about the installation, like title, description and contact
+ * information in the according fields in the ini or database.
+ */
 class ilInstallationInformationStoredObjective implements Setup\Objective {
 	/**
 	 * @var	\ilSystemFolderSetupConfig

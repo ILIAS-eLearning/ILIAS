@@ -4,6 +4,10 @@
 
 use ILIAS\Setup;
 
+/**
+ * Stores configuration for the Utilities service (paths to various tools)
+ * in the according ini-fields.
+ */
 class ilUtilitiesConfigStoredObjective implements Setup\Objective {
 	/**
 	 * @var	\ilUtilitiesSetupConfig

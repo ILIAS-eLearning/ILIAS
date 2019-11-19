@@ -4,6 +4,10 @@
 
 use ILIAS\Setup;
 
+/**
+ * Stores configuration for the service (currently only path to ffmpeg)
+ * in the according ini-field.
+ */
 class ilMediaObjectConfigStoredObjective implements Setup\Objective {
 	/**
 	 * @var	\ilMediaObjectSetupConfig
