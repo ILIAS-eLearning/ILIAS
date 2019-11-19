@@ -60,7 +60,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                         //@Todo: Memories, that those notifications have been closed.
                         var_dump("Mail Notifications received closed event.");
                     })
-                ->withNewAmount($numberOfNewMessages)
+                ->withNewAmount(1)
             )
             ->withOpenedCallable(function(){
                 //@Todo: Memories, that those notifications have been seen.

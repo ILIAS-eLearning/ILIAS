@@ -63,7 +63,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                                                        function(){
                                                            //@Todo: Memories, that those notifications have been closed.
                                                            var_dump("Contact received closed event.");
-                                                       })->withNewAmount($contactRequestsCount)
+                                                       })->withNewAmount(1)
                          )
                          ->withOpenedCallable(function(){
                              //@Todo: Memories, that those notifications have been seen.
