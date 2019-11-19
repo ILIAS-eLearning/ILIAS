@@ -15272,12 +15272,12 @@ exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
 exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_random#:#Zufällig
 book#:#book_no_objects#:#Keine Zuweisung
-rep#:#rep_recommended_content#:#Empfohlende Inhalte
-rep#:#rep_rec_content_removed#:#Empfohlender Inhalt wurde entfernt.
-rep#:#rep_added_rec_content#:#Empfohlender Inhalt wurde hinzugefügt.
+rep#:#rep_recommended_content#:#Empfohlene Inhalte
+rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
+rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
-rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.
+rbac#:#rbac_add_recommended_content#:#Empfohlener Inhalt
+rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenen Inhalt zu.
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_click_here#:#Hier klicken
 svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
