@@ -13498,8 +13498,8 @@ prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verw
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
 administration#:#adm_repository_and_objects#:#Magazin und Objekte
-administration#:#adm_extending_ilias#:#ILIAS Erweitern
-administration#:#adm_search_and_find#:#Suchen und Finden
+administration#:#adm_extending_ilias#:#ILIAS erweitern
+administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
