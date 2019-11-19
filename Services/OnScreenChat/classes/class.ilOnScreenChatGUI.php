@@ -1,5 +1,5 @@
 <?php
-
+use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
 /**
  * Class ilOnScreenChatGUI
  *
@@ -76,6 +76,14 @@ class ilOnScreenChatGUI
                 break;
             case 'verifyLogin':
                 $this->verifyLogin();
+                break;
+            case 'getNewAsyncItem':
+                $provider = new OnScreenChatNotificationProvider($DIC);
+                $provider->getAsyncItem();
+                break;
+            case 'asyncCloseItem':
+                $provider = new OnScreenChatNotificationProvider($DIC);
+                $provider->asyncCloseItem();
                 break;
             case 'getUserlist':
             default:
