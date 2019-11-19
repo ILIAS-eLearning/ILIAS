@@ -458,8 +458,20 @@ class ilCOPageHTMLExport
 											$this->files_direct[$obj_id] = array($obj->getFilePath(),
 												$obj->getOfflineFilename());	
 											break;	
-										
-										case "scov":										
+
+										case "cmxv":
+											$obj = new ilObjCmiXapiVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											                                     $obj->getOfflineFilename());
+											break;
+
+										case "ltiv":
+											$obj = new ilObjLTIConsumerVerification($obj_id, false);
+											$this->files_direct[$obj_id] = array($obj->getFilePath(),
+											                                     $obj->getOfflineFilename());
+											break;
+
+										case "scov":
 											include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
 											$obj = new ilObjSCORMVerification($obj_id, false);
 											$this->files_direct[$obj_id] = array($obj->getFilePath(),

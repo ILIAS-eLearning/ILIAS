@@ -190,7 +190,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
 			"search_and_find" =>
 				array("seas", "mds", "taxs"),
 			"extending_ilias" =>
-				array('ecss', "ltis", "cmps", "extt"),
+				array('ecss', "ltis", "cmis", "cmps", "extt"),
 			"repository_and_objects" =>
 				array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "excs", "facs", "frma", "lrss",
 					"mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),

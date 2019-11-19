@@ -153,7 +153,7 @@ class ilPCVerificationGUI extends ilPageContentGUI
 			$root = $tree->getNodeData($root);
 			foreach ($tree->getSubTree($root) as $node)
 			{
-				if (in_array($node["type"], array("excv", "tstv", "crsv", "scov")))
+				if (in_array($node["type"], array("excv", "tstv", "crsv", "cmxv", "ltiv", "scov")))
 				{
 					$workspaceOptions[$node["obj_id"]] = $node["title"]." (".$lng->txt("wsp_type_".$node["type"]).")";
 				}

@@ -39,7 +39,9 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Folders")
-                ->withContent($l($this->getTree($ref_id)));
+                ->withContentWrapper(function () use ($l, $ref_id) {
+                    return $l($this->getTree($ref_id));
+                });
         }
 
         return $tools;

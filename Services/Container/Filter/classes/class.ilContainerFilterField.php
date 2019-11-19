@@ -18,6 +18,7 @@ class ilContainerFilterField
 	const STD_FIELD_COPYRIGHT = 6;
 	const STD_FIELD_TUTORIAL_SUPPORT = 7;
 	const STD_FIELD_OBJECT_TYPE = 8;
+    const STD_FIELD_ONLINE = 9;
 
 	/**
 	 * @var int

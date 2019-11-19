@@ -18094,6 +18094,18 @@ span.ilProfileBadge .modal .img-responsive {
   border: none;
   vertical-align: top;
 }
+/* BEGIN LTIConsumer */
+#ltiLoadingAnimation {
+  padding-top: 50px;
+  text-align: center;
+}
+#ltiIframe {
+  border: solid #7c7c7c 2px !important;
+  padding: 3px;
+  width: 100%;
+  height: 500px;
+}
+/* END LTIConsumer */
 .ilLike {
   /* background-color: @il-secondary-container-bg; */
   padding: 5px 0px;

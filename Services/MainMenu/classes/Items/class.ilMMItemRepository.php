@@ -49,7 +49,7 @@ class ilMMItemRepository
         $this->main_collector->collect();
         $this->services = $DIC->globalScreen();
 
-        foreach ($this->main_collector->getAllItems() as $top_item) {
+        foreach ($this->main_collector->getRawItems() as $top_item) {
             ilMMItemStorage::register($top_item);
             if ($top_item instanceof isParent) {
                 foreach ($top_item->getChildren() as $child) {
@@ -266,7 +266,7 @@ WHERE sub_items.parent_identification != '' ORDER BY top_items.position, parent_
     {
         $item = $this->services->mainBar()->custom($type, new NullIdentification());
 
-        return $this->main_collector->getHandlerForItem($item);
+        return $this->main_collector->getTypeHandlerForItem($item);
     }
 
 

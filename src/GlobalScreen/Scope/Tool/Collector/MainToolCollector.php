@@ -43,6 +43,7 @@ class MainToolCollector implements Collector
      * MainToolCollector constructor.
      *
      * @param DynamicToolProvider[] $providers
+     * @param ItemInformation|null  $information
      */
     public function __construct(array $providers, ItemInformation $information = null)
     {
@@ -63,19 +64,31 @@ class MainToolCollector implements Collector
     }
 
 
-    public function collect() : void
+    public function collectStructure() : void
     {
         global $DIC;
         $called_contexts = $DIC->globalScreen()->tool()->context()->stack();
 
+        $tools_to_merge = [];
+
         foreach ($this->providers as $provider) {
             $context_collection = $provider->isInterestedInContexts();
             if ($context_collection->hasMatch($called_contexts)) {
-                $this->tools = array_merge($this->tools, $provider->getToolsForContextStack($called_contexts));
+                $tools_to_merge[] = $provider->getToolsForContextStack($called_contexts);
             }
         }
+        $this->tools = array_merge([], ...$tools_to_merge);
+    }
 
+
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    {
         $this->tools = array_filter($this->tools, $this->getVisibleFilter());
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
         array_walk($this->tools, function (isToolItem $tool) {
             $this->applyTypeInformation($tool);
         });
@@ -84,12 +97,20 @@ class MainToolCollector implements Collector
     }
 
 
-    /**
-     * @return Tool[]
-     */
-    public function getItems() : array
+    public function collect() : void
     {
-        return $this->tools;
+        $this->collectStructure();
+        $this->filterItemsByVisibilty(false);
+        $this->prepareItemsForUIRepresentation();
+    }
+
+
+    /**
+     * @return \Generator
+     */
+    public function getItemsForUIRepresentation() : \Generator
+    {
+        yield from $this->tools;
     }
 
 

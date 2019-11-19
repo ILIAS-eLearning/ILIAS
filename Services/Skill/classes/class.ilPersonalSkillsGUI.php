@@ -757,7 +757,17 @@ class ilPersonalSkillsGUI
 					$obj = new ilObjCourseVerification($obj_id, false);
 					$url .= $obj->getOfflineFilename();
 					break;
-				
+
+                case "cmxv":
+                    $obj = new ilObjCmiXapiVerification($obj_id, false);
+                    $url .= $obj->getOfflineFilename();
+                    break;
+
+                case "ltiv":
+                    $obj = new ilObjLTIConsumerVerification($obj_id, false);
+                    $url .= $obj->getOfflineFilename();
+                    break;
+
 				case "scov":
 					include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
 					$obj = new ilObjSCORMVerification($obj_id, false);

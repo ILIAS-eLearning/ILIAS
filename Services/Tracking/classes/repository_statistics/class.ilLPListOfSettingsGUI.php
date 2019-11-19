@@ -90,7 +90,15 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 		$mod->setValue($this->obj_lp->getCurrentMode());
 		$form->addItem($mod);
 
-		foreach($this->obj_lp->getValidModes() as $mode_key)
+        if( method_exists($this->obj_lp, 'initModeOptions') )
+        {
+            /**
+             * this is neccessary for cmix object
+             * @see ilCmiXapiLP::initModeOptions()
+             */
+            $this->obj_lp->initModeOptions($mod);
+        }
+        else foreach($this->obj_lp->getValidModes() as $mode_key)
 		{			
 			$opt = new ilRadioOption(
 				$this->obj_lp->getModeText($mode_key),
@@ -131,7 +139,18 @@ class ilLPListOfSettingsGUI extends ilLearningProgressBaseGUI
 			// anything changed?
 			
 			// mode
-			$new_mode = (int)$form->getInput('modus');
+            if( method_exists($this->obj_lp, 'fetchModeOption') )
+            {
+                /**
+                 * this is neccessary for cmix object
+                 * @see ilCmiXapiLP::fetchModeOption()
+                 */
+                $new_mode = (int)$this->obj_lp->fetchModeOption($form);
+            }
+            else
+            {
+                $new_mode = (int) $form->getInput('modus');
+            }
 			$old_mode = $this->obj_lp->getCurrentMode();	
 			$mode_changed = ($old_mode != $new_mode);
 			
