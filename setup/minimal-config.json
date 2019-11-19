@@ -1,16 +1,10 @@
 {
 	"common" : {
 		"client_id" : "myilias",
-		"master_password" : "my_masterpassword",
-		"server_timezone" : "Europe/Berlin"
+		"master_password" : "my_masterpassword"
 	},
 	"database" : {
-		"type" : "innodb",
-		"host" : "localhost",
-		"database" : "myilias",
-		"user" : "ilias_user",
-		"password" : "my_database_password",
-		"create_database" : true
+		"user" : "ilias_user"
 	},
 	"filesystem" : {
 		"data_dir" : "/var/lib/ilias"
@@ -18,22 +12,11 @@
 	"http" : {
 		"path" : "http://demo1.cat06.de"
 	},
-	"language" : {
-		"default_language" : "de"
-	},
 	"systemfolder" : {
-		"client" : {
-			"name" : "My awesome ILIAS installation"
-		},
 		"contact" : {
 			"firstname" : "Richard",
 			"lastname" : "Klees",
 			"email" : "richard.klees@concepts-and-training.de"
 		}
-	},
-	"utilities" : {
-		"path_to_convert" : "/usr/bin/convert",
-		"path_to_zip" : "/usr/bin/zip",
-		"path_to_unzip" : "/usr/bin/unzip"
 	}
 }

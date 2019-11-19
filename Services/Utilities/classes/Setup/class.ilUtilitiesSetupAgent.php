@@ -39,9 +39,9 @@ class ilUtilitiesSetupAgent implements Setup\Agent {
 	public function getArrayToConfigTransformation() : Refinery\Transformation {
 		return $this->refinery->custom()->transformation(function($data) {
 			return new \ilUtilitiesSetupConfig(
-				$data["path_to_convert"],
-				$data["path_to_zip"],
-				$data["path_to_unzip"]
+				$data["path_to_convert"] ?? "/usr/bin/convert",
+				$data["path_to_zip"] ?? "/usr/bin/zip",
+				$data["path_to_unzip"] ?? "/usr/bin/unzip"
 			);
 		});	
 	}

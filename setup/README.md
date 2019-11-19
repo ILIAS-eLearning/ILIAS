@@ -37,17 +37,17 @@ are printed bold**, all other fields might be ommitted. A minimal example is [he
 * **common** settings relevant for the complete installation 
   * **client_id** is the identifier to be used for the installation 
   * **master_password** is used to identify at the web version of the setup
-  * **server_timezone** where the installation resides, given as `region/city`, e.g. `Europe/Berlin`
+  * *server_timezone* where the installation resides, given as `region/city`, e.g. `Europe/Berlin`. Defaults to `UTC`.
 * *backgroundtasks* is a service to run tasks for users in separate processes
   * *type* might be `async` or `sync` and defaults to `sync`
   * *max_number_of_concurrent_tasks* that all users can run together
 * **database** is required to connect to the database
-  * **type** of the database, one of `innodb`, `mysql`, `postgres`, `galera`
-  * **host** the database server runs on
-  * **database** name to be used
+  * *type* of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults to `innodb`
+  * *host* the database server runs on, defaults to `localhost`
+  * *database* name to be used, defaults to `ilias`
   * **user** to be used to connect to the database
   * **password**  to be used to connect to the database
-  * **create_database** if a database with the given name does not exist?
+  * **create_database** if a database with the given name does not exist? Defaults to `true`
 * **filesystem** configuration
   * **data_dir** outside the web directory where ILIAS puts some data
 * *globalcache* is a service for caching various information
@@ -62,7 +62,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is [he
     * *host* the proxy runs on
     * *port* the proxy listens on
 * **language** configuration
-  * **default_language** language to be used for users
+  * *default_language* language to be used for users, defaults to `en`
   * *install_languages* defines all languages that should be available in a list
   * *install_local_languages* defines all languages with a local language file
 * *logging* configuration if logging should be used
@@ -82,7 +82,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is [he
   * *path_to_lessc* to compile less to css
 * **systemfolder** settings for Module/SystemFolder
   * **client** information
-    * **name** of the ILIASinstallation
+    * *name* of the ILIASinstallation
     * *description* of the installation
     * *institution* that provides the installation
   * **contact** to a person behind the installation
@@ -98,9 +98,9 @@ are printed bold**, all other fields might be ommitted. A minimal example is [he
     * *phone* of said person
     * **email** of said person
 * **utilities** contains settings for Services/Utilities
-  * **path_to_convert** from ImageMagick, to resize images
-  * **path_to_zip**" to zip files
-  * **path_to_unzip**" to unzip files
+  * *path_to_convert* from ImageMagick, to resize images
+  * *path_to_zip*" to zip files
+  * *path_to_unzip*" to unzip files
 * *virusscanner* configuration
   * *virusscanner* to be used. Either `none`, `sophos`, `antivir` or `clamav`
   * *path_to_scan* command of the scanner
