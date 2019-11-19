@@ -14,11 +14,6 @@ use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
  */
 class NotificationCenterRenderer implements MetaBarItemRenderer
 {
-    /**
-     * Location of the endpoint handling async notification requests
-     */
-    const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH."/src/GlobalScreen/Client/notify.php";
-
     use isSupportedTrait;
     /**
      * @var \ILIAS\GlobalScreen\Services
@@ -71,8 +66,7 @@ class NotificationCenterRenderer implements MetaBarItemRenderer
     protected function attachJSShowEvent(Combined $center)
     {
         $toggle_signal = $center->getToggleSignal();
-        $url_get_part = ClientNotifications::MODE."=".ClientNotifications::MODE_OPENED;
-        $url = self::NOTIFY_ENDPOINT."?".$url_get_part;
+        $url = ClientNotifications::NOTIFY_ENDPOINT."?".$this->buildShowQuery();
 
         $center = $center->withAdditionalOnLoadCode(
             function ($id) use ($toggle_signal,$url) {
@@ -84,5 +78,16 @@ class NotificationCenterRenderer implements MetaBarItemRenderer
         );
 
         return $center;
+    }
+
+    /**
+     * @return string
+     */
+    protected function buildShowQuery(){
+        return http_build_query([
+            ClientNotifications::MODE => ClientNotifications::MODE_OPENED,
+            ClientNotifications::NOTIFICATION_IDENTIFIERS => $this->gs->collector()->notifications()->getNotificationsIdentifiersAsArray()
+        ]);
+
     }
 }

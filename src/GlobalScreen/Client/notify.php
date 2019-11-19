@@ -5,5 +5,6 @@
 namespace ILIAS\GlobalScreen\Client;
 chdir("../../../");
 require_once('./libs/composer/vendor/autoload.php');
+\ilInitialisation::initILIAS();
 (new Notifications())->run();
 

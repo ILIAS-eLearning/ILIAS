@@ -86,4 +86,24 @@ class MainNotificationCollectorTest extends BaseNotificationSetUp
         $this->assertEquals(12,$collector->getAmountOfOldNotifications());
     }
 
+    public function testGetNotificationsIdentifiersAsArray()
+    {
+        $povider = $this->getDummyNotificationsProviderWithNotifications([]);
+        $collector = new MainNotificationCollector([$povider]);
+
+        $this->assertEquals([],$collector->getNotificationsIdentifiersAsArray());
+
+        $group_notification = $this->factory->standardGroup($this->id);
+        $povider = $this->getDummyNotificationsProviderWithNotifications([$group_notification]);
+        $collector = new MainNotificationCollector([$povider]);
+
+        $this->assertEquals(['dummy'],$collector->getNotificationsIdentifiersAsArray());
+
+        $group_notification = $this->factory->standardGroup($this->id);
+        $povider = $this->getDummyNotificationsProviderWithNotifications([$group_notification,$group_notification]);
+        $collector = new MainNotificationCollector([$povider]);
+
+        $this->assertEquals(['dummy','dummy'],$collector->getNotificationsIdentifiersAsArray());
+    }
+
 }

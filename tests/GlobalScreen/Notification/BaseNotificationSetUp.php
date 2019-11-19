@@ -76,8 +76,12 @@ class BaseNotificationSetUp extends TestCase
             public function mainControls() : C\MainControls\Factory
             {
                 return new I\MainControls\Factory($this->sig_gen,
-                    new I\MainControls\Slate\Factory($this->sig_gen
-                        , new \ILIAS\UI\Implementation\Component\Counter\Factory())
+                    new I\MainControls\Slate\Factory($this->sig_gen,
+                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        new I\Symbol\Factory(
+                            new I\Symbol\Icon\Factory(),
+                            new I\Symbol\Glyph\Factory())
+                    )
                 );
             }
         };

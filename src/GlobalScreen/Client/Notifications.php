@@ -38,9 +38,18 @@ class Notifications
      */
     const ITEM_ID = "item_id";
 
+    /**
+     * Used to read the identifiers out of the GET param later
+     */
+    const NOTIFICATION_IDENTIFIERS = "notification_identifiers";
+
+    /**
+     * Location of the endpoint handling async notification requests
+     */
+    const NOTIFY_ENDPOINT = ILIAS_HTTP_PATH."/src/GlobalScreen/Client/notify.php";
+
     public function run()
     {
-        \ilInitialisation::initILIAS();
         /**
          * @DI $DI
          */
@@ -59,10 +68,16 @@ class Notifications
      * providers
      */
     public function handleOpened(){
+        $identifiers = $_GET[self::NOTIFICATION_IDENTIFIERS];
+
         foreach ($this->notification_groups as $notification_group) {
-            $notification_group->getOpenedCallable()();
             foreach ($notification_group->getNotifications() as $notification) {
-                $notification->getOpenedCallable()();
+                if (in_array($notification->getProviderIdentification()->getInternalIdentifier(), $identifiers)) {
+                    $notification->getOpenedCallable()();
+                }
+            }
+            if (in_array($notification_group->getProviderIdentification()->getInternalIdentifier(), $identifiers)) {
+                $notification_group->getOpenedCallable()();
             }
         }
     }

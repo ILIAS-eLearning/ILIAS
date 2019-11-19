@@ -4,8 +4,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotification;
 use ILIAS\UI\Component\Item\Notification;
 use ILIAS\GlobalScreen\Client\Notifications as ClientNotifications;
-use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\NotificationCenterRenderer;
-
+use ILIAS\GlobalScreen\Client\Notifications;
 /**
  * Class StandardNotificationGroupRenderer
  *
@@ -36,9 +35,19 @@ class StandardNotificationRenderer extends AbstractBaseNotificationRenderer impl
      * @return Notification
      */
     protected function attachJSCloseEvent(Notification $ui_notification_item, isItem $item){
-        $url_get_part = ClientNotifications::MODE."=".ClientNotifications::MODE_CLOSED;
-        $url_get_part .= "&".ClientNotifications::ITEM_ID."=".$item->getProviderIdentification()->getInternalIdentifier();
-        $url = NotificationCenterRenderer::NOTIFY_ENDPOINT."?".$url_get_part;
+        $url = ClientNotifications::NOTIFY_ENDPOINT."?".$this->buildCloseQuery($item);
         return $ui_notification_item->withCloseAction($url);
+    }
+
+    /**
+     * @param isItem $item
+     * @return string
+     */
+    protected function buildCloseQuery(isItem $item){
+        return http_build_query([
+            ClientNotifications::MODE => ClientNotifications::MODE_CLOSED,
+            ClientNotifications::ITEM_ID => $item->getProviderIdentification()->getInternalIdentifier()
+        ]);
+
     }
 }

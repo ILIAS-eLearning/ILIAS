@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\GlobalScreen\Client\Notifications;
 
 /**
  * Class MainNotificationCollector
@@ -108,7 +109,8 @@ class MainNotificationCollector
                     }
                 }else{
                     $count += $notification->getNewAmount();
-                }            }
+                }
+            }
 
             return $count;
         }
@@ -123,6 +125,20 @@ class MainNotificationCollector
      */
     public function getNotifications() : array
     {
+
         return $this->notifications;
+    }
+
+    public function getNotificationsIdentifiersAsArray(){
+        $identifiers = [];
+        foreach ($this->notifications as $notification) {
+            if($notification instanceof StandardNotificationGroup){
+                foreach ($notification->getNotifications() as $item) {
+                    $identifiers[] = $item->getProviderIdentification()->getInternalIdentifier();
+                }
+            }
+            $identifiers[] = $notification->getProviderIdentification()->getInternalIdentifier();
+        }
+        return $identifiers;
     }
 }
