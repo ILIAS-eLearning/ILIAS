@@ -28,6 +28,10 @@ class ImageMapQuestionGUI extends LegacyFormGUIBase {
             );
     }
     
+    protected function canDisplayAnswerOptions() {
+        return !empty($this->initial_question->getPlayConfiguration()->getEditorConfiguration()->getImage());
+    }
+    
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(

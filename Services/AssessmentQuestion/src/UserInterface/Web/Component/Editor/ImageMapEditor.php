@@ -12,6 +12,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
 use ilTemplate;
 use Exception;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\ImageFormPopup;
 
 /**
  * Class ImageMapEditor
@@ -27,6 +28,7 @@ class ImageMapEditor extends AbstractEditor {
     
     const VAR_IMAGE = 'ime_image';
     const VAR_MULTIPLE_CHOICE = 'ime_multiple_choice';
+    const POPUP_FIELD = 'ime_popup';
     
     const STR_MULTICHOICE = 'Multichoice';
     const STR_SINGLECHOICE = 'Singlechoice';
@@ -220,9 +222,13 @@ class ImageMapEditor extends AbstractEditor {
         $image->setRequired(true);
         $fields[self::VAR_IMAGE] = $image;
         
+        $popup = new ImageFormPopup();
+        $fields[self::POPUP_FIELD] = $popup;
+        
         if ($config !== null) {
             $mode->setValue($config->isMultipleChoice() ? self::STR_MULTICHOICE : self::STR_SINGLECHOICE);
             $image->setImagePath($config->getImage());
+            $popup->setValue($config->getImage());
         }
         
         return $fields;

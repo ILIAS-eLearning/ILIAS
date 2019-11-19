@@ -116,7 +116,8 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    $this->initiatePlayConfiguration($question->getPlayConfiguration());
 	    
 	    if (!is_null($question->getPlayConfiguration()) &&
-	        $question->getPlayConfiguration()->hasAnswerOptions())
+	        $question->getPlayConfiguration()->hasAnswerOptions() &&
+	        $this->canDisplayAnswerOptions())
 	    {
             $this->option_form = new AnswerOptionForm(
                 $this->lang->txt('asq_label_answer'),
@@ -131,6 +132,10 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 
 	protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : ?array {
 	    return null;
+	}
+	
+	protected function canDisplayAnswerOptions() {
+	    return true;
 	}
 	
     /**
