@@ -4,6 +4,7 @@
 $( document ).ready(function() {
 	var TestPackage = [
 		CounterTests,
+		NotificationItemTests
 		//Place further test packages here.
 	];
 
