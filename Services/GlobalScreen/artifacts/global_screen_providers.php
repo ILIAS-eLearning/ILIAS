@@ -71,5 +71,6 @@
     0 => 'ILIAS\\BackgroundTasks\\Provider\\BTNotificationProvider',
     1 => 'ILIAS\\Contact\\Provider\\ContactNotificationProvider',
     2 => 'ILIAS\\Mail\\Provider\\MailNotificationProvider',
+    3 => 'ILIAS\\OnScreenChat\\Provider\\OnScreenChatNotificationProvider',
   ),
 );
