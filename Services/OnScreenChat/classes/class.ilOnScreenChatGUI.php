@@ -242,7 +242,14 @@ class ilOnScreenChatGUI
                 'chat_osc_self_rej_msgs',
                 'chat_osc_search_modal_info',
                 'chat_osc_head_grp_x_persons',
-                'osc_noti_title'
+                'osc_noti_title',
+                'chat_osc_conversations',
+                'chat_osc_sure_to_leave_grp_conv',
+                'chat_osc_user_left_grp_conv',
+                'confirm',
+                'cancel',
+                'chat_osc_leave_grp_conv',
+                'chat_osc_no_conv',
             ), $page);
 
             iljQueryUtil::initjQuery($page);
