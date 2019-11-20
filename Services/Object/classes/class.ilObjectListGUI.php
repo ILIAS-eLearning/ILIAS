@@ -1155,15 +1155,9 @@ class ilObjectListGUI
 			require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 			if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
 			{
-				require_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-				$dav_util = ilWebDAVUtil::getInstance();
-
-				// XXX: The following is a very dirty, ugly trick.
-				//        To mount URI needs to be put into two attributes:
-				//        href and folder. This hack returns both attributes
-				//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-				return $dav_util->getMountURI($this->ref_id).
-							'" folder="'.$dav_util->getFolderURI($this->ref_id);
+				global $DIC;
+				$uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+				return $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
 			}
 			// END WebDAV Get mount webfolder link.
 
@@ -1198,12 +1192,6 @@ class ilObjectListGUI
 	*/
 	function getCommandFrame($a_cmd)
 	{
-		// BEGIN WebDAV Get mount webfolder link.
-		require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
-		if ($a_cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive())
-		{
-			return '_blank';        
-		}
 		// begin-patch fm
 		if($a_cmd == 'fileManagerLaunch')
 		{
@@ -1532,7 +1520,7 @@ class ilObjectListGUI
 				
 			// workaround for repository frameset
 			#var_dump("<pre>",$this->default_command['link'],"</pre>");
-			$this->default_command["link"] = 
+			$this->default_command["link"] =
 				$this->appendRepositoryFrameParameter($this->default_command["link"]);
 
 			#var_dump("<pre>",$this->default_command['link'],"</pre>");
@@ -2151,7 +2139,9 @@ class ilObjectListGUI
 			$prevent_background_click = false;
 			if ($a_cmd == 'mount_webfolder')
 			{
-				$prevent_background_click = true;
+				$a_onclick = "triggerWebDAVModal('$a_href')";
+				$a_href = "#";
+				ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
 			}
 
 			$this->current_selection_list->addItem($a_text, "", $a_href, $a_img, $a_text, $a_frame,
@@ -2751,9 +2741,9 @@ class ilObjectListGUI
 			return $this->current_selection_list->getHTML(true);
 		}
 		
-		return $this->current_selection_list->getHTML();		
+		return $this->current_selection_list->getHTML();
 	}
-	
+
 	/**
 	 * Toogle comments action status
 	 * 
@@ -3934,9 +3924,19 @@ class ilObjectListGUI
 		$this->insertCommands();
 		$actions = [];
 		foreach ($this->current_selection_list->getItems() as $action_item) {
-			$actions[] = $ui->factory()
+			$action = $ui->factory()
 				->button()
 				->shy($action_item['title'], $action_item['link']);
+
+			// Dirty hack to remain the "onclick" action of action items
+			if ($action_item['onclick'] != NULL && $action_item['onclick'] != '')
+			{
+				$action = $action->withAdditionalOnLoadCode(function($id) use ($action_item) {
+					return "$('#$id').click(function(){".$action_item['onclick'].";});";
+				});
+			}
+
+			$actions[] = $action;
 		}
 
 		$dropdown = $ui->factory()
