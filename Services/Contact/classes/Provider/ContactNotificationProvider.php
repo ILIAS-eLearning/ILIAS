@@ -55,25 +55,22 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
 
         $factory = $this->globalScreen()->notifications()->factory();
 
-        $description = sprintf(
-            $this->dic->language()->txt(
-                'nc_contact_requests_number' . (($contactRequestsCount > 1) ? '_p' : '_s')
-            ),
-            $contactRequestsCount
-        );
-
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard("contact", "contact");
-
+            ->custom(\ilUtil::getImagePath('simpleline/people.svg'), 'contacts');
         $title = $this->dic->ui()->factory()
             ->link()
             ->standard(
                 $this->dic->language()->txt('nc_contact_requests_headline'),
                 'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts'
             );
-
+        $description = sprintf(
+            $this->dic->language()->txt(
+                'nc_contact_requests_number' . (($contactRequestsCount > 1) ? '_p' : '_s')
+            ),
+            $contactRequestsCount
+        );
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
@@ -87,14 +84,9 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
                         function () {
-                            //@Todo: Memories, that those notifications have been closed.
-                            var_dump("Contact received closed event.");
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
                         })->withNewAmount(1)
-            )
-            ->withOpenedCallable(function () {
-                //@Todo: Memories, that those notifications have been seen.
-                var_dump("Contact received opened event.");
-            });
+            );
 
         return [
             $group
