@@ -65,7 +65,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMetaBar() : ?MetaBar
     {
-        $this->gs->collector()->metaBar()->collect();
+        $this->gs->collector()->metaBar()->collectOnce();
         if (!$this->gs->collector()->metaBar()->hasItems()) {
             return null;
         }
@@ -89,7 +89,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMainBar() : ?MainBar
     {
-        $this->gs->collector()->mainmenu()->collect();
+        $this->gs->collector()->mainmenu()->collectOnce();
         if (!$this->gs->collector()->mainmenu()->hasItems()) {
             return null;
         }
@@ -115,7 +115,7 @@ class StandardPagePartProvider implements PagePartProvider
         );
 
         // Tools
-        $this->gs->collector()->tool()->collect();
+        $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);

@@ -1,8 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use Closure;
-use ILIAS\GlobalScreen\Collector\Collector;
-use ILIAS\GlobalScreen\Collector\LogicException;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MetaBarMainCollector implements Collector
+class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollector
 {
 
     /**
@@ -33,17 +33,6 @@ class MetaBarMainCollector implements Collector
     public function __construct(array $providers)
     {
         $this->providers = $providers;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function collect() : void
-    {
-        $this->collectStructure();
-        $this->filterItemsByVisibilty(false);
-        $this->prepareItemsForUIRepresentation();
     }
 
 
