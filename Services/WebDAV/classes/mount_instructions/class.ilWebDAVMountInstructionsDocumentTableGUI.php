@@ -2,7 +2,7 @@
 
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
-    /** @var ilWebDAVMountInstructionsGUI */
+    /** @var ilWebDAVUriBuilder */
     protected $mount_instructions_gui;
 
 	/** @var \ILIAS\UI\Factory */
@@ -34,14 +34,14 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
 	public  function __construct(
 		ilWebDAVMountInstructionsUploadGUI $a_parent_obj,
-		ilWebDAVMountInstructionsGUI $a_mount_instructions_gui,
+		ilWebDAVUriBuilder $a_webdav_uri_builder,
 		string $a_command,
 		ILIAS\UI\Factory $a_ui_factory,
 		ILIAS\UI\Renderer $a_ui_renderer,
 		bool $a_is_editable = false
 	)
 	{
-	    $this->mount_instructions_gui = $a_mount_instructions_gui;
+	    $this->webdav_uri_builder = $a_webdav_uri_builder;
 		$this->ui_factory = $a_ui_factory;
 		$this->ui_renderer = $a_ui_renderer;
 		$this->is_editable = $a_is_editable;
@@ -84,6 +84,8 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
             $this->setSelectAllCheckbox('webdav_id[]');
             $this->addCommandButton('saveDocumentSorting', $this->lng->txt('sorting_save'));
         }
+
+		ilWebDAVMountInstructionsModalGUI::maybeRenderWebDAVModalInGlobalTpl();
 	}
 
 	public function setProvider(ilWebDAVMountInstructionsTableDataProvider $a_provider) : void
@@ -369,19 +371,17 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 	{
 	    if($a_row['processed_text'] == null) $a_row['processed_text'] = '';
 
-	    $mount_instructions = $this->mount_instructions_gui->buildGUIFromGivenMountInstructions(json_decode($a_row['processed_text']));
-
-	    // Build modal, which is rendered asynchronous
-		$modal = $this->ui_factory->modal()
-            ->lightbox($this->ui_factory->modal()->lightboxTextPage($mount_instructions, $a_row['title']));
-            //->withAsyncRenderUrl($this->uri_builder->getUriToMountInstructionModalByLanguage($a_row['language']));
-
+        global $DIC;
+        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+        $url = $uri_builder->getUriToMountInstructionModalByLanguage($a_row['language']);
 		$title_link = $this->ui_factory
 			->button()
 			->shy($a_row[$a_column], '#')
-			->withOnClick($modal->getShowSignal());
+            ->withAdditionalOnLoadCode(function($id) use ($url) {
+                return "$('#$id').click(function(){ triggerWebDAVModal('$url');});";
+            });
 
-		return $this->ui_renderer->render([$title_link, $modal]);
+		return $this->ui_renderer->render([$title_link]);
 	}
 
 	protected function formatSorting(array $a_row) : string

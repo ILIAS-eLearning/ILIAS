@@ -28,7 +28,7 @@ class ilWebDAVMountInstructionsGUI {
         $this->mount_instruction = $a_mount_instruction;
     }
 
-    public function buildGUIFromGivenMountInstructions($a_mount_instructions)
+    public function buildGUIFromGivenMountInstructions($a_mount_instructions, $a_render_async = false)
     {
         global $DIC;
         $f = $DIC->ui()->factory();
@@ -38,9 +38,16 @@ class ilWebDAVMountInstructionsGUI {
         $comps = array();
 
         // This is an additional legacy component. It contains the java script function to substitute the shown instructions
-        $js_function_legacy = $f->legacy('<script>function showInstructions(id){'."\n"
+        $js_function_legacy = $f->legacy('<script>'
+            .'il.UI.showMountInstructions = function (e, id){'
+            // e['target'] is the id for the button which was clicked (e.g. 'button#il_ui_fw_1234')
+            . "obj = $(e['target']);"
+            // Sets all buttons to the "unclicked" state
+            . "obj.siblings().removeClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'false');"
+            // Sets the clicked button into the "clicked" state
+            . "obj.addClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'true');"
             // Hide all instruction divs at first
-            .'$(".instructions").hide();'."\n"
+            .'$(".instructions").hide();'
             // Show the div which is given as an argument
             .'$("#"+id).show();}</script>');
 
@@ -58,28 +65,41 @@ class ilWebDAVMountInstructionsGUI {
         foreach ($a_mount_instructions as $title => $text)
         {
             // Create legacy component for mount instructions. Mount instructions text is wrapped in a <div>-tag
-            $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>");
+            $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>")
+                ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
 
             // Add to the list of components to render
             $comps[] = $legacy;
 
             // Add signal to the list for the view control
-            $view_control_actions[$title] = 'https://ilias.de';
+            $view_control_actions[$title] = $legacy->getCustomSignal($title);
+
+            // Used to hide all <div>'s except for the first one
+            if($hidden == "")
+            {
+                $hidden = 'style="display: none;"';
+            }
         }
-        $view_control = $f->viewControl()->mode($view_control_actions, "Aria Label");
+
+        $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons");
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
-        array_unshift($comps, $view_control);
-        array_unshift($comps, $js_function_legacy);
+        $header_comps = array(
+            $f->legacy("<div style='text-align: center'>"),
+            $view_control,
+            $f->legacy("</div>"),
+            $js_function_legacy);
 
-        return $r->render($comps);
+        $comps = array_merge($header_comps, $comps);
+
+        return $a_render_async ? $r->renderAsync($comps) : $r->render($comps);
     }
 
     public function renderMountInstructionsContent()
     {
         $instructions = $this->mount_instruction->getMountInstructionsAsArray($this->user_language);
 
-        echo $this->buildGUIFromGivenMountInstructions($instructions);
+        echo $this->buildGUIFromGivenMountInstructions($instructions, true);
         exit;
     }
 }
