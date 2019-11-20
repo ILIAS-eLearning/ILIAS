@@ -1100,7 +1100,7 @@
 		return function (ns) {
 			if (!namespaces.hasOwnProperty(ns)) {
 				namespaces[ns] = (function () {
-					var timer = 0;
+					let timer = 0;
 
 					return function(callback, ms){
 						clearTimeout(timer);
@@ -1163,7 +1163,7 @@
 
 			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, JSON.stringify(conversation));
 
-			var e = $.Event('storage');
+			let e = $.Event('storage');
 			e.originalEvent = {
 				key: PREFIX_CONSTANT + conversation.id,
 				oldValue: oldValue,
@@ -1173,11 +1173,9 @@
 		};
 	};
 
-	var DeferredActivityTrackerFactory = (function () {
-		var instances = {
-			
-		}, ms = 1000;
-		
+	const DeferredActivityTrackerFactory = (function () {
+		let instances = {}, ms = 1000;
+
 		function ActivityTracker() {
 			this.timer = 0;
 		}
@@ -1210,8 +1208,8 @@
 		};
 	})();
 
-	var findUsernameByIdByConversation = function(conversation, usrId) {
-		for(var index in conversation.participants) {
+	const findUsernameByIdByConversation = function(conversation, usrId) {
+		for (let index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == usrId) {
 				if (getModule().participantsNames.hasOwnProperty(conversation.participants[index].id)) {
 					return getModule().participantsNames[conversation.participants[index].id];
@@ -1224,26 +1222,28 @@
 		return "";
 	};
 
-	var findUsernameInConversationByMessage = function(messageObject) {
-		var conversation = getModule().storage.get(messageObject.conversationId);
+	const findUsernameInConversationByMessage = function(messageObject) {
+		let conversation = getModule().storage.get(messageObject.conversationId);
 
 		return findUsernameByIdByConversation(conversation, messageObject.userId);
 	};
 
-	var getParticipantsIds = function(conversation) {
-		var ids = [];
-		for(var index in conversation.participants) {
+	const getParticipantsIds = function(conversation) {
+		let ids = [];
+
+		for (let index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index)) {
 				ids.push(conversation.participants[index].id);
 			}
 		}
+
 		return ids;
 	};
 
-	var getParticipantsNames = function(conversation, ignoreMySelf) {
-		var names = [];
+	const getParticipantsNames = function(conversation, ignoreMySelf) {
+		let names = [];
 
-		for (var key in conversation.participants) {
+		for (let key in conversation.participants) {
 			if (
 				conversation.participants.hasOwnProperty(key) && (
 					(getModule().user !== undefined && getModule().user.id != conversation.participants[key].id) ||
@@ -1262,8 +1262,8 @@
 		return names;
 	};
 
-	var ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
-		var _participants = participants;
+	const ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
+		let _participants = participants;
 
 		this.format = function () {
 			return $("<ul/>").append(_participants.map(function(elm) {
@@ -1272,35 +1272,35 @@
 		};
 	};
 
-	var getProfileImage = function(userId) {
-		if(getModule().participantsImages.hasOwnProperty(userId)) {
+	const getProfileImage = function(userId) {
+		if (getModule().participantsImages.hasOwnProperty(userId)) {
 			return getModule().participantsImages[userId].src;
 		}
 		return "";
 	};
 
-	var MessagePaster = function(message) {
-		var _message = message, getLastCaretPosition = function() {
+	const MessagePaster = function(message) {
+		let _message = message, getLastCaretPosition = function() {
 			return _message.attr("data-onscreenchat-last-caret-pos") || 0;
 		};
 
 		this.paste = function(text) {
-			var lastCaretPosition = parseInt(getLastCaretPosition(), 10),
+			let lastCaretPosition = parseInt(getLastCaretPosition(), 10),
 				pre  = _message.text().substr(0, lastCaretPosition),
 				post = _message.text().substr(lastCaretPosition);
 
 			_message.text(pre + text  + post);
 
 			if (window.getSelection) {
-				var node = _message.get(0);
+				let node = _message.get(0);
 				node.focus();
 
-				var textNode = node.firstChild;
-				var range = document.createRange();
+				let textNode = node.firstChild;
+				let range = document.createRange();
 				range.setStart(textNode, lastCaretPosition + text.length);
 				range.setEnd(textNode, lastCaretPosition + text.length);
 
-				var sel = window.getSelection();
+				let sel = window.getSelection();
 				sel.removeAllRanges();
 				sel.addRange(range);
 			} else {
@@ -1309,8 +1309,8 @@
 		};
 	};
 
-	var MessageFormatter = function MessageFormatter(emoticons) {
-		var _emoticons = emoticons;
+	const MessageFormatter = function MessageFormatter(emoticons) {
+		let _emoticons = emoticons;
 
 		this.format = function (message) {
 			return _emoticons.replace(message);
@@ -1324,7 +1324,7 @@
 	 * @params {array} _smileys
 	 * @constructor
 	 */
-	var Smileys = function Smileys(_smileys) {
+	const Smileys = function Smileys(_smileys) {
 		let emoticonMap = {}, emoticonCollection = [];
 
 		if (typeof _smileys === "object" && Object.keys(_smileys).length > 0) {
@@ -1333,13 +1333,13 @@
 
 				if (!emoticonMap.hasOwnProperty(prop)) {
 					emoticonMap[prop] = $('<img alt="" title="" />')
-						.attr('data-emoticon', i)
-						.attr('data-src', prop);
+						.attr("data-emoticon", i)
+						.attr("data-src", prop);
 				}
 
 				emoticonMap[prop].attr({
-					alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
-					title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
+					alt:   [emoticonMap[prop].attr("alt").toString(), i].join(" "),
+					title: [emoticonMap[prop].attr("title").toString(), i].join(" ")
 				});
 			}
 			for (let i in emoticonMap) {
@@ -1352,12 +1352,12 @@
          * @param {string} src
          * @returns {Promise<unknown>}
          */
-        let Img = function(src) {
+        const Img = function(src) {
             return new Promise(function(resolve, reject) {
                 let img = new Image();
-                img.addEventListener('load', function(e) {
+                img.addEventListener("load", function(e) {
                     resolve(src)
-                    img.addEventListener('error', function() {
+                    img.addEventListener("error", function() {
                         reject(new Error("Failed to load image's URL: " + src));
                     });
                 });
@@ -1391,11 +1391,11 @@
 		 */
 		this.preload = function () {
 			let promises = Object.keys(emoticonMap).map(function (key) {
-				return Img(emoticonMap[key].attr('data-src'));
+				return Img(emoticonMap[key].attr("data-src"));
 			});
 
 			return Promise.all(promises);
-		}
+		};
 
 		this.getContent = function () {
 			let renderCollection = [];
@@ -1405,7 +1405,7 @@
 			});
 
 			return renderCollection.join('');
-		}
+		};
 
 		this.getTriggerHtml = function() {
 			if (typeof _smileys !== "object" || Object.keys(_smileys).length === 0) {
@@ -1413,7 +1413,7 @@
 			}
 
 			return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
-				.data('emoticons', this);
+				.data("emoticons", this);
 		};
 	};
 
