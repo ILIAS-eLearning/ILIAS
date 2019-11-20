@@ -171,9 +171,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ->notification($aggregateTitle, $icon)
                     ->withDescription($message)
                     ->withAdditionalOnLoadCode(
-                        function($id) {
+                        function($id) use($conversationId) {
                             return "
-                                $('#$id').find('button.close').attr('data-onscreenchat-menu-remove-conversation', '');
+                                $('#$id').find('button.close')
+                                    .attr('data-onscreenchat-menu-remove-conversation', '')
+                                    .attr('data-onscreenchat-conversation', '$conversationId');
                             ";
                         }
                     )

@@ -249,16 +249,19 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var link = $(this);
-			var conversationId = $(link).attr('data-onscreenchat-conversation');
-			var participant = {
-				id: $(link).attr('data-onscreenchat-userid'),
-				name: $(link).attr('data-onscreenchat-username')
-			};
-			var conversation = getModule().storage.get(conversationId);
+			let link = $(this),
+				conversationId = $(link).attr('data-onscreenchat-conversation'),
+				conversation = getModule().storage.get(conversationId);
 
-			if(conversation == null) {
-				$chat.getConversation([getModule().user, participant]);
+			if (conversation == null) {
+				let participant = {
+					id: $(link).attr('data-onscreenchat-userid'),
+					name: $(link).attr('data-onscreenchat-username')
+				};
+
+				if (typeof participant.id !== "undefined" && participant.id.length > 0) {
+					$chat.getConversation([getModule().user, participant]);
+				}
 				return;
 			}
 
@@ -451,7 +454,7 @@
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 200);
+			}, 100);
 		},
 
 		/**
@@ -467,7 +470,7 @@
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 200);
+			}, 100);
 		},
 
 		/**
@@ -483,7 +486,7 @@
 
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 200);
+			}, 100);
 		},
 
 		/**
@@ -666,9 +669,17 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
-			var conversation = getModule().storage.get(conversationId);
+			let $trigger = $(this), conversationId = $trigger.data('onscreenchat-conversation');
 
+			if (!conversationId) {
+				conversationId = $trigger.closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
+			}
+
+			if (!conversationId) {
+				return;
+			}
+
+			let conversation = getModule().storage.get(conversationId);
 			if (conversation.isGroup) {
 				$scope.il.Modal.dialogue({
 					id: 'modal-leave-' + conversation.id,
