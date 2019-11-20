@@ -404,7 +404,6 @@
 		},
 
 		rerenderNotifications: function() {
-			// TODO: To a deferred execution with a 200ms ts
 			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
 
 			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
@@ -446,7 +445,9 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			getModule().rerenderNotifications();
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 500);
 		},
 
 		/**
@@ -459,7 +460,9 @@
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
-			getModule().rerenderNotifications();
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 500);
 		},
 
 		/**
@@ -472,7 +475,10 @@
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
-			getModule().rerenderNotifications();
+
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 500);
 		},
 
 		/**
@@ -1072,7 +1078,26 @@
 		return $('[data-onscreenchat-window]:visible').length;
 	}
 
-	var ConversationStorage = function ConversationStorage() {
+	const DeferredCallbackFactory = (function() {
+		let namespaces = {};
+
+		return function (ns) {
+			if (!namespaces.hasOwnProperty(ns)) {
+				namespaces[ns] = (function () {
+					var timer = 0;
+
+					return function(callback, ms){
+						clearTimeout(timer);
+						timer = setTimeout(callback, ms);
+					};
+				})();
+			}
+
+			return namespaces[ns];
+		};
+	})();
+
+	const ConversationStorage = function ConversationStorage() {
 
 		this.get = function get(id) {
 			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
