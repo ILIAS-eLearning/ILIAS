@@ -152,8 +152,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         if ('true' !== $noAggregates) {
             $aggregatedItems = [];
             foreach ($conversationIds as $conversationId) {
-                $name = 'Moep' . $conversationId;
-                $message = 'Hello World ' . $conversationId;
+                $name = $conversationId;
+                $message = $conversationId;
                 
                 $aggregateTitle = $this->dic->ui()->factory()
                     ->button()
