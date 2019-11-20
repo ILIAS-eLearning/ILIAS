@@ -257,10 +257,6 @@
 			};
 			var conversation = getModule().storage.get(conversationId);
 
-			if (typeof il.Awareness !== "undefined") {
-				il.Awareness.close();
-			}
-
 			if(conversation == null) {
 				$chat.getConversation([getModule().user, participant]);
 				return;
@@ -443,7 +439,7 @@
 		onRemoveConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 			// Remove conversation/notification from notification center
-			return;
+
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
@@ -748,7 +744,6 @@
 
 		onMenuItemClicked: function(e) {
 			$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
-			// TODO: Re-render notification items
 		},
 
 		updatePlaceholder: function(e) {
