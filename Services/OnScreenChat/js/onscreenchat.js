@@ -1126,6 +1126,13 @@
 				conversation.open = oldValue.open;
 			}
 
+			if (
+				oldValue != null && oldValue.latestMessage !== undefined && oldValue.latestMessage !== null &&
+				(conversation.latestMessage === undefined || conversation.latestMessage === null)
+			) {
+				conversation.latestMessage = oldValue.latestMessage;
+			}
+
 			if (oldValue != null && oldValue.lastTriggeredNotificationTs !== undefined && (conversation.lastTriggeredNotificationTs === undefined || conversation.lastTriggeredNotificationTs < oldValue.lastTriggeredNotificationTs)) {
 				conversation.lastTriggeredNotificationTs = oldValue.lastTriggeredNotificationTs;
 			}
