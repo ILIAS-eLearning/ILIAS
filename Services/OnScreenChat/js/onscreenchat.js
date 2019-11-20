@@ -413,6 +413,10 @@
 				$('#' + getModule().notificationItemId)
 			);
 
+			if (0 === currentNotificationItemsAdded && 0 === conversations.length) {
+				return;
+			}
+
 			if (conversations.length > currentNotificationItemsAdded) {
 				notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
 					conversations.length - currentNotificationItemsAdded
@@ -425,10 +429,12 @@
 
 			getModule().notificationItemsAdded = conversations.length;
 
+			let conversationIds = conversations.map(function(conversation) {
+				return conversation.id;
+			}).join(',');
+
 			notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-				'ids': conversations.map(function(conversation) {
-					return conversation.id;
-				}).join(',')
+				'ids': conversationIds
 			});
 		},
 
@@ -445,7 +451,7 @@
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 500);
+			}, 200);
 		},
 
 		/**
@@ -461,7 +467,7 @@
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 500);
+			}, 200);
 		},
 
 		/**
@@ -470,15 +476,14 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
-			// Add or update conversation/notification to notification center
-
-			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
-				getModule().notificationCenterConversationItems[conversation.id] = conversation;
+			// Remove conversation/notification from notification center
+			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
 
 			DeferredCallbackFactory('renderNotifications')(function () {
 				getModule().rerenderNotifications();
-			}, 500);
+			}, 200);
 		},
 
 		/**

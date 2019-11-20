@@ -91,35 +91,30 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
     }
 
     /**
+     * @param \ILIAS\UI\Component\Item\Notification[] $notificationItems
+     */
+    private function sendResponseWithNotificationItems(array $notificationItems) : void
+    {
+        echo $this->dic->ui()->renderer()->renderAsync($notificationItems);
+        exit;
+    }
+
+    /**
      * Delivers async a new item defined by the data sent through HTTP GET
      */
-    public function getAsyncItem(){
-        if (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
-            exit();
-        }
-
-        $conversationIds = explode(',', (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? ''));
-        if (0 === count($conversationIds)) {
-            exit();
-        }
-
+    public function getAsyncItem() : void
+    {
         $noAggregates = (string) ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');
+        $conversationIds = array_filter(explode(',',
+            (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? '')
+        ));
 
         $this->dic->language()->loadLanguageModule('chatroom');
-        
-        /**
-         * TODO:
-         * - 1. Query conversation from database by the requested ID array
-         * - 2. fetch latest message
-         * - 3. check(!!!) if user is member of this conv.
-         * - 4. Format usernames and message (linkyfy it, and replace smilies)
-         */
 
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
             ->standard('chtr', 'conversations');
-
         $title = $this->dic->language()->txt('chat_osc_conversations');
         if ('true' !== $noAggregates && count($conversationIds) > 0) {
             $title = $this->dic->ui()->factory()
@@ -129,7 +124,30 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
-            ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'));
+            ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'))
+            ->withAdditionalOnLoadCode(
+                function($id) {
+                    return "
+                    il.OnScreenChat.setNotificationItemId('$id');
+                ";
+                }
+            );
+
+        if (0 === count($conversationIds)) {
+            $this->sendResponseWithNotificationItems([$notificationItem]);
+        }
+
+        if (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+            $this->sendResponseWithNotificationItems([$notificationItem]);
+        }
+
+        /**
+         * TODO:
+         * - 1. Query conversation from database by the requested ID array
+         * - 2. fetch latest message
+         * - 3. check(!!!) if user is member of this conv.
+         * - 4. Format usernames and message (linkyfy it, and replace smilies)
+         */
 
         if ('true' !== $noAggregates) {
             $aggregatedItems = [];
@@ -152,7 +170,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ->item()
                     ->notification($aggregateTitle, $icon)
                     ->withDescription($message)
-                    ->withAdditionalOnLoadCode( // Please note there are some ugly JS hacks to make closing work
+                    ->withAdditionalOnLoadCode(
                         function($id) {
                             return "
                                 $('#$id').find('button.close').attr('data-onscreenchat-menu-remove-conversation', '');
@@ -172,15 +190,6 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->withDescription($description);
         }
 
-        $notificationItem = $notificationItem->withAdditionalOnLoadCode(
-            function($id) {
-                return "
-                    il.OnScreenChat.setNotificationItemId('$id');
-                ";
-            }
-        );
-
-        echo $this->dic->ui()->renderer()->renderAsync([$notificationItem]);
-        exit;
+        $this->sendResponseWithNotificationItems([$notificationItem]);
     }
 }
