@@ -172,6 +172,14 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->withDescription($description);
         }
 
+        $notificationItem = $notificationItem->withAdditionalOnLoadCode(
+            function($id) {
+                return "
+                    il.OnScreenChat.setNotificationItemId('$id');
+                ";
+            }
+        );
+
         echo $this->dic->ui()->renderer()->renderAsync([$notificationItem]);
         exit;
     }
