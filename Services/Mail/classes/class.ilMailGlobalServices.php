@@ -90,7 +90,7 @@ class ilMailGlobalServices
      * @static
      *
      */
-    public static function getNumberOfNewMailsByUserId($usr_id, int $leftInterval = 0) : int
+    public static function getNumberOfNewMailsByUserId(int $usr_id, int $leftInterval = 0) : int
     {
         global $DIC;
 
@@ -108,7 +108,7 @@ class ilMailGlobalServices
 
         $query = 'SELECT COUNT(mail_id) cnt FROM mail WHERE folder_id = %s AND user_id = %s AND m_status = %s';
         if ($leftInterval > 0) {
-            $query .= ' AND send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
+            $query .= ' AND send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(
@@ -120,14 +120,15 @@ class ilMailGlobalServices
 
         $query = '
             SELECT COUNT(mail_id) cnt
-            FROM mail m, mail_obj_data mo
-            WHERE m.user_id = mo.user_id
-            AND m.folder_id = mo.obj_id 
-		 	AND mo.m_type = %s
-			AND m.user_id = %s
+            FROM mail m
+            INNER JOIN mail_obj_data mo
+                ON mo.user_id = m.user_id
+                AND mo.obj_id = m.folder_id
+                AND mo.m_type = %s
+            WHERE m.user_id = %s
 	 		AND m.m_status = %s';
         if ($leftInterval > 0) {
-            $query .= ' AND m.send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
+            $query .= ' AND m.send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
         }
 
         $res = $DIC->database()->queryF(
