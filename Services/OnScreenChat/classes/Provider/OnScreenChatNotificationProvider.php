@@ -157,7 +157,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 
                 $aggregateTitle = $this->dic->ui()->factory()
                     ->button()
-                    ->shy($name, '')
+                    ->shy($name, '') // Important: Do not pass any action here, otherwise there will be onClick/return false;
                     ->withAdditionalOnLoadCode(
                         function($id) use($conversationId) {
                             return "
@@ -177,7 +177,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                             ";
                         }
                     )
-                    ->withCloseAction('#');
+                    ->withCloseAction('#'); // Imporant: The # prevents the default onClick handler is triggered
             }
             
             $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
