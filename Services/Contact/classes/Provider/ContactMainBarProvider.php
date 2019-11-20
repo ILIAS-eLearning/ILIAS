@@ -27,8 +27,11 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $title = $this->dic->language()->txt("mm_contacts");
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cadm", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/people.svg"), $title);
+
+        $icon = $this->dic->ui()->factory()
+            ->symbol()
+            ->icon()
+            ->custom(\ilUtil::getImagePath('simpleline/people.svg'), 'contacts');
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_contacts'))
@@ -36,7 +39,7 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts")
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(20)
-	            ->withSymbol($icon)
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {
