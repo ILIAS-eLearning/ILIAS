@@ -35,6 +35,7 @@
             ],
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
+            "abandoned": "psr/container",
             "time": "2017-02-14T19:40:03+00:00"
         },
         {
@@ -293,7 +294,7 @@
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.2"
             },
             "type": "library",
             "autoload": {
@@ -743,16 +744,16 @@
         },
         {
             "name": "markbaker/complex",
-            "version": "1.4.6",
+            "version": "1.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/MarkBaker/PHPComplex.git",
-                "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b"
+                "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
-                "reference": "a78d82ae4e682c3809fc3023d1b0ce654f6ab12b",
+                "url": "https://api.github.com/repos/MarkBaker/PHPComplex/zipball/1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
+                "reference": "1ea674a8308baf547cbcbd30c5fcd6d301b7c000",
                 "shasum": ""
             },
             "require": {
@@ -834,7 +835,7 @@
                 "complex",
                 "mathematics"
             ],
-            "time": "2018-07-31T08:38:40+00:00"
+            "time": "2018-10-13T23:28:42+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -997,11 +998,6 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "PHPMailer\\PHPMailer\\": "src/"
@@ -1029,20 +1025,25 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2018-11-16T00:41:32+00:00"
+            "time": "2018-11-16T00:41:32+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+                }
+            }
         },
         {
             "name": "phpoffice/phpspreadsheet",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-                "reference": "125f462a718956f37d81305ca0df4f17cef0f3b9"
+                "reference": "2dfd06c59825914a1a325f2a2ed13634b9d8c411"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/125f462a718956f37d81305ca0df4f17cef0f3b9",
-                "reference": "125f462a718956f37d81305ca0df4f17cef0f3b9",
+                "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/2dfd06c59825914a1a325f2a2ed13634b9d8c411",
+                "reference": "2dfd06c59825914a1a325f2a2ed13634b9d8c411",
                 "shasum": ""
             },
             "require": {
@@ -1075,7 +1076,7 @@
                 "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
                 "jpgraph/jpgraph": "Option for rendering charts, or including charts with PDF or HTML Writers",
                 "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
-                "tecnick.com/tcpdf": "Option for rendering PDF with PDF Writer"
+                "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
             },
             "type": "library",
             "autoload": {
@@ -1116,7 +1117,7 @@
                 "xls",
                 "xlsx"
             ],
-            "time": "2018-08-06T02:58:06+00:00"
+            "time": "2018-10-21T10:04:54+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -2027,11 +2028,6 @@
                 "phpunit/phpunit": "~4.8.35"
             },
             "type": "project",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "SimpleSAML\\": "lib/SimpleSAML"
@@ -2068,7 +2064,12 @@
                 "sp",
                 "ws-federation"
             ],
-            "time": "2018-09-28T13:06:14+00:00"
+            "time": "2018-09-28T13:06:14+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+                }
+            }
         },
         {
             "name": "slim/slim",
@@ -2252,11 +2253,6 @@
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS TCPDF Patches": "patches/tcpdf.patch"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "fonts",
@@ -2300,7 +2296,12 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2015-09-12T10:08:34+00:00"
+            "time": "2015-09-12T10:08:34+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS TCPDF Patches": "patches/tcpdf.patch"
+                }
+            }
         },
         {
             "name": "twig/extensions",
