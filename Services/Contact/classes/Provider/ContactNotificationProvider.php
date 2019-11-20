@@ -9,7 +9,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 /**
  * Class ContactNotificationProvider
  * @author Ingmar Szmais <iszmais@databay.de>
- * @since 10.09.19
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ContactNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {

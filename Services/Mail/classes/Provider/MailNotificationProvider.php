@@ -8,8 +8,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
  * Class MailNotificationProvider
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
