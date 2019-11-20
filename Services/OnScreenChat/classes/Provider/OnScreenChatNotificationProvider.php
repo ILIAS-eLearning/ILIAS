@@ -125,8 +125,6 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->notification($title, $icon)
             ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'));
 
-        $conversationIds = [$conversationIds[0], $conversationIds[0]];
-
         if ('true' !== $noAggregates) {
             $aggregatedItems = [];
             foreach ($conversationIds as $conversationId) {
@@ -135,12 +133,12 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 
                 $aggregateTitle = $this->dic->ui()->factory()
                     ->button()
-                    ->shy($name, '#')
-                    ->withAdditionalOnLoadCode(function($id){
-                        //Do what needs to be done by clicking on the title probably reload the entries without the one here.
-                        return "$('#$id').click(function() {
-                            return console.log('Notification Title has been clicked');
-                        });";
+                    ->shy($name, '')
+                    ->withAdditionalOnLoadCode(function($id) use($conversationId) {
+                        return "
+                             $('#$id').attr('data-onscreenchat-menu-item', '');
+                             $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
+                        ";
                     });
                 $aggregatedItems[] = $this->dic->ui()->factory()
                     ->item()

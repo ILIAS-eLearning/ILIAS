@@ -100,7 +100,6 @@
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
 				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
-				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', function(e) {
@@ -111,6 +110,8 @@
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
+				// Notification center events
+				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 				.on('click', '[data-onscreenchat-menu-remove-conversation]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
 		}
 	};
@@ -442,6 +443,7 @@
 		onRemoveConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
 			// Remove conversation/notification from notification center
+			return;
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
@@ -456,6 +458,7 @@
 		 */
 		onCloseConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
+
 			// Add or update conversation/notification to notification center
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
@@ -472,6 +475,7 @@
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
 			// Add or update conversation/notification to notification center
+
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
@@ -744,6 +748,7 @@
 
 		onMenuItemClicked: function(e) {
 			$scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent.call(this, e);
+			// TODO: Re-render notification items
 		},
 
 		updatePlaceholder: function(e) {
