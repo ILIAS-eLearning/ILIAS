@@ -107,7 +107,13 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
 
         $this->dic->language()->loadLanguageModule('chatroom');
         
-        // TODO: Query conversation from database, fetch latest message, check if user is member of this conv.
+        /**
+         * TODO:
+         * - 1. Query conversation from database by the requested ID array
+         * - 2. fetch latest message
+         * - 3. check(!!!) if user is member of this conv.
+         * - 4. Format usernames and message (linkyfy it, and replace smilies)
+         */
 
         $icon = $this->dic->ui()->factory()
             ->symbol()
@@ -134,16 +140,26 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 $aggregateTitle = $this->dic->ui()->factory()
                     ->button()
                     ->shy($name, '')
-                    ->withAdditionalOnLoadCode(function($id) use($conversationId) {
-                        return "
-                             $('#$id').attr('data-onscreenchat-menu-item', '');
-                             $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
-                        ";
-                    });
+                    ->withAdditionalOnLoadCode(
+                        function($id) use($conversationId) {
+                            return "
+                                 $('#$id').attr('data-onscreenchat-menu-item', '');
+                                 $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
+                            ";
+                        }
+                    );
                 $aggregatedItems[] = $this->dic->ui()->factory()
                     ->item()
                     ->notification($aggregateTitle, $icon)
-                    ->withDescription($message);
+                    ->withDescription($message)
+                    ->withAdditionalOnLoadCode( // Please note there are some ugly JS hacks to make closing work
+                        function($id) {
+                            return "
+                                $('#$id').find('button.close').attr('data-onscreenchat-menu-remove-conversation', '');
+                            ";
+                        }
+                    )
+                    ->withCloseAction('#');
             }
             
             $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
