@@ -31,8 +31,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             array(
             'id' => array('int', $document->getId()),
             'title' => array('text', $document->getTitle()),
-            'uploaded_instructions' => array('text', $document->getUploadedInstructions()),
-            'processed_instructions' => array('text', $document->getProcessedInstructions()),
+            'uploaded_instructions' => array('clob', $document->getUploadedInstructions()),
+            'processed_instructions' => array('clob', $document->getProcessedInstructions()),
             'lng' => array('text', $document->getLanguage()),
             'creation_ts' => array('timestamp', $document->getCreationTs()),
             'modification_ts' => array('timestamp', $document->getModificationTs()),
@@ -148,8 +148,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             // values to update
             array(
                 'title' => array('text', $document->getTitle()),
-                'uploaded_instructions' => array('text', $document->getUploadedInstructions()),
-                'processed_instructions' => array('text', $document->getProcessedInstructions()),
+                'uploaded_instructions' => array('clob', $document->getUploadedInstructions()),
+                'processed_instructions' => array('clob', $document->getProcessedInstructions()),
                 'lng' => array('text', $document->getLanguage()),
                 'creation_ts' => array('timestamp', $document->getCreationTs()),
                 'modification_ts' => array('timestamp', $document->getModificationTs()),

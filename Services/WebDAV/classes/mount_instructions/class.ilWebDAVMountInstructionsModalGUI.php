@@ -26,9 +26,14 @@ class ilWebDAVMountInstructionsModalGUI
         $this->ui_renderer = $a_ui_renderer;
         $this->lng = $a_lng;
 
-        $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
+        try  {
+            $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
+            $title = $document->getTitle();
+        } catch (InvalidArgumentException $e) {
+            $title = "WebDAV Mount Instrucitons " . $this->lng->getUserLanguage();
+        }
         $content_div = '<div id="'. self::MOUNT_INSTRUCTIONS_CONTENT_ID .'"></div>';
-        $page = $this->ui_factory->modal()->lightboxTextPage($content_div, $document->getTitle());
+        $page = $this->ui_factory->modal()->lightboxTextPage($content_div, $title);
         $this->modal = $this->ui_factory->modal()->lightbox($page);
     }
 
