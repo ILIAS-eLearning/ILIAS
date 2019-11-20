@@ -32,6 +32,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     public function __construct(array $providers)
     {
         $this->providers = $providers;
+        $this->collectOnce();
     }
 
 
@@ -145,7 +146,6 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
      */
     public function getNotifications() : array
     {
-
         return $this->notifications;
     }
 
