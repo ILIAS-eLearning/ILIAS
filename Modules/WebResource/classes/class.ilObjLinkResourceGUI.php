@@ -264,51 +264,62 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
 		$this->form = new ilPropertyFormGUI();
 		$this->form->setFormAction($this->ctrl->getFormAction($this,'saveSettings'));
-		$this->form->setTitle($this->lng->txt('webr_edit_settings'));
-		
-		// Title
-		$tit = new ilTextInputGUI($this->lng->txt('webr_list_title'),'tit');
-		$tit->setValue($this->object->getTitle());
-		$tit->setRequired(true);
-		$tit->setSize(40);
-		$tit->setMaxLength(127);
-		$this->form->addItem($tit);
-		
-		// Description
-		$des = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'),'des');
-		$des->setValue($this->object->getDescription());
-		$des->setCols(40);
-		$des->setRows(3);
-		$this->form->addItem($des);
 
-		$section = new ilFormSectionHeaderGUI();
-		$section->setTitle($this->lng->txt('obj_presentation'));
-		$this->form->addItem($section);
+		if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
+		{
+			$this->form->setTitle($this->lng->txt('webr_edit_settings'));
 
-		// tile image
-		$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+			// Title
+			$tit = new ilTextInputGUI($this->lng->txt('webr_list_title'), 'tit');
+			$tit->setValue($this->object->getTitle());
+			$tit->setRequired(true);
+			$tit->setSize(40);
+			$tit->setMaxLength(127);
+			$this->form->addItem($tit);
 
-		// Sorting
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		include_once './Services/Container/classes/class.ilContainer.php';
-		
-		$sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'),'sor');
-		$sor->setRequired(true);
-		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sor->setValue(ilContainerSortingSettings::_lookupSortMode($this->object->getId()));
-		
-		$opt = new ilRadioOption(
-			$this->lng->txt('webr_sort_title'),
-			ilContainer::SORT_TITLE
-		);
-		$sor->addOption($opt);
-		
-		$opm = new ilRadioOption(
-			$this->lng->txt('webr_sort_manual'),
-			ilContainer::SORT_MANUAL
-		);
-		$sor->addOption($opm);
-		$this->form->addItem($sor);
+			// Description
+			$des = new ilTextAreaInputGUI($this->lng->txt('webr_list_desc'), 'des');
+			$des->setValue($this->object->getDescription());
+			$des->setCols(40);
+			$des->setRows(3);
+			$this->form->addItem($des);
+
+			$section = new ilFormSectionHeaderGUI();
+			$section->setTitle($this->lng->txt('obj_presentation'));
+			$this->form->addItem($section);
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+
+			// Sorting
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			include_once './Services/Container/classes/class.ilContainer.php';
+
+			$sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'), 'sor');
+			$sor->setRequired(true);
+			include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+			$sor->setValue(ilContainerSortingSettings::_lookupSortMode($this->object->getId()));
+
+			$opt = new ilRadioOption(
+				$this->lng->txt('webr_sort_title'),
+				ilContainer::SORT_TITLE
+			);
+			$sor->addOption($opt);
+
+			$opm = new ilRadioOption(
+				$this->lng->txt('webr_sort_manual'),
+				ilContainer::SORT_MANUAL
+			);
+			$sor->addOption($opm);
+			$this->form->addItem($sor);
+		}
+		else
+		{
+			$this->form->setTitle($this->lng->txt('obj_presentation'));
+
+			// tile image
+			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
+		}
 
 		$this->form->addCommandButton('saveSettings', $this->lng->txt('save'));
 		$this->form->addCommandButton('view', $this->lng->txt('cancel'));
@@ -1456,14 +1467,9 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		
 		if($this->checkPermissionBool('write') and !$this->getCreationMode())
 		{
-			include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-			if(ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
-			{
-				$ilTabs->addTab("id_settings",
-					$lng->txt("settings"),
-					$this->ctrl->getLinkTarget($this, "settings"));
-			}
-			
+			$ilTabs->addTab("id_settings",
+				$lng->txt("settings"),
+				$this->ctrl->getLinkTarget($this, "settings"));
 		}
 
 		if ($this->checkPermissionBool('write'))
