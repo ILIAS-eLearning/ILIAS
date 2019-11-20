@@ -13,11 +13,13 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  */
 class ContactNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
+    const MUTED_UNTIL_PREFERENCE_KEY = 'bs_nc_muted_until';
+
     /**
      * @param string $id
      * @return IdentificationInterface
      */
-    private function getIdentifier(string $id)
+    private function getIdentifier(string $id) : IdentificationInterface
     {
         return $this->if->identifier($id);
     }
@@ -25,53 +27,77 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
         if (
-            0 === (int) $this->dic->user()->getId() ||
+            0 === (int)$this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous() ||
             !\ilBuddySystem::getInstance()->isEnabled()
         ) {
             return [];
         }
 
-        $contactRequestsCount = count(
-            \ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->getKeys()
-        );
+        $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
+        $openRequests = \ilBuddyList::getInstanceByGlobalUser()
+            ->getRequestRelationsForOwner()->filter(
+                function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp) : bool {
+                    if (!is_numeric($leftIntervalTimestamp)) {
+                        return true;
+                    }
+                    return $relation->getTimestamp() > $leftIntervalTimestamp;
+                }
+            );
+
+        $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {
             return [];
         }
 
-        //Creating a mail Notification Item
         $factory = $this->globalScreen()->notifications()->factory();
+
         $description = sprintf(
             $this->dic->language()->txt(
                 'nc_contact_requests_number' . (($contactRequestsCount > 1) ? '_p' : '_s')
             ),
             $contactRequestsCount
         );
-        $contact_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("contact","contact");
-        $contact_title = $this->dic->ui()->factory()->link()->standard(
-            $this->dic->language()->txt('nc_contact_requests_headline'),
-            'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts');
-        $contact_notification_item = $this->dic->ui()->factory()->item()->notification($contact_title,$contact_icon)
-                                               ->withDescription($description);
 
-        $group = $factory->standardGroup($this->getIdentifier('contact_bucket_group'))->withTitle($this->dic->language()->txt('nc_contact_requests_headline'))
-                         ->addNotification($factory->standard($this->getIdentifier('contact_bucket'))->withNotificationItem($contact_notification_item)
-                                                   ->withClosedCallable(
-                                                       function(){
-                                                           //@Todo: Memories, that those notifications have been closed.
-                                                           var_dump("Contact received closed event.");
-                                                       })->withNewAmount(1)
-                         )
-                         ->withOpenedCallable(function(){
-                             //@Todo: Memories, that those notifications have been seen.
-                             var_dump("Contact received opened event.");
-                         });
+        $icon = $this->dic->ui()->factory()
+            ->symbol()
+            ->icon()
+            ->standard("contact", "contact");
+
+        $title = $this->dic->ui()->factory()
+            ->link()
+            ->standard(
+                $this->dic->language()->txt('nc_contact_requests_headline'),
+                'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts'
+            );
+
+        $notificationItem = $this->dic->ui()->factory()
+            ->item()
+            ->notification($title, $icon)
+            ->withDescription($description);
+
+        $group = $factory
+            ->standardGroup($this->getIdentifier('contact_bucket_group'))
+            ->withTitle($this->dic->language()->txt('nc_contact_requests_headline'))
+            ->addNotification(
+                $factory->standard($this->getIdentifier('contact_bucket'))
+                    ->withNotificationItem($notificationItem)
+                    ->withClosedCallable(
+                        function () {
+                            //@Todo: Memories, that those notifications have been closed.
+                            var_dump("Contact received closed event.");
+                        })->withNewAmount(1)
+            )
+            ->withOpenedCallable(function () {
+                //@Todo: Memories, that those notifications have been seen.
+                var_dump("Contact received opened event.");
+            });
+
         return [
             $group
         ];
-
     }
 }
