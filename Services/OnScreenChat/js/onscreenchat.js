@@ -1,4 +1,4 @@
-(function($, $scope, $chat){
+(function($, $scope, $chat) {
 	'use strict';
 
 	var TYPE_CONSTANT	= 'osc';
@@ -9,7 +9,7 @@
 	var ACTION_STORE_CONV = "store";
 	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
 
-	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
+	$.widget("custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
 		_renderMenu: function(ul, items) {
 			var that = this;
@@ -128,7 +128,14 @@
 		participantsImages: {},
 		participantsNames: {},
 		chatWindowWidth: 278,
+		notificationItemId: '',
 		numWindows: Infinity,
+		notificationCenterConversationItems: {},
+		notificationItemsAdded: 0,
+
+		setNotificationItemId: function(id) {
+			this.notificationItemId = id;
+		},
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -396,13 +403,50 @@
 			return $template;
 		},
 
+		rerenderNotifications: function() {
+			// TODO: To a deferred execution with a 200ms ts
+			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
+
+			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
+				return conversation.latestMessage !== null && (conversation.open === false || conversation.open === undefined);
+			}).sort(function(a, b) {
+				return b.latestMessage.timestamp - a.latestMessage.timestamp;
+			});
+
+			let notificationContainer = il.UI.item.notification.getNotificationItemObject(
+				$('#' + getModule().notificationItemId)
+			);
+
+			if (conversations.length > currentNotificationItemsAdded) {
+				notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
+					conversations.length - currentNotificationItemsAdded
+				);
+			} else if (conversations.length < currentNotificationItemsAdded) {
+				notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(
+					currentNotificationItemsAdded - conversations.length
+				);
+			}
+
+			getModule().notificationItemsAdded = conversations.length;
+
+			notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+				'ids': conversations.map(function(conversation) {
+					return conversation.id;
+				}).join(',')
+			});
+		},
+
 		/**
 		 * Is called (for each browser tab) if an 'Conversation Remove' action was emitted as LocalStorage event
 		 * @param conversation
 		 */
 		onRemoveConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			// TODO: Remove conversation/notification from notification center
+			// Remove conversation/notification from notification center
+			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().notificationCenterConversationItems[conversation.id];
+			}
+			getModule().rerenderNotifications();
 		},
 
 		/**
@@ -411,7 +455,11 @@
 		 */
 		onCloseConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			// TODO: Add or update conversation/notification to notification center
+			// Add or update conversation/notification to notification center
+			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				getModule().notificationCenterConversationItems[conversation.id] = conversation;
+			}
+			getModule().rerenderNotifications();
 		},
 
 		/**
@@ -420,7 +468,11 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
-			// TODO: Add or update conversation/notification to notification center
+			// Add or update conversation/notification to notification center
+			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				getModule().notificationCenterConversationItems[conversation.id] = conversation;
+			}
+			getModule().rerenderNotifications();
 		},
 
 		/**

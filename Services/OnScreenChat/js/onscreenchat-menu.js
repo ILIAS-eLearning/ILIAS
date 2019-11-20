@@ -130,21 +130,6 @@
 					conversation_templates += template;
 				}
 
-				if (getModule().config.showOnScreenChat) {
-					templates += '<div class="dropdown-header">' + il.Language.txt('chat_osc_conversations') + '</div>';
-
-					if (getModule().config.showAcceptMessageChange) {
-						templates += (getModule().config.infoTemplate).replace('[[html]]', il.Language.txt('chat_osc_dont_accept_msg'));
-					}
-
-					if (conversation_templates) {
-						templates += conversation_templates;
-					} else {
-						templates += (getModule().config.infoTemplate).replace('[[html]]', il.Language.txt('chat_osc_no_conv'));
-					}
-				}
-
-				getModule().content.find('#onscreenchatmenu-content').html(templates);
 
 				il.ExtLink.autolink($('#onscreenchatmenu-content').find('[data-onscreenchat-body-last-msg]'));
 

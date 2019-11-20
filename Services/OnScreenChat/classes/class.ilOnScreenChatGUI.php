@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
+
 /**
  * Class ilOnScreenChatGUI
  *
@@ -77,6 +79,10 @@ class ilOnScreenChatGUI
             case 'verifyLogin':
                 $this->verifyLogin();
                 break;
+            case 'getRenderedNotificationItems':
+                $provider = new OnScreenChatNotificationProvider($DIC);
+                $provider->getAsyncItem();
+                break;
             case 'getUserlist':
             default:
                 $this->getUserList();
@@ -95,9 +101,9 @@ class ilOnScreenChatGUI
 
         ilSession::enableWebAccessWithoutSession(true);
 
-        echo json_encode(array(
-            'loggedIn' => $DIC->user() && !$DIC->user()->isAnonymous()
-        ));
+        echo json_encode([
+            'loggedIn' => $DIC->user()->getId() && !$DIC->user()->isAnonymous()
+        ]);
         exit;
     }
 
@@ -105,7 +111,7 @@ class ilOnScreenChatGUI
     {
         global $DIC;
 
-        if (!$DIC->user() || $DIC->user()->isAnonymous()) {
+        if (!$DIC->user()->getId() || $DIC->user()->isAnonymous()) {
             return;
         }
 
@@ -127,7 +133,7 @@ class ilOnScreenChatGUI
     {
         global $DIC;
 
-        if (!$DIC->user() || $DIC->user()->isAnonymous()) {
+        if (!$DIC->user()->getId() || $DIC->user()->isAnonymous()) {
             echo json_encode([]);
             exit();
         }
@@ -201,6 +207,8 @@ class ilOnScreenChatGUI
                 'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getUserProfileData',
                     '', true, false),
                 'verifyLoginURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'verifyLogin', '', true,
+                    false),
+                'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass('ilonscreenchatgui', 'getRenderedNotificationItems', '', true,
                     false),
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
                 'emoticons' => self::getEmoticons($settings),
