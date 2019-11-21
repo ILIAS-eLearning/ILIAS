@@ -111,7 +111,7 @@ let down_row = function() {
 };
 
 let set_input_ids = function(table) {
-    $(".js_count").val(table.children().length);
+    table.parent().siblings(".js_count").val(table.children().length);
 
     let current_row = 1;
 

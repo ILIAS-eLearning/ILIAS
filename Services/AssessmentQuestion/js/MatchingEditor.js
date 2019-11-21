@@ -128,7 +128,8 @@ var stopDrag = function(event, ui)
         $(domSelector).droppable('disable');
         $(domSelector).droppable('option', 'hoverClass', '');
 
-        if(matching_mode == MATCHING_ONE_TO_ONE)
+        if(matching_mode == MATCHING_ONE_TO_ONE ||
+           matching_mode == MATCHING_MANY_TO_ONE)
         {
             $(domSelector).addClass('draggableDisabled')
         }
@@ -144,7 +145,8 @@ var dropElementHandler = function(event, ui)
         removeTermInputFromDefinition(ui.draggable, ui.draggable.parents('.droparea'));
         ui.draggable.remove();
     }
-    else if(matching_mode == MATCHING_ONE_TO_ONE)
+    else if(matching_mode == MATCHING_ONE_TO_ONE ||
+    		matching_mode == MATCHING_MANY_TO_ONE)
     {
         ui.draggable.draggable('disable');
     }
@@ -158,7 +160,8 @@ var dropElementHandler = function(event, ui)
         {
             $(draggableOriginalSelector).removeClass('draggableDisabled');
         }
-        else if(matching_mode == MATCHING_ONE_TO_ONE)
+        else if(matching_mode == MATCHING_ONE_TO_ONE ||
+        		matching_mode == MATCHING_MANY_TO_ONE)
         {
             $(draggableOriginalSelector).addClass('draggableDisabled');
         }
@@ -184,7 +187,8 @@ var dropElementHandler = function(event, ui)
             containment: $('#'+droppedDraggableClone.attr('id')).parents('.ilc_question_standard').eq(0)
         });
     }
-    else if( $(this).attr('data-type') == 'term' && matching_mode == MATCHING_ONE_TO_ONE )
+    else if( $(this).attr('data-type') == 'term' && 
+    		(matching_mode == MATCHING_ONE_TO_ONE || matching_mode == MATCHING_MANY_TO_ONE))
     {
         $(draggableOriginalSelector).draggable('enable');
     }
@@ -207,7 +211,8 @@ var removeDefinitionDroppablesTargetClass = function(droppable)
         $(domSelector).droppable('disable');
         $(domSelector).droppable('option', 'hoverClass', '');
 
-        if(matching_mode == MATCHING_ONE_TO_ONE)
+        if(matching_mode == MATCHING_ONE_TO_ONE ||
+           matching_mode == MATCHING_MANY_TO_ONE)
         {
             $(domSelector).addClass('draggableDisabled')
         }
