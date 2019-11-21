@@ -33,16 +33,16 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_favorites");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/heart.svg"), $title);
 
-        $fav_list = new \ilFavouritesListGUI();
-        $contents = $f->legacy($fav_list->render());
-
         return [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContent($contents)
+                ->withContentWrapper(function () use ($f) {
+                    $fav_list = new \ilFavouritesListGUI();
+
+                    return $f->legacy($fav_list->render());
+                })
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
-                ->withAlwaysAvailable(true)
                 ->withPosition(10)
                 ->withAvailableCallable(
                     function () use ($dic) {
@@ -57,7 +57,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
 
                         return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
                     }
-                )
+                ),
 
         ];
     }

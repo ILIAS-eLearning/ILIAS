@@ -309,4 +309,21 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $expected->loadXML($this->normalizeHTML($expected_html_as_string));
         $this->assertEquals($expected->saveHTML(), $html->saveHTML());
     }
+
+    /**
+     * A more radical version of normalizeHTML. Use if hard to tackle issues
+     * occur by asserting due string outputs produce an equal DOM
+     *
+     * @param $html
+     * @return string
+     */
+    protected function brutallyTrimHTML($html)
+    {
+        $html = str_replace(["\n", "\r", "\t"], "", $html);
+        $html = preg_replace('# {2,}#', " ", $html);
+        $html = str_replace("> <", "><", $html);
+        $html = str_replace(" >", ">", $html);
+
+        return trim($html);
+    }
 }

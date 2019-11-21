@@ -15,8 +15,14 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 interface Slate extends Component, JavaScriptBindable
 {
+    /**
+     * Get the name of this slate
+     */
     public function getName() : string;
 
+    /**
+     * Get the Symbol of the slate
+     */
     public function getSymbol() : Symbol;
 
     /**

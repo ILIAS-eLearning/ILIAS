@@ -22,7 +22,11 @@ class MainBarTest extends ILIAS_UI_TestBase
         $this->link_factory = new I\Link\Factory();
         $this->icon_factory = new I\Symbol\Icon\Factory();
         $counter_factory = new I\Counter\Factory();
-        $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
+        $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory,
+            new I\Symbol\Factory(
+                new I\Symbol\Icon\Factory(),
+                new I\Symbol\Glyph\Factory()
+            ));
         $this->factory = new I\MainControls\Factory($sig_gen, $slate_factory);
 
         $this->mainbar = $this->factory->mainBar();
@@ -165,7 +169,11 @@ class MainBarTest extends ILIAS_UI_TestBase
             {
                 $sig_gen = new I\SignalGenerator();
                 $counter_factory = new I\Counter\Factory();
-                $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
+                $symbol_factory = new I\Symbol\Factory(
+                    new I\Symbol\Icon\Factory(),
+                    new I\Symbol\Glyph\Factory()
+                );
+                $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory,$symbol_factory);
                 return new I\MainControls\Factory($sig_gen, $slate_factory);
             }
             public function legacy($legacy)

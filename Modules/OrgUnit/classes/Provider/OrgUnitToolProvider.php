@@ -5,9 +5,12 @@ namespace ILIAS\OrgUnit\Provider;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Component\Tree\Tree;
+use ILIAS\UI\Component\Tree\TreeRecursion;
 use ilObjOrgUnit;
 use ilObjOrgUnitGUI;
 use ilOrgUnitExplorerGUI;
+use ilOrgUnitExtension;
 use ilTree;
 
 /**
@@ -18,7 +21,7 @@ use ilTree;
 class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
 
-    const SHOW_ORGU_TREE = 'show_orgu_tree';
+    public const SHOW_ORGU_TREE = 'show_orgu_tree';
 
 
     /**
@@ -37,41 +40,43 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     {
         $tools = [];
 
-        $additional_data = $called_contexts->current()->getAdditionalData();
-        if ($additional_data->is(self::SHOW_ORGU_TREE, true)) {
+        if ($called_contexts->current()->getAdditionalData()->is(self::SHOW_ORGU_TREE, true)) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function (string $id) { return $this->identification_provider->identifier($id); };
 
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
-            $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Tree")
-                ->withContent($l($this->getTree()));
+            $t = function (string $key) : string { return $this->dic->language()->txt($key); };
+
+            $tools[] = $this->factory->treeTool($iff('tree_new'))
+                ->withTitle($t('tree'))
+                ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard('orgu', 'Orgu'))
+                ->withTree($this->getTree());
         }
 
         return $tools;
     }
 
 
-    /**
-     * @param int $ref_id
-     *
-     * @return string
-     */
-    private function getTree() : string
+    private function getTree() : Tree
+    {
+        $tree = $this->getTreeRecursion();
+
+        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode(ilObjOrgUnit::getRootOrgRefId()));
+    }
+
+
+    private function getTreeRecursion() : TreeRecursion
     {
         $tree = new ilOrgUnitExplorerGUI("orgu_explorer", ilObjOrgUnitGUI::class, "showTree", new ilTree(1));
         $tree->setTypeWhiteList($this->getTreeWhiteList());
-        $tree->setNodeOpen(ilObjOrgUnit::getRootOrgRefId());
-        $tree->handleCommand();
 
-        return $tree->getHTML();
+        return $tree;
     }
 
 
     private function getTreeWhiteList() : array
     {
-        $whiteList = array("orgu");
-        $pls = \ilOrgUnitExtension::getActivePluginIdsForTree();
+        $whiteList = array('orgu');
+        $pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 
         return array_merge($whiteList, $pls);
     }
