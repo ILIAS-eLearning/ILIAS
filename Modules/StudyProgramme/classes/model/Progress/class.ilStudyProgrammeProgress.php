@@ -465,7 +465,7 @@ class ilStudyProgrammeProgress
 	/**
 	 * Get the limited validity of qualification date.
 	 */
-	public function getValidityOfQualification()
+	public function getValidityOfQualification() : ?DateTime
 	{
 		return $this->vq_date;
 	}
