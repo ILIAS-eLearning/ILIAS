@@ -1,9 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Client;
 
-if (php_sapi_name() !== 'cli') {
-    chdir("../../../");
-    require_once('./libs/composer/vendor/autoload.php');
-}
+require_once('./libs/composer/vendor/autoload.php');
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
