@@ -317,6 +317,16 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
 		{
 			$this->form->setTitle($this->lng->txt('obj_presentation'));
 
+			// hidden title
+			$tit = new ilHiddenInputGUI('tit');
+			$tit->setValue($this->object->getTitle());
+			$this->form->addItem($tit);
+
+			// hidden description
+			$des = new ilHiddenInputGUI('des');
+			$des->setValue($this->object->getDescription());
+			$this->form->addItem($des);
+
 			// tile image
 			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 		}
