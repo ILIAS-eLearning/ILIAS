@@ -142,18 +142,67 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         }
 
         /**
-         * TODO:
-         * - 1. Query conversation from database by the requested ID array
-         * - 2. fetch latest message
-         * - 3. check(!!!) if user is member of this conv.
-         * - 4. Format usernames and message (linkyfy it, and replace smilies)
+         * TODO: Move to some kind of repository or use ActiveRecord/Some other querying class
          */
+        
+        $res = $this->dic->database()->query(
+            'SELECT * FROM osc_conversation WHERE ' . $this->dic->database()->in(
+                'id', $conversationIds, false, 'text'
+            )
+        );
+
+        $allUsrIds = [];
+        $validConversations = [];
+        while ($row = $this->dic->database()->fetchAssoc($res)) {
+            $participants = json_decode($row['participants'], true);
+            $participantIds = array_filter(array_map(function($value) {
+                if (is_array($value) && isset($value['id'])) {
+                    return (int) $value['id'];
+                }
+                
+                return 0;
+            }, $participants));
+
+            if (in_array((int) $this->dic->user()->getId(), $participantIds)) {
+                $allUsrIds = array_unique(array_merge($allUsrIds, $participantIds));
+
+                $this->dic->database()->setLimit(1, 0);
+                $msgRes = $this->dic->database()->queryF(
+                    'SELECT * FROM osc_messages WHERE conversation_id = %s AND ' . $this->dic->database()->in(
+                        'user_id', $participantIds, false, 'text'
+                    ) .
+                    ' ORDER BY timestamp DESC',
+                    ['text'],
+                    [$row['id']]
+                );
+                $row['message'] = '';
+                while ($msgRow = $this->dic->database()->fetchAssoc($msgRes)) {
+                    $row['message'] = $msgRow['message'];
+                    break;
+                }
+
+                $row['participantIds'] = array_combine($participantIds, $participantIds);
+
+                $validConversations[$row['id']] = $row;
+            }
+        }
+
+        $userProvider = new \ilOnScreenChatUserDataProvider($this->dic->database(), $this->dic->user());
+        $allUsrData = $userProvider->getDataByUserIds($allUsrIds);
 
         if ('true' !== $noAggregates) {
             $aggregatedItems = [];
-            foreach ($conversationIds as $conversationId) {
-                $name = $conversationId;
-                $message = $conversationId;
+            foreach ($validConversations as $conversationId => $data) {
+                $convUsrData = array_filter($allUsrData, function($key) use ($data) {
+                    return isset($data['participantIds'][$key]);
+                }, ARRAY_FILTER_USE_KEY);
+                
+                $convUsrNames = array_map(function($value) {
+                    return $value['public_name'];
+                }, $convUsrData);
+
+                $name = implode(', ', $convUsrNames);
+                $message = $data['message'];
                 
                 $aggregateTitle = $this->dic->ui()->factory()
                     ->button()
