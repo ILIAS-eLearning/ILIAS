@@ -225,6 +225,13 @@
       "developer": "bheyser",
       "purpose": "Assessment Nested Ordering",
       "last-update-for-ilias": "6.0.0"
+    },
+    "dropzone": {
+      "introduction-date": "2019-11-21",
+      "approved-by": "Jour Fixe",
+      "developer": "fschmid",
+      "purpose": "File Input",
+      "last-update-for-ilias": "6.0.0"
     }
   }
 }
