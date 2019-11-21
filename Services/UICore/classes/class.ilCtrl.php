@@ -19,14 +19,6 @@ class ilCtrl
 {
     const IL_RTOKEN_NAME = 'rtoken';
     /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    private $refinery;
-    /**
-     * @var \ILIAS\HTTP\HTTPServices
-     */
-    private $http;
-    /**
      * Maps lowercase class names to lists of parameter names that saved for them.
      *
      * See saveParameter/setParameter for difference to save_parameter.
@@ -104,7 +96,6 @@ class ilCtrl
     {
         global $DIC;
         $this->initializeMemberVariables();
-        $this->http = $DIC->http();
         // $this->refinery = $DIC->refinery();
 
         // this information should go to xml files one day
@@ -906,8 +897,8 @@ class ilCtrl
     {
         global $DIC;
         $cmd = '';
-        $get = $this->http->wrapper()->query();
-        $post = $this->http->wrapper()->post();
+        $get = $DIC->http()->wrapper()->query();
+        $post = $DIC->http()->wrapper()->post();
         $to_string = $DIC->refinery()->to()->string();
         $to_array_of_strings = $DIC->refinery()->to()->dictOf($to_string);
 
