@@ -9,6 +9,8 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjStudyProgrammeIndividualPlanGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilObjFileGUI
  * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeMailMemberSearchGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeExpireDateGUI
+ * @ilCtrl_Calls ilObjStudyProgrammeMembersGUI: ilStudyProgrammeChangeDeadlineGUI
  */
 class ilObjStudyProgrammeMembersGUI
 {
@@ -121,12 +123,12 @@ class ilObjStudyProgrammeMembersGUI
 				$this->repository_search_gui->setCallback($this, "addUsers");
 				$this->ctrl->setReturn($this, "view");
 				$this->ctrl->forwardCommand($this->repository_search_gui);
-				return;
+				break;
 			case "ilobjstudyprogrammeindividualplangui":
 				$this->individual_plan_gui->setParentGUI($this);
 				$this->individual_plan_gui->setRefId($this->ref_id);
 				$this->ctrl->forwardCommand($this->individual_plan_gui);
-				return;
+				break;
 			case "ilstudyprogrammemailmembersearchgui":
 				$this->tabs->clearTargets();
 				$this->tabs->setBackTarget(
@@ -136,9 +138,35 @@ class ilObjStudyProgrammeMembersGUI
 				$dic = ilStudyProgrammeDIC::dic();
 				$mail_search = $dic['ilStudyProgrammeMailMemberSearchGUI'];
 				$mail_search->setAssignments($this->getAssignmentsById());
-				$mail_search->setBackTarget($this->ctrl->getLinkTarget($this, $this->getDefaultCommand()));
+				$mail_search->setBackTarget(
+					$this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
+				);
 				$this->ctrl->forwardCommand($mail_search);
-				return;
+				break;
+			case "ilstudyprogrammechangeexpiredategui":
+				$this->tabs->clearTargets();
+				$this->tabs->setBackTarget(
+					$this->lng->txt('btn_back'),
+					$this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
+				);
+				$dic = ilStudyProgrammeDIC::dic();
+				$gui = $dic['ilStudyProgrammeChangeExpireDateGUI'];
+				$gui->setRefId($this->ref_id);
+				$gui->setAssignmentIds($this->getGetPrgsIds());
+				$this->ctrl->forwardCommand($gui);
+				break;
+			case "ilstudyprogrammechangedeadlinegui":
+				$this->tabs->clearTargets();
+				$this->tabs->setBackTarget(
+					$this->lng->txt('btn_back'),
+					$this->ctrl->getLinkTarget($this, $this->getDefaultCommand())
+				);
+				$dic = ilStudyProgrammeDIC::dic();
+				$gui = $dic['ilStudyProgrammeChangeDeadlineGUI'];
+				$gui->setRefId($this->ref_id);
+				$gui->setAssignmentIds($this->getGetPrgsIds());
+				$this->ctrl->forwardCommand($gui);
+				break;
 			case false:
 				switch ($cmd) {
 					case "view":
@@ -154,7 +182,10 @@ class ilObjStudyProgrammeMembersGUI
 					case "updateFromCurrentPlanMulti":
 					case "applyFilter":
 					case "resetFilter":
+					case "changeDeadlineMulti":
+					case "changeExpireDateMulti":
 						$cont = $this->$cmd();
+						$this->tpl->setContent($cont);
 						break;
 					default:
 						throw new ilException("ilObjStudyProgrammeMembersGUI: ".
@@ -166,8 +197,6 @@ class ilObjStudyProgrammeMembersGUI
 					"ilObjStudyProgrammeMembersGUI: Can't forward to next class $next_class"
 				);
 		}
-
-		$this->tpl->setContent($cont);
 	}
 
 	protected function getDefaultCommand() : string
@@ -208,7 +237,7 @@ class ilObjStudyProgrammeMembersGUI
 
 		if ($this->getStudyProgramme()->isActive()) {
 			$this->initSearchGUI();
-			$this->initMailToMemberButton($this->toolbar);
+			$this->initMailToMemberButton($this->toolbar, true);
 		}
 
 		if (! $this->getStudyProgramme()->isActive()) {
@@ -292,7 +321,12 @@ class ilObjStudyProgrammeMembersGUI
 	public function viewCompletedCourses(array $completed_courses, array $users) : void
 	{
 
-		$tpl = new ilTemplate("tpl.acknowledge_completed_courses.html", true, true, "Modules/StudyProgramme");
+		$tpl = new ilTemplate(
+			"tpl.acknowledge_completed_courses.html",
+			true,
+			true,
+			"Modules/StudyProgramme"
+		);
 		$tpl->setVariable("TITLE", $this->lng->txt("prg_acknowledge_completed_courses"));
 		$tpl->setVariable("CAPTION_ADD", $this->lng->txt("btn_next"));
 		$tpl->setVariable("CAPTION_CANCEL", $this->lng->txt("cancel"));
@@ -305,7 +339,11 @@ class ilObjStudyProgrammeMembersGUI
 			$tpl->setCurrentBlock("usr_section");
 			$tpl->setVariable("FIRSTNAME", $names["firstname"]);
 			$tpl->setVariable("LASTNAME", $names["lastname"]);
-			$table = new ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI($this, $user_id, $completed_courses);
+			$table = new ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI(
+				$this,
+				$user_id,
+				$completed_courses
+			);
 			$tpl->setVariable("TABLE", $table->getHTML());
 			$tpl->parseCurrentBlock();
 		}
@@ -400,6 +438,15 @@ class ilObjStudyProgrammeMembersGUI
 		return $prgrs_ids;
 	}
 
+	protected function getGetPrgsIds() : array
+	{
+		$prgrs_ids = $_GET['prgrs_ids'];
+		if (is_null($prgrs_ids)) {
+			return array();
+		}
+		return explode(',', $prgrs_ids);
+	}
+
 	/**
 	 * Mark SP for single user accredited
 	 */
@@ -444,7 +491,9 @@ class ilObjStudyProgrammeMembersGUI
 			$this->object->getAccessControlByOrguPositionsGlobal() &&
 			! in_array($usr_id, $this->editIndividualPlan())
 		) {
-			throw new ilStudyProgrammePositionBasedAccessViolationException('No permission to edit progress of user');
+			throw new ilStudyProgrammePositionBasedAccessViolationException(
+				'No permission to edit progress of user'
+			);
 		}
 		$prgrs->markAccredited($this->user->getId());
 	}
@@ -471,7 +520,9 @@ class ilObjStudyProgrammeMembersGUI
 			$this->object->getAccessControlByOrguPositionsGlobal() &&
 			! in_array($usr_id, $this->editIndividualPlan())
 		) {
-			throw new ilStudyProgrammePositionBasedAccessViolationException('No permission to edit progress of user');
+			throw new ilStudyProgrammePositionBasedAccessViolationException(
+				'No permission to edit progress of user'
+			);
 		}
 		$prgrs->unmarkAccredited();
 	}
@@ -592,6 +643,46 @@ class ilObjStudyProgrammeMembersGUI
 		$this->ctrl->redirect($this, "view");
 	}
 
+	public function changeDeadlineMulti() : void
+	{
+		$this->ctrl->setParameterByClass(
+			'ilStudyProgrammeChangeDeadlineGUI',
+			'prgrs_ids',
+			implode(',', $this->getPostPrgsIds())
+		);
+
+		$link = $this->ctrl->getLinkTargetByClass(
+			'ilStudyProgrammeChangeDeadlineGUI',
+			'showDeadlineConfig',
+			'',
+			false,
+			false
+		);
+
+		$this->ctrl->clearParameterByClass('ilStudyProgrammeChangeDeadlineGUI', 'prgrs_ids');
+		$this->ctrl->redirectToURL($link);
+	}
+
+	public function changeExpireDateMulti() : void
+	{
+		$this->ctrl->setParameterByClass(
+			'ilStudyProgrammeChangeExpireDateGUI',
+			'prgrs_ids',
+			implode(',', $this->getPostPrgsIds())
+		);
+
+		$link = $this->ctrl->getLinkTargetByClass(
+			'ilStudyProgrammeChangeExpireDateGUI',
+			'showExpireDateConfig',
+			'',
+			false,
+			false
+		);
+
+		$this->ctrl->clearParameterByClass('ilStudyProgrammeChangeExpireDateGUI', 'prgrs_ids');
+		$this->ctrl->redirectToURL($link);
+	}
+
 	/**
 	 * Remove single user from SP
 	 */
@@ -703,16 +794,18 @@ class ilObjStudyProgrammeMembersGUI
 		);
 	}
 
-	protected function initMailToMemberButton(
-		ilToolbarGUI $toolbar,
-		string $back_cmd = null,
-		bool $separator = false
-	) {
-		$mail = new ilMail($this->user->getId());
+	protected function initMailToMemberButton(ilToolbarGUI $toolbar, bool $separator = false) : void
+	{
+		if ($separator) {
+			$toolbar->addSeparator();
+		}
 
 		$toolbar->addButton(
 			$this->lng->txt('mail_members'),
-			$this->ctrl->getLinkTargetByClass('ilStudyProgrammeMailMemberSearchGUI', 'showSelectableUsers')
+			$this->ctrl->getLinkTargetByClass(
+				'ilStudyProgrammeMailMemberSearchGUI',
+				'showSelectableUsers'
+			)
 		);
 	}
 

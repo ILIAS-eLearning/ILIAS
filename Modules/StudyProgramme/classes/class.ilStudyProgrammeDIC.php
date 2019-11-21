@@ -106,7 +106,6 @@ class ilStudyProgrammeDIC
                 $DIC['tree']
             );
         };
-
         $dic['ilObjStudyProgrammeTreeGUI'] = function ($dic) use ($DIC) {
             return new ilObjStudyProgrammeTreeGUI(
                 $DIC['tpl'],
@@ -191,7 +190,34 @@ class ilStudyProgrammeDIC
                 $DIC['ilAccess']
             );
         };
-
+		$dic['ilStudyProgrammeChangeExpireDateGUI'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeChangeExpireDateGUI(
+				$DIC['ilCtrl'],
+				$DIC['tpl'],
+				$DIC['lng'],
+				$DIC['ilAccess'],
+				$DIC['ilUser'],
+				$DIC->ui()->factory()->input(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
+				$DIC->refinery(),
+				$dic['DataFactory']
+			);
+		};
+		$dic['ilStudyProgrammeChangeDeadlineGUI'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeChangeDeadlineGUI(
+				$DIC['ilCtrl'],
+				$DIC['tpl'],
+				$DIC['lng'],
+				$DIC['ilAccess'],
+				$DIC['ilUser'],
+				$DIC->ui()->factory()->input(),
+				$DIC->ui()->renderer(),
+				$DIC->http()->request(),
+				$DIC->refinery(),
+				$dic['DataFactory']
+			);
+		};
         $dic['ilStudyProgrammeDashboardViewGUI'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeDashboardViewGUI(
                 $DIC['lng'],
