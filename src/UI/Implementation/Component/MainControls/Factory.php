@@ -7,7 +7,6 @@ use ILIAS\Data\URI;
 use ILIAS\UI\Component\MainControls as IMainControls;
 use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
-use ILIAS\UI\NotImplementedException;
 
 class Factory implements IMainControls\Factory
 {
@@ -70,6 +69,6 @@ class Factory implements IMainControls\Factory
      */
     public function modeInfo(string $title, URI $close_action) : ModeInfo
     {
-        throw new NotImplementedException();
+        return new \ILIAS\UI\Implementation\Component\MainControls\ModeInfo($title, $close_action);
     }
 }
