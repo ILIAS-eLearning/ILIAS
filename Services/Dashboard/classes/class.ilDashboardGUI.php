@@ -843,6 +843,7 @@ class ilDashboardGUI
 		}
 		$html.= $this->renderRecommendedContent();
 		$html.= $this->renderStudyProgrammes();
+		$html.= $this->renderLearningSequences();
 		if ($settings->enabledMemberships()) {
 			$html .= $this->renderMemberships();
 		}
@@ -899,6 +900,18 @@ class ilDashboardGUI
 	{
 		$block = new ilPDMembershipBlockGUI();
 		return $block->getHTML();
+	}
+
+	/**
+	 * Render learning sequences
+	 *
+	 * @return string
+	 */
+	protected function renderLearningSequences()
+	{
+		return "";
+		//$ren = new \Modules\LearningSequence\MyDashboardRenderer();
+		//return $ren->render();
 	}
 
 }

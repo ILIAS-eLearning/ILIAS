@@ -143,6 +143,15 @@ are created with methods that share the "group"-suffix. This is a exemplary case
 for the introduction of a new 'Group` family within `Input\Field`, with its own
 description, factory, renderer, directory...
 
+### Remove Snake Cases Functions for Tests (beginner, ~2h)
+
+There are several tests still using snake cases as function names, remove it.
+See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
+
+### Slates only accept string for titles (beginner, ~2h)
+
+In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
+to also accept buttons. We should extend that.
 
 ## Long Term
 
@@ -253,6 +262,15 @@ registries for CSS- and JS-resources. These registries could then be passed to
 the page and would turn the aforementioned transportation from ilTemplate obsolete.
 In ultimo, there would be exactly one occurence of a line like
 "echo $renderer->render($page);exit();" to output the complete UI.
+
+### Introduce proper Notification Center (Expert)
+
+The term "Notification Center" has not bee properly defined yet in the ILIAS context. 
+This leads to several issues. E.g. there is no notification center UI Component,
+laying (too much) work on the shoulders of Global Screen, Notification Slate and Items.
+However, just building such a UI Component, would not do the trick. This needs
+to go hand in hand with a proper discussion on what a Notification Center should be
+and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
 
 
 ## Ideas and Food for Thought

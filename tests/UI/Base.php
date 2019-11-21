@@ -310,6 +310,13 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $this->assertEquals($expected->saveHTML(), $html->saveHTML());
     }
 
+    /**
+     * A more radical version of normalizeHTML. Use if hard to tackle issues
+     * occur by asserting due string outputs produce an equal DOM
+     *
+     * @param $html
+     * @return string
+     */
     protected function brutallyTrimHTML($html)
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);

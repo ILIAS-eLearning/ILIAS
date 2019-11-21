@@ -32,6 +32,11 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	protected $item_list_gui; // [array]	
 	
 	protected static $providers_cache; // [array]
+
+    /**
+     * @var ilClassificationSessionRepository
+     */
+    protected $repo;
 	
 	public function __construct()
 	{		
@@ -54,6 +59,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$this->setTitle($lng->txt("clsfct_block_title"));
 		// @todo: find another solution for this
 		//$this->setFooterInfo($lng->txt("clsfct_block_info"));
+
+        $this->repo = new ilClassificationSessionRepository($this->parent_ref_id);
 	}
 
 	/**
@@ -120,7 +127,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		
 		if(!$ilCtrl->isAsynch())
 		{
-			unset($_SESSION[self::getBlockType()]);					
+//            $this->repo->unsetAll();
 		}
 		
 		$this->initProviders();
@@ -211,7 +218,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		$this->initProviders();
 			
 		// empty selection is invalid
-		if(!$_SESSION[self::getBlockType()])
+		if ($this->repo->isEmpty())
 		{
 			exit();
 		}
@@ -221,7 +228,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		foreach($this->providers as $provider)
 		{
 			$id = get_class($provider);
-			$current = $_SESSION[self::getBlockType()][$id];				
+			$current = $this->repo->getValueForProvider($id);
 			if($current)
 			{
 				// combine providers AND
@@ -250,7 +257,9 @@ class ilClassificationBlockGUI extends ilBlockGUI
 				,"object_data.title"
 				,"object_data.description"
 			);
-			$matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $all_matching_provider_object_ids, $fields);
+			//$matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $all_matching_provider_object_ids,
+            //$fields);
+			$matching = $this->getSubItemIds($all_matching_provider_object_ids);
 			if(sizeof($matching))
 			{			
 				$valid_objects = array();				
@@ -386,17 +395,16 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		
 		if($a_check_post && (bool)!$_REQUEST["rdrw"])
 		{
-			foreach($this->providers as $provider)
-			{	
-				$id = get_class($provider);
-				$current = $provider->importPostData($_SESSION[self::getBlockType()][$id]);
-				if($current)
+			foreach($this->providers as $provider) {
+                $id = get_class($provider);
+                $current = $provider->importPostData($this->repo->getValueForProvider($id));
+				if(is_array($current) || $current)
 				{
-					$_SESSION[self::getBlockType()][$id] = $current;
+				    $this->repo->setValueForProvider($id, $current);
 				}
 				else
 				{
-					unset($_SESSION[self::getBlockType()][$id]);
+//				    $this->repo->unsetValueForProvider($id);
 				}
 			}
 		}	
@@ -404,13 +412,23 @@ class ilClassificationBlockGUI extends ilBlockGUI
 		foreach($this->providers as $provider)
 		{
 			$id = get_class($provider);
-			$current = $_SESSION[self::getBlockType()][$id];			
+			$current = $this->repo->getValueForProvider($id);
 			if($current)
 			{
 				$provider->setSelection($current);
 			}
 		}
 	}
+
+	/**
+	 * Toggle
+	 */
+	protected function toggle()
+	{
+	    $this->initProviders(true);
+		$this->ctrl->returnToParent($this);
+	}
+
 
 	//
 	// New rendering
@@ -427,6 +445,35 @@ class ilClassificationBlockGUI extends ilBlockGUI
 	{
 		return $this->fillDataSection();
 	}
+
+    /**
+     * Get sub item ids depending on container type that match the preselected
+     * object ids
+     *
+     * @param int[]
+     * @return array
+     */
+    protected function getSubItemIds($obj_ids)
+    {
+        $tree = $this->tree;
+        if (ilObject::_lookupType($this->parent_ref_id, true) == "cat") {
+            $matching = array_filter($tree->getChilds($this->parent_ref_id), function ($item) use ($obj_ids) {
+                return in_array($item["obj_id"] ,$obj_ids);
+            });
+        } else {
+            $fields = array(
+                "object_reference.ref_id"
+            ,"object_data.obj_id"
+            ,"object_data.type"
+            ,"object_data.title"
+            ,"object_data.description"
+            );
+            $matching = $tree->getSubTreeFilteredByObjIds($this->parent_ref_id, $obj_ids, $fields);
+        }
+
+        return $matching;
+    }
+
 
 
 }

@@ -50,7 +50,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 			$this->setOrderField("order_nr", true);
 		}
 		$this->setPreloadChilds(true);
-		$this->target_gui = $a_target_gui; 
+		$this->target_gui = $a_target_gui;
 		$this->target_cmd = $a_target_cmd;
 		//$this->setOrderField("title");
 		parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
@@ -89,7 +89,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
 		if(!$this->onclick && $this->target_gui != "")
 		{
 			$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
-			$href = $ilCtrl->getLinkTargetByClass($this->target_gui, $this->target_cmd);
+			$href = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->target_cmd);
 			$ilCtrl->setParameterByClass($this->target_gui, "tax_node", $_GET["tax_node"]);
 			return $href;
 		}

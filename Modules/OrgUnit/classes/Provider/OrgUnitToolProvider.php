@@ -10,6 +10,7 @@ use ILIAS\UI\Component\Tree\TreeRecursion;
 use ilObjOrgUnit;
 use ilObjOrgUnitGUI;
 use ilOrgUnitExplorerGUI;
+use ilOrgUnitExtension;
 use ilTree;
 
 /**
@@ -20,7 +21,7 @@ use ilTree;
 class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
 
-    const SHOW_ORGU_TREE = 'show_orgu_tree';
+    public const SHOW_ORGU_TREE = 'show_orgu_tree';
 
 
     /**
@@ -59,7 +60,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
     {
         $tree = $this->getTreeRecursion();
 
-        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode((int) ilObjOrgUnit::getRootOrgRefId()));
+        return $this->dic->ui()->factory()->tree()->expandable($tree)->withData($tree->getChildsOfNode(ilObjOrgUnit::getRootOrgRefId()));
     }
 
 
@@ -74,8 +75,8 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 
     private function getTreeWhiteList() : array
     {
-        $whiteList = array("orgu");
-        $pls = \ilOrgUnitExtension::getActivePluginIdsForTree();
+        $whiteList = array('orgu');
+        $pls = ilOrgUnitExtension::getActivePluginIdsForTree();
 
         return array_merge($whiteList, $pls);
     }

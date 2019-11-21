@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Client\Client;
 use ILIAS\GlobalScreen\Client\ClientSettings;
 use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Client\ModeToggle;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\ContentModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\FooterModification;
@@ -13,15 +14,15 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\NullModification;
 use ILIAS\GlobalScreen\Scope\Layout\Factory\PageBuilderModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
+use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaContent;
 use ILIAS\GlobalScreen\Scope\Layout\ModificationHandler;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\UI\Component\Layout\Page\Page;
 use LogicException;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\TitleModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\ShortTitleModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 
 /**
  * Class MainLayoutCollector
@@ -30,7 +31,7 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainLayoutCollector
+class MainLayoutCollector extends AbstractBaseCollector
 {
 
     /**
@@ -55,27 +56,7 @@ class MainLayoutCollector
     }
 
 
-    /**
-     * @param LayoutModification      $current_modification
-     * @param LayoutModification|null $candicate
-     * @param string                  $type
-     */
-    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type)
-    {
-        if (is_a($candicate, $type) && $candicate->hasValidModification()) {
-            if ($candicate->getPriority() === $current_modification->getPriority()) {
-                throw new LogicException("There are competing Modifications for $type with the same priority");
-            } elseif ($candicate->getPriority() > $current_modification->getPriority()) {
-                $current_modification = $candicate;
-            }
-        }
-    }
-
-
-    /**
-     * @return Page
-     */
-    public function getFinalPage() : Page
+    public function collectStructure() : void
     {
         // Client
         $settings = new ClientSettings();
@@ -111,7 +92,6 @@ class MainLayoutCollector
         $final_title_modification = new NullModification();
         $final_short_title_modification = new NullModification();
         $final_view_title_modification = new NullModification();
-
 
         foreach ($this->providers as $provider) {
 
@@ -182,6 +162,62 @@ class MainLayoutCollector
         if ($final_view_title_modification->hasValidModification()) {
             $this->modification_handler->modifyViewTitleWithClosure($final_view_title_modification->getModification());
         }
+    }
+
+
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    {
+        // TODO: Implement filterItemsByVisibilty() method.
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        // TODO: Implement prepareItemsForUIRepresentation() method.
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getItemsForUIRepresentation() : \Generator
+    {
+        // TODO: Implement getItemsForUIRepresentation() method.
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return true;
+    }
+
+
+    /**
+     * @param LayoutModification      $current_modification
+     * @param LayoutModification|null $candicate
+     * @param string                  $type
+     */
+    private function replaceModification(LayoutModification &$current_modification, ?LayoutModification $candicate, string $type)
+    {
+        if (is_a($candicate, $type) && $candicate->hasValidModification()) {
+            if ($candicate->getPriority() === $current_modification->getPriority()) {
+                throw new LogicException("There are competing Modifications for $type with the same priority");
+            } elseif ($candicate->getPriority() > $current_modification->getPriority()) {
+                $current_modification = $candicate;
+            }
+        }
+    }
+
+
+    /**
+     * @return Page
+     */
+    public function getFinalPage() : Page
+    {
+        $this->collectOnce();
 
         return $this->modification_handler->getPageWithPagePartProviders();
     }

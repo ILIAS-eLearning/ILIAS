@@ -6,7 +6,7 @@ try
 	require_once("Services/Init/classes/class.ilInitialisation.php");
 	ilInitialisation::initILIAS();
 	$DIC->globalScreen()->tool()->context()->claim()->external();
-    $local_tpl = new ilInitGlobalTemplate("tpl.main.html", true, true);
+    $local_tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 	$local_tpl->addBlockFile("CONTENT", "content", "tpl.error.html");
 	$lng->loadLanguageModule("error");
 	// #13515 - link back to "system" [see ilWebAccessChecker::sendError()]

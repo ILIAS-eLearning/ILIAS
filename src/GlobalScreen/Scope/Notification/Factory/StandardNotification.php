@@ -1,196 +1,91 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
 
-use Closure;
-use DateTimeImmutable;
-use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Implementation\Component\Item\Notification as NotificationItem;
 
 /**
  * Class Notification
  *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * The default Notification mapping currently to one UI Notification Item component
+ *
+ * @author Timon Amstutz
  */
-class StandardNotification extends AbstractTitleNotification implements isItem, hasTitle, canHaveSymbol, hasActions
+class StandardNotification extends AbstractBaseNotification implements isItem, hasAmount
 {
 
     /**
-     * @var Symbol
+     * UI Component mapping to this item
+     *
+     * @var NotificationItem
      */
-    private $symbol;
+    private $notification_item;
+
     /**
-     * @var array
-     */
-    private $additional_actions = [];
-    /**
+     * Amount of old notes, the notification contains.
+     * @see hasAmount
+     *
      * @var int
      */
-    private $progress;
-    /**
-     * @var string
-     */
-    private $action;
-    /**
-     * @var DateTimeImmutable
-     */
-    protected $date;
-    /**
-     * @var string
-     */
-    protected $summary;
-    /**
-     * @var Closure
-     */
-    protected $close_action_callback;
-
+    private $old_amount = 0;
 
     /**
-     * @inheritDoc
+     * Amount of old notes, the notification contains.
+     * @see hasAmount
+     *
+     * @var int
      */
-    public function withDate(DateTimeImmutable $date_time_immutable) : isItem
+    private $new_amount = 1;
+
+    /**
+     * @param NotificationItem $notification_item
+     * @return StandardNotification
+     */
+    public function withNotificationItem(NotificationItem $notification_item) : StandardNotification
     {
         $clone = clone $this;
-        $clone->date = $date_time_immutable;
-
+        $clone->notification_item = $notification_item;
         return $clone;
     }
 
 
     /**
-     * @inheritDoc
+     * @return NotificationItem
      */
-    public function getDate() : DateTimeImmutable
+    public function getNotificationItem() : NotificationItem
     {
-        return $this->date;
+        return $this->notification_item;
     }
 
-
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function withCloseActionCallback(Closure $callback) : isItem
+    public function withOldAmount(int $amount = 0) : StandardNotification
     {
         $clone = clone $this;
-        $clone->close_action_callback = $callback;
-
+        $clone->old_amount = $amount;
         return $clone;
     }
 
-
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function getCloseActionCallback() : Closure
-    {
-        return $this->close_action_callback;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withAction(string $action) : isItem
+    public function withNewAmount(int $amount = 0) : StandardNotification
     {
         $clone = clone $this;
-        $clone->action = $action;
-
+        $clone->new_amount = $amount;
         return $clone;
     }
 
-
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function hasAction() : bool
-    {
-        return is_string($this->action);
+    public function getOldAmount() : int{
+        return $this->old_amount;
     }
 
-
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
-    public function getAction() : string
-    {
-        return $this->action;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withSymbol(Symbol $symbol) : canHaveSymbol
-    {
-        $clone = clone $this;
-        $clone->symbol = $symbol;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function hasSymbol() : bool
-    {
-        return ($this->symbol instanceof Symbol);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getSymbol() : Symbol
-    {
-        return $this->symbol;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withAdditionalAction(string $title, string $action) : isItem
-    {
-        $clone = clone $this;
-        $clone->additional_actions[$title] = $action;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getAdditionalActions() : array
-    {
-        return $this->additional_actions;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withProgress(int $progress) : isItem
-    {
-        $clone = clone $this;
-        $clone->progress = $progress;
-
-        return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function hasProgress() : bool
-    {
-        return is_int($this->progress);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getProgress() : int
-    {
-        return $this->progress;
+    public function getNewAmount() : int{
+        return $this->new_amount;
     }
 }

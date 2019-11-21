@@ -199,65 +199,97 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
         $html = $this->brutallyTrimHTML($r->render($c));
         $expected = <<<EOT
-<div class="il-item il-notification-item" id="id">
-    <div class="media">
-        <div class="media-left">
-            <div class="icon name small" aria-label="aria_label"></div>
-        </div>
-        <div class="media-body">
-            <h5 class="il-item-notification-title"><a href="" >TestLink</a></h5>
-            <button type="button" class="close" data-dismiss="modal" id="id"> <span aria-hidden="true">&times;</span> <span class="sr-only">Close</span></button>
-            <div class="il-item-description">description</div>
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li>
-                        <button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
-                    </li>
-                    <li>
-                        <button class="btn btn-link" data-action="https://www.github.com" id="id">GitHub</button>
-                    </li>
-                </ul>
-            </div>
-            <div class="il-item-additional-content">someContent</div>
-            <hr class="il-item-divider">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-5 il-item-property-name">prop1</div>
-                        <div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val1</div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-5 il-item-property-name">prop2</div>
-                        <div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val2</div>
-                    </div>
-                </div>
-            </div>
-            <div class="il-aggregate-notifications" data-aggregatedby="id">
-                <div class="il-maincontrols-slate il-maincontrols-slate-notification">
-                    <div class="il-maincontrols-slate-notification-title">
-                        <button class="btn btn-bulky" data-action=""><span class="glyph" aria-label="back"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
-                            <div><span class="bulky-label">Back</span></div>
-                        </button>
-                    </div>
-                    <div class="il-maincontrols-slate-content">
-                        <div class="il-item il-notification-item">
-                            <div class="media">
-                                <div class="media-left">
-                                    <div class="icon name small" aria-label="aria_label"></div>
-                                </div>
-                                <div class="media-body">
-                                    <h5 class="il-item-notification-title">title_aggregate</h5> </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<span class="il-item-notification-replacement-container">
+	<div class="il-item il-notification-item" id="id">
+		<div class="media">
+			<div class="media-left">
+				<div class="icon name small" aria-label="aria_label"></div>
+			</div>
+			<div class="media-body">
+				<h5 class="il-item-notification-title">
+					<a href="">TestLink</a>
+				</h5>
+				<button type="button" class="close" data-dismiss="modal" id="id">
+					<span aria-hidden="true">&times;</span>
+					<span class="sr-only">Close</span>
+				</button>
+				<div class="il-item-description">description</div>
+				<div class="dropdown">
+					<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li>
+							<button class="btn btn-link" data-action="https://www.ilias.de" id="id">ILIAS</button>
+						</li>
+						<li>
+							<button class="btn btn-link" data-action="https://www.github.com" id="id">GitHub</button>
+						</li>
+					</ul>
+				</div>
+				<div class="il-item-additional-content">someContent</div>
+				<hr class="il-item-divider">
+					<div class="row il-item-properties">
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-sm-5 il-item-property-name">prop1</div>
+								<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val1</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="row">
+								<div class="col-sm-5 il-item-property-name">prop2</div>
+								<div class="col-sm-7 il-item-property-value il-multi-line-cap-3">val2</div>
+							</div>
+						</div>
+					</div>
+					<div class="il-aggregate-notifications" data-aggregatedby="id">
+						<div class="il-maincontrols-slate il-maincontrols-slate-notification">
+							<div class="il-maincontrols-slate-notification-title">
+								<button class="btn btn-bulky" data-action="">
+									<span class="glyph" aria-label="back">
+										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+									</span>
+									<div>
+										<span class="bulky-label">back</span>
+									</div>
+								</button>
+							</div>
+							<div class="il-maincontrols-slate-content">
+								<span class="il-item-notification-replacement-container">
+									<div class="il-item il-notification-item" id="id">
+										<div class="media">
+											<div class="media-left">
+												<div class="icon name small" aria-label="aria_label"></div>
+											</div>
+											<div class="media-body">
+												<h5 class="il-item-notification-title">title_aggregate</h5>
+												<div class="il-aggregate-notifications" data-aggregatedby="id">
+													<div class="il-maincontrols-slate il-maincontrols-slate-notification">
+														<div class="il-maincontrols-slate-notification-title">
+															<button class="btn btn-bulky" data-action="">
+																<span class="glyph" aria-label="back">
+																	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+																</span>
+																<div>
+																	<span class="bulky-label">back</span>
+																</div>
+															</button>
+														</div>
+														<div class="il-maincontrols-slate-content"></div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</span>
 EOT;
 
         $this->assertEquals($this->brutallyTrimHTML($expected), $html);

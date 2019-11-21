@@ -23,9 +23,13 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
 
         $nc = $this->dic->globalScreen()->collector()->notifications();
 
+        $new = $nc->getAmountOfNewNotifications();
+        $old = $nc->getAmountOfOldNotifications();
+
         return [
             $mb->notificationCenter($id('notification_center'))
-                ->withAmountOfNotifications($nc->getAmountOfNotifications())
+                ->withAmountOfOldNotifications($new+$old)
+                ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
                 ->withAvailableCallable(static function () {
                     // Check if notifications available
@@ -33,7 +37,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 })
                 ->withVisibilityCallable(
                     function () {
-                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasNotifications();
+                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasItems();
                     }
                 ),
         ];
