@@ -1,8 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
-use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -10,8 +10,6 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ilUtil;
 
 /**
@@ -119,14 +117,25 @@ class StandardPagePartProvider implements PagePartProvider
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
+            /**
+             * @var $main_bar MainBar
+             */
             foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
-                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);
-                $item_state = new ItemState($tool->getProviderIdentification());
-                if ($item_state->isItemActive()) {
-                    $main_bar = $main_bar->withActive($identifier);
+                $close_button = null;
+                if ($tool instanceof isToolItem && $tool->hasCloseCallback()) {
+                    $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
+                        return "$('#$id').on('click', function(){
+                            $.ajax({
+                                url: 'src/GlobalScreen/Client/callback_handler.php?item=$identifier'
+                            }).done(function() {
+                                console.log('done closing');
+                            });
+                        });";
+                    });
                 }
+                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component, false, $close_button);
             }
         }
 
@@ -179,6 +188,7 @@ class StandardPagePartProvider implements PagePartProvider
         return 'title';
     }
 
+
     /**
      * @inheritDoc
      */
@@ -186,6 +196,7 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return 'short';
     }
+
 
     /**
      * @inheritDoc
