@@ -22,11 +22,13 @@ class TopLinkItemRenderer extends BaseTypeRenderer
 
 
     /**
-     * @param TopLinkItem $item
+     * @param isItem $item
+     *
+     * @param bool   $with_async_content
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
     {
         return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
     }

@@ -21,11 +21,13 @@ class ToolItemRenderer extends BaseTypeRenderer
 
 
     /**
-     * @param Link $item
+     * @param isItem $item
+     *
+     * @param bool   $with_async_content
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
     {
         /**
          * @var $item Tool

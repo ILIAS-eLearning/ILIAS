@@ -12,6 +12,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ReplaceSignal as ReplaceSignalImplementation;
+use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
  * Slate
@@ -20,6 +21,7 @@ abstract class Slate implements ISlate\Slate
 {
     use ComponentHelper;
     use JavaScriptBindable;
+    use Triggerer;
 
     /**
      * @var string
@@ -138,5 +140,11 @@ abstract class Slate implements ISlate\Slate
     public function getReplaceSignal() : ReplaceSignal
     {
         return $this->replace_signal;
+    }
+
+
+    public function appendOnInView(Signal $signal) : \ILIAS\UI\Component\MainControls\Slate\Slate
+    {
+        return $this->appendTriggeredSignal($signal, 'in_view');
     }
 }

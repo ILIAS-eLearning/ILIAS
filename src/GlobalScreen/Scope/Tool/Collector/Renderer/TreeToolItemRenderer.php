@@ -16,11 +16,13 @@ class TreeToolItemRenderer extends BaseTypeRenderer
 {
 
     /**
-     * @param TreeTool $item
+     * @param isItem $item
+     *
+     * @param bool   $with_async_content
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
     {
         global $DIC;
         /**

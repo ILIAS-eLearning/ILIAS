@@ -10,8 +10,6 @@ use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
-use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ilUtil;
 
 /**
@@ -101,7 +99,7 @@ class StandardPagePartProvider implements PagePartProvider
             /**
              * @var $component Combined
              */
-            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
+            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
             $identifier = $item->getProviderIdentification()->getInternalIdentifier();
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -120,7 +118,7 @@ class StandardPagePartProvider implements PagePartProvider
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
             foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
-                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
+                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);
                 $item_state = new ItemState($tool->getProviderIdentification());
@@ -179,6 +177,7 @@ class StandardPagePartProvider implements PagePartProvider
         return 'title';
     }
 
+
     /**
      * @inheritDoc
      */
@@ -186,6 +185,7 @@ class StandardPagePartProvider implements PagePartProvider
     {
         return 'short';
     }
+
 
     /**
      * @inheritDoc

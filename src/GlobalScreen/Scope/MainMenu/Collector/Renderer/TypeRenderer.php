@@ -17,7 +17,9 @@ interface TypeRenderer
     /**
      * @param isItem $item
      *
+     * @param bool   $with_async_content
+     *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component;
+    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component;
 }

@@ -35,7 +35,7 @@ class BaseTypeRenderer implements TypeRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
     {
         return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }

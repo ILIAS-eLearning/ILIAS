@@ -18,9 +18,13 @@ use ILIAS\UI\Component\Symbol\Symbol;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbol, isToolItem
+class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbol, supportsTerminating
 {
 
+    /**
+     * @var Closure
+     */
+    protected $terminated_callback;
     /**
      * @var Symbol
      */
@@ -135,5 +139,35 @@ class Tool extends AbstractParentItem implements isTopItem, hasContent, hasSymbo
     public function hasSymbol() : bool
     {
         return ($this->symbol instanceof Symbol);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withTerminatedCallback(Closure $callback) : supportsTerminating
+    {
+        $clone = clone $this;
+        $clone->terminated_callback = $callback;
+
+        return $clone;
+    }
+
+
+    /**
+     * @return Closure|null
+     */
+    public function getTerminatedCallback() : ?Closure
+    {
+        return $this->terminated_callback;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasTerminatedCallback() : bool
+    {
+        return $this->terminated_callback instanceof Closure;
     }
 }
