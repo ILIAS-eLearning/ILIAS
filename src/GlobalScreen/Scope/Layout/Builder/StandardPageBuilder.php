@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Builder;
 
+use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart\PagePartProvider;
 use ILIAS\UI\Component\Layout\Page\Page;
 
@@ -53,6 +54,6 @@ class StandardPageBuilder implements PageBuilder
             $title,
             $short_title,
             $view_title
-        );
+        )->withModeInfo($this->ui->factory()->mainControls()->modeInfo('Memberview beenden', new URI('https://hello')));
     }
 }

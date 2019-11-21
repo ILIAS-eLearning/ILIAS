@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Component\MainControls;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class ModeInfo
@@ -13,6 +14,7 @@ use ILIAS\UI\Component\MainControls;
 class ModeInfo implements MainControls\ModeInfo
 {
 
+    use ComponentHelper;
     /**
      * @var string
      */

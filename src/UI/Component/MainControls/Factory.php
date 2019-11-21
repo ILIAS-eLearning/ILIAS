@@ -347,7 +347,7 @@ interface Factory
      *
      * ----
      *
-     * @return ModeInfo
+     * @return \ILIAS\UI\Component\MainControls\ModeInfo
      */
     public function modeInfo(string $title, URI $close_action) : ModeInfo;
 }

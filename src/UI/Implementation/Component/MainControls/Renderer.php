@@ -4,24 +4,26 @@
 
 namespace ILIAS\UI\Implementation\Component\MainControls;
 
-use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
-use ILIAS\UI\Component\MainControls\Footer;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template as UITemplateWrapper;
+use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
+
     const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
     const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
     const BLOCK_MAINBAR_TOOLS_HIDDEN = 'tool_trigger_item_hidden';
     const BLOCK_METABAR_ENTRIES = 'meta_element';
-
     private $signals_for_tools = [];
+
 
     /**
      * @inheritdoc
@@ -39,20 +41,23 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Footer) {
             return $this->renderFooter($component, $default_renderer);
         }
+        if ($component instanceof ModeInfo) {
+            return $this->renderModeInfo($component, $default_renderer);
+        }
     }
+
 
     protected function renderMainbar(MainBar $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
-        $active =  $component->getActive();
+        $active = $component->getActive();
         $tools = $component->getToolEntries();
         $signals = [
-            'entry' => $component->getEntryClickSignal(),
-            'tools' => $component->getToolsClickSignal(),
-            'close_slates' => $component->getDisengageAllSignal(),
-            'tools_removal' => $component->getToolsRemovalSignal()
+            'entry'         => $component->getEntryClickSignal(),
+            'tools'         => $component->getToolsClickSignal(),
+            'close_slates'  => $component->getDisengageAllSignal(),
+            'tools_removal' => $component->getToolsRemovalSignal(),
         ];
-
 
         $this->renderTriggerButtonsAndSlates(
             $tpl,
@@ -87,13 +92,14 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
+
     protected function renderMetabar(MetaBar $component, RendererInterface $default_renderer)
     {
         $tpl = $this->getTemplate("tpl.metabar.html", true, true);
         $active = '';
         $signals = [
-            'entry' => $component->getEntryClickSignal(),
-            'close_slates' => $component->getDisengageAllSignal()
+            'entry'        => $component->getEntryClickSignal(),
+            'close_slates' => $component->getDisengageAllSignal(),
         ];
 
         $this->renderTriggerButtonsAndSlates(
@@ -107,8 +113,8 @@ class Renderer extends AbstractComponentRenderer
 
         $more_button = $this->getUIFactory()->button()->bulky(
             $this->getUIFactory()->symbol()->glyph()->more()
-                 ->withCounter($this->getUIFactory()->counter()->novelty(0))
-                 ->withCounter($this->getUIFactory()->counter()->status(0)),
+                ->withCounter($this->getUIFactory()->counter()->novelty(0))
+                ->withCounter($this->getUIFactory()->counter()->status(0)),
             'more',
             '#'
         );
@@ -119,6 +125,7 @@ class Renderer extends AbstractComponentRenderer
             function ($id) use ($signals) {
                 $entry_signal = $signals['entry'];
                 $close_slates_signal = $signals['close_slates'];
+
                 return "
 					il.UI.maincontrols.metabar.registerSignals(
 						'{$id}',
@@ -132,6 +139,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+
         return $tpl->get();
     }
 
@@ -147,7 +155,7 @@ class Renderer extends AbstractComponentRenderer
         array $close_buttons = [],
         Signal $tool_removal_signal = null
     ) {
-        foreach ($entries as $id=>$entry) {
+        foreach ($entries as $id => $entry) {
             $use_block = $block;
             $engaged = (string) $id === $active;
 
@@ -180,7 +188,7 @@ class Renderer extends AbstractComponentRenderer
                 $button_id = $this->button_id;
 
                 //closeable tool
-                if(array_key_exists($id, $close_buttons)) {
+                if (array_key_exists($id, $close_buttons)) {
                     $btn_removetool = $close_buttons[$id]
                         ->appendOnClick($tool_removal_signal);
                     $tpl->setCurrentBlock("tool_removal");
@@ -190,11 +198,10 @@ class Renderer extends AbstractComponentRenderer
                 }
 
                 //initially hidden
-                if(in_array($id, $initially_hidden_ids)) {
+                if (in_array($id, $initially_hidden_ids)) {
                     $this->signals_for_tools[$id] = $button_id;
                     $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
                 }
-
             } else {
                 $button_html = $default_renderer->render($button);
             }
@@ -211,6 +218,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
+
     protected function addCloseSlateButton(
         UITemplateWrapper $tpl,
         RendererInterface $default_renderer,
@@ -221,6 +229,7 @@ class Renderer extends AbstractComponentRenderer
             ->withOnClick($signals['close_slates']);
         $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
     }
+
 
     protected function addTools(
         UITemplateWrapper $tpl,
@@ -255,6 +264,7 @@ class Renderer extends AbstractComponentRenderer
         );
     }
 
+
     protected function addMoreSlate(
         UITemplateWrapper $tpl,
         RendererInterface $default_renderer,
@@ -277,13 +287,14 @@ class Renderer extends AbstractComponentRenderer
         );
     }
 
+
     protected function addMainbarJS(
         UITemplateWrapper $tpl,
         MainBar $component,
         array $signals,
         string $active = null
     ) {
-        $ext_signals =  $this->signals_for_tools;
+        $ext_signals = $this->signals_for_tools;
         $component = $component->withOnLoadCode(
             function ($id) use ($signals, $ext_signals, $component) {
                 $entry_signal = $signals['entry'];
@@ -312,6 +323,7 @@ class Renderer extends AbstractComponentRenderer
                         );
                     ";
                 }
+
                 return $js;
             }
         );
@@ -327,6 +339,7 @@ class Renderer extends AbstractComponentRenderer
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
     }
+
 
     protected function renderFooter(Footer $component, RendererInterface $default_renderer)
     {
@@ -346,8 +359,22 @@ class Renderer extends AbstractComponentRenderer
                 $perm_url->getBaseURI() . '?' . $perm_url->getQuery()
             );
         }
+
         return $tpl->get();
     }
+
+
+    protected function renderModeInfo(ModeInfo $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
+        $tpl->setVariable('MODE_TITLE', $component->getModeTitle());
+        $tpl->setVariable('MODE_LEAVE_URI', $component->getCloseAction()->getBaseURI());
+        $close_button = $this->getUIFactory()->button()->close();
+        $tpl->setVariable('CLOSE_BUTTON', $default_renderer->render($close_button));
+
+        return $tpl->get();
+    }
+
 
     /**
      * @inheritdoc
@@ -359,6 +386,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
     }
 
+
     /**
      * @inheritdoc
      */
@@ -367,7 +395,8 @@ class Renderer extends AbstractComponentRenderer
         return array(
             MetaBar::class,
             MainBar::class,
-            Footer::class
+            Footer::class,
+            ModeInfo::class,
         );
     }
 }
