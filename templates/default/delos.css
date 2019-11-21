@@ -10362,6 +10362,9 @@ footer {
 .il-glyphicon-angry:before {
   content: "\1f620";
 }
+.glyphicon-option-horizontal:before {
+  content: "\e602";
+}
 .il-link.link-bulky {
   display: flex;
   text-decoration: none;

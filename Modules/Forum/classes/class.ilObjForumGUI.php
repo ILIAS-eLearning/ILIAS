@@ -17,13 +17,16 @@ use ILIAS\UI\Renderer;
 class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 {
     /** @var array */
-    private $sortationOptions = array(
-            ilForumProperties::VIEW_TREE => 'sort_by_posts',
-            ilForumProperties::VIEW_DATE_ASC => 'sort_by_date'
-        );
+    private $viewModeOptions = [
+        ilForumProperties::VIEW_TREE => 'sort_by_posts',
+        ilForumProperties::VIEW_DATE_ASC => 'sort_by_date',
+    ];
 
     /** @var array */
-    private $sortingDirectionOptions;
+    private $sortationOptions = [
+        ilForumProperties::VIEW_DATE_ASC => 'ascending_order',
+        ilForumProperties::VIEW_DATE_DESC => 'descending_order',
+    ];
 
     /** @var int */
     private $defaultSorting;
@@ -99,7 +102,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->ctrl->saveParameter($this, array('ref_id', 'cmdClass'));
+        $this->ctrl->saveParameter($this, ['ref_id', 'cmdClass']);
 
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -140,12 +143,6 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         // Model of current post
         $this->objCurrentPost = new ilForumPost((int) $_GET['pos_pk'], $this->is_moderator);
-
-        $this->defaultSorting = $this->objProperties->getDefaultView();
-        $this->sortingDirectionOptions= array(
-            ilForumProperties::VIEW_DATE_ASC =>  $this->lng->txt('ascending_order'),
-            ilForumProperties::VIEW_DATE_DESC => $this->lng->txt('descending_order')
-        );
     }
 
     protected function initSessionStorage()
@@ -276,13 +273,13 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
     private function isHierarchicalView() : bool
     {
         return (
-                $_SESSION['viewmode'] == 'answers' ||
-                $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE
-            ) || !(
-                $_SESSION['viewmode'] == 'date' ||
-                $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_ASC  ||
-                $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC
-            );
+            $_SESSION['viewmode'] == 'answers' ||
+            $_SESSION['viewmode'] == ilForumProperties::VIEW_TREE
+        ) || !(
+            $_SESSION['viewmode'] == 'date' ||
+            $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_ASC ||
+            $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC
+        );
     }
 
     /**
@@ -2551,28 +2548,32 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
         return $this->forumObjects;
     }
-	
-	public function checkUsersViewMode()
-	{
-		if (!isset($_SESSION['viewmode'])) {
-			$_SESSION['viewmode'] = $this->objProperties->getDefaultView();
-		}
-		
-		if (isset($_GET['viewmode']) && $_GET['viewmode'] != $_SESSION['viewmode']) {
-			$_SESSION['viewmode'] = $_GET['viewmode'];
-		}
-		
-		if (isset($_GET['action']) &&  !in_array($_SESSION['viewmode'],  array( ilForumProperties::VIEW_TREE, ilForumProperties::VIEW_DATE_ASC,  ilForumProperties::VIEW_DATE_DESC)))
-		{
-			$_SESSION['viewmode'] = $this->defaultSorting;
-		}
-	}
+
+    public function checkUsersViewMode() : void
+    {
+        if (!isset($_SESSION['viewmode'])) {
+            $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
+        }
+
+        if (isset($_GET['viewmode']) && (int) $_GET['viewmode'] !== (int) $_SESSION['viewmode']) {
+            $_SESSION['viewmode'] = (int) $_GET['viewmode'];
+        }
+
+        if (isset($_GET['action']) && !in_array($_SESSION['viewmode'], [
+            ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE_ASC,
+            ilForumProperties::VIEW_DATE_DESC
+        ])) {
+            $_SESSION['viewmode'] = $this->objProperties->getDefaultView();
+        }
+    }
 
     public function viewThreadObject()
     {
-        $bottom_toolbar = clone $this->toolbar;
-        $bottom_toolbar_split_button_items = array();
         $this->checkUsersViewMode();
+
+        $bottom_toolbar = clone $this->toolbar;
+        $bottom_toolbar_split_button_items = [];
 
         // quick and dirty: check for treeview
         if (!isset($_SESSION['thread_control']['old'])) {
@@ -2674,17 +2675,22 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $threadContentTemplate->setVariable('JUMP2ANCHOR_ID', (int) $this->httpRequest->getQueryParams()['anchor']);
         }
 
+        $currentSortation = ilForumProperties::VIEW_DATE_ASC;
         if ($this->isHierarchicalView()) {
             $orderField = 'frm_posts_tree.rgt';
             $this->objCurrentTopic->setOrderDirection('DESC');
         } else {
-	        $order_direction = 'ASC';
-	        if (isset($_SESSION['viewmode']) && $_SESSION['viewmode'] == ilForumProperties::VIEW_DATE_DESC) {
-		        $order_direction = 'DESC';
-	        }
+            if (isset($_SESSION['viewmode'])) {
+                $currentSortation = (in_array($_SESSION['viewmode'], [
+                    ilForumProperties::VIEW_DATE_ASC,
+                    ilForumProperties::VIEW_DATE_DESC
+                ]) ? $_SESSION['viewmode'] : $currentSortation);
+            }
 
             $orderField = 'frm_posts.pos_date';
-			$this->objCurrentTopic->setOrderDirection($order_direction);
+            $this->objCurrentTopic->setOrderDirection(
+                (int) $currentSortation === ilForumProperties::VIEW_DATE_DESC ? 'DESC' : 'ASC'
+            );
         }
 
         $numberOfPostings = 0;
@@ -2932,37 +2938,17 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             $threadContentTemplate->setVariable('TOOLBAR_BOTTOM', $bottom_toolbar->getHTML());
         }
 
-        $sorting = $this->defaultSorting;
+        $currentViewMode = $this->objProperties->getDefaultView();
         if (isset($_SESSION['viewmode'])) {
-            $sorting = (in_array($_SESSION['viewmode'],  array(ilForumProperties::VIEW_DATE_ASC, ilForumProperties::VIEW_DATE_DESC)) ? ilForumProperties::VIEW_DATE: ilForumProperties::VIEW_TREE);
+            $currentViewMode = (in_array($_SESSION['viewmode'], [
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ]) ? ilForumProperties::VIEW_DATE : ilForumProperties::VIEW_TREE);
         }
 
-        $translationKeys = array();
-        foreach ($this->sortationOptions as $sortingConstantKey => $languageKey) {
-            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-            $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-            $this->ctrl->setParameter($this, 'viewmode', $sortingConstantKey);
-
-            $translationKeys[$this->lng->txt($languageKey)] = $this->ctrl->getLinkTarget(
-                $this,
-                'viewThread',
-                '',
-                false,
-                false
-            );
-
-            $this->ctrl->clearParameters($this);
-        }
-
-        $sortViewControl = $this->uiFactory
-            ->viewControl()
-            ->mode($translationKeys, $this->lng->txt($this->sortationOptions[$sorting]))
-            ->withActive($this->lng->txt($this->sortationOptions[$sorting]));
-
-        $this->toolbar->addComponent($sortViewControl);
-
-        if($sorting == ilForumProperties::VIEW_DATE) {
-        	$this->getViewControlItemSortingDateDirection();
+        $this->renderViewModeControl($currentViewMode);
+        if ($currentViewMode === ilForumProperties::VIEW_DATE) {
+            $this->renderSortationControl($currentSortation);
         }
 
         $this->tpl->setPermanentLink(
@@ -2986,27 +2972,56 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         return true;
     }
 
-	public function getViewControlItemSortingDateDirection()
-	{
-		$this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
-		$this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
-		$target = $this->ctrl->getLinkTarget(
-			$this,
-			'viewThread',
-			'',
-			false,
-			false
-		);
+    private function renderViewModeControl(int $currentViewMode) : void
+    {
+        $translationKeys = [];
+        foreach ($this->viewModeOptions as $sortingConstantKey => $languageKey) {
+            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+            $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+            $this->ctrl->setParameter($this, 'viewmode', $sortingConstantKey);
 
-		$sortingDirectionViewControl = $this->uiFactory
-			->viewControl()
-			->sortation($this->sortingDirectionOptions)
-			->withLabel($this->lng->txt('sorting'))
-			->withTargetURL($target, 'viewmode');
+            $translationKeys[$this->lng->txt($languageKey)] = $this->ctrl->getLinkTarget(
+                $this,
+                'viewThread',
+                '',
+                false,
+                false
+            );
 
-		$this->toolbar->addComponent($sortingDirectionViewControl);
-	}
-	
+            $this->ctrl->clearParameters($this);
+        }
+
+        $sortViewControl = $this->uiFactory
+            ->viewControl()
+            ->mode($translationKeys, $this->lng->txt($this->viewModeOptions[$currentViewMode]))
+            ->withActive($this->lng->txt($this->viewModeOptions[$currentViewMode]));
+        $this->toolbar->addComponent($sortViewControl);
+    }
+
+    private function renderSortationControl(int $currentSorting) : void
+    {
+        $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
+        $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
+        $target = $this->ctrl->getLinkTarget(
+            $this,
+            'viewThread',
+            '',
+            false,
+            false
+        );
+
+        $translatedSortationOptions = array_map(function($value) {
+            return $this->lng->txt($value);
+        }, $this->sortationOptions); 
+
+        $sortingDirectionViewControl = $this->uiFactory
+            ->viewControl()
+            ->sortation($translatedSortationOptions)
+            ->withLabel($this->lng->txt($this->sortationOptions[$currentSorting]))
+            ->withTargetURL($target, 'viewmode');
+        $this->toolbar->addComponent($sortingDirectionViewControl);
+    }
+
     private function getModifiedReOnSubject($on_reply = false)
     {
         $subject = $this->objCurrentPost->getSubject();

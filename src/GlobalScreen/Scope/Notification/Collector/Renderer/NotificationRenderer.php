@@ -1,7 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
-use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\MainControls\Slate\Notification as NotificationSlate;
+use ILIAS\UI\Component\Item\Notification as NotificationItem;
 
 /**
  * Interface NotificationRenderer
@@ -15,10 +16,10 @@ interface NotificationRenderer
 {
 
     /**
-     * @param isItem $item
+     * Returns the UI Component for the past item
      *
-     * @return Component
+     * @param isItem $item
+     * @return NotificationItem|NotificationSlate
      */
-    public function getComponentForItem(isItem $item) : Component;
+    public function getNotificationComponentForItem(isItem $item);
 }
-

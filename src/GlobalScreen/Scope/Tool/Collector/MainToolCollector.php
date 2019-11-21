@@ -1,7 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Tool\Collector;
 
 use Closure;
-use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
@@ -18,7 +19,7 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\DynamicToolProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainToolCollector implements Collector
+class MainToolCollector extends AbstractBaseCollector implements ItemCollector
 {
 
     /**
@@ -94,14 +95,6 @@ class MainToolCollector implements Collector
         });
 
         usort($this->tools, $this->getItemSorter());
-    }
-
-
-    public function collect() : void
-    {
-        $this->collectStructure();
-        $this->filterItemsByVisibilty(false);
-        $this->prepareItemsForUIRepresentation();
     }
 
 

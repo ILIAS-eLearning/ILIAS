@@ -46,7 +46,7 @@ class ilMMItemRepository
         $this->cache = ilGlobalCache::getInstance(ilGlobalCache::COMP_GLOBAL_SCREEN);
         $this->db = $DIC->database();
         $this->main_collector = $DIC->globalScreen()->collector()->mainmenu();
-        $this->main_collector->collect();
+        $this->main_collector->collectOnce();
         $this->services = $DIC->globalScreen();
 
         foreach ($this->main_collector->getRawItems() as $top_item) {

@@ -21,8 +21,8 @@ class ilSystemStyleHTMLExport
 	function __construct($a_exp_dir)
 	{
 		$this->exp_dir = $a_exp_dir;
-		$this->style_dir = $a_exp_dir."/style";
-		$this->style_img_dir = $a_exp_dir."/style/images";
+		$this->style_dir = $a_exp_dir."/templates/default";
+		$this->style_img_dir = $a_exp_dir."/templates/default/images";
 		$this->img_dir = $a_exp_dir."/images";
 		$this->img_browser_dir = $a_exp_dir."/images/browser";
 		
@@ -44,9 +44,9 @@ class ilSystemStyleHTMLExport
 	 */
 	function createDirectories()
 	{
-		ilUtil::makeDir($this->style_dir);
-		ilUtil::makeDir($this->img_dir);
-		ilUtil::makeDir($this->img_browser_dir);
+		ilUtil::makeDirParents($this->style_dir);
+		ilUtil::makeDirParents($this->img_dir);
+		ilUtil::makeDirParents($this->img_browser_dir);
 	}
 	
 	/**

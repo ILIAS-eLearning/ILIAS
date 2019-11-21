@@ -1,7 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Collector;
 
-use ILIAS\GlobalScreen\Collector\Collector;
-use ILIAS\GlobalScreen\Collector\LogicException;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -11,7 +11,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainNotificationCollector implements Collector
+class MainNotificationCollector extends AbstractBaseCollector implements ItemCollector
 {
 
     /**
@@ -32,9 +32,15 @@ class MainNotificationCollector implements Collector
     public function __construct(array $providers)
     {
         $this->providers = $providers;
+        $this->collectOnce();
     }
 
 
+    /**
+     * Generator yielding the Notifications from the set of providers
+     *
+     * @return \Generator
+     */
     private function returnNotificationsFromProviders() : \Generator
     {
         foreach ($this->providers as $provider) {
@@ -43,15 +49,9 @@ class MainNotificationCollector implements Collector
     }
 
 
-    public function collect() : void
-    {
-        $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
-    }
-
-
     public function collectStructure() : void
     {
-        // TODO: Implement collectStructure() method.
+        $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
     }
 
 
@@ -86,17 +86,22 @@ class MainNotificationCollector implements Collector
 
 
     /**
+     * Returns the sum of all old notifications values in the
+     * Standard Notifications
+     *
      * @return int
      */
-    public function getAmountOfNotifications() : int
+    public function getAmountOfOldNotifications() : int
     {
         if (is_array($this->notifications)) {
             $count = 0;
             foreach ($this->notifications as $notification) {
                 if ($notification instanceof StandardNotificationGroup) {
-                    $count += count($notification->getNotifications());
+                    foreach ($notification->getNotifications() as $notification) {
+                        $count += $notification->getOldAmount();
+                    }
                 } else {
-                    $count++;
+                    $count += $notification->getOldAmount();
                 }
             }
 
@@ -104,5 +109,59 @@ class MainNotificationCollector implements Collector
         }
 
         return 0;
+    }
+
+
+    /**
+     * Returns the sum of all new notifications values in the
+     * Standard Notifications
+     *
+     * @return int
+     */
+    public function getAmountOfNewNotifications() : int
+    {
+        if (is_array($this->notifications)) {
+            $count = 0;
+            foreach ($this->notifications as $notification) {
+                if ($notification instanceof StandardNotificationGroup) {
+                    foreach ($notification->getNotifications() as $notification) {
+                        $count += $notification->getNewAmount();
+                    }
+                } else {
+                    $count += $notification->getNewAmount();
+                }
+            }
+
+            return $count;
+        }
+
+        return 0;
+    }
+
+
+    /**
+     * Returns the set of collected informations
+     *
+     * @return isItem[]
+     */
+    public function getNotifications() : array
+    {
+        return $this->notifications;
+    }
+
+
+    public function getNotificationsIdentifiersAsArray()
+    {
+        $identifiers = [];
+        foreach ($this->notifications as $notification) {
+            if ($notification instanceof StandardNotificationGroup) {
+                foreach ($notification->getNotifications() as $item) {
+                    $identifiers[] = $item->getProviderIdentification()->getInternalIdentifier();
+                }
+            }
+            $identifiers[] = $notification->getProviderIdentification()->getInternalIdentifier();
+        }
+
+        return $identifiers;
     }
 }

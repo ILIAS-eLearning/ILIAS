@@ -1,6 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
-use ILIAS\GlobalScreen\Collector\Collector;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\hasBeenCollectedTrait;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
@@ -27,7 +29,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MainMenuMainCollector implements Collector
+class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollector
 {
 
     /**
@@ -71,18 +73,6 @@ class MainMenuMainCollector implements Collector
     private function getProvidersFromList() : \Generator
     {
         yield from $this->providers;
-    }
-
-
-    /**
-     * @return bool
-     * @throws \Throwable
-     */
-    public function collect() : void
-    {
-        $this->collectStructure();
-        $this->filterItemsByVisibilty(false);
-        $this->prepareItemsForUIRepresentation();
     }
 
 
