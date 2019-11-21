@@ -32,7 +32,7 @@ trait MakeSlateAsync
 
         $serialize = $item->getProviderIdentification()->serialize();
         $hash = $this->hash($serialize);
-        $url = "./src/GlobalScreen/Client/content.php?item=" . $hash;
+        $url = "./gs_content.php?item=" . $hash;
 
         $replace_signal = $slate->getReplaceSignal()->withAsyncRenderUrl($url);
 
