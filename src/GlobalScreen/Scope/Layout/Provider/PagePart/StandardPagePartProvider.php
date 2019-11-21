@@ -121,10 +121,13 @@ class StandardPagePartProvider implements PagePartProvider
              * @var $main_bar MainBar
              */
             foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
+                if (!$tool instanceof isToolItem) {
+                    continue;
+                }
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $close_button = null;
-                if ($tool instanceof isToolItem && $tool->hasCloseCallback()) {
+                if ($tool->hasCloseCallback()) {
                     $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
                         return "$('#$id').on('click', function(){
                             $.ajax({
@@ -135,7 +138,7 @@ class StandardPagePartProvider implements PagePartProvider
                         });";
                     });
                 }
-                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component, false, $close_button);
+                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component, $tool->isInitiallyHidden(), $close_button);
             }
         }
 

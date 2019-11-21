@@ -16,6 +16,20 @@ interface isToolItem extends isItem, hasTitle, hasSymbol
 {
 
     /**
+     * @param bool $initially_hidden
+     *
+     * @return isToolItem
+     */
+    public function withInitiallyHidden(bool $initially_hidden) : isToolItem;
+
+
+    /**
+     * @return bool
+     */
+    public function isInitiallyHidden() : bool;
+
+
+    /**
      * @param Closure $close_callback
      *
      * @return isToolItem

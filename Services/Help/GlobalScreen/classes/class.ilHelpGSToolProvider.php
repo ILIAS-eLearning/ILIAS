@@ -36,7 +36,6 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $f = $DIC->ui()->factory();
 
         $tools = [];
-        $additional_data = $called_contexts->current()->getAdditionalData();
 
         $title = $lng->txt("help");
         $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
@@ -47,6 +46,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
+                ->withInitiallyHidden(true)
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {
@@ -68,33 +68,38 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
      */
     protected function showHelpTool() : bool
     {
-        global $DIC;
+        static $show;
+        if (!isset($show)) {
+            global $DIC;
 
-        $user = $DIC->user();
-        $settings = $DIC->settings();
+            $user = $DIC->user();
+            $settings = $DIC->settings();
 
-        if ($user->getLanguage() != "de") {
-            return false;
-        }
-
-        if (ilSession::get("show_help_tool") != "1") {
-            return false;
-        }
-
-        if ($settings->get("help_mode") == "2") {
-            return false;
-        }
-
-        if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
-            true;
-        } else {
-            $module = (int) $settings->get("help_module");
-            if ($module == 0) {
-                return false;
+            if ($user->getLanguage() != "de") {
+                return $show = false;
             }
+
+            if (ilSession::get("show_help_tool") != "1") {
+                return $show = false;
+            }
+
+            if ($settings->get("help_mode") == "2") {
+                return $show = false;
+            }
+
+            if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
+                true;
+            } else {
+                $module = (int) $settings->get("help_module");
+                if ($module == 0) {
+                    return $show = false;
+                }
+            }
+
+            return $show = true;
         }
 
-        return true;
+        return $show;
     }
 
 
