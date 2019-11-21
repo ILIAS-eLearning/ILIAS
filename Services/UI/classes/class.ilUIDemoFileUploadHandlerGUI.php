@@ -81,9 +81,15 @@ class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHa
 
         switch ($this->ctrl->getCmd()) {
             case self::CMD_UPLOAD:
+                // Here you must save the file and tell the input item the
+                // file-id which will be a FileStorage-ID in a later version
+                // of ILIAS and for now you must implement an own ID which allows
+                // identifying the file after the request
                 $content = json_encode($this->getUploadResult());
                 break;
             case self::CMD_REMOVE:
+                // here you delete the previously uploaded file again, you know
+                // which file to delete since you defined what 'my_file_id' is.
                 $file_identifier = $this->http->request()->getQueryParams()[$this->getFileIdentifierParameterName()];
                 $content = json_encode($this->getRemoveResult($file_identifier));
                 break;
