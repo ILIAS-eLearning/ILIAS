@@ -1,5 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
+use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
@@ -18,6 +19,10 @@ use ILIAS\UI\Component\Symbol\Icon;
 class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, hasTitle, hasSymbol
 {
 
+    /**
+     * @var Closure
+     */
+    private $content_wrapper;
     /**
      * @var
      */
@@ -60,9 +65,19 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
 
 
     /**
-     * @param Component $ui_component
-     *
-     * @return Complex
+     * @inheritDoc
+     */
+    public function withContentWrapper(Closure $content_wrapper) : hasContent
+    {
+        $clone = clone($this);
+        $clone->content_wrapper = $content_wrapper;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
      */
     public function withContent(Component $ui_component) : hasContent
     {
@@ -74,10 +89,16 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
 
 
     /**
-     * @return Component
+     * @inheritDoc
      */
     public function getContent() : Component
     {
+        if ($this->content_wrapper !== null) {
+            $wrapper = $this->content_wrapper;
+
+            return $wrapper();
+        }
+
         return $this->content;
     }
 

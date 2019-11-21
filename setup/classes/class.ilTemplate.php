@@ -20,7 +20,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 	//var $js_files = array(0 => "./Services/JavaScript/js/Basic.js");		// list of JS files that should be included
 	var $js_files = array();		// list of JS files that should be included
 	var $css_files = array();		// list of css files that should be included
-	
+
 	/**
 	* Aktueller Block
 	* Der wird gemerkt bei der berladenen Funktion setCurrentBlock, damit beim ParseBlock
@@ -40,9 +40,9 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 	*/
 	/*function ilTemplate($root)
 	{
-		
+
 		$this->callConstructor();
-		
+
 		$this->setRoot($root);
 
 		return true;
@@ -70,7 +70,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 		$this->loadTemplatefile($fname, $flag1, $flag2);
 		//add tplPath to replacevars
 		$this->vars["TPLPATH"] = $this->tplPath;
-		
+
 		// set Options
 		if (method_exists($this, "setOption"))
 		{
@@ -79,6 +79,15 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 
 		return true;
 	}
+
+	/**
+	 * @inheritDoc
+	 */
+	public function printToString() : string
+	{
+		throw new ilException('not implemented');
+	}
+
 
 	/**
 	* builds a full template path with template and module name
@@ -91,7 +100,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 	function getTemplatePath($a_tplname, $a_in_module = false, $a_plugin = false)
 	{
 		global $ilias, $ilCtrl;
-		
+
 		// if baseClass functionality is used (ilias.php):
 		// get template directory from ilCtrl
 		if (!empty($_GET["baseClass"]) && $a_in_module === true)
@@ -102,7 +111,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 		if (strpos($a_tplname,"/") === false)
 		{
 			$module_path = "";
-			
+
 			//$fname = $ilias->tplPath;
 			if ($a_in_module)
 			{
@@ -132,7 +141,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 		{
 			$fname = $a_tplname;
 		}
-		
+
 		return $fname;
 	}
 
@@ -163,11 +172,11 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 
 		$this->fillJavaScriptFiles();
 		$this->fillCssFiles();
-		
+
 		// ERROR HANDLER SETS $_GET["message"] IN CASE OF $error_obj->MESSAGE
 		$ms = array("info", "success", "failure", "question");
 		$out = "";
-		
+
 		foreach ($ms as $m)
 		{
 			if ($m == "question")
@@ -178,7 +187,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 			$txt = (ilSession::get($m) != "")
 				? ilSession::get($m)
 				: $this->message[$m];
-				
+
 			if ($m == "mess_question")
 			{
 				$m = "question";
@@ -188,7 +197,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 			{
 				$out.= $this->getMessageHTML($txt, $m);
 			}
-		
+
 			if ($m == "question")
 			{
 				$m = "mess_question";
@@ -199,7 +208,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 				ilSession::clear($m);
 			}
 		}
-		
+
 		if ($this->blockExists("MESSAGE") && $out != "")
 		{
 			$this->setVariable("MESSAGE", $out);
@@ -264,13 +273,13 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 	public function getMessageHTML($a_txt, $a_type = "info")
 	{
 		global $lng;
-		
+
 		$mtpl = new ilTemplate("tpl.message.html", true, true, "Services/Utilities");
 		$mtpl->setCurrentBlock($a_type."_message");
 		$mtpl->setVariable("TEXT", $a_txt);
 		$mtpl->setVariable("MESSAGE_HEADING", $lng->txt($a_type."_message"));
 		$mtpl->parseCurrentBlock();
-		
+
 		return $mtpl->get();
 	}
 
@@ -368,14 +377,14 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 			ilSession::set($a_type, $a_txt);
 		}
 	}
-	
+
 	function fillMessage()
 	{
 		global $lng;
-		
+
 		$ms = array("info", "success", "failure", "question");
 		$out = "";
-		
+
 		foreach ($ms as $m)
 		{
 			if ($m == "question")
@@ -386,7 +395,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 			$txt = (ilSession::get($m) != "")
 				? ilSession::get($m)
 				: $this->message[$m];
-				
+
 			if ($m == "mess_question")
 			{
 				$m = "question";
@@ -401,7 +410,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 				$mtpl->parseCurrentBlock();
 				$out.= $mtpl->get();
 			}
-		
+
 			if ($m == "question")
 			{
 				$m = "mess_question";
@@ -412,7 +421,7 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 				ilSession::clear($m);
 			}
 		}
-		
+
 		if ($out != "")
 		{
 			$this->setVariable("MESSAGE", $out);
@@ -427,10 +436,10 @@ class ilTemplate extends HTML_Template_ITX implements ilGlobalTemplateInterface
 	*/
 	function blockExists($a_blockname)
 	{
-		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)		
+		// added second evaluation to the return statement because the first one only works for the content block (Helmut Schottmüller, 2007-09-14)
 		return (isset($this->blockvariables["content"][$a_blockname]) ? true : false) | (isset($this->blockvariables[$a_blockname]) ? true : false);
 	}
-	
+
 	/**
 	* Add a javascript file that should be included in the header.
 	*/

@@ -119,44 +119,57 @@ class Renderer extends AbstractComponentRenderer
         if ($actions !== null) {
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
         }
-        // close action
-        if ($component->getCloseAction()) {
-            $url          = $component->getCloseAction();
-            $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
-                function ($id) use ($url) {
-                    return "il.UI.item.notification.registerCloseAction('$id','$url');";
-                }
-            );
-            $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
-        }
+
         // additional content
         if ($component->getAdditionalContent()) {
             $tpl->setCurrentBlock("additional_content");
             $tpl->setVariable("ADDITIONAL_CONTENT", $default_renderer->render($component->getAdditionalContent()));
             $tpl->parseCurrentBlock();
         }
+
+        $aggregates_html = "";
+
         // aggregate notification
+        $title           = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), $this->txt("back"), "");
+        $aggregates_html = $default_renderer->render(
+            $this->getUIFactory()->mainControls()->slate()->notification($default_renderer->render($title), $component->getAggregateNotifications())
+        );
+
+        $toggleable = true;
         if (!empty($component->getAggregateNotifications())) {
-            $title           = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), "Back", "");
-            $aggregates_html = $default_renderer->render(
-                $this->getUIFactory()->mainControls()->slate()->notification($default_renderer->render($title), $component->getAggregateNotifications())
-            );
-            $component       = $component->withAdditionalOnLoadCode(
-                function ($id) {
-                    return "il.UI.item.notification.registerAggregatesToggle('$id');";
+            $toggleable = false;
+        }
+
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($toggleable){
+                return "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);";
+            }
+        );
+
+        //Bind id
+        $item_id = $this->bindJavaScript($component);
+
+        $tpl->setCurrentBlock("aggregate_notifications");
+        $tpl->setVariable("AGGREGATES", $aggregates_html);
+        $tpl->setVariable("PARENT_ID", $item_id);
+        $tpl->parseCurrentBlock();
+
+        // close action
+        if ($component->getCloseAction()) {
+            $url          = $component->getCloseAction();
+            $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
+                function ($id) use ($url, $item_id) {
+                    return "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);";
                 }
             );
-            $id = $this->bindJavaScript($component);
-
-            $tpl->setCurrentBlock("id");
-            $tpl->setVariable('ID', $id);
-            $tpl->parseCurrentBlock();
-
-            $tpl->setCurrentBlock("aggregate_notifications");
-            $tpl->setVariable("AGGREGATES", $aggregates_html);
-            $tpl->setVariable("PARENT_ID", $id);
-            $tpl->parseCurrentBlock();
+            $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }
+
+        $tpl->setCurrentBlock("id");
+        $tpl->setVariable('ID', $item_id);
+        $tpl->parseCurrentBlock();
+
+
         return $tpl->get();
     }
 

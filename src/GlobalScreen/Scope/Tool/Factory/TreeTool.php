@@ -2,7 +2,6 @@
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
@@ -16,7 +15,7 @@ use ILIAS\UI\Component\Tree\Tree;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TreeTool extends AbstractParentItem implements isTopItem, hasSymbol, isToolItem
+class TreeTool extends AbstractBaseTool implements isTopItem, hasSymbol, isToolItem
 {
 
     /**

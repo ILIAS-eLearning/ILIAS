@@ -8,23 +8,24 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
  * Class MailNotificationProvider
- *
- * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
+    const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
+
     /**
      * @inheritDoc
      */
-    public function getNotifications() : array
+    public function getNotifications(): array
     {
-        $id = function (string $id) : IdentificationInterface {
+        $id = function (string $id): IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === (int)$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
-        } 
+        }
 
         $hasInternalMailAccess = $this->dic->rbac()->system()->checkAccess(
             'internal_mail', \ilMailGlobalServices::getMailObjectRefId()
@@ -33,14 +34,18 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             return [];
         }
 
-        $numberOfNewMessages = \ilMailGlobalServices::getNumberOfNewMailsByUserId($this->dic->user()->getId());
+        $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
+        $numberOfNewMessages = \ilMailGlobalServices::getNumberOfNewMailsByUserId(
+            (int) $this->dic->user()->getId(),
+            is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
+        );
         if (0 === $numberOfNewMessages) {
             return [];
         }
 
-        $factory = $this->globalScreen()->notifications()->factory();
+        $this->dic->language()->loadLanguageModule('mail');
 
-        $group = $factory->standardGroup($id('mail_group'))->withTitle($this->dic->language()->txt('mail'));
+        $factory = $this->globalScreen()->notifications()->factory();
 
         if (1 === $numberOfNewMessages) {
             $body = $this->dic->language()->txt('nc_mail_unread_messages_number_s');
@@ -48,11 +53,28 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             $body = sprintf($this->dic->language()->txt('nc_mail_unread_messages_number_p'), $numberOfNewMessages);
         }
 
-        $notification = $factory->standard($id('mail'))
-            ->withTitle($body)
-            ->withAction('ilias.php?baseClass=ilMailGUI');
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', 'mail');
+        $title = $this->dic->ui()->factory()->link()->standard(
+            $this->dic->language()->txt('nc_mail_noti_item_title'),
+            'ilias.php?baseClass=ilMailGUI'
+        );
 
-        $group->addNotification($notification);
+        $notificationItem  = $this->dic->ui()->factory()
+            ->item()
+            ->notification($title, $icon)
+            ->withDescription($body);
+
+        $group = $factory->standardGroup($id('mail_bucket_group'))
+            ->withTitle($this->dic->language()->txt('mail'))
+            ->addNotification(
+                $factory->standard($id('mail_bucket'))
+                    ->withNotificationItem($notificationItem )
+                    ->withClosedCallable(
+                        function () {
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                        })
+                    ->withNewAmount(1)
+            );
 
         return [
             $group,

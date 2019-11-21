@@ -20,15 +20,6 @@ class InlineCssCollection extends AbstractCollection
     /**
      * @return InlineCss[]
      */
-    public function getItems() : array
-    {
-        return parent::getItems();
-    }
-
-
-    /**
-     * @return InlineCss[]
-     */
     public function getItemsInOrderOfDelivery() : array
     {
         return parent::getItemsInOrderOfDelivery();

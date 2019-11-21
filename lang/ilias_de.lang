@@ -13498,8 +13498,8 @@ prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verw
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
 administration#:#adm_repository_and_objects#:#Magazin und Objekte
-administration#:#adm_extending_ilias#:#ILIAS Erweitern
-administration#:#adm_search_and_find#:#Suchen und Finden
+administration#:#adm_extending_ilias#:#ILIAS erweitern
+administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
@@ -14110,8 +14110,9 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
-common#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
-common#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
+mail#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_noti_item_title#:#Posteingang
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -15238,6 +15239,7 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+forum#:#sorting#:#Sortierung
 wfld#:#wfld_sortation#:#Sortierung
 wfld#:#wfld_derive#:#Wie übergeordneter Ordner
 wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
@@ -15272,12 +15274,12 @@ exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
 exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_random#:#Zufällig
 book#:#book_no_objects#:#Keine Zuweisung
-rep#:#rep_recommended_content#:#Empfohlende Inhalte
-rep#:#rep_rec_content_removed#:#Empfohlender Inhalt wurde entfernt.
-rep#:#rep_added_rec_content#:#Empfohlender Inhalt wurde hinzugefügt.
+rep#:#rep_recommended_content#:#Empfohlene Inhalte
+rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
+rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
-rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.
+rbac#:#rbac_add_recommended_content#:#Empfohlener Inhalt
+rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenen Inhalt zu.
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_click_here#:#Hier klicken
 svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
@@ -15727,3 +15729,11 @@ cmix#:#highscore_top_num_unit#:#Platzierungen
 cmix#:#download_certificate#:#Zertifikat herunterladen
 dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
+cont#:#cont_std_filter_title_9#:#Online/Offline
+rep#:#rep_export_limitation#:#Container-Exportbegrenzung
+rep#:#rep_export_limitation_info#:#Begrenzt die Anzahl an exportierten Unterobjekten beim Export von Containern (Kategorien, Kurse, ...) im Magazin.
+rep#:#rep_export_limitation_disabled#:#Container-Export deaktiviert
+rep#:#rep_export_limitation_limited#:#Limit
+rep#:#rep_export_limit_number#:#Anzahl Objekte
+rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den Export ist zu hoch (max. %1). Bitte wählen Sie weniger Objekte für den Export aus.
+rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.

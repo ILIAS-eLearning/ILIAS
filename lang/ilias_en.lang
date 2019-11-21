@@ -14094,8 +14094,9 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
-common#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
-common#:#nc_mail_unread_messages_number_s#:#You have one unread email.
+mail#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
+mail#:#nc_mail_unread_messages_number_s#:#You have one unread email.
+mail#:#nc_mail_noti_item_title#:#Inbox
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
@@ -15221,6 +15222,7 @@ common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+forum#:#sorting#:#Sorting
 wfld#:#wfld_sortation#:#Sortation
 wfld#:#wfld_derive#:#Adopt from parent
 wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
@@ -15710,3 +15712,11 @@ cmix#:#highscore_top_num_unit#:#entries
 cmix#:#download_certificate#:#Download Certificate
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
+cont#:#cont_std_filter_title_9#:#Online/Offline
+rep#:#rep_export_limitation#:#Container Export Limitation
+rep#:#rep_export_limitation_info#:#Limits the number of objects for container exports (courses, categories, ...) in the repository.
+rep#:#rep_export_limitation_disabled#:#Container Export Disabled
+rep#:#rep_export_limitation_limited#:#Limit Export
+rep#:#rep_export_limit_number#:#Number of Objects
+exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
+exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.

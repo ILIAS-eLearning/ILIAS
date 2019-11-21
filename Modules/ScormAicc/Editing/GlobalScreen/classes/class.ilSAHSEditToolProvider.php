@@ -37,7 +37,9 @@ class ilSAHSEditGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Organisation")
-                ->withContent($l($this->getTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getTree());
+                });
         }
 
         return $tools;
@@ -54,6 +56,7 @@ class ilSAHSEditGSToolProvider extends AbstractDynamicToolProvider
         $service = new ilSAHSEditService($_GET);
         $lm = $service->getLearningModule();
         $exp = new ilSCORM2004EditorExplorerGUI(["ilSAHSEditGUI", "ilObjSCORM2004LearningModuleGUI"], "showEditTree", $lm);
+
         return $exp->getHTML();
     }
 }

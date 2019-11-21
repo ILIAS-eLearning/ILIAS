@@ -106,7 +106,9 @@ class Renderer extends AbstractComponentRenderer
         );
 
         $more_button = $this->getUIFactory()->button()->bulky(
-            $this->getUIFactory()->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/options-vertical.svg', ''),
+            $this->getUIFactory()->symbol()->glyph()->more()
+                 ->withCounter($this->getUIFactory()->counter()->novelty(0))
+                 ->withCounter($this->getUIFactory()->counter()->status(0)),
             'more',
             '#'
         );

@@ -111,10 +111,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
+
     /**
      * @inheritDoc
      */
-    public function printToString($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
+    public function printToString() : string
     {
         $this->prepareOutputHeaders();
         $this->prepareBasicJS();

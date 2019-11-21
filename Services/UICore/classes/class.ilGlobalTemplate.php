@@ -11,14 +11,14 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 * @version	$Id$
 */
 class ilGlobalTemplate implements ilGlobalTemplateInterface {
-	
 
-	
+
+
 	protected $tree_flat_link = "";
 	protected $page_form_action = "";
 	protected $permanent_link = false;
 	protected $main_content = "";
-	
+
 	protected $lightbox = array();
 	protected $standard_template_loaded = false;
 
@@ -46,7 +46,18 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	}
 
 
-	//***********************************
+    /**
+     * @inheritDoc
+     */
+    public function printToString() : string
+    {
+        throw new ilException('not implemented');
+    }
+
+
+
+
+    //***********************************
 	//
 	// FOOTER
 	//
@@ -59,7 +70,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	//***********************************
 
 	private $show_footer = true;
-	
+
 	/**
 	 * Make the template hide the footer.
 	 */
@@ -67,7 +78,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	{
 		$this->show_footer = false;
 	}
-	
+
 	/**
 	 * Fill the footer area.
 	 */
@@ -987,7 +998,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 				$this->setVariable("IMAGE_DESC", $lng->txt("icon")." ".$this->icon_desc);
 				$this->setVariable("IMAGE_ALT", $lng->txt("icon")." ".$this->icon_desc);
 			}
-			
+
 			$this->setVariable("IMG_HEADER", $this->icon_path);
 			$this->parseCurrentBlock();
 			$header = true;
@@ -997,30 +1008,30 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		{
 			$title = ilUtil::stripScriptHTML($this->title);
 			$this->setVariable("HEADER", $title);
-			
+
 			$header = true;
 		}
-		
+
 		if ($header)
 		{
 			$this->setCurrentBlock("header_image");
 			$this->parseCurrentBlock();
 		}
-		
+
 		if ($this->title_desc != "")
 		{
 			$this->setCurrentBlock("header_desc");
 			$this->setVariable("H_DESCRIPTION", $this->title_desc);
 			$this->parseCurrentBlock();
 		}
-		
+
 		$header = $this->getHeaderActionMenu();
 		if ($header)
 		{
 			$this->setCurrentBlock("head_action_inner");
 			$this->setVariable("HEAD_ACTION", $header);
 			$this->parseCurrentBlock();
-			$this->touchBlock("head_action");			
+			$this->touchBlock("head_action");
 		}
 
 		if(count((array) $this->title_alerts))
@@ -1036,18 +1047,18 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 				$this->parseCurrentBlock();
 			}
 		}
-		
+
 		// add file upload drop zone in header
 		if ($this->enable_fileupload != null)
 		{
 			$ref_id = $this->enable_fileupload;
 			$upload_id = "dropzone_" . $ref_id;
-			
+
 			include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
 			$upload = new ilFileUploadGUI($upload_id, $ref_id, true);
-			
+
 			$this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-			
+
 			$this->setCurrentBlock("header_fileupload");
 			$this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
 			$this->parseCurrentBlock();
@@ -1086,7 +1097,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		// blog/portfolio
 		if($ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_REDUCED ||
 			$ilMainMenu->getMode() == ilMainMenuGUI::MODE_TOPBAR_ONLY)
-		{						
+		{
 			$this->setVariable("LOCATOR", "");
 			return;
 		}
@@ -1352,11 +1363,11 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	 		}
 	 	}
  		$this->setVariable('META_CONTENT_LANGUAGE', $contentLanguage);
-		if (in_array($contentLanguage, $rtl)) { 
-			$textdir = 'rtl'; 
+		if (in_array($contentLanguage, $rtl)) {
+			$textdir = 'rtl';
 		}
 		$this->setVariable('LANGUAGE_DIRECTION', $textdir);
-		return true;	 	
+		return true;
 	}
 
 	public function fillWindowTitle()
@@ -1364,13 +1375,13 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		global $DIC;
 
 		$ilSetting = $DIC->settings();
-		
+
 		if ($this->header_page_title != "")
 		{
-			$title = ilUtil::stripScriptHTML($this->header_page_title);	
+			$title = ilUtil::stripScriptHTML($this->header_page_title);
 			$this->setVariable("PAGETITLE", "- ".$title);
 		}
-		
+
 		if ($ilSetting->get('short_inst_name') != "")
 		{
 			$this->setVariable("WINDOW_TITLE",
@@ -1480,7 +1491,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			// to get also the js files for the main menu
 			$this->getMainMenu();
 			$this->initHelp();
-			
+
 			// these fill blocks in tpl.main.html
 			$this->fillCssFiles();
 			$this->fillInlineCss();
@@ -1502,7 +1513,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			$this->fillAdminPanel();
 			$this->fillToolbar();
 			$this->fillPermanentLink();
-			
+
 			$this->setCenterColumnClass();
 
 			// late loading of javascipr files, since operations above may add files
@@ -1549,7 +1560,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 
 		return $html;
 	}
-	
+
 	/**
 	 * @param string|bool $part
 	 * @param bool   $a_fill_tabs fill template variable {TABS} with content of ilTabs
@@ -1626,7 +1637,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 
 				$_SESSION["referer"] = preg_replace("/cmd=gateway/",substr($str,1),$_SERVER["REQUEST_URI"]);
 				$_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-				
+
 			}
 			else if (isset($url_parts["query"]) && preg_match("/cmd=post/",$url_parts["query"]) && (isset($_POST["cmd"]["create"])))
 			{
@@ -1682,7 +1693,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			$this->touchBlock("sr_focus");
 		}
 	}
-	
+
 	/**
 	* Fill side icons (upper icon, tree icon, webfolder icon)
 	*/
@@ -1701,7 +1712,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			{
 				$this->touchBlock("tree_lns");
 			}
-			
+
 			$this->setCurrentBlock("tree_mode");
 			$this->setVariable("LINK_MODE", $this->tree_flat_link);
 			if ($ilSetting->get("tree_frame") == "right")
@@ -1737,11 +1748,11 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 					: ilAccessKey::TREE_OFF));
 			$this->parseCurrentBlock();
 		}
-		
+
 		$this->setCurrentBlock("tree_icons");
 		$this->parseCurrentBlock();
 	}
-	
+
 	/**
 	* set tree/flat icon
 	* @param	string		link target
@@ -1752,8 +1763,8 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->tree_flat_link = $a_link;
 		$this->tree_flat_mode = $a_mode;
 	}
-	
-	
+
+
 	/**
 	 * Add lightbox html
 	 */
@@ -1789,7 +1800,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 	protected $admin_panel_commands_toolbar = null;
 	protected $admin_panel_arrow = null;
 	protected $admin_panel_bottom = null;
-	
+
 	/**
 	 * Add admin panel commands as toolbar
 	 *
@@ -1802,7 +1813,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->admin_panel_arrow = $a_arrow;
 		$this->admin_panel_bottom = $a_bottom_panel;
 	}
-	
+
 	/**
 	* Put admin panel into template:
 	* - creation selector
@@ -1832,7 +1843,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->setCurrentBlock("adm_view_components");
 		$this->setVariable("ADM_PANEL1", $toolb->getHTML());
 		$this->parseCurrentBlock();
-		
+
 		// Add bottom admin bar if user wants one.
 		if ($this->admin_panel_bottom)
 		{
@@ -1848,7 +1859,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			$this->parseCurrentBlock();
 		}
 	}
-	
+
 	public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
 	{
 		$this->permanent_link = array(
@@ -1859,7 +1870,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 			"title" => $a_title);
 
 	}
-	
+
 	/**
 	* Fill in permanent link
 	*/
@@ -1889,16 +1900,16 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
 		$this->setTitle(null);
 		$this->setTitleIcon(null);
 		$this->setDescription(null);
-		$this->setAlertProperties(array());		
+		$this->setAlertProperties(array());
 		$this->enableDragDropFileUpload(null);
-		
+
 		// see setFullscreenHeader()
 		if($a_reset_header_action)
 		{
 			$this->setHeaderActionMenu(null);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Enables the file upload into this object by dropping a file.
 	 */

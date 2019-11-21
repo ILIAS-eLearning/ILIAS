@@ -4,6 +4,9 @@
  * Notification Items to it. However, note that this task is done by the global
  * screen. Currently, devs. will not come in contact with the Component outside
  * the Global Screen.
+ *
+ * Note, there is an extended example featuring async calls in the Main Controls Meta Bar
+ * Section
  */
 function standard()
 {
