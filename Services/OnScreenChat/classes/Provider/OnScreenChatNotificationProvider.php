@@ -179,7 +179,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                             ";
                         }
                     )
-                    ->withCloseAction('#'); // Imporant: The # prevents the default onClick handler is triggered
+                    ->withCloseAction('#'); // Important: The # prevents the default onClick handler is triggered
             }
             
             $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
