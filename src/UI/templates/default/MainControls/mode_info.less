@@ -1,26 +1,25 @@
 
 .il-mode-info {
-  border-top: 3px solid rgb(241, 73, 86);
+  border-top: @il-mode-info-border;
   text-align: center;
-  height: 30px;
-  margin-bottom: -30px;
+  height: @il-mode-info-height;
+  margin-bottom: -@il-mode-info-height;
 }
 
 .il-mode-info span.il-mode-info-content {
   margin: auto;
-  background-color: rgb(241, 73, 86);
+  background-color: @il-mode-info-color;
   display: inline-block;
   padding: 2px 10px 3px 12px;
   color: white;
 
-
-  -webkit-box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
-  -moz-box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
-  box-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
+  -webkit-box-shadow: @il-mode-info-shadow;
+  -moz-box-shadow: @il-mode-info-shadow;
+  box-shadow: @il-mode-info-shadow;
 }
 
 .il-mode-info span {
-  color: white;
+  color: @il-mode-info-text-color;
   font-size: 1.2em;
 }
 
@@ -30,10 +29,13 @@
 }
 
 @media only screen and (max-width: @grid-float-breakpoint-max) {
-  .il-mode-info span {
+  .il-mode-info {
+	margin-bottom: 0;
+  }
+
+  span.il-mode-info-content {
 	display: block;
 	width: 100%;
-	margin-bottom: 0;
   }
 }
 

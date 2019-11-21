@@ -9476,10 +9476,12 @@ footer {
   padding: 0;
 }
 @media only screen and (max-width: 768px) {
-  .il-mode-info span {
+  .il-mode-info {
+    margin-bottom: 0;
+  }
+  span.il-mode-info-content {
     display: block;
     width: 100%;
-    margin-bottom: 0;
   }
 }
 .il-drilldown ul {
