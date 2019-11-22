@@ -1,26 +1,25 @@
-<?php
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+namespace ILIAS\OnScreenChat\Repository;
 
 /**
- * Class ilOnScreenChatUserDataProvider
+ * Class Subscriber
+ * @package ILIAS\OnScreenChat\Repository
  */
-class ilOnScreenChatUserDataProvider
+class Subscriber
 {
-	/**
-	 * @var \ilDBInterface
-	 */
+	/** @var \ilDBInterface */
 	protected $db;
 
-	/**
-	 * @var \ilObjUser
-	 */
+	/** @var \ilObjUser */
 	protected $user;
 
-	/**
-	 * ilOnScreenChatUserDataProvider constructor.
-	 * @param \ilDBInterface $db
-	 * @param \ilObjUser     $user
-	 */
+    /**
+     * Subscriber constructor.
+     * @param \ilDBInterface $db
+     * @param \ilObjUser $user
+     */
 	public function __construct(\ilDBInterface $db, \ilObjUser $user)
 	{
 		$this->db   = $db;
@@ -31,7 +30,7 @@ class ilOnScreenChatUserDataProvider
 	 * @return int[]
 	 * @throws \ilWACException
 	 */
-	public function getInitialUserProfileData()
+	public function getInitialUserProfileData() : array
 	{
 		$conversationIds = [];
 
@@ -76,10 +75,10 @@ class ilOnScreenChatUserDataProvider
 
 	/**
 	 * @param int[] $usrIds
-	 * @throws ilWACException
-	 * @return $data
+	 * @throws \ilWACException
+	 * @return array
 	 */
-	public function getDataByUserIds(array $usrIds)
+	public function getDataByUserIds(array $usrIds) : array
 	{
 		$usrIds = array_filter(array_map('intval', array_map('trim', $usrIds)));
 

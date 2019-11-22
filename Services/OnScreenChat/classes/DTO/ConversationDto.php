@@ -11,14 +11,11 @@ class ConversationDto
 {
     /** @var string */
     private $id = '';
-
     /** @var bool */
     private $isGroup = false;
-    
     /** @var array */
     private $subscriberUsrIds = [];
-    
-    /** @var MessageDto*/
+    /** @var MessageDto */
     private $lastMessage;
 
     /**

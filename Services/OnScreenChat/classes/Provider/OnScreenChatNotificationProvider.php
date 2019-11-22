@@ -7,10 +7,9 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
-use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\OnScreenChat\DTO\ConversationDto;
 use ILIAS\OnScreenChat\Repository\Conversation;
-use Psr\Http\Message\ResponseInterface;
+use ILIAS\OnScreenChat\Repository\Subscriber;
 
 /**
  * Class OnScreenChatNotificationProvider
@@ -20,13 +19,16 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
 {
     /** @var Conversation */
     private $conversationRepo;
+    /** @var Subscriber */
+    private $subscriberRepo;
 
     /**
      * OnScreenChatNotificationProvider constructor.
      * @param Container $dic
      * @param Conversation|null $conversationRepo
+     * @param Subscriber|null $subscriberRepo
      */
-    public function __construct(Container $dic, Conversation $conversationRepo = null)
+    public function __construct(Container $dic, Conversation $conversationRepo = null, Subscriber $subscriberRepo = null)
     {
         parent::__construct($dic);
         $dic->language()->loadLanguageModule('chatroom');
@@ -35,6 +37,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             $conversationRepo = new Conversation($dic->database());
         }
         $this->conversationRepo = $conversationRepo;
+
+        if (null === $subscriberRepo) {
+            $subscriberRepo = new Subscriber($dic->database(), $dic->user());
+        }
+        $this->subscriberRepo = $subscriberRepo;
     }
 
     /**
@@ -170,8 +177,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         array_walk($conversations, function (ConversationDto $conversation) use (&$allUsrIds) {
             $allUsrIds = array_unique(array_merge($conversation->getSubscriberUsrIds(), $allUsrIds));
         });
-        $userProvider = new \ilOnScreenChatUserDataProvider($this->dic->database(), $this->dic->user());
-        $allUsrData = $userProvider->getDataByUserIds($allUsrIds);
+        $allUsrData = $this->subscriberRepo->getDataByUserIds($allUsrIds);
 
         $aggregatedItems = [];
         foreach ($conversations as $conversation) {

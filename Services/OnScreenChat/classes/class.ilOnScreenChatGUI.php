@@ -3,6 +3,7 @@
 
 use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\Repository\Subscriber;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -190,8 +191,8 @@ class ilOnScreenChatGUI
         }
 
         $this->dic->language()->loadLanguageModule('user');
-        $userProvider = new \ilOnScreenChatUserDataProvider($this->dic->database(), $this->dic->user());
-        $data = $userProvider->getDataByUserIds(explode(',', $usrIds));
+        $subscriberRepo = new Subscriber($this->dic->database(), $this->dic->user());
+        $data = $subscriberRepo->getDataByUserIds(explode(',', $usrIds));
 
         ilSession::enableWebAccessWithoutSession(true);
 
@@ -236,7 +237,7 @@ class ilOnScreenChatGUI
             ));
             $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
 
-            $userProvider = new \ilOnScreenChatUserDataProvider($DIC->database(), $DIC->user());
+            $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
             $guiConfig = array(
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
@@ -261,7 +262,7 @@ class ilOnScreenChatGUI
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
                 'emoticons' => self::getEmoticons($settings),
                 'locale' => $DIC->language()->getLangKey(),
-                'initialUserData' => $userProvider->getInitialUserProfileData(),
+                'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
                     $clientSettings->get('enable_browser_notifications', false) &&
                     (bool) ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
