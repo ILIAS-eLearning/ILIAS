@@ -3,7 +3,7 @@
 
 class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructionsRepository
 {
-    const TABLE_MOUNT_INSTRUCTIONS = 'webdav_mount_instructions';
+    const TABLE_MOUNT_INSTRUCTIONS = 'webdav_instructions';
 
     /** @var ilDBInterface */
     protected $db;
