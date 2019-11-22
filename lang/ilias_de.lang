@@ -94,6 +94,7 @@ rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
 rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Bitte selektieren Sie diese Objekte nicht oder wählen Sie die Option "Wiederherstellen (neuer Ort)".
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Please choose the target location, where the chosen object will be restored.
+rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
