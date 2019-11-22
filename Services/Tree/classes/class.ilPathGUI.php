@@ -270,6 +270,11 @@ class ilPathGUI
 	protected function getPathIds()
 	{
 		$path = $this->tree->getPathId($this->endnode,$this->startnode);
+
+		\ilLoggerFactory::getLogger('tree')->dump($path);
+		\ilLoggerFactory::getLogger('tree')->dump($this->endnode);
+		\ilLoggerFactory::getLogger('tree')->dump($this->startnode);
+
 		if($this->hideLeaf())
 		{
 			unset($path[count($path) - 1]);

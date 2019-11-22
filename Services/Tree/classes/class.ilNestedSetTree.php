@@ -167,8 +167,7 @@ class ilNestedSetTree implements ilTreeImplementation
 			$type_str.' '.
 			"ORDER BY ".$this->getTree()->getTreeTable().".lft";
 
-		#ilLoggerFactory::getLogger('tree')->debug('-----------------: '. $query);
-		
+
 		return $query;
 	}
 	
@@ -183,27 +182,22 @@ class ilNestedSetTree implements ilTreeImplementation
 	{
 		if($a_node_a['child'] == $a_node_b['child'])
 		{
-			ilLoggerFactory::getLogger('tree')->debug('EQUALS');
 			return ilTree::RELATION_EQUALS;
 		}
 		if($a_node_a['lft'] < $a_node_b['lft'] and $a_node_a['rgt'] > $a_node_b['rgt'])
 		{
-			ilLoggerFactory::getLogger('tree')->debug('PARENT');
 			return ilTree::RELATION_PARENT;
 		}
 		if($a_node_b['lft'] < $a_node_a['lft'] and $a_node_b['rgt'] > $a_node_a['rgt'])
 		{
-			ilLoggerFactory::getLogger('tree')->debug('CHILD');
 			return ilTree::RELATION_CHILD;
 		}
 		
 		// if node is also parent of node b => sibling
 		if($a_node_a['parent'] == $a_node_b['parent'])
 		{
-			ilLoggerFactory::getLogger('tree')->debug('SIBLING');
 			return ilTree::RELATION_SIBLING;
 		}
-		ilLoggerFactory::getLogger('tree')->debug('NONE');
 		return ilTree::RELATION_NONE;
 	}
 	
@@ -666,7 +660,7 @@ class ilNestedSetTree implements ilTreeImplementation
 		$parent_cache = $this->getTree()->getParentCache();
 		
 		if(
-			$this->getTree()->__isMainTree() && 
+			$this->getTree()->__isMainTree() &&
 			isset($depth_cache[$a_endnode_id]) &&
 			isset($parent_cache[$a_endnode_id]))
 		{
@@ -724,18 +718,34 @@ class ilNestedSetTree implements ilTreeImplementation
 			for ($i = 1; $i < $nodeDepth - 2; $i++)
 			{
 				$qSelect .= ', t'.$i.'.parent c'.$i;
-				$qJoin .= ' JOIN '.$this->getTree()->getTreeTable().' t'.$i.' ON '.
-							't'.$i.'.child=t'.($i - 1).'.parent AND '.
-							't'.$i.'.'.$this->getTree()->getTreePk().' = '.(int) $this->getTree()->getTreeId();
+				if($this->getTree()->__isMainTree()) {
+					$qJoin .= ' JOIN '.$this->getTree()->getTreeTable().' t'.$i.' ON '.
+						't'.$i.'.child=t'.($i - 1).'.parent ';
+				}
+				else {
+					$qJoin .= ' JOIN '.$this->getTree()->getTreeTable().' t'.$i.' ON '.
+						't'.$i.'.child=t'.($i - 1).'.parent AND '.
+						't'.$i.'.'.$this->getTree()->getTreePk().' = '.(int) $this->getTree()->getTreeId();
+				}
 			}
 			
-			$types = array('integer','integer');
-			$data = array($this->getTree()->getTreeId(),$parentId);
-			$query = 'SELECT '.$qSelect.' '.
-				'FROM '.$this->getTree()->getTreeTable().' t0 '.$qJoin.' '.
-				'WHERE t0.'.$this->getTree()->getTreePk().' = %s '.
-				'AND t0.child = %s ';
-				
+
+			if($this->getTree()->__isMainTree()) {
+				$types = array('integer');
+				$data = array($parentId);
+				$query = 'SELECT '.$qSelect.' '.
+					'FROM '.$this->getTree()->getTreeTable().' t0 '.$qJoin.' '.
+					'WHERE t0.child = %s ';
+			}
+			else {
+				$types = array('integer','integer');
+				$data = array($this->getTree()->getTreeId(),$parentId);
+				$query = 'SELECT '.$qSelect.' '.
+					'FROM '.$this->getTree()->getTreeTable().' t0 '.$qJoin.' '.
+					'WHERE t0.'.$this->getTree()->getTreePk().' = %s '.
+					'AND t0.child = %s ';
+			}
+
 			$ilDB->setLimit(1);
 			$res = $ilDB->queryF($query,$types,$data);
 
@@ -786,16 +796,27 @@ class ilNestedSetTree implements ilTreeImplementation
 		// (At least, this is what happens on MySQL 4.1).
 		// This algorithms performs well for small trees which are deeply nested.
 		
-		$fields = array('integer','integer','integer');
-		$data = array($a_endnode_id,$this->getTree()->getTreeId(),$this->getTree()->getTreeId());
-		
-		$query = "SELECT T2.child ".
-			"FROM ".$this->getTree()->getTreeTable()." T1, ".$this->getTree()->getTreeTable()." T2 ".
-			"WHERE T1.child = %s ".
-			"AND T1.lft BETWEEN T2.lft AND T2.rgt ".
-			"AND T1.".$this->getTree()->getTreePk()." = %s ".
-			"AND T2.".$this->getTree()->getTreePk()." = %s ".
-			"ORDER BY T2.depth";
+
+		if($this->getTree()->__isMainTree()) {
+			$fields = array('integer');
+			$data = array($a_endnode_id);
+			$query = "SELECT T2.child ".
+				"FROM ".$this->getTree()->getTreeTable()." T1, ".$this->getTree()->getTreeTable()." T2 ".
+				"WHERE T1.child = %s ".
+				"AND T1.lft BETWEEN T2.lft AND T2.rgt ".
+				"ORDER BY T2.depth";
+		}
+		else {
+			$fields = array('integer','integer','integer');
+			$data = array($a_endnode_id,$this->getTree()->getTreeId(),$this->getTree()->getTreeId());
+			$query = "SELECT T2.child ".
+				"FROM ".$this->getTree()->getTreeTable()." T1, ".$this->getTree()->getTreeTable()." T2 ".
+				"WHERE T1.child = %s ".
+				"AND T1.lft BETWEEN T2.lft AND T2.rgt ".
+				"AND T1.".$this->getTree()->getTreePk()." = %s ".
+				"AND T2.".$this->getTree()->getTreePk()." = %s ".
+				"ORDER BY T2.depth";
+		}
 
 		$res = $ilDB->queryF($query,$fields,$data);
 		
@@ -1008,8 +1029,6 @@ class ilNestedSetTree implements ilTreeImplementation
 			"AND t2.".$this->getTree()->getTreePk()." = ".$ilDB->quote($this->getTree()->getTreeId(),'integer')." ".
 			"ORDER BY t2.lft";
 
-		ilLoggerFactory::getLogger('tree')->debug($query);
-		
 			
 		$res = $ilDB->query($query);
 		$nodes = array();
@@ -1039,8 +1058,6 @@ class ilNestedSetTree implements ilTreeImplementation
 				')'.
 				'and '.$this->getTree()->getTreePk().' = '.$this->getTree()->getTreeId().' and child <> 1';
 		$res = $ilDB->query($query);
-		
-		ilLoggerFactory::getLogger('tree')->debug($query);
 		
 		$failures = array();
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))

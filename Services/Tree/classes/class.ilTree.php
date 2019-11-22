@@ -1519,11 +1519,19 @@ class ilTree
 		
 		if ($a_node_id)
 		{
+			if($this->__isMainTree()) {
+				$query = 'SELECT depth FROM '.$this->table_tree.' '.
+					'WHERE child = %s ';
+				$res = $ilDB->queryF($query,array('integer'),array($a_node_id));
+				$row = $ilDB->fetchObject($res);
+			}
+			else {
 			$query = 'SELECT depth FROM '.$this->table_tree.' '.
 				'WHERE child = %s '.
 				'AND '.$this->tree_pk.' = %s ';
 			$res = $ilDB->queryF($query,array('integer','integer'),array($a_node_id,$this->tree_id));
 			$row = $ilDB->fetchObject($res);
+			}
 
 			return $row->depth;
 		}
@@ -2206,12 +2214,23 @@ class ilTree
 			throw new InvalidArgumentException($message);
 		}
 
+		if($this->__isMainTree()) {
+			$query = 'SELECT parent FROM '.$this->table_tree.' '.
+				'WHERE child = %s ';
+			$res = $ilDB->queryF(
+				$query,
+				['integer'],
+				[$a_node_id]
+			);
+		}
+		else {
 		$query = 'SELECT parent FROM '.$this->table_tree.' '.
 			'WHERE child = %s '.
 			'AND '.$this->tree_pk.' = %s ';
 		$res = $ilDB->queryF($query,array('integer','integer'),array(
 			$a_node_id,
 			$this->tree_id));
+		}
 
 		$row = $ilDB->fetchObject($res);
 		return $row->parent;
