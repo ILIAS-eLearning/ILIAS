@@ -17,7 +17,7 @@ use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\LoaderCachingWrapper;
 use ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper;
 
-class WithButtonNoUIFactory extends NoUIFactory
+class WithSomeButtonNoUIFactory extends NoUIFactory
 {
 
     protected $button_factory;
@@ -192,7 +192,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($expected, $html);
     }
-    
+
     //
     //
     //
@@ -205,7 +205,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
     public function getUIFactory()
     {
-        return new WithButtonNoUIFactory($this->buildButtonFactory());
+        return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
 
