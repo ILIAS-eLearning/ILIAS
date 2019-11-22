@@ -41,6 +41,10 @@ class ilPathGUI
 	private $display_cut = false;
 	
 	protected $lng = null;
+
+	/**
+	 * @var \ilTree
+	 */
 	protected $tree = null;
 	
 	/**
@@ -229,11 +233,20 @@ class ilPathGUI
 					$tpl->setVariable('IMG_SRC',ilUtil::getTypeIconPath($type,$obj_id));
 					$tpl->setVariable('IMG_ALT',$this->lng->txt('obj_'.$type));
 					$tpl->parseCurrentBlock();
-				}				
-				$tpl->setCurrentBlock('locator_item');
-				$tpl->setVariable('LINK_ITEM',ilLink::_getLink($ref_id,$type));
-				$tpl->setVariable('ITEM',$title);
-				$tpl->parseCurrentBlock();
+				}
+
+				if(!$this->tree->isDeleted($ref_id)) {
+					$tpl->setCurrentBlock('locator_item');
+					$tpl->setVariable('LINK_ITEM',ilLink::_getLink($ref_id,$type));
+					$tpl->setVariable('ITEM',$title);
+					$tpl->parseCurrentBlock();
+				}
+				else {
+					$tpl->setCurrentBlock('locator_item');
+					$tpl->setVariable('ITEM_READ_ONLY', $title);
+					$tpl->parseCurrentBlock();
+				}
+
 				$first = false;
 			}
 			return $tpl->get();
@@ -257,6 +270,11 @@ class ilPathGUI
 	protected function getPathIds()
 	{
 		$path = $this->tree->getPathId($this->endnode,$this->startnode);
+
+		\ilLoggerFactory::getLogger('tree')->dump($path);
+		\ilLoggerFactory::getLogger('tree')->dump($this->endnode);
+		\ilLoggerFactory::getLogger('tree')->dump($this->startnode);
+
 		if($this->hideLeaf())
 		{
 			unset($path[count($path) - 1]);

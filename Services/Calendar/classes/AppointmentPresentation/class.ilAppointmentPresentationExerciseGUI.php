@@ -98,9 +98,12 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
 	/**
 	 * @inheritdoc
 	 */
-	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment)
+	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment = null)
 	{
-		$ass_id = $a_appointment["event"]->getContextId() / 10;
+		$ass_id = 0;
+		if(is_array($a_appointment)) {
+			$ass_id = $a_appointment["event"]->getContextId() / 10;
+		}
 		if(!$ass_id)
 		{
 			return parent::buildDirectLinkForAppointment($a_ref_id, $a_appointment);

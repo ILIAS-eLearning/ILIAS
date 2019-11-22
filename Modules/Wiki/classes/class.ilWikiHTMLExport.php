@@ -210,16 +210,18 @@ class ilWikiHTMLExport
 	 */
 	function exportHTMLPages()
 	{
-		$tpl = $this->main_tpl;
+		global $DIC;
 
 		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 
 		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
 		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$cnt = 0;
-		$this->co_page_html_export->getPreparedMainTemplate($tpl);
+
 		foreach ($pages as $page)
 		{
+			$tpl = new ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
+			$this->co_page_html_export->getPreparedMainTemplate($tpl);
 			$this->log->debug("page: ".$page["id"]);
 			if (ilWikiPage::_exists("wpg", $page["id"]))
 			{
@@ -262,6 +264,7 @@ class ilWikiHTMLExport
 	 */
 	function exportPageHTML($a_page_id, \ilGlobalPageTemplate $tpl)
 	{
+		$this->log->debug("Export page:".$a_page_id);
 		$lng = $this->lng;
 		$ilTabs = $this->tabs;
 
@@ -302,7 +305,8 @@ class ilWikiHTMLExport
 		$tpl->setTitleIcon("./images/icon_wiki.svg",
 			$lng->txt("obj_wiki"));
 
-		$tpl->setContent($ep_tpl->get());
+		//$tpl->setContent($ep_tpl->get());
+		$tpl->setContent("WWW:".$a_page_id);
 
 		// this currently fails since we run through the whole
 		// global screen procedure and on creating a second notification center instance, an error occurs

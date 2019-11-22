@@ -12,13 +12,10 @@
 * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, 
 * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
 * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilRepUtilGUI
 * 
 * @extends ilObjectGUI
 */
-
-require_once "./Services/Container/classes/class.ilContainerGUI.php";
-require_once "./Modules/Category/classes/class.ilObjCategoryGUI.php";
-
 class ilObjRootFolderGUI extends ilContainerGUI
 {
 	/**
@@ -111,6 +108,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilreputilgui':
+				$ru = new \ilRepUtilGUI($this);
+				$this->ctrl->setReturn($this, 'trash');
+				$this->ctrl->forwardCommand($ru);
+				break;
+
+
 			case 'ilcontainerlinklistgui':
 				include_once("Services/Container/classes/class.ilContainerLinkListGUI.php");
 				$link_list_gui = new ilContainerLinkListGUI();
@@ -129,9 +133,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 			case 'ilpermissiongui':
 				$this->prepareOutput();
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$this->tabs_gui->activateTab('perm_settings');
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilcolumngui":

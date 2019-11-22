@@ -40,7 +40,7 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 			$buttons = array();
 			foreach ($booking->getTargetObjIds() as $obj_id)
 			{
-				//$this->addObjectLinks($obj_id);
+				//$this->addObjectLinks($obj_id, $this->appointment);
 
 				$title = ilObject::_lookupTitle($obj_id);
 				$refs = $this->getReadableRefIds($obj_id);

@@ -20,33 +20,23 @@ class JsCollection extends AbstractCollection
     public function addItem(Js $item)
     {
         $basename = $this->stripPath($item->getContent());
-        foreach ($this->items as $js) {
-            if ($this->stripPath($js->getContent()) === $basename) { // Path exists
-                if ($js->getBatch() > $item->getBatch()) {
-                    $this->storeItem($item);
-
-                    return;
-                }
+        if (!array_key_exists($basename, $this->items)) {
+            $this->storeItem($item);
+        } else {
+            $existing = $this->items[$basename];
+            if (($existing instanceof Js) && $existing->getBatch() > $item->getBatch()) {
+                $this->storeItem($item);
             }
         }
-        $this->storeItem($item);
     }
 
 
-    private function storeItem(js $item)
-    {
+    private function storeItem(
+        js $item
+    ) {
         $strip_path = $this->stripPath($item->getContent());
         $this->items[$strip_path] = $item;
         $this->path_storage[$strip_path] = $item->getBatch();
-    }
-
-
-    /**
-     * @return Js[]
-     */
-    public function getItems() : array
-    {
-        return parent::getItems();
     }
 
 
