@@ -56,8 +56,6 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                 }
             );
 
-        $openRequests->
-
         $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {
             return [];
