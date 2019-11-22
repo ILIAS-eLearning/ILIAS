@@ -81,7 +81,7 @@ class ilTrashTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('rep_trash_table_col_num_subs'),'');
 
 		$this->setDefaultOrderField('title');
-		$this->setDefaultOrderField('asc');
+		$this->setDefaultOrderDirection('asc');
 
 		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
