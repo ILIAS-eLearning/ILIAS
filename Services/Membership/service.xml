@@ -6,7 +6,7 @@
 	<crons>
 		<cron id="mem_notification" class="ilMembershipCronNotifications" />
 		<cron id="mem_min_members" class="ilMembershipCronMinMembers" />
-		<cron id="changelog_delete_old_logs" class="ilChangelogCronDeleteOldLogs" path="Services/Changelog/classes/" />
+		<cron id="changelog_delete_old_logs" class="ilChangelogCronDeleteOldLogs"/>
 	</crons>
 	<logging />
 </service>

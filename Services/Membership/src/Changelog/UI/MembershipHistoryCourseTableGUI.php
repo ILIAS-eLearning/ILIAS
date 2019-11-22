@@ -119,7 +119,7 @@ class MembershipHistoryCourseTableGUI extends MembershipHistoryTableGUI
         $this->filter[self::F_MEMBER_LOGIN] = $subject_user_login->getValue();
 
         // actor
-        $actor_user_login = new ilTextInputGUI($this->dic->language()->txt('actor'), self::F_ACTOR_LOGIN);
+        $actor_user_login = new ilTextInputGUI($this->dic->language()->txt('col_actor'), self::F_ACTOR_LOGIN);
         $actor_user_login->setDataSource($ajax_url);
         $actor_user_login->setSize(15);
         $this->addFilterItem($actor_user_login);
@@ -127,10 +127,7 @@ class MembershipHistoryCourseTableGUI extends MembershipHistoryTableGUI
         $this->filter[self::F_ACTOR_LOGIN] = $actor_user_login->getValue();
 
         // date range
-        $date_range = $this->addFilterItemByMetaType(self::F_DATE_RANGE, self::FILTER_DATE_RANGE);
-        // $date_range = new ilDateDurationInputGUI($this->dic->language()->txt('date'), self::F_DATE_RANGE);
-        // $this->addFilterItem($date_range);
-        // $date_range->readFromSession();
+        $date_range = $this->addFilterItemByMetaType(self::F_DATE_RANGE, self::FILTER_DATE_RANGE, false, $this->dic->language()->txt('date'));
         $this->filter[self::F_DATE_START] = $date_range->getValue()['from'];
         $this->filter[self::F_DATE_END] = $date_range->getValue()['to'];
     }

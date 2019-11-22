@@ -54,6 +54,8 @@ For an example, please have a look at ./src/Changelog/Events/Changelog/Changelog
 Once an event is implemented it can be logged by using the ILIAS\Membership\Changelog\ChangelogService. Simply pass the event to the service's logEvent method:
 
 ```php
+$changelogService = new ChangelogService(new ilDBEventRepository());
+
 $changelogService->logEvent(
     new ChangelogActivated($DIC->user()->getId())
 );
@@ -67,18 +69,23 @@ Fetching the already logged events can also be achieved via the ChangelogService
 
 To produce those, fetch the QueryFactory via *ChangelogService::queryFactory()* and call its *filter()* or *options()* method. Set the desired filters and options by using their *with..* methods.
 
-Then pass the filter and options to *ChangelogService::query()* to receive an array of ILIAS\Membership\Changelog\Query\EventDTO objects:
+Then pass the filter and options to *ChangelogService::query()* to receive an instance of ILIAS\Membership\Changelog\Query\Response:
 
 ```php
+$changelogService = new ChangelogService(new ilDBEventRepository());
+
 $result = $changelogService->query(
     $changelogService->queryFactory()->filter()->withActorUserIds([$DIC->user()->getId()]),
     $changelogService->queryFactory()->options()->withOrderByTimestamp()
 );
 
-var_dump($result);
+var_dump($result->getMaxCount());
+var_dump($result->getEvents());
 
 // result
- array (size=2)
+ int(2) // max count
+
+ array (size=2) // events
    'fdd906bc-1810-46a4-a9ae-6261b6f15a6f' => 
      object(ILIAS\Membership\Changelog\Query\EventDTO)[474]
        protected 'id' => int 3
@@ -111,3 +118,4 @@ Note: EventDTOs can be converted into an array by calling *EventDTO::__toArray()
 
 ### Cronjob
 
+Old Changelog entries will not be deleted by default. But there is a cronjob which can be configured to delete old entries after a certain time. Check the ILIAS cronjob administration for a job called 'Delete old Changelog entries'.

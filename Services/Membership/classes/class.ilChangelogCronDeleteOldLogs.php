@@ -1,7 +1,6 @@
 <?php
 
 use ILIAS\Membership\Changelog\Infrastructure\AR\EventAR;
-use ILIAS\Membership\Changelog\Infrastructure\AR\MembershipEventAR;
 
 /**
  * Class ilChangelogCronDeleteOldEvents
