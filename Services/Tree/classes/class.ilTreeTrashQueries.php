@@ -58,7 +58,6 @@ class ilTreeTrashQueries
 			'where ref_id in (' .
 			$subtreequery . ' '.
 			')';
-		$this->logger->dump($query);
 		$res = $this->db->query($query);
 
 		$items = [];

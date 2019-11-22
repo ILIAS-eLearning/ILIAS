@@ -3710,11 +3710,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function removeFromSystemObject()
 	{
-		$ilLog = $this->log;
-		$ilAppEventHandler = $this->app_event_handler;
-		$lng = $this->lng;
-
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->removeObjectsFromSystem($_POST["trash_id"]);
 		$this->ctrl->redirect($this, "trash");

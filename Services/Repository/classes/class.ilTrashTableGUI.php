@@ -150,8 +150,6 @@ class ilTrashTableGUI extends ilTable2GUI
 		$trash_tree_reader = new \ilTreeTrashQueries();
 		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id);
 
-		$this->logger->dump($items);
-
 		$rows = [];
 		foreach($items as $item) {
 
@@ -193,9 +191,6 @@ class ilTrashTableGUI extends ilTable2GUI
 		$path = new ilPathGUI();
 		$path->enableTextOnly(false);
 		$this->tpl->setVariable('PATH', $path->getPath($this->ref_id, $row['id']));
-
-		$this->logger->info($path->getPath($this->ref_id, $row['id']));
-
 		$this->tpl->parseCurrentBlock();
 
 		$img = \ilObject::_getIcon(

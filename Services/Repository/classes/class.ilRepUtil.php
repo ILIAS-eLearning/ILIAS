@@ -200,10 +200,13 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	* remove objects from trash bin and all entries therefore every object needs a specific deleteObject() method
 	*
 	* @access	public
+	 * @throws \ilRepositoryException
 	*/
 	public static function removeObjectsFromSystem($a_ref_ids, $a_from_recovery_folder = false)
 	{
 		global $DIC;
+
+		$logger = $DIC->logger()->rep();
 
 		$ilLog = $DIC["ilLog"];
 		$ilAppEventHandler = $DIC["ilAppEventHandler"];
@@ -217,21 +220,22 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		foreach ($a_ref_ids as $id)
 		{
 			// GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
-			if (!$a_from_recovery_folder)
-			{
-				$saved_tree = new ilTree(-(int)$id);
+			if (!$a_from_recovery_folder) {
+				$trees = \ilTree::lookupTreesForNode($id);
+				$tree_id = end($trees);
+
+				if ($tree_id) {
+					$saved_tree = new \ilTree((int) $tree_id);
 				$node_data = $saved_tree->getNodeData($id);
 				$subtree_nodes = $saved_tree->getSubTree($node_data);
+				} else {
+					throw new \ilRepositoryException('No valid tree id found for node id: ' . $id);
 			}
-			else
-			{
+			} else {
 				$node_data = $tree->getNodeData($id);
 				$subtree_nodes = $tree->getSubTree($node_data);
 			}
 
-			// BEGIN ChangeEvent: Record remove from system.
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
-			// Record write event
 		global $DIC;
 
 		$ilUser = $DIC->user();
@@ -242,22 +246,17 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			// END ChangeEvent: Record remove from system.
 
 			// remember already checked deleted node_ids
-			if (!$a_from_recovery_folder)
-			{
+			if (!$a_from_recovery_folder) {
 				$checked[] = -(int) $id;
-			}
-			else
-			{
+			} else {
 				$checked[] = $id;
 			}
 
 			// dive in recursive manner in each already deleted subtrees and remove these objects too
 			ilRepUtil::removeDeletedNodes($id, $checked, true, $affected_ids);
 
-			foreach ($subtree_nodes as $node)
-			{
-				if(!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"],false))
-				{
+			foreach ($subtree_nodes as $node) {
+				if (!$node_obj = ilObjectFactory::getInstanceByRefId($node["ref_id"], false)) {
 					continue;
 				}
 
@@ -275,19 +274,16 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 				// and the fact, that media pool folders may find their way into
 				// the recovery folder (what results in broken pools, if the are deleted)
 				// Alex, 2006-07-21
-				if (!$a_from_recovery_folder || $node_obj->getType() != "fold")
-				{
+				if (!$a_from_recovery_folder || $node_obj->getType() != "fold") {
 					$node_obj->delete();
 				}
 			}
 
 			// Use the saved tree object here (negative tree_id)
-			if (!$a_from_recovery_folder)
-			{
+			if (!$a_from_recovery_folder) {
 				$saved_tree->deleteTree($node_data);
 			}
-			else
-			{
+			else {
 				$tree->deleteTree($node_data);
 			}
 
@@ -298,8 +294,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 		}
 		
 		// send global events
-		foreach ($affected_ids as $aid)
-		{
+		foreach ($affected_ids as $aid) {
 			$ilAppEventHandler->raise("Services/Object", "delete",
 				array("obj_id" => $aid["obj_id"],
 				"ref_id" => $aid["ref_id"],
