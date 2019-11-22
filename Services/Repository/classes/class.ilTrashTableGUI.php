@@ -77,14 +77,14 @@ class ilTrashTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt('type'),'type');
 		$this->addColumn($this->lng->txt('title'),'title');
 		$this->addColumn($this->lng->txt('rep_trash_table_col_deleted_by'),'deleted_by');
-		$this->addColumn($this->lng->txt('rep_trash_table_col_deleted_on'),'deleted_on');
-		$this->addColumn($this->lng->txt('rep_trash_table_col_num_subs'),'num_subs');
+		$this->addColumn($this->lng->txt('rep_trash_table_col_deleted_on'),'deleted');
+		$this->addColumn($this->lng->txt('rep_trash_table_col_num_subs'),'');
 
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderField('asc');
 
 		$this->setExternalSorting(false);
-		$this->setExternalSegmentation(false);
+		$this->setExternalSegmentation(true);
 
 		$this->setEnableHeader(true);
 		$this->enable('sort');
@@ -139,12 +139,12 @@ class ilTrashTableGUI extends ilTable2GUI
 		$this->current_filter['deleted_by'] = $deleted_by->getValue();
 
 		$deleted = $this->addFilterItemByMetaType(
-			'deleted_on',
+			'deleted',
 			\ilTable2GUI::FILTER_DATE_RANGE,
 			false,
 			$this->lng->txt('rep_trash_table_col_deleted_on')
 		);
-		$this->current_filter['deleted_on'] = $deleted->getValue();
+		$this->current_filter['deleted'] = $deleted->getValue();
 	}
 
 	/**
@@ -152,8 +152,22 @@ class ilTrashTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
+		$this->determineOffsetAndOrder();
+
+		$max_trash_entries = 0;
+
 		$trash_tree_reader = new \ilTreeTrashQueries();
-		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id, $this->current_filter);
+		$items = $trash_tree_reader->getTrashNodeForContainer(
+			$this->ref_id,
+			$this->current_filter,
+			$max_trash_entries,
+			$this->getOrderField(),
+			$this->getOrderDirection(),
+			(int) $this->getLimit(),
+			(int) $this->getOffset()
+		);
+
+		$this->setMaxCount($max_trash_entries);
 
 		$rows = [];
 		foreach($items as $item) {
@@ -168,14 +182,13 @@ class ilTrashTableGUI extends ilTable2GUI
 			if($login = \ilObjUser::_lookupLogin($row['deleted_by_id'])) {
 				$row['deleted_by'] = $login;
 			}
-			$row['deleted_on'] = $item->getDeleted();
-			$row['num_subs'] = 0;
+			$row['deleted'] = $item->getDeleted();
+			$row['num_subs'] = $trash_tree_reader->getNumberOfTrashedNodesForTrashedContainer($item->getRefId());
 
 			$rows[] = $row;
 		}
 
 
-		$this->setMaxCount(count($rows));
 		$this->setData($rows);
 	}
 
@@ -213,7 +226,7 @@ class ilTrashTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable('VAL_DELETED_BY', $row['deleted_by']);
 
-		$dt = new \ilDateTime($row['deleted_on'], IL_CAL_DATETIME);
+		$dt = new \ilDateTime($row['deleted'], IL_CAL_DATETIME);
 		$this->tpl->setVariable('VAL_DELETED_ON', \ilDatePresentation::formatDate($dt));
 		$this->tpl->setVariable('VAL_SUBS', (string) (int) $row['num_subs']);
 	}
@@ -223,11 +236,12 @@ class ilTrashTableGUI extends ilTable2GUI
 	 */
 	protected function prepareTypeFilterTypes()
 	{
-		$subs = $this->obj_definition->getSubObjectsRecursively(
-			\ilObject::_lookupType($this->ref_id, true)
-		);
+		$trash = new \ilTreeTrashQueries();
+		$subs = $trash->getTrashedNodeTypesForContainer($this->ref_id);
+
+
 		$options = [];
-		foreach($subs as $type => $info) {
+		foreach($subs as $type) {
 
 			if($type == 'rolf') {
 				continue;
