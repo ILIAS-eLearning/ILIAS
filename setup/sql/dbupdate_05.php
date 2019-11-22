@@ -2923,4 +2923,54 @@ if(!$ilDB->tableColumnExists('object_reference', 'deleted_by') )
         );
 }
 ?>
-
+<#5591>
+<?php
+if(!$ilDB->tableExists('webdav_instructions'))
+{
+    $ilDB->createTable('webdav_instructions', [
+        'id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'title' => [
+            'type' => 'text',
+            'length' => '255',
+            'default' => ''
+        ],
+        'uploaded_instructions' => [
+            'type' => 'clob',
+            'default' => ''
+        ],
+        'processed_instructions' => [
+            'type' => 'clob',
+            'default' => ''
+        ],
+        'lng' => [
+            'type' => 'text',
+            'length' => 5
+        ],
+        'creation_ts' => [
+            'type' => 'timestamp'
+        ],
+        'modification_ts' => [
+            'type' => 'timestamp'
+        ],
+        'owner_usr_id' => [
+            'type' => 'integer',
+            'length' => 4
+        ],
+        'last_modification_usr_id' => [
+            'type' => 'integer',
+            'length' => 4
+        ],
+        'sorting' => [
+            'type' => 'integer',
+            'length' => 4
+        ]
+    ]);
+    $ilDB->addPrimaryKey("webdav_instructions", ["id"]);
+    $ilDB->createSequence('webdav_instructions');
+}
+?>
