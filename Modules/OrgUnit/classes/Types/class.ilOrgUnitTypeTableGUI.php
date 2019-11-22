@@ -1,31 +1,34 @@
 <?php
 
-class ilOrgUnitTypeTableGUI extends ilTable2GUI {
+class ilOrgUnitTypeTableGUI extends ilTable2GUI
+{
 
     /**
      * @var ilCtrl
      */
     protected $ctrl;
-
     /**
      * @var ilTabsGUI
      */
     protected $tabs;
-
     /**
      * @var ilLanguage
      */
     protected $lng;
-
     /**
      * @var array
      */
-    protected $columns = array(
-        'title', 'description', 'default_language', 'icon',
-    );
+    protected $columns
+        = array(
+            'title',
+            'description',
+            'default_language',
+            'icon',
+        );
 
 
-    public function __construct($parent_obj, $parent_cmd) {
+    public function __construct($parent_obj, $parent_cmd)
+    {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -43,12 +46,14 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
     }
 
+
     /**
      * Pass data to row template
      *
      * @param array $set
      */
-    public function fillRow($set){
+    public function fillRow($set)
+    {
         $this->tpl->setVariable('TITLE', $set['title']);
         $this->tpl->setVariable('DESCRIPTION', $set['description']);
         $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
@@ -62,19 +67,23 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI {
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
 
+
     /**
      * Add columns
      */
-    protected function initColumns() {
+    protected function initColumns()
+    {
         foreach ($this->columns as $column) {
             $this->addColumn($this->lng->txt($column), $column);
         }
     }
 
+
     /**
      * Build and set data for table.
      */
-    protected function buildData() {
+    protected function buildData()
+    {
         $types = ilOrgUnitType::getAllTypes();
         $data = array();
         /** @var $type ilOrgUnitType */
@@ -89,5 +98,4 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI {
         }
         $this->setData($data);
     }
-
 }

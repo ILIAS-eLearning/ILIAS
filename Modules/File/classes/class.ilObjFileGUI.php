@@ -192,7 +192,7 @@ class ilObjFileGUI extends ilObject2GUI
         if ($this->id_type == self::WORKSPACE_NODE_ID) {
             if (!ilDiskQuotaHandler::isUploadPossible()) {
                 $this->lng->loadLanguageModule("file");
-                ilUtil::sendFailure($this->lng->txt("personal_workspace_quota_exceeded_warning"), true);
+                ilUtil::sendFailure($this->lng->txt("personal_resources_quota_exceeded_warning"), true);
                 $this->ctrl->redirect($this, "cancel");
             }
         }
@@ -604,7 +604,7 @@ class ilObjFileGUI extends ilObject2GUI
                 $file->addSubItem($group);
             } elseif ($mode == 'create') {
                 $file = new ilNonEditableValueGUI($this->lng->txt('obj_file'));
-                $file->setValue($this->lng->txt("personal_workspace_quota_exceeded_warning"));
+                $file->setValue($this->lng->txt("personal_resources_quota_exceeded_warning"));
                 $form->addItem($file);
             }
         } else {

@@ -44,22 +44,30 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
             $tools[] = $this->factory->tool($iff("toc"))
                 ->withTitle($lng->txt("cont_toc"))
-                ->withContent($l($this->getToc($ref_id)))
+                ->withContentWrapper(function () use ($l, $ref_id) {
+                    return $l($this->getToc($ref_id));
+                })
                 ->withPosition(10);
 
             $tools[] = $this->factory->tool($iff("glossary"))
                 ->withTitle($lng->txt("obj_glo"))
-                ->withContent($l($this->getLinkSlateContent("glossary")))
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getLinkSlateContent("glossary"));
+                })
                 ->withPosition(11);
 
             $tools[] = $this->factory->tool($iff("media"))
                 ->withTitle($lng->txt("cont_tool_media"))
-                ->withContent($l($this->getLinkSlateContent("media")))
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getLinkSlateContent("media"));
+                })
                 ->withPosition(12);
 
             $tools[] = $this->factory->tool($iff("faq"))
                 ->withTitle($lng->txt("cont_tool_faq"))
-                ->withContent($l($this->getLinkSlateContent("faq")))
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getLinkSlateContent("faq"));
+                })
                 ->withPosition(13);
         }
 
@@ -71,25 +79,28 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
      * toc
      *
      * @param int $ref_id
+     *
      * @return string
      */
     private function getToc(int $ref_id) : string
     {
         try {
             $renderer = new ilLMSlateTocRendererGUI();
+
             return $renderer->render();
         } catch (Exception $e) {
             return "";
         }
     }
 
+
     /**
      * @param string
+     *
      * @return string
      */
-    protected function getLinkSlateContent(string $type): string
+    protected function getLinkSlateContent(string $type) : string
     {
-        return "<div style='height:100%; overflow:hidden;' id='".$type."_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";
+        return "<div style='height:100%; overflow:hidden;' id='" . $type . "_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";
     }
-
 }

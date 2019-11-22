@@ -12,6 +12,8 @@
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjTestVerificationGUI, ilObjExerciseVerificationGUI
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLinkResourceGUI, ilObjCourseVerificationGUI
  * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjSCORMVerificationGUI
+ * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjCmiXapiVerificationGUI
+ * @ilCtrl_Calls ilPersonalWorkspaceGUI: ilObjLTIConsumerVerificationGUI
  */
 class ilPersonalWorkspaceGUI
 {
@@ -257,7 +259,7 @@ class ilPersonalWorkspaceGUI
 				switch($node["type"])
 				{			
 					case "wsrt":
-						$ilLocator->addItem($lng->txt("wsp_personal_workspace"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
+						$ilLocator->addItem($lng->txt("personal_resources"), $ilCtrl->getLinkTargetByClass($obj_class, "render"));
 						break;
 
 					case "blog":

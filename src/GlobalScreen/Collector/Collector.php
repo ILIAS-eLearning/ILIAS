@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\GlobalScreen\Collector;
 
@@ -12,20 +12,14 @@ interface Collector
 
     /**
      * Runs the Collection of all items from the providers
+     *
+     * @deprecated
      */
-    public function collect() : void;
-
-
-    /**
-     * @return array
-     */
-    public function getItems() : array;
+    public function collectOnce() : void;
 
 
     /**
      * @return bool
-     *
-     * @throws LogicException if collect() has not been run first
      */
-    public function hasItems() : bool;
+    public function hasBeenCollected() : bool;
 }

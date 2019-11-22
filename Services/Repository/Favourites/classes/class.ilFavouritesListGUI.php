@@ -62,7 +62,7 @@ class ilFavouritesListGUI
             }
             $item_groups[] = $f->item()->group($group->getLabel(), $items);
         }
-        $panel = $f->panel()->listing()->standard("", $item_groups);
+        $panel = $f->panel()->secondary()->listing("", $item_groups);
         //$panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard("Configure", "#")]));
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");

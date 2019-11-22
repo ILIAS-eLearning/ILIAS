@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Survey\Participants;
+
+
 /**
  * Class ilObjSurvey
  *
@@ -28,12 +31,7 @@ class ilObjSurvey extends ilObject
 	const EVALUATION_ACCESS_ALL = 1;
 	const EVALUATION_ACCESS_PARTICIPANTS = 2;
 	
-	const INVITATION_OFF = 0;
-	const INVITATION_ON = 1;
-	
-	const MODE_UNLIMITED = 0;
-	const MODE_PREDEFINED_USERS = 1;
-	
+
 	const ANONYMIZE_OFF = 0; // personalized, no codes
 	const ANONYMIZE_ON = 1; // anonymized, codes
 	const ANONYMIZE_FREEACCESS = 2; // anonymized, no codes
@@ -105,20 +103,7 @@ class ilObjSurvey extends ilObject
 	*/
 	var $questions;
 
-	/**
-	* Defines if the survey will be places on users personal desktops
-	*
-	* @var integer
-	*/
-	var $invitation;
 
-	/**
-	* Defines the type of user invitation
-	*
-	* @var integer
-	*/
-	var $invitation_mode;
-	
 	/**
 	* Indicates the anonymization of the survey
 	* @var integer
@@ -201,10 +186,11 @@ class ilObjSurvey extends ilObject
 	const RESULTS_SELF_EVAL_OWN = 1;
 	const RESULTS_SELF_EVAL_ALL = 2;
 
+
     /**
-     * @var ilRecommendedContentManager
+     * @var Participants\InvitationsManager
      */
-    protected $recommended_content_manager;
+    protected $invitation_manager;
 
 	/**
 	* Constructor
@@ -233,8 +219,6 @@ class ilObjSurvey extends ilObject
 		$this->author = $ilUser->getFullname();
 		$this->evaluation_access = self::EVALUATION_ACCESS_OFF;
 		$this->questions = array();
-		$this->invitation = self::INVITATION_OFF;
-		$this->invitation_mode = self::MODE_PREDEFINED_USERS;
 		$this->anonymize = self::ANONYMIZE_OFF;
 		$this->display_question_titles = self::QUESTIONTITLES_VISIBLE;
 		$this->surveyCodeSecurity = TRUE;
@@ -244,7 +228,7 @@ class ilObjSurvey extends ilObject
 		$this->mode = self::MODE_STANDARD;
 		$this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
 
-		$this->recommended_content_manager = new ilRecommendedContentManager();
+		$this->invitation_manager = new Participants\InvitationsManager();
 
 		parent::__construct($a_id,$a_call_by_reference);
 	}
@@ -505,7 +489,7 @@ class ilObjSurvey extends ilObject
 		}
 	}
 	
-	function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false)
+	function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false, $include_invites = false)
 	{
 		$ilDB = $this->db;
 		
@@ -528,7 +512,28 @@ class ilObjSurvey extends ilObject
 				$participants[$userdata["sortname"] . $userdata["active_id"]] = $userdata;
 			}
 		}
-		return $participants;
+        $participant_ids = array_column($participants, "usr_id");
+		if ($include_invites) {
+            foreach ($this->invitation_manager->getAllForSurvey($this->getSurveyId()) as $usr_id) {
+                if (!in_array($usr_id, $participant_ids)) {
+                    $name = ilObjUser::_lookupName($usr_id);
+                    $participants[$name["lastname"].",".$name["firstname"].$usr_id] = [
+                        "fullname" => ilObjUser::_lookupFullname($usr_id),
+                        "sortname" => $name["lastname"].",".$name["firstname"],
+                        "fistname" => $name["firstname"],
+                        "lastname" => $name["lastname"],
+                        "login" => $name["login"],
+                        "gender" => "",
+                        "usr_id" => $usr_id,
+                        "finished" => false,
+                        "finished_tstamp" => 0,
+                        "invited" => true
+                    ];
+                }
+            }
+        }
+
+        return $participants;
 	}
 
 /**
@@ -775,8 +780,6 @@ class ilObjSurvey extends ilObject
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
-				"invitation" => array("text", $this->getInvitation()),
-				"invitation_mode" => array("text", $this->getInvitationMode()),
 				"complete" => array("text", $this->isComplete()),
 				"created" => array("integer", time()),
 				"anonymize" => array("text", $this->getAnonymize()),
@@ -825,8 +828,6 @@ class ilObjSurvey extends ilObject
 				"startdate" => array("text", $this->getStartDate()),
 				"enddate" => array("text", $this->getEndDate()),
 				"evaluation_access" => array("text", $this->getEvaluationAccess()),
-				"invitation" => array("text", $this->getInvitation()),
-				"invitation_mode" => array("text", $this->getInvitationMode()),
 				"complete" => array("text", $this->isComplete()),
 				"anonymize" => array("text", $this->getAnonymize()),
 				"show_question_titles" => array("text", $this->getShowQuestionTitles()),
@@ -1128,8 +1129,6 @@ class ilObjSurvey extends ilObject
 			{
 				$this->setOutro(ilRTE::_replaceMediaObjectImageSrc($data["outro"], 1));
 			}
-			$this->setInvitation($data["invitation"]);
-			$this->setInvitationMode($data["invitation_mode"]);
 			$this->setShowQuestionTitles($data["show_question_titles"]);
 			$this->setStartDate($data["startdate"]);
 			$this->setEndDate($data["enddate"]);
@@ -1391,65 +1390,6 @@ class ilObjSurvey extends ilObject
 	}
 	
 /**
-* Sets the invitation status
-*
-* @param integer $invitation The invitation status
-* @access public
-* @see $invitation
-*/
-	function setInvitation($invitation = 0) 
-	{
-		$ilDB = $this->db;
-		$ilAccess = $this->access;
-		
-		$this->invitation = $invitation;
-		if ($invitation == self::INVITATION_OFF)
-		{
-			$this->disinviteAllUsers();
-		}
-		else if ($invitation == self::INVITATION_ON)
-		{
-			if ($this->getInvitationMode() == self::MODE_UNLIMITED)
-			{
-				$result = $ilDB->query("SELECT usr_id FROM usr_data");
-				while ($row = $ilDB->fetchAssoc($result))
-				{					
-					if ($ilAccess->checkAccessOfUser($row["usr_id"], "read", "", $this->getRefId(), "svy", $this->getId()))
-					{
-						$this->inviteUser($row['usr_id']);
-					}
-				}
-			}
-		}
-  }
-
-/**
-* Sets the invitation mode
-*
-* @param integer $invitation_mode The invitation mode
-* @access public
-* @see $invitation_mode
-*/
-  function setInvitationMode($invitation_mode = 0) 
-	{
-		$this->invitation_mode = $invitation_mode;
-  }
-	
-/**
-* Sets the invitation status and mode (a more performant solution if you change both)
-*
-* @param integer $invitation The invitation status
-* @param integer $invitation_mode The invitation mode
-* @access public
-* @see $invitation_mode
-*/
-	function setInvitationAndMode($invitation = 0, $invitation_mode = 0)
-	{
-		$this->invitation_mode = $invitation_mode;
-		$this->setInvitation($invitation);
-	}
-
-/**
 * Sets the introduction text
 *
 * @param string $introduction A string containing the introduction
@@ -1471,38 +1411,6 @@ class ilObjSurvey extends ilObject
 		$this->outro = $outro;
 	}
 
-/**
-* Gets the invitation status
-*
-* @return integer The invitation status
-* @access public
-* @see $invitation
-*/
-	function getInvitation() 
-	{
-		return ($this->invitation) ? $this->invitation : self::INVITATION_OFF;
-	}
-
-/**
-* Gets the invitation mode
-*
-* @return integer The invitation mode
-* @access public
-* @see $invitation
-*/
-	function getInvitationMode() 
-	{
-		$surveySetting = new ilSetting("survey");
-		$unlimited_invitation = $surveySetting->get("unlimited_invitation");
-		if (!$unlimited_invitation && $this->invitation_mode == self::MODE_UNLIMITED)
-		{
-			return self::MODE_PREDEFINED_USERS;
-		}
-		else
-		{
-			return ($this->invitation_mode) ? $this->invitation_mode : self::MODE_UNLIMITED;
-		}
-	}
 
 /**
 * Gets the start date of the survey
@@ -2714,84 +2622,8 @@ class ilObjSurvey extends ilObject
 		return $result_array;
 	}
 
-	/**
-	* Disinvite all users
-	*/
-	public function disinviteAllUsers()
-	{
-		$ilDB = $this->db;
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			$this->disinviteUser($row['user_fi']);
-		}
-	}
 
-/**
-* Disinvites a user from a survey
-*
-* @param integer $user_id The database id of the disinvited user
-*/
-	public function disinviteUser($user_id)
-	{
-		$ilDB = $this->db;
-		
-		$affectedRows = $ilDB->manipulateF("DELETE FROM svy_inv_usr WHERE survey_fi = %s AND user_fi = %s",
-			array('integer','integer'),
-			array($this->getSurveyId(), $user_id)
-		);
-        $this->recommended_content_manager->removeObjectRecommendation($user_id, $this->getRefId());
-	}
 
-/**
-* Invites a user to a survey
-*
-* @param integer $user_id The database id of the invited user
-* @access public
-*/
-	function inviteUser($user_id)
-	{
-		$ilDB = $this->db;
-		
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE user_fi = %s AND survey_fi = %s",
-			array('integer','integer'),
-			array($user_id, $this->getSurveyId())
-		);
-		if ($result->numRows() < 1)
-		{
-			$next_id = $ilDB->nextId('svy_inv_usr');
-			$affectedRows = $ilDB->manipulateF("INSERT INTO svy_inv_usr (invited_user_id, survey_fi, user_fi, tstamp) " .
-				"VALUES (%s, %s, %s, %s)",
-				array('integer','integer','integer','integer'),
-				array($next_id, $this->getSurveyId(), $user_id, time())
-			);
-		}
-	}
-
-/**
-* Returns a list of all invited users in a survey
-*
-* @return array The user id's of the invited users
-* @access public
-*/
-	function &getInvitedUsers()
-	{
-		$ilDB = $this->db;
-		
-		$result_array = array();
-		$result = $ilDB->queryF("SELECT user_fi FROM svy_inv_usr WHERE survey_fi = %s",
-			array('integer'),
-			array($this->getSurveyId())
-		);
-		while ($row = $ilDB->fetchAssoc($result))
-		{
-			array_push($result_array, $row["user_fi"]);
-		}
-		return $result_array;
-	}
 
 /**
 * Deletes the working data of a question in the database
@@ -3300,7 +3132,7 @@ class ilObjSurvey extends ilObject
 		$ilDB = $this->db;
 
 		$surveySetting = new ilSetting("survey");
-		$use_anonymous_id = array_key_exists("use_anonymous_id", $_GET) ? $_GET["use_anonymous_id"] : $surveySetting->get("use_anonymous_id");
+		$use_anonymous_id = $surveySetting->get("use_anonymous_id");
 		$result = $ilDB->queryF("SELECT * FROM svy_finished WHERE finished_id = %s",
 			array('integer'),
 			array($active_id)
@@ -4006,8 +3838,6 @@ class ilObjSurvey extends ilObject
 		$newObj->setEvaluationAccess($this->getEvaluationAccess());
 		$newObj->setStartDate($this->getStartDate());
 		$newObj->setEndDate($this->getEndDate());
-		$newObj->setInvitation($this->getInvitation());
-		$newObj->setInvitationMode($this->getInvitationMode());
 		$newObj->setAnonymize($this->getAnonymize());
 		$newObj->setShowQuestionTitles($this->getShowQuestionTitles());
 		$newObj->setTemplate($this->getTemplate());
@@ -5378,7 +5208,6 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendAppraiseeNotification($a_user_id);
-                $this->recommended_content_manager->addObjectRecommendation($a_user_id, $this->getRefId());
 			}
 		}				
 	}
@@ -5567,7 +5396,6 @@ class ilObjSurvey extends ilObject
 			if ($access->checkAccessOfUser($a_user_id, "read", "", $this->getRefId()))
 			{
 				$this->sendRaterNotification($a_user_id, $a_appraisee_id);
-                $this->recommended_content_manager->addObjectRecommendation($a_user_id, $this->getRefId());
 			}
 
 		}				
@@ -6253,7 +6081,7 @@ class ilObjSurvey extends ilObject
 
 		if ((bool)$a_use_invited)
 		{
-			$user_ids = $this->getInvitedUsers();
+			$user_ids = $this->invitation_manager->getAllForSurvey($this->getSurveyId());
 		} else
 		{
 			$parent_grp_ref_id = $tree->checkForParentType($this->getRefId(), "grp");

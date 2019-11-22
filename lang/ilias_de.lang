@@ -17,7 +17,7 @@
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_make_favourite#:#Zu Favouriten hinzufügen
 dash#:#dash_item_removed#:#Der Eintrag wurde aus der Liste entfernt.
-dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favouriten hinzugefügt.
+dash#:#dash_added_to_favs#:#Der Eintrag wurde zu den persönlichen Favoriten hinzugefügt.
 common#:#obj_nots_desc#:#Notizfunktion administrieren
 common#:#obj_nots#:#Notizen
 note#:#note_enable_notes#:#Notizen aktivieren
@@ -38,7 +38,6 @@ lhist#:#lhist_enable_learning_history#:#Lernverlauf
 lhist#:#lhist_enable_learning_history_info#:#Aktiviert eine Übersicht aller Lernerfolge eines Benutzers.
 common#:#obj_prss_desc#:#Persönliche Ressourcen administrieren
 common#:#obj_prss#:#Persönliche Ressourcen
-pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
 pwsp#:#pwsp_enable_wsp_blogs#:#Blogs aktivieren
 pwsp#:#pwsp_enable_wsp_certificates#:#Zertifikate aktivieren
 pwsp#:#pwsp_enable_wsp_files#:#Dateien aktivieren
@@ -46,8 +45,8 @@ pwsp#:#pwsp_enable_wsp_links#:#Links aktivieren
 dash#:#dash_main_panel#:#Hauptbereich
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_enable_favourites#:#Favoriten
-dash#:#dash_enable_memberships#:#Meine Mitgliedschaften
-dash#:#dash_view_courses_groups#:#Block ‘Meine Mitgliedschaften’
+dash#:#dash_enable_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
 dash#:#dash_view_favourites#:#Block ‘Favoriten’
 dash#:#dash_enable_cal#:#Kalender
 dash#:#dash_enable_news#:#Neuigkeiten
@@ -263,8 +262,8 @@ forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
-common#:#pwsp_recalculate_disk_quota#:#Persönlicher Arbeitsraum: Neuberechnung Disk-Quota
-common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für den persönlichen Arbeitsraum neu.
+common#:#pwsp_recalculate_disk_quota#:#Persönlicher Ressourcen: Neuberechnung Disk-Quota
+common#:#pwsp_recalculate_disk_quota_desc#:#Berechnet die Disk-Quota-Werte für die persönlichen Ressourcen neu.
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 itgr#:#itgr_behaviour#:#Verhalten
@@ -3592,7 +3591,7 @@ common#:#msg_wrong_format#:#Der Wert, den Sie eingegeben haben, erfüllt nicht d
 common#:#msg_bt_download_started#:#ILIAS erzeugt ein ZIP-Archiv mit allen zugehörigen Dateien. Sie können diese anschließend per Klick auf das Koffer-Icon in der Kopfzeile herunterladen.
 common#:#my_bms#:#Meine Bookmarks
 common#:#my_courses#:#Meine Kurse
-common#:#my_courses_groups#:#Kurse und Gruppen
+common#:#my_courses_groups#:#Meine Kurse und Gruppen
 common#:#name#:#Name
 common#:#never#:#Nie
 common#:#new#:#Neu
@@ -3879,7 +3878,6 @@ common#:#personal_data#:#Persönliche Daten
 common#:#personal_picture#:#Profilbild
 common#:#personal_profile#:#Profil und Datenschutz
 common#:#personal_settings#:#Einstellungen
-common#:#personal_workspace#:#Arbeitsraum
 common#:#persons#:#Personen
 common#:#pg_add#:#Seite anlegen
 common#:#pg_new#:#Neue Seite
@@ -4512,6 +4510,10 @@ common#:#visitors#:#Besucher
 common#:#visits#:#Besuche
 common#:#web_resources#:#Weblinks
 common#:#webdav#:#WebDAV
+common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
+common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da bereits ein Objekt mit dem selben Titel angezeigt wird:
+common#:#webdav_problem_info_duplicate#:#Es existiert eine Date mit dem selben Titel wie das Infofile.
+common#:#webdav_problem_free_container#:#In diesem Ordner wurden keine Objekte welche Probleme verursachen gefunden.
 common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
 common#:#edit_metadata#:#Metadaten bearbeiten
@@ -4841,7 +4843,7 @@ content#:#cont_file#:#Datei
 content#:#cont_file_created#:#Datei wurde angelegt.
 content#:#cont_file_deleted#:#Die Dateien wurden gelöscht.
 content#:#cont_file_from_repository#:#Datei aus Magazin
-content#:#cont_file_from_workspace#:#Datei aus meinem Arbeitsraum
+content#:#cont_file_from_workspace#:#Datei aus persönlichen Ressourcen
 content#:#cont_file_renamed#:#Die Datei wurde umbenannt.
 content#:#cont_file_unzipped#:#Die Datei wurde entpackt.
 content#:#cont_FileListItem#:#Dateilisteneintrag (Standard)
@@ -7689,7 +7691,6 @@ pd#:#pd_enable_comments#:#Kommentare aktivieren
 pd#:#pd_enable_my_memberships#:#'Kurse und Gruppen' aktivieren
 pd#:#pd_enable_my_memberships_info#:#Die Sicht 'Meine Mitgliedschaften' enthält alle Kurse und Gruppen, in denen der Benutzer Mitglied ist.
 pd#:#pd_enable_my_offers#:#'Ausgewählte Angebote' aktivieren
-pd#:#pd_enable_personal_workspace#:#Arbeitsraum aktivieren
 pd#:#pd_enable_prtf#:#Portfolios aktivieren
 pd#:#pd_enable_user_publish#:#Veröffentlichung Inhalte von Benutzern aktivieren
 pd#:#pd_enable_user_publish_info#:#Die Option ermöglicht Benutzern, ihr Profil, Arbeitsrauminhalte und Portfolios global (im Internet) zugänglich zu machen.
@@ -8878,7 +8879,7 @@ survey#:#codes_deleted#:#Zugangsschlüssel gelöscht
 survey#:#combobox#:#Kombinationsfeld
 survey#:#concatenation#:#Verknüpfung
 survey#:#confirm_delete_all_user_data#:#Sind Sie sicher, dass Sie alle Benutzerdaten der Umfrage löschen wollen?
-survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie die Umfragedaten für die ausgewählten Teilnehmer löschen wollen?
+survey#:#confirm_delete_single_user_data#:#Sind Sie sicher, dass Sie diese Teilnehmer entfernen wollen? Dies löscht alle Umfragedaten für die ausgewählten Benutzer.
 survey#:#confirm_remove_heading#:#Sind Sie sicher, dass Sie die Überschrift entfernen wollen?
 survey#:#confirm_sync_questions#:#Die Frage, die Sie geändert haben, wurde mit dem Einfügen in die Umfrage als Kopie eines Originals angelegt. Wollen Sie Ihre Änderungen jetzt auch auf die Originalfrage anwenden?
 survey#:#conjunction_and#:#wenn jede Bedingung erfüllt wird
@@ -9705,8 +9706,6 @@ wsp#:#wsp_permission_all_pw_info#:#Nach Eingabe des Passworts ist dieses Objekt 
 wsp#:#wsp_permission_registered_info#:#Dieses Objekt ist für alle registrierten Benutzer freigegeben.
 wsp#:#wsp_permission_removed#:#Der Eintrag wurde gelöscht.
 wsp#:#wsp_permissions#:#Freigabe
-wsp#:#wsp_personal_workspace#:#Arbeitsraum
-wsp#:#wsp_personal_workspace_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
 wsp#:#wsp_set_permission_all#:#Internet/WWW
 wsp#:#wsp_set_permission_all_password#:#Internet/WWW mit Passwort
 wsp#:#wsp_set_permission_course#:#Kursmitglieder
@@ -10554,7 +10553,7 @@ rbac#:#ecss_edit_permission#:#Rechteeinstellung der ECS-Administration ändern
 rbac#:#ecss_read#:#Lesezugriff auf Einstellungen der ECS-Administration
 rbac#:#ecss_visible#:#ECS-Administration ist sichtbar
 rbac#:#ecss_write#:#Einstellungen der ECS-Administration bearbeiten
-skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihrem Arbeitsraum (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihrem Arbeitsraum hinzufügen wollen, klicken Sie bitten den folgenden Link.
+skmg#:#skmg_ass_materials_from_workspace#:#An dieser Stelle können Sie Materialien aus Ihren persönlichen Ressourcen (z.B. Dateien) Kompetenzen zuordnen. Wenn Sie jetzt Materialien zu Ihren persönlichen Ressourcen hinzufügen wollen, klicken Sie bitten den folgenden Link.
 help#:#help_imported_on#:#Importiert am
 help#:#help_tooltips_and_help#:#Tooltips und Handlungsanweisungen
 help#:#help_help_only#:#Nur Handlungsanweisungen
@@ -11082,14 +11081,8 @@ registration#:#registration_codes_override_info#:#Diese Einstellung hat Vorrang 
 registration#:#registration_codes_override_global_info#:#Diese Einstellungen werden evtl. durch Registrierungscodes aufgehoben.
 crs#:#event_list_registered_only#:#Nur Angemeldete
 didactic#:#didactic_default_type#:#Standard
-rep#:#rep_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#ollen Sie sich wirklich aus den folgenden Objekten abmelden?
-file#:#enable_personal_workspace_disk_quota#:#Disk-Quota für den Persönlichen Arbeitsraum aktivieren
-file#:#enable_personal_workspace_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien im persönlichen Arbeitsraum und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
-file#:#personal_workspace_disk_quota#:#Strikte Disk-Quota für Persönlichen Arbeitsraum
 file#:#repository_disk_quota#:#Disk-Quota für Magazin
-file#:#personal_workspace_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien im Persönlichen Arbeitsraum überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
-file#:#personal_workspace_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Mehrere Objekte entfernen
 survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
 blog#:#blog_draft_info_contributors#:#Dieser Beitrag ist als Entwurf nur für die Mitwirkenden sichtbar.
@@ -11283,7 +11276,6 @@ rep#:#rep_object_lists#:#Objektlisten
 rep#:#rep_custom_icons#:#Angepasste Icons
 cmps#:#cmps_enable_creation#:#Erstellung einschalten
 cmps#:#cmps_slots#:#Slots
-pd#:#pd_personal_workspace#:#Arbeitsraum
 common#:#obj_wbrs#:#Weblink
 common#:#obj_wbrs_desc#:#Allgemeine Einstellungen für Weblinks
 common#:#obj_crss#:#Kurs
@@ -12018,7 +12010,7 @@ content#:#cont_update_my_courses#:#Meine Kurse bearbeiten
 prtf#:#prtf_page_element_teaser_my_courses#:#Innerhalb des Portfolios erscheint an dieser Stelle eine Liste Ihrer Kurse.
 prtf#:#prtf_page_element_my_courses_title#:#Kurs-Mitgliedschaften
 prtf#:#prtf_page_element_teaser_skills#:#Innerhalb des Portfolios erscheint an dieser Stelle Ihre Kompetenzausprägung.
-prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog Ihres Arbeitsraums.
+prtf#:#prtf_page_element_teaser_blog_template#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Blog aus Ihren persönlichen Ressourcen.
 prtf#:#prtf_page_element_teaser_consultation_hours#:#Innerhalb des Portfolios erscheint an dieser Stelle ein Kalender Ihrer Sprechstunden.
 prtf#:#prtf_page_element_teaser_settings#:#Einstellungen
 user#:#interests#:#Interessen
@@ -13506,12 +13498,11 @@ prg#:#prg_can_not_manage_in_repo#:#Sie dürfen dieses Studienprogramm nicht verw
 scov#:#scov_create#:#SCORM-Zertifikat erstellen
 scov#:#scov_create_info#:#Wählen Sie ein SCORM-Modul, für das Sie ein Zertifikat benötigen
 administration#:#adm_repository_and_objects#:#Magazin und Objekte
-administration#:#adm_extending_ilias#:#ILIAS Erweitern
-administration#:#adm_search_and_find#:#Suchen und Finden
+administration#:#adm_extending_ilias#:#ILIAS erweitern
+administration#:#adm_search_and_find#:#Suchen und finden
 administration#:#adm_achievements#:#Lernerfolge
 administration#:#adm_maintenance#:#Systemeinstellungen und Wartung
 administration#:#adm_user_administration#:#Benutzerverwaltung
-administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 common#:#enter_new_name#:#Bitte geben Sie einen Namen an
 rbac#:#awra_visible#:#Verwaltung der „Wer ist online?“-Anzeige ist sichtbar
 rbac#:#awra_read#:#Lesezugriff auf Verwaltung der „Wer ist online?“-Anzeige
@@ -13734,7 +13725,7 @@ badge#:#badge_subtype_manual#:#manuell
 badge#:#badge_subtype_auto#:#automatisch
 badge#:#badge_course_lp_invalid#:#Die folgenden Objekte verwenden einen nicht unterstützten Lernfortschrittsmodus: %s.
 trac#:#trac_defaults#:#Bearbeitet-Status
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges und Zertifikaten verwendet.
 trac#:#trac_defaults_inactive#:#Inaktiv
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 assessment#:#tst_revert_changes#:#Bearbeitung zurücknehmen
@@ -14119,8 +14110,9 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
-common#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
-common#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
+mail#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_noti_item_title#:#Posteingang
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -14388,7 +14380,7 @@ svy#:#survey_360_appraisees_remind_info#:#Falls die Selbsteinschätzung aktivier
 svy#:#survey_360_raters_remind_info#:#Feedback-Geber, die die Umfrage noch nicht abgeschlossen haben, erhalten eine Erinnerungsnachricht.
 svy#:#svy_user_added_360_rater_reminder_mail#:#Bitte bewerten Sie noch die folgenden Feedback-Nehmer:
 prtf#:#prtf_add_new_blog#:#Neues Blog hinzufügen
-prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihrem persönlichen Arbeitsraum hinzugefügt.
+prtf#:#prtf_add_new_blog_info#:#Das neue Blog wird Ihren persönlichen Ressourcen hinzugefügt.
 prtf#:#prtf_add_existing_blog#:#Vorhandenes Blog nutzen
 blog#:#blog_draft_text#:#Unveröffentlichter Beitrag
 user#:#usr_letter_avatars#:#Letter-Avatare
@@ -15152,7 +15144,7 @@ sess#:#sess_assign#:#Zuordnen
 assessment#:#answer_of#:#Antwort von
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
-common#:#certificate_workspace_option#:#Zertifikate aus dem Arbeitsraum
+common#:#certificate_workspace_option#:#Zertifikate aus persönlichen Ressourcen
 common#:#certificate_file_already_exists_error#:#Die Zertikatsdatei exisitiert bereits im Dateisystem.
 common#:#certificate_file_not_found_error#:#Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
 common#:#certificate_file_input_output_error#:#Die Zertikatsdatei wurde im Dateisystem gefunden konnte aber aufgrund von Fehlern nicht gelöscht werden. Bitte kontaktieren Sie Ihren Administrator.
@@ -15247,6 +15239,7 @@ common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+forum#:#sorting#:#Sortierung
 wfld#:#wfld_sortation#:#Sortierung
 wfld#:#wfld_derive#:#Wie übergeordneter Ordner
 wfld#:#wfld_alphabetically_asc#:#Alphabetisch, aufst.
@@ -15254,7 +15247,7 @@ wfld#:#wfld_alphabetically_desc#:#Alphabetisch, abst.
 wfld#:#wfld_creation_asc#:#Erstellungsdatum, aufst.
 wfld#:#wfld_creation_desc#:#Erstellungsdatum, abst.
 wsp#:#wsp_switch_to_repo_tree#:#Zum Magazin wechseln
-wsp#:#wsp_switch_to_wsp_tree#:#Zum Arbeitsraum wechseln
+wsp#:#wsp_switch_to_wsp_tree#:#Zu persönlichen Ressourcen wechseln
 book#:#book_select_pool#:#Pool auswählen
 book#:#book_pool_selection#:#Auswahl Buchungspool
 book#:#book_booked_in#:#Gebucht in
@@ -15281,11 +15274,466 @@ exc#:#exc_rand_overall_ass#:#Gesamtzahl an Übungseinheiten
 exc#:#exc_rand_nr_mandatory#:#Anzahl verpflichtender Übungseinheiten
 exc#:#exc_random#:#Zufällig
 book#:#book_no_objects#:#Keine Zuweisung
-rep#:#rep_recommended_content#:#Empfohlende Inhalte
-rep#:#rep_rec_content_removed#:#Empfohlender Inhalt wurde entfernt.
-rep#:#rep_added_rec_content#:#Empfohlender Inhalt wurde hinzugefügt.
+rep#:#rep_recommended_content#:#Empfohlene Inhalte
+rep#:#rep_rec_content_removed#:#Empfohlener Inhalt wurde entfernt.
+rep#:#rep_added_rec_content#:#Empfohlener Inhalt wurde hinzugefügt.
 rep#:#rep_remove_rec_content#:#Sollen die folgenden Empfehlungen wirklich entfernt werden? Die entsprechenden Inhalte bleiben weiterhin erhalten.
-rbac#:#rbac_add_recommended_content#:#Empfohlender Inhalt
-rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenden Inhalt zu.
+rbac#:#rbac_add_recommended_content#:#Empfohlener Inhalt
+rbac#:#rbac_add_recommended_content_info#:#Weist das aktuelle Objekt '%1' allen Benutzern der Rolle als empfohlenen Inhalt zu.
 dash#:#dash_member_main_alt#:#Eine Ansicht der Mitgliedschaften kann auch direkt im Haupmenü eingebunden werden.
 dash#:#dash_click_here#:#Hier klicken
+svy#:#svy_remove_all_participants#:#Alle Teilnehmer entfernen
+svy#:#svy_invite_participants#:#Teilnehmer einladen
+svy#:#svy_codes#:#Zugriffscodes
+svy#:#svy_part_overview#:#Übersicht
+svy#:#svy_remove_participants#:#Teilnehmer entfernen
+svy#:#svy_status#:#Status
+svy#:#svy_status_invited#:#Eingeladen
+svy#:#svy_status_in_progress#:#In Bearbeitung
+svy#:#svy_status_finished#:#Beendet
+svy#:#svy_users_invited#:#Die Benutzer wurden eingeladen.
+svy#:#svy_finish_survey#:#Umfrage "%1" bearbeiten
+pwsp#:#pwsp_enable_personal_resources#:#Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota#:#Disk-Quota für den Persönliche Ressourcen aktivieren
+file#:#personal_resources_disk_quota_info#:#Erlaubt die Begrenzung des verfügbaren Plattenplatzes für jedes Benutzerkonto und jede globale Rolle. Dies betrifft nur Dateien in den persönliche Ressourcen und in Portfolios. Sobald ein Benutzer die definierte Disk-Quota erreicht, kann dieser keine weiteren Dateien mehr hochladen.
+common#:#personal_resources#:#Persönliche Ressourcen
+file#:#personal_resources_quota_exceeded_warning#:#Sie haben den maximal verfügbaren Plattenplatz für Dateien in den Persönliche Ressourcen überschritten. Löschen Sie vorhandene Dateien, um freien Platz für neue Dateien zu schaffen.
+file#:#personal_resources_quota_status_legend#:#Sie belegen %1$s Ihrer Disk-Quota von %2$s (%3$d%%).
+wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien, Blogs und Nachweise verwalten.
+administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
+dash#:#dash_favourites#:#Favoriten
+dash#:#dash_memberships#:#Meine Kurse und Gruppen
+rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
+rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
+rbac#:#ltis_add_consume_provider#:#Benutzer kann eigene Provider-Einstellungen für LTI-Konsument hinzufügen
+rbac#:#lti_visible#:#LTI-Konsument ist sichtbar
+rbac#:#lti_read#:#Benutzer kann LTI-Konsumenten sehen
+rbac#:#lti_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
+rbac#:#lti_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
+rbac#:#lti_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
+rbac#:#lti_copy#:#Benutzer kann LTI-Konsumenten kopieren
+rbac#:#lti_write#:#Benutzer kann die Einstellungen des LTI-Konsumenten bearbeiten
+rbac#:#lti_delete#:#Benutzer kann den LTI-Konsumenten verschieben oder löschen
+rbac#:#lti_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
+rbac#:#rbac_create_lti#:#LTI-Konsumenten anlegen
+rbac#:#cmix_visible#:#xAPI/cmi5 Objekt ist sichtbar
+rbac#:#cmix_read#:#Benutzer kann xAPI/cmi5 Objekt sehen
+rbac#:#cmix_read_outcomes#:#Benutzer kann Lernerfahrungen und das Ranking anderer Benutzer einsehen
+rbac#:#cmix_read_learning_progress#:#Benutzer kann den Lernfortschritt anderer Benutzer einsehen
+rbac#:#cmix_edit_learning_progress#:#Benutzer kann die Einstellungen für den Lernfortschritt bearbeiten
+rbac#:#cmix_copy#:#Benutzer kann xAPI/cmi5 Objekt kopieren
+rbac#:#cmix_write#:#Benutzer kann die Einstellungen des xAPI/cmi5-Objekts bearbeiten
+rbac#:#cmix_delete#:#Benutzer kann xAPI/cmi5-Objekt verschieben oder löschen
+rbac#:#cmix_edit_permission#:#Benutzer kann Berechtigungseinstellungen ändern
+rbac#:#rbac_create_cmix#:#xAPI/cmi5-Objekt erstellen
+common#:#obj_lti#:#LTI-Konsument
+common#:#objs_lti#:#LTI-Konsumenten
+common#:#obj_cmis#:#xAPI/cmi5
+common#:#obj_cmis_desc#:#Konfiguration Learning Record Store Typen
+common#:#obj_cmix#:#xAPI/cmi5
+common#:#objs_cmix#:#Objekte xAPI/cmi5
+certificate#:#cmix_cert_ph_object_title#:#Titel des xAPI/cmi5-Objekts
+certificate#:#cmix_cert_ph_object_description#:#Beschreibung
+certificate#:#cmix_cert_ph_reached_score#:#Erreichte Punktzahl in Prozent
+certificate#:#lti_cert_ph_object_title#:#Titel des LTI-Konsument-Objekts
+certificate#:#lti_cert_ph_object_description#:#Beschreibung
+certificate#:#lti_cert_ph_mastery_score#:#Mastery Score in Prozent
+certificate#:#lti_cert_ph_reached_score#:#Erreichte Punktzahl in Prozent
+wsp#:#wsp_type_cmxv#:#Zertifikat: xAPI/cmi5
+wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
+wsp#:#wsp_type_ltiv#:#Zertifikat: LTI-Konsument
+wsp#:#wsp_list_ltiv#:#Zertifikat des LTI-Konsument-Objekts
+ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
+ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
+cmxv#:#cmxv_create#:#Zertifikat für xAPI/cmi5-Objekt erstellen
+cmxv#:#cmxv_create_info#:#Wählen Sie ein abgeschlossenes xAPI/cmi5-Objekt aus, um ein Zertifikat dafür zu generieren.
+trac#:#cmix_lp_mode_deactivated#:#Lernfortschritt wird deaktiviert
+trac#:#cmix_lp_mode_deactivated_info#:#Der Lernfortschrittsstatus wird nicht angezeigt und hat keinen Einfluss auf übergeordnete Objekte.
+trac#:#cmix_lp_mode_when_completed#:#Abgeschlossen, wenn "completed".
+trac#:#cmix_lp_mode_when_completed_info#:#Der ILIAS-Status "completed" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements "completed" ist.
+trac#:#cmix_lp_mode_with_failed#:#Auch den Status "nicht bestanden" berücksichtigen
+trac#:#cmix_lp_mode_with_failed_info#:#Der Status kann anstelle von "in Bearbeitung" auf "nicht bestanden" gesetzt werden.
+trac#:#cmix_lp_mode_when_passed#:#Abgeschlossen, wenn "passed".
+trac#:#cmix_lp_mode_when_passed_info#:#Der ILIAS-Status "completed" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements "passed" oder "satisfied" ist.
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Abgeschlossen, wenn "completed" oder "passed"
+trac#:#cmix_lp_mode_when_passed_or_completed_info#:#Der ILIAS-Status "completed" wird gesetzt, wenn das Verb des letzten relevanten xAPI-Statements "completed" oder "passed" oder "satisfied" ist.
+trac#:#trac_mode_lti_outcome#:#Mastery Score muss erreicht werden
+trac#:#trac_mode_lti_outcome_info#:#Der Lernfortschritt gilt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
+lti#:#launch_method_own_win#:#Eigenes Fenster
+lti#:#launch_method_own_win_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
+lti#:#launch_method_new_win#:#Neues Fenster
+lti#:#launch_method_new_win_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+lti#:#launch_method_embedded#:#Eingebettete Inhalte
+lti#:#launch_method_embedded_info#:#Der Inhalt wird innerhalb des ILIAS-Kontextes geöffnet. Es wird als eingebetteter Inhalt in der Registerkarte Inhalt angezeigt.
+lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
+lti#:#mastery_score#:#Mastery Score
+lti#:#mastery_score_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
+lti#:#lti_form_section_appearance#:#Optionen für den Start
+lti#:#launched#:#Die Ressource wurde bereits gestartet.
+lti#:#lti_info_learning_progress_section#:#Info zur Ermittlung des Lernfortschritts
+lti#:#lti_info_privacy_section#:#Informationen über personenbezogene Daten, die beim Start an den Provider (Anbieter) übermittelt wurden.
+lti#:#lti_info_external_provider_label#:#Zusätzliche Informationen über diesen Provider
+lti#:#lti_info_external_provider_info#:#Der verwendete Provider ist ein externer Provider. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider (Anbieter). Dies ist z.B. der Fall, wenn es keine Rechte zum Löschen von Daten gibt.
+lti#:#lti_select_provider#:#Provider auswählen
+lti#:#lti_custom_new#:#Eigene Provider-Einstellungen anlegen
+lti#:#lti_copy#:#LTI-Konsument kopieren
+lti#:#lti_providing_tab#:#ILIAS als LTI-Provider
+lti#:#lti_consuming_tab#:#ILIAS als LTI-Konsument
+lti#:#global_provider_subtab#:#Globale Provider für alle Anwender
+lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
+lti#:#usage_subtab#:#Verwendung
+lti#:#tbl_provider_usage_header#:#LTI-Provider
+lti#:#tbl_provider_usage_header_info#:#Vor dem Löschen von LTI-Providern müssen auch diese nutzenden Objekte aus dem Papierkorb gelöscht werden.
+lti#:#tbl_lti_prov_used_by#:#Objekte (im Baum), die diesen Provider verwenden
+lti#:#settings_subtab#:#Einstellungen
+lti#:#lti_global_settings_form#:#Globale Einstellungen
+lti#:#lti_add_global_provider#:#Globalen Provider für alle Benutzer hinzufügen
+lti#:#lti_import_global_provider#:#Globalen Provider für alle Benutzer mit XML-Datei importieren
+lti#:#form_import_provider#:#Globalen Provider importieren
+lti#:#field_provider_xml#:#XML-Datei
+lti#:#field_provider_xml_info#:#Unterstützt werden XML-Dateien für Tool Consumer und für Common Cartridge gemäß https://www.imsglobal.org/specs/lti/xml.
+lti#:#lti_add_own_provider#:#Eigenen LTI-Provider hinzufügen (nicht für alle Benutzer)
+lti#:#tbl_provider_header#:#LTI-Provider
+lti#:#lti_form_provider_create#:#Providereinstellungen anlegen
+lti#:#lti_con_prov_authentication#:#Authentifizierung
+lti#:#lti_con_prov_privacy_settings#:#Datenschutzeinstellungen
+lti#:#lti_con_prov_learning_progress_options#:#Optionen für den Lernfortschritt
+lti#:#lti_con_prov_launch_options#:#Startoptionen
+lti#:#lti_form_provider_edit#:#Provider-Einstellungen bearbeiten
+lti#:#tbl_lti_prov_icon#:#Icon
+lti#:#tbl_lti_prov_title#:#Titel des Providers
+lti#:#tbl_lti_prov_description#:#Beschreibung
+lti#:#tbl_lti_prov_availability#:#Verfügbarkeit
+lti#:#tbl_lti_prov_usages#:#Verwendung
+lti#:#tbl_lti_prov_usages_trashed#:#Im Papierkorb
+lti#:#tbl_lti_prov_usages_untrashed#:#Nicht im Papierkorb
+lti#:#tbl_lti_prov_provider_creator#:#Ersteller
+lti#:#tbl_lti_prov_own_provider#:#Eigener Provider
+lti#:#lti_action_delete_providers#:#Provider löschen
+lti#:#lti_delete_provider#:#Provider löschen
+lti#:#lti_success_delete_provider#:#Erfolgreich gelöscht
+lti#:#lti_confirm_delete_providers#:#Sind Sie sicher, dass Sie die folgenden Provider löschen möchten?
+lti#:#lti_success_accept_as_global#:#Erfolgreich als Global Provider für alle Anwender übernommen
+lti#:#lti_success_accept_as_global_multi#:#Erfolgreich als Global Provider für alle Anwender übernommen
+lti#:#lti_success_reset_to_usr_def#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
+lti#:#lti_success_reset_to_usr_def_multi#:#Erfolgreich zurückgesetzt als benutzerdefinierter Provider
+lti#:#lti_no_provider_selected#:#Kein Provider ausgewählt
+lti#:#lti_at_least_one_prov_has_usages#:#Mindestens ein Provider konnte nicht gelöscht werden, da dieser Provider von LTI-Konsumenten (möglicherweise im Papierkorb) genutzt wird.
+lti#:#tbl_lti_prov_keyword#:#Schlagwort
+lti#:#tbl_lti_prov_keywords#:#Schlagwörter
+lti#:#tbl_lti_prov_category#:#Kategorie
+lti#:#tbl_lti_prov_all_categories#:#Alle Kategorien
+lti#:#tbl_lti_prov_outcome#:#Outcome Service
+lti#:#tbl_lti_prov_internal#:#Interner Provider
+lti#:#tbl_lti_prov_with_key#:#Vordefiniert mit Key / Secret
+lti#:#lti_con_prov_inc_usr_pic#:#Benutzerbild senden
+lti#:#lti_con_prov_inc_usr_pic_info#:#Links zu ILIAS-Benutzerbildern sind beim Start des LTI-Konsumenten enthalten.
+lti#:#lti_con_prov_title#:#Titel
+lti#:#lti_con_prov_description#:#Beschreibung
+lti#:#lti_con_prov_icon#:#Icon
+lti#:#obj_tile_image_info#:#Ein Bild im quadratischen Format verwenden
+lti#:#lti_con_prov_availability#:#Verfügbarkeit
+lti#:#lti_con_prov_availability_create#:#für neue und bestehende Objekte
+lti#:#lti_con_prov_availability_existing#:#nur für bestehende Objekte
+lti#:#lti_con_prov_availability_non#:#nicht verfügbar
+lti#:#lti_con_prov_url#:#URL des Providers
+lti#:#lti_con_prov_provider_key_global#:#Vordefinierter Key und Secret
+lti#:#lti_con_prov_provider_key_global_info#:#Wenn nicht gesetzt, müssen Benutzer Key und Secret hinzufügen, um den Provider zu nutzen.
+lti#:#lti_con_prov_key#:#Key
+lti#:#lti_con_prov_secret#:#Secret
+lti#:#lti_con_prov_has_outcome_service#:#Provider unterstützt Outcome Service
+lti#:#lti_con_prov_has_outcome_service_info#:#Wenn der LTI Outcome Service unterstützt wird, kann der Lernfortschritt aktiviert werden. Der Provider gibt einen Wert zwischen 0 und 1 zurück, um den Lernfortschritt anzuzeigen.
+lti#:#lti_con_prov_always_learner#:#LTI-Benutzer ist immer Lernender
+lti#:#lti_con_prov_always_learner_info#:#In der Regel wird die Rolle in ILIAS auf eine LTI-Rolle abgebildet. Kursadministratoren könnten im Provider mehr Rechte haben, z.B. um das Objekt zu manipulieren. Aktivieren Sie diese Option, um das Rollen-Mapping zu vermeiden.
+lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-Id mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_xapi_activity_id#:#Activity ID
+lti#:#lti_con_prov_xapi_activity_id_info#:#Die Activity ID ist notwendig, um Daten aus dem Learning Record Store anzufordern. Geben Sie hier nur dann etwas ein, wenn die Zuordnung der Ressource des Providers zu einer Activity Id eindeutig ist! Wenn hier nichts eingetragen ist, kann die Activity Id beim LTI-Konsumenten eingetragen werden. Die Activity Id kann beim LTI-Provider angefordert werden.
+lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
+lti#:#lti_con_prov_keywords#:#Schlagwörter
+lti#:#lti_con_prov_keywords_info#:#Die Schlagwörter müssen durch ein Semikolon (;) getrennt sein. Die Schlagwörter werden automatisch als Schlagwörter in die Metadaten übernommen.
+lti#:#lti_con_prov_category#:#Kategorie
+lti#:#lti_con_prov_category_info#:#Kategorie, um Einträge zu filtern, wenn ein LTI-Konsument-Objekt erstellt wird.
+lti#:#conf_user_ident#:#Benutzeridentifikation
+lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
+lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+lti#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+lti#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+lti#:#conf_user_ident_real_email#:#E-Mail Adresse
+lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+lti#:#conf_user_name#:#Benutzername
+lti#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+lti#:#conf_user_name_none#:#Keiner
+lti#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
+lti#:#conf_user_name_firstname#:#Vorname
+lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
+lti#:#conf_user_name_lastname#:#Titel und Nachname
+lti#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+lti#:#conf_user_name_fullname#:#Vollständiger Name
+lti#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+lti#:#lti_con_prov_privacy_setting_conf#:#Konfigurationsoptionen
+lti#:#lti_con_prov_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
+lti#:#lti_con_prov_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
+lti#:#lti_con_prov_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
+lti#:#lti_con_prov_external_provider#:#Externer Provider
+lti#:#lti_con_prov_external_provider_info#:#Bei der Zusammenarbeit mit einem externen Provider wird den Nutzern ein Hinweis angezeigt. Ein externer Provider ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den Provider. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
+lti#:#lti_con_prov_mastery_score_default#:#Voreinstellung Mastery Score
+lti#:#lti_con_prov_mastery_score_default_info#:#Bei aktiviertem Lernfortschritt gilt das Objekt als abgeschlossen, wenn das Ergebnis des LTI-Outcome-Service mindestens so hoch wie der Mastery Score ist.
+lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
+lti#:#lti_con_prov_xapi_launch_url#:#URL des LRS-Endpoints
+lti#:#lti_con_prov_xapi_launch_url_info#:#Bitte fügen Sie die vollständige URL mit https:// hinzu.
+lti#:#lti_con_prov_xapi_launch_key#:#Key des LRS-Endpoints
+lti#:#lti_con_prov_xapi_launch_key_info#:#&nbsp;
+lti#:#lti_con_prov_xapi_launch_secret#:#Secret des LRS-Endpunkts
+lti#:#lti_con_prov_xapi_launch_secret_info#:#&nbsp;
+lti#:#lti_con_prov_custom_params#:#Benutzerdefinierte Parameter für diesen spezifischen Provider
+lti#:#lti_con_prov_custom_params_info#:#Bitte geben Sie diese in der Form ein: param1=value1; param2=value2
+lti#:#lti_con_prov_group_options#:#Optionen zum Gruppieren und Filtern von Providern
+lti#:#lti_con_prov_hints#:#Hinweise
+lti#:#lti_con_prov_remarks#:#Interne Bemerkungen
+lti#:#lti_action_edit_provider#:#Provider bearbeiten
+lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
+lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
+lti#:#lti_action_reset_provider_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
+lti#:#lti_action_reset_providers_to_user_scope#:#Provider als benutzerdefinierten Provider zurücksetzen
+lti#:#lti_delete_consume_provider#:#Provider löschen
+lti#:#lti_delete_consume_providers#:#Provider löschen
+lti#:#tab_info#:#Info
+lti#:#tab_content#:#Inhalt
+lti#:#tab_settings#:#Einstellungen
+lti#:#tab_statements#:#Lernerfahrungen
+lti#:#lti_provider_not_avail_msg#:#LTI Provider ist auf 'Nicht verfügbar' gesetzt.
+lti#:#subtab_object_settings#:#Objekteinstellungen
+lti#:#subtab_certificate#:#Zertifikat
+lti#:#subtab_provider_settings#:#LTI-Provider-Einstellungen
+lti#:#lti_settings_form#:#Objekteinstellungen
+lti#:#provider_info#:#Benutzter Provider
+lti#:#title_info#:#Geben Sie dem Objekt einen Titel!
+lti#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
+lti#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
+lti#:#launch_method#:#Optionen für den Start
+lti#:#use_xapi#:#xAPI-Unterstützung verwenden
+lti#:#use_xapi_info#:#Dieser LTI Provider unterstützt die Abfrage von xAPI-Statements.
+lti#:#activity_id#:#Activity-ID
+lti#:#activity_id_info#:#Diese Activity-ID wird vom LTI-Provider verwendet, um Statements zu identifizieren.
+lti#:#show_statements#:#Lernerfahrungen anzeigen
+lti#:#show_statements_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
+lti#:#tab_scoring#:#Platzierungen
+lti#:#highscore_enabled#:#Platzierungen
+lti#:#highscore_description#:#Die Namen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
+lti#:#highscore_achieved_ts#:#Datum
+lti#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
+lti#:#highscore_score#:#Punktzahl
+lti#:#highscore_score_description#:#Eine Spalte mit der Punktzahl wird in die Platzierungen aufgenommen.
+lti#:#highscore_percentage#:#Prozentsatz
+lti#:#highscore_percentage_description#:#Eine Spalte mit der Punktzahl als Prozentsatz wird in die Platzierungen aufgenommen.
+lti#:#highscore_wtime#:#Dauer
+lti#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Platzierungen aufgenommen.
+lti#:#highscore_mode#:#Modus
+lti#:#highscore_own_table#:#Eigener Rang des Teilnehmers
+lti#:#highscore_own_table_description#:#Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
+lti#:#highscore_top_table#:#Bestenliste
+lti#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
+lti#:#highscore_all_tables#:#Eigener Rang und Bestenliste
+lti#:#highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
+lti#:#highscore_top_num#:#Länge der Bestenliste
+lti#:#highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
+lti#:#highscore_top_num_unit#:#Platzierungen
+cmix#:#cmix_new#:#Neues xAPI/cmi5-Objekt
+cmix#:#cmix_add#:#xAPI/cmi5-Objekt hinzufügen
+cmix#:#cmix_add_cmi5_lm#:#cmi5 Lernmodul
+cmix#:#cmix_add_cmi5_lm_info#:#Diese Option sollte verwendet werden, wenn es sich bei den Inhalten um ein cmi5 konformes Lernmodul handelt. Verwandte Funktionen wie geeignete Berichte sind ohne weitere Konfigurationen verfügbar.
+cmix#:#cmix_add_xapi_standard_object#:#xAPI Standardobjekt
+cmix#:#cmix_add_xapi_standard_object_info#:#Verwenden Sie diese Option, um ein generisches Inhaltsmodul zu erhalten, das alle Funktionen wie z.B. verschiedene Berichte bietet. Diese Option bietet größtmögliche Flexibilität, erfordert aber eine komplexere Konfiguration.
+cmix#:#cmix_add_lrs_type#:#LRS-Typ
+cmix#:#cmix_add_source#:#Quelle
+cmix#:#cmix_add_source_url#:#URL der Ressource
+cmix#:#cmix_add_source_url_info#:#Verwenden Sie diese Option für eine externe Ressource.
+cmix#:#cmix_add_source_local_dir#:#Lokales Verzeichnis
+cmix#:#cmix_add_source_local_dir_info#:#Verwenden Sie diese Option für Content-Pakete auf Ihrem lokalen Gerät.
+cmix#:#cmix_add_source_upload_dir#:#Upload-Verzeichnis
+cmix#:#cmix_add_source_upload_dir_info#:#Verwenden Sie diese Option für Content-Pakete, die bereits in das ILIAS-Upload-Verzeichnis hochgeladen wurden, das auch für SCORM- und HTML-Pakete verwendet wird.
+cmix#:#cmix_add_source_upload_select#:#--- Bitte wählen Sie ---
+cmix#:#cmix_add_source_external_app#:#Nicht von ILIAS gestartete Ressource
+cmix#:#cmix_add_source_external_app_info#:#Verwenden Sie diese Option für separat gestartete Ressourcen wie z.B. Apps oder Simulationen. Benutzer müssen durch Angabe ihrer verwendeten E-Mail-Adresse dem Abruf der Daten zustimmen.
+cmix#:#create_registration#:#Registrieren Sie Ihre E-Mail-Adresse
+cmix#:#form_create_registration#:#Registrierung
+cmix#:#field_user_ident#:#E-Mail Adresse
+cmix#:#field_user_ident_info#:#Geben Sie die E-Mail-Adresse ein, die in der externen Anwendung verwendet wird, um Sie zu identifizieren.
+cmix#:#btn_create_registration#:#Absenden
+cmix#:#registration_saved_successfully#:#Registrierung erfolgreich gespeichert
+cmix#:#change_registration#:#E-Mail-Adresse für die Registrierung
+cmix#:#form_change_registration#:#Registrierung
+cmix#:#btn_change_registration#:#Absenden
+cmix#:#conf_user_registered_mail#:#Registrierte E-Mail-Adresse
+cmix#:#cmix_import#:#xAPI/cmi5-Objekt importieren
+cmix#:#cmix_copy#:#xAPI/cmi5-Objekt kopieren
+cmix#:#cmix_info_privacy_section_launch#:#Informationen über die beim Start übermittelten personenbezogenen Daten
+cmix#:#cmix_info_privacy_section#:#Info über personenbezogene Daten
+cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
+cmix#:#cmix_info_external_lrs_label#:#Zusätzliche Informationen zu diesem LRS
+cmix#:#cmix_info_external_lrs_info#:#Dieser Learning Record Store (LRS) ist ein externer LRS. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss des Betreibers der ILIAS-Installation auf den LRS. Dies ist z.B. der Fall, wenn es keine Rechte zum Löschen von Daten gibt.
+cmix#:#cmix_indication_to_user#:#Weitere Hinweise zu diesem LRS
+cmix#:#conf_cronjob_neccessary#:#CronJob notwendig für den Lernfortschritt
+cmix#:#conf_cronjob_neccessary_info#:#Durch Aktivieren dieser Option können die diesen LRS-Typ nutzenden xAPI-Objekte den xAPI-Proxy nicht nutzen, der zeitlich unmittelbar Daten zur Erkennung des Lernfortschritts liefert. Verwenden Sie nur den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
+cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
+cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
+cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
+cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
+cmix#:#fetch_xapi_statements#:#Ergebnisse aus dem Learning Record Store holen
+cmix#:#xapi_statements_not_fetched_yet#:#Ergebnisse aus dem Learning Record Store wurden noch nicht abgerufen.
+cmix#:#xapi_statements_fetched_successfully#:#Ergebnisse aus dem Learning Record Store wurden erfolgreich abgerufen.
+cmix#:#xapi_statements_last_fetch_date#:#Letzter Abruf von Ergebnissen:
+cmix#:#tab_info#:#Info
+cmix#:#tab_settings#:#Einstellungen
+cmix#:#tab_statements#:#Lernerfahrungen
+cmix#:#tab_export#:#Exportieren
+cmix#:#tab_scoring#:#Platzierungen
+cmix#:#tbl_statements_date#:#Datum
+cmix#:#tbl_statements_actor#:#Benutzer
+cmix#:#tbl_statements_verb#:#Verb
+cmix#:#tbl_statements_object#:#Objekt
+cmix#:#tbl_action_raw_data#:#Rohdaten anzeigen
+cmix#:#tab_lrs_types#:#LRS-Typen
+cmix#:#btn_create_lrs_type#:#LRS-Typ hinzufügen
+cmix#:#tbl_lrs_types_header#:#LRS-Typen
+cmix#:#tbl_lrs_type_title#:#Titel
+cmix#:#tbl_lrs_type_availability#:#Verfügbarkeit
+cmix#:#tbl_lrs_type_usages#:#Anzahl der Nutzungen
+cmix#:#create_lrs_type_form#:#Neuer LRS-Typ
+cmix#:#edit_lrs_type_form#:#LRS-Typ
+cmix#:#lrs_authentication#:#Authentifizierung
+cmix#:#sect_learning_progress_options#:#Optionen für den Lernfortschritt
+cmix#:#conf_title#:#Titel
+cmix#:#info_title#:#Dieser Titel wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#conf_description#:#Beschreibung
+cmix#:#info_description#:#Diese Beschreibung wird bei der Auswahl des Typs für neue Objekte angezeigt.
+cmix#:#conf_availability#:#Verfügbarkeit
+cmix#:#info_availability#:#Hiermit können Sie die Verfügbarkeit des LRS-Typs innerhalb des Magazins betreiben. Alle Typen können auf "für bestehende Objekte" gesetzt werden, anstatt gelöscht zu werden.
+cmix#:#conf_availability_0#:#nicht verfügbar
+cmix#:#conf_availability_1#:#für bestehende Objekte
+cmix#:#conf_availability_2#:#für neue und bestehende Objekte
+cmix#:#conf_lrs_endpoint#:#Endpoint
+cmix#:#info_lrs_endpoint#:#URL des Endpoints ohne '/' am Ende der Seite
+cmix#:#conf_lrs_key#:#Key / Login
+cmix#:#info_lrs_key#:#Key oder Login für den Zugriff, z.B. 12345
+cmix#:#conf_lrs_secret#:#Secret / Passwort
+cmix#:#info_lrs_secret#:#Gemeinsames Secret / Passwort
+cmix#:#conf_own_window#:#Gleiches Fenster
+cmix#:#conf_own_window_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
+cmix#:#conf_any_window#:#Neues Fenster
+cmix#:#conf_any_window_info#:#Der Inhalt wird in einem neuen Fenster geöffnet. Beim Verlassen des Inhalts wird dieses Fenster geschlossen.
+cmix#:#conf_launch_mode#:#Startmodus
+cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_browse#:#Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts
+cmix#:#conf_launch_mode_review#:#Review-Modus ohne Speicherung des Lernfortschritts
+cmix#:#conf_keep_lp#:#Verschlechterung des Lernfortschritts vermeiden
+cmix#:#conf_keep_lp_info#:#Der Status 'bearbeitet' des ILIAS-Lernfortschritts wird eingefroren.
+cmix#:#conf_external_lrs#:#Externer LRS
+cmix#:#info_external_lrs#:#Bei einem externen Learning Record Store (LRS) wird dem Anwender ein Hinweis angezeigt. Ein externer LRS ist gekennzeichnet durch einen unzureichenden Einfluss auf den LRS und durch den Betreiber von ILIAS. Dies ist der Fall, wenn es keine Rechte zum Löschen gibt.
+cmix#:#conf_user_ident#:#Benutzeridentifikation
+cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
+cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
+cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den ILIAS-Benutzer zulassen.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#Externe Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Dies ist identisch mit jedem Aufruf, kann aber eine direkte Rückschlüsse auf den Benutzer zulassen.
+cmix#:#conf_user_ident_real_email#:#E-Mail Adresse
+cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
+cmix#:#conf_user_name#:#Benutzername
+cmix#:#conf_user_name_info#:#Das Senden eines Benutzernamens ist in der Regel nicht erforderlich.
+cmix#:#conf_user_name_none#:#Keiner
+cmix#:#conf_user_name_none_info#:#Sendet '-' anstelle eines Namens
+cmix#:#conf_user_name_firstname#:#Vorname
+cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
+cmix#:#conf_user_name_lastname#:#Titel und Nachname
+cmix#:#conf_user_name_lastname_info#:#Sendet Herr oder Frau (sofern nicht anders angegeben) und den Nachnamen.
+cmix#:#conf_user_name_fullname#:#Vollständiger Name
+cmix#:#conf_user_name_fullname_info#:#Sendet Titel, Vorname und Nachname.
+cmix#:#conf_privacy_setting_conf#:#Konfigurationsoptionen
+cmix#:#conf_privacy_setting_info#:#Konfigurationsoptionen für die Datenschutzeinstellungen
+cmix#:#conf_privacy_setting_default#:#Standardeinstellungen, änderbar für Objekte
+cmix#:#conf_privacy_setting_force#:#Die Einstellungen sind für Objekte nicht änderbar.
+cmix#:#conf_privacy_comment_default#:#Anzeige an den Benutzer
+cmix#:#info_privacy_comment_default#:#Bitte geben Sie bei Verwendung dieses LRS bei Bedarf einen zusätzlichen Hinweis auf die Datensicherheit an.
+cmix#:#conf_remarks#:#Interne Kommentare
+cmix#:#info_remarks#:#Hier können Sie Ihre Kommentare zu diesem LRS-Typ festhalten.
+cmix#:#title_info#:#Geben Sie dem Objekt einen Titel.
+cmix#:#description_info#:#Die Beschreibung wird unterhalb des Titels angezeigt.
+cmix#:#online_info#:#Dadurch wird das Objekt für die Benutzer sichtbar und nutzbar.
+cmix#:#launch_options#:#Optionen für den Start
+cmix#:#launch_url#:#URL der Ressource
+cmix#:#launch_url_info#:#Geben Sie hier die Internetadresse ein und fügen Sie http:// oder https:// hinzu. Optionen zum Datenschutz sind auch für externe Ressourcen relevant.
+cmix#:#activity_id#:#Activity-ID
+cmix#:#activity_id_info#:#Diese ID wird für die Anzeige von Daten aus dem LRS benötigt. Diese ID erhalten Sie vom Anbieter der Ressource.
+cmix#:#use_fetch#:#Autorisierung durch Fetch-URL
+cmix#:#use_fetch_info#:#Solange die Ressource diese Option unterstützt, sollten Sie diese Option verwenden um die Datensicherheit zu erhöhen.
+cmix#:#privacy_options#:#Optionen zum Datenschutz
+cmix#:#content_privacy_ident#:#Benutzeridentifikation
+cmix#:#content_privacy_name#:#Benutzername
+cmix#:#log_options#:#Optionen zur Anzeige der übertragenen Daten
+cmix#:#show_debug#:#Lernerfahrungen anzeigen
+cmix#:#show_debug_info#:#Die Lernerfahrungen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
+cmix#:#cmix_all_verbs#:#Alle Verben
+cmix#:#cmix_adlnetgov_expapi_verbs_answered#:#Answered
+cmix#:#cmix_adlnetgov_expapi_verbs_asked#:#Asked
+cmix#:#cmix_adlnetgov_expapi_verbs_attempted#:#Attempted
+cmix#:#cmix_adlnetgov_expapi_verbs_attended#:#Attended
+cmix#:#cmix_adlnetgov_expapi_verbs_commented#:#Commented
+cmix#:#cmix_adlnetgov_expapi_verbs_completed#:#Completed
+cmix#:#cmix_adlnetgov_expapi_verbs_exited#:#Exited
+cmix#:#cmix_adlnetgov_expapi_verbs_experienced#:#Experienced
+cmix#:#cmix_adlnetgov_expapi_verbs_failed#:#Failed
+cmix#:#cmix_adlnetgov_expapi_verbs_imported#:#Imported
+cmix#:#cmix_adlnetgov_expapi_verbs_initialized#:#Initialized
+cmix#:#cmix_adlnetgov_expapi_verbs_interacted#:#Interacted
+cmix#:#cmix_adlnetgov_expapi_verbs_launched#:#Launched
+cmix#:#cmix_adlnetgov_expapi_verbs_mastered#:#Mastered
+cmix#:#cmix_adlnetgov_expapi_verbs_passed#:#Passed
+cmix#:#cmix_adlnetgov_expapi_verbs_preferred#:#Preferred
+cmix#:#cmix_adlnetgov_expapi_verbs_progressed#:#Progressed
+cmix#:#cmix_adlnetgov_expapi_verbs_registered#:#Registered
+cmix#:#cmix_adlnetgov_expapi_verbs_responded#:#Responded
+cmix#:#cmix_adlnetgov_expapi_verbs_resumed#:#Resumed
+cmix#:#cmix_adlnetgov_expapi_verbs_scored#:#Scored
+cmix#:#cmix_adlnetgov_expapi_verbs_shared#:#Shared
+cmix#:#cmix_adlnetgov_expapi_verbs_suspended#:#Suspended
+cmix#:#cmix_adlnetgov_expapi_verbs_terminated#:#Terminated
+cmix#:#cmix_adlnetgov_expapi_verbs_voided#:#Voided
+cmix#:#highscore_enabled#:#Platzierungen
+cmix#:#highscore_description#:#Die Namen anderer Benutzer können angezeigt werden, wenn das Recht 'Lernerfahrungen anderer Benutzer anzeigen' gesetzt ist.
+cmix#:#highscore_achieved_ts#:#Datum
+cmix#:#highscore_achieved_ts_description#:#Eine Spalte mit dem Datum wird in die Platzierungen aufgenommen.
+cmix#:#highscore_score#:#Punktzahl
+cmix#:#highscore_score_description#:#Eine Spalte mit der Punktzahl wird in die Platzierungen aufgenommen.
+cmix#:#highscore_percentage#:#Prozentsatz
+cmix#:#highscore_percentage_description#:#Eine Spalte mit der Punktzahl als Prozentsatz wird in die Platzierungen aufgenommen.
+cmix#:#highscore_wtime#:#Dauer
+cmix#:#highscore_wtime_description#:#Eine Spalte mit der Dauer wird in die Rangliste aufgenommen.
+cmix#:#highscore_mode#:#Modus
+cmix#:#highscore_own_table#:#Eigener Rang des Teilnehmers
+cmix#:#highscore_own_table_description#:#Teilnehmern wird eine Tabelle mit ihrem Rang innerhalb aller Platzierungen angezeigt.
+cmix#:#highscore_top_table#:#Bestenliste
+cmix#:#highscore_top_table_description#:#Teilnehmern wird eine Tabelle mit den besten Platzierungen angezeigt.
+cmix#:#highscore_all_tables#:#Eigener Rang und Bestenliste
+cmix#:#highscore_all_tables_description#:#Zeigt sowohl eine Tabelle mit der eigenen Platzierung als auch eine Tabelle mit den besten Platzierungen.
+cmix#:#highscore_top_num#:#Länge der Bestenliste
+cmix#:#highscore_top_num_description#:#Bestimmt, wie viele Einträge in der Bestenliste angezeigt werden.
+cmix#:#highscore_top_num_unit#:#Platzierungen
+cmix#:#download_certificate#:#Zertifikat herunterladen
+dash#:#dash_info_sure_remove_from_favs#:#Sollen die folgenden Objekte wirklich aus Ihren Favoriten entfernt werden?
+mmbr#:#mmbr_unsubscribed_from_objs#:#Sie wurden von den ausgewählten Objekten abgemeldet.
+cont#:#cont_std_filter_title_9#:#Online/Offline
+rep#:#rep_export_limitation#:#Container-Exportbegrenzung
+rep#:#rep_export_limitation_info#:#Begrenzt die Anzahl an exportierten Unterobjekten beim Export von Containern (Kategorien, Kurse, ...) im Magazin.
+rep#:#rep_export_limitation_disabled#:#Container-Export deaktiviert
+rep#:#rep_export_limitation_limited#:#Limit
+rep#:#rep_export_limit_number#:#Anzahl Objekte
+rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den Export ist zu hoch (max. %1). Bitte wählen Sie weniger Objekte für den Export aus.
+rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.

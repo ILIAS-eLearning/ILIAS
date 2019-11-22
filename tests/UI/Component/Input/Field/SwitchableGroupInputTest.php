@@ -64,13 +64,6 @@ class SwitchableGroupInputTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function brutallyTrimHTML($html)
-    {
-        $html = str_replace(["\n", "\r", "\t"], "", $html);
-        $html = preg_replace('# {2,}#', " ", $html);
-        return trim($html);
-    }
-
     public function testWithDisabledDisablesChildren()
     {
         $this->assertNotSame($this->child1, $this->child2);

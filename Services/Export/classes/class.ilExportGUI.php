@@ -152,6 +152,8 @@ class ilExportGUI
 		$ilAccess = $DIC['ilAccess'];
 		$ilErr = $DIC['ilErr'];
 		$lng = $DIC['lng'];
+		/** @var ilObjectDefinition $objDefinition */
+		$objDefinition = $DIC["objDefinition"];
 		
 		// this should work (at least) for repository objects 
 		if(method_exists($this->obj, 'getRefId') and $this->obj->getRefId())
@@ -160,6 +162,14 @@ class ilExportGUI
 			{
 				$ilErr->raiseError($lng->txt('permission_denied'),$ilErr->WARNING);
 			}
+
+			// check export activation of container
+            $exp_limit = new ilExportLimitation();
+            if ($objDefinition->isContainer(ilObject::_lookupType($this->obj->getRefId(), true)) &&
+                $exp_limit->getLimitationMode() == ilExportLimitation::SET_EXPORT_DISABLED) {
+                ilUtil::sendFailure($lng->txt("exp_error_disabled"));
+                return;
+            }
 		}
 			
 		$cmd = $ilCtrl->getCmd("listExportFiles");
@@ -458,6 +468,17 @@ class ilExportGUI
 		include_once './Services/Export/classes/class.ilExportOptions.php';
 		$eo = ilExportOptions::newInstance(ilExportOptions::allocateExportId());
 		$eo->addOption(ilExportOptions::KEY_ROOT,0,0,$this->obj->getId());
+
+        // check export limitation
+        $exp_limit = new ilExportLimitation();
+        try {
+            $exp_limit->checkLimitation($this->getParentGUI()->object->getRefId(),
+                $_POST['cp_options']);
+        } catch (Exception $e) {
+            ilUtil::sendFailure($e->getMessage());
+            $this->showItemSelection();
+            return;
+        }
 		
 		$items_selected = false;
 		foreach($tree->getSubTree($root = $tree->getNodeData($this->getParentGUI()->object->getRefId())) as $node)

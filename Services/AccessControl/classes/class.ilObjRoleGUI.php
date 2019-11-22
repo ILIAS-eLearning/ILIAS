@@ -316,7 +316,7 @@ class ilObjRoleGUI extends ilObjectGUI
 		if(ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive())
 		{
 			$this->lng->loadLanguageModule("file");
-			$wquo = new ilNumberInputGUI($this->lng->txt('personal_workspace_disk_quota'),'wsp_disk_quota');
+			$wquo = new ilNumberInputGUI($this->lng->txt('personal_resources_disk_quota'),'wsp_disk_quota');
 			$wquo->setMinValue(0);
 			$wquo->setSize(4);
 			$wquo->setInfo($this->lng->txt('enter_in_mb_desc').'<br />'.$this->lng->txt('disk_quota_on_role_desc'));

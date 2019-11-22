@@ -127,7 +127,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
 			if(!ilDiskQuotaHandler::isUploadPossible())
 			{				
 				$lng->loadLanguageModule("file");		
-				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");				
+				$quota_exceeded = $lng->txt("personal_resources_quota_exceeded_warning");
 			}
 			else
 			{							

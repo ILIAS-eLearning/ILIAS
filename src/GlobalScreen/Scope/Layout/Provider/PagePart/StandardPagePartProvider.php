@@ -11,6 +11,7 @@ use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ILIAS\UI\Implementation\Component\Legacy\Legacy as LegacyImplementation;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ilUtil;
 
 /**
@@ -55,7 +56,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getContent() : ?Legacy
     {
-        return $this->content ?? new LegacyImplementation("");
+        return $this->content ?? $this->ui->factory()->legacy("");
     }
 
 
@@ -64,14 +65,14 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMetaBar() : ?MetaBar
     {
-        $this->gs->collector()->metaBar()->collect();
+        $this->gs->collector()->metaBar()->collectOnce();
         if (!$this->gs->collector()->metaBar()->hasItems()) {
             return null;
         }
         $f = $this->ui->factory();
         $meta_bar = $f->mainControls()->metaBar();
 
-        foreach ($this->gs->collector()->metaBar()->getItems() as $item) {
+        foreach ($this->gs->collector()->metaBar()->getItemsForUIRepresentation() as $item) {
 
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -88,7 +89,7 @@ class StandardPagePartProvider implements PagePartProvider
      */
     public function getMainBar() : ?MainBar
     {
-        $this->gs->collector()->mainmenu()->collect();
+        $this->gs->collector()->mainmenu()->collectOnce();
         if (!$this->gs->collector()->mainmenu()->hasItems()) {
             return null;
         }
@@ -96,7 +97,7 @@ class StandardPagePartProvider implements PagePartProvider
         $f = $this->ui->factory();
         $main_bar = $f->mainControls()->mainBar();
 
-        foreach ($this->gs->collector()->mainmenu()->getItems() as $item) {
+        foreach ($this->gs->collector()->mainmenu()->getItemsForUIRepresentation() as $item) {
             /**
              * @var $component Combined
              */
@@ -106,11 +107,6 @@ class StandardPagePartProvider implements PagePartProvider
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
             }
-
-            $item_state = new ItemState($item->getProviderIdentification());
-            if ($item_state->isItemActive()) {
-                $main_bar = $main_bar->withActive($identifier);
-            }
         }
 
         $grid_icon = $f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small");
@@ -119,11 +115,11 @@ class StandardPagePartProvider implements PagePartProvider
         );
 
         // Tools
-        $this->gs->collector()->tool()->collect();
+        $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
-            foreach ($this->gs->collector()->tool()->getItems() as $tool) {
+            foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
                 $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);

@@ -6806,20 +6806,16 @@ button.close {
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
-@media only screen and (min-width: 769px) {
-  .panel-secondary .il-panel-listing-std-container > h3,
-  .panel-secondary .il-panel-listing-std-container > h4 {
-    display: block;
-    padding: 3px 6px;
-    font-size: 12px;
-    background-color: #ececec;
-    color: #909090;
-    white-space: nowrap;
-    margin: 0;
-  }
-  .panel-secondary .panel-body {
-    padding: 3px 8px;
-  }
+.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .panel-body h4 {
+  display: block;
+  padding: 3px 6px;
+  font-size: 12px;
+  color: #909090;
+  margin: 0;
+}
+.panel-secondary .panel-body {
+  padding: 0;
 }
 .panel-secondary .panel-heading {
   display: flex;
@@ -7437,6 +7433,12 @@ hr.il-divider-with-label {
 .il-item-group-items {
   clear: both;
 }
+.il-notification-item:not(:first-child) {
+  margin-top: 6px;
+}
+.il-notification-item .dropdown {
+  margin-top: -20px;
+}
 /* this is currently experimental, could be removed */
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
@@ -7519,7 +7521,9 @@ hr.il-divider-with-label {
 }
 /* otherwise dropdowns in items with icon do not work */
 .il-std-item .media .media-body,
-.il-std-item .media {
+.il-std-item .media,
+.il-notification-item .media,
+.il-notification-item .media .media-body {
   overflow: visible;
 }
 @media only screen and (max-width: 768px) {
@@ -8415,6 +8419,22 @@ section {
 grid-based layout
 *********************
 */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  body {
+    background-image: url("../../templates/default/images/HeaderIcon.svg");
+    background-position: center 43%;
+    background-repeat: no-repeat;
+    display: -ms-flexbox;
+    align-items: center;
+    justify-content: center;
+  }
+  body:after {
+    content: "Microsoft Internet Explorer is no longer supported!";
+  }
+  body .il-layout-page {
+    display: none;
+  }
+}
 .il-layout-page {
   background: #f0f0f0;
   display: -ms-grid;
@@ -8803,6 +8823,21 @@ footer {
     overflow: auto;
   }
 }
+/*
+**************************************************************
+       print styles
+**************************************************************
+*/
+@media print {
+  .il-layout-page {
+    display: block;
+  }
+  .il-layout-page header,
+  .il-layout-page nav,
+  .il-layout-page footer {
+    display: none;
+  }
+}
 .il-maincontrols-slate.disengaged {
   display: none;
 }
@@ -8868,6 +8903,26 @@ footer {
 }
 .il-maincontrols-slate .il-maincontrols-slate .btn-bulky {
   background-color: #e3e3e3;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
+  text-transform: uppercase;
+  padding: 12px;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
+  margin: -12px;
+  border: none;
+  border-right: solid 3px;
+  border-right-color: white;
+  padding: 12px;
+  background-color: transparent;
+  text-transform: uppercase;
+  width: 50%;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
+  content: " \e605";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-right: 10px;
 }
 .il-maincontrols-slate-content p,
 .il-maincontrols-slate-content h1,
@@ -8969,7 +9024,7 @@ footer {
 .il-metabar-entries .btn {
   position: relative;
 }
-.il-metabar-entries .btn .badge {
+.il-metabar-entries .il-counter-novelty {
   margin-top: -20px;
 }
 .il-metabar-entries .il-counter-status {
@@ -9026,10 +9081,16 @@ footer {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   position: absolute;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: scroll;
   right: 0;
   top: 60px;
   /*TODO: remove hack*/
   /*end of hack*/
+}
+.il-metabar-slates .il-maincontrols-slate {
+  min-width: 500px;
 }
 @media only screen and (max-width: 768px) {
   .il-metabar-slates {
@@ -9037,9 +9098,6 @@ footer {
     top: 45px;
     right: 0;
   }
-}
-.il-metabar-slates .il-maincontrols-slate {
-  min-width: 500px;
 }
 @media only screen and (max-width: 768px) {
   .il-metabar-slates .il-maincontrols-slate {
@@ -10303,6 +10361,9 @@ footer {
 }
 .il-glyphicon-angry:before {
   content: "\1f620";
+}
+.glyphicon-option-horizontal:before {
+  content: "\e602";
 }
 .il-link.link-bulky {
   display: flex;
@@ -16869,6 +16930,18 @@ span.ilNewsRssIcon:hover {
   margin: 0 -20px -20px -20px;
   padding: 10px 20px;
 }
+.ilDashboardMainContent .il-panel-listing-std-container {
+  margin-bottom: 15px;
+}
+.ilDashboardMainContent .il-item-group {
+  background-color: #f9f9f9;
+}
+.ilDashboardMainContent .il-item-group h4 {
+  margin: 0;
+  padding: 3px 8px;
+  text-transform: none;
+  font-size: 12px;
+}
 div.ilSurveyPageEditDropArea {
   border-color: #88be51;
   color: #88be51;
@@ -17215,7 +17288,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .popover {
   max-width: 200px;
   min-height: 100px;
-  word-break: break-word;
 }
 #onscreenchat-container .popover a {
   border: 1px solid white;
@@ -17237,6 +17309,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding: 5px 5px 5px 15px;
   pointer-events: auto;
   margin: 0;
+  border-bottom: 1px solid #dcdcdc;
   vertical-align: middle;
 }
 #onscreenchat-container .panel-heading .btn {
@@ -17346,20 +17419,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   margin: 0;
   padding: 0;
 }
-#onscreenchat-container .chat-window-wrapper .chat li.separator:not(:first-child) {
-  border-top: 1px dotted #b3a9a9;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.header:not(:first-child) {
-  margin-top: 15px;
-}
 #onscreenchat-container .chat-window-wrapper .chat li {
+  margin-bottom: 10px;
   padding-bottom: 5px;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.separator {
-  text-align: center;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.separator p {
-  font-size: .9em;
+  border-bottom: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
@@ -17378,11 +17441,11 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 250px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
-  position: absolute;
-  float: right;
-  top: 16px;
-  z-index: 3;
-  right: 18px;
+  display: block;
+  height: 14px;
+  width: 14px;
+  position: relative;
+  margin-top: 5px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel > a {
   display: block;
@@ -18034,6 +18097,18 @@ span.ilProfileBadge .modal .img-responsive {
   border: none;
   vertical-align: top;
 }
+/* BEGIN LTIConsumer */
+#ltiLoadingAnimation {
+  padding-top: 50px;
+  text-align: center;
+}
+#ltiIframe {
+  border: solid #7c7c7c 2px !important;
+  padding: 3px;
+  width: 100%;
+  height: 500px;
+}
+/* END LTIConsumer */
 .ilLike {
   /* background-color: @il-secondary-container-bg; */
   padding: 5px 0px;

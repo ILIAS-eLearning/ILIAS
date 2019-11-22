@@ -28,6 +28,15 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	 */
 	protected $tree;
 
+    /**
+     * @var ilObjectDefinition
+     */
+	protected $obj_definition;
+
+    /**
+     * @var ilCtrl
+     */
+	protected $ctrl;
 
 	/**
 	 * Constructor
@@ -40,6 +49,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->tree = $DIC->repositoryTree();
+		$this->obj_definition = $DIC["objDefinition"];
+		$this->ctrl = $DIC->ctrl();
 	}
 
 	protected $enable_all_users; // [bool]
@@ -82,12 +93,12 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	public function render(array &$a_html, $a_parent_gui)
 	{		
 		$lng = $this->lng;
+		$ctrl = $this->ctrl;
 		
 		$all_tags = $this->getSubTreeTags();				
 		if($all_tags)
 		{						
-			// see ilPDTaggingBlockGUI::getTagCloud();
-			
+
 		    $map = array(
 				"personal" => $lng->txt("tagging_my_tags"),
 				"other" =>  $lng->txt("tagging_other_users")
@@ -108,7 +119,11 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 
 					$tpl->setCurrentBlock("tag_bl");
 					foreach($tags as $tag => $counter)
-					{						
+					{
+                        $ctrl->setParameter($a_parent_gui, "tag_type", $type);
+                        $ctrl->setParameter($a_parent_gui, "tag", md5($tag));
+						$tpl->setVariable("HREF", $ctrl->getLinkTarget($a_parent_gui, "toggle"));
+
 						$tpl->setVariable("TAG_TYPE", $type);
 						$tpl->setVariable("TAG_TITLE", $tag);
 						$tpl->setVariable("TAG_CODE", md5($tag));
@@ -262,17 +277,31 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
 	{
 		$tree = $this->tree;
 		$ilUser = $this->user;
-		
+
+		//$objdefinition = $this->obj_definition;
+
 		$sub_ids = array();
-		foreach($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $sub_item)
-		{
-			if($sub_item["ref_id"] != $this->parent_ref_id &&
-				$sub_item["type"] != "rolf" &&
-				!$tree->isDeleted($sub_item["ref_id"]))
-			{				
-				$sub_ids[$sub_item["obj_id"]] = $sub_item["type"];
-			}
-		}
+
+        // categories show only direct children and their tags
+        if (ilObject::_lookupType($this->parent_ref_id, true) == "cat") {
+            foreach($tree->getChilds($this->parent_ref_id) as $sub_item)
+            {
+                if($sub_item["ref_id"] != $this->parent_ref_id &&
+                    $sub_item["type"] != "rolf" &&
+                    !$tree->isDeleted($sub_item["ref_id"]))
+                {
+                    $sub_ids[$sub_item["obj_id"]] = $sub_item["type"];
+                }
+            }
+        } else {
+            foreach ($tree->getSubTree($tree->getNodeData($this->parent_ref_id)) as $sub_item) {
+                if ($sub_item["ref_id"] != $this->parent_ref_id &&
+                    $sub_item["type"] != "rolf" &&
+                    !$tree->isDeleted($sub_item["ref_id"])) {
+                    $sub_ids[$sub_item["obj_id"]] = $sub_item["type"];
+                }
+            }
+        }
 		
 		if($sub_ids)
 		{

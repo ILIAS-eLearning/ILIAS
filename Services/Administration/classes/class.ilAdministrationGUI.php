@@ -2,13 +2,11 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTableGUI.php");
 
 /**
 * Class ilAdministratioGUI
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilAdministrationGUI: ilObjGroupGUI, ilObjFolderGUI, ilObjFileGUI, ilObjCourseGUI, ilCourseObjectivesGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjSAHSLearningModuleGUI, ilObjChatroomGUI, ilObjForumGUI
@@ -39,6 +37,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilAdministrationGUI: ilObjStudyProgrammeAdminGUI, ilObjStudyProgrammeGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjBadgeAdministrationGUI, ilMemberExportSettingsGUI
 * @ilCtrl_Calls ilAdministrationGUI: ilObjFileAccessSettingsGUI, ilPermissionGUI, ilObjRemoteTestGUI
+* @ilCtrl_Calls ilAdministrationGUI: ilObjCmiXapiAdministrationGUI, ilObjCmiXapiGUI, ilObjLTIConsumerGUI
 */
 class ilAdministrationGUI
 {
@@ -150,7 +149,6 @@ class ilAdministrationGUI
 		$ilDB = $this->db;
 		
 		// permission checks
-		include_once './Services/MainMenu/classes/class.ilMainMenuGUI.php';
 		if(!$rbacsystem->checkAccess("visible", SYSTEM_FOLDER_ID) &&
 				!$rbacsystem->checkAccess("read", SYSTEM_FOLDER_ID))
 		{
@@ -221,7 +219,6 @@ class ilAdministrationGUI
 					
 					$class_path = $this->ctrl->lookupClassPath($next_class);
 					// get gui class instance
-					include_once($class_path);
 					$class_name = $this->ctrl->getClassForClasspath($class_path);
 					if (($next_class == "ilobjrolegui" || $next_class == "ilobjusergui"
 						|| $next_class == "ilobjroletemplategui"))

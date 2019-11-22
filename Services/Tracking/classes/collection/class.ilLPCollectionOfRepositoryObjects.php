@@ -77,6 +77,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 						case "prg":
 						case 'iass':
 						case 'copa':
+						case 'cmix':
+						case 'lti':
 						case 'lso':
 							if(!$a_full_data)
 							{

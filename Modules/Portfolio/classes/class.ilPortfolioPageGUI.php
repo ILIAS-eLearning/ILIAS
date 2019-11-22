@@ -486,7 +486,27 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
 	}
-	
+
+	protected function dlcmxv()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			$verification = new ilObjCmiXapiVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+
+	protected function dlltiv()
+	{
+		$id = $_GET["dlid"];
+		if($id)
+		{
+			$verification = new ilObjLTIConsumerVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
+			$verification->downloadFromPortfolioPage($this->getPageObject());
+		}
+	}
+
 	protected function dlscov()
 	{
 		$id = $_GET["dlid"];

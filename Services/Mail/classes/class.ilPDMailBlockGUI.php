@@ -170,7 +170,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 	}
 
 	/**
-	 * get flat bookmark list for personal desktop
+	 * get flat list for personal desktop
 	 */
 	public function fillRow($mail)
 	{

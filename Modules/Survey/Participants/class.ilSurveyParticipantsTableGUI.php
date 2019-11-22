@@ -1,12 +1,20 @@
 <?php
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Survey\Participants;
+
 /**
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class ilSurveyParticipantsTableGUI extends ilTable2GUI
 {
+    /**
+     * @var Participants\InvitationsManager
+     */
+    protected $invitation_manager;
+
 	public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_svy)
 	{		
 		global $DIC;
@@ -15,7 +23,8 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 		$this->ctrl = $DIC->ctrl();
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
-					
+        $this->invitation_manager = new Participants\InvitationsManager();
+
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		
 		$this->setTitle($lng->txt("svy_anonymous_participants_svy"));
@@ -25,7 +34,7 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 		// $this->addColumn($this->lng->txt("gender"), "gender");		
 		$this->addColumn($this->lng->txt("status"), "status");		
 		
-		$this->setRowTemplate("tpl.il_svy_svy_participants_row.html", "Modules/Survey");		
+		$this->setRowTemplate("tpl.il_svy_svy_participants_row.html", "Modules/Survey/Participants");
 		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 		$this->setDefaultOrderField("name");	
 		
@@ -55,9 +64,10 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
 				"status" => $status
 			);
 		}
-		
-		foreach($a_svy->getInvitedUsers() as $user_id)
+
+		foreach($this->invitation_manager->getAllForSurvey($a_svy->getSurveyId()) as $user_id)
 		{
+
 			$user = ilObjUser::_lookupName($user_id);
 			if($user["login"] &&
 				!array_key_exists($user["login"], $data))

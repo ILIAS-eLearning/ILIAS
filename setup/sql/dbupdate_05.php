@@ -2814,3 +2814,78 @@ ilDBUpdateNewObjectType::addAdminNode('prss', 'Personal Resources Settings');
 	}
 
 ?>
+<#5585>
+<?php
+if(!$ilDB->tableExists('svy_invitation'))
+{
+    $ilDB->createTable('svy_invitation', [
+        'user_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ],
+        'survey_id' => [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        ]
+    ]);
+    $ilDB->addPrimaryKey("svy_invitation", ["user_id", "survey_id"]);
+}
+?>
+<#5586>
+<?php
+	$set = $ilDB->queryF("SELECT DISTINCT survey_fi, user_fi FROM svy_inv_usr ",
+		[],
+		[]
+	);
+	while ($rec = $ilDB->fetchAssoc($set))
+	{
+        $ilDB->insert("svy_invitation", [
+        	"survey_id" => ["integer", $rec["survey_fi"]],
+        	"user_id" => ["integer", $rec["user_fi"]]
+        ]);
+	}
+
+?>
+<#5587>
+<?php
+	$ilDB->dropTable('svy_inv_usr');
+?>
+<#5588>
+<?php
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//exercise/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//course/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//assessment/certificates//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+$ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
+    "REPLACE(" .
+    "background_image_path , " .
+    $ilDB->quote('//certificates/scorm//', 'text') . " , " .
+    "CONCAT( CONCAT(" . $ilDB->quote('/', 'text') . ",obj_id)," . $ilDB->quote('/', 'text') . ") ".
+    ") " .
+    "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
+);
+?>

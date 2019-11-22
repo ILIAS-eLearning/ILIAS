@@ -127,6 +127,11 @@ class Factory implements \ILIAS\UI\Factory
      */
     protected $symbol_factory;
 
+    /**
+     * @var C\Legacy\Factory
+     */
+    protected $legacy_factory;
+
     public function __construct(
         C\Counter\Factory $counter_factory,
         C\Button\Factory $button_factory,
@@ -150,7 +155,8 @@ class Factory implements \ILIAS\UI\Factory
         C\MainControls\Factory $maincontrols_factory,
         C\Tree\Factory $tree_factory,
         C\Menu\Factory $menu_factory,
-        C\Symbol\Factory $symbol_factory
+        C\Symbol\Factory $symbol_factory,
+        C\Legacy\Factory $legacy_factory
     ) {
         $this->counter_factory = $counter_factory;
         $this->button_factory = $button_factory;
@@ -175,6 +181,7 @@ class Factory implements \ILIAS\UI\Factory
         $this->tree_factory = $tree_factory;
         $this->menu_factory = $menu_factory;
         $this->symbol_factory = $symbol_factory;
+        $this->legacy_factory = $legacy_factory;
     }
 
     /**
@@ -230,7 +237,7 @@ class Factory implements \ILIAS\UI\Factory
      */
     public function legacy($content)
     {
-        return new Component\Legacy\Legacy($content);
+        return $this->legacy_factory->legacy($content);
     }
 
     /**

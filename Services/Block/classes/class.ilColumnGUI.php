@@ -78,38 +78,30 @@ class ilColumnGUI
 		"ilNewsForContextBlockGUI" => "Services/News/",
 		"ilCalendarBlockGUI" => "Services/Calendar/",
 		"ilPDCalendarBlockGUI" => "Services/Calendar/",
-		"ilPDNotesBlockGUI" => "Services/Notes/",
 		"ilPDTasksBlockGUI" => "Services/Tasks/",
 		"ilPDMailBlockGUI" => "Services/Mail/",
 		"ilPDSelectedItemsBlockGUI" => "Services/Dashboard/ItemsBlock/",
-		"ilBookmarkBlockGUI" => "Services/Bookmarks/",
 		"ilPDNewsBlockGUI" => "Services/News/",
 		"ilExternalFeedBlockGUI" => "Modules/ExternalFeed/",
 		"ilPDExternalFeedBlockGUI" => "Services/Feeds/",
-		'ilPDTaggingBlockGUI' => 'Services/Tagging/',
 		'ilPollBlockGUI' => 'Modules/Poll/',
 		'ilClassificationBlockGUI' => 'Services/Classification/',
-		'ilPDPortfolioBlockGUI' => 'Modules/Portfolio/',
 		"ilPDStudyProgrammeSimpleListGUI" => "Modules/StudyProgramme/",
 		"ilPDStudyProgrammeExpandableListGUI" => "Modules/StudyProgramme/",
 	);
 	
 	static protected $block_types = array(
 		"ilPDMailBlockGUI" => "pdmail",
-		"ilPDNotesBlockGUI" => "pdnotes",
 		"ilPDTasksBlockGUI" => "pdtasks",
 		"ilPDNewsBlockGUI" => "pdnews",
-		"ilBookmarkBlockGUI" => "pdbookm",
 		"ilNewsForContextBlockGUI" => "news",
 		"ilCalendarBlockGUI" => "cal",
 		"ilPDCalendarBlockGUI" => "pdcal",
 		"ilExternalFeedBlockGUI" => "feed",
 		"ilPDExternalFeedBlockGUI" => "pdfeed",
 		"ilPDSelectedItemsBlockGUI" => "pditems",
-		'ilPDTaggingBlockGUI' => 'pdtag',
 		'ilPollBlockGUI' => 'poll',
 		'ilClassificationBlockGUI' => 'clsfct',
-		'ilPDPortfolioBlockGUI' => 'pdportf',
 		"ilPDStudyProgrammeSimpleListGUI" => "prgsimplelist",
 		"ilPDStudyProgrammeExpandableListGUI" => "prgexpandablelist",
 	);
@@ -144,22 +136,6 @@ class ilColumnGUI
 			"ilPDMailBlockGUI" => IL_COL_RIGHT
 			)
 		);
-	/*
-		"pd" => array(
-			"ilPDTasksBlockGUI" => IL_COL_RIGHT,
-			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
-			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
-			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
-			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
-			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
-			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
-			"ilPDMailBlockGUI" => IL_COL_RIGHT,
-			"ilPDNotesBlockGUI" => IL_COL_RIGHT,
-			"ilBookmarkBlockGUI" => IL_COL_RIGHT,
-			"ilPDTaggingBlockGUI" => IL_COL_RIGHT,
-			)
-		);
-	*/
 
 	// these are only for pd blocks
 	// other blocks are rep objects now
@@ -607,19 +583,6 @@ class ilColumnGUI
 				
 				$html = $ilCtrl->getHTML($block_gui);
 
-				// dummy block, if non visible, but movement is ongoing
-				if ($html == "" && $this->getRepositoryMode() &&
-					$this->getMovementMode())
-				{
-					include_once("./Services/Block/classes/class.ilDummyBlockGUI.php");
-					$bl = new ilDummyBlockGUI();
-					$bl->setBlockId($block["id"]);
-					$bl->setBlockType($block["type"]);
-					$bl->setTitle($lng->txt("invisible_block"));
-					$bl->setConfigMode($this->getMovementMode());
-					$html = $bl->getHTML();
-				}
-				
 				// don't render a block if it's empty
 				if ($html != "")
 				{

@@ -38,7 +38,9 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Skills")
-                ->withContent($l($this->getSkillTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getSkillTree());
+                });
         }
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
 
@@ -46,11 +48,14 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Templates")
-                ->withContent($l($this->getTemplateTree()));
+                ->withContentWrapper(function () use ($l) {
+                    return $l($this->getTemplateTree());
+                });
         }
 
         return $tools;
     }
+
 
     /**
      * @return string
@@ -58,8 +63,10 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     private function getSkillTree() : string
     {
         $exp = new ilSkillTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+
         return $exp->getHTML();
     }
+
 
     /**
      * @return string
@@ -67,6 +74,7 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
     private function getTemplateTree() : string
     {
         $exp = new ilSkillTemplateTreeExplorerGUI(["ilAdministrationGUI", "ilObjSkillManagementGUI"], "showTree");
+
         return $exp->getHTML();
     }
 }

@@ -511,6 +511,8 @@ class ilLearningProgressBaseGUI
 			case 'grp':
 			case 'iass':
 			case 'copa':
+			case 'cmix':
+			case 'lti':
 			case 'sess':
 			case 'lso':
 				// display status as image
@@ -526,6 +528,13 @@ class ilLearningProgressBaseGUI
 				if(in_array($mode, array(ilLPObjSettings::LP_MODE_TLT, 
 					ilLPObjSettings::LP_MODE_VISITS, 
 					// ilLPObjSettings::LP_MODE_OBJECTIVES, 
+					ilLPObjSettings::LP_MODE_LTI_OUTCOME,
+					ilLPObjSettings::LP_MODE_CMIX_COMPLETED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED,
+					ilLPObjSettings::LP_MODE_CMIX_PASSED,
+					ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED,
+					ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED,
 					ilLPObjSettings::LP_MODE_SCORM,
 					ilLPObjSettings::LP_MODE_TEST_PASSED)))
 				{

@@ -13,7 +13,6 @@ class ilUserUtil
 {
 	const START_PD_OVERVIEW = 1;
 	const START_PD_SUBSCRIPTION = 2;
-	const START_PD_BOOKMARKS = 3;
 	const START_PD_NOTES = 4;
 	const START_PD_NEWS = 5;
 	const START_PD_WORKSPACE = 6;

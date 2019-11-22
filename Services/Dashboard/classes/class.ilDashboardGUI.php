@@ -12,7 +12,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI, ilBookmarkAdministrationGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPersonalProfileGUI
  * @ilCtrl_Calls ilDashboardGUI: ilObjUserGUI, ilPDNotesGUI
  * @ilCtrl_Calls ilDashboardGUI: ilColumnGUI, ilPDNewsGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMailSearchGUI, ilContactGUI
@@ -109,6 +109,7 @@ class ilDashboardGUI
 		$this->lng->loadLanguageModule("pdesk");
 		$this->lng->loadLanguageModule("pd"); // #16813
 		$this->lng->loadLanguageModule("dash");
+		$this->lng->loadLanguageModule("mmbr");
 
 		// catch hack attempts
 		if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID)
@@ -152,20 +153,7 @@ class ilDashboardGUI
 
 		switch($next_class)
 		{
-			case "ilbookmarkadministrationgui":
-				if ($ilSetting->get('disable_bookmarks'))
-				{
-					ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-					ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-					return;
-				}				
-				include_once("./Services/Bookmarks/classes/class.ilBookmarkAdministrationGUI.php");
-				$bookmark_gui = new ilBookmarkAdministrationGUI();
-				$this->getStandardTemplates();
-				$this->setTabs();
-				$ret = $this->ctrl->forwardCommand($bookmark_gui);
-				break;
-			
+
 				// profile
 			case "ilpersonalprofilegui":
 				$this->getStandardTemplates();
@@ -232,6 +220,26 @@ class ilDashboardGUI
 				$column_gui = new ilColumnGUI("pd");
 				$this->initColumn($column_gui);
 				$this->show();
+				break;
+
+			case "ilpdselecteditemsblockgui":
+				$block = new ilPDSelectedItemsBlockGUI();
+				$ret = $this->ctrl->forwardCommand($block);
+				if($ret!= "") {
+					$this->displayHeader();
+					$this->tpl->setContent($ret);
+					$this->tpl->printToStdout();
+				}
+				break;
+
+			case "ilpdmembershipblockgui":
+				$block = new ilPDMembershipBlockGUI();
+				$ret = $this->ctrl->forwardCommand($block);
+				if($ret!= "") {
+					$this->displayHeader();
+					$this->tpl->setContent($ret);
+					$this->tpl->printToStdout();
+				}
 				break;
 
 			case 'ilcontactgui':
@@ -645,23 +653,7 @@ class ilDashboardGUI
 		$this->ctrl->redirectByClass("ilpersonalsettingsgui");
 	}
 	
-	/**
-	* workaround for menu in calendar only
-	*/
-	function jumpToBookmarks()
-	{
-		$ilSetting = $this->settings;
 
-		if ($ilSetting->get("disable_bookmarks"))
-		{
-			ilUtil::sendFailure($this->lng->txt('permission_denied'), true);					
-			ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
-			return;
-		}
-		
-		$this->ctrl->redirectByClass("ilbookmarkadministrationgui");
-	}
-	
 	/**
 	* workaround for menu in calendar only
 	*/
@@ -784,7 +776,6 @@ class ilDashboardGUI
 								'ilpersonalprofilegui',
 								'ilpdnotesgui',
 								'ilcalendarpresentationgui',
-								'ilbookmarkadministrationgui',
 								'illearningprogressgui');
 
 		if(isset($_SESSION['il_pd_history']) and in_array($_SESSION['il_pd_history'],$stored_classes))
@@ -821,7 +812,7 @@ class ilDashboardGUI
 	*/
 	function displayHeader()
 	{
-		$this->tpl->setTitle($this->lng->txt("personal_desktop"));
+		$this->tpl->setTitle($this->lng->txt("dash_dashboard"));
 	}
 
 	/**
@@ -844,6 +835,7 @@ class ilDashboardGUI
 	 */
 	protected function getMainContent()
 	{
+		$tpl = new ilTemplate("tpl.dashboard.html", true, true, "Services/Dashboard");
 		$settings = new ilPDSelectedItemsBlockViewSettings($this->user);
 
 		if ($settings->enabledSelectedItems()) {
@@ -851,11 +843,14 @@ class ilDashboardGUI
 		}
 		$html.= $this->renderRecommendedContent();
 		$html.= $this->renderStudyProgrammes();
+		$html.= $this->renderLearningSequences();
 		if ($settings->enabledMemberships()) {
 			$html .= $this->renderMemberships();
 		}
 
-		return $html;
+		$tpl->setVariable("CONTENT", $html);
+
+		return $tpl->get();
 	}
 
 	/**
@@ -905,6 +900,18 @@ class ilDashboardGUI
 	{
 		$block = new ilPDMembershipBlockGUI();
 		return $block->getHTML();
+	}
+
+	/**
+	 * Render learning sequences
+	 *
+	 * @return string
+	 */
+	protected function renderLearningSequences()
+	{
+		return "";
+		//$ren = new \Modules\LearningSequence\MyDashboardRenderer();
+		//return $ren->render();
 	}
 
 }

@@ -757,7 +757,17 @@ class ilPersonalSkillsGUI
 					$obj = new ilObjCourseVerification($obj_id, false);
 					$url .= $obj->getOfflineFilename();
 					break;
-				
+
+                case "cmxv":
+                    $obj = new ilObjCmiXapiVerification($obj_id, false);
+                    $url .= $obj->getOfflineFilename();
+                    break;
+
+                case "ltiv":
+                    $obj = new ilObjLTIConsumerVerification($obj_id, false);
+                    $url .= $obj->getOfflineFilename();
+                    break;
+
 				case "scov":
 					include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerification.php";
 					$obj = new ilObjSCORMVerification($obj_id, false);
@@ -950,7 +960,7 @@ class ilPersonalSkillsGUI
 		{
 			$url = 'ilias.php?baseClass=ilDashboardGUI&amp;cmd=jumpToWorkspace';
 			$mbox = $ui->factory()->messageBox()->info($lng->txt("skmg_ass_materials_from_workspace"))
-				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_workspace"),
+				->withLinks([$ui->factory()->link()->standard($lng->txt("personal_resources"),
 					$url)]);
 			$message =  $ui->renderer()->render($mbox);
 		}

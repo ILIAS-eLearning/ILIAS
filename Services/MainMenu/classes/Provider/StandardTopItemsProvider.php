@@ -93,6 +93,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withAvailableCallable(
                 function () use ($dic) {
                     return true;
+
                     return $dic->settings()->get('disable_my_memberships', 0) == 0;
                 }
             )
@@ -182,8 +183,13 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
     private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
     {
-        return function () use ($additional) {
-            if ($this->dic->user()->isAnonymous()) {
+        static $is_anonymous;
+        if (!isset($is_anonymous)) {
+            $is_anonymous = $this->dic->user()->isAnonymous();
+        }
+
+        return static function () use ($additional, $is_anonymous) {
+            if ($is_anonymous) {
                 return false;
             }
 

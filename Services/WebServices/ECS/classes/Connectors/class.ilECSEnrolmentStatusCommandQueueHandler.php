@@ -150,7 +150,9 @@ class ilECSEnrolmentStatusCommandQueueHandler implements ilECSCommandQueueHandle
 				
 			case ilECSEnrolmentStatus::STATUS_ACTIVE:
 				$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Add recommended content: '.$a_usr_id.' '.$ref_id.' '.$obj_id);
-				$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $ref_id);
+				// deactivated for now, see discussion at
+				// https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
+				//$this->recommended_content_manager->addObjectRecommendation($a_usr_id, $ref_id);
 				break;
 			
 			case ilECSEnrolmentStatus::STATUS_ACCOUNT_DEACTIVATED:

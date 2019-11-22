@@ -547,8 +547,6 @@ class ilInfoScreenGUI
 					""
 					);
 			
-				// bookmarks
-
 				// links to resource
 				if ($ilAccess->checkAccess("write", "", $ref_id) ||
 					$ilAccess->checkAccess("edit_permissions", "", $ref_id))

@@ -375,7 +375,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
 			if(!ilDiskQuotaHandler::isUploadPossible())
 			{
 				$lng->loadLanguageModule("file");
-				$quota_exceeded = $lng->txt("personal_workspace_quota_exceeded_warning");			
+				$quota_exceeded = $lng->txt("personal_resources_quota_exceeded_warning");
 			}
 			else
 			{							
