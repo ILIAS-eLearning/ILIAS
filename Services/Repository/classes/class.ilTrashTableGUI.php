@@ -56,7 +56,7 @@ class ilTrashTableGUI extends ilTable2GUI
 
 		$this->logger = $DIC->logger()->rep();
 
-		$this->setId(self::TABLE_BASE_ID . ' ' . $ref_id);
+		$this->setId(self::TABLE_BASE_ID);
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 
 		$this->lng->loadLanguageModule('rep');
@@ -82,6 +82,9 @@ class ilTrashTableGUI extends ilTable2GUI
 
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderField('asc');
+
+		$this->setExternalSorting(false);
+		$this->setExternalSegmentation(false);
 
 		$this->setEnableHeader(true);
 		$this->enable('sort');
@@ -144,12 +147,6 @@ class ilTrashTableGUI extends ilTable2GUI
 	 */
 	public function parse()
 	{
-		global $DIC;
-
-		$tree = $DIC->repositoryTree();
-		$objects = $tree->getSavedNodeData($this->ref_id);
-
-
 		$trash_tree_reader = new \ilTreeTrashQueries();
 		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id);
 
@@ -191,6 +188,15 @@ class ilTrashTableGUI extends ilTable2GUI
 			$this->tpl->setVariable('VAL_DESC', $row['description']);
 			$this->tpl->parseCurrentBlock();
 		}
+
+		$this->tpl->setCurrentBlock('with_path');
+		$path = new ilPathGUI();
+		$path->enableTextOnly(false);
+		$this->tpl->setVariable('PATH', $path->getPath($this->ref_id, $row['id']));
+
+		$this->logger->info($path->getPath($this->ref_id, $row['id']));
+
+		$this->tpl->parseCurrentBlock();
 
 		$img = \ilObject::_getIcon(
 			$row['obj_id'],
