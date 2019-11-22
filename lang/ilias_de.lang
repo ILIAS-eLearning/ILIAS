@@ -14124,6 +14124,7 @@ mail#:#nc_mail_unread_messages#:#Sie haben %s im Posteingang.
 mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
 mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#nc_mail_noti_item_title#:#Posteingang
+mail#:#nc_mail_prop_time#:#Zeit
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -15249,6 +15250,7 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
 wfld#:#wfld_sortation#:#Sortierung

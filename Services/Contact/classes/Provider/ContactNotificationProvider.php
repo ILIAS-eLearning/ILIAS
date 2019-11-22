@@ -38,15 +38,25 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         }
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
+        $latestRequestTimestamp = null;
         $openRequests = \ilBuddyList::getInstanceByGlobalUser()
-            ->getRequestRelationsForOwner()->filter(
-                function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp) : bool {
+            ->getRelations()->filter(
+                function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp) : bool {
+                    $timeStamp = $relation->getTimestamp();
+                    
+                    if ($timeStamp > $latestRequestTimestamp) {
+                        $latestRequestTimestamp = $timeStamp;
+                    }
+                    
                     if (!is_numeric($leftIntervalTimestamp)) {
                         return true;
                     }
-                    return $relation->getTimestamp() > $leftIntervalTimestamp;
+
+                    return $timeStamp > $leftIntervalTimestamp;
                 }
             );
+
+        $openRequests->
 
         $contactRequestsCount = count($openRequests->getKeys());
         if ($contactRequestsCount === 0) {
@@ -74,7 +84,12 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
-            ->withDescription($description);
+            ->withDescription($description)
+            ->withProperties([
+                $this->dic->language()->txt('nc_contact_requests_prop_time') => \ilDatePresentation::formatDate(
+                    new \ilDateTime($latestRequestTimestamp, IL_CAL_UNIX)
+                )
+            ]);
 
         $group = $factory
             ->standardGroup($this->getIdentifier('contact_bucket_group'))
