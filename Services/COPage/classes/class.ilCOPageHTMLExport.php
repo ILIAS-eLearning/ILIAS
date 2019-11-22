@@ -132,24 +132,25 @@ class ilCOPageHTMLExport
 		include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
 		
 		// export content style sheet
-		if ($this->getContentStyleId() < 1)
+		if ($this->getContentStyleId() < 1)     // basic style
 		{
 			$cont_stylesheet = "./Services/COPage/css/content.css";
-
 			$css = fread(fopen($cont_stylesheet,'r'),filesize($cont_stylesheet));
 			preg_match_all("/url\(([^\)]*)\)/",$css,$files);
 			foreach (array_unique($files[1]) as $fileref)
 			{
-				if (is_file(str_replace("..", ".", $fileref)))
-				{
-					copy(str_replace("..", ".", $fileref), $this->content_style_img_dir."/".basename($fileref));
-				}
-				$css = str_replace($fileref, "images/".basename($fileref),$css);
+				ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir."/".ilObjStyleSheet::getBasicImageDir());
+				//if (is_file(str_replace("..", ".", $fileref)))
+				//{
+				//	copy(str_replace("..", ".", $fileref), $this->content_style_img_dir."/".basename($fileref));
+				//}
+
+				//$css = str_replace($fileref, "images/".basename($fileref),$css);
 			}
-			fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
+			//fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
 		}
 		else
-		{			
+		{
 			$style = new ilObjStyleSheet($this->getContentStyleId());
 			$style->writeCSSFile($this->content_style_dir."/content.css", "images");
 			$style->copyImagesToDir($this->content_style_img_dir);
