@@ -69,13 +69,17 @@ class MembershipHistoryCourseTableGUI extends MembershipHistoryTableGUI
         $filter = $changelog_service->queryFactory()->filter()->withSubjectObjIds([$this->course_obj_id]);
         $filter = $this->applyFilters($filter);
 
-        $data = $changelog_service->query(
+        $response = $changelog_service->query(
             $filter,
             $changelog_service->queryFactory()->options()
                 ->withOrderField($this->getOrderField() ?: $this->getDefaultOrderField())
                 ->withOrderDirection($this->getOrderDirection() ?: $this->getDefaultOrderDirection())
+                ->withLimit($this->getLimit())
+                ->withOffset($this->getOffset())
         );
-        $this->setData($data);
+
+        $this->setMaxCount($response->getMaxCount());
+        $this->setData($response->getEvents());
     }
 
 

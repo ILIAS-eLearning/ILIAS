@@ -35,6 +35,7 @@ abstract class MembershipHistoryTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, Container $dic, TableOptions $options)
     {
+        $this->setId($options->getId());
         parent::__construct($a_parent_obj);
         $this->dic = $dic;
         $this->dic->language()->loadLanguageModule('membership');
@@ -51,7 +52,6 @@ abstract class MembershipHistoryTableGUI extends ilTable2GUI
      */
     protected function initSettings() : void
     {
-        $this->setId($this->options->getId());
         $this->setFormAction($this->dic->ctrl()->getFormAction($this->parent_obj));
         $this->setTitle($this->options->getTitle());
         $this->setDescription($this->options->getDescription());
@@ -63,6 +63,9 @@ abstract class MembershipHistoryTableGUI extends ilTable2GUI
 
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);
+
+        $this->determineLimit();
+        $this->determineOffsetAndOrder();
     }
 
 

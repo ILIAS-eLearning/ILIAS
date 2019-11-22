@@ -8,6 +8,7 @@ use ILIAS\Membership\Changelog\Query\EventDTO;
 use ILIAS\Membership\Changelog\Query\Filter;
 use ILIAS\Membership\Changelog\Query\Options;
 use ILIAS\Membership\Changelog\Query\QueryFactory;
+use ILIAS\Membership\Changelog\Query\Response;
 
 /**
  * Class ChangelogService
@@ -50,9 +51,9 @@ class ChangelogService
      *
      * @param Options $options
      *
-     * @return EventDTO[]
+     * @return Response
      */
-    public function query(Filter $filter, Options $options) : array
+    public function query(Filter $filter, Options $options) : Response
     {
         return $this->repository->getEvents($filter, $options);
     }

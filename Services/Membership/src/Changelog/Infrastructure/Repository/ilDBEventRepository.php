@@ -13,6 +13,7 @@ use ILIAS\Membership\Changelog\Query\DTOBuilder;
 use ILIAS\Membership\Changelog\Query\EventDTO;
 use ILIAS\Membership\Changelog\Query\Filter;
 use ILIAS\Membership\Changelog\Query\Options;
+use ILIAS\Membership\Changelog\Query\Response;
 
 /**
  * Class ilDBEventRepository
@@ -51,18 +52,23 @@ class ilDBEventRepository implements EventRepository
      *
      * @param Options $options
      *
-     * @return EventDTO[]
-     * @throws Exception
+     * @return Response
+     * @throws arException
      */
-    public function getEvents(Filter $filter, Options $options) : array
+    public function getEvents(Filter $filter, Options $options) : Response
     {
         $EventAR = EventAR::getCollection();
 
         $this->setWheres($EventAR, $filter);
-        $this->setOptions($EventAR, $options);
         $this->joinTables($EventAR, $options->getFetchObjectTitle());
 
-        return DTOBuilder::getInstance()->buildEventDTOsFromARs($EventAR->get());
+        $max_count = $EventAR->count();
+
+        $this->setOptions($EventAR, $options);
+        return new Response(
+            DTOBuilder::getInstance()->buildEventDTOsFromARs($EventAR->get()),
+            $max_count
+        );
     }
 
 
@@ -124,7 +130,7 @@ class ilDBEventRepository implements EventRepository
     protected function setOptions(ActiveRecordList &$EventAR, Options $options) : void
     {
         if ($options->getLimit() !== 0) {
-            $EventAR->limit($options->getOffset(), ($options->getOffset() + $options->getLimit()));
+            $EventAR->limit($options->getOffset(), $options->getLimit());
         }
 
         if ($options->getOrderBy() !== '') {

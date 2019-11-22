@@ -4,6 +4,8 @@ namespace ILIAS\Membership\Changelog\Infrastructure\AR;
 
 use ActiveRecord;
 use Exception;
+use ilDateTime;
+use ilDateTimeException;
 
 /**
  * Class EventAR
@@ -260,6 +262,7 @@ class EventAR extends ActiveRecord
      * @param $field_name
      *
      * @return string|null
+     * @throws ilDateTimeException
      */
     public function sleep($field_name)
     {
@@ -267,7 +270,7 @@ class EventAR extends ActiveRecord
             case 'event_id':
                 return $this->event_id->getId();
             case 'timestamp':
-                return date('Y-m-d H:i:s', $this->getTimestamp());
+                return (new ilDateTime($this->getTimestamp(), IL_CAL_UNIX))->get(IL_CAL_FKT_DATE, 'Y-m-d H:i:s');
             case 'additional_data':
                 return json_encode($this->getAdditionalData());
             default:

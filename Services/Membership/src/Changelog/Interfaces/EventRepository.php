@@ -5,6 +5,7 @@ namespace ILIAS\Membership\Changelog\Interfaces;
 use ILIAS\Membership\Changelog\Query\EventDTO;
 use ILIAS\Membership\Changelog\Query\Filter;
 use ILIAS\Membership\Changelog\Query\Options;
+use ILIAS\Membership\Changelog\Query\Response;
 
 /**
  * Interface Repository
@@ -29,7 +30,7 @@ interface EventRepository
      *
      * @param Options $options
      *
-     * @return EventDTO[]
+     * @return Response
      */
-    public function getEvents(Filter $filter, Options $options) : array;
+    public function getEvents(Filter $filter, Options $options) : Response;
 }

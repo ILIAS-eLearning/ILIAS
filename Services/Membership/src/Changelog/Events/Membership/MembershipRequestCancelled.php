@@ -3,16 +3,16 @@
 namespace ILIAS\Services\Membership\Changelog\Events\Membership;
 
 /**
- * Class UnsubscribedFromCourse
+ * Class MembershipRequestCancelled
  *
- * @package ILIAS\Membership\Changelog\Events\Membership
+ * @package ILIAS\Services\Membership\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Unsubscribed extends MembershipEvent
+class MembershipRequestCancelled extends MembershipEvent
 {
 
-    const NAME = 'unsubscribed';
+    const NAME = 'membership_request_cancelled';
     /**
      * @var int
      */
@@ -20,20 +20,19 @@ class Unsubscribed extends MembershipEvent
     /**
      * @var int
      */
-    protected $actor_user_id;
+    protected $subject_user_id;
 
 
     /**
-     * UnsubscribedFromCourse constructor.
+     * MembershipRequested constructor.
      *
-     * @param int $actor_user_id
-     *
-     * @param int $crs_obj_id unsubscribing user
+     * @param int $subject_user_id
+     * @param int $crs_obj_id
      */
-    public function __construct(int $actor_user_id, int $crs_obj_id)
+    public function __construct(int $subject_user_id, int $crs_obj_id)
     {
         $this->crs_obj_id = $crs_obj_id;
-        $this->actor_user_id = $actor_user_id;
+        $this->subject_user_id = $subject_user_id;
     }
 
 
@@ -58,6 +57,15 @@ class Unsubscribed extends MembershipEvent
     /**
      * @return int
      */
+    public function getSubjectUserId() : int
+    {
+        return $this->subject_user_id;
+    }
+
+
+    /**
+     * @return int
+     */
     public function getActorUserId() : int
     {
         return 0;
@@ -65,19 +73,6 @@ class Unsubscribed extends MembershipEvent
 
 
     /**
-     *  actor and subject are the same here
-     *
-     * @return int
-     */
-    public function getSubjectUserId() : int
-    {
-        return $this->actor_user_id;
-    }
-
-
-    /**
-     * May be empty
-     *
      * @return array
      */
     public function getAdditionalData() : array

@@ -12870,6 +12870,7 @@ membership#:#col_actor#:#Actor
 membership#:#col_actor_login#:#Actor Login
 membership#:#col_occurred_at#:#Occurred At
 membership#:#event_membership_requested#:#Membership requested
+membership#:#event_membership_request_cancelled#:#Membership request cancelled
 membership#:#event_manually_added#:#Manually added
 membership#:#event_autofilled_from_waiting_list#:#Autofilled from waiting list
 membership#:#event_manually_added_from_waiting_list#:#Manually added from waiting list
@@ -12878,6 +12879,8 @@ membership#:#event_request_denied#:#Request denied
 membership#:#event_manually_removed#:#Manually removed
 membership#:#event_subscribed#:#Subscribed
 membership#:#event_unsubscribed#:#Unsubscribed
+membership#:#event_removed_from_waiting_list#:#Removed from waiting list
+membership#:#event_added_to_waiting_list#:#Added to waiting list
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications

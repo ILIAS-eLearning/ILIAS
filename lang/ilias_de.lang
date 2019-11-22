@@ -12929,6 +12929,7 @@ membership#:#col_actor#:#Akteur
 membership#:#col_actor_login#:#Akteur Benutzername
 membership#:#col_occurred_at#:#Aufgetreten um
 membership#:#event_membership_requested#:#Teilnahme beantragt
+membership#:#event_membership_request_cancelled#:#Antrag zurückgezogen
 membership#:#event_manually_added#:#Manuell hinzugefügt
 membership#:#event_autofilled_from_waiting_list#:#Automatisch aus Warteliste hinzugefügt
 membership#:#event_manually_added_from_waiting_list#:#Manuell aus Warteliste hinzugefügt
@@ -12937,6 +12938,8 @@ membership#:#event_request_denied#:#Antrag abgelehnt
 membership#:#event_manually_removed#:#Manuell Entfernt
 membership#:#event_subscribed#:#Selbständig angemeldet
 membership#:#event_unsubscribed#:#Selbständig abgemeldet
+membership#:#event_removed_from_waiting_list#:#Von Warteliste entfernt
+membership#:#event_added_to_waiting_list#:#Zu Warteliste hinzugefügt
 common#:#settings_for_all_members#:#Mitglieder werden automatisch benachrichtigt
 common#:#settings_per_users#:#Mitglieder werden automatisch benachrichtigt. Für jedes Mitglied kann individuell festgelegt werden, ob es die Benachrichtigung deaktivieren darf.
 forum#:#user_decides_notification#:#Mitglieder müssen Benachrichtigungen selber aktivieren
