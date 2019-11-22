@@ -35,10 +35,12 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
         }
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
-        $numberOfNewMessages = \ilMailGlobalServices::getNumberOfNewMailsByUserId(
+        $newMailData = \ilMailGlobalServices::getNewMailsData(
             (int) $this->dic->user()->getId(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
+
+        $numberOfNewMessages = (int) $newMailData['count'];
         if (0 === $numberOfNewMessages) {
             return [];
         }
@@ -73,11 +75,19 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             $mailUrl
         );
 
-        $notificationItem  = $this->dic->ui()->factory()
+        $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
-            ->withDescription($body)
-            ->withProperties([]);
+            ->withDescription($body);
+
+        try {
+            $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
+            $notificationItem = $notificationItem->withProperties([
+                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
+                    new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
+                )
+            ]);
+        } catch (\Throwable $e) {}
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
             ->withTitle($this->dic->language()->txt('mail'))
