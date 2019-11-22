@@ -23,7 +23,8 @@ class InstallCommand extends BaseCommand {
 
 	public function configure() {
 		$this
-			->addArgument("config", InputArgument::REQUIRED, "Configuration for the Setup.");
+			->addArgument("config", InputArgument::REQUIRED, "Configuration for the setup")
+			->setDescription("Creates a fresh ILIAS installation based on the config");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {

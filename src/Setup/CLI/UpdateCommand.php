@@ -23,7 +23,8 @@ class UpdateCommand extends BaseCommand {
 
 	public function configure() {
 		$this
-			->addArgument("config", InputArgument::REQUIRED, "Configuration for the Setup.");
+			->addArgument("config", InputArgument::REQUIRED, "Configuration for the setup")
+			->setDescription("Updates an existing ILIAS installation");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {
