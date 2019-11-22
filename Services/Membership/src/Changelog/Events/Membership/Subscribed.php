@@ -3,16 +3,16 @@
 namespace ILIAS\Services\Membership\Changelog\Events\Membership;
 
 /**
- * Class RemovedFromCourse
+ * Class SubscribedToCourse
  *
  * @package ILIAS\Membership\Changelog\Events\Membership
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class RemovedFromCourse extends MembershipEvent
+class Subscribed extends MembershipEvent
 {
 
-    const NAME = 'removed_from_course';
+    const NAME = 'subscribed';
     /**
      * @var int
      */
@@ -20,25 +20,19 @@ class RemovedFromCourse extends MembershipEvent
     /**
      * @var int
      */
-    protected $subject_user_id;
-    /**
-     * @var int
-     */
     protected $actor_user_id;
 
 
     /**
-     * RemovedFromCourse constructor.
+     * SubscribedToCourse constructor.
      *
-     * @param int $actor_user_id
-     * @param int $subject_user_id
+     * @param int $actor_user_id subscribing user
      * @param int $crs_obj_id
      *
      */
-    public function __construct(int $actor_user_id, int $subject_user_id, int $crs_obj_id)
+    public function __construct(int $actor_user_id, int $crs_obj_id)
     {
         $this->crs_obj_id = $crs_obj_id;
-        $this->subject_user_id = $subject_user_id;
         $this->actor_user_id = $actor_user_id;
     }
 
@@ -64,15 +58,6 @@ class RemovedFromCourse extends MembershipEvent
     /**
      * @return int
      */
-    public function getSubjectUserId() : int
-    {
-        return $this->subject_user_id;
-    }
-
-
-    /**
-     * @return int
-     */
     public function getActorUserId() : int
     {
         return $this->actor_user_id;
@@ -80,8 +65,17 @@ class RemovedFromCourse extends MembershipEvent
 
 
     /**
-     * May be empty
+     *  actor and subject are the same here
      *
+     * @return int
+     */
+    public function getSubjectUserId() : int
+    {
+        return $this->actor_user_id;
+    }
+
+
+    /**
      * @return array
      */
     public function getAdditionalData() : array

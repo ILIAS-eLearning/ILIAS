@@ -40,6 +40,14 @@ class Filter
      * @var int[]
      */
     protected $subject_obj_ids = [];
+    /**
+     * @var string[]
+     */
+    protected $actor_logins = [];
+    /**
+     * @var string[]
+     */
+    protected $subject_logins = [];
 
 
     /**
@@ -140,6 +148,35 @@ class Filter
     }
 
 
+
+    /**
+     * @param array $logins
+     *
+     * @return $this
+     */
+    public function withSubjectLogins(array $logins) : self
+    {
+        $clone = clone $this;
+        $clone->subject_logins = $logins;
+
+        return $clone;
+    }
+
+
+    /**
+     * @param array $logins
+     *
+     * @return $this
+     */
+    public function withActorLogins(array $logins) : self
+    {
+        $clone = clone $this;
+        $clone->actor_logins = $logins;
+
+        return $clone;
+    }
+
+
     /**
      * @return int
      */
@@ -193,12 +230,29 @@ class Filter
         return $this->timestamp_to;
     }
 
-
     /**
      * @return int[]
      */
     public function getSubjectObjIds() : array
     {
         return $this->subject_obj_ids;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getActorLogins() : array
+    {
+        return $this->actor_logins;
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public function getSubjectLogins() : array
+    {
+        return $this->subject_logins;
     }
 }

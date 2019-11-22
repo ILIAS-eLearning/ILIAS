@@ -26,7 +26,7 @@ class Options
     /**
      * @var string
      */
-    protected $orderBy = '';
+    protected $order_field = '';
     /**
      * @var string
      */
@@ -35,6 +35,10 @@ class Options
      * @var bool
      */
     protected $fetch_object_title = false;
+    /**
+     * @var bool
+     */
+    protected $as_array = false;
 
     /**
      * @param int $limit
@@ -70,7 +74,7 @@ class Options
     public function withOrderByEventName() : self
     {
         $clone = clone $this;
-        $clone->orderBy = 'event_name';
+        $clone->order_field = 'event_name';
 
         return $clone;
     }
@@ -82,7 +86,7 @@ class Options
     public function withOrderByTimestamp() : self
     {
         $clone = clone $this;
-        $clone->orderBy = 'timestamp';
+        $clone->order_field = 'timestamp';
 
         return $clone;
     }
@@ -125,6 +129,49 @@ class Options
         return $clone;
     }
 
+
+    /**
+     * @param bool $as_array
+     *
+     * @return $this
+     */
+    public function withAsArray(bool $as_array) : self
+    {
+        $clone = clone $this;
+        $clone->as_array = $as_array;
+
+        return $clone;
+    }
+
+
+    /**
+     * @param string $order_field
+     *
+     * @return $this
+     */
+    public function withOrderField(string $order_field) : self
+    {
+        $clone = clone $this;
+        $this->order_field = $order_field;
+
+        return $clone;
+    }
+
+
+    /**
+     * @param string $order_direction
+     *
+     * @return $this
+     */
+    public function withOrderDirection(string $order_direction) : self
+    {
+        $clone = clone $this;
+        $clone->order_direction = $order_direction;
+
+        return $clone;
+    }
+
+
     /**
      * @return int
      */
@@ -148,7 +195,7 @@ class Options
      */
     public function getOrderBy() : string
     {
-        return $this->orderBy ?: self::DEFAULT_ORDER_FIELD;
+        return $this->order_field ?: self::DEFAULT_ORDER_FIELD;
     }
 
 
@@ -167,5 +214,13 @@ class Options
     public function getFetchObjectTitle() : bool
     {
         return $this->fetch_object_title;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAsArray() : bool
+    {
+        return $this->as_array;
     }
 }

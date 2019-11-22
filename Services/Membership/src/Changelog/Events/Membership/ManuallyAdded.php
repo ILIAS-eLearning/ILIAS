@@ -9,10 +9,10 @@ namespace ILIAS\Services\Membership\Changelog\Events\Membership;
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class AddedToCourse extends MembershipEvent
+class ManuallyAdded extends MembershipEvent
 {
 
-    const NAME = 'added_to_course';
+    const NAME = 'manually_added';
     /**
      * @var int
      */

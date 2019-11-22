@@ -80,11 +80,11 @@ class ilDBEventRepository implements EventRepository
     protected function setWheres(ActiveRecordList &$EventAR, Filter $filter) : void
     {
         if ($filter->getTimestampFrom() !== 0) {
-            $EventAR->where(['timestamp' => $filter->getTimestampFrom()], '>');
+            $EventAR->where(['timestamp' => date('Y-m-d H:i:s', $filter->getTimestampFrom())], '>');
         }
 
         if ($filter->getTimestampTo() !== 0) {
-            $EventAR->where(['timestamp' => $filter->getTimestampTo()], '<');
+            $EventAR->where(['timestamp' => date('Y-m-d H:i:s', $filter->getTimestampTo())], '<');
         }
 
         if (!empty($filter->getActorUserIds())) {
@@ -105,6 +105,12 @@ class ilDBEventRepository implements EventRepository
 
         if (!empty($filter->getEventIds())) {
             $EventAR->where(['event_id' => $filter->getEventIds()], 'IN');
+        }
+        if (!empty($filter->getSubjectLogins())) {
+            $EventAR->where(['usr_data_2.login' => $filter->getSubjectLogins()], 'IN');
+        }
+        if (!empty($filter->getActorLogins())) {
+            $EventAR->where(['usr_data.login' => $filter->getActorLogins()], 'IN');
         }
     }
 
@@ -135,5 +141,9 @@ class ilDBEventRepository implements EventRepository
     {
         $EventAR->leftjoin('usr_data', 'actor_user_id', 'usr_id', ['firstname', 'lastname', 'login']);
         $EventAR->leftjoin('usr_data', 'subject_user_id', 'usr_id', ['firstname', 'lastname', 'login']);
+
+        if ($fetch_object_title) {
+            $EventAR->leftjoin('object_data', 'subject_obj_id', 'obj_id', ['title']);
+        }
     }
 }

@@ -9,10 +9,10 @@ namespace ILIAS\Services\Membership\Changelog\Events\Membership;
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class UnsubscribedFromCourse extends MembershipEvent
+class Unsubscribed extends MembershipEvent
 {
 
-    const NAME = 'unsubscribed_from_course';
+    const NAME = 'unsubscribed';
     /**
      * @var int
      */

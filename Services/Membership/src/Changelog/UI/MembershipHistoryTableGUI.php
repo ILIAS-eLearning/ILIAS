@@ -11,8 +11,11 @@ use TableOptions;
  *
  * @author Theodor Truffer <tt@studer-raimann.ch>
  */
-abstract class MembershipTableGUI extends ilTable2GUI
+abstract class MembershipHistoryTableGUI extends ilTable2GUI
 {
+
+    const ROW_TEMPLATE = './Services/Membership/templates/default/tpl.mem_history_row.html';
+
     /**
      * @var Container
      */
@@ -34,10 +37,11 @@ abstract class MembershipTableGUI extends ilTable2GUI
     {
         parent::__construct($a_parent_obj);
         $this->dic = $dic;
+        $this->dic->language()->loadLanguageModule('membership');
         $this->options = $options;
-
         $this->initSettings();
         $this->initColumns();
+        $this->initFilter();
         $this->initData();
     }
 
@@ -47,8 +51,8 @@ abstract class MembershipTableGUI extends ilTable2GUI
      */
     protected function initSettings() : void
     {
-        $this->setFormAction($this->dic->ctrl()->getFormAction($this->parent_obj));
         $this->setId($this->options->getId());
+        $this->setFormAction($this->dic->ctrl()->getFormAction($this->parent_obj));
         $this->setTitle($this->options->getTitle());
         $this->setDescription($this->options->getDescription());
         $this->setEnableHeader($this->options->isHeaderEnabled());
@@ -56,8 +60,31 @@ abstract class MembershipTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection($this->options->getDefaultOrderDirection());
         $this->setEnableNumInfo($this->options->isNumInfoEnabled());
         $this->setRowTemplate($this->getRowTemplatePath());
+
+        $this->setExternalSegmentation(true);
+        $this->setExternalSorting(true);
     }
 
+
+
+    /**
+     * @param $value
+     */
+    protected function parseColumnValue($value) : void
+    {
+        $this->tpl->setCurrentBlock('td');
+        $this->tpl->setVariable('VALUE', $value);
+        $this->tpl->parseCurrentBlock();
+    }
+
+
+    /**
+     * @return string
+     */
+    protected function getRowTemplatePath() : string
+    {
+        return self::ROW_TEMPLATE;
+    }
 
     /**
      * @return mixed
@@ -66,13 +93,8 @@ abstract class MembershipTableGUI extends ilTable2GUI
 
 
     /**
-     * @return string
-     */
-    abstract protected function getRowTemplatePath() : string;
-
-
-    /**
      *
      */
     abstract protected function initData() : void;
+
 }

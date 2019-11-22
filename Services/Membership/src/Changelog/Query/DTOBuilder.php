@@ -45,8 +45,11 @@ class DTOBuilder
             $EventAR->getEventId()->getId(),
             $EventAR->getEventName(),
             $EventAR->getActorUserId(),
+            $EventAR->getActorUserId() ? $EventAR->getUsrDataLastname() . ', ' . $EventAR->getUsrDataFirstname() : '',
             $EventAR->getSubjectUserId(),
+            $EventAR->getSubjectUserId() ? $EventAR->usr_data_2_lastname . ', ' . $EventAR->usr_data_2_firstname : '',
             $EventAR->getSubjectObjId(),
+            $EventAR->getObjectDataTitle() ?: '',
             $EventAR->getILIASComponent(),
             $EventAR->getAdditionalData(),
             $EventAR->getTimestamp()

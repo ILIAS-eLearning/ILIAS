@@ -2971,6 +2971,7 @@ common#:#member_status#:#Member Status
 common#:#member#:#Member
 common#:#members#:#Members
 common#:#membership_leave#:#Leave
+common#:#membership_history#:#Membership History
 common#:#mep_add#:#Add Media Pool
 rbac#:#mep_delete#:#User can move or delete media pool
 rbac#:#mep_edit_permission#:#User can change permission settings
@@ -12862,6 +12863,21 @@ membership#:#mem_force_notification_mode_blocked#:#Members will be notified auto
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
 membership#:#mem_force_notification_mode_all_sub_blocked#:#Members can deactivate notifications
 membership#:#mem_force_notification_mode_custom#:#Custom
+membership#:#col_event_name#:#Event
+membership#:#col_member#:#Member
+membership#:#col_member_login#:#Member Login
+membership#:#col_actor#:#Actor
+membership#:#col_actor_login#:#Actor Login
+membership#:#col_occurred_at#:#Occurred At
+membership#:#event_membership_requested#:#Membership requested
+membership#:#event_manually_added#:#Manually added
+membership#:#event_autofilled_from_waiting_list#:#Autofilled from waiting list
+membership#:#event_manually_added_from_waiting_list#:#Manually added from waiting list
+membership#:#event_request_accepted#:#Request accepted
+membership#:#event_request_denied#:#Request denied
+membership#:#event_manually_removed#:#Manually removed
+membership#:#event_subscribed#:#Subscribed
+membership#:#event_unsubscribed#:#Unsubscribed
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 forum#:#user_decides_notification#:#Members have to manually activate notifications

@@ -596,32 +596,32 @@ class ilTable2GUI extends ilTableGUI
 
 	final public function setData($a_data)
 	{
-		// check column names against given data (to ensure proper sorting)
-		if(defined('DEVMODE') && DEVMODE &&
-			$this->enabled["header"] && $this->enabled["sort"] &&
-			$this->columns_determined && is_array($this->column) &&
-			is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting())
-		{
-			$check = $a_data;
-			$check = array_keys(array_shift($check));
-			foreach($this->column as $col)
-			{
-				if($col["sort_field"] && !in_array($col["sort_field"], $check))
-				{
-					$invalid[] = $col["sort_field"];
-				}
-			}
-
-			// this triggers an error, if some columns are not set for some rows
-			// which may just be a representation of "null" values, e.g.
-			// ilAdvancedMDValues:queryForRecords works that way.
-/*			if(sizeof($invalid))
-			{
-				trigger_error("The following columns are defined as sortable but".
-					" cannot be found in the given data: ".implode(", ", $invalid).
-					". Sorting will not work properly.", E_USER_WARNING);
-			}*/
-		}
+// 		// check column names against given data (to ensure proper sorting)
+// 		if(defined('DEVMODE') && DEVMODE &&
+// 			$this->enabled["header"] && $this->enabled["sort"] &&
+// 			$this->columns_determined && is_array($this->column) &&
+// 			is_array($a_data) && sizeof($a_data) && !$this->getExternalSorting())
+// 		{
+// 			$check = $a_data;
+// 			$check = array_keys(array_shift($check));
+// 			foreach($this->column as $col)
+// 			{
+// 				if($col["sort_field"] && !in_array($col["sort_field"], $check))
+// 				{
+// 					$invalid[] = $col["sort_field"];
+// 				}
+// 			}
+//
+// 			// this triggers an error, if some columns are not set for some rows
+// 			// which may just be a representation of "null" values, e.g.
+// 			// ilAdvancedMDValues:queryForRecords works that way.
+// /*			if(sizeof($invalid))
+// 			{
+// 				trigger_error("The following columns are defined as sortable but".
+// 					" cannot be found in the given data: ".implode(", ", $invalid).
+// 					". Sorting will not work properly.", E_USER_WARNING);
+// 			}*/
+// 		}
 
 		$this->row_data = $a_data;
 		if (!is_array($this->row_data)) {

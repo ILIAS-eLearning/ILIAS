@@ -380,7 +380,16 @@ class ilMembershipGUI
 				$cdf_gui = new ilObjectCustomUserFieldsGUI($this->getParentGUI()->object->getId());
 				$this->ctrl->forwardCommand($cdf_gui);
 				break;
-				
+
+			case strtolower(ilMembershipHistoryGUI::class):
+
+				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
+				$this->checkRbacOrPermissionAccess('manage_members','manage_members');
+				$this->activateSubTab($this->getParentObject()->getType()."_membership_history");
+
+				$membership_history_gui = new ilMembershipHistoryGUI($this, $GLOBALS['DIC'], $this->getParentObject()->getId());
+				$this->ctrl->forwardCommand($membership_history_gui);
+				break;
 			default:
 
 				$this->setSubTabs($GLOBALS['DIC']['ilTabs']);
@@ -1123,43 +1132,49 @@ class ilMembershipGUI
 
 		$ilAccess = $DIC['ilAccess'];
 		
-		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId()))
-		{
+		if($this->checkRbacOrPositionAccessBool('manage_members', 'manage_members', $this->getParentObject()->getRefId())) {
 			$tabs->addSubTabTarget(
-				$this->getParentObject()->getType()."_member_administration",
-				$this->ctrl->getLinkTarget($this,'participants'),
-				"members", 
+				$this->getParentObject()->getType() . "_member_administration",
+				$this->ctrl->getLinkTarget($this, 'participants'),
+				"members",
 				get_class($this)
 			);
 
 			// show group overview
-			if($this instanceof ilCourseMembershipGUI)
-			{
+			if ($this instanceof ilCourseMembershipGUI) {
 				$tabs->addSubTabTarget(
 					"crs_members_groups",
 					$this->ctrl->getLinkTargetByClass("ilCourseParticipantsGroupsGUI", "show"),
-					"", 
+					"",
 					"ilCourseParticipantsGroupsGUI"
 				);
 			}
-			
-			$childs = (array) $GLOBALS['DIC']['tree']->getChildsByType($this->getParentObject()->getRefId(),'sess');
-			if(count($childs))
-			{
+
+			$childs = (array) $GLOBALS['DIC']['tree']->getChildsByType($this->getParentObject()->getRefId(), 'sess');
+			if (count($childs)) {
 				$tabs->addSubTabTarget(
 					'events',
-					$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilsessionoverviewgui'),'listSessions'),
+					$this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilsessionoverviewgui'), 'listSessions'),
 					'',
 					'ilsessionoverviewgui'
 				);
 			}
 
 			$tabs->addSubTabTarget(
-				$this->getParentObject()->getType().'_members_gallery',
-				$this->ctrl->getLinkTargetByClass(array(get_class($this),'ilUsersGalleryGUI')),
+				$this->getParentObject()->getType() . '_members_gallery',
+				$this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilUsersGalleryGUI')),
 				'view',
 				'ilUsersGalleryGUI'
 			);
+
+			if ($this instanceof ilCourseMembershipGUI) {
+				$tabs->addSubTabTarget(
+					'membership_history',
+					$this->ctrl->getLinkTargetByClass([get_class($this), ilMembershipHistoryGUI::class], ilMembershipHistoryGUI::CMD_STANDARD),
+					'membership_history',
+					get_class($this)
+				);
+			}
 		}
 		else if($this->getParentObject()->getShowMembers())
 		{
