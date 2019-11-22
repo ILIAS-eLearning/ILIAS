@@ -83,7 +83,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 		return $rbacreview->isAssignedToAtLeastOneGivenRole($usr_id, $local_roles);
 	}
 
-	public function add($usr_id, $role): bool
+	public function add($usr_id, $role, $automatically_added = false): bool
 	{
 		if (parent::add($usr_id, $role)) {
 			// $this->addDesktopItem($usr_id);

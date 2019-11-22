@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Membership\Changelog\ChangelogService;
+use ILIAS\Membership\Changelog\Infrastructure\Repository\ilDBEventRepository;
+use ILIAS\Services\Membership\Changelog\Events\Membership\MembershipRequestDenied;
+
 /**
  * Base class for member tab content
  *
@@ -1358,6 +1362,9 @@ class ilMembershipGUI
 				if($this instanceof ilCourseMembershipGUI)
 				{
 					$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_DISMISS_SUBSCRIBER, $usr_id);
+					// changelog
+					$changelog_service = new ChangelogService(new ilDBEventRepository());
+					$changelog_service->log(new MembershipRequestDenied($DIC->user()->getId(), $usr_id, $this->getParentObject()->getId()));
 				}
 				if($this instanceof ilGroupMembershipGUI)
 				{

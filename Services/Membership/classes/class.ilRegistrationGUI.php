@@ -21,6 +21,10 @@
         +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Membership\Changelog\ChangelogService;
+use ILIAS\Membership\Changelog\Infrastructure\Repository\ilDBEventRepository;
+use ILIAS\Services\Membership\Changelog\Events\Membership\MembershipRequestCancelled;
+
 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 
 /**
@@ -688,8 +692,12 @@ abstract class ilRegistrationGUI
 		
 		$this->participants->deleteSubscriber($ilUser->getId());
 		ilUtil::sendSuccess($this->lng->txt('sub_request_deleted'),true);
-		
-		$ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
+
+		// changelog
+        $changelog_service = new ChangelogService(new ilDBEventRepository());
+        $changelog_service->log(new MembershipRequestCancelled($ilUser->getId(), $this->obj_id));
+
+        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id",
 			$tree->getParentId($this->container->getRefId()));
 		$ilCtrl->redirectByClass("ilrepositorygui", "");
 	}

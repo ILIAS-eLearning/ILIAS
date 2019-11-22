@@ -107,13 +107,18 @@ class ilSessionParticipants extends ilParticipants
 			$this->participants_status[$mem_uid]['contact'] = $this->getEventParticipants()->isContact($mem_uid);
 		}
 	}
-	
-	/**
-	 * Add user to session member role. Additionally the status registered or participated must be set manually
-	 * @param int $a_usr_id
-	 * @param int $a_role
-	 */
-	public function add($a_usr_id, $a_role = "")
+
+
+    /**
+     * Add user to session member role. Additionally the status registered or participated must be set manually
+     *
+     * @param int    $a_usr_id
+     * @param string $a_role
+     * @param bool   $automatically_added
+     *
+     * @return bool
+     */
+	public function add($a_usr_id, $a_role = "", $automatically_added = false)
 	{
 		if(parent::add($a_usr_id, $a_role))
 		{

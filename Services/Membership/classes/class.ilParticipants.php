@@ -9,6 +9,16 @@
 * @ingroup ServicesMembership 
 */
 
+use ILIAS\Membership\Changelog\ChangelogService;
+use ILIAS\Membership\Changelog\Infrastructure\Repository\ilDBEventRepository;
+use ILIAS\Services\Membership\Changelog\Events\Membership\AutofilledFromWaitingList;
+use ILIAS\Services\Membership\Changelog\Events\Membership\ManuallyAdded;
+use ILIAS\Services\Membership\Changelog\Events\Membership\ManuallyRemoved;
+use ILIAS\Services\Membership\Changelog\Events\Membership\MembershipRequestAccepted;
+use ILIAS\Services\Membership\Changelog\Events\Membership\MembershipRequested;
+use ILIAS\Services\Membership\Changelog\Events\Membership\Subscribed;
+use ILIAS\Services\Membership\Changelog\Events\Membership\Unsubscribed;
+
 define("IL_CRS_ADMIN",1);
 define("IL_CRS_TUTOR",3);
 define("IL_CRS_MEMBER",2);
@@ -850,6 +860,8 @@ abstract class ilParticipants
 
 		$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
 
+		$was_member = $this->isMember($a_usr_id);
+
 		foreach($this->roles as $role_id)
 		{
 			$rbacadmin->deassignUser($role_id,$a_usr_id);
@@ -862,7 +874,17 @@ abstract class ilParticipants
 		
 		$this->readParticipants();
 		$this->readParticipantsStatus();
-		
+
+		// changelog
+		if ($was_member) {
+			$changelog_service = new ChangelogService(new ilDBEventRepository());
+			if ($DIC->user()->getId() == $a_usr_id) {
+				$changelog_service->log(new Unsubscribed($a_usr_id, $this->obj_id));
+			} else {
+				$changelog_service->log(new ManuallyRemoved($DIC->user()->getId(), $a_usr_id, $this->obj_id));
+			}
+		}
+
 		$GLOBALS['DIC']['ilAppEventHandler']->raise(
 				$this->getComponent(),
 				"deleteParticipant", 
@@ -1003,19 +1025,20 @@ abstract class ilParticipants
 		$res = $ilDB->manipulate($query);
 		return true;
 	}
-	
 
-	
-	
+
 	/**
 	 * Add user to object
 	 *
 	 * @access public
-	 * @param int user id
-	 * @param int role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
-	 * 
+	 *
+	 * @param int  $a_usr_id
+	 * @param int  $a_role IL_CRS_ADMIN || IL_CRS_TUTOR || IL_CRS_MEMBER
+	 * @param bool $automatically_added
+	 *
+	 * @return bool
 	 */
-	public function add($a_usr_id,$a_role)
+	public function add($a_usr_id,$a_role, $automatically_added = false)
 	{
 		global $DIC;
 
@@ -1029,6 +1052,8 @@ abstract class ilParticipants
 
 		switch($a_role)
 		{
+			case IL_GRP_ADMIN:
+			case IL_LSO_ADMIN:
 			case IL_CRS_ADMIN:
 				$this->admins[] = $a_usr_id;
 				break;
@@ -1037,43 +1062,40 @@ abstract class ilParticipants
 				$this->tutors[] = $a_usr_id;
 				break;
 
+			case IL_GRP_MEMBER:
+			case IL_LSO_MEMBER:
+			case IL_SESS_MEMBER:
 			case IL_CRS_MEMBER:
 				$this->members[] = $a_usr_id;
 				break;
-
-			case IL_GRP_ADMIN:
-				$this->admins[] = $a_usr_id;
-				break;
-
-			case IL_GRP_MEMBER:
-				$this->members[] = $a_usr_id;
-				break;
-
-			case IL_LSO_ADMIN:
-				$this->admins[] = $a_usr_id;
-				break;
-
-			case IL_LSO_MEMBER:
-				$this->members[] = $a_usr_id;
-				break;
-
-			case IL_SESS_MEMBER:
-				$this->members[] = $a_usr_id;
-				break;
 		}
-		
+
 		$this->participants[] = $a_usr_id;
 		$rbacadmin->assignUser($this->role_data[$a_role],$a_usr_id);
-		
+
+		// changelog
+		if ($a_role == IL_CRS_MEMBER) {
+			$changelog_service = new ChangelogService(new ilDBEventRepository());
+			if ($automatically_added) {
+				$changelog_service->log(new AutofilledFromWaitingList($a_usr_id, $this->obj_id));
+			} elseif ($a_usr_id == $DIC->user()->getId()) {
+				$changelog_service->log(new Subscribed($a_usr_id, $this->obj_id));
+			} elseif ($this->isSubscriber($a_usr_id)) {
+				$changelog_service->log(new MembershipRequestAccepted($DIC->user()->getId(), $a_usr_id, $this->obj_id));
+			} else {
+				$changelog_service->log(new ManuallyAdded($DIC->user()->getId(), $a_usr_id, $this->obj_id));
+			}
+		}
+
 		// Delete subscription request
 		$this->deleteSubscriber($a_usr_id);
-		
+
 		include_once './Services/Membership/classes/class.ilWaitingList.php';
 		ilWaitingList::deleteUserEntry($a_usr_id,$this->obj_id);
 
 		$ilAppEventHandler->raise(
 				$this->getComponent(),
-				"addParticipant", 
+				"addParticipant",
 				array(
 					'obj_id' => $this->obj_id,
 					'usr_id' => $a_usr_id,
@@ -1081,14 +1103,14 @@ abstract class ilParticipants
 		);
 	 	return true;
 	}
-	
+
 
 	/**
 	 * Delete users
 	 *
 	 * @access public
 	 * @param array user ids
-	 * 
+	 *
 	 */
 	public function deleteParticipants($a_user_ids)
 	{
@@ -1098,7 +1120,7 @@ abstract class ilParticipants
 	 	}
 	 	return true;
 	}
-	
+
 	/**
 	 * Add desktop item
 	 *
@@ -1422,12 +1444,20 @@ abstract class ilParticipants
 		return true;
 	}
 
+
 	/**
 	 * Assign subscriber
 	 *
 	 * @access public
+	 *
+	 * @param      $a_usr_id
+	 * @param bool $automatically_assigned
+	 *
+	 * @return bool
+	 * @throws ilDatabaseException
+	 * @throws ilObjectNotFoundException
 	 */
-	public function assignSubscriber($a_usr_id)
+	public function assignSubscriber($a_usr_id, $automatically_assigned = false)
 	{
 		global $DIC;
 
@@ -1458,7 +1488,7 @@ abstract class ilParticipants
 		// TODO: must be group or course member role
 		if($this instanceof ilCourseParticipants)
 		{
-			$this->add($tmp_obj->getId(),IL_CRS_MEMBER);
+			$this->add($tmp_obj->getId(),IL_CRS_MEMBER, $automatically_assigned);
 		}
 		if($this instanceof ilGroupParticipants)
 		{
@@ -1522,6 +1552,10 @@ abstract class ilParticipants
 			$ilDB->quote(time() ,'integer').
 			")";
 		$res = $ilDB->manipulate($query);
+
+		// changelog
+		$changelog_service = new ChangelogService(new ilDBEventRepository());
+		$changelog_service->log(new MembershipRequested($a_usr_id, $this->obj_id));
 
 		return true;
 	}

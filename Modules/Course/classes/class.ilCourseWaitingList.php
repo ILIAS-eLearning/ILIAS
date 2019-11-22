@@ -2,6 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Membership\Changelog\ChangelogService;
+use ILIAS\Membership\Changelog\Infrastructure\Repository\ilDBEventRepository;
+use ILIAS\Services\Membership\Changelog\Events\Membership\AddedToWaitingList;
+use ILIAS\Services\Membership\Changelog\Events\Membership\RemovedFromWaitingList;
 
 include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
@@ -30,7 +34,11 @@ class ilCourseWaitingList extends ilWaitingList
 		{
 			return FALSE;
 		}
-		
+
+		// changelog
+		$changelog_service = new ChangelogService(new ilDBEventRepository());
+		$changelog_service->log(new AddedToWaitingList($DIC->user()->getId(), $a_usr_id, $this->getObjId()));
+
 		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addToList');
 		$ilAppEventHandler->raise(
 				"Modules/Course", 
@@ -59,6 +67,10 @@ class ilCourseWaitingList extends ilWaitingList
 		{
 			return FALSE;
 		}
+
+		// changelog
+		$changelog_service = new ChangelogService(new ilDBEventRepository());
+		$changelog_service->log(new RemovedFromWaitingList($DIC->user()->getId(), $a_usr_id, $this->getObjId()));
 
 		$ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
 		$ilAppEventHandler->raise(

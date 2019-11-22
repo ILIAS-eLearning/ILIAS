@@ -2326,7 +2326,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				$this->course_logger->warning('User is already assigned to course. uid: ' . $user_id. ' course_id: ' . $this->getRefId());
 				continue;
 			}
-			$this->getMembersObject()->add($user_id,IL_CRS_MEMBER);
+			$this->getMembersObject()->add($user_id,IL_CRS_MEMBER, true);
 			$this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER,$user_id,true);
 			$waiting_list->removeFromList($user_id);
 			$this->checkLPStatusSync($user_id);

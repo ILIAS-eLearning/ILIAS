@@ -98,14 +98,18 @@ class ilGroupParticipants extends ilParticipants
 		}
 		return $roles;
 	}
-	
-	/**
-	 * Add user to role 
-	 * @param int $a_usr_id
-	 * @param int $a_role
-	 * @return boolean
-	 */
-	public function add($a_usr_id, $a_role)
+
+
+    /**
+     * Add user to role
+     *
+     * @param int  $a_usr_id
+     * @param int  $a_role
+     * @param bool $automatically_added
+     *
+     * @return boolean
+     */
+	public function add($a_usr_id, $a_role, $automatically_added = false)
 	{
 		if(parent::add($a_usr_id, $a_role))
 		{
