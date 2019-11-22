@@ -76,6 +76,11 @@ class ilAdministrationGUI
 	var $ctrl;
 
 	/**
+	 * @var \ilLogger|null
+	 */
+	private $logger = null;
+
+	/**
 	* Constructor
 	* @access	public
 	*/
@@ -102,6 +107,8 @@ class ilAdministrationGUI
 		$this->rbacsystem = $rbacsystem;
 		$this->objDefinition = $objDefinition;
 		$this->ctrl = $ilCtrl;
+
+		$this->logger = $DIC->logger()->adm();
 
 		$context = $DIC->globalScreen()->tool()->context();
 		$context->claim()->administration();

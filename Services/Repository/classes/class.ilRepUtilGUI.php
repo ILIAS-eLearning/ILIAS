@@ -51,6 +51,12 @@ class ilRepUtilGUI
 
 
 	/**
+	 * @var null | \ilLogger
+	 */
+	private $logger = null;
+
+
+	/**
 	* Constructor
 	*
 	* @param	object		parent gui object
@@ -69,6 +75,8 @@ class ilRepUtilGUI
 		$this->tree = $DIC->repositoryTree();
 		$this->parent_gui = $a_parent_gui;
 		$this->parent_cmd = $a_parent_cmd;
+
+		$this->logger = $DIC->logger()->rep();
 	}
 
 	/**
@@ -86,16 +94,40 @@ class ilRepUtilGUI
 				$form = $this->initFormTrashTargetLocation();
 				$this->ctrl->forwardCommand($form);
 				break;
+
+			default:
+				$cmd = $this->ctrl->getCmd('cancel');
+				$this->$cmd();
+				break;
+
 		}
+	}
+
+	/**
+	 * Cancel action
+	 */
+	protected function cancel()
+	{
+		$this->ctrl->returnToParent($this);
 	}
 
 	/**
 	 * @param \ilPropertyFormGUI|null $form
 	 * @return bool
 	 */
-	public function undeleteToNewLocation(\ilPropertyFormGUI $form = null)
+	public function restoreToNewLocation(\ilPropertyFormGUI $form = null)
 	{
-		$trash_ids = (array) $_POST['trash_id'];
+		$this->lng->loadLanguageModule('rep');
+
+		if(isset($_POST['trash_id'])) {
+			$trash_ids = (array) $_POST['trash_id'];
+		}
+		elseif(isset($_REQUEST['trash_ids'])) {
+			$trash_ids = explode(',',$_POST['trash_ids']);
+		}
+
+		$this->ctrl->setParameter($this, 'trash_ids', implode(',', $trash_ids));
+
 		if(!count($trash_ids)) {
 			\ilUtil::sendFailure($this->lng->txt('select_one'),true);
 			$this->ctrl->returnToParent($this);
@@ -104,13 +136,38 @@ class ilRepUtilGUI
 		if(!$form instanceof \ilPropertyFormGUI) {
 			$form = $this->initFormTrashTargetLocation();
 		}
+		\ilUtil::sendInfo($this->lng->txt('rep_target_location_info'));
 		$this->tpl->setContent($form->getHTML());
 
 	}
 
-	public function doUndeleteToNewLocation()
+	/**
+	 * Perform restore to new location
+	 */
+	public function doRestoreToNewLocation()
 	{
-		$this->ctrl->returnToParent($this);
+		$trash_ids = [];
+		if(isset($_REQUEST['trash_ids'])) {
+			$trash_ids = explode(',', $_REQUEST['trash_ids']);
+		}
+
+		$form = $this->initFormTrashTargetLocation();
+		if(!$form->checkInput() && count($trash_ids)) {
+
+			$this->lng->loadLanguageModule('search');
+			\ilUtil::sendFailure($this->lng->txt('search_no_selection'),true);
+			$this->ctrl->returnToParent($this);
+		}
+
+		try {
+			\ilRepUtil::restoreObjects($form->getInput('target_id'), $trash_ids);
+			\ilUtil::sendSuccess($this->lng->txt('msg_undeleted'), true);
+			$this->ctrl->returnToParent($this);
+		}
+		catch(\ilRepositoryException $e) {
+			\ilUtil::sendFailure($e->getMessage(),true);
+			$this->ctrl->returnToParent($this);
+		}
 	}
 
 	/**
@@ -121,22 +178,35 @@ class ilRepUtilGUI
 		$form = new \ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
-		$txt = new ilTextInputGUI('t1', 't1');
-		$form->addItem($txt);
-
 		$target = new \ilRepositorySelector2InputGUI(
 			$this->lng->txt('rep_target_location'),
-			'trash_id',
+			'target_id',
 			false
 		);
+		$target->setRequired(true);
 
-		$explorer = $target->getExplorerGUI();
-		$explorer->setSelectMode('target',false);
+		$explorer = new \ilRepositorySelectorExplorerGUI(
+			[
+				\ilAdministrationGUI::class,
+				get_class($this->parent_gui),
+				\ilRepUtilGUI::class,
+				\ilPropertyFormGUI::class,
+				\ilFormPropertyDispatchGUI::class,
+				\ilRepositorySelector2InputGUI::class
+			],
+			'handleExplorerCommand',
+			$target,
+			'root_id',
+			'rep_exp_sel_' . $target->getPostVar()
+		);
+		$explorer->setSelectMode($target->getPostVar()."_sel", false);
 		$explorer->setRootId(ROOT_FOLDER_ID);
 		$explorer->setTypeWhiteList(['root','cat','crs','grp','fold']);
+		$target->setExplorerGUI($explorer);
 
 		$form->addItem($target);
-		$form->addCommandButton('doUndeleteToNewLocation','delete');
+		$form->addCommandButton('doRestoreToNewLocation', $this->lng->txt('btn_undelete'));
+		$form->addCommandButton('cancel', $this->lng->txt('cancel'));
 
 		return $form;
 	}

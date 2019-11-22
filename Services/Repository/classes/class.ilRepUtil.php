@@ -370,6 +370,7 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	
 	/**
 	* Move objects from trash back to repository
+	 * @throws \ilRepositoryException
 	*/
 	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
@@ -408,7 +409,9 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 			
 			// INSERT AND SET PERMISSIONS
 			try {
-				ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, -(int) $id, $affected_ids);
+				$tree_ids = \ilTree::lookupTreesForNode($id);
+				$tree_id = $tree_ids[0];
+				ilRepUtil::insertSavedNodes($id, $a_cur_ref_id, $tree_id, $affected_ids);
 			} 
 			catch (Exception $e) {
 				include_once("./Services/Repository/exceptions/class.ilRepositoryException.php");
