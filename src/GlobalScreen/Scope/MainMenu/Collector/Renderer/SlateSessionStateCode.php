@@ -26,34 +26,39 @@ trait SlateSessionStateCode
      */
     public function addOnloadCode(Slate $slate, isItem $item) : Slate
     {
+        return $slate;
         if ($item instanceof Tool) {
             $signal = $slate->getEngageSignal();
         } else {
             $signal = $slate->getToggleSignal();
         }
 
-        $identification = $item->getProviderIdentification()->serialize();
+        $signal_generator = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+        $in_view_signal = $signal_generator->create();
 
+        $slate = $slate->appendOnInView($in_view_signal);
+
+        $identification = $item->getProviderIdentification()->serialize();
         $item_state = new ItemState($item->getProviderIdentification());
 
-        if ($item_state->isItemActive()) {
-            $slate = $slate->withEngaged(true);
-        }
+        // if ($item_state->isItemActive()) {
+        //     $slate = $slate->withEngaged(true);
+        // }
 
         $level = $this->getLevel($item);
 
         $slate = $slate->withAdditionalOnLoadCode(
-            function ($id) use ($signal, $identification, $level) {
+            function ($id) use ($in_view_signal, $identification, $level) {
                 $identification = addslashes($identification);
 
                 return "
                 il.GS.Client.register(il.GS.Identification.getFromServerSideString('{$identification}'), '{$id}', {$level});
-                
-                $(document).on('{$signal}', function(event, signalData) {
-                    il.GS.Client.trigger('$id');
-                    return false;
+                $(document).on('{$in_view_signal}', function(event, signalData) {
+                    console.log('SlateSessionStateCode');
                 });
-                ";
+                $(document).on('{$in_view_signal}', function(event, signalData) {
+                     il.GS.Client.trigger('$id');
+                });";
             }
         );
 

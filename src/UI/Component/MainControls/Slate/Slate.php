@@ -4,16 +4,17 @@
 
 namespace ILIAS\UI\Component\MainControls\Slate;
 
-use ILIAS\UI\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\ReplaceSignal;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\ReplaceSignal;
+use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Triggerer;
 
 /**
  * This describes a Slate
  */
-interface Slate extends Component, JavaScriptBindable
+interface Slate extends Component, JavaScriptBindable, Triggerer
 {
     /**
      * Get the name of this slate
@@ -54,4 +55,7 @@ interface Slate extends Component, JavaScriptBindable
      * Signal to replace the contents of the slate.
      */
     public function getReplaceSignal() : ReplaceSignal;
+
+
+    public function appendOnInView(Signal $signal) : Slate;
 }

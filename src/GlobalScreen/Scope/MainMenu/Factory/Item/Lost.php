@@ -5,7 +5,6 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -19,7 +18,7 @@ use ILIAS\UI\Component\Component;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTopItem, isParent, isChild, hasTitle, hasAction
+class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction
 {
 
     /**
@@ -63,24 +62,6 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     public function getTitle() : string
     {
         return $this->title;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getAsyncContentURL() : string
-    {
-        return "";
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withAsyncContentURL(string $async_content_url) : hasAsyncContent
-    {
-        return $this;
     }
 
 

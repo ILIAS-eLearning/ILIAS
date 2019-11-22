@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use InvalidArgumentException;
 
 /**
@@ -9,7 +10,7 @@ use InvalidArgumentException;
  *
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle
+class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading
 {
 
     /**
@@ -20,6 +21,10 @@ class LinkList extends AbstractChildItem implements hasTitle
      * @var Link[]
      */
     protected $links;
+    /**
+     * @var bool
+     */
+    protected $supports_async_loading = true;
 
 
     /**
@@ -86,5 +91,26 @@ class LinkList extends AbstractChildItem implements hasTitle
     public function getLinks() : array
     {
         return $this->links;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    {
+        $clone = clone($this);
+        $clone->supports_async_loading = $supported;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsAsynchronousLoading() : bool
+    {
+        return $this->supports_async_loading;
     }
 }
