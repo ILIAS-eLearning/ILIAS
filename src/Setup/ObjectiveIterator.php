@@ -6,7 +6,6 @@ namespace ILIAS\Setup;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ConfigurationLoader;
 use ILIAS\Setup\UnachievableException;
 
 /**
