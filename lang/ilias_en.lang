@@ -15899,3 +15899,5 @@ prg#:#restart_period_info#:#Days before qualification expiration to restart qual
 prg#:#access_ctr_by_orgu_position#:#Access conrol according to Organisational Unit Positions
 prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
 prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
+prg#:#prg_title#:#Title

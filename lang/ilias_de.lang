@@ -15917,3 +15917,5 @@ prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifika
 prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
 prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
+prg#:#prg_title#:#Titel
