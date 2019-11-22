@@ -30,8 +30,11 @@ class Options
     /**
      * @var string
      */
-    protected $orderDirection = self::ORDER_ASCENDING;
-
+    protected $order_direction = self::ORDER_ASCENDING;
+    /**
+     * @var bool
+     */
+    protected $fetch_object_title = false;
 
     /**
      * @param int $limit
@@ -91,7 +94,7 @@ class Options
     public function withOrderDirectionAscending() : self
     {
         $clone = clone $this;
-        $clone->orderDirection = self::ORDER_ASCENDING;
+        $clone->order_direction = self::ORDER_ASCENDING;
 
         return $clone;
     }
@@ -103,11 +106,24 @@ class Options
     public function withOrderDirectionDescending() : self
     {
         $clone = clone $this;
-        $clone->orderDirection = self::ORDER_DESCENDING;
+        $clone->order_direction = self::ORDER_DESCENDING;
 
         return $clone;
     }
 
+
+    /**
+     * @param bool $fetch_object_title
+     *
+     * @return $this
+     */
+    public function withFetchObjectTitle(bool $fetch_object_title) : self
+    {
+        $clone = clone $this;
+        $clone->fetch_object_title = $fetch_object_title;
+
+        return $clone;
+    }
 
     /**
      * @return int
@@ -141,6 +157,15 @@ class Options
      */
     public function getOrderDirection() : string
     {
-        return $this->orderDirection;
+        return $this->order_direction;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getFetchObjectTitle() : bool
+    {
+        return $this->fetch_object_title;
     }
 }

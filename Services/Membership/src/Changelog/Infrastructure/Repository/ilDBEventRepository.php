@@ -60,6 +60,7 @@ class ilDBEventRepository implements EventRepository
 
         $this->setWheres($EventAR, $filter);
         $this->setOptions($EventAR, $options);
+        $this->joinTables($EventAR, $options->getFetchObjectTitle());
 
         return DTOBuilder::getInstance()->buildEventDTOsFromARs($EventAR->get());
     }
@@ -123,5 +124,16 @@ class ilDBEventRepository implements EventRepository
         if ($options->getOrderBy() !== '') {
             $EventAR->orderBy($options->getOrderBy(), $options->getOrderDirection());
         }
+    }
+
+
+    /**
+     * @param ActiveRecordList $EventAR
+     * @param bool             $fetch_object_title
+     */
+    protected function joinTables(ActiveRecordList &$EventAR, bool $fetch_object_title)
+    {
+        $EventAR->leftjoin('usr_data', 'actor_user_id', 'usr_id', ['firstname', 'lastname', 'login']);
+        $EventAR->leftjoin('usr_data', 'subject_user_id', 'usr_id', ['firstname', 'lastname', 'login']);
     }
 }
