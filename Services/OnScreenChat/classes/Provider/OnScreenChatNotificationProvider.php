@@ -15,17 +15,6 @@ use Psr\Http\Message\ResponseInterface;
 class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
     /**
-     * @param array $notificationItems
-     * @return ResponseInterface
-     */
-    private function getResponseWithNotificationItems(array $notificationItems) : ResponseInterface
-    {
-        return $this->dic->http()->response()->withBody(Streams::ofString(
-            $this->dic->ui()->renderer()->renderAsync($notificationItems)
-        ));
-    }
-
-    /**
      * @inheritDoc
      */
     public function getNotifications(): array
@@ -104,15 +93,17 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
     }
 
     /**
-     * @return ResponseInterface
+     * @param string $conversationIds
+     * @param bool $noAggregates
+     * @return array
      * @throws \ilWACException
      */
-    public function getAsyncItem() : ResponseInterface 
+    public function getAsyncItem(
+        string $conversationIds,
+        bool $noAggregates = false
+    ) : array
     {
-        $noAggregates = (string) ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');
-        $conversationIds = array_filter(explode(',',
-            (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? '')
-        ));
+        $conversationIds = array_filter(explode(',',$conversationIds ));
 
         $this->dic->language()->loadLanguageModule('chatroom');
 
@@ -139,11 +130,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             );
 
         if (0 === count($conversationIds)) {
-            return $this->getResponseWithNotificationItems([$notificationItem]);
+            return [$notificationItem];
         }
 
         if (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
-            return $this->getResponseWithNotificationItems([$notificationItem]);
+            return [$notificationItem];
         }
 
         /**
@@ -251,6 +242,6 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->withDescription($description);
         }
 
-        return $this->getResponseWithNotificationItems([$notificationItem]);
+        return [$notificationItem];
     }
 }
