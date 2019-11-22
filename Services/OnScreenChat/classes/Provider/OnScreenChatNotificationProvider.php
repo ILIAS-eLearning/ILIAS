@@ -5,6 +5,8 @@ namespace ILIAS\OnScreenChat\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\Filesystem\Stream\Streams;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Class OnScreenChatNotificationProvider
@@ -12,6 +14,17 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  */
 class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
+    /**
+     * @param array $notificationItems
+     * @return ResponseInterface
+     */
+    private function getResponseWithNotificationItems(array $notificationItems) : ResponseInterface
+    {
+        return $this->dic->http()->response()->withBody(Streams::ofString(
+            $this->dic->ui()->renderer()->renderAsync($notificationItems)
+        ));
+    }
+
     /**
      * @inheritDoc
      */
@@ -91,18 +104,10 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
     }
 
     /**
-     * @param \ILIAS\UI\Component\Item\Notification[] $notificationItems
+     * @return ResponseInterface
+     * @throws \ilWACException
      */
-    private function sendResponseWithNotificationItems(array $notificationItems) : void
-    {
-        echo $this->dic->ui()->renderer()->renderAsync($notificationItems);
-        exit;
-    }
-
-    /**
-     * Delivers async a new item defined by the data sent through HTTP GET
-     */
-    public function getAsyncItem() : void
+    public function getAsyncItem() : ResponseInterface 
     {
         $noAggregates = (string) ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');
         $conversationIds = array_filter(explode(',',
@@ -134,11 +139,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             );
 
         if (0 === count($conversationIds)) {
-            $this->sendResponseWithNotificationItems([$notificationItem]);
+            return $this->getResponseWithNotificationItems([$notificationItem]);
         }
 
         if (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
-            $this->sendResponseWithNotificationItems([$notificationItem]);
+            return $this->getResponseWithNotificationItems([$notificationItem]);
         }
 
         /**
@@ -246,6 +251,6 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->withDescription($description);
         }
 
-        $this->sendResponseWithNotificationItems([$notificationItem]);
+        return $this->getResponseWithNotificationItems([$notificationItem]);
     }
 }
