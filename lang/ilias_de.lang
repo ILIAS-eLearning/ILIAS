@@ -85,6 +85,16 @@ chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
 chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Zeit zwischen Benachrichtigungen
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
+rep#:#rep_trash_table_title#:#Gelöschte Objekte unterhalb von:
+rep#:#rep_trash_table_col_deleted_by#:#Gelöscht von
+rep#:#rep_trash_table_col_deleted_on#:#Gelöscht am
+rep#:#rep_trash_table_col_num_subs#:#Anzahl Unterobjekte
+rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
+rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
+rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Bitte selektieren Sie diese Objekte nicht oder wählen Sie die Option "Wiederherstellen (neuer Ort)".
+rep#:#rep_target_location#:#Zielort
+rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben

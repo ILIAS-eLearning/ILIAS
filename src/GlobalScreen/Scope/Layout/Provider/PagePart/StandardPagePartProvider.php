@@ -1,8 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
-use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SlateSessionStateCode;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -117,14 +117,29 @@ class StandardPagePartProvider implements PagePartProvider
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);
             $main_bar = $main_bar->withToolsButton($tools_button);
+            /**
+             * @var $main_bar MainBar
+             */
             foreach ($this->gs->collector()->tool()->getItemsForUIRepresentation() as $tool) {
-                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
-                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
-                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component);
-                $item_state = new ItemState($tool->getProviderIdentification());
-                if ($item_state->isItemActive()) {
-                    $main_bar = $main_bar->withActive($identifier);
+                if (!$tool instanceof isToolItem) {
+                    continue;
                 }
+                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
+
+                $identifier = $this->hash($tool->getProviderIdentification()->serialize());
+                $close_button = null;
+                if ($tool->hasCloseCallback()) {
+                    $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
+                        return "$('#$id').on('click', function(){
+                            $.ajax({
+                                url: 'src/GlobalScreen/Client/callback_handler.php?item=$identifier'
+                            }).done(function() {
+                                console.log('done closing');
+                            });
+                        });";
+                    });
+                }
+                $main_bar = $main_bar->withAdditionalToolEntry($identifier, $component, $tool->isInitiallyHidden(), $close_button);
             }
         }
 
