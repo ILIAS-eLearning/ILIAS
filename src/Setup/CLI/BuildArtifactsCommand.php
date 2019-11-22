@@ -17,6 +17,8 @@ class BuildArtifactsCommand extends BaseCommand {
 	protected static $defaultName = "build-artifacts";
 
 	public function configure() {
+		$this
+			->setDescription("Build static artifacts from source");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {
