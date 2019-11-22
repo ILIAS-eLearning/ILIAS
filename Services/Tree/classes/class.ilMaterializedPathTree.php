@@ -450,29 +450,26 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			$depth_diff = $target_depth - $source_depth + 1;
 
 			// move subtree:
-			$query = '
-                UPDATE ' . $this->getTree()->getTreeTable() . '
-                SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . '
-                             THEN ' . $ilDB->quote($a_target_id, 'integer') . '
-                             ELSE parent END,
-
-                    path = ' . $ilDB->concat(array(
+			$query =
+				'UPDATE ' . $this->getTree()->getTreeTable() . ' '.
+                'SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . ' '.
+                             'THEN ' . $ilDB->quote($a_target_id, 'integer') . ' ' .
+                             'ELSE parent END, path = ' .
+				$ilDB->concat(array(
 					array($ilDB->quote($target_path, 'text'), 'text'),
-					array($ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ,
+					array($ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ' .
+				',depth = depth + ' . $ilDB->quote($depth_diff, 'integer') . ' ' .
+				'WHERE path  BETWEEN ' . $ilDB->quote($source_path, 'text') . ' ' .
+                'AND ' . $ilDB->quote($source_path . '.Z', 'text') . ' ';
 
-                    depth = depth + ' . $ilDB->quote($depth_diff, 'integer') . '
-
-                WHERE path  BETWEEN ' . $ilDB->quote($source_path, 'text') . '
-                            AND ' . $ilDB->quote($source_path . '.Z', 'text') . '
-
-                AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
-
-			ilLoggerFactory::getLogger('tree')->debug('Query is ' . $query);
-
+			if(!$this->getTree()->__isMainTree()) {
+				$query .= ('AND ' . $ilDB->quote($this->getTree()->getTreeId(), \ilDBConstants::T_INTEGER));
+			}
+			\ilLoggerFactory::getLogger('tree')->debug('Query is: ' . $query);
 			$ilDB->manipulate($query);
 		};
 
-		
+
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();

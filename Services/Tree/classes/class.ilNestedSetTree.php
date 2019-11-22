@@ -208,15 +208,26 @@ class ilNestedSetTree implements ilTreeImplementation
 					$lft = $left + 1;
 					$rgt = $left + 2;
 
-					// spread tree
-					$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
-						'lft = CASE WHEN lft > %s THEN lft + 2 ELSE lft END, '.
-						'rgt = CASE WHEN rgt > %s THEN rgt + 2 ELSE rgt END '.
-						'WHERE '.$this->getTree()->getTreePk().' = %s ',
-						$ilDB->quote($left,'integer'),
-						$ilDB->quote($left,'integer'),
-						$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-					$res = $ilDB->manipulate($query);
+					if($this->getTree()->__isMainTree()) {
+						$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+							'lft = CASE WHEN lft > %s THEN lft + 2 ELSE lft END, '.
+							'rgt = CASE WHEN rgt > %s THEN rgt + 2 ELSE rgt END ',
+							$ilDB->quote($left,'integer'),
+							$ilDB->quote($left,'integer')
+						);
+						$res = $ilDB->manipulate($query);
+					}
+					else {
+						$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+							'lft = CASE WHEN lft > %s THEN lft + 2 ELSE lft END, '.
+							'rgt = CASE WHEN rgt > %s THEN rgt + 2 ELSE rgt END '.
+							'WHERE '.$this->getTree()->getTreePk().' = %s ',
+							$ilDB->quote($left,'integer'),
+							$ilDB->quote($left,'integer'),
+							$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+						$res = $ilDB->manipulate($query);
+					}
+
 					break;
 
 				case IL_LAST_NODE:
@@ -253,13 +264,24 @@ class ilNestedSetTree implements ilTreeImplementation
 							// If there is space between parent lft and rgt, we need to check
 							// whether there is space left between the rightmost child of the
 							// parent and parent rgt.
-							$query = sprintf('SELECT MAX(rgt) max_rgt FROM '.$this->getTree()->getTreeTable().' '.
-								'WHERE parent = %s '.
-								'AND '.$this->getTree()->getTreePk().' = %s',
-								$ilDB->quote($a_parent_id,'integer'),
-								$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-							$res = $ilDB->query($query);
-							$r = $ilDB->fetchAssoc($res);
+							if($this->getTree()->__isMainTree()) {
+								$query = sprintf('SELECT MAX(rgt) max_rgt FROM '.$this->getTree()->getTreeTable().' '.
+									'WHERE parent = %s ',
+									$ilDB->quote($a_parent_id,'integer')
+								);
+								$res = $ilDB->query($query);
+								$r = $ilDB->fetchAssoc($res);
+
+							}
+							else {
+								$query = sprintf('SELECT MAX(rgt) max_rgt FROM '.$this->getTree()->getTreeTable().' '.
+									'WHERE parent = %s '.
+									'AND '.$this->getTree()->getTreePk().' = %s',
+									$ilDB->quote($a_parent_id,'integer'),
+									$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+								$res = $ilDB->query($query);
+								$r = $ilDB->fetchAssoc($res);
+							}
 
 							if (isset($r['max_rgt']))
 							{
@@ -282,17 +304,29 @@ class ilNestedSetTree implements ilTreeImplementation
 						// spread tree if there is not enough space to insert the new node
 						if ($availableSpace < 2)
 						{
-							//$this->log->write('ilTree.insertNode('.$a_node_id.','.$a_parent_id.') creating gap at '.$a_parent_id.' '.$parentLft.'..'.$parentRgt.'+'.(2 + $this->gap * 2));
-							$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
-								'lft = CASE WHEN lft  > %s THEN lft + %s ELSE lft END, '.
-								'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END '.
-								'WHERE '.$this->getTree()->getTreePk().' = %s ',
-								$ilDB->quote($parentRgt,'integer'),
-								$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer'),
-								$ilDB->quote($parentRgt,'integer'),
-								$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer'),
-								$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-							$res = $ilDB->manipulate($query);
+							if($this->getTree()->__isMainTree()) {
+								$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+									'lft = CASE WHEN lft  > %s THEN lft + %s ELSE lft END, '.
+									'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END ',
+									$ilDB->quote($parentRgt,'integer'),
+									$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer'),
+									$ilDB->quote($parentRgt,'integer'),
+									$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer')
+								);
+								$res = $ilDB->manipulate($query);
+							}
+							else {
+								$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+									'lft = CASE WHEN lft  > %s THEN lft + %s ELSE lft END, '.
+									'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END '.
+									'WHERE '.$this->getTree()->getTreePk().' = %s ',
+									$ilDB->quote($parentRgt,'integer'),
+									$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer'),
+									$ilDB->quote($parentRgt,'integer'),
+									$ilDB->quote((2 + $this->getTree()->getGap() * 2),'integer'),
+									$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+								$res = $ilDB->manipulate($query);
+							}
 						}
 					}
 					// Treatment for trees without gaps
@@ -300,12 +334,21 @@ class ilNestedSetTree implements ilTreeImplementation
 					{
 
 						// get right value of parent
-						$query = sprintf('SELECT * FROM '.$this->getTree()->getTreeTable().' '.
-							'WHERE child = %s '.
-							'AND '.$this->getTree()->getTreePk().' = %s ',
-							$ilDB->quote($a_parent_id,'integer'),
-							$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-						$res = $ilDB->query($query);
+						if($this->getTree()->__isMainTree()) {
+							$query = sprintf('SELECT * FROM '.$this->getTree()->getTreeTable().' '.
+								'WHERE child = %s ',
+								$ilDB->quote($a_parent_id,'integer')
+							);
+							$res = $ilDB->query($query);
+						}
+						else {
+							$query = sprintf('SELECT * FROM '.$this->getTree()->getTreeTable().' '.
+								'WHERE child = %s '.
+								'AND '.$this->getTree()->getTreePk().' = %s ',
+								$ilDB->quote($a_parent_id,'integer'),
+								$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+							$res = $ilDB->query($query);
+						}
 						$r = $ilDB->fetchObject($res);
 
 						if ($r->parent === NULL)
@@ -319,14 +362,26 @@ class ilNestedSetTree implements ilTreeImplementation
 						$rgt = $right + 1;
 
 						// spread tree
-						$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
-							'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
-							'rgt = CASE WHEN rgt >= %s THEN rgt + 2 ELSE rgt END '.
-							'WHERE '.$this->getTree()->getTreePk().' = %s',
-							$ilDB->quote($right,'integer'),
-							$ilDB->quote($right,'integer'),
-							$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-						$res = $ilDB->manipulate($query);
+						if($this->getTree()->__isMainTree()) {
+							$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+								'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
+								'rgt = CASE WHEN rgt >= %s THEN rgt + 2 ELSE rgt END ',
+								$ilDB->quote($right,'integer'),
+								$ilDB->quote($right,'integer')
+							);
+							$res = $ilDB->manipulate($query);
+
+						}
+						else {
+							$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+								'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
+								'rgt = CASE WHEN rgt >= %s THEN rgt + 2 ELSE rgt END '.
+								'WHERE '.$this->getTree()->getTreePk().' = %s',
+								$ilDB->quote($right,'integer'),
+								$ilDB->quote($right,'integer'),
+								$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+							$res = $ilDB->manipulate($query);
+						}
 					}
 
 					break;
@@ -353,15 +408,26 @@ class ilNestedSetTree implements ilTreeImplementation
 					$lft = $right + 1;
 					$rgt = $right + 2;
 
-					// update lft/rgt values
-					$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
-						'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
-						'rgt = CASE WHEN rgt >  %s THEN rgt + 2 ELSE rgt END '.
-						'WHERE '.$this->getTree()->getTreePk().' = %s',
-						$ilDB->quote($right,'integer'),
-						$ilDB->quote($right,'integer'),
-						$ilDB->quote($this->getTree()->getTreeId(),'integer'));
-					$res = $ilDB->manipulate($query);
+					if($this->getTree()->__isMainTree()) {
+						$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+							'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
+							'rgt = CASE WHEN rgt >  %s THEN rgt + 2 ELSE rgt END ',
+							$ilDB->quote($right,'integer'),
+							$ilDB->quote($right,'integer')
+						);
+						$res = $ilDB->manipulate($query);
+					}
+					else {
+						$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+							'lft = CASE WHEN lft >  %s THEN lft + 2 ELSE lft END, '.
+							'rgt = CASE WHEN rgt >  %s THEN rgt + 2 ELSE rgt END '.
+							'WHERE '.$this->getTree()->getTreePk().' = %s',
+							$ilDB->quote($right,'integer'),
+							$ilDB->quote($right,'integer'),
+							$ilDB->quote($this->getTree()->getTreeId(),'integer'));
+						$res = $ilDB->manipulate($query);
+					}
+
 					break;
 
 			}
@@ -438,20 +504,30 @@ class ilNestedSetTree implements ilTreeImplementation
 				$a_node['rgt'] - $a_node['lft'] >= $this->getTree()->getGap() * 2
 			)
 			{
-				// close gaps
-				$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
-					'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, '.
-					'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END '.
-					'WHERE '.$this->getTree()->getTreePk().' = %s ',
-					$ilDB->quote($a_node['lft'],'integer'),
-					$ilDB->quote($diff,'integer'),
-					$ilDB->quote($a_node['lft'],'integer'),
-					$ilDB->quote($diff,'integer'),
-					$ilDB->quote($a_node[$this->getTree()->getTreePk()],'integer'));
-
-				$res = $ilDB->manipulate($query);
+				if($this->getTree()->__isMainTree()) {
+					$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+						'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, '.
+						'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END ',
+						$ilDB->quote($a_node['lft'],'integer'),
+						$ilDB->quote($diff,'integer'),
+						$ilDB->quote($a_node['lft'],'integer'),
+						$ilDB->quote($diff,'integer')
+					);
+					$res = $ilDB->manipulate($query);
+				}
+				else {
+					$query = sprintf('UPDATE '.$this->getTree()->getTreeTable().' SET '.
+						'lft = CASE WHEN lft > %s THEN lft - %s ELSE lft END, '.
+						'rgt = CASE WHEN rgt > %s THEN rgt - %s ELSE rgt END '.
+						'WHERE '.$this->getTree()->getTreePk().' = %s ',
+						$ilDB->quote($a_node['lft'],'integer'),
+						$ilDB->quote($diff,'integer'),
+						$ilDB->quote($a_node['lft'],'integer'),
+						$ilDB->quote($diff,'integer'),
+						$ilDB->quote($a_node[$this->getTree()->getTreePk()],'integer'));
+					$res = $ilDB->manipulate($query);
+				}
 			}
-
 		};
 
 		// get lft and rgt values. Don't trust parameter lft/rgt values of $a_node
@@ -748,14 +824,26 @@ class ilNestedSetTree implements ilTreeImplementation
 
 			$query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
 				'lft = CASE WHEN lft >  %s THEN lft + %s ELSE lft END, ' .
-				'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END ' .
-				'WHERE ' . $this->getTree()->getTreePk() . ' = %s ';
-			$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
-				$target_rgt,
-				$spread_diff,
-				$target_rgt,
-				$spread_diff,
-				$this->getTree()->getTreeId()));
+				'rgt = CASE WHEN rgt >= %s THEN rgt + %s ELSE rgt END ';
+
+			if($this->getTree()->__isMainTree()) {
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer'), [
+					$target_rgt,
+					$spread_diff,
+					$target_rgt,
+					$spread_diff
+				]);
+			}
+			else {
+				$query .= ('WHERE ' . $this->getTree()->getTreePk() . ' = %s ');
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
+					$target_rgt,
+					$spread_diff,
+					$target_rgt,
+					$spread_diff,
+					$this->getTree()->getTreeId()));
+			}
+
 
 			// Maybe the source node has been updated, too.
 			// Check this:
@@ -778,30 +866,59 @@ class ilNestedSetTree implements ilTreeImplementation
 				'lft = lft + %s, ' .
 				'depth = depth + %s ' .
 				'WHERE lft >= %s ' .
-				'AND rgt <= %s ' .
-				'AND ' . $this->getTree()->getTreePk() . ' = %s ';
-			$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'), array(
-				$source_parent,
-				$a_target_id,
-				$move_diff,
-				$move_diff,
-				$depth_diff,
-				$source_lft + $where_offset,
-				$source_rgt + $where_offset,
-				$this->getTree()->getTreeId()));
+				'AND rgt <= %s ' ;
+
+			if($this->getTree()->__isMainTree()) {
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'), [
+					$source_parent,
+					$a_target_id,
+					$move_diff,
+					$move_diff,
+					$depth_diff,
+					$source_lft + $where_offset,
+					$source_rgt + $where_offset
+				]);
+			}
+			else {
+				$query .= 'AND ' . $this->getTree()->getTreePk() . ' = %s ';
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'), array(
+					$source_parent,
+					$a_target_id,
+					$move_diff,
+					$move_diff,
+					$depth_diff,
+					$source_lft + $where_offset,
+					$source_rgt + $where_offset,
+					$this->getTree()->getTreeId()));
+			}
+
 
 			// done: close old gap
 			$query = 'UPDATE ' . $this->getTree()->getTreeTable() . ' SET ' .
 				'lft = CASE WHEN lft >= %s THEN lft - %s ELSE lft END, ' .
-				'rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END ' .
-				'WHERE ' . $this->getTree()->getTreePk() . ' = %s ';
+				'rgt = CASE WHEN rgt >= %s THEN rgt - %s ELSE rgt END ' ;
 
-			$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
-				$source_lft + $where_offset,
-				$spread_diff,
-				$source_rgt + $where_offset,
-				$spread_diff,
-				$this->getTree()->getTreeId()));
+			if($this->getTree()->__isMainTree()) {
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer'), [
+					$source_lft + $where_offset,
+					$spread_diff,
+					$source_rgt + $where_offset,
+					$spread_diff
+				]);
+
+			}
+			else {
+				$query .= ('WHERE ' . $this->getTree()->getTreePk() . ' = %s ');
+
+				$res = $ilDB->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer'), array(
+					$source_lft + $where_offset,
+					$spread_diff,
+					$source_rgt + $where_offset,
+					$spread_diff,
+					$this->getTree()->getTreeId()));
+
+			}
+
 		};
 
 
