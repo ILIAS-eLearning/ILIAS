@@ -7,8 +7,16 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface supportsAsynchronousLoading
+interface supportsAsynchronousLoading extends isItem
 {
+
+    /**
+     * @param bool $supported
+     *
+     * @return supportsAsynchronousLoading
+     */
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading;
+
 
     /**
      * @return bool

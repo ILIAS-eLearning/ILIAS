@@ -28,13 +28,8 @@ trait MakeSlateAsync
             return $slate;
         }
 
-        // $toggle_signal = $slate->getToggleSignal();
-
         $serialize = $item->getProviderIdentification()->serialize();
-        $hash = $this->hash($serialize);
-        $url = "./gs_content.php?item=" . $hash;
-
-        $replace_signal = $slate->getReplaceSignal()->withAsyncRenderUrl($url);
+        $replace_signal = $slate->getReplaceSignal()->withAsyncRenderUrl("./gs_content.php?item={$this->hash($serialize)}");
 
         $slate = $slate->appendOnInView($replace_signal);
 

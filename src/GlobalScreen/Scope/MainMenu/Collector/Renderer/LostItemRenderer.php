@@ -14,13 +14,9 @@ class LostItemRenderer extends BaseTypeRenderer
 {
 
     /**
-     * @param isItem $item
-     *
-     * @param bool   $with_async_content
-     *
-     * @return Component
+     * @inheritDoc
      */
-    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
+    public function getComponentWithContent(isItem $item) : Component
     {
         /**
          * @var $item \ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost
@@ -28,7 +24,7 @@ class LostItemRenderer extends BaseTypeRenderer
         if ($item->hasChildren()) {
             $r = new TopParentItemRenderer();
 
-            return $r->getComponentForItem($item, $with_async_content);
+            return $r->getComponentForItem($item, true);
         }
 
         return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");

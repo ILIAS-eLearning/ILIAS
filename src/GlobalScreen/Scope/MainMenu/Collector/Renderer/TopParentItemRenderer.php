@@ -4,8 +4,6 @@ namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -26,27 +24,17 @@ class TopParentItemRenderer extends BaseTypeRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item, bool $with_async_content = false) : Component
+    public function getComponentWithContent(isItem $item) : Component
     {
         $f = $this->ui_factory;
-
+        $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
         /**
-         * @var $item TopParentItem
+         * @var $child isItem
          */
-
-        if ($with_async_content === false && $item instanceof supportsAsynchronousLoading && $item->supportsAsynchronousLoading()) {
-            $content = $this->ui_factory->legacy("...");
-            $slate = $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $this->getStandardSymbol($item), $content);
-            $slate = $this->addAsyncLoadingCode($slate, $item);
-            $slate = $this->addOnloadCode($slate, $item);
-        } else {
-            $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
-
-            foreach ($item->getChildren() as $child) {
-                $component = $child->getTypeInformation()->getRenderer()->getComponentForItem($child, $with_async_content);
-                if ($this->isComponentSupportedForCombinedSlate($component)) {
-                    $slate = $slate->withAdditionalEntry($component);
-                }
+        foreach ($item->getChildren() as $child) {
+            $component = $child->getTypeInformation()->getRenderer()->getComponentForItem($child, false);
+            if ($this->isComponentSupportedForCombinedSlate($component)) {
+                $slate = $slate->withAdditionalEntry($component);
             }
         }
 

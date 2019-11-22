@@ -21,6 +21,10 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      * @var Link[]
      */
     protected $links;
+    /**
+     * @var bool
+     */
+    protected $supports_async_loading = true;
 
 
     /**
@@ -93,8 +97,20 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     /**
      * @inheritDoc
      */
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    {
+        $clone = clone($this);
+        $clone->supports_async_loading = $supported;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function supportsAsynchronousLoading() : bool
     {
-        return true;
+        return $this->supports_async_loading;
     }
 }

@@ -35,6 +35,10 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
      * @var Symbol
      */
     private $symbol;
+    /**
+     * @var bool
+     */
+    private $supports_async_loading = false;
 
 
     /**
@@ -139,8 +143,20 @@ class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymb
     /**
      * @inheritDoc
      */
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    {
+        $clone = clone($this);
+        $clone->supports_async_loading = $supported;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function supportsAsynchronousLoading() : bool
     {
-        return true;
+        return $this->supports_async_loading;
     }
 }
