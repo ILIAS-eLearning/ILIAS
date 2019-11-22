@@ -422,13 +422,13 @@ class ilRepUtilGUI
 		
 		$tpl->setContent($ttab->getHTML());
 	}
-	
+
 	/**
-	* Restore objects from trash
-	*
-	* @param	integer		current ref id
-	* @param	array		array of ref ids to be restored
-	*/
+	 * Restore objects from trash
+	 *
+	 * @param    int        current ref id
+	 * @param    int[]        array of ref ids to be restored
+	 */
 	function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		$lng = $this->lng;
@@ -447,7 +447,18 @@ class ilRepUtilGUI
 			return false;
 		}
 		try {
-			ilRepUtil::restoreObjects($a_cur_ref_id, $a_ref_ids);
+
+			// find parent foreach node
+			$by_location = [];
+			foreach($a_ref_ids as $deleted_node_id) {
+				$target_id = $tree_trash_queries->findRepositoryLocationForDeletedNode($deleted_node_id);
+				if($target_id) {
+					$by_location[$target_id][] = $deleted_node_id;
+				}
+			}
+			foreach($by_location as $target_id => $deleted_node_ids) {
+				\ilRepUtil::restoreObjects($target_id, $deleted_node_ids);
+			}
 			ilUtil::sendSuccess($lng->txt("msg_undeleted"), true);
 		}
 		catch(Exception $e)

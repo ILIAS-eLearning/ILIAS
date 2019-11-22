@@ -52,16 +52,43 @@ class ilTreeTrashQueries
 	 */
 	public function isTrashedTrash(array $ref_ids)
 	{
-		$query = 'select tree,child from tree ' .
+		global $DIC;
+
+		$tree = $DIC->repositoryTree();
+
+		$query = 'select tree,child,parent from tree ' .
 			'where ' . $this->db->in('child', $ref_ids,false, \ilDBConstants::T_INTEGER);
 		$res = $this->db->query($query);
+		$trashed_trash = false;
 		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
 
 			if((int) $row->child != ((int) $row->tree * -1)) {
-				return true;
+				$trashed_trash = true;
+			}
+			if($tree->isDeleted($row->parent)) {
+				$trashed_trash = true;
 			}
 		}
-		return false;
+		return $trashed_trash;
+	}
+
+	/**
+	 * @param int $deleted_node
+	 * @return $rep_ref_id
+	 * @throws \ilRepositoryException
+	 */
+	public function findRepositoryLocationForDeletedNode(int $deleted_node)
+	{
+		$query = 'select parent from tree ' .
+			'where child = ' . $this->db->quote($deleted_node, \ilDBConstants::T_INTEGER). ' ' .
+			'and tree = ' . $this->db->quote($deleted_node * -1 , \ilDBConstants::T_INTEGER);
+		$this->logger->info($query);
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+			return $row->parent;
+		}
+		$this->logger->warning('Invalid node given for restoring to original location: deleted node id: ' . $deleted_node);
+		throw new \ilRepositoryException('Invalid node given for restoring to original location');
 	}
 
 	/**

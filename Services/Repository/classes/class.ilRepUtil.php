@@ -370,6 +370,11 @@ throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type inform
 	
 	/**
 	* Move objects from trash back to repository
+	 *
+	 * @param int $a_cur_ref_id
+	 * @param int[] $a_ref_ids
+	 * @throws \ilDatabaseException
+	 * @throws \ilObjectNotFoundException
 	 * @throws \ilRepositoryException
 	*/
 	static public function restoreObjects($a_cur_ref_id, $a_ref_ids)
