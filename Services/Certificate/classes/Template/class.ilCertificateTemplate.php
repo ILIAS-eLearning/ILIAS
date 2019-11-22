@@ -81,8 +81,8 @@ class ilCertificateTemplate
 	 * @param string $iliasVersion
 	 * @param integer $createdTimestamp
 	 * @param boolean $currentlyActive
-	 * @param null $backgroundImagePath
-	 * @param null $thumbnailImagePath
+	 * @param string $backgroundImagePath
+	 * @param string $thumbnailImagePath
 	 * @param integer|null $id
 	 * @param bool $deleted
 	 */
@@ -96,8 +96,8 @@ class ilCertificateTemplate
 		$iliasVersion,
 		$createdTimestamp,
 		$currentlyActive,
-		$backgroundImagePath = null,
-		$thumbnailImagePath = null,
+		$backgroundImagePath = '',
+		$thumbnailImagePath = '',
 		$id = null,
 		bool $deleted = false
 	) {
@@ -110,8 +110,8 @@ class ilCertificateTemplate
 		$this->iliasVersion = $iliasVersion;
 		$this->createdTimestamp = $createdTimestamp;
 		$this->currentlyActive = $currentlyActive;
-		$this->backgroundImagePath = $backgroundImagePath;
-		$this->thumbnailImagePath = $thumbnailImagePath;
+		$this->backgroundImagePath = (string) $backgroundImagePath;
+		$this->thumbnailImagePath = (string) $thumbnailImagePath;
 		$this->id = $id;
 		$this->deleted = $deleted;
 	}
@@ -191,9 +191,9 @@ class ilCertificateTemplate
 	/**
 	 * @return string
 	 */
-	public function getBackgroundImagePath()
+	public function getBackgroundImagePath() : string
 	{
-		return $this->backgroundImagePath;
+		return (string) $this->backgroundImagePath;
 	}
 
 	/**
@@ -215,8 +215,8 @@ class ilCertificateTemplate
 	/**
 	 * @return string
 	 */
-	public function getThumbnailImagePath()
+	public function getThumbnailImagePath() : string
 	{
-		return $this->thumbnailImagePath;
+		return (string) $this->thumbnailImagePath;
 	}
 }
