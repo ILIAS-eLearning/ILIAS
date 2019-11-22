@@ -21,7 +21,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -81,6 +81,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilreputilgui':
+				$ru = new \ilRepUtilGUI($this);
+				$this->ctrl->setReturn($this, 'trash');
+				$this->ctrl->forwardCommand($ru);
+				break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
