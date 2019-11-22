@@ -8,6 +8,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\DTO\ConversationDto;
+use ILIAS\OnScreenChat\Repository\Conversation;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -16,14 +18,23 @@ use Psr\Http\Message\ResponseInterface;
  */
 class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
+    /** @var Conversation */
+    private $conversationRepo;
+
     /**
      * OnScreenChatNotificationProvider constructor.
      * @param Container $dic
+     * @param Conversation|null $conversationRepo
      */
-    public function __construct(Container $dic)
+    public function __construct(Container $dic, Conversation $conversationRepo = null)
     {
         parent::__construct($dic);
         $dic->language()->loadLanguageModule('chatroom');
+
+        if (null === $conversationRepo) {
+            $conversationRepo = new Conversation($dic->database());
+        }
+        $this->conversationRepo = $conversationRepo;
     }
 
     /**
@@ -153,59 +164,19 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             return [$notificationItem];
         }
 
-        /**
-         * TODO: Move to some kind of repository or use ActiveRecord/Some other querying class
-         */
-
-        $res = $this->dic->database()->query(
-            'SELECT * FROM osc_conversation WHERE ' . $this->dic->database()->in(
-                'id', $conversationIds, false, 'text'
-            )
-        );
+        $conversations = $this->conversationRepo->findByIdsAndUser($conversationIds, $this->dic->user());
 
         $allUsrIds = [];
-        $validConversations = [];
-        while ($row = $this->dic->database()->fetchAssoc($res)) {
-            $participants = json_decode($row['participants'], true);
-            $participantIds = array_filter(array_map(function ($value) {
-                if (is_array($value) && isset($value['id'])) {
-                    return (int) $value['id'];
-                }
-
-                return 0;
-            }, $participants));
-
-            if (in_array((int) $this->dic->user()->getId(), $participantIds)) {
-                $allUsrIds = array_unique(array_merge($allUsrIds, $participantIds));
-
-                $this->dic->database()->setLimit(1, 0);
-                $msgRes = $this->dic->database()->queryF(
-                    'SELECT * FROM osc_messages WHERE conversation_id = %s AND ' . $this->dic->database()->in(
-                        'user_id', $participantIds, false, 'text'
-                    ) .
-                    ' ORDER BY timestamp DESC',
-                    ['text'],
-                    [$row['id']]
-                );
-                $row['message'] = '';
-                while ($msgRow = $this->dic->database()->fetchAssoc($msgRes)) {
-                    $row['message'] = $msgRow['message'];
-                    break;
-                }
-
-                $row['participantIds'] = array_combine($participantIds, $participantIds);
-
-                $validConversations[$row['id']] = $row;
-            }
-        }
-
+        array_walk($conversations, function (ConversationDto $conversation) use (&$allUsrIds) {
+            $allUsrIds = array_unique(array_merge($conversation->getSubscriberUsrIds(), $allUsrIds));
+        });
         $userProvider = new \ilOnScreenChatUserDataProvider($this->dic->database(), $this->dic->user());
         $allUsrData = $userProvider->getDataByUserIds($allUsrIds);
 
         $aggregatedItems = [];
-        foreach ($validConversations as $conversationId => $data) {
-            $convUsrData = array_filter($allUsrData, function ($key) use ($data) {
-                return isset($data['participantIds'][$key]);
+        foreach ($conversations as $conversation) {
+            $convUsrData = array_filter($allUsrData, function ($key) use ($conversation) {
+                return in_array($key, $conversation->getSubscriberUsrIds());
             }, ARRAY_FILTER_USE_KEY);
 
             $convUsrNames = array_map(function ($value) {
@@ -213,17 +184,17 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             }, $convUsrData);
 
             $name = implode(', ', $convUsrNames);
-            $message = $data['message'];
+            $message = $conversation->getLastMessage()->getMessage();
 
             $aggregateTitle = $this->dic->ui()->factory()
                 ->button()
                 ->shy($name,
                     '') // Important: Do not pass any action here, otherwise there will be onClick/return false;
                 ->withAdditionalOnLoadCode(
-                    function ($id) use ($conversationId) {
+                    function ($id) use ($conversation) {
                         return "
                              $('#$id').attr('data-onscreenchat-menu-item', '');
-                             $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
+                             $('#$id').attr('data-onscreenchat-conversation', '{$conversation->getId()}');
                         ";
                     }
                 );
@@ -232,7 +203,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->notification($aggregateTitle, $icon)
                 ->withDescription($message)
                 ->withAdditionalOnLoadCode(
-                    function ($id) use ($conversationId) {
+                    function ($id) use ($conversation) {
                         return "
                             $('#$id').find('.il-item-description').html(
                                 il.OnScreenChat.getMessageFormatter().format(
@@ -241,7 +212,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                             );
                             $('#$id').find('button.close')
                                 .attr('data-onscreenchat-menu-remove-conversation', '')
-                                .attr('data-onscreenchat-conversation', '$conversationId');
+                                .attr('data-onscreenchat-conversation', '{$conversation->getId()}');
                         ";
                     }
                 )
