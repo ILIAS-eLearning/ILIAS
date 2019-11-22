@@ -408,7 +408,7 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	 * @param int $obj_id
 	 * @param array $a_appointment
 	 */
-	function addObjectLinks($obj_id, $a_appointment)
+	public function addObjectLinks($obj_id, $a_appointment = null)
 	{
 		$refs = $this->getReadableRefIds($obj_id);
 		reset($refs);
@@ -446,10 +446,10 @@ class ilAppointmentPresentationGUI  implements ilCalendarAppointmentPresentation
 	/**
 	 * Build direct link for appointment
 	 * @param int $a_ref_id
-	 * @param array $a_appointment
+	 * @param array | null $a_appointment
 	 * @return string
 	 */
-	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment)
+	protected function buildDirectLinkForAppointment($a_ref_id, $a_appointment = null)
 	{
 		return ilLink::_getStaticLink($a_ref_id);
 	}
