@@ -1,7 +1,9 @@
 <?php declare(strict_types=1);
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\OnScreenChat\Provider;
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -15,15 +17,25 @@ use Psr\Http\Message\ResponseInterface;
 class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
     /**
+     * OnScreenChatNotificationProvider constructor.
+     * @param Container $dic
+     */
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $dic->language()->loadLanguageModule('chatroom');
+    }
+
+    /**
      * @inheritDoc
      */
-    public function getNotifications(): array
+    public function getNotifications() : array
     {
-        $id = function (string $id): IdentificationInterface {
+        $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        if (0 === (int)$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
@@ -35,12 +47,10 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
 
         $factory = $this->globalScreen()->notifications()->factory();
 
-        $this->dic->language()->loadLanguageModule('chatroom');
-
         $showAcceptMessageChange = (
             !\ilUtil::yn2tf($this->dic->user()->getPref('chat_osc_accept_msg')) &&
-            !(bool)$this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', false) &&
-            !(bool)$this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', false)
+            !(bool) $this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', false) &&
+            !(bool) $this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', false)
         );
 
         $description = $this->dic->language()->txt('chat_osc_nc_no_conv');
@@ -70,7 +80,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         if (!$showAcceptMessageChange) {
             $notificationItem = $notificationItem
                 ->withAdditionalOnLoadCode(
-                    function($id) {
+                    function ($id) {
                         return "
                             il.OnScreenChat.setNotificationItemId('$id');
                         ";
@@ -94,25 +104,22 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
 
     /**
      * @param string $conversationIds
-     * @param bool $noAggregates
+     * @param bool $withAggregates
      * @return array
      * @throws \ilWACException
      */
     public function getAsyncItem(
         string $conversationIds,
-        bool $noAggregates = false
-    ) : array
-    {
-        $conversationIds = array_filter(explode(',',$conversationIds ));
-
-        $this->dic->language()->loadLanguageModule('chatroom');
+        bool $withAggregates
+    ) : array {
+        $conversationIds = array_filter(explode(',', $conversationIds));
 
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
             ->standard('chtr', 'conversations');
         $title = $this->dic->language()->txt('chat_osc_conversations');
-        if ('true' !== $noAggregates && count($conversationIds) > 0) {
+        if ($withAggregates && count($conversationIds) > 0) {
             $title = $this->dic->ui()->factory()
                 ->link()
                 ->standard($title, '#');
@@ -122,25 +129,26 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->notification($title, $icon)
             ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'))
             ->withAdditionalOnLoadCode(
-                function($id) {
+                function ($id) {
                     return "
                     il.OnScreenChat.setNotificationItemId('$id');
                 ";
                 }
             );
 
-        if (0 === count($conversationIds)) {
-            return [$notificationItem];
-        }
-
-        if (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (
+            0 === count($conversationIds) ||
+            !$withAggregates ||
+            (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous())
+        )
+        {
             return [$notificationItem];
         }
 
         /**
          * TODO: Move to some kind of repository or use ActiveRecord/Some other querying class
          */
-        
+
         $res = $this->dic->database()->query(
             'SELECT * FROM osc_conversation WHERE ' . $this->dic->database()->in(
                 'id', $conversationIds, false, 'text'
@@ -151,11 +159,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $validConversations = [];
         while ($row = $this->dic->database()->fetchAssoc($res)) {
             $participants = json_decode($row['participants'], true);
-            $participantIds = array_filter(array_map(function($value) {
+            $participantIds = array_filter(array_map(function ($value) {
                 if (is_array($value) && isset($value['id'])) {
                     return (int) $value['id'];
                 }
-                
+
                 return 0;
             }, $participants));
 
@@ -186,61 +194,60 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $userProvider = new \ilOnScreenChatUserDataProvider($this->dic->database(), $this->dic->user());
         $allUsrData = $userProvider->getDataByUserIds($allUsrIds);
 
-        if ('true' !== $noAggregates) {
-            $aggregatedItems = [];
-            foreach ($validConversations as $conversationId => $data) {
-                $convUsrData = array_filter($allUsrData, function($key) use ($data) {
-                    return isset($data['participantIds'][$key]);
-                }, ARRAY_FILTER_USE_KEY);
-                
-                $convUsrNames = array_map(function($value) {
-                    return $value['public_name'];
-                }, $convUsrData);
+        $aggregatedItems = [];
+        foreach ($validConversations as $conversationId => $data) {
+            $convUsrData = array_filter($allUsrData, function ($key) use ($data) {
+                return isset($data['participantIds'][$key]);
+            }, ARRAY_FILTER_USE_KEY);
 
-                $name = implode(', ', $convUsrNames);
-                $message = $data['message'];
-                
-                $aggregateTitle = $this->dic->ui()->factory()
-                    ->button()
-                    ->shy($name, '') // Important: Do not pass any action here, otherwise there will be onClick/return false;
-                    ->withAdditionalOnLoadCode(
-                        function($id) use($conversationId) {
-                            return "
-                                 $('#$id').attr('data-onscreenchat-menu-item', '');
-                                 $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
-                            ";
-                        }
-                    );
-                $aggregatedItems[] = $this->dic->ui()->factory()
-                    ->item()
-                    ->notification($aggregateTitle, $icon)
-                    ->withDescription($message)
-                    ->withAdditionalOnLoadCode(
-                        function($id) use($conversationId) {
-                            return "
-                                $('#$id').find('.il-item-description').html(
-                                    il.OnScreenChat.getMessageFormatter().format(
-                                        $('#$id').find('.il-item-description').html()
-                                    )                                    
-                                );
-                                $('#$id').find('button.close')
-                                    .attr('data-onscreenchat-menu-remove-conversation', '')
-                                    .attr('data-onscreenchat-conversation', '$conversationId');
-                            ";
-                        }
-                    )
-                    ->withCloseAction('#'); // Important: The # prevents the default onClick handler is triggered
-            }
-            
-            $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
-            if (1 === count($aggregatedItems)) {
-                $description = $this->dic->language()->txt('chat_osc_nc_conv_x_s');
-            }
+            $convUsrNames = array_map(function ($value) {
+                return $value['public_name'];
+            }, $convUsrData);
 
-            $notificationItem = $notificationItem
-                ->withAggregateNotifications($aggregatedItems)
-                ->withDescription($description);
+            $name = implode(', ', $convUsrNames);
+            $message = $data['message'];
+
+            $aggregateTitle = $this->dic->ui()->factory()
+                ->button()
+                ->shy($name,
+                    '') // Important: Do not pass any action here, otherwise there will be onClick/return false;
+                ->withAdditionalOnLoadCode(
+                    function ($id) use ($conversationId) {
+                        return "
+                             $('#$id').attr('data-onscreenchat-menu-item', '');
+                             $('#$id').attr('data-onscreenchat-conversation', '$conversationId');
+                        ";
+                    }
+                );
+            $aggregatedItems[] = $this->dic->ui()->factory()
+                ->item()
+                ->notification($aggregateTitle, $icon)
+                ->withDescription($message)
+                ->withAdditionalOnLoadCode(
+                    function ($id) use ($conversationId) {
+                        return "
+                            $('#$id').find('.il-item-description').html(
+                                il.OnScreenChat.getMessageFormatter().format(
+                                    $('#$id').find('.il-item-description').html()
+                                )                                    
+                            );
+                            $('#$id').find('button.close')
+                                .attr('data-onscreenchat-menu-remove-conversation', '')
+                                .attr('data-onscreenchat-conversation', '$conversationId');
+                        ";
+                    }
+                )
+                ->withCloseAction('#'); // Important: The # prevents the default onClick handler is triggered
         }
+
+        $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
+        if (1 === count($aggregatedItems)) {
+            $description = $this->dic->language()->txt('chat_osc_nc_conv_x_s');
+        }
+
+        $notificationItem = $notificationItem
+            ->withAggregateNotifications($aggregatedItems)
+            ->withDescription($description);
 
         return [$notificationItem];
     }

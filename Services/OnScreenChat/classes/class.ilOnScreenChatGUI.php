@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
 use ILIAS\Filesystem\Stream\Streams;
@@ -112,10 +113,14 @@ class ilOnScreenChatGUI
 
             case 'getRenderedNotificationItems':
                 $provider = new OnScreenChatNotificationProvider($this->dic);
+
+                $conversationIds = (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? '');
+                $noAggregates = ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');
+
                 $response = $this->getResponseWithText(
                     $this->dic->ui()->renderer()->renderAsync($provider->getAsyncItem(
-                        (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? ''),
-                        $noAggregates = (string) ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '')
+                        $conversationIds,
+                        $noAggregates !== 'true'
                     ))
                 );
                 break;
