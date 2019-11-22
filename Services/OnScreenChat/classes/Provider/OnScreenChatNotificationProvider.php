@@ -57,9 +57,16 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         if ($showAcceptMessageChange) {
             $description = sprintf(
                 $this->dic->language()->txt('chat_osc_dont_accept_msg'),
-                $this->dic->ctrl()->getLinkTargetByClass(
-                    ['ilDashboardGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'],
-                    'showChatOptions'
+                $this->dic->ui()->renderer()->render($this->dic->ui()->factory()
+                    ->link()
+                    ->standard(
+                        $this->dic->language()->txt('chat_osc_dont_accept_msg_link_txt'),
+                        $this->dic->ctrl()->getLinkTargetByClass(
+                            ['ilDashboardGUI', 'ilPersonalSettingsGUI', 'ilPersonalChatSettingsFormGUI'],
+                            'showChatOptions'
+                        )
+                    )
+                    ->withOpenInNewViewport(true)
                 )
             );
         }
@@ -68,8 +75,9 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->symbol()
             ->icon()
             ->standard('chtr', 'conversations');
-        $title = $this->dic->language()->txt('chat_osc_conversations');
-        if (!$showAcceptMessageChange) {
+        if ($showAcceptMessageChange) {
+            $title = $this->dic->language()->txt('chat_osc_conversations');
+        } else {
             $title = $this->dic->language()->txt('chat_osc_conversations');
         }
 
@@ -77,7 +85,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->item()
             ->notification($title, $icon)
             ->withDescription($description);
-        if (!$showAcceptMessageChange) {
+        if ($showAcceptMessageChange) {
+            /*$notificationItem = $notificationItem->withProperties([
+                '' => $this->dic->language()->txt('chat_osc_nc_no_conv')
+            ]);*/
+        } else {
             $notificationItem = $notificationItem
                 ->withAdditionalOnLoadCode(
                     function ($id) {

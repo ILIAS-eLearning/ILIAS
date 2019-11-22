@@ -412,33 +412,37 @@
 				return b.latestMessage.timestamp - a.latestMessage.timestamp;
 			});
 
-			let notificationContainer = il.UI.item.notification.getNotificationItemObject(
-				$('#' + getModule().notificationItemId)
-			);
-
 			if (0 === currentNotificationItemsAdded && 0 === conversations.length) {
 				return;
 			}
 
-			if (conversations.length > currentNotificationItemsAdded) {
-				notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
-					conversations.length - currentNotificationItemsAdded
+			try {
+				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
+					$('#' + getModule().notificationItemId)
 				);
-			} else if (conversations.length < currentNotificationItemsAdded) {
-				notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(
-					currentNotificationItemsAdded - conversations.length
-				);
+
+				if (conversations.length > currentNotificationItemsAdded) {
+					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
+						conversations.length - currentNotificationItemsAdded
+					);
+				} else if (conversations.length < currentNotificationItemsAdded) {
+					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(
+						currentNotificationItemsAdded - conversations.length
+					);
+				}
+
+				getModule().notificationItemsAdded = conversations.length;
+
+				let conversationIds = conversations.map(function (conversation) {
+					return conversation.id;
+				}).join(',');
+
+				notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+					'ids': conversationIds
+				});
+			} catch (e) {
+				console.error(e);
 			}
-
-			getModule().notificationItemsAdded = conversations.length;
-
-			let conversationIds = conversations.map(function(conversation) {
-				return conversation.id;
-			}).join(',');
-
-			notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-				'ids': conversationIds
-			});
 		},
 
 		/**
