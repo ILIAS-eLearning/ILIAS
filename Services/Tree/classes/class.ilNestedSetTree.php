@@ -65,7 +65,57 @@ class ilNestedSetTree implements ilTreeImplementation
 		}
 		return $childs ? $childs : array();
 	}
-	
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = [])
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$type_str = '';
+		if (is_array($a_types))
+		{
+			if($a_types)
+			{
+				$type_str = "AND ".$ilDB->in($this->getTree()->getObjectDataTable().".type", $a_types, false, "text");
+			}
+		}
+		else if(strlen($a_types))
+		{
+			$type_str = "AND ".$this->getTree()->getObjectDataTable().".type = ".$ilDB->quote($a_types, "text");
+		}
+
+		$join = '';
+		if($type_str or $a_force_join_reference)
+		{
+			$join = $this->getTree()->buildJoin();
+		}
+
+		$fields = '* ';
+		if(count($a_fields))
+		{
+			$fields = implode(',',$a_fields);
+		}
+
+		$query = 'SELECT '.
+			$fields.' '.
+			"FROM ".$this->getTree()->getTreeTable()." ".
+			$join.' '.
+			"WHERE ".$this->getTree()->getTreeTable().'.lft '.
+			'BETWEEN '.$ilDB->quote($a_node['lft'],'integer').' '.
+			'AND '.$ilDB->quote($a_node['rgt'],'integer').' '.
+			"AND ".$this->getTree()->getTreeTable().".".$this->getTree()->getTreePk().' < 0 ' .
+			$type_str.' '.
+			"ORDER BY ".$this->getTree()->getTreeTable().".lft";
+
+		return $query;
+
+	}
+
 	/**
 	 * Get subtree
 	 * @param type $a_node

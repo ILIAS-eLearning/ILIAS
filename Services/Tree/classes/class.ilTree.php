@@ -2894,6 +2894,19 @@ class ilTree
 				$a_fields);
 	}
 	
+	/**
+	 * @inheritdoc
+	 */
+	public function getTrashSubTreeQuery($a_node_id, $a_fields = [], $a_types = '', $a_force_join_reference = false)
+	{
+		return $this->getTreeImplementation()->getTrashSubTreeQuery(
+			$this->getNodeTreeData($a_node_id),
+			$a_types,
+			$a_force_join_reference,
+			$a_fields
+		);
+	}
+	
 	
 	/**
 	 * get all node ids in the subtree under specified node id, filter by object ids

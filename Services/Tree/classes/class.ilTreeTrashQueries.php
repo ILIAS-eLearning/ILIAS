@@ -9,12 +9,15 @@
  * @ingroup ServicesTree
  *
  */
-class ilTreeTrash
+class ilTreeTrashQueries
 {
 	/**
 	 * @var int
 	 */
 	private $ref_id = 0;
+
+
+	private $tree = null;
 
 	/**
 	 * @var \ilLogger
@@ -37,12 +40,52 @@ class ilTreeTrash
 
 		$this->db = $DIC->database();
 		$this->logger = $DIC->logger()->tree();
+
+		$this->tree = $DIC->repositoryTree();
 	}
 
 	/**
+	 * Get trashed nodes
 	 * @param int $ref_id
+	 * @return \ilTreeTrashItem[]
 	 */
-	public function getTrashedNodesForContainer(int $ref_id)
+	public function getTrashNodeForContainer(int $ref_id) {
+
+		$subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
+
+		$query = 'select ref_id, obd.obj_id, type, title, description, deleted, deleted_by from object_data obd ' .
+			'join object_reference obr on obd.obj_id = obr.obj_id ' .
+			'where ref_id in (' .
+			$subtreequery . ' '.
+			')';
+		$this->logger->dump($query);
+		$res = $this->db->query($query);
+
+		$items = [];
+		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+
+			$item = new \ilTreeTrashItem();
+			$item->setObjId($row->obj_id);
+			$item->setRefId($row->ref_id);
+			$item->setTitle($row->title);
+			$item->setDescription($row->description);
+			$item->setType($row->type);
+			$item->setDeleted($row->deleted);
+			$item->setDeletedBy($row->deleted_by);
+
+			$items[] = $item;
+		}
+		return $items;
+	}
+
+
+
+	/**
+	 * Unfortunately not supported by mysql 5
+	 * @param int $ref_id
+	 *
+	 */
+	public function getTrashedNodesForContainerUsingRecursion(int $ref_id)
 	{
 		$query  = 'with recursive trash (child,tree) as ' .
 			'( select child, tree from tree where child = ' . $this->db->quote($ref_id, \ilDBConstants::T_INTEGER) . ' ' .

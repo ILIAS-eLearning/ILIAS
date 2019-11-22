@@ -149,27 +149,31 @@ class ilTrashTableGUI extends ilTable2GUI
 		$tree = $DIC->repositoryTree();
 		$objects = $tree->getSavedNodeData($this->ref_id);
 
-		$this->logger->dump($objects, \ilLogLevel::DEBUG);
+
+		$trash_tree_reader = new \ilTreeTrashQueries();
+		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id);
+
+		$this->logger->dump($items);
 
 		$rows = [];
-		foreach($objects as $tree_node) {
+		foreach($items as $item) {
 
-			$row['id'] = $tree_node['ref_id'];
-			$row['obj_id'] = $tree_node['obj_id'];
-			$row['type'] = $tree_node['type'];
-			$row['title'] = $tree_node['title'];
-			$row['description'] = $tree_node['description'];
-			$row['deleted_by_id'] = $tree_node['deleted_by'];
-
+			$row['id'] = $item->getRefId();
+			$row['obj_id'] = $item->getObjId();
+			$row['type'] = $item->getType();
+			$row['title'] = $item->getTitle();
+			$row['description'] = $item->getDescription();
+			$row['deleted_by_id'] = $item->getDeletedBy();
 			$row['deleted_by'] = $this->lng->txt('rep_trash_deleted_by_unknown');
 			if($login = \ilObjUser::_lookupLogin($row['deleted_by_id'])) {
 				$row['deleted_by'] = $login;
 			}
-			$row['deleted_on'] = $tree_node['deleted'];
+			$row['deleted_on'] = $item->getDeleted();
 			$row['num_subs'] = 0;
 
 			$rows[] = $row;
 		}
+
 
 		$this->setMaxCount(count($rows));
 		$this->setData($rows);
