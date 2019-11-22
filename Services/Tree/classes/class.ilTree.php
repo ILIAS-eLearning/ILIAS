@@ -2529,8 +2529,6 @@ class ilTree
 			$node_id,
 			$this->tree_id));
 
-		// to much dependencies
-		//$childs = $this->getChilds($node_id);
 		$childs = $this->getChildIds($node_id);
 
 		foreach ($childs as $child)
