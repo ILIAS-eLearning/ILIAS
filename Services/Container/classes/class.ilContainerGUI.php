@@ -3658,7 +3658,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$tpl = $this->tpl;
 
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
+		$this->tabs_gui->activateTab('trash');
+
 		$ru = new ilRepUtilGUI($this);
 		$ru->showTrashTable($_GET["ref_id"]);
 	}
@@ -3821,6 +3822,47 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAdminTabs()
+	{
+		$tree = $this->tree;
+
+		if ($this->checkPermissionBool("visible,read"))
+		{
+			$this->tabs_gui->addTab(
+				'view',
+				$this->lng->txt('view'),
+				$this->ctrl->getLinkTarget($this, 'view')
+			);
+		}
+
+		if ($this->checkPermissionBool("edit_permission"))
+		{
+			$this->tabs_gui->addTab(
+				'perm_settings',
+				$this->lng->txt('perm_settings'),
+				$this->ctrl->getLinkTargetByClass(
+					[
+						get_class($this),
+						'ilpermissiongui'
+					],
+					'perm'
+				)
+			);
+		}
+
+		// Always show container trash
+		$this->tabs_gui->addTab(
+			'trash',
+			$this->lng->txt('trash'),
+			$this->ctrl->getLinkTarget($this,'trash')
+		);
+	}
+
 
 
 }

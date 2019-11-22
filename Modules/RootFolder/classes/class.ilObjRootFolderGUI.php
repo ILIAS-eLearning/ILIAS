@@ -129,9 +129,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
 			case 'ilpermissiongui':
 				$this->prepareOutput();
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+				$this->tabs_gui->activateTab('perm_settings');
 				$perm_gui = new ilPermissionGUI($this);
-				$ret =& $this->ctrl->forwardCommand($perm_gui);
+				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
 			case "ilcolumngui":
