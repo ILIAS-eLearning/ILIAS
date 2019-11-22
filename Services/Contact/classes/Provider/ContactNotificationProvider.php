@@ -40,7 +40,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
         $latestRequestTimestamp = null;
         $openRequests = \ilBuddyList::getInstanceByGlobalUser()
-            ->getRelations()->filter(
+            ->getRequestRelationsForOwner()->filter(
                 function (\ilBuddySystemRelation $relation) use ($leftIntervalTimestamp, &$latestRequestTimestamp) : bool {
                     $timeStamp = $relation->getTimestamp();
                     
