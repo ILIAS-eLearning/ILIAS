@@ -75,11 +75,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->symbol()
             ->icon()
             ->standard('chtr', 'conversations');
-        if ($showAcceptMessageChange) {
-            $title = $this->dic->language()->txt('chat_osc_conversations');
-        } else {
-            $title = $this->dic->language()->txt('chat_osc_conversations');
-        }
+        $title = $this->dic->language()->txt('chat_osc_conversations');
 
         $notificationItem = $this->dic->ui()->factory()
             ->item()
