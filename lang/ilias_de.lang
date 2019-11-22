@@ -14072,6 +14072,7 @@ chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad 
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_nc_prop_time#:#Zeit
 chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
 chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine versteckte Konversation
 chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s versteckte Konversationen

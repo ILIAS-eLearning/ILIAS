@@ -14056,6 +14056,7 @@ chatroom#:#chat_error_log_info#:#Please define an absolute server path to the ch
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_nc_prop_time#:#Time
 chatroom#:#chat_osc_nc_no_conv#:#No Conversations available
 chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation
 chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations
