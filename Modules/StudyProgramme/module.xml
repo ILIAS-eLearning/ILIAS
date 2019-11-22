@@ -56,4 +56,7 @@
 		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />
 		<cron id="prg_restart_assignments_temporal_progress" class="ilPrgRestartAssignmentsCronJob" />
 	</crons>
+	<mailtemplates>
+		<context id="prg_context_manual" class="ilStudyProgrammeMailTemplateContext" />
+	</mailtemplates>
 </module>

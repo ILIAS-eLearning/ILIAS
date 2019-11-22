@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 use Pimple\Container;
 
@@ -83,6 +85,7 @@ class ilStudyProgrammeDIC
 				$DIC['ilToolbar'],
 				$DIC['lng'],
 				$DIC['ilUser'],
+				$DIC['ilTabs'],
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
@@ -184,6 +187,14 @@ class ilStudyProgrammeDIC
 		};
 		$dic['ilStudyProgrammePostionBasedAccess'] = function($dic) {
 			return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
+		};
+		$dic['ilStudyProgrammeMailMemberSearchGUI'] = function($dic) use ($DIC) {
+			return new ilStudyProgrammeMailMemberSearchGUI(
+				$DIC['ilCtrl'],
+				$DIC['tpl'],
+				$DIC['lng'],
+				$DIC['ilAccess']
+			);
 		};
 		return $dic;
 	}
