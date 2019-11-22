@@ -35,6 +35,12 @@ class ilTrashTableGUI extends ilTable2GUI
 
 
 	/**
+	 * @var array
+	 */
+	private $current_filter = [];
+
+
+	/**
 	 * ilTrashTableGUI constructor.
 	 * @param object $a_parent_obj
 	 * @param string $a_parent_cmd
@@ -88,6 +94,49 @@ class ilTrashTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand('undelete' , $this->lng->txt('btn_undelete'));
 		$this->addMultiCommand('confirmRemoveFromSystem', $this->lng->txt('btn_remove_system'));
+
+		$this->initFilter();
+	}
+
+	/**
+	 *
+	 */
+	public function initFilter()
+	{
+		$this->setDefaultFilterVisiblity(true);
+
+		$type = new \ilMultiSelectInputGUI(
+			$this->lng->txt('type'),
+			'type'
+		);
+		$type->enableSelectAll(true);
+		$type->setOptions($this->prepareTypeFilterTypes());
+		$this->addFilterItem($type, false);
+		$this->current_filter['type'] = $type->getValue();
+
+		$title = $this->addFilterItemByMetaType(
+			'title',
+			\ilTable2GUI::FILTER_TEXT,
+			false,
+			$this->lng->txt('title')
+		);
+		$this->current_filter['title'] = $title->getValue();
+
+		$deleted_by = $this->addFilterItemByMetaType(
+			'deleted_by',
+			\ilTable2GUI::FILTER_TEXT,
+			false,
+			$this->lng->txt('rep_trash_table_col_deleted_by')
+		);
+		$this->current_filter['deleted_by'] = $deleted_by->getValue();
+
+		$deleted = $this->addFilterItemByMetaType(
+			'deleted_on',
+			\ilTable2GUI::FILTER_DATE_RANGE,
+			false,
+			$this->lng->txt('rep_trash_table_col_deleted_on')
+		);
+		$this->current_filter['deleted_on'] = $deleted->getValue();
 	}
 
 	/**
@@ -157,6 +206,30 @@ class ilTrashTableGUI extends ilTable2GUI
 		$dt = new \ilDateTime($row['deleted_on'], IL_CAL_DATETIME);
 		$this->tpl->setVariable('VAL_DELETED_ON', \ilDatePresentation::formatDate($dt));
 		$this->tpl->setVariable('VAL_SUBS', (string) (int) $row['num_subs']);
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function prepareTypeFilterTypes()
+	{
+		$subs = $this->obj_definition->getSubObjectsRecursively(
+			\ilObject::_lookupType($this->ref_id, true)
+		);
+		$options = [];
+		foreach($subs as $type => $info) {
+
+			if($type == 'rolf') {
+				continue;
+			}
+
+			if(!$this->obj_definition->isRBACObject($type)) {
+				continue;
+			}
+			$options[$type] = $this->lng->txt('objs_' . $type);
+		}
+		asort($options,SORT_LOCALE_STRING);
+		return $options;
 	}
 
 }

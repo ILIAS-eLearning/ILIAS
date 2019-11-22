@@ -3664,7 +3664,43 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$trash_table->init();
 		$trash_table->parse();
 
+		$trash_table->setFilterCommand('trashApplyFilter');
+		$trash_table->setResetCommand('trashResetFilter');
+
 		$tpl->setContent($trash_table->getHTML());
+	}
+
+	/**
+	 * trash table apply filter
+	 */
+	public function trashApplyFilterObject()
+	{
+		$this->trashHandleFilter(true, false);
+	}
+
+	/**
+	 * trash table reset filter
+	 */
+	public function trashResetFilterObject()
+	{
+		$this->trashHandleFilter(false, true);
+	}
+
+	/**
+	 * @param bool $action_apply
+	 */
+	protected function trashHandleFilter(bool $action_apply, bool $action_reset)
+	{
+		$trash_table = new \ilTrashTableGUI($this, 'trash' , $this->object->getRefId());
+		$trash_table->init();
+		$trash_table->resetOffset();
+		if($action_reset) {
+			$trash_table->resetFilter();
+		}
+		if($action_apply) {
+			$trash_table->writeFilterToSession();
+		}
+		$this->trashObject();
 	}
 
 	/**
