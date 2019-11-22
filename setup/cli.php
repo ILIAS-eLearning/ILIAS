@@ -47,11 +47,19 @@ function build_container_for_setup(string $executed_in_directory) {
 	$c["app"] =  function($c) {
 		return new \ILIAS\Setup\CLI\App(
 			$c["command.install"],
+			$c["command.update"],
 			$c["command.build-artifacts"]
 		);
 	};
 	$c["command.install"] = function($c) {
 		return new \ILIAS\Setup\CLI\InstallCommand(
+			$c["agent"],
+			$c["config_reader"],
+			$c["common_preconditions"]
+		);
+	};
+	$c["command.update"] = function ($c) {
+		return new \ILIAS\Setup\CLI\UpdateCommand(
 			$c["agent"],
 			$c["config_reader"],
 			$c["common_preconditions"]
