@@ -218,7 +218,7 @@ class ilTreeTrashQueries
 			$query .= 'and ' . $this->db->like(
 					'title',
 					\ilDBConstants::T_TEXT,
-					$filter['title'] . '%'
+					'%' . $filter['title'] . '%'
 				) . ' ';
 
 		}
