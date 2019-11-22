@@ -104,7 +104,7 @@ class ilTreeTrashItem
 	/**
 	 * @param string $description
 	 */
-	public function setDescription(string $description)
+	public function setDescription(?string $description)
 	{
 		$this->description = $description;
 	}
@@ -112,7 +112,7 @@ class ilTreeTrashItem
 	/**
 	 * @return string
 	 */
-	public function getDescription() : string
+	public function getDescription() : ?string
 	{
 		return $this->description;
 	}
