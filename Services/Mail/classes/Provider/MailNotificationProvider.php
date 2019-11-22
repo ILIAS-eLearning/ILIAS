@@ -35,10 +35,12 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
         }
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
-        $numberOfNewMessages = \ilMailGlobalServices::getNumberOfNewMailsByUserId(
+        $newMailData = \ilMailGlobalServices::getNewMailsData(
             (int) $this->dic->user()->getId(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
+
+        $numberOfNewMessages = (int) $newMailData['count'];
         if (0 === $numberOfNewMessages) {
             return [];
         }
@@ -47,22 +49,45 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $factory = $this->globalScreen()->notifications()->factory();
 
+        $mailUrl = 'ilias.php?baseClass=ilMailGUI';
+
         if (1 === $numberOfNewMessages) {
-            $body = $this->dic->language()->txt('nc_mail_unread_messages_number_s');
+            $linkText = $this->dic->language()->txt('nc_mail_unread_messages_number_s');
         } else {
-            $body = sprintf($this->dic->language()->txt('nc_mail_unread_messages_number_p'), $numberOfNewMessages);
+            $linkText = sprintf(
+                $this->dic->language()->txt('nc_mail_unread_messages_number_p'),
+                $numberOfNewMessages
+            );
         }
+
+        $body = sprintf(
+            $this->dic->language()->txt('nc_mail_unread_messages'),
+            $this->dic->ui()->renderer()->render($this->dic->ui()->factory()
+                ->link()
+                ->standard($linkText, $mailUrl)
+                ->withOpenInNewViewport(true)
+            )
+        );
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', 'mail');
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
-            'ilias.php?baseClass=ilMailGUI'
+            $mailUrl
         );
 
-        $notificationItem  = $this->dic->ui()->factory()
+        $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
             ->withDescription($body);
+
+        try {
+            $dateTime = \DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $newMailData['max_time']);
+            $notificationItem = $notificationItem->withProperties([
+                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
+                    new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
+                )
+            ]);
+        } catch (\Throwable $e) {}
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
             ->withTitle($this->dic->language()->txt('mail'))

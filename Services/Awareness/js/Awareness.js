@@ -27,6 +27,9 @@ il.Awareness = {
 	},
 
 	init: function() {
+		if (!$('#awareness_trigger a').popover) {
+			return;
+		}
 		$('#awareness_trigger a').popover({
 			html : true,
 			placement : "bottom",

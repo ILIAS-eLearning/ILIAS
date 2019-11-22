@@ -106,6 +106,16 @@ book#:#book_pref_overview#:#Overview
 book#:#book_pref_book_cron#:#Booking with Preferences
 book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
+rep#:#rep_trash_table_title#:#Deleted objects below:
+rep#:#rep_trash_table_col_deleted_by#:#Deleted by
+rep#:#rep_trash_table_col_deleted_on#:#Deleted on
+rep#:#rep_trash_table_col_num_subs#:#Number Subitems
+rep#:#btn_undelete_origin_location#:#Restore (same location)
+rep#:#btn_undelete_new_location#:#Restore (new location)
+rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
+rep#:#rep_target_location#:#Target Location
+rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_trash_deleted_by_unknown#:#Unknown
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -14094,9 +14104,11 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
-mail#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
-mail#:#nc_mail_unread_messages_number_s#:#You have one unread email.
+mail#:#nc_mail_unread_messages#:#You have %s in your inbox.
+mail#:#nc_mail_unread_messages_number_p#:#%s Unread Mails
+mail#:#nc_mail_unread_messages_number_s#:#1 Unread Mail
 mail#:#nc_mail_noti_item_title#:#Inbox
+mail#:#nc_mail_prop_time#:#Time
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
@@ -15221,6 +15233,7 @@ exc#:#exc_text_saved#:#Text has been saved.
 common#:#nc_contact_requests_headline#:#Contact Requests
 common#:#nc_contact_requests_number_s#:#You have %s Contact Request
 common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
+common#:#nc_contact_requests_prop_time#:#Time
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
 forum#:#sorting#:#Sorting
 wfld#:#wfld_sortation#:#Sortation

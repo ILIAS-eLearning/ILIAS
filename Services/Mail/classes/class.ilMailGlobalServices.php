@@ -90,7 +90,7 @@ class ilMailGlobalServices
      * @static
      *
      */
-    public static function getNumberOfNewMailsByUserId(int $usr_id, int $leftInterval = 0) : int
+    public static function getNewMailsData(int $usr_id, int $leftInterval = 0) : array
     {
         global $DIC;
 
@@ -103,10 +103,14 @@ class ilMailGlobalServices
         if (
             isset(self::$global_mail_services_cache[$cacheKey]) &&
             null !== self::$global_mail_services_cache[$cacheKey]) {
-            return (int) self::$global_mail_services_cache[$cacheKey];
+            return self::$global_mail_services_cache[$cacheKey];
         }
 
-        $query = 'SELECT COUNT(mail_id) cnt FROM mail WHERE folder_id = %s AND user_id = %s AND m_status = %s';
+        $query = '
+            SELECT COUNT(mail_id) cnt, MAX(send_time) send_time
+            FROM mail
+            WHERE folder_id = %s AND user_id = %s AND m_status = %s
+        ';
         if ($leftInterval > 0) {
             $query .= ' AND send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
         }
@@ -114,12 +118,12 @@ class ilMailGlobalServices
         $res = $DIC->database()->queryF(
             $query,
             ['integer', 'integer', 'text'],
-            ['0', $usr_id, 'unread']
+            [0, $usr_id, 'unread']
         );
         $row = $DIC->database()->fetchAssoc($res);
 
         $query = '
-            SELECT COUNT(mail_id) cnt
+            SELECT COUNT(mail_id) cnt, MAX(m.send_time) send_time
             FROM mail m
             INNER JOIN mail_obj_data mo
                 ON mo.user_id = m.user_id
@@ -138,7 +142,14 @@ class ilMailGlobalServices
         );
         $row2 = $DIC->database()->fetchAssoc($res);
 
-        self::$global_mail_services_cache[$cacheKey] = (int) ($row['cnt'] + $row2['cnt']);
+        self::$global_mail_services_cache[$cacheKey] = [
+            'count' => (int) ($row['cnt'] + $row2['cnt']),
+            'max_time' => max(
+                (string) $row['send_time'],
+                (string) $row2['send_time']
+            ),
+        ]; 
+
         return self::$global_mail_services_cache[$cacheKey];
     }
 }

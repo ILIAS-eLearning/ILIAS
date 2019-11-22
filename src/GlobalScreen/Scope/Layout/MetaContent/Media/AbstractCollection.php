@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
+use Generator;
+
 /**
  * Class Js
  *
@@ -21,11 +23,11 @@ abstract class AbstractCollection
 
 
     /**
-     * @return array
+     * @return Generator
      */
-    public function getItems() : array
+    public function getItems() : Generator
     {
-        return $this->items;
+        yield from $this->items;
     }
 
 
@@ -45,6 +47,10 @@ abstract class AbstractCollection
      */
     protected function stripPath(string $path) : string
     {
-        return md5(parse_url($path, PHP_URL_PATH));
+        if (strpos($path, '?') !== false) {
+            return parse_url($path, PHP_URL_PATH);
+        }
+
+        return $path;
     }
 }

@@ -90,6 +90,8 @@ class ilWikiHTMLExport
 		$this->log = ilLoggerFactory::getLogger('wiki');
 		$this->global_screen = $DIC->globalScreen();
 		$this->main_tpl = $DIC->ui()->mainTemplate();
+
+		$this->export_util = new \ILIAS\Services\Export\HTML\Util();
 	}
 	
 	/**
@@ -122,6 +124,8 @@ class ilWikiHTMLExport
 	function buildExportFile()
 	{
 		$global_screen = $this->global_screen;
+		$ilDB = $this->db;
+		$ilUser = $this->user;
 
 		$this->log->debug("buildExportFile...");
         //init the mathjax rendering for HTML export
@@ -130,8 +134,6 @@ class ilWikiHTMLExport
 
 		if ($this->getMode() == self::MODE_USER)
 		{
-		$ilDB = $this->db;
-		$ilUser = $this->user;
 			include_once("./Modules/Wiki/classes/class.ilWikiUserHTMLExport.php");
 			$this->user_html_exp = new ilWikiUserHTMLExport($this->wiki, $ilDB, $ilUser);
 		}
@@ -185,6 +187,8 @@ class ilWikiHTMLExport
 		$global_screen->tool()->context()->current()->addAdditionalData(ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
 		$this->exportHTMLPages();
 
+		$this->export_util->exportResourceFiles($global_screen, $this->export_dir);
+
 		$date = time();
 		$zip_file_name = ($this->getMode() == self::MODE_USER)
 			? $ascii_name.".zip"
@@ -214,8 +218,6 @@ class ilWikiHTMLExport
 
 		$pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
 
-		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$cnt = 0;
 
 		foreach ($pages as $page)
@@ -297,7 +299,7 @@ class ilWikiHTMLExport
 		// export template: right content
 		include_once("./Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php");
 		$bl = new ilWikiImportantPagesBlockGUI();
-		$ep_tpl->setVariable("RIGHT_CONTENT", $bl->getHTML(true));
+		$tpl->setRightContent($bl->getHTML(true));
 
 
 		$this->log->debug("set title");
@@ -305,11 +307,7 @@ class ilWikiHTMLExport
 		$tpl->setTitleIcon("./images/icon_wiki.svg",
 			$lng->txt("obj_wiki"));
 
-		//$tpl->setContent($ep_tpl->get());
-		$tpl->setContent("WWW:".$a_page_id);
-
-		// this currently fails since we run through the whole
-		// global screen procedure and on creating a second notification center instance, an error occurs
+		$tpl->setContent($ep_tpl->get());
 		$content = $tpl->printToString();
 
 		// open file

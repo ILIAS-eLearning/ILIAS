@@ -45,6 +45,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			if(_isEngaged(slate)) {
 				triggerer.addClass(_cls_engaged);
 				triggerer.removeClass(_cls_disengaged);
+				slate.trigger('in_view');
 			} else {
 				triggerer.removeClass(_cls_engaged);
 				triggerer.addClass(_cls_disengaged);
