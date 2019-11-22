@@ -2889,3 +2889,38 @@ $ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
     "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
 );
 ?>
+<#5589>
+<?php
+
+$settings = new \ilSetting();
+$tree_type = $settings->get('main_tree_impl', \ilTree::TREE_TYPE_NESTED_SET);
+
+$tree = new \ilTree(1);
+switch($tree_type) {
+
+        case \ilTree::TREE_TYPE_NESTED_SET:
+                $tree->renumber();
+                break;
+
+        case \ilTree::TREE_TYPE_MATERIALIZED_PATH:
+                \ilMaterializedPathTree::createFromParentReleation();
+                break;
+
+
+}
+?>
+<#5590>
+<?php
+if(!$ilDB->tableColumnExists('object_reference', 'deleted_by') )
+{
+        $ilDB->addTableColumn('object_reference', 'deleted_by',
+                [
+                        'type' => 'integer',
+                        'notnull' => false,
+                        'length' => 4,
+                        'default' => 0
+                ]
+        );
+}
+?>
+
