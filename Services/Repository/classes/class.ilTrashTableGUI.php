@@ -83,7 +83,7 @@ class ilTrashTableGUI extends ilTable2GUI
 		$this->setDefaultOrderField('title');
 		$this->setDefaultOrderField('asc');
 
-		$this->setExternalSorting(false);
+		$this->setExternalSorting(true);
 		$this->setExternalSegmentation(true);
 
 		$this->setEnableHeader(true);
@@ -95,7 +95,8 @@ class ilTrashTableGUI extends ilTable2GUI
 		$this->setRowTemplate('tpl.trash_list_row.html', 'Services/Repository');
 		$this->setSelectAllCheckbox('trash_id');
 
-		$this->addMultiCommand('undelete' , $this->lng->txt('btn_undelete'));
+		$this->addMultiCommand('undelete' , $this->lng->txt('btn_undelete_origin_location'));
+		$this->addMultiCommand('undeleteToNewLocation' , $this->lng->txt('btn_undelete_new_location'));
 		$this->addMultiCommand('confirmRemoveFromSystem', $this->lng->txt('btn_remove_system'));
 
 		$this->initFilter();

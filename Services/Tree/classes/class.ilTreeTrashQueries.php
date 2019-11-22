@@ -47,6 +47,24 @@ class ilTreeTrashQueries
 	}
 
 	/**
+	 * @param array $ref_ids
+	 * @return bool
+	 */
+	public function isTrashedTrash(array $ref_ids)
+	{
+		$query = 'select tree,child from tree ' .
+			'where ' . $this->db->in('child', $ref_ids,false, \ilDBConstants::T_INTEGER);
+		$res = $this->db->query($query);
+		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+
+			if((int) $row->child != ((int) $row->tree * -1)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @param int $ref_id
 	 * @return string[]
 	 */

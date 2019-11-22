@@ -3,12 +3,15 @@
 require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
-* Repository GUI Utilities
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* @ingroup ServicesRepository
-*/
+ * Repository GUI Utilities
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @version $Id$
+ * @ingroup ServicesRepository
+ *
+ * @ilCtrl_Calls ilRepUtilGUI: ilPropertyFormGUI
+ *
+ */
 class ilRepUtilGUI
 {
 	/**
@@ -66,6 +69,76 @@ class ilRepUtilGUI
 		$this->tree = $DIC->repositoryTree();
 		$this->parent_gui = $a_parent_gui;
 		$this->parent_cmd = $a_parent_cmd;
+	}
+
+	/**
+	 * @throws \ilCtrlException
+	 */
+	public function executeCommand()
+	{
+		global $DIC;
+
+		$logger = $DIC->logger()->rep();
+		$next_class = $this->ctrl->getNextClass($this);
+		switch($next_class)
+		{
+			case "ilpropertyformgui":
+				$form = $this->initFormTrashTargetLocation();
+				$this->ctrl->forwardCommand($form);
+				break;
+		}
+	}
+
+	/**
+	 * @param \ilPropertyFormGUI|null $form
+	 * @return bool
+	 */
+	public function undeleteToNewLocation(\ilPropertyFormGUI $form = null)
+	{
+		$trash_ids = (array) $_POST['trash_id'];
+		if(!count($trash_ids)) {
+			\ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			$this->ctrl->returnToParent($this);
+		}
+
+		if(!$form instanceof \ilPropertyFormGUI) {
+			$form = $this->initFormTrashTargetLocation();
+		}
+		$this->tpl->setContent($form->getHTML());
+
+	}
+
+	public function doUndeleteToNewLocation()
+	{
+		$this->ctrl->returnToParent($this);
+	}
+
+	/**
+	 * @return \ilPropertyFormGUI
+	 */
+	protected function initFormTrashTargetLocation()
+	{
+		$form = new \ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this));
+
+		$txt = new ilTextInputGUI('t1', 't1');
+		$form->addItem($txt);
+
+		$target = new \ilRepositorySelector2InputGUI(
+			$this->lng->txt('rep_target_location'),
+			'trash_id',
+			false
+		);
+
+		$explorer = $target->getExplorerGUI();
+		$explorer->setSelectMode('target',false);
+		$explorer->setRootId(ROOT_FOLDER_ID);
+		$explorer->setTypeWhiteList(['root','cat','crs','grp','fold']);
+
+		$form->addItem($target);
+		$form->addCommandButton('doUndeleteToNewLocation','delete');
+
+		return $form;
 	}
 	
 	
@@ -289,25 +362,28 @@ class ilRepUtilGUI
 	function restoreObjects($a_cur_ref_id, $a_ref_ids)
 	{
 		$lng = $this->lng;
+		$lng->loadLanguageModule('rep');
 		
 		if (!is_array($a_ref_ids) || count($a_ref_ids) == 0)
 		{
 			ilUtil::sendFailure($lng->txt("no_checkbox"),true);
 			return false;
 		}
-		else
+
+		$tree_trash_queries = new \ilTreeTrashQueries();
+		if($tree_trash_queries->isTrashedTrash($a_ref_ids)) {
+
+			\ilUtil::sendFailure($this->lng->txt('rep_failure_trashed_trash'),true);
+			return false;
+		}
+		try {
+			ilRepUtil::restoreObjects($a_cur_ref_id, $a_ref_ids);
+			ilUtil::sendSuccess($lng->txt("msg_undeleted"), true);
+		}
+		catch(Exception $e)
 		{
-			try
-			{
-				include_once("./Services/Repository/classes/class.ilRepUtil.php");
-				ilRepUtil::restoreObjects($a_cur_ref_id, $a_ref_ids);
-				ilUtil::sendSuccess($lng->txt("msg_undeleted"),true);
-			}
-			catch (Exception $e)
-			{
-				ilUtil::sendFailure($e->getMessage(),true);
-				return false;
-			}
+			ilUtil::sendFailure($e->getMessage(),true);
+			return false;
 		}
 		return true;
 	}

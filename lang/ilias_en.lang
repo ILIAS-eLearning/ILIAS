@@ -106,6 +106,13 @@ book#:#book_pref_overview#:#Overview
 book#:#book_pref_book_cron#:#Booking with Preferences
 book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
+rep#:#rep_trash_table_title#:#Deleted objects below:
+rep#:#rep_trash_table_col_deleted_by#:#Deleted by
+rep#:#rep_trash_table_col_deleted_on#:#Deleted on
+rep#:#rep_trash_table_col_num_subs#:#Number Subitems
+rep#:#btn_undelete_origin_location#:#Restore (same location)
+rep#:#btn_undelete_new_location#:#Restore (new location)
+rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten

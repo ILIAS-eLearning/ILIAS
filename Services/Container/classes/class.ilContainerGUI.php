@@ -3716,11 +3716,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	}
 
 	/**
+	 * @param \ilPropertyFormGUI|null $form
+	 */
+	protected function undeleteToNewLocationObject(\ilPropertyFormGUI $form = null)
+	{
+		$this->tabs_gui->activateTab('trash');
+
+		$ru = new \ilRepUtilGUI($this);
+		$ru->undeleteToNewLocation();
+	}
+
+
+	/**
 	 * Get objects back from trash
 	 */
 	public function undeleteObject()
 	{
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->restoreObjects($_GET["ref_id"], $_POST["trash_id"]);
 		$this->ctrl->redirect($this, "trash");
