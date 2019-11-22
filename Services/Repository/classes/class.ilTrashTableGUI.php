@@ -112,9 +112,14 @@ class ilTrashTableGUI extends ilTable2GUI
 			$this->lng->txt('type'),
 			'type'
 		);
-		$type->enableSelectAll(true);
+
+		$type = $this->addFilterItemByMetaType(
+			'type',
+			\ilTable2GUI::FILTER_SELECT,
+			false,
+			$this->lng->txt('type')
+		);
 		$type->setOptions($this->prepareTypeFilterTypes());
-		$this->addFilterItem($type, false);
 		$this->current_filter['type'] = $type->getValue();
 
 		$title = $this->addFilterItemByMetaType(
@@ -148,7 +153,7 @@ class ilTrashTableGUI extends ilTable2GUI
 	public function parse()
 	{
 		$trash_tree_reader = new \ilTreeTrashQueries();
-		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id);
+		$items = $trash_tree_reader->getTrashNodeForContainer($this->ref_id, $this->current_filter);
 
 		$rows = [];
 		foreach($items as $item) {
@@ -227,6 +232,9 @@ class ilTrashTableGUI extends ilTable2GUI
 			if($type == 'rolf') {
 				continue;
 			}
+			if($type == 'root') {
+				continue;
+			}
 
 			if(!$this->obj_definition->isRBACObject($type)) {
 				continue;
@@ -234,6 +242,7 @@ class ilTrashTableGUI extends ilTable2GUI
 			$options[$type] = $this->lng->txt('objs_' . $type);
 		}
 		asort($options,SORT_LOCALE_STRING);
+		array_unshift($options, $this->lng->txt('select_one'));
 		return $options;
 	}
 

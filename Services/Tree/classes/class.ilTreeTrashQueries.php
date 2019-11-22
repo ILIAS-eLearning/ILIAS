@@ -49,7 +49,7 @@ class ilTreeTrashQueries
 	 * @param int $ref_id
 	 * @return \ilTreeTrashItem[]
 	 */
-	public function getTrashNodeForContainer(int $ref_id) {
+	public function getTrashNodeForContainer(int $ref_id, array $filter) {
 
 		$subtreequery = $this->tree->getTrashSubTreeQuery($ref_id, ['child']);
 
@@ -57,8 +57,11 @@ class ilTreeTrashQueries
 			'join object_reference obr on obd.obj_id = obr.obj_id ' .
 			'where ref_id in (' .
 			$subtreequery . ' '.
-			')';
+			') ' .
+			$this->appendTrashNodeForContainerQueryFilter($filter);
 		$res = $this->db->query($query);
+
+		$this->logger->info($query);
 
 		$items = [];
 		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
@@ -105,5 +108,30 @@ class ilTreeTrashQueries
 		}
 
 
+	}
+
+	/**
+	 * @param array $filter
+	 * @return string
+	 */
+	protected function appendTrashNodeForContainerQueryFilter(array $filter) : string
+	{
+		$query = '';
+		if(isset($filter['type'])) {
+			$query .= 'and ' . $this->db->like(
+				'type',
+				\ilDBConstants::T_TEXT,
+				$filter['type'] . '%'
+				) . ' ';
+		}
+		if(isset($filter['title'])) {
+			$query .= 'and ' . $this->db->like(
+					'title',
+					\ilDBConstants::T_TEXT,
+					$filter['title'] . '%'
+				) . ' ';
+
+		}
+		return $query;
 	}
 }
