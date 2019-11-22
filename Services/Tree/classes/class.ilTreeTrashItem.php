@@ -136,7 +136,7 @@ class ilTreeTrashItem
 	/**
 	 * @param string $deleted
 	 */
-	public function setDeleted(string $deleted)
+	public function setDeleted(?string $deleted)
 	{
 		$this->deleted = $deleted;
 	}
@@ -144,7 +144,7 @@ class ilTreeTrashItem
 	/**
 	 * @return string
 	 */
-	public function getDeleted() : string
+	public function getDeleted() : ?string
 	{
 		return $this->deleted;
 	}
