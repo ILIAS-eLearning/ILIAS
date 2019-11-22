@@ -3660,8 +3660,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		$this->tabs_gui->activateTab('trash');
 
-		$ru = new ilRepUtilGUI($this);
-		$ru->showTrashTable($_GET["ref_id"]);
+		$trash_table = new \ilTrashTableGUI($this, 'trash', $this->object->getRefId());
+		$trash_table->init();
+		$trash_table->parse();
+
+		$tpl->setContent($trash_table->getHTML());
 	}
 
 	/**
@@ -3840,6 +3843,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			);
 		}
 
+		// Always show container trash
+		$this->tabs_gui->addTab(
+			'trash',
+			$this->lng->txt('trash'),
+			$this->ctrl->getLinkTarget($this,'trash')
+		);
+
 		if ($this->checkPermissionBool("edit_permission"))
 		{
 			$this->tabs_gui->addTab(
@@ -3855,12 +3865,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			);
 		}
 
-		// Always show container trash
-		$this->tabs_gui->addTab(
-			'trash',
-			$this->lng->txt('trash'),
-			$this->ctrl->getLinkTarget($this,'trash')
-		);
 	}
 
 
