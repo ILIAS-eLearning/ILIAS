@@ -2889,3 +2889,7 @@ $ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
     "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
 );
 ?>
+<#5589>
+<?php
+\ILIAS\Membership\Changelog\DBUpdate\EventAR_V1::updateDB();
+?>

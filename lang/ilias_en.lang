@@ -13505,6 +13505,21 @@ book#:#book_deadline_options#:#Booking deadline
 book#:#book_deadline_hours#:#X hours prior to booking period
 book#:#book_deadline_slot_end#:#Until end of booking period
 book#:#book_deadline_slot_start#:#Until begin of booking period
+changelog#:#delete_old_logs_title#:#Delete old Changelog entries
+changelog#:#delete_old_logs_info#:#Removes Changelog Events from the database, which are older than X days.
+changelog#:#frm_clear_older_than#:#Deletes files older than
+changelog#:#frm_clear_older_than_info#:#Please enter duration in days.
+changelog#:#event_type_1#:#Membership requested
+changelog#:#event_type_2#:#Membership request accepted
+changelog#:#event_type_3#:#Membership request denied
+changelog#:#event_type_4#:#Unsubscribed from course
+changelog#:#event_type_5#:#Subscribed to course
+changelog#:#event_type_6#:#Removed from course
+changelog#:#event_type_7#:#Added to course
+changelog#:#event_type_8#:#Manually added from waiting list
+changelog#:#event_type_9#:#Automatically added from waiting list
+changelog#:#event_type_10#:#Changelog globally activated
+changelog#:#event_type_11#:#Changelog globally deactivated
 chatroom#:#chatroom_auth#:#Authentication
 chatroom#:#chatroom_auth_key#:#Authentication-Key
 chatroom#:#chatroom_auth_secret#:#Authentication-Secret
