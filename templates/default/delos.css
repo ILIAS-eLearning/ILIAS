@@ -8452,11 +8452,11 @@ grid-based layout
   display: none;
 }
 .il-layout-page.with-mainbar-slates-engaged {
-  -ms-grid-columns: 400px 1fr;
-  grid-template-columns: 400px 1fr;
+  -ms-grid-columns: 409px 1fr;
+  grid-template-columns: 409px 1fr;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
-  width: 400px;
+  width: 409px;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar .il-mainbar-slates {
   display: -ms-flexbox;
@@ -8544,8 +8544,8 @@ nav.il-maincontrols {
   display: -ms-grid;
   display: grid;
   height: 100%;
-  -ms-grid-colums: 80px 320px;
-  grid-template-columns: 80px 320px;
+  -ms-grid-colums: 80px 329px;
+  grid-template-columns: 80px 329px;
   -ms-grid-rows: 1fr;
   grid-template-rows: 1fr;
   width: 80px;
@@ -9263,7 +9263,7 @@ footer {
   background: #fff;
   display: none;
   position: relative;
-  width: 320px;
+  width: 329px;
 }
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
@@ -9318,9 +9318,11 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries-bg {
-  height: 80px;
-  width: 100%;
   background: #f0f0f0;
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  width: 100%;
 }
 .il-mainbar-remove-tool {
   display: none;

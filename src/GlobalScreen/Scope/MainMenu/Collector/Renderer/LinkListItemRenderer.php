@@ -2,8 +2,8 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -14,23 +14,19 @@ use ILIAS\UI\Component\Component;
 class LinkListItemRenderer extends BaseTypeRenderer
 {
 
-    use SlateSessionStateCode;
+    use MakeSlateAsync, SlateSessionStateCode {
+        MakeSlateAsync::hash insteadof SlateSessionStateCode;
+        MakeSlateAsync::unhash insteadof SlateSessionStateCode;
+    }
+    use isSupportedTrait;
 
 
     /**
-     * @param LinkList $item
-     *
-     * @return Component
+     * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentWithContent(isItem $item) : Component
     {
-        /**
-         * @var $item LinkList
-         */
         $slate = $this->ui_factory->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
-
-        $slate = $this->addOnloadCode($slate, $item);
-
         foreach ($item->getLinks() as $link) {
             $link = $this->ui_factory->link()->bulky($this->getStandardSymbol($link), $link->getTitle(), $this->getURI($link->getAction()));
             $slate = $slate->withAdditionalEntry($link);

@@ -23,6 +23,7 @@ class ilLMPresentationRequest
         $this->requested_search_string = (string) $query_params["srcstring"];
         $this->requested_focus_return = (int) $query_params["focus_return"];
         $this->requested_from_page = (string) $query_params["from_page"];
+        $this->requested_obj_type = (string) $query_params["obj_type"];
     }
 
     /**
@@ -39,6 +40,14 @@ class ilLMPresentationRequest
     public function getRequestedObjId(): int
     {
         return $this->requested_obj_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRequestedObjType(): string
+    {
+        return $this->requested_obj_type;
     }
 
     /**

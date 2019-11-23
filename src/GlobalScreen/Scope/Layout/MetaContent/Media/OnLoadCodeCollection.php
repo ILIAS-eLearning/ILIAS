@@ -20,15 +20,6 @@ class OnLoadCodeCollection extends AbstractCollection
     /**
      * @return OnLoadCode[]
      */
-    public function getItems() : array
-    {
-        return parent::getItems();
-    }
-
-
-    /**
-     * @return OnLoadCode[]
-     */
     public function getItemsInOrderOfDelivery() : array
     {
         return parent::getItemsInOrderOfDelivery();

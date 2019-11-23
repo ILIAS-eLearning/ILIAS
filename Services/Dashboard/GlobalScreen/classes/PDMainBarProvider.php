@@ -35,6 +35,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
+                ->withSupportsAsynchronousLoading(true)
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($f) {

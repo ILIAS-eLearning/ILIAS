@@ -213,10 +213,10 @@ il.UI.item = il.UI.item || {};
 			 * @param int amount
 			 * @returns {generateNotificationItemObject}
 			 */
-			this.registerCloseAction = function(url,amount) {
+			this.registerCloseAction = function(url, amount) {
 				var self = this;
 				var $close_button = this.getCloseButtonOfItem();
-				if($close_button.length){
+				if($close_button.length && url !== '#'){
 					$close_button.click(function(){
 						var $counter = self.getCounterObjectIfAny();
 						if($counter){

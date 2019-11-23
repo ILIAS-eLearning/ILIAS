@@ -10,7 +10,7 @@ require_once 'Services/User/classes/class.ilUserAutoComplete.php';
 class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 {
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function getFromPart()
     {
@@ -27,7 +27,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     protected function getWherePart(array $search_query)
     {

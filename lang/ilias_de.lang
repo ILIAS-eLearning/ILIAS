@@ -85,6 +85,16 @@ chatroom_adm#:#osc_adm_browser_noti_label#:#Browser-Benachrichtigungen
 chatroom_adm#:#osc_adm_browser_noti_info#:#Falls aktiviert, können Benutzer individuell entscheiden, ob sie für neue Konversationen und Nachrichten eine Browser-Benachrichtigung erhalten wollen. Diese werden dann zugestellt, wenn a) der Benutzer in anderen Browser-Tabs aktiv oder der Browser ausgeblendet ist, und sich ILIAS im Hintergrund befindet, oder wenn b) die in der Administration eingestellte «Zeit zwischen Benachrichtigungen» vergangen ist.
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_label#:#Zeit zwischen Benachrichtigungen
 chatroom_adm#:#osc_adm_conv_idle_state_threshold_info#:#Definieren Sie hier die Zeit zwischen zwei eingehenden Nachrichten einer Konversation, die mindestens vergehen muss, damit eine Browser-Benachrichtigung für eine neue Chat-Nachricht zugestellt wird, wenn sich ILIAS im Vordergrund befindet.
+rep#:#rep_trash_table_title#:#Gelöschte Objekte unterhalb von:
+rep#:#rep_trash_table_col_deleted_by#:#Gelöscht von
+rep#:#rep_trash_table_col_deleted_on#:#Gelöscht am
+rep#:#rep_trash_table_col_num_subs#:#Anzahl Unterobjekte
+rep#:#btn_undelete_origin_location#:#Wiederherstellen (Originalort)
+rep#:#btn_undelete_new_location#:#Wiederherstellen (neuer Ort)
+rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ihrem Originalort wiederhergestellt werden können, da das übergeordnete Objekt gelöscht wurde. Bitte selektieren Sie diese Objekte nicht oder wählen Sie die Option "Wiederherstellen (neuer Ort)".
+rep#:#rep_target_location#:#Zielort
+rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
@@ -14062,6 +14072,10 @@ chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad 
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_nc_prop_time#:#Zeit
+chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine versteckte Konversation
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s versteckte Konversationen
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
@@ -14077,7 +14091,8 @@ chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
-chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
+chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Persönlichen Einstellungen'
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
@@ -14110,9 +14125,11 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
-mail#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_unread_messages#:#Sie haben %s im Posteingang.
+mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
+mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#nc_mail_noti_item_title#:#Posteingang
+mail#:#nc_mail_prop_time#:#Zeit
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -15238,6 +15255,7 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
 wfld#:#wfld_sortation#:#Sortierung

@@ -249,7 +249,7 @@ class ilPersonalChatSettingsFormGUI
 
         $this->mainTpl->setContent($this->uiRenderer->render([
             $form,
-            new Legacy($tpl->get())
+            $this->uiFactory->legacy($tpl->get())
         ]));
         $this->mainTpl->printToStdout();
     }

@@ -116,6 +116,57 @@ class ilMaterializedPathTree implements ilTreeImplementation
 	}
 
 	/**
+	 * @inheritdoc
+	 */
+	public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = [])
+	{
+		global $DIC;
+
+		$ilDB = $DIC->database();
+
+		$type_str = '';
+		if(is_array($a_types))
+		{
+			if($a_types)
+			{
+				$type_str = "AND ".$ilDB->in($this->getTree()->getObjectDataTable().".type", $a_types, false, "text");
+			}
+		}
+		else if(strlen($a_types))
+		{
+			$type_str = "AND ".$this->getTree()->getObjectDataTable().".type = ".$ilDB->quote($a_types, "text");
+		}
+
+		$join = '';
+		if($type_str or $a_force_join_reference)
+		{
+			$join = $this->getTree()->buildJoin();
+		}
+
+		$fields = '* ';
+		if(count($a_fields))
+		{
+			$fields = implode(',',$a_fields);
+		}
+
+		// @todo order by
+		$query = 'SELECT '.
+			$fields.' '.
+			'FROM '.$this->getTree()->getTreeTable().' '.
+			$join.' '.
+			'WHERE '.$this->getTree()->getTreeTable().'.path '.
+			'BETWEEN '.
+			$ilDB->quote($a_node['path'],'text').' AND '.
+			$ilDB->quote($a_node['path'].'.Z','text').' '.
+			'AND '.$this->getTree()->getTreeTable().'.'.$this->getTree()->getTreePk().' < 0 ' .
+			$type_str.' '.
+			'ORDER BY '.$this->getTree()->getTreeTable().'.path';
+
+		return $query;
+
+	}
+
+	/**
 	 * Get subtree query
 	 * @param type $a_node
 	 * @param string $a_types
@@ -450,29 +501,26 @@ class ilMaterializedPathTree implements ilTreeImplementation
 			$depth_diff = $target_depth - $source_depth + 1;
 
 			// move subtree:
-			$query = '
-                UPDATE ' . $this->getTree()->getTreeTable() . '
-                SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . '
-                             THEN ' . $ilDB->quote($a_target_id, 'integer') . '
-                             ELSE parent END,
-
-                    path = ' . $ilDB->concat(array(
+			$query =
+				'UPDATE ' . $this->getTree()->getTreeTable() . ' '.
+                'SET parent = CASE WHEN parent = ' . $ilDB->quote($source_parent, 'integer') . ' '.
+                             'THEN ' . $ilDB->quote($a_target_id, 'integer') . ' ' .
+                             'ELSE parent END, path = ' .
+				$ilDB->concat(array(
 					array($ilDB->quote($target_path, 'text'), 'text'),
-					array($ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ,
+					array($ilDB->substr('path', strrpos('.' . $source_path, '.')), 'text'))) . ' ' .
+				',depth = depth + ' . $ilDB->quote($depth_diff, 'integer') . ' ' .
+				'WHERE path  BETWEEN ' . $ilDB->quote($source_path, 'text') . ' ' .
+                'AND ' . $ilDB->quote($source_path . '.Z', 'text') . ' ';
 
-                    depth = depth + ' . $ilDB->quote($depth_diff, 'integer') . '
-
-                WHERE path  BETWEEN ' . $ilDB->quote($source_path, 'text') . '
-                            AND ' . $ilDB->quote($source_path . '.Z', 'text') . '
-
-                AND tree = ' . $ilDB->quote($this->getTree()->getTreeId(), 'integer');
-
-			ilLoggerFactory::getLogger('tree')->debug('Query is ' . $query);
-
+			if(!$this->getTree()->__isMainTree()) {
+				$query .= ('AND ' . $ilDB->quote($this->getTree()->getTreeId(), \ilDBConstants::T_INTEGER));
+			}
+			\ilLoggerFactory::getLogger('tree')->debug('Query is: ' . $query);
 			$ilDB->manipulate($query);
 		};
 
-		
+
 		if ($this->getTree()->__isMainTree())
 		{
 			$ilAtomQuery = $ilDB->buildAtomQuery();

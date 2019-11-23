@@ -9,7 +9,7 @@
 	var ACTION_STORE_CONV = "store";
 	var ACTION_DERIVED_FROM_CONV_OPEN_STATUS = "derivefromopen";
 
-	$.widget( "custom.iloscautocomplete", $.ui.autocomplete, {
+	$.widget("custom.iloscautocomplete", $.ui.autocomplete, {
 		more: false,
 		_renderMenu: function(ul, items) {
 			var that = this;
@@ -100,7 +100,6 @@
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
 				.on('click', '[data-action="onscreenchat-submit"]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('click', '[data-onscreenchat-add]', $scope.il.OnScreenChatJQueryTriggers.triggers.addEvent)
-				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 				.on('click', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.windowClicked)
 				.on('keydown', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.submitEvent)
 				.on('input', '[data-onscreenchat-message]', function(e) {
@@ -111,6 +110,8 @@
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
 				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
+				// Notification center events
+				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 				.on('click', '[data-onscreenchat-menu-remove-conversation]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
 		}
 	};
@@ -129,7 +130,14 @@
 		participantsImages: {},
 		participantsNames: {},
 		chatWindowWidth: 278,
+		notificationItemId: '',
 		numWindows: Infinity,
+		notificationCenterConversationItems: {},
+		notificationItemsAdded: 0,
+
+		setNotificationItemId: function(id) {
+			this.notificationItemId = id;
+		},
 
 		setConfig: function(config) {
 			getModule().config = config;
@@ -246,20 +254,19 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var link = $(this);
-			var conversationId = $(link).attr('data-onscreenchat-conversation');
-			var participant = {
-				id: $(link).attr('data-onscreenchat-userid'),
-				name: $(link).attr('data-onscreenchat-username')
-			};
-			var conversation = getModule().storage.get(conversationId);
+			let link = $(this),
+				conversationId = $(link).attr('data-onscreenchat-conversation'),
+				conversation = getModule().storage.get(conversationId);
 
-			if (typeof il.Awareness !== "undefined") {
-				il.Awareness.close();
-			}
+			if (conversation == null) {
+				let participant = {
+					id: $(link).attr('data-onscreenchat-userid'),
+					name: $(link).attr('data-onscreenchat-username')
+				};
 
-			if(conversation == null) {
-				$chat.getConversation([getModule().user, participant]);
+				if (typeof participant.id !== "undefined" && participant.id.length > 0) {
+					$chat.getConversation([getModule().user, participant]);
+				}
 				return;
 			}
 
@@ -408,13 +415,62 @@
 			return $template;
 		},
 
+		rerenderNotifications: function() {
+			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
+
+			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
+				return conversation.latestMessage !== null && (conversation.open === false || conversation.open === undefined);
+			}).sort(function(a, b) {
+				return b.latestMessage.timestamp - a.latestMessage.timestamp;
+			});
+
+			if (0 === currentNotificationItemsAdded && 0 === conversations.length) {
+				return;
+			}
+
+			try {
+				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
+					$('#' + getModule().notificationItemId)
+				);
+
+				if (conversations.length > currentNotificationItemsAdded) {
+					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
+						conversations.length - currentNotificationItemsAdded
+					);
+				} else if (conversations.length < currentNotificationItemsAdded) {
+					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(
+						currentNotificationItemsAdded - conversations.length
+					);
+				}
+
+				getModule().notificationItemsAdded = conversations.length;
+
+				let conversationIds = conversations.map(function (conversation) {
+					return conversation.id;
+				}).join(',');
+
+				notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+					'ids': conversationIds
+				});
+			} catch (e) {
+				console.error(e);
+			}
+		},
+
 		/**
 		 * Is called (for each browser tab) if an 'Conversation Remove' action was emitted as LocalStorage event
 		 * @param conversation
 		 */
 		onRemoveConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			// TODO: Remove conversation/notification from notification center
+			// Remove conversation/notification from notification center
+
+			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().notificationCenterConversationItems[conversation.id];
+			}
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 100);
 		},
 
 		/**
@@ -423,7 +479,14 @@
 		 */
 		onCloseConversation: function(conversation) {
 			$('[data-onscreenchat-window=' + conversation.id + ']').hide();
-			// TODO: Add or update conversation/notification to notification center
+
+			// Add or update conversation/notification to notification center
+			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				getModule().notificationCenterConversationItems[conversation.id] = conversation;
+			}
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 100);
 		},
 
 		/**
@@ -432,7 +495,14 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
-			// TODO: Add or update conversation/notification to notification center
+			// Remove conversation/notification from notification center
+			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().notificationCenterConversationItems[conversation.id];
+			}
+
+			DeferredCallbackFactory('renderNotifications')(function () {
+				getModule().rerenderNotifications();
+			}, 100);
 		},
 
 		/**
@@ -615,9 +685,17 @@
 			e.preventDefault();
 			e.stopPropagation();
 
-			var conversationId = $(this).closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
-			var conversation = getModule().storage.get(conversationId);
+			let $trigger = $(this), conversationId = $trigger.data('onscreenchat-conversation');
 
+			if (!conversationId) {
+				conversationId = $trigger.closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
+			}
+
+			if (!conversationId) {
+				return;
+			}
+
+			let conversation = getModule().storage.get(conversationId);
 			if (conversation.isGroup) {
 				$scope.il.Modal.dialogue({
 					id: 'modal-leave-' + conversation.id,
@@ -912,7 +990,6 @@
 		onMessageInput: function() {
 			var $this = $(this);
 
-
 			$this.attr("data-onscreenchat-last-caret-pos", getModule().getCaretPosition($this.get(0)));
 		},
 
@@ -1154,7 +1231,26 @@
 		return $('[data-onscreenchat-window]:visible').length;
 	}
 
-	var ConversationStorage = function ConversationStorage() {
+	const DeferredCallbackFactory = (function() {
+		let namespaces = {};
+
+		return function (ns) {
+			if (!namespaces.hasOwnProperty(ns)) {
+				namespaces[ns] = (function () {
+					let timer = 0;
+
+					return function(callback, ms){
+						clearTimeout(timer);
+						timer = setTimeout(callback, ms);
+					};
+				})();
+			}
+
+			return namespaces[ns];
+		};
+	})();
+
+	const ConversationStorage = function ConversationStorage() {
 
 		this.get = function get(id) {
 			return JSON.parse(window.localStorage.getItem(PREFIX_CONSTANT + id));
@@ -1165,6 +1261,13 @@
 
 			if (oldValue != null && oldValue.open !== undefined && (conversation.open === undefined || conversation.open !== oldValue.open)) {
 				conversation.open = oldValue.open;
+			}
+
+			if (
+				oldValue != null && oldValue.latestMessage !== undefined && oldValue.latestMessage !== null &&
+				(conversation.latestMessage === undefined || conversation.latestMessage === null)
+			) {
+				conversation.latestMessage = oldValue.latestMessage;
 			}
 
 			if (oldValue != null && oldValue.lastTriggeredNotificationTs !== undefined && (conversation.lastTriggeredNotificationTs === undefined || conversation.lastTriggeredNotificationTs < oldValue.lastTriggeredNotificationTs)) {
@@ -1204,7 +1307,7 @@
 
 			window.localStorage.setItem(PREFIX_CONSTANT + conversation.id, JSON.stringify(conversation));
 
-			var e = $.Event('storage');
+			let e = $.Event('storage');
 			e.originalEvent = {
 				key: PREFIX_CONSTANT + conversation.id,
 				oldValue: oldValue,
@@ -1214,11 +1317,9 @@
 		};
 	};
 
-	var DeferredActivityTrackerFactory = (function () {
-		var instances = {
-			
-		}, ms = 1000;
-		
+	const DeferredActivityTrackerFactory = (function () {
+		let instances = {}, ms = 1000;
+
 		function ActivityTracker() {
 			this.timer = 0;
 		}
@@ -1251,8 +1352,8 @@
 		};
 	})();
 
-	var findUsernameByIdByConversation = function(conversation, usrId) {
-		for(var index in conversation.participants) {
+	const findUsernameByIdByConversation = function(conversation, usrId) {
+		for (let index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index) && conversation.participants[index].id == usrId) {
 				if (getModule().participantsNames.hasOwnProperty(conversation.participants[index].id)) {
 					return getModule().participantsNames[conversation.participants[index].id];
@@ -1265,26 +1366,28 @@
 		return "";
 	};
 
-	var findUsernameInConversationByMessage = function(messageObject) {
-		var conversation = getModule().storage.get(messageObject.conversationId);
+	const findUsernameInConversationByMessage = function(messageObject) {
+		let conversation = getModule().storage.get(messageObject.conversationId);
 
 		return findUsernameByIdByConversation(conversation, messageObject.userId);
 	};
 
-	var getParticipantsIds = function(conversation) {
-		var ids = [];
-		for(var index in conversation.participants) {
+	const getParticipantsIds = function(conversation) {
+		let ids = [];
+
+		for (let index in conversation.participants) {
 			if(conversation.participants.hasOwnProperty(index)) {
 				ids.push(conversation.participants[index].id);
 			}
 		}
+
 		return ids;
 	};
 
-	var getParticipantsNames = function(conversation, ignoreMySelf) {
-		var names = [];
+	const getParticipantsNames = function(conversation, ignoreMySelf) {
+		let names = [];
 
-		for (var key in conversation.participants) {
+		for (let key in conversation.participants) {
 			if (
 				conversation.participants.hasOwnProperty(key) && (
 					(getModule().user !== undefined && getModule().user.id != conversation.participants[key].id) ||
@@ -1303,8 +1406,8 @@
 		return names;
 	};
 
-	var ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
-		var _participants = participants;
+	const ParticipantsTooltipFormatter = function ParticipantsTooltipFormatter(participants) {
+		let _participants = participants;
 
 		this.format = function () {
 			return $("<ul/>").append(_participants.map(function(elm) {
@@ -1313,35 +1416,35 @@
 		};
 	};
 
-	var getProfileImage = function(userId) {
-		if(getModule().participantsImages.hasOwnProperty(userId)) {
+	const getProfileImage = function(userId) {
+		if (getModule().participantsImages.hasOwnProperty(userId)) {
 			return getModule().participantsImages[userId].src;
 		}
 		return "";
 	};
 
-	var MessagePaster = function(message) {
-		var _message = message, getLastCaretPosition = function() {
+	const MessagePaster = function(message) {
+		let _message = message, getLastCaretPosition = function() {
 			return _message.attr("data-onscreenchat-last-caret-pos") || 0;
 		};
 
 		this.paste = function(text) {
-			var lastCaretPosition = parseInt(getLastCaretPosition(), 10),
+			let lastCaretPosition = parseInt(getLastCaretPosition(), 10),
 				pre  = _message.text().substr(0, lastCaretPosition),
 				post = _message.text().substr(lastCaretPosition);
 
 			_message.text(pre + text  + post);
 
 			if (window.getSelection) {
-				var node = _message.get(0);
+				let node = _message.get(0);
 				node.focus();
 
-				var textNode = node.firstChild;
-				var range = document.createRange();
+				let textNode = node.firstChild;
+				let range = document.createRange();
 				range.setStart(textNode, lastCaretPosition + text.length);
 				range.setEnd(textNode, lastCaretPosition + text.length);
 
-				var sel = window.getSelection();
+				let sel = window.getSelection();
 				sel.removeAllRanges();
 				sel.addRange(range);
 			} else {
@@ -1350,8 +1453,8 @@
 		};
 	};
 
-	var MessageFormatter = function MessageFormatter(emoticons) {
-		var _emoticons = emoticons;
+	const MessageFormatter = function MessageFormatter(emoticons) {
+		let _emoticons = emoticons;
 
 		this.format = function (message) {
 			return _emoticons.replace(message);
@@ -1365,7 +1468,7 @@
 	 * @params {array} _smileys
 	 * @constructor
 	 */
-	var Smileys = function Smileys(_smileys) {
+	const Smileys = function Smileys(_smileys) {
 		let emoticonMap = {}, emoticonCollection = [];
 
 		if (typeof _smileys === "object" && Object.keys(_smileys).length > 0) {
@@ -1374,13 +1477,13 @@
 
 				if (!emoticonMap.hasOwnProperty(prop)) {
 					emoticonMap[prop] = $('<img alt="" title="" />')
-						.attr('data-emoticon', i)
-						.attr('data-src', prop);
+						.attr("data-emoticon", i)
+						.attr("data-src", prop);
 				}
 
 				emoticonMap[prop].attr({
-					alt:   [emoticonMap[prop].attr('alt').toString(), i].join(' '),
-					title: [emoticonMap[prop].attr('title').toString(), i].join(' ')
+					alt:   [emoticonMap[prop].attr("alt").toString(), i].join(" "),
+					title: [emoticonMap[prop].attr("title").toString(), i].join(" ")
 				});
 			}
 			for (let i in emoticonMap) {
@@ -1393,12 +1496,12 @@
          * @param {string} src
          * @returns {Promise<unknown>}
          */
-        let Img = function(src) {
+        const Img = function(src) {
             return new Promise(function(resolve, reject) {
                 let img = new Image();
-                img.addEventListener('load', function(e) {
+                img.addEventListener("load", function(e) {
                     resolve(src)
-                    img.addEventListener('error', function() {
+                    img.addEventListener("error", function() {
                         reject(new Error("Failed to load image's URL: " + src));
                     });
                 });
@@ -1432,11 +1535,11 @@
 		 */
 		this.preload = function () {
 			let promises = Object.keys(emoticonMap).map(function (key) {
-				return Img(emoticonMap[key].attr('data-src'));
+				return Img(emoticonMap[key].attr("data-src"));
 			});
 
 			return Promise.all(promises);
-		}
+		};
 
 		this.getContent = function () {
 			let renderCollection = [];
@@ -1446,7 +1549,7 @@
 			});
 
 			return renderCollection.join('');
-		}
+		};
 
 		this.getTriggerHtml = function() {
 			if (typeof _smileys !== "object" || Object.keys(_smileys).length === 0) {
@@ -1454,7 +1557,7 @@
 			}
 
 			return $('<div class="iosOnScreenChatEmoticonsPanel" data-onscreenchat-emoticons-panel><a data-onscreenchat-emoticons-flyout-trigger></a></div>')
-				.data('emoticons', this);
+				.data("emoticons", this);
 		};
 	};
 

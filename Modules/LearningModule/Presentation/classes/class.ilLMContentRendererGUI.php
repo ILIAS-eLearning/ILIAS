@@ -364,9 +364,14 @@ class ilLMContentRendererGUI
     public function getLMPageGUI($a_id)
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
-            return new ilLMPageGUI($a_id, 0, false, $this->lang);
+            $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang);
+        } else {
+            $page_gui = new ilLMPageGUI($a_id);
         }
-        return new ilLMPageGUI($a_id);
+        if ($this->offline) {
+            $page_gui->setOutputMode(IL_PAGE_OFFLINE);
+        }
+        return $page_gui;
     }
 
 
