@@ -3,6 +3,7 @@
 
 use ILIAS\OnScreenChat\Provider\OnScreenChatNotificationProvider;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use Psr\Http\Message\ResponseInterface;
 
@@ -113,7 +114,11 @@ class ilOnScreenChatGUI
                 break;
 
             case 'getRenderedNotificationItems':
-                $provider = new OnScreenChatNotificationProvider($this->dic);
+                $provider = new OnScreenChatNotificationProvider(
+                    $this->dic,
+                    new Conversation($this->dic->database(), $this->dic->user()),
+                    new Subscriber($this->dic->database(), $this->dic->user())
+                );
 
                 $conversationIds = (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? '');
                 $noAggregates = ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');

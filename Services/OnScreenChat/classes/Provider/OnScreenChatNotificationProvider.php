@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\OnScreenChat\DTO\ConversationDto;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
+use ILIAS\UI\Component\Item\Notification;
 
 /**
  * Class OnScreenChatNotificationProvider
@@ -34,7 +35,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $dic->language()->loadLanguageModule('chatroom');
 
         if (null === $conversationRepo) {
-            $conversationRepo = new Conversation($dic->database());
+            $conversationRepo = new Conversation($dic->database(), $dic->user());
         }
         $this->conversationRepo = $conversationRepo;
 
@@ -131,7 +132,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
     /**
      * @param string $conversationIds
      * @param bool $withAggregates
-     * @return array
+     * @return Notification[]
      * @throws \ilWACException
      */
     public function getAsyncItem(
@@ -171,7 +172,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             return [$notificationItem];
         }
 
-        $conversations = $this->conversationRepo->findByIdsAndUser($conversationIds, $this->dic->user());
+        $conversations = $this->conversationRepo->findByIds($conversationIds);
         if (0 === count($conversations)) {
             return [$notificationItem];
         }

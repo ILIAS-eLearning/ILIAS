@@ -14,21 +14,25 @@ class Conversation
 {
     /** @var \ilDBInterface */
     private $db;
+    /** @var \ilObjUser */
+    protected $user;
 
     /**
      * Conversation constructor.
+     * @param \ilDBInterface $db
+     * @param \ilObjUser $user
      */
-    public function __construct(\ilDBInterface $db)
+    public function __construct(\ilDBInterface $db, \ilObjUser $user)
     {
         $this->db = $db;
+        $this->user = $user;
     }
 
     /**
      * @param string[] $conversationIds
-     * @param \ilObjUser $user
      * @return ConversationDto[]
      */
-    public function findByIdsAndUser(array $conversationIds, \ilObjUser $user) : array 
+    public function findByIds(array $conversationIds) : array
     {
         $conversations = [];
 
@@ -48,7 +52,7 @@ class Conversation
                 return 0;
             }, $participants));
 
-            if (!in_array((int) $user->getId(), $participantIds)) {
+            if (!in_array((int) $this->user->getId(), $participantIds)) {
                 continue;
             }
             
