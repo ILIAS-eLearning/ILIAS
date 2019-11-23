@@ -17426,6 +17426,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding: 0;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator:not(:first-child) {
+  margin-top: 10px;
   border-top: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.header:not(:first-child) {
