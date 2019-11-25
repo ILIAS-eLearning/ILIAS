@@ -2,14 +2,12 @@
 
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
-    /**+
-     * @var self
-     */
+    /** @var self */
     protected static $instance = null;
-    /**
-     * @var ilWkhtmlToPdfConfig
-     */
+    /** @var ilWkhtmlToPdfConfig */
     protected $config;
+    /** @var ilLanguage */
+    protected $lng;
 
     /**
      * ilWkhtmlToPdfRenderer constructor.
