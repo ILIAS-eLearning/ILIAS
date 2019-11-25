@@ -15740,3 +15740,4 @@ exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allo
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+mem#:#mem_period_without_time#:#Without Time Indication

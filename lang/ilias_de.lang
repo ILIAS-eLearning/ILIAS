@@ -15757,3 +15757,4 @@ rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den
 rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
