@@ -14170,6 +14170,8 @@ pdfgen#:#enable_forms#:#Formulare aktivieren
 pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
 pdfgen#:#low_quality#:#Niedrige Qualität
 pdfgen#:#greyscale#:#Graustufen
+pdfgen#:#overwrite_font#:#Schritart überschreiben
+pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw. 
 pdfgen#:#output_options#:#Ausgabe Optionen
 pdfgen#:#header_text_left#:#Text Links
 pdfgen#:#header_text_center#:#Text Mitte

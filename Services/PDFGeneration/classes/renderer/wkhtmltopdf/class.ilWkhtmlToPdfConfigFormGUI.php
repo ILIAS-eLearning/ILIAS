@@ -98,6 +98,7 @@ class ilWkhtmlToPdfConfigFormGUI
             $config->setFooterHtmlLine((int) $_POST['footer_html_line']);
             $config->setFooterHtmlSpacing((int) $_POST['footer_html_spacing']);
             $config->setFooterHtml(ilUtil::stripSlashes($_POST['footer_html']));
+            $config->setOverwriteDefaultFont(ilUtil::stripSlashes($_POST['overwrite_font']));
         }
 
         return $everything_ok;
@@ -145,7 +146,8 @@ class ilWkhtmlToPdfConfigFormGUI
             'footer_text_center'		=> $form->getItemByPostVar('footer_text_center')->getValue(),
             'footer_text_line'			=> $form->getItemByPostVar('footer_text_line')->getValue(),
             'footer_html'				=> $form->getItemByPostVar('footer_html')->getValue(),
-            'footer_html_spacing'		=> $form->getItemByPostVar('footer_html_spacing')->getValue()
+            'footer_html_spacing'		=> $form->getItemByPostVar('footer_html_spacing')->getValue(),
+            'overwrite_font'    		=> $form->getItemByPostVar('overwrite_font')->getValue()
         );
     }
 
@@ -201,6 +203,7 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->getItemByPostVar('footer_html_line')->setChecked(		$config->isFooterHtmlLine());
         $form->getItemByPostVar('footer_html')->setValue(				$config->getFooterHtml());
         $form->getItemByPostVar('footer_html_spacing')->setValue(		$config->getFooterHtmlSpacing());
+        $form->getItemByPostVar('overwrite_font')->setValue(		$config->getOverwriteDefaultFont(false));
 
         ilPDFGeneratorUtils::setCheckedIfTrue($form);
     }
@@ -225,6 +228,7 @@ class ilWkhtmlToPdfConfigFormGUI
         $form->addItem($this->buildCheckedCheckboxSvgForm());
         $form->addItem($this->buildRadiobuttonSvgForm());
         $form->addItem($this->buildCheckedRadiobuttonSvgForm());
+        $form->addItem($this->buildOverwriteDefaultFont());
     }
 
     /**
@@ -235,6 +239,16 @@ class ilWkhtmlToPdfConfigFormGUI
         $enable_forms = new ilCheckboxInputGUI($this->translate('enable_forms'), 'enable_forms');
         $enable_forms->setInfo($this->translate('enable_forms_info'));
         return $enable_forms;
+    }   
+    
+    /**
+     * @return ilCheckboxInputGUI
+     */
+    protected function buildOverwriteDefaultFont()
+    {
+        $overwrite_font = new ilTextInputGUI($this->translate('overwrite_font'), 'overwrite_font');
+        $overwrite_font->setInfo($this->translate('overwrite_font_info'));
+        return $overwrite_font;
     }
 
     /**

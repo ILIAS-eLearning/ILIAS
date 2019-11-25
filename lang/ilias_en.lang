@@ -14147,6 +14147,8 @@ common#:#pdfg_edit_permission#:#User can change permission settings
 pdfgen#:#webkit#:#wkhtmltopdf
 pdfgen#:#path#:#Path to wkhtmltopdf
 pdfgen#:#wkhtml_config#:#Configuration for WKHTML
+pdfgen#:#overwrite_font#:#Overwrite default font
+pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw. 
 pdfgen#:#external_links#:#Externel links
 pdfgen#:#enable_forms#:#Enable Forms
 pdfgen#:#user_stylesheet#:#User stylesheet

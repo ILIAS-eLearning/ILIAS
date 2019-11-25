@@ -65,6 +65,7 @@ class ilWkhtmlToPdfConfig
         $this->setPrintMediaType($config->getPrintMediaType());
         $this->setMarginTop($config->getMarginTop());
         $this->setMarginBottom($config->getMarginBottom());
+        $this->setOverwriteDefaultFont($config->getOverwriteDefaultFont());
     }
 
     /**
@@ -107,6 +108,7 @@ class ilWkhtmlToPdfConfig
         $this->setKeyIfExists('setPrintMediaType',			'print_media_type', $config);
         $this->setKeyIfExists('setMarginTop',				'margin_top', $config);
         $this->setKeyIfExists('setMarginBottom',			'margin_bottom', $config);
+        $this->setKeyIfExists('setOverwriteDefaultFont',	'overwrite_font', $config);
     }
 
     /**
@@ -297,6 +299,11 @@ class ilWkhtmlToPdfConfig
      * @var string
      */
     protected $path;
+
+    /**
+     * @var string 
+     */
+    protected $overwrite_default_font = '';
 
     /**
      * @return string
@@ -1188,5 +1195,29 @@ class ilWkhtmlToPdfConfig
         }
     }
 
+    /**
+     * @param bool $renderStyle
+     * @return string
+     */
+    public function getOverwriteDefaultFont($renderStyle = false)
+    {
+        if($renderStyle) {
+            if(strlen($this->overwrite_default_font) > 0 ) {
+                return '<style>body{font-family: '.$this->overwrite_default_font.';}</style>';
+            }
+        } else {
+            return $this->overwrite_default_font;
+        }
 
+        return '';
+    }
+
+    /**
+     * @param string $overwrite_default_font
+     */
+    public function setOverwriteDefaultFont($overwrite_default_font)
+    {
+        $this->overwrite_default_font = $overwrite_default_font;
+    }
+    
 }
