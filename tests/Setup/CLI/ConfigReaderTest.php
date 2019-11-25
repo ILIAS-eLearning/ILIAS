@@ -57,4 +57,38 @@ class ConfigReaderTest extends \PHPUnit\Framework\TestCase {
 
 		$this->assertEquals($expected, $config);
 	}
+
+	public function testApplyOverwrites() {
+		$cr = new class () extends Setup\CLI\ConfigReader{
+			public function _applyOverwrites($j, $o) {
+				return $this->applyOverwrites($j, $o);
+			}
+		};
+
+		$array = [
+			"1" => [
+				"1" => "1.1",
+				"2" => [
+					"1" => "1.2.1"
+				],
+			],
+			"2" => "2"
+		];
+		$overwrites = [
+			"1.2.1" => "foo",
+			"2" => "bar"
+		];
+		$expected = [
+			"1" => [
+				"1" => "1.1",
+				"2" => [
+					"1" => "foo"
+				],
+			],
+			"2" => "bar"
+		];
+
+		$result = $cr->_applyOverwrites($array, $overwrites);
+		$this->assertEquals($expected, $result);
+	}
 }
