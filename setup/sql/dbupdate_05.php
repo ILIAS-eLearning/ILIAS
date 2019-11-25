@@ -3124,3 +3124,27 @@ if(!$ilDB->tableColumnExists('grp_settings', 'period_time_indication')) {
         );
 }
 ?>
+<#5598>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$read_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
+$edit_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$write_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($read_ops_id && $edit_ops_id)
+{
+        $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('crsr');
+        if($lp_type_id)
+        {
+                ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $read_ops_id);
+                ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $edit_ops_id);
+                ilDBUpdateNewObjectType::cloneOperation('crsr', $write_ops_id, $read_ops_id);
+                ilDBUpdateNewObjectType::cloneOperation('crsr', $write_ops_id, $edit_ops_id);
+        }
+}
+?>
+
+<#5599>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
