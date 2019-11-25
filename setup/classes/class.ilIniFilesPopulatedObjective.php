@@ -22,6 +22,7 @@ class ilIniFilesPopulatedObjective extends ilSetupObjective {
 		// client.ini.php. Why does the client in reside in the webdir? If we
 		// remove the client-feature, the client-ini will go away...
 		return [
+			new \ilOverwritesExistingInstallationConfirmed($this->config),
 			new Setup\DirectoryCreatedObjective(dirname(__DIR__, 2)."/data"),
 			new Setup\DirectoryCreatedObjective($this->getClientDir()),
 			new Setup\CanCreateFilesInDirectoryCondition($this->getClientDir()),
@@ -43,14 +44,6 @@ class ilIniFilesPopulatedObjective extends ilSetupObjective {
 		return $environment
 			->withResource(Setup\Environment::RESOURCE_ILIAS_INI, $ini)
 			->withResource(Setup\Environment::RESOURCE_CLIENT_INI, $client_ini);
-	}
-
-	public function iniExists() {
-		return file_exists(dirname(__DIR__, 2)."/ilias.ini.php");
-	}
-
-	public function clientIniExists() {
-		return file_exists($this->getClientDir()."/client.ini.php");
 	}
 
 	protected function getClientDir() : string {

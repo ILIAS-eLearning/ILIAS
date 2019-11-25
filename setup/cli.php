@@ -20,6 +20,7 @@ require_once(__DIR__."/classes/class.ilSetupConfig.php");
 require_once(__DIR__."/classes/class.ilMakeInstallationAccessibleObjective.php");
 require_once(__DIR__."/classes/class.ilWebserverUserConfirmedObjective.php");
 require_once(__DIR__."/classes/class.ilOwnRiskConfirmedObjective.php");
+require_once(__DIR__."/classes/class.ilOverwritesExistingInstallationConfirmed.php");
 require_once(__DIR__."/classes/class.ilIniFilesPopulatedObjective.php");
 require_once(__DIR__."/classes/class.ilSetupConfigStoredObjective.php");
 require_once(__DIR__."/classes/class.ilSetupPasswordManager.php");

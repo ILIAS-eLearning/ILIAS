@@ -75,6 +75,7 @@ class ilSetupAgent implements Setup\Agent {
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
 		return new Setup\ObjectiveWithPreconditions(
 			new \ilMakeInstallationAccessibleObjective($config),
+			new \ilOverwritesExistingInstallationConfirmed($config),
 			new Setup\ObjectiveCollection(
 					"Complete common ILIAS objectives.",
 					false,
