@@ -38,6 +38,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is [he
   * **client_id** is the identifier to be used for the installation 
   * **master_password** is used to identify at the web version of the setup
   * *server_timezone* where the installation resides, given as `region/city`, e.g. `Europe/Berlin`. Defaults to `UTC`.
+  * *register_nic* sends the identification number of the installation to a server of the ILIAS society together with some information about the installation.
 * *backgroundtasks* is a service to run tasks for users in separate processes
   * *type* might be `async` or `sync` and defaults to `sync`
   * *max_number_of_concurrent_tasks* that all users can run together

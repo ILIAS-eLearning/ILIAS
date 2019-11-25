@@ -64,7 +64,8 @@ class ilSetupAgent implements Setup\Agent {
 			return new \ilSetupConfig(
 				$data["client_id"],
 				$password->transform($data["master_password"]),	
-				$datetimezone->transform([$data["server_timezone"] ?? "UTC"])
+				$datetimezone->transform([$data["server_timezone"] ?? "UTC"]),
+				$data["register_nic"] ?? false
 			);
 		});	
 	}
@@ -84,7 +85,10 @@ class ilSetupAgent implements Setup\Agent {
 					new Setup\PHPExtensionLoadedCondition("xsl"),
 					new Setup\PHPExtensionLoadedCondition("gd"),
 					$this->getPHPMemoryLimitCondition(),
-					new ilSetupConfigStoredObjective($config, $this->password_manager)
+					new ilSetupConfigStoredObjective($config, $this->password_manager),
+					$config->getRegisterNIC()
+						? new ilNICKeyRegisteredObjective($config)
+						: new ilNICKeyStoredObjective($config)
 			)
 		);
 	}
