@@ -212,36 +212,26 @@ class ilObjLearningSequenceLearnerGUI
 
 	protected function play()
 	{
-		//enforce tree is visible/active for ToC
-		//(this does not work for first item, since there is no page-change)
-		//how is this done?
+		$response = $this->player->play($_GET, $_POST);
 
-		if(!$_SESSION["lso_old_il_rep_mode"]) {
-			$_SESSION["lso_old_il_rep_mode"] = $_SESSION["il_rep_mode"];
-		}
-		$_SESSION["il_rep_mode"] = 'tree';
+		switch ($response) {
+			case null:
+				//render the page
+				$this->tpl->enableDragDropFileUpload(null);
+				$this->tpl->setContent('THIS SHOULD NOT SHOW');
+				return;
 
-		$html = $this->player->render($_GET, $_POST);
+			case 'EXIT::' .$this->player::LSO_CMD_FINISH:
+				$cmd = self::CMD_EXTRO;
+				break;
 
-		if($html === 'EXIT::' .$this->player::LSO_CMD_SUSPEND) {
-			$cmd = self::CMD_STANDARD;
+			case 'EXIT::' .$this->player::LSO_CMD_SUSPEND:
+			default:
+				$cmd = self::CMD_STANDARD;
+				break;
 		}
-		if($html === 'EXIT::' .$this->player::LSO_CMD_FINISH) {
-			$cmd = self::CMD_EXTRO;
-		}
-		if(is_null($html)) {
-			$cmd = self::CMD_STANDARD;
-		}
-
-		if(is_null($cmd)){
-			print $html;
-			exit();
-		} else {
-			$_SESSION["il_rep_mode"] = $_SESSION["lso_old_il_rep_mode"];
-
-			$href = $this->ctrl->getLinkTarget($this, $cmd, '', false, false);
-			\ilUtil::redirect($href);
-		}
+		$href = $this->ctrl->getLinkTarget($this, $cmd, '', false, false);
+		\ilUtil::redirect($href);
 	}
 
 	protected function getCurrentItemLearningProgress()

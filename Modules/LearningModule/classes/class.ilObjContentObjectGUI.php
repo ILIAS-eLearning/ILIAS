@@ -275,10 +275,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 			
 			case "ilexportgui":
-				ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
-				$this->addHeaderAction();
-				$this->addLocations(true);
-				$this->setTabs("export");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$ot = ilObjectTranslation::getInstance($this->object->getId());
@@ -306,6 +302,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"),
 						$this, "publishExportFile");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
+				ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("export");
 				break;
 
 			case 'ilobjecttranslationgui':

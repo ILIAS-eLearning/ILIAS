@@ -160,6 +160,7 @@ class ilLMMenuRendererGUI
         }
 
         // table of contents
+        /*
         if($this->lm->isActiveTOC() && $ilAccess->checkAccess("read", "", $this->requested_ref_id))
         {
             if (!$this->offline)
@@ -180,7 +181,7 @@ class ilLMMenuRendererGUI
             }
             $tabs_gui->$addcmd("cont_toc", $link,
                 "", "", "", $active["toc"]);
-        }
+        }*/
 
         // print view
         if($this->lm->isActivePrintView() && $ilAccess->checkAccess("read", "", $this->requested_ref_id))

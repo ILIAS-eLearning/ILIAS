@@ -14072,6 +14072,10 @@ chatroom#:#chat_error_log_info#:#Bitte geben Sier hier den absoluten Serverpfad 
 chatroom#:#chatroom_enable_osc#:#On-Screen-Chat aktivieren
 chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat jedem Benutzer auf der Plattform zur Verfügung. Jeder kann jedoch individuell entscheiden, ob er von anderen Benutzern angesprochen werden möchte. Konversationen können über das ‘Who is online?’-Tool gestartet werden.
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
+chatroom#:#chat_osc_nc_prop_time#:#Zeit
+chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine versteckte Konversation
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s versteckte Konversationen
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
@@ -14087,7 +14091,8 @@ chatroom#:#chat_osc_no_usr_found#:#Es konnte kein Benutzer gefunden werden.
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Sind Sie sicher, dass Sie die Gruppenkonversation verlassen möchten?
 chatroom#:#chat_osc_leave_grp_conv#:#Konversation verlassen
 chatroom#:#chat_osc_user_left_grp_conv#:#Der Benutzer '%s' hat die Gruppenkonversation verlassen.
-chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren <a href="%s">'Persönlichen Einstellungen'</a> ändern.
+chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Persönlichen Einstellungen'
+chatroom#:#chat_osc_dont_accept_msg#:#Sie können aktuell von anderen Personen nicht zu Konversationen eingeladen werden. Dies können Sie bei Bedarf in Ihren %s ändern.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Konversationen nicht möglich
 chatroom#:#chat_osc_subs_rej_msgs#:#Ihr Chat-Partner möchte zur Zeit keine Nachrichten empfangen. Er kann den Empfang von Chat-Nachrichten in seinen Chat-Einstellungen wieder aktivieren.
 chatroom#:#chat_osc_subs_rej_msgs_p#:#Die folgenden Konversationspartner möchten aktuell keine Nachrichten mehr empfangen: %s
@@ -14120,9 +14125,11 @@ chatroom#:#chat_deletion_interval_run_at#:#Uhrzeit
 chatroom#:#chat_deletion_interval_run_at_info#:#Geben Sie hier den Zeitpunkt im Format 'HH:MM' an (z.B. 23:30), wann der Server das Löschen alter Nachrichten durchführen soll.
 prg#:#prg_points_reachable#:#Erreichbare Punkte
 mail#:#mail_members_search_continue#:#Weiter
-mail#:#nc_mail_unread_messages_number_p#:#Sie haben %s ungelesene E-Mails.
-mail#:#nc_mail_unread_messages_number_s#:#Sie haben eine ungelesene E-Mail.
+mail#:#nc_mail_unread_messages#:#Sie haben %s im Posteingang.
+mail#:#nc_mail_unread_messages_number_p#:#%s ungelesene Mails
+mail#:#nc_mail_unread_messages_number_s#:#eine ungelesene Mail
 mail#:#nc_mail_noti_item_title#:#Posteingang
+mail#:#nc_mail_prop_time#:#Zeit
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
 crs#:#crs_loc_err_stat_tst_offline#:#Nicht alle Tests sind Online
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
@@ -15248,6 +15255,7 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
 common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
 common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
 wfld#:#wfld_sortation#:#Sortierung
@@ -15747,3 +15755,5 @@ rep#:#rep_export_limitation_limited#:#Limit
 rep#:#rep_export_limit_number#:#Anzahl Objekte
 rep#:#exp_error_too_many_objects#:#Die Anzahl der ausgewählten Objekte für den Export ist zu hoch (max. %1). Bitte wählen Sie weniger Objekte für den Export aus.
 rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Kategorien, Kurse, ...) deaktiviert.
+lso#:#lso_mainbar_button_label_toc#:#Inhalte
+lso#:#lso_mainbar_button_label_curriculum#:#Curriculum

@@ -99,7 +99,7 @@ class StandardPagePartProvider implements PagePartProvider
             /**
              * @var $component Combined
              */
-            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item);
+            $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
             $identifier = $item->getProviderIdentification()->getInternalIdentifier();
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
@@ -124,7 +124,8 @@ class StandardPagePartProvider implements PagePartProvider
                 if (!$tool instanceof isToolItem) {
                     continue;
                 }
-                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool);
+                $component = $tool->getTypeInformation()->getRenderer()->getComponentForItem($tool, false);
+
                 $identifier = $this->hash($tool->getProviderIdentification()->serialize());
                 $close_button = null;
                 if ($tool->hasCloseCallback()) {

@@ -94,14 +94,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
 				return false;
 			}
 		}
-			
-		if ($a_cmd == "settings")
-		{
-			if (self::_checkDirectLink($a_obj_id))
-			{
-				return false;
-			}
-		}
+
 		return parent::_checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id);
 	}
 
