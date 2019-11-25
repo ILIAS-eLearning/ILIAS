@@ -10,29 +10,15 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * @var ilWkhtmlToPdfConfig
      */
     protected $config;
-    /**
-     * @var string
-     */
-    const CTYPE = 'Services';
-    /**
-     * @var string
-     */
-    const CNAME = 'PDFGeneration';
-    /**
-     * @var string
-     */
-    const SLOT_ID = 'Renderer';
-    /**
-     * @var string
-     */
-    const PNAME = 'WkhtmlToPdfRenderer';
+
     /**+
      * @var self
      */
     protected static $instance = null;
-  
+
     /**
-     * 
+     * ilWkhtmlToPdfRenderer constructor.
+     * @param bool $phpunit
      */
     public function __construct($phpunit = false)
     {
@@ -56,7 +42,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string            $service
      * @param string            $purpose
      */
-    public function addConfigElementsToForm(\ilPropertyFormGUI $form, $service, $purpose)
+    public function addConfigElementsToForm(ilPropertyFormGUI $form, $service, $purpose)
     {
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         $gui->addConfigForm($form);
@@ -67,7 +53,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string            $purpose
      * @param ilWkhtmlToPdfConfig     $config
      */
-    public function populateConfigElementsInForm(\ilPropertyFormGUI $form, $service, $purpose, $config)
+    public function populateConfigElementsInForm(ilPropertyFormGUI $form, $service, $purpose, $config)
     {
         $this->config = new ilWkhtmlToPdfConfig($config);
         $gui = new ilWkhtmlToPdfConfigFormGUI();
@@ -79,7 +65,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string            $purpose
      * @return bool
      */
-    public function validateConfigInForm(\ilPropertyFormGUI $form, $service, $purpose)
+    public function validateConfigInForm(ilPropertyFormGUI $form, $service, $purpose)
     {
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         return $gui->validateForm();
@@ -90,7 +76,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      * @param string            $purpose
      * @return array
      */
-    public function getConfigFromForm(\ilPropertyFormGUI $form, $service, $purpose)
+    public function getConfigFromForm(ilPropertyFormGUI $form, $service, $purpose)
     {
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         return $gui->getConfigFromForm($form);
