@@ -24,6 +24,7 @@ class ilLMPresentationRequest
         $this->requested_focus_return = (int) $query_params["focus_return"];
         $this->requested_from_page = (string) $query_params["from_page"];
         $this->requested_obj_type = (string) $query_params["obj_type"];
+        $this->requested_mob_id = (int) $query_params["mob_id"];
     }
 
     /**
@@ -104,6 +105,14 @@ class ilLMPresentationRequest
     public function getRequestedFromPage(): string
     {
         return $this->requested_from_page;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRequestedMobId(): int
+    {
+        return $this->requested_mob_id;
     }
 
 

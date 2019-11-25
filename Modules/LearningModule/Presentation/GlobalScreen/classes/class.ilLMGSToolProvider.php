@@ -82,8 +82,11 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     public function getOfflineToolIds()
     {
         $iff = function ($id) { return $this->identification_provider->identifier($id); };
-    	return [
-            $this->hash($iff("lm_pres_toc")->serialize())
+        return [
+            $this->hash($iff("lm_pres_toc")->serialize()),
+            $this->hash($iff("lm_glossary")->serialize()),
+            $this->hash($iff("lm_media")->serialize()),
+            $this->hash($iff("lm_faq")->serialize())
         ];
     }
 
