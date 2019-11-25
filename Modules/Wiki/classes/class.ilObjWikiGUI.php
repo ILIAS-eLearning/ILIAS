@@ -1274,8 +1274,7 @@ class ilObjWikiGUI extends ilObjectGUI
 			$this->object->getStyleSheetId(), "wiki"));
 
 		$this->setContentStyleSheet();
-		//$wpage_gui->setOutputMode(IL_PAGE_PREVIEW);
-		
+
 		//$wpage_gui->setSideBlock();
 		$ilCtrl->setCmdClass("ilwikipagegui");
 		$ilCtrl->setCmd("preview");

@@ -102,7 +102,7 @@ class ilImprintGUI extends ilPageObjectGUI
 	{
 		$lng = $this->lng;
 		
-		if($this->getOutputMode() == IL_PAGE_PREVIEW)
+		if($this->getOutputMode() == ilPageObjectGUI::PREVIEW)
 		{
 			if(!$this->getPageObject()->getActive())
 			{

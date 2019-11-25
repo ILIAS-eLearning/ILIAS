@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */Modules/LearningModule/Export/HTMLExport.php
 
 /**
  * Glossary Data set class
@@ -13,8 +12,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - glo_advmd_col_order: ordering md fields
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ModulesGlossary
  */
 class ilGlossaryDataSet extends ilDataSet
 {
@@ -229,7 +226,6 @@ class ilGlossaryDataSet extends ilDataSet
 		{
 			case "glo":
 
-				include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -262,7 +258,6 @@ class ilGlossaryDataSet extends ilDataSet
 
 				// id, glo_id, term, language, import_id
 
-				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$glo_id = (int) $a_mapping->getMapping("Modules/Glossary", "glo", $a_rec["GloId"]);
 				$term = new ilGlossaryTerm();
 				$term->setGlossaryId($glo_id);
@@ -293,7 +288,6 @@ class ilGlossaryDataSet extends ilDataSet
 
 				// id, term_id, short_text, nr, short_text_dirty
 
-				include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 				$term_id = (int) $a_mapping->getMapping("Modules/Glossary", "term", $a_rec["TermId"]);
 				if ((int) $term_id == 0)
 				{
@@ -326,4 +320,3 @@ class ilGlossaryDataSet extends ilDataSet
 		}
 	}
 }
-?>

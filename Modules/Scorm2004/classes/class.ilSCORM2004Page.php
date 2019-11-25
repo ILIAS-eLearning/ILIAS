@@ -310,7 +310,6 @@ class ilSCORM2004Page extends ilPageObject
 				$term_id = $tarr[count($tarr) - 1];
 				if (is_int(strpos($target, "__")) && $term_id > 0)
 				{
-					include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 //echo "<br>-".ilGlossaryTerm::_lookGlossaryID($term_id)."-".$this->getGlossaryId()."-";
 					if (ilGlossaryTerm::_lookGlossaryID($term_id) != $this->getGlossaryId())
 					{

@@ -1,15 +1,11 @@
 <?php 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Term list table for presentation mode
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesGlossary
  * @ilCtrl_Calls ilPresentationListTableGUI: ilFormPropertyDispatchGUI
  */
 class ilPresentationListTableGUI extends ilTable2GUI
@@ -52,8 +48,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		$this->tax_node = $a_tax_node;
 		$this->tax_id = $a_tax_id;
 		$this->setId("glopr".$this->glossary->getId());
-		
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
+
 		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_fields = $adv_ad->getAllFields();
 
@@ -67,7 +62,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 		else
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 			$this->adv_cols_order = $adv_ap->getColumnOrder();
 			foreach ($this->adv_cols_order as $c)
@@ -111,7 +105,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		}
 				
 		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER,'glo',$this->glossary->getId(),'term');
 		$this->record_gui->setTableGUI($this);
 		$this->record_gui->parse();
@@ -138,7 +131,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	function initFilter()
 	{
 		// term
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
@@ -150,7 +142,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		// definition
 		if ($this->glossary->supportsLongTextQuery())
 		{
-			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 			$ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
 			$ti->setMaxLength(64);
 			$ti->setSize(20);
@@ -254,7 +245,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
 						$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 					}
 
-					include_once './Services/MathJax/classes/class.ilMathJax.php';
 					if (!$this->offline)
 					{
 						$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);

@@ -705,7 +705,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
 					if ($a_node["type"] == "glo")
 					{
 						$obj_id = ilObject::_lookupObjectId($a_node["child"]);
-						include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 						if((!ilObjGlossary::_lookupOnline($obj_id)) &&
 							(!$rbacsystem->checkAccess('write', $a_node["child"])))
 						{

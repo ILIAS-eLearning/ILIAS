@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilGlossaryTerm
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGlossary
-*/
+ * Glossary terms
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilGlossaryTerm
 {
 	/**
@@ -117,8 +115,7 @@ class ilGlossaryTerm
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
-		include_once("./Services/Link/classes/class.ilInternalLink.php");
+
 		if (is_int(strpos($a_id, "_")))
 		{
 			$a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
@@ -281,7 +278,6 @@ class ilGlossaryTerm
 	{
 		$ilDB = $this->db;
 		
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		$defs = ilGlossaryDefinition::getDefinitionList($this->getId());
 		foreach($defs as $def)
 		{
@@ -290,7 +286,6 @@ class ilGlossaryTerm
 		}
 
 		// delete term references
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		ilGlossaryTermReferences::deleteReferencesOfTerm($this->getId());
 
 		// delete glossary_term record
@@ -398,7 +393,6 @@ class ilGlossaryTerm
 		// get all term ids under taxonomy node (if given)
 		if ($a_tax_node > 1)
 		{
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
 			if (count($tax_ids) > 0)
 			{
@@ -486,7 +480,6 @@ class ilGlossaryTerm
 		// add advanced metadata
 		if (($a_add_amet_fields || is_array($a_amet_filter)) && !is_array($a_glo_ref_id))
 		{
-			include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
 			$terms = ilAdvancedMDValues::queryForRecords($a_glo_ref_id, "glo", "term", $glo_ids, "term", $terms, "glo_id", "id", $a_amet_filter);
 		}
 		return $terms;
@@ -520,7 +513,6 @@ class ilGlossaryTerm
 			// get all term ids under taxonomy node (if given)
 			if ($a_tax_node > 1)
 			{
-				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 				$tax_ids = ilObjTaxonomy::getUsageOfObject($a_glo_id);
 				if (count($tax_ids) > 0)
 				{
@@ -592,10 +584,8 @@ class ilGlossaryTerm
 	 */
 	static function getUsages($a_term_id)
 	{
-		include_once("./Services/Link/classes/class.ilInternalLink.php");
 		$usages = (ilInternalLink::_getSourcesOfTarget("git", $a_term_id, 0));
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		foreach (ilGlossaryTermReferences::lookupReferencesOfTerm($a_term_id) as $glo_id)
 		{
 			$usages["glo:termref:".$glo_id.":-"] = array(
@@ -626,7 +616,6 @@ class ilGlossaryTerm
 		$new_term->create();
 
 		// copy the definitions
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 		$def_list = ilGlossaryDefinition::getDefinitionList($a_term_id);
 		foreach ($def_list as $def)
 		{
@@ -639,7 +628,6 @@ class ilGlossaryTerm
 			$new_def->create();
 			
 			// copy meta data
-			include_once("Services/MetaData/classes/class.ilMD.php");
 			$md = new ilMD($old_term->getGlossaryId(),
 				$old_def->getPageObject()->getId(),
 				$old_def->getPageObject()->getParentType());
@@ -659,8 +647,6 @@ class ilGlossaryTerm
 		}
 
 		// adv metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 		$old_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $old_term->getGlossaryId(), "term");
 		$new_recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $a_glossary_id, "term");
 		foreach($old_recs as $old_record_obj)
@@ -729,5 +715,3 @@ class ilGlossaryTerm
 		return $ids;
 	}
 }
-
-?>

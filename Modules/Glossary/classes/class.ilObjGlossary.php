@@ -1,22 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Object/classes/class.ilObject.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-include_once("./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDataSubItems.php");
-
-/** @defgroup ModulesGlossary Modules/Glossary
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjGlossary
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGlossary
-*/
+ * Class ilObjGlossary
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
 	/**
@@ -86,7 +76,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
@@ -113,8 +102,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setPresentationMode($gl_rec["pres_mode"]);
 		$this->setSnippetLength($gl_rec["snippet_length"]);
 		$this->setShowTaxonomy($gl_rec["show_tax"]);
-		
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 		// read auto glossaries
@@ -437,7 +425,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				'id' => array('integer', $this->getId())
 			)
 		);
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		$this->updateAutoGlossaries();
@@ -660,7 +647,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function createExportDirectory($a_type = "xml")
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_createExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
@@ -669,7 +655,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getExportDirectory($a_type = "xml")
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_getExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
@@ -678,7 +663,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getExportFiles()
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_getExportFiles($this->getId(), array("xml", "html"), $this->getType());
 	}
 	
@@ -717,10 +701,8 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		ilUtil::makeDir($a_target_dir);
 		
         // init mathjax rendering for export
-		include_once './Services/MathJax/classes/class.ilMathJax.php';
 		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
 
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
 		$this->co_page_html_export->createDirectories();
 
@@ -749,7 +731,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
 
 		// get glossary presentation gui class
-		include_once("./Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php");
 		$_GET["cmd"] = "nop";
 		$glo_gui = new ilGlossaryPresentationGUI();
 		$glo_gui->setOfflineMode(true);
@@ -822,7 +803,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportHTMLGlossaryTerms(&$a_glo_gui, $a_target_dir)
 	{
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$copage_export = new ilCOPageHTMLExport($a_target_dir);
 		$copage_export->exportSupportScripts();
 		
@@ -877,7 +857,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 			fclose($fp);
 
 			// store linked/embedded media objects of glosssary term
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 			foreach($defs as $def)
 			{
@@ -888,7 +867,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				}
 				
 				// get all files of page
-				include_once("./Modules/File/classes/class.ilObjFile.php");
 				$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $def["id"]);
 				$this->offline_files = array_merge($this->offline_files, $def_files);
 
@@ -931,7 +909,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		fclose($fp);
 		
 		// fullscreen
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
 		if ($mob_obj->hasFullscreenItem())
 		{
@@ -961,7 +938,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	{
 		$file_dir = $a_target_dir."/files/file_".$a_file_id;
 		ilUtil::makeDir($file_dir);
-		include_once("./Modules/File/classes/class.ilObjFile.php");
 		$file_obj = new ilObjFile($a_file_id, false);
 		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
 		if (!is_file($source_file))
@@ -994,8 +970,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->file_ids = array();
 		foreach ($terms as $term)
 		{
-			include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
-			
 			$defs = ilGlossaryDefinition::getDefinitionList($term[id]);
 
 			foreach($defs as $def)
@@ -1004,7 +978,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				$this->page_object->buildDom();
 				$this->page_object->insertInstIntoIDs(IL_INST_ID);
 				$mob_ids = $this->page_object->collectMediaObjects(false);
-				include_once("./Services/COPage/classes/class.ilPCFileList.php");
 				$file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
 				foreach($mob_ids as $mob_id)
 				{
@@ -1076,7 +1049,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -1091,8 +1063,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
 		foreach ($this->mob_ids as $mob_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
@@ -1109,8 +1079,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-
 		foreach ($this->file_ids as $file_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
@@ -1168,7 +1136,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		}
 
 		// delete term references
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		$refs = new ilGlossaryTermReferences($this->getId());
 		$refs->delete();
 
@@ -1187,7 +1154,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getXMLZip()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this);
 		return $glo_exp->buildExportFile();
 	}
@@ -1203,7 +1169,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$lng = $DIC->language();
 		
 		$dep = array();
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 		$sms = ilObjSAHSLearningModule::getScormModulesForGlossary($a_obj_id);
 		foreach ($sms as $sm)
 		{
@@ -1222,7 +1187,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function getTaxonomyId()
 	{
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getId());
 		if (count($tax_ids) > 0)
 		{
@@ -1261,11 +1225,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$new_obj->update();
 
 		// set/copy stylesheet
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			include_once("./Services/Object/classes/class.ilObjectFactory.php");
 			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
@@ -1276,7 +1238,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		if (($tax_id = $this->getTaxonomyId()) > 0)
 		{
 			// clone it
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax = new ilObjTaxonomy($tax_id);
 			$new_tax = $tax->cloneObject(0,0,true);
 			$map = $tax->getNodeMapping();
@@ -1289,7 +1250,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		// handle mapping
 		
 		// prepare tax node assignments objects
-		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		if ($tax_id > 0)
 		{
 			$tax_ass = new ilTaxNodeAssignment("glo", $this->getId(), "term", $tax_id);
@@ -1376,7 +1336,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		{				
 			$lng->loadLanguageModule("glo");
 			
-			include_once "Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			return $lng->txt("glo_term").' "'. ilGlossaryTerm::_lookGlossaryTerm($a_sub_id).'"';
 		}
 	}
@@ -1390,7 +1349,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	function autoLinkGlossaryTerms($a_glo_ref_id)
 	{
 		// get terms of target glossary
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
 		// for each get page: get content
@@ -1422,7 +1380,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		}
 
 		// ilPCParagraph autoLinkGlossariesPage with page and terms
-		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		foreach ($found_pages as $id => $fp)
 		{
 			ilPCParagraph::autoLinkGlossariesPage($fp["page"], $fp["terms"]);

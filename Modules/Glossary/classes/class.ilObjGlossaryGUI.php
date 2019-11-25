@@ -1,29 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Object/classes/class.ilObjectGUI.php");
-require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-require_once("./Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php");
-require_once("./Services/COPage/classes/class.ilPCParagraph.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilGlossaryGUI
-*
-* GUI class for ilGlossary
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
-* @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
-* 
-* @ingroup ModulesGlossary
-*/
+ * Class ilGlossaryGUI
+ *
+ * GUI class for ilGlossary
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilGlossaryTermGUI, ilMDEditorGUI, ilPermissionGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilInfoScreenGUI, ilCommonActionDispatcherGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilObjTaxonomyGUI, ilExportGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjGlossaryGUI: ilObjectMetaDataGUI, ilGlossaryForeignTermCollectorGUI
+ */
 class ilObjGlossaryGUI extends ilObjectGUI
 {
 	/**
@@ -111,7 +101,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 		$this->log = ilLoggerFactory::getLogger('glo');
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermPermission.php");
 		$this->term_perm = ilGlossaryTermPermission::getInstance();
 
 		$this->ctrl->saveParameter($this, array("ref_id", "offset"));
@@ -126,7 +115,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		// current glossary)
 		$this->term_id = (int) $_GET["term_id"];
 		$term_glo_id = ilGlossaryTerm::_lookGlossaryID($this->term_id);
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		if ($this->term_id > 0 && $term_glo_id != $this->object->getId()
 			&& !ilGlossaryTermReferences::isReferenced($this->object->getId(), $this->term_id))
 		{
@@ -137,8 +125,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		if ($this->tax_id > 0)
 		{
 			$this->ctrl->saveParameter($this, array("show_tax", "tax_node"));
-			
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
+
 			$this->tax = new ilObjTaxonomy($this->tax_id);
 		}
 		if ((int) $_GET["tax_node"] > 1 && $this->tax->getTree()->readRootId() != $_GET["tax_node"])
@@ -168,7 +155,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->addHeaderAction();
 
 				$this->tabs_gui->activateTab('meta_data');
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->object, 'term');	
 				$this->ctrl->forwardCommand($md_gui);
 				break;
@@ -177,7 +163,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				if (!$this->term_perm->checkPermission("edit_content", $this->term_id) &&
 					!$this->term_perm->checkPermission("write", $this->term_id))
 				{
-					include_once("./Modules/Glossary/exceptions/class.ilGlossaryException.php");
 					throw new ilGlossaryException("No permission.");
 				}
 				$this->getTemplate();
@@ -195,7 +180,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				break;
 				
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -234,13 +218,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 					$this->setLocator();
 					$this->addHeaderAction();
 				}
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 				
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -253,15 +235,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->tabs->activateTab("settings");
 				$this->setSettingsSubTabs("taxonomy");
 
-				include_once("./Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php");
 				$this->ctrl->setReturn($this, "properties");
 				$tax_gui = new ilObjTaxonomyGUI();
 				$tax_gui->setMultiple(false);
-				
-				/*include_once("./Modules/Glossary/classes/class.ilTermTaxInfo.php");
-				$term_info = new ilTermTaxInfo();*/
-				//$tax_gui->activateAssignedItemSorting($term_info, "glo", "term");
-				
+
 				$tax_gui->setAssignedObject($this->object->getId());
 				$ret = $this->ctrl->forwardCommand($tax_gui);
 				break;
@@ -271,7 +248,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->setTabs();
 				$this->tabs->activateTab("export");
 				$this->setLocator();
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				//$exp_gui->addFormat("xml", "", $this, "export");
 				$exp_gui->addFormat("xml");
@@ -285,7 +261,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 			case 'ilobjectcopygui':
 				$this->prepareOutput();
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('glo');
 				$this->ctrl->forwardCommand($cp);
@@ -297,7 +272,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->setTabs();
 				$this->setLocator();
 				$this->addHeaderAction();
-				include_once("./Modules/Glossary/classes/class.ilGlossaryForeignTermCollectorGUI.php");
 				$coll = ilGlossaryForeignTermCollectorGUI::getInstance($this);
 				$this->ctrl->forwardCommand($coll);
 				break;
@@ -358,24 +332,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 
 	function assignObject()
 	{
-		include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-
 		$this->object = new ilObjGlossary($this->id, true);
 	}
 
-	/*protected function initCreationForms($a_new_type)
-	{
-		$forms = array(
-			self::CFORM_NEW => $this->initCreateForm($a_new_type),
-			self::CFORM_IMPORT => $this->initImportForm($a_new_type)
-			);
-
-		return $forms;
-	}*/
-
     function initCreateForm($a_new_type)
 	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setTarget("_top");
 		$form->setFormAction($this->ctrl->getFormAction($this));
@@ -440,7 +401,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$this->ctrl->setParameter($this, "new_type", "");
 
-			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			$newObj = new ilObjGlossary();
 			$newObj->setType($new_type);
 			$newObj->setTitle($form->getInput("title"));
@@ -472,7 +432,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->setTabs();
 		$this->setLocator();
 		$this->lng->loadLanguageModule("meta");
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 
 		$info = new ilInfoScreenGUI($this);
 		$info->enablePrivateNotes();
@@ -508,7 +467,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$ilAccess = $DIC->access();
 
 		$info->addSection($lng->txt("glo_usages"));
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 		$sms = ilObjSAHSLearningModule::getScormModulesForGlossary($glo_id);
 		foreach ($sms as $sm)
 		{
@@ -520,7 +478,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				{
 					if ($ilAccess->checkAccess("write", "", $ref))
 					{
-						include_once("./Services/Link/classes/class.ilLink.php");
 						$link = ilLink::_getLink($ref,'sahs');
 					}
 				}
@@ -568,7 +525,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->initSettingsForm();
 		
 		// Edit ecs export settings
-		include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';
 		$ecs = new ilECSGlossarySettings($this->object);		
 		$ecs->addSettingsToForm($this->form, 'glo');
 
@@ -584,7 +540,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		$obj_service = $this->getObjectService();
 
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
+
 		$this->form = new ilPropertyFormGUI();
 
 		// title
@@ -662,7 +618,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->form->addItem($pres_mode);
 
 		// show taxonomy
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 		if (count($tax_ids) > 0)
 		{ 
@@ -697,8 +652,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$feat->setTitle($this->lng->txt('obj_features'));
 			$this->form->addItem($feat);
 
-			include_once './Services/Container/classes/class.ilContainer.php';
-			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 			ilObjectServiceSettingsGUI::initServiceSettingsForm(
 					$this->object->getId(),
 					$this->form,
@@ -709,12 +662,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}		
 		
 		// sort columns, if adv fields are given
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
 		$cols = $adv_ap->getColumnOrder();
 		if (count($cols) > 1)
 		{
-			include_once './Modules/Glossary/classes/class.ilGloAdvColSortInputGUI.php';
 			$ti = new ilGloAdvColSortInputGUI($this->lng->txt("cont_col_ordering"), "field_order");
 			$this->form->addItem($ti);
 			$ti->setValue($cols);
@@ -753,7 +704,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$obj_service->commonSettings()->legacyForm($this->form, $this->object)->saveTileImage();
 
 			// field order of advanced metadata
-			include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 			$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->object->getRefId());
 			$cols = $adv_ap->getColumnOrder();
 			if (count($cols) > 1)
@@ -762,10 +712,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 			
 			// set definition short texts dirty
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			ilGlossaryDefinition::setShortTextsDirty($this->object->getId());
 
-			include_once './Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 			ilObjectServiceSettingsGUI::updateServiceSettingsForm(
 				$this->object->getId(),
 				$this->form,
@@ -775,7 +723,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			);
 			
 			// Update ecs export settings
-			include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';	
 			$ecs = new ilECSGlossarySettings($this->object);			
 			if($ecs->handleSettingsUpdate())
 			{
@@ -800,7 +747,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		
 		// term
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($this->lng->txt("cont_new_term"), "new_term");
 		$ti->setMaxLength(80);
 		$ti->setSize(20);
@@ -817,7 +763,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			$s_lang = $this->user->getLanguage();
 		}
-		include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 		$si = new ilSelectInputGUI($this->lng->txt("language"), "term_language");
 		$si->setOptions($lang);
 		$si->setValue($s_lang);
@@ -829,7 +774,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->toolbar->addSeparator();
 
 		//ilEditClipboard::getAction() == "copy"
-		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		if ($this->user->clipboardHasObjectsOfType("term"))
 		{
 			$this->toolbar->addButton($this->lng->txt("paste"),
@@ -858,7 +802,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			}
 		}
 
-		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
 		$tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$this->tpl->setContent($tab->getHTML());
 	}
@@ -933,7 +876,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		
 		// add term
-		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term = new ilGlossaryTerm();
 		$term->setGlossary($this->object);
 		$term->setTerm(ilUtil::stripSlashes($_POST["new_term"]));
@@ -958,8 +900,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function moveDefinitionUp()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-
 		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveUp();
 
@@ -971,8 +911,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function moveDefinitionDown()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-
 		$definition = new ilGlossaryDefinition($_GET["def"]);
 		$definition->moveDown();
 
@@ -1001,8 +939,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				"'>".$this->lng->txt("glo_list_usages")."</a>]";
 			$add = "<br/>".sprintf($this->lng->txt("glo_term_is_used_n_times"), $nr)." ".$link;
 		}
-		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
+
 		$cgui = new ilConfirmationGUI();
 		$cgui->setHeaderText($this->lng->txt("info_delete_sure").$add);
 
@@ -1077,8 +1014,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	function export()
 	{
 		$this->checkPermission("write");
-		
-		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
+
 		$glo_exp = new ilGlossaryExport($this->object);
 		$glo_exp->buildExportFile();
 		$this->ctrl->redirectByClass("ilexportgui", "");
@@ -1089,7 +1025,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function exportHTML()
 	{
-		require_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this->object, "html");
 		$glo_exp->buildExportFile();
 //echo $this->tpl->get();
@@ -1148,8 +1083,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		
 		// check ids
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		foreach ($_POST["id"] as $term_id)
 		{
 			$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
@@ -1161,14 +1094,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		
 		// display confirmation message
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
 		$cgui->setHeaderText($this->lng->txt("info_delete_sure"));
 		$cgui->setCancel($this->lng->txt("cancel"), "cancelTermDeletion");
 		$cgui->setConfirm($this->lng->txt("confirm"), "deleteTerms");
-
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 
 		foreach($_POST["id"] as $id)
 		{
@@ -1217,7 +1147,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	*/
 	function deleteTerms()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		foreach($_POST["id"] as $id)
 		{
 			if (ilGlossaryTermReferences::isReferenced($this->object->getId(), $id))
@@ -1252,7 +1181,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		{
 			if(is_object($this->object))
 			{
-				require_once("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 				$gloss_loc = new ilGlossaryLocatorGUI();
 				if (is_object($this->term))
 				{
@@ -1309,7 +1237,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		$term_id = (int) $_GET["term_id"];
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term_glo_id = ilGlossaryTerm::_lookGlossaryID((int) $term_id);
 		if ($term_glo_id != $this->object->getId())
 		{
@@ -1318,7 +1245,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 
 		// add term
-		include_once ("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term = new ilGlossaryTerm($term_id);
 
 		// add first definition
@@ -1395,7 +1321,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				get_class($this));
 			
 			// meta data
-			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
 			$mdgui = new ilObjectMetaDataGUI($this->object, "term");					
 			$mdtab = $mdgui->getTab();
 			if($mdtab)
@@ -1455,7 +1380,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 				$this->ctrl->getLinkTarget($this, 'editStyleProperties'));
 
 			// taxonomy
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			ilObjTaxonomy::loadLanguageModule();
 			$this->tabs->addSubTab("taxonomy",
 				$this->lng->txt("tax_taxonomy"),
@@ -1513,8 +1437,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 * Apply filter
 	 */
 	function applyFilter()
-	{		
-		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
+	{
 		$prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->writeFilterToSession();
@@ -1527,7 +1450,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function resetFilter()
 	{
-		include_once("./Modules/Glossary/classes/class.ilTermListTableGUI.php");
 		$prtab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
 		$prtab->resetOffset();
 		$prtab->resetFilter();
@@ -1579,10 +1501,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function initStylePropertiesForm()
 	{
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$this->form = new ilPropertyFormGUI();
 		
 		$fixed_style = $this->setting->get("fixed_content_style_id");
@@ -1671,7 +1591,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function saveStyleSettings()
 	{
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($this->setting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))
@@ -1704,11 +1623,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function showTaxonomy()
 	{
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 		if (count($tax_ids) > 0)
 		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php");
 			$tax_exp = new ilTaxonomyExplorerGUI($this, "showTaxonomy", $tax_ids[0],
 				"ilobjglossarygui", "listTerms");
 			if (!$tax_exp->handleCommand())
@@ -1738,7 +1655,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		$this->toolbar->addButton($this->lng->txt("add"),
 			$this->ctrl->getLinkTarget($this, "showGlossarySelector"));
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAutoLinkTableGUI.php");
 		$tab = new ilGlossaryAutoLinkTableGUI($this->object, $this, "editGlossaries");
 
 		$this->tpl->setContent($tab->getHTML());
@@ -1754,8 +1670,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	{
 		$this->tabs->setTabActive("settings");
 		$this->setSettingsSubTabs("glossaries");
-
-		include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
 
 		$exp = new ilSearchRootSelector($this->ctrl->getLinkTarget($this,'showGlossarySelector'));
 		$exp->setExpand($_GET["search_root_expand"] ? $_GET["search_root_expand"] : $this->tree->readRootId());
@@ -1776,7 +1690,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function confirmGlossarySelection()
 	{
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$this->ctrl->setParameter($this, "glo_ref_id", $_GET["root_id"]);
 		$cgui->setFormAction($this->ctrl->getFormAction($this));
@@ -1853,7 +1766,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "listTerms");
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		$this->user->clipboardDeleteObjectsOfType("term");
 
 		// put them into the clipboard
@@ -1885,7 +1797,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 			$this->ctrl->redirect($this, "listTerms");
 		}
 
-		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		$this->user->clipboardDeleteObjectsOfType("term");
 
 		// put them into the clipboard
@@ -1920,7 +1831,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	 */
 	function pasteTerms()
 	{
-		include_once("./Modules/LearningModule/classes/class.ilEditClipboard.php");
 		if (ilEditClipboard::getAction() == "copy")
 		{
 			foreach ($this->user->getClipboardObjects("term") as $item)
@@ -1930,7 +1840,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
 		}
 		if (ilEditClipboard::getAction() == "link")
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 			$refs = new ilGlossaryTermReferences($this->object->getId());
 			foreach ($this->user->getClipboardObjects("term") as $item)
 			{
@@ -1944,5 +1853,3 @@ class ilObjGlossaryGUI extends ilObjectGUI
 	
 	
 }
-
-?>

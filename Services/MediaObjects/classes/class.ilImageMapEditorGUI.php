@@ -729,7 +729,6 @@ class ilImageMapEditorGUI
 				break;
 
 			case "GlossaryItem":
-				require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$term = new ilGlossaryTerm($t_arr[count($t_arr) - 1]);
 				$link_str = $lng->txt("term").
 					": ".$term->getTerm()." [".$t_arr[count($t_arr) - 1]."]".$frame_str;

@@ -58,7 +58,6 @@ abstract class ilECSObjectSettings
 				return new ilECSFileSettings($a_content_obj);		
 				
 			case 'glo':
-				include_once 'Modules/Glossary/classes/class.ilECSGlossarySettings.php';
 				return new ilECSGlossarySettings($a_content_obj);		
 				
 			case 'grp':

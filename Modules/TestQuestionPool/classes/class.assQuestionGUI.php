@@ -1960,9 +1960,6 @@ abstract class assQuestionGUI
 
 	public function outGlossarySelector()
 	{
-		require_once 'Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
-		require_once 'Modules/Glossary/classes/class.ilObjGlossary.php';
-
 		$this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
 		$glossary = new ilObjGlossary($_GET['source_id'], true);
