@@ -92,6 +92,10 @@ class IOWrapper implements AdminInteraction {
 		$this->style->error($text);
 	}
 
+	public function text(string $text) : void {
+		$this->style->text($text);
+	}
+
 	public function startObjective(string $label, bool $is_notable) {
 		$this->last_objective_was_notable = $is_notable;
 		$this->last_objective_label = $label;
