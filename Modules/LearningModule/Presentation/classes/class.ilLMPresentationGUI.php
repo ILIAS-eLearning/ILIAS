@@ -761,7 +761,6 @@ class ilLMPresentationGUI
 	function fullscreen()
 	{
 		return $this->media();
-		//return $this->layout("fullscreen.xml", !$this->offlineMode());
 	}
 
 	function media()

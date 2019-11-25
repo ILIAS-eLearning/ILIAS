@@ -283,7 +283,8 @@ class HTMLExport
     protected function initGlobalScreen()
     {
         // set global
-        $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMHtmlExportViewLayoutProvider::LM_HTML_EXPORT_RENDERING, true);
     }
 
 
@@ -310,27 +311,26 @@ class HTMLExport
 //        $this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
 
         // export all media objects
-/*
         $linked_mobs = array();
         foreach ($this->offline_mobs as $mob)
         {
-            if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+            if (\ilObject::_exists($mob) && \ilObject::_lookupType($mob) == "mob")
             {
-                $this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs);
+                $this->exportHTMLMOB($mob, "_blank", $linked_mobs);
             }
         }
         $linked_mobs2 = array();				// mobs linked in link areas
         foreach ($linked_mobs as $mob)
         {
-            if (ilObject::_exists($mob))
+            if (\ilObject::_exists($mob))
             {
-                $this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs2);
+                $this->exportHTMLMOB($mob, "_blank", $linked_mobs2);
             }
         }
-*/
-        $_GET["obj_type"] = "MediaObject";
+
+        /*$_GET["obj_type"] = "MediaObject";
         $_GET["obj_id"]  = $a_mob_id;
-        $_GET["cmd"] = "";
+        $_GET["cmd"] = "";*/
 
         // export all file objects
 /*
@@ -546,27 +546,66 @@ class HTMLExport
     }
 
     /**
-     * export media object to html
+     * Init media screen
+     *
+     * @param int $mob_id
+     * @param string $frame
+     * @param bool $fullscreen
      */
-    function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame, &$a_linked_mobs)
+    protected function initMediaScreen(int $mob_id, string $frame, bool $fullscreen = false)
     {
-        $mob_dir = $a_target_dir."/mobs";
+        $params = [
+            "obj_type" => "MediaObject",
+            "frame" => $frame,
+            "cmd" => ""
+        ];
 
-        $source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
-        if (@is_dir($source_dir))
-        {
-            ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
-            ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+        if ($fullscreen) {
+            $params = [
+                "obj_type" => "",
+                "frame" => "",
+                "cmd" => "fullscreen"
+            ];
         }
 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["mob_id"]  = $a_mob_id;
-        $_GET["frame"] = $a_frame;
-        $_GET["cmd"] = "";
-        $content = $a_lm_gui->media();
-        $file = $a_target_dir."/media_".$a_mob_id.".html";
+        $params["ref_id"] = $this->lm->getRefId();
+        $params["mob_id"] = $mob_id;
+
+        $this->lm_gui->initByRequest($params);
+
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMGSToolProvider::LM_OFFLINE, true);
+    }
+    
+    
+    /**
+     * @param int $a_mob_id
+     * @param string $a_frame
+     * @param array $a_linked_mobs
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    function exportHTMLMOB(int $a_mob_id, string $a_frame, array &$a_linked_mobs)
+    {
+        $lm_gui = $this->lm_gui;
+        $target_dir = $this->target_dir;
+
+        $mob_dir = $target_dir."/mobs";
+
+        $source_dir = \ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+        if (@is_dir($source_dir))
+        {
+            \ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
+            \ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+        }
+
+        $this->initMediaScreen($a_mob_id, $a_frame);
+
+        $content = $lm_gui->media();
+        $file = $target_dir."/media_".$a_mob_id.".html";
 
         // open file
         if (!($fp = @fopen($file,"w+")))
@@ -574,22 +613,18 @@ class HTMLExport
             die ("<b>Error</b>: Could not open \"".$file."\" for writing".
                 " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
         }
-        chmod($file, 0770);
+        //chmod($file, 0770);
         fwrite($fp, $content);
         fclose($fp);
 
         // fullscreen
-        $mob_obj = new ilObjMediaObject($a_mob_id);
+        $mob_obj = new \ilObjMediaObject($a_mob_id);
         if ($mob_obj->hasFullscreenItem())
         {
-            $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-            $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-            $_GET["obj_type"]  = "";
-            $_GET["frame"]  = "";
-            $_GET["mob_id"]  = $a_mob_id;
-            $_GET["cmd"] = "fullscreen";
-            $content = $a_lm_gui->fullscreen();
-            $file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
+            $this->initMediaScreen($a_mob_id, "", true);
+
+            $content = $lm_gui->fullscreen();
+            $file = $target_dir."/fullscreen_".$a_mob_id.".html";
 
             // open file
             if (!($fp = @fopen($file,"w+")))
@@ -597,15 +632,15 @@ class HTMLExport
                 die ("<b>Error</b>: Could not open \"".$file."\" for writing".
                     " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
             }
-            chmod($file, 0770);
+            //chmod($file, 0770);
             fwrite($fp, $content);
             fclose($fp);
         }
         $linked_mobs = $mob_obj->getLinkedMediaObjects();
         foreach ($linked_mobs as $id)
         {
-            $this->log->debug("HTML Export: Add media object $id (".ilObject::_lookupTitle($id).") ".
-                " due to media object ".$a_mob_id." (".ilObject::_lookupTitle($a_mob_id).").");
+            $this->log->debug("HTML Export: Add media object $id (".\ilObject::_lookupTitle($id).") ".
+                " due to media object ".$a_mob_id." (".\ilObject::_lookupTitle($a_mob_id).").");
         }
         $a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
     }
@@ -648,7 +683,7 @@ class HTMLExport
                     foreach($def_mobs as $def_mob)
                     {
                         $this->offline_mobs[$def_mob] = $def_mob;
-                        $this->log->debug("HTML Export: Add media object $def_mob (".ilObject::_lookupTitle($def_mob).") ".
+                        $this->log->debug("HTML Export: Add media object $def_mob (".\ilObject::_lookupTitle($def_mob).") ".
                             " due to glossary entry ".$int_link["id"]." (".ilGlossaryTerm::_lookGlossaryTerm($int_link["id"]).").");
                     }
 
@@ -789,6 +824,34 @@ class HTMLExport
 
 
     /**
+     * Init page
+     * @param int $lm_page_id
+     * @param string $frame
+     */
+    protected function initScreen(int $lm_page_id, string $frame)
+    {
+        // template workaround: reset of template
+        $tpl = $this->getInitialisedTemplate();
+        \ilPCQuestion::resetInitialState();
+
+        $params = [
+            "obj_id" => $lm_page_id,
+            "ref_id" => $this->lm->getRefId(),
+            "frame" => $frame
+        ];
+
+        $this->lm_gui->initByRequest($params);
+
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMGSToolProvider::LM_OFFLINE, true);
+
+        $this->lm_gui->injectTemplate($tpl);
+    }
+
+
+    /**
      * export page html
      */
     function exportPageHTML($lm_page_id, $is_first = false,
@@ -805,20 +868,9 @@ class HTMLExport
             $lang_suffix = "_".$lang;
         }
 
-        // template workaround: reset of template
-        $tpl = $this->getInitialisedTemplate();
-        \ilPCQuestion::resetInitialState();
+        // Init template, lm_gui
+        $this->initScreen($lm_page_id, $frame);
 
-        //$_GET["obj_id"] = $lm_page_id;
-        //$_GET["frame"] = $frame;
-
-        $this->lm_gui->initByRequest([
-            "obj_id" => $lm_page_id,
-            "ref_id" => $this->lm->getRefId(),
-            "frame" => $frame
-        ]);
-
-        $this->lm_gui->injectTemplate($tpl);
 
         if ($frame == "")
         {
