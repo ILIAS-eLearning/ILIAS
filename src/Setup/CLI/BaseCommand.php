@@ -4,6 +4,7 @@
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\UnachievableException;
+use ILIAS\Setup\NoConfirmationException;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
@@ -83,23 +84,28 @@ abstract class BaseCommand extends Command {
 		}
 		$goals = new ObjectiveIterator($environment, $goal);
 
-		while($goals->valid()) {
-			$current = $goals->current();
-			$io->startObjective($current->getLabel(), $current->isNotable());
-			try {
-				$environment = $current->achieve($environment);
-				$io->finishedLastObjective($current->getLabel(), $current->isNotable());
-				$goals->setEnvironment($environment);
+		try {
+			while($goals->valid()) {
+				$current = $goals->current();
+				$io->startObjective($current->getLabel(), $current->isNotable());
+				try {
+					$environment = $current->achieve($environment);
+					$io->finishedLastObjective($current->getLabel(), $current->isNotable());
+					$goals->setEnvironment($environment);
+				}
+				catch (UnachievableException $e) {
+					$goals->markAsFailed($current);
+					$io->error($e->getMessage());
+					$io->failedLastObjective($current->getLabel());
+				}
+				$goals->next();
 			}
-			catch (UnachievableException $e) {
-				$goals->markAsFailed($current);
-				$io->error($e->getMessage());
-				$io->failedLastObjective($current->getLabel());
-			}
-			$goals->next();
+			$this->printOutroMessage($io);
+		}
+		catch (NoConfirmationException $e) {
+			$io->error("Aborting Setup, a necessary confirmation is missing:\n\n".$e->getRequestedConfirmation());
 		}
 
-		$this->printOutroMessage($io);
 	}
 
 	abstract protected function printIntroMessage(IOWrapper $io);
