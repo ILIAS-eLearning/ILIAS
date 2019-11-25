@@ -954,6 +954,14 @@ class ilWkhtmlToPdfConfig
         $this->getHeaderArgument();
         $this->getFooterArgument();
         $this->getDebugArgument();
+        $this->getSessionObject();
+    }
+    
+    protected function getSessionObject()
+    {
+        
+        $this->config[] = 'cookie "PHPSESSID" "'.session_id().'"';
+        $this->config[] = 'cookie "ilClientId" "'.CLIENT_ID.'"';
     }
 
     protected function getDebugArgument()
