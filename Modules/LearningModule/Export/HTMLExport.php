@@ -131,8 +131,27 @@ class HTMLExport
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util();
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(\ilLMEditGSToolProvider::SHOW_TREE, false);
+        //$this->global_screen->tool()->context()->current()->addAdditionalData(\ilLMEditGSToolProvider::SHOW_TREE, false);
+        $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
+
+
+    /**
+     * Set additional context data
+     *
+     * @param $key
+     * @param $data
+     */
+    protected function setAdditionalContextData($key, $data)
+    {
+        $additional_data = $this->global_screen->tool()->context()->current()->getAdditionalData();
+        if ($additional_data->exists($key)) {
+            $additional_data->replace($key, $data);
+        } else {
+            $additional_data->add($key, $data);
+        }
+    }
+
 
     /**
      * Reset user language
@@ -612,10 +631,13 @@ class HTMLExport
 
         $this->lm_gui->initByRequest($params);
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
+
+        /*$this->global_screen->tool()->context()->current()->addAdditionalData(
             \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
         $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_OFFLINE, true);
+            \ilLMGSToolProvider::LM_OFFLINE, true);*/
     }
     
     
@@ -700,10 +722,8 @@ class HTMLExport
 
         $this->lm_gui->initByRequest($params);
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_OFFLINE, true);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
     }
 
     /**
@@ -911,10 +931,8 @@ class HTMLExport
 
         $this->lm_gui->initByRequest($params);
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_OFFLINE, true);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
 
         $this->lm_gui->injectTemplate($tpl);
     }
