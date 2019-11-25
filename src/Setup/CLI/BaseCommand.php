@@ -12,6 +12,8 @@ use ILIAS\Setup\ObjectiveIterator;
 use ILIAS\Setup\ObjectiveWithPreconditions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -62,7 +64,8 @@ abstract class BaseCommand extends Command {
 
 	public function configure() {
 		$this
-			->addArgument("config", InputArgument::REQUIRED, "Configuration for the Setup.");
+			->addArgument("config", InputArgument::REQUIRED, "Configuration file for the Setup")
+			->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
@@ -103,7 +106,22 @@ abstract class BaseCommand extends Command {
 
 	abstract protected function printOutroMessage(IOWrapper $io); 
 
-	abstract protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config;
+	protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config {
+		if (!$agent->hasConfig()) {
+			return null;
+		}
+
+		$config_file = $input->getArgument("config");
+		$config_overwrites_raw = $input->getOption("config");
+		$config_overwrites = [];
+		foreach ($config_overwrites_raw as $o) {
+			list($k, $v) = explode("=", $o);
+			$config_overwrites[$k] = $v;
+		}
+		$config_content = $this->config_reader->readConfigFile($config_file, $config_overwrites);
+		$trafo = $this->agent->getArrayToConfigTransformation();
+		return $trafo->transform($config_content);
+	}
 
 	abstract protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io);
 
