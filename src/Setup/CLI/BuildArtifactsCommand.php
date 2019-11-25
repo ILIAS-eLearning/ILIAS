@@ -9,6 +9,7 @@ use ILIAS\Setup\Config;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Installation command.
@@ -18,7 +19,8 @@ class BuildArtifactsCommand extends BaseCommand {
 
 	public function configure() {
 		$this
-			->setDescription("Build static artifacts from source");
+			->setDescription("Build static artifacts from source")
+			->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {

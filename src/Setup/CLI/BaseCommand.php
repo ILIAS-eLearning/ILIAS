@@ -71,7 +71,7 @@ abstract class BaseCommand extends Command {
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
-		$io = new IOWrapper($input, $output, $input->getOption("yes") ?? false);
+		$io = new IOWrapper($input, $output, $this->shouldSayYes($input));
 		$this->printIntroMessage($io);
 
 		$config = $this->readAgentConfig($this->getAgent(), $input);
@@ -107,6 +107,10 @@ abstract class BaseCommand extends Command {
 			$io->error("Aborting Setup, a necessary confirmation is missing:\n\n".$e->getRequestedConfirmation());
 		}
 
+	}
+
+	protected function shouldSayYes(InputInterface $input) : bool {
+		return $input->getOption("yes") ?? false;
 	}
 
 	abstract protected function printIntroMessage(IOWrapper $io);
