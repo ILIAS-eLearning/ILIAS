@@ -28,6 +28,12 @@ class IOWrapper implements AdminInteraction {
 	protected $out;
 
 	/**
+	 * @var bool
+	 */
+	protected $say_yes;
+
+
+	/**
 	 * @var	SymfonyStyle
 	 */
 	protected $style;
@@ -47,10 +53,11 @@ class IOWrapper implements AdminInteraction {
 	 */
 	protected $output_in_objective = false;
 
-	public function __construct(InputInterface $in, OutputInterface $out) {
+	public function __construct(InputInterface $in, OutputInterface $out, bool $say_yes = false) {
 		$this->in = $in;
 		$this->out = $out;
 		$this->style = new SymfonyStyle($in, $out);
+		$this->say_yes = $say_yes;
 	}
 
 	// Implementation of AdminInteraction
@@ -62,7 +69,13 @@ class IOWrapper implements AdminInteraction {
 
 	public function confirmOrDeny(string $message) : bool {
 		$this->outputInObjective();
-		return $this->style->confirm($message, false);
+		if (!$this->say_yes) {
+			return $this->style->confirm($message, false);
+		}
+		else {
+			$this->inform("Automatically confirmed:\n\n$message");
+			return true;
+		}
 	}
 
 	// For CLI-Setup
