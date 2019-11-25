@@ -1,8 +1,10 @@
 <?php
 namespace ILIAS\MyStaff\ListCertificates;
+use Certificate\API\Data\UserCertificateDto;
 use Closure;
 use ilAdvancedSelectionListGUI;
 use ilCSVWriter;
+use ilDateTime;
 use ilExcel;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ilLPStatus;
@@ -111,52 +113,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 	public function initFilter() {
 		global $DIC;
 
-		$item = new ilTextInputGUI($DIC->language()->txt("crs_title"), "crs_title");
+		$item = new ilTextInputGUI($DIC->language()->txt("obj_title"), "obj_title");
 		$this->addFilterItem($item);
 		$item->readFromSession();
-		$this->filter['crs_title'] = $item->getValue();
-
-		// course members
-		$item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
-		$item->setParent($this->getParentObject());
-		$item->setSelectText($DIC->language()->txt("mst_select_course"));
-		$item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
-		$item->setClickableTypes(array( ilMyStaffAccess::DEFAULT_CONTEXT ));
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$item->setParent($this->getParentObject());
-		$this->filter["course"] = $item->getValue();
-
-		//membership status
-		$item = new ilSelectInputGUI($DIC->language()->txt('member_status'), 'memb_status');
-		$item->setOptions(array(
-			"" => $DIC->language()->txt("mst_opt_all"),
-			ilMStListCertificate::MEMBERSHIP_STATUS_REQUESTED => $DIC->language()->txt('mst_memb_status_requested'),
-			ilMStListCertificate::MEMBERSHIP_STATUS_WAITINGLIST => $DIC->language()->txt('mst_memb_status_waitinglist'),
-			ilMStListCertificate::MEMBERSHIP_STATUS_REGISTERED => $DIC->language()->txt('mst_memb_status_registered'),
-		));
-		$this->addFilterItem($item);
-		$item->readFromSession();
-		$this->filter["memb_status"] = $item->getValue();
-
-		if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToCertificateLearningProgressForAtLeastOneUser()) {
-			//learning progress status
-			$item = new ilSelectInputGUI($DIC->language()->txt('learning_progress'), 'lp_status');
-			//+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
-			$item->setOptions(array(
-				"" => $DIC->language()->txt("mst_opt_all"),
-				ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED),
-				ilLPStatus::LP_STATUS_IN_PROGRESS_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_IN_PROGRESS),
-				ilLPStatus::LP_STATUS_COMPLETED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_COMPLETED),
-				ilLPStatus::LP_STATUS_FAILED_NUM + 1 => $DIC->language()->txt(ilLPStatus::LP_STATUS_FAILED),
-			));
-			$this->addFilterItem($item);
-			$item->readFromSession();
-			$this->filter["lp_status"] = $item->getValue();
-			if ($this->filter["lp_status"]) {
-				$this->filter["lp_status"] = $this->filter["lp_status"] - 1;
-			}
-		}
+		$this->filter['obj_title'] = $item->getValue();
 
 		//user
 		$item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
@@ -191,42 +151,42 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 		$arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
 
-		$cols['obj_title'] = array(
+		$cols['objectTitle'] = array(
 			'txt' => $DIC->language()->txt('obj_title'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'obj_title',
+			'sort_field' => 'objectTitle',
 		);
-		$cols['issued_on'] = array(
+		$cols['issuedOnTimestamp'] = array(
 			'txt' => $DIC->language()->txt('issued_on'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'issued_on',
+			'sort_field' => 'issuedOnTimestamp',
 		);
 
 
 		if ($arr_searchable_user_columns['login']) {
-			$cols['usr_login'] = array(
+			$cols['userLogin'] = array(
 				'txt' => $DIC->language()->txt('login'),
 				'default' => true,
 				'width' => 'auto',
-				'sort_field' => 'usr_login',
+				'sort_field' => 'userLogin',
 			);
 		}
 		if ($arr_searchable_user_columns['firstname']) {
-			$cols['usr_firstname'] = array(
+			$cols['userFirstName'] = array(
 				'txt' => $DIC->language()->txt('firstname'),
 				'default' => true,
 				'width' => 'auto',
-				'sort_field' => 'usr_firstname',
+				'sort_field' => 'userFirstName',
 			);
 		}
 		if ($arr_searchable_user_columns['lastname']) {
-			$cols['usr_lastname'] = array(
+			$cols['userLastName'] = array(
 				'txt' => $DIC->language()->txt('lastname'),
 				'default' => true,
 				'width' => 'auto',
-				'sort_field' => 'usr_lastname',
+				'sort_field' => 'userLastName',
 			);
 		}
 
@@ -276,21 +236,28 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilMStListCertificate $my_staff_course
+	 * @param UserCertificateDto $user_certificate_dto
 	 */
-	public function fillRow($my_staff_course) {
+	public function fillRow($user_certificate_dto) {
 		global $DIC;
 
-		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
+		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $user_certificate_dto, $user_certificate_dto);
 
 		foreach ($this->getSelectableColumns() as $k => $v) {
 			if ($this->isColumnSelected($k)) {
 				switch ($k) {
-					case 'usr_assinged_orgus':
-						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId())));
-						$this->tpl->parseCurrentBlock();
+                    case 'usr_assinged_orgus':
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId())));
+                        $this->tpl->parseCurrentBlock();
+                        break;
+					case 'issuedOnTimestamp':
+					    $date_time = new ilDateTime($propGetter($k), IL_CAL_UNIX);
+                        $this->tpl->setCurrentBlock('td');
+                        $this->tpl->setVariable('VALUE', $date_time->get(IL_CAL_DATE));
+                        $this->tpl->parseCurrentBlock();
 						break;
+						/*
 					case 'usr_reg_status':
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', ilMStListCertificate::getMembershipStatusText($my_staff_course->getUsrRegStatus()));
@@ -300,7 +267,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 						$this->tpl->setCurrentBlock('td');
 						$this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($my_staff_course));
 						$this->tpl->parseCurrentBlock();
-						break;
+						break;*/
 					default:
 						if ($propGetter($k) !== null) {
 							$this->tpl->setCurrentBlock('td');
@@ -318,14 +285,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setListTitle($DIC->language()->txt("actions"));
-		$actions->setAsynch(true);
-		$actions->setId($my_staff_course->getUsrId() . "-" . $my_staff_course->getCrsRefId());
+		$actions->setAsynch(false);
+		$actions->setId($user_certificate_dto->getCertificateId());
+        $actions->addItem($DIC->language()->txt("download_certificate"), '', $user_certificate_dto->getDownloadLink());
 
-		$DIC->ctrl()->setParameterByClass(ilMStListCertificatesGUI::class, 'mst_lco_usr_id', $my_staff_course->getUsrId());
-		$DIC->ctrl()->setParameterByClass(ilMStListCertificatesGUI::class, 'mst_lco_crs_ref_id', $my_staff_course->getCrsRefId());
-
-		$actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-			->getLinkTarget($this->parent_obj, ilMStListCertificatesGUI::CMD_GET_ACTIONS, "", true)));
 		$this->tpl->setVariable('ACTIONS', $actions->getHTML());
 		$this->tpl->parseCurrentBlock();
 	}

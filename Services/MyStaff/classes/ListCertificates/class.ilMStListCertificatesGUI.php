@@ -10,6 +10,7 @@ use ILIAS\MyStaff\ListCertificates\ilMStListCertificatesTableGUI;
  *
  * @ilCtrl_IsCalledBy ilMStListCertificatesGUI: ilMyStaffGUI
  * @ilCtrl_Calls      ilMStListCertificatesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStListCertificatesGUI: ilUserCertificateApiGUI
  */
 class ilMStListCertificatesGUI {
 
@@ -67,6 +68,10 @@ class ilMStListCertificatesGUI {
 				$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 				$this->table->executeCommand();
 				break;
+            case strtolower(ilUserCertificateApiGUI::class):
+                $this->checkAccessOrFail();
+                $DIC->ctrl()->forwardCommand(new ilUserCertificateApiGUI());
+                break;
 			default:
 				switch ($cmd) {
 

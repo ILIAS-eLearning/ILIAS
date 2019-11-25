@@ -128,6 +128,10 @@ class ilMyStaffAccess extends ilObjectAccess {
 		return false;
 	}
 
+	public function hasCurrentUserAccessToCertificateLearningProgressForAtLeastOneUser() {
+	    return true;
+    }
+
 
 	/**
 	 * @param int $user_id

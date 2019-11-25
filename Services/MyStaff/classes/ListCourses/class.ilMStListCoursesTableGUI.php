@@ -7,6 +7,7 @@ use ilExcel;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ilLPStatus;
 use ilMStListCoursesGUI;
+use ilMyStaffGUI;
 use ilObjUserTracking;
 use ilOrgUnitPathStorage;
 use ilRepositorySelectorInputGUI;

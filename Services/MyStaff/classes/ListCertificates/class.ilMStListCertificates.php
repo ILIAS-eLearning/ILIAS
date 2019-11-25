@@ -1,6 +1,11 @@
 <?php
 namespace ILIAS\MyStaff\ListCertificates;
+use Certificate\API\Data\UserCertificateDto;
+use Certificate\API\Filter\UserDataFilter;
+use Certificate\API\UserCertificateAPI;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ilMStListCertificatesGUI;
+use ilMyStaffGUI;
 use ilOrgUnitOperation;
 
 /**
@@ -14,7 +19,7 @@ class ilMStListCertificates {
 	 * @param array $arr_usr_ids
 	 * @param array $options
 	 *
-	 * @return array|int
+	 * @return UserCertificateDto[]
 	 */
 	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
 		global $DIC;
@@ -36,32 +41,22 @@ class ilMStListCertificates {
 		);
 		$options = array_merge($_options, $options);
 
-		$select = 'SELECT crs_ref.ref_id AS crs_ref_id, crs.title AS crs_title, reg_status, lp_status, usr_data.usr_id AS usr_id, usr_data.login AS usr_login, usr_data.lastname AS usr_lastname, usr_data.firstname AS usr_firstname, usr_data.email AS usr_email  FROM (
-	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCertificate::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
-		          AS reg
-                        LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $DIC->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
-		            UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListCertificate::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
-	                    WHERE ' . $DIC->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
-                    UNION
-	                    SELECT obj_id, usr_id, ' . ilMStListCertificate::MEMBERSHIP_STATUS_REQUESTED . ' AS reg_status, 0 AS lp_status FROM il_subscribers AS requested
-	                  WHERE ' . $DIC->database()->in('requested.usr_id', $arr_usr_ids, false, 'integer') . '  
-	                    ) AS memb
-	           
-                    INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $DIC->database()
-				->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
-                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
-	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
+        $cert_api = new UserCertificateAPI();
+        $usr_data_filter = new UserDataFilter();
+        $usr_data_filter->withUserIds($arr_usr_ids);
 
-		$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
+
+
+
+
+
+		//$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
 
 		if ($options['count']) {
-			$result = $DIC->database()->query($select);
-
-			return $DIC->database()->numRows($result);
+			return $cert_api->getUserCertificateDataMaxCount($usr_data_filter);
 		}
-
+        return   $cert_api->getUserCertificateData($usr_data_filter,[ilMyStaffGUI::class,ilMStListCertificatesGUI::class]);
+/*
 		if ($options['sort']) {
 			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
 		}
@@ -87,7 +82,7 @@ class ilMStListCertificates {
 			$crs_data[] = $list_course;
 		}
 
-		return $crs_data;
+		return $crs_data;*/
 	}
 
 
