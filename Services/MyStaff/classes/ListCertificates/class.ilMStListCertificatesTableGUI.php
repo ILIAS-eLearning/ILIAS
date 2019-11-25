@@ -191,26 +191,19 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 		$arr_searchable_user_columns = ilUserSearchOptions::getSelectableColumnInfo();
 
-		$cols['crs_title'] = array(
-			'txt' => $DIC->language()->txt('crs_title'),
+		$cols['obj_title'] = array(
+			'txt' => $DIC->language()->txt('obj_title'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'crs_title',
+			'sort_field' => 'obj_title',
 		);
-		$cols['usr_reg_status'] = array(
-			'txt' => $DIC->language()->txt('member_status'),
+		$cols['issued_on'] = array(
+			'txt' => $DIC->language()->txt('issued_on'),
 			'default' => true,
 			'width' => 'auto',
-			'sort_field' => 'reg_status',
+			'sort_field' => 'issued_on',
 		);
-		if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToCertificateLearningProgressForAtLeastOneUser()) {
-			$cols['usr_lp_status'] = array(
-				'txt' => $DIC->language()->txt('learning_progress'),
-				'default' => true,
-				'width' => 'auto',
-				'sort_field' => 'lp_status',
-			);
-		}
+
 
 		if ($arr_searchable_user_columns['login']) {
 			$cols['usr_login'] = array(
