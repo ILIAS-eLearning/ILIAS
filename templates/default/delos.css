@@ -10371,6 +10371,12 @@ footer {
 .glyphicon-option-horizontal:before {
   content: "\e602";
 }
+.glyphicon-remove:before {
+  content: "\e082";
+}
+.glyphicon-briefcase:before {
+  content: "\e04b";
+}
 .il-link.link-bulky {
   display: flex;
   text-decoration: none;
