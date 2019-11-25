@@ -103,7 +103,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 			$a_set['type'])
 		);
 
-		if($this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL && 
+		if(
+			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_MANUAL &&
 			$this->getMode() != ilLPObjSettings::LP_MODE_COLLECTION_TLT)
 		{
 			if($a_set['ref_id'])
@@ -116,7 +117,8 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
 				$this->tpl->setVariable('COLL_PATH', $this->lng->txt('path').': '.$path->getPath($this->getNode(),$a_set['ref_id']));
 
 				$mode_suffix = '';
-				if($a_set['grouped'] ||
+				if(
+					$a_set['grouped'] ||
 					$a_set['group_item'])
 				{				
 					// #14941					

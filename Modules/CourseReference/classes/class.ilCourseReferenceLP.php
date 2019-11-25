@@ -27,10 +27,7 @@ class ilCourseReferenceLP extends ilObjectLP
 	 */
 	public function getDefaultMode()
 	{
-		$this->logger->debug('Called for obj_id: ' . $this->obj_id);
-		return [
-			\ilLPObjSettings::LP_MODE_DEACTIVATED
-		];
+		return \ilLPObjSettings::LP_MODE_DEACTIVATED;
 	}
 
 	/**
@@ -39,11 +36,6 @@ class ilCourseReferenceLP extends ilObjectLP
 	 */
 	public static function getDefaultModes($a_lp_active)
 	{
-		if(!$a_lp_active) {
-			return [
-				\ilLPObjSettings::LP_MODE_DEACTIVATED
-			];
-		}
 		return [
 			\ilLPObjSettings::LP_MODE_DEACTIVATED,
 			\ilLPObjSettings::LP_MODE_COURSE_REFERENCE
