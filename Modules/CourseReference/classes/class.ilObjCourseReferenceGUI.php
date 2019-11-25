@@ -211,16 +211,18 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 
 		$access = $DIC->access();
 		$ctrl = $DIC->ctrl();
+		$logger = $DIC->logger()->crsr();
 
-		list($type, $target_ref_id) = explode('_',(string) $a_target);
+		$target_ref_id = $a_target;
 		$write_access = $access->checkAccess('write', '', (int) $target_ref_id);
 
+
 		if($write_access) {
-			$target_class = \ilObjCourseGUI::class;
+			$target_class = \ilObjCourseReferenceGUI::class;
 		}
 		else {
 			$target_ref_id = \ilContainerReference::_lookupTargetRefId(\ilObject::_lookupObjId($target_ref_id));
-			$target_class = \ilObjCourseReferenceGUI::class;
+			$target_class = \ilObjCourseGUI::class;
 		}
 
 		$ctrl->initBaseClass(ilRepositoryGUI::class);

@@ -55,7 +55,7 @@ class ilCourseReferenceLP extends ilObjectLP
 	 */
 	public function getValidModes()
 	{
-		return self::getDefaultModes();
+		return self::getDefaultModes(true);
 	}
 
 }
