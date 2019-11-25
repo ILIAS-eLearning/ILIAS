@@ -66,11 +66,12 @@ abstract class BaseCommand extends Command {
 	public function configure() {
 		$this
 			->addArgument("config", InputArgument::REQUIRED, "Configuration file for the Setup")
-			->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
+			->addOption("config", null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", [])
+			->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the setup.");
 	}
 
 	public function execute(InputInterface $input, OutputInterface $output) {
-		$io = new IOWrapper($input, $output);
+		$io = new IOWrapper($input, $output, $input->getOption("yes") ?? false);
 		$this->printIntroMessage($io);
 
 		$config = $this->readAgentConfig($this->getAgent(), $input);
