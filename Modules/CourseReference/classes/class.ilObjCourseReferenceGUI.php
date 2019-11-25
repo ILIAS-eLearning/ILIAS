@@ -29,7 +29,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  * @version $Id$
  * 
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
- * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
  * 
  * @ingroup ModulesCourseReference
  */
@@ -67,8 +67,79 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public function executeCommand()
 	{
+		global $DIC;
+
+		$user = $DIC->user();
+
+		$next_class = $this->ctrl->getNextClass($this);
+		switch($next_class)
+		{
+			case 'illearningprogressgui':
+				$this->prepareOutput();
+				$this->tabs_gui->activateTab('learning_progress');
+				$lp_gui = new \ilLearningProgressGUI(
+					ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+					$this->object->getRefId(),
+					$user->getId()
+				);
+				$this->ctrl->forwardCommand($lp_gui);
+				return;
+		}
 		parent::executeCommand();
 	}
+
+	/**
+	 * Add tabs
+	 *
+	 * @access public
+	 */
+	public function getTabs()
+	{
+		global $DIC;
+
+		$help = $DIC->help();
+		$help->setScreenIdComponent($this->getReferenceType());
+
+		if($this->access->checkAccess('write','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTab(
+				'settings',
+				$this->lng->txt('settings'),
+				$this->ctrl->getLinkTarget($this,'edit')
+			);
+		}
+
+		if(ilLearningProgressAccess::checkAccess($this->object->getRefId(), false))
+		{
+			$this->tabs_gui->addTab(
+				'learning_progress',
+				$this->lng->txt('learning_progress'),
+				$this->ctrl->getLinkTargetByClass(
+					[
+						ilObjCourseReferenceGUI::class,
+						ilLearningProgressGUI::class
+					],
+					''
+				)
+			);
+		}
+		if ($this->access->checkAccess('edit_permission','',$this->object->getRefId()))
+		{
+			$this->tabs_gui->addTab(
+				'perm_settings',
+				$this->lng->txt('perm_settings'),
+				$this->ctrl->getLinkTargetByClass(
+					[
+						ilObjCourseReferenceGUI::class,
+						ilPermissionGUI::class
+					],
+					'perm'
+				)
+			);
+		}
+	}
+
+
 	/**
 	 * @inheritdoc
 	 */
@@ -136,13 +207,31 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 	 */
 	public static function _goto($a_target)
 	{
-		global $ilAccess, $ilErr, $lng;
+		global $DIC;
 
-		include_once('./Services/ContainerReference/classes/class.ilContainerReference.php');
-		$target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));
+		$access = $DIC->access();
+		$ctrl = $DIC->ctrl();
 
-		include_once('./Modules/Course/classes/class.ilObjCourseGUI.php');
-		ilObjCourseGUI::_goto($target_ref_id);
+		list($type, $target_ref_id) = explode('_',(string) $a_target);
+		$write_access = $access->checkAccess('write', '', (int) $target_ref_id);
+
+		if($write_access) {
+			$target_class = \ilObjCourseGUI::class;
+		}
+		else {
+			$target_ref_id = \ilContainerReference::_lookupTargetRefId(\ilObject::_lookupObjId($target_ref_id));
+			$target_class = \ilObjCourseReferenceGUI::class;
+		}
+
+		$ctrl->initBaseClass(ilRepositoryGUI::class);
+		$ctrl->setParameterByClass($target_class, 'ref_id', $target_ref_id);
+		$ctrl->redirectByClass(
+			[
+				\ilRepositoryGUI::class,
+				$target_class
+			],
+			'edit'
+		);
 	}
 
 }
