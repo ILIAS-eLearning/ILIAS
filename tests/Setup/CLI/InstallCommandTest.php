@@ -26,10 +26,15 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$objective = $this->createMock(Setup\Objective::class);
 		$env = $this->createMock(Setup\Environment::class);
 
+		$config_overwrites = [
+			"a.b.c" => "foo",
+			"d.e" => "bar",
+		];
+
 		$config_reader
 			->expects($this->once())
 			->method("readConfigFile")
-			->with($config_file)
+			->with($config_file, $config_overwrites)
 			->willReturn($config_file_content);
 
 		$agent
@@ -75,7 +80,8 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			->willReturn($env);
 		
 		$tester->execute([
-			"config" => $config_file
+			"config" => $config_file,
+			"--config" => ["a.b.c=foo", "d.e=bar"]
 		]);
 	}
 }

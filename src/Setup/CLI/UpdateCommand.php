@@ -11,7 +11,6 @@ use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\AchievementTracker;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 
 
@@ -22,9 +21,8 @@ class UpdateCommand extends BaseCommand {
 	protected static $defaultName = "update";
 
 	public function configure() {
-		$this
-			->addArgument("config", InputArgument::REQUIRED, "Configuration for the setup")
-			->setDescription("Updates an existing ILIAS installation");
+		parent::configure();
+		$this->setDescription("Updates an existing ILIAS installation");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {
@@ -33,17 +31,6 @@ class UpdateCommand extends BaseCommand {
 
 	protected function printOutroMessage(IOWrapper $io) {
 		$io->success("Update complete. Thanks and have fun!");
-	}
-
-	protected function readAgentConfig(Agent $agent, InputInterface $input) : ?Config {
-		if (!$agent->hasConfig()) {
-			return null;
-		}
-
-		$config_file = $input->getArgument("config");
-		$config_content = $this->config_reader->readConfigFile($config_file);
-		$trafo = $this->agent->getArrayToConfigTransformation();
-		return $trafo->transform($config_content);
 	}
 
 	protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io) : Environment {
