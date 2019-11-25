@@ -556,7 +556,7 @@ class ilCertificateGUI
 					}
 				}
 				if($backgroundImagePath === '') {
-					if ($_POST['background_delete']) {
+					if ($_POST['background_delete'] || $previousCertificateTemplate->getBackgroundImagePath() === '') {
 						$globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
 						$backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
 					} else {
