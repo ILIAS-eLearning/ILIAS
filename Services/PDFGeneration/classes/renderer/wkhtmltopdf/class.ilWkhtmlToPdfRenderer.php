@@ -1,9 +1,5 @@
 <?php
 
-require_once './Services/PDFGeneration/classes/class.ilPDFGenerationConstants.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilRendererConfig.php';
-require_once './Services/PDFGeneration/interfaces/interface.ilPDFRenderer.php';
-
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
     /**

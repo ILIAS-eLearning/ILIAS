@@ -1,5 +1,4 @@
 <?php
-require_once './Services/PDFGeneration/classes/class.ilPDFGenerationConstants.php';
 
 class ilWkhtmlToPdfConfig
 {
