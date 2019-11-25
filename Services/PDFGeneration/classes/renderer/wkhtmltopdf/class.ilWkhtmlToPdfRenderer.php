@@ -2,15 +2,14 @@
 
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
-    /**
-     * @var ilWkhtmlToPdfConfig
-     */
-    protected $config;
-
     /**+
      * @var self
      */
     protected static $instance = null;
+    /**
+     * @var ilWkhtmlToPdfConfig
+     */
+    protected $config;
 
     /**
      * ilWkhtmlToPdfRenderer constructor.
@@ -18,8 +17,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      */
     public function __construct($phpunit = false)
     {
-        if(!$phpunit)
-        {
+        if (!$phpunit) {
             global $DIC;
             $this->setLanguage($DIC['lng']);
         }
@@ -32,7 +30,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     {
         $this->lng = $lng;
     }
-    
+
     /**
      * @param ilPropertyFormGUI $form
      * @param string            $service
@@ -43,18 +41,20 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         $gui->addConfigForm($form);
     }
+
     /**
-     * @param ilPropertyFormGUI $form
-     * @param string            $service
-     * @param string            $purpose
-     * @param ilWkhtmlToPdfConfig     $config
+     * @param ilPropertyFormGUI   $form
+     * @param string              $service
+     * @param string              $purpose
+     * @param ilWkhtmlToPdfConfig $config
      */
     public function populateConfigElementsInForm(ilPropertyFormGUI $form, $service, $purpose, $config)
     {
         $this->config = new ilWkhtmlToPdfConfig($config);
-        $gui = new ilWkhtmlToPdfConfigFormGUI();
+        $gui          = new ilWkhtmlToPdfConfigFormGUI();
         $gui->populateForm($form, $this->config);
     }
+
     /**
      * @param ilPropertyFormGUI $form
      * @param string            $service
@@ -66,6 +66,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         return $gui->validateForm();
     }
+
     /**
      * @param ilPropertyFormGUI $form
      * @param string            $service
@@ -77,6 +78,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $gui = new ilWkhtmlToPdfConfigFormGUI();
         return $gui->getConfigFromForm($form);
     }
+
     /**
      * @param string $service
      * @param string $purpose
@@ -87,6 +89,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $config = new ilWkhtmlToPdfConfig();
         return $config;
     }
+
     /**
      * @param string             $service
      * @param string             $purpose
@@ -95,34 +98,50 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
      */
     public function generatePDF($service, $purpose, $config, $job)
     {
-        $html_file	= $this->getHtmlTempName();
-        file_put_contents($html_file, implode('',$job->getPages()));
+        $html_file = $this->getHtmlTempName();
+        file_put_contents($html_file, implode('', $job->getPages()));
         $this->createPDFFileFromHTMLFile($html_file, $config, $job);
     }
+
     /**
-     * @param $a_path_to_file
-     * @param $config
+     * @return string
+     */
+    public function getHtmlTempName()
+    {
+        return $this->getTempFileName('html');
+    }
+
+    /**
+     * @param $file_type
+     * @return string
+     */
+    protected function getTempFileName($file_type)
+    {
+        return ilUtil::ilTempnam() . '.' . $file_type;
+    }
+
+    /**
+     * @param                    $a_path_to_file
+     * @param                    $config
      * @param ilPDFGenerationJob $job
      */
     public function createPDFFileFromHTMLFile($a_path_to_file, $config, $job)
     {
-        if(is_array($a_path_to_file))
-        {
+        if (is_array($a_path_to_file)) {
             $files_list_as_string = ' ';
-            foreach($a_path_to_file as $file)
-            {
-                if(file_exists($file))
-                {
-                    $files_list_as_string .= ' '.$files_list_as_string;
+            foreach ($a_path_to_file as $file) {
+                if (file_exists($file)) {
+                    $files_list_as_string .= ' ' . $files_list_as_string;
                 }
             }
             $this->runCommandLine($files_list_as_string, $job->getFilename(), $config);
-        }
-        else if(file_exists($a_path_to_file))
-        {
-            $this->runCommandLine($a_path_to_file, $job->getFilename(), $config);
+        } else {
+            if (file_exists($a_path_to_file)) {
+                $this->runCommandLine($a_path_to_file, $job->getFilename(), $config);
+            }
         }
     }
+
     /**
      * @param $a_path_to_file
      * @param $a_target
@@ -131,34 +150,24 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     protected function runCommandLine($a_path_to_file, $a_target, $config)
     {
         global $DIC;
-        $log = $DIC['ilLog'];
-        $config			= new ilWkhtmlToPdfConfig($config);
-        $temp_file		= $this->getPdfTempName();
-        $args			= $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
+        $log       = $DIC['ilLog'];
+        $config    = new ilWkhtmlToPdfConfig($config);
+        $temp_file = $this->getPdfTempName();
+        $args      = $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
         $this->appendDefaultFontStyle($a_path_to_file, $config);
-        $return_value	= ilUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
+        $return_value = ilUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
         $log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
-        foreach($return_value as $key => $value)
-        {
-            $log->debug('ilWebkitHtmlToPdfTransformer return value line ' . $key . ' : ' . $value );
+        foreach ($return_value as $key => $value) {
+            $log->debug('ilWebkitHtmlToPdfTransformer return value line ' . $key . ' : ' . $value);
         }
-        if(file_exists($temp_file))
-        {
-            $log->debug('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to '. $a_target);
+        if (file_exists($temp_file)) {
+            $log->debug('ilWebkitHtmlToPdfTransformer file exists: ' . $temp_file . ' file size is :' . filesize($temp_file) . ' bytes, will be renamed to ' . $a_target);
             rename($temp_file, $a_target);
-        }
-        else
-        {
-            $log->info('ilWebkitHtmlToPdfTransformer error: ' . print_r($return_value, true) );
+        } else {
+            $log->info('ilWebkitHtmlToPdfTransformer error: ' . print_r($return_value, true));
         }
     }
-    /**
-     * @return string
-     */
-    protected function redirectLog()
-    {
-        return	$redirect_log = ' 2>&1 ';
-    }
+
     /**
      * @return string
      */
@@ -166,20 +175,24 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     {
         return $this->getTempFileName('pdf');
     }
+
     /**
      * @return string
      */
-    public function getHtmlTempName()
+    protected function redirectLog()
     {
-        return $this->getTempFileName('html');
+        return $redirect_log = ' 2>&1 ';
     }
+
     /**
-     * @param $file_type
-     * @return string
+     * @param                     $a_path_to_file
+     * @param ilWkhtmlToPdfConfig $config
      */
-    protected function getTempFileName($file_type)
+    protected function appendDefaultFontStyle($a_path_to_file, $config)
     {
-        return ilUtil::ilTempnam() . '.' . $file_type;
+        $backupStyle  = $config->getOverwriteDefaultFont(true);
+        $originalFile = file_get_contents($a_path_to_file) . $backupStyle;
+        file_put_contents($a_path_to_file, $originalFile);
     }
 
     /**
@@ -191,16 +204,5 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         ilMathJax::getInstance()
                  ->init(ilMathJax::PURPOSE_PDF)
                  ->setRendering(ilMathJax::RENDER_SVG_AS_XML_EMBED);
-    }
-
-    /**
-     * @param $a_path_to_file
-     * @param ilWkhtmlToPdfConfig $config
-     */
-    protected function appendDefaultFontStyle($a_path_to_file, $config)
-    {
-        $backupStyle  = $config->getOverwriteDefaultFont(true);
-        $originalFile = file_get_contents($a_path_to_file) . $backupStyle;
-        file_put_contents($a_path_to_file, $originalFile);
     }
 }
