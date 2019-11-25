@@ -14162,8 +14162,40 @@ common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
 common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
 common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
-pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#webkit#:#wkhtmltopdf
+pdfgen#:#path#:#Pfad zum Programm
+pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
+pdfgen#:#external_links#:#Externe Links
+pdfgen#:#enable_forms#:#Formulare aktivieren
+pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
+pdfgen#:#low_quality#:#Niedrige Qualität
+pdfgen#:#greyscale#:#Graustufen
+pdfgen#:#output_options#:#Ausgabe Optionen
+pdfgen#:#header_text_left#:#Text Links
+pdfgen#:#header_text_center#:#Text Mitte
+pdfgen#:#header_text_right#:#Text Rechts
+pdfgen#:#footer_text_left#:#Text Links
+pdfgen#:#footer_text_center#:#Text Mitte
+pdfgen#:#footer_text_right#:#Text Rechts
+pdfgen#:#spacing#:#Abstand
+pdfgen#:#header_line#:#Trennlinie
+pdfgen#:#footer_line#:#Trennlinie
+pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
+pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
+pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
+pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
+pdfgen#:#pdfgen#:#config#:#Config
+pdfgen#:#none#:#Keine
+pdfgen#:#html#:#Html
+pdfgen#:#footer_html#:#Html
+pdfgen#:#external_links_info#:#Erzeugt links zu externen Webseiten
+pdfgen#:#enable_forms_info#:#Wandelt HTML Formulare in PDF Formulare um
+pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
+pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
+pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
+pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
 pdfgen#:#page_settings#:#Seiteneinstellungen
+pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand

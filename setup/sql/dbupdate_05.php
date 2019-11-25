@@ -2974,3 +2974,16 @@ if(!$ilDB->tableExists('webdav_instructions'))
     $ilDB->createSequence('webdav_instructions');
 }
 ?>
+<#5592>
+<?php
+require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+$renderer = 'WkhtmlToPdf';
+$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+ilPDFCompInstaller::registerRenderer($renderer, $path);
+$service = 'Test';
+$purpose = 'UserResult'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+
+$purpose = 'PrintViewOfQuestions'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+?>

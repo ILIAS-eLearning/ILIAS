@@ -14144,8 +14144,40 @@ common#:#pdfg_read#:#User has read access to PDF Generation
 common#:#pdfg_visible#:#PDF Generation is visible
 common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#pdfg_edit_permission#:#User can change permission settings
-pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#webkit#:#wkhtmltopdf
+pdfgen#:#path#:#Path to wkhtmltopdf
+pdfgen#:#wkhtml_config#:#Configuration for WKHTML
+pdfgen#:#external_links#:#Externel links
+pdfgen#:#enable_forms#:#Enable Forms
+pdfgen#:#user_stylesheet#:#User stylesheet
+pdfgen#:#low_quality#:#Low quality
+pdfgen#:#greyscale#:#Greyscale
+pdfgen#:#output_options#:#Output options
+pdfgen#:#header_text_left#:#Text left
+pdfgen#:#header_text_center#:#Text center
+pdfgen#:#header_text_right#:#Text right
+pdfgen#:#footer_text_left#:#Text left
+pdfgen#:#footer_text_center#:#Text center
+pdfgen#:#footer_text_right#:#Text right
+pdfgen#:#spacing#:#Spacing
+pdfgen#:#header_line#:#Header line
+pdfgen#:#footer_line#:#Footer line
+pdfgen#:#checkbox_svg#:#Path to checkbox svg
+pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
+pdfgen#:#radio_button_svg#:#Path to radiobutton svg
+pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
+pdfgen#:#config#:#Config
+pdfgen#:#none#:#Keine
+pdfgen#:#html#:#Html
+pdfgen#:#footer_html#:#Html
+pdfgen#:#external_links_info#:#Make links to remote web pages
+pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
+pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
+pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
+pdfgen#:#print_media_info#:#Use print media-type instead of screen
+pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
 pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_size#:#Pagesize
 pdfgen#:#margin#:#Margin 345
 pdfgen#:#header_type#:#Header
