@@ -56,6 +56,8 @@ class ilLPObjSettings
 	const LP_DEFAULT_VISITS = 30; // ???
 
 	const LP_MODE_LTI_OUTCOME = 31;
+	
+	const LP_MODE_COURSE_REFERENCE = 32;
 
 	protected static $map = array(
 		
@@ -149,10 +151,20 @@ class ilLPObjSettings
             'trac_mode_cmix_compl_or_passed_with_failed', 'trac_mode_cmix_compl_or_passed_with_failed_info')
 
         ,self::LP_MODE_LTI_OUTCOME => array(ilLPStatusLtiOutcome::class,
-            'trac_mode_lti_outcome', 'trac_mode_lti_outcome_info')
+		'trac_mode_lti_outcome', 'trac_mode_lti_outcome_info')
+
+		,self::LP_MODE_COURSE_REFERENCE => [
+			'ilLPStatusCourseReference',
+			'trac_mode_course_reference',
+			'trac_mode_course_reference_info'
+		]
 	);
 
-	function __construct($a_obj_id)
+	/**
+	 * ilLPObjSettings constructor.
+	 * @param int $a_obj_id
+	 */
+	public function __construct($a_obj_id)
 	{
 		global $DIC;
 
