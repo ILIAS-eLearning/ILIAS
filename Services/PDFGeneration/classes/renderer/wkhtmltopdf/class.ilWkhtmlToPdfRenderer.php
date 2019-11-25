@@ -139,6 +139,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $config			= new ilWkhtmlToPdfConfig($config);
         $temp_file		= $this->getPdfTempName();
         $args			= $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
+        $this->appendDefaultFontStyle($a_path_to_file);
         $return_value	= ilUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
         $log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
         foreach($return_value as $key => $value)
@@ -184,10 +185,25 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     {
         return ilUtil::ilTempnam() . '.' . $file_type;
     }
+
+    /**
+     * @param string $service
+     * @param string $purpose
+     */
     public function prepareGenerationRequest($service, $purpose)
     {
         ilMathJax::getInstance()
                  ->init(ilMathJax::PURPOSE_PDF)
                  ->setRendering(ilMathJax::RENDER_SVG_AS_XML_EMBED);
+    }
+    
+    /**
+     * @param $a_path_to_file
+     */
+    protected function appendDefaultFontStyle($a_path_to_file)
+    {
+        $backupStyle  = '<style>body{font-family: sans-serif;}</style>';
+        $originalFile = file_get_contents($a_path_to_file) . $backupStyle;
+        file_put_contents($a_path_to_file, $originalFile);
     }
 }
