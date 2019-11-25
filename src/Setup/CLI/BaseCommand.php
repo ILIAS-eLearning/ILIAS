@@ -72,6 +72,9 @@ abstract class BaseCommand extends Command {
 
 	public function execute(InputInterface $input, OutputInterface $output) {
 		$io = new IOWrapper($input, $output, $this->shouldSayYes($input));
+
+		$this->printLicenseMessage($io, $input);
+
 		$this->printIntroMessage($io);
 
 		$config = $this->readAgentConfig($this->getAgent(), $input);
@@ -111,6 +114,18 @@ abstract class BaseCommand extends Command {
 
 	protected function shouldSayYes(InputInterface $input) : bool {
 		return $input->getOption("yes") ?? false;
+	}
+
+	protected function printLicenseMessage(IOWrapper $io, InputInterface $input) : void {
+		if ($this->shouldSayYes($input) || ($input->hasOption("no-interaction") && $input->getOption("no-interaction"))) {
+			return;
+		}
+		$io->text(
+			"   ILIAS Copyright (C) 1998-2019 ILIAS Open Source e.V. - GPLv3\n\n".
+			"This program comes with ABSOLUTELY NO WARRANTY. This is free software,\n".
+			"and you are welcome to redistribute it under certain conditions. Look\n".
+			"into the LICENSE file for details."
+		);
 	}
 
 	abstract protected function printIntroMessage(IOWrapper $io);
