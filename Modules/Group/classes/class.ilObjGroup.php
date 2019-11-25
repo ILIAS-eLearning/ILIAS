@@ -70,9 +70,22 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $auto_fill_from_waiting; // [bool]
 	protected $leave_end; // [ilDate]
 	protected $show_members = 1;
-	
-	
+
+
+	/**
+	 * @var bool
+	 */
+	protected $grp_start_time_indication = false;
+
+
+	/**
+	 * @var null | \ilDateTime
+	 */
 	protected $start = null;
+
+	/**
+	 * @var null | \ilDateTime
+	 */
 	protected $end = null;
 	
 	
@@ -583,43 +596,83 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		return $this->show_members;
 	}
-	
+
+
 	/**
-	 * Get group start
-	 * @return ilDate
+	 * @param \ilDateTime|null $start
+	 * @param \ilDateTime|null $end
+	 * @throws InvalidArgumentException
 	 */
-	public function getStart()
+	public function setPeriod(\ilDateTime $start = null, \ilDateTime $end = null)
 	{
-		return $this->start;
+		if(
+			($start instanceof \ilDate && !$end instanceof ilDate) ||
+			($end instanceof \ilDate && !$start instanceof ilDate)
+		) {
+			throw new InvalidArgumentException('Different date types not supported.');
+		}
+
+		if($start instanceof \ilDate) {
+			$this->toggleStartTimeIndication(false);
+		}
+		else {
+			$this->toggleStartTimeIndication(true);
+		}
+		$this->setStart($start);
+		$this->setEnd($end);
 	}
-	
+
 	/**
-	 * Set start
-	 * @param ilDate $start
+	 * @param bool $time_indication
 	 */
-	public function setStart(ilDate $start = null)
+	protected function toggleStartTimeIndication(bool $time_indication)
 	{
-		$this->start = $start;
+		$this->start_time_indication = $time_indication;
 	}
-	
+
 	/**
-	 * Get end
-	 * @return ilDate
+	 * @return bool
 	 */
-	public function getEnd()
+	public function getStartTimeIndication() : bool
 	{
-		return $this->end;
+		return $this->start_time_indication;
 	}
-	
+
+
 	/**
-	 * Set end
-	 * @param ilDate $end
+	 * @param \ilDateTime|null $a_value
 	 */
-	public function setEnd(ilDate $end = null)
+	protected function setStart(ilDateTime $a_value = null)
 	{
-		$this->end = $end;
+		$this->grp_start = $a_value;
 	}
+
+	/**
+	 * @return \ilDateTime | null
+	 */
+	public function getStart() : ?\ilDateTime
+	{
+		return $this->grp_start;
+	}
+
+	/**
+	 * @param \ilDateTime|null $a_value
+	 */
+	protected function setEnd(ilDateTime $a_value = null)
+	{
+		$this->grp_end = $a_value;
+	}
+
+	/**
+	 * @return \ilDateTime|null
+	 */
+	public function getEnd() : ?\ilDateTime
+	{
+		return $this->grp_end;
+	}
+
 	
+
 	/**
 	 * validate group settings
 	 *
@@ -780,8 +833,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"registration_min_members = ".$ilDB->quote($this->getMinMembers() ,'integer').", ".
 			"auto_wait = ".$ilDB->quote($this->hasWaitingListAutoFill() ,'integer').", ".
 			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer').", ".
-			'grp_start = '.$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null).', '.
-			'grp_end = '.$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null).' '.
+			'period_start = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getStart()), \ilDBConstants::T_TIMESTAMP).', '.
+			'period_end = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getEnd()), \ilDBConstants::T_TIMESTAMP).', '.
+			'period_time_indication = ' . $ilDB->quote($this->getStartTimeIndication() ? 1 : 0, \ilDBConstants::T_INTEGER) . ' ' .
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -871,8 +925,19 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setMinMembers($row->registration_min_members);
 			$this->setWaitingListAutoFill($row->auto_wait);
 			$this->setShowMembers($row->show_members);
-			$this->setStart($row->grp_start ? new ilDate($row->grp_start, IL_CAL_UNIX) : null);
-			$this->setEnd($row->grp_end ? new ilDate($row->grp_end, IL_CAL_UNIX) : null);
+			if($row->period_time_indication) {
+				$this->setPeriod(
+					new \ilDateTime($row->period_start, IL_CAL_DATETIME, \ilTimeZone::UTC),
+					new \ilDateTime($row->period_end, IL_CAL_DATETIME, \ilTimeZone::UTC)
+				);
+			}
+			elseif(!is_null($row->period_start) && !is_null($row->period_end)) {
+				$this->setPeriod(
+					new \ilDate($row->period_start, IL_CAL_DATE),
+					new \ilDate($row->period_end, IL_CAL_DATE)
+				);
+			}
+			$this->toggleStartTimeIndication((bool) $row->period_time_indication);
 		}
 		$this->initParticipants();
 		
@@ -931,10 +996,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setCancellationEnd($this->getCancellationEnd());
 		$new_obj->setMinMembers($this->getMinMembers());
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
-		
-		$new_obj->setStart($this->getStart());
-		$new_obj->setEnd($this->getEnd());
-		
+		$new_obj->setPeriod($this->getStart(), $this->getEnd());
 		$new_obj->update();
 		
 		// #13008 - Group Defined Fields
@@ -1882,7 +1944,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getStart());
-					$app->setFullday(true);
+					$app->setFullday(!$this->getStartTimeIndication());
 					$apps[] = $app;
 
 					$app = new ilCalendarAppointmentTemplate(self::CAL_END);
@@ -1891,7 +1953,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getEnd());
-					$app->setFullday(true);
+					$app->setFullday($this->getStartTimeIndication());
 					$apps[] = $app;
 				}
 				if($this->isRegistrationUnlimited())
@@ -2152,7 +2214,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 				" OR (leave_end IS NULL".
 				" AND registration_end IS NOT NULL".
 				" AND registration_end < ".$ilDB->quote($now_date, "text")."))".
-			" AND (grp_start IS NULL OR grp_start > ".$ilDB->quote($now, "integer").")" );
+			" AND (period_start IS NULL OR period_start > ".$ilDB->quote($now, "integer").")" );
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$refs = ilObject::_getAllReferences($row['obj_id']);

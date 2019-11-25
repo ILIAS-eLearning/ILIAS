@@ -569,30 +569,41 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 		$lng = $DIC['lng'];
 		
 		$start = $end = null;
-		
-		$query = 'SELECT crs_start, crs_end FROM crs_settings'.
-			' WHERE obj_id = '.$ilDB->quote($a_obj_id);
-		$set = $ilDB->query($query);		
-		while($row = $ilDB->fetchAssoc($set))
-		{			
-			$start = $row['crs_start'] 
-				? new ilDate($row['crs_start'], IL_CAL_UNIX)
-				: null;
-			$end = $row['crs_end'] 
-				? new ilDate($row['crs_end'], IL_CAL_UNIX)
-				: null;
+		$query = 'SELECT period_start, period_end, period_time_indication FROM crs_settings '.
+			'WHERE obj_id = '.$ilDB->quote($a_obj_id);
+
+		$res = $ilDB->query($query);
+		while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT))
+		{
+			if(!$row->period_time_indication) {
+				$start = ($row->period_start
+					? new \ilDate($row->period_start, IL_CAL_DATETIME)
+					: null);
+				$end = ($row->period_end
+					? new \ilDate($row->period_end, IL_CAL_DATETIME)
+					: null);
+			}
+			else {
+				$start = ($row->period_start
+					? new \ilDateTime($row->period_start, IL_CAL_DATETIME, \ilTimeZone::UTC)
+					: null);
+				$end = ($row->period_end
+					? new \ilDateTime($row->period_end, IL_CAL_DATETIME, \ilTimeZone::UTC)
+					: null);
+			}
+
 		}
-		
 		if($start && $end)
 		{
 			$lng->loadLanguageModule('crs');
 			
-			return array(
-				'crs_start' => $start,
-				'crs_end' => $end,
-				'property' => $lng->txt('crs_period'),
-				'value' => ilDatePresentation::formatPeriod($start, $end)
-			);
+			return
+				[
+					'crs_start' => $start,
+					'crs_end' => $end,
+					'property' => $lng->txt('crs_period'),
+					'value' => ilDatePresentation::formatPeriod($start, $end)
+			];
 		}
 	}
 }
