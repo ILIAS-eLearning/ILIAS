@@ -1,25 +1,23 @@
 <?php
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-require_once "./Modules/Wiki/classes/class.ilObjWiki.php";
-
+use \ILIAS\Modules\Wiki\Export;
 
 /**
-* Class ilObjWikiGUI
-*
-* @author Alex Killing <alex.killing@gmx.de> 
-* @version $Id$
-* 
-* @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
-* @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
-* @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
-*/
+ * Class ilObjWikiGUI
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilObjWikiGUI: ilPermissionGUI, ilInfoScreenGUI, ilWikiPageGUI
+ * @ilCtrl_IsCalledBy ilObjWikiGUI: ilRepositoryGUI, ilAdministrationGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilPublicUserProfileGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilExportGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilRatingGUI, ilWikiPageTemplateGUI, ilWikiStatGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
+ */
 class ilObjWikiGUI extends ilObjectGUI
 {
 	/**
@@ -2060,8 +2058,7 @@ class ilObjWikiGUI extends ilObjectGUI
 	 */
 	function exportHTML()
 	{
-		require_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
-		$cont_exp = new ilWikiHTMLExport($this->object);
+		$cont_exp = new Export\WikiHtmlExport($this->object);
 		$cont_exp->buildExportFile();
 	}
 	

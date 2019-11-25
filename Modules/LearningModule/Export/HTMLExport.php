@@ -4,8 +4,6 @@
 
 namespace ILIAS\Modules\LearningModule\Export;
 
-use ILIAS\Tools\Maintainers\Iterator;
-
 /**
  * LM HTML Export
  *
@@ -13,7 +11,6 @@ use ILIAS\Tools\Maintainers\Iterator;
  */
 class HTMLExport
 {
-
     /**
      * @var \ilTemplate
      */
@@ -116,8 +113,6 @@ class HTMLExport
         $this->lang = $lang;
 
         // get learning module presentation gui class
-        $_GET["cmd"] = "nop";
-        $_GET["transl"] = "";
         $this->lm_gui = new \ilLMPresentationGUI($export_format, ($lang == "all"), $this->target_dir, false);
         $this->obj_transl = \ilObjectTranslation::getInstance($lm->getId());
 
@@ -131,7 +126,6 @@ class HTMLExport
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util();
 
-        //$this->global_screen->tool()->context()->current()->addAdditionalData(\ilLMEditGSToolProvider::SHOW_TREE, false);
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
 
@@ -633,11 +627,6 @@ class HTMLExport
 
         $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
         $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
-
-        /*$this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
-        $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMGSToolProvider::LM_OFFLINE, true);*/
     }
     
     
