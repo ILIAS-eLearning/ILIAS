@@ -1,4 +1,6 @@
 <?php
+namespace ILIAS\MyStaff\ShowUser;
+use ILIAS\MyStaff\ListCourses\ilMStListCourses;
 
 /**
  * Class ilMStShowUserCourses

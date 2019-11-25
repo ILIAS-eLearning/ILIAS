@@ -1,4 +1,14 @@
 <?php
+namespace ILIAS\MyStaff\ShowUser;
+use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ListCourses\ilMStListCourse;
+use ilLPStatus;
+use ilObjUserTracking;
+use ilOrgUnitOperation;
+use ilRepositorySelectorInputGUI;
+use ilSelectInputGUI;
+use ilTable2GUI;
+use ilTextInputGUI;
 
 /**
  * Class ilMStShowUserCoursesTableGUI

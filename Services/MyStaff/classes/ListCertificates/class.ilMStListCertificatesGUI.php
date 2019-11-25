@@ -1,17 +1,17 @@
 <?php
 
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
+use ILIAS\MyStaff\ListCertificates\ilMStListCertificatesTableGUI;
 
 /**
- * Class ilMStListCoursesGUI
+ * Class ilMStListCertificatesGUI
  *
  * @author            Martin Studer <ms@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilMStListCoursesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCoursesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_IsCalledBy ilMStListCertificatesGUI: ilMyStaffGUI
+ * @ilCtrl_Calls      ilMStListCertificatesGUI: ilFormPropertyDispatchGUI
  */
-class ilMStListCoursesGUI {
+class ilMStListCertificatesGUI {
 
 	const CMD_APPLY_FILTER = 'applyFilter';
 	const CMD_INDEX = 'index';
@@ -64,7 +64,7 @@ class ilMStListCoursesGUI {
 				$this->checkAccessOrFail();
 
 				$DIC->ctrl()->setReturn($this, self::CMD_INDEX);
-				$this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
+				$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 				$this->table->executeCommand();
 				break;
 			default:
@@ -101,7 +101,7 @@ class ilMStListCoursesGUI {
 
 		$this->checkAccessOrFail();
 
-		$this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
+		$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 		$this->table->setTitle($DIC->language()->txt('mst_list_courses'));
 		$DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
 	}
@@ -111,7 +111,7 @@ class ilMStListCoursesGUI {
 	 *
 	 */
 	public function applyFilter() {
-		$this->table = new ilMStListCoursesTableGUI($this, self::CMD_APPLY_FILTER);
+		$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_APPLY_FILTER);
 		$this->table->writeFilterToSession();
 		$this->table->resetOffset();
 		$this->index();
@@ -122,7 +122,7 @@ class ilMStListCoursesGUI {
 	 *
 	 */
 	public function resetFilter() {
-		$this->table = new ilMStListCoursesTableGUI($this, self::CMD_RESET_FILTER);
+		$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_RESET_FILTER);
 		$this->table->resetOffset();
 		$this->table->resetFilter();
 		$this->index();
@@ -133,7 +133,7 @@ class ilMStListCoursesGUI {
 	 * @return string
 	 */
 	public function getId() {
-		$this->table = new ilMStListCoursesTableGUI($this, self::CMD_INDEX);
+		$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
 
 		return $this->table->getId();
 	}

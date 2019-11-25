@@ -1,14 +1,14 @@
 <?php
-namespace ILIAS\MyStaff\ListCourses;
-use ilObjCourse;
+namespace ILIAS\MyStaff\ListStudyProgrammes;
+use ilObjStudyProgramme;
 use ilObjUser;
 
 /**
- * Class ilMStListCourse
+ * Class ilMStListStudyProgramme
  *
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMStListCourse {
+class ilMStListStudyProgramme {
 
 	const MEMBERSHIP_STATUS_REQUESTED = 1;
 	const MEMBERSHIP_STATUS_WAITINGLIST = 2;
@@ -209,10 +209,10 @@ class ilMStListCourse {
 
 
 	/**
-	 * @return ilObjCourse
+	 * @return ilObjStudyProgramme
 	 */
-	public function returnIlCourseObj() {
-		$il_course_obj = new ilObjCourse($this->crs_ref_id);
+	public function returnIlStudyProgrammeObj() {
+		$il_course_obj = new ilObjStudyProgramme($this->crs_ref_id);
 
 		return $il_course_obj;
 	}
