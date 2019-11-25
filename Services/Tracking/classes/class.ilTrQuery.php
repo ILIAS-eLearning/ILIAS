@@ -892,6 +892,12 @@ class ilTrQuery
 		$members_read = false;
 		switch($obj_type)
 		{
+			case 'crsr':
+				$members_read = true;
+				$olp = \ilObjectLP::getInstance($obj_id);
+				$members = $olp->getMembers();
+				break;
+
 			case 'crs':
 			case 'grp':
 				$members_read = true;

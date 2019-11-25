@@ -21,6 +21,23 @@ class ilCourseReferenceLP extends ilObjectLP
 		$this->logger = $DIC->logger()->crsr();
 	}
 
+	/**
+	 * @param bool $a_search
+	 * @return int[]
+	 */
+	public function getMembers($a_search = true)
+	{
+		if(!$a_search) {
+			return [];
+		}
+		$target_ref_id = \ilObjCourseReference::_lookupTargetRefId($this->obj_id);
+		if(!$target_ref_id) {
+			return [];
+		}
+		$participants = \ilParticipants::getInstance($target_ref_id);
+		return $participants->getMembers();
+	}
+
 
 	/**
 	 * @inheritdoc
