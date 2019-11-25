@@ -15758,3 +15758,5 @@ rep#:#exp_error_disabled#:#Der Export ist zurzeit für Container-Objecte (Katego
 lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
+trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
+trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen auf den dieser Kurslink verweist.

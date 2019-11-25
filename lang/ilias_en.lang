@@ -15741,3 +15741,5 @@ exp#:#exp_error_disabled#:#The export feature is disabled for containers. You ma
 lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#Without Time Indication
+trac#:#trac_mode_course_reference#:#Adopted from Course
+trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.

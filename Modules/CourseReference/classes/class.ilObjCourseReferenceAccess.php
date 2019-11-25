@@ -46,6 +46,7 @@ class ilObjCourseReferenceAccess extends ilContainerReferenceAccess
 		{
 			case 'visible':
 			case 'read':
+			case 'edit_learning_progress':
 				include_once './Modules/CourseReference/classes/class.ilObjCourseReference.php';
 				$target_ref_id = ilObjCourseReference::_lookupTargetRefId($a_obj_id);
 				
