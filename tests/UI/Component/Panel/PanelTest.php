@@ -357,7 +357,7 @@ EOT;
 </a>
 </span>
  <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
-  <button class="btn btn-link ilSubmitInactive disabled" data-action="http://ilias.de?page=1">2</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=1" disabled="disabled">2</button>
   <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
   <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
   <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
