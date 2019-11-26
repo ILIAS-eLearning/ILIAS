@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Modules\Wiki\Export;
+namespace ILIAS\Wiki\Export;
 
 /**
  * Wiki HTML exporter class

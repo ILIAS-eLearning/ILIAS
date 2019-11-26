@@ -2,14 +2,14 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Modules\LearningModule\Export;
+namespace ILIAS\LearningModule\Export;
 
 /**
  * LM HTML Export
  *
  * @author killing@leifos.de
  */
-class HTMLExport
+class LMHtmlExport
 {
     /**
      * @var \ilTemplate
@@ -124,7 +124,7 @@ class HTMLExport
         $this->initial_current_user_language = $this->user->getCurrentLanguage();
 
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util();
+        $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
 
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
@@ -171,38 +171,6 @@ class HTMLExport
         }
     }
 
-    /**
-     * Init MathJax
-     */
-    protected function initMathJax()
-    {
-        // init the mathjax rendering for HTML export
-        \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
-    }
-
-    /**
-     * Export system style
-     */
-    protected function exportSystemStyle()
-    {
-        // system style html exporter
-        include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
-        $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
-        $sys_style_html_export->addImage("icon_lm.svg");
-        $sys_style_html_export->export();
-    }
-
-    /**
-     * Export content style
-     */
-    protected function exportContentStyle()
-    {
-        // init co page html exporter
-        $this->co_page_html_export->setContentStyleId($this->lm->getStyleSheetId());
-        $this->co_page_html_export->createDirectories();
-        $this->co_page_html_export->exportStyles();
-        $this->co_page_html_export->exportSupportScripts();
-    }
 
     /**
      * Get language Iterator
@@ -315,9 +283,9 @@ class HTMLExport
     {
         $this->initGlobalScreen();
         $this->initDirectories();
-        $this->initMathJax();
-        $this->exportSystemStyle();
-        $this->exportContentStyle();
+
+        $this->export_util->exportSystemStyle();
+        $this->export_util->exportCOPageFiles($this->lm->getStyleSheetId());
 
         $lang_iterator = $this->getLanguageIterator();
 
@@ -405,7 +373,7 @@ class HTMLExport
 
         $this->addSupplyingExportFiles();
 
-        $this->export_util->exportResourceFiles($this->global_screen, $this->target_dir);
+        $this->export_util->exportResourceFiles();
 
         // zip everything
         if ($zip) {

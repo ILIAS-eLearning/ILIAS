@@ -147,11 +147,13 @@ class ilGlossaryExport
 		// create directories
 		$this->glo_obj->createExportDirectory("html");
 
-		// get Log File
-		$expDir = $this->glo_obj->getExportDirectory();
-
-		// get xml content
-		$this->glo_obj->exportHTML($this->export_dir."/".$this->subdir, $expLog);
+        // get html content
+        $exp = new \ILIAS\Glossary\Export\GlossaryHtmlExport(
+            $this->glo_obj,
+            $this->export_dir,
+            $this->subdir
+        );
+        $exp->exportHTML();
 	}
 
 }

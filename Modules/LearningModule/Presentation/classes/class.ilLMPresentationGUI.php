@@ -191,7 +191,9 @@ class ilLMPresentationGUI
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
 
-		$this->initByRequest($DIC->http()->request()->getQueryParams());
+		// note: using $DIC->http()->request()->getQueryParams() here will
+		// fail, since the goto magic currently relies on setting $_GET
+		$this->initByRequest($_GET);
 
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $this->requested_ref_id))

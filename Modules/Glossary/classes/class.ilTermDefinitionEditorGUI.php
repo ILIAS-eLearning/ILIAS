@@ -150,7 +150,9 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setPresentationTitle($this->term->getTerm());
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				$tpl->setContent($ret);
+				if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
 				break;
 
 			default:

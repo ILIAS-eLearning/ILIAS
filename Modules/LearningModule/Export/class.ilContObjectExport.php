@@ -222,7 +222,7 @@ class ilContObjectExport
 
 
 		// get html content
-		$exp = new \ILIAS\Modules\LearningModule\Export\HTMLExport(
+		$exp = new \ILIAS\LearningModule\Export\LMHtmlExport(
 			$this->cont_obj,
 			$this->export_dir,
 			$this->subdir,
