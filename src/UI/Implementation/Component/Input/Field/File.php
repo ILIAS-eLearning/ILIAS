@@ -20,7 +20,7 @@ class File extends Input implements C\Input\Field\File
     /**
      * @var array
      */
-    private $accepted_mime_types;
+    private $accepted_mime_types = [];
     /**
      * @var int
      */
