@@ -22,9 +22,9 @@ function base()
     }
 
     $buffer[] = '<hr>with unavailable action:<br>';
-    $tag = $tag->withUnavailableAction();
+    $no_action_tag = $tag->withUnavailableAction();
     foreach ($possible_relevances as $w) {
-        $buffer[] = $renderer->render($tag->withRelevance($w));
+        $buffer[] = $renderer->render($no_action_tag->withRelevance($w));
     }
 
     $buffer[] = '<hr>with additional class(es):<br>';

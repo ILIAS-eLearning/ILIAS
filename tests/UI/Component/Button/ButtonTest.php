@@ -26,13 +26,6 @@ class ButtonTest extends ILIAS_UI_TestBase
         , "tag"	 =>	 "btn btn-tag btn-tag-relevance-veryhigh"
         );
 
-    public static $canonical_css_inactivation_classes = array( "standard" =>	"ilSubmitInactive disabled"
-        , "primary"	=> "ilSubmitInactive disabled"
-        , "shy"	=> "ilSubmitInactive disabled"
-        , "tag"	=> "btn-tag-inactive"
-        );
-
-
     public function test_implements_factory_interface()
     {
         $f = $this->getButtonFactory();
@@ -186,8 +179,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($r->render($b));
 
         $css_classes = self::$canonical_css_classes[$factory_method];
-        $css_class_inactive = self::$canonical_css_inactivation_classes[$factory_method];
-        $expected = "<button class=\"$css_classes $css_class_inactive\" data-action=\"$ln\">" .
+        $expected = "<button class=\"$css_classes\" data-action=\"$ln\" disabled=\"true\">" .
                     "label" .
                     "</button>";
         $this->assertHTMLEquals($expected, $html);
