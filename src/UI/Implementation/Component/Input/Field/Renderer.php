@@ -74,11 +74,14 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
         } elseif ($component instanceof Component\Input\Field\File) {
             $component = $this->setSignals($component);
-
+            /**
+             * @var $component File
+             */
             $settings = new \stdClass();
             $settings->upload_url = $component->getUploadHandler()->getUploadURL();
             $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
             $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+            $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
 
             $component = $component->withAdditionalOnLoadCode(
                 function ($id) use ($settings) {

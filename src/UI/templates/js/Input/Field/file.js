@@ -15,7 +15,8 @@ il.UI.Input = il.UI.Input || {};
             'upload_url': '',
             'removal_url': '',
             'file_identifier_key': 'file_id',
-            'max_files': 1
+            'max_files': 1,
+            'accepted_files': ''
         };
 
 
@@ -44,7 +45,8 @@ il.UI.Input = il.UI.Input || {};
                 clickable: container + ' .il-input-file-dropzone button',
                 autoProcessQueue: true,
                 uploadMultiple: false,
-                parallelUploads: 1
+                parallelUploads: 1,
+                acceptedFiles: settings.accepted_files
             });
 
             myDropzone.on("maxfilesreached", function (file) {
