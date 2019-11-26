@@ -221,16 +221,6 @@ class Renderer extends AbstractComponentRenderer
             $active
         );
 
-        $more_button = $this->getUIFactory()->button()->bulky(
-            $this->getUIFactory()->symbol()->glyph()->more()
-                 ->withCounter($this->getUIFactory()->counter()->novelty(0))
-                 ->withCounter($this->getUIFactory()->counter()->status(0)),
-            'more',
-            '#'
-        );
-
-        $this->addMoreSlate($tpl, $default_renderer, static::BLOCK_METABAR_ENTRIES, $more_button, $signals, $active);
-
         $component = $component->withOnLoadCode(
             function ($id) use ($signals) {
                 $entry_signal = $signals['entry'];
