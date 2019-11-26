@@ -73,30 +73,8 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Password) {
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
         } elseif ($component instanceof Component\Input\Field\File) {
-            $component = $this->setSignals($component);
-            /**
-             * @var $component File
-             */
-            $settings = new \stdClass();
-            $settings->upload_url = $component->getUploadHandler()->getUploadURL();
-            $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
-            $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
-            $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
-
-            $component = $component->withAdditionalOnLoadCode(
-                function ($id) use ($settings) {
-                    $settings = json_encode($settings);
-
-                    return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$settings}');
-				});";
-                }
-            );
-
             $input_tpl = $this->getTemplate("tpl.file.html", true, true);
             $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy($this->txt('select_files_from_computer'), "#")));
-
-
         } elseif ($component instanceof Select) {
             $input_tpl = $this->getTemplate("tpl.select.html", true, true);
         } elseif ($component instanceof Component\Input\Field\Textarea) {
@@ -382,6 +360,30 @@ class Renderer extends AbstractComponentRenderer
                 break;
             case ($input instanceof DateTime):
                 return $this->renderDateTimeInput($tpl, $input);
+                break;
+            case ($input instanceof Component\Input\Field\File):
+                $component = $this->setSignals($input);
+                /**
+                 * @var $component File
+                 */
+                $settings = new \stdClass();
+                $settings->upload_url = $component->getUploadHandler()->getUploadURL();
+                $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+                $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+                $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
+
+                $value = $input->getValue();
+
+                $input = $component->withAdditionalOnLoadCode(
+                    function ($id) use ($settings, $value) {
+                        $settings = json_encode($settings);
+                        $value = json_encode($value);
+
+                        return "$(document).ready(function() {
+					il.UI.Input.file.init('$id', '{$settings}', '{$value}}');
+				});";
+                    }
+                );
                 break;
         }
 
