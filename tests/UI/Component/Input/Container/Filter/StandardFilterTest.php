@@ -257,11 +257,11 @@ EOT;
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
-			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="">
+			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
 				<div><span class="bulky-label">apply</span></div>
 			</button>
-			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="">
+			<button class="btn btn-bulky" data-action=""  disabled="disabled">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
 				<div><span class="bulky-label">reset</span></div>
 			</button>
@@ -441,11 +441,11 @@ EOT;
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
-			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="">
+			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
 				<div><span class="bulky-label">apply</span></div>
 			</button>
-			<button class="btn btn-bulky ilSubmitInactive disabled" data-action="">
+			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
 				<div><span class="bulky-label">reset</span></div>
 			</button>
