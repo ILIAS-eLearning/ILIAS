@@ -445,6 +445,12 @@ class ilStudyProgrammeSettings{
 		return $this->access_ctrl_positions;
 	}
 
+	public function validationExpires() : bool
+	{
+		return ! is_null($this->getValidityOfQualificationDate()) ||
+                $this->getValidityOfQualificationPeriod() != -1;
+	}
+
 	public function setReminderNotRestartedByUserDays(int $days = null) : void
 	{
 		$this->reminder_not_restarted_by_user_days = $days;

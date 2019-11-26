@@ -20,7 +20,7 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
 class ilDashboardGUI
@@ -96,7 +96,6 @@ class ilDashboardGUI
 		$ilMainMenu = $DIC["ilMainMenu"];
 		$ilUser = $DIC->user();
 		$ilErr = $DIC["ilErr"];
-		
 		
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -303,7 +302,10 @@ class ilDashboardGUI
 				$gui = new ilDashboardRecommendedContentGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;
-
+			case "ilstudyprogrammedashboardviewgui":
+				$gui = new ilStudyProgrammeDashboardViewGUI();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
 				$this->getStandardTemplates();
 				$this->setTabs();
@@ -882,13 +884,8 @@ class ilDashboardGUI
 	 */
 	protected function renderStudyProgrammes()
 	{
-		$st_block = new ilPDStudyProgrammeSimpleListGUI();
-		$html = $st_block->getHTML();
-		if ($html == "") {
-			$st_block = new ilPDStudyProgrammeExpandableListGUI();
-			$html = $st_block->getHTML();
-		}
-		return $html;
+		$st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
+		return $st_block->getHTML();
 	}
 
 	/**

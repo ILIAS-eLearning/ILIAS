@@ -15394,6 +15394,7 @@ administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_learningsequences#:#Meine Lernsequenzen
+dash#:#dash_studyprogramme#:#Meine Studienprogramme
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
 rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
 rbac#:#ltis_add_consume_provider#:#Benutzer kann eigene Provider-Einstellungen für LTI-Konsument hinzufügen

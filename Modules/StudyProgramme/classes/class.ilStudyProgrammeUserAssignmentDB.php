@@ -164,5 +164,24 @@ class ilStudyProgrammeUserAssignmentDB
     public function reminderSendFor(int $assignment_id) : void
     {
         $this->assignment_repository->reminderSendFor($assignment_id);
+	}
+
+	public function getDashboardInstancesforUser(int $usr_id) : array
+    {
+        $ret = [];
+        $assigments_by_prg = $this->assignment_repository->getDashboardInstancesforUser($usr_id);
+        foreach ($assigments_by_prg as $prg => $assignments) {
+            $ret[$prg] = [];
+            foreach ($assignments as $id => $assignment) {
+                $ret[$prg][$id] = new ilStudyProgrammeUserAssignment(
+                    $assignment,
+                    $this->sp_user_progress_db,
+                    $this->assignment_repository,
+                    $this->progress_repository,
+                    $this->log
+                );
+            }
+        }
+        return $ret;
     }
 }
