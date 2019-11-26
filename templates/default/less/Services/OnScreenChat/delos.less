@@ -111,32 +111,39 @@
 			position: relative;
 		}
 
-		.iosOnScreenChatMessagePlaceholder {
-			position: absolute;
-			z-index: 0;
-			border: 0 none !important;
-			opacity: .5;
-		}
+		.iosOnScreenChatMessageContainer {
+			background-color: white;
 
-		.iosOnScreenChatMessage {
-			background-color: transparent;
-			position: relative;
-			z-index: 1;
+			.iosOnScreenChatMessagePlaceholder {
+				position: absolute;
+				z-index: 0;
+				border: 0 none !important;
+				background-color: transparent;
+				opacity: .5;
+			}
 
-			overflow-x: hidden;
-			height: auto;
-			min-height: 26px;
-			max-height: 75px;
-			overflow-wrap: break-word;
-			word-wrap: break-word;
-			-ms-word-break: break-all;
-			word-break: break-all;
-			word-break: break-word;
-			-ms-hyphens: auto;
-			-moz-hyphens: auto;
-			-webkit-hyphens: auto;
-			hyphens: auto;
-			cursor: text;
+			.iosOnScreenChatMessage {
+				background-color: transparent;
+				position: relative;
+				z-index: 1;
+				white-space: pre-wrap;
+				user-select: text;
+				outline: none;
+				overflow-x: hidden;
+				height: auto;
+				min-height: 26px;
+				max-height: 75px;
+				overflow-wrap: break-word;
+				word-wrap: break-word;
+				-ms-word-break: break-all;
+				word-break: break-all;
+				word-break: break-word;
+				-ms-hyphens: auto;
+				-moz-hyphens: auto;
+				-webkit-hyphens: auto;
+				hyphens: auto;
+				cursor: text;
+			}
 		}
 
 		.osc_truncate_username{

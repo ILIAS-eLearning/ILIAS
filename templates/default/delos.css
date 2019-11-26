@@ -17362,16 +17362,23 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .panel-footer {
   position: relative;
 }
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessagePlaceholder {
+#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
+  background-color: white;
+}
+#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
   position: absolute;
   z-index: 0;
   border: 0 none !important;
+  background-color: transparent;
   opacity: .5;
 }
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessage {
+#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
   background-color: transparent;
   position: relative;
   z-index: 1;
+  white-space: pre-wrap;
+  user-select: text;
+  outline: none;
   overflow-x: hidden;
   height: auto;
   min-height: 26px;
