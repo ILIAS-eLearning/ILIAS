@@ -1,6 +1,6 @@
 # Use the Command Line to Manage ILIAS
 
-The ILIAS command line app can be called via `php setup.php`. It contains three
+The ILIAS command line app can be called via `php setup\setup.php`. It contains three
 commands to manage ILIAS installations:
 
 * `install` will [set an installation up](#install-ilias)
@@ -8,55 +8,92 @@ commands to manage ILIAS installations:
 * `build-artifacts` recreates static assets of an installation(#build-ilias-artifacts)
 
 `install` and `update` both require a [configuration file](#about-the-config-file)
-to do their job.
+to do their job. The app also supports a `help` command that lists arguments and
+options of the available commands.
 
 
 ## Install ILIAS
 
-To install ilias from the command line, use `php $PATH_TO_CLI_PHP $PATH_TO_CONFIG_JSON",
-where $PATH_TO_CLI_PHP points to the file `setup/cli.php` from the source of the
-installation you want to set up and $PATH_TO_CONFIG_JSON points to a [configuration file](#about-the-config-file).
+To install ILIAS from the command line, call `php setup/setup.php install config.json"
+from within the ILIAS folder you checked out from GitHub (or downloaded from elsewhere).
+`config.json` can be the path to some [configuration file](#about-the-config-file)
+which does not need to reside in the ILIAS folder. Also, `setup/setup.php` could be
+the path to the `setup.php` when the command is called from somewhere else.
 
-You might want to run the command with the user that also executes the webserver
-to avoid problems with filesystem permissions. The installation creates directories
-and files that the webserver will need to read and sometimes even modify.
+You most probably want to execute the setup with the user that also executes your
+webserver to avoid problems with filesystem permissions. The installation creates
+directories and files that the webserver will need to read and sometimes even modify.
+
+The setup will ask you to confirm some assumptions during the setup process, where
+you will have to type `yes` (or `no`, of course). These checks can be overwritten
+with the `--yes` option, which confirm any assumption for you automatically.
+
+There might be cases where the setup aborts for some reasons. These reasons might
+require further actions on your side which the setup can not perform. Make sure you
+read messages from the setup carefully and act accordingly. If you do not change the
+config file, it is safe to execute the installation process a second time for the
+same installation a second time during the initial setup process.
+
+Do not discard the `config.js` you use for the installation, you will need it later
+on to update that installation. If you want to overwrite specific fields in the
+configuration file you can use the `--config="a.b.c=value"` option, even several
+times. The nested field `a.b.c` from the config file will then be overwritten with
+`value`.
+
 
 ## Update ILIAS
 
-TBD
+To update ILIAS from the command line, call `php setup/setup.php update config.json`
+from within your ILIAS folder. Make sure you use the same config to update your
+installation as you have used for the [installation](#install-ilias). The remarks
+for the [installation](#install-ilias) in this README also apply for the update.
+
 
 ## Build ILIAS Artifacts
 
-TBD
+Artifacts are source code files that are created based on the ILIAS source tree.
+You can refresh them by calling `php setup/setup.php build-artifacts` from your
+installation. Make sure you run the command with the webserver user or adjust
+filesystem permissions later on, because the webserver will need to access the
+generated files.
+
 
 ## About the Config File
 
 The config file is a json file with the following structure. **Mandatory fields
-are printed bold**, all other fields might be ommitted. A minimal example is [here](minimal-config.json).
+are printed bold**, all other fields might be ommitted. A minimal example is
+[here](minimal-config.json).
 
 * **common** settings relevant for the complete installation 
   * **client_id** is the identifier to be used for the installation 
   * **master_password** is used to identify at the web version of the setup
-  * *server_timezone* where the installation resides, given as `region/city`, e.g. `Europe/Berlin`. Defaults to `UTC`.
-  * *register_nic* sends the identification number of the installation to a server of the ILIAS society together with some information about the installation.
+  * *server_timezone* where the installation resides, given as `region/city`,
+    e.g. `Europe/Berlin`. Defaults to `UTC`.
+  * *register_nic* sends the identification number of the installation to a server
+    of the ILIAS society together with some information about the installation.
 * *backgroundtasks* is a service to run tasks for users in separate processes
   * *type* might be `async` or `sync` and defaults to `sync`
   * *max_number_of_concurrent_tasks* that all users can run together
 * **database** is required to connect to the database
-  * *type* of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults to `innodb`
+  * *type* of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults
+    to `innodb`
   * *host* the database server runs on, defaults to `localhost`
   * *database* name to be used, defaults to `ilias`
   * **user** to be used to connect to the database
   * **password**  to be used to connect to the database
-  * **create_database** if a database with the given name does not exist? Defaults to `true`
+  * **create_database** if a database with the given name does not exist? Defaults
+    to `true`
 * **filesystem** configuration
   * **data_dir** outside the web directory where ILIAS puts some data
 * *globalcache* is a service for caching various information
-  * *service* to be used for caching. Either `none`, `static`, `xcache`, `memcached` or `apc`
-  * *components* that should use caching. Can be `all` or any list of components that support caching.
+  * *service* to be used for caching. Either `none`, `static`, `xcache`, `memcached`
+    or `apc`
+  * *components* that should use caching. Can be `all` or any list of components that
+    support caching.
 * **http** configuration
   * **path** to your installation on the internet
-  * *https_autodetection* allows ILIAS to be run behind a proxy that terminates ssl connections
+  * *https_autodetection* allows ILIAS to be run behind a proxy that terminates ssl
+    connections
     * *header_name* that the proxy sets to indicate ssl connections
     * *header_value* that the proxy sets for said header
   * *proxy* for outgoing http connections
