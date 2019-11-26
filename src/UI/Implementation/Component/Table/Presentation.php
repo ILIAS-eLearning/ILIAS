@@ -6,10 +6,12 @@ namespace ILIAS\UI\Implementation\Component\Table;
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Implementation\Component\ViewControl\HasViewControls;
 
 class Presentation implements T\Presentation
 {
     use ComponentHelper;
+    use HasViewControls;
 
     /**
      * @var SignalGeneratorInterface
@@ -20,12 +22,7 @@ class Presentation implements T\Presentation
      * @var	string
      */
     private $title;
-
-    /**
-     * @var ILIAS\UI\Component\ViewControl[]
-     */
-    private $view_controls;
-
+    
     /**
      * @var \Closure
      */
@@ -78,25 +75,6 @@ class Presentation implements T\Presentation
     public function getTitle()
     {
         return $this->title;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withViewControls(array $view_controls)
-    {
-        $clone = clone $this;
-        $clone->view_controls = $view_controls;
-        ;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getViewControls()
-    {
-        return $this->view_controls;
     }
 
     /**
