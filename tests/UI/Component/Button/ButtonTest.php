@@ -179,7 +179,7 @@ class ButtonTest extends ILIAS_UI_TestBase
         $html = $this->normalizeHTML($r->render($b));
 
         $css_classes = self::$canonical_css_classes[$factory_method];
-        $expected = "<button class=\"$css_classes\" data-action=\"$ln\" disabled=\"true\">" .
+        $expected = "<button class=\"$css_classes\" data-action=\"$ln\" disabled=\"disabled\">" .
                     "label" .
                     "</button>";
         $this->assertHTMLEquals($expected, $html);
