@@ -12,6 +12,7 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\AchievementTracker;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 
 /**
@@ -31,6 +32,13 @@ class InstallCommand extends BaseCommand {
 
 	protected function printOutroMessage(IOWrapper $io) {
 		$io->success("Installation complete. Thanks and have fun!");
+	}
+
+	public function execute(InputInterface $input, OutputInterface $output) {
+		// ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
+		// the setup for the command line version of the setup. Do not use this.
+		define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
+		return parent::execute($input, $output);
 	}
 
 	protected function buildEnvironment(Agent $agent, ?Config $config, IOWrapper $io) : Environment {
