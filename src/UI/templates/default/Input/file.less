@@ -1,26 +1,29 @@
 // File Input Style
 // @author Fabian Schmid <fs@studer-raimann.ch>
 
+.file-input-standard-padding() {
+  padding: @padding-large-vertical @padding-large-horizontal;
+}
+
 .il-input-file {
-
-  .dz-upload {
-	height: 4px;
-	background-color: @brand-primary;
-  }
-
   .il-input-file-dropzone {
 	background: @il-dropzone-bg;
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
 	-moz-border-radius: @il-dropzone-border-radius;
 	-webkit-border-radius: @il-dropzone-border-radius;
 	border-radius: @il-dropzone-border-radius;
-	margin-bottom: 10px;
-	padding: 5px 5px 5px 12px;
-	min-height: 25px;
+	margin-bottom: @padding-large-vertical;
+	.file-input-standard-padding();
 
 	&.dz-max-files-reached {
 	  background-color: @il-dropzone-bg-inactive;
 	  border-color: @il-dropzone-bg-inactive;
+
+	  button.btn {
+		background-color: @il-dropzone-bg-inactive;
+		border-color: @il-dropzone-bg-inactive;
+		color: darken(@il-dropzone-bg-inactive, 50);
+	  }
 	}
 
 	&.dz-drag-hover {
@@ -32,8 +35,9 @@
 	}
   }
 
+
   .il-input-file-fileinfo {
-	padding: 5px 5px 5px 12px;
+	.file-input-standard-padding();
 	display: -ms-flexbox;
 	display: -webkit-flex;
 	display: flex;

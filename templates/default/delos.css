@@ -8008,23 +8008,23 @@ ul.breadcrumb li:hover {
   width: 50%;
   float: left;
 }
-.il-input-file .dz-upload {
-  height: 4px;
-  background-color: #4c6586;
-}
 .il-input-file .il-input-file-dropzone {
   background: white;
   border: 1px dashed #9C9C9C;
   -moz-border-radius: 0px;
   -webkit-border-radius: 0px;
   border-radius: 0px;
-  margin-bottom: 10px;
-  padding: 5px 5px 5px 12px;
-  min-height: 25px;
+  margin-bottom: 6px;
+  padding: 6px 12px;
 }
 .il-input-file .il-input-file-dropzone.dz-max-files-reached {
   background-color: #F4F4F4;
   border-color: #F4F4F4;
+}
+.il-input-file .il-input-file-dropzone.dz-max-files-reached button.btn {
+  background-color: #F4F4F4;
+  border-color: #F4F4F4;
+  color: #757575;
 }
 .il-input-file .il-input-file-dropzone.dz-drag-hover {
   border: 1px dashed #606060;
@@ -8034,7 +8034,7 @@ ul.breadcrumb li:hover {
   background-color: #FFF9BC;
 }
 .il-input-file .il-input-file-fileinfo {
-  padding: 5px 5px 5px 12px;
+  padding: 6px 12px;
   display: -ms-flexbox;
   display: -webkit-flex;
   display: flex;
