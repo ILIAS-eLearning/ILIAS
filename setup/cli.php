@@ -45,6 +45,10 @@ function get_agent_name_by_class(string $class_name) : string {
 	return $class_name;
 }
 
+function setup_exit($message) {
+	throw new \ILIAS\Setup\UnachievableException($message);
+}
+
 function build_container_for_setup(string $executed_in_directory) {
 	$c = new \Pimple\Container;
 
