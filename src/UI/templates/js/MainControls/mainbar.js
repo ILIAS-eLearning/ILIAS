@@ -385,6 +385,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
             engage: function () {
                 this.getElement().addClass(css.engaged);
                 this.getElement().removeClass(css.disengaged);
+                this.getElement().trigger('in_view');
             },
             disengage: function () {
                 this.getElement().addClass(css.disengaged);
