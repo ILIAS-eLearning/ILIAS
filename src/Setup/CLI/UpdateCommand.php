@@ -12,6 +12,8 @@ use ILIAS\Setup\Objective;
 use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\AchievementTracker;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 
 /**
@@ -22,7 +24,9 @@ class UpdateCommand extends BaseCommand {
 
 	public function configure() {
 		parent::configure();
-		$this->setDescription("Updates an existing ILIAS installation");
+		$this
+			->setDescription("Updates an existing ILIAS installation")
+			->addOption("ignore-db-update-messages", null, InputOption::VALUE_NONE, "Ignore messages from the database update steps.");
 	}
 
 	protected function printIntroMessage(IOWrapper $io) {
@@ -50,6 +54,15 @@ class UpdateCommand extends BaseCommand {
 		}
 
 		return $environment;
+	}
+
+	public function execute(InputInterface $input, OutputInterface $output) {
+		// ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
+		// the setup for the command line version of the setup. Do not use this.
+		if ($input->hasOption("ignore-db-update-messages") && $input->getOption("ignore-db-update-messages")) {
+			define("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES", true);
+		}
+		return parent::execute($input, $output);
 	}
 
 	protected function getObjective(Agent $agent, ?Config $config) : Objective {

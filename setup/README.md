@@ -33,7 +33,7 @@ There might be cases where the setup aborts for some reasons. These reasons migh
 require further actions on your side which the setup can not perform. Make sure you
 read messages from the setup carefully and act accordingly. If you do not change the
 config file, it is safe to execute the installation process a second time for the
-same installation a second time during the initial setup process.
+same installation a during the initial setup process.
 
 Do not discard the `config.js` you use for the installation, you will need it later
 on to update that installation. If you want to overwrite specific fields in the
@@ -48,6 +48,12 @@ To update ILIAS from the command line, call `php setup/setup.php update config.j
 from within your ILIAS folder. Make sure you use the same config to update your
 installation as you have used for the [installation](#install-ilias). The remarks
 for the [installation](#install-ilias) in this README also apply for the update.
+
+Sometimes it might happen that the database update steps detect some edge case
+or warn about a possible loss of data. In this case the update is aborted with
+a message and can be resumed after the messages was read carefully and acted
+upon. You may use the `--ignore-db-update-messages` at your own risk if you want
+to silence the messages.
 
 
 ## Build ILIAS Artifacts
