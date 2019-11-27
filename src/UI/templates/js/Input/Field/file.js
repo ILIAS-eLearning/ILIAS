@@ -1,7 +1,7 @@
 /**
- * This links datetime-pickers together (for duration input)
+ * This wraps Drozone.js for FileInputs
  *
- * @author Nils Haagen <nils.haagen@concepts-and-training.de>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 Dropzone.autoDiscover = false;
 var il = il || {};
