@@ -21,6 +21,7 @@ With ILIAS 7, FileInput (or specific variants thereof) should have at least the 
 - Displaying existing files
 - Restriction to file extensions
 - Restriction to MimeTypes
+- use `Data\DataSize` for file size info
 
 With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
 - Preview of uploaded images
