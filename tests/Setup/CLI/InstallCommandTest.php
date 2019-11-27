@@ -58,7 +58,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			->willReturn($objective);
 
 		$agent
-			->expects($this->once())
+			->expects($this->never())
 			->method("getBuildArtifactObjective")
 			->with()
 			->willReturn(new Setup\NullObjective());

@@ -56,7 +56,6 @@ class UpdateCommand extends BaseCommand {
 		return new ObjectiveCollection(
 			"Update ILIAS",
 			false,
-			$agent->getBuildArtifactObjective(),
 			$agent->getUpdateObjective($config)
 		);
 	}

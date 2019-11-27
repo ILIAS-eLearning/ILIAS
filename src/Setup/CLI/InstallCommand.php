@@ -56,7 +56,6 @@ class InstallCommand extends BaseCommand {
 		return new ObjectiveCollection(
 			"Install and update ILIAS",
 			false,
-			$agent->getBuildArtifactObjective(),
 			$agent->getInstallObjective($config),
 			$agent->getUpdateObjective($config)
 		);
