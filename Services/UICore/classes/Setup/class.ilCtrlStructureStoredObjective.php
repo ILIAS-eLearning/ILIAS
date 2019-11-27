@@ -62,6 +62,10 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
 			throw new \UnachievableException("Need DB to store control-structure");
 		}
 
+		if (!defined("ILIAS_ABSOLUTE_PATH")) {
+			define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
+		}
+
 		$reader = $this->ctrl_reader->withDB($db);
 		$reader->executed = false;
 		$reader->readStructure(true, ".");
