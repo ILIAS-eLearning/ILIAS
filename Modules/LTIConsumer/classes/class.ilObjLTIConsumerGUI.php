@@ -159,7 +159,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 		$form->initForm($this->ctrl->getFormAction($this, "save"), '', '');
 		
 		$form->clearCommandButtons();
-		$form->addCommandButton("save", $this->lng->txt($a_new_type."_add_own_provider"));
+		$form->addCommandButton("saveCustom", $this->lng->txt($a_new_type."_add_own_provider"));
 		$form->addCommandButton("cancel", $this->lng->txt("cancel"));
 		
 		$form->setTitle($DIC->language()->txt($a_new_type.'_custom_new'));
@@ -186,6 +186,66 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 		$form = $this->buildProviderSelectionForm('');
 		$form->resetFilter();
 		$this->createObject();
+	}
+	
+	protected function createNewObject($newType, $title, $description)
+	{
+		$classname = "ilObj".$this->objDefinition->getClassName($newType);
+
+		$newObj = new $classname();
+		$newObj->setType($newType);
+		$newObj->setTitle($title);
+		$newObj->setDescription($description);
+		$newObj->create();
+		
+		$this->putObjectInTree($newObj);
+		
+		return $newObj;
+	}
+	
+	public function saveCustom()
+	{
+		if( !$this->checkPermissionBool("create", "", $new_type) )
+		{
+			throw new ilLtiConsumerException('permission denied!');
+		}
+		
+		global $DIC; /* @var \ILIAS\DI\Container $DIC */
+		
+		$new_type = $_REQUEST["new_type"];
+		$DIC->ctrl()->setParameter($this, "new_type", $new_type);
+		
+		$DIC->language()->loadLanguageModule($new_type);
+		
+		$form = $this->initCustomCreateForm($new_type);
+		
+		if( $form->checkInput() )
+		{
+			$DIC->ctrl()->setParameter($this, "new_type", "");
+			
+			// create object
+			$newObj = $this->createNewObject(
+				$new_type, $form->getInput('title'), $form->getInput('desc')
+			);
+			
+			// apply didactic template?
+			$dtpl = $this->getDidacticTemplateVar("dtpl");
+			if($dtpl)
+			{
+				$newObj->applyDidacticTemplate($dtpl);
+			}
+			
+			// auto rating
+			$this->handleAutoRating($newObj);
+
+			$this->afterSave($newObj);
+
+			return;
+		}
+		
+		$form->setValuesByPost();
+		
+		$DIC->ui()->mainTemplate()->setContent($form->getHtml());
 	}
 	
 	public function afterSave(ilObject $newObject)
@@ -237,7 +297,9 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
 			$DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class);
 		}
 		
-		throw new ilCmiXapiException('invalid creation form submit!');
+		throw new ilLtiConsumerException(
+			'form validation seems to not have worked in ilObjLTIConsumer::saveCustom()!'
+		);
 	}
 	
 	public function initMetadata(ilObjLTIConsumer $object)
