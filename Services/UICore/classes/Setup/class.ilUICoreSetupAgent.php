@@ -52,7 +52,7 @@ class ilUICoreSetupAgent implements Setup\Agent
 	 */
 	public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
 	{
-		return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+		return new \ilCtrlStructureStoredObjective($this->ctrl_reader, false);
 	}
 
 	/**

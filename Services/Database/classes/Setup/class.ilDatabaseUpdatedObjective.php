@@ -6,6 +6,21 @@ use ILIAS\Setup;
 use ILIAS\DI;
 
 class ilDatabaseUpdatedObjective extends \ilDatabaseObjective {
+	/**
+	 * @var	ilDatabaseSetupConfig
+	 */
+	protected $config;
+
+	/**
+	 * @var	bool
+	 */
+	protected $populate_before;
+
+	public function __construct(\ilDatabaseSetupConfig $config, bool $populate_before = false) {
+		parent::__construct($config);
+		$this->populate_before = $populate_before;
+	}
+
 	public function getHash() : string {
 		return hash("sha256", implode("-", [
 			self::class,
@@ -25,6 +40,12 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective {
 
 	public function getPreconditions(Setup\Environment $environment) : array {
 		$common_config = $environment->getConfigFor("common");
+		if (!$this->populate_before) {
+			return [
+				new \ilIniFilesLoadedObjective($common_config),
+				new \ilDatabaseExistsObjective($this->config)
+			];
+		}
 		return [
 			new \ilIniFilesPopulatedObjective($common_config),
 			new \ilDatabasePopulatedObjective($this->config)
@@ -42,7 +63,7 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective {
 		// update to run. This is a memento to the fact, that dependency injection
 		// is something we want. Currently, every component could just service
 		// locate the whole world via the global $DIC.
-		$DIC = $GLOBALS["DIC"];
+		$DIC = $GLOBALS["DIC"] ?? [];
 		$GLOBALS["DIC"] = new DI\Container();
 		$GLOBALS["DIC"]["ilDB"] = $db;
 		$GLOBALS["ilDB"] = $db;
@@ -75,7 +96,9 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective {
 		if (!defined("ILIAS_ABSOLUTE_PATH")) {
 			define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5)); 
 		}
-		define("ILIAS_LOG_ENABLED", false);
+		if (!defined("ILIAS_LOG_ENABLED")) {
+			define("ILIAS_LOG_ENABLED", false);
+		}
 		define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID")); 
 		define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID")); 
 		define("SYSTEM_FOLDER_ID", $client_ini->readVariable("system", "SYSTEM_FOLDER_ID"));

@@ -22,6 +22,7 @@ require_once(__DIR__."/classes/class.ilWebserverUserConfirmedObjective.php");
 require_once(__DIR__."/classes/class.ilOwnRiskConfirmedObjective.php");
 require_once(__DIR__."/classes/class.ilOverwritesExistingInstallationConfirmed.php");
 require_once(__DIR__."/classes/class.ilIniFilesPopulatedObjective.php");
+require_once(__DIR__."/classes/class.ilIniFilesLoadedObjective.php");
 require_once(__DIR__."/classes/class.ilNICKeyRegisteredObjective.php");
 require_once(__DIR__."/classes/class.ilNICKeyStoredObjective.php");
 require_once(__DIR__."/classes/class.ilSetupConfigStoredObjective.php");
