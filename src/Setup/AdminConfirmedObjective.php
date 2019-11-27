@@ -62,8 +62,8 @@ class AdminConfirmedObjective implements Objective {
 		}
 
 		if(!$admin_interaction->confirmOrDeny($this->message)) {
-			throw new UnachievableException(
-				"The admin did not confirm the message."
+			throw new NoConfirmationException(
+				$this->message
 			);
 		}
 

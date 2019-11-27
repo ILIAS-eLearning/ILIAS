@@ -72,10 +72,15 @@
 .il-item-group-items {
 	clear: both;
 }
+.il-item-notification-replacement-container:not(:first-child){
+	.il-notification-item{
+		margin-top: @padding-large-vertical;
+	}
+}
 
 .il-notification-item{
-	&:not(:first-child){
-		margin-top: @padding-large-vertical;
+	.il-item-additional-content{
+		clear:both;
 	}
 
 	.dropdown{

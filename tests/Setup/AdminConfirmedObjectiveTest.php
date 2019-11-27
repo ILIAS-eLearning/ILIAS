@@ -100,7 +100,7 @@ class AdminConfirmedObjectiveTest extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testAchieveWithDenial() {
-		$this->expectException(Setup\UnachievableException::class);
+		$this->expectException(Setup\NoConfirmationException::class);
 
 		$env = $this->createMock(Setup\Environment::class);
 		$admin_interaction = $this->createMock(Setup\AdminInteraction::class);

@@ -74,4 +74,14 @@ class DataFactoryTest extends TestCase {
 		$dataType = $this->f->closedFloatInterval(1.4, 100.2);
 		$this->assertInstanceOf(Data\Interval\ClosedFloatInterval::class, $dataType);
 	}
+
+	public function testDataSize1() {
+		$dataType = $this->f->dataSize(10, "MB");
+		$this->assertInstanceOf(Data\DataSize::class, $dataType);
+	}
+
+	public function testDataSize2() {
+		$dataType = $this->f->dataSize("10G");
+		$this->assertInstanceOf(Data\DataSize::class, $dataType);
+	}
 }
