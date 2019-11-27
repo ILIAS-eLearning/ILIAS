@@ -1,4 +1,4 @@
-let answer_selected = function(event) {
+let answer_selected = function () {
     let parent = $(this).parents(".js_multiple_choice");
     let max = parent.children(".js_max_answers").val();
     let current = parent.find(".js_multiple_choice_answer:checkbox:checked").length;
