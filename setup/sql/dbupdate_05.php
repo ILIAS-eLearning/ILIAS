@@ -3148,3 +3148,105 @@ if($read_ops_id && $edit_ops_id)
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5600>
+<?php
+$fields = array(
+    'internal'       => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'title'          => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'suffix'         => array(
+        'type'   => 'text',
+        'length' => '64',
+
+    ),
+    'mime_type'      => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'size'           => array(
+        'type'   => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource_info')) {
+    $ilDB->createTable('il_resource_info', $fields);
+    $ilDB->addPrimaryKey('il_resource_info', array('internal'));
+}
+?>
+<#5601>
+<?php
+$fields = array(
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'storage_id'     => array(
+        'type'   => 'text',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource')) {
+    $ilDB->createTable('il_resource', $fields);
+    $ilDB->addPrimaryKey('il_resource', array('identification'));
+}
+?>
+<#5602>
+<?php
+$fields = array(
+    'internal'       => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'available'      => array(
+        'type'   => 'integer',
+        'length' => '1',
+
+    ),
+    'version_number' => array(
+        'type'   => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource_revision')) {
+    $ilDB->createTable('il_resource_revision', $fields);
+    $ilDB->addPrimaryKey('il_resource_revision', array('internal'));
+}
+?>
+<#5603>
+<?php
+if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
+    $ilDB->addTableColumn(
+        'il_mm_items',
+        'icon_id',
+        array(
+            'type'   => 'text',
+            'length' => 256,
+        ));
+}
+?>

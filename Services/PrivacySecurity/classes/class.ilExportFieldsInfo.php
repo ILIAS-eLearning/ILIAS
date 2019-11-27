@@ -287,7 +287,7 @@ class ilExportFieldsInfo
 		
 		foreach($settings_all as $key => $value)
 		{
-			if(stristr($key,$field_prefix) and $value)
+			if($field_prefix && stristr($key,$field_prefix) and $value)
 			{
 				// added limit for mantis 11096
 				$field_parts = explode('_',$key,$field_part_limit);

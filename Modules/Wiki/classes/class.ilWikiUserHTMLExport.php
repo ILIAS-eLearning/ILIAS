@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use \ILIAS\Modules\Wiki\Export\WikiHtmlExport;
+use \ILIAS\Wiki\Export\WikiHtmlExport;
 
 /**
  *  Class manages user html export
