@@ -300,4 +300,14 @@ class MainBar implements MainControls\MainBar
     {
         return $this->close_buttons;
     }
+
+
+    public function withClearedEntries() : MainControls\MainBar
+    {
+        $clone = clone $this;
+        $clone->entries = [];
+        $clone->tool_entries = [];
+        return $clone;
+    }
+
 }

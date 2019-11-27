@@ -283,12 +283,14 @@ class ilCOPageHTMLExport
 		}
 		
 		// scripts needed
+		/*
 		$scripts = array("./js/yahoo/yahoo-min.js", "./js/yahoo/yahoo-dom-event.js",
 			"./js/yahoo/animation-min.js", "./js/yahoo/container-min.js", "./js/jquery.js",
 			"./js/Basic.js", "./js/jquery-ui-min.js",
 			"./js/ilOverlay.js", "./js/ilCOPagePres.js",
 			"./js/ilTooltip.js", "./js/maphilight.js", "./js/ilMatchingQuestion.js",
-			"./js/ilExtLink.js", "./js/linkify.js");
+			"./js/ilExtLink.js", "./js/linkify.js");*/
+		$scripts = [];
 		$scripts = array_merge($scripts, ilPlayerUtil::getJsFilePaths());
 
 		$mathJaxSetting = new ilSetting("MathJax");
@@ -307,7 +309,7 @@ class ilCOPageHTMLExport
 
 		foreach ($scripts as $script)
 		{
-			$tpl->addJavaScript($script);
+//			$tpl->addJavaScript($script);
 			//$tpl->setCurrentBlock("js_file");
 			//$tpl->setVariable("JS_FILE", $script);
 			//$tpl->parseCurrentBlock();
@@ -329,7 +331,7 @@ class ilCOPageHTMLExport
 
 		foreach ($css_files as $css)
 		{
-			$tpl->addCss($css);
+//			$tpl->addCss($css);
 			//$tpl->setCurrentBlock("css_file");
 			//$tpl->setVariable("CSS_FILE", $css);
 			//$tpl->parseCurrentBlock();

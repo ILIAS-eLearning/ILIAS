@@ -36,4 +36,9 @@ interface MetaBar extends Component, JavaScriptBindable
      * This signal disengages all slates when triggered.
      */
     public function getDisengageAllSignal() : Signal;
+
+    /**
+     * Get a copy of this Metabar without any entries.
+     */
+    public function withClearedEntries() : MetaBar;
 }

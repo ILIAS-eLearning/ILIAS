@@ -93,4 +93,11 @@ class MetaBar implements MainControls\MetaBar
         $this->entry_click_signal = $this->signal_generator->create();
         $this->disengage_all_signal = $this->signal_generator->create();
     }
+
+    public function withClearedEntries() : MainControls\MetaBar
+    {
+        $clone = clone $this;
+        $clone->entries = [];
+        return $clone;
+    }
 }

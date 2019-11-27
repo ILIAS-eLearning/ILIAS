@@ -94,7 +94,8 @@ class ilLegacyKioskModeView implements ILIAS\KioskMode\View
 		}
 
 		$builder->start($label,	$url, 0);
-		//return $this->debugBuildAllControls($builder);
+
+//		return $this->debugBuildAllControls($builder);
 		return $builder;
 	}
 

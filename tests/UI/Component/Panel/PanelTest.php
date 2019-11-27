@@ -7,6 +7,8 @@ require_once(__DIR__ . "/../../Base.php");
 
 use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation as I;
+use \ILIAS\UI\Implementation\Component\SignalGenerator;
+
 
 class ComponentDummy implements C\Component
 {
@@ -25,6 +27,35 @@ class ComponentDummy implements C\Component
  */
 class PanelTest extends ILIAS_UI_TestBase
 {
+    public function getUIFactory()
+    {
+        $factory = new class extends NoUIFactory {
+            public function panelSecondary()
+            {
+                return new I\Component\Panel\Secondary\Factory();
+            }
+            public function dropdown()
+            {
+                return new I\Component\Dropdown\Factory();
+            }
+            public function viewControl()
+            {
+                return new I\Component\ViewControl\Factory(new SignalGenerator());
+            }
+            public function button()
+            {
+                return new I\Component\Button\Factory();
+            }
+            public function symbol() : C\Symbol\Factory
+            {
+                return new I\Component\Symbol\Factory(
+                    new I\Component\Symbol\Icon\Factory(),
+                    new I\Component\Symbol\Glyph\Factory()
+                );
+            }
+        };
+        return $factory;
+    }
 
     /**
      * @return \ILIAS\UI\Implementation\Component\Panel\Factory
@@ -244,4 +275,105 @@ EOT;
 
         $this->assertHTMLEquals($expected_html, $html);
     }
+
+    public function test_with_view_controls()
+    {
+        $sort_options = [
+            'a' => 'A',
+            'b' => 'B'
+        ];
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+        $f = $this->getPanelFactory();
+        $p = $f->standard("Title", [])
+            ->withViewControls([$sortation]);;
+
+        $this->assertEquals($p->getViewControls(), [$sortation]);
+    }
+
+    public function test_render_with_sortation()
+    {
+        $sort_options = [
+            'a' => 'A',
+            'b' => 'B'
+        ];
+        $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
+
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+
+        $p = $f->standard("Title", [])
+            ->withViewControls([$sortation]);;
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary">
+	<div class="panel-heading ilHeader clearfix">
+		<h3 class="ilHeader">Title</h3> 
+		<div class="il-viewcontrol-sortation" id="">
+<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false" > <span class="caret"></span></button>
+<ul class="dropdown-menu">
+	<li><button class="btn btn-link" data-action="?sortation=a" id="id_1">A</button>
+</li>
+	<li><button class="btn btn-link" data-action="?sortation=b" id="id_2">B</button>
+</li>
+</ul>
+</div>
+</div>
+	</div>
+	<div class="panel-body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
+    public function test_render_with_pagination()
+    {
+        $pagination = $this->getUIFactory()->viewControl()->pagination()
+            ->withTargetURL('http://ilias.de', 'page')
+            ->withTotalEntries(10)
+            ->withPageSize(2)
+            ->withCurrentPage(1);
+
+        $f = $this->getPanelFactory();
+        $r = $this->getDefaultRenderer();
+
+
+        $p = $f->standard("Title", [])
+            ->withViewControls([$pagination]);
+
+        $html = $r->render($p);
+
+        $expected_html = <<<EOT
+<div class="panel panel-primary">
+	<div class="panel-heading ilHeader clearfix">
+		<h3 class="ilHeader">Title</h3> 
+		<div class="il-viewcontrol-pagination">
+<span class="browse previous"><a class="glyph" href="http://ilias.de?page=0" aria-label="back">
+<span class="glyphicon
+ glyphicon-chevron-left
+" aria-hidden="true"></span>
+</a>
+</span>
+ <button class="btn btn-link" data-action="http://ilias.de?page=0" id="id_1">1</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=1" disabled="disabled">2</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=2" id="id_2">3</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=3" id="id_3">4</button>
+  <button class="btn btn-link" data-action="http://ilias.de?page=4" id="id_4">5</button>
+<span class="browse next"><a class="glyph" href="http://ilias.de?page=2" aria-label="next">
+<span class="glyphicon
+ glyphicon-chevron-right
+" aria-hidden="true"></span>
+</a>
+</span>
+</div>
+		
+	</div>
+	<div class="panel-body"></div>
+</div>
+EOT;
+        $this->assertHTMLEquals($expected_html, $html);
+    }
+
 }

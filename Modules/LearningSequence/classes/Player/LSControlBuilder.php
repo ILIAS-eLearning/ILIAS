@@ -154,7 +154,8 @@ class LSControlBuilder implements ControlBuilder
 			$label = 'lso_player_finish';
 		}
 
-		$exit_button = $this->ui_factory->button()->shy(
+		$exit_button = $this->ui_factory->button()->bulky(
+			$this->ui_factory->symbol()->glyph()->close(),
 			$this->lng->txt($label),
 			$cmd
 		);

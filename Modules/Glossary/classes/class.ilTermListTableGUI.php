@@ -1,15 +1,11 @@
 <?php 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Term list table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilTermListTableGUI extends ilTable2GUI
 {
@@ -49,10 +45,8 @@ class ilTermListTableGUI extends ilTable2GUI
 
 		$this->selectable_cols = array();
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermPermission.php");
 		$this->term_perm = ilGlossaryTermPermission::getInstance();
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 		$adv_ad = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_fields = $adv_ad->getAllFields();
 		foreach ($this->adv_fields as $f)
@@ -79,7 +73,6 @@ class ilTermListTableGUI extends ilTable2GUI
 		$this->addColumn("", "", "1", true);
 		//$this->addColumn($this->lng->txt("cont_term"));
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 		$adv_ap = new ilGlossaryAdvMetaDataAdapter($this->glossary->getRefId());
 		$this->adv_cols_order = $adv_ap->getColumnOrder();
 		$this->selected_cols = $this->getSelectedColumns();
@@ -142,7 +135,6 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	function showGlossaryColumn()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		return (in_array($this->glossary->getVirtualMode(),
 			array("level", "subtree")) || ilGlossaryTermReferences::hasReferences($this->glossary->getId()));
 	}
@@ -183,7 +175,6 @@ class ilTermListTableGUI extends ilTable2GUI
 	function initFilter()
 	{
 		// term
-		include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 		$ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
 		$ti->setMaxLength(64);
 		$ti->setSize(20);
@@ -195,7 +186,6 @@ class ilTermListTableGUI extends ilTable2GUI
 		// definition
 		if ($this->glossary->supportsLongTextQuery())
 		{
-			include_once("./Services/Form/classes/class.ilTextInputGUI.php");
 			$ti = new ilTextInputGUI($this->lng->txt("cont_definition"), "defintion");
 			$ti->setMaxLength(64);
 			$ti->setSize(20);
@@ -211,8 +201,6 @@ class ilTermListTableGUI extends ilTable2GUI
 	 */
 	protected function fillRow($term)
 	{
-		include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
-
 		$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 		$this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $term["id"]);
 		$this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
@@ -224,8 +212,6 @@ class ilTermListTableGUI extends ilTable2GUI
 		if ($this->term_perm->checkPermission("write", $term["id"]) ||
 			$this->term_perm->checkPermission("edit_content", $term["id"]))
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 			if (ilGlossaryTerm::_lookGlossaryID($term["id"]) == $this->glossary->getId() ||
 				ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $term["id"]))
 			{
@@ -282,7 +268,6 @@ class ilTermListTableGUI extends ilTable2GUI
 				$short_str = ilUtil::shortenText($short_str, $ltexe+6, true);
 			}
 
-			include_once './Services/MathJax/classes/class.ilMathJax.php';
 			$short_str = ilMathJax::getInstance()->insertLatexImages($short_str);
 
 			$short_str = ilPCParagraph::xml2output($short_str);
@@ -374,4 +359,3 @@ class ilTermListTableGUI extends ilTable2GUI
 	}
 
 }
-?>

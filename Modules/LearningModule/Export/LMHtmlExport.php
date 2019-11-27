@@ -2,18 +2,15 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Modules\LearningModule\Export;
-
-use ILIAS\Tools\Maintainers\Iterator;
+namespace ILIAS\LearningModule\Export;
 
 /**
  * LM HTML Export
  *
  * @author killing@leifos.de
  */
-class HTMLExport
+class LMHtmlExport
 {
-
     /**
      * @var \ilTemplate
      */
@@ -116,8 +113,6 @@ class HTMLExport
         $this->lang = $lang;
 
         // get learning module presentation gui class
-        $_GET["cmd"] = "nop";
-        $_GET["transl"] = "";
         $this->lm_gui = new \ilLMPresentationGUI($export_format, ($lang == "all"), $this->target_dir, false);
         $this->obj_transl = \ilObjectTranslation::getInstance($lm->getId());
 
@@ -129,8 +124,28 @@ class HTMLExport
         $this->initial_current_user_language = $this->user->getCurrentLanguage();
 
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util();
+        $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
+
+        $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
+
+
+    /**
+     * Set additional context data
+     *
+     * @param $key
+     * @param $data
+     */
+    protected function setAdditionalContextData($key, $data)
+    {
+        $additional_data = $this->global_screen->tool()->context()->current()->getAdditionalData();
+        if ($additional_data->exists($key)) {
+            $additional_data->replace($key, $data);
+        } else {
+            $additional_data->add($key, $data);
+        }
+    }
+
 
     /**
      * Reset user language
@@ -156,38 +171,6 @@ class HTMLExport
         }
     }
 
-    /**
-     * Init MathJax
-     */
-    protected function initMathJax()
-    {
-        // init the mathjax rendering for HTML export
-        \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
-    }
-
-    /**
-     * Export system style
-     */
-    protected function exportSystemStyle()
-    {
-        // system style html exporter
-        include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
-        $sys_style_html_export = new \ilSystemStyleHTMLExport($this->target_dir);
-        $sys_style_html_export->addImage("icon_lm.svg");
-        $sys_style_html_export->export();
-    }
-
-    /**
-     * Export content style
-     */
-    protected function exportContentStyle()
-    {
-        // init co page html exporter
-        $this->co_page_html_export->setContentStyleId($this->lm->getStyleSheetId());
-        $this->co_page_html_export->createDirectories();
-        $this->co_page_html_export->exportStyles();
-        $this->co_page_html_export->exportSupportScripts();
-    }
 
     /**
      * Get language Iterator
@@ -283,20 +266,26 @@ class HTMLExport
     protected function initGlobalScreen()
     {
         // set global
-        $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilLMHtmlExportViewLayoutProvider::LM_HTML_EXPORT_RENDERING, true);
     }
 
 
     /**
      * export html package
+     * @param bool $zip
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws \ilTemplateException
      */
     function exportHTML($zip = true)
     {
         $this->initGlobalScreen();
         $this->initDirectories();
-        $this->initMathJax();
-        $this->exportSystemStyle();
-        $this->exportContentStyle();
+
+        $this->export_util->exportSystemStyle();
+        $this->export_util->exportCOPageFiles($this->lm->getStyleSheetId());
 
         $lang_iterator = $this->getLanguageIterator();
 
@@ -307,51 +296,44 @@ class HTMLExport
             $this->exportHTMLPages();
         }
         // export glossary terms
-//        $this->exportHTMLGlossaryTerms($lm_gui, $a_target_dir);
+        $this->exportHTMLGlossaryTerms();
 
         // export all media objects
-/*
         $linked_mobs = array();
         foreach ($this->offline_mobs as $mob)
         {
-            if (ilObject::_exists($mob) && ilObject::_lookupType($mob) == "mob")
+            if (\ilObject::_exists($mob) && \ilObject::_lookupType($mob) == "mob")
             {
-                $this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs);
+                $this->exportHTMLMOB($mob, "_blank", $linked_mobs);
             }
         }
         $linked_mobs2 = array();				// mobs linked in link areas
         foreach ($linked_mobs as $mob)
         {
-            if (ilObject::_exists($mob))
+            if (\ilObject::_exists($mob))
             {
-                $this->exportHTMLMOB($a_target_dir, $lm_gui, $mob, "_blank", $linked_mobs2);
+                $this->exportHTMLMOB($mob, "_blank", $linked_mobs2);
             }
         }
-*/
-        $_GET["obj_type"] = "MediaObject";
-        $_GET["obj_id"]  = $a_mob_id;
-        $_GET["cmd"] = "";
+
 
         // export all file objects
-/*
         foreach ($this->offline_files as $file)
         {
-            $this->exportHTMLFile($a_target_dir, $file);
+            $this->exportHTMLFile($file);
         }
-*/
 
-/*
+
         // export questions (images)
         if (count($this->q_ids) > 0)
         {
             foreach ($this->q_ids as $q_id)
             {
-                ilUtil::makeDirParents($a_target_dir."/assessment/0/".$q_id."/images");
-                ilUtil::rCopy(ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
-                    $a_target_dir."/assessment/0/".$q_id."/images");
+                \ilUtil::makeDirParents($this->target_dir."/assessment/0/".$q_id."/images");
+                \ilUtil::rCopy(\ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
+                    $this->target_dir."/assessment/0/".$q_id."/images");
             }
         }
-*/
 
         // export flv/mp3 player
         /*
@@ -389,7 +371,9 @@ class HTMLExport
 
         $this->resetUserLanguage();
 
-        $this->export_util->exportResourceFiles($this->global_screen, $this->target_dir);
+        $this->addSupplyingExportFiles();
+
+        $this->export_util->exportResourceFiles();
 
         // zip everything
         if ($zip) {
@@ -419,25 +403,43 @@ class HTMLExport
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
     }
-    
+
+
+    /**
+     * Add supplying export files
+     */
+    protected function addSupplyingExportFiles()
+    {
+        foreach ($this->getSupplyingExportFiles() as $f)
+        {
+            if ($f["type"] == "js")
+            {
+                $this->global_screen->layout()->meta()->addJs($f["source"]);
+            }
+            if ($f["type"] == "css")
+            {
+                $this->global_screen->layout()->meta()->addCss($f["source"]);
+            }
+        }
+    }
+
 
     /**
      * Get supplying export files
      *
-     * @param
-     * @return
+     * @param string $a_target_dir
+     * @return array
      */
-    /*
-    static function getSupplyingExportFiles($a_target_dir = ".")
+    protected function getSupplyingExportFiles($a_target_dir = ".")
     {
         $scripts = array(
-            array("source" => ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
+            array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
                 "target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
                 "type" => "js"),
-            array("source" => ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
+            array("source" => \ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
                 "target" => $a_target_dir.'/js/yahoo/yahoo-dom-event.js',
                 "type" => "js"),
-            array("source" => ilYuiUtil::getLocalPath('animation/animation-min.js'),
+            array("source" => \ilYuiUtil::getLocalPath('animation/animation-min.js'),
                 "target" => $a_target_dir.'/js/yahoo/animation-min.js',
                 "type" => "js"),
             array("source" => './Services/JavaScript/js/Basic.js',
@@ -449,13 +451,13 @@ class HTMLExport
             array("source" => './Services/Accordion/css/accordion.css',
                 "target" => $a_target_dir.'/css/accordion.css',
                 "type" => "css"),
-            array("source" => iljQueryUtil::getLocaljQueryPath(),
+            array("source" => \iljQueryUtil::getLocaljQueryPath(),
                 "target" => $a_target_dir.'/js/jquery.js',
                 "type" => "js"),
-            array("source" => iljQueryUtil::getLocalMaphilightPath(),
+            array("source" => \iljQueryUtil::getLocalMaphilightPath(),
                 "target" => $a_target_dir.'/js/maphilight.js',
                 "type" => "js"),
-            array("source" => iljQueryUtil::getLocaljQueryUIPath(),
+            array("source" => \iljQueryUtil::getLocaljQueryUIPath(),
                 "target" => $a_target_dir.'/js/jquery-ui-min.js',
                 "type" => "js"),
             array("source" => './Services/COPage/js/ilCOPagePres.js',
@@ -476,27 +478,27 @@ class HTMLExport
             array("source" => './Modules/TestQuestionPool/templates/default/test_javascript.css',
                 "target" => $a_target_dir.'/css/test_javascript.css',
                 "type" => "css"),
-            array("source" => ilPlayerUtil::getLocalMediaElementJsPath(),
-                "target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementJsPath(),
+            array("source" => \ilPlayerUtil::getLocalMediaElementJsPath(),
+                "target" => $a_target_dir."/".\ilPlayerUtil::getLocalMediaElementJsPath(),
                 "type" => "js"),
-            array("source" => ilPlayerUtil::getLocalMediaElementCssPath(),
-                "target" => $a_target_dir."/".ilPlayerUtil::getLocalMediaElementCssPath(),
+            array("source" => \ilPlayerUtil::getLocalMediaElementCssPath(),
+                "target" => $a_target_dir."/".\ilPlayerUtil::getLocalMediaElementCssPath(),
                 "type" => "css"),
-            array("source" => ilExplorerBaseGUI::getLocalExplorerJsPath(),
-                "target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalExplorerJsPath(),
+            array("source" => \ilExplorerBaseGUI::getLocalExplorerJsPath(),
+                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalExplorerJsPath(),
                 "type" => "js"),
-            array("source" => ilExplorerBaseGUI::getLocalJsTreeJsPath(),
-                "target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeJsPath(),
+            array("source" => \ilExplorerBaseGUI::getLocalJsTreeJsPath(),
+                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalJsTreeJsPath(),
                 "type" => "js"),
-            array("source" => ilExplorerBaseGUI::getLocalJsTreeCssPath(),
-                "target" => $a_target_dir."/".ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+            array("source" => \ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalJsTreeCssPath(),
                 "type" => "css"),
             array("source" => './Modules/LearningModule/js/LearningModule.js',
                 "target" => $a_target_dir.'/js/LearningModule.js',
                 "type" => "js")
         );
 
-        $mathJaxSetting = new ilSetting("MathJax");
+        $mathJaxSetting = new \ilSetting("MathJax");
         $use_mathjax = $mathJaxSetting->get("enable");
         if ($use_mathjax)
         {
@@ -506,7 +508,7 @@ class HTMLExport
         }
 
         // auto linking js
-        foreach (ilLinkifyUtil::getLocalJsPaths() as $p)
+        foreach (\ilLinkifyUtil::getLocalJsPaths() as $p)
         {
             if (is_int(strpos($p, "ExtLink")))
             {
@@ -522,18 +524,36 @@ class HTMLExport
             }
         }
 
-        return $scripts;
+        $scripts[] = [
+            "source" => "src/UI/templates/js/MainControls/mainbar.js",
+            "type" => "js"
+        ];
+        $scripts[] = [
+            "source" => "src/UI/templates/js/MainControls/metabar.js",
+            "type" => "js"
+        ];
+        $scripts[] = [
+            "source" => "src/UI/templates/js/MainControls/slate.js",
+            "type" => "js"
+        ];
+        $scripts[] = [
+            "source" => "src/UI/templates/js/Page/stdpage.js",
+            "type" => "js"
+        ];
 
-    }*/
+        return $scripts;
+    }
 
     /**
      * export file object
      */
-    function exportHTMLFile($a_target_dir, $a_file_id)
+    function exportHTMLFile($file_id)
     {
-        $file_dir = $a_target_dir."/files/file_".$a_file_id;
-        ilUtil::makeDir($file_dir);
-        $file_obj = new ilObjFile($a_file_id, false);
+        $target_dir = $this->target_dir;
+
+        $file_dir = $target_dir."/files/file_".$file_id;
+        \ilUtil::makeDir($file_dir);
+        $file_obj = new \ilObjFile($file_id, false);
         $source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
         if (!is_file($source_file))
         {
@@ -546,27 +566,65 @@ class HTMLExport
     }
 
     /**
-     * export media object to html
+     * Init media screen
+     *
+     * @param int $mob_id
+     * @param string $frame
+     * @param bool $fullscreen
      */
-    function exportHTMLMOB($a_target_dir, &$a_lm_gui, $a_mob_id, $a_frame, &$a_linked_mobs)
+    protected function initMediaScreen(int $mob_id, string $frame, bool $fullscreen = false)
     {
-        $mob_dir = $a_target_dir."/mobs";
+        $params = [
+            "obj_type" => "MediaObject",
+            "frame" => $frame,
+            "cmd" => ""
+        ];
 
-        $source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
-        if (@is_dir($source_dir))
-        {
-            ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
-            ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+        if ($fullscreen) {
+            $params = [
+                "obj_type" => "",
+                "frame" => "",
+                "cmd" => "fullscreen"
+            ];
         }
 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-        $_GET["obj_type"]  = "MediaObject";
-        $_GET["mob_id"]  = $a_mob_id;
-        $_GET["frame"] = $a_frame;
-        $_GET["cmd"] = "";
-        $content = $a_lm_gui->media();
-        $file = $a_target_dir."/media_".$a_mob_id.".html";
+        $params["ref_id"] = $this->lm->getRefId();
+        $params["mob_id"] = $mob_id;
+
+        $this->lm_gui->initByRequest($params);
+
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
+    }
+    
+    
+    /**
+     * @param int $a_mob_id
+     * @param string $a_frame
+     * @param array $a_linked_mobs
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    function exportHTMLMOB(int $a_mob_id, string $a_frame, array &$a_linked_mobs)
+    {
+        $lm_gui = $this->lm_gui;
+        $target_dir = $this->target_dir;
+
+        $mob_dir = $target_dir."/mobs";
+
+        $source_dir = \ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
+        if (@is_dir($source_dir))
+        {
+            \ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
+            \ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
+        }
+
+        $this->initMediaScreen($a_mob_id, $a_frame);
+
+        $content = $lm_gui->media();
+
+        $file = $target_dir."/media_".$a_mob_id.".html";
 
         // open file
         if (!($fp = @fopen($file,"w+")))
@@ -574,22 +632,18 @@ class HTMLExport
             die ("<b>Error</b>: Could not open \"".$file."\" for writing".
                 " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
         }
-        chmod($file, 0770);
+        //chmod($file, 0770);
         fwrite($fp, $content);
         fclose($fp);
 
         // fullscreen
-        $mob_obj = new ilObjMediaObject($a_mob_id);
+        $mob_obj = new \ilObjMediaObject($a_mob_id);
         if ($mob_obj->hasFullscreenItem())
         {
-            $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-            $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-            $_GET["obj_type"]  = "";
-            $_GET["frame"]  = "";
-            $_GET["mob_id"]  = $a_mob_id;
-            $_GET["cmd"] = "fullscreen";
-            $content = $a_lm_gui->fullscreen();
-            $file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
+            $this->initMediaScreen($a_mob_id, "", true);
+
+            $content = $lm_gui->fullscreen();
+            $file = $target_dir."/fullscreen_".$a_mob_id.".html";
 
             // open file
             if (!($fp = @fopen($file,"w+")))
@@ -597,38 +651,59 @@ class HTMLExport
                 die ("<b>Error</b>: Could not open \"".$file."\" for writing".
                     " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
             }
-            chmod($file, 0770);
+            //chmod($file, 0770);
             fwrite($fp, $content);
             fclose($fp);
         }
         $linked_mobs = $mob_obj->getLinkedMediaObjects();
         foreach ($linked_mobs as $id)
         {
-            $this->log->debug("HTML Export: Add media object $id (".ilObject::_lookupTitle($id).") ".
-                " due to media object ".$a_mob_id." (".ilObject::_lookupTitle($a_mob_id).").");
+            $this->log->debug("HTML Export: Add media object $id (".\ilObject::_lookupTitle($id).") ".
+                " due to media object ".$a_mob_id." (".\ilObject::_lookupTitle($a_mob_id).").");
         }
         $a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
     }
 
     /**
-     * export glossary terms
+     * Init glossary screen
+     *
+     * @param int $term_id
      */
-    function exportHTMLGlossaryTerms(&$a_lm_gui, $a_target_dir)
+    protected function initGlossaryScreen(int $term_id)
+    {
+        $params = [
+            "obj_id" => $term_id,
+            "frame" => "_blank",
+            "ref_id" => $this->lm->getRefId()
+        ];
+
+        $this->lm_gui->initByRequest($params);
+
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
+    }
+
+    /**
+     * Export glossary terms
+     * @throws \ilTemplateException
+     */
+    function exportHTMLGlossaryTerms()
     {
         $ilLocator = $this->locator;
+
+        $lm_gui = $this->lm_gui;
+        $target_dir = $this->target_dir;
 
         foreach($this->offline_int_links as $int_link)
         {
             $ilLocator->clearItems();
             if ($int_link["type"] == "git")
             {
-                $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-                $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+                $this->initGlossaryScreen($int_link["id"]);
 
-                $_GET["obj_id"] = $int_link["id"];
-                $_GET["frame"] = "_blank";
-                $content = $a_lm_gui->glossary();
-                $file = $a_target_dir."/term_".$int_link["id"].".html";
+                $content = $lm_gui->glossary();
+
+                $file = $target_dir."/term_".$int_link["id"].".html";
 
                 // open file
                 if (!($fp = @fopen($file,"w+")))
@@ -636,28 +711,26 @@ class HTMLExport
                     die ("<b>Error</b>: Could not open \"".$file."\" for writing".
                         " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
                 }
-                chmod($file, 0770);
+                //chmod($file, 0770);
                 fwrite($fp, $content);
                 fclose($fp);
 
                 // store linked/embedded media objects of glosssary term
-                $defs = ilGlossaryDefinition::getDefinitionList($int_link["id"]);
+                $defs = \ilGlossaryDefinition::getDefinitionList($int_link["id"]);
                 foreach($defs as $def)
                 {
-                    $def_mobs = ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
+                    $def_mobs = \ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
                     foreach($def_mobs as $def_mob)
                     {
                         $this->offline_mobs[$def_mob] = $def_mob;
-                        $this->log->debug("HTML Export: Add media object $def_mob (".ilObject::_lookupTitle($def_mob).") ".
-                            " due to glossary entry ".$int_link["id"]." (".ilGlossaryTerm::_lookGlossaryTerm($int_link["id"]).").");
+                        $this->log->debug("HTML Export: Add media object $def_mob (".\ilObject::_lookupTitle($def_mob).") ".
+                            " due to glossary entry ".$int_link["id"]." (".\ilGlossaryTerm::_lookGlossaryTerm($int_link["id"]).").");
                     }
 
                     // get all files of page
-                    $def_files = ilObjFile::_getFilesOfObject("gdf:pg", $page["obj_id"]);
+                    $def_files = \ilObjFile::_getFilesOfObject("gdf:pg", $def["obj_id"]);
                     $this->offline_files = array_merge($this->offline_files, $def_files);
-
                 }
-
             }
         }
     }
@@ -789,6 +862,40 @@ class HTMLExport
 
 
     /**
+     * Init page
+     * @param int $lm_page_id
+     * @param string $frame
+     */
+    protected function initScreen(int $lm_page_id, string $frame)
+    {
+        $this->global_screen->layout()->meta()->reset();
+
+        // load style sheet depending on user's settings
+        $location_stylesheet = \ilUtil::getStyleSheetLocation();
+        $this->global_screen->layout()->meta()->addCss($location_stylesheet);
+
+        $this->addSupplyingExportFiles();
+
+        // template workaround: reset of template
+        $tpl = $this->getInitialisedTemplate();
+        \ilPCQuestion::resetInitialState();
+
+        $params = [
+            "obj_id" => $lm_page_id,
+            "ref_id" => $this->lm->getRefId(),
+            "frame" => $frame
+        ];
+
+        $this->lm_gui->initByRequest($params);
+
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
+        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
+
+        $this->lm_gui->injectTemplate($tpl);
+    }
+
+
+    /**
      * export page html
      */
     function exportPageHTML($lm_page_id, $is_first = false,
@@ -805,20 +912,9 @@ class HTMLExport
             $lang_suffix = "_".$lang;
         }
 
-        // template workaround: reset of template
-        $tpl = $this->getInitialisedTemplate();
-        \ilPCQuestion::resetInitialState();
+        // Init template, lm_gui
+        $this->initScreen($lm_page_id, $frame);
 
-        //$_GET["obj_id"] = $lm_page_id;
-        //$_GET["frame"] = $frame;
-
-        $this->lm_gui->initByRequest([
-            "obj_id" => $lm_page_id,
-            "ref_id" => $this->lm->getRefId(),
-            "frame" => $frame
-        ]);
-
-        $this->lm_gui->injectTemplate($tpl);
 
         if ($frame == "")
         {

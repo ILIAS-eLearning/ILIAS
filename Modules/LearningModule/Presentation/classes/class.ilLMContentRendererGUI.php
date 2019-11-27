@@ -369,7 +369,7 @@ class ilLMContentRendererGUI
             $page_gui = new ilLMPageGUI($a_id);
         }
         if ($this->offline) {
-            $page_gui->setOutputMode(IL_PAGE_OFFLINE);
+            $page_gui->setOutputMode(ilPageObjectGUI::OFFLINE);
         }
         return $page_gui;
     }

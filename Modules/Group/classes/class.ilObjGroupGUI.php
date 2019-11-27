@@ -599,10 +599,14 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 			$this->object->setShowMembers((int) $form->getInput('show_members'));
 
-			// group period
-			$period = $form->getItemByPostVar('period');
-			$this->object->setStart($period->getStart());
-			$this->object->setEnd($period->getEnd());
+			// period
+			$grp_period = $form->getItemByPostVar("period");
+
+
+			$this->object->setPeriod(
+				$grp_period->getStart(),
+				$grp_period->getEnd()
+			);
 
 			$reg = $form->getItemByPostVar("reg");
 			if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
@@ -1555,19 +1559,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($a_mode == 'edit')
 		{
 			// group period
-			include_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
-			$group_duration = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');			
-			$group_duration->setInfo($this->lng->txt('grp_period_info'));
-			if($this->object->getStart())
-			{
-				$group_duration->setStart($this->object->getStart());
-			}		
-			if($this->object->getEnd())
-			{
-				$group_duration->setEnd($this->object->getEnd());
-			}
-			$form->addItem($group_duration);
-			
+			$cdur = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');
+			$this->lng->loadLanguageModule('mem');
+			$cdur->enableToggleFullTime(
+				$this->lng->txt('mem_period_without_time'),
+				!$this->object->getStartTimeIndication()
+			);
+			$cdur->setShowTime(true);
+			$cdur->setInfo($this->lng->txt('grp_period_info'));
+			$cdur->setStart($this->object->getStart());
+			$cdur->setEnd($this->object->getEnd());
+			$form->addItem($cdur);
+
 			// Group registration ############################################################
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_registration'));

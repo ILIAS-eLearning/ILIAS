@@ -2974,3 +2974,279 @@ if(!$ilDB->tableExists('webdav_instructions'))
     $ilDB->createSequence('webdav_instructions');
 }
 ?>
+
+<#5592>
+<?php
+
+/**
+ * @var $ilDB \ilDBInterface
+ */
+
+if(!$ilDB->tableColumnExists('crs_settings', 'period_start')) {
+
+        $ilDB->addTableColumn(
+                'crs_settings',
+                'period_start',
+                [
+                        'type' => \ilDBConstants::T_TIMESTAMP,
+                        'notnull' => false,
+                        'default' => null
+                ]
+        );
+        $ilDB->addTableColumn(
+                'crs_settings',
+                'period_end',
+                [
+                        'type' => \ilDBConstants::T_TIMESTAMP,
+                        'notnull' => false,
+                        'default' => null
+                ]
+        );
+}
+?>
+
+<#5593>
+<?php
+
+$query = 'select obj_id, crs_start, crs_end from crs_settings where crs_start IS NOT NULL or crs_end IS NOT NULL';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+
+        $dtstart = $dtend = null;
+        if($row->crs_start != null) {
+                $start = new DateTime();
+                $start->setTimezone(new DateTimeZone('UTC'));
+                $start->setTimestamp((int) $row->crs_start);
+                $dtstart = $start->format('Y-m-d');
+        }
+        if($row->crs_end != null) {
+                $end = new DateTime();
+                $end->setTimezone(new DateTimeZone('UTC'));
+                $end->setTimestamp((int) $row->crs_end);
+                $dtend = $end->format('Y-m-d');
+        }
+
+        $query = 'update crs_settings set ' .
+                'period_start = ' . $ilDB->quote($dtstart, \ilDBConstants::T_TIMESTAMP) . ', ' .
+                'period_end = ' . $ilDB->quote($dtend, \ilDBConstants::T_TIMESTAMP) . ' ' .
+                'where obj_id = ' . $ilDB->quote($row->obj_id, \ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+
+}
+?>
+<#5594>
+<?php
+if(!$ilDB->tableColumnExists('crs_settings', 'period_time_indication')) {
+
+        $ilDB->addTableColumn(
+                'crs_settings',
+                'period_time_indication',
+                [
+                        'type' => \ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                ]
+        );
+}
+?>
+
+<#5595>
+<?php
+
+/**
+ * @var $ilDB \ilDBInterface
+ */
+
+if(!$ilDB->tableColumnExists('grp_settings', 'period_start')) {
+
+        $ilDB->addTableColumn(
+                'grp_settings',
+                'period_start',
+                [
+                        'type' => \ilDBConstants::T_TIMESTAMP,
+                        'notnull' => false,
+                        'default' => null
+                ]
+        );
+        $ilDB->addTableColumn(
+                'grp_settings',
+                'period_end',
+                [
+                        'type' => \ilDBConstants::T_TIMESTAMP,
+                        'notnull' => false,
+                        'default' => null
+                ]
+        );
+}
+?>
+
+<#5596>
+<?php
+
+$query = 'select obj_id, grp_start, grp_end from grp_settings where grp_start IS NOT NULL or grp_end IS NOT NULL';
+$res = $ilDB->query($query);
+while($row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT)) {
+
+        $dtstart = $dtend = null;
+        if($row->grp_start != null) {
+                $start = new DateTime();
+                $start->setTimezone(new DateTimeZone('UTC'));
+                $start->setTimestamp((int) $row->grp_start);
+                $dtstart = $start->format('Y-m-d');
+        }
+        if($row->grp_end != null) {
+                $end = new DateTime();
+                $end->setTimezone(new DateTimeZone('UTC'));
+                $end->setTimestamp((int) $row->grp_end);
+                $dtend = $end->format('Y-m-d');
+        }
+
+        $query = 'update grp_settings set ' .
+                'period_start = ' . $ilDB->quote($dtstart, \ilDBConstants::T_TIMESTAMP) . ', ' .
+                'period_end = ' . $ilDB->quote($dtend, \ilDBConstants::T_TIMESTAMP) . ' ' .
+                'where obj_id = ' . $ilDB->quote($row->obj_id, \ilDBConstants::T_INTEGER);
+        $ilDB->manipulate($query);
+
+}
+?>
+<#5597>
+<?php
+if(!$ilDB->tableColumnExists('grp_settings', 'period_time_indication')) {
+
+        $ilDB->addTableColumn(
+                'grp_settings',
+                'period_time_indication',
+                [
+                        'type' => \ilDBConstants::T_INTEGER,
+                        'notnull' => true,
+                        'default' => 0
+                ]
+        );
+}
+?>
+<#5598>
+<?php
+
+include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php');
+$read_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('read_learning_progress');
+$edit_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
+$write_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
+if($read_ops_id && $edit_ops_id)
+{
+        $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('crsr');
+        if($lp_type_id)
+        {
+                ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $read_ops_id);
+                ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $edit_ops_id);
+                ilDBUpdateNewObjectType::cloneOperation('crsr', $write_ops_id, $read_ops_id);
+                ilDBUpdateNewObjectType::cloneOperation('crsr', $write_ops_id, $edit_ops_id);
+        }
+}
+?>
+
+<#5599>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5600>
+<?php
+$fields = array(
+    'internal'       => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'title'          => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'suffix'         => array(
+        'type'   => 'text',
+        'length' => '64',
+
+    ),
+    'mime_type'      => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'size'           => array(
+        'type'   => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource_info')) {
+    $ilDB->createTable('il_resource_info', $fields);
+    $ilDB->addPrimaryKey('il_resource_info', array('internal'));
+}
+?>
+<#5601>
+<?php
+$fields = array(
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'storage_id'     => array(
+        'type'   => 'text',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource')) {
+    $ilDB->createTable('il_resource', $fields);
+    $ilDB->addPrimaryKey('il_resource', array('identification'));
+}
+?>
+<#5602>
+<?php
+$fields = array(
+    'internal'       => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'identification' => array(
+        'type'   => 'text',
+        'length' => '256',
+
+    ),
+    'available'      => array(
+        'type'   => 'integer',
+        'length' => '1',
+
+    ),
+    'version_number' => array(
+        'type'   => 'integer',
+        'length' => '8',
+
+    ),
+
+);
+if (!$ilDB->tableExists('il_resource_revision')) {
+    $ilDB->createTable('il_resource_revision', $fields);
+    $ilDB->addPrimaryKey('il_resource_revision', array('internal'));
+}
+?>
+<#5603>
+<?php
+if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
+    $ilDB->addTableColumn(
+        'il_mm_items',
+        'icon_id',
+        array(
+            'type'   => 'text',
+            'length' => 256,
+        ));
+}
+?>

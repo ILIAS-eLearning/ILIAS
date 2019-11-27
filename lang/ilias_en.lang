@@ -14056,6 +14056,10 @@ chatroom#:#chat_error_log_info#:#Please define an absolute server path to the ch
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_nc_prop_time#:#Time
+chatroom#:#chat_osc_nc_no_conv#:#No Conversations available
+chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation
+chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
@@ -14071,7 +14075,8 @@ chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
-chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
+chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
+chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your %s.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
@@ -15733,3 +15738,8 @@ rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limit_number#:#Number of Objects
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
+lso#:#lso_mainbar_button_label_toc#:#Content
+lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+mem#:#mem_period_without_time#:#Without Time Indication
+trac#:#trac_mode_course_reference#:#Adopted from Course
+trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.

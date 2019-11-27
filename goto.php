@@ -92,38 +92,32 @@ switch($target_type)
 {
 	// exception, must be kept for now
 	case "pg":
-		require_once("./Modules/LearningModule/classes/class.ilLMPageObjectGUI.php");
 		ilLMPageObjectGUI::_goto($rest);
 		break;
 
 	// exception, must be kept for now
 	case "st":
-		require_once("./Modules/LearningModule/classes/class.ilStructureObjectGUI.php");
 		ilStructureObjectGUI::_goto($target_id, $additional);
 		break;
 
 	// exception, must be kept for now
 	case "git":
-		require_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 		$target_ref_id = $target_arr[2];
 		ilGlossaryTermGUI::_goto($target_id, $target_ref_id);
 		break;
 
 	// please migrate to default branch implementation
 	case "glo":
-		require_once("./Modules/Glossary/classes/class.ilObjGlossaryGUI.php");
 		ilObjGlossaryGUI::_goto($target_id);
 		break;
 				
 	// please migrate to default branch implementation
 	case "lm":
-		require_once("./Modules/LearningModule/classes/class.ilObjContentObjectGUI.php");
 		ilObjContentObjectGUI::_goto($target_id);
 		break;
 
 	// please migrate to default branch implementation
 	case "htlm":
-		require_once("./Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php");
 		ilObjFileBasedLMGUI::_goto($target_id);
 		break;
 		
@@ -137,7 +131,6 @@ switch($target_type)
 		
 	// please migrate to default branch implementation
 	case "exc":
-		require_once("./Modules/Exercise/classes/class.ilObjExerciseGUI.php");
 		ilObjExerciseGUI::_goto($target_id, $rest);
 		break;
 		
@@ -216,7 +209,6 @@ switch($target_type)
 
 	// please migrate to default branch implementation
 	case "mcst":
-		require_once("./Modules/MediaCast/classes/class.ilObjMediaCastGUI.php");
 		ilObjMediaCastGUI::_goto($target_id);
 		break;
 

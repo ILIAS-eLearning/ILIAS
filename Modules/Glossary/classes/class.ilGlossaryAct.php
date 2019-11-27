@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Glossary actor class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesGlossary
  */
 class ilGlossaryAct
 {
@@ -69,7 +67,6 @@ class ilGlossaryAct
 			return;
 		}
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		if (ilGlossaryTerm::_lookGlossaryID($a_term_id) != $a_source_glossary->getId())
 		{
 			return;
@@ -97,8 +94,6 @@ class ilGlossaryAct
 			return;
 		}
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		$refs = new ilGlossaryTermReferences($this->glossary->getId());
 		foreach ($a_term_ids as $term_id)
 		{
@@ -118,5 +113,3 @@ class ilGlossaryAct
 
 
 }
-
-?>

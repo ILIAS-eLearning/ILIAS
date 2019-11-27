@@ -186,7 +186,6 @@ class ilInternalLink
 				break;
 
 			case "GlossaryItem":
-				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$id = ilGlossaryTerm::_getIdForImportId($a_target);
 				//echo "+".$id."+".$a_target."+";
 				if($id > 0)
@@ -282,7 +281,6 @@ class ilInternalLink
 				break;
 
 			case "GlossaryItem":
-				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				return ilGlossaryTerm::_exists($a_target);
 				break;
 
