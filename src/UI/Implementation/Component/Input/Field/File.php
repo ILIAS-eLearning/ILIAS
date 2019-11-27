@@ -46,13 +46,22 @@ class File extends Input implements C\Input\Field\File
 
     protected function isClientSideValueOk($value) : bool
     {
-        return true; // TODO
+        if (!is_array($value)) {
+            return false;
+        }
+        foreach ($value as $string) {
+            if (!is_string($string)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 
     public function getUpdateOnLoadCode() : \Closure
     {
-        return function ($id) { // TODO
+        return function ($id) {
             return '';
         };
     }
