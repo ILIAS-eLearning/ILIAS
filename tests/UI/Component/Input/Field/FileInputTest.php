@@ -148,7 +148,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     {
         $f = $this->buildFactory();
         $label = "label";
-        $value = "value";
+        $value = ["value"];
         $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label)->withValue($value)->withNameFrom($this->name_source);
 
