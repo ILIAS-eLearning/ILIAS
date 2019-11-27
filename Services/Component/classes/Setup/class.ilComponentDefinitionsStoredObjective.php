@@ -6,18 +6,13 @@ use ILIAS\DI;
 class ilComponentDefinitionsStoredObjective implements Setup\Objective
 {
 	/**
-	 * @var ilCtrlStructureReader
-	 */
-	protected $ctrl_reader;
-
-	/**
 	 * @var	bool
 	 */
-	protected $update_database;
+	protected $populate_before;
 
-	public function __construct(bool $update_database = true)
+	public function __construct(bool $populate_before = true)
 	{
-		$this->update_database = $update_database;
+		$this->populate_before = $populate_before;
 	}
 
 	/**
@@ -50,16 +45,9 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 	public function getPreconditions(Setup\Environment $environment): array
 	{
 		$config = $environment->getConfigFor('database');
-		if ($this->update_database) {
-			return [
-				new \ilDatabaseUpdatedObjective($config)
-			];
-		}
-		else {
-			return [
-				new \ilDatabaseExistsObjective($config)
-			];
-		}
+		return [
+			new \ilDatabaseUpdatedObjective($config, $this->populate_before)
+		];
 	}
 
 	/**
@@ -105,6 +93,9 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 		};
 		if (!defined("ILIAS_LOG_ENABLED")) {
 			define("ILIAS_LOG_ENABLED", false);
+		}
+		if (!defined("ILIAS_ABSOLUTE_PATH")) {
+			define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5));
 		}
  
 		$mr = new \ilModuleReader("", "", "", $db);

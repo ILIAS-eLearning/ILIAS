@@ -12,9 +12,15 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
 	 */
 	protected $ctrl_reader;
 
-	public function __construct(\ilCtrlStructureReader $ctrl_reader)
+	/**
+	 * @var	bool
+	 */
+	protected $populate_before;
+
+	public function __construct(\ilCtrlStructureReader $ctrl_reader, bool $populate_before = true)
 	{
 		$this->ctrl_reader = $ctrl_reader;
+		$this->populate_before = $populate_before;
 	}
 
 	/**
@@ -48,7 +54,7 @@ class ilCtrlStructureStoredObjective implements Setup\Objective
 	{
 		$config = $environment->getConfigFor('database');
 		return [
-			new \ilDatabaseExistsObjective($config)
+			new \ilDatabaseUpdatedObjective($config, $this->populate_before)
 		];
 	}
 
