@@ -2,7 +2,6 @@
 
 namespace ILIAS\FileUpload\Handler;
 
-use ILIAS\UI\Component\Input\Field\HandlerResult;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
