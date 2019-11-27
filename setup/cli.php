@@ -52,7 +52,8 @@ function build_container_for_setup(string $executed_in_directory) {
 		return new \ILIAS\Setup\CLI\App(
 			$c["command.install"],
 			$c["command.update"],
-			$c["command.build-artifacts"]
+			$c["command.build-artifacts"],
+			$c["command.reload-control-structure"]
 		);
 	};
 	$c["command.install"] = function($c) {
@@ -74,6 +75,13 @@ function build_container_for_setup(string $executed_in_directory) {
 			$c["agent"],
 			$c["config_reader"],
 			[]// TODO: $c["common_preconditions"]
+		);
+	};
+	$c["command.reload-control-structure"] = function ($c) {
+		return new \ILIAS\Setup\CLI\ReloadControlStructureCommand(
+			$c["agent"],
+			$c["config_reader"],
+			$c["common_preconditions"]
 		);
 	};
 

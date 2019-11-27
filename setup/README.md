@@ -5,7 +5,8 @@ commands to manage ILIAS installations:
 
 * `install` will [set an installation up](#install-ilias)
 * `update` will [update an installation](#update-ilias)
-* `build-artifacts` recreates static assets of an installation(#build-ilias-artifacts)
+* `build-artifacts` [recreates static assets](#build-ilias-artifacts) of an installation
+* `reload-control-structure` [rebuilds structure information](#build-ilias-artifacts) of an installation
 
 `install` and `update` both require a [configuration file](#about-the-config-file)
 to do their job. The app also supports a `help` command that lists arguments and
@@ -55,7 +56,16 @@ Artifacts are source code files that are created based on the ILIAS source tree.
 You can refresh them by calling `php setup/setup.php build-artifacts` from your
 installation. Make sure you run the command with the webserver user or adjust
 filesystem permissions later on, because the webserver will need to access the
-generated files.
+generated files. Please do not invoke this function unless it is explicitly stated
+in update or patch instructions or you know what you are doing.
+
+
+## Reload ILIAS Control Structure
+
+The control structure captures information about components and GUIs of ILIAS
+in the database. Sometimes it might be necessary to refresh that information.
+Please do not invoke this function unless it is explicitly stated in update
+or patch instructions or you know what you are doing.
 
 
 ## About the Config File

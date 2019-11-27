@@ -10,8 +10,14 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 	 */
 	protected $ctrl_reader;
 
-	public function __construct()
+	/**
+	 * @var	bool
+	 */
+	protected $update_database;
+
+	public function __construct(bool $update_database = true)
 	{
+		$this->update_database = $update_database;
 	}
 
 	/**
@@ -35,7 +41,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 	 */
 	public function isNotable(): bool
 	{
-		return false;
+		return true;
 	}
 
 	/**
@@ -44,9 +50,16 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
 	public function getPreconditions(Setup\Environment $environment): array
 	{
 		$config = $environment->getConfigFor('database');
-		return [
-			new \ilDatabaseUpdatedObjective($config)
-		];
+		if ($this->update_database) {
+			return [
+				new \ilDatabaseUpdatedObjective($config)
+			];
+		}
+		else {
+			return [
+				new \ilDatabaseExistsObjective($config)
+			];
+		}
 	}
 
 	/**

@@ -72,7 +72,9 @@ class ilDatabaseUpdatedObjective extends \ilDatabaseObjective {
 		};
 		define("CLIENT_DATA_DIR", $filesystem_config->getDataDir()."/".$common_config->getClientId());
 		define("CLIENT_WEB_DIR", $filesystem_config->getWebDir()."/".$common_config->getClientId());
-		define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5)); 
+		if (!defined("ILIAS_ABSOLUTE_PATH")) {
+			define("ILIAS_ABSOLUTE_PATH", dirname(__FILE__, 5)); 
+		}
 		define("ILIAS_LOG_ENABLED", false);
 		define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID")); 
 		define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID")); 
