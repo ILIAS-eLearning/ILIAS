@@ -133,11 +133,20 @@ header {
 }
 
 // logo-container
-
 .il-logo {
-	width: @il-standard-page-logo-width;
+	width: 300px; // test!!!
 	height: @il-standard-page-logo-height;
 	justify-self: start;
+	display: flex;
+  	align-items: center;
+}
+
+.il-pagetitle {
+	font-weight: 600;
+	display: flex;
+	font-size: @font-size-base * 1.142;
+	align-items: flex-end;
+	padding-left: 35px; // dynamic value desirable
 }
 
 /* breadcrumbs */
