@@ -18,7 +18,7 @@ require_once(__DIR__."/classes/class.ilSetupObjective.php");
 require_once(__DIR__."/classes/class.ilSetupAgent.php");
 require_once(__DIR__."/classes/class.ilSetupConfig.php");
 require_once(__DIR__."/classes/class.ilMakeInstallationAccessibleObjective.php");
-require_once(__DIR__."/classes/class.ilWebserverUserConfirmedObjective.php");
+require_once(__DIR__."/classes/class.ilUseRootConfirmed.php");
 require_once(__DIR__."/classes/class.ilOwnRiskConfirmedObjective.php");
 require_once(__DIR__."/classes/class.ilOverwritesExistingInstallationConfirmed.php");
 require_once(__DIR__."/classes/class.ilIniFilesPopulatedObjective.php");
@@ -97,7 +97,7 @@ function build_container_for_setup(string $executed_in_directory) {
 	$c["common_preconditions"] = function ($c) {
 		return [
 			new \ilOwnRiskConfirmedObjective(),
-			new \ilWebserverUserConfirmedObjective()
+			new \ilUseRootConfirmed()
 		];
 	};
 
