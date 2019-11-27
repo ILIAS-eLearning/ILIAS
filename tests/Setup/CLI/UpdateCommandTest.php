@@ -53,7 +53,7 @@ class UpdateCommandTest extends \PHPUnit\Framework\TestCase {
 			->willReturn(new Setup\NullObjective());
 
 		$agent
-			->expects($this->once())
+			->expects($this->never())
 			->method("getBuildArtifactObjective")
 			->with()
 			->willReturn(new Setup\NullObjective());
