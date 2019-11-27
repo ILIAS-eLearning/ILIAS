@@ -9615,7 +9615,6 @@ footer {
 .icon.nwss .abbreviation,
 .icon.feed .abbreviation,
 .icon.mcst .abbreviation,
-.icon.pdts .abbreviation,
 .icon.rcrs .abbreviation,
 .icon.mds .abbreviation,
 .icon.cmps .abbreviation,
@@ -9676,7 +9675,8 @@ footer {
 .icon.wfe .abbreviation,
 .icon.iass .abbreviation,
 .icon.copa .abbreviation,
-.icon.lso .abbreviation {
+.icon.lso .abbreviation,
+.icon.bgtk .abbreviation {
   display: none;
 }
 .icon.grp {
@@ -9816,9 +9816,6 @@ footer {
 }
 .icon.mcst {
   background-image: url("images/icon_mcst.svg");
-}
-.icon.pdts {
-  background-image: url("images/icon_pdts.svg");
 }
 .icon.rcrs {
   background-image: url("images/icon_rcrs.svg");
@@ -10003,6 +10000,9 @@ footer {
 .icon.lso {
   background-image: url("images/icon_lso.svg");
 }
+.icon.bgtk {
+  background-image: url("images/icon_bgtk.svg");
+}
 .icon.outlined {
   filter: brightness(0);
 }
@@ -10146,9 +10146,6 @@ footer {
 }
 .icon.outlined.mcst {
   background-image: url("images/outlined/icon_mcst.svg");
-}
-.icon.outlined.pdts {
-  background-image: url("images/outlined/icon_pdts.svg");
 }
 .icon.outlined.rcrs {
   background-image: url("images/outlined/icon_rcrs.svg");
@@ -10332,6 +10329,9 @@ footer {
 }
 .icon.outlined.lso {
   background-image: url("images/outlined/icon_lso.svg");
+}
+.icon.outlined.bgtk {
+  background-image: url("images/outlined/icon_bgtk.svg");
 }
 .glyph {
   color: #557196;

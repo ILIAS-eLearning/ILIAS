@@ -57,7 +57,6 @@ interface Standard extends Icon
     const NWSS  = 'nwss';	//News settings
     const FEED  = 'feed';	 //External Feed
     const MCST  = 'mcst';	//Media Cast
-    const PDTS  = 'pdts';	//Personal desktop settings
     const RCRS  = 'rcrs';	//Remote Course Object
     const MDS  	= 'mds';	//Meta Data settings
     const CMPS  = 'cmps';	//Component settings / Plugin
@@ -118,7 +117,7 @@ interface Standard extends Icon
     const WFE  	= 'wfe';	//WorkflowEngine
     const IASS  = 'iass';	//Individual Assessment
     const COPA  = 'copa';	//Content Page
-
+    const BGTK  = 'bgtk';	//Background Task
 
     /**
      * Is this an outlined Icon?
