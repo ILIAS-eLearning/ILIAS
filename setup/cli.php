@@ -45,8 +45,12 @@ function get_agent_name_by_class(string $class_name) : string {
 	return $class_name;
 }
 
+// ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
+// the setup for the command line version of the setup. Do not use this.
 function setup_exit($message) {
-	throw new \ILIAS\Setup\UnachievableException($message);
+	if (!defined("ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES") && ILIAS_SETUP_IGNORE_DB_UPDATE_STEP_MESSAGES) {
+		throw new \ILIAS\Setup\UnachievableException($message);
+	}
 }
 
 function build_container_for_setup(string $executed_in_directory) {

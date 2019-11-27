@@ -43,6 +43,8 @@ if (php_sapi_name() === "cli") {
 }
 else {
 
+// ATTENTION: This is a hack to get around the usage of the echo/exit pattern in
+// the setup for the command line version of the setup.
 function setup_exit($message) {
 	echo "<pre>$message</pre>";
 	die();
