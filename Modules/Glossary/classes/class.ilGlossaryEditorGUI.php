@@ -59,6 +59,8 @@ class ilGlossaryEditorGUI
 		$this->ctrl =  $ilCtrl;
 		$lng->loadLanguageModule("content");
 		
+        $DIC->globalScreen()->tool()->context()->claim()->repository();
+		
 		// check write permission
 		if (!$ilAccess->checkAccess("write", "", $_GET["ref_id"]) &&
 			!$ilAccess->checkAccess("edit_content", "", $_GET["ref_id"]))

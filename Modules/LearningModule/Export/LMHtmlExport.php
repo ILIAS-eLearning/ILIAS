@@ -4,6 +4,8 @@
 
 namespace ILIAS\LearningModule\Export;
 
+use ILIAS\COPage\PageLinker;
+
 /**
  * LM HTML Export
  *
@@ -59,22 +61,7 @@ class LMHtmlExport
     /**
      * @var array
      */
-    protected $offline_mobs = [];
-
-    /**
-     * @var array
-     */
-    protected $offline_int_links = [];
-
-    /**
-     * @var array
-     */
     protected $offline_files = [];
-
-    /**
-     * @var array
-     */
-    protected $q_ids = [];
 
     /**
      * @var string
@@ -107,10 +94,11 @@ class LMHtmlExport
         $this->lm = $lm;
         $this->export_dir = $export_dir;
         $this->sub_dir = $sub_dir;
-        $this->target_dir = $export_dir."/".$sub_dir;
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
-        $this->export_format = $export_format;
         $this->lang = $lang;
+        $this->target_dir = $export_dir."/".$sub_dir;
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId());
+        $this->co_page_html_export->setContentStyleId($this->lm->getStyleSheetId());
+        $this->export_format = $export_format;
 
         // get learning module presentation gui class
         $this->lm_gui = new \ilLMPresentationGUI($export_format, ($lang == "all"), $this->target_dir, false);
@@ -127,6 +115,28 @@ class LMHtmlExport
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
 
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
+    }
+
+    /**
+     * Get linker
+     *
+     * @param
+     * @return
+     */
+    protected function getLinker(): PageLinker
+    {
+    	return new \ilLMPresentationLinker(
+    	    $this->lm,
+            new \ilLMTree($this->lm->getId()),
+            0,
+            $this->lm->getRefId(),
+            $this->lang,
+            "",
+            "",
+            true,
+            "html",
+            false
+            );
     }
 
 
@@ -274,10 +284,6 @@ class LMHtmlExport
     /**
      * export html package
      * @param bool $zip
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     * @throws \ilTemplateException
      */
     function exportHTML($zip = true)
     {
@@ -294,45 +300,6 @@ class LMHtmlExport
         {
             $this->initLanguage($this->user, $this->lm_gui, $lang);
             $this->exportHTMLPages();
-        }
-        // export glossary terms
-        $this->exportHTMLGlossaryTerms();
-
-        // export all media objects
-        $linked_mobs = array();
-        foreach ($this->offline_mobs as $mob)
-        {
-            if (\ilObject::_exists($mob) && \ilObject::_lookupType($mob) == "mob")
-            {
-                $this->exportHTMLMOB($mob, "_blank", $linked_mobs);
-            }
-        }
-        $linked_mobs2 = array();				// mobs linked in link areas
-        foreach ($linked_mobs as $mob)
-        {
-            if (\ilObject::_exists($mob))
-            {
-                $this->exportHTMLMOB($mob, "_blank", $linked_mobs2);
-            }
-        }
-
-
-        // export all file objects
-        foreach ($this->offline_files as $file)
-        {
-            $this->exportHTMLFile($file);
-        }
-
-
-        // export questions (images)
-        if (count($this->q_ids) > 0)
-        {
-            foreach ($this->q_ids as $q_id)
-            {
-                \ilUtil::makeDirParents($this->target_dir."/assessment/0/".$q_id."/images");
-                \ilUtil::rCopy(\ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
-                    $this->target_dir."/assessment/0/".$q_id."/images");
-            }
         }
 
         // export flv/mp3 player
@@ -374,6 +341,8 @@ class LMHtmlExport
         $this->addSupplyingExportFiles();
 
         $this->export_util->exportResourceFiles();
+
+        $this->co_page_html_export->exportPageElements();
 
         // zip everything
         if ($zip) {
@@ -544,196 +513,7 @@ class LMHtmlExport
         return $scripts;
     }
 
-    /**
-     * export file object
-     */
-    function exportHTMLFile($file_id)
-    {
-        $target_dir = $this->target_dir;
 
-        $file_dir = $target_dir."/files/file_".$file_id;
-        \ilUtil::makeDir($file_dir);
-        $file_obj = new \ilObjFile($file_id, false);
-        $source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
-        if (!is_file($source_file))
-        {
-            $source_file = $file_obj->getDirectory()."/".$file_obj->getFileName();
-        }
-        if (is_file($source_file))
-        {
-            copy($source_file, $file_dir."/".$file_obj->getFileName());
-        }
-    }
-
-    /**
-     * Init media screen
-     *
-     * @param int $mob_id
-     * @param string $frame
-     * @param bool $fullscreen
-     */
-    protected function initMediaScreen(int $mob_id, string $frame, bool $fullscreen = false)
-    {
-        $params = [
-            "obj_type" => "MediaObject",
-            "frame" => $frame,
-            "cmd" => ""
-        ];
-
-        if ($fullscreen) {
-            $params = [
-                "obj_type" => "",
-                "frame" => "",
-                "cmd" => "fullscreen"
-            ];
-        }
-
-        $params["ref_id"] = $this->lm->getRefId();
-        $params["mob_id"] = $mob_id;
-
-        $this->lm_gui->initByRequest($params);
-
-        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
-        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
-    }
-    
-    
-    /**
-     * @param int $a_mob_id
-     * @param string $a_frame
-     * @param array $a_linked_mobs
-     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
-    function exportHTMLMOB(int $a_mob_id, string $a_frame, array &$a_linked_mobs)
-    {
-        $lm_gui = $this->lm_gui;
-        $target_dir = $this->target_dir;
-
-        $mob_dir = $target_dir."/mobs";
-
-        $source_dir = \ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
-        if (@is_dir($source_dir))
-        {
-            \ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
-            \ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
-        }
-
-        $this->initMediaScreen($a_mob_id, $a_frame);
-
-        $content = $lm_gui->media();
-
-        $file = $target_dir."/media_".$a_mob_id.".html";
-
-        // open file
-        if (!($fp = @fopen($file,"w+")))
-        {
-            die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-                " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-        }
-        //chmod($file, 0770);
-        fwrite($fp, $content);
-        fclose($fp);
-
-        // fullscreen
-        $mob_obj = new \ilObjMediaObject($a_mob_id);
-        if ($mob_obj->hasFullscreenItem())
-        {
-            $this->initMediaScreen($a_mob_id, "", true);
-
-            $content = $lm_gui->fullscreen();
-            $file = $target_dir."/fullscreen_".$a_mob_id.".html";
-
-            // open file
-            if (!($fp = @fopen($file,"w+")))
-            {
-                die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-                    " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-            }
-            //chmod($file, 0770);
-            fwrite($fp, $content);
-            fclose($fp);
-        }
-        $linked_mobs = $mob_obj->getLinkedMediaObjects();
-        foreach ($linked_mobs as $id)
-        {
-            $this->log->debug("HTML Export: Add media object $id (".\ilObject::_lookupTitle($id).") ".
-                " due to media object ".$a_mob_id." (".\ilObject::_lookupTitle($a_mob_id).").");
-        }
-        $a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
-    }
-
-    /**
-     * Init glossary screen
-     *
-     * @param int $term_id
-     */
-    protected function initGlossaryScreen(int $term_id)
-    {
-        $params = [
-            "obj_id" => $term_id,
-            "frame" => "_blank",
-            "ref_id" => $this->lm->getRefId()
-        ];
-
-        $this->lm_gui->initByRequest($params);
-
-        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_QUERY_PARAMS, $params);
-        $this->setAdditionalContextData(\ilLMGSToolProvider::LM_OFFLINE, true);
-    }
-
-    /**
-     * Export glossary terms
-     * @throws \ilTemplateException
-     */
-    function exportHTMLGlossaryTerms()
-    {
-        $ilLocator = $this->locator;
-
-        $lm_gui = $this->lm_gui;
-        $target_dir = $this->target_dir;
-
-        foreach($this->offline_int_links as $int_link)
-        {
-            $ilLocator->clearItems();
-            if ($int_link["type"] == "git")
-            {
-                $this->initGlossaryScreen($int_link["id"]);
-
-                $content = $lm_gui->glossary();
-
-                $file = $target_dir."/term_".$int_link["id"].".html";
-
-                // open file
-                if (!($fp = @fopen($file,"w+")))
-                {
-                    die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-                        " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-                }
-                //chmod($file, 0770);
-                fwrite($fp, $content);
-                fclose($fp);
-
-                // store linked/embedded media objects of glosssary term
-                $defs = \ilGlossaryDefinition::getDefinitionList($int_link["id"]);
-                foreach($defs as $def)
-                {
-                    $def_mobs = \ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
-                    foreach($def_mobs as $def_mob)
-                    {
-                        $this->offline_mobs[$def_mob] = $def_mob;
-                        $this->log->debug("HTML Export: Add media object $def_mob (".\ilObject::_lookupTitle($def_mob).") ".
-                            " due to glossary entry ".$int_link["id"]." (".\ilGlossaryTerm::_lookGlossaryTerm($int_link["id"]).").");
-                    }
-
-                    // get all files of page
-                    $def_files = \ilObjFile::_getFilesOfObject("gdf:pg", $def["obj_id"]);
-                    $this->offline_files = array_merge($this->offline_files, $def_files);
-                }
-            }
-        }
-    }
 
     /**
      * export all pages of learning module to html file
@@ -787,56 +567,8 @@ class LMHtmlExport
             {
                 $ilLocator->clearItems();
                 $this->exportPageHTML($page["obj_id"], ($first_page_id == $page["obj_id"]), $lang, "", $exp_id_map);
-
-                // get all snippets of page
-                $pcs = \ilPageContentUsage::getUsagesOfPage($page["obj_id"], $this->lm->getType().":pg", 0, false, $lang);
-                foreach ($pcs as $pc)
-                {
-                    if ($pc["type"] == "incl")
-                    {
-                        $incl_mobs = \ilObjMediaObject::_getMobsOfObject("mep:pg", $pc["id"]);
-                        foreach($incl_mobs as $incl_mob)
-                        {
-                            $mobs[$incl_mob] = $incl_mob;
-                            $this->log->debug("HTML Export: Add media object $incl_mob (".\ilObject::_lookupTitle($incl_mob).") ".
-                                " due to snippet ".$pc["id"]." in page ".$page["obj_id"]." (".\ilLMObject::_lookupTitle($page["obj_id"]).").");
-                        }
-                    }
-                }
-
-                // get all media objects of page
-                $pg_mobs = \ilObjMediaObject::_getMobsOfObject($this->lm->getType().":pg", $page["obj_id"], 0, $lang);
-                foreach($pg_mobs as $pg_mob)
-                {
-                    $mobs[$pg_mob] = $pg_mob;
-                    $this->log->debug("HTML Export: Add media object $pg_mob (".\ilObject::_lookupTitle($pg_mob).") ".
-                        " due to page ".$page["obj_id"]." (".\ilLMObject::_lookupTitle($page["obj_id"]).").");
-                }
-
-                // get all internal links of page
-                $pg_links = \ilInternalLink::_getTargetsOfSource($this->lm->getType().":pg", $page["obj_id"], $lang);
-                $int_links = array_merge($int_links, $pg_links);
-
-                // get all files of page
-                $pg_files = \ilObjFile::_getFilesOfObject($this->lm->getType().":pg", $page["obj_id"], 0, $lang);
-                $this->offline_files = array_merge($this->offline_files, $pg_files);
-
-                // collect all questions
-                $q_ids = \ilPCQuestion::_getQuestionIdsForPage($this->lm->getType(), $page["obj_id"], $lang);
-                foreach($q_ids as $q_id)
-                {
-                    $this->q_ids[$q_id] = $q_id;
-                }
-
+                $this->co_page_html_export->collectPageElements("lm:pg", $page["obj_id"], $lang);
             }
-        }
-        foreach ($mobs as $m)
-        {
-            $this->offline_mobs[$m] = $m;
-        }
-        foreach ($int_links as $k => $v)
-        {
-            $this->offline_int_links[$k] = $v;
         }
     }
 
@@ -947,17 +679,8 @@ class LMHtmlExport
 
         $content = $this->lm_gui->layout("main.xml", false);
 
-        // open file
-        if (!($fp = @fopen($file,"w+")))
-        {
-            die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-                " in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-        }
-
-        // set file permissions
-        //chmod($file, 0770);
-
         // write xml data into the file
+        $fp = @fopen($file,"w+");
         fwrite($fp, $content);
 
         // close file
@@ -967,15 +690,6 @@ class LMHtmlExport
         {
             copy($file, $target_dir."/index".$lang_suffix.".html");
         }
-
-        // write frames of frameset
-        /*
-        $frameset = $a_lm_gui->getCurrentFrameSet();
-
-        foreach ($frameset as $frame)
-        {
-            $this->exportPageHTML($a_lm_gui, $a_target_dir, $a_lm_page_id, $frame);
-        }*/
 
     }
 

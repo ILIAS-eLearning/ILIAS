@@ -282,22 +282,17 @@ class ilLMContentRendererGUI
         $page_object->buildDom();
         $page_object->registerOfflineHandler($this);
 
-        $int_links = $page_object->getInternalLinks();
-
-
         $page_object_gui->setTemplateOutput(false);
 
         // Update course items
         ilCourseLMHistory::_updateLastAccess($ilUser->getId(), $this->lm->getRefId(), $page_id);
 
         // read link targets
-        $link_xml = $this->linker->getLinkXML($int_links, $this->linker->getLayoutLinkTargets());
-        $link_xml.= $this->linker->getLinkTargetsXML();
+        $page_object_gui->setPageLinker($this->linker);
 
         // get lm page object
         $lm_pg_obj = new ilLMPageObject($this->lm, $page_id);
         $lm_pg_obj->setLMId($this->lm->getId());
-        $page_object_gui->setLinkXML($link_xml);
 
         // determine target frames for internal links
         $page_object_gui->setLinkFrame($_GET["frame"]);

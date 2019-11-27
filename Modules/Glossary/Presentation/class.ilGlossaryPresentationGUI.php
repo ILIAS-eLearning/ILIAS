@@ -138,11 +138,12 @@ class ilGlossaryPresentationGUI
 	* Constructor
 	* @access	public
 	*/
-	function __construct($export_format = "")
+	function __construct($export_format = "", $export_dir = "")
 	{
 		global $DIC;
 
 		$this->export_format = $export_format;
+		$this->setOfflineDirectory($export_dir);
         $this->offline = ($export_format != "");
 		$this->access = $DIC->access();
 		$this->error = $DIC["ilErr"];
@@ -225,6 +226,14 @@ class ilGlossaryPresentationGUI
         }
 
         $this->requested_letter = $request->getRequestedLetter();
+    }
+
+    /**
+     * Inject template
+     */
+    public function injectTemplate($tpl)
+    {
+        $this->tpl = $tpl;
     }
 
     /**
@@ -472,13 +481,12 @@ class ilGlossaryPresentationGUI
 
 		if (!$this->offlineMode())
 		{
-//			$tpl->setContent($table->getHTML());
 			$tpl->setContent($ilCtrl->getHTML($table));
 		}
 		else
 		{
 			$this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
-			return $this->tpl->get();
+			return $this->tpl->printToString();
 		}
 	}
 
@@ -656,9 +664,6 @@ class ilGlossaryPresentationGUI
 
 			// internal links
 			$page->buildDom();
-			$int_links = $page->getInternalLinks();
-			$link_xml = $this->getLinkXML($int_links);
-			$page_gui->setLinkXML($link_xml);
 
 			if ($this->offlineMode())
 			{
@@ -776,7 +781,7 @@ class ilGlossaryPresentationGUI
 
 		if ($this->offlineMode() || $a_get_html)
 		{
-			return $tpl->get();
+			return $tpl->printToString();
 		}
 	}
 	
@@ -1084,144 +1089,6 @@ class ilGlossaryPresentationGUI
 	function setTabs()
 	{
 		$this->getTabs();
-	}
-
-	/**
-	* get link targets
-	*/
-	function getLinkXML($a_int_links)
-	{
-
-		if ($a_layoutframes == "")
-		{
-			$a_layoutframes = array();
-		}
-		$link_info = "<IntLinkInfos>";
-		foreach ($a_int_links as $int_link)
-		{
-//echo "<br>+".$int_link["Type"]."+".$int_link["TargetFrame"]."+".$int_link["Target"]."+";
-			$target = $int_link["Target"];
-			if (substr($target, 0, 4) == "il__")
-			{
-				$target_arr = explode("_", $target);
-				$target_id = $target_arr[count($target_arr) - 1];
-				$type = $int_link["Type"];
-				$targetframe = ($int_link["TargetFrame"] != "")
-					? $int_link["TargetFrame"]
-					: "None";
-					
-				// anchor
-				$anc = $anc_add = "";
-				if ($int_link["Anchor"] != "")
-				{
-					$anc = $int_link["Anchor"];
-					$anc_add = "_".rawurlencode($int_link["Anchor"]);
-				}
-
-				if ($targetframe == "New")
-				{
-					$ltarget = "_blank";
-				}
-				else
-				{
-					$ltarget = "";
-				}
-				$lcontent = "";
-				switch($type)
-				{
-					case "PageObject":
-					case "StructureObject":
-						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						$cont_obj = $this->content_object;
-						if ($type == "PageObject")
-						{
-							$href = "./goto.php?target=pg_".$target_id.$anc_add;
-						}
-						else
-						{
-							$href = "./goto.php?target=st_".$target_id;
-						}
-						//$ltarget = "ilContObj".$lm_id;
-						break;
-
-					case "GlossaryItem":
-						if (ilGlossaryTerm::_lookGlossaryID($target_id) == $this->glossary->getId())
-						{
-							if ($this->offlineMode())
-							{
-								$href = "term_".$target_id.".html";
-							}
-							else
-							{
-								$this->ctrl->setParameter($this, "term_id", $target_id);
-								$href = $this->ctrl->getLinkTarget($this, "listDefinitions");
-								$href = str_replace("&", "&amp;", $href);
-							}
-						}
-						else
-						{
-							$href = "./goto.php?target=git_".$target_id;
-						}
-						break;
-
-					case "MediaObject":
-						if ($this->offlineMode())
-						{
-							$href = "media_".$target_id.".html";
-						}
-						else
-						{
-							$this->ctrl->setParameter($this, "obj_type", $type);
-							$this->ctrl->setParameter($this, "mob_id", $target_id);
-							$href = $this->ctrl->getLinkTarget($this, "media");
-							$href = str_replace("&", "&amp;", $href);
-						}
-						break;
-
-					case "RepositoryItem":
-						$obj_type = ilObject::_lookupType($target_id, true);
-						$obj_id = ilObject::_lookupObjId($target_id);
-						$href = "./goto.php?target=".$obj_type."_".$target_id;
-						$t_frame = ilFrameTargetInfo::_getFrame("MainContent", $obj_type);
-						$ltarget = $t_frame;
-						break;
-						
-					case "WikiPage":
-						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
-						break;
-
-					case "User":
-						$obj_type = ilObject::_lookupType($target_id);
-						if ($obj_type == "usr")
-						{
-							$back = $this->ctrl->getLinkTarget($this, "listDefinitions");
-							//var_dump($back); exit;
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-								rawurlencode($back));
-							$href = "";
-							if (ilUserUtil::hasPublicProfile($target_id))
-							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML");
-							}
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
-							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
-						}
-						break;
-
-				}
-				
-				$anc_par = 'Anchor="'.$anc.'"';
-				
-				$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-					"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
-				
-				$this->ctrl->clearParameters($this);
-			}
-		}
-		$link_info.= "</IntLinkInfos>";
-
-		return $link_info;
 	}
 
 

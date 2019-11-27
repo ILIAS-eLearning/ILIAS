@@ -91,6 +91,7 @@ class ilLMNavigationRendererGUI
         $this->parent_gui = $parent_gui;
         $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
         $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
+        $this->linker = $service->getLinker();
 
         $this->requested_obj_id = $requested_obj_id;
         $back_pg = explode(":", $requested_back_pg);
@@ -150,8 +151,7 @@ class ilLMNavigationRendererGUI
             if (!$this->lm->cleanFrames()) {
                 // @todo 6.0 (move link stuff to separate class)
                 $back_href =
-                    $this->parent_gui->getLink(
-                        $this->lm->getRefId(),
+                    $this->linker->getLink(
                         "layout",
                         $back_pg,
                         $frame,
@@ -161,8 +161,7 @@ class ilLMNavigationRendererGUI
                 $back_target = "";
             } else {
                 $back_href =
-                    $this->parent_gui->getLink(
-                        $this->lm->getRefId(),
+                    $this->linker->getLink(
                         "layout",
                         $back_pg,
                         "",
@@ -292,8 +291,7 @@ class ilLMNavigationRendererGUI
 
                 if (!$this->lm->cleanFrames()) {
                     $prev_href =
-                        $this->parent_gui->getLink(
-                            $this->lm->getRefId(),
+                        $this->linker->getLink(
                             "layout",
                             $pre_node["obj_id"],
                             $this->requested_frame
@@ -302,11 +300,11 @@ class ilLMNavigationRendererGUI
                 } else {
                     if ($showViewInFrameset && !$this->offline) {
                         $prev_href =
-                            $this->parent_gui->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
+                            $this->linker->getLink("layout", $pre_node["obj_id"]);
                         $prev_target = 'target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $prev_href =
-                            $this->parent_gui->getLink($this->lm->getRefId(), "layout", $pre_node["obj_id"]);
+                            $this->linker->getLink( "layout", $pre_node["obj_id"]);
                         $prev_target = 'target="_top" ';
                     }
                 }
@@ -342,8 +340,7 @@ class ilLMNavigationRendererGUI
                     ilUtil::getImagePath("nav_arr_R.png", false, "output", $this->offline);
                 if (!$this->lm->cleanFrames()) {
                     $succ_href =
-                        $this->parent_gui->getLink(
-                            $this->lm->getRefId(),
+                        $this->linker->getLink(
                             "layout",
                             $succ_node["obj_id"],
                             $this->requested_frame
@@ -352,11 +349,11 @@ class ilLMNavigationRendererGUI
                 } else {
                     if (!$this->offline) {
                         $succ_href =
-                            $this->parent_gui->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
+                            $this->linker->getLink( "layout", $succ_node["obj_id"]);
                         $succ_target = ' target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $succ_href =
-                            $this->parent_gui->getLink($this->lm->getRefId(), "layout", $succ_node["obj_id"]);
+                            $this->linker->getLink( "layout", $succ_node["obj_id"]);
                         $succ_target = ' target="_top" ';
                     }
                 }
