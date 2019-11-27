@@ -2,9 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/interface.ilExAssignmentTypeGUIInterface.php");
-include_once("./Modules/Exercise/AssignmentTypes/GUI/traits/trait.ilExAssignmentTypeGUIBase.php");
-
 /**
  * Team wiki type gui implementations
  *
@@ -83,7 +80,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 		$radio_no_template = new ilRadioOption($lng->txt("exc_without_wiki_template"), 0, $lng->txt("exc_without_wiki_template_info"));
 		$radio_with_template = new ilRadioOption($lng->txt("exc_with_wiki_template"), 1 , $lng->txt("exc_with_wiki_template_info"));
 
-		include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
 		$repo = new ilRepositorySelector2InputGUI($lng->txt("wiki_exc_template"), "template_ref_id");
 		$repo->setRequired(true);
 		$repo->getExplorerGUI()->setSelectableTypes(array("wiki"));
@@ -95,7 +91,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 		$form->addItem($rd_template);
 
 		// container
-		include_once "Services/Form/classes/class.ilRepositorySelector2InputGUI.php";
 		$cont = new ilRepositorySelector2InputGUI($lng->txt("exc_wiki_container"), "container_ref_id");
 		$cont->setRequired(true);
 		$cont->setInfo($lng->txt("exc_wiki_container_info"));
@@ -109,7 +104,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 	 */
 	public function importFormToAssignment(ilExAssignment $ass , ilPropertyFormGUI $form)
 	{
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssWikiTeamAR.php");
 		$ar = new ilExAssWikiTeamAR();
 		$ar->setId($ass->getId());
 		$ar->setTemplateRefId(0);
@@ -128,7 +122,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 	{
 		$values = [];
 
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssWikiTeamAR.php");
 		$ar = new ilExAssWikiTeamAR($ass->getId());
 
 		if ($ar->getTemplateRefId() > 0)
@@ -174,8 +167,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 	{
 		$lng = $this->lng;
 		$ctrl = $this->ctrl;
-
-		include_once "Modules/Wiki/classes/class.ilObjWiki.php";
 
 		$files_str = "";
 		$valid_wiki = false;
@@ -247,7 +238,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 		$access = $this->access;
 		$lng = $this->lng;
 
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssWikiTeamAR.php");
 		$ar = new ilExAssWikiTeamAR($this->submission->getAssignment()->getId());
 		$template_ref_id = $ar->getTemplateRefId();
 		$container_ref_id = $ar->getContainerRefId();
@@ -287,7 +277,6 @@ class ilExAssTypeWikiTeamGUI implements ilExAssignmentTypeGUIInterface
 		}
 		else
 		{
-			include_once "Modules/Wiki/classes/class.ilObjWiki.php";
 			$wiki = new ilObjWiki();
 			$wiki->setTitle($this->exercise->getTitle() . " - " . $this->submission->getAssignment()->getTitle());
 			$wiki->create();

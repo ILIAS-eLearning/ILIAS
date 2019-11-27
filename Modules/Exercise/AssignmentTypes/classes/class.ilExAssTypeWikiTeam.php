@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/AssignmentTypes/classes/interface.ilExAssignmentTypeInterface.php");
-
 /**
  * Team wiki type
  *
@@ -89,10 +87,6 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 	 */
 	public function submitWiki($a_ass_id, $a_user_id, $a_wiki_ref_id)
 	{
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-
 		$ass = new ilExAssignment($a_ass_id);
 		$submission = new ilExSubmission($ass, $a_user_id);
 
@@ -101,9 +95,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 			return;
 		}
 
-		include_once "Modules/Wiki/classes/class.ilObjWiki.php";
 		$wiki = new ilObjWiki((int) $a_wiki_ref_id);
-		include_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
 		$exp = new ilWikiHTMLExport($wiki);
 		//$exp->setMode(ilWikiHTMLExport::MODE_USER);
 		$file = $exp->buildExportFile();
@@ -147,11 +139,9 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 		if($has_submitted &&
 			!$a_no_notifications)
 		{
-			include_once "./Services/Notification/classes/class.ilNotification.php";
 			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION,
 				$exc->getId());
 
-			include_once "./Modules/Exercise/classes/class.ilExerciseMailNotification.php";
 			$not = new ilExerciseMailNotification();
 			$not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
 			$not->setAssignmentId($ass->getId());
@@ -166,7 +156,6 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
 	 */
 	public function cloneSpecificProperties(ilExAssignment $source, ilExAssignment $target)
 	{
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssWikiTeamAR.php");
 		$source_ar = new ilExAssWikiTeamAR($source->getId());
 		$target_ar = new ilExAssWikiTeamAR();
 		$target_ar->setId($target->getId());

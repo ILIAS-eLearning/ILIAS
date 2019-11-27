@@ -6,7 +6,6 @@
  * This is not a real GUI class, could be moved to ilObjExerciseGUI
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  */
 class ilExAssignmentGUI
 {
@@ -181,9 +180,6 @@ class ilExAssignmentGUI
 
 		$state = ilExcAssMemberState::getInstanceByIds($a_ass->getId(), $ilUser->getId());
 
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
-		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-
 		$info = new ilInfoScreenGUI(null);
 		$info->setTableClass("");
 
@@ -309,10 +305,6 @@ class ilExAssignmentGUI
 			global $DIC;
 
 			//file has -> name,fullpath,size,ctime
-			include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-			include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
-			include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
-
 			$cnt = 0;
 			foreach($files as $file)
 			{
@@ -381,10 +373,8 @@ class ilExAssignmentGUI
 
 		$a_info->addSection($lng->txt("exc_your_submission"));
 
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		$submission = new ilExSubmission($a_ass, $ilUser->getId());
 
-		include_once "Modules/Exercise/classes/class.ilExSubmissionGUI.php";
 		ilExSubmissionGUI::getOverviewContent($a_info, $submission,$this->exc);
 
 		$last_sub = null;
@@ -403,7 +393,6 @@ class ilExAssignmentGUI
 			$this->addPublicSubmissions($a_info, $a_ass);
 		}
 
-		include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
 		ilExPeerReviewGUI::getOverviewContent($a_info, $submission);
 
 		// global feedback / sample solution
@@ -431,9 +420,7 @@ class ilExAssignmentGUI
 	{
 		$lng = $this->lng;
 
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-
-		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());					
+		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$cnt_files = $storage->countFeedbackFiles($a_feedback_id);
 		
 		$lpcomment = $a_ass->getMemberStatus()->getComment();

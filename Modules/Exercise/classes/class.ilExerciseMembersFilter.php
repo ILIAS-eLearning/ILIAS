@@ -5,7 +5,6 @@
  * Class ilExerciseMembersFilter
  *
  * @author Jesús López <lopez@leifos.de>
- * @version $Id$
  *
  * @ingroup ModulesExercise
  */

@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
-
 /**
 * Class ilExerciseManagementGUI
 *
@@ -147,7 +144,6 @@ class ilExerciseManagementGUI
 				
 				ilUtil::sendInfo($lng->txt("exc_fb_tutor_info"));
 
-				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 				$fstorage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
 				$fstorage->create();
 								
@@ -155,7 +151,6 @@ class ilExerciseManagementGUI
 				$feedback_id = $submission->getFeedbackId();
 				$noti_rec_ids = $submission->getUserIds();
 				
-				include_once("./Services/User/classes/class.ilUserUtil.php");																	
 				$fs_title = array();
 				foreach($noti_rec_ids as $rec_id)
 				{
@@ -163,7 +158,6 @@ class ilExerciseManagementGUI
 				}
 				$fs_title = implode(" / ", $fs_title);
 					
-				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui = new ilFileSystemGUI($fstorage->getFeedbackPath($feedback_id));
 				$fs_gui->setTableId("excfbfil".$this->assignment->getId()."_".$feedback_id);
 				$fs_gui->setAllowDirectories(false);					
@@ -187,7 +181,6 @@ class ilExerciseManagementGUI
 				break;
 				
 			case 'ilrepositorysearchgui':
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$ref_id = $this->exercise->getRefId();
 				$rep_search->addUserAccessFilterCallable(function ($a_user_ids) use ($ref_id)
@@ -211,26 +204,22 @@ class ilExerciseManagementGUI
 				break;
 			
 			case "ilexsubmissionteamgui":										
-				include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
 				$gui = new ilExSubmissionTeamGUI($this->exercise, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
 				break;		
 				
 			case "ilexsubmissionfilegui":													
-				include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
 				$gui = new ilExSubmissionFileGUI($this->exercise, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
 				break;
 				
 			case "ilexsubmissiontextgui":
 				$ilCtrl->saveParameter($this, array("part_id"));
-				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
 				$gui = new ilExSubmissionTextGUI($this->exercise, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
 				break;
 			
 			case "ilexpeerreviewgui":															
-				include_once "Modules/Exercise/classes/class.ilExPeerReviewGUI.php";
 				$gui = new ilExPeerReviewGUI($this->assignment, $this->initSubmission());
 				$ilCtrl->forwardCommand($gui);				
 				break;
@@ -280,8 +269,7 @@ class ilExerciseManagementGUI
 		$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 			$this->ctrl->getLinkTarget($this, $back_cmd));	
 
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-		return new ilExSubmission($this->assignment, $_REQUEST["member_id"], null, true);		
+		return new ilExSubmission($this->assignment, $_REQUEST["member_id"], null, true);
 	}
 	
 	/**
@@ -337,12 +325,9 @@ class ilExerciseManagementGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-	
 		$this->addSubTabs("assignment");
 		
 		// assignment selection
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
 		
 		if (!$this->assignment)
@@ -358,13 +343,11 @@ class ilExerciseManagementGUI
 			{
 				$options[$a->getId()] = $a->getTitle();
 			}
-			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 			$si = new ilSelectInputGUI($this->lng->txt(""), "ass_id");
 			$si->setOptions($options);
 			$si->setValue($this->assignment->getId());
 			$ilToolbar->addStickyItem($si);
 					
-			include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("exc_select_ass");
 			$button->setCommand("selectAssignment");			
@@ -388,7 +371,6 @@ class ilExerciseManagementGUI
 		);
 		if($has_rbac_access)
 		{
-			include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 			ilRepositorySearchGUI::fillAutoCompleteToolbar(
 				$this,
 				$ilToolbar,
@@ -416,7 +398,6 @@ class ilExerciseManagementGUI
 
 			if($this->assignment->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)
 			{
-				include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 				if(ilExAssignmentTeam::getAdoptableGroups($this->exercise->getRefId()))
 				{
 					$ilToolbar->addButton($this->lng->txt("exc_adopt_group_teams"),
@@ -450,7 +431,6 @@ class ilExerciseManagementGUI
 			}
 			$this->ctrl->setParameter($this, "vw", self::VIEW_ASSIGNMENT);
 			
-			include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
 			$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
 			$tpl->setContent(
 				$exc_tab->getHTML().
@@ -469,8 +449,6 @@ class ilExerciseManagementGUI
 
 	function downloadSubmissionsObject()
 	{
-		include_once './Modules/Exercise/classes/BackgroundTasks/class.ilDownloadSubmissionsBackgroundTask.php';
-
 		$participant_id = $_REQUEST['part_id'];
 
 		$download_task = new ilDownloadSubmissionsBackgroundTask(
@@ -494,8 +472,7 @@ class ilExerciseManagementGUI
 	function membersApplyObject()
 	{
 		$this->saveStatusAllObject(null, false);
-		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
+		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
 		$exc_tab->resetOffset();
 		$exc_tab->writeFilterToSession();
 		
@@ -504,8 +481,7 @@ class ilExerciseManagementGUI
 	
 	function membersResetObject()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php");
-		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());		
+		$exc_tab = new ilExerciseMemberTableGUI($this, "members", $this->exercise, $this->assignment->getId());
 		$exc_tab->resetOffset();
 		$exc_tab->resetFilter();
 		
@@ -520,8 +496,6 @@ class ilExerciseManagementGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 				
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
-		
 		if (is_array($_POST["lcomment"]))
 		{
 			foreach ($_POST["lcomment"] as $k => $v)
@@ -554,9 +528,6 @@ class ilExerciseManagementGUI
 			});
 		$this->toolbar->addSeparator();
 		$this->toolbar->addComponent($button_print);
-
-		include_once "Services/User/classes/class.ilUserUtil.php";
-		include_once "Services/RTE/classes/class.ilRTE.php";
 
 		$group_panels_tpl = new ilTemplate("tpl.exc_group_report_panels.html", TRUE, TRUE, "Modules/Exercise");
 		$group_panels_tpl->setVariable('TITLE', $this->lng->txt("exc_list_text_assignment").": ".$this->assignment->getTitle());
@@ -903,7 +874,6 @@ class ilExerciseManagementGUI
 			{
 				if($ass->hasTeam())
 				{
-					include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";									
 					foreach($a_user_ids as $user_id)
 					{						
 						// #15915
@@ -944,7 +914,6 @@ class ilExerciseManagementGUI
 		$this->ctrl->setParameter($this, "ass_id", "");
 		
 		// participant selection
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = ilExAssignment::getAssignmentDataOfExercise($this->exercise->getId());
 		$members = $this->exercise->members_obj->getMembers();
 		
@@ -967,7 +936,6 @@ class ilExerciseManagementGUI
 		{
 			if (ilObject::_lookupType($mem_id) == "usr")
 			{
-				include_once("./Services/User/classes/class.ilObjUser.php");
 				$name = ilObjUser::_lookupName($mem_id);
 				if (trim($name["login"]) != "")		// #20073
 				{
@@ -994,13 +962,11 @@ class ilExerciseManagementGUI
 				$options[$k] =
 					$m["lastname"].", ".$m["firstname"]." [".$m["login"]."]";
 			}
-			include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
 			$si = new ilSelectInputGUI($this->lng->txt(""), "part_id");
 			$si->setOptions($options);
 			$si->setValue($current_participant);
 			$ilToolbar->addStickyItem($si);
 			
-			include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("exc_select_part");
 			$button->setCommand("selectParticipant");			
@@ -1015,7 +981,6 @@ class ilExerciseManagementGUI
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this));
 			$ilToolbar->addFormButton($lng->txt("download_all_returned_files"), "downloadSubmissions");
 			
-			include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
 			$part_tab = new ilExParticipantTableGUI($this, "showParticipant",
 				$this->exercise, $current_participant);
 			$tpl->setContent($part_tab->getHTML().
@@ -1029,8 +994,7 @@ class ilExerciseManagementGUI
 	
 	function showParticipantApplyObject()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
-		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);		
+		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);
 		$exc_tab->resetOffset();
 		$exc_tab->writeFilterToSession();
 		
@@ -1039,8 +1003,7 @@ class ilExerciseManagementGUI
 	
 	function showParticipantResetObject()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExParticipantTableGUI.php");
-		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);		
+		$exc_tab = new ilExParticipantTableGUI($this, "showParticipant", $this->exercise, $_GET["part_id"]);
 		$exc_tab->resetOffset();
 		$exc_tab->resetFilter();
 		
@@ -1068,7 +1031,6 @@ class ilExerciseManagementGUI
 		
 		$this->addSubTabs("grades");
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$mem_obj = new ilExerciseMembers($this->exercise);
 		$mems = $mem_obj->getMembers();
 		
@@ -1125,11 +1087,9 @@ class ilExerciseManagementGUI
 			$sig = chr(13).chr(10).chr(13).chr(10);
 			$sig .= $this->lng->txt('exc_mail_permanent_link');
 			$sig .= chr(13).chr(10).chr(13).chr(10);
-			include_once './Services/Link/classes/class.ilLink.php';
 			$sig .= ilLink::_getLink($this->exercise->getRefId());
 			$sig = rawurlencode(base64_encode($sig));
 						
-			require_once 'Services/Mail/classes/class.ilMailFormCall.php';
 			ilUtil::redirect(ilMailFormCall::getRedirectTarget(
 				$this, 
 				$this->getViewBack(), 
@@ -1240,7 +1200,6 @@ class ilExerciseManagementGUI
 			
 			$user_id = $_GET["part_id"];
 			
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 			foreach(array_keys($_POST["ass"]) as $ass_id)
 			{
 				$submission = new ilExSubmission(new ilExAssignment($ass_id), $user_id);				
@@ -1305,14 +1264,12 @@ class ilExerciseManagementGUI
 			
 		$members = $this->getMultiActionUserIds();		
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($ilCtrl->getFormAction($this));
 		$cgui->setHeaderText($lng->txt("exc_msg_sure_to_deassign_participant"));
 		$cgui->setCancel($lng->txt("cancel"), "members");
 		$cgui->setConfirm($lng->txt("remove"), "deassignMembers");
 
-		include_once("./Services/User/classes/class.ilUserUtil.php");
 		foreach ($members as $k => $m)
 		{								
 			$cgui->addItem("member[$k]", $m,
@@ -1452,9 +1409,7 @@ class ilExerciseManagementGUI
 	{
 		$ilCtrl = $this->ctrl;
 				
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		
-		$saved_for = array();		
+		$saved_for = array();
 		foreach($a_data as $ass_id => $users)
 		{					
 			$ass = ($ass_id < 0)
@@ -1578,7 +1533,6 @@ class ilExerciseManagementGUI
 				
 		$new_members = array();
 
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 		foreach($members as $group)
 		{
 			if(is_array($group))
@@ -1633,7 +1587,6 @@ class ilExerciseManagementGUI
 		
 		$members = $this->getMultiActionUserIds(true);
 						
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 		foreach($members as $group)
 		{
 			// if single member - nothing to do
@@ -1684,13 +1637,10 @@ class ilExerciseManagementGUI
 	{
 		$lng = $this->lng;
 		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();				
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt("exc_adopt_group_teams")." - ".$this->assignment->getTitle());
 		$form->setFormAction($this->ctrl->getFormAction($this, "createTeamsFromGroups"));		
 			
-		include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
-		include_once "Services/User/classes/class.ilUserUtil.php";
 		$all_members = array();
 		foreach(ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId()) as $grp_id => $group)
 		{
@@ -1740,7 +1690,6 @@ class ilExerciseManagementGUI
 		$form = $this->initGroupForm();
 		if($form->checkInput())
 		{
-			include_once "Services/User/classes/class.ilUserUtil.php";
 			$map = ilExAssignmentTeam::getGroupMembersMap($this->exercise->getRefId());
 			$all_members = $teams = array();
 			$valid = true;
@@ -1863,7 +1812,6 @@ class ilExerciseManagementGUI
 	{
 		$lng = $this->lng;
 		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->addCommandButton("uploadMultiFeedback", $lng->txt("upload"));
 		$form->addCommandButton("members", $lng->txt("cancel"));
@@ -1897,8 +1845,7 @@ class ilExerciseManagementGUI
 		$this->addSubTabs("assignment");
 		
 		// #13719
-		include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-		$button = ilLinkButton::getInstance();				
+		$button = ilLinkButton::getInstance();
 		$button->setCaption("exc_download_zip_structure");
 		$button->setUrl($this->ctrl->getLinkTarget($this, "downloadMultiFeedbackZip"));							
 		$button->setOmitPreventDoubleSubmission(true);
@@ -1957,7 +1904,6 @@ class ilExerciseManagementGUI
 		
 		$this->addSubTabs("assignment");
 				
-		include_once("./Modules/Exercise/classes/class.ilFeedbackConfirmationTable2GUI.php");
 		$tab = new ilFeedbackConfirmationTable2GUI($this, "showMultiFeedbackConfirmationTable", $this->assignment);
 		$tpl->setContent($tab->getHTML());		
 	}
@@ -1993,7 +1939,6 @@ class ilExerciseManagementGUI
 		$tpl = $this->tpl;
 		
 		// prepare modal+
-		include_once "./Services/UIComponent/Modal/classes/class.ilModalGUI.php";
 		$modal = ilModalGUI::getInstance();
 		$modal->setHeading($lng->txt("exc_individual_deadline"));
 		$modal->setId("ilExcIDl");
@@ -2005,8 +1950,7 @@ class ilExerciseManagementGUI
 		$tpl->addJavaScript("./Modules/Exercise/js/ilExcIDl.js", true, 3);							
 		$tpl->addOnloadCode('il.ExcIDl.init("'.$ajax_url.'");');
 				
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";	
-		ilCalendarUtil::initDateTimePicker();		
+		ilCalendarUtil::initDateTimePicker();
 
 		return $modal;		
 	}
@@ -2058,8 +2002,6 @@ class ilExerciseManagementGUI
 				: "showParticipant");	
 		}
 		
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-				
 		// initial form call
 		if($_GET["idlid"])
 		{			
@@ -2143,12 +2085,10 @@ class ilExerciseManagementGUI
 	
 	protected function initIndividualDeadlineForm(array $a_ass_map, array $ids)
 	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setName("ilExcIDlForm");
 		
-		include_once "Services/User/classes/class.ilUserUtil.php";
 		foreach($ids as $ass_id => $users)
 		{
 			$ass = $a_ass_map[$ass_id];
@@ -2157,8 +2097,7 @@ class ilExerciseManagementGUI
 			$section->setTitle($ass->getTitle());
 			$form->addItem($section);
 		
-			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
-			$teams = ilExAssignmentTeam::getInstancesFromMap($ass->getId());	
+			$teams = ilExAssignmentTeam::getInstancesFromMap($ass->getId());
 
 			$values = $ass->getIndividualDeadlines();
 			
@@ -2281,7 +2220,6 @@ class ilExerciseManagementGUI
 		}
 
 		//todo: old school here.
-		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$submit = ilSubmitButton::getInstance();
 		$submit->setCaption("filter");
 		$submit->setCommand("listTextAssignment");

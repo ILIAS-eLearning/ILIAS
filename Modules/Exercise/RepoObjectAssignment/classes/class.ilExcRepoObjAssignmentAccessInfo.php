@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/RepoObjectAssignment/interfaces/interface.ilExcRepoObjAssignmentAccessInfoInterface.php");
-
 /**
  * Repository object assignment information
  *
@@ -79,7 +77,6 @@ class ilExcRepoObjAssignmentAccessInfo implements ilExcRepoObjAssignmentAccessIn
 	{
 		global $DIC;
 
-		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignment.php");
 		$repo_obj_ass = ilExcRepoObjAssignment::getInstance();
 		$lng = $DIC->language();
 		$access = $DIC->access();

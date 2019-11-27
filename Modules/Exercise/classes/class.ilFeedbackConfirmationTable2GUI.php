@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * TableGUI class for 
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ingroup Services
  */

@@ -166,7 +166,6 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			}			
 		}
 
-		include_once("./Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php");
 		$tab = new ilExcDeliveredFilesTableGUI($this, "submissionScreen", $this->submission);
 		$this->tpl->setContent($tab->getHTML());
 	}
@@ -225,11 +224,9 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 	
 		// file input
-		include_once("./Services/Form/classes/class.ilFileWizardInputGUI.php");
 		$fi = new ilFileWizardInputGUI($lng->txt("file"), "deliver");
 		$fi->setFilenames(array(0 => ''));
 		$fi->setRequired(true);
@@ -252,10 +249,8 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 	
-		include_once("./Services/Form/classes/class.ilFileInputGUI.php");
 		$fi = new ilFileInputGUI($lng->txt("file"), "deliver");
 		$fi->setSuffixes(array("zip"));
 		$fi->setRequired(true);
@@ -379,7 +374,6 @@ class ilExSubmissionFileGUI extends ilExSubmissionBaseGUI
 			$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 				$this->ctrl->getLinkTarget($this, "submissionScreen"));
 		
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("info_delete_sure"));

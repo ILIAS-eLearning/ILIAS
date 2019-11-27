@@ -1,10 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Modules/Exercise/classes/class.ilExAssignment.php';
-include_once './Services/Rating/classes/class.ilRatingGUI.php';
-
 /**
  * List all peers to be reviewed for user
  *
@@ -70,7 +66,6 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		if($this->ass->hasPeerReviewFileUpload())
 		{
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$this->fstorage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
 			$this->fstorage->create();
 		}
@@ -89,8 +84,7 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
 		
 		if($personal)
 		{
-			include_once "Services/User/classes/class.ilUserUtil.php";
-		}
+			}
 		
 		$peer_review = new ilExPeerReview($this->ass);
 				

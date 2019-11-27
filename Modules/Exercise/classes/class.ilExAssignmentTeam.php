@@ -127,7 +127,6 @@ class ilExAssignmentTeam
 			$id = $ilDB->nextId("il_exc_team");
 
 			// get starting timestamp (relative deadlines) from individual deadline
-			include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
 			$idl = ilExcIndividualDeadline::getInstance($a_assignment_id, $a_user_id);
 			
 			$fields = array("id" => array("integer", $id),
@@ -403,7 +402,6 @@ class ilExAssignmentTeam
 		
 	    $ass = new ilExAssignment($this->assignment_id);
 				
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("exc"));
 		$ntf->setRefId($a_exc_ref_id);
@@ -577,7 +575,6 @@ class ilExAssignmentTeam
 	{					
 		$res = array();
 		
-		include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 		foreach(self::getAdoptableGroups($a_exc_ref_id) as $grp_obj_id)
 		{
 			$members_obj = new ilGroupParticipants($grp_obj_id);

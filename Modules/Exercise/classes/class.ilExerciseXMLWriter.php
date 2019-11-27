@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Xml/classes/class.ilXmlWriter.php";
-include_once "./Modules/Exercise/classes/class.ilExAssignment.php";
-
 /**
  * XML writer class
  *
@@ -14,7 +11,6 @@ include_once "./Modules/Exercise/classes/class.ilExAssignment.php";
  * of the xml document.
  *
  * @author Roland Küstermann <Roland@kuestermann.com>
- * @version $Id: class.ilExerciseXMLWriter.php,v 1.3 2005/11/04 12:50:24 smeyer Exp $
  *
  * @ingroup ModulesExercise
  */
@@ -190,7 +186,6 @@ class ilExerciseXMLWriter extends ilXmlWriter {
 	
 	private function handleAssignmentFiles($ex_id, $as_id) {
 		$this->xmlStartTag ( "Files" );
-		include_once ("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise ( $ex_id, $as_id );
 		$files = $storage->getFiles ();
 		

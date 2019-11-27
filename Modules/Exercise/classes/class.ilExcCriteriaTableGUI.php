@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Table/classes/class.ilTable2GUI.php";
-
 /**
  * Class ilExcCriteriaTableGUI
  *

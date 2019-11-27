@@ -1,15 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php");
-
 /**
 * Exercise participant table
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
@@ -54,7 +49,6 @@ class ilExGradesTableGUI extends ilTable2GUI
 
 		$this->exc_id = $this->exc->getId();
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$this->setId("exc_grades_".$this->exc_id);
 		
 		$this->mem_obj = $a_mem_obj;
@@ -179,7 +173,6 @@ class ilExGradesTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_MARK", $lng->txt("exc_mark"));
 		$this->tpl->setVariable("NAME_MARK",
 			"mark[".$user_id."]");
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		$mark = ilLPMarks::_lookupMark($user_id, $this->exc_id);
 		$this->tpl->setVariable("VAL_MARK",
 			ilUtil::prepareFormOutput($mark));

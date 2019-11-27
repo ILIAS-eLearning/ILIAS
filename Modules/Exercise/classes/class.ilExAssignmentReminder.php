@@ -376,8 +376,6 @@ class ilExAssignmentReminder
 			if($has_pending_to_grade)
 			{
 				//get tutor of this exercise.
-				include_once "./Services/Notification/classes/class.ilNotification.php";
-
 				$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $rem["exc_id"]);
 
 				foreach ($users as $user_id) {
@@ -523,7 +521,6 @@ class ilExAssignmentReminder
 				$exc_title = ilObjExercise::_lookupTitle($reminder["exc_id"]);
 
 				// use language of recipient to compose message
-				include_once "./Services/Language/classes/class.ilLanguageFactory.php";
 				$ulng = ilLanguageFactory::_getLanguageOfUser($reminder["member_id"]);
 				$ulng->loadLanguageModule('exc');
 

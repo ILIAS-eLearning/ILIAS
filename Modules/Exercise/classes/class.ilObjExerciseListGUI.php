@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 /**
 * ListGUI class for exercise objects.
 *
 * @author 	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
 *
 * @ingroup ModulesExercise
 */
@@ -35,7 +32,6 @@ class ilObjExerciseListGUI extends ilObjectListGUI
 		}
 		
 		// general commands array
-		include_once('./Modules/Exercise/classes/class.ilObjExerciseAccess.php');
 		$this->commands = ilObjExerciseAccess::_getCommands();
 	}
 

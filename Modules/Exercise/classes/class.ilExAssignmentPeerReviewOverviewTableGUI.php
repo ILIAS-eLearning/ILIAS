@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
 /**
  * List all peer groups for assignment
  *
@@ -61,7 +59,6 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 		
 		$res = array();
 		
-		include_once "Services/User/classes/class.ilUserUtil.php";
 		foreach(array_unique($a_user_ids) as $user_id)
 		{
 			$res[] = ilUserUtil::getNamePresentation($user_id);
@@ -83,7 +80,6 @@ class ilExAssignmentPeerReviewOverviewTableGUI extends ilTable2GUI
 	{		
 		$data = array();
 		
-		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
 		$peer_review = new ilExPeerReview($this->ass);
 		$tmp = $peer_review->validatePeerReviewGroups();
 		

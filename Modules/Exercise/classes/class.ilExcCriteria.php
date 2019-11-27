@@ -104,7 +104,6 @@ abstract class ilExcCriteria
 	public static function getInstanceByType($a_type)			
 	{
 		$class = "ilExcCriteria".ucfirst($a_type);
-		include_once "Modules/Exercise/classes/class.".$class.".php";
 		return new $class;
 	}
 	

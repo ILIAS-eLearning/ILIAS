@@ -1,16 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
-include_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
-
 /**
  * Exercise submission table 
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ModulesExercise
  */
@@ -170,8 +164,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 		$this->initFilter();
 		$this->setData($this->parseData());		
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";			
-	}
+		}
 					
 	function initFilter()
 	{
@@ -300,8 +293,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 						$url = $ilCtrl->getLinkTargetByClass("ilExSubmissionTeamGUI", "confirmRemoveTeamMember");
 						$ilCtrl->setParameterByClass("ilExSubmissionTeamGUI", "id", "");
 
-						include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
-
 						$this->tpl->setCurrentBlock("team_member_removal_bl");
 						$this->tpl->setVariable("URL_TEAM_MEMBER_REMOVAL", $url);
 						$this->tpl->setVariable("TXT_TEAM_MEMBER_REMOVAL", 
@@ -400,7 +391,6 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 				case "image":
 					if(!$a_ass->hasTeam())
 					{
-						include_once "./Services/Object/classes/class.ilObjectFactory.php";							
 						if($usr_obj = ilObjectFactory::getInstanceByObjId($a_user_id, false))
 						{							
 							$this->tpl->setVariable("VAL_IMAGE", $usr_obj->getPersonalPicturePath("xxsmall"));

@@ -150,7 +150,6 @@ Save and show instruction files located inside root directory instead of outside
 			- ilFSStorageExercise for all the other files.
 
 				// (5.3) assignment files inside ILIAS
-				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 				$fwebstorage = new ilFSWebStorageExercise($exc_id, $ass->getId());
 				$fwebstorage->create();
 				$dir = str_replace("..", "", $a_rec["WebDataDir"]);
@@ -165,7 +164,6 @@ Save and show instruction files located inside root directory instead of outside
 
 		- (edit) **executeCommand** method: case ilfilesystemgui: use ilFSWebStorageExercise instead of ilFSStorageExercise
 
-				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 				$fWebStorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
 				$fWebStorage->create();
 
@@ -182,11 +180,7 @@ Save and show instruction files located inside root directory instead of outside
 
 		- (edit) **addSubmissionFeedback()** method: include the new class.
 
-				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-
-
-
-## MANTIS BUG :0019795
+				## MANTIS BUG :0019795
 It is not possible to remove files from a peer feedback from a exercise.
 
 

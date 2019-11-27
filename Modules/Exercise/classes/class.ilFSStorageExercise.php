@@ -21,12 +21,10 @@
 	+-----------------------------------------------------------------------------+
 */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
-/** 
+/**
 * 
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-* 
+*
 * @ingroup ModulesExercise 
 */
 class ilFSStorageExercise extends ilFileSystemStorage
@@ -238,7 +236,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 		{
 			$filename = $a_http_post_file['name'];
 
-			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
 			$filename = ilFileUtils::getValidFilename($filename);
 
 			// replace whitespaces with underscores
@@ -277,7 +274,6 @@ class ilFSStorageExercise extends ilFileSystemStorage
 				$savepath . "/" . $prefix . "_" . $filename);
 			}
 
-			require_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
 			if (is_file($savepath . "/" . $prefix . "_" . $filename))
 			{
 				$result = array(
