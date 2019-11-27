@@ -1,9 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Glossary definition page GUI class
@@ -13,8 +10,6 @@ include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilGlossaryDefPageGUI: ilPropertyFormGUI, ilInternalLinkGUI
- *
- * @ingroup ModulesGlossary
  */
 class ilGlossaryDefPageGUI extends ilPageObjectGUI
 {
@@ -63,9 +58,7 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 	{
 		if ($this->getOutputMode() == "print"  && $this->glossary instanceof ilObjGlossary)
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			$term_id = ilGlossaryDefinition::_lookupTermId($this->getId());
-			include_once("./Services/Object/classes/class.ilObjectMetaDataGUI.php");
 			$mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term_id);
 			$md = $mdgui->getKeyValueList();
 			if ($md != "")
@@ -78,5 +71,4 @@ class ilGlossaryDefPageGUI extends ilPageObjectGUI
 	}
 
 
-} 
-?>
+}

@@ -34,7 +34,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
 
         $title = $this->getHomeItem()->getTitle();
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", $title)->withIsOutlined(true);
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         // Home
@@ -65,14 +64,15 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($title);
         }*/
 
-        $contents = $this->dic->ui()->factory()->legacy($this->renderRepoTree());
         $entries[] =
             $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
+                ->withContentWrapper(function(){
+                    return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+                })
+                ->withSupportsAsynchronousLoading(false)
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContent($contents)
                 ->withParent($top)
-                ->withAlwaysAvailable(true)
                 ->withPosition(20);
 
         // LastVisited

@@ -1,21 +1,13 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-require_once ("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* GUI class for glossary term definition editor
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
-*
-* @ingroup ModulesGlossary
-*/
+ * GUI class for glossary term definition editor
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilTermDefinitionEditorGUI: ilGlossaryDefPageGUI
+ */
 class ilTermDefinitionEditorGUI
 {
 	/**
@@ -82,13 +74,11 @@ class ilTermDefinitionEditorGUI
 			ilObjStyleSheet::getSyntaxStylePath());
 		$this->tpl->parseCurrentBlock();
 
-		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
 		$gloss_loc->setDefinition($this->definition);
 
-//		$this->tpl->getStandardTemplate();
 		$this->tpl->setTitle($this->term->getTerm()." - ".
 			$this->lng->txt("cont_definition")." ".
 			$this->definition->getNr());
@@ -134,7 +124,6 @@ class ilTermDefinitionEditorGUI
 				
 				// metadata
 				// ... set title to term, if no title is given
-				include_once("./Services/MetaData/classes/class.ilMD.php");
 				$md = new ilMD($this->term_glossary->getId(), $this->definition->getId(), "gdf");
 				$md_gen = $md->getGeneral();
 				if ($md_gen->getTitle() == "")
@@ -161,7 +150,9 @@ class ilTermDefinitionEditorGUI
 				$page_gui->setFileDownloadLink("ilias.php?baseClass=ilGlossaryPresentationGUI&amp;cmd=downloadFile&amp;ref_id=".$_GET["ref_id"]);
 				$page_gui->setPresentationTitle($this->term->getTerm());
 				$ret = $this->ctrl->forwardCommand($page_gui);
-				$tpl->setContent($ret);
+				if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
 				break;
 
 			default:
@@ -217,4 +208,3 @@ class ilTermDefinitionEditorGUI
 		$this->definition->updateShortText();
 	}
 }
-?>

@@ -1,16 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilObjGlossaryListGUI
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * $Id$
- *
- * @ingroup ModulesGlossary
  */
 class ilObjGlossaryListGUI extends ilObjectListGUI
 {
@@ -33,7 +28,6 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjglossarygui";
 		
 		// general commands array
-		include_once("./Modules/Glossary/classes/class.ilObjGlossaryAccess.php");
 		$this->commands = ilObjGlossaryAccess::_getCommands();
 	}
 
@@ -117,8 +111,6 @@ class ilObjGlossaryListGUI extends ilObjectListGUI
 		$rbacsystem = $this->rbacsystem;
 
 		$props = array();
-
-		include_once("./Modules/Glossary/classes/class.ilObjGlossaryAccess.php");
 
 		if (!ilObjGlossaryAccess::_lookupOnline($this->obj_id))
 		{

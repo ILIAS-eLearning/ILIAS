@@ -1,15 +1,11 @@
 <?php 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Term list table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup Services
  */
 class ilTermQuickListTableGUI extends ilTable2GUI
 {
@@ -93,4 +89,3 @@ class ilTermQuickListTableGUI extends ilTable2GUI
 	}
 
 }
-?>

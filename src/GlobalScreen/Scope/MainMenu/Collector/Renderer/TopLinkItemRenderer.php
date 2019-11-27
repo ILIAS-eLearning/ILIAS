@@ -3,7 +3,6 @@
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopLinkItem;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -22,11 +21,9 @@ class TopLinkItemRenderer extends BaseTypeRenderer
 
 
     /**
-     * @param TopLinkItem $item
-     *
-     * @return Component
+     * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentWithContent(isItem $item) : Component
     {
         return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()))->withOpenInNewViewport($item->isLinkWithExternalAction());
     }

@@ -104,7 +104,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
 				include_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php");
 				$page_obj = new ilSCORM2004PageGUI("sahs",$_GET["pg_id"]);
 				//$page_obj->setPresentationTitle($page["title"]);
-				$page_obj->setOutputMode(IL_PAGE_PREVIEW);
+				$page_obj->setOutputMode(ilPageObjectGUI::PREVIEW);
 				$ilCtrl->forwardCommand($page_obj);
 				break;
 
@@ -447,7 +447,7 @@ die("deprecated");
 			$page_obj = new ilSCORM2004PageGUI($this->node_object->getType(),$page["obj_id"],
 				0, $this->slm_object->getId());
 			$page_obj->setPresentationTitle($page["title"]);
-			$page_obj->setOutputMode(IL_PAGE_PREVIEW);
+			$page_obj->setOutputMode(ilPageObjectGUI::PREVIEW);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
 			if (count($terms) > 1)
 			{

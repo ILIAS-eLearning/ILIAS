@@ -895,6 +895,16 @@ class ilObjStyleSheet extends ilObject
 	}
 
 	/**
+	 * Get basic image dir
+	 * @return string
+	 */
+	static public function getBasicImageDir()
+	{
+		return self::$basic_style_image_dir;
+	}
+	
+	
+	/**
 	* Create a new style
 	*/
 	function create($a_from_style = 0, $a_import_mode = false)

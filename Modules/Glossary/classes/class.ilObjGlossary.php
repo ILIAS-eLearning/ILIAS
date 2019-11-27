@@ -1,22 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Object/classes/class.ilObject.php");
-require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-include_once("./Services/AdvancedMetaData/interfaces/interface.ilAdvancedMetaDataSubItems.php");
-
-/** @defgroup ModulesGlossary Modules/Glossary
- */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjGlossary
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGlossary
-*/
+ * Class ilObjGlossary
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 {
 	/**
@@ -86,7 +76,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 
 		if (((int) $this->getStyleSheetId()) > 0)
 		{
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 		}
 
@@ -113,8 +102,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->setPresentationMode($gl_rec["pres_mode"]);
 		$this->setSnippetLength($gl_rec["snippet_length"]);
 		$this->setShowTaxonomy($gl_rec["show_tax"]);
-		
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+
 		$this->setStyleSheetId((int) ilObjStyleSheet::lookupObjectStyle($this->getId()));
 
 		// read auto glossaries
@@ -437,7 +425,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				'id' => array('integer', $this->getId())
 			)
 		);
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
 
 		$this->updateAutoGlossaries();
@@ -660,7 +647,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function createExportDirectory($a_type = "xml")
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_createExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
@@ -669,7 +655,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getExportDirectory($a_type = "xml")
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_getExportDirectory($this->getId(), $a_type, $this->getType());
 	}
 
@@ -678,7 +663,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getExportFiles()
 	{
-		include_once("./Services/Export/classes/class.ilExport.php");
 		return ilExport::_getExportFiles($this->getId(), array("xml", "html"), $this->getType());
 	}
 	
@@ -705,272 +689,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		return $this->public_export_file[$a_type];
 	}
 
-	/**
-	* export html package
-	*/
-	function exportHTML($a_target_dir, $log)
-	{
-		$tpl = $this->tpl;
-
-		// initialize temporary target directory
-		ilUtil::delDir($a_target_dir);
-		ilUtil::makeDir($a_target_dir);
-		
-        // init mathjax rendering for export
-		include_once './Services/MathJax/classes/class.ilMathJax.php';
-		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
-		$this->co_page_html_export = new ilCOPageHTMLExport($a_target_dir);
-		$this->co_page_html_export->createDirectories();
-
-		// export system style sheet
-		$location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-		$style_name = $this->user->prefs["style"].".css";
-		copy($location_stylesheet, $a_target_dir."/".$style_name);
-		$location_stylesheet = ilUtil::getStyleSheetLocation();
-		
-		if ($this->getStyleSheetId() < 1)
-		{
-			$cont_stylesheet = "Services/COPage/css/content.css";
-			copy($cont_stylesheet, $a_target_dir."/content.css");
-		}
-		else
-		{
-			$content_style_img_dir = $a_target_dir."/images";
-			ilUtil::makeDir($content_style_img_dir);
-			$style = new ilObjStyleSheet($this->getStyleSheetId());
-			$style->writeCSSFile($a_target_dir."/content.css", "images");
-			$style->copyImagesToDir($content_style_img_dir);
-		}
-		
-		// export syntax highlighting style
-		$syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
-		copy($syn_stylesheet, $a_target_dir."/syntaxhighlight.css");
-
-		// get glossary presentation gui class
-		include_once("./Modules/Glossary/classes/class.ilGlossaryPresentationGUI.php");
-		$_GET["cmd"] = "nop";
-		$glo_gui = new ilGlossaryPresentationGUI();
-		$glo_gui->setOfflineMode(true);
-		$glo_gui->setOfflineDirectory($a_target_dir);
-		
-		// could be implemented in the future if other export
-		// formats are supported (e.g. scorm)
-		//$glo_gui->setExportFormat($a_export_format);
-
-		// export terms
-		$this->exportHTMLGlossaryTerms($glo_gui, $a_target_dir);
-				
-		// export all media objects
-		foreach ($this->offline_mobs as $mob)
-		{
-			$this->exportHTMLMOB($a_target_dir, $glo_gui, $mob, "_blank");
-		}
-		$_GET["obj_type"]  = "MediaObject";
-		$_GET["obj_id"]  = $a_mob_id;
-		$_GET["cmd"] = "";
-		
-		// export all file objects
-		foreach ($this->offline_files as $file)
-		{
-			$this->exportHTMLFile($a_target_dir, $file);
-		}
-		
-		// export images
-		$image_dir = $a_target_dir."/images";
-		ilUtil::makeDir($image_dir);
-		ilUtil::makeDir($image_dir."/browser");
-		copy(ilUtil::getImagePath("enlarge.svg", false, "filesystem"),
-			$image_dir."/enlarge.svg");
-		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
-			$image_dir."/browser/plus.png");
-		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
-			$image_dir."/browser/minus.png");
-		copy(ilUtil::getImagePath("browser/blank.png", false, "filesystem"),
-			$image_dir."/browser/blank.png");
-		copy(ilUtil::getImagePath("icon_st.svg", false, "filesystem"),
-			$image_dir."/icon_st.svg");
-		copy(ilUtil::getImagePath("icon_pg.svg", false, "filesystem"),
-			$image_dir."/icon_pg.svg");
-		copy(ilUtil::getImagePath("nav_arr_L.png", false, "filesystem"),
-			$image_dir."/nav_arr_L.png");
-		copy(ilUtil::getImagePath("nav_arr_R.png", false, "filesystem"),
-			$image_dir."/nav_arr_R.png");
-			
-		// template workaround: reset of template 
-		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-		$tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		
-		// zip everything
-		if (true)
-		{
-			// zip it all
-			$date = time();
-			$zip_file = $this->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
-				$this->getType()."_".$this->getId().".zip";
-//echo "zip-".$a_target_dir."-to-".$zip_file;
-			ilUtil::zip($a_target_dir, $zip_file);
-			ilUtil::delDir($a_target_dir);
-		}
-	}
-	
-
-	/**
-	* export glossary terms
-	*/
-	function exportHTMLGlossaryTerms(&$a_glo_gui, $a_target_dir)
-	{
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
-		$copage_export = new ilCOPageHTMLExport($a_target_dir);
-		$copage_export->exportSupportScripts();
-		
-		// index.html file
-		$a_glo_gui->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-		$style_name = $this->user->prefs["style"].".css";;
-		$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
-		$a_glo_gui->tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$a_glo_gui->tpl->setTitle($this->getTitle());
-
-		$content = $a_glo_gui->listTerms();
-		$file = $a_target_dir."/index.html";
-						
-		// open file
-		if (!($fp = @fopen($file,"w+")))
-		{
-			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-		}
-		chmod($file, 0770);
-		fwrite($fp, $content);
-		fclose($fp);
-		
-		$terms = $this->getTermList();
-		
-		$this->offline_mobs = array();
-		$this->offline_files = array();
-		
-		foreach($terms as $term)
-		{
-			$a_glo_gui->tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-			$a_glo_gui->tpl = $copage_export->getPreparedMainTemplate();
-			//$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			
-			// set style
-			$style_name = $this->user->prefs["style"].".css";;
-			$a_glo_gui->tpl->setVariable("LOCATION_STYLESHEET","./".$style_name);
-
-			$_GET["term_id"] = $term["id"];
-			$_GET["frame"] = "_blank";
-			$content = $a_glo_gui->listDefinitions($_GET["ref_id"],$term["id"],false);
-			$file = $a_target_dir."/term_".$term["id"].".html";
-							
-			// open file
-			if (!($fp = @fopen($file,"w+")))
-			{
-				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-			}
-			chmod($file, 0770);
-			fwrite($fp, $content);
-			fclose($fp);
-
-			// store linked/embedded media objects of glosssary term
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-			$defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-			foreach($defs as $def)
-			{
-				$def_mobs = ilObjMediaObject::_getMobsOfObject("gdf:pg", $def["id"]);
-				foreach($def_mobs as $def_mob)
-				{
-					$this->offline_mobs[$def_mob] = $def_mob;
-				}
-				
-				// get all files of page
-				include_once("./Modules/File/classes/class.ilObjFile.php");
-				$def_files = ilObjFile::_getFilesOfObject("gdf:pg", $def["id"]);
-				$this->offline_files = array_merge($this->offline_files, $def_files);
-
-			}
-		}
-	}
-	
-	/**
-	* export media object to html
-	*/
-	function exportHTMLMOB($a_target_dir, &$a_glo_gui, $a_mob_id)
-	{
-		$tpl = $this->tpl;
-
-		$mob_dir = $a_target_dir."/mobs";
-
-		$source_dir = ilUtil::getWebspaceDir()."/mobs/mm_".$a_mob_id;
-		if (@is_dir($source_dir))
-		{
-			ilUtil::makeDir($mob_dir."/mm_".$a_mob_id);
-			ilUtil::rCopy($source_dir, $mob_dir."/mm_".$a_mob_id);
-		}
-		
-		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-		$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-		$_GET["obj_type"]  = "MediaObject";
-		$_GET["mob_id"]  = $a_mob_id;
-		$_GET["cmd"] = "";
-		$content = $a_glo_gui->media();
-		$file = $a_target_dir."/media_".$a_mob_id.".html";
-
-		// open file
-		if (!($fp = @fopen($file,"w+")))
-		{
-			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-				" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-		}
-		chmod($file, 0770);
-		fwrite($fp, $content);
-		fclose($fp);
-		
-		// fullscreen
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$mob_obj = new ilObjMediaObject($a_mob_id);
-		if ($mob_obj->hasFullscreenItem())
-		{
-			$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-			$tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-			$_GET["mob_id"]  = $a_mob_id;
-			$_GET["cmd"] = "fullscreen";
-			$content = $a_glo_gui->fullscreen();
-			$file = $a_target_dir."/fullscreen_".$a_mob_id.".html";
-	
-			// open file
-			if (!($fp = @fopen($file,"w+")))
-			{
-				die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-			}
-			chmod($file, 0770);
-			fwrite($fp, $content);
-			fclose($fp);
-		}
-	}
-
-	/**
-	* export file object
-	*/
-	function exportHTMLFile($a_target_dir, $a_file_id)
-	{
-		$file_dir = $a_target_dir."/files/file_".$a_file_id;
-		ilUtil::makeDir($file_dir);
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$file_obj = new ilObjFile($a_file_id, false);
-		$source_file = $file_obj->getDirectory($file_obj->getVersion())."/".$file_obj->getFileName();
-		if (!is_file($source_file))
-		{
-			$source_file = $file_obj->getDirectory()."/".$file_obj->getFileName();
-		}
-		copy($source_file, $file_dir."/".$file_obj->getFileName());
-	}
-
 
 	/**
 	* export object to xml (see ilias_co.dtd)
@@ -994,8 +712,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$this->file_ids = array();
 		foreach ($terms as $term)
 		{
-			include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
-			
 			$defs = ilGlossaryDefinition::getDefinitionList($term[id]);
 
 			foreach($defs as $def)
@@ -1004,7 +720,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 				$this->page_object->buildDom();
 				$this->page_object->insertInstIntoIDs(IL_INST_ID);
 				$mob_ids = $this->page_object->collectMediaObjects(false);
-				include_once("./Services/COPage/classes/class.ilPCFileList.php");
 				$file_ids = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
 				foreach($mob_ids as $mob_id)
 				{
@@ -1076,7 +791,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXMLMetaData(&$a_xml_writer)
 	{
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		$md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -1091,8 +805,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
 	{
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-
 		foreach ($this->mob_ids as $mob_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."Media Object ".$mob_id);
@@ -1109,8 +821,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function exportFileItems($a_target_dir, &$expLog)
 	{
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-
 		foreach ($this->file_ids as $file_id)
 		{
 			$expLog->write(date("[y-m-d H:i:s] ")."File Item ".$file_id);
@@ -1168,7 +878,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		}
 
 		// delete term references
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTermReferences.php");
 		$refs = new ilGlossaryTermReferences($this->getId());
 		$refs->delete();
 
@@ -1187,7 +896,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	*/
 	function getXMLZip()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryExport.php");
 		$glo_exp = new ilGlossaryExport($this);
 		return $glo_exp->buildExportFile();
 	}
@@ -1203,7 +911,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$lng = $DIC->language();
 		
 		$dep = array();
-		include_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
 		$sms = ilObjSAHSLearningModule::getScormModulesForGlossary($a_obj_id);
 		foreach ($sms as $sm)
 		{
@@ -1222,7 +929,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	 */
 	function getTaxonomyId()
 	{
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$tax_ids = ilObjTaxonomy::getUsageOfObject($this->getId());
 		if (count($tax_ids) > 0)
 		{
@@ -1261,11 +967,9 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		$new_obj->update();
 
 		// set/copy stylesheet
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
-			include_once("./Services/Object/classes/class.ilObjectFactory.php");
 			$style_obj = ilObjectFactory::getInstanceByObjId($style_id);
 			$new_id = $style_obj->ilClone();
 			$new_obj->setStyleSheetId($new_id);
@@ -1276,7 +980,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		if (($tax_id = $this->getTaxonomyId()) > 0)
 		{
 			// clone it
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax = new ilObjTaxonomy($tax_id);
 			$new_tax = $tax->cloneObject(0,0,true);
 			$map = $tax->getNodeMapping();
@@ -1289,7 +992,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		// handle mapping
 		
 		// prepare tax node assignments objects
-		include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 		if ($tax_id > 0)
 		{
 			$tax_ass = new ilTaxNodeAssignment("glo", $this->getId(), "term", $tax_id);
@@ -1376,7 +1078,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		{				
 			$lng->loadLanguageModule("glo");
 			
-			include_once "Modules/Glossary/classes/class.ilGlossaryTerm.php";
 			return $lng->txt("glo_term").' "'. ilGlossaryTerm::_lookGlossaryTerm($a_sub_id).'"';
 		}
 	}
@@ -1390,7 +1091,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 	function autoLinkGlossaryTerms($a_glo_ref_id)
 	{
 		// get terms of target glossary
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$terms = ilGlossaryTerm::getTermList($a_glo_ref_id);
 
 		// for each get page: get content
@@ -1422,7 +1122,6 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
 		}
 
 		// ilPCParagraph autoLinkGlossariesPage with page and terms
-		include_once("./Services/COPage/classes/class.ilPCParagraph.php");
 		foreach ($found_pages as $id => $fp)
 		{
 			ilPCParagraph::autoLinkGlossariesPage($fp["page"], $fp["terms"]);

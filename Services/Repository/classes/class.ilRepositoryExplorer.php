@@ -348,7 +348,6 @@ class ilRepositoryExplorer extends ilExplorer
 					if ($a_type == "glo")
 					{
 						$obj_id = ilObject::_lookupObjectId($a_ref_id);
-						include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 						if((!ilObjGlossary::_lookupOnline($obj_id)) &&
 							(!$rbacsystem->checkAccess('write',$a_ref_id)))
 						{

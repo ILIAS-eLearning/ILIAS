@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Exporter class for html learning modules
+ * Glossary XML export
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesGlossary
+ * @author Alex Killing <killing@leifos.com>
  */
 class ilGlossaryExporter extends ilXmlExporter
 {
@@ -19,7 +17,6 @@ class ilGlossaryExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDataSet.php");
 		$this->ds = new ilGlossaryDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");
@@ -37,9 +34,6 @@ class ilGlossaryExporter extends ilXmlExporter
 	{
 		if ($a_entity == "glo")
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-
 			$md_ids = array();
 
 			// glo related ids
@@ -79,7 +73,6 @@ class ilGlossaryExporter extends ilXmlExporter
 			);
 
 			// taxonomy
-			include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 			$tax_ids = array();
 			foreach ($a_ids as $id)
 			{
@@ -142,8 +135,7 @@ class ilGlossaryExporter extends ilXmlExporter
 	}
 
 	protected function getActiveAdvMDRecords($a_id)
-	{			
-		include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
+	{
 		$active = array();
 		// selected globals
 		$sel_globals = ilAdvancedMDRecord::getObjRecSelection($a_id, "term");
@@ -171,13 +163,6 @@ class ilGlossaryExporter extends ilXmlExporter
 	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
 	{
 		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
-
-		/*include_once './Modules/Glossary/classes/class.ilObjGlossary.php';
-		$glo = new ilObjGlossary($a_id,false);
-
-		include_once './Modules/Glossary/classes/class.ilGlossaryExport.php';
-		$exp = new ilGlossaryExport($glo,'xml');
-		$zip = $exp->buildExportFile();*/
 	}
 
 	/**

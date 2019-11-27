@@ -114,4 +114,8 @@ interface MainBar extends \ILIAS\UI\Component\Component, JavaScriptBindable
      */
     public function getCloseButtons() : array;
 
+    /**
+     * Get a copy of this Mainbar without any entries.
+     */
+    public function withClearedEntries() : MainBar;
 }

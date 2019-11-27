@@ -2,12 +2,12 @@
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Wiki\Export\WikiHtmlExport;
+
 /**
  *  Class manages user html export
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup 
  */
 class ilWikiUserHTMLExport
 {
@@ -27,7 +27,7 @@ class ilWikiUserHTMLExport
 	protected $db;
 
 	/**
-	 * @var ilObjWiki
+	 * @var \ilObjWiki
 	 */
 	protected $wiki;
 
@@ -203,9 +203,8 @@ class ilWikiUserHTMLExport
 	{
 		ignore_user_abort(true);
 		// do the export
-		include_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
-		$exp = new ilWikiHTMLExport($this->wiki);
-		$exp->setMode(ilWikiHTMLExport::MODE_USER);
+		$exp = new WikiHtmlExport($this->wiki);
+		$exp->setMode(WikiHtmlExport::MODE_USER);
 		$exp->buildExportFile();
 		// reset user export status
 		$this->updateStatus(100, self::NOT_RUNNING);
@@ -218,9 +217,9 @@ class ilWikiUserHTMLExport
 	function deliverFile()
 	{
 		$this->log->debug("deliver");
-		include_once("./Modules/Wiki/classes/class.ilWikiHTMLExport.php");
-		$exp = new ilWikiHTMLExport($this->wiki);
-		$exp->setMode(ilWikiHTMLExport::MODE_USER);
+
+		$exp = new WikiHtmlExport($this->wiki);
+		$exp->setMode(WikiHtmlExport::MODE_USER);
 		$file = $exp->getUserExportFile();
 		$this->log->debug("file: ".$file);
 		ilUtil::deliverFile($file, pathinfo($file, PATHINFO_BASENAME));

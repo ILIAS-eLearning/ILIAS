@@ -974,7 +974,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 		$this->initGlossaryCreationForm();
 		if ($this->form->checkInput())
 		{
-			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			$newObj = new ilObjGlossary();
 			$newObj->setType("glo");
 			$newObj->setTitle($_POST["title"]);

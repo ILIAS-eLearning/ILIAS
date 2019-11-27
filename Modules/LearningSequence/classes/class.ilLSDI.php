@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use Pimple\Container;
+use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 
 
 /**
@@ -41,5 +42,11 @@ class ilLSDI extends Container
 		{
 			return new ilLSPostConditionDB($dic["ilDB"]);
 		};
+
+		$this["gs.current_context"] = function($c) use ($dic): ScreenContext
+		{
+			return $dic->globalScreen()->tool()->context()->current();
+		};
+
 	}
 }

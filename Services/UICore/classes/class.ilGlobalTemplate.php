@@ -49,9 +49,12 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface {
     /**
      * @inheritDoc
      */
-    public function printToString() : string
+    public function printToString($part = "DEFAULT") : string
     {
-        throw new ilException('not implemented');
+        global $DIC;
+        ilYuiUtil::initDom();
+        $html = $this->renderPage($part, true, false, $DIC);
+        return $html;
     }
 
 

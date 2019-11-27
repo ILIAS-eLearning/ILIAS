@@ -107,7 +107,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         /**
          * @var $ilToolbar ilToolbarGUI
          */
-        if ($this->getOutputMode() == IL_PAGE_EDIT) {
+        if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
             $delete_button = ilLinkButton::getInstance();
             $delete_button->setCaption('dcl_empty_detailed_view');
             $delete_button->setUrl($this->ctrl->getLinkTarget($this, 'confirmDelete'));
@@ -244,8 +244,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     {
         // You can use this to parse placeholders and the like before outputting
 
-        // user view (IL_PAGE_PRESENTATION?)
-        if ($this->getOutputMode() == IL_PAGE_PREVIEW) {
+        if ($this->getOutputMode() == ilPageObjectGUI::PREVIEW) {
             //page preview is not being used inside DataCollections - if you are here, something's probably wrong
 
             //
@@ -259,7 +258,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
             //			}
         } // editor
         else {
-            if ($this->getOutputMode() == IL_PAGE_EDIT) {
+            if ($this->getOutputMode() == ilPageObjectGUI::EDIT) {
                 $allp = $this->getPageObject()->getAvailablePlaceholders();
 
                 // :TODO: find a suitable markup for matched placeholders

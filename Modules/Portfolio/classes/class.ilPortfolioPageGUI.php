@@ -568,7 +568,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				$page = new ilBlogPostingGUI(0, null, $post);
 				if($this->getOutputMode() != "offline")
 				{	
-					$page->setOutputMode(IL_PAGE_PREVIEW);
+					$page->setOutputMode(ilPageObjectGUI::PREVIEW);
 				}
 				else
 				{

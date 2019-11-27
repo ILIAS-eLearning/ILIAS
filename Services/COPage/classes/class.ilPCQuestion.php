@@ -389,7 +389,7 @@ class ilPCQuestion extends ilPageContent
 			}
 		}
 
-		if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
+		if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != ilPageObjectGUI::PREVIEW
 			&& $a_mode != "offline")
 		{
 			$js_files[] = "./Services/COPage/js/ilCOPageQuestionHandler.js";
@@ -424,7 +424,7 @@ class ilPCQuestion extends ilPageContent
 
 		if ($this->getPage()->getPageConfig()->getEnableSelfAssessment())
 		{
-			if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != IL_PAGE_PREVIEW
+			if (!$this->getPage()->getPageConfig()->getEnableSelfAssessmentScorm() && $a_mode != ilPageObjectGUI::PREVIEW
 				&& $a_mode != "offline")
 			{
 				$ilCtrl->setParameterByClass(strtolower(get_class($this->getPage()))."gui", "page_id", $this->getPage()->getId());

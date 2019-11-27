@@ -1,16 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define ("IL_PAGE_PRESENTATION", "presentation");
-define ("IL_PAGE_EDIT", "edit");
-define ("IL_PAGE_PREVIEW", "preview");
-define ("IL_PAGE_OFFLINE", "offline");
-define ("IL_PAGE_PRINT", "print");
-
-include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
-include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
-include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilPageObjectGUI
@@ -19,16 +9,18 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @version $Id$
- *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
- *
- * @ingroup ServicesCOPage
  */
 class ilPageObjectGUI
 {
+	const PRESENTATION = "presentation";
+	const EDIT = "edit";
+	const PREVIEW = "preview";
+	const OFFLINE = "offline";
+	const PRINTING = "print";
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -172,7 +164,7 @@ class ilPageObjectGUI
 		}
 		
 
-		$this->setOutputMode(IL_PAGE_PRESENTATION);
+		$this->setOutputMode(self::PRESENTATION);
 		$this->setEnabledPageFocus(true);
 		$this->initPageObject();
 		$this->setPageConfig($this->getPageObject()->getPageConfig());
@@ -364,9 +356,9 @@ class ilPageObjectGUI
 	/**
 	* Set Output Mode
 	*
-	* @param	string		Mode IL_PAGE_PRESENTATION | IL_PAGE_EDIT | IL_PAGE_PREVIEW
+	* @param	string		Mode self::PRESENTATION | self::EDIT | self::PREVIEW
 	*/
-	function setOutputMode($a_mode = IL_PAGE_PRESENTATION)
+	function setOutputMode($a_mode = self::PRESENTATION)
 	{
 		$this->output_mode = $a_mode;
 	}
@@ -1467,10 +1459,10 @@ return;
 					$tpl->parseCurrentBlock();
 				}
 			}
-			if ($this->getOutputMode() != IL_PAGE_PRESENTATION &&
-				$this->getOutputMode() != IL_PAGE_OFFLINE &&
-				$this->getOutputMode() != IL_PAGE_PREVIEW &&
-				$this->getOutputMode() != IL_PAGE_PRINT)
+			if ($this->getOutputMode() != self::PRESENTATION &&
+				$this->getOutputMode() != self::OFFLINE &&
+				$this->getOutputMode() != self::PREVIEW &&
+				$this->getOutputMode() != self::PRINTING)
 			{
 				$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}
@@ -2920,7 +2912,7 @@ return;
 	 */
 	function preview()
 	{
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 		return $this->showPage();
 	}
 
@@ -2993,7 +2985,7 @@ return;
 			}
 		}
 		
-		$this->setOutputMode(IL_PAGE_EDIT);
+		$this->setOutputMode(self::EDIT);
 
 		$html = $this->showPage();
 		
@@ -3080,7 +3072,7 @@ return;
 	/*
 	* presentation
 	*/
-	function presentation($a_mode = IL_PAGE_PRESENTATION)
+	function presentation($a_mode = self::PRESENTATION)
 	{
 		$this->setOutputMode($a_mode);
 
@@ -3381,7 +3373,7 @@ return;
 		$cfg = $this->getPageConfig();
 		$cfg->setPreventHTMLUnmasking(true);
 
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 		$this->setPageObject($lpage);
 		$this->setPresentationTitle($this->getPresentationTitle());
 		$this->setCompareMode(true);
@@ -3396,7 +3388,7 @@ return;
 		$this->setPageObject($rpage);
 		$this->setPresentationTitle($this->getPresentationTitle());
 		$this->setCompareMode(true);
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 
 		$rhtml = $this->showPage();
 		$rhtml = $this->replaceDiffTags($rhtml);
@@ -3765,7 +3757,7 @@ return;
 	protected function isPageContainerToBeRendered()
 	{
 		return (
-			$this->getRenderPageContainer() || $this->getOutputMode() == IL_PAGE_PREVIEW
+			$this->getRenderPageContainer() || $this->getOutputMode() == self::PREVIEW
 		);
 	}
 
