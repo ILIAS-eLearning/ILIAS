@@ -26,8 +26,6 @@ il.UI.Input = il.UI.Input || {};
             settings.upload_url = settings.upload_url.replace(replacer, '');
             settings.removal_url = settings.removal_url.replace(replacer, '');
 
-            console.log(settings);
-
             var container = '#' + container_id;
             var dropzone = container + ' .il-input-file-dropzone';
             var input_template = $(container + ' .input-template').clone();
@@ -50,7 +48,6 @@ il.UI.Input = il.UI.Input || {};
             });
 
             myDropzone.on("maxfilesreached", function (file) {
-                console.log("max files reached");
                 myDropzone.removeEventListeners();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", true);
             });
@@ -58,11 +55,8 @@ il.UI.Input = il.UI.Input || {};
                 try {
                     var json = JSON.parse(response);
                 } catch (e) {
-                    console.log(e);
                     return;
                 }
-                console.log(json);
-                console.log(files);
                 if (json.hasOwnProperty(settings.file_identifier_key)) {
                     var clone = input_template.clone();
                     var file_id = json[settings.file_identifier_key];
@@ -77,7 +71,6 @@ il.UI.Input = il.UI.Input || {};
             };
 
             myDropzone.on("removedfile", function (file) {
-                console.log(file);
                 myDropzone.setupEventListeners();
                 myDropzone._updateMaxFilesReachedClass();
                 $(container + ' .il-input-file-dropzone button').attr("disabled", false);
@@ -89,7 +82,7 @@ il.UI.Input = il.UI.Input || {};
                 var data = {};
                 data[settings.file_identifier_key] = file_id;
                 $.get(settings.removal_url, data, function (response) {
-                    console.log(response);
+
                 });
             });
             myDropzone.on("successmultiple", function (files, response) {
@@ -99,10 +92,10 @@ il.UI.Input = il.UI.Input || {};
                 success(files, response);
             });
             myDropzone.on("errormultiple", function (files, response) {
-                console.log(response);
+
             });
             myDropzone.on("error", function (files, response) {
-                console.log(response);
+
             });
         };
 
