@@ -22,6 +22,8 @@
 */
 
 // begin-patch lok
+use ILIAS\UI\Component\Listing\Workflow\Step;
+
 include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
 // end-patch lok
 
@@ -1601,131 +1603,76 @@ class ilCourseObjectivesGUI
 	
 	/**
 	 * init wizard
-	 
 	 * @access protected
-	 * @param string mode 'create' or 'edit'
-	 * @return
+	 * @param int $a_step_number
+	 * @return void
 	 */
 	protected function initWizard($a_step_number)
 	{
-		$options = array(
-			1 => $this->lng->txt('crs_objective_wiz_title'),
-			2 => $this->lng->txt('crs_objective_wiz_materials'),
-			3 => $this->lng->txt('crs_objective_wiz_self'),
-			4 => $this->lng->txt('crs_objective_wiz_self_limit'),
-			5 => $this->lng->txt('crs_objective_wiz_final'),
-			6 => $this->lng->txt('crs_objective_wiz_final_limit'));
-			
-		$info = array(
-			1 => $this->lng->txt('crs_objective_wiz_title_info'),
-			2 => $this->lng->txt('crs_objective_wiz_materials_info'),
-			3 => $this->lng->txt('crs_objective_wiz_self_info'),
-			4 => $this->lng->txt('crs_objective_wiz_self_limit_info'),
-			5 => $this->lng->txt('crs_objective_wiz_final_info'),
-			6 => $this->lng->txt('crs_objective_wiz_final_limit_info'));
+		global $DIC;
+		$steps  = [];
+		$workflow = $DIC->ui()->factory()->listing()->workflow();
 
-		$links = array(
-			1 => $this->ctrl->getLinkTarget($this,'edit'),
-			2 => $this->ctrl->getLinkTarget($this,'materialAssignment'),
-			3 => $this->ctrl->getLinkTarget($this,'selfAssessmentAssignment'),
-			4 => $this->ctrl->getLinkTarget($this,'selfAssessmentLimits'),
-			5 => $this->ctrl->getLinkTarget($this,'finalTestAssignment'),
-			6 => $this->ctrl->getLinkTarget($this,'finalTestLimits'));
-		
-		
-		
+		// 1 Settings
+		$title = $this->lng->txt('crs_objective_wiz_title');
+		$link = $this->ctrl->getLinkTarget($this,'edit');
+		$steps[] = $workflow->step($title, "", $link );
 
-		// checklist gui start
-		include_once("./Services/UIComponent/Checklist/classes/class.ilChecklistGUI.php");
-		$check_list = new ilChecklistGUI();
-		// checklist gui end
-		
-		if($_SESSION['objective_mode'] == self::MODE_CREATE)
-		{
-			// checklist gui start
-			$check_list->setHeading($this->lng->txt('crs_checklist_objective'));
-			// checklist gui end
-		}
-		else
-		{
-			// checklist gui start
-			$check_list->setHeading($this->lng->txt('crs_checklist_objective'));
-			// checklist gui end
-		}
-		
-		// end-patch lok
-		$num = 0;
-		foreach($options as $step => $title)
-		{
-			// checklist gui start
-			$item_link = "";
-			// checklist gui end
+		// 2 Material
+		$title = $this->lng->txt('crs_objective_wiz_materials');
+		$link = $this->ctrl->getLinkTarget($this,'materialAssignment');
+		$steps[] = $workflow->step($title, "", $link );
 
-			// begin-patch lok
-			if($step == 3 and (!$this->getSettings()->worksWithInitialTest() or $this->getSettings()->hasSeparateInitialTests()))
+		if($this->getSettings()->worksWithInitialTest() && !$this->getSettings()->hasSeparateInitialTests())
+		{
+			// 3 initial
+			$title = $this->lng->txt('crs_objective_wiz_self');
+			$link = $this->getSettings()->worksWithInitialTest()
+				? $this->ctrl->getLinkTarget($this,'selfAssessmentAssignment')
+				: null;
+
+			$steps[] = $workflow->step($title, "", $link)
+				->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+
+			if(!$this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL))
 			{
-				continue;
+				// 4 initial limit
+				$title = $this->lng->txt('crs_objective_wiz_self_limit');
+				$link = count($this->objectives_qst_obj->getSelfAssessmentQuestions())
+					&& $this->getSettings()->worksWithInitialTest()
+					? $this->ctrl->getLinkTarget($this,'selfAssessmentLimits')
+					: null;
+				$steps[] = $workflow->step($title, "", $link)
+					->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
 			}
-			if($step == 4 and (!$this->getSettings()->worksWithInitialTest() or $this->getSettings()->hasSeparateInitialTests()))
-			{
-				continue;
-			}
-			if($step == 5 and $this->getSettings()->hasSeparateQualifiedTests())
-			{
-				continue;
-			}
-			if($step == 6 and $this->getSettings()->hasSeparateQualifiedTests())
-			{
-				continue;
-			}
-			if($step == 4 and $this->isRandomTestType(ilLOSettings::TYPE_TEST_INITIAL))
-			{
-				continue;
-			}
-			if($step == 6 and $this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED))
-			{
-				continue;
-			}
-			$num++;
-			// end-patch lok
-			
-			if($_SESSION['objective_mode'] == self::MODE_UPDATE)
-			{
-				$hide_link = false;
-				if($step == 4 and !count($this->objectives_qst_obj->getSelfAssessmentQuestions()))
-				{
-					$hide_link = true;					
-				}
-				if($step == 6 and !count($this->objectives_qst_obj->getFinalTestQuestions()))
-				{
-					$hide_link = true;
-				}
-				// begin-patch lok
-				if($step == 3 and !$this->getSettings()->worksWithInitialTest())
-				{
-					$hide_link = true;
-				}
-				if($step == 4 and !$this->getSettings()->worksWithInitialTest())
-				{
-					$hide_link = true;
-				}
-				if(!$hide_link)
-				{
-					// checklist gui start
-					$item_link = $links[$step];
-					// checklist gui end
-				}
-			}
-			
-			// checklist gui start
-			$check_list->addEntry($title, $item_link, ilChecklistGUI::STATUS_NO_STATUS, ($step == $a_step_number));
-			// checklist gui end
 		}
 
-		// checklist gui start
-		$GLOBALS['DIC']["tpl"]->setRightContent($check_list->getHTML());
-		// checklist gui end
-		
+		if(!$this->getSettings()->hasSeparateQualifiedTests())
+		{
+			// 5 final
+			$title = $this->lng->txt('crs_objective_wiz_final');
+			$link = $this->ctrl->getLinkTarget($this,'finalTestAssignment');
+			$steps[] = $workflow->step($title, "", $link );
+
+			if(!$this->isRandomTestType(ilLOSettings::TYPE_TEST_QUALIFIED))
+			{
+				// 6 final limit
+				$title = $this->lng->txt('crs_objective_wiz_final_limit');
+				$link = count($this->objectives_qst_obj->getFinalTestQuestions())
+					? $this->ctrl->getLinkTarget($this,'finalTestLimits')
+					: null;
+				$steps[] = $workflow->step($title, "", $link)
+					->withAvailability($link == null ? Step::NOT_AVAILABLE : Step::AVAILABLE);
+			}
+		}
+
+		$list = $workflow->linear(
+			$this->lng->txt('crs_checklist_objective'), $steps)
+			->withActive($a_step_number -1);
+
+		$renderer = $DIC->ui()->renderer();
+
+		$DIC["tpl"]->setRightContent( $renderer->render($list));
 	}
 	
 }
