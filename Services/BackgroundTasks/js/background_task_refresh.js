@@ -1,29 +1,25 @@
-$(document).ready(function () {
-    var glyph = $(".mm_background_tasks > a");
-    var refresh_uri = $(".mm_background_tasks").attr('refresh-uri');
-    var refresh = function () {
-        var popover_content = $(".bt-popover-content");
-        var popover_container = popover_content.parent();
+il = il || {};
+il.BGTask = il.BGTask || {};
+(function($, il) {
+	il.BGTask = (function($) {
+		var refreshments = 0;
+		var refreshItem = function (notification_item,url) {
+			setTimeout(function () {
+				console.log("Item has been refreshed: "+refreshments++);
+				//@TODO, when do we need to replace content?
+				if (true) {
+					notification_item.replaceByAsyncItem(url,{refreshes: refreshments});
+				}
+				// do some stuff
+			}, 2000);
+		};
 
-        if (popover_content.length > 0 && popover_container.length > 0 && popover_content.is(":visible") && popover_container.is(":visible")) {
-            $.ajax({
-                url: refresh_uri,
-                type: 'GET',
+		return {
+			refreshItem: refreshItem
+		};
+	})($);
+})($, il);
 
-                success: function (data) {
-                    var btt = $(data).attr('background-tasks-total');
-                    var btui = $(data).attr('background-tasks-user-interaction');
 
-                    glyph.find(".il-counter-novelty").html(btui);
-                    glyph.find(".il-counter-status").html(btt - btui);
 
-                    popover_content.replaceWith(data);
-                }
-            });
-        }
-        // do some stuff
-        setTimeout(arguments.callee, 2000);
-    };
 
-    setTimeout(refresh, 2000);
-});

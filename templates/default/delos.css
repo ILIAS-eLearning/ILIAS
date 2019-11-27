@@ -18067,28 +18067,6 @@ span.ilProfileBadge .modal .img-responsive {
 .input-group.date .input-group-addon {
   cursor: pointer;
 }
-.il-item-task {
-  padding: 8px 14px;
-  border-top: 1px #ddd solid;
-  min-width: 300px;
-  max-width: 300px;
-  margin-top: -1px;
-  background-color: white;
-}
-.il-item-task .il-item-task-title h4 {
-  font-size: 14px;
-  font-weight: bold;
-}
-.il-item-task .il-item-task-content .progress {
-  margin-bottom: 8px;
-}
-@media (max-width: 768px) {
-  .il-item-task {
-    min-width: inherit;
-    max-width: inherit;
-    width: 100%;
-  }
-}
 .il-orgunit .multi_icons_wrapper {
   display: inline-block;
   vertical-align: bottom;
