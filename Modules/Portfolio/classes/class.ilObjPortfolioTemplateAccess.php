@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjPortfolioTemplateAccess
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
-*
-*/
+ * Class ilObjPortfolioTemplateAccess
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjPortfolioTemplateAccess extends ilObjectAccess
 {		
 	/**
@@ -114,7 +111,6 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 	
 	public static function _lookupOnline($a_id)
 	{
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		return ilObjPortfolioTemplate::lookupOnline($a_id);
 	}
 	
@@ -141,5 +137,3 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
 		return false;	
 	}
 }
-
-?>

@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjPortfolioTemplateListGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjRootFolderListGUI.php 23764 2010-05-06 15:11:30Z smeyer $
-*
-* @extends ilObjectListGUI
-*/
+ * Class ilObjPortfolioTemplateListGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 {
 	/**
@@ -29,7 +24,6 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjportfoliotemplategui";
 
 		// general commands array
-		include_once('./Modules/Portfolio/classes/class.ilObjPortfolioTemplateAccess.php');
 		$this->commands = ilObjPortfolioTemplateAccess::_getCommands();
 	}
 	
@@ -39,7 +33,6 @@ class ilObjPortfolioTemplateListGUI extends ilObjectListGUI
 
 		$props = array();
 
-		include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplateAccess.php");
 		if(!ilObjPortfolioTemplateAccess::_lookupOnline($this->obj_id))
 		{
 			$props[] = array(

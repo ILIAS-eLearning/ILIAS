@@ -324,11 +324,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		}
 		
 		$parent_node = $_GET["sel_wsp_obj"];
-		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-		
+
 		$blog = new ilObjBlog();
 		$blog->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$blog->create();
@@ -726,7 +722,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		$blog_id = $a_blog_id;		
 
-		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 		$blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
 		if($blog_gui->object)
 		{

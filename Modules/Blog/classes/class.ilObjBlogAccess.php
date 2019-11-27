@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjBlogAccess
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjRootFolderAccess.php 15678 2008-01-06 20:40:55Z akill $
-*
-*/
+ * Class ilObjBlogAccess
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 {
 	/**
@@ -75,7 +70,6 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 		
 		if(substr($a_target, -3) == "wsp")
 		{									
-			include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
 			return ilSharedResourceGUI::hasAccess($t_arr[1]);
 		}
 		
@@ -106,12 +100,10 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 			$obj_id = $results[1];
 			
 			// personal workspace
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree(0);
 			$node_id = $tree->lookupNodeId($obj_id);
 			if($node_id)
 			{					
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
 				$access_handler = new ilWorkspaceAccessHandler($tree);
 				if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
 					return true;
@@ -134,5 +126,3 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
 		return false;
 	}
 }
-
-?>

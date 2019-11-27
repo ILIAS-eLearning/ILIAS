@@ -1,17 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/Object/classes/class.ilObject2.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjBlog
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjFolder.php 25528 2010-09-03 10:37:11Z smeyer $
-*
-* @extends ilObject2
-*/
+ * Class ilObjBlog
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjBlog extends ilObject2
 {
 
@@ -90,10 +85,8 @@ class ilObjBlog extends ilObject2
 		}
 		
 		// #14661
-		include_once("./Services/Notes/classes/class.ilNote.php");
 		$this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
 		
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 	}
 
@@ -120,16 +113,7 @@ class ilObjBlog extends ilObject2
 			")");
 		
 		// #14661
-		include_once("./Services/Notes/classes/class.ilNote.php");
 		ilNote::activateComments($this->id, 0, "blog", true);
-		
-		/*
-		if ($this->getStyleSheetId() > 0)
-		{
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
-		}		 
-		*/
 	}
 	
 	protected function doDelete()
@@ -138,11 +122,9 @@ class ilObjBlog extends ilObject2
 		
 		$this->deleteImage();
 
-		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 		ilBlogPosting::deleteAllBlogPostings($this->id);
 		
 		// remove all notifications
-		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::removeForObject(ilNotification::TYPE_BLOG, $this->id);
 
 		$ilDB->manipulate("DELETE FROM il_blog".
@@ -177,11 +159,9 @@ class ilObjBlog extends ilObject2
 					" WHERE id = ".$ilDB->quote($this->id, "integer"));			
 						
 			// #14661
-			include_once("./Services/Notes/classes/class.ilNote.php");
 			ilNote::activateComments($this->id, 0, "blog", $this->getNotesStatus());
 			
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());			
+			ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 		}
 	}
 
@@ -213,7 +193,6 @@ class ilObjBlog extends ilObject2
 		$new_obj->update();		
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $this->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
@@ -360,7 +339,6 @@ class ilObjBlog extends ilObject2
 	{
 		if($this->id)
 		{
-			include_once "Modules/Blog/classes/class.ilFSStorageBlog.php";
 			$storage = new ilFSStorageBlog($this->id);
 			$storage->delete();
 			
@@ -379,7 +357,6 @@ class ilObjBlog extends ilObject2
 	 */
 	public static function initStorage($a_id, $a_subdir = null)
 	{		
-		include_once "Modules/Blog/classes/class.ilFSStorageBlog.php";
 		$storage = new ilFSStorageBlog($a_id);
 		$storage->create();
 		
@@ -658,8 +635,6 @@ class ilObjBlog extends ilObject2
 		// get blog object id (repository or workspace)		
 		if($a_in_wsp)
 		{				
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 			$tree = new ilWorkspaceTree($ilUser->getId()); // owner of tree is irrelevant
 			$blog_obj_id = $tree->lookupObjectId($a_blog_node_id);							
 			$access_handler = new ilWorkspaceAccessHandler($tree); 	
@@ -674,8 +649,7 @@ class ilObjBlog extends ilObject2
 			return;
 		}	
 				
-		include_once "./Modules/Blog/classes/class.ilBlogPosting.php";
-		$posting = new ilBlogPosting($a_posting_id);	
+		$posting = new ilBlogPosting($a_posting_id);
 								
 		// #11138
 		$ignore_threshold = ($a_action == "comment");	
@@ -712,16 +686,14 @@ class ilObjBlog extends ilObject2
 		}
 		
 		// recipients
-		include_once "./Services/Notification/classes/class.ilNotification.php";		
-		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG, 
+		$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_BLOG,
 			$blog_obj_id, $a_posting_id, $ignore_threshold);			
 		if(!sizeof($users))
 		{
 			return;
 		}						
 
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
-		$ntf = new ilSystemNotification($a_in_wsp);		
+		$ntf = new ilSystemNotification($a_in_wsp);
 		$ntf->setLangModules(array("blog"));
 		$ntf->setRefId($a_blog_node_id);
 		$ntf->setChangedByUserId($ilUser->getId());
@@ -771,7 +743,6 @@ class ilObjBlog extends ilObject2
 		// #10827
 		if(substr($a_wsp_id, -4) != "_cll")
 		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$wsp_id = new ilWorkspaceTree(0);
 			$obj_id = $wsp_id->lookupObjectId($a_wsp_id);	
 			$is_wsp = "_wsp";
@@ -793,10 +764,8 @@ class ilObjBlog extends ilObject2
 			return;
 		}
 					
-		include_once "Services/Feeds/classes/class.ilFeedWriter.php";
 		$feed = new ilFeedWriter();
 				
-		include_once "Services/Link/classes/class.ilLink.php";
 		$url = ilLink::_getStaticLink($a_wsp_id, "blog", true, $is_wsp);
 		$url = str_replace("&", "&amp;", $url);
 		
@@ -808,8 +777,6 @@ class ilObjBlog extends ilObject2
 		// needed for blogpostinggui / pagegui
 		$tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 		
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");					
-		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");			
 		foreach(ilBlogPosting::getAllPostings($obj_id) as $item)
 		{
 			$id = $item["id"];
@@ -844,7 +811,6 @@ class ilObjBlog extends ilObject2
 	
 	function initDefaultRoles()
 	{
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role = ilObjRole::createDefaultRole(
 				'il_blog_contributor_'.$this->getRefId(),
 				"Contributor of blog obj_no.".$this->getId(),
@@ -852,7 +818,6 @@ class ilObjBlog extends ilObject2
 				$this->getRefId()
 		);
 		
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
 		$role = ilObjRole::createDefaultRole(
 				'il_blog_editor_'.$this->getRefId(),
 				"Editor of blog obj_no.".$this->getId(),
@@ -893,8 +858,6 @@ class ilObjBlog extends ilObject2
 	{
 		$rbacreview = $this->rbacreview;
 		
-		include_once "Services/AccessControl/classes/class.ilObjRole.php";
-		
 		$res = array();
 		foreach($rbacreview->getLocalRoles($a_node_id) as $role_id)
 		{
@@ -908,8 +871,6 @@ class ilObjBlog extends ilObject2
 	function getRolesWithContributeOrRedact($a_node_id)
 	{
 		$rbacreview = $this->rbacreview;
-		
-		include_once "Services/AccessControl/classes/class.ilObjRole.php";
 		
 		$contr_op_id = ilRbacReview::_getOperationIdByName("contribute");
 		$redact_op_id = ilRbacReview::_getOperationIdByName("redact");
@@ -936,12 +897,9 @@ class ilObjBlog extends ilObject2
 	
 	protected function handleQuotaUpdate()
 	{								
-		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
+		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(),
 			$this->getId(),
 			ilUtil::dirsize($this->initStorage($this->getId())), 
 			array($this->getId()));	
 	}
 }
-
-?>

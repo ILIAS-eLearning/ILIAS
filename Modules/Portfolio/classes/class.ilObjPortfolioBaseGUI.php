@@ -1,17 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Services/Object/classes/class.ilObject2GUI.php');
-include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');
-include_once('./Modules/Portfolio/classes/class.ilPortfolioPage.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio view gui base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 {				
@@ -215,8 +209,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{			
-			include_once "Services/Form/classes/class.ilFileInputGUI.php";
-			ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);	
+			ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
 
 			$dimensions = " (".$prfa_set->get("banner_width")."x".
 				$prfa_set->get("banner_height").")";
@@ -307,8 +300,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		$this->tabs_gui->activateTab("pages");
 		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-		
+
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("prtf_add_page");
 		$button->setUrl($this->ctrl->getLinkTarget($this, "addPage"));
@@ -339,13 +331,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$ilToolbar->addButtonInstance($button);
 		}
 		
-		include_once "Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php";
 		$table = new ilPortfolioPageTableGUI($this, "view");
 		
-		// exercise portfolio?			
-		include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
-		//$message = ilPortfolioExerciseGUI::checkExercise($this->user_id, $this->object->getId(), $table->dataExists());
-		
+
 		$this->tpl->setContent($message.$table->getHTML());
 	}
 	
@@ -376,7 +364,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	 */
 	public function initPageForm($a_mode = "create")
 	{		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -389,7 +376,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		// save and cancel commands
 		if ($a_mode == "create")
 		{
-			include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 			$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 			if($templates)
 			{			
@@ -434,7 +420,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$form = $this->initPageForm("create");
 		if ($form->checkInput() && $this->checkPermissionBool("write"))
 		{
-			include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
 			$page = $this->getPageInstance();
 			$page->setType(ilPortfolioPage::TYPE_PAGE);		
 			$page->setTitle($form->getInput("title"));		
@@ -443,7 +428,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			$layout_id = $form->getInput("tmpl");
 			if($layout_id)
 			{
-				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}
@@ -538,7 +522,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		{
 			$this->tabs_gui->activateTab("pages");
 			
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($this->ctrl->getFormAction($this));
 			$cgui->setHeaderText($this->lng->txt("prtf_sure_delete_portfolio_pages"));
@@ -661,7 +644,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 					// #12819
 		$tree = $this->tree;
 					$parent_id = $tree->getParentId($this->node_id);
-					include_once "Services/Link/classes/class.ilLink.php";
 					$back = ilLink::_getStaticLink($parent_id);
 				}
 			}
@@ -703,8 +685,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 					{
 						$current_blog = (int)$p["title"];
 					}									
-					include_once "Modules/Blog/classes/class.ilObjBlog.php";
-					$p["title"] = ilObjBlog::_lookupTitle($p["title"]);										
+					$p["title"] = ilObjBlog::_lookupTitle($p["title"]);
 				}
 				
 				$this->ctrl->setParameter($this, "user_page", $p["id"]);
@@ -744,7 +725,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$notes = "";
 		if($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page)
 		{			
-			include_once("./Services/Notes/classes/class.ilNoteGUI.php");			
 			$note_gui = new ilNoteGUI($portfolio_id, $current_page, "pfpg");
 			$note_gui->setRepositoryMode(false);			
 			$note_gui->enablePublicNotes(true);
@@ -824,7 +804,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		
 		if(!$a_export)
 		{			
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordReadEvent(
 				$a_portfolio->getType(), 
 				($a_portfolio->getType() == "prtt")
@@ -843,7 +822,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$prfa_set = new ilSetting("prfa");
 		if($prfa_set->get("banner"))
 		{		
-			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 			$banner = ilWACSignedPath::signFile($a_portfolio->getImageFullPath());
 			$banner_width = $prfa_set->get("banner_width");
 			$banner_height = $prfa_set->get("banner_height");
@@ -882,7 +860,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			
 	function export()
 	{
-		include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
 		$export = new ilPortfolioHTMLExport($this, $this->object);
 		$zip = $export->buildExportFile();
 		
@@ -964,7 +941,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	
 	function initCopyPageForm()
 	{		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
 		$form->setTitle($this->lng->txt("prtf_copy_page"));			
@@ -1016,10 +992,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{
 		$ilSetting = $this->settings;
 						
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -1093,7 +1067,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 	{
 		$ilSetting = $this->settings;
 	
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))
@@ -1106,5 +1079,3 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$this->ctrl->redirect($this, "editStyleProperties");
 	}
 }
-
-?>

@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Portfolio/classes/class.ilObjPortfolio.php');		
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio repository gui class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI, ilObjExerciseGUI
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioRepositoryGUI 
 {	
@@ -88,8 +83,7 @@ class ilPortfolioRepositoryGUI
 		$lng->loadLanguageModule("prtf");
 		$lng->loadLanguageModule("user");
 
-		include_once('./Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php');
-		$this->access_handler = new ilPortfolioAccessHandler();	
+		$this->access_handler = new ilPortfolioAccessHandler();
 				
 		$this->user_id = $ilUser->getId();		
 	}
@@ -112,7 +106,6 @@ class ilPortfolioRepositoryGUI
 		{			
 			case "ilobjportfoliogui":
 
-				include_once('./Modules/Portfolio/classes/class.ilObjPortfolioGUI.php');
 				$gui = new ilObjPortfolioGUI((int) $_REQUEST["prt_id"]);
 
 				if($cmd != "preview")
@@ -121,7 +114,6 @@ class ilPortfolioRepositoryGUI
 
 					if ((int) $_GET["exc_back_ref_id"] > 0)
 					{
-						include_once("./Services/Link/classes/class.ilLink.php");
 						$ilTabs->setBack2Target($lng->txt("obj_exc"), ilLink::_getLink((int) $_GET["exc_back_ref_id"]));
 					}
 					else
@@ -196,7 +188,6 @@ class ilPortfolioRepositoryGUI
 		$ilToolbar = $this->toolbar;
 		$ilCtrl = $this->ctrl;
 		
-		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 		$button = ilLinkButton::getInstance();
 		$button->setCaption("prtf_add_portfolio");
 		$button->setUrl($ilCtrl->getLinkTargetByClass("ilObjPortfolioGUI", "create"));
@@ -312,7 +303,6 @@ class ilPortfolioRepositoryGUI
 			}
 			// ... handed in
 			// exercise portfolio?
-			include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
 			$exercises = ilPortfolioExerciseGUI::checkExercise($this->user_id, $port["id"], false, true);
 			foreach ($exercises as $exinfo)
 			{
@@ -431,7 +421,6 @@ class ilPortfolioRepositoryGUI
 		}
 		else
 		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("prtf_sure_delete_portfolios"));
@@ -528,7 +517,6 @@ class ilPortfolioRepositoryGUI
 				$ilCtrl->redirect($this, "setDefaultRegistered");
 			}
 
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("prtf_set_default_publish_confirmation"));
@@ -614,15 +602,13 @@ class ilPortfolioRepositoryGUI
 		
 		$ilTabs->activateTab("otpf");
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler, null, $a_load_data);		
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler, null, $a_load_data);
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	protected function applyShareFilter()
 	{
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);		
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
 		
@@ -631,13 +617,10 @@ class ilPortfolioRepositoryGUI
 	
 	protected function resetShareFilter()
 	{
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php";
-		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);		
+		$tbl = new ilWorkspaceShareTableGUI($this, "showOther", $this->access_handler);
 		$tbl->resetOffset();
 		$tbl->resetFilter();
 		
 		$this->showOther();
 	}	
 }
-
-?>

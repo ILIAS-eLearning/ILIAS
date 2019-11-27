@@ -141,7 +141,6 @@ Save and show instruction files located inside root directory instead of outside
 		- (edit) **getXmlRecord** method: store the setWebDataDir path.
 
 				//now the instruction files inside the root directory
-				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 				$fswebstorage = new ilFSWebStorageExercise($a_set['ExerciseId'], $a_set['Id']);
 				$a_set['WebDataDir'] = $fswebstorage->getPath();
 

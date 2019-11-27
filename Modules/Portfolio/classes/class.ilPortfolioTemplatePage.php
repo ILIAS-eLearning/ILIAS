@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Page for portfolio template
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioTemplatePage extends ilPortfolioPage
 {
@@ -38,7 +34,6 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
 		$xpath_temp = new DOMXPath($dom);
 		
 		// mobs
-		include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
 		$nodes = $xpath_temp->query("//PageContent/MediaObject/MediaAlias");
 		foreach($nodes as $node)
 		{
@@ -50,5 +45,3 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
 		return $quota_sum;
 	}
 }
-
-?>

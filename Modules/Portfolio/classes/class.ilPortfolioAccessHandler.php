@@ -1,12 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-include_once "Modules/Group/classes/class.ilGroupParticipants.php";
-include_once "Modules/Course/classes/class.ilCourseParticipants.php";
-include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-require_once('./Services/WebAccessChecker/interfaces/interface.ilWACCheckingClass.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Access handler for portfolio
@@ -130,8 +124,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 			$objects = self::_getPermissions($a_node_id);
 			if($objects)
 			{
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-				
 				// check if given user is member of object or has role
 				foreach($objects as $obj_id)
 				{
@@ -359,8 +351,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
 		$ilUser = $DIC->user();
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-		include_once "Services/Membership/classes/class.ilParticipants.php";
 		$grp_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "grp");
 		$crs_ids = ilParticipants::_getMembershipByType($ilUser->getId(), "crs");
 		
@@ -457,8 +447,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 		}
 		else
 		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-			
 			switch($a_filter["acl_type"])
 			{
 				case "all":
@@ -531,7 +519,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 		
 		if($a_filter["crsgrp"])
 		{
-			include_once "Services/Membership/classes/class.ilParticipants.php";
 			$part = ilParticipants::getInstanceByObjId($a_filter['crsgrp']);
 			$part = $part->getParticipants();
 			if(!sizeof($part))
@@ -567,8 +554,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
 		$ilDB = $DIC->database();
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php";
-		
 		$set = $ilDB->query("SELECT extended_data FROM usr_portf_acl".
 			" WHERE node_id = ".$ilDB->quote($a_node_id, "integer").
 			" AND object_id = ".$ilDB->quote(ilWorkspaceAccessGUI::PERMISSION_ALL_PASSWORD, "integer"));
@@ -594,7 +579,6 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 		$ilUser = $this->user;
 		
 		// #12845		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		if(ilObjPortfolio::getDefaultPortfolio($ilUser->getId()) == $a_node_id)
 		{
 			$has_registered = $this->hasRegisteredPermission($a_node_id);

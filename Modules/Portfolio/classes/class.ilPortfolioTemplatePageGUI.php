@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio template page gui class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilPageObjectGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioTemplatePageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 {
@@ -53,7 +48,6 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 			default:
 				
 				// needed for placeholders
-				include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
 				$this->tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
 				
 				return parent::showPage();

@@ -58,7 +58,7 @@ class ilGlossaryEditorGUI
 		// initialisation stuff
 		$this->ctrl =  $ilCtrl;
 		$lng->loadLanguageModule("content");
-		
+
         $DIC->globalScreen()->tool()->context()->claim()->repository();
 		
 		// check write permission
