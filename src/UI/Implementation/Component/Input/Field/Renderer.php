@@ -362,28 +362,7 @@ class Renderer extends AbstractComponentRenderer
                 return $this->renderDateTimeInput($tpl, $input);
                 break;
             case ($input instanceof Component\Input\Field\File):
-                $component = $this->setSignals($input);
-                /**
-                 * @var $component File
-                 */
-                $settings = new \stdClass();
-                $settings->upload_url = $component->getUploadHandler()->getUploadURL();
-                $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
-                $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
-                $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
-
-                $value = $input->getValue();
-
-                $input = $component->withAdditionalOnLoadCode(
-                    function ($id) use ($settings, $value) {
-                        $settings = json_encode($settings);
-                        $value = json_encode($value);
-
-                        return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$settings}', '{$value}}');
-				});";
-                    }
-                );
+                $input = $this->renderFileInput($input);
                 break;
         }
 
@@ -857,5 +836,37 @@ JS;
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class
         ];
+    }
+
+
+    protected function renderFileInput(Component\Input\Field\File $input) : Component\Input\Field\File
+    {
+        $component = $this->setSignals($input);
+        /**
+         * @var $component File
+         */
+        $settings = new \stdClass();
+        $settings->upload_url = $component->getUploadHandler()->getUploadURL();
+        $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+        $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
+
+        $value = $input->getValue();
+
+        $input = $component->withAdditionalOnLoadCode(
+            function ($id) use ($settings, $value) {
+                $settings = json_encode($settings);
+                $value = json_encode($value);
+
+                return "$(document).ready(function() {
+					il.UI.Input.file.init('$id', '{$settings}', '{$value}}');
+				});";
+            }
+        );
+
+        /**
+         * @var $input Component\Input\Field\File
+         */
+        return $input;
     }
 }
