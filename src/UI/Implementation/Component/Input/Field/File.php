@@ -10,7 +10,11 @@ use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
 /**
- * This implements the radio input.
+ * Class File
+ *
+ * @package ILIAS\UI\Implementation\Component\Input\Field
+ *
+ * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 class File extends Input implements C\Input\Field\File
 {
