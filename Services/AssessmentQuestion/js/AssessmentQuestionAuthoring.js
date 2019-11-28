@@ -43,7 +43,7 @@ let clear_tiny = function() {
 
 let save_tiny = function() {
     let i;
-    for (i = 0; i < tinymce.editors.length; i += i) {
+    for (i = 0; i < tinymce.editors.length; i += 1) {
         let editor = tinymce.editors[i];
         let element = $(editor.getElement());
 
