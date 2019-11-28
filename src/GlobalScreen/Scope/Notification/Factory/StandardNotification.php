@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Notification\Factory;
 
-use ILIAS\UI\Implementation\Component\Item\Notification as NotificationItem;
+use ILIAS\UI\Component\Item\Notification as NotificationItem;
 
 /**
  * Class Notification
@@ -18,31 +18,34 @@ class StandardNotification extends AbstractBaseNotification implements isItem, h
      * @var NotificationItem
      */
     private $notification_item;
-
     /**
      * Amount of old notes, the notification contains.
+     *
      * @see hasAmount
      *
      * @var int
      */
     private $old_amount = 0;
-
     /**
      * Amount of old notes, the notification contains.
+     *
      * @see hasAmount
      *
      * @var int
      */
     private $new_amount = 1;
 
+
     /**
      * @param NotificationItem $notification_item
+     *
      * @return StandardNotification
      */
     public function withNotificationItem(NotificationItem $notification_item) : StandardNotification
     {
         $clone = clone $this;
         $clone->notification_item = $notification_item;
+
         return $clone;
     }
 
@@ -55,6 +58,7 @@ class StandardNotification extends AbstractBaseNotification implements isItem, h
         return $this->notification_item;
     }
 
+
     /**
      * @inheritdoc
      */
@@ -62,8 +66,10 @@ class StandardNotification extends AbstractBaseNotification implements isItem, h
     {
         $clone = clone $this;
         $clone->old_amount = $amount;
+
         return $clone;
     }
+
 
     /**
      * @inheritdoc
@@ -72,20 +78,25 @@ class StandardNotification extends AbstractBaseNotification implements isItem, h
     {
         $clone = clone $this;
         $clone->new_amount = $amount;
+
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOldAmount() : int{
-        return $this->old_amount;
-    }
 
     /**
      * @inheritdoc
      */
-    public function getNewAmount() : int{
+    public function getOldAmount() : int
+    {
+        return $this->old_amount;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    public function getNewAmount() : int
+    {
         return $this->new_amount;
     }
 }
