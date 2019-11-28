@@ -20,6 +20,7 @@ let current_coordinates = null;
 let poly_points;
 let start = null;
 let shifted;
+let existing_shapes;
 
 let display_coordinate_selector = function() {
     let image = $('.image_preview').attr('src');
@@ -32,6 +33,7 @@ let display_coordinate_selector = function() {
     shifted = false;
     coordinates = $(this).parents('.aot_row').find('input[id$=imedd_coordinates]');
     typ = $(this).parents('.aot_row').find('select[id$=imedd_type]').val();
+    existing_shapes = $(this).parents('.aot_row').siblings();
     label = $(this).parents('.aot_row').find('span.imedd_coordinates');
     popup = $('.js_image_popup');
     canvas = $('.js_coordinate_selector_canvas');
@@ -67,6 +69,8 @@ let display_coordinate_selector = function() {
     canvas.css('top', (img_content.height() - img.height()) / 2 + 'px');
     popup.css('left', (window.innerWidth - popup.width()) / 2 + 'px');
     popup.css('top', (window.innerHeight - popup.height()) / 2 + 'px');
+    
+    draw_shapes(existing_shapes, canvas[0]);
 };
 
 let process_img_key_up = function(e) {
@@ -167,6 +171,8 @@ let draw_circle = function(origin, destination) {
 
     g.clearRect(0, 0, canvas.width(), canvas.height());
 
+    draw_shapes(existing_shapes, canvas[0]);
+    
     g.beginPath();
     g.lineWidth = '3';
     g.strokeStyle = 'black';
@@ -217,6 +223,8 @@ let draw_rectangle = function(origin, destination) {
 
     g.clearRect(0, 0, canvas.width(), canvas.height());
 
+    draw_shapes(existing_shapes, canvas[0]);
+    
     g.beginPath();
     g.lineWidth = '3';
     g.strokeStyle = 'black';
@@ -256,6 +264,8 @@ let draw_polygon = function() {
 
     g.clearRect(0, 0, canvas.width(), canvas.height());
 
+    draw_shapes(existing_shapes, canvas[0]);
+    
     g.beginPath();
     g.lineWidth = '3';
     g.strokeStyle = 'black';
@@ -284,16 +294,14 @@ let map_poly = function(g) {
     g.closePath();
 };
 
-let update_preview = function() {
-    if (preview_canvas == null) {
-        initialize_preview();
-    }
+let paint_canvas;
+let draw_shapes = function(rows, canvas) {
+    paint_canvas = canvas;
     
-    let g = preview_canvas[0].getContext('2d');
-    g.clearRect(0, 0, preview_canvas.width(), preview_canvas.height());
+    let g = canvas.getContext('2d');
     g.fillStyle = 'rgba(255, 255, 255, 0.8)';
     
-    $('.aot_row').each(function(index, item) {
+    rows.each(function(index, item) {
         let type = $(item).find('select[id$=imedd_type]').val();
         let coordinates = $(item).find('input[id$=imedd_coordinates]').val();
         
@@ -308,7 +316,18 @@ let update_preview = function() {
                 draw_preview_polygon(coordinates, g);
                 break;
         }
-    });
+    });    
+}
+
+let update_preview = function() {
+    if (preview_canvas == null) {
+        initialize_preview();
+    }
+    
+    let g = preview_canvas[0].getContext('2d');
+    g.clearRect(0, 0, preview_canvas.width(), preview_canvas.height());
+    
+    draw_shapes($('.aot_row'), preview_canvas[0]);
 };
 
 let initialize_preview = function() {
@@ -373,11 +392,11 @@ let draw_preview_polygon = function(coordinates, g) {
 };
 
 let map_to_preview_height = function(value) {
-    return map_to_preview(value, preview_canvas[0].height);
+    return map_to_preview(value, paint_canvas.height);
 };
 
 let map_to_preview_width = function(value) {
-    return map_to_preview(value, preview_canvas[0].width);
+    return map_to_preview(value, paint_canvas.width);
 };
 
 let map_to_preview = function(value, preview_value) {
