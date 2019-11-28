@@ -8584,7 +8584,6 @@ grid-based layout
   display: -ms-flexbox;
   display: flex;
 }
-/* metabar */
 header {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
@@ -8610,11 +8609,19 @@ header {
   justify-content: space-between;
 }
 .il-logo {
-  width: 45px;
+  width: 300px;
   height: 45px;
   justify-self: start;
+  display: flex;
+  align-items: center;
 }
-/* breadcrumbs */
+.il-pagetitle {
+  font-weight: 600;
+  display: flex;
+  font-size: 15.988px;
+  align-items: flex-end;
+  padding-left: 35px;
+}
 .breadcrumbs {
   -ms-flex-align: center;
   align-items: center;
@@ -8641,7 +8648,6 @@ header {
   color: #bbb;
   font-family: "il-icons";
 }
-/* mainbar */
 nav.il-maincontrols {
   -ms-grid-column: 1;
   -ms-grid-row: 3;
@@ -8695,7 +8701,6 @@ nav.il-maincontrols {
   grid-column: 2;
   grid-row: 1;
 }
-/* content */
 main {
   display: block;
 }
@@ -8806,7 +8811,6 @@ footer {
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
     display: none;
   }
-  /* metabar */
   header {
     -ms-grid-column: 1;
     -ms-grid-row: 1;
@@ -8820,7 +8824,9 @@ footer {
     width: 100%;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
-  /* breadcrumbs */
+  .il-pagetitle {
+    display: none;
+  }
   .breadcrumbs {
     display: none;
   }
@@ -8864,7 +8870,6 @@ footer {
   .il-header-locator span.caret {
     display: none;
   }
-  /* mainbar */
   nav.il-maincontrols {
     -ms-grid-column: 1;
     -ms-grid-row: 3;
@@ -8921,7 +8926,6 @@ footer {
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
     display: block;
   }
-  /* content */
   main {
     display: block;
   }
@@ -8993,8 +8997,11 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  filter: invert(50%);
   margin-right: 10px;
+}
+.il-maincontrols-slate .btn-bulky .icon.custom,
+.il-maincontrols-slate .link-bulky .icon.custom {
+  filter: invert(50%);
 }
 .il-maincontrols-slate .btn-bulky .icon.small,
 .il-maincontrols-slate .link-bulky .icon.small {
@@ -9129,7 +9136,7 @@ footer {
   content: "\e090";
 }
 .il-metabar-entries .glyphicon-user:before {
-  content: "\e005";
+  content: "\e001";
 }
 .il-metabar-entries .btn {
   position: relative;
@@ -17480,7 +17487,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   border-top: none !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: white;
+  background-color: #f0f0f0;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
   position: absolute;
