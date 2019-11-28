@@ -99,7 +99,7 @@ class Subscriber
                 }
 
                 if (isset($publicData[$usr_id]['public_profile']) && $publicData[$usr_id]['public_profile']) {
-                    $publicName = implode(', ', array_filter(array_map('trim', [
+                    $publicName = implode(' ', array_filter(array_map('trim', [
                         (string) $publicData[$usr_id]['firstname'],
                         (string) $publicData[$usr_id]['lastname'],
                     ])));
