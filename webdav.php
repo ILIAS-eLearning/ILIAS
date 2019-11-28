@@ -41,9 +41,12 @@ if(!ilDAVActivationChecker::_isActive())
 if($show_mount_instr)
 {
     // Show mount instructions page for WebDAV
-    $mount_instructions = ilWebDAVBaseMountInstructions::buildMountInstructionsObjectFromURI(
+    $f = new ilWebDAVMountInstructionsFactory(
         new ilWebDAVMountInstructionsRepositoryImpl($DIC->database()),
-        $DIC->http()->request());
+        $DIC->http()->request(),
+        $DIC->user());
+    $mount_instructions = $f->getMountInstructionsObject();
+
     $mount_gui = new ilWebDAVMountInstructionsGUI($mount_instructions);
     $mount_gui->renderMountInstructionsContent();
 }

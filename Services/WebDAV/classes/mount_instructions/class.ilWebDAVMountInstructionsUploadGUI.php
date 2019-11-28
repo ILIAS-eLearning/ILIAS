@@ -72,7 +72,6 @@ class ilWebDAVMountInstructionsUploadGUI {
      */
 	protected function showDocuments() : void
 	{
-	    global $DIC;
 		if ($this->rbacsystem->checkAccess('write', $this->file_access_settings->getRefId()))
 		{
 			$addDocumentBtn = ilLinkButton::getInstance();
@@ -163,19 +162,20 @@ class ilWebDAVMountInstructionsUploadGUI {
         if (!$this->rbacsystem->checkAccess('write', $this->file_access_settings->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
-            $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument());
-            if ($form->saveObject()) {
-                ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-                if ($form->hasTranslatedInfo()) {
-                    ilUtil::sendInfo($form->getTranslatedInfo(), true);
-                }
-                $this->ctrl->redirect($this, 'showDocuments');
-            } else  if ($form->hasTranslatedError()) {
-                ilUtil::sendFailure($form->getTranslatedError(), true);
+        
+        $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument());
+        if ($form->saveObject()) {
+            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            if ($form->hasTranslatedInfo()) {
+                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+            }
+            $this->ctrl->redirect($this, 'showDocuments');
+        } else  if ($form->hasTranslatedError()) {
+            ilUtil::sendFailure($form->getTranslatedError(), true);
         }
 
         $html = $form->getHTML();
-         $this->tpl->setContent($html);
+        $this->tpl->setContent($html);
     }
 
     /**
@@ -187,15 +187,24 @@ class ilWebDAVMountInstructionsUploadGUI {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document = $this->getFirstDocumentFromList($this->getDocumentsByServerRequest());
-
+        $form = $this->getDocumentForm(new ilWebDAVMountInstructionsDocument((int) $_REQUEST['webdav_id']));
+        if ($form->updateObject()) {
+            ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+            if ($form->hasTranslatedInfo()) {
+                ilUtil::sendInfo($form->getTranslatedInfo(), true);
+            }
+            $this->ctrl->redirect($this, 'showDocuments');
+        } else  if ($form->hasTranslatedError()) {
+            ilUtil::sendFailure($form->getTranslatedError(), true);
+        }
+            
+            $html = $form->getHTML();
+            $this->tpl->setContent($html);
     }
 
-    protected function getDocumentsByServerRequest()
+    protected function getDocumentByServerRequest()
     {
-        $documents = [];
-
-        $documentsIds = $this->httpState->request()-getParsedBody()['instructions_id'] ?? [];
+        return $this->httpState->request()-getParsedBody()['instructions_id'] ?? [];
     }
 
     protected function deleteDocument()

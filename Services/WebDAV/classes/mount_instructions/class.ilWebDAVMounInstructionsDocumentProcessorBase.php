@@ -38,6 +38,10 @@ abstract class ilWebDAVMountInstructionsDocumentProcessorBase implements ilWebDA
                 }
             }
         } while($pair_found);
+        
+        if (count($found_instructions) === 0) {
+            $found_instructions = [ $a_raw_mount_instructions ];
+        }
 
         return $found_instructions;
     }

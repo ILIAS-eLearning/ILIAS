@@ -18,21 +18,23 @@ class ilWebDAVMountInstructionsGUI {
     protected $base_url;
     protected $ref_id;
     protected $mount_instruction;
+    protected $il_lang;
+    protected $ui;
     
     public function __construct(ilWebDAVBaseMountInstructions $a_mount_instruction)
     {
         global $DIC;
 
         $this->uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
-        $this->user_language = $DIC->user()->getLanguage();
         $this->mount_instruction = $a_mount_instruction;
+        $this->il_lang = $DIC->language();
+        $this->ui = $DIC->ui();
     }
 
     public function buildGUIFromGivenMountInstructions($a_mount_instructions, $a_render_async = false)
     {
-        global $DIC;
-        $f = $DIC->ui()->factory();
-        $r = $DIC->ui()->renderer();
+        $f = $this->ui->factory();
+        $r = $this->ui->renderer();
 
         // List of all components to render
         $comps = array();
@@ -51,6 +53,15 @@ class ilWebDAVMountInstructionsGUI {
             // Show the div which is given as an argument
             .'$("#"+id).show();}</script>');
 
+        /*
+         * The document might just contain a single entry, then we don't need a view control and just return it.
+         */
+        if (count($a_mount_instructions) === 1 ) {
+            $content = $f->legacy("<div class='instructions'>".array_shift($a_mount_instructions)."</div>");
+            
+            return $a_render_async ? $r->renderAsync($content) : $r->render($content);
+        }
+        
         /*
          * This is an associative array. The key is the title of the button, the value the used signal. E.g.:
          * array(
@@ -97,7 +108,11 @@ class ilWebDAVMountInstructionsGUI {
 
     public function renderMountInstructionsContent()
     {
-        $instructions = $this->mount_instruction->getMountInstructionsAsArray($this->user_language);
+        try {
+            $instructions = $this->mount_instruction->getMountInstructionsAsArray();
+        } catch (InvalidArgumentException $e) {
+            $instructions = ["<div class='alert alert-danger'>".$this->il_lang->txt('error').": ".$this->il_lang->txt('webdav_missing_lang')."</div>"];
+        }
 
         echo $this->buildGUIFromGivenMountInstructions($instructions, true);
         exit;

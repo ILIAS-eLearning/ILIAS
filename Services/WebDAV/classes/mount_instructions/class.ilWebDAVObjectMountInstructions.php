@@ -21,7 +21,6 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected $clientOS;
     
     protected $settings;
-    protected $lng;
     
     protected $ref_id;
     protected $obj_id;
@@ -33,16 +32,17 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     public function __construct(ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
+        String $language,
         int $a_ref_id)
     {
-        global $DIC;
         $this->ref_id = $a_ref_id;
+        $this->language = $language;
 
         // TODO: Change this to be more unit testable!
         $this->obj_id = ilObject::_lookupObjectId($this->ref_id);
         $this->obj_title = ilObject::_lookupTitle($this->obj_id);
 
-        parent::__construct($a_repo, $a_uri_builder, $a_settings);
+        parent::__construct($a_repo, $a_uri_builder, $a_settings, $ilLang);
     }
 
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array

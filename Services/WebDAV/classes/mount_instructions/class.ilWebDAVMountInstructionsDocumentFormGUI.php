@@ -140,20 +140,24 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         $this->addItem($language_selection);
 
-        $document_upload = new ilFileStandardDropzoneInputGUI($document_label, 'document');
-        $document_upload->setInfo($document_by_line);
-        $document_upload->setRequired($document_already_exists ? false : true);
-        $document_upload->setDisabled(!$this->is_editable);
-        $document_upload->setMaxFiles(1);
-        $document_upload->setSuffixes(['html', 'txt']);
-        $this->addItem($document_upload);
+        if ($document_already_exists) {
+            $webdav_id = new ilHiddenInputGUI('webdav_id');
+            $webdav_id->setValue($this->document->getId());
+            $this->addItem($webdav_id);
+        } else {
+            $document_upload = new ilFileStandardDropzoneInputGUI($document_label, 'document');
+            $document_upload->setInfo($document_by_line);
+            $document_upload->setRequired($document_already_exists ? false : true);
+            $document_upload->setDisabled(!$this->is_editable);
+            $document_upload->setMaxFiles(1);
+            $document_upload->setSuffixes(['html', 'htm', 'txt']);
+            $this->addItem($document_upload);
+        }
 
         if($this->is_editable)
         {
             $this->addCommandButton($this->save_command, $this->lng->txt('save'));
         }
-
-        $this->addCommandButton($this->cancel_command, $this->lng->txt('cancel'));
     }
 
     /**
@@ -173,6 +177,25 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
             return false;
         }
 
+        return true;
+    }
+    
+    /**
+     * Update the document with id from form
+     */
+    public function updateObject()
+    {      
+        try
+        {
+            $this->document = $this->createFilledObject($this->document);
+            $this->mount_instructions_repository->updateMountInstructions($this->document);
+        } catch (InvalidArgumentException $e)
+        {
+            $this->setValuesByPost();
+            $this->translated_error .= $e->getMessage();
+            return false;
+        }
+        
         return true;
     }
 
@@ -226,8 +249,10 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         // check if document already exists in db
         $document_already_exists = $document->getId() > 0;
 
-        /** @var  $upload_result UploadResult*/
-        $upload_result = $this->getFileUploadResult();
+        if (!$document_already_exists) {
+            /** @var  $upload_result UploadResult*/
+            $upload_result = $this->getFileUploadResult();
+        }
 
         // Exit on failed file upload
         if(!$document_already_exists && $upload_result->getStatus()->getCode() != ProcessingStatus::OK)
@@ -243,7 +268,6 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $owner_id = $document_already_exists ? $document->getOwnerUsrId() : $this->actor->getId();
         $last_modified_usr_id = $this->actor->getId();
         $sorting = $document_already_exists ? $document->getSorting() : $this->mount_instructions_repository->getHighestSortingNumber() + 1;
-        $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
 
         // On creating a new document -> check if language is already in use by another document
         if(!$document_already_exists && $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language))
@@ -253,17 +277,22 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 
         // On editing document -> check if language is changed and already is in use by another document
         if($document_already_exists && $document->getLanguage() != $language
-            && $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language))
+            && $this->mount_instructions_repository->doMountInstructionsExistByLanguage($language) != $document->getId())
         {
-            throw new InvalidArgumentException($this->lng->txt("webdav_changed_language_already_used"));
+            throw new InvalidArgumentException($this->lng->txt("webdav_chosen_language_already_used"));
         }
 
-        // Get and process mount instructions
-        $document_processor = $upload_result->getMimeType() == 'text/html'
-            ? new ilWebDAVMountInstructionsHtmlDocumentProcessor($this->document_purifier)
-            : new ilWebDAVMountInstructionsTextDocumentProcessor();
-        $processed_mount_instructions = $document_processor->processMountInstructions($raw_mount_instructions);
-
+        if ($document_already_exists) {
+            $raw_mount_instructions = '';
+            $processed_mount_instructions = '';
+        } else {
+            // Get and process mount instructions
+            $raw_mount_instructions = $this->getRawMountInstructionsFromFileUpload($upload_result);
+            $document_processor = $upload_result->getMimeType() == 'text/html'
+                ? new ilWebDAVMountInstructionsHtmlDocumentProcessor($this->document_purifier)
+                : new ilWebDAVMountInstructionsTextDocumentProcessor();
+            $processed_mount_instructions = $document_processor->processMountInstructions($raw_mount_instructions);
+        }
         // Get or create new id for document
         $id = $document_already_exists ? $document->getId()
             : $this->mount_instructions_repository->getNextMountInstructionsDocumentId();

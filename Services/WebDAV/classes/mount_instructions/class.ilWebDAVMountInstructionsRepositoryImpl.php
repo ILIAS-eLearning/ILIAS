@@ -125,7 +125,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
     /**
      * @inheritDoc
      */
-    public function doMountInstructionsExistByLanguage(string $language) : bool
+    public function doMountInstructionsExistByLanguage(string $language) : int
     {
         $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . " WHERE lng=" . $this->db->quote($language, 'text');
@@ -133,7 +133,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $result = $this->db->query($query);
         $record = $this->db->fetchAssoc($result);
 
-        return $record != null;
+        return ($record == null ? 0 : $record['id']);
     }
 
     /**
@@ -148,8 +148,6 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             // values to update
             array(
                 'title' => array('text', $document->getTitle()),
-                'uploaded_instructions' => array('clob', $document->getUploadedInstructions()),
-                'processed_instructions' => array('clob', $document->getProcessedInstructions()),
                 'lng' => array('text', $document->getLanguage()),
                 'creation_ts' => array('timestamp', $document->getCreationTs()),
                 'modification_ts' => array('timestamp', $document->getModificationTs()),

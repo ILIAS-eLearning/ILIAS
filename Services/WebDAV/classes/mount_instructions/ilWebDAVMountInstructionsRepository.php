@@ -54,11 +54,12 @@ interface ilWebDAVMountInstructionsRepository
 
     /**
      * Check if mount instructions for language exists. Language is two letters like "en" for English etc.
+     * Returns id of mount instructions, if found, or 0.
      *
      * @param string $language
-     * @return bool
+     * @return int
      */
-    public function doMountInstructionsExistByLanguage(string $language) : bool;
+    public function doMountInstructionsExistByLanguage(string $language) : int;
 
     /**
      * Update existing mount instructions document
