@@ -17486,6 +17486,8 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .panel-footer {
   position: relative;
   border-top: none !important;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
   background-color: #f0f0f0;
