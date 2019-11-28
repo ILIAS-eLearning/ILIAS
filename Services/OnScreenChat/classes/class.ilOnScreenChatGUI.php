@@ -240,7 +240,7 @@ class ilOnScreenChatGUI
             $chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer->render(
                 $factory->button()->close()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('simpleline/bubbles.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
