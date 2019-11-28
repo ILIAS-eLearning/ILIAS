@@ -102,8 +102,11 @@ class ilStartUpGUI
 				require_once("Services/Init/classes/class.ilPasswordAssistanceGUI.php");
 				return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
 
-			default:				
-				return $this->$cmd();
+			default:
+				if (method_exists($this, $cmd))
+				{
+					return $this->$cmd();
+				}
 		}
 	}
 	
