@@ -1135,7 +1135,6 @@ if ($ilDB->tableExists('il_bt_bucket')) {
     $deleteBucketsSql = 'DELETE FROM il_bt_bucket WHERE title = ' . $ilDB->quote('Certificate Migration', 'text') ;
     $ilDB->manipulate($deleteBucketsSql);
 }
-
 ?>
 <#5506>
 <?php
@@ -3268,4 +3267,47 @@ ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
 
 $purpose = 'PrintViewOfQuestions'; // According to name given. Call multiple times.
 ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+?>
+<#5605>
+<?php
+if ($ilDB->tableExists('event'))
+{
+    $ilDB->addTableColumn(
+        'event',
+        'reg_notification', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+
+    $ilDB->addTableColumn(
+        'event',
+        'notification_opt',
+        array(
+            'type'    => 'text',
+            'length'  => '50',
+            'notnull' => false,
+            'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
+        )
+    );
+}
+?>
+<#5606>
+<?php
+if ($ilDB->tableExists('event_participants'))
+{
+    $ilDB->addTableColumn(
+        'event_participants',
+        'notification_enabled', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5607>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
