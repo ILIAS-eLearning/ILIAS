@@ -3158,17 +3158,17 @@ $ilCtrlStructureReader->getStructure();
 $fields = array(
     'internal'       => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'title'          => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'suffix'         => array(
@@ -3178,7 +3178,7 @@ $fields = array(
     ),
     'mime_type'      => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'size'           => array(
@@ -3198,7 +3198,7 @@ if (!$ilDB->tableExists('il_resource_info')) {
 $fields = array(
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'storage_id'     => array(
@@ -3218,12 +3218,12 @@ if (!$ilDB->tableExists('il_resource')) {
 $fields = array(
     'internal'       => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'available'      => array(
@@ -3251,7 +3251,7 @@ if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
         'icon_id',
         array(
             'type'   => 'text',
-            'length' => 256,
+            'length' => 250,
         ));
 }
 ?>
