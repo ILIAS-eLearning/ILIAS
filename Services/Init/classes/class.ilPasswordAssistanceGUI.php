@@ -95,7 +95,7 @@ class ilPasswordAssistanceGUI
 		switch($next_class)
 		{
 			default:
-				if($cmd != '')
+				if($cmd != '' && method_exists($this, $cmd))
 				{
 					return $this->$cmd();
 				}
