@@ -9108,6 +9108,12 @@ footer {
 .il-maincontrols-metabar .il-metabar-entries .il-logout {
   padding-left: 10px;
 }
+.il-maincontrols-metabar .glyphicon {
+  filter: invert(50%);
+  font-family: 'il-icons';
+  font-size: 2rem;
+  margin-right: 10px;
+}
 .il-maincontrols-metabar .input-group {
   display: block;
 }
@@ -9116,32 +9122,6 @@ footer {
 }
 .il-maincontrols-metabar form#mm_search_form {
   padding: 20px;
-}
-.il-maincontrols-metabar .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
-.il-metabar-entries .glyphicon {
-  font-family: 'il-icons';
-}
-.il-metabar-entries .glyphicon-bell:before {
-  content: "\e027";
-}
-.il-metabar-entries .glyphicon-comment:before {
-  content: "\e04a";
-}
-.il-metabar-entries .glyphicon-envelope:before {
-  content: "\e086";
-}
-.il-metabar-entries .glyphicon-question-sign:before {
-  content: "\e05d";
-}
-.il-metabar-entries .glyphicon-search:before {
-  content: "\e090";
-}
-.il-metabar-entries .glyphicon-user:before {
-  content: "\e001";
 }
 .il-metabar-entries .btn {
   position: relative;
@@ -9152,7 +9132,7 @@ footer {
 .il-metabar-entries .il-counter-status {
   margin-top: -4px;
 }
-.il-metabar-entries > .btn-bulky > div > .bulky-label {
+.il-metabar-entries > .btn-bulky > .bulky-label {
   display: none;
 }
 .il-metabar-entries .btn-bulky {
@@ -9254,17 +9234,24 @@ footer {
 }
 /*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
-.il-maincontrols-mainbar .link-bulky {
+.il-maincontrols-metabar .btn-bulky,
+.il-maincontrols-mainbar .link-bulky,
+.il-maincontrols-metabar .link-bulky {
   font-size: 0.9rem;
   line-height: 1rem;
 }
 .il-maincontrols-mainbar .btn-bulky:focus,
+.il-maincontrols-metabar .btn-bulky:focus,
 .il-maincontrols-mainbar .link-bulky:focus,
+.il-maincontrols-metabar .link-bulky:focus,
 .il-maincontrols-mainbar .btn-bulky:active,
-.il-maincontrols-mainbar .link-bulky:active {
+.il-maincontrols-metabar .btn-bulky:active,
+.il-maincontrols-mainbar .link-bulky:active,
+.il-maincontrols-metabar .link-bulky:active {
   box-shadow: none;
 }
-.il-maincontrols-mainbar .bulky-label {
+.il-maincontrols-mainbar .bulky-label,
+.il-maincontrols-metabar .bulky-label {
   white-space: normal;
   margin-top: 5px;
   display: block;
@@ -10498,6 +10485,33 @@ footer {
 }
 .glyphicon-briefcase:before {
   content: "\e04b";
+}
+.glyphicon-bell:before {
+  content: "\e027";
+}
+.glyphicon-comment:before {
+  content: "\e04a";
+}
+.glyphicon-envelope:before {
+  content: "\e086";
+}
+.glyphicon-question-sign:before {
+  content: "\e05d";
+}
+.glyphicon-search:before {
+  content: "\e090";
+}
+.glyphicon-user:before {
+  content: "\e005";
+}
+.glyphicon-minus-sign:before {
+  content: "\e065";
+}
+.glyphicon-cog:before {
+  content: "\e09a";
+}
+.il-metabar-entries .glyphicon-user:before {
+  content: "\e001";
 }
 .il-link.link-bulky {
   display: flex;
@@ -17421,7 +17435,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .popover {
   max-width: 200px;
   min-height: 100px;
-  word-break: break-word;
 }
 #onscreenchat-container .popover a {
   border: 1px solid white;
@@ -17429,10 +17442,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .popover a:hover {
   border: 1px solid silver;
-}
-#onscreenchat-container .popover a img {
-  max-width: 19px;
-  max-height: 19px;
 }
 #onscreenchat-container .row {
   position: relative;
@@ -17444,10 +17453,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .panel-heading {
   font-size: 80%;
-  display: block !important;
   padding: 5px 5px 5px 15px;
   pointer-events: auto;
   margin: 0;
+  border-bottom: 1px solid #dcdcdc;
   vertical-align: middle;
 }
 #onscreenchat-container .panel-heading .btn {
@@ -17468,10 +17477,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-right: 5px;
   width: 278px;
   height: 377px;
-  background-color: #f0f0f0;
-}
-#onscreenchat-container .chat-window-wrapper:last-child {
-  padding-left: 0 !important;
 }
 #onscreenchat-container .chat-window-wrapper .panel-body {
   height: auto;
@@ -17497,27 +17502,17 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #onscreenchat-container .chat-window-wrapper .panel-footer {
   position: relative;
-  border-top: none !important;
-  padding-top: 15px !important;
-  padding-bottom: 15px !important;
 }
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: transparent;
-}
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
+#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessagePlaceholder {
   position: absolute;
   z-index: 0;
   border: 0 none !important;
-  background-color: transparent;
   opacity: .5;
 }
-#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
+#onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessage {
   background-color: transparent;
   position: relative;
   z-index: 1;
-  white-space: pre-wrap;
-  user-select: text;
-  outline: none;
   overflow-x: hidden;
   height: auto;
   min-height: 26px;
@@ -17571,26 +17566,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   margin: 0;
   padding: 0;
 }
-#onscreenchat-container .chat-window-wrapper .chat li.separator:not(:first-child) {
-  margin-top: 10px;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.header:not(:first-child) {
-  margin-top: 15px;
-}
 #onscreenchat-container .chat-window-wrapper .chat li {
+  margin-bottom: 10px;
   padding-bottom: 5px;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.separator {
-  text-align: center;
-  background-color: #f5f5f5;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.separator p {
-  font-size: .9em;
-}
-#onscreenchat-container .chat-window-wrapper .chat li.header,
-#onscreenchat-container .chat-window-wrapper .chat li.message {
-  padding-left: 15px;
-  padding-right: 15px;
+  border-bottom: 1px dotted #b3a9a9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
@@ -17607,15 +17586,13 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .panel-body {
   overflow-y: scroll;
   height: 250px;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
-  position: absolute;
-  float: right;
-  bottom: 16px;
-  z-index: 3;
-  right: 18px;
+  display: block;
+  height: 14px;
+  width: 14px;
+  position: relative;
+  margin-top: 5px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel > a {
   display: block;
@@ -17637,6 +17614,120 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 10px;
   margin-left: 5px;
   display: inline-block;
+}
+.ilOnScreenChatMenuDropDown .iosOnScreenChatDropDownTriggerInactive {
+  opacity: .3;
+}
+.ilOnScreenChatMenuDropDown .iosOnScreenChatHidden {
+  visibility: hidden !important;
+}
+.ilOnScreenChatMenuDropDown .iosOnScreenChatShown {
+  visibility: visible !important;
+}
+.ilOnScreenChatMenuDropDown .badge {
+  visibility: hidden;
+}
+.ilOnScreenChatMenuDropDown .popover {
+  max-width: 300px;
+  min-width: 300px;
+}
+.ilOnScreenChatMenuDropDown .popover-content {
+  padding: 0;
+}
+.ilOnScreenChatMenuDropDown .popover-title,
+.ilOnScreenChatMenuDropDown .dropdown-header a {
+  padding: 3px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #777 !important;
+  white-space: nowrap;
+  background-color: #f3f3f3;
+}
+.ilOnScreenChatMenuDropDown h3.popover-title {
+  display: none;
+}
+.ilOnScreenChatMenuItem {
+  position: relative;
+  border-bottom: 1px solid #e9e9e9;
+  color: black;
+}
+.ilOnScreenChatMenuItem .media {
+  overflow: visible;
+  padding: 0;
+  cursor: pointer;
+}
+.ilOnScreenChatMenuItem .media:after {
+  content: ".";
+  clear: both;
+  display: block;
+  visibility: hidden;
+  height: 0;
+}
+.ilOnScreenChatMenuItem .media:first-child {
+  margin-top: 0;
+}
+.ilOnScreenChatMenuItem .media-left,
+.ilOnScreenChatMenuItem .media-body,
+.ilOnScreenChatMenuItem .media-right {
+  vertical-align: top;
+}
+.ilOnScreenChatMenuItem .media-left {
+  padding-right: 10px;
+  float: left;
+}
+.ilOnScreenChatMenuItem .media-object {
+  width: 50px;
+}
+.ilOnScreenChatMenuItem .media-body {
+  padding: 4px 4px 0 0;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: visible;
+}
+.ilOnScreenChatMenuItem .media-body.info {
+  white-space: normal !important;
+  padding-left: 4px !important;
+  padding-bottom: 4px !important;
+  font-size: 12px;
+}
+.ilOnScreenChatMenuItem .media-body.info a {
+  color: #557196 !important;
+}
+.ilOnScreenChatMenuItem .media-body p,
+.ilOnScreenChatMenuItem .media-body h4 {
+  font-size: 12px;
+  padding: 0 3px 0 0;
+  line-height: 1em;
+  margin: 0;
+}
+.ilOnScreenChatMenuItem .media-body h4 {
+  padding-top: 0;
+  color: #606060;
+}
+.ilOnScreenChatMenuItem .media-body .media-heading {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 225px;
+}
+.ilOnScreenChatMenuItem .media-body .media-heading a {
+  color: #557196 !important;
+}
+.ilOnScreenChatMenuItem .media-body p {
+  color: #a0a0a0;
+}
+.ilOnScreenChatMenuItem .media-body p.lastMessage {
+  width: 200px;
+  padding: 3px 3px 3px 0;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  color: #606060;
+}
+.ilOnScreenChatMenuItem .media-body p.lastMessage img {
+  max-width: 15px;
+  max-height: 15px;
+}
+.ilOnScreenChatMenuItem .media-body p a {
+  color: #557196 !important;
 }
 .il-deck .il-card .caption div.icon.small {
   vertical-align: middle;
@@ -18084,6 +18175,28 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .input-group.date .input-group-addon {
   cursor: pointer;
+}
+.il-item-task {
+  padding: 8px 14px;
+  border-top: 1px #ddd solid;
+  min-width: 300px;
+  max-width: 300px;
+  margin-top: -1px;
+  background-color: white;
+}
+.il-item-task .il-item-task-title h4 {
+  font-size: 14px;
+  font-weight: bold;
+}
+.il-item-task .il-item-task-content .progress {
+  margin-bottom: 8px;
+}
+@media (max-width: 768px) {
+  .il-item-task {
+    min-width: inherit;
+    max-width: inherit;
+    width: 100%;
+  }
 }
 .il-orgunit .multi_icons_wrapper {
   display: inline-block;
