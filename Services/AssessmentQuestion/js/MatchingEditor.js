@@ -143,10 +143,12 @@ let dropElementHandler = function (event, ui) {
         }
     }
 
+    let droppedDraggableClone = ui.draggable.clone();
+    
     if ($(this).attr('data-type') == 'definition') {
         let cloneId = buildDroppedDraggableCloneId(ui.draggable, $(this));
 
-        let droppedDraggableClone = ui.draggable.clone();
+        
         droppedDraggableClone.attr('id', cloneId);
         droppedDraggableClone.removeClass('draggableDisabled');
         droppedDraggableClone.addClass('droppedDraggable');
