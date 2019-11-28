@@ -1,8 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<?xml version="1.0" encoding="UTF-8"?>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" class="ilc_Fullscreen">
+<!DOCTYPE html>
+<html lang="{META_CONTENT_LANGUAGE}" dir="{LANGUAGE_DIRECTION}" class="ilc_Fullscreen">
 <head>
-	<title>ILIAS{TITLE}</title>
+	<title>{WINDOW_TITLE} {PAGETITLE}</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link rel="stylesheet" type="text/css" href="{LOCATION_STYLESHEET}" />
 	<!-- BEGIN ContentStyle -->
@@ -14,21 +13,13 @@
 	<!-- BEGIN css_file -->
 	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" media="{CSS_MEDIA}" />
 	<!-- END css_file -->
-</head>
+</head><!-- BEGIN tree_icons --><!-- END tree_icons -->
 <body class="ilc_Fullscreen">
+{INLINE_JS}
 <table class = "ilc_Fullscreen"><tr><td valign="middle">
-<!-- BEGIN ilMedia -->
-{MEDIA_CONTENT}
-<!-- END ilMedia -->
+	<!-- BEGIN ilMedia -->
+	{MEDIA_CONTENT}
+	<!-- END ilMedia -->
 </td></tr></table>
-<!-- BEGIN on_load_code -->
-<script type="text/javascript">
-	<!-- BEGIN on_load_code_inner -->
-		il.Util.addOnLoad(function() {
-			{OLCODE}
-		});
-	<!-- END on_load_code_inner -->
-</script>
-<!-- END on_load_code -->
 </body>
 </html>

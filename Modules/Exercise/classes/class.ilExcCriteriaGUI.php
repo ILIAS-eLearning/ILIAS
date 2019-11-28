@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
-
 /**
  * Class ilExcCriteriaGUI
  *
@@ -75,18 +73,15 @@ class ilExcCriteriaGUI
 	
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "add"));
 			
-		include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 		$types = new ilSelectInputGUI($lng->txt("type"), "type");
 		$types->setOptions(ilExcCriteria::getTypesMap());
 		$ilToolbar->addStickyItem($types);
 		
-		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption("exc_add_criteria");
 		$button->setCommand("add");			
 		$ilToolbar->addStickyItem($button);
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteriaTableGUI.php";
 		$tbl = new ilExcCriteriaTableGUI($this, "view", $this->cat_id);
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -127,7 +122,6 @@ class ilExcCriteriaGUI
 			$ilCtrl->redirect($this, "view");
 		}
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$confirmation_gui = new ilConfirmationGUI();
 		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this, "delete"));
 		$confirmation_gui->setHeaderText($lng->txt("exc_criteria_deletion_confirmation"));
@@ -178,7 +172,6 @@ class ilExcCriteriaGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
 		$form = new ilPropertyFormGUI();
 		
 		$is_edit = (bool)$a_crit_obj->getId();

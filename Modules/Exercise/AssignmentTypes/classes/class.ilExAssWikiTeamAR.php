@@ -2,13 +2,10 @@
 
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/ActiveRecord/class.ActiveRecord.php");
-
 /**
  * Item group active record class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup
  */
 class ilExAssWikiTeamAR extends ActiveRecord

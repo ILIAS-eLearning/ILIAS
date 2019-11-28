@@ -56,7 +56,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";					
 		$wsp_tree = new ilWorkspaceTree($a_submission->getUserId());
 
 		// #12939
@@ -143,8 +142,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 						
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-
 		$files_str = "";
 		$buttons_str = "";
 		$valid_prtf = false;
@@ -272,7 +269,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		$title = $this->lng->txt($a_title).": ".$this->assignment->getTitle();
 		
-		include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 		$panel = ilPanelGUI::getInstance();
 		$panel->setBody($html);
 		$panel->setHeading($title);
@@ -324,11 +320,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		}
 		
 		$parent_node = $_GET["sel_wsp_obj"];
-		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-		
+
 		$blog = new ilObjBlog();
 		$blog->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$blog->create();
@@ -359,7 +351,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		if($_GET["sel_wsp_obj"])
 		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";		
 			$tree = new ilWorkspaceTree($this->submission->getUserId());
 			$node = $tree->getNodeData($_GET["sel_wsp_obj"]);
 			if($node && $node["type"] == "blog")
@@ -385,7 +376,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	 */
 	protected function renderWorkspaceExplorer($a_cmd)
 	{		
-		include_once("./Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php");
 		switch ($a_cmd)
 		{
 			case "selectBlog":
@@ -417,7 +407,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$this->handleTabs();
 		
 		$items = array();
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$portfolios = ilObjPortfolio::getPortfoliosOfUser($this->submission->getUserId());
 		if($portfolios)
 		{
@@ -438,8 +427,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	
 	protected function initPortfolioTemplateForm(array $a_templates)
 	{
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();		
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("exc_create_portfolio").": ".$this->assignment->getTitle());	
 		$form->setFormAction($this->ctrl->getFormAction($this, "setSelectedPortfolioTemplate"));
 				
@@ -464,8 +452,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		global $DIC;
 
 		$ctrl = $DIC->ctrl();
-
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 
@@ -502,7 +488,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$this->returnToParentObject();
 		}
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 		if(!sizeof($templates))
 		{
@@ -525,7 +510,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$this->returnToParentObject();
 		}
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 		if(!sizeof($templates))
 		{
@@ -565,7 +549,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$this->returnToParentObject();
 		}
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$portfolio = new ilObjPortfolio();
 		$portfolio->setTitle($this->exercise->getTitle()." - ".$this->assignment->getTitle());
 		$portfolio->create();
@@ -607,7 +590,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 	{
 		$tpl = $this->tpl;
 
-		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
 		$conf = new ilConfirmationGUI();
 		$conf->setFormAction($this->ctrl->getFormAction($this, "unlinkPortfolio"));
 		$conf->setHeaderText($this->lng->txt("exc_sure_unlink_portfolio", "sure_unlink_portfolio"));
@@ -615,7 +597,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$conf->setCancel($this->lng->txt("cancel"), "returnToParent");
 
 		$submission = $this->submission->getSelectedObject();
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$port = new ilObjPortfolio($submission["filetitle"], false);
 
 		$conf->addItem("id[]", "", $port->getTitle(), ilUtil::getImagePath("icon_prtf.svg"));
@@ -655,7 +636,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$this->returnToParentObject();
 		}
 		
-		include_once "Services/Utilities/classes/class.ilConfirmationGUI.php";
 		$conf = new ilConfirmationGUI();
 		
 		if($_REQUEST["blog_id"])
@@ -726,7 +706,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		$blog_id = $a_blog_id;		
 
-		include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 		$blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
 		if($blog_gui->object)
 		{
@@ -765,11 +744,9 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		
 		$prtf_id = $a_portfolio_id;			
 
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-		$prtf = new ilObjPortfolio($prtf_id, false);	
+		$prtf = new ilObjPortfolio($prtf_id, false);
 		if($prtf->getTitle())
 		{
-			include_once "Modules/Portfolio/classes/class.ilPortfolioHTMLExport.php";
 			$export = new ilPortfolioHTMLExport(null, $prtf);
 			$file = $export->buildExportFile();
 			$size = filesize($file);
@@ -802,10 +779,6 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 			$a_user_id = $ilUser->getId();					
 		}
 		
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-						
 		$ass = new ilExAssignment($a_ass_id);
 		$sub = new ilExSubmission($ass, $a_user_id);
 		$exc_id = $ass->getExerciseId();

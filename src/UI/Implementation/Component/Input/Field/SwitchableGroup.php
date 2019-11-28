@@ -53,7 +53,7 @@ class SwitchableGroup extends Group implements Field\SwitchableGroup
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         if (!is_string($value) && !is_int($value)) {
             return false;

@@ -31,6 +31,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
 	 */
 	protected $ctrl;
 
+    /**
+     * @var bool
+     */
+	protected $offline;
 
 	/**
 	 * Constructor
@@ -112,6 +116,10 @@ class ilPresentationListTableGUI extends ilTable2GUI
 		//$this->setDefaultOrderDirection("asc");
 		$this->setData($this->glossary->getTermList($this->filter["term"], $_GET["letter"],
 				$this->filter["definition"], $this->tax_node, false, true, $this->record_gui->getFilterElements(), false, true));
+        if ($this->offline) {
+            $this->setLimit(count($this->getData()));
+            $this->resetOffset();
+        }
 //		$this->setData(array());	
 	}
 	

@@ -1,14 +1,11 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ('./Services/Verification/classes/class.ilVerificationObject.php');
-
 /**
 * Exercise Verification
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 *
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */

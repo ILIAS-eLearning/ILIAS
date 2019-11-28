@@ -84,7 +84,7 @@ class Group extends Input implements C\Input\Field\Group
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         if (!is_array($value)) {
             return false;

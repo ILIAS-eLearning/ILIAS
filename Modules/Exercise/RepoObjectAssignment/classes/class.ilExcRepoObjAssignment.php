@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/RepoObjectAssignment/interfaces/interface.ilExcRepoObjAssignmentInterface.php");
-
 /**
  * Handles exercise repository object assignments. Main entry point for consumers.
  *
@@ -41,7 +39,6 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
 	 */
 	function getAssignmentInfoOfObj($a_ref_id, $a_user_id)
 	{
-		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignmentInfo.php");
 		return ilExcRepoObjAssignmentInfo::getInfo($a_ref_id, $a_user_id);
 	}
 
@@ -54,7 +51,6 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
 	 */
 	function getAccessInfo($a_ref_id, $a_user_id)
 	{
-		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignmentAccessInfo.php");
 		return ilExcRepoObjAssignmentAccessInfo::getInfo($a_ref_id, $a_user_id);
 	}
 
@@ -67,7 +63,6 @@ class ilExcRepoObjAssignment implements ilExcRepoObjAssignmentInterface
 	 */
 	function isGranted($a_ref_id, $a_user_id)
 	{
-		include_once("./Modules/Exercise/RepoObjectAssignment/classes/class.ilExcRepoObjAssignmentAccessInfo.php");
 		$info = ilExcRepoObjAssignmentAccessInfo::getInfo($a_ref_id, $a_user_id);
 		return !$info->isGranted();
 	}

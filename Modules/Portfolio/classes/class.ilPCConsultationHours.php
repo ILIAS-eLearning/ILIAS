@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilPCConsultationHours
-*
-* Consultation hours content object (see ILIAS DTD)
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilPCListItem.php 22210 2009-10-26 09:46:06Z akill $
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCConsultationHours
+ *
+ * Consultation hours content object (see ILIAS DTD)
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCConsultationHours extends ilPageContent
 {
 	/**
@@ -120,4 +116,3 @@ class ilPCConsultationHours extends ilPageContent
 		return $res;
 	}
 }
-?>

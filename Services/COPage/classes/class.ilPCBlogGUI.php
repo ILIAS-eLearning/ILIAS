@@ -120,8 +120,7 @@ class ilPCBlogGUI extends ilPageContentGUI
 		}
 				
 		$options = array();		
-		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
-		$blogs_ids = ilBlogPosting::searchBlogsByAuthor($ilUser->getId());		
+		$blogs_ids = ilBlogPosting::searchBlogsByAuthor($ilUser->getId());
 		if($blogs_ids)
 		{
 			foreach ($blogs_ids as $blog_id)
@@ -286,7 +285,6 @@ class ilPCBlogGUI extends ilPageContentGUI
 		}
 
 		$options = array();
-		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 		$postings = ilBlogPosting::getAllPostings($a_blog_id);
 		if($postings)
 		{

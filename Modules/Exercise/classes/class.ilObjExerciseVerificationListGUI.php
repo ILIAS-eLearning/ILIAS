@@ -11,8 +11,6 @@
 * @extends ilObjectListGUI
 */
 
-include_once "Services/Object/classes/class.ilObjectListGUI.php";
-
 class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 {
 	/**
@@ -30,7 +28,6 @@ class ilObjExerciseVerificationListGUI extends ilObjectListGUI
 		$this->gui_class_name = "ilobjexerciseverificationgui";
 
 		// general commands array
-		include_once('./Modules/Exercise/classes/class.ilObjExerciseVerificationAccess.php');
 		$this->commands = ilObjExerciseVerificationAccess::_getCommands();
 	}
 	

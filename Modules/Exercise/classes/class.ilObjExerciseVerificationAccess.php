@@ -2,14 +2,11 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
 * Class ilObjExerciseVerificationAccess
 *
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilObjFolderAccess.php 26739 2010-11-28 20:33:51Z smeyer $
 *
 */
 class ilObjExerciseVerificationAccess extends ilObjectAccess
@@ -45,7 +42,6 @@ class ilObjExerciseVerificationAccess extends ilObjectAccess
 		// personal workspace context: do not force normal login
 		if(isset($t_arr[2]) && $t_arr[2] == "wsp")
 		{
-			include_once "Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php";
 			return ilSharedResourceGUI::hasAccess($t_arr[1]);
 		}
 

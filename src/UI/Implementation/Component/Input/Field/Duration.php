@@ -308,7 +308,7 @@ class Duration extends Group implements C\Input\Field\Duration, JSBindabale
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return true;
     }
