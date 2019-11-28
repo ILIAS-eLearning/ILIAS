@@ -19,6 +19,7 @@ let label;
 let current_coordinates = null;
 let poly_points;
 let start = null;
+let shifted;
 
 let display_coordinate_selector = function() {
     let image = $('.image_preview').attr('src');
@@ -28,6 +29,7 @@ let display_coordinate_selector = function() {
     }
 
     $(this).blur();
+    shifted = false;
     coordinates = $(this).parents('.aot_row').find('input[id$=imedd_coordinates]');
     typ = $(this).parents('.aot_row').find('select[id$=imedd_type]').val();
     label = $(this).parents('.aot_row').find('span.imedd_coordinates');
@@ -67,7 +69,7 @@ let display_coordinate_selector = function() {
     popup.css('top', (window.innerHeight - popup.height()) / 2 + 'px');
 };
 
-let process_imgkey = function(e) {
+let process_img_key_up = function(e) {
     if (popup === null) {
         return;
     }
@@ -80,6 +82,17 @@ let process_imgkey = function(e) {
     else if (e.keyCode === 13) {
         submit_popup();
     }
+    // shift
+    else if (e.keyCode === 16) {
+        shifted = false;
+    }
+};
+
+let process_img_key_down = function(e) {
+    // shift
+    if (e.keyCode === 16) {
+        shifted = true;
+    }  
 };
 
 let submit_popup = function() {
@@ -100,7 +113,9 @@ let transformToPercentage = function(part, whole) {
 };
 
 let createPoints = function(stop) {
-    return {
+    
+    
+    let point = {
         top_left:
             new Point(Math.min(start.X, stop.offsetX),
                       Math.min(start.Y, stop.offsetY)),
@@ -108,6 +123,15 @@ let createPoints = function(stop) {
             new Point(Math.max(start.X, stop.offsetX),
                       Math.max(start.Y, stop.offsetY))
     };
+    
+    if (shifted) {
+        let width = point.bottom_right.X - point.top_left.X;
+        
+        //set height to width
+        point.bottom_right.Y = point.top_left.Y + width;
+    }
+    
+    return point;
 };
 
 let record_start = function(e) {
@@ -365,7 +389,8 @@ $(window).load(function() {
     update_preview();
 });
 
-$(document).on('keyup', process_imgkey);
+$(document).on('keyup', process_img_key_up);
+$(document).on('keydown', process_img_key_down);
 $(document).on('click', '.js_select_coordinates', display_coordinate_selector);
 $(document).on('click', '.js_image_select', submit_popup);
 $(document).on('click', '.js_image_cancel, .close', close_popup);
