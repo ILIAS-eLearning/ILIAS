@@ -6791,7 +6791,7 @@ button.close {
   font-size: 17px;
   font-weight: normal;
   padding: 0;
-  text-transform: normal;
+  text-transform: none;
   color: #909090;
 }
 .il-panel-listing-std-container > h3 {
@@ -6799,7 +6799,7 @@ button.close {
   padding: 0;
   margin: 8px 0 2px 0;
   font-size: 19px;
-  text-transform: normal;
+  text-transform: none;
   color: #909090;
   float: left;
 }
@@ -10928,7 +10928,7 @@ footer {
   font-weight: normal;
   padding: 8px 14px;
   background-color: transparent;
-  text-transform: normal;
+  text-transform: none;
   color: #909090;
 }
 .il-popover.webui-popover-fixed {
