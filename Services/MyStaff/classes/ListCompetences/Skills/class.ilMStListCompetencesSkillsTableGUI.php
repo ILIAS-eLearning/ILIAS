@@ -99,16 +99,15 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
             ),
         );
 
-        $all_users_for_user = $this->access->getUsersForUser($this->dic->user()->getId());
 
         $skills_fetcher = new ilMStListCompetencesSkills($this->dic);
-        $count = $skills_fetcher->getData($all_users_for_user, $options);
+        $count = $skills_fetcher->getData($options);
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
             'end'   => intval($this->getLimit()),
         );
         $options['count'] = false;
-        $data = $skills_fetcher->getData($all_users_for_user, $options);
+        $data = $skills_fetcher->getData($options);
         $this->setMaxCount($count);
         $this->setData($data);
     }

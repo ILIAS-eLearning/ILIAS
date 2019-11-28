@@ -77,7 +77,6 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 		global $DIC;
 
 		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
 		$this->setDefaultOrderField('crs_title');
 
 		$this->determineLimit();
@@ -93,17 +92,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 			),
 		);
 
-		$all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
-
 		$certificates_fetcher = new ilMStListCertificates($DIC);
-		$count = $certificates_fetcher->getData($all_users_for_user, $options);
+        $data = $certificates_fetcher->getData($options);
 		$options['limit'] = array(
 			'start' => intval($this->getOffset()),
 			'end' => intval($this->getLimit()),
 		);
-		$options['count'] = false;
-		$data = $certificates_fetcher->getData($all_users_for_user, $options);
-		$this->setMaxCount($count);
+		$this->setMaxCount(count($data));
 		$this->setData($data);
 	}
 

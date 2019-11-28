@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\DI\Container;
+use ILIAS\MyStaff\ilMyStaffAccess;
 
 /**
  * Class ilMStListCompetencesSkills
@@ -34,36 +35,55 @@ class ilMStListCompetencesSkills
      *
      * @return int|array
      */
-    public function getData(array $user_ids, array $options)
+    public function getData(array $options)
     {
+        //Permission Filter
+        $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
+
+
         $select = $options['count'] === true ?
-            'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+            'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
+
+
+
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
             ' INNER JOIN usr_data ud ON ud.usr_id = sk.user_id ' .
             ' INNER JOIN skl_tree_node sktree ON sktree.obj_id = sk.skill_node_id ' .
-            ' INNER JOIN (SELECT  skill_id, MAX(level_id) AS level_id ' .
+            ' INNER JOIN (SELECT trigger_obj_id, skill_id, MAX(level_id) AS level_id ' .
                 ' FROM skl_user_has_level WHERE self_eval = 0 GROUP BY skill_id) ulvl ON sk.skill_node_id = ulvl.skill_id ' .
             ' INNER JOIN skl_level lvl ON lvl.id = ulvl.level_id ' .
-            ' WHERE sk.user_id IN (' . implode(',', $user_ids) . ')' .
-            $this->getAdditionalWhereStatement($options['filters']);
+            ' WHERE ';
 
+
+        $data = [];
+        $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
+
+        $arr_query = [];
+        foreach ($users_per_position as $position_id => $users) {
+
+            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
+            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false,'integer') ." AND ". $this->dic->database()->in('sk.user_id ', $users, false,'integer').$this->getAdditionalWhereStatement($options['filters']);
+
+        }
+
+        $uniion_query = "SELECT * FROM ((".implode(') UNION (', $arr_query).")) as a_table";
 
         if ($options['count'] === true) {
-            $set = $this->dic->database()->query($query);
+            $set = $this->dic->database()->query($uniion_query);
             return $this->dic->database()->numRows($set);
         }
 
         if ($options['sort']) {
-            $query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            $uniion_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
         }
 
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-            $query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $uniion_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
         }
 
-        $set = $this->dic->database()->query($query);
+        $set = $this->dic->database()->query($uniion_query);
 
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {

@@ -40,7 +40,7 @@ class ilMStListCertificates {
 	 *
 	 * @return UserCertificateDto[]
 	 */
-	public function getData(array $arr_usr_ids = array(), array $options = array()) {
+	public function getData(array $options = array()) {
 		//Permission Filter
 		$operation_access = ilOrgUnitOperation::OP_VIEW_CERTIFICATES;
 
@@ -52,26 +52,35 @@ class ilMStListCertificates {
 			'filters' => array(),
 			'sort' => array(),
 			'limit' => array(),
-			'count' => false,
 		);
 		$options = array_merge($_options, $options);
 
         $cert_api = new UserCertificateAPI();
-        $usr_data_filter = new UserDataFilter();
-        $usr_data_filter->withUserIds($arr_usr_ids);
-        $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access));
 
+        $data = [];
+        $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
+        foreach ($users_per_position as $position_id => $users) {
+            $usr_data_filter = new UserDataFilter();
+            $usr_data_filter = $usr_data_filter->withUserIds($users);
+            $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access));
+            $data = array_merge($data, $cert_api->getUserCertificateData($usr_data_filter,[ilMyStaffGUI::class,ilMStListCertificatesGUI::class]));
+        }
 
+        $unique_cert_data = [];
+        foreach($data as $cert_data) {
+            /**
+             * @var UserCertificateDto $cert_data
+             */
+            $unique_cert_data[$cert_data->getCertificateId()] = $cert_data;
+        }
+
+        return $unique_cert_data;
 
 
 
 
 		//$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
 
-		if ($options['count']) {
-			return $cert_api->getUserCertificateDataMaxCount($usr_data_filter);
-		}
-        return   $cert_api->getUserCertificateData($usr_data_filter,[ilMyStaffGUI::class,ilMStListCertificatesGUI::class]);
 /*
 		if ($options['sort']) {
 			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];

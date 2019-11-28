@@ -252,21 +252,43 @@ class ilMyStaffAccess extends ilObjectAccess {
 	}
 
 
-	/**
-	 * @param int $user_id
-	 *
-	 * @return array
-	 */
-	public function getUsersForUser($user_id) {
+    /**
+     * @param $user_id
+     *
+     * @return array
+     */
+	public function getUsersForUserPerPosition($user_id) : array
+    {
+        $users = [];
+        $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
+        foreach ($user_assignments as $user_assignment) {
+            $users[$user_assignment->getPositionId()] = $this->getUsersForUser($user_id, $user_assignment->getPositionId());
+        }
+        return $users;
+    }
+
+    /**
+     * @param int      $user_id
+     *
+     * @param int|null $position_id
+     *
+     * @return array
+     */
+	public function getUsersForUser($user_id, ?int $position_id = null) {
 		global $DIC;
 
 		$tmp_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS, array());
+
+        $position_limitation = '';
+		if (!is_null($position_id)) {
+		    $position_limitation = ' AND orgu_ua_current_user.position_id = ' . $position_id;
+        }
 
 		$q = "SELECT  " . $tmp_orgu_members . ".user_id AS usr_id
         		FROM 
 				" . $tmp_orgu_members . "
 				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote($user_id, 'integer') . "
-				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id
+				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id " . $position_limitation . "
 				WHERE
 				(
 				/* Identische OrgUnit wie Current User; Nicht Rekursiv; Fixe Position */
@@ -385,7 +407,7 @@ class ilMyStaffAccess extends ilObjectAccess {
 	        $query = $return_ref_id ?
                 'SELECT parent_id as ref_id FROM il_orgu_permissions ' :
                 'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
-	        $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1)';
+	        $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1';
         }
 
 	    return array_map(function($item) use ($return_ref_id) {
