@@ -3705,3 +3705,123 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 		);
 }
 ?>
+
+<#5620>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','rm_nr_by_usr_days')) {
+    $db->addTableColumn(
+        'prg_settings',
+        'rm_nr_by_usr_days',
+        [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5621>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','proc_end_no_success')) {
+    $db->addTableColumn(
+        'prg_settings',
+        'proc_end_no_success',
+        [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5622>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restart_mail_send')) {
+    $db->addTableColumn(
+        'prg_usr_assignments',
+        'restart_mail_send',
+        [
+            'type' => 'timestamp',
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5623>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','risky_to_fail_mail_send')) {
+    $db->addTableColumn(
+        'prg_usr_progress',
+        'risky_to_fail_mail_send',
+        [
+            'type' => 'timestamp',
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5630>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_re_assigned_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_re_assigned_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5631>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_info_to_re_assign_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_info_to_re_assign_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5632>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_risky_to_fail_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_risky_to_fail_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>

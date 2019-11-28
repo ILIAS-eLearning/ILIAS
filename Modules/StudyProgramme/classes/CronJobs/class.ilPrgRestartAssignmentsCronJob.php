@@ -1,23 +1,42 @@
 <?php
 
+/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
+declare(strict_types=1);
+
+class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
+	/**
+	 * @var ilStudyProgrammeUserAssignmentDB
+	 */
+	protected $user_assignments_db;
 
-	protected $user_progress_db;
+	/**
+	 * @var ilObjUser
+	 */
+	protected $usr;
 
-	public function __construct()
-	{
+	/**
+	 * @var ilLog
+	 */
+	protected $log;
+
+	/**
+	 * @var ilLanguage
+	 */
+	protected $lng;
+
+	public function __construct() {
 		global $DIC;
 
-		$this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+		$this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
 		$this->usr = $DIC['ilUser'];
 		$this->log = $DIC['ilLog'];
 		$this->lng = $DIC['lng'];
-		$this->lng->loadLanguageModule('prg');
 	}
 
-	const ID = 'prg_invalidate_expired_progresses';
+	const ID = 'prg_restart_assignments_temporal_progress';
 
 	/**
 	 * Get title
@@ -26,7 +45,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getTitle()
 	{
-		return $this->lng->txt('prg_invalidate_expired_progresses_title');
+		return $this->lng->txt('prg_restart_assignments_temporal_progress_title');
 	}
 	
 	/**
@@ -36,7 +55,7 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	 */
 	public function getDescription()
 	{
-		return $this->lng->txt('prg_invalidate_expired_progresses_desc');
+		return $this->lng->txt('prg_restart_assignments_temporal_progress_desc');
 	}
 	/**
 	 * Get id
@@ -97,10 +116,9 @@ class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 	{
 		$result = new ilCronJobResult();
 		$result->setStatus(ilCronJobResult::STATUS_OK);
-		$usr_id = $this->usr && $this->usr->getId() ? $this->usr->getId() : SYSTEM_USER_ID;
-		foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
+		foreach ($this->user_assignments_db->getDueToRestartInstances() as $assignment) {
 			try {
-				$progress->invalidate($usr_id);
+				$assignment->restartAssignment();
 			} catch (ilException $e) {
 				$this->log->write('an error occured: '.$e->getMessage());
 			}

@@ -3,7 +3,7 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeAdvancedMetadataRecordTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeAdvancedMetadataRecordTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

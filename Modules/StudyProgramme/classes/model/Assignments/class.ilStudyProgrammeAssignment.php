@@ -234,5 +234,3 @@ class ilStudyProgrammeAssignment
 		return $this->restarted_asssignment_id;
 	}
 }
-
-?>

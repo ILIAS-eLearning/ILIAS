@@ -15919,3 +15919,41 @@ prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Be
 prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
 prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
 prg#:#prg_title#:#Titel
+prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigekeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
+prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
+prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
+prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet ist nicht zu bestehen.
+prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
+prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Sudienprogramm.
+prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail wenn eine Qualifikation an einem Studienprogramm ausläuft und sie das Programm noch nicht neu gestartet haben.
+prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
+prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail um den Benutzer daran zu erinnern das Studienprogramm neu zu starten.
+prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
+prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
+search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#select_orgu#:#Organisationseinheiten auswählen
+prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_minimum#:#Minimales Ziel:
+prg#:#prg_dash_label_gain#:#Aktueller Stand:
+prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
+prg#:#percentage#:#%
+prg#:#prg_status_1#:#In Bearbeitung
+prg#:#prg_status_2#:#Abgeschlossen
+prg#:#prg_status_3#:#Akkreditiert
+prg#:#prg_status_4#:#Nicht relevant
+prg#:#prg_status_5#:#Nicht bestanden
+prg#:#prg_multi_change_deadline#:#Stichtag anpassen
+prg#:#prg_multi_change_expire_date#:#Ablauf Qualifikation anpassen
+prg#:#prg_update_expire_date#:#Ablauf Qualifikation erfolgreich aktualisiert.
+prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
+prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
+prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.

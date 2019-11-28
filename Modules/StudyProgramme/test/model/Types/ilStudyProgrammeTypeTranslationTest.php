@@ -3,7 +3,7 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeTypeTranslationTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeTypeTranslationTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 

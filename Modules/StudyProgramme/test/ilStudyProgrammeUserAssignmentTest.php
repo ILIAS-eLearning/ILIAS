@@ -17,7 +17,7 @@ require_once(__DIR__."/mocks.php");
 class ilStudyProgrammeUserAssignmentTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp(): void {
+	protected function setUp() : void {
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 

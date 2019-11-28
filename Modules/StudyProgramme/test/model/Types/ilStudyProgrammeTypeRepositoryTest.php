@@ -3,14 +3,14 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeTypeRepositoryTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeTypeRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
 	protected static $created_amd = [];
 	protected static $created_tt = [];
 	protected static $created_type = [];
-	public function setUp()
+	public function setUp() : void
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
@@ -234,7 +234,7 @@ class ilStudyProgrammeTypeRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals([],$tr->readAssignedAMDRecordIdsByType($type_id));
 	}
 
-	public static function  tearDownAfterClass()
+	public static function  tearDownAfterClass() : void
 	{
 		global $DIC;
 		if(!$DIC) {

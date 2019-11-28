@@ -17,7 +17,7 @@ class ilStudyProgrammeProgressCalculationTest extends TestCase
 {
 	protected $backupGlobals = false;
 
-	protected function setUp(): void
+	protected function setUp() : void
 	{
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;

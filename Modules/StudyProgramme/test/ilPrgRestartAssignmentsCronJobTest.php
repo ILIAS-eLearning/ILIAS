@@ -3,7 +3,7 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilPrgRestartAssignmentsCronJobTest extends PHPUnit_Framework_TestCase
+class ilPrgRestartAssignmentsCronJobTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
@@ -12,7 +12,7 @@ class ilPrgRestartAssignmentsCronJobTest extends PHPUnit_Framework_TestCase
 	protected static $instances = [];
 	protected static $users = [];
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 		global $DIC;
@@ -26,7 +26,7 @@ class ilPrgRestartAssignmentsCronJobTest extends PHPUnit_Framework_TestCase
 		}
 	}
 
-	public function setUp()
+	public function setUp() : void
 	{
 		$this->assignment_repo =
 			ilStudyProgrammeDIC::dic()['model.Assignment.ilStudyProgrammeAssignmentRepository'];
@@ -95,7 +95,7 @@ class ilPrgRestartAssignmentsCronJobTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($assignment1->getRestartedAssignmentId(),$assignment1_r->getId());
 	}
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass() : void
 	{
 		foreach (self::$instances as $instance) {
 			try{

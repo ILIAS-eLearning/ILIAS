@@ -3,7 +3,7 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeAssignmentRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 	protected static $created = [];
@@ -11,7 +11,8 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 	protected static $prg_2;
 	protected static $usr_1;
 	protected static $usr_2;
-	public static function setUpBeforeClass()
+
+	public static function setUpBeforeClass() : void
 	{
 
 		global $DIC;
@@ -32,7 +33,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 	}
 
 
-	protected function setUp() {
+	protected function setUp() : void {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 
@@ -245,7 +246,7 @@ class ilStudyProgrammeAssignmentRepositoryTest extends PHPUnit_Framework_TestCas
 
 	}
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass() : void
 	{
 
 		global $DIC;

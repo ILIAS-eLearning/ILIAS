@@ -3,12 +3,12 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeProgressRepositoryTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 	protected static $created = [];
 
-	protected function setUp() {
+	protected function setUp() : void {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 		global $DIC;
@@ -271,7 +271,7 @@ class ilStudyProgrammeProgressRepositoryTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass() : void
 	{
 		global $DIC;
 		if(!$DIC) {

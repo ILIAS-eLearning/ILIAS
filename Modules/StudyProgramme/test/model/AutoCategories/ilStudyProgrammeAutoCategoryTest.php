@@ -1,10 +1,10 @@
 <?php
 
-class ilStudyProgrammeAutoCategoryTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeAutoCategoryTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 		$this->prg_obj_id = 123;

@@ -227,7 +227,7 @@ class ilObjStudyProgrammeIndividualPlanGUI {
 				}
 			} else if($cur_status == ilStudyProgrammeProgress::STATUS_FAILED) {
 				if($deadline === null || $deadline->format('Y-m-d') > date("Y-m-d")) {
-					$prgrs->markNotFailed($this->user->getId());
+					$prgrs->markNotFailed((int)$this->user->getId());
 				}
 			}
 		}
