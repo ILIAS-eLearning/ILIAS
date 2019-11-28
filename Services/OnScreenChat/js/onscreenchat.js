@@ -1027,7 +1027,7 @@
 				renderSeparator = false,
 				renderHeader = true,
 				insertAfterFirstHeader = false,
-				insertBeforeFirstHeader = false;
+				insertBeforeLastAdded = false;
 
 			if (prepend === true) {
 				let firstMessageMessageDate = new Date();
@@ -1040,11 +1040,17 @@
 				) {
 					renderSeparator = true;
 				} else {
-					insertBeforeFirstHeader = true;
+					insertBeforeLastAdded = true;
 					if (firstHeaderUsrId !== undefined && parseInt(firstHeaderUsrId) === parseInt(messageObject.userId)) {
+						// The author of the message to be prepended is the same as the first message
 						renderHeader = false;
 						insertAfterFirstHeader = true;
-						insertBeforeFirstHeader = false;
+						insertBeforeLastAdded = false;
+					} else {
+						/*
+							The author of the message to be prepended differs from the author of the first message.
+							We need to render a new header
+						 */
 					}
 				}
  			} else {
@@ -1090,19 +1096,11 @@
 				}
 
 				if (renderHeader) {
-					let $header = $("<li></li>").append(
+					items.push($("<li></li>").append(
 							$(template).find("li.with-header." + position).html()
 						)
 						.addClass("header " + position)
-						.data("header-usr-id", messageObject.userId);
-
-					let now = new Date();
-					now.setHours(0, 0, 0, 0);
-					//if (messageObject.timestamp < now.getTime()) {
-						$header.find('[data-time-info]').hide();
-					//}
-
-					items.push($header);
+						.data("header-usr-id", messageObject.userId));
 				}
 
 				items.push(
@@ -1117,29 +1115,23 @@
 				items = items.reverse();
 			}
 
+			let $lastAdded = $firstHeader;
 			items.forEach(function ($template) {
-				let item = $template.addClass("clearfix");
+				$template.addClass("clearfix");
 
 				if (prepend === true) {
-					if (insertBeforeFirstHeader) {
-						item.insertBefore($firstHeader);
+					if (insertBeforeLastAdded) {
+						$template.insertBefore($lastAdded);
+						$lastAdded = $template;
 					} else if (insertAfterFirstHeader) {
-						item.insertAfter($firstHeader);
+						$template.insertAfter($firstHeader);
 					} else {
-						chatBody.prepend(item);
+						chatBody.prepend($template);
 					}
 				} else {
-					chatBody.append(item);
+					chatBody.append($template);
 				}
 			});
-
-			if (prepend !== true) {
-				
-				$firstHeader
-					.find(".header [data-livestamp]")
-					.data("livestamp", messageObject.timestamp)
-					.html(dateTimeFormatter.fromNowToTime(messageObject.timestamp))
-			}
 
 			il.ExtLink.autolink(chatBody.find('[data-onscreenchat-body-msg]'));
 			chatBody.find('[data-toggle="tooltip"]').tooltip({
