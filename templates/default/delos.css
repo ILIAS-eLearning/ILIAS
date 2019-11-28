@@ -9117,6 +9117,11 @@ footer {
 .il-maincontrols-metabar form#mm_search_form {
   padding: 20px;
 }
+.il-maincontrols-metabar .bulky-label {
+  white-space: normal;
+  margin-top: 5px;
+  display: block;
+}
 .il-metabar-entries .glyphicon {
   font-family: 'il-icons';
 }
