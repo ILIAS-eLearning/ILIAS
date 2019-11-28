@@ -104,8 +104,8 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$this->assertNotNull($loaded);
 		$this->assertGreaterThan(0, $loaded->getId());
 		$this->assertEquals( $orig->getId(), $loaded->getId());
-		$this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
-						   , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+		$this->assertEquals( $orig->getLastChange()->format('YmdHis')
+						   , $loaded->getLastChange()->format('YmdHis')
 						   );
 		$this->assertEquals( $orig->getPoints(), $loaded->getPoints());
 		$this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
@@ -124,8 +124,8 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$this->assertNotNull($loaded);
 		$this->assertGreaterThan(0, $loaded->getId());
 		$this->assertEquals( $orig->getId(), $loaded->getId());
-		$this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
-						   , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+		$this->assertEquals( $orig->getLastChange()->format('YmdHis')
+						   , $loaded->getLastChange()->format('YmdHis')
 						   );
 		$this->assertEquals( $orig->getPoints(), $loaded->getPoints());
 		$this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
@@ -149,8 +149,8 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$this->assertNotNull($loaded);
 		$this->assertGreaterThan(0, $loaded->getId());
 		$this->assertEquals( $orig->getId(), $loaded->getId());
-		$this->assertEquals( $orig->getLastChange()->get(IL_CAL_DATETIME)
-						   , $loaded->getLastChange()->get(IL_CAL_DATETIME)
+		$this->assertEquals( $orig->getLastChange()->format('YmdHis')
+						   , $loaded->getLastChange()->format('YmdHis')
 						   );
 		$this->assertEquals( $orig->getPoints(), $loaded->getPoints());
 		$this->assertEquals( $orig->getLPMode(), $loaded->getLPMode());
@@ -177,17 +177,17 @@ class ilObjStudyProgrammeTest extends TestCase {
 		$this->assertEquals(20, $obj->getDeadlinePeriod());
 		$this->assertNull($obj->getDeadlineDate());
 
-		$obj->setDeadlineDate(new \ilDateTime('2020-10-01',IL_CAL_DATE));
+		$obj->setDeadlineDate(new DateTime());
 		$obj->update();
 		$obj = ilObjStudyProgramme::getInstanceByRefId($this->root_object_ref_id);
 		$this->assertEquals(0, $obj->getDeadlinePeriod());
-		$this->assertEquals('2020-10-01',$obj->getDeadlineDate()->get(IL_CAL_DATE));
+		$this->assertEquals((new DateTime())->format('Ymd'),$obj->getDeadlineDate()->format('Ymd'));
 
 		$obj->setDeadlineDate(null);
 		$obj->update();
 
 		$midnight = strtotime("today midnight");
-		$this->assertGreaterThan($midnight, $obj->getLastChange()->getUnixTime());
+		$this->assertGreaterThan($midnight, $obj->getLastChange()->getTimestamp());
 	}
 
 	/**

@@ -96,8 +96,18 @@ implements ilStudyProgrammeTypeRepository
 		);
 		$return->setDefaultLang($row[self::FIELD_DEFAULT_LANG]);
 		$return->setOwner((int)$row[self::FIELD_OWNER]);
-		$return->setCreateDate(new \ilDateTime($row[self::FIELD_CREATE_DATE],IL_CAL_DATETIME));
-		$return->setLastUpdate(new \ilDateTime($row[self::FIELD_LAST_UPDATE],IL_CAL_DATETIME));
+		$return->setCreateDate(
+			\DateTime::createFromFormat(
+				ilStudyProgrammeType::DATE_TIME_FORMAT,
+				$row[self::FIELD_CREATE_DATE]
+			)
+		);
+		$return->setLastUpdate(
+			\DateTime::createFromFormat(
+				ilStudyProgrammeType::DATE_TIME_FORMAT,
+				$row[self::FIELD_LAST_UPDATE]
+			)
+		);
 		$return->setIcon((string)$row[self::FIELD_ICON]);
 		return $return;
 	}
@@ -187,8 +197,8 @@ implements ilStudyProgrammeTypeRepository
 				self::FIELD_ID => $type->getId()
 				,self::FIELD_DEFAULT_LANG => $type->getDefaultLang()
 				,self::FIELD_OWNER => $type->getOwner()
-				,self::FIELD_CREATE_DATE => $type->getCreateDate()->get(IL_CAL_DATETIME)
-				,self::FIELD_LAST_UPDATE => $type->getLastUpdate()->get(IL_CAL_DATETIME)
+				,self::FIELD_CREATE_DATE => $type->getCreateDate()->format(ilStudyProgrammeType::DATE_TIME_FORMAT)
+				,self::FIELD_LAST_UPDATE => $type->getLastUpdate()->format(ilStudyProgrammeType::DATE_TIME_FORMAT)
 				,self::FIELD_ICON => $type->getIcon()
 			]
 		);

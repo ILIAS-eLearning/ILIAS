@@ -68,20 +68,8 @@ class ilStudyProgrammeAssignmentTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test_last_change()
 	{
-		$dl = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
+		$dl = new DateTime();
 		$spa = (new ilStudyProgrammeAssignment(123))->setLastChange($dl);
-		$this->assertEquals($spa->getLastChange()->get(IL_CAL_DATETIME),$dl->get(IL_CAL_DATETIME));
-	}
-
-	/**
-	 * @depends test_init_and_id
-	 * @expectedException ilException
-	 */
-	public function test_last_change_invalid()
-	{
-		$dl = new ilDateTime(ilUtil::now(), IL_CAL_DATETIME);
-		$spa = (new ilStudyProgrammeAssignment(123))->setLastChange($dl);
-		$dl = new ilDateTime('1900-01-01 00:00:01', IL_CAL_DATETIME);
-		$spa->setLastChange($dl);
+		$this->assertEquals($spa->getLastChange()->format('Y-m-d H:i:s'),$dl->format('Y-m-d H:i:s'));
 	}
 }

@@ -76,6 +76,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		\GuzzleHttp\Psr7\ServerRequest $request,
 		\ILIAS\Transformation\Factory $trafo_factory,
 		\ILIAS\Validation\Factory $validation,
+		\ILIAS\Data\Factory $data_factory,
 		ilStudyProgrammeTypeRepository $type_repository
 	) {
 		global $DIC;
@@ -89,6 +90,7 @@ class ilObjStudyProgrammeSettingsGUI {
 		$this->request = $request;
 		$this->trafo_factory = $trafo_factory; // TODO: replace this with the version from the DIC once available
 		$this->validation = $validation;
+		$this->data_factory = $data_factory;
 		$this->type_repository = $type_repository;
 
 
@@ -151,14 +153,12 @@ class ilObjStudyProgrammeSettingsGUI {
 		$form = $this
 			->buildForm($this->getObject(), $this->ctrl->getFormAction($this, "update"))
 			->withRequest($this->request);
-		$content = $form->getData();
-		$prg = $this->getObject();
-
+		$result = $form->getInputGroup()->getContent();
 		// This could further improved by providing a new container for asynch-forms in the
 		// UI-Framework.
-		$update_possible = !is_null($content);
-		if ($update_possible) {
-			$this->updateWith($prg, $content);
+
+		if ($result->isOK()) {
+			$result->value()->update();
 			ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"),true);
 
 			if($this->ctrl->isAsynch()) {
@@ -273,11 +273,42 @@ class ilObjStudyProgrammeSettingsGUI {
 				)
 			]
 		)
-		->withAdditionalTransformation($this->refinery->custom()->transformation(function($values) {
+        $this->refinery->custom()->transformation(function($values) use ($prg){
 			// values now contains the results of the single sections,
 			// i.e. a list of arrays that each contains keys according
 			// to the section they originated from.
-			return call_user_func_array("array_merge", $values);
+			$object_data = $values[0];
+			$prg->setTitle($object_data[self::PROP_TITLE]);
+			$prg->setDescription($object_data[self::PROP_DESC]);
+
+			$type_data = $values[1];
+			if($prg->getSubtypeId() != $type_data[self::PROP_TYPE]) {
+				$prg->setSubtypeId($type_data[self::PROP_TYPE]);
+				$prg->updateCustomIcon();
+				$this->parent_gui->setTitleAndDescription();
+			}
+
+			$points_data = $values[2];
+			$prg->setPoints($points_data[self::PROP_POINTS]);
+			$prg->setStatus($points_data[self::PROP_STATUS]);
+
+			$deadline_data = $values[3];
+
+			if(array_key_exists(self::PROP_DEADLINE,$deadline_data)) {
+				if(is_array($deadline_data[self::PROP_DEADLINE]) && array_key_exists('value', $deadline_data[self::PROP_DEADLINE])) {
+					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_PERIOD) {
+						$prg->setDeadlinePeriod((int)$deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_PERIOD]);
+					}
+					if($deadline_data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
+						$date = $deadline_data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE];
+						$prg->setDeadlineDate($date);
+					}
+				}
+				if($deadline_data[self::PROP_DEADLINE] === self::OPT_NO_DEADLINE) {
+					$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
+				}
+			}
+			return $prg;
 		}));
 	}
 
@@ -297,21 +328,13 @@ class ilObjStudyProgrammeSettingsGUI {
 			$radio_option = self::OPT_DEADLINE_PERIOD;
 		}
 		$deadline_date = $prg->getDeadlineDate();
+		$format = $this->data_factory->dateFormat()->germanShort();
 		$deadline_date_subform = $ff
-			->text('',$txt('prg_deadline_date_desc'))
-			->withAdditionalConstraint(
-				$this->validation->custom(
-					function($string) {
-						$string = trim($string);
-						return \DateTime::createFromFormat('Y-m-d',$string) instanceof \DateTime || $string === '';
-					},
-					function($txt, $value) {
-						return $txt('prg_improper_deadline_date');
-					}
-				)
-			);
+			->dateTime('',$txt('prg_deadline_date_desc'))
+			->withMinValue(new DateTime())
+			->withFormat($format);
 		if($deadline_date !== null) {
-			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->get(IL_CAL_DATE));
+			$deadline_date_subform = $deadline_date_subform->withValue($deadline_date->format($format->toString()));
 			$radio_option = self::OPT_DEADLINE_DATE;
 		}
 		$radio = $ff->radio("","")
@@ -332,41 +355,10 @@ class ilObjStudyProgrammeSettingsGUI {
 				'',
 				[self::PROP_DEADLINE_DATE => $deadline_date_subform]
 			);
-		if($radio_option) {
-			return $radio->withValue($radio_option);
-		}
-		return $radio;
+
+		return $radio->withValue($radio_option);
 	}
 
-	protected function updateWith(\ilObjStudyProgramme $prg, array $data)
-	{
-		$prg->setTitle($data[self::PROP_TITLE]);
-		$prg->setDescription($data[self::PROP_DESC]);
-
-		if($prg->getSubtypeId() != $data[self::PROP_TYPE]) {
-			$prg->setSubtypeId($data[self::PROP_TYPE]);
-			$prg->updateCustomIcon();
-			$this->parent_gui->setTitleAndDescription();
-		}
-
-		$prg->setPoints($data[self::PROP_POINTS]);
-		$prg->setStatus($data[self::PROP_STATUS]);
-
-		if(array_key_exists('value', $data[self::PROP_DEADLINE])) {
-			if($data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_PERIOD) {
-				$prg->setDeadlinePeriod((int)$data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_PERIOD]);
-			}
-			if($data[self::PROP_DEADLINE]['value'] === self::OPT_DEADLINE_DATE) {
-				$date_string = trim($data[self::PROP_DEADLINE]['group_values'][self::PROP_DEADLINE_DATE]);
-				$prg->setDeadlineDate($date_string === '' ? null : new ilDateTime($date_string,IL_CAL_DATE));
-			}
-			if($data[self::PROP_DEADLINE]['value'] === self::OPT_NO_DEADLINE) {
-				$prg->setDeadlineDate(null); // deadline period will be set to 0 automatically
-			}
-		}
-
-		$prg->update();
-	}
 	
 	protected function getObject() {
 		if ($this->object === null) {

@@ -105,8 +105,8 @@ class ilStudyProgrammeTypeTest extends PHPUnit_Framework_TestCase
 	public function test_create_date($t)
 	{
 		$this->assertNull($t->getCreateDate());
-		$t->setCreateDate(new ilDateTime('2018-01-02 01:02:03',IL_CAL_DATETIME));
-		$this->assertEquals($t->getCreateDate()->get(IL_CAL_DATETIME),'2018-01-02 01:02:03');
+		$t->setCreateDate(DateTime::createFromFormat('Y-m-d H:i:s','2018-01-02 01:02:03'));
+		$this->assertEquals($t->getCreateDate()->format('Y-m-d H:i:s'),'2018-01-02 01:02:03');
 	}
 
 	/**

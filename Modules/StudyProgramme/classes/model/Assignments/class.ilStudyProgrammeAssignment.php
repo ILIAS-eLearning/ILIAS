@@ -21,13 +21,7 @@ class ilStudyProgrammeAssignment
 	 * Id of this assignment.
 	 *
 	 * @var int
-	 * 
-	 * @con_is_primary  true
-	 * @con_sequence    true
-	 * @con_is_unique   true
-	 * @con_has_field   true
-	 * @con_fieldtype   integer
-	 * @con_length      4
+
 	 */
 	protected $id;
  
@@ -35,11 +29,6 @@ class ilStudyProgrammeAssignment
 	 * The id of the user that is assigned. 
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $usr_id;
 
@@ -48,11 +37,6 @@ class ilStudyProgrammeAssignment
 	 * a larger program. This is the object id of the program.
 	 * 
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true
 	 */
 	protected $root_prg_id;
 
@@ -61,10 +45,6 @@ class ilStudyProgrammeAssignment
 	 * Timestamp of the moment of the assignment to or last update of the program.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   timestamp 
-	 * @con_is_notnull  true 
 	 */
 	protected $last_change; 
 
@@ -72,14 +52,11 @@ class ilStudyProgrammeAssignment
 	 * Id of user who did the assignment to or last update of the program.
 	 *
 	 * @var int 
-	 * 
-	 * @con_has_field   true
-	 * @con_fieldtype   integer 
-	 * @con_length      4
-	 * @con_is_notnull  true 
 	 */
 	protected $last_change_by;
-	
+
+	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+	const DATE_FORMAT = 'Y-m-d';
 
 	public function __construct(int $id)
 	{
@@ -159,11 +136,11 @@ class ilStudyProgrammeAssignment
 	/**
 	 * Get the timestamp of the last change on this program or a sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
-	public function getLastChange() : ilDateTime
+	public function getLastChange() : DateTime
 	{
-		return new ilDateTime($this->last_change, IL_CAL_DATETIME);
+		return DateTime::createFromFormat(self::DATE_TIME_FORMAT,$this->last_change);
 	}
 
 	/**
@@ -173,7 +150,7 @@ class ilStudyProgrammeAssignment
 	 */
 	public function updateLastChange() : ilStudyProgrammeAssignment
 	{
-		$this->setLastChange(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME)); 
+		$this->setLastChange(new DateTime());
 		return $this;
 	}
 
@@ -186,16 +163,9 @@ class ilStudyProgrammeAssignment
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChange(ilDateTime $timestamp) : ilStudyProgrammeAssignment
+	public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment
 	{
-		if (ilDateTime::_before($timestamp, $this->getLastChange())) {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChange: Given "
-								 ."timestamp, ".$this->getLastChange()->get(IL_CAL_DATETIME).","
-								 ."is before current timestamp,".$timestamp->get(IL_CAL_DATETIME).". "
-								 ."That is logically impossible.");
-		}
-		
-		$this->last_change = $timestamp->get(IL_CAL_DATETIME);
+		$this->last_change = $timestamp->format(self::DATE_TIME_FORMAT);
 		return $this;
 	}
 }

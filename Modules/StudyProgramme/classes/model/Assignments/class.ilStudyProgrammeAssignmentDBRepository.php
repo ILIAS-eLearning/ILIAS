@@ -100,7 +100,7 @@ implements ilStudyProgrammeAssignmentRepository
 			self::FIELD_USR_ID => $assignment->getUserId(),
 			self::FIELD_ROOT_PRG_ID => $assignment->getRootId(),
 			self::FIELD_LAST_CHANGE_BY => $assignment->getLastChangeBy(),
-			self::FIELD_LAST_CHANGE => $assignment->getLastChange()->get(IL_CAL_DATETIME)
+			self::FIELD_LAST_CHANGE => $assignment->getLastChange()->format(ilStudyProgrammeAssignment::DATE_TIME_FORMAT)
 		];
 		$this->updatedRowDB($row);
 	}
@@ -119,7 +119,8 @@ implements ilStudyProgrammeAssignmentRepository
 			->setRootId($row[self::FIELD_ROOT_PRG_ID])
 			->setUserId($row[self::FIELD_USR_ID])
 			->setLastChangeBy($row[self::FIELD_LAST_CHANGE_BY])
-			->setLastChange(new ilDateTime($row[self::FIELD_LAST_CHANGE], IL_CAL_DATETIME))
+			->setLastChange(DateTime::createFromFormat(
+				ilStudyProgrammeAssignment::DATE_TIME_FORMAT,$row[self::FIELD_LAST_CHANGE]))
 			->updateLastChange();
 	}
 
