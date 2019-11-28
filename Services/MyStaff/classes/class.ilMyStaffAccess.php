@@ -2,7 +2,12 @@
 namespace ILIAS\MyStaff;
 use ilObjectAccess;
 use ilOrgUnitOperation;
+use ilOrgUnitOperationContext;
+use ilOrgUnitOperationContextQueries;
 use ilOrgUnitOperationQueries;
+use ilOrgUnitPosition;
+use ilOrgUnitPositionAccess;
+use ilOrgUnitUserAssignmentQueries;
 
 /**
  * Class ilMyStaffAccess
@@ -309,6 +314,103 @@ class ilMyStaffAccess extends ilObjectAccess {
 		return $arr_users;
 	}
 
+
+    /**
+     * @param int    $user_id
+     * @param string $operation
+     * @param bool   $return_ref_id
+     *
+     * @return array
+     */
+	public function getIdsForUserAndOperation(int $user_id, string $operation, bool $return_ref_id = false) : array
+    {
+        $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
+        $ids = [];
+        foreach ($user_assignments as $user_assignment) {
+            $ids = array_merge($ids, $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation, $return_ref_id));
+        }
+        return $ids;
+    }
+
+
+    /**
+     * @param int    $position_id
+     * @param string $operation
+     * @param bool   $return_ref_id
+     *
+     * @return array
+     */
+	public function getIdsForPositionAndOperation(int $position_id, string $operation, bool $return_ref_id) : array
+    {
+        $ids = [];
+        foreach (ilOrgUnitOperationContext::$available_contexts as $context) {
+            $ids = array_merge($ids, $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context, $return_ref_id));
+        }
+        return $ids;
+    }
+
+
+    /**
+     * returns all obj_ids/ref_ids (depending on flag "ref_id") of objects of type $context,
+     * to which the position with $position_id has permissions
+     * on the operation with $operation_id
+     *
+     * @param int    $position_id
+     * @param string $operation
+     * @param string $context
+     *
+     * @param bool   $return_ref_id
+     *
+     * @return array
+     */
+	public function getIdsForPositionAndOperationAndContext(int $position_id, string $operation, string $context, bool $return_ref_id) : array
+    {
+	    global $DIC;
+	    $context_id = ilOrgUnitOperationContextQueries::findByName($context)->getId();
+	    $operation_object = ilOrgUnitOperationQueries::findByOperationString($operation, $context);
+	    if (is_null($operation_object)) {
+	        // operation doesn't exist in this context
+            return [];
+        }
+	    $operation_id = $operation_object->getOperationId();
+
+	    if ($this->hasPositionDefaultPermissionForOperationInContext($position_id, $operation_id, $context_id)) {
+            $query = 'select ' . ($return_ref_id ? 'object_reference.ref_id' : 'object_data.obj_id') . ' from object_data ' .
+                'inner join object_reference on object_reference.obj_id = object_data.obj_id ' .
+                'where type = "' . $context . '" ' .
+                'AND object_reference.ref_id not in ' .
+                '   (SELECT parent_id FROM il_orgu_permissions ' .
+                '   where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations not like \'%"' . $operation_id . '"%\' and parent_id <> -1)';
+        } else {
+	        $query = $return_ref_id ?
+                'SELECT parent_id as ref_id FROM il_orgu_permissions ' :
+                'SELECT obj_id FROM il_orgu_permissions INNER JOIN object_reference ON object_reference.ref_id = il_orgu_permissions.parent_id ';
+	        $query .= ' where position_id = ' . $position_id . ' and context_id = ' . $context_id . ' and operations like \'%"' . $operation_id . '"%\' and parent_id <> -1)';
+        }
+
+	    return array_map(function($item) use ($return_ref_id) {
+	        return $return_ref_id ? $item['ref_id'] : $item['obj_id'];
+        }, $DIC->database()->fetchAll($DIC->database()->query($query)));
+    }
+
+
+    /**
+     * @param int $position_id
+     * @param int $operation_id
+     * @param int $context_id
+     *
+     * @return bool
+     */
+    public function hasPositionDefaultPermissionForOperationInContext(int $position_id, int $operation_id, int $context_id) : bool
+    {
+        global $DIC;
+        $res = $DIC->database()->query('SELECT * FROM il_orgu_permissions ' .
+            ' WHERE context_id = ' . $context_id . ' ' .
+            'AND operations LIKE \'%"' . $operation_id . '"%\' ' .
+            'AND position_id = ' . $position_id . ' ' .
+            'AND parent_id = -1');
+        return (bool) $DIC->database()->numRows($res) > 0;
+    }
 
 	/**
 	 * @param int    $user_id

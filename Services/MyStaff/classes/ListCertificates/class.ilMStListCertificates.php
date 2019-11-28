@@ -9,6 +9,7 @@ use ilLPStatus;
 use ilMStListCertificatesGUI;
 use ilMyStaffGUI;
 use ilOrgUnitOperation;
+use ilOrgUnitOperationContext;
 
 /**
  * Class ilMStListCertificates
@@ -41,13 +42,11 @@ class ilMStListCertificates {
 	 */
 	public function getData(array $arr_usr_ids = array(), array $options = array()) {
 		//Permission Filter
-		$operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
+		$operation_access = ilOrgUnitOperation::OP_VIEW_CERTIFICATES;
 
 		if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
 			$operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
 		}
-		$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
-			->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);
 
 		$_options = array(
 			'filters' => array(),
@@ -60,6 +59,7 @@ class ilMStListCertificates {
         $cert_api = new UserCertificateAPI();
         $usr_data_filter = new UserDataFilter();
         $usr_data_filter->withUserIds($arr_usr_ids);
+        $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access));
 
 
 
