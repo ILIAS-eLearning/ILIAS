@@ -88,7 +88,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             }
 
             if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
-                true;
+                return $show = true;
             } else {
                 $module = (int) $settings->get("help_module");
                 if ($module == 0) {

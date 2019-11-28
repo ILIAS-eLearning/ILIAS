@@ -30,7 +30,9 @@ require_once(__DIR__."/classes/class.ilSetupPasswordManager.php");
 require_once(__DIR__."/classes/class.ilSetupPasswordEncoderFactory.php");
 
 use ILIAS\UI\Component\Input\Field\Factory as FieldFactory;
+use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\Tag;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 $c = build_container_for_setup($executed_in_directory);
 $app = $c["app"];
@@ -196,7 +198,11 @@ function build_container_for_setup(string $executed_in_directory) {
 			public function duration($label, $byline = null) {
 				throw new \LogicException("The CLI-setup does not support the UI-Framework.");
 			}
-		};
+            public function file(UploadHandler $handler, string $label, string $byline = null) : File
+            {
+                throw new \LogicException("The CLI-setup does not support the UI-Framework.");
+            }
+        };
 	};
 
 	$c["refinery"] = function($c) {
