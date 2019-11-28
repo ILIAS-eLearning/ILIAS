@@ -11,6 +11,12 @@
 			padding-left: 10px;
 		}
 	}
+	.glyphicon {
+		filter: invert(50%);
+		font-family: 'il-icons';
+		font-size: @il-slate-bulky-glyph-size;
+		margin-right: @il-slate-bulky-glyph-margin-right;
+	}
 	.input-group {
 		display: block;
 	}
@@ -29,27 +35,6 @@
 }
 
 .il-metabar-entries {
-	.glyphicon {
-		font-family: 'il-icons';
-	}
-	.glyphicon-bell:before {
-		content: "\e027";
-	}
-	.glyphicon-comment:before {
-		content: "\e04a";
-	}
-	.glyphicon-envelope:before {
-		content: "\e086";
-	}
-	.glyphicon-question-sign:before {
-		content: "\e05d";
-	}
-	.glyphicon-search:before {
-		content: "\e090";
-	}
-	.glyphicon-user:before {
-		content: "\e001";
-	}
 	.btn {
 		position: relative;
 	}
@@ -60,7 +45,7 @@
 		margin-top: -4px;
 	}
 	// no display labels in metabar level 1
-	> .btn-bulky > div > .bulky-label {
+	> .btn-bulky > .bulky-label {
 		display: none;
 	}
 	.btn-bulky {

@@ -87,7 +87,7 @@ class ilCOPageHTMLExport
 		$this->user = $DIC->user();
 		$this->global_screen = $DIC->globalScreen();
 		$this->page_linker = is_null($linker)
-			? new ilPageLinker("")
+			? new ilPageLinker("", true)
 			: $linker;
 		$this->ref_id = $ref_id;
 

@@ -77,12 +77,12 @@ class BlogHtmlExport
     protected $keywords;
 
     /**
-     * GlossaryHtmlExport constructor.
+     * constructor
      * @param \ilObjBlogGUI $blog_gui
      * @param string $exp_dir
      * @param string $sub_dir
      */
-    public function __construct(\ilObjBlogGUI $blog_gui, string $exp_dir, string $sub_dir)
+    public function __construct(\ilObjBlogGUI $blog_gui, string $exp_dir, string $sub_dir, bool $set_export_key = true)
     {
         global $DIC;
 
@@ -100,7 +100,10 @@ class BlogHtmlExport
 
         $this->items = $this->blog_gui->getItems();
         $this->keywords = $this->blog_gui->getKeywords(false);
-        $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
+        if ($set_export_key) {
+            $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+                true);
+        }
     }
 
     /**
@@ -180,7 +183,7 @@ class BlogHtmlExport
     }
 
     /**
-     * Export all pages
+     * Export all pages (note: this one is called from the portfolio html export!)
      * @param null $a_link_template
      * @param null $a_tpl_callback
      * @param null $a_co_page_html_export
@@ -188,7 +191,7 @@ class BlogHtmlExport
      * @throws \ILIAS\UI\NotImplementedException
      * @throws \ilTemplateException
      */
-    function exportHTMLPages($a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
+    public function exportHTMLPages($a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
     {
         if(!$a_link_template)
         {
