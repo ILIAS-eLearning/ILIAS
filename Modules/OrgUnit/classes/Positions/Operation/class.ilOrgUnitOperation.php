@@ -16,6 +16,10 @@ class ilOrgUnitOperation extends ActiveRecord
     const OP_ACCESS_ENROLMENTS = 'access_enrolments';
     const OP_MANAGE_PARTICIPANTS = 'manage_participants';
     const OP_SCORE_PARTICIPANTS = 'score_participants';
+    const OP_VIEW_MEMBERS = 'view_members';
+    const OP_VIEW_INDIVIDUAL_PLAN = 'view_individual_plan';
+    const OP_EDIT_INDIVIDUAL_PLAN = 'edit_individual_plan';
+
     /**
      * @var int
      *

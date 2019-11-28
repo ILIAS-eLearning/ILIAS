@@ -6,6 +6,7 @@ implements ilStudyProgrammeSettingsRepository
 {
 	protected static $cache = [];
 	protected $db;
+	protected $tps;
 
 	const TABLE = 'prg_settings';
 
@@ -20,10 +21,15 @@ implements ilStudyProgrammeSettingsRepository
 	const FIELD_VALIDITY_QUALIFICATION_DATE = 'vq_date';
 	const FIELD_VALIDITY_QUALIFICATION_PERIOD = 'vq_period';
 	const FIELD_VQ_RESTART_PERIOD = 'vq_restart_period';
+	const FIELD_ACCESS_CONTROL_ORGU_POSITIONS = 'access_ctrl_org_pos';
 
-	public function __construct(ilDBInterface $db)
+	public function __construct(
+		ilDBInterface $db,
+		ilOrgUnitObjectTypePositionSetting $tps
+	)
 	{
 		$this->db = $db;
+		$this->tps = $tps;
 	}
 
 	/**
@@ -43,12 +49,14 @@ implements ilStudyProgrammeSettingsRepository
 			null,
 			ilStudyProgrammeSettings::NO_VALIDITY_OF_QUALIFICATION_PERIOD,
 			null,
-			ilStudyProgrammeSettings::NO_RESTART
+			ilStudyProgrammeSettings::NO_RESTART,
+			$this->tps->getActivationDefault()
 		);
 		$prg->setSubtypeId(ilStudyProgrammeSettings::DEFAULT_SUBTYPE)
 			->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)
 			->setLPMode(ilStudyProgrammeSettings::MODE_UNDEFINED)
-			->setPoints(ilStudyProgrammeSettings::DEFAULT_POINTS);
+			->setPoints(ilStudyProgrammeSettings::DEFAULT_POINTS)
+			->setAccessControlByOrguPositions($this->tps->getActivationDefault());
 		self::$cache[$obj_id] = $prg;
 		return $prg;
 	}
@@ -84,7 +92,8 @@ implements ilStudyProgrammeSettingsRepository
 			$settings->getValidityOfQualificationDate() ?
 				$settings->getValidityOfQualificationDate()->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT) :
 				null,
-			$settings->getRestartPeriod()
+			$settings->getRestartPeriod(),
+			$settings->getAccessControlByOrguPositions()
 		);
 		$this->cache[$settings->getObjId()] = $settings;
 	}
@@ -114,6 +123,7 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD
 			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE
 			.'	,'.self::FIELD_VQ_RESTART_PERIOD
+			.'	,'.self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
 			.'	FROM '.self::TABLE
 			.'	WHERE '.self::FIELD_SUBTYPE_ID.' = '.$this->db->quote($type_id,'integer');
 		$res = $this->db->query($q);
@@ -140,7 +150,8 @@ implements ilStudyProgrammeSettingsRepository
 		string $deadline_date = null,
 		int $vq_period,
 		string $vq_date = null,
-		int $vq_restart_period
+		int $vq_restart_period,
+		bool $access_ctrl_org_pos
 	)
 	{
 		$this->db->insert(
@@ -157,6 +168,7 @@ implements ilStudyProgrammeSettingsRepository
 				self::FIELD_VALIDITY_QUALIFICATION_DATE => ['timestamp',$vq_date],
 				self::FIELD_VALIDITY_QUALIFICATION_PERIOD => ['integer',$vq_period],
 				self::FIELD_VQ_RESTART_PERIOD => ['integer',$vq_restart_period],
+				self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS => ['integer',$access_ctrl_org_pos],
 			]
 		);
 	}
@@ -176,6 +188,7 @@ implements ilStudyProgrammeSettingsRepository
 				.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD
 				.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE
 				.'	,'.self::FIELD_VQ_RESTART_PERIOD
+				.'	,'.self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
 				.'	FROM '.self::TABLE
 				.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 			)
@@ -205,6 +218,7 @@ implements ilStudyProgrammeSettingsRepository
 			$return->setValidityOfQualificationPeriod((int)$row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD]);
 		}
 		$return->setRestartPeriod((int)$row[self::FIELD_VQ_RESTART_PERIOD]);
+		$return->setAccessControlByOrguPositions((bool)$row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
 		return $return;
 	}
 
@@ -230,7 +244,8 @@ implements ilStudyProgrammeSettingsRepository
 		string $deadline_date = null,
 		int $vq_period,
 		string $vq_date = null,
-		int $vq_restart_period
+		int $vq_restart_period,
+		bool $access_ctrl_org_pos
 	)
 	{
 		if(!$this->checkExists($obj_id)) {
@@ -248,6 +263,7 @@ implements ilStudyProgrammeSettingsRepository
 			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_PERIOD.' = '.$this->db->quote($vq_period,'integer')
 			.'	,'.self::FIELD_VALIDITY_QUALIFICATION_DATE.' = '.$this->db->quote($vq_date,'timestamp')
 			.'	,'.self::FIELD_VQ_RESTART_PERIOD.' = '.$this->db->quote($vq_restart_period,'integer')
+			.'	,'.self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS.' = '.$this->db->quote($access_ctrl_org_pos,'integer')
 			.'	WHERE '.self::FIELD_OBJ_ID.' = '.$this->db->quote($obj_id,'integer')
 		);
 	}

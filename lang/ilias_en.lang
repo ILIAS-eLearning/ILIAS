@@ -15884,3 +15884,6 @@ prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
 prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
 prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
 prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
+orgu#:#org_op_view_members#:#View Members
+orgu#:#org_op_view_individual_plan#:#View Individual Plan
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan

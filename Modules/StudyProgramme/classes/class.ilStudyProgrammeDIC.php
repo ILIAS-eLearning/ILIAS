@@ -26,7 +26,10 @@ class ilStudyProgrammeDIC
 			);
 		};
 		$dic['model.Settings.ilStudyProgrammeSettingsRepository'] = function($dic) use ($DIC) {
-			return new ilStudyProgrammeSettingsDBRepository($DIC['ilDB']);
+			return new ilStudyProgrammeSettingsDBRepository(
+				$DIC['ilDB'],
+				$dic['ilOrgUnitObjectTypePositionSetting']
+			);
 		};
 		$dic['model.Progress.ilStudyProgrammeProgressRepository'] = function($dic) use ($DIC) {
 			return new ilStudyProgrammeProgressDBRepository($DIC['ilDB']);
@@ -85,7 +88,8 @@ class ilStudyProgrammeDIC
 				$dic['ilStudyProgrammeUserProgressDB'],
 				$dic['ilStudyProgrammeUserAssignmentDB'],
 				$dic['ilStudyProgrammeRepositorySearchGUI'],
-				$dic['ilObjStudyProgrammeIndividualPlanGUI']
+				$dic['ilObjStudyProgrammeIndividualPlanGUI'],
+				$dic['ilStudyProgrammePostionBasedAccess']
 			);
 		};
 
@@ -176,6 +180,12 @@ class ilStudyProgrammeDIC
 				$DIC['tree'],
 				$DIC['ilLog']
 			);
+		};
+		$dic['ilOrgUnitObjectTypePositionSetting'] = function($dic) {
+			return new ilOrgUnitObjectTypePositionSetting('prg');
+		};
+		$dic['ilStudyProgrammePostionBasedAccess'] = function($dic) {
+			return new ilStudyProgrammePostionBasedAccess(new ilOrgUnitPositionAccess());
 		};
 		return $dic;
 	}
