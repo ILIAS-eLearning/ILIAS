@@ -1,34 +1,39 @@
 <ul>
-	<li class="left clearfix">
+	<li class="left with-header">
 		<span class="chat-img pull-left">
 			<img data-onscreenchat-avatar="[[userId]]" src="[[avatar]]" alt="User Avatar">
 		</span>
 		<div class="chat-body clearfix">
 			<div class="header">
-				<strong class="primary-font" title="[[username]]"><span class="osc_truncate_username_right">[[username]]</span></strong><br>
-				<small class="pull-left text-muted-right"><span class="glyphicon glyphicon-time"></span><span data-livestamp="[[time_raw]]">[[time]]</span></small>
-			</div><br>
-			<p data-onscreenchat-body-msg class="iosOnScreenChatBodyMsg">[[message]]</p>
+				<strong class="primary-font" title="[[username]]"><span class="osc_truncate_username_right">[[username]]</span></strong>
+				<small class="pull-left text-muted-right" data-time-info><span class="glyphicon glyphicon-time"></span><span data-livestamp="[[time_raw]]">[[time]]</span></small>
+			</div>
 		</div>
 	</li>
-	<li class="right clearfix">
+	<li class="right with-header">
 		<span class="chat-img pull-right">
-			<img data-onscreenchat-avatar="[[userId]]" src="[[avatar]]" alt="User Avatar" class="">
+			<img data-onscreenchat-avatar="[[userId]]" src="[[avatar]]" alt="User Avatar">
 		</span>
 		<div class="chat-body clearfix">
 			<div class="header">
-				<strong class="pull-right primary-font" title="[[username]]"><span class="osc_truncate_username_left">[[username]]</span></strong><br>
-				<small class="pull-right text-muted-left"><span class="glyphicon glyphicon-time"></span><span data-livestamp="[[time_raw]]">[[time]]</span></small>
-			</div><br>
+				<strong class="pull-right primary-font" title="[[username]]"><span class="osc_truncate_username_left">[[username]]</span></strong>
+				<small class="pull-right text-muted-left" data-time-info><span class="glyphicon glyphicon-time"></span><span data-livestamp="[[time_raw]]">[[time]]</span></small>
+			</div>
+		</div>
+	</li>
+	<li class="system">
+		<div class="chat-body alert alert-info">
 			<p data-onscreenchat-body-msg class="iosOnScreenChatBodyMsg">[[message]]</p>
 		</div>
 	</li>
-	<li class="neutral clearfix">
-		<div class="chat-body clearfix">
-			<div class="header">
-				<small class="text-muted-right"><span class="glyphicon glyphicon-time"></span><span data-livestamp="[[time_raw]]">[[time]]</span></small>
-			</div><br>
+	<li class="separator">
+		<div class="chat-body">
 			<p data-onscreenchat-body-msg class="iosOnScreenChatBodyMsg">[[message]]</p>
+		</div>
+	</li>
+	<li class="message">
+		<div class="chat-body">
+			<p class="iosOnScreenChatBodyMsg" data-toggle="tooltip" data-placement="auto" title="[[time_only]]" data-message-time="[[time_raw]]" data-onscreenchat-body-msg>[[message]]</p>
 		</div>
 	</li>
 </ul>
