@@ -59,7 +59,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
                     /**
                      * @var $page Standard
                      */
-                    return $page->withModeInfo($this->dic->ui()->factory()->mainControls()->modeInfo('MemberView', $url));
+                    return $page->withModeInfo($this->dic->ui()->factory()->mainControls()->modeInfo($this->dic->language()->txt('mem_view_long'), $url));
                 }
             );
         }
