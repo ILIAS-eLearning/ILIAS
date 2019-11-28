@@ -93,7 +93,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard('chtr', 'conversations');
+            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'),  'conversations');
         $title = $this->dic->language()->txt('chat_osc_conversations');
 
         $notificationItem = $this->dic->ui()->factory()
@@ -144,7 +144,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard('chtr', 'conversations');
+            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'),  'conversations');
         $title = $this->dic->language()->txt('chat_osc_conversations');
         if ($withAggregates && count($conversationIds) > 0) {
             $title = $this->dic->ui()->factory()
