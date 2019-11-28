@@ -27,7 +27,10 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 	const TYPE_NOTIFICATION_REGISTRATION = 30;
 	const TYPE_NOTIFICATION_REGISTRATION_REQUEST = 31;
 	const TYPE_NOTIFICATION_UNSUBSCRIBE = 32;
-	
+
+	const TYPE_ENTER_NOTIFICATION = 100;
+	const TYPE_REGISTER_NOTIFICATION = 101;
+	const TYPE_UNREGISTER_NOTIFICATION = 102;
 
 	/**
 	 *
@@ -41,7 +44,7 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 	 * Send notifications
 	 * @return 
 	 */
-	public function send()
+	public function send($userId = '')
 	{
 		global $DIC;
 
@@ -211,7 +214,126 @@ class ilSessionMembershipMailNotification extends ilMailNotification
 					$this->sendMail(array($rcp));
 				}
 				break;
-				
+
+			case self::TYPE_ENTER_NOTIFICATION:
+				if ('' === $userId) {
+					throw new ilException('No user id given');
+				}
+
+				$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
+				if (!$userObject || !($userObject instanceof \ilObjUser)) {
+					throw new ilException(sprintf('User with ID "%s" does not exist.', $userId));
+				}
+
+				foreach($this->getRecipients() as $rcp)
+				{
+					$this->initLanguage($rcp);
+					$this->initMail();
+					$this->setSubject(
+						sprintf(
+							$this->getLanguageText('session_mail_subject_entered'),
+							$userObject->getFullname(),
+							$this->getObjectTitle(true)
+						)
+					);
+					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+					$this->appendBody("\n\n");
+					$this->appendBody(
+						sprintf(
+							$this->getLanguageText('entered_notification'),
+							$userObject->getFullname(),
+							$this->getObjectTitle()
+						)
+					);
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
+					$this->appendBody("\n\n");
+					$this->appendBody($this->createPermanentLink([], '_part'));
+					$this->getMail()->appendInstallationSignature(true);
+
+					$this->sendMail(array($rcp),array('system'));
+				}
+				break;
+
+			case self::TYPE_REGISTER_NOTIFICATION:
+				if ('' === $userId) {
+					throw new ilException('No user id given');
+				}
+
+				$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
+				if (!$userObject || !($userObject instanceof \ilObjUser)) {
+					throw new ilException(sprintf('User with ID "%s" does not exist.', $userId));
+				}
+
+				foreach($this->getRecipients() as $rcp)
+				{
+					$this->initLanguage($rcp);
+					$this->initMail();
+					$this->setSubject(
+						sprintf(
+							$this->getLanguageText('session_mail_subject_registered'),
+							$userObject->getFullname(),
+							$this->getObjectTitle(true)
+						)
+					);
+					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+					$this->appendBody("\n\n");
+					$this->appendBody(
+						sprintf(
+							$this->getLanguageText('register_notification'),
+							$userObject->getFullname(),
+							$this->getObjectTitle()
+						)
+					);
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
+					$this->appendBody("\n\n");
+					$this->appendBody($this->createPermanentLink([], '_part'));
+					$this->getMail()->appendInstallationSignature(true);
+
+					$this->sendMail(array($rcp),array('system'));
+				}
+				break;
+
+			case self::TYPE_UNREGISTER_NOTIFICATION:
+				if ('' === $userId) {
+					throw new ilException('No user id given');
+				}
+
+				$userObject = ilObjectFactory::getInstanceByObjId($userId, false);
+				if (!$userObject || !($userObject instanceof \ilObjUser)) {
+					throw new ilException(sprintf('User with ID "%s" does not exist.', $userId));
+				}
+
+				foreach($this->getRecipients() as $rcp)
+				{
+					$this->initLanguage($rcp);
+					$this->initMail();
+					$this->setSubject(
+						sprintf(
+							$this->getLanguageText('session_mail_subject_deletion'),
+							$userObject->getFullname(),
+							$this->getObjectTitle(true)
+						)
+					);
+					$this->setBody(ilMail::getSalutation($rcp,$this->getLanguage()));
+					$this->appendBody("\n\n");
+					$this->appendBody(
+						sprintf(
+							$this->getLanguageText('deletion_notification'),
+							$userObject->getFullname(),
+							$this->getObjectTitle()
+						)
+					);
+					$this->appendBody("\n\n");
+					$this->appendBody($this->getLanguageText('sess_mail_permanent_link_participants'));
+					$this->appendBody("\n\n");
+					$this->appendBody($this->createPermanentLink([], '_part'));
+					$this->getMail()->appendInstallationSignature(true);
+
+					$this->sendMail(array($rcp),array('system'));
+				}
+				break;
 		}
 		return true;
 	}

@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
+use ilUtil;
 
 /**
  * Class UserMetaBarProvider
@@ -30,19 +31,19 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToProfile")
             ->withTitle($txt("personal_profile"))
             ->withPosition(1)
-            ->withSymbol($f->symbol()->glyph()->user());
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_profile.svg"), $txt("personal_profile")));
 
         $children[] = $mb->linkItem($id('personal_settings'))
             ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToSettings")
             ->withTitle($txt("personal_settings"))
             ->withPosition(2)
-            ->withSymbol($f->symbol()->glyph()->settings());
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_personal_settings.svg"), $txt("personal_settings")));
 
         $children[] = $mb->linkItem($id('logout'))
             ->withAction("logout.php?lang=" . $this->dic->user()->getCurrentLanguage())
             ->withPosition(3)
             ->withTitle($txt("logout"))
-            ->withSymbol($f->symbol()->glyph()->remove());
+            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_logout.svg"),$txt("logout")));
 
         // "User"-Menu
         $item[] = $mb->topParentItem($id('user'))
