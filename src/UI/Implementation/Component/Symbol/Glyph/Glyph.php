@@ -85,6 +85,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::CLOSE
         , self::MORE
         , self::DISCLOSURE
+        , self::LANGUAGE
         );
 
 

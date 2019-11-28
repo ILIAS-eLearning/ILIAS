@@ -843,11 +843,11 @@ interface Factory
      *       The Search Glyph uses the glyphicon-search.
      *   effect: >
      *       Clicking this glyph will open a search dialog.
-     *       Since the context for the Search Glyph primarily is the Metabar,
-     *       the according search dialog will be opened as Tool in the Mainbar.
+     *       Since the context for the Search Glyph primarily is the Language Glyph ,
+     *       the according search dialog will be opened as Tool in the Main Bar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Search Glyph appears in the Language Glyph.
      *
      * rules:
      *   accessibility:
@@ -869,11 +869,11 @@ interface Factory
      *   effect: >
      *       When clicked, the user is provided with explanations or
      *       instructions for the usage of the current context.
-     *       When used in the Metabar, the help is displayed as tool in the
+     *       When used in the Meta Bar, the help is displayed as tool in the
      *       Sidebar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Search Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:
@@ -1065,4 +1065,35 @@ interface Factory
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function disclosure($action = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Language Glyph is used to indicate the option to switch languages
+     *       by some shorthand workflow without navigating to the personal settings.
+     *   composition: >
+     *       The Language Glyph uses the glyphicon-globe.
+     *   effect: >
+     *       When clicked, the user is shown a set of active languages to chose from.
+     *   rivals:
+     *      Standard Icon: >
+     *         The Standard Icon-Set features the Language Icon, which symbolizes
+     *         the Service "Language". It is not used in the Meta Bar as trigger
+     *         for switching languages, but to visually identify the language as
+     *         service (e.g. in the administration).
+     *
+     *
+     * context:
+     *    - The Language Glyph appears in the Meta Bar.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Switch Language'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function language(?string $action = null) : Glyph;
 }

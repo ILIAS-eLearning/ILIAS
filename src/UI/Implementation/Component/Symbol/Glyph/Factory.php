@@ -313,4 +313,12 @@ class Factory implements G\Factory
     {
         return new Glyph(G\Glyph::DISCLOSURE, "disclosure", $action);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function language(?string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LANGUAGE, "switch language", $action);
+    }
 }
