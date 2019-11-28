@@ -137,10 +137,17 @@ class ilStudyProgrammeUserProgressDB {
 	 *
 	 * @return ilStudyProgrammeUserProgress[]
 	 */
-	public function getExpiredSuccessfulInstances()
+	public function getExpiredSuccessfulInstances() : array
 	{
 		return $this->getObjectsByModels($this->progress_repository->readExpiredSuccessfull());
 	}
+    /**
+    * @return ilStudyProgrammeUserProgress[]
+    */
+	public function getRiskyToFailInstances() : array
+    {
+        return $this->getObjectsByModels($this->progress_repository->readRiskyToFailInstances());
+    }
 
 	protected function getObjectsByModels(array $models) : array
 	{
@@ -153,7 +160,6 @@ class ilStudyProgrammeUserProgressDB {
 			);
 		}, $models);
 	}
-
 
 	/**
 	 * Get a user readable representation of a status.
@@ -179,5 +185,10 @@ class ilStudyProgrammeUserProgressDB {
 		}
 		throw new ilException("Unknown status: '$a_status'");
 	}
+
+    public function reminderSendFor(int $assignment_id) : void
+    {
+        $this->progress_repository->reminderSendFor($assignment_id);
+    }
 
 }

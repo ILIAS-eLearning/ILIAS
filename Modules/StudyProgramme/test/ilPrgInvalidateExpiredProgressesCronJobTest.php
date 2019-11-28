@@ -3,14 +3,14 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilPrgInvalidateExpiredProgressesCronJobTest extends PHPUnit_Framework_TestCase
+class ilPrgInvalidateExpiredProgressesCronJobTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
 	protected static $instances = [];
 	protected static $users = [];
 
-	public static function setUpBeforeClass() {
+	public static function setUpBeforeClass() : void {
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
 		global $DIC;
@@ -108,7 +108,7 @@ class ilPrgInvalidateExpiredProgressesCronJobTest extends PHPUnit_Framework_Test
 		$this->assertFalse($prgrs->isInvalidated());
 	}
 
-	public static function tearDownAfterClass()
+	public static function tearDownAfterClass() : void
 	{
 		foreach (self::$instances as $instance) {
 			try{

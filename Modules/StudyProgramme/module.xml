@@ -51,6 +51,7 @@
 		<event type="raise" id="userAssigned" />
 		<event type="raise" id="userDeassigned" />
 		<event type="raise" id="userSuccessful" />
+		<event type="raise" id="userReAssigned" />
 	</events>
 	<crons>
 		<cron id="prg_invalidate_expired_progresses" class="ilPrgInvalidateExpiredProgressesCronJob" />

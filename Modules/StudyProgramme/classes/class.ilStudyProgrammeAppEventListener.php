@@ -16,6 +16,9 @@
 
 class ilStudyProgrammeAppEventListener {
 
+    /**
+     * @throws ilException
+     */
 	public static function handleEvent($a_component, $a_event, $a_parameter)
 	{
 		switch ($a_component) {
@@ -124,7 +127,18 @@ class ilStudyProgrammeAppEventListener {
 						break;
 				}
 				break;
-
+            case "Modules/StudyProgramme":
+                switch ($a_event) {
+                    case "userReAssigned":
+                        self::sendReAssignedMail($a_parameter);
+                        break;
+                    case 'informUserToRestart':
+                        self::sendInformToReAssignMail($a_parameter);
+                        break;
+                    case 'userRiskyToFail':
+                        self::sendRiskyToFailMail($a_parameter);
+                }
+                break;#
 			default:
 				throw new ilException("ilStudyProgrammeAppEventListener::handleEvent: "
 									 ."Won't handle events of '$a_component'.");
@@ -261,4 +275,33 @@ class ilStudyProgrammeAppEventListener {
 		ilObjStudyProgramme::removeMemberFromProgrammes($src_type, $obj_id, $usr_id);
 	}
 
+	private static function sendReAssignedMail(array $params) : void
+    {
+        $usr_id = $params['usr_id'];
+        $ref_id = $params['ref_id'];
+
+        ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
+    }
+
+    /**
+     * @throws ilException
+     */
+    private static function sendInformToReAssignMail(array $params) : void
+    {
+        $usr_id = $params['usr_id'];
+        $assignment_id = $params['ref_id'];
+
+        ilStudyProgrammeUserAssignment::sendInformToReAssignMail($assignment_id, $usr_id);
+    }
+
+    /**
+     * @throws ilException
+     */
+    private static function sendRiskyToFailMail(array $params) : void
+    {
+        $usr_id = $params['usr_id'];
+        $progress_id = $params['progress_id'];
+
+        ilStudyProgrammeUserProgress::sendRiskyToFailMail($progress_id, $usr_id);
+    }
 }

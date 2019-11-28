@@ -11,8 +11,10 @@ interface ilStudyProgrammeAssignmentRepository
 	/**
 	 * Load settings belonging to a SP-Object.
 	 * Will throw if the record does not exist yet.
+     *
+     * @return ilStudyProgrammeAssignment | null
 	 */
-	public function read(int $id) : ilStudyProgrammeAssignment;
+	public function read(int $id);
 
 	/**
 	 * Get all assignments of a user.
@@ -28,6 +30,11 @@ interface ilStudyProgrammeAssignmentRepository
 	 * Get all assignments due to restart and not restrted yet.
 	 */
 	public function readDueToRestart() : array;
+
+    /**
+     * Get all assignments due to restart and not restrted yet.
+     */
+    public function readDueToManuelRestart(int $days_before_end) : array;
 
 	/**
 	 * Update settings belonging to a SP-Object.

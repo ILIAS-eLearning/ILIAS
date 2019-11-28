@@ -17,7 +17,7 @@ require_once(__DIR__."/mocks.php");
 class ilStudyProgrammeLPTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp(): void {
+	protected function setUp() : void {
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
 		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
@@ -245,7 +245,7 @@ class ilStudyProgrammeLPTest extends TestCase {
 		$user = $tmp[1];
 
 		$user2 = $this->newUser();
-		$USER_ID = $user2->getId();
+		$USER_ID = (int)$user2->getId();
 
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$node2_progress->markFailed($USER_ID);

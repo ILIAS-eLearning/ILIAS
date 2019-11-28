@@ -3,11 +3,11 @@
 /**
  * @group needsInstalledILIAS
  */
-class ilStudyProgrammeSettingsTest extends PHPUnit_Framework_TestCase
+class ilStudyProgrammeSettingsTest extends \PHPUnit\Framework\TestCase
 {
 	protected $backupGlobals = FALSE;
 
-	public function setUp()
+	public function setUp() : void
 	{
 		PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
