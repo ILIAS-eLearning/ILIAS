@@ -9479,9 +9479,21 @@ footer {
 }
 .il-mode-info {
   border-top: 3px solid #f14956;
+  border-left: 3px solid #f14956;
+  border-right: 3px solid #f14956;
   text-align: center;
   height: 30px;
   margin-bottom: -30px;
+  z-index: 2;
+  position: static;
+}
+.il-mode-info + div {
+  border: 3px solid #f14956;
+  border-top: 0 none;
+}
+.il-layout-page-content > div {
+  display: grid;
+  grid-template-rows: auto 1fr;
 }
 .il-mode-info span.il-mode-info-content {
   margin: auto;

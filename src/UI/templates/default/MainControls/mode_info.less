@@ -1,10 +1,25 @@
 
 .il-mode-info {
   border-top: @il-mode-info-border;
+  border-left: @il-mode-info-border;
+  border-right: @il-mode-info-border;
   text-align: center;
   height: @il-mode-info-height;
   margin-bottom: -@il-mode-info-height;
+  z-index: 2;
+  position: static;
 }
+
+.il-mode-info + div {
+  border: @il-mode-info-border;
+  border-top: 0 none;
+}
+
+.il-layout-page-content > div {
+  display: grid;
+  grid-template-rows: auto 1fr
+}
+
 
 .il-mode-info span.il-mode-info-content {
   margin: auto;
