@@ -16,6 +16,19 @@ require_once(__DIR__ . "/../../Base.php");
 class ModeInfoTest extends ILIAS_UI_TestBase
 {
 
+    /**
+     * @var SignalGenerator
+     */
+    private $sig_gen;
+
+
+    public function setUp() : void
+    {
+        parent::setUp();
+        $this->sig_gen = new SignalGenerator();
+    }
+
+
     public function testRendering()
     {
         $mode_title = 'That\'s one small step for [a] man';
@@ -39,10 +52,33 @@ EOT;
     }
 
 
+    public function testData()
+    {
+        $mode_title = 'That\'s one small step for [a] man';
+        $uri_string = 'http://one_giant_leap?for=mankind';
+
+        $mode_info = $this->getUIFactory()->mainControls()->modeInfo($mode_title, new URI($uri_string));
+
+        $this->assertInstanceOf(\ILIAS\UI\Component\MainControls\ModeInfo::class, $mode_info);
+        $this->assertEquals($mode_title, $mode_info->getModeTitle());
+        $this->assertEquals($uri_string, $mode_info->getCloseAction()->getBaseURI() . '?' . $mode_info->getCloseAction()->getQuery());
+    }
+
+
     public function getUIFactory()
     {
-        $factory = new class extends NoUIFactory
+        $factory = new class() extends NoUIFactory
         {
+
+            /**
+             * @inheritDoc
+             */
+            public function __construct()
+            {
+                $this->sig_gen = new SignalGenerator();
+            }
+
+
             public function symbol() : ILIAS\UI\Component\Symbol\Factory
             {
                 return new Factory(
@@ -50,8 +86,21 @@ EOT;
                     new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory()
                 );
             }
+
+
+            public function mainControls() : \ILIAS\UI\Component\MainControls\Factory
+            {
+                return new \ILIAS\UI\Implementation\Component\MainControls\Factory(
+                    $this->sig_gen,
+                    new \ILIAS\UI\Implementation\Component\MainControls\Slate\Factory(
+                        $this->sig_gen,
+                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        $this->symbol()
+                    )
+                );
+            }
         };
-        $factory->sig_gen = new SignalGenerator();
+        $factory->sig_gen = $this->sig_gen;
 
         return $factory;
     }
