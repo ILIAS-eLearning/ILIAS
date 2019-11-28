@@ -14186,7 +14186,7 @@ pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
 pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
 pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
 pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
-pdfgen#:#pdfgen#:#config#:#Config
+pdfgen#:#config#:#Config
 pdfgen#:#none#:#Keine
 pdfgen#:#html#:#Html
 pdfgen#:#footer_html#:#Html
