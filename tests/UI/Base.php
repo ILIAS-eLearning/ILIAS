@@ -9,17 +9,16 @@ require_once(__DIR__ . "/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
-use ILIAS\UI\Implementaiton\Component as I;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
-use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
-use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
-use ILIAS\UI\Implementation\DefaultRenderer;
-use ILIAS\UI\Implementation\ComponentRendererFSLoader;
-use ILIAS\UI\Implementation\Render;
-use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
-use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\ComponentRendererFSLoader;
+use ILIAS\UI\Implementation\DefaultRenderer;
+use ILIAS\UI\Implementation\Render;
+use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
+use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
 use PHPUnit\Framework\TestCase;
 
 class ilIndependentTemplateFactory implements TemplateFactory
@@ -244,6 +243,7 @@ abstract class ILIAS_UI_TestBase extends TestCase
             ->getMock();
     }
 
+
     public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
     {
         $ui_factory = $this->getUIFactory();
@@ -256,35 +256,35 @@ abstract class ILIAS_UI_TestBase extends TestCase
 
         $refinery = $this->getRefinery();
 
-        $component_renderer_loader
-            = new Render\LoaderCachingWrapper(
-                new Render\LoaderResourceRegistryWrapper(
+        $component_renderer_loader = new Render\LoaderCachingWrapper(
+            new Render\LoaderResourceRegistryWrapper(
                 $resource_registry,
                 new Render\FSLoader(
-                        new DefaultRendererFactory(
+                    new DefaultRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,
                         $js_binding,
                         $refinery
-                            ),
-                        new GlyphRendererFactory(
-                              $ui_factory,
-                              $tpl_factory,
-                              $lng,
-                              $js_binding,
-                              $refinery
-                          ),
-                        new FieldRendererFactory(
-                              $ui_factory,
-                              $tpl_factory,
-                              $lng,
-                              $js_binding,
-                              $refinery
-                          )
-                        )
+                    ),
+                    new GlyphRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery
+                    ),
+                    new FieldRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery
                     )
-                );
+                )
+            )
+        );
+
         return new TestDefaultRenderer($component_renderer_loader);
     }
 
