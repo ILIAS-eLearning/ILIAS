@@ -83,12 +83,12 @@ class ilStudyProgrammeSettingsRepositoryTest extends PHPUnit_Framework_TestCase
 		$this->assertNull($set->getDeadlineDate());
 
 		$set->setSubtypeId(123)
-			->setDeadlineDate(new \ilDateTime('2020-01-01',IL_CAL_DATE));
+			->setDeadlineDate(new DateTime());
 		$repo->update($set);
 		ilStudyProgrammeSettingsDBRepository::clearCache();
 		$set = $repo->read(1);
 		$this->assertEquals($set->getDeadlinePeriod(),0);
-		$this->assertEquals($set->getDeadlineDate()->get(IL_CAL_DATE),'2020-01-01');
+		$this->assertEquals($set->getDeadlineDate()->format('Ymd'),(new DateTime())->format('Ymd'));
 
 		$repo = new ilStudyProgrammeSettingsDBRepository($this->db);
 		ilStudyProgrammeSettingsDBRepository::clearCache();

@@ -259,7 +259,7 @@ class ilObjStudyProgramme extends ilContainer {
 	/**
 	 * Get the timestamp of the last change on this program or sub program.
 	 *
-	 * @return ilDateTime
+	 * @return DateTime
 	 */
 	public function getLastChange() {
 		return $this->settings->getLastChange();
@@ -405,7 +405,7 @@ class ilObjStudyProgramme extends ilContainer {
 		return $this->settings->getDeadlineDate();
 	}
 
-	public function setDeadlineDate(ilDateTime $date = null)
+	public function setDeadlineDate(DateTime $date = null)
 	{
 		$this->settings->setDeadlineDate($date);
 	}
@@ -932,8 +932,8 @@ class ilObjStudyProgramme extends ilContainer {
 					);
 				}
 				if($deadline_period = $node->getDeadlinePeriod()) {
-					$deadline_date = new ilDateTime(ilUtil::now(),IL_CAL_DATETIME);
-					$deadline_date->increment(ilDateTime::DAY,$deadline_period);
+					$deadline_date = new DateTime();
+					$deadline_date->add(new DateInterval('P'.$deadline_period.'D'));
 					$this->progress_repository->update(
 						$progress->setDeadline($deadline_date)
 					);
@@ -1009,7 +1009,9 @@ class ilObjStudyProgramme extends ilContainer {
 				$this->assignment_repository->readByUsrIdAndPrgId($a_user_id,$prg_id));
 		}
 		usort($assignments, function($a_one,$a_other) {
-			return strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+			return strcmp(
+				$a_one->getLastChange()->format('Y-m-d'),
+				$a_other->getLastChange()->format('Y-m-d'));
 		});
 		$assignment_db = $this->assignment_db;
 		return array_map(function($ass) use ($assignment_db){
@@ -1231,7 +1233,9 @@ class ilObjStudyProgramme extends ilContainer {
 			$assignments = array_merge($this->assignment_repository->readByPrgId($prg_id),$assignments);
 		}
 		usort($assignments, function($a_one,$a_other) {
-			return -strcmp($a_one->getLastChange()->get(IL_CAL_DATETIME), $a_other->getLastChange()->get(IL_CAL_DATETIME));
+			return -strcmp(
+				$a_one->getLastChange()->format('Y-m-d'),
+				$a_other->getLastChange()->format('Y-m-d'));
 		});
 		return $assignments;
 	}
