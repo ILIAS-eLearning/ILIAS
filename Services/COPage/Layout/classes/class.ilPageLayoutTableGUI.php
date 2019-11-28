@@ -113,7 +113,8 @@ class ilPageLayoutTableGUI extends ilTable2GUI
 		foreach($this->all_mods as $mod_id => $mod_caption)
 		{
 			if(($mod_id == ilPageLayout::MODULE_SCORM && $a_set["mod_scorm"]) ||
-				($mod_id == ilPageLayout::MODULE_PORTFOLIO && $a_set["mod_portfolio"]))	
+				($mod_id == ilPageLayout::MODULE_PORTFOLIO && $a_set["mod_portfolio"]) ||
+				($mod_id == ilPageLayout::MODULE_LM && $a_set["mod_lm"]))
 			{
 				$this->tpl->setVariable("MOD_STATUS", " checked=\"checked\"");
 			}

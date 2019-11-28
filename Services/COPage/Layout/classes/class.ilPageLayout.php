@@ -23,7 +23,8 @@ class ilPageLayout
 	
 	const MODULE_SCORM = 1;
 	const MODULE_PORTFOLIO = 2;
-	
+	const MODULE_LM = 3;
+
 	var $layout_id = null;
 	var $title = null;
 	var $description = null;
@@ -171,7 +172,7 @@ class ilPageLayout
 	{
 		$ilDB = $this->db;
 		
-		$mod_scorm = $mod_portfolio = 0;
+		$mod_scorm = $mod_portfolio = $mod_lm = 0;
 		if(in_array(self::MODULE_SCORM, $this->modules))
 		{
 			$mod_scorm = 1;
@@ -179,6 +180,10 @@ class ilPageLayout
 		if(in_array(self::MODULE_PORTFOLIO, $this->modules))
 		{
 			$mod_portfolio = 1;
+		}
+		if(in_array(self::MODULE_LM, $this->modules))
+		{
+			$mod_lm = 1;
 		}
 
 		$query = "UPDATE page_layout SET title=".$ilDB->quote($this->title, "text").
@@ -188,6 +193,7 @@ class ilPageLayout
 			",special_page =".$ilDB->quote((int) $this->getSpecialPage(), "integer").
 			",mod_scorm =".$ilDB->quote($mod_scorm, "integer").
 			",mod_portfolio =".$ilDB->quote($mod_portfolio, "integer").
+            ",mod_lm =".$ilDB->quote($mod_lm, "integer").
 			" WHERE layout_id =".$ilDB->quote($this->layout_id, "integer");
 	
 		$result = $ilDB->manipulate($query);
@@ -216,6 +222,10 @@ class ilPageLayout
 		if($row["mod_portfolio"])
 		{
 			$mods[] = self::MODULE_PORTFOLIO;
+		}
+		if($row["mod_lm"])
+		{
+			$mods[] = self::MODULE_LM;
 		}
 		$this->setModules($mods);
 	}
@@ -322,6 +332,10 @@ class ilPageLayout
 			case self::MODULE_PORTFOLIO:
 				$add .= " AND mod_portfolio = 1";
 				break;
+
+			case self::MODULE_LM:
+				$add .= " AND mod_lm = 1";
+				break;
 		}
 		$query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
 		$result = $ilDB->query($query);
@@ -365,7 +379,8 @@ class ilPageLayout
 		
 		return array(
 			self::MODULE_SCORM => $lng->txt("style_page_layout_module_scorm"),
-			self::MODULE_PORTFOLIO => $lng->txt("style_page_layout_module_portfolio")
+			self::MODULE_PORTFOLIO => $lng->txt("style_page_layout_module_portfolio"),
+            self::MODULE_LM => $lng->txt("style_page_layout_module_learning_module")
 		);		
 	}		
 }

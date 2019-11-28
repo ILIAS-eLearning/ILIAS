@@ -227,10 +227,36 @@ die("ilPageLayoutGUI forward to ilpageobjectgui error.");
 		$tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
 		$tpl->setTitle($this->layout_object->getTitle());
 		$tpl->setDescription("");
-		//	$tpl->setTitle(
-		//		$lng->txt("sahs_page").": ".$this->node_object->getTitle());
 	}
 
+	/**
+	 * Get template selection radio
+	 *
+	 * @param string $module
+	 * @return \ILIAS\UI\Component\Input\Field\Radio
+	 */
+	static public function getTemplateSelection(string $module)
+	{
+		global $DIC;
+		$ui = $DIC->ui();
+		$f = $ui->factory();
+		$lng = $DIC->language();
+		$arr_templates = ilPageLayout::activeLayouts(false, $module);
+
+		$radio = $f->input()->field()->radio($lng->txt("cont_page_template"), "");
+		$first = 0;
+		/** @var ilPageLayout $templ */
+		foreach ($arr_templates as $templ)
+		{
+			if ($first == 0) {
+				$first = (int) $templ->getId();
+			}
+			$templ->readObject();
+			$radio = $radio->withOption($templ->getId(), $templ->getPreview(), $templ->getTitle());
+		}
+		$radio = $radio->withValue((int) $first);
+		return $radio;
+	}
 
 }
 ?>

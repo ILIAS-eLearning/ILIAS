@@ -6,8 +6,6 @@
  * Extension of ilPageObject for learning modules 
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
  */
 class ilLMPage extends ilPageObject
 {
@@ -65,6 +63,20 @@ class ilLMPage extends ilPageObject
 			$this->getId());
 
 		$notification->send();
+    }
+
+	/**
+	 * Create page with layout
+     * @param int $a_layout_id
+     */
+	function createWithLayoutId(int $a_layout_id)
+	{
+
+		//get XML Data for Layout
+		$layout_obj = new ilPageLayout($a_layout_id);
+
+		parent::setXMLContent($layout_obj->getXMLContent());
+		parent::create();
 	}
 
 }
