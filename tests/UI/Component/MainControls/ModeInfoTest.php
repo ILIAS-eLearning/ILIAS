@@ -2,7 +2,8 @@
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\MainControls\ModeInfo;
-use ILIAS\UI\Implementation\Render\JavaScriptBinding;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Implementation\Component\Symbol\Factory;
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
@@ -26,10 +27,9 @@ class ModeInfoTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 		<div class="il-mode-info">
-	        <span class="il-mode-info-content">
-		        $mode_title<a class="glyph" href="$uri_string"> <span class="glyphicon glyphicon-remove" aria-hidden="true"></a></span>
-	        </span>
-        </div>
+		    <span class="il-mode-info-content">$mode_title<a class="glyph" href="$uri_string" aria-label="close"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+		    </span>
+		    </div>
 EOT;
 
         $this->assertEquals(
@@ -39,8 +39,20 @@ EOT;
     }
 
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null)
+    public function getUIFactory()
     {
-        return parent::getDefaultRenderer($js_binding);
+        $factory = new class extends NoUIFactory
+        {
+            public function symbol() : ILIAS\UI\Component\Symbol\Factory
+            {
+                return new Factory(
+                    new \ILIAS\UI\Implementation\Component\Symbol\Icon\Factory(),
+                    new \ILIAS\UI\Implementation\Component\Symbol\Glyph\Factory()
+                );
+            }
+        };
+        $factory->sig_gen = new SignalGenerator();
+
+        return $factory;
     }
 }
