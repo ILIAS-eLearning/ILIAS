@@ -115,7 +115,7 @@ header {
 	z-index: @il-standard-page-zindex-header;
 }
 
-// head-container with logo and metabar
+// head-container with logo pagetitle and metabar
 .header-inner {
 	-ms-flex-align: center;
     align-items: center;
@@ -134,7 +134,7 @@ header {
 
 // logo-container
 .il-logo {
-	width: 300px; // test!!!
+	width: 50%; // needs further attention because of added pagetitle
 	height: @il-standard-page-logo-height;
 	justify-self: start;
 	display: flex;
@@ -396,6 +396,11 @@ footer {
 	    padding: 0;
 	    width: 100%;
 		.shadow-bottom();
+	}
+
+	// mobile logo
+	.il-logo {
+		width: @il-logo-resp-width;
 	}
 
 	// pagetitle

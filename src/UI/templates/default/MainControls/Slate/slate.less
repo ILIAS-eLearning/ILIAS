@@ -149,3 +149,14 @@
 		}
 	}
 }
+
+// only for mobile view
+// when badges are displayed together with glyphs in slate entries
+// the visual left alignment is broken
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-maincontrols-slate span.glyph {
+	  min-width: 45px;
+	  text-align: left;
+	}
+}
+//
