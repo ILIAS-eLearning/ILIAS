@@ -177,4 +177,37 @@ class ilStudyProgrammeProgressTest extends PHPUnit_Framework_TestCase
 		$spp = (new ilStudyProgrammeProgress(123))->setValidityOfQualification($dl);
 		$this->assertEquals($spp->getValidityOfQualification()->format('Ymd'),'20201011');
 	}
+
+	/**
+	 * @depends test_vq_date
+	 */
+	public function test_invalidate() 
+	{
+		$spp = new ilStudyProgrammeProgress(123);
+		$this->assertFalse($spp->isInvalidated());
+		$past = DateTime::createFromFormat('Ymd','20180101');
+		$spp->setValidityOfQualification($past);
+		$spp->invalidate();
+		$this->assertTrue($spp->isInvalidated());
+	}
+
+	/**
+	 * @expectedException ilException
+	 * @depends test_vq_date
+	 */
+	public function test_invalidate_non_expired_1()
+	{
+		$tomorrow = new DateTime();
+		$tomorrow->add(new DateInterval('P1D'));
+		$spp = (new ilStudyProgrammeProgress(123))->setValidityOfQualification($tomorrow)->invalidate();
+	}
+
+	/**
+	 * @expectedException ilException
+	 * @depends test_vq_date
+	 */
+	public function test_invalidate_non_expired_2()
+	{
+		$spp = (new ilStudyProgrammeProgress(123))->invalidate();
+	}
 }
