@@ -49,13 +49,16 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 		$prg = new ilObjStudyProgramme($a_obj_id, false);
 		$progresses = $prg->getProgressesOf($a_user_id);
 
-		$successful = false;
 		$relevant = false;
+		$failed = false;
 
 		foreach ($progresses as $progress) {
 			if ($progress->isSuccessful()) {
-				$successful = true;
-				break;
+				if(!$progress->isSuccessfulExpired()) {
+					return ilLPStatus::LP_STATUS_COMPLETED_NUM;
+				} else {
+					$failed = true;
+				}
 			}
 			if ($progress->isRelevant()) {
 				$relevant = true;
@@ -64,10 +67,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
 			if($progress->isFailed()) {
 				$failed = true;
 			}
-		}
-
-		if ($successful) {
-			return ilLPStatus::LP_STATUS_COMPLETED_NUM;
 		}
 		if($failed) {
 			return ilLPStatus::LP_STATUS_FAILED_NUM;

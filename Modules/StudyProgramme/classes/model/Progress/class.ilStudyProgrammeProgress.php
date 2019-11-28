@@ -159,6 +159,12 @@ class ilStudyProgrammeProgress
 	protected $vq_date;
 
 
+	/**
+	 * Is this progress invalidated?
+	 *
+	 * @var	bool
+	 */
+	protected $invalidated = false;
 	public function __construct(int $id)
 	{
 		$this->id = $id;
@@ -462,6 +468,23 @@ class ilStudyProgrammeProgress
 	public function getValidityOfQualification()
 	{
 		return $this->vq_date;
+	}
+
+	/**
+	 * Toggle invalidated.
+	 */
+	public function invalidate() : ilStudyProgrammeProgress
+	{
+		if(!$this->vq_date || $this->vq_date->format('Y-m-d') > date('Y-m-d')) {
+			throw new ilException("may not invalidate non-expired progress");
+		}
+		$this->invalidated = true;
+		return $this;
+	}
+
+	public function isInvalidated() : bool
+	{
+		return $this->invalidated;
 	}
 }
 

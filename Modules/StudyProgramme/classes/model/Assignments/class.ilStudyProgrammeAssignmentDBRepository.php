@@ -45,7 +45,7 @@ implements ilStudyProgrammeAssignmentRepository
 			self::FIELD_RESTARTED_ASSIGNMENT_ID => ilStudyProgrammeAssignment::NO_RESTARTED_ASSIGNMENT
 		];
 		$this->insertRowDB($row);
-		return $this->assignmentByRow($row);
+		return $this->assignmentByRow($row)->updateLastChange();
 	}
 
 	/**
@@ -168,8 +168,7 @@ implements ilStudyProgrammeAssignmentRepository
 				DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT,$row[self::FIELD_RESTART_DATE]) :
 				null
 			)
-			->setRestartedAssignmentId($row[self::FIELD_RESTARTED_ASSIGNMENT_ID])
-			->updateLastChange();
+			->setRestartedAssignmentId($row[self::FIELD_RESTARTED_ASSIGNMENT_ID]);
 	}
 
 	protected function loadByFilterDB(array $filter)
