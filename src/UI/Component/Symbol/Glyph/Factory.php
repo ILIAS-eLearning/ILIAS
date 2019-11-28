@@ -1075,7 +1075,7 @@ interface Factory
      *   composition: >
      *       The Language Glyph uses the glyphicon-globe.
      *   effect: >
-     *       When clicked, the user is shown a set of active languages to chose from.
+     *       When clicked, the user is shown a set of active languages to choose from.
      *   rivals:
      *      Standard Icon: >
      *         The Standard Icon-Set features the Language Icon, which symbolizes
