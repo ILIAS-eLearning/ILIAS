@@ -132,6 +132,13 @@ class ilStudyProgrammeSettings{
 	 */
 	protected $restart_period = self::NO_RESTART;
 
+	/**
+	 * Is the access control governed by positions?
+	 *
+	 * @var bool
+	 */
+	protected $access_ctrl_positions;
+
 	public function __construct(int $a_id)
 	{
 		$this->obj_id = $a_id;
@@ -391,6 +398,23 @@ class ilStudyProgrammeSettings{
 	public function getRestartPeriod() : int
 	{
 		return $this->restart_period;
+	}
+
+
+	/**
+	 * Choose wether the corresponding prg feature access is governed by positions.
+	 */
+	public function setAccessControlByOrguPositions(bool $access_ctrl_positions)
+	{
+		$this->access_ctrl_positions = $access_ctrl_positions;
+	}
+
+	/**
+	 * Is the corresponding prg feature access governed by positions?
+	 */
+	public function getAccessControlByOrguPositions() : bool
+	{
+		return $this->access_ctrl_positions;
 	}
 }
 
