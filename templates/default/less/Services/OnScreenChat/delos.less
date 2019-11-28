@@ -209,9 +209,16 @@
 					}
 				}
 
+				&.header, &.message {
+					padding-left: 15px;
+					padding-right: 15px;
+				}
+
 				.chat-body {
-					.header strong {
-						font-size: .8em;
+					.header {
+						strong {
+							font-size: .8em;
+						}
 					}
 
 					p {
@@ -230,6 +237,8 @@
 		.panel-body {
 			overflow-y: scroll;
 			height: 250px;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
 		}
 
 		.iosOnScreenChatEmoticonsPanel {

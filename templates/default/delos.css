@@ -17451,6 +17451,11 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .chat li.separator p {
   font-size: .9em;
 }
+#onscreenchat-container .chat-window-wrapper .chat li.header,
+#onscreenchat-container .chat-window-wrapper .chat li.message {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
 }
@@ -17466,6 +17471,8 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .panel-body {
   overflow-y: scroll;
   height: 250px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
   position: absolute;
