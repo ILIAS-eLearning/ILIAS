@@ -860,9 +860,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 			
 	function export()
 	{
-		$export = new ilPortfolioHTMLExport($this, $this->object);
-		$zip = $export->buildExportFile();
-		
+	    $port_export = new \ILIAS\Portfolio\Export\PortfolioHtmlExport($this);
+        $zip = $port_export->exportHtml();
+
 	    ilUtil::deliverFile($zip, $this->object->getTitle().".zip", '', false, true);
 	}
 	

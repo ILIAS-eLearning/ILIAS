@@ -747,8 +747,10 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
 		$prtf = new ilObjPortfolio($prtf_id, false);
 		if($prtf->getTitle())
 		{
-			$export = new ilPortfolioHTMLExport(null, $prtf);
-			$file = $export->buildExportFile();
+            $port_gui = new ilObjPortfolioGUI($prtf_id);
+            $port_export = new \ILIAS\Portfolio\Export\PortfolioHtmlExport($port_gui);
+            $file = $port_export->exportHtml();
+
 			$size = filesize($file);
 			if($size)
 			{
