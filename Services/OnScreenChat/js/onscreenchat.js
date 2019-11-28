@@ -1098,9 +1098,9 @@
 
 					let now = new Date();
 					now.setHours(0, 0, 0, 0);
-					if (messageObject.timestamp < now.getTime()) {
+					//if (messageObject.timestamp < now.getTime()) {
 						$header.find('[data-time-info]').hide();
-					}
+					//}
 
 					items.push($header);
 				}
@@ -1134,6 +1134,7 @@
 			});
 
 			if (prepend !== true) {
+				
 				$firstHeader
 					.find(".header [data-livestamp]")
 					.data("livestamp", messageObject.timestamp)
