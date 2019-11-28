@@ -843,11 +843,11 @@ interface Factory
      *       The Search Glyph uses the glyphicon-search.
      *   effect: >
      *       Clicking this glyph will open a search dialog.
-     *       Since the context for the Search Glyph primarily is the Language Glyph ,
-     *       the according search dialog will be opened as Tool in the Main Bar.
+     *       Since the context for the Search Glyph primarily is the Metabar,
+     *       the according search dialog will be opened as Tool in the Mainbar.
      *
      * context:
-     *    - The Search Glyph appears in the Language Glyph.
+     *    - The Search Glyph appears in the Metabar.
      *
      * rules:
      *   accessibility:
@@ -869,11 +869,11 @@ interface Factory
      *   effect: >
      *       When clicked, the user is provided with explanations or
      *       instructions for the usage of the current context.
-     *       When used in the Meta Bar, the help is displayed as tool in the
+     *       When used in the Metabar, the help is displayed as tool in the
      *       Sidebar.
      *
      * context:
-     *    - The Search Glyph appears in the Meta Bar.
+     *    - The Search Glyph appears in the Metabar.
      *
      * rules:
      *   accessibility:
