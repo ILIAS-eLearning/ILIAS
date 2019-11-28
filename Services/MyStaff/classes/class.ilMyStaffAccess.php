@@ -85,6 +85,44 @@ class ilMyStaffAccess extends ilObjectAccess {
 	}
 
 
+    /**
+     * @return bool
+     */
+	public function hasCurrentUserAccessToCertificates()
+    {
+        global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_VIEW_CERTIFICATES, self::DEFAULT_CONTEXT)
+            > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return bool
+     */
+	public function hasCurrentUserAccessToCompetences()
+    {
+        global $DIC;
+
+        if (!$DIC->settings()->get("enable_my_staff")) {
+            return false;
+        }
+
+        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(), ilOrgUnitOperation::OP_VIEW_COMPETENCES, self::DEFAULT_CONTEXT)
+            > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
 	/**
 	 * @param int $usr_id
 	 *

@@ -3250,3 +3250,18 @@ if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
         ));
 }
 ?>
+<#5604>
+<?php
+ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_VIEW_CERTIFICATES, 'Read the certificates of a User', [
+    ilOrgUnitOperationContext::CONTEXT_TST,
+    ilOrgUnitOperationContext::CONTEXT_EXC,
+    ilOrgUnitOperationContext::CONTEXT_CRS,
+]);
+ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_VIEW_COMPETENCES, 'Read the competences of a User', [
+    ilOrgUnitOperationContext::CONTEXT_TST,
+    ilOrgUnitOperationContext::CONTEXT_GRP,
+    ilOrgUnitOperationContext::CONTEXT_CRS,
+    ilOrgUnitOperationContext::CONTEXT_SVY,
+]);
+
+?>

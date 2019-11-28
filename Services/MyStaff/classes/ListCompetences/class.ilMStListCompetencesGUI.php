@@ -1,7 +1,7 @@
 <?php
 
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ILIAS\MyStaff\ListCompetences\ilMStListCompetencesTableGUI;
+use ILIAS\DI\Container;
 
 /**
  * Class ilMStListCompetencesGUI
@@ -9,7 +9,8 @@ use ILIAS\MyStaff\ListCompetences\ilMStListCompetencesTableGUI;
  * @author            Martin Studer <ms@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStListCompetencesGUI: ilMyStaffGUI
- * @ilCtrl_Calls      ilMStListCompetencesGUI: ilFormPropertyDispatchGUI
+ * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesSkillsGUI
+ * @ilCtrl_Calls      ilMStListCompetencesGUI: ilMStListCompetencesProfilesGUI
  */
 class ilMStListCompetencesGUI {
 
@@ -17,6 +18,10 @@ class ilMStListCompetencesGUI {
 	const CMD_INDEX = 'index';
 	const CMD_GET_ACTIONS = "getActions";
 	const CMD_RESET_FILTER = 'resetFilter';
+
+	const SUB_TAB_SKILLS = 'skills';
+	const SUB_TAB_PROFILES = 'profiles';
+
 	/**
 	 * @var ilTable2GUI
 	 */
@@ -25,27 +30,34 @@ class ilMStListCompetencesGUI {
 	 * @var ilMyStaffAccess
 	 */
 	protected $access;
+    /**
+     * @var Container
+     */
+    private $dic;
 
 
-	/**
-	 *
-	 */
-	public function __construct() {
+    /**
+     * @param Container $dic
+     */
+	public function __construct(Container $dic = null) {
+	    if (is_null($dic)) {
+	        global $DIC;
+	        $dic = $DIC;
+        }
 		$this->access = ilMyStaffAccess::getInstance();
-	}
+        $this->dic = $dic;
+    }
 
 
 	/**
 	 *
 	 */
 	protected function checkAccessOrFail() {
-		global $DIC;
-
 		if ($this->access->hasCurrentUserAccessToMyStaff()) {
 			return;
 		} else {
-			ilUtil::sendFailure($DIC->language()->txt("permission_denied"), true);
-			$DIC->ctrl()->redirectByClass(ilDashboardGUI::class, "");
+			ilUtil::sendFailure($this->dic->language()->txt("permission_denied"), true);
+			$this->dic->ctrl()->redirectByClass(ilDashboardGUI::class, "");
 		}
 	}
 
@@ -54,26 +66,23 @@ class ilMStListCompetencesGUI {
 	 *
 	 */
 	public function executeCommand() {
-		global $DIC;
 
-		$cmd = $DIC->ctrl()->getCmd();
-		$next_class = $DIC->ctrl()->getNextClass();
-
+		$cmd = $this->dic->ctrl()->getCmd();
+		$next_class = $this->dic->ctrl()->getNextClass();
 		switch ($next_class) {
-			case strtolower(ilFormPropertyDispatchGUI::class):
-				$this->checkAccessOrFail();
-
-				$DIC->ctrl()->setReturn($this, self::CMD_INDEX);
-				$this->table = new ilMStListCompetencesTableGUI($this, self::CMD_INDEX);
-				$this->table->executeCommand();
-				break;
+            case strtolower(ilMStListCompetencesSkillsGUI::class):
+                $this->addSubTabs(self::SUB_TAB_SKILLS);
+                $gui = new ilMStListCompetencesSkillsGUI($this->dic);
+                $this->dic->ctrl()->forwardCommand($gui);
+                break;
+            case strtolower(ilMStListCompetencesProfilesGUI::class):
+                $this->addSubTabs(self::SUB_TAB_PROFILES);
+                $gui = new ilMStListCompetencesProfilesGUI($this->dic);
+                $this->dic->ctrl()->forwardCommand($gui);
+                break;
 			default:
 				switch ($cmd) {
-
-					case self::CMD_RESET_FILTER:
-					case self::CMD_APPLY_FILTER:
 					case self::CMD_INDEX:
-					case self::CMD_GET_ACTIONS:
 						$this->$cmd();
 						break;
 					default:
@@ -85,67 +94,39 @@ class ilMStListCompetencesGUI {
 	}
 
 
+    /**
+     * @param string $subtab_active
+     */
+	protected function addSubTabs(string $subtab_active) : void
+    {
+        $this->dic->language()->loadLanguageModule('skmg');
+        $this->dic->tabs()->addSubTab(
+            self::SUB_TAB_SKILLS,
+            $this->dic->language()->txt('skmg_selected_skills'),
+            $this->dic->ctrl()->getLinkTargetByClass([
+                self::class,
+                ilMStListCompetencesSkillsGUI::class
+            ])
+        );
+
+        $this->dic->tabs()->addSubTab(
+            self::SUB_TAB_PROFILES,
+            $this->dic->language()->txt('skmg_assigned_profiles'),
+            $this->dic->ctrl()->getLinkTargetByClass([
+                self::class,
+                ilMStListCompetencesProfilesGUI::class
+            ])
+        );
+
+        $this->dic->tabs()->activateSubTab($subtab_active);
+    }
+
+
 	/**
 	 *
 	 */
 	public function index() {
-		$this->listUsers();
-	}
-
-
-	/**
-	 *
-	 */
-	public function listUsers() {
-		global $DIC;
-
-		$this->checkAccessOrFail();
-
-		$this->table = new ilMStListCompetencesTableGUI($this, self::CMD_INDEX);
-		$this->table->setTitle($DIC->language()->txt('mst_list_courses'));
-		$DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
-	}
-
-
-	/**
-	 *
-	 */
-	public function applyFilter() {
-		$this->table = new ilMStListCompetencesTableGUI($this, self::CMD_APPLY_FILTER);
-		$this->table->writeFilterToSession();
-		$this->table->resetOffset();
-		$this->index();
-	}
-
-
-	/**
-	 *
-	 */
-	public function resetFilter() {
-		$this->table = new ilMStListCompetencesTableGUI($this, self::CMD_RESET_FILTER);
-		$this->table->resetOffset();
-		$this->table->resetFilter();
-		$this->index();
-	}
-
-
-	/**
-	 * @return string
-	 */
-	public function getId() {
-		$this->table = new ilMStListCompetencesTableGUI($this, self::CMD_INDEX);
-
-		return $this->table->getId();
-	}
-
-
-	/**
-	 *
-	 */
-	public function cancel() {
-		global $DIC;
-
-		$DIC->ctrl()->redirect($this);
+	    $this->dic->ctrl()->redirectByClass(ilMStListCompetencesSkillsGUI::class);
 	}
 
 
@@ -153,15 +134,14 @@ class ilMStListCompetencesGUI {
 	 *
 	 */
 	public function getActions() {
-		global $DIC;
 
-		$mst_co_usr_id = $DIC->http()->request()->getQueryParams()['mst_lco_usr_id'];
-		$mst_lco_crs_ref_id = $DIC->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
+		$mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
+		$mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
 
 		if ($mst_co_usr_id > 0 && $mst_lco_crs_ref_id > 0) {
 			$selection = new ilAdvancedSelectionListGUI();
 
-			if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
+			if ($this->dic->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
 				$link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
 				$selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '', $link);
 			};
@@ -171,13 +151,13 @@ class ilMStListCompetencesGUI {
 				'user_id' => $mst_co_usr_id,
 				'object_reference.deleted' => null
 			), array( 'user_id' => '=', 'object_reference.deleted' => '!=' ))->get() as $org_unit_assignment) {
-				if ($DIC->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
+				if ($this->dic->access()->checkAccess("read", "", $org_unit_assignment->getOrguId())) {
 					$link = ilLink::_getStaticLink($org_unit_assignment->getOrguId(), 'orgu');
 					$selection->addItem($org_units[$org_unit_assignment->getOrguId()], '', $link);
 				}
 			}
 
-			$selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($DIC->ctrl()
+			$selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id, rawurlencode($this->dic->ctrl()
 				->getLinkTarget($this, self::CMD_INDEX)));
 
 			echo $selection->getHTML(true);

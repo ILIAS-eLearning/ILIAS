@@ -11368,6 +11368,8 @@ common#:#my_staff#:#Staff
 mst#:#mst_my_staff#:#Staff
 mst#:#mst_list_users#:#Staff List
 mst#:#mst_list_courses#:#Enrolments
+mst#:#mst_list_certificates#:#Certificates
+mst#:#mst_list_competences#:#Competences
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_please_select_course#:#Please select a course.
 mst#:#mst_opt_all#:#All
@@ -11376,6 +11378,8 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+mst#:#mst_profile_fulfilled#:#Not met, yet
+mst#:#mst_profile_not_fulfilled#:#Fulfilled
 orgu#:#msg_position_udpated#:#Position aktualisiert
 orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
@@ -11393,6 +11397,10 @@ orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 rbac#:#org_op_write_learning_progress#:#Set learning Progress of subordinate users
 orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
+orgu#:#org_op_view_certificates#:#View certificates of other users
+rbac#:#org_op_view_certificates#:#View certificates of subordinated users
+orgu#:#org_op_view_competences#:#View competences of other users
+rbac#:#org_op_view_competences#:#View competences of subordinated users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee

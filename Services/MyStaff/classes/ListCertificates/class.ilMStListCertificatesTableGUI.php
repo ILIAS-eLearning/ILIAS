@@ -95,13 +95,14 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 		$all_users_for_user = $this->access->getUsersForUser($DIC->user()->getId());
 
-		$count = ilMStListCertificates::getData($all_users_for_user, $options);
+		$certificates_fetcher = new ilMStListCertificates($DIC);
+		$count = $certificates_fetcher->getData($all_users_for_user, $options);
 		$options['limit'] = array(
 			'start' => intval($this->getOffset()),
 			'end' => intval($this->getLimit()),
 		);
 		$options['count'] = false;
-		$data = ilMStListCertificates::getData($all_users_for_user, $options);
+		$data = $certificates_fetcher->getData($all_users_for_user, $options);
 		$this->setMaxCount($count);
 		$this->setData($data);
 	}
@@ -295,13 +296,13 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilExcel         $a_excel excel wrapper
-	 * @param int             $a_row
-	 * @param ilMStListCertificate $my_staff_course
+	 * @param ilExcel              $a_excel excel wrapper
+	 * @param int                  $a_row
+	 * @param ilMStListCertificate $selected_skill
 	 */
-	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_course) {
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $selected_skill) {
 		$col = 0;
-		foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+		foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
 			$a_excel->setCell($a_row, $col, $v);
 			$col ++;
 		}
@@ -309,11 +310,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilCSVWriter     $a_csv
-	 * @param ilMStListCertificate $my_staff_course
+	 * @param ilCSVWriter          $a_csv
+	 * @param ilMStListCertificate $selected_skill
 	 */
-	protected function fillRowCSV($a_csv, $my_staff_course) {
-		foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+	protected function fillRowCSV($a_csv, $selected_skill) {
+		foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
 			$a_csv->addColumn($v);
 		}
 		$a_csv->addRow();

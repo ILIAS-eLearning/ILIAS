@@ -1,5 +1,7 @@
 <?php
 namespace ILIAS\MyStaff\ListUsers;
+use ILIAS\DI\Container;
+
 /**
  * Class ilListUser
  *
@@ -7,15 +9,29 @@ namespace ILIAS\MyStaff\ListUsers;
  */
 class ilMStListUsers {
 
+    /**
+     * @var Container
+     */
+    protected $dic;
+
+
+    /**
+     * ilMStListUsers constructor.
+     *
+     * @param Container $dic
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
+
 	/**
 	 * @param array $arr_usr_ids
 	 * @param array $options
 	 *
 	 * @return array|int
 	 */
-	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
-		global $DIC;
-
+	public function getData(array $arr_usr_ids = array(), array $options = array()) {
 		//Permissions
 		if (count($arr_usr_ids) == 0) {
 			if ($options['count']) {
@@ -54,14 +70,14 @@ class ilMStListUsers {
 	               phone_office,
 	               phone_mobile,
 	               active
-	               FROM ' . $DIC->database()->quoteIdentifier('usr_data') .
+	               FROM ' . $this->dic->database()->quoteIdentifier('usr_data') .
 
 			self::createWhereStatement($arr_usr_ids, $options['filters']);
 
 		if ($options['count']) {
-			$result = $DIC->database()->query($select);
+			$result = $this->dic->database()->query($select);
 
-			return $DIC->database()->numRows($result);
+			return $this->dic->database()->numRows($result);
 		}
 
 		if ($options['sort']) {
@@ -72,10 +88,10 @@ class ilMStListUsers {
 			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
 
-		$result = $DIC->database()->query($select);
+		$result = $this->dic->database()->query($select);
 		$user_data = array();
 
-		while ($user = $DIC->database()->fetchAssoc($result)) {
+		while ($user = $this->dic->database()->fetchAssoc($result)) {
 			$list_user = new ilMStListUser();
 			$list_user->setUsrId($user['usr_id']);
 			$list_user->setGender($user['gender']);
@@ -113,40 +129,38 @@ class ilMStListUsers {
 	 *
 	 * @return string
 	 */
-	private static function createWhereStatement(array $arr_usr_ids, array $arr_filter) {
-		global $DIC;
-
+	private function createWhereStatement(array $arr_usr_ids, array $arr_filter) {
 		$where = array();
 
-		$where[] = $DIC->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+		$where[] = $this->dic->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 
 		if (!empty($arr_filter['user'])) {
 
-			$where[] = "(" . $DIC->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
-					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
-					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
+			$where[] = "(" . $this->dic->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
 					->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $DIC->database()
+			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
 					->quote($arr_filter['org_unit'], 'integer') . ')';
 		}
 
 		if (!empty($arr_filter['lastname'])) {
-			$where[] = '(lastname LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['lastname']) . '%', 'text') . ')';
+			$where[] = '(lastname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['lastname']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['firstname'])) {
-			$where[] = '(firstname LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['firstname']) . '%', 'text') . ')';
+			$where[] = '(firstname LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['firstname']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['email'])) {
-			$where[] = '(email LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['email']) . '%', 'text') . ')';
+			$where[] = '(email LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['email']) . '%', 'text') . ')';
 		}
 
 		if (!empty($arr_filter['title'])) {
-			$where[] = '(title LIKE ' . $DIC->database()->quote('%' . str_replace('*', '%', $arr_filter['title']) . '%', 'text') . ')';
+			$where[] = '(title LIKE ' . $this->dic->database()->quote('%' . str_replace('*', '%', $arr_filter['title']) . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['activation']) {

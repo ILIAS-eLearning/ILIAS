@@ -1,5 +1,5 @@
 <?php
-namespace ILIAS\MyStaff\ShowUser;
+namespace ILIAS\MyStaff\Courses\ShowUser;
 use ILIAS\MyStaff\ListCourses\ilMStListCourses;
 
 /**
@@ -9,17 +9,6 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourses;
  */
 class ilMStShowUserCourses extends ilMStListCourses {
 
-	/**
-	 * @param array $arr_usr_ids
-	 * @param array $options
-	 *
-	 * @return array|int
-	 */
-	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
-
-		return parent::getData($arr_usr_ids, $options);
-	}
-
 
 	/**
 	 * @param array  $arr_usr_ids
@@ -28,7 +17,7 @@ class ilMStShowUserCourses extends ilMStListCourses {
 	 *
 	 * @return string
 	 */
-	protected static function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
+	protected function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
 		global $DIC;
 
 		if (!$arr_filter['usr_id']) {

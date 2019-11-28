@@ -51,6 +51,10 @@ class ilMStListCourse {
 	 */
 	protected $usr_email;
 
+	public function get($prop)
+    {
+        return $this->$prop;
+    }
 
 	/**
 	 * @return int

@@ -312,29 +312,29 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilMStListStudyProgramme $my_staff_course
+	 * @param ilMStListStudyProgramme $profile
 	 */
-	public function fillRow($my_staff_course) {
+	public function fillRow($profile) {
 		global $DIC;
 
-		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
+		$propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $profile, $profile);
 
 		foreach ($this->getSelectableColumns() as $k => $v) {
 			if ($this->isColumnSelected($k)) {
 				switch ($k) {
 					case 'usr_assinged_orgus':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($my_staff_course->getUsrId())));
+						$this->tpl->setVariable('VALUE', strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($profile->getUsrId())));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'usr_reg_status':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', ilMStListStudyProgramme::getMembershipStatusText($my_staff_course->getUsrRegStatus()));
+						$this->tpl->setVariable('VALUE', ilMStListStudyProgramme::getMembershipStatusText($profile->getUsrRegStatus()));
 						$this->tpl->parseCurrentBlock();
 						break;
 					case 'usr_lp_status':
 						$this->tpl->setCurrentBlock('td');
-						$this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($my_staff_course));
+						$this->tpl->setVariable('VALUE', ilMyStaffGUI::getUserLpStatusAsHtml($profile));
 						$this->tpl->parseCurrentBlock();
 						break;
 					default:
@@ -355,10 +355,10 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 		$actions = new ilAdvancedSelectionListGUI();
 		$actions->setListTitle($DIC->language()->txt("actions"));
 		$actions->setAsynch(true);
-		$actions->setId($my_staff_course->getUsrId() . "-" . $my_staff_course->getCrsRefId());
+		$actions->setId($profile->getUsrId() . "-" . $profile->getCrsRefId());
 
-		$DIC->ctrl()->setParameterByClass(ilMStListStudyProgrammesGUI::class, 'mst_lco_usr_id', $my_staff_course->getUsrId());
-		$DIC->ctrl()->setParameterByClass(ilMStListStudyProgrammesGUI::class, 'mst_lco_crs_ref_id', $my_staff_course->getCrsRefId());
+		$DIC->ctrl()->setParameterByClass(ilMStListStudyProgrammesGUI::class, 'mst_lco_usr_id', $profile->getUsrId());
+		$DIC->ctrl()->setParameterByClass(ilMStListStudyProgrammesGUI::class, 'mst_lco_crs_ref_id', $profile->getCrsRefId());
 
 		$actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
 			->getLinkTarget($this->parent_obj, ilMStListStudyProgrammesGUI::CMD_GET_ACTIONS, "", true)));
@@ -368,13 +368,13 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilExcel         $a_excel excel wrapper
-	 * @param int             $a_row
-	 * @param ilMStListStudyProgramme $my_staff_course
+	 * @param ilExcel                 $a_excel excel wrapper
+	 * @param int                     $a_row
+	 * @param ilMStListStudyProgramme $selected_skill
 	 */
-	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $my_staff_course) {
+	protected function fillRowExcel(ilExcel $a_excel, &$a_row, $selected_skill) {
 		$col = 0;
-		foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+		foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
 			$a_excel->setCell($a_row, $col, $v);
 			$col ++;
 		}
@@ -382,11 +382,11 @@ class ilMStListStudyProgrammesTableGUI extends ilTable2GUI {
 
 
 	/**
-	 * @param ilCSVWriter     $a_csv
-	 * @param ilMStListStudyProgramme $my_staff_course
+	 * @param ilCSVWriter             $a_csv
+	 * @param ilMStListStudyProgramme $selected_skill
 	 */
-	protected function fillRowCSV($a_csv, $my_staff_course) {
-		foreach ($this->getFieldValuesForExport($my_staff_course) as $k => $v) {
+	protected function fillRowCSV($a_csv, $selected_skill) {
+		foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
 			$a_csv->addColumn($v);
 		}
 		$a_csv->addRow();

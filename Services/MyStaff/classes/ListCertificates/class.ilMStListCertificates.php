@@ -3,7 +3,9 @@ namespace ILIAS\MyStaff\ListCertificates;
 use Certificate\API\Data\UserCertificateDto;
 use Certificate\API\Filter\UserDataFilter;
 use Certificate\API\UserCertificateAPI;
+use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ilLPStatus;
 use ilMStListCertificatesGUI;
 use ilMyStaffGUI;
 use ilOrgUnitOperation;
@@ -15,22 +17,36 @@ use ilOrgUnitOperation;
  */
 class ilMStListCertificates {
 
+    /**
+     * @var Container
+     */
+    protected $dic;
+
+
+    /**
+     * ilMStListCertificates constructor.
+     *
+     * @param Container $dic
+     */
+    public function __construct(Container $dic)
+    {
+        $this->dic = $dic;
+    }
+
 	/**
 	 * @param array $arr_usr_ids
 	 * @param array $options
 	 *
 	 * @return UserCertificateDto[]
 	 */
-	public static function getData(array $arr_usr_ids = array(), array $options = array()) {
-		global $DIC;
-
+	public function getData(array $arr_usr_ids = array(), array $options = array()) {
 		//Permission Filter
 		$operation_access = ilOrgUnitOperation::OP_ACCESS_ENROLMENTS;
 
 		if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
 			$operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
 		}
-		$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($DIC->user()
+		$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
 			->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);
 
 		$_options = array(
@@ -64,10 +80,10 @@ class ilMStListCertificates {
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
 			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
-		$result = $DIC->database()->query($select);
+		$result = $this->dic->database()->query($select);
 		$crs_data = array();
 
-		while ($crs = $DIC->database()->fetchAssoc($result)) {
+		while ($crs = $this->dic->database()->fetchAssoc($result)) {
 			$list_course = new ilMStListCertificate();
 			$list_course->setCrsRefId($crs['crs_ref_id']);
 			$list_course->setCrsTitle($crs['crs_title']);
@@ -95,23 +111,21 @@ class ilMStListCertificates {
 	 *
 	 * @return string
 	 */
-	protected static function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
-		global $DIC;
-
+	protected function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
 		$where = array();
 
 		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * FROM ' . $tmp_table_user_matrix . ')';
 
 		if (count($arr_usr_ids)) {
-			$where[] = $DIC->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
+			$where[] = $this->dic->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
 		}
 
 		if (!empty($arr_filter['crs_title'])) {
-			$where[] = '(crs.title LIKE ' . $DIC->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
+			$where[] = '(crs.title LIKE ' . $this->dic->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['course'] > 0) {
-			$where[] = '(crs_ref.ref_id = ' . $DIC->database()->quote($arr_filter['course'], 'integer') . ')';
+			$where[] = '(crs_ref.ref_id = ' . $this->dic->database()->quote($arr_filter['course'], 'integer') . ')';
 		}
 
 		if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
@@ -119,27 +133,27 @@ class ilMStListCertificates {
 			switch ($arr_filter['lp_status']) {
 				case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
 					//if a user has the lp status not attempted it could be, that the user hase no records in table ut_lp_marks
-					$where[] = '(lp_status = ' . $DIC->database()->quote($arr_filter['lp_status'], 'integer') . ' OR lp_status is NULL)';
+					$where[] = '(lp_status = ' . $this->dic->database()->quote($arr_filter['lp_status'], 'integer') . ' OR lp_status is NULL)';
 					break;
 				default:
-					$where[] = '(lp_status = ' . $DIC->database()->quote($arr_filter['lp_status'], 'integer') . ')';
+					$where[] = '(lp_status = ' . $this->dic->database()->quote($arr_filter['lp_status'], 'integer') . ')';
 					break;
 			}
 		}
 
 		if (!empty($arr_filter['memb_status'])) {
-			$where[] = '(reg_status = ' . $DIC->database()->quote($arr_filter['memb_status'], 'integer') . ')';
+			$where[] = '(reg_status = ' . $this->dic->database()->quote($arr_filter['memb_status'], 'integer') . ')';
 		}
 
 		if (!empty($arr_filter['user'])) {
-			$where[] = "(" . $DIC->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
-					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
-					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $DIC->database()
+			$where[] = "(" . $this->dic->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
 					->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $DIC->database()
+			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
 					->quote($arr_filter['org_unit'], 'integer') . ')';
 		}
 

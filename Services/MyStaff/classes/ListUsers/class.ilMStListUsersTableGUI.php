@@ -91,13 +91,15 @@ class ilMStListUsersTableGUI extends ilTable2GUI {
 				'direction' => $this->getOrderDirection(),
 			),
 		);
-		$count = ilMStListUsers::getData($arr_usr_id, $options);
+
+		$list_users_fetcher = new ilMStListUsers($DIC);
+		$count = $list_users_fetcher->getData($arr_usr_id, $options);
 		$options['limit'] = array(
 			'start' => intval($this->getOffset()),
 			'end' => intval($this->getLimit()),
 		);
 		$options['count'] = false;
-		$data = ilMStListUsers::getData($arr_usr_id, $options);
+		$data = $list_users_fetcher->getData($arr_usr_id, $options);
 
 		$this->setMaxCount($count);
 		$this->setData($data);
