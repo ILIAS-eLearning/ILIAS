@@ -150,8 +150,6 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 						break;
 
 					case "gdf":
-						require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-						require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 						$term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
 						$glo_id = ilGlossaryTerm::_lookGlossaryId($term_id);
 						$item["obj_type_txt"] = $this->lng->txt("obj_glo");

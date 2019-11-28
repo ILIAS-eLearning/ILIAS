@@ -1,18 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Services/COPage/classes/class.ilPageContent.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilPCMyCourses
-*
-* My courses content object (see ILIAS DTD)
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id: class.ilPCListItem.php 22210 2009-10-26 09:46:06Z akill $
-*
-* @ingroup ModulesPortfolio
-*/
+ * Class ilPCMyCourses
+ *
+ * My courses content object (see ILIAS DTD)
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCMyCourses extends ilPageContent
 {
 	/**

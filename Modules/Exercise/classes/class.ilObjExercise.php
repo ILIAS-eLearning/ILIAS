@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-
 /** @defgroup ModulesExercise Modules/Exercise
  */
 
@@ -11,7 +9,6 @@ require_once "./Services/Object/classes/class.ilObject.php";
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
@@ -290,7 +287,6 @@ class ilObjExercise extends ilObject
 	 	
 		// Copy criteria catalogues
 		$crit_cat_map = array();
-		include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php");
 		foreach(ilExcCriteriaCatalogue::getInstancesByParentId($this->getId()) as $crit_cat)
 		{
 			$new_id = $crit_cat->cloneObject($new_obj->getId());
@@ -298,11 +294,9 @@ class ilObjExercise extends ilObject
 		}
 			
 		// Copy assignments
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId(), $crit_cat_map);	
+		ilExAssignment::cloneAssignmentsOfExercise($this->getId(), $new_obj->getId(), $crit_cat_map);
 		
 		// Copy learning progress settings
-		include_once('Services/Tracking/classes/class.ilLPObjSettings.php');
 		$obj_settings = new ilLPObjSettings($this->getId());
 		$obj_settings->cloneSettings($new_obj->getId());
 		unset($obj_settings);
@@ -344,12 +338,10 @@ class ilObjExercise extends ilObject
 		$ilDB->manipulate("DELETE FROM exc_data ".
 			"WHERE obj_id = ".$ilDB->quote($this->getId(), "integer"));
 
-		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
 		ilExcCriteriaCatalogue::deleteByParent($this->getId());
 
 		// remove all notifications
-		include_once "./Services/Notification/classes/class.ilNotification.php";
-		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());		
+		ilNotification::removeForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->getId());
 			
 		$ilAppEventHandler->raise('Modules/Exercise',
 			'delete',
@@ -452,18 +444,15 @@ class ilObjExercise extends ilObject
 		  : ilDatePresentation::formatDate(new ilDateTime($a_ass->getDeadline(), IL_CAL_UNIX));
 		$body .= "\n\n";
 		
-		include_once "Services/Link/classes/class.ilLink.php";
 		$body .= ilLink::_getLink($this->getRefId(), "exc");
 		
 
 		// files
 		$file_names = array();
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$files = $storage->getFiles();
 		if(count($files))
 		{
-			include_once "./Services/Mail/classes/class.ilFileDataMail.php";
 			$mfile_obj = new ilFileDataMail($GLOBALS['DIC']['ilUser']->getId());
 			foreach($files as $file)
 			{
@@ -483,7 +472,6 @@ class ilObjExercise extends ilObject
 		$recipients = implode("," ,$recipients);
 	
 		// send mail
-		include_once "Services/Mail/classes/class.ilMail.php";
 		$tmp_mail_obj = new ilMail($ilUser->getId());
 		$errors = $tmp_mail_obj->enqueue(
 			$recipients,
@@ -527,7 +515,6 @@ class ilObjExercise extends ilObject
 			$a_user_id = $ilUser->getId();
 		}
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = ilExAssignment::getInstancesByExercise($this->getId());
 		
 		$passed_all_mandatory = true;
@@ -649,10 +636,8 @@ class ilObjExercise extends ilObject
 	 */
 	function exportGradesExcel()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass_data = ilExAssignment::getInstancesByExercise($this->getId());
 		
-		include_once "./Services/Excel/classes/class.ilExcel.php";
 		$excel = new ilExcel();
 		$excel->addSheet($this->lng->txt("exc_status"));
 		
@@ -689,7 +674,6 @@ class ilObjExercise extends ilObject
 		}
 		$mems = ilUtil::sortArray($mems, "lastname", "asc", false, true);
 		
-		include_once 'Services/Tracking/classes/class.ilLPMarks.php';
 		foreach ($mems as $user_id => $d)
 		{
 			$col = 0;
@@ -765,8 +749,6 @@ class ilObjExercise extends ilObject
 		{
 			$user_ids = array($user_ids);
 		}
-		
-		include_once("./Modules/Exercise/classes/class.ilExerciseMailNotification.php");
 		
 		$type = (bool)$a_is_text_feedback
 			? ilExerciseMailNotification::TYPE_FEEDBACK_TEXT_ADDED

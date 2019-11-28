@@ -72,6 +72,13 @@ class Conversation
             ";
             $msgRes = $this->db->queryF($query, ['text'], [$conversation->getId()]);
 
+            // Default case 
+            $message = new MessageDto('', $conversation);
+            $message->setMessage('');
+            $message->setAuthorUsrId((int) $this->user->getId());
+            $message->setCreatedTimestamp((int) time() * 1000);
+            $conversation->setLastMessage($message);
+
             while ($msgRow = $this->db->fetchAssoc($msgRes)) {
                 $message = new MessageDto($msgRow['id'], $conversation);
                 $message->setMessage($msgRow['message']);

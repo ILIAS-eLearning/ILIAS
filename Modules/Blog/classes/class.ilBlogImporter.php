@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Importer class for blog
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: $
- * @ingroup ModulesBlog
  */
 class ilBlogImporter extends ilXmlImporter
 {
@@ -19,8 +16,7 @@ class ilBlogImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Blog/classes/class.ilBlogDataSet.php");
-		$this->ds = new ilBlogDataSet();	
+		$this->ds = new ilBlogDataSet();
 		$this->ds->setDSPrefix("ds");		
 	}
 
@@ -33,7 +29,6 @@ class ilBlogImporter extends ilXmlImporter
 	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
 	{
 		$this->ds->setImportDirectory($this->getImportDirectory());
-		include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 			$a_xml, $this->ds, $a_mapping);
 	}
@@ -45,7 +40,6 @@ class ilBlogImporter extends ilXmlImporter
 	 */
 	function finalProcessing($a_mapping)
 	{				
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		$blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
 		foreach ($blp_map as $blp_id)
 		{
@@ -54,7 +48,6 @@ class ilBlogImporter extends ilXmlImporter
 			ilBlogPosting::_writeParentId("blp", $blp_id, $blog_id);
 		}
 				
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$sty_map = $a_mapping->getMappingsOfEntity("Services/Style", "sty");
 		foreach ($sty_map as $old_sty_id => $new_sty_id)
 		{			
@@ -68,5 +61,3 @@ class ilBlogImporter extends ilXmlImporter
 		}
 	}
 }
-
-?>

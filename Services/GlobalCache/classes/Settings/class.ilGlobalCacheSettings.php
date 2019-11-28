@@ -1,13 +1,15 @@
 <?php
 require_once('./Services/GlobalCache/classes/class.ilGlobalCache.php');
 
+use ILIAS\Setup;
+
 /**
  * Class ilGlobalCacheSettings
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilGlobalCacheSettings {
+class ilGlobalCacheSettings implements Setup\Config {
 
 	const LOG_LEVEL_FORCED = - 1;
 	const LOG_LEVEL_NONE = 0;

@@ -65,6 +65,41 @@ final class DataSize {
 		self::YB    => 'YB',
 		self::YiB   => 'YiB'
 	];
+
+	public static $abbreviations = [
+		'B'    => self::Byte,
+
+		'KB' => self::KB,
+		'K' => self::KiB,
+		'k' => self::KiB,
+		'KiB' => self::KiB,
+
+		'MB' => self::MB,
+		'M' => self::MiB,
+		'm' => self::MiB,
+		'MiB' => self::MiB,
+
+		'GB' => self::GB,
+		'G' => self::GiB,
+		'g' => self::GiB,
+		'GiB' => self::GiB,
+
+		'TB' => self::TB,
+		'TiB' => self::TiB,
+
+		'PB' => self::PB,
+		'PiB' => self::PiB,
+
+		'EB' => self::EB,
+		'EiB' => self::EiB,
+
+		'ZB' => self::ZB,
+		'ZiB' => self::ZiB,
+
+		'YB' => self::YB,
+		'YiB' => self::YiB
+	];
+
 	/**
 	 * @var float $size
 	 */
@@ -123,6 +158,13 @@ final class DataSize {
 	 */
 	public function getUnit() {
 		return $this->unit;
+	}
+
+	/**
+	 * Get the size in bytes.
+	 */
+	public function inBytes() : int {
+		return $this->size * $this->unit;
 	}
 
 	/**

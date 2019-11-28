@@ -549,7 +549,6 @@ class ilLinkInputGUI extends ilFormPropertyGUI
 				break;
 
 			case "term":
-				include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$type = $lng->txt("term");
 				$name =	ilGlossaryTerm::_lookGlossaryTerm($value[1]);
 				break;

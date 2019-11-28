@@ -84,17 +84,18 @@ class AgentCollection implements Agent {
 	 */
 	public function getArrayToConfigTransformation() : Transformation {
 		return $this->refinery->in()->series([
-			$this->refinery->to()->recordOf(array_map(
-				function($a) {
-					return $a->getArrayToConfigTransformation();
-				},
-				array_filter(
-					$this->agents,
-					function($a) {
-						return $a->hasConfig();
+			$this->refinery->custom()->transformation(function ($in) {
+				$out = [];
+				foreach ($this->agents as $key => $agent) {
+					if (!$agent->hasConfig()) {
+						continue;
 					}
-				)
-			)),
+					$val = $in[$key] ?? null;
+					$transformation = $agent->getArrayToConfigTransformation();
+					$out[$key] = $transformation($val);
+				}
+				return $out;
+			}),
 			$this->refinery->custom()->transformation(function($v) {
 				return [$v];
 			}),

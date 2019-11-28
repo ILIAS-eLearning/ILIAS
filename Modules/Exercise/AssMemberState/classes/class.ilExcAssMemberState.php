@@ -108,7 +108,6 @@ class ilExcAssMemberState
 			? new ilObjUser($a_user_id)
 			: $DIC->user();
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = new ilExAssignment($a_ass_id);
 
 		$member_id = $user->getId();
@@ -116,7 +115,6 @@ class ilExcAssMemberState
 		$team = null;
 		if($ass->getType() == ilExAssignment::TYPE_UPLOAD_TEAM)		// better move this to ilExcIndividualDeadline
 		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 			$team = ilExAssignmentTeam::getInstanceByUserId($a_ass_id, $user->getId());
 			if ($team->getId())
 			{
@@ -126,7 +124,6 @@ class ilExcAssMemberState
 		}
 
 		// note: team may be not null, but is_team still false
-		include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
 		$idl = ilExcIndividualDeadline::getInstance($a_ass_id, $member_id, $is_team);
 
 		return self::getInstance($ass, $user, $idl, time(), $lng, $team);

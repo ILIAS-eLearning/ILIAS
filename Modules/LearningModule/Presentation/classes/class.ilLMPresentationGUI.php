@@ -152,6 +152,11 @@ class ilLMPresentationGUI
     protected $requested_frame;
 
 	/**
+	 * @var \ilLMPresentationLinker
+	 */
+    protected $linker;
+
+	/**
 	 * @var ilLMPresentationService
 	 */
     protected $service;
@@ -191,7 +196,9 @@ class ilLMPresentationGUI
 		$this->ctrl = $ilCtrl;
 		$this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
 
-		$this->initByRequest($DIC->http()->request()->getQueryParams());
+		// note: using $DIC->http()->request()->getQueryParams() here will
+		// fail, since the goto magic currently relies on setting $_GET
+		$this->initByRequest($_GET);
 
 		// check, if learning module is online
 		if (!$rbacsystem->checkAccess("write", $this->requested_ref_id))
@@ -235,6 +242,7 @@ class ilLMPresentationGUI
 	    $this->requested_frame = $request->getRequestedFrame();
 	    $this->requested_search_string = $request->getRequestedSearchString();
 	    $this->requested_focus_return = $request->getRequestedFocusReturn();
+	    $this->requested_mob_id = $request->getRequestedMobId();
 
 		$this->lm_set = $this->service->getSettings();
 		$this->lm_gui = $this->service->getLearningModuleGUI();
@@ -597,7 +605,6 @@ class ilLMPresentationGUI
 
 					case "ilMedia":
 						$this->media();
-						//$this->ilMedia();
 						break;
 
 					case "ilLocator":
@@ -761,62 +768,58 @@ class ilLMPresentationGUI
 	function fullscreen()
 	{
 		return $this->media();
-		//return $this->layout("fullscreen.xml", !$this->offlineMode());
 	}
 
+	/**
+	 * @return string
+	 * @throws ilException
+	 */
 	function media()
 	{
         $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
-        $GLOBALS["tpl"] = $this->tpl;
+        //$GLOBALS["tpl"] = $this->tpl;
 
-        $this->ilMedia();
+		// set style sheets
+		$this->setContentStyles();
+		$this->setSystemStyle();
+
+		$this->ilMedia();
         if (!$this->offlineMode())
         {
             $this->tpl->printToStdout();
         }
         else
         {
-            return $this->tpl->get();
+	        return $this->tpl->printToString();
         }
+		return "";
 	}
 
-	function glossary()
+	/**
+	 * @return string
+	 * @throws ilException
+	 */
+	public function glossary()
 	{
-		global $DIC;
+		$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
+		//$GLOBALS["tpl"] = $this->tpl;
+		$this->renderPageTitle();
 
-		$ilUser = $this->user;
-		
-		//if ($this->requested_frame != "_blank")
-        //{
-        //	$this->layout();
-        //}
-        //else
-        //{
-			$this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
-			$GLOBALS["tpl"] = $this->tpl;
-			$this->renderPageTitle();
+		// set style sheets
+		$this->setContentStyles();
+		$this->setSystemStyle();
 
-			// set style sheets
-			if (!$this->offlineMode())
-			{
-				$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-			}
-			else
-			{
-				$style_name = $ilUser->getPref("style").".css";;
-				$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
-			}
+		$this->ilGlossary();
+		if (!$this->offlineMode())
+		{
+			$this->tpl->printToStdout();
+		}
+		else
+		{
+			return $this->tpl->printToString();
+		}
 
-			$this->ilGlossary();
-			if (!$this->offlineMode())
-			{
-				$this->tpl->printToStdout();
-			}
-			else
-			{
-				return $this->tpl->get();
-			}
-        //}
+		return "";
 	}
 
     function page()
@@ -1268,15 +1271,15 @@ class ilLMPresentationGUI
 									$this->lm->isActiveNumbering(),
 									$this->lm_set->get("time_scheduled_page_activation"), false, 0, $this->lang),
 								50,true),
-							$this->getLink($this->requested_ref_id, "layout", $row["child"], $frame_param, "StructureObject"),
+							$this->linker->getLink("layout", $row["child"], $frame_param, "StructureObject"),
 							$frame_target);
 					}
 					else
 					{
 						$ilLocator->addItem(
 							ilUtil::shortenText($this->getLMPresentationTitle(),50,true),
-							$this->getLink($this->requested_ref_id, "layout", "", $frame_param),
-							$frame_target, $this->requested_ref_id);
+							$this->linker->getLink("layout", "", $frame_param),
+								$frame_target, $this->requested_ref_id);
 					}
 				}
 			}
@@ -1286,13 +1289,13 @@ class ilLMPresentationGUI
 	
 			$ilLocator->addItem(
 				$this->getLMPresentationTitle(),
-				$this->getLink($this->requested_ref_id, "layout", "", $this->requested_frame));
+				$this->linker->getLink("layout", "", $this->requested_frame));
 
 			$lm_obj = ilLMObjectFactory::getInstance($this->lm, $a_id);
 
 			$ilLocator->addItem(
 				$lm_obj->getTitle(),
-				$this->getLink($this->requested_ref_id, "layout", $a_id, $frame_param),
+				$this->linker->getLink( "layout", $a_id, $frame_param),
 				$frame_target);
 		}
 
@@ -1409,7 +1412,6 @@ class ilLMPresentationGUI
 
 	function getLayoutLinkTargets()
 	{
-
 		if (!is_object($this->layout_doc))
 			return array ();
 
@@ -1425,7 +1427,7 @@ class ilLMPresentationGUI
 			$onclick = $res->nodeset[$i]->get_attribute("OnClick");
 			$targets[$type] = array("Type" => $type, "Frame" => $frame, "OnClick" => $onclick);
 		}
-
+var_dump($targets); exit;
 		return $targets;
 	}
 
@@ -1435,6 +1437,11 @@ class ilLMPresentationGUI
 	protected function setContentStyles()
 	{
 		// content style
+
+		$this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
+		$this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
+		/*
 		$this->tpl->setCurrentBlock("ContentStyle");
 		if (!$this->offlineMode())
 		{
@@ -1459,8 +1466,17 @@ class ilLMPresentationGUI
 			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 				"syntaxhighlight.css");
 		}
-		$this->tpl->parseCurrentBlock();
+		$this->tpl->parseCurrentBlock();*/
 	}
+
+	/**
+	 * Set system style
+	 */
+	protected function setSystemStyle()
+	{
+		$this->tpl->addCss(ilUtil::getStyleSheetLocation());
+	}
+
 
 
 
@@ -1609,233 +1625,14 @@ class ilLMPresentationGUI
 		{
 			$this->ctrl->setParameter($this, "obj_id", $this->getCurrentPageId());		// see #22403
 		}
-		$a_page_gui->setFileDownloadLink($this->getLink($this->requested_ref_id, "downloadFile"));
+		$a_page_gui->setFileDownloadLink($this->linker->getLink( "downloadFile"));
 		if (!$this->offlineMode())
 		{
 			$this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
 		}
-		$a_page_gui->setFullscreenLink($this->getLink($this->requested_ref_id, "fullscreen"));
+		$a_page_gui->setFullscreenLink($this->linker->getLink( "fullscreen"));
 	}
 
-
-	/**
-	* get xml for links
-	*/
-	function getLinkXML($a_int_links, $a_layoutframes)
-	{
-		$ilCtrl = $this->ctrl;
-
-		// Determine whether the view of a learning resource should
-		// be shown in the frameset of ilias, or in a separate window.
-		$showViewInFrameset = true;
-
-		if ($a_layoutframes == "")
-		{
-			$a_layoutframes = array();
-		}
-		$link_info = "<IntLinkInfos>";
-		foreach ($a_int_links as $int_link)
-		{
-			$target = $int_link["Target"];
-			if (substr($target, 0, 4) == "il__")
-			{
-				$target_arr = explode("_", $target);
-				$target_id = $target_arr[count($target_arr) - 1];
-				$type = $int_link["Type"];
-				$targetframe = ($int_link["TargetFrame"] != "")
-					? $int_link["TargetFrame"]
-					: "None";
-					
-				// anchor
-				$anc = $anc_add = "";
-				if ($int_link["Anchor"] != "")
-				{
-					$anc = $int_link["Anchor"];
-					$anc_add = "_".rawurlencode($int_link["Anchor"]);
-				}
-				$lcontent = "";
-				switch($type)
-				{
-					case "PageObject":
-					case "StructureObject":
-						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						if ($lm_id == $this->lm->getId() ||
-							($targetframe != "None" && $targetframe != "New"))
-						{
-							$ltarget = $a_layoutframes[$targetframe]["Frame"];
-							//$nframe = ($ltarget == "")
-							//	? $this->requested_frame
-							//	: $ltarget;
-							$nframe = ($ltarget == "")
-								? ""
-								: $ltarget;
-							if ($ltarget == "")
-							{
-								if ($showViewInFrameset) {
-									$ltarget="_parent";
-								} else {
-									$ltarget="_top";
-								}
-							}
-							// scorm always in 1window view and link target
-							// is always same frame
-							if ($this->getExportFormat() == "scorm" &&
-								$this->offlineMode())
-							{
-								$ltarget = "";
-							}
-							$href =
-								$this->getLink($this->requested_ref_id, "layout", $target_id, $nframe, $type,
-									"append", $anc);
-							if ($lm_id == "")
-							{
-								$href = "";
-							}
-						}
-						else
-						{
-							if (!$this->offlineMode())
-							{
-								if ($type == "PageObject")
-								{
-									$href = "./goto.php?target=pg_".$target_id.$anc_add;
-								}
-								else
-								{
-									$href = "./goto.php?target=st_".$target_id;
-								}
-							}
-							else
-							{
-								if ($type == "PageObject")
-								{
-									$href = ILIAS_HTTP_PATH."/goto.php?target=pg_".$target_id.$anc_add."&amp;client_id=".CLIENT_ID;
-								}
-								else
-								{
-									$href = ILIAS_HTTP_PATH."/goto.php?target=st_".$target_id."&amp;client_id=".CLIENT_ID;
-								}
-							}
-							if ($targetframe != "New")
-							{
-								$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
-							}
-							else
-							{
-								$ltarget = "_blank";
-							}
-						}
-						break;
-
-					case "GlossaryItem":
-						if ($targetframe == "None")
-						{
-							$targetframe = "Glossary";
-						}
-						$ltarget = $a_layoutframes[$targetframe]["Frame"];
-						$nframe = ($ltarget == "")
-							? $this->requested_frame
-							: $ltarget;
-						$href =
-							$this->getLink($this->requested_ref_id, $a_cmd = "glossary", $target_id, $nframe, $type);
-						break;
-
-					case "MediaObject":
-						$ltarget = $a_layoutframes[$targetframe]["Frame"];
-						$nframe = ($ltarget == "")
-							? $this->requested_frame
-							: $ltarget;
-						$href =
-							$this->getLink($this->requested_ref_id, $a_cmd = "media", $target_id, $nframe, $type);
-						break;
-
-					case "RepositoryItem":
-						$obj_type = ilObject::_lookupType($target_id, true);
-						$obj_id = ilObject::_lookupObjId($target_id);
-						if (!$this->offlineMode())
-						{
-							$href = "./goto.php?target=".$obj_type."_".$target_id;
-						}
-						else
-						{
-							$href = ILIAS_HTTP_PATH."/goto.php?target=".$obj_type."_".$target_id."&amp;client_id=".CLIENT_ID;
-						}
-						$ltarget = ilFrameTargetInfo::_getFrame("MainContent");
-						break;
-						
-					case "WikiPage":
-						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
-						break;
-
-					case "File":
-						if (!$this->offlineMode())
-						{
-							$ilCtrl->setParameter($this, "obj_id", $this->getCurrentPageId());
-							$ilCtrl->setParameter($this, "file_id", "il__file_".$target_id);
-							$href = $ilCtrl->getLinkTarget($this, "downloadFile",
-								"",false, true);
-							$ilCtrl->setParameter($this, "file_id", "");
-							$ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
-						}
-						break;
-
-					case "User":
-						$obj_type = ilObject::_lookupType($target_id);
-						if ($obj_type == "usr")
-						{
-							$back = $this->ctrl->getLinkTarget($this, "layout",
-								"",false, true);
-							//var_dump($back); exit;
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "back_url",
-								rawurlencode($back));
-							$href = "";
-							if (ilUserUtil::hasPublicProfile($target_id))
-							{
-								$href = $this->ctrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML",
-									"",false, true);
-							}
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
-							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
-						}
-						break;
-
-				}
-				
-				$anc_par = 'Anchor="'.$anc.'"';
-
-				if ($href != "")
-				{
-					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " .
-						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" $anc_par/>";
-				}
-
-				// set equal link info for glossary links of target "None" and "Glossary"
-				/*
-				if ($targetframe=="None" && $type=="GlossaryItem")
-				{
-					$link_info.="<IntLinkInfo Target=\"$target\" Type=\"$type\" ".
-						"TargetFrame=\"Glossary\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" />";
-				}*/
-			}
-		}
-		$link_info.= "</IntLinkInfos>";
-		return $link_info;
-	}
-
-	/**
-	* Get XMl for Link Targets
-	*/
-	function getLinkTargetsXML()
-	{
-		$link_info = "<LinkTargets>";
-		foreach ($this->getLayoutLinkTargets() as $k => $t)
-		{
-			$link_info.="<LinkTarget TargetFrame=\"".$t["Type"]."\" LinkTarget=\"".$t["Frame"]."\" OnClick=\"".$t["OnClick"]."\" />";
-		}
-		$link_info.= "</LinkTargets>";
-		return $link_info;
-	}
 
 	/**
 	* show glossary term
@@ -1847,37 +1644,9 @@ class ilLMPresentationGUI
 		$term_gui = new ilGlossaryTermGUI($this->requested_obj_id);
 
 		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
+		$this->setContentStyles();
 
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				ilObjStyleSheet::getSyntaxStylePath());
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-				"syntaxhighlight.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
-		$int_links = $term_gui->getInternalLinks();
-		$link_xml = $this->getLinkXML($int_links, $this->getLayoutLinkTargets());
-		$link_xml.= $this->getLinkTargetsXML();
-		$term_gui->setLinkXML($link_xml);
+		$term_gui->setPageLinker($this->linker);
 
 		$term_gui->setOfflineDirectory($this->getOfflineDirectory());
 		if (!$this->offlineMode())
@@ -1885,7 +1654,6 @@ class ilLMPresentationGUI
 			$ilCtrl->setParameter($this, "pg_type", "glo");
 		}
 		$term_gui->output($this->offlineMode(), $this->tpl);
-
 
 
 		if (!$this->offlineMode())
@@ -1899,39 +1667,16 @@ class ilLMPresentationGUI
 	*/
 	function ilMedia()
 	{
-		$ilUser = $this->user;
-
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
+		$this->setContentStyles();
 
 		$this->renderPageTitle();
-		
-		// set style sheets
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		}
-		else
-		{
-			$style_name = $ilUser->getPref("style").".css";;
-			$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
-		}
 
 		$this->tpl->setCurrentBlock("ilMedia");
 
-		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
-		$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
-		$link_xml.= $this->getLinkTargetsXML();
-		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
+		$med_links = ilMediaItem::_getMapAreasIntLinks($this->requested_mob_id);
+		$link_xml = $this->linker->getLinkXML($med_links);
+
+		$media_obj = new ilObjMediaObject($this->requested_mob_id);
 		if (!empty ($_GET["pg_id"]))
 		{
 			$pg_obj = $this->getLMPage($_GET["pg_id"]);
@@ -1940,7 +1685,7 @@ class ilLMPresentationGUI
 			$xml = "<dummy>";
 			// todo: we get always the first alias now (problem if mob is used multiple
 			// times in page)
-			$xml.= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+			$xml.= $pg_obj->getMediaAliasElement($this->requested_mob_id);
 			$xml.= $media_obj->getXML(IL_MODE_OUTPUT);
 			$xml.= $link_xml;
 			$xml.="</dummy>";
@@ -1956,18 +1701,11 @@ class ilLMPresentationGUI
 			$xml.="</dummy>";
 		}
 
-//echo htmlentities($xml); exit;
-
-		// todo: utf-header should be set globally
-		//header('Content-type: text/html; charset=UTF-8');
 
 		$xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
 		$args = array( '/_xml' => $xml, '/_xsl' => $xsl );
 		$xh = xslt_create();
 
-//echo "<b>XML:</b>".htmlentities($xml);
-		// determine target frames for internal links
-		//$pg_frame = $this->requested_frame;
 		if (!$this->offlineMode())
 		{
 			$wb_path = ilUtil::getWebspaceDir("output")."/";
@@ -1982,11 +1720,12 @@ class ilLMPresentationGUI
 			: "media";
 		$enlarge_path = ilUtil::getImagePath("enlarge.svg", false, "output", $this->offlineMode());
 		$fullscreen_link =
-			$this->getLink($this->lm->getRefId(), "fullscreen");
+			$this->linker->getLink( "fullscreen");
 		$params = array ('mode' => $mode, 'enlarge_path' => $enlarge_path,
 			'link_params' => "ref_id=".$this->lm->getRefId(),'fullscreen_link' => $fullscreen_link,
 			'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
 		$output = xslt_process($xh,"arg:/_xml","arg:/_xsl",NULL,$args, $params);
+
 		echo xslt_error($xh);
 		xslt_free($xh);
 
@@ -2108,7 +1847,7 @@ class ilLMPresentationGUI
 						unset($attributes["template"]);
 						unset($attributes["template_location"]);
 						$attributes["src"] =
-							$this->getLink($this->lm->getRefId(), "layout", $this->requested_obj_id, $attributes["name"],
+							$this->linker->getLink( "layout", $this->requested_obj_id, $attributes["name"],
 								"", "keep", "", $_GET["srcstring"]);
 						$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 						$a_content .= $this->buildTag("", "frame", $attributes);
@@ -2127,7 +1866,7 @@ class ilLMPresentationGUI
 					unset($attributes["template"]);
 					unset($attributes["template_location"]);
 					$attributes["src"] =
-						$this->getLink($this->lm->getRefId(), "layout", $this->requested_obj_id, $attributes["name"],
+						$this->linker->getLink( "layout", $this->requested_obj_id, $attributes["name"],
 							"", "keep", "", $_GET["srcstring"]);
 					$attributes["title"] = $this->lng->txt("cont_frame_".$attributes["name"]);
 					if ($attributes["name"] == "toc")
@@ -2181,135 +1920,7 @@ class ilLMPresentationGUI
 	}
 
 
-	/**
-	* table of contents
-	*/
-	function showTableOfContents()
-	{
-		$ilUser = $this->user;
 
-		if (!$this->lm->isActiveTOC() || !$this->lm->isActiveLMMenu())
-		{
-			return;
-		}
-
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
-		$this->renderPageTitle();
-
-		// set style sheets
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-		}
-		else
-		{
-			$style_name = $ilUser->getPref("style").".css";;
-			$this->tpl->setVariable("LOCATION_STYLESHEET","./style/".$style_name);
-		}
-
-		//$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_toc.html", true);
-		//var_dump($GLOBALS["tpl"]); echo "<br><br>";
-		//exit;
-		$this->tpl->loadStandardTemplate();
-		$this->ilLocator(true);
-
-		$a_global_tabs = !$this->offlineMode();
-
-        $this->renderTabs("toc", 0);
-		/*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-			,$this->getExportFormat(), "toc", $a_global_tabs, false, 0,
-			$this->lang, $this->export_all_languages));*/
-
-		// set title header
-		$this->tpl->setVariable("TXT_TOC", $this->lng->txt("cont_toc"));
-		$this->tpl->setTitle($this->getLMPresentationTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-
-		$exp = new ilLMTableOfContentsExplorerGUI($this, "showTableOfContents", $this, $this->lang, $this->export_all_languages);
-		$exp->setMainTemplate($this->tpl);
-		$exp->setTracker($this->tracker);
-		if (!$exp->handleCommand())
-		{
-			// determine highlighted and force open nodes
-			$page_id = $this->getCurrentPageId();
-			if ($this->deactivated_page)
-			{
-				$page_id = $this->requested_obj_id;
-			}
-
-			// highlight current node
-			if (!$this->offlineMode())
-			{
-				// empty chapter
-				if ($this->chapter_has_no_active_page &&
-					ilLMObject::_lookupType($this->requested_obj_id) == "st")
-				{
-					$exp->setHighlightNode($this->requested_obj_id);
-				} else
-				{
-					if ($this->lm->getTOCMode() == "pages")
-					{
-						if ($this->deactivated_page)
-						{
-							$exp->setHighlightNode($this->requested_obj_id);
-						} else
-						{
-							$exp->setHighlightNode($page_id);
-						}
-					} else
-					{
-						$exp->setHighlightNode($this->lm_tree->getParentId($page_id));
-					}
-				}
-			}
-			if ($this->offlineMode())
-			{
-				$exp->setOfflineMode(true);
-			}
-//	var_dump($exp->getHTML()."_");
-			$this->tpl->setVariable("ADM_CONTENT", $exp->getHTML());
-		}
-		if ($this->offlineMode())
-		{
-			// reset standard css files
-			$this->tpl->resetJavascript();
-			$this->tpl->resetCss();
-			$this->tpl->setBodyClass("ilLMNoMenu");
-
-			foreach (ilObjContentObject::getSupplyingExportFiles() as $f)
-			{
-				if ($f["type"] == "js")
-				{
-					$this->tpl->addJavascript($f["target"]);
-				}
-				if ($f["type"] == "css")
-				{
-					$this->tpl->addCSS($f["target"]);
-				}
-			}
-			$this->tpl->fillJavaScriptFiles(true);
-			$this->tpl->fillOnLoadCode();
-			//var_dump(htmlentities($this->tpl->get())); exit;
-			return $this->tpl->get();
-		}
-		else
-		{
-			$this->tpl->printToStdout();
-		}
-	}
-	
-	
 	/**
 	* this one is called from the info button in the repository
 	* not very nice to set cmdClass/Cmd manually, if everything
@@ -2446,22 +2057,11 @@ class ilLMPresentationGUI
 		{
 			return;
 		}
-		
 
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
 
+		$this->setContentStyles();
 		$this->renderPageTitle();
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
 		$this->tpl->loadStandardTemplate();
 
 		$this->renderTabs("print", 0);
@@ -2722,23 +2322,7 @@ class ilLMPresentationGUI
 		}
 
 		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
-		// syntax style
-		$this->tpl->setCurrentBlock("SyntaxStyle");
-		$this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-			ilObjStyleSheet::getSyntaxStylePath());
-		$this->tpl->parseCurrentBlock();
+		$this->setContentStyles();
 
 		//$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
 		$this->tpl->addBlockFile("CONTENT", "content", "tpl.lm_print_view.html", true);
@@ -3281,16 +2865,6 @@ class ilLMPresentationGUI
 		}
 	}
 
-
-	/**
-	* download source code paragraph
-	*/
-	function download_paragraph ()
-	{
-		$pg_obj = $this->getLMPage($_GET["pg_id"]);
-		$pg_obj->send_paragraph ($_GET["par_id"], $_GET["downloadtitle"]);
-	}
-	
 	/**
 	* show download list
 	*/
@@ -3301,20 +2875,9 @@ class ilLMPresentationGUI
 			return;
 		}
 
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
-
+		$this->setContentStyles();
 		$this->renderPageTitle();
-		$this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+
 		$this->tpl->loadStandardTemplate();
 
         $this->renderTabs("download", 0);
@@ -3391,17 +2954,6 @@ class ilLMPresentationGUI
 			$a_obj_id."&amp;focus_return=".$a_return_ref_id;
 	}
 
-
-	/**
-	* handles links for learning module presentation
-	*/
-	function getLink($a_ref_id, $a_cmd = "", $a_obj_id = "", $a_frame = "", $a_type = "",
-		$a_back_link = "append", $a_anchor = "", $a_srcstring = "")
-	{
-		return $this->linker->getLink($a_cmd, $a_obj_id, $a_frame, $a_type,
-            $a_back_link, $a_anchor, $a_srcstring);
-	}
-
 	/**
 	 * Show message screen
 	 *
@@ -3411,17 +2963,7 @@ class ilLMPresentationGUI
 	function showMessageScreen($a_content)
 	{
 		// content style
-		$this->tpl->setCurrentBlock("ContentStyle");
-		if (!$this->offlineMode())
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-				ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-		}
-		else
-		{
-			$this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-		}
-		$this->tpl->parseCurrentBlock();
+		$this->setContentStyles();
 
 		$tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
 		$tpl->setVariable("TXT_PAGE_NO_PUBLIC_ACCESS", $a_content);

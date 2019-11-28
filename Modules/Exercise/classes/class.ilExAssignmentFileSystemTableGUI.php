@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once('./Services/FileSystem/classes/class.ilFileSystemTableGUI.php');
-
 /**
  * File System Explorer GUI class
  *
  *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
  *
  */
 class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
@@ -92,8 +89,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
 
 		if (sizeof($this->row_commands)) {
 			$this->addColumn($this->lng->txt("actions"));
-			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
-		}
+			}
 	}
 
 	/**

@@ -292,8 +292,6 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass {
 			return true;
 		}
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term_id = ilGlossaryDefinition::_lookupTermId($page_id);
 
 		include_once('./Services/Link/classes/class.ilInternalLink.php');

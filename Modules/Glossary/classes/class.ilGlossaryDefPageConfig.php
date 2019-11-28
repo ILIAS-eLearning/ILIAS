@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Glossary definition page configuration 
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesGlossary
  */
 class ilGlossaryDefPageConfig extends ilPageConfig
 {
@@ -25,5 +21,3 @@ class ilGlossaryDefPageConfig extends ilPageConfig
 	}
 	
 }
-
-?>

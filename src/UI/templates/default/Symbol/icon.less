@@ -123,7 +123,6 @@
 	&.nwss,
 	&.feed,
 	&.mcst,
-	&.pdts,
 	&.rcrs,
 	&.mds,
 	&.cmps,
@@ -184,7 +183,8 @@
 	&.wfe,
 	&.iass,
 	&.copa,
-	&.lso
+	&.lso,
+	&.bgtk
 	{
 		.abbreviation {
 			display: none;
@@ -329,9 +329,6 @@
 	}
 	&.mcst{
 		background-image: url("@{il-standard-icon-path}icon_mcst.svg");
-	}
-	&.pdts{
-		background-image: url("@{il-standard-icon-path}icon_pdts.svg");
 	}
 	&.rcrs{
 		background-image: url("@{il-standard-icon-path}icon_rcrs.svg");
@@ -516,6 +513,9 @@
 	&.lso{
 		background-image: url("@{background-images-path}icon_lso.svg");
 	}
+	&.bgtk{
+		background-image: url("@{background-images-path}icon_bgtk.svg");
+	}
 
 	&.outlined{
 		filter: @il-standard-outlined-icon-filter;
@@ -661,9 +661,6 @@
 		}
 		&.mcst{
 			background-image: url("@{il-standard-outlined-icon-path}icon_mcst.svg");
-		}
-		&.pdts{
-			background-image: url("@{il-standard-outlined-icon-path}icon_pdts.svg");
 		}
 		&.rcrs{
 			background-image: url("@{il-standard-outlined-icon-path}icon_rcrs.svg");
@@ -847,6 +844,9 @@
 		}
 		&.lso{
 			background-image: url("@{il-standard-outlined-icon-path}icon_lso.svg");
+		}
+		&.bgtk{
+			background-image: url("@{il-standard-outlined-icon-path}icon_bgtk.svg");
 		}
 	}
 }

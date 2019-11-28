@@ -245,7 +245,7 @@ class ilMySQLQueryUtils extends ilQueryUtils {
 
 			$lock .= ($table_name . ' ');
 
-			if ($table['alias']) {
+			if ($table['alias'] ?? null) {
 				$lock .= ($table['alias'] . ' ');
 			}
 

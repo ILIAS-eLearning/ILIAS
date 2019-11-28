@@ -43,7 +43,6 @@ define("DEBUG",false);
 
 //require_once "./Services/UICore/classes/class.ilTemplateHTMLITX.php";
 require_once "./setup/classes/class.ilTemplate.php";	// modified class. needs to be merged with base template class
-require_once "./setup/classes/class.ilSetupLanguage.php";	// modified class. needs to be merged with base language class
 require_once "./Services/Logging/classes/class.ilLog.php";
 require_once "./Services/Authentication/classes/class.ilSession.php";
 require_once "./Services/Utilities/classes/class.ilUtil.php";
@@ -53,7 +52,7 @@ require_once "./setup/classes/class.Session.php";
 require_once "./setup/classes/class.ilClientList.php";
 require_once "./setup/classes/class.ilClient.php";
 require_once "./Services/FileSystem/classes/class.ilFile.php";
-require_once "./setup/classes/class.ilCtrlStructureReader.php";
+require_once "./Services/UICore/classes/Setup/class.ilCtrlStructureReader.php";
 require_once "./Services/Xml/classes/class.ilSaxParser.php";
 require_once "./include/inc.ilias_version.php";
 include_once './Services/Logging/classes/public/class.ilLogLevel.php';

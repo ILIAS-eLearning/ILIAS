@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Portfolio/classes/class.ilPCConsultationHours.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilPCConsultationHoursGUI
-*
-* Handles user commands on consultation hour data
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $I$
-*
-* @ingroup ServicesCOPage
-*/
+ * Class ilPCConsultationHoursGUI
+ *
+ * Handles user commands on consultation hour data
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCConsultationHoursGUI extends ilPageContentGUI
 {
 	/**
@@ -106,7 +100,6 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		$ilUser = $this->user;
 		$lng = $this->lng;
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_insert)
@@ -132,7 +125,6 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 		
 		if(!$this->getPageConfig()->getEnablePCType("PlaceHolder"))
 		{		
-			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";
 			$grp_ids = ilConsultationHourGroups::getGroupsOfUser($ilUser->getId());
 			if(sizeof($grp_ids))
 			{			

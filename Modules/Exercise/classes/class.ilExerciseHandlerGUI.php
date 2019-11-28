@@ -5,7 +5,6 @@
 * Handles user interface for exercises
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ilCtrl_Calls ilExerciseHandlerGUI: ilObjExerciseGUI
 *
@@ -84,7 +83,6 @@ class ilExerciseHandlerGUI
 		switch ($next_class)
 		{
 			case 'ilobjexercisegui':
-				require_once "./Modules/Exercise/classes/class.ilObjExerciseGUI.php";
 				$ex_gui = new ilObjExerciseGUI("", (int) $_GET["ref_id"], true, false);
 				$this->ctrl->forwardCommand($ex_gui);
 				break;

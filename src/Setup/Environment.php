@@ -14,6 +14,9 @@ interface Environment {
 	const RESOURCE_DATABASE = "resource_database";
 	const RESOURCE_ADMIN_INTERACTION = "resource_admin_interaction";
 	const RESOURCE_ACHIEVEMENT_TRACKER = "resource_achievement_tracker";
+	const RESOURCE_ILIAS_INI = "resource_ilias_ini";
+	const RESOURCE_CLIENT_INI = "resource_client_ini";
+	const RESOURCE_SETTINGS_FACTORY = "resource_settings_factory";
 
 	/**
 	 * Consumers of this method should check if the result is what they expect,

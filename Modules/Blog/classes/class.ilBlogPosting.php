@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBlogPosting
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesBlog
  */
 class ilBlogPosting extends ilPageObject
 {	
@@ -193,7 +189,6 @@ class ilBlogPosting extends ilPageObject
 		
 		if($a_notify && $this->getActive())
 		{					
-			include_once "Modules/Blog/classes/class.ilObjBlog.php";
 			ilObjBlog::sendNotification($a_notify_action, $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
 		}
 
@@ -245,7 +240,6 @@ class ilBlogPosting extends ilPageObject
 	{
 		$ilDB = $this->db;
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
 			"blog", $this->getId(), $this->getParentType());
 
@@ -267,7 +261,6 @@ class ilBlogPosting extends ilPageObject
 		$this->setActive(false);
 		$this->update(true, false, false);
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
 			"blog", $this->getId(), $this->getParentType());
 	}
@@ -283,8 +276,6 @@ class ilBlogPosting extends ilPageObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
-		include_once 'Services/MetaData/classes/class.ilMD.php';
 		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer");
@@ -456,7 +447,6 @@ class ilBlogPosting extends ilPageObject
 	
 	public function getNotificationAbstract()
 	{	
-		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 		$snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
 		
 		// making things more readable
@@ -474,7 +464,6 @@ class ilBlogPosting extends ilPageObject
 	public function getMDSection()
 	{											
 		// general section available?
-		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->getBlogId(), $this->getId(), "blp");
 		if(!is_object($md_section = $md_obj->getGeneral()))
 		{
@@ -493,13 +482,11 @@ class ilBlogPosting extends ilPageObject
 		$ulang = $ilUser->getLanguage();
 		$keywords = array($ulang=>$keywords);
 
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
-		ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);		
+		ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);
 	}
 		
 	public static function getKeywords($a_obj_id, $a_posting_id)
 	{
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
 	}	
 		
@@ -520,7 +507,6 @@ class ilBlogPosting extends ilPageObject
 			return;
 		}
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = null;
 		
 		// try to re-use existing news item		
@@ -570,7 +556,6 @@ class ilBlogPosting extends ilPageObject
 			: "blog_news_posting_published";
 		
 		// news "author"
-		include_once "Services/User/classes/class.ilUserUtil.php";
 		$content = sprintf($lng->txt($content), ilUserUtil::getNamePresentation($ilUser->getId()));
 		
 		// posting author[s]
@@ -596,7 +581,6 @@ class ilBlogPosting extends ilPageObject
 		$news_item->setContentTextIsLangVar(false);				
 		$news_item->setContent($content);	
 		
-		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 		$snippet = ilBlogPostingGUI::getSnippet($this->getId());
 		$news_item->setContentLong($snippet);
 			

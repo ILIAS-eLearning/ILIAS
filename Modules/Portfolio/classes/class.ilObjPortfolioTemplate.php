@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Modules/Portfolio/classes/class.ilObjPortfolioBase.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio 
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilObjPortfolioTemplate extends ilObjPortfolioBase
 {	
@@ -29,8 +25,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		
 		if($this->ref_id)
 		{
-			include_once "./Services/Object/classes/class.ilObjectActivation.php";
-			$activation = ilObjectActivation::getItem($this->ref_id);			
+			$activation = ilObjectActivation::getItem($this->ref_id);
 			switch($activation["timing_type"])
 			{				
 				case ilObjectActivation::TIMINGS_ACTIVATION:	
@@ -62,7 +57,6 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 	protected function deleteAllPages()
 	{
 		// delete pages
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 		$pages = ilPortfolioTemplatePage::getAllPortfolioPages($this->id);
 		foreach($pages as $page)
 		{
@@ -85,7 +79,6 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		self::cloneBasics($this, $new_obj);
 		
 		// copy pages
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 		foreach(ilPortfolioPage::getAllPortfolioPages($this->getId()) as $page)
 		{			
 			// see ilObjWiki::cloneObject();
@@ -113,7 +106,6 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		// moved activation to ilObjectActivation
 		if($this->ref_id)
 		{
-			include_once "./Services/Object/classes/class.ilObjectActivation.php";		
 			ilObjectActivation::getItem($this->ref_id);
 			
 			$item = new ilObjectActivation;			
@@ -217,5 +209,3 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
 		return $res;
 	}
 }
-
-?>

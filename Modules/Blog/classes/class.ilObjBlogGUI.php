@@ -1,23 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "./Services/Object/classes/class.ilObject2GUI.php";
-require_once "./Modules/Blog/classes/class.ilBlogPosting.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjBlogGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
-*
-* @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
-* @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
-*
-* @extends ilObject2GUI
-*/
+ * Class ilObjBlogGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjBlogGUI: ilBlogPostingGUI, ilWorkspaceAccessGUI, ilPortfolioPageGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilInfoScreenGUI, ilNoteGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilPermissionGUI, ilObjectCopyGUI, ilRepositorySearchGUI
+ * @ilCtrl_Calls ilObjBlogGUI: ilExportGUI, ilObjStyleSheetGUI, ilBlogExerciseGUI, ilObjNotificationSettingsGUI
+ */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
 	/**
@@ -368,7 +362,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
 		{		
-			include_once "Services/Form/classes/class.ilFileInputGUI.php";
 			ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
 			
 			$dimensions = " (".$blga_set->get("banner_width")."x".
@@ -600,7 +593,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($this->gtp > 0)
 		{
 			$page_id = $this->gtp;
-			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			if(ilBlogPosting::exists($this->object_id, $page_id))
 			{			
 				// #12312
@@ -649,7 +641,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 					$this->setLocator();
 				} else
 				{
-					include_once "Services/Form/classes/class.ilFileInputGUI.php";
 					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
 				}
 				$ilTabs->setBackTarget($lng->txt("back"),
@@ -658,7 +649,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
 					$this->object->getStyleSheetId(), "blog");
 
-				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$bpost_gui = new ilBlogPostingGUI($this->node_id,
 					$this->getAccessHandler(),
 					$this->blpg,
@@ -801,7 +791,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				break;
 			
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -809,14 +798,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case "ilpermissiongui":
 				$this->prepareOutput();
 				$ilTabs->activateTab("id_permissions");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 			
 			case "ilobjectcopygui":
 				$this->prepareOutput();
-				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("blog");
 				$this->ctrl->forwardCommand($cp);
@@ -825,7 +812,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case 'ilrepositorysearchgui':
 				$this->prepareOutput();
 				$ilTabs->activateTab("contributors");
-				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$rep_search = new ilRepositorySearchGUI();
 				$rep_search->setTitle($this->lng->txt("blog_add_contributor"));
 				$rep_search->setCallback($this,'addContributor',$this->object->getAllLocalRoles($this->node_id));
@@ -836,15 +822,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			case 'ilexportgui':
 				$this->prepareOutput();
 				$ilTabs->activateTab("export");
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
-				$exp_gui = new ilExportGUI($this); 
+				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$exp_gui->addFormat("html", null, $this, "buildExportFile"); // #13419
 				$ret = $ilCtrl->forwardCommand($exp_gui);
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -872,7 +856,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				
 			case "ilblogexercisegui":
 				$this->ctrl->setReturn($this, "render");
-				include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";
 				$gui = new ilBlogExerciseGUI($this->node_id);
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -881,7 +864,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$this->prepareOutput();
 				$ilTabs->activateTab("settings");
 				$this->setSettingsSubTabs("notifications");
-				include_once("./Services/Notification/classes/class.ilObjNotificationSettingsGUI.php");
 				$gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -968,7 +950,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		$this->checkPermission("visible");
 
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		if($this->id_type != self::WORKSPACE_NODE_ID)
@@ -1018,7 +999,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($title)
 		{
 			// create new posting
-			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 			$posting = new ilBlogPosting();
 			$posting->setTitle($title);
 			$posting->setBlogId($this->object->getId());
@@ -1068,11 +1048,9 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		{
 			$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "createPosting"));
 
-			include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 			$title = new ilTextInputGUI($lng->txt("title"), "title");
 			$ilToolbar->addStickyItem($title, $lng->txt("title"));
 			
-			include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 			$button = ilSubmitButton::getInstance();
 			$button->setCaption("blog_add_posting");
 			$button->setCommand("createPosting");
@@ -1088,16 +1066,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$url = $ilCtrl->getLinkTarget($this, "");
 				$ilCtrl->setParameter($this, "bmn", $this->month);
 				
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 				$button = ilLinkButton::getInstance();
 				$button->setCaption("blog_show_latest");
 				$button->setUrl($url);
 				$ilToolbar->addButtonInstance($button);
 			}		
 						
-			// exercise blog?			
-			include_once "Modules/Blog/classes/class.ilBlogExerciseGUI.php";			
-			//$message = ilBlogExerciseGUI::checkExercise($this->node_id);
 		}
 								
 		// $is_owner = ($this->object->getOwner() == $ilUser->getId());
@@ -1158,8 +1132,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
 				
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$btn = ilLinkButton::getInstance();				
+				$btn = ilLinkButton::getInstance();
 				$btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
 				$btn->setUrl($link);
 				$btn->setPrimary(true);
@@ -1357,7 +1330,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			{
 		$tree = $this->tree;
 				$parent_id = $tree->getParentId($this->node_id);
-				include_once "Services/Link/classes/class.ilLink.php";
 				$back = ilLink::_getStaticLink($parent_id);
 			}
 		}				
@@ -1393,7 +1365,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		if(!$a_export)
 		{			
-			require_once('Services/Tracking/classes/class.ilChangeEvent.php');
 			ilChangeEvent::_recordReadEvent(
 				$this->object->getType(), 
 				$this->node_id,				
@@ -1415,7 +1386,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$blga_set = new ilSetting("blga");
 		if($blga_set->get("banner"))
 		{
-			require_once('./Services/WebAccessChecker/classes/class.ilWACSignedPath.php');
 			$banner = ilWACSignedPath::signFile($this->object->getImageFullPath());
 			$banner_width = $blga_set->get("banner_width");
 			$banner_height = $blga_set->get("banner_height");		
@@ -1434,7 +1404,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				// #15030
 				if($this->blpg > 0 && !$a_export)
 				{										
-					include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 					$post = new ilBlogPosting($this->blpg);
 					$author_id = $post->getAuthor();		
 					if($author_id)
@@ -1516,7 +1485,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilCtrl = $this->ctrl;
 		$ilUser = $this->user;
 		
-		include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 		$wtpl = new ilTemplate("tpl.blog_list.html", true, true, "Modules/Blog");
 
 		// quick editing in portfolio
@@ -1530,20 +1498,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
 				$ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
 						
-				include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 				$list = new ilAdvancedSelectionListGUI();
 				$list->setListTitle($lng->txt("action"));
 				$list->addItem(
 					sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()),
 					"",
 					$link);
-				
-				/*				
-				include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
-				$btn = ilLinkButton::getInstance();				
-				$btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
-				$btn->setUrl($link);
-				*/
 				
 				$wtpl->setCurrentBlock("prtf_edit_bl");
 				$wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());				
@@ -1553,7 +1513,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 										
 		$is_admin = $this->isAdmin();
 		
-		include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");	
 		$last_month = null;
 		$is_empty = true;
 		foreach($items as $item)
@@ -1587,12 +1546,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 				else if($this->author)
 				{
-					include_once "Services/User/classes/class.ilUserUtil.php";
 					$title = $lng->txt("blog_author").": ".ilUserUtil::getNamePresentation($this->author);
 				}
 				else
 				{
-					include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 					$title = ilCalendarUtil::_numericMonthToString((int)substr($month, 5)).
 							" ".substr($month, 0, 4);
 					
@@ -1617,7 +1574,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$posting_edit = $this->mayEditPosting($item["id"], $item["author"]);
 			if(($posting_edit || $is_admin) && !$a_link_template && $a_cmd == "preview")
 			{
-				include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
 				$alist = new ilAdvancedSelectionListGUI();
 				$alist->setId($item["id"]);
 				$alist->setListTitle($lng->txt("actions"));
@@ -1690,8 +1646,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			if($this->object->getNotesStatus() && !$a_link_template && !$this->disable_notes)
 			{
 				// count (public) notes
-				include_once("Services/Notes/classes/class.ilNote.php");
-				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id, 
+				$count = sizeof(ilNote::_getNotesOfObject($this->obj_id,
 					$item["id"], "blp", IL_NOTE_PUBLIC));
 				
 				if($a_cmd != "preview")
@@ -1721,7 +1676,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				}
 				else
 				{
-					include_once "Services/Link/classes/class.ilLink.php";
 					$goto = ilLink::_getStaticLink($this->node_id, $this->getType(), true, "_".$item["id"]);
 				}
 				$wtpl->setCurrentBlock("permalink");
@@ -1767,7 +1721,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$author_id = $item["author"];
 				if($author_id)
 				{
-					include_once "Services/User/classes/class.ilUserUtil.php";
 					$authors[] = ilUserUtil::getNamePresentation($author_id);
 				}			
 				
@@ -1869,7 +1822,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 			$ilCtrl->setParameter($this, "blpg", "");
 
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 			$counter = $mon_counter = $last_year = 0;
 			foreach($a_items as $month => $postings)
 			{			
@@ -1985,7 +1937,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 			$ilCtrl->setParameter($this, "blpg", "");
 
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
 			$month_options = array();
 			foreach($a_items as $month => $postings)
 			{			
@@ -2093,8 +2044,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$wtpl = new ilTemplate("tpl.blog_list_navigation_keywords.html", true, true, "Modules/Blog");
 							
 			$max = max($keywords);
-			include_once "Services/Tagging/classes/class.ilTagging.php";
-			
+
 			$wtpl->setCurrentBlock("keyword");
 			foreach($keywords as $keyword => $counter)
 			{									
@@ -2152,8 +2102,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$authors = array_unique($authors);			
 		if(sizeof($authors) > 1)
 		{					
-			include_once "Services/User/classes/class.ilUserUtil.php";
-
 			$list = array();
 			foreach($authors as $user_id)
 			{								
@@ -2206,8 +2154,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
 		if ($single_posting)	// single posting view
 		{
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-
 			$latest_posting = $this->getLatestPosting($a_items);
 			if ($latest_posting != "" && $this->blpg != $latest_posting)
 			{
@@ -2247,8 +2193,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		else		// month view
 		{
-			include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-
 			$latest_month = $this->getLatestMonth($a_items);
 			if ($latest_month != "" && $this->month != $latest_month)
 			{
@@ -2511,7 +2455,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				$url = ILIAS_HTTP_PATH."/feed.php?blog_id=".$blog_id.
 					"&client_id=".rawurlencode(CLIENT_ID);
 
-				include_once("./Services/News/classes/class.ilRSSButtonGUI.php");
 				$wtpl->setVariable("RSS_BUTTON", ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS, $url));
 			}
 		}
@@ -2557,7 +2500,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	function getKeywords($a_show_inactive, $a_posting_id = null)
 	{								
 		$keywords = array();
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		if($a_posting_id)
 		{						
 			foreach(ilBlogPosting::getKeywords($this->obj_id, $a_posting_id) as $keyword)
@@ -2606,7 +2548,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	function buildExportFile()
 	{
 		// create export file
-		include_once("./Services/Export/classes/class.ilExport.php");
 		ilExport::_createExportDirectory($this->object->getId(), "html", "blog");
 		$exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "blog");
 
@@ -2618,13 +2559,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		ilUtil::makeDir($export_dir);
 		
 		// system style html exporter
-		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
 	    $this->sys_style_html_export->addImage("icon_blog.svg");
 		$this->sys_style_html_export->export();
 		
 		// init co page html exporter
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);
 		$this->co_page_html_export->setContentStyleId($this->object->getStyleSheetId());
 		$this->co_page_html_export->createDirectories();
@@ -2677,7 +2616,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 */
 	function exportHTMLPages($a_target_directory, $a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
 	{					
-		require_once('Services/MathJax/classes/class.ilMathJax.php');
 		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
 
 		if(!$a_link_template)
@@ -2756,14 +2694,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		
 		// single postings
 		
-		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);		
+		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);
 		foreach ($pages as $page)
 		{
 			if (ilBlogPosting::_exists("blp", $page["id"]))
 			{				
-				include_once("./Modules/Blog/classes/class.ilBlogPostingGUI.php");
 				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);
 				$blp_gui->setOutputMode("offline");
 				$blp_gui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
@@ -2978,7 +2913,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$lg->enableNotes(false);
 			$lg->enableTags(false);		
 			
-			include_once "./Services/Notification/classes/class.ilNotification.php";
 			if(ilNotification::hasNotification(ilNotification::TYPE_BLOG, $ilUser->getId(), $this->obj_id))
 			{
 				$ilCtrl->setParameter($this, "ntf", 1);
@@ -3037,7 +2971,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilUser = $this->user;
 		$ilCtrl = $this->ctrl;
 		
-		include_once "./Services/Notification/classes/class.ilNotification.php";
 		switch($this->ntf)
 		{
 			case 1:
@@ -3062,7 +2995,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	static function lookupSubObjectTitle($a_blog_id, $a_posting_id)
 	{
 		// page might be deleted, so setting halt on errors to false
-		include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 		$post = new ilBlogPosting($a_posting_id);
 		if($post->getBlogId() == $a_blog_id)
 		{
@@ -3105,7 +3037,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected function filterItemsByKeyWord(array $a_items, $a_keyword)
 	{		
 		$res = array();
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 		foreach($a_items as $month => $items)
 		{						
 			foreach($items as $item)
@@ -3162,7 +3093,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			// check owner of posting			
 			if(!$a_author_id)
 			{
-				include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 				$post = new ilBlogPosting($a_posting_id);
 				$a_author_id = $post->getAuthor();					
 			}				
@@ -3211,7 +3141,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		if($this->isAdmin() && $this->apid > 0)
 		{			
-			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			$post = new ilBlogPosting($this->apid);
 			$post->setApproved(true);
 			$post->setBlogNodeId($this->node_id, ($this->id_type == self::WORKSPACE_NODE_ID));
@@ -3246,7 +3175,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$local_roles = $this->object->getAllLocalRoles($this->node_id);
 		
 		// add member
-		include_once './Services/Search/classes/class.ilRepositorySearchGUI.php';
 		ilRepositorySearchGUI::fillAutoCompleteToolbar(
 			$this,
 			$ilToolbar,
@@ -3266,7 +3194,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			ilUtil::sendInfo(sprintf($lng->txt("blog_contribute_other_roles"), implode(", ", $other_roles)));
 		}
 		
-		include_once "Modules/Blog/classes/class.ilContributorTableGUI.php";
 		$tbl = new ilContributorTableGUI($this, "contributors", $this->object->getAllLocalRoles($this->node_id));
 		
 		$tpl->setContent($tbl->getHTML());							
@@ -3362,14 +3289,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$this->ctrl->redirect($this, "contributors");
 		}
 		
-		include_once './Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirm = new ilConfirmationGUI();
 		$confirm->setHeaderText($this->lng->txt('blog_confirm_delete_contributors'));
 		$confirm->setFormAction($this->ctrl->getFormAction($this, 'removeContributor'));
 		$confirm->setConfirm($this->lng->txt('delete'), 'removeContributor');
 		$confirm->setCancel($this->lng->txt('cancel'), 'contributors');
-		
-		include_once 'Services/User/classes/class.ilUserUtil.php';
 		
 		foreach($ids as $user_id)
 		{
@@ -3422,7 +3346,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($this->checkPermissionBool("write") && $this->apid > 0)
 		{			
 			// ilBlogPostingGUI::deactivatePage()
-			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			$post = new ilBlogPosting($this->apid);
 			$post->setApproved(false);
 			$post->setActive(false);
@@ -3473,10 +3396,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$ilSetting = $this->settings;
 						
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->lng->loadLanguageModule("style");
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		
 		$fixed_style = $ilSetting->get("fixed_content_style_id");
@@ -3550,7 +3471,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		$ilSetting = $this->settings;
 	
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		if ($ilSetting->get("fixed_content_style_id") <= 0 &&
 			(ilObjStyleSheet::_lookupStandard($this->object->getStyleSheetId())
 			|| $this->object->getStyleSheetId() == 0))

@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/RepoObjectAssignment/interfaces/interface.ilExcRepoObjAssignmentInfoInterface.php");
-
 /**
  * Repository object assignment information
  *
@@ -141,11 +139,9 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
 
 		$access = $DIC->access();
 
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
 		$ass_types = ilExAssignmentTypes::getInstance();
 
 		$repos_ass_type_ids = $ass_types->getIdsForSubmissionType(ilExSubmission::TYPE_REPO_OBJECT);
-		include_once("./Modules/Exercise/classes/class.ilExSubmission.php");
 		$submissions = ilExSubmission::getSubmissionsForFilename($a_ref_id, $repos_ass_type_ids);
 
 		$ass_info = array();
@@ -155,7 +151,6 @@ class ilExcRepoObjAssignmentInfo implements ilExcRepoObjAssignmentInfoInterface
 
 			// @todo note: this currently only works, if submissions are assigned to the team (like team wikis)
 			// get team of user
-			include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 			$team = ilExAssignmentTeam::getInstanceByUserId($s["ass_id"], $a_user_id);
 			$is_user_submission = ($team->getId() > 0 && $team->getId() == $s["team_id"])
 				? true

@@ -329,7 +329,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 		// for question html get the page gui object
 		include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
 		$pg_gui = new ilPageObjectGUI($this->page->getParentType(), $this->page->getId());
-		$pg_gui->setOutputMode(IL_PAGE_PREVIEW);
+		$pg_gui->setOutputMode(ilPageObjectGUI::PREVIEW);
 		$pg_gui->getPageConfig()->setEnableSelfAssessment(true);
 //		$pg_gui->initSelfAssessmentRendering(true);		// todo: solve in other way
 		$qhtml = $pg_gui->getQuestionHTML();

@@ -1,15 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
-
 /**
 * Assignments table
 *
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
@@ -49,9 +44,6 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 			$this->addColumn($this->lng->txt("exc_files_returned_text"), "", "45%");		
 			$this->addColumn($this->lng->txt("exc_peer_review"), "", "30%");
 			
-			include_once './Services/Rating/classes/class.ilRatingGUI.php';
-			include_once './Services/Accordion/classes/class.ilAccordionGUI.php';
-						
 			$this->peer_review = new ilExPeerReview($this->ass);
 		}
 		else
@@ -88,8 +80,6 @@ class ilExAssignmentListTextTableGUI extends ilTable2GUI
 			$peer_data = $this->peer_review->getAllPeerReviews();
 		}
 		
-		include_once "Services/User/classes/class.ilUserUtil.php";
-		include_once "Services/RTE/classes/class.ilRTE.php";
 		foreach(ilExSubmission::getAllAssignmentFiles($this->ass->getExerciseId(), $this->ass->getId()) as $file)
 		{		
 			if(trim($file["atext"]))

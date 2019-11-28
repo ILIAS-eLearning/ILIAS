@@ -403,7 +403,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 			$page_obj = new ilSCORM2004PageGUI($this->getType(), $page["obj_id"], 0,
 				$this->slm_object->getId());
 			$page_obj->setPresentationTitle($page["title"]);
-			$page_obj->setOutputMode(IL_PAGE_OFFLINE);
+			$page_obj->setOutputMode(ilPageObjectGUI::OFFLINE);
 			$page_obj->setStyleId($this->slm_object->getStyleSheetId());
 			if (count($terms) > 1)
 			{
@@ -425,8 +425,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 
 			// collect glossary items
 			$int_links = $page_obj->getPageObject()->getInternalLinks(true);
-			include_once("./Services/Link/classes/class.ilInternalLink.php");
-			include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 			if (is_array($int_links))
 			{
 				foreach ($int_links as $k => $e)
@@ -439,7 +437,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 						$dids = ilGlossaryDefinition::getDefinitionList($tid);
 						foreach ($dids as $did)
 						{
-							include_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 							$def_pg = new ilGlossaryDefPage($did["id"]);
 							$def_pg->buildDom();
 							$mob_ids = $def_pg->collectMediaObjects(false);
@@ -451,7 +448,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 								if($media_obj->hasFullscreenItem())
 									$media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
 							}
-							include_once("./Services/COPage/classes/class.ilPCFileList.php");
 							$file_ids = ilPCFileList::collectFileItems($def_pg, $def_pg->getDomDoc());
 
 							foreach($file_ids as $file_id)
@@ -971,7 +967,6 @@ class ilSCORM2004Asset extends ilSCORM2004Node
 	 */
 	function getGlossaryTermIds()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$childs = $this->tree->getChilds($this->getId());
 		$ids = array();
 		foreach ($childs as $c)

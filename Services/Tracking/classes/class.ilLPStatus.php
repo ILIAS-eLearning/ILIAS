@@ -14,9 +14,9 @@
  */
 class ilLPStatus
 {
-	var $obj_id = null;
+	protected $obj_id = null;
 
-	var $db = null;	
+	protected $db = null;
 	
 	static $list_gui_cache;
 	
@@ -387,13 +387,11 @@ class ilLPStatus
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
+		$log = $DIC->logger()->trac();
 
-		$log = ilLoggerFactory::getLogger('trac');
-		$log->debug("obj_id: ".$a_obj_id.", user id: ".$a_user_id.", status: ".
-			$a_status.", percentage: ".$a_percentage.", force: ".$a_force_per);
-
-		$update_collections = false;
+		$log->debug('Write status for:  ' . "obj_id: ".$a_obj_id.", user id: ".$a_user_id.", status: ".	$a_status.", percentage: ".$a_percentage.", force: ".$a_force_per);
+		$update_dependencies = false;
 
 		$a_old_status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 
@@ -421,7 +419,7 @@ class ilLPStatus
 					);
 				if ($ret != 0)
 				{
-					$update_collections = true;
+					$update_dependencies = true;
 				}
 			}
 			// status has not changed: reset dirty flag
@@ -437,17 +435,6 @@ class ilLPStatus
 		// insert
 		else
 		{
-			/*
-			$ilDB->manipulate("INSERT INTO ut_lp_marks ".
-				"(status, status_changed, usr_id, obj_id, status_dirty) VALUES (".
-				$ilDB->quote($a_status, "integer").",".
-				$ilDB->now().",".
-				$ilDB->quote($a_user_id, "integer").",".
-				$ilDB->quote($a_obj_id, "integer").",".
-				$ilDB->quote(0, "integer").
-				")");
-			*/
-			
 			// #13783
 			$ilDB->replace("ut_lp_marks",
 				array(
@@ -461,7 +448,7 @@ class ilLPStatus
 				)
 			);			
 			
-			$update_collections = true;
+			$update_dependencies = true;
 		}
 
 		// update percentage
@@ -476,9 +463,13 @@ class ilLPStatus
 				);
 		}
 
+		$log->debug('Update dependecies is ' . ($update_dependencies ? 'true' : 'false'));
+
 		// update collections
-		if ($update_collections)
+		if ($update_dependencies)
 		{
+			$log->debug('update dependencies');
+
 			// a change occured - remove existing cache entry
 			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
 			ilLPStatusWrapper::_removeStatusCache($a_obj_id, $a_user_id);			
@@ -491,17 +482,34 @@ class ilLPStatus
 			{
 				if (in_array(ilObject::_lookupType($rec["obj_id"]), array("crs", "grp", "fold")))
 				{
+					$log->debug('Calling update status for collection obj_id: ' . $rec['obj_id']);
 					// just to make sure - remove existing cache entry 
 					ilLPStatusWrapper::_removeStatusCache($rec["obj_id"], $a_user_id);
-					
 					ilLPStatusWrapper::_updateStatus($rec["obj_id"], $a_user_id);
+				}
+			}
+
+			self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_old_status, $a_percentage);
+			
+			// find all course references
+			if(ilObject::_lookupType($a_obj_id) == 'crs') {
+
+				$log->debug('update references');
+
+				$query = 'select obj_id from container_reference '.
+					'where target_obj_id = ' . $ilDB->quote($a_obj_id, ilDBConstants::T_INTEGER);
+				$res = $ilDB->query($query);
+				while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+					$log->debug('Calling update status for reference obj_id: ' . $row->obj_id);
+					\ilLPStatusWrapper::_removeStatusCache($row->obj_id, $a_user_id);
+					\ilLPStatusWrapper::_updateStatus($row->obj_id, $a_user_id);
 				}
 			}
 
 			self::raiseEvent($a_obj_id, $a_user_id, $a_status, $a_old_status, $a_percentage);
 		}
 		
-		return $update_collections;
+		return $update_dependencies;
 	}
 	
 	/**

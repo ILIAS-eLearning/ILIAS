@@ -2,9 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
-
 /**
 * Class ilExAssignmentEditorGUI
 *
@@ -104,9 +101,7 @@ class ilExAssignmentEditorGUI
 		$this->exercise_id = $a_exercise_id;
 		$this->assignment = $a_ass;
 		$this->enable_peer_review_completion = (bool)$a_enable_peer_review_completion_settings;
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
 		$this->types = ilExAssignmentTypes::getInstance();
-		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
 		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
 		$request = $DIC->exercise()->internal()->request();
 		$this->exc = $request->getRequestedExercise();
@@ -136,11 +131,9 @@ class ilExAssignmentEditorGUI
 				$this->setAssignmentHeader();
 				$ilTabs->activateTab("ass_files");
 				
-				include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 				$fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
 				$fstorage->create();
 
-				include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php");
 				$fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
 				$fs_gui->setTitle($lng->txt("exc_instruction_files"));
 				$fs_gui->setTableId("excassfil".$this->assignment->getId());
@@ -153,7 +146,6 @@ class ilExAssignmentEditorGUI
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "listAssignments"));
 		
-				include_once("./Modules/Exercise/classes/class.ilExPeerReviewGUI.php");
 				$peer_gui = new ilExPeerReviewGUI($this->assignment);
 				$ilCtrl->forwardCommand($peer_gui);
 				break;
@@ -176,17 +168,14 @@ class ilExAssignmentEditorGUI
 
 		$ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));		
 		
-		include_once "Services/Form/classes/class.ilSelectInputGUI.php";		
-		$ilToolbar->addStickyItem($this->getTypeDropdown());		
+		$ilToolbar->addStickyItem($this->getTypeDropdown());
 		
-		include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
 		$button = ilSubmitButton::getInstance();
 		$button->setCaption("exc_add_assignment");
 		$button->setCommand("addAssignment");			
 		$ilToolbar->addStickyItem($button);
 		
 		
-		include_once("./Modules/Exercise/classes/class.ilAssignmentsTableGUI.php");
 		$t = new ilAssignmentsTableGUI($this, "listAssignments", $this->exercise_id);
 		$tpl->setContent($t->getHTML());
 	}
@@ -248,7 +237,6 @@ class ilExAssignmentEditorGUI
 		$ilCtrl->setParameter($this, "ass_type", $a_type);
 		
 		$lng->loadLanguageModule("form");
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		if ($a_mode == "edit")
 		{
@@ -606,15 +594,12 @@ class ilExAssignmentEditorGUI
 		switch ($a_reminder_type)
 		{
 			case ilExAssignmentReminder::SUBMIT_REMINDER:
-				include_once "Modules/Exercise/classes/class.ilExcMailTemplateSubmitReminderContext.php";
 				$context = new ilExcMailTemplateSubmitReminderContext();
 				break;
 			case ilExAssignmentReminder::GRADE_REMINDER:
-				include_once "Modules/Exercise/classes/class.ilExcMailTemplateGradeReminderContext.php";
 				$context = new ilExcMailTemplateGradeReminderContext();
 				break;
 			case ilExAssignmentReminder::FEEDBACK_REMINDER:
-				include_once "Modules/Exercise/classes/class.ilExcMailTemplatePeerReminderContext.php";
 				$context = new ilExcMailTemplatePeerReminderContext();
 				break;
 			default:
@@ -646,8 +631,7 @@ class ilExAssignmentEditorGUI
 		{
 			if($this->assignment->getPeerReview())
 			{
-				include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-				$peer_review = new ilExPeerReview($this->assignment);	
+				$peer_review = new ilExPeerReview($this->assignment);
 				if($peer_review->hasPeerReviewGroups())
 				{
 					$protected_peer_review_groups = true;
@@ -1254,8 +1238,7 @@ class ilExAssignmentEditorGUI
 			$this->assignment->getPeerReview())
 		{		
 			// #14450 
-			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-			$peer_review = new ilExPeerReview($this->assignment);	
+			$peer_review = new ilExPeerReview($this->assignment);
 			if($peer_review->hasPeerReviewGroups())
 			{
 				// deadline(s) are past and must not change					
@@ -1343,7 +1326,6 @@ class ilExAssignmentEditorGUI
 		}
 		else
 		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$cgui = new ilConfirmationGUI();
 			$cgui->setFormAction($ilCtrl->getFormAction($this));
 			$cgui->setHeaderText($lng->txt("exc_conf_del_assignments"));
@@ -1474,8 +1456,7 @@ class ilExAssignmentEditorGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-		$form = new ilPropertyFormGUI();			
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($lng->txt("exc_peer_review"));		
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		
@@ -1573,11 +1554,9 @@ class ilExAssignmentEditorGUI
 						
 		// catalogues
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
-		$cat_objs = ilExcCriteriaCatalogue::getInstancesByParentId($this->exercise_id);		
+		$cat_objs = ilExcCriteriaCatalogue::getInstancesByParentId($this->exercise_id);
 		if(sizeof($cat_objs))
 		{
-			include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
 			foreach($cat_objs as $cat_obj)
 			{
 				$crits = ilExcCriteria::getInstancesByParentId($cat_obj->getId());
@@ -1686,8 +1665,7 @@ class ilExAssignmentEditorGUI
 	protected function handleDisabledPeerFields(ilPropertyFormGUI $a_form, $a_force_set_values = false)
 	{																	
 		// #14450 
-		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-		$peer_review = new ilExPeerReview($this->assignment);	
+		$peer_review = new ilExPeerReview($this->assignment);
 		if($peer_review->hasPeerReviewGroups())
 		{			
 			// JourFixe, 2015-05-11 - editable again
@@ -1726,8 +1704,7 @@ class ilExAssignmentEditorGUI
 		$lng = $this->lng;
 		
 		$protected_peer_review_groups = false;		
-		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-		$peer_review = new ilExPeerReview($this->assignment);	
+		$peer_review = new ilExPeerReview($this->assignment);
 		if($peer_review->hasPeerReviewGroups())
 		{
 			$protected_peer_review_groups = true;

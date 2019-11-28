@@ -107,7 +107,6 @@ class ilGlossaryForeignTermCollectorGUI
 	function showGlossarySelector()
 	{
 		ilUtil::sendInfo($this->lng->txt("glo_select_source_glo"));
-		include_once("./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php");
 		$exp = new ilRepositorySelectorExplorerGUI($this, "showGlossarySelector",
 			$this, "setForeignGlossary", "fglo_ref_id");
 		$exp->setTypeWhiteList(array("root", "cat", "grp", "crs", "glo", "fold"));
@@ -145,7 +144,6 @@ class ilGlossaryForeignTermCollectorGUI
 	 */
 	function showTerms()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryForeignTermTableGUI.php");
 		$t = new ilGlossaryForeignTermTableGUI($this, "showTerms", $this->foreign_glossary);
 
 		$this->tpl->setContent($t->getHTML());
@@ -164,7 +162,6 @@ class ilGlossaryForeignTermCollectorGUI
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "showTerms");
 		}
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAct.php");
 		$act = ilGlossaryAct::getInstance($this->glossary, $this->user);
 		foreach ($_POST["term_id"] as $id)
 		{
@@ -187,7 +184,6 @@ class ilGlossaryForeignTermCollectorGUI
 			ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
 			$this->ctrl->redirect($this, "showTerms");
 		}
-		include_once("./Modules/Glossary/classes/class.ilGlossaryAct.php");
 		$act = ilGlossaryAct::getInstance($this->glossary, $this->user);
 		$terms = array();
 		foreach ($_POST["term_id"] as $id)

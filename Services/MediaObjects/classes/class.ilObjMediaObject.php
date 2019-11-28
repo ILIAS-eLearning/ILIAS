@@ -1469,8 +1469,6 @@ class ilObjMediaObject extends ilObject
 				
 					case "gdf":
 						// glossary definition						
-						include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-						include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 						$term_id = ilGlossaryDefinition::_lookupTermId($id);
 						$obj_id = ilGlossaryTerm::_lookGlossaryID($term_id);
 						break;

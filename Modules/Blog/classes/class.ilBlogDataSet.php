@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Blog Data set class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - blog_posting: data from table il_blog_posting
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ModulesBlog
  */
 class ilBlogDataSet extends ilDataSet
 {
@@ -211,8 +208,6 @@ class ilBlogDataSet extends ilDataSet
 			}
 			
 			// keywords
-			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
-			include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 			foreach($this->data as $idx => $item)
 			{
 				$blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
@@ -253,16 +248,13 @@ class ilBlogDataSet extends ilDataSet
 	{
 		if ($a_entity == "blog")
 		{
-			include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 			$dir = ilObjBlog::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
 			
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
 			
 			// #14734
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			$a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");		
+			$a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");
 		}
 
 		return $a_set;
@@ -279,8 +271,7 @@ class ilBlogDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "blog":
-				include_once("./Modules/Blog/classes/class.ilObjBlog.php");
-				
+
 				// container copy
 				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
 				{
@@ -350,7 +341,6 @@ class ilBlogDataSet extends ilDataSet
 				$blog_id = (int) $a_mapping->getMapping("Modules/Blog", "blog", $a_rec["BlogId"]);
 				if($blog_id)
 				{
-					include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 					$newObj = new ilBlogPosting();
 					$newObj->setBlogId($blog_id);
 					$newObj->setTitle($a_rec["Title"]);																					

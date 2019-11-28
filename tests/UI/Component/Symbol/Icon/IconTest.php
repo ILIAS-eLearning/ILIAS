@@ -4,7 +4,6 @@
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation as I;
 
 /**
@@ -12,6 +11,9 @@ use \ILIAS\UI\Implementation as I;
  */
 class IconTest extends ILIAS_UI_TestBase
 {
+    const ICON_PATH = __DIR__ . "/../../../../../templates/default/images/";
+    const ICON_OUTLINED_PATH = self::ICON_PATH."outlined/";
+
     private function getIconFactory()
     {
         return new I\Component\Symbol\Icon\Factory();
@@ -197,5 +199,23 @@ class IconTest extends ILIAS_UI_TestBase
                     . '</div>';
 
         $this->assertEquals($expected, $html);
+    }
+
+    public function testAllStandardIconsExist(){
+        $f = $this->getIconFactory();
+        $default_icons_abr = $f->standard("nothing","nothing")->getAllStandardHandles();
+
+        foreach ($default_icons_abr as $icon_abr) {
+            $this->assertTrue(file_exists(self::ICON_PATH."icon_".$icon_abr.".svg"));
+        }
+    }
+
+    public function testAllOutlinedIconsExist(){
+        $f = $this->getIconFactory();
+        $default_icons_abr = $f->standard("nothing","nothing")->getAllStandardHandles();
+
+        foreach ($default_icons_abr as $icon_abr) {
+            $this->assertTrue(file_exists(self::ICON_OUTLINED_PATH."icon_".$icon_abr.".svg"));
+        }
     }
 }

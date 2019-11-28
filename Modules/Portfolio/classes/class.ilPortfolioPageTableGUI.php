@@ -1,17 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
-include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");		
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio page table
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageTableGUI extends ilTable2GUI
 {
@@ -77,7 +71,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		if(!$this->is_template)
 		{			
 			$this->blogs = array();
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($ilUser->getId());
 			$root = $tree->readRootId();
 			if($root)
@@ -91,9 +84,6 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 					}
 				}		
 			}
-
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";	
-			include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 		}
 	}
 
@@ -211,5 +201,3 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("VAL_ORDER_NR", $a_set["order_nr"]);
 	}
 }
-
-?>

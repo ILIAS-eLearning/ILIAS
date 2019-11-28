@@ -44,7 +44,7 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective {
 			}
 		}
 		if (!$connect) {
-			throw new \RuntimeException(
+			throw new Setup\UnachievableException(
 				"Database cannot be reached. Please check the credentials."
 			);
 		}

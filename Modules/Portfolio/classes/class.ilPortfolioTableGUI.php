@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio table
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioTableGUI extends ilTable2GUI
 {
@@ -55,17 +51,14 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		
 		$lng->loadLanguageModule("wsp");
 		
-		include_once('./Services/Link/classes/class.ilLink.php');
 	}
 
 	protected function getItems()
 	{
 		$ilUser = $this->user;
 		
-		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
 		$access_handler = new ilPortfolioAccessHandler();
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$data = ilObjPortfolio::getPortfoliosOfUser($this->user_id);
 		
 		$this->shared_objects = $access_handler->getObjectsIShare(false);		
@@ -145,4 +138,4 @@ class ilPortfolioTableGUI extends ilTable2GUI
 		}	
 	}
 	
-}?>
+}

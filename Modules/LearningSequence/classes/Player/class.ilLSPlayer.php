@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\UI\Component\Listing\Workflow\Step;
+use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
 
 /**
  * Implementation of KioskMode Player
@@ -21,6 +22,11 @@ class ilLSPlayer
 	const LSO_CMD_FINISH = 'lsofinish';
 
 
+	const GS_DATA_LS_KIOSK_MODE = 'ls_kiosk_mode';
+	const GS_DATA_LS_CONTENT = 'ls_content';
+	const GS_DATA_LS_MAINBARCONTROLS = 'ls_mainbar_controls';
+	const GS_DATA_LS_METABARCONTROLS = 'ls_metabar_controls';
+
 	public function __construct(
 		string $lso_title,
 		ilLSLearnerItemsQueries $ls_items,
@@ -29,7 +35,8 @@ class ilLSPlayer
 		ilLSCurriculumBuilder $curriculum_builder,
 		ilLSViewFactory $view_factory,
 		ilKioskPageRenderer $renderer,
-		ILIAS\UI\Factory $ui_factory
+		ILIAS\UI\Factory $ui_factory,
+		ScreenContext $current_context
 	) {
 		$this->lso_title = $lso_title;
 		$this->ls_items = $ls_items;
@@ -40,9 +47,10 @@ class ilLSPlayer
 		$this->view_factory = $view_factory;
 		$this->page_renderer = $renderer;
 		$this->ui_factory = $ui_factory;
+		$this->current_context = $current_context;
 	}
 
-	public function render(array $get, array $post=null)
+	public function play(array $get, array $post=null)
 	{
 		//init state and current item
 		$current_item = $this->getCurrentItem();
@@ -83,32 +91,59 @@ class ilLSPlayer
 		//have the view build controls
 		$control_builder = $this->control_builder;
 		$view->buildControls($state, $control_builder);
+
 		//amend controls not set by the view
-		$this->buildDefaultControls($control_builder, $item, $item_position);
+		$control_builder = $this->buildDefaultControls($control_builder, $item, $item_position);
 
 		//content
 		$obj_title = $next_item->getTitle();
 		$icon = $this->ui_factory->symbol()->icon()
 			->standard($next_item->getType(), $next_item->getType(), 'medium');
 
-		$curriculum = $this->curriculum_builder->getLearnerCurriculum(true)
-			->withActive($item_position);
-
 		$content = $this->renderComponentView($state, $view);
+
 		$panel = $this->ui_factory->panel()->standard(
 			'', //panel_title
 			$content
 		);
 		$content = [$panel];
 
-		return $this->page_renderer->render(
+
+		$rendered_body  = $this->page_renderer->render(
 			$this->lso_title,
 			$control_builder,
 			$obj_title,
 			$icon,
-			$content,
-			$curriculum
+			$content
 		);
+
+		$metabar_controls = [
+			'exit' => $control_builder->getExitControl()
+		];
+
+		//curriculum
+		$curriculum_slate = $this->page_renderer->buildCurriculumSlate(
+			$this->curriculum_builder
+				->getLearnerCurriculum(true)
+				->withActive($item_position)
+		);
+		$mainbar_controls = [
+			'curriculum' => $curriculum_slate
+		];
+
+		//ToC
+		$toc = $control_builder->getToc();
+		if($toc) {
+			$toc_slate = $this->page_renderer->buildToCSlate($toc, $icon);
+			$mainbar_controls['toc'] = $toc_slate;
+		}
+
+		$cc = $this->current_context;
+		$cc->addAdditionalData(self::GS_DATA_LS_KIOSK_MODE, true);
+		$cc->addAdditionalData(self::GS_DATA_LS_METABARCONTROLS, $metabar_controls);
+		$cc->addAdditionalData(self::GS_DATA_LS_MAINBARCONTROLS, $mainbar_controls);
+		$cc->addAdditionalData(self::GS_DATA_LS_CONTENT, $rendered_body);
+		return;
 	}
 
 	protected function getCurrentItem() {

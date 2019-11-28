@@ -224,9 +224,6 @@ class ilSetting
 	*/
 	function set($a_key, $a_val)
 	{
-		global $DIC;
-
-		$lng = $DIC["lng"];
 		$ilDB = $this->db;
 		
 		$this->delete($a_key);
@@ -238,6 +235,8 @@ class ilSetting
 
 		if (self::$value_type == 'text' and strlen($a_val) >= 4000)
 		{
+			global $DIC;
+			$lng = $DIC["lng"];
 			ilUtil::sendFailure($lng->txt('setting_value_truncated'), true);
 			$a_val = substr($a_val, 0, 4000);
 		}

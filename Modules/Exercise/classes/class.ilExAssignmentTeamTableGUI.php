@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-
 /**
  * List all team members of an assignment
  *
@@ -103,8 +101,6 @@ class ilExAssignmentTeamTableGUI extends ilTable2GUI
 			$this->member_ids = $this->team->getMembers();			
 		}
 	
-		include_once "Services/User/classes/class.ilUserUtil.php";
-		
 		$data = array();
 		foreach($this->member_ids as $id)
 		{

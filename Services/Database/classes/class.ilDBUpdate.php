@@ -1,10 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Xml/classes/class.ilSaxParser.php');
-require_once('./setup/classes/class.ilObjDefReader.php');
-require_once('./setup/classes/class.ilModuleReader.php');
-require_once('./setup/classes/class.ilServiceReader.php');
-require_once('./setup/classes/class.ilCtrlStructureReader.php');
 
 /**
  * Database Update class
@@ -264,7 +259,7 @@ class ilDBUpdate {
 				} //else
 			} //if
 		} //for
-		if ($q != "") {
+		if (isset($q) && $q != "") {
 			echo "incomplete_statement: " . $q . "<br>";
 
 			return false;
@@ -348,7 +343,7 @@ class ilDBUpdate {
 
 				$this->initStep($i);
 
-				if ($this->applyUpdateNr($i, $inifile) == false) {
+				if ($this->applyUpdateNr($i) == false) {
 					$msg[] = array("msg" => "update_error: " . $this->error,
 					               "nr"  => $i,);
 					$this->updateMsg = $msg;
@@ -567,7 +562,7 @@ class ilDBUpdate {
 	public function getHotfixCurrentVersion() {
 		$this->readHotfixInfo();
 
-		return $this->hotfix_current_version;
+		return $this->hotfix_current_version ?? null;
 	}
 
 
@@ -591,7 +586,7 @@ class ilDBUpdate {
 	public function getHotfixFileVersion() {
 		$this->readHotfixInfo();
 
-		return $this->hotfix_file_version;
+		return $this->hotfix_file_version ?? null;
 	}
 
 
@@ -616,7 +611,7 @@ class ilDBUpdate {
 	 * Get status of hotfix file
 	 */
 	public function readHotfixInfo($a_force = false) {
-		if ($this->hotfix_info_read && !$a_force) {
+		if (isset($this->hotfix_info_read) && $this->hotfix_info_read && !$a_force) {
 			return;
 		}
 		$this->hotfix_setting = new ilSetting("common", true);
@@ -641,7 +636,7 @@ class ilDBUpdate {
 	 */
 	public function hotfixAvailable() {
 		$this->readHotfixInfo();
-		if ($this->hotfix_file_version > $this->hotfix_current_version) {
+		if (isset($this->hotfix_file_version) && $this->hotfix_file_version > $this->hotfix_current_version) {
 			return true;
 		}
 

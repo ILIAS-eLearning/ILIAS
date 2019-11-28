@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio page gui class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilPortfolioPageGUI: ilPageObjectGUI, ilObjBlogGUI, ilBlogPostingGUI
  * @ilCtrl_Calls ilPortfolioPageGUI: ilCalendarMonthGUI, ilConsultationHoursGUI, ilLearningHistoryGUI
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
@@ -58,8 +54,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$this->getPageObject()->setPortfolioId($this->portfolio_id);
 		
 		// content style
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		
+
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
@@ -99,12 +94,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{					
 			case "ilobjbloggui":
 				// #12879 - we need the wsp-id for the keywords
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$wsp_tree = new ilWorkspaceTree($ilUser->getId());
 				$blog_obj_id = (int)$this->getPageObject()->getTitle();
 				$blog_node_id = $wsp_tree->lookupNodeId($blog_obj_id);
 					
-				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
 				$blog_gui = new ilObjBlogGUI($blog_node_id,	ilObjBlogGUI::WORKSPACE_NODE_ID);
 				$blog_gui->disableNotes(!$this->enable_comments);
 				$blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
@@ -135,7 +128,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 						$seed = new ilDate(time(),IL_CAL_UNIX);
 					}
 
-					include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');				
 					$month_gui = new ilCalendarMonthGUI($seed);
 					return $ilCtrl->forwardCommand($month_gui);
 				}
@@ -354,7 +346,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$this->export_material["js"][] = "./Services/Maps/js/ServiceOpenLayers.js";								
 		}
 		
-		include_once("./Services/User/classes/class.ilPublicUserProfileGUI.php");
 		$pub_profile = new ilPublicUserProfileGUI($user_id);
 		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
 		
@@ -429,7 +420,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 
 		$class = "ilObj".$objDefinition->getClassName($a_type)."GUI";
-		include_once $objDefinition->getLocation($a_type)."/class.".$class.".php";
 		$verification = new $class($a_id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 
 		if($outputMode == "print")
@@ -459,7 +449,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$id = $_GET["dlid"];
 		if($id)
 		{
-			include_once "Modules/Test/classes/class.ilObjTestVerificationGUI.php";
 			$verification = new ilObjTestVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
@@ -470,7 +459,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$id = $_GET["dlid"];
 		if($id)
 		{
-			include_once "Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php";
 			$verification = new ilObjExerciseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}		
@@ -481,7 +469,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$id = $_GET["dlid"];
 		if($id)
 		{
-			include_once "Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php";
 			$verification = new ilObjCourseVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
@@ -512,7 +499,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$id = $_GET["dlid"];
 		if($id)
 		{
-			include_once "Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php";
 			$verification = new ilObjSCORMVerificationGUI($id, ilObject2GUI::WORKSPACE_OBJECT_ID);
 			$verification->downloadFromPortfolioPage($this->getPageObject());
 		}
@@ -537,7 +523,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		// full blog (separate tab/page)
 		if(!$a_posting_ids)
 		{
-			include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
             if (ilObject::_lookupType($a_blog_id) != "blog") {
                 return;
             }
@@ -559,16 +544,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$html = array();
 			
-			include_once "Modules/Blog/classes/class.ilObjBlog.php";
 			$html[] = ilObjBlog::_lookupTitle($a_blog_id);
 			
-			include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 			foreach($a_posting_ids as $post)
 			{				
 				$page = new ilBlogPostingGUI(0, null, $post);
 				if($this->getOutputMode() != "offline")
 				{	
-					$page->setOutputMode(IL_PAGE_PREVIEW);
+					$page->setOutputMode(ilPageObjectGUI::PREVIEW);
 				}
 				else
 				{
@@ -590,7 +573,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		if($a_posting_ids)
 		{
 			$postings = array("<ul>");
-			include_once "Modules/Blog/classes/class.ilBlogPosting.php";
 			foreach($a_posting_ids as $post)
 			{				
 				$post = new ilBlogPosting($post);
@@ -614,7 +596,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		$user_id = $this->getPageContentUserId($a_user_id);		
 	
-		include_once "Services/Skill/classes/class.ilPersonalSkillsGUI.php";
 		$gui = new ilPersonalSkillsGUI();
 		if($this->getOutputMode() == "offline")
 		{			
@@ -629,8 +610,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{		
 		// not used 
 		// $user_id = $this->getPageContentUserId($a_user_id);
-		
-		include_once "Services/Skill/classes/class.ilSkillTreeNode.php";
 		
 		return $this->renderTeaser("skills", $this->lng->txt("skills").' "'.
 			ilSkillTreeNode::_lookupTitle($a_skills_id).'"');
@@ -650,7 +629,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		{
 			$mode = $this->lng->txt("cont_cach_mode_manual");
 			
-			include_once "Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroups.php";		
 			$groups = array();
 			foreach($a_group_ids as $grp_id)
 			{
@@ -696,7 +674,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$a_group_ids = null;
 		}
 		
-		include_once('./Services/Calendar/classes/class.ilCalendarCategories.php');
 		ilCalendarCategories::_getInstance()->setCHUserId($user_id);
 		ilCalendarCategories::_getInstance()->initialize(ilCalendarCategories::MODE_PORTFOLIO_CONSULTATION, null, true);
 		
@@ -709,12 +686,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$seed = new ilDate($_REQUEST["seed"], IL_CAL_DATE);
 		}
 		
-		include_once('./Services/Calendar/classes/class.ilCalendarMonthGUI.php');
 		$month_gui = new ilCalendarMonthGUI($seed);
 		$month_gui->setConsulationHoursUserId($user_id);
 		
 		// custom schedule filter: handle booking group ids
-		include_once('./Services/Calendar/classes/class.ilCalendarScheduleFilterBookings.php');
 		$filter = new ilCalendarScheduleFilterBookings($user_id, $a_group_ids);
 		$month_gui->addScheduleFilter($filter);
 		
@@ -803,12 +778,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$tpl->setVariable("TITLE", $this->lng->txt("prtf_page_element_my_courses_title"));
 			$tpl->setVariable("INFO", $this->lng->txt("prtf_page_element_my_courses_info")); // #14464
 		
-			include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
 			$this->lng->loadLanguageModule("trac");
 			$this->lng->loadLanguageModule("crs");
-			
-			include_once("./Services/Container/classes/class.ilContainerObjectiveGUI.php");
-			include_once("./Services/Link/classes/class.ilLink.php");
 			
 			// sorting
 			if($this->getOutputMode() != "print")
@@ -864,8 +835,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 				
 				if(isset($course["objectives"]))
 				{
-					include_once './Modules/Course/classes/Objectives/class.ilLOSettings.php';
-					$loc_settings = ilLOSettings::getInstanceByObjId($course["obj_id"]);			
+					$loc_settings = ilLOSettings::getInstanceByObjId($course["obj_id"]);
 					$has_initial_test = (bool)$loc_settings->getInitialTest();
 					
 					foreach($course["objectives"] as $objtv)
@@ -890,7 +860,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 								$desc = nl2br($objtv["desc"]);
 								$tt_id = "objtvtt_".$objtv["id"]."_".((int)self::$initialized);
 								
-								include_once "Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php";
 								ilToolTipGUI::addTooltip($tt_id, $desc, "", "bottom center", "top center", false);
 								
 								$tpl->setVariable("OBJECTIVE_LINK_ID", $tt_id);
@@ -998,8 +967,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		
 		// see ilPDSelectedItemsBlockGUI
 		
-		include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
-		include_once 'Services/Membership/classes/class.ilParticipants.php';
 		$items = ilParticipants::_getMembershipByType($a_user_id, 'crs');
 		
 		$repo_title = $tree->getNodeData(ROOT_FOLDER_ID);
@@ -1065,7 +1032,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		if(sizeof($lp_obj_refs))
 		{
 			// listing the objectives should NOT depend on any LP status / setting
-			include_once 'Modules/Course/classes/class.ilObjCourse.php';
 			foreach($lp_obj_refs as $obj_id => $ref_id)
 			{
 				// only if set in DB (default mode is not relevant
@@ -1076,14 +1042,11 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			}			
 			
 			// LP must be active, personal and not anonymized
-			include_once "Services/Tracking/classes/class.ilObjUserTracking.php";
 			if (ilObjUserTracking::_enabledLearningProgress() &&
 				ilObjUserTracking::_enabledUserRelatedData() &&
 				ilObjUserTracking::_hasLearningProgressLearner())
 			{				
 				// see ilLPProgressTableGUI
-				include_once "Services/Tracking/classes/class.ilTrQuery.php";
-				include_once "Services/Tracking/classes/class.ilLPStatusFactory.php";				
 				$lp_data = ilTrQuery::getObjectsStatusForUser($a_user_id, $lp_obj_refs);
 				foreach($lp_data as $item)
 				{
@@ -1101,8 +1064,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$res = array();
 		
 		// we need the collection for the correct order
-		include_once "Services/Tracking/classes/class.ilLPObjSettings.php";
-		include_once "Services/Tracking/classes/collection/class.ilLPCollectionOfObjectives.php";
 		$coll_objtv = new ilLPCollectionOfObjectives($a_obj_id, ilLPObjSettings::LP_MODE_OBJECTIVES);
 		$coll_objtv = $coll_objtv->getItems();
 		if($coll_objtv)
@@ -1110,12 +1071,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			// #13373
 			$lo_results = $this->parseLOUserResults($a_obj_id, $a_user_id);
 					
-			include_once "Modules/Course/classes/Objectives/class.ilLOTestAssignments.php";
 			$lo_ass = ilLOTestAssignments::getInstance($a_obj_id);
 
 			$tmp = array();
 
-			include_once "Modules/Course/classes/class.ilCourseObjective.php";
 			foreach($coll_objtv as $objective_id)
 			{							
 				$title = ilCourseObjective::lookupObjectiveTitle($objective_id, true);
@@ -1155,8 +1114,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	{		
 		$res = array();
 		
-		include_once "Modules/Course/classes/Objectives/class.ilLOUserResults.php";
-		$lur = new ilLOUserResults($a_course_obj_id, $a_user_id);		
+		$lur = new ilLOUserResults($a_course_obj_id, $a_user_id);
 		foreach($lur->getCourseResultsForUserPresentation() as $objective_id => $types)
 		{
 			// show either initial or qualified for objective
@@ -1313,7 +1271,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	 */
 	function getPagePermaLink()
 	{
-		include_once("./Services/Link/classes/class.ilLink.php");
 		$pid = ilPortfolioPage::findPortfolioForPage($this->getId());
 		$href = ilLink::_getStaticLink($pid, "prtf", true, "_".$this->getId());
 		return $href;
@@ -1336,5 +1293,3 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 	}
 
 }
-
-?>

@@ -244,7 +244,9 @@ if( !$ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')
 	{
 		if(!$setting)
 		{
-			echo "<pre>
+			$ilSetting->set('tst_passres_dupl_del_warning', 1);
+			setup_exit("
+
 				Dear Administrator,
 
 				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
@@ -263,10 +265,7 @@ if( !$ilDB->uniqueConstraintExists('tst_pass_result', array('active_fi', 'pass')
 
 				Best regards,
 				The Test Maintainers
-			</pre>";
-
-			$ilSetting->set('tst_passres_dupl_del_warning', 1);
-			exit;
+			");
 		}
 
 		$dataRes = $ilDB->queryF(
@@ -351,7 +350,9 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 	{
 		if(!$setting)
 		{
-			echo "<pre>
+			$ilSetting->set('tst_seq_dupl_del_warning', 1);
+			setup_exit("
+
 				Dear Administrator,
 
 				DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
@@ -370,10 +371,7 @@ if( !$ilDB->uniqueConstraintExists('tst_sequence', array('active_fi', 'pass')) )
 
 				Best regards,
 				The Test Maintainers
-			</pre>";
-
-			$ilSetting->set('tst_seq_dupl_del_warning', 1);
-			exit;
+			");
 		}
 
 		$dataRes = $ilDB->queryF(
@@ -663,7 +661,8 @@ $setting = $ilSetting->get('tst_test_results_dupl_del_warn', 0);
 
 if( (int)$numRow['num'] && !(int)$setting )
 {
-	echo "<pre>
+	$ilSetting->set('tst_test_results_dupl_del_warn', 1);
+	setup_exit("
 
 		Dear Administrator,
 
@@ -686,11 +685,7 @@ if( (int)$numRow['num'] && !(int)$setting )
 
 		Best regards,
 		The Test Maintainers
-
-	</pre>";
-
-	$ilSetting->set('tst_test_results_dupl_del_warn', 1);
-	exit;
+	");
 }
 
 if( (int)$numRow['num'] )
@@ -4750,7 +4745,8 @@ if( $fixState === '0' )
 
 	if( $testsWithoutDefinitionsDetected )
 	{
-		echo "<pre>
+		$setting->set('dbupdate_randtest_pooldef_migration_fix', '1');
+		setup_exit("
 
 		Dear Administrator,
 
@@ -4778,11 +4774,8 @@ if( $fixState === '0' )
 		Best regards,
 		The Test Maintainers
 
-		</pre>";
-
-		$setting->set('dbupdate_randtest_pooldef_migration_fix', '1');
-
-		exit; // db update step MUST NOT finish in a normal way, so step will be processed again
+		");
+		// db update step MUST NOT finish in a normal way, so step will be processed again
 	}
 	else
 	{
@@ -6002,7 +5995,8 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 	$data = $ilDB->fetchAssoc($res);
 	if($data['cnt'] > 0)
 	{
-		echo "<pre>
+		setup_exit("
+
 				Dear Administrator,
 
 				PLEASE READ THE FOLLOWING INSTRUCTIONS
@@ -6037,8 +6031,7 @@ if(!$ilDB->uniqueConstraintExists('usr_data', array('login')))
 
 				Best regards,
 				The ILIAS developers
-			</pre>";
-		exit();
+			");
 	}
 
 	$ilDB->addUniqueConstraint('usr_data', array('login'), 'uc1');
@@ -6614,7 +6607,7 @@ $res  = $ilDB->query($crpra_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'chatroom_proomaccess'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_proomaccess', array('proom_id', 'user_id'));
@@ -6662,7 +6655,7 @@ $res  = $ilDB->query($mopt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'mail_options'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_options', array('user_id'));
@@ -6704,7 +6697,7 @@ $res  = $ilDB->query($psc_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'payment_statistic_coup'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('payment_statistic_coup', array('psc_ps_fk', 'psc_pc_fk', 'psc_pcc_fk'));
@@ -6765,7 +6758,7 @@ $res  = $ilDB->query($msave_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	die("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'mail_saved'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('mail_saved', array('user_id'));
@@ -6817,7 +6810,7 @@ $res  = $ilDB->query($chrban_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'])
 {
-	die("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'chatroom_bans'. Please execute this database update step again.");
 }
 
 $ilDB->addPrimaryKey('chatroom_bans', array('room_id', 'user_id'));
@@ -7923,7 +7916,8 @@ $ilSetting = new ilSetting();
 $setting   = $ilSetting->get('mail_mod_dupl_warn_51x_shown', 0);
 if($data['cnt'] > 0 && !(int)$setting)
 {
-	echo "<pre>
+	$ilSetting->set('mail_mod_dupl_warn_51x_shown', 1);
+	setup_exit("
 
 		Dear Administrator,
 
@@ -7952,10 +7946,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 		Best regards,
 		The mail system maintainer
 
-	</pre>";
-
-	$ilSetting->set('mail_mod_dupl_warn_51x_shown', 1);
-	exit();
+	");
 }
 
 
@@ -8048,7 +8039,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'mail_obj_data'. Please execute this database update step again.");
 }
 $ilSetting->delete('mail_mod_dupl_warn_51x_shown');
 ?>
@@ -8067,7 +8058,7 @@ $res  = $ilDB->query($mod_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
+	setup_exit("There are still duplicate entries in table 'mail_obj_data'. Please execute database update step 4584 again. Execute the following SQL string manually: UPDATE settings SET value = 4583 WHERE keyword = 'db_version'; ");
 }
 $ilDB->addPrimaryKey('mail_obj_data', array('obj_id'));
 ?>
@@ -8143,7 +8134,8 @@ $ilSetting = new ilSetting();
 $setting   = $ilSetting->get('mail_mt_dupl_warn_51x_shown', 0);
 if($data['cnt'] > 0 && !(int)$setting)
 {
-	echo "<pre>
+	$ilSetting->set('mail_mt_dupl_warn_51x_shown', 1);
+	setup_exit("
 
 		Dear Administrator,
 
@@ -8171,10 +8163,7 @@ if($data['cnt'] > 0 && !(int)$setting)
 		Best regards,
 		The mail system maintainer
 
-	</pre>";
-
-	$ilSetting->set('mail_mt_dupl_warn_51x_shown', 1);
-	exit();
+	");
 }
 
 if($data['cnt'] > 0)
@@ -8436,7 +8425,7 @@ if($ilDB->tableExists('mail_tree_migr'))
 	$num = $ilDB->numRows($res);
 	if($num > 0)
 	{
-		die("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
+		setup_exit("There are still duplicate entries in table 'mail_tree'. Please execute this database update step again.");
 	}
 }
 ?>
@@ -8463,7 +8452,7 @@ $res  = $ilDB->query($mt_dup_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
+	setup_exit("There are still duplicate entries in table 'mail_tree'. Please execute database update step 4589 again. Execute the following SQL string manually: UPDATE settings SET value = 4588 WHERE keyword = 'db_version'; ");
 }
 
 $ilDB->addPrimaryKey('mail_tree', array('child'));
@@ -10836,7 +10825,9 @@ $ilCtrlStructureReader->getStructure();
 
 		if(!$is_read)
 			{
-				echo "<pre>
+				$ilSetting->set('tree_dups', 1);
+				setup_exit("
+
 					Dear Administrator,
 
 					DO NOT REFRESH THIS PAGE UNLESS YOU HAVE READ THE FOLLOWING INSTRUCTIONS
@@ -10849,10 +10840,7 @@ $ilCtrlStructureReader->getStructure();
 
 					Best regards,
 					The Tree Maintainer
-				</pre>";
-
-				$ilSetting->set('tree_dups', 1);
-				exit;
+				");
 			}
 	}
 ?>
@@ -12284,7 +12272,7 @@ if($ilDB->tableExists('mail_tree_mod_migr'))
 	$num = $ilDB->numRows($res);
 	if($num > 0)
 	{
-		die("There are still wrong child entries in table 'mail_tree'. Please execute this database update step again.");
+		setup_exit("There are still wrong child entries in table 'mail_tree'. Please execute this database update step again.");
 	}
 }
 
@@ -12303,7 +12291,7 @@ $res  = $ilDB->query($mt_mod_incon_query_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still wrong child entries in table 'mail_tree'. Please execute database update step 4761 again. Execute the following SQL string manually: UPDATE settings SET value = 4760 WHERE keyword = 'db_version'; ");
+	setup_exit("There are still wrong child entries in table 'mail_tree'. Please execute database update step 4761 again. Execute the following SQL string manually: UPDATE settings SET value = 4760 WHERE keyword = 'db_version'; ");
 }
 ?>
 <#4764>
@@ -14196,7 +14184,7 @@ $res  = $ilDB->query($usr_session_stats_temp_num);
 $data = $ilDB->fetchAssoc($res);
 if($data['cnt'] > 0)
 {
-	die("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
+	setup_exit("There are still duplicate entries in table 'usr_session_stats'. Please execute this database update step again.");
 }
 
 
@@ -14617,7 +14605,7 @@ $data = $ilDB->fetchAssoc($res);
 
 if($data['cnt'] > 0)
 {
-	echo "<pre>
+	setup_exit("
 
 		Dear Administrator,
 
@@ -14647,9 +14635,7 @@ if($data['cnt'] > 0)
 		Best regards,
 		The Learning Modules maintainer
 
-	</pre>";
-
-	exit();
+	");
 }
 
 
@@ -14675,7 +14661,7 @@ $data = $ilDB->fetchAssoc($res);
 
 if($data['cnt'] > 0)
 {
-	echo "<pre>
+	setup_exit("
 
 		Dear Administrator,
 
@@ -14704,10 +14690,7 @@ if($data['cnt'] > 0)
 
 		Best regards,
 		The Media Pool maintainer
-
-	</pre>";
-
-	exit();
+	");
 }
 
 
@@ -14733,7 +14716,7 @@ $data = $ilDB->fetchAssoc($res);
 
 if($data['cnt'] > 0)
 {
-	echo "<pre>
+	setup_exit("
 
 		Dear Administrator,
 
@@ -14762,10 +14745,7 @@ if($data['cnt'] > 0)
 
 		Best regards,
 		The Competence Managment maintainer
-
-	</pre>";
-
-	exit();
+	");
 }
 
 
@@ -15802,13 +15782,13 @@ if(!is_file($salt_location) || !is_readable($salt_location))
 	);
 	if(!$result)
 	{
-		die("Could not create the client salt for bcrypt password hashing.");
+		setup_exit("Could not create the client salt for bcrypt password hashing.");
 	}
 }
 
 if(!is_file($salt_location) || !is_readable($salt_location))
 {
-	die("Could not determine the client salt for bcrypt password hashing.");
+	setup_exit("Could not determine the client salt for bcrypt password hashing.");
 }
 ?>
 <#4923>
@@ -18021,7 +18001,7 @@ if($ilDB->sequenceExists('mail_obj_data'))
 
 if($ilDB->sequenceExists('mail_obj_data'))
 {
-	die("Sequence could not be dropped!");
+	setup_exit("Sequence could not be dropped!");
 }
 else
 {
@@ -21673,7 +21653,8 @@ if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
 	{
 		$numTests = $row['num_tst'];
 		$numQuestions = $row['num_qst'];
-		echo "<pre>
+		$ilSetting->set('dbupwarn_tstfixqstseq', 1);
+		setup_exit("
 
 		DEAR ADMINISTRATOR !!
 
@@ -21695,11 +21676,7 @@ if( !$ilSetting->get('dbupwarn_tstfixqstseq', 0) )
 
 		In your database there were > {$numTests} tests < detected having > {$numQuestions} questions < overall,
 		that are stored with gaps in the ordering index.
-
-		</pre>";
-
-		$ilSetting->set('dbupwarn_tstfixqstseq', 1);
-		exit;
+		");
 	}
 
 	$ilSetting->set('dbupwarn_tstfixqstseq', 1);
@@ -22784,10 +22761,10 @@ if(!$ilDB->tableColumnExists('file_data', 'max_version'))
 ?>
 <#5302>
 <?php
-include_once './Services/Migration/DBUpdate_5295/classes/class.ilMDCreator.php';
-include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295Creator.php';
+include_once './Services/Migration/DBUpdate_5295/classes/class.ilMD5295.php';
 
-ilMD::_deleteAllByType('grp');
+ilMD5295::_deleteAllByType('grp');
 
 $group_ids = [];
 $query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
@@ -22796,7 +22773,7 @@ $query = 'SELECT obd.obj_id, title, od.description FROM object_data obd '.
 $res = $ilDB->query($query);
 while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 {
-	$md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'grp');
+	$md_creator = new ilMD5295Creator($row->obj_id, $row->obj_id, 'grp');
 	$md_creator->setTitle($row->title);
 	$md_creator->setTitleLanguage('en');
 	$md_creator->setDescription($row->description);
@@ -23101,7 +23078,8 @@ if (
 }
 
 if ($documentDirectoriesExist && !$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
-	echo "<pre>
+	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
+	setup_exit("
 
 		DEAR ADMINISTRATOR !!
 
@@ -23117,10 +23095,7 @@ if ($documentDirectoriesExist && !$ilSetting->get('dbupwarn_tos_migr_54x', 0)) {
 		The contents of a document can be uploaded as text or HTML file and will be stored (after purification) in the database.
 
 		If you reload this page (e.g. by pressing the F5 key), the migration process will be started. The agreement files will NOT be deleted.
-		</pre>";
-
-	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
-	exit;
+		");
 } elseif (!$documentDirectoriesExist) {
 	$ilSetting->set('dbupwarn_tos_migr_54x', 1);
 }
@@ -23839,6 +23814,10 @@ if($ilDB->tableExists('certificate_template')) {
 	foreach ($directories as $type => $relativePath) {
 		try {
 			$directory = $web_path . $relativePath;
+
+			if (!is_dir($directory)) {
+				continue;
+			}
 
 			$GLOBALS['ilLog']->info(sprintf(
 				"Started migration for object type directory: %s",
@@ -25339,7 +25318,8 @@ $setting = new ilSetting();
 $media_cont_mig = $setting->get('sty_media_cont_mig', 0);
 if ($media_cont_mig == 0)
 {
-	echo "<pre>
+	$setting->set('sty_media_cont_mig', 1);
+	setup_exit("
 
 	DEAR ADMINISTRATOR !!
 
@@ -25361,10 +25341,7 @@ if ($media_cont_mig == 0)
 
 	Mantis Bug Report: https://ilias.de/mantis/view.php?id=23299
 
-	</pre>";
-
-	$setting->set('sty_media_cont_mig', 1);
-	exit;
+	");
 }
 if ($media_cont_mig == 1)
 {

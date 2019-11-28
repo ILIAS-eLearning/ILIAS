@@ -1,11 +1,9 @@
 <?php
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('./Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
  *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
  *
  * @ingroup ModulesExercise
  */
@@ -111,8 +109,6 @@ class ilFSWebStorageExercise extends ilFileSystemStorage
 	 */
 	function getFiles()
 	{
-		require_once "./Modules/Exercise/classes/class.ilExAssignment.php";
-
 		$ass = new ilExAssignment($this->ass_id);
 		$files_order = $ass->getInstructionFilesOrder();
 

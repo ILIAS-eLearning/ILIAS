@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio HTML exporter class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * 
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioHTMLExport
 {
@@ -35,7 +33,6 @@ class ilPortfolioHTMLExport
 	function buildExportFile()
 	{
 		// create export file
-		include_once("./Services/Export/classes/class.ilExport.php");
 		ilExport::_createExportDirectory($this->object->getId(), "html", "prtf");
 		$exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "prtf");
 
@@ -47,13 +44,11 @@ class ilPortfolioHTMLExport
 		ilUtil::makeDir($this->export_dir);
 		
 		// system style html exporter
-		include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
 		$this->sys_style_html_export = new ilSystemStyleHTMLExport($this->export_dir);
 	    // $this->sys_style_html_export->addImage("icon_prtf.svg");
 		$this->sys_style_html_export->export();
 
 		// init co page html exporter
-		include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
 		$this->co_page_html_export = new ilCOPageHTMLExport($this->export_dir);
 		$this->co_page_html_export->setContentStyleId($this->object->getStyleSheetId()); 
 		$this->co_page_html_export->createDirectories();
@@ -90,7 +85,6 @@ class ilPortfolioHTMLExport
 		
 		// add js/images/file to zip
 		$images = $files = $js_files = array();
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		$js_files = ilUIFramework::getJSFiles();
 		foreach($this->export_material as $items)
 		{
@@ -140,7 +134,6 @@ class ilPortfolioHTMLExport
 	 */
 	function exportHTMLPages()
 	{
-		require_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 			
 		$this->tabs = array();
@@ -149,7 +142,6 @@ class ilPortfolioHTMLExport
 			// substitute blog id with title
 			if($page["type"] == ilPortfolioPage::TYPE_BLOG)
 			{
-				include_once "Modules/Blog/classes/class.ilObjBlog.php";
 				$page["title"] = ilObjBlog::_lookupTitle((int)$page["title"]);
 			}
 			
@@ -159,9 +151,6 @@ class ilPortfolioHTMLExport
 		// for sub-pages, e.g. blog postings
 		$tpl_callback = array($this, "buildExportTemplate");
 		
-		include_once("./Services/COPage/classes/class.ilPageContentUsage.php");
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$has_index = false;
 		foreach ($pages as $page)
 		{						
@@ -173,8 +162,7 @@ class ilPortfolioHTMLExport
 				{										
 					$link_template = "prtf_".$page["id"]."_bl{TYPE}_{ID}.html";
 					
-					include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-					$blog = new ilObjBlogGUI((int)$page["title"], ilObject2GUI::WORKSPACE_OBJECT_ID);					
+					$blog = new ilObjBlogGUI((int)$page["title"], ilObject2GUI::WORKSPACE_OBJECT_ID);
 					$blog->exportHTMLPages($this->export_dir."/", $link_template, $tpl_callback, $this->co_page_html_export, "prtf_".$page["id"].".html");
 				}
 				else
@@ -235,7 +223,6 @@ class ilPortfolioHTMLExport
 			$ilTabs->activateTab($this->active_tab);
 		}
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioGUI.php";
 		ilObjPortfolioGUI::renderFullscreenHeader($this->object, $this->tpl, $this->object->getOwner(), true);
 		
 		return $this->tpl;
@@ -289,7 +276,6 @@ class ilPortfolioHTMLExport
 	function exportPageHTML($a_post_id)
 	{
 		// page
-		include_once "Modules/Portfolio/classes/class.ilPortfolioPageGUI.php";
 		$pgui = new ilPortfolioPageGUI($this->object->getId(), $a_post_id);
 		$pgui->setOutputMode("offline");
 		$pgui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
@@ -298,11 +284,8 @@ class ilPortfolioHTMLExport
 		$material = $pgui->getExportMaterial();
 		$this->export_material[] = $material;
 
-		include_once("./Services/UICore/classes/class.ilUIFramework.php");
 		$js_files = array_merge(ilUIFramework::getJSFiles(), $material["js"]);
 
 		$this->writeExportFile("prtf_".$a_post_id.".html", $page_content, $pgui->getJsOnloadCode(), $js_files);
 	}
 }
-
-?>

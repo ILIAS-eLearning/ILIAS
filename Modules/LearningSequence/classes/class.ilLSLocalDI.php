@@ -148,7 +148,9 @@ class ilLSLocalDI extends Container
 			return new ilKioskPageRenderer(
 				$dic["tpl"],
 				$dic["global_screen"]->layout()->meta(),
+				$dic["ui.factory"],
 				$dic["ui.renderer"],
+				$dic['lng'],
 				$kiosk_template,
 				$c["gui.toc"],
 				$c["gui.loc"],
@@ -177,7 +179,9 @@ class ilLSLocalDI extends Container
 				$c["player.curriculumbuilder"],
 				$c["player.viewfactory"],
 				$c["player.kioskrenderer"],
-				$dic["ui.factory"]
+				$dic["ui.factory"],
+				$dic["gs.current_context"]
+
 			);
 		};
 

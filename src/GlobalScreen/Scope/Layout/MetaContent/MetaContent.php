@@ -51,6 +51,16 @@ class MetaContent
         $this->inline_css = new InlineCssCollection();
     }
 
+    /**
+     * Reset
+     */
+    public function reset()
+    {
+        $this->css = new CssCollection();
+        $this->js = new JsCollection();
+        $this->on_load_code = new OnLoadCodeCollection();
+        $this->inline_css = new InlineCssCollection();
+    }
 
     /**
      * @param string $path

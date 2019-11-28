@@ -1,14 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-
 /**
 * Assignments table
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
@@ -35,7 +31,6 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$lng = $DIC->language();
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
 		$this->types = ilExAssignmentTypes::getInstance();
 
 		$this->exc_id = $a_exc_id;
@@ -85,8 +80,6 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 		$this->addCommandButton("saveAssignmentOrder", $lng->txt("exc_save_order"));
 		//$this->addCommandButton("addAssignment", $lng->txt("exc_add_assignment"));
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		include_once("./Modules/Exercise/classes/class.ilExPeerReview.php");
 		$data = ilExAssignment::getAssignmentDataOfExercise($this->exc_id);
 		foreach($data as $idx => $row)
 		{
@@ -125,7 +118,6 @@ class ilAssignmentsTableGUI extends ilTable2GUI
 
 		$this->tpl->setVariable("ID", $d["id"]);
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = new ilExAssignment($d["id"]);
 
 		if ($ass->getDeadlineMode() == ilExAssignment::DEADLINE_ABSOLUTE) {

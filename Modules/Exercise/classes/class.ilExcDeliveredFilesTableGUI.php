@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-
 /**
  * Delivered files table
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  *
  * @ingroup Services
  */
@@ -44,8 +41,7 @@ class ilExcDeliveredFilesTableGUI extends ilTable2GUI
 			// #11957
 			$this->lng->loadLanguageModule("file");
 			$this->addColumn($this->lng->txt("file_uploaded_by"));			
-			include_once "Services/User/classes/class.ilUserUtil.php";
-		}
+			}
 		
 		$this->addColumn($this->lng->txt("date"), "timestamp14");
 		

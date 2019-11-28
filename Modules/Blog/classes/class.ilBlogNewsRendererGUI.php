@@ -1,14 +1,10 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * Blog news renderer
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModuleWiki
  */
 class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
@@ -19,7 +15,6 @@ class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 	 */
 	function getObjectLink()
 	{
-		include_once("./Services/Link/classes/class.ilLink.php");
 		$n = $this->getNewsItem();
 		$add = "";
 		if ($n->getContextSubObjType() == "blp"
@@ -32,5 +27,3 @@ class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 	}
 
 }
-
-?>

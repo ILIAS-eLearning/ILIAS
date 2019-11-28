@@ -5,7 +5,6 @@
 * Exercise assignment
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 * @ingroup ModulesExercise
 */
 class ilExAssignment
@@ -135,7 +134,6 @@ class ilExAssignment
 		$this->lng = $DIC->language();
 		$this->user = $DIC->user();
 		$this->app_event_handler = $DIC["ilAppEventHandler"];
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
 		$this->types = ilExAssignmentTypes::getInstance();
 
 		$this->setType(self::TYPE_UPLOAD);
@@ -363,7 +361,6 @@ class ilExAssignment
 		$is_team = false;
 		if($this->ass_type->usesTeams())
 		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignmentTeam.php");
 			$team_id = ilExAssignmentTeam::getTeamId($this->getId(), $a_user_id);
 			if(!$team_id)
 			{
@@ -806,8 +803,6 @@ class ilExAssignment
 	
 	function getPeerReviewCriteriaCatalogueItems()
 	{
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
-		
 		if($this->crit_cat)
 		{			
 			return ilExcCriteria::getInstancesByParentId($this->crit_cat);
@@ -1280,7 +1275,6 @@ class ilExAssignment
 			
 
 			// clone assignment files		
-			include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 			$old_web_storage = new ilFSWebStorageExercise($a_old_exc_id, (int) $d->getId());
 			$new_web_storage = new ilFSWebStorageExercise($a_new_exc_id, (int) $new_ass->getId());
 			$new_web_storage->create();
@@ -1290,7 +1284,6 @@ class ilExAssignment
 			}
 			
 			// clone global feedback file			
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$old_storage = new ilFSStorageExercise($a_old_exc_id, (int) $d->getId());
 			$new_storage = new ilFSStorageExercise($a_new_exc_id, (int) $new_ass->getId());
 			$new_storage->create();
@@ -1311,7 +1304,6 @@ class ilExAssignment
 	public function getFiles()
 	{
 		$this->log->debug("getting files from class.ilExAssignment using ilFSWebStorageExercise");
-		include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 		$storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
 		return $storage->getFiles();
 	}
@@ -1597,8 +1589,6 @@ class ilExAssignment
 				);			
 		}
 		
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-
 		$q = "SELECT * FROM exc_mem_ass_status ".
 			"WHERE ass_id = ".$ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($q);
@@ -1632,8 +1622,6 @@ class ilExAssignment
 	{
 		global $DIC;
 		$ilDB = $DIC->database();
-
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 
 		if(in_array($a_grade, array("notgraded", "passed", "failed")))
 		{
@@ -1717,7 +1705,6 @@ class ilExAssignment
 	function uploadAssignmentFiles($a_files)
 	{
 		ilLoggerFactory::getLogger("exc")->debug("upload assignment files files = ",$a_files);
-		include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 		$storage = new ilFSWebStorageExercise($this->getExerciseId(), $this->getId());
 		$storage->create();
 		$storage->uploadAssignmentFiles($a_files);
@@ -1790,13 +1777,11 @@ class ilExAssignment
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		
-		include_once("./Modules/Exercise/exceptions/class.ilExerciseException.php");
 		if (!is_file($a_file["tmp_name"]))
 		{
 			throw new ilExerciseException($lng->txt("exc_feedback_file_could_not_be_uploaded"));
 		}
 		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
 		ilUtil::delDir($mfu, true);
@@ -1843,7 +1828,6 @@ class ilExAssignment
 		$mems = $exmem->getMembers();
 
 		// read mf directory
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
 
@@ -1903,7 +1887,6 @@ class ilExAssignment
 		$lng = $this->lng;
 		$ilUser = $this->user;
 		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$mfu = $storage->getMultiFeedbackUploadPath($ilUser->getId());
 		ilUtil::delDir($mfu);
@@ -1922,7 +1905,6 @@ class ilExAssignment
 			return;
 		}
 		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$fstorage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		$fstorage->create();
 		
@@ -1992,8 +1974,6 @@ class ilExAssignment
 		
 		if($a_event != "delete")
 		{										
-			include_once "Services/Calendar/classes/class.ilCalendarAppointmentTemplate.php";
-
 			// deadline or relative deadline given
 			if($this->getDeadline() || $this->getDeadlineMode() == ilExAssignment::DEADLINE_RELATIVE)
 			{					
@@ -2024,7 +2004,6 @@ class ilExAssignment
 			
 		}			
 				
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
 		$exc = new ilObjExercise($this->getExerciseId(), false);
 		
 		$ilAppEventHandler->raise('Modules/Exercise',
@@ -2109,7 +2088,6 @@ class ilExAssignment
 			}
 		}
 		
-		include_once "./Services/Notification/classes/class.ilSystemNotification.php";
 		$ntf = new ilSystemNotification();
 		$ntf->setLangModules(array("exc"));
 		$ntf->setObjId($ass->getExerciseId());
@@ -2204,7 +2182,6 @@ class ilExAssignment
 	
 	public function getGlobalFeedbackFileStoragePath()
 	{
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->getExerciseId(), $this->getId());
 		return $storage->getGlobalFeedbackPath();
 	}
@@ -2250,7 +2227,6 @@ class ilExAssignment
 		}
 		if(!array_key_exists($a_user_id, $this->member_status))
 		{
-			include_once "Modules/Exercise/classes/class.ilExAssignmentMemberStatus.php";
 			$this->member_status[$a_user_id] = new ilExAssignmentMemberStatus($this->getId(), $a_user_id);
 		}
 		return $this->member_status[$a_user_id];
@@ -2264,7 +2240,6 @@ class ilExAssignment
 				
 		$ext_deadline = $this->getExtendedDeadline();
 		
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 		foreach(ilExSubmission::getAllAssignmentFiles($this->exc_id, $this->getId()) as $file)
 		{
 			$id = $file["returned_id"];
@@ -2322,7 +2297,6 @@ class ilExAssignment
 			$is_team = true;
 		}
 
-		include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
 		$idl = ilExcIndividualDeadline::getInstance($this->getId(), $id, $is_team);
 		$idl->setIndividualDeadline($date->get(IL_CAL_UNIX));
 		$idl->save();
@@ -2372,8 +2346,7 @@ class ilExAssignment
 			$this->getPeerReview())
 		{		
 			// all deadlines are read-only if we have peer feedback
-			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
-			$peer_review = new ilExPeerReview($this);	
+			$peer_review = new ilExPeerReview($this);
 			if($peer_review->hasPeerReviewGroups())
 			{
 				return true;
@@ -2658,7 +2631,6 @@ class ilExAssignment
 
 		if ($this->getRelativeDeadline() && $this->getDeadlineMode() == self::DEADLINE_RELATIVE)
 		{
-			include_once("./Modules/Exercise/classes/class.ilExcIndividualDeadline.php");
 			foreach (ilExcIndividualDeadline::getStartingTimestamps($this->getId()) as $ts)
 			{
 				$type = $ts["is_team"]

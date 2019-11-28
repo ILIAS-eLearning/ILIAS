@@ -60,7 +60,7 @@ class ilDatabaseSetupConfig implements Setup\Config {
 		string $database,
 		string $user,
 		Password $password = null,
-		bool $create_database = false,
+		bool $create_database = true,
 		string $collation = null,
 		string $port = null,
 		string $path_to_db_dump = null

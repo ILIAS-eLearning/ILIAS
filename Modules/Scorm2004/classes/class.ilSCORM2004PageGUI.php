@@ -300,7 +300,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 			if ($this->getGlossaryOverviewId() != "")
 			{
 				if ($this->scorm_mode != "export" ||
-					$this->getOutputMode() == IL_PAGE_PREVIEW)
+					$this->getOutputMode() == ilPageObjectGUI::PREVIEW)
 				{
 					$overlays[$this->getGlossaryOverviewId()]->add();
 				}
@@ -332,7 +332,6 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 						$term_id = $term_id_arr[count($term_id_arr) - 1];
 	
 						// get overlay html from glossary term
-						include_once("./Modules/Glossary/classes/class.ilGlossaryTermGUI.php");
 						$id_arr = explode("_", $karr[0]); 
 						$term_gui = new ilGlossaryTermGUI($id_arr[count($id_arr) - 1]);
 						$html = $term_gui->getOverlayHTML($cl_id, ($this->getGlossaryOverviewId() != "")
@@ -354,7 +353,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 							$overlays[$ov_id]->setAutoHide(false);
 							$overlays[$ov_id]->setCloseElementId($cl_id);
 							if ($this->scorm_mode != "export" ||
-								$this->getOutputMode() == IL_PAGE_PREVIEW)
+								$this->getOutputMode() == ilPageObjectGUI::PREVIEW)
 							{
 								$overlays[$ov_id]->add();
 							}
@@ -366,7 +365,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 						else
 						{
 							if ($this->scorm_mode != "export" ||
-								$this->getOutputMode() == IL_PAGE_PREVIEW)
+								$this->getOutputMode() == ilPageObjectGUI::PREVIEW)
 							{
 								$overlays[$ov_id]->addTrigger($link_id, "click", $link_id);
 							}
@@ -380,7 +379,7 @@ die("ilSCORM2004PageGUI forwarding to ilpageobjectgui error.");
 						if ($this->getGlossaryOverviewId() != "")
 						{
 							if ($this->scorm_mode != "export" ||
-								$this->getOutputMode() == IL_PAGE_PREVIEW)
+								$this->getOutputMode() == ilPageObjectGUI::PREVIEW)
 							{
 								//$overlays[$this->getGlossaryOverviewId()]->addTrigger($glov_id, "click", null);
 								$overlays[$this->getGlossaryOverviewId()]->addTrigger($glov_id, "click", $ov_id, false, "tl", "tl");

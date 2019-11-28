@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio template view gui class 
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjStyleSheetGUI
- *
- * @ingroup ModulesPortfolio
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 {					
@@ -87,7 +83,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -95,14 +90,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			case "ilpermissiongui":
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab("id_permissions");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
 			
 			case "ilobjectcopygui":
 				$this->prepareOutput();
-				include_once "./Services/Object/classes/class.ilObjectCopyGUI.php";
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType("prtt");
 				$this->ctrl->forwardCommand($cp);
@@ -111,14 +104,12 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			case 'ilexportgui':
 				$this->prepareOutput();
 				$this->tabs_gui->activateTab("export");
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
-				$exp_gui = new ilExportGUI($this); 
+				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$this->ctrl->forwardCommand($exp_gui);
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -220,7 +211,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		{
 			$this->lng->loadLanguageModule("cntr");
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setPrimary(true);
 			$button->setCaption("prtf_create_portfolio_from_template");
@@ -228,7 +218,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 			$ilToolbar->addButtonInstance($button);
 		}
 				
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 
 		$info->enablePrivateNotes();
@@ -267,7 +256,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	{
 		$ilUser = $this->user;
 		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$all = ilObjPortfolio::getPortfoliosOfUser($ilUser->getId());
 		if(sizeof($all))
 		{
@@ -290,7 +278,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	{				
 		if($_POST["prtf"])
 		{				
-			include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 			$source = new ilObjPortfolio($_POST["prtf"], false);
 
 			ilObjPortfolio::clonePagesAndSettings($source, $a_new_object);
@@ -306,7 +293,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		$obj_service = $this->object_service;
 		// activation/availability
 		
-		include_once "Services/Object/classes/class.ilObjectActivation.php";
 		$this->lng->loadLanguageModule('rep');
 		
 		$section = new ilFormSectionHeaderGUI();
@@ -325,7 +311,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		$online->setInfo($this->lng->txt('prtt_activation_online_info').$act_obj_info);		
 		$a_form->addItem($online);				
 				
-		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
 		$dur = new ilDateDurationInputGUI($this->lng->txt("rep_visibility_until"), "access_period");
 		$dur->setShowTime(true);									
 		$dur->setEndText($this->lng->txt('rep_activation_limited_end'));				
@@ -407,7 +392,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		{
 			$a_portfolio_id = $this->object->getId();
 		}
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";			
 		$page = new ilPortfolioTemplatePage($a_page_id);
 		$page->setPortfolioId($a_portfolio_id);
 		return $page;
@@ -421,7 +405,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	 */
 	protected function getPageGUIInstance($a_page_id)
 	{
-		include_once("Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php");
 		$page_gui = new ilPortfolioTemplatePageGUI(
 			$this->object->getId(),
 			$a_page_id, 
@@ -470,7 +453,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 	 */
 	public function initBlogForm()
 	{		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -524,7 +506,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 		{
 			$this->lng->loadLanguageModule("cntr");		
 			
-			include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 			$button = ilLinkButton::getInstance();
 			$button->setPrimary(true);
 			$button->setCaption("prtf_create_portfolio_from_template");

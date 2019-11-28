@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for media object usages listing
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ServicesMediaObjects
  */
 class ilTermUsagesTableGUI extends ilTable2GUI
 {
@@ -91,8 +87,6 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 			$cont_type = $us_arr[0];
 		}
 
-		include_once('./Services/Link/classes/class.ilLink.php');
-
 		switch($usage["type"])
 		{
 			case "pg":
@@ -102,11 +96,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 				switch ($cont_type)
 				{
 					case "sahs":
-						require_once("./Modules/Scorm2004/classes/class.ilSCORM2004Page.php");
 						$page_obj = new ilSCORM2004Page($usage["id"]);
-
-						require_once("./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php");
-						require_once("./Modules/Scorm2004/classes/class.ilSCORM2004PageNode.php");
 						$lm_obj = new ilObjSAHSLearningModule($page_obj->getParentId(), false);
 						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 						$item["obj_title"] = $lm_obj->getTitle();
@@ -120,12 +110,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 					
 					case "lm":
-						require_once("./Modules/LearningModule/classes/class.ilLMPage.php");
 						$page_obj = new ilLMPage($usage["id"]);
-
-						require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
-						require_once("./Modules/LearningModule/classes/class.ilObjLearningModule.php");
-						require_once("./Modules/LearningModule/classes/class.ilLMObject.php");
 						$lm_obj = new ilObjLearningModule($page_obj->getParentId(), false);
 						$item["obj_type_txt"] = $this->lng->txt("obj_".$cont_type);
 						$item["obj_title"] = $lm_obj->getTitle();
@@ -139,7 +124,6 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 						
 					case "wpg":
-						require_once("./Modules/Wiki/classes/class.ilWikiPage.php");
 						$page_obj = new ilWikiPage($usage["id"]);
 						$item["obj_type_txt"] = $this->lng->txt("obj_wiki");
 						$item["obj_title"] = ilObject::_lookupTitle($page_obj->getParentId());
@@ -153,10 +137,7 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 						break;
 
 					case "gdf":
-						require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
 						$page_obj = new ilGlossaryDefPage($usage["id"]);
-						require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-						require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 						$term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
 						$glo_id = ilGlossaryTerm::_lookGlossaryId($term_id);
 						$item["obj_type_txt"] = $this->lng->txt("obj_glo");
@@ -324,4 +305,3 @@ class ilTermUsagesTableGUI extends ilTable2GUI
 		return 0;
 	}
 }
-?>

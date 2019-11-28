@@ -1,18 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Blog Administration Settings.
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id:$
-*
-* @ilCtrl_Calls ilObjBlogAdministrationGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjBlogAdministrationGUI: ilAdministrationGUI
-*
-* @ingroup ModulesForum
-*/
+ * Blog Administration Settings.
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilObjBlogAdministrationGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjBlogAdministrationGUI: ilAdministrationGUI
+ */
 class ilObjBlogAdministrationGUI extends ilObjectGUI
 {
 	/**
@@ -50,7 +47,6 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -165,7 +161,6 @@ class ilObjBlogAdministrationGUI extends ilObjectGUI
 	{
 		$lng = $this->lng;
 		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('blog_settings'));

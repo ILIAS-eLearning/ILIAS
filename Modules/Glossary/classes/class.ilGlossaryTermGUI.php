@@ -1,20 +1,14 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* GUI class for glossary terms
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
-* @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
-*
-* @ingroup ModulesGlossary
-*/
+ * GUI class for glossary terms
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @ilCtrl_Calls ilGlossaryTermGUI: ilTermDefinitionEditorGUI, ilGlossaryDefPageGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls ilGlossaryTermGUI: ilObjectMetaDataGUI
+ */
 class ilGlossaryTermGUI
 {
 	/**
@@ -31,6 +25,11 @@ class ilGlossaryTermGUI
 	 * @var ilHelpGUI
 	 */
 	protected $help;
+
+	/**
+	 * @var \ILIAS\COPage\PageLinker
+	 */
+	protected $page_linker;
 
 	var $lng;
 	var $tpl;
@@ -75,7 +74,6 @@ class ilGlossaryTermGUI
 		if($a_id != 0)
 		{
 			$this->term = new ilGlossaryTerm($a_id);
-			require_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			if (ilObject::_lookupObjectId($this->ref_id) == ilGlossaryTerm::_lookGlossaryID($a_id))
 			{
 				$this->term_glossary = new ilObjGlossary($this->ref_id, true);
@@ -117,7 +115,6 @@ class ilGlossaryTermGUI
 			case "ilobjectmetadatagui";		
 				$this->setTabs();
 				$ilTabs->activateTab('meta_data');
-				include_once 'Services/Object/classes/class.ilObjectMetaDataGUI.php';
 				$md_gui = new ilObjectMetaDataGUI($this->term_glossary,
 					'term', $this->term->getId());	
 				$this->ctrl->forwardCommand($md_gui);
@@ -158,14 +155,9 @@ class ilGlossaryTermGUI
 		}
 	}
 
-	function setLinkXML($a_link_xml)
+	function setPageLinker($page_linker)
 	{
-		$this->link_xml = $a_link_xml;
-	}
-
-	function getLinkXML()
-	{
-		return $this->link_xml;
+		$this->page_linker = $page_linker;
 	}
 
 	/**
@@ -221,8 +213,7 @@ class ilGlossaryTermGUI
 	{
 		$ilTabs = $this->tabs_gui;
 		$ilCtrl = $this->ctrl;
-		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
+
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this, "updateTerm"));
 		$form->setTitle($this->lng->txt("cont_edit_term"));
@@ -241,10 +232,8 @@ class ilGlossaryTermGUI
 		// taxonomy
 		if ($this->term_glossary->getTaxonomyId() > 0)
 		{
-			include_once("./Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php");
 			$tax_node_assign = new ilTaxSelectInputGUI($this->term_glossary->getTaxonomyId(), "tax_node", true);
-			
-			include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
+
 			$ta = new ilTaxNodeAssignment("glo", $this->term_glossary->getId(), "term", $this->term_glossary->getTaxonomyId());
 			$assgnmts = $ta->getAssignmentsOfItem($this->term->getId());
 			$node_ids = array();
@@ -259,7 +248,6 @@ class ilGlossaryTermGUI
 		}
 
 		// advanced metadata
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
 		$this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR,'glo',$this->term_glossary->getId(),'term',
 			$this->term->getId());
 		$this->record_gui->setPropertyForm($form);		
@@ -289,7 +277,6 @@ class ilGlossaryTermGUI
 			// update taxonomy assignment
 			if ($this->term_glossary->getTaxonomyId() > 0)
 			{
-				include_once("./Services/Taxonomy/classes/class.ilTaxNodeAssignment.php");
 				$ta = new ilTaxNodeAssignment("glo", $this->term_glossary->getId(), "term", $this->term_glossary->getTaxonomyId());
 				$ta->deleteAssignmentsOfItem($this->term->getId());
 				if (is_array($_POST["tax_node"]))
@@ -367,9 +354,6 @@ class ilGlossaryTermGUI
 		{
 			$tpl = $this->tpl;
 		}
-		
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -403,7 +387,7 @@ class ilGlossaryTermGUI
 
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
-			$page_gui->setLinkXML($this->getLinkXML());
+			$page_gui->setPageLinker($this->page_linker);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->presentation($page_gui->getOutputMode());
 
@@ -415,7 +399,6 @@ class ilGlossaryTermGUI
 				$tpl->parseCurrentBlock();
 			}
 
-			include_once './Services/MathJax/classes/class.ilMathJax.php';
 			ilMathJax::getInstance()->includeMathJax($tpl);
 
 			$tpl->setCurrentBlock("definition");
@@ -429,8 +412,6 @@ class ilGlossaryTermGUI
 	*/
 	function getInternalLinks()
 	{
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		$defs = ilGlossaryDefinition::getDefinitionList($this->term->getId());
 
@@ -461,7 +442,6 @@ class ilGlossaryTermGUI
 		$this->displayLocator();
 		$this->setTabs();
 		$ilTabs->activateTab("definitions");
-		require_once("./Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php");
 
 		// content style
 		$this->tpl->setCurrentBlock("ContentStyle");
@@ -691,7 +671,6 @@ class ilGlossaryTermGUI
 	*/
 	function displayLocator()
 	{
-		require_once ("./Modules/Glossary/classes/class.ilGlossaryLocatorGUI.php");
 		$gloss_loc = new ilGlossaryLocatorGUI();
 		$gloss_loc->setTerm($this->term);
 		$gloss_loc->setGlossary($this->glossary);
@@ -725,8 +704,7 @@ class ilGlossaryTermGUI
 			$this->tabs_gui->addTab("usage",
 				$lng->txt("cont_usage")." (".ilGlossaryTerm::getNumberOfUsages($_GET["term_id"]).")",
 				$this->ctrl->getLinkTarget($this, "listUsages"));
-			
-			include_once "Services/Object/classes/class.ilObjectMetaDataGUI.php";
+
 			$mdgui = new ilObjectMetaDataGUI($this->term_glossary,
 				"term", $this->term->getId());					
 			$mdtab = $mdgui->getTab();
@@ -821,8 +799,7 @@ class ilGlossaryTermGUI
 		
 		$this->tpl->setTitle($this->lng->txt("cont_term").": ".$this->term->getTerm());
 		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
-		
-		include_once("./Modules/Glossary/classes/class.ilTermUsagesTableGUI.php");
+
 		$tab = new ilTermUsagesTableGUI($this, "listUsages", $_GET["term_id"]);
 		
 		$tpl->setContent($tab->getHTML());
@@ -836,11 +813,7 @@ class ilGlossaryTermGUI
 	function quickList()
 	{
 		$tpl = $this->tpl;
-		$ilCtrl = $this->ctrl;
-		
-		//$tpl->setLeftNavUrl($ilCtrl->getLinkTarget($this, "showQuickList"));
-		
-		include_once("./Modules/Glossary/classes/class.ilTermQuickListTableGUI.php");
+
 		$tab = new ilTermQuickListTableGUI($this, "editTerm");
 		$tpl->setLeftNavContent($tab->getHTML());
 	}

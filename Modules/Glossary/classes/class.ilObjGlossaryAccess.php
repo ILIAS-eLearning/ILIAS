@@ -1,19 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjGlossaryAccess
-*
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGlossary
-*/
+ * Class ilObjGlossaryAccess
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilObjGlossaryAccess extends ilObjectAccess
 {
 	/**
@@ -181,7 +174,6 @@ class ilObjGlossaryAccess extends ilObjectAccess
 			else
 			{
 				// determine learning object
-				require_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 				$glo_id = ilGlossaryTerm::_lookGlossaryID($t_arr[1]);
 				$ref_ids = ilObject::_getAllReferences($glo_id);
 			}
@@ -201,5 +193,3 @@ class ilObjGlossaryAccess extends ilObjectAccess
 
 
 }
-
-?>

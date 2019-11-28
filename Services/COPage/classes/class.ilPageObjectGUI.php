@@ -1,16 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define ("IL_PAGE_PRESENTATION", "presentation");
-define ("IL_PAGE_EDIT", "edit");
-define ("IL_PAGE_PREVIEW", "preview");
-define ("IL_PAGE_OFFLINE", "offline");
-define ("IL_PAGE_PRINT", "print");
-
-include_once ("./Services/COPage/classes/class.ilPageEditorGUI.php");
-include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Services/Clipboard/classes/class.ilEditClipboardGUI.php");
-include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilPageObjectGUI
@@ -19,16 +9,18 @@ include_once("./Services/Utilities/classes/class.ilDOMUtil.php");
  *
  * @author Alex Killing <alex.killing@gmx.de>
  *
- * @version $Id$
- *
  * @ilCtrl_Calls ilPageObjectGUI: ilPageEditorGUI, ilEditClipboardGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPublicUserProfileGUI, ilNoteGUI, ilNewsItemGUI
  * @ilCtrl_Calls ilPageObjectGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI, ilLearningHistoryGUI
- *
- * @ingroup ServicesCOPage
  */
 class ilPageObjectGUI
 {
+	const PRESENTATION = "presentation";
+	const EDIT = "edit";
+	const PREVIEW = "preview";
+	const OFFLINE = "offline";
+	const PRINTING = "print";
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -124,6 +116,7 @@ class ilPageObjectGUI
 	 */
 	protected $ui;
 
+	protected $page_linker;
 
 	/**
 	 * Constructor
@@ -172,10 +165,12 @@ class ilPageObjectGUI
 		}
 		
 
-		$this->setOutputMode(IL_PAGE_PRESENTATION);
+		$this->setOutputMode(self::PRESENTATION);
 		$this->setEnabledPageFocus(true);
 		$this->initPageObject();
 		$this->setPageConfig($this->getPageObject()->getPageConfig());
+
+		$this->page_linker = new ilPageLinker(get_class($this));
 
 		$this->output2template = true;
 		$this->question_xml = "";
@@ -364,9 +359,9 @@ class ilPageObjectGUI
 	/**
 	* Set Output Mode
 	*
-	* @param	string		Mode IL_PAGE_PRESENTATION | IL_PAGE_EDIT | IL_PAGE_PREVIEW
+	* @param	string		Mode self::PRESENTATION | self::EDIT | self::PREVIEW
 	*/
-	function setOutputMode($a_mode = IL_PAGE_PRESENTATION)
+	function setOutputMode($a_mode = self::PRESENTATION)
 	{
 		$this->output_mode = $a_mode;
 	}
@@ -426,10 +421,9 @@ class ilPageObjectGUI
 		return $this->link_frame;
 	}
 
-	function setLinkXML($link_xml)
+	function setPageLinker($page_linker)
 	{
-		$this->link_xml = $link_xml;
-		$this->link_xml_set = true;
+		$this->page_linker = $page_linker;
 	}
 
 	function getLinkXML()
@@ -1467,10 +1461,10 @@ return;
 					$tpl->parseCurrentBlock();
 				}
 			}
-			if ($this->getOutputMode() != IL_PAGE_PRESENTATION &&
-				$this->getOutputMode() != IL_PAGE_OFFLINE &&
-				$this->getOutputMode() != IL_PAGE_PREVIEW &&
-				$this->getOutputMode() != IL_PAGE_PRINT)
+			if ($this->getOutputMode() != self::PRESENTATION &&
+				$this->getOutputMode() != self::OFFLINE &&
+				$this->getOutputMode() != self::PREVIEW &&
+				$this->getOutputMode() != self::PRINTING)
 			{
 				$tpl->setVariable("FORMACTION", $this->ctrl->getFormActionByClass("ilpageeditorgui"));
 			}
@@ -2468,129 +2462,21 @@ return;
 	 */
 	function setDefaultLinkXml()
 	{
-		$int_links = $this->getPageObject()->getInternalLinks();
-//var_dump($int_links);
-		$link_info = "<IntLinkInfos>";
-		$targetframe = "None";
-		foreach ($int_links as $int_link)
-		{
-			$target = $int_link["Target"];
-			if (substr($target, 0, 4) == "il__")
-			{
-				$target_arr = explode("_", $target);
-				$target_id = $target_arr[count($target_arr) - 1];
-				$type = $int_link["Type"];
-
-				$targetframe = ($int_link["TargetFrame"] != "")
-					? $int_link["TargetFrame"]
-					: "None";
-
-				$ltarget="_top";
-				if ($targetframe != "None")
-				{
-					$ltarget="_blank";
-				}
-
-				// anchor
-				$anc = $anc_add = "";
-				if ($int_link["Anchor"] != "")
-				{
-					$anc = $int_link["Anchor"];
-					$anc_add = "_".rawurlencode($int_link["Anchor"]);
-				}
-
-				$href = "";
-				$lcontent = "";
-				switch($type)
-				{
-					case "PageObject":
-					case "StructureObject":
-						$lm_id = ilLMObject::_lookupContObjID($target_id);
-						if ($type == "PageObject")
-						{
-							$href = "./goto.php?target=pg_".$target_id.$anc_add;
-						}
-						else
-						{
-							$href = "./goto.php?target=st_".$target_id;
-						}
-						if ($lm_id == "")
-						{
-							$href = "";
-						}
-						break;
-
-					case "GlossaryItem":
-						if ($targetframe == "None")
-						{
-							$targetframe = "Glossary";
-						}
-						$href = "./goto.php?target=git_".$target_id;
-						break;
-
-					case "MediaObject":
-						$this->ctrl->setParameter($this, "mob_id", $target_id);
-						//$this->ctrl->setParameter($this, "pg_id", $this->obj->getId());
-						$href = $this->ctrl->getLinkTarget($this, "displayMedia",
-							"", false, true);
-						$this->ctrl->setParameter($this, "mob_id", "");
-						break;
-
-					case "WikiPage":
-						include_once("./Modules/Wiki/classes/class.ilWikiPage.php");
-						$href = ilWikiPage::getGotoForWikiPageTarget($target_id);
-						break;
-
-					case "PortfolioPage":
-						include_once("./Modules/Portfolio/classes/class.ilPortfolioPage.php");
-						$href = ilPortfolioPage::getGotoForPortfolioPageTarget($target_id, ($this->getOutputMode() == "offline"));
-						break;
-
-					case "RepositoryItem":
-						$obj_type = ilObject::_lookupType($target_id, true);
-						$obj_id = ilObject::_lookupObjId($target_id);
-						$href = "./goto.php?target=".$obj_type."_".$target_id;
-						break;
-
-					case "User":
-						$obj_type = ilObject::_lookupType($target_id);
-						if ($obj_type == "usr")
-						{
-							include_once("./Services/User/classes/class.ilUserUtil.php");
-							$back = $this->getProfileBackUrl();
-							//var_dump($back); exit;
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", $target_id);
-							if (strlen($back)) {
-								$this->ctrl->setParameterByClass(
-									"ilpublicuserprofilegui",
-									"back_url",
-									rawurlencode($back)
-								);
-							}
-							$href = "";
-							include_once("./Services/User/classes/class.ilUserUtil.php");
-							if (ilUserUtil::hasPublicProfile($target_id))
-							{
-								$href = $this->ctrl->getLinkTargetByClass(["ildashboardgui", "ilpublicuserprofilegui"], "getHTML",
-									"", false, true);
-							}
-							$this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
-							$lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
-						}
-						break;
-
-				}
-				if ($href != "")
-				{
-					$anc_par = 'Anchor="' . $anc . '"';
-					$link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
-						"TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
-				}
-			}
-		}
-		$link_info.= "</IntLinkInfos>";
-		$this->setLinkXML($link_info);
+		$this->page_linker->setOffline($this->getOutputMode() == self::OFFLINE);
+		$this->setLinkXML($this->page_linker->getLinkXml($this->getPageObject()->getInternalLinks()));
 	}
+
+	/**
+	 * Set linkXML
+	 *
+	 * @param string
+	 */
+	public function setLinkXml($xml)
+	{
+		$this->link_xml = $xml;
+		$this->link_xml_set = true;
+	}
+
 
 	/**
 	 * Get profile back url
@@ -2647,7 +2533,7 @@ return;
 		$med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
 		
 		// @todo
-		//$link_xml = $this->getLinkXML($med_links, $this->getLayoutLinkTargets());
+		$link_xml = $this->page_linker->getLinkXML($med_links);
 		
 		require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$media_obj = new ilObjMediaObject($_GET["mob_id"]);
@@ -2920,7 +2806,7 @@ return;
 	 */
 	function preview()
 	{
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 		return $this->showPage();
 	}
 
@@ -2993,7 +2879,7 @@ return;
 			}
 		}
 		
-		$this->setOutputMode(IL_PAGE_EDIT);
+		$this->setOutputMode(self::EDIT);
 
 		$html = $this->showPage();
 		
@@ -3080,7 +2966,7 @@ return;
 	/*
 	* presentation
 	*/
-	function presentation($a_mode = IL_PAGE_PRESENTATION)
+	function presentation($a_mode = self::PRESENTATION)
 	{
 		$this->setOutputMode($a_mode);
 
@@ -3381,7 +3267,7 @@ return;
 		$cfg = $this->getPageConfig();
 		$cfg->setPreventHTMLUnmasking(true);
 
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 		$this->setPageObject($lpage);
 		$this->setPresentationTitle($this->getPresentationTitle());
 		$this->setCompareMode(true);
@@ -3396,7 +3282,7 @@ return;
 		$this->setPageObject($rpage);
 		$this->setPresentationTitle($this->getPresentationTitle());
 		$this->setCompareMode(true);
-		$this->setOutputMode(IL_PAGE_PREVIEW);
+		$this->setOutputMode(self::PREVIEW);
 
 		$rhtml = $this->showPage();
 		$rhtml = $this->replaceDiffTags($rhtml);
@@ -3765,7 +3651,7 @@ return;
 	protected function isPageContainerToBeRendered()
 	{
 		return (
-			$this->getRenderPageContainer() || $this->getOutputMode() == IL_PAGE_PREVIEW
+			$this->getRenderPageContainer() || $this->getOutputMode() == self::PREVIEW
 		);
 	}
 
