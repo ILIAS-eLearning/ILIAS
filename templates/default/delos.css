@@ -17460,6 +17460,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-right: 5px;
   width: 278px;
   height: 377px;
+  background-color: #f0f0f0;
+}
+#onscreenchat-container .chat-window-wrapper:last-child {
+  padding-left: 0 !important;
 }
 #onscreenchat-container .chat-window-wrapper .panel-body {
   height: auto;
@@ -17490,7 +17494,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-bottom: 15px !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
-  background-color: #f0f0f0;
+  background-color: transparent;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessagePlaceholder {
   position: absolute;
