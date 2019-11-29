@@ -21,7 +21,7 @@ class Standard implements Page\Standard
     use ComponentHelper;
     use JavaScriptBindable;
     /**
-     * @var ModeInfo
+     * @var ModeInfo|null
      */
     private $mode_info;
     /**
@@ -317,8 +317,7 @@ class Standard implements Page\Standard
         return $clone;
     }
 
-
-    public function getModeInfo() : ModeInfo
+    public function getModeInfo() : ?ModeInfo
     {
         return $this->mode_info;
     }

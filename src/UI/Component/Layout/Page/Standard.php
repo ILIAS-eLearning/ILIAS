@@ -93,7 +93,7 @@ interface Standard extends Page, JavaScriptBindable
     public function withModeInfo(ModeInfo $mode_info) : Standard;
 
 
-    public function getModeInfo() : ModeInfo;
+    public function getModeInfo() : ?ModeInfo;
 
 
     public function hasModeInfo() : bool;
