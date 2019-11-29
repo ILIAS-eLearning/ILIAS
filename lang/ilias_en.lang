@@ -11380,6 +11380,8 @@ mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
 mst#:#mst_profile_fulfilled#:#Not met, yet
 mst#:#mst_profile_not_fulfilled#:#Fulfilled
+mst#:#mst_cert_issued_on#:#Issued On
+mst#:#mst_download_certificate#:#Download Certificate
 orgu#:#msg_position_udpated#:#Position aktualisiert
 orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’

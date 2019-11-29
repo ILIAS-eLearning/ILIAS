@@ -11392,6 +11392,8 @@ mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
 mst#:#mst_profile_fulfilled#:#Erreicht
 mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
+mst#:#mst_cert_issued_on#:#Ausgestellt am
+mst#:#mst_download_certificate#:#Zertifikat herunterladen
 orgu#:#msg_position_udpated#:#Position updated
 orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
