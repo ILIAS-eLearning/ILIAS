@@ -3,10 +3,10 @@
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 
 /**
  * Class ilMMItemInformation
@@ -41,7 +41,7 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function translateItemForUser(hasTitle $item) : hasTitle
+    public function customTranslationForUser(hasTitle $item) : hasTitle
     {
         /**
          * @var $item isItem
@@ -70,20 +70,9 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function getPositionOfSubItem(isChild $child) : int
+    public function customPosition(isItem $item) : isItem
     {
-        $position = $this->getPosition($child);
-
-        return $position;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getPositionOfTopItem(isTopItem $top_item) : int
-    {
-        return $this->getPosition($top_item);
+        return $item->withPosition($this->getPosition($item));
     }
 
 
@@ -123,5 +112,25 @@ class ilMMItemInformation implements ItemInformation
         }
 
         return $item->getParent();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function customSymbol(hasSymbol $item) : hasSymbol
+    {
+        $id = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$id]['icon_id']) && strlen($this->items[$id]['icon_id']) > 1) {
+            global $DIC;
+
+            $DIC->ctrl()->setParameterByClass(ilMMIconGUI::class, 'icon_id', $this->items[$id]['icon_id']);
+            $link_target_by_class = $DIC->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ilMMIconGUI::class]);
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($link_target_by_class, 'aria');
+
+            return $item->withSymbol($symbol);
+        }
+
+        return $item;
     }
 }

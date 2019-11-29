@@ -14739,6 +14739,8 @@ mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionsl
 mme#:#topitem_active_byline#:#Diesen Haupteintrag aktivieren
 mme#:#topitem_type#:#Typ
 mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_icon#:#Icon
+mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14751,6 +14753,8 @@ mme#:#sub_active#:#Aktiv
 mme#:#sub_status#:#Status
 mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Aktionen
+mme#:#sub_icon#:#Icon
+mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)

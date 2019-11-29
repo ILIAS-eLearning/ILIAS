@@ -12,6 +12,10 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Examples with Page context (beginner, ~4h)
+We need a simple "framework"
+
+
 ### Improving FileInput and Dropzones (advanced, vaiable)
 General Dropzone functionality:
 ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.

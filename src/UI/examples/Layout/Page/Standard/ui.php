@@ -44,8 +44,9 @@ if ($_GET['new_ui'] == '1') {
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )
+
     ->withUIDemo(true);
-    ;
+
 
     echo $renderer->render($page);
 }

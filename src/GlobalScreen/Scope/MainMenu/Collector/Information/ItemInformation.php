@@ -1,10 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 
 /**
  * Class ItemInformation
@@ -23,19 +23,11 @@ interface ItemInformation
 
 
     /**
-     * @param isChild $child
+     * @param isItem $item
      *
-     * @return int
+     * @return isItem
      */
-    public function getPositionOfSubItem(isChild $child) : int;
-
-
-    /**
-     * @param isTopItem $top_item
-     *
-     * @return int
-     */
-    public function getPositionOfTopItem(isTopItem $top_item) : int;
+    public function customPosition(isItem $item) : isItem;
 
 
     /**
@@ -43,7 +35,7 @@ interface ItemInformation
      *
      * @return hasTitle
      */
-    public function translateItemForUser(hasTitle $item) : hasTitle;
+    public function customTranslationForUser(hasTitle $item) : hasTitle;
 
 
     /**
@@ -52,4 +44,12 @@ interface ItemInformation
      * @return IdentificationInterface
      */
     public function getParent(isChild $item) : IdentificationInterface;
+
+
+    /**
+     * @param hasSymbol $item
+     *
+     * @return hasSymbol
+     */
+    public function customSymbol(hasSymbol $item) : hasSymbol;
 }
