@@ -1,9 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
-use ILIAS\GlobalScreen\Collector\hasBeenCollectedTrait;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
-use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
@@ -124,7 +122,15 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             if ($item instanceof hasTitle) {
                 $item = $this->getItemInformation()->translateItemForUser($item);
             }
+            if ($item instanceof isTopItem) {
+                $item = $item->withPosition($this->getItemInformation()->getPositionOfTopItem($item));
+            }
+            if ($item instanceof isChild) {
+                $item = $item->withPosition($this->getItemInformation()->getPositionOfSubItem($item));
+            }
         });
+
+        $this->map->sort();
 
         $this->map->walk(function (isItem &$item) {
             if ($item instanceof isChild && $item->hasParent() && $item->isVisible()) {
@@ -136,6 +142,8 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 // TODO if parent is NullIdentification, add to map
             }
         });
+
+
     }
 
 

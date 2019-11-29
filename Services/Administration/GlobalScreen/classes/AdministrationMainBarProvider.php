@@ -32,7 +32,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $this->dic->language()->loadLanguageModule('administration');
 
         list($groups, $titems) = $this->getGroups();
-
+        $position = 1;
         foreach ($groups as $group => $group_items) {
             // Is Group
             if (is_array($group_items) && count($group_items) > 0) {
@@ -70,8 +70,8 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     ->linkList($this->if->identifier('adm_content_' . $group))
                     ->withLinks($links)
                     ->withTitle($this->dic->language()->txt("adm_" . $group))
-                    // ->withAsyncContentURL("ilias.php?baseClass=ilAdministrationGUI&cmd=getDropDown&cmdMode=asynch")
                     ->withParent($top)
+                    ->withPosition($position)
                     ->withAlwaysAvailable(true)
                     ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))
                     ->withVisibilityCallable(
@@ -83,6 +83,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                             return ($dic->user()->getId() != ANONYMOUS_USER_ID);
                         }
                     );
+                $position++;
             }
         }
 
