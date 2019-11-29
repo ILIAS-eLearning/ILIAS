@@ -29,31 +29,26 @@ class ilMStListCompetencesSkills
 
 
     /**
-     * @param array $user_ids
+     * @param int[] $options
      *
-     * @param array $options
-     *
-     * @return int|array
+     * @return ilMStListCompetencesSkill[]
      */
-    public function getData(array $options)
+    public function getData(array $options) : array
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
-
         $select = $options['count'] === true ?
             'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
-
 
         $query = $select .
             ' FROM skl_personal_skill sk ' .
             ' INNER JOIN usr_data ud ON ud.usr_id = sk.user_id ' .
             ' INNER JOIN skl_tree_node sktree ON sktree.obj_id = sk.skill_node_id ' .
             ' INNER JOIN (SELECT trigger_obj_id, skill_id, MAX(level_id) AS level_id ' .
-                ' FROM skl_user_has_level WHERE self_eval = 0 GROUP BY skill_id) ulvl ON sk.skill_node_id = ulvl.skill_id ' .
+            ' FROM skl_user_has_level WHERE self_eval = 0 GROUP BY skill_id) ulvl ON sk.skill_node_id = ulvl.skill_id ' .
             ' INNER JOIN skl_level lvl ON lvl.id = ulvl.level_id ' .
             ' WHERE ';
-
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
@@ -62,14 +57,15 @@ class ilMStListCompetencesSkills
         foreach ($users_per_position as $position_id => $users) {
 
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
-            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false,'integer') ." AND ". $this->dic->database()->in('sk.user_id ', $users, false,'integer').$this->getAdditionalWhereStatement($options['filters']);
-
+            $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false, 'integer') . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
+                . $this->getAdditionalWhereStatement($options['filters']);
         }
 
-        $uniion_query = "SELECT * FROM ((".implode(') UNION (', $arr_query).")) as a_table";
+        $uniion_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";
 
         if ($options['count'] === true) {
             $set = $this->dic->database()->query($uniion_query);
+
             return $this->dic->database()->numRows($set);
         }
 
@@ -94,6 +90,7 @@ class ilMStListCompetencesSkills
                 $rec['user_id']
             );
         }
+
         return $skills;
     }
 
@@ -125,8 +122,8 @@ class ilMStListCompetencesSkills
         if (!empty($arr_filter['org_unit'])) {
             $wheres[] = 'ud.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' .
                 $this->dic->database()->quote($filters['org_unit'], 'integer') . ')';
-		}
+        }
 
-        return empty($wheres) ? '' : ' AND ' . implode (' AND ', $wheres);
+        return empty($wheres) ? '' : ' AND ' . implode(' AND ', $wheres);
     }
 }
