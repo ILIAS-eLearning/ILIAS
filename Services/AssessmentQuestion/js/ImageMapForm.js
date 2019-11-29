@@ -86,15 +86,15 @@ let process_img_key_up = function(e) {
     else if (e.keyCode === 13) {
         submit_popup();
     }
-    // shift
-    else if (e.keyCode === 16) {
+    // ctrl
+    else if (e.keyCode === 17) {
         shifted = false;
     }
 };
 
 let process_img_key_down = function(e) {
-    // shift
-    if (e.keyCode === 16) {
+    // ctrl
+    if (e.keyCode === 17) {
         shifted = true;
     }  
 };
