@@ -9595,20 +9595,14 @@ footer {
 .il-mode-info span.il-mode-info-content {
   margin: auto;
   background-color: #f14956;
-  display: inline-block;
-  padding: 2px 10px 3px 12px;
-  color: white;
+  padding: 3px 8px 3px 8px;
   -webkit-box-shadow: 0px 2px 2px 0px #808080;
   -moz-box-shadow: 0px 2px 2px 0px #808080;
   box-shadow: 0px 2px 2px 0px #808080;
 }
 .il-mode-info span {
   color: white;
-  font-size: 1.2em;
-}
-.il-mode-info button {
-  margin: 0;
-  padding: 0;
+  font-size: 18px;
 }
 @media only screen and (max-width: 768px) {
   .il-mode-info {
