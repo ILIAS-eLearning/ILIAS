@@ -9704,7 +9704,8 @@ footer {
   /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
-.icon.custom {
+.icon.custom,
+.icon.inline {
   background-image: none;
 }
 .icon.grp .abbreviation,

@@ -75,4 +75,30 @@ interface Factory
      * @return 	\ILIAS\UI\Component\Symbol\Icon\Custom
      **/
     public function custom($icon_path, $aria_label, $size='small', $is_disabled = false);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     ILIAS allows users to upload icons e.g. for Main bar items.
+     *     Those, in opposite to the standard icons, can be delivered inline as base64.
+     *   composition: >
+     *     Instead of setting a background image via CSS-class, an image-tag is
+     *     contained in the icons's div.
+     *   rivals:
+     *     Standard Icon: Standard Icons MUST be used for core-objects.
+     * rules:
+     *   style:
+     *     1: Inline Icons MUST use SVG as graphic, encoses as base64.
+     *     2: >
+     *       Icons MUST have a transparent background so they could be put on
+     *       all kinds of backgrounds.
+     *     3: >
+     *       Images used for Inline Icons SHOULD have equal width and height
+     *       (=be quadratic) in order not to be distorted.
+     * ---
+     *
+     * @return 	\ILIAS\UI\Component\Symbol\Icon\Inline
+     **/
+    public function inline(string $base_64_data, string $mime_type, string $aria_label, string $size = 'small', bool $is_disabled = false);
 }

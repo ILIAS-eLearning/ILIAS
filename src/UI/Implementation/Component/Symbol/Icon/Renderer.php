@@ -4,9 +4,9 @@
 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
+use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -27,7 +27,11 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Symbol\Icon\Custom) {
             $tpl->setVariable("CUSTOMIMAGE", $component->getIconPath());
-        } else {
+        } elseif ($component instanceof Component\Symbol\Icon\Inline) {
+            $value = 'data:' . $component->getMimeType() . ';base64,' . $component->getBase64Data();
+            $tpl->setVariable("BASE64", $value);
+        }
+        else {
             if ($component->isOutlined()) {
                 $tpl->setVariable("OUTLINED", " outlined");
             }

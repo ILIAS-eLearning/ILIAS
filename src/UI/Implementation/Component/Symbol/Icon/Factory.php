@@ -22,4 +22,10 @@ class Factory implements I\Factory
     {
         return new Custom($icon_path, $aria_label, $size, $is_disabled);
     }
+
+
+    public function inline(string $base_64_data, string $mime_type, string $aria_label, string $size = 'small', bool $is_disabled = false)
+    {
+        return new Inline($base_64_data, $aria_label, $size, $is_disabled, $mime_type);
+    }
 }
