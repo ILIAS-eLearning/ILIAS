@@ -438,6 +438,39 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *         The Notification Center Glyph is used to trigger the Slate displaying
+     *         the Notification Items in the Meta Bar.
+     *   composition: >
+     *       The Notification Glyph uses the glyphicon-bell. A Novelty Counter
+     *       displays the number of Notification Items carrying any type of news.
+     *   effect: >
+     *       Upon clicking the Slate displaying all Notification Items is displayed.
+     *   rivals:
+     *      Notification Glyph: >
+     *         The Disclosure Glyph hides t
+     *
+     * rules:
+     *   usage:
+     *       1: >
+     *          The Notification Center Glyph MUST always be visible in the Meta Bar
+     *          as long as the user is logged in.
+     *   composition:
+     *       1: >
+     *          The Novelty Counter MUST display the number of Notification Items
+     *          carrying any type of news.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be ‘Notifications'.
+     * ---
+     * @param	string|null	$action
+     * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function notificationCenter(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *       The Tag Glyph is used to indicate the possibility of adding tags to an object.
      *   composition: >
      *       The Tag Glyph uses the glyphicon-tag.
