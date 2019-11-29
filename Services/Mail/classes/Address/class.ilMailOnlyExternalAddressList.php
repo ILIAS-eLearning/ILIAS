@@ -41,7 +41,7 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
 
         $filteredAddresses = array_filter($addresses, function (ilMailAddress $address) {
             $c = $this->getUsrIdByLoginCallable;
-            if (!$c((string) $address)) {
+            if ($c((string) $address)) {
                 // Fixed mantis bug #5875
                 return false;
             }
