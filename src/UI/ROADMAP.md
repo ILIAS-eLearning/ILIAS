@@ -12,6 +12,11 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Simple usage of demo-page in examples  (beginner, ~4h)
+To show how a UI-Component looks loke in the page context (esp. for 
+Components from the MainControls) a simple "framework" to use a Demo-Page
+in the examples would be helpful.
+
 ### Improving FileInput and Dropzones (advanced, vaiable)
 General Dropzone functionality:
 ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
