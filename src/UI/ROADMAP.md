@@ -12,9 +12,10 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
-### Examples with Page context (beginner, ~4h)
-We need a simple "framework"
-
+### Simple usage of demo-page in examples  (beginner, ~4h)
+To show how a UI-Component looks loke in the page context (esp. for 
+Components from the MainControls) a simple "framework" to use a Demo-Page
+in the examples would be helpful.
 
 ### Improving FileInput and Dropzones (advanced, vaiable)
 General Dropzone functionality:

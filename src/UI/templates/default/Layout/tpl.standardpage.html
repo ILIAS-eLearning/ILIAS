@@ -58,7 +58,13 @@
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
-			{CONTENT}
+			<div>
+				<!-- BEGIN mode_info -->
+				{MODEINFO}
+				<!-- END mode_info -->
+				{CONTENT}
+			</div>
+
 
 			<footer>
 				{FOOTER}

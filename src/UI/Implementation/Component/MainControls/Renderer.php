@@ -39,6 +39,9 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Footer) {
             return $this->renderFooter($component, $default_renderer);
         }
+        if ($component instanceof ModeInfo) {
+            return $this->renderModeInfo($component, $default_renderer);
+        }
     }
 
     protected function renderMainbar(MainBar $component, RendererInterface $default_renderer)
@@ -132,6 +135,19 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        return $tpl->get();
+    }
+
+    protected function renderModeInfo(ModeInfo $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
+        $tpl->setVariable('MODE_TITLE', $component->getModeTitle());
+        $base_URI = $component->getCloseAction()->getBaseURI();
+        $query = $component->getCloseAction()->getQuery();
+        $action = $base_URI . '?' . $query;
+        $close = $this->getUIFactory()->symbol()->glyph()->close($action);
+        $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
+
         return $tpl->get();
     }
 
@@ -367,7 +383,8 @@ class Renderer extends AbstractComponentRenderer
         return array(
             MetaBar::class,
             MainBar::class,
-            Footer::class
+            Footer::class,
+            ModeInfo::class
         );
     }
 }
