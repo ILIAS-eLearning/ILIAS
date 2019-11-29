@@ -29,6 +29,9 @@ class IconTest extends ILIAS_UI_TestBase
 
         $ci = $f->custom('course', 'Kurs');
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Custom", $ci);
+
+        $ci = $f->inline('course', 'image/svg+xml', 'Kurs');
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Symbol\\Icon\\Inline", $ci);
     }
 
     public function testAttributes()
@@ -117,6 +120,32 @@ class IconTest extends ILIAS_UI_TestBase
 
         $ico = $f->custom('/some/path/', 'Custom Icon');
         $this->assertEquals('/some/path/', $ico->getIconPath());
+    }
+
+
+    public function testInlineData()
+    {
+        $f = $this->getIconFactory();
+
+        $content = 'raw_content';
+
+        $ico = $f->inline(base64_encode($content), 'image/svg+xml', 'Test');
+        $this->assertEquals(base64_encode($content), $ico->getBase64Data());
+    }
+
+
+    public function testRenderingInline()
+    {
+        $f = $this->getIconFactory();
+        $r = $this->getDefaultRenderer();
+        $content = 'raw_content';
+        $mime_type = 'image/svg+xml';
+        $aria_label = 'Test';
+        $ico = $f->inline(base64_encode($content), $mime_type, $aria_label);
+        $html = $this->normalizeHTML($r->render($ico));
+        $expected = '<div class="icon inline small" aria-label="' . $aria_label . '">	<img src="data:' . $mime_type . ';base64,' . base64_encode($content) . '" /></div>';
+
+        $this->assertEquals($expected, $html);
     }
 
     public function testRenderingStandard()
