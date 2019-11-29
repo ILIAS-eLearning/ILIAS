@@ -40,7 +40,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withTitle($title)
             ->withSymbol($icon)
-            ->withPosition(5)
+            ->withPosition(7)
             ->withVisibilityCallable(
                 function () {
                     return (bool) ($this->dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID));

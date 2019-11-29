@@ -67,7 +67,7 @@ class ilLMPageObject extends ilLMObject
 		$this->page_object = new ilLMPage($this->id, 0);
 	}
 
-	function create($a_upload = false, $a_omit_page_object_creation = false)
+	function create($a_upload = false, $a_omit_page_object_creation = false, $a_layout_id = 0)
 	{
 		parent::create($a_upload);
 		if ($a_omit_page_object_creation)
@@ -80,7 +80,12 @@ class ilLMPageObject extends ilLMObject
 		}
 		$this->page_object->setId($this->getId());
 		$this->page_object->setParentId($this->getLMId());
-		$this->page_object->create($a_upload);
+		if ($a_layout_id == 0) {
+			$this->page_object->create($a_upload);
+		} else{
+			$this->page_object->createWithLayoutId($a_layout_id);
+		}
+
 	}
 
 	function delete($a_delete_meta_data = true)
@@ -682,5 +687,45 @@ class ilLMPageObject extends ilLMObject
 		}
 		return array("cnt" => $cnt, "set" => $result);
 	}
+
+	/**
+	 * Insert (multiple) pages templates at node
+	 */
+	static function insertPagesFromTemplate($lm_id, $num, $node_id, $first_child, $layout_id, $title = "")
+	{
+		global $DIC;
+
+		$lng = $DIC->language();
+
+		if ($title == "") {
+			$title = $lng->txt("cont_new_page");
+		}
+		$lm_tree = new ilLMTree($lm_id);
+		$lm = new ilObjLearningModule($lm_id, false);
+		if (!$first_child)	// insert after node id
+		{
+			$parent_id = $lm_tree->getParentId($node_id);
+			$target = $node_id;
+		}
+		else           // insert as first child
+		{
+			$parent_id = $node_id;
+			$target = IL_FIRST_NODE;
+		}
+
+		$page_ids = array();
+		for ($i = 1; $i <= $num; $i++)
+		{
+			$page = new ilLMPageObject($lm);
+			$page->setTitle($title);
+			$page->setLMId($lm->getId());
+			$page->create(false, false, $layout_id);
+			ilLMObject::putInTree($page, $parent_id, $target);
+			$page_ids[] = $page->getId();
+		}
+		$page_ids = array_reverse($page_ids);
+		return $page_ids;
+	}
+
 }
 ?>

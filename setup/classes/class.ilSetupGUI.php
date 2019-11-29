@@ -4574,9 +4574,7 @@ class ilSetupGUI
 
 		if(!$this->setup->ini->groupExists('background_tasks')) {
 			$this->setup->ini->addGroup('background_tasks');
-			var_dump($this->setup->ini->getError());
 			$this->setup->ini->write();
-			var_dump($this->setup->ini->getError());
 		}
 
 		$this->setup->ini->setVariable("background_tasks","concurrency",$form->getInput('concurrency'));

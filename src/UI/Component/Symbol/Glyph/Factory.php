@@ -135,7 +135,7 @@ interface Factory
      *       The Remove Glyph serves as a replacement for the respective textual
      *       button in very crowded screens. It allows removing an item.
      *   composition: >
-     *       The Remove Glyph uses the glyphicon-plus-sign.
+     *       The Remove Glyph uses the glyphicon-minus-sign.
      *   effect: >
      *       Clicking on the Remove Glyph deletes an existing input from a form.
      *
@@ -843,11 +843,11 @@ interface Factory
      *       The Search Glyph uses the glyphicon-search.
      *   effect: >
      *       Clicking this glyph will open a search dialog.
-     *       Since the context for the Search Glyph primarily is the Metabar,
-     *       the according search dialog will be opened as Tool in the Mainbar.
+     *       Since the context for the Search Glyph primarily is the Meta Bar,
+     *       the according search dialog will be opened as Tool in the Main Bar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Search Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:
@@ -869,11 +869,11 @@ interface Factory
      *   effect: >
      *       When clicked, the user is provided with explanations or
      *       instructions for the usage of the current context.
-     *       When used in the Metabar, the help is displayed as tool in the
+     *       When used in the Meta Bar, the help is displayed as tool in the
      *       Sidebar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Search Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:

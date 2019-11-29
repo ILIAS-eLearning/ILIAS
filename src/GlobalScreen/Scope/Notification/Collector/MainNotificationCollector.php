@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
@@ -14,6 +15,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 class MainNotificationCollector extends AbstractBaseCollector implements ItemCollector
 {
 
+    use Hasher;
     /**
      * @var NotificationProvider[]
      */
@@ -150,16 +152,29 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     }
 
 
-    public function getNotificationsIdentifiersAsArray()
+    /**
+     * @param bool $hashed
+     *
+     * @return array
+     */
+    public function getNotificationsIdentifiersAsArray($hashed = false) : array
     {
         $identifiers = [];
         foreach ($this->notifications as $notification) {
             if ($notification instanceof StandardNotificationGroup) {
                 foreach ($notification->getNotifications() as $item) {
-                    $identifiers[] = $item->getProviderIdentification()->getInternalIdentifier();
+                    if ($hashed) {
+                        $identifiers[] = $this->hash($item->getProviderIdentification()->serialize());
+                    } else {
+                        $identifiers[] = $item->getProviderIdentification()->serialize();
+                    }
                 }
             }
-            $identifiers[] = $notification->getProviderIdentification()->getInternalIdentifier();
+            if ($hashed) {
+                $identifiers[] = $this->hash($notification->getProviderIdentification()->serialize());
+            } else {
+                $identifiers[] = $notification->getProviderIdentification()->serialize();
+            }
         }
 
         return $identifiers;

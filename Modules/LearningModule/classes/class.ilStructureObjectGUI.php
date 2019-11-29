@@ -1057,5 +1057,75 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 		$ilCtrl->redirect($this, "showHierarchy");
 	}
 
+	/**
+	 * Displays GUI to select template for page
+	 */
+	function insertTemplate()
+	{
+		$ctrl = $this->ctrl;
+		$ui = $this->ui;
+		$lng = $this->lng;
+
+		$this->setTabs();
+		$tabs = $this->tabs;
+		$tabs->clearTargets();
+		$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTarget($this, "showHierarchy"));
+
+		$ctrl->setParameter($this, "multi", ilChapterHierarchyFormGUI::getPostMulti());
+		$ctrl->setParameter($this, "node_id", ilChapterHierarchyFormGUI::getPostNodeId());
+		$ctrl->setParameter($this, "first_child", ilChapterHierarchyFormGUI::getPostFirstChild());
+		$ctrl->saveParameter($this,"obj_id");
+		$form = $this->initInsertTemplateForm();
+		$this->tpl->setContent($ui->renderer()->render($form).ilLMPageObjectGUI::getLayoutCssFix());
+	}
+
+
+	/**
+	 * Init insert template form.
+	 * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+	 */
+	public function initInsertTemplateForm()
+	{
+		$ui = $this->ui;
+		$f = $ui->factory();
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$fields["title"] = $f->input()->field()->text($lng->txt("title"), "");
+		$fields["layout_id"] = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+
+		// section
+		$section1 = $f->input()->field()->section($fields, $lng->txt("cont_insert_pagelayout"));
+
+		$form_action = $ctrl->getLinkTarget($this, "insertPageFromTemplate");
+		return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
+	}
+
+	/**
+	 * Insert (multiple) pages templates at node
+	 */
+	function insertPageFromTemplate()
+	{
+		global $DIC;
+
+		$ilCtrl = $this->ctrl;
+
+		$form = $this->initInsertTemplateForm();
+		$form = $form->withRequest($DIC->http()->request());
+		$data = $form->getData();
+		$layout_id = $data["sec"]["layout_id"];
+		$node_id = $_REQUEST["node_id"];
+		$page_ids = ilLMPageObject::insertPagesFromTemplate(
+			$this->content_object->getId(),
+			(int) $_REQUEST["multi"],
+			$node_id,
+			$_REQUEST["first_child"],
+			$layout_id,
+			$data["sec"]["title"]);
+
+		$ilCtrl->setParameter($this, "highlight", $page_ids);
+		$ilCtrl->redirect($this, "showHierarchy", "node_".$node_id);
+	}
+
 }
 ?>

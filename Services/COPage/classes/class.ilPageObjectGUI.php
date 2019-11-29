@@ -1722,6 +1722,9 @@ return;
 			ilAccordionGUI::addCss();
 		}
 
+		// needed for placeholders
+		$this->tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
+
 		$file_download_link = $this->determineFileDownloadLink();
 		$fullscreen_link = $this->determineFullscreenLink();
 		$this->sourcecode_download_script = $this->determineSourcecodeDownloadScript();

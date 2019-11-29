@@ -200,6 +200,20 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Record
 cont#:#cont_filter_field#:#Field
 cont#:#cont_filter_fields#:#Filter Fields
+sess#:#notification#:#Notification
+sess#:#sess_registration_notification#:#Notification
+sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
+sess#:#sess_notification_option#:#Option
+sess#:#sess_notification_option_inherit#:#Inherit from Parent
+sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from course or group) for members of this session
+sess#:#sess_notification_option_manual#:#Set manually
+sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually in tab 'Participants'
+common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
+common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
+common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
+common#:#register_notification#:#"%s" has applied for session "%s".
+common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s".
+common#:#entered_notification#:#"%s" has joined the session "%s".
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -12324,6 +12338,7 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 crs#:#crs_mem_tbl_header#:#Course Participants
 grp#:#grp_mem_tbl_header#:#Group Participants
+sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
@@ -15777,3 +15792,7 @@ lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#Without Time Indication
 trac#:#trac_mode_course_reference#:#Adopted from Course
 trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.
+style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module
+content#:#cont_insert_pagelayout#:#Insert Template Page
+content#:#cont_page_template#:#Page Template
+content#:#cont_page_created#:#Page created
