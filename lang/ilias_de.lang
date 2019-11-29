@@ -15808,8 +15808,8 @@ lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
 trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
-trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen auf den dieser Kurslink verweist.
-style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module
+trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
+style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
 content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
 content#:#cont_page_template#:#Vorlage
 content#:#cont_page_created#:#Seite hinzugefügt
