@@ -4,9 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
-use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
+use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ilTemplateWrapper as UITemplateWrapper;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -37,6 +40,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component->hasModeInfo()) {
             $tpl->setVariable('MODEINFO', $default_renderer->render($component->getModeInfo()));
         }
+
         $breadcrumbs = $component->getBreadcrumbs();
         if ($breadcrumbs && $breadcrumbs->getItems()) {
             $tpl->setVariable('BREADCRUMBS', $default_renderer->render($breadcrumbs));
