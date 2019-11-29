@@ -107,7 +107,7 @@ class ilMStListCertificatesGUI {
 		$this->checkAccessOrFail();
 
 		$this->table = new ilMStListCertificatesTableGUI($this, self::CMD_INDEX);
-		$this->table->setTitle($DIC->language()->txt('mst_list_courses'));
+		$this->table->setTitle($DIC->language()->txt('mst_list_certificates'));
 		$DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
 	}
 

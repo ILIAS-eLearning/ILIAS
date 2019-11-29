@@ -41,8 +41,8 @@ class ilMStListCourses {
 		if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
 			$operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
 		}
-		$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
-			->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);
+		/*$tmp_table_user_matrix = ilMyStaffAccess::getInstance()->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($this->dic->user()
+			->getId(), $operation_access, ilMyStaffAccess::DEFAULT_CONTEXT, ilMyStaffAccess::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX);*/
 
 		$_options = array(
 			'filters' => array(),
@@ -52,7 +52,7 @@ class ilMStListCourses {
 		);
 		$options = array_merge($_options, $options);
 
-		$select = 'SELECT crs_ref.ref_id AS crs_ref_id, crs.title AS crs_title, reg_status, lp_status, usr_data.usr_id AS usr_id, usr_data.login AS usr_login, usr_data.lastname AS usr_lastname, usr_data.firstname AS usr_firstname, usr_data.email AS usr_email  FROM (
+        $query = 'SELECT crs_ref.ref_id AS crs_ref_id, crs.title AS crs_title, reg_status, lp_status, usr_data.usr_id AS usr_id, usr_data.login AS usr_login, usr_data.lastname AS usr_lastname, usr_data.firstname AS usr_firstname, usr_data.email AS usr_email  FROM (
 	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
@@ -70,22 +70,36 @@ class ilMStListCourses {
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
 
-		$select .= static::createWhereStatement($arr_usr_ids, $options['filters'], $tmp_table_user_matrix);
+
+        $data = [];
+        $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
+
+        $arr_query = [];
+        foreach ($users_per_position as $position_id => $users) {
+
+            $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
+            $arr_query[] = $query ." AND ". $this->dic->database()->in('crs.obj_id', $obj_ids, false,'integer') ." AND ". $this->dic->database()->in('usr_data.usr_id', $users, false,'integer');
+
+        }
+
+        $union_query = "SELECT * FROM ((".implode(') UNION (', $arr_query).")) as a_table";
+
+        $union_query .= static::createWhereStatement($options['filters']);
 
 		if ($options['count']) {
-			$result = $this->dic->database()->query($select);
+			$result = $this->dic->database()->query($union_query);
 
 			return $this->dic->database()->numRows($result);
 		}
 
 		if ($options['sort']) {
-			$select .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
 		}
 
 		if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-			$select .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
 		}
-		$result = $this->dic->database()->query($select);
+		$result = $this->dic->database()->query($union_query);
 		$crs_data = array();
 
 		while ($crs = $this->dic->database()->fetchAssoc($result)) {
@@ -116,14 +130,9 @@ class ilMStListCourses {
 	 *
 	 * @return string
 	 */
-	protected function createWhereStatement(array $arr_usr_ids, array $arr_filter, $tmp_table_user_matrix) {
+	protected function createWhereStatement(array $arr_filter) {
 		$where = array();
 
-		$where[] = '(crs_ref.ref_id, usr_data.usr_id) IN (SELECT * FROM ' . $tmp_table_user_matrix . ')';
-
-		if (count($arr_usr_ids)) {
-			$where[] = $this->dic->database()->in('usr_data.usr_id', $arr_usr_ids, false, 'integer');
-		}
 
 		if (!empty($arr_filter['crs_title'])) {
 			$where[] = '(crs.title LIKE ' . $this->dic->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
@@ -151,10 +160,10 @@ class ilMStListCourses {
 		}
 
 		if (!empty($arr_filter['user'])) {
-			$where[] = "(" . $this->dic->database()->like("usr_data.login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-					->like("usr_data.firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-					->like("usr_data.lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-					->like("usr_data.email", "text", "%" . $arr_filter['user'] . "%") . ") ";
+			$where[] = "(" . $this->dic->database()->like("usr_login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_email", "text", "%" . $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {

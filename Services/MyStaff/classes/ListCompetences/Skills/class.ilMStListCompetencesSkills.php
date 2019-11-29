@@ -45,8 +45,6 @@ class ilMStListCompetencesSkills
             'SELECT count(*)' : 'SELECT sktree.title as skill_title, skill_node_id, ulvl.trigger_obj_id, user_id, login, firstname, lastname, lvl.title as skill_level';
 
 
-
-
         $query = $select .
             ' FROM skl_personal_skill sk ' .
             ' INNER JOIN usr_data ud ON ud.usr_id = sk.user_id ' .

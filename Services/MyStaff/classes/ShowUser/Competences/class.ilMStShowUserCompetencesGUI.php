@@ -6,7 +6,7 @@ use ILIAS\MyStaff\ilMyStaffAccess;
 /**
  * Class ilMStShowUserCompetencesGUI
  *
- * @author Theodor Truffer <tt@studer-raimann.ch>
+ * @author            Theodor Truffer <tt@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilMStShowUserCompetencesGUI: ilMStShowUserGUI
  */
@@ -14,12 +14,8 @@ class ilMStShowUserCompetencesGUI
 {
 
     const CMD_SHOW_SKILLS = 'showSkills';
-    const CMD_SHOW_PROFILES = 'showProfiles';
     const CMD_INDEX = self::CMD_SHOW_SKILLS;
-
     const SUB_TAB_SKILLS = 'skills';
-    const SUB_TAB_PROFILES = 'profiles';
-
     /**
      * @var int
      */
@@ -49,6 +45,7 @@ class ilMStShowUserCompetencesGUI
         $this->usr_id = $this->dic->http()->request()->getQueryParams()['usr_id'];
         $this->dic->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
+
 
     /**
      *
@@ -84,10 +81,6 @@ class ilMStShowUserCompetencesGUI
         switch ($next_class) {
             default:
                 switch ($cmd) {
-                    case self::CMD_SHOW_PROFILES:
-                        $this->addSubTabs(self::SUB_TAB_PROFILES);
-                        $this->showProfiles();
-                        break;
                     case self::CMD_INDEX:
                     case self::CMD_SHOW_SKILLS:
                     default:
@@ -111,14 +104,9 @@ class ilMStShowUserCompetencesGUI
             $this->dic->ctrl()->getLinkTarget($this, self::CMD_SHOW_SKILLS)
         );
 
-        $this->dic->tabs()->addSubTab(
-            self::SUB_TAB_PROFILES,
-            $this->dic->language()->txt('skmg_assigned_profiles'),
-            $this->dic->ctrl()->getLinkTarget($this, self::CMD_SHOW_PROFILES)
-        );
-
         $this->dic->tabs()->activateSubTab($active_sub_tab);
     }
+
 
     /**
      *
@@ -129,20 +117,8 @@ class ilMStShowUserCompetencesGUI
         $skills = ilPersonalSkill::getSelectedUserSkills($this->usr_id);
         $html = '';
         foreach ($skills as $skill) {
-            $html.= $skills_gui->getSkillHTML($skill["skill_node_id"], $this->usr_id);
+            $html .= $skills_gui->getSkillHTML($skill["skill_node_id"], $this->usr_id);
         }
         $this->dic->ui()->mainTemplate()->setContent($html);
     }
-
-
-    /**
-     *
-     */
-    protected function showProfiles()
-    {
-        $skills_gui = new ilPersonalSkillsGUI();
-        $html = $skills_gui->getGapAnalysisHTML($this->usr_id);
-        $this->dic->ui()->mainTemplate()->setContent($html);
-    }
-
 }
