@@ -17,11 +17,11 @@ class ObjectId {
 	private $object_id;
 
 
-	/**
-	 * ReferenceId constructor.
-	 *
-	 * @param int $ref_id
-	 */
+    /**
+     * ReferenceId constructor.
+     *
+     * @param int $object_id
+     */
 	public function __construct(int $object_id) {
 		$this->object_id = $object_id;
 	}

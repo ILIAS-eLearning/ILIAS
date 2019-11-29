@@ -311,6 +311,27 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
     }
 
 
+    public function supportsCustomIcon() : bool
+    {
+        return true; //return $this->isCustom();
+    }
+
+
+    public function getIconID() : ?string
+    {
+        return $this->mm_item->getIconId();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function setIconID(string $icon_id)
+    {
+        $this->mm_item->setIconId($icon_id);
+    }
+
+
     // CRUD
 
     public function update()

@@ -1234,7 +1234,7 @@ class ilMail
         string $message,
         array $attachments,
         bool $usePlaceholders
-    ) {
+    ) : array {
         $internalMessageId = $this->saveInSentbox(
             $attachments,
             $to,

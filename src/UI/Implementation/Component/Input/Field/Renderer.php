@@ -848,18 +848,18 @@ JS;
         $settings = new \stdClass();
         $settings->upload_url = $component->getUploadHandler()->getUploadURL();
         $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->info_url = $component->getUploadHandler()->getExistingFileInfoURL();
         $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
         $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
-
-        $value = $input->getValue();
+        $settings->existing_file_ids = $input->getValue();
+        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue()??[]);
 
         $input = $component->withAdditionalOnLoadCode(
-            function ($id) use ($settings, $value) {
+            function ($id) use ($settings) {
                 $settings = json_encode($settings);
-                $value = json_encode($value);
 
                 return "$(document).ready(function() {
-					il.UI.Input.file.init('$id', '{$settings}', '{$value}}');
+					il.UI.Input.file.init('$id', '{$settings}');
 				});";
             }
         );

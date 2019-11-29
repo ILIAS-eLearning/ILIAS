@@ -10,6 +10,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
@@ -120,14 +121,14 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
             // Translate Item
             if ($item instanceof hasTitle) {
-                $item = $this->getItemInformation()->translateItemForUser($item);
+                $item = $this->getItemInformation()->customTranslationForUser($item);
             }
-            if ($item instanceof isTopItem) {
-                $item = $item->withPosition($this->getItemInformation()->getPositionOfTopItem($item));
+            // Custom Symbol
+            if ($item instanceof hasSymbol) {
+                $item = $this->getItemInformation()->customSymbol($item);
             }
-            if ($item instanceof isChild) {
-                $item = $item->withPosition($this->getItemInformation()->getPositionOfSubItem($item));
-            }
+            // Custom Position
+            $item = $this->getItemInformation()->customPosition($item);
         });
 
         $this->map->sort();
@@ -142,8 +143,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 // TODO if parent is NullIdentification, add to map
             }
         });
-
-
     }
 
 

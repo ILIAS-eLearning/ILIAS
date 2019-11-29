@@ -1,49 +1,18 @@
 <?php
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
+use ILIAS\FileUpload\Handler\BasicFileInfoResult;
 use ILIAS\FileUpload\Handler\BasicHandlerResult;
+use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\FileUpload\Handler\HandlerResult;
-use ILIAS\FileUpload\Handler\ilCtrlAwareUploadHandler;
-use ILIAS\UI\Component\Input\Field\UploadHandler;
 
 /**
  * Class ilUIDemoFileUploadHandlerGUI
  *
  * @ilCtrl_isCalledBy ilUIDemoFileUploadHandlerGUI: ilUIPluginRouterGUI
  */
-class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHandler
+class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
-
-    private const CMD_UPLOAD = 'upload';
-    private const CMD_REMOVE = 'remove';
-    // private const FILE_ID = UploadHandler::DEFAULT_FILE_ID_PARAMETER;
-    private const FILE_ID = 'my_file_id';
-    /**
-     * @var \ILIAS\DI\HTTPServices
-     */
-    protected $http;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var FileUpload
-     */
-    protected $upload;
-
-
-    /**
-     * ilUIDemoFileUploadHandlerGUI constructor.
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->ctrl = $DIC->ctrl();
-        $this->upload = $DIC->upload();
-        $this->http = $DIC->http();
-    }
-
 
     /**
      * @inheritDoc
@@ -59,9 +28,11 @@ class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHa
     /**
      * @inheritDoc
      */
-    public function getFileIdentifierParameterName() : string
+    public function getExistingFileInfoURL() : string
     {
-        return self::FILE_ID;
+        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
+
+        return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
 
 
@@ -76,37 +47,19 @@ class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHa
     }
 
 
-    public function executeCommand() : void
+    /**
+     * @inheritDoc
+     */
+    public function getFileIdentifierParameterName() : string
     {
-
-        switch ($this->ctrl->getCmd()) {
-            case self::CMD_UPLOAD:
-                // Here you must save the file and tell the input item the
-                // file-id which will be a FileStorage-ID in a later version
-                // of ILIAS and for now you must implement an own ID which allows
-                // identifying the file after the request
-                $content = json_encode($this->getUploadResult());
-                break;
-            case self::CMD_REMOVE:
-                // here you delete the previously uploaded file again, you know
-                // which file to delete since you defined what 'my_file_id' is.
-                $file_identifier = $this->http->request()->getQueryParams()[$this->getFileIdentifierParameterName()];
-                $content = json_encode($this->getRemoveResult($file_identifier));
-                break;
-            default:
-                $content = '';
-                break;
-        }
-        $response = $this->http->response()->withBody(Streams::ofString($content));
-        $this->http->saveResponse($response);
-        $this->http->sendResponse();
+        return 'my_file_id';
     }
 
 
     /**
      * @inheritDoc
      */
-    private function getUploadResult() : HandlerResult
+    protected function getUploadResult() : HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $identifier = md5(random_bytes(65));
@@ -116,11 +69,28 @@ class ilUIDemoFileUploadHandlerGUI implements UploadHandler, ilCtrlAwareUploadHa
     }
 
 
-    public function getRemoveResult(string $identifier) : HandlerResult
+    protected function getRemoveResult(string $identifier) : HandlerResult
     {
         $status = HandlerResult::STATUS_OK;
         $message = 'File Deleted';
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
+    }
+
+
+    protected function getInfoResult(string $identifier) : FileInfoResult
+    {
+        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, "My funny Testfile $identifier.txt", 64);
+    }
+
+
+    public function getInfoForExistingFiles(array $file_ids) : array
+    {
+        $infos = [];
+        foreach ($file_ids as $file_id) {
+            $infos[] = new BasicFileInfoResult($this->getFileIdentifierParameterName(), $file_id, "Name $file_id.txt", rand(1000, 2000), "text/plain");
+        }
+
+        return $infos;
     }
 }

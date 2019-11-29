@@ -88,6 +88,11 @@ class File extends Input implements C\Input\Field\File
 
     public function withInput(InputData $input)
     {
+        $value = $input->getOr($this->getName(), null);
+        if ($value === null) {
+            $this->value = null;
+        }
+
         return parent::withInput($input);
     }
 

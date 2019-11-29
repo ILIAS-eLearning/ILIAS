@@ -20,6 +20,7 @@ class ilMMSubitemFormGUI
     const F_TYPE = "type";
     const F_PARENT = "parent";
     const F_ACTIVE = "active";
+    const F_ICON = "icon";
     /**
      * @var ilMMItemRepository
      */
@@ -101,6 +102,19 @@ class ilMMSubitemFormGUI
             $items[self::F_TYPE] = $type;
         }
 
+        // ICON
+        if ($this->item_facade->supportsCustomIcon()) {
+            // ICON
+            $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('sub_icon'))
+                ->withByline($txt('sub_icon_byline'))
+                ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+            if ($this->item_facade->getIconID() !== null) {
+                $icon = $icon->withValue([$this->item_facade->getIconID()]);
+            }
+
+            $items[self::F_ICON] = $icon;
+        }
+
         // PARENT
         $parent = $f()->field()->select($txt('sub_parent'), $this->repository->getPossibleParentsForFormAndTable())
             ->withRequired(true);
@@ -155,6 +169,12 @@ class ilMMSubitemFormGUI
             $this->item_facade->setType($type);
             $r->createItem($this->item_facade);
         }
+
+        if ($this->item_facade->supportsCustomIcon()) {
+            $icon = (string) $data[0][self::F_ICON][0];
+            $this->item_facade->setIconID($icon);
+        }
+
         if ($this->item_facade->isCustom()) {
             $type = $this->item_facade->getType();
             $type_specific_data = (array) $data[0][self::F_TYPE][1];

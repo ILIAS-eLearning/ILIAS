@@ -123,6 +123,12 @@ interface ilMMItemFacadeInterface
     /**
      * @return bool
      */
+    public function supportsCustomIcon() : bool;
+
+
+    /**
+     * @return bool
+     */
     public function isCustomType() : bool;
 
 
@@ -150,6 +156,9 @@ interface ilMMItemFacadeInterface
     public function isInLostItem() : bool;
 
 
+    public function getIconID() : ?string;
+
+
     //
     // Setters
     //
@@ -169,6 +178,14 @@ interface ilMMItemFacadeInterface
      * @param string $default_title
      */
     public function setDefaultTitle(string $default_title);
+
+
+    /**
+     * @param string $icon_id
+     *
+     * @return mixed
+     */
+    public function setIconID(string $icon_id);
 
 
     /**

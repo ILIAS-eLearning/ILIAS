@@ -433,14 +433,10 @@
 					$('#' + getModule().notificationItemId)
 				);
 
-				if (conversations.length > currentNotificationItemsAdded) {
-					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(
-						conversations.length - currentNotificationItemsAdded
-					);
-				} else if (conversations.length < currentNotificationItemsAdded) {
-					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(
-						currentNotificationItemsAdded - conversations.length
-					);
+				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
+					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(1);
+				} else if (0 === currentNotificationItemsAdded && conversations.length > 0) {
+					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(1);
 				}
 
 				getModule().notificationItemsAdded = conversations.length;
