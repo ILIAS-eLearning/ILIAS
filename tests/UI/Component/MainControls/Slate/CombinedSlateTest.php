@@ -89,9 +89,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 					<div class="icon custom small" aria-label="">
 						<img src="" />
 					</div>
-					<div>
-						<span class="bulky-label">name</span>
-					</div>
+					<span class="bulky-label">name</span>
 				</button>
 				<div class="il-maincontrols-slate disengaged" id="id_2">
 					<div class="il-maincontrols-slate-content" data-replace-marker="content">
@@ -102,9 +100,7 @@ class CombinedSlateTest extends ILIAS_UI_TestBase
 					<div class="icon custom small" aria-label="">
 						<img src="" />
 					</div>
-					<div>
-						<span class="bulky-label"></span>
-					</div>
+					<span class="bulky-label"></span>
 				</button>
 
 			</div>

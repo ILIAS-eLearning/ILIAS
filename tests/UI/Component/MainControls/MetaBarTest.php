@@ -128,17 +128,13 @@ class MetaBarTest extends ILIAS_UI_TestBase
 			<div class="icon custom small" aria-label="">
 				<img src="" />
 			</div>
-			<div>
-				<span class="bulky-label">TestEntry</span>
-			</div>
+			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" data-action="#" id="id_2">
 			<div class="icon custom small" aria-label="">
 				<img src="" />
 			</div>
-			<div>
-				<span class="bulky-label">TestEntry</span>
-			</div>
+			<span class="bulky-label">TestEntry</span>
 		</button>
 		<button class="btn btn-bulky" id="id_3" aria-pressed="false">
 			<span class="glyph" aria-label="more">
@@ -150,9 +146,7 @@ class MetaBarTest extends ILIAS_UI_TestBase
 					<span class="badge badge-notify il-counter-novelty" style="display:none">0</span>
 				</span>
 			</span>
-			<div>
-				<span class="bulky-label">more</span>
-			</div>
+			<span class="bulky-label">more</span>
 		</button>
 	</div>
 	<div class="il-metabar-slates">

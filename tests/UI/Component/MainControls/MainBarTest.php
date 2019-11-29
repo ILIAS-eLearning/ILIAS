@@ -215,27 +215,21 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>
-							<div>
-								<span class="bulky-label">TestEntry</span>
-							</div>
+							<span class="bulky-label">TestEntry</span>
 						</button>
 
 						<button class="btn btn-bulky" data-action="#" id="id_2" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>
-							<div>
-								<span class="bulky-label">TestEntry</span>
-							</div>
+							<span class="bulky-label">TestEntry</span>
 						</button>
 
 						<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>
-							<div>
-								<span class="bulky-label">more</span>
-							</div>
+							<span class="bulky-label">more</span>
 						</button>
 					</div>
 				</div>
@@ -254,9 +248,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 						<span class="glyph" href="#" aria-label="back">
 							<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 						</span>
-						<div>
-							<span class="bulky-label">close</span>
-						</div>
+						<span class="bulky-label">close</span>
 					</button>
 				</div>
 			</div>
