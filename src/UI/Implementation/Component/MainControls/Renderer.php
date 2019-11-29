@@ -142,7 +142,10 @@ class Renderer extends AbstractComponentRenderer
     {
         $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
         $tpl->setVariable('MODE_TITLE', $component->getModeTitle());
-        $close = $this->getUIFactory()->symbol()->glyph()->close($component->getCloseAction()->getBaseURI() . '?' . $component->getCloseAction()->getQuery());
+        $base_URI = $component->getCloseAction()->getBaseURI();
+        $query = $component->getCloseAction()->getQuery();
+        $action = $base_URI . '?' . $query;
+        $close = $this->getUIFactory()->symbol()->glyph()->close($action);
         $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
 
         return $tpl->get();
