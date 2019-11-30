@@ -1065,4 +1065,62 @@ interface Factory
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function disclosure($action = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Login Glyph is used to trigger the login interaction.
+     *       It is displayed in the Meta Bar of the user is not yet logged in.
+     *   composition: >
+     *       The Logout Glyph uses the login glyph from the il-icons font.
+     *   effect: >
+     *       Clicking this Glyph will trigger the interaction to authenticate and login.
+     *   rivals:
+     *       Logout Glyph: The Logout Glyph triggers the logout interaction.
+     *
+     * context:
+     *    - The Login Glyph appears in the Meta Bar.
+     *
+     * rules:
+     *   usage:
+     *       1: The Login Glyph MUST be displayed of no user is authenticated.
+     *   style:
+     *       1: The Login Glyph MUST be placed on the very top right.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Login'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function login(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Logout Glyph is used to trigger the logout interaction.
+     *       It is displayed in the Slate triggered by clicking on the User Avatar in the Meta Bar.
+     *   composition: >
+     *       The Logout Glyph uses the logout glyph from the il-icons font.
+     *   effect: >
+     *       Clicking this Glyph will trigger the interaction to logout.
+     *   rivals:
+     *       Login Glyph: The Logout Glyph triggers the login interaction.
+     *
+     * context:
+     *    - The Logout Glyph appears in the Slate triggered by clicking on the User Avatar in the Meta Bar.
+     *
+     * rules:
+     *   usage:
+     *       1: The Logout Glyph MUST be displayed if the user is logged in.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Logout'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function logout(string $action = null) : Glyph;
 }
