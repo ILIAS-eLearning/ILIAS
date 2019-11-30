@@ -414,6 +414,12 @@ interface Factory
      *   effect: >
      *       Upon clicking the notification activation is toggled: Clicking the Notification Glyph activates respectively
      *       deactivates the notification service for the current object or sub-item.
+     * context:
+     *       - Activate Mail Notification in Forum
+     *   rivals:
+     *      Notification Center Glyph: >
+     *         The Notification Center Glyph is not used to activate Notification, but to trigger their display in the
+     *         Meta Bar.
      *
      * rules:
      *   usage:
@@ -438,8 +444,8 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *         The Notification Center Glyph is used to trigger the Slate displaying
-     *         the Notification Items in the Meta Bar.
+     *       The Notification Center Glyph is used to trigger the Slate displaying
+     *       the Notification Items in the Meta Bar.
      *   composition: >
      *       The Notification Glyph uses the glyphicon-bell. A Novelty Counter
      *       displays the number of Notification Items carrying any type of news.
@@ -447,7 +453,10 @@ interface Factory
      *       Upon clicking the Slate displaying all Notification Items is displayed.
      *   rivals:
      *      Notification Glyph: >
-     *         The Disclosure Glyph hides t
+     *         The Notification Glyph serves as trigger for activating e.g. Mail Notification
+     *         in the Forum and also indicates by it's state, whether does notifications are activated.
+     * context:
+     *       - Trigger the display of Notifications in the Meta Bar.
      *
      * rules:
      *   usage:
@@ -457,7 +466,9 @@ interface Factory
      *   composition:
      *       1: >
      *          The Novelty Counter MUST display the number of Notification Items
-     *          carrying any type of news.
+     *          carrying any type of news. Note that aggregates do note count to this
+     *          number. Further note, that Items, that tell the user something like
+     *          "you have no new messages" do also not count towards this number.
      *   accessibility:
      *       1: >
      *          The aria-label MUST be ‘Notifications'.

@@ -62,6 +62,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
         , self::USER
         , self::MAIL
         , self::NOTIFICATION
+        , self::NOTIFICATION_CENTER
         , self::TAG
         , self::NOTE
         , self::COMMENT

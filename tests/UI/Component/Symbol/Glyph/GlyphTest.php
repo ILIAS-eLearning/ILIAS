@@ -1,4 +1,4 @@
-<?php
+f<?php
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -36,6 +36,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::USER				=> "glyphicon glyphicon-user"
         , G\Glyph::MAIL 			=> "glyphicon glyphicon-envelope"
         , G\Glyph::NOTIFICATION		=> "glyphicon glyphicon-bell"
+        , G\Glyph::NOTIFICATION_CENTER => "glyphicon glyphicon-bell"
         , G\Glyph::TAG				=> "glyphicon glyphicon-tag"
         , G\Glyph::NOTE				=> "glyphicon glyphicon-pushpin"
         , G\Glyph::COMMENT			=> "glyphicon glyphicon-comment"
@@ -73,6 +74,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::USER				=> "show_who_is_online"
         , G\Glyph::MAIL 			=> "mail"
         , G\Glyph::NOTIFICATION		=> "notifications"
+        , G\Glyph::NOTIFICATION_CENTER => "notifications_center"
         , G\Glyph::TAG				=> "tags"
         , G\Glyph::NOTE				=> "notes"
         , G\Glyph::COMMENT			=> "comments"
@@ -295,6 +297,7 @@ class GlyphTest extends ILIAS_UI_TestBase
             , array(G\Glyph::USER)
             , array(G\Glyph::MAIL)
             , array(G\Glyph::NOTIFICATION)
+            , array(G\Glyph::NOTIFICATION_CENTER)
             , array(G\Glyph::TAG)
             , array(G\Glyph::NOTE)
             , array(G\Glyph::COMMENT)
