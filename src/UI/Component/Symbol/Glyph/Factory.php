@@ -873,7 +873,7 @@ interface Factory
      *       Sidebar.
      *
      * context:
-     *    - The Search Glyph appears in the Meta Bar.
+     *    - The Help Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:
