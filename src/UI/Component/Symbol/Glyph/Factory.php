@@ -457,7 +457,7 @@ interface Factory
      *   rivals:
      *      Notification Glyph: >
      *         The Notification Glyph serves as trigger for activating e.g. Mail Notification
-     *         in the Forum and also indicates by it's state, whether does notifications are activated.
+     *         in the Forum and also indicates by it's state, whether those notifications are activated.
      * context:
      *       - Trigger the display of Notifications in the Meta Bar.
      *
