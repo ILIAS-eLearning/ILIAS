@@ -141,6 +141,14 @@ class Factory implements G\Factory
     /**
      * @inheritdoc
      */
+    public function notificationCenter(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::NOTIFICATION, "notification center", $action);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function tag(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::TAG, "tags", $action);

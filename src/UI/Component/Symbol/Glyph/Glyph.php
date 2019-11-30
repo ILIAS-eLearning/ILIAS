@@ -28,7 +28,7 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, \ILIAS\UI\Component\J
     const USER = "user";
     const MAIL = "mail";
     const NOTIFICATION = "notification";
-    const NOTIFICATION_CENTER = "notification_center";
+    const NOTIFICATION_CENTER = "notificationCenter";
     const TAG = "tag";
     const NOTE = "note";
     const COMMENT = "comment";

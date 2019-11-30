@@ -74,7 +74,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::USER				=> "show_who_is_online"
         , G\Glyph::MAIL 			=> "mail"
         , G\Glyph::NOTIFICATION		=> "notifications"
-        , G\Glyph::NOTIFICATION_CENTER => "notifications_center"
+        , G\Glyph::NOTIFICATION_CENTER => "notification center"
         , G\Glyph::TAG				=> "tags"
         , G\Glyph::NOTE				=> "notes"
         , G\Glyph::COMMENT			=> "comments"

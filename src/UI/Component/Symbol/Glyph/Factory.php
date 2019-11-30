@@ -414,12 +414,15 @@ interface Factory
      *   effect: >
      *       Upon clicking the notification activation is toggled: Clicking the Notification Glyph activates respectively
      *       deactivates the notification service for the current object or sub-item.
-     * context:
-     *       - Activate Mail Notification in Forum
      *   rivals:
      *      Notification Center Glyph: >
      *         The Notification Center Glyph is not used to activate Notification, but to trigger their display in the
      *         Meta Bar.
+     *
+     *
+     *
+     * context:
+     *       - Activate Mail Notification in Forum
      *
      * rules:
      *   usage:
@@ -471,7 +474,7 @@ interface Factory
      *          "you have no new messages" do also not count towards this number.
      *   accessibility:
      *       1: >
-     *          The aria-label MUST be ‘Notifications'.
+     *          The aria-label MUST be ‘Notification Center'.
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph
