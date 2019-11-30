@@ -10540,6 +10540,7 @@ footer {
   content: "\e04b";
 }
 .glyphicon-bell:before {
+  font-family: il-icons;
   content: "\e027";
 }
 .glyphicon-comment:before {
