@@ -77,14 +77,14 @@ class ilBTPopOverGUI
         $icon = $f->symbol()->icon()->standard("bgtk", $this->txt("bg_task"));
         $title = $observer->getTitle() . ($state === State::SCHEDULED ? " ({$this->txt('scheduled')})" : "");
 
-        if ($state == State::USER_INTERACTION) {
+        if ($state === State::USER_INTERACTION) {
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
-            $item = $f->item()->notification($title, $icon);
             if ($primary_action instanceof Button) {
-
-                // $primary_action->withLabel()
+                $title = $primary_action->withLabel($title);
             }
+            $item = $f->item()->notification($title, $icon);
+
             $item = $item->withActions($f->dropdown()->standard($actions));
             $input = $current_task->getInput();
             $message = $current_task->getMessage($input);
