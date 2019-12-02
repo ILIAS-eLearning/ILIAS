@@ -6,6 +6,8 @@ declare(strict_types=1);
  * Class ilObjStudyProgrammeAutoCategoriesGUI
  *
  * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
+ *
+ * @ilCtrl_Calls ilObjStudyProgrammeAutoCategoriesGUI: ilPropertyFormGUI
  */
 class ilObjStudyProgrammeAutoCategoriesGUI
 {
@@ -83,21 +85,32 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	public function executeCommand()
 	{
 		$cmd = $this->ctrl->getCmd();
+		$next_class = $this->ctrl->getNextClass($this);
 
-		switch ($cmd) {
-			case "view":
-				$this->view();
-				break;
-
-			case "save":
-			case "delete":
-			case self::CMD_DELETE_SINGLE:
-				$this->$cmd();
-				$this->ctrl->redirect($this, 'view');
+		switch ($next_class) {
+			case "ilpropertyformgui":
+				$form = $this->getForm($this->creation_mode ? self::MODE_CREATE : self::MODE_EDIT);
+				$this->ctrl->forwardCommand($form);
 				break;
 			default:
-				throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: ".
-									  "Command not supported: $cmd");
+				switch ($cmd) {
+					case "view":
+						$this->view();
+						break;
+
+					case "save":
+					case "delete":
+					case self::CMD_DELETE_SINGLE:
+						$this->$cmd();
+						$this->ctrl->redirect($this, 'view');
+						break;
+					case "getAsynchModalOutput":
+						$this->getAsynchModalOutput();
+						break;
+					default:
+						throw new ilException("ilObjStudyProgrammeAutoCategoriesGUI: ".
+											  "Command not supported: $cmd");
+				}
 		}
 	}
 
@@ -108,8 +121,7 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	{
 		$collected_modals = [];
 
-		$form = $this->getModalForm();
-		$modal = $this->getModal($form);
+		$modal = $this->getModal();
 		$this->getToolbar($modal->getShowSignal());
 		$collected_modals[] = $modal;
 
@@ -121,10 +133,8 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 			}
 			$title = $this->getItemPath($ref_id);
 			$usr = $this->getUserRepresentation($ac->getLastEditorId());
-			$form = $this->getModalForm($ref_id);
-			$modal = $this->getModal($form);
+			$modal = $this->getModal($ref_id);
 			$collected_modals[] = $modal;
-			$signal = $modal->getShowSignal();
 			$actions = $this->getItemAction(
 				$ac->getCategoryRefId(),
 				$modal->getShowSignal()
@@ -151,22 +161,29 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 	 */
 	protected function save()
 	{
-		$form = $this->getModalForm()->withRequest($this->request);
-		$result = $form->getData();
-		if(
-			array_key_exists(self::F_CATEGORY_ORIGINAL_REF, $_GET)
-			&& $_GET[self::F_CATEGORY_ORIGINAL_REF] !== $result[self::F_CATEGORY_REF]
-		) {
-			$ids = [(int)$_GET[self::F_CATEGORY_ORIGINAL_REF]];
-			$this->getObject()->deleteAutomaticContentCategories($ids);
-		}
-		if(ilObject::_lookupType((int)$result[self::F_CATEGORY_REF],true) !== 'cat') {
-			\ilUtil::sendFailure(sprintf($this->lng->txt('not_a_valid_cat_id'),$result[self::F_CATEGORY_REF]),true);
+		$form = $this->getForm();
+		$form->setValuesByPost();
+		$form->checkInput();
+
+		$cat_ref_id = $form->getInput(self::F_CATEGORY_REF);
+		$current_ref_id = $form->getInput(self::F_CATEGORY_ORIGINAL_REF);
+
+		if(ilObject::_lookupType((int)$cat_ref_id,true) !== 'cat') {
+			\ilUtil::sendFailure(sprintf($this->lng->txt('not_a_valid_cat_id'), $cat_ref_id),true);
 			return;
 		}
 
+		if(
+			! is_null($current_ref_id) &&
+			$current_ref_id !== $cat_ref_id
+		) {
+			$ids = [(int)$current_ref_id];
+			$this->getObject()->deleteAutomaticContentCategories($ids);
+		}
+
+
 		$this->getObject()->storeAutomaticContentCategory(
-			(int)$result[self::F_CATEGORY_REF]
+			(int)$cat_ref_id
 		);
 	}
 
@@ -219,38 +236,69 @@ class ilObjStudyProgrammeAutoCategoriesGUI
 		return $this->object;
 	}
 
-	/**
-	 * Build a modal to add/edit a category.
-	 */
-	protected function getModal(
-		ILIAS\UI\Component\Input\Container\Form\Form $form
-	): \ILIAS\UI\Component\Modal\Modal
+	protected function getModal($current_ref_id = null)
 	{
+		if(!is_null($current_ref_id)) {
+			$this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, $current_ref_id);
+		}
+		$link = $this->ctrl->getLinkTarget($this, "getAsynchModalOutput", "", true);
+		$this->ctrl->setParameter($this, self::CHECKBOX_CATEGORY_REF_IDS, null);
 		$modal = $this->ui_factory->modal()->roundtrip(
-			$this->lng->txt('modal_categories_title'),
-			$form
+			'',
+			[]
+		)->withAsyncRenderUrl(
+			$link
 		);
 
 		return $modal;
 	}
 
-	/**
-	 * Build the modal's form.
-	 */
-	protected function getModalForm(int $category_ref_id = null): ILIAS\UI\Component\Input\Container\Form\Form
+	protected function getAsynchModalOutput()
 	{
-		$factory = $this->ui_factory->input();
-		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
-
-		$f_title = $factory->field()->text($this->lng->txt('title'));
-		$f_cat_ref = $factory->field()->numeric($this->lng->txt('category'));
-		if(! is_null($category_ref_id)) {
-			$f_cat_ref = $f_cat_ref->withValue($category_ref_id);
-			$this->ctrl->setParameter($this, self::F_CATEGORY_ORIGINAL_REF, $category_ref_id);
+		$current_ref_id = null;
+		if(array_key_exists(self::CHECKBOX_CATEGORY_REF_IDS, $_GET)) {
+			$current_ref_id = $_GET[self::CHECKBOX_CATEGORY_REF_IDS];
 		}
+		$form = $this->getForm($current_ref_id);
+		$form_id = "form_".$form->getId();
+		$submit = $this->ui_factory->button()->primary($this->lng->txt('search'), "#")->withOnLoadCode(
+			function ($id) use ($form_id) {
+			return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+		});
+		$modal = $this->ui_factory->modal()->roundtrip(
+			$this->lng->txt('modal_categories_title'),
+			$this->ui_factory->legacy($form->getHtml())
+		)->withActionButtons([$submit]);
 
-		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
-		$form = $factory->container()->form()->standard($url, [self::F_CATEGORY_REF => $f_cat_ref]);
+		echo $this->ui_renderer->renderAsync($modal);
+		exit;
+	}
+
+	protected function getForm($current_ref_id = null)
+	{
+		$form = new ilPropertyFormGUI();
+
+		if(is_null($current_ref_id)) {
+			$current_ref_id = "";
+		}
+		$form->setId(uniqid((string)$current_ref_id));
+
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+		$cat = new ilRepositorySelector2InputGUI($this->lng->txt("category"), self::F_CATEGORY_ORIGINAL_REF, false);
+		$cat->getExplorerGUI()->setSelectableTypes(["cat"]);
+		$cat->getExplorerGUI()->setTypeWhiteList(["root", "cat"]);
+		if($current_ref_id != "") {
+			$cat->getExplorerGUI()->setPathOpen($current_ref_id);
+			$cat->setValue($current_ref_id);
+		}
+		$cat->getExplorerGUI()->setRootId(ROOT_FOLDER_ID);
+		$cat->getExplorerGUI()->setAjax(false);
+		$form->addItem($cat);
+
+		$hi = new ilHiddenInputGUI(self::F_CATEGORY_ORIGINAL_REF);
+		$hi->setValue($current_ref_id);
+		$form->addItem($hi);
+
 		return $form;
 	}
 
