@@ -8,6 +8,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
+use ilNumberInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqImageUpload;
 use ilTemplate;
@@ -28,6 +29,7 @@ class ImageMapEditor extends AbstractEditor {
     
     const VAR_IMAGE = 'ime_image';
     const VAR_MULTIPLE_CHOICE = 'ime_multiple_choice';
+    const VAR_MAX_ANSWERS = 'ime_max_answers';
     const POPUP_FIELD = 'ime_popup';
     
     const STR_MULTICHOICE = 'Multichoice';
@@ -60,6 +62,7 @@ class ImageMapEditor extends AbstractEditor {
         $tpl->setVariable('POST_NAME', $this->getPostName());
         $tpl->setVariable('IMAGE_URL', $this->configuration->getImage());
         $tpl->setVariable('VALUE', $this->selected_answers);
+        $tpl->setVariable('MAX_ANSWERS', $this->configuration->getMaxAnswers());
         $tpl->parseCurrentBlock();
         
         /** @var AnswerOption $answer_option */
@@ -215,7 +218,15 @@ class ImageMapEditor extends AbstractEditor {
         
         $mode = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_mode'), self::VAR_MULTIPLE_CHOICE);
         $mode->addOption(new ilRadioOption($DIC->language()->txt('asq_label_single_choice'), self::STR_SINGLECHOICE));
-        $mode->addOption(new ilRadioOption($DIC->language()->txt('asq_label_multiple_choice'), self::STR_MULTICHOICE));
+        $multi = new ilRadioOption($DIC->language()->txt('asq_label_multiple_choice'), self::STR_MULTICHOICE);
+        $max_answers = new ilNumberInputGUI($DIC->language()->txt('asq_label_answering_limitation'), self::VAR_MAX_ANSWERS);
+        $max_answers->setInfo($DIC->language()->txt('asq_info_answering_limitation'));
+        $multi->addSubItem($max_answers);
+        $mode->addOption($multi);
+        
+        
+        
+        
         $fields[self::VAR_MULTIPLE_CHOICE] = $mode;
         
         $image = new AsqImageUpload($DIC->language()->txt('asq_label_image'), self::VAR_IMAGE);
@@ -229,6 +240,7 @@ class ImageMapEditor extends AbstractEditor {
             $mode->setValue($config->isMultipleChoice() ? self::STR_MULTICHOICE : self::STR_SINGLECHOICE);
             $image->setImagePath($config->getImage());
             $popup->setValue($config->getImage());
+            $max_answers->setValue($config->getMaxAnswers());
         }
         
         return $fields;
@@ -240,7 +252,10 @@ class ImageMapEditor extends AbstractEditor {
     public static function readConfig() : ?AbstractConfiguration {
         return ImageMapEditorConfiguration::create(
             ImageUploader::getInstance()->processImage(self::VAR_IMAGE),
-            $_POST[self::VAR_MULTIPLE_CHOICE] === self::STR_MULTICHOICE);
+            $_POST[self::VAR_MULTIPLE_CHOICE] === self::STR_MULTICHOICE,
+            $_POST[self::VAR_MULTIPLE_CHOICE] === self::STR_MULTICHOICE ? 
+                intval($_POST[self::VAR_MAX_ANSWERS]) : 
+                1);
     }
     
     public static function isComplete(Question $question): bool

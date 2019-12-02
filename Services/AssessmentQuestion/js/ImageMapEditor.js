@@ -3,6 +3,14 @@ let shape_click = function (e) {
 
     if (shape.hasClass('multiple_choice')) {
         shape.toggleClass('selected');
+        
+        let max = $("#max_answers").val();
+        let current = shape.parent().find(".selected").length;
+        
+        if (current > max) {
+            shape.removeClass('selected');
+        }
+        
     } else {
         shape.parents('.imagemap_editor').find('svg .selected').removeClass(
                 'selected');
@@ -16,8 +24,7 @@ let shape_click = function (e) {
                 selected.push($(item).attr('data-value'));
             });
 
-    shape.parents('svg').siblings('input[type="hidden"]').val(
-            selected.join(','));
+    $('#answer').val(selected.join(','));
 };
 
 $(window).load(function () {

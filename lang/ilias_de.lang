@@ -14,6 +14,8 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_label_answering_limitation#:#Antworten Limitieren
+asq#:#asq_info_answering_limitation#:#Mit dieser einstellung kann die Anzahl der Antworten pro Teilnehmer limitiert werden
 asq#:#asq_label_max_length#:#Maximale Anzahl von Zeichen
 asq#:#asq_info_max_length#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
 asq#:#asq_label_manual_scoring#:#Keine automatische Bewertung

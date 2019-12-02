@@ -28,13 +28,19 @@ class ImageMapEditorConfiguration extends AbstractConfiguration {
     protected $multiple_choice;
     
     /**
+     * @var int
+     */
+    protected $max_answers;
+    
+    /**
      * @param string $image
      * @return ImageMapEditorConfiguration
      */
-    static function create(string $image, bool $multiple_choice) : ImageMapEditorConfiguration {
+    static function create(string $image, bool $multiple_choice, int $max_answers) : ImageMapEditorConfiguration {
         $object = new ImageMapEditorConfiguration();
         $object->image = $image;
         $object->multiple_choice = $multiple_choice;
+        $object->max_answers = $max_answers;
         return $object;
     }
     
@@ -47,6 +53,10 @@ class ImageMapEditorConfiguration extends AbstractConfiguration {
     
     public function isMultipleChoice() {
         return $this->multiple_choice;
+    }
+    
+    public function getMaxAnswers() {
+        return $this->max_answers;
     }
     
     /**
