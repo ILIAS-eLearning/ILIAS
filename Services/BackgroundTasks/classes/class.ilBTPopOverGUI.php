@@ -5,6 +5,7 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractTask;
 use ILIAS\BackgroundTasks\Implementation\UI\StateTranslator;
 use ILIAS\BackgroundTasks\Task\UserInteraction;
+use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -79,7 +80,9 @@ class ilBTPopOverGUI
         if ($state == State::USER_INTERACTION) {
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
-            $item = $f->item()->notification($primary_action->withLabel($title), $icon);
+            if ($primary_action instanceof Button) {
+                $item = $f->item()->notification($primary_action->withLabel($title), $icon);
+            }
             $item = $item->withActions($f->dropdown()->standard($actions));
             $input = $current_task->getInput();
             $message = $current_task->getMessage($input);
