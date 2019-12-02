@@ -232,6 +232,27 @@ il.UI.item = il.UI.item || {};
 			};
 
 			/**
+			 * Used to remove a notification item.
+			 * In contrast to registerCloseAction this could be used by a consuming
+			 * service to remove a known item from the UI.
+			 * 
+			 * @public
+			 * @param decrementCounterValue
+			 * @returns {generateNotificationItemObject}
+			 */
+			this.closeItem = function(decrementCounterValue = 0) {
+				let self = this,
+					$counter = self.getCounterObjectIfAny();
+
+				if ($counter && decrementCounterValue > 0) {
+					$counter.decrementNoveltyCount(decrementCounterValue);
+				}
+
+				removeNotificationItem();
+				return this;
+			};
+
+			/**
 			 * Return a handle to the close Button, in case
 			 * additional magic needs to be placed on this button.
 			 *
@@ -247,6 +268,7 @@ il.UI.item = il.UI.item || {};
 			 * The contained functions are implemented below
 			 */
 			var public_object_interface = {
+				closeItem: this.closeItem,
 				registerCloseAction: this.registerCloseAction,
 				registerAggregates: this.registerAggregates,
 				replaceByAsyncItem: this.replaceByAsyncItem,

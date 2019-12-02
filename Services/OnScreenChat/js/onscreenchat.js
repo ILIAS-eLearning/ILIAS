@@ -133,10 +133,15 @@
 		notificationItemId: '',
 		numWindows: Infinity,
 		notificationCenterConversationItems: {},
+		conversationToUiIdMap: {},
 		notificationItemsAdded: 0,
 
 		setNotificationItemId: function(id) {
-			this.notificationItemId = id;
+			getModule().notificationItemId = id;
+		},
+
+		addConversationToUiIdMapping: function(conversationId, uiId) {
+			getModule().conversationToUiIdMap[conversationId] = uiId;
 		},
 
 		setConfig: function(config) {
@@ -415,7 +420,7 @@
 			return $template;
 		},
 
-		rerenderNotifications: function() {
+		rerenderNotifications: function(conversation, withServerSideRendering = true) {
 			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
 
 			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
@@ -441,13 +446,25 @@
 
 				getModule().notificationItemsAdded = conversations.length;
 
-				let conversationIds = conversations.map(function (conversation) {
-					return conversation.id;
-				}).join(',');
+				if (withServerSideRendering) {
+					let conversationIds = conversations.map(function (conversation) {
+						return conversation.id;
+					}).join(',');
 
-				notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-					'ids': conversationIds
-				});
+					notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+						'ids': conversationIds
+					});
+				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
+					try {
+						let aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
+							$('#' + getModule().conversationToUiIdMap[conversation.id])
+						);
+
+						aggregateNotificationItem.closeItem();
+					} catch (e) {
+						console.error(e);
+					}
+				}
 			} catch (e) {
 				console.error(e);
 			}
@@ -465,7 +482,7 @@
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
+				getModule().rerenderNotifications(conversation, false);
 			}, 100);
 		},
 
@@ -481,7 +498,7 @@
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
+				getModule().rerenderNotifications(conversation);
 			}, 100);
 		},
 
@@ -491,13 +508,14 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
+
 			// Remove conversation/notification from notification center
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
 
 			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
+				getModule().rerenderNotifications(conversation);
 			}, 100);
 		},
 

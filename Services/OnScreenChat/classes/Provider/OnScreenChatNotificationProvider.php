@@ -217,6 +217,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->withAdditionalOnLoadCode(
                     function ($id) use ($conversation) {
                         return "
+                            il.OnScreenChat.addConversationToUiIdMapping('{$conversation->getId()}', '$id');
+
                             $('#$id').find('.il-item-description').html(
                                 il.OnScreenChat.getMessageFormatter().format(
                                     $('#$id').find('.il-item-description').html()
