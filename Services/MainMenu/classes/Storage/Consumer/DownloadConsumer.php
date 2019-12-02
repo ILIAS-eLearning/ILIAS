@@ -11,7 +11,7 @@ use ILIAS\MainMenu\Storage\StorageHandler\StorageHandler;
  *
  * @package ILIAS\MainMenu\Storage\Consumer
  */
-class DownloadConsumer implements Consumer
+class DownloadConsumer implements DeliveryConsumer
 {
 
     /**

@@ -3,15 +3,15 @@
 namespace ILIAS\MainMenu\Storage\Consumer;
 
 /**
- * Class DownloadConsumer
+ * Interface DeliveryConsumer
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface Consumer
+interface DeliveryConsumer
 {
 
     /**
-     * This runs the actual Consumer. E.g. a DownloadConsumer will pass the
+     * This runs the actual DeliveryConsumer. E.g. a DownloadConsumer will pass the
      * Stream of a Ressource to the HTTP-Service and download the file.
      */
     public function run() : void;

@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\MainMenu\Storage\Services;
 
 /**
  * Class ilMMItemInformation
@@ -16,6 +17,10 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 class ilMMItemInformation implements ItemInformation
 {
 
+    /**
+     * @var Services
+     */
+    private $storage;
     /**
      * @var array
      */
@@ -35,6 +40,7 @@ class ilMMItemInformation implements ItemInformation
     {
         $this->items = ilMMItemStorage::getArray('identification');
         $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
+        $this->storage = new Services();
     }
 
 
@@ -124,9 +130,14 @@ class ilMMItemInformation implements ItemInformation
         if (isset($this->items[$id]['icon_id']) && strlen($this->items[$id]['icon_id']) > 1) {
             global $DIC;
 
-            $DIC->ctrl()->setParameterByClass(ilMMIconGUI::class, 'icon_id', $this->items[$id]['icon_id']);
-            $link_target_by_class = $DIC->ctrl()->getLinkTargetByClass([ilUIPluginRouterGUI::class, ilMMIconGUI::class]);
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($link_target_by_class, 'aria');
+            $ri = $this->storage->find($this->items[$id]['icon_id']);
+            if (!$ri) {
+                return $item;
+            }
+            $revision = $this->storage->getRevision($ri);
+            $stream = $this->storage->stream($ri)->getStream();
+            $data = 'data:' . $revision->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, 'aria');
 
             return $item->withSymbol($symbol);
         }

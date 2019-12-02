@@ -6,6 +6,7 @@ use Generator;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\MainMenu\Storage\Consumer\ConsumerFactory;
 use ILIAS\MainMenu\Storage\Consumer\DownloadConsumer;
+use ILIAS\MainMenu\Storage\Consumer\FileStreamConsumer;
 use ILIAS\MainMenu\Storage\Consumer\InlineConsumer;
 use ILIAS\MainMenu\Storage\Identification\ResourceIdentification;
 use ILIAS\MainMenu\Storage\Information\Repository\InformationARRepository;
@@ -118,6 +119,7 @@ class Services
     //
     // CONSUMERS
     //
+
     public function download(ResourceIdentification $identification) : DownloadConsumer
     {
         return $this->consumer_factory->download($this->resource_builder->get($identification));
@@ -127,5 +129,11 @@ class Services
     public function inline(ResourceIdentification $identification) : InlineConsumer
     {
         return $this->consumer_factory->inline($this->resource_builder->get($identification));
+    }
+
+
+    public function stream(ResourceIdentification $identification) : FileStreamConsumer
+    {
+        return $this->consumer_factory->fileStream($this->resource_builder->get($identification));
     }
 }

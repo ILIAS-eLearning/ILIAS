@@ -50,4 +50,15 @@ class ConsumerFactory
     {
         return new InlineConsumer($resource, $this->storage_handler_factory->getHandlerForResource($resource));
     }
+
+
+    /**
+     * @param StorableResource $resource
+     *
+     * @return FileStreamConsumer
+     */
+    public function fileStream(StorableResource $resource) : FileStreamConsumer
+    {
+        return new FileStreamConsumer($resource, $this->storage_handler_factory->getHandlerForResource($resource));
+    }
 }
