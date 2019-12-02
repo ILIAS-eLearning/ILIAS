@@ -515,7 +515,7 @@
 			}
 
 			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications(conversation);
+				getModule().rerenderNotifications(conversation, false);
 			}, 100);
 		},
 
