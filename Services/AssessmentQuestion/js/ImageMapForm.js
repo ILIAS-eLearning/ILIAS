@@ -305,16 +305,18 @@ let draw_shapes = function(rows, canvas) {
         let type = $(item).find('select[id$=imedd_type]').val();
         let coordinates = $(item).find('input[id$=imedd_coordinates]').val();
         
-        switch (type) {
-            case TYPE_RECTANGLE:
-                draw_preview_rectangle(coordinates, g);
-                break;
-            case TYPE_CIRCLE:
-                draw_preview_circle(coordinates, g);
-                break;
-            case TYPE_POLYGON:
-                draw_preview_polygon(coordinates, g);
-                break;
+        if (coordinates.length > 0) {
+            switch (type) {
+                case TYPE_RECTANGLE:
+                    draw_preview_rectangle(coordinates, g);
+                    break;
+                case TYPE_CIRCLE:
+                    draw_preview_circle(coordinates, g);
+                    break;
+                case TYPE_POLYGON:
+                    draw_preview_polygon(coordinates, g);
+                    break;
+            }
         }
     });    
 }
@@ -346,7 +348,6 @@ let initialize_preview = function() {
 
 let rect_regex = /x:([^;]*);y:([^;]*);width:([^;]*);height:([^;]*)/;
 let draw_preview_rectangle = function(coordinates, g) {
-    
     let matches = coordinates.match(rect_regex);
 
     g.beginPath();
