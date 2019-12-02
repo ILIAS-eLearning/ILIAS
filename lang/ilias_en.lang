@@ -3989,6 +3989,23 @@ common#:#webdav_problem_info_duplicate#:#There is a file with the same title as 
 common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
+common#:#webdav_add_instructions_btn_label#:#Add Mount Instructions Document
+common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
+common#:#webdav_general_settings#:#General Settings
+common#:#webdav_form_document#:#Instructions Document
+common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
+common#:#webdav_form_document_title#:#Title
+common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened
+common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document
+common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document
+common#:#webdav_mount_instructions#:#Mount Instructions
+common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:
+common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
+common#:#webdav_tbl_docs_head_title#:#Dokument title
+common#:#webdav_upload_instructions#:#Upload Instructions
+common#:#webdav_chosen_language_already_used#:#There already is another document associated with the chosen language
+common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount Instructions
+common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
 common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.

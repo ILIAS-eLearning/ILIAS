@@ -4540,9 +4540,27 @@ common#:#webdav_problem_info_duplicate#:#Es existiert eine Date mit dem selben T
 common#:#webdav_problem_free_container#:#In diesem Ordner wurden keine Objekte welche Probleme verursachen gefunden.
 common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
+common#:#webdav_add_instructions_btn_label#:#WebDAV-Anleitung hinzufügen
+common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
+common#:#webdav_general_settings#:#Allgemeine Einstellungen
+common#:#webdav_form_document#:#WebDAV-Anleitung
+common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.
+common#:#webdav_form_document_title#:#Titel
+common#:#webdav_form_document_title_info#:#Dieser Titel wird im Model mit der WebDAV-Anleitung angezeigt
+common#:#webdav_form_new_doc_head#:#Ein neues Dokument hinzufügen
+common#:#webdav_form_edit_doc_head#:#WebDAV-Anleitungen bearbeiten
+common#:#webdav_mount_instructions#:#WebDAV-Anleitungen
+common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgendem Titel wirklich gelöscht werden:
+common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
+common#:#webdav_tbl_docs_head_title#:#Titel
+common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
+common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gibt es bereits eine WebDAV-Anleitung
+common#:#webdav_missing_lang#:#Es gibt keine deutsche Version der WebDAV-Anleitung.
+common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
+common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
