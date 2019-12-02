@@ -1073,7 +1073,7 @@ interface Factory
      *       The Login Glyph is used to trigger the login interaction.
      *       It is displayed in the Meta Bar of the user is not yet logged in.
      *   composition: >
-     *       The Logout Glyph uses the login glyph from the il-icons font.
+     *       The Login Glyph uses the login glyph from the il-icons font.
      *   effect: >
      *       Clicking this Glyph will trigger the interaction to authenticate and login.
      *   rivals:
@@ -1084,7 +1084,7 @@ interface Factory
      *
      * rules:
      *   usage:
-     *       1: The Login Glyph MUST be displayed of no user is authenticated.
+     *       1: The Login Glyph MUST be displayed if no user is authenticated.
      *   style:
      *       1: The Login Glyph MUST be placed on the very top right.
      *   accessibility:
@@ -1107,7 +1107,7 @@ interface Factory
      *   effect: >
      *       Clicking this Glyph will trigger the interaction to logout.
      *   rivals:
-     *       Login Glyph: The Logout Glyph triggers the login interaction.
+     *       Login Glyph: The Login Glyph triggers the login interaction.
      *
      * context:
      *    - The Logout Glyph appears in the Slate triggered by clicking on the User Avatar in the Meta Bar.
