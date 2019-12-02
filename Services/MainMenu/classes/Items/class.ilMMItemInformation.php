@@ -8,6 +8,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\MainMenu\Storage\Services;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 
 /**
  * Class ilMMItemInformation
@@ -17,6 +19,11 @@ use ILIAS\MainMenu\Storage\Services;
 class ilMMItemInformation implements ItemInformation
 {
 
+    private const ICON_ID = 'icon_id';
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    private $ui_factory;
     /**
      * @var Services
      */
@@ -33,8 +40,6 @@ class ilMMItemInformation implements ItemInformation
 
     /**
      * ilMMItemInformation constructor.
-     *
-     * @param StorageFacade $storage
      */
     public function __construct()
     {
@@ -127,17 +132,25 @@ class ilMMItemInformation implements ItemInformation
     public function customSymbol(hasSymbol $item) : hasSymbol
     {
         $id = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$id]['icon_id']) && strlen($this->items[$id]['icon_id']) > 1) {
+        if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
             global $DIC;
 
-            $ri = $this->storage->find($this->items[$id]['icon_id']);
+            $ri = $this->storage->find($this->items[$id][self::ICON_ID]);
             if (!$ri) {
                 return $item;
             }
-            $revision = $this->storage->getRevision($ri);
             $stream = $this->storage->stream($ri)->getStream();
-            $data = 'data:' . $revision->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
-            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, 'aria');
+            $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $old_symbol = $item->getSymbol();
+            if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
+                $aria_label = $old_symbol->getAriaLabel();
+            } elseif ($item instanceof hasTitle) {
+                $aria_label = $item->getTitle();
+            } else {
+                $aria_label = 'Custom icon';
+            }
+
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, $aria_label);
 
             return $item->withSymbol($symbol);
         }
