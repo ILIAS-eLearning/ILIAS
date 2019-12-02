@@ -137,11 +137,15 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getETag()
     {
-        if(file_exists($this->getPathToFile()))
+        if(file_exists($path = $this->getPathToFile()))
         {
-            // This is not a password hash. So I think md5 should do just fine :)
-            return '"' . hash_file("md5", $this->getPathToFile(), false) . '"';
+            return '"' . sha1(
+                fileinode($path) .
+                filesize($path) .
+                filemtime($path)
+                ) . '"';
         }
+        
         return null;
     }
     
