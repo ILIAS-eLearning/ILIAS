@@ -17504,31 +17504,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .row {
   position: relative;
 }
-#onscreenchat-container .panel {
-  pointer-events: auto;
-  margin: 0;
-  border: 1px solid #dcdcdc;
-}
-#onscreenchat-container .panel-heading {
-  font-size: 80%;
-  display: block !important;
-  padding: 5px 5px 5px 15px;
-  pointer-events: auto;
-  margin: 0;
-  vertical-align: middle;
-}
-#onscreenchat-container .panel-heading .btn {
-  padding: 0 4px;
-}
-#onscreenchat-container .panel-heading img {
-  width: 16px;
-  height: 16px;
-  vertical-align: sub;
-}
-#onscreenchat-container .panel-heading .close {
-  margin-top: -2px;
-  margin-left: 5px;
-}
 #onscreenchat-container .chat-window-wrapper {
   bottom: 0;
   padding-left: 5px;
@@ -17538,10 +17513,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   background-color: #f0f0f0;
 }
 #onscreenchat-container .chat-window-wrapper:last-child {
-  padding-left: 0 !important;
-}
-#onscreenchat-container .chat-window-wrapper .panel-body {
-  height: auto;
+  padding-left: 0;
 }
 #onscreenchat-container .chat-window-wrapper .chat-img img {
   height: 30px;
@@ -17561,12 +17533,6 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-}
-#onscreenchat-container .chat-window-wrapper .panel-footer {
-  position: relative;
-  border-top: none !important;
-  padding-top: 15px !important;
-  padding-bottom: 15px !important;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer {
   background-color: transparent;
@@ -17667,15 +17633,56 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   color: #777;
   font-size: .9em;
 }
-#onscreenchat-container .chat-window-wrapper .panel .slidedown .glyphicon,
-#onscreenchat-container .chat-window-wrapper .chat .glyphicon {
+#onscreenchat-container .chat-window-wrapper .panel {
+  pointer-events: auto;
+  margin: 0;
+  border: 1px solid #dcdcdc;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading {
+  font-size: 80%;
+  display: block;
+  padding: 5px 5px 5px 15px;
+  pointer-events: auto;
+  margin: 0;
+  vertical-align: middle;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading .btn {
+  padding: 0 4px;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading img {
+  width: 16px;
+  height: 16px;
+  vertical-align: sub;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-heading .close {
+  margin-top: -2px;
+  margin-left: 5px;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel .slidedown .glyphicon,
+#onscreenchat-container .chat-window-wrapper .panel .chat .glyphicon {
   margin-right: 5px;
 }
-#onscreenchat-container .chat-window-wrapper .panel-body {
+#onscreenchat-container .chat-window-wrapper .panel .panel-body {
+  height: auto;
   overflow-y: scroll;
+  position: relative;
   height: 250px;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 0;
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-body .fader {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-footer {
+  position: relative;
+  border-top: none;
+  padding-top: 15px ;
+  padding-bottom: 15px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
   position: absolute;
