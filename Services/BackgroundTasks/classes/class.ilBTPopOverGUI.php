@@ -80,8 +80,10 @@ class ilBTPopOverGUI
         if ($state == State::USER_INTERACTION) {
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
+            $item = $f->item()->notification($title, $icon);
             if ($primary_action instanceof Button) {
-                $item = $f->item()->notification($primary_action->withLabel($title), $icon);
+
+                // $primary_action->withLabel()
             }
             $item = $item->withActions($f->dropdown()->standard($actions));
             $input = $current_task->getInput();
