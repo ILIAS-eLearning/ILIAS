@@ -357,10 +357,9 @@ class Renderer extends AbstractComponentRenderer
 
         $perm_url = $component->getPermanentURL();
         if ($perm_url) {
-            $tpl->setVariable(
-                'PERMANENT_URL',
-                $perm_url->getBaseURI() . '?' . $perm_url->getQuery()
-            );
+            $url = $perm_url->getBaseURI() . '?' . $perm_url->getQuery();
+            $tpl->setVariable('PERMA_LINK_LABEL', $this->txt('perma_link'));
+            $tpl->setVariable('PERMANENT_URL', $url);
         }
         return $tpl->get();
     }
