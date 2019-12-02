@@ -137,8 +137,6 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
                 $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
                 if(!$this->dav_helper->hasInvalidPrefixInTitle($title))
                 {
-                    $already_seen_titles[] = $title;
-
                     // Check if object is a file with the same name as this info file
                     if($title == self::PROBLEM_INFO_FILE_NAME)
                     {
@@ -153,6 +151,8 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
                     else if(in_array($title, $already_seen_titles))
                     {
                         $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME][] = $title;
+                    } else {
+                        $already_seen_titles[] = $title;
                     }
                 }
             }
