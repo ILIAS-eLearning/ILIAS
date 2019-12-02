@@ -32,4 +32,8 @@ class ImageFormPopup extends ilTextInputGUI {
         $tpl->setVariable('CANCEL', $DIC->language()->txt('Cancel'));
         return $tpl->get();
     }
+    
+    public function setValueByArray($values) {
+        //do nothing as it has no post value and setvaluebypost resets value
+    }
 }

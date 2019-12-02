@@ -100,17 +100,13 @@ class ilAsqQuestionConfigEditorGUI
 
         $form = $this->buildForm();
 
-        if( !$form->checkInput() )
-        {
-            $this->showForm($form);
-            return;
-        }
-
         $question = $form->getQuestion();
         $this->authoringApplicationService->saveQuestion($question);
-
-        ilutil::sendSuccess("Question Saved", true);
-        $DIC->ctrl()->redirect($this, self::CMD_SHOW_FORM);
+        
+        ilutil::sendInfo("Question Saved", true);
+        
+        $form->checkInput();
+        $this->showForm();
     }
 
     /**
@@ -122,14 +118,14 @@ class ilAsqQuestionConfigEditorGUI
         
         $form = $this->buildForm();
         
+        $question = $form->getQuestion();
+        $this->authoringApplicationService->saveQuestion($question);
+        
         if( !$form->checkInput() )
         {
             $this->showForm($form);
             return;
         }
-        
-        $question = $form->getQuestion();
-        $this->authoringApplicationService->saveQuestion($question);
 
         $DIC->ctrl()->redirectToUrl(str_replace('&amp;', '&',
             $this->contextContainer->getBackLink()->getAction()
