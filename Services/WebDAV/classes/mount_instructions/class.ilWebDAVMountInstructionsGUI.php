@@ -113,7 +113,12 @@ class ilWebDAVMountInstructionsGUI {
         try {
             $instructions = $this->mount_instruction->getMountInstructionsAsArray();
         } catch (InvalidArgumentException $e) {
-            $instructions = ["<div class='alert alert-danger'>".$this->il_lang->txt('error').": ".$this->il_lang->txt('webdav_missing_lang')."</div>"];
+            $document_processor = new ilWebDAVMountInstructionsHtmlDocumentProcessor(new ilWebDAVMountInstructionsDocumentPurifier());
+            $instructions = $document_processor->processMountInstructions($this->il_lang->txt('webfolder_instructions_text'));
+            $instructions = $this->mount_instruction->getMountInstructionsAsArray($instructions);
+            if ($instructions == '' || $instructions == '-webfolder_instructions_text-') {
+                $instructions = ["<div class='alert alert-danger'>".$this->il_lang->txt('error').": ".$this->il_lang->txt('webdav_missing_lang')."</div>"];
+            }
         }
 
         echo $this->buildGUIFromGivenMountInstructions($instructions, true);

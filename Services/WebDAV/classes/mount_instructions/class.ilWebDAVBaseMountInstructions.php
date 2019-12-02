@@ -25,14 +25,15 @@ abstract class ilWebDAVBaseMountInstructions
         $this->settings = $a_settings;
     }
 
-    public function getMountInstructionsAsArray() : array
+    public function getMountInstructionsAsArray(array $mount_instructions = []) : array
     {
-        $document = $this->repo->getMountInstructionsByLanguage($this->language);
-        $processed = $document->getProcessedInstructions();
-        $mount_instructions = json_decode($processed, true);
-        $mount_instructions = $this->fillPlaceholdersForMountInstructions($mount_instructions);
+        if (count($mount_instructions) == 0 ) {
+            $document = $this->repo->getMountInstructionsByLanguage($this->language);
+            $processed = $document->getProcessedInstructions();
+            $mount_instructions = json_decode($processed, true);
+        }
         
-        return $mount_instructions;
+        return $this->fillPlaceholdersForMountInstructions($mount_instructions);
     }
 
     abstract protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array ;
