@@ -23918,7 +23918,7 @@ if($ilDB->tableExists('certificate_template')) {
 				if (false !== $content) {
 					$backgroundImagePath = '';
 
-					if (file_exists($web_path . $backgroundImagePath)) {
+					if (file_exists($web_path . $relativePath . $objectId . '/background.jpg')) {
 						$backgroundImagePath = $relativePath . $objectId . '/background.jpg';
 					}
 
