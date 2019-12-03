@@ -3324,3 +3324,29 @@ if (!$ilDB->tableColumnExists('page_layout','mod_lm')) {
         ));
 }
 ?>
+<#5609>
+<?php
+
+$query = "
+	UPDATE object_data odat SET offline = (
+		SELECT offline_status from cmix_settings cset
+        WHERE cset.obj_id = odat.obj_id
+    ) WHERE odat.type = %s
+";
+
+$ilDB->manipulate($query, array('text'), array('cmix'));
+
+?>
+<#5610>
+<?php
+
+$query = "
+	UPDATE object_data odat SET offline = (
+		SELECT offline_status from lti_consumer_settings lset
+        WHERE lset.obj_id = odat.obj_id
+    ) WHERE odat.type = %s
+";
+
+$ilDB->manipulate($query, array('text'), array('lti'));
+
+?>
