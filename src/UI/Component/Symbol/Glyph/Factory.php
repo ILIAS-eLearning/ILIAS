@@ -1070,6 +1070,37 @@ interface Factory
      * ---
      * description:
      *   purpose: >
+     *       The Language Glyph is used to indicate the option to switch languages
+     *       by some shorthand workflow without navigating to the personal settings.
+     *   composition: >
+     *       The Language Glyph uses the glyphicon-globe.
+     *   effect: >
+     *       When clicked, the user is shown a set of active languages to choose from.
+     *   rivals:
+     *      Standard Icon: >
+     *         The Standard Icon-Set features the Language Icon, which symbolizes
+     *         the Service "Language". It is not used in the Meta Bar as trigger
+     *         for switching languages, but to visually identify the language as
+     *         service (e.g. in the administration).
+     *
+     *
+     * context:
+     *    - The Language Glyph appears in the Meta Bar.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Switch Language'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */ 
+    public function language(?string $action = null) : Glyph;
+  
+    /**
+     * ---
+     * description:
+     *   purpose: >
      *       The Login Glyph is used to trigger the login interaction.
      *       It is displayed in the Meta Bar of the user is not yet logged in.
      *   composition: >

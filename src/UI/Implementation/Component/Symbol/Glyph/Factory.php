@@ -315,8 +315,16 @@ class Factory implements G\Factory
     }
 
     /**
- * @inheritdoc
- */
+     * @inheritdoc
+     */
+    public function language(?string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::LANGUAGE, "switch language", $action);
+    }
+  
+    /**
+     * @inheritdoc
+     */
     public function login(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::LOGIN, "login", $action);
@@ -328,5 +336,6 @@ class Factory implements G\Factory
     public function logout(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::LOGOUT, "logout", $action);
+
     }
 }
