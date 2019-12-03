@@ -55,7 +55,10 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::TIME				=> "glyphicon glyphicon-time"
         , G\Glyph::CLOSE            => "glyphicon glyphicon-remove"
         , G\Glyph::MORE             => "glyphicon glyphicon-option-horizontal"
-        , G\Glyph::DISCLOSURE             => "glyphicon glyphicon-option-vertical"
+        , G\Glyph::DISCLOSURE       => "glyphicon glyphicon-option-vertical"
+        , G\Glyph::LOGIN            => "glyphicon glyphicon-login"
+        , G\Glyph::LOGOUT           => "glyphicon glyphicon-logout"
+
     );
 
     public static $aria_labels = array(
@@ -93,6 +96,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::CLOSE            => "close"
         , G\Glyph::MORE             => "more"
         , G\Glyph::DISCLOSURE       => "disclosure"
+        , G\Glyph::LOGIN            => "login"
+        , G\Glyph::LOGOUT           => "logout"
     );
 
     /**
@@ -312,6 +317,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             , array(G\Glyph::HELP)
             , array(G\Glyph::CALENDAR)
             , array(G\Glyph::TIME)
+            , array(G\Glyph::LOGIN)
+            , array(G\Glyph::LOGOUT)
             );
     }
 
