@@ -17690,6 +17690,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-bottom: 0;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-body .fader {
+  position: -webkit-sticky;
   position: sticky;
   bottom: 0;
   width: 100%;
