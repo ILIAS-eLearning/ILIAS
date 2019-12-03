@@ -30,6 +30,7 @@
 * @version $Id$
 *
 * @package ilias-search
+* @ilCtrl_Calls ilRepositorySearchGUI: ilFormPropertyDispatchGUI
 *
 */
 include_once 'Services/Search/classes/class.ilSearchResult.php';
@@ -754,7 +755,11 @@ class ilRepositorySearchGUI
 
         // Orgus
         $orgus = new ilRadioOption($this->lng->txt('search_for_orgu_members'),'orgu');
-        $orgu = new ilOrguSelectInputGUI($this->lng->txt('select_orgu'),'rep_query_orgu', true, $this);
+        $orgu = new ilRepositorySelector2InputGUI($this->lng->txt('select_orgu'),'rep_query_orgu', true, get_class($this));
+		$orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
+		$orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
+		$orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
+		$orgu->getExplorerGUI()->setAjax(false);
         $orgus->addSubItem($orgu);
         $kind->addOption($orgus);
     }

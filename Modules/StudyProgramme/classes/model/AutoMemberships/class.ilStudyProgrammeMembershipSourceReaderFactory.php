@@ -29,13 +29,13 @@ class ilStudyProgrammeMembershipSourceReaderFactory
 			case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
 			case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
 				return new ilStudyProgrammeMembershipSourceReaderParticipants(
-					ilParticipants::getInstanceByObjId($src_id)
+					ilParticipants::getInstance($src_id)
 				);
 			case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
 				return new ilStudyProgrammeMembershipSourceReaderOrgu(
 					ilObjOrgUnitTree::_getInstance(),
 					new ilOrgUnitUserAssignment(),
-					$src_id
+					ilObjOrgUnit::_lookupObjectId($src_id)
 				);
 
 			default:

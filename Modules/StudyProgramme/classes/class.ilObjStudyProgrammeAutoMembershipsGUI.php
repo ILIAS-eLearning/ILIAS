@@ -7,6 +7,7 @@ declare(strict_types = 1);
  *
  * @author: Nils Haagen  <nils.haagen@concepts-and-training.de>
  *
+ * @ilCtrl_Calls ilObjStudyProgrammeAutoMembershipsGUI: ilPropertyFormGUI
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
@@ -20,13 +21,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	const CMD_DELETE_SINGLE = 'deleteSingle';
 	const CMD_ENABLE = 'enable';
 	const CMD_DISABLE = 'disable';
-
-	//input is always ref-id;
-	//these are stored with their respective obj_id
-	const CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES = [
-		ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
-		ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
-	];
 
 	/**
 	 * @var ilTemplate
@@ -82,6 +76,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		$this->ui_renderer = $ui_renderer;
 		$this->request = $request;
 		$this->tree = $tree;
+
+		$tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+		$tpl->addJavaScript("Services/Form/js/Form.js");
 	}
 	public function executeCommand()
 	{
@@ -98,6 +95,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				$this->$cmd();
 				$this->ctrl->redirect($this, 'view');
 				break;
+			case "getAsynchModalOutput":
+				$this->getAsynchModalOutput();
+				break;
 			default:
 				throw new ilException("ilObjStudyProgrammeAutoMembershipsGUI: ".
 									  "Command not supported: $cmd");
@@ -109,19 +109,15 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	protected function view()
 	{
 		$collected_modals = [];
-		$form = $this->getModalForm();
-		$modal = $this->getModal($form);
+		$modal = $this->getModal();
 		$this->getToolbar($modal->getShowSignal());
 		$collected_modals[] = $modal;
 		$data = [];
 		foreach($this->getObject()->getAutomaticMembershipSources() as $ams) {
-
 			$title = $this->getTitleRepresentation($ams);
 			$usr = $this->getUserRepresentation($ams->getLastEditorId());
-			$form = $this->getModalForm($ams->getSourceType(), $ams->getSourceId());
-			$modal = $this->getModal($form);
+			$modal = $this->getModal($ams->getSourceType(), $ams->getSourceId());
 			$collected_modals[] = $modal;
-			$signal = $modal->getShowSignal();
 
 			$src_id = $ams->getSourceType() .'-' .$ams->getSourceId();
 			$actions = $this->getItemAction(
@@ -145,36 +141,28 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		);
 	}
 
-
-	/**
-	 * Store data from (modal-)form.
-	 * @return string
-	 */
 	protected function save()
 	{
+		$form = $this->getForm();
+		$form->checkInput();
+		$form->setValuesByPost();
 
-		$form = $this->getModalForm()->withRequest($this->request);
-		$result = $form->getData();
-		list($src_type, $sub_values) = array_values($result[self::F_SOURCE_TYPE]);
-		$src_id = (int)$sub_values[self::F_SOURCE_ID];
-
-		if(in_array($src_type, self::CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES)) {
-			$src_id = \ilObject::_lookupObjId($src_id);
-		}
+		$post = $_POST;
+		$src_type = $post[self::F_SOURCE_TYPE];
+		$src_id = (int)$post[self::F_SOURCE_ID.$src_type];
 
 		if(
-			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET)
-			&& array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET)
+			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $post) &&
+			array_key_exists(self::F_ORIGINAL_SOURCE_ID, $post)
 		) {
 			$this->getObject()->deleteAutomaticMembershipSource(
-				(string)$_GET[self::F_ORIGINAL_SOURCE_TYPE],
-				(int)$_GET[self::F_ORIGINAL_SOURCE_ID]
+				(string)$post[self::F_ORIGINAL_SOURCE_TYPE],
+				(int)$post[self::F_ORIGINAL_SOURCE_ID]
 			);
 		}
 
 		$this->getObject()->storeAutomaticMembershipSource($src_type, $src_id);
 	}
-
 
 	/**
 	 * Delete entries.
@@ -261,112 +249,164 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		return $this->object;
 	}
 
-	/**
-	 * Build a modal to add/edit a category.
-	 */
 	protected function getModal(
-		ILIAS\UI\Component\Input\Container\Form\Form $form
-	): \ILIAS\UI\Component\Modal\Modal
-	{
+		string $source_type = null,
+		int $source_id = null
+	) {
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
+		$link = $this->ctrl->getLinkTarget($this, "getAsynchModalOutput", "", true);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, null);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, null);
+
 		$modal = $this->ui_factory->modal()->roundtrip(
-			$this->lng->txt('modal_automembership_title'),
-			$form
+			'',
+			[]
+		)->withAsyncRenderUrl(
+			$link
 		);
+
 		return $modal;
 	}
 
-	/**
-	 * Build the modal's form.
-	 */
-	protected function getModalForm(
+	protected function getAsynchModalOutput()
+	{
+		$current_src_type = null;
+		if(
+			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET) &&
+			! is_null($_GET[self::F_ORIGINAL_SOURCE_TYPE])
+		) {
+			$current_src_type = $_GET[self::F_ORIGINAL_SOURCE_TYPE];
+		}
+		$current_src_id = null;
+		if(
+			array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET) &&
+			! is_null($_GET[self::F_ORIGINAL_SOURCE_ID])
+		) {
+			$current_src_id = (int)$_GET[self::F_ORIGINAL_SOURCE_ID];
+		}
+		$form = $this->getForm($current_src_type, $current_src_id);
+		$form_id = "form_".$form->getId();
+		$submit = $this->ui_factory->button()->primary($this->txt('search'), "#")->withOnLoadCode(
+			function ($id) use ($form_id) {
+				return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+			});
+		$modal = $this->ui_factory->modal()->roundtrip(
+			$this->txt('modal_categories_title'),
+			$this->ui_factory->legacy($form->getHtml())
+		)->withActionButtons([$submit]);
+
+		echo $this->ui_renderer->renderAsync($modal);
+		exit;
+	}
+
+	protected function getForm(
 		string $source_type = null,
 		int $source_id = null
-	): ILIAS\UI\Component\Input\Container\Form\Form
-	{
-		$factory = $this->ui_factory->input();
+	) : ilPropertyFormGUI {
+		$form = new ilPropertyFormGUI();
 
-		$f_id = $factory->field()->numeric(
-			$this->lng->txt('membership_source_id'),
-			$this->lng->txt('membership_source_id_byline_refid')
-		);
-		if(! is_null($source_id)) {
-			$f_id = $f_id->withValue($source_id);
+		if(is_null($source_type)) {
+			$source_type = "";
 		}
-		$role_id_f = $factory->field()->numeric(
+		if(is_null($source_id)) {
+			$source_id = "";
+		}
+		$form->setId(uniqid((string)$source_type.(string)$source_id));
+		$form->setFormAction($this->ctrl->getFormAction($this, 'save'));
+
+		$rgroup = new ilRadioGroupInputGUI($this->txt('membership_source_type'), self::F_SOURCE_TYPE);
+		$rgroup->setValue($source_type);
+		$form->addItem($rgroup);
+
+		$radio_role = new ilRadioOption(
+			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ROLE),
+			ilStudyProgrammeAutoMembershipSource::TYPE_ROLE
+		);
+
+		$ni_role = new ilNumberInputGUI(
 			'',
-			$this->lng->txt('membership_source_id_byline_objid')
+			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_ROLE
 		);
-		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_ROLE) {
-			$role_id_f = $role_id_f->withValue($source_id);
-		}
-		$group_id_f = $factory->field()->numeric(
+		$ni_role->setInfo($this->txt('membership_source_id_byline_objid'));
+		$radio_role->addSubItem($ni_role);
+		$rgroup->addOption($radio_role);
+
+		$radio_grp = new ilRadioOption(
+			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_GROUP),
+			ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
+		);
+		$ni_grp = new ilNumberInputGUI(
 			'',
-			$this->lng->txt('membership_source_id_byline_refid')
+			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
 		);
-		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_GROUP) {
-			$group_id_f = $group_id_f->withValue($source_id);
-		}
-		$course_id_f = $factory->field()->numeric(
+		$ni_grp->setInfo($this->txt('membership_source_id_byline_refid'));
+		$radio_grp->addSubItem($ni_grp);
+		$rgroup->addOption($radio_grp);
+
+		$radio_crs = new ilRadioOption(
+			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_COURSE),
+			ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
+		);
+		$ni_crs = new ilNumberInputGUI(
 			'',
-			$this->lng->txt('membership_source_id_byline_refid')
+			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
 		);
-		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_COURSE) {
-			$course_id_f = $course_id_f->withValue($source_id);
-		}
-		$orgu_id_f = $factory->field()->numeric(
-			'',
-			$this->lng->txt('membership_source_id_byline_refid')
+		$ni_crs->setInfo($this->txt('membership_source_id_byline_refid'));
+		$radio_crs->addSubItem($ni_crs);
+		$rgroup->addOption($radio_crs);
+
+		$radio_orgu = new ilRadioOption(
+			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ORGU),
+			ilStudyProgrammeAutoMembershipSource::TYPE_ORGU
 		);
-		if($source_type === ilStudyProgrammeAutoMembershipSource::TYPE_ORGU) {
-			$orgu_id_f = $orgu_id_f->withValue($source_id);
-		}
-		$f_type = $factory->field()->switchableGroup(
-			[
-				ilStudyProgrammeAutoMembershipSource::TYPE_ROLE =>
-					$factory->field()->group([self::F_SOURCE_ID =>
-						$factory->field()->numeric(
-							'',
-							$this->lng->txt('membership_source_id_byline_objid')
-						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ROLE)
-					),
-				ilStudyProgrammeAutoMembershipSource::TYPE_GROUP =>
-					$factory->field()->group([self::F_SOURCE_ID =>
-						$factory->field()->numeric(
-							'',
-							$this->lng->txt('membership_source_id_byline_refid')
-						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_GROUP)
-					),
-				ilStudyProgrammeAutoMembershipSource::TYPE_COURSE =>
-					$factory->field()->group([self::F_SOURCE_ID =>
-						$factory->field()->numeric(
-							'',
-							$this->lng->txt('membership_source_id_byline_refid')
-						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_COURSE)
-					),
-				ilStudyProgrammeAutoMembershipSource::TYPE_ORGU =>
-					$factory->field()->group([self::F_SOURCE_ID =>
-						$factory->field()->numeric(
-							'',
-							$this->lng->txt('membership_source_id_byline_refid')
-						)],$this->lng->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ORGU)
-					)
-			],
-			$this->lng->txt('membership_source_type')
+		$orgu = new ilRepositorySelector2InputGUI(
+			"",
+			false,
+			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_ORGU
 		);
+		$orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
+		$orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
+		if($current_ref_id != "") {
+			$orgu->getExplorerGUI()->setPathOpen($current_ref_id);
+			$orgu->setValue($current_ref_id);
+		}
+		$orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
+		$orgu->getExplorerGUI()->setAjax(false);
+		$radio_orgu->addSubItem($orgu);
+		$rgroup->addOption($radio_orgu);
 
-		if(! is_null($source_type)) {
-			$f_type = $f_type->withValue($source_type);
+		if(
+			! is_null($source_type) &&
+			! is_null($source_id) &&
+			$source_type !== "" &&
+			$source_id !== ""
+		) {
+			switch ($source_type) {
+				case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
+					$ni_role->setValue($source_id);
+					break;
+				case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
+					$ni_grp->setValue($source_id);
+					break;
+				case ilStudyProgrammeAutoMembershipSource::TYPE_COURSE:
+					$ni_crs->setValue($source_id);
+					break;
+				case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
+					$orgu->setValue($source_id);
+					break;
+				default:
+			}
 		}
 
-		if(!is_null($source_type) && !is_null($source_id)) {
-			$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
-			$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
-		}
+		$hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_TYPE);
+		$hi->setValue($source_type);
+		$form->addItem($hi);
 
-		$url = $this->ctrl->getLinkTarget($this, "save", "", false, false);
-		$form = $factory->container()->form()->standard($url, [self::F_SOURCE_TYPE => $f_type]);
+		$hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
+		$hi->setValue($source_id);
+		$form->addItem($hi);
 
-		//TODO: add validation: is type correct?
 		return $form;
 	}
 
@@ -375,7 +415,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	protected function getToolbar(\ILIAS\UI\Component\Signal $add_cat_signal)
 	{
-		$btn = $this->ui_factory->button()->primary($this->lng->txt('add_automembership_source'),'')
+		$btn = $this->ui_factory->button()->primary($this->txt('add_automembership_source'),'')
 			->withOnClick($add_cat_signal);
 		$this->toolbar->addComponent($btn);
 	}
@@ -389,25 +429,25 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	): \ILIAS\UI\Component\Dropdown\Standard {
 		$items = [];
 
-		$items[] =  $this->ui_factory->button()->shy($this->lng->txt('edit'), '')
+		$items[] =  $this->ui_factory->button()->shy($this->txt('edit'), '')
 			->withOnClick($signal);
 
 		$this->ctrl->setParameter($this, self::CHECKBOX_SOURCE_IDS, $src_id);
 
 		if($is_enabled) {
 			$items[] =  $this->ui_factory->button()->shy(
-				$this->lng->txt('disable'),
+				$this->txt('disable'),
 				$this->ctrl->getLinkTarget($this, self::CMD_DISABLE)
 			);
 		} else {
 			$items[] =  $this->ui_factory->button()->shy(
-				$this->lng->txt('enable'),
+				$this->txt('enable'),
 				$this->ctrl->getLinkTarget($this, self::CMD_ENABLE)
 			);
 		}
 
 		$items[] =  $this->ui_factory->button()->shy(
-			$this->lng->txt('delete'),
+			$this->txt('delete'),
 			$this->ctrl->getLinkTarget($this, self::CMD_DELETE_SINGLE)
 		);
 
@@ -433,18 +473,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	protected function getTitleRepresentation(
 		ilStudyProgrammeAutoMembershipSource $ams
 	): \ILIAS\UI\Component\Link\Standard {
-
-		$src_type = $ams->getSourceType();
 		$src_id = $ams->getSourceId();
 
-		if(in_array($src_type, self::CONVERT_FROM_REF_TO_OBJ_ID_FOR_TYPES)) {
-			$src_ref = array_shift(ilObject::_getAllReferences($src_id));
-			$url = ilLink::_getStaticLink($src_ref, $ams->getSourceType());
-		}
-
+		$title = "";
+		$url = "";
 		switch ($ams->getSourceType()) {
 			case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
-				$title = ilObject::_lookupTitle($src_id);
+				$title = ilObjRole::_lookupTitle($src_id) ?? "-";
 				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'obj_id', $src_id);
 				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'ref_id', self::ROLEFOLDER_REF_ID);
 				$this->ctrl->setParameterByClass('ilObjRoleGUI', 'admin_mode', 'settings');
@@ -457,10 +492,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 				$hops = array_map(function($c) {
 						return ilObject::_lookupTitle($c["obj_id"]);
 					},
-					$this->tree->getPathFull($src_ref)
+					$this->tree->getPathFull($src_id)
 				);
 				$hops = array_slice($hops, 1);
-				$title = implode(' > ', $hops);
+				$title = implode(' > ', $hops) ?? "-";
 				break;
 
 			case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
@@ -470,11 +505,18 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 					$this->tree->getPathFull($src_id)
 				);
 				$hops = array_slice($hops, 3);
-				$title = implode(' > ', $hops);
+				$title = implode(' > ', $hops) ?? "-";
 				$url = ilLink::_getStaticLink($src_id, $ams->getSourceType());
 				break;
+			default:
+				throw new \LogicException("This should not happen. Forgot a case in the switch?");
 		}
 
 		return $this->ui_factory->link()->standard($title, $url);
+	}
+
+	protected function txt(string $code) : string
+	{
+		return $this->lng->txt($code);
 	}
 }
