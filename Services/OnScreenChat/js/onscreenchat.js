@@ -434,9 +434,10 @@
 			}
 
 			try {
-				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
-					$("#" + getModule().notificationItemId)
-				);
+				let $notificationRoot = $("#" + getModule().notificationItemId),
+					notificationContainer = il.UI.item.notification.getNotificationItemObject(
+						$notificationRoot
+					);
 
 				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
 					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(1);
@@ -456,19 +457,33 @@
 					});
 				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
 					try {
-						let aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
-							$("#" + getModule().conversationToUiIdMap[conversation.id])
-						);
+						let $aggregateItem = $("#" + getModule().conversationToUiIdMap[conversation.id]),
+							aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
+								$aggregateItem
+							),
+							$aggregateContainer = $aggregateItem.closest(".il-aggregate-notifications");
 
 						aggregateNotificationItem.closeItem();
 
-						$("#" + getModule().notificationItemId).find(".il-item-description").text(function() {
-							if (1 === getModule().notificationItemsAdded) {
+						$notificationRoot.find(".il-item-description").text(function() {
+							if (0 === getModule().notificationItemsAdded) {
+								return il.Language.txt("chat_osc_nc_no_conv");
+							} else if (1 === getModule().notificationItemsAdded) {
 								return il.Language.txt("chat_osc_nc_conv_x_s");
 							}
-							
+
 							return il.Language.txt("chat_osc_nc_conv_x_p", getModule().notificationItemsAdded);
 						}());
+
+						if (0 === conversations.length) {
+							$notificationRoot.find(".il-item-divider").remove();
+							$notificationRoot.find(".il-item-properties").remove();
+						} else {
+							$notificationRoot.find(".il-item-properties .il-item-property-value").text(function() {
+								// TODO: Find most recent date $aggregateContainer return it here
+								return "Dummy";
+							}());
+						}
 					} catch (e) {
 						console.error(e);
 					}

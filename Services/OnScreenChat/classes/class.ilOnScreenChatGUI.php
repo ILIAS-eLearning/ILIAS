@@ -306,6 +306,7 @@ class ilOnScreenChatGUI
                 'chat_osc_no_conv',
                 'chat_osc_nc_conv_x_p',
                 'chat_osc_nc_conv_x_s',
+                'chat_osc_nc_no_conv',
                 'today',
                 'yesterday',
             ], $page);
