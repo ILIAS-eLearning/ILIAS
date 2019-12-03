@@ -133,8 +133,13 @@
 		notificationItemId: '',
 		numWindows: Infinity,
 		notificationCenterConversationItems: {},
+		conversationMessageTimes: {},
 		conversationToUiIdMap: {},
 		notificationItemsAdded: 0,
+
+		setConversationMessageTimes: function(timeInfo) {
+			getModule().conversationMessageTimes = timeInfo;
+		},
 
 		setNotificationItemId: function(id) {
 			getModule().notificationItemId = id;
@@ -464,8 +469,11 @@
 							$aggregateContainer = $aggregateItem.closest(".il-aggregate-notifications");
 
 						aggregateNotificationItem.closeItem();
+						if (getModule().conversationMessageTimes.hasOwnProperty(conversation.id)) {
+							delete getModule().conversationMessageTimes[conversation.id];
+						}
 
-						$notificationRoot.find(".il-item-description").text(function() {
+						notificationContainer.setItemDescription(function() {
 							if (0 === getModule().notificationItemsAdded) {
 								return il.Language.txt("chat_osc_nc_no_conv");
 							} else if (1 === getModule().notificationItemsAdded) {
@@ -476,13 +484,22 @@
 						}());
 
 						if (0 === conversations.length) {
-							$notificationRoot.find(".il-item-divider").remove();
-							$notificationRoot.find(".il-item-properties").remove();
+							notificationContainer.removeItemProperties();
 						} else {
-							$notificationRoot.find(".il-item-properties .il-item-property-value").text(function() {
-								// TODO: Find most recent date $aggregateContainer return it here
-								return "Dummy";
-							}());
+							let latestTimestamp = Math.max(
+								Object
+									.keys(getModule().conversationMessageTimes)
+									.map(key => getModule().conversationMessageTimes[key].ts)
+							), formattedTimestamps = (function(obj, f) {
+								return Object
+									.keys(obj)
+									.filter(key => !f(obj[key]))
+									.map(key => obj[key].formatted);
+							})(getModule().conversationMessageTimes, e => e.ts !== latestTimestamp);
+
+							if (formattedTimestamps.length > 0) {
+								notificationContainer.setItemPropertyValueAtPosition(formattedTimestamps[0], 1);
+							}
 						}
 					} catch (e) {
 						console.error(e);
@@ -504,9 +521,7 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications(conversation, false);
-			}, 100);
+			getModule().rerenderNotifications(conversation, false);
 		},
 
 		/**
@@ -536,10 +551,7 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-
-			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications(conversation, false);
-			}, 100);
+			getModule().rerenderNotifications(conversation, false);
 		},
 
 		/**

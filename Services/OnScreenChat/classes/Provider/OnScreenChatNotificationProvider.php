@@ -157,9 +157,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'))
             ->withAdditionalOnLoadCode(
                 function ($id) {
+                    $tsInfo = json_encode(new \stdClass());
                     return "
-                    il.OnScreenChat.setNotificationItemId('$id');
-                ";
+                        il.OnScreenChat.setConversationMessageTimes($tsInfo);
+                        il.OnScreenChat.setNotificationItemId('$id');
+                    ";
                 }
             );
 
@@ -183,6 +185,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         });
         $allUsrData = $this->subscriberRepo->getDataByUserIds($allUsrIds);
 
+        $messageTimesByConversation = [];
+
         $aggregatedItems = [];
         $latestMessageTimeStamp = null;
         foreach ($conversations as $conversation) {
@@ -197,6 +201,12 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             $name = implode(', ', $convUsrNames);
             $message = $conversation->getLastMessage()->getMessage();
             $timestamp = (int) ($conversation->getLastMessage()->getCreatedTimestamp() / 1000);
+            $formattedDateTime = \ilDatePresentation::formatDate(new \ilDateTime($timestamp, IL_CAL_UNIX));
+
+            $messageTimesByConversation[$conversation->getId()] = [
+                'ts' => $conversation->getLastMessage()->getCreatedTimestamp(),
+                'formatted' => $formattedDateTime
+            ];
 
             $aggregateTitle = $this->dic->ui()->factory()
                 ->button()
@@ -231,9 +241,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     }
                 )
                 ->withProperties([
-                    $this->dic->language()->txt('chat_osc_nc_prop_time') => \ilDatePresentation::formatDate(
-                        new \ilDateTime($timestamp, IL_CAL_UNIX)
-                    )
+                    $this->dic->language()->txt('chat_osc_nc_prop_time') => $formattedDateTime,
                 ])
                 ->withCloseAction('#'); // Important: The # prevents the default onClick handler is triggered
 
@@ -250,6 +258,14 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $notificationItem = $notificationItem
             ->withAggregateNotifications($aggregatedItems)
             ->withDescription($description)
+            ->withAdditionalOnLoadCode(
+                function ($id) use ($messageTimesByConversation) {
+                    $tsInfo = json_encode($messageTimesByConversation);
+                    return "
+                        il.OnScreenChat.setConversationMessageTimes($tsInfo);
+                    ";
+                }
+            )
             ->withProperties([
                 $this->dic->language()->txt('chat_osc_nc_prop_time') => \ilDatePresentation::formatDate(
                     new \ilDateTime($latestMessageTimeStamp, IL_CAL_UNIX)
