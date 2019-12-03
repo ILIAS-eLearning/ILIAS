@@ -3334,7 +3334,7 @@ $query = "
     ) WHERE odat.type = %s
 ";
 
-$ilDB->manipulate($query, array('text'), array('cmix'));
+$ilDB->manipulateF($query, array('text'), array('cmix'));
 
 ?>
 <#5610>
@@ -3347,6 +3347,6 @@ $query = "
     ) WHERE odat.type = %s
 ";
 
-$ilDB->manipulate($query, array('text'), array('lti'));
+$ilDB->manipulateF($query, array('text'), array('lti'));
 
 ?>
