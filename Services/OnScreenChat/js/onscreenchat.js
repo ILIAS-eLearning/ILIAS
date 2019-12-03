@@ -435,7 +435,7 @@
 
 			try {
 				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
-					$('#' + getModule().notificationItemId)
+					$("#" + getModule().notificationItemId)
 				);
 
 				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
@@ -449,18 +449,26 @@
 				if (withServerSideRendering) {
 					let conversationIds = conversations.map(function (conversation) {
 						return conversation.id;
-					}).join(',');
+					}).join(",");
 
 					notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-						'ids': conversationIds
+						"ids": conversationIds
 					});
 				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
 					try {
 						let aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
-							$('#' + getModule().conversationToUiIdMap[conversation.id])
+							$("#" + getModule().conversationToUiIdMap[conversation.id])
 						);
 
 						aggregateNotificationItem.closeItem();
+
+						$("#" + getModule().notificationItemId).find(".il-item-description").text(function() {
+							if (1 === getModule().notificationItemsAdded) {
+								return il.Language.txt("chat_osc_nc_conv_x_s");
+							}
+							
+							return il.Language.txt("chat_osc_nc_conv_x_p", getModule().notificationItemsAdded);
+						}());
 					} catch (e) {
 						console.error(e);
 					}
