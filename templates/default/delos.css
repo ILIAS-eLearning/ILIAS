@@ -17633,12 +17633,10 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   padding-left: 15px;
   padding-right: 15px;
 }
-#onscreenchat-container .chat-window-wrapper .chat li.message.right {
-  text-align: right;
-}
 #onscreenchat-container .chat-window-wrapper .chat li.message.right .chat-body {
+  text-align: justify;
   float: right;
-  width: 80%;
+  max-width: 80%;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.message.left .chat-body {
   width: 80%;
