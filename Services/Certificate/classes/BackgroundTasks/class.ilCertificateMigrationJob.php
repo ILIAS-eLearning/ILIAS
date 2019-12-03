@@ -193,19 +193,19 @@ class ilCertificateMigrationJob extends AbstractJob
 						$repository->save($certificate);
 						$processed_items++;
 					}
-                    $this->updateTask([
-                        'processed_items' => $processed_items,
-                        'progress' => ($processed_items/$found_items)*100
-                    ]);
+					$this->updateTask([
+						'processed_items' => $processed_items,
+						'progress' => ($processed_items/$found_items)*100
+					]);
 
-                    $observer->heartbeat();
-                }
-                $this->logger->info(sprintf('Finished preparing "%s" certificates', $type));
-            }
+					$observer->heartbeat();
+				}
+				$this->logger->info(sprintf('Finished preparing "%s" certificates', $type));
+			}
 
-            $this->logger->info('Finished migrating certificates for user: ' . $user->getId());
+			$this->logger->info('Finished migrating certificates for user: ' . $user->getId());
 
-        } catch (\Exception $e) {
+		} catch (\Exception $e) {
 			$this->logger->error($e->getMessage(), 'error');
 			$this->updateTask([
 				'lock' => false,
