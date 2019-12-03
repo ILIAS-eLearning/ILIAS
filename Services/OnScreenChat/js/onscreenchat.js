@@ -1103,7 +1103,7 @@
 					$("<li></li>").append(
 							$(template).find("li.message").html()
 						)
-						.addClass("message")
+						.addClass("message " + position)
 				);
 			}
 
