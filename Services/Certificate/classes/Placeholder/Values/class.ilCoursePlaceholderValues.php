@@ -9,7 +9,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	/**
 	 * @var ilDefaultPlaceholderValues
 	 */
-	private $defaultPlaceHolderValuesObject;
+	private $defaultPlaceholderValuesObject;
 
 	/**
 	 * @var ilLanguage|null
@@ -82,7 +82,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         }
 		$this->dateHelper = $dateHelper;
 
-		$this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+		$this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 	}
 
 	/**
@@ -102,7 +102,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	{
 		$courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
-		$placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+		$placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
 		$completionDate = $this->participantsHelper->getDateTimeOfPassed($objId, $userId);
 
@@ -130,7 +130,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 	 */
 	public function getPlaceholderValuesForPreview(int $userId, int $objId)
 	{
-		$placeholders =  $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+		$placeholders =  $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
 		$object = $this->objectHelper->getInstanceByObjId($objId);
 

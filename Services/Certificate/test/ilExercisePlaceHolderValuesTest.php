@@ -4,7 +4,7 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
+class ilExercisePlaceholderValuesTest extends PHPUnit_Framework_TestCase
 {
 	public function testGetPlaceholderValues()
 	{
@@ -70,7 +70,7 @@ class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
 			->willReturn('2018-09-10 12:01:33');
 
 
-		$placeHolderObject = new ilExercisePlaceHolderValues(
+		$placeHolderObject = new ilExercisePlaceholderValues(
 			$defaultPlaceholders,
 			$language,
 			$objectHelper,
@@ -146,7 +146,7 @@ class ilExercisePlaceHolderValuesTest extends PHPUnit_Framework_TestCase
 			->method('getPlaceholderValuesForPreview')
 			->willReturn(array('SOME_PLACEHOLDER' => 'something'));
 
-		$placeHolderObject = new ilExercisePlaceHolderValues(
+		$placeHolderObject = new ilExercisePlaceholderValues(
 			$defaultPlaceholders,
 			$language,
 			$objectHelper,
