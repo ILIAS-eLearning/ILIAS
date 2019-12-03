@@ -7,6 +7,21 @@ declare(strict_types = 1);
  */
 class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMembershipSourceReader
 {
+	/**
+	 * @var ilObjOrgUnitTree
+	 */
+	protected $orgu_tree;
+
+	/**
+	 * @var ilOrgUnitUserAssignment
+	 */
+	protected $orgu_assignment;
+
+	/**
+	 * @var int
+	 */
+	protected $src_id;
+
 	public function __construct(
 		ilObjOrgUnitTree $orgu_tree,
 		ilOrgUnitUserAssignment $orgu_assignment,
@@ -23,7 +38,7 @@ class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMemb
 	public function getMemberIds(): array
 	{
 		$assignees = $this->orgu_assignment::where(
-			['orgu_id'=>$this->src_id]
+			['orgu_id' => $this->src_id]
 		)->getArray('id', 'user_id');
 
 		return array_map(
