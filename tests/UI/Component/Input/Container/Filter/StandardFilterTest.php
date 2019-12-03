@@ -149,21 +149,21 @@ class StandardFilterTest extends ILIAS_UI_TestBase
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
 				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
 			<button class="btn btn-bulky" data-action="" id="id_4">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">apply</span></div>
+				<span class="bulky-label">apply</span>
 			</button>
 			<button class="btn btn-bulky" data-action="#" id="id_5">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">reset</span></div>
+				<span class="bulky-label">reset</span>
 			</button>
 			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
 				<div class="il-toggle-switch"></div>
@@ -202,9 +202,7 @@ class StandardFilterTest extends ILIAS_UI_TestBase
         				<span class="glyph" aria-label="add">
 							<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 						</span>
-						<div>
-							<span class="bulky-label"></span>
-						</div>
+					    <span class="bulky-label"></span>
 					</button>
     			</div>
     			<div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
@@ -249,21 +247,21 @@ EOT;
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="false">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
 				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
 			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">apply</span></div>
+				<span class="bulky-label">apply</span>
 			</button>
 			<button class="btn btn-bulky" data-action=""  disabled="disabled">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">reset</span></div>
+				<span class="bulky-label">reset</span>
 			</button>
 			<button class="il-toggle-button" id="id_4" aria-pressed="false">
 				<div class="il-toggle-switch"></div>
@@ -336,21 +334,21 @@ EOT;
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
 				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
 			<button class="btn btn-bulky" data-action="" id="id_4">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">apply</span></div>
+				<span class="bulky-label">apply</span>
 			</button>
 			<button class="btn btn-bulky" data-action="#" id="id_5">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">reset</span></div>
+				<span class="bulky-label">reset</span>
 			</button>
 			<button class="il-toggle-button on" id="id_6" aria-pressed="false">
 				<div class="il-toggle-switch"></div>
@@ -388,7 +386,7 @@ EOT;
                         <span class="glyph" aria-label="add">
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         </span>
-                        <div><span class="bulky-label"></span></div>
+                        <span class="bulky-label"></span>
                     </button>
                 </div>
                 <div class="il-standard-popover-content" style="display:none;" id="id_19"></div>
@@ -433,21 +431,21 @@ EOT;
 		<span class="il-filter-bar-opener" data-toggle="collapse" data-target=".il-filter-inputs-active,.il-filter-input-section" aria-expanded="true">
 			<button class="btn btn-bulky" data-action="" id="id_2">
 				<span class="glyph" aria-label="expand_content"><span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" id="id_3">
 				<span class="glyph" aria-label="collapse_content"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">filter</span></div>
+				<span class="bulky-label">filter</span>
 			</button>
 		</span>
 		<span class="il-filter-bar-controls">
 			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="apply"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">apply</span></div>
+				<span class="bulky-label">apply</span>
 			</button>
 			<button class="btn btn-bulky" data-action="" disabled="disabled">
 				<span class="glyph" aria-label="reset"><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span></span>
-				<div><span class="bulky-label">reset</span></div>
+				<span class="bulky-label">reset</span>
 			</button>
 			<button class="il-toggle-button" id="id_4" aria-pressed="false">
 				<div class="il-toggle-switch"></div>

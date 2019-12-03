@@ -57,6 +57,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::MORE             => "glyphicon glyphicon-option-horizontal"
         , G\Glyph::DISCLOSURE       => "glyphicon glyphicon-option-vertical"
         , G\Glyph::LANGUAGE         => "glyphicon glyphicon-globe"
+        , G\Glyph::LOGIN            => "glyphicon glyphicon-login"
+        , G\Glyph::LOGOUT           => "glyphicon glyphicon-logout"
     );
 
     public static $aria_labels = array(
@@ -95,6 +97,8 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::MORE             => "more"
         , G\Glyph::DISCLOSURE       => "disclosure"
         , G\Glyph::LANGUAGE         => "switch language"
+        , G\Glyph::LOGIN            => "login"
+        , G\Glyph::LOGOUT           => "logout"
     );
 
     /**
@@ -318,6 +322,8 @@ class GlyphTest extends ILIAS_UI_TestBase
             , array(G\Glyph::MORE)
             , array(G\Glyph::DISCLOSURE)
             , array(G\Glyph::LANGUAGE)
+            , array(G\Glyph::LOGIN)
+            , array(G\Glyph::LOGOUT)
             );
     }
 

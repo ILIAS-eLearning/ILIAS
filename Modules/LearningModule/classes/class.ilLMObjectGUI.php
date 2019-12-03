@@ -22,6 +22,11 @@ class ilLMObjectGUI
 	var $content_object;
 	var $actions;
 
+	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
 
 	/**
 	* constructor
@@ -40,6 +45,7 @@ class ilLMObjectGUI
 		$this->lng = $lng;
 		$this->ctrl = $ilCtrl;
 		$this->content_object = $a_content_obj;
+		$this->ui = $DIC->ui();
 	}
 
 

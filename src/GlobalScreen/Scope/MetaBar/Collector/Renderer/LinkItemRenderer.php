@@ -20,9 +20,9 @@ class LinkItemRenderer extends AbstractMetaBarItemRenderer
         /**
          * @var $item LinkItem
          */
-        return $this->ui->factory()->button()->bulky(
+        return $this->ui->factory()->link()->bulky(
             $this->getStandardSymbol($item),
             $item->getTitle(),
-            $item->getAction());
+            $this->getURI($item->getAction()));
     }
 }

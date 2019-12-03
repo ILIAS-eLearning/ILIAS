@@ -4,6 +4,7 @@
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
 
 use ILIAS\UI\Component\Layout\Page;
+use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\MainControls\MetaBar;
@@ -19,7 +20,10 @@ class Standard implements Page\Standard
 {
     use ComponentHelper;
     use JavaScriptBindable;
-
+    /**
+     * @var ModeInfo|null
+     */
+    private $mode_info;
     /**
      * @var mixed
      */
@@ -302,5 +306,25 @@ class Standard implements Page\Standard
     public function getViewTitle() : string
     {
         return $this->view_title;
+    }
+
+
+    public function withModeInfo(ModeInfo $mode_info) : \ILIAS\UI\Component\Layout\Page\Standard
+    {
+        $clone = clone $this;
+        $clone->mode_info = $mode_info;
+
+        return $clone;
+    }
+
+    public function getModeInfo() : ?ModeInfo
+    {
+        return $this->mode_info;
+    }
+
+
+    public function hasModeInfo() : bool
+    {
+        return $this->mode_info instanceof ModeInfo;
     }
 }

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
@@ -719,20 +718,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->lng->txt('link_selected_items'),
 						'link'
 					);
-					// add download button if multi download enabled
-					$folder_set = new ilSetting("fold");
-					if ($folder_set->get("enable_multi_download") == true)
-					{
-						$toolbar->addSeparator();
-						
-						if(!$folder_set->get("bgtask_download", 0))
-						{
-							$toolbar->addFormButton(
-								$this->lng->txt('download_selected_items'), 
-								'download'
-							);
-						}
-					}
+                    // add download button if multi download enabled
+                    $folder_set = new ilSetting('fold');
+                    if ((bool) $folder_set->get('enable_multi_download') === true) {
+                        $toolbar->addSeparator();
+                        $toolbar->addFormButton(
+                            $this->lng->txt('download_selected_items'),
+                            'download'
+                        );
+                    }
 				}
 				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
 				{

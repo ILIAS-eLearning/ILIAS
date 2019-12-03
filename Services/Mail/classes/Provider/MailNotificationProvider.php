@@ -69,7 +69,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             )
         );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', 'mail');
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/envolope-letter.svg"), 'mail');
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
             $mailUrl

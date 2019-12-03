@@ -335,7 +335,8 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		$ilCtrl = $this->ctrl;
 		
 		$user_id = $this->getPageContentUserId($a_user_id);
-		
+
+		/*
 		if($this->getOutputMode() == "offline")
 		{
 			// profile picture is done in ilPortfolioHTMLExport
@@ -344,7 +345,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 			$this->export_material["js"][] = "./Services/Maps/js/ServiceGoogleMaps.js";
 			$this->export_material["js"][] = "./Services/Maps/js/OpenLayers.js";
 			$this->export_material["js"][] = "./Services/Maps/js/ServiceOpenLayers.js";								
-		}
+		}*/
 		
 		$pub_profile = new ilPublicUserProfileGUI($user_id);
 		$pub_profile->setEmbedded(true, ($this->getOutputMode() == "offline"));
@@ -736,18 +737,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 		}
 		
 		$img_path = null;
-		if($this->getOutputMode() == "offline")
-		{
-			$this->export_material["images"][] = "./templates/default/images/icon_crs.svg";
-			$this->export_material["images"][] = "./templates/default/images/icon_lobj.svg";
-			$this->export_material["images"][] = "./templates/default/images/scorm/complete.svg";
-			$this->export_material["images"][] = "./templates/default/images/scorm/not_attempted.svg";
-			$this->export_material["images"][] = "./templates/default/images/scorm/failed.svg";
-			$this->export_material["images"][] = "./templates/default/images/scorm/incomplete.svg";
-			
-			$img_path = "images/";
-		}
-		
+
 		$user_id = $this->getPageContentUserId($a_user_id);
 		
 		// sorting pref		

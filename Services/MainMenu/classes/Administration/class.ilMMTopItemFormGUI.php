@@ -16,6 +16,7 @@ class ilMMTopItemFormGUI
 {
 
     use Hasher;
+    private const F_ICON = 'icon';
     /**
      * @var \ILIAS\DI\HTTPServices
      */
@@ -91,6 +92,18 @@ class ilMMTopItemFormGUI
 
         $items[self::F_TITLE] = $title;
 
+        if ($this->item_facade->supportsCustomIcon()) {
+            // ICON
+            $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('topitem_icon'))
+                ->withByline($txt('topitem_icon_byline'))
+                ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+            if ($this->item_facade->getIconID() !== null) {
+                $icon = $icon->withValue([$this->item_facade->getIconID()]);
+            }
+
+            $items[self::F_ICON] = $icon;
+        }
+
         // TYPE
         if (($this->item_facade->isEmpty() && $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
@@ -139,6 +152,11 @@ class ilMMTopItemFormGUI
             $type = $this->unhash((string) ($data[0][self::F_TYPE][0]));
             $this->item_facade->setType($type);
             $this->repository->createItem($this->item_facade);
+        }
+
+        if ($this->item_facade->supportsCustomIcon()) {
+            $icon = (string) $data[0][self::F_ICON][0];
+            $this->item_facade->setIconID($icon);
         }
 
         if ($this->item_facade->isCustom()) {

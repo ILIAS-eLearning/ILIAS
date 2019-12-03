@@ -1,4 +1,7 @@
 <?php
+
+use ILIAS\Data\URI;
+
 function ui()
 {
     global $DIC;
@@ -43,9 +46,8 @@ if ($_GET['new_ui'] == '1') {
         'UI PAGE DEMO', //page title
         'ILIAS', //short title
         'Std. Page Demo' //view title
-    )
+    )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
     ->withUIDemo(true);
-    ;
 
     echo $renderer->render($page);
 }

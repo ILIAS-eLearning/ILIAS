@@ -27,6 +27,7 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
     const CMD_CANCEL = 'cancel';
     const CMD_RENDER_INTERRUPTIVE = 'render_interruptive_modal';
     const CMD_CONFIRM_RESTORE = 'confirmRestore';
+    const CMD_UPLOAD = 'upload';
 
 
     private function dispatchCommand($cmd)
@@ -85,6 +86,12 @@ class ilMMTopItemGUI extends ilMMAbstractItemGUI
             case self::CMD_RENDER_INTERRUPTIVE:
                 $this->access->checkAccessAndThrowException("write");
                 $this->renderInterruptiveModal();
+                break;
+            case self::CMD_UPLOAD:
+                return $this->upload();
+                break;
+            case 'download':
+                return $this->download();
                 break;
         }
 

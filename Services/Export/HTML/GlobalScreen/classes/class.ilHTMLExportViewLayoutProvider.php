@@ -25,7 +25,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
      */
     public function isInterestedInContexts() : ContextCollection
     {
-        return $this->context_collection->repository();
+        return $this->context_collection->main();
     }
 
     /**

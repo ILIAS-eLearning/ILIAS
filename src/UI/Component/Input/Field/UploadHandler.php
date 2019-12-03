@@ -2,6 +2,8 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
+use ILIAS\FileUpload\Handler\BasicFileInfoResult;
+
 /**
  * Interface UploadHandler
  *
@@ -21,7 +23,7 @@ interface UploadHandler
 
     /**
      * @return string of the URL where dropped files are sent to. This URL must
-     * make sure the upload is handled and a HandlerResult is returned as JSON.
+     * make sure the upload is handled and a \ILIAS\FileUpload\Handler\HandlerResult is returned as JSON.
      */
     public function getUploadURL() : string;
 
@@ -32,4 +34,20 @@ interface UploadHandler
      * and the FileID of the deleted file.
      */
     public function getFileRemovalURL() : string;
+
+
+    /**
+     * @return string of the URL where in GUI existing files are handled. The URL
+     * is called by GET with a field with name from getFileIdentifierParameterName()
+     * and the FileID of the desired file. Return a FI
+     */
+    public function getExistingFileInfoURL() : string;
+
+
+    /**
+     * @param array $file_ids
+     *
+     * @return BasicFileInfoResult[]
+     */
+    public function getInfoForExistingFiles(array $file_ids):array;
 }

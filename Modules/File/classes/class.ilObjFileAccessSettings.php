@@ -152,39 +152,6 @@ class ilObjFileAccessSettings extends ilObject
         return $this->webdavActionsVisible;
     }
 
-
-    /**
-     * Sets the customWebfolderInstructions property.
-     *
-     * The webfolder instructions consist of HTML text, with placeholders.
-     * See ilDAVServer::_getWebfolderInstructionsFor for a description of
-     * the supported placeholders.
-     *
-     * @param string    HTML text with placeholders.
-     *
-     * @return    void
-     */
-    public function setCustomWebfolderInstructions($newValue)
-    {
-        $this->customWebfolderInstructions = $newValue;
-    }
-
-
-    /**
-     * Gets the customWebfolderInstructions property.
-     *
-     * @return    boolean    value
-     */
-    public function getCustomWebfolderInstructions()
-    {
-        if (strlen($this->customWebfolderInstructions) == 0) {
-            $this->customWebfolderInstructions = self::_getDefaultWebfolderInstructions();
-        }
-
-        return $this->customWebfolderInstructions;
-    }
-
-
     /**
      * Gets the defaultWebfolderInstructions property.
      * This is a read only property. The text is retrieved from $lng.
@@ -326,8 +293,6 @@ class ilObjFileAccessSettings extends ilObject
 
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settings->set('inline_file_extensions', $this->inlineFileExtensions);
-        $settings->set('custom_webfolder_instructions_enabled', $this->customWebfolderInstructionsEnabled ? '1' : '0');
-        $settings->set('custom_webfolder_instructions', $this->customWebfolderInstructions);
     }
 
 
@@ -350,9 +315,6 @@ class ilObjFileAccessSettings extends ilObject
 
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $this->inlineFileExtensions = $settings->get('inline_file_extensions', '');
-        $this->customWebfolderInstructionsEnabled = $settings->get('custom_webfolder_instructions_enabled', '0') == '1';
-        //$this->webdavSpecialCharsHandling = $settings->get('');
-        $this->customWebfolderInstructions = $settings->get('custom_webfolder_instructions', '');
     }
 
 

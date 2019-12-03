@@ -172,6 +172,20 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_filter_field#:#Feld
 cont#:#cont_filter_fields#:#Filterfelder
+sess#:#notification#:#Benachrichtigung
+sess#:#sess_registration_notification#:#Benachrichtigung
+sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
+sess#:#sess_notification_option#:#Option
+sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
+sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
+sess#:#sess_notification_option_manual#:#Manuell setzen
+sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
+common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in "%s" für die Sitzung "%s"
+common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in "%s" von der Sitzung "%s"
+common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in "%s" zur Sitzung "%s"
+common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
+common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
+common#:#entered_notification#:#"%s" ist der Sitzung "%s" beigetreten.
 cont#:#cont_show_more#:#Mehr anzeigen
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
@@ -4526,15 +4540,32 @@ common#:#webdav_problem_info_duplicate#:#Es existiert eine Date mit dem selben T
 common#:#webdav_problem_free_container#:#In diesem Ordner wurden keine Objekte welche Probleme verursachen gefunden.
 common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
+common#:#webdav_add_instructions_btn_label#:#WebDAV-Anleitung hinzufügen
+common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
+common#:#webdav_general_settings#:#Allgemeine Einstellungen
+common#:#webdav_form_document#:#WebDAV-Anleitung
+common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.
+common#:#webdav_form_document_title#:#Titel
+common#:#webdav_form_document_title_info#:#Dieser Titel wird im Model mit der WebDAV-Anleitung angezeigt
+common#:#webdav_form_new_doc_head#:#Ein neues Dokument hinzufügen
+common#:#webdav_form_edit_doc_head#:#WebDAV-Anleitungen bearbeiten
+common#:#webdav_mount_instructions#:#WebDAV-Anleitungen
+common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgendem Titel wirklich gelöscht werden:
+common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
+common#:#webdav_tbl_docs_head_title#:#Titel
+common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
+common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gibt es bereits eine WebDAV-Anleitung
+common#:#webdav_missing_lang#:#Es gibt keine deutsche Version der WebDAV-Anleitung.
 common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
+common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
-common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
-common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>	<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_WINDOWS]	[IF_MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_MAC][IF_LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
+common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>	<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/WINDOWS]	[MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/MAC][LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_titletext#:#Als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
@@ -12329,6 +12360,7 @@ crs#:#crs_mem_tbl_header#:#Kursteilnehmer
 grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
+sess#:#sess_mail_permanent_link_participants#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
@@ -14724,6 +14756,8 @@ mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionsl
 mme#:#topitem_active_byline#:#Diesen Haupteintrag aktivieren
 mme#:#topitem_type#:#Typ
 mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_icon#:#Icon
+mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14736,6 +14770,8 @@ mme#:#sub_active#:#Aktiv
 mme#:#sub_status#:#Status
 mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Aktionen
+mme#:#sub_icon#:#Icon
+mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
@@ -15793,4 +15829,8 @@ lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
 trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
-trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen auf den dieser Kurslink verweist.
+trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
+style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
+content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
+content#:#cont_page_template#:#Vorlage
+content#:#cont_page_created#:#Seite hinzugefügt

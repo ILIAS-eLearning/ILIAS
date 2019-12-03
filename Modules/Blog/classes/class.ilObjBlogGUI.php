@@ -112,8 +112,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
 	protected $tool_context;
 
-	protected static $keyword_export_map; // [array]
-	
 	function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
 	{
 		global $DIC;
@@ -182,6 +180,17 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	{
 		return "blog";
 	}
+
+	/**
+	 * Get items
+	 *
+	 * @return array
+	 */
+	public function getItems()
+	{
+		return $this->items;
+	}
+
 	
 	protected function initCreationForms($a_new_type)
 	{
@@ -722,14 +731,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 						case "previewFullscreen":		
 							$this->addHeaderActionForCommand($cmd);	
 							$this->filterInactivePostings();
-							$nav = $this->renderNavigation($this->items, "preview", $cmd);
+							$nav = $this->renderNavigation("preview", $cmd);
 							$this->renderFullScreen($ret, $nav);
 							break;
 							
 						// blog in portfolio
 						case "previewEmbedded":
 							$this->filterInactivePostings();
-							$nav = $this->renderNavigation($this->items, "gethtml", $cmd);	
+							$nav = $this->renderNavigation("gethtml", $cmd);
 							return $this->buildEmbedded($ret, $nav);
 						
 						// ilias/editor
@@ -773,7 +782,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 							// revert to edit cmd to avoid confusion
 							$this->addHeaderActionForCommand("render");	
 							$tpl->setContent($ret);
-							$nav = $this->renderNavigation($this->items, "render", $cmd, null, $is_owner);	
+							$nav = $this->renderNavigation( "render", $cmd, null, $is_owner);
 							$tpl->setRightContent($nav);	
 							break;
 					}
@@ -1083,7 +1092,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($list_items)
 		{	
 			$list = $this->renderList($list_items, "preview", null, $is_owner);			
-			$nav = $this->renderNavigation($this->items, "render", "preview", null, $is_owner);		
+			$nav = $this->renderNavigation("render", "preview", null, $is_owner);
 		}
 		
 		$this->setContentStyleSheet();	
@@ -1119,7 +1128,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($list_items)
 		{				
 			$list = $this->renderList($list_items, "previewEmbedded");
-			$nav = $this->renderNavigation($this->items, "gethtml", "previewEmbedded");
+			$nav = $this->renderNavigation( "gethtml", "previewEmbedded");
 		}		
 		// quick editing in portfolio
 		else if($this->prt_id)
@@ -1227,7 +1236,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		if($list_items)
 		{									
 			$list = $this->renderList($list_items, "previewFullscreen");
-			$nav = $this->renderNavigation($this->items, "preview", "previewFullscreen");
+			$nav = $this->renderNavigation( "preview", "previewFullscreen");
 			$this->renderToolbarNavigation($this->items);
 			$list.= $toolbar->getHTML();
 		}
@@ -1359,7 +1368,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param int $a_user_id 
 	 * @param bool $a_export_path
 	 */
-	protected function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
+	public function renderFullscreenHeader($a_tpl, $a_user_id, $a_export = false)
 	{
 		$ilUser = $this->user;
 		
@@ -1771,7 +1780,19 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			return $wtpl->get();
 		}
 	}
-	
+
+	/**
+	 * Build export link
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function buildExportLink($a_template, $a_type, $a_id)
+	{
+		return \ILIAS\Blog\Export\BlogHtmlExport::buildExportLink($a_template, $a_type, $a_id, $this->getKeywords(false));
+	}
+
+
 	/**
 	 * Build navigation by date block
 	 *
@@ -2358,7 +2379,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	/**
 	 * Build navigation blocks
 	 *
-	 * @param array $a_items
 	 * @param string $a_list_cmd
 	 * @param string $a_posting_cmd
 	 * @param bool $a_link_template
@@ -2366,10 +2386,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	 * @param int $a_blpg blog page id
 	 * @return string
 	 */
-	function renderNavigation(array $a_items, $a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
+	function renderNavigation($a_list_cmd = "render", $a_posting_cmd = "preview", $a_link_template = null, $a_show_inactive = false, $a_blpg = 0)
 	{
 		$ilCtrl = $this->ctrl;
 		$ilSetting = $this->settings;
+		$a_items = $this->items;
 
 		$blpg = ($a_blpg > 0)
 			? $a_blpg
@@ -2540,316 +2561,23 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		return $keywords;
 	}
 	
-	/**
-	 * Build export file
-	 *
-	 * @return string
-	 */
-	function buildExportFile()
-	{
-		// create export file
-		ilExport::_createExportDirectory($this->object->getId(), "html", "blog");
-		$exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "blog");
+    /**
+     * Build export file
+     *
+     * @return string
+     */
+    function buildExportFile()
+    {
+	    // create export file
+	    ilExport::_createExportDirectory($this->object->getId(), "html", "blog");
+	    $exp_dir = ilExport::_getExportDirectory($this->object->getId(), "html", "blog");
 
-		$subdir = $this->object->getType()."_".$this->object->getId();
-		$export_dir = $exp_dir."/".$subdir;
+	    $subdir = $this->object->getType() . "_" . $this->object->getId();
 
-		// initialize temporary target directory
-		ilUtil::delDir($export_dir);
-		ilUtil::makeDir($export_dir);
-		
-		// system style html exporter
-		$this->sys_style_html_export = new ilSystemStyleHTMLExport($export_dir);
-	    $this->sys_style_html_export->addImage("icon_blog.svg");
-		$this->sys_style_html_export->export();
-		
-		// init co page html exporter
-		$this->co_page_html_export = new ilCOPageHTMLExport($export_dir);
-		$this->co_page_html_export->setContentStyleId($this->object->getStyleSheetId());
-		$this->co_page_html_export->createDirectories();
-		$this->co_page_html_export->exportStyles();
-		$this->co_page_html_export->exportSupportScripts();	
-		
-		// banner / profile picture
-		$blga_set = new ilSetting("blga");
-		if($blga_set->get("banner"))
-		{		
-			$banner = $this->object->getImageFullPath();
-			if($banner)
-			{
-				copy($banner, $export_dir."/".basename($banner));
-			}
-		}
-		$ppic = ilObjUser::_getPersonalPicturePath($this->object->getOwner(), "xsmall", true, true);
-		if($ppic)
-		{
-			$ppic = array_shift(explode("?", $ppic));
-			copy($ppic, $export_dir."/".basename($ppic));
-		}	
+	    $blog_export = new \ILIAS\Blog\Export\BlogHtmlExport($this, $exp_dir, $subdir);
+	    return $blog_export->exportHTML();
+    }
 
-		// export pages
-		$this->exportHTMLPages($export_dir);
-
-		// zip everything
-		if (true)
-		{
-			// zip it all
-			$date = time();
-			$zip_file = ilExport::_getExportDirectory($this->object->getId(), "html", "blog").
-				"/".$date."__".IL_INST_ID."__".
-				$this->object->getType()."_".$this->object->getId().".zip";
-			ilUtil::zip($export_dir, $zip_file);
-			ilUtil::delDir($export_dir);
-		}
-		
-		return $zip_file;
-	}
-
-	/**
-	 * Export all pages
-	 * 
-	 * @param string $a_target_directory
-	 * @param string $a_link_template (embedded)
-	 * @param array $a_tpl_callback (embedded)
-	 * @param object $a_co_page_html_export (embedded)
-	 * @param string $a_index_name (embedded)
-	 */
-	function exportHTMLPages($a_target_directory, $a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
-	{					
-		ilMathJax::getInstance()->init(ilMathJax::PURPOSE_EXPORT);
-
-		if(!$a_link_template)
-		{
-			$a_link_template = "bl{TYPE}_{ID}.html";
-		}
-		
-		if($a_co_page_html_export)
-		{
-			$this->co_page_html_export = $a_co_page_html_export;
-		}
-		
-		
-		// lists
-		
-		// global nav
-		$nav = $this->renderNavigation($this->items, "", "", $a_link_template);
-		
-		// month list
-		$has_index = false;
-		foreach(array_keys($this->items) as $month)
-		{												
-			$list = $this->renderList($this->items[$month], "render", $a_link_template, false, $a_target_directory);			
-			
-			if(!$list)
-			{
-				continue;
-			}
-			
-			if(!$a_tpl_callback)
-			{
-				$tpl = $this->buildExportTemplate();
-			}
-			else
-			{
-				$tpl = call_user_func($a_tpl_callback);				
-			}		
-			
-			$file = $this->buildExportLink($a_link_template, "list", $month);
-			$file = $this->writeExportFile($a_target_directory, $file, 
-				$tpl, $list, $nav);
-
-			if(!$has_index)
-			{
-				copy($file, $a_target_directory."/".$a_index_name);
-				$has_index = true;
-			}
-		}
-
-		// keywords
-		foreach(array_keys($this->getKeywords(false)) as $keyword)
-		{
-			$this->keyword = $keyword;
-			$list_items = $this->filterItemsByKeyword($this->items, $keyword);				
-			$list = $this->renderList($list_items, "render", $a_link_template, false, $a_target_directory);			
-			
-			if(!$list)
-			{
-				continue;
-			}
-			
-			if(!$a_tpl_callback)
-			{
-				$tpl = $this->buildExportTemplate();
-			}
-			else
-			{
-				$tpl = call_user_func($a_tpl_callback);				
-			}		
-			
-			$file = $this->buildExportLink($a_link_template, "keyword", $keyword);
-			$file = $this->writeExportFile($a_target_directory, $file, 
-				$tpl, $list, $nav);
-		}
-		
-		
-		// single postings
-		
-		$pages = ilBlogPosting::getAllPostings($this->object->getId(), 0);
-		foreach ($pages as $page)
-		{
-			if (ilBlogPosting::_exists("blp", $page["id"]))
-			{				
-				$blp_gui = new ilBlogPostingGUI(0, null, $page["id"]);
-				$blp_gui->setOutputMode("offline");
-				$blp_gui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
-				$blp_gui->add_date = true;
-				$page_content = $blp_gui->showPage();
-							
-				$back = $this->buildExportLink($a_link_template, "list", 
-					substr($page["created"]->get(IL_CAL_DATE), 0, 7));
-				
-				$file = $this->buildExportLink($a_link_template, "posting", $page["id"]);
-								
-				if(!$a_tpl_callback)
-				{
-					$tpl = $this->buildExportTemplate();
-				}
-				else
-				{
-					$tpl = call_user_func($a_tpl_callback);				
-				}		
-				
-				// posting nav
-				$nav = $this->renderNavigation($this->items, "", "", $a_link_template,
-					false, $page["id"]);
-
-				$this->writeExportFile($a_target_directory, $file, $tpl, 
-					$page_content, $nav, $back);
-				
-				$this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
-			}
-		}
-		$this->co_page_html_export->exportPageElements();
-	}
-	
-	/**
-	 * Build static export link
-	 * 
-	 * @param string $a_template
-	 * @param string $a_type
-	 * @param mixed $a_id
-	 * @return string
-	 */
-	protected function buildExportLink($a_template, $a_type, $a_id)
-	{
-		switch($a_type)
-		{
-			case "list":
-				$a_type = "m";
-				break;
-			break;
-			
-			case "keyword":
-				if(!self::$keyword_export_map)
-				{
-					self::$keyword_export_map = array_flip(array_keys($this->getKeywords(false)));
-				}
-				$a_id = self::$keyword_export_map[$a_id];
-				$a_type = "k";				
-				break;
-				
-			default:
-				$a_type = "p";
-				break;
-		}
-		
-		$link = str_replace("{TYPE}", $a_type, $a_template);
-		return str_replace("{ID}", $a_id, $link);
-	}
-	
-	/**
-	 * Build export "frame"
-	 * 
-	 * @param type $a_back_url
-	 * @return ilTemplate 
-	 */
-	protected function buildExportTemplate($a_back_url = "")
-	{		
-		$ilTabs = $this->tabs;
-		$lng = $this->lng;
-		
-		$tpl = $this->co_page_html_export->getPreparedMainTemplate();
-		
-		$tpl->loadStandardTemplate();
-	
-		$ilTabs->clearTargets();
-		if($a_back_url)
-		{			
-			$ilTabs->setBackTarget($lng->txt("back"), $a_back_url);
-		}
-				
-		$this->renderFullscreenHeader($tpl, $this->object->getOwner(), true);
-		
-		return $tpl;
-	}
-	
-	/**
-	 * Write HTML to file
-	 * 
-	 * @param type $a_target_directory
-	 * @param type $a_file
-	 * @param type $a_tpl
-	 * @param type $a_content
-	 * @param type $a_right_content
-	 * @return string 
-	 */
-	protected function writeExportFile($a_target_directory, $a_file, $a_tpl, $a_content, $a_right_content = null, $a_back = null)
-	{
-		$file = $a_target_directory."/".$a_file;
-		// return if file is already existing
-		if (@is_file($file))
-		{
-			return;
-		}		
-		
-		// export template: page content
-		$ep_tpl = new ilTemplate("tpl.export_page.html", true, true,
-			"Modules/Blog");		
-		if($a_back)
-		{
-			$ep_tpl->setVariable("PAGE_CONTENT", $a_content);		
-		}
-		else
-		{
-			$ep_tpl->setVariable("LIST", $a_content);	
-		}	
-		unset($a_content);
-		$a_tpl->setContent($ep_tpl->get());		
-		unset($ep_tpl);
-
-		// template: right content			
-		if($a_right_content)
-		{
-			$a_tpl->setRightContent($a_right_content);
-			unset($a_right_content);
-		}			
-
-		$content = $a_tpl->getSpecial("DEFAULT", false, false, false,
-			true, true, true);		
-
-		// open file
-		if (!file_put_contents($file, $content))
-		{
-			die ("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-		}
-
-		// set file permissions
-		chmod($file, 0770);
-		
-		return $file;
-	}
-	
 	function getNotesSubId()
 	{
 		return $this->blpg;
@@ -3034,7 +2762,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 	}
 		
-	protected function filterItemsByKeyWord(array $a_items, $a_keyword)
+	public function filterItemsByKeyWord(array $a_items, $a_keyword)
 	{		
 		$res = array();
 		foreach($a_items as $month => $items)

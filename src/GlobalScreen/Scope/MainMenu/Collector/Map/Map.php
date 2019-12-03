@@ -5,7 +5,9 @@ use ArrayObject;
 use Closure;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\NullIdentification;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 
 /**
@@ -141,6 +143,31 @@ class Map implements Filterable, Walkable
     public function filter(Closure $c) : void
     {
         $this->filter = new \CallbackFilterIterator($this->filter, $c);
+    }
+
+
+    public function sort()
+    {
+        $this->map->uasort(function (isItem $item_one, isItem $item_two) : bool {
+            /**
+             * @var $parent isParent
+             */
+            if ($item_one instanceof isChild) {
+                $parent = $this->get($item_one->getParent());
+                $position_item_one = ($parent->getPosition() * 1000) + $item_one->getPosition();
+            } else {
+                $position_item_one = $item_one->getPosition();
+            }
+
+            if ($item_two instanceof isChild) {
+                $parent = $this->get($item_two->getParent());
+                $position_item_two = ($parent->getPosition() * 1000) + $item_two->getPosition();
+            } else {
+                $position_item_two = $item_two->getPosition();
+            }
+
+            return $position_item_one > $position_item_two;
+        });
     }
 
 

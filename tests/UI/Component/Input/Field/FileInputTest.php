@@ -78,6 +78,24 @@ class FileInputTest extends ILIAS_UI_TestBase
             {
                 return 'removalurl';
             }
+
+
+            /**
+             * @inheritDoc
+             */
+            public function getExistingFileInfoURL() : string
+            {
+                return 'infourl';
+            }
+
+
+            /**
+             * @inheritDoc
+             */
+            public function getInfoForExistingFiles(array $file_ids) : array
+            {
+                return [];
+            }
         };
     }
 
