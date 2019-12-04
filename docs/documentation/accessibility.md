@@ -304,7 +304,7 @@ How to: [Understand Text Spacing](https://www.w3.org/WAI/WCAG21/Understanding/te
 
 How to: [Meet Text Spacing](https://www.w3.org/WAI/WCAG21/quickref/#text-spacing)
 
-In content implemented using markup languages that support the following text style properties, no loss of content or functionality MUST occurs by setting all of the following and by changing no other style property:
+In content implemented using markup languages that support the following text style properties, no loss of content or functionality MUST occur by setting all of the following and by changing no other style property:
 
 - Line height (line spacing) to at least 1.5 times the font size;
 
