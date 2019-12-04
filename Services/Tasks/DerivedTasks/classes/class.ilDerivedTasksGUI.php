@@ -130,6 +130,14 @@ class ilDerivedTasksGUI
 				$link = ilLink::_getStaticLink($i->getRefId());
 			}
 
+			if ($i->getWspId() > 0)
+			{
+				$wst = new ilWorkspaceTree($this->user->getId());
+				$obj_id = $wst->lookupObjectId($i->getWspId());
+				$obj_type = ilObject::_lookupType($obj_id);
+				$props[$lng->txt("obj_".$obj_type )] = ilObject::_lookupTitle($obj_id);
+			}
+
 			if (strlen($i->getUrl()) > 0) {
 				$link = $i->getUrl();
 			}

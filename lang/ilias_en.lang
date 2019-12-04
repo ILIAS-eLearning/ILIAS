@@ -9672,6 +9672,7 @@ rbac#:#rbac_create_chtr#:#Create Chat Room
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
+blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_final#:#Publish Posting
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted

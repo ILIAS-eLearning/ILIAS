@@ -52,6 +52,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 	protected $gtp;
 
 	/**
+	 * edit command
+	 * @var string
+	 */
+	protected $edt;
+
+	/**
 	 * @var int
 	 */
 	protected $blpg;
@@ -132,6 +138,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		$ilCtrl = $DIC->ctrl();
 
 		$this->gtp = (int) $_GET["gtp"];
+		$this->edt = $_GET["edt"];
 		$this->blpg = (int) $_REQUEST["blpg"];
 		$this->old_nr = (int) $_GET["old_nr"];
 		$this->ppage = (int) $_GET["ppage"];
@@ -607,7 +614,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				// #12312
 				$ilCtrl->setCmdClass("ilblogpostinggui");
 				$ilCtrl->setParameterByClass("ilblogpostinggui", "blpg", $page_id);
-				$ilCtrl->redirectByClass("ilblogpostinggui", "previewFullscreen");
+				if ($this->edt == "edit") {
+					$ilCtrl->redirectByClass("ilblogpostinggui", "edit");
+				}
+				else {
+					$ilCtrl->redirectByClass("ilblogpostinggui", "previewFullscreen");
+				}
 			}
 			else
 			{
@@ -3240,6 +3252,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				{
 					$ilCtrl->setParameterByClass("ilSharedResourceGUI", "kwd", $id[1]);
 				}
+				if($id[2] == "edit")
+				{
+					$ilCtrl->setParameterByClass("ilSharedResourceGUI", "edt", $id[2]);
+				}
 			}
 			$ilCtrl->redirectByClass("ilSharedResourceGUI", "");
 		}
@@ -3251,7 +3267,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 			$ilCtrl->initBaseClass("ilRepositoryGUI");
 			$ilCtrl->setParameterByClass("ilRepositoryGUI", "ref_id", $id[0]);
 
-			if(sizeof($id) == 2)
+			if(sizeof($id) >= 2)
 			{
 				if(is_numeric($id[1]))
 				{
@@ -3260,7 +3276,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 				else
 				{
 					$ilCtrl->setParameterByClass("ilRepositoryGUI", "kwd", $id[1]);
-				}				
+				}
+
+				if($id[2] == "edit")
+				{
+					$ilCtrl->setParameterByClass("ilRepositoryGUI", "edt", $id[2]);
+				}
 			}
 			$ilCtrl->redirectByClass("ilRepositoryGUI", "preview");
 		}

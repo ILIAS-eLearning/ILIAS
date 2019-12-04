@@ -35,14 +35,15 @@ class ilDerivedTaskFactory
 	 * Subservice for derived tasks
 	 *
 	 * @param string $title
-	 * @param string $ref_id
+	 * @param int $ref_id
 	 * @param int $deadline
 	 * @param int $starting_time
+	 * @param int $wsp_id
 	 * @return ilDerivedTask
 	 */
-	public function task(string $title, string $ref_id, int $deadline, int $starting_time): ilDerivedTask
+	public function task(string $title, int $ref_id, int $deadline, int $starting_time, int $wsp_id = 0): ilDerivedTask
 	{
-		return new ilDerivedTask($title, $ref_id, $deadline, $starting_time);
+		return new ilDerivedTask($title, $ref_id, $deadline, $starting_time, $wsp_id);
 	}
 
 	/**

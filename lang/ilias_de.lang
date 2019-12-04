@@ -1896,6 +1896,7 @@ blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_draft#:#Entwurf
 blog#:#blog_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
+blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
