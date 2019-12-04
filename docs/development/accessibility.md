@@ -791,10 +791,8 @@ Check how your suggested element fits into our semantic structures.
 ## Headings and Labels and Language
 6.	Our headings and labels have to be clear and descriptive (2.4.6). 
 7.	Provide clear and descriptive labels for any field that requires input. AND one of the following (3.3.2)
-
-•	Provide text instructions describing the necessary input in a by-line to the field.
-•	Use aria-describedby property to provide information about a user interface element. 
-
+	* Provide text instructions describing the necessary input in a by-line to the field.
+	* Use aria-describedby property to provide information about a user interface element. 
 8.	Always use the language attribute on the HTML element. Screen readers change pronunciation automatically. (3.1.1)
 9.	Indicate the language for each chunk of text (3.1.2). Using the language attribute on the HTML element. Screen readers change pronunciation automatically. 
 10.	Functional and informative components, i.e. labels and icons, must have consistent labels, aria-labels and alt-texts. 
@@ -817,15 +815,9 @@ Please check your suggested element for colour and contrast issues.
 22.	Use an onchange event on a select element to update other elements i.e. in a form without causing a change of context. (3.2.2)
 ## Messages 
 23.	Make users aware that an error has occurred and help them to determine what is wrong i.e. by indicating form fields in the error message.  Make failure messages as specific as possible.  (3.3.1)
-
-
-- Use aria-required property to identify required fields.
-- Use role aria-invalid on required fields that have no input. 
-- Use aria role alertdialog for the Failure message. 
-
-
-•	Use aria role alertdialog for the Failure message. 
-
+	* Use aria-required property to identify required fields.
+	* Use role aria-invalid on required fields that have no input. 
+	* Use aria role alertdialog for the Failure message.  
 24.	We must have confirmation dialogues before an action is taken that has serious consequences and / or cannot be reversed i.e. deleting objects. (3.3.4)
 25.	Use the aria role status for status messages. (4.1.3)
 ## Extra Content 
@@ -835,9 +827,9 @@ Please check your suggested element for colour and contrast issues.
 28.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
 29.	Keyboard focus must be always visible. The element that has focus gets a corona. (2.4.7) 
 30.	Tabbing order must be sensible and predictable. The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
-31.	If an element gains focus it must not 
-o	transfer users to a different context automatically and without warning i.e. open a new window. 
-o	Carry out an action automatically i.e. submit a form after a save-button received focus. 
+31.	If an element gains focus it must not
+	* transfer users to a different context automatically and without warning i.e. open a new window. 
+	* Carry out an action automatically i.e. submit a form after a save-button received focus. 
 Give users advanced warning when opening a new window i.e. by using the target attribute which provides an unambiguously machine-readable indication that a new window will open. (3.2.1)
 Give users a submit-button to initiate change of context. 
 ## Access Keys
@@ -850,14 +842,9 @@ Moving information
 36.	People must be able to operate ILIAS with a single pointer (finger or mouse) and low accuracy (2.5.1). Making people use two fingers to enlarge something is not OK. Making people grab something and accurately put it first to point A to progress to point B is not OK.
 ## Requirements we meet and do not have to work on 
 
-•	ILIAS deals equally well with landscape and portrait orientation. To use show/hide controls for different orientations is fine. (1.3.4)
-
-•	We do not use images of text except for the logo (1.4.5)
-
-•	Every ILIAS Installation has a title. (2.4.2)
-
-•	Colour is never used as the only way to convey information (1.4.1)
-
-•	We provide different ways to allow locating content: Search, trees, breadcrumb (2.4.5)
-
-•	In some games tilting your phone will make the car turn. We do not use shaking, tilting or the like to operate ILIAS. (2.5.4)
+* ILIAS deals equally well with landscape and portrait orientation. To use show/hide controls for different orientations is fine. (1.3.4)
+* We do not use images of text except for the logo (1.4.5)
+* Every ILIAS Installation has a title. (2.4.2)
+* Colour is never used as the only way to convey information (1.4.1)
+* We provide different ways to allow locating content: Search, trees, breadcrumb (2.4.5)
+* In some games tilting your phone will make the car turn. We do not use shaking, tilting or the like to operate ILIAS. (2.5.4)
