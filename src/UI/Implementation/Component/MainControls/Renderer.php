@@ -56,7 +56,7 @@ class Renderer extends AbstractComponentRenderer
                     if($is_tool) {
                         $pos = 'T';
                     }
-                    return $this->calculateMainBarTreePosition("$pos:$num", $slate, $is_tool);
+                    return $this->calculateMainBarTreePosition("$pos:$num", $slate);
                 }
             );
     }
