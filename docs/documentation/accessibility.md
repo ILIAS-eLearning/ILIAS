@@ -827,7 +827,11 @@ Please check your suggested element for colour and contrast issues.
 ## Messages 
 23.	Make users aware that an error has occurred and help them to determine what is wrong i.e. by indicating form fields in error.  Make Failure Message messages as specific as possible.  (3.3.1)
 
-•	Use aria-required property to identify required fields Use role aria-invalid on required fields that have no input. 
+
+- Use aria-required property to identify required fields.
+- Use role aria-invalid on required fields that have no input. 
+- Use aria role alertdialog for the Failure message. 
+
 
 •	Use aria role alertdialog for the Failure message. 
 
