@@ -22,6 +22,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	const CMD_ENABLE = 'enable';
 	const CMD_DISABLE = 'disable';
 
+	private static $switch_to_ref_id = [
+		ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
+		ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
+	];
+
 	/**
 	 * @var ilTemplate
 	 */
@@ -35,7 +40,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 */
 	public $toolbar;
 	/**
-	 * @var ilLng
+	 * @var ilLanguage
 	 */
 	public $lng;
 	/**
@@ -58,6 +63,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 	 * @var Psr\Http\Message\ServerRequestInterface
 	 */
 	protected $request;
+	/**
+	 * @var ilTree
+	 */
+	protected $tree;
+
 	public function __construct(
 		ilGlobalTemplateInterface $tpl,
 		ilCtrl $ilCtrl,
@@ -98,11 +108,59 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 			case "getAsynchModalOutput":
 				$this->getAsynchModalOutput();
 				break;
+			case "nextStep":
+				$this->nextStep();
+				break;
 			default:
 				throw new ilException("ilObjStudyProgrammeAutoMembershipsGUI: ".
 									  "Command not supported: $cmd");
 		}
 	}
+
+	protected function nextStep()
+	{
+		$current_src_type = null;
+		if(
+			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET) &&
+			! is_null($_GET[self::F_ORIGINAL_SOURCE_TYPE])
+		) {
+			$current_src_type = $_GET[self::F_ORIGINAL_SOURCE_TYPE];
+		}
+		$current_src_id = null;
+		if(
+			array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET) &&
+			! is_null($_GET[self::F_ORIGINAL_SOURCE_ID])
+		) {
+			$current_src_id = (int)$_GET[self::F_ORIGINAL_SOURCE_ID];
+		}
+
+		$selected_src_type = $_GET[self::F_SOURCE_TYPE];
+		$selected_src = $_GET[self::F_SOURCE_ID];
+
+		$form = $this->getSelectionForm(
+			$selected_src_type,
+			$selected_src,
+			$current_src_type,
+			$current_src_id
+		);
+		$form_id = "form_".$form->getId();
+
+		$modal = $this->ui_factory->modal()->roundtrip(
+			$this->txt('modal_member_auto_select_title'),
+			$this->ui_factory->legacy($form->getHtml())
+		);
+
+		$submit = $this->ui_factory->button()->primary($this->txt('save'), "#")->withOnLoadCode(
+			function ($id) use ($form_id) {
+				return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+			});
+
+		$modal = $modal->withActionButtons([$submit]);
+
+		echo $this->ui_renderer->renderAsync($modal);
+		exit;
+	}
+
 	/**
 	 * Render.
 	 */
@@ -150,6 +208,19 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		$post = $_POST;
 		$src_type = $post[self::F_SOURCE_TYPE];
 		$src_id = (int)$post[self::F_SOURCE_ID.$src_type];
+
+		if(
+			(is_null($src_type) || $src_type == "") ||
+			(is_null($src_id) || $src_id == 0)
+		) {
+			return;
+		}
+
+		if(in_array($src_type, self::$switch_to_ref_id)) {
+			$src_id = (int)array_shift(
+				ilObject::_getAllReferences($src_id)
+			);
+		}
 
 		if(
 			array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $post) &&
@@ -287,14 +358,56 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		}
 		$form = $this->getForm($current_src_type, $current_src_id);
 		$form_id = "form_".$form->getId();
-		$submit = $this->ui_factory->button()->primary($this->txt('search'), "#")->withOnLoadCode(
-			function ($id) use ($form_id) {
-				return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
-			});
+
 		$modal = $this->ui_factory->modal()->roundtrip(
-			$this->txt('modal_categories_title'),
+			$this->txt('modal_member_auto_select_title'),
 			$this->ui_factory->legacy($form->getHtml())
-		)->withActionButtons([$submit]);
+		);
+
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $current_src_type);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $current_src_id);
+		$link = $this->ctrl->getLinkTarget($this, "nextStep", "", true);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, null);
+		$this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, null);
+
+		$replaceSignal = $modal->getReplaceSignal();
+		$signal_id = $replaceSignal->getId();
+		$f_selected_type = self::F_SOURCE_TYPE;
+		$f_selected_id = self::F_SOURCE_ID;
+		$submit = $this->ui_factory->button()->primary($this->txt('search'), "#")->withOnLoadCode(
+			function($id) use ($form_id, $link, $signal_id, $f_selected_type, $f_selected_id) {
+				return
+					"$('#{$id}').click(function() { 
+						var checked = $(\"input[name='{$f_selected_type}']:checked\"). val();
+						if(checked == 'orgu' || typeof(checked) == \"undefined\") {
+							$('#{$form_id}').submit();
+							return false;
+						}
+						
+						var i_value = $(\"input[name='{$f_selected_id}\" + checked + \"']\"). val();
+						if(i_value == '' || typeof(i_value) == \"undefined\") {
+							$('#{$form_id}').submit();
+							return false;
+						}
+						
+						n_url = '{$link}' + '&{$f_selected_type}=' + checked + '&{$f_selected_id}=' + i_value;
+						$('#{$id}').attr(\"onclick\", function(event) {
+							$(this).trigger('{$signal_id}',
+								{
+									'id' : '{$signal_id}', 'event' : 'click',
+									'triggerer' : $(this),
+									'options' : JSON.parse('{\"url\":\"' + n_url + '\"}')
+								}
+							);
+						});
+						return false;
+					}
+				);"
+				;
+			}
+		);
+
+		$modal = $modal->withActionButtons([$submit]);
 
 		echo $this->ui_renderer->renderAsync($modal);
 		exit;
@@ -320,44 +433,41 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		$form->addItem($rgroup);
 
 		$radio_role = new ilRadioOption(
-			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ROLE),
+			$this->txt('select_'.ilStudyProgrammeAutoMembershipSource::TYPE_ROLE),
 			ilStudyProgrammeAutoMembershipSource::TYPE_ROLE
 		);
 
-		$ni_role = new ilNumberInputGUI(
-			'',
+		$ni_role = new ilTextInputGUI(
+			$this->txt('label_'.ilStudyProgrammeAutoMembershipSource::TYPE_ROLE),
 			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_ROLE
 		);
-		$ni_role->setInfo($this->txt('membership_source_id_byline_objid'));
 		$radio_role->addSubItem($ni_role);
 		$rgroup->addOption($radio_role);
 
 		$radio_grp = new ilRadioOption(
-			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_GROUP),
+			$this->txt('select_'.ilStudyProgrammeAutoMembershipSource::TYPE_GROUP),
 			ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
 		);
-		$ni_grp = new ilNumberInputGUI(
-			'',
+		$ni_grp = new ilTextInputGUI(
+			$this->txt('label_'.ilStudyProgrammeAutoMembershipSource::TYPE_GROUP),
 			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
 		);
-		$ni_grp->setInfo($this->txt('membership_source_id_byline_refid'));
 		$radio_grp->addSubItem($ni_grp);
 		$rgroup->addOption($radio_grp);
 
 		$radio_crs = new ilRadioOption(
-			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_COURSE),
+			$this->txt('select_'.ilStudyProgrammeAutoMembershipSource::TYPE_COURSE),
 			ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
 		);
-		$ni_crs = new ilNumberInputGUI(
-			'',
+		$ni_crs = new ilTextInputGUI(
+			$this->txt('label_'.ilStudyProgrammeAutoMembershipSource::TYPE_COURSE),
 			self::F_SOURCE_ID.ilStudyProgrammeAutoMembershipSource::TYPE_COURSE
 		);
-		$ni_crs->setInfo($this->txt('membership_source_id_byline_refid'));
 		$radio_crs->addSubItem($ni_crs);
 		$rgroup->addOption($radio_crs);
 
 		$radio_orgu = new ilRadioOption(
-			$this->txt(ilStudyProgrammeAutoMembershipSource::TYPE_ORGU),
+			$this->txt('select_'.ilStudyProgrammeAutoMembershipSource::TYPE_ORGU),
 			ilStudyProgrammeAutoMembershipSource::TYPE_ORGU
 		);
 		$orgu = new ilRepositorySelector2InputGUI(
@@ -408,6 +518,81 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 		$form->addItem($hi);
 
 		return $form;
+	}
+
+	protected function getSelectionForm(
+		string $selected_source_type,
+		string $selected_source,
+		string $source_type = null,
+		int $source_id = null
+	) : ilPropertyFormGUI {
+		$form = new ilPropertyFormGUI();
+		$form->setFormAction($this->ctrl->getFormAction($this, "save"));
+
+		$query_parser = $this->parseQueryString($selected_source);
+		include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
+		$object_search = new ilLikeObjectSearch($query_parser);
+		$object_search->setFilter(array($selected_source_type));
+		$entries = $object_search->performSearch()->getEntries();
+
+		$rgoup = new ilRadioGroupInputGUI(
+			$this->txt("prg_auto_member_select_".$selected_source_type),
+			self::F_SOURCE_ID.$selected_source_type
+		);
+		$form->addItem($rgoup);
+		foreach($entries as $entry) {
+			$obj_id = $entry['obj_id'];
+			$title = ilObject::_lookupTitle($obj_id);
+			$description = ilObject::_lookupDescription($obj_id);
+
+			$option = new ilRadioOption($title, $obj_id, $description);
+			$rgoup->addOption($option);
+		}
+
+		$hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_TYPE);
+		$hi->setValue($source_type);
+		$form->addItem($hi);
+
+		$hi = new ilHiddenInputGUI(self::F_ORIGINAL_SOURCE_ID);
+		$hi->setValue($source_id);
+		$form->addItem($hi);
+
+		$hi = new ilHiddenInputGUI(self::F_SOURCE_TYPE);
+		$hi->setValue($selected_source_type);
+		$form->addItem($hi);
+
+		return $form;
+	}
+
+	protected function parseQueryString($a_string, $a_combination_or = true, $a_ignore_length = false)
+	{
+		$query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
+		$query_parser->setCombination(QP_COMBINATION_AND);
+		$query_parser->setMinWordLength(1);
+
+		// #17502
+		if (!(bool) $a_ignore_length) {
+			$query_parser->setGlobalMinLength(3); // #14768
+		}
+
+		$query_parser->parse();
+
+		if (!$query_parser->validate()) {
+			return $query_parser->getMessage();
+		}
+		return $query_parser;
+	}
+
+	public function __storeEntries(&$new_res)
+	{
+		if ($this->stored == false) {
+			$this->result_obj->mergeEntries($new_res);
+			$this->stored = true;
+			return true;
+		} else {
+			$this->result_obj->intersectEntries($new_res);
+			return true;
+		}
 	}
 
 	/**

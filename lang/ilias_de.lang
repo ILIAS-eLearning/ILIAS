@@ -15958,3 +15958,14 @@ prg#:#prg_update_expire_date#:#Ablauf Qualifikation erfolgreich aktualisiert.
 prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
 prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
 prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
+prg#:#select_crs#:#Nach Kursen suchen
+prg#:#select_grp#:#Nach Gruppen suchen
+prg#:#select_role#:#Nach Rollen suchen
+prg#:#select_org#:#Nach Organisationseinheiten suchen
+prg#:#label_crs#:#Kursname
+prg#:#label_grp#:#Gruppenname
+prg#:#label_role#:#Rollenname
+prg#:#modal_member_auto_select_title#:#Quelle für automatische Zuweisung wählen
+prg#:#prg_auto_member_select_crs#:#Kurse
+prg#:#prg_auto_member_select_grp#:#Gruppen
+prg#:#prg_auto_member_select_role#:#Rollen
