@@ -175,4 +175,10 @@ abstract class Slate implements ISlate\Slate
     {
         return $this->mainbar_tree_position;
     }
+
+    public function getMainBarTreeDepth()
+    {
+        $pos = explode(':', $this->mainbar_tree_position);
+        return count($pos) - 1;
+    }
 }

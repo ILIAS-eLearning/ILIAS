@@ -84,6 +84,11 @@ class Renderer extends AbstractComponentRenderer
         ];
 
         $mb_id = $component->getMainBarTreePosition();
+
+        if($mb_id) {
+            $tpl->setVariable('TREE_DEPTH', $component->getMainBarTreeDepth());
+        }
+
         $component = $component->withAdditionalOnLoadCode(
             function ($id) use ($slate_signals, $mb_id) {
                 $js = "fn = il.UI.maincontrols.slate.onSignal;";
