@@ -73,7 +73,6 @@ class Notifications
 
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                var_dump($notification->getProviderIdentification()->serialize());
                 if (in_array($this->hash($notification->getProviderIdentification()->serialize()), $identifiers, true)) {
                     $notification->getOpenedCallable()();
                 }
