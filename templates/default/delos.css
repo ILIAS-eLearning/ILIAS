@@ -10531,36 +10531,47 @@ footer {
   content: "\1f620";
 }
 .glyphicon-option-horizontal:before {
+  font-family: il-icons;
   content: "\e602";
 }
 .glyphicon-remove:before {
+  font-family: il-icons;
   content: "\e082";
 }
 .glyphicon-briefcase:before {
+  font-family: il-icons;
   content: "\e04b";
 }
 .glyphicon-bell:before {
+  font-family: il-icons;
   content: "\e027";
 }
 .glyphicon-comment:before {
+  font-family: il-icons;
   content: "\e04a";
 }
 .glyphicon-envelope:before {
+  font-family: il-icons;
   content: "\e086";
 }
 .glyphicon-question-sign:before {
+  font-family: il-icons;
   content: "\e05d";
 }
 .glyphicon-search:before {
+  font-family: il-icons;
   content: "\e090";
 }
 .glyphicon-user:before {
+  font-family: il-icons;
   content: "\e005";
 }
 .glyphicon-minus-sign:before {
+  font-family: il-icons;
   content: "\e065";
 }
 .glyphicon-cog:before {
+  font-family: il-icons;
   content: "\e09a";
 }
 .glyphicon-login:before {
@@ -10575,7 +10586,8 @@ footer {
   font-family: il-icons;
   content: "\e618";
 }
-.il-metabar-entries .glyphicon-user:before {
+.glyphicon-user:before {
+  font-family: il-icons;
   content: "\e001";
 }
 .il-link.link-bulky {
