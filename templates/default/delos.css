@@ -9000,6 +9000,7 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
+  margin-top: 3px;
   margin-right: 10px;
 }
 .il-maincontrols-slate .btn-bulky .icon.custom,
