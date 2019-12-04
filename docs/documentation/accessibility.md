@@ -825,7 +825,7 @@ Please check your suggested element for colour and contrast issues.
 21.	All input fields gathering information about the user have a label clearly stating the purpose of this field (1.3.5).
 22.	Use an onchange event on a select element to update other elements i.e. in a form without causing a change of context. (3.2.2)
 ## Messages 
-23.	Make users aware that an error has occurred and help them to determine what is wrong i.e. by indicating form fields in error.  Make Failure Message messages as specific as possible.  (3.3.1)
+23.	Make users aware that an error has occurred and help them to determine what is wrong i.e. by indicating form fields in the error message.  Make failure messages as specific as possible.  (3.3.1)
 
 
 - Use aria-required property to identify required fields.
