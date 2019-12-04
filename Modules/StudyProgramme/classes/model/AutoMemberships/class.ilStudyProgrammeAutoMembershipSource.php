@@ -9,7 +9,7 @@ declare(strict_types = 1);
 */
 class ilStudyProgrammeAutoMembershipSource
 {
-	const TYPE_ROLE = 'rol';
+	const TYPE_ROLE = 'role';
 	const TYPE_GROUP = 'grp';
 	const TYPE_COURSE = 'crs';
 	const TYPE_ORGU = 'orgu';

@@ -15941,3 +15941,14 @@ prg#:#update_expire_date#:#Successfuly update expire date.
 prg#:#update_deadline#:#Successfuly update deadline.
 prg#:#error_updating_expire_date#:#Error during updating expire date.
 prg#:#error_updating_deadline#:#Error during updating deadline.
+prg#:#select_crs#:#Search for Courses
+prg#:#select_grp#:#Search for Groups
+prg#:#select_role#:#Search for Roles
+prg#:#select_org#:#Search for Organisational Unit
+prg#:#label_crs#:#Course Name
+prg#:#label_grp#:#Group Name
+prg#:#label_role#:#Role Name
+prg#:#modal_member_auto_select_title#:#Select Source for auto assignment
+prg#:#prg_auto_member_select_crs#:#Courses
+prg#:#prg_auto_member_select_grp#:#Groups
+prg#:#prg_auto_member_select_role#:#Roles
