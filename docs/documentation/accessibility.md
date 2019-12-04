@@ -455,7 +455,7 @@ How to: [Understand Three Flashes or Below Threshold](https://www.w3.org/WAI/WCA
 
 How to: [Meet Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/quickref/#three-flashes-or-below-threshold)
 
-Web pages MUST not contain anything that flashes more than three times in any one second period, or the flash is below the general flash nd red flash thresholds.
+Web pages MUST not contain anything that flashes more than three times in any one second period, or the flash is below the general flash and red flash thresholds.
 
 ### Guideline Navigable
 Reference: WCAG 2.1 > 2.4 / EN 301 549 > 9.2.4
