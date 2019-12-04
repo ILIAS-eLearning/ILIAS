@@ -18,7 +18,7 @@ HTML-Content rendered by ILIAS shall conform to EN 301 549 / WCAG 2.1 Recommenda
 3.	No mode of operation relies exclusively on the perception of colour, there is at least one additional method of distinction. 
 4.	If there ever was an auditory mode of operation, there must be at least one mode of operation that does not require hearing. 
 5.	If there ever was a vocal mode of operation, there must be at least one mode that can be operated without vocal output. 
-6.	Controls that require manual action provide at least on mode of operation that does not require manipulation or hand strength. 
+6.	Controls that require manual action provide at least one mode of operation that does not require manipulation or hand strength. 
 7.	[Reach does not apply]
 8.	No control has the potential for triggering photosensitive seizures. 
 9.	We will try to accommodate users with limited cognitive, language or learning abilities. 
