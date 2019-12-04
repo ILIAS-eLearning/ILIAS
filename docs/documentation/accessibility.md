@@ -839,7 +839,7 @@ Please check your suggested element for colour and contrast issues.
 27.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
 28.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
 29.	Keyboard focus must be always visible. The element that has focus gets a corona (2.4.7) 
-30.	Tabbing order must be sensible and predictable.  The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably.  (2.4.3)
+30.	Tabbing order must be sensible and predictable. The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably. (2.4.3)
 31.	If an element gains focus it must not 
 o	transfer users to a different context automatically and without warning i.e. open a new window. 
 o	Carry out an action automatically i.e. submit a form after a save-button received focus. 
