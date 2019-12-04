@@ -34,4 +34,8 @@ class Legacy extends Slate implements ISlate\Legacy
     {
         return $this->contents;
     }
+
+    public function withMappedSubNodes(callable $f) {
+        return $this;
+    }
 }

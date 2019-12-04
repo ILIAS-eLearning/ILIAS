@@ -47,4 +47,8 @@ class Notification extends Slate implements ISlate\Notification
     {
         return $this->contents;
     }
+
+    public function withMappedSubNodes(callable $f) {
+        return $this;
+    }
 }
