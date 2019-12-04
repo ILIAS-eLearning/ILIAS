@@ -19,10 +19,9 @@ HTML-Content rendered by ILIAS shall conform to EN 301 549 / WCAG 2.1 Recommenda
 4.	If there ever was an auditory mode of operation, there must be at least one mode of operation that does not require hearing. 
 5.	If there ever was a vocal mode of operation, there must be at least one mode that can be operated without vocal output. 
 6.	Controls that require manual action provide at least one mode of operation that does not require manipulation or hand strength. 
-7.	[Reach does not apply]
-8.	No control has the potential for triggering photosensitive seizures. 
-9.	We will do our best to accommodate users with limited cognitive, language or learning abilities. 
-10.	ILIAS can be operated with assistive technology without compromising the privacy of a user. 
+7.	No control has the potential for triggering photosensitive seizures. 
+8.	We will do our best to accommodate users with limited cognitive, language or learning abilities. 
+9.	ILIAS can be operated with assistive technology without compromising the privacy of a user. 
 
 If proposing a new KS component, one MUST make sure the element conforms with the guideline listed here. If the conformity can only be achieved by the client of the element, one has to state a rule refering back to the corresponding rule in this document
 
