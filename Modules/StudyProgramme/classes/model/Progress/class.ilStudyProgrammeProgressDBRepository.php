@@ -359,7 +359,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             ->setStatus((int)$row[self::FIELD_STATUS])
             ->setAmountOfPoints((int)$row[self::FIELD_POINTS])
             ->setCurrentAmountOfPoints((int)$row[self::FIELD_POINTS_CUR])
-            ->setCompletionBy($row[self::FIELD_COMPLETION_BY])
+            ->setCompletionBy((int)$row[self::FIELD_COMPLETION_BY])
             ->setDeadline(
                 $row[self::FIELD_DEADLINE] ?
                     DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
