@@ -9001,7 +9001,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
   margin-top: 3px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .il-maincontrols-slate .btn-bulky .icon.custom,
 .il-maincontrols-slate .link-bulky .icon.custom {
@@ -9150,7 +9150,8 @@ footer {
   filter: invert(50%);
   font-family: 'il-icons';
   font-size: 2rem;
-  margin-right: 10px;
+  margin-right: 5px;
+  position: relative;
 }
 .il-maincontrols-metabar .input-group {
   display: block;
@@ -9166,14 +9167,19 @@ footer {
   margin-top: 5px;
   display: block;
 }
+.il-metabar-entries .badge {
+  position: absolute;
+}
 .il-metabar-entries .btn {
   position: relative;
 }
 .il-metabar-entries .il-counter-novelty {
-  margin-top: -20px;
+  margin-top: 0;
+  top: 17px;
 }
 .il-metabar-entries .il-counter-status {
-  margin-top: -4px;
+  margin-top: 0;
+  top: 32px;
 }
 .il-metabar-entries > .btn-bulky > .bulky-label {
   display: none;
@@ -9260,13 +9266,20 @@ footer {
   .il-header-locator {
     display: block;
   }
+  .il-metabar-entries .il-counter-novelty {
+    top: 7px;
+  }
+  .il-metabar-entries .il-counter-status {
+    top: 22px;
+  }
   .il-metabar-slates .glyphicon {
     color: #aaa;
     font-size: 2rem;
   }
   .il-metabar-slates .il-counter-status,
   .il-metabar-slates .il-counter-novelty {
-    margin-top: -20px;
+    margin-top: 0;
+    top: 5px;
   }
   .il-metabar-slates .bulky-label {
     margin-left: 10px;

@@ -16,6 +16,7 @@
 		font-family: 'il-icons';
 		font-size: @il-slate-bulky-glyph-size;
 		margin-right: @il-slate-bulky-glyph-margin-right;
+		position: relative;
 	}
 	.input-group {
 		display: block;
@@ -35,14 +36,19 @@
 }
 
 .il-metabar-entries {
+	.badge {
+		position: absolute;
+	}
 	.btn {
 		position: relative;
 	}
 	.il-counter-novelty {
-		margin-top: -20px;
+		margin-top: 0;
+		top: 17px;
 	}
 	.il-counter-status {
-		margin-top: -4px;
+		margin-top: 0;
+		top: 32px;
 	}
 	// no display labels in metabar level 1
 	> .btn-bulky > .bulky-label {
@@ -141,6 +147,14 @@
 	.il-header-locator {
 		display: block;
 	}
+	.il-metabar-entries {
+		.il-counter-novelty {
+			top: 7px;
+		}
+		.il-counter-status {
+			top: 22px;
+		}
+	}
 
 	.il-metabar-slates {
 		.glyphicon {
@@ -149,7 +163,8 @@
 		}
 		.il-counter-status,
 		.il-counter-novelty {
-			margin-top: -20px;
+			margin-top: 0;
+			top: 5px
 		}
 		.bulky-label {
 			margin-left: 10px;
