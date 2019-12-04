@@ -10571,6 +10571,9 @@ footer {
   font-family: il-icons;
   content: "\e065";
 }
+.glyphicon-lang:before {
+  content: "\e618";
+}
 .il-metabar-entries .glyphicon-user:before {
   content: "\e001";
 }
