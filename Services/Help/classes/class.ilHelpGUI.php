@@ -1,18 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once ("Services/Help/classes/class.ilHelp.php");
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 /**
-* Help GUI class.
-*
-* @author	Alex Killing <alex.killing@gmx.de>
-* @version	$Id$
-*
-* @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
-*
-*/
+ * Help GUI class.
+ *
+ * @author	Alex Killing <alex.killing@gmx.de>
+ *
+ * @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
+ *
+ */
 class ilHelpGUI
 {
 	/**
@@ -46,6 +45,11 @@ class ilHelpGUI
      * @var \ILIAS\DI\UIServices
      */
 	protected $ui;
+
+    /**
+     * @var ?array
+     */
+	protected $raw_menu_items = null;
 
 	/**
 	* constructor
@@ -264,7 +268,7 @@ class ilHelpGUI
 				$grp_list = new ilGroupedListGUI();
 				foreach ($pages as $pg)
 				{ 
-					$grp_list->addEntry(ilLMObject::_lookupTitle($pg["child"]), "#", "",
+					$grp_list->addEntry($this->replaceMenuItemTags(ilLMObject::_lookupTitle($pg["child"])), "#", "",
 						"return il.Help.showPage(".$pg["child"].");");
 				}
 				
@@ -325,7 +329,7 @@ class ilHelpGUI
 		
 		
 		$h_tpl->setVariable("HEAD",
-			ilLMObject::_lookupTitle($page_id));
+            $this->replaceMenuItemTags(ilLMObject::_lookupTitle($page_id)));
 		
 		include_once("./Services/COPage/classes/class.ilPageUtil.php");
 		if (!ilPageUtil::_existsAndNotEmpty("lm", $page_id))
@@ -355,7 +359,7 @@ class ilHelpGUI
 //echo htmlentities($link_xml);
 		$page_gui->setLinkXML($link_xml);
 		
-		$ret = $page_gui->showPage();
+		$ret = $this->replaceMenuItemTags($page_gui->showPage());
 
 		$h_tpl->setVariable("CONTENT", $ret);
 		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
@@ -597,6 +601,71 @@ class ilHelpGUI
 		echo $h_tpl->get();;
 		exit;
 	}
+
+
+
+
+    /**
+     * Help page post processing
+     *
+     * @param string $content
+     * @return string
+     * @throws Throwable
+     */
+	protected function replaceMenuItemTags(string $content): string
+	{
+	    global $DIC;
+
+        $mmc = $DIC->globalScreen()->collector()->mainmenu();
+	    if ($this->raw_menu_items == null) {
+            $mmc->collectStructure();
+            $this->raw_menu_items = iterator_to_array($mmc->getRawItems());
+        }
+
+        foreach ($this->raw_menu_items as $item) {
+            if ($item instanceof Item\LinkList) {
+                foreach ($item->getLinks() as $link) {
+                    $content = $this->replaceItemTag($mmc, $content, $link);
+                }
+            }
+            $content = $this->replaceItemTag($mmc, $content, $item);
+        }
+        return $content;
+	}
+
+	/**
+	 * Replace item tag
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function replaceItemTag($mmc, string $content, \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem $item)
+	{
+        $id = $item->getProviderIdentification()->getInternalIdentifier();
+        $ws= "[ \t\r\f\v\n]*";
+
+        // menu item path
+        while (preg_match("~\[(menu".$ws."path$ws=$ws(\"$id\")$ws)/\]~i", $content, $found))
+        {
+            $path = "";
+            if ($item->getParent() != null) {
+                $parent = $mmc->getSingleItem($item->getParent());
+                $path = $parent->getTitle()." > ";
+            }
+            $path.= $item->getTitle();
+            $content = preg_replace('~\['.$found[1].'/\]~i',
+                "<strong>".$path."</strong>", $content);
+        }
+        // menu item
+        while (preg_match("~\[(menu".$ws."item$ws=$ws(\"$id\")$ws)/\]~i", $content, $found))
+        {
+            $content = preg_replace('~\['.$found[1].'/\]~i',
+                "<strong>".$item->getTitle()."</strong>", $content);
+        }
+        return $content;
+	}
+
+
 
 }
 ?>

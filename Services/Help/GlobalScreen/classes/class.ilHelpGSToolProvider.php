@@ -46,7 +46,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
-                ->withInitiallyHidden(true)
+                ->withInitiallyHidden(false)
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {
