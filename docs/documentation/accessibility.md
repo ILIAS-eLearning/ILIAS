@@ -257,7 +257,7 @@ How to: [Understand Images of Text](https://www.w3.org/WAI/WCAG21/Understanding/
 
 How to: [Meet Images of Text](https://www.w3.org/WAI/WCAG21/quickref/#images-of-text)
 
-If the technologies being used can achieve the visual presentation, text is MUST be used to convey information rather than images of text except for the following:
+If the technologies being used can achieve the visual presentation, text MUST be used to convey information rather than images of text except for the following:
 
 - **Customizable**: The image of text can be visually customized to the user's requirements;
 - **Essential**: A particular presentation of text is essential to the information being conveyed. Logotypes (text that is part of a logo or brand name) are considered essential.
