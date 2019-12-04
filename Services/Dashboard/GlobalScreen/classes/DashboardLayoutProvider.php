@@ -7,11 +7,11 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\UI\Component\MainControls\MainBar;
 
 /**
- * Class PDLayoutProvider
+ * Class DashboardLayoutProvider
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class PDLayoutProvider extends AbstractModificationProvider implements ModificationProvider
+class DashboardLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     /**
      * @var Collection | null
