@@ -811,7 +811,7 @@ Check how your suggested element fits into our semantic structures.
 11.	All non-text elements (icons, glyphs, images, graphs and the like) must have alt-texts (1.1.1). Do they? For all their statuses? 
 12.	The aria-label for an element must contain the text the element presents (2.5.3). This is really important for speech input. 
 13.	Use aria-label to provide an invisible label where a visible label cannot be used. (4.1.2)
-14.	If drag & drop is uses wen have to make sure dropping can be cancel and that accessible names can be matched to visible labels. (2.5.2)
+14.	If drag & drop is used one has to make sure dropping can be cancel and that accessible names can be matched to visible labels. (2.5.2)
 ## Colour and Contrast
 Please check your suggested element for colour and contrast issues. 
 15.	Use of colour as a visual cue is only ok if it is accompanied by text or shape with alt-text 1.4.1.
