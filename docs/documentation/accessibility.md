@@ -837,7 +837,7 @@ Please check your suggested element for colour and contrast issues.
 26.	If an element like a tab gets keyboard focus or receives the pointer hover and then additional content i.e.  a tool tip or a popover is displayed. We have to make sure the additional content does not interfere with the usage of the rest of the page: The additional content must be dismissable i.e. by Esc or X. The additional content must be hoverable itself and not disappear once the trigger is left. (1.4.13)
 ## Tabbing and Focus
 27.	All functionality must be operable by tabbing or number pad arrows. (2.1.1) 
-28.	Users can tab to any control, operate it and tab away again. (2.1.2) 
+28.	Users can tab to any control, operate it, and tab away again. (2.1.2) 
 29.	Keyboard focus must be always visible. The element that has focus gets a corona (2.4.7) 
 30.	Tabbing order must be sensible and predictable.  The move of focus is following the meaning of the content and can be operated by tab. Moving focus should not jump around unpredictably.  (2.4.3)
 31.	If an element gains focus it must not 
