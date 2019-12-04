@@ -47,7 +47,7 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
 
         // "User"-Menu
         $item[] = $mb->topParentItem($id('user'))
-            ->withSymbol($f->symbol()->glyph()->user())
+            ->withSymbol($f->symbol()->glyph()->settings()) //Note only temporary until User Avatar is available
             ->withTitle("User")
             ->withPosition(4)
             ->withVisibilityCallable(
