@@ -19,7 +19,7 @@ class ilCertificateFactory
 			case 'tst':
 				$adapter = new ilTestCertificateAdapter($object);
 				$placeholderDescriptionObject = new ilTestPlaceholderDescription();
-				$placeholderValuesObject = new ilTestPlaceHolderValues();
+				$placeholderValuesObject = new ilTestPlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::TEST_PATH . $object->getId() . '/';
 				break;
 			case 'crs':
@@ -37,7 +37,7 @@ class ilCertificateFactory
 			case 'exc':
 				$adapter = new ilExerciseCertificateAdapter($object);
 				$placeholderDescriptionObject = new ilExercisePlaceholderDescription();
-				$placeholderValuesObject = new ilExercisePlaceHolderValues();
+				$placeholderValuesObject = new ilExercisePlaceholderValues();
 				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $object->getId() . '/';
 				break;
 			default:
