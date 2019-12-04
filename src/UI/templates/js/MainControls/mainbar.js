@@ -105,23 +105,37 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				mb.model.actions.initMoreButton(amount);
 				mb.renderer.render(mb.model.getState());
 			},
-			init = function(inititally_active) {
+			init = function(initially_active) {
 				var mb = il.UI.maincontrols.mainbar,
-					cookie_state = mb.persistence.read();
+					cookie_state = mb.persistence.read(),
+					init_state = mb.model.getState();
 
+				//apply cookie-state
 				if(Object.keys(cookie_state).length > 0) {
+					cookie_state.tools = init_state.tools;
 					mb.model.setState(cookie_state);
+				}
 
-					if(inititally_active) {
-
-						if(inititally_active === '_none') {
-							mb.model.actions.disengageAll();
-						} else if(cookie_state.entries[mappings[inititally_active]]) {
-							mb.model.actions.engageEntry(mappings[inititally_active]);
-						} else if(cookie_state.tools[mappings[inititally_active]]) {
-							mb.model.actions.engageTool(mappings[inititally_active]);
-						}
+				//initially active (from mainbar-component) will override cookie
+				if(initially_active) {
+					if(initially_active === '_none') {
+						mb.model.actions.disengageAll();
+					} else if(init_state.entries[mappings[initially_active]]) {
+						mb.model.actions.engageEntry(mappings[initially_active]);
+					} else if(init_state.tools[mappings[initially_active]]) {
+						mb.model.actions.engageTool(mappings[initially_active]);
 					}
+				}
+
+				init_state = mb.model.getState();
+				if(init_state.any_tools_visible()) {
+					/*
+					override potentially active entry, if there are
+						-tools
+						-that not have been closed before. (still to TODO)
+					*/
+					var tool_id = Object.keys(init_state.tools).slice(-1)[0] //check for engaged tools.
+					mb.model.actions.engageTool(tool_id);
 				}
 
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
@@ -285,6 +299,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					state.tools[entry_id] = reducers.entry.engage(state.tools[entry_id]);
 					state = reducers.bar.engageTools(state);
 					state = reducers.bar.anySlates(state);
+				},
+				engageTools: function() {
+					state = reducers.bar.engageTools(state);
 				},
 				removeTool: function (entry_id) {
 					state.tools[entry_id] = reducers.entry.mb_hide(state.tools[entry_id]);
@@ -599,18 +616,18 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 					parts.page.slatesEngaged(model_state.any_entry_engaged || model_state.tools_engaged);
 
+					if(model_state.any_tools_visible()) {
+						parts.tools_button.mb_show();
+					} else {
+						parts.tools_button.mb_hide();
+					}
+
 					if(model_state.tools_engaged){
 						parts.tools_button.engage();
 						parts.tools_area.engage();
-						parts.removers.mb_hide();
 					} else {
-						if(model_state.any_tools_visible()) {
-							parts.tools_button.mb_show(true); //hide on parent
-							parts.tools_button.disengage();
-							parts.tools_area.disengage();
-						} else {
-							parts.tools_button.mb_hide();
-						}
+						parts.tools_button.disengage();
+						parts.tools_area.disengage();
 					}
 
 					for(idx in model_state.entries) {
