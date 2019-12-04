@@ -55,30 +55,17 @@ class ImageAndTextDisplayDefinition extends AnswerDefinition {
 	    
 	    $fields = [];
 	    
-	    if (!is_null($play) &&
-	        method_exists($play->getEditorConfiguration(), 'isSingleLine') &&
-	        !$play->getEditorConfiguration()->isSingleLine()) 
-	    {
-	        $fields[] = new AsqTableInputFieldDefinition(
-	            $DIC->language()->txt('asq_label_answer_text'),
-	            AsqTableInputFieldDefinition::TYPE_TEXT_AREA,
-	            self::VAR_MCDD_TEXT
-	            );
-	    }
-	    else 
-	    {
-	        $fields[] = new AsqTableInputFieldDefinition(
-	            $DIC->language()->txt('asq_label_answer_text'),
-	            AsqTableInputFieldDefinition::TYPE_TEXT,
-	            self::VAR_MCDD_TEXT
-	            );
-	        
-	        $fields[] = new AsqTableInputFieldDefinition(
-	            $DIC->language()->txt('asq_label_answer_image'),
-	            AsqTableInputFieldDefinition::TYPE_IMAGE,
-	            self::VAR_MCDD_IMAGE
-	            );
-	    }
+        $fields[] = new AsqTableInputFieldDefinition(
+            $DIC->language()->txt('asq_label_answer_text'),
+            AsqTableInputFieldDefinition::TYPE_TEXT,
+            self::VAR_MCDD_TEXT
+            );
+        
+        $fields[] = new AsqTableInputFieldDefinition(
+            $DIC->language()->txt('asq_label_answer_image'),
+            AsqTableInputFieldDefinition::TYPE_IMAGE,
+            self::VAR_MCDD_IMAGE
+            );
 
 		return $fields;
 	}

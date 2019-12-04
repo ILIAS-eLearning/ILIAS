@@ -165,6 +165,17 @@ abstract class LegacyFormGUIBase extends ilPropertyFormGUI {
 	    
         $question->setAnswerOptions($this->readAnswerOptions($question));
         
+        $question = $this->processPostQuestion($question);
+        
+        return $question;
+    }
+    
+    /**
+     * @param QuestionDto $question
+     * @return QuestionDto
+     */
+    protected function processPostQuestion(QuestionDto $question) : QuestionDto
+    {
         return $question;
     }
 

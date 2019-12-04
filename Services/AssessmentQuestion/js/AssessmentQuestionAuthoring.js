@@ -188,6 +188,75 @@ $(document).on("change", "#editor, #presenter, #scoring", update_form);
 $(document).on("submit", "form", save_tiny);
 
 //**********************************************************************************************
+//Multiple Choice Authoring
+//**********************************************************************************************
+
+let image_header = '';
+
+let show_multiline_editor = function() {
+    tinymce.init({
+        selector : 'input[id$=mcdd_text]'
+    });
+    
+    $('input[id$=mcdd_image]').each(function(index, item) {
+        let td = $(item).parents('td');
+        td.children().hide();
+        
+        if (image_header.length == 0) {
+            let th = td.closest('table').find('th').eq(td.index())[0];
+            image_header = th.innerHTML;
+            th.innerHTML = '';
+        }
+    });
+}
+
+let hide_multiline_editor = function() {
+    $('input[id$=mcdd_text]').each(function(index, item) {
+        let element = $(item);
+        let editor = tinymce.get(element.attr('id'));
+
+        if(!editor) {
+            return;
+        }
+        
+        element.val(editor.getContent());
+        element.show();
+
+        tinymce.EditorManager.remove(editor);
+
+        element.siblings('.mceEditor').remove();
+    });
+    
+    $('input[id$=mcdd_image').each(function(index, item) {
+        let td = $(item).parents('td');
+        td.children().show();      
+        
+        if (image_header.length > 0) {
+            let th = td.closest('table').find('th').eq(td.index())[0];
+            th.innerHTML = image_header; 
+            image_header = '';
+                       
+        }
+    });
+}
+
+let update_editor = function() {
+    if ($('#singleline').val() == 'true') {
+        hide_multiline_editor();
+    }
+    else {
+        show_multiline_editor();
+    }
+}
+
+$(document).ready(function() {
+    update_editor();
+});
+
+
+$(document).on("change", "#singleline", update_editor);
+
+//**********************************************************************************************
 //ErrorTextQuestion Authoring
 //**********************************************************************************************
 
