@@ -225,7 +225,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<span class="bulky-label">TestEntry</span>
 						</button>
 
-						<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
+						<button class="btn btn-bulky" id="id_3" >
 							<div class="icon custom small" aria-label="">
 								<img src="" />
 							</div>
