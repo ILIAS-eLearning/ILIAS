@@ -70,17 +70,15 @@ class Notifications
     private function handleOpened() : void
     {
         $identifiers = $_GET[self::NOTIFICATION_IDENTIFIERS];
-        array_walk($identifiers, function (&$item) {
-            $this->unhash($item);
-        });
 
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if (in_array($notification->getProviderIdentification()->serialize(), $identifiers, true)) {
+                var_dump($notification->getProviderIdentification()->serialize());
+                if (in_array($this->hash($notification->getProviderIdentification()->serialize()), $identifiers, true)) {
                     $notification->getOpenedCallable()();
                 }
             }
-            if (in_array($notification_group->getProviderIdentification()->serialize(), $identifiers, true)) {
+            if (in_array($this->hash($notification_group->getProviderIdentification()->serialize()), $identifiers, true)) {
                 $notification_group->getOpenedCallable()();
             }
         }
@@ -95,7 +93,7 @@ class Notifications
         $id = $_GET[self::ITEM_ID];
         foreach ($this->notification_groups as $notification_group) {
             foreach ($notification_group->getNotifications() as $notification) {
-                if ($id === $notification->getProviderIdentification()->serialize()) {
+                if ($id === $this->hash($notification->getProviderIdentification()->serialize())) {
                     if ($notification->hasClosedCallable()) {
                         $notification->getClosedCallable()();
                     }
