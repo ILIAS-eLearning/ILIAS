@@ -852,7 +852,7 @@ Moving information
 34.	Any moving, blinking, scrolling, or auto-updating information that starts automatically and goes on must offer an option for users to pause, stop or hide it (2.2.2)
 35.	Consult https://www.w3.org/TR/wai-aria-practices-1.2/ to obtain guidance for your respective suggestion. 
 ## Manipulation by gestures
-36.	People must be able to operate ILIAS with a single pointer Finger or mouse) and low accuracy (2.5.1). Making people use two fingers to enlarge something is not OK. Making people grab something and accurately put it first to point A to progress to point B is not OK.
+36.	People must be able to operate ILIAS with a single pointer (finger or mouse) and low accuracy (2.5.1). Making people use two fingers to enlarge something is not OK. Making people grab something and accurately put it first to point A to progress to point B is not OK.
 ## Requirements we meet and do not have to work on 
 
 •	ILIAS deals equally well with landscape and portrait orientation. To use show/hide controls for different orientations is fine. (1.3.4)
