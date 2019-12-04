@@ -73,9 +73,7 @@ class QuestionTypeSelectForm extends ilPropertyFormGUI {
      * @return int|null
      */
 	public function getQuestionType() : ?int {
-		$val =  intval($_POST[self::VAR_QUESTION_TYPE]);
-		//return null for type new so that no legacy object will be generated
-		return $val === 0 ? null : $val;
+		return intval($_POST[self::VAR_QUESTION_TYPE]);
 	}
 
 

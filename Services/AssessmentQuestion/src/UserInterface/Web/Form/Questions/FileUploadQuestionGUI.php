@@ -1,14 +1,16 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\FormulaEditor;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\FormulaEditorConfiguration;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoring;
-use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringConfiguration;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\FileUploadScoring;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\FileUploadScoringConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\FileUploadEditor;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\FileUploadEditorConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
+
 /**
- * Class FormulaQuestionGUI
+ * Class FileUploadQuestionGUI
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -17,29 +19,30 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringConfiguration;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class FormulaQuestionGUI extends LegacyFormGUIBase {
+class FileUploadQuestionGUI extends QuestionFormGUI {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create
         (
-            new FormulaEditorConfiguration(),
-            new FormulaScoringConfiguration());
+            new FileUploadEditorConfiguration(),
+            new FileUploadScoringConfiguration()
+            );
     }
     
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            FormulaEditorConfiguration::readConfig(),
-            FormulaScoringConfiguration::readConfig());
+            FileUploadEditor::readConfig(),
+            FileUploadScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
     {
-        foreach (FormulaEditor::generateFields($play->getEditorConfiguration()) as $field) {
+        foreach (FileUploadEditor::generateFields($play->getEditorConfiguration()) as $field) {
             $this->addItem($field);
         }
         
-        foreach (FormulaScoring::generateFields($play->getScoringConfiguration()) as $field) {
+        foreach (FileUploadScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
     }

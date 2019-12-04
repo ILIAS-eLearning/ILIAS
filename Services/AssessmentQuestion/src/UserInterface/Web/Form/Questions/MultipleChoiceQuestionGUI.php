@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
@@ -11,6 +11,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\MultipleChoiceEd
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisplayDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 
 /**
  * Class MultipleChoiceQuestionGUI
@@ -22,7 +23,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageAndTextDisp
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class MultipleChoiceQuestionGUI extends LegacyFormGUIBase {
+class MultipleChoiceQuestionGUI extends QuestionFormGUI {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create

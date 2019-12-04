@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
@@ -10,6 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\EssayScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EssayEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EssayEditorConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyDisplayDefinition;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\EssayScoringDefinition;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
 /**
@@ -22,7 +23,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOption;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class EssayQuestionGUI extends LegacyFormGUIBase {
+class EssayQuestionGUI extends QuestionFormGUI {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create

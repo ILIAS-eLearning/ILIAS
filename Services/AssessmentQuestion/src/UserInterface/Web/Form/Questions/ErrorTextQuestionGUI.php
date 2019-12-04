@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
@@ -8,8 +8,8 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\ErrorTextScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ErrorTextEditorConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 
 /**
  * Class ErrorTextQuestionGUI
@@ -21,7 +21,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ErrorTextQuestionGUI extends LegacyFormGUIBase {
+class ErrorTextQuestionGUI extends QuestionFormGUI {
     /**
      * QuestionFormGUI constructor.
      *

@@ -1,12 +1,13 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\MultipleChoiceScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageMapEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageMapEditorConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 
 /**
  * Class ImageMapQuestionGUI
@@ -18,7 +19,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\ImageMapEditorCo
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ImageMapQuestionGUI extends LegacyFormGUIBase {
+class ImageMapQuestionGUI extends QuestionFormGUI {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create

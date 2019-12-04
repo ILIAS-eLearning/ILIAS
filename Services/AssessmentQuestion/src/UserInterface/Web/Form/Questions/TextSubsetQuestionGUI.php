@@ -1,12 +1,13 @@
 <?php
 
-namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy;
+namespace ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionPlayConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoring;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\TextSubsetScoringConfiguration;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditor;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\TextSubsetEditorConfiguration;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
 use ilNumberInputGUI;
 
 /**
@@ -19,7 +20,7 @@ use ilNumberInputGUI;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class TextSubsetQuestionGUI extends LegacyFormGUIBase {
+class TextSubsetQuestionGUI extends QuestionFormGUI {
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create

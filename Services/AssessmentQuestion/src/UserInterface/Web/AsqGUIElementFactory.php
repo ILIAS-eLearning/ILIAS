@@ -3,23 +3,22 @@
 namespace ILIAS\AssessmentQuestion\UserInterface\Web;
 
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\CreateQuestionFormGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFeedbackFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\QuestionFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\ErrorTextQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\FileUploadQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\FormulaQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\ImageMapQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\KprimChoiceQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MultipleChoiceQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\NumericQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\OrderingQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\SingleChoiceQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\TextSubsetQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\ErrorTextQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\EssayQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\FileUploadQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\FormulaQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\ImageMapQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\KprimChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\MatchingQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\MultipleChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\NumericQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\OrderingQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\SingleChoiceQuestionGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\TextSubsetQuestionGUI;
 use Exception;
 use ilPropertyFormGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\MatchingQuestionGUI;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Legacy\EssayQuestionGUI;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
 
 const MSG_SUCCESS = "success";
 
@@ -34,7 +33,6 @@ const MSG_SUCCESS = "success";
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class AsqGUIElementFactory {
-    const TYPE_GENERIC = 0;
     const TYPE_SINGLE_CHOICE = 1;
     const TYPE_MULTIPLE_CHOICE = 2;
     const TYPE_MATCHING = 4;
@@ -47,62 +45,8 @@ class AsqGUIElementFactory {
     const TYPE_ERROR_TEXT = 14;
     const TYPE_FORMULA = 15;
     const TYPE_KPRIM_CHOICE = 16;
+    const TYPE_LONG_MENU = 17;
     
-    /**
-     * @return CreateQuestionFormGUI
-     */
-	public static function CreateQuestionCreationForm(): CreateQuestionFormGUI {
-		//CreateQuestion.png
-		return new CreateQuestionFormGUI();
-	}
-
-    /**
-     * @param array $questions
-     */
-	public static function CreateQuestionListControl(array $questions) {
-		//returns question list object
-		//GetQuestionlist.png
-	}
-
-    /**
-     * @param string $question_id
-     */
-	public static function CreatePrintViewControl(string $question_id) {
-		//returns print view
-		//GetPrintView.png
-	}
-
-    /**
-     * @param string $question_id
-     */
-	public static function CreatePresentationForm(string $question_id) {
-		//returns presentation form
-		//EditQuestionPresentation.png
-	}
-
-	public static function getQuestionTypes() : array {
-	    global $DIC;
-	    
-	    $question_types = [];
-	    $question_types[self::TYPE_GENERIC] = $DIC->language()->txt('asq_question_generic');
-	    $question_types[self::TYPE_SINGLE_CHOICE] = $DIC->language()->txt('asq_question_single_answer');
-	    $question_types[self::TYPE_MULTIPLE_CHOICE] = $DIC->language()->txt('asq_question_multiple_answer');
-	    $question_types[self::TYPE_MATCHING] = $DIC->language()->txt('asq_question_matching');
-	    $question_types[self::TYPE_KPRIM_CHOICE] = $DIC->language()->txt('asq_question_kprim_answer');
-	    $question_types[self::TYPE_ERROR_TEXT] = $DIC->language()->txt('asq_question_error_text');
-	    $question_types[self::TYPE_ESSAY] = $DIC->language()->txt('asq_question_essay');
-	    $question_types[self::TYPE_IMAGE_MAP] = $DIC->language()->txt('asq_question_image_map');
-	    $question_types[self::TYPE_NUMERIC] = $DIC->language()->txt('asq_question_numeric');
-	    $question_types[self::TYPE_FORMULA] = $DIC->language()->txt('asq_question_formula');
-	    $question_types[self::TYPE_TEXT_SUBSET] = $DIC->language()->txt('asq_question_text_subset');
-	    $question_types[self::TYPE_ORDERING] = $DIC->language()->txt('asq_question_ordering');
-	    $question_types[self::TYPE_FILE_UPLOAD] = $DIC->language()->txt('asq_question_file_upload');
-	    /*$question_types[3] = 'Cloze Test ';
-	    
-	     $question_types[17] = 'Long Menu ';*/
-	    return $question_types;
-	}
-	
     /**
      * @param QuestionDto $question
      *
@@ -110,22 +54,6 @@ class AsqGUIElementFactory {
      * @throws Exception
      */
 	public static function CreateQuestionForm(QuestionDto $question):ilPropertyFormGUI {
-		if (is_null($question->getLegacyData()) ||
-		    is_null($question->getLegacyData()->getAnswerTypeId())) {
-			return new QuestionFormGUI($question);
-		} else {
-			return self::createLegacyForm($question);
-		}
-
-	}
-	
-	/**
-	 * @param QuestionDto $question
-	 *
-	 * @return ilPropertyFormGUI
-	 * @throws Exception
-	 */
-	private static function createLegacyForm(QuestionDto $question): ilPropertyFormGUI {
 	    switch($question->getLegacyData()->getAnswerTypeId()) {
 	        case self::TYPE_SINGLE_CHOICE:
 	            return new SingleChoiceQuestionGUI($question);
@@ -154,6 +82,25 @@ class AsqGUIElementFactory {
 	        default:
 	            throw new Exception("Implement missing case please");
 	    }
+	}
+	
+	public static function getQuestionTypes() : array {
+	    global $DIC;
+
+	    $question_types = [];
+	    $question_types[self::TYPE_SINGLE_CHOICE] = $DIC->language()->txt('asq_question_single_answer');
+	    $question_types[self::TYPE_MULTIPLE_CHOICE] = $DIC->language()->txt('asq_question_multiple_answer');
+	    $question_types[self::TYPE_MATCHING] = $DIC->language()->txt('asq_question_matching');
+	    $question_types[self::TYPE_KPRIM_CHOICE] = $DIC->language()->txt('asq_question_kprim_answer');
+	    $question_types[self::TYPE_ERROR_TEXT] = $DIC->language()->txt('asq_question_error_text');
+	    $question_types[self::TYPE_ESSAY] = $DIC->language()->txt('asq_question_essay');
+	    $question_types[self::TYPE_IMAGE_MAP] = $DIC->language()->txt('asq_question_image_map');
+	    $question_types[self::TYPE_NUMERIC] = $DIC->language()->txt('asq_question_numeric');
+	    $question_types[self::TYPE_FORMULA] = $DIC->language()->txt('asq_question_formula');
+	    $question_types[self::TYPE_TEXT_SUBSET] = $DIC->language()->txt('asq_question_text_subset');
+	    $question_types[self::TYPE_ORDERING] = $DIC->language()->txt('asq_question_ordering');
+	    $question_types[self::TYPE_FILE_UPLOAD] = $DIC->language()->txt('asq_question_file_upload');
+	    return $question_types;
 	}
 
     /**
