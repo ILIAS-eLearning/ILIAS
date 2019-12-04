@@ -159,6 +159,12 @@ See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
 In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
 to also accept buttons. We should extend that.
 
+### Footer should not use an input (beginner)
+
+In the footer's template, an input-tag in cconunction with some inline-js is 
+used to display the perma-link. This should be substituted by a non-input 
+block-element, respectively an UI-Component on its own.
+
 ## Long Term
 
 ### Remove special case for UI-demo in `Implement\Layout\Page\Renderer::setHeaderVars`

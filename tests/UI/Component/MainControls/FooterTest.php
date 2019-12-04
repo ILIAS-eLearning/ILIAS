@@ -170,25 +170,21 @@ EOT;
         $html = $r->render($footer);
 
         $expected = <<<EOT
-		<div class="il-maincontrols-footer">
-			<div class="il-footer-content">
-				<div class="il-footer-permanent-url">
-					<span>
-						http://www.ilias.de/goto.php?target=xxx_123
-					</span>
-				</div>
-				<div class="il-footer-text">
-					footer text
-				</div>
+        <div class="il-maincontrols-footer">
+            <div class="il-footer-content">
+                <div class="il-footer-permanent-url">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" onclick="this.select();document.execCommand('copy'); return false;" readonly="readOnly">
+                </div>
 
-				<div class="il-footer-links">
-					<ul>
-						<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-						<li><a href="#" >go up</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+                <div class="il-footer-text">footer text</div>
+
+                <div class="il-footer-links">
+                    <ul>
+                        <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
+                        <li><a href="#" >go up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 EOT;
 
         $this->assertEquals(
