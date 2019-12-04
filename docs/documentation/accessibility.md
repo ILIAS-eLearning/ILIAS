@@ -41,7 +41,7 @@ Reference: WCAG 2.1 > 1.1.1 Level A / EN 301 549 > 9.1.1.1
 
 Target group: creator of content, developers for non-text-controls
 
-How to: [Understand Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html)
+[Understanding Non-text Content](https://www.w3.org/WAI/WCAG21/Understanding/non-text-content.html)
 
 How to: [Meet Non-text Content](https://www.w3.org/WAI/WCAG21/quickref/#non-text-content)
 
@@ -78,7 +78,7 @@ Reference: WCAG 2.1 > 1.2.1 Level A / EN 301 549 > 9.1.2.1
 
 Target group: creator of content
 
-How to: [Understand Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-only-and-video-only-prerecorded.html)
+[Understanding Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-only-and-video-only-prerecorded.html)
 
 How to: [Meet Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-only-and-video-only-prerecorded)
 
@@ -92,7 +92,7 @@ Reference: WCAG 2.1 > 1.2.2 Level A / EN 301 549 > 9.1.2.2
 
 Target group: creator of content
 
-How to: [Understand Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
+[Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
 
 How to: [Meet Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#captions-prerecorded)
 
@@ -103,7 +103,7 @@ Reference: WCAG 2.1 > 1.2.3 Level A  / EN 301 549 > 9.1.2.3
 
 Target group: creator of content
 
-How to: [Understand Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
+[Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
 
 How to: [Meet Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-description-or-media-alternative-prerecorded)
 
@@ -114,7 +114,7 @@ Reference: WCAG 2.1 > 1.2.4 Level AA  / EN 301 549 > 9.1.2.4
 
 Target group: creator of content
 
-How to: [Understand Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
+[Understanding Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/captions-prerecorded.html)
 
 How to: [Meet Captions (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#captions-prerecorded)
 
@@ -125,7 +125,7 @@ Reference: WCAG 2.1 > 1.2.5 Level AA / EN 301 549 > 9.1.2.5
 
 Target group: creator of content
 
-How to: [Understand Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
+[Understanding Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/Understanding/audio-description-or-media-alternative-prerecorded.html)
 
 How to: [Meet Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG21/quickref/#audio-description-or-media-alternative-prerecorded)
 
@@ -142,7 +142,7 @@ Reference: WCAG 2.1 > 1.3.1 Level A / EN 301 549 > 9.1.3.1
 
 Target group: creator of content, developer
 
-How to: [Understand Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)
+[Understanding Info and Relationships](https://www.w3.org/WAI/WCAG21/Understanding/info-and-relationships.html)
 
 How to: [Meet Info and Relationships](https://www.w3.org/WAI/WCAG21/quickref/#info-and-relationships)
 
@@ -153,7 +153,7 @@ Reference: WCAG 2.1 > 1.3.2 Level A / EN 301 549 > 9.1.3.1
 
 Target group: creator of content, developer
 
-How to: [Understand Meaningful Sequence](https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html)
+[Understanding Meaningful Sequence](https://www.w3.org/WAI/WCAG21/Understanding/meaningful-sequence.html)
 
 How to: [Meet Meaningful Sequence](https://www.w3.org/WAI/WCAG21/quickref/#meaningful-sequence)
 
@@ -164,7 +164,7 @@ Reference: WCAG 2.1 > 1.3.3 Level A / EN 301 549 > 9.1.3.3
 
 Target group: creator of content, developer
 
-How to: [Understand Sensory Characteristics](https://www.w3.org/WAI/WCAG21/Understanding/sensory-characteristics.html)
+[Understanding Sensory Characteristics](https://www.w3.org/WAI/WCAG21/Understanding/sensory-characteristics.html)
 
 How to: [Meet Sensory Characteristics](https://www.w3.org/WAI/WCAG21/quickref/#sensory-characteristics)
 
@@ -175,7 +175,7 @@ Reference: WCAG 2.1 > 1.3.4 Level AA / EN 301 549 > 9.1.3.4
 
 Target group: creator of content, developer
 
-How to: [Understand Orientation](https://www.w3.org/WAI/WCAG21/Understanding/orientation.html)
+[Understanding Orientation](https://www.w3.org/WAI/WCAG21/Understanding/orientation.html)
 
 How to: [Meet Orientation](https://www.w3.org/WAI/WCAG21/quickref/#orientation)
 
@@ -186,7 +186,7 @@ Reference: WCAG 2.1 > 1.3.5 Level AA / EN 301 549 > 9.1.3.5
 
 Target group: developer
 
-How to: [Understand Identify Input Purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html)
+[Understanding Identify Input Purpose](https://www.w3.org/WAI/WCAG21/Understanding/identify-input-purpose.html)
 
 How to: [Meet Identify Input Purpose](https://www.w3.org/WAI/WCAG21/quickref/#identify-input-purpose)
 
@@ -205,7 +205,7 @@ Reference: WCAG 2.1 > 1.4.1 Level A / EN 301 549 > 9.1.4.1
 
 Target group: creator of content, developer
 
-How to: [Understand Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
+[Understanding Use of Color](https://www.w3.org/WAI/WCAG21/Understanding/use-of-color.html)
 
 How to: [Meet Use of Color](https://www.w3.org/WAI/WCAG21/quickref/#use-of-color)
 
@@ -216,7 +216,7 @@ Reference: WCAG 2.1 > 1.4.2 Level A / EN 301 549 > 9.1.4.2
 
 Target group: creator of content
 
-How to: [Understand Audio Control](https://www.w3.org/WAI/WCAG21/Understanding/audio-control.html)
+[Understanding Audio Control](https://www.w3.org/WAI/WCAG21/Understanding/audio-control.html)
 
 How to: [Meet Audio Control](https://www.w3.org/WAI/WCAG21/quickref/#audio-control)
 
@@ -227,7 +227,7 @@ Reference: WCAG 2.1 > 1.4.3 Level AA / EN 301 549 > 9.1.4.3
 
 Target group: creator of content, developer
 
-How to: [Understand Contrast Minimum](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
+[Understanding Contrast Minimum](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
 
 How to: [Meet Contrast Minimum](https://www.w3.org/WAI/WCAG21/quickref/#contrast-minimum)
 
@@ -242,7 +242,7 @@ Reference: WCAG 2.1 > 1.4.4 Level AA / EN 301 549 > 9.1.4.4
 
 Target group: developer
 
-How to: [Understand Resize text](https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html)
+[Understanding Resize text](https://www.w3.org/WAI/WCAG21/Understanding/resize-text.html)
 
 How to: [Meet Resize text](https://www.w3.org/WAI/WCAG21/quickref/#resize-text)
 
@@ -253,7 +253,7 @@ Reference: WCAG 2.1 > 1.4.5 Level AA / EN 301 549 > 9.1.4.5
 
 Target group: creator of content, developer
 
-How to: [Understand Images of Text](https://www.w3.org/WAI/WCAG21/Understanding/images-of-text.html)
+[Understanding Images of Text](https://www.w3.org/WAI/WCAG21/Understanding/images-of-text.html)
 
 How to: [Meet Images of Text](https://www.w3.org/WAI/WCAG21/quickref/#images-of-text)
 
@@ -267,7 +267,7 @@ Reference: WCAG 2.1 > 1.4.10 Level AA / EN 301 549 > 9.1.4.10
 
 Target group: creator of content, developer
 
-How to: [Understand Reflow](https://www.w3.org/WAI/WCAG21/Understanding/reflow.html)
+[Understanding Reflow](https://www.w3.org/WAI/WCAG21/Understanding/reflow.html)
 
 How to: [Meet Reflow](https://www.w3.org/WAI/WCAG21/quickref/#reflow)
 
@@ -285,7 +285,7 @@ Reference: WCAG 2.1 > 1.4.11 Level AA / EN 301 549 > 9.1.4.11
 
 Target group: creator of content, developer
 
-How to: [Understand Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html)
+[Understanding Non-text Contrast](https://www.w3.org/WAI/WCAG21/Understanding/non-text-contrast.html)
 
 How to: [Meet Non-text Contrast](https://www.w3.org/WAI/WCAG21/quickref/#non-text-contrast)
 
@@ -300,7 +300,7 @@ Reference: WCAG 2.1 > 1.4.12 Level AA / EN 301 549 > 9.1.4.12
 
 Target group: creator of content, developer
 
-How to: [Understand Text Spacing](https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html)
+[Understanding Text Spacing](https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html)
 
 How to: [Meet Text Spacing](https://www.w3.org/WAI/WCAG21/quickref/#text-spacing)
 
@@ -321,7 +321,7 @@ Reference: WCAG 2.1 > 1.4.13 Level AA / EN 301 549 > 9.1.4.13
 
 Target group: developer
 
-How to: [Understand Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
+[Understanding Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/Understanding/content-on-hover-or-focus.html)
 
 How to: [Meet Content on Hover or Focus](https://www.w3.org/WAI/WCAG21/quickref/#content-on-hover-or-focus)
 
@@ -351,7 +351,7 @@ Reference: WCAG 2.1 > 2.1.1 Level A / EN 301 549 > 9.2.1.1
 
 Target group: creator of content, developer
 
-How to: [Understand Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html)
+[Understanding Keyboard](https://www.w3.org/WAI/WCAG21/Understanding/keyboard.html)
 
 How to: [Meet Keyboard](https://www.w3.org/WAI/WCAG21/quickref/#keyboard)
 
@@ -363,7 +363,7 @@ Reference: WCAG 2.1 > 2.1.2 Level A / EN 301 549 > 9.2.1.2
 
 Target group: developer
 
-How to: [Understand No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html)
+[Understanding No Keyboard Trap](https://www.w3.org/WAI/WCAG21/Understanding/no-keyboard-trap.html)
 
 How to: [Meet No Keyboard Trap](https://www.w3.org/WAI/WCAG21/quickref/#no-keyboard-trap)
 
@@ -376,7 +376,7 @@ Reference: WCAG 2.1 > 2.1.4 Level A / EN 301 549 > 9.2.1.4
 
 Target group: developer
 
-How to: [Understand Character Key Shortcuts](https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html)
+[Understanding Character Key Shortcuts](https://www.w3.org/WAI/WCAG21/Understanding/character-key-shortcuts.html)
 
 How to: [Meet Character Key Shortcuts](https://www.w3.org/WAI/WCAG21/quickref/#character-key-shortcuts)
 
@@ -396,7 +396,7 @@ Reference: WCAG 2.1 > 2.2.1 Level A / EN 301 549 > 9.2.2.1
 
 Target group: creator of content
 
-How to: [Understand Timing Adjustable](https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html)
+[Understanding Timing Adjustable](https://www.w3.org/WAI/WCAG21/Understanding/timing-adjustable.html)
 
 How to: [Meet Timing Adjustable](https://www.w3.org/WAI/WCAG21/quickref/#timing-adjustable)
 
@@ -424,7 +424,7 @@ Reference: WCAG 2.1 > 2.2.2 Level A / EN 301 549 > 9.2.2.2
 
 Target group: creator of content
 
-How to: [Understand Pause, Stop, Hide](https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide.html)
+[Understanding Pause, Stop, Hide](https://www.w3.org/WAI/WCAG21/Understanding/pause-stop-hide.html)
 
 How to: [Meet Pause, Stop, Hide](https://www.w3.org/WAI/WCAG21/quickref/#pause-stop-hide)
 
@@ -451,7 +451,7 @@ Reference: WCAG 2.1 > 2.3.1 Level A / EN 301 549 > 9.2.3.1
 
 Target group: creator of content
 
-How to: [Understand Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html)
+[Understanding Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/Understanding/three-flashes-or-below-threshold.html)
 
 How to: [Meet Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG21/quickref/#three-flashes-or-below-threshold)
 
@@ -467,7 +467,7 @@ Reference: WCAG 2.1 > 2.4.1 Level A / EN 301 549 > 9.2.4.1
 
 Target group: developer
 
-How to: [Understand Bypass Blocks](https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html)
+[Understanding Bypass Blocks](https://www.w3.org/WAI/WCAG21/Understanding/bypass-blocks.html)
 
 How to: [Meet Bypass Blocks](https://www.w3.org/WAI/WCAG21/quickref/#bypass-blocks)
 
@@ -478,7 +478,7 @@ Reference: WCAG 2.1 > 2.4.2 Level A  / EN 301 549 > 9.2.4.2
 
 Target group: developer
 
-How to: [Understand Page Titled](https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html)
+[Understanding Page Titled](https://www.w3.org/WAI/WCAG21/Understanding/page-titled.html)
 
 How to: [Meet Page Titled](https://www.w3.org/WAI/WCAG21/quickref/#page-titled)
 
@@ -489,7 +489,7 @@ Reference: WCAG 2.1 > 2.4.3 Level A  / EN 301 549 > 9.2.4.3
 
 Target group: developer
 
-How to: [Understand Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html)
+[Understanding Focus Order](https://www.w3.org/WAI/WCAG21/Understanding/focus-order.html)
 
 How to: [Meet Focus Order](https://www.w3.org/WAI/WCAG21/quickref/#focus-order)
 
@@ -500,7 +500,7 @@ Reference: WCAG 2.1 > 2.4.4 Level A  / EN 301 549 > 9.2.4.4
 
 Target group: creator of content, developer
 
-How to: [Understand Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)
+[Understanding Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/Understanding/link-purpose-in-context.html)
 
 How to: [Meet Link Purpose (In Context)](https://www.w3.org/WAI/WCAG21/quickref/#link-purpose-in-context)
 
@@ -511,7 +511,7 @@ Reference: WCAG 2.1 > 2.4.5 Level AA / EN 301 549 > 9.2.4.5
 
 Target group: developer
 
-How to: [Understand Multiple Ways](https://www.w3.org/WAI/WCAG21/Understanding/multiple-ways.html)
+[Understanding Multiple Ways](https://www.w3.org/WAI/WCAG21/Understanding/multiple-ways.html)
 
 How to: [Meet Multiple Ways](https://www.w3.org/WAI/WCAG21/quickref/#multiple-ways)
 
@@ -522,7 +522,7 @@ Reference: WCAG 2.1 > 2.4.6 Level AA / EN 301 549 > 9.2.4.6
 
 Target group: creator of content, developer
 
-How to: [Understand Headings and Labels](https://www.w3.org/WAI/WCAG21/Understanding/headings-and-labels.html)
+[Understanding Headings and Labels](https://www.w3.org/WAI/WCAG21/Understanding/headings-and-labels.html)
 
 How to: [Meet Headings and Labels](https://www.w3.org/WAI/WCAG21/quickref/#headings-and-labels)
 
@@ -533,7 +533,7 @@ Reference: WCAG 2.1 > 2.4.7 Level AA  / EN 301 549 > 9.2.4.7
 
 Target group: developer
 
-How to: [Understand Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html)
+[Understanding Focus Visible](https://www.w3.org/WAI/WCAG21/Understanding/focus-visible.html)
 
 How to: [Meet Focus Visible](https://www.w3.org/WAI/WCAG21/quickref/#focus-visible)
 
@@ -549,7 +549,7 @@ Reference: WCAG 2.1 > 2.5.1 Level A / EN 301 549 > 9.2.5.1
 
 Target group: developer
 
-How to: [Understand Pointer Gestures](https://www.w3.org/WAI/WCAG21/Understanding/pointer-gestures.html)
+[Understanding Pointer Gestures](https://www.w3.org/WAI/WCAG21/Understanding/pointer-gestures.html)
 
 How to: [Meet Pointer Gestures](https://www.w3.org/WAI/WCAG21/quickref/#pointer-gestures)
 
@@ -561,7 +561,7 @@ Reference: WCAG 2.1 > 2.5.2 Level A / EN 301 549 > 9.2.5.2
 
 Target group: developer
 
-How to: [Understand Pointer Cancellation](https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation.html)
+[Understanding Pointer Cancellation](https://www.w3.org/WAI/WCAG21/Understanding/pointer-cancellation.html)
 
 How to: [Meet Pointer Cancellation](https://www.w3.org/WAI/WCAG21/quickref/#pointer-cancellation)
 
@@ -580,7 +580,7 @@ Reference: WCAG 2.1 > 2.5.3 Level A / EN 301 549 > 9.2.5.3
 
 Target group: developer
 
-How to: [Understand Label in Name](https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html)
+[Understanding Label in Name](https://www.w3.org/WAI/WCAG21/Understanding/label-in-name.html)
 
 How to: [Meet Label in Name](https://www.w3.org/WAI/WCAG21/quickref/#label-in-name)
 
@@ -591,7 +591,7 @@ Reference: WCAG 2.1 > 2.5.4 Level A / EN 301 549 > 9.2.5.4
 
 Target group: developer
 
-How to: [Understand Motion Actuation](https://www.w3.org/WAI/WCAG21/Understanding/motion-actuation.html)
+[Understanding Motion Actuation](https://www.w3.org/WAI/WCAG21/Understanding/motion-actuation.html)
 
 How to: [Meet Motion Actuation](https://www.w3.org/WAI/WCAG21/quickref/#motion-actuation)
 
@@ -615,7 +615,7 @@ Reference: WCAG 2.1 > 3.1.1 Level A / EN 301 549 > 9.3.1.1
 
 Target group: developer
 
-How to: [Understand Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html)
+[Understanding Language of Page](https://www.w3.org/WAI/WCAG21/Understanding/language-of-page.html)
 
 How to: [Meet Language of Page](https://www.w3.org/WAI/WCAG21/quickref/#language-of-page)
 
@@ -626,7 +626,7 @@ Reference: WCAG 2.1 > 3.1.2 Level AA / EN 301 549 > 9.3.1.2
 
 Target group: developer
 
-How to: [Understand Language of Parts](https://www.w3.org/WAI/WCAG21/Understanding/language-of-parts.html)
+[Understanding Language of Parts](https://www.w3.org/WAI/WCAG21/Understanding/language-of-parts.html)
 
 How to: [Meet Language of Parts](https://www.w3.org/WAI/WCAG21/quickref/#language-of-parts)
 
@@ -642,7 +642,7 @@ Reference: WCAG 2.1 > 3.2.1 Level A / EN 301 549 > 9.3.2.1
 
 Target group: developer
 
-How to: [Understand On Focus](https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html)
+[Understanding On Focus](https://www.w3.org/WAI/WCAG21/Understanding/on-focus.html)
 
 How to: [Meet On Focus](https://www.w3.org/WAI/WCAG21/quickref/#on-focus)
 
@@ -653,7 +653,7 @@ Reference: WCAG 2.1 > 3.2.2 Level A / EN 301 549 > 9.3.2.2
 
 Target group: developer
 
-How to: [Understand On Input](https://www.w3.org/WAI/WCAG21/Understanding/on-input.html)
+[Understanding On Input](https://www.w3.org/WAI/WCAG21/Understanding/on-input.html)
 
 How to: [Meet On Input](https://www.w3.org/WAI/WCAG21/quickref/#on-input)
 
@@ -664,7 +664,7 @@ Reference: WCAG 2.1 > 3.2.3 Level AA / EN 301 549 > 9.3.2.3
 
 Target group: developer
 
-How to: [Understand Consistent Navigation](https://www.w3.org/WAI/WCAG21/Understanding/consistent-navigation.html)
+[Understanding Consistent Navigation](https://www.w3.org/WAI/WCAG21/Understanding/consistent-navigation.html)
 
 How to: [Meet Consistent Navigation](https://www.w3.org/WAI/WCAG21/quickref/#consistent-navigation)
 
@@ -675,7 +675,7 @@ Reference: WCAG 2.1 > 3.2.4 Level AA / EN 301 549 > 9.3.2.4
 
 Target group: developer
 
-How to: [Understand Consistent Identification](https://www.w3.org/WAI/WCAG21/Understanding/consistent-identification.html)
+[Understanding Consistent Identification](https://www.w3.org/WAI/WCAG21/Understanding/consistent-identification.html)
 
 How to: [Meet Consistent Identification](https://www.w3.org/WAI/WCAG21/quickref/#consistent-identification)
 
@@ -691,7 +691,7 @@ Reference: WCAG 2.1 > 3.3.1 Level A / EN 301 549 > 9.3.3.1
 
 Target group: developer
 
-How to: [Understand Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification.html)
+[Understanding Error Identification](https://www.w3.org/WAI/WCAG21/Understanding/error-identification.html)
 
 How to: [Meet Error Identification](https://www.w3.org/WAI/WCAG21/quickref/#error-identification)
 
@@ -702,7 +702,7 @@ Reference: WCAG 2.1 > 3.3.2 Level A / EN 301 549 > 9.3.3.2
 
 Target group: developer
 
-How to: [Understand Labels or Instructions](https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html)
+[Understanding Labels or Instructions](https://www.w3.org/WAI/WCAG21/Understanding/labels-or-instructions.html)
 
 How to: [Meet Labels or Instructions](https://www.w3.org/WAI/WCAG21/quickref/#labels-or-instructions)
 
@@ -712,7 +712,7 @@ Labels or instructions MUST be provided when content requires user input.
 Reference: WCAG 2.1 > 3.3.3 Level AA / EN 301 549 > 9.3.3.3
 
 Target group: developer
-How to: [Understand Error Suggestion](https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion.html)
+[Understanding Error Suggestion](https://www.w3.org/WAI/WCAG21/Understanding/error-suggestion.html)
 
 How to: [Meet Error Suggestion](https://www.w3.org/WAI/WCAG21/quickref/#error-suggestion)
 
@@ -723,7 +723,7 @@ Reference: WCAG 2.1 > 3.3.4 Level AA / EN 301 549 > 9.3.3.4
 
 Target group: developer
 
-How to: [Understand Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG21/Understanding/error-prevention-legal-financial-data.html)
+[Understanding Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG21/Understanding/error-prevention-legal-financial-data.html)
 
 How to: [Meet Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG21/quickref/#error-prevention-legal-financial-data)
 
@@ -748,7 +748,7 @@ Reference: WCAG 2.1 > 4.1.1 Level A / EN 301 549 > 9.4.1.1
 
 Target group: developer
 
-How to: [Understand Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing.html)
+[Understanding Parsing](https://www.w3.org/WAI/WCAG21/Understanding/parsing.html)
 
 How to: [Meet Parsing](https://www.w3.org/WAI/WCAG21/quickref/#parsing)
 
@@ -759,7 +759,7 @@ Reference: WCAG 2.1 > 4.1.2 Level A / EN 301 549 > 9.4.1.2
 
 Target group: developer
 
-How to: [Understand Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html)
+[Understanding Name, Role, Value](https://www.w3.org/WAI/WCAG21/Understanding/name-role-value.html)
 
 How to: [Meet Name, Role, Value](https://www.w3.org/WAI/WCAG21/quickref/#name-role-value)
 
@@ -770,7 +770,7 @@ Reference: WCAG 2.1 > 4.1.3 Level AA / EN 301 549 > 9.4.1.3
 
 Target group: developer
 
-How to: [Understand Status Messages](https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html)
+[Understanding Status Messages](https://www.w3.org/WAI/WCAG21/Understanding/status-messages.html)
 
 How to: [Meet Status Messages](https://www.w3.org/WAI/WCAG21/quickref/#status-messages)
 
