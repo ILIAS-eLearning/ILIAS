@@ -133,10 +133,20 @@
 		notificationItemId: '',
 		numWindows: Infinity,
 		notificationCenterConversationItems: {},
+		conversationMessageTimes: {},
+		conversationToUiIdMap: {},
 		notificationItemsAdded: 0,
 
+		setConversationMessageTimes: function(timeInfo) {
+			getModule().conversationMessageTimes = timeInfo;
+		},
+
 		setNotificationItemId: function(id) {
-			this.notificationItemId = id;
+			getModule().notificationItemId = id;
+		},
+
+		addConversationToUiIdMapping: function(conversationId, uiId) {
+			getModule().conversationToUiIdMap[conversationId] = uiId;
 		},
 
 		setConfig: function(config) {
@@ -415,7 +425,7 @@
 			return $template;
 		},
 
-		rerenderNotifications: function() {
+		rerenderNotifications: function(conversation, withServerSideRendering = true) {
 			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
 
 			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
@@ -429,9 +439,10 @@
 			}
 
 			try {
-				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
-					$('#' + getModule().notificationItemId)
-				);
+				let $notificationRoot = $("#" + getModule().notificationItemId),
+					notificationContainer = il.UI.item.notification.getNotificationItemObject(
+						$notificationRoot
+					);
 
 				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
 					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(1);
@@ -441,13 +452,59 @@
 
 				getModule().notificationItemsAdded = conversations.length;
 
-				let conversationIds = conversations.map(function (conversation) {
-					return conversation.id;
-				}).join(',');
+				if (withServerSideRendering) {
+					let conversationIds = conversations.map(function (conversation) {
+						return conversation.id;
+					}).join(",");
 
-				notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-					'ids': conversationIds
-				});
+					notificationContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
+						"ids": conversationIds
+					});
+				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
+					try {
+						let $aggregateItem = $("#" + getModule().conversationToUiIdMap[conversation.id]),
+							aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
+								$aggregateItem
+							),
+							$aggregateContainer = $aggregateItem.closest(".il-aggregate-notifications");
+
+						aggregateNotificationItem.closeItem();
+						if (getModule().conversationMessageTimes.hasOwnProperty(conversation.id)) {
+							delete getModule().conversationMessageTimes[conversation.id];
+						}
+
+						notificationContainer.setItemDescription(function() {
+							if (0 === getModule().notificationItemsAdded) {
+								return il.Language.txt("chat_osc_nc_no_conv");
+							} else if (1 === getModule().notificationItemsAdded) {
+								return il.Language.txt("chat_osc_nc_conv_x_s");
+							}
+
+							return il.Language.txt("chat_osc_nc_conv_x_p", getModule().notificationItemsAdded);
+						}());
+
+						if (0 === conversations.length) {
+							notificationContainer.removeItemProperties();
+						} else {
+							let latestTimestamp = Math.max(
+								Object
+									.keys(getModule().conversationMessageTimes)
+									.map(key => getModule().conversationMessageTimes[key].ts)
+							), formattedTimestamps = (function(obj, f) {
+								return Object
+									.keys(obj)
+									.filter(key => !f(obj[key]))
+									.map(key => obj[key].formatted);
+							})(getModule().conversationMessageTimes, e => e.ts !== latestTimestamp);
+
+							if (formattedTimestamps.length > 0) {
+								notificationContainer.setItemPropertyValueAtPosition(formattedTimestamps[0], 1);
+							}
+						}
+					} catch (e) {
+						console.error(e);
+					}
+				}
 			} catch (e) {
 				console.error(e);
 			}
@@ -464,9 +521,7 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
-			}, 100);
+			getModule().rerenderNotifications(conversation, false);
 		},
 
 		/**
@@ -481,7 +536,7 @@
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
 			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
+				getModule().rerenderNotifications(conversation);
 			}, 100);
 		},
 
@@ -491,14 +546,12 @@
 		 */
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
+
 			// Remove conversation/notification from notification center
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-
-			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications();
-			}, 100);
+			getModule().rerenderNotifications(conversation, false);
 		},
 
 		/**
