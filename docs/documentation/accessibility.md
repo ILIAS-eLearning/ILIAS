@@ -806,7 +806,7 @@ Check how your suggested element fits into our semantic structures.
 
 8.	Always use the language attribute on the HTML element. Screen readers change pronunciation automatically. (3.1.1)
 9.	Indicate the language for each chunk of text (3.1.2). Using the language attribute on the HTML element. Screen readers change pronunciation automatically. 
-10.	Functional and informative components i.e. labels and icons must have consistent labels, aria-labels and alt-texts. 
+10.	Functional and informative components, i.e. labels and icons, must have consistent labels, aria-labels and alt-texts. 
 ## Alt-Texts and aria labels
 11.	All non-text elements (icons, glyphs, images, graphs and the like) must have alt-texts (1.1.1). Do they? For all their statuses? 
 12.	The aria-label for an element must contain the text the element presents (2.5.3). This is really important for speech input. 
