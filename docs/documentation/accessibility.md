@@ -795,7 +795,7 @@ Check how your suggested element fits into our semantic structures.
 1.	Write “well formed” HTML, employ HTML according to the specification with complete start and end tags and compliant nesting. Assistive technology will crash on missing start or end tags. (4.1.1)
 2.	We use aria landmarks and headlines to furnish ILIAS with semantic structures. Regions of the page and navigation are structured by aria landmarks. Content gets structured by headlines. The element provides programmatically determinable semantic structures to convey information and relationships (1.3.1).  
 3.	Users must be able to skip ‘repeated content of second rank’ i.e. Secondary Panels (2.4.1). Use aria landmark role ‘complementary’ to make elements skippable. 
-4.	Make the DOM order matches the visual order (1.3.2). When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. If this will not work use tabindex 0. 
+4.	Make the DOM order matche the visual order (1.3.2). When the source order matches the visual order, everyone will read the content and interact with it in the same (correct) order. If this will not work use tabindex 0. 
 5.	Make sure that repeated navigational components occur in the same place and same relative order each time they appear. (3.2.3) 
 ## Headings and Labels and Language
 6.	Our headings and labels have to be clear and descriptive (2.4.6). 
