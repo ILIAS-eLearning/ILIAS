@@ -804,7 +804,7 @@ Check how your suggested element fits into our semantic structures.
 •	Provide text instructions describing the necessary input in a by-line to the field.
 •	Use aria-describedby property to provide information about a user interface element. 
 
-8.	Always use the language attribute on the HTML element. Screen reader change pronunciation automatically. (3.1.1)
+8.	Always use the language attribute on the HTML element. Screen readers change pronunciation automatically. (3.1.1)
 9.	Indicate the language for each chunk of text (3.1.2). Using the language attribute on the HTML element. Screen reader change pronunciation automatically. 
 10.	Functional and informative components i.e. labels and icons must have consistent labels, aria-labels and alt-texts. 
 ## Alt-Texts and aria labels
