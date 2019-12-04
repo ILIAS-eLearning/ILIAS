@@ -788,7 +788,7 @@ ILIAS MUST satisfy all the following five WCAG 2.1 conformance requirements at L
 # Cheat Sheet
 This list is prepared to inform developers what accessibility means for their daily work. This list was prepared by the SIG accessibility to their best knowledge. Still it may contain some errors. 
 Thus, we suggest to use compliance testing as a yardstick for quality: Compliance testing is more important than these phrases, we will adapt these phrases via the jour fixe if compliance testing indicates they are erroneous or lacking information.  
-We still hope the following phrases are helpful in everyday work: 
+We still hope the following list is helpful in everyday work.
 
 ## Structure 
 Check how your suggested element fits into our semantic structures. 
