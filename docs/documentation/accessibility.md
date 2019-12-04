@@ -831,7 +831,7 @@ Please check your suggested element for colour and contrast issues.
 
 •	Use aria role alertdialog for the Failure message. 
 
-24.	We must have confirmation dialogues before action is taken that has serious consequences and / or cannot be reversed i.e. deleting objects. (3.3.4)
+24.	We must have confirmation dialogues before an action is taken that has serious consequences and / or cannot be reversed i.e. deleting objects. (3.3.4)
 25.	Use the aria role status for status messages. (4.1.3)
 ## Extra Content 
 26.	If an element like a tab gets keyboard focus or receives the pointer hover and then additional content i.e.  a tool tip or a popover is displayed. We have to make sure the additional content does not interfere with the usage of the rest of the page: The additional content must be dismissable for example by clicking Esc or X. The additional content must be hoverable itself and must not disappear once the trigger is left. (1.4.13)
