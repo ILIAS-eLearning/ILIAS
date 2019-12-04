@@ -776,10 +776,6 @@ Target group: developer
 
 In content implemented using markup languages, status messages MUST be programmatically determined through role or properties such that they can be presented to the user by assistive technologies without receiving focus.
 
-# Conformance Requirements
-Reference: EN 301 549 > 9.5
-ILIAS MUST satisfy all WCAG 2.1 conformance requirements at Level AA. 
-
 # Cheat Sheet
 This list is prepared to inform developers what accessibility means for their daily work. This list was prepared by the SIG accessibility to their best knowledge. Still it may contain some errors. 
 Thus, we suggest to use compliance testing as a yardstick for quality: Compliance testing is more important than these phrases, we will adapt these phrases via the jour fixe if compliance testing indicates they are erroneous or lacking information.  
