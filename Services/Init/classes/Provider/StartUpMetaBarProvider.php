@@ -31,7 +31,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
 
         // Login-Button
         // Only visible, if not on login-page but not logged in
-        $login_glyph = $factory->symbol()->glyph()->user(); // Currently the wrong one
+        $login_glyph = $factory->symbol()->glyph()->login(); 
         $login = $this->meta_bar->topLinkItem($if('login'))
             ->withAction("login.php?client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
             ->withSymbol($login_glyph)
