@@ -265,7 +265,7 @@ class ilObjStudyProgrammeMembersGUI
 		}
 
 		foreach ($users as $user_id) {
-			$completed_crss = $prg->getCompletedCourses($user_id);
+			$completed_crss = $prg->getCompletedCourses((int)$user_id);
 			if ($completed_crss) {
 				$completed_courses[$user_id] = $completed_crss;
 			}
@@ -372,7 +372,7 @@ class ilObjStudyProgrammeMembersGUI
 		$assignments = array();
 
 		foreach ($users as $user_id) {
-			$assignments[$user_id] = $prg->assignUser($user_id);
+			$assignments[$user_id] = $prg->assignUser((int)$user_id);
 		}
 
 		if (count($users) == 1) {

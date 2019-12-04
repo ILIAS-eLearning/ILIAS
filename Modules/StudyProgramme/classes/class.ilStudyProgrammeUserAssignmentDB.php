@@ -178,7 +178,8 @@ class ilStudyProgrammeUserAssignmentDB
                     $this->sp_user_progress_db,
                     $this->assignment_repository,
                     $this->progress_repository,
-                    $this->log
+                    $this->log,
+					$this->sp_events
                 );
             }
         }

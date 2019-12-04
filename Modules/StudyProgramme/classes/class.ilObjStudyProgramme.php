@@ -1891,7 +1891,7 @@ class ilObjStudyProgramme extends ilContainer
             $crs_reference_obj_ids = ilContainerReference::_lookupSourceIds($a_obj_id);
             foreach ($crs_reference_obj_ids as $obj_id) {
                 foreach (ilObject::_getAllReferences($obj_id) as $ref_id) {
-                    self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $obj_id, $a_user_id);
+                    self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode((int)$ref_id, (int)$obj_id, $a_user_id);
                 }
             }
         } else {
@@ -1996,7 +1996,7 @@ class ilObjStudyProgramme extends ilContainer
      *
      * @param string[] $a_subobjects
      */
-    static public function getCreatableSubObjects(array $a_subobjects, int $a_ref_id): array
+    static public function getCreatableSubObjects(array $a_subobjects, $a_ref_id): array
     {
         if ($a_ref_id === null) {
             return $a_subobjects;

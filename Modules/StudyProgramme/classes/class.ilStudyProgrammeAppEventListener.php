@@ -159,7 +159,7 @@ class ilStudyProgrammeAppEventListener {
 		}
 
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
-		ilObjStudyProgramme::setProgressesCompletedFor($a_par["obj_id"], $a_par["usr_id"]);
+		ilObjStudyProgramme::setProgressesCompletedFor((int)$a_par["obj_id"], (int)$a_par["usr_id"]);
 	}
 
 	private static function onServiceTreeInsertNode($a_parameter) {

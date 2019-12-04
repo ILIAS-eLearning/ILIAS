@@ -6,7 +6,7 @@
 declare(strict_types=1);
 
 
-class ilPrgUserRiskyToFailJob extends ilCronJob
+class ilPrgUserRiskyToFailCronJob extends ilCronJob
 {
     const ID = 'prg_user_risky_to_fail';
 
