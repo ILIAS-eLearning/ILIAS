@@ -26,6 +26,9 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilDashboardGUI
 {
 	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
+
+	const DISENGAGE_MAINBAR = "dash_mb_disengage";
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -305,6 +308,7 @@ class ilDashboardGUI
 				break;
 
 			default:
+				$context->current()->addAdditionalData(self::DISENGAGE_MAINBAR, true);
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("show");
