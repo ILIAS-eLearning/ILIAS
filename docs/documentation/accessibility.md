@@ -818,7 +818,7 @@ Please check your suggested element for colour and contrast issues.
 16.	Text must have a contrast ratio of at least 4,5:1 to background for normal text and at least 3:1 for text at least 18 point (1.4.3). 
 17.	Controls and states must have a contrast ratio of at least 3:1 against adjacent colours. Same applies for charts (result presentation) because they convey meaning (1.4.11). 
 ## Resize and Reflow
-18.	ILIAS can be resize up to 200 percent without loss of content or functionality (1.4.4).
+18.	ILIAS can be resized by up to 200 percent without loss of content or functionality (1.4.4).
 19.	All Content can be presented without loss of information or functionality, and without requiring scrolling in two dimensions for: Vertical scrolling content at a width equivalent to 320 CSS pixels; Horizontal scrolling content at a height equivalent to 256 CSS pixels. 320 CSS pixels is equivalent to a starting viewport width of 1280 CSS pixels at 400% zoom. For web content which is designed to scroll horizontally (e.g., with vertical text), 256 CSS pixels is equivalent to a starting viewport height of 1024 CSS pixels at 400% zoom. (1.4.10)
 ## Forms
 20.	Standard HTML controls meet accessibility requirements when used according to specification. If we prepare our own controls name and role MUST be determinable programmatically; states, properties, and values that can be set by the user MUST be programmatically settable; and notification of changes to these items MUST be available to user agents, including assistive technologies. (4.1.2)
