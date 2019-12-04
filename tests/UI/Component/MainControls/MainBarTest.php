@@ -239,7 +239,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 				<div class="il-mainbar-tools-entries">
 					<div class="il-mainbar-tools-entries-bg"></div>
 				</div>
-				<div class="il-maincontrols-slate disengaged" id="id_4">
+				<div class="il-maincontrols-slate disengaged depthlevel_1" id="id_4">
 					<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 				</div>
 
