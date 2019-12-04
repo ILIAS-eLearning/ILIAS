@@ -1073,7 +1073,7 @@ interface Factory
      *       The Language Glyph is used to indicate the option to switch languages
      *       by some shorthand workflow without navigating to the personal settings.
      *   composition: >
-     *       The Language Glyph uses the glyphicon-globe.
+     *       The Language Glyph uses the glyphicon-lang from the il-icons set.
      *   effect: >
      *       When clicked, the user is shown a set of active languages to choose from.
      *   rivals:

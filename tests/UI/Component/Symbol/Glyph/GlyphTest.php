@@ -56,7 +56,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::CLOSE            => "glyphicon glyphicon-remove"
         , G\Glyph::MORE             => "glyphicon glyphicon-option-horizontal"
         , G\Glyph::DISCLOSURE       => "glyphicon glyphicon-option-vertical"
-        , G\Glyph::LANGUAGE         => "glyphicon glyphicon-globe"
+        , G\Glyph::LANGUAGE         => "glyphicon glyphicon-lang"
         , G\Glyph::LOGIN            => "glyphicon glyphicon-login"
         , G\Glyph::LOGOUT           => "glyphicon glyphicon-logout"
     );
