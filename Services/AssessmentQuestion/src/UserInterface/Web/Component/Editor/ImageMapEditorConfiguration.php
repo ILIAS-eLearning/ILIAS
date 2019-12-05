@@ -68,6 +68,7 @@ class ImageMapEditorConfiguration extends AbstractConfiguration {
         /** @var ImageMapEditorConfiguration $other */
         return get_class($this) === get_class($other) &&
                $this->image === $other->image &&
-               $this->multiple_choice === $other->multiple_choice;
+               $this->multiple_choice === $other->multiple_choice &&
+               $this->max_answers === $other->max_answers;
     }
 }
