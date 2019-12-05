@@ -109,8 +109,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					}
 					return null;
 				},
-				getLastEngagedToolId: function(tools) {
-					var keys = Object.keys(tools).reverse();
+				getFirstEngagedToolId: function(tools) {
+					var keys = Object.keys(tools);
 					for(var idx in keys) {
 						if(tools[keys[idx]].engaged) {
 							return keys[idx];
@@ -157,7 +157,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 
 				init_state = mb.model.getState();
-				last_tool_id = helper.getLastEngagedToolId(init_state.tools);
+				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
 
 				/**
 				 * initially active (from mainbar-component) will override everything (but tools)
@@ -175,8 +175,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				/**
 				 * Override potentially active entry, if there are is an active tool.
 				 */
-				if(last_tool_id) {
-					mb.model.actions.engageTool(last_tool_id);
+				if(first_tool_id) {
+					mb.model.actions.engageTool(first_tool_id);
 				}
 
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
