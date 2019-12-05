@@ -6,6 +6,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use ilFormSectionHeaderGUI;
 use ilNumberInputGUI;
@@ -59,7 +60,7 @@ class NumericScoring extends AbstractScoring
      *
      * @return array|null
      */
-    public static function generateFields(?AbstractConfiguration $config): ?array {
+    public static function generateFields(?AbstractConfiguration $config, AnswerOptions $options = null): ?array {
         /** @var NumericScoringConfiguration $config */
         global $DIC;
         

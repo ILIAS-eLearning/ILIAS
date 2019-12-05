@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use Exception;
 use ilSelectInputGUI;
 
@@ -149,7 +150,7 @@ class TextSubsetScoring extends AbstractScoring
      *
      * @return array|null
      */
-    public static function generateFields(?AbstractConfiguration $config): ?array {
+    public static function generateFields(?AbstractConfiguration $config, AnswerOptions $options = null): ?array {
         /** @var TextSubsetScoringConfiguration $config */
         global $DIC;
         

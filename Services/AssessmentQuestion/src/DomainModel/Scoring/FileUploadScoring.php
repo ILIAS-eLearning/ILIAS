@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor\EmptyScoringDefinition;
 use Exception;
 use ilCheckboxInputGUI;
@@ -60,7 +61,7 @@ class FileUploadScoring extends AbstractScoring {
     /**
      * @return array|null
      */
-    public static function generateFields(?AbstractConfiguration $config): ?array {
+    public static function generateFields(?AbstractConfiguration $config, AnswerOptions $options = null): ?array {
         global $DIC;
         
         $fields = [];

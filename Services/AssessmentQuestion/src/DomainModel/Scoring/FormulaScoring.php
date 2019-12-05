@@ -8,6 +8,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AnswerScoreDto;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use EvalMath;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
@@ -83,7 +84,7 @@ class FormulaScoring extends AbstractScoring {
     /**
      * @return array|null
      */
-    public static function generateFields(?AbstractConfiguration $config): ?array {
+    public static function generateFields(?AbstractConfiguration $config, AnswerOptions $options = null): ?array {
         global $DIC;
         
         /** @var $config FormulaScoringConfiguration */
