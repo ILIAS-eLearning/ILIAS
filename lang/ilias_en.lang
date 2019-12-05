@@ -24,6 +24,7 @@ note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
 note#:#note_enable_comments#:#Enable Comments
+administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
