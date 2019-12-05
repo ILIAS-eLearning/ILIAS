@@ -25,6 +25,7 @@ common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
+administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
 note#:#note_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
