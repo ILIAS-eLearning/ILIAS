@@ -9487,7 +9487,6 @@ footer {
   background: #f0f0f0;
   display: flex;
   height: 80px;
-  justify-content: space-between;
   width: 100%;
 }
 .il-mainbar-remove-tool {
