@@ -44,9 +44,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $this->access = ilMyStaffAccess::getInstance();
 
-        $this->setPrefix('myst_lc');
-        $this->setFormName('myst_lc');
-        $this->setId('myst_lc');
+        $this->setPrefix('myst_lcrt');
+        $this->setFormName('myst_lcrt');
+        $this->setId('myst_lcrt');
 
         parent::__construct($parent_obj, $parent_cmd, '');
 

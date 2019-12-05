@@ -33,7 +33,7 @@ class ilMStListCompetencesSkills
      *
      * @return ilMStListCompetencesSkill[]
      */
-    public function getData(array $options) : array
+    public function getData(array $options)
     {
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
@@ -61,23 +61,23 @@ class ilMStListCompetencesSkills
                 . $this->getAdditionalWhereStatement($options['filters']);
         }
 
-        $uniion_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";
+        $union_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";
 
         if ($options['count'] === true) {
-            $set = $this->dic->database()->query($uniion_query);
+            $set = $this->dic->database()->query($union_query);
 
             return $this->dic->database()->numRows($set);
         }
 
         if ($options['sort']) {
-            $uniion_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
+            $union_query .= " ORDER BY " . $options['sort']['field'] . " " . $options['sort']['direction'];
         }
 
         if (isset($options['limit']['start']) && isset($options['limit']['end'])) {
-            $uniion_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
+            $union_query .= " LIMIT " . $options['limit']['start'] . "," . $options['limit']['end'];
         }
 
-        $set = $this->dic->database()->query($uniion_query);
+        $set = $this->dic->database()->query($union_query);
 
         $skills = [];
         while ($rec = $this->dic->database()->fetchAssoc($set)) {

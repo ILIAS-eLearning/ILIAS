@@ -48,9 +48,6 @@ class ilMStListCertificates
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_CERTIFICATES;
 
-        if (!empty($options['filters']['lp_status']) || $options['filters']['lp_status'] === 0) {
-            $operation_access = ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS;
-        }
 
         $_options = array(
             'filters' => array(),
@@ -67,6 +64,16 @@ class ilMStListCertificates
             $usr_data_filter = new UserDataFilter();
             $usr_data_filter = $usr_data_filter->withUserIds($users);
             $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access));
+
+
+            if (!empty($options['filters']['user'])) {
+                $usr_data_filter = $usr_data_filter->withUserLogin($options['filters']['user']);
+            }
+            if (!empty($options['filters']['obj_title'])) {
+                $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
+            }
+
+
             $data = array_merge($data, $cert_api->getUserCertificateData($usr_data_filter, [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]));
         }
 

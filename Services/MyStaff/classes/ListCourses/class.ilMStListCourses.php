@@ -2,6 +2,7 @@
 namespace ILIAS\MyStaff\ListCourses;
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ilLPStatus;
 use ilOrgUnitOperation;
 
 /**
@@ -135,11 +136,11 @@ class ilMStListCourses {
 
 
 		if (!empty($arr_filter['crs_title'])) {
-			$where[] = '(crs.title LIKE ' . $this->dic->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
+			$where[] = '(crs_title LIKE ' . $this->dic->database()->quote('%' . $arr_filter['crs_title'] . '%', 'text') . ')';
 		}
 
 		if ($arr_filter['course'] > 0) {
-			$where[] = '(crs_ref.ref_id = ' . $this->dic->database()->quote($arr_filter['course'], 'integer') . ')';
+			$where[] = '(crs_ref_id = ' . $this->dic->database()->quote($arr_filter['course'], 'integer') . ')';
 		}
 
 		if (!empty($arr_filter['lp_status']) || $arr_filter['lp_status'] === 0) {
@@ -161,13 +162,13 @@ class ilMStListCourses {
 
 		if (!empty($arr_filter['user'])) {
 			$where[] = "(" . $this->dic->database()->like("usr_login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
-					->like("usr_login", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
+					->like("usr_firstname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
 					->like("usr_lastname", "text", "%" . $arr_filter['user'] . "%") . " " . "OR " . $this->dic->database()
 					->like("usr_email", "text", "%" . $arr_filter['user'] . "%") . ") ";
 		}
 
 		if (!empty($arr_filter['org_unit'])) {
-			$where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
+			$where[] = 'usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
 					->quote($arr_filter['org_unit'], 'integer') . ')';
 		}
 
