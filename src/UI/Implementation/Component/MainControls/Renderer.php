@@ -61,10 +61,6 @@ class Renderer extends AbstractComponentRenderer
             );
     }
 
-
-
-
-
     protected function renderToolEntry(
         Slate $entry,
         string $entry_id,
@@ -99,9 +95,6 @@ class Renderer extends AbstractComponentRenderer
         $is_hidden = $is_hidden ? 'true':'false';
         return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
     }
-
-
-
 
     protected function renderMainbarEntry(
         array $entries,

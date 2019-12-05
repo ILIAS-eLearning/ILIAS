@@ -52,8 +52,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 * id; this mapps the id to the position_id calculated during rendering of
 				 * the mainbar.
 				 */
-				addMapping: function(name, position_id) {
-					mappings[name] = position_id;
+				addMapping: function(mapping_id, position_id) {
+					if(! (mapping_id in Object.keys(mappings))) {
+						mappings[mapping_id] = position_id;
+					}
 				},
 				/**
 				 * Register signals. Signals will have an id (=position_id) and an action
@@ -98,6 +100,25 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					});
 				}
 			},
+			helper = {
+				getMappingIdForPosId: function (position_id) {
+					for(var idx in mappings) {
+						if(mappings[idx] === position_id) {
+							return idx;
+						}
+					}
+					return null;
+				},
+				getLastEngagedToolId: function(tools) {
+					var keys = Object.keys(tools).reverse();
+					for(var idx in keys) {
+						if(tools[keys[idx]].engaged) {
+							return keys[idx];
+						}
+					}
+					return false;
+				}
+			},
 			adjustToScreenSize = function() {
 				var mb = il.UI.maincontrols.mainbar,
 					amount = mb.renderer.calcAmountOfButtons();
@@ -109,14 +130,40 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				var mb = il.UI.maincontrols.mainbar,
 					cookie_state = mb.persistence.read(),
 					init_state = mb.model.getState();
-
-				//apply cookie-state
+				/**
+				 * apply cookie-state;
+				 * tools appear and disappear by context and
+				 * global screen modifications - take them from there,
+				 * but apply engaged states
+				 */
 				if(Object.keys(cookie_state).length > 0) {
+					//re-apply engaged
+					for(var idx in init_state.tools) {
+						id = init_state.tools[idx].id;
+						gs_id = helper.getMappingIdForPosId(id);
+
+						if(cookie_state.known_tools.indexOf(gs_id) === -1) {
+							cookie_state.known_tools.push(gs_id);
+							init_state.tools[idx].engaged = true //new tool is active
+						} else {
+							if(cookie_state.tools[idx]) {
+								init_state.tools[idx].engaged = cookie_state.tools[idx].engaged;
+							}
+						}
+					}
+
 					cookie_state.tools = init_state.tools;
 					mb.model.setState(cookie_state);
 				}
 
-				//initially active (from mainbar-component) will override cookie
+				init_state = mb.model.getState();
+				last_tool_id = helper.getLastEngagedToolId(init_state.tools);
+
+
+				/**
+				 * initially active (from mainbar-component)
+				 * will override everything
+				 */
 				if(initially_active) {
 					if(initially_active === '_none') {
 						mb.model.actions.disengageAll();
@@ -127,15 +174,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					}
 				}
 
-				init_state = mb.model.getState();
-				if(init_state.any_tools_visible()) {
-					/*
-					override potentially active entry, if there are
-						-tools
-						-that not have been closed before. (still to TODO)
-					*/
-					var tool_id = Object.keys(init_state.tools).slice(-1)[0] //check for engaged tools.
-					mb.model.actions.engageTool(tool_id);
+				/**
+				 * Override potentially active entry, if there are is
+				 * an active tool
+				 */
+
+				if(last_tool_id) {
+					mb.model.actions.engageTool(last_tool_id);
 				}
 
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
@@ -183,8 +228,18 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 						}
 						return false;
 					},
-					tools: {},
-					entries: {}
+					any_tools_engaged: function() {
+						for(idx in this.tools) {
+							if(!this.tools[idx].engaged) {
+								return true;
+							}
+						}
+						return false;
+					},
+
+					entries: {},
+					tools: {}, //"moving" parts, current tools
+					known_tools: [] //gs-ids; a tool is "new", if not listed here
 				},
 				entry: {
 					id: null,
