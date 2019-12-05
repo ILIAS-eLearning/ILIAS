@@ -17,6 +17,10 @@ define('USER_FOLDER_ID',7);
 
 class ilObjUserFolder extends ilObject
 {
+
+	public const FILE_TYPE_EXCEL = 'userfolder_export_excel_x86';
+	public const FILE_TYPE_CSV = 'userfolder_export_csv';
+	public const FILE_TYPE_XML = 'userfolder_export_xml';
 	/**
 	* Constructor
 	* @access	public
@@ -36,7 +40,7 @@ class ilObjUserFolder extends ilObject
 	* @access	public
 	* @return	boolean	true if all object data were removed; false if only a references were removed
 	*/
-	function delete()
+	public function delete()
 	{
 		// DISABLED
 		return false;
@@ -53,7 +57,7 @@ class ilObjUserFolder extends ilObject
 	}
 
 
-	function getExportFilename($a_mode = "userfolder_export_excel_x86")
+	public function getExportFilename($a_mode = self::FILE_TYPE_EXCEL)
 	{
 		$filename = "";
 		//$settings = $this->ilias->getAllSettings();
@@ -64,13 +68,13 @@ class ilObjUserFolder extends ilObject
 
 		switch($a_mode)
 		{
-			case "userfolder_export_excel_x86":
+			case self::FILE_TYPE_EXCEL:
 				$filename = $date."__".$inst_id."__xls_usrf";
 				break;
-			case "userfolder_export_csv":
+			case self::FILE_TYPE_CSV:
 				$filename = $date."__".$inst_id."__csv_usrf.csv";
 				break;
-			case "userfolder_export_xml":
+			case self::FILE_TYPE_XML:
 				$filename = $date."__".$inst_id."__xml_usrf.xml";
 				break;
 		}
@@ -85,7 +89,7 @@ class ilObjUserFolder extends ilObject
 *
 * @access	public
 */
-	function getExportDirectory()
+	public function getExportDirectory()
 	{
 		$export_dir = ilUtil::getDataDir()."/usrf_data/export";
 
@@ -100,7 +104,7 @@ class ilObjUserFolder extends ilObject
 * @return array A list of file names
 * @access	public
 */
-	function getExportFiles()
+	public function getExportFiles()
 	{
 		$dir = $this->getExportDirectory();		
 
@@ -140,7 +144,7 @@ class ilObjUserFolder extends ilObject
 		return $file;
 	}
 
-	function escapeXML($value)
+	protected function escapeXML($value)
 	{
 		$value = str_replace("&", "&amp;", $value);
 		$value = str_replace("<", "&lt;", $value);
@@ -148,7 +152,7 @@ class ilObjUserFolder extends ilObject
 		return $value;
 	}
 
-	function createXMLExport(&$settings, &$data, $filename)
+	protected function createXMLExport(&$settings, &$data, $filename)
 	{
 		include_once './Services/User/classes/class.ilUserDefinedData.php';
 		include_once './Services/User/classes/class.ilObjUser.php';
@@ -185,7 +189,7 @@ class ilObjUserFolder extends ilObject
 	/**
 	 * Get all exportable user defined fields
 	 */
-	function getUserDefinedExportFields()
+	protected function getUserDefinedExportFields()
 	{
 		include_once './Services/User/classes/class.ilUserDefinedFields.php';
 		$udf_obj =& ilUserDefinedFields::_getInstance();
@@ -203,7 +207,7 @@ class ilObjUserFolder extends ilObject
 		return $udf_ex_fields;
 	}
 
-	function createCSVExport(&$settings, &$data, $filename)
+	protected function createCSVExport(&$settings, &$data, $filename)
 	{
 
 		// header
@@ -254,7 +258,7 @@ class ilObjUserFolder extends ilObject
 		fclose($file);
 	}
 
-	function createExcelExport(&$settings, &$data, $filename)
+	protected function createExcelExport(&$settings, &$data, $filename)
 	{
 		include_once "./Services/Excel/classes/class.ilExcel.php";
 		$worksheet = new ilExcel();
@@ -357,7 +361,7 @@ class ilObjUserFolder extends ilObject
 	 *
 	 * @return array of exportable fields
 	 */
-	static function getExportSettings()
+	public static function getExportSettings()
 	{
 		global $DIC;
 
@@ -423,9 +427,14 @@ class ilObjUserFolder extends ilObject
 	}
 
 	/**
-	* build xml export file
-	*/
-	function buildExportFile($a_mode = "userfolder_export_excel_x86", $user_data_filter = FALSE, $use_temp_dir = false)
+	 * build xml export file
+	 *
+	 * @param string $a_mode
+	 * @param bool $user_data_filter
+	 * @param bool $use_temp_dir
+	 * @return string
+	 */
+	public function buildExportFile($a_mode = self::FILE_TYPE_EXCEL, $user_data_filter = FALSE, $use_temp_dir = false)
 	{
 		global $DIC;
 
@@ -514,13 +523,13 @@ class ilObjUserFolder extends ilObject
 
 		switch ($a_mode)
 		{
-			case "userfolder_export_excel_x86":
+			case self::FILE_TYPE_EXCEL:
 				$this->createExcelExport($settings, $data, $fullname);
 				break;
-			case "userfolder_export_csv":
+			case self::FILE_TYPE_CSV:
 				$this->createCSVExport($settings, $data, $fullname);
 				break;
-			case "userfolder_export_xml":
+			case self::FILE_TYPE_XML:
 				$this->createXMLExport($settings, $data, $fullname);
 				break;
 		}
@@ -535,7 +544,7 @@ class ilObjUserFolder extends ilObject
 	* (data_dir/usrf_data/export, depending on data
 	* directory that is set in ILIAS setup/ini)
 	*/
-	function createExportDirectory()
+	protected function createExportDirectory()
 	{
 		if (!@is_dir($this->getExportDirectory()))
 		{
@@ -563,7 +572,7 @@ class ilObjUserFolder extends ilObject
 	 *
 	 * @return array of fieldnames
 	 */
-	static function &getProfileFields()
+	public static function &getProfileFields()
 	{
 		include_once("./Services/User/classes/class.ilUserProfile.php");
 		$up = new ilUserProfile();
@@ -579,7 +588,7 @@ class ilObjUserFolder extends ilObject
 		return $profile_fields;
 	}
 
-	static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
+	public static function _writeNewAccountMail($a_lang, $a_subject, $a_sal_g, $a_sal_f, $a_sal_m, $a_body)
 	{
 		global $DIC;
 
@@ -619,7 +628,7 @@ class ilObjUserFolder extends ilObject
 	 * @param $a_lang
 	 * @param $a_tmp_name
 	 * @param $a_name
-	 * @throws ilFileUtilsException
+	 * @throws ilException
 	 */
 	public static function _updateAccountMailAttachment($a_lang, $a_tmp_name, $a_name)
 	{
@@ -662,7 +671,11 @@ class ilObjUserFolder extends ilObject
 				array('lang' => array('text',$a_lang), 'type' => array('text','nacc')));
 	}
 
-	static function _lookupNewAccountMail($a_lang)
+	/**
+	 * @param string $a_lang
+	 * @return array
+	 */
+	public static function _lookupNewAccountMail($a_lang)
 	{
 		global $DIC;
 
@@ -677,17 +690,18 @@ class ilObjUserFolder extends ilObject
 		}
 		return array();
 	}
-	
+
 	/**
 	 * Update user folder assignment
 	 * Typically called after deleting a category with local user accounts.
-	 * These users will be assigned to the global user folder. 
+	 * These users will be assigned to the global user folder.
 	 *
 	 * @access public
 	 * @static
 	 *
 	 * @param int old_id
 	 * @param int new id
+	 * @return bool
 	 */
 	public static function _updateUserFolderAssignment($a_old_id,$a_new_id)
 	{
