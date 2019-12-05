@@ -310,6 +310,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		include_once './Services/User/classes/class.ilUserAutoComplete.php';
 		$auto = new ilUserAutoComplete();
+		$auto->addUserAccessFilterCallable([$this,'filterUserIdsByRbacOrPositionOfCurrentUser']);
 		$auto->setSearchFields(array('login','firstname','lastname','email', 'second_email'));
 		$auto->enableFieldSearchableCheck(false);
 		$auto->setMoreLinkAvailable(true);
@@ -321,6 +322,22 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		echo $auto->getList($_REQUEST['term']);
 		exit();
+	}
+
+	/**
+	 * @param int[] $user_ids
+	 */
+	public function filterUserIdsByRbacOrPositionOfCurrentUser(array $user_ids)
+	{
+		global $DIC;
+
+		$access = $DIC->access();
+		return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
+			'read_users',
+			\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+			USER_FOLDER_ID,
+			$user_ids
+		);
 	}
 
 	/**
@@ -3036,8 +3053,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			return $this->viewObject();
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			return $this->ctrl->redirect($this, 'view');
 		}
 
 		if($this->checkPermissionBool('write,read_users')) {
@@ -3058,8 +3075,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			return $this->viewObject();
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			return $this->ctrl->redirect($this, 'view');
 		}
 
 		if($this->checkPermissionBool("write,read_users"))
@@ -3081,8 +3098,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			return $this->viewObject();
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			return $this->ctrl->redirect($this, 'view');
 		}
 		if($this->checkPermissionBool("write,read_users"))
 		{
@@ -3107,8 +3124,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$user_ids = $this->getActionUserIds();			
 		if(!$user_ids)
 		{
-			ilUtil::sendFailure($this->lng->txt('select_one'));
-			return $this->viewObject();
+			ilUtil::sendFailure($this->lng->txt('select_one'),true);
+			return $this->ctrl->redirect($this, 'view');
 		}
 		
 		// remove existing (temporary) lists
