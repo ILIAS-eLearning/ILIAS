@@ -159,10 +159,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				init_state = mb.model.getState();
 				last_tool_id = helper.getLastEngagedToolId(init_state.tools);
 
-
 				/**
-				 * initially active (from mainbar-component)
-				 * will override everything
+				 * initially active (from mainbar-component) will override everything (but tools)
 				 */
 				if(initially_active) {
 					if(initially_active === '_none') {
@@ -175,10 +173,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 
 				/**
-				 * Override potentially active entry, if there are is
-				 * an active tool
+				 * Override potentially active entry, if there are is an active tool.
 				 */
-
 				if(last_tool_id) {
 					mb.model.actions.engageTool(last_tool_id);
 				}
