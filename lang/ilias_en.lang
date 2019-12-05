@@ -346,6 +346,43 @@ acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
+acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept
+acc#:#acc_add_document_btn_label#:#Add Document
+acc#:#acc_form_new_doc_head#:#Create Document
+acc#:#acc_form_edit_doc_head#:#Edit Document
+acc#:#acc_form_document_title#:#Title
+acc#:#acc_form_document_title_info#:#Please enter a title for the document.
+acc#:#acc_form_document#:#Document
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+acc#:#acc_form_document_new#:#Change Content
+acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.
+acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+acc#:#acc_tbl_docs_title#:#Documents
+acc#:#acc_tbl_docs_head_sorting#:#Sorting
+acc#:#acc_tbl_docs_head_title#:#Title
+acc#:#acc_tbl_docs_head_created#:#Creation Date
+acc#:#acc_tbl_docs_head_last_change#:#Last Change
+acc#:#acc_tbl_docs_head_criteria#:#Criteria
+acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion
+acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned
+acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion
+acc#:#acc_doc_delete#:#Delete Document
+acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+acc#:#acc_doc_crit_detached#:#The criterion has been detached.
+acc#:#acc_doc_crit_attached#:#The criterion has been attached.
+acc#:#acc_doc_crit_changed#:#The criterion has been changed.
+acc#:#acc_form_attach_criterion_head#:#Attach Criterion
+acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment
+acc#:#acc_form_criterion#:#Criterion
+acc#:#acc_document#:#Document
+acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?
+acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+acc#:#acc_deleted_documents_s#:#The document has been deleted.
+acc#:#acc_deleted_documents_p#:#The documents have been deleted.
+acc#:#acc_saved_sorting#:#The sorting has been saved.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
+acc#:#acc_crit_type_usr_language#:#Profile Language
 administration#:#adm_pub_section_domain_filter#:#Domain Filter
 administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access.
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
@@ -3178,6 +3215,7 @@ rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
+common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
@@ -13239,6 +13277,8 @@ awrn#:#awrn_incl_offline#:#Online and Offline
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
+adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
 crs#:#crs_awrn_current_course#:#Current Course
@@ -13251,6 +13291,10 @@ awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is onlin
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
+common#:#report_accessibility_issue#:#Report Accessibility Issue
+common#:#report_accessibility_link#:#Reported Link:
+common#:#accessibility_control_concept#:#Accessibility Control Concept
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_username_filter#:#Username Filter

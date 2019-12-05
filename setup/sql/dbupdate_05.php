@@ -3859,3 +3859,121 @@ if( !$ilDB->tableColumnExists('tst_tests', 'info_screen') )
 }
 
 ?>
+<#5638>
+<?php
+if (!$ilDB->tableExists('acc_documents')) {
+	$fields = [
+		'id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'title' => [
+			'type'     => 'text',
+			'length'   => 255,
+			'notnull'  => false,
+			'default'  => null
+		],
+		'creation_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'modification_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'sorting' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'owner_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'last_modified_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'text' => [
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		]
+	];
+	$ilDB->createTable('acc_documents', $fields);
+	$ilDB->addPrimaryKey('acc_documents', ['id']);
+	$ilDB->createSequence('acc_documents');
+}
+?>
+<#5639>
+<?php
+if (!$ilDB->tableExists('acc_criterion_to_doc')) {
+	$fields = [
+		'id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'doc_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'criterion_id' => [
+			'type'     => 'text',
+			'length'   => 50,
+			'notnull'  => true
+		],
+		'criterion_value' => [
+			'type'     => 'text',
+			'length'   => 255,
+			'notnull'  => false,
+			'default'  => null,
+		],
+		'assigned_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'modification_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'owner_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'last_modified_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		]
+	];
+	$ilDB->createTable('acc_criterion_to_doc', $fields);
+	$ilDB->addPrimaryKey('acc_criterion_to_doc', ['id']);
+	$ilDB->createSequence('acc_criterion_to_doc');
+}
+?>
+<#5640>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>

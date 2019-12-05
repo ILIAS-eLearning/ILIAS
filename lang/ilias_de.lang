@@ -344,6 +344,43 @@ acc#:#acc_previous#:#Zurück (zur vorigen Seite)
 acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
+acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
+acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
+acc#:#acc_form_new_doc_head#:#Dokument erstellen
+acc#:#acc_form_edit_doc_head#:#Dokument bearbeiten
+acc#:#acc_form_document_title#:#Titel
+acc#:#acc_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+acc#:#acc_form_document#:#Dokument
+acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+acc#:#acc_form_document_new#:#Inhalt ändern
+acc#:#acc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
+acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+acc#:#acc_tbl_docs_title#:#Dokumente
+acc#:#acc_tbl_docs_head_sorting#:#Sortierung
+acc#:#acc_tbl_docs_head_title#:#Titel
+acc#:#acc_tbl_docs_head_created#:#Erstellungsdatum
+acc#:#acc_tbl_docs_head_last_change#:#Letzte Änderung
+acc#:#acc_tbl_docs_head_criteria#:#Vorlagekriterien
+acc#:#acc_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+acc#:#acc_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+acc#:#acc_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
+acc#:#acc_doc_delete#:#Dokument löschen
+acc#:#acc_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+acc#:#acc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+acc#:#acc_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+acc#:#acc_form_criterion#:#Vorlagekriterium
+acc#:#acc_document#:#Dokument
+acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
+acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_crit_type_usr_language#:#Benutzersprache
 administration#:#adm_pub_section_domain_filter#:#Domänen-Filter
 administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anonymen Zugriff. Geben Sie einen oder mehrere Domänen-Namen an, für die der anonyme Zugriff freigeschaltet ist. Domänen, die nicht aufgeführt sind, erlauben keinen anonymen Zugriff.
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
@@ -3667,6 +3704,7 @@ rbac#:#nwss_write#:#Einstellungen in der News- und Webfeeds-Administration bearb
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
+common#:#obj_accs_captcha#:#Captchas
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adve#:#Editor
@@ -13279,6 +13317,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
@@ -13291,6 +13331,10 @@ awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
+common#:#report_accessibility_issue#:#Barriere melden
+common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#accessibility_control_concept#:#Info Barrierefreiheit
+common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter
