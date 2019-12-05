@@ -3843,3 +3843,18 @@ if(!$db->tableColumnExists('prg_settings','send_risky_to_fail_mail')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5637>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_tests', 'info_screen') )
+{
+    $ilDB->addTableColumn('tst_tests','info_screen', [
+        'type' => \ilDBConstants::T_INTEGER, 'length' => 1, 'notnull' => false
+    ]);
+
+    $ilDB->manipulateF("UPDATE tst_tests SET info_screen = %s",
+        [\ilDBConstants::T_INTEGER], [1]
+    );
+}
+
+?>
