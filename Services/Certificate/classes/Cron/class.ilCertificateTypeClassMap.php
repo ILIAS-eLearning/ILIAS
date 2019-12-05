@@ -8,8 +8,8 @@ class ilCertificateTypeClassMap
 {
 	private $typeClassMap = array(
 		'crs'  => array('placeholder' => ilCoursePlaceholderValues::class),
-		'tst'  => array('placeholder' => ilTestPlaceHolderValues::class),
-		'exc'  => array('placeholder' => ilExercisePlaceHolderValues::class),
+		'tst'  => array('placeholder' => ilTestPlaceholderValues::class),
+		'exc'  => array('placeholder' => ilExercisePlaceholderValues::class),
 		'sahs' => array('placeholder' => ilScormPlaceholderValues::class),
 	);
 

@@ -45,8 +45,11 @@ class ilPasswordAssistanceGUI
 	protected $ilias;
 
 	/**
-	 *
+	 * @var \ilErrorHandling
 	 */
+	private $ilErr;
+
+
 	public function __construct()
 	{
 		global $DIC;
@@ -57,6 +60,7 @@ class ilPasswordAssistanceGUI
 		$this->tpl        = $DIC->ui()->mainTemplate();
 		$this->settings   = $DIC->settings();
 		$this->ilias      = $DIC['ilias'];
+		$this->ilErr = $DIC['ilErr'];
 	}
 
 	/**
@@ -67,17 +71,13 @@ class ilPasswordAssistanceGUI
 		// check hack attempts
 		if(!$this->settings->get('password_assistance'))
 		{
-			// 
-			#if(empty($_SESSION['AccountId']) && $_SESSION['AccountId'] !== false)
-			{
-				#$this->ilias->error_obj->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->WARNING);
-			}
+			$this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->FATAL);
 		}
 
 		// check correct setup
 		if(!$this->settings->get('setup_ok'))
 		{
-			die('Setup is not completed. Please run setup routine again.');
+			$this->ilErr->raiseError('Setup is not completed. Please run setup routine again.', $this->ilErr->FATAL);
 		}
 
 		// Change the language, if necessary. 
@@ -95,7 +95,7 @@ class ilPasswordAssistanceGUI
 		switch($next_class)
 		{
 			default:
-				if($cmd != '')
+				if($cmd != '' && method_exists($this, $cmd))
 				{
 					return $this->$cmd();
 				}

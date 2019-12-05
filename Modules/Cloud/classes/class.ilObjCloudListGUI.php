@@ -13,6 +13,7 @@ include_once "./Services/Repository/classes/class.ilObjectPluginListGUI.php";
  */
 class ilObjCloudListGUI extends ilObjectListGUI
 {
+
     /**
      * initialisation
      */
@@ -38,6 +39,42 @@ class ilObjCloudListGUI extends ilObjectListGUI
     }
 
 
+    public function getCommands()
+    {
+        $object = ilObjectFactory::getInstanceByRefId($this->ref_id);
+        $header_action_gui = ilCloudConnector::getHeaderActionGUIClass(ilCloudConnector::getServiceClass($object->getServiceName(), $object->getId(), false));
+        $custom_urls = [];
+
+        if (method_exists($header_action_gui, "getCustomListActions")) {
+            // Fetch custom actions
+            $custom_list_actions = $header_action_gui->getCustomListActions();
+
+            if (is_array($custom_list_actions)) {
+                // Fetch custom URLs from the custom actions, if available
+                $this->fetchCustomUrlsFromCustomActions($custom_list_actions, $custom_urls);
+                // Adjust commands of this object by adding the new custom ones
+                $this->commands = array_merge($this->commands, $custom_list_actions);
+            }
+        }
+
+        // Generate ilias link, check permissions, etc...
+        $ref_commands = parent::getCommands();
+
+        // Remove recently added custom actions from dynamic field "commands" as
+        // it may pass onto other ListGUIs and mess them up
+        if (method_exists($header_action_gui, "getCustomListActions")) {
+            $this->neutralizeCommands($this->commands, $custom_list_actions);
+        }
+
+        // Inject custom urls, if avilable
+        if (!empty($custom_urls)) {
+            $this->injectCustomUrlsInCommands($custom_urls, $ref_commands);
+        }
+
+        return $ref_commands;
+    }
+
+
     /**
      * @return array
      */
@@ -60,6 +97,63 @@ class ilObjCloudListGUI extends ilObjectListGUI
         }
 
         return $props;
+    }
+
+
+    /**
+     * Remove recently added custom actions from dynamic field "commands" as
+     * it may pass onto other ListGUIs and mess them up
+     *
+     * @param array $commands
+     * @param array $custom_list_actions
+     */
+    private function neutralizeCommands(array &$commands, array $custom_list_actions)
+    {
+        foreach ($custom_list_actions as $custom_list_action) {
+            for ($i = 0; $i < count($commands); $i++) {
+                if ($commands[$i]["lang_var"] == $custom_list_action["lang_var"]) {
+                    unset($commands[$i]);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Inject predefined custom URLs into ref_commands and change its destination
+     *
+     * @param $custom_urls
+     * @param $ref_commands
+     */
+    private function injectCustomUrlsInCommands($custom_urls, &$ref_commands)
+    {
+        foreach ($custom_urls as $custom_url) {
+            foreach ($ref_commands as &$ref_command) {
+                if ($custom_url["id"] === $ref_command["lang_var"]) {
+                    $ref_command["link"] = $custom_url["link"];
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Fetches custom URLs from predefined actions and structures them appropriately
+     *
+     * @param array $custom_list_actions
+     * @param       $custom_urls
+     */
+    private function fetchCustomUrlsFromCustomActions(array $custom_list_actions, &$custom_urls)
+    {
+        foreach ($custom_list_actions as $custom_list_action) {
+            if (array_key_exists("custom_url", $custom_list_action)) {
+                array_push($custom_urls,
+                    [
+                        "id"   => $custom_list_action["lang_var"],
+                        "link" => $custom_list_action["custom_url"],
+                    ]);
+            }
+        }
     }
 }
 ?>

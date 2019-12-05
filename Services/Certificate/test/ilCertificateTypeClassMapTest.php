@@ -29,14 +29,14 @@ class ilCertificateTypeClassMapTest extends \PHPUnit_Framework_TestCase
 	{
 		$class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
-		$this->assertEquals('ilTestPlaceHolderValues', $class);
+		$this->assertEquals('ilTestPlaceholderValues', $class);
 	}
 
 	public function testFetchExercisePlaceHolderClass()
 	{
 		$class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
-		$this->assertEquals('ilExercisePlaceHolderValues', $class);
+		$this->assertEquals('ilExercisePlaceholderValues', $class);
 	}
 
 	public function testFetchScormPlaceHolderClass()
