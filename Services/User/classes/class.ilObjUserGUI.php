@@ -831,9 +831,16 @@ class ilObjUserGUI extends ilObjectGUI
 		$ilias = $DIC['ilias'];
 		$ilUser = $DIC['ilUser'];
 		$ilSetting = $DIC['ilSetting'];
+		$access = $DIC->access();
 		
-		// User folder
-		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
+		// User folder && access granted by rbac or by org unit positions
+		if($this->usrf_ref_id == USER_FOLDER_ID &&
+			(
+				!$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id) &&
+				!in_array($this->user->getId(), $access->filterUserIdsByPositionOfCurrentUser(
+						'read_users', $this->usrf_ref_id, array($this->user->getId())))
+			)
+		)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
