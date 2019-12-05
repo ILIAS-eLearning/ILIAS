@@ -10,29 +10,36 @@ class ilDerivedTaskTest extends \ilTasksTestBase
 {
 	public function testTitle()
 	{
-		$task = new ilDerivedTask("title", 99, 1234, 1000);
+		$task = new ilDerivedTask("title", 99, 1234, 1000, 0);
 
 		$this->assertEquals('title', $task->getTitle());
 	}
 
 	public function testRefId()
 	{
-		$task = new ilDerivedTask("title", 99, 1234, 1000);
+		$task = new ilDerivedTask("title", 99, 1234, 1000, 0);
 
 		$this->assertEquals(99, $task->getRefId());
 	}
 
 	public function testDeadline()
 	{
-		$task = new ilDerivedTask("title", 99, 1234, 1000);
+		$task = new ilDerivedTask("title", 99, 1234, 1000, 0);
 
 		$this->assertEquals(1234, $task->getDeadline());
 	}
 
 	public function testStartingTime()
 	{
-		$task = new ilDerivedTask("title", 99, 1234, 1000);
+		$task = new ilDerivedTask("title", 99, 1234, 1000, 0);
 
 		$this->assertEquals(1000, $task->getStartingTime());
+	}
+
+	public function testWspId()
+	{
+		$task = new ilDerivedTask("title", 99, 1234, 1000, 0);
+
+		$this->assertEquals(0, $task->getWspId());
 	}
 }

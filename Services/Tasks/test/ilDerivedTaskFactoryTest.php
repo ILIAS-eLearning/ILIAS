@@ -30,6 +30,7 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
 		$this->assertEquals(123, $task->getRefId());
 		$this->assertEquals(1234, $task->getDeadline());
 		$this->assertEquals(1000, $task->getStartingTime());
+		$this->assertEquals(0, $task->getWspId());
 	}
 
 	public function testCollector()
