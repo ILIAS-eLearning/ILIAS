@@ -845,7 +845,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 		$a_tpl->resetHeaderBlock(false);
 		// $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
 		// @todo fix this
-		//$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($a_portfolio->getTitle());
 		// $a_tpl->setTitleColor($a_portfolio->getFontColor());		
