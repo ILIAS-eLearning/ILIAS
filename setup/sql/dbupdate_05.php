@@ -3363,6 +3363,7 @@ if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
 			'default'	=> null
 		)
 	);
+}
 ?>
 <#5612>
 <?php
