@@ -13841,19 +13841,6 @@ glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 prg#:#prg_assign_date#:#Assignment date
 prg#:#prg_assigned_by#:#Assigned by
-survey#:#svy_mail_context_reminder_title#:#Survey Reminder
-survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
-survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
-survey#:#svy_reminder_mail_template#:#Mail Template
-survey#:#svy_reminder_mail_template_none#:#Do not use mail template
-survey#:#svy_eval_view#:#View
-survey#:#svy_eval_view_tables_charts#:#Table and chart
-survey#:#svy_eval_view_tables#:#Table
-survey#:#svy_eval_view_charts#:#Chart
-survey#:#svy_eval_captions#:#Figures
-survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
-survey#:#svy_eval_captions_abs#:#Absolute
-survey#:#svy_eval_captions_perc#:#Percentage
 style#:#add_system_style#:#Add System Style
 style#:#add_substyle#:#Add Sub Style
 style#:#skin_id#:#Skin ID
