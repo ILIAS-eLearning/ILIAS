@@ -23,7 +23,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
 		$ilCtrl = $DIC['ilCtrl'];
 		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
+		$rbacsystem = $DIC['rbacsystem'];
 
 		$lng->loadLanguageModule('rbac');
 		$this->setId("usrroleass");
@@ -38,14 +38,18 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 		$this->addColumn($this->lng->txt("role"), "title");
 		$this->addColumn($this->lng->txt("description"), "description");
 		$this->addColumn($this->lng->txt("context"), "path");
-		$this->setSelectAllCheckbox("role_id[]");
 		$this->initFilter();
 		$this->setEnableHeader(true);
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
 		$this->setRowTemplate("tpl.role_assignment_row.html", "Services/User");
 		$this->setEnableTitle(true);
 
-		$this->addMultiCommand("assignSave", $lng->txt("change_assignment"));
+		if($rbacsystem->checkAccess("edit_roleassignment", USER_FOLDER_ID))
+		{
+			$this->setSelectAllCheckbox("role_id[]");
+			$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+			$this->addMultiCommand("assignSave", $lng->txt("change_assignment"));
+		}
+
 	}
 	
 	/**
