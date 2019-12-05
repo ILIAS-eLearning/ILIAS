@@ -92,14 +92,22 @@ class ErrorTextEditor extends AbstractEditor {
      * @return Answer
      */
     public function readAnswer() : string
-    {
-        $answers = explode(',', $_POST[$this->getPostKey()]);
+    {       
+        $answers = $_POST[$this->getPostKey()];
         
-        $answers = array_map(function($answer) {
-            return intval($answer);
-        }, $answers);
+        if(strlen($answers) > 0) {
+            $answers = explode(',', $answers);
+        
+            $answers = array_map(function($answer) {
+                return intval($answer);
+            }, $answers);
             
             return json_encode($answers);
+        }
+        else {
+            return json_encode([]);
+        }
+        
     }
     
     /**
