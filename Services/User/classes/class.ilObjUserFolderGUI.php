@@ -272,8 +272,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
 				USER_FOLDER_ID))
 		{
-			$user_filter = $access->getUserIdsByPositionOfCurrentUser(
-				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID);
+			$users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
+			$user_filter = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_users',
+				\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				USER_FOLDER_ID,
+				$users
+			);
 		}
 
 		// alphabetical navigation
@@ -791,8 +796,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
 					USER_FOLDER_ID))
 			{
-				$utab->addFilterItemValue("user_ids", $access->getUserIdsByPositionOfCurrentUser(
-					ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID));
+				$users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
+				$filtered_users = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
+					'read_users',
+					\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID,
+					$users
+				);
+
+				$utab->addFilterItemValue("user_ids",$filtered_users);
 			}
 
 			return $utab->getUserIdsForFilter();
