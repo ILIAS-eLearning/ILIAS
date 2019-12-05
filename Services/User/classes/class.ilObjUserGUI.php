@@ -2137,10 +2137,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilUser = $DIC['ilUser'];
 		$ilTabs = $DIC['ilTabs'];
+		$access = $DIC->access();
 		
 		$ilTabs->activateTab("role_assignment");
 
-		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
+			!$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
+		)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
 		}

@@ -24,6 +24,9 @@ class ilUserTableGUI extends ilTable2GUI
 	 * @var array
 	 */
 	protected $udf_fields = array();
+
+	/** @var array */
+	protected $filter = array();
 	
 	/**
 	* Constructor
@@ -314,6 +317,11 @@ class ilUserTableGUI extends ilTable2GUI
 			return;
 		}
 
+		if(!isset($this->filter['user_ids']))
+		{
+			$this->filter['user_ids'] = array();
+		}
+
 		include_once("./Services/User/classes/class.ilUserQuery.php");
 		
 		$additional_fields = $this->getSelectedColumns();
@@ -349,6 +357,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setAdditionalFields($additional_fields);
 		$query->setUserFolder($user_filter);
+		$query->setUserFilter($this->filter['user_ids']);
 		$query->setUdfFilter($udf_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		$query->setAuthenticationFilter($this->filter['authentication']);
@@ -399,6 +408,11 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setMaxCount($usr_data["cnt"]);
 		$this->setData($usr_data["set"]);
 	}
+
+	public function addFilterItemValue($filter, $value)
+	{
+		$this->filter[$filter] = $value;
+	}
 		
 	public function getUserIdsForFilter()
 	{				
@@ -406,7 +420,7 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			// All accessible users
 			include_once './Services/User/classes/class.ilLocalUser.php';
-			$user_filter = ilLocalUser::_getFolderIds();
+			$user_filter = ilLocalUser::_getFolderIds(true);
 		}
 		else
 		{
@@ -420,6 +434,11 @@ class ilUserTableGUI extends ilTable2GUI
 				include_once './Services/User/classes/class.ilLocalUser.php';
 				$user_filter = ilLocalUser::_getFolderIds();
 			}
+		}
+
+		if(!isset($this->filter['user_ids']))
+		{
+			$this->filter['user_ids'] = array();
 		}
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
@@ -437,6 +456,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setCourseGroupFilter($this->filter['course_group']);
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setUserFolder($user_filter);
+		$query->setUserFilter($this->filter['user_ids']);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		
 		if($this->getOrderField())

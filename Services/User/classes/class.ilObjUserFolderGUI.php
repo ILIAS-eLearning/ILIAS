@@ -68,6 +68,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $DIC;
 
 		$ilTabs = $DIC['ilTabs'];
+		$rbacsystem = $DIC['rbacsystem'];
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -90,6 +91,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				break;
 				
 			case 'ilrepositorysearchgui':
+
+				$this->checkPermission("read_users");
+
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$user_search = new ilRepositorySearchGUI();
 				$user_search->setTitle($this->lng->txt("search_user_extended")); // #17502
@@ -232,11 +236,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $DIC;
 
 		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
-		$ilToolbar = $DIC['ilToolbar'];
+		$ilToolbar = $DIC->toolbar();
 		$tpl = $DIC['tpl'];
 		$ilSetting = $DIC['ilSetting'];
-		$lng = $DIC['lng'];
+		$access = $DIC->access();
+		$user_filter = array();
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
@@ -254,22 +258,29 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilToolbar->addButtonInstance($button);
 		}
 
+		if(!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
+			$access->checkRbacOrPositionPermissionAccess(
+				'read_users',
+				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				USER_FOLDER_ID))
+		{
+			$user_filter = $access->getUserIdsByPositionOfCurrentUser(
+				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID);
+		}
+
 		// alphabetical navigation
-		include_once './Services/User/classes/class.ilUserAccountSettings.php';
-		$aset = ilUserAccountSettings::getInstance();
 		if ((int) $ilSetting->get('user_adm_alpha_nav'))
 		{
+			if(count($ilToolbar->getItems()) > 0)
+			{
 			$ilToolbar->addSeparator();
+			}
 
 			// alphabetical navigation
 			include_once("./Services/Form/classes/class.ilAlphabetInputGUI.php");
 			$ai = new ilAlphabetInputGUI("", "first");
 			include_once("./Services/User/classes/class.ilObjUser.php");
-			$ai->setLetters(ilObjUser::getFirstLettersOfLastnames());
-			/*$ai->setLetters(array("A","B","C","D","E","F","G","H","I","J",
-				"K","L","M","N","O","P","Q","R","S","T",
-				"U","V","W","X","Y","Z","1","2","3","4","_",
-				"Ä","Ü","Ö",":",";","+","*","#","§","%","&"));*/
+			$ai->setLetters(ilObjUser::getFirstLettersOfLastnames($user_filter));
 			$ai->setParentCommand($this, "chooseLetter");
 			$ai->setHighlighted($_GET["letter"]);
 			$ilToolbar->addInputItem($ai, true);
@@ -277,7 +288,15 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
-		$utab = new ilUserTableGUI($this, "view");
+		$utab = new ilUserTableGUI($this, "view",ilUserTableGUI::MODE_USER_FOLDER, false);
+
+		if(count ($user_filter) > 0)
+		{
+			$utab->addFilterItemValue('user_ids', $user_filter);
+		}
+
+		$utab->getItems();
+
 		$tpl->setContent($utab->getHTML());
 	}
 
@@ -738,10 +757,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	 */
 	protected function getActionUserIds()
 	{
+		global $DIC;
+		$access = $DIC->access();
+
 		if($_POST["select_cmd_all"])
 		{
 			include_once("./Services/User/classes/class.ilUserTableGUI.php");
 			$utab = new ilUserTableGUI($this, "view", ilUserTableGUI::MODE_USER_FOLDER, false);
+
+			if(!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
+				$access->checkRbacOrPositionPermissionAccess(
+					'read_users',
+					ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID))
+			{
+				$utab->addFilterItemValue("user_ids", $access->getUserIdsByPositionOfCurrentUser(
+					ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID));
+			}
+
 			return $utab->getUserIdsForFilter();
 		}
 		else
@@ -2339,6 +2372,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $DIC;
 
+		$this->checkPermission("write,read_users");
+
 		$ilias = $DIC['ilias'];
 		$ilCtrl = $DIC['ilCtrl'];
 		
@@ -2641,6 +2676,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$this->tabs_gui->addTarget("usrf",
 				$this->ctrl->getLinkTarget($this, "view"), array("view","delete","resetFilter", "userAction", ""), "", "");
 
+		}
+
+		if ($rbacsystem->checkAccess("read_users",$this->object->getRefId()))
+		{
 			$this->tabs_gui->addTarget(
 				"search_user_extended",
 				$this->ctrl->getLinkTargetByClass('ilRepositorySearchGUI',''),
@@ -2650,7 +2689,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			);
 		}
 		
-		if ($rbacsystem->checkAccess("write",$this->object->getRefId()))
+		
+		if ($rbacsystem->checkAccess("write,read_users",$this->object->getRefId()))
 		{
 			$this->tabs_gui->addTarget("settings",
 				$this->ctrl->getLinkTarget($this, "generalSettings"),array('askForUserPasswordReset', 'forceUserPasswordReset', 'settings','generalSettings','listUserDefinedField','newAccountMail'));

@@ -5124,18 +5124,19 @@ class ilObjUser extends ilObject
 	/**
 	 * Get first letters of all lastnames
 	 *
-	 * @param
-	 * @return
+	 * @param array $user_ids
+	 * @return mixed
 	 */
-	static function getFirstLettersOfLastnames()
+	static function getFirstLettersOfLastnames($user_ids = [])
 	{
 		global $DIC;
 
-		$ilDB = $DIC['ilDB'];
+		$ilDB = $DIC->database();
 
 		$q = "SELECT DISTINCT ".$ilDB->upper($ilDB->substr("lastname", 1, 1))." let".
 			" FROM usr_data".
 			" WHERE usr_id <> ".$ilDB->quote(ANONYMOUS_USER_ID, "integer").
+			(count($user_ids) > 0 ? " AND " . $ilDB->in('usr_id',$user_ids, false, "integer") : "") .
 			" ORDER BY let";
 		$let_set = $ilDB->query($q);
 
