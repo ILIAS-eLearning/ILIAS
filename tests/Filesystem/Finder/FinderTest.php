@@ -195,6 +195,9 @@ class FinderTest extends TestCase
      */
     public function testFinderWillFilterFilesAndFoldersByCreationTimestamp() : Filesystem\Filesystem
     {
+        $timezone = date_default_timezone_get();
+        date_default_timezone_set("Europe/Berlin");
+
         // 30.03.2019 13:00:00 Europe/Berlin
         $now = 1553947200;
 
@@ -244,6 +247,8 @@ class FinderTest extends TestCase
         $this->assertCount(2, $finder->date('< 2019-03-30 15:00')->files());
         $this->assertCount(3, $finder->date('<= 2019-03-30 15:00')->files());
         $this->assertCount(2, $finder->date('<= 2019-03-30 15:00 - 1minute')->files());
+
+        date_default_timezone_set($timezone);
 
         return $fs;
     }
