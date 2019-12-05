@@ -490,22 +490,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
 		$ilUser = $DIC['ilUser'];
 
-		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
-		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
+		if(!$this->checkUserManipulationAccessBool()) {
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_POST["id"] as $id)
+		foreach ($this->getActionUserIds() as $id)
 		{
-			// instatiate correct object class (usr)
-			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-			$obj->setActive(TRUE, $ilUser->getId());
+			$obj = \ilObjectFactory::getInstanceByObjId($id, false);
+			if($obj instanceof \ilObjUser) {
+				$obj->setActive(true, $ilUser->getId());
 			$obj->update();
+		}
 		}
 
 		ilUtil::sendSuccess($this->lng->txt("user_activated"),true);
@@ -529,22 +527,19 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
 		$ilUser = $DIC['ilUser'];
 		
-		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
-		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
+		if(!$this->checkUserManipulationAccessBool()) {
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
-		
 		// FOR ALL SELECTED OBJECTS
-		foreach ($_POST["id"] as $id)
+		foreach ($this->getActionUserIds() as $id)
 		{
-			// instatiate correct object class (usr)
-			$obj =& $this->ilias->obj_factory->getInstanceByObjId($id);
-			$obj->setActive(FALSE, $ilUser->getId());
+			$obj = \ilObjectFactory::getInstanceByObjId($id, false);
+			if($obj instanceof \ilObjUser) {
+				$obj->setActive(false, $ilUser->getId());
 			$obj->update();
+		}
 		}
 
 		// Feedback
@@ -560,29 +555,30 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 	}
 	
-	function confirmaccessFreeObject()
+	/**
+	 * "access free"
+	 */
+	protected function confirmaccessFreeObject()
 	{
 		global $DIC;
 
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilUser = $DIC['ilUser'];
 
-		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
-		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
+		if(!$this->checkUserManipulationAccessBool()) {
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}
 		
-		// FOR ALL SELECTED OBJECTS
-		foreach ($_POST["id"] as $id)
+		foreach ($this->getActionUserIds() as $id)
 		{
-			// instatiate correct object class (usr)
-			$obj = $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj = \ilObjectFactory::getInstanceByObjId($id, false);
+			if($obj instanceof \ilObjUser) {
 			$obj->setTimeLimitUnlimited(1);
 			$obj->setTimeLimitFrom("");
 			$obj->setTimeLimitUntil("");
 			$obj->setTimeLimitMessage(0);
 			$obj->update();
+		}
 		}
 
 		// Feedback
@@ -610,6 +606,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return true;
 	}
 	
+	/**
+	 * @param bool $a_from_search
+	 * @return \ilPropertyFormGUI|void
+	 */
 	protected function initAccessRestrictionForm($a_from_search = false)
 	{
 		$user_ids = $this->getActionUserIds();			
@@ -655,8 +655,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $form;
 	}
 
-	function confirmaccessRestrictObject()
+	/**
+	 * @return bool
+	 * @throws \ilDatabaseException
+	 * @throws \ilObjectNotFoundException
+	 */
+	protected function confirmaccessRestrictObject()
 	{
+		global $DIC;
+
+		$ilUser = $DIC->user();
+
 		$form = $this->initAccessRestrictionForm();
 		if(!$form->checkInput())
 		{
@@ -671,30 +680,21 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			return $this->setAccessRestrictionObject($form);
 		}
 
-		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
-
-		// FOR NON_REF_OBJECTS WE CHECK ACCESS ONLY OF PARENT OBJECT ONCE
-		if (!$rbacsystem->checkAccess('write',$this->object->getRefId()))
-		{
+		if(!$this->checkUserManipulationAccessBool()) {
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_write"),$this->ilias->error_obj->WARNING);
 		}		
-		
-		// FOR ALL SELECTED OBJECTS
-		foreach ($_POST["id"] as $id)
+		foreach ($this->getActionUserIds() as $id)
 		{
-			// instatiate correct object class (usr)
-			$obj = $this->ilias->obj_factory->getInstanceByObjId($id);
+			$obj = \ilObjectFactory::getInstanceByObjId($id, false);
+			if($obj instanceof \ilObjUser) {
 			$obj->setTimeLimitUnlimited(0);
 			$obj->setTimeLimitFrom($timefrom);
 			$obj->setTimeLimitUntil($timeuntil);
 			$obj->setTimeLimitMessage(0);
 			$obj->update();
 		}
-
-		// Feedback
+		}
 		ilUtil::sendSuccess($this->lng->txt("access_restricted"),true);
 
 		if ($_POST["frsrch"])
@@ -756,7 +756,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 	/**
 	 * Get selected items for table action
 	 * 
-	 * @return array
+	 * @return int[]
 	 */
 	protected function getActionUserIds()
 	{
@@ -782,8 +782,29 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}
 		else
 		{
-			return $_POST["id"];
+			return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
+				'read_user',
+				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				USER_FOLDER_ID,
+				(array) $_POST['id']
+			);
 		}
+	}
+
+	/**
+	 * Check if current user has access to manipulate user data
+	 * @return bool
+	 */
+	private function checkUserManipulationAccessBool()
+	{
+		global $DIC;
+
+		$access = $DIC->access();
+		return $access->checkRbacOrPositionPermissionAccess(
+			'write',
+			\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+			USER_FOLDER_ID
+		);
 	}
 
 	/**
@@ -3007,7 +3028,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		return $cmds;
 	}
 	
-	function usrExportX86Object()
+	/**
+	 * Export excel
+	 */
+	protected function usrExportX86Object()
 	{
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
@@ -3016,18 +3040,20 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			return $this->viewObject();
 		}
 
-		if($this->checkPermissionBool("write,read_users"))
-		{
+		if($this->checkPermissionBool('write,read_users')) {
 			$this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_EXCEL, $user_ids);
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
-		}else
-		{
+		}
+		elseif($this->checkUserManipulationAccessBool()) {
 			$fullname = $this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_EXCEL, $user_ids, true);
-			ilUtil::deliverFile($fullname.'.xlsx', $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL),'',false, true);
+			ilUtil::deliverFile($fullname.'.xlsx', $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_EXCEL).'.xlsx','',false, true);
 		}
 	}
 	
-	function usrExportCsvObject()
+	/**
+	 * Export csv
+	 */
+	protected function usrExportCsvObject()
 	{
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
@@ -3040,14 +3066,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_CSV, $user_ids);
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
-		}else
-		{
+		}
+		elseif($this->checkUserManipulationAccessBool()) {
 			$fullname = $this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_CSV, $user_ids, true);
 			ilUtil::deliverFile($fullname, $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_CSV),'',false, true);
 		}
 	}
 	
-	function usrExportXmlObject()
+	/**
+	 * Export xml
+	 */
+	protected function usrExportXmlObject()
 	{
 		$user_ids = $this->getActionUserIds();	
 		if(!$user_ids)
@@ -3059,14 +3088,17 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			$this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_XML,  $user_ids);
 		$this->ctrl->redirectByClass("ilobjuserfoldergui", "export");
-		}else
-		{
+		}
+		elseif($this->checkUserManipulationAccessBool()) {
 			$fullname = $this->object->buildExportFile(ilObjUserFolder::FILE_TYPE_XML, $user_ids, true);
 			ilUtil::deliverFile($fullname, $this->object->getExportFilename(ilObjUserFolder::FILE_TYPE_XML),'',false, true);
 		}
 	}
 	
-	function mailObject()
+	/**
+	 *
+	 */
+	protected function mailObject()
 	{
 		global $DIC;
 
@@ -3174,9 +3206,12 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		}		
 	}
 
+	/**
+	 * Add users to clipboard
+	 */
 	protected function addToClipboardObject()
 	{
-		$users = (array) $_POST['id'];
+		$users = $this->getActionUserIds();
 		if(!count($users))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);
