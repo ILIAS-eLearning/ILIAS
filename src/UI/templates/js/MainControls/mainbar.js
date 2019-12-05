@@ -122,11 +122,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			adjustToScreenSize = function() {
 				var mb = il.UI.maincontrols.mainbar,
 					amount = mb.renderer.calcAmountOfButtons();
-
+				if(il.UI.page.isSmallScreen()) {
+					mb.model.actions.disengageAll();
+				}
 				mb.model.actions.initMoreButton(amount);
 				mb.renderer.render(mb.model.getState());
 			},
-			init = function(initially_active) {
+			init_desktop = function(initially_active) {
 				var mb = il.UI.maincontrols.mainbar,
 					cookie_state = mb.persistence.read(),
 					init_state = mb.model.getState();
@@ -182,6 +184,20 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
 				mb.renderer.render(mb.model.getState());
 			},
+			init_mobile = function(initially_active) {
+				var mb = il.UI.maincontrols.mainbar;
+				mb.model.actions.disengageAll();
+				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
+				mb.renderer.render(mb.model.getState());
+			},
+			init = function(initially_active) {
+				if(il.UI.page.isSmallScreen()) {
+					init_mobile();
+				} else {
+					init_desktop(initially_active);
+				}
+			},
+
 			public_interface = {
 				addToolEntry: construction.addToolEntry,
 				addPartIdAndEntry: construction.addPartIdAndEntry,
