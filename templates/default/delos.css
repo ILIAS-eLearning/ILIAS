@@ -6786,30 +6786,34 @@ button.close {
 .il-panel-listing-std-item-container {
   margin: 0 0 1px 0;
 }
+.il-panel-listing-std-container {
+  background-color: #f9f9f9;
+}
 .il-panel-listing-std-container > .il-item-group > h4 {
   margin: 16px 0 2px 0;
   font-size: 17px;
   font-weight: normal;
   padding: 0;
-  text-transform: none;
-  color: #909090;
+  color: #707070;
 }
 .il-panel-listing-std-container > h3 {
-  font-weight: normal;
-  padding: 0;
-  margin: 8px 0 2px 0;
+  color: #707070;
   font-size: 19px;
-  text-transform: none;
-  color: #909090;
+  font-weight: 600;
   float: left;
+  padding: 6px 12px;
+  margin: 8px 0 2px 0;
 }
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
+.il-panel-listing-std-container > .dropdown {
+  padding: 20px 20px 0 0;
+}
 .panel-secondary .il-panel-listing-std-container > h3,
 .panel-secondary .panel-body h4 {
   display: block;
-  padding: 3px 6px;
+  padding: 6px 12px;
   font-size: 12px;
   color: #909090;
   margin: 0;
@@ -6826,6 +6830,7 @@ button.close {
 .panel-primary h3.ilHeader {
   flex-grow: 99;
   flex-shrink: 0;
+  font-size: 17px;
   order: 1;
 }
 .panel-secondary .panel-heading .dropdown,
@@ -11022,7 +11027,7 @@ footer {
   padding: 8px 14px;
   background-color: transparent;
   text-transform: none;
-  color: #909090;
+  color: #707070;
 }
 .il-popover.webui-popover-fixed {
   position: fixed;
@@ -17203,10 +17208,10 @@ span.ilNewsRssIcon:hover {
   background-color: #f9f9f9;
 }
 .ilDashboardMainContent .il-item-group h4 {
+  color: #707070;
   margin: 0;
-  padding: 3px 8px;
-  text-transform: none;
-  font-size: 12px;
+  padding: 6px 12px;
+  font-size: 17px;
 }
 div.ilSurveyPageEditDropArea {
   border-color: #88be51;
