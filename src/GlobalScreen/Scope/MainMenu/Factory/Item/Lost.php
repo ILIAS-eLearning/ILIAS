@@ -6,19 +6,21 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractBaseItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Lost
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction
+class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
 
     /**
@@ -33,6 +35,10 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      * @var string
      */
     private $title = "";
+    /**
+     * @var Symbol
+     */
+    private $symbol;
 
 
     /**
@@ -207,6 +213,33 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      * @inheritDoc
      */
     public function isLinkWithExternalAction() : bool
+    {
+        return false;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        return $this;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return null;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
     {
         return false;
     }

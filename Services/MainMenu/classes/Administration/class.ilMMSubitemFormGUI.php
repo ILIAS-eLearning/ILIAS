@@ -90,7 +90,7 @@ class ilMMSubitemFormGUI
         $items[self::F_TITLE] = $title;
 
         // TYPE
-        if (($this->item_facade->isEmpty() && $this->item_facade->isCustom())) {
+        if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
             $type_groups = $this->getTypeGroups($f);
             $type = $f()->field()->switchableGroup($type_groups, $txt('sub_type'), $txt('sub_type_byline'))->withRequired(true);
             if (!$this->item_facade->isEmpty()) {
