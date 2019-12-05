@@ -211,7 +211,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	/**
-	* show information screen
+	 * Show info screen
+	 *
+	 * @throws \ilDateTimeException
+	 * @throws \ilObjectException
+	 * @throws \ilTemplateException
 	*/
 	function infoScreen()
 	{
@@ -265,6 +269,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
 								ilUtil::makeClickable ($this->object->getSyllabus(), true)));
+		}
+		if(strlen($this->object->getTargetGroup())) {
+			$info->addProperty(
+				$this->lng->txt('crs_target_group'),
+				nl2br(
+					\ilUtil::makeClickable($this->object->getTargetGroup(), true)
+				)
+			);
 		}
 		// files
 		if(count($files))
@@ -683,6 +695,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setCols(80);
 		$form->addItem($area);
 		
+		$tg = new \ilTextAreaInputGUI($this->lng->txt('crs_target_group'), 'target_group');
+		$tg->setValue($this->object->getTargetGroup());
+		$tg->setRows(6);
+		$form->addItem($tg);
+		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
 		$form->addItem($section);
@@ -734,6 +751,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $form;
 	}
 	
+	/**
+	 * @return bool
+	 * @throws \ilObjectException
+	 * @todo switch to form
+	 */
 	function updateInfoObject()
 	{
 		global $DIC;
@@ -756,6 +778,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->setImportantInformation(ilUtil::stripSlashes($_POST['important']));
 		$this->object->setSyllabus(ilUtil::stripSlashes($_POST['syllabus']));
+		$this->object->setTargetGroup(\ilUtil::stripSlashes($_POST['target_group']));
 		$this->object->setContactName(ilUtil::stripSlashes($_POST['contact_name']));
 		$this->object->setContactResponsibility(ilUtil::stripSlashes($_POST['contact_responsibility']));
 		$this->object->setContactPhone(ilUtil::stripSlashes($_POST['contact_phone']));
