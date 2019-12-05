@@ -141,7 +141,7 @@ class ilMMItemInformation implements ItemInformation
             }
             $stream = $this->storage->stream($ri)->getStream();
             $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
-            $old_symbol = $item->getSymbol();
+            $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
             if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
                 $aria_label = $old_symbol->getAriaLabel();
             } elseif ($item instanceof hasTitle) {

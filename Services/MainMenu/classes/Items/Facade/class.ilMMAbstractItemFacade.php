@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
@@ -313,7 +314,7 @@ abstract class ilMMAbstractItemFacade implements ilMMItemFacadeInterface
 
     public function supportsCustomIcon() : bool
     {
-        return true; //return $this->isCustom();
+        return $this->gs_item instanceof hasSymbol;
     }
 
 
