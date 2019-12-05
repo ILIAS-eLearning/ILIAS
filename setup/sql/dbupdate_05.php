@@ -3364,8 +3364,22 @@ if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
 		)
 	);
 ?>
-
 <#5612>
+<?php
+global $ilDB;
+if(!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
+        $ilDB->addTableColumn(
+                        'crs_settings',
+                        'target_group',
+                        [
+                                'type' => \ilDBConstants::T_TEXT,
+                                'length' => 4000,
+                                'notnull' => false
+                        ]
+        );
+}
+?>
+<#5613>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3393,7 +3407,7 @@ if(!$db->tableColumnExists('prg_settings','deadline_date')) {
 }
 ?>
 
-<#5613>
+<#5614>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3409,7 +3423,7 @@ if(!$db->tableColumnExists('prg_usr_progress','assignment_date')) {
 }
 ?>
 
-<#5614>
+<#5615>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3423,7 +3437,7 @@ if($db->tableColumnExists('prg_usr_progress','assignment_date') && $db->tableCol
 }
 ?>
 
-<#5615>
+<#5616>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3439,7 +3453,7 @@ if(!$db->tableColumnExists('prg_usr_progress','completion_date')) {
 }
 ?>
 
-<#5616>
+<#5617>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3479,7 +3493,7 @@ if(!$db->tableColumnExists('prg_settings','vq_restart_period')) {
 }
 ?>
 
-<#5617>
+<#5618>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3495,7 +3509,7 @@ if(!$db->tableColumnExists('prg_usr_progress','vq_date')) {
 }
 ?>
 
-<#5618>
+<#5619>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3511,7 +3525,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
 }
 ?>
 
-<#5619>
+<#5620>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3527,7 +3541,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
 		);
 }
 ?>
-<#5620>
+<#5621>
 <?php
 
 global $ilDB;
@@ -3544,7 +3558,7 @@ if(!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
         );
 }
 ?>
-<#5621>
+<#5622>
 <?php
 if(!$ilDB->tableExists('prg_auto_content')) {
 	$ilDB->createTable('prg_auto_content', array(
@@ -3577,7 +3591,7 @@ if(!$ilDB->tableExists('prg_auto_content')) {
 }
 ?>
 
-<#5614>
+<#5623>
 <?php
 require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
 
@@ -3597,7 +3611,7 @@ ilDBUpdateNewObjectType::addRBACCreate('create_prgr', 'Create Study Programme Re
 ]);
 ?>
 
-<#5615>
+<#5624>
 <?php
 if (!$ilDB->tableExists('prg_auto_membership'))
 {
@@ -3637,7 +3651,7 @@ if (!$ilDB->tableExists('prg_auto_membership'))
 }
 ?>
 
-<#5616>
+<#5625>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3654,12 +3668,12 @@ if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
 }
 ?>
 
-<#5617>
+<#5626>
 <?php
 ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
 ?>
 
-<#5618>
+<#5627>
 <?php
 	ilOrgUnitOperationQueries::registerNewOperation(
 		ilOrgUnitOperation::OP_VIEW_MEMBERS,
@@ -3688,7 +3702,7 @@ ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::
 	);
 ?>
 
-<#5619>
+<#5628>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3706,7 +3720,7 @@ if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
 }
 ?>
 
-<#5620>
+<#5629>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3723,7 +3737,7 @@ if(!$db->tableColumnExists('prg_settings','rm_nr_by_usr_days')) {
 }
 ?>
 
-<#5621>
+<#5630>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3740,7 +3754,7 @@ if(!$db->tableColumnExists('prg_settings','proc_end_no_success')) {
 }
 ?>
 
-<#5622>
+<#5631>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3756,7 +3770,7 @@ if(!$db->tableColumnExists('prg_usr_assignments','restart_mail_send')) {
 }
 ?>
 
-<#5623>
+<#5632>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3772,7 +3786,7 @@ if(!$db->tableColumnExists('prg_usr_progress','risky_to_fail_mail_send')) {
 }
 ?>
 
-<#5630>
+<#5633>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3790,7 +3804,7 @@ if(!$db->tableColumnExists('prg_settings','send_re_assigned_mail')) {
 }
 ?>
 
-<#5631>
+<#5634>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3808,7 +3822,7 @@ if(!$db->tableColumnExists('prg_settings','send_info_to_re_assign_mail')) {
 }
 ?>
 
-<#5632>
+<#5635>
 <?php
 global $DIC;
 $db = $DIC['ilDB'];
@@ -3824,4 +3838,8 @@ if(!$db->tableColumnExists('prg_settings','send_risky_to_fail_mail')) {
 		]
 	);
 }
+?>
+<#5636>
+<?php
+$ilCtrlStructureReader->getStructure();
 ?>
