@@ -3977,3 +3977,49 @@ if (!$ilDB->tableExists('acc_criterion_to_doc')) {
 <?php
 $ilCtrlStructureReader->getStructure();
 ?>
+<#5641>
+<?php
+        $ilCtrlStructureReader->getStructure();
+?>
+<#5642>
+<?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'reminder_tmpl', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 4
+                ));
+        }
+?>
+<#5643>
+        <?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_status'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_status', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 1
+                ));
+        }
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_reci'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_reci', array(
+                        'type' => 'text',
+                        'length'  => 2000,
+                        'notnull' => false,
+                        'fixed' => false
+                ));
+        }
+        ?>
+<#5644>
+<?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_cron'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_cron', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 1
+                ));
+        }
+?>
