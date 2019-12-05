@@ -27,6 +27,11 @@ class ilUserTableGUI extends ilTable2GUI
 
 	/** @var array */
 	protected $filter = array();
+
+	/**
+	 * @var null | \ilLoggerFactory
+	 */
+	private $logger = null;
 	
 	/**
 	* Constructor
@@ -35,11 +40,10 @@ class ilUserTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		$this->logger = $DIC->logger()->usr();
 		
 		$this->user_folder_id = $a_parent_obj->object->getRefId();
 
@@ -309,21 +313,22 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 
+
+
 		//#13221 don't show all users if user filter is empty!
 		if(!count($user_filter))
 		{
 			$this->setMaxCount(0);
-			$this->setData(array());
+			$this->setData([]);
 			return;
 		}
 
-		if(!isset($this->filter['user_ids']))
-		{
-			$this->filter['user_ids'] = array();
+		if(is_array($this->filter['user_ids']) && !count($this->filter['user_ids'])) {
+			$this->setMaxCount(0);
+			$this->setData([]);
+			return;
 		}
 
-		include_once("./Services/User/classes/class.ilUserQuery.php");
-		
 		$additional_fields = $this->getSelectedColumns();
 		unset($additional_fields["firstname"]);
 		unset($additional_fields["lastname"]);
@@ -439,6 +444,7 @@ class ilUserTableGUI extends ilTable2GUI
 		if(!isset($this->filter['user_ids']))
 		{
 			$this->filter['user_ids'] = array();
+			$this->filter['user_ids'] = null;
 		}
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");

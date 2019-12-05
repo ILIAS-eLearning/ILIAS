@@ -247,7 +247,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$tpl = $DIC['tpl'];
 		$ilSetting = $DIC['ilSetting'];
 		$access = $DIC->access();
-		$user_filter = array();
+		$user_filter = null;
 		
 		include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
 
@@ -265,7 +265,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilToolbar->addButtonInstance($button);
 		}
 
-		if(!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
+		if(
+			!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
 			$access->checkRbacOrPositionPermissionAccess(
 				'read_users',
 				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
@@ -296,12 +297,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		include_once("./Services/User/classes/class.ilUserTableGUI.php");
 		$utab = new ilUserTableGUI($this, "view",ilUserTableGUI::MODE_USER_FOLDER, false);
-
-		if(count ($user_filter) > 0)
-		{
 			$utab->addFilterItemValue('user_ids', $user_filter);
-		}
-
 		$utab->getItems();
 
 		$tpl->setContent($utab->getHTML());
