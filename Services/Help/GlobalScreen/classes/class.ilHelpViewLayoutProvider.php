@@ -68,7 +68,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
                         $p = $item->getProviderIdentification();
 
                         $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
-
+                        $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), "", $tt_text));
                         if ($tt_text != "") {
                             $global_screen->layout()->meta()->addOnloadCode(
                                 'il.Tooltip.addBySelector("span:contains(\'' .
