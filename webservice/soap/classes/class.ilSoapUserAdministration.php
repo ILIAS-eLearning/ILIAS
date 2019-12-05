@@ -729,9 +729,19 @@ class ilSoapUserAdministration extends ilSoapAdministration
     	$tree = $DIC['tree'];
     	$rbacreview = $DIC['rbacreview'];
     	$rbacsystem = $DIC['rbacsystem'];
+    	$access = $DIC->access();
 
-		if ($ref_id == -1)
+		if ($ref_id == -1) {
 			$ref_id = USER_FOLDER_ID;
+		}
+
+		if(
+			$ref_id == USER_FOLDER_ID &&
+			!$access->checkAccess('read_users','', USER_FOLDER_ID)
+		) {
+			return $this->__raiseError('Access denied', "Client");
+		}
+
 
 		$object = $this->checkObjectAccess($ref_id, array("crs","cat","grp","usrf","sess"), "read", true);
 		if ($this->isFault($object))
