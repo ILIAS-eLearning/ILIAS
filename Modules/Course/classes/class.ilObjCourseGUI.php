@@ -252,8 +252,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->enableNewsEditing();
 		}
 
-		if(strlen($this->object->getImportantInformation()) or
-		   strlen($this->object->getSyllabus()) or
+		if(
+			strlen($this->object->getImportantInformation()) ||
+			strlen($this->object->getSyllabus()) ||
+			strlen($this->object->getTargetGroup()) ||
 		   count($files))
 		{
 			$info->addSection($this->lng->txt('crs_general_informations'));
