@@ -293,7 +293,7 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			// All accessible users
 			include_once './Services/User/classes/class.ilLocalUser.php';
-			$user_filter = ilLocalUser::_getFolderIds();
+			$user_filter = ilLocalUser::_getFolderIds(true);
 		}
 		else
 		{

@@ -425,7 +425,7 @@ class ilObjUserFolder extends ilObject
 	/**
 	* build xml export file
 	*/
-	function buildExportFile($a_mode = "userfolder_export_excel_x86", $user_data_filter = FALSE)
+	function buildExportFile($a_mode = "userfolder_export_excel_x86", $user_data_filter = FALSE, $use_temp_dir = false)
 	{
 		global $DIC;
 
@@ -443,15 +443,18 @@ class ilObjUserFolder extends ilObject
 
 		$lng = $DIC['lng'];
 
-		//get Log File
-		$expDir = $this->getExportDirectory();
-		//$expLog = &$log;
-		//$expLog->delete();
-		//$expLog->setLogFormat("");
-		//$expLog->write(date("[y-m-d H:i:s] ")."Start export of user data");
-
-		// create export directory if needed
-		$this->createExportDirectory();
+		if($use_temp_dir)
+		{
+			$expDir = ilUtil::ilTempnam();
+			$fullname = $expDir;
+		}
+		else
+		{
+			$expDir = $this->getExportDirectory();
+			// create export directory if needed
+			$this->createExportDirectory();
+			$fullname = $expDir."/".$this->getExportFilename($a_mode);
+		}
 
 		//get data
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
@@ -509,7 +512,6 @@ class ilObjUserFolder extends ilObject
 		}
 		//$expLog->write(date("[y-m-d H:i:s] ")."User data export: build an array of all user data entries");
 
-		$fullname = $expDir."/".$this->getExportFilename($a_mode);
 		switch ($a_mode)
 		{
 			case "userfolder_export_excel_x86":
