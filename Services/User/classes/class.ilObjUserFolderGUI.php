@@ -71,7 +71,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $DIC;
 
 		$ilTabs = $DIC['ilTabs'];
-		$rbacsystem = $DIC['rbacsystem'];
+		$access = $DIC->access();
 		
 		$next_class = $this->ctrl->getNextClass($this);
 		$cmd = $this->ctrl->getCmd();
@@ -95,7 +95,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 			case 'ilrepositorysearchgui':
 
-				$this->checkPermission("read_users");
+				if(!$access->checkRbacOrPositionPermissionAccess("read_users", ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
+				{
+					$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
+				}
 
 				include_once('./Services/Search/classes/class.ilRepositorySearchGUI.php');
 				$user_search = new ilRepositorySearchGUI();
@@ -107,6 +110,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 					'searchResultHandler',
 					$this->getUserMultiCommands(true)
 				);
+				$user_search->addUserAccessFilterCallable(array($this, "searchUserAccessFilterCallable"));
 				$this->tabs_gui->setTabActive('search_user_extended');
 				$this->ctrl->setReturn($this,'view');
 				$ret =& $this->ctrl->forwardCommand($user_search);
@@ -2673,6 +2677,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		global $DIC;
 
 		$rbacsystem = $DIC['rbacsystem'];
+		$access = $DIC->access();
 		
 		if ($rbacsystem->checkAccess("visible,read",$this->object->getRefId()))
 		{
@@ -2681,7 +2686,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		}
 
-		if ($rbacsystem->checkAccess("read_users",$this->object->getRefId()))
+		if ($access->checkRbacOrPositionPermissionAccess("read_users", ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
 		{
 			$this->tabs_gui->addTarget(
 				"search_user_extended",
@@ -2901,6 +2906,24 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			$ilCtrl->setParameterByClass("ilobjusergui", "obj_id", (int) $_GET["jmpToUser"]);
 			$ilCtrl->redirectByClass("ilobjusergui", "view");
 		}
+	}
+
+	/**
+	 * @param array $a_user_ids
+	 * @return array
+	 */
+	public function searchUserAccessFilterCallable(array $a_user_ids): array
+	{
+		global $DIC;
+		$access = $DIC->access();
+
+		if(!$this->checkPermissionBool("read_user"))
+		{
+			$a_user_ids = $access->filterUserIdsByPositionOfCurrentUser(
+				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID, $a_user_ids );
+		}
+
+		return $a_user_ids;
 	}
 
 	/**
