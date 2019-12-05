@@ -405,6 +405,12 @@ let map_to_preview = function(value, preview_value) {
     return (floatval / 100.0) * preview_value;
 };
 
+let clear_existing_coordinates = function() {
+    let row = $(this).closest('tr');
+    row.find('.imedd_coordinates').html('');
+    row.find('input[id$=imedd_coordinates]').val('');
+}
+
 $(window).load(function() {
     update_preview();
 });
@@ -415,3 +421,4 @@ $(document).on('click', '.js_select_coordinates', display_coordinate_selector);
 $(document).on('click', '.js_image_select', submit_popup);
 $(document).on('click', '.js_image_cancel, .close', close_popup);
 $(document).on('click', '.js_remove', update_preview);
+$(document).on('change', 'select[id$=imedd_type]', clear_existing_coordinates);

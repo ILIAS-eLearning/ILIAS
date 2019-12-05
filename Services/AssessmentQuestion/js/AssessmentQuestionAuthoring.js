@@ -81,9 +81,6 @@ let clear_row = function(row) {
                 input.attr('type') === 'checkbox') {
             input.attr('checked', false);
         }
-        else if (input.attr('type') === 'hidden') {
-            // dont clear hidden fields
-        }
         else {
             input.val('');
         }
@@ -123,7 +120,7 @@ let set_input_ids = function(table) {
 };
 
 let process_row = function(row, current_row) {
-    row.find("input[name],textarea[name]").each(function() {
+    row.find("input[name],textarea[name],select").each(function() {
         let input = $(this);
         let new_name = update_input_name(input.attr("name"), current_row);
 
