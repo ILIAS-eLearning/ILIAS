@@ -15,6 +15,7 @@ class ilBlogPosting extends ilPageObject
 	protected $blog_node_is_wsp; // [bool]
 	protected $author; // [int]
 	protected $approved; // [bool]
+	protected $withdrawn; // [ilDateTime]
 
 	/**
 	 * Get parent type
@@ -126,6 +127,26 @@ class ilBlogPosting extends ilPageObject
 	}
 
 	/**
+	 * Set last withdrawal date
+	 *
+	 * @param ilDateTime $a_date
+	 */
+	function setWithdrawn(ilDateTime $a_date)
+	{
+		$this->withdrawn = $a_date;
+	}
+
+	/**
+	 * Get last withdrawal date
+	 *
+	 * @return ilDateTime
+	 */
+	function getWithdrawn()
+	{
+		return $this->withdrawn;
+	}
+
+	/**
 	 * Create new blog posting
 	 */
 	function create($a_import = false)
@@ -145,15 +166,16 @@ class ilBlogPosting extends ilPageObject
 		}
 
 		// we are using a separate creation date to enable sorting without JOINs
-		
-		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved)".
+
+		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved, last_withdrawn)".
 			" VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getBlogId(), "integer").",".
 			$ilDB->quote($created, "timestamp").",".
 			$ilDB->quote($this->getAuthor(), "integer").",".
-			$ilDB->quote($this->isApproved(), "integer").")"; // #16526 - import
+			$ilDB->quote($this->isApproved(), "integer").",". // #16526 - import
+			$ilDB->quote($this->getWithdrawn(), "timestamp").")";
 		$ilDB->manipulate($query);
 
 		if(!$a_import)
@@ -180,8 +202,9 @@ class ilBlogPosting extends ilPageObject
 		
 		$query = "UPDATE il_blog_posting SET".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
-			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "text").
+			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "timestamp").
 			",approved =".$ilDB->quote($this->isApproved(), "integer").
+			",last_withdrawn =".$ilDB->quote($this->getWithdrawn()->get(IL_CAL_DATETIME), "timestamp").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		
@@ -215,6 +238,7 @@ class ilBlogPosting extends ilPageObject
 		{
 			$this->setApproved(true);
 		}
+		$this->setWithdrawn(new ilDateTime($rec["last_withdrawn"], IL_CAL_DATETIME));
 		
 		// when posting is deactivated it should loose the approval
 		$this->addUpdateListener($this, "checkApproval");
@@ -259,6 +283,7 @@ class ilBlogPosting extends ilPageObject
 	{
 		$this->setApproved(false);
 		$this->setActive(false);
+		$this->setWithdrawn(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME));
 		$this->update(true, false, false);
 
 		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
@@ -355,6 +380,7 @@ class ilBlogPosting extends ilPageObject
 				$post[$rec["id"]]["created"] = new ilDateTime($rec["created"], IL_CAL_DATETIME);
 				$post[$rec["id"]]["author"] = $rec["author"];
 				$post[$rec["id"]]["approved"] = (bool)$rec["approved"];
+				$post[$rec["id"]]["last_withdrawn"] = new ilDateTime($rec["last_withdrawn"], IL_CAL_DATETIME);
 								
 				foreach(self::getPageContributors("blp", $rec["id"]) as $editor)
 				{

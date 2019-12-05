@@ -129,7 +129,8 @@ class ilBlogDataSet extends ilDataSet
 						"Title" => "integer",
 						"Created" => "text",
 						"Author" => "text",
-						"Approved" => "integer"						
+						"Approved" => "integer",
+						"LastWithdrawn" => "text"
 					);
 			}
 		}
@@ -196,7 +197,7 @@ class ilBlogDataSet extends ilDataSet
 				case "4.3.0":
 				case "5.0.0":
 				case "5.3.0":
-					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved".
+					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved,last_withdrawn".
 						" FROM il_blog_posting WHERE ".
 						$ilDB->in("blog_id", $a_ids, false, "integer"));
 					foreach($this->data as $idx => $item)
@@ -345,7 +346,8 @@ class ilBlogDataSet extends ilDataSet
 					$newObj->setBlogId($blog_id);
 					$newObj->setTitle($a_rec["Title"]);																					
 					$newObj->setCreated(new ilDateTime($a_rec["Created"], IL_CAL_DATETIME));
-					$newObj->setApproved($a_rec["Approved"]);		
+					$newObj->setApproved($a_rec["Approved"]);
+					$newObj->setWithdrawn(new ilDateTime($a_rec["LastWithdrawn"], IL_CAL_DATETIME));
 					
 					// parse export id into local id (if possible)
 					$author = $this->parseObjectExportId($a_rec["Author"], -1);					

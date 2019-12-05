@@ -909,9 +909,8 @@ class ilDashboardGUI
 	 */
 	protected function renderLearningSequences()
 	{
-		return "";
-		//$ren = new \Modules\LearningSequence\MyDashboardRenderer();
-		//return $ren->render();
+		$st_block = new ilDashboardLearningSequenceGUI();
+		return $st_block->getHTML();
 	}
 
 }

@@ -43,11 +43,11 @@ class UserMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAction("logout.php?lang=" . $this->dic->user()->getCurrentLanguage())
             ->withPosition(3)
             ->withTitle($txt("logout"))
-            ->withSymbol($f->symbol()->icon()->custom(ilUtil::getImagePath("icon_logout.svg"),$txt("logout")));
+            ->withSymbol($f->symbol()->glyph()->logout());
 
         // "User"-Menu
         $item[] = $mb->topParentItem($id('user'))
-            ->withSymbol($f->symbol()->glyph()->user())
+            ->withSymbol($f->symbol()->glyph()->settings()) //Note only temporary until User Avatar is available
             ->withTitle("User")
             ->withPosition(4)
             ->withVisibilityCallable(

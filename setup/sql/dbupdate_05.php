@@ -3350,3 +3350,19 @@ $query = "
 $ilDB->manipulateF($query, array('text'), array('lti'));
 
 ?>
+<#5611>
+<?php
+if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
+{
+	$ilDB->addTableColumn(
+		'il_blog_posting',
+		'last_withdrawn',
+		array(
+			'type' 		=> 'timestamp',
+			'notnull'	=> false,
+			'default'	=> null
+		)
+	);
+}
+?>
+

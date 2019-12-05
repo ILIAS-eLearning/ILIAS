@@ -11,7 +11,7 @@ The class provided at this location MUST implement `Services/Tasks/DerivedTasks/
 
 Method `getProviders()` must return an array of objects that implement the `Services/Tasks/DerivedTasks/interfaces/interface.ilDerivedTaskProvider.php` interface
 
-In this interface the method `getTasks($user_id)` must return all tasks fo a user. To create the entries in the `ilDerivedTask[]` array a factory provided by the service should be used.
+In this interface the method `getTasks($user_id)` must return all tasks for a user. To create the entries in the `ilDerivedTask[]` array a factory provided by the service should be used.
 
 ```
 $tasks[] = $this->derived()->factory()->task($title, $ref_id,
@@ -21,7 +21,8 @@ $tasks[] = $this->derived()->factory()->task($title, $ref_id,
 ### Custom Links
 
 The title of a task will be linked with the repository object
-by using `\ilLink::_getStaticLink`, if the task provides a valid `ref_id`.
+by using `\ilLink::_getStaticLink`, if the task provides a valid `ref_id` 
+or `wsp_id` (if an object in the Personal Workspace is addressed). 
 In case a concrete `\ilDerivedTaskProvider` would like to define a custom URL for
 it's tasks, you can use `\ilDerivedTask::withUrl` to retrieve a task with an URL
 passed as method argument.
