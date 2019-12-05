@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBadge
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesBadge
  */
 class ilBadge
 {
@@ -110,7 +108,6 @@ class ilBadge
 	{
 		if($this->getTypeId())
 		{
-			include_once "./Services/Badge/classes/class.ilBadgeHandler.php";
 			$handler = ilBadgeHandler::getInstance();
 			return $handler->getTypeInstanceByUniqueId($this->getTypeId());		
 		}
@@ -357,8 +354,7 @@ class ilBadge
 	 * @return string 
 	 */
 	protected function getFilePath($a_id, $a_subdir = null)
-	{		
-		include_once "Services/Badge/classes/class.ilFSStorageBadge.php";
+	{
 		$storage = new ilFSStorageBadge($a_id);
 		$storage->create();
 		
@@ -463,8 +459,7 @@ class ilBadge
 		}
 		
 		$this->deleteStaticFiles();
-		
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
+
 		ilBadgeAssignment::deleteByBadgeId($this->getId());
 		
 		$ilDB->manipulate("DELETE FROM badge_badge".
@@ -502,7 +497,6 @@ class ilBadge
 		else
 		{
 			// already deleted?
-			include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
 			$parent = ilObjectDataDeletionLog::get($this->getParentId());
 			if($parent["type"])
 			{

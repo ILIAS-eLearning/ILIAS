@@ -633,7 +633,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	/**
 	 * @return bool
 	 */
-	public function getStartTimeIndication() : bool
+	public function getStartTimeIndication() : ?bool
 	{
 		return $this->start_time_indication;
 	}

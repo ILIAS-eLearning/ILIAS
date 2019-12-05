@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-include_once './Services/Badge/classes/class.ilBadgeHandler.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /** 
  * Trigger activity badges from events
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilBadgeAppEventListener implements ilAppEventListener
 {	

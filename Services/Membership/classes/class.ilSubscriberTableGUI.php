@@ -111,7 +111,12 @@ class ilSubscriberTableGUI extends ilTable2GUI
 
 		$this->addMultiCommand('confirmRefuseSubscribers',$this->lng->txt('refuse'));
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
-		
+
+		// begin-patch clipboard
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
+		// end-patch clipboard
+
 
 		$this->setPrefix('subscribers');
 		$this->setSelectAllCheckbox('subscribers',true);

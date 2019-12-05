@@ -1448,8 +1448,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 		}
 		
 		$a_tpl->resetHeaderBlock(false);
-		// @todo fix
-		//$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
+		$a_tpl->setBanner($banner, $banner_width, $banner_height, $a_export);
 		$a_tpl->setTitleIcon($ppic);
 		$a_tpl->setTitle($this->object->getTitle());
 		$a_tpl->setDescription($name);

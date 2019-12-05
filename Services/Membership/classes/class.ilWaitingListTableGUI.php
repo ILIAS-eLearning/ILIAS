@@ -93,6 +93,12 @@ class ilWaitingListTableGUI extends ilTable2GUI
 		$this->addMultiCommand('sendMailToSelectedUsers',$this->lng->txt('crs_mem_send_mail'));
 
 		$this->setDefaultOrderField('sub_time');
+		
+		// begin-patch clipboard
+		$this->lng->loadLanguageModule('user');
+		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
+		// end-patch clipboard
+
 		$this->setPrefix('waiting');
 		$this->setSelectAllCheckbox('waiting',true);
 		

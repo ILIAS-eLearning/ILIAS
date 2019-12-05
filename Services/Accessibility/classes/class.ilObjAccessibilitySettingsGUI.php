@@ -9,13 +9,18 @@ include_once("./Services/Object/classes/class.ilObjectGUI.php");
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$
 *
-* @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI
+* @ilCtrl_Calls ilObjAccessibilitySettingsGUI: ilPermissionGUI, ilAccessibilityDocumentGUI
 * @ilCtrl_IsCalledBy ilObjAccessibilitySettingsGUI: ilAdministrationGUI
 *
 * @ingroup ServicesAccessibility
 */
 class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 {
+	/**
+	 * @var \ILIAS\DI\Container
+	 */
+	protected $dic;
+
 	/**
 	 * @var ilRbacSystem
 	 */
@@ -45,6 +50,7 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	{
 		global $DIC;
 
+		$this->dic = $DIC;
 		$this->rbacsystem = $DIC->rbac()->system();
 		$this->error = $DIC["ilErr"];
 		$this->access = $DIC->access();
@@ -56,6 +62,8 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
 
 		$this->lng->loadLanguageModule('acc');
+		$this->lng->loadLanguageModule('adm');
+		$this->lng->loadLanguageModule('meta');
 	}
 
 	/**
@@ -89,6 +97,35 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 				$ret = $this->ctrl->forwardCommand($perm_gui);
 				break;
 
+			case 'ilaccessibilitydocumentgui':
+				$this->tabs_gui->activateTab('acc_ctrl_cpt');
+
+				$tableDataProviderFactory = new ilAccessibilityTableDataProviderFactory();
+				$tableDataProviderFactory->setDatabaseAdapter($this->dic->database());
+
+				$documentGui = new ilAccessibilityDocumentGUI(
+					$this->object,
+					$this->dic['acc.criteria.type.factory'],
+					$this->dic->ui()->mainTemplate(),
+					$this->dic->user(),
+					$this->dic->ctrl(),
+					$this->dic->language(),
+					$this->dic->rbac()->system(),
+					$this->dic['ilErr'],
+					$this->dic->logger()->acc(),
+					$this->dic->toolbar(),
+					$this->dic->http(),
+					$this->dic->ui()->factory(),
+					$this->dic->ui()->renderer(),
+					$this->dic->filesystem(),
+					$this->dic->upload(),
+					$tableDataProviderFactory,
+					new ilAccessibilityTrimmedDocumentPurifier(new ilAccessibilityDocumentHtmlPurifier())
+				);
+
+				$this->ctrl->forwardCommand($documentGui);
+				break;
+
 			default:
 				if(!$cmd || $cmd == 'view')
 				{
@@ -107,17 +144,62 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 	protected function  getSettingsForm()
 	{
 		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('settings'));
+		$this->form = new ilPropertyFormGUI();
+		$this->form->setTitle($this->lng->txt('settings'));
+
+		$ti = new ilTextInputGUI($this->lng->txt("adm_accessibility_contacts"), "accessibility_support_contacts");
+		$ti->setMaxLength(500);
+		$ti->setValue(ilAccessibilitySupportContacts::getList());
+		$ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
+		$this->form->addItem($ti);
+
+		$se = new ilFormSectionHeaderGUI();
+		$se ->setTitle($this->lng->txt('obj_accs_captcha'));
+		$this->form->addItem($se);
 
 		require_once 'Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php';
 		ilAdministrationSettingsFormHandler::addFieldsToForm(
 			ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY,
-			$form,
+			$this->form,
 			$this
 		);
-		
-		return $form;
+
+		$this->form->addCommandButton("saveAccessibilitySettings", $this->lng->txt("save"));
+		$this->form->setFormAction($this->ctrl->getFormAction($this));
+
+		return $this->form;
+	}
+
+	/**
+	 * Save accessibility settings form
+	 */
+	public function saveAccessibilitySettings()
+	{
+		$tpl = $this->tpl;
+		$lng = $this->lng;
+		$ilCtrl = $this->ctrl;
+		$rbacsystem = $this->rbacsystem;
+		$ilErr = $this->error;
+
+		if (!$rbacsystem->checkAccess("write",$this->object->getRefId()))
+		{
+			$ilErr->raiseError($this->lng->txt("permission_denied"),$ilErr->MESSAGE);
+		}
+
+		$this->getSettingsForm();
+		if ($this->form->checkInput())
+		{
+			// Accessibility support contacts
+			ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
+
+			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
+			$ilCtrl->redirect($this, "editAccessibilitySettings");
+		}
+		else
+		{
+			$this->form->setValuesByPost();
+			$tpl->setContent($this->form->getHtml());
+		}
 	}
 
 	/**
@@ -128,10 +210,10 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 		$this->tabs_gui->setTabActive('acc_settings');
 		if(!$form)
 		{
-			$form = $this->getSettingsForm();
+			$this->form = $this->getSettingsForm();
 		}
 		
-		$this->tpl->setContent($form->getHTML());
+		$this->tpl->setContent($this->form->getHTML());
 	}
 
 	/**
@@ -156,6 +238,15 @@ class ilObjAccessibilitySettingsGUI extends ilObjectGUI
 			$ilTabs->addTarget("acc_access_keys",
 				$this->ctrl->getLinkTarget($this, "editAccessKeys"),
 				array("editAccessKeys", "view"));
+		}
+
+		if ($rbacsystem->checkAccess("read", $this->object->getRefId()))
+		{
+			$ilTabs->addTab(
+				'acc_ctrl_cpt',
+				$this->lng->txt('acc_ctrl_cpt_txt'),
+				$this->ctrl->getLinkTargetByClass('ilaccessibilitydocumentgui')
+			);
 		}
 
 		if ($rbacsystem->checkAccess("edit_permission", $this->object->getRefId()))

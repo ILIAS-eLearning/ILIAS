@@ -27,7 +27,7 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
 	
 	protected function getTitleForItem(ilObjStudyProgramme $a_programme) {
 		$title = $a_programme->getTitle();
-		if (!$this->progress->isRelevant() || $this->progress->getStudyProgramme()->getStatus() == ilStudyProgramme::STATUS_OUTDATED) {
+		if (!$this->progress->isRelevant() || $this->progress->getStudyProgramme()->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED) {
 			return "<s>".$title."</s>";
 		}
 		return $title;

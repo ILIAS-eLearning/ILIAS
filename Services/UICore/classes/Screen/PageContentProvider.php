@@ -167,6 +167,18 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
                 $links[] = $f->link()->standard($translation_title, $translation_url);
             }
 
+			// accessibility control concept
+			if (($accessibility_control_url = \ilAccessibilityControlConceptGUI::getFooterLink()) !== '') {
+				$accessibility_control_title = \ilAccessibilityControlConceptGUI::getFooterText();
+				$links[] = $f->link()->standard($accessibility_control_title, $accessibility_control_url);
+			}
+
+            // report accessibility issue
+			if (($accessibility_report_url = \ilAccessibilitySupportContactsGUI::getFooterLink()) !== '') {
+				$accessibility_report_title = \ilAccessibilitySupportContactsGUI::getFooterText();
+				$links[] = $f->link()->standard($accessibility_report_title, $accessibility_report_url);
+			}
+
             $footer = $f->mainControls()->footer($links, $text);
 
             if (self::$perma_link !== "") {

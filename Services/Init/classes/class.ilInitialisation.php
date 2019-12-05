@@ -686,6 +686,24 @@ class ilInitialisation
 		};
 	}
 
+	protected static function initAccessibilityControlConcept(\ILIAS\DI\Container $c)
+	{
+		$c['acc.criteria.type.factory'] = function (\ILIAS\DI\Container $c) {
+			return new ilAccessibilityCriterionTypeFactory($c->rbac()->review(), $c['ilObjDataCache']);
+		};
+
+		$c['acc.document.evaluator'] = function (\ILIAS\DI\Container $c) {
+			return new ilAccessibilitySequentialDocumentEvaluation(
+				new ilAccessibilityLogicalAndDocumentCriteriaEvaluation(
+					$c['acc.criteria.type.factory'], $c->user(), $c->logger()->acc()
+				),
+				$c->user(),
+				$c->logger()->acc(),
+				\ilAccessibilityDocument::orderBy('sorting')->get()
+			);
+		};
+	}
+
 	/**
 	 * initialise $ilSettings object and define constants
 	 *
@@ -1238,6 +1256,7 @@ class ilInitialisation
 		self::initAvatar($GLOBALS['DIC']);
 		self::initCustomObjectIcons($GLOBALS['DIC']);
 		self::initTermsOfService($GLOBALS['DIC']);
+		self::initAccessibilityControlConcept($GLOBALS['DIC']);
 
 
 		// --- needs settings

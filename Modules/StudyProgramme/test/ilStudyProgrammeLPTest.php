@@ -17,11 +17,15 @@ require_once(__DIR__."/mocks.php");
 class ilStudyProgrammeLPTest extends TestCase {
 	protected $backupGlobals = FALSE;
 
-	protected function setUp(): void {
+	protected function setUp() : void {
 		require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
+		PHPUnit\Framework\Error\Deprecated::$enabled = false;
 
-		include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-		ilUnitUtil::performInitialisation();
+		global $DIC;
+		if(!$DIC) {
+			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+			ilUnitUtil::performInitialisation();
+		}
 		
 		$this->root = ilObjStudyProgramme::createInstance();
 		$this->root->putInTree(ROOT_FOLDER_ID);
@@ -60,14 +64,14 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 
 	protected function setAllNodesActive() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
 	}
 	
 	protected function assignNewUserToRoot() {
 		$user = $this->newUser();
-		return array($this->root->assignUser($user->getId()), $user);
+		return array($this->root->assignUser($user->getId(),6), $user);
 	}
 
 	public function testInitialLPActive() {
@@ -90,9 +94,9 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 	
 	public function testInitialLPDraft() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_DRAFT)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_DRAFT)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -112,9 +116,9 @@ class ilStudyProgrammeLPTest extends TestCase {
 	}
 	
 	public function testInitialProgressOutdated() {
-		$this->root->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node1->setStatus(ilStudyProgramme::STATUS_ACTIVE)->update();
-		$this->node2->setStatus(ilStudyProgramme::STATUS_OUTDATED)->update();
+		$this->root->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node1->setStatus(ilStudyProgrammeSettings::STATUS_ACTIVE)->update();
+		$this->node2->setStatus(ilStudyProgrammeSettings::STATUS_OUTDATED)->update();
 		
 		$tmp = $this->assignNewUserToRoot();
 		$user = $tmp[1];
@@ -241,7 +245,7 @@ class ilStudyProgrammeLPTest extends TestCase {
 		$user = $tmp[1];
 
 		$user2 = $this->newUser();
-		$USER_ID = $user2->getId();
+		$USER_ID = (int)$user2->getId();
 
 		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
 		$node2_progress->markFailed($USER_ID);
@@ -276,6 +280,42 @@ class ilStudyProgrammeLPTest extends TestCase {
 		$this->assertNotNull($node3_progress);
 		$this->assertEquals( ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM
 						   , ilLPStatusWrapper::_determineStatus($node3->getId(), $user->getId())
+						   );
+	}
+
+	public function test_invalidate() {
+		$progress_repo = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository'];
+		$this->setAllNodesActive();
+		$yesterday = new DateTime();
+		$yesterday->sub(new DateInterval('P1D'));
+
+		$tmp = $this->assignNewUserToRoot();
+		$ass = $tmp[0];
+		$user = $tmp[1];
+
+		$node2_progress = array_shift($this->node2->getProgressesOf($user->getId()));
+		$node2_progress->markAccredited(6);
+
+		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->node2->getId(), $user->getId())
+						   );
+		$this->assertEquals( ilLPStatus::LP_STATUS_COMPLETED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
+						   );
+		$progress_repo->update(
+			$progress_repo->readByIds((int)$this->root->getId(),(int)$ass->getId(),(int)$user->getId())
+				->setValidityOfQualification($yesterday)
+		);
+
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertTrue($root_progress->isSuccessfulExpired());
+		$this->assertFalse($root_progress->isInvalidated());
+		$root_progress->invalidate();
+		$root_progress = array_shift($this->root->getProgressesOf($user->getId()));
+		$this->assertTrue($root_progress->isSuccessfulExpired());
+		$this->assertTrue($root_progress->isInvalidated());
+		$this->assertEquals( ilLPStatus::LP_STATUS_FAILED_NUM
+						   , ilLPStatusWrapper::_determineStatus($this->root->getId(), $user->getId())
 						   );
 	}
 }

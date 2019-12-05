@@ -113,6 +113,26 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+survey#:#svy_mail_context_reminder_title#:#Umfrage-Erinnerung
+survey#:#svy_mail_context_reminder_info#:#Erinnert Benutzer an einer Umfrage teilzunehmen
+survey#:#svy_mail_context_reminder_survey_title#:#Umfragetitel
+survey#:#svy_reminder_mail_template#:#Mail-Vorlage
+survey#:#svy_reminder_mail_template_none#:#Keine Vorlage verwenden
+survey#:#svy_eval_view#:#Anzeige
+survey#:#svy_eval_view_tables_charts#:#Tabelle und Grafik
+survey#:#svy_eval_view_tables#:#Tabelle
+survey#:#svy_eval_view_charts#:#Grafik
+survey#:#svy_eval_captions#:#Kennzahl
+survey#:#svy_eval_captions_abs_perc#:#Anzahl und Prozent
+survey#:#svy_eval_captions_abs#:#Anzahl
+survey#:#svy_eval_captions_perc#:#Prozent
+survey#:#svy_chart_download#:#Diagramm herunterladen
+survey#:#svy_export_pdf#:#Export PDF
+survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
+survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
+survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
+survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
+survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -345,6 +365,43 @@ acc#:#acc_previous#:#Zurück (zur vorigen Seite)
 acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
+acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
+acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
+acc#:#acc_form_new_doc_head#:#Dokument erstellen
+acc#:#acc_form_edit_doc_head#:#Dokument bearbeiten
+acc#:#acc_form_document_title#:#Titel
+acc#:#acc_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+acc#:#acc_form_document#:#Dokument
+acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+acc#:#acc_form_document_new#:#Inhalt ändern
+acc#:#acc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
+acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+acc#:#acc_tbl_docs_title#:#Dokumente
+acc#:#acc_tbl_docs_head_sorting#:#Sortierung
+acc#:#acc_tbl_docs_head_title#:#Titel
+acc#:#acc_tbl_docs_head_created#:#Erstellungsdatum
+acc#:#acc_tbl_docs_head_last_change#:#Letzte Änderung
+acc#:#acc_tbl_docs_head_criteria#:#Vorlagekriterien
+acc#:#acc_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+acc#:#acc_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+acc#:#acc_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
+acc#:#acc_doc_delete#:#Dokument löschen
+acc#:#acc_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+acc#:#acc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+acc#:#acc_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+acc#:#acc_form_criterion#:#Vorlagekriterium
+acc#:#acc_document#:#Dokument
+acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
+acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_crit_type_usr_language#:#Benutzersprache
 administration#:#adm_pub_section_domain_filter#:#Domänen-Filter
 administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anonymen Zugriff. Geben Sie einen oder mehrere Domänen-Namen an, für die der anonyme Zugriff freigeschaltet ist. Domänen, die nicht aufgeführt sind, erlauben keinen anonymen Zugriff.
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
@@ -3668,6 +3725,7 @@ rbac#:#nwss_write#:#Einstellungen in der News- und Webfeeds-Administration bearb
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
+common#:#obj_accs_captcha#:#Captchas
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adve#:#Editor
@@ -13280,6 +13338,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
@@ -13292,6 +13352,10 @@ awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
+common#:#report_accessibility_issue#:#Barriere melden
+common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#accessibility_control_concept#:#Info Barrierefreiheit
+common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter
@@ -15395,6 +15459,7 @@ administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
 dash#:#dash_learningsequences#:#Meine Lernsequenzen
+dash#:#dash_studyprogramme#:#Meine Studienprogramme
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
 rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
 rbac#:#ltis_add_consume_provider#:#Benutzer kann eigene Provider-Einstellungen für LTI-Konsument hinzufügen
@@ -15838,3 +15903,135 @@ style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
 content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
 content#:#cont_page_template#:#Vorlage
 content#:#cont_page_created#:#Seite hinzugefügt
+prg#:#assignment_date#:#Beitrittsdatum
+prg#:#completion_date#:#Abschlussdatum
+prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
+prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
+prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#sp_certificate_title#:#Titel des Programms
+prg#:#sp_certificate_description#:#Beschreibung des Programms
+prg#:#sp_certificate_type#:#Typ des Programms
+prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
+prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
+prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_expiry_date#:#Ablauf Qualifikation
+prg#:#prg_validity#:#Gültigkeit Qualifikation
+prg#:#prg_still_valid#:#Qualifikation gültig
+prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
+prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
+prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
+prg#:#prg_orgus#:#Organisationseinheit(en)
+prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
+prg#:#content_automation#:#Inhaltsautomatisierung
+prg#:#last_edited_by#:#Zuletzt bearbeitet von
+prg#:#last_edited#:#Zuletzt bearbeitet
+prg#:#add_category#:#Kategorie hinzufügen
+prg#:#modal_categories_title#:#Zu überwachende Kategorie
+prg#:#category#:#Kategorie (RefId)
+common#:#obj_prgr#:#Link zum Studienprogramm
+common#:#obj_prgrs#:#Links zu Studienprogrammen
+prg#:#prgr_new#:#Neuer Link zum Studienprogramm
+prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
+prg#:#no_manual_status#:#Kein manueller Status
+prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
+prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
+prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
+prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#auto_memberships#:#Automatische Zuweisung
+prg#:#orgu#:#Organisationseinheit
+prg#:#rol#:#Rolle
+prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#add_automembership_source#:#Automatismus hinzufügen
+prg#:#auto_membership_src_type#:#Typ
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Quelle
+prg#:#prg_autoassignment#:#(automatisch)
+orgu#:#org_op_view_members#:#Mitgliedschaften sichtbar
+orgu#:#org_op_view_individual_plan#:#Individuellen Plan einsehen
+orgu#:#org_op_edit_individual_plan#:#Individuellen Plan bearbeiten
+prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
+prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#prg_formatted_period#:#%d Tage
+prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
+prg#:#dealine_period_info#:#Bearbeitungszeitraum
+prg#:#dealine_date_info#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
+prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
+prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
+prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
+prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
+prg#:#prg_title#:#Titel
+prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigekeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
+prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
+prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
+prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet ist nicht zu bestehen.
+prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
+prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Sudienprogramm.
+prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail wenn eine Qualifikation an einem Studienprogramm ausläuft und sie das Programm noch nicht neu gestartet haben.
+prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
+prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail um den Benutzer daran zu erinnern das Studienprogramm neu zu starten.
+prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
+prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
+search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#select_orgu#:#Organisationseinheiten auswählen
+prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_minimum#:#Minimales Ziel:
+prg#:#prg_dash_label_gain#:#Aktueller Stand:
+prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
+prg#:#percentage#:#%
+prg#:#prg_status_1#:#In Bearbeitung
+prg#:#prg_status_2#:#Abgeschlossen
+prg#:#prg_status_3#:#Akkreditiert
+prg#:#prg_status_4#:#Nicht relevant
+prg#:#prg_status_5#:#Nicht bestanden
+prg#:#prg_multi_change_deadline#:#Stichtag anpassen
+prg#:#prg_multi_change_expire_date#:#Ablauf Qualifikation anpassen
+prg#:#prg_update_expire_date#:#Ablauf Qualifikation erfolgreich aktualisiert.
+prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
+prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
+prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
+prg#:#select_crs#:#Nach Kursen suchen
+prg#:#select_grp#:#Nach Gruppen suchen
+prg#:#select_role#:#Nach Rollen suchen
+prg#:#select_org#:#Nach Organisationseinheiten suchen
+prg#:#label_crs#:#Kursname
+prg#:#label_grp#:#Gruppenname
+prg#:#label_role#:#Rollenname
+prg#:#modal_member_auto_select_title#:#Quelle für automatische Zuweisung wählen
+prg#:#prg_auto_member_select_crs#:#Kurse
+prg#:#prg_auto_member_select_grp#:#Gruppen
+prg#:#prg_auto_member_select_role#:#Rollen
+badge#:#badge_new_badges#:#Sie haben %1 Badge(s) erhalten.

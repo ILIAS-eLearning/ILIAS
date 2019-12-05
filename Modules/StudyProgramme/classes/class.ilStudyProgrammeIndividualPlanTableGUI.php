@@ -15,7 +15,10 @@ require_once("Services/Utilities/classes/class.ilUtil.php");
  */
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
+	const SEL_COLUMN_COMPLETION_DATE = "completion_date";
 	const SEL_COLUMN_DEADLINE = "prg_deadline";
+	const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
+
 
 	protected $assignment;
 	/**
@@ -86,9 +89,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 		$this->tpl->setVariable("STATUS", $status);
 
 		$title = $a_set["title"];
-		if($a_set["program_status"] == ilStudyProgramme::STATUS_DRAFT) {
+		if($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
 			$title .= " (".$this->lng->txt("prg_status_draft").")";
-		} else if ($a_set["program_status"] == ilStudyProgramme::STATUS_OUTDATED) {
+		} else if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
 			$title .= " (".$this->lng->txt("prg_status_outdated").")";
 		}
 
@@ -104,10 +107,20 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		foreach ($this->getSelectedColumns() as $column) {
 			switch($column) {
+				case self::SEL_COLUMN_ASSIGNMENT_DATE:
+					$this->tpl->setCurrentBlock("assignment_date");
+					$this->tpl->setVariable("ASSIGNMENT_DATE",$a_set["assignment_date"]);
+					$this->tpl->parseCurrentBlock("assignment_date");
+					break;
 				case self::SEL_COLUMN_DEADLINE:
 					$this->tpl->setCurrentBlock("deadline");
 					$this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
 					$this->tpl->parseCurrentBlock("deadline");
+					break;
+				case self::SEL_COLUMN_COMPLETION_DATE:
+					$this->tpl->setCurrentBlock("completion_date");
+					$this->tpl->setVariable("COMPLETION_DATE",$a_set["completion_date"]);
+					$this->tpl->parseCurrentBlock("completion_date");
 					break;
 			}
 		}
@@ -121,9 +134,12 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 	public function getSelectableColumns() {
 		$cols = array();
 
+		$cols[self::SEL_COLUMN_ASSIGNMENT_DATE] = array(
+				"txt" => $this->lng->txt("assignment_date"));
 		$cols[self::SEL_COLUMN_DEADLINE] = array(
 				"txt" => $this->lng->txt("prg_deadline"));
-
+		$cols[self::SEL_COLUMN_COMPLETION_DATE] = array(
+				"txt" => $this->lng->txt("completion_date"));
 		return $cols;
 	}
 
@@ -159,19 +175,25 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 						   , "completion_by" => $completion_by
 						   , "progress_id" => $progress->getId()
 						   , "program_status" => $progress->getStudyProgramme()->getStatus()
-						   , "deadline" =>$progress->getDeadline()
+						   , "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y')
+						   , "deadline" => $progress->getDeadline()
+						   , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
 						   );
-		});
+		}, true);
 		return $plan;
 	}
 
 	protected function getManualStatusSelect($a_progress_id, $a_status) {
-		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-			return "";
-		}
-
 		$parent = $this->getParentObject();
 		$status_title = $parent->getManualStatusPostVarTitle();
+		if ($a_status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
+			$inv_select = new ilNonEditableValueGUI("", $status_title."[$a_progress_id]");
+			$inv_select->setValue($this->lng->txt('no_manual_status'));
+			return $inv_select->render();
+		}
+
+
+
 		$manual_status_none = $parent->getManualStatusNone();
 		$manual_status_not_relevant = $parent->getManualStatusNotRelevant();
 		$manual_status_accredited = $parent->getManualStatusAccredited();
@@ -212,7 +234,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI {
 
 		$deadline_title = $this->getParentObject()->getDeadlinePostVarTitle();
 		$gui = new ilDateTimeInputGUI("", $deadline_title."[$a_progress_id]");
-		$gui->setDate($deadline);
+		$gui->setDate($deadline ? new ilDateTime($deadline->format('Y-m-d H:i:s'),IL_CAL_DATETIME) : null);
 
 		return $gui->render();
 	}

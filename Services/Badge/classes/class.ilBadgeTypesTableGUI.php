@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for badge type listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilBadgeTypesTableGUI extends ilTable2GUI
 {		
@@ -88,7 +83,6 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
 		
 		$this->setData($data);
 		
-		include_once "Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php";
 	}
 	
 	protected function fillRow($a_set)

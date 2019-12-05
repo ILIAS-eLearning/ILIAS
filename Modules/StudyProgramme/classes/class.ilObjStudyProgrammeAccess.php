@@ -10,7 +10,7 @@ require_once('./Services/Conditions/interfaces/interface.ilConditionHandling.php
 /**
  * Class ilObjStudyProgrammeAccess
  *
- * TODO: deletion is only allowed if there are now more users assigned to the
+ * TODO: deletion is only allowed if there are no more users assigned to the
  * programme.
  *
  * @author: Richard Klees <richard.klees@concepts-and-training.de>
@@ -117,7 +117,7 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
 				ilStudyProgrammeProgress::STATUS_ACCREDITED
 			);
 
-			$prg_user_progress = ilObjStudyProgramme::_getStudyProgrammeUserProgressDB()->getInstancesForUser($a_obj_id, $a_usr_id);
+			$prg_user_progress = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getInstancesForUser($a_obj_id, $a_usr_id);
 			foreach ($prg_user_progress as $progress) {
 				if( in_array($progress->getStatus(), $valid_progress)) {
 					return true;

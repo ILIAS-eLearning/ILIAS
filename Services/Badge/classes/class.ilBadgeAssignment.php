@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBadgeAssignment
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesBadge
  */
 class ilBadgeAssignment
 {
@@ -37,7 +35,37 @@ class ilBadgeAssignment
 			$this->read($a_badge_id, $a_user_id);
 		}		
 	}
-	
+
+    /**
+     * Get new counter
+     *
+     * @param int $a_user_id
+     * @return int
+     */
+    public static function getNewCounter(int $a_user_id): int
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $user = new ilObjUser($a_user_id);
+        $noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository($user);
+
+        $last = $noti_repo->getLastCheckedTimestamp();
+        //$last = 1;
+        if ($last > 0) {
+            $set = $db->queryF("SELECT count(*) cnt FROM badge_user_badge ".
+                " WHERE user_id = %s AND tstamp >= %s",
+                ["integer", "integer"],
+                [$a_user_id, $last]
+            );
+            $rec = $db->fetchAssoc($set);
+            return (int) $rec["cnt"];
+        }
+        return 0;
+    }
+
+
 	public static function getInstancesByUserId($a_user_id)
 	{
 		global $DIC;
@@ -45,7 +73,7 @@ class ilBadgeAssignment
 		$ilDB = $DIC->database();
 		
 		$res = array();
-		
+
 		$set = $ilDB->query("SELECT * FROM badge_user_badge".
 			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
 			" ORDER BY pos");
@@ -58,6 +86,7 @@ class ilBadgeAssignment
 		
 		return $res;
 	}
+
 	
 	public static function getInstancesByBadgeId($a_badge_id)
 	{
@@ -292,7 +321,6 @@ class ilBadgeAssignment
 	public static function updatePositions($a_user_id, array $a_positions)
 	{
 		$existing = array();
-		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach(self::getInstancesByUserId($a_user_id) as $ass)
 		{
 			$badge = new ilBadge($ass->getBadgeId());
@@ -358,7 +386,6 @@ class ilBadgeAssignment
 		$recipient->salt = ilBadgeHandler::getInstance()->getObiSalt();
 						
 		// https://github.com/mozilla/openbadges-backpack/wiki/How-to-hash-&-salt-in-various-languages.
-		include_once "Services/Badge/classes/class.ilBadgeProfileGUI.php";
 		$user = new ilObjUser($this->getUserId());
 		$mail = $user->getPref(ilBadgeProfileGUI::BACKPACK_EMAIL);
 		if(!$mail)
@@ -376,8 +403,7 @@ class ilBadgeAssignment
 		$json->id = $a_url;
 		$json->uid = $unique_id;
 		$json->recipient = $recipient;
-			
-		include_once "Services/Badge/classes/class.ilBadge.php";
+
 		$badge = new ilBadge($this->getBadgeId());
 		$badge_url = $badge->getStaticUrl();
 									
@@ -416,7 +442,7 @@ class ilBadgeAssignment
 		if($suffix == "png")
 		{
 			// using chamilo baker lib
-			include_once "Services/Badge/lib/baker.lib.php";			
+			include_once "Services/Badge/lib/baker.lib.php";
 			$png = new PNGImageBaker(file_get_contents($a_badge_image_path));
 			
 			// add payload
@@ -460,7 +486,6 @@ class ilBadgeAssignment
 	
 	public function getStaticUrl()
 	{
-		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);
 		
 		$url = ILIAS_HTTP_PATH.substr($path, 1);
@@ -477,7 +502,6 @@ class ilBadgeAssignment
 	public function deleteStaticFiles()
 	{
 		// remove instance files
-		include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
 		$path = ilBadgeHandler::getInstance()->getInstancePath($this);				
 		$path = str_replace(".json", ".*", $path);
 		array_map("unlink", glob($path));

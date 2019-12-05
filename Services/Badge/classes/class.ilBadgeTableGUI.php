@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Services/Badge/classes/class.ilBadge.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for badge listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {		
@@ -105,8 +100,6 @@ class ilBadgeTableGUI extends ilTable2GUI
 	{		
 		$data = array();
 		
-		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
-		
 		foreach(ilBadge::getInstancesByParentId($a_parent_obj_id, $this->filter) as $badge)
 		{				
 			$data[] = array(
@@ -143,7 +136,6 @@ class ilBadgeTableGUI extends ilTable2GUI
 		
 		if($this->has_write)
 		{	
-			include_once "Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php";
 			$actions = new ilAdvancedSelectionListGUI();
 			$actions->setListTitle($lng->txt("actions"));
 			
