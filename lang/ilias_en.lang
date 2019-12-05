@@ -243,6 +243,7 @@ lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
 lti#:#lti_member#:#LTI Member
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
 crs#:#crs_timings_short_active_tt#:#Activate Timings
 crs#:#crs_timings_short_start_end_tt_rel#:#Suggested start after course subscription
