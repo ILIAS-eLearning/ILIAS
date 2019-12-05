@@ -17,6 +17,7 @@ define('USER_FOLDER_ID',7);
 
 class ilObjUserFolder extends ilObject
 {
+	public const ORG_OP_EDIT_USER_ACCOUNTS = 'edit_user_accounts';
 
 	public const FILE_TYPE_EXCEL = 'userfolder_export_excel_x86';
 	public const FILE_TYPE_CSV = 'userfolder_export_csv';

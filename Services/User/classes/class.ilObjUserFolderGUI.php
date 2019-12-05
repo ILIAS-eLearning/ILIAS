@@ -95,7 +95,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 				
 			case 'ilrepositorysearchgui':
 
-				if(!$access->checkRbacOrPositionPermissionAccess("read_users", ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
+				if(!$access->checkRbacOrPositionPermissionAccess("read_users", \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
 				{
 					$this->ilias->raiseError($this->lng->txt("permission_denied"),$this->ilias->error_obj->MESSAGE);
 				}
@@ -269,13 +269,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
 			$access->checkRbacOrPositionPermissionAccess(
 				'read_users',
-				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 				USER_FOLDER_ID))
 		{
 			$users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
 			$user_filter = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
 				'read_users',
-				\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 				USER_FOLDER_ID,
 				$users
 			);
@@ -339,7 +339,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$access = $DIC->access();
 		return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
 			'read_users',
-			\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+			\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 			USER_FOLDER_ID,
 			$user_ids
 		);
@@ -793,13 +793,13 @@ class ilObjUserFolderGUI extends ilObjectGUI
 			if(!$access->checkAccess('read_users', '', USER_FOLDER_ID) &&
 				$access->checkRbacOrPositionPermissionAccess(
 					'read_users',
-					ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 					USER_FOLDER_ID))
 			{
 				$users = \ilLocalUser::_getAllUserIds(\ilLocalUser::_getUserFolderId());
 				$filtered_users = $access->filterUserIdsByRbacOrPositionOfCurrentUser(
 					'read_users',
-					\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 					USER_FOLDER_ID,
 					$users
 				);
@@ -813,7 +813,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		{
 			return $access->filterUserIdsByRbacOrPositionOfCurrentUser(
 				'read_user',
-				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+				\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 				USER_FOLDER_ID,
 				(array) $_POST['id']
 			);
@@ -831,7 +831,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		$access = $DIC->access();
 		return $access->checkRbacOrPositionPermissionAccess(
 			'write',
-			\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+			\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
 			USER_FOLDER_ID
 		);
 	}
@@ -2732,7 +2732,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
 		}
 
-		if ($access->checkRbacOrPositionPermissionAccess("read_users", ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
+		if ($access->checkRbacOrPositionPermissionAccess("read_users", \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))
 		{
 			$this->tabs_gui->addTarget(
 				"search_user_extended",
@@ -2966,7 +2966,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 		if(!$this->checkPermissionBool("read_user"))
 		{
 			$a_user_ids = $access->filterUserIdsByPositionOfCurrentUser(
-				ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID, $a_user_ids );
+				\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID, $a_user_ids );
 		}
 
 		return $a_user_ids;

@@ -74,7 +74,7 @@ class ilLocalUser
 			if(!$row->parent_id)
 			{
 				if($rbacsystem->checkAccess('read_users',USER_FOLDER_ID) ||
-					($access_with_orgunit && $access->checkPositionAccess(ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,USER_FOLDER_ID)))
+					($access_with_orgunit && $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,USER_FOLDER_ID)))
 				{
 					$parent[] = $row->parent_id;
 				}
@@ -82,7 +82,7 @@ class ilLocalUser
 			}
 
 			if($rbacsystem->checkAccess('read_users',$row->parent_id) ||
-				($access_with_orgunit && $access->checkPositionAccess(ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,$row->parent_id))
+				($access_with_orgunit && $access->checkPositionAccess(ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,$row->parent_id))
 				or $rbacsystem->checkAccess('cat_administrate_users',$row->parent_id))
 			{
 				if($row->parent_id)
