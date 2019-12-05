@@ -3365,4 +3365,21 @@ if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
 	);
 }
 ?>
+<#5612>
+<?php
 
+global $ilDB;
+
+if(!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
+
+        $ilDB->addTableColumn(
+                        'crs_settings',
+                        'target_group',
+                        [
+                                'type' => \ilDBConstants::T_TEXT,
+                                'length' => 4000,
+                                'notnull' => false
+                        ]
+        );
+}
+?>
