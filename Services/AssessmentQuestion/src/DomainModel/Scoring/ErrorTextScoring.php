@@ -27,41 +27,46 @@ class ErrorTextScoring extends AbstractScoring {
         $max_points = 0;
         
         $selected_words = json_decode($answer->getValue(), true);
+        $correct_words = [];
         
-        foreach ($selected_words as $selected_word) {
-            $wrong = true;
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            /** @var ErrorTextScoringDefinition $scoring_definition */
+            $scoring_definition = $option->getScoringDefinition();
+            $max_points += $scoring_definition->getPoints();
             
-            foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
-                /** @var ErrorTextScoringDefinition $scoring_definition */
-                $scoring_definition = $option->getScoringDefinition();
-                $max_points += $scoring_definition->getPoints();
-                
-                if ($scoring_definition->getWrongWordIndex() === $selected_word) {
+            if (in_array($scoring_definition->getWrongWordIndex(), $selected_words)) {           
+                //multiple words '(( ))'
+                if ($scoring_definition->getWrongWordLength() > 1) {
+                    $correct = true;
                     
-                    $multi_error = false;
-                    
-                    for ($i = 1; $i < $scoring_definition->getWrongWordLength(); $i++) {
+                    for ($i = 0; $i < $scoring_definition->getWrongWordLength(); $i++) {
                         
                         $current = $scoring_definition->getWrongWordIndex() + $i;
                         
                         if (!in_array($current, $selected_words)) {
-                            $multi_error = true;
+                            $correct = false;
                             break;
                         }
-                    }
+                    }       
                     
-                    if (!$multi_error) {
+                    if ($correct) {
+                        for ($i = 0; $i < $scoring_definition->getWrongWordLength(); $i++) {
+                            $correct_words[] = $scoring_definition->getWrongWordIndex() + $i;
+                        } 
                         $reached_points += $scoring_definition->getPoints();
-                        $wrong = false;
-                        break;                        
                     }
                 }
-            }
-            
-            if ($wrong) {
-                $reached_points += $this->question->getPlayConfiguration()->getScoringConfiguration()->getPointsWrong();
+                // single word '#'
+                else 
+                {
+                    $correct_words[] = $scoring_definition->getWrongWordIndex();
+                    $reached_points += $scoring_definition->getPoints();                    
+                }
             }
         }
+        
+        //deduct wrong selections
+        $reached_points -= count(array_diff($selected_words, $correct_words));
         
         return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
