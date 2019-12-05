@@ -1,16 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
-include_once("./Services/Badge/classes/class.ilBadge.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * TableGUI class for badge listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilObjectBadgeTableGUI extends ilTable2GUI
 {		
@@ -114,9 +110,6 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
 		$data = $filter_types = array();
 		
 		$types = ilBadgeHandler::getInstance()->getAvailableTypes();
-		
-		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
-		include_once "Services/Link/classes/class.ilLink.php";
 		
 		foreach(ilBadge::getObjectInstances($this->filter) as $badge_item)
 		{

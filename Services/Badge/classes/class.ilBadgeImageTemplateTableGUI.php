@@ -1,15 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * TableGUI class for badge template listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 {		
@@ -65,7 +62,6 @@ class ilBadgeImageTemplateTableGUI extends ilTable2GUI
 	{		
 		$data = array();
 		
-		include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
 		foreach(ilBadgeImageTemplate::getInstances() as $template)
 		{				
 			$data[] = array(

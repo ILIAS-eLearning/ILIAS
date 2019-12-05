@@ -1,14 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once "Services/Badge/classes/class.ilBadgeHandler.php";
-	
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilBadgeProfileGUI
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesBadge
  */
 class ilBadgeProfileGUI
 {	
@@ -52,6 +49,10 @@ class ilBadgeProfileGUI
 	 */
 	protected $renderer;
 
+    /**
+     * @var \ILIAS\Badge\Notification\BadgeNotificationPrefRepository
+     */
+	protected $noti_repo;
 
 	/**
 	 * Constructor
@@ -68,6 +69,8 @@ class ilBadgeProfileGUI
 		$this->access = $DIC->access();
 		$this->factory = $DIC->ui()->factory();
 		$this->renderer = $DIC->ui()->renderer();
+
+		$this->noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository();
 	}
 
 	const BACKPACK_EMAIL = "badge_mozilla_bp";
@@ -156,9 +159,6 @@ class ilBadgeProfileGUI
 		$data = array();
 		
 		// see ilBadgePersonalTableGUI::getItems()
-		include_once "Services/Badge/classes/class.ilBadge.php";
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
 		foreach(ilBadgeAssignment::getInstancesByUserId($ilUser->getId()) as $ass)
 		{
 			$badge = new ilBadge($ass->getBadgeId());
@@ -240,6 +240,8 @@ class ilBadgeProfileGUI
 
 		$tmpl->setVariable("DECK", $this->renderer->render($badge_components));
 		$tpl->setContent($tmpl->get());
+
+        $this->noti_repo->updateLastCheckedTimestamp();
 	}
 	
 	protected function manageBadges()
@@ -248,7 +250,6 @@ class ilBadgeProfileGUI
 			
 		$this->getSubTabs("manage");
 		
-		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
 		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		
 		$tpl->setContent($tbl->getHTML());		
@@ -256,7 +257,6 @@ class ilBadgeProfileGUI
 	
 	protected function applyFilter()
 	{
-		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
 		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
@@ -265,7 +265,6 @@ class ilBadgeProfileGUI
 	
 	protected function resetFilter()
 	{
-		include_once "Services/Badge/classes/class.ilBadgePersonalTableGUI.php";
 		$tbl = new ilBadgePersonalTableGUI($this, "manageBadges");
 		$tbl->resetOffset();
 		$tbl->resetFilter();
@@ -286,8 +285,6 @@ class ilBadgeProfileGUI
 		if(is_array($ids))
 		{
 			$res = array();
-			include_once "Services/Badge/classes/class.ilBadge.php";
-			include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 			foreach($ids as $id)
 			{
 				$ass = new ilBadgeAssignment($id, $ilUser->getId());
@@ -453,7 +450,6 @@ class ilBadgeProfileGUI
 		
 		ilUtil::sendInfo($lng->txt("badge_backpack_gallery_info"));
 				
-		include_once "Services/Badge/classes/class.ilBadgeBackpack.php";
 		$bp = new ilBadgeBackpack($this->getBackpackMail());
 		$bp_groups = $bp->getGroups();
 
@@ -506,7 +502,6 @@ class ilBadgeProfileGUI
 		$ilUser = $this->user;
 		
 		// check if current user has given badge
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		$ass = new ilBadgeAssignment($a_badge_id, $ilUser->getId());
 		if($ass->getTimestamp())
 		{			
@@ -583,7 +578,6 @@ class ilBadgeProfileGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "saveSettings"));
 		$form->setTitle($lng->txt("settings"));
@@ -638,7 +632,6 @@ class ilBadgeProfileGUI
 			// if email was changed: delete badge files
 			if($new_email != $old_email)
 			{
-				include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 				ilBadgeAssignment::clearBadgeCache($ilUser->getId());
 			}
 					
