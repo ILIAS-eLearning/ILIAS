@@ -1970,15 +1970,9 @@ class ilSurveyEvaluationGUI
 	{
 		$script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
 
-		// :TODO:
 		$bin = ilUtil::isWindows()
 			? ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs.exe"
 			: ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs";
-
-		if (is_file ("/opt/phantomjs-2.1.1-macosx/bin/phantomjs"))
-		{
-			$bin = "/opt/phantomjs-2.1.1-macosx/bin/phantomjs";
-		}
 
 		$parts = parse_url(ILIAS_HTTP_PATH);
 
