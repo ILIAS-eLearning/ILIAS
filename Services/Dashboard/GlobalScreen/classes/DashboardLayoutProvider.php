@@ -29,7 +29,6 @@ class DashboardLayoutProvider extends AbstractModificationProvider implements Mo
 
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
     {
-
         $this->data_collection = $screen_context_stack->current()->getAdditionalData();
         if(!$this->data_collection->is(\ilDashboardGUI::DISENGAGE_MAINBAR, true)) {
             return null;
