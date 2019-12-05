@@ -27,13 +27,16 @@ let shape_click = function (e) {
     $('#answer').val(selected.join(','));
 };
 
-$(window).load(function () {
+let resize_svg_to_img = function() {
     let img = $('.imagemap_editor > img');
     let svg = $('.imagemap_editor > svg');
 
     svg.width(img.width());
-    svg.height(img.height());
-});
+    svg.height(img.height());    
+}
+
+$(window).load(resize_svg_to_img);
+$(window).resize(resize_svg_to_img);
 
 $(document).on("click",
                ".imagemap_editor rect, .imagemap_editor ellipse, .imagemap_editor polygon",
