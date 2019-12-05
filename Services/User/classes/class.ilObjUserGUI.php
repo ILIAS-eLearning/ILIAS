@@ -609,12 +609,14 @@ class ilObjUserGUI extends ilObjectGUI
 		if($this->usrf_ref_id == USER_FOLDER_ID &&
 			(
 				!$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) ||
-				!$access->checkRbacOrPositionPermissionAccess('write', 'read_users', $this->usrf_ref_id) ||
-				!in_array($this->user->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-					'read_users',
-					$this->usrf_ref_id,
-					[$this->user->getId()]
-				))
+				!$access->checkRbacOrPositionPermissionAccess('write', ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id) ||
+				!in_array($this->object->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser
+				(
+					'write',
+					\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID,
+					[$this->object->getId()])
+				)
 			)
 		)
 		{
@@ -848,13 +850,15 @@ class ilObjUserGUI extends ilObjectGUI
 		// User folder && access granted by rbac or by org unit positions
 		if($this->usrf_ref_id == USER_FOLDER_ID &&
 			(
-				!$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) ||
-				!$access->checkRbacOrPositionPermissionAccess('write', 'read_users', $this->usrf_ref_id) ||
-				!in_array($this->user->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser(
-					'read_users',
-					$this->usrf_ref_id,
-					[$this->user->getId()]
-				))
+				!$rbacsystem->checkAccess('visible,read', USER_FOLDER_ID) ||
+				!$access->checkRbacOrPositionPermissionAccess('write', ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID) ||
+				!in_array($this->object->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser
+				(
+					'write',
+					\ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID,
+					[$this->object->getId()])
+				)
 			)
 		)
 		{
