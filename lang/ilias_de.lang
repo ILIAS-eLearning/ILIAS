@@ -5518,6 +5518,8 @@ crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
+grp#:#grp_auto_notification#:#Begrüßungsmail für neue Mitglieder
+grp#:#grp_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Administrator in die Gruppe aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_details#:#Kursdetails

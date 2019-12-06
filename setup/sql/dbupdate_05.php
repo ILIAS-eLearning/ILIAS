@@ -4036,3 +4036,17 @@ ilOrgUnitOperationQueries::registerNewOperation(
     ilOrgUnitOperationContext::CONTEXT_USRF
 );
 ?>
+<#5646>
+<?php
+if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification'))
+{
+        $ilDB->addTableColumn(
+                'grp_settings',
+                'auto_notification', [
+                        'type'    => 'integer',
+                        'notnull' => true,
+                        'default' => 1
+                ]
+        );
+}
+?>
