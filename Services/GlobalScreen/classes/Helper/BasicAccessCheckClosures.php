@@ -53,7 +53,7 @@ class BasicAccessCheckClosures
         }
 
         return $this->getClosureWithOptinalClosure(static function () use ($repo_read): bool {
-            return false;
+            return $repo_read;
         }, $additional);
     }
 
@@ -62,7 +62,7 @@ class BasicAccessCheckClosures
     {
         static $is_anonymous;
         if (!isset($is_anonymous)) {
-            $is_anonymous = false; //(bool) ($this->dic->user()->getId() == 13);
+            $is_anonymous = (bool) $this->dic->user()->isAnonymous() || ($this->dic->user()->getId() == 0);
         }
 
         return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous): bool {
