@@ -1,4 +1,7 @@
 <?php
+namespace ILIAS\MyStaff\ListCourses;
+use ilObjCourse;
+use ilObjUser;
 
 /**
  * Class ilMStListCourse
@@ -48,6 +51,10 @@ class ilMStListCourse {
 	 */
 	protected $usr_email;
 
+	public function get($prop)
+    {
+        return $this->$prop;
+    }
 
 	/**
 	 * @return int

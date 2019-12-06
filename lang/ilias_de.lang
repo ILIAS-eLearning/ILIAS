@@ -11463,6 +11463,8 @@ common#:#my_staff#:#Mitarbeiter
 mst#:#mst_my_staff#:#Mitarbeiter
 mst#:#mst_list_users#:#Mitarbeiterliste
 mst#:#mst_list_courses#:#Einschreibungen
+mst#:#mst_list_certificates#:#Zertifikate
+mst#:#mst_list_competences#:#Kompetenzen
 mst#:#mst_select_course#:#Kurs auswählen
 mst#:#mst_please_select_course#:#Bitte wählen Sie einen Kurs aus.
 mst#:#mst_opt_all#:#Alle
@@ -11471,6 +11473,10 @@ mst#:#mst_memb_status_waitinglist#:#Warteliste
 mst#:#mst_memb_status_registered#:#Angemeldet
 mst#:#mst_show_courses#:#Einschreibungen
 mst#:#mst_courses_of#:#Einschreibungen von %s
+mst#:#mst_profile_fulfilled#:#Erreicht
+mst#:#mst_profile_not_fulfilled#:#Noch nicht erreicht
+mst#:#mst_cert_issued_on#:#Ausgestellt am
+mst#:#mst_download_certificate#:#Zertifikat herunterladen
 orgu#:#msg_position_udpated#:#Position updated
 orgu#:#remove_successful#:#Der Benutzer wurde erfolgreich entfernt.
 orgu#:#orgu_enable_my_staff#:#‘Ansicht Mitarbeiter’ aktivieren
@@ -11488,6 +11494,10 @@ orgu#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 rbac#:#org_op_edit_submissions_grades#:#Abgaben von anderen Benutzern bearbeiten
 orgu#:#org_op_write_learning_progress#:#Lernfortschritt von anderen Benutzern setzen
 rbac#:#org_op_write_learning_progress#:#Lernfortschritt untergeordneter Benutzer setzen
+orgu#:#org_op_view_certificates#:#Zertifikate von anderen Benutzern einsehen
+rbac#:#org_op_view_certificates#:#Zertifikate untergeordneter Benutzern einsehen
+orgu#:#org_op_view_competences#:#Kompetenzen von anderen Benutzern einsehen
+rbac#:#org_op_view_competences#:#Kompetenzen untergeordneter Benutzern einsehen
 rbac#:#positions_override_operations#:#Globale Einstellungen überschreiben
 orgu#:#form_title_org_default_permissions_update#:#Standardrechte
 orgu#:#msg_confirm_deletion#:#Wollen Sie die folgende Position wirklich löschen?

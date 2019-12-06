@@ -1,5 +1,8 @@
 <?php
 
+use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\MyStaff\ListUsers\ilMStListUsersTableGUI;
+
 /**
  * Class ilMStListUsersGUI
  *
@@ -134,14 +137,38 @@ class ilMStListUsersGUI {
 		if ($mst_lus_usr_id > 0) {
 			$selection = new ilAdvancedSelectionListGUI();
 
-			$DIC->ctrl()->setParameterByClass(ilMStShowUserGUI::class, 'usr_id', $mst_lus_usr_id);
-			$selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
-                ilDashboardGUI::class,
-				ilMyStaffGUI::class,
-				ilMStShowUserGUI::class,
-			)));
+			if ($this->access->hasCurrentUserAccessToMyStaff()) {
+                $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'usr_id', $mst_lus_usr_id);
+                $selection->addItem($DIC->language()->txt('mst_show_courses'), '', $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    ilMStShowUserGUI::class,
+                    ilMStShowUserCoursesGUI::class,
+                )));
+            }
 
-			$selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id, rawurlencode($DIC->ctrl()
+			if ($this->access->hasCurrentUserAccessToCertificates()) {
+                $DIC->ctrl()->setParameterByClass(ilUserCertificateGUI::class, 'usr_id', $mst_lus_usr_id);
+                $selection->addItem($DIC->language()->txt('mst_list_certificates'), '', $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    ilMStShowUserGUI::class,
+                    ilUserCertificateGUI::class,
+                )));
+            }
+
+			if ($this->access->hasCurrentUserAccessToCompetences()) {
+                $DIC->ctrl()->setParameterByClass(ilMStShowUserCompetencesGUI::class, 'usr_id', $mst_lus_usr_id);
+                $selection->addItem($DIC->language()->txt('mst_list_competences'), '', $DIC->ctrl()->getLinkTargetByClass(array(
+                    ilDashboardGUI::class,
+                    ilMyStaffGUI::class,
+                    ilMStShowUserGUI::class,
+                    ilMStShowUserCompetencesGUI::class,
+                )));
+            }
+
+
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_lus_usr_id, rawurlencode($DIC->ctrl()
 				->getLinkTarget($this, self::CMD_INDEX)));
 
 			echo $selection->getHTML(true);

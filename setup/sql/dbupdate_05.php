@@ -4099,3 +4099,17 @@ $ilDB->manipulate(
     "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"') " .
     "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
 ?>
+<#5649>
+<?php
+ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_VIEW_CERTIFICATES, 'Read the certificates of a User', [
+    ilOrgUnitOperationContext::CONTEXT_TST,
+    ilOrgUnitOperationContext::CONTEXT_EXC,
+    ilOrgUnitOperationContext::CONTEXT_CRS,
+]);
+ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_VIEW_COMPETENCES, 'Read the competences of a User', [
+    ilOrgUnitOperationContext::CONTEXT_TST,
+    ilOrgUnitOperationContext::CONTEXT_GRP,
+    ilOrgUnitOperationContext::CONTEXT_CRS,
+    ilOrgUnitOperationContext::CONTEXT_SVY,
+]);
+?>
