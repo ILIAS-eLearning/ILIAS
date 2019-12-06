@@ -68,6 +68,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 $entries[] = $this->globalScreen()
                     ->mainBar()
                     ->linkList($this->if->identifier('adm_content_' . $group))
+                    ->withSupportsAsynchronousLoading(true)
                     ->withLinks($links)
                     ->withTitle($this->dic->language()->txt("adm_" . $group))
                     ->withParent($top)

@@ -26,7 +26,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     /**
      * @var bool
      */
-    protected $supports_async_loading = true;
+    protected $supports_async_loading = false;
     /**
      * @var Symbol
      */
