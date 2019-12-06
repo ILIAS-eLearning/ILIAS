@@ -4050,3 +4050,18 @@ if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification'))
         );
 }
 ?>
+<#5647>
+<?php
+if (!$ilDB->tableColumnExists('event_participants','excused'))
+{
+        $ilDB->addTableColumn(
+                'event_participants',
+                'excused', [
+                        'type'    => 'integer',
+                        'length' => 1,
+                        'notnull' => true,
+                        'default' => 0
+                ]
+        );
+}
+?>
