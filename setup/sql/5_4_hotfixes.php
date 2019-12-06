@@ -1184,5 +1184,27 @@ $ilDB->manipulate("UPDATE il_cert_template SET background_image_path = " .
     "WHERE background_image_path LIKE " . $ilDB->quote('%//background%', 'text')
 );
 ?>
+<#82>
+<?php
+if (!$ilDB->tableColumnExists("il_cert_template", "certificate_content_backup")) {
+    $ilDB->addTableColumn("il_cert_template",
+        'certificate_content_backup', array(
+            'type' => 'clob',
+            'default' => '',
+            'notnull' => true,
+        )
+    );
+}
+$ilDB->manipulate(
+    "UPDATE il_cert_template SET " .
+    "certificate_content_backup = certificate_content, " .
+    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"'), " .
+    "certificate_hash = SHA2(CONCAT(CONCAT(CONCAT(COALESCE(certificate_content,''),COALESCE(background_image_path,'')),COALESCE(template_values,'')),COALESCE(thumbnail_image_path,'')), '256') " .
+    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+$ilDB->manipulate(
+    "UPDATE il_cert_user_cert SET " .
+    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"'), " .
+    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+?>
 
 
