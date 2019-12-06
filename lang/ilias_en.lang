@@ -123,6 +123,8 @@ crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitrau
 crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
 crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
+meta#:#udf_type_address#:#Address
+meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl

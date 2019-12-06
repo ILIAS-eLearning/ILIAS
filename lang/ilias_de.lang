@@ -96,6 +96,8 @@ rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ih
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
+meta#:#udf_type_address#:#Adresse
+meta#:#md_adv_edit_complex_option#:#Options-Eigenschaften bearbeiten
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben

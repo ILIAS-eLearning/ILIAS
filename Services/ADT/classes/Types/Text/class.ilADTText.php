@@ -110,6 +110,27 @@ class ilADTText extends ilADT
 			return md5($this->getText());
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getText();
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setText($a_std->value);
+		}
+	}
 }
 
 ?>

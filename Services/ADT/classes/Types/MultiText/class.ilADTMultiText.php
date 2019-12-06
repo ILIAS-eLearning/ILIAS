@@ -126,6 +126,27 @@ class ilADTMultiText extends ilADT
 			return md5(implode("", $elements));
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getTextElements();
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setTextElements($a_std->value);
+		}
+	}
 }
 
 ?>

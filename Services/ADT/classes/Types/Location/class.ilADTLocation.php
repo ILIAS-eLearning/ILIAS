@@ -164,6 +164,31 @@ class ilADTLocation extends ilADT
 					"#".$this->getZoom());
 		}
 	}		
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{		
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->lat = $this->getLatitude();
+			$obj->long = $this->getLongitude();
+			$obj->zoom = $this->getZoom();
+			return $obj;
+		}		
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setLatitude($a_std->lat);
+			$this->setLongitude($a_std->long);
+			$this->setZoom($a_std->zoom);
+		}
+	}
 }
 
 ?>
