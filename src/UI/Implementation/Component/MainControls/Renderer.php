@@ -152,10 +152,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
         //add "more"-slate
-        $more_button = $component->getMoreButton();
         $more_slate = $f->maincontrols()->slate()->combined(
-            $more_button->getLabel(),
-            $more_button->getIconOrGlyph()
+            $component->getMoreButton()->getLabel(),
+            $f->symbol()->glyph()->disclosure()
         );
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
