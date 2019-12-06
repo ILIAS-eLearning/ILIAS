@@ -16014,3 +16014,14 @@ prg#:#prg_auto_member_select_crs#:#Courses
 prg#:#prg_auto_member_select_grp#:#Groups
 prg#:#prg_auto_member_select_role#:#Roles
 badge#:#badge_new_badges#:#You have %1 new badge(s).
+content#:#cont_no_read#:#No read permission
+content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout
+content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout
+content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock
+content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
+content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
+content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
+content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
