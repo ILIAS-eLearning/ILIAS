@@ -218,14 +218,15 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setTitle($a_title)
     {
         $this->legacy_content_template->setTitle((string) $a_title);
-        PageContentProvider::setTitle((string) $a_title);
-        PageContentProvider::setViewTitle((string) $a_title);
 
-        $short_title = $this->il_settings->get('short_inst_name');
+        $short_title = (string)$this->il_settings->get('short_inst_name');
         if (trim($short_title) === "") {
             $short_title = 'ILIAS';
         }
-        PageContentProvider::setShortTitle((string) $short_title);
+
+        PageContentProvider::setShortTitle($short_title);
+        PageContentProvider::setViewTitle((string) $a_title);
+        PageContentProvider::setTitle($short_title);
     }
 
 
