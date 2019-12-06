@@ -116,7 +116,6 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 			'DATETIME'           => '',
 			'DATE_COMPLETED'     => '',
 			'DATETIME_COMPLETED' => '',
-			'CLIENT_WEB_DIR'     => ''
 		);
 	}
 
