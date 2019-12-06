@@ -19,8 +19,20 @@ class ilEventParticipants
 
 	protected $contact = 0;
 
-	protected $registered = array();
-	protected $participated = array();
+	/**
+	 * @var int[]
+	 */
+	protected $registered = [];
+
+	/**
+	 * @var int[]
+	 */
+	protected $participated = [];
+
+	/**
+	 * @var bool
+	 */
+	protected $excused = [];
 
 	/**
 	 * @var int[]
@@ -43,9 +55,9 @@ class ilEventParticipants
 		global $DIC;
 
 		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -97,6 +109,52 @@ class ilEventParticipants
 	}
 
 	/**
+	 * @param bool $a_stat
+	 */
+	public function setExcused(bool $a_stat)
+	{
+		$this->excused = $a_stat;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getExcused() : bool
+	{
+		return $this->excused;
+	}
+
+
+	/**
+	 * Update excused status
+	 * @param int $a_usr_id
+	 * @param bool $a_status
+	 */
+	public function updateExcusedForUser(int $a_usr_id, bool $a_status)
+	{
+		if(!array_key_exists($a_usr_id, $this->participants)) {
+			$event_part = new \ilEventParticipants($this->event_id);
+			$event_part->setUserId($a_usr_id);
+			$event_part->setMark('');
+			$event_part->setComment('');
+			$event_part->setNotificationEnabled(false);
+			$event_part->setParticipated(false);
+			$event_part->setRegistered(false);
+			$event_part->setContact(false);
+			$event_part->setExcused($a_status);
+			$event_part->updateUser();
+			return;
+		}
+
+		$query = 'update event_participants set excused = ' . $this->db->quote($a_status, \ilDBConstants::T_INTEGER) . ' '.
+			'where event_id = ' . $this->db->quote($this->event_id, \ilDBConstants::T_INTEGER) . ' and ' .
+			'usr_id = ' . $this->db->quote($a_usr_id, \ilDBConstants::T_INTEGER);
+		$this->db->manipulate($query);
+		return;
+
+	}
+
+	/**
 	 * @param bool $a_status
 	 */
 	public function setContact($a_status)
@@ -139,14 +197,15 @@ class ilEventParticipants
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact,notification_enabled".
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact,notification_enabled, excused ".
 			") VALUES( ".
 			$ilDB->quote($this->getEventId() ,'integer').", ".
 			$ilDB->quote($this->getUserId() ,'integer').", ".
 			$ilDB->quote($this->getRegistered() ,'integer').", ".
 			$ilDB->quote($this->getParticipated() ,'integer'). ', '.
 			$ilDB->quote($this->getContact(),'integer').', '.
-			$ilDB->quote($this->isNotificationEnabled() ,'integer') .
+			$ilDB->quote($this->isNotificationEnabled() ,'integer') . ', '.
+			$ilDB->quote((int) $this->getExcused(), 'integer') .
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -186,6 +245,15 @@ class ilEventParticipants
 	function hasParticipated($a_usr_id)
 	{
 		return $this->participants[$a_usr_id]['participated'] ? true : false;
+	}
+
+	/**
+	 * @param int $a_usr_id
+	 * @return bool
+	 */
+	public function isExcused(int $a_usr_id) : bool
+	{
+		return $this->participants[$a_usr_id]['excused'] ? true : false;
 	}
 
 	/**
@@ -487,7 +555,6 @@ class ilEventParticipants
 								}
 							}
 						}
-
 					}
 				}
 			}
@@ -499,6 +566,7 @@ class ilEventParticipants
 			$this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
 			$this->participants[$row->usr_id]['registered'] = $row->registered;
 			$this->participants[$row->usr_id]['participated'] = $row->participated;
+			$this->participants[$row->usr_id]['excused'] = $row->excused;
 			$this->participants[$row->usr_id]['contact'] = $row->contact;
 
 			$lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);

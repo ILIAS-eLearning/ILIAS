@@ -258,7 +258,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$this->checkPermission('visible');
@@ -268,6 +268,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());
+		$event_part->updateExcusedForUser($ilUser->getId(), false);
+
 		if(
 			$this->getCurrentObject()->isRegistrationUserLimitEnabled() and 
 			$this->getCurrentObject()->getRegistrationMaxUsers() and
@@ -358,18 +360,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->ctrl->redirect($this,'infoScreen');
 	}
-	
+
 	/**
 	 * unregister from session
 	 *
 	 * @access public
-	 * @return
+	 * @param bool $a_refuse_participation
+	 * @return void
 	 */
-	public function unregisterObject()
+	public function unregisterObject($a_refuse_participation = false)
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
         include_once './Modules/Session/classes/class.ilSessionParticipants.php';
@@ -380,6 +383,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$part->unregister($ilUser->getId());
+
+		if($a_refuse_participation) {
+
+			$event_part = new \ilEventParticipants($this->object->getId());
+			$event_part->updateExcusedForUser($ilUser->getId(), true);
+		}
+
 
 		include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 		ilSessionWaitingList::deleteUserEntry($ilUser->getId(), $this->getCurrentObject()->getId());
@@ -409,8 +419,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				'usr_id' => $ilUser->getId()
 			)
 		);
-
-		ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
+		if($a_refuse_participation) {
+			\ilUtil::sendInfo($this->lng->txt('sess_participation_refused_info'),true);
+		}
+		else {
+			ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
+		}
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -516,6 +530,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$this->showJoinRequestButton($a_ilToolbar);
 	}
+
+
+	/**
+	 * refuse participation
+	 */
+	protected function
+	refuseParticipationObject()
+	{
+		return $this->unregisterObject(true);
+	}
 	
 	/**
 	 * @param $ilToolbar ilToolbarGUI
@@ -550,26 +574,26 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$btn_attend->addCSSClass("btn-primary");
 		$this->ctrl->setParameter($this, "ref_id", $this->getCurrentObject()->getRefId());
 
+		$btn_excused = \ilLinkButton::getInstance();
+		$btn_excused->setCaption($this->lng->txt('sess_bt_refuse'),false);
+		$btn_excused->setUrl($this->ctrl->getLinkTarget($this, 'refuseParticipation'));
+
+
 		if(ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
+
 		}
 		elseif($part->isSubscriber($ilUser->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
 		}
 		elseif(ilSessionWaitingList::_isOnList($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("leave_waiting_list"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
 		}
 		
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());

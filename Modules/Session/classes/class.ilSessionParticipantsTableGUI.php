@@ -85,7 +85,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	
 	
 	/**
-	 * @return ilObjSession
+	 * @return \ilObjSession
 	 */
 	protected function getRepositoryObject()
 	{
@@ -161,7 +161,13 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->setDefaultOrderField('name');
 		}
+
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
+
+		if($this->isRegistrationEnabled()) {
+			$this->addColumn($this->lng->txt('sess_part_table_excused'),'excused');
+		}
+
 		$this->addColumn($this->lng->txt('sess_contact'),'contact');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
 		if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
@@ -281,6 +287,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$tmp_data['comment'] = $usr_data['comment'];
 			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
 			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
+			$tmp_data['excused'] = $this->getParticipants()->getEventParticipants()->isExcused((int) $participant['usr_id']);
 			$tmp_data['contact'] = $this->getParticipants()->isContact($participant['usr_id']);
 
 			$notificationShown = false;
@@ -427,6 +434,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+		if($this->isRegistrationEnabled()) {
+			$this->tpl->setVariable('EXCUSED_CHECKED',$a_set['excused'] ? 'checked="checked"' : '');
+		}
 	}
 	
 	/**
