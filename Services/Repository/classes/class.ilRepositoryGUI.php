@@ -244,7 +244,6 @@ class ilRepositoryGUI
         $show_tree = ($_SESSION["il_rep_mode"] == "flat")
             ? true
             : false;
-        $this->tool_context->current()->addAdditionalData(ilRepositoryGSToolProvider::SHOW_TREE_TOOL, $show_tree);
 
 		// check creation mode
 		// determined by "new_type" parameter
