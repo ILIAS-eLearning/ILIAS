@@ -9605,12 +9605,23 @@ footer {
   padding: 0px;
   margin: 0px;
 }
-.il-maincontrols-footer .il-footer-links ul li {
+.il-maincontrols-footer .il-footer-links li {
   display: inline-block;
   margin-right: 5px;
 }
-.il-maincontrols-footer .il-footer-links ul li a {
+.il-maincontrols-footer .il-footer-links li a {
   color: white;
+}
+.il-maincontrols-footer .il-footer-links li:first-child:before {
+  content: "\00b7";
+  margin-right: 10px;
+}
+.il-maincontrols-footer .il-footer-links li:after {
+  content: "\00b7";
+  margin-left: 10px;
+}
+.il-maincontrols-footer .il-footer-links li:last-child:after {
+  content: " ";
 }
 .il-maincontrols-footer .il-footer-permanent-url {
   margin-right: 5px;

@@ -7,17 +7,29 @@
 		display: inline-block;
 	}
 
-	.il-footer-links ul {
-		list-style: none;
-		padding: 0px;
-		margin: 0px;
-
+	.il-footer-links {
+		ul {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+		}
 		li {
 			display: inline-block;
 			margin-right: 5px;
 			a {
 				color: white;
 			}
+		}
+		li:first-child:before {
+			content: "\00b7";
+			margin-right: 10px;
+		}
+		li:after {
+			content: "\00b7";
+			margin-left: 10px;
+		}
+		li:last-child:after {
+			content: " ";
 		}
 	}
 
