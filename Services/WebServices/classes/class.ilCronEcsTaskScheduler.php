@@ -126,6 +126,22 @@ class ilCronEcsTaskScheduler extends \ilCronJob
 	{
 		$this->logger->debug('Starting ecs task scheduler...');
 
+		$servers = \ilECSServerSettings::getInstance();
+
+		foreach($servers->getServers() as $server) {
+
+			try {
+				$this->logger->info('Starting task execution for ecs server: ' . $server->getTitle());
+				$scheduler = \ilECSTaskScheduler::_getInstanceByServerId($server->getServerId());
+				$scheduler->startTaskExecution();
+			}
+			catch(\Exception $e) {
+				$this->result->setStatus(\ilCronJobResult::STATUS_CRASHED);
+				$this->result->setMessage($e->getMessage());
+				$this->logger->warning('ECS task execution failed with message: ' . $e->getMessage());
+				return $this->result;
+			}
+		}
 		$this->result->setStatus(\ilCronJobResult::STATUS_OK);
 		return $this->result;
 	}
