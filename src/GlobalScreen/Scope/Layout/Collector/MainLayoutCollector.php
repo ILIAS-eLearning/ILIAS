@@ -61,21 +61,7 @@ class MainLayoutCollector extends AbstractBaseCollector
         // Client
         $settings = new ClientSettings();
         $settings->setHashing(true);
-        $settings->setLogging(true);
-
-        if ((new ModeToggle())->getMode() === ModeToggle::MODE1) {
-            $settings->setStoreStateForLevels(
-                [
-                    ItemState::LEVEL_OF_TOPITEM,
-                    ItemState::LEVEL_OF_TOOL,
-                    ItemState::LEVEL_OF_SUBITEM,
-                ]
-            );
-        } else {
-            $settings->setStoreStateForLevels(
-                []
-            );
-        }
+        $settings->setLogging(false);
 
         $client = new Client($settings);
         $client->init($this->getMetaContent());
