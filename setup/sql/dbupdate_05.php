@@ -4067,23 +4067,35 @@ if (!$ilDB->tableColumnExists('event_participants','excused'))
 ?>
 <#5648>
 <?php
-if (!$ilDB->tableColumnExists("il_cert_template", "certificate_content_backup")) {
+if (!$ilDB->tableColumnExists("il_cert_template", "certificate_content_bu")) {
     $ilDB->addTableColumn("il_cert_template",
-        'certificate_content_backup', array(
+        'certificate_content_bu', array(
             'type' => 'clob',
             'default' => '',
             'notnull' => true,
         )
     );
 }
+
+if (!$ilDB->tableColumnExists("il_cert_user_cert", "certificate_content_bu")) {
+    $ilDB->addTableColumn("il_cert_user_cert",
+        'certificate_content_bu', array(
+            'type' => 'clob',
+            'default' => '',
+            'notnull' => true,
+        )
+    );
+}
+
 $ilDB->manipulate(
     "UPDATE il_cert_template SET " .
-    "certificate_content_backup = certificate_content, " .
+    "certificate_content_bu = certificate_content, " .
     "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"'), " .
     "certificate_hash = SHA2(CONCAT(CONCAT(CONCAT(COALESCE(certificate_content,''),COALESCE(background_image_path,'')),COALESCE(template_values,'')),COALESCE(thumbnail_image_path,'')), '256') " .
     "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
 $ilDB->manipulate(
     "UPDATE il_cert_user_cert SET " .
+    "certificate_content_bu = certificate_content, " .
     "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"') " .
     "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
 ?>
