@@ -459,7 +459,13 @@ class ilCertificateMigrationJob extends AbstractJob
 				$this->logger->debug('Found inconsistent object, skipped migration: ' . $objectId);
 				continue;
 			}
-			$data[] = $objectId;
+
+			$session = new \ilTestSessionFactory($object);
+			$session = $session->getSession(null);
+			if ($object->canShowCertificate($session, $session->getUserId(), $session->getActiveId()))
+			{
+				$data[] = $objectId;
+			}
 		}
 
 		$this->logger->info('Got ' . count($data) . ' test certificates for user: ' . $this->user_id);
