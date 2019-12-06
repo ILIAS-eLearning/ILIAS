@@ -3,6 +3,7 @@
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ilMyStaffAccess;
 
 /**
  * Class StandardTopItemsProvider
@@ -148,13 +149,13 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(static function () { return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff(); }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                function () use ($dic) {
-                    return (bool) ($dic->settings()->get("enable_my_staff"));
+                static function () use ($dic) {
+                    return (bool) ($dic->settings()->get('enable_my_staff'));
                 }
             );
 
