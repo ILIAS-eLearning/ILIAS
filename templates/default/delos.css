@@ -9243,7 +9243,7 @@ footer {
   position: absolute;
   max-width: 500px;
   max-height: 90vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   right: 0;
   top: 60px;
   /*TODO: remove hack*/
