@@ -150,51 +150,60 @@ class ilCertificateMigrationJob extends AbstractJob
 				
 				foreach ($certificates[$type] as $certificate_id) {
 					if(\ilCertificate::isObjectActive($certificate_id)) {
-						switch (true) {
-							case $type == 'course' :
-								$acquireDate = new ilDateTime(
-									ilCourseParticipants::getDateTimeOfPassed($certificate_id, $user->getId()),
-									IL_CAL_DATETIME
-								);
-								$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
-								break;
-							case $type == 'test' && ilObjUserTracking::_enabledLearningProgress() :
-								$test = new ilObjTest($certificate_id, false);
-								$acquireTimestamp = $test
-									->getTestResult($test->getActiveIdOfUser($user->getId()))['test']['result_tstamp'];
-								break;
-							default :
-								$acquireDate = new ilDateTime(
-									ilLPStatus::_lookupStatusChanged($certificate_id, $user->getId()),
-									IL_CAL_DATETIME
-								);
-								$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
+						try{
+							switch (true) {
+								case $type == 'course' :
+									$acquireDate = new ilDateTime(
+										ilCourseParticipants::getDateTimeOfPassed($certificate_id, $user->getId()),
+										IL_CAL_DATETIME
+									);
+									$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
+									break;
+								case $type == 'test' && !ilObjUserTracking::_enabledLearningProgress() :
+									$test = new ilObjTest($certificate_id, false);
+									$acquireTimestamp = $test
+										->getTestResult($test->getActiveIdOfUser($user->getId()))['test']['result_tstamp'];
+									break;
+								default :
+									$acquireDate = new ilDateTime(
+										ilLPStatus::_lookupStatusChanged($certificate_id, $user->getId()),
+										IL_CAL_DATETIME
+									);
+									$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
+							}
+						} catch (Exception $exception) {
+							$this->logger->warning(sprintf('Unable to gather aquired timestamp for certificate %s', $certificate_id));
+							$acquireTimestamp = null;
 						}
 						if ($acquireTimestamp === null || 0 === (int) $acquireTimestamp) {
 							$acquireTimestamp = time();
 						}
 						$template = $template_repository->fetchFirstCreatedTemplate($certificate_id);
-						$certificate = new ilUserCertificate(
-							$template->getId(),
-							$certificate_id,
-							$type,
-							$user->getId(),
-							$user->getFullname(),
-							$acquireTimestamp,
-							$value_replacement->replace(
-								$placeholder_values->getPlaceholderValues($user->getId(), $certificate_id),
-								$template->getCertificateContent()
-							) ?? '',
-							json_encode($placeholder_values->getPlaceholderValues($user->getId(), $certificate_id)) ?? '',
-							null,
-							$template->getVersion(),
-							ILIAS_VERSION_NUMERIC,
-							true,
-							$template->getBackgroundImagePath() ?? '',
-							$template->getThumbnailImagePath() ?? ''
-						);
-						$repository->save($certificate);
-						$processed_items++;
+						if($template){
+							$certificate = new ilUserCertificate(
+								$template->getId(),
+								$certificate_id,
+								$type,
+								$user->getId(),
+								$user->getFullname(),
+								$acquireTimestamp,
+								$value_replacement->replace(
+									$placeholder_values->getPlaceholderValues($user->getId(), $certificate_id),
+									$template->getCertificateContent()
+								) ?? '',
+								json_encode($placeholder_values->getPlaceholderValues($user->getId(), $certificate_id)) ?? '',
+								null,
+								$template->getVersion(),
+								ILIAS_VERSION_NUMERIC,
+								true,
+								$template->getBackgroundImagePath() ?? '',
+								$template->getThumbnailImagePath() ?? ''
+							);
+							$repository->save($certificate);
+							$processed_items++;
+						} else {
+							$this->logger->warning(sprintf('Unable to gather template for certificate %s. Skipped.', $certificate_id));
+						}
 					}
 					$this->updateTask([
 						'processed_items' => $processed_items,
