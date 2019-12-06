@@ -17,10 +17,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				/**
 				 * Just open the tools, activate last one
 				 */
-				engageTools: function() {
-					var tool_id = Object.keys(mappings).slice(-1)[0];
-					this.engageTool(tool_id);
-				}
+				disengageAll: function() {
+					this.model.actions.disengageAll();
+					this.renderer.render(this.model.getState());
+				},
 			},
 			construction = {
 				/**
@@ -206,7 +206,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				adjustToScreenSize: adjustToScreenSize,
 				init: init,
 				engageTool: external_commands.engageTool,
-				engageTools: external_commands.engageTools
+				disengageAll: external_commands.disengageAll
 			};
 
 		return public_interface;
@@ -524,6 +524,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					this.getElement().removeClass(css.disengaged);
 					this.getElement().trigger('in_view'); //this is most important for async loading of slates,
 														  //it triggers the GlobalScreen-Service.
+					if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
+						il.UI.maincontrols.metabar.disengageAll();
+					}
 				},
 				disengage: function() {
 					this.getElement().addClass(css.disengaged);
