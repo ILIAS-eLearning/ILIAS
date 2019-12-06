@@ -14167,8 +14167,8 @@ chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat j
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
 chatroom#:#chat_osc_nc_prop_time#:#Zeit
 chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
-chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine versteckte Konversation
-chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s versteckte Konversationen
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine minimierte Konversation.
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Konversationen.
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
@@ -15385,8 +15385,8 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
-common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
-common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage.
+common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen.
 common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung

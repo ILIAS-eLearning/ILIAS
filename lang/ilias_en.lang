@@ -14153,8 +14153,8 @@ chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be a
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
 chatroom#:#chat_osc_nc_prop_time#:#Time
 chatroom#:#chat_osc_nc_no_conv#:#No Conversations available
-chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation
-chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations
+chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation.
+chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
@@ -15369,8 +15369,8 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Text has been saved.
 common#:#nc_contact_requests_headline#:#Contact Requests
-common#:#nc_contact_requests_number_s#:#You have %s Contact Request
-common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
+common#:#nc_contact_requests_number_s#:#You have %s Contact Request.
+common#:#nc_contact_requests_number_p#:#You have %s Contact Requests.
 common#:#nc_contact_requests_prop_time#:#Time
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
 forum#:#sorting#:#Sorting
