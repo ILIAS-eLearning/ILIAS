@@ -39,7 +39,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_EXC_ASSIGNMENT_INFO, true)) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("exc_ass_info"))
                 ->withTitle($lng->txt("exc_assignment"))

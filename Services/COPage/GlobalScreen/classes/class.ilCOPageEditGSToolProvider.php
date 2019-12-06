@@ -36,7 +36,7 @@ class ilCOPageEditGSToolProvider extends AbstractDynamicToolProvider
             $title = $this->dic->language()->txt('editor');
             $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/pencil.svg"), $title);
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("copg_editor"))
                 ->withSymbol($icon)

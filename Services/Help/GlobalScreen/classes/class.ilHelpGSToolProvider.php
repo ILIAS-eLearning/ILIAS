@@ -42,7 +42,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 
         if ($this->showHelpTool()) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
