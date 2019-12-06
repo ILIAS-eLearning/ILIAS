@@ -300,6 +300,20 @@ abstract class ilADT
 	 * @return string
 	 */
 	abstract public function getCheckSum();
+	
+	/**
+	 * Export value as stdClass
+	 * 
+	 * @return stdClass
+	 */
+	abstract public function exportStdClass();
+	
+	/**
+	 * Import value from stdClass
+	 * 
+	 * @param stdClass $a_std
+	 */
+	abstract public function importStdClass($a_std);
 }
 
 ?>

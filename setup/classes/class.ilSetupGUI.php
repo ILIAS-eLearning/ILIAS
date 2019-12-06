@@ -941,9 +941,6 @@ class ilSetupGUI
 
 		$preliminaries = array("php", "root", "folder_create",
 			"cookies_enabled", "dom", "xsl", "gd", "memory");
-		if ($this->setup->hasOpCacheEnabled()) {
-			$preliminaries[] = 'load_comments';
-		}
 
 		foreach ($preliminaries as $preliminary)
 		{
@@ -3717,12 +3714,7 @@ class ilSetupGUI
 		};
 // BEGIN WebDAV
 		// read module and service information into db
-		require_once "./setup/classes/class.ilModuleReader.php";
-		require_once "./setup/classes/class.ilServiceReader.php";
-		require_once "./setup/classes/class.ilCtrlStructureReader.php";
 
-		require_once "./Services/Component/classes/class.ilModule.php";
-		require_once "./Services/Component/classes/class.ilService.php";
 		$modules = ilModule::getAvailableCoreModules();
 		$services = ilService::getAvailableCoreServices();
 
@@ -4582,9 +4574,7 @@ class ilSetupGUI
 
 		if(!$this->setup->ini->groupExists('background_tasks')) {
 			$this->setup->ini->addGroup('background_tasks');
-			var_dump($this->setup->ini->getError());
 			$this->setup->ini->write();
-			var_dump($this->setup->ini->getError());
 		}
 
 		$this->setup->ini->setVariable("background_tasks","concurrency",$form->getInput('concurrency'));

@@ -1,9 +1,9 @@
 <?php
 
-
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * Help meta bar provider
@@ -25,39 +25,31 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
     /**
      * @inheritDoc
      */
-    public function getAllIdentifications() : array
-    {
-        return [$this->getId()];
-    }
-
-
-    /**
-     * @inheritDoc
-     */
     public function getMetaBarItems() : array
     {
         global $DIC;
-
-        $ctrl = $DIC->ctrl();
 
         $mb = $this->globalScreen()->metaBar();
 
         $f = $DIC->ui()->factory();
 
         $title = $DIC->language()->txt("help");
-        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
 
         if ($this->showHelpItem()) {
             $item = $mb->topLinkItem($this->getId())
-                ->withAction($ctrl->getLinkTargetByClass("ildashboardgui", "toggleHelp"))
-                ->withSymbol($icon)
+                // ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+                //     if ($c instanceof JavaScriptBindable) {
+                //         return $c->withAdditionalOnLoadCode(static function (string $id) : string {
+                //             return "$('#$id').on('click', function(){
+                //                 alert();
+                //             })";
+                //         });
+                //     }
+                // })
+                ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilDashboardGUI::class, "toggleHelp"))
+                ->withSymbol($f->symbol()->glyph()->help())
                 ->withTitle($title)
-                ->withPosition(2)
-                ->withAvailableCallable(
-                    function () use ($DIC) {
-                        return true;
-                    }
-                );
+                ->withPosition(2);
 
             return [$item];
         }
@@ -65,42 +57,38 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
         return [];
     }
 
+
     /**
      * Show help tool?
      *
      * @param
+     *
      * @return
      */
-    protected function showHelpItem(): bool
+    protected function showHelpItem() : bool
     {
         global $DIC;
 
         $user = $DIC->user();
         $settings = $DIC->settings();
 
-        if ($user->getLanguage() != "de")
-        {
+        if ($user->getLanguage() != "de") {
             return false;
         }
 
-        if ($settings->get("help_mode") == "2")
-        {
+        if ($settings->get("help_mode") == "2") {
             return false;
         }
 
-        if ((defined("OH_REF_ID") && OH_REF_ID > 0))
-        {
+        if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
             true;
-        }
-        else
-        {
+        } else {
             $module = (int) $settings->get("help_module");
-            if ($module == 0)
-            {
+            if ($module == 0) {
                 return false;
             }
         }
+
         return true;
     }
-
 }

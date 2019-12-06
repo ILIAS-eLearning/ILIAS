@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio Data set class
@@ -13,8 +12,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - portfolio_page: data from table usr_portfolio_page
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioDataSet extends ilDataSet
 {	
@@ -156,12 +153,10 @@ class ilPortfolioDataSet extends ilDataSet
 	{
 		if ($a_entity == "prtt")
 		{
-			include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php");
 			$dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
 			
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			$a_set["Comments"] = ilNote::commentsActivated($a_set["Id"], 0, "prtt");	
+			$a_set["Comments"] = ilNote::commentsActivated($a_set["Id"], 0, "prtt");
 		}
 
 		return $a_set;
@@ -178,8 +173,7 @@ class ilPortfolioDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "prtt":
-				include_once("./Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php");
-				
+
 				// container copy
 				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
 				{
@@ -220,7 +214,6 @@ class ilPortfolioDataSet extends ilDataSet
 				$prtt_id = (int)$a_mapping->getMapping("Modules/Portfolio", "prtt", $a_rec["PortfolioId"]);
 				if($prtt_id)
 				{
-					include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
 					$newObj = new ilPortfolioTemplatePage();
 					$newObj->setPortfolioId($prtt_id);
 					$newObj->setTitle($a_rec["Title"]);																					
@@ -234,5 +227,3 @@ class ilPortfolioDataSet extends ilDataSet
 		}
 	}	
 }
-
-?>

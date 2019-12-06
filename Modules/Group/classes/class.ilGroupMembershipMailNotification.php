@@ -73,11 +73,32 @@ class ilGroupMembershipMailNotification extends ilMailNotification
 	 */
 	public function send()
 	{
+		global $DIC;
+
+		$logger = $DIC->logger()->grp();
+
 		if(!$this->isNotificationTypeEnabled($this->getType()))
 		{
-			$GLOBALS['DIC']->logger()->grp()->info('Membership mail disabled globally.');
+			$logger->info('Membership mail disabled globally.');
 			return false;
 		}
+
+		if(
+			$this->getType() == self::TYPE_ADMISSION_MEMBER
+		) {
+			$obj = \ilObjectFactory::getInstanceByRefId($this->getRefId());
+			if(!$obj instanceof \ilObjGroup) {
+				$logger->warning('Refid: ' . $this->getRefId() . ' is not of type grp.');
+				return false;
+			}
+			if(!$obj->getAutoNotification()) {
+				if(!$this->force_sending_mail) {
+					$logger->info('Sending welcome mail disabled locally.');
+					return false;
+				}
+			}
+		}
+
 		// parent::send();
 		
 		switch($this->getType())

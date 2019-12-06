@@ -49,7 +49,7 @@ class Signal implements \ILIAS\UI\Component\Signal
      * @param string $key
      * @param mixed $value
      */
-    protected function addOption($key, $value)
+    public function addOption($key, $value)
     {
         $this->options[$key] = $value;
     }

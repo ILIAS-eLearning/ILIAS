@@ -135,7 +135,7 @@ interface Factory
      *       The Remove Glyph serves as a replacement for the respective textual
      *       button in very crowded screens. It allows removing an item.
      *   composition: >
-     *       The Remove Glyph uses the glyphicon-plus-sign.
+     *       The Remove Glyph uses the glyphicon-minus-sign.
      *   effect: >
      *       Clicking on the Remove Glyph deletes an existing input from a form.
      *
@@ -843,11 +843,11 @@ interface Factory
      *       The Search Glyph uses the glyphicon-search.
      *   effect: >
      *       Clicking this glyph will open a search dialog.
-     *       Since the context for the Search Glyph primarily is the Metabar,
-     *       the according search dialog will be opened as Tool in the Mainbar.
+     *       Since the context for the Search Glyph primarily is the Meta Bar,
+     *       the according search dialog will be opened as Tool in the Main Bar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Search Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:
@@ -869,11 +869,11 @@ interface Factory
      *   effect: >
      *       When clicked, the user is provided with explanations or
      *       instructions for the usage of the current context.
-     *       When used in the Metabar, the help is displayed as tool in the
+     *       When used in the Meta Bar, the help is displayed as tool in the
      *       Sidebar.
      *
      * context:
-     *    - The Search Glyph appears in the Metabar.
+     *    - The Help Glyph appears in the Meta Bar.
      *
      * rules:
      *   accessibility:
@@ -1065,4 +1065,93 @@ interface Factory
      * @return \ILIAS\UI\Component\Symbol\Glyph\Glyph
      */
     public function disclosure($action = null);
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Language Glyph is used to indicate the option to switch languages
+     *       by some shorthand workflow without navigating to the personal settings.
+     *   composition: >
+     *       The Language Glyph uses the glyphicon-lang from the il-icons set.
+     *   effect: >
+     *       When clicked, the user is shown a set of active languages to choose from.
+     *   rivals:
+     *      Standard Icon: >
+     *         The Standard Icon-Set features the Language Icon, which symbolizes
+     *         the Service "Language". It is not used in the Meta Bar as trigger
+     *         for switching languages, but to visually identify the language as
+     *         service (e.g. in the administration).
+     *
+     *
+     * context:
+     *    - The Language Glyph appears in the Meta Bar.
+     *
+     * rules:
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Switch Language'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */ 
+    public function language(?string $action = null) : Glyph;
+  
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Login Glyph is used to trigger the login interaction.
+     *       It is displayed in the Meta Bar of the user is not yet logged in.
+     *   composition: >
+     *       The Login Glyph uses the login glyph from the il-icons font.
+     *   effect: >
+     *       Clicking this Glyph will trigger the interaction to authenticate and login.
+     *   rivals:
+     *       Logout Glyph: The Logout Glyph triggers the logout interaction.
+     *
+     * context:
+     *    - The Login Glyph appears in the Meta Bar.
+     *
+     * rules:
+     *   usage:
+     *       1: The Login Glyph MUST be displayed if no user is authenticated.
+     *   style:
+     *       1: The Login Glyph MUST be placed on the very top right.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Login'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function login(string $action = null) : Glyph;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *       The Logout Glyph is used to trigger the logout interaction.
+     *       It is displayed in the Slate triggered by clicking on the User Avatar in the Meta Bar.
+     *   composition: >
+     *       The Logout Glyph uses the logout glyph from the il-icons font.
+     *   effect: >
+     *       Clicking this Glyph will trigger the interaction to logout.
+     *   rivals:
+     *       Login Glyph: The Login Glyph triggers the login interaction.
+     *
+     * context:
+     *    - The Logout Glyph appears in the Slate triggered by clicking on the User Avatar in the Meta Bar.
+     *
+     * rules:
+     *   usage:
+     *       1: The Logout Glyph MUST be displayed if the user is logged in.
+     *   accessibility:
+     *       1: >
+     *          The aria-label MUST be 'Logout'.
+     * ---
+     * @param	string|null	$action
+     * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
+     */
+    public function logout(string $action = null) : Glyph;
 }

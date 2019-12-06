@@ -303,6 +303,9 @@ class ilCourseXMLWriter extends ilXmlWriter
 	}
 
 
+	/**
+	 * @return bool
+	 */
 	function __buildSetting()
 	{
 		$this->xmlStartTag('Settings');
@@ -329,6 +332,7 @@ class ilCourseXMLWriter extends ilXmlWriter
 		// Syllabus
 		$this->xmlElement('Syllabus',null,$this->course_obj->getSyllabus());
 		$this->xmlElement('ImportantInformation',null,$this->course_obj->getImportantInformation());
+		$this->xmlElement('TargetGroup', null, $this->course_obj->getTargetGroup());
 		
 		
 		// Contact

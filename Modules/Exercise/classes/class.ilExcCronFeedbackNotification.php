@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
 /**
  * Cron for exercise feedback notification
  * 
@@ -76,7 +74,6 @@ class ilExcCronFeedbackNotification extends ilCronJob
 		
 		$count = 0;
 		
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 		foreach(ilExAssignment::getPendingFeedbackNotifications() as $ass_id)
 		{
 			if(ilExAssignment::sendFeedbackNotifications($ass_id))

@@ -105,6 +105,27 @@ class ilADTInteger extends ilADT
 			return (string)$this->getNumber();
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getNumber();
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setNumber($a_std->value);
+		}
+	}
 }
 
 ?>

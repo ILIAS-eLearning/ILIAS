@@ -52,32 +52,26 @@ class ilExAssignmentTypesGUI
 		switch ($a_id)
 		{
 			case ilExAssignment::TYPE_UPLOAD:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeUploadGUI.php");
 				return new ilExAssTypeUploadGUI();
 				break;
 
 			case ilExAssignment::TYPE_BLOG:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeBlogGUI.php");
 				return new ilExAssTypeBlogGUI();
 				break;
 
 			case ilExAssignment::TYPE_PORTFOLIO:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypePortfolioGUI.php");
 				return new ilExAssTypePortfolioGUI();
 				break;
 
 			case ilExAssignment::TYPE_UPLOAD_TEAM:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeUploadTeamGUI.php");
 				return new ilExAssTypeUploadTeamGUI();
 				break;
 
 			case ilExAssignment::TYPE_TEXT:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeTextGUI.php");
 				return new ilExAssTypeTextGUI();
 				break;
 
 			case ilExAssignment::TYPE_WIKI_TEAM:
-				include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeWikiTeamGUI.php");
 				return new ilExAssTypeWikiTeamGUI();
 				break;
 		}

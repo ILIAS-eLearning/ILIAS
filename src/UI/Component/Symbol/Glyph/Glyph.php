@@ -51,6 +51,9 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, \ILIAS\UI\Component\J
     const CLOSE = "close";
     const MORE = "more";
     const DISCLOSURE = "disclosure";
+    const LANGUAGE = "language";
+    const LOGIN = "login";
+    const LOGOUT = "logout";
 
     /**
      * Get the type of the glyph.

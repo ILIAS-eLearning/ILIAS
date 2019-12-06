@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Blog export definition
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesBlog
  */
 class ilBlogExporter extends ilXmlExporter
 {		
@@ -17,8 +13,7 @@ class ilBlogExporter extends ilXmlExporter
 	
 	public function init()
 	{
-		include_once("./Modules/Blog/classes/class.ilBlogDataSet.php");
-		$this->ds = new ilBlogDataSet();	
+		$this->ds = new ilBlogDataSet();
 		$this->ds->setDSPrefix("ds");
 	}
 	
@@ -27,8 +22,7 @@ class ilBlogExporter extends ilXmlExporter
 		$res = array();
 		
 		// postings
-		include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
-		$pg_ids = array();		
+		$pg_ids = array();
 		foreach ($a_ids as $id)
 		{
 			$pages = ilBlogPosting::getAllPostings($id);
@@ -50,8 +44,7 @@ class ilBlogExporter extends ilXmlExporter
 		$style_ids = array();
 		foreach ($a_ids as $id)
 		{
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-			$style_id = ilObjStyleSheet::lookupObjectStyle($id);			
+			$style_id = ilObjStyleSheet::lookupObjectStyle($id);
 			if ($style_id > 0)
 			{
 				$style_ids[] = $style_id;				

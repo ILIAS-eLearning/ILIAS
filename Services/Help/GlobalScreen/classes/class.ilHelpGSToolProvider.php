@@ -42,11 +42,11 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 
         if ($this->showHelpTool()) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
             $tools[] = $this->factory->tool($iff("help"))
-                ->withInitiallyHidden(true)
+                ->withInitiallyHidden(false)
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {
@@ -88,7 +88,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             }
 
             if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
-                true;
+                return $show = true;
             } else {
                 $module = (int) $settings->get("help_module");
                 if ($module == 0) {

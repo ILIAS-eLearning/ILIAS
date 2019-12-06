@@ -6,14 +6,14 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Data\Result;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\Factory;
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Constraint;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -238,11 +238,11 @@ abstract class Input implements C\Input\Field\Input, InputInternal
     /**
      * Check if the value is good to be displayed client side.
      *
-     * @param    mixed $value
+     * @param mixed $value
      *
      * @return    bool
      */
-    abstract protected function isClientSideValueOk($value);
+    abstract protected function isClientSideValueOk($value) : bool;
 
 
     /**

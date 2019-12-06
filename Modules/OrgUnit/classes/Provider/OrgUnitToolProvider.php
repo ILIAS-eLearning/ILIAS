@@ -42,7 +42,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
 
         if ($called_contexts->current()->getAdditionalData()->is(self::SHOW_ORGU_TREE, true)) {
 
-            $iff = function (string $id) { return $this->identification_provider->identifier($id); };
+            $iff = function (string $id) { return $this->identification_provider->contextAwareIdentifier($id); };
 
             $t = function (string $key) : string { return $this->dic->language()->txt($key); };
 

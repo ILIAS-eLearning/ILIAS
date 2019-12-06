@@ -127,15 +127,9 @@ class ilObjCategoryListGUI extends ilObjectListGUI
 				require_once ('Services/WebDAV/classes/class.ilDAVActivationChecker.php');
 				if (ilDAVActivationChecker::_isActive())
 				{
-					require_once ('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-					$dav_util = ilWebDAVUtil::getInstance();
-					
-					// FIXME: The following is a very dirty, ugly trick. 
-					//        To mount URI needs to be put into two attributes:
-					//        href and folder. This hack returns both attributes
-					//        like this:  http://...mount_uri..." folder="http://...folder_uri...
-					$cmd_link = $dav_util->getMountURI($this->ref_id).
-								'" folder="'.$dav_util->getFolderURI($this->ref_id);
+					global $DIC;
+					$uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+					return $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);
 				}
 				break;
 			default :

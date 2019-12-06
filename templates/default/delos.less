@@ -1,4 +1,4 @@
-//out: delos.css, sourcemap: true, compress: true
+//out: delos.css, sourcemap: true, compress: false
 
 @import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
@@ -363,6 +363,7 @@ span.ilAlert {
 
 html, body {
 	height:100%;
+	overflow: hidden;
 }
 html {
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -1088,7 +1089,6 @@ h3.ilHeader {
 	display: inline;
 	font-size: @font-size-h3;
 	color: lighten(@mid-gray,30%);
-	text-transform: uppercase;
 }
 
 #headerimage {
@@ -1852,7 +1852,6 @@ span.ilIcalIcon {
 @import "less/Services/UIComponent/Modal/delos.less";
 @import "less/Services/Badge/delos.less";
 @import "less/Services/Calendar/bootstrap-datetimepicker.less";
-@import "less/Services/BackgroundTasks/delos.less";
 @import "less/Modules/OrgUnit/delos.less";
 @import "less/Modules/LTIConsumer/delos.less";
 @import "less/Services/Like/delos.less";

@@ -26,6 +26,11 @@ class ilGlossaryTermGUI
 	 */
 	protected $help;
 
+	/**
+	 * @var \ILIAS\COPage\PageLinker
+	 */
+	protected $page_linker;
+
 	var $lng;
 	var $tpl;
 	var $glossary;
@@ -150,14 +155,9 @@ class ilGlossaryTermGUI
 		}
 	}
 
-	function setLinkXML($a_link_xml)
+	function setPageLinker($page_linker)
 	{
-		$this->link_xml = $a_link_xml;
-	}
-
-	function getLinkXML()
-	{
-		return $this->link_xml;
+		$this->page_linker = $page_linker;
 	}
 
 	/**
@@ -387,7 +387,7 @@ class ilGlossaryTermGUI
 
 			//$page_gui->setOutputMode("edit");
 			//$page_gui->setPresentationTitle($this->term->getTerm());
-			$page_gui->setLinkXML($this->getLinkXML());
+			$page_gui->setPageLinker($this->page_linker);
 			$page_gui->setTemplateOutput(false);
 			$output = $page_gui->presentation($page_gui->getOutputMode());
 

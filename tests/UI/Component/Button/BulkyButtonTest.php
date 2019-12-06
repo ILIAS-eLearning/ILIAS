@@ -78,7 +78,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
             . '	<span class="glyph" aria-label="briefcase">'
             . '		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
             . '	</span>'
-            . '	<div><span class="bulky-label">label</span></div>'
+            . '	<span class="bulky-label">label</span>'
             . '</button>';
 
         $this->assertHTMLEquals(
@@ -97,7 +97,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
             . '	<span class="glyph" aria-label="briefcase">'
             . '		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
             . '	</span>'
-            . '	<div><span class="bulky-label">label</span></div>'
+            . '	<span class="bulky-label">label</span>'
             . '</button>';
 
         $this->assertHTMLEquals(
@@ -114,7 +114,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
             . '	<div class="icon someExample small" aria-label="Example"></div>'
-            . '	<div><span class="bulky-label">label</span></div>'
+            . '	<span class="bulky-label">label</span>'
             . '</button>';
 
         $this->assertHTMLEquals(

@@ -92,8 +92,7 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-		$form = new ilPropertyFormGUI();		
+		$form = new ilPropertyFormGUI();
 		$form->setTitle($this->lng->txt("exc_assignment")." \"".$this->assignment->getTitle()."\"");
 			
 		if(!$a_read_only)
@@ -238,7 +237,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 		
 		// we are not using a purifier, so we have to set the valid RTE tags
 		// :TODO: 
-		include_once("./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php");
 		$rte = $form->getItemByPostVar("atxt");
 		$rte->setRteTags(ilObjAdvancedEditing::_getUsedHTMLTags("exc_ass"));
 		
@@ -259,7 +257,6 @@ class ilExSubmissionTextGUI extends ilExSubmissionBaseGUI
 				$this->handleNewUpload();					
 				
 				// mob usage
-				include_once "Services/MediaObjects/classes/class.ilObjMediaObject.php";
 				$mobs = ilRTE::_getMediaObjects($text, 0);
 				foreach($mobs as $mob)
 				{

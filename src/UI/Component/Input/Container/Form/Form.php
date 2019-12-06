@@ -38,7 +38,7 @@ interface Form extends Component
      *
      * @param    Transformation $trafo
      *
-     * @return    Input
+     * @return    Form
      */
     public function withAdditionalTransformation(Transformation $trafo);
 

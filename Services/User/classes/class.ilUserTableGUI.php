@@ -24,6 +24,14 @@ class ilUserTableGUI extends ilTable2GUI
 	 * @var array
 	 */
 	protected $udf_fields = array();
+
+	/** @var array */
+	protected $filter = array();
+
+	/**
+	 * @var null | \ilLoggerFactory
+	 */
+	private $logger = null;
 	
 	/**
 	* Constructor
@@ -32,11 +40,10 @@ class ilUserTableGUI extends ilTable2GUI
 	{
 		global $DIC;
 
-		$ilCtrl = $DIC['ilCtrl'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$rbacsystem = $DIC['rbacsystem'];
+		$ilCtrl = $DIC->ctrl();
+		$lng = $DIC->language();
+
+		$this->logger = $DIC->logger()->usr();
 		
 		$this->user_folder_id = $a_parent_obj->object->getRefId();
 
@@ -290,7 +297,7 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			// All accessible users
 			include_once './Services/User/classes/class.ilLocalUser.php';
-			$user_filter = ilLocalUser::_getFolderIds();
+			$user_filter = ilLocalUser::_getFolderIds(true);
 		}
 		else
 		{
@@ -306,16 +313,22 @@ class ilUserTableGUI extends ilTable2GUI
 			}
 		}
 
+
+
 		//#13221 don't show all users if user filter is empty!
 		if(!count($user_filter))
 		{
 			$this->setMaxCount(0);
-			$this->setData(array());
+			$this->setData([]);
 			return;
 		}
 
-		include_once("./Services/User/classes/class.ilUserQuery.php");
-		
+		if(is_array($this->filter['user_ids']) && !count($this->filter['user_ids'])) {
+			$this->setMaxCount(0);
+			$this->setData([]);
+			return;
+		}
+
 		$additional_fields = $this->getSelectedColumns();
 		unset($additional_fields["firstname"]);
 		unset($additional_fields["lastname"]);
@@ -349,6 +362,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setAdditionalFields($additional_fields);
 		$query->setUserFolder($user_filter);
+		$query->setUserFilter($this->filter['user_ids']);
 		$query->setUdfFilter($udf_filter);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		$query->setAuthenticationFilter($this->filter['authentication']);
@@ -399,6 +413,11 @@ class ilUserTableGUI extends ilTable2GUI
 		$this->setMaxCount($usr_data["cnt"]);
 		$this->setData($usr_data["set"]);
 	}
+
+	public function addFilterItemValue($filter, $value)
+	{
+		$this->filter[$filter] = $value;
+	}
 		
 	public function getUserIdsForFilter()
 	{				
@@ -406,7 +425,7 @@ class ilUserTableGUI extends ilTable2GUI
 		{
 			// All accessible users
 			include_once './Services/User/classes/class.ilLocalUser.php';
-			$user_filter = ilLocalUser::_getFolderIds();
+			$user_filter = ilLocalUser::_getFolderIds(true);
 		}
 		else
 		{
@@ -420,6 +439,12 @@ class ilUserTableGUI extends ilTable2GUI
 				include_once './Services/User/classes/class.ilLocalUser.php';
 				$user_filter = ilLocalUser::_getFolderIds();
 			}
+		}
+
+		if(!isset($this->filter['user_ids']))
+		{
+			$this->filter['user_ids'] = array();
+			$this->filter['user_ids'] = null;
 		}
 		
 		include_once("./Services/User/classes/class.ilUserQuery.php");
@@ -437,6 +462,7 @@ class ilUserTableGUI extends ilTable2GUI
 		$query->setCourseGroupFilter($this->filter['course_group']);
 		$query->setRoleFilter($this->filter['global_role']);
 		$query->setUserFolder($user_filter);
+		$query->setUserFilter($this->filter['user_ids']);
 		$query->setFirstLetterLastname(ilUtil::stripSlashes($_GET['letter']));
 		
 		if($this->getOrderField())

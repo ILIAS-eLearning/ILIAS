@@ -1,14 +1,11 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
  
-require_once 'Services/Exceptions/classes/class.ilException.php'; 
- 
-/** 
+/**
  * Exercise exceptions class 
  * 
  * @author Alex Killing <alex.killing@hmx.de>, Roland Küstermann <roland@kuestermann.com>
- * @version $Id$ 
- * 
+ *
  */
 class ilExerciseException extends ilException
 {

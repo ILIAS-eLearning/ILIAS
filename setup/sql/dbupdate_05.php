@@ -22,7 +22,8 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote($template,'text');
 $result = $ilDB->query($query);
-$rol_id = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id = array_shift($row);
 
 $op_ids = [];
 $query = "SELECT ops_id FROM rbac_operations"
@@ -48,7 +49,8 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote($template,'text');
 $result = $ilDB->query($query);
-$rol_id = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id = array_shift($row);
 
 ilDBUpdateNewObjectType::setRolePermission($rol_id, 'lso', [$op_id], ROLE_FOLDER_ID);
 ?>
@@ -243,7 +245,8 @@ foreach($tpl_perms as $template=>$perms){
 		." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 		." AND title = " .$ilDB->quote($template,'text');
 	$result = $ilDB->query($query);
-	$rol_id = array_shift($ilDB->fetchAssoc($result));
+	$row = $ilDB->fetchAssoc($result);
+	$rol_id = array_shift($row);
 
 	$op_ids = [];
 	$query = "SELECT ops_id FROM rbac_operations"
@@ -601,13 +604,15 @@ $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote('il_lso_member','text');
 $result = $ilDB->query($query);
-$rol_id_member = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id_member = array_shift($row);
 
 $query = "SELECT obj_id FROM object_data"
 	." WHERE object_data.type = " .$ilDB->quote('rolt', 'text')
 	." AND title = " .$ilDB->quote('il_lso_admin','text');
 $result = $ilDB->query($query);
-$rol_id_admin = array_shift($ilDB->fetchAssoc($result));
+$row = $ilDB->fetchAssoc($result);
+$rol_id_admin = array_shift($row);
 
 $op_ids = [];
 $query = "SELECT operation, ops_id FROM rbac_operations";
@@ -1130,7 +1135,6 @@ if ($ilDB->tableExists('il_bt_bucket')) {
     $deleteBucketsSql = 'DELETE FROM il_bt_bucket WHERE title = ' . $ilDB->quote('Certificate Migration', 'text') ;
     $ilDB->manipulate($deleteBucketsSql);
 }
-
 ?>
 <#5506>
 <?php
@@ -1382,7 +1386,7 @@ $q = "SELECT prg_settings.obj_id FROM prg_settings"
 	."	LEFT JOIN object_data child ON child_ref.obj_id = child.obj_id"
 	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.obj_id IS NULL";
 $res = $ilDB->query($q);
-$to_adjsut = [];
+$to_adjust = [];
 while($rec = $ilDB->fetchAssoc($res)) {
 		$to_adjust[] = (int)$rec['obj_id'];
 }
@@ -1394,7 +1398,7 @@ $q = "SELECT prg_settings.obj_id FROM prg_settings"
 	."	JOIN object_data child ON child_ref.obj_id = child.obj_id"
 	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.type = 'prg'";
 $res = $ilDB->query($q);
-$to_adjsut = [];
+$to_adjust = [];
 while($rec = $ilDB->fetchAssoc($res)) {
 		$to_adjust[] = (int)$rec['obj_id'];
 }
@@ -3153,17 +3157,17 @@ $ilCtrlStructureReader->getStructure();
 $fields = array(
     'internal'       => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'title'          => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'suffix'         => array(
@@ -3173,7 +3177,7 @@ $fields = array(
     ),
     'mime_type'      => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'size'           => array(
@@ -3193,7 +3197,7 @@ if (!$ilDB->tableExists('il_resource_info')) {
 $fields = array(
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'storage_id'     => array(
@@ -3213,12 +3217,12 @@ if (!$ilDB->tableExists('il_resource')) {
 $fields = array(
     'internal'       => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'identification' => array(
         'type'   => 'text',
-        'length' => '256',
+        'length' => '250',
 
     ),
     'available'      => array(
@@ -3246,11 +3250,856 @@ if (!$ilDB->tableColumnExists('il_mm_items', 'icon_id')) {
         'icon_id',
         array(
             'type'   => 'text',
-            'length' => 256,
+            'length' => 250,
         ));
 }
 ?>
+
 <#5604>
+<?php
+require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+$renderer = 'WkhtmlToPdf';
+$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+ilPDFCompInstaller::registerRenderer($renderer, $path);
+$service = 'Test';
+$purpose = 'UserResult'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+
+$purpose = 'PrintViewOfQuestions'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+?>
+<#5605>
+<?php
+if ($ilDB->tableExists('event'))
+{
+    $ilDB->addTableColumn(
+        'event',
+        'reg_notification', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+
+    $ilDB->addTableColumn(
+        'event',
+        'notification_opt',
+        array(
+            'type'    => 'text',
+            'length'  => '50',
+            'notnull' => false,
+            'default' => 'notification_option_manual' // ilSessionConstants::NOTIFICATION_INHERIT_OPTION
+        )
+    );
+}
+?>
+<#5606>
+<?php
+if ($ilDB->tableExists('event_participants'))
+{
+    $ilDB->addTableColumn(
+        'event_participants',
+        'notification_enabled', array(
+            'type'    => 'integer',
+            'notnull' => true,
+            'default' => 0
+        )
+    );
+}
+?>
+<#5607>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5608>
+<?php
+if (!$ilDB->tableColumnExists('page_layout','mod_lm')) {
+    $ilDB->addTableColumn(
+        'page_layout',
+        'mod_lm',
+        array(
+            'type'	=> 'integer',
+            'length'=> 1,
+            'notnull' => false
+        ));
+}
+?>
+<#5609>
+<?php
+
+$query = "
+	UPDATE object_data odat SET offline = (
+		SELECT offline_status from cmix_settings cset
+        WHERE cset.obj_id = odat.obj_id
+    ) WHERE odat.type = %s
+";
+
+$ilDB->manipulateF($query, array('text'), array('cmix'));
+
+?>
+<#5610>
+<?php
+
+$query = "
+	UPDATE object_data odat SET offline = (
+		SELECT offline_status from lti_consumer_settings lset
+        WHERE lset.obj_id = odat.obj_id
+    ) WHERE odat.type = %s
+";
+
+$ilDB->manipulateF($query, array('text'), array('lti'));
+?>
+
+<#5611>
+<?php
+if(!$ilDB->tableColumnExists('il_blog_posting','last_withdrawn'))
+{
+	$ilDB->addTableColumn(
+		'il_blog_posting',
+		'last_withdrawn',
+		array(
+			'type' 		=> 'timestamp',
+			'notnull'	=> false,
+			'default'	=> null
+		)
+	);
+}
+?>
+<#5612>
+<?php
+global $ilDB;
+if(!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
+        $ilDB->addTableColumn(
+                        'crs_settings',
+                        'target_group',
+                        [
+                                'type' => \ilDBConstants::T_TEXT,
+                                'length' => 4000,
+                                'notnull' => false
+                        ]
+        );
+}
+?>
+<#5613>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','deadline_period')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'deadline_period',
+			[
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => 0
+			]
+		);
+}
+if(!$db->tableColumnExists('prg_settings','deadline_date')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'deadline_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5614>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','assignment_date')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'assignment_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5615>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if($db->tableColumnExists('prg_usr_progress','assignment_date') && $db->tableColumnExists('prg_usr_assignments','last_change')) {
+	$db->manipulate(
+		'UPDATE prg_usr_progress'
+		.'	JOIN prg_usr_assignments'
+		.'		ON prg_usr_assignments.id = prg_usr_progress.assignment_id'
+		.'	SET prg_usr_progress.assignment_date = prg_usr_assignments.last_change'
+	);
+}
+?>
+
+<#5616>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','completion_date')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'completion_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5617>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','vq_period')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_period',
+			[
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => -1
+			]
+		);
+}
+if(!$db->tableColumnExists('prg_settings','vq_date')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+if(!$db->tableColumnExists('prg_settings','vq_restart_period')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'vq_restart_period',
+			[
+				'type' => 'integer',
+				'length' => 4,
+				'notnull' => true,
+				'default' => -1
+			]
+		);
+}
+?>
+
+<#5618>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','vq_date')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'vq_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5619>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restart_date')) {
+	$db->addTableColumn(
+			'prg_usr_assignments',
+			'restart_date',
+			[
+				'type' => 'timestamp',
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5620>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restarted_assignment_id')) {
+	$db->addTableColumn(
+			'prg_usr_assignments',
+			'restarted_assignment_id',
+			[
+				'type' => 'integer',
+				'notnull' => true,
+				'default' => -1
+			]
+		);
+}
+?>
+<#5621>
+<?php
+
+global $ilDB;
+
+if(!$ilDB->tableColumnExists('crs_settings', 'target_group')) {
+        $ilDB->addTableColumn(
+                        'crs_settings',
+                        'target_group',
+                        [
+                                'type' => \ilDBConstants::T_TEXT,
+                                'length' => 4000,
+                                'notnull' => false
+                        ]
+        );
+}
+?>
+<#5622>
+<?php
+if(!$ilDB->tableExists('prg_auto_content')) {
+	$ilDB->createTable('prg_auto_content', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'cat_ref_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'title' => array(
+			'type' => 'text',
+			'length' => 255,
+			'notnull' => true
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_content', ['prg_obj_id', 'cat_ref_id']);
+}
+?>
+
+<#5623>
+<?php
+require_once './Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php';
+
+$type_id  = ilDBUpdateNewObjectType::addNewType('prgr', 'Study Programme Reference');
+
+ilDBUpdateNewObjectType::addRBACOperations($type_id, [
+	ilDBUpdateNewObjectType::RBAC_OP_EDIT_PERMISSIONS,
+	ilDBUpdateNewObjectType::RBAC_OP_VISIBLE,
+	ilDBUpdateNewObjectType::RBAC_OP_READ,
+	ilDBUpdateNewObjectType::RBAC_OP_WRITE,
+	ilDBUpdateNewObjectType::RBAC_OP_DELETE,
+	ilDBUpdateNewObjectType::RBAC_OP_COPY
+]);
+
+ilDBUpdateNewObjectType::addRBACCreate('create_prgr', 'Create Study Programme Reference', [
+	'prg'
+]);
+?>
+
+<#5624>
+<?php
+if (!$ilDB->tableExists('prg_auto_membership'))
+{
+	$ilDB->createTable('prg_auto_membership', array(
+		'prg_obj_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'source_type' => array(
+			'type' => 'text',
+			'length' => 8,
+			'notnull' => true
+		),
+		'source_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'enabled' => array(
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => true,
+			'default' => 0
+		),
+		'last_usr_id' => array(
+			'type' => 'integer',
+			'length' => 4,
+			'notnull' => true
+		),
+		'last_edited' => array(
+			'type' => 'timestamp',
+			'notnull' => false
+		)
+	));
+	$ilDB->addPrimaryKey('prg_auto_membership', ['prg_obj_id', 'source_type', 'source_id']);
+}
+?>
+
+<#5625>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','invalidated')) {
+	$db->addTableColumn(
+			'prg_usr_progress',
+			'invalidated',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => false
+			]
+		);
+}
+?>
+
+<#5626>
+<?php
+ilOrgUnitOperationContextQueries::registerNewContext(ilOrgUnitOperationContext::CONTEXT_PRG, ilOrgUnitOperationContext::CONTEXT_OBJECT);
+?>
+
+<#5627>
+<?php
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_MEMBERS,
+		'View Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+		'View learning progress of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
+		'View Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_EDIT_INDIVIDUAL_PLAN,
+		'Edit Individual Plans of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+	ilOrgUnitOperationQueries::registerNewOperation(
+		ilOrgUnitOperation::OP_MANAGE_MEMBERS,
+		'Manage Memberships of other users',
+		ilOrgUnitOperationContext::CONTEXT_PRG
+	);
+?>
+
+<#5628>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','access_ctrl_org_pos')) {
+	$db->addTableColumn(
+			'prg_settings',
+			'access_ctrl_org_pos',
+			[
+				'type' => 'integer',
+				'length' => 1,
+				'notnull' => true,
+				'default' => 0
+			]
+		);
+}
+?>
+
+<#5629>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','rm_nr_by_usr_days')) {
+    $db->addTableColumn(
+        'prg_settings',
+        'rm_nr_by_usr_days',
+        [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5630>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','proc_end_no_success')) {
+    $db->addTableColumn(
+        'prg_settings',
+        'proc_end_no_success',
+        [
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5631>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_assignments','restart_mail_send')) {
+    $db->addTableColumn(
+        'prg_usr_assignments',
+        'restart_mail_send',
+        [
+            'type' => 'timestamp',
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5632>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_usr_progress','risky_to_fail_mail_send')) {
+    $db->addTableColumn(
+        'prg_usr_progress',
+        'risky_to_fail_mail_send',
+        [
+            'type' => 'timestamp',
+            'notnull' => false
+        ]
+    );
+}
+?>
+
+<#5633>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_re_assigned_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_re_assigned_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5634>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_info_to_re_assign_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_info_to_re_assign_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>
+
+<#5635>
+<?php
+global $DIC;
+$db = $DIC['ilDB'];
+if(!$db->tableColumnExists('prg_settings','send_risky_to_fail_mail')) {
+	$db->addTableColumn(
+		'prg_settings',
+		'send_risky_to_fail_mail',
+		[
+			'type' => 'integer',
+			'length' => 1,
+			'notnull' => false,
+			'default' => 0
+		]
+	);
+}
+?>
+<#5636>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5637>
+<?php
+
+if( !$ilDB->tableColumnExists('tst_tests', 'info_screen') )
+{
+    $ilDB->addTableColumn('tst_tests','info_screen', [
+        'type' => \ilDBConstants::T_INTEGER, 'length' => 1, 'notnull' => false
+    ]);
+
+    $ilDB->manipulateF("UPDATE tst_tests SET info_screen = %s",
+        [\ilDBConstants::T_INTEGER], [1]
+    );
+}
+
+?>
+<#5638>
+<?php
+if (!$ilDB->tableExists('acc_documents')) {
+	$fields = [
+		'id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'title' => [
+			'type'     => 'text',
+			'length'   => 255,
+			'notnull'  => false,
+			'default'  => null
+		],
+		'creation_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'modification_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'sorting' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'owner_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'last_modified_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'text' => [
+			'type'    => 'clob',
+			'notnull' => false,
+			'default' => null
+		]
+	];
+	$ilDB->createTable('acc_documents', $fields);
+	$ilDB->addPrimaryKey('acc_documents', ['id']);
+	$ilDB->createSequence('acc_documents');
+}
+?>
+<#5639>
+<?php
+if (!$ilDB->tableExists('acc_criterion_to_doc')) {
+	$fields = [
+		'id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'doc_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'criterion_id' => [
+			'type'     => 'text',
+			'length'   => 50,
+			'notnull'  => true
+		],
+		'criterion_value' => [
+			'type'     => 'text',
+			'length'   => 255,
+			'notnull'  => false,
+			'default'  => null,
+		],
+		'assigned_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'modification_ts' => [
+			'type'     => 'integer',
+			'length'   => 4,
+			'notnull'  => true,
+			'default'  => 0
+		],
+		'owner_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		],
+		'last_modified_usr_id' => [
+			'type'    => 'integer',
+			'length'  => 4,
+			'notnull' => true,
+			'default' => 0
+		]
+	];
+	$ilDB->createTable('acc_criterion_to_doc', $fields);
+	$ilDB->addPrimaryKey('acc_criterion_to_doc', ['id']);
+	$ilDB->createSequence('acc_criterion_to_doc');
+}
+?>
+<#5640>
+<?php
+$ilCtrlStructureReader->getStructure();
+?>
+<#5641>
+<?php
+        $ilCtrlStructureReader->getStructure();
+?>
+<#5642>
+<?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'reminder_tmpl'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'reminder_tmpl', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 4
+                ));
+        }
+?>
+<#5643>
+        <?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_status'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_status', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 1
+                ));
+        }
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_reci'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_reci', array(
+                        'type' => 'text',
+                        'length'  => 2000,
+                        'notnull' => false,
+                        'fixed' => false
+                ));
+        }
+        ?>
+<#5644>
+<?php
+        if (!$ilDB->tableColumnExists('svy_svy', 'tutor_res_cron'))
+        {
+                $ilDB->addTableColumn('svy_svy', 'tutor_res_cron', array(
+                        "type" => "integer",
+                        "notnull" => false,
+                        "length" => 1
+                ));
+        }
+?>
+<#5645>
+<?php
+ilOrgUnitOperationContextQueries::registerNewContext(
+        ilOrgUnitOperationContext::CONTEXT_USRF,
+        ilOrgUnitOperationContext::CONTEXT_OBJECT
+);
+
+ilOrgUnitOperationQueries::registerNewOperation(
+    ilOrgUnitOperation::OP_EDIT_USER_ACCOUNTS,
+    'Edit User in User Administration',
+    ilOrgUnitOperationContext::CONTEXT_USRF
+);
+?>
+<#5646>
+<?php
+if (!$ilDB->tableColumnExists('grp_settings', 'auto_notification'))
+{
+        $ilDB->addTableColumn(
+                'grp_settings',
+                'auto_notification', [
+                        'type'    => 'integer',
+                        'notnull' => true,
+                        'default' => 1
+                ]
+        );
+}
+?>
+<#5647>
+<?php
+if (!$ilDB->tableColumnExists('event_participants','excused'))
+{
+        $ilDB->addTableColumn(
+                'event_participants',
+                'excused', [
+                        'type'    => 'integer',
+                        'length' => 1,
+                        'notnull' => true,
+                        'default' => 0
+                ]
+        );
+}
+?>
+<#5648>
+<?php
+if (!$ilDB->tableColumnExists("il_cert_template", "certificate_content_bu")) {
+    $ilDB->addTableColumn("il_cert_template",
+        'certificate_content_bu', array(
+            'type' => 'clob',
+            'default' => '',
+            'notnull' => true,
+        )
+    );
+}
+
+if (!$ilDB->tableColumnExists("il_cert_user_cert", "certificate_content_bu")) {
+    $ilDB->addTableColumn("il_cert_user_cert",
+        'certificate_content_bu', array(
+            'type' => 'clob',
+            'default' => '',
+            'notnull' => true,
+        )
+    );
+}
+
+$ilDB->manipulate(
+    "UPDATE il_cert_template SET " .
+    "certificate_content_bu = certificate_content, " .
+    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"'), " .
+    "certificate_hash = SHA2(CONCAT(CONCAT(CONCAT(COALESCE(certificate_content,''),COALESCE(background_image_path,'')),COALESCE(template_values,'')),COALESCE(thumbnail_image_path,'')), '256') " .
+    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+$ilDB->manipulate(
+    "UPDATE il_cert_user_cert SET " .
+    "certificate_content_bu = certificate_content, " .
+    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"') " .
+    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+?>
+<#5649>
 <?php
 ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOperation::OP_VIEW_CERTIFICATES, 'Read the certificates of a User', [
     ilOrgUnitOperationContext::CONTEXT_TST,
@@ -3263,5 +4112,4 @@ ilOrgUnitOperationQueries::registerNewOperationForMultipleContexts(ilOrgUnitOper
     ilOrgUnitOperationContext::CONTEXT_CRS,
     ilOrgUnitOperationContext::CONTEXT_SVY,
 ]);
-
 ?>

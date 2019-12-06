@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/Object/classes/class.ilObject2.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio base
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
@@ -224,10 +220,8 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$this->setImage($row["img"]);
 		
 		// #14661
-		include_once("./Services/Notes/classes/class.ilNote.php");
 		$this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
 		
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$this->setStyleSheetId(ilObjStyleSheet::lookupObjectStyle($this->id));
 		
 		$this->doReadCustom($row);
@@ -261,10 +255,8 @@ abstract class ilObjPortfolioBase extends ilObject2
 		$this->doUpdateCustom($fields);
 		
 		// #14661
-		include_once("./Services/Notes/classes/class.ilNote.php");
 		ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
 		
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		ilObjStyleSheet::writeStyleUsage($this->id, $this->getStyleSheetId());
 				
 		$ilDB->update("usr_portfolio", $fields,
@@ -322,7 +314,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 	{
 		if($this->id)
 		{
-			include_once "Modules/Portfolio/classes/class.ilFSStoragePortfolio.php";
 			$storage = new ilFSStoragePortfolio($this->id);
 			$storage->delete();
 			
@@ -339,7 +330,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 	 */
 	public static function initStorage($a_id, $a_subdir = null)
 	{		
-		include_once "Modules/Portfolio/classes/class.ilFSStoragePortfolio.php";
 		$storage = new ilFSStoragePortfolio($a_id);
 		$storage->create();
 		
@@ -434,7 +424,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 		ilFSStoragePortfolio::_copyDirectory($source_dir, $target_dir);
 		
 		// set/copy stylesheet
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 		$style_id = $a_source->getStyleSheetId();
 		if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
 		{
@@ -480,12 +469,10 @@ abstract class ilObjPortfolioBase extends ilObject2
 		self::cloneBasics($a_source, $a_target);
 		
 		// personal skills
-		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));	
+		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
 		
 		// copy pages
 		$blog_count = 0;
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 		$page_map = array();
 		foreach(ilPortfolioPage::getAllPortfolioPages($source_id) as $page)
 		{
@@ -600,7 +587,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 							// new skill
 							else if($copy_all || in_array($skill_id, $a_recipe["skills"]))
 							{
-								include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 								ilPersonalSkill::addPersonalSkill($ilUser->getId(), $skill_id);
 
 								$node->setAttribute("User", $ilUser->getId());	
@@ -656,7 +642,6 @@ abstract class ilObjPortfolioBase extends ilObject2
 		
 		static $ws_access = null;
 		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
 		$blog = new ilObjBlog();
 		$blog->setType("blog");
 		$blog->setTitle($a_title);
@@ -664,9 +649,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 		
 		if(!$ws_access)
 		{
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";	
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
-			$tree = new ilWorkspaceTree($ilUser->getId());	
+			$tree = new ilWorkspaceTree($ilUser->getId());
 			
 			// #13235
 			if(!$tree->getRootId())

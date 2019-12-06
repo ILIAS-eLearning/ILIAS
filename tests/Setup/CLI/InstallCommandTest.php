@@ -15,7 +15,7 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 
 		$agent = $this->createMock(Setup\Agent::class);
 		$config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-		$command = new Setup\CLI\InstallCommand($agent, $config_reader);
+		$command = new Setup\CLI\InstallCommand(function() use ($agent) { return $agent; }, $config_reader, []);
 
 		$tester = new CommandTester($command);
 
@@ -26,10 +26,15 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 		$objective = $this->createMock(Setup\Objective::class);
 		$env = $this->createMock(Setup\Environment::class);
 
+		$config_overwrites = [
+			"a.b.c" => "foo",
+			"d.e" => "bar",
+		];
+
 		$config_reader
 			->expects($this->once())
 			->method("readConfigFile")
-			->with($config_file)
+			->with($config_file, $config_overwrites)
 			->willReturn($config_file_content);
 
 		$agent
@@ -52,6 +57,18 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			->with($config)
 			->willReturn($objective);
 
+		$agent
+			->expects($this->never())
+			->method("getBuildArtifactObjective")
+			->with()
+			->willReturn(new Setup\NullObjective());
+
+		$agent
+			->expects($this->once())
+			->method("getUpdateObjective")
+			->with($config)
+			->willReturn(new Setup\NullObjective());
+
 		$objective
 			->expects($this->once())
 			->method("getPreconditions")
@@ -63,7 +80,8 @@ class InstallCommandTest extends \PHPUnit\Framework\TestCase {
 			->willReturn($env);
 		
 		$tester->execute([
-			"config" => $config_file
+			"config" => $config_file,
+			"--config" => ["a.b.c=foo", "d.e=bar"]
 		]);
 	}
 }

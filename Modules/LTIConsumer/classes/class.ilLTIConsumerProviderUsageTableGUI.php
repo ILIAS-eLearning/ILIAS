@@ -32,8 +32,8 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
         //$this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate('tpl.lti_consume_provider_usage_table_row.html', 'Modules/LTIConsumer');
 
-        $this->setTitle($DIC->language()->txt('tbl_provider_header'));
-        $this->setDescription($DIC->language()->txt('tbl_provider_header_info'));
+        $this->setTitle($DIC->language()->txt('tbl_provider_usage_header'));
+        $this->setDescription($DIC->language()->txt('tbl_provider_usage_header_info'));
     }
 
     /*
@@ -54,7 +54,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
         $this->addColumn($DIC->language()->txt('tbl_lti_prov_icon'), 'icon');
         $this->addColumn($DIC->language()->txt('tbl_lti_prov_title'), 'title');
-        $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages_trashed'), 'usages_trashed');
+        $this->addColumn($DIC->language()->txt('tbl_lti_prov_usages_trashed'), 'usedByIsTrashed');
         $this->addColumn($DIC->language()->txt('tbl_lti_prov_used_by'), 'used_by');
     }
 
@@ -72,7 +72,7 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
         // USED BY
         $this->tpl->setCurrentBlock('used_by');
-        $tree = $this->buildLinkToUsedBy($data['usedByObjId'], $data['usedByRefId'], $data['usedByTitle'], (bool)$usagesTrashed);
+        $tree = $this->buildLinkToUsedBy($data['usedByObjId'], $data['usedByRefId'], (string)$data['usedByTitle'], (bool)$usagesTrashed);
         $this->tpl->setVariable('TREE_TO_USED_BY', $tree['tree']);
         $this->tpl->parseCurrentBlock();
 

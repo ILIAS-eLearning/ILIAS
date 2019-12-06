@@ -467,8 +467,6 @@ class ilExPeerReview
 		
 		$cnt = 0;
 		
-		include_once './Services/Rating/classes/class.ilRating.php';
-		
 		$set = $ilDB->query("SELECT *".
 			" FROM exc_assignment_peer".
 			" WHERE ass_id = ".$ilDB->quote($this->assignment_id, "integer").

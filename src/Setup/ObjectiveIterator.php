@@ -6,7 +6,6 @@ namespace ILIAS\Setup;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ConfigurationLoader;
 use ILIAS\Setup\UnachievableException;
 
 /**
@@ -102,6 +101,12 @@ class ObjectiveIterator implements \Iterator {
 
 		$cur = array_pop($this->stack);
 		$hash = $cur->getHash();
+
+		if (isset($this->returned[$hash]) || isset($this->filed[$hash])) {
+			$this->next();
+			return;
+		}
+
 		$preconditions = array_filter(
 			$cur->getPreconditions($this->environment),
 			function ($p) {

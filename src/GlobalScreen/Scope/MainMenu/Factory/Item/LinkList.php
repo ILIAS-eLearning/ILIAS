@@ -1,8 +1,10 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
+use ILIAS\UI\Component\Symbol\Symbol;
 use InvalidArgumentException;
 
 /**
@@ -10,7 +12,7 @@ use InvalidArgumentException;
  *
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading
+class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol
 {
 
     /**
@@ -24,7 +26,11 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     /**
      * @var bool
      */
-    protected $supports_async_loading = true;
+    protected $supports_async_loading = false;
+    /**
+     * @var Symbol
+     */
+    private $symbol;
 
 
     /**
@@ -112,5 +118,35 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     public function supportsAsynchronousLoading() : bool
     {
         return $this->supports_async_loading;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSymbol(Symbol $symbol) : hasSymbol
+    {
+        $clone = clone($this);
+        $clone->symbol = $symbol;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getSymbol() : Symbol
+    {
+        return $this->symbol;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasSymbol() : bool
+    {
+        return $this->symbol instanceof Symbol;
     }
 }

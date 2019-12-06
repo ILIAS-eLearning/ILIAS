@@ -265,6 +265,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 				"read" => $lng->txt("read"),
 				"write" => $lng->txt("write"),
 				"visible" => $lng->txt("visible"),
+				"no_read" => $lng->txt("cont_no_read")
 			);
 			$si = new ilSelectInputGUI($lng->txt("permission"), "permission");
 			$si->setInfo($lng->txt("cont_permission_object_desc"));
@@ -395,4 +396,3 @@ class ilPCSectionGUI extends ilPageContentGUI
 	}
 
 }
-?>

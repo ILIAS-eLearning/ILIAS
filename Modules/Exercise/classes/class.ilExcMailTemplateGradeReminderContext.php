@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
-
 /**
  * Handles exercise Grade reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
@@ -117,7 +115,6 @@ class ilExcMailTemplateGradeReminderContext extends ilMailTemplateContext
 
             } else {
                 if ($placeholder_id == 'ass_link') {
-                    require_once './Services/Link/classes/class.ilLink.php';
                     return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(),
                         "_" . $context_parameters["ass_id"]);
                 }

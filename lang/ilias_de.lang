@@ -25,6 +25,7 @@ common#:#obj_coms_desc#:#Kommentarfunktion administrieren
 common#:#obj_coms#:#Kommentare
 note#:#note_enable_comments#:#Kommentare aktivieren
 administration#:#adm_communication#:#Kommunikation
+administration#:#org_op_edit_user_accounts#:#Benutzerkonten bearbeiten
 note#:#note_enable_comments_del_user#:#Kommentare können von ihren Autoren gelöscht werden
 note#:#note_enable_comments_del_tutor#:#Jegliche Kommentare können von Tutoren gelöscht werden
 note#:#note_enable_comments_del_tutor_info#:#Benutzer mit dem Recht "Einstellungen bearbeiten" an einem Objekt können alle darin gemachten Kommentare löschen.
@@ -65,11 +66,11 @@ dash#:#dash_sort_by_type#:#Nach Typ sortieren
 dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
 dash#:#dash_dashboard#:#Dashboard
 help#:#help_no_content#:#Zur aktuellen Ansicht steht leider keine Hilfe zur Verfügung. Sie können die Suche nutzen um Hilfeinhalte zu finden.
-user#:#user_privacy_checklist#:#Datenschutz Checkliste
+user#:#user_privacy_checklist#:#Checkliste Datenschutz
 user#:#user_profile_data#:#Profildaten
-user#:#user_publish_options#:#Profile veröffentlichen
+user#:#user_publish_options#:#Profil veröffentlichen
 user#:#user_visibility_settings#:#Sichtbarkeit
-user#:#user_save_continue#:#Speichern und Weiter
+user#:#user_save_continue#:#Speichern und weiter
 user#:#user_profile_data_checked#:#Profildaten überprüft
 user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#show_own_online_status#:#Eigenen Online-Status anzeigen
@@ -95,6 +96,8 @@ rep#:#rep_failure_trashed_trash#:#Sie haben Objekte ausgewählt, die nicht an ih
 rep#:#rep_target_location#:#Zielort
 rep#:#rep_target_location_info#:#Bitte wählen sie den Zielort aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
 rep#:#rep_trash_deleted_by_unknown#:#Unbekannt
+meta#:#udf_type_address#:#Adresse
+meta#:#md_adv_edit_complex_option#:#Options-Eigenschaften bearbeiten
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_target#:#Kategorie für OER-Freigaben
@@ -112,6 +115,12 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+survey#:#svy_export_pdf#:#Export PDF
+survey#:#svy_notification_tutor_results#:#Eine E-Mail mit den Umfrageergebnissen
+survey#:#svy_notification_tutor_results_info#:#Nach dem Ablauf des Enddatum wird eine E-Mail mit den detailierten Umfrageergebnissen versendet.
+survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein Enddatum.
+survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
+survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
 auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
@@ -172,6 +181,20 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Datensatz
 cont#:#cont_filter_field#:#Feld
 cont#:#cont_filter_fields#:#Filterfelder
+sess#:#notification#:#Benachrichtigung
+sess#:#sess_registration_notification#:#Benachrichtigung
+sess#:#sess_registration_notification_info#:#Zeigt im Tab 'Sitzungsteilnehmer verwalten' eine Spalte an, um Benutzer auszuwählen, die über neue oder ausscheidende Teilnehmer benachrichtigt werden.
+sess#:#sess_notification_option#:#Option
+sess#:#sess_notification_option_inherit#:#Vom übergeordneten Objekt erben
+sess#:#sess_notification_option_inherit_info#:#Nutze die Einstellungen des übergeordneten Objekts (bspw. Einstellungen von Kurs oder Gruppe) für Mitglieder dieser Sitzung.
+sess#:#sess_notification_option_manual#:#Manuell setzen
+sess#:#sess_notification_option_manual_info#:#Empfänger für Benachrichtigungen müssen im Tab 'Sitzungsteilnehmer verwalten' manuell gesetzt werden.
+common#:#session_mail_subject_registered#:#Registrierung von Benutzer/in "%s" für die Sitzung "%s"
+common#:#session_mail_subject_deletion#:#Abmeldung von Benutzer/in "%s" von der Sitzung "%s"
+common#:#session_mail_subject_entered#:#Beitritt von Benutzer/in "%s" zur Sitzung "%s"
+common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" beantragt.
+common#:#deletion_notification#:#"%s" hat sich von der Sitzung "%s" abgemeldet.
+common#:#entered_notification#:#"%s" ist der Sitzung "%s" beigetreten.
 cont#:#cont_show_more#:#Mehr anzeigen
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
@@ -330,6 +353,43 @@ acc#:#acc_previous#:#Zurück (zur vorigen Seite)
 acc#:#acc_reply#:#Antworten
 acc#:#acc_tree_off#:#Baumansicht aus
 acc#:#acc_tree_on#:#Baumansicht an
+acc#:#acc_ctrl_cpt_txt#:#Info Barrierefreiheit
+acc#:#acc_add_document_btn_label#:#Dokument hinzufügen
+acc#:#acc_form_new_doc_head#:#Dokument erstellen
+acc#:#acc_form_edit_doc_head#:#Dokument bearbeiten
+acc#:#acc_form_document_title#:#Titel
+acc#:#acc_form_document_title_info#:#Geben Sie hier einen Titel für das Dokument ein.
+acc#:#acc_form_document#:#Dokument
+acc#:#acc_form_document_info#:#Bitte wählen Sie eine entsprechende Datei von Ihrem lokalen Dateisystem. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nur ein Teil des HTML-Sprachumfangs unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird.
+acc#:#acc_form_document_new#:#Inhalt ändern
+acc#:#acc_form_document_new_info#:#Hier können Sie eine neue Datei von Ihrem lokalen Dateisystem wählen um das Dokument zu ändern. Sie können eine einfache Text-Datei oder eine HTML-Datei hochladen. Es wird nicht der komplette HTML-Sprachumfang unterstützt. Bitte beachten Sie, dass HTML-Dateien beim Hochladen bereinigt werden, und nur der Inhalt des body-Elements übernommen wird. Der bestehende Inhalt des Dokuments wird ausgetauscht.
+acc#:#acc_form_document_content_changed#:#Der Inhalt der hochgeladenenen Datei wurde durch ILIAS bereinigt. Bitte prüfen Sie das Ergebnis und laden Sie im Zweifel eine neue Datei hoch.
+acc#:#acc_tbl_docs_title#:#Dokumente
+acc#:#acc_tbl_docs_head_sorting#:#Sortierung
+acc#:#acc_tbl_docs_head_title#:#Titel
+acc#:#acc_tbl_docs_head_created#:#Erstellungsdatum
+acc#:#acc_tbl_docs_head_last_change#:#Letzte Änderung
+acc#:#acc_tbl_docs_head_criteria#:#Vorlagekriterien
+acc#:#acc_tbl_docs_action_add_criterion#:#Vorlagekriterium hinzufügen
+acc#:#acc_tbl_docs_cell_not_criterion#:#Kein Vorlagekriterium zugewiesen
+acc#:#acc_doc_detach_crit_confirm_title#:#Vorlagekriterium entfernen
+acc#:#acc_doc_delete#:#Dokument löschen
+acc#:#acc_doc_sure_detach_crit#:#Sind Sie sicher, dass das Vorlagekriterium entfernt werden soll?
+acc#:#acc_doc_crit_detached#:#Das Vorlagekriterium wurde entfernt.
+acc#:#acc_doc_crit_attached#:#Das Vorlagekriterium wurde zugewiesen.
+acc#:#acc_doc_crit_changed#:#Das Vorlagekriterium wurde aktualisiert.
+acc#:#acc_form_attach_criterion_head#:#Vorlagekriterium hinzufügen
+acc#:#acc_form_edit_criterion_head#:#Vorlagekriterium bearbeiten
+acc#:#acc_form_criterion#:#Vorlagekriterium
+acc#:#acc_document#:#Dokument
+acc#:#acc_sure_delete_documents_s#:#Sind Sie sicher, dass Sie das gewählte Dokument löschen möchten?
+acc#:#acc_sure_delete_documents_p#:#Sind Sie sicher, dass Sie die gewählten Dokumente löschen möchten?
+acc#:#acc_deleted_documents_s#:#Das Dokument wurde gelöscht.
+acc#:#acc_deleted_documents_p#:#Die gewählten Dokumente wurden gelöscht.
+acc#:#acc_saved_sorting#:#Die Sortierung wurde gespeichert.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Sie können das Vorlagekriterium mit der entsprechenden Konfiguration nicht zuweisen. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Sie können die Konfiguration des Vorlagekriteriums nicht wie gewünscht ändern. Es existiert bereits eine identische Zuweisung.
+acc#:#acc_crit_type_usr_language#:#Benutzersprache
 administration#:#adm_pub_section_domain_filter#:#Domänen-Filter
 administration#:#adm_pub_section_domain_filter_info#:#Domänen-Filter für anonymen Zugriff. Geben Sie einen oder mehrere Domänen-Namen an, für die der anonyme Zugriff freigeschaltet ist. Domänen, die nicht aufgeführt sind, erlauben keinen anonymen Zugriff.
 administration#:#adm_activate_db_benchmark#:#Messung aktivieren
@@ -1882,6 +1942,7 @@ blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_draft#:#Entwurf
 blog#:#blog_draft_info#:#Der Inhalt dieses Beitrags ist als Entwurf nur für Sie sichtbar.
+blog#:#blog_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
 blog#:#blog_edit#:#Blog bearbeiten
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
@@ -3652,6 +3713,7 @@ rbac#:#nwss_write#:#Einstellungen in der News- und Webfeeds-Administration bearb
 common#:#obj#:#Objekt
 common#:#obj_accs#:#Barrierefreiheit
 common#:#obj_accs_desc#:#Einstellungen zur Barrierefreiheit
+common#:#obj_accs_captcha#:#Captchas
 common#:#obj_adm#:#Administration
 common#:#obj_adm_desc#:#Beinhaltet alle Verwaltungstools für Ihre ILIAS-Installation.
 common#:#obj_adve#:#Editor
@@ -4526,15 +4588,32 @@ common#:#webdav_problem_info_duplicate#:#Es existiert eine Date mit dem selben T
 common#:#webdav_problem_free_container#:#In diesem Ordner wurden keine Objekte welche Probleme verursachen gefunden.
 common#:#webdav_enable_versioning#:#Datei Versionierung
 common#:#webdav_versioning_info#:#Wenn diese Einstellung aktiviert ist, wird für bereits existierende Dateien eine neue Version angelegt. An sonst werden diese überschrieben.
+common#:#webdav_add_instructions_btn_label#:#WebDAV-Anleitung hinzufügen
+common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
+common#:#webdav_general_settings#:#Allgemeine Einstellungen
+common#:#webdav_form_document#:#WebDAV-Anleitung
+common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.
+common#:#webdav_form_document_title#:#Titel
+common#:#webdav_form_document_title_info#:#Dieser Titel wird im Model mit der WebDAV-Anleitung angezeigt
+common#:#webdav_form_new_doc_head#:#Ein neues Dokument hinzufügen
+common#:#webdav_form_edit_doc_head#:#WebDAV-Anleitungen bearbeiten
+common#:#webdav_mount_instructions#:#WebDAV-Anleitungen
+common#:#webdav_sure_delete_documents_s#:#Soll die WebDAV-Anleitung mit folgendem Titel wirklich gelöscht werden:
+common#:#webdav_tbl_docs_title#:#Liste hochgeladener WebDAV-Anleitungen
+common#:#webdav_tbl_docs_head_title#:#Titel
+common#:#webdav_upload_instructions#:#WebDAV-Anleitung hochladen
+common#:#webdav_chosen_language_already_used#:#Für die ausgewählte Sprache gibt es bereits eine WebDAV-Anleitung
+common#:#webdav_missing_lang#:#Es gibt keine deutsche Version der WebDAV-Anleitung.
 common#:#edit_metadata#:#Metadaten bearbeiten
 common#:#webdav_pwd_instruction#:#Um das ILIAS-Magazin als Webordner außerhalb der aktuellen Sitzung als Webordner zu öffnen, empfehlen wir ein lokales Passwort anzulegen.<br />Dieses Passwort wird nur für die Webordner-Funktionalitäten benötigt, die ILIAS-Anmeldung erfolgt weiterhin mit Ihrem gewohnten Passwort.
 common#:#webdav_pwd_instruction_success#:#Ein neues lokales Passwort wurde angelegt. Sie können nun das Magazin als Webordner öffnen.
+common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webfolder_dir_info#:#Sie sind hierher gelangt, weil Ihr Browser keine Webordner öffnen kann. Lesen Sie die <a href="%1$s">Anleitung zum Öffnen dieses Webordners</a>.
 common#:#webfolder_index_of#:#Inhalt von %1$s
 common#:#webfolder_instructions#:#Anleitung für Webordner
-common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
-common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>	<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_WINDOWS]	[IF_MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_MAC][IF_LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/IF_LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#%1$s als Webordner öffnen
+common#:#webfolder_instructions_info#:#Die Anleitung für Webordner wird auf Browsern angezeigt, die Webordnern nicht direkt öffnen können. Sie können HTML-Code verwenden.<br/>Verwendbare Platzhalter: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>.<br/>Löschen Sie dieses Feld zum Zurücksetzen auf den Standard-Anleitungstext.
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Anleitung f&uuml;r Verbindung mit Windows</h3>	<ol>	<li>&ouml;ffnen Sie den Windows-Explorer (z.B. mittels Tastenkombination WindowsLogo + E).</li>	<li>Dr&uuml;cken Sie die Alt-Taste. Das Men&uuml; wird eingeblendet.</li>	<li>W&auml;hlen Sie "Extras" - "Netzlaufwerk verbinden".</li>	<li>Geben Sie im Feld "Ordner" folgende Adresse ein (Adresse kopieren und einf&uuml;gen):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Klicken Sie auf "Fertig stellen".</li>	<li>Geben Sie Ihre Anmeldedaten f&uuml;r ILIAS ein und klicken Sie auf "OK".</li>	<li>Bei erfolgreichem Login wird der Webordner ge&ouml;ffnet und steht im Windows-Explorer zur Verf&uuml;gung.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/WINDOWS]	[MAC]	<h3>Anleitung f&uuml;r Mac OS X</h3>	<ol>	<li>Aktivieren Sie den Finder.</li>	<li>W&auml;hlen Sie das Men&uuml; 'Gehe zu &gt; Mit Server verbinden...'.<br/>Dies &ouml;ffnet das Dialogfenster 'Mit Server verbinden'.</li>	<li>Geben Sie folgende Addresse in das Feld 'Serveradresse' ein:<br/><b>[WEBFOLDER_URI]</b><br/> und klicken Sie auf 'Verbinden'.</li>	<li>Geben Sie Benutzername und Passwort ein, und klicken Sie auf 'OK'.</li>	</ol>	<br />	Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/MAC][LINUX]		<h3>Anleitung f&uuml;r Linux mit Konqueror</h3>		<ol>		<li>Starten Sie den Konqueror Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<h3>Anleitung f&uuml;r Linux mit Nautilus</h3>		<ol>		<li>Starten Sie den Nautilus Browser.</li>		<li>Geben Sie folgende Adresse in das Adressfeld ein:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>und dr&uuml;cken Sie die Eingabetaste.</li>		<li>Geben Sie Benutzernamen und Passwort ein, und klicken Sie auf 'OK'.</li>		</ol>		<br />		Die verlangten Anmeldedaten sind identisch mit Ihrem lokalen ILIAS Login und k&ouml;nnen in den pers&ouml;nlichen Einstellungen ge&auml;ndert werden.[/LINUX]				<h3>Tipps &amp; Support</h3>		<ul>		<li>Diese Schritte m&uuml;ssen f&uuml;r einen bestimmten Webordner <b>nur einmalig</b> ausgef&uuml;hrt werden. Sie k&ouml;nnen sp&auml;ter erneut auf die angelegte Verbindung zur&uuml;ckgreifen.</li>		</ul>		<ul>		<li>Legen Sie Ihre Webordner-Verbindung auf einer &uuml;bergeordneten Kategorie an. Sie k&ouml;nnen immer nach "Unten" navigieren, nicht jedoch in h&ouml;here Hierarchiestrukturen als Ihr Verbindungspunkt.</li>		</ul>		<ul>		<li>Falls Ihr Computer den Webordner nicht öffnen kann, wenden Sie sich bitte an den ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_titletext#:#Als Webordner öffnen
 common#:#webfolder_mount_dir_with#:#Diese Seite als Webordner öffnen mit <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">anderem Browser</a>.
 common#:#webr#:#Weblink
 common#:#webr_active#:#Aktiv
@@ -5441,6 +5520,8 @@ crs#:#crs_custom_user_fields#:#Kursspezifische Benutzerdaten
 crs#:#crs_dates#:#Termine
 crs#:#crs_auto_notification#:#Begrüßungsmail für neue Mitglieder
 crs#:#crs_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Tutor oder Administrator in den Kurs aufgenommen wurden.
+grp#:#grp_auto_notification#:#Begrüßungsmail für neue Mitglieder
+grp#:#grp_auto_notification_info#:#Mail-Benachrichtigungen werden automatisch an jene Mitglieder versendet, die von einem Administrator in die Gruppe aufgenommen wurden.
 crs#:#crs_deactivate_notification#:#Benachrichtigung deaktivieren
 crs#:#crs_delete_objectve_sure#:#Sind Sie sicher, dass die ausgewählten Lernziele entfernt werden sollen?
 crs#:#crs_details#:#Kursdetails
@@ -6060,6 +6141,8 @@ didactic#:#didactic_install_info#:#Allgemeine Informationen
 didactic#:#didactic_not_changed#:#Die aktive didaktische Vorlage wurde nicht geändert.
 didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:
 didactic#:#didactic_template_applied#:#Die didaktische Vorlage wurde angewandt.
+ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
+ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Nur notwendig, wenn ein ECS-Server unter 'Administration » ILIAS erweitern » ECS' aktiviert ist.
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
@@ -12339,6 +12422,10 @@ crs#:#crs_mem_tbl_header#:#Kursteilnehmer
 grp#:#grp_mem_tbl_header#:#Gruppenteilnehmer
 mmbr#:#mmbr_selected_users#:#Ausgewählte Teilnehmer
 mmbr#:#mmbr_btn_mail_selected_users#:#Mail verschicken
+sess#:#sess_participation_refused_info#:#Ihre Teilnahme an dieser Sitzung wurde abgesagt.
+sess#:#sess_bt_refuse#:#Teilnahme absagen
+sess#:#sess_part_table_excused#:#Abgesagt
+sess#:#sess_mail_permanent_link_participants#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Sitzungsinhalt zuzugreifen:
 sess#:#sess_reg_type#:#Anmeldeverfahren
 sess#:#sess_reg_direct#:#Direkte Anmeldung
@@ -13256,6 +13343,8 @@ contact#:#contact_awrn_ap_contacts_info#:#Alle bestätigten Kontakte eines Benut
 adm#:#adm_support_contacts#:#Technische Betreuung
 adm#:#adm_awrn_support_contacts_info#:#Die Benutzer für die technische Betreuung werden aufgelistet. Die Benutzer werden im Bereich "Allgemeine Einstellungen" » "Kontaktinformationen" der technischen Betreuung zugeordnet.
 adm#:#adm_support_contacts_info#:#Technische Betreuer werden in der Fußzeile verlinkt und - wenn aktiviert - in der „Wer ist online?“-Anzeige aufgelistet. Komma-separierte Liste von Benutzeraccounts.
+adm#:#adm_accessibility_contacts#:#Anlaufstelle für Barrierefreiheit
+adm#:#adm_accessibility_contacts_info#:#Kontaktpersonen zur Meldung von Problemen mit der Barrierefreiheit in der Fußzeile. Komma-separierte Liste von Benutzeraccounts.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Meine Kurse und Gruppen
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#Alle Mitglieder von Gruppen und Kursen eines Benutzers werden aufgelistet.
 crs#:#crs_awrn_current_course#:#Aktueller Kurs
@@ -13268,6 +13357,10 @@ awrn#:#awrn_max_nr_entries_info#:#Diese Anzahl an Einträgen wird maximal in der
 awrn#:#awrn_hide_from_awareness#:#Mich nicht in „Wer ist online?“-Anzeige auflisten
 awrn#:#awrn_hide_from_awareness_info#:#Die „Wer ist online?“-Anzeige erscheint oben im Kopf der Anwendung und listet ausgewählte Benutzer auf (z.B. Kontakte oder Mitglieder Ihrer Kurse).
 common#:#contact_sysadmin#:#Technische Betreuung kontaktieren
+common#:#report_accessibility_issue#:#Barriere melden
+common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#accessibility_control_concept#:#Info Barrierefreiheit
+common#:#no_accessibility_control_concept_description#:#Aktuell wird in dieser Installation keine Info zur Barrierefreiheit angeboten. Bitte kontaktieren Sie die <a href="%1$s">Anlaufstelle für Barrierefreiheit</a> für weitere Informationen.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Server hinzufügen
 ldap#:#ldap_username_filter#:#Benutzernamen Filter
@@ -14084,8 +14177,8 @@ chatroom#:#chatroom_enable_osc_info#:#Wenn aktiviert, steht der On-Screen-Chat j
 chatroom#:#chat_osc_start_conversation#:#Konversation starten
 chatroom#:#chat_osc_nc_prop_time#:#Zeit
 chatroom#:#chat_osc_nc_no_conv#:#Keine Konversationen vorhanden
-chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine versteckte Konversation
-chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s versteckte Konversationen
+chatroom#:#chat_osc_nc_conv_x_s#:#Sie haben eine minimierte Konversation.
+chatroom#:#chat_osc_nc_conv_x_p#:#Sie haben %s minimierte Konversationen.
 chatroom#:#chat_osc_accept_msg#:#Anchatten erlauben
 chatroom#:#chat_osc_accept_msg_info#:#Wenn aktiviert, können andere Benutzer mir Nachrichten über den On-Screen-Chat senden.
 chatroom#:#chat_osc_accepts_messages_no#:#Empfängt keine Chat-Nachrichten
@@ -14172,8 +14265,42 @@ common#:#pdfg_read#:#Lesezugrif auf PDF-Erstellung
 common#:#pdfg_visible#:#PDF-Erstellungs ist sichtbar.
 common#:#pdfg_write#:#Einstellungen der PDF-Erstellung bearbeiten
 common#:#pdfg_edit_permission#:#Rechteeinstellungen ändern
-pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#webkit#:#wkhtmltopdf
+pdfgen#:#path#:#Pfad zum Programm
+pdfgen#:#wkhtml_config#:#Konfiguration für WKHTML
+pdfgen#:#external_links#:#Externe Links
+pdfgen#:#enable_forms#:#Formulare aktivieren
+pdfgen#:#user_stylesheet#:#Benutzer Stylesheet
+pdfgen#:#low_quality#:#Niedrige Qualität
+pdfgen#:#greyscale#:#Graustufen
+pdfgen#:#overwrite_font#:#Schritart überschreiben
+pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw. 
+pdfgen#:#output_options#:#Ausgabe Optionen
+pdfgen#:#header_text_left#:#Text Links
+pdfgen#:#header_text_center#:#Text Mitte
+pdfgen#:#header_text_right#:#Text Rechts
+pdfgen#:#footer_text_left#:#Text Links
+pdfgen#:#footer_text_center#:#Text Mitte
+pdfgen#:#footer_text_right#:#Text Rechts
+pdfgen#:#spacing#:#Abstand
+pdfgen#:#header_line#:#Trennlinie
+pdfgen#:#footer_line#:#Trennlinie
+pdfgen#:#checkbox_svg#:#Pfad zum Checkbox SVG
+pdfgen#:#checkbox_checked_svg#:#Pfad zum ausgewähltem Checkbox SVG
+pdfgen#:#radio_button_svg#:#Pfad zum Radiobutton SVG
+pdfgen#:#radio_button_checked_svg#:#Pfad zum ausgewähltem Radiobutton SVG
+pdfgen#:#config#:#Config
+pdfgen#:#none#:#Keine
+pdfgen#:#html#:#Html
+pdfgen#:#footer_html#:#Html
+pdfgen#:#external_links_info#:#Erzeugt links zu externen Webseiten
+pdfgen#:#enable_forms_info#:#Wandelt HTML Formulare in PDF Formulare um
+pdfgen#:#low_quality_info#:#Erzeugt PDF mit reduzierter Qualität, wodurch diese eine kleinere Dateigröße bekommen.
+pdfgen#:#greyscale_info#:#PDF wird in Graustufen erzeugt
+pdfgen#:#print_media_info#:#Es wird der "print" media-type genutzt anstatt "screen"
+pdfgen#:#margin_info#:#Rand in mm z.B. 10mm
 pdfgen#:#page_settings#:#Seiteneinstellungen
+pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#print_media_type#:#Benutze 'Druck Media Type' anstatt 'Bildschirm'
 pdfgen#:#margin#:#Rand
@@ -14700,6 +14827,8 @@ mme#:#topitem_title_default_byline#:#Weitere Sprachen können über den Aktionsl
 mme#:#topitem_active_byline#:#Diesen Haupteintrag aktivieren
 mme#:#topitem_type#:#Typ
 mme#:#topitem_type_byline#:#Haupteinträge können weitere Einträge enthalten oder direkt als Link zu einer Seite angelegt werden.
+mme#:#topitem_icon#:#Icon
+mme#:#topitem_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#subitem_add#:#Eintrag hinzufügen
 mme#:#subitem_edit#:#Bearbeiten
 mme#:#subitem_delete#:#Löschen
@@ -14712,6 +14841,8 @@ mme#:#sub_active#:#Aktiv
 mme#:#sub_status#:#Status
 mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Aktionen
+mme#:#sub_icon#:#Icon
+mme#:#sub_icon_byline#:#Hochgeladene SVG-Icons werden invertiert angezeigt.
 mme#:#button_save#:#Speichern
 mme#:#table_show_inactive#:#Inaktive anzeigen
 mme#:#sub_title_default#:#Titel (Standard-Sprache)
@@ -15160,6 +15291,7 @@ assessment#:#finalized_by#:#Bewertung abgeschlossen von
 assessment#:#finalized_on#:#Bewertung abgeschlossen am
 dateplaner#:#cal_crs_timing_start#:#Bearbeitungsbeginn
 dateplaner#:#cal_crs_timing_end#:#Bearbeitungsende
+crs#:#crs_target_group#:#Zielgruppe
 crs#:#crs_timings_edit_personal#:#Persönliche Lernplanung bearbeiten
 crs#:#crs_timings_short_start_end_rel#:#Empfohlener Start (Tage nach Kursbeitritt)
 crs#:#crs_tile_and_objective_view_not_supported#:#Die gleichzeitige Aktivierung von Kachel-Präsentation und Lernziel-orientierter Ansicht wird nicht unterstützt.
@@ -15263,8 +15395,8 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 common#:#nc_contact_requests_headline#:#Kontaktanfragen
-common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage
-common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen
+common#:#nc_contact_requests_number_s#:#Du hast eine Kontaktanfrage.
+common#:#nc_contact_requests_number_p#:#Du hast %s Kontaktanfragen.
 common#:#nc_contact_requests_prop_time#:#Zeit
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 forum#:#sorting#:#Sortierung
@@ -15331,6 +15463,8 @@ wsp#:#wsp_personal_resources_description#:#Hier können Sie persönliche Dateien
 administration#:#adm_personal_workspace#:#Persönlicher Arbeitsraum
 dash#:#dash_favourites#:#Favoriten
 dash#:#dash_memberships#:#Meine Kurse und Gruppen
+dash#:#dash_learningsequences#:#Meine Lernsequenzen
+dash#:#dash_studyprogramme#:#Meine Studienprogramme
 rbac#:#read_outcomes#:#Lernerfahrungen anderer Benutzer anzeigen
 rbac#:#add_consume_provider#:#Eigene LTI-Provider-Einstellungen hinzufügen
 rbac#:#ltis_add_consume_provider#:#Benutzer kann eigene Provider-Einstellungen für LTI-Konsument hinzufügen
@@ -15769,4 +15903,151 @@ lso#:#lso_mainbar_button_label_toc#:#Inhalte
 lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
 mem#:#mem_period_without_time#:#ohne Uhrzeitangabe
 trac#:#trac_mode_course_reference#:#Vom Kurs übernommen
-trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen auf den dieser Kurslink verweist.
+trac#:#trac_mode_course_reference_info#:#Der Lernfortschrittmodus wird automatisch von dem Kurs übernommen, auf den dieser Kurslink verweist.
+style#:#style_page_layout_module_learning_module#:#ILIAS-Lernmodul
+content#:#cont_insert_pagelayout#:#Seitenvorlage einfügen
+content#:#cont_page_template#:#Vorlage
+content#:#cont_page_created#:#Seite hinzugefügt
+prg#:#assignment_date#:#Beitrittsdatum
+prg#:#completion_date#:#Abschlussdatum
+prg#:#prg_no_deadline#:#Kein Bearbeitungszeitraum
+prg#:#prg_deadline_period#:#Bearbeitungszeitraum individuell festgelegt
+prg#:#prg_deadline_period_desc#:#Das Programm muss innerhalb des angegebenen Zeitraums (in Tagen) abgeschlossen werden.
+prg#:#prg_deadline_date#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#prg_deadline_date_desc#:#Das Programm muss bis zu einem Stichtag abgeschlossen werden.
+prg#:#prg_validity_of_qualification#:#Gültigkeit einer erreichten Qualifikation
+prg#:#prg_no_validity_qalification#:#Kein Ablauf der Qualifikation
+prg#:#validity_qalification_period#:#Ablauf der Qualifikation individuell festgelegt
+prg#:#validity_qalification_period_desc#:#Tage nach erfolgreicher Teilnahme
+prg#:#validity_qalification_date#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#validity_qalification_date_desc#:#Datum des Ablaufs der Qualifikation
+prg#:#prg_no_restart#:#Keine Automatische Wiederaufnahme nach Ablauf der Qualifikation
+prg#:#restart_period#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation
+prg#:#restart_period_desc#:#Tage vor Ablauf der Qualifikation
+prg#:#sp_certificate_title#:#Titel des Programms
+prg#:#sp_certificate_description#:#Beschreibung des Programms
+prg#:#sp_certificate_type#:#Typ des Programms
+prg#:#sp_certificate_points#:#Anzahl erworbener Punkte
+prg#:#sp_certificate_completion_date#:#Abschlußdatum
+prg#:#sp_certificate_progress_expires_at#:#Ablaufdatum der Qualifikation
+prg#:#prg_completion_date#:#Abschlußdatum
+prg#:#prg_expiry_date#:#Ablauf Qualifikation
+prg#:#prg_validity#:#Gültigkeit Qualifikation
+prg#:#prg_still_valid#:#Qualifikation gültig
+prg#:#prg_renewal_required#:#Erneuerung der Qualifikation notwendig
+prg#:#prg_restart_assignments_temporal_progress_title#:#Neubuchung auslaufender Qualifikationen im Studienprogramm
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Bucht Teilnehmer neu auf Studienprogramme mit auslaufender Qualifikation
+prg#:#prg_invalidate_expired_progresses_title#:#Zeitlich begrenzte Lernfortschritte im Studienprogramm
+prg#:#prg_invalidate_expired_progresses_desc#:#Markiert abgelaufene Lernfortschritte an Studienprogrammen als 'nicht bestanden'
+prg#:#prg_orgus#:#Organisationseinheit(en)
+prg#:#content_automation_title#:#Kurse dieser Kategorien automatisch hinzufügen/entfernen
+prg#:#content_automation#:#Inhaltsautomatisierung
+prg#:#last_edited_by#:#Zuletzt bearbeitet von
+prg#:#last_edited#:#Zuletzt bearbeitet
+prg#:#add_category#:#Kategorie hinzufügen
+prg#:#modal_categories_title#:#Zu überwachende Kategorie
+prg#:#category#:#Kategorie (RefId)
+common#:#obj_prgr#:#Link zum Studienprogramm
+common#:#obj_prgrs#:#Links zu Studienprogrammen
+prg#:#prgr_new#:#Neuer Link zum Studienprogramm
+prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+prg#:#prgr_may_not_create_circular_reference#:#Das verlinken dieses Programms ist hierher nicht möglich, da das Beinhaltende Programm darin erhalten ist.
+prg#:#no_manual_status#:#Kein manueller Status
+prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
+prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
+prg#:#prg_validity_of_qualification_restart#:#Wiederaufnahme
+prg#:#edit_participants#:#Mitglieder bearbeiten
+prg#:#auto_memberships#:#Automatische Zuweisung
+prg#:#orgu#:#Organisationseinheit
+prg#:#rol#:#Rolle
+prg#:#auto_membership_title#:#Quellen für automatische Zuweisung
+prg#:#add_automembership_source#:#Automatismus hinzufügen
+prg#:#auto_membership_src_type#:#Typ
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Bitte verwenden Sie die <b>Objekt-Id</b>
+prg#:#membership_source_id_byline_refid#:#Bitte verwenden Sie die <b>Referenz-Id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Quelle
+prg#:#prg_autoassignment#:#(automatisch)
+orgu#:#org_op_view_members#:#Mitgliedschaften sichtbar
+orgu#:#org_op_view_individual_plan#:#Individuellen Plan einsehen
+orgu#:#org_op_edit_individual_plan#:#Individuellen Plan bearbeiten
+prg#:#some_users_may_not_be_accredited#:#Ausgewählte Benutzer wurden teilweise akkreditiert.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Akkreditierung ausgewählter Benutzer wurde teilweise entfernt.
+prg#:#some_users_may_not_be_marked_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als relevant markiert.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Fortschritte ausgewählter Benutzer wurden teilweise als nicht relevant markiert.
+prg#:#prg_formatted_period#:#%d Tage
+prg#:#deadline_information#:#Informationen zum Bearbeitungszeitraum
+prg#:#dealine_period_info#:#Bearbeitungszeitraum
+prg#:#dealine_date_info#:#Bearbeitungszeitraum bis zu einem festen Stichtag
+prg#:#vq_information#:#Gültigkeit einer erreichten Qualifikation
+prg#:#vq_period_info#:#Die Qualifikation ist nur eine begrenzte Anzahl Tage gültig
+prg#:#vq_date_info#:#Die Qualifikation läuft zu einem Stichtag ab
+prg#:#restart_information#:#Wiederaufnahme (in Tagen) vor Ablauf der Qualifikation
+prg#:#restart_period_info#:#Automatische Wiederaufnahme vor Ablauf der Qualifikation in Tagen
+prg#:#access_ctr_by_orgu_position#:#Berechtigungen anhand Positionen in Organisationseinheiten
+prg#:#could_not_add_users_no_permissons#:#Konnte %d Benutzer wegen mangelnder Berechtigung nicht hinzufügen.
+prg#:#not_a_valid_cat_id#:#%s entspricht keiner Kategorie.
+prg#:#prg_mail_permanent_link#:#Wählen Sie den folgenden Link, um auf den Inhalt des Studienprogramms zuzugreifen:
+prg#:#prg_title#:#Titel
+prg#:#re_assigned_mail_subject#:#Erneute Teilnahme am Studienprogramm
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>Sie wurden erneut dem Studienprogramm '%s' als Teilnehmer zugeordnet.
+prg#:#info_to_re_assign_mail_subject#:#Erinnerung zur erneuten Teilnahme am Studienprogramm
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>Die Gültigekeit ihrer Teilnahme am Studienprogramm '%s' läuft bald ab. Bitte melden Sie sich erneut an.
+prg#:#prg_user_not_restarted_time_input#:#Erinnerungsmail Neustart
+prg#:#prg_user_not_restarted_time_input_info#:#Erinnert den Benutzer x Tage vor der invalidierung, dass er das Programm neu starten muss.
+prg#:#prg_processing_ends_no_success#:#Erinnerungsmail Fehlschlag
+prg#:#prg_processing_ends_no_success_info#:#Erinnert den Benutzer x Tage vor Ablauf des Programms, dass er gefährdet ist nicht zu bestehen.
+prg#:#send_re_assigned_mail#:#E-Mail erneute Teilnahme
+prg#:#send_re_assigned_mail_info#:#Versende eine E-Mail, bei einer automatischen erneuten Teilnahme am Sudienprogramm.
+prg#:#prg_user_risky_to_fail_title#:#Warnmail über mögliches Nichtbestehen senden
+prg#:#prg_user_risky_to_fail_desc#:#Sendet Benutzern eine Warnmail wenn das Risiko besteht, dass sie ein Studienprogramm wegen einer auslaufenden Bearbeitungszeit nicht bestehen.
+prg#:#prg_user_not_restarted_title#:#Warnmail über auslaufende Qualifikation senden
+prg#:#prg_user_not_restarted_desc#:#Sendet Benutzern eine Warnmail wenn eine Qualifikation an einem Studienprogramm ausläuft und sie das Programm noch nicht neu gestartet haben.
+prg#:#send_info_to_re_assign_mail#:#E-Mail Erinnerung Neustart
+prg#:#send_info_to_re_assign_mail_info#:#Versende eine E-Mail um den Benutzer daran zu erinnern das Studienprogramm neu zu starten.
+prg#:#send_risky_to_fail_mail#:#E-Mail bei Fehlschlag
+prg#:#send_risky_to_fail_mail_info#:#Versende eine E-Mail, wenn dem Benutzer ein Fehlschlag des Studienprogramms droht.
+search#:#search_for_orgu_members#:#Nach Organisationseinheiten suchen
+search#:#select_orgu#:#Organisationseinheiten auswählen
+prg#:#prg_dash_label_valid#:#Gültigkeit:
+prg#:#prg_dash_label_minimum#:#Minimales Ziel:
+prg#:#prg_dash_label_gain#:#Aktueller Stand:
+prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Zu erledigen bis:
+prg#:#prg_dash_label_restart_from#:#Neubeginn ab:
+prg#:#percentage#:#%
+prg#:#prg_status_1#:#In Bearbeitung
+prg#:#prg_status_2#:#Abgeschlossen
+prg#:#prg_status_3#:#Akkreditiert
+prg#:#prg_status_4#:#Nicht relevant
+prg#:#prg_status_5#:#Nicht bestanden
+prg#:#prg_multi_change_deadline#:#Stichtag anpassen
+prg#:#prg_multi_change_expire_date#:#Ablauf Qualifikation anpassen
+prg#:#prg_update_expire_date#:#Ablauf Qualifikation erfolgreich aktualisiert.
+prg#:#update_deadline#:#Stichtag erfolgreich aktualisiert.
+prg#:#error_updating_expire_date#:#Ein Fehler ist während der Aktualisierung von 'Ablauf Qualifikation' aufgetreten.
+prg#:#error_updating_deadline#:#Ein Fehler ist während der Aktualisierung von 'Stichtag' aufgetreten.
+prg#:#select_crs#:#Nach Kursen suchen
+prg#:#select_grp#:#Nach Gruppen suchen
+prg#:#select_role#:#Nach Rollen suchen
+prg#:#select_org#:#Nach Organisationseinheiten suchen
+prg#:#label_crs#:#Kursname
+prg#:#label_grp#:#Gruppenname
+prg#:#label_role#:#Rollenname
+prg#:#modal_member_auto_select_title#:#Quelle für automatische Zuweisung wählen
+prg#:#prg_auto_member_select_crs#:#Kurse
+prg#:#prg_auto_member_select_grp#:#Gruppen
+prg#:#prg_auto_member_select_role#:#Rollen
+badge#:#badge_new_badges#:#Sie haben %1 Badge(s) erhalten.
+content#:#cont_no_read#:#Kein Lesezugriff
+content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout
+content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout
+content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock
+content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
+content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
+content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
+content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.

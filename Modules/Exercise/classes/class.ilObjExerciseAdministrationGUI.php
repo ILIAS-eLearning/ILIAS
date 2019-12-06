@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-
 /**
  * Exercise Administration Settings
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
  *
  * @ilCtrl_Calls ilObjExerciseAdministrationGUI: ilPermissionGUI
  *
@@ -51,7 +48,6 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 		{
 			case 'ilpermissiongui':
 				$this->tabs_gui->setTabActive('perm_settings');
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$this->ctrl->forwardCommand($perm_gui);
 				break;
@@ -153,7 +149,6 @@ class ilObjExerciseAdministrationGUI extends ilObjectGUI
 		$lng = $this->lng;
 		$ilAccess = $this->access;
 		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt('exc_admin_settings'));

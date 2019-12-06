@@ -30,6 +30,11 @@ class ilStyleImageTableGUI extends ilTable2GUI
 	protected $rbacsystem;
 
 	/**
+	 * @var \ilObjStyleSheet
+	 */
+	protected $style_obj;
+
+	/**
 	* Constructor
 	*/
 	function __construct($a_parent_obj, $a_parent_cmd, $a_style_obj)
@@ -92,6 +97,10 @@ class ilStyleImageTableGUI extends ilTable2GUI
 		$ilAccess = $this->access;
 
 		$thumbfile = $this->style_obj->getThumbnailsDirectory()."/".$a_set["entry"];
+		$image_file = $this->style_obj->getImagesDirectory()."/".$a_set["entry"];
+		if (!is_file($thumbfile) ||  strtolower(pathinfo($a_set["entry"], PATHINFO_EXTENSION)) == "svg") {
+			$thumbfile = $image_file;
+		}
 		if (is_file($thumbfile))
 		{
 			$this->tpl->setCurrentBlock("thumbnail");
@@ -99,7 +108,7 @@ class ilStyleImageTableGUI extends ilTable2GUI
 			$this->tpl->setVariable("IMG_SRC", $thumbfile);
 			$this->tpl->parseCurrentBlock();
 		}
-		$image_file = $this->style_obj->getImagesDirectory()."/".$a_set["entry"];
+
 		$image_size = @getimagesize($image_file);
 		{
 			if ($image_size[0] > 0 && $image_size[1] > 0)

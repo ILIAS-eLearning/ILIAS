@@ -1,19 +1,15 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('./Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio view gui class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
- *
- * @ingroup ModulesPortfolio
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {		
@@ -114,7 +110,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 										
 					$this->tpl->setPermanentLink("prtf", $this->object->getId());
 
-					include_once('./Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php');
 					$wspacc = new ilWorkspaceAccessGUI($this->object->getId(), $this->access_handler, true);
 					$wspacc->setBlockingMessage($this->getOfflineMessage());
 					$this->ctrl->forwardCommand($wspacc);
@@ -127,8 +122,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					// only in edit mode
 					$this->addLocator();	
 										
-					include_once "Services/Form/classes/class.ilFileInputGUI.php";
-					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);						
+					ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
 				}
 				$this->handlePageCall($cmd);			
 				break;
@@ -138,7 +132,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				break;
 			
 			case "ilobjstylesheetgui":
-				include_once ("./Services/Style/Content/classes/class.ilObjStyleSheetGUI.php");
 				$this->ctrl->setReturn($this, "editStyleProperties");
 				$style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
 				$style_gui->omitLocator();
@@ -166,7 +159,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				
 			case "ilportfolioexercisegui":
 				$this->ctrl->setReturn($this, "view");
-				include_once "Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php";
 				$gui = new ilPortfolioExerciseGUI($this->user_id, $this->object->getId());
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -333,7 +325,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if (!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$options = array();
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($this->user_id);
 			$root = $tree->readRootId();
 			if ($root)
@@ -381,7 +372,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		$this->ctrl->setParameter($this, "new_type", $this->getType());
 		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
 				
@@ -392,13 +382,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$ti->setRequired(true);
 		$form->addItem($ti);
 
-		/* description
-		$ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-		$ta->setCols(40);
-		$ta->setRows(2);
-		$form->addItem($ta);		
-		*/
-						
 		$main = new ilRadioGroupInputGUI($this->lng->txt("prtf_creation_mode"), "mode");
 		$main->setValue("mode_scratch");
 		$form->addItem($main);
@@ -424,7 +407,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$type_page->addSubItem($tf);	
 
 		// page templates
-		include_once "Services/COPage/Layout/classes/class.ilPageLayout.php";
 		$templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
 		if($templates)
 		{			
@@ -445,7 +427,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$options = array();
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($this->user_id);
 			$root = $tree->readRootId();
 			if($root)
@@ -482,7 +463,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$opt_tmpl = new ilRadioOption($this->lng->txt("prtf_creation_mode_template"), "mode_tmpl");
 		$main->addOption($opt_tmpl);
 				
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
 		if(!sizeof($templates))
 		{
@@ -532,7 +512,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	protected function afterSave(ilObject $a_new_object)
 	{		
 		// create 1st page / blog
-		include_once("Modules/Portfolio/classes/class.ilPortfolioPage.php");
 		$page = $this->getPageInstance(null, $a_new_object->getId());
 		if($_POST["ptype"] == "page")
 		{				
@@ -543,7 +522,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$layout_id = $_POST["tmpl"];
 			if($layout_id)
 			{
-				include_once("./Services/COPage/Layout/classes/class.ilPageLayout.php");
 				$layout_obj = new ilPageLayout($layout_id);
 				$page->setXMLContent($layout_obj->getXMLContent());
 			}
@@ -569,7 +547,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if($exc_ref_id &&
 			$ilAccess->checkAccess("read", "", $exc_ref_id))
 		{
-			include_once "Services/Link/classes/class.ilLink.php";
 			ilUtil::redirect(ilLink::_getLink($exc_ref_id, "exc"));
 		}
 		
@@ -578,7 +555,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	
 	protected function initEditForm()
 	{
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));	
 		
@@ -651,7 +627,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		{
 			$a_portfolio_id = $this->object->getId();
 		}
-		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";			
 		$page = new ilPortfolioPage($a_page_id);
 		$page->setPortfolioId($a_portfolio_id);
 		return $page;
@@ -665,7 +640,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	protected function getPageGUIInstance($a_page_id)
 	{
-		include_once("Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
 		$page_gui = new ilPortfolioPageGUI(
 			$this->object->getId(),
 			$a_page_id, 
@@ -725,12 +699,10 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	public function initBlogForm()
 	{		
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 
 		$options = array();
-		include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 		$tree = new ilWorkspaceTree($this->user_id);
 		$root = $tree->readRootId();
 		if($root)
@@ -802,7 +774,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 				$blog->setTitle($form->getInput("title"));
 				$blog->create();
 
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$tree = new ilWorkspaceTree($ilUser->getId());
 
 				// @todo: see also e.g. ilExSubmissionObjectGUI->getOverviewContentBlog, this needs refactoring, consumer should not
@@ -812,7 +783,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 					$tree->createTreeForUser($ilUser->getId());
 				}
 
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceAccessHandler.php";
 				$access_handler = new ilWorkspaceAccessHandler($tree);
 				$node_id = $tree->insertObject($tree->readRootId(), $blog->getId());
 				$access_handler->setPermissions($tree->readRootId(), $node_id);
@@ -846,7 +816,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$prtt_id = (int)$_REQUEST["prtt"];
 		
 		// valid template?		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";		
 		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
 		if(!sizeof($templates) || !in_array($prtt_id, $templates))
 		{
@@ -881,7 +850,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$this->ctrl->setParameter($this, "ass_id", (int)$_REQUEST["ass_id"]);		
 		}		
 	
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));		
 		
@@ -897,7 +865,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		if(!$ilSetting->get('disable_wsp_blogs'))
 		{
 			$blog_options = array();
-			include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 			$tree = new ilWorkspaceTree($this->user_id);
 			$root = $tree->readRootId();
 			if($root)
@@ -916,11 +883,9 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$check_quota = ilDiskQuotaActivationChecker::_isPersonalWorkspaceActive();
 		$quota_sum = 0;				
 							
-		include_once "Services/Skill/classes/class.ilPersonalSkill.php";
-		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));	
+		$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
 		$skill_ids = array();
 		
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 		foreach(ilPortfolioTemplatePage::getAllPortfolioPages($a_prtt_id) as $page)
 		{
 			switch($page["type"])
@@ -980,7 +945,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		if($skill_ids)
 		{
-			include_once "Services/Skill/classes/class.ilSkillTreeNode.php";						
 			$skills = new ilCheckboxGroupInputGUI($this->lng->txt("skills"), "skill_ids");
 			$skills->setInfo($this->lng->txt("prtf_template_import_new_skills"));
 			$skills->setValue($skill_ids);
@@ -993,7 +957,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		
 		if($quota_sum)
 		{
-			include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";			
 			if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
 			{
 				ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);				
@@ -1024,7 +987,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$prtt_id = (int)$_REQUEST["prtt"];
 		
 		// valid template?		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";		
 		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
 		if(!sizeof($templates) || !in_array($prtt_id, $templates))
 		{
@@ -1041,7 +1003,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$form = $this->initCreatePortfolioFromTemplateForm($prtt_id, $title);
 			if($form->checkInput())
 			{
-				include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
 				foreach(ilPortfolioTemplatePage::getAllPortfolioPages($prtt_id) as $page)
 				{
 					switch($page["type"])
@@ -1083,8 +1044,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$source = new ilObjPortfolioTemplate($prtt_id, false);
 		
 		// create portfolio		
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-		$target = new ilObjPortfolio();				
+		$target = new ilObjPortfolio();
 		$target->setTitle($title);
 		$target->create();
 		$target_id = $target->getId();
@@ -1111,7 +1071,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		}
 
 		// valid template?
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
 		$templates = array_keys(ilObjPortfolioTemplate::getAvailablePortfolioTemplates());
 		if(!sizeof($templates) || !in_array($prtt_id, $templates))
 		{
@@ -1122,7 +1081,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$source = new ilObjPortfolioTemplate($prtt_id, false);
 
 		// create portfolio
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
 		$target = new ilObjPortfolio();
 		$target->setTitle($title);
 		$target->create();
@@ -1159,10 +1117,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$ilUser = $this->user;
 		$ilSetting = $this->settings;
 
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolioTemplate.php";
-		include_once "Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php";
-		include_once "Modules/Portfolio/classes/class.ilObjPortfolio.php";
-
 		$title = trim($_REQUEST["pt"]);
 		$prtt_id = (int)$_REQUEST["prtt"];
 
@@ -1170,7 +1124,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$ass_template_id = 0;
 		if ((int)$_REQUEST["ass_id"] > 0)
 		{
-			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			$ass = new ilExAssignment((int)$_REQUEST["ass_id"]);
 			$ass_template_id = ilObject::_lookupObjectId($ass->getPortfolioTemplateId());
 		}
@@ -1191,7 +1144,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$quota_sum = 0;
 
 			//skills manipulation
-			include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 			$pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
 			$skill_ids = array();
 
@@ -1220,7 +1172,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
 			if($quota_sum)
 			{
-				include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
 				if(!ilDiskQuotaHandler::isUploadPossible($quota_sum))
 				{
 					ilUtil::sendFailure($this->lng->txt("prtf_template_import_quota_failure"), true);
@@ -1275,15 +1226,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 			$ass_id &&
 			$ilAccess->checkAccess("read", "", $exc_ref_id))
 		{
-			include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 			$exc = new ilObjExercise($exc_ref_id);
 			$ass = new ilExAssignment($ass_id);
 			if($ass->getExerciseId() == $exc->getId() &&
 				$ass->getType() == ilExAssignment::TYPE_PORTFOLIO)
 			{
 				// #16205
-				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 				$sub = new ilExSubmission($ass, $ilUser->getId());
 				$sub->addResourceObject($a_target_id);
 			}
@@ -1356,7 +1304,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->object->getId());
 
 
-		include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 
 		// because of PDF export
@@ -1384,7 +1331,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$op3= new ilRadioOption($lng->txt("prtf_selected_pages"), "selection");
 		$radg->addOption($op3);
 
-		include_once("./Services/Form/classes/class.ilNestedListInputGUI.php");
 		$nl = new ilNestedListInputGUI("", "obj_id");
 		$op3->addSubItem($nl);
 
@@ -1436,7 +1382,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 	 */
 	public function exportPDF($a_dev_mode = false)
 	{
-		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(180);
 
 		// prepare generation before contents are processed (for mathjax)
@@ -1496,8 +1441,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$tpl->parseCurrentBlock();
 
 
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioPageGUI.php");
-
 		$page_content = "";
 
 		// cover page
@@ -1548,7 +1491,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 		$author_str = $author["firstname"]." ".$author["lastname"];
 		$cover_tpl->setVariable("AUTHOR", $author_str);
 
-		include_once('./Services/Link/classes/class.ilLink.php');
 		$href = ilLink::_getStaticLink($this->object->getId(), "prtf");
 		$cover_tpl->setVariable("LINK", $href);
 

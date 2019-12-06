@@ -28,6 +28,8 @@ class ilCertificatePathFactory
                 break;
             case 'cmix':
                 $certificatePath = ilCertificatePathConstants::CMIX_PATH . $object->getId() . '/';
+            case 'prg':
+                $certificatePath = ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $object->getId() . '/';
                 break;
             default:
                 throw new ilException(sprintf(

@@ -1,12 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Badge Template
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- * @ingroup ServicesBadge
  */
 class ilBadgeImageTemplate
 {
@@ -141,7 +140,6 @@ class ilBadgeImageTemplate
  			$path = $this->getFilePath($this->getId());
 
 
-			include_once("./Services/Utilities/classes/class.ilFileUtils.php");
 			$filename = ilFileUtils::getValidFilename($a_upload_meta["name"]);
 
 			$suffix = strtolower(array_pop(explode(".", $filename)));
@@ -180,8 +178,7 @@ class ilBadgeImageTemplate
 	 * @return string 
 	 */
 	protected function getFilePath($a_id, $a_subdir = null)
-	{		
-		include_once "Services/Badge/classes/class.ilFSStorageBadgeImageTemplate.php";
+	{
 		$storage = new ilFSStorageBadgeImageTemplate($a_id);
 		$storage->create();
 		

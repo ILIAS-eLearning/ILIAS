@@ -117,5 +117,28 @@ class ilADTInternalLink extends ilADT
 		}
 	}
 
+    /**
+     * @inheritDoc
+     */
+    public function exportStdClass()
+    {
+        if (!$this->isNull()) {
+            $obj = new stdClass();
+            $obj->target_ref_id = $this->getTargetRefId();
+
+            return $obj;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function importStdClass($a_std)
+    {
+        if (is_object($a_std)) {
+            $this->setTargetRefId($a_std->target_ref_id);
+        }
+    }
+
 }
-?>

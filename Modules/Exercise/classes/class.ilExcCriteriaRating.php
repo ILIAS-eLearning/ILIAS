@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
-
 /**
  * Class ilExcCriteriaRating
  *
@@ -86,7 +84,6 @@ class ilExcCriteriaRating extends ilExcCriteria
 	
 	protected function renderWidget($a_read_only = false)
 	{
-		include_once './Services/Rating/classes/class.ilRatingGUI.php';
 		$rating = new ilRatingGUI();
 		$rating->setObject(
 			$this->ass->getId(), 
@@ -122,7 +119,6 @@ class ilExcCriteriaRating extends ilExcCriteria
 	public function updateFromAjax()
 	{						
 		// save rating
-		include_once './Services/Rating/classes/class.ilRating.php';
 		ilRating::writeRatingForUserAndObject(
 			$this->ass->getId(), 
 			"ass", 
@@ -157,7 +153,6 @@ class ilExcCriteriaRating extends ilExcCriteria
 	
 	public function hasValue($a_value)
 	{
-		include_once './Services/Rating/classes/class.ilRating.php';
 		return (bool)ilRating::getRatingForUserAndObject(
 			$this->ass->getId(), 
 			"ass", 
@@ -174,7 +169,6 @@ class ilExcCriteriaRating extends ilExcCriteria
 		
 	public function resetReview()
 	{
-		include_once './Services/Rating/classes/class.ilRating.php';
 		ilRating::resetRatingForUserAndObject(
 			$this->ass->getId(), 
 			"ass", 

@@ -35,18 +35,25 @@ class Renderer extends AbstractComponentRenderer
         $contents = [];
         foreach ($component->getContents() as $entry) {
             if ($entry instanceof ISlate\Slate && !$entry instanceof ISlate\Notification) {
-                $init_state = 'disengaged';
-                if ($entry->getEngaged()) {
-                    $init_state = 'engaged';
-                }
-                $triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
-                    ->withOnClick($entry->getToggleSignal())
-                    ->withAdditionalOnloadCode(
-                        function ($id) use ($init_state) {
-                            return "$('#{$id}').addClass('{$init_state}');";
-                        }
-                    );
 
+                $trigger_signal = $entry->getToggleSignal();
+                $triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                    ->withOnClick($trigger_signal);
+
+                $mb_id = $entry->getMainBarTreePosition();
+                if($mb_id) {
+                    $trigger_signal = $component->getTriggerSignal($mb_id);
+                    $triggerer = $triggerer
+                        ->withOnClick($trigger_signal)
+                        ->withAdditionalOnloadCode(
+                            function ($id) use ($mb_id, $trigger_signal) {
+                                return "
+                                    il.UI.maincontrols.mainbar.addTriggerSignal('{$trigger_signal}');
+                                    il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}');
+                                ";
+                            }
+                        );
+                }
                 $contents[] = $triggerer;
             }
             $contents[] = $entry;
@@ -75,14 +82,28 @@ class Renderer extends AbstractComponentRenderer
             'engage'  => $component->getEngageSignal(),
             'replace' => $component->getReplaceSignal()
         ];
-        $component     = $component->withAdditionalOnLoadCode(function ($id) use ($slate_signals) {
-            $js = "fn = il.UI.maincontrols.slate.onSignal;";
-            foreach ($slate_signals as $key => $signal) {
-                $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
-            }
-            return $js;
-        });
-        $id            = $this->bindJavaScript($component);
+
+        $mb_id = $component->getMainBarTreePosition();
+
+        if($mb_id) {
+            $tpl->setVariable('TREE_DEPTH', $component->getMainBarTreeDepth());
+        }
+
+        $component = $component->withAdditionalOnLoadCode(
+            function ($id) use ($slate_signals, $mb_id) {
+                $js = "fn = il.UI.maincontrols.slate.onSignal;";
+                foreach ($slate_signals as $key => $signal) {
+                    $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
+                }
+
+                if($mb_id) {
+                    $js .= "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'slate', '{$id}');";
+                }
+
+
+                return $js;
+            });
+        $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
 
         return $tpl->get();

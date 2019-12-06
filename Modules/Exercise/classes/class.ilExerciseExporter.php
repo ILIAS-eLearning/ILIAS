@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
-
 /**
  * Exporter class for exercise
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
  * @ingroup ModulesExercise
  */
 class ilExerciseExporter extends ilXmlExporter
@@ -19,7 +16,6 @@ class ilExerciseExporter extends ilXmlExporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Exercise/classes/class.ilExerciseDataSet.php");
 		$this->ds = new ilExerciseDataSet();
 		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 		$this->ds->setDSPrefix("ds");

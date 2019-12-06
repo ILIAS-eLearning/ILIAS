@@ -20,6 +20,9 @@ class TestGenericSlate extends Slate implements C\MainControls\Slate\Slate
     {
         return [];
     }
+    public function withMappedSubNodes(callable $f) {
+        return $this;
+    }
 }
 
 /**

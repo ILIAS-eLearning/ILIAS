@@ -240,7 +240,7 @@ class ilOnScreenChatGUI
             $chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer->render(
                 $factory->button()->close()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_chta.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('simpleline/bubbles.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 
@@ -282,7 +282,7 @@ class ilOnScreenChatGUI
                 'username' => $DIC->user()->getLogin(),
             );
 
-            $DIC->language()->toJS(array(
+            $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
                 'chat_osc_emoticons',
                 'chat_osc_write_a_msg',
@@ -304,7 +304,12 @@ class ilOnScreenChatGUI
                 'cancel',
                 'chat_osc_leave_grp_conv',
                 'chat_osc_no_conv',
-            ), $page);
+                'chat_osc_nc_conv_x_p',
+                'chat_osc_nc_conv_x_s',
+                'chat_osc_nc_no_conv',
+                'today',
+                'yesterday',
+            ], $page);
 
             iljQueryUtil::initjQuery($page);
             iljQueryUtil::initjQueryUI($page);

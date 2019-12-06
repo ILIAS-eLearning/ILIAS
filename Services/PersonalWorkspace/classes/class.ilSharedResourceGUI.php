@@ -140,25 +140,21 @@ class ilSharedResourceGUI
 		switch($next_class)
 		{
 			case "ilobjbloggui":
-				include_once "Modules/Blog/classes/class.ilObjBlogGUI.php";
-				$bgui = new ilObjBlogGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);				
+				$bgui = new ilObjBlogGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($bgui);			
 				break;
 			
 			case "ilobjfilegui":
-				include_once "Modules/File/classes/class.ilObjFileGUI.php";
 				$fgui = new ilObjFileGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($fgui);
 				break;		
 			
 			case "ilobjtestverificationgui":
-				include_once "Modules/Test/classes/class.ilObjTestVerificationGUI.php";
 				$tgui = new ilObjTestVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($tgui);
 				break;		
 			
 			case "ilobjexerciseverificationgui":
-				include_once "Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php";
 				$egui = new ilObjExerciseVerificationGUI($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID);
 				$ilCtrl->forwardCommand($egui);
 				break;		
@@ -322,6 +318,7 @@ class ilSharedResourceGUI
 			case "blog":
 				$ilCtrl->setParameterByClass($gui, "wsp_id", $a_node_id);
 				$ilCtrl->setParameterByClass($gui, "gtp", (int)$_GET["gtp"]);
+				$ilCtrl->setParameterByClass($gui, "edt", $_GET["edt"]);
 				$ilCtrl->redirectByClass($gui, "preview");
 				
 			case "tstv":

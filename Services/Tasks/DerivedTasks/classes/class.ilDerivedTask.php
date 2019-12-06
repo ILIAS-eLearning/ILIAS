@@ -30,6 +30,11 @@ class ilDerivedTask
 	 */
 	protected $starting_time;
 
+	/**
+	 * @var int
+	 */
+	protected $wsp_id;
+
 	/** @var string */
 	protected $url = '';
 
@@ -39,13 +44,15 @@ class ilDerivedTask
 	 * @param int $ref_id
 	 * @param int $deadline
 	 * @param int $starting_time
+	 * @param int $wsp_id
 	 */
-	public function __construct(string $title, int $ref_id, int $deadline, int $starting_time)
+	public function __construct(string $title, int $ref_id, int $deadline, int $starting_time, int $wsp_id)
 	{
 		$this->title = $title;
 		$this->ref_id = $ref_id;
 		$this->deadline = $deadline;
 		$this->starting_time = $starting_time;
+		$this->wsp_id = $wsp_id;
 	}
 
 	/**
@@ -56,6 +63,16 @@ class ilDerivedTask
 	public function getRefId()
 	{
 		return $this->ref_id;
+	}
+
+	/**
+	 * Get wsp id
+	 *
+	 * @return int
+	 */
+	public function getWspId()
+	{
+		return $this->wsp_id;
 	}
 
 	/**

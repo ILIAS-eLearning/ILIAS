@@ -120,6 +120,27 @@ class ilADTDate extends ilADT
 			return (string)$this->getDate()->get(IL_CAL_UNIX);
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getDate()->get(IL_CAL_UNIX);
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setDate(new ilDate($a_std->value, IL_CAL_UNIX));
+		}
+	}
 }
 
 ?>

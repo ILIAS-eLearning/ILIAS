@@ -93,7 +93,9 @@ class ilGlobalSuite extends TestSuite
 						$name = "il".$basedir.$file."Suite";
 						$s = $name::suite();
 						echo "Adding Suite: ".$name."\n";
-						$suite->addTest($s);
+						if($name == "ilModulesStudyProgrammeSuite") {
+							$suite->addTest($s);
+						}
 						//$suite->addTestSuite("ilSettingTest");
 					}
 				}
@@ -116,7 +118,6 @@ class ilGlobalSuite extends TestSuite
 		else {
 			echo "Found installed ILIAS, running all tests.\n";
 		}
-
         return $suite;
 	}
 

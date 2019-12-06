@@ -101,6 +101,27 @@ abstract class ilADTMultiEnum extends ilADT
 			return md5(implode(",", $current));
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getSelections();
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setSelections($a_std->value);
+		}
+	}
 }
 
 ?>

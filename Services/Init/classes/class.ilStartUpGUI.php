@@ -107,8 +107,11 @@ class ilStartUpGUI
 				return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
 
 			default:
+				if (method_exists($this, $cmd))
+				{
 				return $this->$cmd();
 		}
+	}
 	}
 
 	/**

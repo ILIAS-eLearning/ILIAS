@@ -13,17 +13,32 @@ class ilCOPageHTMLExport
 	/**
 	 * @var array
 	 */
-	protected $mobs = array();
+	protected $mobs = [];
 
 	/**
 	 * @var array
 	 */
-	protected $files = array();
+	protected $glossary_terms = [];
 
 	/**
 	 * @var array
 	 */
-	protected $files_direct = array();
+	protected $files = [];
+
+	/**
+	 * @var array
+	 */
+	protected $files_direct = [];
+
+	/**
+	 * @var array
+	 */
+	protected $int_links = [];
+
+	/**
+	 * @var array
+	 */
+	protected $q_ids = [];
 
 	/**
 	 * @var string
@@ -46,15 +61,35 @@ class ilCOPageHTMLExport
 	protected $log;
 
 	/**
+	 * @var \ILIAS\GlobalScreen\Services
+	 */
+	protected $global_screen;
+
+	/**
+	 * @var \ILIAS\COPage\PageLinker
+	 */
+	protected $page_linker;
+
+	/**
+	 * @var int
+	 */
+	protected $ref_id;
+
+	/**
 	 * ilCOPageHTMLExport constructor.
 	 * @param $a_exp_dir
 	 */
-	function __construct($a_exp_dir)
+	function __construct($a_exp_dir, \ILIAS\COPage\PageLinker $linker = null, $ref_id = 0)
 	{
 		global $DIC;
 
 		$this->log = ilLoggerFactory::getLogger('copg');
 		$this->user = $DIC->user();
+		$this->global_screen = $DIC->globalScreen();
+		$this->page_linker = is_null($linker)
+			? new ilPageLinker("", true)
+			: $linker;
+		$this->ref_id = $ref_id;
 
 		$this->exp_dir = $a_exp_dir;
 		$this->mobs_dir = $a_exp_dir."/mobs";
@@ -346,32 +381,84 @@ class ilCOPageHTMLExport
 	 * @param string $a_pg_type page type
 	 * @param int $a_pg_id page id
 	 */
-	function collectPageElements($a_type, $a_id)
+	function collectPageElements($a_type, $a_id, $lang = "")
 	{
 		$this->log->debug("collect page elements");
 
-		// collect media objects
-		$pg_mobs = ilObjMediaObject::_getMobsOfObject($a_type, $a_id);
-		foreach($pg_mobs as $pg_mob)
-		{
-			$this->mobs[$pg_mob] = $pg_mob;
-		}
-		
-		// collect all files
-		include_once("./Modules/File/classes/class.ilObjFile.php");
-		$files = ilObjFile::_getFilesOfObject($a_type, $a_id);
-		foreach($files as $f)
-		{
-			$this->files[$f] = $f;
+		// collect all dependent pages (only one level deep)
+		$pages[] = [
+			"type" => $a_type,
+			"id" => $a_id
+		];
+
+		// ... content includes
+		$pcs = ilPageContentUsage::getUsagesOfPage($a_id, $a_type,0, false, $lang);
+		foreach ($pcs as $pc) {
+			// content includes
+			if ($pc["type"] == "incl") {
+				$pages[] = [
+					"type" => "mep:pg",
+					"id" => $pc["id"]
+				];
+			}
 		}
 
-		
-		$skill_tree = $ws_tree = null;		
-		
-		$pcs = ilPageContentUsage::getUsagesOfPage($a_id, $a_type);
+		// ... internal links
+		$pg_links = \ilInternalLink::_getTargetsOfSource($a_type, $a_id, $lang);
+		$this->int_links = array_merge($this->int_links, $pg_links);
+		$this->glossary_terms = [];
+
+		// ... glossary pages of internal links
+		foreach($this->int_links as $int_link)
+		{
+			if ($int_link["type"] == "git")
+			{
+				$this->glossary_terms[] = $int_link["id"];
+				// store linked/embedded media objects of glosssary term
+				$defs = \ilGlossaryDefinition::getDefinitionList($int_link["id"]);
+				foreach($defs as $def)
+				{
+					$pages[] = [
+						"type" => "gdf:pg",
+						"id" => $def["obj_id"]
+					];
+				}
+			}
+		}
+
+		// resources of pages
+		foreach ($pages as $page) {
+			$page_id = $page["id"];
+			$page_type = $page["type"];
+
+			// collect media objects
+			$pg_mobs = ilObjMediaObject::_getMobsOfObject($page_type, $page_id, 0, $lang);
+			foreach ($pg_mobs as $pg_mob) {
+				$this->mobs[$pg_mob] = $pg_mob;
+				$this->log->debug("HTML Export: Add media object $pg_mob (" . \ilObject::_lookupTitle($pg_mob) . ") " .
+					" due to page $page_id, $page_type ).");
+			}
+
+			// collect all files
+			$files = ilObjFile::_getFilesOfObject($page_type, $page_id, 0, $lang);
+			foreach ($files as $f) {
+				$this->files[$f] = $f;
+			}
+
+			// collect all questions
+			$q_ids = \ilPCQuestion::_getQuestionIdsForPage($a_type, $a_id, $lang);
+			foreach($q_ids as $q_id)
+			{
+				$this->q_ids[$q_id] = $q_id;
+			}
+		}
+
+		// collect page content items
+		$skill_tree = $ws_tree = null;
+
+		// skills
 		foreach ($pcs as $pc)			
-		{		
-			// skils
+		{
 			if ($pc["type"] == "skmg")
 			{
 				$skill_id = $pc["id"];
@@ -548,8 +635,28 @@ class ilCOPageHTMLExport
 				$a_update_callback($total, $cnt);
 			}
 		}
+
+		// export all glossary terms
+		$this->exportHTMLGlossaryTerms();
 	}
-	
+
+	/**
+	 * Get resource template
+	 *
+	 * @param
+	 * @return
+	 */
+	protected function initResourceTemplate($tempalate_file)
+	{
+		$this->global_screen->layout()->meta()->reset();
+		$tpl = new ilGlobalTemplate($tempalate_file, true, true, "Services/COPage");
+		$this->getPreparedMainTemplate($tpl);
+		$tpl->addCss(\ilUtil::getStyleSheetLocation());
+		$tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
+		$tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+		return $tpl;
+	}
+
 	/**
 	 * Export media object to html
 	 */
@@ -564,55 +671,77 @@ class ilCOPageHTMLExport
 			ilUtil::rCopy($source_dir, $this->mobs_dir."/mm_".$a_mob_id);
 		}
 
-		// #12930 - fullscreen
-		include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 		$mob_obj = new ilObjMediaObject($a_mob_id);
+
+		$tpl = $this->initResourceTemplate("tpl.fullscreen.html");
+		$med_links = ilMediaItem::_getMapAreasIntLinks($a_mob_id);
+		$link_xml = $this->page_linker->getLinkXML($med_links);
+
+		$params = [
+			"mode" => "media",
+			'enlarge_path' => ilUtil::getImagePath("enlarge.svg", false, "output", true),
+			'fullscreen_link' => $this->page_linker->getFullScreenLink("fullscreen")
+		];
+		if ($this->ref_id > 0) {
+			$params["ref_id"] = $this->ref_id;
+			$params["link_params"] = "ref_id=".$this->ref_id;
+		}
+
+		$tpl->setVariable("MEDIA_CONTENT", $this->renderMob($mob_obj, $link_xml, $params));
+		$html = $tpl->printToString();
+		$file = $this->exp_dir."/media_".$a_mob_id.".html";
+		$fp = fopen($file,"w+");
+		fwrite($fp, $html);
+		fclose($fp);
+		unset($fp);
+
 		if ($mob_obj->hasFullscreenItem())
-		{	
-			// render media object html
-			$xh = xslt_create();		
-			$output = xslt_process(
-				$xh, 
-				"arg:/_xml",
-				"arg:/_xsl", 
-				NULL, 
-				array(
-					"/_xml" => 
-						"<dummy>".
-							$mob_obj->getXML(IL_MODE_ALIAS).
-							$mob_obj->getXML(IL_MODE_OUTPUT).
-						"</dummy>", 
-					"/_xsl" => file_get_contents("./Services/COPage/xsl/page.xsl")
-				), 
-				array("mode"=>"fullscreen"));
-			xslt_free($xh);
-			unset($xh);
-						
-			// render fullscreen html
-			$tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Services/COPage");						
-			$tpl = $this->getPreparedMainTemplate($tpl); // adds js/css		
-			$tpl->setCurrentBlock("ilMedia");			
-			$tpl->setVariable("MEDIA_CONTENT", $output);
-			$output = $tpl->get();
-			unset($tpl);
-			
-			// write file
+		{
+			$tpl = $this->initResourceTemplate("tpl.fullscreen.html");
+			$params["mode"] = "fullscreen";
+			$tpl->setVariable("MEDIA_CONTENT", $this->renderMob($mob_obj, $link_xml, $params));
+			$html = $tpl->printToString();
 			$file = $this->exp_dir."/fullscreen_".$a_mob_id.".html";
-			if(!($fp = @fopen($file,"w+")))
-			{
-				die("<b>Error</b>: Could not open \"".$file."\" for writing".
-					" in <b>".__FILE__."</b> on line <b>".__LINE__."</b><br />");
-			}
-			chmod($file, 0770);			
-			fwrite($fp, $output);
-			fclose($fp);	
+			$fp = fopen($file,"w+");
+			fwrite($fp, $html);
+			fclose($fp);
 			unset($fp);
-			unset($output);
 		}
 		
 		$linked_mobs = $mob_obj->getLinkedMediaObjects();
 		$a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
 	}
+
+	/**
+	 * Render Mob
+	 * @param ilObjMediaObject $mob_obj
+	 * @param string $link_xml
+	 * @param array $params
+	 * @return false|string
+	 */
+	protected function renderMob(\ilObjMediaObject $mob_obj, string $link_xml, array $params)
+	{
+		// render media object html
+		$xh = xslt_create();
+		$output = xslt_process(
+			$xh,
+			"arg:/_xml",
+			"arg:/_xsl",
+			NULL,
+			array(
+				"/_xml" =>
+					"<dummy>".
+					$mob_obj->getXML(IL_MODE_ALIAS).
+					$mob_obj->getXML(IL_MODE_OUTPUT).
+					$link_xml.
+					"</dummy>",
+				"/_xsl" => file_get_contents("./Services/COPage/xsl/page.xsl")
+			), $params);
+		xslt_free($xh);
+		unset($xh);
+		return $output;
+	}
+
 
 	/**
 	 * Export file object
@@ -647,6 +776,47 @@ class ilCOPageHTMLExport
 		{
 			copy($a_source_file, 
 				$file_dir."/".ilUtil::getASCIIFilename($a_file_name));
+		}
+	}
+
+	/**
+	 * Export question images
+	 */
+	protected function exportQuestionFiles()
+	{
+		// export questions (images)
+		if (count($this->q_ids) > 0)
+		{
+			foreach ($this->q_ids as $q_id)
+			{
+				\ilUtil::makeDirParents($this->exp_dir."/assessment/0/".$q_id."/images");
+				\ilUtil::rCopy(\ilUtil::getWebspaceDir()."/assessment/0/".$q_id."/images",
+					$this->exp_dir."/assessment/0/".$q_id."/images");
+			}
+		}
+	}
+
+	/**
+	 * Export glossary terms
+	 * @throws \ilTemplateException
+	 */
+	function exportHTMLGlossaryTerms()
+	{
+		foreach($this->glossary_terms as $term_id)
+		{
+			$tpl = $this->initResourceTemplate("tpl.glossary_term_output.html");
+
+			$term_gui = new ilGlossaryTermGUI($term_id);
+			$term_gui->setPageLinker($this->page_linker);
+			$term_gui->setOfflineDirectory($this->exp_dir);
+			$term_gui->output(true, $tpl);
+
+			// write file
+			$html = $tpl->printToString();
+			$file = $this->exp_dir."/term_".$term_id.".html";
+			$fp = fopen($file,"w+");
+			fwrite($fp, $html);
+			fclose($fp);
 		}
 	}
 

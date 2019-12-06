@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObjectGUI.php";
-
 /**
 * Class ilObjExerciseGUI
 *
@@ -89,9 +87,7 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$lng->loadLanguageModule("exc");
 		$this->ctrl->saveParameter($this, "ass_id");
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-
-        $this->service = $DIC->exercise()->internal()->service();
+		$this->service = $DIC->exercise()->internal()->service();
         $this->request = $DIC->exercise()->internal()->request();
         $this->exercise_ui = $DIC->exercise()->internal()->ui();
 		$this->requested_ass_id = $this->request->getRequestedAssId();
@@ -129,15 +125,12 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 			case 'ilpermissiongui':
 				$ilTabs->activateTab("permissions");
-				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
 			break;
 	
 			case "illearningprogressgui":
 				$ilTabs->activateTab("learning_progress");
-				include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-	
 				$new_gui = new ilLearningProgressGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
 					$this->object->getRefId(),
 					$_GET['user_id'] ? $_GET['user_id'] : $ilUser->getId());
@@ -149,7 +142,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilCtrl->saveParameter($this, 'new_type');
 				$ilCtrl->setReturnByClass(get_class($this),'create');
 
-				include_once './Services/Object/classes/class.ilObjectCopyGUI.php';
 				$cp = new ilObjectCopyGUI($this);
 				$cp->setType('exc');
 				$this->ctrl->forwardCommand($cp);
@@ -157,7 +149,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 			case "ilexportgui":
 				$ilTabs->activateTab("export");
-				include_once("./Services/Export/classes/class.ilExportGUI.php");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
@@ -165,7 +156,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				break;
 			
 			case "ilcommonactiondispatchergui":
-				include_once("Services/Object/classes/class.ilCommonActionDispatcherGUI.php");
 				$gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
 				$this->ctrl->forwardCommand($gui);
 				break;
@@ -185,7 +175,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$this->checkPermission("write");
 				$ilTabs->activateTab("content");
 				$this->addContentSubTabs("list_assignments");
-				include_once("./Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php");
 				$ass_gui = new ilExAssignmentEditorGUI($this->object->getId(), $this->object->isCompletionBySubmissionEnabled(), $this->ass);
 				$this->ctrl->forwardCommand($ass_gui);
 				break;
@@ -212,7 +201,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 					))
 				{
 					$ilTabs->activateTab("grades");
-					include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
 					$mgmt_gui = new ilExerciseManagementGUI($this->getService(), $this->ass);
 					$this->ctrl->forwardCommand($mgmt_gui);
 				}
@@ -227,7 +215,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 				$ilTabs->activateTab("settings");	
 				$this->setSettingsSubTabs();
 				$ilTabs->activateSubTab("crit");
-				include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php");
 				$crit_gui = new ilExcCriteriaCatalogueGUI($this->object);
 				$this->ctrl->forwardCommand($crit_gui);
 				break;
@@ -357,7 +344,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$ni->setSize(4);
 			$ni->setMaxLength(4);
 			$ni->setRequired(true);
-			include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 			$mand = ilExAssignment::countMandatory($this->object->getId());
 			$min = max($mand, 1);
 			$ni->setMinValue($min, true);
@@ -468,7 +454,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$a_values["nr_random_mand"] = $this->object->getNrMandatoryRandom();
 		
-		include_once "./Services/Notification/classes/class.ilNotification.php";
 		$a_values["notification"] = ilNotification::hasNotification(
 				ilNotification::TYPE_EXERCISE_SUBMISSION, $ilUser->getId(),
 				$this->object->getId());
@@ -525,7 +510,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			? array_sum($feedback)
 			: null);
 		
-		include_once "./Services/Notification/classes/class.ilNotification.php";
 		ilNotification::setNotification(ilNotification::TYPE_EXERCISE_SUBMISSION,
 			$ilUser->getId(), $this->object->getId(),
 			(bool)$a_form->getInput("notification"));
@@ -620,7 +604,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 		$save_offset = $_GET["offset"];
 		$_GET["offset"] = $_GET["sort_by"] = $_GET["sort_order"] = "";
 		
-		include_once './Services/Tracking/classes/class.ilLearningProgressAccess.php';
 		if(ilLearningProgressAccess::checkAccess($this->object->getRefId()))
 		{
 			$this->tabs_gui->addTab('learning_progress',
@@ -705,7 +688,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->checkPermission("visible");
 		}
 
-		include_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 		$info = new ilInfoScreenGUI($this);
 		
 		$info->enablePrivateNotes();
@@ -726,7 +708,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		// instructions
 		$info->addSection($this->lng->txt("exc_overview"));
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$ass = ilExAssignment::getAssignmentDataOfExercise($this->object->getId());
 		$cnt = 0;
 		$mcnt = 0;
@@ -759,7 +740,6 @@ class ilObjExerciseGUI extends ilObjectGUI
         }
 
 		// feedback from tutor
-		include_once("Services/Tracking/classes/class.ilLPMarks.php");
 		if ($this->checkPermissionBool("read"))
 		{
 			$lpcomment = ilLPMarks::_lookupComment($ilUser->getId(), $this->object->getId());
@@ -976,7 +956,6 @@ class ilObjExerciseGUI extends ilObjectGUI
 
 		$tpl->addJavaScript("./Modules/Exercise/js/ilExcPresentation.js");
 		
-		include_once("./Services/Tracking/classes/class.ilLearningProgress.php");
 		ilLearningProgress::_tracProgress($ilUser->getId(),$this->object->getId(),
 			$this->object->getRefId(), 'exc');
 		
@@ -986,11 +965,8 @@ class ilObjExerciseGUI extends ilObjectGUI
 			$this->ctrl->getLinkTarget($this, "outCertificate"));
 		}
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignmentGUI.php");
 		$ass_gui = new ilExAssignmentGUI($this->object, $this->getService());
 				
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 		$acc = new ilAccordionGUI();
 		$acc->setId("exc_ow_".$this->object->getId());
 

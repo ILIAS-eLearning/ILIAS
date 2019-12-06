@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Table/classes/class.ilTable2GUI.php";
-
 /**
  * Class ilExcCriteriaCatalogueTableGUI
  *
@@ -59,10 +57,6 @@ class ilExcCriteriaCatalogueTableGUI extends ilTable2GUI
 		$lng = $this->lng;
 		
 		$data = array();
-		
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
-		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
 		
 		$protected = $assigned = array();
 		foreach(ilExAssignment::getInstancesByExercise($this->exc_id) as $ass)

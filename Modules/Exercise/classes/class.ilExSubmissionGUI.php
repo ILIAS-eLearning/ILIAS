@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
-include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-
 /**
 * Class ilExSubmissionGUI
 *
@@ -79,7 +76,6 @@ class ilExSubmissionGUI
 		$this->assignment = $a_ass;
 		$this->exercise = $a_exercise;
 
-		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
 		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
 
 		// #12337
@@ -127,25 +123,21 @@ class ilExSubmissionGUI
 						$this->ctrl->getLinkTargetByClass("ilexsubmission" . $this->submission->getSubmissionType() . "gui", ""));
 				}
 
-				include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
 				$gui = new ilExSubmissionTeamGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
 			case "ilexsubmissiontextgui":
-				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
 				$gui = new ilExSubmissionTextGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui); 
 				break;
 			
 			case "ilexsubmissionfilegui":
-				include_once "Modules/Exercise/classes/class.ilExSubmissionFileGUI.php";
 				$gui = new ilExSubmissionFileGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
 			
 			case "ilexsubmissionobjectgui":
-				include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";
 				$gui = new ilExSubmissionObjectGUI($this->exercise, $this->submission);
 				$ilCtrl->forwardCommand($gui);
 				break;
@@ -155,7 +147,6 @@ class ilExSubmissionGUI
 				$this->tabs_gui->setBackTarget($this->lng->txt("back"), 
 					$this->ctrl->getLinkTarget($this, "returnToParent"));	
 		
-				include_once("./Modules/Exercise/classes/class.ilExPeerReviewGUI.php");
 				$peer_gui = new ilExPeerReviewGUI($this->assignment, $this->submission);
 				$this->ctrl->forwardCommand($peer_gui);
 				break;
@@ -199,7 +190,6 @@ class ilExSubmissionGUI
 			
 		if($a_submission->getAssignment()->hasTeam())
 		{
-			include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";			
 			ilExSubmissionTeamGUI::getOverviewContent($a_info, $a_submission);
 		}
 		
@@ -209,12 +199,10 @@ class ilExSubmissionGUI
 		if ($submission_type != ilExSubmission::TYPE_REPO_OBJECT)
 		{
 			$class = "ilExSubmission" . $submission_type . "GUI";
-			include_once "Modules/Exercise/classes/class." . $class . ".php";
 			$class::getOverviewContent($a_info, $a_submission);
 		}
 		else // new: get HTML from assignemt type gui class
 		{
-			include_once("./Modules/Exercise/classes/class.ilExSubmissionGUI.php");
 			$sub_gui = new ilExSubmissionGUI($a_exc, $a_submission->getAssignment());
 			$ilCtrl->getHTML($sub_gui, array(
 				"mode" => self::MODE_OVERVIEW_CONTENT,
@@ -265,15 +253,13 @@ class ilExSubmissionGUI
 		
 		if($this->assignment->getType() != ilExAssignment::TYPE_TEXT)
 		{		
-			include_once("./Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php");
 			$tab = new ilPublicSubmissionsTableGUI($this, "listPublicSubmissions", $this->assignment);
 			$this->tpl->setContent($tab->getHTML());
 		}
 		else
 		{				
 			// #13271
-			include_once "Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php";
-			$tbl = new ilExAssignmentListTextTableGUI($this, "listPublicSubmissions", $this->assignment, false, true);		
+			$tbl = new ilExAssignmentListTextTableGUI($this, "listPublicSubmissions", $this->assignment, false, true);
 			$this->tpl->setContent($tbl->getHTML());		
 		}
 	}
@@ -294,7 +280,6 @@ class ilExSubmissionGUI
 		}
 		
 		// check, whether file belongs to assignment
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->exercise->getId(), $this->assignment->getId());
 		$files = $storage->getFeedbackFiles($this->submission->getFeedbackId());
 		$file_exist = false;	

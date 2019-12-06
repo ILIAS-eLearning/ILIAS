@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\Data\URI;
+use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
@@ -23,6 +24,8 @@ class BaseTypeRenderer implements TypeRenderer
         MakeSlateAsync::unhash insteadof SlateSessionStateCode;
     }
     use isSupportedTrait;
+
+    use ComponentDecoratorApplierTrait;
     /**
      * @var Factory
      */
@@ -70,6 +73,8 @@ class BaseTypeRenderer implements TypeRenderer
         $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
         $slate = $this->addAsyncLoadingCode($slate, $item);
         $slate = $this->addOnloadCode($slate, $item);
+
+        $slate = $this->applyDecorator($slate, $item);
 
         return $slate;
     }

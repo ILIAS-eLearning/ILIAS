@@ -15,7 +15,7 @@ class TopParentItemRenderer extends AbstractMetaBarItemRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    protected function getSpecificComponentForItem(isItem $item) : Component
     {
         /**
          * @var $item TopParentItem
@@ -26,7 +26,7 @@ class TopParentItemRenderer extends AbstractMetaBarItemRenderer
              * @var $child isItem
              */
             $component_for_item = $child->getRenderer()->getComponentForItem($child);
-            if ($this->isSupportedForMetaBar($component_for_item)) {
+            if ($this->isComponentSupportedForCombinedSlate($component_for_item)) {
                 $component = $component->withAdditionalEntry($component_for_item);
             }
         }

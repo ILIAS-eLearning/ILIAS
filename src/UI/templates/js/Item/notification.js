@@ -232,6 +232,61 @@ il.UI.item = il.UI.item || {};
 			};
 
 			/**
+			 * Used to remove a notification item.
+			 * In contrast to registerCloseAction this could be used by a consuming
+			 * service to remove a known item from the UI.
+			 * 
+			 * @public
+			 * @param decrementCounterValue
+			 * @returns {generateNotificationItemObject}
+			 */
+			this.closeItem = function(decrementCounterValue = 0) {
+				let self = this,
+					$counter = self.getCounterObjectIfAny();
+
+				if ($counter && decrementCounterValue > 0) {
+					$counter.decrementNoveltyCount(decrementCounterValue);
+				}
+
+				removeNotificationItem();
+				return this;
+			};
+
+			/**
+			 * Used to set the description of a notification item
+			 * @param {string} text
+			 * @returns {generateNotificationItemObject}
+			 */
+			this.setItemDescription = function(text) {
+				$item.find(".il-item-description").text(text);
+				
+				return this;
+			};
+
+			/**
+			 * Used to remove all properties of a notification item.
+			 * @returns {generateNotificationItemObject}
+			 */
+			this.removeItemProperties = function() {
+				$item.find(".il-item-divider").remove();
+				$item.find(".il-item-properties").remove();
+
+				return this;
+			};
+
+			/**
+			 * Used to set the value for the n-th property
+			 * @param {string} text
+			 * @param {number} position
+			 * @returns {generateNotificationItemObject}
+			 */
+			this.setItemPropertyValueAtPosition = function(text, position) {
+				$item.find(".il-item-properties .il-item-property-value").eq(position - 1).text(text);
+
+				return this;
+			};
+
+			/**
 			 * Return a handle to the close Button, in case
 			 * additional magic needs to be placed on this button.
 			 *
@@ -247,6 +302,10 @@ il.UI.item = il.UI.item || {};
 			 * The contained functions are implemented below
 			 */
 			var public_object_interface = {
+				setItemDescription: this.setItemDescription,
+				removeItemProperties: this.removeItemProperties,
+				setItemPropertyValueAtPosition: this.setItemPropertyValueAtPosition,
+				closeItem: this.closeItem,
 				registerCloseAction: this.registerCloseAction,
 				registerAggregates: this.registerAggregates,
 				replaceByAsyncItem: this.replaceByAsyncItem,

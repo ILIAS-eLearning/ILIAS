@@ -20,12 +20,15 @@ include_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
 class ilDashboardGUI
 {
 	const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
+
+	const DISENGAGE_MAINBAR = "dash_mb_disengage";
+
 	/**
 	 * @var ilCtrl
 	 */
@@ -96,7 +99,6 @@ class ilDashboardGUI
 		$ilMainMenu = $DIC["ilMainMenu"];
 		$ilUser = $DIC->user();
 		$ilErr = $DIC["ilErr"];
-		
 		
 		$this->tpl = $tpl;
 		$this->lng = $lng;
@@ -303,8 +305,12 @@ class ilDashboardGUI
 				$gui = new ilDashboardRecommendedContentGUI();
 				$this->ctrl->forwardCommand($gui);
 				break;
-
+			case "ilstudyprogrammedashboardviewgui":
+				$gui = new ilStudyProgrammeDashboardViewGUI();
+				$this->ctrl->forwardCommand($gui);
+				break;
 			default:
+				$context->current()->addAdditionalData(self::DISENGAGE_MAINBAR, true);
 				$this->getStandardTemplates();
 				$this->setTabs();
 				$cmd = $this->ctrl->getCmd("show");
@@ -882,13 +888,8 @@ class ilDashboardGUI
 	 */
 	protected function renderStudyProgrammes()
 	{
-		$st_block = new ilPDStudyProgrammeSimpleListGUI();
-		$html = $st_block->getHTML();
-		if ($html == "") {
-			$st_block = new ilPDStudyProgrammeExpandableListGUI();
-			$html = $st_block->getHTML();
-		}
-		return $html;
+		$st_block = ilStudyProgrammeDIC::dic()['ilStudyProgrammeDashboardViewGUI'];
+		return $st_block->getHTML();
 	}
 
 	/**
@@ -909,9 +910,8 @@ class ilDashboardGUI
 	 */
 	protected function renderLearningSequences()
 	{
-		return "";
-		//$ren = new \Modules\LearningSequence\MyDashboardRenderer();
-		//return $ren->render();
+		$st_block = new ilDashboardLearningSequenceGUI();
+		return $st_block->getHTML();
 	}
 
 }

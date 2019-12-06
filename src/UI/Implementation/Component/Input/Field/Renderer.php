@@ -4,15 +4,15 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\UI\Component;
+use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Component\Input\Field\Password;
 use ILIAS\UI\Component\Input\Field\Select;
-use ILIAS\UI\Component\Input\Field\MultiSelect;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Component;
-use \ILIAS\UI\Implementation\Render\Template;
-use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Renderer as RendererInterface;
 
 /**
  * Class Renderer
@@ -72,6 +72,9 @@ class Renderer extends AbstractComponentRenderer
             $input_tpl = $this->getTemplate("tpl.tag_input.html", true, true);
         } elseif ($component instanceof Password) {
             $input_tpl = $this->getTemplate("tpl.password.html", true, true);
+        } elseif ($component instanceof Component\Input\Field\File) {
+            $input_tpl = $this->getTemplate("tpl.file.html", true, true);
+            $input_tpl->setVariable('BUTTON', $default_renderer->render($this->getUIFactory()->button()->shy($this->txt('select_files_from_computer'), "#")));
         } elseif ($component instanceof Select) {
             $input_tpl = $this->getTemplate("tpl.select.html", true, true);
         } elseif ($component instanceof Component\Input\Field\Textarea) {
@@ -105,6 +108,8 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./src/UI/templates/js/Input/Field/textarea.js');
         $registry->register('./src/UI/templates/js/Input/Field/input.js');
         $registry->register('./src/UI/templates/js/Input/Field/duration.js');
+        $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
+        $registry->register('./src/UI/templates/js/Input/Field/file.js');
     }
 
 
@@ -355,6 +360,9 @@ class Renderer extends AbstractComponentRenderer
                 break;
             case ($input instanceof DateTime):
                 return $this->renderDateTimeInput($tpl, $input);
+                break;
+            case ($input instanceof Component\Input\Field\File):
+                $input = $this->renderFileInput($input);
                 break;
         }
 
@@ -825,7 +833,40 @@ JS;
             Component\Input\Field\Textarea::class,
             Component\Input\Field\MultiSelect::class,
             Component\Input\Field\DateTime::class,
-            Component\Input\Field\Duration::class
+            Component\Input\Field\Duration::class,
+            Component\Input\Field\File::class
         ];
+    }
+
+
+    protected function renderFileInput(Component\Input\Field\File $input) : Component\Input\Field\File
+    {
+        $component = $this->setSignals($input);
+        /**
+         * @var $component File
+         */
+        $settings = new \stdClass();
+        $settings->upload_url = $component->getUploadHandler()->getUploadURL();
+        $settings->removal_url = $component->getUploadHandler()->getFileRemovalURL();
+        $settings->info_url = $component->getUploadHandler()->getExistingFileInfoURL();
+        $settings->file_identifier_key = $component->getUploadHandler()->getFileIdentifierParameterName();
+        $settings->accepted_files = implode(',', $component->getAcceptedMimeTypes());
+        $settings->existing_file_ids = $input->getValue();
+        $settings->existing_files = $component->getUploadHandler()->getInfoForExistingFiles($input->getValue()??[]);
+
+        $input = $component->withAdditionalOnLoadCode(
+            function ($id) use ($settings) {
+                $settings = json_encode($settings);
+
+                return "$(document).ready(function() {
+					il.UI.Input.file.init('$id', '{$settings}');
+				});";
+            }
+        );
+
+        /**
+         * @var $input Component\Input\Field\File
+         */
+        return $input;
     }
 }

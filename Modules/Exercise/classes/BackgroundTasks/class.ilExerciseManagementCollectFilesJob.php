@@ -417,7 +417,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 				break;
 
 			case ilExAssignment::TYPE_BLOG:
-				include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
 				$wsp_tree = new ilWorkspaceTree($user_id);
 				// #12939
 				if(!$wsp_tree->getRootId())
@@ -474,7 +473,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
 		if($this->isExcelNeeded($assignment_type, $ass_has_feedback))
 		{
 			// PhpSpreadsheet object
-			include_once "./Services/Excel/classes/class.ilExcel.php";
 			$this->excel = new ilExcel();
 
 			//Excel sheet title

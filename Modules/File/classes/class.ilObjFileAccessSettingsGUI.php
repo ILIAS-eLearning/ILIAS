@@ -111,6 +111,32 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($fmg);
                 break;
 
+            case 'ilwebdavmountinstructionsuploadgui':
+                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php';
+                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsTableDataProvider.php';
+                $document_gui = new ilWebDAVMountInstructionsUploadGUI(
+                        $this->object,
+                        $this->tpl,
+                        $this->user,
+                        $this->ctrl,
+                        $this->lng,
+                        $DIC->rbac()->system(),
+                        $DIC['ilErr'],
+                        $DIC->logger()->root(),
+                        $this->toolbar,
+                        $DIC->http(),
+                        $DIC->ui()->factory(),
+                        $DIC->ui()->renderer(),
+                        $DIC->filesystem(),
+                        $DIC->upload(),
+                        new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
+                );
+                $this->tabs_gui->setTabActive('webdav');
+                $this->addWebDAVSubTabs();
+                $this->tabs_gui->setSubTabActive('webdav_upload_instructions');
+                $this->ctrl->forwardCommand($document_gui);
+                break;
+
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = self::CMD_EDIT_DOWNLOADING_SETTINGS;
@@ -311,12 +337,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
         $lng = $DIC->language();
 
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioOption.php");
-        require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         $form->setTitle($lng->txt("settings"));
@@ -334,17 +354,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
         $form->addItem($cb_prop);
 
-        $rgi_prop = new ilRadioGroupInputGUI($lng->txt('webfolder_instructions'), 'custom_webfolder_instructions_choice');
-        $rgi_prop->addOption(new ilRadioOption($lng->txt('use_default_instructions'), 'default'));
-        $rgi_prop->addOption(new ilRadioOption($lng->txt('use_customized_instructions'), 'custom'));
-        $rgi_prop->setValue($this->object->isCustomWebfolderInstructionsEnabled() ? 'custom' : 'default');
-        $form->addItem($rgi_prop);
-        $tai_prop = new ilTextAreaInputGUI('', 'custom_webfolder_instructions');
-        $tai_prop->setValue($this->object->getCustomWebfolderInstructions());
-        $tai_prop->setInfo($lng->txt("webfolder_instructions_info"));
-        $tai_prop->setRows(20);
-        $form->addItem($tai_prop);
-
         // command buttons
         $form->addCommandButton('saveWebDAVSettings', $lng->txt('save'));
         $form->addCommandButton('view', $lng->txt('cancel'));
@@ -352,6 +361,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         return $form;
     }
 
+    protected function addWebDAVSubTabs()
+    {
+            $this->tabs_gui->addSubTabTarget(
+                    "webdav_general_settings",
+                    $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
+                    array(self::CMD_EDIT_WEBDAV_SETTINGS, "view"));
+            $this->tabs_gui->addSubTabTarget(
+                    "webdav_upload_instructions",
+                    $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
+                    "view");
+    }
 
     /**
      * Edit settings.
@@ -366,6 +386,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $lng = $DIC['lng'];
 
         $this->tabs_gui->setTabActive('webdav');
+        $this->addWebDAVSubTabs();
 
         if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $ilErr->raiseError($lng->txt("no_permission"), $ilErr->WARNING);
@@ -397,15 +418,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
             $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
-            //		$this->object->setWebdavActionsVisible($_POST['webdav_actions_visible'] == '1');
-            $this->object->setCustomWebfolderInstructionsEnabled($_POST['custom_webfolder_instructions_choice'] == 'custom');
-            $this->object->setCustomWebfolderInstructions(ilUtil::stripSlashes($_POST['custom_webfolder_instructions'], false));
             $this->object->update();
             ilUtil::sendSuccess($lng->txt('settings_saved'), true);
             $ilCtrl->redirect($this, self::CMD_EDIT_WEBDAV_SETTINGS);
         } else {
             $form->setValuesByPost();
-            $tpl->setContent($form->getHTML());
+            $this->tpl->setContent($form->getHTML());
         }
     }
 

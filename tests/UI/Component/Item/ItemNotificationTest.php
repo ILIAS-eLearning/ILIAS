@@ -250,9 +250,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 									<span class="glyph" aria-label="back">
 										<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 									</span>
-									<div>
-										<span class="bulky-label">back</span>
-									</div>
+									<span class="bulky-label">back</span>
 								</button>
 							</div>
 							<div class="il-maincontrols-slate-content">
@@ -271,9 +269,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 																<span class="glyph" aria-label="back">
 																	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
 																</span>
-																<div>
-																	<span class="bulky-label">back</span>
-																</div>
+																<span class="bulky-label">back</span>
 															</button>
 														</div>
 														<div class="il-maincontrols-slate-content"></div>

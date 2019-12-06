@@ -1624,6 +1624,14 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 		$ti->setInfo($this->lng->txt("adm_support_contacts_info"));
 		$this->form->addItem($ti);
 
+		// Accessibility support contacts
+		$ti = new ilTextInputGUI($this->lng->txt("adm_accessibility_contacts"), "accessibility_support_contacts");
+		$ti->setMaxLength(500);
+		$ti->setValue(ilAccessibilitySupportContacts::getList());
+		//$ti->setSize();
+		$ti->setInfo($this->lng->txt("adm_accessibility_contacts_info"));
+		$this->form->addItem($ti);
+
 		
 		// error recipient
 		/*$ti = new ilEmailInputGUI($this->lng->txt("error_recipient"), "error_recipient");
@@ -1669,8 +1677,12 @@ class ilObjSystemFolderGUI extends ilObjectGUI
 				$ilSetting->set($f, $_POST[$f]);
 			}
 
+			// System support contacts
 			include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContacts.php");
 			ilSystemSupportContacts::setList($_POST["adm_support_contacts"]);
+
+			// Accessibility support contacts
+			ilAccessibilitySupportContacts::setList($_POST["accessibility_support_contacts"]);
 
 			ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
 			$ilCtrl->redirect($this, "showContactInformation");

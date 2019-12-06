@@ -2,6 +2,7 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="acc">
 	<baseclasses>
+		<baseclass name="ilAccessibilityControlConceptGUI" dir="classes" />
 	</baseclasses>
 	<objects>
 		<object id="accs" class_name="AccessibilitySettings" dir="classes"

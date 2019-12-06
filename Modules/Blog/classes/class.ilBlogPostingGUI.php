@@ -1,19 +1,14 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObjectGUI.php");
-include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBlogPosting GUI class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
- *
- * @ingroup ModulesBlog
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
@@ -101,8 +96,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$this->setEnableEditing($a_may_contribute);
 		
 		// content style
-		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-		
+
 		$tpl->setCurrentBlock("SyntaxStyle");
 		$tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
 			ilObjStyleSheet::getSyntaxStylePath());
@@ -365,7 +359,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 				$author_id = $this->getBlogPosting()->getAuthor();
 				if($author_id)
 				{
-					include_once "Services/User/classes/class.ilUserUtil.php";
 					$authors[] = ilUserUtil::getNamePresentation($author_id);
 				}		
 								
@@ -422,7 +415,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
 		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
 		{
-			include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 			$confirmation_gui = new ilConfirmationGUI();
 			$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
 			$confirmation_gui->setHeaderText($lng->txt("blog_posting_deletion_confirmation"));
@@ -435,7 +427,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 			$dtpl->setVariable("PAGE_TITLE", $this->getBlogPosting()->getTitle());
 			
 			// notes/comments
-			include_once("./Services/Notes/classes/class.ilNote.php");
 			$cnt_note_users = ilNote::getUserCount($this->getBlogPosting()->getParentId(),
 				$this->getBlogPosting()->getId(), "wpg");
 			$dtpl->setVariable("TXT_NUMBER_USERS_NOTES_OR_COMMENTS",
@@ -533,7 +524,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt('blog_rename_posting'));
@@ -600,7 +590,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		$form->setTitle($lng->txt('blog_edit_date'));
@@ -634,12 +623,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action, $a_note_id)
 	{
 		// #10040 - get note text
-		include_once "Services/Notes/classes/class.ilNote.php";
 		$note = new ilNote($a_note_id);
 		$note = $note->getText();
 		
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
-		ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);		
+		ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
 	}
 	
 	protected function getActivationCaptions()
@@ -681,7 +668,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 	function activatePage($a_to_list = false)
 	{
 		// send notifications
-		include_once "Modules/Blog/classes/class.ilObjBlog.php";
 		ilObjBlog::sendNotification("new", $this->isInWorkspace(), $this->node_id, $this->getBlogPosting()->getId());
 
 		if ($this->checkAccess("write") || $this->checkAccess("contribute"))
@@ -888,7 +874,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 		$mob_ids = $this->obj->collectMediaObjects();
 		if($mob_ids)
 		{
-			require_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 			foreach($mob_ids as $mob_id)
 			{				
 				$mob_obj = new ilObjMediaObject($mob_id);

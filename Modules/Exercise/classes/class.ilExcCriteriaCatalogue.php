@@ -194,7 +194,6 @@ class ilExcCriteriaCatalogue
 			return;
 		}
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
 		ilExcCriteria::deleteByParent($this->id);
 				
 		$ilDB->manipulate("DELETE FROM exc_crit_cat".
@@ -224,7 +223,6 @@ class ilExcCriteriaCatalogue
 		$new_obj->setPosition($this->getPosition());
 		$new_obj->save();
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
 		foreach(ilExcCriteria::getInstancesByParentId($this->getId()) as $crit)
 		{
 			$crit->cloneObject($new_obj->getId());			

@@ -1,9 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
-use ILIAS\GlobalScreen\Collector\hasBeenCollectedTrait;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
-use ILIAS\GlobalScreen\Collector\LogicException;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
@@ -12,12 +10,12 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Separator;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 
 /**
@@ -89,7 +87,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function filterItemsByVisibilty(bool $skip_async = false) : void
     {
         // apply filter
-        $this->map->filter(function (isItem $item) {
+        $this->map->filter(function (isItem $item) : bool {
             // make parent available if one child is always available
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
@@ -109,12 +107,41 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         // apply special filters such as double dividers etc.
+
         // TODO!!
     }
 
 
     public function prepareItemsForUIRepresentation() : void
     {
+        // filter empty slates
+        $this->map->filter(static function (isItem $i) : bool {
+            if ($i instanceof isParent) {
+                return count($i->getChildren()) > 0;
+            }
+
+            return true;
+        });
+
+        /*$this->map->walk(static function (isItem &$i) {
+            if ($i instanceof isParent) {
+                $separators = 0;
+                $children = [];
+                foreach ($i->getChildren() as $position => $child) {
+                    if ($child instanceof Separator) {
+                        $separators++;
+                    } else {
+                        $separators = 0;
+                    }
+                    if ($separators > 1) {
+                        continue;
+                    }
+                    $children[] = $child;
+                }
+                $i = $i->withChildren($children);
+            }
+        });*/
+
         $this->map->walk(function (isItem &$item) {
             $item->setTypeInformation($this->getTypeInformationForItem($item));
 
@@ -122,9 +149,17 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
             // Translate Item
             if ($item instanceof hasTitle) {
-                $item = $this->getItemInformation()->translateItemForUser($item);
+                $item = $this->getItemInformation()->customTranslationForUser($item);
             }
+            // Custom Symbol
+            if ($item instanceof hasSymbol) {
+                $item = $this->getItemInformation()->customSymbol($item);
+            }
+            // Custom Position
+            $item = $this->getItemInformation()->customPosition($item);
         });
+
+        $this->map->sort();
 
         $this->map->walk(function (isItem &$item) {
             if ($item instanceof isChild && $item->hasParent() && $item->isVisible()) {
@@ -234,63 +269,5 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function getTypeInformationCollection() : TypeInformationCollection
     {
         return $this->type_information_collection;
-    }
-
-
-    /**
-     * bugfix mantis 25577:
-     * prevent solitary dividers from being shown
-     *
-     * @param $children
-     *
-     * @return array
-     */
-    private function handleSolitaryDividers($children, $top_item) : array
-    {
-        foreach ($children as $position => $child) {
-            if ($child instanceof Separator) {
-                // remove dividers that are the only item of the item-list and remove their top-item as well
-                if (count($children) === 1) {
-                    unset($children[$position]);
-                    unset($top_item);
-                    continue;
-                }
-                // remove dividers that stand alone at the beginning of the item-list
-                if ($position == min(array_keys($children))) {
-                    unset($children[$position]);
-                    continue;
-                }
-                // remove dividers that stand alone at the end of the item-list
-                if ($position == max(array_keys($children))) {
-                    unset($children[$position]);
-                    continue;
-                }
-            }
-        }
-
-        return $children;
-    }
-
-
-    /**
-     * @param $children
-     *
-     * @return array
-     */
-    private function handleDoubleDividers($children) : array
-    {
-        $separators = 0;
-        foreach ($children as $position => $child) {
-            if ($child instanceof Separator) {
-                $separators++;
-            } else {
-                $separators = 0;
-            }
-            if ($separators > 1) {
-                unset($children[$position]);
-            }
-        }
-
-        return $children;
     }
 }

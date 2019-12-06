@@ -1668,7 +1668,6 @@ class ilObjContentObject extends ilObject
 				" WHERE l1.child <> 1".
 				" AND l1.lm_id <> lm_data.lm_id".
 				" AND l1.lm_id = ".$ilDB->quote($this->getId(), "integer"));
-			include_once("./Modules/LearningModule/classes/class.ilLMObjectFactory.php");
 			while ($rec = $ilDB->fetchAssoc($set))
 			{
 				$set3 = $ilDB->queryF("SELECT * FROM lm_tree ".

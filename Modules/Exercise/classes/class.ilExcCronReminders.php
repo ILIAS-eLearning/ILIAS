@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/Cron/classes/class.ilCronJob.php";
-
 /**
  * Cron for exercise reminders
  *
@@ -73,8 +71,6 @@ class ilExcCronReminders extends ilCronJob
 
 	public function run()
 	{
-		include_once "Modules/Exercise/classes/class.ilExAssignmentReminder.php";
-
 		$cron_status = ilCronJobResult::STATUS_NO_ACTION;
 		$message = "";
 		$reminder = new ilExAssignmentReminder();

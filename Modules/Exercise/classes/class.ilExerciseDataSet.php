@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
-
 /**
  * Exercise data set class
  *
@@ -16,7 +14,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - exc_ass_reminders: Assingment reminder data
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ingroup ModulesExercise
  */
 class ilExerciseDataSet extends ilDataSet
@@ -475,16 +472,13 @@ class ilExerciseDataSet extends ilDataSet
 				$a_set["Deadline2"] = $deadline->get(IL_CAL_DATETIME,'','UTC');
 			}
 
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["Dir"] = $fstorage->getPath();
 			
-			include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 			$fstorage = new ilFSStorageExercise($a_set["ExerciseId"], $a_set["Id"]);
 			$a_set["FeedbackDir"] = $fstorage->getGlobalFeedbackPath();
 
 			//now the instruction files inside the root directory
-			include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 			$fswebstorage = new ilFSWebStorageExercise($a_set['ExerciseId'], $a_set['Id']);
 			$a_set['WebDataDir'] = $fswebstorage->getPath();
 		}
@@ -571,8 +565,6 @@ class ilExerciseDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "exc":
-				include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
-				
 				if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
 				{
 					$newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
@@ -615,11 +607,8 @@ class ilExerciseDataSet extends ilDataSet
 					}
 					else
 					{
-						include_once("./Modules/Exercise/classes/class.ilObjExercise.php");
 						$exc = new ilObjExercise($exc_id, false);
 					}
-
-					include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 
 					$ass = new ilExAssignment();
 					$ass->setExerciseId($exc_id);
@@ -682,7 +671,6 @@ class ilExerciseDataSet extends ilDataSet
 															
 					$ass->save();
 
-					include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 					$fstorage = new ilFSStorageExercise($exc_id, $ass->getId());
 					$fstorage->create();
 					
@@ -705,7 +693,6 @@ class ilExerciseDataSet extends ilDataSet
 					}
 
 					// (5.3) assignment files inside ILIAS
-					include_once("./Modules/Exercise/classes/class.ilFSWebStorageExercise.php");
 					$fwebstorage = new ilFSWebStorageExercise($exc_id, $ass->getId());
 					$fwebstorage->create();
 					$dir = str_replace("..", "", $a_rec["WebDataDir"]);
@@ -726,7 +713,6 @@ class ilExerciseDataSet extends ilDataSet
 				$exc_id = $a_mapping->getMapping("Modules/Exercise", "exc", $a_rec["Parent"]);
 				if ($exc_id > 0)
 				{
-					include_once("./Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php");
 					$crit_cat = new ilExcCriteriaCatalogue();
 					$crit_cat->setParent($exc_id);
 					$crit_cat->setTitle($a_rec["Title"]);
@@ -741,7 +727,6 @@ class ilExerciseDataSet extends ilDataSet
 				$crit_cat_id = $a_mapping->getMapping("Modules/Exercise", "exc_crit_cat", $a_rec["Parent"]);
 				if ($crit_cat_id > 0)
 				{
-					include_once("./Modules/Exercise/classes/class.ilExcCriteria.php");
 					$crit = ilExcCriteria::getInstanceByType($a_rec["Type"]);
 					$crit->setParent($crit_cat_id);
 					$crit->setTitle($a_rec["Title"]);
@@ -764,7 +749,6 @@ class ilExerciseDataSet extends ilDataSet
 
 			case "exc_ass_reminders":
 				// (5.3) reminders
-				include_once("./Modules/Exercise/classes/class.ilExAssignmentReminder.php");
 				$new_ass_id = $a_mapping->getMapping("Modules/Exercise", "exc_assignment", $a_rec["AssId"]);
 				$new_exc_id = $a_mapping->getMapping('Modules/Exercise','exc',$a_rec['ExcId']);
 				//always UTC timestamp in db.

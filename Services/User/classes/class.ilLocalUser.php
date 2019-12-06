@@ -57,11 +57,12 @@ class ilLocalUser
 		return $users ? $users : array();
 	}
 
-	public static function _getFolderIds()
+	public static function _getFolderIds($access_with_orgunit = false)
 	{
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
+		$access = $DIC->access();
 		$rbacsystem = $DIC['rbacsystem'];
 
 		$query = "SELECT DISTINCT(time_limit_owner) as parent_id FROM usr_data ";
@@ -72,14 +73,17 @@ class ilLocalUser
 			// Workaround for users with time limit owner "0". 
 			if(!$row->parent_id)
 			{
-				if($rbacsystem->checkAccess('read_users',USER_FOLDER_ID))
+				if($rbacsystem->checkAccess('read_users',USER_FOLDER_ID) ||
+					($access_with_orgunit && $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,USER_FOLDER_ID)))
 				{
 					$parent[] = $row->parent_id;
 				}
 				continue;
 			}
 
-			if($rbacsystem->checkAccess('read_users',$row->parent_id) or $rbacsystem->checkAccess('cat_administrate_users',$row->parent_id))
+			if($rbacsystem->checkAccess('read_users',$row->parent_id) ||
+				($access_with_orgunit && $access->checkPositionAccess(ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,$row->parent_id))
+				or $rbacsystem->checkAccess('cat_administrate_users',$row->parent_id))
 			{
 				if($row->parent_id)
 				{

@@ -1,13 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * List all contributors members of a blog
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ingroup ModulesBlog
  */
 class ilContributorTableGUI extends ilTable2GUI
 {
@@ -77,8 +75,6 @@ class ilContributorTableGUI extends ilTable2GUI
 			}
 		}
 		
-		include_once "Services/User/classes/class.ilUserUtil.php";
-	
 		$data = array();
 		foreach(array_unique($assigned) as $id)
 		{			
@@ -102,5 +98,3 @@ class ilContributorTableGUI extends ilTable2GUI
 		$this->tpl->setVariable("TXT_ROLES", implode(", " , $a_set["role"]));		
 	}
 }
-
-?>

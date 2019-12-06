@@ -21,7 +21,7 @@ require_once(__DIR__ . "/../../UI/Base.php");
  *
  * Some base Notification Work to be used in other tests for convenience
  */
-class BaseNotificationSetUp extends TestCase
+abstract class BaseNotificationSetUp extends TestCase
 {
     use MockeryPHPUnitIntegration;
 

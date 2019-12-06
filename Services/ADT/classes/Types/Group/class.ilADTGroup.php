@@ -176,6 +176,30 @@ class ilADTGroup extends ilADT
 			return md5(implode(",", $tmp));
 		}
 	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		$obj = new stdClass();
+		foreach($this->getElements() as $id => $element)
+		{
+			$obj->$id = $element->exportStdClass();
+		}
+		return $obj;
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			foreach($this->getElements() as $id => $element)
+			{				
+				$element->importStdClass($a_std->$id);
+			}
+		}
+	}
 }
 
 ?>
