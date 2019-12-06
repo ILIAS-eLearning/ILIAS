@@ -598,6 +598,7 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object->setViewMode($form->getInput('view_mode'));
 			$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 			$this->object->setShowMembers((int) $form->getInput('show_members'));
+			$this->object->setAutoNotification((bool) $form->getInput('auto_notification'));
 
 			// period
 			$grp_period = $form->getItemByPostVar("period");
@@ -1824,6 +1825,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->lng->txt('grp_mail_all_info'));
 			$mail_type->addOption($mail_all);
 			$form->addItem($mail_type);
+
+			// Self notification
+			$not = new ilCheckboxInputGUI($this->lng->txt('grp_auto_notification'), 'auto_notification');
+			$not->setValue(1);
+			$not->setInfo($this->lng->txt('grp_auto_notification_info'));
+			$not->setChecked( $this->object->getAutoNotification() );
+			$form->addItem($not);
+
 		}
 		
 		switch($a_mode)

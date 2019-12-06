@@ -394,6 +394,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 					$this->group_data['show_members'] = (int) $this->cdata;
 				}
 				break;
+
+			case 'admissionNotification':
+				if((int) $this->cdata) {
+					$this->group_data['auto_notification'] = (bool) $this->cdata;
+				}
+				break;
 			
 			case 'mailMembersType':
 				$this->group_data['mail_members_type'] = (int) $this->cdata;
@@ -555,6 +561,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
 		$this->group_obj->setMinMembers($this->group_data['min_members']);
 		$this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
+		$this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		$this->group_obj->update();
 

@@ -301,6 +301,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	function __buildExtraSettings()
 	{
 		$this->xmlElement('showMembers',null,$this->group_obj->getShowMembers());
+		$this->xmlElement('admissionNotification', null, $this->group_obj->getAutoNotification() ? 1 : 0);
 	}
 
 	function __buildAdmin()

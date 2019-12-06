@@ -71,6 +71,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 	protected $leave_end; // [ilDate]
 	protected $show_members = 1;
 
+	/**
+	 * @var bool
+	 */
+	protected $auto_notification = true;
+
 
 	/**
 	 * @var bool
@@ -597,6 +602,22 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		return $this->show_members;
 	}
 
+	/**
+	 * @param bool $a_status
+	 */
+	public function setAutoNotification(bool $a_status)
+	{
+		$this->auto_notification = $a_status;
+	}
+
+	/**
+	 * @return bool|null
+	 */
+	public function getAutoNotification() : ?bool
+	{
+		return $this->auto_notification;
+	}
+
 
 	/**
 	 * @param \ilDateTime|null $start
@@ -754,7 +775,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled,".
 			"registration_unlimited,registration_start,registration_end,registration_password,registration_mem_limit,".
 			"registration_max_members,waiting_list,latitude,longitude,location_zoom,enablemap,reg_ac_enabled,reg_ac,view_mode,mail_members_type,".
-			"leave_end,registration_min_members,auto_wait, grp_start, grp_end) ".
+			"leave_end,registration_min_members,auto_wait, grp_start, grp_end, auto_notification) ".
 			"VALUES(".
 			$ilDB->quote($this->getId() ,'integer').", ".
 			$ilDB->quote($this->getInformation() ,'text').", ".
@@ -780,7 +801,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$ilDB->quote($this->getMinMembers(),'integer').', '.
 			$ilDB->quote($this->hasWaitingListAutoFill(),'integer').', '.
 			$ilDB->quote($this->getStart() instanceof ilDate ? $this->getStart()->get(IL_CAL_UNIX) : null, 'integer').', '.
-			$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null, 'integer').' '.
+			$ilDB->quote($this->getEnd() instanceof ilDate ? $this->getEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.
+			$ilDB->quote($this->getAutoNotification(), \ilDBConstants::T_INTEGER) . ' '.
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -835,7 +857,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			"show_members = ".$ilDB->quote((int) $this->getShowMembers() ,'integer').", ".
 			'period_start = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getStart()), \ilDBConstants::T_TIMESTAMP).', '.
 			'period_end = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getEnd()), \ilDBConstants::T_TIMESTAMP).', '.
-			'period_time_indication = ' . $ilDB->quote($this->getStartTimeIndication() ? 1 : 0, \ilDBConstants::T_INTEGER) . ' ' .
+			'period_time_indication = ' . $ilDB->quote($this->getStartTimeIndication() ? 1 : 0, \ilDBConstants::T_INTEGER) . ', ' .
+			'auto_notification = ' . $ilDB->quote($this->getAutoNotification(), \ilDBConstants::T_INTEGER) . ' ' .
 			"WHERE obj_id = ".$ilDB->quote($this->getId() ,'integer');
 		$res = $ilDB->manipulate($query);
 		
@@ -925,6 +948,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setMinMembers($row->registration_min_members);
 			$this->setWaitingListAutoFill($row->auto_wait);
 			$this->setShowMembers($row->show_members);
+			$this->setAutoNotification((bool) $row->auto_notification);
 			if($row->period_time_indication) {
 				$this->setPeriod(
 					new \ilDateTime($row->period_start, IL_CAL_DATETIME, \ilTimeZone::UTC),
@@ -997,6 +1021,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setMinMembers($this->getMinMembers());
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		$new_obj->setPeriod($this->getStart(), $this->getEnd());
+		$new_obj->setAutoNotification($this->getAutoNotification());
 		$new_obj->update();
 		
 		// #13008 - Group Defined Fields
