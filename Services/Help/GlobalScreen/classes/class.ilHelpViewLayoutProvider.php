@@ -1,17 +1,12 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\MetaBarModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\MainBarModification;
-use ILIAS\GlobalScreen\Scope\Layout\Factory\BreadCrumbsModification;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
-use ILIAS\UI\Component\MainControls\MetaBar;
-use ILIAS\UI\Component\MainControls\MainBar;
-use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory as MMFactory;
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
 /**
  * HTML export view layout provider, hides main and meta bar
@@ -20,7 +15,9 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory as MMFactory;
  */
 class ilHelpViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
+
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+
 
     /**
      * @inheritDoc
@@ -30,58 +27,32 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
         return $this->context_collection->main();
     }
 
+
     /**
      * No main bar in HTML exports
      */
     public function getMainBarModification(CalledContexts $called_contexts) : ?MainBarModification
     {
-        return $this->globalScreen()
-            ->layout()
-            ->factory()
-            ->mainbar()
-            ->withModification(function (MainBar $current = null) : ?MainBar {
-                global $DIC;
+        $this->globalScreen()->collector()->mainmenu()->collectOnce();
+        foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
+            $p = $item->getProviderIdentification();
 
-                // we do this "late" in the processing to have all mm items available
+            $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
+            $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), '', $tt_text));
 
-                $mmc = $DIC->globalScreen()->collector()->mainmenu();
-                $global_screen = $DIC->globalScreen();
-
-                $raw_items = $mmc->getRawItems();
-                foreach ($raw_items as $item) {
-                    if ($item instanceof MMFactory\Item\LinkList) {
-                        /* since we are searching by content, this currently results in conflicts with admin entries
-                        foreach ($item->getLinks() as $link) {
-                            $p = $link->getProviderIdentification();
-                            $global_screen->layout()->meta()->addOnloadCode(
-                            'il.Tooltip.addBySelector("span:contains(\''.
-                            $link->getTitle().
-                            '\')", { context:"", my:"bottom center", at:"top center", text:"'.
-                            $p->getInternalIdentifier().'" } );');
-                            //var_dump($link->getTitle()); exit;
-                        }*/
-                    } else  if (
-                        $item instanceof MMFactory\TopItem\TopLinkItem ||
-                        $item instanceof MMFactory\TopItem\TopParentItem ||
-                        $item instanceof MMFactory\Item\Link
-                    ) {
-                        $p = $item->getProviderIdentification();
-
-                        $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
-                        $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), "", $tt_text));
-                        if ($tt_text != "") {
-                            $global_screen->layout()->meta()->addOnloadCode(
-                                'il.Tooltip.addBySelector("span:contains(\'' .
-                                $item->getTitle() .
-                                '\')", { context:"", my:"bottom center", at:"top center", text:"' .
-                                $tt_text . '" } );');
-                        }
-                    }
+            $item->addComponentDecorator(static function (Component $component) use ($tt_text): Component {
+                if ($component instanceof JavaScriptBindable) {
+                    return $component->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
+                        return "il.Tooltip.add('$id', { context:'', my:'bottom center', at:'top center', text:'$tt_text' })";
+                    });
                 }
-                ilTooltipGUI::init();
-                return $current;
-            })->withHighPriority();
+
+                return $component;
+            });
+        }
+
+        ilTooltipGUI::init();
+
+        return null;
     }
-
-
 }
