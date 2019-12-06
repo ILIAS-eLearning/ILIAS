@@ -159,9 +159,9 @@ class ilCertificateMigrationJob extends AbstractJob
 								$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
 								break;
 							case $type == 'test' && ilObjUserTracking::_enabledLearningProgress() :
-								$test = new ilObjTest($certificate_id);
+								$test = new ilObjTest($certificate_id, false);
 								$acquireTimestamp = $test
-									->getTestResult($test->getActiveIdOfUser($user->getId()))['test']['tstamp'];
+									->getTestResult($test->getActiveIdOfUser($user->getId()))['test']['result_tstamp'];
 								break;
 							default :
 								$acquireDate = new ilDateTime(
@@ -169,6 +169,9 @@ class ilCertificateMigrationJob extends AbstractJob
 									IL_CAL_DATETIME
 								);
 								$acquireTimestamp = $acquireDate->get(IL_CAL_UNIX);
+						}
+						if ($acquireTimestamp === null || 0 === (int) $acquireTimestamp) {
+							$acquireTimestamp = time();
 						}
 						$template = $template_repository->fetchFirstCreatedTemplate($certificate_id);
 						$certificate = new ilUserCertificate(
