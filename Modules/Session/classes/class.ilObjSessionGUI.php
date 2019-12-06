@@ -610,6 +610,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
+				if(!$event_part->isExcused($ilUser->getId())) {
+					$ilToolbar->addButtonInstance($btn_excused);
+				}
 				return TRUE;
 			}
 			else
@@ -626,6 +629,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$btn_attend->setCaption($this->lng->txt("join_session"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
+				if(!$event_part->isExcused($ilUser->getId())) {
+					$ilToolbar->addButtonInstance($btn_excused);
+				}
+
 				return TRUE;
 			}
 		}
