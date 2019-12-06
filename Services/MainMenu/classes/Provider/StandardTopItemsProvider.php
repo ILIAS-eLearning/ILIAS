@@ -1,6 +1,7 @@
 <?php namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ilMyStaffAccess;
@@ -17,6 +18,10 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
      * @var StandardTopItemsProvider
      */
     private static $instance;
+    /**
+     * @var BasicAccessCheckClosures
+     */
+    private $basic_access_helper;
     /**
      * @var IdentificationInterface
      */
@@ -63,6 +68,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->basic_access_helper = BasicAccessCheckClosures::getInstance();
         $this->repository_identification = $this->if->identifier('repository');
         $this->personal_workspace_identification = $this->if->identifier('personal_workspace');
         $this->achievements_identification = $this->if->identifier('achievements');
@@ -99,21 +105,14 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
                 }
             )
             ->withVisibilityCallable(
-                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) {
-                    return true;
-                    $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
-
-                    return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
-                })
+                $this->basic_access_helper->isUserLoggedIn()
             );
 
         $title = $f("mm_repository");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
-            ->withVisibilityCallable(function () {
-                return (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
-            })
+            // ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(20);
@@ -122,7 +121,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), $title);
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(30);
@@ -131,7 +130,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), $title);
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(40);
@@ -140,7 +139,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(50);
@@ -149,7 +148,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(static function () { return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff(); }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () { return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff(); }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
@@ -167,7 +166,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(70)
             ->withVisibilityCallable(
-                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
+                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
             );
 
         return [
@@ -179,23 +178,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $organisation,
             $administration,
         ];
-    }
-
-
-    private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
-    {
-        static $is_anonymous;
-        if (!isset($is_anonymous)) {
-            $is_anonymous = $this->dic->user()->isAnonymous();
-        }
-
-        return static function () use ($additional, $is_anonymous) {
-            if ($is_anonymous) {
-                return false;
-            }
-
-            return $additional();
-        };
     }
 
 

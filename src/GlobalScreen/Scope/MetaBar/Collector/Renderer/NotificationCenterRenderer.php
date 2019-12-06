@@ -12,14 +12,10 @@ use ILIAS\UI\Component\MainControls\Slate\Combined;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class NotificationCenterRenderer implements MetaBarItemRenderer
+class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 {
 
     use isSupportedTrait;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    private $ui;
     /**
      * @var \ILIAS\GlobalScreen\Services
      */
@@ -32,8 +28,8 @@ class NotificationCenterRenderer implements MetaBarItemRenderer
     public function __construct()
     {
         global $DIC;
-        $this->ui = $DIC->ui();
         $this->gs = $DIC->globalScreen();
+        parent::__construct();
     }
 
 
@@ -42,7 +38,7 @@ class NotificationCenterRenderer implements MetaBarItemRenderer
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    protected function getSpecificComponentForItem(isItem $item) : Component
     {
         $f = $this->ui->factory();
 
