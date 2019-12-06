@@ -90,6 +90,7 @@ class IdentificationFactoryTest extends TestCase
                 1 => 'core',
                 2 => 'fromSerializedIdentification',
                 3 => 'plugin',
+                4 => 'tool'
             ]
         );
     }

@@ -77,7 +77,11 @@ class BasicAccessCheckClosures
 
     private function checkClosureForBoolReturnValue(Closure $c) : bool
     {
-        $r = new ReflectionFunction($c);
+        try {
+            $r = new ReflectionFunction($c);
+        } catch (\Throwable $e) {
+            return false;
+        }
 
         return $r->hasReturnType() && $r->getReturnType()->isBuiltin();
     }
