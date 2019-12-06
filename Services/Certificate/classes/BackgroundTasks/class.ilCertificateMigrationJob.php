@@ -178,7 +178,12 @@ class ilCertificateMigrationJob extends AbstractJob
 						if ($acquireTimestamp === null || 0 === (int) $acquireTimestamp) {
 							$acquireTimestamp = time();
 						}
-						$template = $template_repository->fetchFirstCreatedTemplate($certificate_id);
+						$template = null;
+						try {
+							$template = $template_repository->fetchFirstCreatedTemplate($certificate_id);
+						} catch (Exception $exception) {
+							$this->logger->warning(sprintf('Unable to gather template for certificate %s. Skipped.', $certificate_id));
+						}
 						if($template){
 							$certificate = new ilUserCertificate(
 								$template->getId(),
@@ -201,8 +206,6 @@ class ilCertificateMigrationJob extends AbstractJob
 							);
 							$repository->save($certificate);
 							$processed_items++;
-						} else {
-							$this->logger->warning(sprintf('Unable to gather template for certificate %s. Skipped.', $certificate_id));
 						}
 					}
 					$this->updateTask([
