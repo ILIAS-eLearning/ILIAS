@@ -8784,6 +8784,8 @@ rbac#:#precondition_num_optional_info#:#Please enter the minimum number of mater
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
 crs#:#crs_auto_notification#:#Welcome-Mail For New Members
 crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
+grp#:#grp_auto_notification#:#Welcome-Mail For New Members
+grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.
 wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
 content#:#cont_char_format#:#Character
