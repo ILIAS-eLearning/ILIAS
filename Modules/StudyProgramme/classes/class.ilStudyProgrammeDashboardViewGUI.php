@@ -359,7 +359,7 @@ class ilStudyProgrammeDashboardViewGUI
         $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
         return $this->factory->item()->standard($title_btn)
             ->withProperties(array_merge(...$properties))
-            ->withDescription($prg->getDescription())
+            ->withDescription($prg->getDescription() ? "")
             ->withLeadIcon($icon)
         ;
     }
