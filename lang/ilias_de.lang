@@ -6139,6 +6139,8 @@ didactic#:#didactic_install_info#:#Allgemeine Informationen
 didactic#:#didactic_not_changed#:#Die aktive didaktische Vorlage wurde nicht geändert.
 didactic#:#didactic_selected_tpl_option#:#Angewandte didaktische Vorlage:
 didactic#:#didactic_template_applied#:#Die didaktische Vorlage wurde angewandt.
+ecs#:#ecs_cron_task_scheduler#:#ECS-Aufgaben ausführen
+ecs#:#ecs_cron_task_scheduler_info#:#Wenn aktiviert, werden ECS-Aufgaben regelmäßig ausgeführt. Nur notwendig, wenn ein ECS-Server unter 'Administration » ILIAS erweitern » ECS' aktiviert ist.
 ecs#:#cert_serial#:#Seriennummer des Zertifikates
 ecs#:#ecs_abr#:#Kürzel
 ecs#:#ecs_account_duration#:#Verlängerung der Aktivierungszeit
