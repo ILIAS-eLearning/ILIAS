@@ -132,7 +132,7 @@ class ilEventParticipants
 	 */
 	public function updateExcusedForUser(int $a_usr_id, bool $a_status)
 	{
-		if(!array_key_exists($a_usr_id, $this->participants)) {
+		if(!is_array($this->participants) || !array_key_exists($a_usr_id, $this->participants)) {
 			$event_part = new \ilEventParticipants($this->event_id);
 			$event_part->setUserId($a_usr_id);
 			$event_part->setMark('');
