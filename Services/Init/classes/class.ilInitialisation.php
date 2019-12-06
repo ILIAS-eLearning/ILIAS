@@ -1123,9 +1123,6 @@ class ilInitialisation
 
 			if(ilContext::hasHTML())
 			{
-				include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
-				ilECSTaskScheduler::start();
-
 				self::initHTML();
 			}
 			self::initRefinery($GLOBALS['DIC']);
