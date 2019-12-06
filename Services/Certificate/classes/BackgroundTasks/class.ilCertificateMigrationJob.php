@@ -184,14 +184,14 @@ class ilCertificateMigrationJob extends AbstractJob
 							$value_replacement->replace(
 								$placeholder_values->getPlaceholderValues($user->getId(), $certificate_id),
 								$template->getCertificateContent()
-							),
-							json_encode($placeholder_values->getPlaceholderValues($user->getId(), $certificate_id)),
+							) ?? '',
+							json_encode($placeholder_values->getPlaceholderValues($user->getId(), $certificate_id)) ?? '',
 							null,
 							$template->getVersion(),
 							ILIAS_VERSION_NUMERIC,
 							true,
-							$template->getBackgroundImagePath(),
-							$template->getThumbnailImagePath()
+							$template->getBackgroundImagePath() ?? '',
+							$template->getThumbnailImagePath() ?? ''
 						);
 						$repository->save($certificate);
 						$processed_items++;
