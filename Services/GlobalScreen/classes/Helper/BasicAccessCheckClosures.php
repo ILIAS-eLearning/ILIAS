@@ -62,7 +62,7 @@ class BasicAccessCheckClosures
     {
         static $is_anonymous;
         if (!isset($is_anonymous)) {
-            $is_anonymous = (bool) $this->dic->user()->isAnonymous();
+            $is_anonymous = (bool) $this->dic->user()->getId() == 13;
         }
 
         return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous): bool {
