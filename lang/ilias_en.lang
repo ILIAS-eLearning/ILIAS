@@ -221,6 +221,9 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Record
 cont#:#cont_filter_field#:#Field
 cont#:#cont_filter_fields#:#Filter Fields
+sess#:#sess_participation_refused_info#:#Your participation for this event has been canceled.
+sess#:#sess_bt_refuse#:#Cannot Participate
+sess#:#sess_part_table_excused#:#Excused
 sess#:#notification#:#Notification
 sess#:#sess_registration_notification#:#Notification
 sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
