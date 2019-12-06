@@ -43,7 +43,7 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
             $item->addComponentDecorator(static function (Component $component) use ($tt_text): Component {
                 if ($component instanceof JavaScriptBindable) {
                     return $component->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
-                        return "il.Tooltip.add('$id', { context:'', my:'bottom center', at:'top center', text:'$tt_text' })";
+                        return "il.Tooltip.add('$id', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
                     });
                 }
 
