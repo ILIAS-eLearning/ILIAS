@@ -61,10 +61,6 @@ class Renderer extends AbstractComponentRenderer
             );
     }
 
-
-
-
-
     protected function renderToolEntry(
         Slate $entry,
         string $entry_id,
@@ -99,9 +95,6 @@ class Renderer extends AbstractComponentRenderer
         $is_hidden = $is_hidden ? 'true':'false';
         return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
     }
-
-
-
 
     protected function renderMainbarEntry(
         array $entries,
@@ -159,10 +152,9 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
 
         //add "more"-slate
-        $more_button = $component->getMoreButton();
         $more_slate = $f->maincontrols()->slate()->combined(
-            $more_button->getLabel(),
-            $more_button->getIconOrGlyph()
+            $component->getMoreButton()->getLabel(),
+            $f->symbol()->glyph()->disclosure()
         );
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
