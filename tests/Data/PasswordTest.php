@@ -11,24 +11,27 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class PasswordTest extends TestCase {
-	protected function setUp(): void {
-		$this->f = new Data\Factory();
-	}
+class PasswordTest extends TestCase
+{
+    protected function setUp() : void
+    {
+        $this->f = new Data\Factory();
+    }
 
-	public function testValue() {
-		$pass = 'secret';
-		$pwd = $this->f->password($pass);
-		$this->assertEquals($pass, $pwd->toString());
-	}
+    public function testValue()
+    {
+        $pass = 'secret';
+        $pwd = $this->f->password($pass);
+        $this->assertEquals($pass, $pwd->toString());
+    }
 
-	public function testWrongParam() {
-		try	{
-			$pwd = $this->f->password(123);
-			$this->assertFalse("This should not happen");
-		}
-		catch(\InvalidArgumentException $e){
-			$this->assertTrue(true);
-		}
-	}
+    public function testWrongParam()
+    {
+        try {
+            $pwd = $this->f->password(123);
+            $this->assertFalse("This should not happen");
+        } catch (\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
 }
