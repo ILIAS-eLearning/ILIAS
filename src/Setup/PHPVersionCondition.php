@@ -4,14 +4,16 @@
 
 namespace ILIAS\Setup;
 
-class PHPVersionCondition extends ExternalConditionObjective {
-	public function __construct($which) {
-		return parent::__construct(
-			"PHP version >= $which",
-			function(Environment $env) use ($which): bool {
-				return version_compare(phpversion(), $which, ">=");
-			},
-			"ILIAS 6 requires PHP $which or later."
-		);
-	}
+class PHPVersionCondition extends ExternalConditionObjective
+{
+    public function __construct($which)
+    {
+        return parent::__construct(
+            "PHP version >= $which",
+            function (Environment $env) use ($which) : bool {
+                return version_compare(phpversion(), $which, ">=");
+            },
+            "ILIAS 6 requires PHP $which or later."
+        );
+    }
 }
