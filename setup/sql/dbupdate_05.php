@@ -4087,17 +4087,32 @@ if (!$ilDB->tableColumnExists("il_cert_user_cert", "certificate_content_bu")) {
     );
 }
 
-$ilDB->manipulate(
-    "UPDATE il_cert_template SET " .
-    "certificate_content_bu = certificate_content, " .
-    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"'), " .
-    "certificate_hash = SHA2(CONCAT(CONCAT(CONCAT(COALESCE(certificate_content,''),COALESCE(background_image_path,'')),COALESCE(template_values,'')),COALESCE(thumbnail_image_path,'')), '256') " .
-    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
-$ilDB->manipulate(
-    "UPDATE il_cert_user_cert SET " .
-    "certificate_content_bu = certificate_content, " .
-    "certificate_content = REGEXP_REPLACE(certificate_content,'src=\"url\((.*?)/certificates/(.*?)\)\"','src=\"url([BACKGROUND_IMAGE])\"') " .
-    "WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+$res = $ilDB->query("SELECT * FROM il_cert_template WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+$updateStatement = $ilDB->prepareManip("UPDATE il_cert_template SET certificate_content_bu = ?, certificate_content = ?, certificate_hash = ? WHERE id = ?", ['clob', 'text', 'integer']);
+while ($row = $ilDB->fetchAssoc($res)) {
+    $old_content = $row['certificate_content'];
+    $row['certificate_content'] = preg_replace(
+        '/src="url\((.*?)\/certificates\/(.*?)\)"/',
+        'src="url([BACKGROUND_IMAGE])"',
+        $row['certificate_content']
+    );
+    $row['certificate_hash'] = hash(
+        'sha256',
+        $row['certificate_content'].$row['background_image_path'].$row['template_values'].$row['thumbnail_image_path']
+    );
+    $ilDB->execute($updateStatement,[$old_content, $row['certificate_content'], $row['certificate_hash'], $row['id']]);
+}
+
+$res = $ilDB->query("SELECT * FROM il_cert_user_cert WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
+$updateStatement = $ilDB->prepareManip("UPDATE il_cert_user_cert SET certificate_content = ? WHERE id = ?", ['clob', 'integer']);
+while ($row = $ilDB->fetchAssoc($res)) {
+    $row['certificate_content'] = preg_replace(
+        '/src="url\((.*?)\/certificates\/(.*?)\)"/',
+        'src="url([BACKGROUND_IMAGE])"',
+        $row['certificate_content']
+    );
+    $ilDB->execute($updateStatement,[$row['certificate_content'],$row['id']]);
+}
 ?>
 <#5649>
 <?php
