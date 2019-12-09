@@ -48,12 +48,12 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
     {
-        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
             return null;
         }
         return $this->globalScreen()->layout()->factory()->mainbar()
             ->withModification(
-                function(MainBar $mainbar) : ?MainBar {
+                function (MainBar $mainbar) : ?MainBar {
                     $mainbar = $mainbar->withClearedEntries();
                     foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_MAINBARCONTROLS) as $key => $entry) {
                         $mainbar = $mainbar->withAdditionalEntry($key, $entry);
@@ -61,17 +61,17 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
                     return $mainbar;
                 }
             )
-			->withHighPriority();
+            ->withHighPriority();
     }
 
     public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification
     {
-        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
             return null;
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function(MetaBar $metabar) : ?Metabar{
+                function (MetaBar $metabar) : ?Metabar {
                     $metabar = $metabar->withClearedEntries();
                     foreach ($this->data_collection->get(\ilLSPlayer::GS_DATA_LS_METABARCONTROLS) as $key => $entry) {
                         $metabar = $metabar->withAdditionalEntry($key, $entry);
@@ -84,13 +84,13 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
     public function getBreadCrumbsModification(CalledContexts $screen_context_stack) : ?BreadCrumbsModification
     {
-        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
             return null;
         }
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                function(Breadcrumbs $current) : ?Breadcrumbs {
+                function (Breadcrumbs $current) : ?Breadcrumbs {
                     return null;
                 }
             )
@@ -99,13 +99,13 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
     {
-        if(! $this->isKioskModeEnabled($screen_context_stack)) {
+        if (!$this->isKioskModeEnabled($screen_context_stack)) {
             return null;
         }
         $html = $this->data_collection->get(\ilLSPlayer::GS_DATA_LS_CONTENT);
-		// TODO: Once we have more control over the content, we could just setContent
-		// in ilObjLearningSequenceLearnerGUI like any other object and later strip
-		// away the header here.
+        // TODO: Once we have more control over the content, we could just setContent
+        // in ilObjLearningSequenceLearnerGUI like any other object and later strip
+        // away the header here.
         return $this->globalScreen()->layout()->factory()->content()
             ->withModification(
                 function (Legacy $content) use ($html) : Legacy {
