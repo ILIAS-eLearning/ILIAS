@@ -191,6 +191,10 @@ $(document).on("submit", "form", save_tiny);
 let image_header = '';
 
 let show_multiline_editor = function() {
+    if($('#singleline').length === 0) {
+        return;
+    }
+    
     tinymce.init({
         selector : 'input[id$=mcdd_text]'
     });

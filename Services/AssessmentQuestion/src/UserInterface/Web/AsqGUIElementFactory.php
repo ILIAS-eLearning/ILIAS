@@ -19,6 +19,7 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\TextSubsetQuestion
 use Exception;
 use ilPropertyFormGUI;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionData;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Questions\OrderingTextQuestionGUI;
 
 const MSG_SUCCESS = "success";
 
@@ -46,6 +47,7 @@ class AsqGUIElementFactory {
     const TYPE_FORMULA = 15;
     const TYPE_KPRIM_CHOICE = 16;
     const TYPE_LONG_MENU = 17;
+    const TYPE_ORDER_TEXT = 18;
     
     /**
      * @param QuestionDto $question
@@ -79,6 +81,8 @@ class AsqGUIElementFactory {
 	            return new MatchingQuestionGUI($question);
 	        case self::TYPE_ESSAY:
 	            return new EssayQuestionGUI($question);
+	        case self::TYPE_ORDER_TEXT:
+	            return new OrderingTextQuestionGUI($question);
 	        default:
 	            throw new Exception("Implement missing case please");
 	    }
@@ -100,6 +104,7 @@ class AsqGUIElementFactory {
 	    $question_types[self::TYPE_TEXT_SUBSET] = $DIC->language()->txt('asq_question_text_subset');
 	    $question_types[self::TYPE_ORDERING] = $DIC->language()->txt('asq_question_ordering');
 	    $question_types[self::TYPE_FILE_UPLOAD] = $DIC->language()->txt('asq_question_file_upload');
+	    $question_types[self::TYPE_ORDER_TEXT] = $DIC->language()->txt('asq_question_ordering_text');
 	    return $question_types;
 	}
 

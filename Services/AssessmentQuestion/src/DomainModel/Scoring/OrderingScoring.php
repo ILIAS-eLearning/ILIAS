@@ -28,7 +28,7 @@ class OrderingScoring extends AbstractScoring
 
     function score(Answer $answer) : AnswerScoreDto
     {
-        $reached_points = 0;
+        $reached_points = 0; 
         $max_points = 0;
 
         /** @var OrderingScoringConfiguration $scoring_conf */
