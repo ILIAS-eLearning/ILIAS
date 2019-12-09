@@ -16051,3 +16051,4 @@ content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
 content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
 content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
 content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
+dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.

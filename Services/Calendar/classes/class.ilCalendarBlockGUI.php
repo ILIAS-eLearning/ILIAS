@@ -974,11 +974,12 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 		else
 		{
-			$data[] = array(	
+            $data = [];
+			/*$data[] = array(
 					"date" => $lng->txt("msg_no_search_result"),
 					"title" => "",			
 					"url" => ""
-					);		
+					);		*/
 			
 			$this->setEnableNumInfo(false);
 		}
@@ -1091,5 +1092,14 @@ class ilCalendarBlockGUI extends ilBlockGUI
 		}
 	}
 
+    /**
+     * No item entry
+     *
+     * @return string
+     */
+    protected function getNoItemFoundContent(): string
+    {
+        return $this->lng->txt("cal_no_events_block");
+    }
 
 }
