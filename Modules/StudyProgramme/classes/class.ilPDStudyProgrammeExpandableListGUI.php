@@ -10,22 +10,26 @@ require_once("Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListG
  * @author : Richard Klees <richard.klees@concepts-and-training.de>
  * @ilCtrl_IsCalledBy ilPDStudyProgrammeExpandableListGUI: ilColumnGUI
  */
-class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI {
-	const BLOCK_TYPE = "prgexpandablelist";
+class ilPDStudyProgrammeExpandableListGUI extends ilPDStudyProgrammeSimpleListGUI
+{
+    const BLOCK_TYPE = "prgexpandablelist";
 
-	public function __construct() {
-		parent::__construct();
-	}
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	protected function shouldShowThisList() {
-		return $_GET["cmd"] == "jumpToSelectedItems" &&  $_GET["expand"];
-	}
+    protected function shouldShowThisList()
+    {
+        return $_GET["cmd"] == "jumpToSelectedItems" &&  $_GET["expand"];
+    }
 
-	protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment) {
-		require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php");
-		$progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
-		$progress_gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
-		$progress_gui->setOnlyRelevant(true);
-		return $progress_gui;
-	}
+    protected function new_ilStudyProgrammeAssignmentListGUI(ilStudyProgrammeUserAssignment $a_assignment)
+    {
+        require_once("Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php");
+        $progress = $a_assignment->getStudyProgramme()->getProgressForAssignment($a_assignment->getId());
+        $progress_gui = new ilStudyProgrammeExpandableProgressListGUI($progress);
+        $progress_gui->setOnlyRelevant(true);
+        return $progress_gui;
+    }
 }

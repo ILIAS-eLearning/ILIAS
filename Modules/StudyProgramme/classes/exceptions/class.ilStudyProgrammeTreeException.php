@@ -7,5 +7,6 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
  * Exception is thrown when invariants on the program tree would be violated
  * by manipulation of tree.
  */
-class ilStudyProgrammeTreeException extends ilException {
+class ilStudyProgrammeTreeException extends ilException
+{
 }

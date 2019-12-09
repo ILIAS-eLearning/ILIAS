@@ -6,11 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'org\\bovigo\\vfs\\' => array($vendorDir . '/mikey179/vfsstream/src/main/php'),
     'Twig_Extensions_' => array($vendorDir . '/twig/extensions/lib'),
     'Twig_' => array($vendorDir . '/twig/twig/lib'),
     'SAML2\\' => array($vendorDir . '/simplesamlphp/saml2/src'),
+    'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PHPExcel' => array($vendorDir . '/phpoffice/phpexcel/Classes'),
+    'Mockery' => array($vendorDir . '/mockery/mockery/library'),
     'LibRIS' => array($vendorDir . '/technosophos/LibRIS/src'),
     'HTMLPurifier' => array($vendorDir . '/ezyang/htmlpurifier/library'),
 );
