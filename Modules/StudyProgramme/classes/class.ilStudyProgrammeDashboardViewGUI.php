@@ -84,8 +84,8 @@ class ilStudyProgrammeDashboardViewGUI
             krsort($assignments);
             /** @var ilStudyProgrammeUserAssignment $current */
             $current = current($assignments);
-            if(!$this->isReadable($current)) {
-                    continue;
+            if (!$this->isReadable($current)) {
+                continue;
             }
 
             /** @var ilStudyProgrammeSettings $current_prg_settings */
@@ -99,7 +99,7 @@ class ilStudyProgrammeDashboardViewGUI
             list($minimum_percents, $current_percents) = $this->calculatePercent(
                 $current_prg_settings->getPoints(),
                 $current_progress->getAmountOfPoints(),
-                (int)$current->getStudyProgramme()->getRefId()
+                (int) $current->getStudyProgramme()->getRefId()
             );
 
             $current_status = $current_progress->getStatus();
@@ -109,28 +109,29 @@ class ilStudyProgrammeDashboardViewGUI
 
             $properties[] = $this->fillMinimumCompletion($minimum_percents);
             $properties[] = $this->fillCurrentCompletion($current_percents);
-            $properties[] = $this->fillStatus((string)$current_status);
+            $properties[] = $this->fillStatus((string) $current_status);
 
-            if($this->isCompleted($current_status)) {
+            if ($this->isCompleted($current_status)) {
                 $properties[] = $this->fillRestartFrom($restart_date);
             }
 
-            if($this->isInProgress($current_status)) {
+            if ($this->isInProgress($current_status)) {
                 $properties[] = $this->fillFinishUntil($deadline);
             }
 
-            if($validation_expires && $valid) {
+            if ($validation_expires && $valid) {
                 $properties[] = $this->fillValidUntil($validation_date);
-            } else if (! $validation_expires && $valid){
+            } elseif (!$validation_expires && $valid) {
                 $properties[] = $this->fillValid();
             } else {
                 $properties[] = $this->fillNotValid();
             }
 
-            $items[] = $this->buildItem($current->getStudyProgramme(), $properties);;
+            $items[] = $this->buildItem($current->getStudyProgramme(), $properties);
+            ;
         }
 
-        if(count($items) == 0) {
+        if (count($items) == 0) {
             return "";
         }
 
@@ -160,7 +161,7 @@ class ilStudyProgrammeDashboardViewGUI
     protected function fillValidUntil(DateTime $value = null) : array
     {
         $date_string = "";
-        if(! is_null($value)) {
+        if (!is_null($value)) {
             $date = new ilDate(
                 $value->format('Y-m-d'),
                 IL_CAL_DATE
@@ -188,7 +189,7 @@ class ilStudyProgrammeDashboardViewGUI
 
     protected function fillMinimumCompletion(float $value) : array
     {
-        $title = $value." ".$this->txt('percentage');
+        $title = $value . " " . $this->txt('percentage');
         return [
             $this->txt('prg_dash_label_minimum') => $title
         ];
@@ -196,7 +197,7 @@ class ilStudyProgrammeDashboardViewGUI
 
     protected function fillCurrentCompletion(float $value) : array
     {
-        $title = $value." ".$this->txt('percentage');
+        $title = $value . " " . $this->txt('percentage');
         return [
             $this->txt('prg_dash_label_gain') => $title
         ];
@@ -205,14 +206,14 @@ class ilStudyProgrammeDashboardViewGUI
     protected function fillStatus(string $status) : array
     {
         return [
-            $this->txt('prg_dash_label_status') => $this->txt('prg_status_'.$status)
+            $this->txt('prg_dash_label_status') => $this->txt('prg_status_' . $status)
         ];
     }
 
     protected function fillFinishUntil(DateTime $value = null) : array
     {
         $ret = [];
-        if(! is_null($value)) {
+        if (!is_null($value)) {
             $date = new ilDate(
                 $value->format('Y-m-d'),
                 IL_CAL_DATE
@@ -226,7 +227,7 @@ class ilStudyProgrammeDashboardViewGUI
     protected function fillRestartFrom(DateTime $value = null) : array
     {
         $ret = [];
-        if(! is_null($value)) {
+        if (!is_null($value)) {
             $date = new ilDate(
                 $value->format('Y-m-d'),
                 IL_CAL_DATE
@@ -239,7 +240,7 @@ class ilStudyProgrammeDashboardViewGUI
 
     protected function getVisibleOnPDMode() : string
     {
-        if(is_null($this->visible_on_pd_mode)) {
+        if (is_null($this->visible_on_pd_mode)) {
             $this->visible_on_pd_mode =
                 $this->setting->get(
                     ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD,
@@ -265,11 +266,11 @@ class ilStudyProgrammeDashboardViewGUI
      */
     protected function isReadable(ilStudyProgrammeUserAssignment $assignment) : bool
     {
-        if($this->getVisibleOnPDMode() == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS){
+        if ($this->getVisibleOnPDMode() == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
             return true;
         }
 
-        return $this->hasPermission($assignment,"read");
+        return $this->hasPermission($assignment, "read");
     }
 
     /**
@@ -298,12 +299,12 @@ class ilStudyProgrammeDashboardViewGUI
 
         $minimum_percents = 0;
         $current_percents = 0;
-        if($max_points > 0 ) {
+        if ($max_points > 0) {
             $minimum_percents = round((100 * $points / $max_points), 2);
-            $current_percents = round((100 * $current_points / $max_points) , 2);
+            $current_percents = round((100 * $current_points / $max_points), 2);
         }
 
-        if($max_points == 0 && $points == 0) {
+        if ($max_points == 0 && $points == 0) {
             $minimum_percents = 100;
             $current_percents = 100;
         }
@@ -319,12 +320,12 @@ class ilStudyProgrammeDashboardViewGUI
      */
     protected function findValidationValues(array $assignments) : array
     {
-		$validation_date = $this->findValid($assignments);
+        $validation_date = $this->findValid($assignments);
 
-		return [
-			!is_null($validation_date) && $validation_date->format("Y-m-d") > date("Y-m-d"),
-			$validation_date
-		];
+        return [
+            !is_null($validation_date) && $validation_date->format("Y-m-d") > date("Y-m-d"),
+            $validation_date
+        ];
     }
 
     /**
@@ -345,7 +346,7 @@ class ilStudyProgrammeDashboardViewGUI
                 return $progress->getValidityOfQualification();
             }
         }
-		return null;
+        return null;
     }
 
     protected function buildItem(
@@ -353,7 +354,7 @@ class ilStudyProgrammeDashboardViewGUI
         array $properties
     ) : ILIAS\UI\Component\Item\Item {
         $title = $prg->getTitle();
-        $link = $this->getInfoLink((int)$prg->getRefId());
+        $link = $this->getInfoLink((int) $prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
 
         $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');

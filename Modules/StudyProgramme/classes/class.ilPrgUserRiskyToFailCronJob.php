@@ -125,19 +125,19 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
                 $prg_settings = $progress->getStudyProgramme()->getRawSettings();
                 $remind_days = $prg_settings->getProcessingEndsNotSuccessfulDays();
 
-                if(is_null($remind_days)) {
+                if (is_null($remind_days)) {
                     continue;
                 }
 
                 $check_date = new DateTime();
-                $check_date->sub(new DateInterval('P'.$remind_days.'D'));
-                if($progress->getDeadline()->format('Y-m-d') < $check_date->format('Y-m-d')) {
+                $check_date->sub(new DateInterval('P' . $remind_days . 'D'));
+                if ($progress->getDeadline()->format('Y-m-d') < $check_date->format('Y-m-d')) {
                     continue;
                 }
 
                 $progress->informUserForRiskToFail();
             } catch (ilException $e) {
-                $this->log->write('an error occured: '.$e->getMessage());
+                $this->log->write('an error occured: ' . $e->getMessage());
             }
         }
         $result->setStatus(ilCronJobResult::STATUS_OK);

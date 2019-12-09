@@ -8,122 +8,122 @@ declare(strict_types=1);
 
 class ilPrgInvalidateExpiredProgressesCronJob extends ilCronJob
 {
-	const ID = 'prg_invalidate_expired_progresses';
+    const ID = 'prg_invalidate_expired_progresses';
 
-	/**
-	 * @var ilStudyProgrammeUserProgressDB
-	 */
-	protected $user_progress_db;
+    /**
+     * @var ilStudyProgrammeUserProgressDB
+     */
+    protected $user_progress_db;
 
-	/**
-	 * @var ilObjUser
-	 */
-	protected $usr;
+    /**
+     * @var ilObjUser
+     */
+    protected $usr;
 
-	/**
-	 * @var ilLog
-	 */
-	protected $log;
+    /**
+     * @var ilLog
+     */
+    protected $log;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	public function __construct()
-	{
-		global $DIC;
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
-		$this->usr = $DIC['ilUser'];
-		$this->log = $DIC['ilLog'];
-		$this->lng = $DIC['lng'];
-		$this->lng->loadLanguageModule('prg');
-	}
+        $this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
+        $this->usr = $DIC['ilUser'];
+        $this->log = $DIC['ilLog'];
+        $this->lng = $DIC['lng'];
+        $this->lng->loadLanguageModule('prg');
+    }
 
-	/**
-	 * Get title
-	 * 
-	 * @return string
-	 */
-	public function getTitle()
-	{
-		return $this->lng->txt('prg_invalidate_expired_progresses_title');
-	}
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->lng->txt('prg_invalidate_expired_progresses_title');
+    }
 
-	/**
-	 * Get description
-	 * 
-	 * @return string
-	 */
-	public function getDescription()
-	{
-		return $this->lng->txt('prg_invalidate_expired_progresses_desc');
-	}
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->lng->txt('prg_invalidate_expired_progresses_desc');
+    }
 
-	/**
-	 * Get id
-	 * 
-	 * @return string
-	 */
-	public function getId()
-	{
-		return self::ID;
-	}
+    /**
+     * Get id
+     *
+     * @return string
+     */
+    public function getId()
+    {
+        return self::ID;
+    }
 
-	/**
-	 * Is to be activated on "installation"
-	 * 
-	 * @return boolean
-	 */
-	public function hasAutoActivation()
-	{
-		return true;
-	}
+    /**
+     * Is to be activated on "installation"
+     *
+     * @return boolean
+     */
+    public function hasAutoActivation()
+    {
+        return true;
+    }
 
-	/**
-	 * Can the schedule be configured?
-	 * 
-	 * @return boolean
-	 */
-	public function hasFlexibleSchedule()
-	{
-		return true;
-	}
+    /**
+     * Can the schedule be configured?
+     *
+     * @return boolean
+     */
+    public function hasFlexibleSchedule()
+    {
+        return true;
+    }
 
-	/**
-	 * Get schedule type
-	 * 
-	 * @return int
-	 */
-	public function getDefaultScheduleType()
-	{
-		return self::SCHEDULE_TYPE_IN_DAYS;
-	}
+    /**
+     * Get schedule type
+     *
+     * @return int
+     */
+    public function getDefaultScheduleType()
+    {
+        return self::SCHEDULE_TYPE_IN_DAYS;
+    }
 
-	/**
-	 * Get schedule value
-	 * 
-	 * @return int|array
-	 */
-	public function getDefaultScheduleValue()
-	{
-		return 1;
-	}
+    /**
+     * Get schedule value
+     *
+     * @return int|array
+     */
+    public function getDefaultScheduleValue()
+    {
+        return 1;
+    }
 
-	/**
-	 * Run job
-	 * 
-	 * @return ilCronJobResult
-	 */
-	public function run()
-	{
+    /**
+     * Run job
+     *
+     * @return ilCronJobResult
+     */
+    public function run()
+    {
         $result = new ilCronJobResult();
         foreach ($this->user_progress_db->getExpiredSuccessfulInstances() as $progress) {
             try {
                 $progress->invalidate();
             } catch (ilException $e) {
-                $this->log->write('an error occured: '.$e->getMessage());
+                $this->log->write('an error occured: ' . $e->getMessage());
             }
         }
         $result->setStatus(ilCronJobResult::STATUS_OK);

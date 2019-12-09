@@ -38,9 +38,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     const FIELD_ACCESS_CONTROL_ORGU_POSITIONS = 'access_ctrl_org_pos';
     const FIELD_RM_NOT_RESTARTED_BY_USER_DAY = 'rm_nr_by_usr_days';
     const FIELD_PROC_ENDS_NOT_SUCCESSFUL = 'proc_end_no_success';
-	const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
-	const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
-	const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
+    const FIELD_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
+    const FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
+    const FIELD_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
     public function __construct(
         ilDBInterface $db,
@@ -100,11 +100,11 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
     public function update(ilStudyProgrammeSettings $settings) : void
     {
         $deadine_date = $settings->getDeadlineDate();
-        if(!is_null($deadine_date)) {
+        if (!is_null($deadine_date)) {
             $deadine_date = $deadine_date->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT);
         }
         $vq_date = $settings->getValidityOfQualificationDate();
-        if(!is_null($vq_date)) {
+        if (!is_null($vq_date)) {
             $vq_date = $vq_date->format(ilStudyProgrammeSettings::DATE_TIME_FORMAT);
         }
 
@@ -123,9 +123,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             $vq_date,
             $settings->getReminderNotRestartedByUserDays(),
             $settings->getProcessingEndsNotSuccessfulDays(),
-			$settings->sendReAssignedMail(),
-			$settings->sendInfoToReAssignMail(),
-			$settings->sendRiskyToFailMail()
+            $settings->sendReAssignedMail(),
+            $settings->sendInfoToReAssignMail(),
+            $settings->sendRiskyToFailMail()
         );
         self::$cache[$settings->getObjId()] = $settings;
     }
@@ -157,9 +157,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
             . '	,' . self::FIELD_VALIDITY_QUALIFICATION_DATE
             . '	,' . self::FIELD_VQ_RESTART_PERIOD
             . '	,' . self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
-			. ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
-			. ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
-			. ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
+            . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
+            . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
+            . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
             . '	FROM ' . self::TABLE
             . '	WHERE ' . self::FIELD_SUBTYPE_ID . ' = ' . $this->db->quote($type_id, 'integer');
         $res = $this->db->query($q);
@@ -191,9 +191,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         string $vq_date = null,
         int $rm_nr_by_usr_days = null,
         int $proc_end_no_success = null,
-		bool $send_re_assigned_mail = false,
-		bool $send_info_to_re_assign_mail = false,
-		bool $send_risky_to_fail_mail = false
+        bool $send_re_assigned_mail = false,
+        bool $send_info_to_re_assign_mail = false,
+        bool $send_risky_to_fail_mail = false
     ) {
         $this->db->insert(
             self::TABLE,
@@ -212,9 +212,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS => ['integer', $access_ctrl_org_pos],
                 self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY => ['integer', $rm_nr_by_usr_days],
                 self::FIELD_PROC_ENDS_NOT_SUCCESSFUL => ['integer', $proc_end_no_success],
-				self::FIELD_SEND_RE_ASSIGNED_MAIL => ['integer', $send_re_assigned_mail],
-				self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL => ['integer', $send_info_to_re_assign_mail],
-				self::FIELD_SEND_RISKY_TO_FAIL_MAIL => ['integer', $send_risky_to_fail_mail]
+                self::FIELD_SEND_RE_ASSIGNED_MAIL => ['integer', $send_re_assigned_mail],
+                self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL => ['integer', $send_info_to_re_assign_mail],
+                self::FIELD_SEND_RISKY_TO_FAIL_MAIL => ['integer', $send_risky_to_fail_mail]
             ]
         );
     }
@@ -241,9 +241,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 . ', ' . self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS
                 . ', ' . self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY
                 . ', ' . self::FIELD_PROC_ENDS_NOT_SUCCESSFUL
-				. ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
-				. ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
-				. ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
+                . ', ' . self::FIELD_SEND_RE_ASSIGNED_MAIL
+                . ', ' . self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL
+                . ', ' . self::FIELD_SEND_RISKY_TO_FAIL_MAIL
                 . '	FROM ' . self::TABLE
                 . '	WHERE ' . self::FIELD_OBJ_ID . ' = ' . $this->db->quote($obj_id, 'integer')
             )
@@ -259,41 +259,41 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
      */
     protected function createByRow(array $row) : ilStudyProgrammeSettings
     {
-        $return = (new ilStudyProgrammeSettings((int)$row[self::FIELD_OBJ_ID]))
-            ->setSubtypeId((int)$row[self::FIELD_SUBTYPE_ID])
-            ->setStatus((int)$row[self::FIELD_STATUS])
-            ->setLPMode((int)$row[self::FIELD_LP_MODE])
-            ->setPoints((int)$row[self::FIELD_POINTS])
+        $return = (new ilStudyProgrammeSettings((int) $row[self::FIELD_OBJ_ID]))
+            ->setSubtypeId((int) $row[self::FIELD_SUBTYPE_ID])
+            ->setStatus((int) $row[self::FIELD_STATUS])
+            ->setLPMode((int) $row[self::FIELD_LP_MODE])
+            ->setPoints((int) $row[self::FIELD_POINTS])
             ->setLastChange(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGED]));
         if ($row[self::FIELD_DEADLINE_DATE] !== null) {
             $return->setDeadlineDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_DEADLINE_DATE]));
         } else {
-            $return->setDeadlinePeriod((int)$row[self::FIELD_DEADLINE_PERIOD]);
+            $return->setDeadlinePeriod((int) $row[self::FIELD_DEADLINE_PERIOD]);
         }
         if ($row[self::FIELD_VALIDITY_QUALIFICATION_DATE] !== null) {
             $return->setValidityOfQualificationDate(DateTime::createFromFormat(ilStudyProgrammeSettings::DATE_TIME_FORMAT, $row[self::FIELD_VALIDITY_QUALIFICATION_DATE]));
         } else {
-            $return->setValidityOfQualificationPeriod((int)$row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD]);
+            $return->setValidityOfQualificationPeriod((int) $row[self::FIELD_VALIDITY_QUALIFICATION_PERIOD]);
         }
 
-        $return->setRestartPeriod((int)$row[self::FIELD_VQ_RESTART_PERIOD]);
-        $return->setAccessControlByOrguPositions((bool)$row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
+        $return->setRestartPeriod((int) $row[self::FIELD_VQ_RESTART_PERIOD]);
+        $return->setAccessControlByOrguPositions((bool) $row[self::FIELD_ACCESS_CONTROL_ORGU_POSITIONS]);
 
         $rm_nr_by_usr_days = $row[self::FIELD_RM_NOT_RESTARTED_BY_USER_DAY];
-        if(! is_null($rm_nr_by_usr_days)) {
-            $rm_nr_by_usr_days = (int)$rm_nr_by_usr_days;
+        if (!is_null($rm_nr_by_usr_days)) {
+            $rm_nr_by_usr_days = (int) $rm_nr_by_usr_days;
         }
         $proc_end_no_success = $row[self::FIELD_PROC_ENDS_NOT_SUCCESSFUL];
-        if(! is_null($proc_end_no_success)) {
-            $proc_end_no_success = (int)$proc_end_no_success;
+        if (!is_null($proc_end_no_success)) {
+            $proc_end_no_success = (int) $proc_end_no_success;
         }
 
         $return->setReminderNotRestartedByUserDays($rm_nr_by_usr_days);
         $return->setProcessingEndsNotSuccessfulDays($proc_end_no_success);
-        return $return->withSendReAssignedMail((bool)$row[self::FIELD_SEND_RE_ASSIGNED_MAIL])
-			->withSendInfoToReAssignMail((bool)$row[self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL])
-			->withSendRiskyToFailMail((bool)$row[self::FIELD_SEND_RISKY_TO_FAIL_MAIL])
-		;
+        return $return->withSendReAssignedMail((bool) $row[self::FIELD_SEND_RE_ASSIGNED_MAIL])
+            ->withSendInfoToReAssignMail((bool) $row[self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL])
+            ->withSendRiskyToFailMail((bool) $row[self::FIELD_SEND_RISKY_TO_FAIL_MAIL])
+        ;
     }
 
     /**
@@ -328,9 +328,9 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
         string $vq_date = null,
         int $rm_nr_by_usr_days = null,
         int $proc_end_no_success = null,
-		bool $send_re_assigned_mail = false,
-		bool $send_info_to_re_assign_mail = false,
-		bool $send_risky_to_fail_mail = false
+        bool $send_re_assigned_mail = false,
+        bool $send_info_to_re_assign_mail = false,
+        bool $send_risky_to_fail_mail = false
     ) {
         if (!$this->checkExists($obj_id)) {
             throw new LogicException('invalid obj_id to update: ' . $obj_id);
@@ -395,18 +395,18 @@ class ilStudyProgrammeSettingsDBRepository implements ilStudyProgrammeSettingsRe
                 'integer',
                 $proc_end_no_success
             ],
-			self::FIELD_SEND_RE_ASSIGNED_MAIL => [
-				'integer',
-				$send_re_assigned_mail
-			],
-			self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL => [
-				'integer',
-				$send_info_to_re_assign_mail
-			],
-			self::FIELD_SEND_RISKY_TO_FAIL_MAIL => [
-				'integer',
-				$send_risky_to_fail_mail
-			]
+            self::FIELD_SEND_RE_ASSIGNED_MAIL => [
+                'integer',
+                $send_re_assigned_mail
+            ],
+            self::FIELD_SEND_INFO_TO_RE_ASSIGN_MAIL => [
+                'integer',
+                $send_info_to_re_assign_mail
+            ],
+            self::FIELD_SEND_RISKY_TO_FAIL_MAIL => [
+                'integer',
+                $send_risky_to_fail_mail
+            ]
         ];
 
         $this->db->update(self::TABLE, $values, $where);

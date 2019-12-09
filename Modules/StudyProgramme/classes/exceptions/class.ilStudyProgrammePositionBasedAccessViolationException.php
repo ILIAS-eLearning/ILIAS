@@ -1,7 +1,6 @@
 <?php
 
 
-class ilStudyProgrammePositionBasedAccessViolationException
-extends ilException
+class ilStudyProgrammePositionBasedAccessViolationException extends ilException
 {
 }

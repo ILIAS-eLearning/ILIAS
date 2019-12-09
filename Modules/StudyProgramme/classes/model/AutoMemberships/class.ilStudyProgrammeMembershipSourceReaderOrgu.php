@@ -7,43 +7,43 @@ declare(strict_types = 1);
  */
 class ilStudyProgrammeMembershipSourceReaderOrgu implements ilStudyProgrammeMembershipSourceReader
 {
-	/**
-	 * @var ilObjOrgUnitTree
-	 */
-	protected $orgu_tree;
+    /**
+     * @var ilObjOrgUnitTree
+     */
+    protected $orgu_tree;
 
-	/**
-	 * @var ilOrgUnitUserAssignment
-	 */
-	protected $orgu_assignment;
+    /**
+     * @var ilOrgUnitUserAssignment
+     */
+    protected $orgu_assignment;
 
-	/**
-	 * @var int
-	 */
-	protected $src_id;
+    /**
+     * @var int
+     */
+    protected $src_id;
 
-	public function __construct(
-		ilObjOrgUnitTree $orgu_tree,
-		ilOrgUnitUserAssignment $orgu_assignment,
-		int $src_id
-	){
-		$this->orgu_tree = $orgu_tree;
-		$this->orgu_assignment = $orgu_assignment;
-		$this->src_id = $src_id;
-	}
+    public function __construct(
+        ilObjOrgUnitTree $orgu_tree,
+        ilOrgUnitUserAssignment $orgu_assignment,
+        int $src_id
+    ) {
+        $this->orgu_tree = $orgu_tree;
+        $this->orgu_assignment = $orgu_assignment;
+        $this->src_id = $src_id;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getMemberIds(): array
-	{
-		$assignees = $this->orgu_assignment::where(
-			['orgu_id' => $this->src_id]
-		)->getArray('id', 'user_id');
+    /**
+     * @inheritdoc
+     */
+    public function getMemberIds() : array
+    {
+        $assignees = $this->orgu_assignment::where(
+            ['orgu_id' => $this->src_id]
+        )->getArray('id', 'user_id');
 
-		return array_map(
-			'intval',
-			array_values($assignees)
-		);
-	}
+        return array_map(
+            'intval',
+            array_values($assignees)
+        );
+    }
 }

@@ -8,7 +8,8 @@ require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
  *
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilStudyProgrammeTypeRepository
@@ -36,7 +37,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository) {
+    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -56,7 +58,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject(ilStudyProgrammeType $type) {
+    public function saveObject(ilStudyProgrammeType $type)
+    {
         $type = $this->fillObject($type);
         if (!$type) {
             return false;
@@ -96,7 +99,6 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
         }
         $item = $this->getItemByPostVar('amd_records');
         $item->setValue($selected);
-
     }
 
     /**
@@ -104,7 +106,8 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    protected function fillObject(ilStudyProgrammeType $type) {
+    protected function fillObject(ilStudyProgrammeType $type)
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return null;
@@ -112,7 +115,7 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
         try {
             // Assign and deassign amd records. A plugin could prevent those actions.
             $record_ids_selected = (array) $this->getInput('amd_records');
-            $record_ids = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId(),true);
+            $record_ids = $this->type_repository->readAssignedAMDRecordIdsByType($type->getId(), true);
             $record_ids_removed = array_diff($record_ids, $record_ids_selected);
             $record_ids_added = array_diff($record_ids_selected, $record_ids);
             foreach ($record_ids_added as $record_id) {
@@ -127,5 +130,4 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI {
         }
         return $type;
     }
-
 }

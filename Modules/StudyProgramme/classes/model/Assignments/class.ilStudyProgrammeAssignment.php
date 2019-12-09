@@ -17,222 +17,222 @@
 
 class ilStudyProgrammeAssignment
 {
-	const NO_RESTARTED_ASSIGNMENT = -1;
+    const NO_RESTARTED_ASSIGNMENT = -1;
 
-	const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-	const DATE_FORMAT = 'Y-m-d';
+    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    const DATE_FORMAT = 'Y-m-d';
 
-	const AUTO_ASSIGNED_BY_ROLE = -1;
-	const AUTO_ASSIGNED_BY_ORGU = -2;
-	const AUTO_ASSIGNED_BY_COURSE = -3;
-	const AUTO_ASSIGNED_BY_GROUP = -4;
+    const AUTO_ASSIGNED_BY_ROLE = -1;
+    const AUTO_ASSIGNED_BY_ORGU = -2;
+    const AUTO_ASSIGNED_BY_COURSE = -3;
+    const AUTO_ASSIGNED_BY_GROUP = -4;
 
-	/**
-	 * Id of this assignment.
-	 *
-	 * @var int
+    /**
+     * Id of this assignment.
+     *
+     * @var int
 
-	 */
-	protected $id;
+     */
+    protected $id;
 
-	/**
-	 * The id of the user that is assigned.
-	 *
-	 * @var int
-	 */
-	protected $usr_id;
+    /**
+     * The id of the user that is assigned.
+     *
+     * @var int
+     */
+    protected $usr_id;
 
-	/**
-	 * Root node of the program tree, the user was assigned to. Could be a subtree of
-	 * a larger program. This is the object id of the program.
-	 *
-	 * @var int
-	 */
-	protected $root_prg_id;
-
-
-	/**
-	 * Timestamp of the moment of the assignment to or last update of the program.
-	 *
-	 * @var int
-	 */
-	protected $last_change;
-
-	/**
-	 * Id of user who did the assignment to or last update of the program.
-	 *
-	 * @var int
-	 */
-	protected $last_change_by;
-
-	/**
-	 * The date at which the user will be assigned to root prg anew.
-	 *
-	 * @var DateTime | null
-	 */
-	protected $restart_date;
-
-	/**
-	 * The id of the assignment which was intiated due to expiring
-	 * progress at this assignment.
-	 *
-	 * @var int
-	 */
-	protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
+    /**
+     * Root node of the program tree, the user was assigned to. Could be a subtree of
+     * a larger program. This is the object id of the program.
+     *
+     * @var int
+     */
+    protected $root_prg_id;
 
 
-	public function __construct(int $id)
-	{
-		$this->id = $id;
-	}
+    /**
+     * Timestamp of the moment of the assignment to or last update of the program.
+     *
+     * @var int
+     */
+    protected $last_change;
 
-	/**
-	 * Get the id of the assignment.
-	 *
-	 * @return int
-	 */
-	public function getId() : int
-	{
-		return $this->id;
-	}
+    /**
+     * Id of user who did the assignment to or last update of the program.
+     *
+     * @var int
+     */
+    protected $last_change_by;
 
-	/**
-	 * Get the object id of the program the user was assigned to.
-	 *
-	 * @return int
-	 */
-	public function getRootId() : int
-	{
-		return $this->root_prg_id;
-	}
+    /**
+     * The date at which the user will be assigned to root prg anew.
+     *
+     * @var DateTime | null
+     */
+    protected $restart_date;
 
-	public function setRootId(int $id) : ilStudyProgrammeAssignment
-	{
-		$this->root_prg_id = $id;
-		return $this;
-	}
+    /**
+     * The id of the assignment which was intiated due to expiring
+     * progress at this assignment.
+     *
+     * @var int
+     */
+    protected $restarted_asssignment_id = self::NO_RESTARTED_ASSIGNMENT;
 
-	/**
-	 * Get the id of the user who is assigned.
-	 *
-	 * @return int
-	 */
-	public function getUserId() : int
-	{
-		return $this->usr_id;
-	}
 
-	public function setUserId(int $usr_id) : ilStudyProgrammeAssignment
-	{
-		$this->usr_id = $usr_id;
-		return $this;
-	}
+    public function __construct(int $id)
+    {
+        $this->id = $id;
+    }
 
-	/**
-	 * Get the id of the user who did the last change on this assignment.
-	 *
-	 * @return int
-	 */
-	public function getLastChangeBy() : int
-	{
-		return $this->last_change_by;
-	}
+    /**
+     * Get the id of the assignment.
+     *
+     * @return int
+     */
+    public function getId() : int
+    {
+        return $this->id;
+    }
 
-	/**
-	 * Set the id of the user who did the last change on this assignment.
-	 *
-	 * Throws when $a_usr_id is not the id of a user.
-	 *
-	 * @throws ilException
-	 * @return $this
-	 */
-	public function setLastChangeBy(int $assigned_by_id) : ilStudyProgrammeAssignment
-	{
-		$auto_assignment = [
-			self::AUTO_ASSIGNED_BY_ROLE,
-			self::AUTO_ASSIGNED_BY_ORGU,
-			self::AUTO_ASSIGNED_BY_COURSE,
-			self::AUTO_ASSIGNED_BY_GROUP
-		];
-		$is_auto_assignment = in_array($assigned_by_id, $auto_assignment);
-		$exists = ilObject::_exists($assigned_by_id);
-		$is_usr = ilObject::_lookupType($assigned_by_id) == "usr";
-		if (!$is_auto_assignment && ($exists && !$is_usr)) {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assigned_by_id' "
-								 ."is neither a user's id nor a valid membership source.");
-		}
+    /**
+     * Get the object id of the program the user was assigned to.
+     *
+     * @return int
+     */
+    public function getRootId() : int
+    {
+        return $this->root_prg_id;
+    }
 
-		$this->last_change_by = $assigned_by_id;
-		return $this;
-	}
+    public function setRootId(int $id) : ilStudyProgrammeAssignment
+    {
+        $this->root_prg_id = $id;
+        return $this;
+    }
 
-	/**
-	 * Get the timestamp of the last change on this program or a sub program.
-	 *
-	 * @return DateTime
-	 */
-	public function getLastChange() : DateTime
-	{
-		return DateTime::createFromFormat(self::DATE_TIME_FORMAT,$this->last_change);
-	}
+    /**
+     * Get the id of the user who is assigned.
+     *
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->usr_id;
+    }
 
-	/**
-	 * Update the last change timestamp to the current time.
-	 *
-	 * @return $this
-	 */
-	public function updateLastChange() : ilStudyProgrammeAssignment
-	{
-		$this->setLastChange(new DateTime());
-		return $this;
-	}
+    public function setUserId(int $usr_id) : ilStudyProgrammeAssignment
+    {
+        $this->usr_id = $usr_id;
+        return $this;
+    }
 
-	/**
-	 * Set the last change timestamp to the given time.
-	 *
-	 * @return $this
-	 */
-	public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment
-	{
-		$this->last_change = $timestamp->format(self::DATE_TIME_FORMAT);
-		return $this;
-	}
+    /**
+     * Get the id of the user who did the last change on this assignment.
+     *
+     * @return int
+     */
+    public function getLastChangeBy() : int
+    {
+        return $this->last_change_by;
+    }
 
-	/**
-	 * Set the date, at which the user is to be reassigned to the programme
-	 */
-	public function setRestartDate(DateTime $date = null) : ilStudyProgrammeAssignment
-	{
-		$this->restart_date = $date;
-		return $this;
-	}
+    /**
+     * Set the id of the user who did the last change on this assignment.
+     *
+     * Throws when $a_usr_id is not the id of a user.
+     *
+     * @throws ilException
+     * @return $this
+     */
+    public function setLastChangeBy(int $assigned_by_id) : ilStudyProgrammeAssignment
+    {
+        $auto_assignment = [
+            self::AUTO_ASSIGNED_BY_ROLE,
+            self::AUTO_ASSIGNED_BY_ORGU,
+            self::AUTO_ASSIGNED_BY_COURSE,
+            self::AUTO_ASSIGNED_BY_GROUP
+        ];
+        $is_auto_assignment = in_array($assigned_by_id, $auto_assignment);
+        $exists = ilObject::_exists($assigned_by_id);
+        $is_usr = ilObject::_lookupType($assigned_by_id) == "usr";
+        if (!$is_auto_assignment && ($exists && !$is_usr)) {
+            throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assigned_by_id' "
+                                 . "is neither a user's id nor a valid membership source.");
+        }
 
-	/**
-	 * Get the date, at which the user is to be reassigned to the programme
-	 *
-	 * @return DateTime | null
-	 */
-	public function getRestartDate()
-	{
-		return $this->restart_date;
-	}
+        $this->last_change_by = $assigned_by_id;
+        return $this;
+    }
 
-	/**
-	 * Set the date, at which the user was be reassigned to the programme
-	 */
-	public function setRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
-	{
-		$this->restarted_asssignment_id = $id;
-		return $this;
-	}
+    /**
+     * Get the timestamp of the last change on this program or a sub program.
+     *
+     * @return DateTime
+     */
+    public function getLastChange() : DateTime
+    {
+        return DateTime::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
+    }
 
-	/**
-	 * Get the date, at which the user was reassigned to the programme
-	 *
-	 * @return int
-	 */
-	public function getRestartedAssignmentId() : int
-	{
-		return $this->restarted_asssignment_id;
-	}
+    /**
+     * Update the last change timestamp to the current time.
+     *
+     * @return $this
+     */
+    public function updateLastChange() : ilStudyProgrammeAssignment
+    {
+        $this->setLastChange(new DateTime());
+        return $this;
+    }
+
+    /**
+     * Set the last change timestamp to the given time.
+     *
+     * @return $this
+     */
+    public function setLastChange(DateTime $timestamp) : ilStudyProgrammeAssignment
+    {
+        $this->last_change = $timestamp->format(self::DATE_TIME_FORMAT);
+        return $this;
+    }
+
+    /**
+     * Set the date, at which the user is to be reassigned to the programme
+     */
+    public function setRestartDate(DateTime $date = null) : ilStudyProgrammeAssignment
+    {
+        $this->restart_date = $date;
+        return $this;
+    }
+
+    /**
+     * Get the date, at which the user is to be reassigned to the programme
+     *
+     * @return DateTime | null
+     */
+    public function getRestartDate()
+    {
+        return $this->restart_date;
+    }
+
+    /**
+     * Set the date, at which the user was be reassigned to the programme
+     */
+    public function setRestartedAssignmentId(int $id) : ilStudyProgrammeAssignment
+    {
+        $this->restarted_asssignment_id = $id;
+        return $this;
+    }
+
+    /**
+     * Get the date, at which the user was reassigned to the programme
+     *
+     * @return int
+     */
+    public function getRestartedAssignmentId() : int
+    {
+        return $this->restarted_asssignment_id;
+    }
 }

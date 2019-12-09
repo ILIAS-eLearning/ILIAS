@@ -7,7 +7,8 @@ require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Michael Herren <mh@studer-raimann.ch>
  */
-class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
+class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI
+{
 
     /**
      * @var ilStudyProgrammeType
@@ -35,7 +36,8 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
     protected $parent_gui;
 
 
-    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository) {
+    public function __construct($parent_gui, ilStudyProgrammeTypeRepository $type_repository)
+    {
         global $DIC;
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -47,7 +49,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         $this->lng = $lng;
         $this->lng->loadLanguageModule('meta');
         $this->lng->loadLanguageModule('prg');
-	    
+        
         $this->initForm();
     }
 
@@ -57,7 +59,8 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function saveObject(ilStudyProgrammeType $type) {
+    public function saveObject(ilStudyProgrammeType $type)
+    {
         if (!$this->fillObject($type)) {
             return false;
         }
@@ -96,7 +99,7 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         $languages = $this->lng->getInstalledLanguages();
         $type_default = $type->getDefaultLang();
         $item = $this->getItemByPostVar('default_lang');
-        if(in_array($type_default, $languages)) {
+        if (in_array($type_default, $languages)) {
             $item->setValue($type_default);
         } else {
             $item->setValue($this->lng->getDefaultLanguage());
@@ -130,7 +133,8 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @return bool
      */
-    public function fillObject(ilStudyProgrammeType $type) {
+    public function fillObject(ilStudyProgrammeType $type)
+    {
         $this->setValuesByPost();
         if (!$this->checkInput()) {
             return null;
@@ -156,7 +160,8 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
      *
      * @param $a_lang_code
      */
-    protected function addTranslationInputs($a_lang_code, ilStudyProgrammeType $type = null) {
+    protected function addTranslationInputs($a_lang_code, ilStudyProgrammeType $type = null)
+    {
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt("meta_l_{$a_lang_code}"));
         $this->addItem($section);
@@ -167,6 +172,4 @@ class ilStudyProgrammeTypeFormGUI extends ilPropertyFormGUI {
         $item->setValue($type ? $type->getDescription($a_lang_code) : '');
         $this->addItem($item);
     }
-
-
 }

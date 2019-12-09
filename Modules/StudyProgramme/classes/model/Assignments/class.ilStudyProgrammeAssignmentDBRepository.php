@@ -29,7 +29,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      *
      * @throws ilException
      */
-    public function createFor(int $root_prg_id, int $usr_id, int $assigning_usr_id): ilStudyProgrammeAssignment
+    public function createFor(int $root_prg_id, int $usr_id, int $assigning_usr_id) : ilStudyProgrammeAssignment
     {
         if (ilObject::_lookupType($usr_id) != "usr") {
             throw new ilException("ilStudyProgrammeAssignment::createFor: '$usr_id' "
@@ -68,7 +68,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readByUsrId(int $usr_id): array
+    public function readByUsrId(int $usr_id) : array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_USR_ID => $usr_id]) as $row) {
@@ -81,7 +81,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readByPrgId(int $prg_id): array
+    public function readByPrgId(int $prg_id) : array
     {
         $return = [];
         foreach ($this->loadByFilterDB([self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
@@ -99,7 +99,8 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         $return = [];
         foreach ($this->loadByFilterDB(
             [self::FIELD_USR_ID => $usr_id
-                , self::FIELD_ROOT_PRG_ID => $prg_id]) as $row) {
+                , self::FIELD_ROOT_PRG_ID => $prg_id]
+        ) as $row) {
             $return[] = $this->assignmentByRow($row);
         }
         return $return;
@@ -109,7 +110,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws ilException
      */
-    public function readDueToRestart(): array
+    public function readDueToRestart() : array
     {
         $return = [];
         foreach ($this->loadDueToRestart() as $row) {
@@ -118,7 +119,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
         return $return;
     }
 
-    public function readDueToRestartAndMail(): array
+    public function readDueToRestartAndMail() : array
     {
         $return = [];
         foreach ($this->loadDueToRestartAndMail() as $row) {
@@ -139,7 +140,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     protected function loadDueToRestartAndMail()
     {
         $q = $this->getDuoToRestartBaseSQL();
-        $q .= '    AND '.self::FIELD_RESTART_MAIL.' IS NULL';
+        $q .= '    AND ' . self::FIELD_RESTART_MAIL . ' IS NULL';
 
         $res = $this->db->query($q);
         while ($rec = $this->db->fetchAssoc($res)) {
@@ -171,7 +172,8 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             . '    AND DATE(' . self::FIELD_RESTART_DATE . ') <= '
             . $this->db->quote(
                 (new DateTime())->format(
-                    ilStudyProgrammeAssignment::DATE_FORMAT),
+                    ilStudyProgrammeAssignment::DATE_FORMAT
+                ),
                 'text'
             );
     }
@@ -180,7 +182,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
      * @inheritdoc
      * @throws Exception
      */
-    public function readDueToManuelRestart(int $days_before_end): array
+    public function readDueToManuelRestart(int $days_before_end) : array
     {
         $return = [];
         foreach ($this->loadDueToManuelRestart($days_before_end) as $row) {
@@ -195,7 +197,7 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     protected function loadDueToManuelRestart(int $days_before_end)
     {
         $date = new DateTime();
-        $date->sub(new DateInterval('P'.$days_before_end.'D'));
+        $date->sub(new DateInterval('P' . $days_before_end . 'D'));
         $q = $this->getSQLHeader()
             . ' WHERE ' . self::FIELD_RESTARTED_ASSIGNMENT_ID
             . ' = ' . $this->db->quote(
@@ -206,7 +208,8 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
             . '    AND DATE(' . self::FIELD_RESTART_DATE . ') <= '
             . $this->db->quote(
                 $date->format(
-                    ilStudyProgrammeAssignment::DATE_FORMAT),
+                    ilStudyProgrammeAssignment::DATE_FORMAT
+                ),
                 'text'
             );
         $res = $this->db->query($q);
@@ -262,37 +265,37 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @throws ilException
      */
-	public function getDashboardInstancesforUser(int $usr_id)
+    public function getDashboardInstancesforUser(int $usr_id)
     {
         global $DIC;
         $db = $DIC['ilDB'];
-        $q = 'SELECT '.self::FIELD_ID
-            .', '.self::FIELD_USR_ID
-            .', '.self::FIELD_ROOT_PRG_ID
-            .', '.self::FIELD_LAST_CHANGE
-            .', '.self::FIELD_LAST_CHANGE_BY
-            .', '.self::FIELD_RESTART_DATE
-            .', '.self::FIELD_RESTARTED_ASSIGNMENT_ID
-            .' FROM '.self::TABLE
-            .' WHERE '.self::FIELD_USR_ID .' = '.$usr_id
-            .' ORDER BY '.self::FIELD_ROOT_PRG_ID.', '.self::FIELD_ID
+        $q = 'SELECT ' . self::FIELD_ID
+            . ', ' . self::FIELD_USR_ID
+            . ', ' . self::FIELD_ROOT_PRG_ID
+            . ', ' . self::FIELD_LAST_CHANGE
+            . ', ' . self::FIELD_LAST_CHANGE_BY
+            . ', ' . self::FIELD_RESTART_DATE
+            . ', ' . self::FIELD_RESTARTED_ASSIGNMENT_ID
+            . ' FROM ' . self::TABLE
+            . ' WHERE ' . self::FIELD_USR_ID . ' = ' . $usr_id
+            . ' ORDER BY ' . self::FIELD_ROOT_PRG_ID . ', ' . self::FIELD_ID
         ;
         $ret = [];
         $assignments = [];
         $res = $db->query($q);
         $prg = 0;
-        while($row = $db->fetchAssoc($res)) {
-            if($prg == 0) {
+        while ($row = $db->fetchAssoc($res)) {
+            if ($prg == 0) {
                 $prg = $row['root_prg_id'];
             }
-            if($prg != $row['root_prg_id']) {
+            if ($prg != $row['root_prg_id']) {
                 $ret[$prg] = $assignments;
                 $prg = $row['root_prg_id'];
                 $assignments = [];
             }
-            $assignments[(int)$row['id']] = $this->assignmentByRow($row);
+            $assignments[(int) $row['id']] = $this->assignmentByRow($row);
         }
-        if(count($assignments) > 0) {
+        if (count($assignments) > 0) {
             $ret[$prg] = $assignments;
         }
         return $ret;
@@ -301,14 +304,16 @@ class ilStudyProgrammeAssignmentDBRepository implements ilStudyProgrammeAssignme
     /**
      * @throws ilException
      */
-    protected function assignmentByRow(array $row): ilStudyProgrammeAssignment
+    protected function assignmentByRow(array $row) : ilStudyProgrammeAssignment
     {
         return (new ilStudyProgrammeAssignment($row[self::FIELD_ID]))
             ->setRootId($row[self::FIELD_ROOT_PRG_ID])
             ->setUserId($row[self::FIELD_USR_ID])
             ->setLastChangeBy($row[self::FIELD_LAST_CHANGE_BY])
             ->setLastChange(DateTime::createFromFormat(
-                ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_LAST_CHANGE]))
+                ilStudyProgrammeAssignment::DATE_TIME_FORMAT,
+                $row[self::FIELD_LAST_CHANGE]
+            ))
             ->setRestartDate(
                 $row[self::FIELD_RESTART_DATE] ?
                     DateTime::createFromFormat(ilStudyProgrammeAssignment::DATE_TIME_FORMAT, $row[self::FIELD_RESTART_DATE]) :
