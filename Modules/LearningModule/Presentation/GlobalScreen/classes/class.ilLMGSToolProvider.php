@@ -42,7 +42,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TOC_TOOL, true)) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
 
@@ -81,7 +81,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
      */
     public function getOfflineToolIds()
     {
-        $iff = function ($id) { return $this->identification_provider->identifier($id); };
+        $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
         return [
             $this->hash($iff("lm_pres_toc")->serialize()),
             $this->hash($iff("lm_glossary")->serialize()),
@@ -103,7 +103,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
 
         $lng = $DIC->language();
 
-        $iff = function ($id) { return $this->identification_provider->identifier($id); };
+        $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
         $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
 
         return $this->factory->tool($iff("lm_pres_toc"))
