@@ -4087,10 +4087,11 @@ if (!$ilDB->tableColumnExists("il_cert_user_cert", "certificate_content_bu")) {
     );
 }
 
+$ilDB->manipulate("UPDATE il_cert_template SET certificate_content_bu = certificate_content WHERE (certificate_content_bu IS NULL OR certificate_content_bu = '')");
+$ilDB->manipulate("UPDATE il_cert_user_cert SET certificate_content_bu = certificate_content WHERE (certificate_content_bu IS NULL OR certificate_content_bu = '')");
 $res = $ilDB->query("SELECT * FROM il_cert_template WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
-$updateStatement = $ilDB->prepareManip("UPDATE il_cert_template SET certificate_content_bu = ?, certificate_content = ?, certificate_hash = ? WHERE id = ?", ['clob', 'text', 'integer']);
+$updateStatement = $ilDB->prepareManip("UPDATE il_cert_template SET certificate_content = ?, certificate_hash = ? WHERE id = ?", ['clob', 'text', 'integer']);
 while ($row = $ilDB->fetchAssoc($res)) {
-    $old_content = $row['certificate_content'];
     $row['certificate_content'] = preg_replace(
         '/src="url\((.*?)\/certificates\/(.*?)\)"/',
         'src="url([BACKGROUND_IMAGE])"',
@@ -4100,7 +4101,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
         'sha256',
         $row['certificate_content'].$row['background_image_path'].$row['template_values'].$row['thumbnail_image_path']
     );
-    $ilDB->execute($updateStatement,[$old_content, $row['certificate_content'], $row['certificate_hash'], $row['id']]);
+    $ilDB->execute($updateStatement,[$row['certificate_content'], $row['certificate_hash'], $row['id']]);
 }
 
 $res = $ilDB->query("SELECT * FROM il_cert_user_cert WHERE certificate_content NOT LIKE '%[BACKGROUND_IMAGE]%'");
@@ -4111,7 +4112,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
         'src="url([BACKGROUND_IMAGE])"',
         $row['certificate_content']
     );
-    $ilDB->execute($updateStatement,[$row['certificate_content'],$row['id']]);
+    $ilDB->execute($updateStatement,[$row['certificate_content'], $row['id']]);
 }
 ?>
 <#5649>
