@@ -7,18 +7,21 @@ namespace ILIAS\Setup;
 /**
  * Signals that a necessary confirmation from the admin is missing.
  */
-class NoConfirmationException extends \RuntimeException {
-	/**
-	 * @var string
-	 */
-	protected $confirmation;
+class NoConfirmationException extends \RuntimeException
+{
+    /**
+     * @var string
+     */
+    protected $confirmation;
 
-	public function __construct(string $confirmation, ...$rest) {
-		parent::__construct(...$rest);
-		$this->confirmation = $confirmation;
-	}
+    public function __construct(string $confirmation, ...$rest)
+    {
+        parent::__construct(...$rest);
+        $this->confirmation = $confirmation;
+    }
 
-	public function getRequestedConfirmation() {
-		return $this->confirmation;
-	}
+    public function getRequestedConfirmation()
+    {
+        return $this->confirmation;
+    }
 }

@@ -4,15 +4,16 @@
 
 namespace ILIAS\Setup;
 
-class PHPExtensionLoadedCondition extends ExternalConditionObjective {
-	public function __construct($which) {
-		return parent::__construct(
-			"PHP extension \"$which\" loaded",
-
-			function(Environment $env) use ($which): bool {
-				return in_array($which, get_loaded_extensions());
-			},
-			"ILIAS 6 requires the PHP extension $which."
-		);
-	}
+class PHPExtensionLoadedCondition extends ExternalConditionObjective
+{
+    public function __construct($which)
+    {
+        return parent::__construct(
+            "PHP extension \"$which\" loaded",
+            function (Environment $env) use ($which) : bool {
+                return in_array($which, get_loaded_extensions());
+            },
+            "ILIAS 6 requires the PHP extension $which."
+        );
+    }
 }

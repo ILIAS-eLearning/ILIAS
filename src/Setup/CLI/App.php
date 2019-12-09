@@ -11,13 +11,15 @@ use Symfony\Component\Console\Command\Command;
  *
  * TODO: Add some metainformation to the app, such as name.
  */
-class App extends Application {
-	const NAME = "The ILIAS Setup";
+class App extends Application
+{
+    const NAME = "The ILIAS Setup";
 
-	public function __construct(Command ...$commands) {
-		parent::__construct(self::NAME);
-		foreach ($commands as $c) {
-			$this->add($c);	
-		}
-	}
+    public function __construct(Command ...$commands)
+    {
+        parent::__construct(self::NAME);
+        foreach ($commands as $c) {
+            $this->add($c);
+        }
+    }
 }
