@@ -146,21 +146,23 @@ class ilStudyProgrammeAssignment
 	 * @throws ilException
 	 * @return $this
 	 */
-	public function setLastChangeBy(int $assingned_by_id) : ilStudyProgrammeAssignment
+	public function setLastChangeBy(int $assigned_by_id) : ilStudyProgrammeAssignment
 	{
-
-		if (ilObject::_lookupType($assingned_by_id) != "usr" &&
-			! in_array($assingned_by_id, [
-				self::AUTO_ASSIGNED_BY_ROLE,
-				self::AUTO_ASSIGNED_BY_ORGU,
-				self::AUTO_ASSIGNED_BY_COURSE,
-				self::AUTO_ASSIGNED_BY_GROUP
-			])
-		) {
-			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assingned_by_id' "
+		$auto_assignment = [
+			self::AUTO_ASSIGNED_BY_ROLE,
+			self::AUTO_ASSIGNED_BY_ORGU,
+			self::AUTO_ASSIGNED_BY_COURSE,
+			self::AUTO_ASSIGNED_BY_GROUP
+		];
+		$is_auto_assignment = in_array($assigned_by_id, $auto_assignment);
+		$exists = ilObject::_exists($assigned_by_id);
+		$is_usr = ilObject::_lookupType($assigned_by_id) == "usr";
+		if (!$is_auto_assignment && ($exists && !$is_usr)) {
+			throw new ilException("ilStudyProgrammeAssignment::setLastChangeBy: '$assigned_by_id' "
 								 ."is neither a user's id nor a valid membership source.");
 		}
-		$this->last_change_by = $assingned_by_id;
+
+		$this->last_change_by = $assigned_by_id;
 		return $this;
 	}
 
