@@ -10,8 +10,8 @@ declare(strict_types = 1);
  */
 interface ilStudyProgrammeMembershipSourceReader
 {
-	/**
-	 * @return int[]
-	 */
-	public function getMemberIds(): array;
+    /**
+     * @return int[]
+     */
+    public function getMemberIds() : array;
 }

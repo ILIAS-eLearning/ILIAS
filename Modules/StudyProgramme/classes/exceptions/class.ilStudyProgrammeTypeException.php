@@ -6,5 +6,6 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
 /**
  * Exception is thrown when errors occurs relating the subtype implementation
  */
-class ilStudyProgrammeTypeException extends ilException {
+class ilStudyProgrammeTypeException extends ilException
+{
 }

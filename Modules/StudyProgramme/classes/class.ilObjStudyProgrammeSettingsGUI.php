@@ -28,9 +28,9 @@ class ilObjStudyProgrammeSettingsGUI
     const PROP_ACCESS_CONTROL_BY_ORGU_POSITION = "access_ctr_by_orgu_position";
     const PROP_CRON_JOB_PRG_NOT_RESTARTED = "prg_not_restarted_by_user";
     const PROP_CRON_JOB_PROCESSING_ENDS_NOT_SUCCESSFUL = "prg_processing_ends_not_successful";
-	const PROP_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
-	const PROP_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
-	const PROP_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
+    const PROP_SEND_RE_ASSIGNED_MAIL = "send_re_assigned_mail";
+    const PROP_SEND_INFO_TO_RE_ASSIGN_MAIL = "send_info_to_re_assign_mail";
+    const PROP_SEND_RISKY_TO_FAIL_MAIL = "send_risky_to_fail_mail";
 
     const OPT_NO_DEADLINE = 'opt_no_deadline';
     const OPT_DEADLINE_PERIOD = "opt_deadline_period";
@@ -236,13 +236,12 @@ class ilObjStudyProgrammeSettingsGUI
         } else {
             $this->tmp_heading = "<div class=''>" . $label . "</div>";
         }
-
     }
 
     protected function buildForm(
         \ilObjStudyProgramme $prg,
         string $submit_action
-    ): ILIAS\UI\Component\Input\Container\Form\Form {
+    ) : ILIAS\UI\Component\Input\Container\Form\Form {
         $trans = $prg->getObjectTranslation();
         $ff = $this->input_factory->field();
         $sp_types = $this->type_repository->readAllTypesArray();
@@ -278,7 +277,7 @@ class ilObjStudyProgrammeSettingsGUI
                             $prg->setDeadlineDate(null);
                             break;
                         case self::OPT_DEADLINE_PERIOD:
-                            $prg->setDeadlinePeriod((int)array_shift($deadline_data[1]));
+                            $prg->setDeadlinePeriod((int) array_shift($deadline_data[1]));
                             break;
                         case self::OPT_DEADLINE_DATE:
                             $prg->setDeadlineDate(\DateTime::createFromFormat('d.m.Y', array_shift($deadline_data[1])));
@@ -293,7 +292,7 @@ class ilObjStudyProgrammeSettingsGUI
                             $prg->setValidityOfQualificationDate(null);
                             break;
                         case self::OPT_VALIDITY_OF_QUALIFICATION_PERIOD:
-                            $prg->setValidityOfQualificationPeriod((int)array_shift($vq_data[1]));
+                            $prg->setValidityOfQualificationPeriod((int) array_shift($vq_data[1]));
                             break;
                         case self::OPT_VALIDITY_OF_QUALIFICATION_DATE:
                             $prg->setValidityOfQualificationDate(\DateTime::createFromFormat('d.m.Y', array_shift($vq_data[1])));
@@ -306,24 +305,24 @@ class ilObjStudyProgrammeSettingsGUI
                             $prg->setRestartPeriod(ilStudyProgrammeSettings::NO_RESTART);
                             break;
                         case self::OPT_RESTART_PERIOD:
-                            $prg->setRestartPeriod((int)array_shift($restart_data[1]));
+                            $prg->setRestartPeriod((int) array_shift($restart_data[1]));
                             break;
                     }
 
-					$send_re_assigned_mail = $values[5][self::PROP_SEND_RE_ASSIGNED_MAIL];
-					$send_info_to_re_assign_mail = !is_null($values[5][self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL]);
-					if ($send_info_to_re_assign_mail) {
-						$prg_not_restarted_by_user_days = $values[5][self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL][0];
-						$prg->setReminderNotRestartedByUserDays($prg_not_restarted_by_user_days);
-					}
-					$send_risky_to_fail_mail = !is_null($values[5][self::PROP_SEND_RISKY_TO_FAIL_MAIL]);
-					if ($send_risky_to_fail_mail) {
-	                    $prg_processing_ends_not_successful_days = $values[5][self::PROP_SEND_RISKY_TO_FAIL_MAIL][0];
-						$prg->setProcessingEndsNotSuccessfulDays($prg_processing_ends_not_successful_days);
-					}
-					$prg->setSendReAssignedMail($send_re_assigned_mail);
-					$prg->setSendInfoToReAssignMail($send_info_to_re_assign_mail);
-					$prg->setSendRiskyToFailMail($send_risky_to_fail_mail);
+                    $send_re_assigned_mail = $values[5][self::PROP_SEND_RE_ASSIGNED_MAIL];
+                    $send_info_to_re_assign_mail = !is_null($values[5][self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL]);
+                    if ($send_info_to_re_assign_mail) {
+                        $prg_not_restarted_by_user_days = $values[5][self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL][0];
+                        $prg->setReminderNotRestartedByUserDays($prg_not_restarted_by_user_days);
+                    }
+                    $send_risky_to_fail_mail = !is_null($values[5][self::PROP_SEND_RISKY_TO_FAIL_MAIL]);
+                    if ($send_risky_to_fail_mail) {
+                        $prg_processing_ends_not_successful_days = $values[5][self::PROP_SEND_RISKY_TO_FAIL_MAIL][0];
+                        $prg->setProcessingEndsNotSuccessfulDays($prg_processing_ends_not_successful_days);
+                    }
+                    $prg->setSendReAssignedMail($send_re_assigned_mail);
+                    $prg->setSendInfoToReAssignMail($send_info_to_re_assign_mail);
+                    $prg->setSendRiskyToFailMail($send_risky_to_fail_mail);
 
                     if (array_key_exists(6, $values)) {
                         $prg->setAccessControlByOrguPositions(
@@ -341,7 +340,7 @@ class ilObjStudyProgrammeSettingsGUI
         ilObjectTranslation $trans,
         array $sp_types,
         ilObjStudyProgramme $prg
-    ): array {
+    ) : array {
         $languages = ilMDLanguageItem::_getLanguages();
         $return = [
             $ff->section(
@@ -378,11 +377,11 @@ class ilObjStudyProgrammeSettingsGUI
                 [
                     self::PROP_POINTS =>
                         $ff->numeric($this->txt("prg_points"))
-                            ->withValue((string)$prg->getPoints())
+                            ->withValue((string) $prg->getPoints())
                             ->withAdditionalTransformation($this->refinery_factory->int()->isGreaterThan(-1)),
                     self::PROP_STATUS =>
                         $ff->select($this->txt("prg_status"), $this->getStatusOptions())
-                            ->withValue((string)$prg->getStatus())
+                            ->withValue((string) $prg->getStatus())
                             ->withRequired(true)
                 ],
                 $this->txt("prg_assessment"),
@@ -429,13 +428,11 @@ class ilObjStudyProgrammeSettingsGUI
     protected function getAccessControlByOrguPositionsForm(
         InputFieldFactory $ff,
         ilObjStudyProgramme $prg
-    )
-    {
+    ) {
         $checkbox = $ff->checkbox($this->txt("prg_status"), '');
         return $prg->getAccessControlByOrguPositions() ?
             $checkbox->withValue(true) :
             $checkbox->withValue(false);
-
     }
 
 
@@ -526,7 +523,7 @@ class ilObjStudyProgrammeSettingsGUI
             ->withAdditionalTransformation(
                 $this->refinery_factory->int()->isGreaterThan(-1)
             )
-			->withRequired(true)
+            ->withRequired(true)
         ;
 
         $prg_processing_ends_no_success_input =
@@ -536,40 +533,40 @@ class ilObjStudyProgrammeSettingsGUI
         ;
 
         $send_re_assigned_mail = $ff->checkbox(
-				$this->txt("send_re_assigned_mail"),
-				$this->txt('send_re_assigned_mail_info')
-			)
-			->withValue($prg->shouldSendReAssignedMail())
-		;
-		$send_info_to_re_assign_mail = $ff->optionalGroup(
-				[ $prg_not_restarted_input
-				],
-				$this->txt("send_info_to_re_assign_mail"),
-				$this->txt("send_info_to_re_assign_mail_info")
-			)
-			->withValue(
-				$prg->shouldSendInfoToReAssignMail()
-					? [(int)$prg->getReminderNotRestartedByUserDays()]
-					: null
-			)
-		;
-		$send_risky_to_fail_mail = $ff->optionalGroup(
-				[ $prg_processing_ends_no_success_input
-				],
-				$this->txt("send_risky_to_fail_mail"),
-				$this->txt("send_risky_to_fail_mail_info")
-			)
-			->withValue(
-				$prg->shouldSendRiskyToFailMail()
-					? [(int)$prg->getProcessingEndsNotSuccessfulDays()]
-					: null
-			)
-		;
+            $this->txt("send_re_assigned_mail"),
+            $this->txt('send_re_assigned_mail_info')
+            )
+            ->withValue($prg->shouldSendReAssignedMail())
+        ;
+        $send_info_to_re_assign_mail = $ff->optionalGroup(
+            [ $prg_not_restarted_input
+                ],
+            $this->txt("send_info_to_re_assign_mail"),
+            $this->txt("send_info_to_re_assign_mail_info")
+            )
+            ->withValue(
+                $prg->shouldSendInfoToReAssignMail()
+                    ? [(int) $prg->getReminderNotRestartedByUserDays()]
+                    : null
+            )
+        ;
+        $send_risky_to_fail_mail = $ff->optionalGroup(
+            [ $prg_processing_ends_no_success_input
+                ],
+            $this->txt("send_risky_to_fail_mail"),
+            $this->txt("send_risky_to_fail_mail_info")
+            )
+            ->withValue(
+                $prg->shouldSendRiskyToFailMail()
+                    ? [(int) $prg->getProcessingEndsNotSuccessfulDays()]
+                    : null
+            )
+        ;
 
         return [
-			self::PROP_SEND_RE_ASSIGNED_MAIL => $send_re_assigned_mail,
-			self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL => $send_info_to_re_assign_mail,
-			self::PROP_SEND_RISKY_TO_FAIL_MAIL => $send_risky_to_fail_mail,
+            self::PROP_SEND_RE_ASSIGNED_MAIL => $send_re_assigned_mail,
+            self::PROP_SEND_INFO_TO_RE_ASSIGN_MAIL => $send_info_to_re_assign_mail,
+            self::PROP_SEND_RISKY_TO_FAIL_MAIL => $send_risky_to_fail_mail,
         ];
     }
 
@@ -600,7 +597,7 @@ class ilObjStudyProgrammeSettingsGUI
         return $sg->withValue($option);
     }
 
-    protected function getObject(): ilObjStudyProgramme
+    protected function getObject() : ilObjStudyProgramme
     {
         if ($this->object === null) {
             $this->object = ilObjStudyProgramme::getInstanceByRefId($this->ref_id);
@@ -608,7 +605,7 @@ class ilObjStudyProgrammeSettingsGUI
         return $this->object;
     }
 
-    protected function getStatusOptions(): array
+    protected function getStatusOptions() : array
     {
         return [
             ilStudyProgrammeSettings::STATUS_DRAFT => $this->lng->txt("prg_status_draft"),
@@ -617,7 +614,7 @@ class ilObjStudyProgrammeSettingsGUI
         ];
     }
 
-    protected function txt(string $code): string
+    protected function txt(string $code) : string
     {
         return $this->lng->txt($code);
     }

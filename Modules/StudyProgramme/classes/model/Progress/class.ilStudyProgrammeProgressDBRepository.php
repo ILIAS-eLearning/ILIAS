@@ -96,7 +96,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      *
      * @return ilStudyProgrammeProgress | void
      */
-    public function readByPrgIdAndAssignmentId(int $prg_id, int $assignment_id) {
+    public function readByPrgIdAndAssignmentId(int $prg_id, int $assignment_id)
+    {
         $rows = $this->loadByFilter(
             [
                 self::FIELD_PRG_ID => $prg_id,
@@ -352,14 +353,14 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      */
     protected function buildByRow(array $row) : ilStudyProgrammeProgress
     {
-        $prgrs = (new ilStudyProgrammeProgress((int)$row[self::FIELD_ID]))
-            ->setAssignmentId((int)$row[self::FIELD_ASSIGNMENT_ID])
-            ->setNodeId((int)$row[self::FIELD_PRG_ID])
-            ->setUserId((int)$row[self::FIELD_USR_ID])
-            ->setStatus((int)$row[self::FIELD_STATUS])
-            ->setAmountOfPoints((int)$row[self::FIELD_POINTS])
-            ->setCurrentAmountOfPoints((int)$row[self::FIELD_POINTS_CUR])
-            ->setCompletionBy((int)$row[self::FIELD_COMPLETION_BY])
+        $prgrs = (new ilStudyProgrammeProgress((int) $row[self::FIELD_ID]))
+            ->setAssignmentId((int) $row[self::FIELD_ASSIGNMENT_ID])
+            ->setNodeId((int) $row[self::FIELD_PRG_ID])
+            ->setUserId((int) $row[self::FIELD_USR_ID])
+            ->setStatus((int) $row[self::FIELD_STATUS])
+            ->setAmountOfPoints((int) $row[self::FIELD_POINTS])
+            ->setCurrentAmountOfPoints((int) $row[self::FIELD_POINTS_CUR])
+            ->setCompletionBy((int) $row[self::FIELD_COMPLETION_BY])
             ->setDeadline(
                 $row[self::FIELD_DEADLINE] ?
                     DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_FORMAT, $row[self::FIELD_DEADLINE]) :
@@ -383,11 +384,10 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
                     DateTime::createFromFormat(ilStudyProgrammeProgress::DATE_TIME_FORMAT, $row[self::FIELD_VQ_DATE]) :
                     null
             );
-        if ((int)$row[self::FIELD_INVALIDATED] === 1) {
+        if ((int) $row[self::FIELD_INVALIDATED] === 1) {
             $prgrs = $prgrs->invalidate();
         }
         return $prgrs;
-
     }
 
     protected function loadByFilter(array $filter)
@@ -418,8 +418,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_VQ_DATE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_VQ_DATE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT)
-                , 'text'
+                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                'text'
             )
             . '    AND ' . self::FIELD_INVALIDATED . ' != 1 OR ' . self::FIELD_INVALIDATED . ' IS NULL';
 
@@ -444,8 +444,8 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
             . '     AND ' . self::FIELD_DEADLINE . ' IS NOT NULL'
             . '     AND DATE(' . self::FIELD_DEADLINE . ') < '
             . $this->db->quote(
-                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT)
-                , 'text'
+                (new DateTime())->format(ilStudyProgrammeProgress::DATE_FORMAT),
+                'text'
             )
             . '    AND ' . self::FIELD_MAIL_SEND . ' IS NULL'
         ;
@@ -477,6 +477,6 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
 
     protected function nextId() : int
     {
-        return (int)$this->db->nextId(self::TABLE);
+        return (int) $this->db->nextId(self::TABLE);
     }
 }

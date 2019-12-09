@@ -8,7 +8,7 @@ class ilStudyProgrammeDIC
 {
     public static $dic;
 
-    public static function dic(): Container
+    public static function dic() : Container
     {
         if (!self::$dic) {
             self::$dic = self::buildDIC();
@@ -16,7 +16,7 @@ class ilStudyProgrammeDIC
         return self::$dic;
     }
 
-    protected static function buildDIC(): Container
+    protected static function buildDIC() : Container
     {
         global $DIC;
         $dic = new Container();
@@ -42,7 +42,7 @@ class ilStudyProgrammeDIC
         $dic['model.AutoMemberships.ilStudyProgrammeAutoMembershipsRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeAutoMembershipsDBRepository(
                 $DIC['ilDB'],
-                (int)$DIC['ilUser']->getId()
+                (int) $DIC['ilUser']->getId()
             );
         };
         $dic['model.AutoMemberships.ilStudyProgrammeMembershipSourceReaderFactory'] = function ($dic) use ($DIC) {
@@ -62,7 +62,7 @@ class ilStudyProgrammeDIC
         $dic['model.AutoCategories.ilStudyProgrammeAutoCategoriesRepository'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeAutoCategoryDBRepository(
                 $DIC['ilDB'],
-                (int)$DIC['ilUser']->getId()
+                (int) $DIC['ilUser']->getId()
             );
         };
 
@@ -190,34 +190,34 @@ class ilStudyProgrammeDIC
                 $DIC['ilAccess']
             );
         };
-		$dic['ilStudyProgrammeChangeExpireDateGUI'] = function($dic) use ($DIC) {
-			return new ilStudyProgrammeChangeExpireDateGUI(
-				$DIC['ilCtrl'],
-				$DIC['tpl'],
-				$DIC['lng'],
-				$DIC['ilAccess'],
-				$DIC['ilUser'],
-				$DIC->ui()->factory()->input(),
-				$DIC->ui()->renderer(),
-				$DIC->http()->request(),
-				$DIC->refinery(),
-				$dic['DataFactory']
-			);
-		};
-		$dic['ilStudyProgrammeChangeDeadlineGUI'] = function($dic) use ($DIC) {
-			return new ilStudyProgrammeChangeDeadlineGUI(
-				$DIC['ilCtrl'],
-				$DIC['tpl'],
-				$DIC['lng'],
-				$DIC['ilAccess'],
-				$DIC['ilUser'],
-				$DIC->ui()->factory()->input(),
-				$DIC->ui()->renderer(),
-				$DIC->http()->request(),
-				$DIC->refinery(),
-				$dic['DataFactory']
-			);
-		};
+        $dic['ilStudyProgrammeChangeExpireDateGUI'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeChangeExpireDateGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC['ilAccess'],
+                $DIC['ilUser'],
+                $DIC->ui()->factory()->input(),
+                $DIC->ui()->renderer(),
+                $DIC->http()->request(),
+                $DIC->refinery(),
+                $dic['DataFactory']
+            );
+        };
+        $dic['ilStudyProgrammeChangeDeadlineGUI'] = function ($dic) use ($DIC) {
+            return new ilStudyProgrammeChangeDeadlineGUI(
+                $DIC['ilCtrl'],
+                $DIC['tpl'],
+                $DIC['lng'],
+                $DIC['ilAccess'],
+                $DIC['ilUser'],
+                $DIC->ui()->factory()->input(),
+                $DIC->ui()->renderer(),
+                $DIC->http()->request(),
+                $DIC->refinery(),
+                $dic['DataFactory']
+            );
+        };
         $dic['ilStudyProgrammeDashboardViewGUI'] = function ($dic) use ($DIC) {
             return new ilStudyProgrammeDashboardViewGUI(
                 $DIC['lng'],

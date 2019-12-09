@@ -14,13 +14,13 @@ interface ilStudyProgrammeProgressRepository
     public function createFor(
         ilStudyProgrammeSettings $prg,
         ilStudyProgrammeAssignment $ass
-    ): ilStudyProgrammeProgress;
+    ) : ilStudyProgrammeProgress;
 
     /**
      * Load progress belonging to a id.
      * Will throw if the record does not exist yet.
      */
-    public function read(int $id): ilStudyProgrammeProgress;
+    public function read(int $id) : ilStudyProgrammeProgress;
 
     /**
      * Load progress belonging to a prg id and assignment.
@@ -30,7 +30,7 @@ interface ilStudyProgrammeProgressRepository
         int $prg_id,
         int $assignment_id,
         int $usr_id
-    ): ilStudyProgrammeProgress;
+    ) : ilStudyProgrammeProgress;
 
     /**
      * Load progress belonging to a prg id and assignment.
@@ -66,7 +66,7 @@ interface ilStudyProgrammeProgressRepository
      * Load all progress objects which are successfull and whose
      * validity is expired.
      */
-    public function readExpiredSuccessfull(): array;
+    public function readExpiredSuccessfull() : array;
 
     public function readRiskyToFailInstances() : array;
 
