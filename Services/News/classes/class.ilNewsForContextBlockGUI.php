@@ -1426,6 +1426,17 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 			->withProperties($props);
 	}
 
+	/**
+	 * No item entry
+	 *
+	 * @return string
+	 */
+	protected function getNoItemFoundContent(): string
+	{
+		return $this->lng->txt("news_no_news_items");
+	}
+
+
 }
 
 ?>
