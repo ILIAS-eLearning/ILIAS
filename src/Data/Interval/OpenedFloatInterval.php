@@ -12,65 +12,65 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class OpenedFloatInterval
 {
-	/**
-	 * @var OpenedFloatInterval
-	 */
-	private $minimum;
+    /**
+     * @var OpenedFloatInterval
+     */
+    private $minimum;
 
-	/**
-	 * @var OpenedFloatInterval
-	 */
-	private $maximum;
+    /**
+     * @var OpenedFloatInterval
+     */
+    private $maximum;
 
-	/**
-	 * @param float $minimum
-	 * @param float $maximum
-	 * @throws ConstraintViolationException
-	 */
-	public function __construct(float $minimum, float $maximum)
-	{
-		if ($maximum < $minimum) {
-			throw new ConstraintViolationException(
-				sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
-				'exception_maximum_minimum_mismatch',
-				$maximum,
-				$minimum
-			);
-		}
+    /**
+     * @param float $minimum
+     * @param float $maximum
+     * @throws ConstraintViolationException
+     */
+    public function __construct(float $minimum, float $maximum)
+    {
+        if ($maximum < $minimum) {
+            throw new ConstraintViolationException(
+                sprintf('The maximum("%s") can NOT be lower than the minimum("%s")', $maximum, $minimum),
+                'exception_maximum_minimum_mismatch',
+                $maximum,
+                $minimum
+            );
+        }
 
-		$this->minimum = $minimum;
-		$this->maximum = $maximum;
-	}
+        $this->minimum = $minimum;
+        $this->maximum = $maximum;
+    }
 
-	/**
-	 * @param float $numberToCheck
-	 * @return bool
-	 */
-	public function spans(float $numberToCheck) : bool
-	{
-		if ($numberToCheck < $this->minimum) {
-			return false;
-		} elseif ($numberToCheck > $this->maximum) {
-			return false;
-		}
+    /**
+     * @param float $numberToCheck
+     * @return bool
+     */
+    public function spans(float $numberToCheck) : bool
+    {
+        if ($numberToCheck < $this->minimum) {
+            return false;
+        } elseif ($numberToCheck > $this->maximum) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 
-	/**
-	 * @return float
-	 */
-	public function minimum() : float
-	{
-		return $this->minimum;
-	}
+    /**
+     * @return float
+     */
+    public function minimum() : float
+    {
+        return $this->minimum;
+    }
 
-	/**
-	 * @return float
-	 */
-	public function maximum() : float
-	{
-		return $this->maximum;
-	}
+    /**
+     * @return float
+     */
+    public function maximum() : float
+    {
+        return $this->maximum;
+    }
 }
