@@ -25,7 +25,6 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\File\Sanitation\DownloadSanitationReportUserInteraction;
 use ILIAS\File\Sanitation\SanitationReportJob;
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 /**
  * Class ilObjFileAccessSettingsGUI
@@ -99,21 +98,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret =& $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilfmsettingsgui':
                 $this->tabs_gui->setTabActive('fm_settings_tab');
-                include_once './Services/WebServices/FileManager/classes/class.ilFMSettingsGUI.php';
                 $fmg = new ilFMSettingsGUI($this);
                 $this->ctrl->forwardCommand($fmg);
                 break;
 
             case 'ilwebdavmountinstructionsuploadgui':
-                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php';
-                include_once './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsTableDataProvider.php';
                 $document_gui = new ilWebDAVMountInstructionsUploadGUI(
                         $this->object,
                         $this->tpl,
@@ -450,8 +445,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
 
-        include_once("./Services/COPage/classes/class.ilPageEditorSettings.php");
-
         $ilTabs->addSubTabTarget("settings", $ilCtrl->getLinkTarget($this, "editDiskQuotaSettings"), array("editDiskQuotaSettings"));
 
         if (ilDiskQuotaActivationChecker::_isActive()) {
@@ -577,7 +570,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $select_usage_filter = ilUtil::formSelect($_SESSION['quota_usage_filter'], "usage_filter", $usage_action, false, true);
         $select_access_filter = ilUtil::formSelect($_SESSION['quota_access_filter'], "access_filter", $access_action, false, true);
 
-        $this->tpl->setCurrentBlock("filter");
+        $this->tpl->setCurrentBlock("filter_section");
         $this->tpl->setVariable("FILTER_TXT_FILTER", $lng->txt('filter'));
         $this->tpl->setVariable("SELECT_USAGE_FILTER", $select_usage_filter);
         $this->tpl->setVariable("SELECT_ACCESS_FILTER", $select_access_filter);
@@ -593,6 +586,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         // create table
         require_once './Services/Table/classes/class.ilTableGUI.php';
         $tbl = new ilTableGUI(0, false);
+        $tbl->setTitle('');
 
         // title & header columns
         $header_vars = array('login', 'firstname', 'lastname', 'email', 'access_until', 'last_login', 'disk_quota', 'disk_usage', 'last_reminder');
@@ -691,25 +685,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                     default :
                         $tbl_content_cell = htmlspecialchars($row[$key]);
                 }
-                /*
-                if (is_array($tbl_content_cell))
-                {
-                    $tbl->tpl->setCurrentBlock("tbl_cell_subtitle");
-                    $tbl->tpl->setVariable("TBL_CELL_SUBTITLE",$tbl_content_cell[1]);
-                    $tbl->tpl->parseCurrentBlock();
-                    $tbl_content_cell = "<b>".$tbl_content_cell[0]."</b>";
-                }*/
 
-                $tbl->tpl->setCurrentBlock("tbl_content_cell");
-                $tbl->tpl->setVariable("TBL_CONTENT_CELL", $tbl_content_cell);
+                $tbl->getTemplateObject()->setCurrentBlock("tbl_content_cell");
+                $tbl->getTemplateObject()->setVariable("TBL_CONTENT_CELL", $tbl_content_cell);
 
-                $tbl->tpl->parseCurrentBlock();
+                $tbl->getTemplateObject()->parseCurrentBlock();
             }
 
-            $tbl->tpl->setCurrentBlock("tbl_content_row");
+            $tbl->getTemplateObject()->setCurrentBlock("tbl_content_row");
             $rowcolor = ilUtil::switchColor($count, "tblrow1", "tblrow2");
-            $tbl->tpl->setVariable("ROWCOLOR", $rowcolor);
-            $tbl->tpl->parseCurrentBlock();
+            $tbl->getTemplateObject()->setVariable("ROWCOLOR", $rowcolor);
+            $tbl->getTemplateObject()->parseCurrentBlock();
 
             $count++;
         }
@@ -728,7 +714,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $lng->loadLanguageModule("meta");
         $lng->loadLanguageModule("mail");
 
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
 
@@ -814,7 +799,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $tpl->setVariable("TXT_ILIAS_URL", $lng->txt("mail_nacc_ilias_url"));
         $tpl->setVariable("TXT_CLIENT_NAME", $lng->txt("mail_nacc_client_name"));
 
-        include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
         $legend = ilPanelGUI::getInstance();
         $legend->setHeadingStyle(ilPanelGUI::HEADING_STYLE_BLOCK);
         $legend->setHeading($lng->txt("mail_nacc_use_placeholder"));
@@ -888,8 +872,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $num_prop->setValue(ilFileUploadSettings::getConcurrentUploads());
         $num_prop->setInfo($lng->txt('concurrent_uploads_info'));
         $chk_enabled->addSubItem($num_prop);
-
-        include_once("./Services/Utilities/classes/class.ilFileUtils.php");
 
         // default white list
         $ne = new ilNonEditableValueGUI($this->lng->txt("file_suffix_default_white"), "");
@@ -1067,7 +1049,6 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
 
         // set warning if ghostscript not installed
-        include_once("./Services/Preview/classes/class.ilGhostscriptRenderer.php");
         if (!ilGhostscriptRenderer::isGhostscriptInstalled()) {
             ilUtil::sendInfo($lng->txt("ghostscript_not_configured"));
         }

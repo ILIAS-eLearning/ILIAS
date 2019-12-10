@@ -35,7 +35,7 @@ class ilAdministrationSettingsFormHandler
     const SETTINGS_FORUM                = "frma";
     const SETTINGS_LRES                 = "lrss";
     const SETTINGS_REPOSITORY           = "reps";
-    const SETTINGS_PD                   = "dshs";
+    const SETTINGS_PR                   = "prss";
     const SETTINGS_COURSE               = "crss";
     const SETTINGS_GROUP                = "grps";
     const SETTINGS_PRIVACY_SECURITY     = "ps";
@@ -107,7 +107,7 @@ class ilAdministrationSettingsFormHandler
                 break;
             
             case self::FORM_FILES_QUOTA:
-                $types = array(self::SETTINGS_PD);
+                $types = array(self::SETTINGS_PR);
                 break;
             
             case self::FORM_LP:
