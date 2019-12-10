@@ -2288,6 +2288,9 @@ class ilObjWikiGUI extends ilObjectGUI
      */
     protected function triggerAssignmentTool()
     {
+        if (!is_object($this->object)) {
+            return;
+        }
         $ass_info = ilExcRepoObjAssignment::getInstance()->getAssignmentInfoOfObj($this->object->getRefId(),
             $this->user->getId());
         if (count($ass_info) > 0) {
