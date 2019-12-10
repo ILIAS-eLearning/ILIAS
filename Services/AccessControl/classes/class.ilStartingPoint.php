@@ -363,20 +363,14 @@ class ilStartingPoint
 	 */
 	public static function reArrangePositions($a_items)
 	{
-		//first and last items doesn't have order position, are fixed.
-		$ord_const = 10;
+		$ord_const = 0;
+		$rearranged = [];
 		foreach ($a_items as $k => $v) {
-			if($k > 0)
-			{
-				$item = $v;
-				$item['starting_position'] = $ord_const;
-				unset($a_items[$k]);
-				$a_items[$ord_const] = $item;
+				$v['starting_position'] = $ord_const;
+				$rearranged[$ord_const] = $v;
 				$ord_const = $ord_const + 10;
-			}
 		}
-
-		return $a_items;
+		return $rearranged;
 	}
 
 	/**
