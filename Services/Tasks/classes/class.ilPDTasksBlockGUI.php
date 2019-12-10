@@ -294,6 +294,16 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 			->withProperties($props);
 	}
 
+	/**
+	 * No item entry
+	 *
+	 * @return string
+	 */
+	protected function getNoItemFoundContent(): string
+	{
+		return $this->lng->txt("task_no_task_items");
+	}
+
 }
 
 ?>

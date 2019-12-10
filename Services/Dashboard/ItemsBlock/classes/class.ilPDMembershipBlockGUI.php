@@ -37,4 +37,16 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
+
+    /**
+     * No item entry
+     *
+     * @return string
+     */
+    protected function getNoItemFoundContent(): string
+    {
+        $txt = $this->lng->txt("rep_mo_mem_dash");
+        return $txt;
+    }
+
 }

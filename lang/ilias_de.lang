@@ -7730,7 +7730,7 @@ news#:#news_news_item_visibility#:#Zugriff
 news#:#news_news_item_visibility_info#:#Öffentliche Neuigkeiten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
 news#:#news_news_items#:#Neuigkeit(en)
 news#:#news_no_js_click_here#:#Werden die Neuigkeiten nicht angezeigt, klicken Sie bitte hier.
-news#:#news_no_news_items#:#Keine Neuigkeiten vorhanden.
+news#:#news_no_news_items#:#Es sind keine Neuigkeiten für Sie vorhanden.
 news#:#news_notifications#:#Benachrichtigungen
 news#:#news_notifications_public#:#Öffentliche Benachrichtigungen
 news#:#news_notifications_public_info#:#Wenn diese Option gewählt wird, können Benachrichtigungen auch außerhalb von ILIAS über den persönlichen Newsfeed empfangen werden. Beachten Sie bitte, dass diese Benachrichtigungen ohne Authentifizierung zugänglich sind.
@@ -16052,3 +16052,8 @@ content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten
 content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
 content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
 dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
+rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
+rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
+rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
+task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
