@@ -9355,6 +9355,10 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky img {
   filter: invert(100%);
 }
+.il-mainbar-triggers .btn-bulky .icon.outlined,
+.il-mainbar-triggers .il-link.link-bulky .icon.outlined {
+  filter: brightness(100);
+}
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover,
 .il-mainbar-triggers .btn-bulky.engaged,
@@ -9367,6 +9371,12 @@ footer {
 .il-mainbar-triggers .btn-bulky.engaged img,
 .il-mainbar-triggers .il-link.link-bulky.engaged img {
   filter: invert(50%);
+}
+.il-mainbar-triggers .btn-bulky:hover .icon.outlined,
+.il-mainbar-triggers .il-link.link-bulky:hover .icon.outlined,
+.il-mainbar-triggers .btn-bulky.engaged .icon.outlined,
+.il-mainbar-triggers .il-link.link-bulky.engaged .icon.outlined {
+  filter: brightness(0);
 }
 .il-mainbar-triggers .btn-bulky:hover .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:hover .bulky-label,
