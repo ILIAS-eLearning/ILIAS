@@ -485,26 +485,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $this->tabs_gui->setTabActive('disk_quota');
         $this->addDiskQuotaSubtabs('settings');
 
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-        require_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioGroupInputGUI.php");
-        require_once("./Services/Form/classes/class.ilRadioOption.php");
-        require_once("./Services/Form/classes/class.ilTextAreaInputGUI.php");
-
         $lng->loadLanguageModule("file");
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("settings"));
 
-        include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA, $form, $this);
 
-        /*
-        // command buttons
-        $form->addCommandButton('saveDiskQuotaSettings', $lng->txt('save'));
-        $form->addCommandButton('editDiskQuotaSettings', $lng->txt('cancel'));
-        */
 
         $tpl->setContent($form->getHTML());
     }
