@@ -41,7 +41,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
         $this->cmd_gui = $cmd_gui_class;
 
         $this->ctrl = (is_null($ctrl))
-            ? $DIC->ctrl
+            ? $DIC->ctrl()
             : $ctrl;
     }
 
