@@ -181,7 +181,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $subfields["comments_noti_recip"] = $f->input()->field()->text(
             $lng->txt("note_comments_notification"),
             $lng->txt("note_comments_notification_info"))
-            ->withValue($setting->get("comments_noti_recip"));
+            ->withValue((string) $setting->get("comments_noti_recip"));
 
         $fields["enable_comments"] = $f->input()->field()->optionalGroup(
             $subfields,
