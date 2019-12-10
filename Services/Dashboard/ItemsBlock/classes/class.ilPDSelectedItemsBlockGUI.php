@@ -59,6 +59,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
      */
     protected $favourites;
 
+    /**
+     * @var ilTree
+     */
+    protected $tree;
+
 	/**
 	 * ilPDSelectedItemsBlockGUI constructor.
 	 */
@@ -74,6 +79,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->http = $DIC->http();
 		$this->objectService = $DIC->object();
         $this->favourites = new ilFavouritesManager();
+        $this->tree = $DIC->repositoryTree();
 
 		parent::__construct();
 
@@ -83,6 +89,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		$this->lng->loadLanguageModule('pd');
 		$this->lng->loadLanguageModule('cntr'); // #14158
+		$this->lng->loadLanguageModule('rep'); // #14158
 
 		$this->setEnableNumInfo(false);
 		$this->setLimit(99999);
@@ -787,5 +794,38 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         return $renderer->render($grouped_items);
     }
+
+    /**
+     * No item entry
+     *
+     * @return string
+     */
+    protected function getNoItemFoundContent(): string
+    {
+        $txt = $this->lng->txt("rep_fav_intro1")."<br>";
+        $txt.= sprintf(
+            $this->lng->txt('rep_fav_intro2'),
+            '<a href="' . ilLink::_getStaticLink(1,'root', true) . '">' . $this->getRepositoryTitle() . '</a>'
+        )."<br>";
+        $txt.= $this->lng->txt("rep_fav_intro3");
+        return $txt;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getRepositoryTitle()
+    {
+        $nd    = $this->tree->getNodeData($this->tree->getRootId());
+        $title = $nd['title'];
+
+        if($title == 'ILIAS')
+        {
+            $title = $this->lng->txt('repository');
+        }
+
+        return $title;
+    }
+
 
 }
