@@ -49,7 +49,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
                 ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilDashboardGUI::class, "toggleHelp"))
                 ->withSymbol($f->symbol()->glyph()->help())
                 ->withTitle($title)
-                ->withPosition(2);
+                ->withPosition(0);
 
             return [$item];
         }
