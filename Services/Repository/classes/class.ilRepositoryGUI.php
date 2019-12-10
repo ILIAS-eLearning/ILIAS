@@ -568,6 +568,8 @@ class ilRepositoryGUI
 	function showRepTree()
 	{
 		$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+		// root node should be skipped, see #26787
+        $exp->setSkipRootNode(true);
 		$exp->handleCommand();
 		exit;
 	}

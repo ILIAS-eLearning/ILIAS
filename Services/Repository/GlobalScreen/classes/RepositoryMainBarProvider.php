@@ -185,6 +185,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
+        $exp->setSkipRootNode(true);
 
         return $exp->getHTML();
     }

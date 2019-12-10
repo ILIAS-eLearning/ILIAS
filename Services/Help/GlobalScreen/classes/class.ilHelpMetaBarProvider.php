@@ -36,6 +36,7 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
         $title = $DIC->language()->txt("help");
 
         if ($this->showHelpItem()) {
+            // position should be 0, see bug #26794
             $item = $mb->topLinkItem($this->getId())
                 // ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
                 //     if ($c instanceof JavaScriptBindable) {
