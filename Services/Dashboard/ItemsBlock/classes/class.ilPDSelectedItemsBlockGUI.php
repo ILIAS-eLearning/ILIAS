@@ -660,7 +660,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 		$this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
 		$groupedItems = $this->blockView->getItemGroups();
-
 		$groupedCommands = $this->getGroupedCommandsForView();
 		foreach ($groupedCommands as $group) {
 			foreach ($group as $command) {
@@ -693,7 +692,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 					continue;
 				}
 			}
-
 			if (count($list_items) > 0) {
 				$item_groups[] = $factory->item()->group($group->getLabel(), $list_items);
 			}
@@ -712,9 +710,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		return $this->tpl->get();
 		*/
-
-		$item_groups[] = $factory->item()->group("", $list_items);
-
+		
 		return $item_groups;
 	}
 
