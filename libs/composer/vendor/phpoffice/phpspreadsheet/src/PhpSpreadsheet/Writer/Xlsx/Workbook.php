@@ -93,7 +93,7 @@ class Workbook extends WriterPart
     {
         $objWriter->startElement('workbookPr');
 
-        if (Date::getExcelCalendar() == Date::CALENDAR_MAC_1904) {
+        if (Date::getExcelCalendar() === Date::CALENDAR_MAC_1904) {
             $objWriter->writeAttribute('date1904', '1');
         }
 
@@ -225,7 +225,7 @@ class Workbook extends WriterPart
             $objWriter->startElement('sheet');
             $objWriter->writeAttribute('name', $pSheetname);
             $objWriter->writeAttribute('sheetId', $pSheetId);
-            if ($sheetState != 'visible' && $sheetState != '') {
+            if ($sheetState !== 'visible' && $sheetState != '') {
                 $objWriter->writeAttribute('state', $sheetState);
             }
             $objWriter->writeAttribute('r:id', 'rId' . $pRelId);
@@ -339,9 +339,7 @@ class Workbook extends WriterPart
             $range = Coordinate::splitRange($autoFilterRange);
             $range = $range[0];
             //    Strip any worksheet ref so we can make the cell ref absolute
-            if (strpos($range[0], '!') !== false) {
-                list($ws, $range[0]) = explode('!', $range[0]);
-            }
+            [$ws, $range[0]] = Worksheet::extractSheetTitle($range[0], true);
 
             $range[0] = Coordinate::absoluteCoordinate($range[0]);
             $range[1] = Coordinate::absoluteCoordinate($range[1]);

@@ -89,11 +89,8 @@ class AutoFilter
      */
     public function setRange($pRange)
     {
-        // Uppercase coordinate
-        $cellAddress = explode('!', strtoupper($pRange));
-        if (count($cellAddress) > 1) {
-            list($worksheet, $pRange) = $cellAddress;
-        }
+        // extract coordinate
+        [$worksheet, $pRange] = Worksheet::extractSheetTitle($pRange, true);
 
         if (strpos($pRange, ':') !== false) {
             $this->range = $pRange;
@@ -108,7 +105,7 @@ class AutoFilter
             $this->columns = [];
         } else {
             //    Discard any column rules that are no longer valid within this range
-            list($rangeStart, $rangeEnd) = Coordinate::rangeBoundaries($this->range);
+            [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($this->range);
             foreach ($this->columns as $key => $value) {
                 $colIndex = Coordinate::columnIndexFromString($key);
                 if (($rangeStart[0] > $colIndex) || ($rangeEnd[0] < $colIndex)) {
@@ -146,7 +143,7 @@ class AutoFilter
         }
 
         $columnIndex = Coordinate::columnIndexFromString($column);
-        list($rangeStart, $rangeEnd) = Coordinate::rangeBoundaries($this->range);
+        [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($this->range);
         if (($rangeStart[0] > $columnIndex) || ($rangeEnd[0] < $columnIndex)) {
             throw new PhpSpreadsheetException('Column is outside of current autofilter range.');
         }
@@ -199,7 +196,7 @@ class AutoFilter
      */
     public function getColumnByOffset($pColumnOffset)
     {
-        list($rangeStart, $rangeEnd) = Coordinate::rangeBoundaries($this->range);
+        [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($this->range);
         $pColumn = Coordinate::stringFromColumnIndex($rangeStart[0] + $pColumnOffset);
 
         return $this->getColumn($pColumn);
@@ -360,7 +357,7 @@ class AutoFilter
     {
         $dataSet = $ruleSet['filterRules'];
         $join = $ruleSet['join'];
-        $customRuleForBlanks = isset($ruleSet['customRuleForBlanks']) ? $ruleSet['customRuleForBlanks'] : false;
+        $customRuleForBlanks = $ruleSet['customRuleForBlanks'] ?? false;
 
         if (!$customRuleForBlanks) {
             //    Blank cells are always ignored, so return a FALSE
@@ -370,6 +367,8 @@ class AutoFilter
         }
         $returnVal = ($join == AutoFilter\Column::AUTOFILTER_COLUMN_JOIN_AND);
         foreach ($dataSet as $rule) {
+            $retVal = false;
+
             if (is_numeric($rule['value'])) {
                 //    Numeric values are tested using the appropriate operator
                 switch ($rule['operator']) {
@@ -622,7 +621,7 @@ class AutoFilter
      */
     public function showHideRows()
     {
-        list($rangeStart, $rangeEnd) = Coordinate::rangeBoundaries($this->range);
+        [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($this->range);
 
         //    The heading row should always be visible
         $this->workSheet->getRowDimension($rangeStart[1])->setVisible(true);
@@ -750,6 +749,8 @@ class AutoFilter
                         } else {
                             //    Date based
                             if ($dynamicRuleType[0] == 'M' || $dynamicRuleType[0] == 'Q') {
+                                $periodType = '';
+                                $period = 0;
                                 //    Month or Quarter
                                 sscanf($dynamicRuleType, '%[A-Z]%d', $periodType, $period);
                                 if ($periodType == 'M') {
