@@ -9082,7 +9082,8 @@ footer {
 .il-maincontrols-slate-content h1,
 .il-maincontrols-slate-content h2,
 .il-maincontrols-slate-content h3,
-.il-maincontrols-slate-content h4 {
+.il-maincontrols-slate-content h4,
+.il-maincontrols-slate-content li {
   padding: 10px 20px;
 }
 .il-maincontrols-slate-close button,
