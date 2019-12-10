@@ -144,8 +144,7 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     protected function buildCheckboxSvgForm()
     {
-        $checkbox_svg = new ilTextInputGUI($this->translate('checkbox_svg'), 'checkbox_svg');
-        return $checkbox_svg;
+        return new ilTextInputGUI($this->translate('checkbox_svg'), 'checkbox_svg');
     }
 
     /**
@@ -153,8 +152,7 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     protected function buildCheckedCheckboxSvgForm()
     {
-        $checkbox_checked_svg = new ilTextInputGUI($this->translate('checkbox_checked_svg'), 'checkbox_checked_svg');
-        return $checkbox_checked_svg;
+        return new ilTextInputGUI($this->translate('checkbox_checked_svg'), 'checkbox_checked_svg');
     }
 
     /**
@@ -162,8 +160,7 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     protected function buildRadiobuttonSvgForm()
     {
-        $radio_button_svg = new ilTextInputGUI($this->translate('radio_button_svg'), 'radio_button_svg');
-        return $radio_button_svg;
+        return new ilTextInputGUI($this->translate('radio_button_svg'), 'radio_button_svg');
     }
 
     /**
@@ -171,12 +168,11 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     protected function buildCheckedRadiobuttonSvgForm()
     {
-        $radio_button_checked_svg = new ilTextInputGUI($this->translate('radio_button_checked_svg'), 'radio_button_checked_svg');
-        return $radio_button_checked_svg;
+        return new ilTextInputGUI($this->translate('radio_button_checked_svg'), 'radio_button_checked_svg');
     }
 
     /**
-     * @return ilCheckboxInputGUI
+     * @return ilTextInputGUI
      */
     protected function buildOverwriteDefaultFont()
     {
@@ -210,8 +206,7 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     protected function buildZoomForm()
     {
-        $zoom = new ilTextInputGUI($this->translate('zoom'), 'zoom');
-        return $zoom;
+        return new ilTextInputGUI($this->translate('zoom'), 'zoom');
     }
 
     /**
