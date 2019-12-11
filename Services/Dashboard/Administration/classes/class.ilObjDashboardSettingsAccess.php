@@ -10,8 +10,4 @@
  */
 class ilObjDashboardSettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

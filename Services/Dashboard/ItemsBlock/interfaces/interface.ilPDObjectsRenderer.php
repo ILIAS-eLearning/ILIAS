@@ -6,10 +6,10 @@
  */
 interface ilPDObjectsRenderer
 {
-	/**
-	 * @param ilPDSelectedItemsBlockGroup[] $groupedItems
-	 * @param bool $showHeader
-	 * @return string
-	 */
-	public function render(array $groupedItems, bool $showHeader)  : string;
+    /**
+     * @param ilPDSelectedItemsBlockGroup[] $groupedItems
+     * @param bool $showHeader
+     * @return string
+     */
+    public function render(array $groupedItems, bool $showHeader) : string;
 }
