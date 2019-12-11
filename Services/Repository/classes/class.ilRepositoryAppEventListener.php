@@ -15,11 +15,9 @@ class ilRepositoryAppEventListener implements ilAppEventListener
      */
     public static function handleEvent($a_component, $a_event, $a_params)
     {
-        switch($a_component)
-        {
+        switch ($a_component) {
             case "Services/Object":
-                switch ($a_event)
-                {
+                switch ($a_event) {
                     case "deleteReference":
                         // remove recommended content
                         $rec_manager = new ilRecommendedContentManager();
@@ -58,5 +56,3 @@ class ilRepositoryAppEventListener implements ilAppEventListener
         return true;
     }
 }
-
-?>

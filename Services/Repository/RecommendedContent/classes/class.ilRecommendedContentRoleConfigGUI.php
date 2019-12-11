@@ -77,7 +77,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->manager = new ilRecommendedContentManager();
         $this->requested_item_ref_id = (int) $_GET['item_ref_id'];
         $this->requested_item_ref_ids = is_array($_POST["item_ref_id"])
-            ? array_map (function ($i) {
+            ? array_map(function ($i) {
                 return (int) $i;
             }, $_POST["item_ref_id"])
             : [];
@@ -86,15 +86,14 @@ class ilRecommendedContentRoleConfigGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("listItems");
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
                 if (in_array($cmd, ["listItems", "selectItem", "assignItem", "confirmRemoveItems", "removeItems"])) {
                     $this->$cmd();
@@ -106,7 +105,7 @@ class ilRecommendedContentRoleConfigGUI
     /**
      * List items
      */
-    function listItems()
+    public function listItems()
     {
         $rbacreview = $this->rbacreview;
         $rbacsystem = $this->rbacsystem;
@@ -116,17 +115,21 @@ class ilRecommendedContentRoleConfigGUI
         $ctrl = $this->ctrl;
 
         if (!$rbacreview->isAssignable($this->role_id, $this->node_ref_id) &&
-            $this->node_ref_id != ROLE_FOLDER_ID)
-        {
+            $this->node_ref_id != ROLE_FOLDER_ID) {
             ilUtil::sendInfo($this->lng->txt('rep_no_assign_rec_content_to_role'));
         } else {
-
             if ($rbacsystem->checkAccess('push_desktop_items', USER_FOLDER_ID)) {
                 $toolbar->addButton($lng->txt('add'), $ctrl->getLinkTarget(
-                    $this, 'selectItem'));
+                    $this,
+                    'selectItem'
+                ));
             }
-            $tbl = new ilRecommendedContentRoleTableGUI($this, 'listItems', $this->role_id,
-                $this->manager);
+            $tbl = new ilRecommendedContentRoleTableGUI(
+                $this,
+                'listItems',
+                $this->role_id,
+                $this->manager
+            );
             $main_tpl->setContent($tbl->getHTML());
         }
     }
@@ -134,14 +137,13 @@ class ilRecommendedContentRoleConfigGUI
     /**
      * Remove items confirmation
      */
-    function confirmRemoveItems()
+    public function confirmRemoveItems()
     {
         $this->checkPushPermission();
 
         $main_tpl = $this->main_tpl;
 
-        if (count($this->requested_item_ref_ids) == 0)
-        {
+        if (count($this->requested_item_ref_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->listItems();
             return;
@@ -153,10 +155,12 @@ class ilRecommendedContentRoleConfigGUI
         $confirmation_gui->setCancel($this->lng->txt("cancel"), "listItems");
         $confirmation_gui->setConfirm($this->lng->txt("remove"), "removeItems");
 
-        foreach($this->requested_item_ref_ids as $item_ref_id)
-        {
-            $confirmation_gui->addItem("item_ref_id[]", $item_ref_id,
-                ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id)));
+        foreach ($this->requested_item_ref_ids as $item_ref_id) {
+            $confirmation_gui->addItem(
+                "item_ref_id[]",
+                $item_ref_id,
+                ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))
+            );
         }
 
         $main_tpl->setContent($confirmation_gui->getHTML());
@@ -165,7 +169,7 @@ class ilRecommendedContentRoleConfigGUI
     /**
      * Remove items
      */
-    function removeItems()
+    public function removeItems()
     {
         $this->checkPushPermission();
 
@@ -187,8 +191,7 @@ class ilRecommendedContentRoleConfigGUI
         $rbacsystem = $this->rbacsystem;
 
         if (!$rbacsystem->checkAccess('write', $this->node_ref_id) ||
-            !$rbacsystem->checkAccess('push_desktop_items',USER_FOLDER_ID))
-        {
+            !$rbacsystem->checkAccess('push_desktop_items', USER_FOLDER_ID)) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $ctrl->redirect($this, "listItems");
         }
@@ -202,10 +205,14 @@ class ilRecommendedContentRoleConfigGUI
         $this->checkPushPermission();
 
         $main_tpl = $this->main_tpl;
-        $exp = new ilRepositorySelectorExplorerGUI($this, "selectItem",
-            $this, "assignItem", "item_ref_id");
-        if (!$exp->handleCommand())
-        {
+        $exp = new ilRepositorySelectorExplorerGUI(
+            $this,
+            "selectItem",
+            $this,
+            "assignItem",
+            "item_ref_id"
+        );
+        if (!$exp->handleCommand()) {
             $main_tpl->setContent($exp->getHTML());
         }
     }
@@ -221,7 +228,6 @@ class ilRecommendedContentRoleConfigGUI
             $this->manager->addRoleRecommendation($this->role_id, $this->requested_item_ref_id);
             ilUtil::sendSuccess($this->lng->txt('rep_added_rec_content'), true);
         }
-        $ctrl->redirect($this,'listItems');
+        $ctrl->redirect($this, 'listItems');
     }
-
 }

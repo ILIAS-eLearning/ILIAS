@@ -39,7 +39,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilAchievementsGUI","ilPersonalSkillsGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(20)
-	            ->withSymbol($icon)
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

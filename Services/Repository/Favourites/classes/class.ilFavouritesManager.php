@@ -52,7 +52,7 @@ class ilFavouritesManager
      * @param int $ref_id
      * @return bool
      */
-    public function ifIsFavourite(int $user_id, int $ref_id): bool
+    public function ifIsFavourite(int $user_id, int $ref_id) : bool
     {
         return $this->repo->ifIsFavourite($user_id, $ref_id);
     }
@@ -75,7 +75,7 @@ class ilFavouritesManager
      * @param array|null $a_types
      * @return array
      */
-    public function getFavouritesOfUser(int $user_id, array $a_types = null): array
+    public function getFavouritesOfUser(int $user_id, array $a_types = null) : array
     {
         return $this->repo->getFavouritesOfUser($user_id, $a_types);
     }
@@ -99,5 +99,4 @@ class ilFavouritesManager
     {
         $this->repo->removeFavouritesOfRefId($user_id);
     }
-
 }
