@@ -589,7 +589,16 @@ class ilMembershipGUI
 				break;
 			}
 		}
-		
+
+		if (!$has_admin && is_array($_POST['roles'])) {
+			foreach($_POST['roles'] as $usrId => $roleIdsToBeAssigned) {
+				if (in_array($adminRoleId, $roleIdsToBeAssigned)) {
+					$has_admin = true;
+					break;
+				}
+			}
+		}
+
 		if(!$has_admin)
 		{
 			ilUtil::sendFailure($this->lng->txt($this->getParentObject()->getType().'_min_one_admin'),true);
