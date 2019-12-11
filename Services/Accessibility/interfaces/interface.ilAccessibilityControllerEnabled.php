@@ -6,8 +6,8 @@
  */
 interface ilAccessibilityControllerEnabled
 {
-	/**
-	 * The implemented class should be ilCtrl enabled and execute or forward the given command
-	 */
-	public function executeCommand() : void;
+    /**
+     * The implemented class should be ilCtrl enabled and execute or forward the given command
+     */
+    public function executeCommand() : void;
 }

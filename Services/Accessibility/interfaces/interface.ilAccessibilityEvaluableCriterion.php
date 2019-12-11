@@ -6,13 +6,13 @@
  */
 interface ilAccessibilityEvaluableCriterion
 {
-	/**
-	 * @return ilAccessibilityCriterionConfig
-	 */
-	public function getCriterionValue() : ilAccessibilityCriterionConfig;
+    /**
+     * @return ilAccessibilityCriterionConfig
+     */
+    public function getCriterionValue() : ilAccessibilityCriterionConfig;
 
-	/**
-	 * @return string
-	 */
-	public function getCriterionId() : string;
+    /**
+     * @return string
+     */
+    public function getCriterionId() : string;
 }

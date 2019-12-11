@@ -6,48 +6,48 @@
  */
 class ilAccessibilityCriterionConfig extends ArrayObject implements ilAccessibilityJsonSerializable
 {
-	/**
-	 * ilAccessibilityCriterionConfig constructor.
-	 * @param string|array
-	 */
-	public function __construct($data = [])
-	{
-		if (is_array($data)) {
-			parent::__construct($data);
-		} else {
-			parent::__construct([]);
+    /**
+     * ilAccessibilityCriterionConfig constructor.
+     * @param string|array
+     */
+    public function __construct($data = [])
+    {
+        if (is_array($data)) {
+            parent::__construct($data);
+        } else {
+            parent::__construct([]);
 
-			if (is_string($data)) {
-				$this->fromJson($data);
-			}
-		}
-	}
+            if (is_string($data)) {
+                $this->fromJson($data);
+            }
+        }
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function toJson() : string
-	{
-		$json = json_encode($this);
+    /**
+     * @inheritdoc
+     */
+    public function toJson() : string
+    {
+        $json = json_encode($this);
 
-		return $json;
-	}
+        return $json;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function fromJson(string $json) : void
-	{
-		$data = json_decode($json, true);
+    /**
+     * @inheritdoc
+     */
+    public function fromJson(string $json) : void
+    {
+        $data = json_decode($json, true);
 
-		$this->exchangeArray($data);
-	}
+        $this->exchangeArray($data);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function jsonSerialize()
-	{
-		return $this->getArrayCopy();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function jsonSerialize()
+    {
+        return $this->getArrayCopy();
+    }
 }
