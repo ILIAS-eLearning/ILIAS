@@ -7,50 +7,50 @@
  */
 class ilBlogDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-	/** @var ilTaskService */
-	protected $taskService;
+    /** @var ilTaskService */
+    protected $taskService;
 
-	/** @var \ilAccess */
-	protected $accessHandler;
+    /** @var \ilAccess */
+    protected $accessHandler;
 
-	/** @var \ilLanguage */
-	protected $lng;
+    /** @var \ilLanguage */
+    protected $lng;
 
-	/**
-	 * ilBlogDerivedTaskProviderFactory constructor.
-	 * @param ilTaskService $taskService
-	 * @param \ilAccess|null $accessHandler
-	 * @param \ilLanguage|null $lng
-	 */
-	public function __construct(
-		ilTaskService $taskService,
-		\ilAccess $accessHandler = null,
-		\ilLanguage $lng = null
-	) {
-		global $DIC;
+    /**
+     * ilBlogDerivedTaskProviderFactory constructor.
+     * @param ilTaskService $taskService
+     * @param \ilAccess|null $accessHandler
+     * @param \ilLanguage|null $lng
+     */
+    public function __construct(
+        ilTaskService $taskService,
+        \ilAccess $accessHandler = null,
+        \ilLanguage $lng = null
+    ) {
+        global $DIC;
 
-		$this->taskService = $taskService;
+        $this->taskService = $taskService;
 
-		$this->accessHandler = is_null($accessHandler)
-			? $DIC->access()
-			: $accessHandler;
+        $this->accessHandler = is_null($accessHandler)
+            ? $DIC->access()
+            : $accessHandler;
 
-		$this->lng = is_null($lng)
-			? $DIC->language()
-			: $lng;
-	}
+        $this->lng = is_null($lng)
+            ? $DIC->language()
+            : $lng;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getProviders(): array
-	{
-		return [
-			new ilBlogDraftsDerivedTaskProvider(
-				$this->taskService,
-				$this->accessHandler,
-				$this->lng
-			)
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getProviders() : array
+    {
+        return [
+            new ilBlogDraftsDerivedTaskProvider(
+                $this->taskService,
+                $this->accessHandler,
+                $this->lng
+            )
+        ];
+    }
 }

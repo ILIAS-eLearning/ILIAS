@@ -41,8 +41,7 @@ class ilBookingPreferencesManager
         ilBookingPrefBasedBookGatewayRepository $book_repo,
         int $current_time = null,
         $bookings_per_user = self::BOOKINGS_PER_USER_DEFAULT
-    )
-    {
+    ) {
         $this->current_time = ($current_time > 0)
             ? $current_time
             : time();
@@ -113,9 +112,11 @@ class ilBookingPreferencesManager
      * @return array
      * @throws ilBookingCalculationException
      */
-    public function calculateBookings(ilBookingPreferences $preferences, $booking_object_ids = null,
-        $availability = null)
-    {
+    public function calculateBookings(
+        ilBookingPreferences $preferences,
+        $booking_object_ids = null,
+        $availability = null
+    ) {
         $preferences = $preferences->getPreferences();
 
         // we calculate if a) any preferences are given and b) the deadline is reached
@@ -171,7 +172,6 @@ class ilBookingPreferencesManager
                 } else {
                     $preferences = $this->removeUserFromPreferences($random_user_id, $preferences);
                 }
-
             } else {
                 $end_phase_two = true;
             }
@@ -325,7 +325,7 @@ class ilBookingPreferencesManager
     protected function removeUserFromPreferences($user_id, $preferences)
     {
         if (is_array($preferences[$user_id])) {
-            unset ($preferences[$user_id]);
+            unset($preferences[$user_id]);
         }
         return $preferences;
     }
@@ -376,6 +376,4 @@ class ilBookingPreferencesManager
         }
         return 0;
     }
-
-
 }

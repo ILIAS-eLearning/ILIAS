@@ -37,6 +37,4 @@ class ilBookingManagerInternalRepoService
     {
         return new ilBookingPrefBasedBookGatewayRepository();
     }
-
-
 }

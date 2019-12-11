@@ -10,7 +10,7 @@
 class ilBookingPreferencesGUI
 {
     /**
-     * @var ilCtrl 
+     * @var ilCtrl
      */
     protected $ctrl;
 
@@ -81,7 +81,7 @@ class ilBookingPreferencesGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
@@ -90,11 +90,9 @@ class ilBookingPreferencesGUI
         if ($cmd == "render") {
             $cmd = "show";
         }
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
-                if (in_array($cmd, ["show", "savePreferences"]))
-                {
+                if (in_array($cmd, ["show", "savePreferences"])) {
                     $this->$cmd();
                 }
         }
@@ -128,7 +126,6 @@ class ilBookingPreferencesGUI
         } else {
             ilUtil::sendInfo($this->lng->txt("book_type_warning"));
         }
-
     }
 
     /**
@@ -155,7 +152,7 @@ class ilBookingPreferencesGUI
                 ? true
                 : false;
 
-            $fields["cb_".$book_obj["booking_object_id"]] =
+            $fields["cb_" . $book_obj["booking_object_id"]] =
                 $f->input()->field()->checkbox($book_obj["title"], $book_obj["description"])->withValue($checked);
         }
 
@@ -183,13 +180,11 @@ class ilBookingPreferencesGUI
         $ctrl = $this->ctrl;
         $repo = $this->repo;
 
-        if ($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
 
-            if (is_array($data["sec"]))
-            {
+            if (is_array($data["sec"])) {
                 $obj_ids = [];
                 foreach ($data["sec"] as $k => $v) {
                     if ($v === true) {
@@ -217,11 +212,11 @@ class ilBookingPreferencesGUI
                 $repo->savePreferencesOfUser($this->pool->getId(), $this->user->getId(), $preferences);
                 $part = new ilBookingParticipant($this->user->getId(), $this->pool->getId());
 
-                $titles = implode(", ", array_map(function($id) {
+                $titles = implode(", ", array_map(function ($id) {
                     return ilBookingObject::lookupTitle($id);
                 }, $obj_ids));
 
-                ilUtil::sendSuccess($lng->txt("book_preferences_saved")." (".$titles.")", true);
+                ilUtil::sendSuccess($lng->txt("book_preferences_saved") . " (" . $titles . ")", true);
             }
         }
         $ctrl->redirect($this, "show");
@@ -238,7 +233,8 @@ class ilBookingPreferencesGUI
         $info = $lng->txt("book_preference_info");
         $info = str_replace("%1", $this->pool->getPreferenceNumber(), $info);
         $info = str_replace("%2", ilDatePresentation::formatDate(
-            new ilDateTime($this->pool->getPreferenceDeadline(), IL_CAL_UNIX)), $info);
+            new ilDateTime($this->pool->getPreferenceDeadline(), IL_CAL_UNIX)
+        ), $info);
         ilUtil::sendInfo($info);
     }
 
@@ -264,7 +260,7 @@ class ilBookingPreferencesGUI
         if (is_array($preferences[$this->user->getId()])) {
             foreach ($preferences[$this->user->getId()] as $book_obj_id) {
                 $book_obj = new ilBookingObject($book_obj_id);
-                $info_gui->addProperty((string)$cnt++, $book_obj->getTitle());
+                $info_gui->addProperty((string) $cnt++, $book_obj->getTitle());
             }
         } else {
             $info_gui->addProperty("", $lng->txt("book_no_preferences_for_you"));
@@ -272,7 +268,8 @@ class ilBookingPreferencesGUI
 
         // bookings
         $this->service->domain()->preferences($this->pool)->storeBookings(
-            $this->repo->getPreferences($this->pool->getId()));
+            $this->repo->getPreferences($this->pool->getId())
+        );
         $bookings = $this->service->domain()->preferences($this->pool)->readBookings();
         $info_gui->addSection($lng->txt("book_your_bookings"));
         $cnt = 1;
@@ -286,10 +283,11 @@ class ilBookingPreferencesGUI
                     $ctrl->setParameterByClass("ilBookingObjectGUI", "object_id", $book_obj_id);
                     $b = $ui->factory()->button()->shy(
                         $lng->txt("book_post_booking_information"),
-                        $ctrl->getLinkTargetByClass("ilBookingObjectGUI", "displayPostInfo"));
-                    $post_info_button = "<br>".$ui->renderer()->render($b);
+                        $ctrl->getLinkTargetByClass("ilBookingObjectGUI", "displayPostInfo")
+                    );
+                    $post_info_button = "<br>" . $ui->renderer()->render($b);
                 }
-                $info_gui->addProperty((string)$cnt++, $book_obj->getTitle().$post_info_button);
+                $info_gui->addProperty((string) $cnt++, $book_obj->getTitle() . $post_info_button);
             }
         } else {
             $info_gui->addProperty("", $lng->txt("book_no_bookings_for_you"));
@@ -301,25 +299,24 @@ class ilBookingPreferencesGUI
             $preferences = $repo->getPreferences($this->pool->getId());
             $preferences = $preferences->getPreferences();
             foreach ($preferences as $user_id => $obj_ids) {
-
-                $booking_str = "<br>".$lng->txt("book_log").": -";
+                $booking_str = "<br>" . $lng->txt("book_log") . ": -";
                 if (is_array($bookings[$user_id])) {
-                    $booking_str = "<br>".$lng->txt("book_log").": ".implode(", ", array_map(function($obj_id) {
-                            $book_obj = new ilBookingObject($obj_id);
-                            return $book_obj->getTitle();
-                        }, $bookings[$user_id]));
-                }
-
-                $info_gui->addProperty(ilUserUtil::getNamePresentation($user_id, false, false, "", true),
-                    $lng->txt("book_preferences").": ".implode(", ", array_map(function($obj_id) {
+                    $booking_str = "<br>" . $lng->txt("book_log") . ": " . implode(", ", array_map(function ($obj_id) {
                         $book_obj = new ilBookingObject($obj_id);
                         return $book_obj->getTitle();
-                    }, $obj_ids)).$booking_str
+                    }, $bookings[$user_id]));
+                }
+
+                $info_gui->addProperty(
+                    ilUserUtil::getNamePresentation($user_id, false, false, "", true),
+                    $lng->txt("book_preferences") . ": " . implode(", ", array_map(function ($obj_id) {
+                        $book_obj = new ilBookingObject($obj_id);
+                        return $book_obj->getTitle();
+                    }, $obj_ids)) . $booking_str
                     );
             }
         }
 
         $main_tpl->setContent($info_gui->getHTML());
     }
-    
 }

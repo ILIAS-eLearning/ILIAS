@@ -10,40 +10,38 @@
  */
 class ilBookingReservationDBRepositoryFactory
 {
-	/**
-	 * @var ilDBInterface
-	 */
-	protected $db;
+    /**
+     * @var ilDBInterface
+     */
+    protected $db;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->db = $DIC->database();
-	}
+        $this->db = $DIC->database();
+    }
 
-	/**
-	 * Get repo without any preloaded data
-	 *
-	 * @return ilBookingReservationDBRepository
-	 */
-	public function getRepo(): ilBookingReservationDBRepository
-	{
-		return new ilBookingReservationDBRepository($this->db);
-	}
+    /**
+     * Get repo without any preloaded data
+     *
+     * @return ilBookingReservationDBRepository
+     */
+    public function getRepo() : ilBookingReservationDBRepository
+    {
+        return new ilBookingReservationDBRepository($this->db);
+    }
 
-	/**
-	 * Get repo with reservation information preloaded for context obj ids
-	 *
-	 * @return ilBookingReservationDBRepository
-	 */
-	public function getRepoWithContextObjCache($context_obj_ids): ilBookingReservationDBRepository
-	{
-		return new ilBookingReservationDBRepository($this->db, $context_obj_ids);
-	}
-
-
+    /**
+     * Get repo with reservation information preloaded for context obj ids
+     *
+     * @return ilBookingReservationDBRepository
+     */
+    public function getRepoWithContextObjCache($context_obj_ids) : ilBookingReservationDBRepository
+    {
+        return new ilBookingReservationDBRepository($this->db, $context_obj_ids);
+    }
 }

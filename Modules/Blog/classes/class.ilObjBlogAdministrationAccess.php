@@ -9,6 +9,4 @@
  */
 class ilObjBlogAdministrationAccess extends ilObjectAccess
 {
-
-
 }
