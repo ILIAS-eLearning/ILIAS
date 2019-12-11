@@ -9,5 +9,4 @@
  */
 class ilInvalidSurveyImportFileException extends ilException
 {
-
 }

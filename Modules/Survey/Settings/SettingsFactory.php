@@ -16,7 +16,6 @@ class SettingsFactory
      */
     public function __construct()
     {
-
     }
     
     /**
@@ -31,14 +30,11 @@ class SettingsFactory
         int $start_date,
         int $end_date,
         bool $access_by_codes
-    )
-    {
+    ) {
         return new AccessSettings(
             $start_date,
             $end_date,
             $access_by_codes
         );
     }
-    
-
 }

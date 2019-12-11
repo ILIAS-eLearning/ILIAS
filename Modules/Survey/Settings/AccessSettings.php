@@ -36,8 +36,7 @@ class AccessSettings
         int $start_date,
         int $end_date,
         bool $access_by_codes
-    )
-    {
+    ) {
         $this->start_date = $start_date;
         $this->end_date = $end_date;
         $this->access_by_codes = $access_by_codes;
@@ -48,7 +47,7 @@ class AccessSettings
      *
      * @return int
      */
-    public function getStartDate(): int
+    public function getStartDate() : int
     {
         return $this->start_date;
     }
@@ -58,7 +57,7 @@ class AccessSettings
      *
      * @return int
      */
-    public function getEndDate(): int
+    public function getEndDate() : int
     {
         return $this->end_date;
     }
@@ -68,9 +67,8 @@ class AccessSettings
      *
      * @return bool
      */
-    public function getAccessByCodes(): bool
+    public function getAccessByCodes() : bool
     {
         return $this->access_by_codes;
     }
-
 }
