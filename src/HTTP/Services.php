@@ -107,6 +107,12 @@ class Services implements GlobalHttpState
     }
 
 
+    public function close() : void
+    {
+        $this->raw()->close();
+    }
+
+
     /**
      * @param string $class_name
      *
