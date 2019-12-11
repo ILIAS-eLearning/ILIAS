@@ -59,7 +59,6 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->factory()
                 ->mainbar()
                 ->withModification(function (MainBar $current = null) : ?MainBar {
-
                     global $DIC;
 
                     $lng = $DIC->language();
@@ -84,14 +83,15 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                     foreach ($current->getToolEntries() as $id => $te) {
                         if (in_array($id, $ids)) {
                             $offline_main_bar = $offline_main_bar->withAdditionalToolEntry(
-                                $id, $te);
+                                $id,
+                                $te
+                            );
                         }
                     }
 
                     return $offline_main_bar;
                 })->withHighPriority();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -99,7 +99,7 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
     /**
      * No breadcrumbs in HTML exports
      */
-    public function getBreadCrumbsModification (CalledContexts $called_contexts) : ?BreadCrumbsModification
+    public function getBreadCrumbsModification(CalledContexts $called_contexts) : ?BreadCrumbsModification
     {
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::LM_HTML_EXPORT_RENDERING, true)) {
@@ -110,10 +110,8 @@ class ilLMHtmlExportViewLayoutProvider extends AbstractModificationProvider impl
                 ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
                     return null;
                 })->withHighPriority();
-        }
-        else {
+        } else {
             return null;
         }
     }
-
 }

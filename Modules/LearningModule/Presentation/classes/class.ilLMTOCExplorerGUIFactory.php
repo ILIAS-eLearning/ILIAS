@@ -26,8 +26,8 @@ class ilLMTOCExplorerGUIFactory
      */
     public function getExplorer(
         ilLMPresentationService $service,
-        string $parent_cmd = "")
-    {
+        string $parent_cmd = ""
+    ) {
         // this needs a proper interface
         $tracker = $service->getTracker();
         $chapter_has_no_active_page =  $service->getNavigationStatus()->isChapterWithoutActivePage();
@@ -47,50 +47,38 @@ class ilLMTOCExplorerGUIFactory
             $service,
             $lang,
             $focus_id,
-            $export_all_languages);
+            $export_all_languages
+        );
         $exp->setMainTemplate($this->tpl);
         $exp->setTracker($tracker);
 
         // determine highlighted and force open nodes
         $page_id = $current_page;
-        if ($deactivated_page)
-        {
+        if ($deactivated_page) {
             $page_id = $requested_obj_id;
         }
-        if ($page_id > 0)
-        {
+        if ($page_id > 0) {
             $exp->setPathOpen((int) $page_id);
         }
         // empty chapter
         if ($chapter_has_no_active_page &&
-            ilLMObject::_lookupType($requested_obj_id) == "st")
-        {
+            ilLMObject::_lookupType($requested_obj_id) == "st") {
             $exp->setHighlightNode($requested_obj_id);
-        }
-        else
-        {
-            if ($lm->getTOCMode() == "pages")
-            {
-                if ($deactivated_page)
-                {
+        } else {
+            if ($lm->getTOCMode() == "pages") {
+                if ($deactivated_page) {
                     $exp->setHighlightNode($requested_obj_id);
-                }
-                else
-                {
+                } else {
                     $exp->setHighlightNode($page_id);
                 }
-            }
-            else
-            {
+            } else {
                 $exp->setHighlightNode($lm_tree->getParentId($page_id));
             }
         }
-        if ($offline)
-        {
+        if ($offline) {
             $exp->setOfflineMode(true);
         }
 
         return $exp;
     }
-
 }

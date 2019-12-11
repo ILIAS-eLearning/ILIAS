@@ -540,7 +540,7 @@ class ilLMContentRendererGUI
             $m.= "<p>" . sprintf(
                 $this->lng->txt("cont_page_activation_on"),
                 ilDatePresentation::formatDate(
-                        new ilDateTime($act_data["activation_start"], IL_CAL_DATETIME)
+                    new ilDateTime($act_data["activation_start"], IL_CAL_DATETIME)
                     )
             ) .
                 "</p>";

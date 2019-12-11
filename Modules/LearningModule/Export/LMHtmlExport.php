@@ -81,12 +81,13 @@ class LMHtmlExport
     /**
      * Constructor
      */
-    public function __construct(\ilObjLearningModule $lm,
+    public function __construct(
+        \ilObjLearningModule $lm,
         $export_dir,
         $sub_dir,
         $export_format = "html",
-        $lang = "")
-    {
+        $lang = ""
+    ) {
         global $DIC;
 
         $this->locator = $DIC["ilLocator"];
@@ -95,7 +96,7 @@ class LMHtmlExport
         $this->export_dir = $export_dir;
         $this->sub_dir = $sub_dir;
         $this->lang = $lang;
-        $this->target_dir = $export_dir."/".$sub_dir;
+        $this->target_dir = $export_dir . "/" . $sub_dir;
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId());
         $this->co_page_html_export->setContentStyleId($this->lm->getStyleSheetId());
         $this->export_format = $export_format;
@@ -123,10 +124,10 @@ class LMHtmlExport
      * @param
      * @return
      */
-    protected function getLinker(): PageLinker
+    protected function getLinker() : PageLinker
     {
-    	return new \ilLMPresentationLinker(
-    	    $this->lm,
+        return new \ilLMPresentationLinker(
+            $this->lm,
             new \ilLMTree($this->lm->getId()),
             0,
             $this->lm->getRefId(),
@@ -177,7 +178,7 @@ class LMHtmlExport
         \ilUtil::makeDir($this->target_dir);
         foreach (["mobs", "files", "textimg", "style",
             "style/images", "content_style", "content_style", "content_style/images"] as $dir) {
-            \ilUtil::makeDir($this->target_dir."/".$dir);
+            \ilUtil::makeDir($this->target_dir . "/" . $dir);
         }
     }
 
@@ -188,7 +189,7 @@ class LMHtmlExport
      * @param
      * @return
      */
-    protected function getLanguageIterator(): \Iterator
+    protected function getLanguageIterator() : \Iterator
     {
         return new class($this->lang, $this->obj_transl) implements \Iterator {
             /**
@@ -205,38 +206,40 @@ class LMHtmlExport
              * @param string $lang
              * @param \ilObjectTranslation $obj_transl
              */
-            public function __construct(string $lang, \ilObjectTranslation $obj_transl) {
+            public function __construct(string $lang, \ilObjectTranslation $obj_transl)
+            {
                 $this->position = 0;
-                if ($lang != "all")
-                {
+                if ($lang != "all") {
                     $this->langs = [$lang];
-                }
-                else
-                {
-                    foreach ($obj_transl->getLanguages() as $otl)
-                    {
+                } else {
+                    foreach ($obj_transl->getLanguages() as $otl) {
                         $this->langs[] = $otl["lang_code"];
                     }
                 }
             }
 
-            public function rewind() {
+            public function rewind()
+            {
                 $this->position = 0;
             }
 
-            public function current() {
+            public function current()
+            {
                 return $this->langs[$this->position];
             }
 
-            public function key() {
+            public function key()
+            {
                 return $this->position;
             }
 
-            public function next() {
+            public function next()
+            {
                 ++$this->position;
             }
 
-            public function valid() {
+            public function valid()
+            {
                 return isset($this->langs[$this->position]);
             }
         };
@@ -277,7 +280,9 @@ class LMHtmlExport
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilLMHtmlExportViewLayoutProvider::LM_HTML_EXPORT_RENDERING, true);
+            \ilLMHtmlExportViewLayoutProvider::LM_HTML_EXPORT_RENDERING,
+            true
+        );
     }
 
 
@@ -285,7 +290,7 @@ class LMHtmlExport
      * export html package
      * @param bool $zip
      */
-    function exportHTML($zip = true)
+    public function exportHTML($zip = true)
     {
         $this->initGlobalScreen();
         $this->initDirectories();
@@ -296,8 +301,7 @@ class LMHtmlExport
         $lang_iterator = $this->getLanguageIterator();
 
         // iterate all languages
-        foreach ($lang_iterator as $lang)
-        {
+        foreach ($lang_iterator as $lang) {
             $this->initLanguage($this->user, $this->lm_gui, $lang);
             $this->exportHTMLPages();
         }
@@ -330,11 +334,11 @@ class LMHtmlExport
         }*/
 
         // template workaround: reset of template
-/*
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
-        $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
-*/
+        /*
+                $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
+                $tpl->setVariable("LOCATION_STYLESHEET",$location_stylesheet);
+                $tpl->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
+        */
 
         $this->resetUserLanguage();
 
@@ -355,20 +359,17 @@ class LMHtmlExport
      */
     protected function zipPackage()
     {
-        if ($this->lang == "")
-        {
+        if ($this->lang == "") {
             $zip_target_dir = $this->lm->getExportDirectory("html");
-        }
-        else
-        {
-            $zip_target_dir = $this->lm->getExportDirectory("html_".$this->lang);
+        } else {
+            $zip_target_dir = $this->lm->getExportDirectory("html_" . $this->lang);
             \ilUtil::makeDir($zip_target_dir);
         }
 
         // zip it all
         $date = time();
-        $zip_file = $zip_target_dir."/".$date."__".IL_INST_ID."__".
-            $this->lm->getType()."_".$this->lm->getId().".zip";
+        $zip_file = $zip_target_dir . "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->lm->getType() . "_" . $this->lm->getId() . ".zip";
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
     }
@@ -379,14 +380,11 @@ class LMHtmlExport
      */
     protected function addSupplyingExportFiles()
     {
-        foreach ($this->getSupplyingExportFiles() as $f)
-        {
-            if ($f["type"] == "js")
-            {
+        foreach ($this->getSupplyingExportFiles() as $f) {
+            if ($f["type"] == "js") {
                 $this->global_screen->layout()->meta()->addJs($f["source"]);
             }
-            if ($f["type"] == "css")
-            {
+            if ($f["type"] == "css") {
                 $this->global_screen->layout()->meta()->addCss($f["source"]);
             }
         }
@@ -403,92 +401,88 @@ class LMHtmlExport
     {
         $scripts = array(
             array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
-                "target" => $a_target_dir.'/js/yahoo/yahoo-min.js',
+                "target" => $a_target_dir . '/js/yahoo/yahoo-min.js',
                 "type" => "js"),
             array("source" => \ilYuiUtil::getLocalPath('yahoo-dom-event/yahoo-dom-event.js'),
-                "target" => $a_target_dir.'/js/yahoo/yahoo-dom-event.js',
+                "target" => $a_target_dir . '/js/yahoo/yahoo-dom-event.js',
                 "type" => "js"),
             array("source" => \ilYuiUtil::getLocalPath('animation/animation-min.js'),
-                "target" => $a_target_dir.'/js/yahoo/animation-min.js',
+                "target" => $a_target_dir . '/js/yahoo/animation-min.js',
                 "type" => "js"),
             array("source" => './Services/JavaScript/js/Basic.js',
-                "target" => $a_target_dir.'/js/Basic.js',
+                "target" => $a_target_dir . '/js/Basic.js',
                 "type" => "js"),
             array("source" => './Services/Accordion/js/accordion.js',
-                "target" => $a_target_dir.'/js/accordion.js',
+                "target" => $a_target_dir . '/js/accordion.js',
                 "type" => "js"),
             array("source" => './Services/Accordion/css/accordion.css',
-                "target" => $a_target_dir.'/css/accordion.css',
+                "target" => $a_target_dir . '/css/accordion.css',
                 "type" => "css"),
             array("source" => \iljQueryUtil::getLocaljQueryPath(),
-                "target" => $a_target_dir.'/js/jquery.js',
+                "target" => $a_target_dir . '/js/jquery.js',
                 "type" => "js"),
             array("source" => \iljQueryUtil::getLocalMaphilightPath(),
-                "target" => $a_target_dir.'/js/maphilight.js',
+                "target" => $a_target_dir . '/js/maphilight.js',
                 "type" => "js"),
             array("source" => \iljQueryUtil::getLocaljQueryUIPath(),
-                "target" => $a_target_dir.'/js/jquery-ui-min.js',
+                "target" => $a_target_dir . '/js/jquery-ui-min.js',
                 "type" => "js"),
             array("source" => './Services/COPage/js/ilCOPagePres.js',
-                "target" => $a_target_dir.'/js/ilCOPagePres.js',
+                "target" => $a_target_dir . '/js/ilCOPagePres.js',
                 "type" => "js"),
             array("source" => './Modules/Scorm2004/scripts/questions/pure.js',
-                "target" => $a_target_dir.'/js/pure.js',
+                "target" => $a_target_dir . '/js/pure.js',
                 "type" => "js"),
             array("source" => './Modules/Scorm2004/scripts/questions/question_handling.js',
-                "target" => $a_target_dir.'/js/question_handling.js',
+                "target" => $a_target_dir . '/js/question_handling.js',
                 "type" => "js"),
             array("source" => './Modules/TestQuestionPool/js/ilMatchingQuestion.js',
-                "target" => $a_target_dir.'/js/ilMatchingQuestion.js',
+                "target" => $a_target_dir . '/js/ilMatchingQuestion.js',
                 "type" => "js"),
             array("source" => './Modules/Scorm2004/templates/default/question_handling.css',
-                "target" => $a_target_dir.'/css/question_handling.css',
+                "target" => $a_target_dir . '/css/question_handling.css',
                 "type" => "css"),
             array("source" => './Modules/TestQuestionPool/templates/default/test_javascript.css',
-                "target" => $a_target_dir.'/css/test_javascript.css',
+                "target" => $a_target_dir . '/css/test_javascript.css',
                 "type" => "css"),
             array("source" => \ilPlayerUtil::getLocalMediaElementJsPath(),
-                "target" => $a_target_dir."/".\ilPlayerUtil::getLocalMediaElementJsPath(),
+                "target" => $a_target_dir . "/" . \ilPlayerUtil::getLocalMediaElementJsPath(),
                 "type" => "js"),
             array("source" => \ilPlayerUtil::getLocalMediaElementCssPath(),
-                "target" => $a_target_dir."/".\ilPlayerUtil::getLocalMediaElementCssPath(),
+                "target" => $a_target_dir . "/" . \ilPlayerUtil::getLocalMediaElementCssPath(),
                 "type" => "css"),
             array("source" => \ilExplorerBaseGUI::getLocalExplorerJsPath(),
-                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalExplorerJsPath(),
+                "target" => $a_target_dir . "/" . \ilExplorerBaseGUI::getLocalExplorerJsPath(),
                 "type" => "js"),
             array("source" => \ilExplorerBaseGUI::getLocalJsTreeJsPath(),
-                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalJsTreeJsPath(),
+                "target" => $a_target_dir . "/" . \ilExplorerBaseGUI::getLocalJsTreeJsPath(),
                 "type" => "js"),
             array("source" => \ilExplorerBaseGUI::getLocalJsTreeCssPath(),
-                "target" => $a_target_dir."/".\ilExplorerBaseGUI::getLocalJsTreeCssPath(),
+                "target" => $a_target_dir . "/" . \ilExplorerBaseGUI::getLocalJsTreeCssPath(),
                 "type" => "css"),
             array("source" => './Modules/LearningModule/js/LearningModule.js',
-                "target" => $a_target_dir.'/js/LearningModule.js',
+                "target" => $a_target_dir . '/js/LearningModule.js',
                 "type" => "js")
         );
 
         $mathJaxSetting = new \ilSetting("MathJax");
         $use_mathjax = $mathJaxSetting->get("enable");
-        if ($use_mathjax)
-        {
+        if ($use_mathjax) {
             $scripts[] = array("source" => "",
                 "target" => $mathJaxSetting->get("path_to_mathjax"),
                 "type" => "js");
         }
 
         // auto linking js
-        foreach (\ilLinkifyUtil::getLocalJsPaths() as $p)
-        {
-            if (is_int(strpos($p, "ExtLink")))
-            {
+        foreach (\ilLinkifyUtil::getLocalJsPaths() as $p) {
+            if (is_int(strpos($p, "ExtLink"))) {
                 $scripts[] = array("source" => $p,
-                    "target" => $a_target_dir.'/js/ilExtLink.js',
+                    "target" => $a_target_dir . '/js/ilExtLink.js',
                     "type" => "js");
             }
-            if (is_int(strpos($p, "linkify")))
-            {
+            if (is_int(strpos($p, "linkify"))) {
                 $scripts[] = array("source" => $p,
-                    "target" => $a_target_dir.'/js/linkify.js',
+                    "target" => $a_target_dir . '/js/linkify.js',
                     "type" => "js");
             }
         }
@@ -518,7 +512,7 @@ class LMHtmlExport
     /**
      * export all pages of learning module to html file
      */
-    function exportHTMLPages()
+    public function exportHTMLPages()
     {
         $lm = $this->lm;
         $lm_gui = $this->lm_gui;
@@ -543,28 +537,22 @@ class LMHtmlExport
 
         $exp_id_map = array();
 
-        if ($lm_set->get("html_export_ids"))
-        {
-            foreach ($pages as $page)
-            {
+        if ($lm_set->get("html_export_ids")) {
+            foreach ($pages as $page) {
                 $exp_id = \ilLMPageObject::getExportId($this->lm->getId(), $page["obj_id"]);
-                if (trim($exp_id) != "")
-                {
+                if (trim($exp_id) != "") {
                     $exp_id_map[$page["obj_id"]] = trim($exp_id);
                 }
             }
         }
 
-        if ($lang == "")
-        {
+        if ($lang == "") {
             $lang = "-";
         }
 
         reset($pages);
-        foreach ($pages as $page)
-        {
-            if (\ilLMPage::_exists($this->lm->getType(), $page["obj_id"]))
-            {
+        foreach ($pages as $page) {
+            if (\ilLMPage::_exists($this->lm->getType(), $page["obj_id"])) {
                 $ilLocator->clearItems();
                 $this->exportPageHTML($page["obj_id"], ($first_page_id == $page["obj_id"]), $lang, "", $exp_id_map);
                 $this->co_page_html_export->collectPageElements("lm:pg", $page["obj_id"], $lang);
@@ -577,7 +565,7 @@ class LMHtmlExport
      * Get initialised template
      * @return \ilGlobalPageTemplate
      */
-    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
+    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -630,67 +618,56 @@ class LMHtmlExport
     /**
      * export page html
      */
-    function exportPageHTML($lm_page_id, $is_first = false,
+    public function exportPageHTML(
+        $lm_page_id,
+        $is_first = false,
         $lang = "-",
         $frame = "",
-        $exp_id_map = [])
-    {
+        $exp_id_map = []
+    ) {
         global $DIC;
 
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";
         if (!in_array($lang, ["-", ""]) && $this->lang == "all") {
-            $lang_suffix = "_".$lang;
+            $lang_suffix = "_" . $lang;
         }
 
         // Init template, lm_gui
         $this->initScreen($lm_page_id, $frame);
 
 
-        if ($frame == "")
-        {
-            if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id]))
-            {
-                $file = $target_dir."/lm_pg_".$exp_id_map[$lm_page_id].$lang_suffix.".html";
+        if ($frame == "") {
+            if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {
+                $file = $target_dir . "/lm_pg_" . $exp_id_map[$lm_page_id] . $lang_suffix . ".html";
+            } else {
+                $file = $target_dir . "/lm_pg_" . $lm_page_id . $lang_suffix . ".html";
             }
-            else
-            {
-                $file = $target_dir."/lm_pg_".$lm_page_id.$lang_suffix.".html";
-            }
-        }
-        else
-        {
-            if ($frame != "toc")
-            {
-                $file = $target_dir."/frame_".$lm_page_id."_".$frame.$lang_suffix.".html";
-            }
-            else
-            {
-                $file = $target_dir."/frame_".$frame.$lang_suffix.".html";
+        } else {
+            if ($frame != "toc") {
+                $file = $target_dir . "/frame_" . $lm_page_id . "_" . $frame . $lang_suffix . ".html";
+            } else {
+                $file = $target_dir . "/frame_" . $frame . $lang_suffix . ".html";
             }
         }
 
         // return if file is already existing
-        if (@is_file($file))
-        {
+        if (@is_file($file)) {
             return;
         }
 
         $content = $this->lm_gui->layout("main.xml", false);
 
         // write xml data into the file
-        $fp = @fopen($file,"w+");
+        $fp = @fopen($file, "w+");
         fwrite($fp, $content);
 
         // close file
         fclose($fp);
 
-        if ($is_first && $frame == "")
-        {
-            copy($file, $target_dir."/index".$lang_suffix.".html");
+        if ($is_first && $frame == "") {
+            copy($file, $target_dir . "/index" . $lang_suffix . ".html");
         }
-
     }
-
 }
