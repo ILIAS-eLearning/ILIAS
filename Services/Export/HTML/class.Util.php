@@ -38,7 +38,7 @@ class Util
 
         $this->export_dir = $export_dir;
         $this->sub_dir = $sub_dir;
-        $this->target_dir = $export_dir."/".$sub_dir;
+        $this->target_dir = $export_dir . "/" . $sub_dir;
 
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
         $this->global_screen = $DIC->globalScreen();
@@ -75,7 +75,9 @@ class Util
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
-            \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING, true);
+            \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+            true
+        );
     }
 
 
@@ -109,12 +111,10 @@ class Util
         }
         if (is_file($file)) {
             $dir = dirname($file);
-            \ilUtil::makeDirParents($target_dir."/".$dir);
-            if (!is_file($target_dir."/".$file)) {
-                copy ($file, $target_dir."/".$file);
+            \ilUtil::makeDirParents($target_dir . "/" . $dir);
+            if (!is_file($target_dir . "/" . $file)) {
+                copy($file, $target_dir . "/" . $file);
             }
         }
     }
-
-
 }
