@@ -79,7 +79,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
      * Execute command
      * @throws ilCtrlException
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -88,15 +88,13 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("editSettings");
 
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
-            $this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
+        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $this->prepareOutput();
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             case 'ilpermissiongui':
                 $tabs->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
@@ -107,8 +105,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
                 if ($cmd == "view") {
                     $cmd = "editSettings";
                 }
-                if (in_array($cmd, ["editSettings", "saveSettings"]))
-                {
+                if (in_array($cmd, ["editSettings", "saveSettings"])) {
                     $this->$cmd();
                 }
                 break;
@@ -125,8 +122,7 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $tabs->addTab(
                 "settings",
                 $lng->txt("settings"),
@@ -134,12 +130,11 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $tabs->addTab(
                 "perm_settings",
                 $lng->txt("perm_settings"),
-                $ctrl->getLinkTargetByClass('ilpermissiongui',"perm")
+                $ctrl->getLinkTargetByClass('ilpermissiongui', "perm")
             );
         }
     }
@@ -196,20 +191,14 @@ class ilObjLearningHistorySettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if (is_array($data["sec"]))
-            {
+            if (is_array($data["sec"])) {
                 $setting->set("enable_learning_history", (int) ($data["sec"]["enable_learning_history"]));
                 ilUtil::sendInfo($lng->txt("msg_obj_modified"), true);
             }
         }
         $ctrl->redirect($this, "editSettings");
     }
-
-
 }
-
-?>

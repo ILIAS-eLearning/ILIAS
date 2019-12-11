@@ -9,8 +9,4 @@
  */
 class ilObjLearningHistorySettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>
