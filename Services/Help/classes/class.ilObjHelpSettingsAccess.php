@@ -15,8 +15,4 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
  */
 class ilObjHelpSettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>
