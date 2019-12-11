@@ -378,7 +378,7 @@ class ilObjectCopyGUI
             array_merge(
                 ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'crs', false),
                 ilParticipants::_getMembershipByType($GLOBALS['ilUser']->getId(), 'grp', false)
-                )
+            )
         );
         $cgs->parse();
         
@@ -551,7 +551,7 @@ class ilObjectCopyGUI
                             $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
                             $this->lng->txt('obj_' . $target_type),
                             $this->lng->txt('obj_' . $source_type)
-                            )
+                        )
                     );
                     $this->showTargetSelectionTree();
                     return false;
@@ -855,7 +855,7 @@ class ilObjectCopyGUI
                                 $this->lng->txt('msg_obj_may_not_contain_objects_of_type'),
                                 $this->lng->txt('obj_' . $target_type),
                                 $this->lng->txt('obj_' . $source_type)
-                                )
+                            )
                         );
                         $this->searchSource();
                         return false;

@@ -167,7 +167,7 @@ class ilUserXMLWriter extends ilXmlWriter
                         array("Id" =>
                                 "il_" . IL_INST_ID . "_role_" . $rbacrow["rol_id"], "Type" => $type),
                         $rbacrow["title"]
-                        );
+                    );
                 }
             }
         }

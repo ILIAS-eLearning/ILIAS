@@ -85,7 +85,8 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    static function returnDbTableName() {
+    public static function returnDbTableName()
+    {
         return "il_dcl_tview_set";
     }
 
@@ -207,8 +208,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public function sleep($field_name)
     {
-        if ($field_name == 'filter_value' && is_array($this->filter_value))
-        {
+        if ($field_name == 'filter_value' && is_array($this->filter_value)) {
             return json_encode($this->filter_value);
         }
         return null;
@@ -221,24 +221,23 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public function wakeUp($field_name, $field_value)
     {
-        if ($field_name == 'filter_value')
-        {
-        	$return = array();
+        if ($field_name == 'filter_value') {
+            $return = array();
             $json = json_decode($field_value, true);
-            if (is_array($json))
-            {
-            	foreach ($json as $key => $value) {
-            		$return['filter_' . $this->getField() . '_' . $key] = $value;
-	            }
+            if (is_array($json)) {
+                foreach ($json as $key => $value) {
+                    $return['filter_' . $this->getField() . '_' . $key] = $value;
+                }
             } else {
-            	$return = array('filter_' . $this->getField() => $field_value);
+                $return = array('filter_' . $this->getField() => $field_value);
             }
             return $return;
         }
         return null;
     }
 
-    public function cloneStructure(ilDclTableViewFieldSetting $orig) {
+    public function cloneStructure(ilDclTableViewFieldSetting $orig)
+    {
         $this->setFilterChangeable($orig->isFilterChangeable());
         $this->setInFilter($orig->isInFilter());
         $this->setVisible($orig->isVisible());
@@ -251,21 +250,17 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public function getFieldObject()
     {
-        if (is_numeric($this->field))
-        {   //normal field
+        if (is_numeric($this->field)) {   //normal field
             return ilDclCache::getFieldCache($this->field);
-        }
-        else
-        {   //standard field
+        } else {   //standard field
             global $DIC;
             $lng = $DIC['lng'];
             $stdfield = new ilDclStandardField();
             $stdfield->setId($this->field);
             $stdfield->setDatatypeId(ilDclStandardField::_getDatatypeForId($this->field));
-            $stdfield->setTitle($lng->txt('dcl_'.$this->field));
+            $stdfield->setTitle($lng->txt('dcl_' . $this->field));
             return $stdfield;
         }
-
     }
     
     /**
@@ -273,7 +268,8 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @param $field_id
      * @return ActiveRecord
      */
-    public static function getInstance($tableview_id, $field_id) {
+    public static function getInstance($tableview_id, $field_id)
+    {
         if ($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first()) {
             return $setting;
         } else {

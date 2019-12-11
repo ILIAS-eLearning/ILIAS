@@ -517,7 +517,7 @@ class ilObjMediaObject extends ilObject
             array('object' => $this,
                     'obj_type' => 'mob',
                     'obj_id' => $this->getId())
-            );
+        );
     }
     
     protected static function handleQuotaUpdate(ilObjMediaObject $a_mob)
@@ -1107,7 +1107,7 @@ class ilObjMediaObject extends ilObject
                 "usage_hist_nr" => array("integer", (int) $a_usage_hist_nr)
                 ),
             array()
-            );
+        );
 
         self::handleQuotaUpdate(new self($a_mob_id));
     }

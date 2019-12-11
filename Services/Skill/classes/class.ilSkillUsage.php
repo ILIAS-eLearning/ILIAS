@@ -62,14 +62,14 @@ class ilSkillUsage implements ilSkillUsageInfo
                     "tref_id" => array("integer", $a_tref_id)
                     ),
                 array()
-                );
+            );
         } else {
             $ilDB->manipulate(
                 $q = "DELETE FROM skl_usage WHERE " .
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
                 " AND skill_id = " . $ilDB->quote($a_skill_id, "integer") .
                 " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
-                );
+            );
             //echo $q; exit;
         }
     }
@@ -91,7 +91,7 @@ class ilSkillUsage implements ilSkillUsageInfo
             "SELECT obj_id FROM skl_usage " .
             " WHERE skill_id = " . $ilDB->quote($a_skill_id, "integer") .
             " AND tref_id = " . $ilDB->quote($a_tref_id, "integer")
-            );
+        );
         $obj_ids = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $obj_ids[] = $rec["obj_id"];

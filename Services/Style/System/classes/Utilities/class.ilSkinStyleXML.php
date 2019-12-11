@@ -105,7 +105,6 @@ class ilSkinStyleXML
             (string) $xml_element->attributes()["image_directory"],
             (string) $xml_element->attributes()["font_directory"],
             (string) $xml_element->attributes()["sound_directory"]
-
         );
         return $style;
     }

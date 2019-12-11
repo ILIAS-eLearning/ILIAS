@@ -196,7 +196,7 @@ class ilMultilingualismGUI
                 ilUtil::stripSlashes($v),
                 ilUtil::stripSlashes($_POST["desc"][$k]),
                 $is_default
-                );
+            );
         }
         $this->obj_trans->save();
 

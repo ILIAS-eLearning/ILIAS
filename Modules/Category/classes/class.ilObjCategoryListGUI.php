@@ -85,7 +85,7 @@ class ilObjCategoryListGUI extends ilObjectListGUI
             $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             true
-                )) {
+        )) {
             return $this->info_screen_enabled;
         }
 

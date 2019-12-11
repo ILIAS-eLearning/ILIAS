@@ -13,33 +13,32 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesTreeExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('tree');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('tree');
 
-		switch($event)
-		{
-			case 'moveTree':
-				$this->extractTree($parameters);
-				break;
-		}
+        switch ($event) {
+            case 'moveTree':
+                $this->extractTree($parameters);
+                break;
+        }
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 
-	/**
-	 * @param array $parameters
-	 */
-	protected function extractTree($parameters)
-	{
-		$this->ilExtractedParams->setSubjectId(0);
-		$this->ilExtractedParams->setContextType('tree');
-		$this->ilExtractedParams->setContextId($parameters['tree']);
-	}
+    /**
+     * @param array $parameters
+     */
+    protected function extractTree($parameters)
+    {
+        $this->ilExtractedParams->setSubjectId(0);
+        $this->ilExtractedParams->setContextType('tree');
+        $this->ilExtractedParams->setContextId($parameters['tree']);
+    }
 }

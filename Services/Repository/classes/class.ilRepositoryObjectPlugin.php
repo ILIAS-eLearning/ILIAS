@@ -127,7 +127,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
             "SELECT * FROM object_data " .
             " WHERE type = " . $ilDB->quote("typ", "text") .
             " AND title = " . $ilDB->quote($type, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $t_id = $rec["obj_id"];
         } else {
@@ -156,7 +156,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 "SELECT * FROM rbac_ta " .
                 " WHERE typ_id = " . $ilDB->quote($t_id, "integer") .
                 " AND ops_id = " . $ilDB->quote($op, "integer")
-                );
+            );
             if (!$ilDB->fetchAssoc($set)) {
                 $ilDB->manipulate("INSERT INTO rbac_ta " .
                     "(typ_id, ops_id) VALUES (" .
@@ -171,7 +171,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
             "SELECT * FROM rbac_operations " .
             " WHERE class = " . $ilDB->quote("create", "text") .
             " AND operation = " . $ilDB->quote("create_" . $type, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $create_ops_id = $rec["ops_id"];
         } else {
@@ -192,14 +192,14 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 "SELECT obj_id FROM object_data " .
                 " WHERE type = " . $ilDB->quote("typ", "text") .
                 " AND title = " . $ilDB->quote($par_type, "text")
-                );
+            );
             if ($rec = $ilDB->fetchAssoc($set)) {
                 if ($rec["obj_id"] > 0) {
                     $set = $ilDB->query(
                         "SELECT * FROM rbac_ta " .
                         " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
                         " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
-                        );
+                    );
                     if (!$ilDB->fetchAssoc($set)) {
                         $ilDB->manipulate("INSERT INTO rbac_ta " .
                             "(typ_id, ops_id) VALUES (" .

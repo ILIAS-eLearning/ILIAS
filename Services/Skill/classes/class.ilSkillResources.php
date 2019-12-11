@@ -119,7 +119,7 @@ class ilSkillResources implements ilSkillUsageInfo
             "SELECT * FROM skl_skill_resource " .
             " WHERE base_skill_id = " . $ilDB->quote($this->getBaseSkillId(), "integer") .
             " AND tref_id = " . $ilDB->quote($this->getTemplateRefId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($tree->isInTree($rec["rep_ref_id"])) {
                 $this->resources[$rec["level_id"]][$rec["rep_ref_id"]] = array(
@@ -143,7 +143,7 @@ class ilSkillResources implements ilSkillUsageInfo
             "DELETE FROM skl_skill_resource WHERE " .
             " base_skill_id = " . $ilDB->quote((int) $this->getBaseSkillId(), "integer") .
             " AND tref_id = " . $ilDB->quote((int) $this->getTemplateRefId(), "integer")
-            );
+        );
         foreach ($this->getResources() as $level_id => $l) {
             foreach ($l as $ref_id => $r) {
                 if ($r["imparting"] || $r["trigger"]) {

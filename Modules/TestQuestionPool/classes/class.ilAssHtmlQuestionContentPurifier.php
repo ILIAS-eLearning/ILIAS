@@ -11,4 +11,4 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssHtmlPurifier.php';
  */
 class ilAssHtmlQuestionContentPurifier extends ilAssHtmlPurifier
 {
-} 
+}

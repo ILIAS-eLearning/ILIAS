@@ -1520,7 +1520,7 @@ class ilNewsItem
                 "news_id" => array("integer", $a_news_id)
                 ),
             array()
-            );
+        );
         
         /*
         $ilDB->manipulate("DELETE FROM il_news_read WHERE ".
@@ -2065,7 +2065,7 @@ class ilNewsItem
             "UPDATE il_news_item SET " .
             " mob_cnt_download = " . $ilDB->quote($cnt, "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
     
     /**
@@ -2085,7 +2085,7 @@ class ilNewsItem
             "UPDATE il_news_item SET " .
             " mob_cnt_play = " . $ilDB->quote($cnt, "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
     /**

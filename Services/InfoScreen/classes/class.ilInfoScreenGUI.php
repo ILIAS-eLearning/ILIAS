@@ -481,7 +481,7 @@ class ilInfoScreenGUI
                     $this->addProperty(
                         $lng->txt("object_id"),
                         $a_obj->getId()
-                        );
+                    );
                 }
 
                 include_once 'Services/PermanentLink/classes/class.ilPermanentLinkGUI.php';
@@ -492,7 +492,7 @@ class ilInfoScreenGUI
                     $lng->txt("perma_link"),
                     $pm->getHTML(),
                     ""
-                    );
+                );
             
                 // bookmarks
 
@@ -519,7 +519,7 @@ class ilInfoScreenGUI
                         $this->addProperty(
                             $lng->txt("res_links"),
                             '<div class="small">' . $links . '</div>'
-                            );
+                        );
                     }
                 }
             }
@@ -911,9 +911,9 @@ class ilInfoScreenGUI
         $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
         $i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect(
             (int) ilLPMarks::_hasCompleted(
-            $ilUser->getId(),
-            $this->gui_object->object->getId()
-        ),
+                $ilUser->getId(),
+                $this->gui_object->object->getId()
+            ),
             'lp_edit',
             array(0 => $this->lng->txt('trac_not_completed'),
                       1 => $this->lng->txt('trac_completed')),

@@ -11,5 +11,4 @@ require_once 'Modules/Test/classes/class.ilTestSequence.php';
  */
 class ilTestSequenceFixedQuestionSet extends ilTestSequence
 {
-	
-} 
+}

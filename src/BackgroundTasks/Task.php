@@ -18,68 +18,69 @@ use ILIAS\BackgroundTasks\Types\Type;
  *          running the task. A User-Interaction is provided as Button in the UserInterface such as
  *          [ Cancel ] or [ Download ]
  */
-interface Task {
+interface Task
+{
 
-	/**
-	 * @return string
-	 */
-	public function getType();
-
-
-	/**
-	 * @return Type[] A list of types that are taken as input.
-	 */
-	public function getInputTypes();
+    /**
+     * @return string
+     */
+    public function getType();
 
 
-	/**
-	 * @return Type A single type.
-	 */
-	public function getOutputType();
+    /**
+     * @return Type[] A list of types that are taken as input.
+     */
+    public function getInputTypes();
 
 
-	/**
-	 * @return Value
-	 */
-	public function getOutput();
+    /**
+     * @return Type A single type.
+     */
+    public function getOutputType();
 
 
-	/**
-	 * @param $values (Value|Task)[]
-	 *
-	 * @return void
-	 */
-	public function setInput(array $values);
+    /**
+     * @return Value
+     */
+    public function getOutput();
 
 
-	/**
-	 * @return Value[]
-	 */
-	public function getInput();
+    /**
+     * @param $values (Value|Task)[]
+     *
+     * @return void
+     */
+    public function setInput(array $values);
 
 
-	/**
-	 * @return Task[] A list of tasks that is chained with this task. The first element will be
-	 *                this tasks, the following his dependencies.
-	 */
-	public function unfoldTask();
+    /**
+     * @return Value[]
+     */
+    public function getInput();
 
 
-	/**
-	 * @return Option   An Option to remove the current task and do some cleanup if possible. This
-	 *                  Option is displayed if the Bucket is completed. You do not have to provide
-	 *                  an additional Option to remove in your UserInteraction, the remove-Option
-	 *                  is added to the list of Options (last position)
-	 *
-	 * @see self::getAbortOption();
-	 */
-	public function getRemoveOption();
+    /**
+     * @return Task[] A list of tasks that is chained with this task. The first element will be
+     *                this tasks, the following his dependencies.
+     */
+    public function unfoldTask();
 
 
-	/**
-	 * @return Option   In case a Job is failed or did not respond for some time, an Abort-Option
-	 *                  is displayed. There is already a Standard-Abort-Option registered, you can
-	 *                  override with your own and do some cleanup if possible.
-	 */
-	public function getAbortOption();
+    /**
+     * @return Option   An Option to remove the current task and do some cleanup if possible. This
+     *                  Option is displayed if the Bucket is completed. You do not have to provide
+     *                  an additional Option to remove in your UserInteraction, the remove-Option
+     *                  is added to the list of Options (last position)
+     *
+     * @see self::getAbortOption();
+     */
+    public function getRemoveOption();
+
+
+    /**
+     * @return Option   In case a Job is failed or did not respond for some time, an Abort-Option
+     *                  is displayed. There is already a Standard-Abort-Option registered, you can
+     *                  override with your own and do some cleanup if possible.
+     */
+    public function getAbortOption();
 }

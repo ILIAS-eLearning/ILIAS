@@ -9,6 +9,6 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  *
  * If something goes wrong in writing a task/bucket to the database.
  */
-class SerializationException extends Exception {
-
+class SerializationException extends Exception
+{
 }

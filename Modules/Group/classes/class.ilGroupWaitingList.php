@@ -25,7 +25,7 @@ include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 /**
 * Waiting list for groups
-* 
+*
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
@@ -34,30 +34,27 @@ include_once('./Services/Membership/classes/class.ilWaitingList.php');
 
 class ilGroupWaitingList extends ilWaitingList
 {
-	/**
-	 * Add to waiting list and raise event
-	 * @param int $a_usr_id
-	 */
-	public function addToList($a_usr_id)
-	{
-		global $ilAppEventHandler, $ilLog;
-		
-		if(!parent::addToList($a_usr_id))
-		{
-			return FALSE;
-		}
+    /**
+     * Add to waiting list and raise event
+     * @param int $a_usr_id
+     */
+    public function addToList($a_usr_id)
+    {
+        global $ilAppEventHandler, $ilLog;
+        
+        if (!parent::addToList($a_usr_id)) {
+            return false;
+        }
 
-		$GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addToList.');
-		$ilAppEventHandler->raise(
-				"Modules/Group", 
-				'addToWaitingList', 
-				array(
-					'obj_id' => $this->getObjId(),
-					'usr_id' => $a_usr_id
-				)
-			);
-		return TRUE;
-	}
-	
+        $GLOBALS['DIC']->logger()->grp()->info('Raise new event: Modules/Group addToList.');
+        $ilAppEventHandler->raise(
+            "Modules/Group",
+            'addToWaitingList',
+            array(
+                    'obj_id' => $this->getObjId(),
+                    'usr_id' => $a_usr_id
+                )
+        );
+        return true;
+    }
 }
-?>

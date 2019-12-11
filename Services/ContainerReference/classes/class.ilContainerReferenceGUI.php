@@ -337,9 +337,9 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
         $repo->getExplorerGUI()->setTypeWhiteList(
             array_merge(
-            array($this->getTargetType()),
-            array("root", "cat", "grp", "fold", "crs")
-        )
+                array($this->getTargetType()),
+                array("root", "cat", "grp", "fold", "crs")
+            )
         );
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 

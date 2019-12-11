@@ -3874,7 +3874,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
     /*	function saveHelpMapping()
         {
             global $lng, $ilCtrl;
-    
+
             include_once("./Services/Help/classes/class.ilHelpMapping.php");
             if (is_array($_POST["screen_ids"]))
             {

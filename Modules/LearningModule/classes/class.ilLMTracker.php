@@ -506,7 +506,6 @@ class ilLMTracker
                 $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
             }
         } else {	// free pages (currently not called, since only walking through tree structure)
-        
         }
         $this->tree_arr["nodes"][$a_obj_id]["status"] = $status;
 

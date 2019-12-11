@@ -93,7 +93,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::INFO_TAB_VISIBILITY,
                 true
-                ));
+            ));
             //$info->setOptionTitle($GLOBALS['lng']->txt('obj_tool_setting_info_tab'));
             $info->setInfo($GLOBALS['lng']->txt('obj_tool_setting_info_tab_info'));
             $form->addItem($info);
@@ -164,7 +164,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::CUSTOM_METADATA,
                 false
-                ));
+            ));
             $form->addItem($md);
         }
                 
@@ -179,7 +179,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::TAG_CLOUD,
                     false
-                    ));
+                ));
                 $form->addItem($tag);
             }
         }
@@ -192,7 +192,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::TAXONOMIES,
                 false
-                ));
+            ));
             $form->addItem($tax);
         }
         
@@ -209,7 +209,7 @@ class ilObjectServiceSettingsGUI
                 $a_obj_id,
                 self::AUTO_RATING_NEW_OBJECTS,
                 false
-                ));
+            ));
             $form->addItem($rate);
         }
         
@@ -224,7 +224,7 @@ class ilObjectServiceSettingsGUI
                     $a_obj_id,
                     self::BADGES,
                     false
-                    ));
+                ));
                 $form->addItem($bdg);
             }
         }

@@ -7,38 +7,41 @@
  * @author: Martin Studer <ms@studer-raimann.ch>
  *
  */
-class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI {
+class ilOrguUserPickerToolbarInputGUI extends ilMultiUserToolbarInputGUI
+{
+    protected $staff;
 
-	protected $staff;
+    public function getToolbarHTML()
+    {
+        $html = "<form method='post' class='ilOrguUserPicker' action='" . $this->getSubmitLink() . "'>";
+        $html .= $this->render();
+        $html .= $this->getSelectHTML();
+        $html .= $this->getSubmitButtonHTML();
+        $html .= "</form>";
+        return $html;
+    }
 
-	public function getToolbarHTML()
-	{
-		$html = "<form method='post' class='ilOrguUserPicker' action='".$this->getSubmitLink()."'>";
-		$html .= $this->render();
-		$html .= $this->getSelectHTML();
-		$html .= $this->getSubmitButtonHTML();
-		$html .= "</form>";
-		return $html;
-	}
-
-	protected function getSelectHTML(){
-		global $DIC;
-		$lng = $DIC['lng'];
-		$html = "
-		<select name='".$this->searchPostVar()."_role"."'>
-			<option value='employee'>".$lng->txt("employee")."</option>
-			<option value='superior'>".$lng->txt("superior")."</option>
+    protected function getSelectHTML()
+    {
+        global $DIC;
+        $lng = $DIC['lng'];
+        $html = "
+		<select name='" . $this->searchPostVar() . "_role" . "'>
+			<option value='employee'>" . $lng->txt("employee") . "</option>
+			<option value='superior'>" . $lng->txt("superior") . "</option>
 		</select>
 		";
-		return $html;
-	}
+        return $html;
+    }
 
-	public function setValueByArray($array){
-		parent::setValueByArray($array);
-		$this->staff = $array[$this->searchPostVar()."_role"];
-	}
+    public function setValueByArray($array)
+    {
+        parent::setValueByArray($array);
+        $this->staff = $array[$this->searchPostVar() . "_role"];
+    }
 
-	public function getStaff(){
-		return $this->staff;
-	}
+    public function getStaff()
+    {
+        return $this->staff;
+    }
 }

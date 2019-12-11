@@ -8,33 +8,34 @@ require_once('class.arSelect.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
-class arSelectCollection extends arStatementCollection {
+class arSelectCollection extends arStatementCollection
+{
 
-	/**
-	 * @return string
-	 */
-	public function asSQLStatement() {
-		$return = 'SELECT ';
-		if ($this->hasStatements()) {
-			$activeRecord = $this->getAr();
-			$selectSQLs   = array_map(function($select) use ($activeRecord) {
-				return $select->asSQLStatement($activeRecord);
-			}, $this->getSelects());
-       			$return      .= join(', ', $selectSQLs);
- 		}
+    /**
+     * @return string
+     */
+    public function asSQLStatement()
+    {
+        $return = 'SELECT ';
+        if ($this->hasStatements()) {
+            $activeRecord = $this->getAr();
+            $selectSQLs   = array_map(function ($select) use ($activeRecord) {
+                return $select->asSQLStatement($activeRecord);
+            }, $this->getSelects());
+            $return      .= join(', ', $selectSQLs);
+        }
 
-//		$return .= ' FROM ' . $this->getAr()->getConnectorContainerName();
+        //		$return .= ' FROM ' . $this->getAr()->getConnectorContainerName();
 
-		return $return;
-	}
+        return $return;
+    }
 
 
-	/**
-	 * @return arSelect[]
-	 */
-	public function getSelects() {
-		return $this->statements;
-	}
+    /**
+     * @return arSelect[]
+     */
+    public function getSelects()
+    {
+        return $this->statements;
+    }
 }
-
-?>

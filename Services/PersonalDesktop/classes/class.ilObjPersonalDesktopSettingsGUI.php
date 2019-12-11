@@ -240,7 +240,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
                     "block_activated_pdusers");
                 $cb_prop->setValue("1");
                 $cb_prop->setChecked($enable_active_users);
-        
+
                     // maximum inactivity time
                     $ti_prop = new ilNumberInputGUI($lng->txt("pd_time_before_removal"),
                         "time_removal");
@@ -249,7 +249,7 @@ class ilObjPersonalDesktopSettingsGUI extends ilObjectGUI
                     $ti_prop->setMaxLength(3);
                     $ti_prop->setSize(3);
                     $cb_prop->addSubItem($ti_prop);
-        
+
                 $form->addItem($cb_prop);
         */
         // Enable 'My Offers' (default personal items)

@@ -1873,7 +1873,7 @@ class ilPCParagraph extends ilPageContent
             " page_parent_type = " . $ilDB->quote($a_parent_type, "text") .
             " AND page_id = " . $ilDB->quote($a_page_id, "integer") .
             " AND page_lang = " . $ilDB->quote($a_page_lang, "text")
-            );
+        );
     }
 
     /**
@@ -1912,7 +1912,7 @@ class ilPCParagraph extends ilPageContent
             " WHERE page_parent_type = " . $ilDB->quote($a_parent_type, "text") .
             " AND page_id = " . $ilDB->quote($a_page_id, "integer") .
             $and_lang
-            );
+        );
         $anchors = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $anchors[] = $rec["anchor_name"];

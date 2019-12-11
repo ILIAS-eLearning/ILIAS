@@ -92,7 +92,7 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
                 'updateProgress',
                 '',
                 true
-                )
+            )
         );
 
         $progress->setAsynStatusTimeout(1);

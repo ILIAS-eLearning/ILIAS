@@ -13,13 +13,15 @@ use ILIAS\Filesystem\Provider\FilesystemFactory;
  * @since 5.3
  * @version 1.0.0
  */
-class FlySystemFilesystemFactory implements FilesystemFactory {
+class FlySystemFilesystemFactory implements FilesystemFactory
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getLocal(LocalConfig $config, $read_only = false) {
-		$localFactory = new FlySystemLocalFilesystemFactory();
-		return $localFactory->getInstance($config);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getLocal(LocalConfig $config, $read_only = false)
+    {
+        $localFactory = new FlySystemLocalFilesystemFactory();
+        return $localFactory->getInstance($config);
+    }
 }

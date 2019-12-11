@@ -1,25 +1,25 @@
 <?php
 // BEGIN WebDAV
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2005 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 require_once "class.ilObjectDAV.php";
@@ -53,7 +53,7 @@ require_once "class.ilObjNull.php";
 * having been successfully executed upon it then the resource MUST return to the null state."
 *
 * Null-resources are used by class.ilDAVSerrev.php for the following use cases:
-* 
+*
 * Use case 1: Creating a new file resource
 * 1. Client sends a PROPFIND request on the name of the resource
 * 2. Server returns 404 (Not Found)
@@ -95,63 +95,61 @@ require_once "class.ilObjNull.php";
 */
 class ilObjNullDAV extends ilObjectDAV
 {
-	/** 
-	* Constructor
-	*
-	* @param refid A refid to the object.
-	*/
-	function __construct($refid, $obj = null) 
-	{
-		parent::__construct($refid, $obj);
-	}
-	
-	/**
-	 * Returns the DAV resource type of this object.
-	 * 
+    /**
+    * Constructor
+    *
+    * @param refid A refid to the object.
+    */
+    public function __construct($refid, $obj = null)
+    {
+        parent::__construct($refid, $obj);
+    }
+    
+    /**
+     * Returns the DAV resource type of this object.
+     *
          * @return String "collection", "" (file) or "null".
-	 */
-	function getResourceType()
-	{
-		return 'null';
-	}
+     */
+    public function getResourceType()
+    {
+        return 'null';
+    }
 
-	/**
-	 * Returns the mime type of the content of this object.
+    /**
+     * Returns the mime type of the content of this object.
          * @return String.
-	 */
-	function getContentType()
-	{
-		return 'application/x-non-readable';
-	}
-	/**
-	 * Reads the object data.
+     */
+    public function getContentType()
+    {
+        return 'application/x-non-readable';
+    }
+    /**
+     * Reads the object data.
          * @return void.
-	 */
-	function read()
-	{
-		if (is_null($this->obj))
-		{
-			$this->obj = new ilObjNull($this->getRefId(),true);
-			$this->obj->read();
-		}
-	}
-	
-	/**
-	 * Converts this object to the specified ILIAS type.
-	 *
-	 * @param refid of the parent object
-	 * @param ILIAS type
-	 */
-	function convertToILIASType($refId, $type)
-	{
-		$this->obj->setType($type);
-		$this->write();
-		$this->obj->setPermissions($refId);
-		$this->writelog('convertToILIASType '.$type.' obj='.$this->getObjectId());
-		$converted =& ilObjectDAV::createObject($this->getRefId(), $type);
-		$converted->obj->createProperties();
-		return $converted;
-	}
+     */
+    public function read()
+    {
+        if (is_null($this->obj)) {
+            $this->obj = new ilObjNull($this->getRefId(), true);
+            $this->obj->read();
+        }
+    }
+    
+    /**
+     * Converts this object to the specified ILIAS type.
+     *
+     * @param refid of the parent object
+     * @param ILIAS type
+     */
+    public function convertToILIASType($refId, $type)
+    {
+        $this->obj->setType($type);
+        $this->write();
+        $this->obj->setPermissions($refId);
+        $this->writelog('convertToILIASType ' . $type . ' obj=' . $this->getObjectId());
+        $converted =&ilObjectDAV::createObject($this->getRefId(), $type);
+        $converted->obj->createProperties();
+        return $converted;
+    }
 }
 // END WebDAV
-?>

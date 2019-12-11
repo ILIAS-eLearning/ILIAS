@@ -11,17 +11,17 @@ require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssFileUploadFi
  */
 class ilAssFileUploadFileTableReuseButton extends ilAssFileUploadFileTableCommandButton
 {
-	const ACTION = 'reuse';
-	
-	public function __construct($type)
-	{
-		parent::__construct($type);
-		$this->setAction(self::ACTION);
-		$this->setCaption($this->lng()->txt('ass_file_upload_reuse_btn'), false);
-	}
-	
-	public static function getInstance()
-	{
-		return new self(self::TYPE_SUBMIT);
-	}
+    const ACTION = 'reuse';
+    
+    public function __construct($type)
+    {
+        parent::__construct($type);
+        $this->setAction(self::ACTION);
+        $this->setCaption($this->lng()->txt('ass_file_upload_reuse_btn'), false);
+    }
+    
+    public static function getInstance()
+    {
+        return new self(self::TYPE_SUBMIT);
+    }
 }

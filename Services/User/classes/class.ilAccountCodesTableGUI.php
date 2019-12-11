@@ -76,7 +76,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
             $this->filter["code"],
             $this->filter["valid_until"],
             $this->filter["generated"]
-            );
+        );
             
         if (count($codes_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
@@ -88,7 +88,7 @@ class ilAccountCodesTableGUI extends ilTable2GUI
                 $this->filter["code"],
                 $this->filter["valid_until"],
                 $this->filter["generated"]
-                );
+            );
         }
         
         $result = array();

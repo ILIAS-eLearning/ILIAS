@@ -106,7 +106,7 @@ class ilMediaPoolPage extends ilPageObject
 
         // todo
         /*
-        
+
                 $query = "SELECT * FROM il_media_pool_page".
                     " WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer").
                     " AND title = ".$ilDB->quote($a_title, "text");
@@ -151,7 +151,7 @@ class ilMediaPoolPage extends ilPageObject
                     " WHERE media_pool_id = ".$ilDB->quote($a_media_pool_id, "integer").
                     " AND title = ".$ilDB->quote($a_title, "text");
                 $set = $ilDB->query($query);
-        
+
                 $pages = array();
                 if ($rec = $ilDB->fetchAssoc($set))
                 {

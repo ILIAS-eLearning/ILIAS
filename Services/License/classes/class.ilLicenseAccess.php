@@ -9,73 +9,76 @@
  *
  * @package ilias-license
  */
-class ilLicenseAccess {
+class ilLicenseAccess
+{
 
-	/**
-	 * Check, if licencing is enabled
-	 * This check is called from the ilAccessHandler class.
-	 *
-	 * @return   boolean     licensing enabled (true/false)
-	 */
-	public static function _isEnabled() {
-		static $enabled;
+    /**
+     * Check, if licencing is enabled
+     * This check is called from the ilAccessHandler class.
+     *
+     * @return   boolean     licensing enabled (true/false)
+     */
+    public static function _isEnabled()
+    {
+        static $enabled;
 
-		if (isset($enabled)) {
-			return $enabled;
-		}
+        if (isset($enabled)) {
+            return $enabled;
+        }
 
-		$lic_set = new ilSetting("license");
-		if ($lic_set->get("license_counter")) {
-			$enabled = true;
+        $lic_set = new ilSetting("license");
+        if ($lic_set->get("license_counter")) {
+            $enabled = true;
 
-			return true;
-		} else {
-			$enabled = false;
+            return true;
+        } else {
+            $enabled = false;
 
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
 
-	/**
-	 * Check, if a user can access an object by license
-	 *
-	 * The user can access, if he/she already accessed the object
-	 * or if a license is available for the object.
-	 * This check is called from the ilAccessHandler class.
-	 *
-	 * @access   static
-	 * @param    int $a_usr_id
-	 * @param    int $a_obj_id (not reference)
-	 * @return   boolean     access is possible (true/false)
-	 */
-	public static function _checkAccess($a_usr_id, $a_obj_id) {
-		global $ilDB;
+    /**
+     * Check, if a user can access an object by license
+     *
+     * The user can access, if he/she already accessed the object
+     * or if a license is available for the object.
+     * This check is called from the ilAccessHandler class.
+     *
+     * @access   static
+     * @param    int $a_usr_id
+     * @param    int $a_obj_id (not reference)
+     * @return   boolean     access is possible (true/false)
+     */
+    public static function _checkAccess($a_usr_id, $a_obj_id)
+    {
+        global $ilDB;
 
-		// check the object license
-		$query = 'SELECT licenses, used FROM license_data WHERE obj_id = %s';
-		$result = $ilDB->queryF($query, array( 'integer' ), array( $a_obj_id ));
+        // check the object license
+        $query = 'SELECT licenses, used FROM license_data WHERE obj_id = %s';
+        $result = $ilDB->queryF($query, array( 'integer' ), array( $a_obj_id ));
 
-		if ($row = $ilDB->fetchObject($result)) {
-			// no licenses set or at least one free => grant access
-			if ($row->licenses == 0 or $row->used < $row->licenses) {
-				return true;
-			}
-		} else {
-			// no license data available => access granted
-			return true;
-		}
+        if ($row = $ilDB->fetchObject($result)) {
+            // no licenses set or at least one free => grant access
+            if ($row->licenses == 0 or $row->used < $row->licenses) {
+                return true;
+            }
+        } else {
+            // no license data available => access granted
+            return true;
+        }
 
-		// check if user has already accessed
-		$query = 'SELECT read_count FROM read_event ' . 'WHERE usr_id = %s AND obj_id = %s';
+        // check if user has already accessed
+        $query = 'SELECT read_count FROM read_event ' . 'WHERE usr_id = %s AND obj_id = %s';
 
-		$result = $ilDB->queryF($query, array( 'integer', 'integer' ), array( $a_usr_id, $a_obj_id ));
+        $result = $ilDB->queryF($query, array( 'integer', 'integer' ), array( $a_usr_id, $a_obj_id ));
 
-		if ($row = $ilDB->fetchObject($result)) {
-			return true;
-		}
+        if ($row = $ilDB->fetchObject($result)) {
+            return true;
+        }
 
-		// all failed
-		return false;
-	}
+        // all failed
+        return false;
+    }
 }

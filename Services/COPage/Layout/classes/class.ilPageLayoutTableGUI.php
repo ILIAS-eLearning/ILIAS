@@ -158,6 +158,6 @@ class ilPageLayoutTableGUI extends ilTable2GUI
                 false,
                 true
             )
-            );
+        );
     }
 }

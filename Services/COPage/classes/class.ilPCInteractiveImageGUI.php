@@ -112,31 +112,31 @@ class ilPCInteractiveImageGUI extends ilPageContentGUI
             $ilTabs->setBackTarget(
                 $lng->txt("pg"),
                 $ilCtrl->getParentReturn($this)
-                );
+            );
 
             $ilTabs->addTab(
                 "triggers",
                 $lng->txt("cont_active_areas"),
                 $ilCtrl->getLinkTargetByClass("ilpciimtriggereditorgui", "editMapAreas")
-                );
+            );
 
             $ilTabs->addTab(
                 "list_overlays",
                 $lng->txt("cont_overlay_images"),
                 $ilCtrl->getLinkTarget($this, "listOverlayImages")
-                );
+            );
 
             $ilTabs->addTab(
                 "content_popups",
                 $lng->txt("cont_content_popups"),
                 $ilCtrl->getLinkTarget($this, "listContentPopups")
-                );
+            );
 
             $ilTabs->addTab(
                 "edit_base_image",
                 $lng->txt("cont_base_image") . " & " . $lng->txt("cont_caption"),
                 $ilCtrl->getLinkTarget($this, "editBaseImage")
-                );
+            );
         }
     }
 

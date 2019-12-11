@@ -173,7 +173,7 @@ class ilWikiPage extends ilPageObject
         $set = $ilDB->query(
             "SELECT id FROM il_wiki_page " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             $this->read(true);
         }
@@ -687,7 +687,7 @@ class ilWikiPage extends ilPageObject
             array($this->getWikiId(), ilWikiUtil::makeDbTitle($this->getTitle()))
         );
         while ($anmiss = $ilDB->fetchAssoc($set)) {	// insert internal links instead
-//echo "adding link";
+            //echo "adding link";
             ilInternalLink::_saveLink(
                 "wpg:pg",
                 $anmiss["source_id"],

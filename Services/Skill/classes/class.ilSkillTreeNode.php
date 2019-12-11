@@ -796,7 +796,7 @@ class ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT obj_id, title FROM skl_tree_node WHERE " .
             " self_eval = " . $ilDB->quote(true, "integer") . " ORDER BY TITLE "
-            );
+        );
         $nodes = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $nodes[$rec["obj_id"]] = $rec["title"];
@@ -833,7 +833,7 @@ class ilSkillTreeNode
         $set = $ilDB->query(
             "SELECT * FROM skl_tree_node " .
             " WHERE self_eval = " . $ilDB->quote(1, "integer")
-            );
+        );
         
         $sel_skills = array();
         while ($rec = $ilDB->fetchAssoc($set)) {

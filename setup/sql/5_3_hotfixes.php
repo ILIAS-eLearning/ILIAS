@@ -11,7 +11,7 @@
 ?>
 <#1>
 <?php
-	$ilCtrlStructureReader->getStructure();
+    $ilCtrlStructureReader->getStructure();
 ?>
 <#2>
 <?php
@@ -62,25 +62,26 @@ $query = "
 
 $res = $ilDB->query($query);
 
-while( $row = $ilDB->fetchAssoc($res) )
-{
-	if( $row['answ_points'] > $row['qpl_points'] )
-	{
-		$ilDB->update('qpl_questions',
-			array('points' => array('float', $row['answ_points'])),
-			array('question_id' => array('integer', $row['qid']))
-		);
-	}
-	
-	$ilDB->manipulateF(
-		"DELETE FROM qpl_a_essay WHERE question_fi = %s",
-		array('integer'), array($row['qid'])
-	);
-	
-	$ilDB->update('qpl_qst_essay',
-		array('keyword_relation' => array('text', 'non')),
-		array('question_fi' => array('integer', $row['qid']))
-	);
+while ($row = $ilDB->fetchAssoc($res)) {
+    if ($row['answ_points'] > $row['qpl_points']) {
+        $ilDB->update(
+            'qpl_questions',
+            array('points' => array('float', $row['answ_points'])),
+            array('question_id' => array('integer', $row['qid']))
+        );
+    }
+    
+    $ilDB->manipulateF(
+        "DELETE FROM qpl_a_essay WHERE question_fi = %s",
+        array('integer'),
+        array($row['qid'])
+    );
+    
+    $ilDB->update(
+        'qpl_qst_essay',
+        array('keyword_relation' => array('text', 'non')),
+        array('question_fi' => array('integer', $row['qid']))
+    );
 }
 
 ?>
@@ -91,19 +92,18 @@ $ilCtrlStructureReader->getStructure();
 <#5>
 <?php
 if (!$ilDB->tableColumnExists(ilOrgUnitPermission::TABLE_NAME, 'protected')) {
-	$ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
-		"type"    => "integer",
-		"length"  => 1,
-		"default" => 0,
-	]);
+    $ilDB->addTableColumn(ilOrgUnitPermission::TABLE_NAME, 'protected', [
+        "type"    => "integer",
+        "length"  => 1,
+        "default" => 0,
+    ]);
 }
 $ilDB->manipulate("UPDATE il_orgu_permissions SET protected = 1 WHERE parent_id = -1");
 ?>
 <#6>
 <?php
-if( $ilDB->indexExistsByFields('cmi_objective', array('id')) )
-{
-	$ilDB->dropIndexByFields('cmi_objective',array('id'));
+if ($ilDB->indexExistsByFields('cmi_objective', array('id'))) {
+    $ilDB->dropIndexByFields('cmi_objective', array('id'));
 }
 ?>
 <#7>
@@ -112,9 +112,8 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#8>
 <?php
-if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr')) )
-{
-	$ilDB->addIndex('page_style_usage',array('page_id', 'page_type', 'page_lang', 'page_nr'),'i1');
+if (!$ilDB->indexExistsByFields('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr'))) {
+    $ilDB->addIndex('page_style_usage', array('page_id', 'page_type', 'page_lang', 'page_nr'), 'i1');
 }
 ?>
 <#9>
@@ -125,22 +124,19 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 $rp_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("read_learning_progress");
 $ep_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('edit_learning_progress');
 $w_ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId('write');
-if($rp_ops_id && $ep_ops_id && $w_ops_id)
-{			
-	// see ilObjectLP
-	$lp_types = array('mcst');
+if ($rp_ops_id && $ep_ops_id && $w_ops_id) {
+    // see ilObjectLP
+    $lp_types = array('mcst');
 
-	foreach($lp_types as $lp_type)
-	{
-		$lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
-		if($lp_type_id)
-		{			
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);				
-			ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);				
-			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
-			ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
-		}
-	}
+    foreach ($lp_types as $lp_type) {
+        $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId($lp_type);
+        if ($lp_type_id) {
+            ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $rp_ops_id);
+            ilDBUpdateNewObjectType::addRBACOperation($lp_type_id, $ep_ops_id);
+            ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $rp_ops_id);
+            ilDBUpdateNewObjectType::cloneOperation($lp_type, $w_ops_id, $ep_ops_id);
+        }
+    }
 }
 ?>
 <#10>
@@ -156,47 +152,47 @@ $superior_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::
 $employee_position_id = ilOrgUnitPosition::getCorePositionId(ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
 
 while ($res = $ilDB->fetchAssoc($set)) {
-	$user_id = $res['usr_id'];
+    $user_id = $res['usr_id'];
 
-	$tmp = explode("_", $res['title']);
-	$orgu_ref_id = (int) $tmp[3];
-	if ($orgu_ref_id == 0) {
-		//$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
-		continue;
-	}
+    $tmp = explode("_", $res['title']);
+    $orgu_ref_id = (int) $tmp[3];
+    if ($orgu_ref_id == 0) {
+        //$ilLog->write("User $user_id could not be assigned to position. Role description does not contain object id of orgu. Skipping.");
+        continue;
+    }
 
-	$tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
-	$role_type = $tmp[2]; // [superior|employee]
+    $tmp = explode("_", $res['title']); //il_orgu_[superior|employee]_[$ref_id]
+    $role_type = $tmp[2]; // [superior|employee]
 
-	if ($role_type == 'superior')
-		$position_id = $superior_position_id;
-	elseif ($role_type == 'employee')
-		$position_id = $employee_position_id;
-	else {
-		//$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
-		continue;
-	}
-	if(!ilOrgUnitUserAssignment::findOrCreateAssignment(
-		$user_id,
-		$position_id,
-		$orgu_ref_id)) {
-		//$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
-	}
+    if ($role_type == 'superior') {
+        $position_id = $superior_position_id;
+    } elseif ($role_type == 'employee') {
+        $position_id = $employee_position_id;
+    } else {
+        //$ilLog->write("User $user_id could not be assigned to position. Role type seems to be neither superior nor employee. Skipping.");
+        continue;
+    }
+    if (!ilOrgUnitUserAssignment::findOrCreateAssignment(
+        $user_id,
+        $position_id,
+        $orgu_ref_id
+    )) {
+        //$ilLog->write("User $user_id could not be assigned to position $position_id, in orgunit $orgu_ref_id . One of the ids might not actually exist in the db. Skipping.");
+    }
 }
 ?>
 <#11>
 <?php
-	$ilDB->manipulate('UPDATE exc_mem_ass_status SET status='.$ilDB->quote('notgraded', 'text').' WHERE status = '.$ilDB->quote('', 'text'));
+    $ilDB->manipulate('UPDATE exc_mem_ass_status SET status=' . $ilDB->quote('notgraded', 'text') . ' WHERE status = ' . $ilDB->quote('', 'text'));
 ?>
 <#12>
 <?php
 
 $query = 'SELECT MAX(meta_description_id) desc_id from il_meta_description ';
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ilDB->dropSequence("il_meta_description");
-	$ilDB->createSequence("il_meta_description", $row->desc_id + 100);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ilDB->dropSequence("il_meta_description");
+    $ilDB->createSequence("il_meta_description", $row->desc_id + 100);
 }
 ?>
 <#13>
@@ -208,18 +204,16 @@ $ilCtrlStructureReader->getStructure();
 
 $client_id = basename(CLIENT_DATA_DIR);
 $web_path = ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . $client_id;
-$sec_path = $web_path."/sec";
+$sec_path = $web_path . "/sec";
 
-if(!file_exists($sec_path))
-{
-	ilUtil::makeDir($sec_path);
+if (!file_exists($sec_path)) {
+    ilUtil::makeDir($sec_path);
 }
 
-$old_path = $web_path."/IASS";
-$new_path = $sec_path."/ilIndividualAssessment";
-if(file_exists($old_path))
-{
-	rename($old_path, $new_path);
+$old_path = $web_path . "/IASS";
+$new_path = $sec_path . "/ilIndividualAssessment";
+if (file_exists($old_path)) {
+    rename($old_path, $new_path);
 }
 
 ?>
@@ -230,28 +224,27 @@ $ilCtrlStructureReader->getStructure();
 <#16>
 <?php
 
-$query = 'select id from adm_settings_template  '.
-	'where title = '. $ilDB->quote('il_astpl_loc_initial','text').
-	'or title = '. $ilDB->quote('il_astpl_loc_qualified','text');
+$query = 'select id from adm_settings_template  ' .
+    'where title = ' . $ilDB->quote('il_astpl_loc_initial', 'text') .
+    'or title = ' . $ilDB->quote('il_astpl_loc_qualified', 'text');
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ilDB->replace(
-		'adm_set_templ_value', 
-		[
-           	'template_id' => ['integer', $row->id],
-			 'setting' => ['text', 'pass_scoring']
-		],
-		[
-			'value' => ['integer',0],
-			'hide' => ['integer',1]
-		]
-	);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ilDB->replace(
+        'adm_set_templ_value',
+        [
+               'template_id' => ['integer', $row->id],
+             'setting' => ['text', 'pass_scoring']
+        ],
+        [
+            'value' => ['integer',0],
+            'hide' => ['integer',1]
+        ]
+    );
 }
 ?>
 <#17>
 <?php
-$ilDB->modifyTableColumn('il_dcl_tableview', 'roles',array('type' => 'clob'));
+$ilDB->modifyTableColumn('il_dcl_tableview', 'roles', array('type' => 'clob'));
 ?>
 <#18>
 <?php
@@ -272,8 +265,8 @@ $ilCtrlStructureReader->getStructure();
 $setting = new ilSetting();
 $ilrqtix = $setting->get('iloscmsgidx1', 0);
 if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('user_id'), 'i1');
-	$setting->set('iloscmsgidx1', 1);
+    $ilDB->addIndex('osc_messages', array('user_id'), 'i1');
+    $setting->set('iloscmsgidx1', 1);
 }
 ?>
 <#21>
@@ -281,8 +274,8 @@ if (!$ilrqtix) {
 $setting = new ilSetting();
 $ilrqtix = $setting->get('iloscmsgidx2', 0);
 if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('conversation_id'), 'i2');
-	$setting->set('iloscmsgidx2', 1);
+    $ilDB->addIndex('osc_messages', array('conversation_id'), 'i2');
+    $setting->set('iloscmsgidx2', 1);
 }
 ?>
 <#22>
@@ -290,17 +283,16 @@ if (!$ilrqtix) {
 $setting = new ilSetting();
 $ilrqtix = $setting->get('iloscmsgidx3', 0);
 if (!$ilrqtix) {
-	$ilDB->addIndex('osc_messages', array('conversation_id', 'user_id', 'timestamp'), 'i3');
-	$setting->set('iloscmsgidx3', 1);
+    $ilDB->addIndex('osc_messages', array('conversation_id', 'user_id', 'timestamp'), 'i3');
+    $setting->set('iloscmsgidx3', 1);
 }
 ?>
 <#23>
 <?php
 $setting = new ilSetting();
 $media_cont_mig = $setting->get('sty_media_cont_mig', 0);
-if ($media_cont_mig == 0)
-{
-	echo "<pre>
+if ($media_cont_mig == 0) {
+    echo "<pre>
 	
 	DEAR ADMINISTRATOR !!
 	
@@ -324,68 +316,64 @@ if ($media_cont_mig == 0)
 		
 	</pre>";
 
-	$setting->set('sty_media_cont_mig', 1);
-	exit;
+    $setting->set('sty_media_cont_mig', 1);
+    exit;
 }
-if ($media_cont_mig == 1)
-{
-	//
-	// RUN_CONTENT_STYLE_MIGRATION
-	//
-	// If you want to skip the migration of former style properties for the media container style classes
-	// set the following value of $run_migration from 'true' to 'false'.
-	//
+if ($media_cont_mig == 1) {
+    //
+    // RUN_CONTENT_STYLE_MIGRATION
+    //
+    // If you want to skip the migration of former style properties for the media container style classes
+    // set the following value of $run_migration from 'true' to 'false'.
+    //
 
-	$run_migration = true;
+    $run_migration = true;
 
-	if ($run_migration)
-	{
-		$set = $ilDB->queryF("SELECT * FROM style_parameter " .
-			" WHERE type = %s AND tag = %s ",
-			array("text", "text"),
-			array("media_cont", "table")
-		);
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
-			$set2 = $ilDB->queryF("SELECT * FROM style_parameter " .
-				" WHERE style_id = %s " .
-				" AND tag = %s " .
-				" AND class = %s " .
-				" AND parameter = %s " .
-				" AND type = %s " .
-				" AND mq_id = %s "
-				,
-				array("integer", "text", "text", "text", "text", "integer"),
-				array($rec["style_id"], "figure", $rec["class"], $rec["parameter"], "media_cont", $rec["mq_id"])
-			);
-			if (!($rec2 = $ilDB->fetchAssoc($set2)))
-			{
-				$id = $ilDB->nextId("style_parameter");
-				$ilDB->insert("style_parameter", array(
-					"id" => array("integer", $id),
-					"style_id" => array("integer", $rec["style_id"]),
-					"tag" => array("text", "figure"),
-					"class" => array("text", $rec["class"]),
-					"parameter" => array("text", $rec["parameter"]),
-					"value" => array("text", $rec["value"]),
-					"type" => array("text", $rec["type"]),
-					"mq_id" => array("integer", $rec["mq_id"]),
-					"custom" => array("integer", $rec["custom"]),
-				));
-			}
-
-		}
-	}
-	$setting->set('sty_media_cont_mig', 2);
+    if ($run_migration) {
+        $set = $ilDB->queryF(
+            "SELECT * FROM style_parameter " .
+            " WHERE type = %s AND tag = %s ",
+            array("text", "text"),
+            array("media_cont", "table")
+        );
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $set2 = $ilDB->queryF(
+                "SELECT * FROM style_parameter " .
+                " WHERE style_id = %s " .
+                " AND tag = %s " .
+                " AND class = %s " .
+                " AND parameter = %s " .
+                " AND type = %s " .
+                " AND mq_id = %s ",
+                array("integer", "text", "text", "text", "text", "integer"),
+                array($rec["style_id"], "figure", $rec["class"], $rec["parameter"], "media_cont", $rec["mq_id"])
+            );
+            if (!($rec2 = $ilDB->fetchAssoc($set2))) {
+                $id = $ilDB->nextId("style_parameter");
+                $ilDB->insert("style_parameter", array(
+                    "id" => array("integer", $id),
+                    "style_id" => array("integer", $rec["style_id"]),
+                    "tag" => array("text", "figure"),
+                    "class" => array("text", $rec["class"]),
+                    "parameter" => array("text", $rec["parameter"]),
+                    "value" => array("text", $rec["value"]),
+                    "type" => array("text", $rec["type"]),
+                    "mq_id" => array("integer", $rec["mq_id"]),
+                    "custom" => array("integer", $rec["custom"]),
+                ));
+            }
+        }
+    }
+    $setting->set('sty_media_cont_mig', 2);
 }
 ?>
 <#24>
 <?php
-	$ilDB->update("style_data", array(
-			"uptodate" => array("integer", 0)
-		), array(
-			"1" => array("integer", 1)
-		));
+    $ilDB->update("style_data", array(
+            "uptodate" => array("integer", 0)
+        ), array(
+            "1" => array("integer", 1)
+        ));
 ?>
 <#25>
 <?php
@@ -402,77 +390,67 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#28>
 <?php
-$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_personal_skill s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
-	" WHERE u.usr_id IS NULL ", [], []);
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_personal_skill s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) " .
+    " WHERE u.usr_id IS NULL ", [], []);
 $user_ids = [];
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$user_ids[] = $rec["user_id"];
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $user_ids[] = $rec["user_id"];
 }
-if (count($user_ids) > 0)
-{
-	$ilDB->manipulate("DELETE FROM skl_personal_skill WHERE "
-		.$ilDB->in("user_id", $user_ids, false, "integer"));
+if (count($user_ids) > 0) {
+    $ilDB->manipulate("DELETE FROM skl_personal_skill WHERE "
+        . $ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
 <#29>
 <?php
-$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_assigned_material s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
-	" WHERE u.usr_id IS NULL ", [], []);
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_assigned_material s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) " .
+    " WHERE u.usr_id IS NULL ", [], []);
 $user_ids = [];
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$user_ids[] = $rec["user_id"];
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $user_ids[] = $rec["user_id"];
 }
-if (count($user_ids) > 0)
-{
-	$ilDB->manipulate("DELETE FROM skl_assigned_material WHERE "
-		.$ilDB->in("user_id", $user_ids, false, "integer"));
+if (count($user_ids) > 0) {
+    $ilDB->manipulate("DELETE FROM skl_assigned_material WHERE "
+        . $ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
 <#30>
 <?php
-$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_profile_user s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
-	" WHERE u.usr_id IS NULL ", [], []);
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_profile_user s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) " .
+    " WHERE u.usr_id IS NULL ", [], []);
 $user_ids = [];
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$user_ids[] = $rec["user_id"];
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $user_ids[] = $rec["user_id"];
 }
-if (count($user_ids) > 0)
-{
-	$ilDB->manipulate("DELETE FROM skl_profile_user WHERE "
-		.$ilDB->in("user_id", $user_ids, false, "integer"));
+if (count($user_ids) > 0) {
+    $ilDB->manipulate("DELETE FROM skl_profile_user WHERE "
+        . $ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
 <#31>
 <?php
-$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_skill_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
-	" WHERE u.usr_id IS NULL ", [], []);
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_skill_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) " .
+    " WHERE u.usr_id IS NULL ", [], []);
 $user_ids = [];
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$user_ids[] = $rec["user_id"];
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $user_ids[] = $rec["user_id"];
 }
-if (count($user_ids) > 0)
-{
-	$ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
-		.$ilDB->in("user_id", $user_ids, false, "integer"));
+if (count($user_ids) > 0) {
+    $ilDB->manipulate("DELETE FROM skl_user_skill_level WHERE "
+        . $ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
 <#32>
 <?php
-$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_has_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) ".
-	" WHERE u.usr_id IS NULL ", [], []);
+$set = $ilDB->queryF("SELECT DISTINCT s.user_id FROM skl_user_has_level s LEFT JOIN usr_data u ON (s.user_id = u.usr_id) " .
+    " WHERE u.usr_id IS NULL ", [], []);
 $user_ids = [];
-while ($rec = $ilDB->fetchAssoc($set))
-{
-	$user_ids[] = $rec["user_id"];
+while ($rec = $ilDB->fetchAssoc($set)) {
+    $user_ids[] = $rec["user_id"];
 }
-if (count($user_ids) > 0)
-{
-	$ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
-		.$ilDB->in("user_id", $user_ids, false, "integer"));
+if (count($user_ids) > 0) {
+    $ilDB->manipulate("DELETE FROM skl_user_has_level WHERE "
+        . $ilDB->in("user_id", $user_ids, false, "integer"));
 }
 ?>
 <#33>
@@ -521,14 +499,14 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#44>
 <?php
-if($ilDB->tableColumnExists("map_area", "href")) {
-	$field = array(
-		'type' 		=> 'text',
-		'length' 	=> 800,
-		'notnull' 	=> false
-	);
+if ($ilDB->tableColumnExists("map_area", "href")) {
+    $field = array(
+        'type' 		=> 'text',
+        'length' 	=> 800,
+        'notnull' 	=> false
+    );
 
-	$ilDB->modifyTableColumn("map_area", "href", $field);
+    $ilDB->modifyTableColumn("map_area", "href", $field);
 }
 ?>
 <#45>
@@ -537,24 +515,24 @@ if($ilDB->tableColumnExists("map_area", "href")) {
 $tempTableName = 'tmp_tst_qst_fixparent';
 
 $tempTableFields = array(
-	'qst_id' => array(
-		'type' => 'integer',
-		'notnull' => true,
-		'length' => 4,
-		'default' => 0
-	),
-	'tst_obj_id' => array(
-		'type' => 'integer',
-		'notnull' => true,
-		'length' => 4,
-		'default' => 0
-	),
-	'qpl_obj_id' => array(
-		'type' => 'integer',
-		'notnull' => true,
-		'length' => 4,
-		'default' => 0
-	)
+    'qst_id' => array(
+        'type' => 'integer',
+        'notnull' => true,
+        'length' => 4,
+        'default' => 0
+    ),
+    'tst_obj_id' => array(
+        'type' => 'integer',
+        'notnull' => true,
+        'length' => 4,
+        'default' => 0
+    ),
+    'qpl_obj_id' => array(
+        'type' => 'integer',
+        'notnull' => true,
+        'length' => 4,
+        'default' => 0
+    )
 );
 
 $brokenFixedTestQuestionsQuery = "
@@ -596,18 +574,16 @@ $brokenQuestionSelectQuery = "
 $res = $ilDB->query($brokenQuestionCountQuery);
 $row = $ilDB->fetchAssoc($res);
 
-if( $ilDB->tableExists($tempTableName) )
-{
-	$ilDB->dropTable($tempTableName);
+if ($ilDB->tableExists($tempTableName)) {
+    $ilDB->dropTable($tempTableName);
 }
 
-if( $row['cnt'] > 0 )
-{
-	$ilDB->createTable($tempTableName, $tempTableFields);
-	$ilDB->addPrimaryKey($tempTableName, array('qst_id'));
-	$ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
-	
-	$ilDB->manipulate("
+if ($row['cnt'] > 0) {
+    $ilDB->createTable($tempTableName, $tempTableFields);
+    $ilDB->addPrimaryKey($tempTableName, array('qst_id'));
+    $ilDB->addIndex($tempTableName, array('tst_obj_id', 'qpl_obj_id'), 'i1');
+    
+    $ilDB->manipulate("
         INSERT INTO {$tempTableName} (qst_id, tst_obj_id, qpl_obj_id) {$brokenQuestionSelectQuery}
     ");
 }
@@ -618,34 +594,36 @@ if( $row['cnt'] > 0 )
 
 $tempTableName = 'tmp_tst_qst_fixparent';
 
-if( $ilDB->tableExists($tempTableName) )
-{
-	$updateStatement = $ilDB->prepareManip("
+if ($ilDB->tableExists($tempTableName)) {
+    $updateStatement = $ilDB->prepareManip(
+        "
         UPDATE qpl_questions SET obj_fi = ? WHERE obj_fi = ? AND question_id IN(
             SELECT qst_id FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
         )
-    ", array('integer', 'integer', 'integer', 'integer')
-	);
-	
-	$deleteStatement = $ilDB->prepareManip("
+    ",
+        array('integer', 'integer', 'integer', 'integer')
+    );
+    
+    $deleteStatement = $ilDB->prepareManip(
+        "
         DELETE FROM {$tempTableName} WHERE tst_obj_id = ? AND qpl_obj_id = ?
-    ", array('integer', 'integer')
-	);
-	
-	$res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
-	
-	while( $row = $ilDB->fetchAssoc($res) )
-	{
-		$ilDB->execute($updateStatement, array(
-			$row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
-		));
-		
-		$ilDB->execute($deleteStatement, array(
-			$row['tst_obj_id'], $row['qpl_obj_id']
-		));
-	}
-	
-	$ilDB->dropTable($tempTableName);
+    ",
+        array('integer', 'integer')
+    );
+    
+    $res = $ilDB->query("SELECT DISTINCT tst_obj_id, qpl_obj_id FROM {$tempTableName}");
+    
+    while ($row = $ilDB->fetchAssoc($res)) {
+        $ilDB->execute($updateStatement, array(
+            $row['tst_obj_id'], $row['qpl_obj_id'], $row['tst_obj_id'], $row['qpl_obj_id']
+        ));
+        
+        $ilDB->execute($deleteStatement, array(
+            $row['tst_obj_id'], $row['qpl_obj_id']
+        ));
+    }
+    
+    $ilDB->dropTable($tempTableName);
 }
 
 ?>
@@ -654,38 +632,38 @@ if( $ilDB->tableExists($tempTableName) )
 $setting = new ilSetting();
 $idx = $setting->get('ilfrmposidx5', 0);
 if (!$idx) {
-	$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
-	$setting->set('ilfrmposidx5', 1);
+    $ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+    $setting->set('ilfrmposidx5', 1);
 }
 ?>
 <#48>
 <?php
-	$ilCtrlStructureReader->getStructure();
+    $ilCtrlStructureReader->getStructure();
 ?>
 <#49>
 <?php
 $q = "SELECT prg_settings.obj_id FROM prg_settings"
-	."	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
-	."	JOIN tree ON parent = prg_ref.ref_id"
-	."	LEFT JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
-	."	LEFT JOIN object_data child ON child_ref.obj_id = child.obj_id"
-	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.obj_id IS NULL";
+    . "	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
+    . "	JOIN tree ON parent = prg_ref.ref_id"
+    . "	LEFT JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
+    . "	LEFT JOIN object_data child ON child_ref.obj_id = child.obj_id"
+    . "	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.obj_id IS NULL";
 $res = $ilDB->query($q);
 $to_adjust = [];
-while($rec = $ilDB->fetchAssoc($res)) {
-		$to_adjust[] = (int)$rec['obj_id'];
+while ($rec = $ilDB->fetchAssoc($res)) {
+    $to_adjust[] = (int) $rec['obj_id'];
 }
-$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 0 WHERE '.$ilDB->in('obj_id',$to_adjust,false,'integer'));
+$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 0 WHERE ' . $ilDB->in('obj_id', $to_adjust, false, 'integer'));
 $q = "SELECT prg_settings.obj_id FROM prg_settings"
-	."	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
-	."	JOIN tree ON parent = prg_ref.ref_id"
-	."	JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
-	."	JOIN object_data child ON child_ref.obj_id = child.obj_id"
-	."	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.type = 'prg'";
+    . "	JOIN object_reference prg_ref ON prg_settings.obj_id = prg_ref.obj_id"
+    . "	JOIN tree ON parent = prg_ref.ref_id"
+    . "	JOIN object_reference child_ref ON tree.child = child_ref.ref_id"
+    . "	JOIN object_data child ON child_ref.obj_id = child.obj_id"
+    . "	WHERE lp_mode = 2 AND prg_ref.deleted IS NULL AND child.type = 'prg'";
 $res = $ilDB->query($q);
 $to_adjust = [];
-while($rec = $ilDB->fetchAssoc($res)) {
-		$to_adjust[] = (int)$rec['obj_id'];
+while ($rec = $ilDB->fetchAssoc($res)) {
+    $to_adjust[] = (int) $rec['obj_id'];
 }
-$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE '.$ilDB->in('obj_id',$to_adjust,false,'integer'));
+$ilDB->manipulate('UPDATE prg_settings SET lp_mode = 1 WHERE ' . $ilDB->in('obj_id', $to_adjust, false, 'integer'));
 ?>

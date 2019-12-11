@@ -928,7 +928,7 @@ class ilObjWikiGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA
                     )
-                );
+            );
         }
         
         // :TODO: sorting

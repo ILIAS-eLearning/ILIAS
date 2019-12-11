@@ -8,11 +8,11 @@ require_once 'Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableG
  */
 class ilGlobalUnitCategoryTableGUI extends ilUnitCategoryTableGUI
 {
-	/**
-	 *
-	 */
-	protected function populateTitle()
-	{
-		$this->setTitle($this->lng->txt('un_global_units') . ': ' . $this->lng->txt('categories'));
-	}
+    /**
+     *
+     */
+    protected function populateTitle()
+    {
+        $this->setTitle($this->lng->txt('un_global_units') . ': ' . $this->lng->txt('categories'));
+    }
 }

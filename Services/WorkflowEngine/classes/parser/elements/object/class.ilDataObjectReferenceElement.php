@@ -11,32 +11,31 @@
  */
 class ilDataObjectReferenceElement extends ilBaseElement
 {
-	/** @var string $element_varname */
-	public $element_varname;
+    /** @var string $element_varname */
+    public $element_varname;
 
-	/**
-	 * @param                     $element
-	 * @param \ilWorkflowScaffold $class_object
-	 *
-	 * @return string
-	 */
-	public function getPHP($element, ilWorkflowScaffold $class_object)
-	{
-		// We need to register an instance var that is a reference.
-		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
-		$name = $element['name'];
-		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
+    /**
+     * @param                     $element
+     * @param \ilWorkflowScaffold $class_object
+     *
+     * @return string
+     */
+    public function getPHP($element, ilWorkflowScaffold $class_object)
+    {
+        // We need to register an instance var that is a reference.
+        $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
+        $name = $element['name'];
+        $ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
 
-		if($ext_name != null)
-		{
-			$name = $ext_name;
-		}
+        if ($ext_name != null) {
+            $name = $ext_name;
+        }
 
-		$code = "";
-		$code .= '
-			$this->defineInstanceVar("'.$element_id.'","'.$name.'", true, "'.$element['attributes']['dataObjectRef'].'" );
+        $code = "";
+        $code .= '
+			$this->defineInstanceVar("' . $element_id . '","' . $name . '", true, "' . $element['attributes']['dataObjectRef'] . '" );
 		';
 
-		return $code;
-	}
+        return $code;
+    }
 }

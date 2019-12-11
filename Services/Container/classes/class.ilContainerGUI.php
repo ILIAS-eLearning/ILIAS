@@ -672,25 +672,25 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             //			{
             if ($this->object->gotItems()) {
                 $toolbar->setLeadingImage(
-                        ilUtil::getImagePath("arrow_upright.svg"),
-                        $lng->txt("actions")
-                    );
+                    ilUtil::getImagePath("arrow_upright.svg"),
+                    $lng->txt("actions")
+                );
                 $toolbar->addFormButton(
-                        $this->lng->txt('delete_selected_items'),
-                        'delete'
-                    );
+                    $this->lng->txt('delete_selected_items'),
+                    'delete'
+                );
                 $toolbar->addFormButton(
-                        $this->lng->txt('move_selected_items'),
-                        'cut'
-                    );
+                    $this->lng->txt('move_selected_items'),
+                    'cut'
+                );
                 $toolbar->addFormButton(
-                        $this->lng->txt('copy_selected_items'),
-                        'copy'
-                    );
+                    $this->lng->txt('copy_selected_items'),
+                    'copy'
+                );
                 $toolbar->addFormButton(
-                        $this->lng->txt('link_selected_items'),
-                        'link'
-                    );
+                    $this->lng->txt('link_selected_items'),
+                    'link'
+                );
                 // add download button if multi download enabled
                 $folder_set = new ilSetting("fold");
                 if ($folder_set->get("enable_multi_download") == true) {
@@ -698,9 +698,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                         
                     if (!$folder_set->get("bgtask_download", 0)) {
                         $toolbar->addFormButton(
-                                $this->lng->txt('download_selected_items'),
-                                'download'
-                            );
+                            $this->lng->txt('download_selected_items'),
+                            'download'
+                        );
                     } else {
                         $url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
                         $GLOBALS['tpl']->addJavaScript("Services/BackgroundTask/js/BgTask.js");
@@ -722,12 +722,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 }
                     
                 $toolbar->addButton(
-                        $this->lng->txt('cntr_adopt_content'),
-                        $this->ctrl->getLinkTargetByClass(
+                    $this->lng->txt('cntr_adopt_content'),
+                    $this->ctrl->getLinkTargetByClass(
                             'ilObjectCopyGUI',
                             'adoptContent'
                         )
-                    );
+                );
             }
             //			}
             /*else
@@ -1514,12 +1514,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     time() + /*30*24*60**/60,
                     0,
                     'exclusive'
-                        );
+                );
 
                 ilUtil::sendInfo(
                     $this->lng->txt(
-                                ($result === true) ? 'object_locked' : $result
-                                    ),
+                        ($result === true) ? 'object_locked' : $result
+                    ),
                     true
                 );
             }
@@ -3484,8 +3484,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->lng->txt('sort_inherit_prefix') .
                     ' (' . ilContainerSortingSettings::sortModeToString(
                         ilContainerSortingSettings::lookupSortModeFromParentContainer(
-                                $this->object->getId()
-                            )
+                            $this->object->getId()
+                        )
                     ) . ') '
             );
             $sort_inherit->setValue(ilContainer::SORT_INHERIT);

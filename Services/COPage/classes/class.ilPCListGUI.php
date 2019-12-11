@@ -158,7 +158,7 @@ class ilPCListGUI extends ilPageContentGUI
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "bullet_style"
-            );
+        );
         $this->getCharacteristicsOfCurrentStyle("list_u");
         $options = $this->getCharacteristics();
         if ($a_mode == "edit" && $this->content_obj->getListType() == "Unordered"
@@ -190,7 +190,7 @@ class ilPCListGUI extends ilPageContentGUI
         $style = new ilAdvSelectInputGUI(
             $this->lng->txt("cont_style"),
             "number_style"
-            );
+        );
         $this->getCharacteristicsOfCurrentStyle("list_o");
         $options = $this->getCharacteristics();
         if ($a_mode == "edit" && $this->content_obj->getListType() == "Ordered"

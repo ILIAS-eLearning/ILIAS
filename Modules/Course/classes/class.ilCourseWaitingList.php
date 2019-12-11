@@ -8,63 +8,59 @@ include_once('./Services/Membership/classes/class.ilWaitingList.php');
 /**
  * Course waiting list
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
- * 
+ *
  * @extends ilWaitingList
  */
 class ilCourseWaitingList extends ilWaitingList
 {
-	/**
-	 * Add to waiting list and raise event
-	 * @param int $a_usr_id
-	 */
-	public function addToList($a_usr_id)
-	{
-		global $ilAppEventHandler, $ilLog;
-		
-		if(!parent::addToList($a_usr_id))
-		{
-			return FALSE;
-		}
-		
-		$ilLog->write(__METHOD__.': Raise new event: Modules/Course addToList');
-		$ilAppEventHandler->raise(
-				"Modules/Course", 
-				'addToWaitingList', 
-				array(
-					'obj_id' => $this->getObjId(),
-					'usr_id' => $a_usr_id
-				)
-			);
-		return TRUE;
-	}
+    /**
+     * Add to waiting list and raise event
+     * @param int $a_usr_id
+     */
+    public function addToList($a_usr_id)
+    {
+        global $ilAppEventHandler, $ilLog;
+        
+        if (!parent::addToList($a_usr_id)) {
+            return false;
+        }
+        
+        $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course addToList');
+        $ilAppEventHandler->raise(
+            "Modules/Course",
+            'addToWaitingList',
+            array(
+                    'obj_id' => $this->getObjId(),
+                    'usr_id' => $a_usr_id
+                )
+        );
+        return true;
+    }
 
 
-	/**
-	 * Remove from waiting list and raise event
-	 * @param int $a_usr_id
-	 */
-	public function removeFromList($a_usr_id)
-	{
-		global $ilAppEventHandler, $ilLog;
+    /**
+     * Remove from waiting list and raise event
+     * @param int $a_usr_id
+     */
+    public function removeFromList($a_usr_id)
+    {
+        global $ilAppEventHandler, $ilLog;
 
-		if(!parent::removeFromList($a_usr_id))
-		{
-			return FALSE;
-		}
+        if (!parent::removeFromList($a_usr_id)) {
+            return false;
+        }
 
-		$ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
-		$ilAppEventHandler->raise(
-			"Modules/Course", 'removeFromWaitingList',
-			array(
-				'obj_id' => $this->getObjId(),
-				'usr_id' => $a_usr_id
-			)
-		);
-		return TRUE;
-	}
-
+        $ilLog->write(__METHOD__ . ': Raise new event: Modules/Course removeFromList');
+        $ilAppEventHandler->raise(
+            "Modules/Course",
+            'removeFromWaitingList',
+            array(
+                'obj_id' => $this->getObjId(),
+                'usr_id' => $a_usr_id
+            )
+        );
+        return true;
+    }
 }
-
-?>

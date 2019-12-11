@@ -17,42 +17,38 @@ use ilException;
  * @version 1.0
  * @since 5.3.4
  */
-interface FilenameSanitizer {
+interface FilenameSanitizer
+{
 
-	/**
-	 * This file suffix will be used to sanitize not whitelisted file names.
-	 */
-	const CLEAN_FILE_SUFFIX = 'sec';
+    /**
+     * This file suffix will be used to sanitize not whitelisted file names.
+     */
+    const CLEAN_FILE_SUFFIX = 'sec';
 
-	/**
-	 * Checks if the filename is prefixed with a valid whitelisted ending.
-	 *
-	 * @param string $filename The filename which should be checked for a whitelisted ending.
-	 *
-	 * @return bool True if the filename ending is whitelisted otherwise false.
-	 *
-	 * @version 1.0
-	 * @since 5.3.4
-	 *
-	 * @throws ilException Thrown if the filename is null.
-	 */
-	public function isClean($filename);
-
-
-	/**
-	 * Validates the file ending, with the filesystem whitelist provided by ILIAS.
-	 * If the filename is suffixed with an not listed file ending
-	 *
-	 * @param string $filename The filename which should be sanitized.
-	 *
-	 * @return string The filename with a valid ending.
-	 *
-	 * @throws ilException Thrown if the filename is null.
-	 */
-	public function sanitize($filename);
+    /**
+     * Checks if the filename is prefixed with a valid whitelisted ending.
+     *
+     * @param string $filename The filename which should be checked for a whitelisted ending.
+     *
+     * @return bool True if the filename ending is whitelisted otherwise false.
+     *
+     * @version 1.0
+     * @since 5.3.4
+     *
+     * @throws ilException Thrown if the filename is null.
+     */
+    public function isClean($filename);
 
 
-
-
-
+    /**
+     * Validates the file ending, with the filesystem whitelist provided by ILIAS.
+     * If the filename is suffixed with an not listed file ending
+     *
+     * @param string $filename The filename which should be sanitized.
+     *
+     * @return string The filename with a valid ending.
+     *
+     * @throws ilException Thrown if the filename is null.
+     */
+    public function sanitize($filename);
 }

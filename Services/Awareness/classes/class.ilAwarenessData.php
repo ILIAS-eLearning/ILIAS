@@ -304,7 +304,7 @@ class ilAwarenessData
                         !is_int(stripos($n["login"], $filter)) &&
                         (
                             !$n["public_profile"] || (
-                            !is_int(stripos($n["firstname"], $filter)) &&
+                                !is_int(stripos($n["firstname"], $filter)) &&
                                 !is_int(stripos($n["lastname"], $filter))
                             )
                         )

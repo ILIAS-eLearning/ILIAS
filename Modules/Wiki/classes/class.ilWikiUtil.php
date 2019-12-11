@@ -220,7 +220,7 @@ class ilWikiUtil
             /*			$ns = $nt->getNamespace();
                         $iw = $nt->getInterWiki();
                         wfProfileOut( "$fname-title" );
-            
+
             /*			if ($might_be_img) { # if this is actually an invalid link
                             wfProfileIn( "$fname-might_be_img" );
                             if ($ns == NS_IMAGE && $noforce) { #but might be an image

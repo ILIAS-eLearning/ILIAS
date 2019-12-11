@@ -7,160 +7,170 @@
  * @author            Martin Studer <ms@studer-raimann.ch>
  *
  */
-class ilOrgUnitStaffTableGUI extends ilTable2GUI{
+class ilOrgUnitStaffTableGUI extends ilTable2GUI
+{
 
-	/** @var bool  */
-	private $recursive = false;
+    /** @var bool  */
+    private $recursive = false;
 
-	/** @var string "employee" | "superior" */
-	private $staff = "employee";
+    /** @var string "employee" | "superior" */
+    private $staff = "employee";
 
-	public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = ""){
+    public function __construct($parent_obj, $parent_cmd, $staff = "employee", $recursive = false, $template_context = "")
+    {
+        global $DIC;
+        $lng = $DIC['lng'];
+        $ilCtrl = $DIC['ilCtrl'];
+        $ilTabs = $DIC['ilTabs'];
+        /**
+         * @var $ilCtrl ilCtrl
+         * @var $ilTabs ilTabsGUI
+         */
+        $this->ctrl = $ilCtrl;
+        $this->tabs = $ilTabs;
+        $this->lng = $lng;
 
+        $this->setPrefix("il_orgu_" . $staff);
+        $this->setFormName('il_orgu_' . $staff);
+        $this->setId("il_orgu_" . $staff);
 
-		global $DIC;
-		$lng = $DIC['lng'];
-		$ilCtrl = $DIC['ilCtrl'];
-		$ilTabs = $DIC['ilTabs'];
-		/**
-		 * @var $ilCtrl ilCtrl
-		 * @var $ilTabs ilTabsGUI
-		 */
-		$this->ctrl = $ilCtrl;
-		$this->tabs = $ilTabs;
-		$this->lng = $lng;
+        parent::__construct($parent_obj, $parent_cmd, $template_context);
 
-		$this->setPrefix("il_orgu_".$staff);
-		$this->setFormName('il_orgu_'.$staff);
-		$this->setId("il_orgu_".$staff);
-
-		parent::__construct($parent_obj, $parent_cmd, $template_context);
-
-		$this->setFormAction($this->ctrl->getFormAction($parent_obj));
-		$this->setStaff($staff);
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
+        $this->setStaff($staff);
         $this->recursive = $recursive;
-		$this->setTableHeaders();
-		$this->setTopCommands(true);
-		$this->setEnableHeader(true);
-		$this->setShowRowsSelector(true);
-		$this->setShowTemplates(false);
-		$this->setEnableHeader(true);
-		$this->setDefaultOrderField("role");
-		$this->setEnableTitle(true);
-		$this->setTitle($this->lng->txt("Staff"));
-		$this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
-	}
+        $this->setTableHeaders();
+        $this->setTopCommands(true);
+        $this->setEnableHeader(true);
+        $this->setShowRowsSelector(true);
+        $this->setShowTemplates(false);
+        $this->setEnableHeader(true);
+        $this->setDefaultOrderField("role");
+        $this->setEnableTitle(true);
+        $this->setTitle($this->lng->txt("Staff"));
+        $this->setRowTemplate("tpl.staff_row.html", "Modules/OrgUnit");
+    }
 
 
-	protected function setTableHeaders(){
-		$this->addColumn($this->lng->txt("firstname"), "first_name");
-		$this->addColumn($this->lng->txt("lastname"), "last_name");
+    protected function setTableHeaders()
+    {
+        $this->addColumn($this->lng->txt("firstname"), "first_name");
+        $this->addColumn($this->lng->txt("lastname"), "last_name");
         if ($this->recursive) {
             $this->addColumn($this->lng->txt('obj_orgu'), 'org_units');
         }
-		$this->addColumn($this->lng->txt("action"));
-	}
+        $this->addColumn($this->lng->txt("action"));
+    }
 
-	public function parseData(){
-		if($this->staff == "employee")
-			$data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $this->recursive));
-		elseif($this->staff == "superior")
-			$data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getSuperiors($_GET["ref_id"], $this->recursive));
-		else
-			throw new Exception("The ilOrgUnitStaffTableGUI's staff variable has to be either 'employee' or 'superior'");
+    public function parseData()
+    {
+        if ($this->staff == "employee") {
+            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getEmployees($_GET["ref_id"], $this->recursive));
+        } elseif ($this->staff == "superior") {
+            $data = $this->parseRows(ilObjOrgUnitTree::_getInstance()->getSuperiors($_GET["ref_id"], $this->recursive));
+        } else {
+            throw new Exception("The ilOrgUnitStaffTableGUI's staff variable has to be either 'employee' or 'superior'");
+        }
 
-		$this->setData($data);
-	}
+        $this->setData($data);
+    }
 
-	protected function parseRows($user_ids){
-		$data = array();
-		foreach($user_ids as $user_id){
-			$set = array();
-			$this->setRowForUser($set, $user_id);
-			$data[] = $set;
-		}
-		return $data;
-	}
+    protected function parseRows($user_ids)
+    {
+        $data = array();
+        foreach ($user_ids as $user_id) {
+            $set = array();
+            $this->setRowForUser($set, $user_id);
+            $data[] = $set;
+        }
+        return $data;
+    }
 
-	/**
-	 * @param string $staff Set this variable either to "employee" or "superior". It's employee by default.
-	 */
-	public function setStaff($staff)
-	{
-		$this->staff = $staff;
-	}
+    /**
+     * @param string $staff Set this variable either to "employee" or "superior". It's employee by default.
+     */
+    public function setStaff($staff)
+    {
+        $this->staff = $staff;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getStaff()
-	{
-		return $this->staff;
-	}
+    /**
+     * @return string
+     */
+    public function getStaff()
+    {
+        return $this->staff;
+    }
 
-	protected function setRowForUser(&$set, $user_id){
-		$user = new ilObjUser($user_id);
-		$set["first_name"] = $user->getFirstname();
-		$set["last_name"] = $user->getLastname();
-		$set["user_object"] = $user;
-		$set["user_id"] = $user_id;
-        if ($this->recursive) $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id, (int)$_GET['ref_id']);
-	}
+    protected function setRowForUser(&$set, $user_id)
+    {
+        $user = new ilObjUser($user_id);
+        $set["first_name"] = $user->getFirstname();
+        $set["last_name"] = $user->getLastname();
+        $set["user_object"] = $user;
+        $set["user_id"] = $user_id;
+        if ($this->recursive) {
+            $set["org_units"] = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id, (int) $_GET['ref_id']);
+        }
+    }
 
-	function fillRow($set){
-		global $DIC;
-		$ilUser = $DIC['ilUser'];
-		$ilAccess = $DIC['ilAccess'];
-		$lng = $DIC['lng'];
-		$ilAccess = $DIC['ilAccess'];
-		$this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-		$this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+    public function fillRow($set)
+    {
+        global $DIC;
+        $ilUser = $DIC['ilUser'];
+        $ilAccess = $DIC['ilAccess'];
+        $lng = $DIC['lng'];
+        $ilAccess = $DIC['ilAccess'];
+        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
         if ($this->recursive) {
             $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($set['org_units']));
             $this->tpl->setVariable("ORG_UNITS", implode(', ', $orgUnitsTitles));
         }
-		$this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $set["user_id"]);
-		$this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
-		$selection = new ilAdvancedSelectionListGUI();
-		$selection->setListTitle($lng->txt("Actions"));
-		$selection->setId("selection_list_user_lp_".$set["user_id"]);
+        $this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $set["user_id"]);
+        $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
+        $selection = new ilAdvancedSelectionListGUI();
+        $selection->setListTitle($lng->txt("Actions"));
+        $selection->setId("selection_list_user_lp_" . $set["user_id"]);
 
-		if($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]) AND ilObjUserTracking::_enabledLearningProgress() and
-			ilObjUserTracking::_enabledUserRelatedData()){
-			$selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI", "ilLearningProgressGUI"), ""));
-		}
-		if($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive){
-			if($this->staff == "employee")
-				$this->addEmployeeActions($selection);
-			if($this->staff == "superior")
-				$this->addSuperiorActions($selection);
-		}
-		$this->tpl->setVariable("ACTIONS", $selection->getHTML());
+        if ($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]) and ilObjUserTracking::_enabledLearningProgress() and
+            ilObjUserTracking::_enabledUserRelatedData()) {
+            $selection->addItem($lng->txt("show_learning_progress"), "show_learning_progress", $this->ctrl->getLinkTargetByClass(array("ilAdministrationGUI", "ilObjOrgUnitGUI", "ilLearningProgressGUI"), ""));
+        }
+        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"]) && !$this->recursive) {
+            if ($this->staff == "employee") {
+                $this->addEmployeeActions($selection);
+            }
+            if ($this->staff == "superior") {
+                $this->addSuperiorActions($selection);
+            }
+        }
+        $this->tpl->setVariable("ACTIONS", $selection->getHTML());
+    }
 
-	}
+    /**
+     * @param $selection ilAdvancedSelectionListGUI
+     */
+    protected function addEmployeeActions(&$selection)
+    {
+        $selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromEmployees"));
+        $selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromEmployeeToSuperior"));
+    }
 
-	/**
-	 * @param $selection ilAdvancedSelectionListGUI
-	 */
-	protected function addEmployeeActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_employees", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromEmployees"));
-		$selection->addItem($this->lng->txt("change_to_superior"), "change_to_superior", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromEmployeeToSuperior"));
-	}
+    /**
+     * @param $selection ilAdvancedSelectionListGUI
+     */
+    protected function addSuperiorActions(&$selection)
+    {
+        $selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromSuperiors"));
+        $selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromSuperiorToEmployee"));
+    }
 
-	/**
-	 * @param $selection ilAdvancedSelectionListGUI
-	 */
-	protected function addSuperiorActions(&$selection){
-		$selection->addItem($this->lng->txt("remove"), "delete_from_superiors", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "confirmRemoveFromSuperiors"));
-		$selection->addItem($this->lng->txt("change_to_employee"), "change_to_employee", $this->ctrl->getLinkTargetByClass("ilOrgUnitStaffGUI", "fromSuperiorToEmployee"));
-	}
-
-	/**
-	 * @param $recursive bool show direct members of this org unit or the sub-units as well?
-	 */
-	public function setRecursive($recursive){
-		$this->recursive = $recursive;
-	}
-
-
+    /**
+     * @param $recursive bool show direct members of this org unit or the sub-units as well?
+     */
+    public function setRecursive($recursive)
+    {
+        $this->recursive = $recursive;
+    }
 }

@@ -714,7 +714,7 @@ abstract class ilBlockGUI
         function handleConfigStatus()
         {
             $this->config_mode = false;
-    
+
             if ($_GET[$this->getConfigParameter()] == "toggle")
             {
                 if ($_SESSION[$this->getConfigParameter()] == "on")
@@ -1379,32 +1379,32 @@ abstract class ilBlockGUI
                 //				if ($i != $this->getCurrentDetailLevel())
                 //				{
                 $ilCtrl->setParameterByClass(
-                        "ilcolumngui",
-                        $this->getDetailParameter(),
-                        $i
-                    );
+                    "ilcolumngui",
+                    $this->getDetailParameter(),
+                    $i
+                );
 
                 $onclick = $onclick_id = "";
                     
                 // ajax link
                 if ($i > 0) {
                     $ilCtrl->setParameterByClass(
-                            "ilcolumngui",
-                            "block_id",
-                            "block_" . $this->getBlockType() . "_" . $this->block_id
-                        );
+                        "ilcolumngui",
+                        "block_id",
+                        "block_" . $this->getBlockType() . "_" . $this->block_id
+                    );
                     $onclick = $ilCtrl->getLinkTargetByClass(
-                            "ilcolumngui",
-                            "updateBlock",
-                            "",
-                            true
-                        );
+                        "ilcolumngui",
+                        "updateBlock",
+                        "",
+                        true
+                    );
                     $onclick_id = "block_" . $this->getBlockType() . "_" . $this->block_id;
                     $ilCtrl->setParameterByClass(
-                            "ilcolumngui",
-                            "block_id",
-                            ""
-                        );
+                        "ilcolumngui",
+                        "block_id",
+                        ""
+                    );
                 }
                                                                                     
                 // normal link

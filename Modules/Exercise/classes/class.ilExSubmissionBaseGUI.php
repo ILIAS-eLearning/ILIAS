@@ -63,7 +63,7 @@ abstract class ilExSubmissionBaseGUI
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, "returnToParent")
-            );
+        );
         
         $this->tabs_gui->addTab(
             "submission",

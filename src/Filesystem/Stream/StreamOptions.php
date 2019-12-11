@@ -15,44 +15,47 @@ namespace ILIAS\Filesystem\Stream;
  * @see Stream
  * @internal
  */
-class StreamOptions {
+class StreamOptions
+{
+    const UNKNOWN_STREAM_SIZE = -1;
 
-	const UNKNOWN_STREAM_SIZE = -1;
-
-	/**
-	 * @var int $size
-	 */
-	private $size;
-	/**
-	 * @var string[] $metadata
-	 */
-	private $metadata;
-
-
-	/**
-	 * StreamOptions constructor.
-	 *
-	 * @param \string[] $metadata   Additional metadata for the stream.
-	 * @param int       $size       The known stream size in byte. -1 indicates an unknown size.
-	 */
-	public function __construct(array $metadata = [], $size = self::UNKNOWN_STREAM_SIZE) {
-		$this->size = $size;
-		$this->metadata = $metadata;
-	}
+    /**
+     * @var int $size
+     */
+    private $size;
+    /**
+     * @var string[] $metadata
+     */
+    private $metadata;
 
 
-	/**
-	 * @return int
-	 */
-	public function getSize() {
-		return $this->size;
-	}
+    /**
+     * StreamOptions constructor.
+     *
+     * @param \string[] $metadata   Additional metadata for the stream.
+     * @param int       $size       The known stream size in byte. -1 indicates an unknown size.
+     */
+    public function __construct(array $metadata = [], $size = self::UNKNOWN_STREAM_SIZE)
+    {
+        $this->size = $size;
+        $this->metadata = $metadata;
+    }
 
 
-	/**
-	 * @return \string[]
-	 */
-	public function getMetadata() {
-		return $this->metadata;
-	}
+    /**
+     * @return int
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+
+    /**
+     * @return \string[]
+     */
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
 }

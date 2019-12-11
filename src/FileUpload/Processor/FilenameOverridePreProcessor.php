@@ -15,28 +15,33 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
  * @since   5.3
  * @version 1.0.0
  */
-final class FilenameOverridePreProcessor implements PreProcessor {
+final class FilenameOverridePreProcessor implements PreProcessor
+{
 
-	/**
-	 * @var string
-	 */
-	private $filename;
-
-
-	/**
-	 * BlacklistExtensionPreProcessor constructor.
-	 *
-	 * @param string $filename
-	 */
-	public function __construct($filename) { $this->filename = $filename; }
+    /**
+     * @var string
+     */
+    private $filename;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		$metadata->setFilename($this->filename);
+    /**
+     * BlacklistExtensionPreProcessor constructor.
+     *
+     * @param string $filename
+     */
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+    }
 
-		return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
-	}
+
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        $metadata->setFilename($this->filename);
+
+        return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
+    }
 }

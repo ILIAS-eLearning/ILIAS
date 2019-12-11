@@ -64,7 +64,7 @@ class ilUserLPTableGUI extends ilTable2GUI
             array("online_time"),
             null,
             null
-            );
+        );
             
         if (count($usr_data["set"]) == 0 && $this->getOffset() > 0) {
             $this->resetOffset();
@@ -84,7 +84,7 @@ class ilUserLPTableGUI extends ilTable2GUI
                 array("online_time"),
                 null,
                 null
-                );
+            );
         }
 
         $this->setMaxCount($usr_data["cnt"]);

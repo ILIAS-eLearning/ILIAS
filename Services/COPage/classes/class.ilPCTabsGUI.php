@@ -138,7 +138,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $vchar_prop = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_characteristic"),
                 "vaccord_templ"
-                );
+            );
             foreach ($templ as $k => $te) {
                 $t = explode(":", $k);
                 $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both" class="small">' . $te . "</div>";
@@ -164,7 +164,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $hchar_prop = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_characteristic"),
                 "haccord_templ"
-                );
+            );
             foreach ($templ as $k => $te) {
                 $t = explode(":", $k);
                 $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both" class="small">' . $te . "</div>";
@@ -189,7 +189,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $cchar_prop = new ilAdvSelectInputGUI(
                 $this->lng->txt("cont_characteristic"),
                 "carousel_templ"
-                );
+            );
             foreach ($templ as $k => $te) {
                 $t = explode(":", $k);
                 $html = $this->style->lookupTemplatePreview($t[1]) . '<div style="clear:both" class="small">' . $te . "</div>";

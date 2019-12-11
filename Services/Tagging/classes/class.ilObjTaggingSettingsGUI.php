@@ -235,9 +235,9 @@ class ilObjTaggingSettingsGUI extends ilObjectGUI
         
         // enable all users info
         $cb_prop2 = new ilCheckboxInputGUI(
-                $lng->txt("tagging_enable_all_users"),
-                "enable_all_users"
-            );
+            $lng->txt("tagging_enable_all_users"),
+            "enable_all_users"
+        );
         $cb_prop2->setInfo($lng->txt("tagging_enable_all_users_info"));
         $cb_prop2->setChecked($tags_set->get("enable_all_users"));
         $cb_prop->addSubItem($cb_prop2);

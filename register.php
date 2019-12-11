@@ -18,6 +18,3 @@ $ilCtrl->setTargetScript("ilias.php");
 $ilCtrl->setCmd("jumpToRegistration");
 $ilCtrl->callBaseClass();
 $ilBench->save();
-
-
-?>

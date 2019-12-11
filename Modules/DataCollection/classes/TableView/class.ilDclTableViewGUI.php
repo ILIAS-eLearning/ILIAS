@@ -41,13 +41,13 @@ class ilDclTableViewGUI
     protected $table;
 
 
-	/**
-	 * Constructor
-	 *
-	 * @param ilDclTableListGUI $a_parent_obj
-	 * @param    int                                   $table_id
-	 */
-    public function  __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
+    /**
+     * Constructor
+     *
+     * @param ilDclTableListGUI $a_parent_obj
+     * @param    int                                   $table_id
+     */
+    public function __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -55,11 +55,11 @@ class ilDclTableViewGUI
         $ilToolbar = $DIC['ilToolbar'];
         $tpl = $DIC['tpl'];
         $ilTabs = $DIC['ilTabs'];
-	    $locator = $DIC['ilLocator'];
+        $locator = $DIC['ilLocator'];
 
-	    if ($table_id == 0) {
-		    $table_id = $_GET['table_id'];
-	    }
+        if ($table_id == 0) {
+            $table_id = $_GET['table_id'];
+        }
 
         $this->parent_obj = $a_parent_obj;
         $this->ctrl = $ilCtrl;
@@ -69,11 +69,11 @@ class ilDclTableViewGUI
         $this->toolbar = $ilToolbar;
         $this->table = ilDclCache::getTableCache($table_id);
 
-	    $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
-	    $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
-	    $this->tpl->setLocator();
+        $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
+        $locator->addItem($this->table->getTitle(), $this->ctrl->getLinkTargetByClass('ilDclTableEditGUI', 'edit'));
+        $this->tpl->setLocator();
 
-        if ( ! $this->checkAccess()) {
+        if (!$this->checkAccess()) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
@@ -81,7 +81,7 @@ class ilDclTableViewGUI
 
 
     /**
-     * 
+     *
      */
     public function executeCommand()
     {
@@ -89,24 +89,20 @@ class ilDclTableViewGUI
         $cmd = $this->ctrl->getCmd("show");
         $next_class = $this->ctrl->getNextClass($this);
         
-        switch ($next_class)
-        {
+        switch ($next_class) {
             case 'ildcltablevieweditgui':
                                 $edit_gui = new ilDclTableViewEditGUI($this, $this->table, ilDclTableView::findOrGetInstance($_GET['tableview_id']));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
             default:
-                switch($cmd)
-                {
+                switch ($cmd) {
                     default:
                         $this->$cmd();
                         break;
                 }
                 break;
         }
-
-
     }
 
     /**
@@ -120,7 +116,8 @@ class ilDclTableViewGUI
     /**
      *
      */
-    public function show() {
+    public function show()
+    {
         $add_new = ilLinkButton::getInstance();
         $add_new->setPrimary(true);
         $add_new->setCaption("dcl_add_new_view");
@@ -130,10 +127,9 @@ class ilDclTableViewGUI
         $this->toolbar->addSeparator();
 
         // Show tables
-                $tables = $this->parent_obj->getDataCollectionObject()->getTables();
+        $tables = $this->parent_obj->getDataCollectionObject()->getTables();
 
-        foreach($tables as $table)
-        {
+        foreach ($tables as $table) {
             $options[$table->getId()] = $table->getTitle(); //TODO order tables
         }
         include_once './Services/Form/classes/class.ilSelectInputGUI.php';
@@ -186,7 +182,7 @@ class ilDclTableViewGUI
     }
 
     /**
-     * 
+     *
      */
     protected function deleteTableviews()
     {
@@ -206,8 +202,7 @@ class ilDclTableViewGUI
      */
     public function checkViewsLeft($delete_count)
     {
-        if ($delete_count >= count($this->table->getTableViews()))
-        {
+        if ($delete_count >= count($this->table->getTableViews())) {
             ilUtil::sendFailure($this->lng->txt('dcl_msg_tableviews_delete_all'), true);
             $this->ctrl->redirect($this, 'show');
         }
@@ -221,13 +216,11 @@ class ilDclTableViewGUI
         $orders = $_POST['order'];
         asort($orders);
         $tableviews = array();
-        foreach(array_keys($orders) as $tableview_id)
-        {
+        foreach (array_keys($orders) as $tableview_id) {
             $tableviews[] = ilDclTableView::find($tableview_id);
         }
         $this->table->sortTableViews($tableviews);
-	    ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
+        ilUtil::sendSuccess($this->lng->txt('dcl_msg_tableviews_order_updated'));
         $this->ctrl->redirect($this);
     }
-
 }

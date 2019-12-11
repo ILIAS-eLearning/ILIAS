@@ -164,7 +164,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                     'edit_submissions_grades',
                     'edit_submissions_grades',
                     $this->object->getRefId()
-                    )) {
+                )) {
                     $ilTabs->activateTab("grades");
                     include_once("./Modules/Exercise/classes/class.ilExerciseManagementGUI.php");
                     $mgmt_gui = new ilExerciseManagementGUI($this->object, $this->ass);
@@ -246,13 +246,13 @@ class ilObjExerciseGUI extends ilObjectGUI
             $this->lng->txt("exc_pass_all"),
             "all",
             $this->lng->txt("exc_pass_all_info")
-            );
+        );
         $radg->addOption($op1);
         $op2 = new ilRadioOption(
             $this->lng->txt("exc_pass_minimum_nr"),
             "nr",
             $this->lng->txt("exc_pass_minimum_nr_info")
-            );
+        );
         $radg->addOption($op2);
 
         // minimum number of assignments to pass
@@ -336,7 +336,7 @@ class ilObjExerciseGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS
                     )
-                );
+            );
         }
     }
     

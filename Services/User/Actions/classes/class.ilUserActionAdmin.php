@@ -38,7 +38,7 @@ class ilUserActionAdmin
             ),
             array(
                 "active" => array("integer", $a_active))
-            );
+        );
 
         self::$loaded = false;
     }

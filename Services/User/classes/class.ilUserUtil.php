@@ -175,7 +175,7 @@ class ilUserUtil
             "SELECT value FROM usr_pref " .
             " WHERE usr_id = " . $ilDB->quote($a_user_id, "integer") .
             " and keyword = " . $ilDB->quote("public_profile", "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         return in_array($rec["value"], array("y", "g"));

@@ -347,7 +347,7 @@ class ilMultilingualism
                 (string) trim($trans->title),
                 (string) trim($trans->description),
                 (int) $trans["default"] != 0?true:false
-                );
+            );
         }
     }
 }

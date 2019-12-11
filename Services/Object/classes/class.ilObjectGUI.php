@@ -420,7 +420,7 @@ class ilObjectGUI
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
                 $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
-                );
+            );
             
             $lg = $dispatcher->initHeaderAction();
             
@@ -672,7 +672,7 @@ class ilObjectGUI
             $ilLocator->addItem(
                 $this->lng->txt("administration"),
                 $this->ctrl->getLinkTargetByClass(array("iladministrationgui", "ilobjsystemfoldergui"), "")
-                );
+            );
             if ($this->object && ($this->object->getRefId() != SYSTEM_FOLDER_ID && !$a_do_not_add_object)) {
                 $ilLocator->addItem(
                     $this->object->getTitle(),

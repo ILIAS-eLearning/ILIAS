@@ -459,9 +459,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     is_int(strpos($full_item->getFormat(), "image")) &&
                     $full_item->getLocationType() == "LocalFile") {
                 $resize = new ilCheckboxInputGUI(
-                        $lng->txt("cont_resize_img"),
-                        "full_resize"
-                    );
+                    $lng->txt("cont_resize_img"),
+                    "full_resize"
+                );
                 $op2->addSubItem($resize);
             }
         }

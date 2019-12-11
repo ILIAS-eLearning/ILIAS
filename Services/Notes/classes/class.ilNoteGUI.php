@@ -557,7 +557,7 @@ class ilNoteGUI
         if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
             !$this->export_html && !$this->print &&	$ilUser->getId() != ANONYMOUS_USER_ID) {
             if (!$this->inc_sub) {	// we cannot offer add button if aggregated notes
-            						// are displayed
+                // are displayed
                 if ($this->rep_obj_id > 0 || $a_type != IL_NOTE_PUBLIC) {
                     $tpl->setCurrentBlock("add_note_btn");
                     if ($a_type == IL_NOTE_PUBLIC) {

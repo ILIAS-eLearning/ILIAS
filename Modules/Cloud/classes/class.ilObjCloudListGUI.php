@@ -78,20 +78,17 @@ class ilObjCloudListGUI extends ilObjectListGUI
     /**
      * @return array
      */
-    function getProperties()
+    public function getProperties()
     {
         global $DIC;
         $lng = $DIC['lng'];
 
         $props = array();
         include_once('./Modules/Cloud/classes/class.ilObjCloudAccess.php');
-        if (!ilObjCloudAccess::checkAuthStatus($this->obj_id))
-        {
+        if (!ilObjCloudAccess::checkAuthStatus($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                              "value" => $lng->txt("cld_not_authenticated_offline"));
-        }
-        else if (!ilObjCloudAccess::checkOnline($this->obj_id))
-        {
+        } elseif (!ilObjCloudAccess::checkOnline($this->obj_id)) {
             $props[] = array("alert" => true, "property" => $lng->txt("status"),
                              "value" => $lng->txt("offline"));
         }
@@ -147,13 +144,14 @@ class ilObjCloudListGUI extends ilObjectListGUI
     {
         foreach ($custom_list_actions as $custom_list_action) {
             if (array_key_exists("custom_url", $custom_list_action)) {
-                array_push($custom_urls,
+                array_push(
+                    $custom_urls,
                     [
                         "id"   => $custom_list_action["lang_var"],
                         "link" => $custom_list_action["custom_url"],
-                    ]);
+                    ]
+                );
             }
         }
     }
 }
-?>

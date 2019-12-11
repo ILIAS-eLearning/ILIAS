@@ -1667,7 +1667,7 @@ class ilUtil
                 $unzipcmd = "-Z -1 ".ilUtil::escapeShellArg($file);
                 $arr = ilUtil::execQuoted($unzip, $unzipcmd);
                 $zdirs = array();
-        
+
                 foreach($arr as $line)
                 {
                     if(is_int(strpos($line, "/")))
@@ -1684,9 +1684,9 @@ class ilUtil
                         }
                     }
                 }
-        
+
                 asort($zdirs);
-        
+
                 foreach($zdirs as $zdir => $nr)				// create directories
                 {
                     ilUtil::createDirectory($zdir);

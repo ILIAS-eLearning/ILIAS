@@ -383,9 +383,9 @@ class ilObjFolderGUI extends ilContainerGUI
             $this->tabs_gui->addTarget(
                 "info_short",
                 $this->ctrl->getLinkTargetByClass(
-                     array("ilobjfoldergui", "ilinfoscreengui"),
-                     "showSummary"
-                 ),
+                    array("ilobjfoldergui", "ilinfoscreengui"),
+                    "showSummary"
+                ),
                 array("showSummary","", "infoScreen"),
                 "",
                 "",

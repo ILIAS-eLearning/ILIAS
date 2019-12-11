@@ -729,7 +729,7 @@ class ilNote
             " WHERE rep_obj_id = " . $ilDB->quote((int) $a_rep_obj_id, "integer") .
             " AND obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") .
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             if (($rec["activated"] == 0 && $a_activate) ||
                 ($rec["activated"] == 1 && !$a_activate)) {
@@ -775,7 +775,7 @@ class ilNote
             " WHERE rep_obj_id = " . $ilDB->quote((int) $a_rep_obj_id, "integer") .
             " AND obj_id = " . $ilDB->quote((int) $a_obj_id, "integer") .
             " AND obj_type = " . $ilDB->quote($a_obj_type, "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec["activated"];
     }

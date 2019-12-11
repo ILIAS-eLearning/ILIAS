@@ -107,9 +107,9 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         
         // creation date
         $this->tpl->setVariable(
-                "VAL_CREATION_DATE",
-                ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"], IL_CAL_DATETIME))
-            );
+            "VAL_CREATION_DATE",
+            ilDatePresentation::formatDate(new ilDateTime($a_set["creation_date"], IL_CAL_DATETIME))
+        );
         $this->tpl->setVariable("TXT_CREATED", $lng->txt("created"));
 
         // title

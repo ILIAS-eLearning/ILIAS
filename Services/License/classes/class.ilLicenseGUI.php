@@ -13,127 +13,133 @@ include_once "./Services/License/classes/class.ilLicense.php";
  *
  * @package      ilias-license
  */
-class ilLicenseGUI {
+class ilLicenseGUI
+{
 
 
-	/**
-	 * @var \ilLicense
-	 */
-	protected $license;
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
-	/**
-	 * @var \ilTemplate
-	 */
-	protected $tpl;
-	/**
-	 * @var \ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var \ilLicense
+     */
+    protected $license;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    /**
+     * @var \ilTemplate
+     */
+    protected $tpl;
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
 
 
-	/**
-	 * ilLicenseGUI constructor.
-	 *
-	 * @param \ilObjectGUI $a_parent_gui
-	 */
-	public function __construct(ilObjectGUI $a_parent_gui) {
-		global $ilCtrl, $tpl, $lng;
+    /**
+     * ilLicenseGUI constructor.
+     *
+     * @param \ilObjectGUI $a_parent_gui
+     */
+    public function __construct(ilObjectGUI $a_parent_gui)
+    {
+        global $ilCtrl, $tpl, $lng;
 
-		$this->ctrl = $ilCtrl;
-		$this->tpl = $tpl;
-		$this->lng = $lng;
-		$this->lng->loadLanguageModule("license");
-		$this->parent_gui = $a_parent_gui;
-		$this->license = new ilLicense($this->parent_gui->object->getId());
-	}
-
-
-	public function executeCommand() {
-		global $rbacsystem, $ilErr;
-
-		// access to all functions in this class are only allowed if edit_permission is granted
-		if (!$rbacsystem->checkAccess("edit_permission", $this->parent_gui->object->getRefId())) {
-			$ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
-		}
-
-		$cmd = $this->ctrl->getCmd("editLicense");
-		$this->$cmd();
-
-		return true;
-	}
+        $this->ctrl = $ilCtrl;
+        $this->tpl = $tpl;
+        $this->lng = $lng;
+        $this->lng->loadLanguageModule("license");
+        $this->parent_gui = $a_parent_gui;
+        $this->license = new ilLicense($this->parent_gui->object->getId());
+    }
 
 
-	protected function initLicenseForm() {
-		include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
-		$form = new ilPropertyFormGUI();
-		$form->setFormAction($this->ctrl->getFormAction($this, "updateLicense"));
-		$form->setTitle($this->lng->txt('edit_license'));
+    public function executeCommand()
+    {
+        global $rbacsystem, $ilErr;
 
-		$exist = new ilNumberInputGUI($this->lng->txt("existing_licenses"), "licenses");
-		$exist->setInfo($this->lng->txt("zero_licenses_explanation"));
-		$exist->setMaxLength(10);
-		$exist->setSize(10);
-		$exist->setValue($this->license->getLicenses());
-		$form->addItem($exist);
+        // access to all functions in this class are only allowed if edit_permission is granted
+        if (!$rbacsystem->checkAccess("edit_permission", $this->parent_gui->object->getRefId())) {
+            $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->MESSAGE);
+        }
 
-		$info_used = new ilNonEditableValueGUI($this->lng->txt("used_licenses"));
-		$info_used->setInfo($this->lng->txt("used_licenses_explanation"));
-		$info_used->setValue($this->license->getAccesses());
-		$form->addItem($info_used);
+        $cmd = $this->ctrl->getCmd("editLicense");
+        $this->$cmd();
 
-		$remaining_licenses = ($this->license->getLicenses() == "0") ? $this->lng->txt("arbitrary") : $this->license->getRemainingLicenses();
-
-		$info_remain = new ilNonEditableValueGUI($this->lng->txt("remaining_licenses"));
-		$info_remain->setInfo($this->lng->txt("remaining_licenses_explanation"));
-		$info_remain->setValue($remaining_licenses);
-		$form->addItem($info_remain);
-
-		$info_potential = new ilNonEditableValueGUI($this->lng->txt("potential_accesses"));
-		$info_potential->setInfo($this->lng->txt("potential_accesses_explanation"));
-		$info_potential->setValue($this->license->getPotentialAccesses());
-		$form->addItem($info_potential);
-
-		$comm = new ilTextAreaInputGUI($this->lng->txt("comment"), "remarks");
-		$comm->setRows(5);
-		$comm->setValue($this->license->getRemarks());
-		$form->addItem($comm);
-
-		$form->addCommandButton('updateLicense', $this->lng->txt('save'));
-
-		return $form;
-	}
+        return true;
+    }
 
 
-	/**
-	 * @param \ilPropertyFormGUI|null $a_form
-	 */
-	protected function editLicense(ilPropertyFormGUI $a_form = null) {
-		if (!$a_form) {
-			$a_form = $this->initLicenseForm();
-		}
+    protected function initLicenseForm()
+    {
+        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+        $form = new ilPropertyFormGUI();
+        $form->setFormAction($this->ctrl->getFormAction($this, "updateLicense"));
+        $form->setTitle($this->lng->txt('edit_license'));
 
-		$this->tpl->setContent($a_form->getHTML());
-	}
+        $exist = new ilNumberInputGUI($this->lng->txt("existing_licenses"), "licenses");
+        $exist->setInfo($this->lng->txt("zero_licenses_explanation"));
+        $exist->setMaxLength(10);
+        $exist->setSize(10);
+        $exist->setValue($this->license->getLicenses());
+        $form->addItem($exist);
+
+        $info_used = new ilNonEditableValueGUI($this->lng->txt("used_licenses"));
+        $info_used->setInfo($this->lng->txt("used_licenses_explanation"));
+        $info_used->setValue($this->license->getAccesses());
+        $form->addItem($info_used);
+
+        $remaining_licenses = ($this->license->getLicenses() == "0") ? $this->lng->txt("arbitrary") : $this->license->getRemainingLicenses();
+
+        $info_remain = new ilNonEditableValueGUI($this->lng->txt("remaining_licenses"));
+        $info_remain->setInfo($this->lng->txt("remaining_licenses_explanation"));
+        $info_remain->setValue($remaining_licenses);
+        $form->addItem($info_remain);
+
+        $info_potential = new ilNonEditableValueGUI($this->lng->txt("potential_accesses"));
+        $info_potential->setInfo($this->lng->txt("potential_accesses_explanation"));
+        $info_potential->setValue($this->license->getPotentialAccesses());
+        $form->addItem($info_potential);
+
+        $comm = new ilTextAreaInputGUI($this->lng->txt("comment"), "remarks");
+        $comm->setRows(5);
+        $comm->setValue($this->license->getRemarks());
+        $form->addItem($comm);
+
+        $form->addCommandButton('updateLicense', $this->lng->txt('save'));
+
+        return $form;
+    }
 
 
-	/**
-	 * Save the license form
-	 */
-	public function updateLicense() {
-		$form = $this->initLicenseForm();
-		if ($form->checkInput()) {
-			$this->license->setLicenses($form->getInput("licenses"));
-			$this->license->setRemarks($form->getInput("remarks"));
-			$this->license->update();
+    /**
+     * @param \ilPropertyFormGUI|null $a_form
+     */
+    protected function editLicense(ilPropertyFormGUI $a_form = null)
+    {
+        if (!$a_form) {
+            $a_form = $this->initLicenseForm();
+        }
 
-			ilUtil::sendSuccess($this->lng->txt('license_updated'), true);
-			$this->ctrl->redirect($this, "editLicense");
-		}
+        $this->tpl->setContent($a_form->getHTML());
+    }
 
-		$form->setValuesByPost();
-		$this->editLicense($form);
-	}
-} 
+
+    /**
+     * Save the license form
+     */
+    public function updateLicense()
+    {
+        $form = $this->initLicenseForm();
+        if ($form->checkInput()) {
+            $this->license->setLicenses($form->getInput("licenses"));
+            $this->license->setRemarks($form->getInput("remarks"));
+            $this->license->update();
+
+            ilUtil::sendSuccess($this->lng->txt('license_updated'), true);
+            $this->ctrl->redirect($this, "editLicense");
+        }
+
+        $form->setValuesByPost();
+        $this->editLicense($form);
+    }
+}

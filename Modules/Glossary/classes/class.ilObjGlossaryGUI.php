@@ -667,7 +667,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                 array(
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA
                     )
-                );
+            );
         }
         
         // sort columns, if adv fields are given

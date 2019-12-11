@@ -120,7 +120,7 @@ class ilSurveyParticipantsGUI
                         'inviteUserGroupObject',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'invite');
@@ -141,7 +141,7 @@ class ilSurveyParticipantsGUI
                         'addRater',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'editRaters');
@@ -155,7 +155,7 @@ class ilSurveyParticipantsGUI
                         'addAppraisee',
                         array(
                             )
-                        );
+                    );
 
                     // Set tabs
                     $this->ctrl->setReturn($this, 'listAppraisees');

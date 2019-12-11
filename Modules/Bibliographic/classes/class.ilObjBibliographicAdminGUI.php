@@ -18,93 +18,99 @@ include_once('./Modules/Bibliographic/classes/Admin/class.ilObjBibliographicAdmi
  *
  * @ingroup      ModulesBibliographic
  */
-class ilObjBibliographicAdminGUI extends ilObjectGUI {
+class ilObjBibliographicAdminGUI extends ilObjectGUI
+{
 
-	/**
-	 * @var string
-	 */
-	protected $type = 'bibs';
-	/**
-	 * @var ilTabsGUI
-	 */
-	protected $tabs_gui;
-
-
-	/**
-	 * ilObjBibliographicAdminGUI constructor.
-	 *
-	 * @param      $a_data
-	 * @param      $a_id
-	 * @param bool $a_call_by_reference
-	 * @param bool $a_prepare_output
-	 *
-	 * @throws \ilObjectException
-	 */
-	public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true) {
-		$this->type = 'bibs';
-		parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-		$this->lng->loadLanguageModule('bibl');
-		// Check Permissions globally for all SubGUIs. We check read-permission first
-		if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-			$this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
-		}
-	}
+    /**
+     * @var string
+     */
+    protected $type = 'bibs';
+    /**
+     * @var ilTabsGUI
+     */
+    protected $tabs_gui;
 
 
-	/**
-	 * @return bool|void
-	 * @throws ilCtrlException
-	 */
-	public function executeCommand() {
-		$next_class = $this->ctrl->getNextClass($this);
-		switch ($next_class) {
-			case 'ilpermissiongui':
-				$this->prepareOutput();
-				$this->tabs_gui->setTabActive('perm_settings');
-				include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
-				$perm_gui = new ilPermissionGUI($this);
-				$this->ctrl->forwardCommand($perm_gui);
-				break;
-			default:
-				$this->prepareOutput();
-				$ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
-				$this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
-				break;
-		}
-	}
+    /**
+     * ilObjBibliographicAdminGUI constructor.
+     *
+     * @param      $a_data
+     * @param      $a_id
+     * @param bool $a_call_by_reference
+     * @param bool $a_prepare_output
+     *
+     * @throws \ilObjectException
+     */
+    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    {
+        $this->type = 'bibs';
+        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        $this->lng->loadLanguageModule('bibl');
+        // Check Permissions globally for all SubGUIs. We check read-permission first
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt("no_permission"), $this->ilErr->WARNING);
+        }
+    }
 
 
-	public function getAdminTabs() {
-		global $DIC;
-		$rbacsystem = $DIC['rbacsystem'];
-		/**
-		 * @var $rbacsystem ilRbacSystem
-		 */
-
-		if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
-				'ilObjBibliographicAdminGUI',
-				'ilObjBibliographicAdminLibrariesGUI',
-			), 'view'));
-		}
-		if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
-			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
-		}
-	}
-
-
-	/**
-	 * @return \ilTabsGUI
-	 */
-	public function getTabsGui() {
-		return $this->tabs_gui;
-	}
+    /**
+     * @return bool|void
+     * @throws ilCtrlException
+     */
+    public function executeCommand()
+    {
+        $next_class = $this->ctrl->getNextClass($this);
+        switch ($next_class) {
+            case 'ilpermissiongui':
+                $this->prepareOutput();
+                $this->tabs_gui->setTabActive('perm_settings');
+                include_once('Services/AccessControl/classes/class.ilPermissionGUI.php');
+                $perm_gui = new ilPermissionGUI($this);
+                $this->ctrl->forwardCommand($perm_gui);
+                break;
+            default:
+                $this->prepareOutput();
+                $ilObjBibliographicAdminLibrariesGUI = new ilObjBibliographicAdminLibrariesGUI($this);
+                $this->ctrl->forwardCommand($ilObjBibliographicAdminLibrariesGUI);
+                break;
+        }
+    }
 
 
-	/**
-	 * @param \ilTabsGUI $tabs_gui
-	 */
-	public function setTabsGui($tabs_gui) {
-		$this->tabs_gui = $tabs_gui;
-	}
+    public function getAdminTabs()
+    {
+        global $DIC;
+        $rbacsystem = $DIC['rbacsystem'];
+        /**
+         * @var $rbacsystem ilRbacSystem
+         */
+
+        if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTargetByClass(array(
+                'ilObjBibliographicAdminGUI',
+                'ilObjBibliographicAdminLibrariesGUI',
+            ), 'view'));
+        }
+        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'), array(), 'ilpermissiongui');
+        }
+    }
+
+
+    /**
+     * @return \ilTabsGUI
+     */
+    public function getTabsGui()
+    {
+        return $this->tabs_gui;
+    }
+
+
+    /**
+     * @param \ilTabsGUI $tabs_gui
+     */
+    public function setTabsGui($tabs_gui)
+    {
+        $this->tabs_gui = $tabs_gui;
+    }
 }
