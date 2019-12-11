@@ -6,35 +6,35 @@
  */
 interface ilUsersGalleryUserCollection extends Iterator, Countable
 {
-	/**
-	 * Set whether or not this group is highlighted
-	 * @param boolean $status
-	 */
-	public function setHighlighted($status);
+    /**
+     * Set whether or not this group is highlighted
+     * @param boolean $status
+     */
+    public function setHighlighted($status);
 
-	/**
-	 * Returns whether or not it is a highlighted group
-	 * @return boolean
-	 */
-	public function isHighlighted();
+    /**
+     * Returns whether or not it is a highlighted group
+     * @return boolean
+     */
+    public function isHighlighted();
 
-	/**
-	 * @return string
-	 */
-	public function getLabel();
+    /**
+     * @return string
+     */
+    public function getLabel();
 
-	/**
-	 * @param $label string
-	 */
-	public function setLabel($label);
+    /**
+     * @param $label string
+     */
+    public function setLabel($label);
 
-	/**
-	 * @param array $items
-	 */
-	public function setItems(array $items);
+    /**
+     * @param array $items
+     */
+    public function setItems(array $items);
 
-	/**
-	 * @return array
-	 */
-	public function getItems();
+    /**
+     * @return array
+     */
+    public function getItems();
 }

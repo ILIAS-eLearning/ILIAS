@@ -30,7 +30,7 @@ class ilUserSettingsConfig
      * @param $field
      * @return bool
      */
-    public function isVisibleAndChangeable($field): bool
+    public function isVisibleAndChangeable($field) : bool
     {
         return $this->isVisible($field) && $this->isChangeable($field);
     }
@@ -40,7 +40,7 @@ class ilUserSettingsConfig
      * @param string $field
      * @return bool
      */
-    public function isVisible(string $field): bool
+    public function isVisible(string $field) : bool
     {
         return (!(isset($this->setting[self::HIDE_PREFIX . $field]) &&
             $this->setting[self::HIDE_PREFIX . $field] == 1));
@@ -51,7 +51,7 @@ class ilUserSettingsConfig
      * @param string $field
      * @return bool
      */
-    public function isChangeable(string $field): bool
+    public function isChangeable(string $field) : bool
     {
         return (!(isset($this->setting[self::DISABLED_PREFIX . $field]) &&
             $this->setting[self::DISABLED_PREFIX . $field] == 1));

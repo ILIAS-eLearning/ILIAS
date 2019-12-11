@@ -56,7 +56,7 @@ class ilProfileChecklistGUI
         $steps = [];
         $cnt = 0;
         foreach ($this->status->getSteps() as $step => $txt) {
-            if  ($step == $active_step) {
+            if ($step == $active_step) {
                 $active_step_nr = $cnt;
             }
             $cnt++;
@@ -86,7 +86,4 @@ class ilProfileChecklistGUI
             case ilProfileChecklistStatus::STATUS_SUCCESSFUL: return Step::SUCCESSFULLY; break;
         }
     }
-
-
-
 }

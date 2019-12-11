@@ -213,7 +213,8 @@ class ilUserPasswordManager
             $defaultAuthModeCondition = ' OR auth_mode = ' . $this->db->quote('default', 'text');
         }
 
-        $this->db->manipulateF("
+        $this->db->manipulateF(
+            "
 			UPDATE usr_data
 			SET passwd_policy_reset = %s
 			WHERE (auth_mode = %s $defaultAuthModeCondition)",
@@ -221,4 +222,4 @@ class ilUserPasswordManager
             [1, 'local']
         );
     }
-} 
+}

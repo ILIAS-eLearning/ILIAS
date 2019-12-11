@@ -208,8 +208,10 @@ class ilObjUserPasswordTest extends ilUserBaseTest
 
         $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
         $encoder->expects($this->once())->method('requiresSalt')->will($this->returnValue(false));
-        $encoder->expects($this->once())->method('encodePassword')->with($this->equalTo(self::PASSWORD),
-            $this->equalTo(null))->will($this->returnValue(self::ENCODED_PASSWORD));
+        $encoder->expects($this->once())->method('encodePassword')->with(
+            $this->equalTo(self::PASSWORD),
+            $this->equalTo(null)
+        )->will($this->returnValue(self::ENCODED_PASSWORD));
 
         $factory_mock->expects($this->once())->method('getEncoderByName')->will($this->returnValue($encoder));
 
@@ -242,7 +244,8 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
         $encoder->expects($this->once())->method('isPasswordValid')->with(
             $this->equalTo(self::ENCODED_PASSWORD),
-            $this->equalTo(self::PASSWORD), $this->isType('string')
+            $this->equalTo(self::PASSWORD),
+            $this->isType('string')
         )->will($this->returnValue(true));
         $encoder->expects($this->once())->method('requiresReencoding')
                 ->with($this->equalTo(self::ENCODED_PASSWORD))
@@ -321,8 +324,11 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         );
 
         $encoder->expects($this->once())->method('getName')->will($this->returnValue('mockencoder'));
-        $encoder->expects($this->once())->method('isPasswordValid')->with($this->equalTo(self::ENCODED_PASSWORD),
-            $this->equalTo(self::PASSWORD), $this->isType('string'))->will($this->returnValue(true));
+        $encoder->expects($this->once())->method('isPasswordValid')->with(
+            $this->equalTo(self::ENCODED_PASSWORD),
+            $this->equalTo(self::PASSWORD),
+            $this->isType('string')
+        )->will($this->returnValue(true));
         $encoder->expects($this->once())->method('requiresReencoding')
                 ->with($this->equalTo(self::ENCODED_PASSWORD))
                 ->will($this->returnValue(true));
@@ -410,10 +416,12 @@ class ilObjUserPasswordTest extends ilUserBaseTest
         $factory->setEncoders(array($encoder, $second_mockencoder));
         $this->assertCount(2, $factory->getEncoders());
         $this->assertCount(2, $factory->getSupportedEncoderNames());
-        $this->assertCount(0,
+        $this->assertCount(
+            0,
             array_diff(array('mockencoder', 'second_mockencoder'), $factory->getSupportedEncoderNames())
         );
-        $this->assertCount(0,
+        $this->assertCount(
+            0,
             array_diff($factory->getSupportedEncoderNames(), array('mockencoder', 'second_mockencoder'))
         );
     }

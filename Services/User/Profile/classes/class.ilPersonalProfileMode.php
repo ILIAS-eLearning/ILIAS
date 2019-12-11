@@ -45,7 +45,7 @@ class ilPersonalProfileMode
      *
      * @return string
      */
-    public function getMode(): string
+    public function getMode() : string
     {
         $user = $this->user;
         $settings = $this->settings;
@@ -57,8 +57,7 @@ class ilPersonalProfileMode
             ])
             ? $user->prefs["public_profile"]
             : self::PROFILE_DISABLED;
-        if (!$settings->get('enable_global_profiles') && $pub_prof == self::PROFILE_ENABLED_GLOBAL)
-        {
+        if (!$settings->get('enable_global_profiles') && $pub_prof == self::PROFILE_ENABLED_GLOBAL) {
             $pub_prof = self::PROFILE_ENABLED_LOGGED_IN_USERS;
         }
         return $pub_prof;
@@ -69,7 +68,7 @@ class ilPersonalProfileMode
      *
      * @return bool
      */
-    public function isEnabled(): bool
+    public function isEnabled() : bool
     {
         return in_array($this->getMode(), [self::PROFILE_ENABLED_LOGGED_IN_USERS,
             self::PROFILE_ENABLED_GLOBAL
@@ -82,7 +81,7 @@ class ilPersonalProfileMode
      * @param string|null $mode
      * @return string
      */
-    public function getModeInfo(string $mode = null): string
+    public function getModeInfo(string $mode = null) : string
     {
         $lng = $this->lng;
 
@@ -101,7 +100,4 @@ class ilPersonalProfileMode
                 break;
         }
     }
-    
-
-
 }
