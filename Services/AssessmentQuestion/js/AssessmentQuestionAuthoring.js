@@ -1,16 +1,15 @@
 //Generic Authoring
 let has_tiny = false;
-let tiny_settings;
 
 let add_row = function() {
-    has_tiny = tinymce.editors.length > 0;
-
-    if (has_tiny) {
-        clear_tiny();
-    }
+    has_tiny = tinymce.editors.length > 1;
 
     let row = $(this).parents(".aot_row").eq(0);
     let table = $(this).parents(".aot_table").children("tbody");
+    
+    if (has_tiny) {
+        clear_tiny(table);
+    }
 
     let new_row = row.clone();
 
@@ -19,26 +18,29 @@ let add_row = function() {
     set_input_ids(table);
 
     if (has_tiny) {
-        tinymce.init(tiny_settings);
+        tinymce.init(tinyMCE.EditorManager.editors[0].settings);
     }
 
     return false;
 };
 
-let clear_tiny = function() {
-    tiny_settings = tinymce.editors[0].settings;
+let clear_tiny = function(table) {
+    table.find('textarea').each(function(index, item) {
+        has_tiny = true;
+        let element = $(item);
+        let editor = tinymce.get(element.attr('id'));
 
-    while (tinymce.editors.length > 0) {
-        let editor = tinymce.editors[0];
-        let element = $(editor.getElement());
-
+        if(!editor) {
+            return;
+        }
+        
         element.val(editor.getContent());
         element.show();
 
-        tinymce.EditorManager.remove(tinymce.editors[0]);
+        tinymce.EditorManager.remove(editor);
 
         element.siblings('.mceEditor').remove();
-    }
+    });
 };
 
 let save_tiny = function() {
@@ -52,14 +54,14 @@ let save_tiny = function() {
 };
 
 let remove_row = function() {
-    has_tiny = tinymce.editors.length > 0;
-
-    if (has_tiny) {
-        clear_tiny();
-    }
+    has_tiny = tinymce.editors.length > 1;
 
     let row = $(this).parents(".aot_row");
     let table = $(this).parents(".aot_table").children("tbody");
+    
+    if (has_tiny) {
+        clear_tiny(table);
+    }
 
     if (table.children().length > 1) {
         row.remove();
@@ -69,7 +71,7 @@ let remove_row = function() {
     }
 
     if (has_tiny) {
-        tinymce.init(tiny_settings);
+        tinymce.init(tinyMCE.EditorManager.editors[0].settings);
     }
 };
 
@@ -191,15 +193,9 @@ $(document).on("submit", "form", save_tiny);
 let image_header = '';
 
 let show_multiline_editor = function() {
-    if($('#singleline').length === 0) {
-        return;
-    }
+    tinymce.init(tinyMCE.EditorManager.editors[0].settings);
     
-    tinymce.init({
-        selector : 'input[id$=mcdd_text]'
-    });
-    
-    $('input[id$=mcdd_image]').each(function(index, item) {
+    $('textarea[id$=mcdd_image]').each(function(index, item) {
         let td = $(item).parents('td');
         td.children().hide();
         
@@ -212,21 +208,7 @@ let show_multiline_editor = function() {
 }
 
 let hide_multiline_editor = function() {
-    $('input[id$=mcdd_text]').each(function(index, item) {
-        let element = $(item);
-        let editor = tinymce.get(element.attr('id'));
-
-        if(!editor) {
-            return;
-        }
-        
-        element.val(editor.getContent());
-        element.show();
-
-        tinymce.EditorManager.remove(editor);
-
-        element.siblings('.mceEditor').remove();
-    });
+    clear_tiny($('.aot_table tbody'));
     
     $('input[id$=mcdd_image').each(function(index, item) {
         let td = $(item).parents('td');
@@ -249,11 +231,6 @@ let update_editor = function() {
         show_multiline_editor();
     }
 }
-
-$(document).ready(function() {
-    update_editor();
-});
-
 
 $(document).on("change", "#singleline", update_editor);
 
