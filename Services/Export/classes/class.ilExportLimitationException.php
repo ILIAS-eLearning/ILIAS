@@ -8,6 +8,6 @@
  *
  * @author killing@leifos.de
  */
-class ilExportLimitationExceptionException  extends ilException
+class ilExportLimitationExceptionException extends ilException
 {
 }
