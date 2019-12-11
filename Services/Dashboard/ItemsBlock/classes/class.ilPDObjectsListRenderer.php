@@ -6,17 +6,17 @@
  */
 class ilPDObjectsListRenderer extends ilPDBaseObjectsRenderer implements ilPDObjectsRenderer
 {
-	/**
-	 * @inheritDoc
-	 */
-	public function render(array $groupedItems, bool $showHeader) : string
-	{
-		$itemRendered = false;
+    /**
+     * @inheritDoc
+     */
+    public function render(array $groupedItems, bool $showHeader) : string
+    {
+        $itemRendered = false;
 
-		foreach ($groupedItems as $group) {
-			$itemHtml = [];
+        foreach ($groupedItems as $group) {
+            $itemHtml = [];
 
-			foreach ($group->getItems() as $item) {
+            foreach ($group->getItems() as $item) {
                 $itemListGUI = $this->listItemFactory->byType($item['type']);
                 ilObjectActivation::addListGUIActivationProperty($itemListGUI, $item);
 
@@ -43,44 +43,44 @@ class ilPDObjectsListRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
                         'item_icon_image_type' => $itemListGUI->getIconImageType()
                     ];
                 }
-			}
+            }
 
-			if (0 == count($itemHtml)) {
-				continue;
-			}
+            if (0 == count($itemHtml)) {
+                continue;
+            }
 
-			if ($showHeader) {
-				$this->addSectionHeader($group);
-				$this->resetRowType();
-			}
+            if ($showHeader) {
+                $this->addSectionHeader($group);
+                $this->resetRowType();
+            }
 
-			foreach ($itemHtml as $item) {
-				$this->addStandardRow(
-					$item['html'],
-					(int) $item['item_ref_id'],
-					(int) $item['item_obj_id'],
-					$item['item_icon_image_type'],
-					'th_' . md5($group->getLabel())
-				);
+            foreach ($itemHtml as $item) {
+                $this->addStandardRow(
+                    $item['html'],
+                    (int) $item['item_ref_id'],
+                    (int) $item['item_obj_id'],
+                    $item['item_icon_image_type'],
+                    'th_' . md5($group->getLabel())
+                );
 
-				$itemRendered = true;
-			}
-		}
+                $itemRendered = true;
+            }
+        }
 
-		if (!$itemRendered) {
-			return '';
-		}
+        if (!$itemRendered) {
+            return '';
+        }
 
-		if ($this->blockView->isInManageMode() && $this->blockView->supportsSelectAll()) {
-			// #11355 - see ContainerContentGUI::renderSelectAllBlock()
-			$this->tpl->setCurrentBlock('select_all_row');
-			$this->tpl->setVariable('CHECKBOXNAME', 'ilToolbarSelectAll');
-			$this->tpl->setVariable('SEL_ALL_PARENT', 'ilToolbar');
-			$this->tpl->setVariable('SEL_ALL_CB_NAME', 'id');
-			$this->tpl->setVariable('TXT_SELECT_ALL', $this->lng->txt('select_all'));
-			$this->tpl->parseCurrentBlock();
-		}
+        if ($this->blockView->isInManageMode() && $this->blockView->supportsSelectAll()) {
+            // #11355 - see ContainerContentGUI::renderSelectAllBlock()
+            $this->tpl->setCurrentBlock('select_all_row');
+            $this->tpl->setVariable('CHECKBOXNAME', 'ilToolbarSelectAll');
+            $this->tpl->setVariable('SEL_ALL_PARENT', 'ilToolbar');
+            $this->tpl->setVariable('SEL_ALL_CB_NAME', 'id');
+            $this->tpl->setVariable('TXT_SELECT_ALL', $this->lng->txt('select_all'));
+            $this->tpl->parseCurrentBlock();
+        }
 
-		return $this->tpl->get();
-	}
+        return $this->tpl->get();
+    }
 }

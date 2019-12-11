@@ -4,7 +4,7 @@
 
 /**
  * @classDescription Service definition
- * 
+ *
  * @author Stefan Meyer <smeyer@leifos.com>
  * @version $Id$
  */

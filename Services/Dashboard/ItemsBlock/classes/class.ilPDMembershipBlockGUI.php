@@ -12,7 +12,7 @@
 class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 {
     /** @var string */
-    static $block_type = 'pdmem';
+    public static $block_type = 'pdmem';
 
     /**
      * ilPDSelectedItemsBlockGUI constructor.
@@ -29,8 +29,10 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
      */
     protected function initViewSettings()
     {
-        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings($this->user,
-            ilPDSelectedItemsBlockViewSettings::VIEW_MY_MEMBERSHIPS);
+        $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
+            $this->user,
+            ilPDSelectedItemsBlockViewSettings::VIEW_MY_MEMBERSHIPS
+        );
         $this->viewSettings->parse();
 
         $this->blockView = ilPDSelectedItemsBlockViewGUI::bySettings($this->viewSettings);
@@ -43,10 +45,9 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
      *
      * @return string
      */
-    protected function getNoItemFoundContent(): string
+    protected function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_mo_mem_dash");
         return $txt;
     }
-
 }

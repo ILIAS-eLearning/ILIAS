@@ -55,7 +55,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                 )
                 ->withVisibilityCallable(
                     $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
-                        static function () use ($dic): bool {
+                        static function () use ($dic) : bool {
                             return true;
                             $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 

@@ -6,14 +6,14 @@
  */
 interface ilPDSelectedItemsBlockConstants
 {
-	const VIEW_SELECTED_ITEMS      = 0;
-	const VIEW_MY_MEMBERSHIPS      = 1;
-	const VIEW_MY_STUDYPROGRAMME   = 2;
-	
-	const SORT_BY_TYPE       = 'type';
-	const SORT_BY_LOCATION   = 'location';
-	const SORT_BY_START_DATE = 'start_date';
+    const VIEW_SELECTED_ITEMS      = 0;
+    const VIEW_MY_MEMBERSHIPS      = 1;
+    const VIEW_MY_STUDYPROGRAMME   = 2;
+    
+    const SORT_BY_TYPE       = 'type';
+    const SORT_BY_LOCATION   = 'location';
+    const SORT_BY_START_DATE = 'start_date';
 
-	const PRESENTATION_LIST = "list";
-	const PRESENTATION_TILE = "tile";
+    const PRESENTATION_LIST = "list";
+    const PRESENTATION_TILE = "tile";
 }

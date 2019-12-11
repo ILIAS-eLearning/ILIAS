@@ -22,11 +22,11 @@ class ilDashObjectsTableGUI extends ilTable2GUI
     /**
      * Constructor
      */
-    function __construct($a_parent_obj, $a_parent_cmd, $sub_id)
+    public function __construct($a_parent_obj, $a_parent_cmd, $sub_id)
     {
         global $DIC;
 
-        $this->id = "dash_obj_".$sub_id;
+        $this->id = "dash_obj_" . $sub_id;
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
@@ -74,4 +74,4 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $tpl->setVariable("ICON", ilObject::_getIcon($a_set["obj_id"]));
         $tpl->setVariable("TITLE", $a_set["title"]);
     }
-    }
+}
