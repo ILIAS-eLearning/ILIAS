@@ -1,62 +1,64 @@
 <?php
-$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
-if (!isset ($BEAUT_PATH)) return;
+$BEAUT_PATH = realpath(".") . "/Services/COPage/syntax_highlight/php";
+if (!isset($BEAUT_PATH)) {
+    return;
+}
 require_once("$BEAUT_PATH/Beautifier/HFile.php");
-  class HFile_plain extends HFile{
-   function __construct(){
-     parent::__construct();
-/*************************************/
-// Beautifier Highlighting Configuration File 
-// HTML
-/*************************************/
-// Flags
+  class HFile_plain extends HFile
+  {
+      public function __construct()
+      {
+          parent::__construct();
+          /*************************************/
+          // Beautifier Highlighting Configuration File
+          // HTML
+          /*************************************/
+          // Flags
 
-$this->nocase            	= "0";
-$this->notrim            	= "1";
-$this->perl              	= "0";
+          $this->nocase            	= "0";
+          $this->notrim            	= "1";
+          $this->perl              	= "0";
 
-// Colours
+          // Colours
 
-$this->colours        		= array();
-$this->quotecolour       	= "";
-$this->blockcommentcolour	= "";
-$this->linecommentcolour 	= "";
+          $this->colours        		= array();
+          $this->quotecolour       	= "";
+          $this->blockcommentcolour	= "";
+          $this->linecommentcolour 	= "";
 
-// Indent Strings
+          // Indent Strings
 
-$this->indent            	= array();
-$this->unindent          	= array();
+          $this->indent            	= array();
+          $this->unindent          	= array();
 
-// String characters and delimiters
+          // String characters and delimiters
 
-$this->stringchars       	= array();
-$this->delimiters        	= array();
-$this->escchar           	= "";
+          $this->stringchars       	= array();
+          $this->delimiters        	= array();
+          $this->escchar           	= "";
 
-// Comment settings
+          // Comment settings
 
-$this->linecommenton     	= array();
-$this->blockcommenton    	= array();
-$this->blockcommentoff   	= array();
+          $this->linecommenton     	= array();
+          $this->blockcommenton    	= array();
+          $this->blockcommentoff   	= array();
 
-// Keywords (keyword mapping to colour number)
+          // Keywords (keyword mapping to colour number)
 
-$this->keywords          	= array();
+          $this->keywords          	= array();
 
-// Special extensions
+          // Special extensions
 
-// Each category can specify a PHP function that returns an altered
-// version of the keyword.
+          // Each category can specify a PHP function that returns an altered
+          // version of the keyword.
         
 
-$this->linkscripts    	= array();
-}
+          $this->linkscripts    	= array();
+      }
 
 
-function donothing($keywordin)
-{
-	return $keywordin;
-	
-}
-
-}?>
+      public function donothing($keywordin)
+      {
+          return $keywordin;
+      }
+  }

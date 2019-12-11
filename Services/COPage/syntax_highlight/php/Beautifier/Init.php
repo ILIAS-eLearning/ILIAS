@@ -21,15 +21,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # Feel free to change the settings below.
 
 # This should point to the root of your Beautifier install.
-$BEAUT_PATH = realpath(".")."/Services/COPage/syntax_highlight/php";
+$BEAUT_PATH = realpath(".") . "/Services/COPage/syntax_highlight/php";
 //$BEAUT_PATH = "./syntax_highlight/php";
 
 
 # Changing bits after here is unwise.
 
 // Start up the core modules.
-require_once $BEAUT_PATH."/Beautifier/Core.php";
+require_once $BEAUT_PATH . "/Beautifier/Core.php";
 
 //$GLOBALS["BEAUT_PATH"] = $BEAUT_PATH;
-
-?>

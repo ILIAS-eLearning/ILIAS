@@ -19,17 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class Output_HTML
 {
-	function Output_HTML()
-	{
-		$this->code		= '_WORD_';
-		$this->linecomment 	= '<font color="green">_WORD_</font>';
-		$this->blockcomment 	= '<font color="green">_WORD_</font>';
-		$this->prepro 		= '<font color="purple">_WORD_</font>';
-		$this->select 		= '<font color="red"><b>_WORD_</b></font>';
-		$this->quote 		= '<font color="blue">_WORD_</font>';
-		$this->category_1 	= '<font color="blue">_WORD_</font>';
-		$this->category_2 	= '<font color="blue">_WORD_</font>';
-		$this->category_3 	= '<font color="blue">_WORD_</font>';
-	}
+    public function Output_HTML()
+    {
+        $this->code		= '_WORD_';
+        $this->linecomment 	= '<font color="green">_WORD_</font>';
+        $this->blockcomment 	= '<font color="green">_WORD_</font>';
+        $this->prepro 		= '<font color="purple">_WORD_</font>';
+        $this->select 		= '<font color="red"><b>_WORD_</b></font>';
+        $this->quote 		= '<font color="blue">_WORD_</font>';
+        $this->category_1 	= '<font color="blue">_WORD_</font>';
+        $this->category_2 	= '<font color="blue">_WORD_</font>';
+        $this->category_3 	= '<font color="blue">_WORD_</font>';
+    }
 }
-?>
