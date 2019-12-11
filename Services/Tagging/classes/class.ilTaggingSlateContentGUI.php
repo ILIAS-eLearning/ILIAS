@@ -57,18 +57,16 @@ class ilTaggingSlateContentGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
-                if (in_array($cmd, array("showResourcesForTag", "showTagCloud")))
-                {
+                if (in_array($cmd, array("showResourcesForTag", "showTagCloud"))) {
                     $this->$cmd();
                 }
         }
@@ -82,7 +80,7 @@ class ilTaggingSlateContentGUI
     public function render()
     {
         $tag_cloud_html = $this->renderTagCloud();
-        return "<div id='il-tag-slate-container'>".$tag_cloud_html."</div>";
+        return "<div id='il-tag-slate-container'>" . $tag_cloud_html . "</div>";
     }
     
     /**
@@ -91,29 +89,33 @@ class ilTaggingSlateContentGUI
      * @return string
      * @throws ilTemplateException
      */
-    protected function renderTagCloud(): string
+    protected function renderTagCloud() : string
     {
         $ilCtrl = $this->ctrl;
 
-        $tpl = new ilTemplate("tpl.tag_cloud.html", true, true,
-            "Services/Tagging");
+        $tpl = new ilTemplate(
+            "tpl.tag_cloud.html",
+            true,
+            true,
+            "Services/Tagging"
+        );
         $max = 1;
-        foreach($this->tags as $tag)
-        {
+        foreach ($this->tags as $tag) {
             $max = max($tag["cnt"], $max);
         }
         reset($this->tags);
 
-        foreach($this->tags as $tag)
-        {
+        foreach ($this->tags as $tag) {
             $tpl->setCurrentBlock("linked_tag");
             $ilCtrl->setParameter($this, "tag", rawurlencode($tag["tag"]));
             $list_cmd = $ilCtrl->getLinkTarget($this, "showResourcesForTag");
             $tpl->setVariable("ON_CLICK", "il.Util.ajaxReplaceInner('$list_cmd', 'il-tag-slate-container'); return false;");
             $tpl->setVariable("TAG_TITLE", $tag["tag"]);
             $tpl->setVariable("HREF_TAG", "#");
-            $tpl->setVariable("REL_CLASS",
-                ilTagging::getRelevanceClass($tag["cnt"], $max));
+            $tpl->setVariable(
+                "REL_CLASS",
+                ilTagging::getRelevanceClass($tag["cnt"], $max)
+            );
             $tpl->parseCurrentBlock();
         }
         return $tpl->get();
@@ -139,9 +141,9 @@ class ilTaggingSlateContentGUI
         $back_button = $ui->factory()->button()->shy($lng->txt("back"), "#")->withOnLoadCode(function ($id) use ($tag_cmd) {
             return
                 "$(\"#$id\").click(function() { il.Util.ajaxReplaceInner('$tag_cmd', 'il-tag-slate-container'); return false;});";
-            });
+        });
 
-        $tag = str_replace("-->","", $_GET["tag"]);
+        $tag = str_replace("-->", "", $_GET["tag"]);
 
         // resource list
         include_once("./Services/Tagging/classes/class.ilTagging.php");
@@ -150,11 +152,9 @@ class ilTaggingSlateContentGUI
         $unaccessible = false;
         $f = $this->ui->factory();
         $item_groups = [];
-        foreach($objs as $key => $obj)
-        {
+        foreach ($objs as $key => $obj) {
             $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
-            foreach($ref_ids as $ref_id)
-            {
+            foreach ($ref_ids as $ref_id) {
                 $type = $obj["obj_type"];
 
                 if ($type == "" || (!$access->checkAccess("visible", "", $ref_id) &&
@@ -169,8 +169,10 @@ class ilTaggingSlateContentGUI
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj["obj_id"]), $title));
             }
         }
-        $item_groups[] = $f->item()->group(sprintf($lng->txt("tagging_resources_for_tag"),
-            "<i>".$tag."</i>"), $items);
+        $item_groups[] = $f->item()->group(sprintf(
+            $lng->txt("tagging_resources_for_tag"),
+            "<i>" . $tag . "</i>"
+        ), $items);
         $panel = $f->panel()->secondary()->listing("", $item_groups);
 
         /*
@@ -202,7 +204,7 @@ class ilTaggingSlateContentGUI
     /**
      * Remove tasg without access
      */
-    function removeTagsWithoutAccess()
+    public function removeTagsWithoutAccess()
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -213,19 +215,14 @@ class ilTaggingSlateContentGUI
         include_once("./Services/Tagging/classes/class.ilTagging.php");
         $objs = ilTagging::getObjectsForTagAndUser($ilUser->getId(), $_GET["tag"]);
 
-        foreach($objs as $key => $obj)
-        {
+        foreach ($objs as $key => $obj) {
             $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
-            if (count($ref_ids) == 0)
-            {
+            if (count($ref_ids) == 0) {
                 $inaccessible = true;
-            }
-            else
-            {
+            } else {
                 $inaccessible = false;
             }
-            foreach ($ref_ids as $ref_id)
-            {
+            foreach ($ref_ids as $ref_id) {
                 $type = $obj["obj_type"];
 
                 if ($type == "") {
@@ -234,12 +231,10 @@ class ilTaggingSlateContentGUI
                 }
                 if (!$ilAccess->checkAccess("visible", "", $ref_id) &&
                     !$ilAccess->checkAccess("read", "", $ref_id) &&
-                    !$ilAccess->checkAccess("write", "", $ref_id))
-                {
+                    !$ilAccess->checkAccess("write", "", $ref_id)) {
                     $inaccessible = true;
                 }
-                if ($inaccessible)
-                {
+                if ($inaccessible) {
                     ilTagging::deleteTagOfObjectForUser($ilUser->getId(), $obj["obj_id"], $obj["obj_type"], $obj["sub_obj_id"], $obj["sub_obj_type"], $_GET["tag"]);
                 }
             }
@@ -249,7 +244,4 @@ class ilTaggingSlateContentGUI
 
         $ilCtrl->returnToParent($this);
     }
-
-
-
 }

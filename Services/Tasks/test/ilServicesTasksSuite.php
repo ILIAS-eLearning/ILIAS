@@ -11,23 +11,22 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesTasksSuite extends TestSuite
 {
-	public static function suite()
-	{
+    public static function suite()
+    {
 
-		//PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
+        //PHPUnit_Framework_Error_Deprecated::$enabled = FALSE;
 
-		$suite = new self();
+        $suite = new self();
 
-		include_once("./Services/Tasks/test/ilDerivedTaskTest.php");
-		$suite->addTestSuite("ilDerivedTaskTest");
+        include_once("./Services/Tasks/test/ilDerivedTaskTest.php");
+        $suite->addTestSuite("ilDerivedTaskTest");
 
-		include_once("./Services/Tasks/test/ilDerivedTaskFactoryTest.php");
-		$suite->addTestSuite("ilDerivedTaskFactoryTest");
+        include_once("./Services/Tasks/test/ilDerivedTaskFactoryTest.php");
+        $suite->addTestSuite("ilDerivedTaskFactoryTest");
 
-		include_once("./Services/Tasks/test/ilDerivedTaskCollectorTest.php");
-		$suite->addTestSuite("ilDerivedTaskCollectorTest");
+        include_once("./Services/Tasks/test/ilDerivedTaskCollectorTest.php");
+        $suite->addTestSuite("ilDerivedTaskCollectorTest");
 
-		return $suite;
-	}
+        return $suite;
+    }
 }
-?>
