@@ -12,20 +12,18 @@ require_once 'class.ilSystemStyleExceptionBase.php';
  */
 class ilSystemStyleMessageStackException extends ilSystemStyleExceptionBase
 {
-	const MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST = 1001;
+    const MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST = 1001;
 
 
-	protected function assignMessageToCode()
-	{
-		switch ($this->code)
-		{
-			case self::MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST:
-				$this->message = "Type id does not exist in message stack";
-				break;
-			default:
-				$this->message = "Unknown Exception " . $this->add_info;
-				break;
-		}
-	}
-
+    protected function assignMessageToCode()
+    {
+        switch ($this->code) {
+            case self::MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST:
+                $this->message = "Type id does not exist in message stack";
+                break;
+            default:
+                $this->message = "Unknown Exception " . $this->add_info;
+                break;
+        }
+    }
 }
