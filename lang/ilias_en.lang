@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_imagemap_popup_title#:#Choose Area
 asq#:#asq_label_answering_limitation#:#Limit Answers
 asq#:#asq_info_answering_limitation#:#With this setting the number of answers choosable by the participiants can be limited
 asq#:#asq_label_max_length#:#Maximum Number of Characters

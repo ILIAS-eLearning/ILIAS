@@ -28,8 +28,8 @@ class ImageFormPopup extends ilTextInputGUI {
         $tpl = new ilTemplate("tpl.ImageMapEditorFormPopUp.html", true, true, "Services/AssessmentQuestion");
         $tpl->setVariable('POPUP_TITLE', $DIC->language()->txt('asq_imagemap_popup_title'));
         $tpl->setVariable('IMAGE_SRC', $this->getValue());
-        $tpl->setVariable('OK', $DIC->language()->txt('Ok'));
-        $tpl->setVariable('CANCEL', $DIC->language()->txt('Cancel'));
+        $tpl->setVariable('OK', $DIC->language()->txt('ok'));
+        $tpl->setVariable('CANCEL', $DIC->language()->txt('cancel'));
         return $tpl->get();
     }
     
