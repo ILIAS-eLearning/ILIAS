@@ -52,8 +52,18 @@ class AuthoringQuestionList implements QuestionList
     {
         $assoc_array = [];
         foreach($this->authoring_application_service->getQuestions() as $question_dto) {
-            $assoc_array[] = $this->getArrayFromDto($question_dto);
+            $question_array = $this->getArrayFromDto($question_dto);
+            
+            // TODO look for a less smelly way to set title if no title is set yet as it needs something for the link to be clickable
+            if (!array_key_exists('data_title', $question_array)) {
+                $question_array['data_title'] = '---';
+            }
+            
+            $assoc_array[] = $question_array;
         }
+        
+        
+        
         return $assoc_array;
     }
 
