@@ -1136,17 +1136,17 @@
     },
     {
         "name": "phpoffice/phpspreadsheet",
-        "version": "1.10.1",
-        "version_normalized": "1.10.1.0",
+        "version": "1.8.2",
+        "version_normalized": "1.8.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/PHPOffice/PhpSpreadsheet.git",
-            "reference": "1648dc9ebef6ebe0c5a172e16cf66732918416e0"
+            "reference": "0c1346a1956347590b7db09533966307d20cb7cc"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/1648dc9ebef6ebe0c5a172e16cf66732918416e0",
-            "reference": "1648dc9ebef6ebe0c5a172e16cf66732918416e0",
+            "url": "https://api.github.com/repos/PHPOffice/PhpSpreadsheet/zipball/0c1346a1956347590b7db09533966307d20cb7cc",
+            "reference": "0c1346a1956347590b7db09533966307d20cb7cc",
             "shasum": ""
         },
         "require": {
@@ -1164,19 +1164,20 @@
             "ext-zip": "*",
             "ext-zlib": "*",
             "markbaker/complex": "^1.4",
-            "markbaker/matrix": "^1.2",
-            "php": "^7.1",
+            "markbaker/matrix": "^1.1",
+            "php": "^5.6|^7.0",
             "psr/simple-cache": "^1.0"
         },
         "require-dev": {
-            "dompdf/dompdf": "^0.8.3",
-            "friendsofphp/php-cs-fixer": "^2.16",
+            "doctrine/instantiator": "^1.0.0",
+            "dompdf/dompdf": "^0.8.0",
+            "friendsofphp/php-cs-fixer": "@stable",
             "jpgraph/jpgraph": "^4.0",
-            "mpdf/mpdf": "^8.0",
-            "phpcompatibility/php-compatibility": "^9.3",
-            "phpunit/phpunit": "^7.5",
-            "squizlabs/php_codesniffer": "^3.5",
-            "tecnickcom/tcpdf": "^6.3"
+            "mpdf/mpdf": "^7.0.0",
+            "phpcompatibility/php-compatibility": "^8.0",
+            "phpunit/phpunit": "^5.7",
+            "squizlabs/php_codesniffer": "^3.3",
+            "tecnickcom/tcpdf": "^6.2"
         },
         "suggest": {
             "dompdf/dompdf": "Option for rendering PDF with PDF Writer",
@@ -1184,7 +1185,7 @@
             "mpdf/mpdf": "Option for rendering PDF with PDF Writer",
             "tecnickcom/tcpdf": "Option for rendering PDF with PDF Writer"
         },
-        "time": "2019-12-01T23:13:51+00:00",
+        "time": "2019-07-08T21:21:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1194,9 +1195,15 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "MIT"
+            "LGPL-2.1-or-later"
         ],
         "authors": [
+            {
+                "name": "Erik Tilt"
+            },
+            {
+                "name": "Adrien Crivelli"
+            },
             {
                 "name": "Maarten Balliauw",
                 "homepage": "https://blog.maartenballiauw.be"
@@ -1208,12 +1215,6 @@
             {
                 "name": "Franck Lefevre",
                 "homepage": "https://rootslabs.net"
-            },
-            {
-                "name": "Erik Tilt"
-            },
-            {
-                "name": "Adrien Crivelli"
             }
         ],
         "description": "PHPSpreadsheet - Read, Create and Write Spreadsheet documents in PHP - Spreadsheet engine",

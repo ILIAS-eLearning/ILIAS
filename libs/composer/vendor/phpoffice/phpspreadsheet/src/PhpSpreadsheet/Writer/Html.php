@@ -63,13 +63,6 @@ class Html extends BaseWriter
     private $useInlineCss = false;
 
     /**
-     * Use embedded CSS?
-     *
-     * @var bool
-     */
-    private $useEmbeddedCSS = true;
-
-    /**
      * Array of CSS styles.
      *
      * @var array
@@ -650,10 +643,7 @@ class Html extends BaseWriter
                     } else {
                         $imageDetails = getimagesize($filename);
                         if ($fp = fopen($filename, 'rb', 0)) {
-                            $picture = '';
-                            while (!feof($fp)) {
-                                $picture .= fread($fp, 1024);
-                            }
+                            $picture = fread($fp, filesize($filename));
                             fclose($fp);
                             // base64 encode the binary data, then break it
                             // into chunks according to RFC 2045 semantics
@@ -898,8 +888,8 @@ class Html extends BaseWriter
                     $css['table.sheet' . $sheetIndex . ' col.col' . $column]['width'] = $width . 'pt';
 
                     if ($columnDimension->getVisible() === false) {
-                        $css['table.sheet' . $sheetIndex . ' .column' . $column]['visibility'] = 'collapse';
-                        $css['table.sheet' . $sheetIndex . ' .column' . $column]['display'] = 'none'; // target IE6+7
+                        $css['table.sheet' . $sheetIndex . ' col.col' . $column]['visibility'] = 'collapse';
+                        $css['table.sheet' . $sheetIndex . ' col.col' . $column]['*display'] = 'none'; // target IE6+7
                     }
                 }
             }
@@ -960,12 +950,15 @@ class Html extends BaseWriter
     private function createCSSStyle(Style $pStyle)
     {
         // Create CSS
-        return array_merge(
+        $css = array_merge(
             $this->createCSSStyleAlignment($pStyle->getAlignment()),
             $this->createCSSStyleBorders($pStyle->getBorders()),
             $this->createCSSStyleFont($pStyle->getFont()),
             $this->createCSSStyleFill($pStyle->getFill())
         );
+
+        // Return
+        return $css;
     }
 
     /**
@@ -1058,8 +1051,9 @@ class Html extends BaseWriter
     {
         //    Create CSS - add !important to non-none border styles for merged cells
         $borderStyle = $this->mapBorderStyle($pStyle->getBorderStyle());
+        $css = $borderStyle . ' #' . $pStyle->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
 
-        return $borderStyle . ' #' . $pStyle->getColor()->getRGB() . (($borderStyle == 'none') ? '' : ' !important');
+        return $css;
     }
 
     /**
@@ -1108,9 +1102,7 @@ class Html extends BaseWriter
 
         // Construct HTML
         $html = '';
-        if ($this->useEmbeddedCSS) {
-            $html .= $this->setMargins($pSheet);
-        }
+        $html .= $this->setMargins($pSheet);
 
         if (!$this->useInlineCss) {
             $gridlines = $pSheet->getShowGridlines() ? ' gridlines' : '';
@@ -1149,7 +1141,9 @@ class Html extends BaseWriter
      */
     private function generateTableFooter()
     {
-        return '    </table>' . PHP_EOL;
+        $html = '    </table>' . PHP_EOL;
+
+        return $html;
     }
 
     /**
@@ -1496,30 +1490,6 @@ class Html extends BaseWriter
     }
 
     /**
-     * Get use embedded CSS?
-     *
-     * @return bool
-     */
-    public function getUseEmbeddedCSS()
-    {
-        return $this->useEmbeddedCSS;
-    }
-
-    /**
-     * Set use embedded CSS?
-     *
-     * @param bool $pValue
-     *
-     * @return HTML
-     */
-    public function setUseEmbeddedCSS($pValue)
-    {
-        $this->useEmbeddedCSS = $pValue;
-
-        return $this;
-    }
-
-    /**
      * Add color to formatted string as inline style.
      *
      * @param string $pValue Plain formatted value without color
@@ -1568,14 +1538,14 @@ class Html extends BaseWriter
 
             // loop through all Excel merged cells
             foreach ($sheet->getMergeCells() as $cells) {
-                [$cells] = Coordinate::splitRange($cells);
+                list($cells) = Coordinate::splitRange($cells);
                 $first = $cells[0];
                 $last = $cells[1];
 
-                [$fc, $fr] = Coordinate::coordinateFromString($first);
+                list($fc, $fr) = Coordinate::coordinateFromString($first);
                 $fc = Coordinate::columnIndexFromString($fc) - 1;
 
-                [$lc, $lr] = Coordinate::coordinateFromString($last);
+                list($lc, $lr) = Coordinate::coordinateFromString($last);
                 $lc = Coordinate::columnIndexFromString($lc) - 1;
 
                 // loop through the individual cells in the individual merge

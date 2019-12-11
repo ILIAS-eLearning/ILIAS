@@ -519,44 +519,6 @@ class Statistical
     }
 
     /**
-     * MS Excel does not count Booleans if passed as cell values, but they are counted if passed as literals.
-     * OpenOffice Calc always counts Booleans.
-     * Gnumeric never counts Booleans.
-     *
-     * @param mixed $arg
-     * @param mixed $k
-     *
-     * @return int|mixed
-     */
-    private static function testAcceptedBoolean($arg, $k)
-    {
-        if ((is_bool($arg)) &&
-            ((!Functions::isCellValue($k) && (Functions::getCompatibilityMode() === Functions::COMPATIBILITY_EXCEL)) ||
-                (Functions::getCompatibilityMode() === Functions::COMPATIBILITY_OPENOFFICE))) {
-            $arg = (int) $arg;
-        }
-
-        return $arg;
-    }
-
-    /**
-     * @param mixed $arg
-     * @param mixed $k
-     *
-     * @return bool
-     */
-    private static function isAcceptedCountable($arg, $k)
-    {
-        if (((is_numeric($arg)) && (!is_string($arg))) ||
-                ((is_numeric($arg)) && (!Functions::isCellValue($k)) &&
-                    (Functions::getCompatibilityMode() !== Functions::COMPATIBILITY_GNUMERIC))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * AVEDEV.
      *
      * Returns the average of the absolute deviations of data points from their mean.
@@ -569,43 +531,43 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function AVEDEV(...$args)
     {
         $aArgs = Functions::flattenArrayIndexed($args);
 
         // Return value
-        $returnValue = 0;
+        $returnValue = null;
 
-        $aMean = self::AVERAGE(...$args);
-        if ($aMean === Functions::DIV0()) {
-            return Functions::NAN();
-        } elseif ($aMean === Functions::VALUE()) {
-            return Functions::VALUE();
-        }
-
-        $aCount = 0;
-        foreach ($aArgs as $k => $arg) {
-            $arg = self::testAcceptedBoolean($arg, $k);
-            // Is it a numeric value?
-            // Strings containing numeric values are only counted if they are string literals (not cell values)
-            //    and then only in MS Excel and in Open Office, not in Gnumeric
-            if ((is_string($arg)) && (!is_numeric($arg)) && (!Functions::isCellValue($k))) {
-                return Functions::VALUE();
+        $aMean = self::AVERAGE($aArgs);
+        if ($aMean != Functions::DIV0()) {
+            $aCount = 0;
+            foreach ($aArgs as $k => $arg) {
+                if ((is_bool($arg)) &&
+                    ((!Functions::isCellValue($k)) || (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE))) {
+                    $arg = (int) $arg;
+                }
+                // Is it a numeric value?
+                if ((is_numeric($arg)) && (!is_string($arg))) {
+                    if ($returnValue === null) {
+                        $returnValue = abs($arg - $aMean);
+                    } else {
+                        $returnValue += abs($arg - $aMean);
+                    }
+                    ++$aCount;
+                }
             }
-            if (self::isAcceptedCountable($arg, $k)) {
-                $returnValue += abs($arg - $aMean);
-                ++$aCount;
+
+            // Return
+            if ($aCount == 0) {
+                return Functions::DIV0();
             }
+
+            return $returnValue / $aCount;
         }
 
-        // Return
-        if ($aCount === 0) {
-            return Functions::DIV0();
-        }
-
-        return $returnValue / $aCount;
+        return Functions::NAN();
     }
 
     /**
@@ -620,7 +582,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function AVERAGE(...$args)
     {
@@ -628,15 +590,17 @@ class Statistical
 
         // Loop through arguments
         foreach (Functions::flattenArrayIndexed($args) as $k => $arg) {
-            $arg = self::testAcceptedBoolean($arg, $k);
-            // Is it a numeric value?
-            // Strings containing numeric values are only counted if they are string literals (not cell values)
-            //    and then only in MS Excel and in Open Office, not in Gnumeric
-            if ((is_string($arg)) && (!is_numeric($arg)) && (!Functions::isCellValue($k))) {
-                return Functions::VALUE();
+            if ((is_bool($arg)) &&
+                ((!Functions::isCellValue($k)) || (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE))) {
+                $arg = (int) $arg;
             }
-            if (self::isAcceptedCountable($arg, $k)) {
-                $returnValue += $arg;
+            // Is it a numeric value?
+            if ((is_numeric($arg)) && (!is_string($arg))) {
+                if ($returnValue === null) {
+                    $returnValue = $arg;
+                } else {
+                    $returnValue += $arg;
+                }
                 ++$aCount;
             }
         }
@@ -661,7 +625,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function AVERAGEA(...$args)
     {
@@ -679,7 +643,11 @@ class Statistical
                     } elseif (is_string($arg)) {
                         $arg = 0;
                     }
-                    $returnValue += $arg;
+                    if ($returnValue === null) {
+                        $returnValue = $arg;
+                    } else {
+                        $returnValue += $arg;
+                    }
                     ++$aCount;
                 }
             }
@@ -706,7 +674,7 @@ class Statistical
      * @param string $condition the criteria that defines which cells will be checked
      * @param mixed[] $averageArgs Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function AVERAGEIF($aArgs, $condition, $averageArgs = [])
     {
@@ -718,23 +686,18 @@ class Statistical
             $averageArgs = $aArgs;
         }
         $condition = Functions::ifCondition($condition);
-        $conditionIsNumeric = strpos($condition, '"') === false;
-
         // Loop through arguments
         $aCount = 0;
         foreach ($aArgs as $key => $arg) {
             if (!is_numeric($arg)) {
-                if ($conditionIsNumeric) {
-                    continue;
-                }
                 $arg = Calculation::wrapResult(strtoupper($arg));
-            } elseif (!$conditionIsNumeric) {
-                continue;
             }
             $testCondition = '=' . $arg . $condition;
             if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                $returnValue += $averageArgs[$key];
-                ++$aCount;
+                if (($returnValue === null) || ($arg > $returnValue)) {
+                    $returnValue += $arg;
+                    ++$aCount;
+                }
             }
         }
 
@@ -756,7 +719,7 @@ class Statistical
      * @param mixed $rMin
      * @param mixed $rMax
      *
-     * @return float|string
+     * @return float
      */
     public static function BETADIST($value, $alpha, $beta, $rMin = 0, $rMax = 1)
     {
@@ -795,7 +758,7 @@ class Statistical
      * @param float $rMin Minimum value
      * @param float $rMax Maximum value
      *
-     * @return float|string
+     * @return float
      */
     public static function BETAINV($probability, $alpha, $beta, $rMin = 0, $rMax = 1)
     {
@@ -853,17 +816,17 @@ class Statistical
      * @param float $probability Probability of success on each trial
      * @param bool $cumulative
      *
-     * @return float|string
+     * @return float
+     *
+     * @todo    Cumulative distribution function
      */
     public static function BINOMDIST($value, $trials, $probability, $cumulative)
     {
-        $value = Functions::flattenSingleValue($value);
-        $trials = Functions::flattenSingleValue($trials);
+        $value = floor(Functions::flattenSingleValue($value));
+        $trials = floor(Functions::flattenSingleValue($trials));
         $probability = Functions::flattenSingleValue($probability);
 
         if ((is_numeric($value)) && (is_numeric($trials)) && (is_numeric($probability))) {
-            $value = floor($value);
-            $trials = floor($trials);
             if (($value < 0) || ($value > $trials)) {
                 return Functions::NAN();
             }
@@ -895,15 +858,14 @@ class Statistical
      * @param float $value Value for the function
      * @param float $degrees degrees of freedom
      *
-     * @return float|string
+     * @return float
      */
     public static function CHIDIST($value, $degrees)
     {
         $value = Functions::flattenSingleValue($value);
-        $degrees = Functions::flattenSingleValue($degrees);
+        $degrees = floor(Functions::flattenSingleValue($degrees));
 
         if ((is_numeric($value)) && (is_numeric($degrees))) {
-            $degrees = floor($degrees);
             if ($degrees < 1) {
                 return Functions::NAN();
             }
@@ -929,16 +891,14 @@ class Statistical
      * @param float $probability Probability for the function
      * @param float $degrees degrees of freedom
      *
-     * @return float|string
+     * @return float
      */
     public static function CHIINV($probability, $degrees)
     {
         $probability = Functions::flattenSingleValue($probability);
-        $degrees = Functions::flattenSingleValue($degrees);
+        $degrees = floor(Functions::flattenSingleValue($degrees));
 
         if ((is_numeric($probability)) && (is_numeric($degrees))) {
-            $degrees = floor($degrees);
-
             $xLo = 100;
             $xHi = 0;
 
@@ -948,7 +908,7 @@ class Statistical
 
             while ((abs($dx) > Functions::PRECISION) && ($i++ < self::MAX_ITERATIONS)) {
                 // Apply Newton-Raphson step
-                $result = 1 - (self::incompleteGamma($degrees / 2, $x / 2) / self::gamma($degrees / 2));
+                $result = self::CHIDIST($x, $degrees);
                 $error = $result - $probability;
                 if ($error == 0.0) {
                     $dx = 0;
@@ -990,16 +950,15 @@ class Statistical
      * @param float $stdDev Standard Deviation
      * @param float $size
      *
-     * @return float|string
+     * @return float
      */
     public static function CONFIDENCE($alpha, $stdDev, $size)
     {
         $alpha = Functions::flattenSingleValue($alpha);
         $stdDev = Functions::flattenSingleValue($stdDev);
-        $size = Functions::flattenSingleValue($size);
+        $size = floor(Functions::flattenSingleValue($size));
 
         if ((is_numeric($alpha)) && (is_numeric($stdDev)) && (is_numeric($size))) {
-            $size = floor($size);
             if (($alpha <= 0) || ($alpha >= 1)) {
                 return Functions::NAN();
             }
@@ -1021,7 +980,7 @@ class Statistical
      * @param mixed $yValues array of mixed Data Series Y
      * @param null|mixed $xValues array of mixed Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function CORREL($yValues, $xValues = null)
     {
@@ -1066,11 +1025,12 @@ class Statistical
         // Loop through arguments
         $aArgs = Functions::flattenArrayIndexed($args);
         foreach ($aArgs as $k => $arg) {
-            $arg = self::testAcceptedBoolean($arg, $k);
+            if ((is_bool($arg)) &&
+                ((!Functions::isCellValue($k)) || (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_OPENOFFICE))) {
+                $arg = (int) $arg;
+            }
             // Is it a numeric value?
-            // Strings containing numeric values are only counted if they are string literals (not cell values)
-            //    and then only in MS Excel and in Open Office, not in Gnumeric
-            if (self::isAcceptedCountable($arg, $k)) {
+            if ((is_numeric($arg)) && (!is_string($arg))) {
                 ++$returnValue;
             }
         }
@@ -1097,10 +1057,10 @@ class Statistical
         $returnValue = 0;
 
         // Loop through arguments
-        $aArgs = Functions::flattenArrayIndexed($args);
-        foreach ($aArgs as $k => $arg) {
-            // Nulls are counted if literals, but not if cell values
-            if ($arg !== null || (!Functions::isCellValue($k))) {
+        $aArgs = Functions::flattenArray($args);
+        foreach ($aArgs as $arg) {
+            // Is it a numeric, boolean or string value?
+            if ((is_numeric($arg)) || (is_bool($arg)) || ((is_string($arg) && ($arg != '')))) {
                 ++$returnValue;
             }
         }
@@ -1159,16 +1119,10 @@ class Statistical
 
         $aArgs = Functions::flattenArray($aArgs);
         $condition = Functions::ifCondition($condition);
-        $conditionIsNumeric = strpos($condition, '"') === false;
         // Loop through arguments
         foreach ($aArgs as $arg) {
             if (!is_numeric($arg)) {
-                if ($conditionIsNumeric) {
-                    continue;
-                }
                 $arg = Calculation::wrapResult(strtoupper($arg));
-            } elseif (!$conditionIsNumeric) {
-                continue;
             }
             $testCondition = '=' . $arg . $condition;
             if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
@@ -1181,78 +1135,6 @@ class Statistical
     }
 
     /**
-     * COUNTIFS.
-     *
-     * Counts the number of cells that contain numbers within the list of arguments
-     *
-     * Excel Function:
-     *        COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2]…)
-     *
-     * @category Statistical Functions
-     *
-     * @param mixed $args Criterias
-     *
-     * @return int
-     */
-    public static function COUNTIFS(...$args)
-    {
-        $arrayList = $args;
-
-        // Return value
-        $returnValue = 0;
-
-        if (empty($arrayList)) {
-            return $returnValue;
-        }
-
-        $aArgsArray = [];
-        $conditions = [];
-
-        while (count($arrayList) > 0) {
-            $aArgsArray[] = Functions::flattenArray(array_shift($arrayList));
-            $conditions[] = Functions::ifCondition(array_shift($arrayList));
-        }
-
-        // Loop through each arg and see if arguments and conditions are true
-        foreach (array_keys($aArgsArray[0]) as $index) {
-            $valid = true;
-
-            foreach ($conditions as $cidx => $condition) {
-                $conditionIsNumeric = strpos($condition, '"') === false;
-                $arg = $aArgsArray[$cidx][$index];
-
-                // Loop through arguments
-                if (!is_numeric($arg)) {
-                    if ($conditionIsNumeric) {
-                        $valid = false;
-
-                        break; // if false found, don't need to check other conditions
-                    }
-                    $arg = Calculation::wrapResult(strtoupper($arg));
-                } elseif (!$conditionIsNumeric) {
-                    $valid = false;
-
-                    break; // if false found, don't need to check other conditions
-                }
-                $testCondition = '=' . $arg . $condition;
-                if (!Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                    // Is not a value within our criteria
-                    $valid = false;
-
-                    break; // if false found, don't need to check other conditions
-                }
-            }
-
-            if ($valid) {
-                ++$returnValue;
-            }
-        }
-
-        // Return
-        return $returnValue;
-    }
-
-    /**
      * COVAR.
      *
      * Returns covariance, the average of the products of deviations for each data point pair.
@@ -1260,7 +1142,7 @@ class Statistical
      * @param mixed $yValues array of mixed Data Series Y
      * @param mixed $xValues array of mixed Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function COVAR($yValues, $xValues)
     {
@@ -1293,7 +1175,7 @@ class Statistical
      * @param float $probability probability of a success on each trial
      * @param float $alpha criterion value
      *
-     * @return int|string
+     * @return int
      *
      * @todo    Warning. This implementation differs from the algorithm detailed on the MS
      *            web site in that $CumPGuessMinus1 = $CumPGuess - 1 rather than $CumPGuess - $PGuess
@@ -1307,23 +1189,19 @@ class Statistical
         $alpha = Functions::flattenSingleValue($alpha);
 
         if ((is_numeric($trials)) && (is_numeric($probability)) && (is_numeric($alpha))) {
-            $trials = (int) $trials;
             if ($trials < 0) {
                 return Functions::NAN();
-            } elseif (($probability < 0.0) || ($probability > 1.0)) {
+            } elseif (($probability < 0) || ($probability > 1)) {
                 return Functions::NAN();
-            } elseif (($alpha < 0.0) || ($alpha > 1.0)) {
+            } elseif (($alpha < 0) || ($alpha > 1)) {
                 return Functions::NAN();
-            }
-
-            if ($alpha <= 0.5) {
+            } elseif ($alpha <= 0.5) {
                 $t = sqrt(log(1 / ($alpha * $alpha)));
                 $trialsApprox = 0 - ($t + (2.515517 + 0.802853 * $t + 0.010328 * $t * $t) / (1 + 1.432788 * $t + 0.189269 * $t * $t + 0.001308 * $t * $t * $t));
             } else {
                 $t = sqrt(log(1 / pow(1 - $alpha, 2)));
                 $trialsApprox = $t - (2.515517 + 0.802853 * $t + 0.010328 * $t * $t) / (1 + 1.432788 * $t + 0.189269 * $t * $t + 0.001308 * $t * $t * $t);
             }
-
             $Guess = floor($trials * $probability + $trialsApprox * sqrt($trials * $probability * (1 - $probability)));
             if ($Guess < 0) {
                 $Guess = 0;
@@ -1420,7 +1298,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function DEVSQ(...$args)
     {
@@ -1471,7 +1349,7 @@ class Statistical
      * @param float $lambda The parameter value
      * @param bool $cumulative
      *
-     * @return float|string
+     * @return float
      */
     public static function EXPONDIST($value, $lambda, $cumulative)
     {
@@ -1504,7 +1382,7 @@ class Statistical
      *
      * @param float $value
      *
-     * @return float|string
+     * @return float
      */
     public static function FISHER($value)
     {
@@ -1530,7 +1408,7 @@ class Statistical
      *
      * @param float $value
      *
-     * @return float|string
+     * @return float
      */
     public static function FISHERINV($value)
     {
@@ -1552,7 +1430,7 @@ class Statistical
      * @param mixed $yValues array of mixed Data Series Y
      * @param mixed $xValues of mixed Data Series X
      *
-     * @return bool|float|string
+     * @return float
      */
     public static function FORECAST($xValue, $yValues, $xValues)
     {
@@ -1586,7 +1464,7 @@ class Statistical
      * @param float $b Parameter to the distribution
      * @param bool $cumulative
      *
-     * @return float|string
+     * @return float
      */
     public static function GAMMADIST($value, $a, $b, $cumulative)
     {
@@ -1619,7 +1497,7 @@ class Statistical
      * @param float $alpha Parameter to the distribution
      * @param float $beta Parameter to the distribution
      *
-     * @return float|string
+     * @return float
      */
     public static function GAMMAINV($probability, $alpha, $beta)
     {
@@ -1680,7 +1558,7 @@ class Statistical
      *
      * @param float $value
      *
-     * @return float|string
+     * @return float
      */
     public static function GAMMALN($value)
     {
@@ -1711,7 +1589,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function GEOMEAN(...$args)
     {
@@ -1731,7 +1609,7 @@ class Statistical
     /**
      * GROWTH.
      *
-     * Returns values along a predicted exponential Trend
+     * Returns values along a predicted emponential Trend
      *
      * @param mixed[] $yValues Data Series Y
      * @param mixed[] $xValues Data Series X
@@ -1773,12 +1651,12 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function HARMEAN(...$args)
     {
         // Return value
-        $returnValue = 0;
+        $returnValue = Functions::NA();
 
         // Loop through arguments
         $aArgs = Functions::flattenArray($args);
@@ -1792,7 +1670,11 @@ class Statistical
                 if ($arg <= 0) {
                     return Functions::NAN();
                 }
-                $returnValue += (1 / $arg);
+                if ($returnValue === null) {
+                    $returnValue = (1 / $arg);
+                } else {
+                    $returnValue += (1 / $arg);
+                }
                 ++$aCount;
             }
         }
@@ -1802,7 +1684,7 @@ class Statistical
             return 1 / ($returnValue / $aCount);
         }
 
-        return Functions::NA();
+        return $returnValue;
     }
 
     /**
@@ -1816,7 +1698,7 @@ class Statistical
      * @param float $populationSuccesses Number of successes in the population
      * @param float $populationNumber Population size
      *
-     * @return float|string
+     * @return float
      */
     public static function HYPGEOMDIST($sampleSuccesses, $sampleNumber, $populationSuccesses, $populationNumber)
     {
@@ -1852,7 +1734,7 @@ class Statistical
      * @param mixed[] $yValues Data Series Y
      * @param mixed[] $xValues Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function INTERCEPT($yValues, $xValues)
     {
@@ -1883,7 +1765,7 @@ class Statistical
      *
      * @param array ...$args Data Series
      *
-     * @return float|string
+     * @return float
      */
     public static function KURT(...$args)
     {
@@ -2223,61 +2105,44 @@ class Statistical
     }
 
     /**
-     * MAXIFS.
+     * MAXIF.
      *
      * Counts the maximum value within a range of cells that contain numbers within the list of arguments
      *
      * Excel Function:
-     *        MAXIFS(max_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)
+     *        MAXIF(value1[,value2[, ...]],condition)
      *
-     * @category Statistical Functions
+     * @category Mathematical and Trigonometric Functions
      *
-     * @param mixed $args Data range and criterias
+     * @param mixed $aArgs Data values
+     * @param string $condition the criteria that defines which cells will be checked
+     * @param mixed $sumArgs
      *
      * @return float
      */
-    public static function MAXIFS(...$args)
+    public static function MAXIF($aArgs, $condition, $sumArgs = [])
     {
-        $arrayList = $args;
-
-        // Return value
         $returnValue = null;
 
-        $maxArgs = Functions::flattenArray(array_shift($arrayList));
-        $aArgsArray = [];
-        $conditions = [];
-
-        while (count($arrayList) > 0) {
-            $aArgsArray[] = Functions::flattenArray(array_shift($arrayList));
-            $conditions[] = Functions::ifCondition(array_shift($arrayList));
+        $aArgs = Functions::flattenArray($aArgs);
+        $sumArgs = Functions::flattenArray($sumArgs);
+        if (empty($sumArgs)) {
+            $sumArgs = $aArgs;
         }
-
-        // Loop through each arg and see if arguments and conditions are true
-        foreach ($maxArgs as $index => $value) {
-            $valid = true;
-
-            foreach ($conditions as $cidx => $condition) {
-                $arg = $aArgsArray[$cidx][$index];
-
-                // Loop through arguments
-                if (!is_numeric($arg)) {
-                    $arg = Calculation::wrapResult(strtoupper($arg));
-                }
-                $testCondition = '=' . $arg . $condition;
-                if (!Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                    // Is not a value within our criteria
-                    $valid = false;
-
-                    break; // if false found, don't need to check other conditions
-                }
+        $condition = Functions::ifCondition($condition);
+        // Loop through arguments
+        foreach ($aArgs as $key => $arg) {
+            if (!is_numeric($arg)) {
+                $arg = Calculation::wrapResult(strtoupper($arg));
             }
-
-            if ($valid) {
-                $returnValue = $returnValue === null ? $value : max($value, $returnValue);
+            $testCondition = '=' . $arg . $condition;
+            if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
+                if (($returnValue === null) || ($arg > $returnValue)) {
+                    $returnValue = $arg;
+                }
             }
         }
 
-        // Return
         return $returnValue;
     }
 
@@ -2403,61 +2268,44 @@ class Statistical
     }
 
     /**
-     * MINIFS.
+     * MINIF.
      *
      * Returns the minimum value within a range of cells that contain numbers within the list of arguments
      *
      * Excel Function:
-     *        MINIFS(min_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)
+     *        MINIF(value1[,value2[, ...]],condition)
      *
-     * @category Statistical Functions
+     * @category Mathematical and Trigonometric Functions
      *
-     * @param mixed $args Data range and criterias
+     * @param mixed $aArgs Data values
+     * @param string $condition the criteria that defines which cells will be checked
+     * @param mixed $sumArgs
      *
      * @return float
      */
-    public static function MINIFS(...$args)
+    public static function MINIF($aArgs, $condition, $sumArgs = [])
     {
-        $arrayList = $args;
-
-        // Return value
         $returnValue = null;
 
-        $minArgs = Functions::flattenArray(array_shift($arrayList));
-        $aArgsArray = [];
-        $conditions = [];
-
-        while (count($arrayList) > 0) {
-            $aArgsArray[] = Functions::flattenArray(array_shift($arrayList));
-            $conditions[] = Functions::ifCondition(array_shift($arrayList));
+        $aArgs = Functions::flattenArray($aArgs);
+        $sumArgs = Functions::flattenArray($sumArgs);
+        if (empty($sumArgs)) {
+            $sumArgs = $aArgs;
         }
-
-        // Loop through each arg and see if arguments and conditions are true
-        foreach ($minArgs as $index => $value) {
-            $valid = true;
-
-            foreach ($conditions as $cidx => $condition) {
-                $arg = $aArgsArray[$cidx][$index];
-
-                // Loop through arguments
-                if (!is_numeric($arg)) {
-                    $arg = Calculation::wrapResult(strtoupper($arg));
-                }
-                $testCondition = '=' . $arg . $condition;
-                if (!Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                    // Is not a value within our criteria
-                    $valid = false;
-
-                    break; // if false found, don't need to check other conditions
-                }
+        $condition = Functions::ifCondition($condition);
+        // Loop through arguments
+        foreach ($aArgs as $key => $arg) {
+            if (!is_numeric($arg)) {
+                $arg = Calculation::wrapResult(strtoupper($arg));
             }
-
-            if ($valid) {
-                $returnValue = $returnValue === null ? $value : min($value, $returnValue);
+            $testCondition = '=' . $arg . $condition;
+            if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
+                if (($returnValue === null) || ($arg < $returnValue)) {
+                    $returnValue = $arg;
+                }
             }
         }
 
-        // Return
         return $returnValue;
     }
 
@@ -2784,7 +2632,7 @@ class Statistical
      * @param int $numObjs Number of different objects
      * @param int $numInSet Number of objects in each permutation
      *
-     * @return int|string Number of permutations
+     * @return int Number of permutations
      */
     public static function PERMUT($numObjs, $numInSet)
     {
@@ -2921,7 +2769,7 @@ class Statistical
      * @param mixed[] $yValues Data Series Y
      * @param mixed[] $xValues Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function RSQ($yValues, $xValues)
     {
@@ -2952,7 +2800,7 @@ class Statistical
      *
      * @param array ...$args Data Series
      *
-     * @return float|string
+     * @return float
      */
     public static function SKEW(...$args)
     {
@@ -2989,7 +2837,7 @@ class Statistical
      * @param mixed[] $yValues Data Series Y
      * @param mixed[] $xValues Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function SLOPE($yValues, $xValues)
     {
@@ -3095,7 +2943,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function STDEV(...$args)
     {
@@ -3144,7 +2992,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function STDEVA(...$args)
     {
@@ -3196,7 +3044,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function STDEVP(...$args)
     {
@@ -3243,7 +3091,7 @@ class Statistical
      *
      * @param mixed ...$args Data values
      *
-     * @return float|string
+     * @return float
      */
     public static function STDEVPA(...$args)
     {
@@ -3291,7 +3139,7 @@ class Statistical
      * @param mixed[] $yValues Data Series Y
      * @param mixed[] $xValues Data Series X
      *
-     * @return float|string
+     * @return float
      */
     public static function STEYX($yValues, $xValues)
     {
@@ -3482,7 +3330,7 @@ class Statistical
      * @param mixed $args Data values
      * @param float $discard Percentage to discard
      *
-     * @return float|string
+     * @return float
      */
     public static function TRIMMEAN(...$args)
     {
@@ -3755,7 +3603,7 @@ class Statistical
      * @param float $m0 Alpha Parameter
      * @param float $sigma Beta Parameter
      *
-     * @return float|string
+     * @return float
      */
     public static function ZTEST($dataSet, $m0, $sigma = null)
     {

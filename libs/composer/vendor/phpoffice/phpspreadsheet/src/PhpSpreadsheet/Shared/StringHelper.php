@@ -430,7 +430,9 @@ class StringHelper
         // characters
         $chars = self::convertEncoding($value, 'UTF-16LE', 'UTF-8');
 
-        return pack('vC', $ln, 0x0001) . $chars;
+        $data = pack('vC', $ln, 0x0001) . $chars;
+
+        return $data;
     }
 
     /**

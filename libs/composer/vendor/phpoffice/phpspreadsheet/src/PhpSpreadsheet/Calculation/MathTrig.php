@@ -220,9 +220,10 @@ class MathTrig
                 return Functions::NAN();
             }
             $factLoop = floor($factVal);
-            if ((Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) &&
-                ($factVal > $factLoop)) {
-                return Functions::NAN();
+            if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) {
+                if ($factVal > $factLoop) {
+                    return Functions::NAN();
+                }
             }
 
             $factorial = 1;
@@ -301,9 +302,7 @@ class MathTrig
                 return Functions::DIV0();
             } elseif ($number == 0.0) {
                 return 0.0;
-            } elseif (self::SIGN($significance) == 1) {
-                return floor($number / $significance) * $significance;
-            } elseif (self::SIGN($number) == -1 && self::SIGN($significance) == -1) {
+            } elseif (self::SIGN($number) == self::SIGN($significance)) {
                 return floor($number / $significance) * $significance;
             }
 
@@ -1075,7 +1074,7 @@ class MathTrig
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
-                [, $row, $column] = explode('.', $index);
+                list(, $row, $column) = explode('.', $index);
 
                 return $cellReference->getWorksheet()->getRowDimension($row)->getVisible() &&
                     $cellReference->getWorksheet()->getColumnDimension($column)->getVisible();
@@ -1089,7 +1088,7 @@ class MathTrig
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
-                [, $row, $column] = explode('.', $index);
+                list(, $row, $column) = explode('.', $index);
                 if ($cellReference->getWorksheet()->cellExists($column . $row)) {
                     //take this cell out if it contains the SUBTOTAL or AGGREGATE functions in a formula
                     $isFormula = $cellReference->getWorksheet()->getCell($column . $row)->isFormula();
@@ -1117,7 +1116,7 @@ class MathTrig
      *                    in hidden rows or columns
      * @param array of mixed Data Series
      *
-     * @return float|string
+     * @return float
      */
     public static function SUBTOTAL(...$args)
     {

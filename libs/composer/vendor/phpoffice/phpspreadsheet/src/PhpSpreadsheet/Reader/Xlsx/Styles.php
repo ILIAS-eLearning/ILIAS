@@ -163,7 +163,7 @@ class Styles extends BaseParserClass
             self::readBorderStyle($docStyle->getBorders(), $style->border);
         }
 
-        if (isset($style->alignment->alignment)) {
+        if (isset($style->alignment)) {
             self::readAlignmentStyle($docStyle->getAlignment(), $style->alignment);
         }
 
@@ -260,6 +260,6 @@ class Styles extends BaseParserClass
 
     private static function getArrayItem($array, $key = 0)
     {
-        return $array[$key] ?? null;
+        return isset($array[$key]) ? $array[$key] : null;
     }
 }

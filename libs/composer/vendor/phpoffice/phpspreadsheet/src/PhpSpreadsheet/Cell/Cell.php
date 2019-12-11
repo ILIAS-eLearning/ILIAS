@@ -217,7 +217,7 @@ class Cell
 
                 break;
             case DataType::TYPE_NUMERIC:
-                $this->value = 0 + $pValue;
+                $this->value = (float) $pValue;
 
                 break;
             case DataType::TYPE_FORMULA:
@@ -511,7 +511,7 @@ class Cell
     {
         if ($mergeRange = $this->getMergeRange()) {
             $mergeRange = Coordinate::splitRange($mergeRange);
-            [$startCell] = $mergeRange[0];
+            list($startCell) = $mergeRange[0];
             if ($this->getCoordinate() === $startCell) {
                 return true;
             }
@@ -569,7 +569,7 @@ class Cell
      */
     public function isInRange($pRange)
     {
-        [$rangeStart, $rangeEnd] = Coordinate::rangeBoundaries($pRange);
+        list($rangeStart, $rangeEnd) = Coordinate::rangeBoundaries($pRange);
 
         // Translate properties
         $myColumn = Coordinate::columnIndexFromString($this->getColumn());

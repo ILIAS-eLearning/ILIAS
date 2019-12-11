@@ -16,7 +16,7 @@ class DateTime
      */
     public static function isLeapYear($year)
     {
-        return (($year % 4) === 0) && (($year % 100) !== 0) || (($year % 400) === 0);
+        return (($year % 4) == 0) && (($year % 100) != 0) || (($year % 400) == 0);
     }
 
     /**
@@ -156,11 +156,11 @@ class DateTime
                 $retValue = (float) Date::PHPToExcel(time());
 
                 break;
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 $retValue = (int) time();
 
                 break;
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 $retValue = new \DateTime();
 
                 break;
@@ -200,11 +200,11 @@ class DateTime
                 $retValue = (float) $excelDateTime;
 
                 break;
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 $retValue = (int) Date::excelToTimestamp($excelDateTime);
 
                 break;
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 $retValue = Date::excelToDateTimeObject($excelDateTime);
 
                 break;
@@ -325,9 +325,9 @@ class DateTime
         switch (Functions::getReturnDateType()) {
             case Functions::RETURNDATE_EXCEL:
                 return (float) $excelDateValue;
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 return (int) Date::excelToTimestamp($excelDateValue);
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 return Date::excelToDateTimeObject($excelDateValue);
         }
     }
@@ -420,9 +420,9 @@ class DateTime
                 }
 
                 return (float) Date::formattedPHPToExcel($calendar, 1, $date, $hour, $minute, $second);
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 return (int) Date::excelToTimestamp(Date::formattedPHPToExcel(1970, 1, 1, $hour, $minute, $second)); // -2147468400; //    -2147472000 + 3600
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 $dayAdjust = 0;
                 if ($hour < 0) {
                     $dayAdjust = floor($hour / 24);
@@ -472,6 +472,7 @@ class DateTime
      */
     public static function DATEVALUE($dateValue = 1)
     {
+        $dateValueOrig = $dateValue;
         $dateValue = trim(Functions::flattenSingleValue($dateValue), '"');
         //    Strip any ordinals because they're allowed in Excel (English only)
         $dateValue = preg_replace('/(\d)(st|nd|rd|th)([ -\/])/Ui', '$1$3', $dateValue);
@@ -568,9 +569,9 @@ class DateTime
             switch (Functions::getReturnDateType()) {
                 case Functions::RETURNDATE_EXCEL:
                     return (float) $excelDateValue;
-                case Functions::RETURNDATE_UNIX_TIMESTAMP:
+                case Functions::RETURNDATE_PHP_NUMERIC:
                     return (int) Date::excelToTimestamp($excelDateValue);
-                case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+                case Functions::RETURNDATE_PHP_OBJECT:
                     return new \DateTime($PHPDateArray['year'] . '-' . $PHPDateArray['month'] . '-' . $PHPDateArray['day'] . ' 00:00:00');
             }
         }
@@ -630,9 +631,9 @@ class DateTime
             switch (Functions::getReturnDateType()) {
                 case Functions::RETURNDATE_EXCEL:
                     return (float) $excelDateValue;
-                case Functions::RETURNDATE_UNIX_TIMESTAMP:
+                case Functions::RETURNDATE_PHP_NUMERIC:
                     return (int) $phpDateValue = Date::excelToTimestamp($excelDateValue + 25569) - 3600;
-                case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+                case Functions::RETURNDATE_PHP_OBJECT:
                     return new \DateTime('1900-01-01 ' . $PHPDateArray['hour'] . ':' . $PHPDateArray['minute'] . ':' . $PHPDateArray['second']);
             }
         }
@@ -682,6 +683,7 @@ class DateTime
         $endMonths = $PHPEndDateObject->format('n');
         $endYears = $PHPEndDateObject->format('Y');
 
+        $retVal = Functions::NAN();
         switch ($unit) {
             case 'D':
                 $retVal = (int) $difference;
@@ -1152,9 +1154,9 @@ class DateTime
         switch (Functions::getReturnDateType()) {
             case Functions::RETURNDATE_EXCEL:
                 return (float) $endDate;
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 return (int) Date::excelToTimestamp($endDate);
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 return Date::excelToDateTimeObject($endDate);
         }
     }
@@ -1237,7 +1239,7 @@ class DateTime
 
         // Execute function
         $PHPDateObject = Date::excelToDateTimeObject($dateValue);
-        $DoW = (int) $PHPDateObject->format('w');
+        $DoW = $PHPDateObject->format('w');
 
         $firstDay = 1;
         switch ($style) {
@@ -1246,13 +1248,13 @@ class DateTime
 
                 break;
             case 2:
-                if ($DoW === 0) {
+                if ($DoW == 0) {
                     $DoW = 7;
                 }
 
                 break;
             case 3:
-                if ($DoW === 0) {
+                if ($DoW == 0) {
                     $DoW = 7;
                 }
                 $firstDay = 0;
@@ -1270,7 +1272,7 @@ class DateTime
             }
         }
 
-        return $DoW;
+        return (int) $DoW;
     }
 
     /**
@@ -1589,9 +1591,9 @@ class DateTime
         switch (Functions::getReturnDateType()) {
             case Functions::RETURNDATE_EXCEL:
                 return (float) Date::PHPToExcel($PHPDateObject);
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 return (int) Date::excelToTimestamp(Date::PHPToExcel($PHPDateObject));
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 return $PHPDateObject;
         }
     }
@@ -1638,9 +1640,9 @@ class DateTime
         switch (Functions::getReturnDateType()) {
             case Functions::RETURNDATE_EXCEL:
                 return (float) Date::PHPToExcel($PHPDateObject);
-            case Functions::RETURNDATE_UNIX_TIMESTAMP:
+            case Functions::RETURNDATE_PHP_NUMERIC:
                 return (int) Date::excelToTimestamp(Date::PHPToExcel($PHPDateObject));
-            case Functions::RETURNDATE_PHP_DATETIME_OBJECT:
+            case Functions::RETURNDATE_PHP_OBJECT:
                 return $PHPDateObject;
         }
     }

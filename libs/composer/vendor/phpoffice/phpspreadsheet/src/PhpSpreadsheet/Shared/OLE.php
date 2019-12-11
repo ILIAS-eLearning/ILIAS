@@ -253,7 +253,7 @@ class OLE
      */
     private static function _readInt1($fh)
     {
-        [, $tmp] = unpack('c', fread($fh, 1));
+        list(, $tmp) = unpack('c', fread($fh, 1));
 
         return $tmp;
     }
@@ -267,7 +267,7 @@ class OLE
      */
     private static function _readInt2($fh)
     {
-        [, $tmp] = unpack('v', fread($fh, 2));
+        list(, $tmp) = unpack('v', fread($fh, 2));
 
         return $tmp;
     }
@@ -281,7 +281,7 @@ class OLE
      */
     private static function _readInt4($fh)
     {
-        [, $tmp] = unpack('V', fread($fh, 4));
+        list(, $tmp) = unpack('V', fread($fh, 4));
 
         return $tmp;
     }

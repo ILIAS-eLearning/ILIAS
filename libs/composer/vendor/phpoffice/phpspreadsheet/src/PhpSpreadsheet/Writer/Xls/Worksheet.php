@@ -479,7 +479,7 @@ class Worksheet extends BIFFwriter
 
         // Hyperlinks
         foreach ($phpSheet->getHyperLinkCollection() as $coordinate => $hyperlink) {
-            [$column, $row] = Coordinate::coordinateFromString($coordinate);
+            list($column, $row) = Coordinate::coordinateFromString($coordinate);
 
             $url = $hyperlink->getUrl();
 
@@ -1355,17 +1355,17 @@ class Worksheet extends BIFFwriter
         $selectedCells = Coordinate::splitRange($this->phpSheet->getSelectedCells());
         $selectedCells = $selectedCells[0];
         if (count($selectedCells) == 2) {
-            [$first, $last] = $selectedCells;
+            list($first, $last) = $selectedCells;
         } else {
             $first = $selectedCells[0];
             $last = $selectedCells[0];
         }
 
-        [$colFirst, $rwFirst] = Coordinate::coordinateFromString($first);
+        list($colFirst, $rwFirst) = Coordinate::coordinateFromString($first);
         $colFirst = Coordinate::columnIndexFromString($colFirst) - 1; // base 0 column index
         --$rwFirst; // base 0 row index
 
-        [$colLast, $rwLast] = Coordinate::coordinateFromString($last);
+        list($colLast, $rwLast) = Coordinate::coordinateFromString($last);
         $colLast = Coordinate::columnIndexFromString($colLast) - 1; // base 0 column index
         --$rwLast; // base 0 row index
 
@@ -1394,11 +1394,11 @@ class Worksheet extends BIFFwriter
 
         // Swap last row/col for first row/col as necessary
         if ($rwFirst > $rwLast) {
-            [$rwFirst, $rwLast] = [$rwLast, $rwFirst];
+            list($rwFirst, $rwLast) = [$rwLast, $rwFirst];
         }
 
         if ($colFirst > $colLast) {
-            [$colFirst, $colLast] = [$colLast, $colFirst];
+            list($colFirst, $colLast) = [$colLast, $colFirst];
         }
 
         $header = pack('vv', $record, $length);
@@ -1440,9 +1440,9 @@ class Worksheet extends BIFFwriter
 
             // extract the row and column indexes
             $range = Coordinate::splitRange($mergeCell);
-            [$first, $last] = $range[0];
-            [$firstColumn, $firstRow] = Coordinate::coordinateFromString($first);
-            [$lastColumn, $lastRow] = Coordinate::coordinateFromString($last);
+            list($first, $last) = $range[0];
+            list($firstColumn, $firstRow) = Coordinate::coordinateFromString($first);
+            list($lastColumn, $lastRow) = Coordinate::coordinateFromString($last);
 
             $recordData .= pack('vvvv', $firstRow - 1, $lastRow - 1, Coordinate::columnIndexFromString($firstColumn) - 1, Coordinate::columnIndexFromString($lastColumn) - 1);
 
@@ -1589,11 +1589,11 @@ class Worksheet extends BIFFwriter
     {
         $panes = [];
         if ($this->phpSheet->getFreezePane()) {
-            [$column, $row] = Coordinate::coordinateFromString($this->phpSheet->getFreezePane());
+            list($column, $row) = Coordinate::coordinateFromString($this->phpSheet->getFreezePane());
             $panes[0] = Coordinate::columnIndexFromString($column) - 1;
             $panes[1] = $row - 1;
 
-            [$leftMostColumn, $topRow] = Coordinate::coordinateFromString($this->phpSheet->getTopLeftCell());
+            list($leftMostColumn, $topRow) = Coordinate::coordinateFromString($this->phpSheet->getTopLeftCell());
             //Coordinates are zero-based in xls files
             $panes[2] = $topRow - 1;
             $panes[3] = Coordinate::columnIndexFromString($leftMostColumn) - 1;
@@ -1602,10 +1602,10 @@ class Worksheet extends BIFFwriter
             return;
         }
 
-        $x = $panes[0] ?? null;
-        $y = $panes[1] ?? null;
-        $rwTop = $panes[2] ?? null;
-        $colLeft = $panes[3] ?? null;
+        $x = isset($panes[0]) ? $panes[0] : null;
+        $y = isset($panes[1]) ? $panes[1] : null;
+        $rwTop = isset($panes[2]) ? $panes[2] : null;
+        $colLeft = isset($panes[3]) ? $panes[3] : null;
         if (count($panes) > 4) { // if Active pane was received
             $pnnAct = $panes[4];
         } else {
@@ -2215,7 +2215,7 @@ class Worksheet extends BIFFwriter
     public function insertBitmap($row, $col, $bitmap, $x = 0, $y = 0, $scale_x = 1, $scale_y = 1)
     {
         $bitmap_array = (is_resource($bitmap) ? $this->processBitmapGd($bitmap) : $this->processBitmap($bitmap));
-        [$width, $height, $size, $data] = $bitmap_array;
+        list($width, $height, $size, $data) = $bitmap_array;
 
         // Scale the frame of the image.
         $width *= $scale_x;

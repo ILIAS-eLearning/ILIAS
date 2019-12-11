@@ -24,7 +24,6 @@ class SheetViews extends BaseParserClass
         $this->gridLines();
         $this->headers();
         $this->direction();
-        $this->showZeros();
 
         if (isset($this->sheetViewXml->pane)) {
             $this->pane();
@@ -89,15 +88,6 @@ class SheetViews extends BaseParserClass
         if (isset($this->sheetViewXml['rightToLeft'])) {
             $this->worksheet->setRightToLeft(
                 self::boolean((string) $this->sheetViewXml['rightToLeft'])
-            );
-        }
-    }
-
-    private function showZeros()
-    {
-        if (isset($this->sheetViewXml['showZeros'])) {
-            $this->worksheet->getSheetView()->setShowZeros(
-                self::boolean((string) $this->sheetViewXml['showZeros'])
             );
         }
     }

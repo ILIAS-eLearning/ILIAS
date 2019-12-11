@@ -175,8 +175,9 @@ class Csv extends BaseReader
                 }
             }
             foreach ($potentialDelimiters as $delimiter) {
-                $counts[$delimiter][] = $countLine[$delimiter]
-                    ?? 0;
+                $counts[$delimiter][] = isset($countLine[$delimiter])
+                    ? $countLine[$delimiter]
+                    : 0;
             }
         }
 

@@ -2713,7 +2713,7 @@ class Engineering
      * @param string $fromUOM the units for value
      * @param string $toUOM the units for the result
      *
-     * @return float|string
+     * @return float
      */
     public static function CONVERTUOM($value, $fromUOM, $toUOM)
     {

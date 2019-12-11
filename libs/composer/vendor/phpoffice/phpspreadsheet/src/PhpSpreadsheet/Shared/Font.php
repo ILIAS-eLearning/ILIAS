@@ -298,7 +298,9 @@ class Font
         $upperLeftCornerX = $textBox[6];
 
         // Consider the rotation when calculating the width
-        return max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX);
+        $textWidth = max($lowerRightCornerX - $upperLeftCornerX, $upperRightCornerX - $lowerLeftCornerX);
+
+        return $textWidth;
     }
 
     /**
