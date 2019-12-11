@@ -12,47 +12,43 @@
 class ilObjSurveyQuestionPoolAccess extends ilObjectAccess
 {
 
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show",
-	 *			"default" => true),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	static function _getCommands()
-	{
-		$commands = array
-		(
-			array("permission" => "read", "cmd" => "questions", "lang_var" => "edit_questions",
-				"default" => true),
-			array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
-			array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
-		);
-		
-		return $commands;
-	}
+    /**
+     * get commands
+     *
+     * this method returns an array of all possible commands/permission combinations
+     *
+     * example:
+     * $commands = array
+     *	(
+     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show",
+     *			"default" => true),
+     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+     *	);
+     */
+    public static function _getCommands()
+    {
+        $commands = array(
+            array("permission" => "read", "cmd" => "questions", "lang_var" => "edit_questions",
+                "default" => true),
+            array("permission" => "write", "cmd" => "questions", "lang_var" => "edit_questions"),
+            array("permission" => "write", "cmd" => "properties", "lang_var" => "settings")
+        );
+        
+        return $commands;
+    }
 
-	static function _checkGoto($a_target)
-	{
-		global $DIC;
+    public static function _checkGoto($a_target)
+    {
+        global $DIC;
 
-		$ilAccess = $DIC->access();
-		
-		$t_arr = explode("_", $a_target);
+        $ilAccess = $DIC->access();
+        
+        $t_arr = explode("_", $a_target);
 
-		if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
-			$ilAccess->checkAccess("read", "", $t_arr[1]))
-		{
-			return true;
-		}
-		return false;
-	}
+        if ($ilAccess->checkAccess("visible", "", $t_arr[1]) ||
+            $ilAccess->checkAccess("read", "", $t_arr[1])) {
+            return true;
+        }
+        return false;
+    }
 }
-
-?>
