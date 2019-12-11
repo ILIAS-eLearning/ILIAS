@@ -37,7 +37,7 @@ asq#:#asq_label_thumbnail#:#Thumbnail Geometry
 asq#:#asq_label_matching_mode#:#Matching Mode
 asq#:#asq_option_one_to_one#:#One definition matches one term (1:1)
 asq#:#asq_option_many_to_one#:#One definition matches one or more terms (1:n)
-asq#:#asq_option_many_to_many#:#One or more definitions matches one or more terms (n:n)
+asq#:#asq_option_many_to_many#:#One or more definitions matches one or more terms (n:m)
 asq#:#asq_label_definitions#:#Definitions
 asq#:#asq_header_definition_text#:#Definition Text
 asq#:#asq_header_definition_image#:#Definition Image

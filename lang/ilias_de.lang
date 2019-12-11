@@ -37,7 +37,7 @@ asq#:#asq_label_thumbnail#:#Vorschaugröße
 asq#:#asq_label_matching_mode#:#Zuordnungsmodus
 asq#:#asq_option_one_to_one#:#Einer Definition kann ein Term zugeordnet werden (1:1)
 asq#:#asq_option_many_to_one#:#Einer Definition können mehrere Terme zugeordnet werden (n:1)
-asq#:#asq_option_many_to_many#:#Einer oder mehreren Definitionen können ein oder mehrere Terme zugeordnet werden (n:n)
+asq#:#asq_option_many_to_many#:#Einer oder mehreren Definitionen können ein oder mehrere Terme zugeordnet werden (n:m)
 asq#:#asq_label_definitions#:#Definitionen
 asq#:#asq_header_definition_text#:#Text
 asq#:#asq_header_definition_image#:#Bild
