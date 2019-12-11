@@ -28,9 +28,11 @@ class ilRecommendedContentManager
     /**
      * Constructor
      */
-    public function __construct(ilRecommendedContentDBRepository $repo = null, ilRbacReview $rbacreview = null,
-        ilFavouritesManager $fav_manager = null)
-    {
+    public function __construct(
+        ilRecommendedContentDBRepository $repo = null,
+        ilRbacReview $rbacreview = null,
+        ilFavouritesManager $fav_manager = null
+    ) {
         global $DIC;
 
         $this->repo = (is_null($repo))
@@ -71,7 +73,7 @@ class ilRecommendedContentManager
      * @param int $role_id
      * @return int[]
      */
-    public function getRecommendationsOfRole(int $role_id): array
+    public function getRecommendationsOfRole(int $role_id) : array
     {
         return $this->repo->getRecommendationsOfRoles([$role_id]);
     }
@@ -146,10 +148,9 @@ class ilRecommendedContentManager
         $favourites = $this->fav_manager->getFavouritesOfUser($user_id);
         $favourites_ref_ids = array_column($favourites, "ref_id");
 
-        return array_filter($recommendations, function($i) use ($favourites_ref_ids) {
+        return array_filter($recommendations, function ($i) use ($favourites_ref_ids) {
             return !in_array($i, $favourites_ref_ids);
         });
-
     }
 
     /**

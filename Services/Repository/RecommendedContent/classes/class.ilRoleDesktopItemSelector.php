@@ -16,4 +16,3 @@ class ilRoleDesktopItemSelector extends ilExplorer
 {
     // abandoned
 }
-?>

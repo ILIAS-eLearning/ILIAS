@@ -27,7 +27,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @var array
      */
-    static $list_by_type = [];
+    public static $list_by_type = [];
 
 
     /**
@@ -75,18 +75,16 @@ class ilDashboardRecommendedContentGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd();
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
-                if (in_array($cmd, array("remove", "makeFavourite")))
-                {
+                if (in_array($cmd, array("remove", "makeFavourite"))) {
                     $this->$cmd();
                 }
         }
@@ -105,7 +103,7 @@ class ilDashboardRecommendedContentGUI
         return $this->ui->renderer()->render(
             $this->ui->factory()->panel()->listing()->standard(
                 $this->lng->txt("rep_recommended_content"),
-            $this->getListItemGroups()
+                $this->getListItemGroups()
             )
         );
     }
@@ -115,7 +113,7 @@ class ilDashboardRecommendedContentGUI
      *
      * @return \ILIAS\UI\Component\Item\Group[]
      */
-    protected function getListItemGroups(): array
+    protected function getListItemGroups() : array
     {
         global $DIC;
         $factory = $DIC->ui()->factory();
@@ -126,7 +124,6 @@ class ilDashboardRecommendedContentGUI
         foreach ($this->recommendations as $ref_id) {
             try {
                 $list_items[] = $this->getListItemForData($ref_id);
-
             } catch (ilException $e) {
                 continue;
             }
@@ -141,7 +138,7 @@ class ilDashboardRecommendedContentGUI
     /**
      * @inheritdoc
      */
-    protected function getListItemForData($ref_id): \ILIAS\UI\Component\Item\Item
+    protected function getListItemForData($ref_id) : \ILIAS\UI\Component\Item\Item
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -196,17 +193,14 @@ class ilDashboardRecommendedContentGUI
     public function byType($a_type)
     {
         /** @var $item_list_gui ilObjectListGUI */
-        if(!array_key_exists($a_type, self::$list_by_type))
-        {
+        if (!array_key_exists($a_type, self::$list_by_type)) {
             $class = $this->objDefinition->getClassName($a_type);
-            if(!$class)
-            {
+            if (!$class) {
                 throw new ilException(sprintf("Could not find a class for object type: %s", $a_type));
             }
 
             $location = $this->objDefinition->getLocation($a_type);
-            if(!$location)
-            {
+            if (!$location) {
                 throw new ilException(sprintf("Could not find a class location for object type: %s", $a_type));
             }
 
@@ -258,5 +252,4 @@ class ilDashboardRecommendedContentGUI
         ilUtil::sendSuccess($lng->txt("dash_added_to_favs"), true);
         $ctrl->returnToParent($this);
     }
-
 }

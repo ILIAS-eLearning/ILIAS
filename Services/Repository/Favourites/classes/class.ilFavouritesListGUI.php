@@ -51,14 +51,12 @@ class ilFavouritesListGUI
         $f = $this->ui->factory();
         $item_groups = [];
         $ctrl = $this->ctrl;
-        foreach ($this->block_view->getItemGroups() as $group)
-        {
+        foreach ($this->block_view->getItemGroups() as $group) {
             $items = [];
             foreach ($group->getItems() as $item) {
                 $items[] = $f->item()->standard(
                     $f->button()->shy($item["title"], ilLink::_getLink($item["ref_id"]))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
-
             }
             $item_groups[] = $f->item()->group($group->getLabel(), $items);
         }
@@ -67,11 +65,13 @@ class ilFavouritesListGUI
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "view", "0");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "col_side", "center");
         $ctrl->setParameterByClass("ilPDSelectedItemsBlockGUI", "block_type", "pditems");
-        $link = $f->link()->standard("Configure",
-            $ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
-                "manage"));
+        $link = $f->link()->standard(
+            "Configure",
+            $ctrl->getLinkTargetByClass(
+                ["ilDashboardGUI", "ilColumnGUI", "ilPDSelectedItemsBlockGUI"],
+                "manage"
+            )
+        );
         return $this->ui->renderer()->render([$link, $panel]);
     }
-
-
 }
