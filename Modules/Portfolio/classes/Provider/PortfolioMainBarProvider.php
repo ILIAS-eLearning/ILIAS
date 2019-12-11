@@ -37,7 +37,7 @@ class PortfolioMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToPortfolio")
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(50)
-	            ->withSymbol($icon)
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () use ($dic) {
