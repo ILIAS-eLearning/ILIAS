@@ -79,7 +79,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
      * Execute command
      * @throws ilCtrlException
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -88,15 +88,13 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("editSettings");
 
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
-            $this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
+        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $this->prepareOutput();
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             case 'ilpermissiongui':
                 $tabs->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
@@ -107,8 +105,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
                 if ($cmd == "view") {
                     $cmd = "editSettings";
                 }
-                if (in_array($cmd, ["editSettings", "saveSettings"]))
-                {
+                if (in_array($cmd, ["editSettings", "saveSettings"])) {
                     $this->$cmd();
                 }
                 break;
@@ -125,8 +122,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $tabs->addTab(
                 "settings",
                 $lng->txt("settings"),
@@ -134,12 +130,11 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $tabs->addTab(
                 "perm_settings",
                 $lng->txt("perm_settings"),
-                $ctrl->getLinkTargetByClass('ilpermissiongui',"perm")
+                $ctrl->getLinkTargetByClass('ilpermissiongui', "perm")
             );
         }
     }
@@ -202,8 +197,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         $cb_prop->setInfo($lng->txt('personal_resources_disk_quota_info'));
         $form->addItem($cb_prop);
 
-        if($this->rbacsystem->checkAccess('write',$this->object->getRefId()))
-        {
+        if ($this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
             // command buttons
             $form->addCommandButton("saveSettings", $lng->txt("save"));
             $form->addCommandButton("editSettings", $lng->txt("cancel"));
@@ -221,25 +215,23 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         $ilAccess = $this->access;
 
-        if(!$ilAccess->checkAccess('write','',$this->object->getRefId()))
-        {
+        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
             $ilCtrl->redirect($this, "view");
         }
 
         // without personal workspace we have to disable to sub-items
-        if(!$_POST["wsp"])
-        {
+        if (!$_POST["wsp"]) {
             $_POST["blog"] = 0;
             $_POST["file"] = 0;
             $_POST["cert"] = 0;
             $_POST["link"] = 0;
         }
 
-        $ilSetting->set('disable_personal_workspace', (int)($_POST['wsp'] ? 0 : 1));
-        $ilSetting->set('disable_wsp_blogs', (int)($_POST['blog'] ? 0 : 1));
-        $ilSetting->set('disable_wsp_files', (int)($_POST['file'] ? 0 : 1));
-        $ilSetting->set('disable_wsp_certificates', (int)($_POST['cert'] ? 0 : 1));
-        $ilSetting->set('disable_wsp_links', (int)($_POST['link'] ? 0 : 1));
+        $ilSetting->set('disable_personal_workspace', (int) ($_POST['wsp'] ? 0 : 1));
+        $ilSetting->set('disable_wsp_blogs', (int) ($_POST['blog'] ? 0 : 1));
+        $ilSetting->set('disable_wsp_files', (int) ($_POST['file'] ? 0 : 1));
+        $ilSetting->set('disable_wsp_certificates', (int) ($_POST['cert'] ? 0 : 1));
+        $ilSetting->set('disable_wsp_links', (int) ($_POST['link'] ? 0 : 1));
         // $ilSetting->set('user_portfolios', (int)($_POST['prtf'] ? 1 : 0));
 
         // Load the disk quota settings object
@@ -253,8 +245,7 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
 
     public function addToExternalSettingsForm($a_form_id)
     {
-        switch($a_form_id)
-        {
+        switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_FILES_QUOTA:
 
                 $disk_quota_obj = ilObjDiskQuotaSettings::getInstance();
@@ -264,7 +255,4 @@ class ilObjPersonalWorkspaceSettingsGUI extends ilObjectGUI
                 return array(array("editSettings", $fields));
         }
     }
-
 }
-
-?>
