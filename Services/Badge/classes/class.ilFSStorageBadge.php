@@ -8,18 +8,18 @@
  */
 class ilFSStorageBadge extends ilFileSystemStorage
 {
-	public function __construct($a_container_id = 0)
-	{
-		parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
-	}
-	
-	protected function getPathPostfix()
-	{
-	 	return 'badge';
-	}
-	
-	protected function getPathPrefix()
-	{
-	 	return 'ilBadge';
-	}
+    public function __construct($a_container_id = 0)
+    {
+        parent::__construct(self::STORAGE_SECURED, true, $a_container_id);
+    }
+    
+    protected function getPathPostfix()
+    {
+        return 'badge';
+    }
+    
+    protected function getPathPrefix()
+    {
+        return 'ilBadge';
+    }
 }

@@ -2,7 +2,7 @@
 
 /**
  * Php library to Bake the PNG Images
- * 
+ *
  */
 class PNGImageBaker
 {
@@ -17,7 +17,8 @@ class PNGImageBaker
      *
      * @param string $contents File content as a string
      */
-    public function __construct($contents) {
+    public function __construct($contents)
+    {
         $this->_contents = $contents;
         $png_signature = pack("C8", 137, 80, 78, 71, 13, 10, 26, 10);
         // Read 8 bytes of PNG header and verify.
@@ -46,7 +47,8 @@ class PNGImageBaker
      *
      * @return boolean (true|false) True if file is safe to write this keyword, false otherwise.
      */
-    public function checkChunks($type, $check) {
+    public function checkChunks($type, $check)
+    {
         if (array_key_exists($type, $this->_chunks)) {
             foreach (array_keys($this->_chunks[$type]) as $typekey) {
                 list($key, $data) = explode("\0", $this->_chunks[$type][$typekey]);
@@ -68,8 +70,8 @@ class PNGImageBaker
      *
      * @return string $result File content with a new chunk as a string.
      */
-    public function addChunk($chunkType, $key, $value) {
-        
+    public function addChunk($chunkType, $key, $value)
+    {
         $chunkData = $key . "\0" . $value;
         $crc = pack("N", crc32($chunkType . $chunkData));
         $len = pack("N", strlen($chunkData));
@@ -90,32 +92,38 @@ class PNGImageBaker
      *
      * @return string $result New File content.
      */
-    public function removeChunks($chunkType, $key, $png) {
+    public function removeChunks($chunkType, $key, $png)
+    {
         // Read the magic bytes and verify
-        $retval = substr($png,0,8);
+        $retval = substr($png, 0, 8);
         $ipos = 8;
-        if ($retval != "\x89PNG\x0d\x0a\x1a\x0a")
+        if ($retval != "\x89PNG\x0d\x0a\x1a\x0a") {
             throw new Exception('Is not a valid PNG image');
+        }
         // Loop through the chunks. Byte 0-3 is length, Byte 4-7 is type
-        $chunkHeader = substr($png,$ipos,8);
+        $chunkHeader = substr($png, $ipos, 8);
         $ipos = $ipos + 8;
         while ($chunkHeader) {
             // Extract length and type from binary data
             $chunk = @unpack('Nsize/a4type', $chunkHeader);
             $skip = false;
-            if ( $chunk['type'] == $chunkType ) {
-                $data = substr($png,$ipos,$chunk['size']);
+            if ($chunk['type'] == $chunkType) {
+                $data = substr($png, $ipos, $chunk['size']);
                 $sections = explode("\0", $data);
                 print_r($sections);
-                if ( $sections[0] == $key ) $skip = true;
+                if ($sections[0] == $key) {
+                    $skip = true;
+                }
             }
             // Extract the data and the CRC
-            $data = substr($png,$ipos,$chunk['size']+4);
+            $data = substr($png, $ipos, $chunk['size']+4);
             $ipos = $ipos + $chunk['size'] + 4;
             // Add in the header, data, and CRC
-            if ( ! $skip ) $retval = $retval . $chunkHeader . $data;
+            if (!$skip) {
+                $retval = $retval . $chunkHeader . $data;
+            }
             // Read next chunk header
-            $chunkHeader = substr($png,$ipos,8);
+            $chunkHeader = substr($png, $ipos, 8);
             $ipos = $ipos + 8;
         }
         return $retval;
@@ -123,42 +131,43 @@ class PNGImageBaker
 
     /**
      * Extracts the baked PNG info by the Key
-     * 
+     *
      * @param string $png the png image
      * @param string $key Keyword that needs to be searched.
-     * 
+     *
      * @return mixed - If there is an error - boolean false is returned
      * If there is PNG information that matches the key an array is returned
-     * 
+     *
      */
-    public function extractBadgeInfo($png, $key='openbadges') {
+    public function extractBadgeInfo($png, $key='openbadges')
+    {
         // Read the magic bytes and verify
-        $retval = substr($png,0,8);
+        $retval = substr($png, 0, 8);
         $ipos = 8;
         if ($retval != "\x89PNG\x0d\x0a\x1a\x0a") {
             return false;
         }
 
         // Loop through the chunks. Byte 0-3 is length, Byte 4-7 is type
-        $chunkHeader = substr($png,$ipos,8);
+        $chunkHeader = substr($png, $ipos, 8);
         $ipos = $ipos + 8;
         while ($chunkHeader) {
             // Extract length and type from binary data
             $chunk = @unpack('Nsize/a4type', $chunkHeader);
             $skip = false;
             if ($chunk['type'] == 'tEXt') {
-                $data = substr($png,$ipos,$chunk['size']);
+                $data = substr($png, $ipos, $chunk['size']);
                 $sections = explode("\0", $data);
                 if ($sections[0] == $key) {
-                   return $sections;
+                    return $sections;
                 }
             }
             // Extract the data and the CRC
-            $data = substr($png,$ipos,$chunk['size']+4);
+            $data = substr($png, $ipos, $chunk['size']+4);
             $ipos = $ipos + $chunk['size'] + 4;
 
             // Read next chunk header
-            $chunkHeader = substr($png,$ipos,8);
+            $chunkHeader = substr($png, $ipos, 8);
             $ipos = $ipos + 8;
         }
     }

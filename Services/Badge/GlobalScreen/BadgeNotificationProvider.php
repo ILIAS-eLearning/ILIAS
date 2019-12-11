@@ -38,23 +38,27 @@ class BadgeNotificationProvider extends AbstractNotificationProvider implements 
 
         //Creating a mail Notification Item
         $mail_icon = $ui->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/badge.svg"), $lng->txt("badge_badge"));
-        $mail_title = $ui->factory()->link()->standard($lng->txt("mm_badges"),
-            $ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges"));
-        $badge_notification_item = $ui->factory()->item()->notification($mail_title,$mail_icon)
+        $mail_title = $ui->factory()->link()->standard(
+            $lng->txt("mm_badges"),
+            $ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
+        );
+        $badge_notification_item = $ui->factory()->item()->notification($mail_title, $mail_icon)
             ->withDescription(str_replace("%1", $new_badges, $lng->txt("badge_new_badges")));
-            //->withProperties(["Time" => "3 days ago"]);
+        //->withProperties(["Time" => "3 days ago"]);
 
         $group = $factory->standardGroup($id('badge_bucket_group'))->withTitle($lng->txt('badge_badge'))
-            ->addNotification($factory->standard($id('badge_bucket'))->withNotificationItem($badge_notification_item)
+            ->addNotification(
+                $factory->standard($id('badge_bucket'))->withNotificationItem($badge_notification_item)
                 ->withClosedCallable(
-                    function() use ($user) {
+                    function () use ($user) {
                         // Stuff we do, when the notification is closed
                         $noti_repo = new \ILIAS\Badge\Notification\BadgeNotificationPrefRepository($user);
                         $noti_repo->updateLastCheckedTimestamp();
-                    })
+                    }
+                )
                 ->withNewAmount($new_badges)
             )
-            ->withOpenedCallable(function(){
+            ->withOpenedCallable(function () {
                 // Stuff we do, when the notification is opened
             });
 

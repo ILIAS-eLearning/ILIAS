@@ -66,7 +66,4 @@ class ilClassificationSessionRepository
     {
         $_SESSION[self::BASE_SESSION_KEY][$this->base_ref_id][$provider] = $value;
     }
-
-
-
 }

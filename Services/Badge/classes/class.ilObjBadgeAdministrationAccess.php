@@ -9,6 +9,4 @@
  */
 class ilObjBadgeAdministrationAccess extends ilObjectAccess
 {
-
-
 }

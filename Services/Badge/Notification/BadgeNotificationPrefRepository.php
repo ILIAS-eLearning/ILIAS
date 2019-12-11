@@ -46,6 +46,4 @@ class BadgeNotificationPrefRepository
     {
         return (int) $this->user->getPref("badge_last_checked");
     }
-    
-
 }
