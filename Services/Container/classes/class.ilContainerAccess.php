@@ -13,23 +13,22 @@
  */
 class ilContainerAccess
 {
-	/**
-	 * @param ilWACPath $ilWACPath
-	 *
-	 * @return bool
-	 */
-	public function canBeDelivered(ilWACPath $ilWACPath) {
-		global $ilAccess;
+    /**
+     * @param ilWACPath $ilWACPath
+     *
+     * @return bool
+     */
+    public function canBeDelivered(ilWACPath $ilWACPath)
+    {
+        global $ilAccess;
 
-		preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
-		foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
-			if ($ilAccess->checkAccess('visible', '', $ref_id)) {
-				return true;
-			}
-		}
+        preg_match("/\\/obj_([\\d]*)\\//uism", $ilWACPath->getPath(), $results);
+        foreach (ilObject2::_getAllReferences($results[1]) as $ref_id) {
+            if ($ilAccess->checkAccess('visible', '', $ref_id)) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 }
-
-?>
