@@ -60,7 +60,7 @@ class ilChatroomServerHandler
 			if($chatroom instanceof ilChatroom && is_array($users))
 			{
 				$users       = array_filter($users);
-				$userDetails = $this->getUserInformation($users);
+				$userDetails = ilChatroomUser::getUserInformation($users);
 				$message     = json_encode(array(
 					'type'      => 'disconnected',
 					'users'     => $userDetails,
@@ -86,19 +86,6 @@ class ilChatroomServerHandler
 				}
 			}
 		}
-	}
-
-	private function getUserInformation($user_ids)
-	{
-		global $DIC;
-
-		$rset  = $DIC->database()->query('SELECT userdata FROM chatroom_users WHERE ' . $DIC->database()->in('user_id', $user_ids, false, 'integer'));
-		$users = array();
-		while($row = $DIC->database()->fetchAssoc($rset))
-		{
-			$users[] = json_decode($row['userdata']);
-		}
-		return $users;
 	}
 
 	/**
