@@ -573,7 +573,7 @@ class ilPersonalSkillsGUI
             }
 
             //  skill description
-            $panel_comps[] = $this->ui_fac->legacy($this->getBasicSkillDescription($description));
+            $panel_comps[] = $this->ui_fac->legacy($this->getBasicSkillDescription((string) $description));
 
 
             // skill level description
