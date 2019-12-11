@@ -200,4 +200,31 @@ class ilChatroomUser
 
 		return $uniqueName;
 	}
+
+	/**
+	 * @param array    $usrIds
+	 * @param int|null $roomId
+	 * @return array
+	 */
+	public static function getUserInformation(array $usrIds, int $roomId = null) : array
+	{
+		global $DIC;
+
+		$users = [];
+
+		$query = '
+			SELECT userdata
+			FROM chatroom_users WHERE ' . $DIC->database()->in('user_id', $usrIds, false, 'integer');
+
+		if (null !== $roomId) {
+			$query .= ' AND room_id = ' . $DIC->database()->quote($roomId, 'integer');
+		}
+
+		$res  = $DIC->database()->query($query);
+		while ($row = $DIC->database()->fetchAssoc($res)) {
+			$users[] = json_decode($row['userdata']);
+		}
+
+		return $users;
+	}
 }
