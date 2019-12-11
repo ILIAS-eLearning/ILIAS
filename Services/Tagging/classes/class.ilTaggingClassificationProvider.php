@@ -81,6 +81,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     {
         $lng = $this->lng;
         
+        $lng->loadLanguageModule("tagging");
+        
         $all_tags = $this->getSubTreeTags();
         if ($all_tags) {
             // see ilPDTaggingBlockGUI::getTagCloud();
