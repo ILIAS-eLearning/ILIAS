@@ -176,27 +176,27 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $titems[$i["type"]] = $i;
         }
 
-		// admin menu layout
-		$layout = array(
-			"maintenance" =>
-				array("adm", "lngf", "hlps", "wfe", "pdfg", 'logs', 'sysc', "recf", "root"),
-			"layout_and_navigation" =>
-				array("mme", "stys", "adve", "accs"),
-			"user_administration" =>
-				array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
-			"personal_workspace" =>
-				array("dshs", "tags", "cals", "prfa", "prss", "nots", "awra"),
-			"achievements" =>
-				array("lhts", "skmg", "trac", "bdga", "cert"),
+        // admin menu layout
+        $layout = array(
+            "maintenance" =>
+                array("adm", "lngf", "hlps", "wfe", "pdfg", 'logs', 'sysc', "recf", "root"),
+            "layout_and_navigation" =>
+                array("mme", "stys", "adve", "accs"),
+            "user_administration" =>
+                array("usrf", 'tos', "rolf", "otpl", "auth", "ps"),
+            "personal_workspace" =>
+                array("dshs", "tags", "cals", "prfa", "prss", "nots", "awra"),
+            "achievements" =>
+                array("lhts", "skmg", "trac", "bdga", "cert"),
             "communication" =>
                 array("mail", "cadm", "nwss", "coms"),
-			"search_and_find" =>
-				array("seas", "mds", "taxs"),
-			"extending_ilias" =>
-				array('ecss', "ltis", "cmis", "cmps", "extt"),
-			"repository_and_objects" =>
-				array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "excs", "facs", "frma", "lrss",
-					"mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),
+            "search_and_find" =>
+                array("seas", "mds", "taxs"),
+            "extending_ilias" =>
+                array('ecss', "ltis", "cmis", "cmps", "extt"),
+            "repository_and_objects" =>
+                array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "excs", "facs", "frma", "lrss",
+                    "mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),
         );
         $groups = [];
         // now get all items and groups that are accessible
