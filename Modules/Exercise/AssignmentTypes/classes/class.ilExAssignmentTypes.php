@@ -135,32 +135,26 @@ class ilExAssignmentTypes
 		switch ($a_id)
 		{
 			case ilExAssignment::TYPE_UPLOAD:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypeUpload.php");
 				return new ilExAssTypeUpload();
 				break;
 
 			case ilExAssignment::TYPE_BLOG:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypeBlog.php");
 				return new ilExAssTypeBlog();
 				break;
 
 			case ilExAssignment::TYPE_PORTFOLIO:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypePortfolio.php");
 				return new ilExAssTypePortfolio();
 				break;
 
 			case ilExAssignment::TYPE_UPLOAD_TEAM:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypeUploadTeam.php");
 				return new ilExAssTypeUploadTeam();
 				break;
 
 			case ilExAssignment::TYPE_TEXT:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypeText.php");
 				return new ilExAssTypeText();
 				break;
 
 			case ilExAssignment::TYPE_WIKI_TEAM:
-				include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssTypeWikiTeam.php");
 				return new ilExAssTypeWikiTeam();
 				break;
 		}

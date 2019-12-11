@@ -11,6 +11,13 @@
 			padding-left: 10px;
 		}
 	}
+	.glyphicon {
+		filter: invert(50%);
+		font-family: 'il-icons';
+		font-size: @il-slate-bulky-glyph-size;
+		margin-right: @il-slate-bulky-glyph-margin-right;
+		position: relative;
+	}
 	.input-group {
 		display: block;
 	}
@@ -20,41 +27,31 @@
 	form#mm_search_form {
 		padding: 20px;
 	}
+
+	.bulky-label {
+		white-space: normal;
+		margin-top: @il-mainbar-bulky-label-margin-top;
+		display: block;
+	}
 }
 
 .il-metabar-entries {
-	.glyphicon {
-		font-family: 'il-icons';
-	}
-	.glyphicon-bell:before {
-		content: "\e027";
-	}
-	.glyphicon-comment:before {
-		content: "\e04a";
-	}
-	.glyphicon-envelope:before {
-		content: "\e086";
-	}
-	.glyphicon-question-sign:before {
-		content: "\e05d";
-	}
-	.glyphicon-search:before {
-		content: "\e090";
-	}
-	.glyphicon-user:before {
-		content: "\e005";
+	.badge {
+		position: absolute;
 	}
 	.btn {
 		position: relative;
 	}
 	.il-counter-novelty {
-		margin-top: -20px;
+		margin-top: 0;
+		top: 17px;
 	}
 	.il-counter-status {
-		margin-top: -4px;
+		margin-top: 0;
+		top: 32px;
 	}
 	// no display labels in metabar level 1
-	> .btn-bulky > div > .bulky-label {
+	> .btn-bulky > .bulky-label {
 		display: none;
 	}
 	.btn-bulky {
@@ -118,7 +115,7 @@
 		min-width: @il-metabar-slates-width;
 	}
 	max-height: 90vh;
-	overflow-y: scroll;
+	overflow-y: auto;
 	right: 0;
 
 	top: @il-metabar-entry-height;
@@ -150,6 +147,14 @@
 	.il-header-locator {
 		display: block;
 	}
+	.il-metabar-entries {
+		.il-counter-novelty {
+			top: 7px;
+		}
+		.il-counter-status {
+			top: 22px;
+		}
+	}
 
 	.il-metabar-slates {
 		.glyphicon {
@@ -158,7 +163,8 @@
 		}
 		.il-counter-status,
 		.il-counter-novelty {
-			margin-top: -20px;
+			margin-top: 0;
+			top: 5px
 		}
 		.bulky-label {
 			margin-left: 10px;

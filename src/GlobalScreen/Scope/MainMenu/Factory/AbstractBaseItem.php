@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -12,6 +13,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 abstract class AbstractBaseItem implements isItem
 {
 
+    use ComponentDecoratorTrait;
     /**
      * @var int
      */

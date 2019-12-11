@@ -3,10 +3,12 @@
 
 namespace ILIAS\UI\Component\Table;
 
+use ILIAS\UI\Component\ViewControl\HasViewControls;
+
 /**
  * This describes a Presentation Table
  */
-interface Presentation extends \ILIAS\UI\Component\Component
+interface Presentation extends \ILIAS\UI\Component\Component, HasViewControls
 {
 
     /**
@@ -23,21 +25,6 @@ interface Presentation extends \ILIAS\UI\Component\Component
      * @return string
      */
     public function getTitle();
-
-    /**
-     * Get a table like this with these view controls.
-     *
-     * @param \ViewControl[] 	$view_controls
-     * @return \Presentation
-     */
-    public function withViewControls(array $view_controls);
-
-    /**
-     * Get view controls to be shown in the header of the table.
-     *
-     * @return ILIAS\UI\Component\ViewControl[]
-     */
-    public function getViewControls();
 
     /**
      * Get a table like this with the closure $row_mapping.

@@ -164,7 +164,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 				{
 				    $total = $this->test_object->evalTotalPersons();
 		    
-                    $this->setOutputMode( $total == 0 ? IL_PAGE_EDIT : IL_PAGE_PREVIEW);
+                    $this->setOutputMode( $total == 0 ? ilPageObjectGUI::EDIT : ilPageObjectGUI::PREVIEW);
 		    
 					if( $total != 0 )
 					{
@@ -410,18 +410,18 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
 			$subScreenId[] = 'editMode';
 			
 			$ri = new ilRadioGroupInputGUI($lng->txt("tst_add_quest_cont_edit_mode"), "add_quest_cont_edit_mode");
-			
+
+            $ri->addOption(new ilRadioOption(
+                $lng->txt('tst_add_quest_cont_edit_mode_page_object'),
+                assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
+            ));
+
 			$ri->addOption(new ilRadioOption(
 					$lng->txt('tst_add_quest_cont_edit_mode_default'),
 					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT
 			));
 
-			$ri->addOption(new ilRadioOption(
-					$lng->txt('tst_add_quest_cont_edit_mode_page_object'),
-					assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
-			));
-			
-			$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT);
+			$ri->setValue(assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT);
 
 			$form->addItem($ri, true);
 		}

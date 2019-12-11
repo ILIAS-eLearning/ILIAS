@@ -1129,27 +1129,44 @@ abstract class ilBlockGUI
 			}
 			$actions[] = $button;
 		}
-		if (count($actions) > 0)
+
+        // check for empty list panel
+        if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST]) &&
+            (count($panel->getItemGroups()) == 0 || (count($panel->getItemGroups()) == 1 && count($panel->getItemGroups()[0]->getItems()) == 0))) {
+            $panel = $factory->panel()->standard(
+                $this->getTitle(),
+                $factory->legacy($this->getNoItemFoundContent())
+            );
+        }
+
+
+        if (count($actions) > 0)
 		{
 			$actions = $factory->dropdown()->standard($actions);
 			$panel = $panel->withActions($actions);
 		}
 
-		// view controls
-		if (count($this->getViewControls()) > 0)
-		{
-			$panel = $panel->withViewControls($this->getViewControls());
-		}
+        // view controls
+        if (count($this->getViewControls()) > 0)
+        {
+            $panel = $panel->withViewControls($this->getViewControls());
+        }
+
+        if ($ctrl->isAsynch())
+        {
+            $html = $renderer->renderAsync($panel);
+        }
+        else {
+            $html = $renderer->render($panel);
+        }
+
 
 		if ($ctrl->isAsynch())
 		{
-			$html = $renderer->renderAsync($panel);
 			echo $html; exit;
 		}
 		else
 		{
-			$html = $renderer->render($panel);
-
 			// return incl. wrapping div with id
 			$html = '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
 				$html . '</div>';
@@ -1160,4 +1177,15 @@ abstract class ilBlockGUI
 
 		return $html;
 	}
+
+	/**
+	 * No item entry
+	 *
+	 * @return string
+	 */
+	protected function getNoItemFoundContent(): string
+	{
+		return $this->lng->txt("no_items");
+	}
+
 }

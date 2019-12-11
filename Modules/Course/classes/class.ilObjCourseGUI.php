@@ -24,7 +24,7 @@ require_once "./Services/Container/classes/class.ilContainerGUI.php";
  * @ilCtrl_Calls ilObjCourseGUI: ilLOPageGUI, ilObjectMetaDataGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilCourseMembershipGUI, ilPropertyFormGUI, ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjCourseGUI: ilMemberExportSettingsGUI
- * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI, ilBookingGatewayGUI
+ * @ilCtrl_Calls ilObjCourseGUI: ilLTIProviderObjectSettingGUI, ilObjectTranslationGUI, ilBookingGatewayGUI, ilRepUtilGUI
  *
  * @extends ilContainerGUI
  */
@@ -211,7 +211,11 @@ class ilObjCourseGUI extends ilContainerGUI
 	}
 	
 	/**
-	* show information screen
+	 * Show info screen
+	 *
+	 * @throws \ilDateTimeException
+	 * @throws \ilObjectException
+	 * @throws \ilTemplateException
 	*/
 	function infoScreen()
 	{
@@ -248,8 +252,10 @@ class ilObjCourseGUI extends ilContainerGUI
 			$info->enableNewsEditing();
 		}
 
-		if(strlen($this->object->getImportantInformation()) or
-		   strlen($this->object->getSyllabus()) or
+		if(
+			strlen($this->object->getImportantInformation()) ||
+			strlen($this->object->getSyllabus()) ||
+			strlen($this->object->getTargetGroup()) ||
 		   count($files))
 		{
 			$info->addSection($this->lng->txt('crs_general_informations'));
@@ -265,6 +271,14 @@ class ilObjCourseGUI extends ilContainerGUI
 		{
 			$info->addProperty($this->lng->txt('crs_syllabus'), nl2br(
 								ilUtil::makeClickable ($this->object->getSyllabus(), true)));
+		}
+		if(strlen($this->object->getTargetGroup())) {
+			$info->addProperty(
+				$this->lng->txt('crs_target_group'),
+				nl2br(
+					\ilUtil::makeClickable($this->object->getTargetGroup(), true)
+				)
+			);
 		}
 		// files
 		if(count($files))
@@ -683,6 +697,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		$area->setCols(80);
 		$form->addItem($area);
 		
+		$tg = new \ilTextAreaInputGUI($this->lng->txt('crs_target_group'), 'target_group');
+		$tg->setValue($this->object->getTargetGroup());
+		$tg->setRows(6);
+		$form->addItem($tg);
+		
 		$section = new ilFormSectionHeaderGUI();
 		$section->setTitle($this->lng->txt('crs_info_download'));
 		$form->addItem($section);
@@ -734,6 +753,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		return $form;
 	}
 	
+	/**
+	 * @return bool
+	 * @throws \ilObjectException
+	 * @todo switch to form
+	 */
 	function updateInfoObject()
 	{
 		global $DIC;
@@ -756,6 +780,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		$this->object->setImportantInformation(ilUtil::stripSlashes($_POST['important']));
 		$this->object->setSyllabus(ilUtil::stripSlashes($_POST['syllabus']));
+		$this->object->setTargetGroup(\ilUtil::stripSlashes($_POST['target_group']));
 		$this->object->setContactName(ilUtil::stripSlashes($_POST['contact_name']));
 		$this->object->setContactResponsibility(ilUtil::stripSlashes($_POST['contact_responsibility']));
 		$this->object->setContactPhone(ilUtil::stripSlashes($_POST['contact_phone']));
@@ -866,8 +891,12 @@ class ilObjCourseGUI extends ilContainerGUI
 
 		// period
 		$crs_period = $form->getItemByPostVar("period");
-		$this->object->setCourseStart($crs_period->getStart());
-		$this->object->setCourseEnd($crs_period->getEnd());
+
+
+		$this->object->setCoursePeriod(
+			$crs_period->getStart(),
+			$crs_period->getEnd()
+		);
 
 		// activation/online
 		$this->object->setOfflineStatus((bool) !$form->getInput('activation_online'));
@@ -1135,17 +1164,17 @@ class ilObjCourseGUI extends ilContainerGUI
 		
 		// period		
 		include_once "Services/Form/classes/class.ilDateDurationInputGUI.php";
-		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');			
-		$cdur->setInfo($this->lng->txt('crs_period_info'));			
-		if($this->object->getCourseStart())
-		{
-			$cdur->setStart($this->object->getCourseStart());
-		}		
-		if($this->object->getCourseStart())
-		{
-			$cdur->setEnd($this->object->getCourseEnd());
-		}	
-		$form->addItem($cdur);			
+		$cdur = new ilDateDurationInputGUI($this->lng->txt('crs_period'), 'period');
+		$this->lng->loadLanguageModule('mem');
+		$cdur->enableToggleFullTime(
+			$this->lng->txt('mem_period_without_time'),
+			!$this->object->getCourseStartTimeIndication()
+		);
+		$cdur->setShowTime(true);
+		$cdur->setInfo($this->lng->txt('crs_period_info'));
+		$cdur->setStart($this->object->getCourseStart());
+		$cdur->setEnd($this->object->getCourseEnd());
+		$form->addItem($cdur);
 		
 			
 		// activation/availability
@@ -2290,6 +2319,12 @@ class ilObjCourseGUI extends ilContainerGUI
 		$header_action = true;
 		switch($next_class)
 		{
+			case 'ilreputilgui':
+				$ru = new \ilRepUtilGUI($this);
+				$this->ctrl->setReturn($this, 'trash');
+				$this->ctrl->forwardCommand($ru);
+				break;
+
 			case 'illtiproviderobjectsettinggui':
 				
 				$this->setSubTabs('properties');

@@ -1,13 +1,10 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once('./Services/FileSystem/classes/class.ilFileSystemGUI.php');
-
 /**
  * File System Explorer GUI class
  *
  *
  * @author Jesús López <lopez@leifos.com>
- * @version $Id$
  *
  */
 class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
@@ -30,7 +27,6 @@ class ilExAssignmentFileSystemGUI extends ilFileSystemGUI
 	 */
 	function getTable($a_dir, $a_subdir)
 	{
-		include_once("./Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php");
 		return new ilExAssignmentFileSystemTableGUI($this, "listFiles", $a_dir, $a_subdir,
 			$this->label_enable, $this->file_labels, $this->label_header, $this->commands,
 			$this->getPostDirPath(), $this->getTableId());

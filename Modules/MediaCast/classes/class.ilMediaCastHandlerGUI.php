@@ -86,7 +86,7 @@ class ilMediaCastHandlerGUI
 				break;
 		}
 
-		$tpl->show();
+		$tpl->printToStdout();
 	}
 
 }

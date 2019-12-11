@@ -12,6 +12,26 @@ are explained in [Usage](#usage).
 
 ## Short Term
 
+### Simple usage of demo-page in examples  (beginner, ~4h)
+To show how a UI-Component looks loke in the page context (esp. for 
+Components from the MainControls) a simple "framework" to use a Demo-Page
+in the examples would be helpful.
+
+### Improving FileInput and Dropzones (advanced, vaiable)
+General Dropzone functionality:
+ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
+
+With ILIAS 7, FileInput (or specific variants thereof) should have at least the following functions and properties:
+- Upload several files at once
+- Displaying existing files
+- Restriction to file extensions
+- Restriction to MimeTypes
+- use `Data\DataSize` for file size info
+
+With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
+- Preview of uploaded images
+- Crop functionality for images
+
 ### Engaged Buttons (advanced, ~4h)
 
 The [Bulky Button](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/src/UI/Component/Button/Bulky.php)
@@ -138,6 +158,12 @@ See also: https://github.com/ILIAS-eLearning/ILIAS/pull/2299
 
 In some cases (e.g. see Item Slate aggregates) it would be good for slate titles
 to also accept buttons. We should extend that.
+
+### Footer should not use an input (beginner)
+
+In the footer's template, an input-tag in cconunction with some inline-js is 
+used to display the perma-link. This should be substituted by a non-input 
+block-element, respectively an UI-Component on its own.
 
 ## Long Term
 

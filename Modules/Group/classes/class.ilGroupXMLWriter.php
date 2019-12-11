@@ -40,11 +40,21 @@ class ilGroupXMLWriter extends ilXmlWriter
 	
 	private $mode = self::MODE_SOAP;
 
+	/**
+	 * @var null | \ilLogger
+	 */
+	private $logger = null;
+
 
 	private $ilias;
 
 	private $xml;
+
+	/**
+	 * @var \ilObjGroup
+	 */
 	private $group_obj;
+
 	private $attach_users = true;
 
 	/**
@@ -61,6 +71,8 @@ class ilGroupXMLWriter extends ilXmlWriter
 		$ilias = $DIC['ilias'];
 
 		parent::__construct();
+
+		$this->logger = $DIC->logger()->grp();
 
 		$this->EXPORT_VERSION = "3";
 
@@ -84,6 +96,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	{
 		if($this->getMode() == self::MODE_SOAP)
 		{
+			$this->logger->debug('Using soap mode');
 			$this->__buildHeader();
 			$this->__buildGroup();
 			$this->__buildMetaData();
@@ -103,6 +116,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 		}
 		elseif($this->getMode() == self::MODE_EXPORT)
 		{
+			$this->logger->debug('Using export mode');
 			$this->__buildGroup();
 			$this->__buildMetaData();
 			$this->__buildAdvancedMetaData();
@@ -197,22 +211,34 @@ class ilGroupXMLWriter extends ilXmlWriter
 		
 		$this->xmlElement('information',null,$this->group_obj->getInformation());
 	}
-	
+
 	/**
-	 * Build group period
+	 * Add group eriod settings to xml
 	 */
 	protected function __buildPeriod()
 	{
-		if(
-			$this->group_obj->getStart() instanceof ilDate && 
-			$this->group_obj->getEnd() instanceof ilDate
-		) 
-		{
-			$this->xmlStartTag('period');
-			$this->xmlElement('start',null,$this->group_obj->getStart()->get(IL_CAL_UNIX));
-			$this->xmlElement('end',null, $this->group_obj->getEnd()->get(IL_CAL_UNIX));
-			$this->xmlEndTag('period');
+		if(!$this->group_obj->getStart() || !$this->group_obj->getEnd()) {
+			return;
 		}
+
+		$this->xmlStartTag(
+			'period',
+			[
+				'withTime' => $this->group_obj->getStartTimeIndication()
+			]
+		);
+		$this->xmlElement(
+			'start',
+			null,
+			$this->group_obj->getStart()->get(IL_CAL_UNIX)
+		);
+		$this->xmlElement(
+			'end',
+			null,
+			$this->group_obj->getEnd()->get(IL_CAL_UNIX)
+		);
+
+		$this->xmlEndTag('period');
 		return;
 	}
 	
@@ -275,6 +301,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 	function __buildExtraSettings()
 	{
 		$this->xmlElement('showMembers',null,$this->group_obj->getShowMembers());
+		$this->xmlElement('admissionNotification', null, $this->group_obj->getAutoNotification() ? 1 : 0);
 	}
 
 	function __buildAdmin()

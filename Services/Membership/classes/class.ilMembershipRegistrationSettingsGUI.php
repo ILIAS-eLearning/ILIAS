@@ -154,7 +154,24 @@ abstract class ilMembershipRegistrationSettingsGUI
 						
 			$form->addItem($lim);
 		}
-		
+
+		$notificationCheckbox = new ilCheckboxInputGUI($this->txt('registration_notification'), 'registration_notification');
+		$notificationCheckbox->setInfo($this->txt('registration_notification_info'));
+
+		$notificationOption = new ilRadioGroupInputGUI($this->txt('notification_option'), 'notification_option');
+		$notificationOption->setRequired(true);
+
+		$inheritOption = new ilRadioOption($this->txt(ilSessionConstants::NOTIFICATION_INHERIT_OPTION), ilSessionConstants::NOTIFICATION_INHERIT_OPTION);
+		$inheritOption->setInfo($this->txt('notification_option_inherit_info'));
+		$notificationOption->addOption($inheritOption);
+
+		$manualOption = new ilRadioOption($this->txt(ilSessionConstants::NOTIFICATION_MANUAL_OPTION), ilSessionConstants::NOTIFICATION_MANUAL_OPTION);
+		$manualOption->setInfo($this->txt('notification_option_manual_info'));
+		$notificationOption->addOption($manualOption);
+
+		$notificationCheckbox->addSubItem($notificationOption);
+		$form->addItem($notificationCheckbox);
+
 		$this->setFormValues($form);
 	}
 	

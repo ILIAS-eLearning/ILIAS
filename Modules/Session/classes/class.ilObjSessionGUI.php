@@ -258,7 +258,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
 		$this->checkPermission('visible');
 		
@@ -267,6 +268,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
 		include_once './Modules/Session/classes/class.ilEventParticipants.php';
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());
+		$event_part->updateExcusedForUser($ilUser->getId(), false);
+
 		if(
 			$this->getCurrentObject()->isRegistrationUserLimitEnabled() and 
 			$this->getCurrentObject()->getRegistrationMaxUsers() and
@@ -291,12 +294,34 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			case ilMembershipRegistrationSettings::TYPE_DIRECT:
 				$part->register($ilUser->getId());
 				ilUtil::sendSuccess($this->lng->txt('event_registered'),true);
+
+				$ilAppEventHandler->raise(
+					"Modules/Session",
+					'enter',
+					array(
+						'obj_id' => $this->getCurrentObject()->getId(),
+						'ref_id' => $this->getCurrentObject()->getRefId(),
+						'usr_id' => $ilUser->getId()
+					)
+				);
+
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 			
 			case ilMembershipRegistrationSettings::TYPE_REQUEST:
 				ilUtil::sendSuccess($this->lng->txt('sess_registered_confirm'),true);
 				$part->addSubscriber($ilUser->getId());
+
+				$ilAppEventHandler->raise(
+					"Modules/Session",
+					'register',
+					array(
+						'obj_id' => $this->getCurrentObject()->getId(),
+						'ref_id' => $this->getCurrentObject()->getRefId(),
+						'usr_id' => $ilUser->getId()
+					)
+				);
+
 				$this->ctrl->redirect($this,'infoScreen');
 				break;
 		}
@@ -335,20 +360,22 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		
 		$this->ctrl->redirect($this,'infoScreen');
 	}
-	
+
 	/**
 	 * unregister from session
 	 *
 	 * @access public
-	 * @return
+	 * @param bool $a_refuse_participation
+	 * @return void
 	 */
-	public function unregisterObject()
+	public function unregisterObject($a_refuse_participation = false)
 	{
 		global $DIC;
 
-		$ilUser = $DIC['ilUser'];
-		
-		include_once './Modules/Session/classes/class.ilSessionParticipants.php';
+		$ilUser = $DIC->user();
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+        include_once './Modules/Session/classes/class.ilSessionParticipants.php';
 		$part = ilSessionParticipants::getInstance($this->object->getRefId());
 		if($part->isSubscriber($ilUser->getId()))
 		{
@@ -356,6 +383,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		}
 		
 		$part->unregister($ilUser->getId());
+
+		if($a_refuse_participation) {
+
+			$event_part = new \ilEventParticipants($this->object->getId());
+			$event_part->updateExcusedForUser($ilUser->getId(), true);
+		}
+
 
 		include_once './Modules/Session/classes/class.ilSessionWaitingList.php';
 		ilSessionWaitingList::deleteUserEntry($ilUser->getId(), $this->getCurrentObject()->getId());
@@ -376,7 +410,21 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 			return;
 		}
 
-		ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
+		$ilAppEventHandler->raise(
+			"Modules/Session",
+			'unregister',
+			array(
+				'obj_id' => $this->getCurrentObject()->getId(),
+				'ref_id' => $this->getCurrentObject()->getRefId(),
+				'usr_id' => $ilUser->getId()
+			)
+		);
+		if($a_refuse_participation) {
+			\ilUtil::sendInfo($this->lng->txt('sess_participation_refused_info'),true);
+		}
+		else {
+			ilUtil::sendSuccess($this->lng->txt('event_unregistered'),true);
+		}
 		$this->ctrl->returnToParent($this);
 	}
 	
@@ -395,6 +443,19 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$ilAccess = $DIC->access();
 		$ilErr = $DIC["ilErr"];
 		$lng = $DIC->language();
+
+		$ilCtrl = $DIC->ctrl();
+		$parts = explode('_', $a_target);
+		$a_target = $parts[0];
+
+		if ($ilAccess->checkAccess('write', '', $a_target)) {
+			if (isset($parts[1]) && 'part' === $parts[1]) {
+				$ilCtrl->initBaseClass('ilRepositoryGUI');
+				$ilCtrl->setParameterByClass('ilSessionMembershipGUI', 'ref_id', (int) $a_target);
+				$ilCtrl->setTargetScript('ilias.php');
+				$ilCtrl->redirectByClass(array('ilRepositoryGUI', __CLASS__, 'ilSessionMembershipGUI'));
+			}
+		}
 
 		if($ilAccess->checkAccess('visible', "", $a_target))
 		{
@@ -469,6 +530,16 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$this->showJoinRequestButton($a_ilToolbar);
 	}
+
+
+	/**
+	 * refuse participation
+	 */
+	protected function
+	refuseParticipationObject()
+	{
+		return $this->unregisterObject(true);
+	}
 	
 	/**
 	 * @param $ilToolbar ilToolbarGUI
@@ -503,26 +574,26 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$btn_attend->addCSSClass("btn-primary");
 		$this->ctrl->setParameter($this, "ref_id", $this->getCurrentObject()->getRefId());
 
+		$btn_excused = \ilLinkButton::getInstance();
+		$btn_excused->setCaption($this->lng->txt('sess_bt_refuse'),false);
+		$btn_excused->setUrl($this->ctrl->getLinkTarget($this, 'refuseParticipation'));
+
+
 		if(ilEventParticipants::_isRegistered($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
+
 		}
 		elseif($part->isSubscriber($ilUser->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("event_unregister"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
 		}
 		elseif(ilSessionWaitingList::_isOnList($ilUser->getId(), $this->getCurrentObject()->getId()))
 		{
-			$btn_attend->setCaption($this->lng->txt("leave_waiting_list"), false);
-			$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "unregister"));
-			$ilToolbar->addButtonInstance($btn_attend);
-			return TRUE;
+			$ilToolbar->addButtonInstance($btn_excused);
+			return true;
 		}
 		
 		$event_part = new ilEventParticipants($this->getCurrentObject()->getId());
@@ -539,6 +610,9 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$btn_attend->setCaption($this->lng->txt("mem_add_to_wl"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
+				if(!$event_part->isExcused($ilUser->getId())) {
+					$ilToolbar->addButtonInstance($btn_excused);
+				}
 				return TRUE;
 			}
 			else
@@ -555,6 +629,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				$btn_attend->setCaption($this->lng->txt("join_session"), false);
 				$btn_attend->setUrl($this->ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjSessionGUI"), "register"));
 				$ilToolbar->addButtonInstance($btn_attend);
+				if(!$event_part->isExcused($ilUser->getId())) {
+					$ilToolbar->addButtonInstance($btn_excused);
+				}
+
 				return TRUE;
 			}
 		}
@@ -1599,7 +1677,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$dur->setEnd($this->object->getFirstAppointment()->getEnd());
 		
 		$this->form->addItem($dur);
-		
+
 
 		// Recurrence
 		if($a_mode == 'create')
@@ -1815,7 +1893,10 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->object->setPhone(ilUtil::stripSlashes($_POST['tutor_phone']));
 		$this->object->setEmail(ilUtil::stripSlashes($_POST['tutor_email']));
 		$this->object->setDetails(ilUtil::stripSlashes($_POST['details']));
-		
+
+		$this->object->setRegistrationNotificationEnabled(ilUtil::stripSlashes($_POST['registration_notification']));
+		$this->object->setRegistrationNotificationOption(ilUtil::stripSlashes($_POST['notification_option']));
+
 		$this->object->setRegistrationType((int) $_POST['registration_type']);
 		// $this->object->setRegistrationMinUsers((int) $_POST['registration_min_members']);
 		$this->object->setRegistrationMaxUsers((int) $_POST['registration_max_members']);
@@ -2096,7 +2177,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 				);
 			}
 		}
-		
+
 		// export
 		if ($ilAccess->checkAccess("write", "", $this->object->getRefId()))
 		{
@@ -2302,6 +2383,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$tpl->setContent($form->getHtml());
 	}
 
-	
+
 }
 ?>

@@ -64,7 +64,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
                 ->withCounter($f->counter()->status((int) $online))
             )
             ->withTitle("Who is online")
-            ->withPosition(0)
+            ->withPosition(2)
             ->withAvailableCallable(
                 function () use ($DIC, $online){
                     $ilUser = $DIC->user();

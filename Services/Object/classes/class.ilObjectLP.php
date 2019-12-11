@@ -77,6 +77,9 @@ class ilObjectLP
 					include_once "Modules/Course/classes/class.ilCourseLP.php";
 					return "ilCourseLP";
 
+				case 'crsr':
+					return 'ilCourseReferenceLP';
+
 				case "grp":
 					include_once "Modules/Group/classes/class.ilGroupLP.php";
 					return "ilGroupLP";
@@ -161,7 +164,7 @@ class ilObjectLP
 		$objDefinition = $DIC["objDefinition"];
 
 		$valid = array("crs", "grp", "fold", "lm", "htlm", "sahs", "tst", "exc",
-			"sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti');
+			"sess", "svy", "file", "mcst", "prg", "iass", "copa", "lso", 'cmix', 'lti', 'crsr');
 
 		if(in_array($a_type, $valid))
 		{
@@ -728,7 +731,7 @@ class ilObjectLP
 	
 	public static function supportsMatrixView($a_obj_type)
 	{
-		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg', 'copa', 'cmix', 'lti'));
+		return !in_array($a_obj_type, array('svy', 'tst', 'htlm', 'exc', 'sess', 'file', 'prg', 'copa', 'cmix', 'lti','crsr'));
 	}		
 	
 	

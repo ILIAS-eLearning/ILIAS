@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** 
-* 
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id$
-* 
-* @ingroup ServicesBadge
-*/
+/**
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilFSStorageBadge extends ilFileSystemStorage
 {
 	public function __construct($a_container_id = 0)

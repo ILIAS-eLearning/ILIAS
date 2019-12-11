@@ -1,20 +1,14 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/Portfolio/classes/class.ilPCMyCourses.php");
-require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilPCMyCoursesGUI
-*
-* Handles user commands on my courses data
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $I$
-*
-* @ingroup ModulesPortfolio
-*/
+ * Class ilPCMyCoursesGUI
+ *
+ * Handles user commands on my courses data
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilPCMyCoursesGUI extends ilPageContentGUI
 {
 	/**
@@ -101,7 +95,6 @@ class ilPCMyCoursesGUI extends ilPageContentGUI
 	{
 		$ilCtrl = $this->ctrl;
 
-		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this));
 		if ($a_insert)

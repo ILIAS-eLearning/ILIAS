@@ -2,14 +2,10 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Services/Object/classes/class.ilSubItemListGUI.php';
-include_once './Modules/Exercise/classes/class.ilExAssignment.php';
-
 /**
 * Represents search sub item lists 
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */

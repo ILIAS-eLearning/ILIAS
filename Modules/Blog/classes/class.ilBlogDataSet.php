@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Blog Data set class
@@ -11,8 +10,6 @@ include_once("./Services/DataSet/classes/class.ilDataSet.php");
  * - blog_posting: data from table il_blog_posting
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ingroup ModulesBlog
  */
 class ilBlogDataSet extends ilDataSet
 {
@@ -132,7 +129,8 @@ class ilBlogDataSet extends ilDataSet
 						"Title" => "integer",
 						"Created" => "text",
 						"Author" => "text",
-						"Approved" => "integer"						
+						"Approved" => "integer",
+						"LastWithdrawn" => "text"
 					);
 			}
 		}
@@ -199,7 +197,7 @@ class ilBlogDataSet extends ilDataSet
 				case "4.3.0":
 				case "5.0.0":
 				case "5.3.0":
-					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved".
+					$this->getDirectDataFromQuery("SELECT id,blog_id,title,created,author,approved,last_withdrawn".
 						" FROM il_blog_posting WHERE ".
 						$ilDB->in("blog_id", $a_ids, false, "integer"));
 					foreach($this->data as $idx => $item)
@@ -211,8 +209,6 @@ class ilBlogDataSet extends ilDataSet
 			}
 			
 			// keywords
-			include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
-			include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 			foreach($this->data as $idx => $item)
 			{
 				$blog_id = ilBlogPosting::lookupBlogId($item["Id"]);
@@ -253,16 +249,13 @@ class ilBlogDataSet extends ilDataSet
 	{
 		if ($a_entity == "blog")
 		{
-			include_once("./Modules/Blog/classes/class.ilObjBlog.php");
 			$dir = ilObjBlog::initStorage($a_set["Id"]);
 			$a_set["Dir"] = $dir;
 			
-			include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
 			$a_set["Style"] = ilObjStyleSheet::lookupObjectStyle($a_set["Id"]);
 			
 			// #14734
-			include_once("./Services/Notes/classes/class.ilNote.php");
-			$a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");		
+			$a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");
 		}
 
 		return $a_set;
@@ -279,8 +272,7 @@ class ilBlogDataSet extends ilDataSet
 		switch ($a_entity)
 		{
 			case "blog":
-				include_once("./Modules/Blog/classes/class.ilObjBlog.php");
-				
+
 				// container copy
 				if($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]))
 				{
@@ -350,12 +342,12 @@ class ilBlogDataSet extends ilDataSet
 				$blog_id = (int) $a_mapping->getMapping("Modules/Blog", "blog", $a_rec["BlogId"]);
 				if($blog_id)
 				{
-					include_once("./Modules/Blog/classes/class.ilBlogPosting.php");
 					$newObj = new ilBlogPosting();
 					$newObj->setBlogId($blog_id);
 					$newObj->setTitle($a_rec["Title"]);																					
 					$newObj->setCreated(new ilDateTime($a_rec["Created"], IL_CAL_DATETIME));
-					$newObj->setApproved($a_rec["Approved"]);		
+					$newObj->setApproved($a_rec["Approved"]);
+					$newObj->setWithdrawn(new ilDateTime($a_rec["LastWithdrawn"], IL_CAL_DATETIME));
 					
 					// parse export id into local id (if possible)
 					$author = $this->parseObjectExportId($a_rec["Author"], -1);					

@@ -1,13 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Advanced meta data adapter 
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup 
  */
 class ilGlossaryAdvMetaDataAdapter
 {
@@ -41,12 +39,10 @@ class ilGlossaryAdvMetaDataAdapter
 	function getAllFields()
 	{
 		$fields = array();
-		include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
 		$recs = ilAdvancedMDRecord::_getSelectedRecordsByObject("glo", $this->glo_ref_id, "term");
 
 		foreach($recs as $record_obj)
 		{
-			include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 			foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_obj->getRecordId()) as $def)
 			{
 				$fields[$def->getFieldId()] = array(

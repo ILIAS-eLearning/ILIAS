@@ -211,6 +211,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		return true;
 	}
 
+	/**
+	 * @param $sid
+	 * @param $user_name
+	 * @return int|\soap_fault|\SoapFault|string
+	 */
 	function lookupUser($sid,$user_name)
 	{
 		$this->initAuth($sid);
@@ -230,11 +235,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
+		$ilUser = $DIC->user();
+		$access = $DIC->access();
 
-		if(strcasecmp($ilUser->getLogin(), $user_name) != 0 && !$rbacsystem->checkAccess('read',USER_FOLDER_ID))
-		{
+		if(
+			strcasecmp($ilUser->getLogin(), $user_name) !== 0 &&
+			!$access->checkAccess(
+				'read_users',
+				'',
+				USER_FOLDER_ID
+			)
+		) {
 			return $this->__raiseError('Check access failed. '.USER_FOLDER_ID,'Server');
 		}
 
@@ -245,6 +256,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 	}
 
+	/**
+	 * @param $sid
+	 * @param $user_id
+	 * @return mixed|\soap_fault|\SoapFault
+	 * @throws \ilDatabaseException
+	 * @throws \ilObjectNotFoundException
+	 */
 	function getUser($sid,$user_id)
 	{
 		$this->initAuth($sid);
@@ -257,11 +275,16 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilUser = $DIC['ilUser'];
+		$access = $DIC->access();
+		$ilUser = $DIC->user();
 
-		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID))
-		{
+		if(
+			!$access->checkAccess(
+				'read_users',
+				'',
+				USER_FOLDER_ID
+			)
+		) {
 			return $this->__raiseError('Check access failed.','Server');
 		}
 
@@ -706,9 +729,19 @@ class ilSoapUserAdministration extends ilSoapAdministration
     	$tree = $DIC['tree'];
     	$rbacreview = $DIC['rbacreview'];
     	$rbacsystem = $DIC['rbacsystem'];
+    	$access = $DIC->access();
 
-		if ($ref_id == -1)
+		if ($ref_id == -1) {
 			$ref_id = USER_FOLDER_ID;
+		}
+
+		if(
+			$ref_id == USER_FOLDER_ID &&
+			!$access->checkAccess('read_users','', USER_FOLDER_ID)
+		) {
+			return $this->__raiseError('Access denied', "Client");
+		}
+
 
 		$object = $this->checkObjectAccess($ref_id, array("crs","cat","grp","usrf","sess"), "read", true);
 		if ($this->isFault($object))
@@ -814,7 +847,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 			include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
 			$privacy = ilPrivacySettings::_getInstance();
-			if(!$rbacsystem->checkAccess('read',SYSTEM_USER_ID) and
+			if(!$rbacsystem->checkAccess('read_users',USER_FOLDER_ID) and
 			   !$rbacsystem->checkAccess('export_member_data',$privacy->getPrivacySettingsRefId())) {
 					return $this->__raiseError("Export of local role members not permitted. ($role_id)","Server");
 			}
@@ -936,14 +969,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $DIC;
 
 		$ilDB = $DIC['ilDB'];
-		$rbacsystem = $DIC['rbacsystem'];
+		$access = $DIC->access();
 
-		if(!$rbacsystem->checkAccess('read', USER_FOLDER_ID))
-		{
+		if (!$access->checkAccess('read_users','',USER_FOLDER_ID)) {
 			return $this->__raiseError('Check access failed.','Server');
 		}
-
-
     	if (!count($a_keyfields))
     	   $this->__raiseError('At least one keyfield is needed','Client');
 
@@ -1054,6 +1084,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 		global $DIC;
 
 		$rbacsystem = $DIC['rbacsystem'];
+		$access = $DIC->access();
 		$ilUser = $DIC['ilUser'];
 		$ilDB = $DIC['ilDB'];
 
@@ -1074,10 +1105,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 			}
 		}
 
-		if(!$rbacsystem->checkAccess('read',USER_FOLDER_ID) and !$is_self)
-		{
+		if(!$access->checkAccess('read_users','', USER_FOLDER_ID) && !$is_self) {
 			return $this->__raiseError('Check access failed.','Server');
 		}
+
 
 		// begin-patch filemanager
 		$data = ilObjUser::_getUserData((array) $a_user_ids);
@@ -1112,13 +1143,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
 		$ilUser = $DIC['ilUser'];
 
-		include_once 'Services/Mail/classes/class.ilMailGlobalServices.php';
-		if(ilMailGlobalServices::getNumberOfNewMailsByUserId((int) $ilUser->getId()) > 0)
-		{
+		if (ilMailGlobalServices::getNewMailsData((int) $ilUser->getId())['count'] > 0) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}

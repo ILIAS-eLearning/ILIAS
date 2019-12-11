@@ -14,6 +14,9 @@
 		<event type="listen" id="Services/User" component="Services/WebServices/ECS" />
                 <event type="raise" id="newEcsEvent" />
 	</events>
+	<crons>
+		<cron id="ecs_task_handler" class="ilCronEcsTaskScheduler" />
+	</crons>
 	<pluginslots>
 		<pluginslot id="soaphk" name="SoapHook" />
 	</pluginslots>

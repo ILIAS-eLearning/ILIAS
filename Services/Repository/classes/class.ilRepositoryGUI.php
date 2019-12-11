@@ -20,7 +20,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilObjCategoryGUI, ilObjRoleGUI, ilObjBlogGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjLinkResourceGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRootFolderGUI, ilObjMediaCastGUI, ilObjRemoteCourseGUI, ilObjSessionGUI
-* @ilCtrl_Calls ilRepositoryGUI: ilObjCourseReferenceGUI, ilObjCategoryReferenceGUI, ilObjDataCollectionGUI, ilObjGroupReferenceGUI
+* @ilCtrl_Calls ilRepositoryGUI: ilObjCourseReferenceGUI, ilObjCategoryReferenceGUI, ilObjDataCollectionGUI, ilObjGroupReferenceGUI, ilObjStudyProgrammeReferenceGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjPollGUI, ilObjRemoteCategoryGUI, ilObjRemoteWikiGUI, ilObjRemoteLearningModuleGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteGlossaryGUI, ilObjRemoteFileGUI, ilObjRemoteGroupGUI
 * @ilCtrl_Calls ilRepositoryGUI: ilObjRemoteTestGUI, ilObjCloudGUI, ilObjPortfolioTemplateGUI
@@ -246,7 +246,6 @@ class ilRepositoryGUI
         $show_tree = ($_SESSION["il_rep_mode"] == "flat")
             ? true
             : false;
-        $this->tool_context->current()->addAdditionalData(ilRepositoryGSToolProvider::SHOW_TREE_TOOL, $show_tree);
 
 		// check creation mode
 		// determined by "new_type" parameter
@@ -571,6 +570,8 @@ class ilRepositoryGUI
 	function showRepTree()
 	{
 		$exp = new ilRepositoryExplorerGUI($this, "showRepTree");
+		// root node should be skipped, see #26787
+        $exp->setSkipRootNode(true);
 		$exp->handleCommand();
 		exit;
 	}

@@ -1,17 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjBlogAdministration
-* 
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id:$
-*
-* @package ModulesBlog
-*/
-
-require_once "./Services/Object/classes/class.ilObject.php";
-
+ * Class ilObjBlogAdministration
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjBlogAdministration extends ilObject
 {
 	/**
@@ -46,5 +41,4 @@ class ilObjBlogAdministration extends ilObject
 		return true;
 	}
 
-} 
-?>
+}

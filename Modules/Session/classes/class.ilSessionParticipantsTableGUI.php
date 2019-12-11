@@ -85,7 +85,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 	
 	
 	/**
-	 * @return ilObjSession
+	 * @return \ilObjSession
 	 */
 	protected function getRepositoryObject()
 	{
@@ -161,12 +161,23 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		{
 			$this->setDefaultOrderField('name');
 		}
+
 		$this->addColumn($this->lng->txt('event_tbl_participated'),'participated');
+
+		if($this->isRegistrationEnabled()) {
+			$this->addColumn($this->lng->txt('sess_part_table_excused'),'excused');
+		}
+
 		$this->addColumn($this->lng->txt('sess_contact'),'contact');
 	 	$this->addColumn($this->lng->txt('trac_mark'),'mark');
+		if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
+			$this->addColumn($this->lng->txt('notification'),'notification');
+		}
+
+		$this->addColumn($this->lng->txt('trac_mark'),'mark');
 	 	$this->addColumn($this->lng->txt('trac_comment'),'comment');
-		
-		
+
+
 		$this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mmbr_btn_mail_selected_users'));
 		$this->lng->loadLanguageModule('user');
 		$this->addMultiCommand('addToClipboard', $this->lng->txt('clipboard_add_btn'));
@@ -276,8 +287,22 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 			$tmp_data['comment'] = $usr_data['comment'];
 			$tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
 			$tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
+			$tmp_data['excused'] = $this->getParticipants()->getEventParticipants()->isExcused((int) $participant['usr_id']);
 			$tmp_data['contact'] = $this->getParticipants()->isContact($participant['usr_id']);
-			
+
+			$notificationShown = false;
+			if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
+				$notificationShown = true;
+
+				$notificationCheckboxEnabled = true;
+				if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $this->getRepositoryObject()->getRegistrationNotificationOption()) {
+					$notificationCheckboxEnabled = false;
+				}
+				$tmp_data['notification_checkbox_enabled'] = $notificationCheckboxEnabled;
+				$tmp_data['notification_checked'] = $usr_data['notification_enabled'];
+			}
+			$tmp_data['show_notification'] = $notificationShown;
+
 			$roles = array();
 			$local_roles = $this->getParentLocalRoles();
 			foreach($local_roles as $role_id => $role_name)
@@ -388,6 +413,18 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		
 			}
 		}
+
+		if (true === $a_set['show_notification']) {
+			$this->tpl->setCurrentBlock('notification_column');
+			$this->tpl->setVariable('VAL_ID', $a_set['id']);
+			$this->tpl->setVariable('NOTIFICATION_CHECKED',$a_set['notification_checked'] ? 'checked="checked"' : '');
+
+			$enableCheckbox = $a_set['notification_checkbox_enabled'];
+
+			$this->tpl->setVariable('NOTIFICATION_ENABLED', $enableCheckbox ? '' : 'disabled');
+			$this->tpl->parseCurrentBlock();
+		}
+
 		$this->tpl->setVariable('VAL_ID',$a_set['id']);
 		$this->tpl->setVariable('LASTNAME',$a_set['lastname']);
 		$this->tpl->setVariable('FIRSTNAME',$a_set['firstname']);
@@ -396,6 +433,10 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 		$this->tpl->setVariable('COMMENT',$a_set['comment']);
 		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
 		$this->tpl->setVariable('CONTACT_CHECKED', $a_set['contact'] ? 'checked="checked"' : '');
+		$this->tpl->setVariable('PART_CHECKED',$a_set['participated'] ? 'checked="checked"' : '');
+		if($this->isRegistrationEnabled()) {
+			$this->tpl->setVariable('EXCUSED_CHECKED',$a_set['excused'] ? 'checked="checked"' : '');
+		}
 	}
 	
 	/**

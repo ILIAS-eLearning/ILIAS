@@ -156,7 +156,6 @@ class ilContainerReferenceGUI extends ilObjectGUI
 		}
 		return true;
 	}
-	
 	/**
 	 * Add locator item
 	 */

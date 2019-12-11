@@ -10,13 +10,19 @@
 class ilLMSlateTocRendererGUI
 {
     /**
+     * @var ilLMPresentationService
+     */
+    protected $service;
+
+    /**
      * Constructor
      */
-    public function __construct()
+    public function __construct(ilLMPresentationService $service)
     {
         global $DIC;
 
         $this->user = $DIC->user();
+        $this->service = $service;
     }
 
     /**
@@ -27,8 +33,8 @@ class ilLMSlateTocRendererGUI
     public function render()
     {
         $fac = new ilLMTOCExplorerGUIFactory();
-        $service = new ilLMPresentationService($this->user, $_GET);
-        $exp = $fac->getExplorer($service, "ilTOC");
+
+        $exp = $fac->getExplorer($this->service, "ilTOC");
         //if (!$exp->handleCommand())
         return $exp->getHTML();
     }

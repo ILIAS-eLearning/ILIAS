@@ -77,6 +77,7 @@ class ilMimeTypeUtil {
 	const APPLICATION__RTF = 'application/rtf';
 	const APPLICATION__SDP = 'application/sdp';
 	const APPLICATION__SEA = 'application/sea';
+	const APPLICATION__SEB = 'application/seb';
 	const APPLICATION__SET = 'application/set';
 	const APPLICATION__SLA = 'application/sla';
 	const APPLICATION__SMIL = 'application/smil';
@@ -1149,6 +1150,7 @@ class ilMimeTypeUtil {
 			self::APPLICATION__X_SDP,
 		),
 		'sdr' => self::APPLICATION__SOUNDER,
+	    'seb' => self::APPLICATION__SEB,
 		'sea' => array(
 			self::APPLICATION__SEA,
 			self::APPLICATION__X_SEA,

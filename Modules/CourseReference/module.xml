@@ -17,4 +17,5 @@
 	<events>
 		<event type="listen" id="Services/AccessControl" />
 	</events>
+	<logging />
 </module>

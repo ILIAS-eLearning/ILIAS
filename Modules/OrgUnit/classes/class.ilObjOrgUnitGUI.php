@@ -390,7 +390,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
-        $gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI");
+        //$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
+        $gui->setCreationUrl($this->ctrl->getLinkTarget($this, 'create'));
         $gui->render();
     }
 

@@ -48,6 +48,11 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 	private $current_container_setting;
 
 	/**
+	 * @var |null | \ilLogger
+	 */
+	private $log = null;
+
+	/**
 	* Constructor
 	*
 	* @param	ilObject		$a_content_object	must be of type ilObjContentObject
@@ -61,13 +66,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		global $DIC;
 
 		$lng = $DIC['lng'];
-		$ilLog = $DIC['ilLog'];
 
 		parent::__construct($a_xml_file);
 
 		$this->sax_controller = new ilSaxController();
 
-		$this->log = $ilLog;
+		$this->log = $DIC->logger()->crs();
 
 		$this->course_obj = $a_course_obj;
 		$this->course_members = ilCourseParticipants::_getInstanceByObjId($this->course_obj->getId());
@@ -247,6 +251,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			case 'Syllabus':
 				break;
 
+			case 'TargetGroup':
+				break;
+
 			case 'Contact':
 				break;
 
@@ -306,6 +313,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			
 			case 'Period':
 				$this->in_period = true;
+				$this->in_period_with_time = $a_attribs['withTime'];
 				break;
 			
 			case 'WaitingListAutoFill':
@@ -569,7 +577,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					if((int)$this->cdata)
 					{
-						$this->course_obj->setCourseStart(new ilDate((int)$this->cdata, IL_CAL_UNIX));
+						if($this->in_period_with_time) {
+							$this->period_start = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+						}
 					}
 				}
 				break;
@@ -587,7 +597,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				{
 					if((int)$this->cdata)
 					{
-						$this->course_obj->setCourseEnd(new ilDate((int)$this->cdata, IL_CAL_UNIX));
+						if($this->in_period_with_time) {
+							$this->period_end = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
+						}
 					}
 				}
 				break;
@@ -596,6 +608,9 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				$this->course_obj->setSyllabus(trim($this->cdata));
 				break;
 
+			case 'TargetGroup':
+				$this->course_obj->setTargetGroup(trim($this->cdata));
+				break;
 
 			case 'ImportantInformation':
 				$this->course_obj->setImportantInformation(trim($this->cdata));
@@ -646,6 +661,12 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 				
 			case 'Period':
 				$this->in_period = false;
+				try {
+					$this->course_obj->setCoursePeriod($this->period_start, $this->period_end);
+				}
+				catch(Exception $e) {
+					$this->log->warning('invalid course period given');
+				}
 				break;
 			
 			case 'WaitingListAutoFill':

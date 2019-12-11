@@ -5,9 +5,6 @@
  * Class ilBadgeHandler
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
- *
- * @package ServicesBadge
  */
 class ilBadgeHandler
 {
@@ -175,7 +172,6 @@ class ilBadgeHandler
 			$file = $comp["type"]."/".$comp["name"]."/classes/class.".$class.".php";
 			if(file_exists($file))
 			{
-				include_once $file;		
 				$obj = new $class;
 				if($obj instanceof ilBadgeProvider)
 				{
@@ -313,8 +309,7 @@ class ilBadgeHandler
 		{
 			$a_parent_obj_type = ilObject::_lookupType($a_parent_obj_id);
 		}
-		
-		include_once "./Services/Badge/classes/class.ilBadge.php";
+
 		$badges = ilBadge::getInstancesByParentId($a_parent_obj_id);
 		foreach(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($a_parent_obj_type) as $type_id => $type)
 		{
@@ -392,8 +387,6 @@ class ilBadgeHandler
 
 		if($a_obj_type != "bdga")
 		{
-			include_once 'Services/Container/classes/class.ilContainer.php';
-			include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
 			if(!ilContainer::_lookupContainerSetting(
 				$a_obj_id,
 				ilObjectServiceSettingsGUI::BADGES,
@@ -421,8 +414,6 @@ class ilBadgeHandler
 			return;
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		$new_badges = array();
 		foreach(ilBadge::getInstancesByType($a_type_id) as $badge)
 		{
@@ -462,12 +453,10 @@ class ilBadgeHandler
 		switch($a_parent_type)
 		{
 			case "crs":
-				include_once "Modules/Course/classes/class.ilCourseParticipants.php";
 				$member_obj = ilCourseParticipants::_getInstanceByObjId($a_parent_obj_id);
 				return $member_obj->getMembers();
 
 			case "grp":
-				include_once "Modules/Group/classes/class.ilGroupParticipants.php";
 				$member_obj = ilGroupParticipants::_getInstanceByObjId($a_parent_obj_id);
 				return $member_obj->getMembers();
 			
@@ -599,12 +588,7 @@ class ilBadgeHandler
 	public function sendNotification(array $a_user_map, $a_parent_ref_id = null)
 	{
 		$badges = array();
-		
-		include_once "Services/Badge/classes/class.ilBadge.php";
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-		include_once "Services/Notification/classes/class.ilSystemNotification.php";
-		include_once "Services/Link/classes/class.ilLink.php";
-		
+
 		foreach($a_user_map as $user_id => $badge_ids)
 		{
 			$user_badges = array();

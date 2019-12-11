@@ -35,7 +35,7 @@ class ilAdministrationSettingsFormHandler
 	const SETTINGS_FORUM                = "frma";
 	const SETTINGS_LRES                 = "lrss";
 	const SETTINGS_REPOSITORY           = "reps";
-	const SETTINGS_PD                   = "pdts";
+	const SETTINGS_PD                   = "dshs";
 	const SETTINGS_COURSE               = "crss";
 	const SETTINGS_GROUP                = "grps";
 	const SETTINGS_PRIVACY_SECURITY     = "ps";
@@ -83,9 +83,8 @@ class ilAdministrationSettingsFormHandler
 		
 		$class_name = $objDefinition->getClassName($obj_type);	
 		$class_name = "ilObj".$class_name."GUI";
-		
 		$class_path = $ilCtrl->lookupClassPath($class_name);
-		include_once($class_path);
+		//include_once($class_path);
 		
 		if(is_subclass_of($class_name, "ilObject2GUI"))
 		{
@@ -150,7 +149,7 @@ class ilAdministrationSettingsFormHandler
 				$types = null;
 				break;
 		}		
-		
+
 		if(is_array($types))
 		{
 			foreach($types as $type)

@@ -28,7 +28,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
     public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts) : array
     {
         $identification = function ($id) {
-            return $this->identification_provider->identifier($id);
+            return $this->identification_provider->contextAwareIdentifier($id);
         };
 
         $tools = [];

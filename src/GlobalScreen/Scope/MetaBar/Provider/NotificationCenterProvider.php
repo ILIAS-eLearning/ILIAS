@@ -32,7 +32,12 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                 ->withAmountOfNewNotifications($new)
                 ->withNotifications($nc->getNotifications())
                 ->withAvailableCallable(static function () {
-                    // Check if notifications available
+                    //This is a heavily incomplete fix for: #26586
+                    //This should be fixed by the auth service
+                    global $DIC;
+                    if($DIC->ctrl()->getCmd() == "showLogout"){
+                        return false;
+                    }
                     return true;
                 })
                 ->withVisibilityCallable(

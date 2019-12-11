@@ -104,6 +104,14 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 	}
 
 	/**
+	 * @param \ilRepositorySelectorExplorerGUI $explorer
+	 */
+	public function setExplorerGUI(\ilRepositorySelectorExplorerGUI $explorer)
+	{
+		$this->explorer_gui = $explorer;
+	}
+
+	/**
 	 * Get HTML
 	 *
 	 * @param

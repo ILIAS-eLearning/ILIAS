@@ -1,5 +1,6 @@
 <?php namespace ILIAS\PersonalDesktop;
 
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ilPDSelectedItemsBlockViewSettings;
@@ -27,6 +28,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
+        $access_helper = BasicAccessCheckClosures::getInstance();
 
         $f = $this->dic->ui()->factory();
 
@@ -35,6 +37,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))
+                ->withSupportsAsynchronousLoading(true)
                 ->withTitle($title)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($f) {
@@ -51,14 +54,15 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic) {
-                        return true;
-                        $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
+                    $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
+                        static function () use ($dic): bool {
+                            return true;
+                            $pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
 
-                        return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
-                    }
+                            return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();
+                        }
+                    ))
                 ),
-
         ];
     }
 }

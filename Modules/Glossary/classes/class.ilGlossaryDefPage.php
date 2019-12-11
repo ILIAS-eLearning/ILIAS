@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Glossary definition page object
  * 
  * @author Alex Killing <alex.killing@gmx.de> 
- * @version $Id$
- *
- * @ingroup ModulesGlossary
  */
 class ilGlossaryDefPage extends ilPageObject
 {
@@ -37,11 +33,9 @@ class ilGlossaryDefPage extends ilPageObject
 	{
 		if ($a_page_content->getType() == "par")
 		{
-			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 			$glos = ilObjGlossary::lookupAutoGlossaries($this->getParentId());
 			$a_page_content->autoLinkGlossaries($glos);
 		}
 	}
 
 }
-?>

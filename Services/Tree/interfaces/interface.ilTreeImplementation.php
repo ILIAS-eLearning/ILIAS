@@ -29,6 +29,17 @@ interface ilTreeImplementation
 	 */
 	public function getSubTreeQuery($a_node,$a_types = '', $a_force_join_reference = true, $a_fields = array());
 
+
+	/**
+	 * Get subtree query for trashed tree items
+	 * @param $a_node
+	 * @param $a_types
+	 * @param bool $a_force_join_reference
+	 * @param array $a_fields
+	 * @return mixed
+	 */
+	public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = []);
+
 	/**
 	 * Get relation of two nodes
 	 * 

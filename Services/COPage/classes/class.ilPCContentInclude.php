@@ -261,7 +261,7 @@ class ilPCContentInclude extends ilPageContent
 					}
 					else
 					{
-						$page_gui->setOutputMode(IL_PAGE_OFFLINE);
+						$page_gui->setOutputMode(ilPageObjectGUI::OFFLINE);
 					}
 
 					$html = $page_gui->getRawContent();

@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
 use ILIAS\GlobalScreen\Services;
 
 require_once "./Services/Object/classes/class.ilObjectGUI.php";
@@ -719,20 +718,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 						$this->lng->txt('link_selected_items'),
 						'link'
 					);
-					// add download button if multi download enabled
-					$folder_set = new ilSetting("fold");
-					if ($folder_set->get("enable_multi_download") == true)
-					{
-						$toolbar->addSeparator();
-						
-						if(!$folder_set->get("bgtask_download", 0))
-						{
-							$toolbar->addFormButton(
-								$this->lng->txt('download_selected_items'), 
-								'download'
-							);
-						}
-					}
+                    // add download button if multi download enabled
+                    $folder_set = new ilSetting('fold');
+                    if ((bool) $folder_set->get('enable_multi_download') === true) {
+                        $toolbar->addSeparator();
+                        $toolbar->addFormButton(
+                            $this->lng->txt('download_selected_items'),
+                            'download'
+                        );
+                    }
 				}
 				if($this->object->getType() == 'crs' or $this->object->getType() == 'grp')
 				{
@@ -3658,9 +3652,49 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	{
 		$tpl = $this->tpl;
 
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-		$ru = new ilRepUtilGUI($this);
-		$ru->showTrashTable($_GET["ref_id"]);
+		$this->tabs_gui->activateTab('trash');
+
+		$trash_table = new \ilTrashTableGUI($this, 'trash', $this->object->getRefId());
+		$trash_table->init();
+		$trash_table->parse();
+
+		$trash_table->setFilterCommand('trashApplyFilter');
+		$trash_table->setResetCommand('trashResetFilter');
+
+		$tpl->setContent($trash_table->getHTML());
+	}
+
+	/**
+	 * trash table apply filter
+	 */
+	public function trashApplyFilterObject()
+	{
+		$this->trashHandleFilter(true, false);
+	}
+
+	/**
+	 * trash table reset filter
+	 */
+	public function trashResetFilterObject()
+	{
+		$this->trashHandleFilter(false, true);
+	}
+
+	/**
+	 * @param bool $action_apply
+	 */
+	protected function trashHandleFilter(bool $action_apply, bool $action_reset)
+	{
+		$trash_table = new \ilTrashTableGUI($this, 'trash' , $this->object->getRefId());
+		$trash_table->init();
+		$trash_table->resetOffset();
+		if($action_reset) {
+			$trash_table->resetFilter();
+		}
+		if($action_apply) {
+			$trash_table->writeFilterToSession();
+		}
+		$this->trashObject();
 	}
 
 	/**
@@ -3670,22 +3704,28 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 	 */
 	public function removeFromSystemObject()
 	{
-		$ilLog = $this->log;
-		$ilAppEventHandler = $this->app_event_handler;
-		$lng = $this->lng;
-
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->removeObjectsFromSystem($_POST["trash_id"]);
 		$this->ctrl->redirect($this, "trash");
 	}
 
 	/**
+	 * @param \ilPropertyFormGUI|null $form
+	 */
+	protected function restoreToNewLocationObject(\ilPropertyFormGUI $form = null)
+	{
+		$this->tabs_gui->activateTab('trash');
+
+		$ru = new \ilRepUtilGUI($this);
+		$ru->restoreToNewLocation();
+	}
+
+
+	/**
 	 * Get objects back from trash
 	 */
 	public function undeleteObject()
 	{
-		include_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
 		$ru = new ilRepUtilGUI($this);
 		$ru->restoreObjects($_GET["ref_id"], $_POST["trash_id"]);
 		$this->ctrl->redirect($this, "trash");
@@ -3821,6 +3861,48 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 			}
 		}
 	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getAdminTabs()
+	{
+		$tree = $this->tree;
+
+		if ($this->checkPermissionBool("visible,read"))
+		{
+			$this->tabs_gui->addTab(
+				'view',
+				$this->lng->txt('view'),
+				$this->ctrl->getLinkTarget($this, 'view')
+			);
+		}
+
+		// Always show container trash
+		$this->tabs_gui->addTab(
+			'trash',
+			$this->lng->txt('trash'),
+			$this->ctrl->getLinkTarget($this,'trash')
+		);
+
+		if ($this->checkPermissionBool("edit_permission"))
+		{
+			$this->tabs_gui->addTab(
+				'perm_settings',
+				$this->lng->txt('perm_settings'),
+				$this->ctrl->getLinkTargetByClass(
+					[
+						get_class($this),
+						'ilpermissiongui'
+					],
+					'perm'
+				)
+			);
+		}
+
+	}
+
 
 
 }

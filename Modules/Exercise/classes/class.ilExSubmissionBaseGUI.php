@@ -71,7 +71,6 @@ abstract class ilExSubmissionBaseGUI
 		$this->lng = $lng;
 		$this->tpl = $tpl;
 
-		include_once("./Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php");
 		$this->type_guis = ilExAssignmentTypesGUI::getInstance();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
@@ -91,7 +90,6 @@ abstract class ilExSubmissionBaseGUI
 					
 		if($this->assignment->hasTeam())
 		{
-			include_once "Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php";
 			ilExSubmissionTeamGUI::handleTabs();
 		}		
 	}
@@ -119,10 +117,8 @@ abstract class ilExSubmissionBaseGUI
 		if($has_submitted &&
 			!$a_no_notifications)
 		{
-			include_once "./Services/Notification/classes/class.ilNotification.php";
 			$users = ilNotification::getNotificationsForObject(ilNotification::TYPE_EXERCISE_SUBMISSION, $this->exercise->getId());
 
-			include_once "./Modules/Exercise/classes/class.ilExerciseMailNotification.php";
 			$not = new ilExerciseMailNotification();
 			$not->setType(ilExerciseMailNotification::TYPE_SUBMISSION_UPLOAD);
 			$not->setAssignmentId($this->assignment->getId());

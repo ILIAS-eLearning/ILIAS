@@ -1,5 +1,6 @@
 // mainbar
-.il-maincontrols-mainbar {
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
 	.btn-bulky,
 	.link-bulky {
 		font-size: @il-mainbar-btn-label-size;
@@ -174,8 +175,9 @@
 			}
 		}
 	}
-	.il-mainbar-tool-trigger-item{
+	.il-mainbar-tool-trigger-item {
 		display: inline;
+		margin-right:@il-mainbar-tools-item-gap;
 		.hidden {
 			display: none;
 		}
@@ -183,9 +185,10 @@
 }
 
 .il-mainbar-tools-entries-bg {
+	background: @il-mainbar-tools-bg;
+	display: flex;
 	height: @il-mainbar-btn-height;
 	width: 100%;
-	background: @il-mainbar-tools-bg;
 }
 
 // remove tools

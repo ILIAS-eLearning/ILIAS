@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Input for adv meta data column sorting in glossaries.
@@ -9,8 +8,6 @@ include_once 'Services/Form/classes/class.ilFormPropertyGUI.php';
  * interface here.
  *
  * @author Alex Killing <alex.killing@gmx.de> 
- * @version $Id$
- * @ingroup	ModulesGlossary
  */
 class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 {
@@ -80,7 +77,6 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
 		$lng = $this->lng;
 		
 		$tpl = new ilTemplate("tpl.adv_col_sort_input.html", true, true, "Modules/Glossary");
-		include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 		if (is_array($this->getValue()))
 		{
 			foreach ($this->getValue() as $k => $v)

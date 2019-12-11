@@ -1,21 +1,15 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @defgroup ServicesAccessControl Services/AccessControl
+ * Class ilAccessHandler
+ *
+ * Checks access for ILIAS objects
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Sascha Hofmann <saschahofmann@gmx.de>
  */
-
-/**
-* Class ilAccessHandler
-*
-* Checks access for ILIAS objects
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @author Sascha Hofmann <saschahofmann@gmx.de>
-* @version $Id$
-*
-* @ingroup ServicesAccessControl
-*/
 class ilAccess implements ilAccessHandler {
 
 	/**
@@ -791,6 +785,7 @@ class ilAccess implements ilAccessHandler {
 	{
 		global $DIC;
 
+		/** @var ilObjectDefinition $objDefinition */
 		$objDefinition = $DIC['objDefinition'];
 		$ilBench = $DIC['ilBench'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
@@ -810,6 +805,11 @@ class ilAccess implements ilAccessHandler {
 		$class = $objDefinition->getClassName($a_type);
 		$location = $objDefinition->getLocation($a_type);
 		$full_class = "ilObj".$class."Access";
+
+		// use autoloader for standard objects
+		if ($objDefinition->isPluginTypeName($a_type)) {
+            include_once($location . "/class." . $full_class . ".php");
+        }
 
         if ($class == "") {
             $this->ac_logger->error("Cannot find class for object type $a_type, obj id $a_obj_id, ref id $a_ref_id. Abort status check.");

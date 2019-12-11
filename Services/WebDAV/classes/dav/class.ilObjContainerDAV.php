@@ -213,14 +213,13 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             {
                 // Check for duplicates
                 $title = $this->repo_helper->getObjectTitleFromRefId($child_ref);
-                if(!in_array($title, $already_seen_titles))
-                {
-                    $already_seen_titles[] = $title;
-                }
-                else
+                if(in_array($title, $already_seen_titles))
                 {
                     $problem_info_file_needed = true;
+                    continue;
                 }
+
+                $already_seen_titles[] = $title;
 
                 // Check if read permission is given
                 if($this->repo_helper->checkAccess("read", $child_ref))

@@ -1,7 +1,6 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Export/classes/class.ilXmlExporter.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio definition
@@ -9,8 +8,6 @@ include_once './Services/Export/classes/class.ilXmlExporter.php';
  * Only for portfolio templates!
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioExporter extends ilXmlExporter
 {	
@@ -18,15 +15,13 @@ class ilPortfolioExporter extends ilXmlExporter
 	
 	public function init()
 	{
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioDataSet.php");
-		$this->ds = new ilPortfolioDataSet();	
+		$this->ds = new ilPortfolioDataSet();
 		$this->ds->setDSPrefix("ds");
 	}
 	
 	public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
 	{
-		include_once("./Modules/Portfolio/classes/class.ilPortfolioTemplatePage.php");
-		$pg_ids = array();		
+		$pg_ids = array();
 		foreach ($a_ids as $id)
 		{			
 			foreach(ilPortfolioTemplatePage::getAllPortfolioPages($id) as $p)

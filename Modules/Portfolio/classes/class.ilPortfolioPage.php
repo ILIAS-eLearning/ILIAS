@@ -1,16 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
-include_once("./Modules/Portfolio/classes/class.ilObjPortfolio.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Page for user portfolio
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioPage extends ilPageObject
 {
@@ -18,10 +13,10 @@ class ilPortfolioPage extends ilPageObject
 	protected $type = 1;
 	protected $title;
 	protected $order_nr;
-	
+
 	const TYPE_PAGE = 1;
 	const TYPE_BLOG = 2;
-	
+
 	/**
 	 * Get parent type
 	 *
@@ -31,17 +26,17 @@ class ilPortfolioPage extends ilPageObject
 	{
 		return "prtf";
 	}
-	
+
 	/**
 	 * Set portfolio id
 	 *
-	 * @param int $a_val portfolio id	
+	 * @param int $a_val portfolio id
 	 */
 	function setPortfolioId($a_val)
 	{
 		$this->portfolio_id = $a_val;
 	}
-	
+
 	/**
 	 * Get portfolio id
 	 *
@@ -51,11 +46,11 @@ class ilPortfolioPage extends ilPageObject
 	{
 		return $this->portfolio_id;
 	}
-	
+
 	/**
 	 * Set type
 	 *
-	 * @param	int	type
+	 * @param int    type
 	 */
 	function setType($a_val)
 	{
@@ -65,7 +60,7 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Get type
 	 *
-	 * @return	int	type
+	 * @return    int    type
 	 */
 	function getType()
 	{
@@ -75,7 +70,7 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Set Title
 	 *
-	 * @param	string	$a_title	Title
+	 * @param string $a_title Title
 	 */
 	function setTitle($a_title)
 	{
@@ -85,25 +80,24 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Get Title.
 	 *
-	 * @return	string	Title
+	 * @return    string    Title
 	 */
 	function getTitle()
 	{
 		$lng = $this->lng;
-		
+
 		// because of migration of extended user profiles
-		if($this->title == "###-")
-		{
+		if ($this->title == "###-") {
 			return $lng->txt("profile");
 		}
-		
+
 		return $this->title;
 	}
 
 	/**
 	 * Set order nr
 	 *
-	 * @param	int	order nr
+	 * @param int    order nr
 	 */
 	function setOrderNr($a_val)
 	{
@@ -113,7 +107,7 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Get order nr
 	 *
-	 * @return	int	order nr
+	 * @return    int    order nr
 	 */
 	function getOrderNr()
 	{
@@ -132,10 +126,10 @@ class ilPortfolioPage extends ilPageObject
 
 		$ilDB = $DIC->database();
 
-		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_portfolio_page".
-			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer"));
+		$set = $ilDB->query("SELECT MAX(order_nr) m FROM usr_portfolio_page" .
+			" WHERE portfolio_id = " . $ilDB->quote($a_portfolio_id, "integer"));
 		$rec = $ilDB->fetchAssoc($set);
-		return (int) $rec["m"];
+		return (int)$rec["m"];
 	}
 
 	/**
@@ -145,10 +139,12 @@ class ilPortfolioPage extends ilPageObject
 	 */
 	protected function getPropertiesForDB()
 	{
-		$fields = array("portfolio_id" => array("integer", $this->portfolio_id),
+		$fields = array(
+			"portfolio_id" => array("integer", $this->portfolio_id),
 			"type" => array("integer", $this->getType()),
 			"title" => array("text", $this->getTitle()),
-			"order_nr" => array("integer", $this->getOrderNr()));
+			"order_nr" => array("integer", $this->getOrderNr())
+		);
 
 		return $fields;
 	}
@@ -160,8 +156,7 @@ class ilPortfolioPage extends ilPageObject
 	{
 		$ilDB = $this->db;
 
-		if(!$a_import)
-		{
+		if (!$a_import) {
 			$this->setOrderNr(self::lookupMaxOrderNr($this->portfolio_id) + 10);
 		}
 
@@ -173,8 +168,7 @@ class ilPortfolioPage extends ilPageObject
 
 		$ilDB->insert("usr_portfolio_page", $fields);
 
-		if(!$a_import)
-		{
+		if (!$a_import) {
 			parent::create();
 			// $this->saveInternalLinks($this->getDomDoc());
 		}
@@ -183,34 +177,33 @@ class ilPortfolioPage extends ilPageObject
 	/**
 	 * Update page
 	 *
-	 * @return	boolean
+	 * @return    boolean
 	 */
 	function update($a_validate = true, $a_no_history = false)
 	{
 		$ilDB = $this->db;
-		
+
 		$id = $this->getId();
-		if($id)
-		{
+		if ($id) {
 			$fields = $this->getPropertiesForDB();
 			$ilDB->update("usr_portfolio_page", $fields,
-				array("id"=>array("integer", $id)));
+				array("id" => array("integer", $id)));
 
 			parent::update($a_validate, $a_no_history);
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Read page data
 	 */
 	function read()
 	{
 		$ilDB = $this->db;
-		
-		$query = "SELECT * FROM usr_portfolio_page".
-			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+
+		$query = "SELECT * FROM usr_portfolio_page" .
+			" WHERE id = " . $ilDB->quote($this->getId(), "integer");
 		$set = $ilDB->query($query);
 		$rec = $ilDB->fetchAssoc($set);
 
@@ -218,7 +211,7 @@ class ilPortfolioPage extends ilPageObject
 		$this->setType($rec["type"]);
 		$this->setTitle($rec["title"]);
 		$this->setOrderNr($rec["order_nr"]);
-		
+
 		// get co page
 		parent::read();
 	}
@@ -231,17 +224,15 @@ class ilPortfolioPage extends ilPageObject
 		$ilDB = $this->db;
 
 		$id = $this->getId();
-		if($id)
-		{
+		if ($id) {
 			// delete internal links information to this page
-			include_once("./Services/Link/classes/class.ilInternalLink.php");
 			ilInternalLink::_deleteAllLinksToTarget("user", $this->getId());
 
 			// delete record of table usr_portfolio_page
-			$query = "DELETE FROM usr_portfolio_page".
-				" WHERE id = ".$ilDB->quote($this->getId(), "integer");
+			$query = "DELETE FROM usr_portfolio_page" .
+				" WHERE id = " . $ilDB->quote($this->getId(), "integer");
 			$ilDB->manipulate($query);
-		
+
 			// delete co page
 			parent::delete();
 		}
@@ -260,9 +251,9 @@ class ilPortfolioPage extends ilPageObject
 
 		$ilDB = $DIC->database();
 
-		$set = $ilDB->query("SELECT ".$a_prop.
-			" FROM usr_portfolio_page".
-			" WHERE id = ".$ilDB->quote($a_id, "integer"));
+		$set = $ilDB->query("SELECT " . $a_prop .
+			" FROM usr_portfolio_page" .
+			" WHERE id = " . $ilDB->quote($a_id, "integer"));
 		$rec = $ilDB->fetchAssoc($set);
 		return $rec[$a_prop];
 	}
@@ -290,19 +281,17 @@ class ilPortfolioPage extends ilPageObject
 		$ilDB = $DIC->database();
 		$lng = $DIC->language();
 
-		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
-			" WHERE portfolio_id = ".$ilDB->quote($a_portfolio_id, "integer").
+		$set = $ilDB->query("SELECT * FROM usr_portfolio_page" .
+			" WHERE portfolio_id = " . $ilDB->quote($a_portfolio_id, "integer") .
 			" ORDER BY order_nr");
 		$pages = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
+		while ($rec = $ilDB->fetchAssoc($set)) {
 			// because of migration of extended user profiles
-			if($rec["title"] == "###-")
-			{
+			if ($rec["title"] == "###-") {
 				$rec["title"] = $lng->txt("profile");
 			}
-			
-			$pages[] = $rec;			
+
+			$pages[] = $rec;
 		}
 		return $pages;
 	}
@@ -320,19 +309,18 @@ class ilPortfolioPage extends ilPageObject
 
 		$pages = self::getAllPortfolioPages($a_portfolio_id);
 		$cnt = 10;
-		foreach ($pages as $p)
-		{
-			$ilDB->manipulate("UPDATE usr_portfolio_page SET ".
-				" order_nr = ".$ilDB->quote($cnt, "integer").
-				" WHERE id = ".$ilDB->quote($p["id"], "integer")
+		foreach ($pages as $p) {
+			$ilDB->manipulate("UPDATE usr_portfolio_page SET " .
+				" order_nr = " . $ilDB->quote($cnt, "integer") .
+				" WHERE id = " . $ilDB->quote($p["id"], "integer")
 			);
-			$cnt+= 10;
+			$cnt += 10;
 		}
 	}
-	
+
 	/**
-	 * Get portfolio id of page id 
-	 * 
+	 * Get portfolio id of page id
+	 *
 	 * @param int $a_page_id
 	 * @return int
 	 */
@@ -351,22 +339,21 @@ class ilPortfolioPage extends ilPageObject
 	{
 		global $DIC;
 
-		$pid = self::findPortfolioForPage((int) $a_target);
+		$pid = self::findPortfolioForPage((int)$a_target);
 		$type = ilObject::_lookupType($pid);
-		if ($type == "prtt")
-		{
+		if ($type == "prtt") {
 			$ctrl = $DIC->ctrl();
 			$ctrl->setParameterByClass("ilobjportfoliotemplategui", "user_page", $a_target);
-			$href = $ctrl->getLinkTargetByClass(array("ilRepositoryGUI", "ilObjPortfolioTemplateGUI", "ilobjportfoliotemplategui"), "preview");
-		}
-		else
-		{
-			if (!$a_offline)
-			{
+			$href = $ctrl->getLinkTargetByClass(array(
+				"ilRepositoryGUI",
+				"ilObjPortfolioTemplateGUI",
+				"ilobjportfoliotemplategui"
+			), "preview");
+		} else {
+			if (!$a_offline) {
 				$href = "./goto.php?client_id=" . CLIENT_ID . "&amp;target=prtf_" . $pid . "_" . $a_target;
-			} else
-			{
-				$href = "prtf_".$a_target.".html";
+			} else {
+				$href = "prtf_" . $a_target . ".html";
 			}
 		}
 		return $href;
@@ -379,68 +366,56 @@ class ilPortfolioPage extends ilPageObject
 	{
 //		var_dump($a_copied_nodes);
 		$all_fixes = array();
-		foreach($a_copied_nodes as $original_id => $copied_id)
-		{
-			$pid = self::findPortfolioForPage((int) $copied_id);
+		foreach ($a_copied_nodes as $original_id => $copied_id) {
+			$pid = self::findPortfolioForPage((int)$copied_id);
 
 			//
 			// 1. Outgoing links from the copied page.
 			//
 			//$targets = ilInternalLink::_getTargetsOfSource($a_parent_type.":pg", $copied_id);
-			if ($a_target_obj->getType() == "prtf")
-			{
+			if ($a_target_obj->getType() == "prtf") {
 				$tpg = new ilPortfolioPage($copied_id);
 			}
-			if ($a_target_obj->getType() == "prtt")
-			{
+			if ($a_target_obj->getType() == "prtt") {
 				$tpg = new ilPortfolioTemplatePage($copied_id);
 			}
 			$tpg->buildDom();
 			$il = $tpg->getInternalLinks();
 //			var_dump($il);
 			$targets = array();
-			foreach($il as $l)
-			{
-				$targets[] = array("type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
-					"id" => (int) ilInternalLink::_extractObjIdOfTarget($l["Target"]),
-					"inst" => (int) ilInternalLink::_extractInstOfTarget($l["Target"]));
+			foreach ($il as $l) {
+				$targets[] = array(
+					"type" => ilInternalLink::_extractTypeOfTarget($l["Target"]),
+					"id" => (int)ilInternalLink::_extractObjIdOfTarget($l["Target"]),
+					"inst" => (int)ilInternalLink::_extractInstOfTarget($l["Target"])
+				);
 			}
 			$fix = array();
-			foreach($targets as $target)
-			{
+			foreach ($targets as $target) {
 				if (($target["inst"] == 0 || $target["inst"] = IL_INST_ID) &&
-					($target["type"] == "ppage"))
-				{
+					($target["type"] == "ppage")) {
 					// first check, whether target is also within the copied set
-					if ($a_copied_nodes[$target["id"]] > 0)
-					{
+					if ($a_copied_nodes[$target["id"]] > 0) {
 						$fix[$target["id"]] = $a_copied_nodes[$target["id"]];
 					}
 				}
 			}
 //			var_dump($fix);
 			// outgoing links to be fixed
-			if (count($fix) > 0)
-			{
+			if (count($fix) > 0) {
 				$t = ilObject::_lookupType($pid);
-				if (is_array($all_fixes[$t.":".$copied_id]))
-				{
-					$all_fixes[$t.":".$copied_id] += $fix;
-				}
-				else
-				{
-					$all_fixes[$t.":".$copied_id] = $fix;
+				if (is_array($all_fixes[$t . ":" . $copied_id])) {
+					$all_fixes[$t . ":" . $copied_id] += $fix;
+				} else {
+					$all_fixes[$t . ":" . $copied_id] = $fix;
 				}
 			}
 		}
 //		var_dump($all_fixes);
-		foreach ($all_fixes as $pg => $fixes)
-		{
+		foreach ($all_fixes as $pg => $fixes) {
 			$pg = explode(":", $pg);
-			include_once("./Services/COPage/classes/class.ilPageObjectFactory.php");
 			$page = ilPageObjectFactory::getInstance($pg[0], $pg[1]);
-			if ($page->moveIntLinks($fixes))
-			{
+			if ($page->moveIntLinks($fixes)) {
 				$page->update(true, true);
 			}
 		}
@@ -460,17 +435,13 @@ class ilPortfolioPage extends ilPageObject
 		$xpc = xpath_new_context($this->dom);
 		$path = "//IntLink";
 		$res = xpath_eval($xpc, $path);
-		for ($i = 0; $i < count($res->nodeset); $i++)
-		{
+		for ($i = 0; $i < count($res->nodeset); $i++) {
 			$target = $res->nodeset[$i]->get_attribute("Target");
 			$type = $res->nodeset[$i]->get_attribute("Type");
 			$obj_id = ilInternalLink::_extractObjIdOfTarget($target);
-			if (isset($a_title_changes[$obj_id]) && is_int(strpos($target, "__")))
-			{
-				if ($type == "PortfolioPage")
-				{
-					if ($res->nodeset[$i]->get_content() == $a_title_changes[$obj_id]["old"])
-					{
+			if (isset($a_title_changes[$obj_id]) && is_int(strpos($target, "__"))) {
+				if ($type == "PortfolioPage") {
+					if ($res->nodeset[$i]->get_content() == $a_title_changes[$obj_id]["old"]) {
 						$res->nodeset[$i]->set_content($a_title_changes[$obj_id]["new"]);
 						$changed = true;
 					}
@@ -494,16 +465,14 @@ class ilPortfolioPage extends ilPageObject
 
 		$ilDB = $DIC->database();
 
-		$set = $ilDB->query("SELECT * FROM usr_portfolio_page".
-			" WHERE title = ".$ilDB->quote($a_blog_id, "text").
-			" AND type = ".$ilDB->quote(self::TYPE_BLOG, "integer"));
+		$set = $ilDB->query("SELECT * FROM usr_portfolio_page" .
+			" WHERE title = " . $ilDB->quote($a_blog_id, "text") .
+			" AND type = " . $ilDB->quote(self::TYPE_BLOG, "integer"));
 		$pages = array();
-		while ($rec = $ilDB->fetchAssoc($set))
-		{
+		while ($rec = $ilDB->fetchAssoc($set)) {
 			$pages[] = new ilPortfolioPage($rec["id"]);
 		}
 		return $pages;
 	}
 
 }
-?>

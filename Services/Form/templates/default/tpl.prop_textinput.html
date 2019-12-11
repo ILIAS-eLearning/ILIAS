@@ -106,7 +106,7 @@
 				// don't navigate away from the field on tab when selecting an item
 				$('{SEL_AUTOCOMPLETE_DELIMITER}').bind( "keydown", function( event ) {
 					if ( event.keyCode === $.ui.keyCode.TAB &&
-						$( this ).ilautocomplete("widget").is(':visible') ) {
+						$( this ).iladvancedautocomplete("widget").is(':visible') ) {
 							event.preventDefault();
 					}
 				});

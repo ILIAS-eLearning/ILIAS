@@ -1,15 +1,13 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Badge/classes/class.ilBadgeHandler.php");
+
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBadgeManagementGUI
  * 
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id:$
  *
  * @ilCtrl_Calls ilBadgeManagementGUI: ilPropertyFormGUI
- * @package ServicesBadge
  */
 class ilBadgeManagementGUI
 {	
@@ -106,7 +104,6 @@ class ilBadgeManagementGUI
 				// ajax - update
 				if((int)$_REQUEST["bid"])
 				{
-					include_once "./Services/Badge/classes/class.ilBadge.php";
 					$badge = new ilBadge((int)$_REQUEST["bid"]);
 					$type = $badge->getTypeInstance();			
 					$form = $this->initBadgeForm("edit", $type, $badge->getTypeId());
@@ -137,8 +134,6 @@ class ilBadgeManagementGUI
 						$lng->txt("back"), 
 						$ilCtrl->getLinkTarget($this, "editBadge")
 					);
-					include_once './Services/Tracking/classes/class.ilLearningProgressGUI.php';
-					include_once "Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php";
 					$lpgui = new ilLPListOfSettingsGUI(ilLearningProgressGUI::LP_CONTEXT_REPOSITORY, $id);
 					$ilCtrl->forwardCommand($lpgui);			
 					break;
@@ -191,7 +186,6 @@ class ilBadgeManagementGUI
 			$valid_types = $handler->getAvailableTypesForObjType($this->parent_obj_type);
 			if($valid_types)
 			{
-				include_once "Services/Badge/classes/class.ilBadge.php";
 				$options = array();
 				foreach($valid_types as $id => $type)
 				{
@@ -201,7 +195,6 @@ class ilBadgeManagementGUI
 				}
 				asort($options);
 				
-				include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 				$drop = new ilSelectInputGUI($lng->txt("type"), "type");
 				$drop->setOptions($options);
 				$ilToolbar->addInputItem($drop, true);
@@ -227,7 +220,6 @@ class ilBadgeManagementGUI
 					$tt[] = $badge->getTitle();
 				}				 
 				$ttid = "bdgpst";
-				include_once "Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php";
 				ilTooltipGUI::addTooltip(
 					$ttid, 
 					implode("<br />", $tt),
@@ -247,14 +239,12 @@ class ilBadgeManagementGUI
 			 }
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
 		$tbl = new ilBadgeTableGUI($this, "listBadges", $this->parent_obj_id, $this->hasWrite());
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	protected function applyBadgeFilter()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
 		$tbl = new ilBadgeTableGUI($this, "listBadges", $this->parent_obj_id, $this->hasWrite());
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
@@ -263,7 +253,6 @@ class ilBadgeManagementGUI
 	
 	protected function resetBadgeFilter()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeTableGUI.php";
 		$tbl = new ilBadgeTableGUI($this, "listBadges", $this->parent_obj_id, $this->hasWrite());
 		$tbl->resetOffset();
 		$tbl->resetFilter();
@@ -309,7 +298,6 @@ class ilBadgeManagementGUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "saveBadge"));
 		$form->setTitle($lng->txt("badge_badge").' "'.$a_type->getCaption().'"');
@@ -350,8 +338,7 @@ class ilBadgeManagementGUI
 
 			// templates
 			
-			include_once "Services/Badge/classes/class.ilBadgeImageTemplate.php";
-			$valid_templates = ilBadgeImageTemplate::getInstancesByType($a_type_unique_id);			
+			$valid_templates = ilBadgeImageTemplate::getInstancesByType($a_type_unique_id);
 			if(sizeof($valid_templates))
 			{
 				$options = array();		
@@ -433,7 +420,6 @@ class ilBadgeManagementGUI
 		if($form->checkInput() &&
 			(!$custom || $custom->validateForm($form)))
 		{
-			include_once "Services/Badge/classes/class.ilBadge.php";
 			$badge = new ilBadge();
 			$badge->setParentId($this->parent_obj_id); // :TODO: ref_id?
 			$badge->setTypeId($type_id);
@@ -484,7 +470,6 @@ class ilBadgeManagementGUI
 		
 		$ilCtrl->setParameter($this, "bid", $badge_id);
 		
-		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($badge_id);
 		
 		$static_cnt = ilBadgeHandler::getInstance()->countStaticBadgeInstances($badge);
@@ -535,7 +520,6 @@ class ilBadgeManagementGUI
 		
 		$ilCtrl->setParameter($this, "bid", $badge_id);
 		
-		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($badge_id);
 		$type = $badge->getTypeInstance();
 		$custom = $type->getConfigGUIInstance();
@@ -585,15 +569,12 @@ class ilBadgeManagementGUI
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listBadges"));		
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$confirmation_gui = new ilConfirmationGUI();
 		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
 		$confirmation_gui->setHeaderText($lng->txt("badge_deletion_confirmation"));
 		$confirmation_gui->setCancel($lng->txt("cancel"), "listBadges");
 		$confirmation_gui->setConfirm($lng->txt("delete"), "deleteBadges");
 			
-		include_once "Services/Badge/classes/class.ilBadge.php";		
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";		
 		foreach($badge_ids as $badge_id)
 		{								
 			$badge = new ilBadge($badge_id);
@@ -611,7 +592,6 @@ class ilBadgeManagementGUI
 		
 		$badge_ids = $this->getBadgesFromMultiAction();
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach($badge_ids as $badge_id)
 		{					
 			$badge = new ilBadge($badge_id);
@@ -668,7 +648,6 @@ class ilBadgeManagementGUI
 		
 		$valid_types = array_keys(ilBadgeHandler::getInstance()->getAvailableTypesForObjType($this->parent_obj_type));
 			
-		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach($_SESSION[self::CLIPBOARD_ID] as $badge_id)
 		{
 			$badge = new ilBadge($badge_id);
@@ -706,7 +685,6 @@ class ilBadgeManagementGUI
 		
 		$badge_ids = $this->getBadgesFromMultiAction();
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";
 		foreach($badge_ids as $badge_id)
 		{					
 			$badge = new ilBadge($badge_id);
@@ -747,7 +725,6 @@ class ilBadgeManagementGUI
 			$manual = ilBadgeHandler::getInstance()->getAvailableManualBadges($this->parent_obj_id, $this->parent_obj_type);
 			if(sizeof($manual))
 			{							
-				include_once "Services/Form/classes/class.ilSelectInputGUI.php";
 				$drop = new ilSelectInputGUI($lng->txt("badge_badge"), "bid");
 				$drop->setOptions($manual);
 				$ilToolbar->addInputItem($drop, true);
@@ -757,14 +734,12 @@ class ilBadgeManagementGUI
 			}
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	protected function applyListUsers()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
@@ -773,7 +748,6 @@ class ilBadgeManagementGUI
 	
 	protected function resetListUsers()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "listUsers", $this->parent_ref_id);
 		$tbl->resetOffset();
 		$tbl->resetFilter();
@@ -813,17 +787,14 @@ class ilBadgeManagementGUI
 		
 		$ilCtrl->setParameter($this, "bid", $bid);
 		
-		include_once "./Services/Badge/classes/class.ilBadge.php";
 		$badge = new ilBadge($bid);
 		
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id, $badge);
 		$tpl->setContent($tbl->getHTML());
 	}
 	
 	protected function applyAwardBadgeUserSelection()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id);
 		$tbl->resetOffset();
 		$tbl->writeFilterToSession();
@@ -832,7 +803,6 @@ class ilBadgeManagementGUI
 	
 	protected function resetAwardBadgeUserSelection()
 	{
-		include_once "Services/Badge/classes/class.ilBadgeUserTableGUI.php";
 		$tbl = new ilBadgeUserTableGUI($this, "awardBadgeUserSelection", $this->parent_ref_id);
 		$tbl->resetOffset();
 		$tbl->resetFilter();
@@ -854,7 +824,6 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listUsers");
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		$new_badges = array();
 		foreach($user_ids as $user_id)
 		{
@@ -894,22 +863,18 @@ class ilBadgeManagementGUI
 		$ilTabs->setBackTarget($lng->txt("back"),
 			$ilCtrl->getLinkTarget($this, "listUsers"));		
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";	
 		$badge = new ilBadge($badge_id);
 		
 		$ilCtrl->setParameter($this, "bid", $badge->getId());
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$confirmation_gui = new ilConfirmationGUI();
 		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this));
 		$confirmation_gui->setHeaderText(sprintf($lng->txt("badge_assignment_deletion_confirmation"), $badge->getTitle()));
 		$confirmation_gui->setCancel($lng->txt("cancel"), "listUsers");
 		$confirmation_gui->setConfirm($lng->txt("delete"), "deassignBadge");
 			
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
-		$assigned_users = ilBadgeAssignment::getAssignedUsers($badge->getId());	
-		
-		include_once "Services/User/classes/class.ilUserUtil.php";
+		$assigned_users = ilBadgeAssignment::getAssignedUsers($badge->getId());
+
 		foreach($user_ids as $user_id)
 		{
 			if(in_array($user_id, $assigned_users))
@@ -939,7 +904,6 @@ class ilBadgeManagementGUI
 			$ilCtrl->redirect($this, "listUsers");
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		foreach($user_ids as $user_id)
 		{
 			$ass = new ilBadgeAssignment($badge_id, $user_id);

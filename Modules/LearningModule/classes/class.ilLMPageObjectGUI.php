@@ -186,34 +186,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 //		$this->setTabs();
 	}
 
-	/**
-	* save co page object
-	*/
-	function save()
-	{
-		$this->obj = new ilLMPageObject($this->content_object);
-		$this->obj->setType("pg");
-		$this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-		$this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-		$this->obj->setLMId($this->content_object->getId());
-		$this->obj->create();
-
-		// obj_id is empty, if page is created from "all pages" screen
-		// -> a free page is created (not in the tree)
-//echo "<br>savePage:".$_GET["obj_id"].":";
-		if ($_GET["obj_id"] != 0)
-		{
-			$this->putInTree();
-
-			// check the tree
-			$this->checkTree();
-
-			ilUtil::redirect($this->ctrl->getLinkTargetByClass("ilStructureObjectGUI",
-				"edit", "", true));
-		}
-		$up_gui = "ilobjlearningmodulegui";
-		$this->ctrl->redirectByClass($up_gui, "pages");
-	}
 
 	/**
 	* cancel
@@ -580,6 +552,99 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
 				exit;
 			}
 		}
+	}
+
+	/**
+	 * structure / page object creation form
+	 */
+	function create()
+	{
+		$ui = $this->ui;
+		$lng = $this->lng;
+		$ctrl = $this->ctrl;
+
+		$tabs = $this->tabs;
+		$tabs->setBackTarget($lng->txt("back"), $ctrl->getLinkTarget($this, "cancel"));
+
+		$ctrl->setParameter($this, "new_type", "pg");
+		$form = $this->initNewPageForm();
+
+		$this->tpl->setContent($ui->renderer()->render($form).self::getLayoutCssFix());
+	}
+
+	/**
+	 * Init insert template form.
+	 * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+	 */
+	public function initNewPageForm()
+	{
+		$ui = $this->ui;
+		$f = $ui->factory();
+		$ctrl = $this->ctrl;
+		$lng = $this->lng;
+
+		$fields["title"] = $f->input()->field()->text($lng->txt("title"), "");
+
+		$fields["description"] = $f->input()->field()->textarea($lng->txt("description"));
+
+		$fields["layout_id"] = ilPageLayoutGUI::getTemplateSelection(ilPageLayout::MODULE_LM);
+
+		// section
+		$section1 = $f->input()->field()->section($fields, $lng->txt("cont_insert_pagelayout"));
+
+		$form_action = $ctrl->getLinkTarget($this, "save");
+		return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
+	}
+
+	/**
+	 * Save page
+	 */
+	function save()
+	{
+		global $DIC;
+
+		$request = $DIC->http()->request();
+		$lng = $this->lng;
+
+		$form = $this->initNewPageForm();
+		if ($request->getMethod() == "POST") {
+			$form = $form->withRequest($request);
+			$data = $form->getData()["sec"];
+
+			$layout_id = (int) $data["layout_id"];
+
+			$this->obj = new ilLMPageObject($this->content_object);
+			$this->obj->setType("pg");
+			$this->obj->setTitle(ilUtil::stripSlashes($data["title"]));
+			$this->obj->setDescription(ilUtil::stripSlashes($data["description"]));
+			$this->obj->setLMId($this->content_object->getId());
+			if ($layout_id > 0) {
+				$this->obj->create(false, false, $layout_id);
+			} else {
+				$this->obj->create();
+			}
+			ilUtil::sendSuccess($lng->txt("cont_page_created"), true);
+		}
+		$this->cancel();
+	}
+
+	/**
+	 * Get layout css fix
+	 * (workaround for broken radio options)
+	 * @return string
+	 */
+	static public function getLayoutCssFix()
+	{
+		return "
+		<style>
+		.form-control.il-input-radiooption > label {
+			vertical-align: middle;
+		}
+		.form-control.il-input-radiooption > .help-block {
+			padding-left: 2rem;
+		}
+		</style>
+		";
 	}
 
 }

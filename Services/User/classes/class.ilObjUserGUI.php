@@ -598,15 +598,31 @@ class ilObjUserGUI extends ilObjectGUI
 	*/
     function editObject()
     {
-        global $ilias, $rbacsystem, $rbacreview, $rbacadmin, $styleDefinition, $ilUser
-			,$ilSetting, $ilCtrl;
+    	global $DIC;
 
-		include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
-
-        //load ILIAS settings
-        $settings = $ilias->getAllSettings();
+        $ilias = $DIC['ilias'];
+        $rbacsystem = $DIC->rbac()->system();
+        $access = $DIC->access();
 
 		// User folder
+		// User folder && access granted by rbac or by org unit positions
+		if($this->usrf_ref_id == USER_FOLDER_ID &&
+			(
+				!$rbacsystem->checkAccess('visible,read', $this->usrf_ref_id) ||
+				!$access->checkRbacOrPositionPermissionAccess('write', \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $this->usrf_ref_id) ||
+				!in_array($this->object->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser
+				(
+					'write',
+					\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID,
+					[$this->object->getId()])
+				)
+			)
+		)
+		{
+			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
+		}
+
 		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read',$this->usrf_ref_id))
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
@@ -826,14 +842,25 @@ class ilObjUserGUI extends ilObjectGUI
 	{
 		global $DIC;
 
-		$tpl = $DIC['tpl'];
-		$rbacsystem = $DIC['rbacsystem'];
-		$ilias = $DIC['ilias'];
-		$ilUser = $DIC['ilUser'];
-		$ilSetting = $DIC['ilSetting'];
+		$tpl = $DIC->ui()->mainTemplate();
+		$rbacsystem = $DIC->rbac()->system();
+		$ilUser = $DIC->user();
+		$access = $DIC->access();
 		
-		// User folder
-		if($this->usrf_ref_id == USER_FOLDER_ID and !$rbacsystem->checkAccess('visible,read,write',$this->usrf_ref_id))
+		// User folder && access granted by rbac or by org unit positions
+		if($this->usrf_ref_id == USER_FOLDER_ID &&
+			(
+				!$rbacsystem->checkAccess('visible,read', USER_FOLDER_ID) ||
+				!$access->checkRbacOrPositionPermissionAccess('write', \ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID) ||
+				!in_array($this->object->getId(), $access->filterUserIdsByRbacOrPositionOfCurrentUser
+				(
+					'write',
+					\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS,
+					USER_FOLDER_ID,
+					[$this->object->getId()])
+				)
+			)
+		)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_modify_user"),$this->ilias->error_obj->MESSAGE);
 		}
@@ -2137,10 +2164,13 @@ class ilObjUserGUI extends ilObjectGUI
 		$rbacsystem = $DIC['rbacsystem'];
 		$ilUser = $DIC['ilUser'];
 		$ilTabs = $DIC['ilTabs'];
+		$access = $DIC->access();
 		
 		$ilTabs->activateTab("role_assignment");
 
-		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id))
+		if (!$rbacsystem->checkAccess("edit_roleassignment", $this->usrf_ref_id) &&
+			!$access->isCurrentUserBasedOnPositionsAllowedTo("read_users", array($this->object->getId()))
+		)
 		{
 			$this->ilias->raiseError($this->lng->txt("msg_no_perm_assign_role_to_user"),$this->ilias->error_obj->MESSAGE);
 		}

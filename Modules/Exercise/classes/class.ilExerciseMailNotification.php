@@ -1,12 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * 
+ *
  * @ingroup ModulesExercise
  */
 class ilExerciseMailNotification extends ilMailNotification
@@ -59,8 +56,6 @@ class ilExerciseMailNotification extends ilMailNotification
 	{
 		$ilUser = $this->user;
 		// parent::send();
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
 		switch($this->getType())
 		{

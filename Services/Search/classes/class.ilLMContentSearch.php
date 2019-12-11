@@ -59,7 +59,6 @@ class ilLMContentSearch extends ilAbstractSearch
 			if ($row->parent_type == "gdf")
 			{
 				// it is not a page id anymore now, it is a term id
-				include_once("./Modules/Glossary/classes/class.ilGlossaryDefinition.php");
 				$row->page_id = ilGlossaryDefinition::_lookupTermId($row->page_id);
 			}
 

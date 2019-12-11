@@ -2,17 +2,13 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExAssignment.php";	
-include_once "Modules/Exercise/classes/class.ilExSubmission.php";	
-
 /**
-* Class ilBlogExerciseGUI
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* $Id: class.ilObjFolderGUI.php 25134 2010-08-13 14:22:11Z smeyer $
-*
-* @ilCtrl_Calls ilBlogExerciseGUI: 
-*/
+ * Class ilBlogExerciseGUI
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ *
+ * @ilCtrl_Calls ilBlogExerciseGUI:
+ */
 class ilBlogExerciseGUI
 {
 	/**
@@ -117,7 +113,6 @@ class ilBlogExerciseGUI
 		$times_up = $ass->afterDeadlineStrict();
 		
 		// exercise goto
-		include_once "./Services/Link/classes/class.ilLink.php";
 		$exc_ref_id = array_shift(ilObject::_getAllReferences($exercise_id));
 		$exc_link = ilLink::_getStaticLink($exc_ref_id, "exc");
 
@@ -137,7 +132,6 @@ class ilBlogExerciseGUI
 		}
 		
 		// submitted files
-		include_once "Modules/Exercise/classes/class.ilExSubmission.php";		
 		$submission = new ilExSubmission($ass, $ilUser->getId());
 		if($submission->hasSubmitted())
 		{
@@ -210,8 +204,7 @@ class ilBlogExerciseGUI
 	{
 		if($this->file)
 		{		
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";			
-			$ass = new ilExAssignment($this->ass_id);			
+			$ass = new ilExAssignment($this->ass_id);
 			$ass_files = $ass->getFiles();
 			if (count($ass_files) > 0)
 			{
@@ -256,8 +249,6 @@ class ilBlogExerciseGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once "Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php";
-		include_once "Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php";		
 		$exc_gui = ilExSubmissionObjectGUI::initGUIForSubmit($this->ass_id);
 		$exc_gui->submitBlog($this->node_id);
 

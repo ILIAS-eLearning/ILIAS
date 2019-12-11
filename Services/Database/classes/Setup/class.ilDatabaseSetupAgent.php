@@ -33,18 +33,15 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 
 	/**
 	 * @inheritdocs
-	 *
-	 * TODO: Use \DatabaseSetupConfig as return type once variance is implemented
-	 * in PHP.
 	 */
 	public function getArrayToConfigTransformation() : Transformation {
 		// TODO: Migrate this to refinery-methods once possible.
 		return $this->refinery->custom()->transformation(function($data) {
 			$password = $this->refinery->to()->data("password");
 			return new \ilDatabaseSetupConfig(
-				$data["type"] ?? null,
-				$data["host"] ?? null,
-				$data["database"] ?? null,
+				$data["type"] ?? "innodb",
+				$data["host"] ?? "localhost",
+				$data["database"] ?? "ilias",
 				$data["user"] ?? null,
 				$data["password"] ? $password->transform($data["password"]) : null,
 				$data["create_database"] ?? null,
@@ -59,19 +56,19 @@ class ilDatabaseSetupAgent implements Setup\Agent {
 	 * @inheritdocs
 	 */
 	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
-		if (!($config instanceof \ilDatabaseSetupConfig)) {
-			throw new \InvalidArgumentException(
-				"Expected \\DatabaseSetupConfig, got '".get_class($config)."' instead."
-			);
-		}
-		return new \ilDatabasePopulatedObjective($config);
+		return new Setup\ObjectiveCollection(
+			"Complete objectives from Services\Database",
+			false,
+			new ilDatabaseConfigStoredObjective($config),
+			new \ilDatabaseUpdatedObjective($config)
+		);
 	}
 
 	/**
 	 * @inheritdocs
 	 */
 	public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective {
-		throw new \LogicException("NYI!");
+		return new \ilDatabaseUpdatedObjective($config, false);
 	}
 
 	/**

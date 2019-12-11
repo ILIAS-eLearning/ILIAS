@@ -1,5 +1,6 @@
 <?php namespace ILIAS\Membership\GlobalScreen;
 
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
@@ -26,6 +27,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
+        $access_helper = BasicAccessCheckClosures::getInstance();
 
         $title = $this->dic->language()->txt("my_courses_groups");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user-following.svg"), $title);
@@ -37,11 +39,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSymbol($icon)
             ->withAction($dic->ctrl()->getLinkTargetByClass(["ilMembershipOverviewGUI"], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getRepositoryIdentification())
-            ->withVisibilityCallable(
-                function () use ($dic) {
-                    return true;
-                }
-            );
+            ->withVisibilityCallable($access_helper->isUserLoggedIn($access_helper->isRepositoryReadable()));
 
         return $entries;
     }

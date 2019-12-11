@@ -82,7 +82,28 @@ class ilADTBoolean extends ilADT
 		{
 			return (string)$this->getStatus();
 		}
-	}		
+	}	
+	
+	
+	// stdClass
+	
+	public function exportStdClass()
+	{
+		if(!$this->isNull())
+		{
+			$obj = new stdClass();
+			$obj->value = $this->getStatus();
+			return $obj;
+		}
+	}
+	
+	public function importStdClass($a_std)
+	{
+		if(is_object($a_std))
+		{
+			$this->setStatus($a_std->value);
+		}
+	}
 }
 
 ?>

@@ -1105,12 +1105,20 @@ class ilAdvancedMDSettingsGUI
 		 $this->ctrl->saveParameter($this,'record_id');
 		 $this->ctrl->saveParameter($this,'field_id');
 		 		 
+		 $field_definition = ilAdvancedMDFieldDefinition::getInstance((int)$_REQUEST['field_id']);
+		 		 
 		 if(!$a_form)
 		 {
-			$field_definition = ilAdvancedMDFieldDefinition::getInstance((int)$_REQUEST['field_id']);
 			$a_form = $this->initFieldForm($field_definition);
 		 }
-		 $this->tpl->setContent($a_form->getHTML());
+		 
+		 $table = null;
+		 if($field_definition->hasComplexOptions())
+		 {
+			 $table = $field_definition->getComplexOptionsOverview($this, "editField");
+		 }
+		 
+		 $this->tpl->setContent($a_form->getHTML().$table);
 	}
 	
 	/**
@@ -1951,5 +1959,61 @@ class ilAdvancedMDSettingsGUI
 		return $res;
 	}
 	
+	
+	//
+	// complex options
+	//
+	
+	public function editComplexOption(ilPropertyFormGUI $a_form = null)
+	{		
+		$field_definition = ilAdvancedMDFieldDefinition::getInstance((int)$_REQUEST['field_id']);		
+		if(!$field_definition->hasComplexOptions())
+		{
+			$this->ctrl->redirect($this, "editField");			 			 
+		}		
+		 
+		if(!$a_form)
+		{		
+			$a_form = $this->initComplexOptionForm($field_definition);
+		}
+		 
+		$this->tpl->setContent($a_form->getHTML());
+	}	
+	
+	protected function initComplexOptionForm(ilAdvancedMDFieldDefinition $a_def)
+	{	
+		$this->ctrl->saveParameter($this, "record_id");
+		$this->ctrl->saveParameter($this, "field_id");
+		$this->ctrl->saveParameter($this, "oid");
+		
+		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+		$form = new ilPropertyFormGUI();		
+		$form->setTitle($this->lng->txt("md_adv_edit_complex_option"));
+		$form->setFormAction($this->ctrl->getFormAction($this, "updateComplexOption"));
+		
+		$a_def->initOptionForm($form, $_REQUEST["oid"]);
+		
+		$form->addCommandButton("updateComplexOption", $this->lng->txt("save"));
+		$form->addCommandButton("editField", $this->lng->txt("cancel"));
+		
+		return $form;
+	}
+	
+	public function updateComplexOption()
+	{
+		$field_definition = ilAdvancedMDFieldDefinition::getInstance((int)$_REQUEST['field_id']);		
+		if($field_definition->hasComplexOptions())
+		{				 			 	
+			$form = $this->initComplexOptionForm($field_definition);			
+			if($form->checkInput() &&
+				$field_definition->updateComplexOption($form, $_REQUEST["oid"]))
+			{
+				$field_definition->update();
+				ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+			}
+		}
+		
+		$this->ctrl->redirect($this, "editField");				 
+	}
 }
 ?>

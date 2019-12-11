@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Modules/Portfolio/classes/class.ilObjPortfolioBase.php";
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio 
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesPortfolio
  */
 class ilObjPortfolio extends ilObjPortfolioBase
 {
@@ -73,7 +69,6 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	protected function deleteAllPages()
 	{
 		// delete pages
-		include_once "Modules/Portfolio/classes/class.ilPortfolioPage.php";
 		$pages = ilPortfolioPage::getAllPortfolioPages($this->id);
 		foreach($pages as $page)
 		{
@@ -185,8 +180,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 		$all = self::getPortfoliosOfUser($a_user_id);
 		if($all)
 		{
-			include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-			$access_handler = new ilPortfolioAccessHandler();			
+			$access_handler = new ilPortfolioAccessHandler();
 			
 			foreach($all as $item)
 			{
@@ -219,8 +213,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	
 	protected function handleQuotaUpdate()
 	{
-		include_once "Services/DiskQuota/classes/class.ilDiskQuotaHandler.php";
-		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(), 
+		ilDiskQuotaHandler::handleUpdatedSourceObject($this->getType(),
 			$this->getId(),
 			ilUtil::dirsize($this->initStorage($this->getId())), 
 			array($this->getId()),
@@ -231,8 +224,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 	{
 		$res = array();
 		
-		include_once "Modules/Portfolio/classes/class.ilPortfolioAccessHandler.php";
-		$access_handler = new ilPortfolioAccessHandler();	
+		$access_handler = new ilPortfolioAccessHandler();
 		
 		$params = null;
 		if($a_back_url)
@@ -240,7 +232,6 @@ class ilObjPortfolio extends ilObjPortfolioBase
 			$params = array("back_url"=>rawurlencode($a_back_url));
 		}
 		
-		include_once "Services/Link/classes/class.ilLink.php";
 		foreach($access_handler->getShardObjectsDataForUserIds($a_owner_ids) as $owner_id => $items)
 		{
 			foreach($items as $id => $title)

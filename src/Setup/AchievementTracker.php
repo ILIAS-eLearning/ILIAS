@@ -13,7 +13,8 @@ use ILIAS\UI;
  * to be achieved or not. For some Objectives this might not be possible, this
  * is where this helps out.
  */
-interface AchievementTracker {
-	public function trackAchievementOf(Objective $objective) : void;
-	public function isAchieved(Objective $objective) : bool;
+interface AchievementTracker
+{
+    public function trackAchievementOf(Objective $objective) : void;
+    public function isAchieved(Objective $objective) : bool;
 }

@@ -17,7 +17,7 @@ class ilDBPdoMySQLFieldDefinition extends ilDBPdoFieldDefinition {
 		switch ($field['type']) {
 			case 'text':
 				if (empty($field['length']) && array_key_exists('default', $field)) {
-					$field['length'] = $db->varchar_max_length;
+					$field['length'] = $db->varchar_max_length ?? null;
 				}
 				$length = !empty($field['length']) ? $field['length'] : false;
 				$fixed = !empty($field['fixed']) ? $field['fixed'] : false;

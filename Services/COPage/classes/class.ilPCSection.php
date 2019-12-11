@@ -255,7 +255,7 @@ class ilPCSection extends ilPageContent
 	/**
 	 * Set permission
 	 *
-	 * @param string $a_val "read"|"write"|"visible"
+	 * @param string $a_val "read"|"write"|"visible"|"no_read"
 	 */
 	function setPermission($a_val)
 	{
@@ -378,7 +378,14 @@ class ilPCSection extends ilPageContent
 			$access = true;
 			if (in_array($id[1], array("", 0, IL_INST_ID)) && $id[3] > 0)
 			{
-				$access = $ilAccess->checkAccess($access_attr[5], "", $id[3]);
+				if ($access_attr[5] == "no_read") {
+					$access = !$ilAccess->checkAccess($access_attr[5], "", $id[3]);
+				} else {
+					$access = $ilAccess->checkAccess($access_attr[5], "", $id[3]);
+				}
+			}
+			if ($a_mode == ilPageObjectGUI::EDIT) {
+				$access = true;
 			}
 			if ($access)
 			{

@@ -24,6 +24,7 @@ note#:#note_enable_notes#:#Enable Notes
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_coms#:#Comments
 note#:#note_enable_comments#:#Enable Comments
+administration#:#org_op_edit_user_accounts#:#Edit User Accounts
 administration#:#adm_communication#:#Communication
 note#:#note_enable_comments_del_user#:#Comments may be deleted by their authors
 note#:#note_enable_comments_del_tutor#:#Any Comment may be deleted by tutors
@@ -106,12 +107,24 @@ book#:#book_pref_overview#:#Overview
 book#:#book_pref_book_cron#:#Booking with Preferences
 book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
 book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
+rep#:#rep_trash_table_title#:#Deleted objects below:
+rep#:#rep_trash_table_col_deleted_by#:#Deleted by
+rep#:#rep_trash_table_col_deleted_on#:#Deleted on
+rep#:#rep_trash_table_col_num_subs#:#Number Subitems
+rep#:#btn_undelete_origin_location#:#Restore (same location)
+rep#:#btn_undelete_new_location#:#Restore (new location)
+rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
+rep#:#rep_target_location#:#Target Location
+rep#:#rep_target_location_info#:#Bitte wählen Sie nun das Ziel aus, an dem die ausgewählten Objekte wiederhergestellt werden sollen.
+rep#:#rep_trash_deleted_by_unknown#:#Unknown
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
 crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:
 crs#:#timings_reminder_notifications#:#Course Timings Notifications
 crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.
+meta#:#udf_type_address#:#Address
+meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#meta_oer_harvester#:#OER Harvester
 meta#:#meta_oer_harvester_desc#:#OER Harvester
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
@@ -129,6 +142,26 @@ meta#:#meta_save_order#:#Save Order
 meta#:#meta_order#:#Order
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_change_info#:#You are going to change the licence assigned to this content. This should only be done in accordance with the copyright owner. Please continue only if the new licence is not more restrictive than the one used before.
+survey#:#svy_mail_context_reminder_title#:#Survey Reminder
+survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
+survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
+survey#:#svy_reminder_mail_template#:#Mail Template
+survey#:#svy_reminder_mail_template_none#:#Do not use mail template
+survey#:#svy_eval_view#:#View
+survey#:#svy_eval_view_tables_charts#:#Table and chart
+survey#:#svy_eval_view_tables#:#Table
+survey#:#svy_eval_view_charts#:#Chart
+survey#:#svy_eval_captions#:#Figures
+survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
+survey#:#svy_eval_captions_abs#:#Absolute
+survey#:#svy_eval_captions_perc#:#Percentage
+survey#:#svy_chart_download#:#Download Chart
+survey#:#svy_export_pdf#:#Export PDF
+survey#:#svy_notification_tutor_results#:#One E-Mail including Survey Results
+survey#:#svy_notification_tutor_results_info#:#After reaching the end data a cron job will send an email with the detailed survey results attached to it.
+survey#:#svy_notification_tutor_results_alert#:#This requires an end date.
+survey#:#survey_results_tutor_subject#:#Results for survey "%s"
+survey#:#survey_results_tutor_body#:#Attached you will find the detailed results for the following survey
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
@@ -190,6 +223,23 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Record
 cont#:#cont_filter_field#:#Field
 cont#:#cont_filter_fields#:#Filter Fields
+sess#:#sess_participation_refused_info#:#Your participation for this event has been canceled.
+sess#:#sess_bt_refuse#:#Cannot Participate
+sess#:#sess_part_table_excused#:#Excused
+sess#:#notification#:#Notification
+sess#:#sess_registration_notification#:#Notification
+sess#:#sess_registration_notification_info#:#Shows column in tab 'Participants' to select users being notified about new or leaving participants
+sess#:#sess_notification_option#:#Option
+sess#:#sess_notification_option_inherit#:#Inherit from Parent
+sess#:#sess_notification_option_inherit_info#:#Use the parent notification settings (e.g. notification settings from course or group) for members of this session
+sess#:#sess_notification_option_manual#:#Set manually
+sess#:#sess_notification_option_manual_info#:#Notification setting for users has to be set manually in tab 'Participants'
+common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
+common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
+common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
+common#:#register_notification#:#"%s" has applied for session "%s".
+common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s".
+common#:#entered_notification#:#"%s" has joined the session "%s".
 common#:#obj_ltis#:#LTI
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#lti_outcome#:#LTI Lernfortschritt Benachrichtigung
@@ -219,6 +269,7 @@ lti#:#lti_admin#:#LTI Administrator
 lti#:#lti_tutor#:#LTI Instructor
 lti#:#lti_member#:#LTI Member
 auth#:#lti_consumer_inactive#:#LTI tool consumer is disabled.
+crs#:#crs_target_group#:#Target Group
 crs#:#crs_timings_days_after_subsription#:#Day(s) after course subscription
 crs#:#crs_timings_short_active_tt#:#Activate Timings
 crs#:#crs_timings_short_start_end_tt_rel#:#Suggested start after course subscription
@@ -321,6 +372,43 @@ acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
+acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept
+acc#:#acc_add_document_btn_label#:#Add Document
+acc#:#acc_form_new_doc_head#:#Create Document
+acc#:#acc_form_edit_doc_head#:#Edit Document
+acc#:#acc_form_document_title#:#Title
+acc#:#acc_form_document_title_info#:#Please enter a title for the document.
+acc#:#acc_form_document#:#Document
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+acc#:#acc_form_document_new#:#Change Content
+acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.
+acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
+acc#:#acc_tbl_docs_title#:#Documents
+acc#:#acc_tbl_docs_head_sorting#:#Sorting
+acc#:#acc_tbl_docs_head_title#:#Title
+acc#:#acc_tbl_docs_head_created#:#Creation Date
+acc#:#acc_tbl_docs_head_last_change#:#Last Change
+acc#:#acc_tbl_docs_head_criteria#:#Criteria
+acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion
+acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned
+acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion
+acc#:#acc_doc_delete#:#Delete Document
+acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+acc#:#acc_doc_crit_detached#:#The criterion has been detached.
+acc#:#acc_doc_crit_attached#:#The criterion has been attached.
+acc#:#acc_doc_crit_changed#:#The criterion has been changed.
+acc#:#acc_form_attach_criterion_head#:#Attach Criterion
+acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment
+acc#:#acc_form_criterion#:#Criterion
+acc#:#acc_document#:#Document
+acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?
+acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
+acc#:#acc_deleted_documents_s#:#The document has been deleted.
+acc#:#acc_deleted_documents_p#:#The documents have been deleted.
+acc#:#acc_saved_sorting#:#The sorting has been saved.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
+acc#:#acc_crit_type_usr_language#:#Profile Language
 administration#:#adm_pub_section_domain_filter#:#Domain Filter
 administration#:#adm_pub_section_domain_filter_info#:#Domain filters granting anonymous access. Enter one ore more domains, which allow anonymous access.
 administration#:#adm_item_cmd_asynch_info#:#Action commands, e.g. in the repository, are loaded asynchronously. This increases performance in general, but slows down loading of action command lists a little bit.
@@ -3153,6 +3241,7 @@ rbac#:#nwss_read#:#User has read access to ews and Web Feeds administration
 rbac#:#nwss_visible#:#News and Web Feeds administration is visible
 rbac#:#nwss_write#:#User can edit settings in News and Web Feeds administration
 common#:#obj_accs_desc#:#Settings for accessibility features.
+common#:#obj_accs_captcha#:#Captchas
 common#:#obj_accs#:#Accessibility
 common#:#obj_adm_desc#:#Main system settings folder containing all panels to administrate your ILIAS installation.
 common#:#obj_adm#:#Administration
@@ -3965,11 +4054,28 @@ common#:#webdav_problem_info_duplicate#:#There is a file with the same title as 
 common#:#webdav_problem_free_container#:#There are no objects that cause problems in this container.
 common#:#webdav_enable_versioning#:#File Versioning
 common#:#webdav_versioning_info#:#If enabled, already existing files will get a new version instead of beeing overwritten.
+common#:#webdav_add_instructions_btn_label#:#Add Mount Instructions Document
+common#:#webdav_docs_mount_instructions#:#Mount Instructions Documents
+common#:#webdav_general_settings#:#General Settings
+common#:#webdav_form_document#:#Instructions Document
+common#:#webdav_form_document_info#:#Upload a txt or an html file here. After the upload the file will be parsed and processed. For more information
+common#:#webdav_form_document_title#:#Title
+common#:#webdav_form_document_title_info#:#This title will be dislayed as the title of the modal when the Mount Instructions are opened
+common#:#webdav_form_new_doc_head#:#Create new Mount Instructions Document
+common#:#webdav_form_edit_doc_head#:#Edit Mount Instructions Document
+common#:#webdav_mount_instructions#:#Mount Instructions
+common#:#webdav_sure_delete_documents_s#:#Are you sure you want to delete the Mount Instructions with the following title:
+common#:#webdav_tbl_docs_title#:#List of uploaded WebDAV Mount Instructions
+common#:#webdav_tbl_docs_head_title#:#Dokument title
+common#:#webdav_upload_instructions#:#Upload Instructions
+common#:#webdav_chosen_language_already_used#:#There already is another document associated with the chosen language
+common#:#webdav_missing_lang#:#There is no english version of the WebDAV Mount Instructions
+common#:#webdav_doc_delete#:#Delete WebDav Mount Instructions
 common#:#webfolder_dir_info#:#You got here, because your browser can't open webfolders. Read the <a href="%1$s">instructions for opening webfolders</a>.
 common#:#webfolder_index_of#:#Index of %1$s
-common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_IE]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[IF_WINDOWS]</b>...<b>[/IF_WINDOWS]</b>, <b>[IF_MAC]</b>...<b>[/IF_MAC]</b>, <b>[IF_LINUX]</b>...<b>[/IF_LINUX]</b>. Clear the field to get the default instructions.
-common#:#webfolder_instructions_text#:#[IF_WINDOWS]	<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Press the Alt-Key. The menu appears.</li>	<li>Choose "Add Network Place" in the toolbar.</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/IF_WINDOWS]	[IF_MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/IF_MAC][IF_LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/IF_LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#Open %1$s as webfolder
+common#:#webfolder_instructions_info#:#The webfolder instructions are shown on browsers, which can not open a webfolder directly. You can use HTML code, and the following placeholders: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Clear the field to get the default instructions.
+common#:#webfolder_instructions_text#:#[WINDOWS]<h3>Instructions for connecting with Windows</h3>	<ol>	<li>Open Windows-Explorer (e.g. key combination Windows + E).</li>	<li>Press the Alt-Key. The menu appears.</li>	<li>Choose "Add Network Place" in the toolbar.</li>	<li>Enter the following address as address (you may copy and paste the URL):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Click "Finish".</li>	<li>Enter your login and password, and select "OK".</li>	<li>You can now access the webfolder from the start menu "Computer".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/WINDOWS]	[MAC]	<h3>Instructions for Mac OS X</h3>	<ol>	<li>Open the Finder.</li>	<li>Choose the menu 'Goto to &gt; Connect to server...'.<br/>This opens the window 'connect to server'.</li>	<li>Enter this URL as server URL:<br/><b>[WEBFOLDER_URI]</b><br/> und click on 'Connect'.</li>	<li>Enter your login and password, and select "OK".</li>	</ol>	<br />	Your login and password is identical to your local ILIAS login and can be changed via "Personal Settings".[/MAC][LINUX]		<h3>Instructions for Linux with Konqueror</h3>		<ol>		<li>Open Konqueror Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<h3>Instructions for Linux with Nautilus</h3>		<ol>		<li>Open Nautilus Browser.</li>		<li>Enter this URL as server URL:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>and press enter.</li>		<li>Enter your login and password, and select "OK".</li>		</ol>		<br />		Your login and password is identical to your local ILIAS login and can be changed in your personal settings.[/LINUX]				<h3>Tips &amp; Support</h3>		<ul>		<li>These steps need to be done <b>only once</b>. You may access your connection again later.</li>		</ul>		<ul>		<li>Connect to a higher folder. You can always navigate down the tree, but nut upwards.</li>		</ul>		<ul>		<li>If your computer can not open the WebDAV Connection, please contact ILIAS Support.</li>		</ul>
+common#:#webfolder_instructions_titletext#:#Open as webfolder
 common#:#webfolder_instructions#:#Webfolder instructions
 common#:#webfolder_mount_dir_with#:#Open this page as a Webfolder with <a href="%1$s">Internet Explorer 6</a>, <a href="%2$s">Konqueror</a>, <a href="%3$s">Nautilus</a>, <a href="%4$s">other Browser</a>.
 common#:#webr_active#:#Active
@@ -8683,6 +8789,8 @@ rbac#:#precondition_num_optional_info#:#Please enter the minimum number of mater
 trac#:#trac_min_passed#:#Minimum Number of Passed Materials:
 crs#:#crs_auto_notification#:#Welcome-Mail For New Members
 crs#:#crs_auto_notification_info#:#New members get a mail notification when added to the course.
+grp#:#grp_auto_notification#:#Welcome-Mail For New Members
+grp#:#grp_auto_notification_info#:#New members get a mail notification when added to the group.
 wsp#:#wsp_type_tstv#:#Certificate: Test
 content#:#cont_par_format#:#Paragraph
 content#:#cont_char_format#:#Character
@@ -8829,6 +8937,8 @@ survey#:#survey_sync_question_copies#:#Sync Question Copies
 survey#:#survey_sync_question_copies_info#:#The selected questions will be replaced with the current pool version.
 survey#:#survey_sync_insufficient_permissions#:#Insufficient Permissions
 survey#:#survey_sync_success#:#The selected questions were updated.
+ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
+ecs#:#ecs_cron_task_scheduler_info#:#ECS tasks will be executed according to the schedule settings. Only neccessary, if ECS servers are configured.
 ecs#:#ecs_add_new_ecs#:#Add New ECS
 ecs#:#ecs_available_ecs#:#Available ECS
 ecs#:#ecs_tbl_active#:#Active
@@ -9631,6 +9741,7 @@ rbac#:#rbac_create_chtr#:#Create Chat Room
 search#:#search_err_user_not_exist#:#A user with that login name does not exist.
 blog#:#blog_draft#:#Draft
 blog#:#blog_draft_info#:#The posting is withdrawn and no longer published.
+blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Withdraw Publication
 blog#:#blog_toggle_final#:#Publish Posting
 dateplaner#:#cal_cal_deleted#:#The calendars have been deleted
@@ -11358,6 +11469,8 @@ common#:#my_staff#:#Staff
 mst#:#mst_my_staff#:#Staff
 mst#:#mst_list_users#:#Staff List
 mst#:#mst_list_courses#:#Enrolments
+mst#:#mst_list_certificates#:#Certificates
+mst#:#mst_list_competences#:#Competences
 mst#:#mst_select_course#:#Select Course
 mst#:#mst_please_select_course#:#Please select a course.
 mst#:#mst_opt_all#:#All
@@ -11366,6 +11479,10 @@ mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
 mst#:#mst_show_courses#:#Enrolments
 mst#:#mst_courses_of#:#Enrolments of %s
+mst#:#mst_profile_fulfilled#:#Not met, yet
+mst#:#mst_profile_not_fulfilled#:#Fulfilled
+mst#:#mst_cert_issued_on#:#Issued On
+mst#:#mst_download_certificate#:#Download Certificate
 orgu#:#msg_position_udpated#:#Position aktualisiert
 orgu#:#remove_successful#:#User was removed successfully.
 orgu#:#orgu_enable_my_staff#:#Enable ‘Staff’
@@ -11383,6 +11500,10 @@ orgu#:#org_op_write_learning_progress#:#Set learning progress of other users
 rbac#:#org_op_write_learning_progress#:#Set learning Progress of subordinate users
 orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 rbac#:#org_op_edit_submissions_grades#:#Edit submissions of other users
+orgu#:#org_op_view_certificates#:#View certificates of other users
+rbac#:#org_op_view_certificates#:#View certificates of subordinated users
+orgu#:#org_op_view_competences#:#View competences of other users
+rbac#:#org_op_view_competences#:#View competences of subordinated users
 orgu#:#form_title_org_default_permissions_update#:#Default Permissions
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#il_orgu_employee#:#Employee
@@ -12314,6 +12435,7 @@ mmbr#:#mmbr_selected_users#:#Selected Participants
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 crs#:#crs_mem_tbl_header#:#Course Participants
 grp#:#grp_mem_tbl_header#:#Group Participants
+sess#:#sess_mail_permanent_link_participants#:#Click on the following link to edit the participants of the session:
 sess#:#sess_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the session:
 sess#:#sess_reg_type#:# Registration Procedure
 sess#:#sess_reg_direct#:#Declare Participation
@@ -13195,6 +13317,8 @@ awrn#:#awrn_incl_offline#:#Online and Offline
 adm#:#adm_support_contacts#:#Technical Support
 adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
+adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
 mmbr#:#mmbr_awrn_my_groups_courses#:#My Groups and Courses
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of the current user are listed.
 crs#:#crs_awrn_current_course#:#Current Course
@@ -13207,6 +13331,10 @@ awrn#:#awrn_max_nr_entries_info#:#Maximum number of items in the ‘Who is onlin
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
 awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
 common#:#contact_sysadmin#:#Contact Technical Support
+common#:#report_accessibility_issue#:#Report Accessibility Issue
+common#:#report_accessibility_link#:#Reported Link:
+common#:#accessibility_control_concept#:#Accessibility Control Concept
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
 ldap#:#ldap_servers#:#LDAP Server
 ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_username_filter#:#Username Filter
@@ -13733,19 +13861,6 @@ glo#:#glo_reference#:#Reference
 glo#:#glo_selected_terms_have_been_copied#:#The selected terms have been copied to the clipboard. Please open the target glossary and click "Paste".
 prg#:#prg_assign_date#:#Assignment date
 prg#:#prg_assigned_by#:#Assigned by
-survey#:#svy_mail_context_reminder_title#:#Survey Reminder
-survey#:#svy_mail_context_reminder_info#:#Reminds users to participate in survey
-survey#:#svy_mail_context_reminder_survey_title#:#Survey Title
-survey#:#svy_reminder_mail_template#:#Mail Template
-survey#:#svy_reminder_mail_template_none#:#Do not use mail template
-survey#:#svy_eval_view#:#View
-survey#:#svy_eval_view_tables_charts#:#Table and chart
-survey#:#svy_eval_view_tables#:#Table
-survey#:#svy_eval_view_charts#:#Chart
-survey#:#svy_eval_captions#:#Figures
-survey#:#svy_eval_captions_abs_perc#:#Absolute and Percentage
-survey#:#svy_eval_captions_abs#:#Absolute
-survey#:#svy_eval_captions_perc#:#Percentage
 style#:#add_system_style#:#Add System Style
 style#:#add_substyle#:#Add Sub Style
 style#:#skin_id#:#Skin ID
@@ -14046,6 +14161,10 @@ chatroom#:#chat_error_log_info#:#Please define an absolute server path to the ch
 chatroom#:#chatroom_enable_osc#:#Enable On-Screen-Chat
 chatroom#:#chatroom_enable_osc_info#:#If activated, the On-Screen Chat will be available for each user. But every user can decided whether or not he/she would like to be contacted by others. Conversations could be started in the ‘Who is online?’-Tool.
 chatroom#:#chat_osc_start_conversation#:#Start Conversation
+chatroom#:#chat_osc_nc_prop_time#:#Time
+chatroom#:#chat_osc_nc_no_conv#:#No Conversations available
+chatroom#:#chat_osc_nc_conv_x_s#:#You have one hidden conversation.
+chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
 chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
@@ -14061,7 +14180,8 @@ chatroom#:#chat_osc_no_usr_found#:#Could not find any user matching your search.
 chatroom#:#chat_osc_sure_to_leave_grp_conv#:#Are you sure you want to leave the group conversation?
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_user_left_grp_conv#:#User '%s' has left the group conversation.
-chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
+chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
+chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your %s.
 chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chtr_activation_online_info#:#Set the chat online to make it visible and available for partcipants. If not, only users with 'Edit Settings' permission will have access to it.
 chatroom#:#chtr_activation_limited_visibility_info#:#If checked, the title of the chat will be visible even outside of the given availability. The chat however can not be accessed.
@@ -14094,9 +14214,11 @@ chatroom#:#chat_deletion_interval_run_at#:#Time
 chatroom#:#chat_deletion_interval_run_at_info#:#Please define the time (format: HH:MM) when the server should process the message deletion.
 prg#:#prg_points_reachable#:#Points Obtainable
 mail#:#mail_members_search_continue#:#Continue
-mail#:#nc_mail_unread_messages_number_p#:#You have %s unread emails.
-mail#:#nc_mail_unread_messages_number_s#:#You have one unread email.
+mail#:#nc_mail_unread_messages#:#You have %s in your inbox.
+mail#:#nc_mail_unread_messages_number_p#:#%s Unread Mails
+mail#:#nc_mail_unread_messages_number_s#:#1 Unread Mail
 mail#:#nc_mail_noti_item_title#:#Inbox
+mail#:#nc_mail_prop_time#:#Time
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
 survey#:#msg_input_only_positive_numbers#:#Please enter positive numbers in scale values.
 crs#:#crs_loc_err_stat_tst_offline#:#Not all tests are online.
@@ -14127,8 +14249,42 @@ common#:#pdfg_read#:#User has read access to PDF Generation
 common#:#pdfg_visible#:#PDF Generation is visible
 common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#pdfg_edit_permission#:#User can change permission settings
-pdfgen#:#phantomjs#:#PhantomJS
+pdfgen#:#webkit#:#wkhtmltopdf
+pdfgen#:#path#:#Path to wkhtmltopdf
+pdfgen#:#wkhtml_config#:#Configuration for WKHTML
+pdfgen#:#overwrite_font#:#Overwrite default font
+pdfgen#:#overwrite_font_info#:#Enter somthing similar to: 'serif', 'sans-serif', 'monospace' usw. 
+pdfgen#:#external_links#:#Externel links
+pdfgen#:#enable_forms#:#Enable Forms
+pdfgen#:#user_stylesheet#:#User stylesheet
+pdfgen#:#low_quality#:#Low quality
+pdfgen#:#greyscale#:#Greyscale
+pdfgen#:#output_options#:#Output options
+pdfgen#:#header_text_left#:#Text left
+pdfgen#:#header_text_center#:#Text center
+pdfgen#:#header_text_right#:#Text right
+pdfgen#:#footer_text_left#:#Text left
+pdfgen#:#footer_text_center#:#Text center
+pdfgen#:#footer_text_right#:#Text right
+pdfgen#:#spacing#:#Spacing
+pdfgen#:#header_line#:#Header line
+pdfgen#:#footer_line#:#Footer line
+pdfgen#:#checkbox_svg#:#Path to checkbox svg
+pdfgen#:#checkbox_checked_svg#:#Path to checked checkbox svg
+pdfgen#:#radio_button_svg#:#Path to radiobutton svg
+pdfgen#:#radio_button_checked_svg#:#Path to checked radiobutton svg
+pdfgen#:#config#:#Config
+pdfgen#:#none#:#Keine
+pdfgen#:#html#:#Html
+pdfgen#:#footer_html#:#Html
+pdfgen#:#external_links_info#:#Make links to remote web pages
+pdfgen#:#enable_forms_info#:#Turn HTML form fields into pdf form fields
+pdfgen#:#low_quality_info#:#Generates lower quality pdf/ps. Useful to shrink the result document space
+pdfgen#:#greyscale_info#:#PDF will be generated in grayscale
+pdfgen#:#print_media_info#:#Use print media-type instead of screen
+pdfgen#:#margin_info#:#Margin in mm e.g. 10mm
 pdfgen#:#page_settings#:#Page Settings
+pdfgen#:#phantomjs#:#PhantomJS
 pdfgen#:#page_size#:#Pagesize
 pdfgen#:#margin#:#Margin 345
 pdfgen#:#header_type#:#Header
@@ -14665,6 +14821,8 @@ mme#:#topitem_title_default_byline#:#Other Translations can be added with the Tr
 mme#:#topitem_active_byline#:#Activate this Top Item for all users.
 mme#:#topitem_type#:#Type
 mme#:#topitem_type_byline#:#Top Items can be links directly or can contain Items.
+mme#:#topitem_icon#:#Icon
+mme#:#topitem_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
 mme#:#subitem_add#:#Add Item
 mme#:#subitem_edit#:#Edit
 mme#:#subitem_delete#:#Delete
@@ -14677,6 +14835,8 @@ mme#:#sub_active#:#Active
 mme#:#sub_status#:#Status
 mme#:#sub_provider#:#Provider
 mme#:#sub_actions#:#Actions
+mme#:#sub_icon#:#Icon
+mme#:#sub_icon_byline#:#Upload a custom icon for this Item. Please note that the SVG-Icons will be inverted.
 mme#:#button_save#:#Save
 mme#:#table_show_inactive#:#Show inactive
 mme#:#sub_title_default#:#Title (Default Language)
@@ -15219,8 +15379,9 @@ content#:#cont_tool_media#:#Media
 content#:#cont_tool_faq#:#FAQ
 exc#:#exc_text_saved#:#Text has been saved.
 common#:#nc_contact_requests_headline#:#Contact Requests
-common#:#nc_contact_requests_number_s#:#You have %s Contact Request
-common#:#nc_contact_requests_number_p#:#You have %s Contact Requests
+common#:#nc_contact_requests_number_s#:#You have %s Contact Request.
+common#:#nc_contact_requests_number_p#:#You have %s Contact Requests.
+common#:#nc_contact_requests_prop_time#:#Time
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
 forum#:#sorting#:#Sorting
 wfld#:#wfld_sortation#:#Sortation
@@ -15286,6 +15447,8 @@ wsp#:#wsp_personal_resources_description#:#Here you can manage your private file
 administration#:#adm_personal_workspace#:#Personal Workspace
 dash#:#dash_favourites#:#Favourites
 dash#:#dash_memberships#:#My Courses and Groups
+dash#:#dash_learningsequences#:#My Learning Sequences
+dash#:#dash_studyprogramme#:#My Study Programmes
 rbac#:#read_outcomes#:#View learning experiences of other users
 rbac#:#add_consume_provider#:#Add Own LTI Provider Settings
 rbac#:#ltis_add_consume_provider#:#User can add own provider settings for LTI consumer
@@ -15720,3 +15883,161 @@ rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limit_number#:#Number of Objects
 exp#:#exp_error_too_many_objects#:#The export exceeds the maximum number of allowerd objects (%1). Please select a lower number of objects.
 exp#:#exp_error_disabled#:#The export feature is disabled for containers. You may contact your system administrator.
+lso#:#lso_mainbar_button_label_toc#:#Content
+lso#:#lso_mainbar_button_label_curriculum#:#Curriculum
+mem#:#mem_period_without_time#:#Without Time Indication
+trac#:#trac_mode_course_reference#:#Adopted from Course
+trac#:#trac_mode_course_reference_info#:#The mode is automatically adopted from the course this course link points to.
+style#:#style_page_layout_module_learning_module#:#ILIAS Learning Module
+content#:#cont_insert_pagelayout#:#Insert Template Page
+content#:#cont_page_template#:#Page Template
+content#:#cont_page_created#:#Page created
+prg#:#assignment_date#:#Assignment Date
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
+prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
+prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
+prg#:#validity_qalification_period#:#Qualification expires individually
+prg#:#validity_qalification_period_desc#:#days after completion
+prg#:#validity_qalification_date#:#Qualification expires at fixed date
+prg#:#validity_qalification_date_desc#:#expiry date
+prg#:#prg_no_restart#:#No restart required
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry
+prg#:#sp_certificate_title#:#Title of the Study Programme
+prg#:#sp_certificate_description#:#Description of the Study Programme
+prg#:#sp_certificate_type#:#Type of the Study Programme
+prg#:#sp_certificate_points#:#Amount of points that have been acquired
+prg#:#sp_certificate_completion_date#:#Date of completion
+prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
+prg#:#prg_completion_date#:#Completion date
+prg#:#prg_expiry_date#:#Expiry date
+prg#:#prg_validity#:#Validity
+prg#:#prg_still_valid#:#still valid
+prg#:#prg_renewal_required#:#renewal required
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
+prg#:#prg_orgus#:#Organisational Units
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
+prg#:#content_automation#:#Content Automation
+prg#:#last_edited_by#:#Last Editor
+prg#:#last_edited#:#Last edited
+prg#:#add_category#:#Add Category
+prg#:#modal_categories_title#:#Category to be monitored
+prg#:#category#:#Category RefId
+common#:#obj_prgr#:#Link to Study Programme
+common#:#obj_prgrs#:#Links to Study Programmes
+prg#:#prgr_new#:#Create Study Programme Link
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
+prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
+prg#:#prg_validity_of_qualification_restart#:#Restart
+prg#:#prg_deadline_settings#:#Processing Period
+prg#:#edit_participants#:#Edit Members
+prg#:#auto_memberships#:#Membership Automation
+prg#:#orgu#:#Organisational Unit
+prg#:#rol#:#Role
+prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#add_automembership_source#:#Add Source
+prg#:#auto_membership_src_type#:#Type
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Source
+prg#:#prg_autoassignment#:#(auto)
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
+orgu#:#org_op_view_members#:#View Members
+orgu#:#org_op_view_individual_plan#:#View Individual Plan
+orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
+prg#:#prg_formatted_period#:#%d days
+prg#:#deadline_information#:#Information regarding processing period
+prg#:#dealine_period_info#:#Days to process after assignment
+prg#:#dealine_date_info#:#Deadline date
+prg#:#vq_information#:#Information regarding validity of achived qualification
+prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
+prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
+prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
+prg#:#prg_title#:#Title
+prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.
+prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
+prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
+prg#:#prg_processing_ends_no_success#:#Reminder mail failing
+prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
+prg#:#send_re_assigned_mail#:#E-mail renewed participation
+prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
+prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
+prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
+prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
+prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
+search#:#search_for_orgu_members#:#Search for Organisational Units
+search#:#select_orgu#:#Select Organisational Units
+prg#:#prg_dash_label_valid#:#Valid:
+prg#:#prg_dash_label_minimum#:#Minimum Completion:
+prg#:#prg_dash_label_gain#:#Current Completion:
+prg#:#prg_dash_label_status#:#Status:
+prg#:#prg_dash_label_finish_until#:#Finish until:
+prg#:#prg_dash_label_restart_from#:#Restart from:
+prg#:#percentage#:#%
+prg#:#prg_status_1#:#In Progress
+prg#:#prg_status_2#:#Completed
+prg#:#prg_status_3#:#Accredited
+prg#:#prg_status_4#:#Not Relevant
+prg#:#prg_status_5#:#failed
+prg#:#prg_multi_change_deadline#:#Change deadline
+prg#:#prg_multi_change_expire_date#:#Change expire date
+prg#:#update_expire_date#:#Successfuly update expire date.
+prg#:#update_deadline#:#Successfuly update deadline.
+prg#:#error_updating_expire_date#:#Error during updating expire date.
+prg#:#error_updating_deadline#:#Error during updating deadline.
+prg#:#select_crs#:#Search for Courses
+prg#:#select_grp#:#Search for Groups
+prg#:#select_role#:#Search for Roles
+prg#:#select_org#:#Search for Organisational Unit
+prg#:#label_crs#:#Course Name
+prg#:#label_grp#:#Group Name
+prg#:#label_role#:#Role Name
+prg#:#modal_member_auto_select_title#:#Select Source for auto assignment
+prg#:#prg_auto_member_select_crs#:#Courses
+prg#:#prg_auto_member_select_grp#:#Groups
+prg#:#prg_auto_member_select_role#:#Roles
+badge#:#badge_new_badges#:#You have %1 new badge(s).
+content#:#cont_no_read#:#No read permission
+content#:#cont_grid_t_two_column#:#Zwei-Spalten-Layout
+content#:#cont_grid_t_two_column_info#:#Legt zwei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_three_column#:#Drei-Spalten-Layout
+content#:#cont_grid_t_three_column_info#:#Legt drei gleich breite Spalten nebeneinander an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_main_side#:#Haupt- und Seitenblock
+content#:#cont_grid_t_main_side_info#:#Legt einen breite Spalte links und eine schmalere Spalte rechts daneben an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout.
+content#:#cont_grid_t_two_by_two#:#Zwei-mal-zwei-Box
+content#:#cont_grid_t_two_by_two_info#:#Legt zwei Zeilen mit zwei gleich breiten Spalten an. Wechselt in Mobilansicht (small) zu einem Ein-Spalten-Layout und auf extrabreiten Bildschirmen (extra large) in ein Vier-Spalten-Layout.
+content#:#cont_grid_t_manual#:#Manuell erstelltes Seitenlayout
+content#:#cont_grid_t_manual_info#:#Ermöglicht die freie Gestaltung von Spaltenanzahl und -breiten.
+dateplaner#:#cal_no_events_block#:#Es sind keine Termine für Sie vorhanden.
+rep#:#rep_fav_intro1#:#Sie haben aktuell noch keine Favoriten ausgewählt. Um dies zu tun, müssen Sie zwei Schritte machen:
+rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren Angebot ein Lernobjekt aus, z. B. ein Lernmodul oder ein Forum.
+rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
+rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
+task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.

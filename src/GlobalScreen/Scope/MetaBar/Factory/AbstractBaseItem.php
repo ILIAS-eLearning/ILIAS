@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\BaseMetaBarItemRenderer;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 
@@ -12,6 +13,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
 abstract class AbstractBaseItem implements isItem
 {
 
+    use ComponentDecoratorTrait;
     /**
      * @var BaseMetaBarItemRenderer
      */
@@ -25,10 +27,6 @@ abstract class AbstractBaseItem implements isItem
      */
     protected $available_callable = true;
     /**
-     * @var callable
-     */
-    protected $active_callable;
-    /**
      * @var IdentificationInterface
      */
     protected $provider_identification;
@@ -36,10 +34,6 @@ abstract class AbstractBaseItem implements isItem
      * @var callable
      */
     protected $visiblility_callable;
-    /**
-     * @var bool
-     */
-    protected $is_always_available = false;
 
 
     /**

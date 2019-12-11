@@ -32,6 +32,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
                 ->withTitle($title)
+                ->withSupportsAsynchronousLoading(true)
                 ->withSymbol($icon)
                 ->withContentWrapper(function () {
                     $tag_ui = new \ilTaggingSlateContentGUI();

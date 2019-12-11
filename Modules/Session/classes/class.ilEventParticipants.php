@@ -18,9 +18,21 @@ class ilEventParticipants
 	var $lng;
 
 	protected $contact = 0;
-	
-	protected $registered = array();
-	protected $participated = array();
+
+	/**
+	 * @var int[]
+	 */
+	protected $registered = [];
+
+	/**
+	 * @var int[]
+	 */
+	protected $participated = [];
+
+	/**
+	 * @var bool
+	 */
+	protected $excused = [];
 
 	/**
 	 * @var int[]
@@ -28,7 +40,12 @@ class ilEventParticipants
 	protected $contacts = [];
 
 	var $event_id = null;
-	
+
+	/**
+	 * @var boolean
+	 */
+	private $notificationEnabled;
+
 	/**
 	 * Constructor
 	 * @param int $a_event_id
@@ -38,9 +55,9 @@ class ilEventParticipants
 		global $DIC;
 
 		$ilErr = $DIC['ilErr'];
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		$tree = $DIC['tree'];
+		$ilDB = $DIC->database();
+		$lng = $DIC->language();
+		$tree = $DIC->repositoryTree();
 
 		$this->ilErr = $ilErr;
 		$this->db  = $ilDB;
@@ -92,6 +109,52 @@ class ilEventParticipants
 	}
 
 	/**
+	 * @param bool $a_stat
+	 */
+	public function setExcused(bool $a_stat)
+	{
+		$this->excused = $a_stat;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getExcused() : bool
+	{
+		return $this->excused;
+	}
+
+
+	/**
+	 * Update excused status
+	 * @param int $a_usr_id
+	 * @param bool $a_status
+	 */
+	public function updateExcusedForUser(int $a_usr_id, bool $a_status)
+	{
+		if(!is_array($this->participants) || !array_key_exists($a_usr_id, $this->participants)) {
+			$event_part = new \ilEventParticipants($this->event_id);
+			$event_part->setUserId($a_usr_id);
+			$event_part->setMark('');
+			$event_part->setComment('');
+			$event_part->setNotificationEnabled(false);
+			$event_part->setParticipated(false);
+			$event_part->setRegistered(false);
+			$event_part->setContact(false);
+			$event_part->setExcused($a_status);
+			$event_part->updateUser();
+			return;
+		}
+
+		$query = 'update event_participants set excused = ' . $this->db->quote($a_status, \ilDBConstants::T_INTEGER) . ' '.
+			'where event_id = ' . $this->db->quote($this->event_id, \ilDBConstants::T_INTEGER) . ' and ' .
+			'usr_id = ' . $this->db->quote($a_usr_id, \ilDBConstants::T_INTEGER);
+		$this->db->manipulate($query);
+		return;
+
+	}
+
+	/**
 	 * @param bool $a_status
 	 */
 	public function setContact($a_status)
@@ -107,6 +170,21 @@ class ilEventParticipants
 		return $this->contact;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function isNotificationEnabled()
+	{
+		return (bool) $this->notificationEnabled;
+	}
+
+	/**
+	 * @param boolean $value
+	 */
+	public function setNotificationEnabled($value)
+	{
+		$this->notificationEnabled = (bool) $value;
+	}
 
 	function updateUser()
 	{
@@ -119,13 +197,15 @@ class ilEventParticipants
 			"AND usr_id = ".$ilDB->quote($this->getUserId() ,'integer')." ";
 		$res = $ilDB->manipulate($query);
 
-		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact ".
+		$query = "INSERT INTO event_participants (event_id,usr_id,registered,participated,contact,notification_enabled, excused ".
 			") VALUES( ".
 			$ilDB->quote($this->getEventId() ,'integer').", ".
 			$ilDB->quote($this->getUserId() ,'integer').", ".
 			$ilDB->quote($this->getRegistered() ,'integer').", ".
 			$ilDB->quote($this->getParticipated() ,'integer'). ', '.
-			$ilDB->quote($this->getContact(),'integer').' '.
+			$ilDB->quote($this->getContact(),'integer').', '.
+			$ilDB->quote($this->isNotificationEnabled() ,'integer') . ', '.
+			$ilDB->quote((int) $this->getExcused(), 'integer') .
 			")";
 		$res = $ilDB->manipulate($query);
 
@@ -165,6 +245,15 @@ class ilEventParticipants
 	function hasParticipated($a_usr_id)
 	{
 		return $this->participants[$a_usr_id]['participated'] ? true : false;
+	}
+
+	/**
+	 * @param int $a_usr_id
+	 * @return bool
+	 */
+	public function isExcused(int $a_usr_id) : bool
+	{
+		return $this->participants[$a_usr_id]['excused'] ? true : false;
 	}
 
 	/**
@@ -435,18 +524,72 @@ class ilEventParticipants
 		$query = "SELECT * FROM event_participants ".
 			"WHERE event_id = ".$ilDB->quote($this->getEventId())." ";
 		$res = $this->db->query($query);
+
+		global $DIC;
+		$tree = $DIC->repositoryTree();
+
+		$parentRecipients = array();
+		/** @var ilObject $session */
+		$session = ilObjectFactory::getInstanceByObjId($this->event_id);
+		$refIdArray = array_values(ilObject::_getAllReferences($this->event_id));
+		if (true === $session->isRegistrationNotificationEnabled()) {
+			if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+				$parentRefId = $tree->checkForParentType($refIdArray[0], 'crs');
+				if (!$parentRefId) {
+					$parentRefId = $tree->checkForParentType($refIdArray[0], 'grp');
+				}
+
+				if ($parentRefId) {
+					/** @var ilObjCourse|ilObjGroup $parentObject */
+					$parentObject = ilObjectFactory::getInstanceByRefId($parentRefId);
+
+					if ($parentObject instanceof ilObjCourse || $parentObject instanceof ilObjGroup) {
+						$memberRolesObject = $parentObject->getMembersObject();
+						$parentRecipients = $memberRolesObject->getNotificationRecipients();
+						if (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+							$admins = $memberRolesObject->getAdmins();
+
+							foreach ($admins as $adminUserId) {
+								if (in_array($adminUserId, $parentRecipients)) {
+									$this->participants[$adminUserId]['notification_enabled'] = true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
 			$this->participants[$row->usr_id]['registered'] = $row->registered;
 			$this->participants[$row->usr_id]['participated'] = $row->participated;
+			$this->participants[$row->usr_id]['excused'] = $row->excused;
 			$this->participants[$row->usr_id]['contact'] = $row->contact;
 
 			$lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
 			$this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
 			$this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
-			
-			
+
+			$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
+			/** @var ilObjSession $session */
+			if (true === $session->isRegistrationNotificationEnabled()) {
+				if (false === isset($this->participants[$row->usr_id]['notification_enabled'])) {
+					$this->participants[$row->usr_id]['notification_enabled'] = false;
+				}
+				if (ilSessionConstants::NOTIFICATION_MANUAL_OPTION === $session->getRegistrationNotificationOption()) {
+					$this->participants[$row->usr_id]['notification_enabled'] = (bool) $row->notification_enabled;
+				} elseif (ilSessionConstants::NOTIFICATION_INHERIT_OPTION === $session->getRegistrationNotificationOption()) {
+					foreach ($parentRecipients as $parentRecipientUserId) {
+						if ($parentRecipientUserId == $row->usr_id) {
+							$this->participants[$row->usr_id]['notification_enabled'] = true;
+						}
+					}
+				}
+			}
+
 			if($row->registered)
 			{
 				$this->registered[] = $row->usr_id;

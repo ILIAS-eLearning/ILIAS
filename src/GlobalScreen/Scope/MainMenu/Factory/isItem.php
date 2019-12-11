@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
-use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\isGlobalScreenItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -9,14 +9,8 @@ use ILIAS\UI\Component\Legacy\Legacy;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface isItem
+interface isItem extends isGlobalScreenItem
 {
-
-    /**
-     * @return IdentificationInterface
-     */
-    public function getProviderIdentification() : IdentificationInterface;
-
 
     /**
      * Pass a callable which can decide whether your element is visible for

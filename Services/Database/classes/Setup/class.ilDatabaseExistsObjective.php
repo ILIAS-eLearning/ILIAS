@@ -37,7 +37,7 @@ class ilDatabaseExistsObjective extends \ilDatabaseObjective {
 		$db->initFromIniFile($this->config->toMockIniFile());
 		$connect = $db->connect(true);
 		if (!$connect) {
-			throw new \RuntimeException(
+			throw new Setup\UnachievableException(
 				"Database cannot be connected. Please check the credentials."
 			);
 		}

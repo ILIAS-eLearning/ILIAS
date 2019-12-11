@@ -117,6 +117,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 				"title" => $task->getTitle(),
 				"url" => $task->getUrl(),
 				"ref_id" => $task->getRefId(),
+				"wsp_id" => $task->getWspId(),
 				"deadline" => $task->getDeadline(),
 				"starting_time" => $task->getStartingTime()
 			);
@@ -151,6 +152,25 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 			
 			if (0 === $a_set['url']) {
 				$url = ilLink::_getStaticLink($a_set["ref_id"]);
+			} else {
+				$url = $a_set['url'];
+			}
+			$link = $factory->button()->shy(ilObject::_lookupTitle($obj_id), $url);
+
+			$info_screen->addProperty(
+				$lng->txt("obj_".$obj_type),
+				$renderer->render($link)
+			);
+		}
+
+		if ($a_set["wsp_id"] > 0)
+		{
+			$wst = new ilWorkspaceTree($this->user->getId());
+			$obj_id = $wst->lookupObjectId($a_set["wsp_id"]);
+			$obj_type = ilObject::_lookupType($obj_id);
+
+			if (0 === $a_set['url']) {
+				$url = ilLink::_getStaticLink($a_set["wsp_id"]);
 			} else {
 				$url = $a_set['url'];
 			}
@@ -225,19 +245,33 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		$lng = $this->lng;
 
 		$title = $data["title"];
-		if ($data["ref_id"] > 0)
-		{
-			$link = ilLink::_getStaticLink($data["ref_id"]);
-			$title = $factory->button()->shy($data["title"], $link);
-		}
-
 		$props = [];
 
 		if ($data["ref_id"] > 0)
 		{
 			$obj_id = ilObject::_lookupObjId($data["ref_id"]);
 			$obj_type = ilObject::_lookupType($obj_id);
-			$link = ilLink::_getStaticLink($data["ref_id"]);
+			if (0 === $data['url']) {
+				$url = ilLink::_getStaticLink($data["ref_id"]);
+			} else {
+				$url = $data['url'];
+			}
+			$link = $url;
+			$title = $factory->button()->shy($data["title"], $link);
+			$props[$lng->txt("obj_".$obj_type)] = ilObject::_lookupTitle($obj_id);
+		}
+
+		if ($data["wsp_id"] > 0)
+		{
+			$wst = new ilWorkspaceTree($this->user->getId());
+			$obj_id = $wst->lookupObjectId($data["wsp_id"]);
+			$obj_type = ilObject::_lookupType($obj_id);
+			if (0 === $data['url']) {
+				$url = ilLink::_getStaticLink($data["wsp_id"]);
+			} else {
+				$url = $data['url'];
+			}
+			$link = $url;
 			$title = $factory->button()->shy($data["title"], $link);
 			$props[$lng->txt("obj_".$obj_type)] = ilObject::_lookupTitle($obj_id);
 		}
@@ -258,6 +292,16 @@ class ilPDTasksBlockGUI extends ilBlockGUI
 		$factory = $this->ui->factory();
 		return $factory->item()->standard($title)
 			->withProperties($props);
+	}
+
+	/**
+	 * No item entry
+	 *
+	 * @return string
+	 */
+	protected function getNoItemFoundContent(): string
+	{
+		return $this->lng->txt("task_no_task_items");
 	}
 
 }

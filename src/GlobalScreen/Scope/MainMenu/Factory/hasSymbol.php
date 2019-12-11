@@ -9,7 +9,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface hasSymbol
+interface hasSymbol extends isItem
 {
 
     /**

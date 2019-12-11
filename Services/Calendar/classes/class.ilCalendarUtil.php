@@ -36,6 +36,21 @@ class ilCalendarUtil
 	private static $default_calendar = array();
 	static $init_done;
 	static protected $init_datetimepicker;
+
+
+	/**
+	 * @param \ilDateTime|null $date
+	 */
+	public static function convertDateToUtcDBTimestamp(\ilDateTime $date = null)
+	{
+		if(is_null($date)) {
+			return $date;
+		}
+		if($date instanceof \ilDate) {
+			return $date->get(IL_CAL_DATE);
+		}
+		return $date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC);
+	}
 	
 	/**
 	 * check if a date is today 
@@ -702,7 +717,6 @@ class ilCalendarUtil
 				: "Y-m-d";
 		}
 		$tmp = date_parse_from_format($out_format, $a_date);
-		
 		$date = null;
 		
 		if(!$tmp["error_count"] &&
@@ -756,7 +770,7 @@ class ilCalendarUtil
 		else if(trim($a_value))
 		{							
 			// try user-specific format
-			$parsed = self::parseDateString($a_value, $a_add_time);				
+			$parsed = self::parseDateString($a_value, $a_add_time);
 			if(is_object($parsed["date"]))
 			{
 				return $parsed["date"];

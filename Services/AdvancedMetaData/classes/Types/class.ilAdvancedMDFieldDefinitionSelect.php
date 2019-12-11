@@ -113,7 +113,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 	 * @param ilPropertyFormGUI $a_form
 	 * @param bool $a_disabled
 	 */
-	public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
+	protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false)
 	{
 		global $DIC;
 

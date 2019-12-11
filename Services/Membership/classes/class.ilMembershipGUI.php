@@ -1650,7 +1650,18 @@ class ilMembershipGUI
 	 */
 	protected function addToClipboard()
 	{
+		// begin-patch clipboard
+		$users = [];
+		if(isset($_POST['participants'])) {
 		$users = (array) $_POST['participants'];
+		}
+		elseif(isset($_POST['subscribers'])) {
+			$users = (array) $_POST['subscribers'];
+		}
+		elseif(isset($_POST['waiting'])) {
+			$users = (array) $_POST['waiting'];
+		}
+		// end-patch clipboard
 		if(!count($users))
 		{
 			ilUtil::sendFailure($this->lng->txt('select_one'),true);

@@ -1765,8 +1765,6 @@ if (!$a_wysiwyg)
 	{
 		if (is_array($a_glos) && count($a_glos) > 0)
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
-
 			// check which terms occur in the text (we may
 			// get some false positives due to the strip_tags, but
 			// we do not want to find strong or list or other stuff

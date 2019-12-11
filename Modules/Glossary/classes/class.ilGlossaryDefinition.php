@@ -1,16 +1,13 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once("./Modules/Glossary/classes/class.ilGlossaryDefPage.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
-* Class ilGlossaryDefinition
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesGlossary
-*/
+ * Class ilGlossaryDefinition
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ */
 class ilGlossaryDefinition
 {
 	/**
@@ -395,8 +392,6 @@ class ilGlossaryDefinition
 
 		if ($this->getTermId() > 0)
 		{
-			include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 			$glo_id = ilGlossaryTerm::_lookGlossaryId($this->getTermId());
 			$snippet_length = ilObjGlossary::lookupSnippetLength($glo_id);
 			if ($snippet_length > 0)
@@ -491,7 +486,6 @@ class ilGlossaryDefinition
 	function exportXMLMetaData(&$a_xml_writer)
 	{
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
-		include_once("Services/MetaData/classes/class.ilMD2XML.php");
 		$md2xml = new ilMD2XML($glo_id, $this->getId(), $this->getType());
 		$md2xml->setExportMode(true);
 		$md2xml->startExport();
@@ -524,7 +518,6 @@ class ilGlossaryDefinition
 		$this->page_object->buildDom();
 		$this->page_object->insertInstIntoIDs($a_inst);
 		$this->mobs_contained = $this->page_object->collectMediaObjects(false);
-		include_once("./Services/COPage/classes/class.ilPCFileList.php");
 		$this->files_contained = ilPCFileList::collectFileItems($this->page_object, $this->page_object->getDomDoc());
 		$xml = $this->page_object->getXMLFromDom(false, false, false, "", true);
 		$xml = str_replace("&","&amp;", $xml);
@@ -538,8 +531,6 @@ class ilGlossaryDefinition
 	*/
 	function createMetaData()
 	{
-		include_once 'Services/MetaData/classes/class.ilMDCreator.php';
-
 		$ilUser = $this->user;
 
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
@@ -562,10 +553,6 @@ class ilGlossaryDefinition
 	*/
 	function updateMetaData()
 	{
-		include_once("Services/MetaData/classes/class.ilMD.php");
-		include_once("Services/MetaData/classes/class.ilMDGeneral.php");
-		include_once("Services/MetaData/classes/class.ilMDDescription.php");
-
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
 		$md = new ilMD($glo_id, $this->getId(), $this->getType());
 		$md_gen = $md->getGeneral();
@@ -588,7 +575,6 @@ class ilGlossaryDefinition
 	function deleteMetaData()
 	{
 		// Delete meta data
-		include_once('Services/MetaData/classes/class.ilMD.php');
 		$glo_id = ilGlossaryTerm::_lookGlossaryID($this->getTermId());
 		$md = new ilMD($glo_id, $this->getId(), $this->getType());
 		$md->deleteAll();
@@ -610,8 +596,6 @@ class ilGlossaryDefinition
 	*/
 	function MDUpdateListener($a_element)
 	{
-		include_once 'Services/MetaData/classes/class.ilMD.php';
-
 		switch($a_element)
 		{
 			case 'General':
@@ -670,7 +654,6 @@ class ilGlossaryDefinition
 
 		$ilDB = $DIC->database();
 
-		include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 		$term_ids = ilGlossaryTerm::getTermsOfGlossary($a_glo_id);
 
 		foreach ($term_ids as $term_id)
@@ -682,5 +665,3 @@ class ilGlossaryDefinition
 		}
 	}
 }
-
-?>

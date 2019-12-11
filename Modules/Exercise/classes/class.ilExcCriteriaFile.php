@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExcCriteria.php";
-
 /**
  * Class ilExcCriteriaFile
  *
@@ -42,7 +40,6 @@ class ilExcCriteriaFile extends ilExcCriteria
 		
 	protected function initStorage()
 	{
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
 		return $storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId());					
 	}
@@ -55,7 +52,6 @@ class ilExcCriteriaFile extends ilExcCriteria
 		
 	public function resetReview()
 	{		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
 		$storage->deleteDirectory($storage->getPeerReviewUploadPath($this->peer_id, $this->giver_id, $this->getId()));			 	
 	}

@@ -466,16 +466,16 @@ class ilECSSettingsGUI
 		$loc->setTitle($this->lng->txt('ecs_local_settings'));
 		$this->form->addItem($loc);
 		
-		$pol = new ilDurationInputGUI($this->lng->txt('ecs_polling'),'polling');
-		$pol->setShowDays(false);
-		$pol->setShowHours(false);
-		$pol->setShowMinutes(true);
-		$pol->setShowSeconds(true);
-		$pol->setSeconds($this->settings->getPollingTimeSeconds());
-		$pol->setMinutes($this->settings->getPollingTimeMinutes());
-		$pol->setRequired(true);
-		$pol->setInfo($this->lng->txt('ecs_polling_info'));
-		$this->form->addItem($pol);
+		#$pol = new ilDurationInputGUI($this->lng->txt('ecs_polling'),'polling');
+		#$pol->setShowDays(false);
+		#$pol->setShowHours(false);
+		#$pol->setShowMinutes(true);
+		#$pol->setShowSeconds(true);
+		#$pol->setSeconds($this->settings->getPollingTimeSeconds());
+		#$pol->setMinutes($this->settings->getPollingTimeMinutes());
+		#$pol->setRequired(true);
+		#$pol->setInfo($this->lng->txt('ecs_polling_info'));
+		#$this->form->addItem($pol);
 		
 		$imp = new ilCustomInputGUI($this->lng->txt('ecs_import_id'));
 		$imp->setRequired(true);

@@ -72,8 +72,22 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	
 	private $mail_members = ilCourseConstants::MAIL_ALLOWED_ALL;
 
+	/**
+	 * @var bool
+	 */
+	protected $crs_start_time_indication = false;
+
+	/**
+	 * @var \ilDateTime | null
+	 */
 	protected $crs_start; // [ilDate]
+
+	/**
+	 * @var \ilDateTime | null
+	 */
 	protected $crs_end; // [ilDate]
+
+
 	protected $leave_end; // [ilDate]
 	protected $min_members; // [int]
 	protected $auto_fill_from_waiting; // [bool]
@@ -94,6 +108,12 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * 
 	 */
 	private $auto_notification = true;
+
+
+	/**
+	 * @var string
+	 */
+	private $target_group = '';
 
 
 	/**
@@ -211,6 +231,23 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		$this->syllabus = $a_syllabus;
 	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getTargetGroup() : ?string
+	{
+		return $this->target_group;
+	}
+
+	/**
+	 * @param string|null $a_tg
+	 */
+	public function setTargetGroup(?string $a_tg)
+	{
+		$this->target_group = $a_tg;
+	}
+
 	function getContactName()
 	{
 		return $this->contact_name;
@@ -927,24 +964,77 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	{
 		return $this->enablemap;
 	}
-	
-	function setCourseStart(ilDate $a_value = null)
+
+	/**
+	 * @param \ilDateTime|null $start
+	 * @param \ilDateTime|null $end
+	 * @throws InvalidArgumentException
+	 */
+	public function setCoursePeriod(\ilDateTime $start = null, \ilDateTime $end = null)
+	{
+		if(
+		($start instanceof \ilDate && !$end instanceof ilDate) ||
+		($end instanceof \ilDate && !$start instanceof ilDate)
+		) {
+			throw new InvalidArgumentException('Different date types not supported.');
+		}
+
+		if($start instanceof \ilDate) {
+			$this->toggleCourseStartTimeIndication(false);
+		}
+		else {
+			$this->toggleCourseStartTimeIndication(true);
+		}
+		$this->setCourseStart($start);
+		$this->setCourseEnd($end);
+	}
+
+	/**
+	 * @param bool $time_indication
+	 */
+	protected function toggleCourseStartTimeIndication(bool $time_indication)
+	{
+		$this->course_start_time_indication = $time_indication;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getCourseStartTimeIndication() : bool
+	{
+		return $this->course_start_time_indication;
+	}
+
+
+	/**
+	 * @param \ilDateTime|null $a_value
+	 */
+	protected function setCourseStart(ilDateTime $a_value = null)
 	{		
 		$this->crs_start = $a_value;
 	}
-	
-	function getCourseStart()
+
+	/**
+	 * @return \ilDateTime | null
+	 */
+	public function getCourseStart() : ?\ilDateTime
 	{		
 		return $this->crs_start;
 	}
-	
-	function setCourseEnd(ilDate $a_value = null)
+
+	/**
+	 * @param \ilDateTime|null $a_value
+	 */
+	protected function setCourseEnd(ilDateTime $a_value = null)
 	{		
 		$this->crs_end = $a_value;
 	}
-	
-	function getCourseEnd()
-	{		
+
+	/**
+	 * @return \ilDateTime|null
+	 */
+	public function getCourseEnd() : ?\ilDateTime
+	{
 		return $this->crs_end;
 	}
 	
@@ -1290,6 +1380,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		
 	}
 
+	/**
+	 * Update settings
+	 */
 	function updateSettings()
 	{
 		global $DIC;
@@ -1305,7 +1398,8 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		{
 			$this->__createDefaultSettings();
 		}
-		
+
+
 		$query = "UPDATE crs_settings SET ".
 			"syllabus = ".$ilDB->quote($this->getSyllabus() ,'text').", ".
 			"contact_name = ".$ilDB->quote($this->getContactName() ,'text').", ".
@@ -1327,6 +1421,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			"abo = ".$ilDB->quote($this->getAboStatus() ,'integer').", ".
 			"waiting_list = ".$ilDB->quote($this->enabledWaitingList() ,'integer').", ".
 			"important = ".$ilDB->quote($this->getImportantInformation() ,'text').", ".
+			'target_group = ' . $ilDB->quote($this->getTargetGroup(), \ilDBConstants::T_TEXT) . ', ' .
 			"show_members = ".$ilDB->quote($this->getShowMembers() ,'integer').", ".
 			"show_members_export = ".$ilDB->quote($this->getShowMembersExport() ,'integer').", ".
 			"latitude = ".$ilDB->quote($this->getLatitude() ,'text').", ".
@@ -1341,8 +1436,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			'auto_notification = '.$ilDB->quote( (int)$this->getAutoNotification(), 'integer').', '.
 			'status_dt = '.$ilDB->quote((int) $this->getStatusDetermination()).', '.
 			'mail_members_type = '.$ilDB->quote((int) $this->getMailToMembersType(),'integer').', '.					
-			'crs_start = '.$ilDB->quote(($this->getCourseStart() && !$this->getCourseStart()->isNull()) ? $this->getCourseStart()->get(IL_CAL_UNIX) : null, 'integer').', '.
-			'crs_end = '.$ilDB->quote(($this->getCourseEnd() && !$this->getCourseEnd()->isNull()) ? $this->getCourseEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.
+			'period_start = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseStart()), \ilDBConstants::T_TIMESTAMP).', '.
+			'period_end = '.$ilDB->quote(\ilCalendarUtil::convertDateToUtcDBTimestamp($this->getCourseEnd()), \ilDBConstants::T_TIMESTAMP).', '.
+			'period_time_indication = ' . $ilDB->quote($this->getCourseStartTimeIndication() ? 1 : 0, \ilDBConstants::T_INTEGER) . ', ' .
 			'auto_wait = '.$ilDB->quote((int) $this->hasWaitingListAutoFill(),'integer').', '.
 			'leave_end = '.$ilDB->quote(($this->getCancellationEnd() && !$this->getCancellationEnd()->isNull()) ? $this->getCancellationEnd()->get(IL_CAL_UNIX) : null, 'integer').', '.
 			'min_members = '.$ilDB->quote((int) $this->getSubscriptionMinMembers(),'integer').'  '.				
@@ -1380,8 +1476,9 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 	 * @param ilObjCourse new course object
 	 * 
 	 */
-	public function cloneSettings($new_obj)
+	public function cloneSettings(\ilObjCourse $new_obj)
 	{
+
 		$new_obj->setSyllabus($this->getSyllabus());
 		$new_obj->setContactName($this->getContactName());
 		$new_obj->setContactResponsibility($this->getContactResponsibility());
@@ -1406,6 +1503,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setAboStatus($this->getAboStatus());
 		$new_obj->enableWaitingList($this->enabledWaitingList());
 		$new_obj->setImportantInformation($this->getImportantInformation());
+		$new_obj->setTargetGroup($this->getTargetGroup());
 		$new_obj->setShowMembers($this->getShowMembers());
 		// patch mem_exp
 		$new_obj->setShowMembersExport($this->getShowMembersExport());
@@ -1419,8 +1517,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		$new_obj->setRegistrationAccessCode(ilMembershipRegistrationCodeUtils::generateCode());
 		$new_obj->setStatusDetermination($this->getStatusDetermination());
 		$new_obj->setMailToMembersType($this->getMailToMembersType());
-		$new_obj->setCourseStart($this->getCourseStart());
-		$new_obj->setCourseEnd($this->getCourseEnd());
+		$new_obj->setCoursePeriod(
+			$this->getCourseStart(),
+			$this->getCourseEnd()
+		);
 		$new_obj->setCancellationEnd($this->getCancellationEnd());
 		$new_obj->setWaitingListAutoFill($this->hasWaitingListAutoFill());
 		$new_obj->setSubscriptionMinMembers($this->getSubscriptionMinMembers());
@@ -1508,6 +1608,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 		while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
 		{
 			$this->setSyllabus($row->syllabus);
+			$this->setTargetGroup($row->target_group);
 			$this->setContactName($row->contact_name);
 			$this->setContactResponsibility($row->contact_responsibility);
 			$this->setContactPhone($row->contact_phone);
@@ -1541,8 +1642,20 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 			$this->setAutoNotification($row->auto_notification == 1 ? true : false);
 			$this->setStatusDetermination((int) $row->status_dt);
 			$this->setMailToMembersType($row->mail_members_type);
-			$this->setCourseStart($row->crs_start ? new ilDate($row->crs_start, IL_CAL_UNIX) : null);
-			$this->setCourseEnd($row->crs_end ? new ilDate($row->crs_end, IL_CAL_UNIX) : null);
+
+			if($row->period_time_indication) {
+				$this->setCoursePeriod(
+					new \ilDateTime($row->period_start, IL_CAL_DATETIME, \ilTimeZone::UTC),
+					new \ilDateTime($row->period_end, IL_CAL_DATETIME, \ilTimeZone::UTC)
+				);
+			}
+			elseif(!is_null($row->period_start) && !is_null($row->period_end)) {
+				$this->setCoursePeriod(
+					new \ilDate($row->period_start, IL_CAL_DATE),
+					new \ilDate($row->period_end, IL_CAL_DATE)
+				);
+			}
+			$this->toggleCourseStartTimeIndication((bool) $row->period_time_indication);
 			$this->setCancellationEnd($row->leave_end ? new ilDate($row->leave_end, IL_CAL_UNIX) : null);
 			$this->setWaitingListAutoFill($row->auto_wait);
 			$this->setSubscriptionMinMembers($row->min_members ? $row->min_members : null);			
@@ -2014,7 +2127,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getCourseStart());
-					$app->setFullday(true);
+					$app->setFullday(!$this->getCourseStartTimeIndication());
 					$apps[] = $app;
 
 					$app = new ilCalendarAppointmentTemplate(self::CAL_COURSE_END);
@@ -2023,7 +2136,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 					$app->setTranslationType(IL_CAL_TRANSLATION_SYSTEM);
 					$app->setDescription($this->getLongDescription());	
 					$app->setStart($this->getCourseEnd());
-					$app->setFullday(true);
+					$app->setFullday(!$this->getCourseStartTimeIndication());
 					$apps[] = $app;
 				}
 				if(
@@ -2396,7 +2509,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
 				" OR (leave_end IS NULL".
 				" AND sub_end IS NOT NULL".
 				" AND sub_end < ".$ilDB->quote($now, "text")."))".
-			" AND (crs_start IS NULL OR crs_start > ".$ilDB->quote($now, "integer").")");
+			" AND (period_start IS NULL OR period_start > ".$ilDB->quote($now, "integer").")");
 		while($row = $ilDB->fetchAssoc($set))
 		{
 			$refs = ilObject::_getAllReferences($row['obj_id']);

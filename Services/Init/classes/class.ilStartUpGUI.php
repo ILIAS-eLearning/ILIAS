@@ -107,8 +107,11 @@ class ilStartUpGUI
 				return $this->ctrl->forwardCommand(new ilPasswordAssistanceGUI());
 
 			default:
+				if (method_exists($this, $cmd))
+				{
 				return $this->$cmd();
 		}
+	}
 	}
 
 	/**
@@ -1326,7 +1329,7 @@ class ilStartUpGUI
 
 		if((int)$this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth'))
 		{
-			ilUtil::redirect('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
+			$this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
 		}
 
 		//instantiate logout template

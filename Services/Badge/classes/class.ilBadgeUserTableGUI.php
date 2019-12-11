@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("Services/Table/classes/class.ilTable2GUI.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * TableGUI class for badge user listing
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ServicesBadge
  */
 class ilBadgeUserTableGUI extends ilTable2GUI
 {		
@@ -69,7 +65,6 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 				$title = ilObject::_lookupTitle($a_parent_obj_id);
 				if(!$title)
 				{
-					include_once "Services/Object/classes/class.ilObjectDataDeletionLog.php";
 					$title = ilObjectDataDeletionLog::get($a_parent_obj_id);
 					if($title)
 					{
@@ -78,7 +73,6 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 				}
 				if($a_restrict_badge_id)
 				{
-					include_once("Services/Badge/classes/class.ilBadge.php");
 					$badge = new ilBadge($a_restrict_badge_id);
 					$title .= " - ".$badge->getTitle();
 				}
@@ -147,8 +141,6 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			}
 		}
 		
-		include_once "Services/Badge/classes/class.ilBadge.php";
-		include_once "Services/Badge/classes/class.ilBadgeAssignment.php";
 		$badges = $assignments = array();
 		foreach($obj_ids as $obj_id)
 		{							
@@ -182,8 +174,6 @@ class ilBadgeUserTableGUI extends ilTable2GUI
 			$user_ids = array_keys($assignments);
 		}
 
-		include_once "Services/Badge/classes/class.ilBadgeRenderer.php";
-		include_once "Services/User/classes/class.ilUserQuery.php";
 		$tmp["set"] = array();
 		if (count($user_ids) > 0)
 		{

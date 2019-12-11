@@ -100,7 +100,6 @@ class ilGlossaryTermPermission
 	{
 		if (!isset($this->glossary_id[$a_term_id]))
 		{
-			include_once("./Modules/Glossary/classes/class.ilGlossaryTerm.php");
 			$this->glossary_id[$a_term_id] = ilGlossaryTerm::_lookGlossaryID($a_term_id);
 		}
 		return $this->glossary_id[$a_term_id];
@@ -108,5 +107,3 @@ class ilGlossaryTermPermission
 
 
 }
-
-?>

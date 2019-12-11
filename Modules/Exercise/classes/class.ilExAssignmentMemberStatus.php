@@ -260,14 +260,12 @@ class ilExAssignmentMemberStatus
 			$row["fb_file"] &&
 			$row["fb_date"] == ilExAssignment::FEEDBACK_DATE_SUBMISSION) // #16200
 		{
-			include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 			ilExAssignment::sendFeedbackNotifications($this->ass_id, $this->user_id);
 		}	
 	}
 		
 	protected function postUpdateStatus()
 	{		
-		include_once "Modules/Exercise/classes/class.ilExAssignment.php";
 		$ass = new ilExAssignment($this->ass_id);
 		$exc = new ilObjExercise($ass->getExerciseId(), false);
 		$exc->updateUserStatus($this->user_id);

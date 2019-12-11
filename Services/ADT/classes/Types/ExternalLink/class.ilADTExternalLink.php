@@ -168,6 +168,30 @@ class ilADTExternalLink extends ilADT
 		}
 	}
 
-}
 
-?>
+    /**
+     * @inheritDoc
+     */
+    public function exportStdClass()
+    {
+        if (!$this->isNull()) {
+            $obj = new stdClass();
+            $obj->url = $this->getUrl();
+            $obj->title = $this->getTitle();
+
+            return $obj;
+        }
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function importStdClass($a_std)
+    {
+        if (is_object($a_std)) {
+            $this->setTitle($a_std->title);
+            $this->setUrl($a_std->url);
+        }
+    }
+}

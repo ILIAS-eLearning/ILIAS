@@ -1,15 +1,11 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/COPage/classes/class.ilPageObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBlogPosting
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
- *
- * @ingroup ModulesBlog
  */
 class ilBlogPosting extends ilPageObject
 {	
@@ -19,6 +15,7 @@ class ilBlogPosting extends ilPageObject
 	protected $blog_node_is_wsp; // [bool]
 	protected $author; // [int]
 	protected $approved; // [bool]
+	protected $withdrawn; // [ilDateTime]
 
 	/**
 	 * Get parent type
@@ -130,6 +127,26 @@ class ilBlogPosting extends ilPageObject
 	}
 
 	/**
+	 * Set last withdrawal date
+	 *
+	 * @param ilDateTime $a_date
+	 */
+	function setWithdrawn(ilDateTime $a_date)
+	{
+		$this->withdrawn = $a_date;
+	}
+
+	/**
+	 * Get last withdrawal date
+	 *
+	 * @return ilDateTime
+	 */
+	function getWithdrawn()
+	{
+		return $this->withdrawn;
+	}
+
+	/**
 	 * Create new blog posting
 	 */
 	function create($a_import = false)
@@ -149,15 +166,16 @@ class ilBlogPosting extends ilPageObject
 		}
 
 		// we are using a separate creation date to enable sorting without JOINs
-		
-		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved)".
+
+		$query = "INSERT INTO il_blog_posting (id, title, blog_id, created, author, approved, last_withdrawn)".
 			" VALUES (".
 			$ilDB->quote($this->getId(), "integer").",".
 			$ilDB->quote($this->getTitle(), "text").",".
 			$ilDB->quote($this->getBlogId(), "integer").",".
 			$ilDB->quote($created, "timestamp").",".
 			$ilDB->quote($this->getAuthor(), "integer").",".
-			$ilDB->quote($this->isApproved(), "integer").")"; // #16526 - import
+			$ilDB->quote($this->isApproved(), "integer").",". // #16526 - import
+			$ilDB->quote($this->getWithdrawn(), "timestamp").")";
 		$ilDB->manipulate($query);
 
 		if(!$a_import)
@@ -184,8 +202,9 @@ class ilBlogPosting extends ilPageObject
 		
 		$query = "UPDATE il_blog_posting SET".
 			" title = ".$ilDB->quote($this->getTitle(), "text").
-			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "text").
+			",created = ".$ilDB->quote($this->getCreated()->get(IL_CAL_DATETIME), "timestamp").
 			",approved =".$ilDB->quote($this->isApproved(), "integer").
+			",last_withdrawn =".$ilDB->quote($this->getWithdrawn()->get(IL_CAL_DATETIME), "timestamp").
 			" WHERE id = ".$ilDB->quote($this->getId(), "integer");
 		$ilDB->manipulate($query);
 		
@@ -193,7 +212,6 @@ class ilBlogPosting extends ilPageObject
 		
 		if($a_notify && $this->getActive())
 		{					
-			include_once "Modules/Blog/classes/class.ilObjBlog.php";
 			ilObjBlog::sendNotification($a_notify_action, $this->blog_node_is_wsp, $this->blog_node_id, $this->getId());
 		}
 
@@ -220,6 +238,7 @@ class ilBlogPosting extends ilPageObject
 		{
 			$this->setApproved(true);
 		}
+		$this->setWithdrawn(new ilDateTime($rec["last_withdrawn"], IL_CAL_DATETIME));
 		
 		// when posting is deactivated it should loose the approval
 		$this->addUpdateListener($this, "checkApproval");
@@ -245,7 +264,6 @@ class ilBlogPosting extends ilPageObject
 	{
 		$ilDB = $this->db;
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
 			"blog", $this->getId(), $this->getParentType());
 
@@ -265,9 +283,9 @@ class ilBlogPosting extends ilPageObject
 	{
 		$this->setApproved(false);
 		$this->setActive(false);
+		$this->setWithdrawn(new ilDateTime(ilUtil::now(), IL_CAL_DATETIME));
 		$this->update(true, false, false);
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		ilNewsItem::deleteNewsOfContext($this->getBlogId(),
 			"blog", $this->getId(), $this->getParentType());
 	}
@@ -283,8 +301,6 @@ class ilBlogPosting extends ilPageObject
 		global $DIC;
 
 		$ilDB = $DIC->database();
-		
-		include_once 'Services/MetaData/classes/class.ilMD.php';
 		
 		$query = "SELECT * FROM il_blog_posting".
 			" WHERE blog_id = ".$ilDB->quote($a_blog_id, "integer");
@@ -364,6 +380,7 @@ class ilBlogPosting extends ilPageObject
 				$post[$rec["id"]]["created"] = new ilDateTime($rec["created"], IL_CAL_DATETIME);
 				$post[$rec["id"]]["author"] = $rec["author"];
 				$post[$rec["id"]]["approved"] = (bool)$rec["approved"];
+				$post[$rec["id"]]["last_withdrawn"] = new ilDateTime($rec["last_withdrawn"], IL_CAL_DATETIME);
 								
 				foreach(self::getPageContributors("blp", $rec["id"]) as $editor)
 				{
@@ -456,7 +473,6 @@ class ilBlogPosting extends ilPageObject
 	
 	public function getNotificationAbstract()
 	{	
-		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 		$snippet = ilBlogPostingGUI::getSnippet($this->getId(), true);
 		
 		// making things more readable
@@ -474,7 +490,6 @@ class ilBlogPosting extends ilPageObject
 	public function getMDSection()
 	{											
 		// general section available?
-		include_once 'Services/MetaData/classes/class.ilMD.php';
 		$md_obj = new ilMD($this->getBlogId(), $this->getId(), "blp");
 		if(!is_object($md_section = $md_obj->getGeneral()))
 		{
@@ -493,13 +508,11 @@ class ilBlogPosting extends ilPageObject
 		$ulang = $ilUser->getLanguage();
 		$keywords = array($ulang=>$keywords);
 
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");				
-		ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);		
+		ilMDKeyword::updateKeywords($this->getMDSection(), $keywords);
 	}
 		
 	public static function getKeywords($a_obj_id, $a_posting_id)
 	{
-		include_once("./Services/MetaData/classes/class.ilMDKeyword.php");
 		return ilMDKeyword::lookupKeywords($a_obj_id, $a_posting_id);
 	}	
 		
@@ -520,7 +533,6 @@ class ilBlogPosting extends ilPageObject
 			return;
 		}
 
-		include_once("./Services/News/classes/class.ilNewsItem.php");
 		$news_item = null;
 		
 		// try to re-use existing news item		
@@ -570,7 +582,6 @@ class ilBlogPosting extends ilPageObject
 			: "blog_news_posting_published";
 		
 		// news "author"
-		include_once "Services/User/classes/class.ilUserUtil.php";
 		$content = sprintf($lng->txt($content), ilUserUtil::getNamePresentation($ilUser->getId()));
 		
 		// posting author[s]
@@ -596,7 +607,6 @@ class ilBlogPosting extends ilPageObject
 		$news_item->setContentTextIsLangVar(false);				
 		$news_item->setContent($content);	
 		
-		include_once "Modules/Blog/classes/class.ilBlogPostingGUI.php";
 		$snippet = ilBlogPostingGUI::getSnippet($this->getId());
 		$news_item->setContentLong($snippet);
 			

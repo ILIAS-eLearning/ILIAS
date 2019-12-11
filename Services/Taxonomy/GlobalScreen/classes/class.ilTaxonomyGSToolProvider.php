@@ -42,7 +42,7 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
 
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
+            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
             $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($lng->txt("tax_taxonomy"))

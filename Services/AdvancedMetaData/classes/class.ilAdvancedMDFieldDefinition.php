@@ -32,9 +32,10 @@ abstract class ilAdvancedMDFieldDefinition
 	const TYPE_FLOAT = 6;
 	const TYPE_LOCATION = 7;
 	const TYPE_SELECT_MULTI = 8;
+	const TYPE_ADDRESS = 99;
 	const TYPE_EXTERNAL_LINK = 9;
 	const TYPE_INTERNAL_LINK = 10;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -98,8 +99,9 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_INTEGER => "Integer",				
 			self::TYPE_SELECT_MULTI => "SelectMulti"	,
 			self::TYPE_EXTERNAL_LINK => 'ExternalLink',
-			self::TYPE_INTERNAL_LINK => 'InternalLink'
-		);	
+			self::TYPE_INTERNAL_LINK => 'InternalLink',
+			self::TYPE_ADDRESS => "Address"
+		);
 		$map = array_flip($map);
 		if(array_key_exists($a_type, $map))
 		{
@@ -270,7 +272,8 @@ abstract class ilAdvancedMDFieldDefinition
 			self::TYPE_LOCATION, 
 			self::TYPE_SELECT_MULTI,
 			self::TYPE_EXTERNAL_LINK,
-			self::TYPE_INTERNAL_LINK
+			self::TYPE_INTERNAL_LINK,
+			self::TYPE_ADDRESS
 		);
 	}
 	
@@ -312,8 +315,9 @@ abstract class ilAdvancedMDFieldDefinition
 				self::TYPE_INTEGER => "Integer",			
 				self::TYPE_SELECT_MULTI => "SelectMulti"	,
 				self::TYPE_EXTERNAL_LINK => 'ExternalLink',
-				self::TYPE_INTERNAL_LINK => 'InternalLink'
-			);		
+				self::TYPE_INTERNAL_LINK => 'InternalLink',
+				self::TYPE_ADDRESS => "Address"
+			);
 			return $map[$a_type];
 		}		
 	}
@@ -1222,16 +1226,34 @@ abstract class ilAdvancedMDFieldDefinition
 	{
 		$class = get_class($this);
 		$obj = new $class();
-		$obj->setRecordId($a_new_record_id);		
+		$obj->setRecordId($a_new_record_id);
 		$obj->setTitle($this->getTitle());
 		$obj->setDescription($this->getDescription());
 		$obj->setRequired($this->isRequired());
 		$obj->setPosition($this->getPosition());
 		$obj->setSearchable($this->isSearchable());
-		$obj->importFieldDefinition((array) $this->getFieldDefinition());
+		$obj->importFieldDefinition((array)$this->getFieldDefinition());
 		$obj->save(true);
-		
-		return $obj;		
+
+		return $obj;
+	}
+	// 
+	// complex options
+	// 
+	
+	public function hasComplexOptions()
+	{
+		return false;
+	}
+
+	/**
+	 * @param $a_parent_gui
+	 * @param string $parent_cmd
+	 * @return null
+	 */
+	public function getComplexOptionsOverview($a_parent_gui, string $parent_cmd) :?string
+	{
+		return null;
 	}
 }
 

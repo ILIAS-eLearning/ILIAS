@@ -1,14 +1,10 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php");
-
-
 /**
  * Exercise member table
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ModulesExercise
  */
@@ -39,7 +35,6 @@ class ilExerciseMemberTableGUI extends ilExerciseSubmissionTableGUI
 		// global id for all exercises
 		$this->setId("exc_mem");
 		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		$this->ass = new ilExAssignment($a_item_id);
 		
 		$this->setTitle($lng->txt("exc_assignment").": ".$this->ass->getTitle());			

@@ -1,14 +1,30 @@
 <tr class="{CSS_ROW}">
-<td class="std">
-<input type="checkbox" name="trash_id[]" value="{ID}" />
-</td>
-<td class="std">
-{IMG_TYPE}
-</td>
-<td class="std">
-{VAL_TITLE}
-</td>
-<td class="std">
-{VAL_LAST_CHANGE}
-</td>
+	<td class="std">
+		<input type="checkbox" name="trash_id[]" value="{ID}"/>
+	</td>
+	<td class="std">
+		{IMG_TYPE}
+	</td>
+	<td class="std">
+		{VAL_TITLE}
+		<!-- BEGIN with_desc -->
+		<div class="il_Description_no_margin">
+			{VAL_DESC}
+		</div>
+		<!-- END with_desc -->
+		<!-- BEGIN with_path -->
+		<div>
+			{PATH}
+		</div>
+		<!-- END with_path -->
+	</td>
+	<td class="std">
+		{VAL_DELETED_BY}
+	</td>
+	<td class="std">
+		{VAL_DELETED_ON}
+	</td>
+	<td class="std">
+		{VAL_SUBS}
+	</td>
 </tr>

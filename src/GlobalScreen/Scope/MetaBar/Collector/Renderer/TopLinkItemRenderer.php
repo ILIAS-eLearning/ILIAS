@@ -15,7 +15,7 @@ class TopLinkItemRenderer extends AbstractMetaBarItemRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    protected function getSpecificComponentForItem(isItem $item) : Component
     {
         /**
          * @var $item TopLinkItem

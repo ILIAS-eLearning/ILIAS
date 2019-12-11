@@ -15,6 +15,26 @@ class ilOrgUnitOperationContext extends ActiveRecord
     const CONTEXT_TST = "tst";
     const CONTEXT_EXC = "exc";
     const CONTEXT_SVY = "svy";
+    const CONTEXT_USRF = "usrf";
+    const CONTEXT_PRG = "prg";
+
+    /**
+     * @var array
+     */
+    public static $available_contexts = [
+        self::CONTEXT_OBJECT,
+        self::CONTEXT_CRS,
+        self::CONTEXT_GRP,
+        self::CONTEXT_IASS,
+        self::CONTEXT_TST,
+        self::CONTEXT_EXC,
+        self::CONTEXT_SVY,
+        self::CONTEXT_USRF,
+        self::CONTEXT_PRG,
+    ];
+
+
+
 
 
     /**

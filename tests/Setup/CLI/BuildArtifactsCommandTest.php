@@ -9,35 +9,40 @@ use Symfony\Component\Console\Tester\CommandTester;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 
-class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase {
-	public function testBasicFunctionality() {
-		$refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+class BuildArtifactsCommandTest extends \PHPUnit\Framework\TestCase
+{
+    public function testBasicFunctionality()
+    {
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
 
-		$agent = $this->createMock(Setup\Agent::class);
-		$command = new Setup\CLI\BuildArtifactsCommand($agent);
+        $agent = $this->createMock(Setup\Agent::class);
+        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+        $command = new Setup\CLI\BuildArtifactsCommand(function () use ($agent) {
+            return $agent;
+        }, $config_reader, []);
 
-		$tester = new CommandTester($command);
+        $tester = new CommandTester($command);
 
-		$objective = $this->createMock(Setup\Objective::class);
-		$env = $this->createMock(Setup\Environment::class);
+        $objective = $this->createMock(Setup\Objective::class);
+        $env = $this->createMock(Setup\Environment::class);
 
-		$agent
-			->expects($this->once())
-			->method("getBuildArtifactObjective")
-			->with()
-			->willReturn($objective);
+        $agent
+            ->expects($this->once())
+            ->method("getBuildArtifactObjective")
+            ->with()
+            ->willReturn($objective);
 
-		$objective
-			->expects($this->once())
-			->method("getPreconditions")
-			->willReturn([]);
+        $objective
+            ->expects($this->once())
+            ->method("getPreconditions")
+            ->willReturn([]);
 
-		$objective
-			->expects($this->once())
-			->method("achieve")
-			->willReturn($env);
+        $objective
+            ->expects($this->once())
+            ->method("achieve")
+            ->willReturn($env);
 
-		$tester->execute([
-		]);
-	}
+        $tester->execute([
+        ]);
+    }
 }

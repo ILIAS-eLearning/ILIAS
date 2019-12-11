@@ -40,7 +40,7 @@ include_once("./Services/Component/classes/class.ilComponent.php");
 */
 abstract class ilModule extends ilComponent
 {
-	
+
 	/**
 	* Constructor: read information on component
 	*/
@@ -66,7 +66,7 @@ abstract class ilModule extends ilComponent
 	{
 		// class is always il<ModuleName>Module
 		$class = get_class($this);
-		
+
 		return substr($class, 2, strlen($class) - 8);
 	}
 
@@ -79,7 +79,7 @@ abstract class ilModule extends ilComponent
 	*/
 	final static function getAvailableCoreModules()
 	{
-		$modules_dir = ILIAS_ABSOLUTE_PATH."/Modules";
+		$modules_dir = __DIR__ ."/../../../Modules";
 
 		if (!@is_dir($modules_dir))
 		{

@@ -227,6 +227,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			
 			case 'period':
 				$this->in_period = true;
+				$this->group_data['period_with_time'] = $a_attribs['withTime'];
 				break;
 				
 			case 'maxMembers':
@@ -393,6 +394,12 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 					$this->group_data['show_members'] = (int) $this->cdata;
 				}
 				break;
+
+			case 'admissionNotification':
+				if((int) $this->cdata) {
+					$this->group_data['auto_notification'] = (bool) $this->cdata;
+				}
+				break;
 			
 			case 'mailMembersType':
 				$this->group_data['mail_members_type'] = (int) $this->cdata;
@@ -439,8 +446,25 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 			$this->group_data['period_start'] && 
 			$this->group_data['period_end'])
 		{
-			$this->group_obj->setStart(new ilDate($this->group_data['period_start'],IL_CAL_UNIX));
-			$this->group_obj->setEnd(new ilDate($this->group_data['period_end'],IL_CAL_UNIX));
+			try {
+				if($this->group_data['period_with_time']) {
+					$this->group_obj->setPeriod(
+						new \ilDateTime($this->group_data['period_start'], IL_CAL_UNIX),
+						new \ilDateTime($this->group_data['period_end'], IL_CAL_UNIX)
+					);
+				}
+				else {
+					$this->group_obj->setPeriod(
+						new \ilDateTime($this->group_data['period_start'], IL_CAL_UNIX),
+						new \ilDateTime($this->group_data['period_end'], IL_CAL_UNIX)
+					);
+				}
+			}
+			catch(Exception $e) {
+				$this->log->warning('Ignoring invalid group period settings: ');
+				$this->log->warning('Period start: ' . $this->group_data['period_start']);
+				$this->log->warning('Period end: ' . $this->group_data['period_end']);
+			}
 		}
 		
 		$ownerChanged = false;
@@ -537,6 +561,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 		$this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
 		$this->group_obj->setMinMembers($this->group_data['min_members']);
 		$this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
+		$this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
 		$this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
 		$this->group_obj->update();
 

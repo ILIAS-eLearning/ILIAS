@@ -129,4 +129,10 @@ class HTTPServices implements GlobalHttpState
     {
         $this->sender->sendResponse($this->response());
     }
+
+
+    public function close() : void
+    {
+        exit;
+    }
 }

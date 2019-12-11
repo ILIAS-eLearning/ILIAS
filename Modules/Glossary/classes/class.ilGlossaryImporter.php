@@ -1,14 +1,12 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 
 /**
  * Importer class for files
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @version $Id: $
- * @ingroup ModulesGlossary
  */
 class ilGlossaryImporter extends ilXmlImporter
 {
@@ -17,7 +15,6 @@ class ilGlossaryImporter extends ilXmlImporter
 	 */
 	function init()
 	{
-		include_once("./Modules/Glossary/classes/class.ilGlossaryDataSet.php");
 		$this->ds = new ilGlossaryDataSet();
 		$this->ds->setDSPrefix("ds");
 		$this->config = $this->getImport()->getConfig("Modules/Glossary");
@@ -50,14 +47,12 @@ class ilGlossaryImporter extends ilXmlImporter
 				if (!is_object($newObj))
 				{
 					// create and insert object in objecttree
-					include_once("./Modules/Glossary/classes/class.ilObjGlossary.php");
 					$newObj = new ilObjGlossary();
 					$newObj->setType("glo");
 					$newObj->setTitle(basename($this->getImportDirectory()));
 					$newObj->create(true);
 				}
 
-				include_once './Modules/LearningModule/classes/class.ilContObjParser.php';
 				$contParser = new ilContObjParser(
 					$newObj,
 					$xml_file,
@@ -92,7 +87,6 @@ class ilGlossaryImporter extends ilXmlImporter
 			{
 				// necessary?
 				// ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-				include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
 				$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(),
 					$a_xml, $this->ds, $a_mapping);
 
@@ -111,9 +105,8 @@ class ilGlossaryImporter extends ilXmlImporter
 	 */
 	function finalProcessing($a_mapping)
 	{
-//echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
+
 		// get all glossaries of the import
-		include_once("./Services/Taxonomy/classes/class.ilObjTaxonomy.php");
 		$maps = $a_mapping->getMappingsOfEntity("Modules/Glossary", "glo");
 		foreach ($maps as $old => $new)
 		{
@@ -133,7 +126,6 @@ class ilGlossaryImporter extends ilXmlImporter
 				// advmd column order
 				if ($this->exportedFromSameInstallation())
 				{
-					include_once("./Modules/Glossary/classes/class.ilGlossaryAdvMetaDataAdapter.php");
 					$advmdco = $a_mapping->getMappingsOfEntity("Modules/Glossary", "advmd_col_order");
 					foreach ($advmdco as $id => $order)
 					{

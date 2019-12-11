@@ -30,7 +30,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 	 */
 	protected $tabs;
 
-	/**
+	/**addImage
 	 * @var ilObjectDefinition
 	 */
 	protected $obj_definition;
@@ -1445,6 +1445,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 		$this->form_gui->setTitle($lng->txt("sty_add_image"));
 		
 		$file_input = new ilImageFileInputGUI($lng->txt("sty_image_file"), "image_file");
+		$file_input->setSuffixes(["jpg","jpeg","png","gif","svg"]);
 		$file_input->setRequired(true);
 		$this->form_gui->addItem($file_input);
 		

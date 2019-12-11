@@ -1,14 +1,10 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once "Modules/Exercise/classes/class.ilExSubmission.php";
-
 /**
 * Exercise member table
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
@@ -29,8 +25,6 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 		$lng = $DIC->language();
 		
 		$this->ass = $a_ass;
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
 		parent::__construct($a_parent_obj, $a_parent_cmd);
 		$this->setData($this->ass->getMemberListData());
@@ -59,7 +53,6 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 		$lng = $this->lng;
 		$ilCtrl = $this->ctrl;
 
-		include_once "./Services/Object/classes/class.ilObjectFactory.php";		
 		$member_id = $member["usr_id"];
 		if(!($mem_obj = ilObjectFactory::getInstanceByObjId($member_id,false)))
 		{
@@ -105,8 +98,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
 			$ilCtrl->setParameterByClass("ilExSubmissionFileGUI", "member_id", "");
 			
 			// #15126
-			include_once("./Services/UIComponent/Button/classes/class.ilLinkButton.php");
-			$button = ilLinkButton::getInstance();				
+			$button = ilLinkButton::getInstance();
 			$button->setCaption("exc_download_files");			
 			$button->setUrl($url);							
 			$button->setOmitPreventDoubleSubmission(true);			

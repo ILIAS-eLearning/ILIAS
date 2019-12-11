@@ -10,9 +10,9 @@ class ilUICoreSetupAgent implements Setup\Agent
 	 */
 	protected $ctrl_reader;
 
-	public function __construct(\ilCtrlStructureReader $ctrl_reader)
+	public function __construct()
 	{
-		$this->ctrl_reader = $ctrl_reader;
+		$this->ctrl_reader = new \ilCtrlStructureReader();
 	}
 
 	/**
@@ -52,7 +52,7 @@ class ilUICoreSetupAgent implements Setup\Agent
 	 */
 	public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
 	{
-		return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+		return new \ilCtrlStructureStoredObjective($this->ctrl_reader, false);
 	}
 
 	/**

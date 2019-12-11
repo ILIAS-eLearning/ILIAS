@@ -1,15 +1,11 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once("./Services/COPage/classes/class.ilPageConfig.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Portfolio page configuration 
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesPortfolio
  */
 class ilPortfolioPageConfig extends ilPageConfig
 {
@@ -59,7 +55,6 @@ class ilPortfolioPageConfig extends ilPageConfig
 			$this->setEnablePCType("Skills", true);
 		}
 			
-		include_once './Services/Calendar/classes/class.ilCalendarUserSettings.php';
 		$settings = ilCalendarSettings::_getInstance();
 		if($settings->isEnabled() &&
 			$rbacsystem->checkAccess('add_consultation_hours', $settings->getCalendarSettingsId()) &&
@@ -83,5 +78,3 @@ class ilPortfolioPageConfig extends ilPageConfig
 		$this->setEnablePCType("LearningHistory", true);
 	}	
 }
-
-?>

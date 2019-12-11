@@ -126,7 +126,6 @@ abstract class ilPDSelectedItemsBlockViewGUI
 	public function getItemGroups()
 	{
 		$items_groups = $this->getGroups();
-
 		$this->preloadItemGroups($items_groups);
 
 		return $items_groups;

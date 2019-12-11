@@ -60,6 +60,12 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	protected $locator;
 
 	/**
+	 * @var \ILIAS\DI\UIServices
+	 */
+	protected $ui;
+
+
+	/**
 	* Constructor
 	*
 	* @access	public
@@ -83,6 +89,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 		$this->locator = $DIC["ilLocator"];
 		$this->db = $DIC->database();
 		$this->log = $DIC["ilLog"];
+		$this->ui = $DIC->ui();
 		$lng = $DIC->language();
 		$ilCtrl = $DIC->ctrl();
 		$this->ctrl = $ilCtrl;
@@ -192,7 +199,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 
 			case "illmpageobjectgui":
-				
+				$this->setTitleAndDescription();
 				$ilTabs->setBackTarget($lng->txt("learning module"),
 					$ilCtrl->getLinkTarget($this, "chapters"));
 				$this->ctrl->saveParameter($this, array("obj_id"));
@@ -275,10 +282,6 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				break;
 			
 			case "ilexportgui":
-				ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
-				$this->addHeaderAction();
-				$this->addLocations(true);
-				$this->setTabs("export");
 				$exp_gui = new ilExportGUI($this);
 				$exp_gui->addFormat("xml");
 				$ot = ilObjectTranslation::getInstance($this->object->getId());
@@ -306,6 +309,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 				$exp_gui->addCustomMultiCommand($lng->txt("cont_public_access"),
 						$this, "publishExportFile");
 				$ret = $this->ctrl->forwardCommand($exp_gui);
+				ilUtil::sendInfo($this->lng->txt("lm_only_one_download_per_type"));
+				$this->addHeaderAction();
+				$this->addLocations(true);
+				$this->setTabs("export");
 				break;
 
 			case 'ilobjecttranslationgui':
@@ -2407,16 +2414,10 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 	*/
 	function setTabs($a_act = "")
 	{
-		$lng = $this->lng;
-		$ilHelp = $this->help;
-		
-		$ilHelp->setScreenIdComponent("lm");
-		
-		$this->addTabs($a_act);
 		parent::setTitleAndDescription();
-		$this->tpl->setTitle($this->object->getTitle());
-		$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"),
-			$lng->txt("obj_lm"));
+		$ilHelp = $this->help;
+		$ilHelp->setScreenIdComponent("lm");
+		$this->addTabs($a_act);
 	}
 
 	/**

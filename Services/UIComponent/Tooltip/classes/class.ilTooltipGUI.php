@@ -80,7 +80,9 @@ class ilTooltipGUI
 			$tpl->addCss("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.css");
 			$tpl->addJavascript("./libs/bower/bower_components/qtip2/dist/jquery.qtip.min.js");
 			$tpl->addJavascript("./Services/UIComponent/Tooltip/js/ilTooltip.js");
-			$tpl->addOnLoadCode('il.Tooltip.init();', 3);
+
+			// use setTimeout as a workaround, since the last parameter is ignored
+			$tpl->addOnLoadCode('setTimeout(function() {il.Tooltip.init();}, 500);', 3);
 			self::$initialized = true;
 		}
 	}

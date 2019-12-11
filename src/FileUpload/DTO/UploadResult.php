@@ -119,6 +119,15 @@ final class UploadResult {
 	}
 
 
+    /**
+     * @return bool
+     */
+    public function isOK():bool
+    {
+        return $this->status->getCode() === ProcessingStatus::OK;
+	}
+
+
 	/**
 	 * @return string
 	 * @since 5.3

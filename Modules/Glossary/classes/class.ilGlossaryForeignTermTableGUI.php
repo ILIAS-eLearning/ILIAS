@@ -1,16 +1,12 @@
 <?php
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * TableGUI class for collecting foreign terms
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- *
- * @ingroup ModulesGlossary
  */
 class ilGlossaryForeignTermTableGUI extends ilTable2GUI
 {

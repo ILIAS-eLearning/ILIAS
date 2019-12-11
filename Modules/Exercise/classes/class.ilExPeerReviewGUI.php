@@ -118,11 +118,9 @@ class ilExPeerReviewGUI
 				$ilTabs->setBackTarget($lng->txt("back"),
 					$ilCtrl->getLinkTarget($this, "editPeerReview"));
 
-				include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 				$fstorage = new ilFSStorageExercise($this->ass->getExerciseId(), $this->ass->getId());
 				$fstorage->create();
 
-				include_once("./Services/FileSystem/classes/class.ilFileSystemGUI.php");
 				$fs_gui = new ilFileSystemGUI($fstorage->getPeerReviewUploadPath($peer_id, $giver_id));
 				$fs_gui->setTableId("excfbpeer");
 				$fs_gui->setAllowDirectories(false);					
@@ -135,7 +133,6 @@ class ilExPeerReviewGUI
 			case "ilratinggui":				
 				$this->ass->updatePeerReviewTimestamp((int)$_REQUEST["peer_id"]);
 				
-				include_once("./Services/Rating/classes/class.ilRatingGUI.php");
 				$rating_gui = new ilRatingGUI();
 				$rating_gui->setObject($this->ass->getId(), "ass",
 					(int)$_REQUEST["peer_id"], "peer");
@@ -158,8 +155,7 @@ class ilExPeerReviewGUI
 						$ilCtrl->getLinkTarget($this, "showGivenPeerReview"));
 					$this->ctrl->setReturn($this, "showGivenPeerReview");
 				}
-				include_once "Modules/Exercise/classes/class.ilExSubmissionTextGUI.php";
-				$gui = new ilExSubmissionTextGUI(new ilObjExercise($this->ass->getExerciseId(), false), $this->submission);				
+				$gui = new ilExSubmissionTextGUI(new ilObjExercise($this->ass->getExerciseId(), false), $this->submission);
 				$ilCtrl->forwardCommand($gui); 
 				break;
 						
@@ -311,7 +307,6 @@ class ilExPeerReviewGUI
 				
 		$tpl->setTitle($this->ass->getTitle().": ".$lng->txt("exc_peer_review_given"));
 		
-		include_once "Services/InfoScreen/classes/class.ilInfoScreenGUI.php";
 		$info_widget = new ilInfoScreenGUI($this);
 		
 		$this->renderInfoWidget($info_widget, $peer_items);
@@ -345,7 +340,6 @@ class ilExPeerReviewGUI
 		
 		$tpl->setTitle($this->ass->getTitle().": ".$lng->txt("exc_peer_review_show"));
 		
-		include_once "Services/InfoScreen/classes/class.ilInfoScreenGUI.php";
 		$info_widget = new ilInfoScreenGUI($this);
 			
 		$this->renderInfoWidget($info_widget, $peer_items, true);
@@ -357,8 +351,6 @@ class ilExPeerReviewGUI
 	{		
 		$lng = $this->lng;
 		
-		include_once "Services/User/classes/class.ilUserUtil.php";		
-			
 		if($this->submission->isTutor())
 		{			
 			$user_title = $a_by_peer
@@ -511,8 +503,7 @@ class ilExPeerReviewGUI
 			}
 		}					
 		
-		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php";		
-		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $this->submission->getUserId(), 
+		$tbl = new ilExAssignmentPeerReviewTableGUI($this, "editPeerReview", $this->ass, $this->submission->getUserId(),
 			$peer_items, "returnToParent");		
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -562,8 +553,7 @@ class ilExPeerReviewGUI
 			if(trim($text["atext"]))
 			{				  
 				// mob id to mob src
-				include_once "Services/RTE/classes/class.ilRTE.php";
-			    return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
+				return nl2br(ilRTE::_replaceMediaObjectImageSrc($text["atext"], 1));
 			}
 		}
 	}
@@ -586,7 +576,6 @@ class ilExPeerReviewGUI
 		
 		$ilCtrl->saveParameter($this, "peer_id");
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($ilCtrl->getFormAction($this, "updatePeerReview"));
 		
@@ -600,7 +589,6 @@ class ilExPeerReviewGUI
 		}
 		else 
 		{
-			include_once "Services/User/classes/class.ilUserUtil.php";
 			$id_title = $lng->txt("exc_peer_review_recipient");
 			$id_value = ilUserUtil::getNamePresentation($peer["peer_id"]);			
 		}
@@ -675,7 +663,6 @@ class ilExPeerReviewGUI
 		$crit_id = $_POST["crit_id"];
 		$giver_id = $ilUser->getId();
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";		
 		if(!is_numeric($crit_id))
 		{
 			$crit = ilExcCriteria::getInstanceByType($crit_id);
@@ -780,7 +767,6 @@ class ilExPeerReviewGUI
 		$peer_id = $parts[1];
 		$crit_id = $parts[2];
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteria.php";		
 		if(!is_numeric($crit_id))
 		{
 			$crit = ilExcCriteria::getInstanceByType($crit_id);
@@ -816,8 +802,7 @@ class ilExPeerReviewGUI
 			$this->returnToParentObject();
 		}
 	
-		include_once "Modules/Exercise/classes/class.ilExAssignmentPeerReviewOverviewTableGUI.php";
-		$tbl = new ilExAssignmentPeerReviewOverviewTableGUI($this, "showPeerReviewOverview", 
+		$tbl = new ilExAssignmentPeerReviewOverviewTableGUI($this, "showPeerReviewOverview",
 			$this->ass);		
 		
 		$panel = "";
@@ -839,7 +824,6 @@ class ilExPeerReviewGUI
 				$ptpl->parseCurrentBlock();
 			}
 		
-			include_once "Services/UIComponent/Panel/classes/class.ilPanelGUI.php";
 			$panel = ilPanelGUI::getInstance();
 			$panel->setHeading($this->lng->txt("exc_peer_review_overview_invalid_users"));
 			$panel->setBody($ptpl->get());
@@ -863,7 +847,6 @@ class ilExPeerReviewGUI
 		
 		$ilTabs->clearTargets();
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$cgui = new ilConfirmationGUI();
 		$cgui->setFormAction($ilCtrl->getFormAction($this));
 		$cgui->setHeaderText(sprintf($this->lng->txt("exc_peer_review_reset_sure"), $this->ass->getTitle()));
@@ -883,7 +866,6 @@ class ilExPeerReviewGUI
 			$this->returnToParentObject();
 		}
 		
-		include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
 		$peer_review = new ilExPeerReview($this->ass);
 		$all_giver_ids = $peer_review->resetPeerReviews();
 		
@@ -894,7 +876,6 @@ class ilExPeerReviewGUI
 			if($exercise->isCompletionBySubmissionEnabled() &&
 				$this->ass->getPeerReviewValid() != ilExAssignment::PEER_REVIEW_VALID_NONE)
 			{
-				include_once "Modules/Exercise/classes/class.ilExSubmission.php";
 				foreach($all_giver_ids as $user_id)
 				{
 					$submission = new ilExSubmission($this->ass, $user_id);

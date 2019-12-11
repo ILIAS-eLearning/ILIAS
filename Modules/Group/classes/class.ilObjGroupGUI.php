@@ -21,7 +21,7 @@ include_once('./Modules/Group/classes/class.ilObjGroup.php');
  * @ilCtrl_Calls ilObjGroupGUI: ilGroupMembershipGUI, ilBadgeManagementGUI, ilMailMemberSearchGUI, ilNewsTimelineGUI, ilContainerNewsSettingsGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilContainerSkillGUI, ilCalendarPresentationGUI
  * @ilCtrl_Calls ilObjGroupGUI: ilLTIProviderObjectSettingGUI
- * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjGroupGUI: ilObjectMetaDataGUI, ilObjectTranslationGUI, ilPropertyFormGUI
  *
  *
  *
@@ -81,6 +81,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
 		switch($next_class)
 		{
+			case 'ilreputilgui':
+				$ru = new \ilRepUtilGUI($this);
+				$this->ctrl->setReturn($this, 'trash');
+				$this->ctrl->forwardCommand($ru);
+				break;
+
 			case 'illtiproviderobjectsettinggui':
 				$this->setSubTabs('properties');
 				$this->tabs_gui->activateTab('settings');
@@ -111,7 +117,7 @@ class ilObjGroupGUI extends ilContainerGUI
 				break;
 
 			case 'ilpermissiongui':
-				$this->tabs_gui->setTabActive('perm_settings');
+				$this->tabs_gui->activateTab('perm_settings');
 				include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
 				$perm_gui = new ilPermissionGUI($this);
 				$ret =& $this->ctrl->forwardCommand($perm_gui);
@@ -592,11 +598,16 @@ class ilObjGroupGUI extends ilContainerGUI
 			$this->object->setViewMode($form->getInput('view_mode'));
 			$this->object->setMailToMembersType((int) $form->getInput('mail_type'));
 			$this->object->setShowMembers((int) $form->getInput('show_members'));
+			$this->object->setAutoNotification((bool) $form->getInput('auto_notification'));
 
-			// group period
-			$period = $form->getItemByPostVar('period');
-			$this->object->setStart($period->getStart());
-			$this->object->setEnd($period->getEnd());
+			// period
+			$grp_period = $form->getItemByPostVar("period");
+
+
+			$this->object->setPeriod(
+				$grp_period->getStart(),
+				$grp_period->getEnd()
+			);
 
 			$reg = $form->getItemByPostVar("reg");
 			if($reg->getStart() instanceof ilDateTime && $reg->getEnd() instanceof ilDateTime)
@@ -1549,19 +1560,18 @@ class ilObjGroupGUI extends ilContainerGUI
 		if($a_mode == 'edit')
 		{
 			// group period
-			include_once 'Services/Form/classes/class.ilDateDurationInputGUI.php';
-			$group_duration = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');			
-			$group_duration->setInfo($this->lng->txt('grp_period_info'));
-			if($this->object->getStart())
-			{
-				$group_duration->setStart($this->object->getStart());
-			}		
-			if($this->object->getEnd())
-			{
-				$group_duration->setEnd($this->object->getEnd());
-			}
-			$form->addItem($group_duration);
-			
+			$cdur = new ilDateDurationInputGUI($this->lng->txt('grp_period'), 'period');
+			$this->lng->loadLanguageModule('mem');
+			$cdur->enableToggleFullTime(
+				$this->lng->txt('mem_period_without_time'),
+				!$this->object->getStartTimeIndication()
+			);
+			$cdur->setShowTime(true);
+			$cdur->setInfo($this->lng->txt('grp_period_info'));
+			$cdur->setStart($this->object->getStart());
+			$cdur->setEnd($this->object->getEnd());
+			$form->addItem($cdur);
+
 			// Group registration ############################################################
 			$pres = new ilFormSectionHeaderGUI();
 			$pres->setTitle($this->lng->txt('grp_setting_header_registration'));
@@ -1815,6 +1825,14 @@ class ilObjGroupGUI extends ilContainerGUI
 				$this->lng->txt('grp_mail_all_info'));
 			$mail_type->addOption($mail_all);
 			$form->addItem($mail_type);
+
+			// Self notification
+			$not = new ilCheckboxInputGUI($this->lng->txt('grp_auto_notification'), 'auto_notification');
+			$not->setValue(1);
+			$not->setInfo($this->lng->txt('grp_auto_notification_info'));
+			$not->setChecked( $this->object->getAutoNotification() );
+			$form->addItem($not);
+
 		}
 		
 		switch($a_mode)

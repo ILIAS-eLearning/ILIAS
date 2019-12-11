@@ -80,7 +80,7 @@ class ilECSServerSettings
 
 	/**
 	 * Get servers
-	 * @return array ilECSSetting
+	 * @return ilECSSetting[]
 	 */
 	public function getServers()
 	{

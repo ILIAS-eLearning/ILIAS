@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogue.php";
-
 /**
  * Class ilExcCriteriaCatalogueGUI
  *
@@ -67,7 +65,6 @@ class ilExcCriteriaCatalogueGUI
 				$ilTabs->clearTargets();
 				$ilTabs->setBackTarget($lng->txt("back"), $ilCtrl->getLinkTarget($this, ""));
 				$ilCtrl->saveParameter($this, "cat_id");
-				include_once "Modules/Exercise/classes/class.ilExcCriteriaGUI.php";
 				$crit_gui = new ilExcCriteriaGUI($_REQUEST["cat_id"]);
 				$ilCtrl->forwardCommand($crit_gui);
 				break;				
@@ -93,7 +90,6 @@ class ilExcCriteriaCatalogueGUI
 		$ilToolbar->addButton($lng->txt("exc_add_criteria_catalogue"),
 			$ilCtrl->getLinkTarget($this, "add"));
 		
-		include_once "Modules/Exercise/classes/class.ilExcCriteriaCatalogueTableGUI.php";
 		$tbl = new ilExcCriteriaCatalogueTableGUI($this, "view", $this->exc_obj->getId());
 		$tpl->setContent($tbl->getHTML());
 	}
@@ -134,7 +130,6 @@ class ilExcCriteriaCatalogueGUI
 			$ilCtrl->redirect($this, "view");
 		}
 		
-		include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
 		$confirmation_gui = new ilConfirmationGUI();
 		$confirmation_gui->setFormAction($ilCtrl->getFormAction($this, "delete"));
 		$confirmation_gui->setHeaderText($lng->txt("exc_criteria_catalogue_deletion_confirmation"));
@@ -185,7 +180,6 @@ class ilExcCriteriaCatalogueGUI
 		$ilCtrl = $this->ctrl;
 		$lng = $this->lng;
 		
-		include_once "Services/Form/classes/class.ilPropertyFormGUI.php";		
 		$form = new ilPropertyFormGUI();
 		
 		$is_edit = ($a_cat_obj !== null);

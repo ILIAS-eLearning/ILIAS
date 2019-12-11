@@ -71,9 +71,14 @@ class ilLMPresentationService
         $this->linker = new ilLMPresentationLinker(
             $this->lm,
             $this->lm_tree,
-            $this->presentation_status,
-            $this->navigation_status,
-            $this->request,
+            $this->navigation_status->getCurrentPage(),
+            $this->request->getRequestedRefId(),
+            $this->presentation_status->getLang(),
+            $this->request->getRequestedBackPage(),
+            $this->request->getRequestedFromPage(),
+            $this->presentation_status->offline(),
+            $this->presentation_status->getExportFormat(),
+            $this->presentation_status->exportAllLanguages(),
             $ctrl);
    }
 

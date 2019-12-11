@@ -43,7 +43,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return is_numeric($value) || $value === "" || $value === null;
     }

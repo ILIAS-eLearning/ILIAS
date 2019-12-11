@@ -76,7 +76,6 @@ class ilExSubmission
 		{
 			if(!$a_team)
 			{
-				include_once "Modules/Exercise/classes/class.ilExAssignmentTeam.php";
 				$this->team = ilExAssignmentTeam::getInstanceByUserId($this->assignment->getId(), $this->user_id);
 			}
 			else
@@ -87,7 +86,6 @@ class ilExSubmission
 		
 		if($this->assignment->getPeerReview())
 		{
-			include_once "Modules/Exercise/classes/class.ilExPeerReview.php";
 			$this->peer_review = new ilExPeerReview($this->assignment);
 		}
 	}
@@ -300,7 +298,6 @@ class ilExSubmission
 	
 	protected function initStorage()
 	{
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		return new ilFSStorageExercise($this->assignment->getExerciseId(), $this->assignment->getId());
 	}
 
@@ -395,8 +392,6 @@ class ilExSubmission
 		$newDir = ilUtil::ilTempnam();
 		ilUtil::makeDir($newDir);
 
-		include_once ("Services/Utilities/classes/class.ilFileUtils.php");
-		
 		$success = true;
 		
 		try 
@@ -451,11 +446,9 @@ class ilExSubmission
 
 		$ilDB = $DIC->database();
 		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
 		$storage = new ilFSStorageExercise($a_exc_id, $a_ass_id);
 		$path = $storage->getAbsoluteSubmissionPath();
 
-		include_once("./Modules/Exercise/AssignmentTypes/classes/class.ilExAssignmentTypes.php");
 		$ass_type = ilExAssignmentTypes::getInstance()->getById(ilExAssignment::lookupType($a_ass_id));
 
 		$query = "SELECT * FROM exc_returned WHERE ass_id = ".
@@ -766,8 +759,6 @@ class ilExSubmission
 	 */
 	public static function deleteUser($a_exc_id, $a_user_id)
 	{
-		
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
 		
 		foreach(ilExAssignment::getInstancesByExercise($a_exc_id) as $ass)
 		{
@@ -1085,8 +1076,6 @@ class ilExSubmission
 
 		$lng = $DIC->language();
 		
-		include_once("./Modules/Exercise/classes/class.ilFSStorageExercise.php");
-		
 		$storage = new ilFSStorageExercise($a_ass->getExerciseId(), $a_ass->getId());
 		$storage->create();
 		
@@ -1238,8 +1227,7 @@ class ilExSubmission
 
 				if (!copy ($sourcefile, $targetfile))
 				{
-					include_once "Modules/Exercise/exceptions/class.ilExerciseException.php";
-					throw new ilExerciseException("Could not copy ".basename($sourcefile)." to '".$targetfile."'.");					
+					throw new ilExerciseException("Could not copy ".basename($sourcefile)." to '".$targetfile."'.");
 				}
 				else
 				{

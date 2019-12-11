@@ -83,4 +83,7 @@ interface GlobalHttpState
      * @throws ResponseSendingException Each subsequent call will throw this exception.
      */
     public function sendResponse() : void;
+
+
+    public function close() : void;
 }

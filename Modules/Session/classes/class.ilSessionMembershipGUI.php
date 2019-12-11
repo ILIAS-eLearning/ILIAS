@@ -110,6 +110,7 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$participated = (bool) $_POST['participated'][$part_id];
 			$registered = (bool) $_POST['registered'][$part_id];
 			$contact = (bool) $_POST['contact'][$part_id];
+			$excused = (bool) $_POST['excused'][$part_id];
 			
 			if($part->isAssigned($part_id))
 			{
@@ -129,9 +130,11 @@ class ilSessionMembershipGUI extends ilMembershipGUI
 			$event_part->setUserId($part_id);
 			$event_part->setMark(ilUtil::stripSlashes($_POST['mark'][$part_id]));
 			$event_part->setComment(ilUtil::stripSlashes($_POST['comment'][$part_id]));
+			$event_part->setNotificationEnabled($_POST['notification'][$part_id]);
 			$event_part->setParticipated($participated);
 			$event_part->setRegistered($registered);
 			$event_part->setContact($contact);
+			$event_part->setExcused($excused);
 			$event_part->updateUser();
 		}
 		

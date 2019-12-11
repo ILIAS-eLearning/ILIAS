@@ -14,6 +14,12 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  */
 class ilPCGridGUI extends ilPageContentGUI
 {
+    const TEMPLATE_MANUAL = 0;
+    const TEMPLATE_TWO_COLUMN = 1;
+    const TEMPLATE_THREE_COLUMN = 2;
+    const TEMPLATE_MAIN_SIDE = 3;
+    const TEMPLATE_TWO_BY_TWO = 4;
+
 	protected $toolbar;
 	protected $tabs;
 
@@ -92,23 +98,41 @@ class ilPCGridGUI extends ilPageContentGUI
 	 */
 	function initCreationForm()
 	{
+	    $lng = $this->lng;
+
 		// edit form
 		include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction($this));
 		$form->setTitle($this->lng->txt("cont_ed_insert_grid"));
 		$form->setDescription($this->lng->txt("cont_ed_insert_grid_info"));
+		
+		// 
+		$radg = new ilRadioGroupInputGUI($lng->txt("cont_pc_grid"), "layout_template");
+		$radg->setValue(self::TEMPLATE_TWO_COLUMN);
+            $op1 = new ilRadioOption($lng->txt("cont_grid_t_two_column"), self::TEMPLATE_TWO_COLUMN,$lng->txt("cont_grid_t_two_column_info"));
+            $radg->addOption($op1);
+            $op2 = new ilRadioOption($lng->txt("cont_grid_t_three_column"), self::TEMPLATE_THREE_COLUMN,$lng->txt("cont_grid_t_three_column_info"));
+            $radg->addOption($op2);
+            $op3 = new ilRadioOption($lng->txt("cont_grid_t_main_side"), self::TEMPLATE_MAIN_SIDE,$lng->txt("cont_grid_t_main_side_info"));
+            $radg->addOption($op3);
+            $op4 = new ilRadioOption($lng->txt("cont_grid_t_two_by_two"), self::TEMPLATE_TWO_BY_TWO,$lng->txt("cont_grid_t_two_by_two_info"));
+            $radg->addOption($op4);
+            $op5 = new ilRadioOption($lng->txt("cont_grid_t_manual"), self::TEMPLATE_MANUAL,$lng->txt("cont_grid_t_manual_info"));
+            $radg->addOption($op5);
+		$form->addItem($radg);
+		
 
 		// number of cells
 		$ni = new ilNumberInputGUI($this->lng->txt("cont_grid_nr_cells"), "number_of_cells");
 		$ni->setMaxLength(2);
 		$ni->setSize(2);
-		$form->addItem($ni);
+        $op5->addSubItem($ni);
 
-		$sh = new ilFormSectionHeaderGUI();
+		/*$sh = new ilFormSectionHeaderGUI();
 		$sh->setTitle($this->lng->txt("cont_ed_grid_col_width"));
 		$sh->setInfo($this->lng->txt("cont_ed_grid_col_width_info"));
-		$form->addItem($sh);
+		$form->addItem($sh);*/
 
 		$options = array("" => "") + ilPCGrid::getWidths();
 
@@ -118,7 +142,7 @@ class ilPCGridGUI extends ilPageContentGUI
 			$si = new ilSelectInputGUI($this->lng->txt("cont_grid_width_".$s), $s);
 			$si->setInfo($this->lng->txt("cont_grid_width_".$s."_info"));
 			$si->setOptions($options);
-			$form->addItem($si);
+            $op5->addSubItem($si);
 		}
 
 		// save/cancel buttons
@@ -136,13 +160,41 @@ class ilPCGridGUI extends ilPageContentGUI
 		$form = $this->initCreationForm();
 		if ($form->checkInput())
 		{
+            $post_layout_template = (int) $_POST["layout_template"];
 			$this->content_obj = new ilPCGrid($this->getPage());
 			$this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
-			for ($i = 0; $i < (int) $_POST["number_of_cells"]; $i++)
-			{
-				$this->content_obj->addGridCell($_POST["s"], $_POST["m"], $_POST["l"], $_POST["xl"]);
-			}
+            switch ($post_layout_template) {
+                case self::TEMPLATE_TWO_COLUMN:
+                    $this->content_obj->addGridCell(12, 6, 6, 6);
+                    $this->content_obj->addGridCell(12, 6, 6, 6);
+                    break;
+
+                case self::TEMPLATE_THREE_COLUMN:
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    $this->content_obj->addGridCell(12, 4, 4, 4);
+                    break;
+
+                case self::TEMPLATE_MAIN_SIDE:
+                    $this->content_obj->addGridCell(12, 6, 8, 9);
+                    $this->content_obj->addGridCell(12, 6, 4, 3);
+                    break;
+
+                case self::TEMPLATE_TWO_BY_TWO:
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    $this->content_obj->addGridCell(12, 6, 6, 3);
+                    break;
+
+
+                case self::TEMPLATE_MANUAL:
+                    for ($i = 0; $i < (int)$_POST["number_of_cells"]; $i++) {
+                        $this->content_obj->addGridCell($_POST["s"], $_POST["m"], $_POST["l"], $_POST["xl"]);
+                    }
+                    break;
+            }
 
 			$this->updated = $this->pg_obj->update();
 
