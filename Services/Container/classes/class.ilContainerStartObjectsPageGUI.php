@@ -7,7 +7,7 @@ include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php
 
 /**
  * Container start objects page GUI class
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
  * @ilCtrl_Calls ilContainerStartObjectsPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
@@ -18,13 +18,11 @@ include_once("./Services/Container/classes/class.ilContainerStartObjectsPage.php
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
 {
-	/**
-	* Constructor
-	*/
-	function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
-	{
-		parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
-	}
-	
-} 
-?>
+    /**
+    * Constructor
+    */
+    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
+    {
+        parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
+    }
+}
