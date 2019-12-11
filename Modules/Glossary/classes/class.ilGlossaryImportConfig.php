@@ -9,5 +9,4 @@
  */
 class ilGlossaryImportConfig extends ilImportConfig
 {
-
 }

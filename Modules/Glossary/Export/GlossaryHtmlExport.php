@@ -59,7 +59,7 @@ class GlossaryHtmlExport
         $this->glossary = $glo;
         $this->export_dir = $exp_dir;
         $this->sub_dir = $sub_dir;
-        $this->target_dir = $exp_dir."/".$sub_dir;
+        $this->target_dir = $exp_dir . "/" . $sub_dir;
 
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $sub_dir);
@@ -85,7 +85,7 @@ class GlossaryHtmlExport
     /**
      * export html package
      */
-    function exportHTML()
+    public function exportHTML()
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
@@ -99,7 +99,6 @@ class GlossaryHtmlExport
         $this->co_page_html_export->exportPageElements();
 
         $this->zipPackage();
-
     }
 
     /**
@@ -109,8 +108,8 @@ class GlossaryHtmlExport
     {
         // zip it all
         $date = time();
-        $zip_file = $this->glossary->getExportDirectory("html")."/".$date."__".IL_INST_ID."__".
-            $this->glossary->getType()."_".$this->glossary->getId().".zip";
+        $zip_file = $this->glossary->getExportDirectory("html") . "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->glossary->getType() . "_" . $this->glossary->getId() . ".zip";
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
     }
@@ -119,7 +118,7 @@ class GlossaryHtmlExport
      * Get initialised template
      * @return \ilGlobalPageTemplate
      */
-    protected function getInitialisedTemplate(): \ilGlobalPageTemplate
+    protected function getInitialisedTemplate() : \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -147,7 +146,8 @@ class GlossaryHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId()));
+            \ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId())
+        );
 
 
         //$this->addSupplyingExportFiles();
@@ -172,34 +172,32 @@ class GlossaryHtmlExport
     /**
      * @throws \ilGlossaryException
      */
-    function exportHTMLGlossaryTerms()
+    public function exportHTMLGlossaryTerms()
     {
         $tpl = $this->initScreen(0);
         $tpl->setTitle($this->glossary->getTitle());
         $content = $this->glo_gui->listTerms();
-        $file = $this->target_dir."/index.html";
+        $file = $this->target_dir . "/index.html";
 
         // open file
-        $fp = @fopen($file,"w+");
+        $fp = @fopen($file, "w+");
         fwrite($fp, $content);
         fclose($fp);
 
         $terms = $this->glossary->getTermList();
-        foreach($terms as $term)
-        {
+        foreach ($terms as $term) {
             $this->initScreen($term["id"]);
-            $content = $this->glo_gui->listDefinitions($this->glossary->getRefId(), $term["id"],false);
-            $file = $this->target_dir."/term_".$term["id"].".html";
+            $content = $this->glo_gui->listDefinitions($this->glossary->getRefId(), $term["id"], false);
+            $file = $this->target_dir . "/term_" . $term["id"] . ".html";
 
             // open file
-            $fp = @fopen($file,"w+");
+            $fp = @fopen($file, "w+");
             fwrite($fp, $content);
             fclose($fp);
 
             // store linked/embedded media objects of glosssary term
             $defs = \ilGlossaryDefinition::getDefinitionList($term["id"]);
-            foreach($defs as $def)
-            {
+            foreach ($defs as $def) {
                 $this->co_page_html_export->collectPageElements("gdf:pg", $def["id"], "");
             }
         }

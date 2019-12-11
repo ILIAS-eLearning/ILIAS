@@ -70,7 +70,7 @@ class GlossaryPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedMobId(): int
+    public function getRequestedMobId() : int
     {
         return $this->requested_mob_id;
     }
@@ -78,7 +78,7 @@ class GlossaryPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedExportType(): string
+    public function getRequestedExportType() : string
     {
         return $this->requested_export_type;
     }
@@ -86,7 +86,7 @@ class GlossaryPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedFileId(): string
+    public function getRequestedFileId() : string
     {
         return $this->requested_file_id;
     }
@@ -94,7 +94,7 @@ class GlossaryPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedSearchString(): string
+    public function getRequestedSearchString() : string
     {
         return $this->requested_search_string;
     }
@@ -102,7 +102,7 @@ class GlossaryPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedDefinitionPageId(): int
+    public function getRequestedDefinitionPageId() : int
     {
         return $this->requested_def_pg_id;
     }
@@ -110,7 +110,7 @@ class GlossaryPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedRefId(): int
+    public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
@@ -118,7 +118,7 @@ class GlossaryPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedTermId(): int
+    public function getRequestedTermId() : int
     {
         return $this->requested_term_id;
     }
@@ -126,7 +126,7 @@ class GlossaryPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedTaxNode(): int
+    public function getRequestedTaxNode() : int
     {
         return $this->requested_tax_node;
     }
@@ -134,7 +134,7 @@ class GlossaryPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedLetter(): string
+    public function getRequestedLetter() : string
     {
         return $this->requested_letter;
     }
