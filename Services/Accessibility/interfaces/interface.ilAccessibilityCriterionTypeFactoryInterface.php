@@ -6,16 +6,16 @@
  */
 interface ilAccessibilityCriterionTypeFactoryInterface
 {
-	/**
-	 * @return ilAccessibilityCriterionType[]
-	 */
-	public function getTypesByIdentMap() : array;
+    /**
+     * @return ilAccessibilityCriterionType[]
+     */
+    public function getTypesByIdentMap() : array;
 
-	/**
-	 * @param string $typeIdent
-	 * @param bool   $useFallback
-	 * @return ilAccessibilityCriterionType
-	 * @throws ilAccessibilityCriterionTypeNotFoundException
-	 */
-	public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType;
+    /**
+     * @param string $typeIdent
+     * @param bool   $useFallback
+     * @return ilAccessibilityCriterionType
+     * @throws ilAccessibilityCriterionTypeNotFoundException
+     */
+    public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType;
 }

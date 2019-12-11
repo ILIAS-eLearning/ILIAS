@@ -6,14 +6,14 @@
  */
 interface ilAccessibilityDocumentEvaluation
 {
-	/**
-	 * @return ilAccessibilitySignableDocument
-	 * @throws ilAccessibilityNoSignableDocumentFoundException
-	 */
-	public function document() : ilAccessibilitySignableDocument;
+    /**
+     * @return ilAccessibilitySignableDocument
+     * @throws ilAccessibilityNoSignableDocumentFoundException
+     */
+    public function document() : ilAccessibilitySignableDocument;
 
-	/**
-	 * @return bool
-	 */
-	public function hasDocument() : bool;
+    /**
+     * @return bool
+     */
+    public function hasDocument() : bool;
 }

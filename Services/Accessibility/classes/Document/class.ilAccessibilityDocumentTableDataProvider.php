@@ -6,16 +6,16 @@
  */
 class ilAccessibilityDocumentTableDataProvider implements ilAccessibilityTableDataProvider
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function getList(array $params, array $filter) : array
-	{
-		$items = ilAccessibilityDocument::orderBy('sorting')->get();
+    /**
+     * @inheritdoc
+     */
+    public function getList(array $params, array $filter) : array
+    {
+        $items = ilAccessibilityDocument::orderBy('sorting')->get();
 
-		return [
-			'items' => $items,
-			'cnt'   => count($items)
-		];
-	}
+        return [
+            'items' => $items,
+            'cnt'   => count($items)
+        ];
+    }
 }
