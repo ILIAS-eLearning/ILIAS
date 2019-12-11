@@ -38,18 +38,18 @@ class RunDBRepository
      * @param int $user_id user id
      * @return int[] survey ids
      */
-    public function getFinishedSurveysOfUser(int $user_id): array
+    public function getFinishedSurveysOfUser(int $user_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT survey_fi FROM svy_finished ".
+        $set = $db->queryF(
+            "SELECT survey_fi FROM svy_finished " .
             " WHERE user_fi = %s AND state = %s",
             ["integer", "integer"],
             [$user_id, 1]
         );
         $items = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $items[] = (int) $rec["survey_fi"];
         }
         return $items;
@@ -61,18 +61,18 @@ class RunDBRepository
      * @param int $user_id user id
      * @return int[] survey ids
      */
-    public function getUnfinishedSurveysOfUser(int $user_id): array
+    public function getUnfinishedSurveysOfUser(int $user_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT survey_fi FROM svy_finished ".
+        $set = $db->queryF(
+            "SELECT survey_fi FROM svy_finished " .
             " WHERE user_fi = %s AND state = %s",
             ["integer", "integer"],
             [$user_id, 0]
         );
         $items = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $items[] = $rec["survey_fi"];
         }
         return $items;
@@ -84,18 +84,18 @@ class RunDBRepository
      * @param int $rater_id
      * @return array
      */
-    public function getFinishedAppraiseesForRater(int $rater_id): array
+    public function getFinishedAppraiseesForRater(int $rater_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT survey_fi, appr_id FROM svy_finished ".
+        $set = $db->queryF(
+            "SELECT survey_fi, appr_id FROM svy_finished " .
             " WHERE user_fi = %s AND state = %s",
             ["integer", "integer"],
             [$rater_id, 1]
         );
         $appraisee = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $appraisee[] = [
                 "survey_id" => $rec["survey_fi"],
                 "appr_id" => $rec["appr_id"]
@@ -103,6 +103,4 @@ class RunDBRepository
         }
         return $appraisee;
     }
-
-
 }

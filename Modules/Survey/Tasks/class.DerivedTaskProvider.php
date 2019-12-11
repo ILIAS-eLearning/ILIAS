@@ -65,7 +65,7 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
     /**
      * @inheritdoc
      */
-    public function isActive(): bool
+    public function isActive() : bool
     {
         return true;
     }
@@ -73,7 +73,7 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
     /**
      * @inheritdoc
      */
-    public function getTasks(int $user_id): array
+    public function getTasks(int $user_id) : array
     {
         $lng = $this->lng;
 
@@ -88,8 +88,12 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                 $ref_id = $this->getFirstRefIdWithPermission("read", $obj_id, $user_id);
                 if ($ref_id > 0) {
                     $title = str_replace("%1", \ilObject::_lookupTitle($obj_id), $lng->txt("svy_finish_survey"));
-                    $tasks[] = $this->task_service->derived()->factory()->task($title, $ref_id,
-                        (int)$access[$survey_id]->getEndDate(), (int)$access[$survey_id]->getStartDate());
+                    $tasks[] = $this->task_service->derived()->factory()->task(
+                        $title,
+                        $ref_id,
+                        (int) $access[$survey_id]->getEndDate(),
+                        (int) $access[$survey_id]->getStartDate()
+                    );
                 }
             }
         }
@@ -103,8 +107,12 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                 $ref_id = $this->getFirstRefIdWithPermission("read", $obj_id, $user_id);
                 if ($ref_id > 0) {
                     $title = str_replace("%1", \ilObject::_lookupTitle($obj_id), $lng->txt("svy_finish_survey"));
-                    $tasks[] = $this->task_service->derived()->factory()->task($title, $ref_id,
-                        (int)$access[$survey_id]->getEndDate(), (int)$access[$survey_id]->getStartDate());
+                    $tasks[] = $this->task_service->derived()->factory()->task(
+                        $title,
+                        $ref_id,
+                        (int) $access[$survey_id]->getEndDate(),
+                        (int) $access[$survey_id]->getStartDate()
+                    );
                 }
             }
         }
@@ -118,8 +126,12 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
                 $ref_id = $this->getFirstRefIdWithPermission("read", $obj_id, $user_id);
                 if ($ref_id > 0) {
                     $title = str_replace("%1", \ilObject::_lookupTitle($obj_id), $lng->txt("svy_finish_survey"));
-                    $tasks[] = $this->task_service->derived()->factory()->task($title, $ref_id,
-                        (int)$access[$survey_id]->getEndDate(), (int)$access[$survey_id]->getStartDate());
+                    $tasks[] = $this->task_service->derived()->factory()->task(
+                        $title,
+                        $ref_id,
+                        (int) $access[$survey_id]->getEndDate(),
+                        (int) $access[$survey_id]->getStartDate()
+                    );
                 }
             }
         }
@@ -135,18 +147,15 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
      * @param int $user_id
      * @return int
      */
-    protected function getFirstRefIdWithPermission($perm, int $obj_id, int $user_id): int
+    protected function getFirstRefIdWithPermission($perm, int $obj_id, int $user_id) : int
     {
         $access = $this->access;
 
-        foreach(\ilObject::_getAllReferences($obj_id) as $ref_id)
-        {
-            if ($access->checkAccessOfUser($user_id, $perm, "", $ref_id))
-            {
+        foreach (\ilObject::_getAllReferences($obj_id) as $ref_id) {
+            if ($access->checkAccessOfUser($user_id, $perm, "", $ref_id)) {
                 return $ref_id;
             }
         }
         return 0;
     }
-
 }

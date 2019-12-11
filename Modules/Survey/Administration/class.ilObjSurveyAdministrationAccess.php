@@ -9,7 +9,4 @@
  */
 class ilObjSurveyAdministrationAccess extends ilObjectAccess
 {
-
 }
-
-?>

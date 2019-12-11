@@ -32,9 +32,11 @@ class InvitationsManager
     /**
      * Constructor
      */
-    public function __construct(InvitationsDBRepository $repo = null,
-        Execution\RunDBRepository $run_repo = null, Settings\SettingsDBRepository $set_repo = null)
-    {
+    public function __construct(
+        InvitationsDBRepository $repo = null,
+        Execution\RunDBRepository $run_repo = null,
+        Settings\SettingsDBRepository $set_repo = null
+    ) {
         $this->repo = (is_null($repo))
             ? new InvitationsDBRepository()
             : $repo;
@@ -78,7 +80,7 @@ class InvitationsManager
      * @param int $survey_id Survey ID not object ID!
      * @return int[]
      */
-    public function getAllForSurvey(int $survey_id): array
+    public function getAllForSurvey(int $survey_id) : array
     {
         return $this->repo->getAllForSurvey($survey_id);
     }
@@ -103,12 +105,10 @@ class InvitationsManager
 
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
-        $open_surveys = array_filter($open_surveys, function($i) use ($has_ended) {
+        $open_surveys = array_filter($open_surveys, function ($i) use ($has_ended) {
             return !$has_ended[$i];
         });
 
         return $open_surveys;
     }
-
-
 }

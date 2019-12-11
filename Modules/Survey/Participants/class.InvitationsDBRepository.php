@@ -39,7 +39,8 @@ class InvitationsDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM svy_invitation WHERE ".
+        $db->manipulateF(
+            "DELETE FROM svy_invitation WHERE " .
             " survey_id = %s AND user_id = %s",
             ["integer", "integer"],
             [$survey_id, $user_id]
@@ -57,10 +58,13 @@ class InvitationsDBRepository
     {
         $db = $this->db;
 
-        $db->replace("svy_invitation", [		// pk
-        		"survey_id" => ["integer", $survey_id],
-        		"user_id" => ["integer", $user_id]
-        	], []
+        $db->replace(
+            "svy_invitation",
+            [		// pk
+                "survey_id" => ["integer", $survey_id],
+                "user_id" => ["integer", $user_id]
+            ],
+            []
         );
     }
 
@@ -70,19 +74,19 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @return int[]
      */
-    public function getAllForSurvey(int $survey_id): array
+    public function getAllForSurvey(int $survey_id) : array
     {
         $db = $this->db;
 
         $items = [];
-        $set = $db->queryF("SELECT user_id FROM svy_invitation ".
+        $set = $db->queryF(
+            "SELECT user_id FROM svy_invitation " .
             " WHERE survey_id = %s ",
             ["integer"],
             [$survey_id]
         );
 
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $items[] = $rec["user_id"];
         }
         return $items;
@@ -94,22 +98,21 @@ class InvitationsDBRepository
      * @param int $user_id user id
      * @return int[] survey IDs
      */
-    public function getAllForUser(int $user_id): array
+    public function getAllForUser(int $user_id) : array
     {
         $db = $this->db;
 
         $items = [];
-        $set = $db->queryF("SELECT survey_id FROM svy_invitation ".
+        $set = $db->queryF(
+            "SELECT survey_id FROM svy_invitation " .
             " WHERE user_id = %s ",
             ["integer"],
             [$user_id]
         );
 
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $items[] = (int) $rec["survey_id"];
         }
         return $items;
     }
-
 }
