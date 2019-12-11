@@ -45,8 +45,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
             $ref_id = $mv->getCurrentRefId();
 
             return $this->factory->page()->withHighPriority()->withModification(
-                function (PagePartProvider $i) use ($ref_id): Page {
-
+                function (PagePartProvider $i) use ($ref_id) : Page {
                     $url = new URI(ilLink::_getLink(
                         $ref_id,
                         ilObject::_lookupType(ilObject::_lookupObjId($ref_id)),
