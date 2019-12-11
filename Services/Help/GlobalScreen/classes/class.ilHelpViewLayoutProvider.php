@@ -15,7 +15,6 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 class ilHelpViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 
@@ -40,9 +39,9 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
             $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
             $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), '', $tt_text));
 
-            $item->addComponentDecorator(static function (Component $component) use ($tt_text): Component {
+            $item->addComponentDecorator(static function (Component $component) use ($tt_text) : Component {
                 if ($component instanceof JavaScriptBindable) {
-                    return $component->withAdditionalOnLoadCode(static function ($id) use ($tt_text): string {
+                    return $component->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
                         return "il.Tooltip.add('$id', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
                     });
                 }
