@@ -8,27 +8,27 @@ require_once 'Services/UIComponent/SplitButton/interfaces/interface.ilSplitButto
  * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesUIComponent
  */
-class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem 
+class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
 {
-	/**
-	 * @var ilButtonBase
-	 */
-	protected $button;
+    /**
+     * @var ilButtonBase
+     */
+    protected $button;
 
-	/**
-	 * @param ilButtonBase $button
-	 */
-	public function __construct(ilButtonBase $button)
-	{
-		$this->button = $button;
-	}
+    /**
+     * @param ilButtonBase $button
+     */
+    public function __construct(ilButtonBase $button)
+    {
+        $this->button = $button;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getContent()
-	{
-		$this->button->applyDefaultCss(false);
-		return $this->button->render();
-	}
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        $this->button->applyDefaultCss(false);
+        return $this->button->render();
+    }
 }
