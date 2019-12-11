@@ -2859,7 +2859,7 @@ class ilObjSurvey extends ilObject
     */
     public function checkConstraint($constraint_data, $working_data)
     {
-        if (count($working_data) == 0) {
+        if (!is_array($working_data) || count($working_data) == 0) {
             return 0;
         }
         
