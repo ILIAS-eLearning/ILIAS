@@ -517,6 +517,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 	public function getUserProfileImages()
 	{
+		global $DIC;
+
 		$response = array();
 
 		if(!$this->ilUser)
@@ -533,32 +535,53 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
 		$this->ilLng->loadLanguageModule('user');
 
-		require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
 		ilWACSignedPath::setTokenMaxLifetimeInSeconds(30);
 
 		$user_ids = array_filter(array_map('intval', array_map('trim', explode(',', $_GET['usr_ids']))));
-		require_once 'Services/User/classes/class.ilUserUtil.php';
+
+		$room = ilChatroom::byObjectId($this->gui->object->getId());
+		$chatRoomUserDetails = ilChatroomUser::getUserInformation($user_ids, $room->getRoomId());
+		$chatRoomUserDetailsByUsrId = array_combine(
+			array_map(
+				function (stdClass $userData) {
+					return $userData->id;
+				},
+				$chatRoomUserDetails
+			),
+			$chatRoomUserDetails
+		);
+
 		$public_data  = ilUserUtil::getNamePresentation($user_ids, true, false, '', false, true, false, true);
 		$public_names = ilUserUtil::getNamePresentation($user_ids, false, false, '', false, true, false, false);
 
-		foreach($user_ids as $usr_id)
-		{
-			$public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
+		foreach ($user_ids as $usr_id) {
+			if (!array_key_exists($usr_id, $chatRoomUserDetailsByUsrId)) {
+				continue;
+			}
 
-			$public_name = '';
-			if(isset($public_names[$usr_id]))
-			{
-				$public_name = $public_names[$usr_id];
-				if('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login']))
-				{
-					$public_name = $public_data[$usr_id]['login'];
+			if ($room->getSetting('allow_custom_usernames')) {
+				/** @var ilUserAvatar $avatar */
+				$avatar = $DIC["user.avatar.factory"]->avatar('xsmall');
+				$avatar->setUsrId(ANONYMOUS_USER_ID);
+				$avatar->setName(ilStr::subStr($chatRoomUserDetailsByUsrId[$usr_id]->login, 0, 2));
+
+				$public_name = $chatRoomUserDetailsByUsrId[$usr_id]->login;
+				$public_image = $avatar->getUrl();
+			} else {
+				$public_image = isset($public_data[$usr_id]) && isset($public_data[$usr_id]['img']) ? $public_data[$usr_id]['img'] : '';
+				$public_name  = '';
+				if (isset($public_names[$usr_id])) {
+					$public_name = $public_names[$usr_id];
+					if ('unknown' == $public_name && isset($public_data[$usr_id]) && isset($public_data[$usr_id]['login'])) {
+						$public_name = $public_data[$usr_id]['login'];
+					}
 				}
 			}
 
-			$response[$usr_id] = array(
+			$response[$usr_id] = [
 				'public_name'   => $public_name,
-				'profile_image' => $public_image
-			);
+				'profile_image' => $public_image,
+			];
 		}
 
 		echo json_encode($response);
