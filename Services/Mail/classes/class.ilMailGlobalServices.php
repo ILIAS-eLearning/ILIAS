@@ -60,14 +60,16 @@ class ilMailGlobalServices
 
         // mail settings id is set by a constant in ilias.ini. Keep the select for some time until everyone has updated his ilias.ini
         if (!MAIL_SETTINGS_ID) {
-            $res = $DIC->database()->queryF('
+            $res = $DIC->database()->queryF(
+                '
 				SELECT object_reference.ref_id FROM object_reference, tree, object_data
 				WHERE tree.parent = %s
 				AND object_data.type = %s
 				AND object_reference.ref_id = tree.child
 				AND object_reference.obj_id = object_data.obj_id',
                 array('integer', 'text'),
-                array(SYSTEM_FOLDER_ID, 'mail'));
+                array(SYSTEM_FOLDER_ID, 'mail')
+            );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
                 self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = $row['ref_id'];
@@ -148,7 +150,7 @@ class ilMailGlobalServices
                 (string) $row['send_time'],
                 (string) $row2['send_time']
             ),
-        ]; 
+        ];
 
         return self::$global_mail_services_cache[$cacheKey];
     }

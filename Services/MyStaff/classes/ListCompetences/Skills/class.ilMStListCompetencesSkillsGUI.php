@@ -13,7 +13,6 @@ use ILIAS\MyStaff\ListCompetences\Skills\ilMStListCompetencesSkillsTableGUI;
  */
 class ilMStListCompetencesSkillsGUI
 {
-
     const CMD_APPLY_FILTER = 'applyFilter';
     const CMD_INDEX = 'index';
     const CMD_GET_ACTIONS = "getActions";
@@ -55,7 +54,6 @@ class ilMStListCompetencesSkillsGUI
 
     public function executeCommand() : void
     {
-
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
         switch ($next_class) {

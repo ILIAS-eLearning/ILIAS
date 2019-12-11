@@ -11,7 +11,6 @@ const ILIAS_HTTP_PATH = "some_path";
  */
 class StandardNotificationRendererTest extends BaseNotificationSetUp
 {
-
     use Hasher;
 
 
@@ -42,7 +41,8 @@ class StandardNotificationRendererTest extends BaseNotificationSetUp
 
         $standard_notification = $this->factory->standard($this->id)
             ->withNotificationItem($item)
-            ->withClosedCallable(function () { });
+            ->withClosedCallable(function () {
+            });
 
         $item = $item->withCloseAction("some_path/src/GlobalScreen/Client/notify.php?mode=closed&item_id=" . $this->hash($this->id->serialize()));
         $this->assertEquals($item, $renderer->getNotificationComponentForItem($standard_notification));

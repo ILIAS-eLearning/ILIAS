@@ -11,7 +11,6 @@ use JsonSerializable;
  */
 interface FileInfoResult extends JsonSerializable
 {
-
     public function getFileIdentifier() : string;
 
 

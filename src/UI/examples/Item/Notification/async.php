@@ -35,16 +35,16 @@ function async()
 
     $async_replace = $async_item
         ->withDescription("The complete Item will be replaced Async")
-        ->withAdditionalOnLoadCode(function($id) use ($async_replace_url) {
-                return "
+        ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url) {
+            return "
                     var item = il.UI.item.notification.getNotificationItemObject($($id));
                     item.replaceByAsyncItem('$async_replace_url',{});
                 ";
-            });
+        });
 
     $async_replace_content = $async_item
         ->withDescription("The content of the Item will be replaced Async")
-        ->withAdditionalOnLoadCode(function($id) use ($async_replace_content_load_url) {
+        ->withAdditionalOnLoadCode(function ($id) use ($async_replace_content_load_url) {
             return "
                     var item = il.UI.item.notification.getNotificationItemObject($($id));
                     item.replaceContentByAsyncItemContent('$async_replace_content_load_url',{});

@@ -7,14 +7,13 @@
 
 class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 {
-
     const TABLE_NAME = 'il_bibl_field';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

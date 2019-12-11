@@ -10,5 +10,3 @@
 $_SESSION["AccountId"] = '<user_id>';
 $_POST["username"] = '<user_login>';
 $_GET["client_id"] = '<client_id>';
-
-?>

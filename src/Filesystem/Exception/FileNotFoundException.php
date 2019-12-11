@@ -11,6 +11,6 @@ namespace ILIAS\Filesystem\Exception;
  * @since 5.3
  * @version 1.0
  */
-class FileNotFoundException extends IOException {
-
+class FileNotFoundException extends IOException
+{
 }

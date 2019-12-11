@@ -11,7 +11,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBTControllerGUI
 {
-
     use DIC;
     const FROM_URL = 'from_url';
     const OBSERVER_ID = 'observer_id';

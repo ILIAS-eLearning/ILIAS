@@ -43,7 +43,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
     /**
      * @return string
      */
-    protected function getLanguageVariableSuffix() : string 
+    protected function getLanguageVariableSuffix() : string
     {
         $suffix = '_p';
         if ($this->relation->isOwnedByActor()) {
@@ -56,7 +56,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
     /**
      *
      */
-    protected function render() : void 
+    protected function render() : void
     {
         $this->renderStateButton();
         $states = $this->relation->getCurrentPossibleTargetStates();
@@ -115,7 +115,7 @@ abstract class ilAbstractBuddySystemRelationStateButtonRenderer implements ilBud
     /**
      * @return string
      */
-    public function getHtml() : string 
+    public function getHtml() : string
     {
         $this->render();
 

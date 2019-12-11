@@ -12,7 +12,6 @@ use ILIAS\FileUpload\FileUpload;
  */
 abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandler
 {
-
     protected const CMD_UPLOAD = 'upload';
     protected const CMD_REMOVE = 'remove';
     protected const CMD_INFO = 'info';
@@ -122,4 +121,3 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
 
     abstract public function getInfoForExistingFiles(array $file_ids) : array;
 }
-

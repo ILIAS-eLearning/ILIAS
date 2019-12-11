@@ -15,4 +15,3 @@ function modeinfo()
 
     return $renderer->render($f->mainControls()->modeInfo('a small step for a man', new URI('http://a_giant_leap_for_mankind_meaning')));
 }
-

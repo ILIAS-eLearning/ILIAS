@@ -65,7 +65,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     /**
      * Handles all commmands, default is "configure"
      */
-    function performCommand($cmd)
+    public function performCommand($cmd)
     {
         include_once("class.ilCloudPluginConfig.php");
         $this->object = new ilCloudPluginConfig($this->getTableName());
@@ -82,7 +82,7 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     /**
      * Configure screen
      */
-    function configure()
+    public function configure()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -96,7 +96,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
     public function getValues()
     {
         foreach ($this->fields as $key => $item) {
-
             $values[$key] = $this->object->getValue($key);
             if (is_array($item["subelements"])) {
                 foreach ($item["subelements"] as $subkey => $subitem) {
@@ -155,7 +154,6 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
 
             // Save Checkbox Values
             foreach ($this->fields as $key => $item) {
-
                 $this->object->setValue($key, $this->form->getInput($key));
                 if (is_array($item["subelements"])) {
                     foreach ($item["subelements"] as $subkey => $subitem) {
@@ -171,5 +169,3 @@ abstract class ilCloudPluginConfigGUI extends ilPluginConfigGUI
         }
     }
 }
-
-?>

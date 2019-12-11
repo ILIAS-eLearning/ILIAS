@@ -162,7 +162,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             if (!$this->all_objects) {
                 /*				$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
                                 $this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
-                
+
                                 $mset = new ilSetting("mobs");
                                 if ($mset->get("mep_activate_pages"))
                                 {

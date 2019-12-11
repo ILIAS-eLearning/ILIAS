@@ -12,13 +12,12 @@
  */
 class ilLPStatusCmiXapiCompletedOrPassedWithFailed extends ilLPStatusCmiXapiCompletedOrPassed
 {
-	protected function resultSatisfyFailed(ilCmiXapiResult $result)
-	{
-		if( $result->getStatus() == 'failed' )
-		{
-			return true;
-		}
-		
-		return false;
-	}
+    protected function resultSatisfyFailed(ilCmiXapiResult $result)
+    {
+        if ($result->getStatus() == 'failed') {
+            return true;
+        }
+        
+        return false;
+    }
 }

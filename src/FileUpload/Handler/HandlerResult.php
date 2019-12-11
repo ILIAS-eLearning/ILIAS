@@ -11,7 +11,6 @@ use JsonSerializable;
  */
 interface HandlerResult extends JsonSerializable
 {
-
     public const STATUS_OK = 1;
     public const STATUS_FAILED = 2;
 

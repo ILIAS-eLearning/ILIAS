@@ -116,7 +116,7 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    public function getPlaceholderValues(int $userId, int $objId): array
+    public function getPlaceholderValues(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -132,13 +132,13 @@ class ilLTIConsumerPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    protected function getMasteryScore(ilObjLTIConsumer $object): string
+    protected function getMasteryScore(ilObjLTIConsumer $object) : string
     {
         $masteryScore = sprintf('%0.2f %%', $object->getMasteryScorePercent());
         return $masteryScore;
     }
 
-    protected function getReachedScore(ilObjLTIConsumer $object, int $userId): string
+    protected function getReachedScore(ilObjLTIConsumer $object, int $userId) : string
     {
         $userResult = ilLTIConsumerResult::getByKeys($object->getId(), $userId);
 

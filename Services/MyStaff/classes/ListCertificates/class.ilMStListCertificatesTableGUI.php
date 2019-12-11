@@ -237,7 +237,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        $propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $user_certificate_dto, $user_certificate_dto);
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $user_certificate_dto, $user_certificate_dto);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -314,7 +316,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
      */
     protected function getFieldValuesForExport(UserCertificateDto $user_certificate_dto)
     {
-        $propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $user_certificate_dto, $user_certificate_dto);
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $user_certificate_dto, $user_certificate_dto);
 
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {

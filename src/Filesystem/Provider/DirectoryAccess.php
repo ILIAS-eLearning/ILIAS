@@ -14,5 +14,6 @@ namespace ILIAS\Filesystem\Provider;
  *
  * @public
  */
-interface DirectoryAccess extends DirectoryReadAccess, DirectoryWriteAccess {
+interface DirectoryAccess extends DirectoryReadAccess, DirectoryWriteAccess
+{
 }

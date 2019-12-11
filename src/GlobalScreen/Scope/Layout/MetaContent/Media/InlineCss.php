@@ -7,7 +7,6 @@
  */
 class InlineCss extends AbstractMedia
 {
-
     const MEDIA_SCREEN = "screen";
     /**
      * @var string

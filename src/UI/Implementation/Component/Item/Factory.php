@@ -29,6 +29,6 @@ class Factory implements I\Factory
      */
     public function notification($title, \ILIAS\UI\Component\Symbol\Icon\Icon $icon) : I\Notification
     {
-        return new Notification($title,$icon);
+        return new Notification($title, $icon);
     }
 }

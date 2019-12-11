@@ -9,7 +9,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPositionGUI extends BaseCommands
 {
-
     const SUBTAB_SETTINGS = 'settings';
     const SUBTAB_PERMISSIONS = 'obj_orgunit_positions';
     const CMD_CONFIRM_DELETION = 'confirmDeletion';

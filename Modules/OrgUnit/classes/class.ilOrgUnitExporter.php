@@ -10,7 +10,6 @@
  */
 class ilOrgUnitExporter extends ilCategoryExporter
 {
-
     public function simpleExport($orgu_ref_id)
     {
         $nodes = $this->getStructure($orgu_ref_id);
@@ -134,8 +133,10 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $exp->setFilename($new_file);
         $exp->create();
 
-        ilUtil::deliverFile($export_dir . "/" . $new_file,
-            $new_file);
+        ilUtil::deliverFile(
+            $export_dir . "/" . $new_file,
+            $new_file
+        );
 
         return array(
             "success"   => true,

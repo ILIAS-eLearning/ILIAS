@@ -516,9 +516,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         if ($this->checkPermissionBool('edit_permission')) {
             $this->tabs_gui->addTab(
-                    "perm_settings",
-                    $this->lng->txt("perm_settings"),
-                    $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
+                "perm_settings",
+                $this->lng->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
                 );
         }
     }

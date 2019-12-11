@@ -14,7 +14,6 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
  */
 class MainNotificationCollector extends AbstractBaseCollector implements ItemCollector
 {
-
     use Hasher;
     /**
      * @var NotificationProvider[]

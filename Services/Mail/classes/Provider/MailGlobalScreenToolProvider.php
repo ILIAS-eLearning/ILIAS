@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
  */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
 
@@ -35,8 +34,6 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
         if ($additional_data->exists(self::SHOW_MAIL_FOLDERS_TOOL) && $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true) {
-
-
             $title = $this->dic->language()->txt('mail_folders');
             $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title)->withIsOutlined(true);
 

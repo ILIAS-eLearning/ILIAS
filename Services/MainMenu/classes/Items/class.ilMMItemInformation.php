@@ -18,7 +18,6 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
  */
 class ilMMItemInformation implements ItemInformation
 {
-
     private const ICON_ID = 'icon_id';
     /**
      * @var \ILIAS\UI\Factory

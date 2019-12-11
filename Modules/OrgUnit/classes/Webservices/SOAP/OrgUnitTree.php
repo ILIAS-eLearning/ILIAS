@@ -11,7 +11,6 @@ use ilOrgUnitExporter;
  */
 class OrgUnitTree extends Base
 {
-
     const ORGU_REF_ID = 'orgu_ref_id';
     const ORG_UNIT_TREE = 'OrgUnitTree';
 
@@ -23,7 +22,6 @@ class OrgUnitTree extends Base
      */
     protected function run(array $params)
     {
-
         $orgu_ref_id = $params[self::ORGU_REF_ID];
 
         $orgu_exporter = new ilOrgUnitExporter();

@@ -4,15 +4,16 @@
 
 use ILIAS\Setup;
 
-abstract class ilLanguageObjective implements Setup\Objective {
-	/**
-	 * @var	\ilLanguageSetupConfig
-	 */
-	protected $config;
+abstract class ilLanguageObjective implements Setup\Objective
+{
+    /**
+     * @var	\ilLanguageSetupConfig
+     */
+    protected $config;
 
-	public function __construct(
-		\ilLanguageSetupConfig $config
-	) {
-		$this->config = $config;
-	}
+    public function __construct(
+        \ilLanguageSetupConfig $config
+    ) {
+        $this->config = $config;
+    }
 }

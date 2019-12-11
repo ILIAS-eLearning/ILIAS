@@ -18,7 +18,6 @@ use ILIAS\UI\Factory;
  */
 class BaseTypeRenderer implements TypeRenderer
 {
-
     use MakeSlateAsync, SlateSessionStateCode {
         MakeSlateAsync::hash insteadof SlateSessionStateCode;
         MakeSlateAsync::unhash insteadof SlateSessionStateCode;

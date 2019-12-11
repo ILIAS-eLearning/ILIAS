@@ -6,67 +6,74 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\UI;
 
-class ilLoggingSetupAgent implements Setup\Agent {
-	/**
-	 * @var Refinery\Factory
-	 */
-	protected $refinery;
+class ilLoggingSetupAgent implements Setup\Agent
+{
+    /**
+     * @var Refinery\Factory
+     */
+    protected $refinery;
 
-	public function __construct(
-		Refinery\Factory $refinery
-	) {
-		$this->refinery = $refinery;
-	}
+    public function __construct(
+        Refinery\Factory $refinery
+    ) {
+        $this->refinery = $refinery;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasConfig() : bool {
-		return true;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function hasConfig() : bool
+    {
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input {
-		throw new \LogicException("Not yet implemented.");
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    {
+        throw new \LogicException("Not yet implemented.");
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getArrayToConfigTransformation() : Refinery\Transformation {
-		return $this->refinery->custom()->transformation(function($data) {
-			return new \ilLoggingSetupConfig(
-				$data["enable"] ?? false,
-				$data["path_to_logfile"] ?? null,
-				$data["errorlog_dir"] ?? null
-			);
-		});	
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getArrayToConfigTransformation() : Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(function ($data) {
+            return new \ilLoggingSetupConfig(
+                $data["enable"] ?? false,
+                $data["path_to_logfile"] ?? null,
+                $data["errorlog_dir"] ?? null
+            );
+        });
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
-		return new Setup\ObjectiveCollection(
-			"Complete objectives from Services/Logging",
-			false,
-			new ilLoggingConfigStoredObjective($config)
-		);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    {
+        return new Setup\ObjectiveCollection(
+            "Complete objectives from Services/Logging",
+            false,
+            new ilLoggingConfigStoredObjective($config)
+        );
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective {
-		return new Setup\NullObjective();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    {
+        return new Setup\NullObjective();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getBuildArtifactObjective() : Setup\Objective {
-		return new Setup\NullObjective();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getBuildArtifactObjective() : Setup\Objective
+    {
+        return new Setup\NullObjective();
+    }
 }

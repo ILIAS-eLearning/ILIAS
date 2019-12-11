@@ -115,9 +115,9 @@ class ilObjMediaPoolSubItemListGUI extends ilSubItemListGUI
                 $this->tpl->setVariable(
                     'LINKED_LINK',
                     ilLink::_getLink(
-                            $this->getRefId(),
-                            'mep',
-                            array('action' => 'showMedia', 'mob_id' => $sub_id,'mepitem_id' => $a_sub_id)
+                        $this->getRefId(),
+                        'mep',
+                        array('action' => 'showMedia', 'mob_id' => $sub_id,'mepitem_id' => $a_sub_id)
                         )
                 );
                 $this->tpl->setVariable('LINKED_TARGET', '_blank');

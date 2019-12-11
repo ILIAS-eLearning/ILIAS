@@ -24,8 +24,7 @@ class ilMailTemplateContextTest extends ilMailBaseTest
         ilMailUserHelper $usernameHelper,
         ilMailLanguageHelper $languageHelper
     ) : ilMailTemplateContext {
-        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext
-        {
+        return new class($orgUnitUserService, $envHelper, $usernameHelper, $languageHelper) extends ilMailTemplateContext {
             public function getId() : string
             {
                 return 'phpunuit';

@@ -17,8 +17,7 @@ include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
  */
 class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
 {
-
-    function asyncCreateFolder()
+    public function asyncCreateFolder()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -115,5 +114,3 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         exit;
     }
 }
-
-?>

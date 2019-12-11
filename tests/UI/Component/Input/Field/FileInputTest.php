@@ -19,7 +19,6 @@ use ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper;
 
 class WithSomeButtonNoUIFactory extends NoUIFactory
 {
-
     protected $button_factory;
 
 
@@ -37,7 +36,6 @@ class WithSomeButtonNoUIFactory extends NoUIFactory
 
 class FileInputTest extends ILIAS_UI_TestBase
 {
-
     public function setUp() : void
     {
         $this->name_source = new DefNamesource();
@@ -59,9 +57,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
     private function getUploadHandler() : Field\UploadHandler
     {
-        return new class implements Field\UploadHandler
-        {
-
+        return new class implements Field\UploadHandler {
             public function getFileIdentifierParameterName() : string
             {
                 return 'file_id';
@@ -241,7 +237,7 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $component_renderer_loader
             = new LoaderCachingWrapper(
-            new LoaderResourceRegistryWrapper(
+                new LoaderResourceRegistryWrapper(
                 $resource_registry,
                 new FSLoader(
                     new DefaultRendererFactory(

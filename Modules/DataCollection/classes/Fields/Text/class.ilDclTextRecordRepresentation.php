@@ -8,7 +8,6 @@
  */
 class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
     const LINK_MAX_LENGTH = 40;
 
 

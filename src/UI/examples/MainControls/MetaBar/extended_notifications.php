@@ -40,7 +40,7 @@ function extended_notifications()
 
     //We provide 4 async endpoints here
     //Endpoint if element ist closed
-    $async_close = $_SERVER['REQUEST_URI'].'&close_item=true&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=false';
+    $async_close = $_SERVER['REQUEST_URI'] . '&close_item=true&async_load_replace=false&async_load_replace_content=false&async_add_aggregate=false';
     //Attach this directly to all items to be closable (showing the Close Button)
     $closable_item = $item->withCloseAction($async_close);
     //Endpoint if replace button is pressed
@@ -52,7 +52,7 @@ function extended_notifications()
 
     if ($_GET['close_item']==="true") {
         //Note that we passe back JS logic here for further processing here
-        $js = $f->legacy("")->withOnLoadCode(function($id) use($async_replace_content_load_url){
+        $js = $f->legacy("")->withOnLoadCode(function ($id) use ($async_replace_content_load_url) {
             return "
                 il.DemoScopeRemaining--;
                 il.DemoScopeItem.replaceContentByAsyncItemContent('$async_replace_content_load_url',{remaining: il.DemoScopeRemaining,added: il.DemoScopeAdded});
@@ -69,10 +69,10 @@ function extended_notifications()
         //We create the amount of aggregates send to us by get and put an according
         //description into the newly create Notification Item
         $items = [];
-        for($i = 1; $i<$added+1; $i++){
-            $items[] = $closable_item->withDescription("This item is number: ".$i." of a fix set of 10 entries.");
+        for ($i = 1; $i<$added+1; $i++) {
+            $items[] = $closable_item->withDescription("This item is number: " . $i . " of a fix set of 10 entries.");
         }
-        $replacement = $item->withDescription("Number of Async non-closed Aggregates: ".$remaining.", totally created: ".$added)
+        $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added)
             ->withAggregateNotifications($items);
 
         echo $renderer->renderAsync([$replacement]);
@@ -82,7 +82,7 @@ function extended_notifications()
     if ($_GET['async_load_replace_content']==="true") {
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
-        $replacement = $item->withDescription("Number of Async non-closed Aggregates: ".$remaining.", totally created: ".$added);
+        $replacement = $item->withDescription("Number of Async non-closed Aggregates: " . $remaining . ", totally created: " . $added);
         echo $renderer->renderAsync([$replacement]);
         exit;
     }
@@ -91,7 +91,7 @@ function extended_notifications()
         $remaining = $_GET["remaining"];
         $added = $_GET["added"];
 
-        $new_aggregate = $closable_item->withDescription("The item has been added, Nr: ".$added);
+        $new_aggregate = $closable_item->withDescription("The item has been added, Nr: " . $added);
 
         echo $renderer->renderAsync([$new_aggregate]);
         exit;
@@ -101,7 +101,7 @@ function extended_notifications()
     //we also change the description of the already existing parent Notification
     //Item holding the aggregates.
     $add_button = $f->button()->standard("Add Chat Notification", "#")
-                    ->withAdditionalOnLoadCode(function($id) use ($async_replace_url,$async_add_aggregate) {
+                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url,$async_add_aggregate) {
                         return "
                             $('#$id').click(function() {
                                 il.DemoScopeItem.getCounterObjectIfAny().incrementNoveltyCount(1);
@@ -114,7 +114,7 @@ function extended_notifications()
 
     //Resetting all counts to 0, remove all aggregates
     $reset_button = $f->button()->standard("Reset Chat", "#")
-                      ->withAdditionalOnLoadCode(function($id) use ($async_replace_url) {
+                      ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url) {
                           return "
                             $('#$id').click(function() {
                                 il.DemoScopeItem.getCounterObjectIfAny().decrementNoveltyCount(il.DemoScopeRemaining);
@@ -126,7 +126,7 @@ function extended_notifications()
 
     //Set all counts to a fixed value of ten.
     $set_button = $f->button()->standard("Set to 10 chat entries", "#")
-                    ->withAdditionalOnLoadCode(function($id) use ($async_replace_url) {
+                    ->withAdditionalOnLoadCode(function ($id) use ($async_replace_url) {
                         return "
                             $('#$id').click(function() {
                                 il.DemoScopeItem.getCounterObjectIfAny().decrementNoveltyCount(il.DemoScopeRemaining);
@@ -144,7 +144,7 @@ function extended_notifications()
      */
     $async_item = $item
         ->withDescription("This is the original Version after the Page has loaded. Will be replaced completely.")
-        ->withAdditionalOnLoadCode(function($id) {
+        ->withAdditionalOnLoadCode(function ($id) {
             return "
                 il.DemoScopeAdded = 0;
                 il.DemoScopeRemaining = 0;
@@ -157,10 +157,11 @@ function extended_notifications()
      * just done to get the example up and running and to give it a more realistic
      * look. See ilias/src/GlobalScreen/Scope/Notification/README.md
      */
-    return usuallyDoneByGlobalScreenProbablyIgnore($async_item,$f,$renderer,$add_button,$set_button,$reset_button);
+    return usuallyDoneByGlobalScreenProbablyIgnore($async_item, $f, $renderer, $add_button, $set_button, $reset_button);
 }
 
-function usuallyDoneByGlobalScreenProbablyIgnore($async_item,$f,$renderer,$add_button,$set_button,$reset_button){
+function usuallyDoneByGlobalScreenProbablyIgnore($async_item, $f, $renderer, $add_button, $set_button, $reset_button)
+{
     //Put the item in some slate.
     $async_slate = $f->mainControls()->slate()->notification("Chat", [$async_item]);
 
@@ -179,15 +180,15 @@ function usuallyDoneByGlobalScreenProbablyIgnore($async_item,$f,$renderer,$add_b
                             ->withCounter($f->counter()->novelty(1));
 
     $notification_center = $f->mainControls()->slate()
-                             ->combined("Notification Center",$notification_glyph )
+                             ->combined("Notification Center", $notification_glyph)
                              ->withAdditionalEntry($async_slate)
                              ->withAdditionalEntry($mail_slate);
 
     $css_fix = "<style>.panel-primary .il-maincontrols-metabar{flex-direction: column;} .panel-primary .il-metabar-slates{position: relative;top: 0px;}</style>";
-    return $css_fix.$renderer->render([buildMetabarWithNotifications($f,$notification_center),$add_button,$set_button,$reset_button]);
+    return $css_fix . $renderer->render([buildMetabarWithNotifications($f, $notification_center),$add_button,$set_button,$reset_button]);
 }
 
-function buildMetabarWithNotifications($f,$notification_center)
+function buildMetabarWithNotifications($f, $notification_center)
 {
     $help = $f->button()->bulky($f->symbol()->glyph()->help(), 'Help', '#');
     $search = $f->button()->bulky($f->symbol()->glyph()->search(), 'Search', '#');
@@ -202,5 +203,3 @@ function buildMetabarWithNotifications($f,$notification_center)
 
     return $metabar;
 }
-
-

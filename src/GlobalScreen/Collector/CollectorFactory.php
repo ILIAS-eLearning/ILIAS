@@ -15,7 +15,6 @@ use ILIAS\GlobalScreen\SingletonTrait;
  */
 class CollectorFactory
 {
-
     use SingletonTrait;
     /**
      * @var array

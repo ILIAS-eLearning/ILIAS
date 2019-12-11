@@ -42,7 +42,7 @@ class ilMailDeliveryJob extends AbstractJob
             (string) $input[3]->getValue(),  // Bcc
             (string) $input[4]->getValue(),  // Subject
             (string) $input[5]->getValue(),  // Message
-            (array) unserialize($input[6]->getValue()),  // Attachments 
+            (array) unserialize($input[6]->getValue()),  // Attachments
             (bool) $input[7]->getValue() // Use Placeholders
         );
 

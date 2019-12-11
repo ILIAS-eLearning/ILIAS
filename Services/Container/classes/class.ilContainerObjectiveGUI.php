@@ -1333,9 +1333,9 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
             $tpl->setVariable(
                 "PROGRESS_BAR",
                 self::buildObjectiveProgressBar(
-                (bool) $this->loc_settings->worksWithInitialTest(),
-                $a_objective->getObjectiveId(),
-                $a_lo_result
+                    (bool) $this->loc_settings->worksWithInitialTest(),
+                    $a_objective->getObjectiveId(),
+                    $a_lo_result
             )
             );
         }

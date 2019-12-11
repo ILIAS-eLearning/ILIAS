@@ -110,7 +110,7 @@ class ilOrgUnitGlobalSettingsGUI
             } else {
                 $is_multi = !$objDefinition->isSystemObject($object_type);
                 $lang_prefix = $is_multi ? 'objs_' : 'obj_';
-                $label = $this->lng->txt($lang_prefix. $object_type);
+                $label = $this->lng->txt($lang_prefix . $object_type);
             }
 
             $type = new ilCheckboxInputGUI(
@@ -119,7 +119,7 @@ class ilOrgUnitGlobalSettingsGUI
             );
             $type->setValue(1);
             $type->setChecked($setting->isActive());
-            if($is_multi) {
+            if ($is_multi) {
                 $scope = new ilRadioGroupInputGUI($this->lng->txt('orgu_global_set_type_changeable'), $object_type . '_changeable');
                 $scope->setValue((int) $setting->isChangeableForObject());
 
@@ -163,7 +163,6 @@ class ilOrgUnitGlobalSettingsGUI
             // Orgu Permissions / Positions in Modules
             $available_types = $objDefinition->getOrgUnitPermissionTypes();
             foreach ($available_types as $object_type) {
-
                 $obj_setting = new ilOrgUnitObjectTypePositionSetting($object_type);
                 $obj_setting->setActive((bool) $form->getInput($object_type . '_active'));
                 $obj_setting->setActivationDefault((int) $form->getInput($object_type . '_default'));

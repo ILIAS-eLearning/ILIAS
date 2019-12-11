@@ -38,7 +38,8 @@ class BTNotificationProvider extends AbstractNotificationProvider implements Not
             ->addNotification(
                 $factory->standard($id('bg_task_bucket'))
                     ->withNotificationItem($item_source->getNotificationItem($nr_buckets))
-                    ->withNewAmount(1));
+                    ->withNewAmount(1)
+            );
 
         return [
             $group,

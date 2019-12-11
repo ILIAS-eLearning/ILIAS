@@ -388,7 +388,10 @@ final class Finder implements \IteratorAggregate, \Countable
 
         if ($this->sort || $this->reverseSorting) {
             $iteratorAggregate = new Iterator\SortableIterator(
-                $this->filesystem, $iterator, $this->sort, $this->reverseSorting
+                $this->filesystem,
+                $iterator,
+                $this->sort,
+                $this->reverseSorting
             );
             $iterator = $iteratorAggregate->getIterator();
         }

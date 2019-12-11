@@ -2267,14 +2267,14 @@ class Title
         # Change the name of the target page:
         $dbw->update(
             'page',
-            /* SET */ 
+            /* SET */
             array(
                 'page_touched'   => $dbw->timestamp($now),
                 'page_namespace' => $nt->getNamespace(),
                 'page_title'     => $nt->getDBkey(),
                 'page_latest'    => $nullRevId,
             ),
-            /* WHERE */ 
+            /* WHERE */
             array( 'page_id' => $oldid ),
             $fname
         );
@@ -2343,14 +2343,14 @@ class Title
         # Rename cur entry
         $dbw->update(
             'page',
-            /* SET */ 
+            /* SET */
             array(
                 'page_touched'   => $now,
                 'page_namespace' => $nt->getNamespace(),
                 'page_title'     => $nt->getDBkey(),
                 'page_latest'    => $nullRevId,
             ),
-            /* WHERE */ 
+            /* WHERE */
             array( 'page_id' => $oldid ),
             $fname
         );

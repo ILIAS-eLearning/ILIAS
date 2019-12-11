@@ -21,25 +21,25 @@ require_once 'Modules/Test/classes/class.ilTestOutputGUI.php';
  */
 class ilTestPlayerFixedQuestionSetGUI extends ilTestOutputGUI
 {
-	protected function buildTestPassQuestionList()
-	{
-		global $DIC;
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
-		
-		require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
-		$questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
-		
-		$questionList->setParentObjId($this->object->getId());
+    protected function buildTestPassQuestionList()
+    {
+        global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        
+        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';
+        $questionList = new ilAssQuestionList($this->db, $this->lng, $ilPluginAdmin);
+        
+        $questionList->setParentObjId($this->object->getId());
 
-		$questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
+        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
 
-		return $questionList;
-	}
+        return $questionList;
+    }
 
-	protected function populateQuestionOptionalMessage()
-	{
-		$info = $this->lng->txt('tst_wf_info_optional_question');
-		$info .= ' '.$this->lng->txt('tst_wf_info_answer_adopted_from_prev_pass');
-		ilUtil::sendInfo($info);
-	}
+    protected function populateQuestionOptionalMessage()
+    {
+        $info = $this->lng->txt('tst_wf_info_optional_question');
+        $info .= ' ' . $this->lng->txt('tst_wf_info_answer_adopted_from_prev_pass');
+        ilUtil::sendInfo($info);
+    }
 }

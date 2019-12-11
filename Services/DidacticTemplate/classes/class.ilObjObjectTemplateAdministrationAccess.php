@@ -13,7 +13,4 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 */
 class ilObjObjectTemplateAdministrationAccess extends ilObjectAccess
 {
-
-
 }
-?>

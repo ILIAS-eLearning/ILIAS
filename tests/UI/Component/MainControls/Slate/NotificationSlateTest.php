@@ -19,9 +19,9 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
         $this->sig_gen = new I\SignalGenerator();
     }
 
-    public function getIcon(){
+    public function getIcon()
+    {
         return $this->getUIFactory()->symbol()->icon()->standard("name", "aria_label", "small", false);
-
     }
 
     public function getUIFactory()
@@ -44,10 +44,12 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
             }
             public function mainControls() : C\MainControls\Factory
             {
-                return new I\MainControls\Factory($this->sig_gen,
-                    new I\MainControls\Slate\Factory($this->sig_gen
-                    , new \ILIAS\UI\Implementation\Component\Counter\Factory()
-                    , $this->symbol()
+                return new I\MainControls\Factory(
+                    $this->sig_gen,
+                    new I\MainControls\Slate\Factory(
+                        $this->sig_gen,
+                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        $this->symbol()
                     )
                 );
             }
@@ -63,38 +65,36 @@ class NotificationSlateTest extends ILIAS_UI_TestBase
 
     public function testImplementsFactoryInterface()
     {
-        $notificatino_slate = $this->getUIFactory()->mainControls()->slate()->notification("title",[]);
+        $notificatino_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", []);
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\MainControls\\Slate\\Notification", $notificatino_slate);
     }
 
     public function testGenerationByFactory()
     {
-        $item = $this->getUIFactory()->item()->notification("title",$this->getIcon())
+        $item = $this->getUIFactory()->item()->notification("title", $this->getIcon())
                                              ->withDescription("description");
 
-        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title",[$item,$item]);
-        $this->assertEquals($notification_slate->getName(),"title");
-        $this->assertEquals($notification_slate->getContents(),[$item,$item]);
-
+        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", [$item,$item]);
+        $this->assertEquals($notification_slate->getName(), "title");
+        $this->assertEquals($notification_slate->getContents(), [$item,$item]);
     }
 
 
     public function testWithAdditionalEntry()
     {
-        $item = $this->getUIFactory()->item()->notification("title",$this->getIcon())
+        $item = $this->getUIFactory()->item()->notification("title", $this->getIcon())
                      ->withDescription("description");
-        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title",[$item,$item]);
-        $this->assertEquals($notification_slate->getContents(),[$item,$item]);
+        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("title", [$item,$item]);
+        $this->assertEquals($notification_slate->getContents(), [$item,$item]);
         $notification_slate = $notification_slate->withAdditionalEntry($item);
-        $this->assertEquals($notification_slate->getContents(),[$item,$item,$item]);
-
+        $this->assertEquals($notification_slate->getContents(), [$item,$item,$item]);
     }
 
     public function testRenderingWithSubslateAndButton()
     {
-        $item = $this->getUIFactory()->item()->notification("item title",$this->getIcon());
-        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("slate title",[$item]);
+        $item = $this->getUIFactory()->item()->notification("item title", $this->getIcon());
+        $notification_slate = $this->getUIFactory()->mainControls()->slate()->notification("slate title", [$item]);
 
 
         $r = $this->getDefaultRenderer();

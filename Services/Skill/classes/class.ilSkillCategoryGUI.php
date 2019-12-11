@@ -300,18 +300,18 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     /*	function updateSkillCategory()
         {
             global $lng, $ilCtrl, $tpl;
-    
+
             $this->initForm("edit");
             if ($this->form->checkInput())
             {
                 // perform update
                 $this->node_object->setSelfEvaluation($_POST["self_eval"]);
                 $this->node_object->update();
-    
+
                 ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, "edit");
             }
-    
+
             $this->form->setValuesByPost();
             $tpl->setContent($this->form->getHtml());
         }*/

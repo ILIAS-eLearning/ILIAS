@@ -8,7 +8,6 @@
  */
 class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
 {
-
     const HOOK_IS_LINE_REMOVABLE = "hook_is_line_removable";
     const HOOK_IS_INPUT_DISABLED = "hook_is_disabled";
     const HOOK_BEFORE_INPUT_RENDER = "hook_before_render";

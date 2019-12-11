@@ -39,7 +39,8 @@ abstract class AbstractBaseNotification implements isItem
      */
     public function __construct(IdentificationInterface $identification)
     {
-        $this->handle_opened = function(){};
+        $this->handle_opened = function () {
+        };
 
         $this->provider_identification = $identification;
     }
@@ -65,7 +66,8 @@ abstract class AbstractBaseNotification implements isItem
     /**
      * @inheritDoc
      */
-    public function withOpenedCallable(callable $handle_opened) : isItem{
+    public function withOpenedCallable(callable $handle_opened) : isItem
+    {
         $clone = clone $this;
         $clone->handle_opened = $handle_opened;
         return $clone;
@@ -74,14 +76,16 @@ abstract class AbstractBaseNotification implements isItem
     /**
      * @inheritDoc
      */
-    public function getOpenedCallable() : callable{
+    public function getOpenedCallable() : callable
+    {
         return $this->handle_opened;
     }
 
     /**
      * @inheritDoc
      */
-    public function withClosedCallable(callable $handle_closed) : isItem{
+    public function withClosedCallable(callable $handle_closed) : isItem
+    {
         $clone = clone $this;
         $clone->handle_closed = $handle_closed;
         return $clone;
@@ -90,14 +94,16 @@ abstract class AbstractBaseNotification implements isItem
     /**
      * @inheritDoc
      */
-    public function getClosedCallable(){
+    public function getClosedCallable()
+    {
         return $this->handle_closed;
     }
 
     /**
      * @inheritDoc
      */
-    public function hasClosedCallable(){
+    public function hasClosedCallable()
+    {
         return is_callable($this->handle_closed);
     }
 }

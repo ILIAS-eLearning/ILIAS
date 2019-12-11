@@ -29,15 +29,15 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
     
     /**
      * This is a basic wip implementation for leaving the lti session with an exit button
-     * 
+     *
      * There is an ongoing discussion about a HeaderInfo bar for different ILIAS modes:
-     * 
+     *
      * https://docu.ilias.de/goto_docu_wiki_wpage_5979_1357.html
-     * 
+     *
      * and a PR Feature Discussion:
-     * 
+     *
      * https://github.com/ILIAS-eLearning/ILIAS/pull/2251
-     * 
+     *
      */
     public function getMetaBarModification(CalledContexts $screen_context_stack) : ?MetaBarModification
     {
@@ -52,29 +52,28 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                 ->factory()
                 ->metabar()
                 ->withModification(function (MetaBar $current) : ?MetaBar {
-                $f = $this->dic->ui()->factory();
-                $close = $f->button()->close();
-                $exit_symbol = $f->symbol()->glyph()->remove();
-                $exit = $f->button()->bulky($exit_symbol,"exit",$this->dic["lti"]->getCmdLink('exit'));
-                $metabar = $f->mainControls()->metaBar()->withAdditionalEntry('exit', $exit);
-                return $metabar;
-            })->withHighPriority();
-        }
-        else {
+                    $f = $this->dic->ui()->factory();
+                    $close = $f->button()->close();
+                    $exit_symbol = $f->symbol()->glyph()->remove();
+                    $exit = $f->button()->bulky($exit_symbol, "exit", $this->dic["lti"]->getCmdLink('exit'));
+                    $metabar = $f->mainControls()->metaBar()->withAdditionalEntry('exit', $exit);
+                    return $metabar;
+                })->withHighPriority();
+        } else {
             return null;
         }
     }
 
-     /**
-     * This is a basic wip implemantion which is hiding the complete navigation MainBar. 
-     * We are planning to create an own LTI MainBar with a minimal TopItem Entry p.e. "LTI Home" with slate like this (needs to be discussed):
-     *  
-     * LtiRoot Object
-     * -- Separator --
-     * LastVisited Items
-     * -- Separator --
-     * Delete VistiedItems (?)
-     */
+    /**
+    * This is a basic wip implemantion which is hiding the complete navigation MainBar.
+    * We are planning to create an own LTI MainBar with a minimal TopItem Entry p.e. "LTI Home" with slate like this (needs to be discussed):
+    *
+    * LtiRoot Object
+    * -- Separator --
+    * LastVisited Items
+    * -- Separator --
+    * Delete VistiedItems (?)
+    */
      
     public function getMainBarModification(CalledContexts $screen_context_stack) : ?MainBarModification
     {
@@ -83,9 +82,10 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
                 ->layout()
                 ->factory()
                 ->mainbar()
-                ->withModification(function (MainBar $current) : ?MainBar { return null; })->withHighPriority();
-        }
-        else {
+                ->withModification(function (MainBar $current) : ?MainBar {
+                    return null;
+                })->withHighPriority();
+        } else {
             return null;
         }
     }

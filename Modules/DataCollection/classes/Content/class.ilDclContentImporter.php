@@ -230,5 +230,3 @@ class ilDclContentImporter
         return $import_fields;
     }
 }
-
-?>

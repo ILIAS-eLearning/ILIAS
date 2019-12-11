@@ -132,5 +132,4 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withViewTitle($title)->getViewTitle()
         );
     }
-
 }

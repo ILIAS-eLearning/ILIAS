@@ -9,7 +9,6 @@ use LogicException;
  */
 class Css extends AbstractMedia
 {
-
     const MEDIA_ALL = "all";
     const MEDIA_SCREEN = "screen";
     const MEDIA_PRINT = "print";

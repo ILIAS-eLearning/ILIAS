@@ -21,7 +21,6 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $adminMode = false,
         \ilLanguage $language = null
     ) {
-
         if ($language === null) {
             global $DIC;
             $language = $DIC->language();
@@ -42,8 +41,10 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $this->addColumn($this->language->txt('notification_target'), '', '');
 
         foreach ($channels as $key => $channel) {
-            $this->addColumn($this->language->txt(
-                'notc_' . $channel['title']),
+            $this->addColumn(
+                $this->language->txt(
+                'notc_' . $channel['title']
+            ),
                 '',
                 '20%',
                 false,
@@ -55,29 +56,34 @@ class ilNotificationSettingsTable extends ilTable2GUI
         $this->setSelectAllCheckbox('');
     }
 
-    public function setEditable($editable) {
+    public function setEditable($editable)
+    {
         $this->editable = $editable;
     }
 
-    public function isEditable() {
+    public function isEditable()
+    {
         return (bool) $this->editable;
     }
 
-    public function fillRow($type) {
+    public function fillRow($type)
+    {
         $this->tpl->setVariable('NOTIFICATION_TARGET', $this->language->txt('nott_' . $type['title']));
 
         foreach ($this->channels as $channeltype => $channel) {
-            if (array_key_exists($type['name'], $this->userdata) && in_array($channeltype, $this->userdata[$type['name']]))
-                    $this->tpl->touchBlock ('notification_cell_checked');
+            if (array_key_exists($type['name'], $this->userdata) && in_array($channeltype, $this->userdata[$type['name']])) {
+                $this->tpl->touchBlock('notification_cell_checked');
+            }
 
             if (!$this->isEditable()) {
-                $this->tpl->touchBlock ('notification_cell_disabled');
+                $this->tpl->touchBlock('notification_cell_disabled');
             }
 
             $this->tpl->setCurrentBlock('notification_cell');
 
-            if ($this->adminMode && $channel['config_type'] == 'set_by_user' && $type['config_type'] == 'set_by_user')
+            if ($this->adminMode && $channel['config_type'] == 'set_by_user' && $type['config_type'] == 'set_by_user') {
                 $this->tpl->setVariable('NOTIFICATION_SET_BY_USER_CELL', 'optionSetByUser');
+            }
 
             $this->tpl->setVariable('CHANNEL', $channeltype);
             $this->tpl->setVariable('TYPE', $type['name']);
@@ -85,7 +91,4 @@ class ilNotificationSettingsTable extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
     }
-
 }
-
-?>

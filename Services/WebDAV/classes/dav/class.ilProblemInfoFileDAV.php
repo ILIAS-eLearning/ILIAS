@@ -4,7 +4,6 @@ use Sabre\DAV\Exception\Forbidden;
 
 class ilProblemInfoFileDAV implements Sabre\DAV\IFile
 {
-
     const PROBLEM_INFO_FILE_NAME = '#!_WEBDAV_INFORMATION.txt';
 
     const PROBLEM_DUPLICATE_OBJECTNAME = 'duplicate';
@@ -37,7 +36,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      * @return string|null
      * @throws Forbidden
      */
-    function put($data)
+    public function put($data)
     {
         throw new Forbidden("The error info file is virtual and can therefore not be overwritten");
     }
@@ -47,7 +46,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      *
      * @return mixed
      */
-    function get()
+    public function get()
     {
         $problem_infos = $this->analyseObjectsOfDAVContainer();
         return $this->createMessageStringFromProblemInfoArray($problem_infos);
@@ -58,7 +57,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return self::PROBLEM_INFO_FILE_NAME;
     }
@@ -68,7 +67,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      *
      * @return string|null
      */
-    function getContentType()
+    public function getContentType()
     {
         return 'text/plain';
     }
@@ -106,7 +105,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      * @param string $a_name
      * @throws Forbidden
      */
-    function setName($a_name)
+    public function setName($a_name)
     {
         throw new Exception\Forbidden("The error info file cannot be renamed");
     }
@@ -129,34 +128,27 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
         );
 
         // Loop to check every child of the container
-        foreach($this->repo_helper->getChildrenOfRefId($this->dav_container->getRefId()) as $ref_id)
-        {
+        foreach ($this->repo_helper->getChildrenOfRefId($this->dav_container->getRefId()) as $ref_id) {
             $type = $this->repo_helper->getObjectTypeFromRefId($ref_id);
-            if($this->dav_helper->isDAVableObjType($type) && $this->repo_helper->checkAccess('read', $ref_id))
-            {
+            if ($this->dav_helper->isDAVableObjType($type) && $this->repo_helper->checkAccess('read', $ref_id)) {
                 $title = $this->repo_helper->getObjectTitleFromRefId($ref_id);
-                if(!$this->dav_helper->hasInvalidPrefixInTitle($title))
-                {
+                if (!$this->dav_helper->hasInvalidPrefixInTitle($title)) {
                     // Check if object is a file with the same name as this info file
-                    if($title == self::PROBLEM_INFO_FILE_NAME)
-                    {
+                    if ($title == self::PROBLEM_INFO_FILE_NAME) {
                         $problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE] = true;
                     }
                     // Check if title contains forbidden characters
-                    else if($this->dav_helper->hasTitleForbiddenChars($title))
-                    {
+                    elseif ($this->dav_helper->hasTitleForbiddenChars($title)) {
                         $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS][] = $title;
                     }
                     // Check for duplicates
-                    else if(in_array($title, $already_seen_titles))
-                    {
+                    elseif (in_array($title, $already_seen_titles)) {
                         $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME][] = $title;
                     } else {
                         $already_seen_titles[] = $title;
                     }
                 }
             }
-
         }
 
         return $problem_infos;
@@ -176,18 +168,15 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
         $message_string = "";
 
         // If there is a file with the same name of the problem info file -> print message about it
-        if($problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE])
-        {
+        if ($problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE]) {
             $message_string .= "# " . $lng->txt('webdav_problem_info_duplicate') . "\n\n";
         }
 
         // Print list with duplicate file names
         $duplicates_list = $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME];
-        if(count($duplicates_list) > 0)
-        {
+        if (count($duplicates_list) > 0) {
             $message_string .= "# " . $lng->txt('webdav_duplicate_detected_title') . "\n";
-            foreach($duplicates_list as $duplicate_title)
-            {
+            foreach ($duplicates_list as $duplicate_title) {
                 $message_string .= $duplicate_title . "\n";
             }
             $message_string .= "\n";
@@ -195,19 +184,16 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
 
         // Print list of files with forbidden characters
         $forbidden_character_titles_list = $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS];
-        if(count($forbidden_character_titles_list) > 0)
-        {
+        if (count($forbidden_character_titles_list) > 0) {
             $message_string .= "# " . $lng->txt('webdav_forbidden_chars_title') . "\n";
-            foreach($forbidden_character_titles_list as $forbidden_character_title)
-            {
+            foreach ($forbidden_character_titles_list as $forbidden_character_title) {
                 $message_string .= $forbidden_character_title . "\n";
             }
             $message_string .= "\n";
         }
 
         // If no problems were found -> create a default message (this happens only if the file is called directly)
-        if(strlen($message_string) == 0)
-        {
+        if (strlen($message_string) == 0) {
             $message_string = $lng->txt('webdav_problem_free_container');
         }
 
@@ -219,7 +205,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      *
      * @return void
      */
-    function delete()
+    public function delete()
     {
         throw new \Sabre\DAV\Exception\Forbidden("It is not possible to delete this file since it is just virtual.");
     }
@@ -230,7 +216,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      *
      * @return int|null
      */
-    function getLastModified()
+    public function getLastModified()
     {
         return null;
     }

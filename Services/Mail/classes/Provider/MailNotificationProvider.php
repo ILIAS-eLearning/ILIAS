@@ -17,18 +17,19 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
     /**
      * @inheritDoc
      */
-    public function getNotifications(): array
+    public function getNotifications() : array
     {
-        $id = function (string $id): IdentificationInterface {
+        $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        if (0 === (int)$this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
         $hasInternalMailAccess = $this->dic->rbac()->system()->checkAccess(
-            'internal_mail', \ilMailGlobalServices::getMailObjectRefId()
+            'internal_mail',
+            \ilMailGlobalServices::getMailObjectRefId()
         );
         if (!$hasInternalMailAccess) {
             return [];
@@ -62,7 +63,8 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $body = sprintf(
             $this->dic->language()->txt('nc_mail_unread_messages'),
-            $this->dic->ui()->renderer()->render($this->dic->ui()->factory()
+            $this->dic->ui()->renderer()->render(
+                $this->dic->ui()->factory()
                 ->link()
                 ->standard($linkText, $mailUrl)
                 ->withOpenInNewViewport(true)
@@ -87,17 +89,19 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                     new \ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 )
             ]);
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+        }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
             ->withTitle($this->dic->language()->txt('mail'))
             ->addNotification(
                 $factory->standard($id('mail_bucket'))
-                    ->withNotificationItem($notificationItem )
+                    ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
                         function () {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
-                        })
+                        }
+                    )
                     ->withNewAmount(1)
             );
 

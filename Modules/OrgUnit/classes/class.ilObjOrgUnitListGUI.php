@@ -18,7 +18,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     protected $tpl;
 
 
-    function __construct()
+    public function __construct()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -31,7 +31,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    function init()
+    public function init()
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -70,9 +70,8 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
     /**
      * insert info screen command
      */
-    function insertInfoScreenCommand()
+    public function insertInfoScreenCommand()
     {
-
         if ($this->std_cmd_only) {
             return;
         }
@@ -111,7 +110,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         if (isset($icons_cache[$this->obj_id])) {
             $icon_file = $icons_cache[$this->obj_id];
             // icon link
-            if (!$this->default_command OR (!$this->getCommandsStatus() AND !$this->restrict_to_goto)) {
+            if (!$this->default_command or (!$this->getCommandsStatus() and !$this->restrict_to_goto)) {
             } else {
                 $this->tpl->setCurrentBlock("icon_link_s");
 
@@ -142,4 +141,3 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
         }
     }
 }
-

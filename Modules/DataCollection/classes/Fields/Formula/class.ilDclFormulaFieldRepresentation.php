@@ -8,7 +8,6 @@
  */
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());

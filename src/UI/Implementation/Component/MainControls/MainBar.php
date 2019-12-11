@@ -96,7 +96,7 @@ class MainBar implements MainControls\MainBar
     /**
      * @var string
      */
-     private $mainbar_tree_position;
+    private $mainbar_tree_position;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -150,8 +150,7 @@ class MainBar implements MainControls\MainBar
         Slate $entry,
         bool $initially_hidden = false,
         Button\Close $close_button = null
-    ) : MainControls\MainBar
-    {
+    ) : MainControls\MainBar {
         if (!$this->tools_button) {
             throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
         }
@@ -167,11 +166,11 @@ class MainBar implements MainControls\MainBar
         $signal->addOption('action', self::ENTRY_ACTION_TRIGGER_MAPPED);
         $clone->tool_signals[$id] = $signal;
 
-        if($initially_hidden) {
+        if ($initially_hidden) {
             $clone->initially_hidden_ids[] = $id;
         }
 
-        if($close_button) {
+        if ($close_button) {
             $clone->close_buttons[$id] = $close_button;
         }
         return $clone;
@@ -340,8 +339,8 @@ class MainBar implements MainControls\MainBar
     public function getTriggerSignal(
         string $entry_id,
         string $action
-    ): Signal {
-        if(! in_array($action, [self::ENTRY_ACTION_TRIGGER, self::ENTRY_ACTION_REMOVE])) {
+    ) : Signal {
+        if (!in_array($action, [self::ENTRY_ACTION_TRIGGER, self::ENTRY_ACTION_REMOVE])) {
             throw new InvalidArgumentException("invalid action for mainbar entry: $action", 1);
         }
         $signal = $this->signal_generator->create();
@@ -350,14 +349,14 @@ class MainBar implements MainControls\MainBar
         return $signal;
     }
 
-    public function withMainBarTreePosition(string $tree_pos): MainBar
+    public function withMainBarTreePosition(string $tree_pos) : MainBar
     {
         $clone = clone $this;
         $clone->mainbar_tree_position = $tree_pos;
         return $clone;
     }
 
-    public function withMappedSubNodes(callable $f): MainBar
+    public function withMappedSubNodes(callable $f) : MainBar
     {
         $clone = clone $this;
 

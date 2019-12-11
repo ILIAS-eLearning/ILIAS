@@ -237,8 +237,11 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_SPENT_SECONDS)) {
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['spent_seconds'])) {
-                        return ilDatePresentation::secondsToString($progress['spent_seconds'], false,
-                            $this->getLanguage());
+                        return ilDatePresentation::secondsToString(
+                            $progress['spent_seconds'],
+                            false,
+                            $this->getLanguage()
+                        );
                     }
                 }
                 break;
@@ -251,8 +254,10 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
                 if ($tracking->hasExtendedData(ilObjUserTracking::EXTENDED_DATA_LAST_ACCESS)) {
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time_min'])) {
-                        return ilDatePresentation::formatDate(new ilDateTime($progress['access_time_min'],
-                            IL_CAL_UNIX));
+                        return ilDatePresentation::formatDate(new ilDateTime(
+                            $progress['access_time_min'],
+                            IL_CAL_UNIX
+                        ));
                     }
                 }
                 break;
@@ -274,5 +279,3 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return '';
     }
 }
-
-?>

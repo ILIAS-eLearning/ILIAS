@@ -22,7 +22,6 @@ use ILIAS\MainMenu\Storage\StorableResource;
  */
 class FileSystemStorageHandler implements StorageHandler
 {
-
     const BASE = "storage";
     const DATA = 'data';
     /**

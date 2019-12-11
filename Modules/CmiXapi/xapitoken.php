@@ -4,25 +4,24 @@
 chdir("../../");
 require_once 'libs/composer/vendor/autoload.php';
 
-if( !isset($_GET['param']) || !strlen($_GET['param']) )
-{
-	header('HTTP/1.1 401 Authorization Required');
-	exit;
+if (!isset($_GET['param']) || !strlen($_GET['param'])) {
+    header('HTTP/1.1 401 Authorization Required');
+    exit;
 }
 
-try
-{
-	$param = base64_decode(rawurldecode($_GET['param']));
-	
-	$param = json_decode(openssl_decrypt(
-		$param, ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD, ilCmiXapiAuthToken::getWacSalt(), 0,
-		ilCmiXapiAuthToken::OPENSSL_IV
-	), true);
-}
-catch(ilCmiXapiException $e)
-{
-	header('HTTP/1.1 500 Internal Server Error');
-	exit;
+try {
+    $param = base64_decode(rawurldecode($_GET['param']));
+    
+    $param = json_decode(openssl_decrypt(
+        $param,
+        ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
+        ilCmiXapiAuthToken::getWacSalt(),
+        0,
+        ilCmiXapiAuthToken::OPENSSL_IV
+    ), true);
+} catch (ilCmiXapiException $e) {
+    header('HTTP/1.1 500 Internal Server Error');
+    exit;
 }
 
 $_COOKIE[session_name()] = $param[session_name()];
@@ -34,32 +33,25 @@ ilInitialisation::initILIAS();
 
 $DIC = $GLOBALS['DIC']; /* @var \ILIAS\DI\Container $DIC */
 
-try
-{
-	$token = ilCmiXapiAuthToken::getInstanceByObjIdAndUsrId($objId, $DIC->user()->getId());
-}
-catch(ilCmiXapiException $e)
-{
-	header('HTTP/1.1 401 Authorization Failed');
-	exit;
+try {
+    $token = ilCmiXapiAuthToken::getInstanceByObjIdAndUsrId($objId, $DIC->user()->getId());
+} catch (ilCmiXapiException $e) {
+    header('HTTP/1.1 401 Authorization Failed');
+    exit;
 }
 
 /* @var ilObjCmiXapi $object */
 $object = ilObjectFactory::getInstanceByObjId($objId, false);
 
-if( !$object )
-{
-	header('HTTP/1.1 401 Authorization Failed');
-	exit;
+if (!$object) {
+    header('HTTP/1.1 401 Authorization Failed');
+    exit;
 }
 
-if( $object->isBypassProxyEnabled() )
-{
-	$authToken = $object->getLrsType()->getBasicAuth();
-}
-else
-{
-	$authToken = base64_encode(CLIENT_ID . ':' . $token->getToken());
+if ($object->isBypassProxyEnabled()) {
+    $authToken = $object->getLrsType()->getBasicAuth();
+} else {
+    $authToken = base64_encode(CLIENT_ID . ':' . $token->getToken());
 }
 
 $response = array("auth-token" => $authToken);

@@ -479,7 +479,8 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
      * reading the examples from the folders, we ignore the case of the folder.
      * See also #26451
      */
-    protected function getCaseInsensitiveExampleFolder(): string{
+    protected function getCaseInsensitiveExampleFolder() : string
+    {
         $parent_folder = dirname($this->getExamplesPath());
 
         if (is_dir($parent_folder)) {
@@ -524,16 +525,16 @@ class ComponentEntry extends AbstractEntryPart implements \JsonSerializable
     public function jsonSerialize()
     {
         $description = $this->getDescription();
-        if($description){
+        if ($description) {
             $description_serialized = $description->jsonSerialize();
-        }else{
+        } else {
             $description_serialized = "";
         }
 
         $rules = $this->getRules();
-        if($rules){
+        if ($rules) {
             $rules_serialized = $rules->jsonSerialize();
-        }else{
+        } else {
             $rules_serialized = "";
         }
         return array(

@@ -186,8 +186,11 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     include_once 'Services/Tracking/classes/class.ilTrQuery.php';
                     //changed static call into dynamic one//ukohnle
                     //foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
-                    $SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser($recipient->getId(), $obj_id,
-                        $coll->getItems());
+                    $SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser(
+                        $recipient->getId(),
+                        $obj_id,
+                        $coll->getItems()
+                    );
                     foreach ($SCOStatusForUser as $item) {
                         $scores[] = $item['title'] . ': ' . $item['score'];
                     }
@@ -203,8 +206,11 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['spent_seconds'])) {
-                        return ilDatePresentation::secondsToString($progress['spent_seconds'], false,
-                            $this->getLanguage());
+                        return ilDatePresentation::secondsToString(
+                            $progress['spent_seconds'],
+                            false,
+                            $this->getLanguage()
+                        );
                     }
                 }
                 break;
@@ -218,8 +224,10 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                     include_once './Services/Tracking/classes/class.ilLearningProgress.php';
                     $progress = ilLearningProgress::_getProgress($recipient->getId(), $obj_id);
                     if (isset($progress['access_time_min'])) {
-                        return ilDatePresentation::formatDate(new ilDateTime($progress['access_time_min'],
-                            IL_CAL_UNIX));
+                        return ilDatePresentation::formatDate(new ilDateTime(
+                            $progress['access_time_min'],
+                            IL_CAL_UNIX
+                        ));
                     }
                 }
                 break;
@@ -242,5 +250,3 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         return '';
     }
 }
-
-?>

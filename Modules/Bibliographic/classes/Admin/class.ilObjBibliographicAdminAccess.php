@@ -11,7 +11,4 @@
  */
 class ilObjBibliographicAdminAccess extends ilObjectAccess
 {
-
 }
-
-?>

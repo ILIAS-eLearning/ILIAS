@@ -2311,7 +2311,7 @@ class ilObjContentObject extends ilObject
                         {
                             $target_parent = $target_id;
                             $target_pos = IL_FIRST_NODE;
-            
+
                             // if target_pos is still first node we must skip all pages
                             if ($target_pos == IL_FIRST_NODE)
                             {

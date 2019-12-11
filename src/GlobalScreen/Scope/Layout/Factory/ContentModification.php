@@ -54,4 +54,3 @@ class ContentModification extends AbstractLayoutModification implements LayoutMo
         return false;
     }
 }
-

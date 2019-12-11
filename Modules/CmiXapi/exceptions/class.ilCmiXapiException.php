@@ -14,5 +14,4 @@
  */
 class ilCmiXapiException extends ilException
 {
-	
 }

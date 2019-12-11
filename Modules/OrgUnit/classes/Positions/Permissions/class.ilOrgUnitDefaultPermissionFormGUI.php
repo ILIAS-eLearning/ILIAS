@@ -9,7 +9,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 {
-
     const F_OPERATIONS = 'operations';
     /**
      * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands

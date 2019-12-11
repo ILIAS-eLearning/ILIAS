@@ -46,7 +46,7 @@ class ilLocalUserGUI
      * @param $parent_gui
      */
     //TODO MST 14.11.2013 - we should split this class into ilLocalUserTableGUI and ilLocalUserRoleGUI
-    function __construct($parent_gui)
+    public function __construct($parent_gui)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -120,14 +120,18 @@ class ilLocalUserGUI
     }
 
 
-    function index($show_delete = false)
+    public function index($show_delete = false)
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $rbacreview = $DIC['rbacreview'];
         $rbacsystem = $DIC['rbacsystem'];
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.cat_admin_users.html',
-            "Modules/Category");
+        $this->tpl->addBlockfile(
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.cat_admin_users.html',
+            "Modules/Category"
+        );
         if (count($rbacreview->getGlobalAssignableRoles())
             or in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
         ) {
@@ -179,7 +183,7 @@ class ilLocalUserGUI
     /**
      * Delete User
      */
-    function performDeleteUsers()
+    public function performDeleteUsers()
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -189,7 +193,7 @@ class ilLocalUserGUI
                 $ilLog->write(__FILE__ . ":" . __LINE__ . " User with id $user_id could not be found.");
                 ilUtil::sendFailure($this->lng->txt('user_not_found_to_delete'));
             }
-            if (!$tmp_obj =& ilObjectFactory::getInstanceByObjId($user_id, false)) {
+            if (!$tmp_obj =&ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
             }
             $tmp_obj->delete();
@@ -201,7 +205,7 @@ class ilLocalUserGUI
     }
 
 
-    function deleteUsers()
+    public function deleteUsers()
     {
         $this->checkPermission("cat_administrate_users");
         if (!count($_POST['id'])) {
@@ -227,7 +231,7 @@ class ilLocalUserGUI
     }
 
 
-    function assignRoles()
+    public function assignRoles()
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -249,17 +253,23 @@ class ilLocalUserGUI
             return true;
         }
         $roles = $this->__getAssignableRoles();
-        $this->tpl->addBlockfile('ADM_CONTENT', 'adm_content', 'tpl.cat_role_assignment.html',
-            "Modules/Category");
+        $this->tpl->addBlockfile(
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.cat_role_assignment.html',
+            "Modules/Category"
+        );
         $ass_roles = $rbacreview->assignedRoles($_GET['obj_id']);
         $counter = 0;
         foreach ($roles as $role) {
-            $role_obj =& ilObjectFactory::getInstanceByObjId($role['obj_id']);
+            $role_obj =&ilObjectFactory::getInstanceByObjId($role['obj_id']);
             $disabled = false;
-            $f_result[$counter][] = ilUtil::formCheckbox(in_array($role['obj_id'], $ass_roles) ? 1 : 0,
+            $f_result[$counter][] = ilUtil::formCheckbox(
+                in_array($role['obj_id'], $ass_roles) ? 1 : 0,
                 'role_ids[]',
                 $role['obj_id'],
-                $disabled);
+                $disabled
+            );
             $f_result[$counter][] = $role_obj->getTitle();
             $f_result[$counter][] = $role_obj->getDescription() ? $role_obj->getDescription() : '';
             $f_result[$counter][] = $role['role_type'] == 'global'
@@ -274,7 +284,7 @@ class ilLocalUserGUI
     }
 
 
-    function assignSave()
+    public function assignSave()
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -315,7 +325,7 @@ class ilLocalUserGUI
     }
 
 
-    function __checkGlobalRoles($new_assigned)
+    public function __checkGlobalRoles($new_assigned)
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -325,7 +335,7 @@ class ilLocalUserGUI
             $this->ctrl->redirect($this, "");
         }
         // return true if it's not a local user
-        $tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         if ($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
             !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
         ) {
@@ -355,13 +365,13 @@ class ilLocalUserGUI
     }
 
 
-    function __getAssignableRoles()
+    public function __getAssignableRoles()
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
         $ilUser = $DIC['ilUser'];
         // check local user
-        $tmp_obj =& ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
+        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_REQUEST['obj_id']);
         // Admin => all roles
         if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
             $global_roles = $rbacreview->getGlobalRolesArray();
@@ -375,14 +385,14 @@ class ilLocalUserGUI
     }
 
 
-    function __showRolesTable($a_result_set, $a_from = "")
+    public function __showRolesTable($a_result_set, $a_from = "")
     {
         if (!$this->ilAccess->checkAccess("cat_administrate_users", "", $_GET["ref_id"])) {
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this, "");
         }
-        $tbl =& $this->parent_gui->__initTableGUI();
-        $tpl =& $tbl->getTemplateObject();
+        $tbl =&$this->parent_gui->__initTableGUI();
+        $tpl =&$tbl->getTemplateObject();
         // SET FORMAACTION
         $tpl->setCurrentBlock("tbl_form_header");
         $this->ctrl->setParameter($this, 'obj_id', $_GET['obj_id']);
@@ -395,7 +405,7 @@ class ilLocalUserGUI
         $tpl->setCurrentBlock("tbl_action_row");
         $tpl->setVariable("TPLPATH", $this->tpl->tplPath);
         $tpl->parseCurrentBlock();
-        $tmp_obj =& ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
+        $tmp_obj =&ilObjectFactory::getInstanceByObjId($_GET['obj_id']);
         $title = $this->lng->txt('role_assignment') . ' (' . $tmp_obj->getFullname() . ')';
         $tbl->setTitle($title, "icon_role.svg", $this->lng->txt("role_assignment"));
         $tbl->setHeaderNames(array(
@@ -447,4 +457,3 @@ class ilLocalUserGUI
         }
     }
 }
-

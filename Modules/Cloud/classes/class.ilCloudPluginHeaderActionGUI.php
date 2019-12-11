@@ -15,10 +15,7 @@ include_once("class.ilCloudPluginGUI.php");
  */
 class ilCloudPluginHeaderActionGUI extends ilCloudPluginGUI
 {
-
     public function addCustomHeaderAction(ilObjectListGUI $lg)
     {
     }
 }
-
-?>

@@ -47,8 +47,7 @@ function base()
     );
 
     //Step 3: implement some form data processing.
-    if ($request->getMethod() == "POST")
-    {
+    if ($request->getMethod() == "POST") {
         $form = $form->withRequest($request);
         $result = $form->getData();
     } else {

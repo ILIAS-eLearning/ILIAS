@@ -31,4 +31,4 @@ class ilPasswordUtils
 
         return $rand;
     }
-} 
+}

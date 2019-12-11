@@ -8,10 +8,11 @@
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  */
-class ilWebDAVMountInstructionsGUI {
+class ilWebDAVMountInstructionsGUI
+{
     
     /**
-     * 
+     *
      * @var $mount_instruction ilWebDAVObjectMountInstructions
      */
     protected $protocol_prefixes;
@@ -41,7 +42,7 @@ class ilWebDAVMountInstructionsGUI {
 
         // This is an additional legacy component. It contains the java script function to substitute the shown instructions
         $js_function_legacy = $f->legacy('<script>'
-            .'il.UI.showMountInstructions = function (e, id){'
+            . 'il.UI.showMountInstructions = function (e, id){'
             // e['target'] is the id for the button which was clicked (e.g. 'button#il_ui_fw_1234')
             . "obj = $(e['target']);"
             // Sets all buttons to the "unclicked" state
@@ -51,15 +52,15 @@ class ilWebDAVMountInstructionsGUI {
             . "obj.addClass('engaged disabled ilSubmitInactive').attr('aria-pressed', 'true');"
             . "obj.attr('disabled', 'disabled');"
             // Hide all instruction divs at first
-            .'$(".instructions").hide();'
+            . '$(".instructions").hide();'
             // Show the div which is given as an argument
-            .'$("#"+id).show();}</script>');
+            . '$("#"+id).show();}</script>');
 
         /*
          * The document might just contain a single entry, then we don't need a view control and just return it.
          */
-        if (count($a_mount_instructions) === 1 ) {
-            $content = $f->legacy("<div class='instructions'>".array_shift($a_mount_instructions)."</div>");
+        if (count($a_mount_instructions) === 1) {
+            $content = $f->legacy("<div class='instructions'>" . array_shift($a_mount_instructions) . "</div>");
             
             return $a_render_async ? $r->renderAsync($content) : $r->render($content);
         }
@@ -75,8 +76,7 @@ class ilWebDAVMountInstructionsGUI {
 
         // Used to hide all <div>'s except for the first one
         $hidden = "";
-        foreach ($a_mount_instructions as $title => $text)
-        {
+        foreach ($a_mount_instructions as $title => $text) {
             // Create legacy component for mount instructions. Mount instructions text is wrapped in a <div>-tag
             $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>")
                 ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
@@ -88,8 +88,7 @@ class ilWebDAVMountInstructionsGUI {
             $view_control_actions[$title] = $legacy->getCustomSignal($title);
 
             // Used to hide all <div>'s except for the first one
-            if($hidden == "")
-            {
+            if ($hidden == "") {
                 $hidden = 'style="display: none;"';
             }
         }
@@ -117,7 +116,7 @@ class ilWebDAVMountInstructionsGUI {
             $instructions = $document_processor->processMountInstructions($this->il_lang->txt('webfolder_instructions_text'));
             $instructions = $this->mount_instruction->getMountInstructionsAsArray($instructions);
             if ($instructions == '' || $instructions == '-webfolder_instructions_text-') {
-                $instructions = ["<div class='alert alert-danger'>".$this->il_lang->txt('error').": ".$this->il_lang->txt('webdav_missing_lang')."</div>"];
+                $instructions = ["<div class='alert alert-danger'>" . $this->il_lang->txt('error') . ": " . $this->il_lang->txt('webdav_missing_lang') . "</div>"];
             }
         }
 

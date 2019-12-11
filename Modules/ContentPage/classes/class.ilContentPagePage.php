@@ -6,11 +6,11 @@
  */
 class ilContentPagePage extends \ilPageObject implements \ilContentPageObjectConstants
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function getParentType()
-	{
-		return self::OBJ_TYPE;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getParentType()
+    {
+        return self::OBJ_TYPE;
+    }
 }

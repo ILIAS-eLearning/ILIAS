@@ -9,7 +9,6 @@ use \ILIAS\UI\Component as C;
 use \ILIAS\UI\Implementation as I;
 use \ILIAS\UI\Implementation\Component\SignalGenerator;
 
-
 class ComponentDummy implements C\Component
 {
     public function __construct($id = "")
@@ -285,7 +284,8 @@ EOT;
         $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", [])
-            ->withViewControls([$sortation]);;
+            ->withViewControls([$sortation]);
+        ;
 
         $this->assertEquals($p->getViewControls(), [$sortation]);
     }
@@ -303,7 +303,8 @@ EOT;
 
 
         $p = $f->standard("Title", [])
-            ->withViewControls([$sortation]);;
+            ->withViewControls([$sortation]);
+        ;
 
         $html = $r->render($p);
 
@@ -375,5 +376,4 @@ EOT;
 EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
-
 }

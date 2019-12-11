@@ -19,5 +19,8 @@ abstract class AbstractOriginalPagePartProvider
      *
      * @param PagePartProvider $original
      */
-    public function __construct(PagePartProvider $original) { $this->original = $original; }
+    public function __construct(PagePartProvider $original)
+    {
+        $this->original = $original;
+    }
 }

@@ -30,8 +30,10 @@ class DateRangeFilterIterator extends \FilterIterator
         array_walk($comparators, function ($comparator) {
             if (!($comparator instanceof DateComparator)) {
                 if (is_object($comparator)) {
-                    throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
-                        get_class($comparator)));
+                    throw new \InvalidArgumentException(sprintf(
+                        'Invalid comparator given: %s',
+                        get_class($comparator)
+                    ));
                 }
 
                 throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));

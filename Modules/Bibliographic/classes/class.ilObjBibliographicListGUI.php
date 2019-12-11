@@ -59,5 +59,3 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
         return $props;
     }
 }
-
-?>

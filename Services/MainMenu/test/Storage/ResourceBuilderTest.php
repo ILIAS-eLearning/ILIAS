@@ -21,7 +21,6 @@ use Psr\Http\Message\UploadedFileInterface;
 
 class DummyIDGenerator implements IdentificationGenerator
 {
-
     private $id = 'dummy';
 
 
@@ -30,7 +29,10 @@ class DummyIDGenerator implements IdentificationGenerator
      *
      * @param string $id
      */
-    public function __construct(string $id) { $this->id = $id; }
+    public function __construct(string $id)
+    {
+        $this->id = $id;
+    }
 
 
     /**

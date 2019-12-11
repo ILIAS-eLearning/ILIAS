@@ -72,8 +72,7 @@ class Legacy implements C\Legacy\Legacy
      */
     public function getCustomSignal(string $signal_name) : Signal
     {
-        if(!key_exists($signal_name, $this->signal_list))
-        {
+        if (!key_exists($signal_name, $this->signal_list)) {
             throw new \InvalidArgumentException("Signal with name $signal_name is not registered");
         }
 

@@ -31,5 +31,5 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
     /**
      * @return ilBuddySystemRelationState
      */
-    abstract function getInitialState() : ilBuddySystemRelationState;
+    abstract public function getInitialState() : ilBuddySystemRelationState;
 }

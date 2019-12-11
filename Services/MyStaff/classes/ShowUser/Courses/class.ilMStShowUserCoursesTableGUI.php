@@ -58,7 +58,8 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
         parent::__construct($parent_obj, $parent_cmd, '');
         $this->setRowTemplate('tpl.list_user_courses_row.html', "Services/MyStaff");
-        $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));;
+        $this->setFormAction($DIC->ctrl()->getFormAction($parent_obj));
+        ;
         $this->setDefaultOrderDirection('desc');
 
         $this->setShowRowsSelector(true);
@@ -319,7 +320,9 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
      */
     protected function getFieldValuesForExport(ilMStListCourse $my_staff_course)
     {
-        $propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $my_staff_course, $my_staff_course);
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $my_staff_course, $my_staff_course);
 
         $field_values = array();
 

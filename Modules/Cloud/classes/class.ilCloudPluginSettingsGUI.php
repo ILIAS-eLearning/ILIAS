@@ -54,7 +54,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Edit Settings. This commands uses the form class to display an input form.
      */
-    function editSettings()
+    public function editSettings()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -136,7 +136,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      *
      */
-    protected function initPluginSettings() { }
+    protected function initPluginSettings()
+    {
+    }
 
 
     /**
@@ -164,7 +166,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Get values for edit Settings form
      */
-    function getSettingsValues()
+    public function getSettingsValues()
     {
         $values["title"] = $this->cloud_object->getTitle();
         $values["desc"] = $this->cloud_object->getDescription();
@@ -178,7 +180,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * @param $values
      */
-    protected function getPluginSettingsValues(&$values) { }
+    protected function getPluginSettingsValues(&$values)
+    {
+    }
 
 
     /**
@@ -226,7 +230,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      *
      */
-    protected function updatePluginSettings() { }
+    protected function updatePluginSettings()
+    {
+    }
 }
-
-?>

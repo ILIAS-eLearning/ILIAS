@@ -39,7 +39,8 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
             'owner_usr_id' => array('int', $document->getOwnerUsrId()),
             'last_modification_usr_id' => array('int', $document->getLastModificationUsrId()),
             'sorting' => array('int', $document->getSorting())
-        ));
+        )
+        );
     }
 
     /**
@@ -47,8 +48,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
      */
     public function getNextMountInstructionsDocumentId() : int
     {
-        if(!$this->db->sequenceExists(self::TABLE_MOUNT_INSTRUCTIONS))
-        {
+        if (!$this->db->sequenceExists(self::TABLE_MOUNT_INSTRUCTIONS)) {
             $this->db->createSequence(self::TABLE_MOUNT_INSTRUCTIONS);
         }
 
@@ -78,8 +78,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $result = $this->db->query($query);
         $record = $this->db->fetchAssoc($result);
 
-        if(!$record)
-        {
+        if (!$record) {
             throw new InvalidArgumentException("Document with the id $id not found");
         }
 
@@ -97,8 +96,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $result = $this->db->query($query);
         $record = $this->db->fetchAssoc($result);
 
-        if(!$record)
-        {
+        if (!$record) {
             throw new InvalidArgumentException("Document for the language $language not found");
         }
 
@@ -110,12 +108,11 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
      */
     public function getAllMountInstructions() : array
     {
-        $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS). " ORDER BY sorting";
+        $query = "SELECT * FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS) . " ORDER BY sorting";
         $result = $this->db->query($query);
 
         $document_list = array();
-        while($record = $this->db->fetchAssoc($result))
-        {
+        while ($record = $this->db->fetchAssoc($result)) {
             $document_list[] = $this->buildDocumentFromDatabaseRecord($record);
         }
 

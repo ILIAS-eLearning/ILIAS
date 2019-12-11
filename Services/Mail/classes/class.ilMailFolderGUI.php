@@ -744,16 +744,23 @@ class ilMailFolderGUI
         if ($sender && $sender->getId() && !$sender->isAnonymous()) {
             $linked_fullname = $sender->getPublicName();
             $picture = ilUtil::img(
-                $sender->getPersonalPicturePath('xsmall'), $sender->getPublicName(),
-                '', '', 0, '', 'ilMailAvatar'
+                $sender->getPersonalPicturePath('xsmall'),
+                $sender->getPublicName(),
+                '',
+                '',
+                0,
+                '',
+                'ilMailAvatar'
             );
 
             if (in_array(ilObjUser::_lookupPref($sender->getId(), 'public_profile'), ['y', 'g'])) {
                 $this->ctrl->setParameter($this, 'mail_id', $mailId);
                 $this->ctrl->setParameter($this, 'mobj_id', $mailData['folder_id']);
                 $this->ctrl->setParameter($this, 'user', $sender->getId());
-                $linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget($this,
-                        'showUser') . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
+                $linked_fullname = '<br /><a href="' . $this->ctrl->getLinkTarget(
+                    $this,
+                    'showUser'
+                ) . '" title="' . $linked_fullname . '">' . $linked_fullname . '</a>';
                 $this->ctrl->clearParameters($this);
             }
 
@@ -767,8 +774,15 @@ class ilMailFolderGUI
         } else {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
-                ilUtil::img(ilUtil::getImagePath('HeaderIconAvatar.svg'), ilMail::_getIliasMailerName(), '', '', 0, '',
-                    'ilMailAvatar') .
+                ilUtil::img(
+                    ilUtil::getImagePath('HeaderIconAvatar.svg'),
+                    ilMail::_getIliasMailerName(),
+                    '',
+                    '',
+                    0,
+                    '',
+                    'ilMailAvatar'
+                ) .
                 '<br />' . ilMail::_getIliasMailerName()
             );
             $form->addItem($from);
@@ -786,8 +800,10 @@ class ilMailFolderGUI
 
         if ($mailData['rcp_bcc']) {
             $bcc = new ilCustomInputGUI($this->lng->txt('bc') . ':');
-            $bcc->setHtml(ilUtil::htmlencodePlainString($this->umail->formatNamesForOutput($mailData['rcp_bcc']),
-                false));
+            $bcc->setHtml(ilUtil::htmlencodePlainString(
+                $this->umail->formatNamesForOutput($mailData['rcp_bcc']),
+                false
+            ));
             $form->addItem($bcc);
         }
 

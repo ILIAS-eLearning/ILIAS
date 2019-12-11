@@ -202,7 +202,7 @@ class ilCertificateTemplateImportAction
                             $basePath .= '/';
                         }
 
-						return 'url(' . $basePath . $fileName . ')';
+                        return 'url(' . $basePath . $fileName . ')';
                     }, $xsl);
                 } elseif (strpos($file['entry'], '.jpg') !== false) {
                     $newBackgroundImageName = 'background_' . $newVersion . '.jpg';

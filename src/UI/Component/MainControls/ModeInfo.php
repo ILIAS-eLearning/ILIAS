@@ -12,7 +12,6 @@ use ILIAS\UI\Component\Component;
  */
 interface ModeInfo extends Component
 {
-
     public function getModeTitle() : string;
 
 

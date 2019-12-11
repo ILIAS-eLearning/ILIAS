@@ -14,7 +14,6 @@
  */
 class ilDclStandardField extends ilDclBaseFieldModel
 {
-
     public function doRead()
     {
         global $DIC;
@@ -68,7 +67,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
     /**
      * @return array
      */
-    static function _getStandardFieldsAsArray()
+    public static function _getStandardFieldsAsArray()
     {
 
         //TODO: this isn't particularly pretty especially as $lng is used in the model. On the long run the standard fields should be refactored into "normal" fields.
@@ -128,7 +127,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      *
      * @return array
      */
-    static function _getStandardFields($table_id)
+    public static function _getStandardFields($table_id)
     {
         $stdFields = array();
         foreach (self::_getStandardFieldsAsArray() as $array) {
@@ -147,7 +146,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * @return array all possible titles of non-importable (excel import) standardfields (atm all
      *               except owner), in all languages;
      */
-    static function _getNonImportableStandardFieldTitles()
+    public static function _getNonImportableStandardFieldTitles()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -181,7 +180,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      * @return array all possible titles of importable (excel import) standardfields (atm
      *               exclusively owner), in all languages;
      */
-    static function _getImportableStandardFieldTitle()
+    public static function _getImportableStandardFieldTitle()
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -208,7 +207,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
      *
      * @return bool
      */
-    static function _isStandardField($field_id)
+    public static function _isStandardField($field_id)
     {
         $return = false;
         foreach (self::_getStandardFieldsAsArray() as $field) {
@@ -428,6 +427,5 @@ class ilDclStandardField extends ilDclBaseFieldModel
      */
     public function afterClone($records)
     {
-
     }
 }

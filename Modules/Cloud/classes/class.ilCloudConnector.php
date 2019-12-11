@@ -293,5 +293,3 @@ class ilCloudConnector
         return new $class_name($plugin_service_class);
     }
 }
-
-?>

@@ -7,7 +7,6 @@ use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
 
 class CallbackHandler
 {
-
     use Hasher;
 
 
@@ -24,7 +23,8 @@ class CallbackHandler
         /**
          * @var $item isToolItem
          */
-        $callback = $item->hasCloseCallback() ? $item->getCloseCallback() : static function () { };
+        $callback = $item->hasCloseCallback() ? $item->getCloseCallback() : static function () {
+        };
         $callback();
     }
 }

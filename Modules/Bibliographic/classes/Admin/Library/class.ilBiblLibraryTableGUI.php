@@ -10,7 +10,6 @@
  */
 class ilBiblLibraryTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
 
@@ -45,10 +44,16 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
             $current_selection_list = new ilAdvancedSelectionListGUI();
             $current_selection_list->setListTitle($this->lng->txt("actions"));
             $current_selection_list->setId($a_set['id']);
-            $current_selection_list->addItem($this->lng->txt(ilBiblLibraryGUI::CMD_EDIT), "",
-                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_EDIT));
-            $current_selection_list->addItem($this->lng->txt(ilBiblLibraryGUI::CMD_DELETE), "",
-                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_DELETE));
+            $current_selection_list->addItem(
+                $this->lng->txt(ilBiblLibraryGUI::CMD_EDIT),
+                "",
+                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_EDIT)
+            );
+            $current_selection_list->addItem(
+                $this->lng->txt(ilBiblLibraryGUI::CMD_DELETE),
+                "",
+                $this->ctrl()->getLinkTarget($this->parent_obj, ilBiblLibraryGUI::CMD_DELETE)
+            );
             $this->tpl->setVariable('VAL_ACTIONS', $current_selection_list->getHTML());
         } else {
             $this->tpl->setVariable('VAL_ACTIONS', "&nbsp;");

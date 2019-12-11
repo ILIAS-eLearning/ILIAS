@@ -10,7 +10,6 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
  */
 interface StaticMetaBarProvider extends StaticProvider, MetaBarProviderInterface
 {
-
     const PURPOSE_MBS = "meta_bar_static";
 
 

@@ -4,6 +4,7 @@
 namespace ILIAS\UI\Component\Item;
 
 use \ILIAS\UI\Component\Legacy\Legacy;
+
 /**
  * Interface Notification
  * @package ILIAS\UI\Component\Item

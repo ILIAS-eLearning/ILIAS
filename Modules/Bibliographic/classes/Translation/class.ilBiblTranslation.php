@@ -8,14 +8,13 @@
 
 class ilBiblTranslation extends ActiveRecord implements ilBiblTranslationInterface
 {
-
     const TABLE_NAME = 'il_bibl_translation';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

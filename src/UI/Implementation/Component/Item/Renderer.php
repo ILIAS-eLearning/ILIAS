@@ -19,7 +19,7 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Item\Notification) {
             return $this->renderNotification($component, $default_renderer);
-        } elseif($component instanceof Component\Item\Group){
+        } elseif ($component instanceof Component\Item\Group) {
             return $this->renderGroup($component, $default_renderer);
         } elseif ($component instanceof Component\Item\Standard) {
             return $this->renderStandard($component, $default_renderer);
@@ -141,7 +141,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         $component = $component->withAdditionalOnLoadCode(
-            function ($id) use ($toggleable){
+            function ($id) use ($toggleable) {
                 return "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);";
             }
         );

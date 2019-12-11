@@ -1184,11 +1184,11 @@ class ilGlossaryPresentationGUI
                 
             // topic drop down
             $si = new ilTaxAssignInputGUI(
-                    $t_id,
-                    false,
-                    $lng->txt("cont_topic"),
-                    "topic",
-                    false
+                $t_id,
+                false,
+                $lng->txt("cont_topic"),
+                "topic",
+                false
                 );
             if ($this->tax_node > 0) {
                 $si->setValue((int) $this->tax_node);
@@ -1326,9 +1326,9 @@ class ilGlossaryPresentationGUI
                     // download links
                     if ($this->glossary->isActiveDownloads()) {
                         $this->tabs_gui->addTab(
-                                "download",
-                                $lng->txt("download"),
-                                $ilCtrl->getLinkTarget($this, "showDownloadList")
+                            "download",
+                            $lng->txt("download"),
+                            $ilCtrl->getLinkTarget($this, "showDownloadList")
                             );
                     }
                     //}

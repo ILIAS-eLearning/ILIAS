@@ -33,18 +33,18 @@ final class ilWebDAVMountInstructionsDocument
     /** @var int */
     private $sorting;
 
-    public function __construct(int $a_id = 0,
-                                string $a_title = "",
-                                string $a_uploaded_instructions = "",
-                                string $a_processed_instructions = "",
-                                string $a_language = "",
-                                $a_creation_ts = 0,
-                                $a_modification_ts = 0,
-                                int $a_owner_usr_id = 0,
-                                int $a_last_modified_usr_id = 0,
-                                int $a_sorting = 0
-    )
-    {
+    public function __construct(
+        int $a_id = 0,
+        string $a_title = "",
+        string $a_uploaded_instructions = "",
+        string $a_processed_instructions = "",
+        string $a_language = "",
+        $a_creation_ts = 0,
+        $a_modification_ts = 0,
+        int $a_owner_usr_id = 0,
+        int $a_last_modified_usr_id = 0,
+        int $a_sorting = 0
+    ) {
         $this->id = $a_id;
         $this->title = $a_title;
         $this->uploaded_instructions = $a_uploaded_instructions;

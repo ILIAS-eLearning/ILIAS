@@ -50,8 +50,7 @@ class ilWebDAVObjDAVHelper
      */
     public function isDAVableObjType(string $type) : bool
     {
-        switch($type)
-        {
+        switch ($type) {
             case 'cat':
             case 'crs':
             case 'grp':
@@ -72,13 +71,12 @@ class ilWebDAVObjDAVHelper
     public function isDAVableObjTitle(string $title, &$webdav_problems = null) : bool
     {
         if ($this->hasTitleForbiddenChars($title)) {
-            if(!is_null($webdav_problems)) {
+            if (!is_null($webdav_problems)) {
                 $webdav_problems['characters'][] = $title;
             }
             return false;
         }
-        if ($this->hasInvalidPrefixInTitle($title))
-        {
+        if ($this->hasInvalidPrefixInTitle($title)) {
             return false;
         }
         return true;
@@ -91,10 +89,8 @@ class ilWebDAVObjDAVHelper
      */
     public function hasTitleForbiddenChars(string $title) : bool
     {
-        foreach(str_split('\\<>/:*?"|#') as $forbidden_character)
-        {
-            if(strpos($title, $forbidden_character) !== false)
-            {
+        foreach (str_split('\\<>/:*?"|#') as $forbidden_character) {
+            if (strpos($title, $forbidden_character) !== false) {
                 return true;
             }
         }
@@ -124,15 +120,12 @@ class ilWebDAVObjDAVHelper
      */
     public function createDAVObjectForRefId(int $ref_id, string $type = '') : ilObjectDAV
     {
-        if($type == '')
-        {
+        if ($type == '') {
             $type = $this->repo_helper->getObjectTypeFromRefId($ref_id);
         }
 
-        if($this->repo_helper->objectWithRefIdExists($ref_id))
-        {
-            switch($type)
-            {
+        if ($this->repo_helper->objectWithRefIdExists($ref_id)) {
+            switch ($type) {
                 case 'cat':
                     return new ilObjCategoryDAV(new ilObjCategory($ref_id, true), $this->repo_helper, $this);
 

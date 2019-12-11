@@ -7,7 +7,6 @@
  */
 class ilOrgUnitPathStorage extends ActiveRecord
 {
-
     const GLUE = ' > ';
     const GLUE_SIMPLE = ' - ';
     const ORG_SEPARATOR = ' | ';

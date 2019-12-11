@@ -55,7 +55,6 @@ class ilMStListCompetencesSkills
 
         $arr_query = [];
         foreach ($users_per_position as $position_id => $users) {
-
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(), $operation_access);
             $arr_query[] = $query . $this->dic->database()->in('ulvl.trigger_obj_id', $obj_ids, false, 'integer') . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
                 . $this->getAdditionalWhereStatement($options['filters']);

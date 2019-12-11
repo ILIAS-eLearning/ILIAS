@@ -172,7 +172,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
                 {
                     $trigger = array();
                 }
-        
+
                 // trigger
                 if ($trigger["obj_id"] > 0)
                 {

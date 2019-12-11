@@ -13,7 +13,6 @@ use ILIAS\UI\Component\Item\Notification;
  */
 class StandardNotificationRenderer extends AbstractBaseNotificationRenderer implements NotificationRenderer
 {
-
     use Hasher;
 
 

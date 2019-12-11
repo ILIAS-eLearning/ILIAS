@@ -38,7 +38,10 @@ class Conversation
 
         $res = $this->db->query(
             'SELECT * FROM osc_conversation WHERE ' . $this->db->in(
-                'id', $conversationIds, false, 'text'
+                'id',
+                $conversationIds,
+                false,
+                'text'
             )
         );
 
@@ -66,13 +69,16 @@ class Conversation
                 FROM osc_messages
                 WHERE osc_messages.conversation_id = %s
                 AND {$this->db->in(
-                    'osc_messages.user_id', $participantIds, false, 'text'
+                'osc_messages.user_id',
+                $participantIds,
+                false,
+                'text'
                 )}
                 ORDER BY osc_messages.timestamp DESC
             ";
             $msgRes = $this->db->queryF($query, ['text'], [$conversation->getId()]);
 
-            // Default case 
+            // Default case
             $message = new MessageDto('', $conversation);
             $message->setMessage('');
             $message->setAuthorUsrId((int) $this->user->getId());

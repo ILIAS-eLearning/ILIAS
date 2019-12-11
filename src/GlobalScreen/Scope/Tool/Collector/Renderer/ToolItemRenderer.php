@@ -16,7 +16,6 @@ use ILIAS\UI\Component\Component;
  */
 class ToolItemRenderer extends BaseTypeRenderer
 {
-
     use SlateSessionStateCode;
 
 

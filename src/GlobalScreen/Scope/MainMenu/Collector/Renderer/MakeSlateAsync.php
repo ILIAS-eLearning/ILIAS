@@ -12,7 +12,6 @@ use ILIAS\UI\Component\MainControls\Slate\Slate;
  */
 trait MakeSlateAsync
 {
-
     use Hasher;
 
 

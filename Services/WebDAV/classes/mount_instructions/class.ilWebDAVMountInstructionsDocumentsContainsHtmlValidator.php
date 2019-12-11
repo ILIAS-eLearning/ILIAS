@@ -20,16 +20,13 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
      */
     public function isValid() : bool
     {
-        if (!preg_match('/<[^>]+?>/', $this->text))
-        {
+        if (!preg_match('/<[^>]+?>/', $this->text)) {
             return false;
         }
 
-        try
-        {
+        try {
             $dom = new DOMDocument();
-            if (!$dom->loadHTML($this->text))
-            {
+            if (!$dom->loadHTML($this->text)) {
                 return false;
             }
 
@@ -37,26 +34,20 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
                 new ilHtmlDomNodeIterator($dom),
                 RecursiveIteratorIterator::SELF_FIRST
             );
-            foreach ($iter as $element)
-            {
+            foreach ($iter as $element) {
                 /** @var $element DOMNode */
-                if (in_array(strtolower($element->nodeName), ['body']))
-                {
+                if (in_array(strtolower($element->nodeName), ['body'])) {
                     continue;
                 }
 
-                if ($element->nodeType === XML_ELEMENT_NODE)
-                {
+                if ($element->nodeType === XML_ELEMENT_NODE) {
                     return true;
                 }
             }
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             return false;
-        } catch (Throwable $e)
-        {
+        } catch (Throwable $e) {
             return false;
         }
-
     }
 }

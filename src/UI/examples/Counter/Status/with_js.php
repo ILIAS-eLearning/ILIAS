@@ -22,9 +22,9 @@ function with_js()
         ->withCounter($f->counter()->novelty(3))
         ->withCounter($f->counter()->status(0));
 
-    $set_status_button = $f->button()->bulky($like,"Set Status Counter to 10 on click.","#")
+    $set_status_button = $f->button()->bulky($like, "Set Status Counter to 10 on click.", "#")
         ->withAdditionalOnLoadCode(
-            function ($id){
+            function ($id) {
                 return "
                 $(\"#$id\").click(function() { 
                     il.UI.counter.getCounterObject($(this)).setStatusTo(10);
@@ -32,9 +32,9 @@ function with_js()
             }
         );
 
-    $increment_novelty_button = $f->button()->bulky($like,"Increment Novelty Counter by on click","#")
+    $increment_novelty_button = $f->button()->bulky($like, "Increment Novelty Counter by on click", "#")
         ->withAdditionalOnLoadCode(
-            function ($id){
+            function ($id) {
                 return "
                 $(\"#$id\").click(function() { 
                     il.UI.counter.getCounterObject($(this)).incrementNoveltyCount(1);
@@ -42,9 +42,9 @@ function with_js()
             }
         );
 
-    $set_novelty_count_to_status_button = $f->button()->bulky($like,"Set Novelty Count to status on click","#")
+    $set_novelty_count_to_status_button = $f->button()->bulky($like, "Set Novelty Count to status on click", "#")
         ->withAdditionalOnLoadCode(
-            function ($id){
+            function ($id) {
                 return "
                 $(\"#$id\").click(function() { 
                     il.UI.counter.getCounterObject($(this)).setTotalNoveltyToStatusCount(1);
@@ -53,9 +53,9 @@ function with_js()
         );
 
     //What will the value of Status be after click?
-    $combined_button = $f->button()->bulky($like,"Some chained actions","#")
+    $combined_button = $f->button()->bulky($like, "Some chained actions", "#")
         ->withAdditionalOnLoadCode(
-            function ($id){
+            function ($id) {
                 return "
                 $(\"#$id\").click(function() { 
                     var counter = il.UI.counter.getCounterObject($(this));
@@ -72,4 +72,3 @@ function with_js()
 
     return $renderer->render([$set_status_button,$increment_novelty_button,$set_novelty_count_to_status_button,$combined_button]);
 };
-

@@ -77,7 +77,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
 
         $this->target_directory = $definition->getTempDir();
 
-        // create temp directory 
+        // create temp directory
         $tmpdir = $this->createUniqueTempDirectory();
         $targetdir = $this->createTargetDirectory($tmpdir);
 
@@ -85,7 +85,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
         //$this->copyFiles($targetdir, $input[0]);
         $this->copyFiles($targetdir, $definition);
 
-        // zip 
+        // zip
 
         // return zip file name
         $this->logger->debug('Returning new tempdirectory: ' . $targetdir);

@@ -233,7 +233,9 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
      */
     public function fillRow($profile)
     {
-        $propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $profile, $profile);
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $profile, $profile);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -297,7 +299,9 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
      */
     protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill)
     {
-        $propGetter = Closure::bind(function ($prop) { return $this->$prop; }, $selected_skill, $selected_skill);
+        $propGetter = Closure::bind(function ($prop) {
+            return $this->$prop;
+        }, $selected_skill, $selected_skill);
 
         $field_values = array();
         foreach ($this->getSelectedColumns() as $k => $v) {

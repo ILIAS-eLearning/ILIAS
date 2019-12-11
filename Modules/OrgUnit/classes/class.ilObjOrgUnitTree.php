@@ -79,7 +79,6 @@ class ilObjOrgUnitTree
      */
     public function getEmployees($ref_id, $recursive = false)
     {
-
         $arr_usr_ids = [];
 
         switch ($recursive) {

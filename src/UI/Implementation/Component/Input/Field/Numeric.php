@@ -32,11 +32,11 @@ class Numeric extends Input implements C\Input\Field\Numeric
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
         $this->setAdditionalTransformation(
-			$this->refinery->logical()->logicalOr([
-				$this->refinery->numeric()->isNumeric(),
-				$this->refinery->null()
-			])
-		);
+            $this->refinery->logical()->logicalOr([
+                $this->refinery->numeric()->isNumeric(),
+                $this->refinery->null()
+            ])
+        );
     }
 
 

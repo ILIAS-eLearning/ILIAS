@@ -6,6 +6,6 @@ require_once('class.ilObjOrgUnitException.php');
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypeException extends ilObjOrgUnitException {
-
+class ilOrgUnitTypeException extends ilObjOrgUnitException
+{
 }

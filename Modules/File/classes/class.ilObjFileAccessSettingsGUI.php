@@ -1,30 +1,29 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 use ILIAS\BackgroundTasks\Implementation\Bucket\BasicBucket;
 use ILIAS\File\Sanitation\DownloadSanitationReportUserInteraction;
 use ILIAS\File\Sanitation\SanitationReportJob;
-
 
 /**
  * Class ilObjFileAccessSettingsGUI
@@ -40,7 +39,6 @@ use ILIAS\File\Sanitation\SanitationReportJob;
  */
 class ilObjFileAccessSettingsGUI extends ilObjectGUI
 {
-
     const CMD_EDIT_DOWNLOADING_SETTINGS = 'editDownloadingSettings';
     const CMD_EDIT_WEBDAV_SETTINGS = 'editWebDAVSettings';
     const CMD_SANITIZE = 'sanitize';
@@ -59,7 +57,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      *
      * @access public
      */
-    function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, $a_id, $a_call_by_reference)
     {
         $this->type = "facs";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -99,7 +97,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret =& $this->ctrl->forwardCommand($perm_gui);
+                $ret =&$this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case 'ilfmsettingsgui':
@@ -110,21 +108,21 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
             case 'ilwebdavmountinstructionsuploadgui':
                 $document_gui = new ilWebDAVMountInstructionsUploadGUI(
-                        $this->object,
-                        $this->tpl,
-                        $this->user,
-                        $this->ctrl,
-                        $this->lng,
-                        $DIC->rbac()->system(),
-                        $DIC['ilErr'],
-                        $DIC->logger()->root(),
-                        $this->toolbar,
-                        $DIC->http(),
-                        $DIC->ui()->factory(),
-                        $DIC->ui()->renderer(),
-                        $DIC->filesystem(),
-                        $DIC->upload(),
-                        new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
+                    $this->object,
+                    $this->tpl,
+                    $this->user,
+                    $this->ctrl,
+                    $this->lng,
+                    $DIC->rbac()->system(),
+                    $DIC['ilErr'],
+                    $DIC->logger()->root(),
+                    $this->toolbar,
+                    $DIC->http(),
+                    $DIC->ui()->factory(),
+                    $DIC->ui()->renderer(),
+                    $DIC->filesystem(),
+                    $DIC->upload(),
+                    new ilWebDAVMountInstructionsRepositoryImpl($DIC->database())
                 );
                 $this->tabs_gui->setTabActive('webdav');
                 $this->addWebDAVSubTabs();
@@ -159,19 +157,32 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $GLOBALS['DIC']['lng']->loadLanguageModule('fm');
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('downloading_settings', $this->ctrl->getLinkTarget($this, self::CMD_EDIT_DOWNLOADING_SETTINGS),
-                array(self::CMD_EDIT_DOWNLOADING_SETTINGS, "view"));
+            $this->tabs_gui->addTarget(
+                'downloading_settings',
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_DOWNLOADING_SETTINGS),
+                array(self::CMD_EDIT_DOWNLOADING_SETTINGS, "view")
+            );
 
-            $this->tabs_gui->addTarget('upload_settings', $this->ctrl->getLinkTarget($this, "editUploadSettings"),
-                array("editUploadSettings", "view"));
+            $this->tabs_gui->addTarget(
+                'upload_settings',
+                $this->ctrl->getLinkTarget($this, "editUploadSettings"),
+                array("editUploadSettings", "view")
+            );
 
-            $this->tabs_gui->addTarget('preview_settings', $this->ctrl->getLinkTarget($this, "editPreviewSettings"),
-                array("editPreviewSettings", "view"));
+            $this->tabs_gui->addTarget(
+                'preview_settings',
+                $this->ctrl->getLinkTarget($this, "editPreviewSettings"),
+                array("editPreviewSettings", "view")
+            );
 
             $this->tabs_gui->addTarget('webdav', $this->ctrl->getLinkTarget($this, "editWebDAVSettings"), array("editWebDAVSettings", "view"));
 
-            $this->tabs_gui->addTarget('fm_settings_tab', $this->ctrl->getLinkTargetByClass('ilFMSettingsGUI', 'settings'), array(),
-                'ilfmsettingsgui');
+            $this->tabs_gui->addTarget(
+                'fm_settings_tab',
+                $this->ctrl->getLinkTargetByClass('ilFMSettingsGUI', 'settings'),
+                array(),
+                'ilfmsettingsgui'
+            );
 
             $this->tabs_gui->addTarget("disk_quota", $this->ctrl->getLinkTarget($this, "editDiskQuotaSettings"), array("editDiskQuota", "view"));
         }
@@ -358,14 +369,16 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
     protected function addWebDAVSubTabs()
     {
-            $this->tabs_gui->addSubTabTarget(
-                    "webdav_general_settings",
-                    $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
-                    array(self::CMD_EDIT_WEBDAV_SETTINGS, "view"));
-            $this->tabs_gui->addSubTabTarget(
-                    "webdav_upload_instructions",
-                    $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
-                    "view");
+        $this->tabs_gui->addSubTabTarget(
+                "webdav_general_settings",
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_WEBDAV_SETTINGS),
+                array(self::CMD_EDIT_WEBDAV_SETTINGS, "view")
+            );
+        $this->tabs_gui->addSubTabTarget(
+                "webdav_upload_instructions",
+                $this->ctrl->getLinkTargetByClass('ilWebDAVMountInstructionsUploadGUI'),
+                "view"
+            );
     }
 
     /**
@@ -426,7 +439,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * called by prepare output
      */
-    function setTitleAndDescription()
+    public function setTitleAndDescription()
     {
         parent::setTitleAndDescription();
         $this->tpl->setDescription($this->object->getDescription());
@@ -439,7 +452,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     /**
      * Add disk quota subtabs
      */
-    function addDiskQuotaSubtabs($a_active_subtab)
+    public function addDiskQuotaSubtabs($a_active_subtab)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -451,8 +464,11 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $ilTabs->addSubTabTarget("disk_quota_report", $ilCtrl->getLinkTarget($this, "viewDiskQuotaReport"), array("viewDiskQuotaReport"));
         }
 
-        $ilTabs->addSubTabTarget("disk_quota_reminder_mail", $ilCtrl->getLinkTarget($this, "editDiskQuotaMailTemplate"),
-            array("editDiskQuotaMailTemplate"));
+        $ilTabs->addSubTabTarget(
+            "disk_quota_reminder_mail",
+            $ilCtrl->getLinkTarget($this, "editDiskQuotaMailTemplate"),
+            array("editDiskQuotaMailTemplate")
+        );
 
         $ilTabs->setSubTabActive($a_active_subtab);
     }
@@ -546,8 +562,10 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
             return;
         } else {
-            $this->tpl->setVariable('LAST_UPDATE_TEXT',
-                $lng->txt('last_update') . ': ' . ilDatePresentation::formatDate(new ilDateTime($last_update, IL_CAL_DATETIME)));
+            $this->tpl->setVariable(
+                'LAST_UPDATE_TEXT',
+                $lng->txt('last_update') . ': ' . ilDatePresentation::formatDate(new ilDateTime($last_update, IL_CAL_DATETIME))
+            );
         }
 
         // Filter
@@ -612,8 +630,12 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $tbl->setOrderDirection($_GET["sort_order"]);
 
         // fetch the data
-        $data = ilDiskQuotaChecker::_fetchDiskQuotaReport($_SESSION['quota_usage_filter'], $_SESSION['quota_access_filter'],
-            $header_vars[$tbl->getOrderColumn()], $tbl->getOrderDirection());
+        $data = ilDiskQuotaChecker::_fetchDiskQuotaReport(
+            $_SESSION['quota_usage_filter'],
+            $_SESSION['quota_access_filter'],
+            $header_vars[$tbl->getOrderColumn()],
+            $tbl->getOrderDirection()
+        );
 
         // paging
         $tbl->setLimit($_GET["limit"]);
@@ -634,21 +656,21 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             // build columns
             foreach ($header_vars as $key) {
                 switch ($key) {
-                    case 'login' :
+                    case 'login':
                         //build link
                         $this->ctrl->setParameterByClass("ilobjusergui", "ref_id", "7");
                         $this->ctrl->setParameterByClass("ilobjusergui", "obj_id", $row["usr_id"]);
                         $link = $this->ctrl->getLinkTargetByClass("ilobjusergui", "view");
                         $tbl_content_cell = '<a href="' . $link . '">' . htmlspecialchars($row[$key]) . '</a>';
                         break;
-                    case 'disk_quota' :
+                    case 'disk_quota':
                         if ($row['role_id'] == SYSTEM_ROLE_ID) {
                             $tbl_content_cell = "<span class=\"smallgreen\">" . $lng->txt('access_unlimited') . '</span>';
                         } else {
                             $tbl_content_cell = ilUtil::formatSize($row[$key], 'short');
                         }
                         break;
-                    case 'disk_usage' :
+                    case 'disk_usage':
                         if ($row['last_update'] == null) {
                             $tbl_content_cell = $lng->txt('unknown');
                         } else {
@@ -659,7 +681,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                             }
                         }
                         break;
-                    case 'access_until' :
+                    case 'access_until':
                         if (!$row['active']) {
                             $tbl_content_cell = "<span class=\"smallred\">" . $lng->txt('inactive') . '</span>';
                         } else {
@@ -674,15 +696,15 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                             }
                         }
                         break;
-                    case 'last_login' :
-                    case 'last_reminder' :
+                    case 'last_login':
+                    case 'last_reminder':
                         if ($row[$key] == null) {
                             $tbl_content_cell = $lng->txt('no_date');
                         } else {
                             $tbl_content_cell = ilDatePresentation::formatDate(new ilDateTime($row[$key], IL_CAL_DATETIME));
                         }
                         break;
-                    default :
+                    default:
                         $tbl_content_cell = htmlspecialchars($row[$key]);
                 }
 
@@ -808,7 +830,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    function saveDiskQuotaMailTemplate()
+    public function saveDiskQuotaMailTemplate()
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -816,9 +838,14 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         $form = $this->initDiskQuotaMailTemplateForm();
         if ($form->checkInput()) {
             foreach ($lng->getInstalledLanguages() as $lang_key) {
-                $this->disk_quota_obj->_writeReminderMailTemplate($lang_key, $form->getInput("subject_" . $lang_key),
-                    $form->getInput("sal_g_" . $lang_key), $form->getInput("sal_f_" . $lang_key), $form->getInput("sal_m_" . $lang_key),
-                    $form->getInput("body_" . $lang_key));
+                $this->disk_quota_obj->_writeReminderMailTemplate(
+                    $lang_key,
+                    $form->getInput("subject_" . $lang_key),
+                    $form->getInput("sal_g_" . $lang_key),
+                    $form->getInput("sal_f_" . $lang_key),
+                    $form->getInput("sal_m_" . $lang_key),
+                    $form->getInput("body_" . $lang_key)
+                );
             }
 
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -1131,5 +1158,3 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         }
     }
 }
-
-?>

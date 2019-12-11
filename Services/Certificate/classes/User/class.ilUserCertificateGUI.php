@@ -151,7 +151,7 @@ class ilUserCertificateGUI
         $this->filesystem = $filesystem;
 
         if ($userCertificateRepository === null) {
-            $userCertificateRepository = new ilUserCertificateRepository(null , $this->certificateLogger);
+            $userCertificateRepository = new ilUserCertificateRepository(null, $this->certificateLogger);
         }
         $this->userCertificateRepository = $userCertificateRepository;
 
@@ -162,7 +162,7 @@ class ilUserCertificateGUI
     /**
      * @return string
      */
-    private function getDefaultCommand(): string
+    private function getDefaultCommand() : string
     {
         return 'listCertificates';
     }
@@ -243,7 +243,7 @@ class ilUserCertificateGUI
 
             foreach ($data['items'] as $certificateData) {
                 $thumbnailImagePath = $certificateData['thumbnail_image_path'];
-                $imagePath = ilUtil::getWebspaceDir(). $thumbnailImagePath;
+                $imagePath = ilUtil::getWebspaceDir() . $thumbnailImagePath;
                 if ($thumbnailImagePath === null
                     || $thumbnailImagePath === ''
                     || !$this->filesystem->has($thumbnailImagePath)
@@ -326,7 +326,7 @@ class ilUserCertificateGUI
     /**
      * @return string
      */
-    protected function getCurrentSortation(): string
+    protected function getCurrentSortation() : string
     {
         $sorting = \ilSession::get(self::SORTATION_SESSION_KEY);
         if (!array_key_exists($sorting, $this->sortationOptions)) {
@@ -362,7 +362,7 @@ class ilUserCertificateGUI
 
         $pdfGenerator = new ilPdfGenerator($this->userCertificateRepository, $this->certificateLogger);
 
-        $userCertificateId = (int)$this->request->getQueryParams()['certificate_id'];
+        $userCertificateId = (int) $this->request->getQueryParams()['certificate_id'];
 
         try {
             $userCertificate = $this->userCertificateRepository->fetchCertificate($userCertificateId);

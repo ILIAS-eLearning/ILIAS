@@ -29,12 +29,13 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     protected $document_repository;
     protected $uri_provider;
     
-    public function __construct(ilWebDAVMountInstructionsRepository $a_repo,
+    public function __construct(
+        ilWebDAVMountInstructionsRepository $a_repo,
         ilWebDAVUriBuilder $a_uri_builder,
         ilSetting $a_settings,
         String $language,
-        int $a_ref_id)
-    {
+        int $a_ref_id
+    ) {
         $this->ref_id = $a_ref_id;
         $this->language = $language;
 
@@ -47,8 +48,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
 
     protected function fillPlaceholdersForMountInstructions(array $mount_instructions) : array
     {
-        foreach($mount_instructions as $title => $mount_instruction)
-        {
+        foreach ($mount_instructions as $title => $mount_instruction) {
             $mount_instruction = str_replace("[WEBFOLDER_ID]", $this->ref_id, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_TITLE]", $this->obj_title, $mount_instruction);
             $mount_instruction = str_replace("[WEBFOLDER_URI]", $this->uri_builder->getWebDavDefaultUri($this->ref_id), $mount_instruction);
@@ -104,7 +104,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
     
     public function getInstructionsFromTplFile()
     {
-        return fread(fopen($this->path_to_template, "rb"),filesize($this->path_to_template));
+        return fread(fopen($this->path_to_template, "rb"), filesize($this->path_to_template));
     }
     
     public function getCustomInstruction()
@@ -139,7 +139,7 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
      * [IF_MAC]...[/IF_MAC] - conditional contents, with instructions for Mac OS X
      * [IF_LINUX]...[/IF_LINUX] - conditional contents, with instructions for Linux
      * [ADMIN_MAIL] - the mailbox address of the system administrator
-     * 
+     *
      * @param unknown $a_instruction_tpl
      * @return mixed
      */
@@ -153,47 +153,40 @@ class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
         $a_instruction_tpl = str_replace("[WEBFOLDER_URI_NAUTILUS]", $this->getNautilusUri(), $a_instruction_tpl);
         $a_instruction_tpl = str_replace("[ADMIN_MAIL]", $this->settings->get("admin_email"), $a_instruction_tpl);
         
-        if(strpos($this->user_agent,'MSIE')!==false){
-            $a_instruction_tpl = preg_replace('/\[IF_IEXPLORE\](?:(.*))\[\/IF_IEXPLORE\]/s','\1', $a_instruction_tpl);
-        }else{
-            $a_instruction_tpl = preg_replace('/\[IF_NOTIEXPLORE\](?:(.*))\[\/IF_NOTIEXPLORE\]/s','\1', $a_instruction_tpl);
+        if (strpos($this->user_agent, 'MSIE')!==false) {
+            $a_instruction_tpl = preg_replace('/\[IF_IEXPLORE\](?:(.*))\[\/IF_IEXPLORE\]/s', '\1', $a_instruction_tpl);
+        } else {
+            $a_instruction_tpl = preg_replace('/\[IF_NOTIEXPLORE\](?:(.*))\[\/IF_NOTIEXPLORE\]/s', '\1', $a_instruction_tpl);
         }
         
-        switch ($this->clientOS)
-        {
-            case 'windows' :
+        switch ($this->clientOS) {
+            case 'windows':
                 $operatingSystem = 'WINDOWS';
                 break;
-            case 'unix' :
-                switch ($this->clientOSFlavor)
-                {
-                    case 'osx' :
+            case 'unix':
+                switch ($this->clientOSFlavor) {
+                    case 'osx':
                         $operatingSystem = 'MAC';
                         break;
-                    case 'linux' :
+                    case 'linux':
                         $operatingSystem = 'LINUX';
                         break;
-                    default :
+                    default:
                         $operatingSystem = 'LINUX';
                         break;
                 }
                 break;
-            default :
+            default:
                 $operatingSystem = 'UNKNOWN';
                 break;
         }
-        if ($operatingSystem != 'UNKNOWN')
-        {
-            $a_instruction_tpl = preg_replace('/\[IF_'.$operatingSystem.'\](?:(.*))\[\/IF_'.$operatingSystem.'\]/s','\1', $a_instruction_tpl);
-            $a_instruction_tpl = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s','', $a_instruction_tpl);
-        }
-        else
-        {
-            $a_instruction_tpl = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s','\2', $a_instruction_tpl);
+        if ($operatingSystem != 'UNKNOWN') {
+            $a_instruction_tpl = preg_replace('/\[IF_' . $operatingSystem . '\](?:(.*))\[\/IF_' . $operatingSystem . '\]/s', '\1', $a_instruction_tpl);
+            $a_instruction_tpl = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s', '', $a_instruction_tpl);
+        } else {
+            $a_instruction_tpl = preg_replace('/\[IF_([A-Z_]+)\](?:(.*))\[\/IF_\1\]/s', '\2', $a_instruction_tpl);
         }
         
         return $a_instruction_tpl;
     }
-
-
 }

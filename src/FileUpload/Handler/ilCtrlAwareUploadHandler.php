@@ -19,4 +19,3 @@ interface ilCtrlAwareUploadHandler extends UploadHandler
      */
     public function executeCommand() : void;
 }
-

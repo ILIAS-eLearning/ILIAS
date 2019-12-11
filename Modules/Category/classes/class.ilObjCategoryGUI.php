@@ -431,8 +431,8 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->tabs_gui->addTarget(
                     "info_short",
                     $this->ctrl->getLinkTargetByClass(
-                         array("ilobjcategorygui", "ilinfoscreengui"),
-                         "showSummary"
+                        array("ilobjcategorygui", "ilinfoscreengui"),
+                        "showSummary"
                      ),
                     array("showSummary","", "infoScreen"),
                     "",

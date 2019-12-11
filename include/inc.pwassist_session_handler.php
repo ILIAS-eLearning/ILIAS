@@ -26,7 +26,7 @@
     |                                                                             |
     | You should have received a copy of the GNU General Public License           |
     | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. | 
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
 
@@ -42,7 +42,7 @@
 */
 function db_pwassist_session_open($save_path, $name)
 {
-	return true;
+    return true;
 }
 
 /**
@@ -52,8 +52,8 @@ function db_pwassist_session_open($save_path, $name)
 */
 function db_pwassist_session_close()
 {
-	return true;
-}    
+    return true;
+}
 
 /*
 * Creates a new secure id.
@@ -61,19 +61,19 @@ function db_pwassist_session_close()
 * The secure id has the following characteristics:
 * - It is unique
 * - It is a non-uniformly distributed (pseudo) random value
-* - Only a non-substantial number of bits can be predicted from 
-*   previously generated id's. 
+* - Only a non-substantial number of bits can be predicted from
+*   previously generated id's.
 */
 function db_pwassist_create_id()
 {
-	// Implementation note: we use the PHP Session id
-	// generation mechanism to create the session id.
-	$old_session_id = session_id();
-	session_regenerate_id();
-	$pwassist_id = session_id();
-	session_id($old_session_id);
+    // Implementation note: we use the PHP Session id
+    // generation mechanism to create the session id.
+    $old_session_id = session_id();
+    session_regenerate_id();
+    $pwassist_id = session_id();
+    session_id($old_session_id);
 
-	return $pwassist_id;
+    return $pwassist_id;
 }
 
 /*
@@ -85,34 +85,34 @@ function db_pwassist_create_id()
 */
 function db_pwassist_session_read($pwassist_id)
 {
-	global $ilDB;
+    global $ilDB;
 
-	$q = "SELECT * FROM usr_pwassist ".
-		"WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
-	$r = $ilDB->query($q);
-	$data = $ilDB->fetchAssoc($r);
+    $q = "SELECT * FROM usr_pwassist " .
+        "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
+    $r = $ilDB->query($q);
+    $data = $ilDB->fetchAssoc($r);
 
-	return $data;
+    return $data;
 }
 
 /*
-* Reads data of the session identified by $user_id. 
+* Reads data of the session identified by $user_id.
 * Teturns the data as an associative array.
-* If there is no session for the specified user_id, an 
+* If there is no session for the specified user_id, an
 * empty array is returned
 *
 * @param	integer		$user_id		user id
 **/
 function db_pwassist_session_find($user_id)
 {
-	global $ilDB;
+    global $ilDB;
 
-	$q = "SELECT * FROM usr_pwassist ".
-		"WHERE user_id = ".$ilDB->quote($user_id, "integer");
-	$r = $ilDB->query($q);
-	$data = $ilDB->fetchAssoc($r);
+    $q = "SELECT * FROM usr_pwassist " .
+        "WHERE user_id = " . $ilDB->quote($user_id, "integer");
+    $r = $ilDB->query($q);
+    $data = $ilDB->fetchAssoc($r);
 
-	return $data;
+    return $data;
 }
 
 /**
@@ -124,22 +124,24 @@ function db_pwassist_session_find($user_id)
 */
 function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 {
-	global $ilDB;
+    global $ilDB;
 
-	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text")." ".
-		 "OR user_id = ".$ilDB->quote($user_id,'integer');
-	$ilDB->manipulate($q);
+    $q = "DELETE FROM usr_pwassist " .
+         "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text") . " " .
+         "OR user_id = " . $ilDB->quote($user_id, 'integer');
+    $ilDB->manipulate($q);
 
-	$ctime = time();
-	$expires = $ctime + $maxlifetime;
-	$ilDB->manipulateF("INSERT INTO usr_pwassist ".
-		"(pwassist_id, expires, user_id,  ctime) ".
-		"VALUES (%s,%s,%s,%s)",
-		array("text", "integer", "integer", "integer"),
-		array($pwassist_id, $expires, $user_id, $ctime));	 
+    $ctime = time();
+    $expires = $ctime + $maxlifetime;
+    $ilDB->manipulateF(
+        "INSERT INTO usr_pwassist " .
+        "(pwassist_id, expires, user_id,  ctime) " .
+        "VALUES (%s,%s,%s,%s)",
+        array("text", "integer", "integer", "integer"),
+        array($pwassist_id, $expires, $user_id, $ctime)
+    );
 
-	return true;
+    return true;
 }
 
 /**
@@ -149,13 +151,13 @@ function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 */
 function db_pwassist_session_destroy($pwassist_id)
 {
-	global $ilDB;
+    global $ilDB;
 
-	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE pwassist_id = ".$ilDB->quote($pwassist_id, "text");
-	$ilDB->manipulate($q);
+    $q = "DELETE FROM usr_pwassist " .
+         "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
+    $ilDB->manipulate($q);
   
-	return true;
+    return true;
 }
 
 
@@ -164,12 +166,11 @@ function db_pwassist_session_destroy($pwassist_id)
 */
 function db_pwassist_session_gc()
 {
-	global $pear_session_db,$ilDB;
+    global $pear_session_db,$ilDB;
 
-	$q = "DELETE FROM usr_pwassist ".
-		 "WHERE expires < ".$ilDB->quote(time(), "integer");
-	$ilDB->manipulate($q);
-	
-	return true;
+    $q = "DELETE FROM usr_pwassist " .
+         "WHERE expires < " . $ilDB->quote(time(), "integer");
+    $ilDB->manipulate($q);
+    
+    return true;
 }
-?>

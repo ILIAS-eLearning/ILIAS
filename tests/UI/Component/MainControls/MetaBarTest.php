@@ -22,11 +22,14 @@ class MetaBarTest extends ILIAS_UI_TestBase
         $this->icon_factory = new I\Component\Symbol\Icon\Factory();
         $this->counter_factory = new I\Component\Counter\Factory();
 
-        $slate_factory = new I\Component\MainControls\Slate\Factory($sig_gen, $this->counter_factory,
+        $slate_factory = new I\Component\MainControls\Slate\Factory(
+            $sig_gen,
+            $this->counter_factory,
             new I\Component\Symbol\Factory(
                 new I\Component\Symbol\Icon\Factory(),
                 new I\Component\Symbol\Glyph\Factory()
-            ));
+            )
+        );
 
         $this->factory = new I\Component\MainControls\Factory($sig_gen, $slate_factory);
         $this->metabar = $this->factory->metabar();

@@ -53,7 +53,6 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
             $table = ilDclCache::getTableCache($this->getTableId());
             $datestring = $value . ' 00:00:00';
             foreach ($table->getRecords() as $record) {
-
                 if ($record->getRecordFieldValue($this->getId()) == $datestring && ($record->getId() != $record_id || $record_id == 0)) {
                     throw new ilDclInputException(ilDclInputException::UNIQUE_EXCEPTION);
                 }

@@ -8,7 +8,6 @@
  */
 class ilCronUpdateOrgUnitPaths extends ilCronJob
 {
-
     const ID = "orgunit_paths";
     /**
      * @var ilDB

@@ -24,7 +24,6 @@ use ILIAS\UI\Component\MainControls\MetaBar;
  */
 class ModificationHandler
 {
-
     use SingletonTrait;
     /**
      * @var DecoratedPageBuilder
@@ -151,22 +150,22 @@ class ModificationHandler
     public function modifyTitleWithClosure(Closure $closure_returning_title) : void
     {
         $this->replaceWithAutoWiredInstance(
-            DecoratedPagePartProvider::PURPOSE_TITLE
-            , $closure_returning_title
+            DecoratedPagePartProvider::PURPOSE_TITLE,
+            $closure_returning_title
         );
     }
     public function modifyShortTitleWithClosure(Closure $closure_returning_short_title) : void
     {
         $this->replaceWithAutoWiredInstance(
-            DecoratedPagePartProvider::PURPOSE_SHORTTITLE
-            , $closure_returning_short_title
+            DecoratedPagePartProvider::PURPOSE_SHORTTITLE,
+            $closure_returning_short_title
         );
     }
     public function modifyViewTitleWithClosure(Closure $closure_returning_view_title) : void
     {
         $this->replaceWithAutoWiredInstance(
-            DecoratedPagePartProvider::PURPOSE_VIEWTITLE
-            , $closure_returning_view_title
+            DecoratedPagePartProvider::PURPOSE_VIEWTITLE,
+            $closure_returning_view_title
         );
     }
 

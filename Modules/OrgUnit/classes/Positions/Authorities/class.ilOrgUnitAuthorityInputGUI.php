@@ -184,4 +184,3 @@ class ilOrgUnitAuthorityInputGUI extends ilFormPropertyGUI implements ilMultiVal
         $globalTpl->addOnLoadCode("ilOrgUnitAuthorityInput.init({$config}, {$data});");
     }
 }
-

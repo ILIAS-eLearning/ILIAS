@@ -13,7 +13,6 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilZipJob extends AbstractJob
 {
-
     private $logger = null;
 
 

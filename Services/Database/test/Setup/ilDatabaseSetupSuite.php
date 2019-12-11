@@ -4,18 +4,20 @@
 
 use PHPUnit\Framework\TestSuite;
 
-class ilDatabaseSetupSuite extends TestSuite {
-	/**
-	 * @return \ilDatabaseSetupSuite
-	 */
-	public static function suite() {
-		$suite = new self();
+class ilDatabaseSetupSuite extends TestSuite
+{
+    /**
+     * @return \ilDatabaseSetupSuite
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once(__DIR__."/ilDatabaseUpdateStepsTest.php");
-		$suite->addTestSuite(\ilDatabaseUpdateStepsTest::class);
-		require_once(__DIR__."/ilDatabaseUpdateStepTest.php");
-		$suite->addTestSuite(\ilDatabaseUpdateStepTest::class);
+        require_once(__DIR__ . "/ilDatabaseUpdateStepsTest.php");
+        $suite->addTestSuite(\ilDatabaseUpdateStepsTest::class);
+        require_once(__DIR__ . "/ilDatabaseUpdateStepTest.php");
+        $suite->addTestSuite(\ilDatabaseUpdateStepTest::class);
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

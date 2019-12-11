@@ -23,7 +23,7 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
         $ilUser = $DIC['ilUser'];
 
         $value = $this->getRecordField()->getValue();
-        if ($value == '0000-00-00 00:00:00' OR !$value) {
+        if ($value == '0000-00-00 00:00:00' or !$value) {
             return $this->lng->txt('no_date');
         }
 

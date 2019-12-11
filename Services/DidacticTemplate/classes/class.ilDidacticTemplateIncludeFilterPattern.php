@@ -13,50 +13,47 @@ include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilter
 class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPattern
 {
 
-	/**
-	 * Constructor
-	 * @param int $a_pattern_id 
-	 */
-	public function __construct($a_pattern_id = 0)
-	{
-		parent::__construct($a_pattern_id);
-		$this->setPatternType(self::PATTERN_INCLUDE);
-	}
+    /**
+     * Constructor
+     * @param int $a_pattern_id
+     */
+    public function __construct($a_pattern_id = 0)
+    {
+        parent::__construct($a_pattern_id);
+        $this->setPatternType(self::PATTERN_INCLUDE);
+    }
 
-	/**
-	 * Check if patttern matches
-	 */
-	public function valid($a_source)
-	{
-		$a_source = trim($a_source);
-		
-		switch($this->getPatternSubType())
-		{
-			case self::PATTERN_SUBTYPE_REGEX:
-				ilLoggerFactory::getLogger('otpl')->debug('Checking include pattern with '.$a_source.' against '.$this->getPattern());
-				return preg_match('/'.$this->getPattern().'/',$a_source) === 1;
-		}
-		return false;
-	}
+    /**
+     * Check if patttern matches
+     */
+    public function valid($a_source)
+    {
+        $a_source = trim($a_source);
+        
+        switch ($this->getPatternSubType()) {
+            case self::PATTERN_SUBTYPE_REGEX:
+                ilLoggerFactory::getLogger('otpl')->debug('Checking include pattern with ' . $a_source . ' against ' . $this->getPattern());
+                return preg_match('/' . $this->getPattern() . '/', $a_source) === 1;
+        }
+        return false;
+    }
 
-	/**
-	 * Write xml
-	 * @param ilXmlWriter $writer
-	 */
-	public function toXml(ilXmlWriter $writer)
-	{
-		switch($this->getPatternSubType())
-		{
-			case ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX:
-			default:
+    /**
+     * Write xml
+     * @param ilXmlWriter $writer
+     */
+    public function toXml(ilXmlWriter $writer)
+    {
+        switch ($this->getPatternSubType()) {
+            case ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX:
+            default:
 
-				$writer->xmlElement(
-					'includePattern',
-					array(
-						'preg'	=> $this->getPattern()
-					)
-				);
-		}
-	}
+                $writer->xmlElement(
+                    'includePattern',
+                    array(
+                        'preg'	=> $this->getPattern()
+                    )
+                );
+        }
+    }
 }
-?>

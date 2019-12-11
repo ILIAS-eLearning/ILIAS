@@ -7,14 +7,13 @@
  */
 class ilBiblLibrary extends ActiveRecord implements ilBiblLibraryInterface
 {
-
     const TABLE_NAME = 'il_bibl_settings';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

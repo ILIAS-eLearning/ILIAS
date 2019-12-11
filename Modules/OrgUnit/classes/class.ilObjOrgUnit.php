@@ -14,7 +14,6 @@
  */
 class ilObjOrgUnit extends ilContainer
 {
-
     const TABLE_NAME = 'orgu_data';
     /**
      * @var int

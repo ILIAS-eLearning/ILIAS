@@ -10,9 +10,17 @@ function base()
     $modal = $factory->modal()->interruptive('My Title', $message, "#")
                      ->withAffectedItems(array(
                          $factory->modal()->interruptiveItem(
-                             10, 'Title of the Item', $icon, 'Note, this item is currently only to be used in interruptive Modal.'),
+                             10,
+                             'Title of the Item',
+                             $icon,
+                             'Note, this item is currently only to be used in interruptive Modal.'
+                         ),
                          $factory->modal()->interruptiveItem(
-                             20, 'Title of the other Item', $icon, 'And another one.')
+                             20,
+                             'Title of the other Item',
+                             $icon,
+                             'And another one.'
+                         )
 
                      ));
     $button = $factory->button()->standard('Show an interruptive Item', '')

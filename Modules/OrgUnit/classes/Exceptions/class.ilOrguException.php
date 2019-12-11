@@ -9,5 +9,4 @@
  */
 class ilOrguException extends ilException
 {
-
 }

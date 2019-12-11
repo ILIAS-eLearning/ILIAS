@@ -1,4 +1,4 @@
-<?php 
+<?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 namespace LTI;
 
@@ -11,21 +11,33 @@ require_once("./Services/UICore/classes/class.ilTemplate.php");
 * @author	Stefan Schneider <schneider@hrz.uni-marburg.de>
 * @version	$Id$
 */
-class ilGlobalTemplate extends \ilGlobalTemplate  implements \ilGlobalTemplateInterface
+class ilGlobalTemplate extends \ilGlobalTemplate implements \ilGlobalTemplateInterface
 {
-	function __construct($file,$flag1,$flag2,$in_module = false, $vars = "DEFAULT",
-		$plugin = false, $a_use_cache = false) 
-	{
-		parent::__construct($file,$flag1,$flag2,$in_module, $vars,
-		$plugin, $a_use_cache);
-	}
-	
-	function getMainMenu()
-	{
-		global $ilMainMenu;
-		//$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
-		$this->main_menu = $ilMainMenu->getHTML();
-		$this->main_menu_spacer = $ilMainMenu->getSpacerClass();
-	}
+    public function __construct(
+        $file,
+        $flag1,
+        $flag2,
+        $in_module = false,
+        $vars = "DEFAULT",
+        $plugin = false,
+        $a_use_cache = false
+    ) {
+        parent::__construct(
+            $file,
+            $flag1,
+            $flag2,
+            $in_module,
+            $vars,
+            $plugin,
+            $a_use_cache
+        );
+    }
+    
+    public function getMainMenu()
+    {
+        global $ilMainMenu;
+        //$ilMainMenu->setLoginTargetPar($this->getLoginTargetPar());
+        $this->main_menu = $ilMainMenu->getHTML();
+        $this->main_menu_spacer = $ilMainMenu->getSpacerClass();
+    }
 }
-?>

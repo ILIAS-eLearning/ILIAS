@@ -51,7 +51,7 @@ class ilObjCloudGUI extends ilObject2GUI
     /**
      * Get type.
      */
-    final function getType()
+    final public function getType()
     {
         return "cld";
     }
@@ -104,15 +104,15 @@ class ilObjCloudGUI extends ilObject2GUI
 
         $cmd = $ilCtrl->getCmd($this);
         switch ($cmd) {
-            case "editSettings" :
+            case "editSettings":
                 $next_class = "ilcloudpluginsettingsgui";
                 break;
-            case "afterServiceAuth" :
+            case "afterServiceAuth":
                 $this->checkPermission("write");
                 $this->$cmd();
 
                 return;
-            case "render" :
+            case "render":
                 $this->addHeaderAction();
                 break;
         }
@@ -191,7 +191,7 @@ class ilObjCloudGUI extends ilObject2GUI
     /**
      * Get standard command
      */
-    function getStandardCmd()
+    public function getStandardCmd()
     {
         return "render";
     }
@@ -490,8 +490,16 @@ class ilObjCloudGUI extends ilObject2GUI
     public function render()
     {
         $init_gui = ilCloudConnector::getInitGUIClass($this->plugin_service);
-        $init_gui->initGUI($this, $this->checkPermissionBool("folders_create"), $this->checkPermissionBool("upload"), $this->checkPermissionBool("delete_files"),
-            $this->checkPermissionBool("delete_folders"), $this->checkPermissionBool("download"), $this->checkPermissionBool("files_visible"), $this->checkPermissionBool("folders_visible"));
+        $init_gui->initGUI(
+            $this,
+            $this->checkPermissionBool("folders_create"),
+            $this->checkPermissionBool("upload"),
+            $this->checkPermissionBool("delete_files"),
+            $this->checkPermissionBool("delete_folders"),
+            $this->checkPermissionBool("download"),
+            $this->checkPermissionBool("files_visible"),
+            $this->checkPermissionBool("folders_visible")
+        );
     }
 
 
@@ -511,8 +519,15 @@ class ilObjCloudGUI extends ilObject2GUI
             $file_tree->updateFileTree($_POST["path"]);
             $node = $file_tree->getNodeFromPath($_POST["path"]);
             $file_tree_gui = ilCloudConnector::getFileTreeGUIClass($this->plugin_service, $file_tree);
-            $response->content = $file_tree_gui->getFolderHtml($this, $node->getId(), $this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"),
-                $this->checkPermissionBool("download"), $this->checkPermissionBool("files_visible"), $this->checkPermissionBool("folders_visible"));
+            $response->content = $file_tree_gui->getFolderHtml(
+                $this,
+                $node->getId(),
+                $this->checkPermissionBool("delete_files"),
+                $this->checkPermissionBool("delete_folders"),
+                $this->checkPermissionBool("download"),
+                $this->checkPermissionBool("files_visible"),
+                $this->checkPermissionBool("folders_visible")
+            );
 
             $response->locator = $file_tree_gui->getLocatorHtml($file_tree->getNodeFromId($node->getId()));
             $response->success = true;
@@ -526,7 +541,7 @@ class ilObjCloudGUI extends ilObject2GUI
     }
 
 
-    function getFile()
+    public function getFile()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -542,7 +557,7 @@ class ilObjCloudGUI extends ilObject2GUI
     }
 
 
-    function asyncGetActionListContent()
+    public function asyncGetActionListContent()
     {
         $action_list = ilCloudConnector::getActionListGUIClass($this->plugin_service);
         $file_tree = ilCloudFileTree::getFileTreeFromSession();
@@ -550,5 +565,3 @@ class ilObjCloudGUI extends ilObject2GUI
         return $action_list->asyncGetContent($this->checkPermissionBool("delete_files"), $this->checkPermissionBool("delete_folders"), $file_tree->getNodeFromId($_GET["node_id"]));
     }
 }
-
-?>

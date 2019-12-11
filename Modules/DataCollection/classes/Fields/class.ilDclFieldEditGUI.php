@@ -411,5 +411,3 @@ class ilDclFieldEditGUI
         return $this->parent_obj->getDataCollectionObject();
     }
 }
-
-?>

@@ -110,10 +110,14 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 'title' => $this->gui->object->getTitle(),
                 'desc' => $this->gui->object->getDescription(),
                 'access_period' => array(
-                    'start' => $this->gui->object->getAccessBegin() ? new ilDateTime($this->gui->object->getAccessBegin(),
-                        IL_CAL_UNIX) : null,
-                    'end' => $this->gui->object->getAccessEnd() ? new ilDateTime($this->gui->object->getAccessEnd(),
-                        IL_CAL_UNIX) : null
+                    'start' => $this->gui->object->getAccessBegin() ? new ilDateTime(
+                        $this->gui->object->getAccessBegin(),
+                        IL_CAL_UNIX
+                    ) : null,
+                    'end' => $this->gui->object->getAccessEnd() ? new ilDateTime(
+                        $this->gui->object->getAccessEnd(),
+                        IL_CAL_UNIX
+                    ) : null
                 ),
                 'access_visibility' => $this->gui->object->getAccessVisibility()
             );
@@ -125,7 +129,8 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(
-                    $settingsForm, array_merge($settings, $room->getSettings())
+                    $settingsForm,
+                    array_merge($settings, $room->getSettings())
                 );
             } else {
                 ilChatroomFormFactory::applyValues($settingsForm, $settings);

@@ -120,8 +120,11 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
     public function getAdminTabs()
     {
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
-            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'settings'),
-                '', [strtolower(get_class($this))]
+            $this->tabs_gui->addTarget(
+                'settings',
+                $this->ctrl->getLinkTarget($this, 'settings'),
+                '',
+                [strtolower(get_class($this))]
             );
         }
 
@@ -129,7 +132,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->tabs_gui->addTarget(
                 'tos_agreement_documents_tab_label',
                 $this->ctrl->getLinkTargetByClass('ilTermsOfServiceDocumentGUI'),
-                '', ['iltermsofservicedocumentgui']
+                '',
+                ['iltermsofservicedocumentgui']
             );
         }
 
@@ -139,7 +143,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->tabs_gui->addTarget(
                 'tos_acceptance_history',
                 $this->ctrl->getLinkTargetByClass('ilTermsOfServiceAcceptanceHistoryGUI'),
-                '', ['iltermsofserviceacceptancehistorygui']
+                '',
+                ['iltermsofserviceacceptancehistorygui']
             );
         }
 
@@ -147,7 +152,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], 'perm'),
-                '', ['ilpermissiongui', 'ilobjectpermissionstatusgui']
+                '',
+                ['ilpermissiongui', 'ilobjectpermissionstatusgui']
             );
         }
     }

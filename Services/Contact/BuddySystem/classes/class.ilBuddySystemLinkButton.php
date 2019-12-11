@@ -90,8 +90,12 @@ class ilBuddySystemLinkButton implements ilBuddySystemLinkButtonType
             return '';
         }
 
-        $buttonTemplate = new ilTemplate('tpl.buddy_system_link_button.html', true, true,
-            'Services/Contact/BuddySystem');
+        $buttonTemplate = new ilTemplate(
+            'tpl.buddy_system_link_button.html',
+            true,
+            true,
+            'Services/Contact/BuddySystem'
+        );
         $buttonTemplate->setVariable(
             'BUTTON_HTML',
             ilBuddySystemRelationStateFactory::getInstance()->getRendererByOwnerAndRelation(

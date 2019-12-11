@@ -95,7 +95,7 @@ class ilDclTableListGUI
                 $this->ctrl->forwardCommand($ilDclTableEditGUI);
                 break;
 
-            case 'ildclfieldlistgui' :
+            case 'ildclfieldlistgui':
                 $this->tabs->clearTargets();
                 $this->setTabs('fields');
                 $ilDclFieldListGUI = new ilDclFieldListGUI($this);
@@ -109,7 +109,7 @@ class ilDclTableListGUI
                 $this->ctrl->forwardCommand($ilDclFieldEditGUI);
                 break;
 
-            case 'ildcltableviewgui' :
+            case 'ildcltableviewgui':
                 $this->tabs->clearTargets();
                 $this->setTabs('tableviews');
                 $ilDclTableViewGUI = new ilDclTableViewGUI($this);

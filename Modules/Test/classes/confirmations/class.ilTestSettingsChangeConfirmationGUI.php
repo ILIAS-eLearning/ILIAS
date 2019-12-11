@@ -13,244 +13,217 @@ require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
  */
 class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 {
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var ilObjTest
-	 */
-	protected $testOBJ;
+    /**
+     * @var ilObjTest
+     */
+    protected $testOBJ;
 
-	/**
-	 * @var string
-	 */
-	private $oldQuestionSetType;
+    /**
+     * @var string
+     */
+    private $oldQuestionSetType;
 
-	/**
-	 * @var string
-	 */
-	private $newQuestionSetType;
+    /**
+     * @var string
+     */
+    private $newQuestionSetType;
 
-	/**
-	 * @var bool
-	 */
-	private $questionLossInfoEnabled;
+    /**
+     * @var bool
+     */
+    private $questionLossInfoEnabled;
 
-	/**
-	 * @param ilLanguage $lng
-	 * @param ilObjTest $testOBJ
-	 */
-	public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
-	{
-		$this->lng = $lng;
-		$this->testOBJ = $testOBJ;
-		
-		parent::__construct();
-	}
+    /**
+     * @param ilLanguage $lng
+     * @param ilObjTest $testOBJ
+     */
+    public function __construct(ilLanguage $lng, ilObjTest $testOBJ)
+    {
+        $this->lng = $lng;
+        $this->testOBJ = $testOBJ;
+        
+        parent::__construct();
+    }
 
-	/**
-	 * @param string $oldQuestionSetType
-	 */
-	public function setOldQuestionSetType($oldQuestionSetType)
-	{
-		$this->oldQuestionSetType = $oldQuestionSetType;
-	}
+    /**
+     * @param string $oldQuestionSetType
+     */
+    public function setOldQuestionSetType($oldQuestionSetType)
+    {
+        $this->oldQuestionSetType = $oldQuestionSetType;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getOldQuestionSetType()
-	{
-		return $this->oldQuestionSetType;
-	}
+    /**
+     * @return string
+     */
+    public function getOldQuestionSetType()
+    {
+        return $this->oldQuestionSetType;
+    }
 
-	/**
-	 * @param string $newQuestionSetType
-	 */
-	public function setNewQuestionSetType($newQuestionSetType)
-	{
-		$this->newQuestionSetType = $newQuestionSetType;
-	}
+    /**
+     * @param string $newQuestionSetType
+     */
+    public function setNewQuestionSetType($newQuestionSetType)
+    {
+        $this->newQuestionSetType = $newQuestionSetType;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getNewQuestionSetType()
-	{
-		return $this->newQuestionSetType;
-	}
+    /**
+     * @return string
+     */
+    public function getNewQuestionSetType()
+    {
+        return $this->newQuestionSetType;
+    }
 
-	/**
-	 * @param boolean $questionLossInfoEnabled
-	 */
-	public function setQuestionLossInfoEnabled($questionLossInfoEnabled)
-	{
-		$this->questionLossInfoEnabled = $questionLossInfoEnabled;
-	}
+    /**
+     * @param boolean $questionLossInfoEnabled
+     */
+    public function setQuestionLossInfoEnabled($questionLossInfoEnabled)
+    {
+        $this->questionLossInfoEnabled = $questionLossInfoEnabled;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function isQuestionLossInfoEnabled()
-	{
-		return $this->questionLossInfoEnabled;
-	}
+    /**
+     * @return boolean
+     */
+    public function isQuestionLossInfoEnabled()
+    {
+        return $this->questionLossInfoEnabled;
+    }
 
-	private function buildHeaderText()
-	{
-		$headerText = sprintf(
-			$this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
-			$this->testOBJ->getQuestionSetTypeTranslation($this->lng, $this->getOldQuestionSetType()),
-			$this->testOBJ->getQuestionSetTypeTranslation($this->lng, $this->getNewQuestionSetType())
-		);
+    private function buildHeaderText()
+    {
+        $headerText = sprintf(
+            $this->lng->txt('tst_change_quest_set_type_from_old_to_new_with_conflict'),
+            $this->testOBJ->getQuestionSetTypeTranslation($this->lng, $this->getOldQuestionSetType()),
+            $this->testOBJ->getQuestionSetTypeTranslation($this->lng, $this->getNewQuestionSetType())
+        );
 
-		if( $this->isQuestionLossInfoEnabled() )
-		{
-			$headerText .= '<br /><br />'.$this->lng->txt('tst_nonpool_questions_get_lost_warning');
-		}
+        if ($this->isQuestionLossInfoEnabled()) {
+            $headerText .= '<br /><br />' . $this->lng->txt('tst_nonpool_questions_get_lost_warning');
+        }
 
-		return $headerText;
-	}
+        return $headerText;
+    }
 
-	public function build()
-	{
-		$this->setHeaderText( $this->buildHeaderText() );
-	}
+    public function build()
+    {
+        $this->setHeaderText($this->buildHeaderText());
+    }
 
-	public function populateParametersFromPost()
-	{
-		foreach ($_POST as $key => $value)
-		{
-			if (strcmp($key, "cmd") != 0)
-			{
-				if (is_array($value))
-				{
-					foreach ($value as $k => $v)
-					{
-						$this->addHiddenItem("{$key}[{$k}]", $v);
-					}
-				}
-				else
-				{
-					$this->addHiddenItem($key, $value);
-				}
-			}
-		}
-	}
+    public function populateParametersFromPost()
+    {
+        foreach ($_POST as $key => $value) {
+            if (strcmp($key, "cmd") != 0) {
+                if (is_array($value)) {
+                    foreach ($value as $k => $v) {
+                        $this->addHiddenItem("{$key}[{$k}]", $v);
+                    }
+                } else {
+                    $this->addHiddenItem($key, $value);
+                }
+            }
+        }
+    }
 
-	/**
-	 * @param ilPropertyForm $form
-	 */
-	public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone)
-	{
-		foreach ($form->getInputItemsRecursive() as $key => $item)
-		{
-			switch( $item->getType() )
-			{
-				case 'section_header':
+    /**
+     * @param ilPropertyForm $form
+     */
+    public function populateParametersFromPropertyForm(ilPropertyFormGUI $form, $timezone)
+    {
+        foreach ($form->getInputItemsRecursive() as $key => $item) {
+            switch ($item->getType()) {
+                case 'section_header':
 
-					continue 2;
+                    continue 2;
 
-				case 'datetime':
+                case 'datetime':
 
-					$datetime = $item->getDate();
-					if($datetime instanceof ilDateTime)
-					{
-						list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
-						if(!($date instanceof ilDate))
-						{
-							$this->addHiddenItem($item->getPostVar(), $date . ' ' . $time);
-						}
-						else
-						{
-							$this->addHiddenItem($item->getPostVar(), $date);
-						}
-					}
-					else
-					{
-						$this->addHiddenItem($item->getPostVar(), '');
-					}
+                    $datetime = $item->getDate();
+                    if ($datetime instanceof ilDateTime) {
+                        list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
+                        if (!($date instanceof ilDate)) {
+                            $this->addHiddenItem($item->getPostVar(), $date . ' ' . $time);
+                        } else {
+                            $this->addHiddenItem($item->getPostVar(), $date);
+                        }
+                    } else {
+                        $this->addHiddenItem($item->getPostVar(), '');
+                    }
 
-					break;
+                    break;
 
-				case 'duration':
+                case 'duration':
 
-					$this->addHiddenItem("{$item->getPostVar()}[MM]", (int)$item->getMonths());
-					$this->addHiddenItem("{$item->getPostVar()}[dd]", (int)$item->getDays());
-					$this->addHiddenItem("{$item->getPostVar()}[hh]", (int)$item->getHours());
-					$this->addHiddenItem("{$item->getPostVar()}[mm]", (int)$item->getMinutes());
-					$this->addHiddenItem("{$item->getPostVar()}[ss]", (int)$item->getSeconds());
+                    $this->addHiddenItem("{$item->getPostVar()}[MM]", (int) $item->getMonths());
+                    $this->addHiddenItem("{$item->getPostVar()}[dd]", (int) $item->getDays());
+                    $this->addHiddenItem("{$item->getPostVar()}[hh]", (int) $item->getHours());
+                    $this->addHiddenItem("{$item->getPostVar()}[mm]", (int) $item->getMinutes());
+                    $this->addHiddenItem("{$item->getPostVar()}[ss]", (int) $item->getSeconds());
 
-					break;
+                    break;
 
-				case 'dateduration':
+                case 'dateduration':
 
-					foreach(array("start", "end") as $type)
-					{
-						$postVar  = $item->getPostVar() . '[' . $type  .']';
-						$datetime = $item->{'get' . ucfirst($type)}();
+                    foreach (array("start", "end") as $type) {
+                        $postVar  = $item->getPostVar() . '[' . $type . ']';
+                        $datetime = $item->{'get' . ucfirst($type)}();
 
-						if($datetime instanceof ilDateTime)
-						{
-							list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
-							if(!($date instanceof ilDate))
-							{
-								$this->addHiddenItem($postVar, $date . ' ' . $time);
-							}
-							else
-							{
-								$this->addHiddenItem($postVar, $date);
-							}
-						}
-						else
-						{
-							$this->addHiddenItem($postVar, '');
-						}
-					}
+                        if ($datetime instanceof ilDateTime) {
+                            list($date, $time) = explode(' ', $datetime->get(IL_CAL_DATETIME));
+                            if (!($date instanceof ilDate)) {
+                                $this->addHiddenItem($postVar, $date . ' ' . $time);
+                            } else {
+                                $this->addHiddenItem($postVar, $date);
+                            }
+                        } else {
+                            $this->addHiddenItem($postVar, '');
+                        }
+                    }
 
-					break;
+                    break;
 
-				case 'checkboxgroup':
+                case 'checkboxgroup':
 
-					if( is_array($item->getValue()) )
-					{
-						foreach( $item->getValue() as $option )
-						{
-							$this->addHiddenItem("{$item->getPostVar()}[]", $option);
-						}
-					}
+                    if (is_array($item->getValue())) {
+                        foreach ($item->getValue() as $option) {
+                            $this->addHiddenItem("{$item->getPostVar()}[]", $option);
+                        }
+                    }
 
-					break;
+                    break;
 
-				case 'select':
+                case 'select':
 
-					$value = $item->getValue();
-					if( !is_array($value) )
-					{
-						$value = array($value);
-					}
-					foreach( $value as $option )
-					{
-						$this->addHiddenItem("{$item->getPostVar()}[]", $option);
-					}
+                    $value = $item->getValue();
+                    if (!is_array($value)) {
+                        $value = array($value);
+                    }
+                    foreach ($value as $option) {
+                        $this->addHiddenItem("{$item->getPostVar()}[]", $option);
+                    }
 
-					break;
+                    break;
 
-				case 'checkbox':
+                case 'checkbox':
 
-					if( $item->getChecked() )
-					{
-						$this->addHiddenItem($item->getPostVar(), 1);
-					}
+                    if ($item->getChecked()) {
+                        $this->addHiddenItem($item->getPostVar(), 1);
+                    }
 
-					break;
+                    break;
 
-				default:
+                default:
 
-					$this->addHiddenItem($item->getPostVar(), $item->getValue());
-			}
-		}
-	}
-} 
+                    $this->addHiddenItem($item->getPostVar(), $item->getValue());
+            }
+        }
+    }
+}

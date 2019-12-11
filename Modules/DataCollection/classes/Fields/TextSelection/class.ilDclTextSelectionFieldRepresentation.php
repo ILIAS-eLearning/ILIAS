@@ -8,7 +8,6 @@
  */
 class ilDclTextSelectionFieldRepresentation extends ilDclSelectionFieldRepresentation
 {
-
     const PROP_SELECTION_TYPE = 'text_selection_type';
     const PROP_SELECTION_OPTIONS = 'text_selection_options';
 

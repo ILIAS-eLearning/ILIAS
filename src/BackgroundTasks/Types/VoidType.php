@@ -14,7 +14,6 @@ namespace ILIAS\BackgroundTasks\Types;
  */
 class VoidType implements Type
 {
-
     protected static $instance = null;
 
 
@@ -43,7 +42,7 @@ class VoidType implements Type
     /**
      * @return string A string representation of the Type.
      */
-    function __toString()
+    public function __toString()
     {
         return "Void";
     }
@@ -56,7 +55,7 @@ class VoidType implements Type
      *
      * @return bool
      */
-    function isExtensionOf(Type $type)
+    public function isExtensionOf(Type $type)
     {
         return $type instanceof VoidType;
     }
@@ -69,7 +68,7 @@ class VoidType implements Type
      *
      * @return bool
      */
-    function equals(Type $otherType)
+    public function equals(Type $otherType)
     {
         return $otherType instanceof VoidType;
     }

@@ -52,7 +52,7 @@ class ilLTIConsumerResultService
     /**
      * @return float
      */
-    public function getMasteryScore(): float
+    public function getMasteryScore() : float
     {
         return $this->mastery_score;
     }
@@ -68,7 +68,7 @@ class ilLTIConsumerResultService
     /**
      * @return int
      */
-    public function getAvailability(): int
+    public function getAvailability() : int
     {
         return $this->availability;
     }
@@ -84,9 +84,9 @@ class ilLTIConsumerResultService
     /**
      * @return bool
      */
-    public function isAvailable(): bool
+    public function isAvailable() : bool
     {
-        if($this->availability == 0) {
+        if ($this->availability == 0) {
             return false;
         }
         return true;
@@ -102,69 +102,61 @@ class ilLTIConsumerResultService
     }
     
     protected function checkToken(ilCmiXapiAuthToken $token)
-	{
-		if( $this->result->getUsrId() != $token->getUsrId() )
-		{
-			return false;
-		}
-		
-		if( $this->result->getObjId() != $token->getObjId() )
-		{
-			return false;
-		}
-		
-		return true;
-	}
+    {
+        if ($this->result->getUsrId() != $token->getUsrId()) {
+            return false;
+        }
+        
+        if ($this->result->getObjId() != $token->getObjId()) {
+            return false;
+        }
+        
+        return true;
+    }
 
     /**
      * Handle an incoming request from the LTI tool provider
      */
     public function handleRequest(ilCmiXapiAuthToken $token)
     {
-        try
-        {
+        try {
             // get the request as xml
             $xml = simplexml_load_file('php://input');
             $this->message_ref_id = (string) $xml->imsx_POXHeader->imsx_POXRequestHeaderInfo->imsx_messageIdentifier;
             $request = current($xml->imsx_POXBody->children());
-            $this->operation = str_replace('Request','', $request->getName());
+            $this->operation = str_replace('Request', '', $request->getName());
             $result_id = $request->resultRecord->sourcedGUID->sourcedId;
 
             $this->result = ilLTIConsumerResult::getById($result_id);
             
-            if (empty($this->result))
-            {
+            if (empty($this->result)) {
                 $this->respondUnauthorized("sourcedId $result_id not found!");
                 return;
             }
             
-            if( !$this->checkToken($token) )
-			{
-				$this->respondUnauthorized("invalid access token!");
+            if (!$this->checkToken($token)) {
+                $this->respondUnauthorized("invalid access token!");
                 return;
-			}
+            }
 
             // check the object status
             $this->readProperties($this->result->obj_id);
 
-            if (!$this->isAvailable())
-            {
+            if (!$this->isAvailable()) {
                 $this->respondUnsupported();
                 return;
             }
 
             // Verify the signature
             $this->readFields($this->result->obj_id);
-			$result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
-			if ($result instanceof Exception)
-			{
-				$this->respondUnauthorized($result->getMessage());
-				return;
-			}
+            $result = $this->checkSignature($this->fields['KEY'], $this->fields['SECRET']);
+            if ($result instanceof Exception) {
+                $this->respondUnauthorized($result->getMessage());
+                return;
+            }
 
             // Dispatch the operation
-            switch($this->operation)
-            {
+            switch ($this->operation) {
                 case 'readResult':
                     $this->readResult($request);
                     break;
@@ -183,10 +175,8 @@ class ilLTIConsumerResultService
                     $this->respondUnknown();
                     break;
             }
-        }
-        catch (Exception $exception)
-        {
-           $this->respondBadRequest($exception->getMessage());
+        } catch (Exception $exception) {
+            $this->respondBadRequest($exception->getMessage());
         }
     }
 
@@ -197,7 +187,7 @@ class ilLTIConsumerResultService
     protected function readResult($request)
     {
         $response = $this->loadResponse('readResult.xml');
-        $response = str_replace('{message_id}', md5(rand(0,999999999)), $response);
+        $response = str_replace('{message_id}', md5(rand(0, 999999999)), $response);
         $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
         $response = str_replace('{operation}', $this->operation, $response);
         $response = str_replace('{result}', $this->result->result, $response);
@@ -213,20 +203,15 @@ class ilLTIConsumerResultService
     protected function replaceResult($request)
     {
         $result = (string) $request->resultRecord->result->resultScore->textString;
-        if (!is_numeric($result))
-        {
+        if (!is_numeric($result)) {
             $code = "failure";
             $severity = "status";
             $description = "The result is not a number.";
-        }
-        elseif ($result < 0 or $result > 1)
-        {
+        } elseif ($result < 0 or $result > 1) {
             $code = "failure";
             $severity = "status";
             $description = "The result is out of range from 0 to 1.";
-        }
-        else
-        {
+        } else {
             $this->result->result = (float) $result;
             $this->result->save();
 
@@ -247,7 +232,7 @@ class ilLTIConsumerResultService
         }
 
         $response = $this->loadResponse('replaceResult.xml');
-        $response = str_replace('{message_id}', md5(rand(0,999999999)), $response);
+        $response = str_replace('{message_id}', md5(rand(0, 999999999)), $response);
         $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
         $response = str_replace('{operation}', $this->operation, $response);
         $response = str_replace('{code}', $code, $response);
@@ -275,7 +260,7 @@ class ilLTIConsumerResultService
         $severity = "status";
 
         $response = $this->loadResponse('deleteResult.xml');
-        $response = str_replace('{message_id}', md5(rand(0,999999999)), $response);
+        $response = str_replace('{message_id}', md5(rand(0, 999999999)), $response);
         $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
         $response = str_replace('{operation}', $this->operation, $response);
         $response = str_replace('{code}', $code, $response);
@@ -293,7 +278,7 @@ class ilLTIConsumerResultService
      */
     protected function loadResponse($a_name)
     {
-        return file_get_contents('./Modules/LTIConsumer/responses/'.$a_name);
+        return file_get_contents('./Modules/LTIConsumer/responses/' . $a_name);
     }
 
 
@@ -304,7 +289,7 @@ class ilLTIConsumerResultService
     protected function respondUnsupported()
     {
         $response = $this->loadResponse('unsupported.xml');
-        $response = str_replace('{message_id}', md5(rand(0,999999999)), $response);
+        $response = str_replace('{message_id}', md5(rand(0, 999999999)), $response);
         $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
         $response = str_replace('{operation}', $this->operation, $response);
 
@@ -318,7 +303,7 @@ class ilLTIConsumerResultService
     protected function respondUnknown()
     {
         $response = $this->loadResponse('unknown.xml');
-        $response = str_replace('{message_id}', md5(rand(0,999999999)), $response);
+        $response = str_replace('{message_id}', md5(rand(0, 999999999)), $response);
         $response = str_replace('{message_ref_id}', $this->message_ref_id, $response);
         $response = str_replace('{operation}', $this->operation, $response);
 
@@ -335,12 +320,9 @@ class ilLTIConsumerResultService
     {
         header('HTTP/1.1 400 Bad Request');
         header('Content-type: text/plain');
-        if (isset($message))
-        {
+        if (isset($message)) {
             echo $message;
-        }
-        else
-        {
+        } else {
             echo 'This is not a well-formed LTI Basic Outcomes Service request.';
         }
     }
@@ -355,12 +337,9 @@ class ilLTIConsumerResultService
     {
         header('HTTP/1.1 401 Unauthorized');
         header('Content-type: text/plain');
-        if (isset($message))
-        {
+        if (isset($message)) {
             echo $message;
-        }
-        else
-        {
+        } else {
             echo 'This request could not be authorized.';
         }
     }
@@ -384,11 +363,10 @@ class ilLTIConsumerResultService
         
         $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
 
-        if ($row = $DIC->database()->fetchAssoc($res))
-        {
+        if ($row = $DIC->database()->fetchAssoc($res)) {
             //$this->properties = $row;
-            $this->setAvailability((int)$row['availability']);
-            $this->setMasteryScore((float)$row['mastery_score']);
+            $this->setAvailability((int) $row['availability']);
+            $this->setMasteryScore((float) $row['mastery_score']);
         }
     }
 
@@ -410,14 +388,13 @@ class ilLTIConsumerResultService
         
         $res = $DIC->database()->queryF($query, array('integer'), array($a_obj_id));
         
-        while ($row = $DIC->database()->fetchAssoc($res))
-        {
-            if( strlen($row["launch_key"] > 0 ) ) {
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            if (strlen($row["launch_key"] > 0)) {
                 $this->fields["KEY"] = $row["launch_key"];
             } else {
                 $this->fields["KEY"] = $row["provider_key"];
             }
-            if( strlen($row["launch_key"] > 0 ) ) {
+            if (strlen($row["launch_key"] > 0)) {
                 $this->fields["SECRET"] = $row["launch_secret"];
             } else {
                 $this->fields["SECRET"] = $row["provider_secret"];
@@ -427,12 +404,12 @@ class ilLTIConsumerResultService
 
     /**
      * Check the reqest signature
-	 * @return mixed	Exception or true
+     * @return mixed	Exception or true
      */
     private function checkSignature($a_key, $a_secret)
     {
-        require_once ('./Modules/LTIConsumer/lib/OAuth.php');
-        require_once ('./Modules/LTIConsumer/lib/TrivialOAuthDataStore.php');
+        require_once('./Modules/LTIConsumer/lib/OAuth.php');
+        require_once('./Modules/LTIConsumer/lib/TrivialOAuthDataStore.php');
 
         $store = new TrivialOAuthDataStore();
         $store->add_consumer($this->fields['KEY'], $this->fields['SECRET']);
@@ -442,24 +419,20 @@ class ilLTIConsumerResultService
         $server->add_signature_method($method);
 
         $request = OAuthRequest::from_request();
-        try
-        {
+        try {
             $server->verify_request($request);
+        } catch (Exception $e) {
+            return $e;
         }
-        catch (Exception $e)
-        {
-			return $e;
-        }
-		return true;
+        return true;
     }
     
     protected function updateLP()
-	{
-		if( !($this->result instanceof ilLTIConsumerResult) )
-		{
-			return;
-		}
-		
-		ilLPStatusWrapper::_updateStatus($this->result->getObjId(), $this->result->getUsrId());
-	}
-} 
+    {
+        if (!($this->result instanceof ilLTIConsumerResult)) {
+            return;
+        }
+        
+        ilLPStatusWrapper::_updateStatus($this->result->getObjId(), $this->result->getUsrId());
+    }
+}

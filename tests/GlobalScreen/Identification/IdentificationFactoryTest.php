@@ -33,7 +33,6 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class IdentificationFactoryTest extends TestCase
 {
-
     use MockeryPHPUnitIntegration;
     const MOCKED_PROVIDER_CLASSNAME = 'Mockery_1_ILIAS_GlobalScreen_Provider_Provider';
     /**
@@ -85,7 +84,8 @@ class IdentificationFactoryTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods, [
+            $methods,
+            [
                 0 => '__construct',
                 1 => 'core',
                 2 => 'fromSerializedIdentification',

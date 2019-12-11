@@ -10,7 +10,6 @@
  */
 class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 {
-
     public function simpleImport($file_path)
     {
         global $DIC;
@@ -171,5 +170,3 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
         }
     }
 }
-
-?>
