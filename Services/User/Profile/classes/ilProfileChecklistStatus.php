@@ -66,7 +66,7 @@ class ilProfileChecklistStatus
      *
      * @return bool
      */
-    public function anyVisibilitySettings(): bool
+    public function anyVisibilitySettings() : bool
     {
         $awrn_set = new ilSetting("awrn");
         if ($awrn_set->get("awrn_enabled", false) ||
@@ -119,7 +119,7 @@ class ilProfileChecklistStatus
      * @param int $step
      * @return string
      */
-    public function getStatusDetails(int $step): string
+    public function getStatusDetails(int $step) : string
     {
         $lng = $this->lng;
         $user = $this->user;
@@ -189,7 +189,4 @@ class ilProfileChecklistStatus
         }
         $user->update();
     }
-    
-
-
 }
