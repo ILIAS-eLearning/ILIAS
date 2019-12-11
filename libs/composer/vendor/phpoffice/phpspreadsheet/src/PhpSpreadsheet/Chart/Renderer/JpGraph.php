@@ -134,6 +134,7 @@ class JpGraph implements IRenderer
 
     private function percentageSumCalculation($groupID, $seriesCount)
     {
+        $sumValues = [];
         //    Adjust our values to a percentage value across all series in the group
         for ($i = 0; $i < $seriesCount; ++$i) {
             if ($i == 0) {
@@ -228,7 +229,7 @@ class JpGraph implements IRenderer
 
         //    Rotate for bar rather than column chart
         $rotation = $this->chart->getPlotArea()->getPlotGroupByIndex(0)->getPlotDirection();
-        $reverse = ($rotation == 'bar') ? true : false;
+        $reverse = $rotation == 'bar';
 
         $xAxisLabel = $this->chart->getXAxisLabel();
         if ($xAxisLabel !== null) {
@@ -275,7 +276,7 @@ class JpGraph implements IRenderer
     {
         $grouping = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotGrouping();
 
-        $labelCount = count($this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount());
+        $labelCount = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount();
         if ($labelCount > 0) {
             $datasetLabels = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotCategoryByIndex(0)->getDataValues();
             $datasetLabels = $this->formatDataSetLabels($groupID, $datasetLabels, $labelCount);
@@ -343,7 +344,7 @@ class JpGraph implements IRenderer
         }
         $grouping = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotGrouping();
 
-        $labelCount = count($this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount());
+        $labelCount = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount();
         if ($labelCount > 0) {
             $datasetLabels = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotCategoryByIndex(0)->getDataValues();
             $datasetLabels = $this->formatDataSetLabels($groupID, $datasetLabels, $labelCount, $rotation);
@@ -400,7 +401,7 @@ class JpGraph implements IRenderer
             $seriesPlots[] = $seriesPlot;
         }
         //    Reverse the plot order for bar rather than column chart
-        if (($rotation == 'bar') && (!($grouping == 'percentStacked'))) {
+        if (($rotation == 'bar') && ($grouping != 'percentStacked')) {
             $seriesPlots = array_reverse($seriesPlots);
         }
 
@@ -441,7 +442,7 @@ class JpGraph implements IRenderer
                 $seriesPlot->link->SetColor(self::$colourSet[self::$plotColour]);
             } elseif ($scatterStyle == 'smoothMarker') {
                 $spline = new \Spline($dataValuesY, $dataValuesX);
-                list($splineDataY, $splineDataX) = $spline->Get(count($dataValuesX) * self::$width / 20);
+                [$splineDataY, $splineDataX] = $spline->Get(count($dataValuesX) * self::$width / 20);
                 $lplot = new \LinePlot($splineDataX, $splineDataY);
                 $lplot->SetColor(self::$colourSet[self::$plotColour]);
 
@@ -548,7 +549,7 @@ class JpGraph implements IRenderer
         }
 
         // Set the x-axis labels
-        $labelCount = count($this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount());
+        $labelCount = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount();
         if ($labelCount > 0) {
             $datasetLabels = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotCategoryByIndex(0)->getDataValues();
             $datasetLabels = $this->formatDataSetLabels($groupID, $datasetLabels, $labelCount);
@@ -614,8 +615,9 @@ class JpGraph implements IRenderer
         for ($groupID = 0; $groupID < $iLimit; ++$groupID) {
             $grouping = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotGrouping();
             $exploded = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotStyle();
+            $datasetLabels = [];
             if ($groupID == 0) {
-                $labelCount = count($this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount());
+                $labelCount = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotValuesByIndex(0)->getPointCount();
                 if ($labelCount > 0) {
                     $datasetLabels = $this->chart->getPlotArea()->getPlotGroupByIndex($groupID)->getPlotCategoryByIndex(0)->getDataValues();
                     $datasetLabels = $this->formatDataSetLabels($groupID, $datasetLabels, $labelCount);

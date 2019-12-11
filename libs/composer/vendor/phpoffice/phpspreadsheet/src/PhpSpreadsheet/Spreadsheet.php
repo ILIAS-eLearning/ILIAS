@@ -715,13 +715,13 @@ class Spreadsheet
      *
      * @param string $pName Sheet name
      *
-     * @return Worksheet
+     * @return null|Worksheet
      */
     public function getSheetByName($pName)
     {
         $worksheetCount = count($this->workSheetCollection);
         for ($i = 0; $i < $worksheetCount; ++$i) {
-            if ($this->workSheetCollection[$i]->getTitle() === $pName) {
+            if ($this->workSheetCollection[$i]->getTitle() === trim($pName, "'")) {
                 return $this->workSheetCollection[$i];
             }
         }

@@ -176,6 +176,11 @@ class Style extends Supervisor
      *                 ]
      *             ]
      *         ],
+     *         'alignment' => [
+     *             'horizontal' => Alignment::HORIZONTAL_CENTER,
+     *             'vertical' => Alignment::VERTICAL_CENTER,
+     *             'wrapText' => true,
+     *         ],
      *         'quotePrefix'    => true
      *     ]
      * );
@@ -199,7 +204,7 @@ class Style extends Supervisor
                 $rangeA = $pRange;
                 $rangeB = $pRange;
             } else {
-                list($rangeA, $rangeB) = explode(':', $pRange);
+                [$rangeA, $rangeB] = explode(':', $pRange);
             }
 
             // Calculate range outer borders

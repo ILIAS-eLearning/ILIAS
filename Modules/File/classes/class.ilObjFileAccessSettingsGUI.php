@@ -630,6 +630,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
         // create table
         require_once './Services/Table/classes/class.ilTableGUI.php';
         $tbl = new ilTableGUI(0, false);
+        $tbl->setTitle('');
 
         // title & header columns
         $header_vars = array('login', 'firstname', 'lastname', 'email', 'access_until', 'last_login', 'disk_quota', 'disk_usage', 'last_reminder');
@@ -728,25 +729,17 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
                     default :
                         $tbl_content_cell = htmlspecialchars($row[$key]);
                 }
-                /*
-                if (is_array($tbl_content_cell))
-                {
-                    $tbl->tpl->setCurrentBlock("tbl_cell_subtitle");
-                    $tbl->tpl->setVariable("TBL_CELL_SUBTITLE",$tbl_content_cell[1]);
-                    $tbl->tpl->parseCurrentBlock();
-                    $tbl_content_cell = "<b>".$tbl_content_cell[0]."</b>";
-                }*/
 
-                $tbl->tpl->setCurrentBlock("tbl_content_cell");
-                $tbl->tpl->setVariable("TBL_CONTENT_CELL", $tbl_content_cell);
+                $tbl->getTemplateObject()->setCurrentBlock("tbl_content_cell");
+                $tbl->getTemplateObject()->setVariable("TBL_CONTENT_CELL", $tbl_content_cell);
 
-                $tbl->tpl->parseCurrentBlock();
+                $tbl->getTemplateObject()->parseCurrentBlock();
             }
 
-            $tbl->tpl->setCurrentBlock("tbl_content_row");
+            $tbl->getTemplateObject()->setCurrentBlock("tbl_content_row");
             $rowcolor = ilUtil::switchColor($count, "tblrow1", "tblrow2");
-            $tbl->tpl->setVariable("ROWCOLOR", $rowcolor);
-            $tbl->tpl->parseCurrentBlock();
+            $tbl->getTemplateObject()->setVariable("ROWCOLOR", $rowcolor);
+            $tbl->getTemplateObject()->parseCurrentBlock();
 
             $count++;
         }

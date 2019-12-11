@@ -16,6 +16,8 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
      * @param Cell $cell Cell to bind value to
      * @param mixed $value Value to bind in cell
      *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     *
      * @return bool
      */
     public function bindValue(Cell $cell, $value = null)
@@ -116,7 +118,7 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
             // Check for time without seconds e.g. '9:45', '09:45'
             if (preg_match('/^(\d|[0-1]\d|2[0-3]):[0-5]\d$/', $value)) {
                 // Convert value to number
-                list($h, $m) = explode(':', $value);
+                [$h, $m] = explode(':', $value);
                 $days = $h / 24 + $m / 1440;
                 $cell->setValueExplicit($days, DataType::TYPE_NUMERIC);
                 // Set style
@@ -129,7 +131,7 @@ class AdvancedValueBinder extends DefaultValueBinder implements IValueBinder
             // Check for time with seconds '9:45:59', '09:45:59'
             if (preg_match('/^(\d|[0-1]\d|2[0-3]):[0-5]\d:[0-5]\d$/', $value)) {
                 // Convert value to number
-                list($h, $m, $s) = explode(':', $value);
+                [$h, $m, $s] = explode(':', $value);
                 $days = $h / 24 + $m / 1440 + $s / 86400;
                 // Convert value to number
                 $cell->setValueExplicit($days, DataType::TYPE_NUMERIC);

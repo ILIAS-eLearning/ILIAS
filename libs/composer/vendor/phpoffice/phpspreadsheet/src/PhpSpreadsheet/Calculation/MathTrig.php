@@ -2,8 +2,8 @@
 
 namespace PhpOffice\PhpSpreadsheet\Calculation;
 
-use PhpOffice\PhpSpreadsheet\Exception as PhpSpreadsheetException;
-use PhpOffice\PhpSpreadsheet\Shared\JAMA\Matrix;
+use Matrix\Exception as MatrixException;
+use Matrix\Matrix;
 
 class MathTrig
 {
@@ -220,10 +220,9 @@ class MathTrig
                 return Functions::NAN();
             }
             $factLoop = floor($factVal);
-            if (Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) {
-                if ($factVal > $factLoop) {
-                    return Functions::NAN();
-                }
+            if ((Functions::getCompatibilityMode() == Functions::COMPATIBILITY_GNUMERIC) &&
+                ($factVal > $factLoop)) {
+                return Functions::NAN();
             }
 
             $factorial = 1;
@@ -302,7 +301,9 @@ class MathTrig
                 return Functions::DIV0();
             } elseif ($number == 0.0) {
                 return 0.0;
-            } elseif (self::SIGN($number) == self::SIGN($significance)) {
+            } elseif (self::SIGN($significance) == 1) {
+                return floor($number / $significance) * $significance;
+            } elseif (self::SIGN($number) == -1 && self::SIGN($significance) == -1) {
                 return floor($number / $significance) * $significance;
             }
 
@@ -498,7 +499,7 @@ class MathTrig
                 if ((is_string($matrixCell)) || ($matrixCell === null)) {
                     return Functions::VALUE();
                 }
-                $matrixData[$column][$row] = $matrixCell;
+                $matrixData[$row][$column] = $matrixCell;
                 ++$column;
             }
             if ($column > $maxColumn) {
@@ -506,15 +507,15 @@ class MathTrig
             }
             ++$row;
         }
-        if ($row != $maxColumn) {
+
+        $matrix = new Matrix($matrixData);
+        if (!$matrix->isSquare()) {
             return Functions::VALUE();
         }
 
         try {
-            $matrix = new Matrix($matrixData);
-
-            return $matrix->det();
-        } catch (PhpSpreadsheetException $ex) {
+            return $matrix->determinant();
+        } catch (MatrixException $ex) {
             return Functions::VALUE();
         }
     }
@@ -550,7 +551,7 @@ class MathTrig
                 if ((is_string($matrixCell)) || ($matrixCell === null)) {
                     return Functions::VALUE();
                 }
-                $matrixData[$column][$row] = $matrixCell;
+                $matrixData[$row][$column] = $matrixCell;
                 ++$column;
             }
             if ($column > $maxColumn) {
@@ -558,17 +559,19 @@ class MathTrig
             }
             ++$row;
         }
-        foreach ($matrixValues as $matrixRow) {
-            if (count($matrixRow) != $maxColumn) {
-                return Functions::VALUE();
-            }
+
+        $matrix = new Matrix($matrixData);
+        if (!$matrix->isSquare()) {
+            return Functions::VALUE();
+        }
+
+        if ($matrix->determinant() == 0.0) {
+            return Functions::NAN();
         }
 
         try {
-            $matrix = new Matrix($matrixData);
-
-            return $matrix->inverse()->getArray();
-        } catch (PhpSpreadsheetException $ex) {
+            return $matrix->inverse()->toArray();
+        } catch (MatrixException $ex) {
             return Functions::VALUE();
         }
     }
@@ -629,8 +632,8 @@ class MathTrig
                 return Functions::VALUE();
             }
 
-            return $matrixA->times($matrixB)->getArray();
-        } catch (PhpSpreadsheetException $ex) {
+            return $matrixA->multiply($matrixB)->toArray();
+        } catch (MatrixException $ex) {
             return Functions::VALUE();
         }
     }
@@ -1072,7 +1075,7 @@ class MathTrig
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
-                list(, $row, $column) = explode('.', $index);
+                [, $row, $column] = explode('.', $index);
 
                 return $cellReference->getWorksheet()->getRowDimension($row)->getVisible() &&
                     $cellReference->getWorksheet()->getColumnDimension($column)->getVisible();
@@ -1086,7 +1089,7 @@ class MathTrig
         return array_filter(
             $args,
             function ($index) use ($cellReference) {
-                list(, $row, $column) = explode('.', $index);
+                [, $row, $column] = explode('.', $index);
                 if ($cellReference->getWorksheet()->cellExists($column . $row)) {
                     //take this cell out if it contains the SUBTOTAL or AGGREGATE functions in a formula
                     $isFormula = $cellReference->getWorksheet()->getCell($column . $row)->isFormula();
@@ -1114,7 +1117,7 @@ class MathTrig
      *                    in hidden rows or columns
      * @param array of mixed Data Series
      *
-     * @return float
+     * @return float|string
      */
     public static function SUBTOTAL(...$args)
     {
@@ -1222,9 +1225,12 @@ class MathTrig
             }
 
             $testCondition = '=' . $arg . $condition;
-            if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                // Is it a value within our criteria
-                $returnValue += $sumArgs[$key];
+            $sumValue = array_key_exists($key, $sumArgs) ? $sumArgs[$key] : 0;
+
+            if (is_numeric($sumValue) &&
+                Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
+                // Is it a value within our criteria and only numeric can be added to the result
+                $returnValue += $sumValue;
             }
         }
 
@@ -1254,26 +1260,36 @@ class MathTrig
         $returnValue = 0;
 
         $sumArgs = Functions::flattenArray(array_shift($arrayList));
+        $aArgsArray = [];
+        $conditions = [];
 
         while (count($arrayList) > 0) {
             $aArgsArray[] = Functions::flattenArray(array_shift($arrayList));
             $conditions[] = Functions::ifCondition(array_shift($arrayList));
         }
 
-        // Loop through each set of arguments and conditions
-        foreach ($conditions as $index => $condition) {
-            $aArgs = $aArgsArray[$index];
+        // Loop through each sum and see if arguments and conditions are true
+        foreach ($sumArgs as $index => $value) {
+            $valid = true;
 
-            // Loop through arguments
-            foreach ($aArgs as $key => $arg) {
+            foreach ($conditions as $cidx => $condition) {
+                $arg = $aArgsArray[$cidx][$index];
+
+                // Loop through arguments
                 if (!is_numeric($arg)) {
                     $arg = Calculation::wrapResult(strtoupper($arg));
                 }
                 $testCondition = '=' . $arg . $condition;
-                if (Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
-                    // Is it a value within our criteria
-                    $returnValue += $sumArgs[$key];
+                if (!Calculation::getInstance()->_calculateFormulaValue($testCondition)) {
+                    // Is not a value within our criteria
+                    $valid = false;
+
+                    break; // if false found, don't need to check other conditions
                 }
+            }
+
+            if ($valid) {
+                $returnValue += $value;
             }
         }
 

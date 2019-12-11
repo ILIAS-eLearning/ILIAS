@@ -32,7 +32,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 // --------------------------------------------------------------------------------
 // Adapted from Excel_Spreadsheet_Reader developed by users bizon153,
 // trex005, and mmp11 (SourceForge.net)
-// http://sourceforge.net/projects/phpexcelreader/
+// https://sourceforge.net/projects/phpexcelreader/
 // Primary changes made by canyoncasa (dvc) for ParseXL 1.00 ...
 //     Modelled moreso after Perl Excel Parse/Write modules
 //     Added Parse_Excel_Spreadsheet object
@@ -412,7 +412,7 @@ class Xls extends BaseReader
      */
     public function __construct()
     {
-        $this->readFilter = new DefaultReadFilter();
+        parent::__construct();
     }
 
     /**
@@ -1089,8 +1089,8 @@ class Xls extends BaseReader
                     }
 
                     // calculate the width and height of the shape
-                    list($startColumn, $startRow) = Coordinate::coordinateFromString($spContainer->getStartCoordinates());
-                    list($endColumn, $endRow) = Coordinate::coordinateFromString($spContainer->getEndCoordinates());
+                    [$startColumn, $startRow] = Coordinate::coordinateFromString($spContainer->getStartCoordinates());
+                    [$endColumn, $endRow] = Coordinate::coordinateFromString($spContainer->getEndCoordinates());
 
                     $startOffsetX = $spContainer->getStartOffsetX();
                     $startOffsetY = $spContainer->getStartOffsetY();
@@ -1127,7 +1127,7 @@ class Xls extends BaseReader
                             // TODO: Why is there no BSE Index? Is this a new Office Version? Password protected field?
                             // More likely : a uncompatible picture
                             if (!$BSEindex) {
-                                continue;
+                                continue 2;
                             }
 
                             $BSECollection = $escherWorkbook->getDggContainer()->getBstoreContainer()->getBSECollection();
@@ -1175,7 +1175,7 @@ class Xls extends BaseReader
             // treat SHAREDFMLA records
             if ($this->version == self::XLS_BIFF8) {
                 foreach ($this->sharedFormulaParts as $cell => $baseCell) {
-                    list($column, $row) = Coordinate::coordinateFromString($cell);
+                    [$column, $row] = Coordinate::coordinateFromString($cell);
                     if (($this->getReadFilter() !== null) && $this->getReadFilter()->readCell($column, $row, $this->phpSheet->getTitle())) {
                         $formula = $this->getFormulaFromStructure($this->sharedFormulas[$baseCell], $cell);
                         $this->phpSheet->getCell($cell)->setValueExplicit('=' . $formula, DataType::TYPE_FORMULA);
@@ -1213,7 +1213,7 @@ class Xls extends BaseReader
                             // $range should look like one of these
                             //        Foo!$C$7:$J$66
                             //        Bar!$A$1:$IV$2
-                            $explodes = explode('!', $range); // FIXME: what if sheetname contains exclamation mark?
+                            $explodes = Worksheet::extractSheetTitle($range, true);
                             $sheetName = trim($explodes[0], "'");
                             if (count($explodes) == 2) {
                                 if (strpos($explodes[1], ':') === false) {
@@ -1243,16 +1243,16 @@ class Xls extends BaseReader
                             // $range should look like this one of these
                             //        Sheet!$A$1:$B$65536
                             //        Sheet!$A$1:$IV$2
-                            $explodes = explode('!', $range);
-                            if (count($explodes) == 2) {
+                            if (strpos($range, '!') !== false) {
+                                $explodes = Worksheet::extractSheetTitle($range, true);
                                 if ($docSheet = $this->spreadsheet->getSheetByName($explodes[0])) {
                                     $extractedRange = $explodes[1];
                                     $extractedRange = str_replace('$', '', $extractedRange);
 
                                     $coordinateStrings = explode(':', $extractedRange);
                                     if (count($coordinateStrings) == 2) {
-                                        list($firstColumn, $firstRow) = Coordinate::coordinateFromString($coordinateStrings[0]);
-                                        list($lastColumn, $lastRow) = Coordinate::coordinateFromString($coordinateStrings[1]);
+                                        [$firstColumn, $firstRow] = Coordinate::coordinateFromString($coordinateStrings[0]);
+                                        [$lastColumn, $lastRow] = Coordinate::coordinateFromString($coordinateStrings[1]);
 
                                         if ($firstColumn == 'A' and $lastColumn == 'IV') {
                                             // then we have repeating rows
@@ -1270,9 +1270,8 @@ class Xls extends BaseReader
                 }
             } else {
                 // Extract range
-                $explodes = explode('!', $definedName['formula']);
-
-                if (count($explodes) == 2) {
+                if (strpos($definedName['formula'], '!') !== false) {
+                    $explodes = Worksheet::extractSheetTitle($definedName['formula'], true);
                     if (($docSheet = $this->spreadsheet->getSheetByName($explodes[0])) ||
                         ($docSheet = $this->spreadsheet->getSheetByName(trim($explodes[0], "'")))) {
                         $extractedRange = $explodes[1];
@@ -1818,7 +1817,7 @@ class Xls extends BaseReader
      *
      * The decryption functions and objects used from here on in
      * are based on the source of Spreadsheet-ParseExcel:
-     * http://search.cpan.org/~jmcnamara/Spreadsheet-ParseExcel/
+     * https://metacpan.org/release/Spreadsheet-ParseExcel
      */
     private function readFilepass()
     {
@@ -2149,7 +2148,7 @@ class Xls extends BaseReader
      * XF - Extended Format.
      *
      * This record contains formatting information for cells, rows, columns or styles.
-     * According to http://support.microsoft.com/kb/147732 there are always at least 15 cell style XF
+     * According to https://support.microsoft.com/en-us/help/147732 there are always at least 15 cell style XF
      * and 1 cell XF.
      * Inspection of Excel files generated by MS Office Excel shows that XF records 0-14 are cell style XF
      * and XF record 15 is a cell XF
@@ -3826,7 +3825,7 @@ class Xls extends BaseReader
                 }
             }
 
-            if (!$this->readDataOnly && !$emptyCell) {
+            if (!$this->readDataOnly && !$emptyCell && isset($this->mapCellXfIndex[$xfIndex])) {
                 // add style information
                 $cell->setXfIndex($this->mapCellXfIndex[$xfIndex]);
             }
@@ -4688,7 +4687,7 @@ class Xls extends BaseReader
                     $offset += 4;
                     // offset: var; size: $us; character array of the URL, no Unicode string header, always 16-bit characters, zero-terminated
                     $url = self::encodeUTF16(substr($recordData, $offset, $us - 2), false);
-                    $nullOffset = strpos($url, 0x00);
+                    $nullOffset = strpos($url, chr(0x00));
                     if ($nullOffset) {
                         $url = substr($url, 0, $nullOffset);
                     }
@@ -5280,12 +5279,10 @@ class Xls extends BaseReader
             $nextIdentifier = self::getUInt2d($this->data, $this->pos);
         } while ($nextIdentifier == self::XLS_TYPE_CONTINUE);
 
-        $splicedData = [
+        return [
             'recordData' => $data,
             'spliceOffsets' => $spliceOffsets,
         ];
-
-        return $splicedData;
     }
 
     /**
@@ -5356,12 +5353,12 @@ class Xls extends BaseReader
         $formulaStrings = [];
         foreach ($tokens as $token) {
             // initialize spaces
-            $space0 = isset($space0) ? $space0 : ''; // spaces before next token, not tParen
-            $space1 = isset($space1) ? $space1 : ''; // carriage returns before next token, not tParen
-            $space2 = isset($space2) ? $space2 : ''; // spaces before opening parenthesis
-            $space3 = isset($space3) ? $space3 : ''; // carriage returns before opening parenthesis
-            $space4 = isset($space4) ? $space4 : ''; // spaces before closing parenthesis
-            $space5 = isset($space5) ? $space5 : ''; // carriage returns before closing parenthesis
+            $space0 = $space0 ?? ''; // spaces before next token, not tParen
+            $space1 = $space1 ?? ''; // carriage returns before next token, not tParen
+            $space2 = $space2 ?? ''; // spaces before opening parenthesis
+            $space3 = $space3 ?? ''; // carriage returns before opening parenthesis
+            $space4 = $space4 ?? ''; // spaces before closing parenthesis
+            $space5 = $space5 ?? ''; // carriage returns before closing parenthesis
 
             switch ($token['name']) {
                 case 'tAdd': // addition
@@ -7146,7 +7143,7 @@ class Xls extends BaseReader
      */
     private function readBIFF8CellAddressB($cellAddressStructure, $baseCell = 'A1')
     {
-        list($baseCol, $baseRow) = Coordinate::coordinateFromString($baseCell);
+        [$baseCol, $baseRow] = Coordinate::coordinateFromString($baseCell);
         $baseCol = Coordinate::columnIndexFromString($baseCol) - 1;
 
         // offset: 0; size: 2; index to row (0... 65535) (or offset (-32768... 32767))
@@ -7329,7 +7326,7 @@ class Xls extends BaseReader
      */
     private function readBIFF8CellRangeAddressB($subData, $baseCell = 'A1')
     {
-        list($baseCol, $baseRow) = Coordinate::coordinateFromString($baseCell);
+        [$baseCol, $baseRow] = Coordinate::coordinateFromString($baseCell);
         $baseCol = Coordinate::columnIndexFromString($baseCol) - 1;
 
         // TODO: if cell range is just a single cell, should this funciton

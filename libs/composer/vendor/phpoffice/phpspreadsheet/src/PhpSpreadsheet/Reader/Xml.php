@@ -5,6 +5,7 @@ namespace PhpOffice\PhpSpreadsheet\Reader;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Document\Properties;
+use PhpOffice\PhpSpreadsheet\Reader\Security\XmlScanner;
 use PhpOffice\PhpSpreadsheet\RichText\RichText;
 use PhpOffice\PhpSpreadsheet\Settings;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
@@ -40,7 +41,8 @@ class Xml extends BaseReader
      */
     public function __construct()
     {
-        $this->readFilter = new DefaultReadFilter();
+        parent::__construct();
+        $this->securityScanner = XmlScanner::getInstance($this);
     }
 
     /**
@@ -109,7 +111,7 @@ class Xml extends BaseReader
     {
         try {
             $xml = simplexml_load_string(
-                $this->securityScan(file_get_contents($pFilename)),
+                $this->securityScanner->scan(file_get_contents($pFilename)),
                 'SimpleXMLElement',
                 Settings::getLibXmlLoaderOptions()
             );
@@ -283,9 +285,8 @@ class Xml extends BaseReader
     {
         $pixels = ($widthUnits / 256) * 7;
         $offsetWidthUnits = $widthUnits % 256;
-        $pixels += round($offsetWidthUnits / (256 / 7));
 
-        return $pixels;
+        return $pixels + round($offsetWidthUnits / (256 / 7));
     }
 
     protected static function hex2str($hex)
