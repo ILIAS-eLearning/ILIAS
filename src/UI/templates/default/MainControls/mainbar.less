@@ -57,12 +57,19 @@
 		img {
 			filter: invert(100%);
 		}
+		.icon.outlined {
+			filter: brightness(100);
+		}
 		&:hover,
 		&.engaged {
 			background-color: @il-mainbar-btn-bg-color-engaged;
 			color: @il-mainbar-btn-bg-color;
 			img {
 				filter: invert(50%);
+
+			}
+			.icon.outlined {
+				filter: brightness(0);
 			}
 			.bulky-label {
 				color: @il-mainbar-btn-bg-color;
