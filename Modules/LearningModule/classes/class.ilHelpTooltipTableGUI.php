@@ -15,62 +15,58 @@ include_once("./Services/Help/classes/class.ilHelpMapping.php");
  */
 class ilHelpTooltipTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilAccessHandler
-	 */
-	protected $access;
+    /**
+     * @var ilAccessHandler
+     */
+    protected $access;
 
-	
-	/**
-	 * Constructor
-	 */
-	function __construct($a_parent_obj, $a_parent_cmd, $a_comp)
-	{
-		global $DIC;
+    
+    /**
+     * Constructor
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_comp)
+    {
+        global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->access = $DIC->access();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
-		$lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
 
-		$this->setId("lm_help_tooltips");
+        $this->setId("lm_help_tooltips");
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-		
-		include_once("./Services/Help/classes/class.ilHelp.php");
-		$this->setData(ilHelp::getAllTooltips($a_comp));
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+        
+        include_once("./Services/Help/classes/class.ilHelp.php");
+        $this->setData(ilHelp::getAllTooltips($a_comp));
 
-		$this->setTitle($lng->txt("help_tooltips"));
+        $this->setTitle($lng->txt("help_tooltips"));
 
-		$this->addColumn("", "", "1px", true);
-		$this->addColumn($this->lng->txt("help_tooltip_id"));
-		$this->addColumn($this->lng->txt("help_tt_text"));
+        $this->addColumn("", "", "1px", true);
+        $this->addColumn($this->lng->txt("help_tooltip_id"));
+        $this->addColumn($this->lng->txt("help_tt_text"));
 
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
-		$this->setRowTemplate("tpl.help_tooltip.html", "Modules/LearningModule");
-		$this->setDefaultOrderField("tt_id");
-		$this->setDefaultOrderDirection("asc");
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setRowTemplate("tpl.help_tooltip.html", "Modules/LearningModule");
+        $this->setDefaultOrderField("tt_id");
+        $this->setDefaultOrderDirection("asc");
 
-		$this->addCommandButton("saveTooltips", $lng->txt("save"));
-		$this->addMultiCommand("deleteTooltips", $lng->txt("delete"));
-	}
+        $this->addCommandButton("saveTooltips", $lng->txt("save"));
+        $this->addMultiCommand("deleteTooltips", $lng->txt("delete"));
+    }
 
-	/**
-	 * Fill table row
-	 */
-	protected function fillRow($a_set)
-	{
-		$lng = $this->lng;
+    /**
+     * Fill table row
+     */
+    protected function fillRow($a_set)
+    {
+        $lng = $this->lng;
 
-		$this->tpl->setVariable("ID", $a_set["id"]);
-		$this->tpl->setVariable("TEXT", ilUtil::prepareFormOutput($a_set["text"]));
-		$this->tpl->setVariable("TT_ID", ilUtil::prepareFormOutput($a_set["tt_id"]));
-		
-	}
-
+        $this->tpl->setVariable("ID", $a_set["id"]);
+        $this->tpl->setVariable("TEXT", ilUtil::prepareFormOutput($a_set["text"]));
+        $this->tpl->setVariable("TT_ID", ilUtil::prepareFormOutput($a_set["tt_id"]));
+    }
 }
-
-?>
