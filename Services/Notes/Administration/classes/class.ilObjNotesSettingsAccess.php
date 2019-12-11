@@ -9,8 +9,4 @@
  */
 class ilObjNotesSettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

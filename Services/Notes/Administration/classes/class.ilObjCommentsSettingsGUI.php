@@ -79,7 +79,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
      * Execute command
      * @throws ilCtrlException
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
         $tabs = $this->tabs;
@@ -88,15 +88,13 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("editSettings");
 
-        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
-            $this->error->raiseError($this->lng->txt('no_permission'),$this->error->WARNING);
+        if (!$rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
         $this->prepareOutput();
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             case 'ilpermissiongui':
                 $tabs->activateTab('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
@@ -107,8 +105,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 if ($cmd == "view") {
                     $cmd = "editSettings";
                 }
-                if (in_array($cmd, ["editSettings", "saveSettings"]))
-                {
+                if (in_array($cmd, ["editSettings", "saveSettings"])) {
                     $this->$cmd();
                 }
                 break;
@@ -125,8 +122,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $tabs = $this->tabs;
         $ctrl = $this->ctrl;
 
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $tabs->addTab(
                 "settings",
                 $lng->txt("settings"),
@@ -134,12 +130,11 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission',$this->object->getRefId()))
-        {
+        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $tabs->addTab(
                 "perm_settings",
                 $lng->txt("perm_settings"),
-                $ctrl->getLinkTargetByClass('ilpermissiongui',"perm")
+                $ctrl->getLinkTargetByClass('ilpermissiongui', "perm")
             );
         }
     }
@@ -172,20 +167,24 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $setting = $this->setting;
 
         $subfields["comm_del_user"] = $f->input()->field()->checkbox(
-            $lng->txt("note_enable_comments_del_user"))
+            $lng->txt("note_enable_comments_del_user")
+        )
             ->withValue((bool) $setting->get("comments_del_user", 0));
         $subfields["comm_del_tutor"] = $f->input()->field()->checkbox(
             $lng->txt("note_enable_comments_del_tutor"),
-            $lng->txt("note_enable_comments_del_tutor_info"))
+            $lng->txt("note_enable_comments_del_tutor_info")
+        )
             ->withValue((bool) $setting->get("comments_del_tutor", 1));
         $subfields["comments_noti_recip"] = $f->input()->field()->text(
             $lng->txt("note_comments_notification"),
-            $lng->txt("note_comments_notification_info"))
+            $lng->txt("note_comments_notification_info")
+        )
             ->withValue((string) $setting->get("comments_noti_recip"));
 
         $fields["enable_comments"] = $f->input()->field()->optionalGroup(
             $subfields,
-            $lng->txt("note_enable_comments"), $lng->txt("")
+            $lng->txt("note_enable_comments"),
+            $lng->txt("")
         );
         if ($setting->get("disable_comments")) {
             $fields["enable_comments"] = $fields["enable_comments"]->withValue(null);
@@ -209,12 +208,10 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $setting = $this->setting;
 
-        if ($request->getMethod() == "POST")
-        {
+        if ($request->getMethod() == "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
-            if (is_array($data["sec"]))
-            {
+            if (is_array($data["sec"])) {
                 $data = $data["sec"]["enable_comments"];
                 $setting->set("disable_comments", (is_array($data) ? 0 : 1));
                 $setting->set("comments_del_user", ($data["comm_del_user"] ? 1 : 0));
@@ -226,8 +223,4 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         }
         $ctrl->redirect($this, "editSettings");
     }
-
-
 }
-
-?>
