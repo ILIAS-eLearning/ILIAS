@@ -6,7 +6,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceEx
 
 /**
  * Class for group reference export
- * 
+ *
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceExporter
  * @ingroup ModulesGroupReference
@@ -14,14 +14,14 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceEx
 class ilGroupReferenceExporter extends ilContainerReferenceExporter
 {
 
-	/**
-	 * Init xml writer
-	 * @param ilContainerReference $ref
-	 * @return ilGroupReferenceXmlWriter 
-	 */
-	protected function initWriter(ilContainerReference $ref)
-	{
-		include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlWriter.php';
-		return new ilGroupReferenceXmlWriter($ref);
-	}
+    /**
+     * Init xml writer
+     * @param ilContainerReference $ref
+     * @return ilGroupReferenceXmlWriter
+     */
+    protected function initWriter(ilContainerReference $ref)
+    {
+        include_once './Modules/GroupReference/classes/class.ilGroupReferenceXmlWriter.php';
+        return new ilGroupReferenceXmlWriter($ref);
+    }
 }

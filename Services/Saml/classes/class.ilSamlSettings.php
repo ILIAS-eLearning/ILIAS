@@ -7,50 +7,49 @@
  */
 class ilSamlSettings
 {
-	/**
-	 * @var self
-	 */
-	protected static $instance = null;
+    /**
+     * @var self
+     */
+    protected static $instance = null;
 
-	/**
-	 * @var ilSetting
-	 */
-	protected $settings;
+    /**
+     * @var ilSetting
+     */
+    protected $settings;
 
-	/**
-	 * ilSamlSettings constructor.
-	 */
-	protected function __construct()
-	{
-		$this->settings = new ilSetting('auth_saml');
-	}
+    /**
+     * ilSamlSettings constructor.
+     */
+    protected function __construct()
+    {
+        $this->settings = new ilSetting('auth_saml');
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function getInstance()
-	{
-		if(null === self::$instance)
-		{
-			self::$instance = new self();
-		}
+    /**
+     * @return self
+     */
+    public static function getInstance()
+    {
+        if (null === self::$instance) {
+            self::$instance = new self();
+        }
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function isDisplayedOnLoginPage()
-	{
-		return (bool)$this->settings->get('login_form', 0);
-	}
+    /**
+     * @return boolean
+     */
+    public function isDisplayedOnLoginPage()
+    {
+        return (bool) $this->settings->get('login_form', 0);
+    }
 
-	/**
-	 * @param $displayed_on_login_page boolean
-	 */
-	public function setLoginFormStatus($displayed_on_login_page)
-	{
-		$this->settings->set('login_form', (int)$displayed_on_login_page);
-	}
+    /**
+     * @param $displayed_on_login_page boolean
+     */
+    public function setLoginFormStatus($displayed_on_login_page)
+    {
+        $this->settings->set('login_form', (int) $displayed_on_login_page);
+    }
 }

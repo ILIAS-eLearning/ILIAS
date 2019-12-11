@@ -238,22 +238,22 @@ abstract class ILIAS_UI_TestBase extends PHPUnit_Framework_TestCase
         $component_renderer_loader
             = new Render\LoaderCachingWrapper(
                 new Render\LoaderResourceRegistryWrapper(
-                $resource_registry,
-                new Render\FSLoader(
-                        new DefaultRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding
-                    ),
-                        new GlyphRendererFactory(
-                              $ui_factory,
-                              $tpl_factory,
-                              $lng,
-                              $js_binding
-                          )
-                    )
-            )
+                    $resource_registry,
+                    new Render\FSLoader(
+                    new DefaultRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding
+                        ),
+                    new GlyphRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding
+                        )
+                )
+                )
             );
         return new TestDefaultRenderer($component_renderer_loader);
     }

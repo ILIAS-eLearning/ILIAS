@@ -6,37 +6,37 @@
  */
 class ilCertificateValueReplacement
 {
-	/**
-	 * @var string
-	 */
-	private $clientWebDirectory;
+    /**
+     * @var string
+     */
+    private $clientWebDirectory;
 
-	/**
-	 * @param string $clientWebDirectory - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty
-	 *                                     the constant CLIENT_WEB_DIR will be tried as default value.
-	 *                                     If CLIENT_WEB_DIR is not defined the default value will be an empty string.
-	 */
-	public function __construct(string $clientWebDirectory = '')
-	{
-		if ('' === $clientWebDirectory && true === defined('CLIENT_WEB_DIR')) {
-			$clientWebDirectory = CLIENT_WEB_DIR;
-		}
-		$this->clientWebDirectory = $clientWebDirectory;
-	}
+    /**
+     * @param string $clientWebDirectory - Replacement for the placeholder [CLIENT_WEB_DIR], if the string is empty
+     *                                     the constant CLIENT_WEB_DIR will be tried as default value.
+     *                                     If CLIENT_WEB_DIR is not defined the default value will be an empty string.
+     */
+    public function __construct(string $clientWebDirectory = '')
+    {
+        if ('' === $clientWebDirectory && true === defined('CLIENT_WEB_DIR')) {
+            $clientWebDirectory = CLIENT_WEB_DIR;
+        }
+        $this->clientWebDirectory = $clientWebDirectory;
+    }
 
-	/**
-	 * Replaces placeholder in the certificate content with actual values
-	 *
-	 * @param array $placeholderValues
-	 * @param string $certificateContent
-	 * @return string
-	 */
-	public function replace(array $placeholderValues, string $certificateContent) : string
-	{
-		foreach ($placeholderValues as $placeholder => $value) {
-			$certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
-		}
+    /**
+     * Replaces placeholder in the certificate content with actual values
+     *
+     * @param array $placeholderValues
+     * @param string $certificateContent
+     * @return string
+     */
+    public function replace(array $placeholderValues, string $certificateContent) : string
+    {
+        foreach ($placeholderValues as $placeholder => $value) {
+            $certificateContent = str_replace('[' . $placeholder . ']', $value, $certificateContent);
+        }
 
-		return $certificateContent;
-	}
+        return $certificateContent;
+    }
 }

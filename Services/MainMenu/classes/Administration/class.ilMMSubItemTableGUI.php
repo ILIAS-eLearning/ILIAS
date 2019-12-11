@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMSubItemTableGUI extends ilTable2GUI
 {
-
     use Hasher;
     const IDENTIFIER = 'identifier';
     const F_TABLE_SHOW_INACTIVE = 'table_show_inactive';

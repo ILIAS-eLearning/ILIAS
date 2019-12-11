@@ -162,7 +162,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             if (!$this->all_objects) {
                 /*				$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
                                 $this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
-                
+
                                 $mset = new ilSetting("mobs");
                                 if ($mset->get("mep_activate_pages"))
                                 {
@@ -530,7 +530,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT ||
                     ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT && $a_set["type"] == "mob") ||
                     ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT && $a_set["type"] == "pg")
-                    )) {
+            )) {
                 $this->tpl->setCurrentBlock("chbox");
                 $this->tpl->setVariable("CHECKBOX_ID", $a_set["child"]);
                 $this->tpl->parseCurrentBlock();
@@ -572,7 +572,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $loc->addItem(
                     $title,
                     $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
-                    );
+                );
             }
             $ilCtrl->setParameter(
                 $this->parent_obj,

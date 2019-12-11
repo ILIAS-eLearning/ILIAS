@@ -75,12 +75,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_level WHERE "
             . " skill_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         $ilDB->manipulate(
             "DELETE FROM skl_user_has_level WHERE "
             . " skill_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         parent::delete();
     }
@@ -149,7 +149,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT MAX(nr) mnr FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["mnr"];
     }
@@ -172,7 +172,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             " skill_id = " . $ilDB->quote($this->getId(), "integer") .
             $and .
             " ORDER BY nr"
-            );
+        );
         $levels = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_id > 0) {
@@ -295,7 +295,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
                 "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($id, "integer")
-                );
+            );
             $cnt++;
         }
     }
@@ -313,7 +313,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_level WHERE "
             . " id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
 
     /**
@@ -337,7 +337,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
                 "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($rec["id"], "integer")
-                );
+            );
             $cnt++;
         }
     }
@@ -355,7 +355,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_level WHERE " .
             " id = " . $ilDB->quote($a_level_id, "integer")
-            );
+        );
         $skill = null;
         if ($rec = $ilDB->fetchAssoc($set)) {
             if (ilSkillTreeNode::isInTree($rec["skill_id"])) {
@@ -583,7 +583,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
                 " AND trigger_obj_id = " . $ilDB->quote($trigger_obj_id, "integer") .
                 " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
                 " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
-                );
+            );
         } else {
             if ($a_unique_identifier != "") {
                 $ilDB->manipulate(
@@ -734,7 +734,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
-            );
+        );
 
         $has_level = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -771,7 +771,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND self_eval = " . $ilDB->quote($a_self_eval, "integer") .
             " ORDER BY status_date DESC"
-            );
+        );
 
         $levels = array();
         while ($rec = $ilDB->fetchAssoc($set)) {

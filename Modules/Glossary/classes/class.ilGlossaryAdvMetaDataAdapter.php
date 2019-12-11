@@ -158,6 +158,6 @@ class ilGlossaryAdvMetaDataAdapter
             array("glo_id" => array("integer", $a_glo_id),
                 "field_id" => array("integer", $a_field_id)),
             array("order_nr" => array("integer", $a_order_nr))
-            );
+        );
     }
 }

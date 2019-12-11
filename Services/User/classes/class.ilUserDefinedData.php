@@ -159,11 +159,11 @@ class ilUserDefinedData
         $ilDB->manipulate(
             "DELETE FROM udf_text WHERE "
             . " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM udf_clob WHERE "
             . " usr_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
     /**
@@ -180,11 +180,11 @@ class ilUserDefinedData
         $ilDB->manipulate(
             "DELETE FROM udf_text WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
-            );
+        );
         $ilDB->manipulate(
             "DELETE FROM udf_clob WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
-            );
+        );
     }
 
     /**
@@ -203,7 +203,7 @@ class ilUserDefinedData
             "UPDATE udf_text SET value = " . $ilDB->quote("", "text") . " WHERE "
             . " field_id = " . $ilDB->quote($a_field_id, "integer")
             . " AND value = " . $ilDB->quote($a_value, "text")
-            );
+        );
     }
 
     public function toXML()

@@ -7,13 +7,13 @@
  */
 interface ilTermsOfServiceEvaluableCriterion
 {
-	/**
-	 * @return \ilTermsOfServiceCriterionConfig
-	 */
-	public function getCriterionValue(): \ilTermsOfServiceCriterionConfig;
+    /**
+     * @return \ilTermsOfServiceCriterionConfig
+     */
+    public function getCriterionValue() : \ilTermsOfServiceCriterionConfig;
 
-	/**
-	 * @return string
-	 */
-	public function getCriterionId(): string;
+    /**
+     * @return string
+     */
+    public function getCriterionId() : string;
 }

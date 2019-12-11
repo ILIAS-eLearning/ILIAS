@@ -113,7 +113,7 @@ class ilCloudFileNode
      */
     public function setPath($path = "/")
     {
-        $this->path = ilCloudUtil::normalizePath($path,$this->is_dir);
+        $this->path = ilCloudUtil::normalizePath($path, $this->is_dir);
     }
 
     /**
@@ -129,11 +129,9 @@ class ilCloudFileNode
      */
     public function addChild($path)
     {
-        if (!isset($this->children[$path]))
-        {
+        if (!isset($this->children[$path])) {
             $this->children[$path] = $path;
         }
-
     }
 
     /**
@@ -141,11 +139,9 @@ class ilCloudFileNode
      */
     public function removeChild($path)
     {
-        if (isset($this->children[$path]))
-        {
+        if (isset($this->children[$path])) {
             unset($this->children[$path]);
         }
-
     }
 
     /**
@@ -153,12 +149,10 @@ class ilCloudFileNode
      */
     public function getChildrenPathes()
     {
-        if ($this->hasChildren())
-        {
+        if ($this->hasChildren()) {
             return $this->children;
         }
         return null;
-
     }
 
     /**
@@ -284,5 +278,3 @@ class ilCloudFileNode
         return $node;
     }
 }
-
-?>

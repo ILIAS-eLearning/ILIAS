@@ -536,17 +536,17 @@ class ilImageMapEditorGUI
             $link_str = "";
             if ($_SESSION["il_map_il_target"] != "") {
                 $link_str = $this->getMapAreaLinkString(
-                        $_SESSION["il_map_il_target"],
-                        $_SESSION["il_map_il_type"],
-                        $_SESSION["il_map_il_targetframe"]
-                    );
+                    $_SESSION["il_map_il_target"],
+                    $_SESSION["il_map_il_type"],
+                    $_SESSION["il_map_il_targetframe"]
+                );
             }
             $ne->setValue(
-                    $link_str .
+                $link_str .
                     '&nbsp;<a id="iosEditInternalLinkTrigger" href="#">' .
                     "[" . $lng->txt("cont_get_link") . "]" .
                     '</a>'
-                    );
+            );
             $int->addSubItem($ne);
                 
             // no link

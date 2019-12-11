@@ -279,7 +279,7 @@ class ilPCQuestion extends ilPageContent
         $set = $ilDB->query(
             "SELECT * FROM page_question " .
             " WHERE question_id = " . $ilDB->quote($a_q_id, "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_parent_type == "" || $rec["page_parent_type"] == $a_parent_type) {
                 return array("page_id" => $rec["page_id"], "parent_type" => $rec["page_parent_type"]);

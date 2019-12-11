@@ -15,89 +15,97 @@ use Psr\Http\Message\ResponseInterface;
  * @since   5.3
  * @version 1.0.0
  */
-class CookieJarWrapper implements CookieJar {
+class CookieJarWrapper implements CookieJar
+{
 
-	/**
-	 * @var SetCookies $cookies
-	 */
-	private $cookies;
-
-
-	/**
-	 * CookieJarWrapper constructor.
-	 *
-	 * @param SetCookies $cookies
-	 */
-	function __construct(SetCookies $cookies) {
-		$this->cookies = $cookies;
-	}
+    /**
+     * @var SetCookies $cookies
+     */
+    private $cookies;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function has($name) {
-		return $this->cookies->has($name);
-	}
+    /**
+     * CookieJarWrapper constructor.
+     *
+     * @param SetCookies $cookies
+     */
+    public function __construct(SetCookies $cookies)
+    {
+        $this->cookies = $cookies;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function get($name) {
-		$cookie = $this->cookies->get($name);
-
-		return (is_null($cookie)) ? NULL : new CookieWrapper($cookie);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getAll() {
-		$wrappedCookies = [];
-		foreach ($this->cookies->getAll() as $cookie) {
-			$wrappedCookies[] = new CookieWrapper($cookie);
-		}
-
-		return $wrappedCookies;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function has($name)
+    {
+        return $this->cookies->has($name);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function with(Cookie $setCookie) {
-		/**
-		 * @var CookieWrapper $wrapper
-		 */
-		$wrapper = $setCookie;
-		$internalCookie = $wrapper->getImplementation();
+    /**
+     * @inheritDoc
+     */
+    public function get($name)
+    {
+        $cookie = $this->cookies->get($name);
 
-		$clone = clone $this;
-		$clone->cookies = $this->cookies->with($internalCookie);
-
-		return $clone;
-	}
+        return (is_null($cookie)) ? null : new CookieWrapper($cookie);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function without($name) {
-		$clone = clone $this;
-		$clone->cookies = $this->cookies->without($name);
+    /**
+     * @inheritDoc
+     */
+    public function getAll()
+    {
+        $wrappedCookies = [];
+        foreach ($this->cookies->getAll() as $cookie) {
+            $wrappedCookies[] = new CookieWrapper($cookie);
+        }
 
-		return $clone;
-	}
+        return $wrappedCookies;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function renderIntoResponseHeader(ResponseInterface $response) {
-		$response = $this->cookies->renderIntoSetCookieHeader($response);
+    /**
+     * @inheritDoc
+     */
+    public function with(Cookie $setCookie)
+    {
+        /**
+         * @var CookieWrapper $wrapper
+         */
+        $wrapper = $setCookie;
+        $internalCookie = $wrapper->getImplementation();
 
-		return $response;
-	}
+        $clone = clone $this;
+        $clone->cookies = $this->cookies->with($internalCookie);
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function without($name)
+    {
+        $clone = clone $this;
+        $clone->cookies = $this->cookies->without($name);
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function renderIntoResponseHeader(ResponseInterface $response)
+    {
+        $response = $this->cookies->renderIntoSetCookieHeader($response);
+
+        return $response;
+    }
 }

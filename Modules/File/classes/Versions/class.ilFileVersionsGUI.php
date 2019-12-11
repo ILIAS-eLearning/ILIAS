@@ -10,7 +10,6 @@ use ILIAS\Filesystem\Exception\FileNotFoundException;
  */
 class ilFileVersionsGUI
 {
-
     const CMD_DEFAULT = 'index';
     const CMD_DELETE_VERSIONS = "deleteVersions";
     const CMD_ROLLBACK_VERSION = "rollbackVersion";
@@ -116,6 +115,7 @@ class ilFileVersionsGUI
                 break;
             case self::CMD_CREATE_NEW_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_ADD);
+                // no break
             case self::CMD_CREATE_REPLACING_VERSION:
                 $this->saveVersion(ilFileVersionFormGUI::MODE_REPLACE);
                 break;
@@ -185,7 +185,6 @@ class ilFileVersionsGUI
         $this->file->sendFile($version);
         try {
         } catch (FileNotFoundException $e) {
-
         }
     }
 
@@ -245,7 +244,8 @@ class ilFileVersionsGUI
                         $version['hist_entry_id'],
                         $version['filename'] ?? $this->file->getTitle(),
                         $icon,
-                        $alt);
+                        $alt
+                    );
                 }
             }
 

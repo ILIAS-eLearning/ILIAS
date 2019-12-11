@@ -1226,7 +1226,7 @@ class ilMediaItem
             " WHERE upload_hash = %s ",
             array("text"),
             array($a_hash)
-            );
+        );
         $media_items = array();
         while ($rec = $db->fetchAssoc($set)) {
             $media_items[] = $rec;

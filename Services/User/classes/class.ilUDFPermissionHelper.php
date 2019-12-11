@@ -127,7 +127,7 @@ class ilUDFPermissionHelper extends ilClaimingPermissionHelper
                 "User",
                 "udfc",
                 $plugin_name
-             );
+            );
         }
         
         return $res;

@@ -18,8 +18,7 @@ include_once("./Modules/Cloud/exceptions/class.ilCloudException.php");
 
 class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
 {
-
-    function asyncCreateFolder()
+    public function asyncCreateFolder()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -28,14 +27,11 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response->error    = null;
         $response->message  = null;
 
-        try
-        {
+        try {
             $this->initCreateFolder();
             $response->content = $this->form->getHTML();
             $response->success = true;
-
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
         }
         header('Content-type: application/json');
@@ -74,7 +70,6 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $this->form->setTitle($lng->txt("cld_create_folder"));
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         $this->form->setTarget("cld_blank_target");
-
     }
 
     /**
@@ -90,8 +85,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response->success = null;
         $response->message = null;
         $response->folder_id = null;
-        try
-        {
+        try {
             $response->status = "done";
             include_once("class.ilCloudFileTree.php");
             $file_tree = ilCloudFileTree::getFileTreeFromSession();
@@ -100,13 +94,11 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
             $response->folder_path = $new_node->getPath();
             $response->success = true;
             $response->message = $tpl->getMessageHTML($lng->txt("cld_folder_created"), "success");
-        } catch(Exception $e)
-        {
+        } catch (Exception $e) {
             $response->message = $tpl->getMessageHTML($e->getMessage(), "failure");
         }
         echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
         exit;
-
     }
 
     /**
@@ -117,10 +109,7 @@ class ilCloudPluginCreateFolderGUI extends ilCloudPluginGUI
         $response        = new stdClass();
         $response->status = "cancel";
 
-        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(".ilJsonUtil::encode($response).");</script>";
+        echo "<script language='javascript' type='text/javascript'>window.parent.il.CloudFileList.afterCreateFolder(" . ilJsonUtil::encode($response) . ");</script>";
         exit;
-
     }
 }
-
-?>

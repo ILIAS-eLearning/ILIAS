@@ -71,7 +71,7 @@ class ilObjectGUIFactory
             "AND object_reference.ref_id = %s ",
             array("integer"),
             array($a_ref_id)
-            );
+        );
         if (!($rec = $db->fetchAssoc($set))) {
             throw new ilObjectNotFoundException("ilObjectGUIFactory::getInstanceByRefId(): Object with ref_id " . $a_ref_id . " not found!");
         }

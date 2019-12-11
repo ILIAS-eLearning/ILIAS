@@ -34,36 +34,39 @@
 
 include_once './webservice/soap/classes/class.ilSoapStructureObject.php';
 
-class ilSoapStructureReader {
-	var $object;
-	var $structureObject;
+class ilSoapStructureReader
+{
+    public $object;
+    public $structureObject;
 
-	public function __construct(& $object)
-	{
-		$this->object = & $object;
-		$this->structureObject = & ilSoapStructureObjectFactory::getInstanceForObject ($object);
-	}
+    public function __construct(&$object)
+    {
+        $this->object = &$object;
+        $this->structureObject = &ilSoapStructureObjectFactory::getInstanceForObject($object);
+    }
 
-	function getStructureObject() {
-		$this->_parseStructure();
-		return $this->structureObject;
-	}
+    public function getStructureObject()
+    {
+        $this->_parseStructure();
+        return $this->structureObject;
+    }
 
-	function _parseStructure () {
-		die ("abstract");
-	}
+    public function _parseStructure()
+    {
+        die("abstract");
+    }
 
-	function isValid () {
-	    return $this->structureObject != null && is_a($this->structureObject, "ilSoapStructureObject");
-	}
-	
-	
-	/**
-	* read access to parent object
-	*/
-	function getObject () {
-		return $this->object;
-	}
+    public function isValid()
+    {
+        return $this->structureObject != null && is_a($this->structureObject, "ilSoapStructureObject");
+    }
+    
+    
+    /**
+    * read access to parent object
+    */
+    public function getObject()
+    {
+        return $this->object;
+    }
 }
-
-?>

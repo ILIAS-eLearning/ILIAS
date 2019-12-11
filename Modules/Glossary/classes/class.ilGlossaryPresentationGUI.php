@@ -1211,12 +1211,12 @@ class ilGlossaryPresentationGUI
             // topic drop down
             include_once("./Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php");
             $si = new ilTaxAssignInputGUI(
-                    $t_id,
-                    false,
-                    $lng->txt("cont_topic"),
-                    "topic",
-                    false
-                );
+                $t_id,
+                false,
+                $lng->txt("cont_topic"),
+                "topic",
+                false
+            );
             if ($this->tax_node > 0) {
                 $si->setValue((int) $this->tax_node);
             }
@@ -1300,7 +1300,7 @@ class ilGlossaryPresentationGUI
                 $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
                     ilObjStyleSheet::getSyntaxStylePath());
                 $this->tpl->parseCurrentBlock();
-        
+
                 // content style
                 $this->tpl->setCurrentBlock("ContentStyle");
                 $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
@@ -1370,10 +1370,10 @@ class ilGlossaryPresentationGUI
                     // download links
                     if ($this->glossary->isActiveDownloads()) {
                         $this->tabs_gui->addTab(
-                                "download",
-                                $lng->txt("download"),
-                                $ilCtrl->getLinkTarget($this, "showDownloadList")
-                            );
+                            "download",
+                            $lng->txt("download"),
+                            $ilCtrl->getLinkTarget($this, "showDownloadList")
+                        );
                     }
                     //}
                 }

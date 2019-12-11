@@ -659,7 +659,7 @@ class ilPersonalProfileGUI
                     $name,
                     $this->user_defined_fields->fieldValuesToSelectArray(
                         $definition['field_values']
-                                                                        ),
+                    ),
                     false,
                     true,
                     0,
@@ -1479,7 +1479,7 @@ class ilPersonalProfileGUI
                 (int) $_POST["bookmarks"],
                 (int) $_POST["notes"],
                 (int) $_POST["calendar"]
-                );
+            );
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "");
         } else {

@@ -137,7 +137,7 @@ class ilBlockSetting
                 " user_id = " . $ilDB->quote($user_id, "integer") .
                 " AND " . $ilDB->in("type", $blocks, false, "text") .
                 " AND " . $ilDB->in("setting", $settings, false, "text")
-                );
+            );
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $key = $rec["type"] . ":" . $rec["setting"] . ":" . $user_id . ":0";
                 self::$setting[$key] = $rec["value"];
@@ -183,7 +183,7 @@ class ilBlockSetting
         $detail = ilBlockSetting::_lookup($a_type, "detail", $a_user, $a_block_id);
 
         if ($detail === false) {		// return a level of 2 (standard value)
-        							// if record does not exist
+            // if record does not exist
             return 2;
         } else {
             return $detail;
@@ -290,7 +290,7 @@ class ilBlockSetting
             " WHERE block_id = %s AND type = %s AND user_id = %s",
             array("integer", "text", "integer"),
             array($block_id, $block_type, 0)
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             self::_write($block_type, $rec["setting"], $rec["value"], 0, $new_block_id);
         }

@@ -326,7 +326,7 @@ class ilTaxonomyNode
             "UPDATE tax_node SET " .
             " order_nr = " . $ilDB->quote($a_order_nr, "integer") .
             " WHERE obj_id = " . $ilDB->quote($a_node_id, "integer")
-            );
+        );
     }
     
     /**
@@ -345,7 +345,7 @@ class ilTaxonomyNode
             "UPDATE tax_node SET " .
             " title = " . $ilDB->quote($a_title, "text") .
             " WHERE obj_id = " . $ilDB->quote($a_node_id, "integer")
-            );
+        );
     }
     
     /**

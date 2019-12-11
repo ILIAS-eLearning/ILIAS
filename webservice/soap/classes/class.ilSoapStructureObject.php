@@ -33,198 +33,200 @@
 
 class ilSoapStructureObject
 {
-	var $obj_id;
-	var $title;
-	var $type;
-	var $description;
-	var $parentRefId;
+    public $obj_id;
+    public $title;
+    public $type;
+    public $description;
+    public $parentRefId;
 
-	var $structureObjects = array ();
-
-
-	function __construct($objId, $type, $title, $description, $parentRefId = null) {
-		$this->setObjId ($objId);
-		$this->setType ($type);
-		$this->setTitle ($title);
-		$this->setDescription ($description);
-		$this->parentRefId = $parentRefId;
-	}
-
-	/**
-	*	add structure object to its parent
-	*
-	*/
-	function addStructureObject ($structureObject)
-	{
-		$this->structureObjects [$structureObject->getObjId()] =  $structureObject;
-	}
-
-	/**
-	 * returns sub structure elements
-	 *
-	 */
-	function getStructureObjects ()  {
-		return $this->structureObjects;
-	}
+    public $structureObjects = array();
 
 
-	/**
-	*	set current ObjId
-	*
-	*/
-	function setObjId ($value) {
-		$this->obj_id= $value;
-	}
+    public function __construct($objId, $type, $title, $description, $parentRefId = null)
+    {
+        $this->setObjId($objId);
+        $this->setType($type);
+        $this->setTitle($title);
+        $this->setDescription($description);
+        $this->parentRefId = $parentRefId;
+    }
+
+    /**
+    *	add structure object to its parent
+    *
+    */
+    public function addStructureObject($structureObject)
+    {
+        $this->structureObjects [$structureObject->getObjId()] =  $structureObject;
+    }
+
+    /**
+     * returns sub structure elements
+     *
+     */
+    public function getStructureObjects()
+    {
+        return $this->structureObjects;
+    }
 
 
-	/**
-	* return current object id
-	*/
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
+    /**
+    *	set current ObjId
+    *
+    */
+    public function setObjId($value)
+    {
+        $this->obj_id= $value;
+    }
+
+
+    /**
+    * return current object id
+    */
+    public function getObjId()
+    {
+        return $this->obj_id;
+    }
 
 
 
-	/**
-	*	set current title
-	*
-	*/
-	function setTitle ($value) {
-		$this->title= $value;
-	}
+    /**
+    *	set current title
+    *
+    */
+    public function setTitle($value)
+    {
+        $this->title= $value;
+    }
 
 
-	/**
-	*	return current title
-	*
-	*/
-	function getTitle () {
-		return $this->title;
-	}
+    /**
+    *	return current title
+    *
+    */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-	/**
-	*	set current description
-	*
-	*/
-	function setDescription ($value) {
-		$this->description = $value;
-	}
-
-
-	/**
-	*	return current description
-	*
-	*/
-	function getDescription () {
-		return $this->description;
-	}
+    /**
+    *	set current description
+    *
+    */
+    public function setDescription($value)
+    {
+        $this->description = $value;
+    }
 
 
-	/**
-	*	set current type
-	*
-	*/
-	function setType ($value) 
-	{
-		$this->type = $value;
-	}
+    /**
+    *	return current description
+    *
+    */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
 
-	/**
-	*	return current type
-	*
-	*/
-	function getType () 
-	{
-		return $this->type;
-	}
+    /**
+    *	set current type
+    *
+    */
+    public function setType($value)
+    {
+        $this->type = $value;
+    }
 
 
-	/**
-	*	return current goto_link
-	*
-	*/
-	function getGotoLink () 
-	{
-		return ILIAS_HTTP_PATH."/". "goto.php?target=".$this->getType()."_".$this->getObjId().(is_numeric ($this->getParentRefId())?"_".$this->getParentRefId():"")."&client_id=".CLIENT_ID;
-	}
-
-	/**
-	*	return current internal_link
-	*
-	*/
-	function getInternalLink () 
-	{
-		die ("abstract");
-	}
-
-	/**
-	 * get xml tag attributes
-	 */
-
-	function _getXMLAttributes () 
-	{
-		return array(	'type' => $this->getType(),
-					   	'obj_id' => $this->getObjId()
-		);
-	}
-
-	function _getTagName () 
-	{
-		return "StructureObject";
-	}
-	
-	/**
-	* set ref id for parent object (used for permanent link if set)
-	*/
-	function setParentRefId ($parentRefId) 
-	{
-		$this->parentRefId = $parentRefId;
-	}
-	
-	
-	/**
-	* read access to parents ref id
-	*/
-	function getParentRefId() 
-	{
-		return $this->parentRefId;
-	}
-		
-
-	/**
-	 * export to xml writer
-	 */
-	 function exportXML ($xml_writer) {
-	 	$attrs = $this->_getXMLAttributes();
-
-		// open tag
- 		$xml_writer->xmlStartTag($this->_getTagName(), $attrs);
-
-		$xml_writer->xmlElement('Title',null,$this->getTitle());
-		$xml_writer->xmlElement('Description',null,$this->getDescription());
-		$xml_writer->xmlElement('InternalLink',null,$this->getInternalLink());
-		$xml_writer->xmlElement('GotoLink',null,$this->getGotoLink());
-
-		$xml_writer->xmlStartTag("StructureObjects");
-
-		// handle sub elements
-		$structureObjects = $this->getStructureObjects();
-
-		foreach ($structureObjects as $structureObject)
-		{
-			$structureObject->exportXML ($xml_writer);
-		}
-
-		$xml_writer->xmlEndTag("StructureObjects");
-
-		$xml_writer->xmlEndTag($this->_getTagName());
-
-	 }
+    /**
+    *	return current type
+    *
+    */
+    public function getType()
+    {
+        return $this->type;
+    }
 
 
+    /**
+    *	return current goto_link
+    *
+    */
+    public function getGotoLink()
+    {
+        return ILIAS_HTTP_PATH . "/" . "goto.php?target=" . $this->getType() . "_" . $this->getObjId() . (is_numeric($this->getParentRefId())?"_" . $this->getParentRefId():"") . "&client_id=" . CLIENT_ID;
+    }
+
+    /**
+    *	return current internal_link
+    *
+    */
+    public function getInternalLink()
+    {
+        die("abstract");
+    }
+
+    /**
+     * get xml tag attributes
+     */
+
+    public function _getXMLAttributes()
+    {
+        return array(	'type' => $this->getType(),
+                        'obj_id' => $this->getObjId()
+        );
+    }
+
+    public function _getTagName()
+    {
+        return "StructureObject";
+    }
+    
+    /**
+    * set ref id for parent object (used for permanent link if set)
+    */
+    public function setParentRefId($parentRefId)
+    {
+        $this->parentRefId = $parentRefId;
+    }
+    
+    
+    /**
+    * read access to parents ref id
+    */
+    public function getParentRefId()
+    {
+        return $this->parentRefId;
+    }
+        
+
+    /**
+     * export to xml writer
+     */
+    public function exportXML($xml_writer)
+    {
+        $attrs = $this->_getXMLAttributes();
+
+        // open tag
+        $xml_writer->xmlStartTag($this->_getTagName(), $attrs);
+
+        $xml_writer->xmlElement('Title', null, $this->getTitle());
+        $xml_writer->xmlElement('Description', null, $this->getDescription());
+        $xml_writer->xmlElement('InternalLink', null, $this->getInternalLink());
+        $xml_writer->xmlElement('GotoLink', null, $this->getGotoLink());
+
+        $xml_writer->xmlStartTag("StructureObjects");
+
+        // handle sub elements
+        $structureObjects = $this->getStructureObjects();
+
+        foreach ($structureObjects as $structureObject) {
+            $structureObject->exportXML($xml_writer);
+        }
+
+        $xml_writer->xmlEndTag("StructureObjects");
+
+        $xml_writer->xmlEndTag($this->_getTagName());
+    }
 }
-
-?>

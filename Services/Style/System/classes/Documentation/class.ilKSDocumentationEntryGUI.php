@@ -100,8 +100,7 @@ class ilKSDocumentationEntryGUI
                 "Rivals",
                 $this->f->listing()->descriptive(
                     $this->entry->getDescription()->getProperty("rivals")
-
-            )
+                )
             );
         }
 

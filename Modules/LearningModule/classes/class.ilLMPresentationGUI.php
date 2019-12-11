@@ -845,8 +845,7 @@ class ilLMPresentationGUI
     public function ilLMMenu()
     {
         $this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu(
-            $this->offlineMode()
-            ,
+            $this->offlineMode(),
             $this->getExportFormat(),
             "content",
             false,
@@ -2716,8 +2715,7 @@ class ilLMPresentationGUI
         $a_global_tabs = !$this->offlineMode();
 
         $this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu(
-            $this->offlineMode()
-            ,
+            $this->offlineMode(),
             $this->getExportFormat(),
             "toc",
             $a_global_tabs,
@@ -2834,8 +2832,7 @@ class ilLMPresentationGUI
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
         $this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu(
-            $this->offlineMode()
-            ,
+            $this->offlineMode(),
             $this->getExportFormat(),
             $a_active_tab,
             true,
@@ -2946,8 +2943,7 @@ class ilLMPresentationGUI
         $this->tpl->getStandardTemplate();
         
         $this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu(
-            $this->offlineMode()
-            ,
+            $this->offlineMode(),
             $this->getExportFormat(),
             "print",
             true,
@@ -3817,8 +3813,7 @@ class ilLMPresentationGUI
         $this->tpl->getStandardTemplate();
         
         $this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu(
-            $this->offlineMode()
-            ,
+            $this->offlineMode(),
             $this->getExportFormat(),
             "download",
             true,

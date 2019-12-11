@@ -93,7 +93,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
                         $node["obj_id"],
                         ilObjectServiceSettingsGUI::TAXONOMIES,
                         false
-                        )) {
+                    )) {
                         $all_valid = array_merge(
                             $all_valid,
                             ilObjTaxonomy::getUsageOfObject($node["obj_id"])

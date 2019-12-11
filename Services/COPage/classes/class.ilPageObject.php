@@ -590,7 +590,7 @@ abstract class ilPageObject
         $set = $db->query(
             "SELECT page_id, parent_type, lang, active, activation_start, activation_end, show_activation_info FROM page_object " .
             " WHERE parent_id = " . $db->quote($a_parent_id, "integer")
-            );
+        );
         while ($rec = $db->fetchAssoc($set)) {
             self::$activation_data[$rec["page_id"] . ":" . $rec["parent_type"] . ":" . $rec["lang"]] = $rec;
         }
@@ -2957,7 +2957,7 @@ abstract class ilPageObject
             " AND page_type = " . $this->db->quote($this->getParentType(), "text") .
             " AND page_lang = " . $this->db->quote($this->getLanguage(), "text") .
             $and_old_nr
-            );
+        );
     }
     
 
@@ -4795,7 +4795,7 @@ abstract class ilPageObject
             "SELECT lang FROM page_object " .
             " WHERE page_id = " . $db->quote($a_id, "integer") .
             " AND parent_type = " . $db->quote($a_parent_type, "text")
-            );
+        );
         $langs = array();
         while ($rec = $db->fetchAssoc($set)) {
             $langs[] = $rec["lang"];
@@ -4850,13 +4850,13 @@ abstract class ilPageObject
                 " edit_lock_ts < " . $db->quote(time() - ($min * 60), "integer") . ") " .
                 " AND page_id = " . $db->quote($this->getId(), "integer") .
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
-                );
+            );
             
             $set = $db->query(
                 "SELECT edit_lock_user FROM page_object " .
                 " WHERE page_id = " . $db->quote($this->getId(), "integer") .
                 " AND parent_type = " . $db->quote($this->getParentType(), "text")
-                );
+            );
             $rec = $db->fetchAssoc($set);
             if ($rec["edit_lock_user"] != $user->getId()) {
                 return false;
@@ -4918,7 +4918,7 @@ abstract class ilPageObject
             "SELECT edit_lock_user, edit_lock_ts FROM page_object " .
             " WHERE page_id = " . $db->quote($this->getId(), "integer") .
             " AND parent_type = " . $db->quote($this->getParentType(), "text")
-            );
+        );
         $rec = $db->fetchAssoc($set);
         $rec["edit_lock_until"] = $rec["edit_lock_ts"] + $min * 60;
         

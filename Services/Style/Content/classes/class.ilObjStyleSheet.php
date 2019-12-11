@@ -1164,7 +1164,7 @@ class ilObjStyleSheet extends ilObject
             " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") . " AND " .
             " type = " . $ilDB->quote($a_type, "text") . " AND " .
             " characteristic = " . $ilDB->quote($a_char, "text")
-            );
+        );
     }
     
     /**
@@ -1179,7 +1179,7 @@ class ilObjStyleSheet extends ilObject
             " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") . " AND " .
             " type = " . $ilDB->quote($a_type, "text") . " AND " .
             " characteristic = " . $ilDB->quote($a_char, "text")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         
         return $rec["hide"];
@@ -1504,7 +1504,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate(
             "DELETE FROM sty_media_query WHERE " .
             " style_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         
         // delete entries in learning modules
         include_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
@@ -2313,7 +2313,7 @@ class ilObjStyleSheet extends ilObject
                                 "type" => array("text", $char["type"]),
                                 "characteristic" => array("text", $char["class"])),
                             array("hide" => array("integer", 0))
-                            );
+                        );
                         /*
                         $q = "INSERT INTO style_char (style_id, type, characteristic) VALUES ".
                             "(".$ilDB->quote($this->getId(), "integer").",".
@@ -3206,7 +3206,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query(
             "SELECT max(order_nr) mnr FROM sty_media_query " .
             " WHERE style_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
 
         return (int) $rec["mnr"];
@@ -3226,7 +3226,7 @@ class ilObjStyleSheet extends ilObject
             "UPDATE sty_media_query SET " .
             " mquery = " . $ilDB->quote($a_mquery, "text") .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
     }
 
     /**
@@ -3242,7 +3242,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query(
             "SELECT * FROM sty_media_query " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         return $ilDB->fetchAssoc($set);
     }
 
@@ -3285,7 +3285,7 @@ class ilObjStyleSheet extends ilObject
                 "UPDATE sty_media_query SET " .
                 " order_nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($mq["id"], "integer")
-                );
+            );
             $cnt+= 10;
         }
     }
@@ -3385,7 +3385,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate(
             "DELETE FROM style_template_class WHERE " .
             "template_id = " . $ilDB->quote($a_t_id, "integer")
-            );
+        );
         foreach ($a_classes as $t => $c) {
             $ilDB->manipulate($q = "INSERT INTO style_template_class " .
                 "(template_id, class_type, class)" .
@@ -3592,7 +3592,7 @@ class ilObjStyleSheet extends ilObject
         $ilDB->manipulate(
             "DELETE FROM style_template_class WHERE " .
             "template_id = " . $ilDB->quote($a_t_id, "integer")
-            );
+        );
     }
     
     /**
@@ -3606,7 +3606,7 @@ class ilObjStyleSheet extends ilObject
             "DELETE FROM style_setting WHERE " .
             " style_id = " . $ilDB->quote($this->getId(), "integer") .
             " AND name = " . $ilDB->quote($a_name, "text")
-            );
+        );
         
         $ilDB->manipulate("INSERT INTO style_setting " .
             "(style_id, name, value) VALUES (" .
@@ -3627,7 +3627,7 @@ class ilObjStyleSheet extends ilObject
             "SELECT value FROM style_setting " .
             " WHERE style_id = " . $ilDB->quote($this->getId(), "integer") .
             " AND name = " . $ilDB->quote($a_name, "text")
-            );
+        );
         $rec  = $ilDB->fetchAssoc($set);
         
         return $rec["value"];
@@ -3648,7 +3648,7 @@ class ilObjStyleSheet extends ilObject
             "obj_id" => array("integer", (int) $a_obj_id)),
             array(
                 "style_id" => array("integer", (int) $a_style_id))
-            );
+        );
     }
     
     /**
@@ -3663,7 +3663,7 @@ class ilObjStyleSheet extends ilObject
         $set = $ilDB->query(
             "SELECT style_id FROM style_usage " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer")
-            );
+        );
         $rec  = $ilDB->fetchAssoc($set);
         
         if (ilObject::_lookupType($rec["style_id"]) == "sty") {

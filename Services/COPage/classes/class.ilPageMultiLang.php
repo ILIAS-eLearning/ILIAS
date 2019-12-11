@@ -171,7 +171,7 @@ class ilPageMultiLang
             "SELECT * FROM copg_multilang " .
             " WHERE parent_type = " . $this->db->quote($this->getParentType(), "text") .
             " AND parent_id = " . $this->db->quote($this->getParentId(), "integer")
-            );
+        );
         if ($rec = $this->db->fetchAssoc($set)) {
             $this->setMasterLanguage($rec["master_lang"]);
             $this->setActivated(true);
@@ -184,7 +184,7 @@ class ilPageMultiLang
             "SELECT * FROM copg_multilang_lang " .
             " WHERE parent_type = " . $this->db->quote($this->getParentType(), "text") .
             " AND parent_id = " . $this->db->quote($this->getParentId(), "integer")
-            );
+        );
         while ($rec = $this->db->fetchAssoc($set)) {
             $this->addLanguage($rec["lang"]);
         }

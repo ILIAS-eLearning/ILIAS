@@ -1340,7 +1340,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $ilLocator->addItem(
                 ilObject::_lookupTitle(
                     ilObject::_lookupObjId($_GET["ref_id"])
-            ),
+                ),
                 $this->ctrl->getLinkTargetByClass("ilobjstylesettingsgui", "")
             );
 
@@ -1364,10 +1364,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
             $tpl->setUpperIcon(
                 $this->ctrl->getLinkTargetByClass(
-                        "ilcontentstylesettings",
-                        "edit"
-                    )
-                );
+                    "ilcontentstylesettings",
+                    "edit"
+                )
+            );
         } else {
             // ?
         }

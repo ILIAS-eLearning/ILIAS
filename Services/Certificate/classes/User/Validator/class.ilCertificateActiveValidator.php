@@ -6,47 +6,47 @@
  */
 class ilCertificateActiveValidator
 {
-	/**
-	 * @var ilSetting|null
-	 */
-	private $setting;
+    /**
+     * @var ilSetting|null
+     */
+    private $setting;
 
-	/**
-	 * @var ilRPCServerSettings|null|object
-	 */
-	private $rpcSettings;
+    /**
+     * @var ilRPCServerSettings|null|object
+     */
+    private $rpcSettings;
 
-	/**
-	 * @param ilSetting|null $setting
-	 * @param ilRPCServerSettings|null $rpcSettings
-	 */
-	public function __construct(ilSetting $setting = null, ilRPCServerSettings $rpcSettings = null)
-	{
-		if (null === $setting) {
-			$setting = new ilSetting("certificate");
-		}
-		$this->setting = $setting;
+    /**
+     * @param ilSetting|null $setting
+     * @param ilRPCServerSettings|null $rpcSettings
+     */
+    public function __construct(ilSetting $setting = null, ilRPCServerSettings $rpcSettings = null)
+    {
+        if (null === $setting) {
+            $setting = new ilSetting("certificate");
+        }
+        $this->setting = $setting;
 
-		if (null == $rpcSettings) {
-			$rpcSettings = ilRPCServerSettings::getInstance();
-		}
-		$this->rpcSettings = $rpcSettings;
-	}
+        if (null == $rpcSettings) {
+            $rpcSettings = ilRPCServerSettings::getInstance();
+        }
+        $this->rpcSettings = $rpcSettings;
+    }
 
-	public function validate()
-	{
-		$globalCertificateActive = (bool)$this->setting->get('active');
+    public function validate()
+    {
+        $globalCertificateActive = (bool) $this->setting->get('active');
 
-		if (false === $globalCertificateActive) {
-			return false;
-		}
+        if (false === $globalCertificateActive) {
+            return false;
+        }
 
-		$serverActive = (bool) $this->rpcSettings->isEnabled();
+        $serverActive = (bool) $this->rpcSettings->isEnabled();
 
-		if (false === $serverActive) {
-			return false;
-		}
+        if (false === $serverActive) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

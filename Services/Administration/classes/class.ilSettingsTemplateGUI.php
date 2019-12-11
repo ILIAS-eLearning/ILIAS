@@ -375,10 +375,10 @@ class ilSettingsTemplateGUI
         foreach ($this->getConfig()->getSettings() as $s) {
             if ($_POST["set_" . $s["id"]]) {
                 $a_set_templ->setSetting(
-                               $s["id"],
-                               $_POST["value_" . $s["id"]],
-                               $_POST["hide_" . $s["id"]]
-                           );
+                    $s["id"],
+                    $_POST["value_" . $s["id"]],
+                    $_POST["hide_" . $s["id"]]
+                );
             }
         }
     }

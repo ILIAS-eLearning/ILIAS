@@ -7,9 +7,9 @@
  */
 interface ilTermsOfServiceDocumentCriteriaEvaluation
 {
-	/**
-	 * @param \ilTermsOfServiceSignableDocument $document
-	 * @return bool
-	 */
-	public function evaluate(\ilTermsOfServiceSignableDocument $document): bool;
+    /**
+     * @param \ilTermsOfServiceSignableDocument $document
+     * @return bool
+     */
+    public function evaluate(\ilTermsOfServiceSignableDocument $document) : bool;
 }

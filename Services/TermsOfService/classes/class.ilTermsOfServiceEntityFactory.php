@@ -7,19 +7,19 @@
  */
 class ilTermsOfServiceEntityFactory
 {
-	/**
-	 * @param string $name
-	 * @return \ilTermsOfServiceAcceptanceEntity
-	 * @throws \InvalidArgumentException
-	 */
-	public function getByName(string $name): \ilTermsOfServiceAcceptanceEntity
-	{
-		switch (strtolower($name)) {
-			case 'iltermsofserviceacceptanceentity':
-				return new \ilTermsOfServiceAcceptanceEntity();
+    /**
+     * @param string $name
+     * @return \ilTermsOfServiceAcceptanceEntity
+     * @throws \InvalidArgumentException
+     */
+    public function getByName(string $name) : \ilTermsOfServiceAcceptanceEntity
+    {
+        switch (strtolower($name)) {
+            case 'iltermsofserviceacceptanceentity':
+                return new \ilTermsOfServiceAcceptanceEntity();
 
-			default:
-				throw new \InvalidArgumentException('Entity not supported');
-		}
-	}
+            default:
+                throw new \InvalidArgumentException('Entity not supported');
+        }
+    }
 }

@@ -43,7 +43,7 @@ class ilPageEditorSettings
             "DELETE FROM page_editor_settings WHERE " .
             "settings_grp = " . $ilDB->quote($a_grp, "text") .
             " AND name = " . $ilDB->quote($a_name, "text")
-            );
+        );
         
         $ilDB->manipulate("INSERT INTO page_editor_settings " .
             "(settings_grp, name, value) VALUES (" .
@@ -66,7 +66,7 @@ class ilPageEditorSettings
             "SELECT value FROM page_editor_settings " .
             " WHERE settings_grp = " . $ilDB->quote($a_grp, "text") .
             " AND name = " . $ilDB->quote($a_name, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $rec["value"];
         }

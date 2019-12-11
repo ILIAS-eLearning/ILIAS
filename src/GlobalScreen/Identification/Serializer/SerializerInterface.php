@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\Provider\ProviderFactoryInterface;
  */
 interface SerializerInterface
 {
-
     const MAX_LENGTH = 255;
 
 

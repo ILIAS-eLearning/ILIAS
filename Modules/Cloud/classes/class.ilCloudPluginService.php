@@ -72,7 +72,9 @@ class ilCloudPluginService
         return true;
     }
 
-    public function getServiceObject(){}
+    public function getServiceObject()
+    {
+    }
 
     /**
      * Called when RootId (id of the folder which is set to root) is needed.
@@ -91,7 +93,9 @@ class ilCloudPluginService
      * @param ilCloudFileTree $file_tree
      * @param string $parent_folder
      */
-    public function addToFileTree(ilCloudFileTree  $file_tree, $parent_folder = "/"){}
+    public function addToFileTree(ilCloudFileTree $file_tree, $parent_folder = "/")
+    {
+    }
 
 
     /**
@@ -103,7 +107,8 @@ class ilCloudPluginService
      *
      * @return bool
      */
-    public function addToFileTreeWithId(ilCloudFileTree $file_tree, $id) {
+    public function addToFileTreeWithId(ilCloudFileTree $file_tree, $id)
+    {
         return false;
     }
 
@@ -112,7 +117,9 @@ class ilCloudPluginService
      * @param null $path
      * @param ilCloudFileTree $file_tree
      */
-    public function getFile($path = null, ilCloudFileTree $file_tree = null){}
+    public function getFile($path = null, ilCloudFileTree $file_tree = null)
+    {
+    }
 
 
     /**
@@ -123,7 +130,8 @@ class ilCloudPluginService
      *
      * @return bool
      */
-    public function getFileById($id) {
+    public function getFileById($id)
+    {
         return false;
     }
 
@@ -132,7 +140,9 @@ class ilCloudPluginService
      * @param null $path
      * @param ilCloudFileTree $file_tree
      */
-    public function createFolder($path = null, ilCloudFileTree $file_tree = null){}
+    public function createFolder($path = null, ilCloudFileTree $file_tree = null)
+    {
+    }
 
 
     /**
@@ -143,7 +153,8 @@ class ilCloudPluginService
      *
      * @return string|bool
      */
-    public function createFolderById($parent_id, $folder_name){
+    public function createFolderById($parent_id, $folder_name)
+    {
         return false;
     }
 
@@ -156,7 +167,9 @@ class ilCloudPluginService
      * @param string          $path
      * @param ilCloudFileTree $file_tree
      */
-    public function putFile($file, $name, $path = '', ilCloudFileTree $file_tree = NULL){}
+    public function putFile($file, $name, $path = '', ilCloudFileTree $file_tree = null)
+    {
+    }
 
 
     /**
@@ -169,7 +182,8 @@ class ilCloudPluginService
      *
      * @return bool
      */
-    public function putFileById($tmp_name, $file_name, $id) {
+    public function putFileById($tmp_name, $file_name, $id)
+    {
         return false;
     }
 
@@ -178,7 +192,9 @@ class ilCloudPluginService
      * @param null $path
      * @param ilCloudFileTree $file_tree
      */
-    public function deleteItem($path = null, ilCloudFileTree $file_tree = null){}
+    public function deleteItem($path = null, ilCloudFileTree $file_tree = null)
+    {
+    }
 
 
     /**
@@ -189,7 +205,8 @@ class ilCloudPluginService
      *
      * @return bool
      */
-    public function deleteItemById($id) {
+    public function deleteItemById($id)
+    {
         return false;
     }
 

@@ -28,16 +28,13 @@ class ilCloudPluginCreationGUI extends ilCloudPluginGUI
 
     public function initPluginCreationFormSection(ilRadioOption $option)
     {
-
     }
 
     /**
      * @param ilPropertyFormGUI $form
      * @param ilObjCloud $obj
      */
-    function afterSavePluginCreation(ilObjCloud &$obj, ilPropertyFormGUI $form)
+    public function afterSavePluginCreation(ilObjCloud &$obj, ilPropertyFormGUI $form)
     {
     }
 }
-
-?>

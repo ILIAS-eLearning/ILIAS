@@ -23,8 +23,7 @@ class ilCloudPluginConfigException extends ilCloudException
     {
         global $DIC;
         $lng = $DIC['lng'];
-        switch ($this->code)
-        {
+        switch ($this->code) {
             case self::TABLE_DOES_NOT_EXIST:
                 $this->message = $lng->txt("cld_config_table_does_not_exist") . " " . $this->add_info;
                 break;

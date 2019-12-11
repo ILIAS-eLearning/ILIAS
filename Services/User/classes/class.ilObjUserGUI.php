@@ -286,7 +286,7 @@ class ilObjUserGUI extends ilObjectGUI
                     'udf[' . $definition['field_id'] . ']',
                     $this->user_defined_fields->fieldValuesToSelectArray(
                         $definition['field_values']
-                                                                        ),
+                    ),
                     false,
                     true
                 ));
@@ -2221,14 +2221,14 @@ class ilObjUserGUI extends ilObjectGUI
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
                         ilObject::_lookupObjId($_GET["ref_id"])
-                )),
+                    )),
                     $this->ctrl->getLinkTargetByClass("ilobjuserfoldergui", "view")
                 );
             } elseif ($_GET['ref_id'] == ROLE_FOLDER_ID) {
                 $ilLocator->addItem(
                     $this->lng->txt("obj_" . ilObject::_lookupType(
                         ilObject::_lookupObjId($_GET["ref_id"])
-                )),
+                    )),
                     $this->ctrl->getLinkTargetByClass("ilobjrolefoldergui", "view")
                 );
             }

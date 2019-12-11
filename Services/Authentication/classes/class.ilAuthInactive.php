@@ -30,47 +30,45 @@ include_once('./Services/Authentication/classes/class.ilAuthUtils.php');
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
 * @version $Id$
 *
-* @ingroup ServicesAuthentication 
+* @ingroup ServicesAuthentication
 */
 class ilAuthInactive extends Auth
 {
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function __construct()
-	{
-		parent::__construct(new Auth_Container());
-	}
-	
-	/**
-	 * start
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function start()
-	{
-		$this->status = AUTH_MODE_INACTIVE;
-		$this->logout();
-		return false;
-	}
-	
-	/**
-	 * get status
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function getStatus()
-	{
-		return AUTH_MODE_INACTIVE;
-	}
-
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function __construct()
+    {
+        parent::__construct(new Auth_Container());
+    }
+    
+    /**
+     * start
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function start()
+    {
+        $this->status = AUTH_MODE_INACTIVE;
+        $this->logout();
+        return false;
+    }
+    
+    /**
+     * get status
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function getStatus()
+    {
+        return AUTH_MODE_INACTIVE;
+    }
 }
-?>

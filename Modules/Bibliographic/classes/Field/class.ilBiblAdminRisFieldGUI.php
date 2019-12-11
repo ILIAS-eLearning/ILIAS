@@ -8,6 +8,6 @@
  * @ilCtrl_Calls ilBiblAdminRisFieldGUI: ilBiblTranslationGUI
  */
 
-class ilBiblAdminRisFieldGUI extends ilBiblAdminFieldGUI {
-
+class ilBiblAdminRisFieldGUI extends ilBiblAdminFieldGUI
+{
 }

@@ -1589,9 +1589,9 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $ilTabs->addTarget(
                 "info_short",
                 $this->ctrl->getLinkTargetByClass(
-                     array("ilobjmediapoolgui", "ilinfoscreengui"),
-                     "showSummary"
-                 ),
+                    array("ilobjmediapoolgui", "ilinfoscreengui"),
+                    "showSummary"
+                ),
                 array("showSummary", "infoScreen"),
                 "",
                 "",

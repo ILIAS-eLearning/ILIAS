@@ -292,7 +292,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
                 "perm_settings",
                 $lng->txt('perm_settings'),
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm")
-                );
+            );
         }
     }
 

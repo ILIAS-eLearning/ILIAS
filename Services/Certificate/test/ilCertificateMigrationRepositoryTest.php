@@ -6,22 +6,22 @@
  */
 class ilCertificateMigrationRepositoryTest extends PHPUnit_Framework_TestCase
 {
-	public function testDeleteFromMigrationJob()
-	{
-		$database = $this->getMockBuilder('ilDBInterface')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testDeleteFromMigrationJob()
+    {
+        $database = $this->getMockBuilder('ilDBInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$database->expects($this->atLeastOnce())->method('manipulate');
+        $database->expects($this->atLeastOnce())->method('manipulate');
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger->expects($this->atLeastOnce())->method('log');
+        $logger->expects($this->atLeastOnce())->method('log');
 
-		$repository = new ilCertificateMigrationRepository($database, $logger);
+        $repository = new ilCertificateMigrationRepository($database, $logger);
 
-		$repository->deleteFromMigrationJob(100);
-	}
+        $repository->deleteFromMigrationJob(100);
+    }
 }

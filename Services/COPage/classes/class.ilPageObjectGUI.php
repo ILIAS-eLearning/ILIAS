@@ -1261,7 +1261,7 @@ class ilPageObjectGUI
             $tpl->setVariable(
                 "WYSIWYG_ACTION",
                 $this->ctrl->getFormActionByClass("ilpageeditorgui", "", "", true)
-                );
+            );
 
             // determine media, html and javascript mode
             $sel_media_mode = ($this->user->getPref("ilPageEditor_MediaMode") == "disable")
@@ -1289,7 +1289,7 @@ class ilPageObjectGUI
                     $this->getViewPageText(),
                     $this->getViewPageLink(),
                     $this->getViewPageTarget()
-                    );
+                );
             }
 
             // show actions drop down
@@ -1332,31 +1332,31 @@ class ilPageObjectGUI
                 $tpl->setVariable(
                     "IL_TINY_MENU",
                     self::getTinyMenu(
-                            $this->getPageObject()->getParentType(),
-                            $cfg->getEnableInternalLinks(),
-                            $cfg->getEnableWikiLinks(),
-                            $cfg->getEnableKeywords(),
-                            $this->getStyleId(),
-                            true,
-                            true,
-                            $cfg->getEnableAnchors(),
-                            true,
-                            $cfg->getEnableUserLinks()
-                        )
-                    );
+                        $this->getPageObject()->getParentType(),
+                        $cfg->getEnableInternalLinks(),
+                        $cfg->getEnableWikiLinks(),
+                        $cfg->getEnableKeywords(),
+                        $this->getStyleId(),
+                        true,
+                        true,
+                        $cfg->getEnableAnchors(),
+                        true,
+                        $cfg->getEnableUserLinks()
+                    )
+                );
                     
                 // add int link parts
                 include_once("./Services/Link/classes/class.ilInternalLinkGUI.php");
                 $tpl->setCurrentBlock("int_link_prep");
                 $tpl->setVariable("INT_LINK_PREP", ilInternalLinkGUI::getInitHTML(
                     $this->ctrl->getLinkTargetByClass(
-                            array("ilpageeditorgui", "ilinternallinkgui"),
-                            "",
-                            false,
-                            true,
-                            false
-                        )
-                    ));
+                        array("ilpageeditorgui", "ilinternallinkgui"),
+                        "",
+                        false,
+                        true,
+                        false
+                    )
+                ));
                 $tpl->parseCurrentBlock();
 
                 include_once("./Services/YUI/classes/class.ilYuiUtil.php");
@@ -1420,7 +1420,7 @@ class ilPageObjectGUI
                         $tpl->setVariable(
                             "HREF_PREV",
                             $this->ctrl->getLinkTarget($this, "preview")
-                            );
+                        );
                         $tpl->parseCurrentBlock();
                     } else {
                         $tpl->setCurrentBlock("previous_rev_disabled");
@@ -1436,7 +1436,7 @@ class ilPageObjectGUI
                         $tpl->setVariable(
                             "HREF_NEXT",
                             $this->ctrl->getLinkTarget($this, "preview")
-                            );
+                        );
                         $tpl->parseCurrentBlock();
 
                         // latest revision
@@ -1446,7 +1446,7 @@ class ilPageObjectGUI
                         $tpl->setVariable(
                             "HREF_LATEST",
                             $this->ctrl->getLinkTarget($this, "preview")
-                            );
+                        );
                         $tpl->parseCurrentBlock();
                     }
 
@@ -1459,12 +1459,12 @@ class ilPageObjectGUI
                         $tpl->setVariable(
                             "HREF_ROLLBACK",
                             $this->ctrl->getLinkTarget($this, "rollbackConfirmation")
-                            );
+                        );
                         $this->ctrl->setParameter($this, "old_nr", "");
                         $tpl->setVariable(
                             "TXT_ROLLBACK",
                             $this->lng->txt("cont_rollback")
-                            );
+                        );
                         $tpl->parseCurrentBlock();
                     }
                 }
@@ -1474,11 +1474,11 @@ class ilPageObjectGUI
                 $tpl->setVariable(
                     "VAL_REVISION_DATE",
                     ilDatePresentation::formatDate(new ilDateTime($hist_info["current"]["hdate"], IL_CAL_DATETIME))
-                    );
+                );
                 $tpl->setVariable(
                     "VAL_REV_USER",
                     ilUserUtil::getNamePresentation($hist_info["current"]["user_id"])
-                    );
+                );
                 $tpl->parseCurrentBlock();
             }
         }
@@ -1495,7 +1495,7 @@ class ilPageObjectGUI
                 $this->obj->getParentType() . ":pg",
                 $this->obj->getId(),
                 $this->obj->getLanguage()
-                );
+            );
             $mob_links = array();
             foreach ($links as $link) {
                 if ($link["type"] == "mob") {
@@ -1512,7 +1512,7 @@ class ilPageObjectGUI
                 $tpl->setVariable(
                     "SEL_MED_LINKS",
                     ilUtil::formSelect(0, "mob_id", $mob_links, false, true)
-                    );
+                );
                 $tpl->setVariable("TXT_EDIT_MEDIA", $this->lng->txt("cont_edit_mob"));
                 $tpl->setVariable("TXT_COPY_TO_CLIPBOARD", $this->lng->txt("cont_copy_to_clipboard"));
                 //$this->tpl->setVariable("TXT_COPY_TO_POOL", $this->lng->txt("cont_copy_to_mediapool"));
@@ -1524,7 +1524,7 @@ class ilPageObjectGUI
             $snippets = ilPCContentInclude::collectContentIncludes(
                 $this->getPageObject(),
                 $this->getPageObject()->getDomDoc()
-                );
+            );
             if (count($snippets) > 0) {
                 foreach ($snippets as $s) {
                     include_once("./Modules/MediaPool/classes/class.ilMediaPoolPage.php");
@@ -1535,7 +1535,7 @@ class ilPageObjectGUI
                 $tpl->setVariable(
                     "SEL_SNIPPETS",
                     ilUtil::formSelect(0, "ci_id", $sn_arr, false, true)
-                    );
+                );
                 $tpl->setVariable("TXT_SHOW_INFO", $this->lng->txt("cont_show_info"));
                 $tpl->parseCurrentBlock();
             }
@@ -1549,21 +1549,21 @@ class ilPageObjectGUI
                 $tpl->setVariable(
                     "SA_FROM",
                     ilDatePresentation::formatDate(
-                            new ilDateTime(
+                        new ilDateTime(
                                 $this->getPageObject()->getActivationStart(),
                                 IL_CAL_DATETIME
-                        )
-                        )
-                    );
+                            )
+                    )
+                );
                 $tpl->setVariable(
                     "SA_TO",
                     ilDatePresentation::formatDate(
-                            new ilDateTime(
+                        new ilDateTime(
                                 $this->getPageObject()->getActivationEnd(),
                                 IL_CAL_DATETIME
-                        )
-                        )
-                    );
+                            )
+                    )
+                );
                 $tpl->parseCurrentBlock();
             }
         }
@@ -1573,7 +1573,7 @@ class ilPageObjectGUI
             $tpl->setVariable(
                 "LINK_TREE",
                 $this->ctrl->getLinkTargetByClass("ilobjlearningmodulegui", "explorer", "", false, false)
-                );
+            );
             $tpl->parseCurrentBlock();
         }
         //		}
@@ -2749,7 +2749,7 @@ class ilPageObjectGUI
                     "TocH",
                     "TocA",
                     substr($a_output, $os, strpos($a_output, "<", $os) - $os - 3)
-                    );
+                );
 
                 // get heading
                 $tag_start = stripos($a_output, "<h" . $level . " ", $os);
@@ -3665,7 +3665,7 @@ class ilPageObjectGUI
             ilUtil::stripSlashes($_POST["opened_content_ajax_type"]),
             ilUtil::stripSlashes($_POST["opened_content_ajax_id"]),
             ilUtil::stripSlashes($_POST["opened_content_ajax_target"])
-            );
+        );
         
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
         $this->ctrl->redirect($this, "edit");

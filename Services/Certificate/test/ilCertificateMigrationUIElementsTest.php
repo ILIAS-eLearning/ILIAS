@@ -6,179 +6,179 @@
  */
 class ilCertificateMigrationUIElementsTest extends PHPUnit_Framework_TestCase
 {
-	public function testTaskFailedWillDisplayedFailureMessageBox()
-	{
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testTaskFailedWillDisplayedFailureMessageBox()
+    {
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$ui = $this->getMockBuilder('\ILIAS\DI\UIServices')
-			->disableOriginalConstructor()
-			->setMethods(array('messageBox', 'factory', 'renderer'))
-			->getMock();
+        $ui = $this->getMockBuilder('\ILIAS\DI\UIServices')
+            ->disableOriginalConstructor()
+            ->setMethods(array('messageBox', 'factory', 'renderer'))
+            ->getMock();
 
-		$factory = $this->getMockBuilder('\ILIAS\UI\Factory')
-			->disableOriginalConstructor()
-			->getMock();
+        $factory = $this->getMockBuilder('\ILIAS\UI\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$button = $this->getMockBuilder('\ILIAS\UI\Component\Button')
-			->disableOriginalConstructor()
-			->setMethods(array('standard'))
-			->getMock();
+        $button = $this->getMockBuilder('\ILIAS\UI\Component\Button')
+            ->disableOriginalConstructor()
+            ->setMethods(array('standard'))
+            ->getMock();
 
-		$standard = $this->getMockBuilder('\ILIAS\UI\Component\Button\Standard')
-			->disableOriginalConstructor()
-			->getMock();
+        $standard = $this->getMockBuilder('\ILIAS\UI\Component\Button\Standard')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$button->method('standard')
-			->willReturn($standard);
+        $button->method('standard')
+            ->willReturn($standard);
 
-		$factory->method('button')
-			->willReturn($button);
+        $factory->method('button')
+            ->willReturn($button);
 
-		$ui->method('factory')
-			->willReturn($factory);
+        $ui->method('factory')
+            ->willReturn($factory);
 
-		$renderer = $this->getMockBuilder('\ILIAS\UI\Renderer')
-			->disableOriginalConstructor()
-			->getMock();
+        $renderer = $this->getMockBuilder('\ILIAS\UI\Renderer')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$ui->method('renderer')
-			->willReturn($renderer);
+        $ui->method('renderer')
+            ->willReturn($renderer);
 
-		$messageBox = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\Factory')
-			->disableOriginalConstructor()
-			->getMock();
+        $messageBox = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$failure = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\MessageBox')
-			->disableOriginalConstructor()
-			->getMock();
+        $failure = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\MessageBox')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$withButton = $this->getMockBuilder('MessageBox')
-			->disableOriginalConstructor()
-			->getMock();
+        $withButton = $this->getMockBuilder('MessageBox')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$failure->method('withButtons')
-			->willReturn($withButton);
+        $failure->method('withButtons')
+            ->willReturn($withButton);
 
-		$messageBox->method('failure')
-			->willReturn($failure);
+        $messageBox->method('failure')
+            ->willReturn($failure);
 
-		$factory->method('messageBox')
-			->willReturn($messageBox);
+        $factory->method('messageBox')
+            ->willReturn($messageBox);
 
-		$language = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+        $language = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationUiElements = $this->getMockBuilder('\ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationUiElements = $this->getMockBuilder('\ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationUiElements->method('isTaskFailed')
-			->willReturn(true);
+        $migrationUiElements->method('isTaskFailed')
+            ->willReturn(true);
 
-		$renderer->method('render')
-			->with($withButton)
-			->willReturn('<alert></alert>');
+        $renderer->method('render')
+            ->with($withButton)
+            ->willReturn('<alert></alert>');
 
-		$migrationUiElements = new ilCertificateMigrationUIElements(
-			$user,
-			$ui,
-			$language,
-			$migrationUiElements
-		);
+        $migrationUiElements = new ilCertificateMigrationUIElements(
+            $user,
+            $ui,
+            $language,
+            $migrationUiElements
+        );
 
-		$html = $migrationUiElements->getMigrationMessageBox('someLink');
+        $html = $migrationUiElements->getMigrationMessageBox('someLink');
 
-		$this->assertSame('<alert></alert>', $html);
-	}
+        $this->assertSame('<alert></alert>', $html);
+    }
 
-	public function testTaskIsNotFailedWillDisplayConfirmMessageBox()
-	{
-		$user = $this->getMockBuilder('ilObjUser')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testTaskIsNotFailedWillDisplayConfirmMessageBox()
+    {
+        $user = $this->getMockBuilder('ilObjUser')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$ui = $this->getMockBuilder('\ILIAS\DI\UIServices')
-			->disableOriginalConstructor()
-			->setMethods(array('messageBox', 'factory', 'renderer'))
-			->getMock();
+        $ui = $this->getMockBuilder('\ILIAS\DI\UIServices')
+            ->disableOriginalConstructor()
+            ->setMethods(array('messageBox', 'factory', 'renderer'))
+            ->getMock();
 
-		$factory = $this->getMockBuilder('\ILIAS\UI\Factory')
-			->disableOriginalConstructor()
-			->getMock();
+        $factory = $this->getMockBuilder('\ILIAS\UI\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$button = $this->getMockBuilder('\ILIAS\UI\Component\Button')
-			->disableOriginalConstructor()
-			->setMethods(array('standard'))
-			->getMock();
+        $button = $this->getMockBuilder('\ILIAS\UI\Component\Button')
+            ->disableOriginalConstructor()
+            ->setMethods(array('standard'))
+            ->getMock();
 
-		$standard = $this->getMockBuilder('\ILIAS\UI\Component\Button\Standard')
-			->disableOriginalConstructor()
-			->getMock();
+        $standard = $this->getMockBuilder('\ILIAS\UI\Component\Button\Standard')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$button->method('standard')
-			->willReturn($standard);
+        $button->method('standard')
+            ->willReturn($standard);
 
-		$factory->method('button')
-			->willReturn($button);
+        $factory->method('button')
+            ->willReturn($button);
 
-		$ui->method('factory')
-			->willReturn($factory);
+        $ui->method('factory')
+            ->willReturn($factory);
 
-		$renderer = $this->getMockBuilder('\ILIAS\UI\Renderer')
-			->disableOriginalConstructor()
-			->getMock();
+        $renderer = $this->getMockBuilder('\ILIAS\UI\Renderer')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$ui->method('renderer')
-			->willReturn($renderer);
+        $ui->method('renderer')
+            ->willReturn($renderer);
 
-		$messageBox = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\Factory')
-			->disableOriginalConstructor()
-			->getMock();
+        $messageBox = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\Factory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$confirm = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\MessageBox')
-			->disableOriginalConstructor()
-			->getMock();
+        $confirm = $this->getMockBuilder('\ILIAS\UI\Component\MessageBox\MessageBox')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$withButton = $this->getMockBuilder('MessageBox')
-			->disableOriginalConstructor()
-			->getMock();
+        $withButton = $this->getMockBuilder('MessageBox')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$confirm->method('withButtons')
-			->willReturn($withButton);
+        $confirm->method('withButtons')
+            ->willReturn($withButton);
 
-		$messageBox->method('confirmation')
-			->willReturn($confirm);
+        $messageBox->method('confirmation')
+            ->willReturn($confirm);
 
-		$factory->method('messageBox')
-			->willReturn($messageBox);
+        $factory->method('messageBox')
+            ->willReturn($messageBox);
 
-		$language = $this->getMockBuilder('\ilLanguage')
-			->disableOriginalConstructor()
-			->getMock();
+        $language = $this->getMockBuilder('\ilLanguage')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationUiElements = $this->getMockBuilder('\ilCertificateMigration')
-			->disableOriginalConstructor()
-			->getMock();
+        $migrationUiElements = $this->getMockBuilder('\ilCertificateMigration')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$migrationUiElements->method('isTaskFailed')
-			->willReturn(false);
+        $migrationUiElements->method('isTaskFailed')
+            ->willReturn(false);
 
-		$renderer->method('render')
-			->with($withButton)
-			->willReturn('<confirm></confirm>');
+        $renderer->method('render')
+            ->with($withButton)
+            ->willReturn('<confirm></confirm>');
 
-		$migrationUiElements = new ilCertificateMigrationUIElements(
-			$user,
-			$ui,
-			$language,
-			$migrationUiElements
-		);
+        $migrationUiElements = new ilCertificateMigrationUIElements(
+            $user,
+            $ui,
+            $language,
+            $migrationUiElements
+        );
 
-		$html = $migrationUiElements->getMigrationMessageBox('someLink');
+        $html = $migrationUiElements->getMigrationMessageBox('someLink');
 
-		$this->assertSame('<confirm></confirm>', $html);
-	}
+        $this->assertSame('<confirm></confirm>', $html);
+    }
 }

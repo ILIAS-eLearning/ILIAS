@@ -17,41 +17,44 @@ use Psr\Http\Message\StreamInterface;
  * @since 5.3
  * @version 1.0.0
  */
-final class BlacklistFileHeaderPreProcessor implements PreProcessor {
+final class BlacklistFileHeaderPreProcessor implements PreProcessor
+{
+    use ScalarTypeCheckAware;
 
-	use ScalarTypeCheckAware;
-
-	/**
-	 * @var string $fileHeader
-	 */
-	private $fileHeader;
-	/**
-	 * @var int $fileHeaderLength
-	 */
-	private $fileHeaderLength;
-
-
-	/**
-	 * BlacklistFileHeaderPreProcessor constructor.
-	 *
-	 * @param string $fileHeader
-	 */
-	public function __construct($fileHeader) {
-		$this->stringTypeCheck($fileHeader, 'fileHeader');
-
-		$this->fileHeaderLength = strlen($fileHeader);
-		$this->fileHeader = $fileHeader;
-	}
+    /**
+     * @var string $fileHeader
+     */
+    private $fileHeader;
+    /**
+     * @var int $fileHeaderLength
+     */
+    private $fileHeaderLength;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		$header = $stream->read($this->fileHeaderLength);
-		if(strcmp($this->fileHeader, $header) !== 0)
-			return new ProcessingStatus(ProcessingStatus::OK, 'File header does not match blacklist.');
+    /**
+     * BlacklistFileHeaderPreProcessor constructor.
+     *
+     * @param string $fileHeader
+     */
+    public function __construct($fileHeader)
+    {
+        $this->stringTypeCheck($fileHeader, 'fileHeader');
 
-		return new ProcessingStatus(ProcessingStatus::REJECTED, 'File header matches blacklist.');
-	}
+        $this->fileHeaderLength = strlen($fileHeader);
+        $this->fileHeader = $fileHeader;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        $header = $stream->read($this->fileHeaderLength);
+        if (strcmp($this->fileHeader, $header) !== 0) {
+            return new ProcessingStatus(ProcessingStatus::OK, 'File header does not match blacklist.');
+        }
+
+        return new ProcessingStatus(ProcessingStatus::REJECTED, 'File header matches blacklist.');
+    }
 }

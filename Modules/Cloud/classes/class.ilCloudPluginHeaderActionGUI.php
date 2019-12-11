@@ -19,5 +19,3 @@ class ilCloudPluginHeaderActionGUI extends ilCloudPluginGUI
     {
     }
 }
-
-?>

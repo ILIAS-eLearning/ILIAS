@@ -45,7 +45,7 @@ class ilSurveySkillThresholds
         $set = $ilDB->query(
             "SELECT * FROM svy_skill_threshold " .
             " WHERE survey_id = " . $ilDB->quote($this->survey->getId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->threshold[$rec['level_id']][$rec['tref_id']] =
                 $rec['threshold'];
@@ -81,6 +81,6 @@ class ilSurveySkillThresholds
                 "level_id" => array("integer", (int) $a_level_id)
                 ),
             array("threshold" => array("integer", (int) $a_threshold))
-            );
+        );
     }
 }

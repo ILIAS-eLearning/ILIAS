@@ -6,59 +6,59 @@
  */
 abstract class assBaseTestCase extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
+    /**
+     * @inheritdoc
+     */
+    protected function setUp()
+    {
+        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    protected function setGlobalVariable($name, $value)
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        $GLOBALS[$name] = $value;
 
-		unset($DIC[$name]);
-		$DIC[$name] = $GLOBALS[$name];
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = $GLOBALS[$name];
+    }
 
-	/**
-	 * @return \ilTemplate|PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getGlobalTemplateMock()
-	{
-		return $this->getMockBuilder( \ilTemplate::class)->disableOriginalConstructor()->getMock();
-	}
+    /**
+     * @return \ilTemplate|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getGlobalTemplateMock()
+    {
+        return $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
+    }
 
-	/**
-	 * @return \ilDBInterface|PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getDatabaseMock()
-	{
-		return $this->getMockBuilder( \ilDBInterface::class)->disableOriginalConstructor()->getMock();
-	}
+    /**
+     * @return \ilDBInterface|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getDatabaseMock()
+    {
+        return $this->getMockBuilder(\ilDBInterface::class)->disableOriginalConstructor()->getMock();
+    }
 
-	/**
-	 * @return \ILIAS|PHPUnit_Framework_MockObject_MockObject
-	 */
-	protected function getIliasMock()
-	{
-		$mock = $this->getMockBuilder( \ILIAS::class)->disableOriginalConstructor()->getMock();
+    /**
+     * @return \ILIAS|PHPUnit_Framework_MockObject_MockObject
+     */
+    protected function getIliasMock()
+    {
+        $mock = $this->getMockBuilder(\ILIAS::class)->disableOriginalConstructor()->getMock();
 
-		$account = new stdClass();
-		$account->id = 6;
-		$account->fullname = 'Esther Tester';
+        $account = new stdClass();
+        $account->id = 6;
+        $account->fullname = 'Esther Tester';
 
-		$mock->account = $account;
+        $mock->account = $account;
 
-		return $mock;
-	}
+        return $mock;
+    }
 }

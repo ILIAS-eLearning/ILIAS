@@ -12,4 +12,3 @@ include_once './Services/Exceptions/classes/class.ilException.php';
 class ilLDAPConnectTimeOutException extends ilException
 {
 }
-?>

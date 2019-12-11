@@ -1721,7 +1721,7 @@ class ilValidator
                 $this->writeScanLogLine(
                     "skip\t" .
                         $node['child'] . "\t\t" . $node['type'] . "\t\t" . $node['title']
-                        );
+                );
                 continue;
             }
 

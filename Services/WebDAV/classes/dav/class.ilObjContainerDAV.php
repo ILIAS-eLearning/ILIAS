@@ -60,11 +60,9 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function createFile($name, $data = null)
     {
-        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file'))
-        {
+        if ($this->repo_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
             // Check if file has valid extension
-            if ($this->dav_helper->isValidFileNameWithValidFileExtension($name))
-            {
+            if ($this->dav_helper->isValidFileNameWithValidFileExtension($name)) {
                 if ($this->childExists($name)) {
                     $file_dav = $this->getChild($name);
                     $file_dav->handleFileUpload($data);
@@ -85,15 +83,12 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
                     $file_dav = new ilObjFileDAV($file_obj, $this->repo_helper, $this->dav_helper);
                     $file_dav->handleFileUpload($data);
                 }
-            }
-            else
-            {
+            } else {
                 // Throw forbidden if invalid extension or filename. As far as we know, it is sadly not
                 // possible to inform the user why his upload was "forbidden".
                 throw new Forbidden('Invalid file name or file extension');
             }
-        } else
-        {
+        } else {
             throw new Forbidden('No write access');
         }
 
@@ -112,8 +107,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         global $DIC;
 
         $type = $this->getChildCollectionType();
-        if($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type) && $this->dav_helper->isDAVableObjTitle($name)) {
-
+        if ($this->repo_helper->checkCreateAccessForType($this->getRefId(), $type) && $this->dav_helper->isDAVableObjTitle($name)) {
             switch ($type) {
                 case 'cat':
                     $new_obj = new ilObjCategory();
@@ -137,9 +131,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
             $new_obj->putInTree($this->obj->getRefId());
             $new_obj->setPermissions($this->obj->getRefId());
             $new_obj->update();
-        }
-        else
-        {
+        } else {
             throw new Forbidden();
         }
     }
@@ -156,21 +148,17 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function getChild($name)
     {
-        $child_node = NULL;
+        $child_node = null;
         $child_exists = false;
-        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
-        {
+        foreach ($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref) {
             // Check if a DAV Object exists for this type
-            if($this->dav_helper->isDAVableObject($child_ref, true))
-            {
+            if ($this->dav_helper->isDAVableObject($child_ref, true)) {
                 // Check if names matches
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
-                {
+                if ($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name) {
                     $child_exists = true;
                     
                     // Check if user has permission to read this object
-                    if($this->repo_helper->checkAccess("read", $child_ref))
-                    {
+                    if ($this->repo_helper->checkAccess("read", $child_ref)) {
                         $child_node = $this->dav_helper->createDAVObjectForRefId($child_ref);
                     }
                 }
@@ -178,8 +166,7 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
         }
         
         // There exists 1 or more nodes with this name. Return last found node.
-        if(!is_null($child_node))
-        {
+        if (!is_null($child_node)) {
             return $child_node;
         }
         
@@ -195,14 +182,11 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
     public function getChildren()
     {
         $child_nodes = array();
-        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
-        {
+        foreach ($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref) {
             // Check if is davable object types
-            if($this->dav_helper->isDAVableObject($child_ref, true))
-            {
+            if ($this->dav_helper->isDAVableObject($child_ref, true)) {
                 // Check if read permission is given
-                if($this->repo_helper->checkAccess("read", $child_ref))
-                {
+                if ($this->repo_helper->checkAccess("read", $child_ref)) {
                     // Create DAV-object out of ILIAS-object
                     $child_nodes[$child_ref] = $this->dav_helper->createDAVObjectForRefId($child_ref);
                 }
@@ -219,21 +203,15 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      */
     public function childExists($name)
     {
-        foreach($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref)
-        {
+        foreach ($this->repo_helper->getChildrenOfRefId($this->obj->getRefId()) as $child_ref) {
             // Only davable object types
-            if($this->dav_helper->isDAVableObject($child_ref, true))
-            {
+            if ($this->dav_helper->isDAVableObject($child_ref, true)) {
                 // Check if names are the same
-                if($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name)
-                {
+                if ($this->repo_helper->getObjectTitleFromRefId($child_ref, true) == $name) {
                     // Check if read permission is given
-                    if($this->repo_helper->checkAccess("read", $child_ref))
-                    {
+                    if ($this->repo_helper->checkAccess("read", $child_ref)) {
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         /*
                          * This is an interesting edge case. What happens if there are 2 objects with the same name
                          * but User1 only has access to the first and user2 has only access to the second?
@@ -251,8 +229,8 @@ abstract class ilObjContainerDAV extends ilObjectDAV implements Sabre\DAV\IColle
      * Return the type for child collections of this collection
      * For courses, groups and folders the type is 'fold'
      * For categories the type is 'cat'
-     * 
+     *
      * @return string $type
      */
-    public abstract function getChildCollectionType();
+    abstract public function getChildCollectionType();
 }
