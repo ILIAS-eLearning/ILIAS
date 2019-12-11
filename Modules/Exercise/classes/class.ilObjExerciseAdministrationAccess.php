@@ -10,7 +10,4 @@
  */
 class ilObjExerciseAdministrationAccess extends ilObjectAccess
 {
-
 }
-
-?>

@@ -46,11 +46,9 @@ class ilExAssignmentInfo
      */
     public function getInstructionInfo()
     {
-        if ($this->state->areInstructionsVisible())
-        {
+        if ($this->state->areInstructionsVisible()) {
             $inst = $this->ass->getInstructionPresentation();
-            if(trim($inst))
-            {
+            if (trim($inst)) {
                 return [
                     "instruction" => [
                         "txt" => $this->lng->txt("exc_instruction"),
@@ -72,12 +70,10 @@ class ilExAssignmentInfo
     {
         $ctrl = $this->ctrl;
         $ass_files = $this->ass->getFiles();
-        if (count($ass_files) > 0)
-        {
+        if (count($ass_files) > 0) {
             $items = [];
 
-            foreach ($ass_files as $file)
-            {
+            foreach ($ass_files as $file) {
                 $dl_link = "";
                 if ($readable_ref_id > 0) {
                     $ctrl->setParameterByClass("ilExSubmissionGUI", "ref_id", $readable_ref_id);
@@ -112,14 +108,10 @@ class ilExAssignmentInfo
         $ret = [];
         $state = $this->state;
 
-        if ($state->getGeneralStart() > 0)
-        {
-            if ($state->getRelativeDeadline())
-            {
+        if ($state->getGeneralStart() > 0) {
+            if ($state->getRelativeDeadline()) {
                 $txt = $lng->txt("exc_earliest_start_time");
-            }
-            else
-            {
+            } else {
                 $txt = $lng->txt("exc_start_time");
             }
             $ret["start_time"] = [
@@ -130,54 +122,45 @@ class ilExAssignmentInfo
 
         // extended deadline info/warning
         $late_dl = "";
-        if ($state->inLateSubmissionPhase())
-        {
+        if ($state->inLateSubmissionPhase()) {
             // extended deadline date should not be presented anywhere
             $late_dl = $state->getOfficialDeadlinePresentation();
-            $late_dl = "<br />".sprintf($lng->txt("exc_late_submission_warning"), $late_dl);
-            $late_dl = '<span class="warning">'.$late_dl.'</span>';
+            $late_dl = "<br />" . sprintf($lng->txt("exc_late_submission_warning"), $late_dl);
+            $late_dl = '<span class="warning">' . $late_dl . '</span>';
         }
 
-        if ($state->getCommonDeadline())		// if we have a common deadline (target timestamp)
-        {
+        if ($state->getCommonDeadline()) {		// if we have a common deadline (target timestamp)
             $until = $state->getCommonDeadlinePresentation();
 
             // add late info if no idl
             if ($late_dl &&
-                $state->getOfficialDeadline() == $state->getCommonDeadline())
-            {
+                $state->getOfficialDeadline() == $state->getCommonDeadline()) {
                 $until .= $late_dl;
             }
 
             $prop = $lng->txt("exc_edit_until");
-            if ($state->exceededOfficialDeadline())
-            {
+            if ($state->exceededOfficialDeadline()) {
                 $prop = $lng->txt("exc_ended_on");
             }
 
             $ret["until"] = ["txt" => $prop, "value" => $until];
-        }
-        else if ($state->getRelativeDeadline())		// if we only have a relative deadline (not started yet)
-        {
+        } elseif ($state->getRelativeDeadline()) {		// if we only have a relative deadline (not started yet)
             $ret["time_after_start"] = ["txt" => $lng->txt("exc_rem_time_after_start"), "value" => $state->getRelativeDeadlinePresentation()];
         }
 
-        if ($state->getOfficialDeadline() > $state->getCommonDeadline())
-        {
+        if ($state->getOfficialDeadline() > $state->getCommonDeadline()) {
             $until = $state->getOfficialDeadlinePresentation();
 
             // add late info?
-            if ($late_dl)
-            {
+            if ($late_dl) {
                 $until .= $late_dl;
             }
 
             $ret["individual_deadline"] = ["txt" => $lng->txt("exc_individual_deadline"), "value" => $until];
         }
 
-        if ($state->hasSubmissionStarted())
-        {
-            $ret["time_to_send"] = ["txt" => $lng->txt("exc_time_to_send"), "value" => "<b>".$state->getRemainingTimePresentation()."</b>"];
+        if ($state->hasSubmissionStarted()) {
+            $ret["time_to_send"] = ["txt" => $lng->txt("exc_time_to_send"), "value" => "<b>" . $state->getRemainingTimePresentation() . "</b>"];
         }
         return $ret;
     }
@@ -192,12 +175,10 @@ class ilExAssignmentInfo
         // submitted files
         $submission = new ilExSubmission($this->ass, $this->user_id);
         $ret = [];
-        if($submission->hasSubmitted())
-        {
+        if ($submission->hasSubmitted()) {
             // #16888
             $submitted = $submission->getSelectedObject();
-            if ($submitted["ts"] != "")
-            {
+            if ($submitted["ts"] != "") {
                 $ret["submitted"] = [
                     "txt" => $this->lng->txt("exc_last_submission"),
                     "value" => ilDatePresentation::formatDate(new ilDateTime($submitted["ts"], IL_CAL_DATETIME))
@@ -206,6 +187,4 @@ class ilExAssignmentInfo
         }
         return $ret;
     }
-
-
 }

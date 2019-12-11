@@ -48,10 +48,12 @@ class ilExcRandomAssignmentManager
     /**
      * Constructor
      */
-    public function __construct(ilObjExercise $exc, ilExcRandomAssignmentDBRepository $rand_ass_repo,
+    public function __construct(
+        ilObjExercise $exc,
+        ilExcRandomAssignmentDBRepository $rand_ass_repo,
         ilObjUser $user = null,
-        ilLanguage $lng = null)
-    {
+        ilLanguage $lng = null
+    ) {
         global $DIC;
 
         $this->exc = $exc;
@@ -147,7 +149,8 @@ class ilExcRandomAssignmentManager
      *
      * @return bool
      */
-    public function isActivated() {
+    public function isActivated()
+    {
         return ($this->exc->getPassMode() == ilObjExercise::PASS_MODE_RANDOM);
     }
 
@@ -174,7 +177,8 @@ class ilExcRandomAssignmentManager
     /**
      * @return bool
      */
-    protected function hasAnySubmission() {
+    protected function hasAnySubmission()
+    {
 
         /** @var ilExAssignment $ass */
         foreach (ilExAssignment::getInstancesByExercise($this->exc_id) as $ass) {
@@ -189,7 +193,8 @@ class ilExcRandomAssignmentManager
      * Needs current user to start the exercise (by selecting the random assignments)?
      * @return bool
      */
-    public function needsStart() {
+    public function needsStart()
+    {
         if ($this->isActivated()) {
             $ass_of_user = $this->rand_ass_repo->getAssignmentsOfUser($this->user->getId(), $this->exc_id);
             if (count($ass_of_user) == 0) {
@@ -232,7 +237,7 @@ class ilExcRandomAssignmentManager
     {
         $ass_ids = array_map(function ($i) {
             return $i->getId();
-        },ilExAssignment::getInstancesByExercise($this->exc_id));
+        }, ilExAssignment::getInstancesByExercise($this->exc_id));
 
         $selected = [];
         for ($i = 0; $i<$this->getNumberOfMandatoryAssignments(); $i++) {
@@ -257,6 +262,4 @@ class ilExcRandomAssignmentManager
         }
         return true;
     }
-
-
 }
