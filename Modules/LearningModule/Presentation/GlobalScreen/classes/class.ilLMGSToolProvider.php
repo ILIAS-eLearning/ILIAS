@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilLMGSToolProvider extends AbstractDynamicToolProvider
 {
-
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
     const SHOW_TOC_TOOL = 'show_toc_tool';
@@ -41,9 +40,12 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TOC_TOOL, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
 
             $tools[] = $this->getTocTool($additional_data);
@@ -81,7 +83,9 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
      */
     public function getOfflineToolIds()
     {
-        $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
+        $iff = function ($id) {
+            return $this->identification_provider->contextAwareIdentifier($id);
+        };
         return [
             $this->hash($iff("lm_pres_toc")->serialize()),
             $this->hash($iff("lm_glossary")->serialize()),
@@ -97,14 +101,18 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
      * @param
      * @return
      */
-    public function getTocTool($additional_data): \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
+    public function getTocTool($additional_data) : \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
     {
         global $DIC;
 
         $lng = $DIC->language();
 
-        $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
-        $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+        $iff = function ($id) {
+            return $this->identification_provider->contextAwareIdentifier($id);
+        };
+        $l = function (string $content) {
+            return $this->dic->ui()->factory()->legacy($content);
+        };
 
         return $this->factory->tool($iff("lm_pres_toc"))
             ->withTitle($lng->txt("cont_toc"))

@@ -9,11 +9,11 @@
  */
 class ilLMPresentationRequest
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct(array $query_params)
-	{
+    /**
+     * Constructor
+     */
+    public function __construct(array $query_params)
+    {
         $this->requested_ref_id = (int) $query_params["ref_id"];
         $this->requested_transl = (string) $query_params["transl"];     // handled by presentation status
         $this->requested_focus_id = (int) $query_params["focus_id"];    // handled by presentation status
@@ -30,7 +30,7 @@ class ilLMPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedRefId(): int
+    public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
@@ -38,7 +38,7 @@ class ilLMPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedObjId(): int
+    public function getRequestedObjId() : int
     {
         return $this->requested_obj_id;
     }
@@ -46,7 +46,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedObjType(): string
+    public function getRequestedObjType() : string
     {
         return $this->requested_obj_type;
     }
@@ -54,7 +54,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedTranslation(): string
+    public function getRequestedTranslation() : string
     {
         return $this->requested_transl;
     }
@@ -62,7 +62,7 @@ class ilLMPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedFocusId(): int
+    public function getRequestedFocusId() : int
     {
         return $this->requested_focus_id;
     }
@@ -70,7 +70,7 @@ class ilLMPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedFocusReturn(): int
+    public function getRequestedFocusReturn() : int
     {
         return $this->requested_focus_return;
     }
@@ -78,7 +78,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedBackPage(): string
+    public function getRequestedBackPage() : string
     {
         return $this->requested_back_pg;
     }
@@ -86,7 +86,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedSearchString(): string
+    public function getRequestedSearchString() : string
     {
         return $this->requested_search_string;
     }
@@ -94,7 +94,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedFrame(): string
+    public function getRequestedFrame() : string
     {
         return $this->requested_frame;
     }
@@ -102,7 +102,7 @@ class ilLMPresentationRequest
     /**
      * @return string
      */
-    public function getRequestedFromPage(): string
+    public function getRequestedFromPage() : string
     {
         return $this->requested_from_page;
     }
@@ -110,10 +110,8 @@ class ilLMPresentationRequest
     /**
      * @return int
      */
-    public function getRequestedMobId(): int
+    public function getRequestedMobId() : int
     {
         return $this->requested_mob_id;
     }
-
-
 }

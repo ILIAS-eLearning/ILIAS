@@ -38,5 +38,4 @@ class ilLMSlateTocRendererGUI
         //if (!$exp->handleCommand())
         return $exp->getHTML();
     }
-
 }

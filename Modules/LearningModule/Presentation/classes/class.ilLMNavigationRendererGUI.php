@@ -304,7 +304,7 @@ class ilLMNavigationRendererGUI
                         $prev_target = 'target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $prev_href =
-                            $this->linker->getLink( "layout", $pre_node["obj_id"]);
+                            $this->linker->getLink("layout", $pre_node["obj_id"]);
                         $prev_target = 'target="_top" ';
                     }
                 }
@@ -349,11 +349,11 @@ class ilLMNavigationRendererGUI
                 } else {
                     if (!$this->offline) {
                         $succ_href =
-                            $this->linker->getLink( "layout", $succ_node["obj_id"]);
+                            $this->linker->getLink("layout", $succ_node["obj_id"]);
                         $succ_target = ' target="' . ilFrameTargetInfo::_getFrame("MainContent") . '" ';
                     } else {
                         $succ_href =
-                            $this->linker->getLink( "layout", $succ_node["obj_id"]);
+                            $this->linker->getLink("layout", $succ_node["obj_id"]);
                         $succ_target = ' target="_top" ';
                     }
                 }

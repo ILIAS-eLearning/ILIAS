@@ -100,7 +100,6 @@ class ilLMMenuRendererGUI
 
         $this->requested_obj_id = (int) $_GET["obj_id"];
         $this->requested_ref_id = (int) $_GET["ref_id"];
-
     }
 
     /**
@@ -122,16 +121,14 @@ class ilLMMenuRendererGUI
 
         $active[$this->active_tab] = true;
 
-        if (!$this->lm->isActiveLMMenu())
-        {
+        if (!$this->lm->isActiveLMMenu()) {
             return "";
         }
 
         $tabs_gui = $ilTabs;
 
         // workaround for preventing tooltips in export
-        if ($this->offline)
-        {
+        if ($this->offline) {
             $tabs_gui->setSetupMode(true);
         }
 
@@ -141,21 +138,23 @@ class ilLMMenuRendererGUI
 
 
         // content
-        if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id))
-        {
+        if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            $tabs_gui->$addcmd("content",
+            $tabs_gui->$addcmd(
+                "content",
                 $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"),
-                "", "", "",  $active["content"]);
-            /*
-            if ($active["content"])
-            {
-                $ilHelp->setScreenId("content");
-                $ilHelp->setSubScreenId("content");
-            }*/
-        }
-        else if ($this->offline)
+                "",
+                "",
+                "",
+                $active["content"]
+            );
+        /*
+        if ($active["content"])
         {
+            $ilHelp->setScreenId("content");
+            $ilHelp->setSubScreenId("content");
+        }*/
+        } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
 
@@ -184,119 +183,133 @@ class ilLMMenuRendererGUI
         }*/
 
         // print view
-        if($this->lm->isActivePrintView() && $ilAccess->checkAccess("read", "", $this->requested_ref_id))
-        {
-            if (!$this->offline)		// has to be implemented for offline mode
-            {
+        if ($this->lm->isActivePrintView() && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+            if (!$this->offline) {		// has to be implemented for offline mode
                 $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
                 $link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showPrintViewSelection");
-                $tabs_gui->$addcmd("cont_print_view", $link,
-                    "", "", "", $active["print"]);
+                $tabs_gui->$addcmd(
+                    "cont_print_view",
+                    $link,
+                    "",
+                    "",
+                    "",
+                    $active["print"]
+                );
             }
         }
 
         // download
-        if($ilUser->getId() == ANONYMOUS_USER_ID)
-        {
+        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
             $is_public = $this->lm->isActiveDownloadsPublic();
-        }
-        else
-        {
+        } else {
             $is_public = true;
         }
 
-        if($this->lm->isActiveDownloads() && !$this->offline && $is_public &&
-            $ilAccess->checkAccess("read", "", $this->requested_ref_id))
-        {
+        if ($this->lm->isActiveDownloads() && !$this->offline && $is_public &&
+            $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
             $link = $ilCtrl->getLinkTargetByClass("illmpresentationgui", "showDownloadList");
-            $tabs_gui->$addcmd("download", $link,
-                "", "", "", $active["download"]);
+            $tabs_gui->$addcmd(
+                "download",
+                $link,
+                "",
+                "",
+                "",
+                $active["download"]
+            );
         }
 
         // info button
-        if ($this->export_format != "scorm" && !$this->offline)
-        {
-            if (!$this->offline)
-            {
+        if ($this->export_format != "scorm" && !$this->offline) {
+            if (!$this->offline) {
                 $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
                 $link = $this->ctrl->getLinkTargetByClass(
-                    array("illmpresentationgui", "ilinfoscreengui"), "showSummary");
-            }
-            else
-            {
+                    array("illmpresentationgui", "ilinfoscreengui"),
+                    "showSummary"
+                );
+            } else {
                 $link = "./info.html";
             }
 
-            $tabs_gui->$addcmd('info_short', $link,
-                "", "", "", $active["info"]);
+            $tabs_gui->$addcmd(
+                'info_short',
+                $link,
+                "",
+                "",
+                "",
+                $active["info"]
+            );
         }
 
-        if(!$this->offline &&
+        if (!$this->offline &&
             $ilAccess->checkAccess("read", "", $this->requested_ref_id) && // #14075
-            ilLearningProgressAccess::checkAccess($this->requested_ref_id))
-        {
+            ilLearningProgressAccess::checkAccess($this->requested_ref_id)) {
             $olp = ilObjectLP::getInstance($this->lm->getId());
-            if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL)
-            {
-                $tabs_gui->$addcmd("learning_progress",
+            if ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_MANUAL) {
+                $tabs_gui->$addcmd(
+                    "learning_progress",
                     $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "editManual"),
-                    "", "", "", $active["learning_progress"]);
-            }
-            else if($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT)
-            {
-                $tabs_gui->$addcmd("learning_progress",
+                    "",
+                    "",
+                    "",
+                    $active["learning_progress"]
+                );
+            } elseif ($olp->getCurrentMode() == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {
+                $tabs_gui->$addcmd(
+                    "learning_progress",
                     $this->ctrl->getLinkTargetByClass(array("illmpresentationgui", "illearningprogressgui"), "showtlt"),
-                    "", "", "", $active["learning_progress"]);
+                    "",
+                    "",
+                    "",
+                    $active["learning_progress"]
+                );
             }
         }
 
         // get user defined menu entries
         $entries = $this->menu_editor->getMenuEntries(true);
-        if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $this->requested_ref_id))
-        {
-            foreach ($entries as $entry)
-            {
+        if (count($entries) > 0 && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
+            foreach ($entries as $entry) {
                 // build goto-link for internal resources
-                if ($entry["type"] == "intern")
-                {
-                    $entry["link"] = ILIAS_HTTP_PATH."/goto.php?target=".$entry["link"];
+                if ($entry["type"] == "intern") {
+                    $entry["link"] = ILIAS_HTTP_PATH . "/goto.php?target=" . $entry["link"];
                 }
 
                 // add http:// prefix if not exist
-                if (!strstr($entry["link"],'://') && !strstr($entry["link"],'mailto:'))
-                {
-                    $entry["link"] = "http://".$entry["link"];
+                if (!strstr($entry["link"], '://') && !strstr($entry["link"], 'mailto:')) {
+                    $entry["link"] = "http://" . $entry["link"];
                 }
 
-                if (!strstr($entry["link"],'mailto:'))
-                {
-                    $entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=".
-                        $this->requested_ref_id."&structure_id=".$this->requested_obj_id);
+                if (!strstr($entry["link"], 'mailto:')) {
+                    $entry["link"] = ilUtil::appendUrlParameterString($entry["link"], "ref_id=" .
+                        $this->requested_ref_id . "&structure_id=" . $this->requested_obj_id);
                 }
-                $tabs_gui->$addcmd($entry["title"],
+                $tabs_gui->$addcmd(
+                    $entry["title"],
                     $entry["link"],
-                    "", "", "_blank", "", true);
+                    "",
+                    "",
+                    "_blank",
+                    "",
+                    true
+                );
             }
         }
 
         // edit learning module
-        if (!$this->offline)
-        {
-            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id))
-            {
-                if ($this->current_page <= 0)
-                {
+        if (!$this->offline) {
+            if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
+                if ($this->current_page <= 0) {
                     $link = $this->ctrl->getLinkTargetByClass(["ilLMEditorGUI", "ilobjlearningmodulegui"], "chapters");
+                } else {
+                    $link = ILIAS_HTTP_PATH . "/ilias.php?baseClass=ilLMEditorGUI&ref_id=" . $this->requested_ref_id .
+                        "&obj_id=" . $this->current_page . "&to_page=1";
                 }
-                else
-                {
-                    $link = ILIAS_HTTP_PATH."/ilias.php?baseClass=ilLMEditorGUI&ref_id=".$this->requested_ref_id.
-                        "&obj_id=".$this->current_page."&to_page=1";
-                }
-                $tabs_gui->addNonTabbedLink("edit_page",
+                $tabs_gui->addNonTabbedLink(
+                    "edit_page",
                     $this->lng->txt("lm_editing_view"),
-                    $link);
+                    $link
+                );
             }
         }
 
@@ -314,6 +327,4 @@ class ilLMMenuRendererGUI
 
         return $tabs_gui->$getcmd();
     }
-
-
 }
