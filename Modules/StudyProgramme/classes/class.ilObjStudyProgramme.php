@@ -1902,7 +1902,7 @@ class ilObjStudyProgramme extends ilContainer
             }
         } else {
             foreach (ilObject::_getAllReferences($a_obj_id) as $ref_id) {
-                self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode($ref_id, $a_obj_id, $a_user_id);
+                self::setProgressesCompletedIfParentIsProgrammeInLPCompletedMode((int)$ref_id, $a_obj_id, $a_user_id);
             }
         }
     }
