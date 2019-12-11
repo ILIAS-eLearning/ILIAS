@@ -7,12 +7,11 @@ class ilServicesXHTMLPageSuite extends TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesXHTMLPageSuite();
-		
-		include_once("./Services/XHTMLPage/test/ilXHTMLPageTest.php");
-		$suite->addTestSuite("ilXHTMLPageTest");
+        $suite = new ilServicesXHTMLPageSuite();
+        
+        include_once("./Services/XHTMLPage/test/ilXHTMLPageTest.php");
+        $suite->addTestSuite("ilXHTMLPageTest");
 
-		return $suite;
+        return $suite;
     }
 }
-?>
