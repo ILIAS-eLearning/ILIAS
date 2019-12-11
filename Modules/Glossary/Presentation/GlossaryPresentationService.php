@@ -34,8 +34,7 @@ class GlossaryPresentationService
         array $query_params,
         bool $offline = false,
         \ilCtrl $ctrl = null
-    )
-    {
+    ) {
         global $DIC;
 
         $ctrl = (is_null($ctrl))
@@ -45,15 +44,15 @@ class GlossaryPresentationService
         $this->request = new GlossaryPresentationRequest($query_params);
         $this->user = $user;
         $this->ref_id = $this->request->getRequestedRefId();
-        $this->glo_gui = new \ilObjGlossaryGUI([],$this->ref_id,true,false);
+        $this->glo_gui = new \ilObjGlossaryGUI([], $this->ref_id, true, false);
         $this->glo = $this->glo_gui->object;
         $this->offline = $offline;
-   }
+    }
 
     /**
      * @return \ilObjGlossaryGUI
      */
-    public function getGlossaryGUI(): \ilObjGlossaryGUI
+    public function getGlossaryGUI() : \ilObjGlossaryGUI
     {
         return $this->glo_gui;
     }
@@ -61,7 +60,7 @@ class GlossaryPresentationService
     /**
      * @return \ilObjGlossary
      */
-    public function getGlossary(): \ilObjGlossary
+    public function getGlossary() : \ilObjGlossary
     {
         return $this->glo;
     }
@@ -75,5 +74,4 @@ class GlossaryPresentationService
     {
         return $this->request;
     }
-
 }
