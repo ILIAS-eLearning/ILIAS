@@ -20,7 +20,7 @@ class ilBookingPrefBookCron extends ilCronJob
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $DIC;
 
@@ -86,5 +86,3 @@ class ilBookingPrefBookCron extends ilCronJob
         return $cron_result;
     }
 }
-
-?>

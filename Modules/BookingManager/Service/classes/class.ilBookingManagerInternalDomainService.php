@@ -32,5 +32,4 @@ class ilBookingManagerInternalDomainService
 
         return new ilBookingPreferencesManager($pool, $book_repo);
     }
-
 }

@@ -8,22 +8,20 @@
  */
 class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-	/**
-	 * Get object link
-	 *
-	 * @return string link href url
-	 */
-	function getObjectLink()
-	{
-		$n = $this->getNewsItem();
-		$add = "";
-		if ($n->getContextSubObjType() == "blp"
-			&& $n->getContextSubObjId() > 0)
-		{
-			$add = "_".$n->getContextSubObjId();
-		}
+    /**
+     * Get object link
+     *
+     * @return string link href url
+     */
+    public function getObjectLink()
+    {
+        $n = $this->getNewsItem();
+        $add = "";
+        if ($n->getContextSubObjType() == "blp"
+            && $n->getContextSubObjId() > 0) {
+            $add = "_" . $n->getContextSubObjId();
+        }
 
-		return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
-	}
-
+        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+    }
 }

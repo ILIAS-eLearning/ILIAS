@@ -22,8 +22,8 @@ class ilBookingManagerInternalDataService
     /**
      * @return ilBookingPreferencesFactory
      */
-    public function preferencesFactory() {
+    public function preferencesFactory()
+    {
         return new ilBookingPreferencesFactory();
     }
-
 }

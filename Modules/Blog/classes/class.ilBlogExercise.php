@@ -43,11 +43,10 @@ class ilBlogExercise
 
         $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id);
         // #0022794
-        if (!$exercises)
-        {
-            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id.".sec");
+        if (!$exercises) {
+            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");
         }
-        if($exercises) {
+        if ($exercises) {
             foreach ($exercises as $exercise) {
                 // #9988
                 $active_ref = false;
@@ -67,5 +66,4 @@ class ilBlogExercise
         }
         return $assignments;
     }
-
 }

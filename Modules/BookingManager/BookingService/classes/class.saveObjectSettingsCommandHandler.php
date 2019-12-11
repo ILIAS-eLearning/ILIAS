@@ -12,32 +12,32 @@ namespace ILIAS\BookingManager;
  */
 class saveObjectSettingsCommandHandler
 {
-	/**
-	 * @var saveObjectSettingsCommand
-	 */
-	protected $cmd;
+    /**
+     * @var saveObjectSettingsCommand
+     */
+    protected $cmd;
 
-	/**
-	 * @var \ilObjUseBookDBRepository
-	 */
-	protected $use_book_repo;
+    /**
+     * @var \ilObjUseBookDBRepository
+     */
+    protected $use_book_repo;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct(saveObjectSettingsCommand $cmd,
-		\ilObjUseBookDBRepository $use_book_repo)
-	{
-		$this->cmd = $cmd;
-		$this->use_book_repo = $use_book_repo;
-	}
+    /**
+     * Constructor
+     */
+    public function __construct(
+        saveObjectSettingsCommand $cmd,
+        \ilObjUseBookDBRepository $use_book_repo
+    ) {
+        $this->cmd = $cmd;
+        $this->use_book_repo = $use_book_repo;
+    }
 
-	public function handle()
-	{
-		$settings = $this->cmd->getSettings();
-		$repo = $this->use_book_repo;
+    public function handle()
+    {
+        $settings = $this->cmd->getSettings();
+        $repo = $this->use_book_repo;
 
-		$repo->updateUsedBookingPools($settings->getObjectId(), $settings->getUsedBookingObjectIds());
-	}
-
+        $repo->updateUsedBookingPools($settings->getObjectId(), $settings->getUsedBookingObjectIds());
+    }
 }

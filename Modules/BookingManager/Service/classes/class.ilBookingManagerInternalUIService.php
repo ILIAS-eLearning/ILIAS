@@ -14,7 +14,6 @@ class ilBookingManagerInternalUIService
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -25,5 +24,4 @@ class ilBookingManagerInternalUIService
     {
         return new ilBookingPreferencesGUI($pool);
     }
-
 }

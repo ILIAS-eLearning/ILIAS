@@ -710,7 +710,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
 		return $this->tpl->get();
 		*/
-		
+
 		return $item_groups;
 	}
 
