@@ -12,7 +12,4 @@ include_once("./Services/Export/classes/class.ilImportConfig.php");
  */
 class ilGlossaryImportConfig extends ilImportConfig
 {
-
 }
-
-?>
