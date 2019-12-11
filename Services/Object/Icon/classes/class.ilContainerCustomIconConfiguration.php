@@ -8,11 +8,11 @@ require_once 'Services/Object/Icon/classes/class.ilObjectCustomIconConfiguration
  */
 class ilContainerCustomIconConfiguration extends \ilObjectCustomIconConfiguration
 {
-	/**
-	 * @return string
-	 */
-	public function getBaseDirectory(): string 
-	{
-		return 'container_data';
-	}
+    /**
+     * @return string
+     */
+    public function getBaseDirectory() : string
+    {
+        return 'container_data';
+    }
 }
