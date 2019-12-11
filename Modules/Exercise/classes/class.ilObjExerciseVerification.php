@@ -11,22 +11,20 @@
 */
 class ilObjExerciseVerification extends ilVerificationObject
 {
-	protected function initType()
-	{
-		$this->type = "excv";
-	}
+    protected function initType()
+    {
+        $this->type = "excv";
+    }
 
-	protected function getPropertyMap()
-	{
-		return array("issued_on" => self::TYPE_DATE,
-			"file" => self::TYPE_STRING
-			/*
-			"success" => self::TYPE_BOOL,
-			"mark" => self::TYPE_STRING,
-			"comment" => self::TYPE_STRING
-			*/
-			);
-	}
+    protected function getPropertyMap()
+    {
+        return array("issued_on" => self::TYPE_DATE,
+            "file" => self::TYPE_STRING
+            /*
+            "success" => self::TYPE_BOOL,
+            "mark" => self::TYPE_STRING,
+            "comment" => self::TYPE_STRING
+            */
+            );
+    }
 }
-
-?>

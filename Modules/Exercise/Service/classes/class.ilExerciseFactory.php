@@ -15,7 +15,6 @@ class ilExerciseFactory
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -28,6 +27,4 @@ class ilExerciseFactory
     {
         return new ilExerciseInternalFactory();
     }
-
-
 }
