@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_HELP_TOOL = 'show_help_tool';
 
 
@@ -41,9 +40,12 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
 
         if ($this->showHelpTool()) {
-
-            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id, true); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id, true);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
 
             $tools[] = $this->factory->tool($iff("help"))
                 ->withInitiallyHidden(false)
