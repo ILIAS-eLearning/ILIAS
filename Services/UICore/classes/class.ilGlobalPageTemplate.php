@@ -248,7 +248,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     }
 
 
-    public function setBanner(string $img_src) {
+    public function setBanner(string $img_src)
+    {
         $this->legacy_content_template->setBanner($img_src);
     }
 

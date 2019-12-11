@@ -211,11 +211,11 @@ class PageContentGUI
     /**
      * Set banner
      *
-     * @param string $a_val banner img src	
+     * @param string $a_val banner img src
      */
-    function setBanner($a_val)
+    public function setBanner($a_val)
     {
-    	$this->banner = $a_val;
+        $this->banner = $a_val;
     }
     
     /**
@@ -223,9 +223,9 @@ class PageContentGUI
      *
      * @return string banner img src
      */
-    function getBanner()
+    public function getBanner()
     {
-    	return $this->banner;
+        return $this->banner;
     }
     
 
@@ -475,7 +475,8 @@ class PageContentGUI
             $gui_class = $ui_plugin->getUIClassInstance();
 
             $resp = $gui_class->getHTML(
-                "", "template_show",
+                "",
+                "template_show",
                 array("tpl_id" => $this->tplIdentifier, "tpl_obj" => $this, "html" => $html)
             );
 
@@ -766,7 +767,8 @@ class PageContentGUI
     {
         global $DIC;
 
-        $ilToolbar = $DIC["ilToolbar"];;
+        $ilToolbar = $DIC["ilToolbar"];
+        ;
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {
