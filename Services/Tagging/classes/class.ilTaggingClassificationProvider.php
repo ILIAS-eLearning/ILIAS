@@ -93,6 +93,8 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         
+        $lng->loadLanguageModule("tagging");
+        
         $all_tags = $this->getSubTreeTags();
         if ($all_tags) {
             $map = array(
