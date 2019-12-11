@@ -11,42 +11,38 @@
  */
 class ilUserActionCollection
 {
-	/**
-	 * @var array
-	 */
-	protected $actions = array();
+    /**
+     * @var array
+     */
+    protected $actions = array();
 
-	/**
-	 * Get instance
-	 *
-	 * @return ilUserActionCollection user collection
-	 */
-	static function getInstance()
-	{
-		return new ilUserActionCollection();
-	}
+    /**
+     * Get instance
+     *
+     * @return ilUserActionCollection user collection
+     */
+    public static function getInstance()
+    {
+        return new ilUserActionCollection();
+    }
 
-	/**
-	 * Add action
-	 *
-	 * @param ilUserAction $a_action action object
-	 */
-	function addAction(ilUserAction $a_action)
-	{
-		$this->actions[] = $a_action;
-	}
+    /**
+     * Add action
+     *
+     * @param ilUserAction $a_action action object
+     */
+    public function addAction(ilUserAction $a_action)
+    {
+        $this->actions[] = $a_action;
+    }
 
-	/**
-	 * Get users
-	 *
-	 * @return array array of user ids (integer)
-	 */
-	function getActions()
-	{
-		return $this->actions;
-	}
-
-
+    /**
+     * Get users
+     *
+     * @return array array of user ids (integer)
+     */
+    public function getActions()
+    {
+        return $this->actions;
+    }
 }
-
-?>
