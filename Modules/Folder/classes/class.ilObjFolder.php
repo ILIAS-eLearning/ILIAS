@@ -1,24 +1,24 @@
 <?php
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
@@ -36,8 +36,7 @@ require_once "./Services/Container/classes/class.ilContainer.php";
  */
 class ilObjFolder extends ilContainer
 {
-
-    var $folder_tree;
+    public $folder_tree;
     // bugfix mantis 24309: array for systematically numbering copied files
     private static $duplicate_files = array();
 
@@ -64,9 +63,9 @@ class ilObjFolder extends ilContainer
     }
 
 
-    function setFolderTree($a_tree)
+    public function setFolderTree($a_tree)
     {
-        $this->folder_tree =& $a_tree;
+        $this->folder_tree =&$a_tree;
     }
 
 
@@ -97,12 +96,12 @@ class ilObjFolder extends ilContainer
      * insert folder into grp_tree
      *
      */
-    function putInTree($a_parent)
+    public function putInTree($a_parent)
     {
         $tree = $this->tree;
 
         if (!is_object($this->folder_tree)) {
-            $this->folder_tree =& $tree;
+            $this->folder_tree =&$tree;
         }
 
         if ($this->withReferences()) {
@@ -217,7 +216,7 @@ class ilObjFolder extends ilContainer
         $copy_number = 1;
         $duplicate_has_array_entry = false;
         foreach (self::$duplicate_files as &$duplicate_file) {
-            if($duplicate_file['file_name'] == $duplicate_filename) {
+            if ($duplicate_file['file_name'] == $duplicate_filename) {
                 $duplicate_has_array_entry = true;
                 $copy_number = $duplicate_file['copy_number'];
                 // increment the copy_number for correctly renaming the next duplicate of this file
@@ -277,7 +276,7 @@ class ilObjFolder extends ilContainer
     /**
      * Get container view mode
      */
-    function getViewMode()
+    public function getViewMode()
     {
         $tree = $this->tree;
 
@@ -308,7 +307,7 @@ class ilObjFolder extends ilContainer
      * Add additional information to sub item, e.g. used in
      * courses for timings information etc.
      */
-    function addAdditionalSubItemInformation(&$a_item_data)
+    public function addAdditionalSubItemInformation(&$a_item_data)
     {
         include_once './Services/Object/classes/class.ilObjectActivation.php';
         ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
@@ -335,4 +334,3 @@ class ilObjFolder extends ilContainer
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
     }
 } // END class.ilObjFolder
-?>
