@@ -156,7 +156,7 @@ class ilXMLChecker extends ilSaxParser
   
     public function getFullError()
     {
-        return "Error: ".$this->error_msg." at line:".$this->error_line ." column:".$this->error_col;
+        return "Error: " . $this->error_msg . " at line:" . $this->error_line . " column:" . $this->error_col;
     }
   
     public function getXMLSize()

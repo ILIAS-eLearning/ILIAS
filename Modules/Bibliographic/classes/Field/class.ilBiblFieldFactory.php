@@ -19,7 +19,10 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
      *
      * @param \ilBiblTypeInterface $type
      */
-    public function __construct(\ilBiblTypeInterface $type) { $this->type = $type; }
+    public function __construct(\ilBiblTypeInterface $type)
+    {
+        $this->type = $type;
+    }
 
 
     /**
@@ -158,7 +161,9 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
         $tablename = ilBiblField::TABLE_NAME;
         $q = "UPDATE {$tablename} SET position = position + 1 WHERE data_type = %s AND position >= %s;";
         $DIC->database()->manipulateF(
-            $q, ['integer', 'integer'], [
+            $q,
+            ['integer', 'integer'],
+            [
                 $field->getDataType(),
                 $field->getPosition(),
             ]
@@ -166,7 +171,9 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
         $field->store();
         $DIC->database()->query("SET @i=0");
         $DIC->database()->manipulateF(
-            "UPDATE {$tablename} SET position = (@i := @i + 1) WHERE data_type = %s ORDER BY position", ['integer'], [
+            "UPDATE {$tablename} SET position = (@i := @i + 1) WHERE data_type = %s ORDER BY position",
+            ['integer'],
+            [
                 $field->getDataType(),
             ]
         );
@@ -257,4 +264,3 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
         return $collection;
     }
 }
-

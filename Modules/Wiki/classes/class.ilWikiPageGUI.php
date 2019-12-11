@@ -867,13 +867,13 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         foreach ($pages as $p) {
             $nl->addListNode(
-                    $p["id"],
-                    $p["title"],
-                    0,
-                    false,
-                    false,
-                    ilUtil::getImagePath("icon_pg.svg"),
-                    $lng->txt("wiki_page")
+                $p["id"],
+                $p["title"],
+                0,
+                false,
+                false,
+                ilUtil::getImagePath("icon_pg.svg"),
+                $lng->txt("wiki_page")
                 );
         }
 

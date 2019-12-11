@@ -11,5 +11,4 @@ use ilException;
  */
 class ResourceNotFoundException extends ilException
 {
-
 }

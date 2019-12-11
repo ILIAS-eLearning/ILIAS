@@ -5,8 +5,8 @@ require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.
 /**
  * Helper class for initial database setup and registration of notification
  */
-class ilNotificationSetupHelper {
-
+class ilNotificationSetupHelper
+{
     public static $tbl_userconfig = 'notification_usercfg';
     public static $tbl_userlistener = 'notification_listener';
     public static $tbl_notification_data = 'notification_data';
@@ -15,7 +15,8 @@ class ilNotificationSetupHelper {
     public static $tbl_notification_channels = 'notification_channels';
     public static $tbl_notification_types = 'notification_types';
     
-    public static function setupTables() {
+    public static function setupTables()
+    {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -84,7 +85,7 @@ class ilNotificationSetupHelper {
             $ilDB->createSequence(self::$tbl_notification_osd_handler);
         }
 
-        if(!$ilDB->tableExists(self::$tbl_notification_channels)) {
+        if (!$ilDB->tableExists(self::$tbl_notification_channels)) {
             $fields = array(
                 'channel_name'=> array('type' => 'text', 'notnull' => true, 'length' => 100),
                 'title' =>       array('type' => 'text', 'notnull' => true, 'length' => 100),
@@ -101,7 +102,7 @@ class ilNotificationSetupHelper {
             ilNotificationSetupHelper::registerChannel('osd', 'osd', 'osd_desc', 'ilNotificationOSDHandler', 'Services/Notifications/classes/class.ilNotificationOSDHandler.php');
         }
 
-        if(!$ilDB->tableExists(self::$tbl_notification_types)) {
+        if (!$ilDB->tableExists(self::$tbl_notification_types)) {
             $fields = array(
                 'type_name'=>           array('type' => 'text', 'notnull' => true, 'length' => 100),
                 'title' =>              array('type' => 'text', 'notnull' => true, 'length' => 100),
@@ -119,13 +120,13 @@ class ilNotificationSetupHelper {
     }
 
 
-    public static function registerChannel($name, $title, $description,  $class, $classfile, $config_type = 'set_by_user') {
+    public static function registerChannel($name, $title, $description, $class, $classfile, $config_type = 'set_by_user')
+    {
         ilNotificationDatabaseHandler::registerChannel($name, $title, $description, $class, $classfile, $config_type);
     }
 
-    public static function registerType($name, $title, $description, $notification_group, $config_type = 'set_by_user') {
+    public static function registerType($name, $title, $description, $notification_group, $config_type = 'set_by_user')
+    {
         ilNotificationDatabaseHandler::registerType($name, $title, $description, $notification_group, $config_type);
     }
 }
-
-?>

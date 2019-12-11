@@ -336,6 +336,5 @@ class Factory implements G\Factory
     public function logout(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::LOGOUT, "logout", $action);
-
     }
 }

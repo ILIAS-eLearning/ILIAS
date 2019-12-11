@@ -11,31 +11,30 @@
  */
 class ilDataOutputElement extends ilBaseElement
 {
-	/** @var string $element_varname */
-	public $element_varname;
+    /** @var string $element_varname */
+    public $element_varname;
 
-	/**
-	 * @param                     $element
-	 * @param \ilWorkflowScaffold $class_object
-	 *
-	 * @return string
-	 */
-	public function getPHP($element, ilWorkflowScaffold $class_object)
-	{
-		$name = $element['name'];
-		$element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
-		$ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
+    /**
+     * @param                     $element
+     * @param \ilWorkflowScaffold $class_object
+     *
+     * @return string
+     */
+    public function getPHP($element, ilWorkflowScaffold $class_object)
+    {
+        $name = $element['name'];
+        $element_id = ilBPMN2ParserUtils::xsIDToPHPVarname($element['attributes']['id']);
+        $ext_name = ilBPMN2ParserUtils::extractDataNamingFromElement($element);
 
-		if($ext_name != null)
-		{
-			$name = $ext_name;
-		}
-		$code = "";
-		$code .= '
-			$this->defineInstanceVar("'.$element_id.'","'.$name.'" );
-			$this->registerOutputVar("'.$element_id.'");
+        if ($ext_name != null) {
+            $name = $ext_name;
+        }
+        $code = "";
+        $code .= '
+			$this->defineInstanceVar("' . $element_id . '","' . $name . '" );
+			$this->registerOutputVar("' . $element_id . '");
 ';
 
-		return $code;
-	}
+        return $code;
+    }
 }

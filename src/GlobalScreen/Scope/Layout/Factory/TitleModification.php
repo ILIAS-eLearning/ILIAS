@@ -54,4 +54,3 @@ class TitleModification extends AbstractLayoutModification implements LayoutModi
         return false;
     }
 }
-

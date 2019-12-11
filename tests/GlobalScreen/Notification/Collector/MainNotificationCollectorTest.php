@@ -9,7 +9,6 @@ require_once(__DIR__ . "/../BaseNotificationSetUp.php");
  */
 class MainNotificationCollectorTest extends BaseNotificationSetUp
 {
-
     public function testConstruct()
     {
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);

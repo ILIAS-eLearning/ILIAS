@@ -1003,8 +1003,8 @@ class ilInfoScreenGUI
         $i_tpl->setVariable("INFO_EDITED", $this->lng->txt("trac_info_edited"));
         $i_tpl->setVariable("SELECT_STATUS", ilUtil::formSelect(
             (int) ilLPMarks::_hasCompleted(
-            $ilUser->getId(),
-            $this->getContextObjId()
+                $ilUser->getId(),
+                $this->getContextObjId()
         ),
             'lp_edit',
             array(0 => $this->lng->txt('trac_not_completed'),

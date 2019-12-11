@@ -25,8 +25,10 @@ class DepthRangeFilterIterator extends \FilterIterator
         array_walk($comparators, function ($comparator) {
             if (!($comparator instanceof NumberComparator)) {
                 if (is_object($comparator)) {
-                    throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s',
-                        get_class($comparator)));
+                    throw new \InvalidArgumentException(sprintf(
+                        'Invalid comparator given: %s',
+                        get_class($comparator)
+                    ));
                 }
 
                 throw new \InvalidArgumentException(sprintf('Invalid comparator given: %s', gettype($comparator)));

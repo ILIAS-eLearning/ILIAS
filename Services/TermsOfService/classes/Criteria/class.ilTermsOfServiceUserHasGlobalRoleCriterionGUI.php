@@ -60,7 +60,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
         $option->setInfo($this->lng->txt('tos_crit_type_usr_global_role_info'));
 
         $roleSelection = new ilSelectInputGUI(
-            $this->lng->txt('perm_global_role'), $this->type->getTypeIdent() . '_role_id'
+            $this->lng->txt('perm_global_role'),
+            $this->type->getTypeIdent() . '_role_id'
         );
         $roleSelection->setRequired(true);
 

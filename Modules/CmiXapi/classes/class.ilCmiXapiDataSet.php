@@ -49,7 +49,7 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
 
-    function __construct($a_id = 0, $a_reference = true)
+    public function __construct($a_id = 0, $a_reference = true)
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
 
@@ -59,8 +59,7 @@ class ilCmiXapiDataSet extends ilDataSet
         //var_dump($this->_dataSetMapping); exit;
         parent::__construct();
 
-        foreach ($this->_cmixSettingsProperties as $key => $value)
-        {
+        foreach ($this->_cmixSettingsProperties as $key => $value) {
             $this->_element_db_mapping [$value["db_col"]] = $key;
         }
     }
@@ -71,7 +70,7 @@ class ilCmiXapiDataSet extends ilDataSet
      * @param $a_version
      * @param $a_id
      */
-    function readData($a_entity, $a_version, $a_ids)
+    public function readData($a_entity, $a_version, $a_ids)
     {
         global $DIC; /** @var $DIC \ILIAS\DI\Container */
 
@@ -81,18 +80,18 @@ class ilCmiXapiDataSet extends ilDataSet
         }
 
         //var_dump([$a_entity, $a_version, $a_id]); exit;
-        if( $a_entity == "cmix" ) {
+        if ($a_entity == "cmix") {
             switch ($a_version) {
                 case "5.1.0":
-                    $this->getDirectDataFromQuery("SELECT obj_id id, title, description ".
-                        " FROM object_data ".
-                        "WHERE ".
+                    $this->getDirectDataFromQuery("SELECT obj_id id, title, description " .
+                        " FROM object_data " .
+                        "WHERE " .
                         $DIC->database()->in("obj_id", $a_ids, false, "integer"));
                     break;
             } // EOF switch
         } // EOF if( $a_entity == "cmix" )
 
-        foreach( $this->data AS $key => $data ) {
+        foreach ($this->data as $key => $data) {
             $query  = "SELECT " . implode(",", array_keys($this->_element_db_mapping)) . " ";
             $query .= "FROM `cmix_settings` ";
             $query .= "WHERE " . $DIC->database()->in("obj_id", $a_ids, false, "integer");
@@ -131,14 +130,13 @@ class ilCmiXapiDataSet extends ilDataSet
         //var_dump($types); exit;
         //return $types;
 
-        if ($a_entity == "cmix")
-        {
-            switch ($a_version)
-            {
+        if ($a_entity == "cmix") {
+            switch ($a_version) {
                 case "5.1.0":
                     $types = [];
-                    foreach ($this->_cmixSettingsProperties as $key => $value)
+                    foreach ($this->_cmixSettingsProperties as $key => $value) {
                         $types[$key] = $value["db_type"];
+                    }
                     //return $types;
                     break;
             }
@@ -163,15 +161,15 @@ class ilCmiXapiDataSet extends ilDataSet
         $id = $this->data["Id"];
 
         // requirements
-        require_once ("./Services/Export/classes/class.ilExport.php");
-        require_once ("./Services/Xml/classes/class.ilXmlWriter.php");
+        require_once("./Services/Export/classes/class.ilExport.php");
+        require_once("./Services/Xml/classes/class.ilXmlWriter.php");
 
         // prepare archive skeleton
         $objTypeAndId = "cmix_" . $id;
         $this->_archive['directories'] = [
             "exportDir" => ilExport::_getExportDirectory($id)
             ,"tempDir" => ilExport::_getExportDirectory($id) . "/temp"
-            ,"archiveDir" => time() . "__" . IL_INST_ID . "__". $objTypeAndId
+            ,"archiveDir" => time() . "__" . IL_INST_ID . "__" . $objTypeAndId
             ,"moduleDir" => "cmix_" . $id
         ];
 
@@ -180,7 +178,7 @@ class ilCmiXapiDataSet extends ilDataSet
             "metadata" => "metadata.xml",
             "manifest" => 'manifest.xml',
         ];
-        if( false !== strpos($this->data['SourceType'], 'local') ) {
+        if (false !== strpos($this->data['SourceType'], 'local')) {
             $this->_archive['files']['content'] = "content.zip";
         }
 
@@ -188,12 +186,12 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
         // Prepare temp storage on the local filesystem
-        if (!file_exists ($this->_archive['directories']['exportDir'])) {
-            mkdir ($this->_archive['directories']['exportDir'], 0755, true);
+        if (!file_exists($this->_archive['directories']['exportDir'])) {
+            mkdir($this->_archive['directories']['exportDir'], 0755, true);
             //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
         }
-        if (!file_exists ($this->_archive['directories']['tempDir'])) {
-            mkdir ($this->_archive['directories']['tempDir'], 0755, true);
+        if (!file_exists($this->_archive['directories']['tempDir'])) {
+            mkdir($this->_archive['directories']['tempDir'], 0755, true);
             //$DIC->filesystem()->storage()->createDir($this->_archive['directories']['tempDir']);
         }
 
@@ -201,7 +199,7 @@ class ilCmiXapiDataSet extends ilDataSet
         // build metadata xml file
         file_put_contents(
             $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
-            $this->buildMetaData ($id)
+            $this->buildMetaData($id)
         );
 
         // build manifest xml file
@@ -211,9 +209,9 @@ class ilCmiXapiDataSet extends ilDataSet
         );
 
         // build content zip file
-        if( isset($this->_archive['files']['content']) ) {
-            $lmDir = ilUtil::getWebspaceDir ("filesystem")."/lm_data/lm_".$id;
-            ilUtil::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['content'], 0, -4) , true);
+        if (isset($this->_archive['files']['content'])) {
+            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/lm_" . $id;
+            ilUtil::zip($lmDir, $this->_archive['directories']['tempDir'] . "/" . substr($this->_archive['files']['content'], 0, -4), true);
         }
 
         // build property xml file
@@ -227,25 +225,26 @@ class ilCmiXapiDataSet extends ilDataSet
 
         $fileName = $this->_archive['directories']['exportDir'] . "/" . $this->_archive['directories']['archiveDir'] . ".zip";
         $zArchive = new ZipArchive();
-        if ($zArchive->open($fileName, ZipArchive::CREATE)!==TRUE) {
+        if ($zArchive->open($fileName, ZipArchive::CREATE)!==true) {
             exit("cannot open <$fileName>\n");
         }
         $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] ."/". $this->_archive['files']['properties'],
-            $this->_archive['directories']['archiveDir'].'/properties.xml'
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['properties'],
+            $this->_archive['directories']['archiveDir'] . '/properties.xml'
         );
         $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] ."/". $this->_archive['files']['manifest'],
-            $this->_archive['directories']['archiveDir'].'/'. "manifest.xml"
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['manifest'],
+            $this->_archive['directories']['archiveDir'] . '/' . "manifest.xml"
         );
         $zArchive->addFile(
-            $this->_archive['directories']['tempDir'] ."/". $this->_archive['files']['metadata'],
-            $this->_archive['directories']['archiveDir'].'/'. "metadata.xml"
+            $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['metadata'],
+            $this->_archive['directories']['archiveDir'] . '/' . "metadata.xml"
         );
-        if( isset($this->_archive['files']['content']) ) {
+        if (isset($this->_archive['files']['content'])) {
             $zArchive->addFile(
-                $this->_archive['directories']['tempDir'] ."/". $this->_archive['files']['content'],
-                $this->_archive['directories']['archiveDir'].'/content.zip');
+                $this->_archive['directories']['tempDir'] . "/" . $this->_archive['files']['content'],
+                $this->_archive['directories']['archiveDir'] . '/content.zip'
+            );
         }
         //var_dump($zArchive); exit;
         $zArchive->close();
@@ -259,10 +258,10 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
         // unlink tempDir and its content
-        unlink( $this->_archive['directories']['tempDir'] . "/metadata.xml" );
-        unlink( $this->_archive['directories']['tempDir'] . "/manifest.xml" );
-        unlink( $this->_archive['directories']['tempDir'] . "/properties.xml" );
-        if( isset($this->_archive['files']['content']) ) {
+        unlink($this->_archive['directories']['tempDir'] . "/metadata.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/manifest.xml");
+        unlink($this->_archive['directories']['tempDir'] . "/properties.xml");
+        if (isset($this->_archive['files']['content'])) {
             unlink($this->_archive['directories']['tempDir'] . "/content.zip");
         }
         //unlink($this->_archive['directories']['tempDir']);
@@ -284,7 +283,7 @@ class ilCmiXapiDataSet extends ilDataSet
      */
     public function buildMetaData($id)
     {
-        $md2xml = new ilMD2XML ($id, $id, "cmix");
+        $md2xml = new ilMD2XML($id, $id, "cmix");
         $md2xml->startExport();
         return $md2xml->getXML();
     }
@@ -292,12 +291,12 @@ class ilCmiXapiDataSet extends ilDataSet
     /**
      * @return string
      */
-    private function buildManifest() {
+    private function buildManifest()
+    {
         $manWriter = new ilXmlWriter();
         $manWriter->xmlHeader();
-        foreach ($this->_archive['files'] as $key => $value)
-        {
-            $manWriter->xmlElement($key, Null, $value, TRUE, TRUE);
+        foreach ($this->_archive['files'] as $key => $value) {
+            $manWriter->xmlElement($key, null, $value, true, true);
         }
         #$manWriter->appendXML ("</content>\n");
         return $manWriter->xmlDumpMem(true);
@@ -309,25 +308,23 @@ class ilCmiXapiDataSet extends ilDataSet
      * @return string
      */
     private function buildProperties($a_entity, $a_omit_header = false)
-	{
+    {
         $atts = array(
-        	"InstallationId" => IL_INST_ID,
+            "InstallationId" => IL_INST_ID,
             "InstallationUrl" => ILIAS_HTTP_PATH,
-			"TopEntity" => $a_entity
-		);
+            "TopEntity" => $a_entity
+        );
         
         $writer = new ilXmlWriter();
         
         $writer->xmlStartTag('DataSet', $atts);
         
-        if (!$a_omit_header)
-        {
-        	$writer->xmlHeader();
+        if (!$a_omit_header) {
+            $writer->xmlHeader();
         }
         
-        foreach ($this->data as $key => $value)
-        {
-            $writer->xmlElement($key, Null, $value, TRUE, TRUE);
+        foreach ($this->data as $key => $value) {
+            $writer->xmlElement($key, null, $value, true, true);
         }
         
         $writer->xmlEndTag("DataSet");
@@ -361,21 +358,17 @@ class ilCmiXapiDataSet extends ilDataSet
      * @param $a_mapping
      * @param $a_schema_version
      */
-    function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
     {
         //var_dump( [$a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version] ); exit;
-        switch ($a_entity)
-        {
+        switch ($a_entity) {
             case "cmix":
 
                 include_once("./Modules/CmiXapi/classes/class.ilObjCmiXapi.php");
 
-                if($new_id = $a_mapping->getMapping('Services/Container','objs',$a_rec['Id']))
-                {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id,false);
-                }
-                else
-                {
+                if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
+                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                } else {
                     $newObj = new ilObjCmiXapi();
                     $newObj->setType("cmix");
                     $newObj->create(true);
@@ -424,9 +417,9 @@ class ilCmiXapiDataSet extends ilDataSet
      * @param
      * @return
      */
-    function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace($a_entity, $a_schema_version)
     {
-        return "http://www.ilias.de/xml/Modules/CmiXapi/".$a_entity;
+        return "http://www.ilias.de/xml/Modules/CmiXapi/" . $a_entity;
     }
 
     /**
@@ -436,11 +429,4 @@ class ilCmiXapiDataSet extends ilDataSet
     {
         return false;
     }
-
-
-
-
-
-
 }
-

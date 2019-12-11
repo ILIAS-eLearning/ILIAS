@@ -48,8 +48,8 @@ class ilLSLocalDI extends Container
 
         $this["db.progress"] = function ($c) use ($dic) : ilLearnerProgressDB {
             return new ilLearnerProgressDB(
-                 $c["db.lsitems"],
-                 $dic["ilAccess"]
+                $c["db.lsitems"],
+                $dic["ilAccess"]
             );
         };
 
@@ -122,9 +122,9 @@ class ilLSLocalDI extends Container
 
         $this["player.controlbuilder"] = function ($c) use ($dic) : LSControlBuilder {
             return new LSControlBuilder(
-                 $dic["ui.factory"],
-                 $c["player.urlbuilder"],
-                 $dic["lng"]
+                $dic["ui.factory"],
+                $c["player.urlbuilder"],
+                $dic["lng"]
              );
         };
 

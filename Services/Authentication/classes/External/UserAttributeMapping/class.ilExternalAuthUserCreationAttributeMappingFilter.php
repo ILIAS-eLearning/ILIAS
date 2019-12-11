@@ -7,11 +7,11 @@
  */
 class ilExternalAuthUserCreationAttributeMappingFilter extends FilterIterator
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function accept()
-	{
-		return true;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function accept()
+    {
+        return true;
+    }
 }

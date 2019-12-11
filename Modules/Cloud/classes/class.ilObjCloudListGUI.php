@@ -78,7 +78,7 @@ class ilObjCloudListGUI extends ilObjectListGUI
     /**
      * @return array
      */
-    function getProperties()
+    public function getProperties()
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -152,14 +152,14 @@ class ilObjCloudListGUI extends ilObjectListGUI
     {
         foreach ($custom_list_actions as $custom_list_action) {
             if (array_key_exists("custom_url", $custom_list_action)) {
-                array_push($custom_urls,
+                array_push(
+                    $custom_urls,
                     [
                         "id"   => $custom_list_action["lang_var"],
                         "link" => $custom_list_action["custom_url"],
-                    ]);
+                    ]
+                );
             }
         }
     }
 }
-
-?>

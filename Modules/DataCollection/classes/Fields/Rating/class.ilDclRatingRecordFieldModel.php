@@ -116,5 +116,3 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $ilDB->manipulate($query2);
     }
 }
-
-?>

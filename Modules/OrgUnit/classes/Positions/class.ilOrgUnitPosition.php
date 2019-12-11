@@ -7,7 +7,6 @@
  */
 class ilOrgUnitPosition extends \ActiveRecord
 {
-
     const CORE_POSITION_EMPLOYEE = 1;
     const CORE_POSITION_SUPERIOR = 2;
 

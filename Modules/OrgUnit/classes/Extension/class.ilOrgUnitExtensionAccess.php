@@ -7,5 +7,4 @@
  */
 class ilOrgUnitExtensionAccess extends ilObjectPluginAccess
 {
-
 }

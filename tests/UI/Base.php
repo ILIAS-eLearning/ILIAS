@@ -259,28 +259,28 @@ abstract class ILIAS_UI_TestBase extends TestCase
         $component_renderer_loader
             = new Render\LoaderCachingWrapper(
                 new Render\LoaderResourceRegistryWrapper(
-                $resource_registry,
-                new Render\FSLoader(
-                        new DefaultRendererFactory(
-                        $ui_factory,
-                        $tpl_factory,
-                        $lng,
-                        $js_binding,
-                        $refinery
+                    $resource_registry,
+                    new Render\FSLoader(
+                    new DefaultRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
                             ),
-                        new GlyphRendererFactory(
-                              $ui_factory,
-                              $tpl_factory,
-                              $lng,
-                              $js_binding,
-                              $refinery
+                    new GlyphRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
                           ),
-                        new FieldRendererFactory(
-                              $ui_factory,
-                              $tpl_factory,
-                              $lng,
-                              $js_binding,
-                              $refinery
+                    new FieldRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery
                           )
                         )
                     )

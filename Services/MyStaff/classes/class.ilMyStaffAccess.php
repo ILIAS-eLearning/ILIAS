@@ -18,7 +18,6 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class ilMyStaffAccess extends ilObjectAccess
 {
-
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
     const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
@@ -68,7 +67,6 @@ class ilMyStaffAccess extends ilObjectAccess
      */
     private function __construct()
     {
-
     }
 
 
@@ -531,14 +529,23 @@ class ilMyStaffAccess extends ilObjectAccess
 
         $all_users_for_user = $this->getUsersForUser($GLOBALS['DIC']->user()->getId());
 
-        $tmp_table_objects_specific_perimissions = $this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext($org_unit_operation_string, $context,
-            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS);
+        $tmp_table_objects_specific_perimissions = $this->buildTempTableIlobjectsSpecificPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS
+        );
 
-        $tmp_table_objects_default_perimissions = $this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext($org_unit_operation_string, $context,
-            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS);
+        $tmp_table_objects_default_perimissions = $this->buildTempTableIlobjectsDefaultPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS
+        );
 
-        $tmp_table_orgunit_default_perimissions = $this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext($org_unit_operation_string, $context,
-            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS);
+        $tmp_table_orgunit_default_perimissions = $this->buildTempTableIlorgunitDefaultPermissionSetForOperationAndContext(
+            $org_unit_operation_string,
+            $context,
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
+        );
 
         $tmp_table_course_members = $this->buildTempTableCourseMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS, $all_users_for_user);
 

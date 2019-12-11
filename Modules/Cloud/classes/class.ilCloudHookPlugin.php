@@ -21,7 +21,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
      *
      * @return        string        Component Type
      */
-    final function getComponentType()
+    final public function getComponentType()
     {
         return IL_COMP_MODULE;
     }
@@ -32,7 +32,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
      *
      * @return        string        Component Name
      */
-    final function getComponentName()
+    final public function getComponentName()
     {
         return "Cloud";
     }
@@ -43,7 +43,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
      *
      * @return        string        Slot Name
      */
-    final function getSlot()
+    final public function getSlot()
     {
         return "CloudHook";
     }
@@ -54,7 +54,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
      *
      * @return        string        Slot Id
      */
-    final function getSlotId()
+    final public function getSlotId()
     {
         return "cldh";
     }
@@ -63,7 +63,7 @@ abstract class ilCloudHookPlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    protected final function slotInit()
+    final protected function slotInit()
     {
         // nothing to do here
     }
@@ -92,5 +92,3 @@ abstract class ilCloudHookPlugin extends ilPlugin
         return $this->getPluginTablePrefix() . "_config";
     }
 }
-
-?>

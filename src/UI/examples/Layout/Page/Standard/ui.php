@@ -86,7 +86,6 @@ function pagedemoCrumbs($f)
 
 function pagedemoContent($f, $r, $mainbar)
 {
-
     $tools = $mainbar->getToolEntries();
 
     $second_tool = array_values($tools)[1];
@@ -103,10 +102,10 @@ function pagedemoContent($f, $r, $mainbar)
             'Using Signals',
             $f->legacy(
                 "This button will replace the contents of the second tool-slate.<br />"
-                ."Goto Tools, second entry and click it.<br />"
-                .$r->render($replace_btn)
-                ."<br><br>This will unhide and activate another tool<br />"
-                .$r->render($invisible_tool_btn)
+                . "Goto Tools, second entry and click it.<br />"
+                . $r->render($replace_btn)
+                . "<br><br>This will unhide and activate another tool<br />"
+                . $r->render($invisible_tool_btn)
             )
         ),
 

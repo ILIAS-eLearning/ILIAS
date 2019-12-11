@@ -205,7 +205,7 @@ class ilStudyProgrammeUserAssignment
                 } catch (ilStudyProgrammeNoProgressForAssignmentException $e) {
                     $log->write("Adding progress for: " . $id . " " . $node->getId());
                     $progress_repository->update(
-                            $progress_repository->createFor(
+                        $progress_repository->createFor(
                                 $node->getRawSettings(),
                                 $assignment
                             )->setStatus(

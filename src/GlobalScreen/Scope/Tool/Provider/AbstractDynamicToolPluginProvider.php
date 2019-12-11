@@ -10,6 +10,5 @@ use ILIAS\GlobalScreen\Provider\PluginProviderHelper;
  */
 abstract class AbstractDynamicToolPluginProvider extends AbstractDynamicToolProvider implements DynamicToolProvider, PluginProvider
 {
-
     use PluginProviderHelper;
 }

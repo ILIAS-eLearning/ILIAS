@@ -116,7 +116,7 @@ class ilDclRecordEditGUI
         $this->ctrl->saveParameter($this, 'redirect');
         if ($this->record_id) {
             $this->record = ilDclCache::getRecordCache($this->record_id);
-            if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) OR !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
+            if (!$this->record->hasPermissionToEdit($this->parent_obj->ref_id) or !$this->record->hasPermissionToView($this->parent_obj->ref_id)) {
                 $this->accessDenied();
             }
             $this->table = $this->record->getTable();
@@ -366,7 +366,6 @@ class ilDclRecordEditGUI
 
     public function saveConfirmation(ilDclBaseRecordModel $record_obj, $filehash)
     {
-
         $permission = ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id);
         if ($permission) {
             $all_fields = $this->table->getRecordFields();
@@ -766,5 +765,3 @@ class ilDclRecordEditGUI
         return $this->form;
     }
 }
-
-?>

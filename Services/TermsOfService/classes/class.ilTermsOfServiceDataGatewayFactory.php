@@ -21,7 +21,7 @@ class ilTermsOfServiceDataGatewayFactory
     /**
      * @return ilDBInterface|null
      */
-    public function getDatabaseAdapter() :? ilDBInterface
+    public function getDatabaseAdapter() : ? ilDBInterface
     {
         return $this->db;
     }

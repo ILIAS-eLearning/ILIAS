@@ -35,13 +35,12 @@ class Renderer extends AbstractComponentRenderer
         $contents = [];
         foreach ($component->getContents() as $entry) {
             if ($entry instanceof ISlate\Slate && !$entry instanceof ISlate\Notification) {
-
                 $trigger_signal = $entry->getToggleSignal();
                 $triggerer = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withOnClick($trigger_signal);
 
                 $mb_id = $entry->getMainBarTreePosition();
-                if($mb_id) {
+                if ($mb_id) {
                     $trigger_signal = $component->getTriggerSignal($mb_id);
                     $triggerer = $triggerer
                         ->withOnClick($trigger_signal)
@@ -65,8 +64,7 @@ class Renderer extends AbstractComponentRenderer
         ISlate\Slate $component,
         $contents,
         RendererInterface $default_renderer
-    )
-    {
+    ) {
         $tpl = $this->getTemplate("Slate/tpl.slate.html", true, true);
 
         $tpl->setVariable('CONTENTS', $default_renderer->render($contents));
@@ -85,7 +83,7 @@ class Renderer extends AbstractComponentRenderer
 
         $mb_id = $component->getMainBarTreePosition();
 
-        if($mb_id) {
+        if ($mb_id) {
             $tpl->setVariable('TREE_DEPTH', $component->getMainBarTreeDepth());
         }
 
@@ -96,13 +94,14 @@ class Renderer extends AbstractComponentRenderer
                     $js .= "$(document).on('{$signal}', function(event, signalData) { fn('{$key}', event, signalData, '{$id}'); return false;});";
                 }
 
-                if($mb_id) {
+                if ($mb_id) {
                     $js .= "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'slate', '{$id}');";
                 }
 
 
                 return $js;
-            });
+            }
+        );
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
 

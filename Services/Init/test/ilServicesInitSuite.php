@@ -5,7 +5,8 @@ use PHPUnit\Framework\TestSuite;
 /**
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilServicesInitSuite extends TestSuite {
+class ilServicesInitSuite extends TestSuite
+{
     public static function suite()
     {
         $suite = new ilServicesInitSuite();
@@ -16,4 +17,4 @@ class ilServicesInitSuite extends TestSuite {
 
         return $suite;
     }
-} 
+}

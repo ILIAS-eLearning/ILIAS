@@ -317,7 +317,6 @@ class ilDclDetailedViewGUI
 
     protected function renderComments($edit = false)
     {
-
         if (!$edit) {
             return $this->notesGUI->getOnlyCommentsHtml();
         } else {
@@ -429,5 +428,3 @@ class ilDclDetailedViewGUI
             && ilDclDetailedViewDefinition::isActive($this->tableview_id);
     }
 }
-
-?>

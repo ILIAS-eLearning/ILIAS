@@ -50,7 +50,8 @@ class DownloadConsumer implements DeliveryConsumer
         $response = $response->withHeader(ResponseHeader::CONNECTION, 'close');
         $response = $response->withHeader(ResponseHeader::ACCEPT_RANGES, 'bytes');
         $response = $response->withHeader(
-            ResponseHeader::CONTENT_DISPOSITION, 'attachment'
+            ResponseHeader::CONTENT_DISPOSITION,
+            'attachment'
             . '; filename="'
             . $file_name
             . '"'

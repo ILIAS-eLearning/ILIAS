@@ -687,7 +687,7 @@ class ilWikiPage extends ilPageObject
             array($this->getWikiId(), ilWikiUtil::makeDbTitle($this->getTitle()))
         );
         while ($anmiss = $ilDB->fetchAssoc($set)) {	// insert internal links instead
-//echo "adding link";
+            //echo "adding link";
             ilInternalLink::_saveLink(
                 "wpg:pg",
                 $anmiss["source_id"],

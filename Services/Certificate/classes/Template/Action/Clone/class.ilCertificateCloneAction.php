@@ -166,7 +166,6 @@ class ilCertificateCloneAction
                     $cardThumbImagePath,
                     $newCardThumbImage
                 );
-
             }
 
             $newTemplate = new ilCertificateTemplate(

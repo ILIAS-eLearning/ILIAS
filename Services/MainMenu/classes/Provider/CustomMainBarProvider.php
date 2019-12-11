@@ -52,7 +52,8 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic) {
+    public function __construct(Container $dic)
+    {
         parent::__construct($dic);
         $this->access_helper = BasicAccessCheckClosures::getInstance();
     }

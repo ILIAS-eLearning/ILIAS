@@ -14,7 +14,6 @@ use ILIAS\DI\Container;
  */
 class ilMStListCompetencesGUI
 {
-
     const CMD_APPLY_FILTER = 'applyFilter';
     const CMD_INDEX = 'index';
     const CMD_GET_ACTIONS = "getActions";
@@ -67,7 +66,6 @@ class ilMStListCompetencesGUI
      */
     public function executeCommand()
     {
-
         $cmd = $this->dic->ctrl()->getCmd();
         $next_class = $this->dic->ctrl()->getNextClass();
         switch ($next_class) {
@@ -123,7 +121,6 @@ class ilMStListCompetencesGUI
      */
     public function getActions()
     {
-
         $mst_co_usr_id = $this->dic->http()->request()->getQueryParams()['mst_lco_usr_id'];
         $mst_lco_crs_ref_id = $this->dic->http()->request()->getQueryParams()['mst_lco_crs_ref_id'];
 

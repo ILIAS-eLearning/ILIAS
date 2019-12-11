@@ -12,7 +12,7 @@ use \ILIAS\UI\Implementation as I;
 class IconTest extends ILIAS_UI_TestBase
 {
     const ICON_PATH = __DIR__ . "/../../../../../templates/default/images/";
-    const ICON_OUTLINED_PATH = self::ICON_PATH."outlined/";
+    const ICON_OUTLINED_PATH = self::ICON_PATH . "outlined/";
 
     private function getIconFactory()
     {
@@ -201,21 +201,23 @@ class IconTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function testAllStandardIconsExist(){
+    public function testAllStandardIconsExist()
+    {
         $f = $this->getIconFactory();
-        $default_icons_abr = $f->standard("nothing","nothing")->getAllStandardHandles();
+        $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
 
         foreach ($default_icons_abr as $icon_abr) {
-            $this->assertTrue(file_exists(self::ICON_PATH."icon_".$icon_abr.".svg"));
+            $this->assertTrue(file_exists(self::ICON_PATH . "icon_" . $icon_abr . ".svg"));
         }
     }
 
-    public function testAllOutlinedIconsExist(){
+    public function testAllOutlinedIconsExist()
+    {
         $f = $this->getIconFactory();
-        $default_icons_abr = $f->standard("nothing","nothing")->getAllStandardHandles();
+        $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
 
         foreach ($default_icons_abr as $icon_abr) {
-            $this->assertTrue(file_exists(self::ICON_OUTLINED_PATH."icon_".$icon_abr.".svg"));
+            $this->assertTrue(file_exists(self::ICON_OUTLINED_PATH . "icon_" . $icon_abr . ".svg"));
         }
     }
 }

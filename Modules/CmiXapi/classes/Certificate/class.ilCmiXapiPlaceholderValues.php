@@ -117,7 +117,7 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         return $placeholders;
     }
 
-    public function getPlaceholderValues(int $userId, int $objId): array
+    public function getPlaceholderValues(int $userId, int $objId) : array
     {
         $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
 
@@ -127,21 +127,19 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
         $placeholders['OBJECT_TITLE'] = $this->utilHelper->prepareFormOutput($object->getTitle());
         $placeholders['OBJECT_DESCRIPTION'] = $this->utilHelper->prepareFormOutput($object->getDescription());
 
-        $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->getReachedScore((int)$objId, (int)$userId));
+        $placeholders['REACHED_SCORE'] = $this->utilHelper->prepareFormOutput($this->getReachedScore((int) $objId, (int) $userId));
 
         return $placeholders;
     }
 
-    protected function getReachedScore(int $objectId, int $userId): string
+    protected function getReachedScore(int $objectId, int $userId) : string
     {
-        try
-        {
+        try {
             $cmixResult = ilCmiXapiResult::getInstanceByObjIdAndUsrId(
-                $objectId, $userId
+                $objectId,
+                $userId
             );
-        }
-        catch(ilCmiXapiException $e)
-        {
+        } catch (ilCmiXapiException $e) {
             $cmixResult = ilCmiXapiResult::getEmptyInstance();
         }
 

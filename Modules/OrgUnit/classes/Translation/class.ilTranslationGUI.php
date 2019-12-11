@@ -39,7 +39,7 @@ class ilTranslationGUI
     protected $ilObjectOrgUnit;
 
 
-    function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
+    public function __construct(ilObjOrgUnitGUI $ilObjOrgUnitGUI)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -77,8 +77,12 @@ class ilTranslationGUI
     {
         $this->lng->loadLanguageModule($this->ilObjectOrgUnit->getType());
 
-        $table = new ilObjectTranslationTableGUI($this, "editTranslations", true,
-            "Translation");
+        $table = new ilObjectTranslationTableGUI(
+            $this,
+            "editTranslations",
+            true,
+            "Translation"
+        );
         if ($a_get_post_values) {
             $vals = array();
             foreach ($_POST["title"] as $k => $v) {
@@ -107,7 +111,7 @@ class ilTranslationGUI
     /**
      * Save title and translations
      */
-    function saveTranslations()
+    public function saveTranslations()
     {
         // default language set?
         if (!isset($_POST["default"])) {
@@ -145,7 +149,8 @@ class ilTranslationGUI
                 ilUtil::stripSlashes($v),
                 ilUtil::stripSlashes($_POST["desc"][$k]),
                 ilUtil::stripSlashes($_POST["lang"][$k]),
-                $is_default);
+                $is_default
+            );
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -156,9 +161,8 @@ class ilTranslationGUI
     /**
      * Add a translation
      */
-    function addTranslation()
+    public function addTranslation()
     {
-
         if ($_POST["title"]) {
             $k = max(array_keys($_POST["title"]));
             $k++;
@@ -173,7 +177,7 @@ class ilTranslationGUI
     /**
      * Remove translation
      */
-    function deleteTranslations()
+    public function deleteTranslations()
     {
         foreach ($_POST["title"] as $k => $v) {
             if ($_POST["check"][$k]) {

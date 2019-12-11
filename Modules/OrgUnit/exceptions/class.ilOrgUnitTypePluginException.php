@@ -9,7 +9,8 @@ require_once('class.ilOrgUnitTypeException.php');
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypePluginException extends ilObjOrgUnitException {
+class ilOrgUnitTypePluginException extends ilObjOrgUnitException
+{
 
     /**
      * Contains plugin objects causing this exception
@@ -18,7 +19,8 @@ class ilOrgUnitTypePluginException extends ilObjOrgUnitException {
     protected $plugins = array();
 
 
-    public function __construct($a_message, $plugins=array()) {
+    public function __construct($a_message, $plugins=array())
+    {
         parent::__construct($a_message);
         $this->plugins = $plugins;
     }
@@ -38,6 +40,4 @@ class ilOrgUnitTypePluginException extends ilObjOrgUnitException {
     {
         return $this->plugins;
     }
-
-
 }

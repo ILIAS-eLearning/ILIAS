@@ -9,7 +9,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
  */
 class ilOrgUnitPositionFormGUI extends BaseForm
 {
-
     const F_AUTHORITIES = "authorities";
     /**
      * @var \ilOrgUnitPosition

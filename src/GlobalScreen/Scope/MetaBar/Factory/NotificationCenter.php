@@ -97,7 +97,7 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         $new = $this->getAmountOfNewNotifications();
         $old = $this->getAmountOfOldNotifications() - $new;
         $glyph = $f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty($new));
-        if($old > 0){
+        if ($old > 0) {
             $glyph = $glyph->withCounter($f->counter()->status($old));
         }
         return $glyph;

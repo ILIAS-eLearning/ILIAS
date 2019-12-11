@@ -13,7 +13,6 @@ use ILIAS\MainMenu\Storage\Information\Information;
  */
 interface Revision
 {
-
     public const STATUS_ACTIVE = 1;
 
 

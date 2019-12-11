@@ -7,12 +7,11 @@ class ilServicesTreeSuite extends TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesTreeSuite();
-		
-		include_once("./Services/Tree/test/ilTreeTest.php");
-		$suite->addTestSuite("ilTreeTest");
+        $suite = new ilServicesTreeSuite();
+        
+        include_once("./Services/Tree/test/ilTreeTest.php");
+        $suite->addTestSuite("ilTreeTest");
 
-		return $suite;
+        return $suite;
     }
 }
-?>

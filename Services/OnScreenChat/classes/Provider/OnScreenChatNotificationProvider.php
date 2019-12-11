@@ -76,7 +76,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         if ($showAcceptMessageChange) {
             $description = sprintf(
                 $this->dic->language()->txt('chat_osc_dont_accept_msg'),
-                $this->dic->ui()->renderer()->render($this->dic->ui()->factory()
+                $this->dic->ui()->renderer()->render(
+                    $this->dic->ui()->factory()
                     ->link()
                     ->standard(
                         $this->dic->language()->txt('chat_osc_dont_accept_msg_link_txt'),
@@ -93,7 +94,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'),  'conversations');
+            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'), 'conversations');
         $title = $this->dic->language()->txt('chat_osc_conversations');
 
         $notificationItem = $this->dic->ui()->factory()
@@ -144,7 +145,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'),  'conversations');
+            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'), 'conversations');
         $title = $this->dic->language()->txt('chat_osc_conversations');
         if ($withAggregates && count($conversationIds) > 0) {
             $title = $this->dic->ui()->factory()
@@ -169,8 +170,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             0 === count($conversationIds) ||
             !$withAggregates ||
             (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous())
-        )
-        {
+        ) {
             return [$notificationItem];
         }
 
@@ -210,8 +210,10 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
 
             $aggregateTitle = $this->dic->ui()->factory()
                 ->button()
-                ->shy($name,
-                    '') // Important: Do not pass any action here, otherwise there will be onClick/return false;
+                ->shy(
+                    $name,
+                    ''
+                ) // Important: Do not pass any action here, otherwise there will be onClick/return false;
                 ->withAdditionalOnLoadCode(
                     function ($id) use ($conversation) {
                         return "

@@ -33,54 +33,50 @@ require_once('./webservice/soap/classes/class.ilSoapAdministration.php');
 class ilSoapDataCollectionAdministration extends ilSoapAdministration
 {
 
-	/**
-	 * Export DataCollection async
-	 *
-	 * @param               $sid
-	 * @param               $target_ref_id
-	 * @param null|int      $table_id
-	 * @param string        $format
-	 * @param null|string   $filepath
-	 *
-	 * @return soap_fault|SoapFault
-	 */
-	public function exportDataCollectionContent($sid, $target_ref_id, $table_id = null, $format = ilDclContentExporter::EXPORT_EXCEL, $filepath = null)
-	{
+    /**
+     * Export DataCollection async
+     *
+     * @param               $sid
+     * @param               $target_ref_id
+     * @param null|int      $table_id
+     * @param string        $format
+     * @param null|string   $filepath
+     *
+     * @return soap_fault|SoapFault
+     */
+    public function exportDataCollectionContent($sid, $target_ref_id, $table_id = null, $format = ilDclContentExporter::EXPORT_EXCEL, $filepath = null)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
 
-		$this->initAuth($sid);
-		$this->initIlias();
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
-		}
+        require_once "Modules/DataCollection/classes/class.ilObjDataCollection.php";
+        if (!$target_obj = new ilObjDataCollection($target_ref_id)) {
+            return $this->__raiseError('No valid target given.', 'CLIENT');
+        }
 
-		require_once "Modules/DataCollection/classes/class.ilObjDataCollection.php";
-		if(!$target_obj = new ilObjDataCollection($target_ref_id))
-		{
-			return $this->__raiseError('No valid target given.', 'CLIENT');
-		}
+        if (ilObject::_isInTrash($target_ref_id)) {
+            return $this->__raiseError(
+                "Parent with ID $target_ref_id has been deleted.",
+                'CLIENT_TARGET_DELETED'
+            );
+        }
 
-		if(ilObject::_isInTrash($target_ref_id))
-		{
-			return $this->__raiseError("Parent with ID $target_ref_id has been deleted.",
-							  'CLIENT_TARGET_DELETED');
-		}
+        if (!ilObjDataCollectionAccess::hasReadAccess($target_ref_id)) {
+            return $this->__raiseError(
+                'Check access failed. No permission to read DataCollection',
+                "CLIENT_PERMISSION_ISSUE"
+            );
+        }
 
-		if(!ilObjDataCollectionAccess::hasReadAccess($target_ref_id))
-		{
-			return $this->__raiseError('Check access failed. No permission to read DataCollection',
-							  "CLIENT_PERMISSION_ISSUE");
-		}
-
-		try {
-			require_once "Modules/DataCollection/classes/Content/class.ilDclContentExporter.php";
-			$exporter = new ilDclContentExporter($target_ref_id, $table_id);
-			return $exporter->export($format, $filepath);
-		}
-		catch(ilException $exception) {
-			return $this->__raiseError($exception->getMessage(), $exception->getCode());
-		}
-	}
-
+        try {
+            require_once "Modules/DataCollection/classes/Content/class.ilDclContentExporter.php";
+            $exporter = new ilDclContentExporter($target_ref_id, $table_id);
+            return $exporter->export($format, $filepath);
+        } catch (ilException $exception) {
+            return $this->__raiseError($exception->getMessage(), $exception->getCode());
+        }
+    }
 }
-?>

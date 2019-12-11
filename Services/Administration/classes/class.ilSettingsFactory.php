@@ -62,9 +62,9 @@ class ilSettingsFactory
             // Provoke a setting to populate the value_type in ilSettings,
             // use a field that is likely to exist.
             $settings->set(
-                    "common",
-                    "system_user_id",
-                    $settings->get("common", "system_user_id")
+                "common",
+                "system_user_id",
+                $settings->get("common", "system_user_id")
                 );
         } finally {
             $GLOBALS["DIC"] = $tmp_dic;

@@ -30,7 +30,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
 
     /**
      * Constructor for DAV Object
-     * 
+     *
      * Note: There is a good reason why I want an ILIAS-Object in the constructor and not a ref_id.
      * This is because every instance of ilObjectDAV and its inherited children
      * represent an ILIAS-object for WebDAV. If there isn't an ILIAS-object there is
@@ -38,11 +38,11 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      *
      * @param ilObject $a_obj
      */
-    function __construct(ilObject $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
+    public function __construct(ilObject $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
         global $DIC;
         
-        $this->obj =& $a_obj;
+        $this->obj =&$a_obj;
         $this->ref_id = $a_obj->getRefId();
 
         $this->dav_helper = $dav_helper;
@@ -53,7 +53,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      * Returns the ref id of this object.
      * @return int.
      */
-    function getRefId()
+    public function getRefId()
     {
         return $this->ref_id;
     }
@@ -62,7 +62,7 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      * Returns the object id of this object.
      * @return int.
      */
-    function getObjectId()
+    public function getObjectId()
     {
         return ($this->obj == null) ? null : $this->obj->getId();
     }
@@ -74,8 +74,8 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      *
      * @return int
      */
-    function getLastModified() {
-        
+    public function getLastModified()
+    {
         return ($this->obj == null) ? null : strtotime($this->obj->getLastUpdateDate());
     }
 
@@ -88,12 +88,9 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      */
     public function delete()
     {
-        if($this->repo_helper->checkAccess('delete', $this->ref_id))
-        {
+        if ($this->repo_helper->checkAccess('delete', $this->ref_id)) {
             $this->repo_helper->deleteObject($this->ref_id);
-        }
-        else
-        {
+        } else {
             throw new Forbidden("Permission denied");
         }
     }
@@ -105,16 +102,13 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      * @throws Sabre\DAV\Exception\Forbidden
      * @return void
      */
-    function setName($a_name)
+    public function setName($a_name)
     {
-        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId()))
-        {
+        if ($this->repo_helper->checkAccess("write", $this->obj->getRefId())) {
             if ($this->dav_helper->isDAVableObjTitle($a_name)) {
                 $this->obj->setTitle($a_name);
                 $this->obj->update();
-            }
-            else
-            {
+            } else {
                 throw new Forbidden('Forbidden characters in title');
             }
         } else {
@@ -127,17 +121,17 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      * {@inheritDoc}
      * @see \Sabre\DAV\INode::getName()
      */
-    function getName()
+    public function getName()
     {
         return $this->obj->getTitle();
     }
     
     /**
      * Returns ILIAS Object
-     * 
+     *
      * @return ilObject
      */
-    function getObject()
+    public function getObject()
     {
         return $this->obj;
     }

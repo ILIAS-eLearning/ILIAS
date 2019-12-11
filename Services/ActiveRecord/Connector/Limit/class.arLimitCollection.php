@@ -8,21 +8,21 @@ require_once('class.arLimit.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
-class arLimitCollection extends arStatementCollection {
+class arLimitCollection extends arStatementCollection
+{
 
-	/**
-	 * @return string
-	 */
-	public function asSQLStatement() {
-		if ($this->hasStatements()) {
-			/**
-			 * @var $last arLimit
-			 */
-			$last = end($this->getStatements());
+    /**
+     * @return string
+     */
+    public function asSQLStatement()
+    {
+        if ($this->hasStatements()) {
+            /**
+             * @var $last arLimit
+             */
+            $last = end($this->getStatements());
 
-			return $last->asSQLStatement($this->getAr());
-		}
-	}
+            return $last->asSQLStatement($this->getAr());
+        }
+    }
 }
-
-?>

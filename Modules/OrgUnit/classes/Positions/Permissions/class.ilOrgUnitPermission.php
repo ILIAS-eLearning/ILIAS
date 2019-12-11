@@ -7,7 +7,6 @@
  */
 class ilOrgUnitPermission extends ActiveRecord
 {
-
     const PARENT_TEMPLATE = -1;
     const TABLE_NAME = 'il_orgu_permissions';
     /**

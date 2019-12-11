@@ -82,7 +82,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isIt
     public function getOldNotificationsCount() : int
     {
         $count = 0;
-        foreach ($this->notifications as $notification){
+        foreach ($this->notifications as $notification) {
             $count += $notification->getOldAmount();
         }
         return $count;
@@ -94,7 +94,7 @@ class StandardNotificationGroup extends AbstractBaseNotification implements isIt
     public function getNewNotificationsCount() : int
     {
         $count = 0;
-        foreach ($this->notifications as $notification){
+        foreach ($this->notifications as $notification) {
             $count += $notification->getNewAmount();
         }
         return $count;

@@ -53,4 +53,3 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->assertEquals($object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
     }
 }
-

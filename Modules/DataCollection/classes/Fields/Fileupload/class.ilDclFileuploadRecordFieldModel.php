@@ -12,12 +12,10 @@
  */
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
     public function parseValue($value)
     {
         global $DIC;
-        if ($value == -1) //marked for deletion.
-        {
+        if ($value == -1) { //marked for deletion.
             return 0;
         }
 
@@ -60,7 +58,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $file_id = $file_obj->getId();
             $return = $file_id;
-            // handover for save-confirmation
+        // handover for save-confirmation
         } else {
             if (is_array($file) && isset($file['tmp_name']) && $file['tmp_name'] != "") {
                 $return = $file;

@@ -14,10 +14,10 @@
  */
 class ilObjCmiXapiAdministration extends ilObject
 {
-	public function __construct($a_id = 0, $a_reference = true)
-	{
-		parent::__construct($a_id, $a_reference);
-		
-		$this->type = "cmis";
-	}
+    public function __construct($a_id = 0, $a_reference = true)
+    {
+        parent::__construct($a_id, $a_reference);
+        
+        $this->type = "cmis";
+    }
 }

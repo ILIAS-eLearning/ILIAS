@@ -15,7 +15,6 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserCoursesGUI
 {
-
     const CMD_INDEX = 'index';
     const CMD_RESET_FILTER = 'resetFilter';
     const CMD_APPLY_FILTER = 'applyFilter';

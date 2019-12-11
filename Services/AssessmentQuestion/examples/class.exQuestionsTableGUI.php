@@ -15,30 +15,30 @@
  */
 class exQuestionsTableGUI extends ilTable2GUI
 {
-	/**
-	 * @param array $questionData
-	 */
-	public function fillRow($questionData)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		/**
-		 * use the associative array containing the question data
-		 * for filling any table column with title, comment, points, etc.
-		 */
-		
-		$this->tpl->setVariable('QUESTION_TITLE', $questionData['title']);
-		
-		/**
-		 * use the questionId and the ilAsqFactory to get an ilAsqQuestionAuthoring instance
-		 * that provides interface methods to get neccessary links related to the question
-		 */
-		
-		$questionInstance = $DIC->question()->getQuestionInstance( $questionData['questionId'] );
-		$questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
-		
-		$previewLinkComponent = $questionAuthoringGUI->getPreviewLink();
-		
-		$this->tpl->setVariable('QUESTION_HREF', $previewLinkComponent->getAction());
-	}
+    /**
+     * @param array $questionData
+     */
+    public function fillRow($questionData)
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        
+        /**
+         * use the associative array containing the question data
+         * for filling any table column with title, comment, points, etc.
+         */
+        
+        $this->tpl->setVariable('QUESTION_TITLE', $questionData['title']);
+        
+        /**
+         * use the questionId and the ilAsqFactory to get an ilAsqQuestionAuthoring instance
+         * that provides interface methods to get neccessary links related to the question
+         */
+        
+        $questionInstance = $DIC->question()->getQuestionInstance($questionData['questionId']);
+        $questionAuthoringGUI = $DIC->question()->getAuthoringCommandInstance($questionInstance);
+        
+        $previewLinkComponent = $questionAuthoringGUI->getPreviewLink();
+        
+        $this->tpl->setVariable('QUESTION_HREF', $previewLinkComponent->getAction());
+    }
 }

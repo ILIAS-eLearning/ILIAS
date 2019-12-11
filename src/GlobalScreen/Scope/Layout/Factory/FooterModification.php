@@ -54,4 +54,3 @@ class FooterModification extends AbstractLayoutModification implements LayoutMod
         return false;
     }
 }
-

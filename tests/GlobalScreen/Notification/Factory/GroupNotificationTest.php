@@ -15,7 +15,6 @@ class GroupNotificationTest extends BaseNotificationSetUp
 
         $this->assertInstanceOf(StandardNotificationGroup::class, $group_notification);
         $this->assertEquals($this->id, $group_notification->getProviderIdentification());
-
     }
 
     public function testWitTitle()
@@ -80,15 +79,20 @@ class GroupNotificationTest extends BaseNotificationSetUp
     public function testGetRenderer()
     {
         $group_notification = $this->factory->standardGroup($this->id);
-        $this->assertInstanceOf(StandardNotificationGroupRenderer::class,
-            $group_notification->getRenderer($this->getUIFactory()));
+        $this->assertInstanceOf(
+            StandardNotificationGroupRenderer::class,
+            $group_notification->getRenderer($this->getUIFactory())
+        );
     }
 
     public function testWithOpenedCallable()
     {
-        $callable = function (){return "something";};
+        $callable = function () {
+            return "something";
+        };
         $standard_notification = $this->factory->standard($this->id);
-        $this->assertEquals(function (){},$standard_notification->getOpenedCallable());
+        $this->assertEquals(function () {
+        }, $standard_notification->getOpenedCallable());
         $standard_notification = $standard_notification->withOpenedCallable($callable);
         $this->assertEquals($callable, $standard_notification->getOpenedCallable());
     }

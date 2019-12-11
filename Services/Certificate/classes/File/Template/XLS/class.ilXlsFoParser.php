@@ -116,7 +116,7 @@ class ilXlsFoParser
         // additional font support
         $xsl = str_replace(
             'font-family="Helvetica, unifont"',
-            'font-family="'. $this->settings->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
+            'font-family="' . $this->settings->get('rpc_pdf_font', 'Helvetica, unifont') . '"',
             $xsl
         );
 

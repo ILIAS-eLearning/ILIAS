@@ -157,5 +157,3 @@ class ilCloudPluginDeleteGUI extends ilCloudPluginGUI
         exit;
     }
 }
-
-?>

@@ -84,5 +84,3 @@ class ilDclStack
         echo "<pre>" . print_r($this->stack, 1) . "</pre>";
     }
 }
-
-?>

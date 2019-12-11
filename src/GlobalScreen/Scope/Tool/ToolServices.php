@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\SingletonTrait;
  */
 class ToolServices
 {
-
     use SingletonTrait;
 
 

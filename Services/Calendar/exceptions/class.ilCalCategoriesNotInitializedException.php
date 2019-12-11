@@ -11,6 +11,4 @@
  */
 class ilCalCategoriesNotInitializedException extends ilException
 {
-
 }
-?>

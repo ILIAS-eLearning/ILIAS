@@ -11,7 +11,6 @@ use LogicException;
  */
 interface ItemCollector extends Collector
 {
-
     public function collectStructure() : void;
 
 

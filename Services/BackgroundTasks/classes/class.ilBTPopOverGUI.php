@@ -17,7 +17,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
  */
 class ilBTPopOverGUI
 {
-
     use StateTranslator;
     /**
      * @var \ILIAS\DI\Container
@@ -89,10 +88,9 @@ class ilBTPopOverGUI
             $input = $current_task->getInput();
             $message = $current_task->getMessage($input);
 
-            if ((!empty($message)) AND ($message != null)) {
+            if ((!empty($message)) and ($message != null)) {
                 $item = $item->withDescription($message);
             } else {
-
                 $item = $item->withAdditionalContent($this->getProgressbar($observer));
             }
 
@@ -169,10 +167,12 @@ class ilBTPopOverGUI
                 $this->addFromUrlToNextRequest($redirect_uri);
 
                 return $factory->button()
-                    ->shy($language->txt($option->getLangVar()),
+                    ->shy(
+                        $language->txt($option->getLangVar()),
                         $ctrl->getLinkTargetByClass([ilBTControllerGUI::class], ilBTControllerGUI::CMD_USER_INTERACTION)
                     );
-            }, $options
+            },
+            $options
         );
 
         return $shy_buttons;

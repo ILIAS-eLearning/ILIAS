@@ -14,31 +14,30 @@
  */
 class ilCmiXapiExporter extends ilXmlExporter
 {
-	const ENTITY = 'cmix';
-	const SCHEMA_VERSION = '5.1.0';
+    const ENTITY = 'cmix';
+    const SCHEMA_VERSION = '5.1.0';
 
-	private $main_object = null;
-	private $_dataset = null;
+    private $main_object = null;
+    private $_dataset = null;
 
-	public function __construct()
-	{
-	    parent::__construct();
+    public function __construct()
+    {
+        parent::__construct();
         include_once("./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php");
         $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->_dataset->setDSPrefix("ds");
 
-	    /*
-		$this->main_object = $a_main_object;
-		include_once("./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php");
-		$this->dataset = new ilCmiXapiDataSet($this->main_object->getRefId());
-		$this->getXmlRepresentation(self::ENTITY, self::SCHEMA_VERSION, $this->main_object->getRefId());
+        /*
+        $this->main_object = $a_main_object;
+        include_once("./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php");
+        $this->dataset = new ilCmiXapiDataSet($this->main_object->getRefId());
+        $this->getXmlRepresentation(self::ENTITY, self::SCHEMA_VERSION, $this->main_object->getRefId());
         */
-	}
+    }
 
-    function init()
+    public function init()
     {
-
     }
 
     /**
@@ -55,25 +54,15 @@ class ilCmiXapiExporter extends ilXmlExporter
     }
 
 
-	function getValidSchemaVersions($a_entity)
-	{
-		return array(
-			"5.1.0" => array(
-				"namespace" => "http://www.ilias.de/Modules/CmiXapi/cmix/5_1",
-				"xsd_file" => "xml/ilias_cmix_5_1.xsd",
-				"uses_dataset" => true,
-				"min" => "5.1.0",
-				"max" => "")
-		);
-	}
-
-
-
-
+    public function getValidSchemaVersions($a_entity)
+    {
+        return array(
+            "5.1.0" => array(
+                "namespace" => "http://www.ilias.de/Modules/CmiXapi/cmix/5_1",
+                "xsd_file" => "xml/ilias_cmix_5_1.xsd",
+                "uses_dataset" => true,
+                "min" => "5.1.0",
+                "max" => "")
+        );
+    }
 }
-
-
-
-	
-
-

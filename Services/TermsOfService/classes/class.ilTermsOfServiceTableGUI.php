@@ -55,7 +55,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
     /**
      * @return ilTermsOfServiceTableDataProvider|null
      */
-    public function getProvider() :? ilTermsOfServiceTableDataProvider
+    public function getProvider() : ? ilTermsOfServiceTableDataProvider
     {
         return $this->provider;
     }

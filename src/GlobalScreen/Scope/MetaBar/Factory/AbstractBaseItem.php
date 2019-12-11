@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\MetaBarItemRenderer;
  */
 abstract class AbstractBaseItem implements isItem
 {
-
     use ComponentDecoratorTrait;
     /**
      * @var BaseMetaBarItemRenderer

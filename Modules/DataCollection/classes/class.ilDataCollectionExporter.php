@@ -141,5 +141,3 @@ class ilDataCollectionExporter extends ilXmlExporter
         return array();
     }
 }
-
-?>

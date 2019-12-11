@@ -11,7 +11,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitUserAssignmentGUI extends BaseCommands
 {
-
     public function executeCommand()
     {
         $r = $this->http()->request();
@@ -130,4 +129,3 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $this->ctrl()->redirect($this, self::CMD_INDEX);
     }
 }
-

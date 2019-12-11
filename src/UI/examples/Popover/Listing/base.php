@@ -42,5 +42,4 @@ function base()
 
     //Render the Listing Popover
     return $renderer->render([$popover, $button]);
-
 }

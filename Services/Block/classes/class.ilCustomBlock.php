@@ -329,14 +329,14 @@ class ilCustomBlock
                 $query = "SELECT id ".
                     "FROM il_custom_block ".
                     "WHERE "."";
-        
+
                 $set = $ilDB->query($query);
                 $result = array();
                 while($rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
                 {
                     $result[] = $rec;
                 }
-        
+
                 return $result;
         */
     }

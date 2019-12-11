@@ -373,8 +373,8 @@ class ilGlossaryTermGUI
             if (count($defs) > 1) {
                 $tpl->setCurrentBlock("definition_header");
                 $tpl->setVariable(
-                            "TXT_DEFINITION",
-                            $this->lng->txt("cont_definition") . " " . ($j+1)
+                    "TXT_DEFINITION",
+                    $this->lng->txt("cont_definition") . " " . ($j+1)
                         );
                 $tpl->parseCurrentBlock();
             }
@@ -472,8 +472,8 @@ class ilGlossaryTermGUI
             if (count($defs) > 1) {
                 $this->tpl->setCurrentBlock("definition_header");
                 $this->tpl->setVariable(
-                            "TXT_DEFINITION",
-                            $this->lng->txt("cont_definition") . " " . ($j+1)
+                    "TXT_DEFINITION",
+                    $this->lng->txt("cont_definition") . " " . ($j+1)
                         );
                 $this->tpl->parseCurrentBlock();
             }

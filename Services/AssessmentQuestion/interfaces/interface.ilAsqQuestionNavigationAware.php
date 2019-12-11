@@ -12,18 +12,18 @@
  */
 interface ilAsqQuestionNavigationAware
 {
-	/**
-	 * @return \ILIAS\UI\Component\Component
-	 */
-	public function getQuestionButtonsHTML() : \ILIAS\UI\Component\Component;
-	
-	/**
-	 * @return \ILIAS\UI\Component\Component
-	 */
-	public function getQuestionPlayerActionsHTML() : \ILIAS\UI\Component\Component;
-	
-	/**
-	 * @return \ILIAS\UI\Component\Link\Link
-	 */
-	public function getQuestionActionHandlingLink() : \ILIAS\UI\Component\Link\Link;
+    /**
+     * @return \ILIAS\UI\Component\Component
+     */
+    public function getQuestionButtonsHTML() : \ILIAS\UI\Component\Component;
+    
+    /**
+     * @return \ILIAS\UI\Component\Component
+     */
+    public function getQuestionPlayerActionsHTML() : \ILIAS\UI\Component\Component;
+    
+    /**
+     * @return \ILIAS\UI\Component\Link\Link
+     */
+    public function getQuestionActionHandlingLink() : \ILIAS\UI\Component\Link\Link;
 }

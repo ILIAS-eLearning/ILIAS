@@ -15,7 +15,6 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Slate;
  */
 trait SlateSessionStateCode
 {
-
     use Hasher;
 
 

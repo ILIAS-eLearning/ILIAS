@@ -283,7 +283,9 @@ class ilDataCollectionDataSet extends ilDataSet
                         $a_mapping->addMapping('Modules/DataCollection', 'il_dcl_view', $a_rec['id'], $tableview->getId());
                     } else {
                         $a_mapping->addMapping(
-                            'Modules/DataCollection', 'il_dcl_view', $a_rec['id'],
+                            'Modules/DataCollection',
+                            'il_dcl_view',
+                            $a_rec['id'],
                             array('type' => $a_rec['type'], 'table_id' => $new_table_id, 'tableview_id' => $tableview->getId())
                         );
                     }

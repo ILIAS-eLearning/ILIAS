@@ -12,25 +12,21 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
  */
 class ilMetaDataImporter extends ilXmlImporter
 {
-	/**
-	 * Import XML
-	 *
-	 * @param
-	 * @return
-	 */
-	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{
-		$new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
+    /**
+     * Import XML
+     *
+     * @param
+     * @return
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        $new_id = $a_mapping->getMapping("Services/MetaData", "md", $a_id);
 
-		if ($new_id != "")
-		{
-			include_once("./Services/MetaData/classes/class.ilMDXMLCopier.php");
-			$id = explode(":", $new_id);
-			$xml_copier = new ilMDXMLCopier($a_xml, $id[0], $id[1], $id[2]);
-			$xml_copier->startParsing();
-		}
-	}
-	
+        if ($new_id != "") {
+            include_once("./Services/MetaData/classes/class.ilMDXMLCopier.php");
+            $id = explode(":", $new_id);
+            $xml_copier = new ilMDXMLCopier($a_xml, $id[0], $id[1], $id[2]);
+            $xml_copier->startParsing();
+        }
+    }
 }
-
-?>

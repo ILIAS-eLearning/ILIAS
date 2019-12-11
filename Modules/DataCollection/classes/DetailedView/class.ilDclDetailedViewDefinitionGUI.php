@@ -221,7 +221,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    function releasePageLock()
+    public function releasePageLock()
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -271,5 +271,3 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return $a_output;
     }
 }
-
-?>

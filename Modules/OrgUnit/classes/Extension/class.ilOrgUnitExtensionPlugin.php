@@ -13,7 +13,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return        string        Component Type
      */
-    public final function getComponentType()
+    final public function getComponentType()
     {
         return IL_COMP_MODULE;
     }
@@ -24,7 +24,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return        string        Component Name
      */
-    public final function getComponentName()
+    final public function getComponentName()
     {
         return 'OrgUnit';
     }
@@ -35,7 +35,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return        string        Slot Name
      */
-    public final function getSlot()
+    final public function getSlot()
     {
         return 'OrgUnitExtension';
     }
@@ -46,7 +46,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return        string        Slot Id
      */
-    public final function getSlotId()
+    final public function getSlotId()
     {
         return 'orguext';
     }
@@ -55,7 +55,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
     /**
      * Object initialization done by slot.
      */
-    protected final function slotInit()
+    final protected function slotInit()
     {
         // nothing to do here
     }
@@ -91,7 +91,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return string
      */
-    static function _getName($a_id)
+    public static function _getName($a_id)
     {
         $name = ilPlugin::lookupNameForId(IL_COMP_MODULE, "Repository", "orguext", $a_id);
         if ($name != "") {

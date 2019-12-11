@@ -230,7 +230,7 @@ class ilCertificateGUI
         $this->lng->loadLanguageModule('cert');
         $this->lng->loadLanguageModule("trac");
 
-        $this->ref_id = (int)$_GET['ref_id'];
+        $this->ref_id = (int) $_GET['ref_id'];
 
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
@@ -472,7 +472,7 @@ class ilCertificateGUI
      * @throws ilException
      * @throws ilWACException
      */
-    private function getEditorForm(): \ilPropertyFormGUI
+    private function getEditorForm() : \ilPropertyFormGUI
     {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
@@ -520,7 +520,7 @@ class ilCertificateGUI
 
         $formHtml = $form->getHTML();
 
-        $this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml. $formHtml);
+        $this->tpl->setVariable("ADM_CONTENT", $messageBoxHtml . $formHtml);
     }
 
     /**
@@ -558,7 +558,7 @@ class ilCertificateGUI
                         $backgroundImagePath = '';
                     }
                 }
-                if($backgroundImagePath === '') {
+                if ($backgroundImagePath === '') {
                     if ($_POST['background_delete'] || $previousCertificateTemplate->getBackgroundImagePath() === '') {
                         $globalBackgroundImagePath = ilObjCertificateSettingsAccess::getBackgroundImagePath(true);
                         $backgroundImagePath = str_replace('[CLIENT_WEB_DIR]', '', $globalBackgroundImagePath);
@@ -600,7 +600,7 @@ class ilCertificateGUI
                         $cardThumbnailImagePath = '';
                     }
                 }
-                if($cardThumbnailImagePath === '' && !$_POST['certificate_card_thumbnail_image_delete']) {
+                if ($cardThumbnailImagePath === '' && !$_POST['certificate_card_thumbnail_image_delete']) {
                     $cardThumbnailImagePath = $previousCertificateTemplate->getThumbnailImagePath();
                 }
 

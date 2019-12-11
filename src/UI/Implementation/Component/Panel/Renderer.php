@@ -65,7 +65,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.standard.html", true, true);
 
         $view_controls = $component->getViewControls();
-        if($view_controls) {
+        if ($view_controls) {
             foreach ($view_controls as $view_control) {
                 $tpl->setCurrentBlock("view_controls");
                 $tpl->setVariable("VIEW_CONTROL", $default_renderer->render($view_control));

@@ -39,8 +39,10 @@ class ilTermsOfServiceLogicalAndDocumentCriteriaEvaluation implements ilTermsOfS
     {
         $this->log->debug(sprintf(
             'Evaluating criteria for document "%s" (id: %s) and user "%s" (id: %s)',
-            $document->title(), $document->id(),
-            $this->user->getLogin(), $this->user->getId()
+            $document->title(),
+            $document->id(),
+            $this->user->getLogin(),
+            $this->user->getId()
         ));
 
         foreach ($document->criteria() as $criterionAssignment) {

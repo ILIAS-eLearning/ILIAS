@@ -52,7 +52,7 @@ class BasicAccessCheckClosures
             $repo_read = (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
         }
 
-        return $this->getClosureWithOptinalClosure(static function () use ($repo_read): bool {
+        return $this->getClosureWithOptinalClosure(static function () use ($repo_read) : bool {
             return $repo_read;
         }, $additional);
     }
@@ -65,7 +65,7 @@ class BasicAccessCheckClosures
             $is_anonymous = (bool) $this->dic->user()->isAnonymous() || ($this->dic->user()->getId() == 0);
         }
 
-        return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous): bool {
+        return $this->getClosureWithOptinalClosure(static function () use ($is_anonymous) : bool {
             return !$is_anonymous;
         }, $additional);
     }
@@ -90,7 +90,7 @@ class BasicAccessCheckClosures
     private function getClosureWithOptinalClosure(Closure $closure, ?Closure $additional = null) : Closure
     {
         if ($additional instanceof Closure && $this->checkClosureForBoolReturnValue($additional)) {
-            return static function () use ($closure, $additional): bool {
+            return static function () use ($closure, $additional) : bool {
                 return $additional() && $closure();
             };
         }

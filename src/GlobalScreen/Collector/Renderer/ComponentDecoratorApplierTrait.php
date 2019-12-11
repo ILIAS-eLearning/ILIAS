@@ -12,7 +12,6 @@ use ILIAS\UI\Component\Component;
  */
 trait ComponentDecoratorApplierTrait
 {
-
     public function applyDecorator(Component $component, isGlobalScreenItem $item) : Component
     {
         $c = $item->getComponentDecorator();

@@ -5,23 +5,21 @@ include_once("./Services/COPage/classes/class.ilPageObject.php");
 
 /**
  * Specific feedback page object
- * 
- * @author Alex Killing <alex.killing@gmx.de> 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
  *
  * @ingroup ModulesTestQuestionPool
  */
 class ilAssSpecFeedbackPage extends ilPageObject
 {
-	/**
-	 * Get parent type
-	 *
-	 * @return string parent type
-	 */
-	function getParentType()
-	{
-		return "qfbs";
-	}	
-
+    /**
+     * Get parent type
+     *
+     * @return string parent type
+     */
+    public function getParentType()
+    {
+        return "qfbs";
+    }
 }
-?>

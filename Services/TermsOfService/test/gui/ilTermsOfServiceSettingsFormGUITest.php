@@ -21,26 +21,33 @@ class ilTermsOfServiceSettingsFormGUITest extends ilTermsOfServiceBaseTest
 
         $form = new ilTermsOfServiceSettingsFormGUI(
             $tos,
-            '', 'save', true
+            '',
+            'save',
+            true
         );
 
         $this->assertCount(1, $form->getCommandButtons(), 'Failed asserting save button is given if form is editable');
         $this->assertArrayHasKey(
-            0, $form->getCommandButtons(),
+            0,
+            $form->getCommandButtons(),
             'Failed asserting save button ist given if form is editable'
         );
         $this->assertEquals(
-            'save', $form->getCommandButtons()[0]['cmd'],
+            'save',
+            $form->getCommandButtons()[0]['cmd'],
             'Failed asserting save button ist given if form is editable'
         );
 
         $form = new ilTermsOfServiceSettingsFormGUI(
             $tos,
-            '', 'save', false
+            '',
+            'save',
+            false
         );
 
         $this->assertCount(
-            0, $form->getCommandButtons(),
+            0,
+            $form->getCommandButtons(),
             'Failed asserting no button is given if form is not editable'
         );
     }

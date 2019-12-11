@@ -53,7 +53,8 @@ function standard()
                                            $f->dropdown()->standard([
                                                $f->button()->shy("Possible Action of this Item", "https://www.ilias.de"),
                                                $f->button()->shy("Other Possible Action of this Item", "https://www.github.com")
-                                           ]));
+                                           ])
+                                       );
     $generic_item1_with_aggregates = $generic_item1->withAggregateNotifications([$mail_notification_item]);
     $generic_title2                = $f->link()->standard("Generic 2", "just_opens_the_list_of_aggregates");
     $generic_item2                 = $f->item()->notification($generic_title2, $generic_icon1)
@@ -70,8 +71,10 @@ function standard()
     ]);
     
     //Add them to the center which is added to the top bar.
-    $notification_center = $f->mainControls()->slate()->combined("Notification Center",
-        $f->symbol()->icon()->standard("notification", "notification"))
+    $notification_center = $f->mainControls()->slate()->combined(
+        "Notification Center",
+        $f->symbol()->icon()->standard("notification", "notification")
+    )
                              ->withEngaged(true)
                              ->withAdditionalEntry($mail_slate)
                              ->withAdditionalEntry($badge_slate)

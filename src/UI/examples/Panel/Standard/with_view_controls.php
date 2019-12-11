@@ -36,7 +36,8 @@ function with_view_controls()
 
     $panel = $factory->panel()->standard(
         "Panel Title",
-        $factory->legacy("Some Content"))
+        $factory->legacy("Some Content")
+    )
         ->withActions($actions)
         ->withViewControls(array($sortation, $pagination));
 

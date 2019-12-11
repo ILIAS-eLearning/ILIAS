@@ -29,7 +29,7 @@ class Subscriber
      * @return int[]
      * @throws \ilWACException
      */
-    public function getInitialUserProfileData(): array
+    public function getInitialUserProfileData() : array
     {
         $conversationIds = [];
 
@@ -77,7 +77,7 @@ class Subscriber
      * @return array
      * @throws \ilWACException
      */
-    public function getDataByUserIds(array $usrIds): array
+    public function getDataByUserIds(array $usrIds) : array
     {
         $usrIds = array_filter(array_map('intval', array_map('trim', $usrIds)));
 

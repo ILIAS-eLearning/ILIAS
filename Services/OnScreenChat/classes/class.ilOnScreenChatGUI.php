@@ -72,7 +72,8 @@ class ilOnScreenChatGUI
         $smileys = array();
 
         if ($chatSettings->getSmiliesEnabled()) {
-            require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';;
+            require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
+            ;
 
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
@@ -184,7 +185,7 @@ class ilOnScreenChatGUI
      * @return ResponseInterface
      * @throws ilWACException
      */
-    private function getUserProfileData() : ResponseInterface 
+    private function getUserProfileData() : ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
             return $this->getResponseWithText(json_encode([]));
@@ -246,23 +247,47 @@ class ilOnScreenChatGUI
 
             $guiConfig = array(
                 'chatWindowTemplate' => $chatWindowTemplate->get(),
-                'messageTemplate' => (new ilTemplate('tpl.chat-message.html', false, false,
-                    'Services/OnScreenChat'))->get(),
-                'modalTemplate' => (new ilTemplate('tpl.chat-add-user.html', false, false,
-                    'Services/OnScreenChat'))->get(),
+                'messageTemplate' => (new ilTemplate(
+                    'tpl.chat-message.html',
+                    false,
+                    false,
+                    'Services/OnScreenChat'
+                ))->get(),
+                'modalTemplate' => (new ilTemplate(
+                    'tpl.chat-add-user.html',
+                    false,
+                    false,
+                    'Services/OnScreenChat'
+                ))->get(),
                 'userId' => $DIC->user()->getId(),
                 'username' => $DIC->user()->getLogin(),
                 'userListURL' => $DIC->ctrl()->getLinkTargetByClass(
-                    'ilonscreenchatgui', 'getUserList', '', true, false
+                    'ilonscreenchatgui',
+                    'getUserList',
+                    '',
+                    true,
+                    false
                 ),
                 'userProfileDataURL' => $DIC->ctrl()->getLinkTargetByClass(
-                    'ilonscreenchatgui', 'getUserProfileData','', true, false
+                    'ilonscreenchatgui',
+                    'getUserProfileData',
+                    '',
+                    true,
+                    false
                 ),
                 'verifyLoginURL' => $DIC->ctrl()->getLinkTargetByClass(
-                    'ilonscreenchatgui', 'verifyLogin', '', true, false
+                    'ilonscreenchatgui',
+                    'verifyLogin',
+                    '',
+                    true,
+                    false
                 ),
                 'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
-                    'ilonscreenchatgui', 'getRenderedNotificationItems', '', true, false
+                    'ilonscreenchatgui',
+                    'getRenderedNotificationItems',
+                    '',
+                    true,
+                    false
                 ),
                 'loaderImg' => ilUtil::getImagePath('loader.svg'),
                 'emoticons' => self::getEmoticons($settings),
@@ -329,7 +354,8 @@ class ilOnScreenChatGUI
             $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
-                'conversationIdleTimeThreshold' => max(1,
+                'conversationIdleTimeThreshold' => max(
+                    1,
                     (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
                 ),
                 'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),

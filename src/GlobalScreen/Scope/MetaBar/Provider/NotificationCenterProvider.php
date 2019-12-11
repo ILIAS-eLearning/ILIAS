@@ -35,7 +35,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                     //This is a heavily incomplete fix for: #26586
                     //This should be fixed by the auth service
                     global $DIC;
-                    if($DIC->ctrl()->getCmd() == "showLogout"){
+                    if ($DIC->ctrl()->getCmd() == "showLogout") {
                         return false;
                     }
                     return true;

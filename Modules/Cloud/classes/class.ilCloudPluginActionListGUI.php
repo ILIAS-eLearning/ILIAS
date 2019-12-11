@@ -37,7 +37,6 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
      */
     public function getSelectionListItemsHTML($delete_item = false, $delete_folder = false, ilCloudFileNode $node)
     {
-
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
@@ -115,13 +114,19 @@ class ilCloudPluginActionListGUI extends ilCloudPluginListGUI
     }
 
 
-    protected function addItemsBefore() { }
+    protected function addItemsBefore()
+    {
+    }
 
 
-    protected function addItemsAfter() { }
+    protected function addItemsAfter()
+    {
+    }
 
 
-    protected function checkHasAction() { }
+    protected function checkHasAction()
+    {
+    }
 
 
     /**

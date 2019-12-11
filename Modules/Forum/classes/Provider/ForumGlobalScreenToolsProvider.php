@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
  */
 class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_FORUM_THREADS_TOOL = 'show_forum_threads_tool';
 
 

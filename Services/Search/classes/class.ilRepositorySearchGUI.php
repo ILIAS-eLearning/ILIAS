@@ -438,31 +438,30 @@ class ilRepositorySearchGUI
     }
 
 
-	public function addRole()
-	{
-		$class = $this->role_callback['class'];
-		$method = $this->role_callback['method'];
+    public function addRole()
+    {
+        $class = $this->role_callback['class'];
+        $method = $this->role_callback['method'];
 
-		// call callback if that function does give a return value => show error message
-		// listener redirects if everything is ok.
-		$obj_ids = (array)$_POST['obj'];
-		$role_ids = array();
-		foreach ($obj_ids as $id) {
-			$obj_type = ilObject::_lookupType($id);
-			if ($obj_type == "crs" || $obj_type == "grp") {
-				$refs = ilObject::_getAllReferences($id);
-				$ref_id = end($refs);
-				$mem_role = ilParticipants::getDefaultMemberRole($ref_id);
-				$role_ids[] = $mem_role;
-			}
-			else {
-				$role_ids[] = $id;
-			}
-		}
-		$class->$method((array) $role_ids);
+        // call callback if that function does give a return value => show error message
+        // listener redirects if everything is ok.
+        $obj_ids = (array) $_POST['obj'];
+        $role_ids = array();
+        foreach ($obj_ids as $id) {
+            $obj_type = ilObject::_lookupType($id);
+            if ($obj_type == "crs" || $obj_type == "grp") {
+                $refs = ilObject::_getAllReferences($id);
+                $ref_id = end($refs);
+                $mem_role = ilParticipants::getDefaultMemberRole($ref_id);
+                $role_ids[] = $mem_role;
+            } else {
+                $role_ids[] = $id;
+            }
+        }
+        $class->$method((array) $role_ids);
 
-		$this->showSearchResults();
-	}
+        $this->showSearchResults();
+    }
 
     public function addUser()
     {
@@ -596,11 +595,11 @@ class ilRepositorySearchGUI
         $this->add_options = $a_add_options ? $a_add_options : array();
     }
 
-	public function setRoleCallback(&$class,$method,$a_add_options = array())
-	{
-		$this->role_callback = array('class' => $class,'method' => $method);
-		$this->add_options = $a_add_options ? $a_add_options : array();
-	}
+    public function setRoleCallback(&$class, $method, $a_add_options = array())
+    {
+        $this->role_callback = array('class' => $class,'method' => $method);
+        $this->add_options = $a_add_options ? $a_add_options : array();
+    }
     
     /**
      * Set callback method for user permission access queries
@@ -683,11 +682,11 @@ class ilRepositorySearchGUI
                         $ul->setDataSourceSubmitOnSelection(true);
                         $ul->setDataSourceSubmitUrl(
                             $this->ctrl->getLinkTarget(
-                                    $this,
-                                    'showSearchSelected',
-                                    '',
-                                    false,
-                                    false
+                                $this,
+                                'showSearchSelected',
+                                '',
+                                false,
+                                false
                                 )
                         );
                         $ul->setDataSource($ilCtrl->getLinkTarget(
@@ -755,8 +754,8 @@ class ilRepositorySearchGUI
 
         // Orgus
         if (ilUserSearchOptions::_isEnabled("org_units")) {
-            $orgus = new ilRadioOption($this->lng->txt('search_for_orgu_members'),'orgu');
-            $orgu = new ilRepositorySelector2InputGUI($this->lng->txt('select_orgu'),'rep_query_orgu', true, get_class($this));
+            $orgus = new ilRadioOption($this->lng->txt('search_for_orgu_members'), 'orgu');
+            $orgu = new ilRepositorySelector2InputGUI($this->lng->txt('select_orgu'), 'rep_query_orgu', true, get_class($this));
             $orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
             $orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
             $orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
@@ -796,7 +795,7 @@ class ilRepositorySearchGUI
                 break;
             }
         }
-        if(array_key_exists('rep_query_orgu', $_POST) && count($_POST['rep_query_orgu']) > 0) {
+        if (array_key_exists('rep_query_orgu', $_POST) && count($_POST['rep_query_orgu']) > 0) {
             $found_query = true;
         }
         if (!$found_query) {
@@ -828,10 +827,10 @@ class ilRepositorySearchGUI
                 break;
             case 'orgu':
                 $_POST['obj'] = array_map(
-                function($ref_id) {
-                return (int)ilObject::_lookupObjId($ref_id);
-                },
-                $_POST['rep_query_orgu']
+                    function ($ref_id) {
+                        return (int) ilObject::_lookupObjId($ref_id);
+                    },
+                    $_POST['rep_query_orgu']
                 );
                 return $this->listUsers();
             default:
@@ -1289,7 +1288,7 @@ class ilRepositorySearchGUI
                     $members = array_merge($members, ilUserFilter::getInstance()->filter($assigned));
                     break;
                 case 'orgu':
-                    if($ref_ids = ilObject::_getAllReferences($obj_id)) {
+                    if ($ref_ids = ilObject::_getAllReferences($obj_id)) {
                         $members = array_merge(
                             $members,
                             ilOrgUnitUserAssignmentQueries::getInstance()

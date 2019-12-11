@@ -8,7 +8,6 @@
  */
 class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 {
-
     const PROP_REFERENCE = 'table_id';
     const PROP_N_REFERENCE = 'multiple_selection';
 

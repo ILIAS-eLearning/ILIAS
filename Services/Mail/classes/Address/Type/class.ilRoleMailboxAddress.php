@@ -213,7 +213,9 @@ class ilRoleMailboxAddress
                 "WHERE fa.assign = 'y' " .
                 "AND t.child = " . $this->db->quote($object_ref, 'integer') . " " .
                 "AND rd.title LIKE " . $this->db->quote(
-                    '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%', 'text') . " ";
+                    '%' . preg_replace('/([_%])/', '\\\\$1', $local_part) . '%',
+                    'text'
+                ) . " ";
         }
 
         $res = $this->db->query($q);
@@ -275,8 +277,10 @@ class ilRoleMailboxAddress
 
             return $mailbox;
         } catch (ilException $e) {
-            $res = $this->db->query("SELECT title FROM object_data WHERE obj_id = " . $this->db->quote($this->roleId,
-                    'integer'));
+            $res = $this->db->query("SELECT title FROM object_data WHERE obj_id = " . $this->db->quote(
+                $this->roleId,
+                'integer'
+            ));
             if ($row = $this->db->fetchObject($res)) {
                 return '#' . $row->title;
             } else {

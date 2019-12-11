@@ -20,7 +20,7 @@ class ilWebDAVUriPathResolver
      */
     public function __construct(ilWebDAVRepositoryHelper $repo_helper)
     {
-            $this->repo_helper = $repo_helper;
+        $this->repo_helper = $repo_helper;
     }
 
     /**
@@ -61,9 +61,8 @@ class ilWebDAVUriPathResolver
         // if second string = 'ilias', the request was for the ilias root
         if ($repository_mountpoint == 'ILIAS') {
             return $this->getRefIdFromPathInRepositoryMount($path_inside_of_mountpoint);
-
         } // if the first 4 letters are 'ref_', we are searching for a ref ID in the tree
-        else if (substr($repository_mountpoint, 0, 4) == 'ref_') {
+        elseif (substr($repository_mountpoint, 0, 4) == 'ref_') {
             return $this->getRefIdFromPathInRefMount($repository_mountpoint, $path_inside_of_mountpoint);
         }
 
@@ -85,12 +84,9 @@ class ilWebDAVUriPathResolver
      */
     protected function getRefIdFromPathInRepositoryMount(string $path_inside_of_mountpoint) : int
     {
-        if($path_inside_of_mountpoint != '')
-        {
+        if ($path_inside_of_mountpoint != '') {
             return $this->getRefIdFromGivenParentRefAndTitlePath(ROOT_FOLDER_ID, explode('/', $path_inside_of_mountpoint));
-        }
-        else
-        {
+        } else {
             return ROOT_FOLDER_ID;
         }
     }
@@ -113,22 +109,19 @@ class ilWebDAVUriPathResolver
     {
         // Make a 'ref_1234' to a '1234'
         // Since we already tested for 'ref_', we can be sure there is at least one '_' character
-        $relative_mountpoint_ref_id = (int)explode('_', $repository_mountpoint)[1];
+        $relative_mountpoint_ref_id = (int) explode('_', $repository_mountpoint)[1];
 
         // Case 1: Path to an object given and a ref_id is given
-        if ($path_inside_of_mountpoint != '' && $relative_mountpoint_ref_id > 0)
-        {
+        if ($path_inside_of_mountpoint != '' && $relative_mountpoint_ref_id > 0) {
             return $this->getRefIdFromGivenParentRefAndTitlePath($relative_mountpoint_ref_id, explode('/', $path_inside_of_mountpoint));
         }
         // Case 2: No path is given, but a ref_id. This means, the searched object is actually the given ref_id
         // This happens for an URI like "<client_id>/ref_1234/" (the part after the '/' is actually an empty string)
-        else if ($path_inside_of_mountpoint == '' && $relative_mountpoint_ref_id > 0)
-        {
+        elseif ($path_inside_of_mountpoint == '' && $relative_mountpoint_ref_id > 0) {
             return $relative_mountpoint_ref_id;
         }
         // Case 3: Given ref_id is invalid (no number or 0 given). Throw an exception since there is no object like this
-        else
-        {
+        else {
             throw new \Sabre\DAV\Exception\NotFound('Mount point not found');
         }
     }
@@ -142,30 +135,22 @@ class ilWebDAVUriPathResolver
      * @return int
      * @throws \Sabre\DAV\Exception\NotFound
      */
-    protected function getRefIdFromGivenParentRefAndTitlePath(int $a_parent_ref, Array $a_current_path_array) : int
+    protected function getRefIdFromGivenParentRefAndTitlePath(int $a_parent_ref, array $a_current_path_array) : int
     {
         $current_ref_id = $a_parent_ref;
-        while(count($a_current_path_array) >= 1)
-        {
+        while (count($a_current_path_array) >= 1) {
             // Pops out first element (respectively object title)
             $next_searched_title = array_shift($a_current_path_array);
-            if($next_searched_title != '')
-            {
-                try
-                {
+            if ($next_searched_title != '') {
+                try {
                     $current_ref_id = $this->getChildRefIdByGivenTitle($current_ref_id, $next_searched_title);
-                }
-                catch(\Sabre\DAV\Exception\NotFound $e)
-                {
-                    if(count($a_current_path_array) == 0)
-                    {
+                } catch (\Sabre\DAV\Exception\NotFound $e) {
+                    if (count($a_current_path_array) == 0) {
                         /* This is a really special case. It occurs, if the lock is meant for an object that does not
                            exist yet (so called NullRessources) since we can't ant won't lock non existing objects, we
                            set the Exception code to -1. The receiving class SHOULD handle what to do with this value */
                         throw new \Sabre\DAV\Exception\NotFound('Last node not found', -1);
-                    }
-                    else
-                    {
+                    } else {
                         // Set Exception code to 0, so their won't be any conflicts with default values
                         throw new \Sabre\DAV\Exception\NotFound('Node not found', 0);
                     }
@@ -189,11 +174,9 @@ class ilWebDAVUriPathResolver
     protected function getChildRefIdByGivenTitle(int $a_parent_ref_id, string $a_searched_title) : int
     {
         // Search if any child of the given ref has the name of the given searched element
-        foreach($this->repo_helper->getChildrenOfRefId($a_parent_ref_id) as $child_ref)
-        {
+        foreach ($this->repo_helper->getChildrenOfRefId($a_parent_ref_id) as $child_ref) {
             $child_title = $this->repo_helper->getObjectTitleFromRefId($child_ref, true);
-            if($a_searched_title == $child_title)
-            {
+            if ($a_searched_title == $child_title) {
                 return $child_ref;
             }
         }

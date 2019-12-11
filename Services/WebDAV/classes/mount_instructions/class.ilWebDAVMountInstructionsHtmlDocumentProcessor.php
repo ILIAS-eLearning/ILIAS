@@ -26,8 +26,7 @@ class ilWebDAVMountInstructionsHtmlDocumentProcessor extends ilWebDAVMountInstru
         $purified_html_content = $this->document_purifier->purify($a_raw_mount_instructions);
 
         $html_validator = new ilWebDAVMountInstructionsDocumentsContainsHtmlValidator($purified_html_content);
-        if (!$html_validator->isValid())
-        {
+        if (!$html_validator->isValid()) {
             $purified_html_content = nl2br($purified_html_content);
         }
 

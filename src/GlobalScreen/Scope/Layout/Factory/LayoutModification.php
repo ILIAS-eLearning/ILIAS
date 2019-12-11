@@ -10,7 +10,6 @@ use LogicException;
  */
 interface LayoutModification
 {
-
     const PRIORITY_LOW = 2;
     const PRIORITY_HIGH = 64;
 

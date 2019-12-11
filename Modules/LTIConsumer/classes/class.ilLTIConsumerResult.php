@@ -45,17 +45,14 @@ class ilLTIConsumerResult
         global $DIC;
 
         $query = 'SELECT * FROM lti_consumer_results'
-            .' WHERE id = '. $DIC->database()->quote($a_id,'integer');
+            . ' WHERE id = ' . $DIC->database()->quote($a_id, 'integer');
 
         $res = $DIC->database()->query($query);
-        if ($row = $DIC->database()->fetchAssoc($res))
-        {
+        if ($row = $DIC->database()->fetchAssoc($res)) {
             $resObj = new ilLTIConsumerResult;
             $resObj->fillData($row);
             return $resObj;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -74,27 +71,22 @@ class ilLTIConsumerResult
         global $DIC;
 
         $query = 'SELECT * FROM lti_consumer_results'
-            .' WHERE obj_id = '. $DIC->database()->quote($a_obj_id,'integer')
-            .' AND usr_id = '. $DIC->database()->quote($a_usr_id,'integer');
+            . ' WHERE obj_id = ' . $DIC->database()->quote($a_obj_id, 'integer')
+            . ' AND usr_id = ' . $DIC->database()->quote($a_usr_id, 'integer');
 
         $res = $DIC->database()->query($query);
-        if ($row = $DIC->database()->fetchAssoc($res))
-        {
+        if ($row = $DIC->database()->fetchAssoc($res)) {
             $resObj = new ilLTIConsumerResult;
             $resObj->fillData($row);
             return $resObj;
-        }
-        elseif ($a_create)
-        {
+        } elseif ($a_create) {
             $resObj = new ilLTIConsumerResult;
             $resObj->obj_id = $a_obj_id;
             $resObj->usr_id = $a_usr_id;
             $resObj->result = null;
             $resObj->save();
             return $resObj;
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
@@ -118,15 +110,14 @@ class ilLTIConsumerResult
     {
         global $DIC;
 
-        if (!isset($this->usr_id) or !isset($this->obj_id))
-        {
+        if (!isset($this->usr_id) or !isset($this->obj_id)) {
             return false;
         }
-        if (!isset($this->id))
-        {
+        if (!isset($this->id)) {
             $this->id = $DIC->database()->nextId('lti_consumer_results');
         }
-        $DIC->database()->replace('lti_consumer_results',
+        $DIC->database()->replace(
+            'lti_consumer_results',
             array(
                 'id' => array('integer', $this->id)
             ),
@@ -138,62 +129,61 @@ class ilLTIConsumerResult
         );
         return true;
     }
-	
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getObjId()
-	{
-		return $this->obj_id;
-	}
-	
-	/**
-	 * @return int
-	 */
-	public function getUsrId()
-	{
-		return $this->usr_id;
-	}
-	
-	/**
-	 * @return float
-	 */
-	public function getResult()
-	{
-		return $this->result;
-	}
-	
-	/**
-	 * @param $objId
-	 * @return ilLTIConsumerResult[]
-	 */
-	public static function getResultsForObject($objId)
-	{
-		global $DIC;
-		
-		$query = 'SELECT * FROM lti_consumer_results'
-			.' WHERE obj_id = '. $DIC->database()->quote($objId,'integer');
-		
-		$res = $DIC->database()->query($query);
-		
-		$results = [];
-		
-		if( $row = $DIC->database()->fetchAssoc($res) )
-		{
-			$resObj = new ilLTIConsumerResult;
-			$resObj->fillData($row);
-			
-			$results[$resObj->getUsrId()] = $resObj;
-		}
-		
-		return $results;
-	}
+    
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getObjId()
+    {
+        return $this->obj_id;
+    }
+    
+    /**
+     * @return int
+     */
+    public function getUsrId()
+    {
+        return $this->usr_id;
+    }
+    
+    /**
+     * @return float
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+    
+    /**
+     * @param $objId
+     * @return ilLTIConsumerResult[]
+     */
+    public static function getResultsForObject($objId)
+    {
+        global $DIC;
+        
+        $query = 'SELECT * FROM lti_consumer_results'
+            . ' WHERE obj_id = ' . $DIC->database()->quote($objId, 'integer');
+        
+        $res = $DIC->database()->query($query);
+        
+        $results = [];
+        
+        if ($row = $DIC->database()->fetchAssoc($res)) {
+            $resObj = new ilLTIConsumerResult;
+            $resObj->fillData($row);
+            
+            $results[$resObj->getUsrId()] = $resObj;
+        }
+        
+        return $results;
+    }
 }

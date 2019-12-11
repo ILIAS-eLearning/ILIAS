@@ -3,7 +3,6 @@
 
 class ilWebDAVMountInstructionsTextDocumentProcessor extends ilWebDAVMountInstructionsDocumentProcessorBase
 {
-
     public function processMountInstructions(string $a_raw_mount_instructions) : array
     {
         $stripped_instructions = htmlspecialchars($a_raw_mount_instructions);

@@ -13,5 +13,4 @@
  */
 class ilLtiConsumerException extends ilException
 {
-	
 }

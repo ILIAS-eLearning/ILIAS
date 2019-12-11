@@ -8,7 +8,6 @@
  */
 abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
 {
-
     const SELECTION_TYPE_SINGLE = 'selection_type_single';
     const SELECTION_TYPE_MULTI = 'selection_type_multi';
     const SELECTION_TYPE_COMBOBOX = 'selection_type_combobox';

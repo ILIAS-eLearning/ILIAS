@@ -8,28 +8,28 @@
  */
 interface ilMarkSchemaAware
 {
-	/**
-	 * @return ASS_MarkSchema
-	 */
-	public function getMarkSchema();
+    /**
+     * @return ASS_MarkSchema
+     */
+    public function getMarkSchema();
 
-	/**
-	 * @return boolean|string True or an error string which can be used for display purposes
-	 */
-	public function checkMarks();
+    /**
+     * @return boolean|string True or an error string which can be used for display purposes
+     */
+    public function checkMarks();
 
-	/**
-	 * @return boolean
-	 */
-	public function canEditMarks();
+    /**
+     * @return boolean
+     */
+    public function canEditMarks();
 
-	/**
-	 * @return int
-	 */
-	public function getMarkSchemaForeignId();
+    /**
+     * @return int
+     */
+    public function getMarkSchemaForeignId();
 
-	/**
-	 *
-	 */
-	public function onMarkSchemaSaved();
+    /**
+     *
+     */
+    public function onMarkSchemaSaved();
 }

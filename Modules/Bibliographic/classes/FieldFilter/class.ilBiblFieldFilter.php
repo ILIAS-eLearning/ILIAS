@@ -7,14 +7,13 @@
 
 class ilBiblFieldFilter extends ActiveRecord implements ilBiblFieldFilterInterface
 {
-
     const TABLE_NAME = 'il_bibl_filter';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

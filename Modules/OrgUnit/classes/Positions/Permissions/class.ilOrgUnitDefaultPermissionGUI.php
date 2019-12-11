@@ -11,7 +11,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionGUI extends BaseCommands
 {
-
     protected function index()
     {
         $this->getParentGui()->addSubTabs();
@@ -57,5 +56,3 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->ctrl()->redirectByClass(ilOrgUnitPositionGUI::class);
     }
 }
-
-

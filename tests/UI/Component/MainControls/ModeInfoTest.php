@@ -67,8 +67,7 @@ EOT;
 
     public function getUIFactory()
     {
-        $factory = new class() extends NoUIFactory
-        {
+        $factory = new class() extends NoUIFactory {
 
             /**
              * @inheritDoc

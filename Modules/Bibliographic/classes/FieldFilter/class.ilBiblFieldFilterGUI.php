@@ -9,7 +9,6 @@
 
 class ilBiblFieldFilterGUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const FILTER_ID = 'filter_id';
     const CMD_STANDARD = 'index';
@@ -194,7 +193,8 @@ class ilBiblFieldFilterGUI
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
-            $this->lng()->txt("back"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
+            $this->lng()->txt("back"),
+            $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
         );
 
         $ilBiblSettingsFilterFormGUI = new ilBiblFieldFilterFormGUI($this, $this->getFieldFilterFromRequest(), $this->facade);

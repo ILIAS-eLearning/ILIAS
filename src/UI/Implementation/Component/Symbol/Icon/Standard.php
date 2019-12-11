@@ -141,7 +141,7 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     * get all defined constants
      * @return string[]
     */
-    public function getAllStandardHandles(): array
+    public function getAllStandardHandles() : array
     {
         return self::$standard_icons;
     }

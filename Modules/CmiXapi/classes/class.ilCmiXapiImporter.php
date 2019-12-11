@@ -59,7 +59,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     public function __construct()
     {
         require_once "./Modules/CmiXapi/classes/class.ilCmiXapiDataSet.php";
-        $this->_dataset = new ilCmiXapiDataSet ();
+        $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->_cmixSettingsProperties['Title'] = '';
         $this->_dataset->_cmixSettingsProperties['Description'] = '';
         //todo: at the moment restricted to one module in xml file, extend?
@@ -147,7 +147,6 @@ class ilCmiXapiImporter extends ilXmlImporter
         }
         $this->_cmixObj->save();
         $this->_cmixObj->update();
-
     }
 
     /**
@@ -161,10 +160,10 @@ class ilCmiXapiImporter extends ilXmlImporter
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
 
-        if (true === (bool)$DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
+        if (true === (bool) $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
             $this->_hasContent = true;
             $this->_relWebDir = $this->_relWebDir . $this->_cmixObj->getId();
-            if (false === (bool)$DIC->filesystem()->web()->has($this->_relWebDir)) {
+            if (false === (bool) $DIC->filesystem()->web()->has($this->_relWebDir)) {
                 $DIC->filesystem()->web()->createDir($this->_relWebDir);
                 $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
                 $webDataDir = ilUtil::getWebspaceDir();
@@ -175,12 +174,12 @@ class ilCmiXapiImporter extends ilXmlImporter
         return $this;
     }
 
-   /**
-     * Parse xml file and set properties
-     * @return $this
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
-     */
+    /**
+      * Parse xml file and set properties
+      * @return $this
+      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+      * @throws \ILIAS\Filesystem\Exception\IOException
+      */
     private function parseXmlFileProperties()
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
@@ -208,8 +207,8 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->update();
 
         if ($this->_moduleProperties['LrsTypeId']) {
-            $this->_cmixObj->setLrsTypeId((int)$this->_moduleProperties['LrsTypeId']);
-            $this->_cmixObj->setLrsType(new ilCmiXapiLrsType((int)$this->_moduleProperties['LrsTypeId']));
+            $this->_cmixObj->setLrsTypeId((int) $this->_moduleProperties['LrsTypeId']);
+            $this->_cmixObj->setLrsType(new ilCmiXapiLrsType((int) $this->_moduleProperties['LrsTypeId']));
         }
         $this->_cmixObj->setContentType($this->_moduleProperties['ContentType']);
         $this->_cmixObj->setSourceType($this->_moduleProperties['SourceType']);
@@ -292,11 +291,10 @@ class ilCmiXapiImporter extends ilXmlImporter
     /**
      * if single import then deleteImportDirectiry
      */
-    function __destruct()
+    public function __destruct()
     {
-        if( true === $this->_isSingleImport ) {
+        if (true === $this->_isSingleImport) {
             $this->deleteImportDirectiry();
         }
     }
-
 }  // EOF class

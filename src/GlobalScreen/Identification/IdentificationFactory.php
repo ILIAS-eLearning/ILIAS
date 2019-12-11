@@ -123,4 +123,3 @@ class IdentificationFactory
         return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map, $this->provider_factory);
     }
 }
-

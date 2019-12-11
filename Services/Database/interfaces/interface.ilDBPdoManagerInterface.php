@@ -5,18 +5,19 @@
  *
  * All these methods are not in MDB 2 will be moved to a seperate interface file
  */
-interface ilDBPdoManagerInterface {
+interface ilDBPdoManagerInterface
+{
 
-	/**
-	 * @param $idx
-	 * @return string
-	 */
-	public function getIndexName($idx);
+    /**
+     * @param $idx
+     * @return string
+     */
+    public function getIndexName($idx);
 
 
-	/**
-	 * @param $sqn
-	 * @return string
-	 */
-	public function getSequenceName($sqn);
+    /**
+     * @param $sqn
+     * @return string
+     */
+    public function getSequenceName($sqn);
 }

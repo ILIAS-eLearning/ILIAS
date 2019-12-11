@@ -8,7 +8,6 @@
  */
 class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
     const REFERENCE_SEPARATOR = " -> ";
 
 

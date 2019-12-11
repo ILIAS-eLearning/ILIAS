@@ -79,7 +79,7 @@ class ilTermsOfServiceDocumentCriterionAssignment extends ActiveRecord implement
     /**
      * @inheritdoc
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

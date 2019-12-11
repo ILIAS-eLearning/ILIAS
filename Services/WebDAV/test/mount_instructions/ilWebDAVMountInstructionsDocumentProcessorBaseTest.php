@@ -9,6 +9,5 @@ class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends PHPUnit_Framewo
      */
     public function isDAVableObjType_giveInvalidType_returnsFalse()
     {
-
     }
 }

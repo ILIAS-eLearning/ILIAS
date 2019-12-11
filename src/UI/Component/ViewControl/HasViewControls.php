@@ -22,5 +22,5 @@ interface HasViewControls
      *
      * @return array Array of ViewControls
      */
-    public function getViewControls(): ?array;
+    public function getViewControls() : ?array;
 }

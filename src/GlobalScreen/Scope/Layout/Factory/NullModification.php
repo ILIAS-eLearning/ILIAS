@@ -52,4 +52,3 @@ class NullModification extends AbstractLayoutModification implements LayoutModif
         return true;
     }
 }
-

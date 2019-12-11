@@ -9,8 +9,6 @@ class ilWebDAVMountInstructionsDocumentContentValidator
 
     public function checkMountInstructionsContent(string $a_raw_mount_instructions) : bool
     {
-
-
         return false;
     }
 
@@ -22,10 +20,8 @@ class ilWebDAVMountInstructionsDocumentContentValidator
      */
     public function checkForNecessaryTextPlaceholders(string $a_raw_mount_instructions) : bool
     {
-        foreach($this->necessary_text_placeholders as $necessary_text_placeholder)
-        {
-            if(strstr($a_raw_mount_instructions, "[$necessary_text_placeholder]"))
-            {
+        foreach ($this->necessary_text_placeholders as $necessary_text_placeholder) {
+            if (strstr($a_raw_mount_instructions, "[$necessary_text_placeholder]")) {
                 return false;
             }
         }

@@ -177,4 +177,3 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 }
-

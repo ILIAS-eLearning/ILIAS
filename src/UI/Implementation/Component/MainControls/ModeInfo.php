@@ -13,7 +13,6 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
  */
 class ModeInfo implements MainControls\ModeInfo
 {
-
     use ComponentHelper;
     /**
      * @var string

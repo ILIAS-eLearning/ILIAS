@@ -7,7 +7,6 @@
  */
 class ilOrgUnitOperationContext extends ActiveRecord
 {
-
     const CONTEXT_OBJECT = "object";
     const CONTEXT_CRS = "crs";
     const CONTEXT_GRP = "grp";

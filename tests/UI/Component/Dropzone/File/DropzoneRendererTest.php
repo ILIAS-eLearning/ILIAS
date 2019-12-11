@@ -20,7 +20,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
 
 
 
-    public function setUp(): void
+    public function setUp() : void
     {
         $sig_gen = new \ILIAS\UI\Implementation\Component\SignalGenerator();
         $this->legacy_factory = new I\Component\Legacy\Factory($sig_gen);
@@ -166,7 +166,6 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
 
     public function getUIFactory()
     {
-
         $factory = new class extends NoUIFactory {
             public function button()
             {
@@ -184,16 +183,16 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Dropdown\Factory(new I\Component\SignalGenerator());
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol() : C\Symbol\Factory
             {
-               return new I\Component\Symbol\Factory(
-                    new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                return new I\Component\Symbol\Factory(
+                   new I\Component\Symbol\Icon\Factory(),
+                   new I\Component\Symbol\Glyph\Factory()
                 );
             }
             public function legacy($content)
             {
-               return new I\Component\Legacy\Legacy($content, new I\Component\SignalGenerator());
+                return new I\Component\Legacy\Legacy($content, new I\Component\SignalGenerator());
             }
         };
         return $factory;

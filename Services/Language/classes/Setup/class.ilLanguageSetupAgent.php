@@ -6,80 +6,87 @@ use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\UI;
 
-class ilLanguageSetupAgent implements Setup\Agent {
-	/**
-	 * @var Refinery\Factory
-	 */
-	protected $refinery;
+class ilLanguageSetupAgent implements Setup\Agent
+{
+    /**
+     * @var Refinery\Factory
+     */
+    protected $refinery;
 
-	/**
-	 * @var \ilSetupLanguage
-	 */
-	protected $il_setup_language;
+    /**
+     * @var \ilSetupLanguage
+     */
+    protected $il_setup_language;
 
-	public function __construct(
-		Refinery\Factory $refinery,
-		$_, // this is Data\Factory, but we do not need it...
-		\ilSetupLanguage $il_setup_language
-	) {
-		$this->refinery = $refinery;
-		$this->il_setup_language = $il_setup_language;
-	}
+    public function __construct(
+        Refinery\Factory $refinery,
+        $_, // this is Data\Factory, but we do not need it...
+        \ilSetupLanguage $il_setup_language
+    ) {
+        $this->refinery = $refinery;
+        $this->il_setup_language = $il_setup_language;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function hasConfig() : bool {
-		return true;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function hasConfig() : bool
+    {
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input {
-		throw new \LogicException("Not yet implemented.");
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
+    {
+        throw new \LogicException("Not yet implemented.");
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getArrayToConfigTransformation() : Refinery\Transformation {
-		return $this->refinery->custom()->transformation(function($data) {
-			if (!isset($data["default_language"])) {
-				$data["default_language"] = "en";
-			}
-			return new \ilLanguageSetupConfig(
-				$data["default_language"],
-				$data["install_languages"] ?? [$data["default_language"]],
-				$data["install_local_languages"] ?? []
-			);
-		});	
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getArrayToConfigTransformation() : Refinery\Transformation
+    {
+        return $this->refinery->custom()->transformation(function ($data) {
+            if (!isset($data["default_language"])) {
+                $data["default_language"] = "en";
+            }
+            return new \ilLanguageSetupConfig(
+                $data["default_language"],
+                $data["install_languages"] ?? [$data["default_language"]],
+                $data["install_local_languages"] ?? []
+            );
+        });
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInstallObjective(Setup\Config $config = null) : Setup\Objective {
-		return new Setup\ObjectiveCollection(
-			"Complete objectives from Services/Language",
-			false,
-			new ilLanguageConfigStoredObjective($config),
-			new ilLanguagesInstalledObjective($config, $this->il_setup_language),
-			new ilDefaultLanguageSetObjective($config)
-		);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    {
+        return new Setup\ObjectiveCollection(
+            "Complete objectives from Services/Language",
+            false,
+            new ilLanguageConfigStoredObjective($config),
+            new ilLanguagesInstalledObjective($config, $this->il_setup_language),
+            new ilDefaultLanguageSetObjective($config)
+        );
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective {
-		return new Setup\NullObjective();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    {
+        return new Setup\NullObjective();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getBuildArtifactObjective() : Setup\Objective {
-		return new Setup\NullObjective();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getBuildArtifactObjective() : Setup\Objective
+    {
+        return new Setup\NullObjective();
+    }
 }

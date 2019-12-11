@@ -14,7 +14,6 @@ use ILIAS\UI\Component\MainControls\Slate\Combined;
  */
 class NotificationCenterRenderer extends AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 {
-
     use isSupportedTrait;
     /**
      * @var \ILIAS\GlobalScreen\Services

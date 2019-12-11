@@ -1158,9 +1158,7 @@ class ilWkhtmlToPdfConfig
 
     protected function getSessionObject()
     {
-
         $this->config[] = 'cookie "PHPSESSID" "' . session_id() . '"';
         $this->config[] = 'cookie "ilClientId" "' . CLIENT_ID . '"';
     }
-
 }

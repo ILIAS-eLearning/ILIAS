@@ -19,7 +19,6 @@ use ILIAS\BackgroundTasks\Value;
  */
 abstract class AbstractTask implements Task
 {
-
     use BasicScalarValueFactory;
     const MAIN_REMOVE = 'bt_main_remove';
     const MAIN_ABORT = 'bt_main_abort';

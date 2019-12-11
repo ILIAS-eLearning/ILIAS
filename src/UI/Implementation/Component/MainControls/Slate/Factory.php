@@ -60,6 +60,6 @@ class Factory implements ISlate\Factory
     public function notification(string $name, array $notification_items) : ISlate\Notification
     {
         $notification_symbol = $this->symbol_factory->glyph()->notification();
-        return new Notification($this->signal_generator, $name, $notification_items,$notification_symbol);
+        return new Notification($this->signal_generator, $name, $notification_items, $notification_symbol);
     }
 }
