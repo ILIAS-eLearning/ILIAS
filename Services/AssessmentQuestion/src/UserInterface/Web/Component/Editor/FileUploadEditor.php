@@ -28,7 +28,6 @@ class FileUploadEditor extends AbstractEditor {
     
     const VAR_MAX_UPLOAD = 'fue_max_upload';
     const VAR_ALLOWED_EXTENSIONS = 'fue_extensions';
-    const VAR_UPLOAD_TYPE = 'fue_type';
     
     const UPLOADPATH = 'asq/answers/';
     
@@ -64,18 +63,9 @@ class FileUploadEditor extends AbstractEditor {
         $allowed_extensions->setInfo($DIC->language()->txt('asq_description_allowed_extensions'));
         $fields[self::VAR_ALLOWED_EXTENSIONS] = $allowed_extensions;
         
-        $typ = new ilRadioGroupInputGUI($DIC->language()->txt('asq_label_upload_type'), self::VAR_UPLOAD_TYPE);
-        $typ->addOption(new ilRadioOption($DIC->language()->txt('asq_label_single_file'), FileUploadEditorConfiguration::AMOUNT_ONE));
-        $typ->addOption(new ilRadioOption($DIC->language()->txt('asq_label_many_file'), FileUploadEditorConfiguration::AMOUNT_MANY));
-        $fields[self::VAR_UPLOAD_TYPE] = $typ;
-        
         if ($config !== null) {
             $max_upload->setValue($config->getMaximumSize());
             $allowed_extensions->setValue($config->getAllowedExtensions());
-            $typ->setValue($config->getUploadType());
-        }
-        else {
-            $typ->setValue(FileUploadEditorConfiguration::AMOUNT_ONE);
         }
         
         return $fields;
@@ -149,8 +139,7 @@ class FileUploadEditor extends AbstractEditor {
         }
         
         return FileUploadEditorConfiguration::create($max_upload, 
-                                                     str_replace(' ', '', $_POST[self::VAR_ALLOWED_EXTENSIONS]), 
-                                                     intval($_POST[self::VAR_UPLOAD_TYPE]));
+                                                     str_replace(' ', '', $_POST[self::VAR_ALLOWED_EXTENSIONS]));
     }
 
     public function setAnswer(string $answer): void
@@ -166,7 +155,7 @@ class FileUploadEditor extends AbstractEditor {
         $tpl->setVariable('TXT_UPLOAD_FILE', $DIC->language()->txt('asq_header_upload_file'));
         $tpl->setVariable('TXT_MAX_SIZE', 
                           sprintf($DIC->language()->txt('asq_text_max_size'), 
-                                  $this->configuration->getMaximumSize() ?? 777));
+                                  $this->configuration->getMaximumSize() ?? ini_get('upload_max_filesize')));
         $tpl->setVariable('POST_VAR', $this->getPostVar());
         
         if (!empty($this->configuration->getAllowedExtensions())) {
@@ -183,8 +172,8 @@ class FileUploadEditor extends AbstractEditor {
 
             foreach ($this->selected_answers as $key => $value) {
                 $tpl->setCurrentBlock('file');
-                $tpl->parseCurrentBlock('FILE_ID', $this->getPostVar() . $key);
-                $tpl->parseCurrentBlock('FILENAME', $value);
+                $tpl->setVariable('FILE_ID', $this->getPostVar() . $key);
+                $tpl->setVariable('FILENAME', $value);
                 $tpl->parseCurrentBlock();
             }
             
@@ -207,11 +196,7 @@ class FileUploadEditor extends AbstractEditor {
     public static function isComplete(Question $question): bool
     {
         /** @var FileUploadEditorConfiguration $config */
-        $config = $question->getPlayConfiguration()->getScoringConfiguration();
-        
-        if (empty($config->getUploadType())) {
-            return false;
-        }
+        $config = $question->getPlayConfiguration()->getEditorConfiguration();
         
         return true;
     }

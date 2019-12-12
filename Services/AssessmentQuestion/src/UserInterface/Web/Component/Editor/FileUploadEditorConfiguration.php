@@ -27,24 +27,16 @@ class FileUploadEditorConfiguration extends AbstractConfiguration {
      */
     protected $allowed_extensions;
     
-    const AMOUNT_ONE = 1;
-    const AMOUNT_MANY = 2;
-    /**
-     * @var int
-     */
-    protected $upload_type;
-    
     /**
      * @param int $maximum_size
      * @param string $allowed_extensions
      * @param int $upload_type
      * @return FileUploadEditorConfiguration
      */
-    public static function create(?int $maximum_size, ?string $allowed_extensions, int $upload_type) : FileUploadEditorConfiguration {
+    public static function create(?int $maximum_size, ?string $allowed_extensions) : FileUploadEditorConfiguration {
         $object = new FileUploadEditorConfiguration();
         $object->maximum_size = $maximum_size;
         $object->allowed_extensions = $allowed_extensions;
-        $object->upload_type = $upload_type;
         return $object;
     }
     
@@ -63,13 +55,6 @@ class FileUploadEditorConfiguration extends AbstractConfiguration {
     }
     
     /**
-     * @return int
-     */
-    public function getUploadType() : ?int {
-        return $this->upload_type;
-    }
-    
-    /**
      * {@inheritDoc}
      * @see \ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject::equals()
      */
@@ -78,7 +63,6 @@ class FileUploadEditorConfiguration extends AbstractConfiguration {
         /** @var FileUploadEditorConfiguration $other */
         return get_class($this) === get_class($other) &&
                $this->maximum_size === $other->maximum_size &&
-               $this->amount_of_files === $other->amount_of_files &&
                $this->allowed_extensions === $other->allowed_extensions;
     }
 }
