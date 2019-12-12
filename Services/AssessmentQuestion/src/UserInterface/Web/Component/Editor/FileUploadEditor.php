@@ -13,6 +13,8 @@ use ilTemplate;
 use ILIAS\AssessmentQuestion\UserInterface\Web\ImageUploader;
 use ILIAS\FileUpload\Location;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ilHiddenInputGUI;
+use ILIAS\AssessmentQuestion\CQRS\Aggregate\Guid;
 
 /**
  * Class FileUploadEditor
@@ -28,6 +30,7 @@ class FileUploadEditor extends AbstractEditor {
     
     const VAR_MAX_UPLOAD = 'fue_max_upload';
     const VAR_ALLOWED_EXTENSIONS = 'fue_extensions';
+    const VAR_CURRENT_ANSWER = 'fue_current_answer';
     
     const UPLOADPATH = 'asq/answers/';
     
@@ -75,6 +78,8 @@ class FileUploadEditor extends AbstractEditor {
     {
         global $DIC;
         
+        $this->selected_answers = json_decode(html_entity_decode($_POST[$this->getPostVar() . self::VAR_CURRENT_ANSWER]), true);
+        
         if ($DIC->upload()->hasUploads() && !$DIC->upload()->hasBeenProcessed()) {
             $this->UploadNewFile();
         }
@@ -94,29 +99,33 @@ class FileUploadEditor extends AbstractEditor {
             $folder = self::UPLOADPATH . $this->question->getId() . '/';
             $pathinfo = pathinfo($result->getName());
             
+            $filename = Guid::create() . '.' . $pathinfo['extension'];
+            
             if ($result && $result->getStatus()->getCode() === ProcessingStatus::OK && 
                 $this->checkAllowedExtension($pathinfo['extension'])) {
                 $DIC->upload()->moveOneFileTo(
                     $result,
                     $folder,
                     Location::WEB,
-                    $pathinfo['basename']);
+                    $filename);
                 
-                $this->selected_answers[] = ILIAS_HTTP_PATH . '/' .
+                $this->selected_answers[$pathinfo['basename']] = ILIAS_HTTP_PATH . '/' .
                                             ILIAS_WEB_DIR . '/' .
                                             CLIENT_ID .  '/' .
                                             $folder .
-                                            $pathinfo['basename'];
+                                            $filename;
             }
         }
     }
 
     private function deleteOldFiles() {
-        $answers = $this->selected_answers;
-        
-        foreach ($answers as $key => $value) {
-            if (array_key_exists($this->getPostVar() . $key, $_POST)) {
-                unset($this->selected_answers[$key]);
+        if(!empty($this->selected_answers)) {
+            $answers = $this->selected_answers;
+            
+            foreach ($answers as $key => $value) {
+                if (array_key_exists($this->getFileKey($key), $_POST)) {
+                    unset($this->selected_answers[$key]);
+                }
             }
         }
     }
@@ -157,6 +166,8 @@ class FileUploadEditor extends AbstractEditor {
                           sprintf($DIC->language()->txt('asq_text_max_size'), 
                                   $this->configuration->getMaximumSize() ?? ini_get('upload_max_filesize')));
         $tpl->setVariable('POST_VAR', $this->getPostVar());
+        $tpl->setVariable('CURRENT_ANSWER_NAME', $this->getPostVar() . self::VAR_CURRENT_ANSWER);
+        $tpl->setVariable('CURRENT_ANSWER_VALUE', htmlspecialchars(json_encode($this->selected_answers)));
         
         if (!empty($this->configuration->getAllowedExtensions())) {
             $tpl->setCurrentBlock('allowed_extensions');
@@ -172,8 +183,9 @@ class FileUploadEditor extends AbstractEditor {
 
             foreach ($this->selected_answers as $key => $value) {
                 $tpl->setCurrentBlock('file');
-                $tpl->setVariable('FILE_ID', $this->getPostVar() . $key);
-                $tpl->setVariable('FILENAME', $value);
+                $tpl->setVariable('FILE_ID', $this->getFileKey($key));
+                $tpl->setVariable('FILE_NAME', $key);
+                $tpl->setVariable('FILE_PATH', $value);
                 $tpl->parseCurrentBlock();
             }
             
@@ -187,6 +199,10 @@ class FileUploadEditor extends AbstractEditor {
     
     private function getPostVar() : string {
         return $this->question->getId();
+    }
+    
+    private function getFileKey(string $filename) {
+        return $this->getPostVar() . str_replace('.', '', $filename);
     }
 
     public static function getDisplayDefinitionClass() : string {

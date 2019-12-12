@@ -12,7 +12,7 @@
 					<input type="checkbox" name="{FILE_ID}" value="{FILE_NAME}"/>
 				</td>
 				<td class="std" style="vertical-align: top">
-					<span>{FILENAME}</span>
+					<a href="{FILE_PATH}">{FILE_NAME}</span>
 				</td>
 			</tr>
 			<!-- END file -->
@@ -21,6 +21,7 @@
 	<!-- END files -->
 	<h2>{TXT_UPLOAD_FILE}</h2>
 	<div><input type="file" name="{POST_VAR}" /></div>
+	<input type="hidden" name="{CURRENT_ANSWER_NAME}" value="{CURRENT_ANSWER_VALUE}" />
 	<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_MAX_SIZE}</span></div>
 	<!-- BEGIN allowed_extensions -->
 	<div style="margin-top:3px; margin-left:3px;"><span class="subtitle">{TXT_ALLOWED_EXTENSIONS}</span></div>
