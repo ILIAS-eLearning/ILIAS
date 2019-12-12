@@ -97,20 +97,15 @@ class ilSystemSupportContactsGUI
         $users = ilSystemSupportContacts::getValidSupportContactIds();
         if (count($users) > 0) {
             // #17847 - we cannot use a proper GUI on the login screen
-            if (!$ilUser->getId()) {
-                foreach ($users as $user) {
-                    $mail = ilObjUser::_lookupEmail($user);
-                    if (trim($mail)) {
-                        return "mailto:" . $mail;
-                    }
-                }
+            if (!$ilUser->getId() || $ilUser->getId() == ANONYMOUS_USER_ID) {
+                return "mailto:" . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress());
             } else {
                 return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
             }
         }
 
 
-        /*$m = ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress());
+        /*$m = ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress());
         if ($m != "")
         {
             return "mailto:".$m;
