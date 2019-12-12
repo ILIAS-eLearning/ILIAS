@@ -249,7 +249,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
         if ($data["ref_id"] > 0) {
             $obj_id = ilObject::_lookupObjId($data["ref_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
-            if (0 === $data['url']) {
+            if ($data['url'] == "") {
                 $url = ilLink::_getStaticLink($data["ref_id"]);
             } else {
                 $url = $data['url'];
@@ -263,7 +263,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $wst = new ilWorkspaceTree($this->user->getId());
             $obj_id = $wst->lookupObjectId($data["wsp_id"]);
             $obj_type = ilObject::_lookupType($obj_id);
-            if (0 === $data['url']) {
+            if ($data['url'] == "") {
                 $url = ilLink::_getStaticLink($data["wsp_id"]);
             } else {
                 $url = $data['url'];
@@ -278,15 +278,19 @@ class ilPDTasksBlockGUI extends ilBlockGUI
             $props[$lng->txt("task_start")] = ilDatePresentation::formatDate($start);
         }
 
+        $factory = $this->ui->factory();
+        $item = $factory->item()->standard($title)
+                        ->withProperties($props);
+
         if ($data["deadline"] > 0) {
             $end = new ilDateTime($data["deadline"], IL_CAL_UNIX);
-            $props[$lng->txt("task_deadline")] =
-                ilDatePresentation::formatDate($end);
+            //$props[$lng->txt("task_deadline")] =
+            //    ilDatePresentation::formatDate($end);
+            $item = $item->withDescription(ilDatePresentation::formatDate($end));
         }
 
-        $factory = $this->ui->factory();
-        return $factory->item()->standard($title)
-            ->withProperties($props);
+
+        return $item;
     }
 
     /**

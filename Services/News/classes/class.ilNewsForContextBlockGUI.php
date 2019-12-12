@@ -1456,16 +1456,17 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
             $this->lng->txt("date") => $info["creation_date"]
         ];
 
-        if ($info["ref_id"] > 0) {
-            $props[$info["type_txt"]] = $info["obj_title"];
-        }
 
         // @todo: fix this
         // $info["user_read"]
 
         $factory = $this->ui->factory();
-        return $factory->item()->standard($factory->button()->shy($info["news_title"], $info["url"]))
+        $item = $factory->item()->standard($factory->button()->shy($info["news_title"], $info["url"]))
             ->withProperties($props);
+        if ($info["ref_id"] > 0) {
+            $item = $item->withDescription($info["type_txt"].": ".$info["obj_title"]);
+        }
+        return $item;
     }
 
     /**
