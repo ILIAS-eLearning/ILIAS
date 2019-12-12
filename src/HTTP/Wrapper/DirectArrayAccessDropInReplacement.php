@@ -54,7 +54,7 @@ class DirectArrayAccessDropInReplacement implements \ArrayAccess
         }
 
         if (is_array($this->raw_values[$offset])) {
-            $this->factory->to()->dictOf($this->factory->to()->string())->transform((array) $this->raw_values[$offset]);
+            return $this->factory->to()->dictOf($this->factory->to()->string())->transform((array) $this->raw_values[$offset]);
         }
 
         return $this->factory->to()->string()->transform((string) $this->raw_values[$offset]);
