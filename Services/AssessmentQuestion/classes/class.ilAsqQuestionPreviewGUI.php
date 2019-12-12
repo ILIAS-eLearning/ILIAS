@@ -81,34 +81,32 @@ class ilAsqQuestionPreviewGUI
             default:
                 switch ($DIC->ctrl()->getCmd()) {
                     case self::CMD_SHWOW_Feedback:
-                        $this->showFeedback();
-                        break;
                     case self::CMD_SHOW_PREVIEW:
                     default:
-                        $this->showPreview();
+                        $this->showQuestion();
                         break;
                 }
         }
     }
 
-
-    public function showPreview()
+    public function showQuestion()
     {
         global $DIC;
-        $DIC->ui()->mainTemplate()->setContent($this->getQuestionTpl()->get());
-    }
 
-
-    public function showFeedback()
-    {
-        global $DIC;
-        $question_tpl = $this->getQuestionTpl();
         $question_dto = $this->authoring_application_service->getQuestion($this->question_id->getId());
+        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto,  $this->question_config, new QuestionCommands());
+        
+        $question_tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
+        
+        $question_tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW));
+        $question_tpl->setVariable('QUESTION_OUTPUT', $question_page->showPage());
 
-        $feedback_component = $this->processing_application_service->getFeedbackComponent($question_dto);
-        $question_tpl->setCurrentBlock('instant_feedback');
-        $question_tpl->setVariable('INSTANT_FEEDBACK',$feedback_component->getHtml());
-        $question_tpl->parseCurrentBlock();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $feedback_component = $this->processing_application_service->getFeedbackComponent($question_dto);
+            $question_tpl->setCurrentBlock('instant_feedback');
+            $question_tpl->setVariable('INSTANT_FEEDBACK',$feedback_component->getHtml());
+            $question_tpl->parseCurrentBlock();
+        }
 
         $DIC->ui()->mainTemplate()->setContent($question_tpl->get());
     }
@@ -120,15 +118,7 @@ class ilAsqQuestionPreviewGUI
         /* @var \ILIAS\DI\Container $DIC */
         $question_dto = $this->authoring_application_service->getQuestion($this->question_id->getId());
 
-        $question_commands = new QuestionCommands();
-        $question_page = $this->processing_application_service->getQuestionPresentation($question_dto,  $this->question_config, $question_commands);
 
-        $tpl = new ilTemplate('tpl.question_preview_container.html', true, true, 'Services/AssessmentQuestion');
-
-        $tpl->setVariable('FORMACTION', $DIC->ctrl()->getFormAction($this, self::CMD_SHOW_PREVIEW));
-        $tpl->setVariable('QUESTION_OUTPUT', $question_page->showPage());
-
-        return $tpl;
     }
 
 
