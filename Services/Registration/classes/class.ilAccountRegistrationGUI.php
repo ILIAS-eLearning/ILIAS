@@ -390,7 +390,7 @@ class ilAccountRegistrationGUI
             $this->lng->loadLanguageModule('tos');
             \ilUtil::sendFailure(sprintf(
                 $this->lng->txt('tos_account_reg_not_possible'),
-                'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailToAddress())
+                'mailto:' . ilUtil::prepareFormOutput(ilSystemSupportContacts::getMailsToAddress())
             ));
         } else {
             $password = $this->__createUser($valid_role);
