@@ -14,15 +14,15 @@
  */
 class ilObjCmiXapiVerification extends ilVerificationObject
 {
-	protected function initType()
-	{
-		$this->type = "cmxv";
-	}
-	
-	protected function getPropertyMap()
-	{
-		return array("issued_on" => self::TYPE_DATE,
-			"file" => self::TYPE_STRING
-		);
-	}
+    protected function initType()
+    {
+        $this->type = "cmxv";
+    }
+    
+    protected function getPropertyMap()
+    {
+        return array("issued_on" => self::TYPE_DATE,
+            "file" => self::TYPE_STRING
+        );
+    }
 }

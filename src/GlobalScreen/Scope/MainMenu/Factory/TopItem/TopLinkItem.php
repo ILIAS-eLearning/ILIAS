@@ -110,7 +110,7 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
-        if(($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
+        if (($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
             && ($symbol->getAriaLabel() === "")) {
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }

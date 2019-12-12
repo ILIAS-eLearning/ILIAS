@@ -14,31 +14,31 @@
  */
 class ilCmiXapiStatementsReportRequest extends ilCmiXapiAbstractRequest
 {
-	/**
-	 * @var ilCmiXapiStatementsReportLinkBuilder
-	 */
-	protected $linkBuilder;
-	
-	/**
-	 * ilCmiXapiStatementsReportRequest constructor.
-	 * @param string $basicAuth
-	 * @param ilCmiXapiStatementsReportLinkBuilder $linkBuilder
-	 */
-	public function __construct(string $basicAuth, ilCmiXapiStatementsReportLinkBuilder $linkBuilder)
-	{
-		parent::__construct($basicAuth);
-		$this->linkBuilder = $linkBuilder;
-	}
-	
-	/**
-	 * @return ilCmiXapiStatementsReport $report
-	 */
-	public function queryReport($objId)
-	{
-		$reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
-		
-		$report = new ilCmiXapiStatementsReport($reportResponse, $objId);
-		
-		return $report;
-	}
+    /**
+     * @var ilCmiXapiStatementsReportLinkBuilder
+     */
+    protected $linkBuilder;
+    
+    /**
+     * ilCmiXapiStatementsReportRequest constructor.
+     * @param string $basicAuth
+     * @param ilCmiXapiStatementsReportLinkBuilder $linkBuilder
+     */
+    public function __construct(string $basicAuth, ilCmiXapiStatementsReportLinkBuilder $linkBuilder)
+    {
+        parent::__construct($basicAuth);
+        $this->linkBuilder = $linkBuilder;
+    }
+    
+    /**
+     * @return ilCmiXapiStatementsReport $report
+     */
+    public function queryReport($objId)
+    {
+        $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
+        
+        $report = new ilCmiXapiStatementsReport($reportResponse, $objId);
+        
+        return $report;
+    }
 }

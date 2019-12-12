@@ -18,9 +18,8 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilFileVersionTableGUI extends ilTable2GUI
 {
-
-    var $confirmDelete = false;
-    var $current_version = 0;
+    public $confirmDelete = false;
+    public $current_version = 0;
 
 
     /**
@@ -58,7 +57,8 @@ class ilFileVersionTableGUI extends ilTable2GUI
         }
 
         // columns
-        if (!$this->confirmDelete) {$this->disable("footer");
+        if (!$this->confirmDelete) {
+            $this->disable("footer");
             $this->addColumn("", "", "1", true);
         }
 
@@ -174,5 +174,3 @@ class ilFileVersionTableGUI extends ilTable2GUI
         }
     }
 }
-
-?>

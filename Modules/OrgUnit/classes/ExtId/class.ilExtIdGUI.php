@@ -47,7 +47,7 @@ class ilExtIdGUI
     /**
      * @param $parent_gui
      */
-    function __construct($parent_gui)
+    public function __construct($parent_gui)
     {
         global $DIC;
         $tpl = $DIC['tpl'];

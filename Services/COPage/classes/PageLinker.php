@@ -20,17 +20,16 @@ interface PageLinker
     /**
      * @return array
      */
-    public function getLayoutLinkTargets(): array;
+    public function getLayoutLinkTargets() : array;
 
     /**
      * @param $int_links
      * @return string
      */
-    function getLinkXML($int_links): string;
+    public function getLinkXML($int_links) : string;
 
     /**
      * @return string
      */
-    function getFullscreenLink(): string;
-
+    public function getFullscreenLink() : string;
 }

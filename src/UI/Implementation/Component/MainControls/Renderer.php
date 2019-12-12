@@ -46,14 +46,14 @@ class Renderer extends AbstractComponentRenderer
 
     protected function calculateMainBarTreePosition($pos, $slate)
     {
-         if (!$slate instanceof Slate && !$slate instanceof MainBar) {
+        if (!$slate instanceof Slate && !$slate instanceof MainBar) {
             return $slate;
         }
         return $slate
             ->withMainBarTreePosition($pos)
             ->withMappedSubNodes(
-                function($num, $slate, $is_tool=false) use ($pos) {
-                    if($is_tool) {
+                function ($num, $slate, $is_tool=false) use ($pos) {
+                    if ($is_tool) {
                         $pos = 'T';
                     }
                     return $this->calculateMainBarTreePosition("$pos:$num", $slate);
@@ -68,21 +68,21 @@ class Renderer extends AbstractComponentRenderer
         MainBar $component,
         UITemplateWrapper $tpl,
         RendererInterface $default_renderer
-    ): string {
+    ) : string {
         $hidden = $component->getInitiallyHiddenToolIds();
         $close_buttons = $component->getCloseButtons();
 
         $is_removeable = array_key_exists($entry_id, $close_buttons);
         $is_hidden = in_array($entry_id, $hidden);
 
-        if($is_removeable) {
+        if ($is_removeable) {
             $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_REMOVE);
             $this->trigger_signals[] = $trigger_signal;
             $btn_removetool = $close_buttons[$entry_id]
                ->withAdditionalOnloadCode(
-                    function ($id) use ($mb_id) {
-                        return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
-                    }
+                   function ($id) use ($mb_id) {
+                       return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
+                   }
                 )
                 ->withOnClick($trigger_signal);
 
@@ -114,7 +114,7 @@ class Renderer extends AbstractComponentRenderer
 
                 $is_tool = $block === static::BLOCK_MAINBAR_TOOLS;
                 $js = '';
-                if($is_tool) {
+                if ($is_tool) {
                     $js = $this->renderToolEntry($entry, $k, $mb_id, $component, $tpl, $default_renderer);
                 }
 
@@ -138,7 +138,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("BUTTON", $default_renderer->render($button));
             $tpl->parseCurrentBlock();
 
-            if($slate) {
+            if ($slate) {
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($entry));
                 $tpl->parseCurrentBlock();
@@ -158,7 +158,7 @@ class Renderer extends AbstractComponentRenderer
         );
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
-             $more_slate
+            $more_slate
         );
 
         $component = $this->calculateMainBarTreePosition("0", $component);
@@ -172,12 +172,14 @@ class Renderer extends AbstractComponentRenderer
             $this->renderMainbarEntry(
                 $entries,
                 $block,
-                $component, $tpl, $default_renderer
+                $component,
+                $tpl,
+                $default_renderer
             );
         }
 
         //tools-section trigger
-        if(count($component->getToolEntries()) > 0) {
+        if (count($component->getToolEntries()) > 0) {
             $btn_tools = $component->getToolsButton()
                 ->withOnClick($component->getToggleToolsSignal());
 
@@ -302,14 +304,14 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function bindMainbarJS(MainBar $component): string
+    protected function bindMainbarJS(MainBar $component) : string
     {
         $trigger_signals = $this->trigger_signals;
 
         $inititally_active = $component->getActive();
 
         $component = $component->withOnLoadCode(
-            function ($id) use ($component, $trigger_signals, $inititally_active)  {
+            function ($id) use ($component, $trigger_signals, $inititally_active) {
                 $disengage_all_signal = $component->getDisengageAllSignal();
                 $tools_toggle_signal = $component->getToggleToolsSignal();
 

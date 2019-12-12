@@ -90,7 +90,7 @@ class BlogHtmlExport
         $this->blog = $blog_gui->object;
         $this->export_dir = $exp_dir;
         $this->sub_dir = $sub_dir;
-        $this->target_dir = $exp_dir."/".$sub_dir;
+        $this->target_dir = $exp_dir . "/" . $sub_dir;
 
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $sub_dir);
@@ -101,8 +101,10 @@ class BlogHtmlExport
         $this->items = $this->blog_gui->getItems();
         $this->keywords = $this->blog_gui->getKeywords(false);
         if ($set_export_key) {
-            $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
-                true);
+            $this->global_screen->tool()->context()->current()->addAdditionalData(
+                \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+                true
+            );
         }
     }
 
@@ -148,19 +150,16 @@ class BlogHtmlExport
     {
         // banner / profile picture
         $blga_set = new \ilSetting("blga");
-        if($blga_set->get("banner"))
-        {
+        if ($blga_set->get("banner")) {
             $banner = $this->blog->getImageFullPath();
-            if($banner)
-            {
-                copy($banner, $this->target_dir."/".basename($banner));
+            if ($banner) {
+                copy($banner, $this->target_dir . "/" . basename($banner));
             }
         }
         $ppic = \ilObjUser::_getPersonalPicturePath($this->blog->getOwner(), "xsmall", true, true);
-        if($ppic)
-        {
+        if ($ppic) {
             $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir."/".basename($ppic));
+            copy($ppic, $this->target_dir . "/" . basename($ppic));
         }
     }
 
@@ -169,13 +168,13 @@ class BlogHtmlExport
      *
      * @return string
      */
-    function zipPackage()
+    public function zipPackage()
     {
         // zip it all
         $date = time();
-        $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), "html", "blog").
-            "/".$date."__".IL_INST_ID."__".
-            $this->blog->getType()."_".$this->blog->getId().".zip";
+        $zip_file = \ilExport::_getExportDirectory($this->blog->getId(), "html", "blog") .
+            "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->blog->getType() . "_" . $this->blog->getId() . ".zip";
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
 
@@ -193,13 +192,11 @@ class BlogHtmlExport
      */
     public function exportHTMLPages($a_link_template = null, $a_tpl_callback = null, $a_co_page_html_export = null, $a_index_name = "index.html")
     {
-        if(!$a_link_template)
-        {
+        if (!$a_link_template) {
             $a_link_template = "bl{TYPE}_{ID}.html";
         }
 
-        if($a_co_page_html_export)
-        {
+        if ($a_co_page_html_export) {
             $this->co_page_html_export = $a_co_page_html_export;
         }
 
@@ -211,52 +208,41 @@ class BlogHtmlExport
         // month list
         $has_index = false;
 
-        foreach(array_keys($this->items) as $month)
-        {
+        foreach (array_keys($this->items) as $month) {
             $list = $this->blog_gui->renderList($this->items[$month], "render", $a_link_template, false, $this->target_dir);
 
-            if(!$list)
-            {
+            if (!$list) {
                 continue;
             }
 
-            if(!$a_tpl_callback)
-            {
+            if (!$a_tpl_callback) {
                 $tpl = $this->getInitialisedTemplate();
-            }
-            else
-            {
+            } else {
                 $tpl = call_user_func($a_tpl_callback);
             }
 
             $file = self::buildExportLink($a_link_template, "list", $month, $this->keywords);
             $file = $this->writeExportFile($file, $tpl, $list, $nav);
 
-            if(!$has_index)
-            {
-                copy($file, $this->target_dir."/".$a_index_name);
+            if (!$has_index) {
+                copy($file, $this->target_dir . "/" . $a_index_name);
                 $has_index = true;
             }
         }
 
         // keywords
-        foreach(array_keys($this->blog_gui->getKeywords(false)) as $keyword)
-        {
+        foreach (array_keys($this->blog_gui->getKeywords(false)) as $keyword) {
             $this->keyword = $keyword;
             $list_items = $this->blog_gui->filterItemsByKeyword($this->items, $keyword);
             $list = $this->blog_gui->renderList($list_items, "render", $a_link_template, false, $this->target_dir);
 
-            if(!$list)
-            {
+            if (!$list) {
                 continue;
             }
 
-            if(!$a_tpl_callback)
-            {
+            if (!$a_tpl_callback) {
                 $tpl = $this->getInitialisedTemplate();
-            }
-            else
-            {
+            } else {
                 $tpl = call_user_func($a_tpl_callback);
             }
 
@@ -268,33 +254,37 @@ class BlogHtmlExport
         // single postings
 
         $pages = \ilBlogPosting::getAllPostings($this->blog->getId(), 0);
-        foreach ($pages as $page)
-        {
-            if (\ilBlogPosting::_exists("blp", $page["id"]))
-            {
+        foreach ($pages as $page) {
+            if (\ilBlogPosting::_exists("blp", $page["id"])) {
                 $blp_gui = new \ilBlogPostingGUI(0, null, $page["id"]);
                 $blp_gui->setOutputMode("offline");
                 $blp_gui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
                 $blp_gui->add_date = true;
                 $page_content = $blp_gui->showPage();
 
-                $back = self::buildExportLink($a_link_template, "list",
-                    substr($page["created"]->get(IL_CAL_DATE), 0, 7), $this->keywords);
+                $back = self::buildExportLink(
+                    $a_link_template,
+                    "list",
+                    substr($page["created"]->get(IL_CAL_DATE), 0, 7),
+                    $this->keywords
+                );
 
                 $file = self::buildExportLink($a_link_template, "posting", $page["id"], $this->keywords);
 
-                if(!$a_tpl_callback)
-                {
+                if (!$a_tpl_callback) {
                     $tpl = $this->getInitialisedTemplate();
-                }
-                else
-                {
+                } else {
                     $tpl = call_user_func($a_tpl_callback);
                 }
 
                 // posting nav
-                $nav = $this->blog_gui->renderNavigation("", "", $a_link_template,
-                    false, $page["id"]);
+                $nav = $this->blog_gui->renderNavigation(
+                    "",
+                    "",
+                    $a_link_template,
+                    false,
+                    $page["id"]
+                );
 
                 $this->writeExportFile($file, $tpl, $page_content, $nav, $back);
 
@@ -311,18 +301,16 @@ class BlogHtmlExport
      * @param mixed $a_id
      * @return string
      */
-    static function buildExportLink($a_template, $a_type, $a_id, $keywords)
+    public static function buildExportLink($a_template, $a_type, $a_id, $keywords)
     {
-        switch($a_type)
-        {
+        switch ($a_type) {
             case "list":
                 $a_type = "m";
                 break;
                 break;
 
             case "keyword":
-                if(!isset(self::$keyword_export_map))
-                {
+                if (!isset(self::$keyword_export_map)) {
                     self::$keyword_export_map = array_flip(array_keys($keywords));
                 }
                 $a_id = self::$keyword_export_map[$a_id];
@@ -342,7 +330,7 @@ class BlogHtmlExport
      * Get initialised template
      * @return \ilGlobalPageTemplate
      */
-    protected function getInitialisedTemplate($a_back_url = ""): \ilGlobalPageTemplate
+    protected function getInitialisedTemplate($a_back_url = "") : \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -351,13 +339,14 @@ class BlogHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->blog->getStyleSheetId()));
+            \ilObjStyleSheet::getContentStylePath($this->blog->getStyleSheetId())
+        );
         \ilPCQuestion::resetInitialState();
 
         $tabs = $DIC->tabs();
         $tabs->clearTargets();
         $tabs->clearSubTabs();
-        if($a_back_url) {
+        if ($a_back_url) {
             $tabs->setBackTarget($this->lng->txt("back"), $a_back_url);
         }
         $tpl = new \ilGlobalPageTemplate($DIC->globalScreen(), $DIC->ui(), $DIC->http());
@@ -383,22 +372,22 @@ class BlogHtmlExport
      */
     protected function writeExportFile(string $a_file, \ilGlobalPageTemplate $a_tpl, string $a_content, string $a_right_content = "", bool $a_back = false)
     {
-        $file = $this->target_dir."/".$a_file;
+        $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
-        if (@is_file($file))
-        {
+        if (@is_file($file)) {
             return;
         }
 
         // export template: page content
-        $ep_tpl = new \ilTemplate("tpl.export_page.html", true, true,
-            "Modules/Blog");
-        if($a_back)
-        {
+        $ep_tpl = new \ilTemplate(
+            "tpl.export_page.html",
+            true,
+            true,
+            "Modules/Blog"
+        );
+        if ($a_back) {
             $ep_tpl->setVariable("PAGE_CONTENT", $a_content);
-        }
-        else
-        {
+        } else {
             $ep_tpl->setVariable("LIST", $a_content);
         }
         unset($a_content);
@@ -406,8 +395,7 @@ class BlogHtmlExport
         unset($ep_tpl);
 
         // template: right content
-        if($a_right_content)
-        {
+        if ($a_right_content) {
             $a_tpl->setRightContent($a_right_content);
             unset($a_right_content);
         }

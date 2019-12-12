@@ -23,6 +23,7 @@ class TopLinkItemRenderer extends AbstractMetaBarItemRenderer
         return $this->ui->factory()->button()->bulky(
             $this->getStandardSymbol($item),
             $item->getTitle(),
-            $item->getAction());
+            $item->getAction()
+        );
     }
 }

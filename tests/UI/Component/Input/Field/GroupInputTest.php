@@ -283,7 +283,7 @@ class GroupInputTest extends ILIAS_UI_TestBase
             "BYLINE"
         );
         $content = $group->getContent();
-        $this->assertInstanceOf(\ILIAS\Data\Result\Ok::class,$content);
-        $this->assertCount(0,$content->value());
+        $this->assertInstanceOf(\ILIAS\Data\Result\Ok::class, $content);
+        $this->assertCount(0, $content->value());
     }
 }

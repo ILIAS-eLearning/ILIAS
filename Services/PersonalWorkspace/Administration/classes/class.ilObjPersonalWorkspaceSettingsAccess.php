@@ -9,8 +9,4 @@
  */
 class ilObjPersonalWorkspaceSettingsAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

@@ -30,7 +30,7 @@ class ilPluginAdmin
      *
      * @var    array
      */
-    static $active_plugins = array();
+    public static $active_plugins = array();
     /**
      * cached lists of plugin objects
      *
@@ -64,10 +64,9 @@ class ilPluginAdmin
      *
      * @throws ilPluginException
      */
-    private final function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
+    final private function getPluginData($a_ctype, $a_cname, $a_slot_id, $a_pname)
     {
         if (!isset($this->got_data[$a_ctype][$a_cname][$a_slot_id][$a_pname])) {
-
             $slot_name = ilPluginSlot::lookupSlotName($a_ctype, $a_cname, $a_slot_id);
 
             $plugin_php_file = "./Customizing/global/plugins/" . $a_ctype . "/" . $a_cname . "/" . $slot_name . "/" . $a_pname . "/plugin.php";
@@ -593,7 +592,10 @@ class ilPluginAdmin
         $pdata = $plugs[$id];
 
         return self::getPluginObject(
-            $pdata['component_type'], $pdata['component_name'], $pdata['slot_id'], $pdata['name']
+            $pdata['component_type'],
+            $pdata['component_name'],
+            $pdata['slot_id'],
+            $pdata['name']
         );
     }
 

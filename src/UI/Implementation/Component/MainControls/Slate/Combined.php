@@ -11,7 +11,6 @@ use ILIAS\UI\Component\Button\Bulky as IBulkyButton;
 use ILIAS\UI\Component\Link\Bulky as IBulkyLink;
 use ILIAS\UI\Component\Signal;
 
-
 /**
  * Combined Slate
  */

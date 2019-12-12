@@ -8,7 +8,6 @@
  */
 class ilBiblEntryDetailPresentationGUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var \ilBiblEntry
@@ -49,7 +48,8 @@ class ilBiblEntryDetailPresentationGUI
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
-            $this->lng()->txt("back"), $this->ctrl()->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT)
+            $this->lng()->txt("back"),
+            $this->ctrl()->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT)
         );
     }
 
@@ -69,7 +69,9 @@ class ilBiblEntryDetailPresentationGUI
         $this->renderLibraries($form);
 
         $this->tpl()->setPermanentLink(
-            "bibl", $this->facade->iliasRefId(), "_" . (int) $_GET[ilObjBibliographicGUI::P_ENTRY_ID]
+            "bibl",
+            $this->facade->iliasRefId(),
+            "_" . (int) $_GET[ilObjBibliographicGUI::P_ENTRY_ID]
         );
 
         return $form->getHTML();

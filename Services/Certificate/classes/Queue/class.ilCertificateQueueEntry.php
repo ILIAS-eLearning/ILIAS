@@ -71,7 +71,7 @@ class ilCertificateQueueEntry
     /**
      * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->objId;
     }
@@ -79,7 +79,7 @@ class ilCertificateQueueEntry
     /**
      * @return int
      */
-    public function getUserId(): int
+    public function getUserId() : int
     {
         return $this->userId;
     }
@@ -87,7 +87,7 @@ class ilCertificateQueueEntry
     /**
      * @return string
      */
-    public function getAdapterClass(): string
+    public function getAdapterClass() : string
     {
         return $this->adapterClass;
     }
@@ -95,7 +95,7 @@ class ilCertificateQueueEntry
     /**
      * @return string
      */
-    public function getState(): string
+    public function getState() : string
     {
         return $this->state;
     }
@@ -119,7 +119,7 @@ class ilCertificateQueueEntry
     /**
      * @return int
      */
-    public function getTemplateId(): int
+    public function getTemplateId() : int
     {
         return $this->templateId;
     }

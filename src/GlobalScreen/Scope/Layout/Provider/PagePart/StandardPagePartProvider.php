@@ -21,7 +21,6 @@ use ilUtil;
  */
 class StandardPagePartProvider implements PagePartProvider
 {
-
     use isSupportedTrait;
     use SlateSessionStateCode;
     /**
@@ -71,7 +70,6 @@ class StandardPagePartProvider implements PagePartProvider
         $meta_bar = $f->mainControls()->metaBar();
 
         foreach ($this->gs->collector()->metaBar()->getItemsForUIRepresentation() as $item) {
-
             $component = $item->getRenderer()->getComponentForItem($item);
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $meta_bar = $meta_bar->withAdditionalEntry($item->getProviderIdentification()->getInternalIdentifier(), $component);

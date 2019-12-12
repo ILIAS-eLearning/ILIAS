@@ -80,4 +80,3 @@ class ilCloudGroupedListGUI extends ilGroupedListGUI
         return $this->getCount() > 0;
     }
 }
-

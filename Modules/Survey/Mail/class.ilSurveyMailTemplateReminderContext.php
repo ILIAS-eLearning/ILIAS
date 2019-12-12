@@ -23,7 +23,7 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $DIC;
 

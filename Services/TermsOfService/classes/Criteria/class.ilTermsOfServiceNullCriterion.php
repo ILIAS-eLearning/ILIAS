@@ -39,8 +39,7 @@ class ilTermsOfServiceNullCriterion implements ilTermsOfServiceCriterionType
      */
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
     {
-        return new class($lng) implements ilTermsOfServiceCriterionTypeGUI
-        {
+        return new class($lng) implements ilTermsOfServiceCriterionTypeGUI {
             /** @var ilLanguage */
             protected $lng;
 

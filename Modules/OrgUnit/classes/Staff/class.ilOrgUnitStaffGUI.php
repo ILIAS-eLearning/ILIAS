@@ -55,7 +55,7 @@ class ilOrgUnitStaffGUI
     /**
      * @param ilObjOrgUnitGUI $parent_gui
      */
-    function __construct(ilObjOrgUnitGUI $parent_gui)
+    public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -339,7 +339,7 @@ class ilOrgUnitStaffGUI
     }
 
 
-    function confirmRemoveUser($cmd)
+    public function confirmRemoveUser($cmd)
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
@@ -372,16 +372,19 @@ class ilOrgUnitStaffGUI
         $confirm->setConfirm($this->lng->txt('confirm'), $nextcmd);
         $confirm->setCancel($this->lng->txt('cancel'), 'showStaff');
         $arrUser = ilObjUser::_lookupName($_GET["obj_id"]);
-        $confirm->addItem($paramname, $param,
+        $confirm->addItem(
+            $paramname,
+            $param,
             $arrUser['lastname'] . ', ' . $arrUser['firstname'] . ' [' . $arrUser['login']
-            . ']', ilUtil::getImagePath('icon_usr.svg'));
+            . ']',
+            ilUtil::getImagePath('icon_usr.svg')
+        );
         $this->tpl->setContent($confirm->getHTML());
     }
 
 
     public function removeFromSuperiors()
     {
-
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
             ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui, "");

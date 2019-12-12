@@ -54,4 +54,3 @@ class BreadCrumbsModification extends AbstractLayoutModification implements Layo
         return true;
     }
 }
-

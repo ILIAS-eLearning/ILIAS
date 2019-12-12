@@ -47,7 +47,7 @@ class ilUserCertificatePresentation
     /**
      * @return ilUserCertificate
      */
-    public function getUserCertificate(): ilUserCertificate
+    public function getUserCertificate() : ilUserCertificate
     {
         return $this->userCertificate;
     }
@@ -55,7 +55,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getObjectTitle(): string
+    public function getObjectTitle() : string
     {
         return $this->objectTitle;
     }
@@ -63,7 +63,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getObjectDescription(): string
+    public function getObjectDescription() : string
     {
         return $this->objectDescription;
     }
@@ -71,7 +71,7 @@ class ilUserCertificatePresentation
     /**
      * @return string
      */
-    public function getUserName(): string
+    public function getUserName() : string
     {
         return $this->userName;
     }

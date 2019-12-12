@@ -152,14 +152,14 @@ class ilCertificateGUIFactory
                 $placeholderValuesObject =
                 new ilStudyProgrammePlaceholderValues();
                 $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
-                     $object,
-                     $certificatePath,
-                     true,
-                     $DIC->language(),
-                     $DIC->ctrl(),
-                     $DIC->access(),
-                     $DIC->toolbar(),
-                     $placeholderDescriptionObject
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
                  );
                 break;
             default:

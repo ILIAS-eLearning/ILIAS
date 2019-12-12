@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
+
 require_once("Services/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php");
 require_once("Services/Style/System/classes/Documentation/class.ilKSDocumentationExplorerGUI.php");
 
@@ -32,7 +33,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         $additional_data = $called_contexts->getLast()->getAdditionalData();
-        if ($additional_data->is(ilSystemStyleDocumentationGUI::SHOW_TREE,true)) {
+        if ($additional_data->is(ilSystemStyleDocumentationGUI::SHOW_TREE, true)) {
             $exp = new ilKSDocumentationExplorerGUI();
 
             $title = $this->dic->language()->txt('documentation');

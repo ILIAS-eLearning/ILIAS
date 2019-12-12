@@ -4,13 +4,15 @@
 
 use ILIAS\Setup;
 
-abstract class ilDatabaseObjective implements Setup\Objective {
-	/**
-	 * @var	ilDatabaseSetupConfig
-	 */
-	protected $config;
+abstract class ilDatabaseObjective implements Setup\Objective
+{
+    /**
+     * @var	ilDatabaseSetupConfig
+     */
+    protected $config;
 
-	public function __construct(\ilDatabaseSetupConfig $config) {
-		$this->config = $config;
-	}
+    public function __construct(\ilDatabaseSetupConfig $config)
+    {
+        $this->config = $config;
+    }
 }

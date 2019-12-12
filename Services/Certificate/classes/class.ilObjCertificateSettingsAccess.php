@@ -106,7 +106,7 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
     {
         return str_replace(
             ilUtil::removeTrailingPathSeparators(
-            ILIAS_ABSOLUTE_PATH
+                ILIAS_ABSOLUTE_PATH
         ),
             ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
             ilObjCertificateSettingsAccess::getBackgroundImageThumbPath()

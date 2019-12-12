@@ -15,12 +15,9 @@ class ilObjCommentsSettings extends ilObject
      * @param int $a_id
      * @param bool $a_call_by_reference
      */
-    function __construct($a_id = 0,$a_call_by_reference = true)
+    public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->type = "coms";
-        parent::__construct($a_id,$a_call_by_reference);
+        parent::__construct($a_id, $a_call_by_reference);
     }
-
-
 }
-?>

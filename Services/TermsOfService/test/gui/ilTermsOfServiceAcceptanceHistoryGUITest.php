@@ -88,11 +88,17 @@ class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
             ->willThrowException(new ilException('no_permission'));
 
         $gui = new ilTermsOfServiceAcceptanceHistoryGUI(
-            $this->tos, $this->criterionTypeFactory, $this->tpl,
-            $this->ctrl, $this->lng,
-            $this->rbacsystem, $this->error,
-            $this->request, $this->uiFactory,
-            $this->uiRenderer, $this->tableDataProviderFactory
+            $this->tos,
+            $this->criterionTypeFactory,
+            $this->tpl,
+            $this->ctrl,
+            $this->lng,
+            $this->rbacsystem,
+            $this->error,
+            $this->request,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->tableDataProviderFactory
         );
 
         $this->expectException(ilException::class);

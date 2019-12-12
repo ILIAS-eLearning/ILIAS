@@ -48,7 +48,8 @@ class ilTermsOfServiceCriterionTypeFactory implements ilTermsOfServiceCriterionT
         }
 
         throw new ilTermsOfServiceCriterionTypeNotFoundException(sprintf(
-            "Did not find criterion type by ident: %s", var_export($typeIdent, true)
+            "Did not find criterion type by ident: %s",
+            var_export($typeIdent, true)
         ));
     }
 }

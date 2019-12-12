@@ -27,7 +27,6 @@
  */
 class ilObjDataCollectionGUI extends ilObject2GUI
 {
-
     const GET_DCL_GTR = "dcl_gtr";
     const GET_REF_ID = "ref_id";
     const GET_VIEW_ID = "tableview_id";
@@ -76,7 +75,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         'ilrepositorygui',
                         'ilobjdatacollectiongui',
                         'ildclrecordeditgui',
-                    ), 'edit', '', true
+                    ),
+                    'edit',
+                    '',
+                    true
                 ) . "');"
             );
             $this->tpl->addOnLoadCode(
@@ -85,7 +87,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         'ilrepositorygui',
                         'ilobjdatacollectiongui',
                         'ildclrecordeditgui',
-                    ), 'create', '', true
+                    ),
+                    'create',
+                    '',
+                    true
                 ) . "');"
             );
             $this->tpl->addOnLoadCode(
@@ -94,7 +99,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         'ilrepositorygui',
                         'ilobjdatacollectiongui',
                         'ildclrecordeditgui',
-                    ), 'save', '', true
+                    ),
+                    'save',
+                    '',
+                    true
                 ) . "');"
             );
             $this->tpl->addOnLoadCode(
@@ -103,7 +111,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                         'ilrepositorygui',
                         'ilobjdatacollectiongui',
                         'ildclrecordeditgui',
-                    ), 'getRecordData', '', true
+                    ),
+                    'getRecordData',
+                    '',
+                    true
                 ) . "');"
             );
         }
@@ -157,7 +168,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         $next_class = $DIC->ctrl()->getNextClass($this);
 
-        if (!$this->getCreationMode() AND $next_class != "ilinfoscreengui" AND !$this->checkPermissionBool("read")) {
+        if (!$this->getCreationMode() and $next_class != "ilinfoscreengui" and !$this->checkPermissionBool("read")) {
             $DIC->ui()->mainTemplate()->loadStandardTemplate();
             $DIC->ui()->mainTemplate()->setContent("Permission Denied.");
 
@@ -571,8 +582,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $lng = $DIC['lng'];
         $this->table = ilDclCache::getTableCache($this->object->getFirstVisibleTableId());
         $tables = $this->object->getTables();
-        if (count($tables) == 1 AND count($this->table->getRecordFields()) == 0 AND count($this->table->getRecords()) == 0
-            AND $this->object->getOnline()
+        if (count($tables) == 1 and count($this->table->getRecordFields()) == 0 and count($this->table->getRecords()) == 0
+            and $this->object->getOnline()
         ) {
             ilUtil::sendInfo($lng->txt("dcl_no_content_warning"), true);
         }
@@ -614,12 +625,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl", $this->ref_id, $this->obj_id);
 
         ilObjectListGUI::prepareJSLinks(
-            $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true), $ilCtrl->getLinkTargetByClass(
-            array(
+            $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
+            $ilCtrl->getLinkTargetByClass(
+                array(
                 "ilcommonactiondispatchergui",
                 "ilnotegui",
-            ), "", "", true, false
-        ), $ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+            ),
+                "",
+                "",
+                true,
+                false
+        ),
+            $ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
 
         $lg = $dispatcher->initHeaderAction();
@@ -627,7 +644,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         //$lg->enableComments(ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId()), false);
 
         // notification
-        if ($ilUser->getId() != ANONYMOUS_USER_ID AND $this->object->getNotification() == 1) {
+        if ($ilUser->getId() != ANONYMOUS_USER_ID and $this->object->getNotification() == 1) {
             if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(), $this->obj_id)) {
                 //Command Activate Notification
                 $ilCtrl->setParameter($this, "ntf", 1);
@@ -653,5 +670,3 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $tpl->setHeaderActionMenu($lg->getHeaderAction());
     }
 }
-
-?>

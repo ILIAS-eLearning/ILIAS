@@ -11,49 +11,50 @@ namespace ILIAS\Survey\Tasks;
  */
 class DerivedTaskProviderFactory implements \ilDerivedTaskProviderFactory
 {
-	/**
-	 * @var \ilTaskService
-	 */
-	protected $task_service;
+    /**
+     * @var \ilTaskService
+     */
+    protected $task_service;
 
-	/**
-	 * @var \ilAccess
-	 */
-	protected $access;
+    /**
+     * @var \ilAccess
+     */
+    protected $access;
 
-	/**
-	 * @var \ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var \ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct(\ilTaskService $task_service, \ilAccess $access = null, \ilLanguage $lng = null)
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct(\ilTaskService $task_service, \ilAccess $access = null, \ilLanguage $lng = null)
+    {
+        global $DIC;
 
-		$this->access = is_null($access)
-			? $DIC->access()
-			: $access;
+        $this->access = is_null($access)
+            ? $DIC->access()
+            : $access;
 
-		$this->lng = is_null($lng)
-			? $DIC->language()
-			: $lng;
+        $this->lng = is_null($lng)
+            ? $DIC->language()
+            : $lng;
 
-		$this->task_service = $task_service;
-	}
+        $this->task_service = $task_service;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getProviders(): array
-	{
-		return [
-			new DerivedTaskProvider($this->task_service,
-				$this->access,
-				$this->lng
-				)
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getProviders() : array
+    {
+        return [
+            new DerivedTaskProvider(
+                $this->task_service,
+                $this->access,
+                $this->lng
+                )
+        ];
+    }
 }

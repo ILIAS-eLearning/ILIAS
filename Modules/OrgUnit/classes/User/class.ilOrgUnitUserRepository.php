@@ -74,7 +74,6 @@ class ilOrgUnitUserRepository
      */
     public function getOrgUnitUsers(array $arr_user_id) : array
     {
-
         $this->orgu_users = $this->loadUsersByUserIds($arr_user_id);
 
         if ($this->with_superiors === true) {
@@ -96,7 +95,6 @@ class ilOrgUnitUserRepository
      */
     public function getOrgUnitUser(int $user_id) : ?ilOrgUnitUser
     {
-
         $this->orgu_users = $this->loadUsersByUserIds([$user_id]);
 
         if (count($this->orgu_users) == 0) {
@@ -116,7 +114,6 @@ class ilOrgUnitUserRepository
      */
     public function loadSuperiors(array $user_ids) : void
     {
-
         global $DIC;
 
         $st = $DIC->database()->query($this->getSuperiorsSql($user_ids));
@@ -137,7 +134,6 @@ class ilOrgUnitUserRepository
      */
     public function getEmailAdressesOfSuperiors(array $user_ids) : array
     {
-
         global $DIC;
 
         $st = $DIC->database()->query($this->getSuperiorsSql($user_ids));

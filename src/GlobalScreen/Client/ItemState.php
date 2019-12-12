@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ItemState
 {
-
     use Hasher;
     const LEVEL_OF_TOOL = 1;
     const LEVEL_OF_TOPITEM = 2;

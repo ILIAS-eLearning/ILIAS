@@ -16,9 +16,7 @@ class ilWebDAVMountInstructionsModalGUI
      * @param \ILIAS\UI\Renderer $a_ui_renderer
      * @param ilLanguage $a_lng
      */
-    public function __construct(ILIAS\UI\Factory $a_ui_factory
-        , ILIAS\UI\Renderer $a_ui_renderer
-        , ilLanguage $a_lng)
+    public function __construct(ILIAS\UI\Factory $a_ui_factory, ILIAS\UI\Renderer $a_ui_renderer, ilLanguage $a_lng)
     {
         global $DIC;
         $this->repository = new ilWebDAVMountInstructionsRepositoryImpl($DIC->database());
@@ -26,14 +24,14 @@ class ilWebDAVMountInstructionsModalGUI
         $this->ui_renderer = $a_ui_renderer;
         $this->lng = $a_lng;
 
-        try  {
+        try {
             $document = $this->repository->getMountInstructionsByLanguage($this->lng->getUserLanguage());
             $title = $document->getTitle();
         } catch (InvalidArgumentException $e) {
             $title = $this->lng->txt('webfolder_instructions_titletext');
         }
 
-        $content_div = '<div id="'. self::MOUNT_INSTRUCTIONS_CONTENT_ID .'"></div>';
+        $content_div = '<div id="' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '"></div>';
         $page = $this->ui_factory->modal()->lightboxTextPage($content_div, $title);
         $this->modal = $this->ui_factory->modal()->lightbox($page);
     }
@@ -65,16 +63,14 @@ class ilWebDAVMountInstructionsModalGUI
     public static function maybeRenderWebDAVModalInGlobalTpl()
     {
         global $DIC;
-        if(!self::$modal_already_rendered)
-        {
-            if(self::$instance == null)
-            {
+        if (!self::$modal_already_rendered) {
+            if (self::$instance == null) {
                 global $DIC;
                 self::$instance = new ilWebDAVMountInstructionsModalGUI($DIC->ui()->factory(), $DIC->ui()->renderer(), $DIC->language());
             }
 
             self::$modal_already_rendered = true;
-            $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("'.self::$instance->getModalShowSignalId().'", "{}"); $("#'.self::MOUNT_INSTRUCTIONS_CONTENT_ID.'").html(data);}) }</script>';
+            $js_function = '<script>function triggerWebDAVModal(api_url){ $.ajax(api_url).done(function(data){ $(document).trigger("' . self::$instance->getModalShowSignalId() . '", "{}"); $("#' . self::MOUNT_INSTRUCTIONS_CONTENT_ID . '").html(data);}) }</script>';
 
             $webdav_modal_html = self::$instance->getRenderedModal() . $js_function;
 

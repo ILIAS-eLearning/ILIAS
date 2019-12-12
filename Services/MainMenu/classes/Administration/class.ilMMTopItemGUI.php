@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMTopItemGUI extends ilMMAbstractItemGUI
 {
-
     use Hasher;
     const CMD_VIEW_TOP_ITEMS = 'subtab_topitems';
     const CMD_ADD = 'topitem_add';

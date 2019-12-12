@@ -62,19 +62,15 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @throws BadRequest
      * @throws Forbidden
      */
-    function put($data)
-    {        
-        if($this->repo_helper->checkAccess('write', $this->getRefId()))
-        {
+    public function put($data)
+    {
+        if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
             $settings = new ilSetting('file_access');
-            if($settings->get('webdav_versioning_enabled', '1') == '1')
-            {
+            if ($settings->get('webdav_versioning_enabled', '1') == '1') {
                 // Stolen from ilObjFile->addFileVersion
                 $this->setObjValuesForNewFileVersion();
                 $this->handleFileUpload($data, 'new_version');
-            }
-            else
-            {
+            } else {
                 $this->handleFileUpload($data, 'replace');
             }
 
@@ -92,18 +88,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @return mixed
      * @throws Forbidden
      */
-    function get()
+    public function get()
     {
-        if($this->repo_helper->checkAccess("read", $this->obj->getRefId()))
-        {
+        if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
             $file = $this->getPathToFile();
 
-            if(file_exists($file))
-            {
-                return fopen($file,'r');
-            }
-            else 
-            {
+            if (file_exists($file)) {
+                return fopen($file, 'r');
+            } else {
                 throw new Exception\NotFound("File not found");
             }
         }
@@ -116,7 +108,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return ilFileUtils::getValidFilename($this->obj->getTitle());
     }
@@ -128,7 +120,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @return string|null
      */
-    function getContentType()
+    public function getContentType()
     {
         return  $this->obj->guessFileType();
     }
@@ -149,8 +141,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getETag()
     {
-        if(file_exists($path = $this->getPathToFile()))
-        {
+        if (file_exists($path = $this->getPathToFile())) {
             return '"' . sha1(
                 fileinode($path) .
                 filesize($path) .
@@ -168,8 +159,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getSize()
     {
-        if(file_exists($this->getPathToFile()))
-        {
+        if (file_exists($this->getPathToFile())) {
             return $this->obj->getFileSize();
         }
         return 0;
@@ -179,14 +169,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @param string $a_name
      * @throws Forbidden
      */
-    function setName($a_name)
+    public function setName($a_name)
     {
-        if($this->dav_helper->isValidFileNameWithValidFileExtension($a_name))
-        {
+        if ($this->dav_helper->isValidFileNameWithValidFileExtension($a_name)) {
             parent::setName($a_name);
-        }
-        else
-        {
+        } else {
             throw new Exception\Forbidden("Invalid file extension");
         }
     }
@@ -210,8 +197,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         $file_dest_path = $this->getPathToFile();
 
         // If dir does not exist yet -> create it
-        if(!file_exists($file_dest_path))
-        {
+        if (!file_exists($file_dest_path)) {
             ilUtil::makeDirParents($this->getPathToDirectory());
         }
         
@@ -229,15 +215,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
-        if($this->obj->update() && $this->obj->getMaxVersion() >= 1)
-        {
+        if ($this->obj->update() && $this->obj->getMaxVersion() >= 1) {
             $this->createHistoryAndNotificationForObjUpdate($a_file_action);
         }
     }
 
     /**
      * Write given data (as string) to the given file
-     * 
+     *
      * @param string|resource $a_data
      * @param string $file_dest_path
      * @throws Exception\Forbidden
@@ -246,8 +231,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     protected function uploadFile($a_data, string $file_dest_path)
     {
         $written_length = file_put_contents($file_dest_path, $a_data);
-        if($written_length === false && strlen($a_data) > 0)
-        {
+        if ($written_length === false && strlen($a_data) > 0) {
             throw new Exception\Forbidden('Forbidden to write file');
         }
         return $written_length;
@@ -281,9 +265,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
         // If vrs[0] == false -> virus found
-        if($vrs[0] == false)
-        {
-            ilLoggerFactory::getLogger('WebDAV')->error(get_class($this). ' ' . $this->obj->getTitle() ." -> virus found on '$file_dest_path'!");
+        if ($vrs[0] == false) {
+            ilLoggerFactory::getLogger('WebDAV')->error(get_class($this) . ' ' . $this->obj->getTitle() . " -> virus found on '$file_dest_path'!");
             $this->deleteObjOrVersion();
             throw new Exception\Forbidden('Virus found!');
         }
@@ -296,8 +279,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         // This is necessary for windows explorer. Because windows explorer makes always 2 PUT requests. One with a 0 Byte
         // file to test, if the user has write permissions and the second one to upload the original file.
-        if($this->obj->getFileSize() > 0)
-        {
+        if ($this->obj->getFileSize() > 0) {
             // Stolen from ilObjFile->addFileVersion
             $this->obj->setVersion($this->obj->getMaxVersion() + 1);
             $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
@@ -312,8 +294,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     protected function createHistoryAndNotificationForObjUpdate($a_action)
     {
         // Add history entry and notification for new file version (stolen from ilObjFile->addFileVersion)
-        switch($a_action)
-        {
+        switch ($a_action) {
             case "create":
             case "new_version":
             case "replace":
@@ -327,7 +308,8 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     /**
      * Delete an object if there is no other version in it otherwise delete version.
      */
-    protected function deleteObjOrVersion () {
+    protected function deleteObjOrVersion()
+    {
         if ($this->obj->getVersion() > 1) {
             $version_dir = $this->obj->getDirectory($this->obj->getVersion());
             ilUtil::delDir($version_dir);

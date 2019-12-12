@@ -40,7 +40,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 return $this->mocks['divider'];
             }
-            public function symbol(): C\Symbol\Factory
+            public function symbol() : C\Symbol\Factory
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),

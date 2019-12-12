@@ -41,7 +41,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
     }
 
 
-    function asyncUploadFile()
+    public function asyncUploadFile()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -138,7 +138,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
     }
 
 
-    function handleFileUpload($file_upload)
+    public function handleFileUpload($file_upload)
     {
         // create answer object
         $response = new stdClass();
@@ -197,7 +197,6 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $dirlist = opendir($dir);
 
         while (false !== ($file = readdir($dirlist))) {
-
             if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file)) {
                 global $DIC;
                 $lng = $DIC['lng'];
@@ -220,5 +219,3 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         closedir($dirlist);
     }
 }
-
-?>

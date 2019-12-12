@@ -9,54 +9,53 @@
  */
 interface ilExcRepoObjAssignmentInfoInterface
 {
-	/**
-	 * Get assignment id
-	 *
-	 * @return int assignment id
-	 */
-	function getId();
+    /**
+     * Get assignment id
+     *
+     * @return int assignment id
+     */
+    public function getId();
 
-	/**
-	 * Get assignment title
-	 *
-	 * @return int assignment id
-	 */
-	function getTitle();
+    /**
+     * Get assignment title
+     *
+     * @return int assignment id
+     */
+    public function getTitle();
 
-	/**
-	 * Get readable link urls to the assignment (key is the ref id)
-	 *
-	 * @return string[] assignment link url
-	 */
-	function getLinks();
+    /**
+     * Get readable link urls to the assignment (key is the ref id)
+     *
+     * @return string[] assignment link url
+     */
+    public function getLinks();
 
-	/**
-	 * Check if this object has been submitted by the user provided or its team. If not, the
-	 * repository object is related to an assignment, but has been submitted by another user/team.
-	 *
-	 * @return bool
-	 */
-	function isUserSubmission();
+    /**
+     * Check if this object has been submitted by the user provided or its team. If not, the
+     * repository object is related to an assignment, but has been submitted by another user/team.
+     *
+     * @return bool
+     */
+    public function isUserSubmission();
 
-	/**
-	 * Get exercise id
-	 *
-	 * @return int
-	 */
-	function getExerciseId();
+    /**
+     * Get exercise id
+     *
+     * @return int
+     */
+    public function getExerciseId();
 
-	/**
-	 * Get exercise title
-	 *
-	 * @return string
-	 */
-	function getExerciseTitle();
+    /**
+     * Get exercise title
+     *
+     * @return string
+     */
+    public function getExerciseTitle();
 
-	/**
-	 * Get readable ref IDs
-	 *
-	 * @return int[]
-	 */
-	function getReadableRefIds();
-
+    /**
+     * Get readable ref IDs
+     *
+     * @return int[]
+     */
+    public function getReadableRefIds();
 }

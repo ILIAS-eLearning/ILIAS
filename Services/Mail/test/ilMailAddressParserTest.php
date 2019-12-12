@@ -127,7 +127,7 @@ class ilMailAddressParserTest extends ilMailBaseTest
      * @dataProvider emailInvalidAddressesProvider
      * @param string $addresses
      */
-    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void 
+    public function testExceptionShouldBeRaisedIfEmailCannotBeParsedWithPearAddressParser(string $addresses) : void
     {
         $this->expectException(ilMailException::class);
 

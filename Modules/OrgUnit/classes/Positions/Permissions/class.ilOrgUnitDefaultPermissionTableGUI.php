@@ -95,7 +95,6 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
 
     public function collectData()
     {
-
     }
 
 

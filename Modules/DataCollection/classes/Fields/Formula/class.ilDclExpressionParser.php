@@ -8,7 +8,6 @@
  */
 class ilDclExpressionParser
 {
-
     const N_DECIMALS = 1;
     const SCIENTIFIC_NOTATION_UPPER = 1000000000000;
     const SCIENTIFIC_NOTATION_LOWER = 0.000000001;
@@ -328,10 +327,10 @@ class ilDclExpressionParser
         $precedences = new ilDclStack();
         $in_bracket = false;
         foreach ($tokens as $token) {
-            if (empty($token) OR is_null($token)) {
+            if (empty($token) or is_null($token)) {
                 $token = 0;
             }
-            if (is_numeric($token) OR $token === '(') {
+            if (is_numeric($token) or $token === '(') {
                 $stack->push($token);
                 if ($token === '(') {
                     $in_bracket = true;
@@ -379,7 +378,6 @@ class ilDclExpressionParser
 
             return (ctype_digit((string) $result)) ? $result : number_format($result, self::N_DECIMALS, '.', "'");
         } else {
-
             while ($stack->count() >= 2) {
                 $right = $stack->pop();
                 $operator = $stack->pop();
@@ -454,5 +452,3 @@ class ilDclExpressionParser
         return $result;
     }
 }
-
-?>

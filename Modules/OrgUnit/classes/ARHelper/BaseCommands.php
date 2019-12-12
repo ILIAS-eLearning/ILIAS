@@ -9,7 +9,6 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
  */
 abstract class BaseCommands
 {
-
     use DIC;
     const CMD_INDEX = "index";
     const CMD_ADD = "add";
@@ -160,6 +159,5 @@ abstract class BaseCommands
 
     public function addSubTabs()
     {
-
     }
 }

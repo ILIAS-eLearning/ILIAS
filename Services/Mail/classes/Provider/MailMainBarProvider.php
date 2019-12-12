@@ -47,7 +47,8 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withVisibilityCallable(
                     function () use ($dic) {
                         return $dic->rbac()->system()->checkAccess(
-                            'internal_mail', ilMailGlobalServices::getMailObjectRefId()
+                            'internal_mail',
+                            ilMailGlobalServices::getMailObjectRefId()
                         );
                     }
                 ),

@@ -38,8 +38,4 @@ class ilExerciseInternalService
     {
         return new ilExcMandatoryAssignmentManager($exercise, $this->getRandomAssignmentManager($exercise));
     }
-
-
-
-
 }

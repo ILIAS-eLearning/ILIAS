@@ -87,7 +87,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
     /**
      * @param bool $status
      */
-    public function setCheckInputCalled(bool $status) : void 
+    public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
@@ -211,7 +211,11 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
                     }
 
                     $this->fileUpload->moveOneFileTo(
-                        $uploadResult, '/agreements', Location::TEMPORARY, '', true
+                        $uploadResult,
+                        '/agreements',
+                        Location::TEMPORARY,
+                        '',
+                        true
                     );
 
                     $pathToFile = '/agreements/' . $uploadResult->getName();

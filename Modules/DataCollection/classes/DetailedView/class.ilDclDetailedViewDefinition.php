@@ -15,7 +15,6 @@
  */
 class ilDclDetailedViewDefinition extends ilPageObject
 {
-
     const PARENT_TYPE = 'dclf';
     /**
      * @var bool
@@ -36,7 +35,7 @@ class ilDclDetailedViewDefinition extends ilPageObject
      *
      * @return string parent type
      */
-    function getParentType()
+    public function getParentType()
     {
         return self::PARENT_TYPE;
     }
@@ -91,5 +90,3 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return parent::_lookupActive($id, self::PARENT_TYPE);
     }
 }
-
-?>

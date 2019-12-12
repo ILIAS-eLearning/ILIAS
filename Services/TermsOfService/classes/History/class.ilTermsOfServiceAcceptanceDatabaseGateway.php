@@ -67,7 +67,8 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
     ) : ilTermsOfServiceAcceptanceEntity {
         $this->db->setLimit(1, 0);
 
-        $res = $this->db->queryF('
+        $res = $this->db->queryF(
+            '
 			SELECT tos_versions.*,
 				tos_acceptance_track.ts accepted_ts,
 				tos_acceptance_track.criteria,
@@ -100,7 +101,8 @@ class ilTermsOfServiceAcceptanceDatabaseGateway implements ilTermsOfServiceAccep
      */
     public function loadById(ilTermsOfServiceAcceptanceEntity $entity) : ilTermsOfServiceAcceptanceEntity
     {
-        $res = $this->db->queryF('
+        $res = $this->db->queryF(
+            '
 			SELECT *
 			FROM tos_versions
 			WHERE id = %s

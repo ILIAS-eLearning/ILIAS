@@ -14,36 +14,36 @@
  */
 class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
 {
-	/**
-	 * @var ilCmiXapiLrsType
-	 */
-	protected $lrsType;
-	
-	/**
-	 * @var ilCmiXapiStatementsReportLinkBuilder
-	 */
-	protected $linkBuilder;
-	
-	/**
-	 * ilCmiXapiHighscoreReportRequest constructor.
-	 * @param string $basicAuth
-	 * @param ilCmiXapiHighscoreReportLinkBuilder $linkBuilder
-	 */
-	public function __construct(string $basicAuth, ilCmiXapiHighscoreReportLinkBuilder $linkBuilder)
-	{
-		parent::__construct($basicAuth);
-		$this->linkBuilder = $linkBuilder;
-	}
-	
-	/**
-	 * @return ilCmiXapiHighscoreReport
-	 */
-	public function queryReport($objId)
-	{
-		$reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
-		
-		$report = new ilCmiXapiHighscoreReport($reportResponse, $objId);
-		
-		return $report;
-	}
+    /**
+     * @var ilCmiXapiLrsType
+     */
+    protected $lrsType;
+    
+    /**
+     * @var ilCmiXapiStatementsReportLinkBuilder
+     */
+    protected $linkBuilder;
+    
+    /**
+     * ilCmiXapiHighscoreReportRequest constructor.
+     * @param string $basicAuth
+     * @param ilCmiXapiHighscoreReportLinkBuilder $linkBuilder
+     */
+    public function __construct(string $basicAuth, ilCmiXapiHighscoreReportLinkBuilder $linkBuilder)
+    {
+        parent::__construct($basicAuth);
+        $this->linkBuilder = $linkBuilder;
+    }
+    
+    /**
+     * @return ilCmiXapiHighscoreReport
+     */
+    public function queryReport($objId)
+    {
+        $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
+        
+        $report = new ilCmiXapiHighscoreReport($reportResponse, $objId);
+        
+        return $report;
+    }
 }

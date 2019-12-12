@@ -9,37 +9,37 @@ use PHPUnit\Framework\TestCase;
  */
 class ilMathTest extends TestCase
 {
-	/**
-	 * @var EvalMath
-	 */
-	protected $eval_math;
+    /**
+     * @var EvalMath
+     */
+    protected $eval_math;
 
-	/**
-	 * 
-	 */
-	protected function setUp(): void
-	{
-		require_once 'Services/Math/classes/class.ilMath.php';
-		require_once 'Services/Math/classes/class.EvalMath.php';
-		$this->eval_math = new EvalMath();
-	}
+    /**
+     *
+     */
+    protected function setUp() : void
+    {
+        require_once 'Services/Math/classes/class.ilMath.php';
+        require_once 'Services/Math/classes/class.EvalMath.php';
+        $this->eval_math = new EvalMath();
+    }
 
-	/**
-	 * @dataProvider gcdData
-	 */
-	public function testGcd($a, $b, $result)
-	{
-		$this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));
-	}
+    /**
+     * @dataProvider gcdData
+     */
+    public function testGcd($a, $b, $result)
+    {
+        $this->assertEquals($result, ilMath::getGreatestCommonDivisor($a, $b));
+    }
 
-	/**
-	 * @return array
-	 */
-	public function gcdData()
-	{
-		return [
-			['1254', '5298', '6'],
-			['41414124', '41414124', '41414124']
-		];
-	}
+    /**
+     * @return array
+     */
+    public function gcdData()
+    {
+        return [
+            ['1254', '5298', '6'],
+            ['41414124', '41414124', '41414124']
+        ];
+    }
 }

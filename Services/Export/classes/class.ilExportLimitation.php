@@ -95,6 +95,4 @@ class ilExportLimitation
             ));
         }
     }
-
-
 }

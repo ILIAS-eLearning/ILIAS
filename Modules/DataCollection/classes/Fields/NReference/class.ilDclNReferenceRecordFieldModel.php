@@ -76,7 +76,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
     protected function loadValueSorted()
     {
         if ($this->value === null) {
-
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $datatype = $this->getField()->getDatatype();
@@ -93,7 +92,8 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
                     ilDclDatatype::INPUTFORMAT_TEXT,
                     ilDclDatatype::INPUTFORMAT_NUMBER,
                     ilDclDatatype::INPUTFORMAT_BOOLEAN,
-                ), $supported_internal_types
+                ),
+                $supported_internal_types
             );
             $datatypeId = $refField->getDatatypeId();
             if (in_array($datatypeId, $supported_types)) {
@@ -276,5 +276,3 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $slicedReferences;
     }
 }
-
-?>

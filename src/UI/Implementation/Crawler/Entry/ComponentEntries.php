@@ -32,7 +32,8 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
         $this->rewind();
     }
 
-    static function createFromArray(array $entries_array){
+    public static function createFromArray(array $entries_array)
+    {
         $entries = new self();
         $entries->addEntriesFromArray($entries_array);
         return $entries;
@@ -70,7 +71,7 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
      */
     public function addEntriesFromArray(array $entries)
     {
-        foreach ($entries as $entry_array){
+        foreach ($entries as $entry_array) {
             $this->addEntry(new Crawler\Entry\ComponentEntry($entry_array));
         }
     }
@@ -224,7 +225,7 @@ class ComponentEntries extends AbstractEntryPart implements \Iterator, \Countabl
     public function jsonSerialize()
     {
         $serialized = [];
-        foreach ($this->id_to_entry_map as $id => $item){
+        foreach ($this->id_to_entry_map as $id => $item) {
             $serialized[$id] = $item->jsonSerialize();
         }
         return $serialized;

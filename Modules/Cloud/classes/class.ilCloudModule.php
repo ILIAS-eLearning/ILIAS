@@ -18,7 +18,7 @@ class ilCloudModule extends ilModule
     /**
      * Constructor: read information on component
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
     }
@@ -27,7 +27,7 @@ class ilCloudModule extends ilModule
     /**
      * Core modules vs. plugged in modules
      */
-    function isCore()
+    public function isCore()
     {
         return true;
     }
@@ -37,10 +37,8 @@ class ilCloudModule extends ilModule
      * Get version of module. This is especially important for
      * non-core modules.
      */
-    function getVersion()
+    public function getVersion()
     {
         return "-";
     }
 }
-
-?>

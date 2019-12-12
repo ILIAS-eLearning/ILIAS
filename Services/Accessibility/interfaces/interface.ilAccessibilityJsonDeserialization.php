@@ -6,8 +6,8 @@
  */
 interface ilAccessibilityJsonDeserialization
 {
-	/**
-	 * @param string $json
-	 */
-	public function fromJson(string $json) : void;
+    /**
+     * @param string $json
+     */
+    public function fromJson(string $json) : void;
 }

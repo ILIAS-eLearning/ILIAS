@@ -29,7 +29,7 @@ class ilNotificationOSDGUI
     }
 
     /**
-     * 
+     *
      */
     public function populatePage() : void
     {
@@ -57,7 +57,7 @@ class ilNotificationOSDGUI
             $chatSettings->get('play_invitation_sound') && $this->user->getPref('chat_play_invitation_sound') ? 'true' : 'false'
         );
 
-        iljQueryUtil::initjQuery($this->page );
+        iljQueryUtil::initjQuery($this->page);
         ilPlayerUtil::initMediaElementJs($this->page);
 
         $this->page->addJavaScript('Services/Notifications/templates/default/notifications.js');

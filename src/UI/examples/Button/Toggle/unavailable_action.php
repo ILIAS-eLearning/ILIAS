@@ -10,7 +10,7 @@ function unavailable_action()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $button = $f->button()->toggle('', '#','#')
+    $button = $f->button()->toggle('', '#', '#')
                           ->withAriaLabel("Switch the State of XY")
                           ->withUnavailableAction();
 

@@ -8,57 +8,63 @@ use ILIAS\Setup;
  * The user seems to use `root` or we cannot determine which user he uses.
  * We should ask...
  */
-class ilUseRootConfirmed implements Setup\Objective {
-	/**
-	 * @inheritdoc
-	 */
-	public function getHash() : string {
-		return hash(
-			"sha256",
-			get_class($this)
-		);
-	}
+class ilUseRootConfirmed implements Setup\Objective
+{
+    /**
+     * @inheritdoc
+     */
+    public function getHash() : string
+    {
+        return hash(
+            "sha256",
+            get_class($this)
+        );
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getLabel() : string {
-		return "Confirm that root should be used to run the setup.";
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getLabel() : string
+    {
+        return "Confirm that root should be used to run the setup.";
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isNotable() : bool {
-		return false;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isNotable() : bool
+    {
+        return false;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getPreconditions(Setup\Environment $environment) : array {
-		return [];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getPreconditions(Setup\Environment $environment) : array
+    {
+        return [];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function achieve(Setup\Environment $environment) : Setup\Environment {
-		if (function_exists("posix_geteuid") && posix_geteuid() != 0) {
-			return $environment;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function achieve(Setup\Environment $environment) : Setup\Environment
+    {
+        if (function_exists("posix_geteuid") && posix_geteuid() != 0) {
+            return $environment;
+        }
 
-		$admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+        $admin_interaction = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
 
-		$message =
-			"You seem to be using root or your user just can't be determined. You should\n".
-			"be running this setup with the same user the webserver uses. If this is not\n".
-			"the case there might be problems accessing files via the web later...\n";
+        $message =
+            "You seem to be using root or your user just can't be determined. You should\n" .
+            "be running this setup with the same user the webserver uses. If this is not\n" .
+            "the case there might be problems accessing files via the web later...\n";
 
-		if(!$admin_interaction->confirmOrDeny($message)) {
-			throw new Setup\NoConfirmationException($message);
-		}
+        if (!$admin_interaction->confirmOrDeny($message)) {
+            throw new Setup\NoConfirmationException($message);
+        }
 
-		return $environment;
-	}
+        return $environment;
+    }
 }

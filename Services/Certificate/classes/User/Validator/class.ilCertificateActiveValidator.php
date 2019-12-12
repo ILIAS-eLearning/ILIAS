@@ -35,7 +35,7 @@ class ilCertificateActiveValidator
 
     public function validate()
     {
-        $globalCertificateActive = (bool)$this->setting->get('active');
+        $globalCertificateActive = (bool) $this->setting->get('active');
 
         if (false === $globalCertificateActive) {
             return false;

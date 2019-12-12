@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_EXC_ASSIGNMENT_INFO = 'show_exc_assignment_info';
     const EXC_ASS_IDS = 'exc_ass_ids';
     const EXC_ASS_BUTTONS = "exc_ass_buttons";
@@ -35,14 +34,21 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $lng = $DIC->language();
         $lng->loadLanguageModule("exc");
 
+        $title = $lng->txt("exc_assignment");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title)->withIsOutlined(true);
+
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_EXC_ASSIGNMENT_INFO, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $tools[] = $this->factory->tool($iff("exc_ass_info"))
-                ->withTitle($lng->txt("exc_assignment"))
+                ->withTitle($title)
+                ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l, $additional_data) {
                     return $l($this->getAssignmentInfo(
                         $additional_data->get(self::EXC_ASS_IDS),
@@ -58,7 +64,8 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
      * @param $ass_id
      * @return string
      */
-    private function getAssignmentInfo($ass_ids, $buttons) : string {
+    private function getAssignmentInfo($ass_ids, $buttons) : string
+    {
         global $DIC;
 
         $lng = $DIC->language();
@@ -68,7 +75,6 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
 
 
         foreach ($ass_ids as $ass_id) {
-
             $info = new ilExAssignmentInfo($ass_id, $user->getId());
             $exc_id = ilExAssignment::lookupExerciseId($ass_id);
             foreach (ilObject::_getAllReferences($exc_id) as $ref_id) {
@@ -80,7 +86,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
             $tpl = new ilTemplate("tpl.ass_info_tool.html", true, true, "Modules/Exercise");
             $assignment = new ilExAssignment($ass_id);
 
-            $title = ilObject::_lookupTitle($exc_id).": ".$assignment->getTitle();
+            $title = ilObject::_lookupTitle($exc_id) . ": " . $assignment->getTitle();
             if ($readable_ref_id > 0) {
                 $title = $ui->renderer()->render(
                     $ui->factory()->link()->standard($title, ilLink::_getLink($readable_ref_id))
@@ -91,8 +97,8 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
 
             // schedule info
             $schedule = $info->getScheduleInfo();
-            $list = $ui->factory()->listing()->unordered(array_map(function($i) {
-                return $i["txt"].": ".$i["value"];
+            $list = $ui->factory()->listing()->unordered(array_map(function ($i) {
+                return $i["txt"] . ": " . $i["value"];
             }, $schedule));
             $this->addSection($tpl, $lng->txt("exc_schedule"), $ui->renderer()->render($list));
 
@@ -149,5 +155,4 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $tpl->setVariable("CONTENT", $content);
         $tpl->parseCurrentBlock();
     }
-
 }

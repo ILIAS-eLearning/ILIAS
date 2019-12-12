@@ -18,7 +18,6 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  */
 class File extends Input implements C\Input\Field\File
 {
-
     use JavaScriptBindable;
     use Triggerer;
     /**

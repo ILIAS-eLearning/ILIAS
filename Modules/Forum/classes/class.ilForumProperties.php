@@ -48,7 +48,7 @@ class ilForumProperties
      * Activation of new posts
      * @access    private
      */
-    private $post_activation_enabled = 0; //false; 
+    private $post_activation_enabled = 0; //false;
 
     /**
      * Global notification-type setting (CRS/GRP)
@@ -116,7 +116,7 @@ class ilForumProperties
     /**
      * @var ilForumProperties[]
      */
-    static private $instances = array();
+    private static $instances = array();
 
     protected function __construct($a_obj_id = 0)
     {
@@ -135,7 +135,7 @@ class ilForumProperties
      * @param int $a_obj_id
      * @return ilForumProperties
      */
-    static public function getInstance($a_obj_id = 0)
+    public static function getInstance($a_obj_id = 0)
     {
         if (!self::$instances[$a_obj_id]) {
             self::$instances[$a_obj_id] = new ilForumProperties($a_obj_id);
@@ -147,10 +147,13 @@ class ilForumProperties
     private function read()
     {
         if ($this->obj_id) {
-            $res = $this->db->queryf('
+            $res = $this->db->queryf(
+                '
 				SELECT * FROM frm_settings
 				WHERE obj_id = %s',
-                array('integer'), array($this->obj_id));
+                array('integer'),
+                array($this->obj_id)
+            );
 
             $row = $this->db->fetchObject($res);
 
@@ -182,7 +185,8 @@ class ilForumProperties
     public function insert()
     {
         if ($this->obj_id) {
-            $this->db->insert('frm_settings',
+            $this->db->insert(
+                'frm_settings',
                 array(
                     'obj_id' => array('integer', $this->obj_id),
                     'default_view' => array('integer', $this->default_view),
@@ -210,7 +214,8 @@ class ilForumProperties
     public function update()
     {
         if ($this->obj_id) {
-            $this->db->update('frm_settings',
+            $this->db->update(
+                'frm_settings',
                 array(
                     'default_view' => array('integer', $this->default_view),
                     'anonymized' => array('integer', $this->anonymized),
@@ -238,7 +243,8 @@ class ilForumProperties
     public function copy($a_new_obj_id)
     {
         if ($a_new_obj_id) {
-            $this->db->update('frm_settings',
+            $this->db->update(
+                'frm_settings',
                 array(
                     'default_view' => array('integer', $this->default_view),
                     'anonymized' => array('integer', $this->anonymized),
@@ -310,13 +316,16 @@ class ilForumProperties
         return $this->anonymized;
     }
 
-    static function _isAnonymized($a_obj_id)
+    public static function _isAnonymized($a_obj_id)
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        $result = $ilDB->queryf("SELECT anonymized FROM frm_settings WHERE obj_id = %s",
-            array('integer'), array($a_obj_id));
+        $result = $ilDB->queryf(
+            "SELECT anonymized FROM frm_settings WHERE obj_id = %s",
+            array('integer'),
+            array($a_obj_id)
+        );
 
         while ($record = $ilDB->fetchAssoc($result)) {
             return $record['anonymized'];
@@ -366,14 +375,16 @@ class ilForumProperties
         return $this->user_toggle_noti;
     }
 
-    static function _isAdminForceNoti($a_obj_id)
+    public static function _isAdminForceNoti($a_obj_id)
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        $res = $ilDB->queryF("SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s",
+        $res = $ilDB->queryF(
+            "SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s",
             array('integer'),
-            array($a_obj_id));
+            array($a_obj_id)
+        );
         while ($record = $ilDB->fetchAssoc($res)) {
             return $record['admin_force_noti'];
         }
@@ -381,14 +392,16 @@ class ilForumProperties
         return 0;
     }
 
-    static function _isUserToggleNoti($a_obj_id)
+    public static function _isUserToggleNoti($a_obj_id)
     {
         global $DIC;
         $ilDB = $DIC->database();
 
-        $res = $ilDB->queryF("SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s",
+        $res = $ilDB->queryF(
+            "SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s",
             array('integer'),
-            array($a_obj_id));
+            array($a_obj_id)
+        );
         while ($record = $ilDB->fetchAssoc($res)) {
             return $record['user_toggle_noti'];
         }
@@ -540,8 +553,10 @@ class ilForumProperties
     public static function isFileUploadGloballyAllowed()
     {
         global $DIC;
-        return $DIC->settings()->get('file_upload_allowed_fora',
-                self::FILE_UPLOAD_GLOBALLY_ALLOWED) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
+        return $DIC->settings()->get(
+            'file_upload_allowed_fora',
+            self::FILE_UPLOAD_GLOBALLY_ALLOWED
+        ) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
     }
 
     /**

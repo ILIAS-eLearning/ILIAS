@@ -5,17 +5,15 @@
 /**
  * Standard interface for auth provider implementations
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 interface ilAuthProviderInterface
 {
-	/**
-	 * Do authentication
-	 * @param \ilAuthStatus $status Authentication status
-	 * @return bool
-	 */
-	public function doAuthentication(\ilAuthStatus $status);
-	
+    /**
+     * Do authentication
+     * @param \ilAuthStatus $status Authentication status
+     * @return bool
+     */
+    public function doAuthentication(\ilAuthStatus $status);
 }
-?>

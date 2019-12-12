@@ -40,7 +40,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
                     "ilAchievementsGUI","ilLearningProgressGUI","ilLPListOfProgressGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(30)
-	            ->withSymbol($icon)
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

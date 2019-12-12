@@ -27,10 +27,10 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
     /**
      * @inheritDoc
      */
-    public function getNotifications(): array
+    public function getNotifications() : array
     {
         if (
-            0 === (int)$this->dic->user()->getId() ||
+            0 === (int) $this->dic->user()->getId() ||
             $this->dic->user()->isAnonymous() ||
             !\ilBuddySystem::getInstance()->isEnabled()
         ) {
@@ -98,7 +98,8 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
                     ->withClosedCallable(
                         function () {
                             $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
-                        })->withNewAmount(1)
+                        }
+                    )->withNewAmount(1)
             );
 
         return [

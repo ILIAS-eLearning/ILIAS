@@ -20,7 +20,7 @@ class ilSAHSEditRequest
     /**
      * @return int
      */
-    public function getRequestedRefId(): int
+    public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }

@@ -12,7 +12,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
  */
 abstract class AbstractBaseItem implements isItem
 {
-
     use ComponentDecoratorTrait;
     /**
      * @var int

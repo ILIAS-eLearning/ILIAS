@@ -410,7 +410,6 @@ class ilDclBaseRecordFieldModel
      */
     public function afterClone()
     {
-
     }
 
 
@@ -476,4 +475,3 @@ class ilDclBaseRecordFieldModel
         $this->field_representation = $field_representation;
     }
 }
-

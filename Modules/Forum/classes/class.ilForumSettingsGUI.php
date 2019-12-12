@@ -80,10 +80,14 @@ class ilForumSettingsGUI
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
         $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), ilForumProperties::VIEW_TREE));
-        $view_desc = new ilRadioOption($this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('descending_order') . ')',
-            ilForumProperties::VIEW_DATE_DESC);
-        $view_asc = new ilRadioOption($this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('ascending_order') . ')',
-            ilForumProperties::VIEW_DATE_ASC);
+        $view_desc = new ilRadioOption(
+            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('descending_order') . ')',
+            ilForumProperties::VIEW_DATE_DESC
+        );
+        $view_asc = new ilRadioOption(
+            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('ascending_order') . ')',
+            ilForumProperties::VIEW_DATE_ASC
+        );
         $rg_pro->addOption($view_desc);
         $rg_pro->addOption($view_asc);
         $a_form->addItem($rg_pro);
@@ -160,8 +164,12 @@ class ilForumSettingsGUI
     public function settingsTabs()
     {
         $this->tabs->activateTab('settings');
-        $this->tabs->addSubTabTarget('basic_settings', $this->ctrl->getLinkTarget($this->parent_obj, 'edit'), '',
-            ['ilobjforumgui', 'ilObjForumGUI']);
+        $this->tabs->addSubTabTarget(
+            'basic_settings',
+            $this->ctrl->getLinkTarget($this->parent_obj, 'edit'),
+            '',
+            ['ilobjforumgui', 'ilObjForumGUI']
+        );
 
         if ($this->settings->get('forum_notification') > 0) {
             // check if there a parent-node is a grp or crs
@@ -174,15 +182,25 @@ class ilForumSettingsGUI
                     $mem_active = array('showMembers', 'forums_notification_settings');
                     (in_array($_GET['cmd'], $mem_active)) ? $force_mem_active = true : $force_mem_active = false;
 
-                    $this->tabs->addSubTabTarget('notifications', $this->ctrl->getLinkTarget($this, 'showMembers'), '',
-                        '', '', $force_mem_active);
+                    $this->tabs->addSubTabTarget(
+                        'notifications',
+                        $this->ctrl->getLinkTarget($this, 'showMembers'),
+                        '',
+                        '',
+                        '',
+                        $force_mem_active
+                    );
                 }
             }
         }
 
         $this->lng->loadLanguageModule('cont');
-        $this->tabs->addSubTabTarget('cont_news_settings',
-            $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'), '', 'ilcontainernewssettingsgui');
+        $this->tabs->addSubTabTarget(
+            'cont_news_settings',
+            $this->ctrl->getLinkTargetByClass('ilcontainernewssettingsgui'),
+            '',
+            'ilcontainernewssettingsgui'
+        );
 
         return true;
     }
@@ -190,7 +208,7 @@ class ilForumSettingsGUI
     /**
      * @param array $a_values
      */
-    public function getCustomValues(Array &$a_values)
+    public function getCustomValues(array &$a_values)
     {
         $a_values['default_view'] = $this->parent_obj->objProperties->getDefaultView();
         $a_values['anonymized'] = $this->parent_obj->objProperties->isAnonymized();
@@ -256,8 +274,10 @@ class ilForumSettingsGUI
     public function showMembers()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.forums_members_list.html', 'Modules/Forum');
@@ -364,8 +384,10 @@ class ilForumSettingsGUI
     public function enableAdminForceNoti()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
@@ -393,8 +415,10 @@ class ilForumSettingsGUI
     public function disableAdminForceNoti()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
@@ -420,8 +444,10 @@ class ilForumSettingsGUI
     public function enableHideUserToggleNoti()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
         if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
@@ -450,8 +476,10 @@ class ilForumSettingsGUI
     public function disableHideUserToggleNoti()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         if (!isset($_POST['user_id']) || !is_array($_POST['user_id'])) {
@@ -484,8 +512,10 @@ class ilForumSettingsGUI
     public function getParticipants()
     {
         if ($this->parent_obj->isParentObjectCrsOrGrp() == false) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         /**
@@ -581,8 +611,10 @@ class ilForumSettingsGUI
     public function updateNotificationSettings()
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError($this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE);
+            $this->parent_obj->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'),
+                $this->parent_obj->error->MESSAGE
+            );
         }
 
         // instantiate the property form
@@ -602,8 +634,7 @@ class ilForumSettingsGUI
                     $this->parent_obj->objProperties->setAdminForceNoti(1);
                     $this->parent_obj->objProperties->setUserToggleNoti(0);
                     $this->updateUserNotifications();
-                } else //  if($_POST['notification_type'] == 'default')
-                {
+                } else { //  if($_POST['notification_type'] == 'default')
                     $this->parent_obj->objProperties->setNotificationType('default');
                     $this->parent_obj->objProperties->setAdminForceNoti(0);
                     $this->parent_obj->objProperties->setUserToggleNoti(0);

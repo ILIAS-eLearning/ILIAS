@@ -22,12 +22,11 @@ class ilDashObjectsTableRenderer
     /**
      * @inheritDoc
      */
-    public function render(array $groupedItems): string
+    public function render(array $groupedItems) : string
     {
         $cnt = 0;
         $html = "";
         foreach ($groupedItems as $group) {
-
             $items = $group->getItems();
             if (count($items) > 0) {
                 $table = new ilDashObjectsTableGUI($this->parent_gui, "render", $cnt++);

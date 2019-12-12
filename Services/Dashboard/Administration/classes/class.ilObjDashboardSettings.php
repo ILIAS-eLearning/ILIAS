@@ -9,13 +9,12 @@
  */
 class ilObjDashboardSettings extends ilObject
 {
-	/**
-	 * @inheritDoc
-	 */
-	function __construct($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "dshs";
-		parent::__construct($a_id,$a_call_by_reference);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = "dshs";
+        parent::__construct($a_id, $a_call_by_reference);
+    }
 }
-?>

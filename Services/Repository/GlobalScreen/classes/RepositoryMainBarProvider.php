@@ -94,7 +94,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $title = function () use ($dic): string {
+        $title = function () use ($dic) : string {
             try {
                 $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
                 $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
@@ -143,8 +143,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
                 if (!isset($item["ref_id"]) || !isset($_GET["ref_id"])
                     || ($item["ref_id"] != $_GET["ref_id"] || !$first)
-                )            // do not list current item
-                {
+                ) {            // do not list current item
                     $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
                     $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
                         ->withTitle($ititle)

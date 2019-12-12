@@ -228,8 +228,10 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $buttons = [
                 $this->uiFactory
                     ->button()
-                    ->standard($this->lng->txt('tos_reset_tos_for_all_users'),
-                        $this->ctrl->getLinkTarget($this, 'confirmReset'))
+                    ->standard(
+                        $this->lng->txt('tos_reset_tos_for_all_users'),
+                        $this->ctrl->getLinkTarget($this, 'confirmReset')
+                    )
             ];
         }
 
@@ -367,7 +369,8 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
         $documents = ilTermsOfServiceDocument::where(
             ['id' => array_filter(array_map('intval', $documentIds))],
-            ['id' => 'IN'])->getArray();
+            ['id' => 'IN']
+        )->getArray();
 
         return $documents;
     }

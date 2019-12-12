@@ -14,7 +14,6 @@ use ILIAS\UI\Renderer;
  */
 class ilMMTopItemFormGUI
 {
-
     use Hasher;
     private const F_ICON = 'icon';
     /**
@@ -80,8 +79,12 @@ class ilMMTopItemFormGUI
 
     private function initForm()
     {
-        $txt = function ($key) { return $this->lng->txt($key); };
-        $f = function () : InputFactory { return $this->ui_fa->input(); };
+        $txt = function ($key) {
+            return $this->lng->txt($key);
+        };
+        $f = function () : InputFactory {
+            return $this->ui_fa->input();
+        };
 
         // TITLE
         $title = $f()->field()->text($txt('topitem_title_default'), $txt('topitem_title_default_byline'))

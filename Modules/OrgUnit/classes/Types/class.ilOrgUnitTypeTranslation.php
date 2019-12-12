@@ -8,7 +8,6 @@
  */
 class ilOrgUnitTypeTranslation
 {
-
     const TABLE_NAME = 'orgu_types_trans';
     /**
      * @var int
@@ -41,7 +40,7 @@ class ilOrgUnitTypeTranslation
     /**
      * @var array
      */
-    static protected $instances = array();
+    protected static $instances = array();
 
 
     public function __construct($a_org_type_id = 0, $a_lang_code = '')

@@ -262,8 +262,12 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
 
                 $this->tpl_file_tree = new ilTemplate("tpl.cloud_file_tree.html", true, true, "Modules/Cloud");
 
-                $file_tree = new ilCloudFileTree($this->getGUIClass()->object->getRootFolder(), $this->getGUIClass()->object->getRootId(), $this->getGUIClass()->object->getId(),
-                    $this->getGUIClass()->object->getServiceName());
+                $file_tree = new ilCloudFileTree(
+                    $this->getGUIClass()->object->getRootFolder(),
+                    $this->getGUIClass()->object->getRootId(),
+                    $this->getGUIClass()->object->getId(),
+                    $this->getGUIClass()->object->getServiceName()
+                );
                 $file_tree->storeFileTreeToSession();
 
                 $this->addToolbar($file_tree->getRootNode());
@@ -364,11 +368,17 @@ class ilCloudPluginInitGUI extends ilCloudPluginGUI
     }
 
 
-    public function beforeInitGUI() { }
+    public function beforeInitGUI()
+    {
+    }
 
 
-    public function beforeSetContent() { }
+    public function beforeSetContent()
+    {
+    }
 
 
-    public function afterInitGUI() { }
+    public function afterInitGUI()
+    {
+    }
 }

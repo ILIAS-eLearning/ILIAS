@@ -17,6 +17,3 @@ $ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd("jumpToRegistration");
 $ilCtrl->callBaseClass();
 $ilBench->save();
-
-
-?>

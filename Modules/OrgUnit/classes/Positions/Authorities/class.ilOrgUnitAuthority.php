@@ -9,7 +9,6 @@
  */
 class ilOrgUnitAuthority extends \ActiveRecord
 {
-
     const FIELD_OVER = 'over';
     const OVER_EVERYONE = -1;
     const POSITION_ID = "position_id";

@@ -14,21 +14,19 @@ include_once "./Services/Membership/classes/class.ilMembershipAdministrationGUI.
  * @ingroup ModulesGroup
  */
 class ilObjGroupAdministrationGUI extends ilMembershipAdministrationGUI
-{	
-public function getType()
-	{
-		return "grps";
-	}
-	
-	public function getParentObjType()
-	{
-		return "grp";
-	}
-	
-	protected function getAdministrationFormId()
-	{
-		return ilAdministrationSettingsFormHandler::FORM_GROUP;
-	}	
+{
+    public function getType()
+    {
+        return "grps";
+    }
+    
+    public function getParentObjType()
+    {
+        return "grp";
+    }
+    
+    protected function getAdministrationFormId()
+    {
+        return ilAdministrationSettingsFormHandler::FORM_GROUP;
+    }
 }
-
-?>

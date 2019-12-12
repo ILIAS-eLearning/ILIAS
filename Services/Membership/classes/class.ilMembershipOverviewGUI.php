@@ -43,20 +43,19 @@ class ilMembershipOverviewGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             case "ilpdmembershipblockgui":
                 $ctrl->setReturn($this, "show");
                 $block = new ilPDMembershipBlockGUI();
                 $ret = $this->ctrl->forwardCommand($block);
-                if($ret!= "") {
+                if ($ret!= "") {
                     //$this->displayHeader();
                     $this->main_tpl->setContent($ret);
                     //$this->tpl->printToStdout();
@@ -64,8 +63,7 @@ class ilMembershipOverviewGUI
                 break;
 
             default:
-                if (in_array($cmd, array("show")))
-                {
+                if (in_array($cmd, array("show"))) {
                     $this->$cmd();
                 }
         }
@@ -82,5 +80,4 @@ class ilMembershipOverviewGUI
         $block = new ilPDMembershipBlockGUI();
         $main_tpl->setContent($block->getHTML());
     }
-
 }

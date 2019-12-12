@@ -14,10 +14,9 @@
  */
 class ilCmiXapiExportGUI extends ilExportGUI
 {
-
-    function __construct(ilObjCmiXapiGUI $a_parent_gui, $a_main_obj = null)
+    public function __construct(ilObjCmiXapiGUI $a_parent_gui, $a_main_obj = null)
     {
-        if( null === $a_main_obj ) {
+        if (null === $a_main_obj) {
             /** @var ilObjCmiXapi $a_main_obj */
             $a_main_obj = $a_parent_gui->object;
         }
@@ -26,25 +25,5 @@ class ilCmiXapiExportGUI extends ilExportGUI
 
         include_once("./Modules/CmiXapi/classes/class.ilCmiXapiExporter.php");
         new ilCmiXapiExporter($a_main_obj);
-
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

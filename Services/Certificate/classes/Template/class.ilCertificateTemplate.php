@@ -119,7 +119,7 @@ class ilCertificateTemplate
     /**
      * @return int
      */
-    public function getObjId(): int
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -127,7 +127,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getCertificateContent(): string
+    public function getCertificateContent() : string
     {
         return $this->certificateContent;
     }
@@ -135,7 +135,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getCertificateHash(): string
+    public function getCertificateHash() : string
     {
         return $this->certificateHash;
     }
@@ -143,7 +143,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getTemplateValues(): string
+    public function getTemplateValues() : string
     {
         return $this->templateValues;
     }
@@ -151,7 +151,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getVersion(): string
+    public function getVersion() : string
     {
         return $this->version;
     }
@@ -159,7 +159,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getIliasVersion(): string
+    public function getIliasVersion() : string
     {
         return $this->iliasVersion;
     }
@@ -167,7 +167,7 @@ class ilCertificateTemplate
     /**
      * @return int
      */
-    public function getCreatedTimestamp(): int
+    public function getCreatedTimestamp() : int
     {
         return $this->createdTimestamp;
     }
@@ -175,7 +175,7 @@ class ilCertificateTemplate
     /**
      * @return bool
      */
-    public function isCurrentlyActive(): bool
+    public function isCurrentlyActive() : bool
     {
         return $this->currentlyActive;
     }
@@ -199,7 +199,7 @@ class ilCertificateTemplate
     /**
      * @return string
      */
-    public function getObjType(): string
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
@@ -207,7 +207,7 @@ class ilCertificateTemplate
     /**
      * @return bool
      */
-    public function isDeleted(): bool
+    public function isDeleted() : bool
     {
         return $this->deleted;
     }

@@ -218,5 +218,3 @@ class ilDclFieldListGUI
         return $this->parent_obj->getDataCollectionObject();
     }
 }
-
-?>

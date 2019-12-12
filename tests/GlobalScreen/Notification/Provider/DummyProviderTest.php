@@ -13,5 +13,4 @@ class DummyProviderTest extends BaseNotificationSetUp
         $povider = $this->getDummyNotificationsProviderWithNotifications([]);
         $this->assertInstanceOf(AbstractNotificationProvider::class, $povider);
     }
-
 }

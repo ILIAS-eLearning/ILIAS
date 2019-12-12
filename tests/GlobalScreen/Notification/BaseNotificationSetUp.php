@@ -75,12 +75,15 @@ abstract class BaseNotificationSetUp extends TestCase
             }
             public function mainControls() : C\MainControls\Factory
             {
-                return new I\MainControls\Factory($this->sig_gen,
-                    new I\MainControls\Slate\Factory($this->sig_gen,
+                return new I\MainControls\Factory(
+                    $this->sig_gen,
+                    new I\MainControls\Slate\Factory(
+                        $this->sig_gen,
                         new \ILIAS\UI\Implementation\Component\Counter\Factory(),
                         new I\Symbol\Factory(
                             new I\Symbol\Icon\Factory(),
-                            new I\Symbol\Glyph\Factory())
+                            new I\Symbol\Glyph\Factory()
+                        )
                     )
                 );
             }
@@ -91,7 +94,8 @@ abstract class BaseNotificationSetUp extends TestCase
         return $factory;
     }
 
-    public function getDIC(){
+    public function getDIC()
+    {
         $dic = new class extends ILIAS\DI\Container {
             public function globalScreen()
             {

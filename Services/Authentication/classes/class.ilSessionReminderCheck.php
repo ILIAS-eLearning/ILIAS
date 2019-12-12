@@ -12,7 +12,7 @@ class ilSessionReminderCheck
      * @param string $sessionId
      * @return string
      */
-    public function getJsonResponse(string $sessionId) : string 
+    public function getJsonResponse(string $sessionId) : string
     {
         /**
          * @var $ilDB            ilDBInterface
@@ -32,7 +32,8 @@ class ilSessionReminderCheck
 
         $response = array('remind' => false);
 
-        $res = $ilDB->queryF('
+        $res = $ilDB->queryF(
+            '
 			SELECT expires, user_id, data
 			FROM usr_session
 			WHERE session_id = %s',
@@ -72,13 +73,13 @@ class ilSessionReminderCheck
         /** @var $user ilObjUser */
         $ilUser = ilObjectFactory::getInstanceByObjId($data['user_id']);
 
-        $reminderTime = $expirationTime - ((int)max(
+        $reminderTime = $expirationTime - ((int) max(
             ilSessionReminder::MIN_LEAD_TIME,
             (float) $ilUser->getPref('session_reminder_lead_time')
         )) * 60;
         if ($reminderTime > time()) {
             // session will expire in <lead_time> minutes
-            $response['message'] = 'Lead time not reached, yet. Current time: ' . 
+            $response['message'] = 'Lead time not reached, yet. Current time: ' .
                 date('Y-m-d H:i:s', time()) . ', Reminder time: ' . date('Y-m-d H:i:s', $reminderTime);
             return json_encode($response);
         }
@@ -97,7 +98,9 @@ class ilSessionReminderCheck
 
         $response = array(
             'extend_url' => './ilias.php?baseClass=ilDashboardGUI',
-            'txt' => str_replace("\\n", '%0A',
+            'txt' => str_replace(
+                "\\n",
+                '%0A',
                 sprintf(
                     $lng->txt('session_reminder_alert'),
                     ilDatePresentation::secondsToString($expirationTime - time()),

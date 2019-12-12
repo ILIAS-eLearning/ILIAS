@@ -85,8 +85,8 @@ class PortfolioHtmlExport
         $this->portfolio = $portfolio_gui->object;
 
         $this->export_dir = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf");
-        $this->sub_dir = $this->portfolio->getType()."_".$this->portfolio->getId();
-        $this->target_dir = $this->export_dir."/".$this->sub_dir;
+        $this->sub_dir = $this->portfolio->getType() . "_" . $this->portfolio->getId();
+        $this->target_dir = $this->export_dir . "/" . $this->sub_dir;
 
         $this->global_screen = $DIC->globalScreen();
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($this->export_dir, $this->sub_dir);
@@ -94,8 +94,10 @@ class PortfolioHtmlExport
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
 
-        $this->global_screen->tool()->context()->current()->addAdditionalData(\ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
-            true);
+        $this->global_screen->tool()->context()->current()->addAdditionalData(
+            \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
+            true
+        );
     }
 
     /**
@@ -118,27 +120,23 @@ class PortfolioHtmlExport
     {
         // banner
         $prfa_set = new \ilSetting("prfa");
-        if($prfa_set->get("banner"))
-        {
+        if ($prfa_set->get("banner")) {
             $banner = $this->portfolio->getImageFullPath();
-            if($banner) // #16096
-            {
-                copy($banner, $this->target_dir."/".basename($banner));
+            if ($banner) { // #16096
+                copy($banner, $this->target_dir . "/" . basename($banner));
             }
         }
         // page element: profile picture
         $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "big", true, true);
-        if($ppic)
-        {
+        if ($ppic) {
             $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir."/".basename($ppic));
+            copy($ppic, $this->target_dir . "/" . basename($ppic));
         }
         // header image: profile picture
         $ppic = \ilObjUser::_getPersonalPicturePath($this->portfolio->getOwner(), "xsmall", true, true);
-        if($ppic)
-        {
+        if ($ppic) {
             $ppic = array_shift(explode("?", $ppic));
-            copy($ppic, $this->target_dir."/".basename($ppic));
+            copy($ppic, $this->target_dir . "/" . basename($ppic));
         }
     }
 
@@ -146,7 +144,7 @@ class PortfolioHtmlExport
     /**
      * Build export file
      */
-    function exportHtml()
+    public function exportHtml()
     {
         $this->initDirectories();
 
@@ -161,17 +159,14 @@ class PortfolioHtmlExport
         // add js/images/file to zip
         // note: only files are still used for certificate files
         $images = $files = $js_files = [];
-        foreach($this->export_material as $items)
-        {
+        foreach ($this->export_material as $items) {
             $images = array_merge($images, $items["images"]);
             $files = array_merge($files, $items["files"]);
             $js_files = array_merge($js_files, $items["js"]);
         }
-        foreach(array_unique($files) as $file)
-        {
-            if(is_file($file))
-            {
-                copy($file, $this->target_dir."/files/".basename($file));
+        foreach (array_unique($files) as $file) {
+            if (is_file($file)) {
+                copy($file, $this->target_dir . "/files/" . basename($file));
             }
         }
 
@@ -186,13 +181,13 @@ class PortfolioHtmlExport
      *
      * @return string
      */
-    function zipPackage(): string
+    public function zipPackage() : string
     {
         // zip it all
         $date = time();
-        $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf").
-            "/".$date."__".IL_INST_ID."__".
-            $this->portfolio->getType()."_".$this->portfolio->getId().".zip";
+        $zip_file = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf") .
+            "/" . $date . "__" . IL_INST_ID . "__" .
+            $this->portfolio->getType() . "_" . $this->portfolio->getId() . ".zip";
         \ilUtil::zip($this->target_dir, $zip_file);
         \ilUtil::delDir($this->target_dir);
 
@@ -206,17 +201,15 @@ class PortfolioHtmlExport
      * @throws \ilException
      * @throws \ilTemplateException
      */
-    function exportHTMLPages()
+    public function exportHTMLPages()
     {
         $pages = \ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
 
         $this->tabs = [];
-        foreach($pages as $page)
-        {
+        foreach ($pages as $page) {
             // substitute blog id with title
-            if($page["type"] == \ilPortfolioPage::TYPE_BLOG)
-            {
-                $page["title"] = \ilObjBlog::_lookupTitle((int)$page["title"]);
+            if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
+                $page["title"] = \ilObjBlog::_lookupTitle((int) $page["title"]);
             }
 
             $this->tabs[$page["id"]] = $page["title"];
@@ -226,34 +219,29 @@ class PortfolioHtmlExport
         $tpl_callback = [$this, "getInitialisedTemplate"];
 
         $has_index = false;
-        foreach ($pages as $page)
-        {
-            if (\ilPortfolioPage::_exists("prtf", $page["id"]))
-            {
-                $this->active_tab = "user_page_".$page["id"];
+        foreach ($pages as $page) {
+            if (\ilPortfolioPage::_exists("prtf", $page["id"])) {
+                $this->active_tab = "user_page_" . $page["id"];
 
-                if($page["type"] == \ilPortfolioPage::TYPE_BLOG)
-                {
-                    $link_template = "prtf_".$page["id"]."_bl{TYPE}_{ID}.html";
+                if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
+                    $link_template = "prtf_" . $page["id"] . "_bl{TYPE}_{ID}.html";
 
-                    $blog_gui = new \ilObjBlogGUI((int)$page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
+                    $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
                     $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
-                    $blog_export->exportHTMLPages($link_template, $tpl_callback, $this->co_page_html_export, "prtf_".$page["id"].".html");
-                }
-                else
-                {
+                    $blog_export->exportHTMLPages($link_template, $tpl_callback, $this->co_page_html_export, "prtf_" . $page["id"] . ".html");
+                } else {
                     $tpl = $this->getInitialisedTemplate();
                     $tpl->setContent($this->renderPage($page["id"]));
-                    $this->writeExportFile("prtf_".$page["id"].".html", $tpl->printToString());
+                    $this->writeExportFile("prtf_" . $page["id"] . ".html", $tpl->printToString());
                     $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
                 }
 
-                if(!$has_index)
-                {
-                    if (is_file($this->target_dir."/prtf_".$page["id"].".html"))	// #20144
-                    {
-                        copy($this->target_dir . "/prtf_" . $page["id"] . ".html",
-                            $this->target_dir . "/index.html");
+                if (!$has_index) {
+                    if (is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
+                        copy(
+                            $this->target_dir . "/prtf_" . $page["id"] . ".html",
+                            $this->target_dir . "/index.html"
+                        );
                         $has_index = true;
                     }
                 }
@@ -265,7 +253,7 @@ class PortfolioHtmlExport
      * Get initialised template
      * @return \ilGlobalPageTemplate
      */
-    public function getInitialisedTemplate(array $a_js_files = []): \ilGlobalPageTemplate
+    public function getInitialisedTemplate(array $a_js_files = []) : \ilGlobalPageTemplate
     {
         global $DIC;
 
@@ -274,23 +262,21 @@ class PortfolioHtmlExport
         $location_stylesheet = \ilUtil::getStyleSheetLocation();
         $this->global_screen->layout()->meta()->addCss($location_stylesheet);
         $this->global_screen->layout()->meta()->addCss(
-            \ilObjStyleSheet::getContentStylePath($this->portfolio->getStyleSheetId()));
+            \ilObjStyleSheet::getContentStylePath($this->portfolio->getStyleSheetId())
+        );
         \ilPCQuestion::resetInitialState();
 
         // js files
-        foreach($a_js_files as $js_file)
-        {
+        foreach ($a_js_files as $js_file) {
             $this->global_screen->layout()->meta()->addJs($js_file);
         }
 
         $tabs = $DIC->tabs();
         $tabs->clearTargets();
         $tabs->clearSubTabs();
-        if(is_array($this->tabs))
-        {
-            foreach($this->tabs as $id => $caption)
-            {
-                $tabs->addTab("user_page_".$id, $caption, "prtf_".$id.".html");
+        if (is_array($this->tabs)) {
+            foreach ($this->tabs as $id => $caption) {
+                $tabs->addTab("user_page_" . $id, $caption, "prtf_" . $id . ".html");
             }
 
             $tabs->activateTab($this->active_tab);
@@ -309,12 +295,11 @@ class PortfolioHtmlExport
     /**
      * Write export file
      */
-    function writeExportFile($a_file, $content)
+    public function writeExportFile($a_file, $content)
     {
-        $file = $this->target_dir."/".$a_file;
+        $file = $this->target_dir . "/" . $a_file;
         // return if file is already existing
-        if (@is_file($file))
-        {
+        if (@is_file($file)) {
             return;
         }
 
@@ -329,7 +314,7 @@ class PortfolioHtmlExport
      * @return string
      * @throws \ilTemplateException
      */
-    function renderPage(string $a_post_id)
+    public function renderPage(string $a_post_id)
     {
         // page
         $pgui = new \ilPortfolioPageGUI($this->portfolio->getId(), $a_post_id);
@@ -337,8 +322,12 @@ class PortfolioHtmlExport
         $pgui->setFullscreenLink("fullscreen.html"); // #12930 - see page.xsl
         $page_content = $pgui->showPage();
 
-        $ep_tpl = new \ilTemplate("tpl.export_page.html", true, true,
-            "Modules/Portfolio");
+        $ep_tpl = new \ilTemplate(
+            "tpl.export_page.html",
+            true,
+            true,
+            "Modules/Portfolio"
+        );
         $ep_tpl->setVariable("PAGE_CONTENT", $page_content);
 
         $material = $pgui->getExportMaterial();
@@ -346,5 +335,4 @@ class PortfolioHtmlExport
 
         return $ep_tpl->get();
     }
-
 }

@@ -32,7 +32,6 @@ class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
                 if ($mode == "edit") {
                     $plugin_selection->setDisabled(true);
                 } else {
-
                 }
             } else {
                 $plugin_selection = new ilNonEditableValueGUI($this->lng->txt('dcl_plugin_no_hooks_available'), 'prop_' . ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME);

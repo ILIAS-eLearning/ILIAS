@@ -1094,7 +1094,7 @@ interface Factory
      * ---
      * @param	string|null	$action
      * @return	\ILIAS\UI\Component\Symbol\Glyph\Glyph
-     */ 
+     */
     public function language(?string $action = null) : Glyph;
   
     /**

@@ -16,7 +16,8 @@ function with_aggregates()
                                            $f->dropdown()->standard([
                                                $f->button()->shy("Possible Action of this Item", "https://www.ilias.de"),
                                                $f->button()->shy("Other Possible Action of this Item", "https://www.github.com")
-                                           ]))
+                                           ])
+                                       )
                                         ->withCloseAction($close_url);
 
     $generic_title2                = $f->link()->standard("Generic 2", "just_opens_the_list_of_aggregates");

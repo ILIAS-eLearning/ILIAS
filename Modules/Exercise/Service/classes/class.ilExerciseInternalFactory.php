@@ -60,5 +60,4 @@ class ilExerciseInternalFactory
     {
         return new ilExerciseUI($this->service(), $this->request($query_params, $post_data));
     }
-
 }

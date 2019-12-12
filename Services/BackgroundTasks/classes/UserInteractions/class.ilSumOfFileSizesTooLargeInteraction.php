@@ -16,7 +16,6 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilSumOfFileSizesTooLargeInteraction extends AbstractUserInteraction
 {
-
     const OPTION_OK = 'ok';
     const OPTION_SKIP = 'skip';
     /**

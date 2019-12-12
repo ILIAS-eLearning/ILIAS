@@ -33,7 +33,7 @@ class ilOrgUnitExportGUI extends ilExportGUI
      * @param ilObjOrgUnitGUI $a_parent_gui
      * @param null            $a_main_obj
      */
-    function __construct(ilObjOrgUnitGUI $a_parent_gui, $a_main_obj = null)
+    public function __construct(ilObjOrgUnitGUI $a_parent_gui, $a_main_obj = null)
     {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];

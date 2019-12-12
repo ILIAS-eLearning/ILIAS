@@ -79,8 +79,13 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $form = new ilTermsOfServiceCriterionFormGUI(
-            $document, $criterionAssignment, $criterionTypeFactory, $user,
-            '', 'save', 'cancel'
+            $document,
+            $criterionAssignment,
+            $criterionTypeFactory,
+            $user,
+            '',
+            'save',
+            'cancel'
         );
 
         $this->assertEquals($criterionType1->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
@@ -163,8 +168,13 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->getMock();
 
         $form = new ilTermsOfServiceCriterionFormGUI(
-            $document, $criterionAssignment, $criterionTypeFactory, $user,
-            '', 'save', 'cancel'
+            $document,
+            $criterionAssignment,
+            $criterionTypeFactory,
+            $user,
+            '',
+            'save',
+            'cancel'
         );
 
         $this->assertEquals($criterionType2->getTypeIdent(), $form->getItemByPostVar('criterion')->getValue());
@@ -388,7 +398,8 @@ class ilTermsOfServiceCriterionFormGUITest extends ilTermsOfServiceBaseTest
             ->expects($this->exactly(2))
             ->method('findByTypeIdent')
             ->willReturnOnConsecutiveCalls(
-                $this->throwException(new ilTermsOfServiceCriterionTypeNotFoundException('')), $criterionType1
+                $this->throwException(new ilTermsOfServiceCriterionTypeNotFoundException('')),
+                $criterionType1
             );
 
         $anotherCriterionAssignment = $this

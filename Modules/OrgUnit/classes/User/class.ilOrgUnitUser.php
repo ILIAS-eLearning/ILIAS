@@ -44,7 +44,6 @@ class ilOrgUnitUser
      */
     public static function getInstanceById(int $user_id) : self
     {
-
         if (null === static::$instances[$user_id]) {
             $org_unit_user_repository = new ilOrgUnitUserRepository();
             static::$instances[$user_id] = $org_unit_user_repository->getOrgUnitUser($user_id);
@@ -106,7 +105,6 @@ class ilOrgUnitUser
      */
     public function getSuperiors() : array
     {
-
         if (count($this->superiors) == 0) {
             $this->loadSuperiors();
         }
@@ -129,8 +127,6 @@ class ilOrgUnitUser
      */
     public function getOrgUnitPositions() : array
     {
-
-
         if (count($this->org_unit_positions) == 0) {
             $this->loadOrgUnitPositions();
         }

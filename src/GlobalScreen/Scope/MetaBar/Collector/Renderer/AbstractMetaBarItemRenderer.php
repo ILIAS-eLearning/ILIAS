@@ -16,7 +16,6 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 {
-
     use ComponentDecoratorApplierTrait;
     use isSupportedTrait;
     /**

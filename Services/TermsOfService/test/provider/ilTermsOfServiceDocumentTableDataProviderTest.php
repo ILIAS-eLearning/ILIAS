@@ -56,7 +56,6 @@ class ilTermsOfServiceDocumentTableDataProviderTest extends ilTermsOfServiceBase
             ->expects($this->exactly(count($documentData)))
             ->method('readSet')
             ->willReturnCallback(function () {
-
                 return [];
             });
 

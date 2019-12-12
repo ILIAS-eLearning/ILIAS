@@ -23,6 +23,4 @@ function closable()
 
 
     return $renderer->render($mail_notification_item);
-
-
 }

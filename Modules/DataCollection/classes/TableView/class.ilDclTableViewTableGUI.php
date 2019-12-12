@@ -112,7 +112,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      */
     protected function buildAction($id)
     {
-
         if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($id);

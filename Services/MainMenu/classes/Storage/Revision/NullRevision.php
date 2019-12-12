@@ -70,7 +70,6 @@ class NullRevision implements Revision
 
     public function setInformation(Information $information)
     {
-
     }
 
 

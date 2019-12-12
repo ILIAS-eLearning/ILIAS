@@ -12,18 +12,17 @@
  */
 class ilLPStatusCmiXapiCompleted extends ilLPStatusCmiXapiAbstract
 {
-	protected function resultSatisfyCompleted(ilCmiXapiResult $result)
-	{
-		if( $result->getStatus() == 'completed' )
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	protected function resultSatisfyFailed(ilCmiXapiResult $result)
-	{
-		return false;
-	}
+    protected function resultSatisfyCompleted(ilCmiXapiResult $result)
+    {
+        if ($result->getStatus() == 'completed') {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    protected function resultSatisfyFailed(ilCmiXapiResult $result)
+    {
+        return false;
+    }
 }

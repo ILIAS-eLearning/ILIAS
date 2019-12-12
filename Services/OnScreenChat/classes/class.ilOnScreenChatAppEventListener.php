@@ -9,7 +9,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
     /**
      * @inheritdoc
      */
-    static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent($a_component, $a_event, $a_parameter)
     {
         switch ($a_component) {
             case 'Modules/Chatroom':
@@ -19,7 +19,7 @@ class ilOnScreenChatAppEventListener implements ilAppEventListener
 
                         $message = [
                             $a_parameter['user']->getId() => [
-                                'acceptsMessages' => (bool)ilUtil::yn2tf($a_parameter['user']->getPref('chat_osc_accept_msg')),
+                                'acceptsMessages' => (bool) ilUtil::yn2tf($a_parameter['user']->getPref('chat_osc_accept_msg')),
                             ]
                         ];
 

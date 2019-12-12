@@ -54,4 +54,3 @@ class LogoModification extends AbstractLayoutModification implements LayoutModif
         return true;
     }
 }
-

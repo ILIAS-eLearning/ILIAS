@@ -12,7 +12,6 @@
  */
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
     public function parseValue($value)
     {
         return $value;

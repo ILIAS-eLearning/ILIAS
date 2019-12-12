@@ -151,7 +151,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     protected function createNode(
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
         $record
-    ): \ILIAS\UI\Component\Tree\Node\Node {
+    ) : \ILIAS\UI\Component\Tree\Node\Node {
         $nodeIconPath = $this->getNodeIcon($record);
 
         $icon = null;
@@ -176,8 +176,8 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $node;
     }
 
-    /** 
-     * @inheritDoc 
+    /**
+     * @inheritDoc
      */
     protected function getNodeStateToggleCmdClasses($record) : array
     {

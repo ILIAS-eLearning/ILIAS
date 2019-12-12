@@ -6,7 +6,7 @@ require_once './Services/WorkflowEngine/exceptions/ilWorkflowEngineException.php
 
 /**
  * ilWorkflowFilesystemException is part of the petri net based workflow engine.
- * 
+ *
  * This exception class is used for all exceptions that are thrown when exceptions
  * regarding accesses to the file system fail.
  *

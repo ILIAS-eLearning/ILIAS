@@ -3,23 +3,22 @@
 
 /**
  * Base exception class for learning module presentation
- * 
+ *
  * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$ 
- * 
+ * @version $Id$
+ *
  */
 class ilLMPresentationException extends ilException
 {
-	/** 
-	 * Constructor
-	 * 
-	 * A message is not optional as in build in class Exception
-	 * 
-	 * @param string $a_message message 
-	 */
-	public function __construct($a_message)
-	{
-	 	parent::__construct($a_message);
-	}
+    /**
+     * Constructor
+     *
+     * A message is not optional as in build in class Exception
+     *
+     * @param string $a_message message
+     */
+    public function __construct($a_message)
+    {
+        parent::__construct($a_message);
+    }
 }
-?>

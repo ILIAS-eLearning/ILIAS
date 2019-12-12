@@ -24,7 +24,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $DIC;
 
@@ -112,11 +112,14 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         } else {
             if ($placeholder_id == 'exc_title') {
                 return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
-
             } else {
                 if ($placeholder_id == 'ass_link') {
-                    return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(),
-                        "_" . $context_parameters["ass_id"]);
+                    return ilLink::_getLink(
+                        $context_parameters["exc_ref"],
+                        "exc",
+                        array(),
+                        "_" . $context_parameters["ass_id"]
+                    );
                 }
             }
         }

@@ -188,7 +188,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(
                         $this->getLanguageText(
-                        'lso_mail_notification_unsub_bod2'
+                            'lso_mail_notification_unsub_bod2'
                     )
                     );
                     $this->appendBody("\n\n");
@@ -199,7 +199,7 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(
                         $this->getLanguageText(
-                        'lso_notification_explanation_admin'
+                            'lso_notification_explanation_admin'
                     )
                     );
                     $this->getMail()->appendInstallationSignature(true);
@@ -221,8 +221,8 @@ class ilLearningSequenceMembershipMailNotification extends ilMailNotification
                     $this->appendBody("\n\n");
                     $this->appendBody(
                         sprintf(
-                        $this->getLanguageText('grp_mail_subscribe_member_bod'),
-                        $this->getObjectTitle()
+                            $this->getLanguageText('grp_mail_subscribe_member_bod'),
+                            $this->getObjectTitle()
                     )
                     );
                     $this->appendBody("\n\n");

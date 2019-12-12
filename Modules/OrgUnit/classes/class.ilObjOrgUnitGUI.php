@@ -27,7 +27,6 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  */
 class ilObjOrgUnitGUI extends ilContainerGUI
 {
-
     const TAB_POSITIONS = 'positions';
     const TAB_ORGU_TYPES = 'orgu_types';
     const TAB_SETTINGS = "settings";
@@ -191,7 +190,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                 break;
             case "ilinfoscreengui":
                 $this->tabs_gui->activateTab("info_short");
-                if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) AND !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
+                if (!$this->ilAccess->checkAccess("read", "", $this->ref_id) and !$this->ilAccess->checkAccess("visible", "", $this->ref_id)) {
                     $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
                 }
                 $info = new ilInfoScreenGUI($this);
@@ -361,7 +360,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->tabs_gui->activateTab("view_content");
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728
-
     }
 
 
@@ -534,11 +532,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * Set content sub tabs
      */
-    function setContentSubTabs()
+    public function setContentSubTabs()
     {
         $this->addStandardContainerSubTabs();
         //only display the import tab at the first level
-        if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) AND $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+        if ($this->rbacsystem->checkAccess("visible, read", $_GET["ref_id"]) and $this->object->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
             $this->tabs_gui->addSubTab("import", $this->lng->txt("import"), $this->ctrl->getLinkTargetByClass("ilOrgUnitSimpleImportGUI", "chooseImport"));
         }
     }
@@ -690,7 +688,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function performPaste()
     {
-
         if (!in_array($_SESSION['clipboard']['cmd'], array('cut'))) {
             $message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
             $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
@@ -707,7 +704,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     /**
      * ??
      */
-    function doUserAutoCompleteObject()
+    public function doUserAutoCompleteObject()
     {
     }
 
@@ -729,7 +726,6 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function confirmedDeleteObject()
     {
-
         if (count($_POST['id']) > 0) {
             foreach ($_POST['id'] as $ref_id) {
                 $il_obj_orgunit = new ilObjOrgUnit($ref_id);

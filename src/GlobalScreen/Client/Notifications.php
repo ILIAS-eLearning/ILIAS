@@ -13,7 +13,6 @@ use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
  */
 class Notifications
 {
-
     use Hasher;
     /**
      * Collected set of collected notifications

@@ -164,7 +164,6 @@ class ilOrgUnitUserAssignmentRepository
 
     public function filterUserIdsDueToAuthorities($user_id, array $user_ids)
     {
-
     }
 
 

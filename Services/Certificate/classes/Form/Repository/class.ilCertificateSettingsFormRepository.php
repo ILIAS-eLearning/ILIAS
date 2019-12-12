@@ -171,7 +171,8 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI) {
+    public function createForm(ilCertificateGUI $certificateGUI)
+    {
         $certificateTemplate = $this->templateRepository->fetchCurrentlyUsedCertificate($this->objectId);
 
         $command = $this->controller->getCmd();

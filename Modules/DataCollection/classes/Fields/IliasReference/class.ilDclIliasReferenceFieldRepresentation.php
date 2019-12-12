@@ -8,7 +8,6 @@
  */
 class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
     {
         $input = new ilRepositorySelector2InputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId(), false, get_class($form));

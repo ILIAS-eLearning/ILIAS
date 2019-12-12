@@ -8,7 +8,6 @@
 
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const F_FIELD_ID = "field_id";
     const F_FILTER_TYPE = "filter_type";

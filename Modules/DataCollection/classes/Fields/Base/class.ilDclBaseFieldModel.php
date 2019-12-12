@@ -501,7 +501,8 @@ class ilDclBaseFieldModel
         $ilDB = $DIC['ilDB'];
 
         $ilDB->update(
-            "il_dcl_field", array(
+            "il_dcl_field",
+            array(
             "table_id"    => array(
                 "integer",
                 $this->getTableId(),
@@ -530,7 +531,8 @@ class ilDclBaseFieldModel
                 "integer",
                 $this->getLocked() ? 1 : 0,
             ),
-        ), array(
+        ),
+            array(
                 "id" => array(
                     "integer",
                     $this->getId(),

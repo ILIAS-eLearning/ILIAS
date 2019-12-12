@@ -59,11 +59,14 @@ class ilLTIConsumerLPStatus extends ilLPStatus
         ilChangeEvent::_recordReadEvent('xxco', $a_ref_id, $a_obj_id, $a_user_id);
 
         $status = self::getLPDataForUser($a_obj_id, $a_user_id);
-        if ($status == self::LP_STATUS_NOT_ATTEMPTED_NUM)
-        {
+        if ($status == self::LP_STATUS_NOT_ATTEMPTED_NUM) {
             self::writeStatus($a_obj_id, $a_user_id, self::LP_STATUS_IN_PROGRESS_NUM);
-            self::raiseEventStatic($a_obj_id, $a_user_id, self::LP_STATUS_IN_PROGRESS_NUM,
-                self::getPercentageForUser($a_obj_id, $a_user_id));
+            self::raiseEventStatic(
+                $a_obj_id,
+                $a_user_id,
+                self::LP_STATUS_IN_PROGRESS_NUM,
+                self::getPercentageForUser($a_obj_id, $a_user_id)
+            );
         }
     }
 
@@ -74,8 +77,8 @@ class ilLTIConsumerLPStatus extends ilLPStatus
      * @param $a_obj_id
      * @param $a_status
      * @param $a_percentage
-	 *
-	 * @deprecated
+     *
+     * @deprecated
      */
     public static function trackResult($a_user_id, $a_obj_id, $a_status = self::LP_STATUS_IN_PROGRESS_NUM, $a_percentage)
     {

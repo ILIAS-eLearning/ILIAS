@@ -35,8 +35,7 @@ class ilExerciseUI
     public function __construct(
         ilExerciseInternalService $service,
         ilExerciseUIRequest $request
-    )
-    {
+    ) {
         global $DIC;
 
         $this->ui = $DIC->ui();
@@ -57,7 +56,7 @@ class ilExerciseUI
         if ($ref_id === null) {
             $ref_id = $this->request->getRequestedRefId();
         }
-        return new ilObjExerciseGUI([], $ref_id,true,false);
+        return new ilObjExerciseGUI([], $ref_id, true, false);
     }
 
     /**
@@ -75,17 +74,16 @@ class ilExerciseUI
             $this->ctrl,
             $this->service->getRandomAssignmentManager($exc)
         );
-
     }
 
     /**
      * @return ilExSubmissionGUI
      */
-    public function getSubmissionGUI(ilObjExercise $exc = null,
+    public function getSubmissionGUI(
+        ilObjExercise $exc = null,
         ilExAssignment $ass = null,
         $member_id = null
-    )
-    {
+    ) {
         if ($exc === null) {
             $exc = $this->request->getRequestedExercise();
         }
@@ -98,8 +96,7 @@ class ilExerciseUI
         return new ilExSubmissionGUI(
             $exc,
             $ass,
-            $member_id);
+            $member_id
+        );
     }
-
-
 }

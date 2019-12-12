@@ -11,7 +11,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitPermissionGUI extends BaseCommands
 {
-
     protected function index()
     {
         $table = new ilOrgUnitPermissionTableGUI($this, self::CMD_INDEX, $this->getParentRefId());

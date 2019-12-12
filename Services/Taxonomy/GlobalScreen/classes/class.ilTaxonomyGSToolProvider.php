@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_TAX_TREE = 'show_tax_tree';
     const TAX_TREE_GUI_PATH = 'tax_tree_gui_path';
     const TAX_ID = 'tax_id';
@@ -41,9 +40,12 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle($lng->txt("tax_taxonomy"))
                 ->withContentWrapper(function () use ($additional_data, $l) {
@@ -69,8 +71,13 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
     private function getEditTree($gui_path, $tax_id, $cmd, $parent_cmd) : string
     {
         $target_gui = $gui_path[count($gui_path) - 1];
-        $tax_exp = new ilTaxonomyExplorerGUI($gui_path, $parent_cmd, $tax_id,
-            $target_gui, $cmd);
+        $tax_exp = new ilTaxonomyExplorerGUI(
+            $gui_path,
+            $parent_cmd,
+            $tax_id,
+            $target_gui,
+            $cmd
+        );
 
         return $tax_exp->getHTML();
     }

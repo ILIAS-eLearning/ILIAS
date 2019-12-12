@@ -199,7 +199,9 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     public function render()
     {
         $listener_tpl = new ilTemplate(
-            'tpl.buddy_system_relation_table_listener.html', true, true,
+            'tpl.buddy_system_relation_table_listener.html',
+            true,
+            true,
             'Services/Contact/BuddySystem'
         );
         $listener_tpl->setVariable('TABLE_ID', $this->getId());

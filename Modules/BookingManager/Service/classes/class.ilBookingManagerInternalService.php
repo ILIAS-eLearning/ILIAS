@@ -14,7 +14,6 @@ class ilBookingManagerInternalService
      */
     public function __construct()
     {
-
     }
 
     /**
@@ -53,6 +52,4 @@ class ilBookingManagerInternalService
     {
         return new ilBookingManagerInternalDomainService();
     }
-
-
 }

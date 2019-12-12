@@ -27,7 +27,6 @@ class DeckTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Deck\Deck($cards, I\Component\Deck\Deck::SIZE_S);
             }
-
         };
         return $factory;
     }

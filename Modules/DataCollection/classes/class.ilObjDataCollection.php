@@ -14,7 +14,6 @@
  */
 class ilObjDataCollection extends ilObject2
 {
-
     public function initType()
     {
         $this->type = "dcl";
@@ -61,7 +60,8 @@ class ilObjDataCollection extends ilObject2
         }
 
         $ilDB->insert(
-            "il_dcl_data", array(
+            "il_dcl_data",
+            array(
                 "id"           => array("integer", $this->getId()),
                 "is_online"    => array("integer", (int) $this->getOnline()),
                 "rating"       => array("integer", (int) $this->getRating()),
@@ -102,14 +102,16 @@ class ilObjDataCollection extends ilObject2
         $ilDB = $DIC['ilDB'];
 
         $ilDB->update(
-            "il_dcl_data", array(
+            "il_dcl_data",
+            array(
             "id"           => array("integer", $this->getId()),
             "is_online"    => array("integer", (int) $this->getOnline()),
             "rating"       => array("integer", (int) $this->getRating()),
             "public_notes" => array("integer", (int) $this->getPublicNotes()),
             "approval"     => array("integer", (int) $this->getApproval()),
             "notification" => array("integer", (int) $this->getNotification()),
-        ), array(
+        ),
+            array(
                 "id" => array("integer", $this->getId()),
             )
         );
@@ -539,7 +541,7 @@ class ilObjDataCollection extends ilObject2
     }
 
 
-    public function getStyleSheetId() { }
+    public function getStyleSheetId()
+    {
+    }
 }
-
-?>

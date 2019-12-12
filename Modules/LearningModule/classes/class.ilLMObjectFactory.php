@@ -14,35 +14,32 @@
 */
 class ilLMObjectFactory
 {
-	static function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
-	{
-		global $DIC;
+    public static function getInstance(&$a_content_obj, $a_id = 0, $a_halt = true)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT * FROM lm_data WHERE obj_id = ".
-			$ilDB->quote($a_id, "integer");
-		$obj_set = $ilDB->query($query);
-		$obj_rec = $ilDB->fetchAssoc($obj_set);
+        $query = "SELECT * FROM lm_data WHERE obj_id = " .
+            $ilDB->quote($a_id, "integer");
+        $obj_set = $ilDB->query($query);
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-		switch($obj_rec["type"])
-		{
-			case "st":
-				$obj = new ilStructureObject($a_content_obj);
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
+        switch ($obj_rec["type"]) {
+            case "st":
+                $obj = new ilStructureObject($a_content_obj);
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
 
-			case "pg":
-				$obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
-				$obj->setId($obj_rec["obj_id"]);
-				$obj->setDataRecord($obj_rec);
-				$obj->read();
-				break;
-		}
-		return $obj;
-	}
-
+            case "pg":
+                $obj = new ilLMPageObject($a_content_obj, 0, $a_halt);
+                $obj->setId($obj_rec["obj_id"]);
+                $obj->setDataRecord($obj_rec);
+                $obj->read();
+                break;
+        }
+        return $obj;
+    }
 }
-?>

@@ -20,7 +20,6 @@ use ilTree;
  */
 class OrgUnitToolProvider extends AbstractDynamicToolProvider
 {
-
     public const SHOW_ORGU_TREE = 'show_orgu_tree';
 
 
@@ -41,10 +40,13 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         if ($called_contexts->current()->getAdditionalData()->is(self::SHOW_ORGU_TREE, true)) {
+            $iff = function (string $id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
 
-            $iff = function (string $id) { return $this->identification_provider->contextAwareIdentifier($id); };
-
-            $t = function (string $key) : string { return $this->dic->language()->txt($key); };
+            $t = function (string $key) : string {
+                return $this->dic->language()->txt($key);
+            };
 
             $tools[] = $this->factory->treeTool($iff('tree_new'))
                 ->withTitle($t('tree'))

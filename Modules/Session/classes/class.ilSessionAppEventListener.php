@@ -6,184 +6,184 @@
  */
 class ilSessionAppEventListener implements ilAppEventListener
 {
-	/**
-	 * @var ilDBInterface
-	 */
-	private $database;
+    /**
+     * @var ilDBInterface
+     */
+    private $database;
 
-	/**
-	 * @var ilObjectDataCache
-	 */
-	private $objectDataCache;
+    /**
+     * @var ilObjectDataCache
+     */
+    private $objectDataCache;
 
-	/**
-	 * @var ilLogger
-	 */
-	private $logger;
+    /**
+     * @var ilLogger
+     */
+    private $logger;
 
-	/**
-	 * @var string
-	 */
-	private $component;
+    /**
+     * @var string
+     */
+    private $component;
 
-	/**
-	 * @var string
-	 */
-	private $event;
+    /**
+     * @var string
+     */
+    private $event;
 
-	/**
-	 * @var array
-	 */
-	private $parameters;
+    /**
+     * @var array
+     */
+    private $parameters;
 
-	/**
-	 * @param ilDBInterface $db
-	 * @param ilObjectDataCache $objectDataCache
-	 * @param ilLogger $logger
-	 */
-	public function __construct(
-		\ilDBInterface $db,
-		\ilObjectDataCache $objectDataCache,
-		\ilLogger $logger
-	) {
-		$this->database = $db;
-		$this->objectDataCache = $objectDataCache;
-		$this->logger = $logger;
-	}
+    /**
+     * @param ilDBInterface $db
+     * @param ilObjectDataCache $objectDataCache
+     * @param ilLogger $logger
+     */
+    public function __construct(
+        \ilDBInterface $db,
+        \ilObjectDataCache $objectDataCache,
+        \ilLogger $logger
+    ) {
+        $this->database = $db;
+        $this->objectDataCache = $objectDataCache;
+        $this->logger = $logger;
+    }
 
-	/**
-	 * @param string $component
-	 * @return \ilSessionAppEventListener
-	 */
-	public function withComponent($component)
-	{
-		$clone = clone $this;
+    /**
+     * @param string $component
+     * @return \ilSessionAppEventListener
+     */
+    public function withComponent($component)
+    {
+        $clone = clone $this;
 
-		$clone->component = $component;
+        $clone->component = $component;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @param string $event
-	 * @return \ilSessionAppEventListener
-	 */
-	public function withEvent($event)
-	{
-		$clone = clone $this;
+    /**
+     * @param string $event
+     * @return \ilSessionAppEventListener
+     */
+    public function withEvent($event)
+    {
+        $clone = clone $this;
 
-		$clone->event = $event;
+        $clone->event = $event;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * @param array $parameters
-	 * @return \ilSessionAppEventListener
-	 */
-	public function withParameters(array $parameters)
-	{
-		$clone = clone $this;
+    /**
+     * @param array $parameters
+     * @return \ilSessionAppEventListener
+     */
+    public function withParameters(array $parameters)
+    {
+        $clone = clone $this;
 
-		$clone->parameters = $parameters;
+        $clone->parameters = $parameters;
 
-		return $clone;
-	}
+        return $clone;
+    }
 
-	/**
-	 * Handle an event in a listener.
-	 *
-	 * @param    string $a_component component, e.g. "Modules/Forum" or "Services/User"
-	 * @param    string $a_event event e.g. "createUser", "updateUser", "deleteUser", ...
-	 * @param    array $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
-	 */
-	static function handleEvent($a_component, $a_event, $a_parameter)
-	{
-		global $DIC;
+    /**
+     * Handle an event in a listener.
+     *
+     * @param    string $a_component component, e.g. "Modules/Forum" or "Services/User"
+     * @param    string $a_event event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param    array $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
+     */
+    public static function handleEvent($a_component, $a_event, $a_parameter)
+    {
+        global $DIC;
 
-		$listener = new static(
-			$DIC->database(),
-			$DIC['ilObjDataCache'],
-			$DIC->logger()->cert()
-		);
+        $listener = new static(
+            $DIC->database(),
+            $DIC['ilObjDataCache'],
+            $DIC->logger()->cert()
+        );
 
-		$listener
-			->withComponent($a_component)
-			->withEvent($a_event)
-			->withParameters($a_parameter)
-			->handle();
-	}
+        $listener
+            ->withComponent($a_component)
+            ->withEvent($a_event)
+            ->withParameters($a_parameter)
+            ->handle();
+    }
 
-	public function handle()
-	{
-		if ('Modules/Session' !== $this->component) {
-			return;
-		}
+    public function handle()
+    {
+        if ('Modules/Session' !== $this->component) {
+            return;
+        }
 
-		try {
-			if ('register' === $this->event) {
-				$this->handleRegisterEvent();
-			} elseif ('enter' === $this->event) {
-				$this->handleEnteredEvent();
-			} elseif ('unregister' === $this->event) {
-				$this->handleUnregisterEvent();
-			}
-		} catch (\ilException $e) {
-			$this->logger->error($e->getMessage());
-		}
-	}
+        try {
+            if ('register' === $this->event) {
+                $this->handleRegisterEvent();
+            } elseif ('enter' === $this->event) {
+                $this->handleEnteredEvent();
+            } elseif ('unregister' === $this->event) {
+                $this->handleUnregisterEvent();
+            }
+        } catch (\ilException $e) {
+            $this->logger->error($e->getMessage());
+        }
+    }
 
-	private function handleRegisterEvent()
-	{
-		$type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
+    private function handleRegisterEvent()
+    {
+        $type = ilSessionMembershipMailNotification::TYPE_REGISTER_NOTIFICATION;
 
-		$this->sendMail($type);
-	}
+        $this->sendMail($type);
+    }
 
-	private function handleEnteredEvent()
-	{
-		$type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
+    private function handleEnteredEvent()
+    {
+        $type = ilSessionMembershipMailNotification::TYPE_ENTER_NOTIFICATION;
 
-		$this->sendMail($type);
-	}
+        $this->sendMail($type);
+    }
 
-	private function handleUnregisterEvent()
-	{
-		$type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
+    private function handleUnregisterEvent()
+    {
+        $type = ilSessionMembershipMailNotification::TYPE_UNREGISTER_NOTIFICATION;
 
-		$this->sendMail($type);
-	}
+        $this->sendMail($type);
+    }
 
-	private function fetchRecipientParticipants()
-	{
-		$object = new ilEventParticipants($this->parameters['obj_id']);
+    private function fetchRecipientParticipants()
+    {
+        $object = new ilEventParticipants($this->parameters['obj_id']);
 
-		$recipients = array();
-		$participants = $object->getParticipants();
-		foreach ($participants as $id => $participant) {
-			if ($participant['notification_enabled'] === true) {
-				$recipients[] = $id;
-			}
-		}
+        $recipients = array();
+        $participants = $object->getParticipants();
+        foreach ($participants as $id => $participant) {
+            if ($participant['notification_enabled'] === true) {
+                $recipients[] = $id;
+            }
+        }
 
-		return $recipients;
-	}
+        return $recipients;
+    }
 
-	/**
-	 * @param array $recipients
-	 * @param $type
-	 * @throws ilException
-	 */
-	private function sendMail($type)
-	{
-		$recipients = $this->fetchRecipientParticipants();
-		if (array() !== $recipients) {
-			$notification = new ilSessionMembershipMailNotification();
-			$notification->setRecipients($recipients);
-			$notification->setType($type);
-			$notification->setRefId($this->parameters['ref_id']);
+    /**
+     * @param array $recipients
+     * @param $type
+     * @throws ilException
+     */
+    private function sendMail($type)
+    {
+        $recipients = $this->fetchRecipientParticipants();
+        if (array() !== $recipients) {
+            $notification = new ilSessionMembershipMailNotification();
+            $notification->setRecipients($recipients);
+            $notification->setType($type);
+            $notification->setRefId($this->parameters['ref_id']);
 
-			$notification->send($this->parameters['usr_id']);
-		}
-	}
+            $notification->send($this->parameters['usr_id']);
+        }
+    }
 }

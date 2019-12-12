@@ -3,7 +3,6 @@
 
 namespace ILIAS\UI\Component\Legacy;
 
-
 interface Factory
 {
     /**

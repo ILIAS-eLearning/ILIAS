@@ -9,7 +9,6 @@
  */
 class ilOrgUnitObjectTypePositionSetting
 {
-
     const DEFAULT_OFF = 0;
     const DEFAULT_ON = 1;
     /**

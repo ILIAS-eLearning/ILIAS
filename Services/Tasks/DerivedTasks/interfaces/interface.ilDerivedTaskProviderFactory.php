@@ -10,11 +10,10 @@
  */
 interface ilDerivedTaskProviderFactory
 {
-	/**
-	 * Get providers
-	 *
-	 * @return ilDerivedTaskProvider[]
-	 */
-	public function getProviders(): array;
-
+    /**
+     * Get providers
+     *
+     * @return ilDerivedTaskProvider[]
+     */
+    public function getProviders() : array;
 }

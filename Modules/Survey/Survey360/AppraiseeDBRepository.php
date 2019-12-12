@@ -35,18 +35,18 @@ class AppraiseeDBRepository
      * @param int $rater_id
      * @return array
      */
-    public function getAppraiseesForRater(int $rater_id): array
+    public function getAppraiseesForRater(int $rater_id) : array
     {
         $db = $this->db;
         
-        $set = $db->queryF("SELECT obj_id, appr_id FROM svy_360_rater ".
+        $set = $db->queryF(
+            "SELECT obj_id, appr_id FROM svy_360_rater " .
             " WHERE user_id = %s ",
             ["integer"],
             [$rater_id]
         );
         $appraisee = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $appraisee[] = [
                 "survey_id" => $rec["obj_id"],
                 "appr_id" => $rec["appr_id"]
@@ -66,15 +66,15 @@ class AppraiseeDBRepository
     {
         $db = $this->db;
         
-        $set = $db->queryF("SELECT obj_id, user_id FROM svy_360_appr ".
-            " WHERE ".$db->in("obj_id", $survey_ids, false, "integer").
+        $set = $db->queryF(
+            "SELECT obj_id, user_id FROM svy_360_appr " .
+            " WHERE " . $db->in("obj_id", $survey_ids, false, "integer") .
             "AND has_closed = %s",
             ["integer"],
             [1]
         );
         $closed_appraisees = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $closed_appraisees[] = [
                 "survey_id" =>  $rec["obj_id"],
                 "appr_id" =>  $rec["user_id"]
@@ -89,23 +89,21 @@ class AppraiseeDBRepository
      * @param int $appr_user_id
      * @return int[]
      */
-    public function getUnclosedSurveysForAppraisee(int $appr_user_id): array
+    public function getUnclosedSurveysForAppraisee(int $appr_user_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT DISTINCT obj_id FROM svy_360_appr ".
-            "WHERE user_id = %s ".
+        $set = $db->queryF(
+            "SELECT DISTINCT obj_id FROM svy_360_appr " .
+            "WHERE user_id = %s " .
             "AND has_closed = %s",
             ["integer", "integer"],
             [$appr_user_id, 0]
         );
         $unclosed_surveys = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $unclosed_surveys[] = $rec["obj_id"];
         }
         return $unclosed_surveys;
     }
-
-
 }

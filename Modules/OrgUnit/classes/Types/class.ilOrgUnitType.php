@@ -8,7 +8,6 @@
  */
 class ilOrgUnitType
 {
-
     const TABLE_NAME = 'orgu_types';
     /**
      * Folder in ILIAS webdir to store the icons
@@ -932,7 +931,7 @@ class ilOrgUnitType
      */
     public function setIcon($icon)
     {
-        if ($icon AND !preg_match('/\.(svg)$/', $icon)) {
+        if ($icon and !preg_match('/\.(svg)$/', $icon)) {
             throw new ilOrgUnitTypeException('Icon must be set with file extension svg');
         }
         $this->icon = $icon;

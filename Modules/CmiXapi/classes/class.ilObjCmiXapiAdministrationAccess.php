@@ -14,5 +14,4 @@
  */
 class ilObjCmiXapiAdministrationAccess extends ilObjectAccess
 {
-	
 }

@@ -11,7 +11,6 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 {
-
     const SHOW_SKILL_TREE = 'show_skill_tree';
     const SHOW_TEMPLATE_TREE = 'show_template_tree';
 
@@ -33,9 +32,12 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_SKILL_TREE, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->contextAwareIdentifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->contextAwareIdentifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Skills")
                 ->withContentWrapper(function () use ($l) {
@@ -43,9 +45,12 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
                 });
         }
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
-
-            $iff = function ($id) { return $this->identification_provider->identifier($id); };
-            $l = function (string $content) { return $this->dic->ui()->factory()->legacy($content); };
+            $iff = function ($id) {
+                return $this->identification_provider->identifier($id);
+            };
+            $l = function (string $content) {
+                return $this->dic->ui()->factory()->legacy($content);
+            };
             $tools[] = $this->factory->tool($iff("tree"))
                 ->withTitle("Templates")
                 ->withContentWrapper(function () use ($l) {

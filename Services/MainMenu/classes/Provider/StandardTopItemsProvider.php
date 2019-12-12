@@ -148,7 +148,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () { return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff(); }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
+                return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+            }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
@@ -166,7 +168,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(70)
             ->withVisibilityCallable(
-                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
+                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) {
+                    return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID));
+                })
             );
 
         return [

@@ -9,13 +9,13 @@
  */
 class ilObjPortfolioAccess
 {
-	/**
-	* check whether goto script will succeed
-	*/
-	static function _checkGoto($a_target)
-	{
-		$t_arr = explode("_", $a_target);
-		
-		return ilSharedResourceGUI::hasAccess($t_arr[1], true);
-	}
+    /**
+    * check whether goto script will succeed
+    */
+    public static function _checkGoto($a_target)
+    {
+        $t_arr = explode("_", $a_target);
+        
+        return ilSharedResourceGUI::hasAccess($t_arr[1], true);
+    }
 }

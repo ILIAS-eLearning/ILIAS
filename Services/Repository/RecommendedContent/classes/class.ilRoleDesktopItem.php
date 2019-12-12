@@ -5,11 +5,11 @@
 /**
 * Class ilObjRoleGUI
 *
-* @author Stefan Meyer <meyer@leifos.com> 
+* @author Stefan Meyer <meyer@leifos.com>
 * $Id$
 *
 *
-* 
+*
 * @extends ilObjectGUI
 */
 
@@ -18,4 +18,3 @@ class ilRoleDesktopItem
 {
     // abandoned
 }
-?>

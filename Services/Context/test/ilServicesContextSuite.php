@@ -7,7 +7,8 @@ use PHPUnit\Framework\TestSuite;
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  * @version 1.0.0
  */
-class ilServicesContextSuite extends TestSuite {
+class ilServicesContextSuite extends TestSuite
+{
     public static function suite()
     {
         $suite = new ilServicesContextSuite();

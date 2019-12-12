@@ -44,7 +44,7 @@ class ilOrgUnitSimpleUserImportGUI
     /**
      * @param $parent_gui
      */
-    function __construct($parent_gui)
+    public function __construct($parent_gui)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -156,7 +156,7 @@ class ilOrgUnitSimpleUserImportGUI
      */
     public function displayImportResults($importer)
     {
-        if (!$importer->hasErrors() AND !$importer->hasWarnings()) {
+        if (!$importer->hasErrors() and !$importer->hasWarnings()) {
             $stats = $importer->getStats();
             ilUtil::sendSuccess(sprintf($this->lng->txt('user_import_successful'), $stats['created'], $stats['removed']), true);
         }

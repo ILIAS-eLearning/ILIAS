@@ -11,7 +11,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
      */
     public function testGenerateSpecificCertificate()
     {
-        if(!defined('CLIENT_WEB_DIR')){
+        if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');
         }
         $certificate = new ilUserCertificate(
@@ -67,7 +67,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
      */
     public function testGenerateCurrentActiveCertificate()
     {
-        if(!defined('CLIENT_WEB_DIR')){
+        if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');
         }
         $certificate = new ilUserCertificate(

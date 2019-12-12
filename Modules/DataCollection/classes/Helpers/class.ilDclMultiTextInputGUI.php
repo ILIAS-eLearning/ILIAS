@@ -8,7 +8,6 @@
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 {
-
     public function setValues($values)
     {
         $this->setIdentifiedMultiValues($values);

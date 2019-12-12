@@ -57,7 +57,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     /**
      * @inheritDoc
      */
-    public function getLayoutLinkTargets(): array
+    public function getLayoutLinkTargets() : array
     {
         $targets = [];
 
@@ -70,9 +70,8 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     public function getLinkTargetsXML()
     {
         $link_info = "<LinkTargets>";
-        foreach ($this->getLayoutLinkTargets() as $k => $t)
-        {
-            $link_info.="<LinkTarget TargetFrame=\"".$t["Type"]."\" LinkTarget=\"".$t["Frame"]."\" OnClick=\"".$t["OnClick"]."\" />";
+        foreach ($this->getLayoutLinkTargets() as $k => $t) {
+            $link_info.="<LinkTarget TargetFrame=\"" . $t["Type"] . "\" LinkTarget=\"" . $t["Frame"] . "\" OnClick=\"" . $t["OnClick"] . "\" />";
         }
         $link_info.= "</LinkTargets>";
         return $link_info;
@@ -81,14 +80,12 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     /**
      * @inheritDoc
      */
-    function getLinkXML($int_links): string
+    public function getLinkXML($int_links) : string
     {
         $link_info = "<IntLinkInfos>";
-        foreach ($int_links as $int_link)
-        {
+        foreach ($int_links as $int_link) {
             $target = $int_link["Target"];
-            if (substr($target, 0, 4) == "il__")
-            {
+            if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
                 $target_id = $target_arr[count($target_arr) - 1];
                 $type = $int_link["Type"];
@@ -98,55 +95,52 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                     : "None";
 
                 $ltarget="_top";
-                if ($targetframe != "None")
-                {
+                if ($targetframe != "None") {
                     $ltarget="_blank";
                 }
 
                 // anchor
                 $anc = $anc_add = "";
-                if ($int_link["Anchor"] != "")
-                {
+                if ($int_link["Anchor"] != "") {
                     $anc = $int_link["Anchor"];
-                    $anc_add = "_".rawurlencode($int_link["Anchor"]);
+                    $anc_add = "_" . rawurlencode($int_link["Anchor"]);
                 }
 
                 $href = "";
                 $lcontent = "";
-                switch($type)
-                {
+                switch ($type) {
                     case "PageObject":
                     case "StructureObject":
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
-                        if ($type == "PageObject")
-                        {
-                            $href = "./goto.php?target=pg_".$target_id.$anc_add;
+                        if ($type == "PageObject") {
+                            $href = "./goto.php?target=pg_" . $target_id . $anc_add;
+                        } else {
+                            $href = "./goto.php?target=st_" . $target_id;
                         }
-                        else
-                        {
-                            $href = "./goto.php?target=st_".$target_id;
-                        }
-                        if ($lm_id == "")
-                        {
+                        if ($lm_id == "") {
                             $href = "";
                         }
                         break;
 
                     case "GlossaryItem":
-                        if ($targetframe == "None")
-                        {
+                        if ($targetframe == "None") {
                             $targetframe = "Glossary";
                         }
-                        $href = "./goto.php?target=git_".$target_id;
+                        $href = "./goto.php?target=git_" . $target_id;
                         break;
 
                     case "MediaObject":
                         if ($this->offline) {
-                            $href = "media_".$target_id.".html";
+                            $href = "media_" . $target_id . ".html";
                         } else {
                             $this->ctrl->setParameterByClass($this->cmd_gui, "mob_id", $target_id);
-                            $href = $this->ctrl->getLinkTargetByClass($this->cmd_gui, "displayMedia",
-                                "", false, true);
+                            $href = $this->ctrl->getLinkTargetByClass(
+                                $this->cmd_gui,
+                                "displayMedia",
+                                "",
+                                false,
+                                true
+                            );
                             $this->ctrl->setParameterByClass($this->cmd_gui, "mob_id", "");
                         }
                         break;
@@ -162,13 +156,12 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                     case "RepositoryItem":
                         $obj_type = ilObject::_lookupType($target_id, true);
                         $obj_id = ilObject::_lookupObjId($target_id);
-                        $href = "./goto.php?target=".$obj_type."_".$target_id;
+                        $href = "./goto.php?target=" . $obj_type . "_" . $target_id;
                         break;
 
                     case "User":
                         $obj_type = ilObject::_lookupType($target_id);
-                        if ($obj_type == "usr")
-                        {
+                        if ($obj_type == "usr") {
                             include_once("./Services/User/classes/class.ilUserUtil.php");
                             $back = $this->profile_back_url;
                             //var_dump($back); exit;
@@ -182,10 +175,14 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                             }
                             $href = "";
                             include_once("./Services/User/classes/class.ilUserUtil.php");
-                            if (ilUserUtil::hasPublicProfile($target_id))
-                            {
-                                $href = $this->ctrl->getLinkTargetByClass(["ildashboardgui", "ilpublicuserprofilegui"], "getHTML",
-                                    "", false, true);
+                            if (ilUserUtil::hasPublicProfile($target_id)) {
+                                $href = $this->ctrl->getLinkTargetByClass(
+                                    ["ildashboardgui", "ilpublicuserprofilegui"],
+                                    "getHTML",
+                                    "",
+                                    false,
+                                    true
+                                );
                             }
                             $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
@@ -193,8 +190,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
                         break;
 
                 }
-                if ($href != "")
-                {
+                if ($href != "") {
                     $anc_par = 'Anchor="' . $anc . '"';
                     $link_info .= "<IntLinkInfo Target=\"$target\" Type=\"$type\" " . $anc_par . " " .
                         "TargetFrame=\"$targetframe\" LinkHref=\"$href\" LinkTarget=\"$ltarget\" LinkContent=\"$lcontent\" />";
@@ -210,7 +206,7 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
     /**
      * @inheritDoc
      */
-    public function getFullscreenLink(): string
+    public function getFullscreenLink() : string
     {
         if ($this->offline) {
             return "fullscreen.html";
@@ -218,6 +214,4 @@ class ilPageLinker implements \ILIAS\COPage\PageLinker
 
         return $this->ctrl->getLinkTargetByClass($this->cmd_gui, "fullscreen", "", false, false);
     }
-
-
 }

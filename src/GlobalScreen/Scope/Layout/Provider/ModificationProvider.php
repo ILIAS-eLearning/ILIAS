@@ -97,5 +97,4 @@ interface ModificationProvider extends Provider, ScreenContextAwareProvider
      * @return ViewTitleModification|null
      */
     public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification;
-
 }

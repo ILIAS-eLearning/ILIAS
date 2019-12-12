@@ -41,7 +41,7 @@ class ilLSCurriculumBuilder
             ->withAvailability($item->getAvailability())
             ->withStatus(
                 $this->translateLPStatus(
-                $item->getLearningProgressStatus()
+                    $item->getLearningProgressStatus()
                 )
             );
         }

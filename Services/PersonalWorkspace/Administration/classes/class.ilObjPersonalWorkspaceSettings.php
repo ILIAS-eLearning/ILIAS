@@ -13,11 +13,9 @@ class ilObjPersonalWorkspaceSettings extends ilObject
      /**
       * @inheritDoc
       */
-    function __construct($a_id = 0,$a_call_by_reference = true)
+    public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->type = "prss";
-        parent::__construct($a_id,$a_call_by_reference);
+        parent::__construct($a_id, $a_call_by_reference);
     }
-
 }
-?>

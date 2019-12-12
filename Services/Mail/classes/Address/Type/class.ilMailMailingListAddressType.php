@@ -37,7 +37,8 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 
         if (!$valid) {
             $this->logger->debug(sprintf(
-                "Mailing list not  valid: '%s'", $this->address->getMailbox()
+                "Mailing list not  valid: '%s'",
+                $this->address->getMailbox()
             ));
             $this->pushError('mail_no_valid_mailing_list', [$this->address->getMailbox()]);
         }
@@ -59,11 +60,13 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
 
             $this->logger->debug(sprintf(
                 "Found the following user ids for address (mailing list title) '%s': %s",
-                $this->address->getMailbox(), implode(', ', array_unique($usrIds))
+                $this->address->getMailbox(),
+                implode(', ', array_unique($usrIds))
             ));
         } else {
             $this->logger->debug(sprintf(
-                "Did not find any user ids for address (mailing list title) '%s'", $this->address->getMailbox()
+                "Did not find any user ids for address (mailing list title) '%s'",
+                $this->address->getMailbox()
             ));
         }
 

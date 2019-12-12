@@ -12,7 +12,6 @@ use ILIAS\MyStaff\ilMyStaffAccess;
  */
 class ilMStShowUserCompetencesGUI
 {
-
     const CMD_SHOW_SKILLS = 'showSkills';
     const CMD_INDEX = self::CMD_SHOW_SKILLS;
     const SUB_TAB_SKILLS = 'skills';

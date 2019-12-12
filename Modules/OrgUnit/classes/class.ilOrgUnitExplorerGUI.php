@@ -12,7 +12,6 @@ use ILIAS\UI\Component\Tree\TreeRecursion;
  */
 class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
 {
-
     protected const ORGU = "orgu";
     /**
      * @var array
@@ -175,4 +174,3 @@ class ilOrgUnitExplorerGUI extends ilTreeExplorerGUI implements TreeRecursion
         return !($a_node['child'] === $current_node || $this->tree->isGrandChild($current_node, $a_node['child']));
     }
 }
-

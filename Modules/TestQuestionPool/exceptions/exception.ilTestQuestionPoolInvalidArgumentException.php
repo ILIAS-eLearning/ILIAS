@@ -12,5 +12,4 @@
  */
 class ilTestQuestionPoolInvalidArgumentException extends ilTestQuestionPoolException
 {
-	
 }

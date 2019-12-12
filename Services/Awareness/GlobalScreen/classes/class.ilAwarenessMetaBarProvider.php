@@ -57,7 +57,8 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $item = $mb
             ->topLegacyItem($this->getId())
             ->withLegacyContent($content())
-            ->withSymbol($this->dic->ui()->factory()
+            ->withSymbol(
+                $this->dic->ui()->factory()
                 ->symbol()
                 ->glyph()
                 ->user()
@@ -66,12 +67,11 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
             ->withTitle("Who is online")
             ->withPosition(2)
             ->withAvailableCallable(
-                function () use ($DIC, $online){
+                function () use ($DIC, $online) {
                     $ilUser = $DIC->user();
 
                     $awrn_set = new ilSetting("awrn");
-                    if ($online <= 0 || !$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId())
-                    {
+                    if ($online <= 0 || !$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
                         return false;
                     }
                     return true;

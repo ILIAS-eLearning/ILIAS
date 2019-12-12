@@ -11,7 +11,7 @@ class ilMailEnvironmentHelper
     /**
      * @return string
      */
-    public function getHttpPath() : string 
+    public function getHttpPath() : string
     {
         return \ilUtil::_getHttpPath();
     }

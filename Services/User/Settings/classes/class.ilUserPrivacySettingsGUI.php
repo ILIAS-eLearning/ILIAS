@@ -63,7 +63,7 @@ class ilUserPrivacySettingsGUI
     /**
      * constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $DIC;
 
@@ -85,12 +85,11 @@ class ilUserPrivacySettingsGUI
     /**
      * execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass();
 
-        switch($next_class)
-        {
+        switch ($next_class) {
             default:
                 $cmd = $this->ctrl->getCmd("showPrivacySettings");
                 $this->$cmd();
@@ -110,7 +109,7 @@ class ilUserPrivacySettingsGUI
      * @param string $setting
      * @return bool
      */
-    function workWithUserSetting(string $setting): bool
+    public function workWithUserSetting(string $setting) : bool
     {
         return $this->user_settings_config->isVisibleAndChangeable($setting);
     }
@@ -119,7 +118,7 @@ class ilUserPrivacySettingsGUI
      * @param string $setting
      * @return bool
      */
-    function userSettingVisible(string $setting): bool
+    public function userSettingVisible(string $setting) : bool
     {
         return $this->user_settings_config->isVisible($setting);
     }
@@ -127,7 +126,7 @@ class ilUserPrivacySettingsGUI
     /**
      * General settings form.
      */
-    function showPrivacySettings($form = null)
+    public function showPrivacySettings($form = null)
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -159,7 +158,7 @@ class ilUserPrivacySettingsGUI
      *
      * @return bool
      */
-    protected function isAwarnessSettingVisible(): bool
+    protected function isAwarnessSettingVisible() : bool
     {
         $awrn_set = new ilSetting("awrn");
         if ($awrn_set->get("awrn_enabled", false) && $this->userSettingVisible("hide_own_online_status")) {
@@ -173,10 +172,9 @@ class ilUserPrivacySettingsGUI
      *
      * @return bool
      */
-    protected function isContactSettingVisible(): bool
+    protected function isContactSettingVisible() : bool
     {
-        if(ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me'))
-        {
+        if (ilBuddySystem::getInstance()->isEnabled() && $this->userSettingVisible('bs_allow_to_contact_me')) {
             return true;
         }
         return false;
@@ -199,24 +197,24 @@ class ilUserPrivacySettingsGUI
         $fields = [];
 
         // hide_own_online_status
-        if ($this->isAwarnessSettingVisible())
-        {
+        if ($this->isAwarnessSettingVisible()) {
             $lng->loadLanguageModule("awrn");
 
             $fields["hide_own_online_status"] = $f->input()->field()->checkbox(
                 $lng->txt("awrn_hide_from_awareness"),
-                $lng->txt("awrn_hide_from_awareness_info"))
+                $lng->txt("awrn_hide_from_awareness_info")
+            )
                 ->withValue($user->prefs["hide_own_online_status"] == "y")
                 ->withDisabled($settings->get("usr_settings_disable_hide_own_online_status"));
         }
 
         // allow to contact me
-        if ($this->isContactSettingVisible())
-        {
+        if ($this->isContactSettingVisible()) {
             $lng->loadLanguageModule('buddysystem');
             $fields["bs_allow_to_contact_me"] = $f->input()->field()->checkbox(
                 $lng->txt("buddy_allow_to_contact_me"),
-                $lng->txt("buddy_allow_to_contact_me_info"))
+                $lng->txt("buddy_allow_to_contact_me_info")
+            )
                 ->withValue($user->prefs['bs_allow_to_contact_me'] == 'y')
                 ->withDisabled($settings->get('usr_settings_disable_bs_allow_to_contact_me'));
         }
@@ -265,5 +263,4 @@ class ilUserPrivacySettingsGUI
         }
         $this->showPrivacySettings($form);
     }
-
 }

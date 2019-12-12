@@ -523,8 +523,10 @@ class ilMailTemplateGUI
         $placeholders->setDisabled(!$this->isEditingAllowed());
         $placeholders->setInstructionText($this->lng->txt('mail_nacc_use_placeholder'));
         $placeholders->setAdviseText(sprintf($this->lng->txt('placeholders_advise'), '<br />'));
-        $placeholders->supportsRerenderSignal('context',
-            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false));
+        $placeholders->supportsRerenderSignal(
+            'context',
+            $this->ctrl->getLinkTarget($this, 'getAjaxPlaceholdersById', '', true, false)
+        );
         if ($template === null) {
             $context_id = $generic_context->getId();
         } else {

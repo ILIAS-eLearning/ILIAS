@@ -45,10 +45,13 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->replace("rep_rec_content_role", [		// pk
+        $db->replace(
+            "rep_rec_content_role",
+            [		// pk
             "role_id" => ["integer", $role_id],
             "ref_id" => ["integer", $ref_id]
-        ], []
+        ],
+            []
         );
     }
 
@@ -61,7 +64,8 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM rep_rec_content_role WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_role WHERE " .
             " role_id = %s AND ref_id = %s",
             ["integer", "integer"],
             [$role_id, $ref_id]
@@ -79,9 +83,9 @@ class ilRecommendedContentDBRepository
 
         if (!$this->ifExistsObjectRecommendation($user_id, $ref_id)) {
             $db->insert("rep_rec_content_obj", [
-            	"user_id" => ["integer", $user_id],
-            	"ref_id" => ["integer", $ref_id],
-            	"declined" => ["integer", false]
+                "user_id" => ["integer", $user_id],
+                "ref_id" => ["integer", $ref_id],
+                "declined" => ["integer", false]
             ]);
         }
     }
@@ -95,7 +99,8 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM rep_rec_content_obj WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_obj WHERE " .
             " user_id = %s AND ref_id = %s",
             ["integer", "integer"],
             [$user_id, $ref_id]
@@ -111,13 +116,15 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM rep_rec_content_obj WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_obj WHERE " .
             " ref_id = %s",
             ["integer"],
             [$ref_id]
         );
 
-        $db->manipulateF("DELETE FROM rep_rec_content_role WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_role WHERE " .
             " ref_id = %s",
             ["integer"],
             [$ref_id]
@@ -133,7 +140,8 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM rep_rec_content_obj WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_obj WHERE " .
             " user_id = %s",
             ["integer"],
             [$user_id]
@@ -149,7 +157,8 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM rep_rec_content_role WHERE ".
+        $db->manipulateF(
+            "DELETE FROM rep_rec_content_role WHERE " .
             " role_id = %s",
             ["integer"],
             [$role_id]
@@ -166,13 +175,13 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM rep_rec_content_obj ".
+        $set = $db->queryF(
+            "SELECT * FROM rep_rec_content_obj " .
             " WHERE user_id = %s AND ref_id = %s",
             ["integer","integer"],
             [$user_id, $ref_id]
         );
-        if ($rec = $db->fetchAssoc($set))
-        {
+        if ($rec = $db->fetchAssoc($set)) {
             return true;
         }
         return false;
@@ -190,12 +199,15 @@ class ilRecommendedContentDBRepository
         $db = $this->db;
 
         if ($this->ifExistsObjectRecommendation($user_id, $ref_id)) {
-            $db->update("rep_rec_content_obj", [
-            		"declined" => ["integer", true]
-            	], [	// where
-            		"user_id" => ["integer", $user_id],
-            		"ref_id" => ["integer", $ref_id]
-            	]
+            $db->update(
+                "rep_rec_content_obj",
+                [
+                    "declined" => ["integer", true]
+                ],
+                [	// where
+                    "user_id" => ["integer", $user_id],
+                    "ref_id" => ["integer", $ref_id]
+                ]
             );
         } else {
             $db->insert("rep_rec_content_obj", [
@@ -216,8 +228,9 @@ class ilRecommendedContentDBRepository
     {
         $db = $this->db;
 
-        $set = $db->query("SELECT DISTINCT ref_id FROM rep_rec_content_role ".
-            " WHERE ".$db->in("role_id", $role_ids, false, "integer")
+        $set = $db->query(
+            "SELECT DISTINCT ref_id FROM rep_rec_content_role " .
+            " WHERE " . $db->in("role_id", $role_ids, false, "integer")
         );
         return array_column($db->fetchAll($set), "ref_id");
     }
@@ -228,11 +241,12 @@ class ilRecommendedContentDBRepository
      * @param int $user_id
      * @return int[] ref ids of recommendations
      */
-    protected function getUserObjectRecommendations(int $user_id): array
+    protected function getUserObjectRecommendations(int $user_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT ref_id FROM rep_rec_content_obj ".
+        $set = $db->queryF(
+            "SELECT ref_id FROM rep_rec_content_obj " .
             " WHERE user_id = %s AND declined = %s",
             ["integer", "integer"],
             [$user_id, false]
@@ -246,11 +260,12 @@ class ilRecommendedContentDBRepository
      * @param int $user_id
      * @return int[] ref ids of declined recommendations
      */
-    protected function getDeclinedUserObjectRecommendations(int $user_id): array
+    protected function getDeclinedUserObjectRecommendations(int $user_id) : array
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT ref_id FROM rep_rec_content_obj ".
+        $set = $db->queryF(
+            "SELECT ref_id FROM rep_rec_content_obj " .
             " WHERE user_id = %s AND declined = %s",
             ["integer", "integer"],
             [$user_id, true]
@@ -266,7 +281,7 @@ class ilRecommendedContentDBRepository
      * @param int[] $role_ids
      * @return int[] ref ids of open recommendations
      */
-    public function getOpenRecommendationsOfUser(int $user_id, array $role_ids): array
+    public function getOpenRecommendationsOfUser(int $user_id, array $role_ids) : array
     {
         // recommendations of role
         $role_recommendations = $this->getRecommendationsOfRoles($role_ids);
@@ -278,10 +293,8 @@ class ilRecommendedContentDBRepository
 
         // filter declined recommendations
         $declined_recommendations = $this->getDeclinedUserObjectRecommendations($user_id);
-        return array_filter($recommendations, function($i) use ($declined_recommendations) {
+        return array_filter($recommendations, function ($i) use ($declined_recommendations) {
             return !in_array($i, $declined_recommendations);
         });
     }
-
-
 }

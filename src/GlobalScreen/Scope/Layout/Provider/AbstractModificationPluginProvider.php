@@ -12,6 +12,5 @@ use ILIAS\GlobalScreen\Provider\PluginProviderHelper;
  */
 abstract class AbstractModificationPluginProvider extends AbstractModificationProvider implements ModificationProvider, PluginProvider
 {
-
     use PluginProviderHelper;
 }

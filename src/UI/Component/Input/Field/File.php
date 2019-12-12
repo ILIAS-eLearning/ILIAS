@@ -7,7 +7,6 @@ namespace ILIAS\UI\Component\Input\Field;
  */
 interface File extends Input
 {
-
     public function withAcceptedMimeTypes(array $mime_types) : File;
 
 

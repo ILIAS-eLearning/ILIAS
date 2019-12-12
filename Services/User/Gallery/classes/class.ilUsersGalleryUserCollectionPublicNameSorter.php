@@ -8,11 +8,11 @@ require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryUserColl
  */
 class ilUsersGalleryUserCollectionPublicNameSorter extends ilAbstractUsersGalleryUserCollectionSorter
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right)
-	{
-		return strcmp($left->getSortablePublicName(), $right->getSortablePublicName());
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function compare(ilUsersGalleryUser $left, ilUsersGalleryUser $right)
+    {
+        return strcmp($left->getSortablePublicName(), $right->getSortablePublicName());
+    }
 }

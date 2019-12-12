@@ -11,5 +11,4 @@ namespace ILIAS\HTTP\Response\Sender;
  */
 class ResponseSendingException extends \ilException
 {
-
 }

@@ -8,18 +8,18 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilECSGlossarySettings extends ilECSObjectSettings
-{		
-	protected function getECSObjectType() 
-	{
-		return '/campusconnect/glossaries';
-	}
-	
-	protected function buildJson(ilECSSetting $a_server) 
-	{			
-		$json = $this->getJsonCore('application/ecs-glossary');
-		
-		$json->availability = $this->content_obj->getOnline() ? 'online' : 'offline';
-		
-		return $json;
-	}
+{
+    protected function getECSObjectType()
+    {
+        return '/campusconnect/glossaries';
+    }
+    
+    protected function buildJson(ilECSSetting $a_server)
+    {
+        $json = $this->getJsonCore('application/ecs-glossary');
+        
+        $json->availability = $this->content_obj->getOnline() ? 'online' : 'offline';
+        
+        return $json;
+    }
 }

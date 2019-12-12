@@ -72,25 +72,19 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
         // USED BY
         $this->tpl->setCurrentBlock('used_by');
-        $tree = $this->buildLinkToUsedBy($data['usedByObjId'], $data['usedByRefId'], (string)$data['usedByTitle'], (bool)$usagesTrashed);
+        $tree = $this->buildLinkToUsedBy($data['usedByObjId'], $data['usedByRefId'], (string) $data['usedByTitle'], (bool) $usagesTrashed);
         $this->tpl->setVariable('TREE_TO_USED_BY', $tree['tree']);
         $this->tpl->parseCurrentBlock();
 
         // ICON
-        if( $data['icon'] )
-        {
+        if ($data['icon']) {
             $this->tpl->setVariable('ICON_SRC', $data['icon']);
             $this->tpl->setVariable('ICON_ALT', basename($data['icon']));
-        }
-        else
-        {
+        } else {
             $icon = ilObject::_getIcon("", "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);
             $this->tpl->setVariable('ICON_ALT', 'lti');
         }
-
-
-
     }
 
     protected function buildLinkToUsedBy(int $objId, int $refId, string $title, $trashed)
@@ -99,12 +93,12 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
         $tree = $DIC->repositoryTree()->getPathFull($refId);
         $treeNodes = [];
-        foreach($tree as $node) {
-            $node['title'] = (int)$node['parent'] === 0 ? $DIC->language()->txt('repository') : $node['title'];
-            $treeNodes[] = $trashed === true ? $node['title'] : '<a href="'. ilLink::_getLink($node['ref_id']) .'">' . $node['title']. '</a>';
+        foreach ($tree as $node) {
+            $node['title'] = (int) $node['parent'] === 0 ? $DIC->language()->txt('repository') : $node['title'];
+            $treeNodes[] = $trashed === true ? $node['title'] : '<a href="' . ilLink::_getLink($node['ref_id']) . '">' . $node['title'] . '</a>';
         }
-        $endnode = '<a href="'. ilLink::_getLink($refId) .'">' . $title . '</a>';
-        if( $trashed === true ) {
+        $endnode = '<a href="' . ilLink::_getLink($refId) . '">' . $title . '</a>';
+        if ($trashed === true) {
             $treeNodes[] = $title;
         }
 
@@ -114,8 +108,6 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
     protected static function isTrashEnabled()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        return (bool)$DIC->settings()->get('enable_trash', 0);
+        return (bool) $DIC->settings()->get('enable_trash', 0);
     }
-
-
 } // EOF class

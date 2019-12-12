@@ -4,46 +4,52 @@
 
 use ILIAS\Setup;
 
-class ilPDFGenerationConfigStoredObjective implements Setup\Objective {
-	/**
-	 * @var	\ilPDFGenerationSetupConfig
-	 */
-	protected $config;
+class ilPDFGenerationConfigStoredObjective implements Setup\Objective
+{
+    /**
+     * @var	\ilPDFGenerationSetupConfig
+     */
+    protected $config;
 
-	public function __construct(
-		\ilPDFGenerationSetupConfig $config
-	) {
-		$this->config = $config;
-	}
+    public function __construct(
+        \ilPDFGenerationSetupConfig $config
+    ) {
+        $this->config = $config;
+    }
 
-	public function getHash() : string {
-		return hash("sha256", self::class);
-	}
+    public function getHash() : string
+    {
+        return hash("sha256", self::class);
+    }
 
-	public function getLabel() : string {
-		return "Store configuration of Services/PDFGeneration";
-	}
+    public function getLabel() : string
+    {
+        return "Store configuration of Services/PDFGeneration";
+    }
 
-	public function isNotable() : bool {
-		return false;
-	}
+    public function isNotable() : bool
+    {
+        return false;
+    }
 
-	public function getPreconditions(Setup\Environment $environment) : array {
-		$common_config = $environment->getConfigFor("common");
-		return [
-			new ilIniFilesPopulatedObjective($common_config)
-		];
-	}
+    public function getPreconditions(Setup\Environment $environment) : array
+    {
+        $common_config = $environment->getConfigFor("common");
+        return [
+            new ilIniFilesPopulatedObjective($common_config)
+        ];
+    }
 
-	public function achieve(Setup\Environment $environment) : Setup\Environment {
-		$ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+    public function achieve(Setup\Environment $environment) : Setup\Environment
+    {
+        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
-		$ini->setVariable("tools", "phantomjs", $this->config->getPathToPhantomJS());
+        $ini->setVariable("tools", "phantomjs", $this->config->getPathToPhantomJS());
 
-		if (!$ini->write()) {
-			throw new Setup\UnachievableException("Could not write ilias.ini.php");
-		}
+        if (!$ini->write()) {
+            throw new Setup\UnachievableException("Could not write ilias.ini.php");
+        }
 
-		return $environment;
-	}
+        return $environment;
+    }
 }

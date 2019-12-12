@@ -11,7 +11,6 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
  */
 interface UploadHandler
 {
-
     public const DEFAULT_FILE_ID_PARAMETER = 'file_id';
 
 
@@ -49,5 +48,5 @@ interface UploadHandler
      *
      * @return BasicFileInfoResult[]
      */
-    public function getInfoForExistingFiles(array $file_ids):array;
+    public function getInfoForExistingFiles(array $file_ids) : array;
 }

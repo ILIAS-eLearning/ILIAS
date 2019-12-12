@@ -11,5 +11,4 @@ namespace ILIAS\BackgroundTasks\Exceptions;
  */
 class SerializationException extends Exception
 {
-
 }

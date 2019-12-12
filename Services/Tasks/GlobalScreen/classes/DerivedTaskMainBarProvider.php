@@ -34,7 +34,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_derived_task_list'))
             ->withTitle($title)
             ->withPosition(40)
-	        ->withSymbol($icon)
+            ->withSymbol($icon)
             ->withAction($dic->ctrl()->getLinkTargetByClass(["ilDerivedTasksGUI"], ""))
             ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable(

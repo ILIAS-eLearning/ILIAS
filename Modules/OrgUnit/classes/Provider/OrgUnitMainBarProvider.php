@@ -49,7 +49,8 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                 function () {
                     return ($this->dic->user()->getId() != ANONYMOUS_USER_ID);
                 }
-            );;
+            );
+        ;
 
         return $items;
     }

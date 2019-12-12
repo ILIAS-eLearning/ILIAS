@@ -18,6 +18,7 @@ require_once('class.ilCachedCtrl.php');
 class ilCtrl
 {
     const IL_RTOKEN_NAME = 'rtoken';
+
     /**
      * Maps lowercase class names to lists of parameter names that saved for them.
      *
@@ -94,16 +95,14 @@ class ilCtrl
      */
     public function __construct()
     {
-        global $DIC;
         $this->initializeMemberVariables();
-        // $this->refinery = $DIC->refinery();
 
         // this information should go to xml files one day
         $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
     }
-    
+
     /**
      * Initialize member variables.
      *
@@ -132,7 +131,7 @@ class ilCtrl
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $baseClass = strtolower($_GET["baseClass"]);
 
         $module_class = ilCachedCtrl::getInstance();
@@ -141,7 +140,7 @@ class ilCtrl
         $module = $mc_rec["module"];
         $class = $mc_rec["class"];
         $class_dir = $mc_rec["dir"];
-        
+
         if ($module != "") {
             $m_set = $ilDB->query("SELECT * FROM il_component WHERE name = " .
                 $ilDB->quote($module, "text"));
@@ -152,7 +151,7 @@ class ilCtrl
             $service = $mc_rec["service"];
             $class = $mc_rec["class"];
             $class_dir = $mc_rec["dir"];
-            
+
             if ($service == "") {
                 include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
                 throw new ilCtrlException("Could not find entry in modules.xml or services.xml for " .
@@ -160,9 +159,8 @@ class ilCtrl
             }
 
             $m_rec = ilComponent::getComponentInfo('Services', $service);
-
         }
-        
+
         // forward processing to base class
         $this->getCallStructure(strtolower($baseClass));
         $base_class_gui = new $class();
@@ -182,7 +180,7 @@ class ilCtrl
         throw new Exception("ilCtrl::getModuleDir is deprecated.");
         //return $this->module_dir;
     }
-    
+
     /**
      * Forward flow of control to next gui class
      * this invokes the executeCommand() method of the
@@ -199,7 +197,7 @@ class ilCtrl
         $nr = $nr["node_id"];
         if ($nr != "") {
             $current_node = $this->current_node;
-            
+
             $this->current_node = $nr;
 
             // always populate the call history
@@ -208,13 +206,13 @@ class ilCtrl
                     "mode" => "execComm", "cmd" => $this->getCmd());
 
             $html = $a_gui_object->executeCommand();
-            
+
             // reset current node
             $this->current_node = $current_node;
-            
+
             return $html;
         }
-        
+
         include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't forward to class $class.");
     }
@@ -236,25 +234,25 @@ class ilCtrl
         $nr = $nr["node_id"];
         if ($nr != "") {
             $current_node = $this->current_node;
-            
+
             // set current node to new gui class
             $this->current_node = $nr;
-            
+
             // always populate the call history
             // it will only be displayed in DEVMODE but is needed for UI plugins, too
             $this->call_hist[] = array("class" => get_class($a_gui_object),
                     "mode" => "getHtml", "cmd" => $this->getCmd());
-            
+
             // get block
             if ($a_parameters != null) {
                 $html = $a_gui_object->getHTML($a_parameters);
             } else {
                 $html = $a_gui_object->getHTML();
             }
-            
+
             // reset current node
             $this->current_node = $current_node;
-            
+
             // return block
             return $html;
         }
@@ -262,7 +260,7 @@ class ilCtrl
         include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't getHTML from class $class.");
     }
-    
+
     /**
      * Set context of current user interface. A context is a ILIAS repository
      * object (obj ID + obj type) with an additional optional subobject (ID + Type)
@@ -342,14 +340,14 @@ class ilCtrl
     {
         $class = strtolower($a_class);
         $this->readClassInfo($class);
-        
+
         if ($a_par_node === 0 || $a_par_node == "") {
             return array("node_id" => $this->getCidForClass($class),
                 "base_class" => "");
         }
-        
+
         $this->readNodeInfo($a_par_node);
-        
+
         $node_cid = $this->getCurrentCidOfNode($a_par_node);
 
         // target class is class of current node id
@@ -387,7 +385,7 @@ class ilCtrl
             }
             $temp_node = $this->removeLastCid($temp_node);
         }
-        
+
         // target class is another base class
         $n_class = "";
         if ($a_class != "") {
@@ -399,7 +397,7 @@ class ilCtrl
                 $mc_rec =  $module_class->lookupServiceClass($class);
                 $n_class = $mc_rec['lower_class'];
             }
-            
+
             if ($n_class != "") {
                 $this->getCallStructure($n_class);
                 return array("node_id" => $this->getCidForClass($n_class),
@@ -410,14 +408,14 @@ class ilCtrl
         if ($a_check) {
             return false;
         }
-        
+
         // Please do NOT change these lines.
         // Developers must be aware, if they use classes unknown to the controller
         // otherwise certain problem will be extremely hard to track down...
 
         error_log("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ")");
-            
+
         include_once("./Services/UICore/exceptions/class.ilCtrlException.php");
         throw new ilCtrlException("ERROR: Can't find target class $a_class for node $a_par_node " .
             "(" . $this->cid_class[$this->getParentCidOfNode($a_par_node)] . ").");
@@ -499,7 +497,7 @@ class ilCtrl
     {
         return $this->call_hist;
     }
-    
+
     /**
      * Get call structure of class context. This method must be called
      * for the top level gui class in the leading php script. It must be
@@ -532,7 +530,7 @@ class ilCtrl
         $a_class = strtolower($a_class);
 
         $a_nr++;
-        
+
         // determine call node structure
         $this->call_node[$a_nr] = array("class" => $a_class, "parent" => $a_parent);
 
@@ -575,7 +573,7 @@ class ilCtrl
             $this->saveParameterByClass(get_class($a_obj), $a_parameter);
         }
     }
-    
+
     /**
      * Save parameter for a class
      *
@@ -667,13 +665,13 @@ class ilCtrl
     {
         $this->parameter[strtolower($a_class)] = array();
     }
-    
+
     protected function checkLPSettingsForward($a_gui_obj, $a_cmd_node)
     {
         global $DIC;
 
         $objDefinition = $DIC["objDefinition"];
-        
+
         // forward to learning progress settings if possible and accessible
         if ($_GET["gotolp"] &&
             $a_gui_obj) {
@@ -681,9 +679,9 @@ class ilCtrl
             if (!$ref_id) {
                 $ref_id = $_REQUEST["ref_id"];
             }
-            
+
             $gui_class = get_class($a_gui_obj);
-            
+
             if ($gui_class == "ilSAHSEditGUI") {
                 // #1625 - because of scorm "sub-types" this is all very special
                 include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
@@ -692,7 +690,7 @@ class ilCtrl
                     case "scorm2004":
                         $class = "ilObjSCORM2004LearningModuleGUI";
                         break;
-                
+
                     case "scorm":
                         $class = "ilObjSCORMLearningModuleGUI";
                         break;
@@ -714,11 +712,11 @@ class ilCtrl
                 $this->setParameterByClass("ilObjLearningModuleGUI", "gotolp", 1);
                 $this->redirectByClass(array("ilLMEditorGUI", "ilObjLearningModuleGUI"), "");
             }
-                        
+
             include_once "Services/Object/classes/class.ilObjectLP.php";
             $type = ilObject::_lookupType($ref_id, true);
             $class = "ilObj" . $objDefinition->getClassName($type) . "GUI";
-            
+
             if ($gui_class == $class &&
                 ilObjectLP::isSupportedObjectType($type) &&
                 $GLOBALS["ilAccess"]->checkAccess("edit_learning_progress", "", $ref_id)) {
@@ -826,12 +824,12 @@ class ilCtrl
             $this->redirectToURL('./ilias.php?baseClass=ilRepositoryGUI');
         }
         $temp_node = $a_source_node;
-        
+
         $path = array();
         if ($a_source_node != "") {
             $path = array($a_source_node);
         }
-        
+
         $diffstart = ($a_source_node == "")
             ? 0
             : strlen($a_source_node) + 1;
@@ -885,7 +883,7 @@ class ilCtrl
         $_GET["cmdNode"] = "";
         $this->initializeMemberVariables();
     }
-    
+
     /**
      * Determines current get/post command
      *
@@ -902,7 +900,6 @@ class ilCtrl
         $to_string = $DIC->refinery()->to()->string();
         $to_array_of_strings = $DIC->refinery()->to()->dictOf($to_string);
 
-
         if ($get->has('cmd')) {
             $cmd = $get->retrieve('cmd', $to_string);
         }
@@ -910,8 +907,8 @@ class ilCtrl
             if ($post->has('cmd')) {
                 $post_command = $post->retrieve('cmd', $to_array_of_strings);
                 reset($post_command);
+                $cmd = @key($post_command);
             }
-            $cmd = @key($post_command);
 
             // verify command
             if ($this->verified_cmd != "") {
@@ -922,7 +919,7 @@ class ilCtrl
                     return $a_default_cmd;
                 }
             }
-            
+
             $this->verified_cmd = $cmd;
             if ($cmd == "" && isset($_POST["table_top_cmd"])) {		// selected command in multi-list (table2)
                 $cmd = @key($_POST["table_top_cmd"]);
@@ -1049,7 +1046,7 @@ class ilCtrl
         if (!is_array($a_class)) {
             $a_class = strtolower($a_class);
         }
-        
+
         $tok = $this->getRequestToken();
 
         if ($a_asynch) {
@@ -1071,7 +1068,7 @@ class ilCtrl
 
         return $script;
     }
-    
+
     /**
      * Append request token as url parameter
      *
@@ -1086,7 +1083,7 @@ class ilCtrl
             $xml_style
         );
     }
-    
+
     /**
      * Get request token.
      *
@@ -1099,7 +1096,7 @@ class ilCtrl
         $ilUser = $DIC["ilUser"];
         $ilDB = $DIC->database();
 
-        
+
         if ($this->rtoken != "") {
             return $this->rtoken;
         } else {
@@ -1114,7 +1111,7 @@ class ilCtrl
                     return $rec["token"];
                 }
                 $this->rtoken = md5(uniqid(rand(), true));
-                
+
                 // delete entries older than one and a half days
                 if (rand(1, 200) == 2) {
                     $dt = new ilDateTime(time(), IL_CAL_UNIX);
@@ -1124,7 +1121,7 @@ class ilCtrl
                         " stamp < " . $ilDB->quote($dt->get(IL_CAL_DATETIME), "timestamp");
                     $ilDB->manipulate($dq);
                 }
-                
+
                 // IMPORTANT: Please do NOT try to move this implementation to a
                 // session basis. This will fail due to framesets that are used
                 // occasionally in ILIAS, e.g. in the chat, where multiple
@@ -1140,7 +1137,7 @@ class ilCtrl
         }
         return "";
     }
-    
+
     /**
      * Verify Token
      *
@@ -1183,11 +1180,11 @@ class ilCtrl
             } else {
                 return false;
             }
-            
+
             if ($_SESSION["rtokens"][$_GET[self::IL_RTOKEN_NAME]] != "") {
                 // remove used token
                 unset($_SESSION["rtokens"][$_GET[self::IL_RTOKEN_NAME]]);
-                
+
                 // remove old tokens
                 if (count($_SESSION["rtokens"]) > 100) {
                     $to_remove = array();
@@ -1202,14 +1199,14 @@ class ilCtrl
                         unset($_SESSION["rtokens"][$tok]);
                     }
                 }
-                
+
                 return true;
             }
             return false;
         } else {
             return true;		// do not verify, if user or db object is missing
         }
-        
+
         return false;
     }
 
@@ -1310,7 +1307,7 @@ class ilCtrl
         }
         $this->redirectToURL($script);
     }
-    
+
     /**
      * Is current command an asynchronous command?
      *
@@ -1376,7 +1373,7 @@ class ilCtrl
         if ($a_asynch) {
             $xml_style = false;
         }
-        
+
         $script = $this->getTargetScript();
         $script = $this->getUrlParameters($a_class, $script, $a_cmd, $xml_style);
 
@@ -1384,7 +1381,7 @@ class ilCtrl
             $amp = "&";
             $script.= $amp . "cmdMode=asynch";
         }
-        
+
         if ($a_anchor != "") {
             $script = $script . "#" . $a_anchor;
         }
@@ -1480,8 +1477,8 @@ class ilCtrl
         }
         return $this->searchReturnClass($class);
     }
-    
-    
+
+
     /**
      * Determine current return class
      */
@@ -1610,7 +1607,7 @@ class ilCtrl
 
         return $params;
     }
-    
+
     private function classCidUnknown($a_class)
     {
         return $this->class_cid[$a_class] == "";
@@ -1689,7 +1686,7 @@ class ilCtrl
             $this->fetchCallsOfClassFromCache($cid_info['class'], $cached_ctrl);
             $this->info_read_class[$cid_info["class"]] = true;
         }
-        
+
         $this->info_read_cid[$a_cid] = true;
     }
 
@@ -1727,7 +1724,7 @@ class ilCtrl
             $this->updateClassCidMap($a_class, $class_info['cid']);
         }
         $this->fetchCallsOfClassFromCache($a_class, $cached_ctrl);
-        
+
         $this->info_read_class[$a_class] = true;
         $this->info_read_cid[$this->class_cid[$a_class]] = true;
     }
@@ -1829,7 +1826,7 @@ class ilCtrl
      * @return array
      * @throws ilCtrlException
      */
-    public function getCurrentClassPath(): array
+    public function getCurrentClassPath() : array
     {
         $path = [];
         foreach (explode(":", $this->getCmdNode()) as $cid) {
@@ -1856,7 +1853,7 @@ class ilCtrl
             || !$_REQUEST instanceof D
             || !$_COOKIE instanceof D
         ) {
-            throw new Exception("\$_GET or \$_POST has been overridden");
+            throw new Exception('$_GET, $_POST, $_REQUEST or $_COOKIE has been overridden');
         }
     }
 }

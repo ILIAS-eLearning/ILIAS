@@ -13,7 +13,6 @@ use ILIAS\UI\Component\Component;
  */
 class TopParentItemRenderer extends BaseTypeRenderer
 {
-
     use MakeSlateAsync, SlateSessionStateCode {
         MakeSlateAsync::hash insteadof SlateSessionStateCode;
         MakeSlateAsync::unhash insteadof SlateSessionStateCode;

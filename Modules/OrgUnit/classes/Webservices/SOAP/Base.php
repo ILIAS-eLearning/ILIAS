@@ -99,7 +99,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @return array
      */
-    protected abstract function getAdditionalInputParams();
+    abstract protected function getAdditionalInputParams();
 
 
     /**
@@ -110,7 +110,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         return array_merge(
             array(
                 self::SID => self::TYPE_STRING,
-            ), $this->getAdditionalInputParams()
+            ),
+            $this->getAdditionalInputParams()
         );
     }
 

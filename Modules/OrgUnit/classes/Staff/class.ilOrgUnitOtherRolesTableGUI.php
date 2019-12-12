@@ -9,7 +9,6 @@
  */
 class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
 {
-
     public function __construct($parent_obj, $parent_cmd, $role_id, $template_context = "")
     {
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -114,7 +113,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
     }
 
 
-    function fillRow($set)
+    public function fillRow($set)
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

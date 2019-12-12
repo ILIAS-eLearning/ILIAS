@@ -42,5 +42,5 @@ interface RevisionRepository
     /**
      * @param Revision $revision
      */
-    public function delete(Revision $revision):void;
+    public function delete(Revision $revision) : void;
 }

@@ -80,7 +80,6 @@ class MainLayoutCollector extends AbstractBaseCollector
         $final_view_title_modification = new NullModification();
 
         foreach ($this->providers as $provider) {
-
             $context_collection = $provider->isInterestedInContexts();
             if (!$context_collection->hasMatch($called_contexts)) {
                 continue;

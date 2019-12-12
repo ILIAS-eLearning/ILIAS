@@ -16,14 +16,11 @@ class ilObjNotesSettings extends ilObject
      * @param int $a_id
      * @param bool $a_call_by_reference
      */
-    function __construct($a_id = 0,$a_call_by_reference = true)
+    public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         global $DIC;
 
         $this->type = "nots";
-        parent::__construct($a_id,$a_call_by_reference);
+        parent::__construct($a_id, $a_call_by_reference);
     }
-
-
 }
-?>

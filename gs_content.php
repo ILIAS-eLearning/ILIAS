@@ -6,7 +6,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 class ContentRenderer
 {
-
     use Hasher;
 
 
@@ -34,4 +33,3 @@ class ContentRenderer
 if (php_sapi_name() !== 'cli') {
     (new ContentRenderer())->run();
 }
-

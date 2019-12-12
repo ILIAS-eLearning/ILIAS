@@ -26,7 +26,7 @@ trait HasViewControls
     /**
      * @inheritDoc
      */
-    public function getViewControls(): ?array
+    public function getViewControls() : ?array
     {
         return $this->view_controls;
     }

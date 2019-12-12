@@ -17,9 +17,9 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->sig_gen = new I\Component\SignalGenerator();
     }
 
-    public function getIcon(){
+    public function getIcon()
+    {
         return $this->getUIFactory()->symbol()->icon()->standard("name", "aria_label", "small", false);
-
     }
 
     public function getUIFactory()
@@ -49,9 +49,9 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
                 return new I\Component\MainControls\Factory(
                     $this->sig_gen,
                     new I\Component\MainControls\Slate\Factory(
-                        $this->sig_gen
-                        , new \ILIAS\UI\Implementation\Component\Counter\Factory()
-                        , $this->symbol()
+                        $this->sig_gen,
+                        new \ILIAS\UI\Implementation\Component\Counter\Factory(),
+                        $this->symbol()
                     )
                 );
             }
@@ -64,7 +64,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     {
         $f = $this->getUIFactory()->item();
 
-        $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Notification", $f->notification("title",$this->getIcon()));
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Item\\Notification", $f->notification("title", $this->getIcon()));
     }
 
 
@@ -79,8 +79,8 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     public function testGetTitleAsLink()
     {
         $f = $this->getUIFactory()->item();
-        $title_link = $this->getUIFactory()->link()->standard("TestLink","");
-        $c = $f->standard($title_link,$this->getIcon());
+        $title_link = $this->getUIFactory()->link()->standard("TestLink", "");
+        $c = $f->standard($title_link, $this->getIcon());
 
         $this->assertEquals($c->getTitle(), $title_link);
     }
@@ -90,7 +90,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     {
         $f = $this->getUIFactory()->item();
 
-        $c = $f->notification("title",$this->getIcon())->withDescription("description");
+        $c = $f->notification("title", $this->getIcon())->withDescription("description");
 
         $this->assertEquals($c->getDescription(), "description");
     }
@@ -100,7 +100,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $f = $this->getUIFactory()->item();
 
         $props = array("prop1" => "val1", "prop2" => "val2");
-        $c = $f->notification("title",$this->getIcon())->withProperties($props);
+        $c = $f->notification("title", $this->getIcon())->withProperties($props);
 
         $this->assertEquals($c->getProperties(), $props);
     }
@@ -113,7 +113,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
             new I\Component\Button\Shy("GitHub", "https://www.github.com")
         ));
-        $c = $f->notification("title",$this->getIcon())->withActions($actions);
+        $c = $f->notification("title", $this->getIcon())->withActions($actions);
 
         $this->assertEquals($c->getActions(), $actions);
     }
@@ -122,12 +122,11 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
     {
         $f = $this->getUIFactory()->item();
 
-        $c = $f->notification("title",$this->getIcon());
+        $c = $f->notification("title", $this->getIcon());
         $this->assertEquals($c->getLeadIcon(), $this->getIcon());
         $icon2 = $this->getIcon()->withIsOutlined(true);
 
         $this->assertEquals($c->withLeadIcon($icon2)->getLeadIcon(), $icon2);
-
     }
 
     public function testWithCloseAction()
@@ -161,10 +160,10 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getAggregateNotifications(), [$aggregate,$aggregate]);
     }
 
-    public function testRenderFullyFeatured(){
+    public function testRenderFullyFeatured()
+    {
         $f = $this->getUIFactory()->item();
-        $r = $this->getDefaultRenderer(new class implements \ILIAS\UI\Implementation\Render\JavaScriptBinding
-        {
+        $r = $this->getDefaultRenderer(new class implements \ILIAS\UI\Implementation\Render\JavaScriptBinding {
             public function createId()
             {
                 return "id";
@@ -185,10 +184,10 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
             new I\Component\Button\Shy("ILIAS", "https://www.ilias.de"),
             new I\Component\Button\Shy("GitHub", "https://www.github.com")
         ));
-        $title_link = $this->getUIFactory()->link()->standard("TestLink","");
+        $title_link = $this->getUIFactory()->link()->standard("TestLink", "");
         $aggregate = $f->notification("title_aggregate", $this->getIcon());
 
-        $c = $f->notification($title_link,$this->getIcon())
+        $c = $f->notification($title_link, $this->getIcon())
             ->withDescription("description")
             ->withProperties($props)
             ->withAdditionalContent($content)

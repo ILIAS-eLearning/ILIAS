@@ -12,11 +12,10 @@
  */
 interface ilSkillUsageInfo
 {
-	/**
-	 * Get title of an assigned item
-	 *
-	 * @param array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
-	 */
-	static public function getUsageInfo($a_cskill_ids, &$a_usages);
+    /**
+     * Get title of an assigned item
+     *
+     * @param array of common skill ids ("skill_id" => skill_id, "tref_id" => tref_id)
+     */
+    public static function getUsageInfo($a_cskill_ids, &$a_usages);
 }
-?>
