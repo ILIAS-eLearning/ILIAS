@@ -61,17 +61,23 @@ class ilSystemSupportContacts
     }
 
     /**
-     * Get mailto: email
+     * Get mailto: emails
      *
      * @param
      * @return
      */
-    public static function getMailToAddress()
+    public static function getMailsToAddress()
     {
         $emails = array();
         foreach (self::getValidSupportContactIds() as $id) {
             if (($e = ilObjUser::_lookupEmail($id)) != "") {
-                return $e;
+                $emails[] = $e;
+            }
+        }
+        if (!empty($emails)) {
+            $emails = implode(',', $emails);
+            if (trim($emails)) {
+                return $emails;
             }
         }
         return "";
