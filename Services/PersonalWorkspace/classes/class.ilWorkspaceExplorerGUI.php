@@ -198,12 +198,19 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
                     break;
             }
         }
-        
+
+        if (is_object($this->parent_obj)) {
+            $target_path = [get_class($this->parent_obj)];
+        } else {
+            $target_path = $this->parent_obj;
+        }
+        $target_path = $target_path + [$target_class];
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
-        $ret = $ilCtrl->getLinkTargetByClass(["ilPersonalWorkspaceGUI", $target_class], $this->select_cmd);
+        //$ret = $ilCtrl->getLinkTargetByClass(["ilPersonalWorkspaceGUI", $target_class], $this->select_cmd);
+        $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $_GET[$this->select_par]);
 
-        $ret = ILIAS_HTTP_PATH . "/" . $ret;
+        //$ret = ILIAS_HTTP_PATH . "/" . $ret;
 
         return $ret;
     }

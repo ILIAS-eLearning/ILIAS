@@ -34,6 +34,9 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $lng = $DIC->language();
         $lng->loadLanguageModule("exc");
 
+        $title = $lng->txt("exc_assignment");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title)->withIsOutlined(true);
+
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_EXC_ASSIGNMENT_INFO, true)) {
@@ -44,7 +47,8 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
                 return $this->dic->ui()->factory()->legacy($content);
             };
             $tools[] = $this->factory->tool($iff("exc_ass_info"))
-                ->withTitle($lng->txt("exc_assignment"))
+                ->withTitle($title)
+                ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l, $additional_data) {
                     return $l($this->getAssignmentInfo(
                         $additional_data->get(self::EXC_ASS_IDS),
