@@ -21,7 +21,7 @@
     +-----------------------------------------------------------------------------+
 */
 
-use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
+use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizerImpl;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 require_once "./Services/Container/classes/class.ilContainer.php";
@@ -37,7 +37,10 @@ require_once "./Services/Container/classes/class.ilContainer.php";
 class ilObjFolder extends ilContainer
 {
     public $folder_tree;
-    
+    // bugfix mantis 24309: array for systematically numbering copied files
+    private static $duplicate_files = array();
+
+
     /**
      * Constructor
      * @access	public
@@ -144,37 +147,89 @@ class ilObjFolder extends ilContainer
         $tree = $DIC->repositoryTree();
         $ilAccess = $DIC->access();
 
-        $tmpdir = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
+        $tmpdir .= DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($title);
 
         $temp_fs = $DIC->filesystem()->temp();
-        $storage_fs = $DIC->filesystem()->storage();
         $temp_fs->createDir($tmpdir);
 
-        $subtree = $tree->getChildsByTypeFilter($ref_id, array("fold", "file"));
+        $subtree = $tree->getChildsByTypeFilter($ref_id, array('fold', 'file'));
+
+        $storage_fs = $DIC->filesystem()->storage();
 
         foreach ($subtree as $child) {
-            if (!$ilAccess->checkAccess("read", "", $child["ref_id"])) {
+            if (!$ilAccess->checkAccess('read', '', $child['ref_id'])) {
                 continue;
             }
-            if (ilObject::_isInTrash($child["ref_id"])) {
+            if (ilObject::_isInTrash($child['ref_id'])) {
                 continue;
             }
-            if ($child["type"] == "fold") {
+            if ($child['type'] === 'fold') {
                 ilObjFolder::recurseFolder($child["ref_id"], $child["title"], $tmpdir);
             } else {
-                $newFilename = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($child["title"]);
+                // enhance new_filename to full relative path to enable checking for identically named files
+                $new_filename = $tmpdir . DIRECTORY_SEPARATOR . ilUtil::getASCIIFilename($child["title"]);
+                $sanitizer = new FilenameSanitizerImpl();
+                $new_filename = $sanitizer->sanitize($new_filename);
+                if ($temp_fs->has($new_filename)) {
+                    $new_filename = self::renameDuplicateFile($new_filename);
+                }
+
                 // copy to temporal directory
                 $relative_path_of_file = LegacyPathHelper::createRelativePath(ilObjFile::_lookupAbsolutePath($child["obj_id"]));
                 if ($storage_fs->has($relative_path_of_file)) {
                     $s = $storage_fs->readStream($relative_path_of_file);
                 } else {
-                    throw new ilFileException("Could not copy " . $relative_path_of_file . " to " . $newFilename);
+                    throw new ilFileException('Could not copy ' . $relative_path_of_file . ' to ' . $new_filename);
                 }
-                $temp_fs->writeStream($newFilename, $s);
+                $temp_fs->writeStream($new_filename, $s);
             }
         }
     }
-    
+
+
+    /**
+     * bugfix mantis 24309:
+     * add "_copy_" followed by a number to the filename (in front of the file-type-extension)
+     * if there are identically named files in the same folder to prevent an exception being thrown
+     *
+     * @param $duplicate_filename string filename including path and extension
+     *
+     * @return string
+     */
+    private static function renameDuplicateFile($duplicate_filename)
+    {
+        // determine the copy_number that will be added to the filename either by obtaining it from
+        // the entry of the current file in the duplicate_files-array or use 1 if there is no entry yet
+        $copy_number = 1;
+        $duplicate_has_array_entry = false;
+        foreach (self::$duplicate_files as &$duplicate_file) {
+            if ($duplicate_file['file_name'] == $duplicate_filename) {
+                $duplicate_has_array_entry = true;
+                $copy_number = $duplicate_file['copy_number'];
+                // increment the copy_number for correctly renaming the next duplicate of this file
+                $duplicate_file['copy_number']++;
+            }
+        }
+
+        // create an array entry for the duplicate file if there isn't one to ensure that the
+        // copy_number can be determined correctly for other duplicates of this file
+        if (!$duplicate_has_array_entry) {
+            self::$duplicate_files[] = [
+                'file_name'   => $duplicate_filename,
+                'copy_number' => 2 // set as 2 because 1 is already used for this duplicate
+            ];
+        }
+
+        // rename the file
+        $path = pathinfo($duplicate_filename, PATHINFO_DIRNAME);
+        $filename = pathinfo($duplicate_filename, PATHINFO_FILENAME);
+        $extension = pathinfo($duplicate_filename, PATHINFO_EXTENSION);
+        $new_filename = $path . "/" . $filename . " (" . $copy_number . ")." . $extension;
+
+        return $new_filename;
+    }
+
+
     public function downloadFolder()
     {
         $ilAccess = $this->access;

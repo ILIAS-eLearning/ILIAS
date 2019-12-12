@@ -13,7 +13,10 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
 {
     protected $settings; // [ilSetting]
     protected $ref_ids = array(); // [array]
-    
+    // bugfix mantis 24309: array for systematically numbering copied files
+    private static $duplicate_files = array(); // [array]
+
+
     protected static $initialized; // [bool]
     
     //
@@ -339,7 +342,13 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
         $this->task->save();
         
         $new_filename = $a_tmpdir . "/" . ilUtil::getASCIIFilename($a_title);
-        
+
+        // bugfix mantis 24309:
+        // alter the filename if there are identically named files in the same folder to prevent overwriting
+        if (file_exists($new_filename)) {
+            $new_filename = $this->renameDuplicateFile($new_filename);
+        }
+
         // copy to temporary directory
         include_once "Modules/File/classes/class.ilObjFile.php";
         $old_filename = ilObjFile::_lookupAbsolutePath($a_obj_id);
@@ -349,7 +358,51 @@ class ilFolderDownloadBackgroundTaskHandler extends ilZipBackgroundTaskHandler
         
         touch($new_filename, filectime($old_filename));
     }
-            
+
+
+    /**
+     * bugfix mantis 24309:
+     * add a number in round brackets to the filename (in front of the file-type-extension)
+     * if there are identically named files in the same folder to prevent an exception being thrown
+     *
+     * @param $duplicate_filename string filename including path and extension
+     *
+     * @return string
+     */
+    private static function renameDuplicateFile($duplicate_filename)
+    {
+        // determine the copy_number that will be added to the filename either by obtaining it from
+        // the entry of the current file in the duplicate_files-array or use 1 if there is no entry yet
+        $copy_number = 1;
+        $duplicate_has_array_entry = false;
+        foreach (self::$duplicate_files as &$duplicate_file) {
+            if ($duplicate_file['file_name'] == $duplicate_filename) {
+                $duplicate_has_array_entry = true;
+                $copy_number = $duplicate_file['copy_number'];
+                // increment the copy_number for correctly renaming the next duplicate of this file
+                $duplicate_file['copy_number']++;
+            }
+        }
+
+        // create an array entry for the duplicate file if there isn't one to ensure that the
+        // copy_number can be determined correctly for other duplicates of this file
+        if (!$duplicate_has_array_entry) {
+            self::$duplicate_files[] = [
+                'file_name'   => $duplicate_filename,
+                'copy_number' => 2 // set as 2 because 1 is already used for this duplicate
+            ];
+        }
+
+        // rename the file
+        $path = pathinfo($duplicate_filename, PATHINFO_DIRNAME);
+        $filename = pathinfo($duplicate_filename, PATHINFO_FILENAME);
+        $extension = pathinfo($duplicate_filename, PATHINFO_EXTENSION);
+        $new_filename = $path . "/" . $filename . " (" . $copy_number . ")." . $extension;
+
+        return $new_filename;
+    }
+
+
     /**
      * Check file access
      *
