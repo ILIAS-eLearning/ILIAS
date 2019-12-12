@@ -105,41 +105,10 @@ class ProcessingApplicationService
         CommandBusBuilder::getCommandBus()->handle(new ScoreTestAttemptCommand($answers, $this->actor_user_id));
     }
 
-
-    /**
-     * @return ilAsqQuestionPageGUI
-     */
-    public function getQuestionPresentation(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands) : ilAsqQuestionPageGUI
-    {
-        $page_gui = $this->getQuestionPageGUI($question_dto, $question_config);
-
-        $question_component = $this->getQuestionComponent($question_dto, $question_config, $question_commands);
-
-        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
-
-        return $page_gui;
-    }
-
-    /**
-     * @return ilAsqQuestionPageGUI
-     */
-    public function getQuestionEvaluationPresentation(QuestionDto $question_dto, QuestionConfig $question_config) : ilAsqQuestionPageGUI
-    {
-        $page_gui = $this->getQuestionPageGUI($question_dto, $question_config);
-
-        $question_component = $this->getQuestionComponent($question_dto, $question_config, new QuestionCommands());
-        $question_component->setAnswer($this->getUserAnswer($question_dto->getRevisionId()));
-
-        $page_gui->setQuestionHTML([$question_dto->getQuestionIntId() => $question_component->renderHtml()]);
-
-        return $page_gui;
-    }
-
-
-    public function getQuestionPageGUI(QuestionDto $question_dto, QuestionConfig $question_config): ilAsqQuestionPageGUI
+    public function getQuestionPageGUI(QuestionDto $question_dto, QuestionConfig $question_config, QuestionCommands $question_commands): ilAsqQuestionPageGUI
     {
         global $DIC;
-
+        
         $page = Page::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
         $page_gui = ilAsqQuestionPageGUI::getGUI($page);
 
@@ -158,6 +127,9 @@ class ProcessingApplicationService
         }
         $page_gui->setQuestionInfoHTML($subbline);
 
+        $question_component = $this->getQuestionComponent($question_dto, $question_config, $question_commands);
+        $page_gui->setQuestionComponent($question_component);
+        
         return $page_gui;
     }
 
@@ -192,9 +164,9 @@ class ProcessingApplicationService
      *
      * @return QuestionComponent
      */
-    public function getFeedbackComponent(QuestionDto $question_dto) : FeedbackComponent
+    public function getFeedbackComponent(QuestionDto $question_dto, Answer $answer) : FeedbackComponent
     {
-        return new FeedbackComponent($this->getScoringComponent($question_dto), $this->getAnswerFeedbackComponent($question_dto));
+        return new FeedbackComponent($this->getScoringComponent($question_dto, $answer), $this->getAnswerFeedbackComponent($question_dto, $answer));
     }
 
 
@@ -203,38 +175,30 @@ class ProcessingApplicationService
      *
      * @return QuestionComponent
      */
-    public function getScoringComponent(QuestionDto $question_dto) : ScoringComponent
+    public function getScoringComponent(QuestionDto $question_dto, Answer $answer) : ScoringComponent
     {
-        return new ScoringComponent($question_dto, $this->getCurrentAnswer($question_dto));
+        return new ScoringComponent($question_dto, $answer);
     }
-
 
     /**
      * @param AssessmentEntityId $question_uuid
      *
      * @return QuestionComponent
      */
-    public function getAnswerFeedbackComponent(QuestionDto $question_dto) : AnswerFeedbackComponent
+    public function getAnswerFeedbackComponent(QuestionDto $question_dto, Answer $answer) : AnswerFeedbackComponent
     {
-        return new AnswerFeedbackComponent($question_dto, $this->getCurrentAnswer($question_dto));
+        return new AnswerFeedbackComponent($question_dto, $answer);
     }
-
 
     /**
-     * @param AssessmentEntityId $question_uuid
-     *
-     * @return QuestionComponent
+     * @param QuestionDto $question_dto
+     * @param string $value
+     * @return Answer
      */
-    public function getCurrentAnswer(QuestionDto $question_dto) : Answer
-    {
-        $editor_class = QuestionPlayConfiguration::getEditorClass($question_dto->getPlayConfiguration());
-        /** @var AbstractEditor $editor * */
-        $editor = new $editor_class($question_dto);
-
-        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getRevisionId(), $question_dto->getContainerObjId(), $this->attempt_number, $editor->readAnswer());
+    public function createNewAnswer(QuestionDto $question_dto, string $value) : Answer {
+        return new Answer($this->actor_user_id, $question_dto->getId(), $question_dto->getRevisionId(), $question_dto->getContainerObjId(), $this->attempt_number, $value);
     }
-
-
+    
     /**
      * @param string $question_id
      * @param int    $user_id

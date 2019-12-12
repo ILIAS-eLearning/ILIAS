@@ -3,8 +3,10 @@
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
+use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
+use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
 /**
  * Class ilAsqQuestionPageGUI
@@ -70,6 +72,10 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      */
     public $a_output = false;
 
+    /**
+     * @var QuestionComponent
+     */
+    private $component;
 
     /**
      * ilAsqQuestionPageGUI constructor.
@@ -213,7 +219,19 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         return $this->page_config;
     }
 
+    function setQuestionComponent(QuestionComponent $component) {
+        $this->component = $component;
+        $this->setQuestionHTML([$this->getId() => $component->renderHtml()]);
+    }
+    
+    function getQuestionComponent() : QuestionComponent {
+        return $this->component;
+    }
 
+    function getEnteredAnswer() : string {
+        return $this->component->readAnswer();
+    }
+    
     /**
      * Replace page toc placeholder with question info and actions
      *

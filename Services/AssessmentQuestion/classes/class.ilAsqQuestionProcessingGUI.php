@@ -15,6 +15,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\ProcessingContextContainer;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionCommands;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+use ILIAS\UI\NotImplementedException;
 
 /**
  * Class ilAsqQuestionProcessingGUI
@@ -138,9 +139,7 @@ class ilAsqQuestionProcessingGUI
 
     protected function saveAnswer()
     {
-        $question_dto = $this->processing_application_service->getQuestion($this->revision_key);
-        $answer = $this->processing_application_service->getCurrentAnswer($question_dto);
-        $this->processing_application_service->answerQuestion($answer);
+        throw new NotImplementedException();
     }
 
 
