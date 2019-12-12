@@ -3,34 +3,31 @@
 
 include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBase.php');
 
-/** 
+/**
 * Remote category app class
-* 
+*
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
-* 
+*
 * @ingroup ModulesRemoteCategory
 */
 
 class ilObjRemoteCategory extends ilRemoteObjectBase
 {
-	const DB_TABLE_NAME = "rcat_settings";
+    const DB_TABLE_NAME = "rcat_settings";
 
-	public function initType()
-	{
-		$this->type = "rcat";
-	}
-	
-	protected function getTableName()
-	{
-		return self::DB_TABLE_NAME;
-	}
-	
-	protected function getECSObjectType()
-	{
-		return "/campusconnect/categories";
-	}
-		
+    public function initType()
+    {
+        $this->type = "rcat";
+    }
+    
+    protected function getTableName()
+    {
+        return self::DB_TABLE_NAME;
+    }
+    
+    protected function getECSObjectType()
+    {
+        return "/campusconnect/categories";
+    }
 }
-
-?>

@@ -10,30 +10,31 @@
  *
  * @deprecated use PHP native functions
  */
-class ilJsonUtil {
+class ilJsonUtil
+{
 
-	/**
-	 * @param $mixed
-	 * @param bool $suppress_native
-	 * @return string
-	 *
-	 * @deprecated use json_encode instead
-	 */
-	public static function encode($mixed, $suppress_native = false) {
+    /**
+     * @param $mixed
+     * @param bool $suppress_native
+     * @return string
+     *
+     * @deprecated use json_encode instead
+     */
+    public static function encode($mixed, $suppress_native = false)
+    {
+        return json_encode($mixed);
+    }
 
-		return json_encode($mixed);
-	}
 
-
-	/**
-	 * @param $json_notated_string
-	 * @param bool $suppress_native
-	 * @return mixed
-	 *
-	 * @deprecated use json_decode instead
-	 */
-	public static function decode($json_notated_string, $suppress_native = false) {
-
-		return json_decode($json_notated_string);
-	}
+    /**
+     * @param $json_notated_string
+     * @param bool $suppress_native
+     * @return mixed
+     *
+     * @deprecated use json_decode instead
+     */
+    public static function decode($json_notated_string, $suppress_native = false)
+    {
+        return json_decode($json_notated_string);
+    }
 }

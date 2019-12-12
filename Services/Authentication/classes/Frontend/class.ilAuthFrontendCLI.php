@@ -6,13 +6,11 @@ include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontend.ph
 include_once './Services/Authentication/interfaces/interface.ilAuthFrontendInterface.php';
 
 /**
- * Description of class class 
+ * Description of class class
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
 class ilAuthFrontendCLI extends ilAuthFrontend implements ilAuthFrontendInterface
 {
-	
 }
-?>

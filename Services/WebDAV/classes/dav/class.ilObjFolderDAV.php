@@ -35,5 +35,4 @@ class ilObjFolderDAV extends ilObjContainerDAV
     {
         return 'fold';
     }
-    
 }

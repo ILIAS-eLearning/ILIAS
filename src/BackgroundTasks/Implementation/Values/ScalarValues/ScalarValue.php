@@ -18,7 +18,7 @@ class ScalarValue extends AbstractValue
     /**
      * ScalarValue constructor. Given value must resolve to true when given to is_scalar.
      */
-    function __construct()
+    public function __construct()
     {
     }
 
@@ -95,7 +95,7 @@ class ScalarValue extends AbstractValue
      * @return void
      * @throws InvalidArgumentException
      */
-    function setValue($value)
+    public function setValue($value)
     {
         if (!is_scalar($value)) {
             throw new InvalidArgumentException("The value given must be a scalar! See php-documentation is_scalar().");

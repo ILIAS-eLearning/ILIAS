@@ -10,18 +10,18 @@
  */
 interface ilObjectTileImageFactoryInterface
 {
-	/**
-	 * Get supported file extensions
-	 *
-	 * @return string[]
-	 */
-	public function getSupportedFileExtensions(): array;
+    /**
+     * Get supported file extensions
+     *
+     * @return string[]
+     */
+    public function getSupportedFileExtensions() : array;
 
-	/**
-	 * Get tile image by object id
-	 *
-	 * @param int $objId
-	 * @return ilObjectTileImage
-	 */
-	public function getByObjId(int $obj_id): ilObjectTileImage;
+    /**
+     * Get tile image by object id
+     *
+     * @param int $objId
+     * @return ilObjectTileImage
+     */
+    public function getByObjId(int $obj_id) : ilObjectTileImage;
 }

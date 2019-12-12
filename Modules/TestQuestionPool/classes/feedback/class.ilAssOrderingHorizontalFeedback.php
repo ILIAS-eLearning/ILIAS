@@ -8,29 +8,27 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- * 
+ *
  * @package		Modules/TestQuestionPool
  */
 class ilAssOrderingHorizontalFeedback extends ilAssMultiOptionQuestionFeedback
 {
-	/**
-	 * returns the answer options mapped by answer index
-	 * (can be overwritten by concrete question type class)
-	 *
-	 * @return array $answerOptionsByAnswerIndex
-	 */
-	public function getAnswerOptionsByAnswerIndex()
-	{
-		if (strpos($this->questionOBJ->ordertext, '::'))
-		{
-		return explode('::', $this->questionOBJ->ordertext);
-		}
-		return explode(' ', $this->questionOBJ->ordertext);
-	}
+    /**
+     * returns the answer options mapped by answer index
+     * (can be overwritten by concrete question type class)
+     *
+     * @return array $answerOptionsByAnswerIndex
+     */
+    public function getAnswerOptionsByAnswerIndex()
+    {
+        if (strpos($this->questionOBJ->ordertext, '::')) {
+            return explode('::', $this->questionOBJ->ordertext);
+        }
+        return explode(' ', $this->questionOBJ->ordertext);
+    }
 
-	protected function buildAnswerOptionLabel( $index, $answer )
-	{
-		return trim($answer);
-	}
-
+    protected function buildAnswerOptionLabel($index, $answer)
+    {
+        return trim($answer);
+    }
 }

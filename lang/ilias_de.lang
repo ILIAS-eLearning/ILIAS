@@ -3046,7 +3046,7 @@ common#:#assessment_settings_reporting_language#:#Sprache der Protokollierung
 common#:#assf_allowed_questiontypes#:#Verfügbare Fragetypen
 common#:#assf_allowed_questiontypes_desc#:#Alle aktivierten Fragetypen stehen auf der gesamten ILIAS-Installation zur Verfügung. Nicht gewünschte Fragetypen können Sie hier deaktivieren.
 common#:#assf_questiontypes#:#Frageneinstellungen
-common#:#assign#:#Als Mitglied aufnehmen
+common#:#assign#:#Zuweisen
 common#:#assign_global_role#:#Einer globalen Rolle zuordnen
 common#:#assign_local_role#:#Lokale Rolle zuweisen
 common#:#assigned_members#:#Zugeordnete Teilnehmer
@@ -9520,7 +9520,7 @@ mail#:#mail_attachment_file_not_exist#:#Mindestens einer der folgenden Anhänge 
 mail#:#mail_attachments#:#Anhänge
 mail#:#mail_auto_generated_info#:#Diese E-Mail wurde von der ILIAS-Installation %s, %s automatisch an Sie versandt.
 mail#:#mail_both_email#:#Beide E-Mail-Adressen
-mail#:#mail_change_to_folder#:#Wechseln zu Ordner:
+mail#:#mail_change_to_folder#:#Wechseln zu Ordner: %s
 mail#:#mail_create_tpl#:#Textvorlage erstellen
 mail#:#mail_cronjob_notification_info#:#Hier können Sie die regelmäßige Benachrichtigung über neue Mails aktivieren.
 mail#:#mail_crs_list_members_not_available#:#Die Mitglieder der markierten Kurse können nicht aufgelistet werden.
@@ -14420,7 +14420,7 @@ trac#:#trac_current_system_load#:#Aktuelle Systemlast
 trac#:#trac_data_deleted#:#Die Daten wurden gelöscht.
 trac#:#trac_defaults#:#Bearbeitet-Status
 trac#:#trac_defaults_inactive#:#Inaktiv
-trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges verwendet.
+trac#:#trac_defaults_info#:#Setzt den Modus zur Ermittlung des Bearbeitet-Status für unterstützte Objekt-Typen. Wird von Badges und Zertifikaten verwendet.
 trac#:#trac_delete_data#:#Daten löschen
 trac#:#trac_determines_learning_progress#:#Bestimmt Lernfortschritt
 trac#:#trac_edit_collection#:#Bitte wählen Sie nun die Materialien aus, anhand derer der Lernfortschritt bestimmt wird.

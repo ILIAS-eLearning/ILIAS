@@ -13,25 +13,25 @@ require_once 'Services/Password/exceptions/class.ilPasswordException.php';
  */
 class ilServicesPasswordSuite extends PHPUnit_Framework_TestSuite
 {
-	/**
-	 * @return self
-	 */
-	public static function suite()
-	{
-		// Set timezone to prevent notices
-		date_default_timezone_set('Europe/Berlin');
+    /**
+     * @return self
+     */
+    public static function suite()
+    {
+        // Set timezone to prevent notices
+        date_default_timezone_set('Europe/Berlin');
 
-		$suite = new self();
+        $suite = new self();
 
-		require_once dirname(__FILE__) . '/encoders/ilMd5PasswordEncoderTest.php';
-		$suite->addTestSuite('ilMd5PasswordEncoderTest');
+        require_once dirname(__FILE__) . '/encoders/ilMd5PasswordEncoderTest.php';
+        $suite->addTestSuite('ilMd5PasswordEncoderTest');
 
-		require_once dirname(__FILE__) . '/encoders/ilBcryptPasswordEncoderTest.php';
-		$suite->addTestSuite('ilBcryptPasswordEncoderTest');
+        require_once dirname(__FILE__) . '/encoders/ilBcryptPasswordEncoderTest.php';
+        $suite->addTestSuite('ilBcryptPasswordEncoderTest');
 
-		require_once dirname(__FILE__) . '/encoders/ilBcryptPhpPasswordEncoderTest.php';
-		$suite->addTestSuite('ilBcryptPhpPasswordEncoderTest');
+        require_once dirname(__FILE__) . '/encoders/ilBcryptPhpPasswordEncoderTest.php';
+        $suite->addTestSuite('ilBcryptPhpPasswordEncoderTest');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

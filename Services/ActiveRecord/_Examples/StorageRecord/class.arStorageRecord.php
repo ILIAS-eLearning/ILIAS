@@ -11,148 +11,161 @@ require_once('./Services/ActiveRecord/Storage/int.arStorageInterface.php');
  * @author      Fabian Schmid <fs@studer-raimann.ch>
  * @version     2.0.7
  */
-class arStorageRecord implements arStorageInterface {
+class arStorageRecord implements arStorageInterface
+{
 
-	/**
-	 * @var int
-	 *
-	 * @db_has_field        true
-	 * @db_is_primary       true
-	 * @db_is_notnull       true
-	 * @db_fieldtype        integer
-	 * @db_length           4
-	 */
-	protected $id = 0;
-	/**
-	 * @var string
-	 * @db_has_field        true
-	 * @db_fieldtype        text
-	 * @db_length           200
-	 */
-	protected $title = '';
-	/**
-	 * @var string
-	 * @db_has_field        true
-	 * @db_fieldtype        text
-	 * @db_length           200
-	 */
-	public $description = '';
-	/**
-	 * @var array
-	 * @db_has_field        true
-	 * @db_fieldtype        text
-	 * @db_length           200
-	 */
-	protected $usr_ids = array();
-	/**
-	 * @var arStorageRecordStorage
-	 */
-	protected $storage;
-
-
-	/**
-	 * @param $id
-	 */
-	public function __construct($id = 0) {
-		$this->id = $id;
-		$this->storage = arStorageRecordStorage::getInstance($this);
-		$this->storage->installDB();
-	}
+    /**
+     * @var int
+     *
+     * @db_has_field        true
+     * @db_is_primary       true
+     * @db_is_notnull       true
+     * @db_fieldtype        integer
+     * @db_length           4
+     */
+    protected $id = 0;
+    /**
+     * @var string
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           200
+     */
+    protected $title = '';
+    /**
+     * @var string
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           200
+     */
+    public $description = '';
+    /**
+     * @var array
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           200
+     */
+    protected $usr_ids = array();
+    /**
+     * @var arStorageRecordStorage
+     */
+    protected $storage;
 
 
-	public function create() {
-		$this->storage->create();
-	}
+    /**
+     * @param $id
+     */
+    public function __construct($id = 0)
+    {
+        $this->id = $id;
+        $this->storage = arStorageRecordStorage::getInstance($this);
+        $this->storage->installDB();
+    }
 
 
-	public function update() {
-		$this->storage->update();
-	}
+    public function create()
+    {
+        $this->storage->create();
+    }
 
 
-	public function delete() {
-		$this->storage->delete();
-	}
+    public function update()
+    {
+        $this->storage->update();
+    }
 
 
-	/**
-	 * @param string $description
-	 */
-	public function setDescription($description) {
-		$this->description = $description;
-	}
+    public function delete()
+    {
+        $this->storage->delete();
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getDescription() {
-		return $this->description;
-	}
+    /**
+     * @param string $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 
 
-	/**
-	 * @param int $id
-	 */
-	public function setId($id) {
-		$this->id = $id;
-	}
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
 
 
-	/**
-	 * @return int
-	 */
-	public function getId() {
-		return $this->id;
-	}
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
 
-	/**
-	 * @param string $title
-	 */
-	public function setTitle($title) {
-		$this->title = $title;
-	}
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle() {
-		return $this->title;
-	}
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
 
 
-	/**
-	 * @param array $usr_ids
-	 */
-	public function setUsrIds($usr_ids) {
-		$this->usr_ids = $usr_ids;
-	}
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function getUsrIds() {
-		return $this->usr_ids;
-	}
+    /**
+     * @param array $usr_ids
+     */
+    public function setUsrIds($usr_ids)
+    {
+        $this->usr_ids = $usr_ids;
+    }
 
 
-	/**
-	 * @param arStorageRecordStorage $storage
-	 */
-	public function setStorage($storage) {
-		$this->storage = $storage;
-	}
+    /**
+     * @return array
+     */
+    public function getUsrIds()
+    {
+        return $this->usr_ids;
+    }
 
 
-	/**
-	 * @return arStorageRecordStorage
-	 */
-	public function getStorage() {
-		return $this->storage;
-	}
+    /**
+     * @param arStorageRecordStorage $storage
+     */
+    public function setStorage($storage)
+    {
+        $this->storage = $storage;
+    }
+
+
+    /**
+     * @return arStorageRecordStorage
+     */
+    public function getStorage()
+    {
+        return $this->storage;
+    }
 }
-
-?>

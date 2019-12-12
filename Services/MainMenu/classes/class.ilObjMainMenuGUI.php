@@ -76,68 +76,26 @@ class ilObjMainMenuGUI extends ilObject2GUI
             return;
         }
 
+        $this->prepareOutput();
+
         switch ($next_class) {
             case strtolower(ilPermissionGUI::class):
-                $this->prepareAdminOutput();
                 $this->tab_handling->initTabs(self::TAB_PERMISSIONS);
                 $this->tabs->activateTab(self::TAB_PERMISSIONS);
                 $perm_gui = new ilPermissionGUI($this);
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
             case strtolower(ilMMTopItemGUI::class):
-                $this->prepareAdminOutput();
-                // $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
                 $g = new ilMMTopItemGUI($this->tab_handling);
                 $this->ctrl->forwardCommand($g);
                 break;
             case strtolower(ilMMSubItemGUI::class):
-                $this->prepareAdminOutput();
-                // $this->tab_handling->initTabs(self::TAB_MAIN, self::SUBTAB_SLATES);
                 $g = new ilMMSubItemGUI($this->tab_handling);
                 $this->ctrl->forwardCommand($g);
                 break;
             default:
                 break;
         }
-    }
-
-
-    /**
-     * @return void
-     */
-    private function prepareAdminOutput()
-    {
-        $this->tpl->getStandardTemplate();
-        $this->tpl->setTitleIcon(ilUtil::getImagePath('icon_mme.svg'));
-        $this->tpl->setTitle($this->object->getPresentationTitle());
-        $this->tpl->setDescription($this->object->getLongDescription());
-        $this->initLocator();
-    }
-
-
-    /**
-     * @return void
-     */
-    private function initLocator()
-    {
-        $path = $this->tree->getPathFull((int) $_GET["ref_id"]);
-        foreach ((array) $path as $key => $row) {
-            if ($row["title"] == "Main Menu") {
-                $row["title"] = $this->lng->txt("obj_mme");
-            }
-
-            $this->ctrl->setParameter($this, "ref_id", $row["child"]);
-            $this->locator->addItem(
-                $row["title"],
-                $this->ctrl->getLinkTarget($this, self::TAB_MAIN),
-                ilFrameTargetInfo::_getFrame("MainContent"),
-                $row["child"]
-            );
-
-            $this->ctrl->setParameter($this, "ref_id", $_GET["ref_id"]);
-        }
-
-        $this->tpl->setLocator();
     }
 
 

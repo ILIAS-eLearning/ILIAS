@@ -11,5 +11,4 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  */
 class ilQtiException extends ilException
 {
-	
 }

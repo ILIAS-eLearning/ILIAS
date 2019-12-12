@@ -15,70 +15,71 @@ use IMSGlobal\LTI\ToolProvider\OAuthDataStore;
 use IMSGlobal\LTI\ToolProvider\Context;
 use IMSGlobal\LTI\ToolProvider\ResourceLink;
 use IMSGlobal\LTI\ToolProvider\User;
+
 /**
- * LTI provider for LTI launch 
+ * LTI provider for LTI launch
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
- * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  *
  */
 class ilLTIToolProvider extends ToolProvider\ToolProvider
 {
-	/**
-	 * @var \ilLogger
-	 */
-	protected $logger = null;
+    /**
+     * @var \ilLogger
+     */
+    protected $logger = null;
 
 
-	public $debugMode = true; //ACHTUNG weg bei Produktiv-Umgebung
-	/**
+    public $debugMode = true; //ACHTUNG weg bei Produktiv-Umgebung
+    /**
  * Permitted LTI versions for messages.
  */
     private static $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
-/**
- * List of supported message types and associated class methods.
- */
+    /**
+     * List of supported message types and associated class methods.
+     */
     private static $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
                                           'ContentItemSelectionRequest' => 'onContentItem',
                                           'ToolProxyRegistrationRequest' => 'register');
-/**
- * List of supported message types and associated class methods
- *
- * @var array $METHOD_NAMES
- */
+    /**
+     * List of supported message types and associated class methods
+     *
+     * @var array $METHOD_NAMES
+     */
     private static $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
                                          'ContentItemSelectionRequest' => 'onContentItem',
                                          'ToolProxyRegistrationRequest' => 'onRegister');
-/**
- * Names of LTI parameters to be retained in the consumer settings property.
- *
- * @var array $LTI_CONSUMER_SETTING_NAMES
- */
+    /**
+     * Names of LTI parameters to be retained in the consumer settings property.
+     *
+     * @var array $LTI_CONSUMER_SETTING_NAMES
+     */
     private static $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
-/**
- * Names of LTI parameters to be retained in the context settings property.
- *
- * @var array $LTI_CONTEXT_SETTING_NAMES
- */
+    /**
+     * Names of LTI parameters to be retained in the context settings property.
+     *
+     * @var array $LTI_CONTEXT_SETTING_NAMES
+     */
     private static $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
                                                       'custom_lineitems_url', 'custom_results_url',
                                                       'custom_context_memberships_url');
-/**
- * Names of LTI parameters to be retained in the resource link settings property.
- *
- * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
- */
+    /**
+     * Names of LTI parameters to be retained in the resource link settings property.
+     *
+     * @var array $LTI_RESOURCE_LINK_SETTING_NAMES
+     */
     private static $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
                                                             'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids',
                                                             'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
                                                             'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
                                                             'custom_link_setting_url',
                                                             'custom_lineitem_url', 'custom_result_url');
-/**
- * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
- *
- * @var array $CUSTOM_SUBSTITUTION_VARIABLES
- */
+    /**
+     * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
+     *
+     * @var array $CUSTOM_SUBSTITUTION_VARIABLES
+     */
     private static $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
                                                           'User.image' => 'user_image',
                                                           'User.username' => 'username',
@@ -114,25 +115,24 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                                                           'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url');
 
 
-/**
-	 * ilLTIToolProvider constructor.
-	 * @param DataConnector $dataConnector
-	 */
+    /**
+         * ilLTIToolProvider constructor.
+         * @param DataConnector $dataConnector
+         */
     public function __construct(DataConnector $dataConnector)
-	{
-		global $DIC;
+    {
+        global $DIC;
 
-		$this->logger = $DIC->logger()->lti();
-		parent::__construct($dataConnector);
-	}
+        $this->logger = $DIC->logger()->lti();
+        parent::__construct($dataConnector);
+    }
 
 
-	/**
+    /**
  * Process an incoming request
  */
     public function handleRequest()
     {
-
         if ($this->ok) {
             if ($this->authenticate()) {
                 $this->doCallback();
@@ -140,119 +140,112 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
         // if return url is given, this redirects in case of errors
         $this->result();
-		return $this->ok;
+        return $this->ok;
     }
 
-###
-###    PROTECTED METHODS
-###
+    ###
+    ###    PROTECTED METHODS
+    ###
 
-/**
- * Process a valid launch request
- *
- * @return boolean True if no error
- */
+    /**
+     * Process a valid launch request
+     *
+     * @return boolean True if no error
+     */
     protected function onLaunch()
     {
-    	// save/update current user
-    	if($this->user instanceof User) {
-    		$this->user->save();
-		}
+        // save/update current user
+        if ($this->user instanceof User) {
+            $this->user->save();
+        }
 
-		if($this->context instanceof Context) {
-    		$this->context->save();
-		}
+        if ($this->context instanceof Context) {
+            $this->context->save();
+        }
 
-		if($this->resourceLink instanceof ResourceLink) {
-    		$this->resourceLink->save();
-		}
+        if ($this->resourceLink instanceof ResourceLink) {
+            $this->resourceLink->save();
+        }
     }
 
-/**
- * Process a valid content-item request
- *
- * @return boolean True if no error
- */
+    /**
+     * Process a valid content-item request
+     *
+     * @return boolean True if no error
+     */
     protected function onContentItem()
     {
-
         $this->onError();
-
     }
 
-/**
- * Process a valid tool proxy registration request
- *
- * @return boolean True if no error
- */
-    protected function onRegister() {
-
+    /**
+     * Process a valid tool proxy registration request
+     *
+     * @return boolean True if no error
+     */
+    protected function onRegister()
+    {
         $this->onError();
-
     }
 
-/**
- * Process a response to an invalid request
- *
- * @return boolean True if no further error processing required
- */
+    /**
+     * Process a response to an invalid request
+     *
+     * @return boolean True if no further error processing required
+     */
     protected function onError()
     {
-    	// only return error status
-		return $this->ok;
+        // only return error status
+        return $this->ok;
 
         //$this->doCallback('onError');
-		// return parent::onError(); //Stefan M.
-
+        // return parent::onError(); //Stefan M.
     }
 
-###
-###    PRIVATE METHODS
-###
+    ###
+    ###    PRIVATE METHODS
+    ###
 
-/**
- * Call any callback function for the requested action.
- *
- * This function may set the redirect_url and output properties.
- *
- * @return boolean True if no error reported
- */
+    /**
+     * Call any callback function for the requested action.
+     *
+     * This function may set the redirect_url and output properties.
+     *
+     * @return boolean True if no error reported
+     */
     private function doCallback($method = null)
     {
-
         $callback = $method;
         if (is_null($callback)) {
             $callback = self::$METHOD_NAMES[$_POST['lti_message_type']];
         }
         if (method_exists($this, $callback)) {
             $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
-        } else if (is_null($method) && $this->ok) {
+        } elseif (is_null($method) && $this->ok) {
             $this->ok = false;
             $this->reason = "Message type not supported: {$_POST['lti_message_type']}";
         }
         if ($this->ok && ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest')) {
             $this->consumer->save();
         }
-
     }
 
-/**
- * Perform the result of an action.
- *
- * This function may redirect the user to another URL rather than returning a value.
- *
- * @return string Output to be displayed (redirection, or display HTML or message)
- */
+    /**
+     * Perform the result of an action.
+     *
+     * This function may redirect the user to another URL rather than returning a value.
+     *
+     * @return string Output to be displayed (redirection, or display HTML or message)
+     */
     private function result()
     {
-
-		$ok = false;
+        $ok = false;
         if (!$this->ok) {
             $ok = $this->onError();
         }
         if (!$ok) {
             if (!$this->ok) {
-// If not valid, return an error message to the tool consumer if a return URL is provided
+                // If not valid, return an error message to the tool consumer if a return URL is provided
                 if (!empty($this->returnUrl)) {
                     $errorUrl = $this->returnUrl;
                     if (strpos($errorUrl, '?') === false) {
@@ -284,35 +277,34 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 } else {
                     if (!is_null($this->errorOutput)) {
                         echo $this->errorOutput;
-                    } else if ($this->debugMode && !empty($this->reason)) {
+                    } elseif ($this->debugMode && !empty($this->reason)) {
                         echo "Debug error: {$this->reason}";
                     } else {
                         echo "Error: {$this->message}";
                     }
                 }
-            } else if (!is_null($this->redirectUrl)) {
+            } elseif (!is_null($this->redirectUrl)) {
                 header("Location: {$this->redirectUrl}");
                 exit;
-            } else if (!is_null($this->output)) {
+            } elseif (!is_null($this->output)) {
                 echo $this->output;
             }
         }
-
     }
 
-/**
- * Check the authenticity of the LTI launch request.
- *
- * The consumer, resource link and user objects will be initialised if the request is valid.
- *
- * @return boolean True if the request has been successfully validated.
- */
+    /**
+     * Check the authenticity of the LTI launch request.
+     *
+     * The consumer, resource link and user objects will be initialised if the request is valid.
+     *
+     * @return boolean True if the request has been successfully validated.
+     */
     private function authenticate()
     {
 
 // Get the consumer
         $doSaveConsumer = false;
-// Check all required launch parameters
+        // Check all required launch parameters
         $this->ok = isset($_POST['lti_message_type']) && array_key_exists($_POST['lti_message_type'], self::$MESSAGE_TYPES);
         if (!$this->ok) {
             $this->reason = 'Invalid or missing lti_message_type parameter.';
@@ -329,7 +321,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 if (!$this->ok) {
                     $this->reason = 'Missing resource link ID.';
                 }
-            } else if ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
+            } elseif ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
                 if (isset($_POST['accept_media_types']) && (strlen(trim($_POST['accept_media_types'])) > 0)) {
                     $mediaTypes = array_filter(explode(',', str_replace(' ', '', $_POST['accept_media_types'])), 'strlen');
                     $mediaTypes = array_unique($mediaTypes);
@@ -350,8 +342,11 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         $this->reason = 'Missing or empty accept_presentation_document_targets parameter.';
                     } else {
                         foreach ($documentTargets as $documentTarget) {
-                            $this->ok = $this->checkValue($documentTarget, array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay', 'none'),
-                                 'Invalid value in accept_presentation_document_targets parameter: %s.');
+                            $this->ok = $this->checkValue(
+                                $documentTarget,
+                                array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay', 'none'),
+                                'Invalid value in accept_presentation_document_targets parameter: %s.'
+                            );
                             if (!$this->ok) {
                                 break;
                             }
@@ -369,7 +364,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         $this->reason = 'Missing content_item_return_url parameter.';
                     }
                 }
-            } else if ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest') {
+            } elseif ($_POST['lti_message_type'] == 'ToolProxyRegistrationRequest') {
                 $this->ok = ((isset($_POST['reg_key']) && (strlen(trim($_POST['reg_key'])) > 0)) &&
                              (isset($_POST['reg_password']) && (strlen(trim($_POST['reg_password'])) > 0)) &&
                              (isset($_POST['tc_profile_url']) && (strlen(trim($_POST['tc_profile_url'])) > 0)) &&
@@ -383,7 +378,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
         $this->logger->debug('Checking consumer key...');
 
-// Check consumer key
+        // Check consumer key
         if ($this->ok && ($_POST['lti_message_type'] != 'ToolProxyRegistrationRequest')) {
             $this->ok = isset($_POST['oauth_consumer_key']);
             if (!$this->ok) {
@@ -432,8 +427,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
-			// $this->ok = true; //ACHTUNG Problem Signature bei M.
-           if ($this->ok) {
+            // $this->ok = true; //ACHTUNG Problem Signature bei M.
+            if ($this->ok) {
                 $today = date('Y-m-d', $now);
                 if (is_null($this->consumer->lastAccess)) {
                     $doSaveConsumer = true;
@@ -474,7 +469,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
- // Validate other message parameter values
+            // Validate other message parameter values
             if ($this->ok) {
                 if ($_POST['lti_message_type'] === 'ContentItemSelectionRequest') {
                     if (isset($_POST['accept_unsigned'])) {
@@ -492,9 +487,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     if ($this->ok && isset($_POST['can_confirm'])) {
                         $this->ok = $this->checkValue($_POST['can_confirm'], array('true', 'false'), 'Invalid value for can_confirm parameter: %s.');
                     }
-                } else if (isset($_POST['launch_presentation_document_target'])) {
-                    $this->ok = $this->checkValue($_POST['launch_presentation_document_target'], array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
-                         'Invalid value for launch_presentation_document_target parameter: %s.');
+                } elseif (isset($_POST['launch_presentation_document_target'])) {
+                    $this->ok = $this->checkValue(
+                        $_POST['launch_presentation_document_target'],
+                        array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
+                        'Invalid value for launch_presentation_document_target parameter: %s.'
+                    );
                 }
             }
         }
@@ -517,7 +515,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
             }
-// Check for required capabilities
+            // Check for required capabilities
             if ($this->ok) {
                 // $this->consumer = new ToolConsumer($_POST['reg_key'], $this->dataConnector);
                 $this->consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
@@ -544,7 +542,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->ok = false;
                 }
             }
-// Check for required services
+            // Check for required services
             if ($this->ok) {
                 foreach ($this->requiredServices as $service) {
                     foreach ($service->formats as $format) {
@@ -574,7 +572,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $doSaveConsumer = true;
                 }
             }
-        } else if ($this->ok && !empty($_POST['custom_tc_profile_url']) && empty($this->consumer->profile)) {
+        } elseif ($this->ok && !empty($_POST['custom_tc_profile_url']) && empty($this->consumer->profile)) {
             $http = new HTTPMessage($_POST['custom_tc_profile_url'], 'GET', null, 'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json');
             if ($http->send()) {
                 $tcProfile = json_decode($http->response);
@@ -584,39 +582,38 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         }
-//ACHTUNG HIER TODO UWE
-// Validate message parameter constraints
+        //ACHTUNG HIER TODO UWE
+        // Validate message parameter constraints
         // if ($this->ok) {
-            // $invalidParameters = array();
-            // foreach ($this->constraints as $name => $constraint) {
-                // // if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
-                    // // $ok = true;
-                    // // if ($constraint['required']) {
-                        // // if (!isset($_POST[$name]) || (strlen(trim($_POST[$name])) <= 0)) {
-                            // // $invalidParameters[] = "{$name} (missing)";
-                            // // $ok = false;
-                        // // }
-                    // // }
-                    // // if ($ok && !is_null($constraint['max_length']) && isset($_POST[$name])) {
-                        // // if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
-                            // // $invalidParameters[] = "{$name} (too long)";
-                        // // }
-                    // // }
-                // // }
-            // }
-            // if (count($invalidParameters) > 0) {
-                // $this->ok = false;
-                // if (empty($this->reason)) {
-                    // $this->reason = 'Invalid parameter(s): ' . implode(', ', $invalidParameters) . '.';
-                // }
-            // }
+        // $invalidParameters = array();
+        // foreach ($this->constraints as $name => $constraint) {
+        // // if (empty($constraint['messages']) || in_array($_POST['lti_message_type'], $constraint['messages'])) {
+        // // $ok = true;
+        // // if ($constraint['required']) {
+        // // if (!isset($_POST[$name]) || (strlen(trim($_POST[$name])) <= 0)) {
+        // // $invalidParameters[] = "{$name} (missing)";
+        // // $ok = false;
+        // // }
+        // // }
+        // // if ($ok && !is_null($constraint['max_length']) && isset($_POST[$name])) {
+        // // if (strlen(trim($_POST[$name])) > $constraint['max_length']) {
+        // // $invalidParameters[] = "{$name} (too long)";
+        // // }
+        // // }
+        // // }
+        // }
+        // if (count($invalidParameters) > 0) {
+        // $this->ok = false;
+        // if (empty($this->reason)) {
+        // $this->reason = 'Invalid parameter(s): ' . implode(', ', $invalidParameters) . '.';
+        // }
+        // }
         // }
 
-		$this->logger->debug('Still ok: ' . ($this->ok ? '1' : '0'));
-		if(!$this->ok)
-		{
-			$this->logger->debug('Reason: '  . $this->reason);
-		}
+        $this->logger->debug('Still ok: ' . ($this->ok ? '1' : '0'));
+        if (!$this->ok) {
+            $this->logger->debug('Reason: ' . $this->reason);
+        }
 
         if ($this->ok) {
 
@@ -633,7 +630,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->context->title = $title;
             }
 
-// Set the request resource link
+            // Set the request resource link
             if (isset($_POST['resource_link_id'])) {
                 $contentItemId = '';
                 if (isset($_POST['custom_content_item_id'])) {
@@ -651,7 +648,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $title = "Resource {$this->resourceLink->getId()}";
                 }
                 $this->resourceLink->title = $title;
-// Delete any existing custom parameters
+                // Delete any existing custom parameters
                 foreach ($this->consumer->getSettings() as $name => $value) {
                     if (strpos($name, 'custom_') === 0) {
                         $this->consumer->setSetting($name);
@@ -670,7 +667,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         $this->resourceLink->setSetting($name);
                     }
                 }
-// Save LTI parameters
+                // Save LTI parameters
                 foreach (self::$LTI_CONSUMER_SETTING_NAMES as $name) {
                     if (isset($_POST[$name])) {
                         $this->consumer->setSetting($name, $_POST[$name]);
@@ -694,7 +691,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                         $this->resourceLink->setSetting($name);
                     }
                 }
-// Save other custom parameters
+                // Save other custom parameters
                 foreach ($_POST as $name => $value) {
                     if ((strpos($name, 'custom_') === 0) &&
                         !in_array($name, array_merge(self::$LTI_CONSUMER_SETTING_NAMES, self::$LTI_CONTEXT_SETTING_NAMES, self::$LTI_RESOURCE_LINK_SETTING_NAMES))) {
@@ -703,7 +700,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
 
-// Set the user instance
+            // Set the user instance
             $userId = '';
             if (isset($_POST['user_id'])) {
                 $userId = trim($_POST['user_id']);
@@ -711,27 +708,27 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
             $this->user = User::fromResourceLink($this->resourceLink, $userId);
 
-// Set the user name
+            // Set the user name
             $firstname = (isset($_POST['lis_person_name_given'])) ? $_POST['lis_person_name_given'] : '';
             $lastname = (isset($_POST['lis_person_name_family'])) ? $_POST['lis_person_name_family'] : '';
             $fullname = (isset($_POST['lis_person_name_full'])) ? $_POST['lis_person_name_full'] : '';
             $this->user->setNames($firstname, $lastname, $fullname);
 
-// Set the user email
+            // Set the user email
             $email = (isset($_POST['lis_person_contact_email_primary'])) ? $_POST['lis_person_contact_email_primary'] : '';
             $this->user->setEmail($email, $this->defaultEmail);
 
-// Set the user image URI
+            // Set the user image URI
             if (isset($_POST['user_image'])) {
                 $this->user->image = $_POST['user_image'];
             }
 
-// Set the user roles
+            // Set the user roles
             if (isset($_POST['roles'])) {
                 $this->user->roles = self::parseRoles($_POST['roles']);
             }
 
-// Initialise the consumer and check for changes
+            // Initialise the consumer and check for changes
             $this->consumer->defaultEmail = $this->defaultEmail;
             if ($this->consumer->ltiVersion !== $_POST['lti_version']) {
                 $this->consumer->ltiVersion = $_POST['lti_version'];
@@ -748,12 +745,12 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 if (isset($_POST['tool_consumer_info_version'])) {
                     $version .= "-{$_POST['tool_consumer_info_version']}";
                 }
-// do not delete any existing consumer version if none is passed
+                // do not delete any existing consumer version if none is passed
                 if ($this->consumer->consumerVersion !== $version) {
                     $this->consumer->consumerVersion = $version;
                     $doSaveConsumer = true;
                 }
-            } else if (isset($_POST['ext_lms']) && ($this->consumer->consumerName !== $_POST['ext_lms'])) {
+            } elseif (isset($_POST['ext_lms']) && ($this->consumer->consumerName !== $_POST['ext_lms'])) {
                 $this->consumer->consumerVersion = $_POST['ext_lms'];
                 $doSaveConsumer = true;
             }
@@ -761,7 +758,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 if (is_null($this->consumer->consumerGuid)) {
                     $this->consumer->consumerGuid = $_POST['tool_consumer_instance_guid'];
                     $doSaveConsumer = true;
-                } else if (!$this->consumer->protected) {
+                } elseif (!$this->consumer->protected) {
                     $doSaveConsumer = ($this->consumer->consumerGuid !== $_POST['tool_consumer_instance_guid']);
                     if ($doSaveConsumer) {
                         $this->consumer->consumerGuid = $_POST['tool_consumer_instance_guid'];
@@ -773,17 +770,17 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $this->consumer->cssPath = $_POST['launch_presentation_css_url'];
                     $doSaveConsumer = true;
                 }
-            } else if (isset($_POST['ext_launch_presentation_css_url']) &&
+            } elseif (isset($_POST['ext_launch_presentation_css_url']) &&
                  ($this->consumer->cssPath !== $_POST['ext_launch_presentation_css_url'])) {
                 $this->consumer->cssPath = $_POST['ext_launch_presentation_css_url'];
                 $doSaveConsumer = true;
-            } else if (!empty($this->consumer->cssPath)) {
+            } elseif (!empty($this->consumer->cssPath)) {
                 $this->consumer->cssPath = null;
                 $doSaveConsumer = true;
             }
         }
 
-// Persist changes to consumer
+        // Persist changes to consumer
         if ($doSaveConsumer) {
             $this->consumer->save();
         }
@@ -798,33 +795,31 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
 
 // Check if a share arrangement is in place for this resource link
             // $this->ok = $this->checkForShare();//ACHTUNG TODO UWE
-// Persist changes to resource link
+            // Persist changes to resource link
             $this->resourceLink->save();
 
-// Save the user instance
+            // Save the user instance
             if (isset($_POST['lis_result_sourcedid'])) {
                 if ($this->user->ltiResultSourcedId !== $_POST['lis_result_sourcedid']) {
                     $this->user->ltiResultSourcedId = $_POST['lis_result_sourcedid'];
                     $this->user->save();
                 }
-            } else if (!empty($this->user->ltiResultSourcedId)) {
+            } elseif (!empty($this->user->ltiResultSourcedId)) {
                 $this->user->ltiResultSourcedId = '';
                 $this->user->save();
             }
         }
-// die ($this->reason.'---'.$this->ok);//ACHTUNG WEG!
+        // die ($this->reason.'---'.$this->ok);//ACHTUNG WEG!
         return $this->ok;
-
     }
 
-/**
- * Check if a share arrangement is in place.
- *
- * @return boolean True if no error is reported
- */
+    /**
+     * Check if a share arrangement is in place.
+     *
+     * @return boolean True if no error is reported
+     */
     private function checkForShare()
     {
-
         $ok = true;
         $doSaveResourceLink = true;
 
@@ -836,10 +831,10 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $ok = false;
                 $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
             } else {
-// Check if this is a new share key
+                // Check if this is a new share key
                 $shareKey = new ResourceLinkShareKey($this->resourceLink, $_POST['custom_share_key']);
                 if (!is_null($shareKey->primaryConsumerKey) && !is_null($shareKey->primaryResourceLinkId)) {
-// Update resource link with sharing primary resource link details
+                    // Update resource link with sharing primary resource link details
                     $key = $shareKey->primaryConsumerKey;
                     $id = $shareKey->primaryResourceLinkId;
                     $ok = ($key !== $this->consumer->getKey()) || ($id != $this->resourceLink->getId());
@@ -854,7 +849,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                             $this->user->getResourceLink()->primaryResourceLinkId = $id;
                             $this->user->getResourceLink()->shareApproved = $shareKey->autoApprove;
                             $this->user->getResourceLink()->updated = time();
-// Remove share key
+                            // Remove share key
                             $shareKey->delete();
                         } else {
                             $this->reason = 'An error occurred initialising your share arrangement.';
@@ -876,16 +871,16 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 }
             }
         } else {
-// Check no share is in place
+            // Check no share is in place
             $ok = is_null($id);
             if (!$ok) {
                 $this->reason = 'You have not requested to share a resource link but an arrangement is currently in place.';
             }
         }
-// Look up primary resource link
+        // Look up primary resource link
         if ($ok && !is_null($id)) {
             // $consumer = new ToolConsumer($key, $this->dataConnector);
-			$consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
+            $consumer = new ilLTIToolConsumer($_POST['oauth_consumer_key'], $this->dataConnector);
             $ok = !is_null($consumer->created);
             if ($ok) {
                 $resourceLink = ResourceLink::fromConsumer($consumer, $id);
@@ -902,24 +897,19 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
 
         return $ok;
-
     }
-/**
- * Validate a parameter value from an array of permitted values.
- *
- * @return boolean True if value is valid
- */
+    /**
+     * Validate a parameter value from an array of permitted values.
+     *
+     * @return boolean True if value is valid
+     */
     private function checkValue($value, $values, $reason)
     {
-
         $ok = in_array($value, $values);
         if (!$ok && !empty($reason)) {
             $this->reason = sprintf($reason, $value);
         }
 
         return $ok;
-
     }
-
 }
-?>

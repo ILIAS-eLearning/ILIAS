@@ -9,7 +9,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilMMItemTranslationGUI
 {
-
     use DIC;
     const P_TRANSLATIONS = 'translations';
     const P_DELETE = 'delete';
@@ -65,7 +64,8 @@ class ilMMItemTranslationGUI
     protected function initToolbar()
     {
         $this->toolbar()->addButton(
-            $this->lng()->txt("add_languages"), $this->ctrl()
+            $this->lng()->txt("add_languages"),
+            $this->ctrl()
             ->getLinkTarget($this, self::CMD_ADD_LANGUAGE)
         );
     }

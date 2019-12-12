@@ -6,51 +6,47 @@
  */
 class ilCertificateValueReplacementTest extends \PHPUnit_Framework_TestCase
 {
-	public function testReplace()
-	{
-		$replacement = new ilCertificateValueReplacement('/some/where');
+    public function testReplace()
+    {
+        $replacement = new ilCertificateValueReplacement('/some/where');
 
-		$placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
+        $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
 
-		$certificateContent = '<xml> 
+        $certificateContent = '<xml> 
 [BACKGROUND_IMAGE]
 Hurray [NAME] you have received [PRIZE]
 </xml>';
 
-		$backgroundPath = '/some/where/path/background.jpg';
+        $replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
-
-		$expected = '<xml> 
-/some/where/path/background.jpg
+        $expected = '<xml> 
+[BACKGROUND_IMAGE]
 Hurray Peter you have received a fantastic prize
 </xml>';
 
-		$this->assertEquals($expected, $replacedContent);
-	}
+        $this->assertEquals($expected, $replacedContent);
+    }
 
-	public function testReplaceClientWebDir()
-	{
-		$replacement = new ilCertificateValueReplacement('/some/where');
+    public function testReplaceClientWebDir()
+    {
+        $replacement = new ilCertificateValueReplacement('/some/where');
 
-		$placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
+        $placeholderValues = array('NAME' => 'Peter', 'PRIZE' => 'a fantastic prize');
 
-		$certificateContent = '<xml> 
+        $certificateContent = '<xml> 
 [BACKGROUND_IMAGE]
 [CLIENT_WEB_DIR]/background.jpg
 Hurray [NAME] you have received [PRIZE]
 </xml>';
 
-		$backgroundPath = '/some/where/path/background.jpg';
+        $replacedContent = $replacement->replace($placeholderValues, $certificateContent);
 
-		$replacedContent = $replacement->replace($placeholderValues, $certificateContent, $backgroundPath);
-
-		$expected = '<xml> 
-/some/where/path/background.jpg
-/some/where/background.jpg
+        $expected = '<xml> 
+[BACKGROUND_IMAGE]
+[CLIENT_WEB_DIR]/background.jpg
 Hurray Peter you have received a fantastic prize
 </xml>';
 
-		$this->assertEquals($expected, $replacedContent);
-	}
+        $this->assertEquals($expected, $replacedContent);
+    }
 }

@@ -7,8 +7,8 @@
  */
 interface ilMailAddressList
 {
-	/**
-	 * @return \ilMailAddress[]
-	 */
-	public function value(): array;
+    /**
+     * @return \ilMailAddress[]
+     */
+    public function value() : array;
 }

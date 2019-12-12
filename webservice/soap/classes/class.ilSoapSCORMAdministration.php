@@ -35,171 +35,162 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 class ilSoapSCORMAdministration extends ilSoapAdministration
 {
 
-  	/**
-	 * get ims manifest xml
-	 *
-	 * @param string $sid
-	 * @param int $ref_id
-	 *
-	 * @return xml following scorm.dtd
-	 */
+    /**
+     * get ims manifest xml
+     *
+     * @param string $sid
+     * @param int $ref_id
+     *
+     * @return xml following scorm.dtd
+     */
 
-	function getIMSManifestXML ($sid, $ref_id) 
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
-		
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-		if(!strlen($ref_id))
-		{
-			return $this->__raiseError('No ref id given. Aborting!',
-									   'Client');
-		}
-		global $DIC;
+    public function getIMSManifestXML($sid, $ref_id)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+        
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+        if (!strlen($ref_id)) {
+            return $this->__raiseError(
+                'No ref id given. Aborting!',
+                'Client'
+            );
+        }
+        global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+        $rbacsystem = $DIC['rbacsystem'];
+        $tree = $DIC['tree'];
+        $ilLog = $DIC['ilLog'];
 
-		// get obj_id
-		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
-		{
-			return $this->__raiseError('No exercise found for id: '.$ref_id,
-									   'Client');
-		}
+        // get obj_id
+        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
+            return $this->__raiseError(
+                'No exercise found for id: ' . $ref_id,
+                'Client'
+            );
+        }
 
-		if(ilObject::_isInTrash($ref_id))
-		{
-			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
-		}
+        if (ilObject::_isInTrash($ref_id)) {
+            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+        }
 
-		// Check access
-		$permission_ok = false;
-		foreach($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id)
-		{
-			if($rbacsystem->checkAccess('read',$ref_id))
-			{
-				$permission_ok = true;
-				break;
-			}
-		}
+        // Check access
+        $permission_ok = false;
+        foreach ($ref_ids = ilObject::_getAllReferences($obj_id) as $ref_id) {
+            if ($rbacsystem->checkAccess('read', $ref_id)) {
+                $permission_ok = true;
+                break;
+            }
+        }
 
-		if(!$permission_ok)
-		{
-			return $this->__raiseError('No permission to read the object with id: '.$ref_id,
-									   'Server');
-		}
+        if (!$permission_ok) {
+            return $this->__raiseError(
+                'No permission to read the object with id: ' . $ref_id,
+                'Server'
+            );
+        }
 
-		$lm_obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
-		if (!is_object($lm_obj) || $lm_obj->getType()!= "sahs")
-		{
-			return $this->__raiseError('Wrong obj id or type for scorm object with id '.$ref_id,
-									   'Server');
-		}
-		// get scorm xml
-		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
-		require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
+        $lm_obj = ilObjectFactory::getInstanceByObjId($obj_id, false);
+        if (!is_object($lm_obj) || $lm_obj->getType()!= "sahs") {
+            return $this->__raiseError(
+                'Wrong obj id or type for scorm object with id ' . $ref_id,
+                'Server'
+            );
+        }
+        // get scorm xml
+        require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
+        require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMResource.php");
 
-		$imsFilename = $lm_obj->getDataDirectory().DIRECTORY_SEPARATOR."imsmanifest.xml";
+        $imsFilename = $lm_obj->getDataDirectory() . DIRECTORY_SEPARATOR . "imsmanifest.xml";
 
-		if (!file_exists($imsFilename)) {
-			return $this->__raiseError('Could not find manifest file for object with ref id '.$ref_id,
-									   'Server');
-			
-		}
-		return file_get_contents($imsFilename);
-	}
-	
-	public function hasSCORMCertificate($sid, $ref_id, $usr_id)
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
+        if (!file_exists($imsFilename)) {
+            return $this->__raiseError(
+                'Could not find manifest file for object with ref id ' . $ref_id,
+                'Server'
+            );
+        }
+        return file_get_contents($imsFilename);
+    }
+    
+    public function hasSCORMCertificate($sid, $ref_id, $usr_id)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
 
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
-		if(!strlen($ref_id))
-		{
-			return $this->__raiseError('No ref id given. Aborting!',
-									   'Client');
-		}
-		global $DIC;
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+        if (!strlen($ref_id)) {
+            return $this->__raiseError(
+                'No ref id given. Aborting!',
+                'Client'
+            );
+        }
+        global $DIC;
 
-		$rbacsystem = $DIC['rbacsystem'];
-		$tree = $DIC['tree'];
-		$ilLog = $DIC['ilLog'];
+        $rbacsystem = $DIC['rbacsystem'];
+        $tree = $DIC['tree'];
+        $ilLog = $DIC['ilLog'];
 
-		// get obj_id
-		if(!$obj_id = ilObject::_lookupObjectId($ref_id))
-		{
-			return $this->__raiseError('No exercise found for id: '.$ref_id,
-									   'Client');
-		}
+        // get obj_id
+        if (!$obj_id = ilObject::_lookupObjectId($ref_id)) {
+            return $this->__raiseError(
+                'No exercise found for id: ' . $ref_id,
+                'Client'
+            );
+        }
 
-		if(ilObject::_isInTrash($ref_id))
-		{
-			return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
-		}
+        if (ilObject::_isInTrash($ref_id)) {
+            return $this->__raiseError("Parent with ID $ref_id has been deleted.", 'Client');
+        }
 
-		$certValidator = new ilCertificateUserCertificateAccessValidator();
-		$result = $certValidator->validate($usr_id, $obj_id);
+        $certValidator = new ilCertificateUserCertificateAccessValidator();
+        $result = $certValidator->validate($usr_id, $obj_id);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getSCORMCompletionStatus($sid, $a_usr_id, $a_ref_id)
-	{
-		$this->initAuth($sid);
-		$this->initIlias();
-		
-		if(!$this->__checkSession($sid))
-		{
-			return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
-		}
+    public function getSCORMCompletionStatus($sid, $a_usr_id, $a_ref_id)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+        
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
 
-		if(!strlen($a_ref_id))
-		{
-			return $this->__raiseError('No ref_id given. Aborting!', 'Client');
-		}
-		
-		include_once 'include/inc.header.php';
-		
-		// get obj_id
-		if(!$obj_id = ilObject::_lookupObjectId($a_ref_id))
-		{
-			return $this->__raiseError('No scorm module found for id: '.$a_ref_id,
-									   'Client');
-		}	
-		
-		include_once 'Services/Tracking/classes/class.ilLPStatus.php';		
-		include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
-		
-		if(!ilObjUserTracking::_enabledLearningProgress())
-		{
-			return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
-		}	
-									
-		$status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);		
-		if($status == ilLPStatus::LP_STATUS_COMPLETED_NUM)
-		{
-			return 'completed';
-		}
-		else if($status == ilLPStatus::LP_STATUS_FAILED_NUM)
-		{
-			return 'failed';
-		}
-		else if($status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
-		{
-			return 'in_progress';
-		}
-		else
-		{
-			return 'not_attempted';
-		}
-	}
+        if (!strlen($a_ref_id)) {
+            return $this->__raiseError('No ref_id given. Aborting!', 'Client');
+        }
+        
+        include_once 'include/inc.header.php';
+        
+        // get obj_id
+        if (!$obj_id = ilObject::_lookupObjectId($a_ref_id)) {
+            return $this->__raiseError(
+                'No scorm module found for id: ' . $a_ref_id,
+                'Client'
+            );
+        }
+        
+        include_once 'Services/Tracking/classes/class.ilLPStatus.php';
+        include_once 'Services/Tracking/classes/class.ilObjUserTracking.php';
+        
+        if (!ilObjUserTracking::_enabledLearningProgress()) {
+            return $this->__raiseError('Learning progress not enabled in this installation. Aborting!', 'Server');
+        }
+                                    
+        $status = ilLPStatus::_lookupStatus($obj_id, $a_usr_id);
+        if ($status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+            return 'completed';
+        } elseif ($status == ilLPStatus::LP_STATUS_FAILED_NUM) {
+            return 'failed';
+        } elseif ($status == ilLPStatus::LP_STATUS_IN_PROGRESS_NUM) {
+            return 'in_progress';
+        } else {
+            return 'not_attempted';
+        }
+    }
 }
-?>

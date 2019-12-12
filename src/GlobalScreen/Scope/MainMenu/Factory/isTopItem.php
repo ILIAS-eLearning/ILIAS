@@ -7,5 +7,4 @@
  */
 interface isTopItem extends isItem
 {
-
 }

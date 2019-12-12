@@ -9,7 +9,7 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceXm
  *
  * @author Fabian Wolf <wolf@leifos.com>
  * @extends ilContainerReferenceXmlParser
- * 
+ *
  * @ingroup ModulesGroupReference
  */
 class ilGroupReferenceXmlParser extends ilContainerReferenceXmlParser

@@ -16,144 +16,142 @@ include_once("./Modules/LearningModule/classes/class.ilLMObject.php");
  */
 class ilLMQuestionListTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilAccessHandler
-	 */
-	protected $access;
+    /**
+     * @var ilAccessHandler
+     */
+    protected $access;
 
-	/**
-	 * @var ilRbacSystem
-	 */
-	protected $rbacsystem;
-
-
-	/**
-	* Constructor
-	*/
-	function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
-	{
-		global $DIC;
-
-		$this->ctrl = $DIC->ctrl();
-		$this->lng = $DIC->language();
-		$this->access = $DIC->access();
-		$this->rbacsystem = $DIC->rbac()->system();
-		$ilCtrl = $DIC->ctrl();
-		$lng = $DIC->language();
-		$ilAccess = $DIC->access();
-		$lng = $DIC->language();
-		$rbacsystem = $DIC->rbac()->system();
-
-		$this->lm = $a_lm;
-
-		$this->setId("lm_qst".$this->lm->getId());
-
-		parent::__construct($a_parent_obj, $a_parent_cmd);
-//		$this->setTitle($this->lng->txt("users"));
-
-		//$this->addColumn("", "", "1", true);
-		$this->addColumn($this->lng->txt("pg"));
-		$this->addColumn($this->lng->txt("question"));
-		$this->addColumn($this->lng->txt("cont_users_answered"));
-		$this->addColumn($this->lng->txt("cont_correct_after_first"));
-		$this->addColumn($this->lng->txt("cont_second"));
-		$this->addColumn($this->lng->txt("cont_third_and_more"));
-		$this->addColumn($this->lng->txt("cont_never"));
-
-		$this->setExternalSorting(true);
-		$this->setExternalSegmentation(true);
-		$this->setEnableHeader(true);
-		//$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
-		$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, $this->parent_cmd));
-		$this->setRowTemplate("tpl.lm_question_row.html", "Modules/LearningModule");
-		//$this->disable("footer");
-		$this->setEnableTitle(true);
-//		$this->initFilter();
-//		$this->setFilterCommand("applyFilter");
-//		$this->setDefaultOrderField("login");
-//		$this->setDefaultOrderDirection("asc");
-
-//		$this->setSelectAllCheckbox("id[]");
-
-//		$this->addMultiCommand("activateUsers", $lng->txt("activate"));
-
-		$this->getItems();
-	}
-
-	/**
-	* Get user items
-	*/
-	function getItems()
-	{
-		$lng = $this->lng;
-//if ($GLOBALS["kk"]++ == 1) nj();
-
-		$this->determineOffsetAndOrder();
-
-		include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
-
-		$questions = ilLMPageObject::queryQuestionsOfLearningModule(
-			$this->lm->getId(),
-			ilUtil::stripSlashes($this->getOrderField()),
-			ilUtil::stripSlashes($this->getOrderDirection()),
-			ilUtil::stripSlashes($this->getOffset()),
-			ilUtil::stripSlashes($this->getLimit())
-			);
-
-		if (count($questions["set"]) == 0 && $this->getOffset() > 0)
-		{
-			$this->resetOffset();
-			$questions = ilLMPageObject::queryQuestionsOfLearningModule(
-				$this->lm->getId(),
-				ilUtil::stripSlashes($this->getOrderField()),
-				ilUtil::stripSlashes($this->getOrderDirection()),
-				ilUtil::stripSlashes($this->getOffset()),
-				ilUtil::stripSlashes($this->getLimit())
-				);
-		}
-
-		$this->setMaxCount($questions["cnt"]);
-		$this->setData($questions["set"]);
-	}
+    /**
+     * @var ilRbacSystem
+     */
+    protected $rbacsystem;
 
 
-	/**
-	* Fill table row
-	*/
-	protected function fillRow($a_set)
-	{
-		$ilCtrl = $this->ctrl;
-		$lng = $this->lng;
+    /**
+    * Constructor
+    */
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_lm)
+    {
+        global $DIC;
 
-		$this->tpl->setVariable("PAGE_TITLE",
-			ilLMObject::_lookupTitle($a_set["page_id"]));
-		$this->tpl->setVariable("QUESTION",
-			assQuestion::_getQuestionText($a_set["question_id"]));
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->access = $DIC->access();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $ilAccess = $DIC->access();
+        $lng = $DIC->language();
+        $rbacsystem = $DIC->rbac()->system();
 
-		include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
-		$stats = ilPageQuestionProcessor::getQuestionStatistics($a_set["question_id"]);
+        $this->lm = $a_lm;
 
-		$this->tpl->setVariable("VAL_ANSWERED", (int) $stats["all"]);
-		if ($stats["all"] == 0)
-		{
-			$this->tpl->setVariable("VAL_CORRECT_FIRST", 0);
-			$this->tpl->setVariable("VAL_CORRECT_SECOND", 0);
-			$this->tpl->setVariable("VAL_CORRECT_THIRD_OR_MORE", 0);
-			$this->tpl->setVariable("VAL_NEVER", 0);
-		}
-		else
-		{
-			$this->tpl->setVariable("VAL_CORRECT_FIRST", $stats["first"].
-				" (".(100/$stats["all"] * $stats["first"])." %)");
-			$this->tpl->setVariable("VAL_CORRECT_SECOND", $stats["second"].
-				" (".(100/$stats["all"] * $stats["second"])." %)");
-			$this->tpl->setVariable("VAL_CORRECT_THIRD_AND_MORE", $stats["third_or_more"].
-				" (".(100/$stats["all"] * $stats["third_or_more"])." %)");
-			$nev = $stats["all"] - $stats["first"] - $stats["second"] - $stats["third_or_more"];
-			$this->tpl->setVariable("VAL_NEVER", $nev.
-				" (".(100/$stats["all"] * $nev)." %)");
-		}
-	}
+        $this->setId("lm_qst" . $this->lm->getId());
+
+        parent::__construct($a_parent_obj, $a_parent_cmd);
+        //		$this->setTitle($this->lng->txt("users"));
+
+        //$this->addColumn("", "", "1", true);
+        $this->addColumn($this->lng->txt("pg"));
+        $this->addColumn($this->lng->txt("question"));
+        $this->addColumn($this->lng->txt("cont_users_answered"));
+        $this->addColumn($this->lng->txt("cont_correct_after_first"));
+        $this->addColumn($this->lng->txt("cont_second"));
+        $this->addColumn($this->lng->txt("cont_third_and_more"));
+        $this->addColumn($this->lng->txt("cont_never"));
+
+        $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
+        $this->setEnableHeader(true);
+        //$this->setFormAction($ilCtrl->getFormAction($this->parent_obj, "applyFilter"));
+        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj, $this->parent_cmd));
+        $this->setRowTemplate("tpl.lm_question_row.html", "Modules/LearningModule");
+        //$this->disable("footer");
+        $this->setEnableTitle(true);
+        //		$this->initFilter();
+        //		$this->setFilterCommand("applyFilter");
+        //		$this->setDefaultOrderField("login");
+        //		$this->setDefaultOrderDirection("asc");
+
+        //		$this->setSelectAllCheckbox("id[]");
+
+        //		$this->addMultiCommand("activateUsers", $lng->txt("activate"));
+
+        $this->getItems();
+    }
+
+    /**
+    * Get user items
+    */
+    public function getItems()
+    {
+        $lng = $this->lng;
+        //if ($GLOBALS["kk"]++ == 1) nj();
+
+        $this->determineOffsetAndOrder();
+
+        include_once("./Modules/LearningModule/classes/class.ilLMPageObject.php");
+
+        $questions = ilLMPageObject::queryQuestionsOfLearningModule(
+            $this->lm->getId(),
+            ilUtil::stripSlashes($this->getOrderField()),
+            ilUtil::stripSlashes($this->getOrderDirection()),
+            ilUtil::stripSlashes($this->getOffset()),
+            ilUtil::stripSlashes($this->getLimit())
+        );
+
+        if (count($questions["set"]) == 0 && $this->getOffset() > 0) {
+            $this->resetOffset();
+            $questions = ilLMPageObject::queryQuestionsOfLearningModule(
+                $this->lm->getId(),
+                ilUtil::stripSlashes($this->getOrderField()),
+                ilUtil::stripSlashes($this->getOrderDirection()),
+                ilUtil::stripSlashes($this->getOffset()),
+                ilUtil::stripSlashes($this->getLimit())
+            );
+        }
+
+        $this->setMaxCount($questions["cnt"]);
+        $this->setData($questions["set"]);
+    }
+
+
+    /**
+    * Fill table row
+    */
+    protected function fillRow($a_set)
+    {
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
+
+        $this->tpl->setVariable(
+            "PAGE_TITLE",
+            ilLMObject::_lookupTitle($a_set["page_id"])
+        );
+        $this->tpl->setVariable(
+            "QUESTION",
+            assQuestion::_getQuestionText($a_set["question_id"])
+        );
+
+        include_once("./Services/COPage/classes/class.ilPageQuestionProcessor.php");
+        $stats = ilPageQuestionProcessor::getQuestionStatistics($a_set["question_id"]);
+
+        $this->tpl->setVariable("VAL_ANSWERED", (int) $stats["all"]);
+        if ($stats["all"] == 0) {
+            $this->tpl->setVariable("VAL_CORRECT_FIRST", 0);
+            $this->tpl->setVariable("VAL_CORRECT_SECOND", 0);
+            $this->tpl->setVariable("VAL_CORRECT_THIRD_OR_MORE", 0);
+            $this->tpl->setVariable("VAL_NEVER", 0);
+        } else {
+            $this->tpl->setVariable("VAL_CORRECT_FIRST", $stats["first"] .
+                " (" . (100/$stats["all"] * $stats["first"]) . " %)");
+            $this->tpl->setVariable("VAL_CORRECT_SECOND", $stats["second"] .
+                " (" . (100/$stats["all"] * $stats["second"]) . " %)");
+            $this->tpl->setVariable("VAL_CORRECT_THIRD_AND_MORE", $stats["third_or_more"] .
+                " (" . (100/$stats["all"] * $stats["third_or_more"]) . " %)");
+            $nev = $stats["all"] - $stats["first"] - $stats["second"] - $stats["third_or_more"];
+            $this->tpl->setVariable("VAL_NEVER", $nev .
+                " (" . (100/$stats["all"] * $nev) . " %)");
+        }
+    }
 }
-
-?>

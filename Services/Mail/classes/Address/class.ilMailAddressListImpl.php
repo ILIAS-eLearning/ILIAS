@@ -7,26 +7,27 @@
  */
 class ilMailAddressListImpl implements ilMailAddressList
 {
-	/** @var \ilMailAddress */
-	protected $addresses = [];
+    /** @var \ilMailAddress */
+    protected $addresses = [];
 
-	/**
-	 * ilMailAddressListImpl constructor.
-	 * @param \ilMailAddress[] $addresses
-	 */
-	public function __construct(array $addresses)
-	{
-		// Ensure valid types in array
-		array_walk($addresses, function(\ilMailAddress $address) {});
+    /**
+     * ilMailAddressListImpl constructor.
+     * @param \ilMailAddress[] $addresses
+     */
+    public function __construct(array $addresses)
+    {
+        // Ensure valid types in array
+        array_walk($addresses, function (\ilMailAddress $address) {
+        });
 
-		$this->addresses = $addresses;
-	}
+        $this->addresses = $addresses;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function value(): array
-	{
-		return $this->addresses;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function value() : array
+    {
+        return $this->addresses;
+    }
 }

@@ -12,7 +12,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMSubItemGUI extends ilMMAbstractItemGUI
 {
-
     use Hasher;
     const CMD_VIEW_SUB_ITEMS = 'subtab_subitems';
     const CMD_ADD = 'subitem_add';
@@ -57,7 +56,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
                 $this->access->checkAccessAndThrowException('visible,read');
                 $this->applyFilter();
                 break;
-            case self::CMD_RESET_FILTER :
+            case self::CMD_RESET_FILTER:
                 $this->access->checkAccessAndThrowException('visible,read');
                 $this->resetFilter();
                 break;

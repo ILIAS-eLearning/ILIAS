@@ -6,23 +6,23 @@
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- * 
+ *
  * @package		Modules/TestQuestionPool
  */
 interface ilQuestionChangeListener
 {
-	/**
-	 * @param assQuestion $question
-	 */
-	public function notifyQuestionCreated(assQuestion $question);
+    /**
+     * @param assQuestion $question
+     */
+    public function notifyQuestionCreated(assQuestion $question);
 
-	/**
-	 * @param assQuestion $question
-	 */
-	public function notifyQuestionEdited(assQuestion $question);
-	
-	/**
-	 * @param assQuestion $question
-	 */
-	public function notifyQuestionDeleted(assQuestion $question);
+    /**
+     * @param assQuestion $question
+     */
+    public function notifyQuestionEdited(assQuestion $question);
+    
+    /**
+     * @param assQuestion $question
+     */
+    public function notifyQuestionDeleted(assQuestion $question);
 }

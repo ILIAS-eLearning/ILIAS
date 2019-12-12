@@ -73,13 +73,10 @@ abstract class ilCloudPluginGUI
 
         $cmd = $ilCtrl->getCmd();
 
-        switch ($cmd)
-        {
+        switch ($cmd) {
             default:
                 $this->$cmd();
                 break;
         }
     }
 }
-
-?>

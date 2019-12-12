@@ -7,37 +7,37 @@
  */
 class ilTermsOfServiceEntityFactoryTest extends \ilTermsOfServiceBaseTest
 {
-	/**
-	 *
-	 */
-	public function testInstanceCanBeCreated()
-	{
-		$factory = new \ilTermsOfServiceEntityFactory();
+    /**
+     *
+     */
+    public function testInstanceCanBeCreated()
+    {
+        $factory = new \ilTermsOfServiceEntityFactory();
 
-		$this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
-	}
+        $this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
+    }
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testExceptionIsRaisedWhenUnknownEntityIsRequested()
-	{
-		$this->assertException(\InvalidArgumentException::class);
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionIsRaisedWhenUnknownEntityIsRequested()
+    {
+        $this->assertException(\InvalidArgumentException::class);
 
-		$factory = new \ilTermsOfServiceEntityFactory();
-		$factory->getByName('PHP Unit');
-	}
+        $factory = new \ilTermsOfServiceEntityFactory();
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 *
-	 */
-	public function testAcceptanceEntityIsReturnedWhenRequestedByName()
-	{
-		$factory = new \ilTermsOfServiceEntityFactory();
+    /**
+     *
+     */
+    public function testAcceptanceEntityIsReturnedWhenRequestedByName()
+    {
+        $factory = new \ilTermsOfServiceEntityFactory();
 
-		$this->assertInstanceOf(
-			'ilTermsOfServiceAcceptanceEntity',
-			$factory->getByName('ilTermsOfServiceAcceptanceEntity')
-		);
-	}
+        $this->assertInstanceOf(
+            'ilTermsOfServiceAcceptanceEntity',
+            $factory->getByName('ilTermsOfServiceAcceptanceEntity')
+        );
+    }
 }

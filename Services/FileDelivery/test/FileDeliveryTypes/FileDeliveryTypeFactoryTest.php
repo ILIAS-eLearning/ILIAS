@@ -25,73 +25,75 @@ use PHPUnit\Framework\TestCase;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class FileDeliveryTypeFactoryTest extends TestCase {
+class FileDeliveryTypeFactoryTest extends TestCase
+{
+    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+    /**
+     * @var GlobalHttpState|MockInterface $http
+     */
+    private $http;
+    /**
+     * @var FileDeliveryTypeFactory $subject
+     */
+    private $subject;
 
-	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-	/**
-	 * @var GlobalHttpState|MockInterface $http
-	 */
-	private $http;
-	/**
-	 * @var FileDeliveryTypeFactory $subject
-	 */
-	private $subject;
+    protected function setUp()
+    {
+        parent::setUp();
 
-	protected function setUp() {
-		parent::setUp();
+        $this->http = Mockery::mock(GlobalHttpState::class);
 
-		$this->http = Mockery::mock(GlobalHttpState::class);
+        //the factory should not interact with the service.
+        $this->http->shouldNotReceive();
 
-		//the factory should not interact with the service.
-		$this->http->shouldNotReceive();
-
-		$this->subject = new FileDeliveryTypeFactory($this->http);
-	}
-
-
-	/**
-	 * @Test
-	 */
-	public function testCreatePHPFileDeliveryWhichShouldSucceed() {
-
-		$result = $this->subject->getInstance(DeliveryMethod::PHP);
-
-		$this->assertInstanceOf(PHP::class, $result);
-	}
-
-	/**
-	 * @Test
-	 */
-	public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed() {
-
-		$result = $this->subject->getInstance(DeliveryMethod::PHP_CHUNKED);
-
-		$this->assertInstanceOf(PHPChunked::class, $result);
-	}
+        $this->subject = new FileDeliveryTypeFactory($this->http);
+    }
 
 
-	/**
-	 * @Test
-	 */
-	public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance() {
+    /**
+     * @Test
+     */
+    public function testCreatePHPFileDeliveryWhichShouldSucceed()
+    {
+        $result = $this->subject->getInstance(DeliveryMethod::PHP);
 
-		//fetch the php file delivery type two times to check that only one instance is created.
-		$firstResult = $this->subject->getInstance(DeliveryMethod::PHP);
-		$secondResult = $this->subject->getInstance(DeliveryMethod::PHP);
+        $this->assertInstanceOf(PHP::class, $result);
+    }
 
-		$this->assertEquals($firstResult, $secondResult);
-	}
+    /**
+     * @Test
+     */
+    public function testCreatePHPChunkedFileDeliveryWhichShouldSucceed()
+    {
+        $result = $this->subject->getInstance(DeliveryMethod::PHP_CHUNKED);
 
-	/**
-	 * @Test
-	 */
-	public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail() {
+        $this->assertInstanceOf(PHPChunked::class, $result);
+    }
 
-		//get instance should throw an exception if the file delivery type is not known.
-		$type = 'unknown file delivery type';
-		$this->setExpectedException(ilException::class, "Unknown file delivery type \"$type\"");
 
-		$this->subject->getInstance('unknown file delivery type');
-	}
+    /**
+     * @Test
+     */
+    public function testCreatePHPFileDeliveryTypeWhichShouldYieldTheSameInstance()
+    {
 
+        //fetch the php file delivery type two times to check that only one instance is created.
+        $firstResult = $this->subject->getInstance(DeliveryMethod::PHP);
+        $secondResult = $this->subject->getInstance(DeliveryMethod::PHP);
+
+        $this->assertEquals($firstResult, $secondResult);
+    }
+
+    /**
+     * @Test
+     */
+    public function testCreateAnUnknownFileDeliveryTypeWhichShouldFail()
+    {
+
+        //get instance should throw an exception if the file delivery type is not known.
+        $type = 'unknown file delivery type';
+        $this->setExpectedException(ilException::class, "Unknown file delivery type \"$type\"");
+
+        $this->subject->getInstance('unknown file delivery type');
+    }
 }

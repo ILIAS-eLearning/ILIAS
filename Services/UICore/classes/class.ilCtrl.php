@@ -1048,7 +1048,7 @@ class ilCtrl
             $xml_style = false;
         }
 
-        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch);
+        $script = $this->getLinkTargetByClass($a_class, "post", "", $a_asynch, $xml_style);
         if ($a_fallback_cmd != "") {
             $script = ilUtil::appendUrlParameterString($script, "fallbackCmd=" . $a_fallback_cmd, $xml_style);
         }
@@ -1781,7 +1781,7 @@ class ilCtrl
             " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
             " child = " . $ilDB->quote($a_child, "text") . " AND " .
             " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return;
         }
