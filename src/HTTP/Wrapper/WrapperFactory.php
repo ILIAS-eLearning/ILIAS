@@ -43,6 +43,6 @@ class WrapperFactory
 
     public function cookie() : RequestWrapper
     {
-        return new ArrayBasedRequestWrapper($_COOKIE);
+        return new ArrayBasedRequestWrapper($this->request->getCookieParams());
     }
 }

@@ -66,7 +66,7 @@ class DirectArrayAccessDropInReplacement implements \ArrayAccess
      */
     public function offsetSet($offset, $value) : void
     {
-        // throw new \LogicException("Modifying global Request-Array such as \$_GET is not allowed!");
+        // throw new \OutOfBoundsException("Modifying global Request-Array such as \$_GET is not allowed!");
         $this->raw_values[$offset] = $value;
     }
 
