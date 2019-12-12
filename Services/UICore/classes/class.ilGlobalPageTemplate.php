@@ -532,7 +532,17 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function getOnLoadCodeForAsynch()
     {
-        throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+        // see e.g. bug #26413
+        $js = "";
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $js .= $code->getContent() . "\n";
+        }
+        if ($js) {
+            return '<script type="text/javascript">' . "\n" .
+                $js .
+                '</script>' . "\n";
+        }
+        return "";
     }
 
 
