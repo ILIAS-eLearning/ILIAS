@@ -30,6 +30,11 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
     {
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
+
+        $title = $this->dic->language()->txt("objs_fold");
+
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("fold", $title)->withIsOutlined(true);
+
         if ($additional_data->is(self::SHOW_WS_TREE, true)) {
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);
@@ -39,7 +44,8 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
             };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
             $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Folders")
+                ->withTitle($title)
+                ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l) {
                     return $l($this->getTree());
                 });
