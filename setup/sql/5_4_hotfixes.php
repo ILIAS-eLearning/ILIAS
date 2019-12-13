@@ -1251,7 +1251,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <#83>
 <?php
 $checked_files = [];
-$fnf_entries = [];
+$fnf_entries = []; // fnf = file not found
 $default_bg_img_path = '/certificates/default/background.jpg';
 $checked_files[$default_bg_img_path] = file_exists(CLIENT_DATA_DIR . $default_bg_img_path);
 
@@ -1282,7 +1282,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
             if ($checked_files[$tmp_img_path] === true) {
                 $background_image_path = $tmp_img_path;
             } else {
-                $fnf_entries[$row['id']] = $row['background_image_path'];
+                $fnf_entries[$row['id']] = $tmp_img_path;
             }
         }
     }
