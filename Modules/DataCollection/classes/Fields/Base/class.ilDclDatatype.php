@@ -15,7 +15,6 @@
  */
 class ilDclDatatype
 {
-
     const INPUTFORMAT_NONE = 0;
     const INPUTFORMAT_NUMBER = 1;
     const INPUTFORMAT_TEXT = 2;
@@ -189,5 +188,3 @@ class ilDclDatatype
         $this->setStorageLocation($rec["storage_location"]);
     }
 }
-
-?>

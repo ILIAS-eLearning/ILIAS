@@ -11,13 +11,13 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesStyleSuite extends TestSuite
 {
-	public static function suite()
-	{
-		$suite = new ilServicesStyleSuite();
+    public static function suite()
+    {
+        $suite = new ilServicesStyleSuite();
 
-		// add each test class of the component
-		include_once("./Services/Style/System/test/ilServicesStyleSystemSuite.php");
-		$suite->addTestSuite("ilServicesStyleSystemSuite");
-		return $suite;
+        // add each test class of the component
+        include_once("./Services/Style/System/test/ilServicesStyleSystemSuite.php");
+        $suite->addTestSuite("ilServicesStyleSystemSuite");
+        return $suite;
     }
 }

@@ -92,7 +92,7 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     /**
      * @inheritdoc
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }
@@ -176,10 +176,12 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
 
         foreach ($this->initialPersistedCriteria as $criterionAssignment) {
             /** @var $criterionAssignment ilTermsOfServiceDocumentCriterionAssignment */
-            $found = array_filter($this->criteria,
+            $found = array_filter(
+                $this->criteria,
                 function (ilTermsOfServiceDocumentCriterionAssignment $criterionToMatch) use ($criterionAssignment) {
                     return $criterionToMatch->getId() == $criterionAssignment->getId();
-                });
+                }
+            );
 
             if (0 === count($found)) {
                 $criterionAssignment->delete();
@@ -225,7 +227,8 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
             if ($currentAssignment->equals($criterionAssignment)) {
                 throw new ilTermsOfServiceDuplicateCriterionAssignmentException(sprintf(
                     "Cannot attach duplicate criterion with criterion typeIdent %s and value: %s",
-                    $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), true)
+                    $criterionAssignment->getCriterionId(),
+                    var_export($criterionAssignment->getCriterionValue(), true)
                 ));
             }
         }
@@ -241,17 +244,20 @@ class ilTermsOfServiceDocument extends ActiveRecord implements ilTermsOfServiceS
     {
         $numCriteriaBeforeRemoval = count($this->criteria);
 
-        $this->criteria = array_filter($this->criteria,
+        $this->criteria = array_filter(
+            $this->criteria,
             function (ilTermsOfServiceDocumentCriterionAssignment $currentAssignment) use ($criterionAssignment) {
                 return !$currentAssignment->equals($criterionAssignment);
-            });
+            }
+        );
 
         $numCriteriaAfterRemoval = count($this->criteria);
 
         if ($numCriteriaAfterRemoval === $numCriteriaBeforeRemoval) {
             throw new OutOfBoundsException(sprintf(
                 "Could not find any criterion with criterion typeIdent %s and value: %s",
-                $criterionAssignment->getCriterionId(), var_export($criterionAssignment->getCriterionValue(), true)
+                $criterionAssignment->getCriterionId(),
+                var_export($criterionAssignment->getCriterionValue(), true)
             ));
         }
     }

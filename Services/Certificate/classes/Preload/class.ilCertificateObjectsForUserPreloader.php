@@ -47,7 +47,7 @@ class ilCertificateObjectsForUserPreloader
      * @param int $objId
      * @return bool
      */
-    public function isPreloaded(int $userId, int $objId): bool
+    public function isPreloaded(int $userId, int $objId) : bool
     {
         if (false === array_key_exists($userId, self::$certificates)) {
             return false;

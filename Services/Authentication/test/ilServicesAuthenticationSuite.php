@@ -7,12 +7,11 @@ class ilServicesAuthenticationSuite extends TestSuite
 {
     public static function suite()
     {
-		$suite = new ilServicesAuthenticationSuite();
-		
-		include_once("./Services/Authentication/test/ilSessionTest.php");
-		$suite->addTestSuite("ilSessionTest");
-		
-		return $suite;
+        $suite = new ilServicesAuthenticationSuite();
+        
+        include_once("./Services/Authentication/test/ilSessionTest.php");
+        $suite->addTestSuite("ilSessionTest");
+        
+        return $suite;
     }
 }
-?>

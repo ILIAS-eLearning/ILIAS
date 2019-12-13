@@ -95,7 +95,7 @@ class ilCtrl
         $this->initializeMemberVariables();
 
         // this information should go to xml files one day
-        $this->stored_trees = array("ilrepositorygui", "ilpersonaldesktopgui",
+        $this->stored_trees = array("ilrepositorygui", "ildashboardgui",
             "illmpresentationgui", "illmeditorgui",
             "iladministrationgui");
     }
@@ -156,7 +156,6 @@ class ilCtrl
             }
 
             $m_rec = ilComponent::getComponentInfo('Services', $service);
-
         }
         
         // forward processing to base class
@@ -1815,7 +1814,7 @@ class ilCtrl
      * @return array
      * @throws ilCtrlException
      */
-    public function getCurrentClassPath(): array
+    public function getCurrentClassPath() : array
     {
         $path = [];
         foreach (explode(":", $this->getCmdNode()) as $cid) {
@@ -1828,5 +1827,4 @@ class ilCtrl
         }
         return $path;
     }
-
 }

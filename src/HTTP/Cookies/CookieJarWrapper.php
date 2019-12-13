@@ -29,7 +29,7 @@ class CookieJarWrapper implements CookieJar
      *
      * @param SetCookies $cookies
      */
-    function __construct(SetCookies $cookies)
+    public function __construct(SetCookies $cookies)
     {
         $this->cookies = $cookies;
     }

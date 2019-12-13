@@ -11,7 +11,6 @@ namespace ILIAS\GlobalScreen\Client;
  */
 class ModeToggle
 {
-
     const GS_MODE = 'gs_mode';
     const MODE1 = "all";
     const MODE2 = "none";

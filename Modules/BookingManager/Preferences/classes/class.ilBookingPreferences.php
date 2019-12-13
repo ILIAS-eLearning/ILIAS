@@ -45,7 +45,4 @@ class ilBookingPreferences
     {
         return $this->preferences;
     }
-
-
-
 }

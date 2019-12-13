@@ -30,8 +30,10 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $publicChatObjId = (int) $dic['ilObjDataCache']->lookupObjId($publicChatRefId);
 
         $title = $dic['ilObjDataCache']->lookupTitle($publicChatObjId);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('chtr', $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
+        $icon = $this->dic->ui()->factory()
+            ->symbol()
+            ->icon()
+            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'), $title);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))

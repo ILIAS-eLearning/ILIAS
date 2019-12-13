@@ -47,8 +47,12 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $roleMailboxSearch = $this->getMockBuilder(ilRoleMailboxSearch::class)->disableOriginalConstructor()->getMock();
 
         $mailAddressTypeFactory = new ilMailAddressTypeFactory(
-            $groupNameValidatorMock, $logger, $rbacsystem,
-            $rbacreview, $addressTypeHelper, $mailingLists,
+            $groupNameValidatorMock,
+            $logger,
+            $rbacsystem,
+            $rbacreview,
+            $addressTypeHelper,
+            $mailingLists,
             $roleMailboxSearch
         );
 
@@ -207,7 +211,10 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(4711);
 
         $type = new ilMailLoginOrEmailAddressAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $logger,
+            $rbacsystem
         );
 
         $usrIds = $type->resolve();
@@ -230,7 +237,10 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(0);
 
         $type = new ilMailLoginOrEmailAddressAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $logger,
+            $rbacsystem
         );
 
         $usrIds = $type->resolve();
@@ -251,7 +261,10 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('getUserIdByLogin')->willReturn(0);
 
         $type = new ilMailLoginOrEmailAddressAddressType(
-            $addressTypeHelper, new ilMailAddress('mjansen', 'databay.de'), $logger, $rbacsystem
+            $addressTypeHelper,
+            new ilMailAddress('mjansen', 'databay.de'),
+            $logger,
+            $rbacsystem
         );
 
         $usrIds = $type->resolve();
@@ -269,7 +282,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $addressTypeHelper->expects($this->atLeast(3))->method('getInstallationHost')->willReturn('ilias');
         $addressTypeHelper->expects($this->exactly(2))->method('getUserIdByLogin')->willReturnOnConsecutiveCalls(
-            4711, 4711, 0
+            4711,
+            4711,
+            0
         );
 
         $addressTypeHelper->expects($this->any())->method('receivesInternalMailsOnly')->willReturnOnConsecutiveCalls(
@@ -278,11 +293,15 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
         $rbacsystem->expects($this->exactly(2))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
-            true, false
+            true,
+            false
         );
 
         $type = new ilMailLoginOrEmailAddressAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $logger, $rbacsystem
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $logger,
+            $rbacsystem
         );
         $this->assertTrue($type->validate(666));
         $this->assertCount(0, $type->getErrors());
@@ -292,7 +311,10 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $this->assertEquals('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
 
         $type = new ilMailLoginOrEmailAddressAddressType(
-            $addressTypeHelper, new ilMailAddress('mjansen', 'databay.de'), $logger, $rbacsystem
+            $addressTypeHelper,
+            new ilMailAddress('mjansen', 'databay.de'),
+            $logger,
+            $rbacsystem
         );
         $this->assertTrue($type->validate(666));
         $this->assertCount(0, $type->getErrors());
@@ -314,7 +336,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('getInstanceByRefId')->with(2)->willReturn($group);
 
         $type = new ilMailGroupAddressType(
-            $addressTypeHelper, new ilMailAddress('#PhpUnit', ''), $logger
+            $addressTypeHelper,
+            new ilMailAddress('#PhpUnit', ''),
+            $logger
         );
 
         $usrIds = $type->resolve();
@@ -338,7 +362,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->never())->method('getInstanceByRefId');
 
         $type = new ilMailGroupAddressType(
-            $addressTypeHelper, new ilMailAddress('#PhpUnit', ''), $logger
+            $addressTypeHelper,
+            new ilMailAddress('#PhpUnit', ''),
+            $logger
         );
 
         $usrIds = $type->resolve();
@@ -357,7 +383,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('doesGroupNameExists')->with('PhpUnit')->willReturn(false);
 
         $type = new ilMailGroupAddressType(
-            $addressTypeHelper, new ilMailAddress('#PhpUnit', ''), $logger
+            $addressTypeHelper,
+            new ilMailAddress('#PhpUnit', ''),
+            $logger
         );
         $this->assertFalse($type->validate(666));
     }
@@ -373,7 +401,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper->expects($this->once())->method('doesGroupNameExists')->with('PhpUnit')->willReturn(true);
 
         $type = new ilMailGroupAddressType(
-            $addressTypeHelper, new ilMailAddress('#PhpUnit', ''), $logger
+            $addressTypeHelper,
+            new ilMailAddress('#PhpUnit', ''),
+            $logger
         );
         $this->assertTrue($type->validate(666));
     }
@@ -391,7 +421,8 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             'getAssignedEntries'
         ])->getMock();
         $list->expects($this->exactly(2))->method('getAssignedEntries')->willReturnOnConsecutiveCalls(
-            [['usr_id' => 1], ['usr_id' => 2], ['usr_id' => 3]], []
+            [['usr_id' => 1], ['usr_id' => 2], ['usr_id' => 3]],
+            []
         );
 
         $lists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->setMethods([
@@ -399,12 +430,17 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             'getCurrentMailingList'
         ])->getMock();
         $lists->expects($this->exactly(3))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
-            true, true, false
+            true,
+            true,
+            false
         );
         $lists->expects($this->exactly(2))->method('getCurrentMailingList')->willReturn($list);
 
         $type = new ilMailMailingListAddressType(
-            $addressTypeHelper, new ilMailAddress('#il_ml_4711', ''), $logger, $lists
+            $addressTypeHelper,
+            new ilMailAddress('#il_ml_4711', ''),
+            $logger,
+            $lists
         );
 
         $usrIds = $type->resolve();
@@ -429,13 +465,17 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             'mailingListExists'
         ])->getMock();
         $lists->expects($this->exactly(2))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
-            true, false
+            true,
+            false
         );
         $logger = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
         $addressTypeHelper = $this->getMockBuilder(ilMailAddressTypeHelper::class)->getMock();
 
         $type = new ilMailMailingListAddressType(
-            $addressTypeHelper, new ilMailAddress('#il_ml_4711', ''), $logger, $lists
+            $addressTypeHelper,
+            new ilMailAddress('#il_ml_4711', ''),
+            $logger,
+            $lists
         );
 
         $this->assertTrue($type->validate(666));
@@ -460,11 +500,17 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $roleMailboxSearch->expects($this->once())->method('searchRoleIdsByAddressString')->willReturn([1, 2, 3]);
         $rbacreview->expects($this->exactly(3))->method('assignedUsers')->willReturnOnConsecutiveCalls(
-            [4, 5, 6], [7, 8], [9]
+            [4, 5, 6],
+            [7, 8],
+            [9]
         );
 
         $type = new ilMailRoleAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem,
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $roleMailboxSearch,
+            $logger,
+            $rbacsystem,
             $rbacreview
         );
 
@@ -488,7 +534,11 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $rbacreview->expects($this->never())->method('assignedUsers');
 
         $type = new ilMailRoleAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem,
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $roleMailboxSearch,
+            $logger,
+            $rbacsystem,
             $rbacreview
         );
 
@@ -512,7 +562,11 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $rbacsystem->expects($this->never())->method('checkAccessOfUser');
 
         $type = new ilMailRoleAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem,
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $roleMailboxSearch,
+            $logger,
+            $rbacsystem,
             $rbacreview
         );
 
@@ -532,14 +586,25 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $roleMailboxSearch = $this->getMockBuilder(ilRoleMailboxSearch::class)->disableOriginalConstructor()->setMethods(['searchRoleIdsByAddressString'])->getMock();
 
         $roleMailboxSearch->expects($this->exactly(4))->method('searchRoleIdsByAddressString')->willReturnOnConsecutiveCalls(
-            [1], [], [1, 2], [1]
+            [1],
+            [],
+            [1, 2],
+            [1]
         );
-        $rbacsystem->expects($this->exactly(4))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(false, true,
-            true, true);
+        $rbacsystem->expects($this->exactly(4))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
+            false,
+            true,
+            true,
+            true
+        );
         $rbacreview->expects($this->once())->method('isGlobalRole')->with(1)->willReturn(true);
 
         $type = new ilMailRoleAddressType(
-            $addressTypeHelper, new ilMailAddress('phpunit', 'ilias'), $roleMailboxSearch, $logger, $rbacsystem,
+            $addressTypeHelper,
+            new ilMailAddress('phpunit', 'ilias'),
+            $roleMailboxSearch,
+            $logger,
+            $rbacsystem,
             $rbacreview
         );
 

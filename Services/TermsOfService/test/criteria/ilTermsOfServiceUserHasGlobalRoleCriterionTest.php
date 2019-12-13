@@ -53,7 +53,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $this->rbacReview = $this->getRbacReviewMock();
 
         $criterion = new ilTermsOfServiceUserHasGlobalRoleCriterion(
-            $this->rbacReview, $this->getObjectDataCacheMock()
+            $this->rbacReview,
+            $this->getObjectDataCacheMock()
         );
 
         return $criterion;
@@ -94,8 +95,10 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $form->addItem($radioGroup);
 
-        $gui->appendOption($radioGroup,
-            new ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue]));
+        $gui->appendOption(
+            $radioGroup,
+            new ilTermsOfServiceCriterionConfig(['role_id' => $this->expectedInitialValue])
+        );
 
         return $form;
     }

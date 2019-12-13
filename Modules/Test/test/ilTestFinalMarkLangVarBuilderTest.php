@@ -3,84 +3,81 @@
 
 use PHPUnit\Framework\TestCase;
 
-/** 
+/**
  * Unit tests for ilTestFinalMarkLangVarBuilder
- * 
+ *
  * @author  Björn Heyser <bheyser@databay.de>
  * @version $Id$
- * 
+ *
  *
  * @package Modules/Test
  * @ingroup ModulesTest
  */
 class ilTestFinalMarkLangVarBuilderTest extends TestCase
 {
-	protected $backupGlobals = FALSE;
+    protected $backupGlobals = false;
 
-	protected function setUp(): void
-	{
-		if (defined('ILIAS_PHPUNIT_CONTEXT'))
-		{
-			include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-			ilUnitUtil::performInitialisation();
-		}
-		else
-		{
-			chdir( dirname( __FILE__ ) );
-			chdir('../../../');
-		}
-	}
+    protected function setUp() : void
+    {
+        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
+            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+            ilUnitUtil::performInitialisation();
+        } else {
+            chdir(dirname(__FILE__));
+            chdir('../../../');
+        }
+    }
 
-	/**
-	 * @doesNotPerformAssertions
-	 */
-	public function test_build()
-	{
-		$testCases = array(
-			array(
-				'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => false,
-				'expected' => 'mark_tst_failed'
-			),
-			array(
-				'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => true,
-				'expected' => 'mark_tst_failed_obligations_missing'
-			),
-			array(
-				'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => true, 'param_obligationsEnabled' => false,
-				'expected' => 'mark_tst_failed'
-			),
-			array(
-				'param_passedStatus' => false,
-				'param_obligationsAnsweredStatus' => true,
-				'param_obligationsEnabled' => true,
-				'expected' => 'mark_tst_failed_obligations_answered'
-			),
-			array(
-				'param_passedStatus' => true,
-				'param_obligationsAnsweredStatus' => false,
-				'param_obligationsEnabled' => false,
-				'expected' => 'mark_tst_passed'
-			),
-			array(
-				'param_passedStatus' => true,
-				'param_obligationsAnsweredStatus' => false,
-				'param_obligationsEnabled' => true,
-				'expected' => 'mark_tst_failed_obligations_missing'
-			),
-			array(
-				'param_passedStatus' => true,
-				'param_obligationsAnsweredStatus' => true,
-				'param_obligationsEnabled' => false,
-				'expected' => 'mark_tst_passed'
-			),
-			array(
-				'param_passedStatus' => true,
-				'param_obligationsAnsweredStatus' => true,
-				'param_obligationsEnabled' => true,
-				'expected' => 'mark_tst_passed_obligations_answered'
-			)
-		);
-	// OTX: Test breaks with fatal error...
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function test_build()
+    {
+        $testCases = array(
+            array(
+                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => false,
+                'expected' => 'mark_tst_failed'
+            ),
+            array(
+                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => false, 'param_obligationsEnabled' => true,
+                'expected' => 'mark_tst_failed_obligations_missing'
+            ),
+            array(
+                'param_passedStatus' => false, 'param_obligationsAnsweredStatus' => true, 'param_obligationsEnabled' => false,
+                'expected' => 'mark_tst_failed'
+            ),
+            array(
+                'param_passedStatus' => false,
+                'param_obligationsAnsweredStatus' => true,
+                'param_obligationsEnabled' => true,
+                'expected' => 'mark_tst_failed_obligations_answered'
+            ),
+            array(
+                'param_passedStatus' => true,
+                'param_obligationsAnsweredStatus' => false,
+                'param_obligationsEnabled' => false,
+                'expected' => 'mark_tst_passed'
+            ),
+            array(
+                'param_passedStatus' => true,
+                'param_obligationsAnsweredStatus' => false,
+                'param_obligationsEnabled' => true,
+                'expected' => 'mark_tst_failed_obligations_missing'
+            ),
+            array(
+                'param_passedStatus' => true,
+                'param_obligationsAnsweredStatus' => true,
+                'param_obligationsEnabled' => false,
+                'expected' => 'mark_tst_passed'
+            ),
+            array(
+                'param_passedStatus' => true,
+                'param_obligationsAnsweredStatus' => true,
+                'param_obligationsEnabled' => true,
+                'expected' => 'mark_tst_passed_obligations_answered'
+            )
+        );
+        // OTX: Test breaks with fatal error...
 //		foreach($testCases as $case)
 //		{
 //			// arrange
@@ -102,5 +99,5 @@ class ilTestFinalMarkLangVarBuilderTest extends TestCase
 //
 //			$this->assertEquals($expected, $actual);
 //		}
-	}
+    }
 }

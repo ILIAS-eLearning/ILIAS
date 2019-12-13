@@ -95,6 +95,10 @@ class ilObjMainMenuGUI extends ilObject2GUI
                 $g = new ilMMSubItemGUI($this->tab_handling);
                 $this->ctrl->forwardCommand($g);
                 break;
+            case strtolower(ilMMUploadHandlerGUI::class):
+                $g = new ilMMUploadHandlerGUI();
+                $this->ctrl->forwardCommand($g);
+                break;
             default:
                 break;
         }

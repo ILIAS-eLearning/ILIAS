@@ -69,6 +69,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
     {
         $this->resetMailer();
 
+        $this->getMailer()->XMailer = ' ';
+
         foreach ($mail->getTo() as $recipients) {
             $recipient_pieces = array_filter(array_map('trim', explode(',', $recipients)));
             foreach ($recipient_pieces as $recipient) {
@@ -125,11 +127,16 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             "| From: %s / %s " .
             "| ReplyTo: %s / %s " .
             "| EnvelopeFrom: %s",
-            $GLOBALS['DIC']->user()->getLogin(), $GLOBALS['DIC']->user()->getId(),
-            implode(', ', $mail->getTo()), implode(', ', $mail->getCc()), implode(', ', $mail->getBcc()),
+            $GLOBALS['DIC']->user()->getLogin(),
+            $GLOBALS['DIC']->user()->getId(),
+            implode(', ', $mail->getTo()),
+            implode(', ', $mail->getCc()),
+            implode(', ', $mail->getBcc()),
             $mail->getSubject(),
-            $mail->getFrom()->getFromAddress(), $mail->getFrom()->getFromName(),
-            $mail->getFrom()->getReplyToAddress(), $mail->getFrom()->getReplyToName(),
+            $mail->getFrom()->getFromAddress(),
+            $mail->getFrom()->getFromName(),
+            $mail->getFrom()->getReplyToAddress(),
+            $mail->getFrom()->getReplyToName(),
             $mail->getFrom()->getEnvelopFromAddress()
         ));
 
@@ -148,7 +155,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
             ));
         } else {
             ilLoggerFactory::getLogger('mail')->warning(sprintf(
-                'Could not deliver external email: %s', $this->getMailer()->ErrorInfo
+                'Could not deliver external email: %s',
+                $this->getMailer()->ErrorInfo
             ));
         }
 

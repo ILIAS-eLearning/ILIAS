@@ -160,7 +160,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
      * @param array $data
      * @return array
      */
-    protected function preProcessData(array &$data) : void 
+    protected function preProcessData(array &$data) : void
     {
         foreach ($data['items'] as $key => $document) {
             /** @var ilTermsOfServiceDocument $document */

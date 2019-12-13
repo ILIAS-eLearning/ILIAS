@@ -8,25 +8,25 @@
  */
 class ilUserAvatarFile extends ilUserAvatarBase
 {
-	/**
-	 * @var string
-	 */
-	protected $size = '';
+    /**
+     * @var string
+     */
+    protected $size = '';
 
-	/**
-	 * ilUserAvatarFile constructor.
-	 * @param string $size
-	 */
-	public function __construct($size)
-	{
-		$this->size = $size;
-	}
+    /**
+     * ilUserAvatarFile constructor.
+     * @param string $size
+     */
+    public function __construct($size)
+    {
+        $this->size = $size;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getUrl()
-	{
-		return \ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getUrl()
+    {
+        return \ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
+    }
 }

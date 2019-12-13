@@ -1,25 +1,25 @@
 <?php
 // BEGIN WebDAV
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 /**
@@ -151,39 +151,6 @@ class ilObjFileAccessSettings extends ilObject
     {
         return $this->webdavActionsVisible;
     }
-
-
-    /**
-     * Sets the customWebfolderInstructions property.
-     *
-     * The webfolder instructions consist of HTML text, with placeholders.
-     * See ilDAVServer::_getWebfolderInstructionsFor for a description of
-     * the supported placeholders.
-     *
-     * @param string    HTML text with placeholders.
-     *
-     * @return    void
-     */
-    public function setCustomWebfolderInstructions($newValue)
-    {
-        $this->customWebfolderInstructions = $newValue;
-    }
-
-
-    /**
-     * Gets the customWebfolderInstructions property.
-     *
-     * @return    boolean    value
-     */
-    public function getCustomWebfolderInstructions()
-    {
-        if (strlen($this->customWebfolderInstructions) == 0) {
-            $this->customWebfolderInstructions = self::_getDefaultWebfolderInstructions();
-        }
-
-        return $this->customWebfolderInstructions;
-    }
-
 
     /**
      * Gets the defaultWebfolderInstructions property.
@@ -326,8 +293,6 @@ class ilObjFileAccessSettings extends ilObject
 
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settings->set('inline_file_extensions', $this->inlineFileExtensions);
-        $settings->set('custom_webfolder_instructions_enabled', $this->customWebfolderInstructionsEnabled ? '1' : '0');
-        $settings->set('custom_webfolder_instructions', $this->customWebfolderInstructions);
     }
 
 
@@ -350,9 +315,6 @@ class ilObjFileAccessSettings extends ilObject
 
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $this->inlineFileExtensions = $settings->get('inline_file_extensions', '');
-        $this->customWebfolderInstructionsEnabled = $settings->get('custom_webfolder_instructions_enabled', '0') == '1';
-        //$this->webdavSpecialCharsHandling = $settings->get('');
-        $this->customWebfolderInstructions = $settings->get('custom_webfolder_instructions', '');
     }
 
 
@@ -392,8 +354,10 @@ class ilObjFileAccessSettings extends ilObject
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $val *= 1024;
+                // no break
             case 'm':
                 $val *= 1024;
+                // no break
             case 'k':
                 $val *= 1024;
         }
@@ -402,4 +366,3 @@ class ilObjFileAccessSettings extends ilObject
     }
 } // END class.ilObjFileAccessSettings
 // END WebDAV
-?>

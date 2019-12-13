@@ -4,7 +4,6 @@ namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 class ValueContainer extends \ActiveRecord
 {
-
     public static function returnDbTableName()
     {
         return "il_bt_value";

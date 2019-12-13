@@ -15,7 +15,7 @@ class ilDclDetailedViewDefinitionConfig extends ilPageConfig
     /**
      * Init
      */
-    function init()
+    public function init()
     {
         // config
         $this->setPreventHTMLUnmasking(true);
@@ -24,5 +24,3 @@ class ilDclDetailedViewDefinitionConfig extends ilPageConfig
         $this->setEnableActivation(false);
     }
 }
-
-?>

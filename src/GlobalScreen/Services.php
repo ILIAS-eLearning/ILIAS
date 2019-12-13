@@ -16,7 +16,6 @@ use ILIAS\GlobalScreen\Scope\Tool\ToolServices;
  */
 class Services
 {
-
     use SingletonTrait;
     /**
      * @var Services

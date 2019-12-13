@@ -55,4 +55,3 @@ class PageBuilderModification extends AbstractLayoutModification implements Layo
         return Page::class;
     }
 }
-

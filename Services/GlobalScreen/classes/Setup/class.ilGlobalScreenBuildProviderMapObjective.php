@@ -14,7 +14,6 @@ use ILIAS\Setup;
  */
 class ilGlobalScreenBuildProviderMapObjective extends Setup\BuildArtifactObjective
 {
-
     public function getArtifactPath() : string
     {
         return "Services/GlobalScreen/artifacts/global_screen_providers.php";

@@ -147,7 +147,9 @@ class ilDclTableHelper
     {
         $visible_tables_for_data_collection = [];
         $res = $this->database->queryF(
-            "SELECT * FROM il_dcl_table WHERE obj_id = %s AND is_visible = 1", array('integer'), array($this->obj_id)
+            "SELECT * FROM il_dcl_table WHERE obj_id = %s AND is_visible = 1",
+            array('integer'),
+            array($this->obj_id)
         );
         while ($rec = $this->database->fetchAssoc($res)) {
             $visible_tables_for_data_collection[] = $rec;

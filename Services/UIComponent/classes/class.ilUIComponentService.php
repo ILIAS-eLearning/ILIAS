@@ -41,4 +41,3 @@ class ilUIComponentService extends ilService
         return "-";
     }
 }
-

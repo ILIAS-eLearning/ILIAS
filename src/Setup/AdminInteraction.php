@@ -8,7 +8,8 @@ namespace ILIAS\Setup;
  * This defines ways in which objectives may interact with admins during the
  * setup.
  */
-interface AdminInteraction {
-	public function inform(string $message) : void;
-	public function confirmOrDeny(string $message) : bool;
+interface AdminInteraction
+{
+    public function inform(string $message) : void;
+    public function confirmOrDeny(string $message) : bool;
 }

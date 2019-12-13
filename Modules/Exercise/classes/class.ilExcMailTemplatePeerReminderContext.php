@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
-
 /**
  * Handles exercise Peer reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
@@ -26,7 +24,7 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
     /**
      * Constructor
      */
-    function __construct()
+    public function __construct()
     {
         global $DIC;
 
@@ -114,12 +112,14 @@ class ilExcMailTemplatePeerReminderContext extends ilMailTemplateContext
         } else {
             if ($placeholder_id == 'exc_title') {
                 return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
-
             } else {
                 if ($placeholder_id == 'ass_link') {
-                    require_once './Services/Link/classes/class.ilLink.php';
-                    return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(),
-                        "_" . $context_parameters["ass_id"]);
+                    return ilLink::_getLink(
+                        $context_parameters["exc_ref"],
+                        "exc",
+                        array(),
+                        "_" . $context_parameters["ass_id"]
+                    );
                 }
             }
         }

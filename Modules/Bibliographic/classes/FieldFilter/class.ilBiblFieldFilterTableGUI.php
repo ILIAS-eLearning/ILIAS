@@ -8,7 +8,6 @@
  */
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
     /**
@@ -109,11 +108,13 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
         $field = $this->facade->fieldFactory()->findById($filter->getFieldId());
 
         $this->tpl->setVariable(
-            'VAL_FIELD', $this->facade->translationFactory()->translate($field)
+            'VAL_FIELD',
+            $this->facade->translationFactory()->translate($field)
         );
         $this->tpl->setVariable(
-            'VAL_FILTER_TYPE', $this->lng()->txt(
-            "filter_type_" . $filter->getFilterType()
+            'VAL_FILTER_TYPE',
+            $this->lng()->txt(
+                "filter_type_" . $filter->getFilterType()
         )
         );
 
@@ -134,7 +135,9 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
         $edit = $f->button()->shy($this->lng()->txt("edit"), $this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_EDIT));
 
         $delete_modal = $f->modal()->interruptive(
-            '', '', ''
+            '',
+            '',
+            ''
         )->withAsyncRenderUrl($this->ctrl()->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_RENDER_INTERRUPTIVE, '', true));
 
         $delete = $f->button()->shy($this->lng()->txt("delete"), '')->withOnClick($delete_modal->getShowSignal());

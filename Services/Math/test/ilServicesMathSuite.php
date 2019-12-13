@@ -9,22 +9,22 @@ use PHPUnit\Framework\TestSuite;
  */
 class ilServicesMathSuite extends TestSuite
 {
-	/**
-	 * @return self
-	 */
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return self
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once 'Services/Math/test/ilMathTest.php';
-		$suite->addTestSuite('ilMathTest');
+        require_once 'Services/Math/test/ilMathTest.php';
+        $suite->addTestSuite('ilMathTest');
 
-		require_once 'Services/Math/test/ilMathPhpAdapterTest.php';
-		$suite->addTestSuite('ilMathPhpAdapterTest');
+        require_once 'Services/Math/test/ilMathPhpAdapterTest.php';
+        $suite->addTestSuite('ilMathPhpAdapterTest');
 
-		require_once 'Services/Math/test/ilMathBCAdapterTest.php';
-		$suite->addTestSuite('ilMathBCAdapterTest');
+        require_once 'Services/Math/test/ilMathBCAdapterTest.php';
+        $suite->addTestSuite('ilMathBCAdapterTest');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

@@ -42,7 +42,8 @@ class ilBookingPreferencesDBRepository
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM booking_preferences ".
+        $set = $db->queryF(
+            "SELECT * FROM booking_preferences " .
             " WHERE book_pool_id = %s ",
             array("integer"),
             array($a_pool_id)
@@ -67,8 +68,9 @@ class ilBookingPreferencesDBRepository
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM booking_preferences ".
-            " WHERE book_pool_id = %s ".
+        $set = $db->queryF(
+            "SELECT * FROM booking_preferences " .
+            " WHERE book_pool_id = %s " .
             " AND user_id = %s ",
             array("integer", "integer"),
             array($a_pool_id, $a_user_id)
@@ -92,10 +94,12 @@ class ilBookingPreferencesDBRepository
     {
         $db = $this->db;
         
-        $db->manipulateF("DELETE FROM booking_preferences WHERE ".
+        $db->manipulateF(
+            "DELETE FROM booking_preferences WHERE " .
             " book_pool_id = %s",
             array("integer"),
-            array($a_pool_id));
+            array($a_pool_id)
+        );
 
         foreach ($preferences as $user_id => $obj_ids) {
             if (is_array($obj_ids) && $user_id > 0) {
@@ -108,7 +112,6 @@ class ilBookingPreferencesDBRepository
                 }
             }
         }
-
     }
 
     /**
@@ -122,11 +125,13 @@ class ilBookingPreferencesDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM booking_preferences WHERE ".
-            " book_pool_id = %s".
+        $db->manipulateF(
+            "DELETE FROM booking_preferences WHERE " .
+            " book_pool_id = %s" .
             " AND user_id = %s",
             array("integer","integer"),
-            array($a_pool_id, $a_user_id));
+            array($a_pool_id, $a_user_id)
+        );
 
         foreach ($preferences->getPreferences() as $user_id => $obj_ids) {
             if (is_array($obj_ids) && $user_id == $a_user_id) {
@@ -139,9 +144,5 @@ class ilBookingPreferencesDBRepository
                 }
             }
         }
-
     }
-
-
-
 }

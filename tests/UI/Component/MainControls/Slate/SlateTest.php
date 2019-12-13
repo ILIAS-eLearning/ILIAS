@@ -20,6 +20,10 @@ class TestGenericSlate extends Slate implements C\MainControls\Slate\Slate
     {
         return [];
     }
+    public function withMappedSubNodes(callable $f)
+    {
+        return $this;
+    }
 }
 
 /**
@@ -78,7 +82,8 @@ class SlateTest extends ILIAS_UI_TestBase
     /**
      * @depends testSignals
      */
-    public function testDifferentSignals(array $signals) {
+    public function testDifferentSignals(array $signals)
+    {
         $this->assertEquals(
             $signals,
             array_unique($signals)

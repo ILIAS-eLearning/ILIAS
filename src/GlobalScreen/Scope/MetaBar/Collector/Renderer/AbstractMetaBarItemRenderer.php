@@ -1,10 +1,12 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer;
 
 use ILIAS\Data\URI;
+use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
 use ILIAS\GlobalScreen\Collector\Renderer\isSupportedTrait;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
@@ -14,7 +16,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
  */
 abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 {
-
+    use ComponentDecoratorApplierTrait;
     use isSupportedTrait;
     /**
      * @var \ILIAS\GlobalScreen\Services
@@ -45,6 +47,21 @@ abstract class AbstractMetaBarItemRenderer implements MetaBarItemRenderer
 
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getComponentForItem(isItem $item) : Component
+    {
+        $component = $this->getSpecificComponentForItem($item);
+        $component = $this->applyDecorator($component, $item);
+
+        return $component;
+    }
+
+
+    abstract protected function getSpecificComponentForItem(isItem $item) : Component;
 
 
     /**

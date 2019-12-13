@@ -11,34 +11,32 @@ require_once 'Services/Form/interfaces/interface.ilFormValuesManipulator.php';
  */
 class ilFormSubmitRecursiveSlashesStripper implements ilFormValuesManipulator
 {
-	/**
-	 * @param array $inputValues
-	 * @return array
-	 */
-	public function manipulateFormInputValues($inputValues)
-	{
-		return $inputValues;
-	}
-	
-	/**
-	 * @param array $submitValues
-	 * @return array|mixed|string
-	 * @throws ilFormException
-	 */
-	public function manipulateFormSubmitValues($submitValues)
-	{		
-		foreach($submitValues as $identifier => $value)
-		{
-			if( is_object($value) )
-			{
-				// post submit does not support objects, so when
-				// object building happened, sanitizing did also
-				continue;
-			}
-			
-			$submitValues[$identifier] = ilUtil::stripSlashesRecursive($value);
-		}
-		
-		return $submitValues;
-	}
+    /**
+     * @param array $inputValues
+     * @return array
+     */
+    public function manipulateFormInputValues($inputValues)
+    {
+        return $inputValues;
+    }
+    
+    /**
+     * @param array $submitValues
+     * @return array|mixed|string
+     * @throws ilFormException
+     */
+    public function manipulateFormSubmitValues($submitValues)
+    {
+        foreach ($submitValues as $identifier => $value) {
+            if (is_object($value)) {
+                // post submit does not support objects, so when
+                // object building happened, sanitizing did also
+                continue;
+            }
+            
+            $submitValues[$identifier] = ilUtil::stripSlashesRecursive($value);
+        }
+        
+        return $submitValues;
+    }
 }

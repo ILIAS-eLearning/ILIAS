@@ -38,6 +38,25 @@ section {
 grid-based layout
 *********************
 */
+
+// IE 10,11 support hint
+ @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	 body {
+		 background-image: url("../../templates/default/images/HeaderIcon.svg");
+		 background-position: center 43%;
+		 background-repeat: no-repeat;
+		 display: -ms-flexbox;
+		 align-items: center;
+		 justify-content: center;
+		 &:after {
+			content: "Microsoft Internet Explorer is no longer supported!";
+		 }
+		.il-layout-page {
+ 	    	display: none;
+		}
+	}
+}
+
 // main grid without slates
 .il-layout-page {
 	background: @body-bg;
@@ -85,7 +104,7 @@ grid-based layout
 	}
 }
 
-/* metabar */
+// metabar
 header {
 	-ms-grid-column: 1;
 	-ms-grid-column-span: 2;
@@ -96,7 +115,7 @@ header {
 	z-index: @il-standard-page-zindex-header;
 }
 
-// head-container with logo and metabar
+// head-container with logo pagetitle and metabar
 .header-inner {
 	-ms-flex-align: center;
     align-items: center;
@@ -114,14 +133,23 @@ header {
 }
 
 // logo-container
-
 .il-logo {
-	width: @il-standard-page-logo-width;
+	width: 50%; // needs further attention because of added pagetitle
 	height: @il-standard-page-logo-height;
 	justify-self: start;
+	display: flex;
+  	align-items: center;
 }
 
-/* breadcrumbs */
+.il-pagetitle {
+	font-weight: 600;
+	display: flex;
+	font-size: @font-size-base * 1.142;
+	align-items: flex-end;
+	padding-left: 35px; // dynamic value desirable
+}
+
+// breadcrumbs
 .breadcrumbs {
 	-ms-flex-align: center;
 	align-items: center;
@@ -149,7 +177,7 @@ header {
 	}
 }
 
-/* mainbar */
+// mainbar
 nav.il-maincontrols {
 	-ms-grid-column: 1;
 	-ms-grid-row: 3;
@@ -224,7 +252,7 @@ nav.il-maincontrols {
 	grid-row: 1;
 }
 
-/* content */
+// content
 main {
 	display: block;
 }
@@ -257,11 +285,14 @@ footer {
 */
 
 // Sidepanel in right column under content
-@media only screen and (max-width: @screen-lg) {
-	#il_center_col.col-sm-9,
-	#il_right_col.col-sm-3 {
-		float: none;
-		width: 100%;
+//
+@media only screen and (max-width: (@screen-lg-desktop - 1px)) {
+	.il-layout-page.with-mainbar-slates-engaged {
+		#il_center_col.col-sm-9,
+		#il_right_col.col-sm-3 {
+			float: none !important;
+			width: 100% !important;
+		}
 	}
 }
 
@@ -350,7 +381,7 @@ footer {
 		}
 	}
 
-	/* metabar */
+	// metabar
 	header {
 		-ms-grid-column: 1;
 		-ms-grid-row: 1;
@@ -367,7 +398,17 @@ footer {
 		.shadow-bottom();
 	}
 
-	/* breadcrumbs */
+	// mobile logo
+	.il-logo {
+		width: @il-logo-resp-width;
+	}
+
+	// pagetitle
+	.il-pagetitle {
+		display: none;
+	}
+
+	// breadcrumbs
 	.breadcrumbs {
 		display: none;
 	}
@@ -419,7 +460,7 @@ footer {
 		}
 	}
 
-	/* mainbar */
+	// mainbar
 	nav.il-maincontrols {
 		-ms-grid-column: 1;
 		-ms-grid-row: 3;
@@ -502,7 +543,7 @@ footer {
 		}
 	}
 
-	/* content */
+	// content
 	main {
 		display: block;
 	}
@@ -513,5 +554,22 @@ footer {
 		grid-column: 1;
 		grid-row: 2;
 		overflow: auto;
+	}
+}
+
+/*
+**************************************************************
+       print styles
+**************************************************************
+*/
+
+@media print {
+	.il-layout-page {
+		display: block;
+		header,
+		nav,
+		footer {
+			display: none;
+		}
 	}
 }

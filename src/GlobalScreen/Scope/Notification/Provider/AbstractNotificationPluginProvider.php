@@ -10,6 +10,5 @@ use ILIAS\GlobalScreen\Provider\PluginProviderHelper;
  */
 abstract class AbstractNotificationPluginProvider extends AbstractNotificationProvider implements NotificationProvider, PluginProvider
 {
-
     use PluginProviderHelper;
 }

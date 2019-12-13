@@ -280,14 +280,14 @@ EOT;
         $html = $r->render($c);
         $expected = <<<EOT
 <div class="il-item il-std-item ">
-			<h5><button class="btn btn-link" data-action="https://www.ilias.de" id="id_2"  >ILIAS</button>
+			<h5><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1"  >ILIAS</button>
 </h5>
 			<hr class="il-item-divider" />
 			<div class="row">
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 il-item-property-name">test</div>
-						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_1"  >GitHub</button></div>
+						<div class="col-sm-7 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button></div>
 					</div>
 				</div>
 				<div class="col-md-6">

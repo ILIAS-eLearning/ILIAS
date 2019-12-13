@@ -26,6 +26,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 			$(document).on(entry_signal, function(event, signalData) {
 				onClickEntry(event, signalData);
+				if(il.UI.page.isSmallScreen() && il.UI.maincontrols.mainbar) {
+					il.UI.maincontrols.mainbar.disengageAll();
+				}
 				return false;
 			});
 			$(document).on(close_slates_signal, function(event, signalData) {
@@ -37,11 +40,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		var onClickEntry = function(event, signalData) {
 			var btn = signalData.triggerer;
 
-
 			if(btn.attr('id') === _getMoreButton().attr('id')) {
 				return;
 			}
-
 
 			if(_isEngaged(btn)) {
 				_disengageButton(btn);
@@ -58,21 +59,17 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			_disengageAllButtons();
 			_disengageAllSlates();
 		};
-
 		var _engageButton = function(btn) {
 			btn.addClass(_cls_btn_engaged);
 			btn.attr('aria-pressed', true);
 		};
-
 		var _disengageButton = function(btn) {
 			btn.removeClass(_cls_btn_engaged);
 			btn.attr('aria-pressed', false);
 		};
-
 		var _isEngaged = function(btn) {
 			return btn.hasClass(_cls_btn_engaged);
 		};
-
 		var _disengageAllButtons = function() {
 			$('#' + id +' .' + _cls_entries)
 			.children('.btn.' + _cls_btn_engaged)
@@ -82,13 +79,16 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			)
 		};
-
 		var _disengageAllSlates = function() {
 			getEngagedSlates().each(
 				function(i, slate) {
 					il.UI.maincontrols.slate.disengage($(slate));
 				}
 			)
+		};
+		var disengageAll = function() {
+			_disengageAllSlates();
+			_disengageAllButtons();
 		};
 		var getEngagedSlates = function() {
 			var search = '#' + id
@@ -163,34 +163,10 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		}
 
 		var collectCounters = function() {
-			var more_slate = _getMoreSlate(),
-				novelties = more_slate.find('.il-counter-novelty'),
-				status = more_slate.find('.il-counter-status'),
-				novelty_sum = 0,
-				status_sum = 0,
-				count;
-
-			novelties.each(function(index) {
-				count = $(this).text();
-				novelty_sum += parseInt(count);
-			});
-			status.each(function(index) {
-				count = $(this).text();
-				status_sum += parseInt(count);
-			});
-
-			_getMoreButton().find('.il-counter-novelty').remove();
-			_getMoreButton().find('.il-counter-status').remove();
-			if(novelty_sum > 0) {
-				_getMoreButton().children().first().append(
-					$(novelties).first().clone().text(novelty_sum)
-				);
-			}
-			if(status_sum > 0) {
-				_getMoreButton().children().first().append(
-					$(status).first().clone().text(status_sum)
-				);
-			}
+			var $more_slate_counter = il.UI.counter.getCounterObject(_getMoreSlate());
+			il.UI.counter.getCounterObject(_getMoreButton())
+				.setNoveltyTo($more_slate_counter.getNoveltyCount())
+				.setStatusTo($more_slate_counter.getStatusCount());
 		}
 
 		return {
@@ -199,7 +175,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			collectCounters: collectCounters,
 			_getMoreButton: _getMoreButton,
 			getEngagedSlates: getEngagedSlates,
-			_disengageAllSlates: _disengageAllSlates
+			_disengageAllSlates: _disengageAllSlates,
+			disengageAll: disengageAll
 		}
 
 	})($);

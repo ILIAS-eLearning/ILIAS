@@ -14,15 +14,14 @@ class ilBookingPreferencesFactory
      */
     public function __construct()
     {
-
     }
 
     /**
      * @param array $preferences
      * @return ilBookingPreferences
      */
-    public function preferences(array $preferences) {
+    public function preferences(array $preferences)
+    {
         return new ilBookingPreferences($preferences);
     }
-
 }

@@ -6,18 +6,23 @@
 	&.disengaged {
 		display:none;
 	}
+	.btn-bulky {
+		padding: @il-slate-bulky-padding;
+	}
+	.link-bulky {
+		padding: @il-slate-bulky-link-padding;
+	}
 	.btn-bulky,
 	.link-bulky {
 		align-items: flex-start;
 		background-color: @il-slate-bulky-bg-color;
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
-		padding: @il-slate-bulky-padding;
 		position: relative;
 		&.engaged:after,
 		&.disengaged:after {
 				font-family: "il-icons";
-				font-size: 1.7rem;
+				font-size: @il-slate-bulky-glyph-size * 0.85;
 				position: absolute;
 				right: 10px;
 				top: 20px;
@@ -35,8 +40,17 @@
 		    color: inherit;
 		}
 		.icon {
+			margin-top: @padding-small-vertical;
+			margin-right: @il-slate-bulky-glyph-margin-right;
+		}
+		.icon.custom {
 			filter: invert(50%);
-			margin-right: @il-slate-bulky-icon-margin-right;
+		}
+		.icon.small {
+			min-width: @icon-size-small;
+		}
+		.icon.medium {
+			min-width: @icon-size-medium;
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
@@ -48,11 +62,84 @@
 	.il-maincontrols-slate .btn-bulky {
 		background-color: @il-slate-bulky-level2-bg-color;
 	}
+
+	&.il-maincontrols-slate-notification{
+		.il-maincontrols-slate-notification-title{
+			text-transform: uppercase;
+			padding: @padding-large-horizontal;
+			.btn-bulky{
+				.glyph{
+					:before{
+						content: " \e605";
+						font-family: "il-icons";
+						font-size: 1.7rem;
+						margin-right: 10px;
+					}
+				}
+				margin: -@padding-large-horizontal;
+				border: none;
+				border-right: solid 3px;
+				border-right-color: @il-primary-container-bg;;
+				padding: @padding-large-horizontal;
+
+				background-color: transparent;
+				text-transform: uppercase;
+
+				width: 50%;
+			}
+		}
+	}
 }
 
+// color hierchachy highlight slate depth levels
+// see Mantis #26107
+.il-maincontrols-slate.engaged {
+	&[data-depth-level="2"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 80%);
+		}
+	}
+	&[data-depth-level="3"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 60%);
+		}
+	}
+	&[data-depth-level="4"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 40%);
+		}
+	}
+	&[data-depth-level="5"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 30%);
+		}
+	}
+	&[data-depth-level="6"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 20%);
+		}
+	}
+	&[data-depth-level="7"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 10%);
+		}
+	}
+	&[data-depth-level="8"] {
+		.btn-bulky,
+		.link-bulky {
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 5%);
+		}
+	}
+}
 
 .il-maincontrols-slate-content {
-	p, h1, h2, h3, h4 {
+	p, h1, h2, h3, h4, li {
 		padding: @il-slate-content-padding;
 	}
 }
@@ -109,3 +196,14 @@
 		}
 	}
 }
+
+// only for mobile view
+// when badges are displayed together with glyphs in slate entries
+// the visual left alignment is broken
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+	.il-maincontrols-slate span.glyph {
+	  min-width: 45px;
+	  text-align: left;
+	}
+}
+//

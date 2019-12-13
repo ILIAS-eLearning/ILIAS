@@ -7,6 +7,6 @@
  *
  * @author killing@leifos.de
  */
-class ilBookingCalculationException  extends ilException
+class ilBookingCalculationException extends ilException
 {
 }

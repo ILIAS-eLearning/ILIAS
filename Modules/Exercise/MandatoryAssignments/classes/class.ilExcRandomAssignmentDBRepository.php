@@ -40,15 +40,15 @@ class ilExcRandomAssignmentDBRepository
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM exc_mandatory_random ".
-            " WHERE usr_id  = %s ".
+        $set = $db->queryF(
+            "SELECT * FROM exc_mandatory_random " .
+            " WHERE usr_id  = %s " .
             " AND exc_id  = %s ",
             array("integer", "integer"),
             array($user_id, $exc_id)
             );
         $ass_ids = [];
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             if (ilExAssignment::isInExercise($rec["ass_id"], $exc_id)) {
                 $ass_ids[] = $rec["ass_id"];
             }
@@ -67,11 +67,13 @@ class ilExcRandomAssignmentDBRepository
     {
         $db = $this->db;
 
-        $db->manipulateF("DELETE FROM exc_mandatory_random  WHERE ".
-            " exc_id = %s".
+        $db->manipulateF(
+            "DELETE FROM exc_mandatory_random  WHERE " .
+            " exc_id = %s" .
             " AND usr_id = %s",
             array("integer", "integer"),
-            array($exc_id, $user_id));
+            array($exc_id, $user_id)
+        );
 
         foreach ($ass_ids as $ass_id) {
             if (ilExAssignment::isInExercise((int) $ass_id, $exc_id)) {
@@ -83,6 +85,4 @@ class ilExcRandomAssignmentDBRepository
             }
         }
     }
-
-
 }

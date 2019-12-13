@@ -1,4 +1,7 @@
 <?php
+
+use ILIAS\Data\URI;
+
 function ui()
 {
     global $DIC;
@@ -16,17 +19,20 @@ if ($_GET['new_ui'] == '1') {
 
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
-
-    $logo = $f->image()->responsive("src/UI/examples/Image/HeaderIconLarge.svg", "ILIAS");
+    $logo = $f->image()->responsive("templates/default/images/HeaderIcon.svg", "ILIAS");
     $breadcrumbs = pagedemoCrumbs($f);
     $metabar = pagedemoMetabar($f);
-    $mainbar = pagedemoMainbar($f, $renderer)
-        ->withActive("pws")
+    $mainbar = pagedemoMainbar($f, $renderer);
+    $mainbar = $mainbar
+        //->withActive("pws")
         /**
-         * You can also activate a tool initially, e.g.:
-         * ->withActive("tool2")
+         * You can also activate a tool initially
+         * or remove all active states:
          */
+         //->withActive("tool2")
+         //->withActive($mainbar::NONE_ACTIVE)
         ;
+
     $footer = pagedemoFooter($f);
 
     $entries = $mainbar->getEntries();
@@ -43,9 +49,8 @@ if ($_GET['new_ui'] == '1') {
         'UI PAGE DEMO', //page title
         'ILIAS', //short title
         'Std. Page Demo' //view title
-    )
+    )->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
     ->withUIDemo(true);
-    ;
 
     echo $renderer->render($page);
 }
@@ -81,7 +86,6 @@ function pagedemoCrumbs($f)
 
 function pagedemoContent($f, $r, $mainbar)
 {
-
     $tools = $mainbar->getToolEntries();
 
     $second_tool = array_values($tools)[1];
@@ -98,10 +102,10 @@ function pagedemoContent($f, $r, $mainbar)
             'Using Signals',
             $f->legacy(
                 "This button will replace the contents of the second tool-slate.<br />"
-                ."Goto Tools, second entry and click it.<br />"
-                .$r->render($replace_btn)
-                ."<br><br>This will unhide and activate another tool<br />"
-                .$r->render($invisible_tool_btn)
+                . "Goto Tools, second entry and click it.<br />"
+                . $r->render($replace_btn)
+                . "<br><br>This will unhide and activate another tool<br />"
+                . $r->render($invisible_tool_btn)
             )
         ),
 
@@ -342,11 +346,27 @@ function getDemoEntryOrganisation($f)
     $symbol = $f->symbol()->icon()
         ->custom('./src/UI/examples/Layout/Page/Standard/organisation.svg', '')
         ->withSize('small');
-    $slate = $f->maincontrols()->slate()->legacy(
-        'Organisation',
-        $symbol,
-        $f->legacy('content: Organisation')
-    );
+
+    $sf = $f->maincontrols()->slate();
+    $slate = $sf->combined('Organisation', $symbol, '')
+        ->withAdditionalEntry(
+            $sf->combined('1', $symbol, '')
+                ->withAdditionalEntry($sf->combined('1.1', $symbol, ''))
+                ->withAdditionalEntry(
+                    $sf->combined('1.2', $symbol, '')
+                        ->withAdditionalEntry($sf->combined('1.2.1', $symbol, ''))
+                        ->withAdditionalEntry($sf->combined('1.2.2', $symbol, ''))
+                )
+        )
+        ->withAdditionalEntry(
+            $sf->combined('2', $symbol, '')
+                ->withAdditionalEntry($sf->combined('2.1', $symbol, ''))
+        )
+        ->withAdditionalEntry($sf->combined('3', $symbol, ''))
+        ->withAdditionalEntry($sf->combined('4', $symbol, ''))
+    ;
+
+
     return $slate;
 }
 

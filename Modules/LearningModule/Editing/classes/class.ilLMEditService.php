@@ -25,8 +25,7 @@ class ilLMEditService
      */
     public function __construct(
         array $query_params
-    )
-    {
+    ) {
         $this->request = new ilLMEditRequest($query_params);
         $this->ref_id = $this->request->getRequestedRefId();
         $this->lm = new ilObjLearningModule($this->ref_id);
@@ -35,7 +34,7 @@ class ilLMEditService
     /**
      * @return ilObjLearningModule
      */
-    public function getLearningModule(): ilObjLearningModule
+    public function getLearningModule() : ilObjLearningModule
     {
         return $this->lm;
     }
@@ -45,9 +44,8 @@ class ilLMEditService
      *
      * @return ilLMEditRequest
      */
-    public function getRequest(): ilLMEditRequest
+    public function getRequest() : ilLMEditRequest
     {
         return $this->request;
     }
-
 }

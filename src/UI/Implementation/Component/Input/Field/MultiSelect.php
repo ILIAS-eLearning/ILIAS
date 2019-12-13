@@ -48,7 +48,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         $ok = is_array($value) || is_null($value);
         return $ok;

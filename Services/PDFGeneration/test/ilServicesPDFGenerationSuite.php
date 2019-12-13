@@ -11,22 +11,22 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilServicesPDFGenerationSuite extends TestSuite
 {
-	/**
-	 * @return self
-	 */
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return self
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require_once __DIR__ . '/ilPdfGeneratorConstantsTest.php';
-		$suite->addTestSuite('ilPdfGeneratorConstantsTest');
+        require_once __DIR__ . '/ilPdfGeneratorConstantsTest.php';
+        $suite->addTestSuite('ilPdfGeneratorConstantsTest');
 
-		require_once __DIR__ . '/ilPhantomJSRendererTest.php';
-		$suite->addTestSuite('ilPhantomJSRendererTest');
+        require_once __DIR__ . '/ilPhantomJSRendererTest.php';
+        $suite->addTestSuite('ilPhantomJSRendererTest');
 
-		require_once __DIR__ . '/ilPhantomJSRendererUiTest.php';
-		$suite->addTestSuite('ilPhantomJSRendererUiTest');
+        require_once __DIR__ . '/ilPhantomJSRendererUiTest.php';
+        $suite->addTestSuite('ilPhantomJSRendererUiTest');
 
-		return $suite;
-	}
-} 
+        return $suite;
+    }
+}

@@ -54,4 +54,3 @@ class MetaBarModification extends AbstractLayoutModification implements LayoutMo
         return true;
     }
 }
-

@@ -68,8 +68,7 @@ class ilMailTest extends ilMailBaseTest
         $addressTypeFactory->expects($this->any())
             ->method('getByPrefix')
             ->will($this->returnCallback(function ($arg) use ($loginToIdMap) {
-                return new class($arg, $loginToIdMap) implements ilMailAddressType
-                {
+                return new class($arg, $loginToIdMap) implements ilMailAddressType {
                     protected $loginToIdMap = [];
                     protected $address;
 
@@ -144,7 +143,8 @@ class ilMailTest extends ilMailBaseTest
         $mailTransport = $this
             ->getMockBuilder(ilMailMimeTransport::class)
             ->getMock();
-        $mailTransport->expects($this->exactly(1))->method('send')->with($this->callback(function (ilMimeMail $mailer
+        $mailTransport->expects($this->exactly(1))->method('send')->with($this->callback(function (
+            ilMimeMail $mailer
         ) use ($loginToIdMap) {
             $totalBcc = [];
             foreach ($mailer->getBcc() as $bcc) {

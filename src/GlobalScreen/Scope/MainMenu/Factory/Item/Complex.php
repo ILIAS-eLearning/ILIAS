@@ -1,31 +1,32 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
+use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAsyncContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasContent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Glyph;
 use ILIAS\UI\Component\Symbol\Icon;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Complex
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, hasTitle, hasSymbol
+class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymbol, supportsAsynchronousLoading
 {
 
+    /**
+     * @var Closure
+     */
+    private $content_wrapper;
     /**
      * @var
      */
     private $content;
-    /**
-     * @var string
-     */
-    private $async_content_url = '';
     /**
      * @var string
      */
@@ -34,35 +35,26 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
      * @var Symbol
      */
     private $symbol;
+    /**
+     * @var bool
+     */
+    private $supports_async_loading = false;
 
 
     /**
      * @inheritDoc
      */
-    public function getAsyncContentURL() : string
-    {
-        return $this->async_content_url;
-    }
-
-
-    /**
-     * @param string $async_content_url
-     *
-     * @return Complex
-     */
-    public function withAsyncContentURL(string $async_content_url) : hasAsyncContent
+    public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
         $clone = clone($this);
-        $clone->async_content_url = $async_content_url;
+        $clone->content_wrapper = $content_wrapper;
 
         return $clone;
     }
 
 
     /**
-     * @param Component $ui_component
-     *
-     * @return Complex
+     * @inheritDoc
      */
     public function withContent(Component $ui_component) : hasContent
     {
@@ -74,10 +66,16 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
 
 
     /**
-     * @return Component
+     * @inheritDoc
      */
     public function getContent() : Component
     {
+        if ($this->content_wrapper !== null) {
+            $wrapper = $this->content_wrapper;
+
+            return $wrapper();
+        }
+
         return $this->content;
     }
 
@@ -111,8 +109,9 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
         // bugfix mantis 25526: make aria labels mandatory
-        if(($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
-            && ($symbol->getAriaLabel() === "")) {
+        if (($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
+            && ($symbol->getAriaLabel() === "")
+        ) {
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
@@ -138,5 +137,26 @@ class Complex extends AbstractChildItem implements hasAsyncContent, hasContent, 
     public function hasSymbol() : bool
     {
         return $this->symbol instanceof Symbol;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    {
+        $clone = clone($this);
+        $clone->supports_async_loading = $supported;
+
+        return $clone;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function supportsAsynchronousLoading() : bool
+    {
+        return $this->supports_async_loading;
     }
 }

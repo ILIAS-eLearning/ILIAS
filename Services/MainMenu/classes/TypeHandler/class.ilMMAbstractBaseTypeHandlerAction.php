@@ -73,8 +73,8 @@ abstract class ilMMAbstractBaseTypeHandlerAction implements TypeHandler
     /**
      * @return string
      */
-    protected abstract function getFieldTranslation() : string;
+    abstract protected function getFieldTranslation() : string;
 
 
-    protected abstract function getFieldInfoTranslation() : string;
+    abstract protected function getFieldInfoTranslation() : string;
 }

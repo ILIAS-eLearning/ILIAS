@@ -25,7 +25,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
      */
     public function isInterestedInContexts() : ContextCollection
     {
-        return $this->context_collection->repository();
+        return $this->context_collection->main();
     }
 
     /**
@@ -60,8 +60,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                 ->withModification(function (MainBar $current = null) : ?MainBar {
                     return null;
                 })->withHighPriority();
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -69,7 +68,7 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
     /**
      * No breadcrumbs in HTML exports
      */
-    public function getBreadCrumbsModification (CalledContexts $called_contexts) : ?BreadCrumbsModification
+    public function getBreadCrumbsModification(CalledContexts $called_contexts) : ?BreadCrumbsModification
     {
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::HTML_EXPORT_RENDERING, true)) {
@@ -80,10 +79,8 @@ class ilHTMLExportViewLayoutProvider extends AbstractModificationProvider implem
                 ->withModification(function (Breadcrumbs $current = null) : ?Breadcrumbs {
                     return null;
                 })->withHighPriority();
-        }
-        else {
+        } else {
             return null;
         }
     }
-
 }

@@ -13,20 +13,19 @@ include_once("./Services/Calendar/classes/FileHandler/class.ilAppointmentBaseFil
 
 class ilAppointmentBookingPoolFileHandler extends ilAppointmentBaseFileHandler implements ilAppointmentFileHandler
 {
-	/**
-	 * Get files (for appointment)*
-	 * @return array of strings which contain files full path
-	 */
-	function getFiles()
-	{
-		// context id is reservation id (see ilObjBookingPoolGUI->processBooking)
-		$res_id = $this->appointment['event']->getContextId();
-		include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
-		include_once("./Modules/BookingManager/classes/class.ilBookingObject.php");
-		$res = new ilBookingReservation($res_id);
-		$b_obj = new ilBookingObject($res->getObjectId());
+    /**
+     * Get files (for appointment)*
+     * @return array of strings which contain files full path
+     */
+    public function getFiles()
+    {
+        // context id is reservation id (see ilObjBookingPoolGUI->processBooking)
+        $res_id = $this->appointment['event']->getContextId();
+        include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
+        include_once("./Modules/BookingManager/classes/class.ilBookingObject.php");
+        $res = new ilBookingReservation($res_id);
+        $b_obj = new ilBookingObject($res->getObjectId());
 
-		return array($b_obj->getFileFullPath(), $b_obj->getPostFileFullPath());
-	}
-
+        return array($b_obj->getFileFullPath(), $b_obj->getPostFileFullPath());
+    }
 }

@@ -36,15 +36,15 @@ class ilBookingPrefBasedBookGatewayRepository
         $db = $this->db;
 
         $pool_ids = [];
-        $set = $db->queryF("SELECT booking_pool_id FROM booking_settings ".
-            " WHERE schedule_type = %s ".
-            " AND pref_deadline < %s ".
+        $set = $db->queryF(
+            "SELECT booking_pool_id FROM booking_settings " .
+            " WHERE schedule_type = %s " .
+            " AND pref_deadline < %s " .
             " AND pref_booking_hash	= %s ",
             array("integer", "integer", "text"),
             array(ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES, time(), "0")
             );
-        while ($rec = $db->fetchAssoc($set))
-        {
+        while ($rec = $db->fetchAssoc($set)) {
             $pool_ids[] = $rec["booking_pool_id"];
         }
         return $pool_ids;
@@ -70,7 +70,8 @@ class ilBookingPrefBasedBookGatewayRepository
                 "pref_booking_hash" => array("text", "0"),
             ));
 
-        $set = $db->queryF("SELECT pref_booking_hash FROM booking_settings ".
+        $set = $db->queryF(
+            "SELECT pref_booking_hash FROM booking_settings " .
             " WHERE booking_pool_id = %s ",
             array("integer"),
             array($pool_id)
@@ -94,11 +95,9 @@ class ilBookingPrefBasedBookGatewayRepository
     {
         if ($this->checkProcessHash($pool_id)) {
             foreach ($bookings as $user_id => $obj_ids) {
-
                 foreach ($obj_ids as $obj_id) {
                     if (ilBookingReservation::isObjectAvailableNoSchedule($obj_id) &&
-                        !ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) // #18304
-                    {
+                        !ilBookingReservation::getObjectReservationForUser($obj_id, $user_id)) { // #18304
                         $reservation = new ilBookingReservation();
                         $reservation->setObjectId($obj_id);
                         $reservation->setUserId($user_id);
@@ -121,7 +120,8 @@ class ilBookingPrefBasedBookGatewayRepository
     public function getBookings(array $obj_ids)
     {
         $bookings = [];
-        foreach (ilBookingReservation::getList($obj_ids,
+        foreach (ilBookingReservation::getList(
+            $obj_ids,
             10000,
             0,
             ["status" => -ilBookingReservation::STATUS_CANCELLED]
@@ -130,6 +130,4 @@ class ilBookingPrefBasedBookGatewayRepository
         }
         return $bookings;
     }
-
-
 }

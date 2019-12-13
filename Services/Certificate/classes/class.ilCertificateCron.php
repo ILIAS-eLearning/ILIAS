@@ -148,8 +148,10 @@ class ilCertificateCron extends \ilCronJob
 
         $currentMode = $this->settings->get('persistent_certificate_mode', 'persistent_certificate_mode_cron');
         if ($currentMode !== 'persistent_certificate_mode_cron') {
-            $this->logger->warning(sprintf('Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
-                $currentMode));
+            $this->logger->warning(sprintf(
+                'Will not start cron job, because the mode is not set as cron job. Current Mode in settings: "%s"',
+                $currentMode
+            ));
             return $result;
         }
 
@@ -250,7 +252,7 @@ class ilCertificateCron extends \ilCronJob
      * @throws ilException
      * @throws ilInvalidCertificateException
      */
-    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations): array
+    public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {
         if ($entryCounter > 0 && $entryCounter % 10 === 0) {
             ilCronManager::ping($this->getId());
@@ -282,8 +284,10 @@ class ilCertificateCron extends \ilCronJob
 
         $object = $this->objectHelper->getInstanceByObjId($objId, false);
         if (!$object instanceof ilObject) {
-            throw new ilException(sprintf('The given object id: "%s"  could not be referred to an actual object',
-                $objId));
+            throw new ilException(sprintf(
+                'The given object id: "%s"  could not be referred to an actual object',
+                $objId
+            ));
         }
 
         $type = $object->getType();
@@ -309,18 +313,17 @@ class ilCertificateCron extends \ilCronJob
 
         $certificateContent = $this->valueReplacement->replace(
             $placeholderValues,
-            $certificateContent,
-            CLIENT_WEB_DIR . $template->getBackgroundImagePath()
+            $certificateContent
         );
 
-        $thumbnailImagePath = (string)$template->getThumbnailImagePath();
+        $thumbnailImagePath = (string) $template->getThumbnailImagePath();
         $userCertificate = new ilUserCertificate(
             $template->getId(),
             $objId,
             $type,
             $userId,
             $userObject->getFullname(),
-            (int)$entry->getStartedTimestamp(),
+            (int) $entry->getStartedTimestamp(),
             $certificateContent,
             json_encode($placeholderValues),
             null,

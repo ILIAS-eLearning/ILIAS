@@ -8,7 +8,6 @@
  */
 class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
     public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
     {
         $input = new ilDateTimeInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());

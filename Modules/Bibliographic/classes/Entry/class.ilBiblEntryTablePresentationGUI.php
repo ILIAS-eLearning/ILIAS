@@ -138,5 +138,3 @@ class ilBiblEntryTablePresentationGUI
         $this->entry = $entry;
     }
 }
-
-?>

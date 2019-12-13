@@ -12,7 +12,6 @@
  */
 class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
     public function parseValue($value)
     {
         return $value ? 1 : 0;
@@ -30,6 +29,4 @@ class ilDclBooleanRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         return $value ? 1 : 0;
     }
-
-
 }

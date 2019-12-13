@@ -82,5 +82,4 @@ class ModificationFactory
     {
         return new ViewTitleModification();
     }
-
 }

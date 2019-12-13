@@ -1,8 +1,10 @@
 <?php namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ilMyStaffAccess;
 
 /**
  * Class StandardTopItemsProvider
@@ -16,6 +18,10 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
      * @var StandardTopItemsProvider
      */
     private static $instance;
+    /**
+     * @var BasicAccessCheckClosures
+     */
+    private $basic_access_helper;
     /**
      * @var IdentificationInterface
      */
@@ -62,6 +68,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->basic_access_helper = BasicAccessCheckClosures::getInstance();
         $this->repository_identification = $this->if->identifier('repository');
         $this->personal_workspace_identification = $this->if->identifier('personal_workspace');
         $this->achievements_identification = $this->if->identifier('achievements');
@@ -87,29 +94,25 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
             ->withSymbol($icon)
             ->withTitle($title)
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
+            ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")
             ->withPosition(10)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
+                    return true;
+
                     return $dic->settings()->get('disable_my_memberships', 0) == 0;
                 }
             )
             ->withVisibilityCallable(
-                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) {
-                    $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
-
-                    return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
-                })
+                $this->basic_access_helper->isUserLoggedIn()
             );
 
         $title = $f("mm_repository");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
-            ->withVisibilityCallable(function () {
-                return (bool) $this->dic->access()->checkAccess('read', '', ROOT_FOLDER_ID);
-            })
+            // ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(20);
@@ -118,7 +121,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), $title);
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(30);
@@ -127,7 +130,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), $title);
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(40);
@@ -136,7 +139,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(50);
@@ -145,13 +148,15 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->getLoggedInCallableWithAdditionalCallable(function () { return true; }))
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
+                return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+            }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                function () use ($dic) {
-                    return (bool) ($dic->settings()->get("enable_my_staff"));
+                static function () use ($dic) {
+                    return (bool) ($dic->settings()->get('enable_my_staff'));
                 }
             );
 
@@ -163,7 +168,9 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withTitle($title)
             ->withPosition(70)
             ->withVisibilityCallable(
-                $this->getLoggedInCallableWithAdditionalCallable(function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); })
+                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) {
+                    return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID));
+                })
             );
 
         return [
@@ -175,18 +182,6 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $organisation,
             $administration,
         ];
-    }
-
-
-    private function getLoggedInCallableWithAdditionalCallable(\Closure $additional) : \Closure
-    {
-        return function () use ($additional) {
-            if ($this->dic->user()->isAnonymous()) {
-                return false;
-            }
-
-            return $additional();
-        };
     }
 
 

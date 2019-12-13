@@ -61,5 +61,3 @@ class ilBibliographicExporter extends ilXmlExporter
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
     }
 }
-
-?>

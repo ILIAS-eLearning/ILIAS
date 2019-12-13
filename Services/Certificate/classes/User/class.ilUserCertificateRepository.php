@@ -81,7 +81,7 @@ class ilUserCertificateRepository
             'valid_until'            => array('integer', $userCertificate->getValidUntil()),
             'version'                => array('integer', $version),
             'ilias_version'          => array('text', $userCertificate->getIliasVersion()),
-            'currently_active'       => array('integer', (integer)$userCertificate->isCurrentlyActive()),
+            'currently_active'       => array('integer', (integer) $userCertificate->isCurrentlyActive()),
             'background_image_path'  => array('text', $userCertificate->getBackgroundImagePath()),
             'thumbnail_image_path'   => array('text', $userCertificate->getThumbnailImagePath())
         );
@@ -386,7 +386,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         $sql = 'SELECT obj_id FROM il_cert_user_cert
  WHERE user_id = ' . $this->database->quote($userId, 'integer') .
 ' AND ' . $inStatementObjectIds .
-' AND currently_active = '  .  $this->database->quote(1, 'integer');
+' AND currently_active = ' . $this->database->quote(1, 'integer');
 
         $query = $this->database->query($sql);
 
@@ -406,7 +406,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
 
         $sql = 'SELECT user_id FROM il_cert_user_cert
 WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
- AND currently_active = '  .  $this->database->quote(1, 'integer');
+ AND currently_active = ' . $this->database->quote(1, 'integer');
 
         $query = $this->database->query($sql);
 
@@ -527,7 +527,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
      * @param $row
      * @return ilUserCertificate
      */
-    private function createUserCertificate($row): ilUserCertificate
+    private function createUserCertificate($row) : ilUserCertificate
     {
         return new ilUserCertificate(
             $row['pattern_certificate_id'],
@@ -535,7 +535,7 @@ AND  user_id = ' . $this->database->quote($userId, 'integer');
             $row['obj_type'],
             $row['user_id'],
             $row['user_name'],
-            (int)$row['acquired_timestamp'],
+            (int) $row['acquired_timestamp'],
             $row['certificate_content'],
             $row['template_values'],
             $row['valid_until'],

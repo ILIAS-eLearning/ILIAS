@@ -32,7 +32,6 @@ class ilBookingPrefAutoBooking
 
         // for all pools with an overdue preference based booking
         foreach ($book_repo->getPoolsWithOverdueBooking() as $pool_id) {
-
             $pool = new ilObjBookingPool($pool_id, false);
             $manager = $service->domain()->preferences($pool);
 
@@ -41,5 +40,4 @@ class ilBookingPrefAutoBooking
             $manager->storeBookings($preferences);
         }
     }
-
 }

@@ -60,14 +60,16 @@ final class CalledContexts extends ContextCollection
     private function checkCallLocation(ScreenContext $context)
     {
         $called_classes = array_filter(
-            debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS), function ($item) {
-            return (!in_array($item['class'], [CalledContexts::class, ContextCollection::class]));
-        }
+            debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS),
+            function ($item) {
+                return (!in_array($item['class'], [CalledContexts::class, ContextCollection::class]));
+            }
         );
         array_walk(
-            $called_classes, function (&$item) {
-            $item = $item['class'] . ":" . $item['line'];
-        }
+            $called_classes,
+            function (&$item) {
+                $item = $item['class'] . ":" . $item['line'];
+            }
         );
 
         $call_location = reset($called_classes);

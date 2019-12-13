@@ -21,6 +21,13 @@ class MainBar implements MainControls\MainBar
     use ComponentHelper;
     use JavaScriptBindable;
 
+    const ENTRY_ACTION_TRIGGER = 'trigger';
+    const ENTRY_ACTION_REMOVE = 'remove';
+    const ENTRY_ACTION_TRIGGER_MAPPED = 'trigger_mapped';
+    const ENTRY_ACTION_TOGGLE_TOOLS = 'toggle_tools';
+    const ENTRY_ACTION_DISENGAGE_ALL = 'disengage_all';
+    const NONE_ACTIVE = '_none';
+
     /**
      * @var SignalGeneratorInterface
      */
@@ -84,7 +91,12 @@ class MainBar implements MainControls\MainBar
     /**
      * @var array<string, Button\Close>
      */
-    private $close_button = [];
+    private $close_buttons = [];
+
+    /**
+     * @var string
+     */
+    private $mainbar_tree_position;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -138,8 +150,7 @@ class MainBar implements MainControls\MainBar
         Slate $entry,
         bool $initially_hidden = false,
         Button\Close $close_button = null
-    ) : MainControls\MainBar
-    {
+    ) : MainControls\MainBar {
         if (!$this->tools_button) {
             throw new \LogicException("There must be a tool-button configured to add tool-entries", 1);
         }
@@ -150,13 +161,16 @@ class MainBar implements MainControls\MainBar
 
         $clone = clone $this;
         $clone->tool_entries[$id] = $entry;
-        $clone->tool_signals[$id] = $this->signal_generator->create();
+        $signal = $this->signal_generator->create();
+        $signal->addOption('entry_id', $id);
+        $signal->addOption('action', self::ENTRY_ACTION_TRIGGER_MAPPED);
+        $clone->tool_signals[$id] = $signal;
 
-        if($initially_hidden) {
+        if ($initially_hidden) {
             $clone->initially_hidden_ids[] = $id;
         }
 
-        if($close_button) {
+        if ($close_button) {
             $clone->close_buttons[$id] = $close_button;
         }
         return $clone;
@@ -231,6 +245,14 @@ class MainBar implements MainControls\MainBar
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getToggleToolsSignal() : Signal
+    {
+        return $this->toggle_tools_signal;
+    }
+
+    /**
      * Set the signals for this component
      */
     protected function initSignals()
@@ -239,6 +261,9 @@ class MainBar implements MainControls\MainBar
         $this->tools_click_signal = $this->signal_generator->create();
         $this->tools_removal_signal = $this->signal_generator->create();
         $this->disengage_all_signal = $this->signal_generator->create();
+        $this->disengage_all_signal->addOption('action', self::ENTRY_ACTION_DISENGAGE_ALL);
+        $this->toggle_tools_signal = $this->signal_generator->create();
+        $this->toggle_tools_signal->addOption('action', self::ENTRY_ACTION_TOGGLE_TOOLS);
     }
 
     public function withResetSignals() : MainControls\MainBar
@@ -266,7 +291,8 @@ class MainBar implements MainControls\MainBar
     {
         $valid_entries = array_merge(
             array_keys($this->entries),
-            array_keys($this->tool_entries)
+            array_keys($this->tool_entries),
+            [self::NONE_ACTIVE]
         );
         if (!in_array($active, $valid_entries)) {
             throw new \InvalidArgumentException("Invalid entry to activate: $active", 1);
@@ -299,5 +325,53 @@ class MainBar implements MainControls\MainBar
     public function getCloseButtons() : array
     {
         return $this->close_buttons;
+    }
+
+
+    public function withClearedEntries() : MainControls\MainBar
+    {
+        $clone = clone $this;
+        $clone->entries = [];
+        $clone->tool_entries = [];
+        return $clone;
+    }
+
+    public function getTriggerSignal(
+        string $entry_id,
+        string $action
+    ) : Signal {
+        if (!in_array($action, [self::ENTRY_ACTION_TRIGGER, self::ENTRY_ACTION_REMOVE])) {
+            throw new InvalidArgumentException("invalid action for mainbar entry: $action", 1);
+        }
+        $signal = $this->signal_generator->create();
+        $signal->addOption('entry_id', $entry_id);
+        $signal->addOption('action', $action);
+        return $signal;
+    }
+
+    public function withMainBarTreePosition(string $tree_pos) : MainBar
+    {
+        $clone = clone $this;
+        $clone->mainbar_tree_position = $tree_pos;
+        return $clone;
+    }
+
+    public function withMappedSubNodes(callable $f) : MainBar
+    {
+        $clone = clone $this;
+
+        $counter = 0;
+        foreach ($clone->getEntries() as $k => $v) {
+            $clone->entries[$k] = $f($counter, $v, false);
+            $counter++;
+        }
+
+        $counter = 0;
+        foreach ($clone->getToolEntries() as $k => $v) {
+            $clone->tool_entries[$k] = $f($counter, $v, true);
+            $counter++;
+        }
+
+        return $clone;
     }
 }

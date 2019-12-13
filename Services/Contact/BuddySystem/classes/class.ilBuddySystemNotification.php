@@ -64,14 +64,25 @@ class ilBuddySystemNotification
             $bodyParams = [
                 'SALUTATION' => ilMail::getSalutation($user->getId(), $recipientLanguage),
                 'BR' => nl2br("\n"),
-                'APPROVE_REQUEST' => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true,
-                        '_contact_approved') . '">' . $recipientLanguage->txt('buddy_notification_contact_request_link_osd') . '</a>',
-                'IGNORE_REQUEST' => '<a href="' . ilLink::_getStaticLink($this->sender->getId(), 'usr', true,
-                        '_contact_ignored') . '">' . $recipientLanguage->txt('buddy_notification_contact_request_ignore_osd') . '</a>',
+                'APPROVE_REQUEST' => '<a href="' . ilLink::_getStaticLink(
+                    $this->sender->getId(),
+                    'usr',
+                    true,
+                    '_contact_approved'
+                ) . '">' . $recipientLanguage->txt('buddy_notification_contact_request_link_osd') . '</a>',
+                'IGNORE_REQUEST' => '<a href="' . ilLink::_getStaticLink(
+                    $this->sender->getId(),
+                    'usr',
+                    true,
+                    '_contact_ignored'
+                ) . '">' . $recipientLanguage->txt('buddy_notification_contact_request_ignore_osd') . '</a>',
                 'REQUESTING_USER' => ilUserUtil::getNamePresentation($this->sender->getId())
             ];
-            $notification->setShortDescriptionVar('buddy_notification_contact_request_short', $bodyParams,
-                'buddysystem');
+            $notification->setShortDescriptionVar(
+                'buddy_notification_contact_request_short',
+                $bodyParams,
+                'buddysystem'
+            );
 
             $bodyParams = [
                 'SALUTATION' => ilMail::getSalutation($user->getId(), $recipientLanguage),

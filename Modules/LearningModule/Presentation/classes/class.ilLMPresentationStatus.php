@@ -6,7 +6,7 @@
  * Contains info on offline mode, focus, translation, etc.
  *
  * @author @leifos.de
- * @ingroup 
+ * @ingroup
  */
 class ilLMPresentationStatus
 {
@@ -34,8 +34,7 @@ class ilLMPresentationStatus
         string $offline,
         bool $export_all_languages,
         string $export_format
-    )
-    {
+    ) {
         $this->lm = $lm;
         $this->ot = ilObjectTranslation::getInstance($lm->getId());
         $this->requested_transl = (string) $requested_transl;
@@ -61,7 +60,7 @@ class ilLMPresentationStatus
             $langs = $this->ot->getLanguages();
             if (isset($langs[$this->requested_transl]) || $this->requested_transl == $this->ot->getMasterLanguage()) {
                 $this->lang = $this->requested_transl;
-            } else if (isset($langs[$this->user->getCurrentLanguage()])) {
+            } elseif (isset($langs[$this->user->getCurrentLanguage()])) {
                 $this->lang = $this->user->getCurrentLanguage();
             }
             if ($this->lang == $this->ot->getMasterLanguage()) {
@@ -70,11 +69,9 @@ class ilLMPresentationStatus
         }
 
         // determin focus id
-        if ($this->requested_focus_id > 0 && $this->lm_tree->isInTree($this->requested_focus_id))
-        {
+        if ($this->requested_focus_id > 0 && $this->lm_tree->isInTree($this->requested_focus_id)) {
             $this->focus_id = $this->requested_focus_id;
         }
-
     }
     
     /**
@@ -82,7 +79,7 @@ class ilLMPresentationStatus
      *
      * @return string
      */
-    public function getLang(): string
+    public function getLang() : string
     {
         return $this->lang;
     }
@@ -114,7 +111,7 @@ class ilLMPresentationStatus
     /**
      * @return bool
      */
-    public function offline(): bool
+    public function offline() : bool
     {
         return $this->offline;
     }
@@ -122,7 +119,7 @@ class ilLMPresentationStatus
     /**
      * @return bool
      */
-    public function exportAllLanguages(): bool
+    public function exportAllLanguages() : bool
     {
         return $this->export_all_languages;
     }
@@ -130,7 +127,7 @@ class ilLMPresentationStatus
     /**
      * @return bool
      */
-    public function getExportFormat(): bool
+    public function getExportFormat() : bool
     {
         return $this->export_format;
     }
@@ -140,20 +137,16 @@ class ilLMPresentationStatus
      *
      * @return string
      */
-    function getLMPresentationTitle()
+    public function getLMPresentationTitle()
     {
-        if ($this->offline() && $this->lang != "" && $this->lang != "-")
-        {
+        if ($this->offline() && $this->lang != "" && $this->lang != "-") {
             $ot = $this->ot;
             $data = $ot->getLanguages();
             $ltitle = $data[$this->lang]["title"];
-            if ($ltitle != "")
-            {
+            if ($ltitle != "") {
                 return $ltitle;
             }
         }
         return $this->lm->getTitle();
     }
-
-
 }

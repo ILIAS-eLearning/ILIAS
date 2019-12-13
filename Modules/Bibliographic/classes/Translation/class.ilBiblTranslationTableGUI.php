@@ -7,7 +7,6 @@
  */
 class ilBiblTranslationTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     /**
      * @var \ilBiblFieldInterface

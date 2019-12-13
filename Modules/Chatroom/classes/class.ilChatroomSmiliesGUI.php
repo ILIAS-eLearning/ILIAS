@@ -11,43 +11,40 @@
 class ilChatroomSmiliesGUI
 {
 
-	/**
-	 * Constructor
-	 * @access public
-	 */
-	/*public function __construct()
-	 {
+    /**
+     * Constructor
+     * @access public
+     */
+    /*public function __construct()
+     {
 
-	 }*/
+     }*/
 
-	/**
-	 * Instantiates ilChatroomSmiliesTableGUI and returns its table's HTML.
-	 * @param ilObjChatroomAdminGUI $a_ref
-	 * @return string
-	 */
-	public static function _getExistingSmiliesTable($a_ref)
-	{
-		include_once "Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php";
+    /**
+     * Instantiates ilChatroomSmiliesTableGUI and returns its table's HTML.
+     * @param ilObjChatroomAdminGUI $a_ref
+     * @return string
+     */
+    public static function _getExistingSmiliesTable($a_ref)
+    {
+        include_once "Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php";
 
-		$table = new ilChatroomSmiliesTableGUI($a_ref, 'smiley');
+        $table = new ilChatroomSmiliesTableGUI($a_ref, 'smiley');
 
-		include_once('Modules/Chatroom/classes/class.ilChatroomSmilies.php');
+        include_once('Modules/Chatroom/classes/class.ilChatroomSmilies.php');
 
-		$values = ilChatroomSmilies::_getSmilies();
-		$table->setData($values);
+        $values = ilChatroomSmilies::_getSmilies();
+        $table->setData($values);
 
-		return $table->getHTML();
-	}
+        return $table->getHTML();
+    }
 
-	/**
-	 * Default execute command, calls ilChatroomSmilies::initial();
-	 */
-	public function executeCommand()
-	{
-		include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
-		ilChatroomSmilies::initial();
-	}
-
+    /**
+     * Default execute command, calls ilChatroomSmilies::initial();
+     */
+    public function executeCommand()
+    {
+        include_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
+        ilChatroomSmilies::initial();
+    }
 }
-
-?>

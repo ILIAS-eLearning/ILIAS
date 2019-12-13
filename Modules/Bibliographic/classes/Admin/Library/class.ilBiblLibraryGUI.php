@@ -7,7 +7,6 @@
  */
 class ilBiblLibraryGUI
 {
-
     const F_LIB_ID = 'lib_id';
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const CMD_DELETE = 'delete';

@@ -30,7 +30,7 @@ class ilCertificateObjectHelper
      * @param int $objectId
      * @return string
      */
-    public function lookupType(int $objectId): string
+    public function lookupType(int $objectId) : string
     {
         return ilObject::_lookupType($objectId);
     }

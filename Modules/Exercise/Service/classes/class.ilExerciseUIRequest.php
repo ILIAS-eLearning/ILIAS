@@ -58,7 +58,7 @@ class ilExerciseUIRequest
     /**
      * @return int
      */
-    public function getRequestedRefId(): int
+    public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
@@ -66,7 +66,7 @@ class ilExerciseUIRequest
     /**
      * @return int
      */
-    public function getRequestedAssId(): int
+    public function getRequestedAssId() : int
     {
         return $this->requested_ass_id;
     }
@@ -74,7 +74,7 @@ class ilExerciseUIRequest
     /**
      * @return int
      */
-    public function getRequestedMemberId(): int
+    public function getRequestedMemberId() : int
     {
         return $this->requested_member_id;
     }
@@ -94,5 +94,4 @@ class ilExerciseUIRequest
     {
         return $this->ass;
     }
-
 }

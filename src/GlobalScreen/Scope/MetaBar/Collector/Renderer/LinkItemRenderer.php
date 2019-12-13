@@ -15,14 +15,15 @@ class LinkItemRenderer extends AbstractMetaBarItemRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    protected function getSpecificComponentForItem(isItem $item) : Component
     {
         /**
          * @var $item LinkItem
          */
-        return $this->ui->factory()->button()->bulky(
+        return $this->ui->factory()->link()->bulky(
             $this->getStandardSymbol($item),
             $item->getTitle(),
-            $item->getAction());
+            $this->getURI($item->getAction())
+        );
     }
 }

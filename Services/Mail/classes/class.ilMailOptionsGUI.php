@@ -148,7 +148,8 @@ class ilMailOptionsGUI
 
         return new ilMailOptionsFormGUI(
             new ilMailOptions((int) $this->user->getId()),
-            $this, 'saveOptions'
+            $this,
+            'saveOptions'
         );
     }
 

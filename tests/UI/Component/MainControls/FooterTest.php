@@ -29,7 +29,14 @@ class FooterTest extends ILIAS_UI_TestBase
         $sig_gen = 	new I\SignalGenerator();
         $sig_gen = 	new I\SignalGenerator();
         $counter_factory = new I\Counter\Factory();
-        $slate_factory = new I\MainControls\Slate\Factory($sig_gen, $counter_factory);
+        $slate_factory = new I\MainControls\Slate\Factory(
+            $sig_gen,
+            $counter_factory,
+            new I\Symbol\Factory(
+                new I\Symbol\Icon\Factory(),
+                new I\Symbol\Glyph\Factory()
+            )
+        );
         $factory = new I\MainControls\Factory($sig_gen, $slate_factory);
         return $factory;
     }
@@ -90,13 +97,6 @@ class FooterTest extends ILIAS_UI_TestBase
             $this->perm_url
         );
         return $footer;
-    }
-
-    protected function brutallyTrimHTML($html)
-    {
-        $html = str_replace(["\n", "\r", "\t"], "", $html);
-        $html = preg_replace('# {2,}#', " ", $html);
-        return trim($html);
     }
 
     public function getUIFactory()
@@ -174,25 +174,21 @@ EOT;
         $html = $r->render($footer);
 
         $expected = <<<EOT
-		<div class="il-maincontrols-footer">
-			<div class="il-footer-content">
-				<div class="il-footer-permanent-url">
-					<span>
-						http://www.ilias.de/goto.php?target=xxx_123
-					</span>
-				</div>
-				<div class="il-footer-text">
-					footer text
-				</div>
+        <div class="il-maincontrols-footer">
+            <div class="il-footer-content">
+                <div class="il-footer-permanent-url">perma_link<input id="current_perma_link" type="text" value="http://www.ilias.de/goto.php?target=xxx_123" onclick="this.select();document.execCommand('copy'); return false;" readonly="readOnly">
+                </div>
 
-				<div class="il-footer-links">
-					<ul>
-						<li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
-						<li><a href="#" >go up</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
+                <div class="il-footer-text">footer text</div>
+
+                <div class="il-footer-links">
+                    <ul>
+                        <li><a href="http://www.ilias.de" >Goto ILIAS</a></li>
+                        <li><a href="#" >go up</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 EOT;
 
         $this->assertEquals(

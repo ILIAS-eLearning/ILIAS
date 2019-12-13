@@ -232,7 +232,7 @@ class CookieWrapper implements Cookie
      * @return SetCookie
      * @internal
      */
-    function getImplementation()
+    public function getImplementation()
     {
         return $this->cookie;
     }

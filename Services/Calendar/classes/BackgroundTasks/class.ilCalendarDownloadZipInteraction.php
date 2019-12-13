@@ -15,94 +15,100 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilCalendarDownloadZipInteraction extends AbstractUserInteraction {
-
-	const OPTION_DOWNLOAD = 'download';
-	const OPTION_CANCEL = 'cancel';
-	/**
-	 * @var \Monolog\Logger
-	 */
-	private $logger = null;
-
-
-	public function __construct() {
-		$this->logger = $GLOBALS['DIC']->logger()->cal();
-	}
+class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
+{
+    const OPTION_DOWNLOAD = 'download';
+    const OPTION_CANCEL = 'cancel';
+    /**
+     * @var \Monolog\Logger
+     */
+    private $logger = null;
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getInputTypes() {
-		return [
-			new SingleType(StringValue::class),
-			new SingleType(StringValue::class),
-		];
-	}
+    public function __construct()
+    {
+        $this->logger = $GLOBALS['DIC']->logger()->cal();
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getRemoveOption() {
-		return new UserInteractionOption('remove', self::OPTION_CANCEL);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getInputTypes()
+    {
+        return [
+            new SingleType(StringValue::class),
+            new SingleType(StringValue::class),
+        ];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOutputType() {
-		return new SingleType(StringValue::class);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getRemoveOption()
+    {
+        return new UserInteractionOption('remove', self::OPTION_CANCEL);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getOptions(array $input) {
-		return [
-			new UserInteractionOption('download', self::OPTION_DOWNLOAD),
-		];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getOutputType()
+    {
+        return new SingleType(StringValue::class);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function interaction(array $input, Option $user_selected_option, Bucket $bucket) {
-		global $DIC;
-		$zip_name = $input[1];
-		$download_name = $input[0];
+    /**
+     * @inheritDoc
+     */
+    public function getOptions(array $input)
+    {
+        return [
+            new UserInteractionOption('download', self::OPTION_DOWNLOAD),
+        ];
+    }
 
-		$this->logger->debug('User interaction download zip ' . $input[0]->getValue() . ' as '
-		                     . $input[1]->getValue());
 
-		if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
-			$this->logger->info('Download canceled');
-			// delete zip file
-			$filesystem = $DIC->filesystem()->temp();
+    /**
+     * @inheritDoc
+     */
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
+    {
+        global $DIC;
+        $zip_name = $input[1];
+        $download_name = $input[0];
 
-			try {
-				$path = LegacyPathHelper::createRelativePath($zip_name->getValue());
-			} catch (InvalidArgumentException $e) {
-				$path = null;
-			}
-			if (!is_null($path) && $filesystem->has($path)) {
-				$filesystem->deleteDir(dirname($path));
-			}
+        $this->logger->debug('User interaction download zip ' . $input[0]->getValue() . ' as '
+                             . $input[1]->getValue());
 
-			return $input;
-		}
+        if ($user_selected_option->getValue() != self::OPTION_DOWNLOAD) {
+            $this->logger->info('Download canceled');
+            // delete zip file
+            $filesystem = $DIC->filesystem()->temp();
 
-		$this->logger->info("Delivering File.");
+            try {
+                $path = LegacyPathHelper::createRelativePath($zip_name->getValue());
+            } catch (InvalidArgumentException $e) {
+                $path = null;
+            }
+            if (!is_null($path) && $filesystem->has($path)) {
+                $filesystem->deleteDir(dirname($path));
+            }
 
-		ilFileDelivery::deliverFileAttached(
-			$download_name->getValue(),
-			$zip_name->getValue(),
-			ilMimeTypeUtil::APPLICATION__ZIP
-		);
+            return $input;
+        }
 
-		return $input;
-	}
+        $this->logger->info("Delivering File.");
+
+        ilFileDelivery::deliverFileAttached(
+            $download_name->getValue(),
+            $zip_name->getValue(),
+            ilMimeTypeUtil::APPLICATION__ZIP
+        );
+
+        return $input;
+    }
 }

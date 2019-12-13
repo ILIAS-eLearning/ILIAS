@@ -9,36 +9,36 @@
  */
 class ilDummyDerivedTaskProviderFactory implements ilDerivedTaskProviderFactory
 {
-	/**
-	 * @var ilTaskService
-	 */
-	protected $task_service;
+    /**
+     * @var ilTaskService
+     */
+    protected $task_service;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
 
-	/**
-	 * Set task service
-	 *
-	 * @param ilTaskService $task_service
-	 */
-	public function setTaskService(ilTaskService $task_service)
-	{
-		$this->task_service = $task_service;
-	}
+    /**
+     * Set task service
+     *
+     * @param ilTaskService $task_service
+     */
+    public function setTaskService(ilTaskService $task_service)
+    {
+        $this->task_service = $task_service;
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getProviders(): array
-	{
-		return [
-			new ilDummyDerivedTaskProvider($this->task_service)
-		];
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getProviders() : array
+    {
+        return [
+            new ilDummyDerivedTaskProvider($this->task_service)
+        ];
+    }
 }

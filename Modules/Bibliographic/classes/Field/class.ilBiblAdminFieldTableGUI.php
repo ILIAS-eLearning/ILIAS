@@ -7,7 +7,6 @@
 
 class ilBiblAdminFieldTableGUI extends ilTable2GUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_fields';
     /**

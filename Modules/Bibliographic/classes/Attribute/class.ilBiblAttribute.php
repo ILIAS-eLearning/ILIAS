@@ -11,7 +11,7 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return 'il_bibl_attribute';
     }

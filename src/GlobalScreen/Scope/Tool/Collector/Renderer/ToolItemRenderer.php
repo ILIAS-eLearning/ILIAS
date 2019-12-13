@@ -16,16 +16,17 @@ use ILIAS\UI\Component\Component;
  */
 class ToolItemRenderer extends BaseTypeRenderer
 {
-
     use SlateSessionStateCode;
 
 
     /**
-     * @param Link $item
+     * @param isItem $item
+     *
+     * @param bool   $with_content
      *
      * @return Component
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentForItem(isItem $item, bool $with_content = false) : Component
     {
         /**
          * @var $item Tool

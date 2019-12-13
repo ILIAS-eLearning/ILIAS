@@ -13,7 +13,6 @@ use ILIAS\GlobalScreen\Provider\ProviderFactory;
  */
 class CoreSerializer implements SerializerInterface
 {
-
     const DIVIDER = '|';
 
 
@@ -39,7 +38,7 @@ class CoreSerializer implements SerializerInterface
      */
     public function unserialize(string $serialized_string, IdentificationMap $map, ProviderFactory $provider_factory) : IdentificationInterface
     {
-        list ($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
+        list($class_name, $internal_identifier) = explode(self::DIVIDER, $serialized_string);
 
         if (!$provider_factory->isInstanceCreationPossible($class_name) || !$provider_factory->isRegistered($class_name)) {
             return new LostIdentification($serialized_string);

@@ -18,10 +18,10 @@ class Renderer extends AbstractComponentRenderer
 {
     const BLOCK_MAINBAR_ENTRIES = 'trigger_item';
     const BLOCK_MAINBAR_TOOLS = 'tool_trigger_item';
-    const BLOCK_MAINBAR_TOOLS_HIDDEN = 'tool_trigger_item_hidden';
     const BLOCK_METABAR_ENTRIES = 'meta_element';
 
     private $signals_for_tools = [];
+    private $trigger_signals = [];
 
     /**
      * @inheritdoc
@@ -39,79 +39,193 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Footer) {
             return $this->renderFooter($component, $default_renderer);
         }
+        if ($component instanceof ModeInfo) {
+            return $this->renderModeInfo($component, $default_renderer);
+        }
+    }
+
+    protected function calculateMainBarTreePosition($pos, $slate)
+    {
+        if (!$slate instanceof Slate && !$slate instanceof MainBar) {
+            return $slate;
+        }
+        return $slate
+            ->withMainBarTreePosition($pos)
+            ->withMappedSubNodes(
+                function ($num, $slate, $is_tool=false) use ($pos) {
+                    if ($is_tool) {
+                        $pos = 'T';
+                    }
+                    return $this->calculateMainBarTreePosition("$pos:$num", $slate);
+                }
+            );
+    }
+
+    protected function renderToolEntry(
+        Slate $entry,
+        string $entry_id,
+        string $mb_id,
+        MainBar $component,
+        UITemplateWrapper $tpl,
+        RendererInterface $default_renderer
+    ) : string {
+        $hidden = $component->getInitiallyHiddenToolIds();
+        $close_buttons = $component->getCloseButtons();
+
+        $is_removeable = array_key_exists($entry_id, $close_buttons);
+        $is_hidden = in_array($entry_id, $hidden);
+
+        if ($is_removeable) {
+            $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_REMOVE);
+            $this->trigger_signals[] = $trigger_signal;
+            $btn_removetool = $close_buttons[$entry_id]
+               ->withAdditionalOnloadCode(
+                   function ($id) use ($mb_id) {
+                       return "il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'remover', '{$id}', true);";
+                   }
+                )
+                ->withOnClick($trigger_signal);
+
+            $tpl->setCurrentBlock("tool_removal");
+            $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
+            $tpl->parseCurrentBlock();
+        }
+
+        $is_removeable = $is_removeable ? 'true':'false';
+        $is_hidden = $is_hidden ? 'true':'false';
+        return "il.UI.maincontrols.mainbar.addToolEntry('{$mb_id}', {$is_removeable}, {$is_hidden});";
+    }
+
+    protected function renderMainbarEntry(
+        array $entries,
+        string $block,
+        MainBar $component,
+        UITemplateWrapper $tpl,
+        RendererInterface $default_renderer
+    ) {
+        $f = $this->getUIFactory();
+        foreach ($entries as $k => $entry) {
+            $button = $entry;
+            $slate = null;
+
+            if ($entry instanceof Slate) {
+                $slate = $entry;
+                $mb_id = $entry->getMainBarTreePosition();
+
+                $is_tool = $block === static::BLOCK_MAINBAR_TOOLS;
+                $js = '';
+                if ($is_tool) {
+                    $js = $this->renderToolEntry($entry, $k, $mb_id, $component, $tpl, $default_renderer);
+                }
+
+                $trigger_signal = $component->getTriggerSignal($mb_id, $component::ENTRY_ACTION_TRIGGER);
+                $this->trigger_signals[] = $trigger_signal;
+                $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
+                    ->withOnClick($trigger_signal)
+                    ->withAdditionalOnLoadCode(
+                        function ($id) use ($js, $mb_id, $k, $is_tool) {
+                            $add_as_tool = $is_tool ? 'true':'false';
+                            $js .= "
+                                il.UI.maincontrols.mainbar.addPartIdAndEntry('{$mb_id}', 'triggerer', '{$id}', {$add_as_tool});
+                                il.UI.maincontrols.mainbar.addMapping('{$k}','{$mb_id}');
+                            ";
+                            return $js;
+                        }
+                    );
+            }
+
+            $tpl->setCurrentBlock($block);
+            $tpl->setVariable("BUTTON", $default_renderer->render($button));
+            $tpl->parseCurrentBlock();
+
+            if ($slate) {
+                $tpl->setCurrentBlock("slate_item");
+                $tpl->setVariable("SLATE", $default_renderer->render($entry));
+                $tpl->parseCurrentBlock();
+            }
+        }
     }
 
     protected function renderMainbar(MainBar $component, RendererInterface $default_renderer)
     {
+        $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.mainbar.html", true, true);
-        $active =  $component->getActive();
-        $tools = $component->getToolEntries();
-        $signals = [
-            'entry' => $component->getEntryClickSignal(),
-            'tools' => $component->getToolsClickSignal(),
-            'close_slates' => $component->getDisengageAllSignal(),
-            'tools_removal' => $component->getToolsRemovalSignal()
-        ];
 
-
-        $this->renderTriggerButtonsAndSlates(
-            $tpl,
-            $default_renderer,
-            $signals['entry'],
-            static::BLOCK_MAINBAR_ENTRIES,
-            $component->getEntries(),
-            $active
+        //add "more"-slate
+        $more_slate = $f->maincontrols()->slate()->combined(
+            $component->getMoreButton()->getLabel(),
+            $f->symbol()->glyph()->disclosure()
+        );
+        $component = $component->withAdditionalEntry(
+            '_mb_more_entry',
+            $more_slate
         );
 
-        if (count($tools) > 0) {
-            $tools_button = $component->getToolsButton();
-            $initially_hidden_ids = $component->getInitiallyHiddenToolIds();
-            $close_buttons = $component->getCloseButtons();
-            $this->addTools(
+        $component = $this->calculateMainBarTreePosition("0", $component);
+
+        $mb_entries = [
+            static::BLOCK_MAINBAR_ENTRIES => $component->getEntries(),
+            static::BLOCK_MAINBAR_TOOLS => $component->getToolEntries()
+        ];
+
+        foreach ($mb_entries as $block => $entries) {
+            $this->renderMainbarEntry(
+                $entries,
+                $block,
+                $component,
                 $tpl,
-                $default_renderer,
-                $tools_button,
-                $tools,
-                $signals,
-                $active,
-                $initially_hidden_ids,
-                $close_buttons
+                $default_renderer
             );
         }
 
-        $more_button = $component->getMoreButton();
-        $this->addMoreSlate($tpl, $default_renderer, static::BLOCK_MAINBAR_ENTRIES, $more_button, $signals, $active);
-        $this->addCloseSlateButton($tpl, $default_renderer, $signals);
-        $this->addMainbarJS($tpl, $component, $signals, $active);
+        //tools-section trigger
+        if (count($component->getToolEntries()) > 0) {
+            $btn_tools = $component->getToolsButton()
+                ->withOnClick($component->getToggleToolsSignal());
+
+            $tpl->setCurrentBlock("tools_trigger");
+            $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
+            $tpl->parseCurrentBlock();
+        }
+
+        //disengage all, close slates
+        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->back("#"), "close", "#")
+            ->withOnClick($component->getDisengageAllSignal());
+        $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
+
+
+        $id = $this->bindMainbarJS($component);
+        $tpl->setVariable('ID', $id);
 
         return $tpl->get();
     }
 
     protected function renderMetabar(MetaBar $component, RendererInterface $default_renderer)
     {
+        $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.metabar.html", true, true);
         $active = '';
         $signals = [
             'entry' => $component->getEntryClickSignal(),
             'close_slates' => $component->getDisengageAllSignal()
         ];
+        $entries = $component->getEntries();
+
+        $more_label = 'more';
+        $more_symbol = $f->symbol()->glyph()->more()
+            ->withCounter($f->counter()->novelty(0))
+            ->withCounter($f->counter()->status(0));
+        $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''));
+        $entries[] = $more_slate;
 
         $this->renderTriggerButtonsAndSlates(
             $tpl,
             $default_renderer,
             $signals['entry'],
             static::BLOCK_METABAR_ENTRIES,
-            $component->getEntries(),
+            $entries,
             $active
         );
-
-        $more_button = $this->getUIFactory()->button()->bulky(
-            $this->getUIFactory()->symbol()->icon()->custom('./src/UI/examples/Layout/Page/Standard/options-vertical.svg', ''),
-            'more',
-            '#'
-        );
-
-        $this->addMoreSlate($tpl, $default_renderer, static::BLOCK_METABAR_ENTRIES, $more_button, $signals, $active);
 
         $component = $component->withOnLoadCode(
             function ($id) use ($signals) {
@@ -130,6 +244,19 @@ class Renderer extends AbstractComponentRenderer
         );
         $id = $this->bindJavaScript($component);
         $tpl->setVariable('ID', $id);
+        return $tpl->get();
+    }
+
+    protected function renderModeInfo(ModeInfo $component, RendererInterface $default_renderer)
+    {
+        $tpl = $this->getTemplate("tpl.mode_info.html", true, true);
+        $tpl->setVariable('MODE_TITLE', $component->getModeTitle());
+        $base_URI = $component->getCloseAction()->getBaseURI();
+        $query = $component->getCloseAction()->getQuery();
+        $action = $base_URI . '?' . $query;
+        $close = $this->getUIFactory()->symbol()->glyph()->close($action);
+        $tpl->setVariable('CLOSE_GLYPH', $default_renderer->render($close));
+
         return $tpl->get();
     }
 
@@ -152,50 +279,18 @@ class Renderer extends AbstractComponentRenderer
             if ($entry instanceof Slate) {
                 $f = $this->getUIFactory();
                 $secondary_signal = $entry->getToggleSignal();
-                if ($block === static::BLOCK_MAINBAR_TOOLS) {
-                    $secondary_signal = $entry->getEngageSignal();
-                }
                 $button = $f->button()->bulky($entry->getSymbol(), $entry->getName(), '#')
                     ->withOnClick($entry_signal)
                     ->appendOnClick($secondary_signal)
                     ->withEngagedState($engaged);
 
                 $slate = $entry;
-                $slate = $slate->withEngaged(false); //init disengaged, onLoadCode will "click" the button
             } else {
                 $button = $entry;
                 $slate = null;
             }
 
-            if ($block === static::BLOCK_MAINBAR_TOOLS) {
-                $this->button_id = null;
-                $button = $button->withAdditionalOnLoadCode(
-                    function ($id) use ($button_id) {
-                        $this->button_id = $id;
-                    }
-                );
-                $button_html = $default_renderer->render($button);
-                $button_id = $this->button_id;
-
-                //closeable tool
-                if(array_key_exists($id, $close_buttons)) {
-                    $btn_removetool = $close_buttons[$id]
-                        ->appendOnClick($tool_removal_signal);
-                    $tpl->setCurrentBlock("tool_removal");
-                    $tpl->setVariable("REMOVE_TOOL_ID", $button_id);
-                    $tpl->setVariable("REMOVE_TOOL", $default_renderer->render($btn_removetool));
-                    $tpl->parseCurrentBlock();
-                }
-
-                //initially hidden
-                if(in_array($id, $initially_hidden_ids)) {
-                    $this->signals_for_tools[$id] = $button_id;
-                    $use_block = static::BLOCK_MAINBAR_TOOLS_HIDDEN;
-                }
-
-            } else {
-                $button_html = $default_renderer->render($button);
-            }
+            $button_html = $default_renderer->render($button);
 
             $tpl->setCurrentBlock($use_block);
             $tpl->setVariable("BUTTON", $button_html);
@@ -209,121 +304,39 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function addCloseSlateButton(
-        UITemplateWrapper $tpl,
-        RendererInterface $default_renderer,
-        array $signals
-    ) {
-        $f = $this->getUIFactory();
-        $btn_disengage = $f->button()->bulky($f->symbol()->glyph()->back("#"), "close", "#")
-            ->withOnClick($signals['close_slates']);
-        $tpl->setVariable("CLOSE_SLATES", $default_renderer->render($btn_disengage));
-    }
+    protected function bindMainbarJS(MainBar $component) : string
+    {
+        $trigger_signals = $this->trigger_signals;
 
-    protected function addTools(
-        UITemplateWrapper $tpl,
-        RendererInterface $default_renderer,
-        Component\Button\Bulky $tools_button,
-        array $tools,
-        array $signals,
-        string $active = null,
-        array $initially_hidden_ids = [],
-        array $close_buttons
-    ) {
-        $f = $this->getUIFactory();
+        $inititally_active = $component->getActive();
 
-        $btn_tools = $tools_button
-            ->withOnClick($signals['tools'])
-            ->withEngagedState(false); //if a tool-entry is active, onLoadCode will "click" the button
-
-        $tpl->setCurrentBlock("tools_trigger");
-        $tpl->setVariable("BUTTON", $default_renderer->render($btn_tools));
-        $tpl->parseCurrentBlock();
-
-        $this->renderTriggerButtonsAndSlates(
-            $tpl,
-            $default_renderer,
-            $signals['entry'],
-            static::BLOCK_MAINBAR_TOOLS,
-            $tools,
-            $active,
-            $initially_hidden_ids,
-            $close_buttons,
-            $signals['tools_removal']
-        );
-    }
-
-    protected function addMoreSlate(
-        UITemplateWrapper $tpl,
-        RendererInterface $default_renderer,
-        string $block,
-        Component\Button\Bulky $more_button,
-        array $signals,
-        string $active = null
-    ) {
-        $f = $this->getUIFactory();
-        $more_label = $more_button->getLabel();
-        $more_symbol = $more_button->getIconOrGlyph();
-        $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''));
-        $this->renderTriggerButtonsAndSlates(
-            $tpl,
-            $default_renderer,
-            $signals['entry'],
-            $block,
-            [$more_slate],
-            $active
-        );
-    }
-
-    protected function addMainbarJS(
-        UITemplateWrapper $tpl,
-        MainBar $component,
-        array $signals,
-        string $active = null
-    ) {
-        $ext_signals =  $this->signals_for_tools;
         $component = $component->withOnLoadCode(
-            function ($id) use ($signals, $ext_signals, $component) {
-                $entry_signal = $signals['entry'];
-                $tools_signal = $signals['tools'];
-                $close_slates_signal = $signals['close_slates'];
-                $tool_removal_signal = $signals['tools_removal'];
-                $js = "
-                    il.UI.maincontrols.mainbar.registerSignals(
-                        '{$id}',
-                        '{$entry_signal}',
-                        '{$close_slates_signal}',
-                        '{$tools_signal}',
-                        '{$tool_removal_signal}'
-                    );
-                    il.UI.maincontrols.mainbar.initMore();
-                    $(window).resize(il.UI.maincontrols.mainbar.initMore);
-				";
+            function ($id) use ($component, $trigger_signals, $inititally_active) {
+                $disengage_all_signal = $component->getDisengageAllSignal();
+                $tools_toggle_signal = $component->getToggleToolsSignal();
 
-                foreach ($ext_signals as $key => $btn_id) {
-                    $ext_signal = $component->getEngageToolSignal($key);
-                    $js .= "
-                        il.UI.maincontrols.mainbar.addExternalSignals(
-                            '{$id}',
-                            '{$ext_signal}',
-                            '{$btn_id}'
-                        );
-                    ";
+                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$disengage_all_signal}');";
+                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$tools_toggle_signal}');";
+
+                foreach ($trigger_signals as $signal) {
+                    $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$signal}');";
                 }
+
+                foreach ($component->getToolEntries() as $k => $tool) {
+                    $signal = $component->getEngageToolSignal($k);
+                    $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$signal}');";
+                }
+
+                $js .= "
+                    $(window).resize(il.UI.maincontrols.mainbar.adjustToScreenSize);
+                    il.UI.maincontrols.mainbar.init('{$inititally_active}');
+                ";
                 return $js;
             }
         );
 
-        if ($active) {
-            $component = $component->withAdditionalOnLoadCode(
-                function ($id) {
-                    return "il.UI.maincontrols.mainbar.initActive('{$id}');";
-                }
-            );
-        }
-
         $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
+        return $id;
     }
 
     protected function renderFooter(Footer $component, RendererInterface $default_renderer)
@@ -339,10 +352,9 @@ class Renderer extends AbstractComponentRenderer
 
         $perm_url = $component->getPermanentURL();
         if ($perm_url) {
-            $tpl->setVariable(
-                'PERMANENT_URL',
-                $perm_url->getBaseURI() . '?' . $perm_url->getQuery()
-            );
+            $url = $perm_url->getBaseURI() . '?' . $perm_url->getQuery();
+            $tpl->setVariable('PERMA_LINK_LABEL', $this->txt('perma_link'));
+            $tpl->setVariable('PERMANENT_URL', $url);
         }
         return $tpl->get();
     }
@@ -355,6 +367,7 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/MainControls/mainbar.js');
         $registry->register('./src/UI/templates/js/MainControls/metabar.js');
+        $registry->register('./src/GlobalScreen/Client/dist/GS.js');
     }
 
     /**
@@ -365,7 +378,8 @@ class Renderer extends AbstractComponentRenderer
         return array(
             MetaBar::class,
             MainBar::class,
-            Footer::class
+            Footer::class,
+            ModeInfo::class
         );
     }
 }

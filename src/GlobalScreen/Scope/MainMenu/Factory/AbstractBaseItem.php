@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
 
@@ -11,7 +12,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
  */
 abstract class AbstractBaseItem implements isItem
 {
-
+    use ComponentDecoratorTrait;
     /**
      * @var int
      */
@@ -44,6 +45,10 @@ abstract class AbstractBaseItem implements isItem
      * @var
      */
     protected $type_information;
+    /**
+     * @var bool
+     */
+    private $is_visible_static;
 
 
     /**
@@ -83,18 +88,21 @@ abstract class AbstractBaseItem implements isItem
      */
     public function isVisible() : bool
     {
+        if (isset($this->is_visible_static)) {
+            return $this->is_visible_static;
+        }
         if (!$this->isAvailable()) {
-            return false;
+            return $this->is_visible_static = false;
         }
         if (is_callable($this->visiblility_callable)) {
             $callable = $this->visiblility_callable;
 
             $value = $callable();
 
-            return $value;
+            return $this->is_visible_static = $value;
         }
 
-        return true;
+        return $this->is_visible_static = true;
     }
 
 

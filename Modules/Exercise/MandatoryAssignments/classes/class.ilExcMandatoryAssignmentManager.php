@@ -41,7 +41,7 @@ class ilExcMandatoryAssignmentManager
         $this->rand_ass_manager = $rand_ass_manager;
         $this->assignments = ilExAssignment::getInstancesByExercise($exc->getId());
 
-        $this->set_to_mandatory_assignments = array_filter($this->assignments, function($i) {
+        $this->set_to_mandatory_assignments = array_filter($this->assignments, function ($i) {
             /** @var ilExAssignment $i */
             if ($i->getMandatory()) {
                 return true;
@@ -61,7 +61,7 @@ class ilExcMandatoryAssignmentManager
         if ($this->rand_ass_manager->isActivated()) {
             return $this->rand_ass_manager->getMandatoryAssignmentsOfUser($user_id);
         }
-        $r =  array_map(function($i) {
+        $r =  array_map(function ($i) {
             /** @var ilExAssignment $i */
             return $i->getId();
         }, $this->set_to_mandatory_assignments);
@@ -79,5 +79,4 @@ class ilExcMandatoryAssignmentManager
     {
         return (in_array($ass_id, $this->getMandatoryAssignmentsOfUser($user_id)));
     }
-
 }

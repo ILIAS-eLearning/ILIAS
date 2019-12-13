@@ -117,7 +117,8 @@ class ilObjBibliographic extends ilObject2
         }
 
         $DIC->database()->insert(
-            "il_bibl_data", [
+            "il_bibl_data",
+            [
                 "id"        => ["integer", $this->getId()],
                 "filename"  => ["text", $this->getFilename()],
                 "is_online" => ["integer", $this->getOnline()],
@@ -158,11 +159,13 @@ class ilObjBibliographic extends ilObject2
         }
 
         $DIC->database()->update(
-            "il_bibl_data", [
+            "il_bibl_data",
+            [
             "filename"  => ["text", $this->getFilename()],
             "is_online" => ["integer", $this->getOnline()],
             "file_type" => ["integer", $this->getFileType()],
-        ], ["id" => ["integer", $this->getId()]]
+        ],
+            ["id" => ["integer", $this->getId()]]
         );
     }
 
@@ -180,8 +183,10 @@ class ilObjBibliographic extends ilObject2
         }
         //il_bibl_attribute
         $ilDB->manipulate(
-            "DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN " . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote($this->getId(),
-                "integer") . ")"
+            "DELETE FROM il_bibl_attribute WHERE il_bibl_attribute.entry_id IN " . "(SELECT il_bibl_entry.id FROM il_bibl_entry WHERE il_bibl_entry.data_id = " . $ilDB->quote(
+                $this->getId(),
+                "integer"
+            ) . ")"
         );
         //il_bibl_entry
         $this->bib_entry_factory->deleteEntryById($this->getId());

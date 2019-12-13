@@ -58,18 +58,16 @@ class ilExcRandomAssignmentGUI
     /**
      * Execute command
      */
-    function executeCommand()
+    public function executeCommand()
     {
         $ctrl = $this->ctrl;
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("startExercise");
 
-        switch ($next_class)
-        {
+        switch ($next_class) {
             default:
-                if (in_array($cmd, array("startExercise")))
-                {
+                if (in_array($cmd, array("startExercise"))) {
                     $this->$cmd();
                 }
         }
@@ -91,20 +89,23 @@ class ilExcRandomAssignmentGUI
         $info_gui = new ilInfoScreenGUI($this);
 
         $info_gui->addSection($lng->txt("exc_random_assignment"));
-        $info_gui->addProperty(" ",
+        $info_gui->addProperty(
+            " ",
             $lng->txt("exc_random_assignment_info")
         );
-        $info_gui->addProperty($lng->txt("exc_rand_overall_ass"),
+        $info_gui->addProperty(
+            $lng->txt("exc_rand_overall_ass"),
             $this->random_manager->getTotalNumberOfAssignments()
         );
-        $info_gui->addProperty($lng->txt("exc_rand_nr_mandatory"),
+        $info_gui->addProperty(
+            $lng->txt("exc_rand_nr_mandatory"),
             $this->random_manager->getNumberOfMandatoryAssignments()
         );
         $this->main_tpl->setContent($info_gui->getHTML());
     }
     
     /**
-     * 
+     *
      *
      * @param
      * @return
@@ -114,7 +115,4 @@ class ilExcRandomAssignmentGUI
         $this->random_manager->startExercise();
         $this->ctrl->redirectByClass("ilObjExerciseGUI", "showOverview");
     }
-    
-
-
 }

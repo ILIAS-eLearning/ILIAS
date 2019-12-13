@@ -30,8 +30,7 @@ class ilLMPresentationService
         bool $export_all_languages = false,
         string $export_format = "",
         ilCtrl $ctrl = null
-    )
-    {
+    ) {
         global $DIC;
 
         $ctrl = (is_null($ctrl))
@@ -42,7 +41,7 @@ class ilLMPresentationService
         $this->user = $user;
         $this->ref_id = $this->request->getRequestedRefId();
         $this->lm_set = new ilSetting("lm");
-        $this->lm_gui = new ilObjLearningModuleGUI([],$this->ref_id,true,false);
+        $this->lm_gui = new ilObjLearningModuleGUI([], $this->ref_id, true, false);
         $this->lm = $this->lm_gui->object;
         $this->lm_tree = ilLMTree::getInstance($this->lm->getId());
         $this->presentation_status = new ilLMPresentationStatus(
@@ -63,7 +62,8 @@ class ilLMPresentationService
             $this->request->getRequestedObjId(),
             $this->lm_tree,
             $this->lm,
-            $this->lm_set);
+            $this->lm_set
+        );
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
         $this->tracker->setCurrentPage($this->navigation_status->getCurrentPage());
@@ -71,18 +71,24 @@ class ilLMPresentationService
         $this->linker = new ilLMPresentationLinker(
             $this->lm,
             $this->lm_tree,
-            $this->presentation_status,
-            $this->navigation_status,
-            $this->request,
-            $ctrl);
-   }
+            $this->navigation_status->getCurrentPage(),
+            $this->request->getRequestedRefId(),
+            $this->presentation_status->getLang(),
+            $this->request->getRequestedBackPage(),
+            $this->request->getRequestedFromPage(),
+            $this->presentation_status->offline(),
+            $this->presentation_status->getExportFormat(),
+            $this->presentation_status->exportAllLanguages(),
+            $ctrl
+        );
+    }
 
     /**
      * Get learning module settings
      *
      * @return ilSetting
      */
-    public function getSettings(): ilSetting
+    public function getSettings() : ilSetting
     {
         return $this->lm_set;
     }
@@ -90,7 +96,7 @@ class ilLMPresentationService
     /**
      * @return ilObjLearningModuleGUI
      */
-    public function getLearningModuleGUI(): ilObjLearningModuleGUI
+    public function getLearningModuleGUI() : ilObjLearningModuleGUI
     {
         return $this->lm_gui;
     }
@@ -98,7 +104,7 @@ class ilLMPresentationService
     /**
      * @return ilObjLearningModule
      */
-    public function getLearningModule(): ilObjLearningModule
+    public function getLearningModule() : ilObjLearningModule
     {
         return $this->lm;
     }
@@ -106,7 +112,7 @@ class ilLMPresentationService
     /**
      * @return ilLMTree
      */
-    public function getLMTree(): ilLMTree
+    public function getLMTree() : ilLMTree
     {
         return $this->lm_tree;
     }
@@ -114,7 +120,7 @@ class ilLMPresentationService
     /**
      * @return ilLMPresentationStatus
      */
-    public function getPresentationStatus(): ilLMPresentationStatus
+    public function getPresentationStatus() : ilLMPresentationStatus
     {
         return $this->presentation_status;
     }
@@ -122,7 +128,7 @@ class ilLMPresentationService
     /**
      * @return ilLMNavigationStatus
      */
-    public function getNavigationStatus(): ilLMNavigationStatus
+    public function getNavigationStatus() : ilLMNavigationStatus
     {
         return $this->navigation_status;
     }
@@ -156,6 +162,4 @@ class ilLMPresentationService
     {
         return $this->linker;
     }
-
-
 }

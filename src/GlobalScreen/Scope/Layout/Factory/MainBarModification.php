@@ -54,4 +54,3 @@ class MainBarModification extends AbstractLayoutModification implements LayoutMo
         return true;
     }
 }
-

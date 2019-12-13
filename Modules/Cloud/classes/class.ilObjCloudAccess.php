@@ -15,7 +15,6 @@ include_once("class.ilObjCloud.php");
  */
 class ilObjCloudAccess extends ilObjectAccess
 {
-
     protected static $access_cache = array();
 
 
@@ -39,7 +38,7 @@ class ilObjCloudAccess extends ilObjectAccess
      *
      * @return bool
      */
-    function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -89,7 +88,6 @@ class ilObjCloudAccess extends ilObjectAccess
      */
     public static function _checkGoto($a_target)
     {
-
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
@@ -108,7 +106,7 @@ class ilObjCloudAccess extends ilObjectAccess
      *
      * @return mixed
      */
-    static function checkOnline($a_id)
+    public static function checkOnline($a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -128,7 +126,7 @@ class ilObjCloudAccess extends ilObjectAccess
      *
      * @return mixed
      */
-    static function checkAuthStatus($a_id)
+    public static function checkAuthStatus($a_id)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -142,5 +140,3 @@ class ilObjCloudAccess extends ilObjectAccess
         return self::$access_cache[$a_id]["auth_status"];
     }
 }
-
-?>

@@ -30,7 +30,7 @@ class ilCloudPluginConfig
     /**
      * @param $table_name
      */
-    function __construct($table_name)
+    public function __construct($table_name)
     {
         $this->table_name = $table_name;
     }
@@ -60,7 +60,7 @@ class ilCloudPluginConfig
      *
      * @return bool|null
      */
-    function __call($method, $params)
+    public function __call($method, $params)
     {
         $index = substr($method, 3);
         if (substr($method, 0, 3) == 'get') {
@@ -209,5 +209,3 @@ class ilCloudPluginConfig
         }
     }
 }
-
-?>

@@ -11,7 +11,6 @@ use ilOrgUnitSimpleImport;
  */
 class ImportOrgUnitTree extends Base
 {
-
     const ORG_UNIT_TREE = 'OrgUnitTree';
 
 

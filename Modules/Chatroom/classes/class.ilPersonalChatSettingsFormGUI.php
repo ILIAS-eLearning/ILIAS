@@ -179,7 +179,8 @@ class ilPersonalChatSettingsFormGUI
                 $enabledOsc = $fieldFactory
                     ->optionalGroup(
                         $oscSubFormGroup,
-                        $this->lng->txt('chat_osc_accept_msg'), $this->lng->txt('chat_osc_accept_msg_info')
+                        $this->lng->txt('chat_osc_accept_msg'),
+                        $this->lng->txt('chat_osc_accept_msg_info')
                     )
                     ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
                     ->withDisabled($oscAvailable)
@@ -249,7 +250,7 @@ class ilPersonalChatSettingsFormGUI
 
         $this->mainTpl->setContent($this->uiRenderer->render([
             $form,
-            new Legacy($tpl->get())
+            $this->uiFactory->legacy($tpl->get())
         ]));
         $this->mainTpl->printToStdout();
     }

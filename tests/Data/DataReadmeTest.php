@@ -10,27 +10,31 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class DataReadmeTest extends TestCase {
-	protected function setUp(): void {
-		$this->old_active = ini_get("assert.active");
-		$this->old_bail = ini_get("assert.bail");
-		$this->old_warninig = ini_get("assert.warning");
+class DataReadmeTest extends TestCase
+{
+    protected function setUp() : void
+    {
+        $this->old_active = ini_get("assert.active");
+        $this->old_bail = ini_get("assert.bail");
+        $this->old_warninig = ini_get("assert.warning");
 
-		ini_set("assert.active", "1");
-		ini_set("assert.bail", "0");
-		ini_set("assert.warning", "1");
-	}
+        ini_set("assert.active", "1");
+        ini_set("assert.bail", "0");
+        ini_set("assert.warning", "1");
+    }
 
-	protected function tearDown(): void {
-		ini_set("assert.active", $this->old_active);
-		ini_set("assert.bail", $this->old_bail);
-		ini_set("assert.warning", $this->old_warninig);
-	}
+    protected function tearDown() : void
+    {
+        ini_set("assert.active", $this->old_active);
+        ini_set("assert.bail", $this->old_bail);
+        ini_set("assert.warning", $this->old_warninig);
+    }
 
-	public function testReadme() {
-		ob_start();
-		require_once(__DIR__."/../../src/Data/README.md");
-		ob_end_clean();
-		$this->assertTrue(true);
-	}
+    public function testReadme()
+    {
+        ob_start();
+        require_once(__DIR__ . "/../../src/Data/README.md");
+        ob_end_clean();
+        $this->assertTrue(true);
+    }
 }

@@ -3,7 +3,6 @@
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\UI\Component\Component;
 
 /**
@@ -15,14 +14,10 @@ class LinkItemRenderer extends BaseTypeRenderer
 {
 
     /**
-     * @param Link $item
-     *
-     * @return Component
+     * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    public function getComponentWithContent(isItem $item) : Component
     {
-        $uri_string = $item->getAction();
-
-        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($uri_string));
+        return $this->ui_factory->link()->bulky($this->getStandardSymbol($item), $item->getTitle(), $this->getURI($item->getAction()));
     }
 }

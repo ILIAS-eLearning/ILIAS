@@ -117,7 +117,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
             this.showBlock(current_id);
             this.hideProgressAnimation();
             if (callback instanceof Function) {
-                callback(this);
+                callback(this, data);
             }
         }
         //If not load it with ajax

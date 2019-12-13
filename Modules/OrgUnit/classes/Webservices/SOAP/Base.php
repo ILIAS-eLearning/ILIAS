@@ -87,7 +87,6 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     }
 
 
-
     /**
      * @inheritdoc
      */
@@ -100,7 +99,7 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @return array
      */
-    protected abstract function getAdditionalInputParams();
+    abstract protected function getAdditionalInputParams();
 
 
     /**
@@ -111,7 +110,8 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         return array_merge(
             array(
                 self::SID => self::TYPE_STRING,
-            ), $this->getAdditionalInputParams()
+            ),
+            $this->getAdditionalInputParams()
         );
     }
 
@@ -136,6 +136,12 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
         $session_id = (isset($params[0])) ? $params[0] : '';
         $this->init($session_id);
 
+        // Check Permissions
+        global $DIC;
+        if (!$DIC->access()->checkAccess('write', '', \ilObjOrgUnit::getRootOrgRefId())) {
+            $this->error('Permission denied');
+        }
+
         $clean_params = array();
         $i = 1;
         foreach ($this->getAdditionalInputParams() as $key => $type) {
@@ -150,11 +156,11 @@ abstract class Base extends ilSoapAdministration implements ilSoapMethod
     /**
      * @param $message
      *
-     * @return \soap_fault|\SoapFault
+     * @throws \SoapFault
      */
     protected function error($message)
     {
-        return $this->__raiseError($message, 1);
+        throw $this->__raiseError($message, 'ERROR');
     }
 
 

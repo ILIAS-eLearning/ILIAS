@@ -83,7 +83,7 @@ class Textarea extends Input implements C\Input\Field\Textarea
     /**
      * @inheritdoc
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return is_string($value);
     }

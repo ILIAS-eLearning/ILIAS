@@ -84,7 +84,7 @@ class ilDclNReferenceFieldGUI
         $values = $this->field->getValue();
         $record_field = $this->field;
 
-        if (!$values OR !count($values)) {
+        if (!$values or !count($values)) {
             return "";
         }
 
@@ -95,7 +95,7 @@ class ilDclNReferenceFieldGUI
         $elements = array();
         foreach ($values as $value) {
             $ref_record = ilDclCache::getRecordCache($value);
-            if (!$ref_record->getTableId() OR !$record_field->getField() OR !$record_field->getField()->getTableId()) {
+            if (!$ref_record->getTableId() or !$record_field->getField() or !$record_field->getField()->getTableId()) {
                 //the referenced record_field does not seem to exist.
                 $record_field->setValue(null);
                 $record_field->doUpdate();
@@ -140,5 +140,3 @@ class ilDclNReferenceFieldGUI
         return $tpl->get();
     }
 }
-
-?>

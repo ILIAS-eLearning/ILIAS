@@ -15,7 +15,6 @@
  */
 class ilDclRecordListTableGUI extends ilTable2GUI
 {
-
     const EXPORT_EXCEL_ASYNC = 10;
     /**
      * @var ilDclTable
@@ -350,7 +349,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
 
     public function applyFilter($field_id, $filter_value)
     {
-
         if ($filter_value) {
             $this->filter["filter_" . $field_id] = $filter_value;
         }
@@ -367,7 +365,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
 
-        if ($ilUser instanceof ilObjUser AND $this->getId()) {
+        if ($ilUser instanceof ilObjUser and $this->getId()) {
             $tab_prop = new ilTablePropertiesStorage();
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
@@ -414,5 +412,3 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
     }
 }
-
-?>

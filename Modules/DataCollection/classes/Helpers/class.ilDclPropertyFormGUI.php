@@ -44,7 +44,8 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         $a_name = ilUtil::getAsciiFileName($a_name);
 
         $tmp_file_name = implode(
-            "~~", array(
+            "~~",
+            array(
                 session_id(),
                 $a_hash,
                 $a_field,

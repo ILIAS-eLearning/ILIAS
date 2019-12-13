@@ -15,7 +15,7 @@ class TopLinkItemRenderer extends AbstractMetaBarItemRenderer
     /**
      * @inheritDoc
      */
-    public function getComponentForItem(isItem $item) : Component
+    protected function getSpecificComponentForItem(isItem $item) : Component
     {
         /**
          * @var $item TopLinkItem
@@ -23,6 +23,7 @@ class TopLinkItemRenderer extends AbstractMetaBarItemRenderer
         return $this->ui->factory()->button()->bulky(
             $this->getStandardSymbol($item),
             $item->getTitle(),
-            $item->getAction());
+            $item->getAction()
+        );
     }
 }

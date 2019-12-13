@@ -10,7 +10,6 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  */
 class ilBiblTranslationGUI
 {
-
     use DIC;
     const P_TRANSLATIONS = 'translations';
     const P_DELETE = 'delete';

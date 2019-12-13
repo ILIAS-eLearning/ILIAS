@@ -207,8 +207,10 @@ abstract class ilChatroomGUIHandler
      */
     protected function canModerate($room, $subRoom, $user_id)
     {
-        return $this->isMainRoom($subRoom) || $room->isOwnerOfPrivateRoom($user_id,
-                $subRoom) || $this->hasPermission('moderate');
+        return $this->isMainRoom($subRoom) || $room->isOwnerOfPrivateRoom(
+            $user_id,
+            $subRoom
+        ) || $this->hasPermission('moderate');
     }
 
     /**

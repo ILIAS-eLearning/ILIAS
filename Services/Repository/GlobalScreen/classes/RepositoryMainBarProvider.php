@@ -1,5 +1,6 @@
 <?php namespace ILIAS\Repository\Provider;
 
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -17,6 +18,7 @@ use InvalidArgumentException;
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
 
+
     /**
      * @inheritDoc
      */
@@ -32,22 +34,23 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
+        $access_helper = BasicAccessCheckClosures::getInstance();
 
         $title = $this->getHomeItem()->getTitle();
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", $title)->withIsOutlined(true);
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         // Home
         $entries[] = $this->getHomeItem()
+            ->withVisibilityCallable($access_helper->isRepositoryReadable())
             ->withParent($top)
-	        ->withSymbol($icon)
-	        ->withPosition(20);
+            ->withSymbol($icon)
+            ->withPosition(20);
 
         // Tree-View
         $mode = ($_SESSION["il_rep_mode"] == "flat")
             ? "tree"
             : "flat";
-        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=".$mode."&ref_id=".$_GET["ref_id"];
+        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=" . $mode . "&ref_id=" . $_GET["ref_id"];
         $title = ($mode == "flat")
             ? $this->dic->language()->txt("mm_repo_tree_view_act")
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
@@ -65,18 +68,21 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($title);
         }*/
 
-        $contents = $this->dic->ui()->factory()->legacy($this->renderRepoTree());
-        $entries[] =
-            $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
-                ->withTitle($title)
-                ->withSymbol($icon)
-                ->withContent($contents)
-                ->withParent($top)
-                ->withAlwaysAvailable(true)
-                ->withPosition(20);
+        $entries[]
+            = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
+            ->withVisibilityCallable($access_helper->isRepositoryReadable())
+            ->withContentWrapper(function () {
+                return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+            })
+            ->withSupportsAsynchronousLoading(false)
+            ->withTitle($title)
+            ->withSymbol($icon)
+            ->withParent($top)
+            ->withPosition(20);
 
         // LastVisited
         $entries[] = $this->getLastVisitedItem()
+            ->withVisibilityCallable($access_helper->isUserLoggedIn())
             ->withPosition(40)
             ->withParent($top);
 
@@ -88,7 +94,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $title = function () use ($dic): string {
+        $title = function () use ($dic) : string {
             try {
                 $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
                 $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
@@ -137,8 +143,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
                 if (!isset($item["ref_id"]) || !isset($_GET["ref_id"])
                     || ($item["ref_id"] != $_GET["ref_id"] || !$first)
-                )            // do not list current item
-                {
+                ) {            // do not list current item
                     $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
                     $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
                         ->withTitle($ititle)
@@ -161,6 +166,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             );
     }
 
+
     /**
      * Render repository tree
      *
@@ -178,8 +184,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
+        $exp->setSkipRootNode(true);
+
         return $exp->getHTML();
     }
-
-
 }

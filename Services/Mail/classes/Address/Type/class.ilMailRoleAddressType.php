@@ -64,7 +64,9 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         }
 
         $maySendToGlobalRoles = $this->rbacsystem->checkAccessOfUser(
-            $senderId, 'mail_to_global_roles', $this->typeHelper->getGlobalMailSystemId()
+            $senderId,
+            'mail_to_global_roles',
+            $this->typeHelper->getGlobalMailSystemId()
         );
 
         return $maySendToGlobalRoles;
@@ -111,7 +113,8 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         if (count($roleIds) > 0) {
             $this->logger->debug(sprintf(
                 "Found the following role ids for address '%s': %s",
-                (string) $this->address, implode(', ', array_unique($roleIds))
+                (string) $this->address,
+                implode(', ', array_unique($roleIds))
             ));
 
             foreach ($roleIds as $roleId) {

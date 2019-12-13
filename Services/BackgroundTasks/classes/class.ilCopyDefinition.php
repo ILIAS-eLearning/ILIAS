@@ -13,7 +13,6 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCopyDefinition extends AbstractValue
 {
-
     const COPY_SOURCE_DIR = 'source';
     const COPY_TARGET_DIR = 'target';
     /**
@@ -261,5 +260,3 @@ class ilCopyDefinition extends AbstractValue
         $this->setAdheresToLimit($elements["adheres_to_limit"]);
     }
 }
-
-?>

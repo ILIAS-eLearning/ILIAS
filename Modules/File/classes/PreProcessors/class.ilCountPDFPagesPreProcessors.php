@@ -12,7 +12,6 @@ use ILIAS\FileUpload\Processor\PreProcessor;
  */
 class ilCountPDFPagesPreProcessors implements PreProcessor
 {
-
     const PAGE_COUNT = 'page_count';
 
 
@@ -24,7 +23,6 @@ class ilCountPDFPagesPreProcessors implements PreProcessor
         if ($metadata->getMimeType() == ilMimeTypeUtil::APPLICATION__PDF
             && PATH_TO_GHOSTSCRIPT != ""
         ) {
-
             $PATH_TO_PDF = $stream->getMetadata('uri');
             $arg = "-q -dNODISPLAY -c \"($PATH_TO_PDF) (r) file runpdfbegin pdfpagecount = quit\";";
             $return = ilUtil::execQuoted(PATH_TO_GHOSTSCRIPT, $arg);
