@@ -87,7 +87,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->request = $request;
         $this->tree = $tree;
 
-        $tpl->addJavaScript("Services/JavaScript/js/Basic.js");
+        // Add this js manually here because the modal contains a form that is
+        // loaded asynchronously later on, and this JS won't be pulled then for
+        // some reason.
         $tpl->addJavaScript("Services/Form/js/Form.js");
     }
     public function executeCommand()
