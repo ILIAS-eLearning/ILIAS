@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UICore\PageContentProvider;
 
 /**
 * StartUp GUI class. Handles Login and Registration.
@@ -1846,17 +1847,18 @@ class ilStartUpGUI
          * @var $ilSetting ilSetting
          * @var $ilAccess  ilAccessHandler
          */
-        global $lng, $ilAccess;
+        global $lng, $ilAccess, $ilSetting;
         $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
 
         $tpl->addBlockfile('CONTENT', 'content', 'tpl.startup_screen.html', 'Services/Init');
 
+        $view_title = $lng->txt('login_to_ilias');
         if ($a_show_back) {
             // #13400
             $param = 'client_id=' . $_COOKIE['ilClientId'] . '&lang=' . $lng->getLangKey();
 
             $tpl->setCurrentBlock('link_item_bl');
-            $tpl->setVariable('LINK_TXT', $lng->txt('login_to_ilias'));
+            $tpl->setVariable('LINK_TXT', $view_title);
             $tpl->setVariable('LINK_URL', 'login.php?cmd=force_login&' . $param);
             $tpl->parseCurrentBlock();
 
@@ -1868,8 +1870,9 @@ class ilStartUpGUI
                 $tpl->parseCurrentBlock();
             }
         } elseif ($a_show_logout) {
+            $view_title = $lng->txt('logout');
             $tpl->setCurrentBlock('link_item_bl');
-            $tpl->setVariable('LINK_TXT', $lng->txt('logout'));
+            $tpl->setVariable('LINK_TXT', $view_title);
             $tpl->setVariable('LINK_URL', ILIAS_HTTP_PATH . '/logout.php');
             $tpl->parseCurrentBlock();
         }
@@ -1883,6 +1886,15 @@ class ilStartUpGUI
         }
 
         $tpl->addBlockFile('STARTUP_CONTENT', 'startup_content', $template_file, $template_dir);
+
+        PageContentProvider::setViewTitle($view_title);
+        $short_title = $ilSetting->get('short_inst_name');
+        if (trim($short_title) === "") {
+            $short_title = 'ILIAS';
+        }
+        PageContentProvider::setShortTitle($short_title);
+        PageContentProvider::setTitle($short_title);
+
         return $tpl;
     }
 
