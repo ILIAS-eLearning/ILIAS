@@ -1251,35 +1251,59 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <#83>
 <?php
 $checked_files = [];
-$defaulf_bg_img_path = '/certificates/default/background.jpg';
-$checked_files[$defaulf_bg_img_path] = file_exists(CLIENT_DATA_DIR . $defaulf_bg_img_path);
+$fnf_entries = [];
+$default_bg_img_path = '/certificates/default/background.jpg';
+$checked_files[$default_bg_img_path] = file_exists(CLIENT_DATA_DIR . $default_bg_img_path);
 
-$res = $ilDB->query('SELECT id, certificate_content_bu FROM il_cert_user_cert WHERE background_image_path = "[BACKGROUND_IMAGE]"');
+$res = $ilDB->query('SELECT id, certificate_content_bu FROM il_cert_user_cert WHERE background_image_path = ' . $ilDB->quote('[BACKGROUND_IMAGE]', 'text'));
 $updateStatement = $ilDB->prepareManip("UPDATE il_cert_user_cert SET background_image_path = ? WHERE id = ?", ['text', 'integer']);
 while ($row = $ilDB->fetchAssoc($res)) {
 
+    // try to get a file path from field 'certificate_content_bu'
     $found = preg_match('/src="url\((.*\/certificates\/[a-zA-Z0-9\/]+\.[a-zA-Z]{3,4})\)/', $row['certificate_content_bu'], $matches);
 	$background_image_path = '';
 
 	if ($found !== false) {
+	    // convert absolute paths to relative paths
         $tmp_img_path = $matches[1];
 		$tmp_img_path = preg_replace('/.*(\/(assessment|course|exercise))/', '$1', $tmp_img_path);
 		$tmp_img_path = preg_replace('/.*(\/certificates\/(default|scorm))/', '$1', $tmp_img_path);
 
 		if (strlen($tmp_img_path) > 0) {
+		    // check if file was tested earlier. If not, test if it exists.
+            // this way, we want to prevent checking multiple times for the same file.
 			if (!array_key_exists($tmp_img_path, $checked_files)) {
 				$checked_files[$tmp_img_path] = file_exists(CLIENT_DATA_DIR . $tmp_img_path);
             }
+			$GLOBALS['ilLog']->debug(sprintf('checking entry %s with path %s', $row['id'], CLIENT_DATA_DIR . $tmp_img_path));
 
+			// if file exists, store path to modify the database
+            // else store <id, path> array to log information
             if ($checked_files[$tmp_img_path] === true) {
                 $background_image_path = $tmp_img_path;
+            } else {
+                $fnf_entries[$row['id']] = $row['background_image_path'];
             }
-            // @todo if file does not exists, should the field be empty or set to default path?
         }
     }
 
 	$ilDB->execute($updateStatement, [$background_image_path, $row['id']]);
 }
+
+// log entries with missing background image files
+if (count($fnf_entries) > 0) {
+    $fnf_res = $ilDB->query('SELECT id, obj_type, obj_id, user_id FROM il_cert_user_cert WHERE ' . $ilDB->in('id', array_keys($fnf_entries), false, 'integer'));
+    while ($fnf_row = $ilDB->fetchAssoc($fnf_res)) {
+        $GLOBALS['ilLog']->warn(sprintf(
+            'Certificate Background Image not found for obj_id %s, obj_type %s and usr_id %s with path %s',
+            $fnf_row['obj_id'],
+            $fnf_row['obj_type'],
+            $fnf_row['user_id'],
+            $fnf_entries[$fnf_row['id']]
+        ));
+    }
+}
+
 ?>
 
 
