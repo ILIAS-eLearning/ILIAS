@@ -28,6 +28,7 @@ class ilDefaultPlaceholderDescription implements ilCertificatePlaceholderDescrip
         }
         $userDefinedPlaceholderHtmlDescription = $userDefinedFieldPlaceHolderDescriptionObject->getPlaceholderDescriptions();
 
+        $language->loadLanguageModule('certificate');
         $this->language = $language;
 
         $this->placeholder = array(
