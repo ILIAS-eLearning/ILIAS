@@ -32,6 +32,7 @@ class ilStudyProgrammePlaceholderDescription implements ilCertificatePlaceholder
 
         if (null === $language) {
             $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
         }
         $this->language = $language;
 

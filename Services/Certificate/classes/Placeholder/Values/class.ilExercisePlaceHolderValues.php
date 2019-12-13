@@ -69,6 +69,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
         if (null === $language) {
             global $DIC;
             $language = $DIC->language();
+            $language->loadLanguageModule('certificate');
         }
         $language->loadLanguageModule('exercise');
         $language->loadLanguageModule('exc');
