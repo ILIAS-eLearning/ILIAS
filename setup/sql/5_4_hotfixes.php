@@ -1248,5 +1248,38 @@ while ($row = $ilDB->fetchAssoc($res)) {
     $ilDB->execute($updateStatement, [$row['certificate_content'], $row['id']]);
 }
 ?>
+<#83>
+<?php
+$checked_files = [];
+$defaulf_bg_img_path = '/certificates/default/background.jpg';
+$checked_files[$defaulf_bg_img_path] = file_exists(CLIENT_DATA_DIR . $defaulf_bg_img_path);
+
+$res = $ilDB->query('SELECT id, certificate_content_bu FROM il_cert_user_cert WHERE background_image_path = "[BACKGROUND_IMAGE]"');
+$updateStatement = $ilDB->prepareManip("UPDATE il_cert_user_cert SET background_image_path = ? WHERE id = ?", ['text', 'integer']);
+while ($row = $ilDB->fetchAssoc($res)) {
+
+    $found = preg_match('/src="url\((.*\/certificates\/[a-zA-Z0-9\/]+\.[a-zA-Z]{3,4})\)/', $row['certificate_content_bu'], $matches);
+	$background_image_path = '';
+
+	if ($found !== false) {
+        $tmp_img_path = $matches[1];
+		$tmp_img_path = preg_replace('/.*(\/(assessment|course|exercise))/', '$1', $tmp_img_path);
+		$tmp_img_path = preg_replace('/.*(\/certificates\/(default|scorm))/', '$1', $tmp_img_path);
+
+		if (strlen($tmp_img_path) > 0) {
+			if (!array_key_exists($tmp_img_path, $checked_files)) {
+				$checked_files[$tmp_img_path] = file_exists(CLIENT_DATA_DIR . $tmp_img_path);
+            }
+
+            if ($checked_files[$tmp_img_path] === true) {
+                $background_image_path = $tmp_img_path;
+            }
+            // @todo if file does not exists, should the field be empty or set to default path?
+        }
+    }
+
+	$ilDB->execute($updateStatement, [$background_image_path, $row['id']]);
+}
+?>
 
 
