@@ -308,11 +308,6 @@ class ilLocatorGUI
     */
     public function getHTML()
     {
-        global $DIC;
-        $ltiview = $DIC["lti"];
-        if ($ltiview->isActive() && !$ltiview->show_locator) {
-            return "";
-        }
         $lng = $this->lng;
         $ilSetting = $this->settings;
         

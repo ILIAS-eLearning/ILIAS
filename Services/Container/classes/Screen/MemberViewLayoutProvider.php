@@ -36,7 +36,7 @@ class MemberViewLayoutProvider extends AbstractModificationProvider implements M
      */
     public function getPageBuilderDecorator(CalledContexts $screen_context_stack) : ?PageBuilderModification
     {
-        if (!$screen_context_stack->current()->hasReferenceId()) {
+        if (!$screen_context_stack->current()->hasReferenceId() || $this->dic["lti"]->isActive()) {
             return null;
         }
 
