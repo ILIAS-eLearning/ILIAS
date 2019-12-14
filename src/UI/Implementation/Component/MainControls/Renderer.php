@@ -315,7 +315,7 @@ class Renderer extends AbstractComponentRenderer
                 $disengage_all_signal = $component->getDisengageAllSignal();
                 $tools_toggle_signal = $component->getToggleToolsSignal();
 
-                $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$disengage_all_signal}');";
+                $js = "il.UI.maincontrols.mainbar.addTriggerSignal('{$disengage_all_signal}');";
                 $js .= "il.UI.maincontrols.mainbar.addTriggerSignal('{$tools_toggle_signal}');";
 
                 foreach ($trigger_signals as $signal) {
