@@ -7438,11 +7438,11 @@ hr.il-divider-with-label {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
+  color: #909090;
   overflow: hidden;
 }
 .il-item .il-item-property-value {
   font-size: 12px;
-  color: #909090;
   overflow: hidden;
 }
 .il-item .col-sm-9 > .row {
