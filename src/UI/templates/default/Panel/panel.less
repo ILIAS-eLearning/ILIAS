@@ -87,6 +87,9 @@
 		flex-grow: 1;
 		flex-shrink: 0;
 		order: 3;
+		.dropdown-toggle{
+			float: right;
+		}
 	}
 	.il-viewcontrol-sortation {
 		flex-grow: 1;
@@ -108,4 +111,9 @@
 		padding-right: 0;
 		border: none;
 	}
+}
+
+.panel-sub{
+	&:extend(.panel-primary);
+	&:extend(.panel.panel-primary);
 }
