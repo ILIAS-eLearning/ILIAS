@@ -55,7 +55,7 @@ class Combined extends Slate implements ISlate\Combined
         $signal = $this->signal_generator->create();
         $signal->addOption('entry_id', $entry_id);
         $signal->addOption('action', self::ENTRY_ACTION_TRIGGER);
-        $this->$trigger_signals[] = $signal;
+        $this->trigger_signals[] = $signal;
         return $signal;
     }
 
