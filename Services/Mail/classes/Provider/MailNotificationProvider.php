@@ -67,7 +67,6 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                 $this->dic->ui()->factory()
                 ->link()
                 ->standard($linkText, $mailUrl)
-                ->withOpenInNewViewport(true)
             )
         );
 
