@@ -255,7 +255,7 @@ abstract class ilMailTemplateContext
                 break;
         }
 
-        return $resolved;
+        return (string) $resolved;
     }
 
     /**
