@@ -30,6 +30,10 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))
+                ->withAvailableCallable(function () {
+                    $tags_set = new \ilSetting("tags");
+                    return (bool) $tags_set->get("enable");
+                })
                 ->withTitle($title)
                 ->withSupportsAsynchronousLoading(true)
                 ->withSymbol($icon)

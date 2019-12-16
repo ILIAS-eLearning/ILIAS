@@ -211,7 +211,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary">
+<div class="panel panel-sub">
 	<div class="panel-heading ilBlockHeader clearfix">
 		<h4>Title</h4>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
@@ -258,7 +258,7 @@ EOT;
                 "   </div>" .
                 "   <div class=\"panel-body\">" .
                 "
-             <div class=\"panel panel-primary\">" .
+             <div class=\"panel panel-sub\">" .
                 "           <div class=\"panel-heading ilBlockHeader clearfix\">" .
                 "               <h4>Title</h4>" .
                 "           </div>" .
