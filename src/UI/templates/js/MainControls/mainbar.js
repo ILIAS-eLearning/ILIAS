@@ -385,9 +385,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				},
 				toggleTools: function() {
 					if(state.tools_engaged) {
-						state.entries = reducers.entries.disengageTopLevel(state.entries)
-						state = reducers.bar.disengageTools(state);
-						state = reducers.bar.noSlates(state);
+						actions.disengageAll();
 					} else {
 						for(idx in state.tools) {
 							var tool = state.tools[idx];
