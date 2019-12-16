@@ -1251,11 +1251,11 @@ class ilMail
             (string) $rcp_bcc,
             (string) $a_m_subject,
             (string) $a_m_message,
-            serialize($a_attachment),
+            (string) serialize($a_attachment),
             (bool) $a_use_placeholders,
-            $this->getSaveInSentbox(),
+            (bool) $this->getSaveInSentbox(),
             (string) $this->contextId,
-            serialize($this->contextParameters)
+            (string) serialize($this->contextParameters)
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,
