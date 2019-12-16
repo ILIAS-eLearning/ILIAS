@@ -89,9 +89,7 @@ class ilGlobalSuite extends TestSuite
                         $name = "il" . $basedir . $file . "Suite";
                         $s = $name::suite();
                         echo "Adding Suite: " . $name . "\n";
-                        if ($name == "ilModulesStudyProgrammeSuite") {
-                            $suite->addTest($s);
-                        }
+                        $suite->addTest($s);
                         //$suite->addTestSuite("ilSettingTest");
                     }
                 }
