@@ -138,7 +138,13 @@ AND currently_active = 1';
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 
@@ -197,7 +203,13 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
 
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 
@@ -282,7 +294,14 @@ AND il_cert_user_cert.currently_active = 1';
             $this->logger->info(sprintf('END -Found active user certificate for user: "%s" and object: "%s"', $userId, $objectId));
 
             $userCertificate = $this->createUserCertificate($row);
-            return new ilUserCertificatePresentation($userCertificate, $row['title'], '', $row['lastname']);
+            return new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                '',
+                $row['lastname']
+            );
         }
 
         throw new ilException(sprintf('There is no active entry for user id: "%s" and object id: "%s"', $userId, $objectId));
@@ -335,7 +354,13 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
         while ($row = $this->database->fetchAssoc($query)) {
             $userCertificate = $this->createUserCertificate($row);
             
-            $presentation = new ilUserCertificatePresentation($userCertificate, $row['title'], '');
+            $presentation = new ilUserCertificatePresentation(
+                (int) $row['obj_id'],
+                (string) $row['obj_type'],
+                $userCertificate,
+                $row['title'],
+                ''
+            );
             $result[] = $presentation;
         }
 

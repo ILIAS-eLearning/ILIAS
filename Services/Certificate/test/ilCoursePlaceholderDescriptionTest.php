@@ -9,7 +9,7 @@ class ilCoursePlaceholderDescriptionTest extends ilCertificateBaseTestCase
     {
         $languageMock = $this->getMockBuilder('ilLanguage')
             ->disableOriginalConstructor()
-            ->setMethods(array('txt'))
+            ->setMethods(array('txt', 'loadLanguageModule'))
             ->getMock();
 
         $templateMock = $this->getMockBuilder('ilTemplate')
