@@ -179,12 +179,17 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				 */
 				if(first_tool_id) {
 					mb.model.actions.engageTool(first_tool_id);
+				} else {
+					//tools engaged, but none active: take the first one:
+					if(mb.model.getState().tools_engaged) {
+						mb.model.actions.engageTool(Object.keys(init_state.tools).shift());
+					}
 				}
 
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
 				mb.renderer.render(mb.model.getState());
 			},
-			init_mobile = function(initially_active) {
+			init_mobile = function() {
 				var mb = il.UI.maincontrols.mainbar;
 				mb.model.actions.disengageAll();
 				mb.model.actions.initMoreButton(mb.renderer.calcAmountOfButtons());
