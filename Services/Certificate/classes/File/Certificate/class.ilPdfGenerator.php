@@ -22,11 +22,6 @@ class ilPdfGenerator
     private $rpcHelper;
 
     /**
-     * @var ilCertificateScormPdfFilename|null
-     */
-    private $scormPdfFilename;
-
-    /**
      * @var ilCertificatePdfFileNameFactory|null
      */
     private $pdfFilenameFactory;
@@ -36,13 +31,17 @@ class ilPdfGenerator
      * @param ilLogger $logger
      * @param ilCertificateRpcClientFactoryHelper|null $rpcHelper
      * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
+     * @param ilLanguage|null $lng
      */
     public function __construct(
         ilUserCertificateRepository $userCertificateRepository,
         ilLogger $logger,
         ilCertificateRpcClientFactoryHelper $rpcHelper = null,
-        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
+        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null,
+        ilLanguage $lng = null
     ) {
+        global $DIC;
+
         $this->certificateRepository = $userCertificateRepository;
         $this->logger                = $logger;
 
@@ -51,8 +50,12 @@ class ilPdfGenerator
         }
         $this->rpcHelper = $rpcHelper;
 
+        if (null === $lng) {
+            $lng = $DIC->language();
+        }
+
         if (null === $pdfFileNameFactory) {
-            $pdfFileNameFactory = new ilCertificatePdfFileNameFactory();
+            $pdfFileNameFactory = new ilCertificatePdfFileNameFactory($lng);
         }
         $this->pdfFilenameFactory = $pdfFileNameFactory;
     }

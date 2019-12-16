@@ -96,6 +96,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->willReturn(
                 array(
                     new ilUserCertificatePresentation(
+                        200,
+                        'crs',
                         new ilUserCertificate(
                             1,
                             200,
@@ -117,6 +119,8 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                         'Course Description'
                     ),
                     new ilUserCertificatePresentation(
+                        500,
+                        'tst',
                         new ilUserCertificate(
                             5,
                             500,
