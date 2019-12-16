@@ -75,6 +75,9 @@ class ilExcCronReminders extends ilCronJob
     {
         include_once "Modules/Exercise/classes/class.ilExAssignmentReminder.php";
 
+        $log = ilLoggerFactory::getLogger("exc");
+        $log->debug("--- Start Exercise Reminders Cron");
+
         $cron_status = ilCronJobResult::STATUS_NO_ACTION;
         $message = "";
         $reminder = new ilExAssignmentReminder();
