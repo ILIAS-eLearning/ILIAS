@@ -803,6 +803,7 @@ Check how your suggested element fits into our semantic structures.
 14.	If drag & drop is used one has to make sure dropping can be cancel and that accessible names can be matched to visible labels. (2.5.2)
 ## Colour and Contrast
 Please check your suggested element for colour and contrast issues. 
+
 15.	Use of colour as a visual cue is only ok if it is accompanied by text or shape with alt-text 1.4.1.
 16.	Text must have a contrast ratio of at least 4,5:1 to background for normal text and at least 3:1 for text bigger than 18 points in size (1.4.3). 
 17.	Controls and states must have a contrast ratio of at least 3:1 against adjacent colours. Same applies for charts (result presentation) because they convey meaning (1.4.11). 
