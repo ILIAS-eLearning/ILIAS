@@ -346,7 +346,7 @@ class ilLMTracker
 
         // load lm tree in array
         $this->tree_arr = array();
-        $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->readRootId()));
+        $nodes = $this->lm_tree->getCompleteTree();
         foreach ($nodes as $node) {
             $this->tree_arr["childs"][$node["parent"]][] = $node;
             $this->tree_arr["parent"][$node["child"]] = $node["parent"];
@@ -498,6 +498,7 @@ class ilLMTracker
                 $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
                 $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
             }
+
         } else {	// free pages (currently not called, since only walking through tree structure)
         }
         $this->tree_arr["nodes"][$a_obj_id]["status"] = $status;
