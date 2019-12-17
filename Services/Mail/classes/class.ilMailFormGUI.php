@@ -185,7 +185,7 @@ class ilMailFormGUI
             $this->ctrl->setParameterByClass('ilmailgui', 'type', 'message_sent');
 
             if (ilMailFormCall::isRefererStored()) {
-                ilUtil::sendInfo($this->lng->txt('mail_message_send'), true);
+                ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
                 $this->ctrl->redirectToURL(ilMailFormCall::getRefererRedirectUrl());
             } else {
                 $this->ctrl->redirectByClass('ilmailgui');
