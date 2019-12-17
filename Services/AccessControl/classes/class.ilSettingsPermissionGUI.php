@@ -210,12 +210,13 @@ class ilSettingsPermissionGUI
         }
 
         // for each permission
+        include_once './Services/AccessControl/classes/class.ilObjRole.php';
         foreach ($this->getPermissions() as $p) {
             // roles
             $cb = new ilCheckboxGroupInputGUI($this->lng->txt($p), $p);
             reset($roles);
             foreach ($roles as $k => $r) {
-                $option = new ilCheckboxOption($r["title"], $k);
+                $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), $k);
                 $cb->addOption($option);
             }
             if (is_array($perm_roles[$this->base_permissions_by_op[$p]])) {
