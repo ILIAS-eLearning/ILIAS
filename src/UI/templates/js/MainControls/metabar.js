@@ -32,8 +32,16 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				return false;
 			});
 			$(document).on(close_slates_signal, function(event, signalData) {
-				onClickDisengageAll(event, signalData);
+				onClickDisengageAll();
 				return false;
+			});
+
+			//close metabar when user clicks anywhere
+			$('.il-maincontrols-metabar').on('click', function(event) {
+				event.stopPropagation();
+			});
+			$('body').on('click', function(event) {
+				onClickDisengageAll();
 			});
 		};
 
@@ -54,8 +62,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			}
 		};
-		var onClickDisengageAll = function(event, signalData) {
-			console.log('DIENGAGE_ALL');
+		var onClickDisengageAll = function() {
 			_disengageAllButtons();
 			_disengageAllSlates();
 		};
