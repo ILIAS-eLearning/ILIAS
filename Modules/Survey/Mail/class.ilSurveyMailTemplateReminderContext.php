@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use OrgUnit\PublicApi\OrgUnitUserService;
+
 /**
  * Handles survey reminder mail placeholders
  *
@@ -19,13 +21,20 @@ class ilSurveyMailTemplateReminderContext extends ilMailTemplateContext
      */
     protected $obj_data_cache;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
+    public function __construct(
+        OrgUnitUserService $orgUnitUserService = null,
+        ilMailEnvironmentHelper $envHelper = null,
+        ilMailUserHelper $usernameHelper = null,
+        ilMailLanguageHelper $languageHelper = null
+    ) {
         global $DIC;
+
+        parent::__construct(
+            $orgUnitUserService,
+            $envHelper,
+            $usernameHelper,
+            $languageHelper
+        );
 
         $this->lng = $DIC->language();
         if (isset($DIC["ilObjDataCache"])) {

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use OrgUnit\PublicApi\OrgUnitUserService;
+
 /**
  * Handles exercise Grade reminder mail placeholders
  * If all contexts are using the same placeholders,constructor etc. todo: create base class.
@@ -20,18 +22,26 @@ class ilExcMailTemplateGradeReminderContext extends ilMailTemplateContext
      */
     protected $obj_data_cache;
 
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
+    public function __construct(
+        OrgUnitUserService $orgUnitUserService = null,
+        ilMailEnvironmentHelper $envHelper = null,
+        ilMailUserHelper $usernameHelper = null,
+        ilMailLanguageHelper $languageHelper = null
+    ) {
         global $DIC;
+
+        parent::__construct(
+            $orgUnitUserService,
+            $envHelper,
+            $usernameHelper,
+            $languageHelper
+        );
 
         $this->lng = $DIC->language();
         if (isset($DIC["ilObjDataCache"])) {
             $this->obj_data_cache = $DIC["ilObjDataCache"];
         }
+        parent::__construct();
     }
 
     const ID = 'exc_context_grade_rmd';
