@@ -17227,18 +17227,6 @@ span.ilNewsRssIcon:hover {
   margin: 0 -20px -20px -20px;
   padding: 10px 20px;
 }
-.ilDashboardMainContent .il-panel-listing-std-container {
-  margin-bottom: 15px;
-}
-.ilDashboardMainContent .il-item-group {
-  background-color: #f9f9f9;
-}
-.ilDashboardMainContent .il-item-group h4 {
-  color: #707070;
-  margin: 0;
-  padding: 6px 12px;
-  font-size: 17px;
-}
 div.ilSurveyPageEditDropArea {
   border-color: #88be51;
   color: #88be51;
