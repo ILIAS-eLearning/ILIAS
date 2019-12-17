@@ -253,9 +253,9 @@ il.UI.item = il.UI.item || {};
 			};
 
 			/**
-			 * Use to close the notification center completely.
+			 * Used to close the notification center completely.
 			 * Calling this method has the same effect like manually clicking
-			 * on the triggerer notification bell
+			 * on the triggerer notification bell.
 			 * @returns {jQuery|!jQuery}
 			 */
 			this.closeNotificationCenter = function () {
