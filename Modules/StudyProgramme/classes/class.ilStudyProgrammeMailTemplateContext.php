@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use OrgUnit\PublicApi\OrgUnitUserService;
+
 class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
 {
     const ID = 'prg_context_manual';
