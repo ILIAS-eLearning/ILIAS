@@ -821,8 +821,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass('ilmailformgui', 'mobj_id', $this->_currentFolderId);
             $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'draft');
             $viewButton = $this->uiFactory
-                ->button()
-                ->shy(
+                ->link()
+                ->standard(
                     $this->lng->txt('view'),
                     $this->ctrl->getLinkTargetByClass('ilmailformgui')
                 );
@@ -831,8 +831,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
             $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
             $viewButton = $this->uiFactory
-                ->button()
-                ->shy(
+                ->link()
+                ->standard(
                     $this->lng->txt('view'),
                     $this->ctrl->getLinkTarget($this->getParentObject(), 'showMail')
                 );
@@ -854,8 +854,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int) $mail['mail_id']);
                 $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'reply');
                 $replyButton = $this->uiFactory
-                    ->button()
-                    ->shy(
+                    ->link()
+                    ->standard(
                         $this->lng->txt('reply'),
                         $this->ctrl->getLinkTargetByClass('ilmailformgui')
                     );
@@ -877,8 +877,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass('ilmailformgui', 'mail_id', (int) $mail['mail_id']);
             $this->ctrl->setParameterByClass('ilmailformgui', 'type', 'forward');
             $forwardButton = $this->uiFactory
-                ->button()
-                ->shy(
+                ->link()
+                ->standard(
                     $this->lng->txt('forward'),
                     $this->ctrl->getLinkTargetByClass('ilmailformgui')
                 );
@@ -898,11 +898,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
             $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
             $printButton = $this->uiFactory
-                ->button()
-                ->shy(
+                ->link()
+                ->standard(
                     $this->lng->txt('print'),
                     $this->ctrl->getLinkTarget($this->getParentObject(), 'printMail')
-                );
+                )->withOpenInNewViewport(true);
             $this->ctrl->clearParameters($this->getParentObject());
 
             $buttons[] = $printButton;
