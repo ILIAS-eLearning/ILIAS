@@ -6110,6 +6110,7 @@ return array(
     'ilPDSysMessageBlockGUI' => $baseDir . '/../../Services/Mail/classes/class.ilPDSysMessageBlockGUI.php',
     'ilPDTaggingBlockGUI' => $baseDir . '/../../Services/Tagging/classes/class.ilPDTaggingBlockGUI.php',
     'ilPHPOutputDelivery' => $baseDir . '/../../Services/FileDelivery/classes/class.ilPHPOutputDelivery.php',
+    'ilPageActivationDBRepository' => $baseDir . '/../../Services/COPage/classes/class.ilPageActivationDBRepository.php',
     'ilPageComponentPlugin' => $baseDir . '/../../Services/COPage/classes/class.ilPageComponentPlugin.php',
     'ilPageComponentPluginExporter' => $baseDir . '/../../Services/COPage/classes/class.ilPageComponentPluginExporter.php',
     'ilPageComponentPluginGUI' => $baseDir . '/../../Services/COPage/classes/class.ilPageComponentPluginGUI.php',
