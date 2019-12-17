@@ -265,7 +265,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
         }
 
-        if ($_POST["auth_mode"] == AUTH_DEFAULT) {
+        if (defined(AUTH_DEFAULT) && $_POST["auth_mode"] == AUTH_DEFAULT) {
             ilUtil::sendInfo($this->lng->txt("auth_mode") . ": " . $this->getAuthModeTitle() . " " . $this->lng->txt("auth_mode_not_changed"), true);
             $this->ctrl->redirect($this, 'authSettings');
         }
