@@ -483,11 +483,22 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					cs.add(idx, state[idx]);
 				}
 				cs.store();
+				storePageState(state.any_entry_engaged || state.tools_engaged);
 			},
 			readStates = function() {
 				cs = storage();
 				return cs.items;
 			},
+			/**
+			 * The information wether slates are engaged or not is shared
+			 * with the page's renderer, so the space can be reserverd very early.
+			 */
+			storePageState = function(engaged) {
+				var shared = new il.Utilities.CookieStorage('il_mb_slates');
+				shared.add('engaged', engaged);
+				shared.store();
+			},
+
 			public_interface = {
 				read: readStates,
 				store: storeStates
@@ -512,6 +523,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				,remover_class: 'il-mainbar-remove-tool'
 				,mainbar: 'il-mainbar'
 				,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky'
+				,mainbar_entries: 'il-mainbar-entries'
 			},
 
 			dom_references = {},
@@ -709,6 +721,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					for(idx in model_state.tools) {
 						actions.renderEntry(model_state.tools[idx], true);
 					}
+					//unfortunately, this does not work properly via a class
+					$('.' + css.mainbar_entries).css('visibility', 'visible');
 				}
 			},
 			public_interface = {
