@@ -15,6 +15,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_slate_engaged = false //engaged class of a slate, will be set on registerSignals
 		;
 
+		var propagation_stopped;
+
 		var registerSignals = function (
 			component_id,
 			entry_signal,
@@ -38,10 +40,15 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 			//close metabar when user clicks anywhere
 			$('.il-maincontrols-metabar').on('click', function(event) {
-				event.stopPropagation();
+				propagation_stopped = true;
+
 			});
 			$('body').on('click', function(event) {
-				onClickDisengageAll();
+				if(propagation_stopped) {
+					propagation_stopped = false
+				} else {
+					onClickDisengageAll();
+				}
 			});
 		};
 
