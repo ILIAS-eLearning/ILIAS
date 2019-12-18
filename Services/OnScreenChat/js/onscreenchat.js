@@ -124,6 +124,7 @@
 		historyBlocked: false,
 		inputHeight: undefined,
 		historyTimestamps: {},
+		printedMessages: {},
 		emoticons: {},
 		messageFormatter: {},
 		lastUserByConvMap: {},
@@ -292,7 +293,7 @@
 				return;
 			}
 
-			if (conversationWindow.size() === 0) {
+			if (conversationWindow.length === 0) {
 				conversationWindow = $(getModule().createWindow(conversation));
 				conversationWindow.find('.panel-body')
 					.on("dblclick", function() {
@@ -348,8 +349,19 @@
 				newDomElementsCreated = true;
 			}
 
-			if(conversation.latestMessage != null) {
-				$chat.getHistory(conversation.id, getModule().historyTimestamps[conversation.id], newDomElementsCreated); 
+			if (conversation.latestMessage != null) {
+				let reverseHistory = !newDomElementsCreated,
+					ts = null;
+
+				if (!newDomElementsCreated && getModule().historyTimestamps.hasOwnProperty(conversation.id)) {
+					ts = getModule().historyTimestamps[conversation.id];
+				}
+
+				$chat.getHistory(
+					conversation.id,
+					ts,
+					reverseHistory
+				); 
 			}
 
 			conversationWindow.show();
@@ -619,11 +631,11 @@
 		},
 
 		receiveMessage: function(messageObject) {
-			let conversation = getModule().storage.get(messageObject.conversationId);
+			let conversation = getModule().storage.get(messageObject.conversationId),
+				username = findUsernameInConversationByMessage(messageObject);
 
-			var username = findUsernameInConversationByMessage(messageObject);
 			if (username !== "") {
-				if(getModule().historyTimestamps[conversation.id] === undefined) {
+				if (undefined === getModule().historyTimestamps[conversation.id]) {
 					getModule().historyTimestamps[conversation.id] = messageObject.timestamp;
 				}
 
@@ -636,13 +648,12 @@
 
 				if (
 					(!messageObject.hasOwnProperty("isSystem") || !messageObject.isSystem) &&
-					messageObject.hasOwnProperty("uuid") && messageObject.uuid &&
 					getModule().user !== undefined &&
 					getConfig().enabledBrowserNotifications &&
 					parseInt(getModule().user.id) !== parseInt(messageObject.userId)
 				) {
 					il.OnScreenChatNotifications.send(
-						messageObject.uuid,
+						messageObject.id,
 						conversation.id,
 						il.Language.txt('osc_noti_title'),
 						$("<span>").html(messageObject.message).text(),
@@ -902,14 +913,11 @@
 			let container = $('[data-onscreenchat-window=' + conversation.id + ']'),
 				messages = Object.values(conversation.messages),
 				messagesHeight = container.find('[data-onscreenchat-body]').outerHeight();
+			
+			console.log("History Messages", messages);
 
 			messages.forEach(function(message) {
-				if (
-					!getModule().historyTimestamps.hasOwnProperty(conversation.id) ||
-					getModule().historyTimestamps[conversation.id] > message.timestamp
-				) {
-					getModule().addMessage(message, !conversation.reverseSorting);
-				}
+				getModule().addMessage(message, !conversation.reverseSorting);
 			});
 
 			if (
@@ -927,17 +935,18 @@
 		},
 
 		onScroll: function() {
-			var container = $(this).closest('[data-onscreenchat-window]');
-			var conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
+			let container = $(this).closest('[data-onscreenchat-window]'),
+				conversation = getModule().storage.get(container.attr('data-onscreenchat-window'));
 
-			if($(this).scrollTop() === 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
+			if ($(this).scrollTop() === 0 && !getModule().historyBlocked && conversation.latestMessage != null) {
 				getModule().historyBlocked = true;
 				$(this).prepend(
 					$('<div></div>').css('text-align', 'center').css('margin-top', '-10px').append(
 						$('<img />').addClass("ilOnScreenChatMenuLoader").attr('src', getConfig().loaderImg)
 					)
 				);
-				var oldestMessageTimestamp = getModule().historyTimestamps[conversation.id];
+
+				let oldestMessageTimestamp = getModule().historyTimestamps[conversation.id];
 				$chat.getHistory(conversation.id, oldestMessageTimestamp);
 			}
 		},
@@ -1072,6 +1081,14 @@
 				}
 				return;
 			}
+
+			if (getModule().printedMessages.hasOwnProperty(messageObject.id)) {
+				console.log("Ignore message" + messageObject.id);
+				return;
+			}
+
+			getModule().printedMessages[messageObject.id] = messageObject.id;
+			console.log("Print message" + messageObject.id);
 
 			let messageDate = new Date();
 			messageDate.setTime(messageObject.timestamp);
