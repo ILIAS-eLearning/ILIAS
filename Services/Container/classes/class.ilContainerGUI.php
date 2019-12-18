@@ -3405,6 +3405,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ? $_SESSION["il_rep_mode"]
             : "flat";
 
+        if (isset($_REQUEST['new_type'])) {
+            $ilCtrl->setParameter($this, 'new_type', \ilUtil::stripSlashes($_REQUEST['new_type']));
+        }
+
         // check for administration context, see #0016312
         if ($mode == "tree" && (strtolower($_GET["baseClass"]) != "iladministrationgui")) {
             include_once("./Services/Repository/classes/class.ilRepositoryExplorerGUI.php");
