@@ -261,7 +261,9 @@ il.UI.item = il.UI.item || {};
 			this.closeNotificationCenter = function () {
 				let $meta_bar = getMetaBarOfItemIfIsInOne();
 				if ($meta_bar.length) {
-					return getNotificationsTriggererIfAny().trigger("click");
+					getNotificationsTriggererIfAny()
+						.filter(".engaged")
+						.trigger("click");
 				}
 			};
 
