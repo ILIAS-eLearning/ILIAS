@@ -33,7 +33,7 @@ module.exports = function(conversationId, userId, message) {
 				userId: userId,
 				message: HTMLEscape.escape(message),
 				timestamp: (new Date).getTime(),
-				uuid: UUID.v4() // not stored
+				id: UUID.v4()
 			};
 
 			if (participant.getAcceptsMessages()) {
