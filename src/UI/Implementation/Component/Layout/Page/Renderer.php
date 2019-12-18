@@ -13,7 +13,7 @@ use ILIAS\UI\Component\Image\Image;
 
 class Renderer extends AbstractComponentRenderer
 {
-
+    const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
     /**
      * @inheritdoc
      */
@@ -53,6 +53,11 @@ class Renderer extends AbstractComponentRenderer
             if ($logo) {
                 $tpl->setVariable("LOGO", $default_renderer->render($logo));
             }
+        }
+
+        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
+        if($slates_cookie && json_decode($slates_cookie,true)['engaged']) {
+            $tpl->touchBlock('slates_engaged');
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());

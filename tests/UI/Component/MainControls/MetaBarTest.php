@@ -112,6 +112,14 @@ class MetaBarTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
+    public function brutallyTrimHTML($html)
+    {
+        $html = str_replace(["\n", "\r", "\t"], "", $html);
+        $html = preg_replace('# {2,}#', " ", $html);
+        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
+        return trim($html);
+    }
+
     public function testRendering()
     {
         $r = $this->getDefaultRenderer();
@@ -126,20 +134,20 @@ class MetaBarTest extends ILIAS_UI_TestBase
 
         $expected = <<<EOT
 <div class="il-maincontrols-metabar" id="id_5">
-	<div class="il-metabar-entries">
-		<button class="btn btn-bulky" data-action="#" id="id_1">
+	<div class="il-metabar-entries" style="visibility: hidden">
+		<button class="btn btn-bulky" data-action="#" id="id_1" >
 			<div class="icon custom small" aria-label="">
 				<img src="" />
 			</div>
 			<span class="bulky-label">TestEntry</span>
 		</button>
-		<button class="btn btn-bulky" data-action="#" id="id_2">
+		<button class="btn btn-bulky" data-action="#" id="id_2" >
 			<div class="icon custom small" aria-label="">
 				<img src="" />
 			</div>
 			<span class="bulky-label">TestEntry</span>
 		</button>
-		<button class="btn btn-bulky" id="id_3" aria-pressed="false">
+		<button class="btn btn-bulky" id="id_3" aria-pressed="false" >
 			<span class="glyph" aria-label="more">
 				<span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span>
 				<span class="il-counter">
