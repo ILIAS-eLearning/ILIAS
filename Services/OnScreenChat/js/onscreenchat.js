@@ -425,6 +425,17 @@
 			return $template;
 		},
 
+		closeNotificationCenter: function() {
+			try {
+				let notificationContainer = il.UI.item.notification.getNotificationItemObject(
+					$("#" + getModule().notificationItemId)
+				);
+				notificationContainer.closeNotificationCenter();
+			} catch (e) {
+				console.error(e);
+			}
+		},
+
 		rerenderNotifications: function(conversation, withServerSideRendering = true) {
 			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
 
@@ -442,10 +453,11 @@
 				let $notificationRoot = $("#" + getModule().notificationItemId),
 					notificationContainer = il.UI.item.notification.getNotificationItemObject(
 						$notificationRoot
-					);
+					), doCloseNotificationCenter = false;
 
 				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
 					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(1);
+					doCloseNotificationCenter = true;
 				} else if (0 === currentNotificationItemsAdded && conversations.length > 0) {
 					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(1);
 				}
@@ -485,6 +497,9 @@
 
 						if (0 === conversations.length) {
 							notificationContainer.removeItemProperties();
+							if (doCloseNotificationCenter) {
+								getModule().closeNotificationCenter();
+							}
 						} else {
 							let latestTimestamp = Math.max(
 								Object
