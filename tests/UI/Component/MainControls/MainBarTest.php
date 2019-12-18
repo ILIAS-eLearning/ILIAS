@@ -193,6 +193,7 @@ class MainBarTest extends ILIAS_UI_TestBase
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
         $html = preg_replace('# {2,}#', " ", $html);
+        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
         return trim($html);
     }
 
@@ -224,7 +225,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 			<div class="il-maincontrols-mainbar" id="id_12">
 				<div class="il-mainbar">
 					<div class="il-mainbar-triggers">
-						<div class="il-mainbar-entries">
+						<div class="il-mainbar-entries" style="visibility: hidden">
 							<button class="btn btn-bulky" data-action="#" id="id_1" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" data-action="#" id="id_2" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">TestEntry</span></button>
 							<button class="btn btn-bulky" id="id_3" ><div class="icon custom small" aria-label=""><img src="" /></div><span class="bulky-label">1</span></button>
