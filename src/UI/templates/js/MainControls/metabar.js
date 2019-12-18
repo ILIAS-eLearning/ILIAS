@@ -112,6 +112,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			_tagMoreButton();
 			_tagMoreSlate();
 			il.UI.page.isSmallScreen() ? _initCondensed() : _initWide();
+			//unfortunately, this does not work properly via a class
+			$('.' + _cls_entries).css("visibility","visible");
 		};
 
 		var _initCondensed = function () {
