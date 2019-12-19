@@ -27,3 +27,31 @@ while ($rec = $ilDB->fetchAssoc($set))
     );
 }
 ?>
+<#3>
+<?php
+if (!$ilDB->tableColumnExists('mail', 'send_datetime')) {
+    $ilDB->addTableColumn(
+        'mail',
+        'send_datetime',
+        [
+            'type' => 'timestamp',
+            'notnull' => true,
+        ]
+    );
+    $ilDB->manipulate('UPDATE mail SET send_datetime = send_time');
+}
+
+if ($ilDB->tableColumnExists('mail', 'send_time')) {
+    $ilDB->manipulate('UPDATE mail SET send_time = NULL');
+
+    $field = [
+        'type' => 'integer',
+        'length' => 8,
+        'notnull' => true,
+        'default' => 0,
+    ];
+
+    $ilDB->modifyTableColumn('mail', 'send_time', $field);
+    $ilDB->manipulate('UPDATE mail SET send_time = UNIX_TIMESTAMP(send_datetime)');
+}
+?>
