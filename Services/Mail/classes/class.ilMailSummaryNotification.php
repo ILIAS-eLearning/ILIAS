@@ -57,8 +57,8 @@ class ilMailSummaryNotification extends ilMailNotification
 						AND mail.send_time >= %s
 						AND mail.m_status = %s
 						AND ud.active = %s',
-            array('integer', 'timestamp', 'text', 'integer'),
-            array(1, date('Y-m-d H:i:s', time() - 60 * 60 * 24), 'unread', 1)
+            array('integer', 'integer', 'text', 'integer'),
+            array(1, time() - 60 * 60 * 24, 'unread', 1)
         );
         
         $users = array();
@@ -75,6 +75,10 @@ class ilMailSummaryNotification extends ilMailNotification
         $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
         $sender        = $senderFactory->system();
 
+        $usedRelatedDates = \ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(false);
+        $usedLanguage = \ilDatePresentation::getLanguage();
+
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
             $user_lang = $this->getLanguage() ? $this->getLanguage() : $this->lng;
@@ -84,6 +88,8 @@ class ilMailSummaryNotification extends ilMailNotification
             $this->setRecipients(array($user_id));
             $this->setSubject($this->getLanguageText('mail_notification_subject'));
 
+            ilDatePresentation::setLanguage($user_lang);
+
             $this->setBody(ilMail::getSalutation($user_id, $user_lang));
             $this->appendBody("\n\n");
             if (count($mail_data) == 1) {
@@ -92,13 +98,17 @@ class ilMailSummaryNotification extends ilMailNotification
                 $this->appendBody(sprintf($user_lang->txt('mails_at_the_ilias_installation'), count($mail_data), ilUtil::_getHttpPath()));
             }
             $this->appendBody("\n\n");
-            
+
             $counter = 1;
             foreach ($mail_data as $mail) {
                 $this->appendBody("----------------------------------------------------------------------------------------------");
                 $this->appendBody("\n\n");
                 $this->appendBody('#' . $counter . "\n\n");
-                $this->appendBody($user_lang->txt('date') . ": " . $mail['send_time']);
+                $this->appendBody(
+                    $user_lang->txt('date') . ": " . ilDatePresentation::formatDate(
+                        new ilDateTime($mail['send_time'], IL_CAL_UNIX)
+                    )
+                );
                 $this->appendBody("\n");
                 if ($mail['sender_id'] == ANONYMOUS_USER_ID) {
                     $senderName = ilMail::_getIliasMailerName();
@@ -138,5 +148,8 @@ class ilMailSummaryNotification extends ilMailNotification
             $mmail->Body($this->getBody());
             $mmail->Send();
         }
+
+        ilDatePresentation::setUseRelativeDates($usedRelatedDates);
+        ilDatePresentation::setLanguage($usedLanguage);
     }
 }
