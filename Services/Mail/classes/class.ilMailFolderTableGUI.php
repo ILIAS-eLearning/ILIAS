@@ -226,7 +226,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ];
         }
 
-        if ($this->isLuceneSearchEnabled()) {
+        if ($this->shouldUseLuceneSearch()) {
             $columns[++$i] = [
                 'field' => 'search_content',
                 'txt' => $this->lng->txt('search_content'),
@@ -424,10 +424,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
     /**
      * @return bool
      */
-    protected function isLuceneSearchEnabled() : bool
+    private function isLuceneEnabled() : bool
+    {
+        return ilSearchSettings::getInstance()->enabledLucene();
+    }
+
+    /**
+     * @return bool
+     */
+    protected function shouldUseLuceneSearch() : bool
     {
         if (
-            ilSearchSettings::getInstance()->enabledLucene() &&
+            $this->isLuceneEnabled() &&
             isset($this->filter['mail_filter']) &&
             is_string($this->filter['mail_filter']) &&
             strlen($this->filter['mail_filter']) > 0
@@ -436,6 +444,47 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
 
         return false;
+    }
+
+    /**
+     * @param array $filter
+     * @return array
+     */
+    private function prepareProviderFilter(array $filter) : array
+    {
+        if (isset($filter['period'])) {
+            if (
+                isset($filter['period']['start']) &&
+                $filter['period']['start'] instanceof \ilDateTime &&
+                !$filter['period']['start']->isNull()
+            ) {
+                $periodStart =  new DateTimeImmutable(
+                    $filter['period']['start']->get(IL_CAL_FKT_DATE, 'Y-m-d') . ' 00:00:00',
+                    new DateTimeZone( $filter['period']['start']->getTimeZoneIdentifier())
+                );
+
+                $filter['period']['start'] = $periodStart;
+            } else {
+                unset($filter['period']['start']);
+            }
+
+            if (
+                isset($filter['period']['end']) &&
+                $filter['period']['end'] instanceof \ilDateTime &&
+                !$filter['period']['end']->isNull()
+            ) {
+                $periodEnd =  new DateTimeImmutable(
+                    $filter['period']['end']->get(IL_CAL_FKT_DATE, 'Y-m-d') . ' 23:59:59',
+                    new DateTimeZone( $filter['period']['end']->getTimeZoneIdentifier())
+                );
+
+                $filter['period']['end'] = $periodEnd;
+            } else {
+                unset($filter['period']['end']);
+            }
+        }
+        
+        return $filter;
     }
 
     /**
@@ -453,15 +502,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
 
         try {
-            if ($this->isLuceneSearchEnabled()) {
+            if ($this->shouldUseLuceneSearch()) {
                 $query_parser = new ilMailLuceneQueryParser($this->filter['mail_filter']);
-                $query_parser->setFields(array(
+                $query_parser->setFields([
                     'title' => (bool) $this->filter['mail_filter_subject'],
                     'content' => (bool) $this->filter['mail_filter_body'],
                     'mattachment' => (bool) $this->filter['mail_filter_attach'],
                     'msender' => (bool) $this->filter['mail_filter_sender'],
                     'mrcp' => (bool) $this->filter['mail_filter_recipients']
-                ));
+                ]);
                 $query_parser->parse();
 
                 $result = new ilMailSearchResult();
@@ -473,12 +522,13 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 }
 
                 ilMailBoxQuery::$filtered_ids = $result->getIds();
-                ilMailBoxQuery::$filter = [
+                ilMailBoxQuery::$filter = $this->prepareProviderFilter([
                     'mail_filter_only_unread' => $this->filter['mail_filter_only_unread'],
                     'mail_filter_only_with_attachments' => $this->filter['mail_filter_only_with_attachments'],
-                ];
+                    'period' => $this->filter['period'],
+                ]);
             } else {
-                ilMailBoxQuery::$filter = (array) $this->filter;
+                ilMailBoxQuery::$filter = $this->prepareProviderFilter((array) $this->filter);
             }
 
             if ($this->isDraftFolder() || $this->isSentFolder() && isset(ilMailBoxQuery::$filter['mail_filter_only_unread'])) {
@@ -569,7 +619,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             }
             $css_class = $mail['m_status'] == 'read' ? 'mailread' : 'mailunread';
 
-            if ($this->isLuceneSearchEnabled()) {
+            if ($this->shouldUseLuceneSearch()) {
                 $search_result = array();
                 foreach ($result->getFields($mail['mail_id']) as $content) {
                     if ('title' == $content[0]) {
@@ -726,16 +776,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $subFilterInBody->readFromSession();
         $this->filter['mail_filter_body'] = (int) $subFilterInBody->getChecked();
 
-        $this->sub_filter[] = $subFilterInAttachments = new ilCheckboxInputGUI(
-            $this->lng->txt('mail_filter_attach'),
-            'mail_filter_attach'
-        );
-        $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
-        $subFilterInAttachments->setValue(1);
-        $quickFilter->addSubItem($subFilterInAttachments);
-        $subFilterInAttachments->setParent($this);
-        $subFilterInAttachments->readFromSession();
-        $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
+        if ($this->isLuceneEnabled()) {
+            $this->sub_filter[] = $subFilterInAttachments = new ilCheckboxInputGUI(
+                $this->lng->txt('mail_filter_attach'),
+                'mail_filter_attach'
+            );
+            $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
+            $subFilterInAttachments->setValue(1);
+            $quickFilter->addSubItem($subFilterInAttachments);
+            $subFilterInAttachments->setParent($this);
+            $subFilterInAttachments->readFromSession();
+            $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
+        }
 
         if (!$this->isDraftFolder() && !$this->isSentFolder()) {
             $onlyUnread = new ilCheckboxInputGUI(
@@ -763,12 +815,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $duration->setAllowOpenIntervals(true);
         $duration->setStartText($this->lng->txt('mail_filter_period_from'));
         $duration->setEndText($this->lng->txt('mail_filter_period_until'));
-        $duration->setStart(new ilDateTime(null, IL_CAL_UNIX));
-        $duration->setEnd(new ilDateTime(null, IL_CAL_UNIX));
+        $duration->setStart(new ilDate(null, IL_CAL_UNIX));
+        $duration->setEnd(new ilDate(null, IL_CAL_UNIX));
         $duration->setShowTime(false);
         $this->addFilterItem($duration);
         $duration->readFromSession();
-        $this->filter['period'] = $duration->getValue();
+        $this->filter['period'] = [
+            'start' => $duration->getStart(),
+            'end' => $duration->getEnd(),
+        ];
     }
 
     /**

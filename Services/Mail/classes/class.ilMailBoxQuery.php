@@ -72,17 +72,25 @@ class ilMailBoxQuery
         if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {
             $dateFilterParts = [];
 
-            if (null !== self::$filter['period']['start']) {
+            if (self::$filter['period']['start'] instanceof DateTimeImmutable) {
+                /** @var DateTimeImmutable $periodStart */
+                $periodStart = self::$filter['period']['start'];
+                $periodStart->setTimezone(new DateTimeZone('UTC'));
+
                 $dateFilterParts[] = 'send_time >= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['start']))->format('Y-m-d 00:00:00'),
-                    'timestamp'
+                        $periodStart->getTimestamp(),
+                    'integer'
                 );
             }
 
-            if (null !== self::$filter['period']['end']) {
+            if (self::$filter['period']['end'] instanceof  DateTimeImmutable) {
+                /** @var DateTimeImmutable $periodEnd */
+                $periodEnd = self::$filter['period']['end'];
+                $periodEnd->setTimezone(new DateTimeZone('UTC'));
+
                 $dateFilterParts[] = 'send_time <= ' . $DIC->database()->quote(
-                    (new \DateTimeImmutable('@' . self::$filter['period']['end']))->format('Y-m-d 23:59:59'),
-                    'timestamp'
+                    $periodEnd->getTimestamp(),
+                    'integer'
                 );
             }
 
