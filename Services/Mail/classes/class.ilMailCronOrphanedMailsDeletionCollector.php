@@ -78,11 +78,13 @@ class ilMailCronOrphanedMailsDeletionCollector
         } else {
             // mails sollen direkt ohne vorheriger notification gelöscht werden.
             $mail_threshold  = (int) $this->settings->get('mail_threshold');
-            $ts_notify       = strtotime("- " . $mail_threshold . " days");
-            $ts_for_deletion = date('Y-m-d', $ts_notify) . ' 23:59:59';
 
-            $types = array('timestamp');
-            $data  = array($ts_for_deletion);
+            $now =  new DateTimeImmutable('@' . time(), new DateTimeZone('UTC'));
+            $deletionDateTime = $now->sub(new DateInterval('P' . (int) $mail_threshold . 'D'));
+            $deletionDateTime  = $deletionDateTime->setTime(23, 59, 59);
+
+            $types = ['integer'];
+            $data  = [$deletionDateTime->getTimestamp()];
 
             $mails_query = "
 				SELECT 		mail_id, m.user_id, folder_id, send_time, m_subject, mdata.title
@@ -92,8 +94,8 @@ class ilMailCronOrphanedMailsDeletionCollector
 
             if ((int) $this->settings->get('mail_only_inbox_trash') > 0) {
                 $mails_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
-                $types = array('timestamp', 'text', 'text');
-                $data  = array($ts_for_deletion, 'inbox', 'trash');
+                $types = ['integer', 'text', 'text'];
+                $data  = [$deletionDateTime->getTimestamp(), 'inbox', 'trash'];
             }
 
             $res = $this->db->queryF($mails_query, $types, $data);

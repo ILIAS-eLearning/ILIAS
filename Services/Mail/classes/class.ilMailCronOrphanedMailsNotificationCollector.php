@@ -52,8 +52,9 @@ class ilMailCronOrphanedMailsNotificationCollector
             $notify_days_before = 1;
         }
 
-        $ts_notify           = strtotime("- " . $notify_days_before . " days");
-        $ts_for_notification = date('Y-m-d', $ts_notify) . ' 23:59:59';
+        $now =  new DateTimeImmutable('@' . time(), new DateTimeZone('UTC'));
+        $deletionDateTime = $now->sub(new DateInterval('P' . (int) $notify_days_before . 'D'));
+        $deletionDateTime  = $deletionDateTime->setTime(23, 59, 59);
 
         $res = $this->db->query('SELECT mail_id FROM mail_cron_orphaned');
         $already_notified = array();
@@ -61,8 +62,8 @@ class ilMailCronOrphanedMailsNotificationCollector
             $already_notified[$row['mail_id']] = $row['mail_id'];
         }
 
-        $types = array('timestamp');
-        $data  = array($ts_for_notification);
+        $types = ['integer'];
+        $data  = [$deletionDateTime->getTimestamp()];
 
         $notification_query = "
 				SELECT 		mail_id, m.user_id, folder_id, send_time, m_subject, mdata.title
@@ -72,8 +73,8 @@ class ilMailCronOrphanedMailsNotificationCollector
 
         if ((int) $this->setting->get('mail_only_inbox_trash') > 0) {
             $notification_query .= " AND (mdata.m_type = %s OR mdata.m_type = %s)";
-            $types = array('timestamp', 'text', 'text');
-            $data  = array($ts_for_notification, 'inbox', 'trash');
+            $types = ['integer', 'text', 'text'];
+            $data  = [$deletionDateTime->getTimestamp(), 'inbox', 'trash'];
         }
 
         $notification_query .= " AND " . $this->db->in('mail_id', array_values($already_notified), true, 'integer')
