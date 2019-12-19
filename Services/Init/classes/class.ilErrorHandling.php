@@ -233,7 +233,7 @@ class ilErrorHandling extends PEAR
             if (empty($_SESSION["referer"])) {
                 $dirname = dirname($_SERVER["PHP_SELF"]);
                 $ilurl = parse_url(ILIAS_HTTP_PATH);
-                $subdir = substr(strstr($dirname, $ilurl["path"]), strlen($ilurl["path"]));
+                $subdir = substr(strstr($dirname, (string) $ilurl["path"]), strlen((string) $ilurl["path"]));
                 $updir = "";
 
                 if ($subdir) {
