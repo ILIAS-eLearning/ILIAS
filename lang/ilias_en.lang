@@ -14,6 +14,29 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_info_question#:#You can define variables by inserting $v1, $v2 ... $vn, results by inserting $r1, $r2 .... $rn at the desired position in the question text. Click on the button ‘Parse Question’ to create editing forms for variables and results.
+asq#:#asq_info_results#:#You may enter predefined variables ($v1 to $vn), defined results (e.g. $r1), braces for expressions, mathematical operators + (addition), - (subtraction), * (multiplication), / (division), ^ (nth power), the constants ‘pi’ for pi and ‘e’ for euler's constant, as well as the functions ‘sin’, ‘sinh’, ‘arcsin’, ‘asin’, ‘arcsinh’, ‘asinh’, ‘cos’, ‘cosh’, ‘arccos’, ‘acos’, ‘arccosh’, ‘acosh’, ‘tan’, ‘tanh’, ‘arctan’, ‘atan’, ‘arctanh’, ‘atanh’, ‘sqrt’, ‘abs’, ‘ln’ and ‘log’.
+asq#:#asq_label_units#:#Available Units
+asq#:#asq_description_units#:#The selected units are offered to the learner as part of an answer. The learner has to choose one unit.
+asq#:#asq_label_precision#:#Precision
+asq#:#asq_description_precision#:#Enter the number of desired decimal places.
+asq#:#asq_label_tolerance#:#Tolerance (%)
+asq#:#asq_description_tolerance#:#The tolerance specifies an allowable percentage deviation from the result value. With a tolerance of 0, only the exact result value is evaluated to be correct.
+asq#:#asq_label_result_type#:#Result Type Selection
+asq#:#asq_label_result_all#:#No Restrictions
+asq#:#asq_description_result_all#:#Both decimals and fractions are accepted as input.
+asq#:#asq_label_result_decimal#:#Decimal
+asq#:#asq_description_result_decimal#:#Valid results are i.e.: 2,3 and 2.3
+asq#:#asq_label_result_fraction#:#Fraction
+asq#:#asq_description_result_fraction#:#i.e.: 1/3 and 2/6 are valid results
+asq#:#asq_label_result_coprime_fraction#:#Coprime Fraction
+asq#:#asq_description_result_coprime_fraction#:#Canceled out fraction i.e.: only 1/3 is a valid result
+asq#:#asq_label_variables#:#Variables
+asq#:#asq_header_min#:#Range (Minimum)
+asq#:#asq_header_max#:#Range (Maximum)
+asq#:#asq_header_multiple_of#:#Divisible By
+asq#:#asq_header_unit#:#Unit
+asq#:#asq_header_formula#:#Formula
 asq#:#asq_imagemap_popup_title#:#Choose Area
 asq#:#asq_label_answering_limitation#:#Limit Answers
 asq#:#asq_info_answering_limitation#:#With this setting the number of answers choosable by the participiants can be limited

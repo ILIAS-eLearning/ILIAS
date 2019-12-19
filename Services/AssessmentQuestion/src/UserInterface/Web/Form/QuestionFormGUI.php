@@ -128,6 +128,8 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
             
             $this->addItem($this->option_form);
         }
+        
+        $this->postInit();
     }
     
     protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : ?array {
@@ -136,6 +138,10 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
     
     protected function canDisplayAnswerOptions() {
         return true;
+    }
+    
+    protected function postInit() {
+        //i am a virtual function :)
     }
     
     /**

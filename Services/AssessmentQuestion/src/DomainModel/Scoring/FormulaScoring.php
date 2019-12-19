@@ -146,7 +146,7 @@ class FormulaScoring extends AbstractScoring {
                 AsqTableInputFieldDefinition::TYPE_TEXT,
                 FormulaScoringVariable::VAR_UNIT),            
             new AsqTableInputFieldDefinition(
-                $DIC->language()->txt('asq_header_divisor'),
+                $DIC->language()->txt('asq_header_multiple_of'),
                 AsqTableInputFieldDefinition::TYPE_TEXT,
                 FormulaScoringVariable::VAR_MULTIPLE_OF)
         ]);

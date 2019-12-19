@@ -35,7 +35,7 @@ class FormulaQuestionGUI extends QuestionFormGUI {
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void
-    {
+    {        
         foreach (FormulaEditor::generateFields($play->getEditorConfiguration()) as $field) {
             $this->addItem($field);
         }
@@ -43,5 +43,14 @@ class FormulaQuestionGUI extends QuestionFormGUI {
         foreach (FormulaScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
+    }
+    
+    protected function postInit() {
+        global $DIC;
+        $question_text = $this->getItemByPostVar(QuestionFormGUI::VAR_QUESTION);
+        $question_text->setInfo($DIC->language()->txt('asq_info_question'));
+        $question_text->setUseRte(false);
+        
+        $this->option_form->setInfo($DIC->language()->txt('asq_info_results'));
     }
 }

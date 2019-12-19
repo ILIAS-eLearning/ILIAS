@@ -85,12 +85,12 @@ class FormulaScoringDefinition extends AnswerDefinition {
         $fields = [];
         
         $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_formula'),
+            $DIC->language()->txt('asq_header_formula'),
             AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_FORMULA);
  
         $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_label_unit'),
+            $DIC->language()->txt('asq_header_unit'),
             AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_UNIT);
         

@@ -14,6 +14,29 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+asq#:#asq_info_question#:#Sie definieren Variablen durch die Angabe von $v1, $v2 ... $vn, Ergebnisfelder mit $r1, $r2 .... $rn an den gewünschten Positionen im Text. Klicken Sie dann auf die Schaltfläche "Frage analysieren", um Bearbeitungsformulare für alle Variablen und Ergebnisse zu erzeugen.
+asq#:#asq_info_results#:#Erlaubt ist die Verwendung von bereits definierten Variablen ($v1 bis $vn), von bereits definierten Ergebnissen (z.B. $r1), das beliebige Klammern von Ausdrücken, die mathematischen Operatoren + (Addition), - (Subtraktion), * (Multiplikation), / (Division), ^ (Potenzieren), die Verwendung der Konstanten 'pi' für die Zahl Pi und 'e‘ für die Eulersche Zahl, sowie die mathematischen Funktionen 'sin', 'sinh', 'arcsin', 'asin', 'arcsinh', 'asinh', 'cos', 'cosh', 'arccos', 'acos', 'arccosh', 'acosh', 'tan', 'tanh', 'arctan', 'atan', 'arctanh', 'atanh', 'sqrt', 'abs', 'ln', 'log'.
+asq#:#asq_label_units#:#Auswählbare Einheiten
+asq#:#asq_description_units#:#Die hier ausgewählten Einheiten werden dem Lernenden zur Antwort angeboten. Der Lernende muss sich hier für eine Einheit entscheiden.
+asq#:#asq_label_precision#:#Präzision
+asq#:#asq_description_precision#:#Geben Sie hier die Anzahl der gewünschten Nachkommastellen an.
+asq#:#asq_label_tolerance#:#Toleranz (%)
+asq#:#asq_description_tolerance#:#Die Toleranz legt eine erlaubte prozentuale Abweichung vom Ergebniswert fest. Bei einer Toleranz von 0 wird nur der exakte Ergebniswert als korrekt bewertet.
+asq#:#asq_label_result_type#:#Ergebnistypauswahl
+asq#:#asq_label_result_all#:#Keine Einschränkung
+asq#:#asq_description_result_all#:#Sowohl Dezimalzahlen als auch Brüche werden als Eingabe akzeptiert.
+asq#:#asq_label_result_decimal#:#Dezimal
+asq#:#asq_description_result_decimal#:#Gültige Dezimalzahlen sind beispielsweise 2,3 und 2.3
+asq#:#asq_label_result_fraction#:#Bruch
+asq#:#asq_description_result_fraction#:#Die Eingaben 1/3 und 2/6 sind beides gültige Ergebnisse
+asq#:#asq_label_result_coprime_fraction#:#Teilerfremder Bruch
+asq#:#asq_description_result_coprime_fraction#:#Nur ein vollständig gekürzter Bruch (z.B. 1/3) ist ein gültiges Ergebnis
+asq#:#asq_label_variables#:#Variablen
+asq#:#asq_header_min#:#Bereich (Minimum)
+asq#:#asq_header_max#:#Bereich (Maximum)
+asq#:#asq_header_multiple_of#:#Teilbar durch
+asq#:#asq_header_unit#:#Einheit
+asq#:#asq_header_formula#:#Formel
 asq#:#asq_imagemap_popup_title#:#Bereich Auswählen
 asq#:#asq_label_answering_limitation#:#Antworten Limitieren
 asq#:#asq_info_answering_limitation#:#Mit dieser einstellung kann die Anzahl der Antworten pro Teilnehmer limitiert werden
