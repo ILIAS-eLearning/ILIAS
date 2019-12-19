@@ -253,6 +253,21 @@ il.UI.item = il.UI.item || {};
 			};
 
 			/**
+			 * Used to close the notification center completely.
+			 * Calling this method has the same effect like manually clicking
+			 * on the triggerer notification bell.
+			 * @returns {jQuery|!jQuery}
+			 */
+			this.closeNotificationCenter = function () {
+				let $meta_bar = getMetaBarOfItemIfIsInOne();
+				if ($meta_bar.length) {
+					getNotificationsTriggererIfAny()
+						.filter(".engaged")
+						.trigger("click");
+				}
+			};
+
+			/**
 			 * Used to set the description of a notification item
 			 * @param {string} text
 			 * @returns {generateNotificationItemObject}
@@ -302,6 +317,7 @@ il.UI.item = il.UI.item || {};
 			 * The contained functions are implemented below
 			 */
 			var public_object_interface = {
+				closeNotificationCenter: this.closeNotificationCenter,
 				setItemDescription: this.setItemDescription,
 				removeItemProperties: this.removeItemProperties,
 				setItemPropertyValueAtPosition: this.setItemPropertyValueAtPosition,

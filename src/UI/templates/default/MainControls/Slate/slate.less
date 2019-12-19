@@ -97,43 +97,19 @@
 	&[data-depth-level="2"] {
 		.btn-bulky,
 		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 80%);
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 20%);
 		}
 	}
 	&[data-depth-level="3"] {
 		.btn-bulky,
 		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 60%);
+			background-color: fade(@il-slate-bulky-bg-color-engaged, 15%);
 		}
 	}
 	&[data-depth-level="4"] {
 		.btn-bulky,
 		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 40%);
-		}
-	}
-	&[data-depth-level="5"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 30%);
-		}
-	}
-	&[data-depth-level="6"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 20%);
-		}
-	}
-	&[data-depth-level="7"] {
-		.btn-bulky,
-		.link-bulky {
 			background-color: fade(@il-slate-bulky-bg-color-engaged, 10%);
-		}
-	}
-	&[data-depth-level="8"] {
-		.btn-bulky,
-		.link-bulky {
-			background-color: fade(@il-slate-bulky-bg-color-engaged, 5%);
 		}
 	}
 }
@@ -141,6 +117,9 @@
 .il-maincontrols-slate-content {
 	p, h1, h2, h3, h4, li {
 		padding: @il-slate-content-padding;
+	}
+	li.jstree-node {
+		padding: @il-slate-tree-padding;
 	}
 }
 

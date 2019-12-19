@@ -1,7 +1,6 @@
 var Container = require('../AppContainer');
 var async = require('async');
 var Date = require('../Helper/Date');
-var UUID = require('node-uuid');
 
 var Database = function Database(config) {
 
@@ -420,7 +419,7 @@ var Database = function Database(config) {
 	 */
 	this.persistConversationMessage = function(message) {
 		_pool.query('INSERT INTO osc_messages SET ?', {
-			id: UUID.v4(),
+			id: message.id,
 			conversation_id: message.conversationId,
 			user_id: message.userId,
 			message: message.message,

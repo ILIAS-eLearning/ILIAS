@@ -103,7 +103,7 @@ function ilCloudFileList(url_get_block, url_create_folder, url_upload_file, url_
 
         //Update PermaLink
 	    perm_link = $("#current_perma_link").val();
-	    escaped_current_path = current_path.replace(/\//g, "_");
+        escaped_current_path = encodeURIComponent(encodeURIComponent(current_path));
 	    perm_link = perm_link.replace(/path_.*_endPath/,"path_"+ escaped_current_path+"_endPath");
 	    $("#current_perma_link").val(perm_link);
 

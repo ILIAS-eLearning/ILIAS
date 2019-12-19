@@ -19,6 +19,11 @@ class ilLMTree extends ilTree
     public static $instances = array();
 
     /**
+     * @var array
+     */
+    protected $complete_tree;
+
+    /**
      * Constructor
      *
      * @param integer $a_tree_id tree id
@@ -80,4 +85,16 @@ class ilLMTree extends ilTree
         $row = $ilDB->fetchAssoc($set);
         return (int) $row["obj_id"];
     }
+
+    /**
+     * Get complete tree
+     */
+    public function getCompleteTree()
+    {
+        if (is_null($this->complete_tree)) {
+            $this->complete_tree = $this->getSubTree($this->getNodeData($this->readRootId()));
+        }
+        return $this->complete_tree;
+    }
+
 }

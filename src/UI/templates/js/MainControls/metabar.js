@@ -15,6 +15,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			,_cls_slate_engaged = false //engaged class of a slate, will be set on registerSignals
 		;
 
+		var propagation_stopped;
+
 		var registerSignals = function (
 			component_id,
 			entry_signal,
@@ -32,8 +34,21 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				return false;
 			});
 			$(document).on(close_slates_signal, function(event, signalData) {
-				onClickDisengageAll(event, signalData);
+				onClickDisengageAll();
 				return false;
+			});
+
+			//close metabar when user clicks anywhere
+			$('.il-maincontrols-metabar').on('click', function(event) {
+				propagation_stopped = true;
+
+			});
+			$('body').on('click', function(event) {
+				if(propagation_stopped) {
+					propagation_stopped = false
+				} else {
+					onClickDisengageAll();
+				}
 			});
 		};
 
@@ -54,8 +69,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				}
 			}
 		};
-		var onClickDisengageAll = function(event, signalData) {
-			console.log('DIENGAGE_ALL');
+		var onClickDisengageAll = function() {
 			_disengageAllButtons();
 			_disengageAllSlates();
 		};
@@ -105,6 +119,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 			_tagMoreButton();
 			_tagMoreSlate();
 			il.UI.page.isSmallScreen() ? _initCondensed() : _initWide();
+			//unfortunately, this does not work properly via a class
+			$('.' + _cls_entries).css("visibility","visible");
 		};
 
 		var _initCondensed = function () {
