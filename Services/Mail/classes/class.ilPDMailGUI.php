@@ -118,7 +118,7 @@ class ilPDMailGUI
         $tpl->setVariable('SUBJECT', htmlspecialchars($mail_data['m_subject']));
 
         $tpl->setVariable('TXT_DATE', $this->lng->txt('date'));
-        $tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($mail_data['send_time'], IL_CAL_DATETIME)));
+        $tpl->setVariable('DATE', ilDatePresentation::formatDate(new ilDateTime($mail_data['send_time'], IL_CAL_UNIX)));
 
         $tpl->setVariable('TXT_MESSAGE', $this->lng->txt('message'));
         // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.

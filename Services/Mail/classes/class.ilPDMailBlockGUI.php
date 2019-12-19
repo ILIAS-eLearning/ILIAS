@@ -188,7 +188,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->tpl->setVariable('ALT_SENDER', htmlspecialchars(ilMail::_getIliasMailerName()));
         }
 
-        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE)));
+        $this->tpl->setVariable('NEW_MAIL_DATE', ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_UNIX)));
 
         $this->tpl->setVariable('NEW_MAIL_SUBJ', htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8'));
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
@@ -305,7 +305,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $alt_sender = htmlspecialchars(ilMail::_getIliasMailerName());
         }
 
-        $new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_DATE));
+        $new_mail_date = ilDatePresentation::formatDate(new ilDate($mail['send_time'], IL_CAL_UNIX));
         $new_mail_subj = htmlentities($mail['m_subject'], ENT_NOQUOTES, 'UTF-8');
         $this->ctrl->setParameter($this, 'mobj_id', $this->inbox);
         $this->ctrl->setParameter($this, 'mail_id', $mail['mail_id']);

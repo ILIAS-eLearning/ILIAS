@@ -557,7 +557,7 @@ class ilMail
             [
                 'folder_id' => ['integer', $a_folder_id],
                 'attachments' => ['clob', serialize($a_attachments)],
-                'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+                'send_time' => ['integer', time()],
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
@@ -658,7 +658,7 @@ class ilMail
             'folder_id' => array('integer', $folderId),
             'sender_id' => array('integer', $senderUsrId),
             'attachments' => array('clob', serialize($attachments)),
-            'send_time' => array('timestamp', date('Y-m-d H:i:s', time())),
+            'send_time' => array('integer', time()),
             'rcp_to' => array('clob', $to),
             'rcp_cc' => array('clob', $cc),
             'rcp_bcc' => array('clob', $bcc),

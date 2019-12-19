@@ -349,6 +349,18 @@ class ilMailFolderTableGUI extends ilTable2GUI
     }
 
     /**
+     * @inheritDoc
+     */
+    public function numericOrdering($a_field)
+    {
+        if ('send_time' === $a_field) {
+            return true;
+        }
+        
+        return parent::numericOrdering($a_field);
+    }
+
+    /**
      * @return ilMailFolderTableGUI
      */
     private function initCommandButtons() : self
@@ -583,7 +595,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
             }
 
-            $mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));
+            $mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_UNIX));
 
             $mail['attachment_indicator'] = '';
             if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {

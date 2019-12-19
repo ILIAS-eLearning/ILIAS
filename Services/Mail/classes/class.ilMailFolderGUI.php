@@ -812,7 +812,7 @@ class ilMailFolderGUI
         $form->addItem($subject);
 
         $date = new ilCustomInputGUI($this->lng->txt('date') . ':');
-        $date->setHtml(ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_DATETIME)));
+        $date->setHtml(ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_UNIX)));
         $form->addItem($date);
 
         $message = new ilCustomInputGUI($this->lng->txt('message') . ':');
@@ -955,7 +955,7 @@ class ilMailFolderGUI
         $tplprint->setVariable('TXT_DATE', $this->lng->txt('date'));
         $tplprint->setVariable(
             'DATE',
-            ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_DATETIME))
+            ilDatePresentation::formatDate(new ilDateTime($mailData['send_time'], IL_CAL_UNIX))
         );
 
         $tplprint->setVariable('TXT_MESSAGE', $this->lng->txt('message'));

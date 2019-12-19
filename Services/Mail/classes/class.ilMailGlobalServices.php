@@ -114,7 +114,7 @@ class ilMailGlobalServices
             WHERE folder_id = %s AND user_id = %s AND m_status = %s
         ';
         if ($leftInterval > 0) {
-            $query .= ' AND send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+            $query .= ' AND send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
         }
 
         $res = $DIC->database()->queryF(
@@ -134,7 +134,7 @@ class ilMailGlobalServices
             WHERE m.user_id = %s
 	 		AND m.m_status = %s';
         if ($leftInterval > 0) {
-            $query .= ' AND m.send_time > ' . $DIC->database()->quote(date('Y-m-d H:i:s', $leftInterval), 'timestamp');
+            $query .= ' AND m.send_time > ' . $DIC->database()->quote($leftInterval, 'integer');
         }
 
         $res = $DIC->database()->queryF(
@@ -147,8 +147,8 @@ class ilMailGlobalServices
         self::$global_mail_services_cache[$cacheKey] = [
             'count' => (int) ($row['cnt'] + $row2['cnt']),
             'max_time' => max(
-                (string) $row['send_time'],
-                (string) $row2['send_time']
+                (int) $row['send_time'],
+                (int) $row2['send_time']
             ),
         ];
 
