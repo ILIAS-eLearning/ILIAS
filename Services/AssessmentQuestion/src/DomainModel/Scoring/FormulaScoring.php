@@ -14,6 +14,8 @@ use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
 use ilTextInputGUI;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInput;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 
 /**
  * Class FormulaScoring
@@ -26,11 +28,16 @@ use ilTextInputGUI;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class FormulaScoring extends AbstractScoring {
-    const VAR_FORMULA = 'fs_formula';
     const VAR_UNITS = 'fs_units';
     const VAR_PRECISION = 'fs_precision';
     const VAR_TOLERANCE = 'fs_tolerance';
     const VAR_RESULT_TYPE = 'fs_type';
+    const VAR_VARIABLES = 'fs_variables';
+    
+    /**
+     * @var AsqTableInput
+     */
+    private static $variables_table;
     
     /**
      * @var FormulaScoringConfiguration
@@ -51,29 +58,33 @@ class FormulaScoring extends AbstractScoring {
         $reached_points = 0;
         $max_points = 0;
 
-        $answers = json_decode($answer->getValue(), true);
-        $formula = $this->configuration->getFormula();
-        
-        foreach($answers as $key => $value) {
-            $formula = str_replace($key, $value, $formula);
+        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
+            /** @var $result FormulaScoringDefinition */
+            $result = $option->getScoringDefinition();
+            
+            $answers = json_decode($answer->getValue(), true);
+            $formula = $result->getFormula();
+            
+            foreach($answers as $key => $value) {
+                $formula = str_replace($key, $value, $formula);
+            }
+            
+            $math = new EvalMath();
+            
+            $result_expected = $math->evaluate($formula);
+            $result_given = floatval($answers['$r' . $option->getOptionId()]);
+            
+            $difference = abs($result_expected - $result_given);
+            $max_allowed_difference = $result_expected / 100 * $this->configuration->getTolerance();
+            
+            if ($difference <= $max_allowed_difference) {
+                $reached_points += $result->getPoints();
+            }
+            
+            $max_points += $result->getPoints();
         }
-        
-        $split = explode('=', $formula);
-        
-        
-        
-        $math = new EvalMath();
-        
-        $calculation = $math->evaluate($split[0]);
-        $result = $math->evaluate($split[1]);
 
-        $answer_score =  $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
-        if($calculation == $result) {
-            return $answer_score;
-        }
-        else {
-            return $answer_score;
-        }
+        return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
     public function getBestAnswer(): Answer
@@ -90,11 +101,6 @@ class FormulaScoring extends AbstractScoring {
         /** @var $config FormulaScoringConfiguration */
         
         $fields = [];
-        
-        $formula = new ilTextInputGUI($DIC->language()->txt('asq_label_formula'), self::VAR_FORMULA);
-        $formula->setRequired(true);
-        $formula->setInfo($DIC->language()->txt('asq_description_formula'));
-        $fields[self::VAR_FORMULA] = $formula;
         
         $units = new ilTextInputGUI($DIC->language()->txt('asq_label_units'), self::VAR_UNITS);
         $units->setInfo($DIC->language()->txt('asq_description_units'));
@@ -126,8 +132,28 @@ class FormulaScoring extends AbstractScoring {
                                                   $DIC->language()->txt('asq_description_result_coprime_fraction')));
         $fields[self::VAR_RESULT_TYPE] = $result_type;
         
+        self::$variables_table = new AsqTableInput($DIC->language()->txt('asq_label_variables'), self::VAR_VARIABLES, $config->getVariablesArray(), [
+            new AsqTableInputFieldDefinition(
+                $DIC->language()->txt('asq_header_min'),
+                AsqTableInputFieldDefinition::TYPE_TEXT,
+                FormulaScoringVariable::VAR_MIN),            
+            new AsqTableInputFieldDefinition(
+                $DIC->language()->txt('asq_header_max'),
+                AsqTableInputFieldDefinition::TYPE_TEXT,
+                FormulaScoringVariable::VAR_MAX),            
+            new AsqTableInputFieldDefinition(
+                $DIC->language()->txt('asq_header_unit'),
+                AsqTableInputFieldDefinition::TYPE_TEXT,
+                FormulaScoringVariable::VAR_UNIT),            
+            new AsqTableInputFieldDefinition(
+                $DIC->language()->txt('asq_header_divisor'),
+                AsqTableInputFieldDefinition::TYPE_TEXT,
+                FormulaScoringVariable::VAR_MULTIPLE_OF)
+        ]);
+        $fields[self::VAR_VARIABLES] = self::$variables_table;
+        
         if ($config !== null) {
-            $formula->setValue($config->getFormula());
+
             $units->setValue($config->getUnits());
             $precision->setValue($config->getPrecision());
             $tolerance->setValue($config->getTolerance());
@@ -143,11 +169,22 @@ class FormulaScoring extends AbstractScoring {
     
     public static function readConfig()
     {
-        return FormulaScoringConfiguration::create(ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_FORMULA]), 
-                                                   ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_UNITS]),
+        $variables = [];
+        $raw_variables = self::$variables_table->readValues();
+        
+        foreach ($raw_variables as $raw_variable) {
+            $variables[] = FormulaScoringVariable::create(
+                floatval($raw_variable[FormulaScoringVariable::VAR_MIN]),
+                floatval($raw_variable[FormulaScoringVariable::VAR_MAX]),
+                ilAsqHtmlPurifier::getInstance()->purify($raw_variable[FormulaScoringVariable::VAR_UNIT]),
+                floatval($raw_variable[FormulaScoringVariable::VAR_MULTIPLE_OF]));
+        }
+        
+        return FormulaScoringConfiguration::create(ilAsqHtmlPurifier::getInstance()->purify($_POST[self::VAR_UNITS]),
                                                    intval($_POST[self::VAR_PRECISION]), 
                                                    floatval($_POST[self::VAR_TOLERANCE]), 
-                                                   intval($_POST[self::VAR_RESULT_TYPE]));
+                                                   intval($_POST[self::VAR_RESULT_TYPE]),
+                                                   $variables);
     }
     
     public static function isComplete(Question $question): bool

@@ -7,6 +7,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Question;
 use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringDefinition;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringVariable;
 
 /**
  * Class FileUploadEditor
@@ -39,25 +40,28 @@ class FormulaEditor extends AbstractEditor {
     {
         $answers = [];
         
-        $resindex = 1;
-        $varindex = 1;
-        foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
-            /** @var $def FormulaScoringDefinition */
-            $def = $option->getScoringDefinition();
-            
-            if ($def->getType() === FormulaScoringDefinition::TYPE_VARIABLE) {
-                $name = '$v' . $varindex;
-                $varindex += 1;
-            }
-            else if ($def->getType() === FormulaScoringDefinition::TYPE_RESULT) {
-                $name = '$r' . $resindex;
-                $resindex += 1;
-            }
-            
-            $answers[$name] = ilAsqHtmlPurifier::getInstance()->purify($_POST[$this->getPostVariable($name)]);
+        $index = 1;
+        $continue = true;
+        while ($continue) {
+            $continue = false;
+
+            $continue |= $this->processVar('$v' . $index, $answers);
+            $continue |= $this->processVar('$r' . $index, $answers);            
+            $index += 1;
         }
         
         return json_encode($answers);
+    }
+    
+    private function processVar($name, &$answers) : bool {
+        $postname = $this->getPostVariable($name);
+        
+        if (array_key_exists($postname, $_POST)) {
+            $answers[$name] = ilAsqHtmlPurifier::getInstance()->purify($_POST[$postname]);
+            return true;
+        }
+        
+        return false;
     }
 
     public static function readConfig()
@@ -72,22 +76,18 @@ class FormulaEditor extends AbstractEditor {
 
     public function generateHtml(): string
     {
-        $output = $this->configuration->getFormula();
+        $output = $this->question->getData()->getQuestionText();
         
         $resindex = 1;
-        $varindex = 1;
         foreach ($this->question->getAnswerOptions()->getOptions() as $option) {
-            /** @var $def FormulaScoringDefinition */
-            $def = $option->getScoringDefinition();
-            
-            if ($def->getType() === FormulaScoringDefinition::TYPE_RESULT) {
-                $output = $this->createResult($resindex, $output);
-                $resindex += 1;
-            }
-            else if ($def->getType() === FormulaScoringDefinition::TYPE_VARIABLE) {
-                $output = $this->createVariable($varindex, $output, $def);
+            $output = $this->createResult($resindex, $output);
+            $resindex += 1;
+        }
+        
+        $varindex = 1;
+        foreach ($this->configuration->getVariables() as $variable) {
+                $output = $this->createVariable($varindex, $output, $variable);
                 $varindex += 1;
-            }
         }
         
         return $output;
@@ -103,7 +103,7 @@ class FormulaEditor extends AbstractEditor {
         return str_replace($name, $html, $output);
     }
     
-    private function createVariable(int $index, string $output, FormulaScoringDefinition $def) :string {
+    private function createVariable(int $index, string $output, FormulaScoringVariable $def) :string {
         $name = '$v' . $index;
         
         $html = sprintf('<input type="hidden" name="%1$s" value="%2$s" />%2$s',
@@ -113,7 +113,7 @@ class FormulaEditor extends AbstractEditor {
         return str_replace($name, $html, $output);
     }
     
-    private function generateVariableValue(FormulaScoringDefinition $def) : string {
+    private function generateVariableValue(FormulaScoringVariable $def) : string {
         $exp = 10 ** $this->configuration->getPrecision();
         
         $min = $def->getMin() * $exp;

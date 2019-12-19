@@ -30,8 +30,8 @@ class FormulaQuestionGUI extends QuestionFormGUI {
     protected function readPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create(
-            FormulaEditorConfiguration::readConfig(),
-            FormulaScoringConfiguration::readConfig());
+            FormulaEditor::readConfig(),
+            FormulaScoring::readConfig());
     }
     
     protected function initiatePlayConfiguration(?QuestionPlayConfiguration $play): void

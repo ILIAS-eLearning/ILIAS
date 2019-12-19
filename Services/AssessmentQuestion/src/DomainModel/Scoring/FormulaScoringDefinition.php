@@ -19,39 +19,19 @@ use stdClass;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class FormulaScoringDefinition extends AnswerDefinition {
-    const VAR_TYPE = 'fsd_type';
-    const VAR_MIN = 'fsd_min';
-    const VAR_MAX = 'fsd_max';
+    const VAR_FORMULA = 'fsd_formula';
     const VAR_UNIT = 'fsd_unit';
-    const VAR_MULTIPLE_OF = 'fsd_multiple_of';
     const VAR_POINTS = 'fsd_points';
     
     /**
-     * @var int
+     * @var string
      */
-    protected $type;
-    const TYPE_VARIABLE = 1;
-    const TYPE_RESULT = 2;
-    
-    /**
-     * @var float
-     */
-    protected $min;
-    
-    /**
-     * @var float
-     */
-    protected $max;
+    protected $formula;
     
     /**
      * @var string
      */
     protected $unit;
-    
-    /**
-     * @var ?float
-     */
-    protected $multiple_of;
     
     /**
      * @var ?int
@@ -66,39 +46,20 @@ class FormulaScoringDefinition extends AnswerDefinition {
      * @param float $multiple_of
      * @param int $points
      */
-    public function __construct(int $type, string $unit, float $min, float $max, ?float $multiple_of = null, ?int $points = null) {
-        $this->type = $type;
-        $this->min = $min;
-        $this->max = $max;
+    public function __construct(string $formula, string $unit, int $points) {
+        $this->formula = $formula;
         $this->unit = $unit;
-        $this->multiple_of = $multiple_of;
         $this->points = $points;
     }
     
     
     
     /**
-     * @return number
+     * @return string
      */
-    public function getType()
+    public function getFormula()
     {
-        return $this->type;
-    }
-
-    /**
-     * @return number
-     */
-    public function getMin()
-    {
-        return $this->min;
-    }
-
-    /**
-     * @return number
-     */
-    public function getMax()
-    {
-        return $this->max;
+        return $this->formula;
     }
 
     /**
@@ -110,15 +71,7 @@ class FormulaScoringDefinition extends AnswerDefinition {
     }
 
     /**
-     * @return \ILIAS\AssessmentQuestion\DomainModel\Scoring\?float
-     */
-    public function getMultipleOf()
-    {
-        return $this->multiple_of;
-    }
-
-    /**
-     * @return \ILIAS\AssessmentQuestion\DomainModel\Scoring\?int
+     * @return int
      */
     public function getPoints()
     {
@@ -132,33 +85,14 @@ class FormulaScoringDefinition extends AnswerDefinition {
         $fields = [];
         
         $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_label_type'),
-            AsqTableInputFieldDefinition::TYPE_RADIO,
-            self::VAR_TYPE,
-            [
-                'VAR' => self::TYPE_VARIABLE,
-                'RESULT' => self::TYPE_RESULT
-            ]);
+            $DIC->language()->txt('asq_formula'),
+            AsqTableInputFieldDefinition::TYPE_TEXT,
+            self::VAR_FORMULA);
  
         $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_unit'),
             AsqTableInputFieldDefinition::TYPE_TEXT,
             self::VAR_UNIT);
-        
-        $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_label_min'),
-            AsqTableInputFieldDefinition::TYPE_TEXT,
-            self::VAR_MIN);
-        
-        $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_label_max'),
-            AsqTableInputFieldDefinition::TYPE_TEXT,
-            self::VAR_MAX);
-        
-        $fields[] = new AsqTableInputFieldDefinition(
-            $DIC->language()->txt('asq_label_multiple_of'),
-            AsqTableInputFieldDefinition::TYPE_TEXT,
-            self::VAR_MULTIPLE_OF);
         
         $fields[] = new AsqTableInputFieldDefinition(
             $DIC->language()->txt('asq_label_points'),
@@ -171,43 +105,23 @@ class FormulaScoringDefinition extends AnswerDefinition {
     public function getValues(): array
     {
         return [
-            self::VAR_TYPE => $this->type,
-            self::VAR_MIN => $this->min,
-            self::VAR_MAX => $this->max,
+            self::VAR_FORMULA => $this->formula,
             self::VAR_UNIT => $this->unit,
-            self::VAR_MULTIPLE_OF => $this->multiple_of,
             self::VAR_POINTS => $this->points
         ];
     }
 
     public static function getValueFromPost(string $index)
-    {
-        $type = intval($_POST[$index . self::VAR_TYPE]);
-        
-        if ($type === self::TYPE_VARIABLE) {
-            if (!empty($_POST[$index . self::VAR_MULTIPLE_OF])) {
-                $multiple_of = floatval($_POST[$index . self::VAR_MULTIPLE_OF]);
-            }
-        }
-        else if ($type === self::TYPE_RESULT) {
-            $points = intval($_POST[$index . self::VAR_POINTS]);
-        }
-        
-        return new FormulaScoringDefinition($type,
+    {          
+        return new FormulaScoringDefinition(ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_FORMULA]),
                                             ilAsqHtmlPurifier::getInstance()->purify($_POST[$index . self::VAR_UNIT]), 
-                                            floatval($_POST[$index . self::VAR_MIN]), 
-                                            floatval($_POST[$index . self::VAR_MAX]),
-                                            $multiple_of,
-                                            $points);            
+                                            intval($_POST[$index . self::VAR_POINTS]));            
     }
 
     public static function deserialize(stdClass $data)
     {
-        return new FormulaScoringDefinition($data->type, 
-                                            $data->unit, 
-                                            $data->min, 
-                                            $data->max, 
-                                            $data->multiple_of, 
+        return new FormulaScoringDefinition($data->formula, 
+                                            $data->unit,
                                             $data->points);
     }
 }

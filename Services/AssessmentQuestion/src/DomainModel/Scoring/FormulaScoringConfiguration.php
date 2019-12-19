@@ -15,12 +15,7 @@ use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class FormulaScoringConfiguration extends AbstractConfiguration {
-    /**
-     * @var string
-     */
-    protected $formula;
-    
+class FormulaScoringConfiguration extends AbstractConfiguration {    
     /**
      * @var string
      */
@@ -41,34 +36,31 @@ class FormulaScoringConfiguration extends AbstractConfiguration {
      */
     protected $result_type;
     
+    /**
+     * @var FormulaScoringVariable[]
+     */
+    protected $variables = [];
+    
     const TYPE_ALL = 1;
     const TYPE_DECIMAL = 2;
     const TYPE_FRACTION = 3;
     const TYPE_COPRIME_FRACTION = 4;
     
-    public static function create(string $formula,
-                                  string $units,
+    public static function create(string $units,
                                   int $precision,
                                   float $tolerance,
-                                  int $result_type) : FormulaScoringConfiguration {
+                                  int $result_type,
+                                  array $variables) : FormulaScoringConfiguration {
         
         $object = new FormulaScoringConfiguration();
         
-        $object->formula = $formula;
         $object->units = $units;
         $object->precision = $precision;
         $object->tolerance = $tolerance;
         $object->result_type = $result_type;
+        $object->variables = $variables;
         
         return $object;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getFormula()
-    {
-        return $this->formula;
     }
 
     /**
@@ -102,15 +94,51 @@ class FormulaScoringConfiguration extends AbstractConfiguration {
     {
         return $this->result_type;
     }
+    
+    public function getVariables() {
+        return $this->variables;
+    }
 
+    /**
+     * @return array
+     */
+    public function getVariablesArray(): array {
+        $var_array = [];
+        
+        foreach($this->variables as $variable) {
+            $var_array[] = $variable->getAsArray();
+        }
+        
+        return $var_array;
+    }
+    
     public function equals(AbstractValueObject $other): bool
     {
         /** @var FormulaScoringConfiguration $other */
         return get_class($this) === get_class($other) &&
-               $this->formula === $other->formula &&
                $this->units === $other->units &&
                $this->precision === $other->precision &&
                $this->tolerance === $other->tolerance &&
-               $this->result_type === $other->result_type;
+               $this->result_type === $other->result_type &&
+               $this->variablesMatch($other->getVariables());
+    }
+    
+    /**
+     * @param FormulaScoringVariable[] $other_variables
+     * @return bool
+     */
+    private function variablesMatch(array $other_variables) : bool {
+        if (count($this->variables) !== count($other_variables)) {
+            return false;
+        }
+        
+        $i = 0;
+        for ($i; i < count($this->variables); $i += 1) {
+            if($this->variables[i].equals($other_variables[i])) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
