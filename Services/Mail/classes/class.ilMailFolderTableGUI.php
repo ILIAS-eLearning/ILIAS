@@ -460,7 +460,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $periodStart =  new DateTimeImmutable(
                     $filter['period']['start']->get(IL_CAL_FKT_DATE, 'Y-m-d') . ' 00:00:00',
-                    new DateTimeZone( $filter['period']['start']->getTimeZoneIdentifier())
+                    new DateTimeZone($this->user->getTimeZone())
                 );
 
                 $filter['period']['start'] = $periodStart;
@@ -475,7 +475,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             ) {
                 $periodEnd =  new DateTimeImmutable(
                     $filter['period']['end']->get(IL_CAL_FKT_DATE, 'Y-m-d') . ' 23:59:59',
-                    new DateTimeZone( $filter['period']['end']->getTimeZoneIdentifier())
+                    new DateTimeZone($this->user->getTimeZone())
                 );
 
                 $filter['period']['end'] = $periodEnd;
