@@ -93,6 +93,9 @@ class ilMDUtils
     {
         global $DIC;
 
+        // currently disabled due to mantis 0026864
+        return true;
+
         $tpl = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
         
