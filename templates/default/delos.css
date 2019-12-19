@@ -9529,6 +9529,7 @@ footer {
   display: flex;
   flex-shrink: 0;
   height: 45px;
+  margin-top: auto;
 }
 .il-mainbar-close-slates .btn-bulky {
   background-color: transparent;
