@@ -10652,6 +10652,10 @@ footer {
   font-family: il-icons;
   content: "\e618";
 }
+.glyphicon-option-horizontal:before {
+  font-family: il-icons;
+  content: "\e603";
+}
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
