@@ -72,13 +72,44 @@ class FormulaScoring extends AbstractScoring {
             $math = new EvalMath();
             
             $result_expected = $math->evaluate($formula);
-            $result_given = floatval($answers['$r' . $option->getOptionId()]);
             
-            $difference = abs($result_expected - $result_given);
-            $max_allowed_difference = $result_expected / 100 * $this->configuration->getTolerance();
+            $result_given = null;
+            $raw_result = $answers['$r' . $option->getOptionId()];
             
-            if ($difference <= $max_allowed_difference) {
-                $reached_points += $result->getPoints();
+            //get decimal value of answer if allowed
+            if (($this->configuration->getResultType() === FormulaScoringConfiguration::TYPE_ALL ||
+                $this->configuration->getResultType() === FormulaScoringConfiguration::TYPE_DECIMAL) &&
+                is_numeric($raw_result)) 
+            {
+                $result_given = floatval($raw_result);
+            }
+            
+            //get compound result if no value yet and it is allowed
+            if (is_null($result_given) &&
+                $this->configuration->getResultType() !== FormulaScoringConfiguration::TYPE_DECIMAL &&
+                strpos($raw_result, '/')) 
+            {
+                $split = explode('/', $raw_result);
+                $numerator = floatval($split[0]);
+                $denominator = floatval($split[1]);
+                
+                $result_given = $numerator / $denominator;
+                
+                // invalidate result if not coprime and option is set
+                if ($this->configuration->getResultType() === FormulaScoringConfiguration::TYPE_COPRIME_FRACTION &&
+                    $this->greatest_common_divisor($numerator, $denominator) !== 1) 
+                {
+                    $result_given = null;
+                }
+            }
+            
+            if (!is_null($result_given)) {
+                $difference = abs($result_expected - $result_given);
+                $max_allowed_difference = $result_expected / 100 * $this->configuration->getTolerance();
+                
+                if ($difference <= $max_allowed_difference) {
+                    $reached_points += $result->getPoints();
+                }
             }
             
             $max_points += $result->getPoints();
@@ -87,6 +118,17 @@ class FormulaScoring extends AbstractScoring {
         return $this->createScoreDto($answer, $max_points, $reached_points, $this->getAnswerFeedbackType($reached_points,$max_points));
     }
 
+    /**
+     * Euclids gcd algorithm
+     * 
+     * @param int $a
+     * @param int $b
+     * @return int
+     */
+    private function greatest_common_divisor(int $a, int $b) {
+        return ($a % $b) ? $this->greatest_common_divisor($b,$a % $b) : $b;
+    }
+    
     public function getBestAnswer(): Answer
     {
         
