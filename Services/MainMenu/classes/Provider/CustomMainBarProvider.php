@@ -10,6 +10,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeperatorItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
@@ -153,9 +155,9 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $link_list->setCreationPrevented(true);
         $c->add($link_list);
         // Separator
-        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
+        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), new SeperatorItemRenderer(), new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
         // RepositoryLink
-        $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), null, new ilMMTypeHandlerRepositoryLink()));
+        $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), new RepositoryLinkItemRenderer(), new ilMMTypeHandlerRepositoryLink()));
         // Lost
         $lost = new TypeInformation(Lost::class, $this->translateType(Lost::class), new LostItemRenderer());
         $lost->setCreationPrevented(true);
