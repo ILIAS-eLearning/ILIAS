@@ -72,12 +72,12 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
      *
      * @param QuestionDto $question
      */
-    public function __construct(QuestionDto $question, ?array $answer_option_configuration = null) {
+    public function __construct(QuestionDto $question) {
         global $DIC;
         $this->lang = $DIC->language();
         $this->initial_question = $question;
         
-        $this->initForm($question, $answer_option_configuration);
+        $this->initForm($question);
         $this->setMultipart(true);
         $this->setTitle(AsqGUIElementFactory::getQuestionTypes()[$question->getLegacyData()->getAnswerTypeId()]);
         
@@ -92,7 +92,7 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
     /**
      * @param QuestionDto $question
      */
-    private function initForm(QuestionDto $question, ?array $answer_option_configuration = null) {
+    private function initForm(QuestionDto $question) {
         global $DIC;
         
         $id = new ilHiddenInputGUI(self::VAR_AGGREGATE_ID);
@@ -124,12 +124,16 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
                 $question->getPlayConfiguration(),
                 $question->getAnswerOptions(),
                 $this->getAnswerOptionDefinitions($question->getPlayConfiguration()),
-                $answer_option_configuration);
+                $this->getAnswerOptionConfiguration());
             
             $this->addItem($this->option_form);
         }
         
         $this->postInit();
+    }
+    
+    protected function getAnswerOptionConfiguration() {
+        return null;
     }
     
     protected function getAnswerOptionDefinitions(?QuestionPlayConfiguration $play) : ?array {

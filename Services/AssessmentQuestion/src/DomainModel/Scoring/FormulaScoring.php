@@ -10,6 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use EvalMath;
+use ilButton;
 use ilNumberInputGUI;
 use ilRadioGroupInputGUI;
 use ilRadioOption;
@@ -191,7 +192,10 @@ class FormulaScoring extends AbstractScoring {
                 $DIC->language()->txt('asq_header_multiple_of'),
                 AsqTableInputFieldDefinition::TYPE_TEXT,
                 FormulaScoringVariable::VAR_MULTIPLE_OF)
+        ], [
+            AsqTableInput::OPTION_HIDE_ADD_REMOVE => true
         ]);
+        self::$variables_table->setRequired(true);
         $fields[self::VAR_VARIABLES] = self::$variables_table;
         
         if ($config !== null) {

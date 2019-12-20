@@ -22,20 +22,6 @@ use ILIAS\AssessmentQuestion\UserInterface\Web\Form\Config\AnswerOptionForm;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ErrorTextQuestionGUI extends QuestionFormGUI {
-    /**
-     * QuestionFormGUI constructor.
-     *
-     * @param QuestionDto $question
-     */
-    public function __construct($question) {
-        $answer_option_config = [
-            AnswerOptionForm::OPTION_HIDE_ADD_REMOVE => true,
-            AnswerOptionForm::OPTION_HIDE_EMPTY => true
-        ];
-        
-        parent::__construct($question, $answer_option_config);
-    }
-    
     protected function createDefaultPlayConfiguration(): QuestionPlayConfiguration
     {
         return QuestionPlayConfiguration::create
@@ -61,5 +47,12 @@ class ErrorTextQuestionGUI extends QuestionFormGUI {
         foreach (ErrorTextScoring::generateFields($play->getScoringConfiguration()) as $field) {
             $this->addItem($field);
         }
+    }
+    
+    protected function getAnswerOptionConfiguration() {
+        return [
+            AnswerOptionForm::OPTION_HIDE_ADD_REMOVE => true,
+            AnswerOptionForm::OPTION_HIDE_EMPTY => true
+        ];
     }
 }

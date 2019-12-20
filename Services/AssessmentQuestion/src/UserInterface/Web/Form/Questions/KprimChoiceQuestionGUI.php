@@ -37,12 +37,7 @@ class KprimChoiceQuestionGUI extends QuestionFormGUI {
             $question->getAnswerOptions()->addOption(null);
         }
         
-        $answer_option_config = [
-            AnswerOptionForm::OPTION_ORDER => true,
-            AnswerOptionForm::OPTION_HIDE_ADD_REMOVE => true
-        ];
-        
-        parent::__construct($question, $answer_option_config);
+        parent::__construct($question);
         
         $this->option_form->setInfo($this->lang->txt('asq_kprim_information'));
     }
@@ -80,4 +75,10 @@ class KprimChoiceQuestionGUI extends QuestionFormGUI {
             $this->addItem($field);
         }
     }
-}
+
+    protected function getAnswerOptionConfiguration() {
+        return [
+            AnswerOptionForm::OPTION_ORDER => true,
+            AnswerOptionForm::OPTION_HIDE_ADD_REMOVE => true
+        ];
+    }}
