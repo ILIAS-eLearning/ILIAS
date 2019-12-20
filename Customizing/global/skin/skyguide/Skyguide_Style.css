@@ -17118,8 +17118,12 @@ table.mceToolbar td {
 /* @nav-tabs-link-hover-border-color: @brand-primary; */
 /**********HEADER**********/
 #ilTopNav.navbar {
-  float: right;
+  float: left;
   margin-right: 15px;
+  margin-left: 180px;
+}
+#ilTopNav {
+  margin: -45px 0 0 0;
 }
 #ilTopNav .navbar-nav > li > a {
   border-top: none;
@@ -17136,10 +17140,6 @@ table.mceToolbar td {
 }
 #ilTopNav .navbar-nav > li > a {
   text-transform: inherit;
-}
-#ilTopNav .dropdown-menu {
-  left: auto;
-  right: 0;
 }
 .navbar-nav > li > .dropdown-menu {
   margin-top: 14px;
@@ -17335,9 +17335,12 @@ a.ilTreeView:hover {
     border: 1px solid #434343;
     border-radius: 3px;
     left: 65px;
-    top: 9px;
+    top: 11px;
     height: 38px;
     width: 38px;
+  }
+  #ilTopNav {
+    margin: 0px 0 0 0;
   }
   #ilTopNav button.navbar-toggle .icon-bar {
     margin-left: -3px;
@@ -17357,7 +17360,7 @@ a.ilTreeView:hover {
     background-color: transparent;
   }
   #ilTopNav.navbar {
-    float: left;
+    float: right;
     margin-right: 0px;
     width: 100%;
   }
@@ -17393,8 +17396,8 @@ a.ilTreeView:hover {
   }
   .ilMainHeader > header > .row > a.navbar-brand > img {
     height: 55px;
-    margin-top: 1px;
-    margin-left: 1px;
+    margin-top: 4px;
+    margin-left: 4px;
   }
 }
 /**********BODY**********/
