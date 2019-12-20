@@ -32,6 +32,19 @@ class ilAccessibilityCriterionTypeFactory implements ilAccessibilityCriterionTyp
     }
 
     /**
+     * @inheritDoc
+     */
+    public function hasOnlyOneCriterion() : bool
+    {
+        if (count($this->types) == 1) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    /**
      * @inheritdoc
      */
     public function findByTypeIdent(string $typeIdent, bool $useFallback = false) : ilAccessibilityCriterionType
