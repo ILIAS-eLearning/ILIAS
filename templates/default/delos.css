@@ -10656,6 +10656,14 @@ footer {
   font-family: il-icons;
   content: "\e603";
 }
+.glyphicon-minus-sign:before {
+  font-family: il-icons;
+  content: "\e615";
+}
+.glyphicon-plus-sign:before {
+  font-family: il-icons;
+  content: "\e095";
+}
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
