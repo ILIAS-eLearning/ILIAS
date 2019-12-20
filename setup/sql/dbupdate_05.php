@@ -1334,7 +1334,13 @@ if (!$ilDB->tableExists('crs_timings_started')) {
 ?>
 <#5516>
 <?php
-$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmposidx5', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+} else {
+    $setting->delete('ilfrmposidx5');
+}
 ?>
 <#5517>
 <?php
