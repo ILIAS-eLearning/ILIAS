@@ -6,7 +6,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 
 /**
- * Class LinkItemRenderer
+ * Class SeperatorItemRenderer
  */
 class SeperatorItemRenderer extends BaseTypeRenderer
 {
