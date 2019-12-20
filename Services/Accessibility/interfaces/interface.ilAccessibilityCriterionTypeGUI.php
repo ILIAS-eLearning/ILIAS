@@ -16,6 +16,13 @@ interface ilAccessibilityCriterionTypeGUI
     public function appendOption(ilRadioGroupInputGUI $option, ilAccessibilityCriterionConfig $config) : void;
 
     /**
+     * @param ilAccessibilityCriterionConfig $config
+     *
+     * @return ilSelectInputGUI
+     */
+    public function getSelection(ilAccessibilityCriterionConfig $config) : ilSelectInputGUI;
+
+    /**
      * @param ilPropertyFormGUI $form
      * @return ilAccessibilityCriterionConfig
      */

@@ -28,7 +28,7 @@ class ilCertificatePathFactory
                 break;
             case 'cmix':
                 $certificatePath = ilCertificatePathConstants::CMIX_PATH . $object->getId() . '/';
-                // no break
+                break;
             case 'prg':
                 $certificatePath = ilCertificatePathConstants::STUDY_PROGRAMME_PATH . $object->getId() . '/';
                 break;

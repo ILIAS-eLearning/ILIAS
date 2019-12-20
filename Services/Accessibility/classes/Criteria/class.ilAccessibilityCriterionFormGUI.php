@@ -89,29 +89,53 @@ class ilAccessibilityCriterionFormGUI extends ilPropertyFormGUI
         $document->setValue($this->document->getTitle());
         $this->addItem($document);
 
-        $criteriaSelection = new ilRadioGroupInputGUI($this->lng->txt('acc_form_criterion'), 'criterion');
-        $criteriaSelection->setRequired(true);
-        $criteriaSelection->setValue($this->assignment->getCriterionId());
 
-        $first = true;
-        foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
-            /** @var $criterion ilAccessibilityCriterionType */
-            if (!$this->assignment->getId() && $first) {
-                $criteriaSelection->setValue($criterion->getTypeIdent());
-            }
-            $first = false;
+        if ($this->criterionTypeFactory->hasOnlyOneCriterion()) {
+            $criteriaSelection = new ilHiddenInputGUI('criterion');
+            $criteriaSelection->setRequired(true);
+            $criteriaSelection->setValue($this->assignment->getCriterionId());
 
-            $criterionGui = $criterion->ui($this->lng);
-            if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
-                $criterionGui->appendOption(
-                    $criteriaSelection,
-                    $this->assignment->getCriterionValue()
-                );
-            } else {
-                $criterionGui->appendOption($criteriaSelection, new ilAccessibilityCriterionConfig());
+            foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
+                /** @var $criterion ilAccessibilityCriterionType */
+                if (!$this->assignment->getId()) {
+                    $criteriaSelection->setValue($criterion->getTypeIdent());
+                }
+
+                $criterionGui = $criterion->ui($this->lng);
+                if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
+                    $languageSelection = $criterionGui->getSelection($this->assignment->getCriterionValue());
+                } else {
+                    $languageSelection = $criterionGui->getSelection(new ilAccessibilityCriterionConfig());
+                }
+                $this->addItem($languageSelection);
             }
+            $this->addItem($criteriaSelection);
         }
-        $this->addItem($criteriaSelection);
+        else {
+            $criteriaSelection = new ilRadioGroupInputGUI($this->lng->txt('acc_form_criterion'), 'criterion');
+            $criteriaSelection->setRequired(true);
+            $criteriaSelection->setValue($this->assignment->getCriterionId());
+
+            $first = true;
+            foreach ($this->criterionTypeFactory->getTypesByIdentMap() as $criterion) {
+                /** @var $criterion ilAccessibilityCriterionType */
+                if (!$this->assignment->getId() && $first) {
+                    $criteriaSelection->setValue($criterion->getTypeIdent());
+                }
+                $first = false;
+
+                $criterionGui = $criterion->ui($this->lng);
+                if ($this->assignment->getCriterionId() == $criterion->getTypeIdent()) {
+                    $criterionGui->appendOption(
+                        $criteriaSelection,
+                        $this->assignment->getCriterionValue()
+                    );
+                } else {
+                    $criterionGui->appendOption($criteriaSelection, new ilAccessibilityCriterionConfig());
+                }
+            }
+            $this->addItem($criteriaSelection);
+        }
 
         $this->addCommandButton($this->saveCommand, $this->lng->txt('save'));
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
