@@ -21,8 +21,7 @@ input.btn{
   .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
 }
 
-.btn {
-  &.disabled,
+.btn, .btn.btn-tag{
   &[disabled],
   fieldset[disabled] & {
     &,
@@ -55,11 +54,18 @@ button > .glyphicon {
   pointer-events: none;
 }
 
-a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
-	background-color: @il-disabled-btn-bg;;
-	color: @il-disabled-btn-color;
-    border-color: @il-disabled-btn-border;
-    padding: 0;
+a[disabled], a fieldset[disabled] & {
+	&,
+	&:hover,
+	&:focus,
+	&:active,
+	&.active {
+		background-color: @il-disabled-btn-bg;;
+		color: @il-disabled-btn-color;
+		border-color: @il-disabled-btn-border;
+		padding: 0;
+		cursor: default;
+	}
 }
 
 .il-btn-month .dropdown-menu {
@@ -72,9 +78,6 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
     margin: @btn-tag-margin;
     border-radius: @btn-tag-border-radius;
 
-	&.btn-tag-inactive {
-		cursor: default !important;
-	}
 	&.btn-tag-relevance-verylow {
 		background-color: @btn-tag-bg-relevance-verylow;
 		color: @btn-tag-fg-relevance-verylow;
@@ -99,9 +102,9 @@ a.btn-link.ilSubmitInactive, a.btn-link.ilSubmitInactive:hover {
 
 // shy buttons
 .btn-link {
-  padding: 0;
-  text-align: left;
-  white-space: normal;
+	padding: 0;
+	text-align: left;
+	white-space: normal;
 }
 
 // bulky buttons

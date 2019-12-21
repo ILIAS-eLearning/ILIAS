@@ -202,27 +202,24 @@ $res = $this->db->query($q);
 
 $grp_data = array();
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$grp_data[] = $row;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $grp_data[] = $row;
 }
 
-if (count($grp_data) > 0)
-{
-	foreach ($grp_data as $entry)
-	{
-		$q = "INSERT INTO object_reference ".
-			 "(ref_id,obj_id) VALUES (0,'".$entry["child"]."')";
-		$this->db->query($q);
+if (count($grp_data) > 0) {
+    foreach ($grp_data as $entry) {
+        $q = "INSERT INTO object_reference " .
+             "(ref_id,obj_id) VALUES (0,'" . $entry["child"] . "')";
+        $this->db->query($q);
 
-		$q = "SELECT LAST_INSERT_ID()";
-		$res = $this->db->query($q);
-		$row = $res->fetchRow();
-		$entry["ref_id"] = $row[0];
-	
-		$q = "UPDATE grp_data SET ref_id='".$entry["ref_id"]."' WHERE child='".$entry["child"]."'";
-		$this->db->query($q);
-	}
+        $q = "SELECT LAST_INSERT_ID()";
+        $res = $this->db->query($q);
+        $row = $res->fetchRow();
+        $entry["ref_id"] = $row[0];
+    
+        $q = "UPDATE grp_data SET ref_id='" . $entry["ref_id"] . "' WHERE child='" . $entry["child"] . "'";
+        $this->db->query($q);
+    }
 }
 
 unset($grp_data);
@@ -232,34 +229,31 @@ $grp_data = array();
 $q = "SELECT * FROM grp_tree";
 $res = $this->db->query($q);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$grp_data[] = $row;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $grp_data[] = $row;
 }
 
 $q = "DELETE FROM grp_tree";
 $this->db->query($q);
 
-if (count($grp_data) > 0)
-{
-	foreach ($grp_data as $key => $entry)
-	{
-		$q = "SELECT ref_id FROM object_reference WHERE obj_id='".$entry["parent"]."'";
-		$res = $this->db->query($q);
-		$row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-		$entry["parent"] = $row["ref_id"];
+if (count($grp_data) > 0) {
+    foreach ($grp_data as $key => $entry) {
+        $q = "SELECT ref_id FROM object_reference WHERE obj_id='" . $entry["parent"] . "'";
+        $res = $this->db->query($q);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        $entry["parent"] = $row["ref_id"];
 
-		$q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,ref_id) VALUES ".
-			 "('".$entry["tree"]."',".
-			 "'".$entry["ref_id"]."',".
-			 "'".$entry["parent"]."',".
-			 "'".$entry["lft"]."',".
-			 "'".$entry["rgt"]."',".
-			 "'".$entry["depth"]."',".
-			 "'".$entry["perm"]."',".
-			 "'".$entry["child"]."')";
-		$this->db->query($q);
-	}
+        $q = "INSERT INTO grp_tree (tree,child,parent,lft,rgt,depth,perm,ref_id) VALUES " .
+             "('" . $entry["tree"] . "'," .
+             "'" . $entry["ref_id"] . "'," .
+             "'" . $entry["parent"] . "'," .
+             "'" . $entry["lft"] . "'," .
+             "'" . $entry["rgt"] . "'," .
+             "'" . $entry["depth"] . "'," .
+             "'" . $entry["perm"] . "'," .
+             "'" . $entry["child"] . "')";
+        $this->db->query($q);
+    }
 }
 
 unset($grp_data);
@@ -352,8 +346,8 @@ ALTER TABLE grp_data CHANGE status register INTEGER DEFAULT '1';
 // adding new object type LDAP
 
 // INSERT LDAP TYPE DEFINITION in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'ldap', 'LDAP settings object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'ldap', 'LDAP settings object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -363,18 +357,18 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // ADD OPERATION assignment to ldap object definition
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
 
 // INSERT LDAP OBJECT in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('ldap','LDAP settings','Folder contains all LDAP settings','-1',now(),now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('ldap','LDAP settings','Folder contains all LDAP settings','-1',now(),now())";
 $this->db->query($query);
 
 // fetch obj id
@@ -384,7 +378,7 @@ $row = $res->fetchRow();
 $obj_id = $row[0];
 
 // CREATE OBJECT REFERENCE ENTRY for ldap object
-$query = "INSERT INTO object_reference (obj_id) VALUES ('".$obj_id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES ('" . $obj_id . "')";
 $this->db->query($query);
 
 // fetch ref id
@@ -394,8 +388,8 @@ $row = $res->fetchRow();
 $ref_id = $row[0];
 
 // INSERT LDAP OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
-$query = "SELECT * FROM tree".
-     "WHERE child = '9' ".
+$query = "SELECT * FROM tree" .
+     "WHERE child = '9' " .
      "AND tree = '1'";
 $res = $this->db->getRow($query);
 
@@ -404,24 +398,24 @@ $lft = $left + 1;
 $rgt = $left + 2;
 
 // SPREAD TREE
-$query = "UPDATE tree SET ".
-     "lft = CASE ".
-	 "WHEN lft > ".$left." ".
-	 "THEN lft + 2 ".
-	 "ELSE lft ".
-	 "END, ".
-	 "rgt = CASE ".
-	 "WHEN rgt > ".$left." ".
-	 "THEN rgt + 2 ".
-	 "ELSE rgt ".
-	 "END ".
-	 "WHERE tree = '1'";
+$query = "UPDATE tree SET " .
+     "lft = CASE " .
+     "WHEN lft > " . $left . " " .
+     "THEN lft + 2 " .
+     "ELSE lft " .
+     "END, " .
+     "rgt = CASE " .
+     "WHEN rgt > " . $left . " " .
+     "THEN rgt + 2 " .
+     "ELSE rgt " .
+     "END " .
+     "WHERE tree = '1'";
 $this->db->query($query);
 
 // INSERT NODE
-$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
-     "VALUES ".
-	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) " .
+     "VALUES " .
+     "('1','" . $ref_id . "','9','" . $lft . "','" . $rgt . "','2')";
 $this->db->query($query);
 ?>
 
@@ -444,52 +438,50 @@ ALTER TABLE usr_data ADD COLUMN fax VARCHAR(40) NOT NULL DEFAULT '';
 // correct tree entry for LDAP object
 
 // fetch ref_id of ldap object entry
-$query = "SELECT ref_id FROM object_reference ".
-		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
-		 "WHERE object_data.type='ldap'";
+$query = "SELECT ref_id FROM object_reference " .
+         "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id " .
+         "WHERE object_data.type='ldap'";
 $res = $this->db->query($query);
 
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ref_id = $row->ref_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ref_id = $row->ref_id;
 }
 
 // remove false tree entry
-$query = "DELETE FROM tree WHERE child = '".$ref_id."'";
+$query = "DELETE FROM tree WHERE child = '" . $ref_id . "'";
 $this->db->query($query);
 
 // INSERT LDAP OBJECT IN TREE (UNDER SYSTEMSETTINGS FOLDER)
-$query = "SELECT * FROM tree ".
-     "WHERE child = '9' ".
+$query = "SELECT * FROM tree " .
+     "WHERE child = '9' " .
      "AND tree = '1'";
 $res = $this->db->query($query);
 
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$left = $row->lft;
-	$lft = $left + 1;
-	$rgt = $left + 2;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $left = $row->lft;
+    $lft = $left + 1;
+    $rgt = $left + 2;
 }
 
 // SPREAD TREE
-$query = "UPDATE tree SET ".
-     "lft = CASE ".
-	 "WHEN lft > ".$left." ".
-	 "THEN lft + 2 ".
-	 "ELSE lft ".
-	 "END, ".
-	 "rgt = CASE ".
-	 "WHEN rgt > ".$left." ".
-	 "THEN rgt + 2 ".
-	 "ELSE rgt ".
-	 "END ".
-	 "WHERE tree = '1'";
+$query = "UPDATE tree SET " .
+     "lft = CASE " .
+     "WHEN lft > " . $left . " " .
+     "THEN lft + 2 " .
+     "ELSE lft " .
+     "END, " .
+     "rgt = CASE " .
+     "WHEN rgt > " . $left . " " .
+     "THEN rgt + 2 " .
+     "ELSE rgt " .
+     "END " .
+     "WHERE tree = '1'";
 $this->db->query($query);
 
 // INSERT NODE
-$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) ".
-     "VALUES ".
-	 "('1','".$ref_id."','9','".$lft."','".$rgt."','2')";
+$query = "INSERT INTO tree (tree,child,parent,lft,rgt,depth) " .
+     "VALUES " .
+     "('1','" . $ref_id . "','9','" . $lft . "','" . $rgt . "','2')";
 $this->db->query($query);
 ?>
 
@@ -505,23 +497,20 @@ $res = $this->db->query($query);
 
 $users = array();
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$users[] = $row->usr_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $users[] = $row->usr_id;
 }
 
-foreach ($users as $key => $id)
-{
-	$query = "SELECT * FROM rbac_ua WHERE usr_id='".$id."' AND rol_id='5'";
-	$res = $this->db->query($query);
+foreach ($users as $key => $id) {
+    $query = "SELECT * FROM rbac_ua WHERE usr_id='" . $id . "' AND rol_id='5'";
+    $res = $this->db->query($query);
 
-	if (!$res->numRows())
-	{
-		$query = "INSERT INTO rbac_ua (usr_id,rol_id) ".
-    			 "VALUES ".
-				 "('".$id."','5')";
-		$this->db->query($query);
-	}
+    if (!$res->numRows()) {
+        $query = "INSERT INTO rbac_ua (usr_id,rol_id) " .
+                 "VALUES " .
+                 "('" . $id . "','5')";
+        $this->db->query($query);
+    }
 }
 
 // change object type of author from role to rolt
@@ -566,31 +555,28 @@ ADD `returned` TINYINT( 1 ) AFTER `notice` ;
 <?php
 
   // GET DEFAULT OPERATIONS FOR EXC-OBJECT
-$query = "SELECT DISTINCT(ops_id) AS id FROM rbac_operations ".
-	"WHERE operation IN('visible','read','write','create','delete','edit permission')";
+$query = "SELECT DISTINCT(ops_id) AS id FROM rbac_operations " .
+    "WHERE operation IN('visible','read','write','create','delete','edit permission')";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ops_ids[] = $row->id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ops_ids[] = $row->id;
 }
 // GET type_id of exc object
-$query = "SELECT obj_id FROM object_data ".
-	"WHERE type = 'typ' ".
-	"AND title = 'exc'";
+$query = "SELECT obj_id FROM object_data " .
+    "WHERE type = 'typ' " .
+    "AND title = 'exc'";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$type_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $type_id = $row->obj_id;
 }
 // INSERT OPERATIONS
-foreach($ops_ids as $id)
-{
-	$query = "INSERT INTO rbac_ta ".
-		"SET typ_id = '".$type_id."', ".
-		"ops_id = '".$id."'";
-	$this->db->query($query);
+foreach ($ops_ids as $id) {
+    $query = "INSERT INTO rbac_ta " .
+        "SET typ_id = '" . $type_id . "', " .
+        "ops_id = '" . $id . "'";
+    $this->db->query($query);
 }
 ?>
 
@@ -603,45 +589,45 @@ $res = $this->db->query($query1);
 $tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
-$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = " . $tpl["obj_id"];
 $res = $this->db->query($query2);
 $rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 
 //DELETE RIGHTS FOR COURSE OBJECT FROM THE TEMPLATE
-$query3 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'crs'";
+$query3 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'crs'";
 $this->db->query($query3);
 
 //CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
-$query4 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'frm' AND ops_id = 5 ";
+$query4 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'frm' AND ops_id = 5 ";
 $this->db->query($query4);
-$query5 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'frm' AND ops_id = 6 ";
+$query5 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'frm' AND ops_id = 6 ";
 $this->db->query($query5);
-$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','9','".$rol_fold["parent"]."')";
+$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','frm','9','" . $rol_fold["parent"] . "')";
 $this->db->query($query6);
 
 //CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
-$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','2','".$rol_fold["parent"]."')";
+$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','2','" . $rol_fold["parent"] . "')";
 $this->db->query($query7);
-$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','3','".$rol_fold["parent"]."')";
+$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','3','" . $rol_fold["parent"] . "')";
 $this->db->query($query8);
 
 //CHANGE RIGHTS OF THE GROUP OBJECT IN THE TEMPLATE
-$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','grp','5','".$rol_fold["parent"]."')";
+$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','grp','5','" . $rol_fold["parent"] . "')";
 $this->db->query($query9);
-$query10 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'grp' AND ops_id = 4 ";
+$query10 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'grp' AND ops_id = 4 ";
 $this->db->query($query10);
 
 //CHANGE RIGHTS OF THE LEARNING MODUL OBJECT IN THE TEMPLATE
-$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','lm','2','".$rol_fold["parent"]."')";
+$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','lm','2','" . $rol_fold["parent"] . "')";
 $this->db->query($query11);
-$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','lm','3','".$rol_fold["parent"]."')";
+$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','lm','3','" . $rol_fold["parent"] . "')";
 $this->db->query($query12);
 
 //CHANGE RIGHTS OF THE SCORM LEARNING MODUL OBJECT IN THE TEMPLATE
-$query13 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'slm' AND ops_id = 5 ";
+$query13 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'slm' AND ops_id = 5 ";
 $this->db->query($query13);
-$query14 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'slm' AND ops_id = 6 ";
+$query14 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'slm' AND ops_id = 6 ";
 $this->db->query($query14);
 ?>
 
@@ -654,161 +640,155 @@ $res = $this->db->query($query1);
 $tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
-$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = " . $tpl["obj_id"];
 $res = $this->db->query($query2);
 $rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //CHANGE RIGHTS OF THE GROUP OBJECT IN THE TEMPLATE
-$query3 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','grp','5','".$rol_fold["parent"]."')";
+$query3 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','grp','5','" . $rol_fold["parent"] . "')";
 $this->db->query($query3);
 
 //DELETE RIGHTS FOR COURSE OBJECT FROM THE TEMPLATE
-$query4 = "DELETE FROM rbac_templates WHERE rol_id = '".$tpl["obj_id"]."' AND type = 'crs'";
+$query4 = "DELETE FROM rbac_templates WHERE rol_id = '" . $tpl["obj_id"] . "' AND type = 'crs'";
 $this->db->query($query4);
 
 //CHANGE RIGHTS OF THE FORUM OBJECT IN THE TEMPLATE
-$query5 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','1','".$rol_fold["parent"]."')";
+$query5 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','frm','1','" . $rol_fold["parent"] . "')";
 $this->db->query($query5);
-$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','frm','4','".$rol_fold["parent"]."')";
+$query6 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','frm','4','" . $rol_fold["parent"] . "')";
 $this->db->query($query6);
 
 //CHANGE RIGHTS OF THE GLOSSARY OBJECT IN THE TEMPLATE
-$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','1','".$rol_fold["parent"]."')";
+$query7 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','1','" . $rol_fold["parent"] . "')";
 $this->db->query($query7);
-$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','4','".$rol_fold["parent"]."')";
+$query8 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','4','" . $rol_fold["parent"] . "')";
 $this->db->query($query8);
-$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','7','".$rol_fold["parent"]."')";
+$query9 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','7','" . $rol_fold["parent"] . "')";
 $this->db->query($query9);
-$query10 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','glo','8','".$rol_fold["parent"]."')";
+$query10 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','glo','8','" . $rol_fold["parent"] . "')";
 $this->db->query($query10);
 
 //CHANGE RIGHTS OF THE GLOSSARY OBJECT IN THE TEMPLATE
-$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','1','".$rol_fold["parent"]."')";
+$query11 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','rolf','1','" . $rol_fold["parent"] . "')";
 $this->db->query($query11);
-$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','5','".$rol_fold["parent"]."')";
+$query12 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','rolf','5','" . $rol_fold["parent"] . "')";
 $this->db->query($query12);
-$query13 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','rolf','6','".$rol_fold["parent"]."')";
+$query13 = "INSERT INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','rolf','6','" . $rol_fold["parent"] . "')";
 $this->db->query($query13);
 ?>
 
 <#60>
 <?php
-$query1 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'fold', 'Folder object', -1, now(), now())";
+$query1 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'fold', 'Folder object', -1, now(), now())";
 $this->db->query($query1);
-$query2 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'file', 'File object', -1, now(), now())";
+$query2 = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'file', 'File object', -1, now(), now())";
 $this->db->query($query2);
 ?>
 <#61>
 <?php
 // check if setup migration is required
-$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini.php");
+$ini = new ilIniFile(ILIAS_ABSOLUTE_PATH . "/ilias.ini.php");
 $res = $ini->read();
 
 $migrate = true;
 
-if ($res)
-{
-	if ($ini->readVariable("clients","path") !== false)
-	{
-		$migrate = false;
-	}
+if ($res) {
+    if ($ini->readVariable("clients", "path") !== false) {
+        $migrate = false;
+    }
 }
 
 unset($ini);
 
-if ($migrate)
-{
-	$query = "SELECT * FROM settings";
-	$res = $this->db->query($query);
+if ($migrate) {
+    $query = "SELECT * FROM settings";
+    $res = $this->db->query($query);
 
-	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$settings[$row->keyword] = $row->value;
-	}
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $settings[$row->keyword] = $row->value;
+    }
 
-	$client_id = "default";
+    $client_id = "default";
 
-	rename(ILIAS_ABSOLUTE_PATH."/ilias.ini.php",ILIAS_ABSOLUTE_PATH."/ilias.ini_copied.php");
+    rename(ILIAS_ABSOLUTE_PATH . "/ilias.ini.php", ILIAS_ABSOLUTE_PATH . "/ilias.ini_copied.php");
 
-	$ini_old = new ilIniFile(ILIAS_ABSOLUTE_PATH."/ilias.ini_copied.php");
-	$res = $ini_old->read();
+    $ini_old = new ilIniFile(ILIAS_ABSOLUTE_PATH . "/ilias.ini_copied.php");
+    $res = $ini_old->read();
 
-	$datadir = $ini_old->readVariable("server","data_dir");
-	$datadir_client = $datadir."/".$client_id;
-	$webdir = $ini_old->readVariable("server","absolute_path")."/data";
-	$webdir_client = $webdir."/".$client_id;
+    $datadir = $ini_old->readVariable("server", "data_dir");
+    $datadir_client = $datadir . "/" . $client_id;
+    $webdir = $ini_old->readVariable("server", "absolute_path") . "/data";
+    $webdir_client = $webdir . "/" . $client_id;
 
-	ilUtil::makeDir($datadir_client);
-	ilUtil::makeDir($datadir_client."/forum");
-	ilUtil::makeDir($datadir_client."/files");
-	ilUtil::makeDir($datadir_client."/lm_data");
-	ilUtil::makeDir($datadir_client."/mail");
+    ilUtil::makeDir($datadir_client);
+    ilUtil::makeDir($datadir_client . "/forum");
+    ilUtil::makeDir($datadir_client . "/files");
+    ilUtil::makeDir($datadir_client . "/lm_data");
+    ilUtil::makeDir($datadir_client . "/mail");
 
-	ilUtil::makeDir($webdir_client);
-	ilUtil::makeDir($webdir_client."/css");
-	ilUtil::makeDir($webdir_client."/mobs");
-	ilUtil::makeDir($webdir_client."/lm_data");
-	ilUtil::makeDir($webdir_client."/usr_images");
+    ilUtil::makeDir($webdir_client);
+    ilUtil::makeDir($webdir_client . "/css");
+    ilUtil::makeDir($webdir_client . "/mobs");
+    ilUtil::makeDir($webdir_client . "/lm_data");
+    ilUtil::makeDir($webdir_client . "/usr_images");
 
-	//copy data dir
-	ilUtil::rcopy($datadir."/forum",$datadir_client."/forum");
-	ilUtil::rcopy($datadir."/files",$datadir_client."/files");
-	ilUtil::rcopy($datadir."/lm_data",$datadir_client."/lm_data");
-	ilUtil::rcopy($datadir."/mail",$datadir_client."/mail");
-	// copy web dir
-	ilUtil::rcopy($webdir."/css",$webdir_client."/css");
-	ilUtil::rcopy($webdir."/mobs",$webdir_client."/mobs");
-	ilUtil::rcopy($webdir."/lm_data",$webdir_client."/lm_data");
-	ilUtil::rcopy($webdir."/usr_images",$webdir_client."/usr_images");
+    //copy data dir
+    ilUtil::rcopy($datadir . "/forum", $datadir_client . "/forum");
+    ilUtil::rcopy($datadir . "/files", $datadir_client . "/files");
+    ilUtil::rcopy($datadir . "/lm_data", $datadir_client . "/lm_data");
+    ilUtil::rcopy($datadir . "/mail", $datadir_client . "/mail");
+    // copy web dir
+    ilUtil::rcopy($webdir . "/css", $webdir_client . "/css");
+    ilUtil::rcopy($webdir . "/mobs", $webdir_client . "/mobs");
+    ilUtil::rcopy($webdir . "/lm_data", $webdir_client . "/lm_data");
+    ilUtil::rcopy($webdir . "/usr_images", $webdir_client . "/usr_images");
 
-	$client_master = ILIAS_ABSOLUTE_PATH."/setup/client.master.ini.php";
-	$ini_new = new ilIniFile($webdir_client."/client.ini.php");
-	$ini_new->GROUPS = parse_ini_file($client_master,true);
+    $client_master = ILIAS_ABSOLUTE_PATH . "/setup/client.master.ini.php";
+    $ini_new = new ilIniFile($webdir_client . "/client.ini.php");
+    $ini_new->GROUPS = parse_ini_file($client_master, true);
 
-	$ini_new->setVariable("client","name",$settings["inst_name"]);
-	$ini_new->setVariable("client","description",$settings["inst_info"]);
-	$ini_new->setVariable("client","access",1);
-	$ini_new->setVariable("db","host",$ini_old->readVariable("db","host"));
-	$ini_new->setVariable("db","user",$ini_old->readVariable("db","user"));
-	$ini_new->setVariable("db","pass",$ini_old->readVariable("db","pass"));
-	$ini_new->setVariable("db","name",$ini_old->readVariable("db","name"));
-	$ini_new->setVariable("language","default",$ini_old->readVariable("language","default"));
-	$ini_new->setVariable("layout","skin",$ini_old->readVariable("layout","skin"));
-	$ini_new->setVariable("layout","style",$ini_old->readVariable("layout","style"));
+    $ini_new->setVariable("client", "name", $settings["inst_name"]);
+    $ini_new->setVariable("client", "description", $settings["inst_info"]);
+    $ini_new->setVariable("client", "access", 1);
+    $ini_new->setVariable("db", "host", $ini_old->readVariable("db", "host"));
+    $ini_new->setVariable("db", "user", $ini_old->readVariable("db", "user"));
+    $ini_new->setVariable("db", "pass", $ini_old->readVariable("db", "pass"));
+    $ini_new->setVariable("db", "name", $ini_old->readVariable("db", "name"));
+    $ini_new->setVariable("language", "default", $ini_old->readVariable("language", "default"));
+    $ini_new->setVariable("layout", "skin", $ini_old->readVariable("layout", "skin"));
+    $ini_new->setVariable("layout", "style", $ini_old->readVariable("layout", "style"));
 
-	$ilias_master = ILIAS_ABSOLUTE_PATH."/setup/ilias.master.ini.php";
-	$ini_il = new ilIniFile($ini_old->readVariable("server","absolute_path")."/ilias.ini.php");
-	$ini_il->GROUPS = parse_ini_file($ilias_master,true);
+    $ilias_master = ILIAS_ABSOLUTE_PATH . "/setup/ilias.master.ini.php";
+    $ini_il = new ilIniFile($ini_old->readVariable("server", "absolute_path") . "/ilias.ini.php");
+    $ini_il->GROUPS = parse_ini_file($ilias_master, true);
 
-	$ini_il->setVariable("server","http_path",$ini_old->readVariable("server","http_path"));
-	$ini_il->setVariable("server","absolute_path",$ini_old->readVariable("server","absolute_path"));
-	$ini_il->setVariable("clients","datadir",$ini_old->readVariable("server","data_dir"));
-	$ini_il->setVariable("tools", "convert", $settings["convert_path"]);
-	$ini_il->setVariable("tools", "zip", $settings["zip_path"]);
-	$ini_il->setVariable("tools", "unzip", $settings["unzip_path"]);
-	$ini_il->setVariable("tools", "java", $settings["java_path"]);
-	$ini_il->setVariable("tools", "htmldoc", $settings["htmldoc"]);
+    $ini_il->setVariable("server", "http_path", $ini_old->readVariable("server", "http_path"));
+    $ini_il->setVariable("server", "absolute_path", $ini_old->readVariable("server", "absolute_path"));
+    $ini_il->setVariable("clients", "datadir", $ini_old->readVariable("server", "data_dir"));
+    $ini_il->setVariable("tools", "convert", $settings["convert_path"]);
+    $ini_il->setVariable("tools", "zip", $settings["zip_path"]);
+    $ini_il->setVariable("tools", "unzip", $settings["unzip_path"]);
+    $ini_il->setVariable("tools", "java", $settings["java_path"]);
+    $ini_il->setVariable("tools", "htmldoc", $settings["htmldoc"]);
 
-	$setup_pass = ($settings["setup_passwd"]) ? $settings["setup_passwd"] : md5("homer");
-	$ini_il->setVariable("setup", "pass", $setup_pass);
-	$ini_il->setVariable("clients","default",$client_id);
+    $setup_pass = ($settings["setup_passwd"]) ? $settings["setup_passwd"] : md5("homer");
+    $ini_il->setVariable("setup", "pass", $setup_pass);
+    $ini_il->setVariable("clients", "default", $client_id);
 
-	$ini_new->write();
-	$ini_il->write();
+    $ini_new->write();
+    $ini_il->write();
 
-	if (!$settings["setup_ok"])
-	{
-		$query = "INSERT INTO settings VALUES ('setup_ok','1')";
-		$this->db->query($query);
-	}
+    if (!$settings["setup_ok"]) {
+        $query = "INSERT INTO settings VALUES ('setup_ok','1')";
+        $this->db->query($query);
+    }
 
-	if (!isset($settings["nic_enabled"]))
-	{
-		$query = "INSERT INTO settings VALUES ('nic_enabled','0')";
-		$this->db->query($query);
-	}
+    if (!isset($settings["nic_enabled"])) {
+        $query = "INSERT INTO settings VALUES ('nic_enabled','0')";
+        $this->db->query($query);
+    }
 }
 ?>
 
@@ -1009,20 +989,18 @@ UPDATE usr_pref SET value='blueshadow' WHERE keyword='style';
 $q = "SELECT * FROM page_object WHERE content LIKE '%flit%'";
 $page_set = $this->db->query($q);
 
-while ($page_rec = $page_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$content = $page_rec["content"];
+while ($page_rec = $page_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $content = $page_rec["content"];
 
-	while (ereg("flit\_([0-9]*)", $content, $found))
-	{
-		$new = "il__file_".$found[1];
-		$content = ereg_replace($found[0], $new, $content);
-//echo "replace ".$found[0]." with $new<br>";
-	}
-	$q = "UPDATE page_object SET content = '".addslashes($content)."'".
-		" WHERE page_id = '".$page_rec["page_id"]."'".
-		" AND parent_type='".$page_rec["parent_type"]."'";
-	$this->db->query($q);
+    while (ereg("flit\_([0-9]*)", $content, $found)) {
+        $new = "il__file_" . $found[1];
+        $content = ereg_replace($found[0], $new, $content);
+        //echo "replace ".$found[0]." with $new<br>";
+    }
+    $q = "UPDATE page_object SET content = '" . addslashes($content) . "'" .
+        " WHERE page_id = '" . $page_rec["page_id"] . "'" .
+        " AND parent_type='" . $page_rec["parent_type"] . "'";
+    $this->db->query($q);
 }
 
 ?>
@@ -1153,38 +1131,36 @@ DROP TABLE IF EXISTS lo_tree;
 // remove LDAP node temporary
 
 // get LDAP node data
-$query = "SELECT ref_id FROM object_reference ".
-		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id ".
-		 "WHERE object_data.type = 'ldap'";
+$query = "SELECT ref_id FROM object_reference " .
+         "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id " .
+         "WHERE object_data.type = 'ldap'";
 $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // check if ldap node was found
-if ($row->ref_id > 0)
-{
-	// init tree
-	$tree = new ilTree(ROOT_FOLDER_ID);
+if ($row->ref_id > 0) {
+    // init tree
+    $tree = new ilTree(ROOT_FOLDER_ID);
 
-	$ldap_node = $tree->getNodeData($row->ref_id);
-	
-	// check if ldap is already deactivated
-	if ($ldap_node["tree"] > 0)
-	{
-		// remove ldap node from tree
-		$tree->deleteTree($ldap_node);
-	}
+    $ldap_node = $tree->getNodeData($row->ref_id);
+    
+    // check if ldap is already deactivated
+    if ($ldap_node["tree"] > 0) {
+        // remove ldap node from tree
+        $tree->deleteTree($ldap_node);
+    }
 }
 ?>
 
 <#87>
 <?php
 // remove create operation for file object
-$query = "SELECT obj_id FROM object_data ".
-		 "WHERE type='typ' AND title='file'";
+$query = "SELECT obj_id FROM object_data " .
+         "WHERE type='typ' AND title='file'";
 $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
+$query = "DELETE FROM rbac_ta WHERE typ_id='" . $row->obj_id . "'";
 $this->db->query($query);
 
 // init rbac
@@ -1203,209 +1179,188 @@ $query = "DELETE FROM rbac_pa WHERE ops_id='a:0:{}'";
 $this->db->query($query);
 
 // set new object create permissions
-$query = "SELECT rbac_pa.ops_id, rbac_pa.rol_id, rbac_pa.obj_id as ref_id, object_data.type FROM rbac_pa ".
-		 "LEFT JOIN object_reference ON rbac_pa.obj_id=object_reference.ref_id ".
-		 "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id";
+$query = "SELECT rbac_pa.ops_id, rbac_pa.rol_id, rbac_pa.obj_id as ref_id, object_data.type FROM rbac_pa " .
+         "LEFT JOIN object_reference ON rbac_pa.obj_id=object_reference.ref_id " .
+         "LEFT JOIN object_data ON object_reference.obj_id=object_data.obj_id";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$arr_pa_entries[] = array(
-								"ref_id"	=>	$row->ref_id,
-								"rol_id"	=>	$row->rol_id,
-								"type"		=>	$row->type,
-								"operations"=>	unserialize($row->ops_id)
-							);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $arr_pa_entries[] = array(
+                                "ref_id"	=>	$row->ref_id,
+                                "rol_id"	=>	$row->rol_id,
+                                "type"		=>	$row->type,
+                                "operations"=>	unserialize($row->ops_id)
+                            );
 }
 
-foreach ($arr_pa_entries as $key => $pa_entry)
-{
-	// detect create permission
-	$pa_entry["create"] = array_search("5",$pa_entry["operations"]);
+foreach ($arr_pa_entries as $key => $pa_entry) {
+    // detect create permission
+    $pa_entry["create"] = array_search("5", $pa_entry["operations"]);
 
-	// remove create permission and remember pa_entries with create permission
-	if ($pa_entry["create"] !== false)
-	{
-		unset($pa_entry["operations"][$pa_entry["create"]]);
-	}
+    // remove create permission and remember pa_entries with create permission
+    if ($pa_entry["create"] !== false) {
+        unset($pa_entry["operations"][$pa_entry["create"]]);
+    }
 
-	switch ($pa_entry)
-	{
-		case "usrf":
-			if (in_array("4",$pa_entry["operations"]))
-			{
-				$pa_entry["operations"][] = "13";
-			}
-			break;
+    switch ($pa_entry) {
+        case "usrf":
+            if (in_array("4", $pa_entry["operations"])) {
+                $pa_entry["operations"][] = "13";
+            }
+            break;
 
-		case "grp":
-			if ($pa_entry["create"] !== false)
-			{
-				$pa_entry["operations"][] = "18";
-				$pa_entry["operations"][] = "20";
-				$pa_entry["operations"][] = "21";
-			}
+        case "grp":
+            if ($pa_entry["create"] !== false) {
+                $pa_entry["operations"][] = "18";
+                $pa_entry["operations"][] = "20";
+                $pa_entry["operations"][] = "21";
+            }
 
-			if (in_array("2",$pa_entry["operations"]) and in_array("3",$pa_entry["operations"]))
-			{
-				$pa_entry["operations"][] = "25";
-				$pa_entry["operations"][] = "26";
-			}
-			break;
+            if (in_array("2", $pa_entry["operations"]) and in_array("3", $pa_entry["operations"])) {
+                $pa_entry["operations"][] = "25";
+                $pa_entry["operations"][] = "26";
+            }
+            break;
 
-		case "cat":
-			if ($pa_entry["create"] !== false)
-			{
-				$pa_entry["operations"][] = "16";
-				$pa_entry["operations"][] = "17";
-				$pa_entry["operations"][] = "18";
-				$pa_entry["operations"][] = "19";
-				$pa_entry["operations"][] = "20";
-				$pa_entry["operations"][] = "21";
-				$pa_entry["operations"][] = "22";
-				$pa_entry["operations"][] = "23";
-				$pa_entry["operations"][] = "24";
-			}
-			break;
+        case "cat":
+            if ($pa_entry["create"] !== false) {
+                $pa_entry["operations"][] = "16";
+                $pa_entry["operations"][] = "17";
+                $pa_entry["operations"][] = "18";
+                $pa_entry["operations"][] = "19";
+                $pa_entry["operations"][] = "20";
+                $pa_entry["operations"][] = "21";
+                $pa_entry["operations"][] = "22";
+                $pa_entry["operations"][] = "23";
+                $pa_entry["operations"][] = "24";
+            }
+            break;
 
-		case "crs":
-			if ($pa_entry["create"] !== false)
-			{
-				$pa_entry["operations"][] = "18";
-				$pa_entry["operations"][] = "20";
-				$pa_entry["operations"][] = "21";
-				$pa_entry["operations"][] = "22";
-			}
-			break;
-	}
+        case "crs":
+            if ($pa_entry["create"] !== false) {
+                $pa_entry["operations"][] = "18";
+                $pa_entry["operations"][] = "20";
+                $pa_entry["operations"][] = "21";
+                $pa_entry["operations"][] = "22";
+            }
+            break;
+    }
 
-	// remove multiple values
-	$pa_entry["operations"] = array_unique($pa_entry["operations"]);
+    // remove multiple values
+    $pa_entry["operations"] = array_unique($pa_entry["operations"]);
 
-	$rbacadmin->revokePermission($pa_entry["ref_id"],$pa_entry["rol_id"]);
-	$rbacadmin->grantPermission($pa_entry["rol_id"],$pa_entry["operations"],$pa_entry["ref_id"]);
+    $rbacadmin->revokePermission($pa_entry["ref_id"], $pa_entry["rol_id"]);
+    $rbacadmin->grantPermission($pa_entry["rol_id"], $pa_entry["operations"], $pa_entry["ref_id"]);
 }
 
 // migration of rbac_templates and rbac_ta
 
 // build array with all rbac object types
-$query = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta ".
-		 "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id ".
-		 "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
+$query = "SELECT ta.typ_id,obj.title,ops.ops_id,ops.operation FROM rbac_ta AS ta " .
+         "LEFT JOIN object_data AS obj ON obj.obj_id=ta.typ_id " .
+         "LEFT JOIN rbac_operations AS ops ON ops.ops_id=ta.ops_id";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
-									    "type"		=> $row->title
-										);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $rbac_objects[$row->typ_id] = array("obj_id"	=> $row->typ_id,
+                                        "type"		=> $row->title
+                                        );
 
-	$rbac_operations[$row->typ_id][$row->ops_id] = $row->ops_id;
+    $rbac_operations[$row->typ_id][$row->ops_id] = $row->ops_id;
 }
 
-foreach ($rbac_objects as $key => $obj_data)
-{
-	$rbac_objects[$key]["ops"] = $rbac_operations[$key];
+foreach ($rbac_objects as $key => $obj_data) {
+    $rbac_objects[$key]["ops"] = $rbac_operations[$key];
 }
 
 // get all roles
 $query = "SELECT * FROM rbac_fa";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$arr_roles[] = array(
-						"rol_id"	=>	$row->rol_id,
-						"rolf_id"	=>	$row->parent,
-						"assign"	=>	$row->assign
-						);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $arr_roles[] = array(
+                        "rol_id"	=>	$row->rol_id,
+                        "rolf_id"	=>	$row->parent,
+                        "assign"	=>	$row->assign
+                        );
 }
 
-foreach ($arr_roles as $role)
-{
-	// work on a copy of rbac_objects
-	$rbac_objects_temp = $rbac_objects;
+foreach ($arr_roles as $role) {
+    // work on a copy of rbac_objects
+    $rbac_objects_temp = $rbac_objects;
 
-	// for local roles display only the permissions settings for allowed subobjects
-	if ($role["rolf_id"] != ROLE_FOLDER_ID)
-	{
-		// first get object in question (parent of role folder object)
-		$parent_data = $tree->getParentNodeData($role["rolf_id"]);
-		// get allowed subobject of object
-		$subobj_data = $ilObjDef->getSubObjects($parent_data["type"]);
+    // for local roles display only the permissions settings for allowed subobjects
+    if ($role["rolf_id"] != ROLE_FOLDER_ID) {
+        // first get object in question (parent of role folder object)
+        $parent_data = $tree->getParentNodeData($role["rolf_id"]);
+        // get allowed subobject of object
+        $subobj_data = $ilObjDef->getSubObjects($parent_data["type"]);
 
-		// remove not allowed object types from array but keep the type definition of object itself
-		foreach ($rbac_objects_temp as $key => $obj_data)
-		{
-			if (!$subobj_data[$obj_data["type"]] and $parent_data["type"] != $obj_data["type"])
-			{
-				unset($rbac_objects_temp[$key]);
-			}
-		}
-	} // end if local roles
-	
-	foreach ($rbac_objects_temp as $key => $obj_data)
-	{
-		$arr_selected = $rbacreview->getOperationsOfRole($role["rol_id"], $obj_data["type"], $role["rolf_id"]);
+        // remove not allowed object types from array but keep the type definition of object itself
+        foreach ($rbac_objects_temp as $key => $obj_data) {
+            if (!$subobj_data[$obj_data["type"]] and $parent_data["type"] != $obj_data["type"]) {
+                unset($rbac_objects_temp[$key]);
+            }
+        }
+    } // end if local roles
+    
+    foreach ($rbac_objects_temp as $key => $obj_data) {
+        $arr_selected = $rbacreview->getOperationsOfRole($role["rol_id"], $obj_data["type"], $role["rolf_id"]);
 
-		// detect create permission
-		$obj_data["create"] = array_search("5",$arr_selected);
+        // detect create permission
+        $obj_data["create"] = array_search("5", $arr_selected);
 
-		// remove create permission and remember pa_entries with create permission
-		if ($obj_data["create"] !== false)
-		{
-			unset($arr_selected[$obj_data["create"]]);
-		}
+        // remove create permission and remember pa_entries with create permission
+        if ($obj_data["create"] !== false) {
+            unset($arr_selected[$obj_data["create"]]);
+        }
 
-		if ($obj_data["create"] !== false)
-		{
-			switch ($obj_data["type"])
-			{
-				case "usrf":
-					$arr_selected[] = "13";
-					break;
+        if ($obj_data["create"] !== false) {
+            switch ($obj_data["type"]) {
+                case "usrf":
+                    $arr_selected[] = "13";
+                    break;
 
-				case "grp":
-					$arr_selected[] = "18";
-					$arr_selected[] = "20";
-					$arr_selected[] = "21";
-					$arr_selected[] = "25";
-					$arr_selected[] = "26";
+                case "grp":
+                    $arr_selected[] = "18";
+                    $arr_selected[] = "20";
+                    $arr_selected[] = "21";
+                    $arr_selected[] = "25";
+                    $arr_selected[] = "26";
 
-					break;
-		
-				case "cat":
-					$arr_selected[] = "16";
-					$arr_selected[] = "17";
-					$arr_selected[] = "18";
-					$arr_selected[] = "19";
-					$arr_selected[] = "20";
-					$arr_selected[] = "21";
-					$arr_selected[] = "22";
-					$arr_selected[] = "23";
-					$arr_selected[] = "24";
-					break;
+                    break;
+        
+                case "cat":
+                    $arr_selected[] = "16";
+                    $arr_selected[] = "17";
+                    $arr_selected[] = "18";
+                    $arr_selected[] = "19";
+                    $arr_selected[] = "20";
+                    $arr_selected[] = "21";
+                    $arr_selected[] = "22";
+                    $arr_selected[] = "23";
+                    $arr_selected[] = "24";
+                    break;
 
-				case "crs":
-					$arr_selected[] = "18";
-					$arr_selected[] = "20";
-					$arr_selected[] = "21";
-					$arr_selected[] = "22";
-					break;
-			}
-		}
+                case "crs":
+                    $arr_selected[] = "18";
+                    $arr_selected[] = "20";
+                    $arr_selected[] = "21";
+                    $arr_selected[] = "22";
+                    break;
+            }
+        }
 
-		// remove multiple values
-		$arr_selected = array_unique($arr_selected);
+        // remove multiple values
+        $arr_selected = array_unique($arr_selected);
 
-		// sets new template permissions
-		if (!empty($arr_selected))
-		{
-			// delete all template entries for each role
-			$rbacadmin->deleteRolePermission($role["rol_id"], $role["rolf_id"],$obj_data["type"]);
-			$rbacadmin->setRolePermission($role["rol_id"], $obj_data["type"], $arr_selected, $role["rolf_id"]);
-		}
-	}
+        // sets new template permissions
+        if (!empty($arr_selected)) {
+            // delete all template entries for each role
+            $rbacadmin->deleteRolePermission($role["rol_id"], $role["rolf_id"], $obj_data["type"]);
+            $rbacadmin->setRolePermission($role["rol_id"], $obj_data["type"], $arr_selected, $role["rolf_id"]);
+        }
+    }
 }
 
 // remove old create operation
@@ -1456,8 +1411,8 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('28', 'create
 <?php
 
 // insert test definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'tst', 'Test object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'tst', 'Test object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -1468,15 +1423,15 @@ $typ_id = $row[0];
 
 // add operation assignment to test object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -1484,8 +1439,8 @@ $this->db->query($query);
 <?php
 
 // insert question pool definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'qpl', 'Question pool object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'qpl', 'Question pool object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -1496,15 +1451,15 @@ $typ_id = $row[0];
 
 // add operation assignment to question pool object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -1518,9 +1473,9 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add create_tst and create_qpl operations to category type
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','27')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','27')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','28')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','28')";
 $this->db->query($query);
 ?>
 
@@ -1599,8 +1554,8 @@ CREATE TABLE `qpl_questions` (
 <#101>
 <?php
 
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'chat', 'Chat object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'chat', 'Chat object', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1608,15 +1563,15 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','6')";
 $this->db->query($query);
 
 
@@ -1627,17 +1582,16 @@ $this->db->query($query);
 // ADD CREATE PERMISSION FOR TYPE 'cat','grp'
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND ( title = 'cat' OR title = 'grp') ";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','29')";
-	$this->db->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = "INSERT INTO rbac_ta VALUES('" . $row->obj_id . "','29')";
+    $this->db->query($query);
 }
 ?>
 <#102>
 <?php
 
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'chac', 'Chat server config object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'chac', 'Chat server config object', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1645,19 +1599,19 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('chac', 'Chat server settings', 'Configure chat server settings here', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('chac', 'Chat server settings', 'Configure chat server settings here', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1665,7 +1619,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1674,7 +1628,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 ?>
 
 <#103>
@@ -1975,14 +1929,14 @@ ALTER TABLE chat_user ADD PRIMARY KEY(usr_id,chat_id,room_id);
 <#122>
 <?php
 // register new object type 'recf' for RecoveryFolder
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'recf', 'RecoveryFolder object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'recf', 'RecoveryFolder object', -1, now(), now())";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('recf', '__Restored Objects', 'Contains objects restored by recovery tool', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('recf', '__Restored Objects', 'Contains objects restored by recovery tool', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1990,7 +1944,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -1999,10 +1953,10 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 
 // register RECOVERY_FOLDER_ID in table settings
-$query = "INSERT INTO settings (keyword,value) VALUES('recovery_folder_id','".$row->id."')";
+$query = "INSERT INTO settings (keyword,value) VALUES('recovery_folder_id','" . $row->id . "')";
 $res = $this->db->query($query);
 ?>
 
@@ -2098,35 +2052,31 @@ $this->db->query($query);
 <#137>
 <?php
 // MAIL REF_ID
-$query = "SELECT * FROM object_data NATURAL JOIN object_reference ".
-		"WHERE type = 'mail'";
+$query = "SELECT * FROM object_data NATURAL JOIN object_reference " .
+        "WHERE type = 'mail'";
 
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ref_id = $row->ref_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ref_id = $row->ref_id;
 }
 // GET ALL ROLE_IDS
 $query = "SELECT DISTINCT(rol_id) FROM rbac_pa";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$role_ids[] = $row->rol_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $role_ids[] = $row->rol_id;
 }
 
 $rbacsystem = ilRbacSystem::getInstance();
 $rbacadmin = new ilRbacAdmin();
 $rbacreview = new ilRbacReview();
 
-foreach($role_ids as $id)
-{
-	if($rbacsystem->checkPermission($ref_id,$id,"visible") and $rbacsystem->checkPermission($ref_id,$id,"read"))
-	{
-		$ops = $rbacreview->getRoleOperationsOnObject($id,$ref_id);
-		$ops[] = 30;
-		$rbacadmin->revokePermission($ref_id,$id);
-		$rbacadmin->grantPermission($id,$ops,$ref_id);
-	}
+foreach ($role_ids as $id) {
+    if ($rbacsystem->checkPermission($ref_id, $id, "visible") and $rbacsystem->checkPermission($ref_id, $id, "read")) {
+        $ops = $rbacreview->getRoleOperationsOnObject($id, $ref_id);
+        $ops[] = 30;
+        $rbacadmin->revokePermission($ref_id, $id);
+        $rbacadmin->grantPermission($id, $ops, $ref_id);
+    }
 }
 ?>
 <#138>
@@ -2154,8 +2104,8 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('31', 'create
 <?php
 
 // insert media pool definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'mep', 'Media pool object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'mep', 'Media pool object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -2166,15 +2116,15 @@ $typ_id = $row[0];
 
 // add operations to media pool
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -2187,7 +2137,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','31')";
 $this->db->query($query);
 ?>
 
@@ -2222,8 +2172,8 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('32', 'create
 <?php
 
 // insert media pool definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'htlm', 'HTML LM object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'htlm', 'HTML LM object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -2234,15 +2184,15 @@ $typ_id = $row[0];
 
 // add operations to html lm
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -2255,7 +2205,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','32')";
 $this->db->query($query);
 ?>
 <#150>
@@ -2282,12 +2232,11 @@ CREATE TABLE file_based_lm
 // build file_based_lm entries for each html learning module
 $query = "SELECT * FROM object_data WHERE type='htlm'";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$obj_id = $row["obj_id"];
-	$query = "INSERT INTO file_based_lm (id, online) VALUES ('".
-		$row["obj_id"]."', 'n')";
-	$this->db->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $obj_id = $row["obj_id"];
+    $query = "INSERT INTO file_based_lm (id, online) VALUES ('" .
+        $row["obj_id"] . "', 'n')";
+    $this->db->query($query);
 }
 ?>
 <#156>
@@ -2298,38 +2247,35 @@ ALTER  TABLE  `qpl_answers`  ADD  `cloze_type` ENUM(  '0',  '1'  )  AFTER  `gap_
 // save the cloze type from the qpl_questions table into the qpl_answers table
 $query = "SELECT * FROM qpl_questions WHERE cloze_type >= 0";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$update_query = sprintf("UPDATE qpl_answers SET cloze_type = %s WHERE question_fi = %s",
-		$this->db->quote("$row->cloze_type"),
-		$this->db->quote("$row->question_id")
-	);
-	$update_res = $this->db->query($update_query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $update_query = sprintf(
+        "UPDATE qpl_answers SET cloze_type = %s WHERE question_fi = %s",
+        $this->db->quote("$row->cloze_type"),
+        $this->db->quote("$row->question_id")
+    );
+    $update_res = $this->db->query($update_query);
 }
 ?>
 <#158>
 <?php
 // insert files into tree
-$query = "SELECT * FROM object_data AS obj ".
-		 "LEFT JOIN object_reference AS ref ON obj.obj_id = ref.obj_id ".
-		 "LEFT JOIN grp_tree AS grp ON grp.child = ref.ref_id ".
-		 "WHERE obj.type = 'file'";
+$query = "SELECT * FROM object_data AS obj " .
+         "LEFT JOIN object_reference AS ref ON obj.obj_id = ref.obj_id " .
+         "LEFT JOIN grp_tree AS grp ON grp.child = ref.ref_id " .
+         "WHERE obj.type = 'file'";
 $res = $this->db->query($query);
 
 $tree = new ilTree(ROOT_FOLDER_ID);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if ($row->tree > 0)
-	{
-		$query = "SELECT * FROM tree WHERE child='".$row->tree."' AND tree='1'";
-		$res2 = $this->db->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->tree > 0) {
+        $query = "SELECT * FROM tree WHERE child='" . $row->tree . "' AND tree='1'";
+        $res2 = $this->db->query($query);
 
-		if ($res2->numRows() > 0)
-		{
-			$tree->insertNode($row->child,$row->tree);
-		}
-	}
+        if ($res2->numRows() > 0) {
+            $tree->insertNode($row->child, $row->tree);
+        }
+    }
 }
 
 // remove table grp_tree
@@ -2340,14 +2286,14 @@ $this->db->query($query);
 <?php
 $query = "SELECT * FROM `qpl_questions` WHERE  NOT isnull(start_tag)";
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$new_text = preg_replace("/" . preg_quote($row->start_tag) . "(.*?)" . preg_quote($row->end_tag) . "/", "<gap>$1</gap>", $row->question_text);
-	$update_query = sprintf("UPDATE qpl_questions SET question_text = %s WHERE question_id = %s",
-		$this->db->quote($new_text),
-		$this->db->quote("$row->question_id")
-	);
-	$update_res = $this->db->query($update_query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $new_text = preg_replace("/" . preg_quote($row->start_tag) . "(.*?)" . preg_quote($row->end_tag) . "/", "<gap>$1</gap>", $row->question_text);
+    $update_query = sprintf(
+        "UPDATE qpl_questions SET question_text = %s WHERE question_id = %s",
+        $this->db->quote($new_text),
+        $this->db->quote("$row->question_id")
+    );
+    $update_res = $this->db->query($update_query);
 }
 ?>
 <#160>
@@ -2359,15 +2305,15 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 // add operation assignment to file object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 
 // fetch type id of folder object definition
@@ -2379,27 +2325,27 @@ $typ_id = $row[0];
 // add operation assignment to file object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
 // 18: create_frm, 20: create_lm, 21: create_slm, 22: create_glo, 25: create_file, 26: create_fold
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','18')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','18')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','20')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','20')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','21')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','21')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','22')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','22')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','25')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','25')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','26')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','26')";
 $this->db->query($query);
 
 // fetch type id of group object definition
@@ -2409,7 +2355,7 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add create_glo operation assignment to grp object definition
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','22')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','22')";
 $this->db->query($query);
 
 // init rbac
@@ -2437,93 +2383,79 @@ $ops_data["slm"] = array(2,3,7,8);
 $ops_data["fold"] = array(2,3,18,25,26);
 
 // sets new template permissions
-foreach ($ops_data as $type => $ops)
-{
-	// delete all template entries for each role
-	$rbacadmin->deleteRolePermission($mem_role_id, ROLE_FOLDER_ID,$type);
-	$rbacadmin->setRolePermission($mem_role_id, $type, $ops, ROLE_FOLDER_ID);
+foreach ($ops_data as $type => $ops) {
+    // delete all template entries for each role
+    $rbacadmin->deleteRolePermission($mem_role_id, ROLE_FOLDER_ID, $type);
+    $rbacadmin->setRolePermission($mem_role_id, $type, $ops, ROLE_FOLDER_ID);
 }
 
 // copy member template settings to all group member roles
 $query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_member%'";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$dest_role_id = $row->obj_id;
-	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
-	$dest_rolf_id = $rolf_arr[0];
-	$rbacadmin->deleteRolePermission($dest_role_id,$dest_rolf_id,false);
-	$rbacadmin->copyRolePermissions($mem_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $dest_role_id = $row->obj_id;
+    $rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id, true);
+    $dest_rolf_id = $rolf_arr[0];
+    $rbacadmin->deleteRolePermission($dest_role_id, $dest_rolf_id, false);
+    $rbacadmin->copyRolePermissions($mem_role_id, ROLE_FOLDER_ID, $dest_rolf_id, $dest_role_id);
 
-	// change existing objects
-	$node_id = $tree->getParentId($dest_rolf_id);
+    // change existing objects
+    $node_id = $tree->getParentId($dest_rolf_id);
 
-	if (empty($node_id))
-	{
-		continue;
-	}
+    if (empty($node_id)) {
+        continue;
+    }
 
-	// GET ALL SUBNODES
-	$node_data = $tree->getNodeData($node_id);
-	$subtree_nodes = $tree->getSubTree($node_data);
+    // GET ALL SUBNODES
+    $node_data = $tree->getNodeData($node_id);
+    $subtree_nodes = $tree->getSubTree($node_data);
 
-	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
-	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
+    // GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
+    $all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
 
-	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-	$key = array_keys($all_parent_obj_of_rolf,$node_id);
-	
-	unset($all_parent_obj_of_rolf[$key[0]]);
-	
-	$check = false;
-	
-	foreach ($subtree_nodes as $node)
-	{
-		if (!$check)
-		{
-			if (in_array($node["child"],$all_parent_obj_of_rolf))
-			{
-				$lft = $node["lft"];
-				$rgt = $node["rgt"];
-				$check = true;
-				continue;
-			}
+    // DELETE ACTUAL ROLE FOLDER FROM ARRAY
+    $key = array_keys($all_parent_obj_of_rolf, $node_id);
+    
+    unset($all_parent_obj_of_rolf[$key[0]]);
+    
+    $check = false;
+    
+    foreach ($subtree_nodes as $node) {
+        if (!$check) {
+            if (in_array($node["child"], $all_parent_obj_of_rolf)) {
+                $lft = $node["lft"];
+                $rgt = $node["rgt"];
+                $check = true;
+                continue;
+            }
 
-			$valid_nodes[] = $node;
-		}
-		else
-		{
-			if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
-			{
-				continue;
-			}
-			else
-			{
-				$check = false;
-				$valid_nodes[] = $node;
-			}
-		}
-	}
-	
-	// prepare arrays for permission settings below
-	foreach ($valid_nodes as $key => $node)
-	{
-		$node_ids[] = $node["child"];
-		$valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($mem_role_id,$node["type"],ROLE_FOLDER_ID);
-	}
+            $valid_nodes[] = $node;
+        } else {
+            if (($node["lft"] > $lft) && ($node["rgt"] < $rgt)) {
+                continue;
+            } else {
+                $check = false;
+                $valid_nodes[] = $node;
+            }
+        }
+    }
+    
+    // prepare arrays for permission settings below
+    foreach ($valid_nodes as $key => $node) {
+        $node_ids[] = $node["child"];
+        $valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($mem_role_id, $node["type"], ROLE_FOLDER_ID);
+    }
 
-	// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
-	$rbacadmin->revokePermissionList($node_ids,$dest_role_id);
+    // FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+    $rbacadmin->revokePermissionList($node_ids, $dest_role_id);
 
-	// NOW SET ALL PERMISSIONS
-	foreach ($valid_nodes as $node)
-	{
-		if (is_array($node["perms"]))
-		{
-			$rbacadmin->grantPermission($dest_role_id,$node["perms"],$node["child"]);
-		}
-	}
+    // NOW SET ALL PERMISSIONS
+    foreach ($valid_nodes as $node) {
+        if (is_array($node["perms"])) {
+            $rbacadmin->grantPermission($dest_role_id, $node["perms"], $node["child"]);
+        }
+    }
 } // end while
 
 // now for grp_admin roles
@@ -2551,93 +2483,79 @@ $ops_data["slm"] = array(1,2,3,4,6,7,8);
 $ops_data["fold"] = array(1,2,3,4,6,18,20,21,22,25,26);
 
 // sets new template permissions
-foreach ($ops_data as $type => $ops)
-{
-	// delete all template entries for each role
-	$rbacadmin->deleteRolePermission($adm_role_id, ROLE_FOLDER_ID,$type);
-	$rbacadmin->setRolePermission($adm_role_id, $type, $ops, ROLE_FOLDER_ID);
+foreach ($ops_data as $type => $ops) {
+    // delete all template entries for each role
+    $rbacadmin->deleteRolePermission($adm_role_id, ROLE_FOLDER_ID, $type);
+    $rbacadmin->setRolePermission($adm_role_id, $type, $ops, ROLE_FOLDER_ID);
 }
 
 // copy member template settings to all group member roles
 $query = "SELECT obj_id FROM object_data WHERE type='role' AND title LIKE 'il_grp_admin%'";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$dest_role_id = $row->obj_id;
-	$rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id,true);
-	$dest_rolf_id = $rolf_arr[0];
-	$rbacadmin->deleteRolePermission($dest_role_id,$dest_rolf_id,false);
-	$rbacadmin->copyRoleTemplatePermissions($adm_role_id,ROLE_FOLDER_ID,$dest_rolf_id,$dest_role_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $dest_role_id = $row->obj_id;
+    $rolf_arr = $rbacreview->getFoldersAssignedToRole($dest_role_id, true);
+    $dest_rolf_id = $rolf_arr[0];
+    $rbacadmin->deleteRolePermission($dest_role_id, $dest_rolf_id, false);
+    $rbacadmin->copyRoleTemplatePermissions($adm_role_id, ROLE_FOLDER_ID, $dest_rolf_id, $dest_role_id);
 
-	// change existing objects
-	$node_id = $tree->getParentId($dest_rolf_id);
+    // change existing objects
+    $node_id = $tree->getParentId($dest_rolf_id);
 
-	if (empty($node_id))
-	{
-		continue;
-	}
+    if (empty($node_id)) {
+        continue;
+    }
 
-	// GET ALL SUBNODES
-	$node_data = $tree->getNodeData($node_id);
-	$subtree_nodes = $tree->getSubTree($node_data);
+    // GET ALL SUBNODES
+    $node_data = $tree->getNodeData($node_id);
+    $subtree_nodes = $tree->getSubTree($node_data);
 
-	// GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
-	$all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
+    // GET ALL OBJECTS THAT CONTAIN A ROLE FOLDER
+    $all_parent_obj_of_rolf = $rbacreview->getObjectsWithStopedInheritance($dest_role_id);
 
-	// DELETE ACTUAL ROLE FOLDER FROM ARRAY
-	$key = array_keys($all_parent_obj_of_rolf,$node_id);
-	
-	unset($all_parent_obj_of_rolf[$key[0]]);
+    // DELETE ACTUAL ROLE FOLDER FROM ARRAY
+    $key = array_keys($all_parent_obj_of_rolf, $node_id);
+    
+    unset($all_parent_obj_of_rolf[$key[0]]);
 
-	$check = false;
-	
-	foreach ($subtree_nodes as $node)
-	{
-		if (!$check)
-		{
-			if (in_array($node["child"],$all_parent_obj_of_rolf))
-			{
-				$lft = $node["lft"];
-				$rgt = $node["rgt"];
-				$check = true;
-				continue;
-			}
-	
-			$valid_nodes[] = $node;
-		}
-		else
-		{
-			if (($node["lft"] > $lft) && ($node["rgt"] < $rgt))
-			{
-				continue;
-			}
-			else
-			{
-				$check = false;
-				$valid_nodes[] = $node;
-			}
-		}
-	}
+    $check = false;
+    
+    foreach ($subtree_nodes as $node) {
+        if (!$check) {
+            if (in_array($node["child"], $all_parent_obj_of_rolf)) {
+                $lft = $node["lft"];
+                $rgt = $node["rgt"];
+                $check = true;
+                continue;
+            }
+    
+            $valid_nodes[] = $node;
+        } else {
+            if (($node["lft"] > $lft) && ($node["rgt"] < $rgt)) {
+                continue;
+            } else {
+                $check = false;
+                $valid_nodes[] = $node;
+            }
+        }
+    }
 
-	// prepare arrays for permission settings below
-	foreach ($valid_nodes as $key => $node)
-	{
-		$node_ids[] = $node["child"];
-		$valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($adm_role_id,$node["type"],ROLE_FOLDER_ID);
-	}
+    // prepare arrays for permission settings below
+    foreach ($valid_nodes as $key => $node) {
+        $node_ids[] = $node["child"];
+        $valid_nodes[$key]["perms"] = $rbacreview->getOperationsOfRole($adm_role_id, $node["type"], ROLE_FOLDER_ID);
+    }
 
-	// FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
-	$rbacadmin->revokePermissionList($node_ids,$dest_role_id);
-	
-	// NOW SET ALL PERMISSIONS
-	foreach ($valid_nodes as $node)
-	{
-		if (is_array($node["perms"]))
-		{
-			$rbacadmin->grantPermission($dest_role_id,$node["perms"],$node["child"]);
-		}
-	}
+    // FIRST REVOKE PERMISSIONS FROM ALL VALID OBJECTS
+    $rbacadmin->revokePermissionList($node_ids, $dest_role_id);
+    
+    // NOW SET ALL PERMISSIONS
+    foreach ($valid_nodes as $node) {
+        if (is_array($node["perms"])) {
+            $rbacadmin->grantPermission($dest_role_id, $node["perms"], $node["child"]);
+        }
+    }
 } // end while
 ?>
 <#161>
@@ -2690,9 +2608,9 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $adm_id = $row["obj_id"];
 
-$query = "INSERT INTO object_translation (obj_id, title, description, ".
-	"lang_code, lang_default) VALUES ('".$adm_id."','Open Source eLearning'".
-	",'','en','1')";
+$query = "INSERT INTO object_translation (obj_id, title, description, " .
+    "lang_code, lang_default) VALUES ('" . $adm_id . "','Open Source eLearning'" .
+    ",'','en','1')";
 $this->db->query($query);
 ?>
 
@@ -2708,8 +2626,8 @@ INSERT INTO rbac_operations (ops_id,operation,description) VALUES ('43', 'create
 <?php
 
 // insert survey definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'svy', 'Survey object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'svy', 'Survey object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -2720,15 +2638,15 @@ $typ_id = $row[0];
 
 // add operation assignment to survey object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -2736,8 +2654,8 @@ $this->db->query($query);
 <?php
 
 // insert survey question pool definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'spl', 'Question pool object (Survey)', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'spl', 'Question pool object (Survey)', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -2748,15 +2666,15 @@ $typ_id = $row[0];
 
 // add operation assignment to survey question pool object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -2770,9 +2688,9 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add create_tst and create_qpl operations to category type
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','42')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','42')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','43')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','43')";
 $this->db->query($query);
 ?>
 <#177>
@@ -2795,7 +2713,7 @@ CREATE TABLE file_usage
 umask(0117);
 
 // get settings from ini file
-$ini = new ilIniFile(CLIENT_WEB_DIR."/client.ini.php");
+$ini = new ilIniFile(CLIENT_WEB_DIR . "/client.ini.php");
 $ini->read();
 $ini->setVariable("layout", "skin", "default");
 $ini->setVariable("layout", "style", "blueshadow");
@@ -2822,10 +2740,9 @@ CREATE TABLE glossary
 $query = "SELECT obj_id FROM object_data WHERE type='glo'";
 $gl_set = $this->db->query($query);
 
-while ($gl_rec = $gl_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$query = "INSERT INTO glossary (id, online) VALUES ('".$gl_rec["obj_id"]."','y')";
-	$this->db->query($query);
+while ($gl_rec = $gl_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $query = "INSERT INTO glossary (id, online) VALUES ('" . $gl_rec["obj_id"] . "','y')";
+    $this->db->query($query);
 }
 ?>
 
@@ -2848,7 +2765,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','32')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','32')";
 $this->db->query($query);
 ?>
 
@@ -2861,11 +2778,11 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 $typ_id = $row["obj_id"];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','23')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','23')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','24')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','24')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','31')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','31')";
 $this->db->query($query);
 ?>
 
@@ -2878,20 +2795,19 @@ $res = $this->db->query($query1);
 $tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
-$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = " . $tpl["obj_id"];
 $res = $this->db->query($query2);
 $rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 $perms = array(		array("type" => "dbk", "ops_id" => 1),
-					array("type" => "dbk", "ops_id" => 2),
-					array("type" => "dbk", "ops_id" => 3),
-					array("type" => "dbk", "ops_id" => 4),
-					array("type" => "dbk", "ops_id" => 6));
+                    array("type" => "dbk", "ops_id" => 2),
+                    array("type" => "dbk", "ops_id" => 3),
+                    array("type" => "dbk", "ops_id" => 4),
+                    array("type" => "dbk", "ops_id" => 6));
 
-foreach($perms as $perm)
-{
-	$q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','".$perm["type"]."','".$perm["ops_id"]."','".$rol_fold["parent"]."')";
-	$this->db->query($q);
+foreach ($perms as $perm) {
+    $q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','" . $perm["type"] . "','" . $perm["ops_id"] . "','" . $rol_fold["parent"] . "')";
+    $this->db->query($q);
 }
 
 ?>
@@ -2905,39 +2821,38 @@ $res = $this->db->query($query1);
 $tpl = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 //GET PROPER PARENT_ID
-$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = ".$tpl["obj_id"];
+$query2 = "SELECT parent FROM rbac_templates WHERE rol_id = " . $tpl["obj_id"];
 $res = $this->db->query($query2);
 $rol_fold = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
 $perms = array(		array("type" => "exc", "ops_id" => 1),
-					array("type" => "exc", "ops_id" => 2),
-					array("type" => "exc", "ops_id" => 3),
-					array("type" => "exc", "ops_id" => 4),
-					array("type" => "exc", "ops_id" => 6),
+                    array("type" => "exc", "ops_id" => 2),
+                    array("type" => "exc", "ops_id" => 3),
+                    array("type" => "exc", "ops_id" => 4),
+                    array("type" => "exc", "ops_id" => 6),
 
-					array("type" => "grp", "ops_id" => 23),
-					array("type" => "grp", "ops_id" => 24),
-					array("type" => "grp", "ops_id" => 31),
-					array("type" => "grp", "ops_id" => 32),
+                    array("type" => "grp", "ops_id" => 23),
+                    array("type" => "grp", "ops_id" => 24),
+                    array("type" => "grp", "ops_id" => 31),
+                    array("type" => "grp", "ops_id" => 32),
 
-					array("type" => "htlm", "ops_id" => 1),
-					array("type" => "htlm", "ops_id" => 2),
-					array("type" => "htlm", "ops_id" => 3),
-					array("type" => "htlm", "ops_id" => 4),
-					array("type" => "htlm", "ops_id" => 6),
+                    array("type" => "htlm", "ops_id" => 1),
+                    array("type" => "htlm", "ops_id" => 2),
+                    array("type" => "htlm", "ops_id" => 3),
+                    array("type" => "htlm", "ops_id" => 4),
+                    array("type" => "htlm", "ops_id" => 6),
 
-					array("type" => "mep", "ops_id" => 1),
-					array("type" => "mep", "ops_id" => 2),
-					array("type" => "mep", "ops_id" => 3),
-					array("type" => "mep", "ops_id" => 4),
-					array("type" => "mep", "ops_id" => 6),
+                    array("type" => "mep", "ops_id" => 1),
+                    array("type" => "mep", "ops_id" => 2),
+                    array("type" => "mep", "ops_id" => 3),
+                    array("type" => "mep", "ops_id" => 4),
+                    array("type" => "mep", "ops_id" => 6),
 
-					);
+                    );
 
-foreach($perms as $perm)
-{
-	$q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('".$tpl["obj_id"]."','".$perm["type"]."','".$perm["ops_id"]."','".$rol_fold["parent"]."')";
-	$this->db->query($q);
+foreach ($perms as $perm) {
+    $q = "REPLACE INTO rbac_templates (rol_id,type,ops_id,parent) VALUES ('" . $tpl["obj_id"] . "','" . $perm["type"] . "','" . $perm["ops_id"] . "','" . $rol_fold["parent"] . "')";
+    $this->db->query($q);
 }
 
 ?>
@@ -2953,8 +2868,8 @@ ALTER  TABLE  `qpl_questions`  ADD  `params` TEXT AFTER  `image_file` ;
 <#193>
 <?php
 
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'tax', 'Taxonomy object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'tax', 'Taxonomy object', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -2962,15 +2877,15 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','6')";
 $this->db->query($query);
 
 
@@ -2981,15 +2896,14 @@ $this->db->query($query);
 // ADD CREATE PERMISSION FOR TYPE 'adm'
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'adm' ";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = "INSERT INTO rbac_ta VALUES('".$row->obj_id."','44')";
-	$this->db->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = "INSERT INTO rbac_ta VALUES('" . $row->obj_id . "','44')";
+    $this->db->query($query);
 }
 
 
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'taxf', 'Taxonomy folder object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'taxf', 'Taxonomy folder object', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -2997,19 +2911,19 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // INSERT NEW OPERATIONS
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('taxf', 'Taxonomy folder', 'Configure taxonomy settings here', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('taxf', 'Taxonomy folder', 'Configure taxonomy settings here', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -3017,7 +2931,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -3026,7 +2940,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 ?>
 
 <#194>
@@ -3061,9 +2975,9 @@ $typ_id = $row->obj_id;
 
 // append operation assignment to survey object definition
 // 45: invite, 46: participate
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','45')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','45')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','46')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','46')";
 $this->db->query($query);
 ?>
 
@@ -3544,11 +3458,10 @@ ALTER TABLE content_object ADD COLUMN clean_frames ENUM('y','n') NOT NULL DEFAUL
 $q = "SELECT usr_id FROM usr_data";
 $user_set = $this->db->query($q);
 
-while ($user_rec = $user_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q = "REPLACE INTO usr_pref (usr_id, keyword, value) VALUES ".
-		" ('".$user_rec["usr_id"]."','show_users_online','y')";
-	$this->db->query($q);
+while ($user_rec = $user_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q = "REPLACE INTO usr_pref (usr_id, keyword, value) VALUES " .
+        " ('" . $user_rec["usr_id"] . "','show_users_online','y')";
+    $this->db->query($q);
 }
 ?>
 
@@ -3567,97 +3480,101 @@ ALTER  TABLE  `qpl_questions`  ADD  `original_id` INT AFTER  `created` ;
 // duplicate all test questions. work with duplicates instead of references
 $query = "SELECT test_question_id, question_fi, test_fi FROM tst_test_question";
 $search_result = $this->db->query($query);
-while ($result_row = $search_result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$question_id = $result_row->question_fi;
-	$query = sprintf("SELECT * FROM qpl_questions WHERE question_id = %s",
-		$this->db->quote($question_id)
-	);
-	$result = $this->db->query($query);
-  if (strcmp(get_class($result), db_result) == 0) {
-		if ($result->numRows() == 1)
-		{
-			$row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-			$query = sprintf("INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-				$this->db->quote("$row->question_type_fi"),
-				$this->db->quote("$row->ref_fi"),
-				$this->db->quote("$row->title"),
-				$this->db->quote("$row->comment"),
-				$this->db->quote("$row->author"),
-				$this->db->quote("$row->owner"),
-				$this->db->quote("$row->question_text"),
-				$this->db->quote("$row->working_time"),
-				$this->db->quote("$row->shuffle"),
-				$this->db->quote("$row->points"),
-				$this->db->quote("$row->start_tag"),
-				$this->db->quote("$row->end_tag"),
-				$this->db->quote("$row->matching_type"),
-				$this->db->quote("$row->ordering_type"),
-				$this->db->quote("$row->cloze_type"),
-				$this->db->quote("$row->choice_response"),
-				$this->db->quote("$row->materials"),
-				$this->db->quote("$row->image_file"),
-				$this->db->quote("$row->params"),
-				$this->db->quote("$row->complete"),
-				$this->db->quote("$row->created"),
-				$this->db->quote("$row->question_id")
-			);
-			$result = $this->db->query($query);
-			$duplicate_id = $this->db->getLastInsertId();
-			$query = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
-				$this->db->quote($question_id)
-			);
-			$result = $this->db->query($query);
-			while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-			{
-				$insertquery = sprintf("INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
-					$this->db->quote("$duplicate_id"),
-					$this->db->quote("$row->name"),
-					$this->db->quote("$row->shuffle"),
-					$this->db->quote("$row->answertext"),
-					$this->db->quote("$row->points"),
-					$this->db->quote("$row->aorder"),
-					$this->db->quote("$row->correctness"),
-					$this->db->quote("$row->solution_order"),
-					$this->db->quote("$row->matchingtext"),
-					$this->db->quote("$row->matching_order"),
-					$this->db->quote("$row->gap_id"),
-					$this->db->quote("$row->cloze_type"),
-					$this->db->quote("$row->coords"),
-					$this->db->quote("$row->area")
-				);
-				$insertresult = $this->db->query($insertquery);
-			}
+while ($result_row = $search_result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $question_id = $result_row->question_fi;
+    $query = sprintf(
+        "SELECT * FROM qpl_questions WHERE question_id = %s",
+        $this->db->quote($question_id)
+    );
+    $result = $this->db->query($query);
+    if (strcmp(get_class($result), db_result) == 0) {
+        if ($result->numRows() == 1) {
+            $row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+            $query = sprintf(
+                "INSERT INTO qpl_questions (question_id, question_type_fi, ref_fi, title, comment, author, owner, question_text, working_time, shuffle, points, start_tag, end_tag, matching_type, ordering_type, cloze_type, choice_response, materials, image_file, params, complete, created, original_id, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+                $this->db->quote("$row->question_type_fi"),
+                $this->db->quote("$row->ref_fi"),
+                $this->db->quote("$row->title"),
+                $this->db->quote("$row->comment"),
+                $this->db->quote("$row->author"),
+                $this->db->quote("$row->owner"),
+                $this->db->quote("$row->question_text"),
+                $this->db->quote("$row->working_time"),
+                $this->db->quote("$row->shuffle"),
+                $this->db->quote("$row->points"),
+                $this->db->quote("$row->start_tag"),
+                $this->db->quote("$row->end_tag"),
+                $this->db->quote("$row->matching_type"),
+                $this->db->quote("$row->ordering_type"),
+                $this->db->quote("$row->cloze_type"),
+                $this->db->quote("$row->choice_response"),
+                $this->db->quote("$row->materials"),
+                $this->db->quote("$row->image_file"),
+                $this->db->quote("$row->params"),
+                $this->db->quote("$row->complete"),
+                $this->db->quote("$row->created"),
+                $this->db->quote("$row->question_id")
+            );
+            $result = $this->db->query($query);
+            $duplicate_id = $this->db->getLastInsertId();
+            $query = sprintf(
+                "SELECT * FROM qpl_answers WHERE question_fi = %s",
+                $this->db->quote($question_id)
+            );
+            $result = $this->db->query($query);
+            while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answers (answer_id, question_fi, name, shuffle, answertext, points, aorder, correctness, solution_order, matchingtext, matching_order, gap_id, cloze_type, coords, area, TIMESTAMP) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, NULL)",
+                    $this->db->quote("$duplicate_id"),
+                    $this->db->quote("$row->name"),
+                    $this->db->quote("$row->shuffle"),
+                    $this->db->quote("$row->answertext"),
+                    $this->db->quote("$row->points"),
+                    $this->db->quote("$row->aorder"),
+                    $this->db->quote("$row->correctness"),
+                    $this->db->quote("$row->solution_order"),
+                    $this->db->quote("$row->matchingtext"),
+                    $this->db->quote("$row->matching_order"),
+                    $this->db->quote("$row->gap_id"),
+                    $this->db->quote("$row->cloze_type"),
+                    $this->db->quote("$row->coords"),
+                    $this->db->quote("$row->area")
+                );
+                $insertresult = $this->db->query($insertquery);
+            }
 
-			// copy question materials
-			$query = sprintf("SELECT * FROM qpl_question_material WHERE question_id = %s",
-				$this->db->quote($question_id)
-			);
-			$result = $this->db->query($query);
-			while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-			{
-				$insertquery = sprintf("INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-					$this->db->quote("$duplicate_id"),
-					$this->db->quote("$row->materials"),
-					$this->db->quote("$row->materials_file")
-				);
-				$insertresult = $this->db->query($insertquery);
-			}
+            // copy question materials
+            $query = sprintf(
+                "SELECT * FROM qpl_question_material WHERE question_id = %s",
+                $this->db->quote($question_id)
+            );
+            $result = $this->db->query($query);
+            while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_material (material_id, question_id, materials, materials_file, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+                    $this->db->quote("$duplicate_id"),
+                    $this->db->quote("$row->materials"),
+                    $this->db->quote("$row->materials_file")
+                );
+                $insertresult = $this->db->query($insertquery);
+            }
 
-			$query = sprintf("UPDATE tst_test_question SET question_fi = %s WHERE test_question_id = %s",
-				$this->db->quote($duplicate_id),
-				$this->db->quote($result_row->test_question_id)
-			);
-			$result = $this->db->query($query);
+            $query = sprintf(
+                "UPDATE tst_test_question SET question_fi = %s WHERE test_question_id = %s",
+                $this->db->quote($duplicate_id),
+                $this->db->quote($result_row->test_question_id)
+            );
+            $result = $this->db->query($query);
 
-			$query = sprintf("UPDATE tst_solutions SET question_fi = %s WHERE test_fi = %s AND question_fi = %s",
-				$this->db->quote($duplicate_id),
-				$this->db->quote($result_row->test_fi),
-				$this->db->quote($result_row->question_fi)
-			);
-			$result = $this->db->query($query);
-		}
-	}
+            $query = sprintf(
+                "UPDATE tst_solutions SET question_fi = %s WHERE test_fi = %s AND question_fi = %s",
+                $this->db->quote($duplicate_id),
+                $this->db->quote($result_row->test_fi),
+                $this->db->quote($result_row->question_fi)
+            );
+            $result = $this->db->query($query);
+        }
+    }
 }
 ?>
 
@@ -3715,116 +3632,112 @@ CREATE TABLE `ut_access` (
 $query = "SELECT * FROM rbac_operations WHERE operation='visible'";
 $result = $this->db->query($query);
 $visible_id = "";
-if ($result->numRows() == 1)
-{
-	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-	$visible_id = $row["ops_id"];
+if ($result->numRows() == 1) {
+    $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+    $visible_id = $row["ops_id"];
 }
 
 // get participate id
 $query = "SELECT * FROM rbac_operations WHERE operation='participate'";
 $result = $this->db->query($query);
 $participate_id = "";
-if ($result->numRows() == 1)
-{
-	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-	$participate_id = $row["ops_id"];
+if ($result->numRows() == 1) {
+    $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+    $participate_id = $row["ops_id"];
 }
 
 // check if User role still exists
 $query = "SELECT * FROM object_data WHERE type='role' AND title='User'";
 $result = $this->db->query($query);
 $user_id = "";
-if ($result->numRows() == 1)
-{
-	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-	$user_id = $row["obj_id"];
+if ($result->numRows() == 1) {
+    $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+    $user_id = $row["obj_id"];
 }
 
 // check if Guest role still exists
 $query = "SELECT * FROM object_data WHERE type='role' AND title='Guest'";
 $result = $this->db->query($query);
 $guest_id = "";
-if ($result->numRows() == 1)
-{
-	$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-	$guest_id = $row["obj_id"];
+if ($result->numRows() == 1) {
+    $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+    $guest_id = $row["obj_id"];
 }
 
 // create default roles for assessment tests
 
-if ($user_id and $visible_id)
-{
-	// tests visible for users
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($user_id),
-		$this->db->quote("tst"),
-		$this->db->quote($visible_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($user_id and $visible_id) {
+    // tests visible for users
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($user_id),
+        $this->db->quote("tst"),
+        $this->db->quote($visible_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
-if ($guest_id and $visible_id)
-{
-	// tests visible for guests
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($guest_id),
-		$this->db->quote("tst"),
-		$this->db->quote($visible_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($guest_id and $visible_id) {
+    // tests visible for guests
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($guest_id),
+        $this->db->quote("tst"),
+        $this->db->quote($visible_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
 // create default roles for surveys
 
-if ($user_id and $visible_id)
-{
-	// surveys visible for users
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($user_id),
-		$this->db->quote("svy"),
-		$this->db->quote($visible_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($user_id and $visible_id) {
+    // surveys visible for users
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($user_id),
+        $this->db->quote("svy"),
+        $this->db->quote($visible_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
-if ($guest_id and $visible_id)
-{
-	// surveys visible for guests
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($guest_id),
-		$this->db->quote("svy"),
-		$this->db->quote($visible_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($guest_id and $visible_id) {
+    // surveys visible for guests
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($guest_id),
+        $this->db->quote("svy"),
+        $this->db->quote($visible_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
-if ($user_id and $participate_id)
-{
-	// users can participate surveys
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($user_id),
-		$this->db->quote("svy"),
-		$this->db->quote($participate_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($user_id and $participate_id) {
+    // users can participate surveys
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($user_id),
+        $this->db->quote("svy"),
+        $this->db->quote($participate_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
-if ($guest_id and $participate_id)
-{
-	// guests can participate surveys
-	$query = sprintf("INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
-		$this->db->quote($guest_id),
-		$this->db->quote("svy"),
-		$this->db->quote($participate_id),
-		ROLE_FOLDER_ID
-	);
-	$result = $this->db->query($query);
+if ($guest_id and $participate_id) {
+    // guests can participate surveys
+    $query = sprintf(
+        "INSERT INTO rbac_templates (rol_id, type, ops_id, parent) VALUES (%s, %s, %s, %s)",
+        $this->db->quote($guest_id),
+        $this->db->quote("svy"),
+        $this->db->quote($participate_id),
+        ROLE_FOLDER_ID
+    );
+    $result = $this->db->query($query);
 }
 
 ?>
@@ -3833,14 +3746,14 @@ if ($guest_id and $participate_id)
 <?php
 
 // register new object type 'trac' for Tracking Item
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'trac', 'UserTracking object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'trac', 'UserTracking object', -1, now(), now())";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('trac', '__User Tracking', 'System user tracking', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('trac', '__User Tracking', 'System user tracking', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -3848,7 +3761,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -3857,10 +3770,10 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 
 // register RECOVERY_FOLDER_ID in table settings
-$query = "INSERT INTO settings (keyword,value) VALUES('sys_user_tracking_id','".$row->id."')";
+$query = "INSERT INTO settings (keyword,value) VALUES('sys_user_tracking_id','" . $row->id . "')";
 $res = $this->db->query($query);
 ?>
 
@@ -3889,21 +3802,21 @@ $ilCtrlStructureReader->getStructure();
 <?php
 
 // insert media pool definition in object_data
-$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
-	" AND title = 'trac'";
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' " .
+    " AND title = 'trac'";
 $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add operations to media pool
 // 1: edit_permissions, 2: visible, 3: read, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 
 ?>
@@ -3924,17 +3837,16 @@ ALTER TABLE `aicc_object` CHANGE `alm_id` `slm_id` INT( 11 ) DEFAULT '0' NOT NUL
 <#237>
 <?php
 // ADMIN TEMPLATE
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_crs_admin', 'Administrator template for course admins', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_crs_admin', 'Administrator template for course admins', -1, now(), now())";
 
 $this->db->query($query);
 
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_admin'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$admin_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $admin_id = $row->obj_id;
 }
 
 $admin["lm"] = array(1,2,3,4,6,7,8);
@@ -3952,24 +3864,22 @@ $admin["crs"] = array(1,2,3,4,6,7,8,17,18,20,21,22,23,24,25,26,27,29,31,32);
 
 $rbacadmin = new ilRbacAdmin();
 
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($admin_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($admin_id, $type, $ops, ROLE_FOLDER_ID);
 }
-$rbacadmin->assignRoleToFolder($admin_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($admin_id, ROLE_FOLDER_ID, "n");
 
 // TUTOR TEMPLATE
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_crs_tutor', 'Tutor template for course tutors', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_crs_tutor', 'Tutor template for course tutors', -1, now(), now())";
 
 $this->db->query($query);
 
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_tutor'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$tutor_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $tutor_id = $row->obj_id;
 }
 $admin["lm"] = array(2,3,4);
 $admin["slm"] = array(2,3,4,7,8);
@@ -3986,24 +3896,22 @@ $admin["crs"] = array(2,3,4,7,8);
 
 $rbacadmin = new ilRbacAdmin();
 
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($tutor_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($tutor_id, $type, $ops, ROLE_FOLDER_ID);
 }
-$rbacadmin->assignRoleToFolder($tutor_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($tutor_id, ROLE_FOLDER_ID, "n");
 
 // MEMBER TEMPLATE
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_crs_member', 'Member template for course members', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_crs_member', 'Member template for course members', -1, now(), now())";
 
 $this->db->query($query);
 
 // Get id of admin_template
 $query = "SELECT obj_id FROM object_data WHERE type = 'rolt' AND title = 'il_crs_member'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$member_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $member_id = $row->obj_id;
 }
 $admin["lm"] = array(2,3);
 $admin["slm"] = array(2,3,7,8);
@@ -4020,12 +3928,11 @@ $admin["crs"] = array(2,3,7,8);
 
 $rbacadmin = new ilRbacAdmin();
 
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($member_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($member_id, $type, $ops, ROLE_FOLDER_ID);
 }
 
-$rbacadmin->assignRoleToFolder($member_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($member_id, ROLE_FOLDER_ID, "n");
 ?>
 <#238>
 <?php
@@ -4106,47 +4013,46 @@ ALTER  TABLE  `qpl_questions`  CHANGE  `ref_fi`  `obj_fi` INT( 10  ) UNSIGNED DE
 // convert tst_tests reference id's to object id's
 $query = "SELECT object_reference.obj_id, tst_tests.obj_fi, tst_tests.test_id FROM object_reference, tst_tests WHERE tst_tests.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$query = sprintf("UPDATE `tst_tests` SET `obj_fi` = %s WHERE `test_id` = %s",
-		$this->db->quote($row["obj_id"]),
-		$this->db->quote($row["test_id"])
-	);
-	$insert_result = $this->db->query($query);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $query = sprintf(
+        "UPDATE `tst_tests` SET `obj_fi` = %s WHERE `test_id` = %s",
+        $this->db->quote($row["obj_id"]),
+        $this->db->quote($row["test_id"])
+    );
+    $insert_result = $this->db->query($query);
 }
 
 // convert qpl_questions reference id's to object id's
 $query = "SELECT object_reference.obj_id, qpl_questions.obj_fi, qpl_questions.question_id FROM object_reference, qpl_questions WHERE qpl_questions.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$query = sprintf("UPDATE `qpl_questions` SET `obj_fi` = %s WHERE `question_id` = %s",
-		$this->db->quote($row["obj_id"]),
-		$this->db->quote($row["question_id"])
-	);
-	$insert_result = $this->db->query($query);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $query = sprintf(
+        "UPDATE `qpl_questions` SET `obj_fi` = %s WHERE `question_id` = %s",
+        $this->db->quote($row["obj_id"]),
+        $this->db->quote($row["question_id"])
+    );
+    $insert_result = $this->db->query($query);
 }
 
 ?>
 
 <#244>
 <?php
-ilUtil::makeDir(CLIENT_WEB_DIR."/assessment/");
+ilUtil::makeDir(CLIENT_WEB_DIR . "/assessment/");
 // convert material path names in web directory from CLIENT_WEB_DIR . "/assessment/ref_id/" to CLIENT_WEB_DIR . "/assessment/obj_id/";
 $d = opendir(CLIENT_WEB_DIR . "/assessment/") or die($php_errormsg);
 while (false !== ($f = readdir($d))) {
-	if (preg_match("/\d+/", $f))
-	{
-		$query = sprintf("SELECT obj_id FROM object_reference WHERE ref_id = %s",
-			$this->db->quote($f)
-		);
-		$result = $this->db->query($query);
-		if ($result->numRows())
-		{
-			$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-    	rename(CLIENT_WEB_DIR . "/assessment/$f", CLIENT_WEB_DIR . "/assessment/" . $row["obj_id"]);
-		}
-	}
+    if (preg_match("/\d+/", $f)) {
+        $query = sprintf(
+            "SELECT obj_id FROM object_reference WHERE ref_id = %s",
+            $this->db->quote($f)
+        );
+        $result = $this->db->query($query);
+        if ($result->numRows()) {
+            $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+            rename(CLIENT_WEB_DIR . "/assessment/$f", CLIENT_WEB_DIR . "/assessment/" . $row["obj_id"]);
+        }
+    }
 }
 closedir($d);
 ?>
@@ -4160,7 +4066,7 @@ $row = $res->fetchRow();
 $obj_id = $row[0];
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $obj_id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID()";
@@ -4170,7 +4076,7 @@ $ref_id = $row[0];
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
 ?>
 
 <#246>
@@ -4225,35 +4131,30 @@ DELETE FROM chat_user;
 // add operation create_file to categories
 $query = "SELECT ops_id FROM rbac_operations WHERE operation = 'create_file'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ops_id = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ops_id = $row->ops_id;
 }
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$obj_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $obj_id = $row->obj_id;
 }
-if($obj_id and $ops_id)
-{
-	$query = "INSERT INTO rbac_ta VALUES('".$obj_id."','".$ops_id."')";
-	$res = $this->db->query($query);
+if ($obj_id and $ops_id) {
+    $query = "INSERT INTO rbac_ta VALUES('" . $obj_id . "','" . $ops_id . "')";
+    $res = $this->db->query($query);
 }
 // assign operation to global author template
-$query = "SELECT obj_id FROM object_data ".
-	"WHERE type = 'rolt' AND title = 'Author'";
+$query = "SELECT obj_id FROM object_data " .
+    "WHERE type = 'rolt' AND title = 'Author'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$role_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $role_id = $row->obj_id;
 }
-if($role_id and $ops_id)
-{
-	$query = "INSERT INTO rbac_templates ".
-		"VALUES('".$role_id."','cat','".$ops_id."','".ROLE_FOLDER_ID."')";
+if ($role_id and $ops_id) {
+    $query = "INSERT INTO rbac_templates " .
+        "VALUES('" . $role_id . "','cat','" . $ops_id . "','" . ROLE_FOLDER_ID . "')";
 
-	$res = $this->db->query($query);
+    $res = $this->db->query($query);
 }
 ?>
 
@@ -4264,14 +4165,13 @@ if($role_id and $ops_id)
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ops_id = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ops_id = $row->ops_id;
 }
-$query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
+$query = "insert into rbac_ta VALUES('38', '" . $ops_id . "')";
 //$this->db->query($query);
 
-$query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
+$query = "insert into rbac_ta VALUES('39', '" . $ops_id . "')";
 //$this->db->query($query);
 ?>
 <#258>
@@ -4280,30 +4180,25 @@ $query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
 $query = "SELECT ref_id FROM object_reference LEFT JOIN object_data ON object_data.obj_id = object_reference.obj_id WHERE object_data.type = 'auth'";
 $res = $this->db->query($query);
 
-if ($res->numRows() > 1)
-{
-	$tree = new ilTree(ROOT_FOLDER_ID);
+if ($res->numRows() > 1) {
+    $tree = new ilTree(ROOT_FOLDER_ID);
 
-	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$query = "SELECT * FROM tree WHERE child='".$row->ref_id."' AND parent='9'";
-		$res2 = $this->db->query($query);
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $query = "SELECT * FROM tree WHERE child='" . $row->ref_id . "' AND parent='9'";
+        $res2 = $this->db->query($query);
 
-		if ($res2->numRows() == 1)
-		{
-			continue;
-		}
-		else
-		{
-			$query = "DELETE FROM tree WHERE child='".$row->ref_id."'";
-			$this->db->query($query);
-			$query = "DELETE FROM object_reference WHERE ref_id='".$row->ref_id."'";
-			$this->db->query($query);
-		}
-	}
+        if ($res2->numRows() == 1) {
+            continue;
+        } else {
+            $query = "DELETE FROM tree WHERE child='" . $row->ref_id . "'";
+            $this->db->query($query);
+            $query = "DELETE FROM object_reference WHERE ref_id='" . $row->ref_id . "'";
+            $this->db->query($query);
+        }
+    }
 
-	$tree->renumber();
- }
+    $tree->renumber();
+}
 ?>
 <#259>
 ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
@@ -4315,16 +4210,14 @@ ALTER TABLE usr_data ADD COLUMN `time_limit_message` int(2) default '0';
 <?php
 $query = "SELECT ops_id FROM rbac_ta WHERE typ_id = '20'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ops_id = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ops_id = $row->ops_id;
 
-	$query = "insert into rbac_ta VALUES('38', '".$ops_id."')";
-	//$this->db->query($query);
+    $query = "insert into rbac_ta VALUES('38', '" . $ops_id . "')";
+    //$this->db->query($query);
 
-	$query = "insert into rbac_ta VALUES('39', '".$ops_id."')";
-	//$this->db->query($query);
-
+    $query = "insert into rbac_ta VALUES('39', '" . $ops_id . "')";
+    //$this->db->query($query);
 }
 ?>
 
@@ -4358,7 +4251,7 @@ $row = $res->fetchRow();
 $obj_id = $row[0];
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $obj_id . "')";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID()";
@@ -4368,7 +4261,7 @@ $ref_id = $row[0];
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
 ?>
 <#263>
 <?php
@@ -4381,16 +4274,16 @@ $typ_id = $row[0];
 $query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NULL ";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta VALUES('" . $typ_id . "','1')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta VALUES('" . $typ_id . "','2')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta VALUES('" . $typ_id . "','3')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta VALUES('" . $typ_id . "','4')";
 $this->db->query($query);
 ?>
 <#264>
@@ -4407,28 +4300,26 @@ PRIMARY KEY ( `vendor_id` )
 <#267>
 <?php
 // remove rbac operations of aicc object type
-$query = "SELECT obj_id FROM object_data ".
-		 "WHERE type='typ' AND title='alm'";
+$query = "SELECT obj_id FROM object_data " .
+         "WHERE type='typ' AND title='alm'";
 $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-if ($row->obj_id > 0)
-{
-	$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
-	$this->db->query($query);
+if ($row->obj_id > 0) {
+    $query = "DELETE FROM rbac_ta WHERE typ_id='" . $row->obj_id . "'";
+    $this->db->query($query);
 }
 $query = "DELETE FROM object_data WHERE type='typ' and title='alm'";
 $this->db->query($query);
 
 // remove rbac operations of hacp object type
-$query = "SELECT obj_id FROM object_data ".
-		 "WHERE type='typ' AND title='hlm'";
+$query = "SELECT obj_id FROM object_data " .
+         "WHERE type='typ' AND title='hlm'";
 $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-if ($row->obj_id > 0)
-{
-	$query = "DELETE FROM rbac_ta WHERE typ_id='".$row->obj_id."'";
-	$this->db->query($query);
+if ($row->obj_id > 0) {
+    $query = "DELETE FROM rbac_ta WHERE typ_id='" . $row->obj_id . "'";
+    $this->db->query($query);
 }
 $query = "DELETE FROM object_data WHERE type='typ' and title='hlm'";
 $this->db->query($query);
@@ -4444,25 +4335,25 @@ ALTER  TABLE  `survey_question`  CHANGE  `ref_fi`  `obj_fi` INT( 11  ) UNSIGNED 
 // convert tst_tests reference id's to object id's
 $query = "SELECT object_reference.obj_id, survey_survey.obj_fi, survey_survey.survey_id FROM object_reference, survey_survey WHERE survey_survey.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$query = sprintf("UPDATE `survey_survey` SET `obj_fi` = %s WHERE `survey_id` = %s",
-		$this->db->quote($row["obj_id"]),
-		$this->db->quote($row["survey_id"])
-	);
-	$insert_result = $this->db->query($query);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $query = sprintf(
+        "UPDATE `survey_survey` SET `obj_fi` = %s WHERE `survey_id` = %s",
+        $this->db->quote($row["obj_id"]),
+        $this->db->quote($row["survey_id"])
+    );
+    $insert_result = $this->db->query($query);
 }
 
 // convert qpl_questions reference id's to object id's
 $query = "SELECT object_reference.obj_id, survey_question.obj_fi, survey_question.question_id FROM object_reference, survey_question WHERE survey_question.obj_fi = object_reference.ref_id";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$query = sprintf("UPDATE `survey_question` SET `obj_fi` = %s WHERE `question_id` = %s",
-		$this->db->quote($row["obj_id"]),
-		$this->db->quote($row["question_id"])
-	);
-	$insert_result = $this->db->query($query);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $query = sprintf(
+        "UPDATE `survey_question` SET `obj_fi` = %s WHERE `question_id` = %s",
+        $this->db->quote($row["obj_id"]),
+        $this->db->quote($row["question_id"])
+    );
+    $insert_result = $this->db->query($query);
 }
 
 ?>
@@ -4521,26 +4412,24 @@ ALTER TABLE sahs_lm ADD COLUMN type ENUM('scorm','aicc','hacp') DEFAULT 'scorm';
 
 $query = "SELECT * FROM object_data where type = 'slm' or type = 'alm' or type = 'hlm'";
 $result = $this->db->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	switch($row["type"])
-	{
-		case "slm":
-			$type = "scorm";
-			break;
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    switch ($row["type"]) {
+        case "slm":
+            $type = "scorm";
+            break;
 
-		case "alm":
-			$type = "aicc";
-			break;
+        case "alm":
+            $type = "aicc";
+            break;
 
-		case "hlm":
-			$type = "hacp";
-			break;
-	}
-	$query = "UPDATE sahs_lm SET type='$type' WHERE id ='".$row["obj_id"]."'";
-	$this->db->query($query);
-	$query = "UPDATE object_data SET type='sahs' WHERE obj_id ='".$row["obj_id"]."'";
-	$this->db->query($query);
+        case "hlm":
+            $type = "hacp";
+            break;
+    }
+    $query = "UPDATE sahs_lm SET type='$type' WHERE id ='" . $row["obj_id"] . "'";
+    $this->db->query($query);
+    $query = "UPDATE object_data SET type='sahs' WHERE obj_id ='" . $row["obj_id"] . "'";
+    $this->db->query($query);
 }
 ?>
 
@@ -4555,49 +4444,45 @@ UPDATE rbac_templates SET type='sahs' WHERE type='slm';
 
 <#285>
 <?php
-$query = "INSERT INTO rbac_operations ".
-	"VALUES('','cat_administrate_users','Administrate local user')";
+$query = "INSERT INTO rbac_operations " .
+    "VALUES('','cat_administrate_users','Administrate local user')";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() AS ops_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$admin_ops = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $admin_ops = $row->ops_id;
 }
 
-$query = "INSERT INTO rbac_operations ".
-	"VALUES('','read_users','read local users')";
+$query = "INSERT INTO rbac_operations " .
+    "VALUES('','read_users','read local users')";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() AS ops_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$read_ops = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $read_ops = $row->ops_id;
 }
 
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'cat'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$cat_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $cat_id = $row->obj_id;
 }
 
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'usrf'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$usrf_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $usrf_id = $row->obj_id;
 }
 
-$query = "INSERT INTO rbac_ta VALUES('".$cat_id."','".$read_ops."')";
+$query = "INSERT INTO rbac_ta VALUES('" . $cat_id . "','" . $read_ops . "')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$cat_id."','".$admin_ops."')";
+$query = "INSERT INTO rbac_ta VALUES('" . $cat_id . "','" . $admin_ops . "')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta VALUES('".$usrf_id."','".$read_ops."')";
+$query = "INSERT INTO rbac_ta VALUES('" . $usrf_id . "','" . $read_ops . "')";
 $this->db->query($query);
 ?>
 
@@ -4955,17 +4840,16 @@ INDEX ( `survey_fi` , `question_fi` )
 // convert former questionblock obligatory states into the question obligatory table
 $query = "SELECT * FROM survey_questionblock, survey_questionblock_question WHERE survey_questionblock_question.questionblock_fi = survey_questionblock.questionblock_id";
 $res = $this->db->query($query);
-if ($res->numRows())
-{
-	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$qinsert = sprintf("INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
-			$this->db->quote($row["survey_fi"] . ""),
-			$this->db->quote($row["question_fi"] . ""),
-			$this->db->quote($row["obligatory"] . "")
-		);
-		$result = $this->db->query($qinsert);
-	}
+if ($res->numRows()) {
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $qinsert = sprintf(
+            "INSERT INTO survey_question_obligatory (question_obligatory_id, survey_fi, question_fi, obligatory, TIMESTAMP) VALUES (NULL, %s, %s, %s, NULL)",
+            $this->db->quote($row["survey_fi"] . ""),
+            $this->db->quote($row["question_fi"] . ""),
+            $this->db->quote($row["obligatory"] . "")
+        );
+        $result = $this->db->query($qinsert);
+    }
 }
 ?>
 <#331>
@@ -5081,22 +4965,20 @@ CREATE TABLE `frm_user_read` (
 
 $query = "SELECT pos_pk,pos_usr_id,pos_thr_fk,pos_top_fk FROM frm_posts";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = "SELECT top_frm_fk FROM frm_data ".
-		"WHERE top_pk = '".$row1->pos_top_fk."'";
+while ($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = "SELECT top_frm_fk FROM frm_data " .
+        "WHERE top_pk = '" . $row1->pos_top_fk . "'";
 
-	$res2 = $this->db->query($query);
-	while($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$query = "INSERT INTO frm_user_read ".
-			"SET usr_id = '".$row1->pos_usr_id."', ".
-			"obj_id = '".$row2->top_frm_fk."', ".
-			"thread_id = '".$row1->pos_thr_fk."', ".
-			"post_id = '".$row1->pos_pk."'";
+    $res2 = $this->db->query($query);
+    while ($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $query = "INSERT INTO frm_user_read " .
+            "SET usr_id = '" . $row1->pos_usr_id . "', " .
+            "obj_id = '" . $row2->top_frm_fk . "', " .
+            "thread_id = '" . $row1->pos_thr_fk . "', " .
+            "post_id = '" . $row1->pos_pk . "'";
 
-		$this->db->query($query);
-	}
+        $this->db->query($query);
+    }
 }
 ?>
 <#352>
@@ -5158,37 +5040,37 @@ CREATE TABLE `link_check` (
 ) TYPE=MyISAM;
 <#360>
 <?php
-// convert all single response mc questions and remove the 'when not set' option 
+// convert all single response mc questions and remove the 'when not set' option
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 1";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
-		$this->db->quote($row1->answer_id . "")
-	);
-	$res2 = $this->db->query($query);
+while ($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = sprintf(
+        "UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+        $this->db->quote($row1->answer_id . "")
+    );
+    $res2 = $this->db->query($query);
 }
 
-// convert all imagemap questions and remove the 'when not set' option 
+// convert all imagemap questions and remove the 'when not set' option
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
-		$this->db->quote($row1->answer_id . "")
-	);
-	$res2 = $this->db->query($query);
+while ($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = sprintf(
+        "UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+        $this->db->quote($row1->answer_id . "")
+    );
+    $res2 = $this->db->query($query);
 }
 
-// convert all close questions and remove the 'when not set' option 
+// convert all close questions and remove the 'when not set' option
 $query = "SELECT qpl_answers.answer_id FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id AND qpl_questions.question_type_fi = 6 AND qpl_answers.cloze_type = '1'";
 $res = $this->db->query($query);
-while($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = sprintf("UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
-		$this->db->quote($row1->answer_id . "")
-	);
-	$res2 = $this->db->query($query);
+while ($row1 = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = sprintf(
+        "UPDATE qpl_answers SET correctness = '1', points = 0 WHERE answer_id = %s AND correctness = '0'",
+        $this->db->quote($row1->answer_id . "")
+    );
+    $res2 = $this->db->query($query);
 }
 ?>
 <#361>
@@ -5299,14 +5181,14 @@ $query = "ALTER TABLE rbac_ta CHANGE typ_id typ_id INT( 11 ) DEFAULT '0' NOT NUL
 $this->db->query($query);
 
 // register new object type 'assf' for Test&Assessment Administration
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'assf', 'AssessmentFolder object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'assf', 'AssessmentFolder object', -1, now(), now())";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('assf', '__Test&Assessment', 'Test&Assessment Administration', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('assf', '__Test&Assessment', 'Test&Assessment Administration', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -5314,7 +5196,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -5323,28 +5205,28 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 
 // register RECOVERY_FOLDER_ID in table settings
-$query = "INSERT INTO settings (keyword,value) VALUES('sys_assessment_folder_id','".$row->id."')";
+$query = "INSERT INTO settings (keyword,value) VALUES('sys_assessment_folder_id','" . $row->id . "')";
 $res = $this->db->query($query);
 
 // retrieve assessment folder definition from object_data
-$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
-	" AND title = 'assf'";
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' " .
+    " AND title = 'assf'";
 $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add rbac operations to assessment folder
 // 1: edit_permissions, 2: visible, 3: read, 4:write
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
 ?>
 <#377>
@@ -5385,12 +5267,11 @@ ALTER TABLE `survey_question` CHANGE `maxchars` `maxchars` INT( 11 );
 // fix misassigned pages (cut in lm x - pasted in lm y)
 $q = "SELECT * FROM lm_tree WHERE child > 1";
 $tree_set = $this->db->query($q);
-while($tree_rec = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q2 = "UPDATE page_object SET parent_id='".$tree_rec["lm_id"]."' WHERE page_id='".$tree_rec["child"]."' AND parent_type='lm'";
-	$this->db->query($q2);
-	$q3 = "UPDATE lm_data SET lm_id='".$tree_rec["lm_id"]."' WHERE obj_id='".$tree_rec["child"]."' AND type='pg'";
-	$this->db->query($q3);
+while ($tree_rec = $tree_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q2 = "UPDATE page_object SET parent_id='" . $tree_rec["lm_id"] . "' WHERE page_id='" . $tree_rec["child"] . "' AND parent_type='lm'";
+    $this->db->query($q2);
+    $q3 = "UPDATE lm_data SET lm_id='" . $tree_rec["lm_id"] . "' WHERE obj_id='" . $tree_rec["child"] . "' AND type='pg'";
+    $this->db->query($q3);
 }
 
 ?>
@@ -5433,8 +5314,8 @@ CREATE TABLE `style_folder_styles` (
 <?php
 
 // insert style folder type to object data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'styf', 'Style Folder', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'styf', 'Style Folder', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -5442,19 +5323,19 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // insert operations for style folder type
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
 
 // CREATE SYSTEM STYLE FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('styf', 'System Style Folder', 'System Style Templates', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('styf', 'System Style Folder', 'System Style Templates', -1, now(), now())";
 $this->db->query($query);
 
 // get style folder number
@@ -5464,7 +5345,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $sty_folder_id = $row->id;
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -5473,7 +5354,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 
 ?>
 <#389>
@@ -5509,8 +5390,8 @@ ALTER TABLE `crs_settings` ADD `objective_view` TINYINT( 2 ) DEFAULT '0';
 <#394>
 <?php
 // insert iLinc course definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'icrs', 'iLinc course object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'icrs', 'iLinc course object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -5521,20 +5402,20 @@ $typ_id = $row[0];
 
 // add operation assignment to iLinc course object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 
 // insert iLinc classroom definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'icla', 'iLinc class room object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'icla', 'iLinc class room object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -5545,15 +5426,15 @@ $typ_id = $row[0];
 
 // add operation assignment to iLinc course object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 
@@ -5593,8 +5474,8 @@ CREATE TABLE IF NOT EXISTS `crs_lm_history` (
 <#399>
 <?php
 // insert course grouping object in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'crsg', 'Course grouping object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'crsg', 'Course grouping object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -5605,15 +5486,15 @@ $typ_id = $row[0];
 
 // add operation assignment to iLinc course object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
 ?>
 <#400>
@@ -5699,14 +5580,14 @@ CREATE TABLE IF NOT EXISTS `crs_start` (
 <#406>
 <?php
 // change style folder to style settings
-$query = "UPDATE object_data SET title='stys', description='Style Settings'".
-		" WHERE title='styf' AND type='typ'";
+$query = "UPDATE object_data SET title='stys', description='Style Settings'" .
+        " WHERE title='styf' AND type='typ'";
 $this->db->query($query);
 
 // change style folder to style settings
-$query = "UPDATE object_data SET type='stys', title = 'System Style Settings',".
-		" description = 'Manage system skin and style settings here' ".
-		" WHERE type='styf' ";
+$query = "UPDATE object_data SET type='stys', title = 'System Style Settings'," .
+        " description = 'Manage system skin and style settings here' " .
+        " WHERE type='styf' ";
 $this->db->query($query);
 ?>
 <#407>
@@ -5727,14 +5608,13 @@ $this->db->query($query);
 // ADD new permission push desktop items
 $query = "SELECT * FROM object_data WHERE type = 'typ' AND title = 'usrf'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$type_id = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $type_id = $row->obj_id;
 }
 
 // INSERT new operation push_sesktop_items
-$query = "INSERT INTO rbac_operations ".
-	"SET operation = 'push_desktop_items', description = 'Allow pushing desktop items'";
+$query = "INSERT INTO rbac_operations " .
+    "SET operation = 'push_desktop_items', description = 'Allow pushing desktop items'";
 
 $this->db->query($query);
 // GET new ops_id
@@ -5743,18 +5623,18 @@ $res = $this->db->getRow($query);
 $ops_id = $res->ops_id;
 
 // INSERT in rbac_ta
-$query = "INSERT INTO rbac_ta SET typ_id = '".$type_id."', ops_id = '".$ops_id."'";
+$query = "INSERT INTO rbac_ta SET typ_id = '" . $type_id . "', ops_id = '" . $ops_id . "'";
 $this->db->query($query);
 ?>
 <#410>
 <?php
-$query = "SELECT * FROM object_data ".
-	"WHERE type = 'typ' AND title = 'crsg'";
+$query = "SELECT * FROM object_data " .
+    "WHERE type = 'typ' AND title = 'crsg'";
 
 $res = $this->db->getRow($query);
 $ops_id = $res->obj_id;
 
-$query = "DELETE FROM rbac_ta WHERE typ_id = '".$ops_id."'";
+$query = "DELETE FROM rbac_ta WHERE typ_id = '" . $ops_id . "'";
 $this->db->query($query);
 ?>
 <#411>
@@ -5786,8 +5666,8 @@ ALTER TABLE media_item ADD COLUMN tried_thumb ENUM('y','n') DEFAULT 'n';
 <#416>
 <?php
 // insert link definition in object_data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'webr', 'Link resource object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'webr', 'Link resource object', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -5799,24 +5679,24 @@ $typ_id = $row[0];
 
 // add operation assignment to link object definition
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete, 7: subscribe, 8:unsubscribe
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','6')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','6')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','7')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','7')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','8')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','8')";
 $this->db->query($query);
 
 // add create operation
-$query = "INSERT INTO rbac_operations ".
-	"SET operation = 'create_webr', description = 'create web resource'";
+$query = "INSERT INTO rbac_operations " .
+    "SET operation = 'create_webr', description = 'create web resource'";
 $this->db->query($query);
 
 // get new ops_id
@@ -5832,7 +5712,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','" . $ops_id . "')";
 $this->db->query($query);
 
 $query = "SELECT obj_id FROM object_data WHERE type='typ' and title='crs'";
@@ -5840,7 +5720,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','" . $ops_id . "')";
 $this->db->query($query);
 
 $query = "SELECT obj_id FROM object_data WHERE type='typ' and title='grp'";
@@ -5848,7 +5728,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','" . $ops_id . "')";
 $this->db->query($query);
 
 $query = "SELECT obj_id FROM object_data WHERE type='typ' and title='fold'";
@@ -5856,7 +5736,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','" . $ops_id . "')";
 $this->db->query($query);
 ?>
 <#417>
@@ -6225,30 +6105,26 @@ include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 $webr_ids = array();
 $query = "SELECT * FROM object_data WHERE type = 'webr'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$webr_ids[$row->obj_id]['title'] = $row->title;
-	$webr_ids[$row->obj_id]['desc'] = $row->description;
-
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $webr_ids[$row->obj_id]['title'] = $row->title;
+    $webr_ids[$row->obj_id]['desc'] = $row->description;
 }
 
-foreach($webr_ids as $id => $data)
-{
-	$query = "SELECT ref_id FROM object_reference WHERE obj_id = '".$id."'";
+foreach ($webr_ids as $id => $data) {
+    $query = "SELECT ref_id FROM object_reference WHERE obj_id = '" . $id . "'";
 
-	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$md_creator = new ilMDCreator($row->ref_id,$id,'webr');
-		$md_creator->setTitle($data['title']);
-		$md_creator->setTitleLanguage('en');
-		$md_creator->setDescription($data['desc']);
-		$md_creator->setDescriptionLanguage('en');
-		$md_creator->setKeywordLanguage('en');
-		$md_creator->setLanguage('en');
+    $res = $ilDB->query($query);
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $md_creator = new ilMDCreator($row->ref_id, $id, 'webr');
+        $md_creator->setTitle($data['title']);
+        $md_creator->setTitleLanguage('en');
+        $md_creator->setDescription($data['desc']);
+        $md_creator->setDescriptionLanguage('en');
+        $md_creator->setKeywordLanguage('en');
+        $md_creator->setLanguage('en');
 
-		$md_creator->create();
-	}
+        $md_creator->create();
+    }
 }
 
 ?>
@@ -6262,8 +6138,8 @@ ALTER TABLE `glossary` ADD `virtual` ENUM('none','fixed','level','subtree') DEFA
 <?php
 
 // insert style folder type to object data
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'seas', 'Search settings', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'seas', 'Search settings', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -6271,19 +6147,19 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // insert operations for style folder type
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$row->id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $row->id . "','4')";
 $this->db->query($query);
 
 // CREATE SEarch settings object
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('seas', 'Search settings', 'Search settings', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('seas', 'Search settings', 'Search settings', -1, now(), now())";
 $this->db->query($query);
 
 // get style folder number
@@ -6293,7 +6169,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $sty_folder_id = $row->id;
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -6302,7 +6178,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 ?>
 <#430>
 <?php
@@ -6324,7 +6200,7 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','" . $ops_id . "')";
 $this->db->query($query);
 ?>
 <#431>
@@ -6387,405 +6263,346 @@ ilMD::_deleteAllByType('webr');
 $webr_ids = array();
 $query = "SELECT * FROM object_data WHERE type = 'webr'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$webr_ids[$row->obj_id]['title'] = $row->title;
-	$webr_ids[$row->obj_id]['desc'] = $row->description;
-
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $webr_ids[$row->obj_id]['title'] = $row->title;
+    $webr_ids[$row->obj_id]['desc'] = $row->description;
 }
 
-foreach($webr_ids as $id => $data)
-{
-	$md_creator = new ilMDCreator($id,$id,'webr');
-	$md_creator->setTitle($data['title']);
-	$md_creator->setTitleLanguage('en');
-	$md_creator->setDescription($data['desc']);
-	$md_creator->setDescriptionLanguage('en');
-	$md_creator->setKeywordLanguage('en');
-	$md_creator->setLanguage('en');
+foreach ($webr_ids as $id => $data) {
+    $md_creator = new ilMDCreator($id, $id, 'webr');
+    $md_creator->setTitle($data['title']);
+    $md_creator->setTitleLanguage('en');
+    $md_creator->setDescription($data['desc']);
+    $md_creator->setDescriptionLanguage('en');
+    $md_creator->setKeywordLanguage('en');
+    $md_creator->setLanguage('en');
 
-	$md_creator->create();
+    $md_creator->create();
 }
 
 ?>
 <#440>
 <?php
-	global $log;
-	$log->write("test&assessment (update step 440): starting with conversion. creating database entries with maximum available points for every question");
-	$idx = 1;
-	$query = "SELECT * FROM qpl_questions";
-	$result = $ilDB->query($query);
-	$maxidx = $result->numRows() + 1;
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$maxidx--;
-		$log->write("processing question $maxidx");
-		$query_answer = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$result_answer = $ilDB->query($query_answer);
-		$answers = array();
-		while ($row_answer = $result_answer->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($answers, $row_answer);
-		}
-		$maxpoints = 0;
-		switch ($row["question_type_fi"])
-		{
-			case 1: // multiple choice single response
-				$points = array("set" => 0, "unset" => 0);
-				foreach ($answers as $key => $value) 
-				{
-					if ($value["points"] > $points["set"])
-					{
-						$points["set"] = $value["points"];
-					}
-				}
-				$maxpoints = $points["set"];
-				break;
-			case 2: // multiple choice multiple response
-				$points = array("set" => 0, "unset" => 0);
-				$allpoints = 0;
-				foreach ($answers as $key => $value) 
-				{
-					$allpoints += $value["points"];
-				}
-				$maxpoints = $allpoints;
-				break;
-			case 3: // close question
-				$gaps = array();
-				foreach ($answers as $key => $value)
-				{
-					if (!array_key_exists($value["gap_id"], $gaps))
-					{
-						$gaps[$value["gap_id"]] = array();
-					}
-					array_push($gaps[$value["gap_id"]], $value);
-				}
-				$points = 0;
-				foreach ($gaps as $key => $value) {
-					if ($value[0]["cloze_type"] == 0) {
-						$points += $value[0]["points"];
-					} else {
-						$points_arr = array("set" => 0, "unset" => 0);
-						foreach ($value as $key2 => $value2) {
-							if ($value2["points"] > $points_arr["set"])
-							{
-								$points_arr["set"] = $value2["points"];
-							}
-						}
-						$points += $points_arr["set"];
-					}
-				}
-				$maxpoints = $points;
-				break;
-			case 4: // matching question
-				$points = 0;
-				foreach ($answers as $key => $value)
-				{
-					if ($value["points"] > 0)
-					{
-						$points += $value["points"];
-					}
-				}
-				$maxpoints = $points;
-				break;
-			case 5: // ordering question
-				$points = 0;
-				foreach ($answers as $key => $value)
-				{
-					$points += $value["points"];
-				}
-				$maxpoints = $points;
-				break;
-			case 6: // imagemap question
-				$points = array("set" => 0, "unset" => 0);
-				foreach ($answers as $key => $value) {
-					if ($value["points"] > $points["set"])
-					{
-						$points["set"] = $value["points"];
-					}
-				}
-				$maxpoints = $points["set"];
-				break;
-			case 7: // java applet question
-			case 8: // text question
-				break;
-		}
-		if ($row["question_type_fi"] < 7)
-		{
-			$updatequery = sprintf("UPDATE qpl_questions SET points = %s WHERE question_id = %s",
-				$ilDB->quote($maxpoints . ""),
-				$ilDB->quote($row["question_id"] . "")
-			);
-			$resultupdate = $ilDB->query($updatequery);
-			$log->write("  $idx. creating maximum question points: $updatequery");
-			$idx++;
-		}
-	}
-	$log->write("test&assessment: conversion completed. maximum available points for every question");
+    global $log;
+    $log->write("test&assessment (update step 440): starting with conversion. creating database entries with maximum available points for every question");
+    $idx = 1;
+    $query = "SELECT * FROM qpl_questions";
+    $result = $ilDB->query($query);
+    $maxidx = $result->numRows() + 1;
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $maxidx--;
+        $log->write("processing question $maxidx");
+        $query_answer = sprintf(
+            "SELECT * FROM qpl_answers WHERE question_fi = %s",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $result_answer = $ilDB->query($query_answer);
+        $answers = array();
+        while ($row_answer = $result_answer->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($answers, $row_answer);
+        }
+        $maxpoints = 0;
+        switch ($row["question_type_fi"]) {
+            case 1: // multiple choice single response
+                $points = array("set" => 0, "unset" => 0);
+                foreach ($answers as $key => $value) {
+                    if ($value["points"] > $points["set"]) {
+                        $points["set"] = $value["points"];
+                    }
+                }
+                $maxpoints = $points["set"];
+                break;
+            case 2: // multiple choice multiple response
+                $points = array("set" => 0, "unset" => 0);
+                $allpoints = 0;
+                foreach ($answers as $key => $value) {
+                    $allpoints += $value["points"];
+                }
+                $maxpoints = $allpoints;
+                break;
+            case 3: // close question
+                $gaps = array();
+                foreach ($answers as $key => $value) {
+                    if (!array_key_exists($value["gap_id"], $gaps)) {
+                        $gaps[$value["gap_id"]] = array();
+                    }
+                    array_push($gaps[$value["gap_id"]], $value);
+                }
+                $points = 0;
+                foreach ($gaps as $key => $value) {
+                    if ($value[0]["cloze_type"] == 0) {
+                        $points += $value[0]["points"];
+                    } else {
+                        $points_arr = array("set" => 0, "unset" => 0);
+                        foreach ($value as $key2 => $value2) {
+                            if ($value2["points"] > $points_arr["set"]) {
+                                $points_arr["set"] = $value2["points"];
+                            }
+                        }
+                        $points += $points_arr["set"];
+                    }
+                }
+                $maxpoints = $points;
+                break;
+            case 4: // matching question
+                $points = 0;
+                foreach ($answers as $key => $value) {
+                    if ($value["points"] > 0) {
+                        $points += $value["points"];
+                    }
+                }
+                $maxpoints = $points;
+                break;
+            case 5: // ordering question
+                $points = 0;
+                foreach ($answers as $key => $value) {
+                    $points += $value["points"];
+                }
+                $maxpoints = $points;
+                break;
+            case 6: // imagemap question
+                $points = array("set" => 0, "unset" => 0);
+                foreach ($answers as $key => $value) {
+                    if ($value["points"] > $points["set"]) {
+                        $points["set"] = $value["points"];
+                    }
+                }
+                $maxpoints = $points["set"];
+                break;
+            case 7: // java applet question
+            case 8: // text question
+                break;
+        }
+        if ($row["question_type_fi"] < 7) {
+            $updatequery = sprintf(
+                "UPDATE qpl_questions SET points = %s WHERE question_id = %s",
+                $ilDB->quote($maxpoints . ""),
+                $ilDB->quote($row["question_id"] . "")
+            );
+            $resultupdate = $ilDB->query($updatequery);
+            $log->write("  $idx. creating maximum question points: $updatequery");
+            $idx++;
+        }
+    }
+    $log->write("test&assessment: conversion completed. maximum available points for every question");
 
-	
-	$log->write("test&assessment: starting with conversion. creating database entry for reached points of every user for every processed question");
-	// update code
-	$idx = 1;
-	$query = "SELECT question_id, question_type_fi FROM qpl_questions";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resultanswers = $ilDB->query($queryanswers);
-		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($answers, $rowanswer);
-		}
-		$querytests = sprintf("SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resulttests = $ilDB->query($querytests);
-		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($tests, $rowtest["test_fi"]);
-		}
-		foreach ($tests as $test_id)
-		{
-			$queryusers = sprintf("SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($row["question_id"])
-			);
-			$resultusers = $ilDB->query($queryusers);
-			$users = array();
-			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-			{
-				array_push($users, $rowuser["user_fi"]);
-			}
-			// now begin the conversion
-			foreach ($users as $user_id)
-			{
-				$querysolutions = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($row["question_id"] . "")
-				);
-				$resultsolutions = $ilDB->query($querysolutions);
-				switch ($row["question_type_fi"])
-				{
-					case 1:
-					case 2:
-						// multiple choice questions
-						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_values, $data["value1"]);
-							}
-						}
-						$points = 0;
-						if (count($found_values) > 0)
-						{
-							foreach ($answers as $key => $answer)
-							{
-								if ($answer["correctness"])
-								{
-									if (in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-								else
-								{
-									if (!in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-							}
-						}
-						// save $points
-						break;
-					case 3:
-						// close questions
-						$found_value1 = array();
-						$found_value2 = array();
-						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value2"], "") != 0)
-							{
-								$user_result[$data["value1"]] = array(
-									"gap_id" => $data["value1"],
-									"value" => $data["value2"]
-								);
-							}
-						}
-						$points = 0;
-						$counter = 0;
-						$gaps = array();
-						foreach ($answers as $key => $value)
-						{
-							if (!array_key_exists($value["gap_id"], $gaps))
-							{
-								$gaps[$value["gap_id"]] = array();
-							}
-							array_push($gaps[$value["gap_id"]], $value);
-						}
-						foreach ($user_result as $gap_id => $value) 
-						{
-							if ($gaps[$gap_id][0]["cloze_type"] == 0) 
-							{
-								$foundsolution = 0;
-								foreach ($gaps[$gap_id] as $k => $v) 
-								{
-									if ((strcmp(strtolower($v["answertext"]), strtolower($value["value"])) == 0) && (!$foundsolution)) 
-									{
-										$points += $v["points"];
-										$foundsolution = 1;
-									}
-								}
-							} 
-							else 
-							{
-								if ($value["value"] >= 0)
-								{
-									foreach ($gaps[$gap_id] as $answerkey => $answer)
-									{
-										if ($value["value"] == $answerkey)
-										{
-											$points += $answer["points"];
-										}
-									}
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 4:
-						// matching questions
-						$found_value1 = array();
-						$found_value2 = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_value1, $data["value1"]);
-								array_push($found_value2, $data["value2"]);
-							}
-						}
-						$points = 0;
-						foreach ($found_value2 as $key => $value)
-						{
-							foreach ($answers as $answer_value)
-							{
-								if (($answer_value["matching_order"] == $value) and ($answer_value["aorder"] == $found_value1[$key]))
-								{
-									$points += $answer_value["points"];
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 5:
-						// ordering questions
-						$found_value1 = array();
-						$found_value2 = array();
-						$user_order = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
-							{
-								$user_order[$data["value2"]] = $data["value1"];
-							}
-						}
-						ksort($user_order);
-						$user_order = array_values($user_order);
-						$answer_order = array();
-						foreach ($answers as $key => $answer)
-						{
-							$answer_order[$answer["solution_order"]] = $key;
-						}
-						ksort($answer_order);
-						$answer_order = array_values($answer_order);
-						$points = 0;
-						foreach ($answer_order as $index => $answer_id)
-						{
-							if (strcmp($user_order[$index], "") != 0)
-							{
-								if ($answer_id == $user_order[$index])
-								{
-									$points += $answers[$answer_id]["points"];
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 6:
-						// imagemap questions
-						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_values, $data["value1"]);
-							}
-						}
-						$points = 0;
-						if (count($found_values) > 0)
-						{
-							foreach ($answers as $key => $answer)
-							{
-								if ($answer["correctness"])
-								{
-									if (in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 7:
-						// java applet questions
-						$found_values = array();
-						$points = 0;
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							$points += $data["points"];
-						}
-						// save $points;
-						break;
-					case 8:
-						// text questions
-						$points = 0;
-						if ($resultsolutions->numRows() == 1)
-						{
-							$data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-							if ($data["points"])
-							{
-								$points = $data["points"];
-							}
-						}
-						// save $points;
-						break;
-				}
-				$insertquery = sprintf("REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($points . "")
-				);
-				$ilDB->query($insertquery);
-				$log->write("  $idx. creating user result: $insertquery");
-				$idx++;
-			}
-		}
-	}
-	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
+    
+    $log->write("test&assessment: starting with conversion. creating database entry for reached points of every user for every processed question");
+    // update code
+    $idx = 1;
+    $query = "SELECT question_id, question_type_fi FROM qpl_questions";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $queryanswers = sprintf(
+            "SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resultanswers = $ilDB->query($queryanswers);
+        $answers = array();
+        while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($answers, $rowanswer);
+        }
+        $querytests = sprintf(
+            "SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resulttests = $ilDB->query($querytests);
+        $tests = array();
+        while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($tests, $rowtest["test_fi"]);
+        }
+        foreach ($tests as $test_id) {
+            $queryusers = sprintf(
+                "SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+                $ilDB->quote($test_id . ""),
+                $ilDB->quote($row["question_id"])
+            );
+            $resultusers = $ilDB->query($queryusers);
+            $users = array();
+            while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                array_push($users, $rowuser["user_fi"]);
+            }
+            // now begin the conversion
+            foreach ($users as $user_id) {
+                $querysolutions = sprintf(
+                    "SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($row["question_id"] . "")
+                );
+                $resultsolutions = $ilDB->query($querysolutions);
+                switch ($row["question_type_fi"]) {
+                    case 1:
+                    case 2:
+                        // multiple choice questions
+                        $found_values = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_values, $data["value1"]);
+                            }
+                        }
+                        $points = 0;
+                        if (count($found_values) > 0) {
+                            foreach ($answers as $key => $answer) {
+                                if ($answer["correctness"]) {
+                                    if (in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                } else {
+                                    if (!in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                }
+                            }
+                        }
+                        // save $points
+                        break;
+                    case 3:
+                        // close questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        $user_result = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value2"], "") != 0) {
+                                $user_result[$data["value1"]] = array(
+                                    "gap_id" => $data["value1"],
+                                    "value" => $data["value2"]
+                                );
+                            }
+                        }
+                        $points = 0;
+                        $counter = 0;
+                        $gaps = array();
+                        foreach ($answers as $key => $value) {
+                            if (!array_key_exists($value["gap_id"], $gaps)) {
+                                $gaps[$value["gap_id"]] = array();
+                            }
+                            array_push($gaps[$value["gap_id"]], $value);
+                        }
+                        foreach ($user_result as $gap_id => $value) {
+                            if ($gaps[$gap_id][0]["cloze_type"] == 0) {
+                                $foundsolution = 0;
+                                foreach ($gaps[$gap_id] as $k => $v) {
+                                    if ((strcmp(strtolower($v["answertext"]), strtolower($value["value"])) == 0) && (!$foundsolution)) {
+                                        $points += $v["points"];
+                                        $foundsolution = 1;
+                                    }
+                                }
+                            } else {
+                                if ($value["value"] >= 0) {
+                                    foreach ($gaps[$gap_id] as $answerkey => $answer) {
+                                        if ($value["value"] == $answerkey) {
+                                            $points += $answer["points"];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 4:
+                        // matching questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_value1, $data["value1"]);
+                                array_push($found_value2, $data["value2"]);
+                            }
+                        }
+                        $points = 0;
+                        foreach ($found_value2 as $key => $value) {
+                            foreach ($answers as $answer_value) {
+                                if (($answer_value["matching_order"] == $value) and ($answer_value["aorder"] == $found_value1[$key])) {
+                                    $points += $answer_value["points"];
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 5:
+                        // ordering questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        $user_order = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0)) {
+                                $user_order[$data["value2"]] = $data["value1"];
+                            }
+                        }
+                        ksort($user_order);
+                        $user_order = array_values($user_order);
+                        $answer_order = array();
+                        foreach ($answers as $key => $answer) {
+                            $answer_order[$answer["solution_order"]] = $key;
+                        }
+                        ksort($answer_order);
+                        $answer_order = array_values($answer_order);
+                        $points = 0;
+                        foreach ($answer_order as $index => $answer_id) {
+                            if (strcmp($user_order[$index], "") != 0) {
+                                if ($answer_id == $user_order[$index]) {
+                                    $points += $answers[$answer_id]["points"];
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 6:
+                        // imagemap questions
+                        $found_values = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_values, $data["value1"]);
+                            }
+                        }
+                        $points = 0;
+                        if (count($found_values) > 0) {
+                            foreach ($answers as $key => $answer) {
+                                if ($answer["correctness"]) {
+                                    if (in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 7:
+                        // java applet questions
+                        $found_values = array();
+                        $points = 0;
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            $points += $data["points"];
+                        }
+                        // save $points;
+                        break;
+                    case 8:
+                        // text questions
+                        $points = 0;
+                        if ($resultsolutions->numRows() == 1) {
+                            $data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                            if ($data["points"]) {
+                                $points = $data["points"];
+                            }
+                        }
+                        // save $points;
+                        break;
+                }
+                $insertquery = sprintf(
+                    "REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($points . "")
+                );
+                $ilDB->query($insertquery);
+                $log->write("  $idx. creating user result: $insertquery");
+                $idx++;
+            }
+        }
+    }
+    $log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
 <#441>
 DROP TABLE IF EXISTS tmp_migration;
@@ -6796,31 +6613,30 @@ CREATE TABLE `tmp_migration` (
 <#442>
 <?php
 $tables = array('il_meta_annotation',
-				'il_meta_classification',
-				'il_meta_contribute',
-				'il_meta_description',
-				'il_meta_educational',
-				'il_meta_entity',
-				'il_meta_format',
-				'il_meta_general',
-				'il_meta_identifier',
-				'il_meta_identifier_',
-				'il_meta_keyword',
-				'il_meta_language',
-				'il_meta_lifecycle',
-				'il_meta_location',
-				'il_meta_meta_data',
-				'il_meta_relation',
-				'il_meta_requirement',
-				'il_meta_rights',
-				'il_meta_taxon',
-				'il_meta_taxon_path',
-				'il_meta_technical',
-				'il_meta_typical_age_range');
+                'il_meta_classification',
+                'il_meta_contribute',
+                'il_meta_description',
+                'il_meta_educational',
+                'il_meta_entity',
+                'il_meta_format',
+                'il_meta_general',
+                'il_meta_identifier',
+                'il_meta_identifier_',
+                'il_meta_keyword',
+                'il_meta_language',
+                'il_meta_lifecycle',
+                'il_meta_location',
+                'il_meta_meta_data',
+                'il_meta_relation',
+                'il_meta_requirement',
+                'il_meta_rights',
+                'il_meta_taxon',
+                'il_meta_taxon_path',
+                'il_meta_technical',
+                'il_meta_typical_age_range');
 
-foreach($tables as $table)
-{
-	$ilDB->query("ALTER TABLE ".$table." ADD INDEX ('obj_id','rbac_id','obj_type')");
+foreach ($tables as $table) {
+    $ilDB->query("ALTER TABLE " . $table . " ADD INDEX ('obj_id','rbac_id','obj_type')");
 }
 ?>
 <#443>
@@ -6840,56 +6656,49 @@ $nested = new ilNestedSetXML();
 
 // Get last processes mob object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$max_id = $row->max_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $max_id = $row->max_id;
 }
 $max_id = $max_id ? $max_id : 0;
 
 // MetaData migration of mobs
-$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'mob' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'mob' AND obj_id >= '" . $max_id . "' ORDER BY obj_id");
 
-$log->write("MetaData (Migration type 'mob'): Number of objects: ".$res->numRows());
+$log->write("MetaData (Migration type 'mob'): Number of objects: " . $res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if(!(++$counter%100))
-	{
-		$log->write("MetaData (Migration type 'mob'): Processing obj number: ".$row->obj_id);
-	}
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if (!(++$counter%100)) {
+        $log->write("MetaData (Migration type 'mob'): Processing obj number: " . $row->obj_id);
+    }
 
-	// Check if already processed
-	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
-	if($done_res->numRows())
-	{
-		continue;
-	}
-	// Delete old entries
-	$md = new ilMD($row->obj_id,$row->obj_id,'mob');
-	$md->deleteAll();
+    // Check if already processed
+    $done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '" . $row->obj_id . "' AND passed = '1'");
+    if ($done_res->numRows()) {
+        continue;
+    }
+    // Delete old entries
+    $md = new ilMD($row->obj_id, $row->obj_id, 'mob');
+    $md->deleteAll();
 
-	// Get xml data
-	if($xml = $nested->export($row->obj_id,'mob'))
-	{
-		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'mob');
-		$parser->startParsing();
-	}
-	else
-	{
-		// Create new entry
-		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'mob');
-		$md_creator->setTitle($row->title);
-		$md_creator->setTitleLanguage('en');
-		$md_creator->setDescription($row->desc);
-		$md_creator->setDescriptionLanguage('en');
-		$md_creator->setKeywordLanguage('en');
-		$md_creator->setLanguage('en');
+    // Get xml data
+    if ($xml = $nested->export($row->obj_id, 'mob')) {
+        $parser = new ilMDXMLParser($xml, $row->obj_id, $row->obj_id, 'mob');
+        $parser->startParsing();
+    } else {
+        // Create new entry
+        $md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'mob');
+        $md_creator->setTitle($row->title);
+        $md_creator->setTitleLanguage('en');
+        $md_creator->setDescription($row->desc);
+        $md_creator->setDescriptionLanguage('en');
+        $md_creator->setKeywordLanguage('en');
+        $md_creator->setLanguage('en');
 
-		$md_creator->create();
-	}
-	// Set passed
-	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+        $md_creator->create();
+    }
+    // Set passed
+    $ilDB->query("INSERT INTO tmp_migration SET obj_id = '" . $row->obj_id . "', passed = 1");
 }
 $log->write("MetaData (Migration type 'mob'): Finished migration");
 
@@ -6935,9 +6744,8 @@ $tables = array('il_meta_annotation',
                                 'il_meta_technical',
                                 'il_meta_typical_age_range');
 
-foreach($tables as $table)
-{
-        $ilDB->query("ALTER TABLE ".$table." ADD INDEX rbac_obj(rbac_id,obj_id)");
+foreach ($tables as $table) {
+    $ilDB->query("ALTER TABLE " . $table . " ADD INDEX rbac_obj(rbac_id,obj_id)");
 }
 $ilDB->query("ALTER TABLE tmp_migration ADD INDEX (obj_id)");
 ?>
@@ -6959,99 +6767,87 @@ $nested = new ilNestedSetXML();
 
 // Get last processed lm object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-        $max_id = $row->max_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $max_id = $row->max_id;
 }
 $max_id = $max_id ? $max_id : 0;
 
 // MetaData migration of lm's
-$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'lm' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'lm' AND obj_id >= '" . $max_id . "' ORDER BY obj_id");
 
-$log->write("MetaData (Migration type 'lm,st,pg'): Number of lm's: ".$res->numRows());
+$log->write("MetaData (Migration type 'lm,st,pg'): Number of lm's: " . $res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$log->write("MetaData (Migration type 'lm'): Processing obj number: ".$row->obj_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $log->write("MetaData (Migration type 'lm'): Processing obj number: " . $row->obj_id);
 
-	// Check if already processed
-	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
-	if($done_res->numRows())
-	{
-		continue;
-	}
-	// Delete old entries
-	$md = new ilMD($row->obj_id,$row->obj_id,'lm');
-	$md->deleteAll();
-	unset($md);
+    // Check if already processed
+    $done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '" . $row->obj_id . "' AND passed = '1'");
+    if ($done_res->numRows()) {
+        continue;
+    }
+    // Delete old entries
+    $md = new ilMD($row->obj_id, $row->obj_id, 'lm');
+    $md->deleteAll();
+    unset($md);
 
-	// Get xml data
-	$xml = $nested->export($row->obj_id,'lm');
-	if($xml)
-	{
-		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'lm');
-		$parser->startParsing();
-	}
-	else
-	{
-		// Create new entry
-		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'lm');
-		$md_creator->setTitle($row->title);
-		$md_creator->setTitleLanguage('en');
-		$md_creator->setDescription($row->description);
-		$md_creator->setDescriptionLanguage('en');
-		$md_creator->setKeywordLanguage('en');
-		$md_creator->setLanguage('en');
+    // Get xml data
+    $xml = $nested->export($row->obj_id, 'lm');
+    if ($xml) {
+        $parser = new ilMDXMLParser($xml, $row->obj_id, $row->obj_id, 'lm');
+        $parser->startParsing();
+    } else {
+        // Create new entry
+        $md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'lm');
+        $md_creator->setTitle($row->title);
+        $md_creator->setTitleLanguage('en');
+        $md_creator->setDescription($row->description);
+        $md_creator->setDescriptionLanguage('en');
+        $md_creator->setKeywordLanguage('en');
+        $md_creator->setLanguage('en');
 
-		$md_creator->create();
-	}
+        $md_creator->create();
+    }
 
-	// Now migrate all pages and chapters
-	$res_pg = $ilDB->query("SELECT * FROM lm_data WHERE lm_id = '".$row->obj_id."' AND (type = 'pg' OR type = 'st')");
-	while($row_pg = $res_pg->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		if(function_exists('memory_get_usage'))
-		{
-			$memory_usage = " Memory usage: ".memory_get_usage();
-		}
+    // Now migrate all pages and chapters
+    $res_pg = $ilDB->query("SELECT * FROM lm_data WHERE lm_id = '" . $row->obj_id . "' AND (type = 'pg' OR type = 'st')");
+    while ($row_pg = $res_pg->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if (function_exists('memory_get_usage')) {
+            $memory_usage = " Memory usage: " . memory_get_usage();
+        }
 
-		$log->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
+        $log->write("-- MetaData (Migration type '" . $row_pg->type . "'): Processing obj number: " . $row_pg->obj_id . $memory_usage);
 
-		// Delete old entries
-		$md = new ilMD($row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
-		$md->deleteAll();
-		unset($md);
-			   
-		// Get xml data
-		if($xml = $nested->export($row_pg->obj_id,$row_pg->type))
-		{
-			$parser = new ilMDXMLParser($xml,$row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
-			$parser->startParsing();
-		}
-		else
-		{
-			if(function_exists('memory_get_usage'))
-			{
-				$memory_usage = " Memory usage: ".memory_get_usage();
-			}
-			$log->write("-- --  MetaData (Migration type '".$row_pg->type."'): (Creating new entry!) Processing obj number: ".
-						$row_pg->obj_id.$memory_usage);
+        // Delete old entries
+        $md = new ilMD($row_pg->lm_id, $row_pg->obj_id, $row_pg->type);
+        $md->deleteAll();
+        unset($md);
+               
+        // Get xml data
+        if ($xml = $nested->export($row_pg->obj_id, $row_pg->type)) {
+            $parser = new ilMDXMLParser($xml, $row_pg->lm_id, $row_pg->obj_id, $row_pg->type);
+            $parser->startParsing();
+        } else {
+            if (function_exists('memory_get_usage')) {
+                $memory_usage = " Memory usage: " . memory_get_usage();
+            }
+            $log->write("-- --  MetaData (Migration type '" . $row_pg->type . "'): (Creating new entry!) Processing obj number: " .
+                        $row_pg->obj_id . $memory_usage);
 
-			// Create new entry
-			$md_creator = new ilMDCreator($row_pg->lm_id,$row_pg->obj_id,$row_pg->type);
-			$md_creator->setTitle($row_pg->title);
-			$md_creator->setTitleLanguage('en');
-			$md_creator->setDescription('');
-			$md_creator->setDescriptionLanguage('en');
-			$md_creator->setKeywordLanguage('en');
-			$md_creator->setLanguage('en');
+            // Create new entry
+            $md_creator = new ilMDCreator($row_pg->lm_id, $row_pg->obj_id, $row_pg->type);
+            $md_creator->setTitle($row_pg->title);
+            $md_creator->setTitleLanguage('en');
+            $md_creator->setDescription('');
+            $md_creator->setDescriptionLanguage('en');
+            $md_creator->setKeywordLanguage('en');
+            $md_creator->setLanguage('en');
 
-			$md_creator->create();
-		}
-	}
-	// Finally set lm passed
-	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+            $md_creator->create();
+        }
+    }
+    // Finally set lm passed
+    $ilDB->query("INSERT INTO tmp_migration SET obj_id = '" . $row->obj_id . "', passed = 1");
 }
 $log->write("MetaData (Migration type 'lm'): Finished migration");
 
@@ -7080,101 +6876,89 @@ $nested = new ilNestedSetXML();
 
 // Get last processed lm object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-        $max_id = $row->max_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $max_id = $row->max_id;
 }
 $max_id = $max_id ? $max_id : 0;
 
 // MetaData migration of glossaries
-$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'glo' AND obj_id >= '".$max_id."' ORDER BY obj_id");
+$res = $ilDB->query("SELECT * FROM object_data WHERE type = 'glo' AND obj_id >= '" . $max_id . "' ORDER BY obj_id");
 
-$log->write("MetaData (Migration type 'glo'): Number of glossaries: ".$res->numRows());
+$log->write("MetaData (Migration type 'glo'): Number of glossaries: " . $res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$log->write("MetaData (Migration type 'glo'): Processing obj number: ".$row->obj_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $log->write("MetaData (Migration type 'glo'): Processing obj number: " . $row->obj_id);
 
-	// Check if already processed
-	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
-	if($done_res->numRows())
-	{
-		continue;
-	}
-	// Delete old entries
-	$md = new ilMD($row->obj_id,$row->obj_id,'glo');
-	$md->deleteAll();
-	unset($md);
+    // Check if already processed
+    $done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '" . $row->obj_id . "' AND passed = '1'");
+    if ($done_res->numRows()) {
+        continue;
+    }
+    // Delete old entries
+    $md = new ilMD($row->obj_id, $row->obj_id, 'glo');
+    $md->deleteAll();
+    unset($md);
 
-	// Get xml data
-	$xml = $nested->export($row->obj_id,'glo');
-	if($xml)
-	{
-		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,'glo');
-		$parser->startParsing();
-	}
-	else
-	{
-		// Create new entry
-		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,'glo');
-		$md_creator->setTitle($row->title);
-		$md_creator->setTitleLanguage('en');
-		$md_creator->setDescription($row->description);
-		$md_creator->setDescriptionLanguage('en');
-		$md_creator->setKeywordLanguage('en');
-		$md_creator->setLanguage('en');
+    // Get xml data
+    $xml = $nested->export($row->obj_id, 'glo');
+    if ($xml) {
+        $parser = new ilMDXMLParser($xml, $row->obj_id, $row->obj_id, 'glo');
+        $parser->startParsing();
+    } else {
+        // Create new entry
+        $md_creator = new ilMDCreator($row->obj_id, $row->obj_id, 'glo');
+        $md_creator->setTitle($row->title);
+        $md_creator->setTitleLanguage('en');
+        $md_creator->setDescription($row->description);
+        $md_creator->setDescriptionLanguage('en');
+        $md_creator->setKeywordLanguage('en');
+        $md_creator->setLanguage('en');
 
-		$md_creator->create();
-	}
+        $md_creator->create();
+    }
 
-	// Now migrate all glossary definitions
-	$res_gdf = $ilDB->query("select gd.id as gdid,term from glossary_definition as gd, glossary_term as gt where gd.term_id = gt.id".
-							" and glo_id = '".$row->obj_id."'");
-	while($row_gdf = $res_gdf->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		if(function_exists('memory_get_usage'))
-		{
-			$memory_usage = " Memory usage: ".memory_get_usage();
-		}
+    // Now migrate all glossary definitions
+    $res_gdf = $ilDB->query("select gd.id as gdid,term from glossary_definition as gd, glossary_term as gt where gd.term_id = gt.id" .
+                            " and glo_id = '" . $row->obj_id . "'");
+    while ($row_gdf = $res_gdf->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if (function_exists('memory_get_usage')) {
+            $memory_usage = " Memory usage: " . memory_get_usage();
+        }
 
-		$log->write("-- MetaData (Migration type 'gdf'): Processing definition nr.: ".$row_gdf->gdid.$memory_usage);
+        $log->write("-- MetaData (Migration type 'gdf'): Processing definition nr.: " . $row_gdf->gdid . $memory_usage);
 
-		// Delete old entries
-		$md = new ilMD($row->obj_id,$row_gdf->gdid,'gdf');
-		$md->deleteAll();
-		unset($md);
-			   
-		// Get xml data
-		if($xml = $nested->export($row_gdf->gdid,'gdf'))
-		{
-			$log->write('xml: '.$xml);
-			$parser = new ilMDXMLParser($xml,$row->obj_id,$row_gdf->gdid,'gdf');
-			$parser->startParsing();
-		}
-		else
-		{
-			if(function_exists('memory_get_usage'))
-			{
-				$memory_usage = " Memory usage: ".memory_get_usage();
-			}
-			$log->write("-- --  MetaData (Migration type 'gdf'): (Creating new entry!) Processing glossary definition number: ".
-						$row_gdf->gdid.$memory_usage);
+        // Delete old entries
+        $md = new ilMD($row->obj_id, $row_gdf->gdid, 'gdf');
+        $md->deleteAll();
+        unset($md);
+               
+        // Get xml data
+        if ($xml = $nested->export($row_gdf->gdid, 'gdf')) {
+            $log->write('xml: ' . $xml);
+            $parser = new ilMDXMLParser($xml, $row->obj_id, $row_gdf->gdid, 'gdf');
+            $parser->startParsing();
+        } else {
+            if (function_exists('memory_get_usage')) {
+                $memory_usage = " Memory usage: " . memory_get_usage();
+            }
+            $log->write("-- --  MetaData (Migration type 'gdf'): (Creating new entry!) Processing glossary definition number: " .
+                        $row_gdf->gdid . $memory_usage);
 
-			// Create new entry
-			$md_creator = new ilMDCreator($row->obj_id,$row_gdf->gdid,'gdf');
-			$md_creator->setTitle($row_gdf->term);
-			$md_creator->setTitleLanguage('en');
-			$md_creator->setDescription('');
-			$md_creator->setDescriptionLanguage('en');
-			$md_creator->setKeywordLanguage('en');
-			$md_creator->setLanguage('en');
+            // Create new entry
+            $md_creator = new ilMDCreator($row->obj_id, $row_gdf->gdid, 'gdf');
+            $md_creator->setTitle($row_gdf->term);
+            $md_creator->setTitleLanguage('en');
+            $md_creator->setDescription('');
+            $md_creator->setDescriptionLanguage('en');
+            $md_creator->setKeywordLanguage('en');
+            $md_creator->setLanguage('en');
 
-			$md_creator->create();
-		}
-	}
-	// Finally set gdf passed
-	$ilDB->query("INSERT INTO tmp_migration SET obj_id = '".$row->obj_id."', passed = 1");
+            $md_creator->create();
+        }
+    }
+    // Finally set gdf passed
+    $ilDB->query("INSERT INTO tmp_migration SET obj_id = '" . $row->obj_id . "', passed = 1");
 }
 $log->write("MetaData (Migration type 'glo'): Finished migration");
 
@@ -7203,54 +6987,48 @@ $nested = new ilNestedSetXML();
 
 // Get last processed object
 $res = $ilDB->query("SELECT MAX(obj_id) as max_id FROM tmp_migration ");
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-        $max_id = $row->max_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $max_id = $row->max_id;
 }
 $max_id = $max_id ? $max_id : 0;
 
 // MetaData migration of glossaries
-$res = $ilDB->query("SELECT * FROM object_data WHERE type IN ('tst','svy','qpl','spl','crs','icla','icrs','sahs','htlm') AND obj_id >= '".
-					$max_id."' ORDER BY obj_id");
+$res = $ilDB->query("SELECT * FROM object_data WHERE type IN ('tst','svy','qpl','spl','crs','icla','icrs','sahs','htlm') AND obj_id >= '" .
+                    $max_id . "' ORDER BY obj_id");
 
-$log->write("MetaData (Migration): Number of objects: ".$res->numRows());
+$log->write("MetaData (Migration): Number of objects: " . $res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$log->write("MetaData (Migration type '".$row->type."'): Processing obj number: ".$row->obj_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $log->write("MetaData (Migration type '" . $row->type . "'): Processing obj number: " . $row->obj_id);
 
-	// Check if already processed
-	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '".$row->obj_id."' AND passed = '1'");
-	if($done_res->numRows())
-	{
-		continue;
-	}
-	// Delete old entries
-	$md = new ilMD($row->obj_id,$row->obj_id,$row->type);
-	$md->deleteAll();
-	unset($md);
+    // Check if already processed
+    $done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE obj_id = '" . $row->obj_id . "' AND passed = '1'");
+    if ($done_res->numRows()) {
+        continue;
+    }
+    // Delete old entries
+    $md = new ilMD($row->obj_id, $row->obj_id, $row->type);
+    $md->deleteAll();
+    unset($md);
 
-	// Get xml data
-	$xml = $nested->export($row->obj_id,$row->type);
-	if($xml)
-	{
-		$parser = new ilMDXMLParser($xml,$row->obj_id,$row->obj_id,$row->type);
-		$parser->startParsing();
-	}
-	else
-	{
-		// Create new entry
-		$md_creator = new ilMDCreator($row->obj_id,$row->obj_id,$row->type);
-		$md_creator->setTitle($row->title);
-		$md_creator->setTitleLanguage('en');
-		$md_creator->setDescription($row->description);
-		$md_creator->setDescriptionLanguage('en');
-		$md_creator->setKeywordLanguage('en');
-		$md_creator->setLanguage('en');
+    // Get xml data
+    $xml = $nested->export($row->obj_id, $row->type);
+    if ($xml) {
+        $parser = new ilMDXMLParser($xml, $row->obj_id, $row->obj_id, $row->type);
+        $parser->startParsing();
+    } else {
+        // Create new entry
+        $md_creator = new ilMDCreator($row->obj_id, $row->obj_id, $row->type);
+        $md_creator->setTitle($row->title);
+        $md_creator->setTitleLanguage('en');
+        $md_creator->setDescription($row->description);
+        $md_creator->setDescriptionLanguage('en');
+        $md_creator->setKeywordLanguage('en');
+        $md_creator->setLanguage('en');
 
-		$md_creator->create();
-	}
+        $md_creator->create();
+    }
 }
 $log->write("MetaData (Migration): Finished migration");
 
@@ -7327,298 +7105,250 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `usr_search` ADD `search_type` TINYINT( 2 ) DEFAULT '0' NOT NULL ;
 <#473>
 <?php
-	// update reached question points for new test scoring options
-	global $log;
-	$log->write("test&assessment: starting with conversion. updating database entries for reached points of every user for every processed question");
-	// update code
-	$idx = 1;
-	$query = "SELECT question_id, question_type_fi FROM qpl_questions";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resultanswers = $ilDB->query($queryanswers);
-		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($answers, $rowanswer);
-		}
-		$querytests = sprintf("SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resulttests = $ilDB->query($querytests);
-		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($tests, $rowtest["test_fi"]);
-		}
-		foreach ($tests as $test_id)
-		{
-			$queryusers = sprintf("SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($row["question_id"])
-			);
-			$resultusers = $ilDB->query($queryusers);
-			$users = array();
-			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-			{
-				array_push($users, $rowuser["user_fi"]);
-			}
-			// now begin the conversion
-			foreach ($users as $user_id)
-			{
-				$querysolutions = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($row["question_id"] . "")
-				);
-				$resultsolutions = $ilDB->query($querysolutions);
-				switch ($row["question_type_fi"])
-				{
-					case 1:
-					case 2:
-						// multiple choice questions
-						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_values, $data["value1"]);
-							}
-						}
-						$points = 0;
-						if ((count($found_values) > 0) || ($row["question_type_fi"] == 2))
-						{
-							foreach ($answers as $key => $answer)
-							{
-								if ($answer["correctness"])
-								{
-									if (in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-								else
-								{
-									if (!in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-							}
-						}
-						// save $points
-						break;
-					case 3:
-						// close questions
-						$found_value1 = array();
-						$found_value2 = array();
-						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value2"], "") != 0)
-							{
-								$user_result[$data["value1"]] = array(
-									"gap_id" => $data["value1"],
-									"value" => $data["value2"]
-								);
-							}
-						}
-						$points = 0;
-						$counter = 0;
-						$gaps = array();
-						foreach ($answers as $key => $value)
-						{
-							if (!array_key_exists($value["gap_id"], $gaps))
-							{
-								$gaps[$value["gap_id"]] = array();
-							}
-							array_push($gaps[$value["gap_id"]], $value);
-						}
-						foreach ($user_result as $gap_id => $value) 
-						{
-							if ($gaps[$gap_id][0]["cloze_type"] == 0) 
-							{
-								$foundsolution = 0;
-								foreach ($gaps[$gap_id] as $k => $v) 
-								{
-									if ((strcmp(strtolower($v["answertext"]), strtolower($value["value"])) == 0) && (!$foundsolution)) 
-									{
-										$points += $v["points"];
-										$foundsolution = 1;
-									}
-								}
-							} 
-							else 
-							{
-								if ($value["value"] >= 0)
-								{
-									foreach ($gaps[$gap_id] as $answerkey => $answer)
-									{
-										if ($value["value"] == $answerkey)
-										{
-											$points += $answer["points"];
-										}
-									}
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 4:
-						// matching questions
-						$found_value1 = array();
-						$found_value2 = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_value1, $data["value1"]);
-								array_push($found_value2, $data["value2"]);
-							}
-						}
-						$points = 0;
-						foreach ($found_value2 as $key => $value)
-						{
-							foreach ($answers as $answer_value)
-							{
-								if (($answer_value["matching_order"] == $value) and ($answer_value["aorder"] == $found_value1[$key]))
-								{
-									$points += $answer_value["points"];
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 5:
-						// ordering questions
-						$found_value1 = array();
-						$found_value2 = array();
-						$user_order = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0))
-							{
-								$user_order[$data["value2"]] = $data["value1"];
-							}
-						}
-						ksort($user_order);
-						$user_order = array_values($user_order);
-						$answer_order = array();
-						foreach ($answers as $key => $answer)
-						{
-							$answer_order[$answer["solution_order"]] = $key;
-						}
-						ksort($answer_order);
-						$answer_order = array_values($answer_order);
-						$points = 0;
-						foreach ($answer_order as $index => $answer_id)
-						{
-							if (strcmp($user_order[$index], "") != 0)
-							{
-								if ($answer_id == $user_order[$index])
-								{
-									$points += $answers[$answer_id]["points"];
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 6:
-						// imagemap questions
-						$found_values = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value1"], "") != 0)
-							{
-								array_push($found_values, $data["value1"]);
-							}
-						}
-						$points = 0;
-						if (count($found_values) > 0)
-						{
-							foreach ($answers as $key => $answer)
-							{
-								if ($answer["correctness"])
-								{
-									if (in_array($key, $found_values))
-									{
-										$points += $answer["points"];
-									}
-								}
-							}
-						}
-						// save $points;
-						break;
-					case 7:
-						// java applet questions
-						$found_values = array();
-						$points = 0;
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							$points += $data["points"];
-						}
-						// save $points;
-						break;
-					case 8:
-						// text questions
-						$points = 0;
-						if ($resultsolutions->numRows() == 1)
-						{
-							$data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-							if ($data["points"])
-							{
-								$points = $data["points"];
-							}
-						}
-						// save $points;
-						break;
-				}
-				// check for special scoring options in test
-				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-					$ilDB->quote($test_id)
-				);
-				$resulttest = $ilDB->query($query);
-				if ($resulttest->numRows() == 1)
-				{
-					$rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-					if ($rowtest["count_system"] == 1)
-					{
-						$maxpoints = 0;
-						$query = sprintf("SELECT points FROM qpl_questions WHERE question_id = %s",
-							$ilDB->quote($row["question_id"] . "")
-						);
-						$resultmaxpoints = $ilDB->query($query);
-						if ($resultmaxpoints->numRows() == 1)
-						{
-							$rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-							$maxpoints = $rowmaxpoints["points"];
-						}
-						if ($points != $maxpoints)
-						{
-							$points = 0;
-						}
-					}
-				}
-				else
-				{
-					$points = 0;
-				}
-				$insertquery = sprintf("REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($points . "")
-				);
-				$ilDB->query($insertquery);
-				$log->write("  $idx. creating user result: $insertquery");
-				$idx++;
-			}
-		}
-	}
-	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
+    // update reached question points for new test scoring options
+    global $log;
+    $log->write("test&assessment: starting with conversion. updating database entries for reached points of every user for every processed question");
+    // update code
+    $idx = 1;
+    $query = "SELECT question_id, question_type_fi FROM qpl_questions";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $queryanswers = sprintf(
+            "SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resultanswers = $ilDB->query($queryanswers);
+        $answers = array();
+        while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($answers, $rowanswer);
+        }
+        $querytests = sprintf(
+            "SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resulttests = $ilDB->query($querytests);
+        $tests = array();
+        while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($tests, $rowtest["test_fi"]);
+        }
+        foreach ($tests as $test_id) {
+            $queryusers = sprintf(
+                "SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+                $ilDB->quote($test_id . ""),
+                $ilDB->quote($row["question_id"])
+            );
+            $resultusers = $ilDB->query($queryusers);
+            $users = array();
+            while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                array_push($users, $rowuser["user_fi"]);
+            }
+            // now begin the conversion
+            foreach ($users as $user_id) {
+                $querysolutions = sprintf(
+                    "SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($row["question_id"] . "")
+                );
+                $resultsolutions = $ilDB->query($querysolutions);
+                switch ($row["question_type_fi"]) {
+                    case 1:
+                    case 2:
+                        // multiple choice questions
+                        $found_values = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_values, $data["value1"]);
+                            }
+                        }
+                        $points = 0;
+                        if ((count($found_values) > 0) || ($row["question_type_fi"] == 2)) {
+                            foreach ($answers as $key => $answer) {
+                                if ($answer["correctness"]) {
+                                    if (in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                } else {
+                                    if (!in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                }
+                            }
+                        }
+                        // save $points
+                        break;
+                    case 3:
+                        // close questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        $user_result = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value2"], "") != 0) {
+                                $user_result[$data["value1"]] = array(
+                                    "gap_id" => $data["value1"],
+                                    "value" => $data["value2"]
+                                );
+                            }
+                        }
+                        $points = 0;
+                        $counter = 0;
+                        $gaps = array();
+                        foreach ($answers as $key => $value) {
+                            if (!array_key_exists($value["gap_id"], $gaps)) {
+                                $gaps[$value["gap_id"]] = array();
+                            }
+                            array_push($gaps[$value["gap_id"]], $value);
+                        }
+                        foreach ($user_result as $gap_id => $value) {
+                            if ($gaps[$gap_id][0]["cloze_type"] == 0) {
+                                $foundsolution = 0;
+                                foreach ($gaps[$gap_id] as $k => $v) {
+                                    if ((strcmp(strtolower($v["answertext"]), strtolower($value["value"])) == 0) && (!$foundsolution)) {
+                                        $points += $v["points"];
+                                        $foundsolution = 1;
+                                    }
+                                }
+                            } else {
+                                if ($value["value"] >= 0) {
+                                    foreach ($gaps[$gap_id] as $answerkey => $answer) {
+                                        if ($value["value"] == $answerkey) {
+                                            $points += $answer["points"];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 4:
+                        // matching questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_value1, $data["value1"]);
+                                array_push($found_value2, $data["value2"]);
+                            }
+                        }
+                        $points = 0;
+                        foreach ($found_value2 as $key => $value) {
+                            foreach ($answers as $answer_value) {
+                                if (($answer_value["matching_order"] == $value) and ($answer_value["aorder"] == $found_value1[$key])) {
+                                    $points += $answer_value["points"];
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 5:
+                        // ordering questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        $user_order = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if ((strcmp($data["value1"], "") != 0) && (strcmp($data["value2"], "") != 0)) {
+                                $user_order[$data["value2"]] = $data["value1"];
+                            }
+                        }
+                        ksort($user_order);
+                        $user_order = array_values($user_order);
+                        $answer_order = array();
+                        foreach ($answers as $key => $answer) {
+                            $answer_order[$answer["solution_order"]] = $key;
+                        }
+                        ksort($answer_order);
+                        $answer_order = array_values($answer_order);
+                        $points = 0;
+                        foreach ($answer_order as $index => $answer_id) {
+                            if (strcmp($user_order[$index], "") != 0) {
+                                if ($answer_id == $user_order[$index]) {
+                                    $points += $answers[$answer_id]["points"];
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 6:
+                        // imagemap questions
+                        $found_values = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value1"], "") != 0) {
+                                array_push($found_values, $data["value1"]);
+                            }
+                        }
+                        $points = 0;
+                        if (count($found_values) > 0) {
+                            foreach ($answers as $key => $answer) {
+                                if ($answer["correctness"]) {
+                                    if (in_array($key, $found_values)) {
+                                        $points += $answer["points"];
+                                    }
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                    case 7:
+                        // java applet questions
+                        $found_values = array();
+                        $points = 0;
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            $points += $data["points"];
+                        }
+                        // save $points;
+                        break;
+                    case 8:
+                        // text questions
+                        $points = 0;
+                        if ($resultsolutions->numRows() == 1) {
+                            $data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                            if ($data["points"]) {
+                                $points = $data["points"];
+                            }
+                        }
+                        // save $points;
+                        break;
+                }
+                // check for special scoring options in test
+                $query = sprintf(
+                    "SELECT * FROM tst_tests WHERE test_id = %s",
+                    $ilDB->quote($test_id)
+                );
+                $resulttest = $ilDB->query($query);
+                if ($resulttest->numRows() == 1) {
+                    $rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                    if ($rowtest["count_system"] == 1) {
+                        $maxpoints = 0;
+                        $query = sprintf(
+                            "SELECT points FROM qpl_questions WHERE question_id = %s",
+                            $ilDB->quote($row["question_id"] . "")
+                        );
+                        $resultmaxpoints = $ilDB->query($query);
+                        if ($resultmaxpoints->numRows() == 1) {
+                            $rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                            $maxpoints = $rowmaxpoints["points"];
+                        }
+                        if ($points != $maxpoints) {
+                            $points = 0;
+                        }
+                    }
+                } else {
+                    $points = 0;
+                }
+                $insertquery = sprintf(
+                    "REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($points . "")
+                );
+                $ilDB->query($insertquery);
+                $log->write("  $idx. creating user result: $insertquery");
+                $idx++;
+            }
+        }
+    }
+    $log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
 <#474>
 ALTER TABLE `il_meta_typical_age_range` ADD `typical_age_range_min` TINYINT( 3 ) DEFAULT '-1' NOT NULL ,
@@ -7626,33 +7356,26 @@ ADD `typical_age_range_max` TINYINT( 3 ) DEFAULT '-1' NOT NULL ;
 <#475>
 <?php
 $query = "SELECT * FROM il_meta_typical_age_range ";
-$res =& $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if(preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/",$row->typical_age_range,$matches))
-	{
-		if(!$matches[2] and !$matches[3])
-		{
-			$min = $max = $matches[1];
-		}
-		elseif($matches[2] and !$matches[3])
-		{
-			$min = $matches[1];
-			$max = 99;
-		}
-		else
-		{
-			$min = $matches[1];
-			$max = $matches[3];
-		}
+$res =&$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if (preg_match("/\s*(\d*)\s*(-?)\s*(\d*)/", $row->typical_age_range, $matches)) {
+        if (!$matches[2] and !$matches[3]) {
+            $min = $max = $matches[1];
+        } elseif ($matches[2] and !$matches[3]) {
+            $min = $matches[1];
+            $max = 99;
+        } else {
+            $min = $matches[1];
+            $max = $matches[3];
+        }
 
-		$query = "UPDATE il_meta_typical_age_range ".
-			"SET typical_age_range_min = '".(int) $min."', ".
-			"typical_age_range_max = '".(int) $max."' ".
-			"WHERE meta_typical_age_range_id = '".$row->meta_typical_age_range_id."'";
+        $query = "UPDATE il_meta_typical_age_range " .
+            "SET typical_age_range_min = '" . (int) $min . "', " .
+            "typical_age_range_max = '" . (int) $max . "' " .
+            "WHERE meta_typical_age_range_id = '" . $row->meta_typical_age_range_id . "'";
 
-		$ilDB->query($query);
-	}
+        $ilDB->query($query);
+    }
 }
 ?>
 <#476>
@@ -7665,31 +7388,30 @@ REPLACE INTO settings (keyword, value) VALUES ('enable_calendar', '1');
 <#478>
 <?php
 $tables = array('il_meta_annotation',
-				'il_meta_classification',
-				'il_meta_contribute',
-				'il_meta_description',
-				'il_meta_educational',
-				'il_meta_entity',
-				'il_meta_format',
-				'il_meta_general',
-				'il_meta_identifier',
-				'il_meta_identifier_',
-				'il_meta_keyword',
-				'il_meta_language',
-				'il_meta_lifecycle',
-				'il_meta_location',
-				'il_meta_meta_data',
-				'il_meta_relation',
-				'il_meta_requirement',
-				'il_meta_rights',
-				'il_meta_taxon',
-				'il_meta_taxon_path',
-				'il_meta_technical',
-				'il_meta_typical_age_range');
+                'il_meta_classification',
+                'il_meta_contribute',
+                'il_meta_description',
+                'il_meta_educational',
+                'il_meta_entity',
+                'il_meta_format',
+                'il_meta_general',
+                'il_meta_identifier',
+                'il_meta_identifier_',
+                'il_meta_keyword',
+                'il_meta_language',
+                'il_meta_lifecycle',
+                'il_meta_location',
+                'il_meta_meta_data',
+                'il_meta_relation',
+                'il_meta_requirement',
+                'il_meta_rights',
+                'il_meta_taxon',
+                'il_meta_taxon_path',
+                'il_meta_technical',
+                'il_meta_typical_age_range');
 
-foreach($tables as $table)
-{
-	$ilDB->query("UPDATE ".$table." SET rbac_id = 0 WHERE obj_type = 'mob'");
+foreach ($tables as $table) {
+    $ilDB->query("UPDATE " . $table . " SET rbac_id = 0 WHERE obj_type = 'mob'");
 }
 ?>
 <#479>
@@ -7712,55 +7434,49 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','" . $ops_id . "')";
 $this->db->query($query);
 ?>
 <#480>
 <?php
  // Get all global roles
-$query = "SELECT rol_id FROM rbac_fa ".
-	"WHERE parent = '".ROLE_FOLDER_ID."'";
+$query = "SELECT rol_id FROM rbac_fa " .
+    "WHERE parent = '" . ROLE_FOLDER_ID . "'";
 
 $res = $this->db->query($query);
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$rol_ids[] = $row->rol_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $rol_ids[] = $row->rol_id;
 }
 // Get searchSettings ref_id
 $query = "SELECT ref_id from object_data od ,object_reference as orf where od.obj_id = orf.obj_id and type = 'seas'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ref_id = $row->ref_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ref_id = $row->ref_id;
 }
 // Get serach operation id
 $query = "SELECT * FROM rbac_operations where operation = 'search'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$search_ops = $row->ops_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $search_ops = $row->ops_id;
 }
 
-foreach($rol_ids as $role_id)
-{
-	$query = "SELECT ops_id FROM rbac_pa where rol_id = '".$role_id."' and ref_id = '".$ref_id."'";
-	$res = $this->db->query($query);
-	$ops = array();
-	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$ops = unserialize(stripslashes($row->ops_id));
-	}
-	if(!in_array($search_ops,$ops))
-	{
-		$query = "DELETE FROM rbac_pa WHERE rol_id = '".$role_id."' and ref_id = '".$ref_id."'";
-		$this->db->query($query);
-		
-		$ops[] = $search_ops;
-		$query = "INSERT INTO rbac_pa SET rol_id = '".$role_id."', ".
-			"ops_id = '".addslashes(serialize($ops))."', ".
-			"ref_id = '".$ref_id."'";
-		$this->db->query($query);
-	}
+foreach ($rol_ids as $role_id) {
+    $query = "SELECT ops_id FROM rbac_pa where rol_id = '" . $role_id . "' and ref_id = '" . $ref_id . "'";
+    $res = $this->db->query($query);
+    $ops = array();
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $ops = unserialize(stripslashes($row->ops_id));
+    }
+    if (!in_array($search_ops, $ops)) {
+        $query = "DELETE FROM rbac_pa WHERE rol_id = '" . $role_id . "' and ref_id = '" . $ref_id . "'";
+        $this->db->query($query);
+        
+        $ops[] = $search_ops;
+        $query = "INSERT INTO rbac_pa SET rol_id = '" . $role_id . "', " .
+            "ops_id = '" . addslashes(serialize($ops)) . "', " .
+            "ref_id = '" . $ref_id . "'";
+        $this->db->query($query);
+    }
 }
 ?>
 <#481>
@@ -7838,64 +7554,60 @@ include_once 'Services/Migration/DBUpdate_491/inc.xml5compliance.php';
 //  migration of page content
 $res = $ilDB->query("SELECT page_id,parent_id FROM page_object ORDER BY page_id,parent_id");
 
-$log->write("Page object migration: Number of objects: ".$res->numRows());
+$log->write("Page object migration: Number of objects: " . $res->numRows());
 
 $counter = 0;
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$log->write("Page object migration: Processing page_id, parent_id: ".$row->page_id.", ".$row->parent_id);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $log->write("Page object migration: Processing page_id, parent_id: " . $row->page_id . ", " . $row->parent_id);
 
-	// Check if already processed
-	$done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE page_id = '".$row->page_id."' AND parent_id = '".$row->parent_id."' ".
-							 "AND passed = '1'");
-	if($done_res->numRows())
-	{
-		continue;
-	}
+    // Check if already processed
+    $done_res = $ilDB->query("SELECT * FROM tmp_migration WHERE page_id = '" . $row->page_id . "' AND parent_id = '" . $row->parent_id . "' " .
+                             "AND passed = '1'");
+    if ($done_res->numRows()) {
+        continue;
+    }
 
-	// get content
-	$query = "SELECT content FROM page_object WHERE page_id = '".$row->page_id."' ".
-		"AND parent_id = '".$row->parent_id."'";
+    // get content
+    $query = "SELECT content FROM page_object WHERE page_id = '" . $row->page_id . "' " .
+        "AND parent_id = '" . $row->parent_id . "'";
 
-	$res2 = $ilDB->query($query);
+    $res2 = $ilDB->query($query);
 
-	// Must be splitted since DBupdate.php cannot handle expressions like 'question mark greater than'.
-	$prefix = "<";
-	$prefix .= "?xml version=\"1.0\" encoding=\"UTF-8\" ?";
-	$prefix .= ">";
+    // Must be splitted since DBupdate.php cannot handle expressions like 'question mark greater than'.
+    $prefix = "<";
+    $prefix .= "?xml version=\"1.0\" encoding=\"UTF-8\" ?";
+    $prefix .= ">";
 
-	while($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$content = $row2->content;
-	}
-	$content = $prefix.$content;
+    while ($row2 = $res2->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $content = $row2->content;
+    }
+    $content = $prefix . $content;
 
-	$error = '';
-	$dom_obj = @domxml_open_mem($content, DOMXML_LOAD_PARSING, $error);
+    $error = '';
+    $dom_obj = @domxml_open_mem($content, DOMXML_LOAD_PARSING, $error);
 
-	if($error)
-	{
-		// Cannot handle this error. => set passed and continue
-		$log->write("Error building dom from node: page_id, parent_id: ".$row->page_id.", ".$row->parent_id);
-		$ilDB->query("INSERT INTO tmp_migration SET page_id = '".$row->page_id."', parent_id = '".$row->parent_id."', passed = 1");
-		continue;
-	}
+    if ($error) {
+        // Cannot handle this error. => set passed and continue
+        $log->write("Error building dom from node: page_id, parent_id: " . $row->page_id . ", " . $row->parent_id);
+        $ilDB->query("INSERT INTO tmp_migration SET page_id = '" . $row->page_id . "', parent_id = '" . $row->parent_id . "', passed = 1");
+        continue;
+    }
 
-	$new_content = $dom_obj->dump_mem(0,"UTF-8");
+    $new_content = $dom_obj->dump_mem(0, "UTF-8");
 
-	//$log->write("FROM DOM: ".$new_content ."ENDE");
+    //$log->write("FROM DOM: ".$new_content ."ENDE");
 
-	$new_content = eregi_replace("<\?xml[^>]*>","",$new_content);
-	$new_content = eregi_replace("<!DOCTYPE[^>]*>","",$new_content);
+    $new_content = eregi_replace("<\?xml[^>]*>", "", $new_content);
+    $new_content = eregi_replace("<!DOCTYPE[^>]*>", "", $new_content);
 
-	// Update content
-	$query = "UPDATE page_object SET content = '".addslashes($new_content)."' ".
-		"WHERE page_id = '".$row->page_id ."' AND parent_id = '".$row->parent_id."'";
-	$ilDB->query($query);
+    // Update content
+    $query = "UPDATE page_object SET content = '" . addslashes($new_content) . "' " .
+        "WHERE page_id = '" . $row->page_id . "' AND parent_id = '" . $row->parent_id . "'";
+    $ilDB->query($query);
 
 
-	// Set passed
-	$ilDB->query("INSERT INTO tmp_migration SET page_id = '".$row->page_id."', parent_id = '".$row->parent_id."', passed = 1");
+    // Set passed
+    $ilDB->query("INSERT INTO tmp_migration SET page_id = '" . $row->page_id . "', parent_id = '" . $row->parent_id . "', passed = 1");
 }
 $log->write("Page object: Finished migration");
 ?>
@@ -7906,10 +7618,10 @@ DROP TABLE IF EXISTS `tmp_migration`;
 DELETE FROM desktop_item WHERE type = 'grou';
 
 <#494>
-<?php	
+<?php
 // insert third party tools definition (extt)
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('typ', 'extt', 'external tools settings', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('typ', 'extt', 'external tools settings', -1, now(), now())";
 $this->db->query($query);
 
 // fetch type id
@@ -7920,13 +7632,13 @@ $typ_id = $row[0];
 
 // add operation assignment for extt object
 // 1: edit_permissions, 2: visible, 3: read, 4: write, 6:delete
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
 
 // add extt object in administration panel
@@ -7939,7 +7651,7 @@ $row = $res->fetchRow();
 $obj_id = $row[0];
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$obj_id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $obj_id . "')";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID()";
@@ -7949,7 +7661,7 @@ $ref_id = $row[0];
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($ref_id,SYSTEM_FOLDER_ID);
+$tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
 ?>
 
 <#495>
@@ -7967,19 +7679,17 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 $ops_id = $row->ops_id;
 
-// Add operation to cat,grp,fold,crs 
+// Add operation to cat,grp,fold,crs
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('cat','grp','fold','crs')";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$obj_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $obj_ids[] = $row->obj_id;
 }
 
-foreach ($obj_ids as $obj_id)
-{
-	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$ops_id."')";
-	$this->db->query($query);
+foreach ($obj_ids as $obj_id) {
+    $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','" . $ops_id . "')";
+    $this->db->query($query);
 }
 ?>
 
@@ -7994,38 +7704,36 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $icla_ops_id = $row->ops_id;
 
-// Add operation to icrs 
+// Add operation to icrs
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title IN ('icrs')";
 $res = $this->db->query($query);
 
-while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$obj_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $obj_ids[] = $row->obj_id;
 }
 
-foreach ($obj_ids as $obj_id)
-{
-	$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','".$icla_ops_id."')";
-	$this->db->query($query);
+foreach ($obj_ids as $obj_id) {
+    $query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','" . $icla_ops_id . "')";
+    $this->db->query($query);
 }
 
 
-// Add join/leave operations to icrs 
+// Add join/leave operations to icrs
 $query = "SELECT obj_id FROM object_data WHERE type = 'typ' AND title = 'icrs'";
 $res = $this->db->query($query);
 
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','7')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','7')";
 $this->db->query($query);
 
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$obj_id."','8')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $obj_id . "','8')";
 $this->db->query($query);
 
 // ADMIN TEMPLATE for LearnLink Seminars
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_icrs_admin', 'Administrator template for LearnLink Seminars', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_icrs_admin', 'Administrator template for LearnLink Seminars', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
@@ -8039,16 +7747,15 @@ $admin["rolf"] = array(1,2,3,4,6,14);
 
 $rbacadmin = new ilRbacAdmin();
 
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($obj_id, $type, $ops, ROLE_FOLDER_ID);
 }
 
-$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($obj_id, ROLE_FOLDER_ID, "n");
 
 // MEMBER TEMPLATE for LearnLink Seminars
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_icrs_member', 'Member template for LearnLink Seminars', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_icrs_member', 'Member template for LearnLink Seminars', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
@@ -8060,11 +7767,10 @@ $admin = array();
 $admin["icrs"] = array(2,3,7,8);
 
 
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($obj_id, $type, $ops, ROLE_FOLDER_ID);
 }
-$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($obj_id, ROLE_FOLDER_ID, "n");
 ?>
 
 <#498>
@@ -8079,116 +7785,106 @@ $rbacreview = new ilRbacReview();
 
 $ilca_nodes = $tree->getNodeDataByType('icla');
 
-if (count($icla_nodes) != 0)
-{
-	foreach ($icla_nodes as $node)
-	{
-		// first look up for rolefolders
-		$rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
-		
-		if ($rolf)
-		{
-			// remove local roles
-			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-			foreach ($roles as $role_id)
-			{
-				$rbacadmin->deleteRole($role_id,$rolf["ref_id"]);
-			}
-			
-			// remove linked local roles
-			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-			foreach ($roles as $role_id)
-			{
-				$rbacadmin->deleteLocalRole($role_id,$rolf["ref_id"]);
-			}
+if (count($icla_nodes) != 0) {
+    foreach ($icla_nodes as $node) {
+        // first look up for rolefolders
+        $rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
+        
+        if ($rolf) {
+            // remove local roles
+            $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"], false);
+            foreach ($roles as $role_id) {
+                $rbacadmin->deleteRole($role_id, $rolf["ref_id"]);
+            }
+            
+            // remove linked local roles
+            $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+            foreach ($roles as $role_id) {
+                $rbacadmin->deleteLocalRole($role_id, $rolf["ref_id"]);
+            }
 
-			// delete rbac_fa entry
-			$query = "DELETE FROM rbac_fa WHERE parent = '".$rolf["ref_id"]."'";
-			$this->db->query($query);
-			
-			// delete entry in object_data
-			$query = "DELETE FROM object_data WHERE obj_id = '".$rolf["obj_id"]."'";
-			$this->db->query($query);
-			
-			// delete entry in object_reference
-			$query = "DELETE FROM object_reference WHERE ref_id = '".$rolf["ref_id"]."'";
-			$this->db->query($query);
+            // delete rbac_fa entry
+            $query = "DELETE FROM rbac_fa WHERE parent = '" . $rolf["ref_id"] . "'";
+            $this->db->query($query);
+            
+            // delete entry in object_data
+            $query = "DELETE FROM object_data WHERE obj_id = '" . $rolf["obj_id"] . "'";
+            $this->db->query($query);
+            
+            // delete entry in object_reference
+            $query = "DELETE FROM object_reference WHERE ref_id = '" . $rolf["ref_id"] . "'";
+            $this->db->query($query);
 
-			// remove tree entry
-			$tree->deleteTree($rolf);	
-		}
-		
-		// delete entry in object_data
-		$query = "DELETE FROM object_data WHERE obj_id = '".$node["obj_id"]."'";
-		$this->db->query($query);
-		
-		// delete entry in object_reference
-		$query = "DELETE FROM object_reference WHERE ref_id = '".$node["ref_id"]."'";
-		$this->db->query($query);
-		
-		// remove permission settings
-		$rbacadmin->revokePermission($node["ref_id"]);
-		
-		// remove tree entry
-		$tree->deleteTree($node);	
-	}
+            // remove tree entry
+            $tree->deleteTree($rolf);
+        }
+        
+        // delete entry in object_data
+        $query = "DELETE FROM object_data WHERE obj_id = '" . $node["obj_id"] . "'";
+        $this->db->query($query);
+        
+        // delete entry in object_reference
+        $query = "DELETE FROM object_reference WHERE ref_id = '" . $node["ref_id"] . "'";
+        $this->db->query($query);
+        
+        // remove permission settings
+        $rbacadmin->revokePermission($node["ref_id"]);
+        
+        // remove tree entry
+        $tree->deleteTree($node);
+    }
 } // if count icla_nodes
 
 $ilcrs_nodes = $tree->getNodeDataByType('icrs');
 
-if (count($icrs_nodes) != 0)
-{
-	foreach ($icrs_nodes as $node)
-	{
-		// first look up for rolefolders
-		$rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
-		
-		if ($rolf)
-		{
-			// remove local roles
-			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"],false);
-			foreach ($roles as $role_id)
-			{
-				$rbacadmin->deleteRole($role_id,$rolf["ref_id"]);
-			}
-			
-			// remove linked local roles
-			$roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
-			foreach ($roles as $role_id)
-			{
-				$rbacadmin->deleteLocalRole($role_id,$rolf["ref_id"]);
-			}
-			
-			// delete rbac_fa entry
-			$query = "DELETE FROM rbac_fa WHERE parent = '".$rolf["ref_id"]."'";
-			$this->db->query($query);
-			
-			// delete entry in object_data
-			$query = "DELETE FROM object_data WHERE obj_id = '".$rolf["obj_id"]."'";
-			$this->db->query($query);
-			
-			// delete entry in object_reference
-			$query = "DELETE FROM object_reference WHERE ref_id = '".$rolf["ref_id"]."'";
-			$this->db->query($query);
+if (count($icrs_nodes) != 0) {
+    foreach ($icrs_nodes as $node) {
+        // first look up for rolefolders
+        $rolf = $rbacreview->getRoleFolderOfObject($node["ref_id"]);
+        
+        if ($rolf) {
+            // remove local roles
+            $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"], false);
+            foreach ($roles as $role_id) {
+                $rbacadmin->deleteRole($role_id, $rolf["ref_id"]);
+            }
+            
+            // remove linked local roles
+            $roles = $rbacreview->getRolesOfRoleFolder($rolf["ref_id"]);
+            foreach ($roles as $role_id) {
+                $rbacadmin->deleteLocalRole($role_id, $rolf["ref_id"]);
+            }
+            
+            // delete rbac_fa entry
+            $query = "DELETE FROM rbac_fa WHERE parent = '" . $rolf["ref_id"] . "'";
+            $this->db->query($query);
+            
+            // delete entry in object_data
+            $query = "DELETE FROM object_data WHERE obj_id = '" . $rolf["obj_id"] . "'";
+            $this->db->query($query);
+            
+            // delete entry in object_reference
+            $query = "DELETE FROM object_reference WHERE ref_id = '" . $rolf["ref_id"] . "'";
+            $this->db->query($query);
 
-			// remove tree entry
-			$tree->deleteTree($rolf);
-		}
+            // remove tree entry
+            $tree->deleteTree($rolf);
+        }
 
-		// delete entry in object_data
-		$query = "DELETE FROM object_data WHERE obj_id = '".$node["obj_id"]."'";
-		$this->db->query($query);
-		
-		// delete entry in object_reference
-		$query = "DELETE FROM object_reference WHERE ref_id = '".$node["ref_id"]."'";
-		$this->db->query($query);
-		
-		// remove permission settings
-		$rbacadmin->revokePermission($node["ref_id"]);
-		
-		// remove tree entry
-		$tree->deleteTree($node);	
-	}
+        // delete entry in object_data
+        $query = "DELETE FROM object_data WHERE obj_id = '" . $node["obj_id"] . "'";
+        $this->db->query($query);
+        
+        // delete entry in object_reference
+        $query = "DELETE FROM object_reference WHERE ref_id = '" . $node["ref_id"] . "'";
+        $this->db->query($query);
+        
+        // remove permission settings
+        $rbacadmin->revokePermission($node["ref_id"]);
+        
+        // remove tree entry
+        $tree->deleteTree($node);
+    }
 } // if count icrs_nodes
 ?>
 
@@ -8201,7 +7897,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 $obj_id = $row->obj_id;
 
-$query = "DELETE FROM rbac_ta WHERE typ_id = '".$obj_id."'";
+$query = "DELETE FROM rbac_ta WHERE typ_id = '" . $obj_id . "'";
 $this->db->query($query);
 
 $query = "DELETE FROM rbac_templates WHERE type = 'icla'";
@@ -8243,24 +7939,22 @@ CREATE TABLE `chat_blocked` (
 <?php
 
 // get all glossary definition pages
-$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
-	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='gdf'");
+$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object " .
+    "WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='gdf'");
 
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$content = $row["content"];
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $content = $row["content"];
 
-	// get all media aliases
-	while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found))
-	{
-		// insert mob usage record
-		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
-			" ('".$found[2]."', 'gdf:pg', '".$row["page_id"]."')";
-		$ilDB->query($q);
+    // get all media aliases
+    while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found)) {
+        // insert mob usage record
+        $q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES" .
+            " ('" . $found[2] . "', 'gdf:pg', '" . $row["page_id"] . "')";
+        $ilDB->query($q);
 
-		// remove id from content string to prevent endless while loop
-		$content = eregi_replace($found[1], "", $content);
-	}
+        // remove id from content string to prevent endless while loop
+        $content = eregi_replace($found[1], "", $content);
+    }
 }
 
 ?>
@@ -8274,47 +7968,44 @@ ALTER TABLE `webr_items` ADD FULLTEXT (
 <?php
 
 // get all question pages
-$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object ".
-	"WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='qpl'");
+$res = $ilDB->query("SELECT content, page_id, parent_type FROM page_object " .
+    "WHERE content LIKE '%MediaAlias OriginId%' AND parent_type='qpl'");
 
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$content = $row["content"];
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $content = $row["content"];
 
-	// get all media aliases
-	while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found))
-	{
-		// insert mob usage record
-		$q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES".
-			" ('".$found[2]."', 'qpl:pg', '".$row["page_id"]."')";
-		$ilDB->query($q);
+    // get all media aliases
+    while (eregi("MediaAlias OriginId=\"(il__mob_([0-9]*))\"", $content, $found)) {
+        // insert mob usage record
+        $q = "REPLACE INTO mob_usage (id, usage_type, usage_id) VALUES" .
+            " ('" . $found[2] . "', 'qpl:pg', '" . $row["page_id"] . "')";
+        $ilDB->query($q);
 
-		// remove id from content string to prevent endless while loop
-		$content = eregi_replace($found[1], "", $content);
-	}
+        // remove id from content string to prevent endless while loop
+        $content = eregi_replace($found[1], "", $content);
+    }
 }
 
 ?>
 <#512>
 <?php
-	// convert referral_comment and hobby textareas in usr_data:
-	// change html entities &lt; &gt; &amp; to normal characters because
-	// the form was changed
-	$res = $ilDB->query("SELECT usr_id, referral_comment, hobby FROM usr_data");
-	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$newhobby = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["hobby"])));
-		$newcomment = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["referral_comment"])));
-		if ((strcmp($row["hobby"], $newhobby) != 0) || (strcmp($row["referral_comment"], $newcomment) != 0))
-		{
-			$q = sprintf("UPDATE usr_data SET hobby = %s, referral_comment = %s WHERE usr_id = %s",
-				$ilDB->quote($newhobby . ""),
-				$ilDB->quote($newcomment . ""),
-				$ilDB->quote($row["usr_id"] . "")
-			);
-			$ilDB->query($q);
-		}
-	}
+    // convert referral_comment and hobby textareas in usr_data:
+    // change html entities &lt; &gt; &amp; to normal characters because
+    // the form was changed
+    $res = $ilDB->query("SELECT usr_id, referral_comment, hobby FROM usr_data");
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $newhobby = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["hobby"])));
+        $newcomment = str_replace("&amp;", "&", str_replace("&gt;", ">", str_replace("&lt;", "<", $row["referral_comment"])));
+        if ((strcmp($row["hobby"], $newhobby) != 0) || (strcmp($row["referral_comment"], $newcomment) != 0)) {
+            $q = sprintf(
+                "UPDATE usr_data SET hobby = %s, referral_comment = %s WHERE usr_id = %s",
+                $ilDB->quote($newhobby . ""),
+                $ilDB->quote($newcomment . ""),
+                $ilDB->quote($row["usr_id"] . "")
+            );
+            $ilDB->query($q);
+        }
+    }
 ?>
 <#513>
 CREATE TABLE `object_description` (
@@ -8326,61 +8017,54 @@ CREATE TABLE `object_description` (
 ALTER TABLE `object_translation` CHANGE `description` `description` TEXT  NULL DEFAULT NULL;
 <#515>
 <?php
-	// reconstruct original id's which were set wrong due to test duplication
-	$res = $ilDB->query("SELECT question_id, original_id FROM qpl_questions WHERE original_id > 0");
-	while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$original_id = $row["original_id"];
-		$question_id = $row["question_id"];
-		$last_original_id = $row["original_id"];
-		$last_question_id = $row["question_id"];
-		// DBUPDATE-BUGFIX
-		// add a fix for a previously update step run which was not successful and
-		// ended in an endless loop
-		if ($original_id == $question_id)
-		{
-			$update_query = sprintf("UPDATE qpl_questions SET original_id = NULL WHERE question_id = %s",
-				$ilDB->quote($question_id . "")
-			);
-			$result_update = $ilDB->query($update_query);
-		}
-		else
-		{
-			while ($last_original_id > 0)
-			{
-				$search_query = sprintf("SELECT question_id, original_id FROM qpl_questions WHERE question_id = %s",
-					$ilDB->quote($last_original_id . "")
-				);
-				$result_search = $ilDB->query($search_query);
-				if ($result_search->numRows() == 0)
-				{
-					// no original found
-					$last_original_id = 0;
-				}
-				else
-				{
-					$search_row = $result_search->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-					$last_original_id = $search_row["original_id"];
-					$last_question_id = $search_row["question_id"];
-				}
-			}
-		}
-		if ($last_question_id != $original_id)
-		{
-			// DBUPDATE-BUGFIX
-			// added && ($last_question_id != $question_id) to prevent setting the
-			// original_id equal to the question_id which could happen when the original
-			// question no longer exists
-			if ((($last_question_id > 0) && ($question_id > 0)) && ($last_question_id != $question_id))
-			{
-				$update_query = sprintf("UPDATE qpl_questions SET original_id = %s WHERE question_id = %s",
-					$ilDB->quote($last_question_id . ""),
-					$ilDB->quote($question_id . "")
-				);
-				$result_update = $ilDB->query($update_query);
-			}
-		}
-	}
+    // reconstruct original id's which were set wrong due to test duplication
+    $res = $ilDB->query("SELECT question_id, original_id FROM qpl_questions WHERE original_id > 0");
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $original_id = $row["original_id"];
+        $question_id = $row["question_id"];
+        $last_original_id = $row["original_id"];
+        $last_question_id = $row["question_id"];
+        // DBUPDATE-BUGFIX
+        // add a fix for a previously update step run which was not successful and
+        // ended in an endless loop
+        if ($original_id == $question_id) {
+            $update_query = sprintf(
+                "UPDATE qpl_questions SET original_id = NULL WHERE question_id = %s",
+                $ilDB->quote($question_id . "")
+            );
+            $result_update = $ilDB->query($update_query);
+        } else {
+            while ($last_original_id > 0) {
+                $search_query = sprintf(
+                    "SELECT question_id, original_id FROM qpl_questions WHERE question_id = %s",
+                    $ilDB->quote($last_original_id . "")
+                );
+                $result_search = $ilDB->query($search_query);
+                if ($result_search->numRows() == 0) {
+                    // no original found
+                    $last_original_id = 0;
+                } else {
+                    $search_row = $result_search->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                    $last_original_id = $search_row["original_id"];
+                    $last_question_id = $search_row["question_id"];
+                }
+            }
+        }
+        if ($last_question_id != $original_id) {
+            // DBUPDATE-BUGFIX
+            // added && ($last_question_id != $question_id) to prevent setting the
+            // original_id equal to the question_id which could happen when the original
+            // question no longer exists
+            if ((($last_question_id > 0) && ($question_id > 0)) && ($last_question_id != $question_id)) {
+                $update_query = sprintf(
+                    "UPDATE qpl_questions SET original_id = %s WHERE question_id = %s",
+                    $ilDB->quote($last_question_id . ""),
+                    $ilDB->quote($question_id . "")
+                );
+                $result_update = $ilDB->query($update_query);
+            }
+        }
+    }
 ?>
 <#516>
 ALTER TABLE `webr_items` ADD `description` TEXT NOT NULL AFTER `title`;
@@ -8420,80 +8104,76 @@ chdir('..');
 
 $tree = new ilTree(ROOT_FOLDER_ID);
 $GLOBALS['tree'] = $tree;
-$GLOBALS["DIC"]["tree"] = function($c) {
-	return $GLOBALS["tree"];
+$GLOBALS["DIC"]["tree"] = function ($c) {
+    return $GLOBALS["tree"];
 };
 $rbacadmin = new ilRbacAdmin();
 $rbacreview = new ilRbacReview();
 
-$query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd,object_reference as obr ".
-	"WHERE obd.obj_id = obr.obj_id ".
-	"AND type = 'chat'";
+$query = "SELECT obd.obj_id as objid,obr.ref_id as refid FROM object_data as obd,object_reference as obr " .
+    "WHERE obd.obj_id = obr.obj_id " .
+    "AND type = 'chat'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($tree->isInTree($row->refid) and !count($tree->getChilds($row->refid)))
-	{
-		// 1. Insert in object_data
-		$query = "INSERT INTO object_data ".
-			"(type,title,description,owner,create_date,last_update,import_id) ".
-			"VALUES ".
-			"('rolf','".$row->objid."','(ref_id ".$row->refid.")',".
-			"'6',now(),now(),'')";
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($tree->isInTree($row->refid) and !count($tree->getChilds($row->refid))) {
+        // 1. Insert in object_data
+        $query = "INSERT INTO object_data " .
+            "(type,title,description,owner,create_date,last_update,import_id) " .
+            "VALUES " .
+            "('rolf','" . $row->objid . "','(ref_id " . $row->refid . ")'," .
+            "'6',now(),now(),'')";
 
-		$ilDB->query($query);
-		
-		// 2. Get id of new role folder
-		$rolf_id = $ilDB->getLastInsertId();
+        $ilDB->query($query);
+        
+        // 2. Get id of new role folder
+        $rolf_id = $ilDB->getLastInsertId();
 
-		// 3. Create reference
-		$query = "INSERT INTO object_reference ".
-			"(obj_id) VALUES ('".$rolf_id."')";
-		$ilDB->query($query);
+        // 3. Create reference
+        $query = "INSERT INTO object_reference " .
+            "(obj_id) VALUES ('" . $rolf_id . "')";
+        $ilDB->query($query);
 
-		$rolf_ref_id = $ilDB->getLastInsertId();
+        $rolf_ref_id = $ilDB->getLastInsertId();
 
-		// 4. Insert in tree
-		$tree->insertNode($rolf_ref_id,$row->refid);
+        // 4. Insert in tree
+        $tree->insertNode($rolf_ref_id, $row->refid);
 
-		// Set permissions
-		foreach ($rbacreview->getParentRoleIds($row->refid) as $parRol)
-		{
-			$ops = $rbacreview->getOperationsOfRole($parRol["obj_id"],'rolf', $parRol["parent"]);
-			$rbacadmin->grantPermission($parRol["obj_id"], $ops,$rolf_ref_id);
-		}
+        // Set permissions
+        foreach ($rbacreview->getParentRoleIds($row->refid) as $parRol) {
+            $ops = $rbacreview->getOperationsOfRole($parRol["obj_id"], 'rolf', $parRol["parent"]);
+            $rbacadmin->grantPermission($parRol["obj_id"], $ops, $rolf_ref_id);
+        }
 
-		// Add new lokal moderator role
-		$query = "INSERT INTO object_data ".
-			"(type,title,description,owner,create_date,last_update,import_id) ".
-			 "VALUES ".
-			"('role','il_chat_moderator_".$row->refid."','"."Moderator of chat obj_no.".$row->objid."',".
-			"'6',now(),now(),'')";
+        // Add new lokal moderator role
+        $query = "INSERT INTO object_data " .
+            "(type,title,description,owner,create_date,last_update,import_id) " .
+             "VALUES " .
+            "('role','il_chat_moderator_" . $row->refid . "','" . "Moderator of chat obj_no." . $row->objid . "'," .
+            "'6',now(),now(),'')";
 
-		$ilDB->query($query);
-			
-		$role_id = $ilDB->getLastInsertId();
+        $ilDB->query($query);
+            
+        $role_id = $ilDB->getLastInsertId();
 
-		// Insert role_data entry
-		$query = "INSERT INTO role_data ".
-			"(role_id,allow_register,assign_users) ".
-			"VALUES ".
-			"('".$role_id."','0','1')";
-		$ilDB->query($query);
+        // Insert role_data entry
+        $query = "INSERT INTO role_data " .
+            "(role_id,allow_register,assign_users) " .
+            "VALUES " .
+            "('" . $role_id . "','0','1')";
+        $ilDB->query($query);
 
-		// Assign this role to role folder
-		$rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
+        // Assign this role to role folder
+        $rbacadmin->assignRoleToFolder($role_id, $rolf_ref_id);
 
-		// Grant permissions: visible,read,write,chat_moderate
-		$permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
-		$rbacadmin->grantPermission($role_id,
-									$permissions,
-									$row->refid);
-
-	}
-
-
+        // Grant permissions: visible,read,write,chat_moderate
+        $permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
+        $rbacadmin->grantPermission(
+            $role_id,
+            $permissions,
+            $row->refid
+        );
+    }
 }
 chdir($wd);
 ?>
@@ -8542,8 +8222,8 @@ ALTER TABLE content_object ADD COLUMN pub_notes ENUM('y','n') NOT NULL DEFAULT '
 <#527>
 <?php
 // non-member template for course object
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		 "VALUES ('rolt', 'il_crs_non_member', 'Non-member template for course object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+         "VALUES ('rolt', 'il_crs_non_member', 'Non-member template for course object', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as obj_id";
@@ -8555,12 +8235,11 @@ $rbacadmin = new ilRbacAdmin();
 
 $admin = array();
 $admin["crs"] = array(2,7,8);
-foreach($admin as $type => $ops)
-{
-	$rbacadmin->setRolePermission($obj_id,$type,$ops,ROLE_FOLDER_ID);
+foreach ($admin as $type => $ops) {
+    $rbacadmin->setRolePermission($obj_id, $type, $ops, ROLE_FOLDER_ID);
 }
 
-$rbacadmin->assignRoleToFolder($obj_id,ROLE_FOLDER_ID,"n");
+$rbacadmin->assignRoleToFolder($obj_id, ROLE_FOLDER_ID, "n");
 ?>
 <#528>
 CREATE TABLE `service` (
@@ -8586,39 +8265,35 @@ $ilCtrlStructureReader->getStructure();
 
 function _lookupObjId($a_id)
 {
-	global $ilDB;
+    global $ilDB;
 
-	$query = "SELECT obj_id FROM object_reference ".
-		"WHERE ref_id = '".$a_id."'";
-	$res = $ilDB->query($query);
-	while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		return $row->obj_id;
-	}
-	return 0;
+    $query = "SELECT obj_id FROM object_reference " .
+        "WHERE ref_id = '" . $a_id . "'";
+    $res = $ilDB->query($query);
+    while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        return $row->obj_id;
+    }
+    return 0;
 }
 
   // Fix chat reference bug
 $query = "SELECT * FROM chat_records ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ilDB->query("UPDATE chat_records SET chat_id = '".
-				 _lookupObjId($row->chat_id)."' WHERE record_id = '".$row->record_id."'");
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ilDB->query("UPDATE chat_records SET chat_id = '" .
+                 _lookupObjId($row->chat_id) . "' WHERE record_id = '" . $row->record_id . "'");
 }
 $query = "SELECT * FROM chat_room_messages ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ilDB->query("UPDATE chat_room_messages SET chat_id = '".
-				 _lookupObjId($row->chat_id)."' WHERE entry_id = '".$row->entry_id."'");
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ilDB->query("UPDATE chat_room_messages SET chat_id = '" .
+                 _lookupObjId($row->chat_id) . "' WHERE entry_id = '" . $row->entry_id . "'");
 }
 $query = "SELECT * FROM chat_rooms ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ilDB->query("UPDATE chat_rooms SET chat_id = '".
-				 _lookupObjId($row->chat_id)."' WHERE room_id = '".$row->room_id."'");
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ilDB->query("UPDATE chat_rooms SET chat_id = '" .
+                 _lookupObjId($row->chat_id) . "' WHERE room_id = '" . $row->room_id . "'");
 }
 $ilDB->query("DELETE FROM chat_user");
 
@@ -8632,8 +8307,8 @@ $ilCtrlStructureReader->getStructure();
 
 global $log;
 $GLOBALS['ilLog'] = $log;
-$GLOBALS["DIC"]["ilLog"] = function($c) {
-	return $GLOBALS["ilLog"];
+$GLOBALS["DIC"]["ilLog"] = function ($c) {
+    return $GLOBALS["ilLog"];
 };
 
 
@@ -8642,72 +8317,73 @@ $GLOBALS["DIC"]["ilLog"] = function($c) {
   // Get chat settings id
 $query = "SELECT * FROM object_data LEFT JOIN object_reference USING(obj_id) WHERE type = 'chac'";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$chac_ref_id = $row->ref_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $chac_ref_id = $row->ref_id;
 }
 
-$query = "INSERT INTO object_data ".
-	"(type,title,description,owner,create_date,last_update,import_id) ".
-	"VALUES ".
-	"('chat','Public chat','Public chat',".
-	"'6',now(),now(),'')";
+$query = "INSERT INTO object_data " .
+    "(type,title,description,owner,create_date,last_update,import_id) " .
+    "VALUES " .
+    "('chat','Public chat','Public chat'," .
+    "'6',now(),now(),'')";
 
 $ilDB->query($query);
 $chat_id = $ilDB->getLastInsertId();
 
 // Create reference
-$query = "INSERT INTO object_reference ".
-	"(obj_id) VALUES ('".$chat_id."')";
+$query = "INSERT INTO object_reference " .
+    "(obj_id) VALUES ('" . $chat_id . "')";
 $ilDB->query($query);
 
 $chat_ref_id = $ilDB->getLastInsertId();
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($chat_ref_id,$chac_ref_id);
+$tree->insertNode($chat_ref_id, $chac_ref_id);
 
 // Create role folder
-$query = "INSERT INTO object_data ".
-	"(type,title,description,owner,create_date,last_update,import_id) ".
-	"VALUES ".
-	"('rolf','".$chat_id."','(ref_id ".$chat_ref_id.")',".
-	"'6',now(),now(),'')";
+$query = "INSERT INTO object_data " .
+    "(type,title,description,owner,create_date,last_update,import_id) " .
+    "VALUES " .
+    "('rolf','" . $chat_id . "','(ref_id " . $chat_ref_id . ")'," .
+    "'6',now(),now(),'')";
 
 $ilDB->query($query);
 $rolf_id = $ilDB->getLastInsertId();
 
 // Create reference
-$query = "INSERT INTO object_reference ".
-	"(obj_id) VALUES ('".$rolf_id."')";
+$query = "INSERT INTO object_reference " .
+    "(obj_id) VALUES ('" . $rolf_id . "')";
 $ilDB->query($query);
 
 $rolf_ref_id = $ilDB->getLastInsertId();
 
 // put in tree
-$tree->insertNode($rolf_ref_id,$chat_ref_id);
+$tree->insertNode($rolf_ref_id, $chat_ref_id);
 
 // Create role
-$query = "INSERT INTO object_data ".
-	"(type,title,description,owner,create_date,last_update,import_id) ".
-	"VALUES ".
-	"('role','il_chat_moderator_".$chat_ref_id."','Moderator of chat obj_no.".$chat_id."',".
-	"'6',now(),now(),'')";
+$query = "INSERT INTO object_data " .
+    "(type,title,description,owner,create_date,last_update,import_id) " .
+    "VALUES " .
+    "('role','il_chat_moderator_" . $chat_ref_id . "','Moderator of chat obj_no." . $chat_id . "'," .
+    "'6',now(),now(),'')";
 
 $ilDB->query($query);
 $role_id = $ilDB->getLastInsertId();
 
 // Insert role_data
-$query = "INSERT INTO role_data set role_id = '".$role_id."'";
+$query = "INSERT INTO role_data set role_id = '" . $role_id . "'";
 $ilDB->query($query);
 
 
 $permissions = ilRbacReview::_getOperationIdsByName(array('visible','read','moderate'));
 $rbacadmin = new ilRbacAdmin();
-$rbacadmin->grantPermission($role_id,
-							$permissions,
-							$chat_ref_id);
-$rbacadmin->assignRoleToFolder($role_id,$rolf_ref_id);
+$rbacadmin->grantPermission(
+    $role_id,
+    $permissions,
+    $chat_ref_id
+);
+$rbacadmin->assignRoleToFolder($role_id, $rolf_ref_id);
 ?>
 <#534>
 ALTER TABLE `qpl_questions` ADD `textgap_rating` ENUM( 'ci', 'cs', 'l1', 'l2', 'l3', 'l4', 'l5' ) AFTER `maxNumOfChars` ;
@@ -8722,26 +8398,25 @@ INDEX ( `obj_fi` )
 );
 <#536>
 <?php
-	// set all existing test question pools online
-	$query = "SELECT * FROM object_data WHERE type = 'qpl'";
-	$result = $ilDB->query($query);
-	if ($result->numRows() > 0)
-	{
-		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			$checkquery = sprintf("SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
-				$ilDB->quote($row["obj_id"] . "")
-			);
-			$checkresult = $ilDB->query($checkquery);
-			if ($checkresult->numRows() == 0)
-			{
-				$insertquery = sprintf("INSERT INTO qpl_questionpool (online, obj_fi) VALUES ('1', %s)",
-					$ilDB->quote($row["obj_id"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-			}
-		}
-	}
+    // set all existing test question pools online
+    $query = "SELECT * FROM object_data WHERE type = 'qpl'";
+    $result = $ilDB->query($query);
+    if ($result->numRows() > 0) {
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            $checkquery = sprintf(
+                "SELECT id_questionpool FROM qpl_questionpool WHERE obj_fi = %s",
+                $ilDB->quote($row["obj_id"] . "")
+            );
+            $checkresult = $ilDB->query($checkquery);
+            if ($checkresult->numRows() == 0) {
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_questionpool (online, obj_fi) VALUES ('1', %s)",
+                    $ilDB->quote($row["obj_id"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+            }
+        }
+    }
 ?>
 <#537>
 CREATE TABLE `survey_questionpool` (
@@ -8754,26 +8429,25 @@ INDEX ( `obj_fi` )
 );
 <#538>
 <?php
-	// set all existing test question pools online
-	$query = "SELECT * FROM object_data WHERE type = 'spl'";
-	$result = $ilDB->query($query);
-	if ($result->numRows() > 0)
-	{
-		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			$checkquery = sprintf("SELECT id_questionpool FROM survey_questionpool WHERE obj_fi = %s",
-				$ilDB->quote($row["obj_id"] . "")
-			);
-			$checkresult = $ilDB->query($checkquery);
-			if ($checkresult->numRows() == 0)
-			{
-				$insertquery = sprintf("INSERT INTO survey_questionpool (online, obj_fi) VALUES ('1', %s)",
-					$ilDB->quote($row["obj_id"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-			}
-		}
-	}
+    // set all existing test question pools online
+    $query = "SELECT * FROM object_data WHERE type = 'spl'";
+    $result = $ilDB->query($query);
+    if ($result->numRows() > 0) {
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            $checkquery = sprintf(
+                "SELECT id_questionpool FROM survey_questionpool WHERE obj_fi = %s",
+                $ilDB->quote($row["obj_id"] . "")
+            );
+            $checkresult = $ilDB->query($checkquery);
+            if ($checkresult->numRows() == 0) {
+                $insertquery = sprintf(
+                    "INSERT INTO survey_questionpool (online, obj_fi) VALUES ('1', %s)",
+                    $ilDB->quote($row["obj_id"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+            }
+        }
+    }
 ?>
 <#539>
 <?php
@@ -8818,11 +8492,10 @@ CREATE INDEX obj_del ON object_reference(deleted);
 <?php
 $query = "SELECT * FROM tree WHERE tree < 0";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q = "UPDATE object_reference SET deleted=now() WHERE ref_id='".
-		$row["child"]."'";
-	$ilDB->query($q);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q = "UPDATE object_reference SET deleted=now() WHERE ref_id='" .
+        $row["child"] . "'";
+    $ilDB->query($q);
 }
 ?>
 <#550>
@@ -8901,41 +8574,38 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE  `tst_test_result` DROP INDEX  `user_fi` , ADD UNIQUE  `user_fi` (  `user_fi` ,  `test_fi` ,  `question_fi` ,  `pass` );
 <#563>
 <?php
-	// set user's style to delos (if it has been blueshadow)
-	$query = "SELECT u1.usr_id, u1.value as skin, u2.value as style ".
-		"FROM usr_pref AS u1, usr_pref AS u2 ".
-		"WHERE u1.usr_id = u2.usr_id AND u1.keyword = 'skin' AND u2.keyword = 'style' ";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if (($row["skin"] == "default" && $row["style"] == "blueshadow") ||
-			$row["skin"] == "blueshadow2" && $row["style"] == "blueshadow2")
-		{
-			$q = "UPDATE usr_pref SET value = 'default' WHERE ".
-				" usr_id = '".$row["usr_id"]."' AND ".
-				" keyword = 'skin'";
-			$ilDB->query($q);
-			$q = "UPDATE usr_pref SET value = 'delos' WHERE ".
-				" usr_id = '".$row["usr_id"]."' AND ".
-				" keyword = 'style'";
-			$ilDB->query($q);
-		}
-	}
+    // set user's style to delos (if it has been blueshadow)
+    $query = "SELECT u1.usr_id, u1.value as skin, u2.value as style " .
+        "FROM usr_pref AS u1, usr_pref AS u2 " .
+        "WHERE u1.usr_id = u2.usr_id AND u1.keyword = 'skin' AND u2.keyword = 'style' ";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (($row["skin"] == "default" && $row["style"] == "blueshadow") ||
+            $row["skin"] == "blueshadow2" && $row["style"] == "blueshadow2") {
+            $q = "UPDATE usr_pref SET value = 'default' WHERE " .
+                " usr_id = '" . $row["usr_id"] . "' AND " .
+                " keyword = 'skin'";
+            $ilDB->query($q);
+            $q = "UPDATE usr_pref SET value = 'delos' WHERE " .
+                " usr_id = '" . $row["usr_id"] . "' AND " .
+                " keyword = 'style'";
+            $ilDB->query($q);
+        }
+    }
 ?>
 <#564>
 <?php
-	// set system default style to delos (if it has been blueshadow)
-	$ini = new ilIniFile(CLIENT_WEB_DIR."/client.ini.php");
-	$ini->read();
-	if (($ini->readVariable("layout","skin") == "default" &&
-		$ini->readVariable("layout","style") == "blueshadow") ||
-		($ini->readVariable("layout","skin") == "blueshadow2" &&
-		$ini->readVariable("layout","style") == "blueshadow2"))
-	{
-		$ini->setVariable("layout", "skin", "default");
-		$ini->setVariable("layout", "style", "delos");
-		$ini->write();
-	}
+    // set system default style to delos (if it has been blueshadow)
+    $ini = new ilIniFile(CLIENT_WEB_DIR . "/client.ini.php");
+    $ini->read();
+    if (($ini->readVariable("layout", "skin") == "default" &&
+        $ini->readVariable("layout", "style") == "blueshadow") ||
+        ($ini->readVariable("layout", "skin") == "blueshadow2" &&
+        $ini->readVariable("layout", "style") == "blueshadow2")) {
+        $ini->setVariable("layout", "skin", "default");
+        $ini->setVariable("layout", "style", "delos");
+        $ini->write();
+    }
 ?>
 <#565>
 <?php
@@ -8950,16 +8620,15 @@ CREATE TABLE style_data
 );
 <#567>
 <?php
-	// create style data record for each style
-	$query = "SELECT * FROM object_data ".
-		"WHERE type='sty' ";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$q = "INSERT INTO style_data (id, uptodate) VALUES ".
-			"('".$row["obj_id"]."','0')";
-		$ilDB->query($q);
-	}
+    // create style data record for each style
+    $query = "SELECT * FROM object_data " .
+        "WHERE type='sty' ";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $q = "INSERT INTO style_data (id, uptodate) VALUES " .
+            "('" . $row["obj_id"] . "','0')";
+        $ilDB->query($q);
+    }
 ?>
 <#568>
 ALTER TABLE `rbac_fa` ADD `protected` ENUM( 'y', 'n' ) DEFAULT 'n';
@@ -8970,10 +8639,9 @@ UPDATE rbac_fa SET protected = 'y' WHERE rol_id = '2';
 // set admin templates to protected status
 $query = "SELECT * FROM object_data WHERE type='rolt' AND title IN ('il_crs_admin','il_icrs_admin','il_grp_admin','Local Administrator')";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q = "UPDATE rbac_fa SET protected='y' WHERE rol_id='".$row["obj_id"]."'";
-	$ilDB->query($q);
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q = "UPDATE rbac_fa SET protected='y' WHERE rol_id='" . $row["obj_id"] . "'";
+    $ilDB->query($q);
 }
 ?>
 <#570>
@@ -9041,16 +8709,14 @@ ALTER TABLE file_data ADD mode char(8) DEFAULT 'object';
 // set admin templates to protected status
 $query = "SELECT * FROM file_data";
 $result = $ilDB->query($query);
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q2 = "SELECT * FROM file_usage WHERE id = ".$ilDB->quote($row["file_id"]);
-	$r2 = $ilDB->query($q2);
-	if ($dummy = $r2->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$q3 = "UPDATE file_data SET mode=".$ilDB->quote("filelist").
-			" WHERE file_id = ".$row["file_id"];
-		$ilDB->query($q3);
-	}
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q2 = "SELECT * FROM file_usage WHERE id = " . $ilDB->quote($row["file_id"]);
+    $r2 = $ilDB->query($q2);
+    if ($dummy = $r2->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $q3 = "UPDATE file_data SET mode=" . $ilDB->quote("filelist") .
+            " WHERE file_id = " . $row["file_id"];
+        $ilDB->query($q3);
+    }
 }
 ?>
 <#588>
@@ -9061,49 +8727,44 @@ include_once 'Services/Migration/DBUpdate_426/classes/class.ilMDCreator.php';
 include_once 'Services/Migration/DBUpdate_426/classes/class.ilMD.php';
 
 $file_ids = array();
-$query = "SELECT file_type, title, description, obj_id, file_id, file_name, version".
-	" FROM file_data, object_data WHERE mode = 'object'".
-	" AND file_data.file_id = object_data.obj_id";
+$query = "SELECT file_type, title, description, obj_id, file_id, file_name, version" .
+    " FROM file_data, object_data WHERE mode = 'object'" .
+    " AND file_data.file_id = object_data.obj_id";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$md_creator = new ilMDCreator($row["obj_id"], $row["obj_id"], 'file');
-	$md_creator->setTitle($row['title']);
-	$md_creator->setTitleLanguage('');
-	$md_creator->setDescription($row['description']);
-	$md_creator->setDescriptionLanguage('');
-	$md_creator->setLanguage('');
-	$md_creator->create();
-	
-//echo "<br>file:".$row["obj_id"].":".$row["title"].":".$row["description"].":".$row["file_type"].":";
-	
-	$file = CLIENT_DATA_DIR."/files/file_".$row["obj_id"]."/".$row["file_name"];
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $md_creator = new ilMDCreator($row["obj_id"], $row["obj_id"], 'file');
+    $md_creator->setTitle($row['title']);
+    $md_creator->setTitleLanguage('');
+    $md_creator->setDescription($row['description']);
+    $md_creator->setDescriptionLanguage('');
+    $md_creator->setLanguage('');
+    $md_creator->create();
+    
+    //echo "<br>file:".$row["obj_id"].":".$row["title"].":".$row["description"].":".$row["file_type"].":";
+    
+    $file = CLIENT_DATA_DIR . "/files/file_" . $row["obj_id"] . "/" . $row["file_name"];
 
-	if (@!is_file($file))
-	{
-		$version_subdir = "/".sprintf("%03d", $row["version"]);
-		$file = CLIENT_DATA_DIR."/files/file_".$row["obj_id"].$version_subdir."/".$row["file_name"];
-	}
+    if (@!is_file($file)) {
+        $version_subdir = "/" . sprintf("%03d", $row["version"]);
+        $file = CLIENT_DATA_DIR . "/files/file_" . $row["obj_id"] . $version_subdir . "/" . $row["file_name"];
+    }
 
-	if (is_file($file))
-	{
-		$size = filesize($file);
-	}
-	else
-	{
-		$size = 0;
-	}
+    if (is_file($file)) {
+        $size = filesize($file);
+    } else {
+        $size = 0;
+    }
 
-	// create technical section
-	$md_obj = new ilMD($row["obj_id"], $row["obj_id"], 'file');;
-	$technical = $md_obj->addTechnical();
-	$technical->setSize($size);
-	$technical->save();
-	$format = $technical->addFormat();
-	$format->setFormat($row["file_type"]);
-	$format->save();
-	$technical->update();
-
+    // create technical section
+    $md_obj = new ilMD($row["obj_id"], $row["obj_id"], 'file');
+    ;
+    $technical = $md_obj->addTechnical();
+    $technical->setSize($size);
+    $technical->save();
+    $format = $technical->addFormat();
+    $format->setFormat($row["file_type"]);
+    $format->save();
+    $technical->update();
 }
 
 ?>
@@ -9122,76 +8783,74 @@ ALTER TABLE `rbac_operations` ADD `class` ENUM('create','general','object','rbac
 $query = "SELECT * FROM rbac_operations";
 $result = $ilDB->query($query);
 
-while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	switch($row['operation'])
-	{
-		case 'visible':
-		case 'read':
-		case 'write':
-		case 'delete':
-			$perm_class = 'general';
-			break;
-			
-		case 'join':
-		case 'leave':
-		case 'edit_post':
-		case 'delete_post':
-		case 'smtp_mail':
-		case 'system_message':
-		case 'cat_administrate_users':
-		case 'edit_roleassignment':
-		case 'edit_userassignment':
-		case 'invite':
-		case 'mail_visible':
-		case 'moderate':
-		case 'participate':
-		case 'push_desktop_items':
-		case 'read_users':
-		case 'search':
-		case 'leave':
-			$perm_class = 'object';
-			break;
-			
-		case 'edit_permission':
-			$perm_class = 'rbac';
-			break;
+while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    switch ($row['operation']) {
+        case 'visible':
+        case 'read':
+        case 'write':
+        case 'delete':
+            $perm_class = 'general';
+            break;
+            
+        case 'join':
+        case 'leave':
+        case 'edit_post':
+        case 'delete_post':
+        case 'smtp_mail':
+        case 'system_message':
+        case 'cat_administrate_users':
+        case 'edit_roleassignment':
+        case 'edit_userassignment':
+        case 'invite':
+        case 'mail_visible':
+        case 'moderate':
+        case 'participate':
+        case 'push_desktop_items':
+        case 'read_users':
+        case 'search':
+        case 'leave':
+            $perm_class = 'object';
+            break;
+            
+        case 'edit_permission':
+            $perm_class = 'rbac';
+            break;
 
-		case 'create_cat':
-		case 'create_chat':
-		case 'create_crs':
-		case 'create_dbk':
-		case 'create_exc':
-		case 'create_file':
-		case 'create_fold':
-		case 'create_frm':
-		case 'create_glo':
-		case 'create_grp':
-		case 'create_htlm':
-		case 'create_icla':
-		case 'create_icrs':
-		case 'create_lm':
-		case 'create_mep':
-		case 'create_qpl':
-		case 'create_role':
-		case 'create_rolt':
-		case 'create_sahs':
-		case 'create_spl':
-		case 'create_svy':
-		case 'create_tax':
-		case 'create_tst':
-		case 'create_user':
-		case 'create_webr':
-			$perm_class = 'create';
-			break;
+        case 'create_cat':
+        case 'create_chat':
+        case 'create_crs':
+        case 'create_dbk':
+        case 'create_exc':
+        case 'create_file':
+        case 'create_fold':
+        case 'create_frm':
+        case 'create_glo':
+        case 'create_grp':
+        case 'create_htlm':
+        case 'create_icla':
+        case 'create_icrs':
+        case 'create_lm':
+        case 'create_mep':
+        case 'create_qpl':
+        case 'create_role':
+        case 'create_rolt':
+        case 'create_sahs':
+        case 'create_spl':
+        case 'create_svy':
+        case 'create_tax':
+        case 'create_tst':
+        case 'create_user':
+        case 'create_webr':
+            $perm_class = 'create';
+            break;
 
-		default:
-			$perm_class = 'notused';
-			break;
-	}
+        default:
+            $perm_class = 'notused';
+            break;
+    }
 
-	$q2 = "UPDATE rbac_operations SET class='".$perm_class."' WHERE operation = '".$row['operation']."'";
-	$ilDB->query($q2);
+    $q2 = "UPDATE rbac_operations SET class='" . $perm_class . "' WHERE operation = '" . $row['operation'] . "'";
+    $ilDB->query($q2);
 }
 
 $query = "UPDATE rbac_operations SET op_order='100' WHERE operation='visible'";
@@ -9260,76 +8919,72 @@ $ilCtrlStructureReader->getStructure();
 <?php
 
   // Add operation edit_learing_progress
-$query = "INSERT INTO rbac_operations SET operation = 'edit_learning_progress', ".
-	"description = 'edit learning progress', ".
-	"class = 'object'";
+$query = "INSERT INTO rbac_operations SET operation = 'edit_learning_progress', " .
+    "description = 'edit learning progress', " .
+    "class = 'object'";
 
 $res = $ilDB->query($query);
 
 $new_ops_id = $ilDB->getLastInsertId();
 
 // Get type ids of 'lm', 'dbk', 'sahs', 'htlm' ,'tst' and 'crs'
-$query = "SELECT obj_id FROM object_data WHERE title IN ('lm','dbk','sahs','htlm','tst','crs') ".
-	"AND type = 'typ'";
+$query = "SELECT obj_id FROM object_data WHERE title IN ('lm','dbk','sahs','htlm','tst','crs') " .
+    "AND type = 'typ'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$type_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $type_ids[] = $row->obj_id;
 }
 // ASSIGN new operation to object types
-foreach($type_ids as $typ_id)
-{
-	$query = "INSERT INTO rbac_ta SET typ_id = '".$typ_id."', ".
-		"ops_id = '".$new_ops_id."'";
+foreach ($type_ids as $typ_id) {
+    $query = "INSERT INTO rbac_ta SET typ_id = '" . $typ_id . "', " .
+        "ops_id = '" . $new_ops_id . "'";
 
-	$ilDB->query($query);
+    $ilDB->query($query);
 }
 
 // get template il_crs_admin Author and Local Administrator
-$query = "SELECT obj_id FROM object_data WHERE title IN ('il_crs_admin','Author','Local Administrator') ".
-	"AND type = 'rolt'";
+$query = "SELECT obj_id FROM object_data WHERE title IN ('il_crs_admin','Author','Local Administrator') " .
+    "AND type = 'rolt'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$rolt_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $rolt_ids[] = $row->obj_id;
 }
 
 // ASSIGN new operation to role templates
-foreach($rolt_ids as $rolt_id)
-{
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'lm', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
+foreach ($rolt_ids as $rolt_id) {
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'lm', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
 
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'tst', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'dbk', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'sahs', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'htlm', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'crs', ".
-		"ops_id = '".$new_ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'tst', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'dbk', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'sahs', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'htlm', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'crs', " .
+        "ops_id = '" . $new_ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
 }
 ?>
 <#604>
@@ -9397,18 +9052,17 @@ $ilCtrlStructureReader->getStructure();
 $query = "SELECT DISTINCT ref_id FROM scorm_tracking";
 
 $res = $ilDB->query($query);
-while($rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	$q2 = "SELECT * FROM object_reference WHERE ref_id = ".
-		$ilDB->quote($rec["ref_id"]);
-	$res2 = $ilDB->query($q2);
-	$rec2 = $res2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-	
-	$q3 = "UPDATE scorm_tracking SET ref_id= ".
-		$ilDB->quote($rec2["obj_id"]). " WHERE ".
-		" ref_id = ".$ilDB->quote($rec["ref_id"]);
-		
-	$ilDB->query($q3);
+while ($rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    $q2 = "SELECT * FROM object_reference WHERE ref_id = " .
+        $ilDB->quote($rec["ref_id"]);
+    $res2 = $ilDB->query($q2);
+    $rec2 = $res2->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+    
+    $q3 = "UPDATE scorm_tracking SET ref_id= " .
+        $ilDB->quote($rec2["obj_id"]) . " WHERE " .
+        " ref_id = " . $ilDB->quote($rec["ref_id"]);
+        
+    $ilDB->query($q3);
 }
 
 ?>
@@ -9506,11 +9160,10 @@ CREATE TABLE `usr_defined_data` (
 <?php
 $query = "SELECT DISTINCT usr_id FROM usr_data";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = "INSERT INTO usr_defined_data ".
-		"SET usr_id = '".$row->usr_id."'";
-	$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = "INSERT INTO usr_defined_data " .
+        "SET usr_id = '" . $row->usr_id . "'";
+    $ilDB->query($query);
 }
 ?>
 <#631>
@@ -9536,7 +9189,7 @@ $fields = array('entity','date','description');
 $table = 'il_meta_annotation';
 $key = 'meta_annotation_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#636>
 <?php
@@ -9546,7 +9199,7 @@ $fields = array('purpose','description');
 $table = 'il_meta_classification';
 $key = 'meta_classification_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#637>
 <?php
@@ -9556,7 +9209,7 @@ $fields = array('role','date');
 $table = 'il_meta_contribute';
 $key = 'meta_contribute_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#638>
 <?php
@@ -9566,18 +9219,18 @@ $fields = array('description');
 $table = 'il_meta_description';
 $key = 'meta_description_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#639>
 <?php
 include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('interactivity_type','learning_resource_type','interactivity_level','semantic_density','intended_end_user_role',
-				'context','difficulty','typical_learning_time');
+                'context','difficulty','typical_learning_time');
 $table = 'il_meta_educational';
 $key = 'meta_educational_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#640>
 <?php
@@ -9587,7 +9240,7 @@ $fields = array('entity');
 $table = 'il_meta_entity';
 $key = 'meta_entity_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#641>
 <?php
@@ -9597,7 +9250,7 @@ $fields = array('format');
 $table = 'il_meta_format';
 $key = 'meta_format_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#642>
 <?php
@@ -9607,7 +9260,7 @@ $fields = array('general_structure','title','coverage');
 $table = 'il_meta_general';
 $key = 'meta_general_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#643>
 <?php
@@ -9617,7 +9270,7 @@ $fields = array('catalog','entry');
 $table = 'il_meta_identifier';
 $key = 'meta_identifier_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#644>
 <?php
@@ -9627,7 +9280,7 @@ $fields = array('catalog','entry');
 $table = 'il_meta_identifier_';
 $key = 'meta_identifier__id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#645>
 <?php
@@ -9637,7 +9290,7 @@ $fields = array('keyword');
 $table = 'il_meta_keyword';
 $key = 'meta_keyword_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#646>
 <?php
@@ -9647,7 +9300,7 @@ $fields = array('language');
 $table = 'il_meta_language';
 $key = 'meta_language_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#647>
 <?php
@@ -9657,7 +9310,7 @@ $fields = array('lifecycle_status','meta_version','version_language');
 $table = 'il_meta_lifecycle';
 $key = 'meta_lifecycle_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#648>
 <?php
@@ -9667,7 +9320,7 @@ $fields = array('location','location_type');
 $table = 'il_meta_location';
 $key = 'meta_location_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#649>
 <?php
@@ -9677,7 +9330,7 @@ $fields = array('meta_data_scheme','language');
 $table = 'il_meta_meta_data';
 $key = 'meta_meta_data_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#650>
 <?php
@@ -9687,18 +9340,18 @@ $fields = array('kind');
 $table = 'il_meta_relation';
 $key = 'meta_relation_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#651>
 <?php
 include_once './Services/Migration/DBUpdate_635/inc.meta_data_converter.php';
 
 $fields = array('operating_system_name','operating_system_minimum_version','operating_system_maximum_version',
-				'browser_name','browser_minimum_version','browser_maximum_version');
+                'browser_name','browser_minimum_version','browser_maximum_version');
 $table = 'il_meta_requirement';
 $key = 'meta_requirement_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#652>
 <?php
@@ -9708,7 +9361,7 @@ $fields = array('description','costs','copyright_and_other_restrictions');
 $table = 'il_meta_rights';
 $key = 'meta_rights_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#653>
 <?php
@@ -9718,7 +9371,7 @@ $fields = array('taxon','taxon_id');
 $table = 'il_meta_taxon';
 $key = 'meta_taxon_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#654>
 <?php
@@ -9728,7 +9381,7 @@ $fields = array('source','source_language');
 $table = 'il_meta_taxon_path';
 $key = 'meta_taxon_path_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#655>
 <?php
@@ -9738,7 +9391,7 @@ $fields = array('size','installation_remarks','other_platform_requirements','dur
 $table = 'il_meta_technical';
 $key = 'meta_technical_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 <#656>
 <?php
@@ -9748,7 +9401,7 @@ $fields = array('typical_age_range','typical_age_range_max','typical_age_range_m
 $table = 'il_meta_typical_age_range';
 $key = 'meta_typical_age_range_id';
 
-ilMDConvert($table,$fields,$key);
+ilMDConvert($table, $fields, $key);
 ?>
 
 <#657>
@@ -9773,122 +9426,118 @@ INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('15','17');
 
 // collect all the missing tst_active datasets in $foundactive
 $foundactive = array();
-$query = "SELECT DISTINCT concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) ".
-	", tst_test_result.user_fi, tst_test_result.test_fi, tst_active.user_fi AS active1, " .
-	"tst_active.test_fi AS active2, tst_tests.random_test FROM tst_tests, tst_test_result " .
-	"LEFT JOIN tst_active ON concat( tst_active.user_fi, '_', tst_active.test_fi ) = " .
-	"concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) ".
-	"WHERE isnull( tst_active.user_fi ) ".
-	"AND tst_test_result.test_fi = tst_tests.test_id";
+$query = "SELECT DISTINCT concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) " .
+    ", tst_test_result.user_fi, tst_test_result.test_fi, tst_active.user_fi AS active1, " .
+    "tst_active.test_fi AS active2, tst_tests.random_test FROM tst_tests, tst_test_result " .
+    "LEFT JOIN tst_active ON concat( tst_active.user_fi, '_', tst_active.test_fi ) = " .
+    "concat( tst_test_result.user_fi, '_', tst_test_result.test_fi ) " .
+    "WHERE isnull( tst_active.user_fi ) " .
+    "AND tst_test_result.test_fi = tst_tests.test_id";
 $result = $ilDB->query($query);
-if ($result->numRows())
-{
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		array_push($foundactive, array($row["test_fi"], $row["user_fi"], $row["random_test"]));
-	}
+if ($result->numRows()) {
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        array_push($foundactive, array($row["test_fi"], $row["user_fi"], $row["random_test"]));
+    }
 }
 
 // reconstruct the missing datasets
-foreach ($foundactive as $missingarray)
-{
-	$test_id = $missingarray[0];
-	$user_id = $missingarray[1];
-	$is_random = $missingarray[2];
-	// begin reconstruction
-	$found = 0;
-	if ($is_random)
-	{
-		// get number of questions in the test
-		$query = sprintf("SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($user_id . "")
-		);
-		$result = $ilDB->query($query);
-		$found = $result->numRows();
-	}
-	else
-	{
-		// get number of questions in the test
-		$query = sprintf("SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
-			$ilDB->quote($test_id . "")
-		);
-		$result = $ilDB->query($query);
-		$found = $result->numRows();
-	}
-	if ($is_random)
-	{
-		// get maximum pass
-		$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_random_question WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . "")
-		);
-	}
-	else
-	{
-		// get maximum pass
-		$query = sprintf("SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . "")
-		);
-	}
-	$result = $ilDB->query($query);
-	if ($result->numRows())
-	{
-		$row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-		$pass = $row["maxpass"];
-		
-		$sequencearray = array();
-		for ($i = 1; $i <= $found; $i++) array_push($sequencearray, $i);
-		// re-add tst_active
-		$query = sprintf("INSERT INTO tst_active (user_fi, test_fi, sequence, lastindex, tries) VALUES (%s, %s, %s, %s, %s)",
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote(join(",",$sequencearray)),
-			$ilDB->quote("1"),
-			$ilDB->quote($pass . "")
-		);
-		$ilDB->query($query);
-	}
+foreach ($foundactive as $missingarray) {
+    $test_id = $missingarray[0];
+    $user_id = $missingarray[1];
+    $is_random = $missingarray[2];
+    // begin reconstruction
+    $found = 0;
+    if ($is_random) {
+        // get number of questions in the test
+        $query = sprintf(
+            "SELECT test_random_question_id FROM tst_test_random_question WHERE test_fi = %s AND user_fi = %s AND pass = 0",
+            $ilDB->quote($test_id . ""),
+            $ilDB->quote($user_id . "")
+        );
+        $result = $ilDB->query($query);
+        $found = $result->numRows();
+    } else {
+        // get number of questions in the test
+        $query = sprintf(
+            "SELECT test_question_id FROM tst_test_question WHERE test_fi = %s",
+            $ilDB->quote($test_id . "")
+        );
+        $result = $ilDB->query($query);
+        $found = $result->numRows();
+    }
+    if ($is_random) {
+        // get maximum pass
+        $query = sprintf(
+            "SELECT MAX(pass) AS maxpass FROM tst_test_random_question WHERE user_fi = %s AND test_fi = %s",
+            $ilDB->quote($user_id . ""),
+            $ilDB->quote($test_id . "")
+        );
+    } else {
+        // get maximum pass
+        $query = sprintf(
+            "SELECT MAX(pass) AS maxpass FROM tst_test_result WHERE user_fi = %s AND test_fi = %s",
+            $ilDB->quote($user_id . ""),
+            $ilDB->quote($test_id . "")
+        );
+    }
+    $result = $ilDB->query($query);
+    if ($result->numRows()) {
+        $row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        $pass = $row["maxpass"];
+        
+        $sequencearray = array();
+        for ($i = 1; $i <= $found; $i++) {
+            array_push($sequencearray, $i);
+        }
+        // re-add tst_active
+        $query = sprintf(
+            "INSERT INTO tst_active (user_fi, test_fi, sequence, lastindex, tries) VALUES (%s, %s, %s, %s, %s)",
+            $ilDB->quote($user_id . ""),
+            $ilDB->quote($test_id . ""),
+            $ilDB->quote(join(",", $sequencearray)),
+            $ilDB->quote("1"),
+            $ilDB->quote($pass . "")
+        );
+        $ilDB->query($query);
+    }
 }
 ?>
 <#662>
 <?php
-	// correct accidently increased tries (when doubleclicking or reloading in test submission)
+    // correct accidently increased tries (when doubleclicking or reloading in test submission)
 
-	function getNrOfResultsForPass($test_id, $user_id, $pass)
-	{
-		global $ilDB;
-		$query = sprintf("SELECT test_result_id FROM tst_test_result WHERE test_fi = %s AND user_fi = %s AND pass = %s",
-			$ilDB->quote($test_id . ""),
-			$ilDB->quote($user_id . ""),
-			$ilDB->quote($pass . "")
-		);
-		$result = $ilDB->query($query);
-		return $result->numRows();
-	}
-	
-	global $log;
-	$query = "SELECT * FROM tst_active WHERE tries > 1";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$tries = $row["tries"];
-		while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries-1) == 0) && ($tries > 0))
-		{
-			$tries--;
-		}
-		if ($tries < $row["tries"])
-		{
-			$updatequery = sprintf("UPDATE tst_active SET tries = %s WHERE active_id = %s",
-				$ilDB->quote($tries . ""),
-				$ilDB->quote($row["active_id"] . "")
-			);
-			$ilDB->query($updatequery);
-			$log->write("Update step #662: set tst_active.tries from ".$row["tries"]." to $tries for tst_active.active_id = " . $row["active_id"]);
-		}
-	}
-	
+    function getNrOfResultsForPass($test_id, $user_id, $pass)
+    {
+        global $ilDB;
+        $query = sprintf(
+            "SELECT test_result_id FROM tst_test_result WHERE test_fi = %s AND user_fi = %s AND pass = %s",
+            $ilDB->quote($test_id . ""),
+            $ilDB->quote($user_id . ""),
+            $ilDB->quote($pass . "")
+        );
+        $result = $ilDB->query($query);
+        return $result->numRows();
+    }
+    
+    global $log;
+    $query = "SELECT * FROM tst_active WHERE tries > 1";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $tries = $row["tries"];
+        while ((getNrOfResultsForPass($row["test_fi"], $row["user_fi"], $tries-1) == 0) && ($tries > 0)) {
+            $tries--;
+        }
+        if ($tries < $row["tries"]) {
+            $updatequery = sprintf(
+                "UPDATE tst_active SET tries = %s WHERE active_id = %s",
+                $ilDB->quote($tries . ""),
+                $ilDB->quote($row["active_id"] . "")
+            );
+            $ilDB->query($updatequery);
+            $log->write("Update step #662: set tst_active.tries from " . $row["tries"] . " to $tries for tst_active.active_id = " . $row["active_id"]);
+        }
+    }
+    
 
 ?>
 <#663>
@@ -9901,185 +9550,182 @@ $ilCtrlStructureReader->getStructure();
 ?>
 <#665>
 <?php
-	// update badly calculated text gaps in cloze questions due to missing checks for text gap rating
+    // update badly calculated text gaps in cloze questions due to missing checks for text gap rating
 
-	function getTextgapPoints($gaprating, $a_original, $a_entered, $max_points)
-	{
-		$result = 0;
-		switch ($gaprating)
-		{
-			case "ci":
-				if (strcmp(strtolower($a_original), strtolower($a_entered)) == 0) $result = $max_points;
-				break;
-			case "cs":
-				if (strcmp($a_original, $a_entered) == 0) $result = $max_points;
-				break;
-			case "l1":
-				if (levenshtein($a_original, $a_entered) <= 1) $result = $max_points;
-				break;
-			case "l2":
-				if (levenshtein($a_original, $a_entered) <= 2) $result = $max_points;
-				break;
-			case "l3":
-				if (levenshtein($a_original, $a_entered) <= 3) $result = $max_points;
-				break;
-			case "l4":
-				if (levenshtein($a_original, $a_entered) <= 4) $result = $max_points;
-				break;
-			case "l5":
-				if (levenshtein($a_original, $a_entered) <= 5) $result = $max_points;
-				break;
-		}
-		return $result;
-	}
+    function getTextgapPoints($gaprating, $a_original, $a_entered, $max_points)
+    {
+        $result = 0;
+        switch ($gaprating) {
+            case "ci":
+                if (strcmp(strtolower($a_original), strtolower($a_entered)) == 0) {
+                    $result = $max_points;
+                }
+                break;
+            case "cs":
+                if (strcmp($a_original, $a_entered) == 0) {
+                    $result = $max_points;
+                }
+                break;
+            case "l1":
+                if (levenshtein($a_original, $a_entered) <= 1) {
+                    $result = $max_points;
+                }
+                break;
+            case "l2":
+                if (levenshtein($a_original, $a_entered) <= 2) {
+                    $result = $max_points;
+                }
+                break;
+            case "l3":
+                if (levenshtein($a_original, $a_entered) <= 3) {
+                    $result = $max_points;
+                }
+                break;
+            case "l4":
+                if (levenshtein($a_original, $a_entered) <= 4) {
+                    $result = $max_points;
+                }
+                break;
+            case "l5":
+                if (levenshtein($a_original, $a_entered) <= 5) {
+                    $result = $max_points;
+                }
+                break;
+        }
+        return $result;
+    }
 
-	global $log;
-	$log->write("test&assessment text grap rating: starting with conversion. updating database entries for reached points of every user for every processed question");
-	// update code
-	$idx = 1;
-	$query = "SELECT question_id, question_type_fi, textgap_rating FROM qpl_questions WHERE question_type_fi = 3 AND textgap_rating <> 'ci'";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$queryanswers = sprintf("SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resultanswers = $ilDB->query($queryanswers);
-		$answers = array();
-		while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($answers, $rowanswer);
-		}
-		$querytests = sprintf("SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
-			$ilDB->quote($row["question_id"] . "")
-		);
-		$resulttests = $ilDB->query($querytests);
-		$tests = array();
-		while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			array_push($tests, $rowtest["test_fi"]);
-		}
-		foreach ($tests as $test_id)
-		{
-			$queryusers = sprintf("SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
-				$ilDB->quote($test_id . ""),
-				$ilDB->quote($row["question_id"])
-			);
-			$resultusers = $ilDB->query($queryusers);
-			$users = array();
-			while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-			{
-				array_push($users, $rowuser["user_fi"]);
-			}
-			// now begin the conversion
-			foreach ($users as $user_id)
-			{
-				$querysolutions = sprintf("SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($row["question_id"] . "")
-				);
-				$resultsolutions = $ilDB->query($querysolutions);
-				switch ($row["question_type_fi"])
-				{
-					case 3:
-						// close questions
-						$found_value1 = array();
-						$found_value2 = array();
-						$user_result = array();
-						while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-						{
-							if (strcmp($data["value2"], "") != 0)
-							{
-								$user_result[$data["value1"]] = array(
-									"gap_id" => $data["value1"],
-									"value" => $data["value2"]
-								);
-							}
-						}
-						$points = 0;
-						$counter = 0;
-						$gaps = array();
-						foreach ($answers as $key => $value)
-						{
-							if (!array_key_exists($value["gap_id"], $gaps))
-							{
-								$gaps[$value["gap_id"]] = array();
-							}
-							array_push($gaps[$value["gap_id"]], $value);
-						}
-						foreach ($user_result as $gap_id => $value) 
-						{
-							if ($gaps[$gap_id][0]["cloze_type"] == 0) 
-							{
-								$gappoints = 0;
-								foreach ($gaps[$gap_id] as $k => $v) 
-								{
-									$gotpoints = getTextgapPoints($row["textgap_rating"], $v["answertext"], $value["value"], $v["points"]);
-									if ($gotpoints > $gappoints) $gappoints = $gotpoints;
-								}
-								$points += $gappoints;
-							} 
-							else 
-							{
-								if ($value["value"] >= 0)
-								{
-									foreach ($gaps[$gap_id] as $answerkey => $answer)
-									{
-										if ($value["value"] == $answerkey)
-										{
-											$points += $answer["points"];
-										}
-									}
-								}
-							}
-						}
-						// save $points;
-						break;
-				}
-				// check for special scoring options in test
-				$query = sprintf("SELECT * FROM tst_tests WHERE test_id = %s",
-					$ilDB->quote($test_id)
-				);
-				$resulttest = $ilDB->query($query);
-				if ($resulttest->numRows() == 1)
-				{
-					$rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-					if ($rowtest["count_system"] == 1)
-					{
-						$maxpoints = 0;
-						$query = sprintf("SELECT points FROM qpl_questions WHERE question_id = %s",
-							$ilDB->quote($row["question_id"] . "")
-						);
-						$resultmaxpoints = $ilDB->query($query);
-						if ($resultmaxpoints->numRows() == 1)
-						{
-							$rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-							$maxpoints = $rowmaxpoints["points"];
-						}
-						if ($points != $maxpoints)
-						{
-							$points = 0;
-						}
-					}
-				}
-				else
-				{
-					$points = 0;
-				}
-				$insertquery = sprintf("REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($user_id . ""),
-					$ilDB->quote($test_id . ""),
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($points . "")
-				);
-				$ilDB->query($insertquery);
-				$log->write("  $idx. creating user result: $insertquery");
-				$idx++;
-			}
-		}
-	}
-	$log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
+    global $log;
+    $log->write("test&assessment text grap rating: starting with conversion. updating database entries for reached points of every user for every processed question");
+    // update code
+    $idx = 1;
+    $query = "SELECT question_id, question_type_fi, textgap_rating FROM qpl_questions WHERE question_type_fi = 3 AND textgap_rating <> 'ci'";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $queryanswers = sprintf(
+            "SELECT * FROM qpl_answers WHERE question_fi = %s ORDER BY gap_id, aorder ASC",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resultanswers = $ilDB->query($queryanswers);
+        $answers = array();
+        while ($rowanswer = $resultanswers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($answers, $rowanswer);
+        }
+        $querytests = sprintf(
+            "SELECT DISTINCT test_fi FROM tst_solutions WHERE question_fi = %s",
+            $ilDB->quote($row["question_id"] . "")
+        );
+        $resulttests = $ilDB->query($querytests);
+        $tests = array();
+        while ($rowtest = $resulttests->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            array_push($tests, $rowtest["test_fi"]);
+        }
+        foreach ($tests as $test_id) {
+            $queryusers = sprintf(
+                "SELECT DISTINCT user_fi FROM tst_solutions WHERE test_fi = %s AND question_fi = %s",
+                $ilDB->quote($test_id . ""),
+                $ilDB->quote($row["question_id"])
+            );
+            $resultusers = $ilDB->query($queryusers);
+            $users = array();
+            while ($rowuser = $resultusers->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                array_push($users, $rowuser["user_fi"]);
+            }
+            // now begin the conversion
+            foreach ($users as $user_id) {
+                $querysolutions = sprintf(
+                    "SELECT * FROM tst_solutions WHERE test_fi = %s AND user_fi = %s AND question_fi = %s",
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($row["question_id"] . "")
+                );
+                $resultsolutions = $ilDB->query($querysolutions);
+                switch ($row["question_type_fi"]) {
+                    case 3:
+                        // close questions
+                        $found_value1 = array();
+                        $found_value2 = array();
+                        $user_result = array();
+                        while ($data = $resultsolutions->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+                            if (strcmp($data["value2"], "") != 0) {
+                                $user_result[$data["value1"]] = array(
+                                    "gap_id" => $data["value1"],
+                                    "value" => $data["value2"]
+                                );
+                            }
+                        }
+                        $points = 0;
+                        $counter = 0;
+                        $gaps = array();
+                        foreach ($answers as $key => $value) {
+                            if (!array_key_exists($value["gap_id"], $gaps)) {
+                                $gaps[$value["gap_id"]] = array();
+                            }
+                            array_push($gaps[$value["gap_id"]], $value);
+                        }
+                        foreach ($user_result as $gap_id => $value) {
+                            if ($gaps[$gap_id][0]["cloze_type"] == 0) {
+                                $gappoints = 0;
+                                foreach ($gaps[$gap_id] as $k => $v) {
+                                    $gotpoints = getTextgapPoints($row["textgap_rating"], $v["answertext"], $value["value"], $v["points"]);
+                                    if ($gotpoints > $gappoints) {
+                                        $gappoints = $gotpoints;
+                                    }
+                                }
+                                $points += $gappoints;
+                            } else {
+                                if ($value["value"] >= 0) {
+                                    foreach ($gaps[$gap_id] as $answerkey => $answer) {
+                                        if ($value["value"] == $answerkey) {
+                                            $points += $answer["points"];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        // save $points;
+                        break;
+                }
+                // check for special scoring options in test
+                $query = sprintf(
+                    "SELECT * FROM tst_tests WHERE test_id = %s",
+                    $ilDB->quote($test_id)
+                );
+                $resulttest = $ilDB->query($query);
+                if ($resulttest->numRows() == 1) {
+                    $rowtest = $resulttest->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                    if ($rowtest["count_system"] == 1) {
+                        $maxpoints = 0;
+                        $query = sprintf(
+                            "SELECT points FROM qpl_questions WHERE question_id = %s",
+                            $ilDB->quote($row["question_id"] . "")
+                        );
+                        $resultmaxpoints = $ilDB->query($query);
+                        if ($resultmaxpoints->numRows() == 1) {
+                            $rowmaxpoints = $resultmaxpoints->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+                            $maxpoints = $rowmaxpoints["points"];
+                        }
+                        if ($points != $maxpoints) {
+                            $points = 0;
+                        }
+                    }
+                } else {
+                    $points = 0;
+                }
+                $insertquery = sprintf(
+                    "REPLACE tst_test_result (user_fi, test_fi, question_fi, points) VALUES (%s, %s, %s, %s)",
+                    $ilDB->quote($user_id . ""),
+                    $ilDB->quote($test_id . ""),
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($points . "")
+                );
+                $ilDB->query($insertquery);
+                $log->write("  $idx. creating user result: $insertquery");
+                $idx++;
+            }
+        }
+    }
+    $log->write("test&assessment: conversion finished. creating database entry for reached points of every user for every processed question");
 ?>
 <#666>
 <?php
@@ -10189,84 +9835,91 @@ CREATE TABLE `qpl_question_textsubset` (
 ) TYPE=MyISAM;
 <#677>
 <?php
-	$query = "SELECT * FROM qpl_questions";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		switch ($row["question_type_fi"])
-		{
-			case 1:
-			case 2:
-				$insertquery = sprintf("INSERT INTO qpl_question_multiplechoice (question_fi, shuffle, choice_response) VALUES (%s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["shuffle"] . ""),
-					$ilDB->quote($row["choice_response"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 3:
-				$insertquery = sprintf("INSERT INTO qpl_question_cloze (question_fi, textgap_rating) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["textgap_rating"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 4:
-				$insertquery = sprintf("INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["shuffle"] . ""),
-					$ilDB->quote($row["matching_type"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 5:
-				$insertquery = sprintf("INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["ordering_type"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 6:
-				$insertquery = sprintf("INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["image_file"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 7:
-				$insertquery = sprintf("INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["image_file"] . ""),
-					$ilDB->quote($row["params"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 8:
-				$insertquery = sprintf("INSERT INTO qpl_question_essay (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["maxNumOfChars"] . ""),
-					$ilDB->quote($row["keywords"] . ""),
-					$ilDB->quote($row["textgap_rating"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 9:
-				$insertquery = sprintf("INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["maxNumOfChars"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 10:
-				$insertquery = sprintf("INSERT INTO qpl_question_textsubset (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["textgap_rating"] . ""),
-					$ilDB->quote($row["correctanswers"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-		}
-	}
+    $query = "SELECT * FROM qpl_questions";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        switch ($row["question_type_fi"]) {
+            case 1:
+            case 2:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_multiplechoice (question_fi, shuffle, choice_response) VALUES (%s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["shuffle"] . ""),
+                    $ilDB->quote($row["choice_response"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 3:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_cloze (question_fi, textgap_rating) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["textgap_rating"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 4:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_matching (question_fi, shuffle, matching_type) VALUES (%s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["shuffle"] . ""),
+                    $ilDB->quote($row["matching_type"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 5:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_ordering (question_fi, ordering_type) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["ordering_type"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 6:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_imagemap (question_fi, image_file) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["image_file"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 7:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_javaapplet (question_fi, image_file, params) VALUES (%s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["image_file"] . ""),
+                    $ilDB->quote($row["params"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 8:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_essay (question_fi, maxNumOfChars, keywords, textgap_rating) VALUES (%s, %s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["maxNumOfChars"] . ""),
+                    $ilDB->quote($row["keywords"] . ""),
+                    $ilDB->quote($row["textgap_rating"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 9:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_numeric (question_fi, maxNumOfChars) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["maxNumOfChars"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 10:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_textsubset (question_fi, textgap_rating, correctanswers) VALUES (%s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["textgap_rating"] . ""),
+                    $ilDB->quote($row["correctanswers"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+        }
+    }
 ?>
 <#678>
 ALTER TABLE `qpl_questions`
@@ -10310,51 +9963,61 @@ CREATE TABLE `survey_question_text` (
 ) TYPE=MyISAM;
 <#680>
 <?php
-	$query = "SELECT * FROM survey_question";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		switch ($row["questiontype_fi"])
-		{
-			case 1:
-				$subtype = $row["subtype"];
-				if ($subtype < 1) $subtype = 1;
-				$orientation = $row["orientation"];
-				if ($orientation < 1) $orientation = 1;
-				$insertquery = sprintf("INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["subtype"] . ""),
-					$ilDB->quote($orientation . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 2:
-				$orientation = $row["orientation"];
-				if (!strlen($orientation)) $orientation = 0;
-				$insertquery = sprintf("INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($orientation . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 3:
-				$subtype = $row["subtype"];
-				if ($subtype < 3) $subtype = 3;
-				$insertquery = sprintf("INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($subtype . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 4:
-				$insertquery = sprintf("INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
-					$ilDB->quote($row["question_id"] . ""),
-					$ilDB->quote($row["maxchars"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-		}
-	}
+    $query = "SELECT * FROM survey_question";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        switch ($row["questiontype_fi"]) {
+            case 1:
+                $subtype = $row["subtype"];
+                if ($subtype < 1) {
+                    $subtype = 1;
+                }
+                $orientation = $row["orientation"];
+                if ($orientation < 1) {
+                    $orientation = 1;
+                }
+                $insertquery = sprintf(
+                    "INSERT INTO survey_question_nominal (question_fi, subtype, orientation) VALUES (%s, %s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["subtype"] . ""),
+                    $ilDB->quote($orientation . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 2:
+                $orientation = $row["orientation"];
+                if (!strlen($orientation)) {
+                    $orientation = 0;
+                }
+                $insertquery = sprintf(
+                    "INSERT INTO survey_question_ordinal (question_fi, orientation) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($orientation . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 3:
+                $subtype = $row["subtype"];
+                if ($subtype < 3) {
+                    $subtype = 3;
+                }
+                $insertquery = sprintf(
+                    "INSERT INTO survey_question_metric (question_fi, subtype) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($subtype . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 4:
+                $insertquery = sprintf(
+                    "INSERT INTO survey_question_text (question_fi, maxchars) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_id"] . ""),
+                    $ilDB->quote($row["maxchars"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+        }
+    }
 ?>
 <#681>
 ALTER TABLE `survey_question`
@@ -10439,87 +10102,91 @@ CREATE TABLE `qpl_answer_textsubset` (
 ) TYPE=MyISAM;
 <#684>
 <?php
-	$query = "SELECT qpl_answers.*, qpl_questions.question_type_fi FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		switch ($row["question_type_fi"])
-		{
-			case 1:
-			case 2:
-				$insertquery = sprintf("INSERT INTO qpl_answer_multiplechoice (question_fi, answertext, points, aorder, correctness) VALUES (%s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . ""),
-					$ilDB->quote($row["correctness"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 3:
-				$insertquery = sprintf("INSERT INTO qpl_answer_cloze (question_fi, name, shuffle, answertext, points, aorder, correctness, gap_id, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["name"] . ""),
-					$ilDB->quote($row["shuffle"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . ""),
-					$ilDB->quote($row["correctness"] . ""),
-					$ilDB->quote($row["gap_id"] . ""),
-					$ilDB->quote($row["cloze_type"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 4:
-				$insertquery = sprintf("INSERT INTO qpl_answer_matching (question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (%s, %s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . ""),
-					$ilDB->quote($row["matchingtext"] . ""),
-					$ilDB->quote($row["matching_order"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 5:
-				$insertquery = sprintf("INSERT INTO qpl_answer_ordering (question_fi, answertext, points, aorder, solution_order) VALUES (%s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . ""),
-					$ilDB->quote($row["solution_order"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 6:
-				$insertquery = sprintf("INSERT INTO qpl_answer_imagemap (question_fi, answertext, points, aorder, correctness, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . ""),
-					$ilDB->quote($row["correctness"] . ""),
-					$ilDB->quote($row["coords"] . ""),
-					$ilDB->quote($row["area"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
-				break;
-			case 10:
-				$insertquery = sprintf("INSERT INTO qpl_answer_textsubset (question_fi, answertext, points, aorder) VALUES (%s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				break;
-		}
-	}
+    $query = "SELECT qpl_answers.*, qpl_questions.question_type_fi FROM qpl_answers, qpl_questions WHERE qpl_answers.question_fi = qpl_questions.question_id";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        switch ($row["question_type_fi"]) {
+            case 1:
+            case 2:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_multiplechoice (question_fi, answertext, points, aorder, correctness) VALUES (%s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . ""),
+                    $ilDB->quote($row["correctness"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 3:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_cloze (question_fi, name, shuffle, answertext, points, aorder, correctness, gap_id, cloze_type) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["name"] . ""),
+                    $ilDB->quote($row["shuffle"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . ""),
+                    $ilDB->quote($row["correctness"] . ""),
+                    $ilDB->quote($row["gap_id"] . ""),
+                    $ilDB->quote($row["cloze_type"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 4:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_matching (question_fi, answertext, points, aorder, matchingtext, matching_order) VALUES (%s, %s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . ""),
+                    $ilDB->quote($row["matchingtext"] . ""),
+                    $ilDB->quote($row["matching_order"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 5:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_ordering (question_fi, answertext, points, aorder, solution_order) VALUES (%s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . ""),
+                    $ilDB->quote($row["solution_order"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 6:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_imagemap (question_fi, answertext, points, aorder, correctness, coords, area) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . ""),
+                    $ilDB->quote($row["correctness"] . ""),
+                    $ilDB->quote($row["coords"] . ""),
+                    $ilDB->quote($row["area"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+            case 7:
+                break;
+            case 8:
+                break;
+            case 9:
+                break;
+            case 10:
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_textsubset (question_fi, answertext, points, aorder) VALUES (%s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                break;
+        }
+    }
 ?>
 <#685>
 DROP TABLE qpl_answers;
@@ -10558,29 +10225,24 @@ ALTER TABLE `exc_returned` CHANGE `TIMESTAMP` `timestamp` timestamp(14);
   // Update registration settings
 $query = "SELECT value FROM settings WHERE keyword='auto_registration'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($row->value)
-	{
-		$reg_mode = 2;
-	}
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->value) {
+        $reg_mode = 2;
+    }
 }
 
 
 $query = "SELECT value FROM settings WHERE keyword='enable_registration'";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if(!$row->value)
-	{
-		$reg_mode = 1;
-	}
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if (!$row->value) {
+        $reg_mode = 1;
+    }
 }
-if(!$reg_mode)
-{
-	$reg_mode = 3;
+if (!$reg_mode) {
+    $reg_mode = 3;
 }
-$query = "INSERT INTO settings SET keyword = 'new_registration_type',value = '".$reg_mode."'";
+$query = "INSERT INTO settings SET keyword = 'new_registration_type',value = '" . $reg_mode . "'";
 $ilDB->query($query);
 ?>
 <#696>
@@ -10609,35 +10271,31 @@ $ilCtrlStructureReader->getStructure();
 ALTER TABLE `qpl_answer_multiplechoice` ADD `points_unchecked` DOUBLE NOT NULL DEFAULT '0' AFTER `points`;
 <#702>
 <?php
-	$query = "SELECT qpl_answer_multiplechoice.*, qpl_question_multiplechoice.choice_response FROM qpl_answer_multiplechoice, qpl_question_multiplechoice WHERE qpl_answer_multiplechoice.question_fi = qpl_question_multiplechoice.question_fi";
-	$result = $ilDB->query($query);
-	if ($result->numRows())
-	{
-		while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			// only multiple response questions
-			if ($row["choice_response"] == 1)
-			{
-				if ($row["correctness"] == 0)
-				{
-					$query = sprintf("UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
-						$ilDB->quote("0"),
-						$ilDB->quote($row["points"]),
-						$ilDB->quote($row["answer_id"])
-					);
-				}
-				else
-				{
-					$query = sprintf("UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
-						$ilDB->quote($row["points"]),
-						$ilDB->quote("0"),
-						$ilDB->quote($row["answer_id"])
-					);
-				}
-				$updateres = $ilDB->query($query);
-			}
-		}
-	}
+    $query = "SELECT qpl_answer_multiplechoice.*, qpl_question_multiplechoice.choice_response FROM qpl_answer_multiplechoice, qpl_question_multiplechoice WHERE qpl_answer_multiplechoice.question_fi = qpl_question_multiplechoice.question_fi";
+    $result = $ilDB->query($query);
+    if ($result->numRows()) {
+        while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            // only multiple response questions
+            if ($row["choice_response"] == 1) {
+                if ($row["correctness"] == 0) {
+                    $query = sprintf(
+                        "UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
+                        $ilDB->quote("0"),
+                        $ilDB->quote($row["points"]),
+                        $ilDB->quote($row["answer_id"])
+                    );
+                } else {
+                    $query = sprintf(
+                        "UPDATE qpl_answer_multiplechoice SET points = %s, points_unchecked = %s WHERE answer_id = %s",
+                        $ilDB->quote($row["points"]),
+                        $ilDB->quote("0"),
+                        $ilDB->quote($row["answer_id"])
+                    );
+                }
+                $updateres = $ilDB->query($query);
+            }
+        }
+    }
 ?>
 <#703>
 ALTER TABLE `qpl_answer_multiplechoice` DROP `correctness`;
@@ -10667,51 +10325,51 @@ CREATE TABLE `qpl_answer_singlechoice` (
 ) TYPE=MyISAM;
 <#707>
 <?php
-	// move multiple choice sr -> singlechoice
-	$query = "SELECT qpl_question_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_question_multiplechoice, qpl_questions WHERE qpl_question_multiplechoice.question_fi = qpl_questions.question_id";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		switch ($row["question_type_fi"])
-		{
-			case 1:
-				// single response
-				$insertquery = sprintf("INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["shuffle"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				$deletequery = sprintf("DELETE FROM qpl_question_multiplechoice WHERE question_fi = %s",
-					$ilDB->quote($row["question_fi"] . "")
-				);
-				$deleteresult = $ilDB->query($deletequery);
-				break;
-		}
-	}
-	// move multiple choice sr answers -> singlechoice answers
-	$query = "SELECT qpl_answer_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_answer_multiplechoice, qpl_questions WHERE qpl_answer_multiplechoice.question_fi = qpl_questions.question_id";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		switch ($row["question_type_fi"])
-		{
-			case 1:
-				// single response
-				$insertquery = sprintf("INSERT INTO qpl_answer_singlechoice (question_fi, answertext, imagefile, points, aorder) VALUES (%s, %s, %s, %s, %s)",
-					$ilDB->quote($row["question_fi"] . ""),
-					$ilDB->quote($row["answertext"] . ""),
-					$ilDB->quote($row["imagefile"] . ""),
-					$ilDB->quote($row["points"] . ""),
-					$ilDB->quote($row["aorder"] . "")
-				);
-				$insertresult = $ilDB->query($insertquery);
-				$deletequery = sprintf("DELETE FROM qpl_answer_multiplechoice WHERE answer_id = %s",
-					$ilDB->quote($row["answer_id"] . "")
-				);
-				$deleteresult = $ilDB->query($deletequery);
-				break;
-		}
-	}
+    // move multiple choice sr -> singlechoice
+    $query = "SELECT qpl_question_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_question_multiplechoice, qpl_questions WHERE qpl_question_multiplechoice.question_fi = qpl_questions.question_id";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        switch ($row["question_type_fi"]) {
+            case 1:
+                // single response
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_question_singlechoice (question_fi, shuffle) VALUES (%s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["shuffle"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                $deletequery = sprintf(
+                    "DELETE FROM qpl_question_multiplechoice WHERE question_fi = %s",
+                    $ilDB->quote($row["question_fi"] . "")
+                );
+                $deleteresult = $ilDB->query($deletequery);
+                break;
+        }
+    }
+    // move multiple choice sr answers -> singlechoice answers
+    $query = "SELECT qpl_answer_multiplechoice.*, qpl_questions.question_type_fi FROM qpl_answer_multiplechoice, qpl_questions WHERE qpl_answer_multiplechoice.question_fi = qpl_questions.question_id";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        switch ($row["question_type_fi"]) {
+            case 1:
+                // single response
+                $insertquery = sprintf(
+                    "INSERT INTO qpl_answer_singlechoice (question_fi, answertext, imagefile, points, aorder) VALUES (%s, %s, %s, %s, %s)",
+                    $ilDB->quote($row["question_fi"] . ""),
+                    $ilDB->quote($row["answertext"] . ""),
+                    $ilDB->quote($row["imagefile"] . ""),
+                    $ilDB->quote($row["points"] . ""),
+                    $ilDB->quote($row["aorder"] . "")
+                );
+                $insertresult = $ilDB->query($insertquery);
+                $deletequery = sprintf(
+                    "DELETE FROM qpl_answer_multiplechoice WHERE answer_id = %s",
+                    $ilDB->quote($row["answer_id"] . "")
+                );
+                $deleteresult = $ilDB->query($deletequery);
+                break;
+        }
+    }
 ?>
 <#708>
 ALTER TABLE qpl_question_multiplechoice DROP choice_response;
@@ -10799,17 +10457,16 @@ ALTER TABLE `tst_active_qst_sol_settings` ADD `active_fi` INT NOT NULL AFTER `us
 <?php
 $query = "SELECT tst_active_qst_sol_settings.*, tst_active.active_id FROM tst_active_qst_sol_settings, tst_active WHERE tst_active_qst_sol_settings.test_fi = tst_active.test_fi AND tst_active_qst_sol_settings.user_fi = tst_active.user_fi";
 $result = $ilDB->query($query);
-if ($result->numRows())
-{
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$update = sprintf("UPDATE tst_active_qst_sol_settings SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote($row["active_id"] . ""),
-			$ilDB->quote($row["test_fi"] . ""),
-			$ilDB->quote($row["user_fi"] . "")
-		);
-		$updateresult = $ilDB->query($update);
-	}
+if ($result->numRows()) {
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $update = sprintf(
+            "UPDATE tst_active_qst_sol_settings SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+            $ilDB->quote($row["active_id"] . ""),
+            $ilDB->quote($row["test_fi"] . ""),
+            $ilDB->quote($row["user_fi"] . "")
+        );
+        $updateresult = $ilDB->query($update);
+    }
 }
 ?>
 <#726>
@@ -10826,31 +10483,27 @@ ALTER TABLE `tst_solutions` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
 global $ilLog;
 $query = "SELECT tst_solutions.*, tst_active.active_id FROM tst_solutions, tst_active WHERE tst_solutions.test_fi = tst_active.test_fi AND tst_solutions.user_fi = tst_active.user_fi";
 $result = $ilDB->query($query);
-if ($result->numRows())
-{
-	if(function_exists('memory_get_usage'))
-  {
-		$memory_usage = " Memory usage: ".memory_get_usage();
-  }
-	$ilLog->write("-- MetaData (Migration type '".$row_pg->type."'): Processing obj number: ".$row_pg->obj_id.$memory_usage);
-	$counter = 0;
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if(function_exists('memory_get_usage'))
-		{
-			$memory_usage = " Memory usage: ".memory_get_usage();
-		}
-		if(!(++$counter % 100))
-		{
-			$ilLog->write("test_result number: $counter".$memory_usage);
-		}
-		$update = sprintf("UPDATE tst_solutions SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote($row["active_id"] . ""),
-			$ilDB->quote($row["test_fi"] . ""),
-			$ilDB->quote($row["user_fi"] . "")
-		);
-		$updateresult = $ilDB->query($update);
-	}
+if ($result->numRows()) {
+    if (function_exists('memory_get_usage')) {
+        $memory_usage = " Memory usage: " . memory_get_usage();
+    }
+    $ilLog->write("-- MetaData (Migration type '" . $row_pg->type . "'): Processing obj number: " . $row_pg->obj_id . $memory_usage);
+    $counter = 0;
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (function_exists('memory_get_usage')) {
+            $memory_usage = " Memory usage: " . memory_get_usage();
+        }
+        if (!(++$counter % 100)) {
+            $ilLog->write("test_result number: $counter" . $memory_usage);
+        }
+        $update = sprintf(
+            "UPDATE tst_solutions SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+            $ilDB->quote($row["active_id"] . ""),
+            $ilDB->quote($row["test_fi"] . ""),
+            $ilDB->quote($row["user_fi"] . "")
+        );
+        $updateresult = $ilDB->query($update);
+    }
 }
 ?>
 <#729>
@@ -10863,17 +10516,16 @@ ALTER TABLE `tst_test_random_question` ADD `active_fi` INT NOT NULL AFTER `user_
 <?php
 $query = "SELECT tst_test_random_question.*, tst_active.active_id FROM tst_test_random_question, tst_active WHERE tst_test_random_question.test_fi = tst_active.test_fi AND tst_test_random_question.user_fi = tst_active.user_fi";
 $result = $ilDB->query($query);
-if ($result->numRows())
-{
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$update = sprintf("UPDATE tst_test_random_question SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
-			$ilDB->quote($row["active_id"] . ""),
-			$ilDB->quote($row["test_fi"] . ""),
-			$ilDB->quote($row["user_fi"] . "")
-		);
-		$updateresult = $ilDB->query($update);
-	}
+if ($result->numRows()) {
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $update = sprintf(
+            "UPDATE tst_test_random_question SET active_fi = %s WHERE test_fi = %s AND user_fi = %s",
+            $ilDB->quote($row["active_id"] . ""),
+            $ilDB->quote($row["test_fi"] . ""),
+            $ilDB->quote($row["user_fi"] . "")
+        );
+        $updateresult = $ilDB->query($update);
+    }
 }
 ?>
 <#732>
@@ -10886,17 +10538,16 @@ ALTER TABLE `tst_test_result` ADD `active_fi` INT NOT NULL AFTER `user_fi` ;
 <?php
 $query = "SELECT tst_test_result.*, tst_active.active_id FROM tst_test_result, tst_active WHERE tst_test_result.test_fi = tst_active.test_fi AND tst_test_result.user_fi = tst_active.user_fi";
 $result = $ilDB->query($query);
-if ($result->numRows())
-{
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$update = sprintf("UPDATE tst_test_result SET active_fi = %s, TIMESTAMP = %s WHERE test_result_id = %s",
-			$ilDB->quote($row["active_id"] . ""),
-			$ilDB->quote($row["TIMESTAMP"] . ""),
-			$ilDB->quote($row["test_result_id"] . "")
-		);
-		$updateresult = $ilDB->query($update);
-	}
+if ($result->numRows()) {
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $update = sprintf(
+            "UPDATE tst_test_result SET active_fi = %s, TIMESTAMP = %s WHERE test_result_id = %s",
+            $ilDB->quote($row["active_id"] . ""),
+            $ilDB->quote($row["TIMESTAMP"] . ""),
+            $ilDB->quote($row["test_result_id"] . "")
+        );
+        $updateresult = $ilDB->query($update);
+    }
 }
 ?>
 <#735>
@@ -10925,14 +10576,14 @@ REPLACE INTO settings (module, keyword, value) VALUES ('common', 'enable_trash',
 <#740>
 <?php
 // register new object type 'adve' for Advanced editing settings in the administration
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('typ', 'adve', 'Advanced editing object', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('typ', 'adve', 'Advanced editing object', -1, now(), now())";
 $this->db->query($query);
 
 // ADD NODE IN SYSTEM SETTINGS FOLDER
 // create object data entry
-$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) ".
-		"VALUES ('adve', '__AdvancedEditing', 'Advanced Editing', -1, now(), now())";
+$query = "INSERT INTO object_data (type, title, description, owner, create_date, last_update) " .
+        "VALUES ('adve', '__AdvancedEditing', 'Advanced Editing', -1, now(), now())";
 $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -10940,7 +10591,7 @@ $res = $this->db->query($query);
 $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // create object reference entry
-$query = "INSERT INTO object_reference (obj_id) VALUES('".$row->id."')";
+$query = "INSERT INTO object_reference (obj_id) VALUES('" . $row->id . "')";
 $res = $this->db->query($query);
 
 $query = "SELECT LAST_INSERT_ID() as id";
@@ -10949,28 +10600,28 @@ $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
 // put in tree
 $tree = new ilTree(ROOT_FOLDER_ID);
-$tree->insertNode($row->id,SYSTEM_FOLDER_ID);
+$tree->insertNode($row->id, SYSTEM_FOLDER_ID);
 
 // register RECOVERY_FOLDER_ID in table settings
-$query = "INSERT INTO settings (keyword,value) VALUES('sys_advanced_editing_id','".$row->id."')";
+$query = "INSERT INTO settings (keyword,value) VALUES('sys_advanced_editing_id','" . $row->id . "')";
 $res = $this->db->query($query);
 
 // retrieve assessment folder definition from object_data
-$query = "SELECT obj_id FROM object_data WHERE type = 'typ' ".
-	" AND title = 'adve'";
+$query = "SELECT obj_id FROM object_data WHERE type = 'typ' " .
+    " AND title = 'adve'";
 $res = $this->db->query($query);
 $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // add rbac operations to assessment folder
 // 1: edit_permissions, 2: visible, 3: read, 4:write
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','1')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','1')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','2')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','2')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','3')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','3')";
 $this->db->query($query);
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','4')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','4')";
 $this->db->query($query);
 ?>
 <#741>
@@ -11174,37 +10825,32 @@ PRIMARY KEY ( `item_id` , `usr_id` )
 $tree = new ilTree(ROOT_FOLDER_ID);
 $query = "SELECT ut.obj_id AS obj_id,type,item_id FROM ut_lp_collections AS ut INNER JOIN object_data AS od ON od.obj_id = ut.obj_id";
 $res = $this->db->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($row->type != 'crs' and
-	   $row->type != 'fold' and
-	   $row->type != 'grp')
-	{
-		continue;
-	}
-	// get container ref_id
-	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->obj_id."'";
-	$ref_res = $this->db->query($query);
-	while($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$container_ref_id = $ref_row->ref_id;
-	}
-	// get item ref ids
-	$query = "SELECT * FROM object_reference WHERE obj_id = '".$row->item_id."'";
-	$item_res = $this->db->query($query);
-	while($item_row = $item_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		// is child node
-		if($tree->isGrandChild($container_ref_id,$item_row->ref_id))
-		{
-			$query = "UPDATE ut_lp_collections ".
-				"SET item_id = '".$item_row->ref_id."' ".
-				"WHERE obj_id = '".$row->obj_id."' ".
-				"AND item_id = '".$row->item_id."'";
-			$this->db->query($query);
-			break;
-		}
-	}
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->type != 'crs' and
+       $row->type != 'fold' and
+       $row->type != 'grp') {
+        continue;
+    }
+    // get container ref_id
+    $query = "SELECT * FROM object_reference WHERE obj_id = '" . $row->obj_id . "'";
+    $ref_res = $this->db->query($query);
+    while ($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $container_ref_id = $ref_row->ref_id;
+    }
+    // get item ref ids
+    $query = "SELECT * FROM object_reference WHERE obj_id = '" . $row->item_id . "'";
+    $item_res = $this->db->query($query);
+    while ($item_row = $item_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        // is child node
+        if ($tree->isGrandChild($container_ref_id, $item_row->ref_id)) {
+            $query = "UPDATE ut_lp_collections " .
+                "SET item_id = '" . $item_row->ref_id . "' " .
+                "WHERE obj_id = '" . $row->obj_id . "' " .
+                "AND item_id = '" . $row->item_id . "'";
+            $this->db->query($query);
+            break;
+        }
+    }
 }
 ?>
 
@@ -11222,24 +10868,18 @@ ALTER TABLE `crs_settings` ADD `activation_type` TINYINT( 1 ) DEFAULT '0' NOT NU
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($row->activation_unlimited)
-	{
-		$type = 1;
-	}
-	elseif($row->activation_offline)
-	{
-		$type = 0;
-	}
-	else
-	{
-		$type = 2;
-	}
-	$query = "UPDATE crs_settings ".
-		"SET activation_type = '".$type."' ".
-		"WHERE obj_id = '".$row->obj_id."'";
-	$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->activation_unlimited) {
+        $type = 1;
+    } elseif ($row->activation_offline) {
+        $type = 0;
+    } else {
+        $type = 2;
+    }
+    $query = "UPDATE crs_settings " .
+        "SET activation_type = '" . $type . "' " .
+        "WHERE obj_id = '" . $row->obj_id . "'";
+    $ilDB->query($query);
 }
 ?>
 <#781>
@@ -11255,24 +10895,18 @@ ALTER TABLE `crs_settings` ADD `subscription_limitation_type` TINYINT( 1 ) NOT N
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($row->subscription_unlimited)
-	{
-		$type = 1;
-	}
-	elseif($row->subscription_type == 1)
-	{
-		$type = 0;
-	}
-	else
-	{
-		$type = 2;
-	}
-	$query = "UPDATE crs_settings ".
-		"SET subscription_limitation_type = '".$type."' ".
-		"WHERE obj_id = '".$row->obj_id."'";
-	$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->subscription_unlimited) {
+        $type = 1;
+    } elseif ($row->subscription_type == 1) {
+        $type = 0;
+    } else {
+        $type = 2;
+    }
+    $query = "UPDATE crs_settings " .
+        "SET subscription_limitation_type = '" . $type . "' " .
+        "WHERE obj_id = '" . $row->obj_id . "'";
+    $ilDB->query($query);
 }
 ?>
 <#784>
@@ -11287,24 +10921,18 @@ ALTER TABLE `crs_settings` ADD `view_mode` TINYINT( 1 ) NOT NULL AFTER `subscrip
 
 $query = "SELECT * FROM crs_settings ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	if($row->archive_type != 1)
-	{
-		$type = 3;
-	}
-	elseif($row->objective_view)
-	{
-		$type = 1;
-	}
-	else
-	{
-		$type = 0;
-	}
-	$query = "UPDATE crs_settings ".
-		"SET view_mode = '".$type."' ".
-		"WHERE obj_id = '".$row->obj_id."'";
-	$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->archive_type != 1) {
+        $type = 3;
+    } elseif ($row->objective_view) {
+        $type = 1;
+    } else {
+        $type = 0;
+    }
+    $query = "UPDATE crs_settings " .
+        "SET view_mode = '" . $type . "' " .
+        "WHERE obj_id = '" . $row->obj_id . "'";
+    $ilDB->query($query);
 }
 ?>
 <#787>
@@ -11350,19 +10978,18 @@ CREATE TABLE IF NOT EXISTS `crs_objective_status_pretest` (
 
 $query = "SELECT * FROM crs_objective_status WHERE status = 0";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$query = "INSERT INTO crs_objective_status_pretest ".
-		"SET objective_id = '".$row->objective_id."', ".
-		"user_id = '".$row->user_id."'";
-	$ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $query = "INSERT INTO crs_objective_status_pretest " .
+        "SET objective_id = '" . $row->objective_id . "', " .
+        "user_id = '" . $row->user_id . "'";
+    $ilDB->query($query);
 }
 ?>
 
 <#797>
 <?php
-$query = "DELETE FROM crs_objective_status ".
-	"WHERE status = '0'";
+$query = "DELETE FROM crs_objective_status " .
+    "WHERE status = '0'";
 $ilDB->query($query);
 ?>
 <#798>
@@ -11393,60 +11020,55 @@ ALTER TABLE `ut_lp_marks` CHANGE `comment` `comment` TEXT NOT NULL;
 <?php
 
 $query = "SELECT * FROM rbac_operations WHERE operation = 'edit_learning_progress'";
-												   $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$ops_id = $row->ops_id;
+                                                   $res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $ops_id = $row->ops_id;
 }
 
 // Get type ids of 'exc', 'grp', 'fold'
-$query = "SELECT obj_id FROM object_data WHERE title IN ('exc','grp','fold') ".
-	"AND type = 'typ'";
+$query = "SELECT obj_id FROM object_data WHERE title IN ('exc','grp','fold') " .
+    "AND type = 'typ'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$type_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $type_ids[] = $row->obj_id;
 }
 // ASSIGN new operation to object types
-foreach($type_ids as $typ_id)
-{
-	$query = "INSERT INTO rbac_ta SET typ_id = '".$typ_id."', ".
-		"ops_id = '".$ops_id."'";
+foreach ($type_ids as $typ_id) {
+    $query = "INSERT INTO rbac_ta SET typ_id = '" . $typ_id . "', " .
+        "ops_id = '" . $ops_id . "'";
 
-	$ilDB->query($query);
+    $ilDB->query($query);
 }
 
 // get template il_crs_admin Author and Local Administrator
-$query = "SELECT obj_id FROM object_data WHERE title IN ('il_grp_admin','il_crs_admin','Author','Local Administrator') ".
-	"AND type = 'rolt'";
+$query = "SELECT obj_id FROM object_data WHERE title IN ('il_grp_admin','il_crs_admin','Author','Local Administrator') " .
+    "AND type = 'rolt'";
 
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	$rolt_ids[] = $row->obj_id;
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    $rolt_ids[] = $row->obj_id;
 }
 
 // ASSIGN new operation to role templates
-foreach($rolt_ids as $rolt_id)
-{
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'grp', ".
-		"ops_id = '".$ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
+foreach ($rolt_ids as $rolt_id) {
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'grp', " .
+        "ops_id = '" . $ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
 
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'exc', ".
-		"ops_id = '".$ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'exc', " .
+        "ops_id = '" . $ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
 
-	$query = "INSERT INTO rbac_templates SET rol_id = '".$rolt_id."', ".
-		"type = 'fold', ".
-		"ops_id = '".$ops_id."', ".
-		"parent = '".ROLE_FOLDER_ID."'";
-	$ilDB->query($query);
+    $query = "INSERT INTO rbac_templates SET rol_id = '" . $rolt_id . "', " .
+        "type = 'fold', " .
+        "ops_id = '" . $ops_id . "', " .
+        "parent = '" . ROLE_FOLDER_ID . "'";
+    $ilDB->query($query);
 }
 ?>
 <#806>
@@ -11481,74 +11103,64 @@ CREATE TABLE `tmp_migration` (
   // Get all objectives
 $query = "SELECT objective_id FROM crs_objectives ";
 $res = $ilDB->query($query);
-while($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-{
-	// check if objective is already processed
-	$res_passed = $ilDB->query("SELECT objective_id FROM tmp_migration WHERE objective_id = '".$row->objective_id."' AND passed = '1'");
-	if($res_passed->numRows())
-	{
-		continue;
-	}
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    // check if objective is already processed
+    $res_passed = $ilDB->query("SELECT objective_id FROM tmp_migration WHERE objective_id = '" . $row->objective_id . "' AND passed = '1'");
+    if ($res_passed->numRows()) {
+        continue;
+    }
 
-	// Read objective info
-	$query = "SELECT * FROM crs_objective_tst as ct JOIN crs_objective_qst as cq ".
-		"ON (ct.objective_id = cq.objective_id AND ct.obj_id = cq.obj_id) ".
-		"WHERE tst_status = '1' AND ct.objective_id = '".$row->objective_id."'";
+    // Read objective info
+    $query = "SELECT * FROM crs_objective_tst as ct JOIN crs_objective_qst as cq " .
+        "ON (ct.objective_id = cq.objective_id AND ct.obj_id = cq.obj_id) " .
+        "WHERE tst_status = '1' AND ct.objective_id = '" . $row->objective_id . "'";
 
-	$obj_info = $ilDB->query($query);
-	$objective_info = array();
-	while($obj_row = $obj_info->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-	{
-		$objective_info[$obj_row->obj_id]['questions'][] = $obj_row->question_id;
-		$objective_info[$obj_row->obj_id]['limit'] = $obj_row->tst_limit;
-	}
-	
-	// Read max reachable points
-	// Read user points
-	foreach($objective_info as $test_id => $data)
-	{
-		$query = "SELECT SUM(points) as reachable FROM qpl_questions WHERE ".
-			"question_id IN('".implode("','",$data['questions'])."')";
-		$reachable_res = $ilDB->query($query);
-		while($reachable_row = $reachable_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$objective_info[$test_id]['reachable'] = $reachable_row->reachable;
-		}
-		
-		$query = "SELECT user_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ON active_fi = active_id ".
-			"WHERE question_fi IN('".implode("','",$data['questions'])."') ".
-			"GROUP BY question_fi,user_fi";
-		$user_reached_res = $ilDB->query($query);
-		$objective_info[$test_id]['users'] = array();
-		while($user_reached_row = $user_reached_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT))
-		{
-			$objective_info[$test_id]['users'][$user_reached_row->user_fi] += $user_reached_row->reached;
-		}
-	}
-	// Check reached
-	foreach($objective_info as $test_id => $data)
-	{
-		if(!$data['reachable'])
-		{
-			continue;
-		}
-		foreach($data['users'] as $user_id => $reached)
-		{
-			if(($reached / $data['reachable'] * 100) >= $data['limit'])
-			{
-				$query = "REPLACE INTO crs_objective_status ".
-					"SET objective_id = '".$row->objective_id."', ".
-					"user_id = '".$user_id."', ".
-					"status = '1'";
-				$ilDB->query($query);
-			}
-		}
-	}
-	// Now set objective passed
-	$query = "REPLACE INTO tmp_migration ".
-		"SET objective_id = '".$row->objective_id."', ".
-		"passed = '1'";
-	$ilDB->query($query);
+    $obj_info = $ilDB->query($query);
+    $objective_info = array();
+    while ($obj_row = $obj_info->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        $objective_info[$obj_row->obj_id]['questions'][] = $obj_row->question_id;
+        $objective_info[$obj_row->obj_id]['limit'] = $obj_row->tst_limit;
+    }
+    
+    // Read max reachable points
+    // Read user points
+    foreach ($objective_info as $test_id => $data) {
+        $query = "SELECT SUM(points) as reachable FROM qpl_questions WHERE " .
+            "question_id IN('" . implode("','", $data['questions']) . "')";
+        $reachable_res = $ilDB->query($query);
+        while ($reachable_row = $reachable_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $objective_info[$test_id]['reachable'] = $reachable_row->reachable;
+        }
+        
+        $query = "SELECT user_fi, MAX(points) as reached FROM tst_test_result JOIN tst_active ON active_fi = active_id " .
+            "WHERE question_fi IN('" . implode("','", $data['questions']) . "') " .
+            "GROUP BY question_fi,user_fi";
+        $user_reached_res = $ilDB->query($query);
+        $objective_info[$test_id]['users'] = array();
+        while ($user_reached_row = $user_reached_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $objective_info[$test_id]['users'][$user_reached_row->user_fi] += $user_reached_row->reached;
+        }
+    }
+    // Check reached
+    foreach ($objective_info as $test_id => $data) {
+        if (!$data['reachable']) {
+            continue;
+        }
+        foreach ($data['users'] as $user_id => $reached) {
+            if (($reached / $data['reachable'] * 100) >= $data['limit']) {
+                $query = "REPLACE INTO crs_objective_status " .
+                    "SET objective_id = '" . $row->objective_id . "', " .
+                    "user_id = '" . $user_id . "', " .
+                    "status = '1'";
+                $ilDB->query($query);
+            }
+        }
+    }
+    // Now set objective passed
+    $query = "REPLACE INTO tmp_migration " .
+        "SET objective_id = '" . $row->objective_id . "', " .
+        "passed = '1'";
+    $ilDB->query($query);
 }
 ?>
 <#815>
@@ -11562,34 +11174,29 @@ $ilCtrlStructureReader->getStructure();
 <#818>
 <?php
 // get all languages
-$q = "SELECT * FROM object_data WHERE type = ".$ilDB->quote("lng");
+$q = "SELECT * FROM object_data WHERE type = " . $ilDB->quote("lng");
 $lang_set = $ilDB->query($q);
-while($lang_rec = $lang_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-{
-	// get all installed languages
-	if (substr($lang_rec["description"], 0, 9) == "installed")
-	{
-		$q = "SELECT * FROM lng_data WHERE lang_key = ".$ilDB->quote($lang_rec["title"]);
-		$var_set = $ilDB->query($q);
-		$lang_array = array();
-		
-		// get data from lng_data table
-		while($var_rec = $var_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-		{
-			$lang_array[$var_rec["module"]][$var_rec["identifier"]] = $var_rec["value"];
-		}
-		
-		// put data into lng_modules table
-		foreach($lang_array as $module => $lang_arr)
-		{
-			$query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES ".
-				 "(".$ilDB->quote($lang_rec["title"]).", " .
-				 " ".$ilDB->quote($module).", " . 
-				 " ".$ilDB->quote(serialize($lang_arr)).") ";
-			$ilDB->query($query);
-		}
-
-	}
+while ($lang_rec = $lang_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+    // get all installed languages
+    if (substr($lang_rec["description"], 0, 9) == "installed") {
+        $q = "SELECT * FROM lng_data WHERE lang_key = " . $ilDB->quote($lang_rec["title"]);
+        $var_set = $ilDB->query($q);
+        $lang_array = array();
+        
+        // get data from lng_data table
+        while ($var_rec = $var_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+            $lang_array[$var_rec["module"]][$var_rec["identifier"]] = $var_rec["value"];
+        }
+        
+        // put data into lng_modules table
+        foreach ($lang_array as $module => $lang_arr) {
+            $query = "REPLACE INTO lng_modules (lang_key, module, lang_array) VALUES " .
+                 "(" . $ilDB->quote($lang_rec["title"]) . ", " .
+                 " " . $ilDB->quote($module) . ", " .
+                 " " . $ilDB->quote(serialize($lang_arr)) . ") ";
+            $ilDB->query($query);
+        }
+    }
 }
 ?>
 <#819>
@@ -11607,29 +11214,25 @@ $row = $res->fetchRow();
 $typ_id = $row[0];
 
 // 18: create_frm, 20: create_lm, 21: create_slm, 22: create_glo, 25: create_file, 26: create_grp
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','17')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','17')";
 $this->db->query($query);
 ?>
 <#822>
 <?php
 // add certificate_visibility field to tst_tests but only if it not exists
-$certificate_visibility = FALSE;
+$certificate_visibility = false;
 $query = "SHOW COLUMNS FROM tst_tests";
 $res = $ilDB->query($query);
-if ($res->numRows())
-{
-	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if (strcmp($data["Field"], "certificate_visibility") == 0)
-		{
-			$certificate_visibility = TRUE;
-		}
-	}
+if ($res->numRows()) {
+    while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (strcmp($data["Field"], "certificate_visibility") == 0) {
+            $certificate_visibility = true;
+        }
+    }
 }
-if ($certificate_visibility == FALSE)
-{
-	$query = "ALTER TABLE `tst_tests` ADD `certificate_visibility` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `show_question_titles`";
-	$res = $ilDB->query($query);
+if ($certificate_visibility == false) {
+    $query = "ALTER TABLE `tst_tests` ADD `certificate_visibility` ENUM( '0', '1', '2' ) NOT NULL DEFAULT '0' AFTER `show_question_titles`";
+    $res = $ilDB->query($query);
 }
 ?>
 <#823>
@@ -11719,28 +11322,27 @@ $typ_id = $row->obj_id;
 
 // append operation assignment to test object definition
 // 56: tst_statistics
-$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('".$typ_id."','56')";
+$query = "INSERT INTO rbac_ta (typ_id, ops_id) VALUES ('" . $typ_id . "','56')";
 $ilDB->query($query);
 ?>
 <#849>
 <?php
-	$query = "SELECT rbac_pa.* FROM rbac_pa, object_data, object_reference WHERE object_data.type = 'tst' AND object_reference.obj_id = object_data.obj_id AND rbac_pa.ref_id = object_reference.ref_id";
-	$result = $ilDB->query($query);
-	while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		$ops = unserialize(stripslashes($row["ops_id"]));
-		if (in_array(4, $ops))
-		{
-			array_push($ops, 56);
-			$ops_id = addslashes(serialize($ops));
-			$query = sprintf("REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) VALUES (%s, %s, %s)",
-				$ilDB->quote($row["rol_id"] . ""),
-				$ilDB->quote($ops_id . ""),
-				$ilDB->quote($row["ref_id"] . "")
-			);
-			$ilDB->query($query);
-		}
-	}
+    $query = "SELECT rbac_pa.* FROM rbac_pa, object_data, object_reference WHERE object_data.type = 'tst' AND object_reference.obj_id = object_data.obj_id AND rbac_pa.ref_id = object_reference.ref_id";
+    $result = $ilDB->query($query);
+    while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        $ops = unserialize(stripslashes($row["ops_id"]));
+        if (in_array(4, $ops)) {
+            array_push($ops, 56);
+            $ops_id = addslashes(serialize($ops));
+            $query = sprintf(
+                "REPLACE INTO rbac_pa (rol_id,ops_id,ref_id) VALUES (%s, %s, %s)",
+                $ilDB->quote($row["rol_id"] . ""),
+                $ilDB->quote($ops_id . ""),
+                $ilDB->quote($row["ref_id"] . "")
+            );
+            $ilDB->query($query);
+        }
+    }
 ?>
 <#850>
 CREATE TABLE `qpl_feedback_singlechoice` (
@@ -11789,23 +11391,19 @@ CREATE TABLE `qpl_feedback_imagemap` (
 <#856>
 <?php
 // add matrix row field to survey_answer but only if it not exists
-$row_visibility = FALSE;
+$row_visibility = false;
 $query = "SHOW COLUMNS FROM survey_answer";
 $res = $ilDB->query($query);
-if ($res->numRows())
-{
-	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if (strcmp($data["Field"], "row") == 0)
-		{
-			$row_visibility = TRUE;
-		}
-	}
+if ($res->numRows()) {
+    while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (strcmp($data["Field"], "row") == 0) {
+            $row_visibility = true;
+        }
+    }
 }
-if ($row_visibility == FALSE)
-{
-	$query = "ALTER TABLE `survey_answer` ADD `row` INT NOT NULL DEFAULT '0' AFTER `textanswer`";
-	$res = $ilDB->query($query);
+if ($row_visibility == false) {
+    $query = "ALTER TABLE `survey_answer` ADD `row` INT NOT NULL DEFAULT '0' AFTER `textanswer`";
+    $res = $ilDB->query($query);
 }
 ?>
 <#857>
@@ -11830,23 +11428,19 @@ PRIMARY KEY ( `question_fi` )
 <#858>
 <?php
 // add neutral field to survey_category but only if it not exists
-$neutral_visibility = FALSE;
+$neutral_visibility = false;
 $query = "SHOW COLUMNS FROM survey_category";
 $res = $ilDB->query($query);
-if ($res->numRows())
-{
-	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if (strcmp($data["Field"], "neutral") == 0)
-		{
-			$neutral_visibility = TRUE;
-		}
-	}
+if ($res->numRows()) {
+    while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (strcmp($data["Field"], "neutral") == 0) {
+            $neutral_visibility = true;
+        }
+    }
 }
-if ($neutral_visibility == FALSE)
-{
-	$query = "ALTER TABLE `survey_category` ADD `neutral` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `owner_fi`";
-	$res = $ilDB->query($query);
+if ($neutral_visibility == false) {
+    $query = "ALTER TABLE `survey_category` ADD `neutral` ENUM( '0', '1' ) NOT NULL DEFAULT '0' AFTER `owner_fi`";
+    $res = $ilDB->query($query);
 }
 ?>
 <#859>
@@ -11854,10 +11448,9 @@ if ($neutral_visibility == FALSE)
 // add matrix question as question type if it does not exist
 $query = "SELECT questiontype_id FROM survey_questiontype WHERE type_tag = 'SurveyMatrixQuestion'";
 $result = $ilDB->query($query);
-if ($result->numRows() == 0)
-{
-	$query = "INSERT INTO `survey_questiontype` ( `questiontype_id` , `type_tag` , `TIMESTAMP` ) VALUES ( '5', 'SurveyMatrixQuestion', NOW( ) )";
-	$result = $ilDB->query($query);
+if ($result->numRows() == 0) {
+    $query = "INSERT INTO `survey_questiontype` ( `questiontype_id` , `type_tag` , `TIMESTAMP` ) VALUES ( '5', 'SurveyMatrixQuestion', NOW( ) )";
+    $result = $ilDB->query($query);
 }
 ?>
 <#860>
@@ -11875,23 +11468,19 @@ INDEX ( `question_fi` )
 <#862>
 <?php
 // add bipolar adjectives fields to survey_question_matrix but only if it not exists
-$bipolar_visibility = FALSE;
+$bipolar_visibility = false;
 $query = "SHOW COLUMNS FROM survey_question_matrix";
 $res = $ilDB->query($query);
-if ($res->numRows())
-{
-	while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC))
-	{
-		if (strcmp($data["Field"], "bipolar_adjective1") == 0)
-		{
-			$bipolar_visibility = TRUE;
-		}
-	}
+if ($res->numRows()) {
+    while ($data = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
+        if (strcmp($data["Field"], "bipolar_adjective1") == 0) {
+            $bipolar_visibility = true;
+        }
+    }
 }
-if ($bipolar_visibility == FALSE)
-{
-	$query = "ALTER TABLE `survey_question_matrix` ADD `bipolar_adjective1` VARCHAR( 255 ) NULL AFTER `row_images` , ADD `bipolar_adjective2` VARCHAR( 255 ) NULL AFTER `bipolar_adjective1`";
-	$res = $ilDB->query($query);
+if ($bipolar_visibility == false) {
+    $query = "ALTER TABLE `survey_question_matrix` ADD `bipolar_adjective1` VARCHAR( 255 ) NULL AFTER `row_images` , ADD `bipolar_adjective2` VARCHAR( 255 ) NULL AFTER `bipolar_adjective1`";
+    $res = $ilDB->query($query);
 }
 ?>
 <#863>
@@ -11905,9 +11494,9 @@ $ilCtrlStructureReader->getStructure();
 
 
 
-				// FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
-				//
-				//         USE dbupdate_02.php INSTEAD
+                // FILE ENDS HERE, DO NOT ADD ANY ADDITIONAL STEPS
+                //
+                //         USE dbupdate_02.php INSTEAD
 
 
 

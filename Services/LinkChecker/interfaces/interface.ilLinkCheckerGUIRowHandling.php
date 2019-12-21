@@ -3,20 +3,19 @@
 
 /**
  * interface ilLinkCheckerGUIRowHandling
- * 
- * @author	Michael Jansen <mjansen@databay.de> 
+ *
+ * @author	Michael Jansen <mjansen@databay.de>
  * @version	$Id$
- * 
+ *
  */
 interface ilLinkCheckerGUIRowHandling
 {
-	/**
-	 * 
-	 * @param	array Unformatted array
-	 * @return	array Formatted array
-	 * @access	public
-	 * 
-	 */
-	public function formatInvalidLinkArray(Array $row);
-} 
-?>
+    /**
+     *
+     * @param	array Unformatted array
+     * @return	array Formatted array
+     * @access	public
+     *
+     */
+    public function formatInvalidLinkArray(array $row);
+}

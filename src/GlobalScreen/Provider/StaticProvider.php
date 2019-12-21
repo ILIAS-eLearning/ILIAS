@@ -7,5 +7,4 @@
  */
 interface StaticProvider extends Provider
 {
-
 }

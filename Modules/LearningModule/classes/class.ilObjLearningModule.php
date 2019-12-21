@@ -13,16 +13,13 @@
 class ilObjLearningModule extends ilObjContentObject
 {
 
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function __construct($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "lm";
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-
+    /**
+    * Constructor
+    * @access	public
+    */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = "lm";
+        parent::__construct($a_id, $a_call_by_reference);
+    }
 }
-
-?>

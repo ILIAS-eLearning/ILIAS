@@ -267,7 +267,8 @@ class ilDclTable
         $ilDB = $DIC['ilDB'];
 
         $ilDB->update(
-            "il_dcl_table", array(
+            "il_dcl_table",
+            array(
             "obj_id"                   => array("integer", $this->getObjId()),
             "title"                    => array("text", $this->getTitle()),
             "add_perm"                 => array("integer", (int) $this->getAddPerm()),
@@ -288,7 +289,8 @@ class ilDclTable
             'delete_by_owner'          => array('integer', $this->getDeleteByOwner() ? 1 : 0),
             'save_confirmation'        => array('integer', $this->getSaveConfirmation() ? 1 : 0),
             'table_order'              => array('integer', $this->getOrder()),
-        ), array(
+        ),
+            array(
                 "id" => array("integer", $this->getId()),
             )
         );
@@ -638,7 +640,6 @@ class ilDclTable
             ilDclDatatype::INPUTFORMAT_ILIAS_REF,
             ilDclDatatype::INPUTFORMAT_FORMULA,
             ilDclDatatype::INPUTFORMAT_MOB,
-            ilDclDatatype::INPUTFORMAT_BOOLEAN,
             ilDclDatatype::INPUTFORMAT_REFERENCELIST,
             ilDclDatatype::INPUTFORMAT_REFERENCE,
             ilDclDatatype::INPUTFORMAT_FILE,
@@ -992,7 +993,6 @@ class ilDclTable
      */
     public function getDeletePerm()
     {
-
         return (bool) $this->delete_perm;
     }
 

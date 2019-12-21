@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Modules\Test\Result\TestResultService;
-
 require_once './Modules/Test/classes/class.ilTestServiceGUI.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintTracking.php';
 require_once 'Modules/Test/classes/class.ilTestPassFinishTasks.php';
@@ -1333,25 +1331,18 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 			require_once 'Modules/Course/classes/Objectives/class.ilLOTestQuestionAdapter.php';
 			$objectivesAdapter = ilLOTestQuestionAdapter::getInstance($testSession);
 
-			$objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
-			$objectivesList->loadObjectivesTitles();
-			
-			$testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
-			$testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
-			$testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
-			$testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
-			$testResultHeaderLabelBuilder->initObjectiveOrientedMode();
-		}
+            $objectivesList = $this->buildQuestionRelatedObjectivesList($objectivesAdapter, $testSequence);
+            $objectivesList->loadObjectivesTitles();
+            
+            $testResultHeaderLabelBuilder->setObjectiveOrientedContainerId($testSession->getObjectiveOrientedContainerId());
+            $testResultHeaderLabelBuilder->setUserId($testSession->getUserId());
+            $testResultHeaderLabelBuilder->setTestObjId($this->object->getId());
+            $testResultHeaderLabelBuilder->setTestRefId($this->object->getRefId());
+            $testResultHeaderLabelBuilder->initObjectiveOrientedMode();
+        }
+        
+        $result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
 
-		$test_result_service = new TestResultService($this->object->getId(), $active_id, $pass, $testSession->getUserId());
-
-		$result_array = $test_result_service->getResultsAsAssocArray();
-        /*
-		$result_array = $this->getFilteredTestResult($active_id, $pass, $considerHiddenQuestions, $considerOptionalQuestions);
-
-
-
-print_r($result_array);exit;*/
 		$command_solution_details = "";
 		if ($this->object->getShowSolutionDetails())
 		{
@@ -1405,12 +1396,18 @@ print_r($result_array);exit;*/
 			#$template->parseCurrentBlock();
 		}
 
-		$overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
-			$result_array, $active_id, $pass, $this, "outUserPassDetails",
-			$command_solution_details, $questionAnchorNav, $objectivesList
-		);
-		$overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass));
-		$tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
+        $overviewTableGUI = $this->getPassDetailsOverviewTableGUI(
+            $result_array,
+            $active_id,
+            $pass,
+            $this,
+            "outUserPassDetails",
+            $command_solution_details,
+            $questionAnchorNav,
+            $objectivesList
+        );
+        $overviewTableGUI->setTitle($testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass + 1));
+        $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
 		if( $this->object->canShowSolutionPrintview() )
 		{
@@ -1424,19 +1421,16 @@ print_r($result_array);exit;*/
 		$tpl->setVariable("TEXT_RESULTS", $testResultHeaderLabelBuilder->getPassDetailsHeaderLabel($pass+1));
 		$tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-		$uname = $this->object->userLookupFullName($user_id, TRUE);
-		$user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, TRUE);
-		if( !$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired() )
-		{
-			if($this->object->getAnonymity())
-			{
-				$tpl->setVariable("TEXT_HEADING", $this->lng->txt("tst_result_pass"));
-			} else
-			{
-				$tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass, $uname));
-				$tpl->setVariable("USER_DATA", $user_data);
-			}
-		}
+        $uname = $this->object->userLookupFullName($user_id, true);
+        $user_data = $this->getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, true);
+        if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
+            if ($this->object->getAnonymity()) {
+                $tpl->setVariable("TEXT_HEADING", $this->lng->txt("tst_result_pass"));
+            } else {
+                $tpl->setVariable("TEXT_HEADING", sprintf($this->lng->txt("tst_result_user_name_pass"), $pass + 1, $uname));
+                $tpl->setVariable("USER_DATA", $user_data);
+            }
+        }
 
 		$this->populatePassFinishDate($tpl, $this->object->getPassFinishDate($active_id, $pass));
 		
@@ -2189,17 +2183,12 @@ print_r($result_array);exit;*/
 		$ilDB = $DIC['ilDB'];
 		$ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-
-
-		$resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
-
-		$questionIds = array();
-		foreach($resultData as $resultItemKey => $resultItemValue)
-		{
-			if($resultItemKey === 'test' || $resultItemKey === 'pass')
-			{
-				continue;
-			}
+        $resultData = $this->object->getTestResult($active_id, $pass, false, $considerHiddenQuestions);
+        $questionIds = array();
+        foreach ($resultData as $resultItemKey => $resultItemValue) {
+            if ($resultItemKey === 'test' || $resultItemKey === 'pass') {
+                continue;
+            }
 
 			$questionIds[] = $resultItemValue['qid'];
 		}
@@ -2248,7 +2237,7 @@ print_r($result_array);exit;*/
 			{
 				continue;
 			}
-*/
+
 			$filteredTestResult[] = $resultItemValue;
 		}
 

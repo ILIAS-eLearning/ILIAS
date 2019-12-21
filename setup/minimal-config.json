@@ -1,0 +1,22 @@
+{
+	"common" : {
+		"client_id" : "myilias",
+		"master_password" : "my_masterpassword"
+	},
+	"database" : {
+		"user" : "ilias_user"
+	},
+	"filesystem" : {
+		"data_dir" : "/var/lib/ilias"
+	},
+	"http" : {
+		"path" : "http://demo1.cat06.de"
+	},
+	"systemfolder" : {
+		"contact" : {
+			"firstname" : "Richard",
+			"lastname" : "Klees",
+			"email" : "richard.klees@concepts-and-training.de"
+		}
+	}
+}

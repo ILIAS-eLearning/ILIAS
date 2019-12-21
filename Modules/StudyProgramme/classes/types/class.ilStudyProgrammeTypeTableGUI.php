@@ -1,10 +1,10 @@
 <?php
 require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Modules/StudyProgramme/classes/model/class.ilStudyProgrammeType.php');
 require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
 
 
-class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
+class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
+{
 
     /**
      * @var ilCtrl
@@ -44,7 +44,12 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
      * @param string $parent_cmd
      * @param int    $obj_ref_id
      */
-    public function __construct($parent_obj, $parent_cmd, $obj_ref_id) {
+    public function __construct(
+        $parent_obj,
+        $parent_cmd,
+        $obj_ref_id,
+        ilStudyProgrammeTypeRepository $type_repo
+    ) {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $ilTabs = $DIC['ilTabs'];
@@ -57,7 +62,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         $this->setPrefix('prg_types_table');
         $this->setId('prg_types_table');
         $this->obj_ref_id = $obj_ref_id;
-
+        $this->type_repo = $type_repo;
         parent::__construct($parent_obj, $parent_cmd);
 
         $this->setRowTemplate('tpl.types_row.html', 'Modules/StudyProgramme');
@@ -76,11 +81,12 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
      *
      * @param array $set
      */
-    public function fillRow($set){
+    public function fillRow($set)
+    {
         $icon = "";
-        $type = new ilStudyProgrammeType($set['id']);
+        $type = $this->type_repo->readType((int) $set['id']);
 
-        if($this->webdir->has($type->getIconPath(true))) {
+        if ($this->webdir->has($type->getIconPath(true))) {
             $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
         }
 
@@ -88,7 +94,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         $this->tpl->setVariable('DESCRIPTION', $set['description']);
         $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
 
-        if($set["icon"]) {
+        if ($set["icon"]) {
             $this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable('ICON', $icon);
             $this->tpl->setVariable('ICON_ALT', $set["icon"]);
@@ -109,7 +115,8 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
     /**
      * Add columns
      */
-    protected function initColumns() {
+    protected function initColumns()
+    {
         foreach ($this->columns as $column) {
             $this->addColumn($this->lng->txt($column), $column);
         }
@@ -118,8 +125,9 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
     /**
      * Build and set data for table.
      */
-    protected function buildData() {
-        $types = ilStudyProgrammeType::getAllTypes();
+    protected function buildData()
+    {
+        $types = $this->type_repo->readAllTypes();
         $data = array();
         /** @var $type ilStudyProgrammeType */
         foreach ($types as $type) {
@@ -133,5 +141,4 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI {
         }
         $this->setData($data);
     }
-
 }

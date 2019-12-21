@@ -25,7 +25,6 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
 {
-
     public function runAsync($sid)
     {
         $this->initAuth($sid);

@@ -13,7 +13,6 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilCollectFilesJob extends AbstractJob
 {
-
     private $logger = null;
 
 
@@ -81,7 +80,7 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } else {
-                if (($object_type == "file") AND (self::getFileDirs($object_ref_id, $object_name, $object_temp_dir) != false)) {
+                if (($object_type == "file") and (self::getFileDirs($object_ref_id, $object_name, $object_temp_dir) != false)) {
                     $files[] = self::getFileDirs($object_ref_id, $object_name, $object_temp_dir);
                 }
             }
@@ -149,7 +148,7 @@ class ilCollectFilesJob extends AbstractJob
 
         // Avoid the duplication of the uppermost folder when the download is initiated via a folder's action drop-down
         // by not including said folders name in the temp_dir path.
-        if (($num_recursions <= 1) AND ($a_initiated_by_folder_action)) {
+        if (($num_recursions <= 1) and ($a_initiated_by_folder_action)) {
             $temp_dir = $a_temp_dir;
         } else {
             $temp_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_folder_name);
@@ -168,7 +167,7 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($child["ref_id"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } else {
-                if (($child["type"] == "file") AND (self::getFileDirs($child["ref_id"], $child['title'], $temp_dir) != false)) {
+                if (($child["type"] == "file") and (self::getFileDirs($child["ref_id"], $child['title'], $temp_dir) != false)) {
                     $files[] = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir);
                 }
             }

@@ -4,9 +4,9 @@
 
 namespace ILIAS\UI\Component\Dropdown;
 
-
 /**
  * This describes a Standard Dropdown.
  */
-interface Standard extends Dropdown {
+interface Standard extends Dropdown
+{
 }

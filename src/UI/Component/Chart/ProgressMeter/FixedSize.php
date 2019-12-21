@@ -8,6 +8,6 @@ namespace ILIAS\UI\Component\Chart\ProgressMeter;
  * Interface Responsive
  * @package ILIAS\UI\Component\Chart\ProgressMeter
  */
-interface FixedSize extends Standard {
-
+interface FixedSize extends Standard
+{
 }

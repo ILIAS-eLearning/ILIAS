@@ -1,6 +1,7 @@
 <?php
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ILIAS\UI\Component\Input\Factory as InputFactory;
 use ILIAS\UI\Factory;
@@ -13,12 +14,12 @@ use ILIAS\UI\Renderer;
  */
 class ilMMSubitemFormGUI
 {
-
     use Hasher;
     const F_TITLE = "title";
     const F_TYPE = "type";
     const F_PARENT = "parent";
     const F_ACTIVE = "active";
+    const F_ICON = "icon";
     /**
      * @var ilMMItemRepository
      */
@@ -78,8 +79,12 @@ class ilMMSubitemFormGUI
     private function initForm()
     {
         // TITLE
-        $txt = function ($id) : string { return $this->lng->txt($id); };
-        $f = function () : InputFactory { return $this->ui_fa->input(); };
+        $txt = function ($id) : string {
+            return $this->lng->txt($id);
+        };
+        $f = function () : InputFactory {
+            return $this->ui_fa->input();
+        };
 
         $title = $f()->field()->text($txt('sub_title_default'), $txt('sub_title_default_byline'));
         if (!$this->item_facade->isEmpty()) {
@@ -88,26 +93,29 @@ class ilMMSubitemFormGUI
         $items[self::F_TITLE] = $title;
 
         // TYPE
-        $type = $f()->field()->radio($txt('sub_type'), $txt('sub_type_byline'))->withRequired(true);
-        $type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
-
-        foreach ($type_informations as $classname => $information) {
-            if ($this->item_facade->isEmpty()
-                || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
-            ) { // https://mantis.ilias.de/view.php?id=24152
-                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
-                $type = $type->withOption($this->hash($classname), $information->getTypeNameForPresentation(), $information->getTypeBylineForPresentation(), $inputs);
+        if (($this->item_facade->isEmpty() || $this->item_facade->isCustom())) {
+            $type_groups = $this->getTypeGroups($f);
+            $type = $f()->field()->switchableGroup($type_groups, $txt('sub_type'), $txt('sub_type_byline'))->withRequired(true);
+            if (!$this->item_facade->isEmpty()) {
+                $string = $this->item_facade->getType() === '' ? Link::class : $this->item_facade->getType();
+                $type = $type->withValue($this->hash($string));
+            } else {
+                $type = $type->withValue($this->hash(Link::class));
             }
-        }
-
-        if (!$this->item_facade->isEmpty() && $this->item_facade->isCustom()) {
-            $type = $type->withValue($this->hash($this->item_facade->getType()));
-        } elseif ($this->item_facade->isCustom()) {
-            $type = $type->withValue($this->hash(reset(array_keys($type_informations))));
-        }
-
-        if ($this->item_facade->isEmpty() || $this->item_facade->isCustom()) {
             $items[self::F_TYPE] = $type;
+        }
+
+        // ICON
+        if ($this->item_facade->supportsCustomIcon()) {
+            // ICON
+            $icon = $f()->field()->file(new ilMMUploadHandlerGUI(), $txt('sub_icon'))
+                ->withByline($txt('sub_icon_byline'))
+                ->withAcceptedMimeTypes([ilMimeTypeUtil::IMAGE__SVG_XML]);
+            if ($this->item_facade->getIconID() !== null) {
+                $icon = $icon->withValue([$this->item_facade->getIconID()]);
+            }
+
+            $items[self::F_ICON] = $icon;
         }
 
         // PARENT
@@ -160,13 +168,19 @@ class ilMMSubitemFormGUI
         $this->item_facade->setIsTopItm(false);
 
         if ($this->item_facade->isEmpty()) {
-            $type = $this->unhash((string) ($data[0][self::F_TYPE]['value']));
+            $type = $this->unhash((string) ($data[0][self::F_TYPE][0]));
             $this->item_facade->setType($type);
             $r->createItem($this->item_facade);
         }
+
+        if ($this->item_facade->supportsCustomIcon()) {
+            $icon = (string) $data[0][self::F_ICON][0];
+            $this->item_facade->setIconID($icon);
+        }
+
         if ($this->item_facade->isCustom()) {
             $type = $this->item_facade->getType();
-            $type_specific_data = (array) $data[0][self::F_TYPE]['group_values'];
+            $type_specific_data = (array) $data[0][self::F_TYPE][1];
             $type_handler = $this->repository->getTypeHandlerForType($type);
             $type_handler->saveFormFields($this->item_facade->identification(), $type_specific_data);
         }
@@ -180,5 +194,27 @@ class ilMMSubitemFormGUI
     public function getHTML()
     {
         return $this->ui_re->render([$this->form]);
+    }
+
+
+    /**
+     * @param Closure $f
+     *
+     * @return array
+     */
+    private function getTypeGroups(Closure $f) : array
+    {
+        $type_groups = [];
+        $type_informations = $this->repository->getPossibleSubItemTypesWithInformation();
+        foreach ($type_informations as $classname => $information) {
+            if ($this->item_facade->isEmpty()
+                || (!$this->item_facade->isEmpty() && $classname === $this->item_facade->getType() && $this->item_facade->isCustom())
+            ) { // https://mantis.ilias.de/view.php?id=24152
+                $inputs = $this->repository->getTypeHandlerForType($classname)->getAdditionalFieldsForSubForm($this->item_facade->identification());
+                $type_groups[$this->hash($classname)] = $f()->field()->group($inputs, $information->getTypeNameForPresentation());
+            }
+        }
+
+        return $type_groups;
     }
 }

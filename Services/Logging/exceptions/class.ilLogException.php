@@ -14,13 +14,11 @@
  */
 class ilLogException extends ilException
 {
-	/**
-	 * Constructor
-	 */
-	public function __construct($a_message, $a_code = 0)
-	{
-	 	parent::__construct($a_message, $a_code);
-	}
+    /**
+     * Constructor
+     */
+    public function __construct($a_message, $a_code = 0)
+    {
+        parent::__construct($a_message, $a_code);
+    }
 }
-
-?>

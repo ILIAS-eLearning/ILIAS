@@ -6,133 +6,179 @@ namespace ILIAS\Setup;
 
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\Objective;
-use ILIAS\Setup\ConfigurationLoader;
 use ILIAS\Setup\UnachievableException;
 
 /**
  * Tries to enumerate all preconditions for the given objective, where the ones that
  * can be achieved (i.e. have no further preconditions on their own) will be
- * returned first. Will also attempt to only return every objective once. This thus 
+ * returned first. Will also attempt to only return every objective once. This thus
  * expects, that returned objectives will be achieved somehow.
  */
-class ObjectiveIterator implements \Iterator {
-	/**
-	 * @var	Environment
-	 */
-	protected $environment;
+class ObjectiveIterator implements \Iterator
+{
+    /**
+     * @var	Environment
+     */
+    protected $environment;
 
-	/**
-	 * @var Objective
-	 */
-	protected $objective;
+    /**
+     * @var Objective
+     */
+    protected $objective;
 
-	/**
-	 * @var Objective[]
-	 */
-	protected $stack;
+    /**
+     * @var Objective[]
+     */
+    protected $stack;
 
-	/**
-	 * @var Objective|null
-	 */
-	protected $current;
+    /**
+     * @var Objective|null
+     */
+    protected $current;
 
-	/**
-	 * @var array<string, bool>
-	 */
-	protected $returned;
+    /**
+     * @var array<string, bool>
+     */
+    protected $returned;
 
-	/**
-	 * @var array<string, string[]>
-	 */
-	protected $reverse_dependencies;
+    /**
+     * @var	array<string, bool>
+     */
+    protected $failed;
+
+    /**
+     * @var array<string, string[]>
+     */
+    protected $reverse_dependencies;
 
 
-	public function __construct(Environment $environment, Objective $objective) {
-		$this->environment = $environment;
-		$this->objective = $objective;
-		$this->rewind();
-	}
+    public function __construct(Environment $environment, Objective $objective)
+    {
+        $this->environment = $environment;
+        $this->objective = $objective;
+        $this->rewind();
+    }
 
-	/**
-	 * @return void
-	 */
-	public function setEnvironment(Environment $environment) {
-		$this->environment = $environment;
-	}
+    public function setEnvironment(Environment $environment) : void
+    {
+        $this->environment = $environment;
+    }
 
-	public function rewind() {
-		$this->stack = [$this->objective];
-		$this->current = null; 
-		$this->returned = [];
-		$this->reverse_dependencies = [];
-		$this->next();
-	}
+    public function markAsFailed(Objective $objective)
+    {
+        if (!isset($this->returned[$objective->getHash()])) {
+            throw new \LogicException(
+                "You may only mark objectives as failed that have been returned by this iterator."
+            );
+        }
 
-	public function current() {
-		if ($this->current === null) {
-			throw new \LogicException(
-				"Iterator is finished or wasn't initialized correctly internally."
-			);
-		}
-		return $this->current;
-	}
+        $this->failed[$objective->getHash()] = true;
+    }
 
-	public function key() {
-		return $this->current()->getHash();
-	}
+    public function rewind()
+    {
+        $this->stack = [$this->objective];
+        $this->current = null;
+        $this->returned = [];
+        $this->failed = [];
+        $this->reverse_dependencies = [];
+        $this->next();
+    }
 
-	public function next() {
-		if (count($this->stack) === 0) {
-			$this->current = null;
-			return;
-		}
+    public function current()
+    {
+        if ($this->current === null) {
+            throw new \LogicException(
+                "Iterator is finished or wasn't initialized correctly internally."
+            );
+        }
+        return $this->current;
+    }
 
-		$cur = array_pop($this->stack);
-		$hash = $cur->getHash();
-		$preconditions = array_filter(
-			$cur->getPreconditions($this->environment),
-			function ($p) {
-				return !isset($this->returned[$p->getHash()]);
-			}
-		);
+    public function key()
+    {
+        return $this->current()->getHash();
+    }
 
-		if (count($preconditions) === 0) {
-			$this->returned[$hash] = true;
-			$this->current = $cur;
-			return;
-		}
+    public function next()
+    {
+        if (count($this->stack) === 0) {
+            $this->current = null;
+            return;
+        }
 
-		$this->stack[] = $cur;
-		$this->detectDependencyCycles($hash, $hash);
-		foreach (array_reverse($preconditions) as $p) {
-			$this->stack[] = $p;
-			$this->setReverseDependency($p->getHash(), $hash);
-		}
-		$this->next();
-	}
+        $cur = array_pop($this->stack);
+        $hash = $cur->getHash();
 
-	public function valid() {
-		return $this->current !== null;
-	}
+        if (isset($this->returned[$hash]) || isset($this->filed[$hash])) {
+            $this->next();
+            return;
+        }
 
-	protected function detectDependencyCycles(string $cur, string $next) {
-		if (!isset($this->reverse_dependencies[$next])) {
-			return;
-		}
-		if (in_array($cur, $this->reverse_dependencies[$next])) {
-			throw new UnachievableException(
-				"The objectives contain a dependency cycle and won't all be achievable."
-			);
-		}
-		foreach ($this->reverse_dependencies[$next] as $d) {
-			$this->detectDependencyCycles($cur, $d);
-		}
-	}
+        $preconditions = array_filter(
+            $cur->getPreconditions($this->environment),
+            function ($p) {
+                $h = $p->getHash();
+                return !isset($this->returned[$h]) || isset($this->failed[$h]);
+            }
+        );
 
-	protected function setReverseDependency(string $other, string $cur) {
-		if (!isset($this->reverse_dependencies[$other])) {
-			$this->reverse_dependencies[$other] = [];
-		}
-		$this->reverse_dependencies[$other][] = $cur;
-	}
+        $failed_preconditions = array_filter(
+            $preconditions,
+            function ($p) {
+                return isset($this->failed[$p->getHash()]);
+            }
+        );
+
+        // We only have preconditions left that we know to have failed.
+        if (count($preconditions) !== 0
+        && count($preconditions) === count($failed_preconditions)) {
+            throw new UnachievableException(
+                "Objective only has failed preconditions."
+            );
+        }
+
+        // No preconditions open, we can proceed with the objective.
+        if (count($preconditions) === 0) {
+            $this->returned[$hash] = true;
+            $this->current = $cur;
+            return;
+        }
+
+        $this->stack[] = $cur;
+        $this->detectDependencyCycles($hash, $hash);
+        foreach (array_reverse($preconditions) as $p) {
+            $this->stack[] = $p;
+            $this->setReverseDependency($p->getHash(), $hash);
+        }
+        $this->next();
+    }
+
+    public function valid()
+    {
+        return $this->current !== null;
+    }
+
+    protected function detectDependencyCycles(string $cur, string $next)
+    {
+        if (!isset($this->reverse_dependencies[$next])) {
+            return;
+        }
+        if (in_array($cur, $this->reverse_dependencies[$next])) {
+            throw new UnachievableException(
+                "The objectives contain a dependency cycle and won't all be achievable."
+            );
+        }
+        foreach ($this->reverse_dependencies[$next] as $d) {
+            $this->detectDependencyCycles($cur, $d);
+        }
+    }
+
+    protected function setReverseDependency(string $other, string $cur)
+    {
+        if (!isset($this->reverse_dependencies[$other])) {
+            $this->reverse_dependencies[$other] = [];
+        }
+        $this->reverse_dependencies[$other][] = $cur;
+    }
 }

@@ -67,10 +67,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	 * @var ilTestSequence|ilTestSequenceDynamicQuestionSet
 	 */
 	protected $testSequence = null;
-    /**
-     * @var QuestionConfig
-     */
-    protected $question_config;
 
 	/**
 	* ilTestOutputGUI constructor
@@ -771,11 +767,6 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 		global $DIC;
 		$ilUser = $DIC['ilUser'];
 
-        //Last Question Revision ID
-        $revision_id = $this->testSequence->getQuestionRevisionIdForSequence($this->getCurrentSequenceElement());
-        $this->persistUserAnswerResult($revision_id,$this->getCurrentSequenceElement());
-
-
 		require_once 'Services/Utilities/classes/class.ilConfirmationGUI.php';
 		$confirmation = new ilConfirmationGUI();
 		$confirmation->setFormAction($this->ctrl->getFormAction($this, 'confirmFinish'));
@@ -1386,13 +1377,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 	}
 	// hey.
 
-    abstract protected function getQuestionConfig():QuestionConfig;
-
 	abstract protected function showQuestionCmd();
-
-	abstract protected function redirectToNextQuestionCmd();
-
-    abstract protected function redirectToPreviousQuestionCmd();
 
 	abstract protected function editSolutionCmd();
 
@@ -3053,40 +3038,4 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 			unset($_SESSION['forced_feedback_navigation_url'][$this->testSession->getActiveId()]);
 		}
 	}
-
-    protected function isValidSequenceElement($sequenceElement)
-    {
-        if( $sequenceElement === false )
-        {
-            return false;
-        }
-
-        if( $sequenceElement < 1 )
-        {
-            return false;
-        }
-
-        if( !$this->testSequence->getPositionOfSequence($sequenceElement) )
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param \ILIAS\DI\Container $DIC
-     * @param string              $revision_id
-     */
-    protected function persistUserAnswerResult(string $revision_id, $order) : void
-    {
-        global $DIC;
-
-        $test_result_service = new TestResultService(
-            $DIC->ctrl()->getContextObjId(),
-            $this->testSession->getActiveId(),
-            $this->testSession->getPass(),
-            $DIC->user()->getId());
-        $test_result_service->persistAnswerResult($revision_id, 0, $order);
-    }
 }

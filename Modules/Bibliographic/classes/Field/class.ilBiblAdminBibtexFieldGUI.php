@@ -10,5 +10,4 @@
 
 class ilBiblAdminBibtexFieldGUI extends ilBiblAdminFieldGUI
 {
-
 }

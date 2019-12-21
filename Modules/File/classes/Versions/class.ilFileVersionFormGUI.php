@@ -11,7 +11,6 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ilFileVersionFormGUI extends ilPropertyFormGUI
 {
-
     const MODE_ADD = 1;
     const MODE_REPLACE = 2;
     const F_TITLE = 'title';
@@ -122,6 +121,10 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
             return false;
         }
 
+        // bugfix mantis 26271
+        global $DIC;
+        $DIC->upload()->register(new ilCountPDFPagesPreProcessors());
+
         $file = $this->getInput(self::F_FILE);
         $file_temp_name = $file['tmp_name'];
 
@@ -135,7 +138,14 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
             return false;
         }
         $input_title = (string) ilUtil::stripSlashes($this->getInput(self::F_TITLE));
-        $title = $input_title === "" ? $result->getName() : $input_title;
+        // bugfix mantis 0026160
+        $file_name = $this->file->getFileName();
+        if (strlen(trim($input_title)) == 0) {
+            $input_title = $file_name;
+        } else {
+            $input_title = $this->file->checkFileExtension($file_name, $input_title);
+        }
+
 
         switch ($this->save_mode) {
             case self::MODE_ADD:
@@ -151,7 +161,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
         $this->file->setFileType($result->getMimeType());
         $this->file->setFileSize($result->getSize());
         $this->file->setFilename($result->getName());
-        $this->file->setTitle($title);
+        $this->file->setTitle($input_title);
         $this->file->setDescription($this->getInput((string) self::F_DESCRIPTION));
         $this->file->update();
 

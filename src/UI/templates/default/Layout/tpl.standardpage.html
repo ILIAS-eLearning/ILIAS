@@ -9,6 +9,8 @@
 	<base href="{BASE}" />
 	<!-- END base -->
 
+	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
+
 	<style type="text/css">
 		{CSS_INLINE}
 	</style>
@@ -24,13 +26,17 @@
 
 <body>
 
-	<section class="il-layout-page">
+	<section class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
 
 		<header>
 			<div class="header-inner">
 				<div class="il-logo">
 					{LOGO}
+					<div class="il-pagetitle">
+						{TITLE}
+					</div>
 				</div>
+
 				<!-- BEGIN header_locator -->
 				<nav class="il-header-locator">
 					{HEADER_BREADCRUMBS}
@@ -50,7 +56,13 @@
 
 		<!-- html5 main-tag is not supported in IE / div is needed -->
 		<main class="il-layout-page-content">
-			{CONTENT}
+			<div>
+				<!-- BEGIN mode_info -->
+				{MODEINFO}
+				<!-- END mode_info -->
+				{CONTENT}
+			</div>
+
 
 			<footer>
 				{FOOTER}

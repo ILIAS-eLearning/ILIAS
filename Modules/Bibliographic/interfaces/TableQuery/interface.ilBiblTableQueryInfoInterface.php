@@ -7,7 +7,6 @@
  */
 interface ilBiblTableQueryInfoInterface
 {
-
     const SORTING_ASC = "ASC";
     const SORTING_DESC = "DESC";
 
@@ -73,4 +72,3 @@ interface ilBiblTableQueryInfoInterface
      */
     public function getFilters();
 }
-

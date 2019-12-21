@@ -8,6 +8,7 @@
 	<events>		
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Category" />
+		<event type="listen" id="Modules/StudyProgramme" />
 		<event type="raise" id="deleteReference" />
 	</events>
 </service>

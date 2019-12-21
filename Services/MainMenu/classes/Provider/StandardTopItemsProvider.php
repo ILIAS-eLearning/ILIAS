@@ -1,8 +1,10 @@
 <?php namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ilMyStaffAccess;
 
 /**
  * Class StandardTopItemsProvider
@@ -16,6 +18,10 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
      * @var StandardTopItemsProvider
      */
     private static $instance;
+    /**
+     * @var BasicAccessCheckClosures
+     */
+    private $basic_access_helper;
     /**
      * @var IdentificationInterface
      */
@@ -62,6 +68,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
+        $this->basic_access_helper = BasicAccessCheckClosures::getInstance();
         $this->repository_identification = $this->if->identifier('repository');
         $this->personal_workspace_identification = $this->if->identifier('personal_workspace');
         $this->achievements_identification = $this->if->identifier('achievements');
@@ -82,74 +89,88 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         // Dashboard
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), "");
+        $title = $this->dic->language()->txt("mm_dashboard");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), $title);
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
             ->withSymbol($icon)
-            ->withTitle($this->dic->language()->txt("mm_dashboard"))
-            ->withAction("ilias.php?baseClass=ilPersonalDesktopGUI&cmd=jumpToMemberships")
+            ->withTitle($title)
+            ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToMemberships")
             ->withPosition(10)
             ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
             ->withAvailableCallable(
                 function () use ($dic) {
+                    return true;
+
                     return $dic->settings()->get('disable_my_memberships', 0) == 0;
                 }
             )
             ->withVisibilityCallable(
-                function () use ($dic) {
-                    $pdItemsViewSettings = new \ilPDSelectedItemsBlockViewSettings($dic->user());
-
-                    return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledMemberships();
-                }
+                $this->basic_access_helper->isUserLoggedIn()
             );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+        $title = $f("mm_repository");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
+            // ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
             ->withSymbol($icon)
-            ->withTitle($f("mm_repository"))
+            ->withTitle($title)
             ->withPosition(20);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), "");
+        $title = $f("mm_personal_workspace");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), $title);
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
-            ->withTitle($f("mm_personal_workspace"))
+            ->withTitle($title)
             ->withPosition(30);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), "");
+        $title = $f("mm_achievements");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), $title);
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
-            ->withTitle($f("mm_achievements"))
+            ->withTitle($title)
             ->withPosition(40);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), "");
+        $title = $f("mm_communication");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
-            ->withTitle($f("mm_communication"))
+            ->withTitle($title)
             ->withPosition(50);
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), "");
+        $title = $f("mm_organisation");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
+                return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
+            }))
             ->withSymbol($icon)
-            ->withTitle($f("mm_organisation"))
+            ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                function () use ($dic) {
-                    return (bool) ($dic->settings()->get("enable_my_staff"));
+                static function () use ($dic) {
+                    return (bool) ($dic->settings()->get('enable_my_staff'));
                 }
             );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), "");
+        $title = $f("mm_administration");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), $title);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
             ->withSymbol($icon)
-            ->withTitle($f("mm_administration"))
+            ->withTitle($title)
             ->withPosition(70)
             ->withVisibilityCallable(
-                function () use ($dic) { return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID)); }
+                $this->basic_access_helper->isUserLoggedIn(function () use ($dic) {
+                    return (bool) ($dic->access()->checkAccess('visible', '', SYSTEM_FOLDER_ID));
+                })
             );
 
         return [

@@ -38,11 +38,14 @@ class ilMailGroupAddressType extends ilBaseMailAddressType
 
             $this->logger->debug(sprintf(
                 "Found the following group member user ids for address (object title) '%s' and obj_id %s: %s",
-                $possibleGroupTitle, $possibleGroupObjId, implode(', ', array_unique($usrIds))
+                $possibleGroupTitle,
+                $possibleGroupObjId,
+                implode(', ', array_unique($usrIds))
             ));
         } else {
             $this->logger->debug(sprintf(
-                "Did not find any group object for address (object title) '%s'", $possibleGroupTitle
+                "Did not find any group object for address (object title) '%s'",
+                $possibleGroupTitle
             ));
         }
 

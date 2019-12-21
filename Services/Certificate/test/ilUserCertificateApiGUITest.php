@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
 {
     /**
-     * 
+     *
      */
     public function testCreationOfGuiClass() : void
     {

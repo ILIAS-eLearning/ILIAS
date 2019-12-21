@@ -55,6 +55,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->gs = $gs;
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
+        $this->il_settings = $DIC->settings();
     }
 
 
@@ -107,8 +108,22 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->prepareBasicCSS();
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
-
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function printToString() : string
+    {
+        $this->prepareOutputHeaders();
+        $this->prepareBasicJS();
+        $this->prepareBasicCSS();
+
+        PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
+
+        return $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
     }
 
 
@@ -202,7 +217,16 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setTitle($a_title)
     {
-        $this->legacy_content_template->setTitle($a_title);
+        $this->legacy_content_template->setTitle((string) $a_title);
+
+        $short_title = (string)$this->il_settings->get('short_inst_name');
+        if (trim($short_title) === "") {
+            $short_title = 'ILIAS';
+        }
+
+        PageContentProvider::setShortTitle($short_title);
+        PageContentProvider::setViewTitle((string) $a_title);
+        PageContentProvider::setTitle($short_title);
     }
 
 
@@ -224,6 +248,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->legacy_content_template->setIconDesc($a_icon_desc);
     }
 
+
+    public function setBanner(string $img_src)
+    {
+        $this->legacy_content_template->setBanner($img_src);
+    }
 
     // ALERTS & OS-MESSAGES
 
@@ -446,7 +475,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
-        // Nothing to do
+        $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
+        PageContentProvider::setPermaLink($href);
     }
 
 
@@ -503,7 +533,17 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
      */
     public function getOnLoadCodeForAsynch()
     {
-        throw new NotImplementedException("This Method is no longer available in GlobalTemplate");
+        // see e.g. bug #26413
+        $js = "";
+        foreach ($this->gs->layout()->meta()->getOnLoadCode()->getItemsInOrderOfDelivery() as $code) {
+            $js .= $code->getContent() . "\n";
+        }
+        if ($js) {
+            return '<script type="text/javascript">' . "\n" .
+                $js .
+                '</script>' . "\n";
+        }
+        return "";
     }
 
 

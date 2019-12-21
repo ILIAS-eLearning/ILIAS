@@ -1,6 +1,6 @@
 var Container = require('../AppContainer');
 
-module.exports = function(conversationId, oldestMessageTimestamp) {
+module.exports = function(conversationId, oldestMessageTimestamp, reverseSorting) {
 	if(conversationId !== null)
 	{
 		var namespace = Container.getNamespace(this.nsp.name);
@@ -26,7 +26,8 @@ module.exports = function(conversationId, oldestMessageTimestamp) {
 				}
 
 				var json = conversation.json();
-				json.messages = history;
+				json.messages = (reverseSorting ? history.reverse() : history);
+				json.reverseSorting = reverseSorting;
 				json.oldestMessageTimestamp = oldestTimestamp;
 
 				socket.participant.emit('history', json);

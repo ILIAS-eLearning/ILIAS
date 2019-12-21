@@ -8,7 +8,6 @@
  */
 class ilDclRecordQueryObject
 {
-
     protected $selectStatement;
     protected $joinStatement;
     protected $whereStatement;

@@ -1,5 +1,6 @@
 <?php namespace ILIAS\Repository\Provider;
 
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -17,6 +18,7 @@ use InvalidArgumentException;
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
 
+
     /**
      * @inheritDoc
      */
@@ -32,27 +34,31 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
+        $access_helper = BasicAccessCheckClosures::getInstance();
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("root", "")->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), "");
+        $title = $this->getHomeItem()->getTitle();
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
 
         // Home
         $entries[] = $this->getHomeItem()
+            ->withVisibilityCallable($access_helper->isRepositoryReadable())
             ->withParent($top)
-	        ->withSymbol($icon)
-	        ->withPosition(20);
+            ->withSymbol($icon)
+            ->withPosition(20);
 
         // Tree-View
         $mode = ($_SESSION["il_rep_mode"] == "flat")
             ? "tree"
             : "flat";
-        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=".$mode."&ref_id=".$_GET["ref_id"];
+        $link = "ilias.php?baseClass=ilRepositoryGUI&cmd=frameset&set_mode=" . $mode . "&ref_id=" . $_GET["ref_id"];
         $title = ($mode == "flat")
             ? $this->dic->language()->txt("mm_repo_tree_view_act")
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), "");
+        $title = $this->dic->language()->txt("mm_rep_tree_view");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), $title);
 
+        /*
         if ($_GET["baseClass"] == "ilRepositoryGUI") {
             $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
                 ->withAction($link)
@@ -60,12 +66,32 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withPosition(30)
                 ->withSymbol($icon)
                 ->withTitle($title);
-        }
+        }*/
 
-        // LastVisited
-        $entries[] = $this->getLastVisitedItem()
+        $entries[]
+            = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
+            ->withVisibilityCallable($access_helper->isRepositoryReadable())
+            ->withContentWrapper(function () {
+                return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
+            })
+            ->withSupportsAsynchronousLoading(false)
+            ->withTitle($title)
+            ->withSymbol($icon)
+            ->withParent($top)
+            ->withPosition(20);
+
+        $p = $this;
+        $entries[] = $this->mainmenu
+            ->complex($this->if->identifier('last_visited'))
+            ->withTitle($this->dic->language()->txt('last_visited'))
+            ->withSupportsAsynchronousLoading(true)
+            ->withVisibilityCallable($access_helper->isUserLoggedIn())
             ->withPosition(40)
-            ->withParent($top);
+            ->withParent($top)
+            ->withContentWrapper(function () use ($p) {
+                return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
+            });
+
 
         return $entries;
     }
@@ -75,7 +101,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $dic = $this->dic;
 
-        $title = function () use ($dic): string {
+        $title = function () use ($dic) : string {
             try {
                 $nd = $dic['tree']->getNodeData(ROOT_FOLDER_ID);
                 $title = ($nd["title"] === "ILIAS" ? $dic->language()->txt("repository") : $nd["title"]);
@@ -103,48 +129,68 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
     }
 
 
-    private function getLastVisitedItem() : LinkList
+
+    /**
+     * Render last visited
+     *
+     * @return string
+     */
+    protected function renderLastVisited()
     {
-        $dic = $this->dic;
-        // LastVisited
-        $links = function () : array {
-            $items = [];
-            if (isset($this->dic['ilNavigationHistory'])) {
-                $items = $this->dic['ilNavigationHistory']->getItems();
-            }
-            $links = [];
-            reset($items);
-            $cnt = 0;
-            $first = true;
+        $nav_items = [];
+        if (isset($this->dic['ilNavigationHistory'])) {
+            $nav_items = $this->dic['ilNavigationHistory']->getItems();
+        }
+        reset($nav_items);
+        $cnt = 0;
+        $first = true;
+        $item_groups = [];
 
-            foreach ($items as $k => $item) {
-                if ($cnt >= 10) {
-                    break;
-                }
-
-                if (!isset($item["ref_id"]) || !isset($_GET["ref_id"])
-                    || ($item["ref_id"] != $_GET["ref_id"] || !$first)
-                )            // do not list current item
-                {
-                    $ititle = ilUtil::shortenText(strip_tags($item["title"]), 50, true); // #11023
-                    $links[] = $this->mainmenu->link($this->if->identifier('last_visited_' . $item["ref_id"]))
-                        ->withTitle($ititle)
-                        ->withSymbol($this->dic->ui()->factory()->symbol()->icon()->standard($item['type'], $item['type'])->withIsOutlined(true))
-                        ->withAction($item["link"]);
-                }
-                $first = false;
+        $f = $this->dic->ui()->factory();
+        foreach ($nav_items as $k => $nav_item) {
+            if ($cnt >= 10) {
+                break;
             }
 
-            return $links;
-        };
+            if (!isset($nav_item["ref_id"]) || !isset($_GET["ref_id"])
+                || ($nav_item["ref_id"] != $_GET["ref_id"] || !$first)
+            ) {            // do not list current item
+                $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
+                $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
+                $items[] = $f->item()->standard(
+                    $f->button()->shy($ititle, $nav_item["link"])
+                )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($obj_id), $ititle));
+            }
+            $first = false;
+        }
 
-        return $this->mainmenu->linkList($this->if->identifier('last_visited'))
-            ->withLinks($links)
-            ->withTitle($this->dic->language()->txt('last_visited'))
-            ->withVisibilityCallable(
-                function () use ($dic) {
-                    return ($dic->user()->getId() != ANONYMOUS_USER_ID);
-                }
-            );
+        $item_groups[] = $f->item()->group("", $items);
+        $panel = $f->panel()->secondary()->listing("", $item_groups);
+
+        return $this->dic->ui()->renderer()->render([$panel]);
+    }
+
+
+
+    /**
+     * Render repository tree
+     *
+     * @return string
+     */
+    protected function renderRepoTree()
+    {
+        global $DIC;
+
+        $tree = $DIC->repositoryTree();
+        $ref_id = (int) $_GET["ref_id"];
+        if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
+            $ref_id = $tree->readRootId();
+        }
+
+        $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
+        $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
+        $exp->setSkipRootNode(true);
+
+        return $exp->getHTML();
     }
 }

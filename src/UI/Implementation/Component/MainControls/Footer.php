@@ -13,36 +13,40 @@ use ILIAS\UI\Component\Link;
  */
 class Footer implements MainControls\Footer
 {
-	use ComponentHelper;
+    use ComponentHelper;
 
-	public function __construct(array $links, string $text = '')
-	{
-		$types = [\ILIAS\UI\Component\Link\Link::class];
-		$this->checkArgListElements('links', $links, $types);
-		$this->links = $links;
-		$this->text = $text;
-	}
+    /**
+     * @var string
+     */
+    protected $permanent_url = "";
 
-	public function getLinks(): array
-	{
-		return $this->links;
-	}
+    public function __construct(array $links, string $text = '')
+    {
+        $types = [\ILIAS\UI\Component\Link\Link::class];
+        $this->checkArgListElements('links', $links, $types);
+        $this->links = $links;
+        $this->text = $text;
+    }
 
-	public function getText(): string
-	{
-		return $this->text;
-	}
+    public function getLinks() : array
+    {
+        return $this->links;
+    }
 
-	public function withPermanentURL(\ILIAS\Data\URI $url): MainControls\Footer
-	{
-		$clone = clone $this;
-		$clone->permanent_url = $url;
-		return $clone;
-	}
+    public function getText() : string
+    {
+        return $this->text;
+    }
 
-	public function getPermanentURL()
-	{
-		return $this->permanent_url;
-	}
+    public function withPermanentURL(\ILIAS\Data\URI $url) : MainControls\Footer
+    {
+        $clone = clone $this;
+        $clone->permanent_url = $url;
+        return $clone;
+    }
 
+    public function getPermanentURL()
+    {
+        return $this->permanent_url;
+    }
 }

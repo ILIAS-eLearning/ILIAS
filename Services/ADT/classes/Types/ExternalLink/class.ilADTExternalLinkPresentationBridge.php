@@ -11,52 +11,44 @@
 class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
 {
 
-	/**
-	 * Is valid type
-	 * @param ilADT $a_adt
-	 * @return bool
-	 */
-	protected function isValidADT(ilADT $a_adt)
-	{
-		return $a_adt instanceof ilADTExternalLink;
-	}
+    /**
+     * Is valid type
+     * @param ilADT $a_adt
+     * @return bool
+     */
+    protected function isValidADT(ilADT $a_adt)
+    {
+        return $a_adt instanceof ilADTExternalLink;
+    }
 
-	/**
-	 * Get html 
-	 * @return string
-	 */
-	public function getHTML()
-	{
-		if($this->getADT()->isNull())
-		{
-			return;
-		}
-		if(!strlen($this->getADT()->getTitle()))
-		{
-			$presentation_value = $this->getADT()->getUrl();
-			$presentation_clickable = ilUtil::makeClickable($presentation_value);
-			return $this->decorate($presentation_clickable);
-		}
-		
-		return $this->decorate(
-			'<a target="_blank" href="'.$this->getADT()->getUrl().'">'.$this->getADT()->getTitle().'</a>'
-		);
-		
-	}
+    /**
+     * Get html
+     * @return string
+     */
+    public function getHTML()
+    {
+        if ($this->getADT()->isNull()) {
+            return;
+        }
+        if (!strlen($this->getADT()->getTitle())) {
+            $presentation_value = $this->getADT()->getUrl();
+            $presentation_clickable = ilUtil::makeClickable($presentation_value);
+            return $this->decorate($presentation_clickable);
+        }
+        
+        return $this->decorate(
+            '<a target="_blank" href="' . $this->getADT()->getUrl() . '">' . $this->getADT()->getTitle() . '</a>'
+        );
+    }
 
-	/**
-	 * Get soratable
-	 * @return type
-	 */
-	public function getSortable()
-	{
-		if(!$this->getADT()->isNull())
-		{
-			return $this->getADT()->getUrl();
-		}
-	}
-	
-
+    /**
+     * Get soratable
+     * @return type
+     */
+    public function getSortable()
+    {
+        if (!$this->getADT()->isNull()) {
+            return $this->getADT()->getUrl();
+        }
+    }
 }
-
-?>

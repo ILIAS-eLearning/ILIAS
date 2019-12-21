@@ -13,27 +13,27 @@ use \Psr\Http\Message\ServerRequestInterface;
  */
 class ilUIService
 {
-	/**
-	 * @var ilUIServiceDependencies
-	 */
-	protected $_deps;
+    /**
+     * @var ilUIServiceDependencies
+     */
+    protected $_deps;
 
 
-	/**
-	 * Constructor
-	 *
-	 * @param ServerRequestInterface $request
-	 */
-	public function __construct(ServerRequestInterface $request, UIServices $ui)
-	{
-		$this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
-	}
+    /**
+     * Constructor
+     *
+     * @param ServerRequestInterface $request
+     */
+    public function __construct(ServerRequestInterface $request, UIServices $ui)
+    {
+        $this->_deps = new ilUIServiceDependencies($ui, new ilUIFilterRequestAdapter($request));
+    }
 
-	/**
-	 * @return ilUIFilterService
-	 */
-	public function filter(): ilUIFilterService
-	{
-		return new ilUIFilterService($this, $this->_deps);
-	}
+    /**
+     * @return ilUIFilterService
+     */
+    public function filter() : ilUIFilterService
+    {
+        return new ilUIFilterService($this, $this->_deps);
+    }
 }

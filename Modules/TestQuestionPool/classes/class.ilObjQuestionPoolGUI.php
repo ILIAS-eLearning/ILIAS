@@ -76,9 +76,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'calling_consumer');
 		$this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
-
-
-
 		parent::__construct("",$_GET["ref_id"], true, false);
 
 		$this->authoring_service = $DIC->assessment()->questionAuthoring($this->object->getId(), $DIC->user()->getId());

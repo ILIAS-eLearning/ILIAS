@@ -4,22 +4,22 @@
 include_once('./Services/COPage/classes/class.ilPageConfig.php');
 
 /**
- * Question page configuration 
+ * Question page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * 
+ *
  * @version $Id$
- * 
+ *
  * @ingroup ModulesTestQuestionPool
  */
 class ilAssQuestionPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		$this->setEnablePCType('Tabs', true);
-		$this->setEnableInternalLinks(false);
-	}
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->setEnablePCType('Tabs', true);
+        $this->setEnableInternalLinks(false);
+    }
 }

@@ -3,13 +3,15 @@
 /* Copyright (c) 2017 Ralph Dittrich <dittrich@qualitus.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Chart\ProgressMeter;
+
 use ILIAS\UI\Component\Component;
 
 /**
  * Interface ProgressMeter
  * @package ILIAS\UI\Component\Chart\ProgressMeter
  */
-interface ProgressMeter extends Component {
+interface ProgressMeter extends Component
+{
 
     /**
      * Get maximum value
@@ -40,5 +42,4 @@ interface ProgressMeter extends Component {
      * @return int|float
      */
     public function getMainValue();
-
 }

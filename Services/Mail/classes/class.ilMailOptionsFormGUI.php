@@ -60,7 +60,7 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
     }
 
     /**
-     * 
+     *
      */
     protected function init() : void
     {

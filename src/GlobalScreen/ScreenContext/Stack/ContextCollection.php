@@ -10,7 +10,6 @@ use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
  */
 class ContextCollection
 {
-
     const C_MAIN = 'main';
     const C_DESKTOP = 'desktop';
     const C_REPO = 'repo';
@@ -160,6 +159,16 @@ class ContextCollection
     {
         $this->push($this->repo->external());
 
+        return $this;
+    }
+
+
+    /**
+    * @return ContextCollection
+    */
+    public function lti() : ContextCollection
+    {
+        $this->push($this->repo->lti());
         return $this;
     }
 }

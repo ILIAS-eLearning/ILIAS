@@ -26,7 +26,6 @@ il.LearningModule = {
 		if (!href) {
 			href = $(e.target).parents("[href]").attr("href");
 		}
-		console.log(href);
 		if (href != "") {
 			return il.LearningModule.loadContentFrame(href, target);
 		}

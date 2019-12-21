@@ -13,50 +13,44 @@
  */
 class ilContainerUserFilter
 {
-	/**
-	 * @var array
-	 */
-	protected $data;
+    /**
+     * @var array
+     */
+    protected $data;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct($data)
-	{
-		$this->data = $data;
-	}
+    /**
+     * Constructor
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 
-	/**
-	 * Get data
-	 *
-	 * @return array
-	 */
-	public function getData()
-	{
-		return $this->data;
-	}
+    /**
+     * Get data
+     *
+     * @return array
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
 
-	/**
-	 * Is empty?
-	 *
-	 * @return bool
-	 */
-	public function isEmpty(): bool
-	{
-		$empty = true;
-		if (is_array($this->data))
-		{
-			foreach ($this->data as $d)
-			{
-				if (trim($d) != "")
-				{
-					$empty = false;
-				}
-			}
-		}
-		return $empty;
-	}
-
-
-
+    /**
+     * Is empty?
+     *
+     * @return bool
+     */
+    public function isEmpty() : bool
+    {
+        $empty = true;
+        if (is_array($this->data)) {
+            foreach ($this->data as $d) {
+                if (trim($d) != "") {
+                    $empty = false;
+                }
+            }
+        }
+        return $empty;
+    }
 }

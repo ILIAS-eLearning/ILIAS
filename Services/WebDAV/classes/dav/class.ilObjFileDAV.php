@@ -62,17 +62,18 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @throws BadRequest
      * @throws Forbidden
      */
-    function put($data)
-    {        
-        if($this->repo_helper->checkAccess('write', $this->getRefId()))
-        {
-            // Stolen from ilObjFile->addFileVersion
-            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
-            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
-            ilHistory::_createEntry($this->obj->getId(), "new_version", $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
-            $this->obj->addNewsNotification("file_updated");
+    public function put($data)
+    {
+        if ($this->repo_helper->checkAccess('write', $this->getRefId())) {
+            $settings = new ilSetting('file_access');
+            if ($settings->get('webdav_versioning_enabled', '1') == '1') {
+                // Stolen from ilObjFile->addFileVersion
+                $this->setObjValuesForNewFileVersion();
+                $this->handleFileUpload($data, 'new_version');
+            } else {
+                $this->handleFileUpload($data, 'replace');
+            }
 
-            $this->handleFileUpload($data);
 
             return $this->getETag();
         }
@@ -87,17 +88,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @return mixed
      * @throws Forbidden
      */
-    function get()
+    public function get()
     {
-        if($this->repo_helper->checkAccess("read", $this->obj->getRefId()))
-        {
+        if ($this->repo_helper->checkAccess("read", $this->obj->getRefId())) {
             $file = $this->getPathToFile();
-            if(file_exists($file))
-            {
-                return fopen($file,'r');
-            }
-            else 
-            {
+
+            if (file_exists($file)) {
+                return fopen($file, 'r');
+            } else {
                 throw new Exception\NotFound("File not found");
             }
         }
@@ -110,7 +108,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @return string
      */
-    function getName()
+    public function getName()
     {
         return ilFileUtils::getValidFilename($this->obj->getTitle());
     }
@@ -122,7 +120,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      *
      * @return string|null
      */
-    function getContentType()
+    public function getContentType()
     {
         return  $this->obj->guessFileType();
     }
@@ -143,11 +141,14 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getETag()
     {
-        if(file_exists($this->getPathToFile()))
-        {
-            // This is not a password hash. So I think md5 should do just fine :)
-            return '"' . hash_file("md5", $this->getPathToFile(), false) . '"';
+        if (file_exists($path = $this->getPathToFile())) {
+            return '"' . sha1(
+                fileinode($path) .
+                filesize($path) .
+                filemtime($path)
+                ) . '"';
         }
+        
         return null;
     }
     
@@ -158,8 +159,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      */
     public function getSize()
     {
-        if(file_exists($this->getPathToFile()))
-        {
+        if (file_exists($this->getPathToFile())) {
             return $this->obj->getFileSize();
         }
         return 0;
@@ -169,14 +169,11 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @param string $a_name
      * @throws Forbidden
      */
-    function setName($a_name)
+    public function setName($a_name)
     {
-        if($this->dav_helper->isValidFileNameWithValidFileExtension($a_name))
-        {
+        if ($this->dav_helper->isValidFileNameWithValidFileExtension($a_name)) {
             parent::setName($a_name);
-        }
-        else
-        {
+        } else {
             throw new Exception\Forbidden("Invalid file extension");
         }
     }
@@ -191,29 +188,24 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
      * @throws BadRequest
      * @throws Forbidden
      */
-    public function handleFileUpload($a_data)
+    public function handleFileUpload($a_data, $a_file_action)
     {
+        // Set name for uploaded file because due to the versioning, the title can change for different versions. This setter-call here
+        // ensures that the uploaded file is saved with the title of the object. This obj->setFileName() has to be called
+        // before $this->getPathToFile(). Otherwise, the file could be saved under the wrong filename.
+        $this->obj->setFileName($this->getName());
         $file_dest_path = $this->getPathToFile();
 
         // If dir does not exist yet -> create it
-        if(!file_exists($file_dest_path))
-        {
+        if (!file_exists($file_dest_path)) {
             ilUtil::makeDirParents($this->getPathToDirectory());
         }
         
-        // File upload
-        if(is_resource($a_data))
-        {
-            $written_length = $this->fileUploadWithStream($a_data, $file_dest_path);
-        }
-        else if(is_string($a_data))
-        {
-            $written_length = $this->fileUploadWithString($a_data, $file_dest_path);
-        }
-        else 
-        {
-            ilLoggerFactory::getLogger('WebDAV')->warning(get_class($this). ' ' . $this->obj->getTitle() ." -> invalid upload data sent");
-            throw new Exception\BadRequest('Invalid put data sent');
+        $written_length = $this->uploadFile($a_data, $file_dest_path);
+              
+        if ($written_length > ilUtil::getUploadSizeLimitBytes()) {
+            $this->deleteObjOrVersion();
+            throw new Exception\Forbidden('File is too big');
         }
         
         // Security checks
@@ -223,57 +215,23 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         include_once("./Services/Utilities/classes/class.ilMimeTypeUtil.php");
         $this->obj->setFileType(ilMimeTypeUtil::lookupMimeType($file_dest_path));
         $this->obj->setFileSize($written_length);
-        $this->obj->update();
+        if ($this->obj->update() && $this->obj->getMaxVersion() >= 1) {
+            $this->createHistoryAndNotificationForObjUpdate($a_file_action);
+        }
     }
 
     /**
-     * Write given data (as Resource) to the given file
-     *
-     * @param Resource $a_data
-     * @param string $file_dest_path
-     * @throws Exception
-     * @return number
-     */
-    protected function fileUploadWithStream($a_data, string $file_dest_path)
-    {
-        try {
-            $written_length = 0;
-            $write_stream = fopen($file_dest_path,'w');
-            while (!feof($a_data))
-            {
-                if (false === ($written = fwrite($write_stream, fread($a_data, 4096))))
-                {
-                    fclose($write_stream);
-                    throw new Exception\Forbidden('Forbidden to write file');
-                }
-                $written_length += $written;
-            }
-            
-        } catch(Exception $e) {
-            ilLoggerFactory::getLogger('WebDAV')->error("Error on uploading {$this->obj->getTitle()} to path $file_dest_path with message: " . $e->getMessage());
-            throw new Exception();
-        } finally {
-            fclose($write_stream);
-        }
-        
-        return $written_length;
-    }
-    
-    /**
      * Write given data (as string) to the given file
-     * 
-     * @param string $a_data
+     *
+     * @param string|resource $a_data
      * @param string $file_dest_path
-     * @throws Forbidden
+     * @throws Exception\Forbidden
      * @return number $written_length
      */
-    protected function fileUploadWithString(string $a_data, string $file_dest_path)
+    protected function uploadFile($a_data, string $file_dest_path)
     {
-        $write_stream = fopen($file_dest_path, 'w');
-        $written_length = fwrite($write_stream, $a_data);
-        fclose($write_stream);
-        if($written_length === false && strlen($a_data) > 0)
-        {
+        $written_length = file_put_contents($file_dest_path, $a_data);
+        if ($written_length === false && strlen($a_data) > 0) {
             throw new Exception\Forbidden('Forbidden to write file');
         }
         return $written_length;
@@ -283,7 +241,16 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         return $this->obj->getDirectory($this->obj->getVersion());
     }
-    
+
+    /**
+     * This method is called in 2 use cases:
+     *
+     * Use case 1: Get the path to an already existing file to download it -> read operation
+     * Use case 2: Get the path to save a new file into or overwrite an existing one -> write operation
+     *
+     * @throws ilFileUtilsException
+     * @return string
+     */
     protected function getPathToFile()
     {
         // ilObjFile delivers the filename like it was on the upload. But if the file-extension is forbidden, the file
@@ -298,12 +265,57 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
     {
         $vrs = ilUtil::virusHandling($file_dest_path, '', true);
         // If vrs[0] == false -> virus found
-        if($vrs[0] == false)
-        {
-            ilLoggerFactory::getLogger('WebDAV')->error(get_class($this). ' ' . $this->obj->getTitle() ." -> virus found on '$file_dest_path'!");
-            unlink($file_dest_path);
-            $this->obj->delete();
+        if ($vrs[0] == false) {
+            ilLoggerFactory::getLogger('WebDAV')->error(get_class($this) . ' ' . $this->obj->getTitle() . " -> virus found on '$file_dest_path'!");
+            $this->deleteObjOrVersion();
             throw new Exception\Forbidden('Virus found!');
+        }
+    }
+
+    /**
+     * Set object values for a new file version
+     */
+    protected function setObjValuesForNewFileVersion()
+    {
+        // This is necessary for windows explorer. Because windows explorer makes always 2 PUT requests. One with a 0 Byte
+        // file to test, if the user has write permissions and the second one to upload the original file.
+        if ($this->obj->getFileSize() > 0) {
+            // Stolen from ilObjFile->addFileVersion
+            $this->obj->setVersion($this->obj->getMaxVersion() + 1);
+            $this->obj->setMaxVersion($this->obj->getMaxVersion() + 1);
+        }
+    }
+
+    /**
+     * Create history entry and a news notification for file object update
+     *
+     * @param $a_action
+     */
+    protected function createHistoryAndNotificationForObjUpdate($a_action)
+    {
+        // Add history entry and notification for new file version (stolen from ilObjFile->addFileVersion)
+        switch ($a_action) {
+            case "create":
+            case "new_version":
+            case "replace":
+                ilHistory::_createEntry($this->obj->getId(), $action, $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+                break;
+        }
+
+        $this->obj->addNewsNotification("file_updated");
+    }
+    
+    /**
+     * Delete an object if there is no other version in it otherwise delete version.
+     */
+    protected function deleteObjOrVersion()
+    {
+        if ($this->obj->getVersion() > 1) {
+            $version_dir = $this->obj->getDirectory($this->obj->getVersion());
+            ilUtil::delDir($version_dir);
+        } else {
+            $this->obj->deleteVersions();
+            $this->obj->delete();
         }
     }
 }

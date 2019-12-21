@@ -28,18 +28,19 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
     {
         global $DIC;
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("trac", "")->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/graph.svg"), "");
+        $title = $this->dic->language()->txt("mm_learning_progress");
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("trac", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/graph.svg"), $title);
 
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))
-                ->withTitle($this->dic->language()->txt("mm_learning_progress"))
-                ->withAction($ctrl->getLinkTargetByClass(["ilPersonalDesktopGUI",
+                ->withTitle($title)
+                ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI",
                     "ilAchievementsGUI","ilLearningProgressGUI","ilLPListOfProgressGUI"]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getAchievementsIdentification())
                 ->withPosition(30)
-	            ->withSymbol($icon)
+                ->withSymbol($icon)
                 ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
                 ->withAvailableCallable(
                     function () {

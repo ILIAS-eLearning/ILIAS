@@ -20,7 +20,6 @@
  */
 class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const P_ENTRY_ID = 'entry_id';
     const CMD_SHOW_CONTENT = 'showContent';
@@ -220,7 +219,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         if (!$this->checkPermissionBoolAndReturn("visible") && !$this->checkPermissionBoolAndReturn('read')) {
             ilUtil::sendFailure($DIC['lng']->txt("msg_no_perm_read"), true);
-            $this->ctrl->redirectByClass('ilPersonalDesktopGUI', '');
+            $this->ctrl->redirectByClass('ilDashboardGUI', '');
         }
         $DIC->tabs()->activateTab(self::TAB_ID_INFO);
         $info = new ilInfoScreenGUI($this);
@@ -264,14 +263,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 array(
                     ilRepositoryGUI::class,
                     ilObjBibliographicGUI::class,
-                ), self::CMD_SHOW_DETAILS
+                ),
+                self::CMD_SHOW_DETAILS
             );
         } else {
             $DIC->ctrl()->redirectByClass(
                 array(
                     ilRepositoryGUI::class,
                     ilObjBibliographicGUI::class,
-                ), self::CMD_VIEW
+                ),
+                self::CMD_VIEW
             );
         }
     }
@@ -347,8 +348,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         // info screen
         if ($DIC->access()->checkAccess('read', "", $this->object->getRefId())) {
             $DIC->tabs()->addTab(
-                self::TAB_CONTENT, $DIC->language()
-                ->txt(self::TAB_CONTENT), $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
+                self::TAB_CONTENT,
+                $DIC->language()
+                ->txt(self::TAB_CONTENT),
+                $this->ctrl->getLinkTarget($this, self::CMD_SHOW_CONTENT)
             );
         }
         // info screen
@@ -356,29 +359,37 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             || $DIC->access()->checkAccess('read', "", $this->object->getRefId())
         ) {
             $DIC->tabs()->addTab(
-                self::TAB_ID_INFO, $DIC->language()
-                ->txt("info_short"), $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary")
+                self::TAB_ID_INFO,
+                $DIC->language()
+                ->txt("info_short"),
+                $this->ctrl->getLinkTargetByClass("ilinfoscreengui", "showSummary")
             );
         }
         // settings
         if ($DIC->access()->checkAccess('write', "", $this->object->getRefId())) {
             $DIC->tabs()->addTab(
-                self::SUBTAB_SETTINGS, $DIC->language()
-                ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
+                self::SUBTAB_SETTINGS,
+                $DIC->language()
+                ->txt(self::SUBTAB_SETTINGS),
+                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
             );
         }
         // export
         if ($DIC->access()->checkAccess("write", "", $this->object->getRefId())) {
             $DIC->tabs()->addTab(
-                self::TAB_EXPORT, $DIC->language()
-                ->txt(self::TAB_EXPORT), $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+                self::TAB_EXPORT,
+                $DIC->language()
+                ->txt(self::TAB_EXPORT),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
             );
         }
         // edit permissions
         if ($DIC->access()->checkAccess('edit_permission', "", $this->object->getRefId())) {
             $DIC->tabs()->addTab(
-                self::TAB_ID_PERMISSIONS, $DIC->language()
-                ->txt("perm_settings"), $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
+                self::TAB_ID_PERMISSIONS,
+                $DIC->language()
+                ->txt("perm_settings"),
+                $this->ctrl->getLinkTargetByClass("ilpermissiongui", "perm")
             );
         }
     }
@@ -388,12 +399,16 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     {
         global $DIC;
         $DIC->tabs()->addSubTab(
-            self::SUBTAB_SETTINGS, $DIC->language()
-            ->txt(self::SUBTAB_SETTINGS), $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
+            self::SUBTAB_SETTINGS,
+            $DIC->language()
+            ->txt(self::SUBTAB_SETTINGS),
+            $this->ctrl->getLinkTarget($this, self::CMD_EDIT_OBJECT)
         );
         $DIC->tabs()->addSubTab(
-            self::SUB_TAB_FILTER, $DIC->language()
-            ->txt("bibl_filter"), $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
+            self::SUB_TAB_FILTER,
+            $DIC->language()
+            ->txt("bibl_filter"),
+            $this->ctrl->getLinkTargetByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::CMD_STANDARD)
         );
     }
 
@@ -435,13 +450,15 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         // Add File-Upload
         $in_file = new ilFileInputGUI(
             $DIC->language()
-                ->txt("bibliography_file"), "bibliographic_file"
+                ->txt("bibliography_file"),
+            "bibliographic_file"
         );
         $in_file->setSuffixes(array("ris", "bib", "bibtex"));
         $in_file->setRequired(false);
         $cb_override = new ilCheckboxInputGUI(
             $DIC->language()
-                ->txt("override_entries"), "override_entries"
+                ->txt("override_entries"),
+            "override_entries"
         );
         $cb_override->addSubItem($in_file);
 
@@ -522,8 +539,10 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
             ilUtil::sendFailure(
                 sprintf(
                     $DIC->language()
-                        ->txt("msg_no_perm_read_item"), $object_title
-                ), true
+                        ->txt("msg_no_perm_read_item"),
+                    $object_title
+                ),
+                true
             );
             //redirect to repository without any parameters
             $this->handleNonAccess();
@@ -625,14 +644,20 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         switch ($_GET["ntf"]) {
             case 1:
                 ilNotification::setNotification(
-                    ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
-                    ->getId(), $this->obj_id, false
+                    ilNotification::TYPE_DATA_COLLECTION,
+                    $DIC->user()
+                    ->getId(),
+                    $this->obj_id,
+                    false
                 );
                 break;
             case 2:
                 ilNotification::setNotification(
-                    ilNotification::TYPE_DATA_COLLECTION, $DIC->user()
-                    ->getId(), $this->obj_id, true
+                    ilNotification::TYPE_DATA_COLLECTION,
+                    $DIC->user()
+                    ->getId(),
+                    $this->obj_id,
+                    true
                 );
                 break;
         }
@@ -657,35 +682,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $ilNewsItem->create();
     }
 
-
-    /**
-     * Add desktop item
-     *
-     * @access public
-     */
-    public function addToDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::addToDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("added_to_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
-
-
-    /**
-     * Remove from desktop
-     *
-     * @access public
-     */
-    public function removeFromDeskObject()
-    {
-        global $DIC;
-
-        ilDesktopItemGUI::removeFromDesktop();
-        ilUtil::sendSuccess($DIC->language()->txt("removed_from_desktop"), true);
-        $this->ctrl->redirect($this, self::CMD_VIEW);
-    }
 
 
     /**
@@ -718,7 +714,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         /**
          * @var $a_new_object ilObjBibliographic
          */
-        $a_new_object->writeSourcefileEntriesToDb();
+        $a_new_object->parseFileToDatabase();
 
         parent::afterImport($a_new_object);
     }

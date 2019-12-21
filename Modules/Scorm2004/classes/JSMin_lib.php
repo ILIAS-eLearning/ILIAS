@@ -89,7 +89,7 @@ define('JSMIN_VERSION', '0.2');
 * N.B. : use === and not == to test the result of fgetc() ! (see manual)
 */
 
-define('EOF', FALSE);
+define('EOF', false);
 
 /**
 * Some ASCII character ordinals.
@@ -112,54 +112,59 @@ define('ORD_9', ord('9'));
 class JSMinException extends Exception {
 }
 */
-class JSMinException {
+class JSMinException
+{
 }
 
 /**
 * A JSMin exception indicating that a file provided for input or output could not be properly opened.
 */
 
-class FileOpenFailedJSMinException extends JSMinException {
+class FileOpenFailedJSMinException extends JSMinException
+{
 }
 
 /**
 * A JSMin exception indicating that an unterminated comment was encountered in input.
 */
 
-class UnterminatedCommentJSMinException extends JSMinException {
+class UnterminatedCommentJSMinException extends JSMinException
+{
 }
 
 /**
 * A JSMin exception indicatig that an unterminated string literal was encountered in input.
 */
 
-class UnterminatedStringLiteralJSMinException extends JSMinException {
+class UnterminatedStringLiteralJSMinException extends JSMinException
+{
 }
 
 /**
 * A JSMin exception indicatig that an unterminated regular expression lieteral was encountered in input.
 */
 
-class UnterminatedRegExpLiteralJSMinException extends JSMinException {
+class UnterminatedRegExpLiteralJSMinException extends JSMinException
+{
 }
 
 /**
  * Constant describing an {@link action()} : Output A. Copy B to A. Get the next B.
  */
 
-define ('JSMIN_ACT_FULL', 1);
+define('JSMIN_ACT_FULL', 1);
 
 /**
  * Constant describing an {@link action()} : Copy B to A. Get the next B. (Delete A).
  */
 
-define ('JSMIN_ACT_BUF', 2);
+define('JSMIN_ACT_BUF', 2);
 
 /**
  * Constant describing an {@link action()} : Get the next B. (Delete B).
  */
 
-define ('JSMIN_ACT_IMM', 3);
+define('JSMIN_ACT_IMM', 3);
 
 /**
 * Main JSMin application class.
@@ -172,38 +177,39 @@ define ('JSMIN_ACT_IMM', 3);
 * Do not specify input and/or output (or default to '-') to use stdin and/or stdout.
 */
 
-class JSMin {
+class JSMin
+{
 
     /**
      * The input stream, from which to read a JS file to minimize. Obtained by fopen().
      * NB: might be a string instead of a stream
      * @var SplFileObject | string
      */
-    var $in;
+    public $in;
 
     /**
      * The output stream, in which to write the minimized JS file. Obtained by fopen().
      * NB: might be a string instead of a stream
      * @var SplFileObject | string
      */
-    var $out;
+    public $out;
 
     /**
      * Temporary I/O character (A).
      * @var string
      */
-    var $theA;
+    public $theA;
 
     /**
      * Temporary I/O character (B).
      * @var string
      */
-    var $theB;
+    public $theB;
 
-	/** variables used for string-based parsing **/
-	var $inLength = 0;
-	var $inPos = 0;
-	var $isString = false;
+    /** variables used for string-based parsing **/
+    public $inLength = 0;
+    public $inPos = 0;
+    public $isString = false;
 
     /**
      * Indicates whether a character is alphanumeric or _, $, \ or non-ASCII.
@@ -211,7 +217,8 @@ class JSMin {
      * @param   string      $c  The single character to test.
      * @return  boolean     Whether the char is a letter, digit, underscore, dollar, backslash, or non-ASCII.
      */
-    function isAlphaNum($c) {
+    public function isAlphaNum($c)
+    {
 
         // Get ASCII value of character for C-like comparisons
 
@@ -237,21 +244,21 @@ class JSMin {
      * @see     $in
      * @see     peek()
      */
-    function get() {
+    public function get()
+    {
 
         // Get next input character and advance position in file
 
-		if ($this->isString) {
-			if ($this->inPos < $this->inLength) {
-				$c = $this->in[$this->inPos];
-				++$this->inPos;
-			}
-			else {
-				return EOF;
-			}
-		}
-		else
-	        $c = $this->in->fgetc();
+        if ($this->isString) {
+            if ($this->inPos < $this->inLength) {
+                $c = $this->in[$this->inPos];
+                ++$this->inPos;
+            } else {
+                return EOF;
+            }
+        } else {
+            $c = $this->in->fgetc();
+        }
 
         // Test for non-problematic characters
 
@@ -280,44 +287,41 @@ class JSMin {
      * @see     $in
      * @see     get()
      */
-    function peek() {
+    public function peek()
+    {
+        if ($this->isString) {
+            if ($this->inPos < $this->inLength) {
+                $c = $this->in[$this->inPos];
+            } else {
+                return EOF;
+            }
+        } else {
+            // Get next input character
 
-		if ($this->isString) {
-			if ($this->inPos < $this->inLength) {
-				$c = $this->in[$this->inPos];
-			}
-			else {
-				return EOF;
-			}
-		}
-		else {
-	        // Get next input character
+            $c = $this->in->fgetc();
 
-	        $c = $this->in->fgetc();
+            // Regress position in file
 
-	        // Regress position in file
+            $this->in->fseek(-1, SEEK_CUR);
 
-	        $this->in->fseek(-1, SEEK_CUR);
-
-	        // Return character obtained
-	    }
+            // Return character obtained
+        }
 
         return $c;
     }
 
-	/**
-	 * Adds a char to the output steram / string
-	 * @see $out
-	 */
-	function put($c)
-	{
-		if ($this->isString) {
-			$this->out .= $c;
-		}
-		else {
-			$this->out->fwrite($c);
-		}
-	}
+    /**
+     * Adds a char to the output steram / string
+     * @see $out
+     */
+    public function put($c)
+    {
+        if ($this->isString) {
+            $this->out .= $c;
+        } else {
+            $this->out->fwrite($c);
+        }
+    }
 
     /**
      * Get the next character from the input stream, excluding comments.
@@ -328,7 +332,8 @@ class JSMin {
      * @return  string  The next character from the specified input stream, skipping comments.
      * @see     $in
      */
-    function next() {
+    public function next()
+    {
 
         // Get next char from input, translated if necessary
 
@@ -342,13 +347,12 @@ class JSMin {
 
             switch ($this->peek()) {
 
-                case '/' :
+                case '/':
 
                     // Comment is up to the end of the line
                     // TOTEST : simple $this->in->fgets()
 
                     while (true) {
-
                         $c = $this->get();
 
                         if (ord($c) <= ORD_NL) {
@@ -356,7 +360,8 @@ class JSMin {
                         }
                     }
 
-                case '*' :
+                    // no break
+                case '*':
 
                     // Comment is up to comment close.
                     // Might not be terminated, if we hit the end of file.
@@ -378,8 +383,7 @@ class JSMin {
                                 $this->get();
                                 return ' ';
                             }
-                        }
-                        else if ($c === EOF) {
+                        } elseif ($c === EOF) {
 
                             // Whoopsie
 
@@ -388,7 +392,8 @@ class JSMin {
                         }
                     }
 
-                default :
+                    // no break
+                default:
 
                     // Not a comment after all
 
@@ -415,20 +420,22 @@ class JSMin {
      *
      * @param   int     $action     The action to perform : one of the JSMin::ACT_* constants.
      */
-    function action($action) {
+    public function action($action)
+    {
 
         // Choice of possible actions
         // Note the frequent fallthroughs : the actions are decrementally "long"
 
         switch ($action) {
 
-            case JSMIN_ACT_FULL :
+            case JSMIN_ACT_FULL:
 
                 // Write A to output, then fall through
 
                 $this->put($this->theA);
 
-            case JSMIN_ACT_BUF : // N.B. possible fallthrough from above
+                // no break
+            case JSMIN_ACT_BUF: // N.B. possible fallthrough from above
 
                 // Copy B to A
 
@@ -438,7 +445,6 @@ class JSMin {
                 // Note that the string-opening char (" or ') is memorized in B
 
                 if ($tmpA == '\'' || $tmpA == '"') {
-
                     while (true) {
 
                         // Output string contents
@@ -480,7 +486,8 @@ class JSMin {
                     }
                 }
 
-            case JSMIN_ACT_IMM : // N.B. possible fallthrough from above
+                // no break
+            case JSMIN_ACT_IMM: // N.B. possible fallthrough from above
 
                 // Get the next B
 
@@ -502,7 +509,6 @@ class JSMin {
                     // end of line char (the RE literal then being unterminated !)
 
                     while (true) {
-
                         $tmpA = $this->theA = $this->get();
 
                         if ($tmpA == '/') {
@@ -520,8 +526,7 @@ class JSMin {
 
                             $this->put($tmpA);
                             $tmpA = $this->theA = $this->get();
-                        }
-                        else if (ord($tmpA) <= ORD_NL) {
+                        } elseif (ord($tmpA) <= ORD_NL) {
 
                             // Whoopsie
 
@@ -540,9 +545,9 @@ class JSMin {
                 }
 
             break;
-            default :
-				//throw new JSMinException('Expected a JSMin::ACT_* constant in action().');
-				trigger_error('Expected a JSMin::ACT_* constant in action()', E_USER_ERROR);
+            default:
+                //throw new JSMinException('Expected a JSMin::ACT_* constant in action().');
+                trigger_error('Expected a JSMin::ACT_* constant in action()', E_USER_ERROR);
         }
     }
 
@@ -561,7 +566,8 @@ class JSMin {
      * @see     JSMin()
      * @return null | string
      */
-    function minify() {
+    public function minify()
+    {
 
         // Initialize A and run the first (minimal) action
 
@@ -571,40 +577,37 @@ class JSMin {
         // Proceed all the way to the end of the input file
 
         while ($this->theA !== EOF) {
-
             switch ($this->theA) {
 
-                case ' ' :
+                case ' ':
 
                     if (JSMin::isAlphaNum($this->theB)) {
                         $this->action(JSMIN_ACT_FULL);
-                    }
-                    else {
+                    } else {
                         $this->action(JSMIN_ACT_BUF);
                     }
 
                 break;
-                case "\n" :
+                case "\n":
 
                     switch ($this->theB) {
 
-                        case '{' : case '[' : case '(' :
-                        case '+' : case '-' :
+                        case '{': case '[': case '(':
+                        case '+': case '-':
 
                             $this->action(JSMIN_ACT_FULL);
 
                         break;
-                        case ' ' :
+                        case ' ':
 
                             $this->action(JSMIN_ACT_IMM);
 
                         break;
-                        default :
+                        default:
 
                             if (JSMin::isAlphaNum($this->theB)) {
                                 $this->action(JSMIN_ACT_FULL);
-                            }
-                            else {
+                            } else {
                                 $this->action(JSMIN_ACT_BUF);
                             }
 
@@ -612,14 +615,13 @@ class JSMin {
                     }
 
                 break;
-                default :
+                default:
 
                     switch ($this->theB) {
 
-                        case ' ' :
+                        case ' ':
 
                             if (JSMin::isAlphaNum($this->theA)) {
-
                                 $this->action(JSMIN_ACT_FULL);
                                 break;
                             }
@@ -629,22 +631,21 @@ class JSMin {
                             $this->action(JSMIN_ACT_IMM);
 
                         break;
-                        case "\n" :
+                        case "\n":
 
                             switch ($this->theA) {
 
-                                case '}' : case ']' : case ')' : case '+' :
-                                case '-' : case '"' : case '\'' :
+                                case '}': case ']': case ')': case '+':
+                                case '-': case '"': case '\'':
 
                                     $this->action(JSMIN_ACT_FULL);
 
                                 break;
-                                default :
+                                default:
 
                                     if (JSMin::isAlphaNum($this->theA)) {
                                         $this->action(JSMIN_ACT_FULL);
-                                    }
-                                    else {
+                                    } else {
                                         $this->action(JSMIN_ACT_IMM);
                                     }
 
@@ -652,7 +653,7 @@ class JSMin {
                             }
 
                         break;
-                        default :
+                        default:
 
                             $this->action(JSMIN_ACT_FULL);
 
@@ -663,10 +664,9 @@ class JSMin {
             }
         }
 
-	    if ($this->isString) {
-		    return $this->out;
-
-	    }
+        if ($this->isString) {
+            return $this->out;
+        }
     }
 
     /**
@@ -679,82 +679,85 @@ class JSMin {
      *                                  If outFileName === FALSE, we assume that inFileName is in fact the string to be minified!!!
      * @param   array   $comments       Optional lines to present as comments at the beginning of the output.
      */
-	function __construct($inFileName = '-', $outFileName = '-', $comments = NULL) {
-		if ($outFileName === FALSE) {
-			$this->JSMin_String($inFileName, $comments);
-		}
-		else {
-			$this->JSMin_File($inFileName, $outFileName, $comments);
-		}
-	}
+    public function __construct($inFileName = '-', $outFileName = '-', $comments = null)
+    {
+        if ($outFileName === false) {
+            $this->JSMin_String($inFileName, $comments);
+        } else {
+            $this->JSMin_File($inFileName, $outFileName, $comments);
+        }
+    }
 
-    function JSMin_File($inFileName = '-', $outFileName = '-', $comments = NULL) {
+    public function JSMin_File($inFileName = '-', $outFileName = '-', $comments = null)
+    {
 
         // Recuperate input and output streams.
         // Use STDIN and STDOUT by default, if they are defined (CLI mode) and no file names are provided
 
-            if ($inFileName == '-')  $inFileName  = 'php://stdin';
-            if ($outFileName == '-') $outFileName = 'php://stdout';
+        if ($inFileName == '-') {
+            $inFileName  = 'php://stdin';
+        }
+        if ($outFileName == '-') {
+            $outFileName = 'php://stdout';
+        }
 
-            /*try {
+        /*try {
 
-                $this->in = new SplFileObject($inFileName, 'rb', TRUE);
-            }
-            catch (Exception $e) {
+            $this->in = new SplFileObject($inFileName, 'rb', TRUE);
+        }
+        catch (Exception $e) {
 
-                throw new FileOpenFailedJSMinException(
-                    'Failed to open "'.$inFileName.'" for reading only.'
-                );
-            }
+            throw new FileOpenFailedJSMinException(
+                'Failed to open "'.$inFileName.'" for reading only.'
+            );
+        }
 
-            try {
+        try {
 
-                $this->out = new SplFileObject($outFileName, 'wb', TRUE);
-            }
-            catch (Exception $e) {
+            $this->out = new SplFileObject($outFileName, 'wb', TRUE);
+        }
+        catch (Exception $e) {
 
-                throw new FileOpenFailedJSMinException(
-                    'Failed to open "'.$outFileName.'" for writing only.'
-                );
-            }
-			*/
-			$this->in = fopen($inFileName, 'rb');
-			if (!$this->in) {
-				trigger_error('Failed to open "'.$inFileName, E_USER_ERROR);
-			}
-			$this->out = fopen($outFileName, 'wb');
-			if (!$this->out) {
-				trigger_error('Failed to open "'.$outFileName, E_USER_ERROR);
-			}
+            throw new FileOpenFailedJSMinException(
+                'Failed to open "'.$outFileName.'" for writing only.'
+            );
+        }
+        */
+        $this->in = fopen($inFileName, 'rb');
+        if (!$this->in) {
+            trigger_error('Failed to open "' . $inFileName, E_USER_ERROR);
+        }
+        $this->out = fopen($outFileName, 'wb');
+        if (!$this->out) {
+            trigger_error('Failed to open "' . $outFileName, E_USER_ERROR);
+        }
 
-            // Present possible initial comments
+        // Present possible initial comments
 
-            if ($comments !== NULL) {
-                foreach ($comments as $comm) {
-                    $this->out->fwrite('// '.str_replace("\n", " ", $comm)."\n");
-                }
-            }
-
-    }
-
-    function JSMin_String($inString, $comments = NULL) {
-        $this->in = $inString;
-        $this->out = '';
-		$this->inLength = strlen($inString);
-		$this->inPos = 0;
-		$this->isString = true;
-
-        if ($comments !== NULL) {
+        if ($comments !== null) {
             foreach ($comments as $comm) {
-                $this->out .= '// '.str_replace("\n", " ", $comm)."\n";
+                $this->out->fwrite('// ' . str_replace("\n", " ", $comm) . "\n");
             }
         }
-	}
+    }
+
+    public function JSMin_String($inString, $comments = null)
+    {
+        $this->in = $inString;
+        $this->out = '';
+        $this->inLength = strlen($inString);
+        $this->inPos = 0;
+        $this->isString = true;
+
+        if ($comments !== null) {
+            foreach ($comments as $comm) {
+                $this->out .= '// ' . str_replace("\n", " ", $comm) . "\n";
+            }
+        }
+    }
 }
 
-/** 
- * cut some additional code that is not part of class definition 
+/**
+ * cut some additional code that is not part of class definition
  * and therefore unneccessary for the current purpose of ILIAS Scorm2004
  */
-
-?>

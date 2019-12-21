@@ -8,19 +8,32 @@ use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Layout\Page;
 use ILIAS\UI\Component\MainControls;
 
-class Factory implements Page\Factory {
-
-	/**
-	 * @inheritdoc
-	 */
-	public function standard(
-		array $content,
-		MainControls\MetaBar $metabar = null,
-		MainControls\MainBar $mainbar = null,
-		Breadcrumbs $locator = null,
-		Image $logo = null,
-		MainControls\Footer $footer = null
-	): Page\Standard {
-		return new Standard($content, $metabar, $mainbar, $locator, $logo, $footer);
-	}
+class Factory implements Page\Factory
+{
+    /**
+     * @inheritdoc
+     */
+    public function standard(
+        array $content,
+        MainControls\MetaBar $metabar = null,
+        MainControls\MainBar $mainbar = null,
+        Breadcrumbs $locator = null,
+        Image $logo = null,
+        MainControls\Footer $footer = null,
+        string $title = '',
+        string $short_title = '',
+        string $view_title = ''
+    ) : Page\Standard {
+        return new Standard(
+            $content,
+            $metabar,
+            $mainbar,
+            $locator,
+            $logo,
+            $footer,
+            $title,
+            $short_title,
+            $view_title
+        );
+    }
 }

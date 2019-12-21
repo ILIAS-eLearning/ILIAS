@@ -97,5 +97,3 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         }
     }
 }
-
-?>

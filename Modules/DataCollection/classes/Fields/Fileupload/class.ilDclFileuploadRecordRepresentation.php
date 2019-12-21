@@ -71,7 +71,6 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
      */
     public function parseFormInput($value)
     {
-
         if (is_array($value)) {
             return $value;
         }

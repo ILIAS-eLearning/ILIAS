@@ -257,6 +257,15 @@ class ilDclBaseRecordFieldModel
 
 
     /**
+     * @return string
+     */
+    public function getFormulaValue()
+    {
+        return $this->getExportValue();
+    }
+
+
+    /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
      *
      * @param mixed $value
@@ -401,7 +410,6 @@ class ilDclBaseRecordFieldModel
      */
     public function afterClone()
     {
-
     }
 
 
@@ -467,4 +475,3 @@ class ilDclBaseRecordFieldModel
         $this->field_representation = $field_representation;
     }
 }
-

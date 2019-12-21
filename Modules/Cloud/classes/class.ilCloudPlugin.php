@@ -192,16 +192,22 @@ class ilCloudPlugin
     }
 
 
-    public function read() { }
+    public function read()
+    {
+    }
 
 
-    public function create() { }
+    public function create()
+    {
+    }
 
 
-    public function doUpdate() { }
+    public function doUpdate()
+    {
+    }
 
 
-    public function doDelete() { }
+    public function doDelete()
+    {
+    }
 }
-
-?>

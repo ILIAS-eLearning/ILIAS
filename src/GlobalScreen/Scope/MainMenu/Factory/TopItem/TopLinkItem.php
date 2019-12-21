@@ -6,6 +6,8 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\UI\Component\Symbol\Glyph;
+use ILIAS\UI\Component\Symbol\Icon;
 
 /**
  * Class TopLinkItem
@@ -107,6 +109,12 @@ class TopLinkItem extends AbstractBaseItem implements hasTitle, hasAction, isTop
      */
     public function withSymbol(Symbol $symbol) : hasSymbol
     {
+        // bugfix mantis 25526: make aria labels mandatory
+        if (($symbol instanceof Icon\Icon || $symbol instanceof Glyph\Glyph)
+            && ($symbol->getAriaLabel() === "")) {
+            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+        }
+
         $clone = clone $this;
         $clone->symbol = $symbol;
 

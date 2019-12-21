@@ -51,17 +51,19 @@ class ilLMNavigationStatus
     /**
      * Constructor
      */
-    public function __construct(ilObjUser $user,
+    public function __construct(
+        ilObjUser $user,
         $request_obj_id,
         ilLMTree $lm_tree,
         ilObjLearningModule $lm,
-        ilSetting $lm_set)
-    {
+        ilSetting $lm_set
+    ) {
         $this->user = $user;
         $this->requested_obj_id = (int) $request_obj_id;
         $this->lm_tree = $lm_tree;
         $this->lm = $lm;
-        $this->lm_set = $lm_set;$this->current_page_id;
+        $this->lm_set = $lm_set;
+        $this->current_page_id;
 
         $this->determineStatus();
     }
@@ -108,68 +110,65 @@ class ilLMNavigationStatus
         $this->deactivated_page = false;
 
         // determine object id
-        if($this->requested_obj_id == 0)
-        {
+        if ($this->requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
-        }
-        else
-        {
+        } else {
             $obj_id = $this->requested_obj_id;
-            $active = ilLMPage::_lookupActive($obj_id,
-                $this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+            $active = ilLMPage::_lookupActive(
+                $obj_id,
+                $this->lm->getType(),
+                $this->lm_set->get("time_scheduled_page_activation")
+            );
 
             if (!$active &&
-                ilLMPageObject::_lookupType($obj_id) == "pg")
-            {
+                ilLMPageObject::_lookupType($obj_id) == "pg") {
                 $this->deactivated_page = true;
             }
         }
 
         // obj_id not in tree -> it is a unassigned page -> return page id
-        if (!$this->lm_tree->isInTree($obj_id))
-        {
+        if (!$this->lm_tree->isInTree($obj_id)) {
             $this->current_page_id = $obj_id;
             return null;
         }
 
         $curr_node = $this->lm_tree->getNodeData($obj_id);
 
-        $active = ilLMPage::_lookupActive($obj_id,
-            $this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+        $active = ilLMPage::_lookupActive(
+            $obj_id,
+            $this->lm->getType(),
+            $this->lm_set->get("time_scheduled_page_activation")
+        );
 
         if ($curr_node["type"] == "pg" &&
-            $active)		// page in tree -> return page id
-        {
+            $active) {		// page in tree -> return page id
             $page_id = $curr_node["obj_id"];
-        }
-        else 		// no page -> search for next page and return its id
-        {
+        } else { 		// no page -> search for next page and return its id
             $succ_node = true;
             $active = false;
             $page_id = $obj_id;
-            while($succ_node && !$active)
-            {
+            while ($succ_node && !$active) {
                 $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
                 $page_id = $succ_node["obj_id"];
-                $active = ilLMPage::_lookupActive($page_id,
-                    $this->lm->getType(), $this->lm_set->get("time_scheduled_page_activation"));
+                $active = ilLMPage::_lookupActive(
+                    $page_id,
+                    $this->lm->getType(),
+                    $this->lm_set->get("time_scheduled_page_activation")
+                );
             }
 
-            if ($succ_node["type"] != "pg")
-            {
+            if ($succ_node["type"] != "pg") {
                 $this->chapter_has_no_active_page = true;
                 $this->current_page_id = 0;
                 return null;
             }
 
             // if public access get first public page in chapter
-            if($user->getId() == ANONYMOUS_USER_ID &&
-                $this->lm->getPublicAccessMode() == 'selected')
-            {
+            if ($user->getId() == ANONYMOUS_USER_ID &&
+                $this->lm->getPublicAccessMode() == 'selected') {
                 $public = ilLMObject::_isPagePublic($page_id);
 
-                while ($public === false && $page_id > 0)
-                {
+                while ($public === false && $page_id > 0) {
                     $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, 'pg');
                     $page_id = $succ_node['obj_id'];
                     $public = ilLMObject::_isPagePublic($page_id);
@@ -177,11 +176,9 @@ class ilLMNavigationStatus
             }
 
             // check whether page found is within "clicked" chapter
-            if ($this->lm_tree->isInTree($page_id))
-            {
+            if ($this->lm_tree->isInTree($page_id)) {
                 $path = $this->lm_tree->getPathId($page_id);
-                if (!in_array($this->requested_obj_id, $path))
-                {
+                if (!in_array($this->requested_obj_id, $path)) {
                     $this->chapter_has_no_active_page = true;
                 }
             }
@@ -189,5 +186,4 @@ class ilLMNavigationStatus
 
         $this->current_page_id = $page_id;
     }
-
 }

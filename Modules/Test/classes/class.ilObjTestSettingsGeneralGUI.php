@@ -701,16 +701,10 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
 			$md_desc->save();
 		}
 
-		$this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
-		$this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-
-
-
-
-		$this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
-
-
-		$this->testOBJ->update();
+        $this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
+        $this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+        $this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
+        $this->testOBJ->update();
 
 		// pool usage setting
 		if ($form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI)

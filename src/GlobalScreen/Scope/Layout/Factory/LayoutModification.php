@@ -10,7 +10,6 @@ use LogicException;
  */
 interface LayoutModification
 {
-
     const PRIORITY_LOW = 2;
     const PRIORITY_HIGH = 64;
 
@@ -24,7 +23,7 @@ interface LayoutModification
     /**
      * @param int $priority (LayoutModification::PRIORITY_LOW|LayoutModification::PRIORITY_HIGH)
      *
-     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      *
      * @throws LogicException if not LayoutModification::PRIORITY_LOW|LayoutModification::PRIORITY_HIGH
      */
@@ -32,13 +31,13 @@ interface LayoutModification
 
 
     /**
-     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     public function withHighPriority() : LayoutModification;
 
 
     /**
-     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     public function withLowPriority() : LayoutModification;
 
@@ -53,7 +52,7 @@ interface LayoutModification
     /**
      * @param Closure $closure
      *
-     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification
+     * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
      */
     public function withModification(Closure $closure) : LayoutModification;
 

@@ -146,12 +146,23 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             ->willThrowException(new ilException('no_permission'));
 
         $gui = new ilTermsOfServiceDocumentGUI(
-            $this->tos, $this->criterionTypeFactory, $this->tpl,
-            $this->user, $this->ctrl, $this->lng,
-            $this->rbacsystem, $this->error, $this->log,
-            $this->toolbar, $this->httpState, $this->uiFactory,
-            $this->uiRenderer, $this->fileSystems, $this->fileUpload,
-            $this->tableDataProviderFactory, $this->documentPurifier
+            $this->tos,
+            $this->criterionTypeFactory,
+            $this->tpl,
+            $this->user,
+            $this->ctrl,
+            $this->lng,
+            $this->rbacsystem,
+            $this->error,
+            $this->log,
+            $this->toolbar,
+            $this->httpState,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->fileSystems,
+            $this->fileUpload,
+            $this->tableDataProviderFactory,
+            $this->documentPurifier
         );
 
         $this->expectException(ilException::class);
@@ -269,12 +280,23 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             );
 
         $gui = new ilTermsOfServiceDocumentGUI(
-            $this->tos, $this->criterionTypeFactory, $this->tpl,
-            $this->user, $this->ctrl, $this->lng,
-            $this->rbacsystem, $this->error, $this->log,
-            $this->toolbar, $this->httpState, $this->uiFactory,
-            $this->uiRenderer, $this->fileSystems, $this->fileUpload,
-            $this->tableDataProviderFactory, $this->documentPurifier
+            $this->tos,
+            $this->criterionTypeFactory,
+            $this->tpl,
+            $this->user,
+            $this->ctrl,
+            $this->lng,
+            $this->rbacsystem,
+            $this->error,
+            $this->log,
+            $this->toolbar,
+            $this->httpState,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->fileSystems,
+            $this->fileUpload,
+            $this->tableDataProviderFactory,
+            $this->documentPurifier
         );
 
         $gui->executeCommand();
@@ -373,12 +395,23 @@ class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
             );
 
         $gui = new ilTermsOfServiceDocumentGUI(
-            $this->tos, $this->criterionTypeFactory, $this->tpl,
-            $this->user, $this->ctrl, $this->lng,
-            $this->rbacsystem, $this->error, $this->log,
-            $this->toolbar, $this->httpState, $this->uiFactory,
-            $this->uiRenderer, $this->fileSystems, $this->fileUpload,
-            $this->tableDataProviderFactory, $this->documentPurifier
+            $this->tos,
+            $this->criterionTypeFactory,
+            $this->tpl,
+            $this->user,
+            $this->ctrl,
+            $this->lng,
+            $this->rbacsystem,
+            $this->error,
+            $this->log,
+            $this->toolbar,
+            $this->httpState,
+            $this->uiFactory,
+            $this->uiRenderer,
+            $this->fileSystems,
+            $this->fileUpload,
+            $this->tableDataProviderFactory,
+            $this->documentPurifier
         );
 
         $gui->executeCommand();

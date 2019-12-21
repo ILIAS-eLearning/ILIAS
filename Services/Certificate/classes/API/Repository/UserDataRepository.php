@@ -112,8 +112,8 @@ FROM
             $result[$id] = $dataObject;
         }
 
-        if ($filter->getLimitStart() !== null && $filter->getLimitEnd() !== null) {
-            $result = array_slice($result, $filter->getLimitStart(), ($filter->getLimitEnd() - $filter->getLimitStart()));
+        if ($filter->getLimitOffset() !== null && $filter->getLimitCount() !== null) {
+            $result = array_slice($result, $filter->getLimitOffset(), $filter->getLimitCount());
         }
 
         return $result;
@@ -204,7 +204,7 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
     {
         $sorts = $filter->getSorts();
 
-        if (!empty($sorts)) {
+        if (empty($sorts)) {
             return '';
         }
 
@@ -283,19 +283,22 @@ INNER JOIN usr_data ON usr_data.usr_id = cert.user_id
             $wheres[] = '(' . $this->database->like('usr_data.email', ilDBConstants::T_TEXT, '%' . $userEmail . '%')
                 . ' OR ' . $this->database->like('usr_data.second_email', ilDBConstants::T_TEXT, '%' . $userEmail . '%')
                 . ')';
-
         }
 
         $issuedBeforeTimestamp = $filter->getIssuedBeforeTimestamp();
         if ($issuedBeforeTimestamp !== null) {
-            $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote($issuedBeforeTimestamp,
-                    ilDBConstants::T_INTEGER);
+            $wheres[] = 'cert.acquired_timestamp < ' . $this->database->quote(
+                $issuedBeforeTimestamp,
+                ilDBConstants::T_INTEGER
+            );
         }
 
         $issuedAfterTimestamp = $filter->getIssuedAfterTimestamp();
         if ($issuedAfterTimestamp !== null) {
-            $wheres[] = 'cert.acquired_timestamp > ' . $this->database->quote($issuedAfterTimestamp,
-                    ilDBConstants::T_INTEGER);
+            $wheres[] = 'cert.acquired_timestamp > ' . $this->database->quote(
+                $issuedAfterTimestamp,
+                ilDBConstants::T_INTEGER
+            );
         }
 
         $title = $filter->getObjectTitle();

@@ -12,11 +12,9 @@
  */
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
     public function parseValue($value)
     {
-        if ($value == -1) //marked for deletion.
-        {
+        if ($value == -1) { //marked for deletion.
             return 0;
         }
 
@@ -63,8 +61,16 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                         if (!$new_height || !$new_width) {
                             $format = ilObjMediaObject::getMimeType($file);
                             $wh
-                                = ilObjMediaObject::_determineWidthHeight($format, "File", $file, "", true, false, $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH),
-                                (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT));
+                                = ilObjMediaObject::_determineWidthHeight(
+                                    $format,
+                                    "File",
+                                    $file,
+                                    "",
+                                    true,
+                                    false,
+                                    $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH),
+                                    (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT)
+                                );
                         } else {
                             $wh['width'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_WIDTH);
                             $wh['height'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
@@ -94,7 +100,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
             $mob->update();
             $return = $mob->getId();
-            // handover for save-confirmation
+        // handover for save-confirmation
         } else {
             if (is_array($media) && isset($media['tmp_name']) && $media['tmp_name'] != '') {
                 $return = $media;

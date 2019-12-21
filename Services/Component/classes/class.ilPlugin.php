@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
+use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
 
 /**
@@ -48,11 +50,16 @@ abstract class ilPlugin
      * @var string
      */
     protected $id = '';
+    /**
+     * @var ProviderCollection
+     */
+    protected $provider_collection;
 
 
     public function __construct()
     {
         $this->__init();
+        $this->provider_collection = new PluginProviderCollection();
     }
 
 
@@ -63,7 +70,7 @@ abstract class ilPlugin
      *
      * @return    string    Component Type
      */
-    abstract function getComponentType();
+    abstract public function getComponentType();
 
 
     /**
@@ -73,7 +80,7 @@ abstract class ilPlugin
      *
      * @return    string    Component Name
      */
-    abstract function getComponentName();
+    abstract public function getComponentName();
 
 
     /**
@@ -83,7 +90,7 @@ abstract class ilPlugin
      *
      * @return    string    Slot Name
      */
-    abstract function getSlot();
+    abstract public function getSlot();
 
 
     /**
@@ -93,7 +100,7 @@ abstract class ilPlugin
      *
      * @return    string    Slot Id
      */
-    abstract function getSlotId();
+    abstract public function getSlotId();
 
 
     /**
@@ -104,7 +111,7 @@ abstract class ilPlugin
      *
      * @return    string    Plugin Name
      */
-    abstract function getPluginName();
+    abstract public function getPluginName();
 
 
     /**
@@ -199,7 +206,7 @@ abstract class ilPlugin
      *
      * @return    string    Required ILIAS max. release
      */
-    function getIliasMaxVersion()
+    public function getIliasMaxVersion()
     {
         return $this->iliasmaxversion;
     }
@@ -504,8 +511,12 @@ abstract class ilPlugin
 
         $dbupdate = new ilPluginDBUpdate(
             $this->getComponentType(),
-            $this->getComponentName(), $this->getSlotId(),
-            $this->getPluginName(), $ilDB, true, $this->getTablePrefix()
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName(),
+            $ilDB,
+            true,
+            $this->getTablePrefix()
         );
 
         $result = $dbupdate->applyUpdate();
@@ -638,8 +649,11 @@ abstract class ilPlugin
     public function getImagePath(string $a_img) : string
     {
         return self::_getImagePath(
-            $this->getComponentType(), $this->getComponentName(), $this->getSlotId(),
-            $this->getPluginName(), $a_img
+            $this->getComponentType(),
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName(),
+            $a_img
         );
     }
 
@@ -669,7 +683,8 @@ abstract class ilPlugin
     public function addBlockFile($a_tpl, $a_var, $a_block, $a_tplname)
     {
         $a_tpl->addBlockFile(
-            $a_var, $a_block,
+            $a_var,
+            $a_block,
             $this->getDirectory() . "/templates/" . $a_tplname
         );
     }
@@ -709,12 +724,12 @@ abstract class ilPlugin
      * @return array
      * @throws ilPluginException
      */
-    static public function getPluginRecord(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : array
+    public static function getPluginRecord(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname) : array
     {
         $cached_component = ilCachedComponentData::getInstance();
         $rec = $cached_component->lookupPluginByName($a_pname);
 
-        if ($rec['component_type'] == $a_ctype AND $rec['component_name'] == $a_cname AND $rec['slot_id'] == $a_slot_id) {
+        if ($rec['component_type'] == $a_ctype and $rec['component_name'] == $a_cname and $rec['slot_id'] == $a_slot_id) {
             return $rec;
         } else {
             throw new ilPluginException("No plugin record found for '{$a_ctype}', '{$a_cname}', '{$a_slot_id}', '{$a_pname}");
@@ -733,7 +748,9 @@ abstract class ilPlugin
         // read/set basic data
         $rec = ilPlugin::getPluginRecord(
             $this->getComponentType(),
-            $this->getComponentName(), $this->getSlotId(), $this->getPluginName()
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName()
         );
         $this->setLastUpdateVersion((string) $rec["last_update_version"]);
         $this->setDBVersion((int) $rec["db_version"]);
@@ -783,7 +800,8 @@ abstract class ilPlugin
         $this->setSlotObject(
             new ilPluginSlot(
                 $this->getComponentType(),
-                $this->getComponentName(), $this->getSlotId()
+                $this->getComponentName(),
+                $this->getSlotId()
             )
         );
 
@@ -826,7 +844,9 @@ abstract class ilPlugin
 
         return $ilPluginAdmin->isActive(
             $this->getComponentType(),
-            $this->getComponentName(), $this->getSlotId(), $this->getPluginName()
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName()
         );
     }
 
@@ -841,7 +861,9 @@ abstract class ilPlugin
 
         return $ilPluginAdmin->needsUpdate(
             $this->getComponentType(),
-            $this->getComponentName(), $this->getSlotId(), $this->getPluginName()
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName()
         );
     }
 
@@ -1055,12 +1077,17 @@ abstract class ilPlugin
         // load control structure
         include_once("./setup/classes/class.ilCtrlStructureReader.php");
         $structure_reader = new ilCtrlStructureReader();
-        $structure_reader->readStructure(true, "./" . $this->getDirectory(), $this->getPrefix(),
-            $this->getDirectory());
+        $structure_reader->readStructure(
+            true,
+            "./" . $this->getDirectory(),
+            $this->getPrefix(),
+            $this->getDirectory()
+        );
 
         // add config gui to the ctrl calls
         $ilCtrl->insertCtrlCalls(
-            "ilobjcomponentsettingsgui", ilPlugin::getConfigureClassName(["name" => $this->getPluginName()]),
+            "ilobjcomponentsettingsgui",
+            ilPlugin::getConfigureClassName(["name" => $this->getPluginName()]),
             $this->getPrefix()
         );
 
@@ -1090,7 +1117,10 @@ abstract class ilPlugin
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
-            $this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName()
+            $this->getComponentType(),
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName()
         );
         $reader->clearEvents();
         $reader->startParsing();
@@ -1104,7 +1134,10 @@ abstract class ilPlugin
     {
         $reader = new ilPluginReader(
             $this->getDirectory() . '/plugin.xml',
-            $this->getComponentType(), $this->getComponentName(), $this->getSlotId(), $this->getPluginName()
+            $this->getComponentType(),
+            $this->getComponentName(),
+            $this->getSlotId(),
+            $this->getPluginName()
         );
         $reader->clearEvents();
     }
@@ -1327,12 +1360,28 @@ abstract class ilPlugin
 
     /**
      * @return AbstractStaticPluginMainMenuProvider
+     *
+     * @deprecated
+     * @see getGlobalScreenProviderCollection instead
      */
     public function promoteGlobalScreenProvider() : AbstractStaticPluginMainMenuProvider
     {
         global $DIC;
 
         return new ilPluginGlobalScreenNullProvider($DIC, $this);
+    }
+
+
+    /**
+     * @return PluginProviderCollection
+     */
+    final public function getGlobalScreenProviderCollection() : PluginProviderCollection
+    {
+        if (!$this->promoteGlobalScreenProvider() instanceof ilPluginGlobalScreenNullProvider) {
+            $this->provider_collection->setMainBarProvider($this->promoteGlobalScreenProvider());
+        }
+
+        return $this->provider_collection;
     }
 
 

@@ -8,7 +8,6 @@
  */
 class ilDclSelectionOption extends ActiveRecord
 {
-
     const DB_TABLE_NAME = "il_dcl_sel_opts";
 
 

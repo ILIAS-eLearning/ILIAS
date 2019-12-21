@@ -21,28 +21,44 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 {
 	const DEFAULT_PROCESSING_TIME_MINUTES = 90;
 
-	#region Properties
+    #region Properties
+    
     /**
-	 *
-	 */
-	const HIGHSCORE_SHOW_OWN_TABLE = 1;
+     * type setting value for fixed question set
+     */
+    const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
+    
+    /**
+     * type setting value for random question set
+     */
+    const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
+    
+    /**
+     * type setting value for dynamic question set (continues testing mode)
+     */
+    const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
+
+    /**
+     *
+     */
+    const HIGHSCORE_SHOW_OWN_TABLE = 1;
 
 	/**
 	 *
 	 */
 	const HIGHSCORE_SHOW_TOP_TABLE = 2;
 
-	/**
-	 * 
-	 */
-	const HIGHSCORE_SHOW_ALL_TABLES = 3;
-	
-	/**
-	 * question set type setting
-	 *
-	 * @var string
-	 */
-	private $questionSetType = ilTestQuestionSetConfig::TYPE_FIXED;
+    /**
+     *
+     */
+    const HIGHSCORE_SHOW_ALL_TABLES = 3;
+    
+    /**
+     * question set type setting
+     *
+     * @var string
+     */
+    private $questionSetType = self::QUESTION_SET_TYPE_FIXED;
 
     /**
      * @var ilTestQuestionSetConfig
@@ -676,41 +692,36 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 		
         $this->express_mode = false;
         $this->template_id = '';
-		$this->redirection_mode = 0;
-		$this->redirection_url = NULL;
-		$this->show_exam_id_in_test_pass_enabled = false;
-		$this->show_exam_id_in_test_results_enabled = false;
-		$this->sign_submission = false;
-		$this->char_selector_availability = 0;
-		$this->char_selector_definition = null;
-		
-		$this->showGradingStatusEnabled = true;
-		$this->showGradingMarkEnabled = true;
-		
-		$this->followupQuestionAnswerFixationEnabled = false;
-		$this->instantFeedbackAnswerFixationEnabled = false;
-		
-		$this->testFinalBroken = false;
-		
-		$this->tmpCopyWizardCopyId = null;
-		
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-
-	public function getQuestionSetConfig()
+        $this->redirection_mode = 0;
+        $this->redirection_url = null;
+        $this->show_exam_id_in_test_pass_enabled = false;
+        $this->show_exam_id_in_test_results_enabled = false;
+        $this->sign_submission = false;
+        $this->char_selector_availability = 0;
+        $this->char_selector_definition = null;
+        
+        $this->showGradingStatusEnabled = true;
+        $this->showGradingMarkEnabled = true;
+        
+        $this->followupQuestionAnswerFixationEnabled = false;
+        $this->instantFeedbackAnswerFixationEnabled = false;
+        
+        $this->testFinalBroken = false;
+        
+        $this->tmpCopyWizardCopyId = null;
+        
+        parent::__construct($a_id, $a_call_by_reference);
+    }
+    
+    /**
+     * returns the object title prepared to be used as a filename
+     *
+     * @return string
+     */
+    public function getTitleFilenameCompliant()
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        if( $this->questionSetConfig === null )
-        {
-            $factory = new ilTestQuestionSetConfigFactory(
-                $DIC->repositoryTree(), $DIC->database(), $DIC['ilPluginAdmin'], $this
-            );
-
-            $this->questionSetConfig = $factory->getQuestionSetConfig();
-        }
-
-        return $this->questionSetConfig;
+        require_once 'Services/Utilities/classes/class.ilUtil.php';
+        return ilUtil::getASCIIFilename($this->getTitle());
     }
 	
 	/**
@@ -1631,16 +1642,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$item->update($this->ref_id);		
 		}
 
-		if (!$properties_only)
-		{
-			if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
-			{
-				$this->saveQuestionsToDb();
-			}
-			
-			$this->mark_schema->saveToDb($this->test_id);
-		}
-  }
+        if (!$properties_only) {
+            if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
+                $this->saveQuestionsToDb();
+            }
+            
+            $this->mark_schema->saveToDb($this->test_id);
+        }
+    }
 
 /**
 * Saves the test questions to the database
@@ -3431,143 +3440,139 @@ function getAnswerFeedbackPoints()
 		$this->mc_scoring = $a_mc_scoring;
 	}
 
-/**
-* Sets the pass scoring
-*
-* @param integer $a_pass_scoring The pass scoring type
-* @access public
-* @see $pass_scoring
-*/
-	function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
-	{
-		switch ($a_pass_scoring)
-		{
-			case SCORE_BEST_PASS:
-				$this->pass_scoring = SCORE_BEST_PASS;
-				break;
-			default:
-				$this->pass_scoring = SCORE_LAST_PASS;
-				break;
-		}
-	}
-	
-	/**
-	 * @return string
-	 */
-	public function getPassWaiting()
-	{
-		return $this->pass_waiting;
-	}
-	
-	/**
-	 * @param string $pass_waiting   mm:ddd:hh:ii:ss
-	 */
-	public function setPassWaiting($pass_waiting)
-	{
-		$this->pass_waiting = $pass_waiting;
-	}
-	/**
-	 * @return bool
-	 */
-	public function isPassWaitingEnabled()
-	{
-		if(array_sum(explode(':', $this->getPassWaiting())) > 0)
-		{
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * @param int $questionId
-	 * @param array $activeIds
-	 * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
-	 */
-	public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap)
-	{
-		global $DIC; /* @var ILIAS\DI\Container $DIC */
-		
-		$testSequenceFactory = new ilTestSequenceFactory(
-			$DIC->database(), $DIC->language(), $DIC['ilPluginAdmin'], $this
-		);
-		
-		foreach($activeIds as $activeId)
-		{
-			$passSelector = new ilTestPassesSelector($DIC->database(), $this);
-			$passSelector->setActiveId($activeId);
-			
-			foreach($passSelector->getExistingPasses() as $pass)
-			{
-				$testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
-				$testSequence->loadFromDb();
-				
-				$testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
-				$testSequence->saveToDb();
-			}
-		}
-	}
-	
-	/**
-	 * @param array $removeQuestionIds
-	 */
-	public function removeQuestions($removeQuestionIds)
-	{
-		foreach ($removeQuestionIds as $value) {
-			$this->removeQuestion($value);
-		}
-		
-		$this->reindexFixedQuestionOrdering();
-	}
-	
-/**
-* Removes a question from the test object
-*
- * @deprecated (!)
-* @param integer $question_id The database id of the question to be removed
-* @access public
-* @see $test_id
-*/
-	function removeQuestion($question_id)
-	{
-		$question =& ilObjTest::_instanciateQuestion($question_id);
-		include_once ("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
-		if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-		{
-			$this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
-		}
-		$question->delete($question_id);
-	}
-	
-	/**
-	 * - at the time beeing ilObjTest::removeTestResults needs to call the LP service for deletion
-	 * - ilTestLP calls ilObjTest::removeTestResultsByUserIds
-	 * 
-	 * this method should only be used from non refactored soap context i think
-	 * 
-	 * @param $userIds
-	 */
-	public function removeTestResultsFromSoapLpAdministration($userIds)
-	{
-		$this->removeTestResultsByUserIds($userIds);
-		
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$lng = $DIC['lng'];
-		
-		require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
-		$participantData = new ilTestParticipantData($ilDB, $lng);
-		$participantData->setUserIdsFilter($userIds);
-		$participantData->load($this->getTestId());
-		
-		$this->removeTestActives($participantData->getActiveIds());
-	}
-	
-	public function removeTestResults(ilTestParticipantData $participantData)
-	{
-		if( count($participantData->getAnonymousActiveIds()) )
-		{
-			$this->removeTestResultsByActiveIds($participantData->getAnonymousActiveIds());
-		}
+    /**
+    * Sets the pass scoring
+    *
+    * @param integer $a_pass_scoring The pass scoring type
+    * @access public
+    * @see $pass_scoring
+    */
+    public function setPassScoring($a_pass_scoring = SCORE_LAST_PASS)
+    {
+        switch ($a_pass_scoring) {
+            case SCORE_BEST_PASS:
+                $this->pass_scoring = SCORE_BEST_PASS;
+                break;
+            default:
+                $this->pass_scoring = SCORE_LAST_PASS;
+                break;
+        }
+    }
+    
+    /**
+     * @return string
+     */
+    public function getPassWaiting()
+    {
+        return $this->pass_waiting;
+    }
+    
+    /**
+     * @param string $pass_waiting   mm:ddd:hh:ii:ss
+     */
+    public function setPassWaiting($pass_waiting)
+    {
+        $this->pass_waiting = $pass_waiting;
+    }
+    /**
+     * @return bool
+     */
+    public function isPassWaitingEnabled()
+    {
+        if (array_sum(explode(':', $this->getPassWaiting())) > 0) {
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * @param int $questionId
+     * @param array $activeIds
+     * @param ilTestReindexedSequencePositionMap $reindexedSequencePositionMap
+     */
+    public function removeQuestionFromSequences($questionId, $activeIds, ilTestReindexedSequencePositionMap $reindexedSequencePositionMap)
+    {
+        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        
+        $testSequenceFactory = new ilTestSequenceFactory(
+            $DIC->database(),
+            $DIC->language(),
+            $DIC['ilPluginAdmin'],
+            $this
+        );
+        
+        foreach ($activeIds as $activeId) {
+            $passSelector = new ilTestPassesSelector($DIC->database(), $this);
+            $passSelector->setActiveId($activeId);
+            
+            foreach ($passSelector->getExistingPasses() as $pass) {
+                $testSequence = $testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
+                $testSequence->loadFromDb();
+                
+                $testSequence->removeQuestion($questionId, $reindexedSequencePositionMap);
+                $testSequence->saveToDb();
+            }
+        }
+    }
+    
+    /**
+     * @param array $removeQuestionIds
+     */
+    public function removeQuestions($removeQuestionIds)
+    {
+        foreach ($removeQuestionIds as $value) {
+            $this->removeQuestion($value);
+        }
+        
+        $this->reindexFixedQuestionOrdering();
+    }
+    
+    /**
+    * Removes a question from the test object
+    *
+    * @param integer $question_id The database id of the question to be removed
+    * @access public
+    * @see $test_id
+    */
+    public function removeQuestion($question_id)
+    {
+        $question =&ilObjTest::_instanciateQuestion($question_id);
+        include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
+        if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
+            $this->logAction($this->lng->txtlng("assessment", "log_question_removed", ilObjAssessmentFolder::_getLogLanguage()), $question_id);
+        }
+        $question->delete($question_id);
+    }
+    
+    /**
+     * - at the time beeing ilObjTest::removeTestResults needs to call the LP service for deletion
+     * - ilTestLP calls ilObjTest::removeTestResultsByUserIds
+     *
+     * this method should only be used from non refactored soap context i think
+     *
+     * @param $userIds
+     */
+    public function removeTestResultsFromSoapLpAdministration($userIds)
+    {
+        $this->removeTestResultsByUserIds($userIds);
+        
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $lng = $DIC['lng'];
+        
+        require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
+        $participantData = new ilTestParticipantData($ilDB, $lng);
+        $participantData->setUserIdsFilter($userIds);
+        $participantData->load($this->getTestId());
+        
+        $this->removeTestActives($participantData->getActiveIds());
+    }
+    
+    public function removeTestResults(ilTestParticipantData $participantData)
+    {
+        if (count($participantData->getAnonymousActiveIds())) {
+            $this->removeTestResultsByActiveIds($participantData->getAnonymousActiveIds());
+        }
 
 		if( count($participantData->getUserIds()) )
 		{
@@ -3827,94 +3832,82 @@ function getAnswerFeedbackPoints()
 		return $duplicate_id;
 	}
 
-/**
-* Returns the titles of the test questions in question sequence
-*
-* @return array The question titles
-* @access public
-* @see $questions
-*/
-	function &getQuestionTitles()
-	{
-		$titles = array();
-		if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
-		{
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$result = $ilDB->queryF("SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-				array('integer'),
-				array($this->getTestId())
-			);
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				array_push($titles, $row["title"]);
-			}
-		}
-		return $titles;
-	}
+    /**
+    * Returns the titles of the test questions in question sequence
+    *
+    * @return array The question titles
+    * @access public
+    * @see $questions
+    */
+    public function &getQuestionTitles()
+    {
+        $titles = array();
+        if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
+            global $DIC;
+            $ilDB = $DIC['ilDB'];
+            $result = $ilDB->queryF(
+                "SELECT qpl_questions.title FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+                array('integer'),
+                array($this->getTestId())
+            );
+            while ($row = $ilDB->fetchAssoc($result)) {
+                array_push($titles, $row["title"]);
+            }
+        }
+        return $titles;
+    }
 
-	/**
-	* Returns the titles of the test questions in question sequence
-	*
-	* @return array The question titles
-	* @access public
-	* @see $questions
-	*/
-	function &getQuestionTitlesAndIndexes()
-	{
-		$titles = array();
-		if ($this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED)
-		{
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$result = $ilDB->queryF("SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
-				array('integer'),
-				array($this->getTestId())
-			);
-			while ($row = $ilDB->fetchAssoc($result))
-			{
-				$titles[$row['question_id']] = $row["title"];
-			}
-		}
-		return $titles;
-	}
+    /**
+    * Returns the titles of the test questions in question sequence
+    *
+    * @return array The question titles
+    * @access public
+    * @see $questions
+    */
+    public function &getQuestionTitlesAndIndexes()
+    {
+        $titles = array();
+        if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED) {
+            global $DIC;
+            $ilDB = $DIC['ilDB'];
+            $result = $ilDB->queryF(
+                "SELECT qpl_questions.title, qpl_questions.question_id FROM tst_test_question, qpl_questions WHERE tst_test_question.test_fi = %s AND tst_test_question.question_fi = qpl_questions.question_id ORDER BY tst_test_question.sequence",
+                array('integer'),
+                array($this->getTestId())
+            );
+            while ($row = $ilDB->fetchAssoc($result)) {
+                $titles[$row['question_id']] = $row["title"];
+            }
+        }
+        return $titles;
+    }
 
-// fau: testNav - add number parameter (to show if title should not be shown)
-	/**
-	 * Returns the title of a test question and checks if the title output is allowed.
-	 * If not, the localized text "question" will be returned.
-	 *
-	 * @param string $title The original title of the question
-	 * @param integer $nr The number of the question in the sequence
-	 * @return string The title for the question title output
-	 * @access public
-	 */
-	function getQuestionTitle($title, $nr =  null)
-	{
-		if ($this->getTitleOutput() == 2)
-		{
-			if( $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_DYNAMIC)
-			{
-				// avoid legacy setting combination: ctm without question titles
-				return $title;
-			}
-			else
-			if (isset($nr))
-			{
-				return $this->lng->txt("ass_question"). ' ' . $nr;
-			}
-			else
-			{
-				return $this->lng->txt("ass_question");
-			}
-
-		}
-		else
-		{
-			return $title;
-		}
-	}
-// fau.
+    // fau: testNav - add number parameter (to show if title should not be shown)
+    /**
+     * Returns the title of a test question and checks if the title output is allowed.
+     * If not, the localized text "question" will be returned.
+     *
+     * @param string $title The original title of the question
+     * @param integer $nr The number of the question in the sequence
+     * @return string The title for the question title output
+     * @access public
+     */
+    public function getQuestionTitle($title, $nr =  null)
+    {
+        if ($this->getTitleOutput() == 2) {
+            if ($this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC) {
+                // avoid legacy setting combination: ctm without question titles
+                return $title;
+            } elseif (isset($nr)) {
+                return $this->lng->txt("ass_question") . ' ' . $nr;
+            } else {
+                return $this->lng->txt("ass_question");
+            }
+        } else {
+            return $title;
+        }
+    }
+    // fau.
 
 /**
 * Returns the dataset for a given question id
@@ -5320,11 +5313,11 @@ function getAnswerFeedbackPoints()
 		
 		$questionSetType = ilObjTest::lookupQuestionSetTypeByActiveId($active_id);
 
-		switch( $questionSetType )
-		{
-			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
-				
-				$res = $ilDB->queryF("
+        switch ($questionSetType) {
+            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+                
+                $res = $ilDB->queryF(
+                                        "
 						SELECT		COUNT(qpl_questions.question_id) qcount,
 									SUM(qpl_questions.points) qsum
 						FROM		tst_active
@@ -5338,13 +5331,13 @@ function getAnswerFeedbackPoints()
 						AND         qpl_questions.complete = %s
 						WHERE		tst_active.active_id = %s
 					",
-					array('integer', 'integer'),
-					array(1, $active_id)
-				);
-				
-				break;
-			
-			case ilTestQuestionSetConfig::TYPE_RANDOM:
+                    array('integer', 'integer'),
+                    array(1, $active_id)
+                );
+                
+                break;
+            
+            case ilObjTest::QUESTION_SET_TYPE_RANDOM:
 
 				$res = $ilDB->queryF("
 						SELECT		tst_test_rnd_qst.pass,
@@ -5367,9 +5360,10 @@ function getAnswerFeedbackPoints()
 
 				break;
 
-			case ilTestQuestionSetConfig::TYPE_FIXED:
-				
-				$res = $ilDB->queryF("
+            case ilObjTest::QUESTION_SET_TYPE_FIXED:
+                
+                $res = $ilDB->queryF(
+                    "
 						SELECT		COUNT(tst_test_question.question_fi) qcount,
 									SUM(qpl_questions.points) qsum
 						
@@ -6112,271 +6106,256 @@ function getAnswerFeedbackPoints()
 					$this->setHighscoreTopTable($metadata["entry"]);
 					break;
 
-				case "highscore_top_num":
-					$this->setHighscoreTopNum($metadata["entry"]);
-					break;
-				
-				case "hide_previous_results":
-					if ($metadata["entry"] == 0)
-					{
-						$this->setUsePreviousAnswers(1);
-					}
-					else
-					{
-						$this->setUsePreviousAnswers(0);
-					}
-					break;
-				case "use_previous_answers":
-					$this->setUsePreviousAnswers($metadata["entry"]);
-					break;
-				case "answer_feedback":
-					$this->setAnswerFeedback($metadata["entry"]);
-					break;
-				case "hide_title_points":
-					$this->setTitleOutput($metadata["entry"]);
-					break;
-				case "title_output":
-					$this->setTitleOutput($metadata["entry"]);
-					break;
-				case "question_set_type":
-					$this->setQuestionSetType($metadata["entry"]);
-					break;
-				case "random_test":
-					if( $metadata["entry"] )
-					{
-						$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_RANDOM);
-					}
-					else
-					{
-						$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_FIXED);
-					}
-					break;
-				case "results_presentation":
-					$this->setResultsPresentation($metadata["entry"]);
-					break;
-				case "reset_processing_time":
-					$this->setResetProcessingTime($metadata["entry"]);
-					break;
-				case "instant_verification":
-					$this->setInstantFeedbackSolution($metadata["entry"]);
-					break;
-				case "follow_qst_answer_fixation":
-					$this->setFollowupQuestionAnswerFixationEnabled((bool)$metadata["entry"]);
-					break;
-				case "instant_feedback_answer_fixation":
-					$this->setInstantFeedbackAnswerFixationEnabled((bool)$metadata["entry"]);
-					break;
-				case "force_instant_feedback":
-					$this->setForceInstantFeedbackEnabled((bool)$metadata["entry"]);
-					break;
-				case "answer_feedback_points":
-					$this->setAnswerFeedbackPoints($metadata["entry"]);
-					break;
-				case "anonymity":
-					$this->setAnonymity($metadata["entry"]);
-					break;
-				case "use_pool":
-					$this->setPoolUsage((int)$metadata["entry"]);
-					break;
-				case "show_cancel":
-					$this->setShowCancel($metadata["entry"]);
-					break;
-				case "show_marker":
-					$this->setShowMarker($metadata["entry"]);
-					break;
-				case "fixed_participants":
-					$this->setFixedParticipants($metadata["entry"]);
-					break;
-				case "score_reporting":
-					$this->setScoreReporting($metadata["entry"]);
-					break;
-				case "shuffle_questions":
-					$this->setShuffleQuestions($metadata["entry"]);
-					break;
-				case "count_system":
-					$this->setCountSystem($metadata["entry"]);
-					break;
-				case "mc_scoring":
-					$this->setMCScoring($metadata["entry"]);
-					break;
-				case "mailnotification":
-					$this->setMailNotification($metadata["entry"]);
-					break;
-				case "mailnottype":
-					$this->setMailNotificationType($metadata["entry"]);
-					break;
-				case "exportsettings":
-					$this->setExportSettings($metadata['entry']);
-					break;
-				case "score_cutting":
-					$this->setScoreCutting($metadata["entry"]);
-					break;
-				case "password":
-					$this->setPassword($metadata["entry"]);
-					$this->setPasswordEnabled(strlen($metadata["entry"]) > 0);
-					break;
-				case "allowedUsers":
-					$this->setAllowedUsers($metadata["entry"]);
-					$this->setLimitUsersEnabled((int)$metadata["entry"] > 0);
-					break;
-				case "allowedUsersTimeGap":
-					$this->setAllowedUsersTimeGap($metadata["entry"]);
-					break;
-				case "pass_scoring":
-					$this->setPassScoring($metadata["entry"]);
-					break;
-				case 'pass_deletion_allowed':
-					$this->setPassDeletionAllowed((int)$metadata['entry']);
-					break;
-				case "show_summary":
-					$this->setListOfQuestionsSettings($metadata["entry"]);
-					break;
-				case "reporting_date":
-					$iso8601period = $metadata["entry"];
-					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-					{
-						$this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
-					}
-					break; 
-				case 'enable_processing_time': 
-					$this->setEnableProcessingTime($metadata['entry']); 
-					break;
-				case "processing_time": 
-					$this->setProcessingTime($metadata['entry']);
-					break;
-				case "starting_time":
-					$iso8601period = $metadata["entry"];
-					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-					{
-						$date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
-						$this->setStartingTime($date_time->get(IL_CAL_UNIX));
-						$this->setStartingTimeEnabled(true);
-					}
-					break;
-				case "ending_time":
-					$iso8601period = $metadata["entry"];
-					if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches))
-					{
-						$date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
-						$this->setEndingTime($date_time->get(IL_CAL_UNIX));
-						$this->setEndingTimeEnabled(true);
-					}
-					break;
-				case "enable_examview":
-					$this->setEnableExamview($metadata["entry"]);
-					break;
-				case 'show_examview_html':
-					$this->setShowExamviewHtml($metadata['entry']);
-					break;
-				case 'show_examview_pdf':
-					$this->setShowExamviewPdf($metadata['entry']);
-					break;
-				case 'redirection_mode':
-					$this->setRedirectionMode($metadata['entry']);
-					break;
-				case 'redirection_url':
-					$this->setRedirectionUrl($metadata['entry']);
-					break;
-				case 'examid_in_kiosk':
-				case 'examid_in_test_pass':
-					$this->setShowExamIdInTestPassEnabled($metadata['entry']);
-					break;
-				case 'show_exam_id':
-				case 'examid_in_test_res':
-					$this->setShowExamIdInTestResultsEnabled($metadata['entry']);
-					break;
-				case 'enable_archiving':
-					$this->setEnableArchiving($metadata['entry']);
-					break;
-				case 'sign_submission':
-					$this->setSignSubmission($metadata['entry']);
-					break;
-				case 'char_selector_availability':
-					$this->setCharSelectorAvailability($metadata['entry']);
-					break;
-				case 'char_selector_definition':
-					$this->setCharSelectorDefinition($metadata['entry']);
-					break;	
-				case 'skill_service':
-					$this->setSkillServiceEnabled((bool)$metadata['entry']);
-					break;
-				case 'result_tax_filters':
-					$this->setResultFilterTaxIds(strlen($metadata['entry']) ? unserialize($metadata['entry']) : array());
-					break;
-				case 'show_grading_status':
-					$this->setShowGradingStatusEnabled((bool)$metadata['entry']);
-					break;
-				case 'show_grading_mark':
-					$this->setShowGradingMarkEnabled((bool)$metadata['entry']);
-					break;
-				case 'activation_limited': 
-					$this->setActivationLimited($metadata['entry']);
-					break;
-				case 'activation_start_time':
-					$this->setActivationStartingTime($metadata['entry']);
-					break;
-				case 'activation_end_time': 
-					$this->setActivationEndingTime($metadata['entry']);
-					break;
-				case 'activation_visibility': 
-					$this->setActivationVisibility($metadata['entry']);
-					break;
-				case 'autosave': 
-					$this->setAutosave($metadata['entry']);
-					break;
-				case 'autosave_ival': 
-					$this->setAutosaveIval($metadata['entry']);
-					break;
-				case 'offer_question_hints': 
-					$this->setOfferingQuestionHintsEnabled($metadata['entry']);
-					break;
-				case 'instant_feedback_specific': 
-					$this->setSpecificAnswerFeedback($metadata['entry']);
-					break;
-				case 'obligations_enabled': 
-					$this->setObligationsEnabled($metadata['entry']);
-					break;
-			}
-			if (preg_match("/mark_step_\d+/", $metadata["label"]))
-			{
-				$xmlmark = $metadata["entry"];
-				preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
-				$mark_short = $matches[1];
-				preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
-				$mark_official = $matches[1];
-				preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
-				$mark_percentage = $matches[1];
-				preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
-				$mark_passed = $matches[1];
-				$this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
-			}
-		}
-		// handle the import of media objects in XHTML code
-		if (is_array($_SESSION["import_mob_xhtml"]))
-		{
-			include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
-			include_once "./Services/RTE/classes/class.ilRTE.php";
-			include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
-			foreach ($_SESSION["import_mob_xhtml"] as $mob)
-			{
-				$importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
-				if (file_exists($importfile))
-				{
-					$media_object =& ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, FALSE);
-					ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
-					$this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
-					$this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getFinalStatement()), 1));
-				}
-				else
-				{
-					global $DIC;
-					$ilLog = $DIC['ilLog'];
-					$ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
-				}
-			}
-			$this->saveToDb();
-		}
-	}
+                case "highscore_top_num":
+                    $this->setHighscoreTopNum($metadata["entry"]);
+                    break;
+                
+                case "hide_previous_results":
+                    if ($metadata["entry"] == 0) {
+                        $this->setUsePreviousAnswers(1);
+                    } else {
+                        $this->setUsePreviousAnswers(0);
+                    }
+                    break;
+                case "use_previous_answers":
+                    $this->setUsePreviousAnswers($metadata["entry"]);
+                    break;
+                case "answer_feedback":
+                    $this->setAnswerFeedback($metadata["entry"]);
+                    break;
+                case "hide_title_points":
+                    $this->setTitleOutput($metadata["entry"]);
+                    break;
+                case "title_output":
+                    $this->setTitleOutput($metadata["entry"]);
+                    break;
+                case "question_set_type":
+                    $this->setQuestionSetType($metadata["entry"]);
+                    break;
+                case "random_test":
+                    if ($metadata["entry"]) {
+                        $this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+                    } else {
+                        $this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+                    }
+                    break;
+                case "results_presentation":
+                    $this->setResultsPresentation($metadata["entry"]);
+                    break;
+                case "reset_processing_time":
+                    $this->setResetProcessingTime($metadata["entry"]);
+                    break;
+                case "instant_verification":
+                    $this->setInstantFeedbackSolution($metadata["entry"]);
+                    break;
+                case "follow_qst_answer_fixation":
+                    $this->setFollowupQuestionAnswerFixationEnabled((bool) $metadata["entry"]);
+                    break;
+                case "instant_feedback_answer_fixation":
+                    $this->setInstantFeedbackAnswerFixationEnabled((bool) $metadata["entry"]);
+                    break;
+                case "force_instant_feedback":
+                    $this->setForceInstantFeedbackEnabled((bool) $metadata["entry"]);
+                    break;
+                case "answer_feedback_points":
+                    $this->setAnswerFeedbackPoints($metadata["entry"]);
+                    break;
+                case "anonymity":
+                    $this->setAnonymity($metadata["entry"]);
+                    break;
+                case "use_pool":
+                    $this->setPoolUsage((int) $metadata["entry"]);
+                    break;
+                case "show_cancel":
+                    $this->setShowCancel($metadata["entry"]);
+                    break;
+                case "show_marker":
+                    $this->setShowMarker($metadata["entry"]);
+                    break;
+                case "fixed_participants":
+                    $this->setFixedParticipants($metadata["entry"]);
+                    break;
+                case "score_reporting":
+                    $this->setScoreReporting($metadata["entry"]);
+                    break;
+                case "shuffle_questions":
+                    $this->setShuffleQuestions($metadata["entry"]);
+                    break;
+                case "count_system":
+                    $this->setCountSystem($metadata["entry"]);
+                    break;
+                case "mc_scoring":
+                    $this->setMCScoring($metadata["entry"]);
+                    break;
+                case "mailnotification":
+                    $this->setMailNotification($metadata["entry"]);
+                    break;
+                case "mailnottype":
+                    $this->setMailNotificationType($metadata["entry"]);
+                    break;
+                case "exportsettings":
+                    $this->setExportSettings($metadata['entry']);
+                    break;
+                case "score_cutting":
+                    $this->setScoreCutting($metadata["entry"]);
+                    break;
+                case "password":
+                    $this->setPassword($metadata["entry"]);
+                    $this->setPasswordEnabled(strlen($metadata["entry"]) > 0);
+                    break;
+                case "allowedUsers":
+                    $this->setAllowedUsers($metadata["entry"]);
+                    $this->setLimitUsersEnabled((int) $metadata["entry"] > 0);
+                    break;
+                case "allowedUsersTimeGap":
+                    $this->setAllowedUsersTimeGap($metadata["entry"]);
+                    break;
+                case "pass_scoring":
+                    $this->setPassScoring($metadata["entry"]);
+                    break;
+                case 'pass_deletion_allowed':
+                    $this->setPassDeletionAllowed((int) $metadata['entry']);
+                    break;
+                case "show_summary":
+                    $this->setListOfQuestionsSettings($metadata["entry"]);
+                    break;
+                case "reporting_date":
+                    $iso8601period = $metadata["entry"];
+                    if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches)) {
+                        $this->setReportingDate(sprintf("%02d%02d%02d%02d%02d%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]));
+                    }
+                    break;
+                case 'enable_processing_time':
+                    $this->setEnableProcessingTime($metadata['entry']);
+                    break;
+                case "processing_time":
+                    $this->setProcessingTime($metadata['entry']);
+                    break;
+                case "starting_time":
+                    $iso8601period = $metadata["entry"];
+                    if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches)) {
+                        $date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
+                        $this->setStartingTime($date_time->get(IL_CAL_UNIX));
+                        $this->setStartingTimeEnabled(true);
+                    }
+                    break;
+                case "ending_time":
+                    $iso8601period = $metadata["entry"];
+                    if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $iso8601period, $matches)) {
+                        $date_time = new ilDateTime(sprintf("%02d-%02d-%02d %02d:%02d:%02d", $matches[1], $matches[2], $matches[3], $matches[4], $matches[5], $matches[6]), IL_CAL_DATETIME);
+                        $this->setEndingTime($date_time->get(IL_CAL_UNIX));
+                        $this->setEndingTimeEnabled(true);
+                    }
+                    break;
+                case "enable_examview":
+                    $this->setEnableExamview($metadata["entry"]);
+                    break;
+                case 'show_examview_html':
+                    $this->setShowExamviewHtml($metadata['entry']);
+                    break;
+                case 'show_examview_pdf':
+                    $this->setShowExamviewPdf($metadata['entry']);
+                    break;
+                case 'redirection_mode':
+                    $this->setRedirectionMode($metadata['entry']);
+                    break;
+                case 'redirection_url':
+                    $this->setRedirectionUrl($metadata['entry']);
+                    break;
+                case 'examid_in_kiosk':
+                case 'examid_in_test_pass':
+                    $this->setShowExamIdInTestPassEnabled($metadata['entry']);
+                    break;
+                case 'show_exam_id':
+                case 'examid_in_test_res':
+                    $this->setShowExamIdInTestResultsEnabled($metadata['entry']);
+                    break;
+                case 'enable_archiving':
+                    $this->setEnableArchiving($metadata['entry']);
+                    break;
+                case 'sign_submission':
+                    $this->setSignSubmission($metadata['entry']);
+                    break;
+                case 'char_selector_availability':
+                    $this->setCharSelectorAvailability($metadata['entry']);
+                    break;
+                case 'char_selector_definition':
+                    $this->setCharSelectorDefinition($metadata['entry']);
+                    break;
+                case 'skill_service':
+                    $this->setSkillServiceEnabled((bool) $metadata['entry']);
+                    break;
+                case 'result_tax_filters':
+                    $this->setResultFilterTaxIds(strlen($metadata['entry']) ? unserialize($metadata['entry']) : array());
+                    break;
+                case 'show_grading_status':
+                    $this->setShowGradingStatusEnabled((bool) $metadata['entry']);
+                    break;
+                case 'show_grading_mark':
+                    $this->setShowGradingMarkEnabled((bool) $metadata['entry']);
+                    break;
+                case 'activation_limited':
+                    $this->setActivationLimited($metadata['entry']);
+                    break;
+                case 'activation_start_time':
+                    $this->setActivationStartingTime($metadata['entry']);
+                    break;
+                case 'activation_end_time':
+                    $this->setActivationEndingTime($metadata['entry']);
+                    break;
+                case 'activation_visibility':
+                    $this->setActivationVisibility($metadata['entry']);
+                    break;
+                case 'autosave':
+                    $this->setAutosave($metadata['entry']);
+                    break;
+                case 'autosave_ival':
+                    $this->setAutosaveIval($metadata['entry']);
+                    break;
+                case 'offer_question_hints':
+                    $this->setOfferingQuestionHintsEnabled($metadata['entry']);
+                    break;
+                case 'instant_feedback_specific':
+                    $this->setSpecificAnswerFeedback($metadata['entry']);
+                    break;
+                case 'obligations_enabled':
+                    $this->setObligationsEnabled($metadata['entry']);
+                    break;
+            }
+            if (preg_match("/mark_step_\d+/", $metadata["label"])) {
+                $xmlmark = $metadata["entry"];
+                preg_match("/<short>(.*?)<\/short>/", $xmlmark, $matches);
+                $mark_short = $matches[1];
+                preg_match("/<official>(.*?)<\/official>/", $xmlmark, $matches);
+                $mark_official = $matches[1];
+                preg_match("/<percentage>(.*?)<\/percentage>/", $xmlmark, $matches);
+                $mark_percentage = $matches[1];
+                preg_match("/<passed>(.*?)<\/passed>/", $xmlmark, $matches);
+                $mark_passed = $matches[1];
+                $this->mark_schema->addMarkStep($mark_short, $mark_official, $mark_percentage, $mark_passed);
+            }
+        }
+        // handle the import of media objects in XHTML code
+        if (is_array($_SESSION["import_mob_xhtml"])) {
+            include_once "./Services/MediaObjects/classes/class.ilObjMediaObject.php";
+            include_once "./Services/RTE/classes/class.ilRTE.php";
+            include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
+            foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+                $importfile = ilObjTest::_getImportDirectory() . '/' . $_SESSION["tst_import_subdir"] . '/' . $mob["uri"];
+                if (file_exists($importfile)) {
+                    $media_object =&ilObjMediaObject::_saveTempFileAsMediaObject(basename($importfile), $importfile, false);
+                    ilObjMediaObject::_saveUsage($media_object->getId(), "tst:html", $this->getId());
+                    $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getIntroduction()), 1));
+                    $this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc(str_replace("src=\"" . $mob["mob"] . "\"", "src=\"" . "il_" . IL_INST_ID . "_mob_" . $media_object->getId() . "\"", $this->getFinalStatement()), 1));
+                } else {
+                    global $DIC;
+                    $ilLog = $DIC['ilLog'];
+                    $ilLog->write("Error: Could not open XHTML mob file for test introduction during test import. File $importfile does not exist!");
+                }
+            }
+            $this->saveToDb();
+        }
+    }
 
 	/**
 	 * Returns a QTI xml representation of the test
@@ -10326,106 +10305,94 @@ function getAnswerFeedbackPoints()
 		include_once "./Modules/Test/classes/class.assMarkSchema.php";
 		$this->mark_schema = unserialize($test_defaults["marks"]);
 
-		$this->setTitleOutput($testsettings["TitleOutput"]);
-		$this->setPassScoring($testsettings["PassScoring"]);
-		$this->setIntroductionEnabled($testsettings["IntroEnabled"]);
-		$this->setIntroduction($testsettings["Introduction"]);
-		$this->setFinalStatement($testsettings["FinalStatement"]);
-		$this->setShowInfo($testsettings["ShowInfo"]);
-		$this->setForceJS($testsettings["ForceJS"]);
-		$this->setCustomStyle($testsettings["CustomStyle"]);
-		$this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
-		$this->setSequenceSettings($testsettings["SequenceSettings"]);
-		$this->setScoreReporting($testsettings["ScoreReporting"]);
-		$this->setScoreCutting($testsettings['ScoreCutting']);
-		$this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
-		$this->setPrintBestSolutionWithResult((bool)$testsettings['PrintBsWithRes']);
-		$this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
-		$this->setAnswerFeedback($testsettings["AnswerFeedback"]);
-		$this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
-		$this->setResultsPresentation($testsettings["ResultsPresentation"]);
-		$this->setAnonymity($testsettings["Anonymity"]);
-		$this->setShowCancel($testsettings["ShowCancel"]);
-		$this->setShuffleQuestions($testsettings["Shuffle"]);
-		$this->setShowMarker($testsettings["ShowMarker"]);
-		$this->setReportingDate($testsettings["ReportingDate"]);
-		$this->setNrOfTries($testsettings["NrOfTries"]);
-		$this->setBlockPassesAfterPassedEnabled((bool)$testsettings['BlockAfterPassed']);
-		$this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
-		$this->setRedirectionMode($testsettings['redirection_mode']);
-		$this->setRedirectionUrl($testsettings['redirection_url']);
-		$this->setProcessingTime($testsettings["ProcessingTime"]);
-		$this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
-		$this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
-		$this->setStartingTimeEnabled($testsettings["StartingTimeEnabled"]);
-		$this->setStartingTime($testsettings["StartingTime"]);
-		$this->setKiosk($testsettings["Kiosk"]);
-		$this->setEndingTimeEnabled($testsettings["EndingTimeEnabled"]);
-		$this->setEndingTime($testsettings["EndingTime"]);
-		$this->setECTSOutput($testsettings["ECTSOutput"]);
-		$this->setECTSFX($testsettings["ECTSFX"]);
-		$this->setECTSGrades($testsettings["ECTSGrades"]);
-		if( isset($testsettings["isRandomTest"]) )
-		{
-			if( $testsettings["isRandomTest"] )
-			{
-				$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_RANDOM);
-			}
-			else
-			{
-				$this->setQuestionSetType(ilTestQuestionSetConfig::TYPE_FIXED);
-			}
-		}
-		elseif( isset($testsettings["questionSetType"]) )
-		{
-			$this->setQuestionSetType($testsettings["questionSetType"]);
-		}
-		$this->setCountSystem($testsettings["CountSystem"]);
-		$this->setMCScoring($testsettings["MCScoring"]);
-		$this->setMailNotification($testsettings["mailnotification"]);
-		$this->setMailNotificationType($testsettings["mailnottype"]);
-		$this->setExportSettings($testsettings['exportsettings']);
-		$this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
-		$this->setObligationsEnabled($testsettings["obligations_enabled"]);
-		$this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
-		$this->setHighscoreEnabled($testsettings['highscore_enabled']);
-		$this->setHighscoreAnon($testsettings['highscore_anon']);
-		$this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
-		$this->setHighscoreScore($testsettings['highscore_score']);
-		$this->setHighscorePercentage($testsettings['highscore_percentage']);
-		$this->setHighscoreHints($testsettings['highscore_hints']);
-		$this->setHighscoreWTime($testsettings['highscore_wtime']);
-		$this->setHighscoreOwnTable($testsettings['highscore_own_table']);
-		$this->setHighscoreTopTable($testsettings['highscore_top_table']);
-		$this->setHighscoreTopNum($testsettings['highscore_top_num']);
-		$this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
-		if( isset($testsettings['examid_in_kiosk']) )
-		{
-			$this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
-		}
-		else
-		{
-			$this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
-		}
-		if( isset($testsettings['show_exam_id']) )
-		{
-			$this->setShowExamIdInTestResultsEnabled($testsettings['show_exam_id']);
-		}
-		else
-		{
-			$this->setShowExamIdInTestResultsEnabled($testsettings['examid_in_test_res']);
-		}
-		$this->setEnableExamview($testsettings['enable_examview']);
-		$this->setShowExamviewHtml($testsettings['show_examview_html']);
-		$this->setShowExamviewPdf($testsettings['show_examview_pdf']);
-		$this->setEnableArchiving($testsettings['enable_archiving']);
-		$this->setSignSubmission($testsettings['sign_submission']);
-		$this->setCharSelectorAvailability($testsettings['char_selector_availability']);
-		$this->setCharSelectorDefinition($testsettings['char_selector_definition']);
-		$this->setSkillServiceEnabled((bool)$testsettings['skill_service']);
-		$this->setResultFilterTaxIds((array)$testsettings['result_tax_filters']);
-		$this->setShowGradingStatusEnabled((bool)$testsettings['show_grading_status']);
-		$this->setShowGradingMarkEnabled((bool)$testsettings['show_grading_mark']);
+        $this->setTitleOutput($testsettings["TitleOutput"]);
+        $this->setPassScoring($testsettings["PassScoring"]);
+        $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
+        $this->setIntroduction($testsettings["Introduction"]);
+        $this->setFinalStatement($testsettings["FinalStatement"]);
+        $this->setShowInfo($testsettings["ShowInfo"]);
+        $this->setForceJS($testsettings["ForceJS"]);
+        $this->setCustomStyle($testsettings["CustomStyle"]);
+        $this->setShowFinalStatement($testsettings["ShowFinalStatement"]);
+        $this->setSequenceSettings($testsettings["SequenceSettings"]);
+        $this->setScoreReporting($testsettings["ScoreReporting"]);
+        $this->setScoreCutting($testsettings['ScoreCutting']);
+        $this->setSpecificAnswerFeedback($testsettings['SpecificAnswerFeedback']);
+        $this->setPrintBestSolutionWithResult((bool) $testsettings['PrintBsWithRes']);
+        $this->setInstantFeedbackSolution($testsettings["InstantFeedbackSolution"]);
+        $this->setAnswerFeedback($testsettings["AnswerFeedback"]);
+        $this->setAnswerFeedbackPoints($testsettings["AnswerFeedbackPoints"]);
+        $this->setResultsPresentation($testsettings["ResultsPresentation"]);
+        $this->setAnonymity($testsettings["Anonymity"]);
+        $this->setShowCancel($testsettings["ShowCancel"]);
+        $this->setShuffleQuestions($testsettings["Shuffle"]);
+        $this->setShowMarker($testsettings["ShowMarker"]);
+        $this->setReportingDate($testsettings["ReportingDate"]);
+        $this->setNrOfTries($testsettings["NrOfTries"]);
+        $this->setBlockPassesAfterPassedEnabled((bool) $testsettings['BlockAfterPassed']);
+        $this->setUsePreviousAnswers($testsettings["UsePreviousAnswers"]);
+        $this->setRedirectionMode($testsettings['redirection_mode']);
+        $this->setRedirectionUrl($testsettings['redirection_url']);
+        $this->setProcessingTime($testsettings["ProcessingTime"]);
+        $this->setResetProcessingTime($testsettings["ResetProcessingTime"]);
+        $this->setEnableProcessingTime($testsettings["EnableProcessingTime"]);
+        $this->setStartingTimeEnabled($testsettings["StartingTimeEnabled"]);
+        $this->setStartingTime($testsettings["StartingTime"]);
+        $this->setKiosk($testsettings["Kiosk"]);
+        $this->setEndingTimeEnabled($testsettings["EndingTimeEnabled"]);
+        $this->setEndingTime($testsettings["EndingTime"]);
+        $this->setECTSOutput($testsettings["ECTSOutput"]);
+        $this->setECTSFX($testsettings["ECTSFX"]);
+        $this->setECTSGrades($testsettings["ECTSGrades"]);
+        if (isset($testsettings["isRandomTest"])) {
+            if ($testsettings["isRandomTest"]) {
+                $this->setQuestionSetType(self::QUESTION_SET_TYPE_RANDOM);
+            } else {
+                $this->setQuestionSetType(self::QUESTION_SET_TYPE_FIXED);
+            }
+        } elseif (isset($testsettings["questionSetType"])) {
+            $this->setQuestionSetType($testsettings["questionSetType"]);
+        }
+        $this->setCountSystem($testsettings["CountSystem"]);
+        $this->setMCScoring($testsettings["MCScoring"]);
+        $this->setMailNotification($testsettings["mailnotification"]);
+        $this->setMailNotificationType($testsettings["mailnottype"]);
+        $this->setExportSettings($testsettings['exportsettings']);
+        $this->setListOfQuestionsSettings($testsettings["ListOfQuestionsSettings"]);
+        $this->setObligationsEnabled($testsettings["obligations_enabled"]);
+        $this->setOfferingQuestionHintsEnabled($testsettings["offer_question_hints"]);
+        $this->setHighscoreEnabled($testsettings['highscore_enabled']);
+        $this->setHighscoreAnon($testsettings['highscore_anon']);
+        $this->setHighscoreAchievedTS($testsettings['highscore_achieved_ts']);
+        $this->setHighscoreScore($testsettings['highscore_score']);
+        $this->setHighscorePercentage($testsettings['highscore_percentage']);
+        $this->setHighscoreHints($testsettings['highscore_hints']);
+        $this->setHighscoreWTime($testsettings['highscore_wtime']);
+        $this->setHighscoreOwnTable($testsettings['highscore_own_table']);
+        $this->setHighscoreTopTable($testsettings['highscore_top_table']);
+        $this->setHighscoreTopNum($testsettings['highscore_top_num']);
+        $this->setPassDeletionAllowed($testsettings['pass_deletion_allowed']);
+        if (isset($testsettings['examid_in_kiosk'])) {
+            $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_kiosk']);
+        } else {
+            $this->setShowExamIdInTestPassEnabled($testsettings['examid_in_test_pass']);
+        }
+        if (isset($testsettings['show_exam_id'])) {
+            $this->setShowExamIdInTestResultsEnabled($testsettings['show_exam_id']);
+        } else {
+            $this->setShowExamIdInTestResultsEnabled($testsettings['examid_in_test_res']);
+        }
+        $this->setEnableExamview($testsettings['enable_examview']);
+        $this->setShowExamviewHtml($testsettings['show_examview_html']);
+        $this->setShowExamviewPdf($testsettings['show_examview_pdf']);
+        $this->setEnableArchiving($testsettings['enable_archiving']);
+        $this->setSignSubmission($testsettings['sign_submission']);
+        $this->setCharSelectorAvailability($testsettings['char_selector_availability']);
+        $this->setCharSelectorDefinition($testsettings['char_selector_definition']);
+        $this->setSkillServiceEnabled((bool) $testsettings['skill_service']);
+        $this->setResultFilterTaxIds((array) $testsettings['result_tax_filters']);
+        $this->setShowGradingStatusEnabled((bool) $testsettings['show_grading_status']);
+        $this->setShowGradingMarkEnabled((bool) $testsettings['show_grading_mark']);
 
 		$this->setFollowupQuestionAnswerFixationEnabled($testsettings['follow_qst_answer_fixation']);
 		$this->setInstantFeedbackAnswerFixationEnabled($testsettings['inst_fb_answer_fixation']);
@@ -12414,16 +12381,16 @@ function getAnswerFeedbackPoints()
 		return null;
 	}
 
-	/**
-	 * @param  $active_id
-	 * @param  $pass
-	 * @param  $test_obj_id
-	 * @return string
-	 */
-	public static function buildExamId($active_id, $pass, $test_obj_id = null)
-	{
-		global $DIC;
-		$ilSetting = $DIC['ilSetting'];
+    /**
+     * @param  $active_id
+     * @param  $pass
+     * @param  $test_obj_id
+     * @return array
+     */
+    public static function buildExamId($active_id, $pass, $test_obj_id = null)
+    {
+        global $DIC;
+        $ilSetting = $DIC['ilSetting'];
 
 		$inst_id = $ilSetting->get( 'inst_id', null );
 
@@ -12515,108 +12482,106 @@ function getAnswerFeedbackPoints()
 		return $this->char_selector_definition;
 	}
 
-	
-	/**
-	 * setter for question set type
-	 * 
-	 * @param string $questionSetType
-	 */
-	public function setQuestionSetType($questionSetType)
-	{
-		$this->questionSetType = $questionSetType;
-	}
-	
-	/**
-	 * getter for question set type
-	 * 
-	 * @return string $questionSetType
-	 */
-	public function getQuestionSetType()
-	{
-		return $this->questionSetType;
-	}
-	
-	/**
-	 * lookup-er for question set type
-	 * 
-	 * @global ilDBInterface $ilDB
-	 * @param integer $objId
-	 * @return string $questionSetType
-	 */
-	public static function lookupQuestionSetType($objId)
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		$query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
-		
-		$res = $ilDB->queryF($query, array('integer'), array($objId));
-		
-		$questionSetType = null;
-		
-		while( $row = $ilDB->fetchAssoc($res) )
-		{
-			$questionSetType = $row['question_set_type'];
-		}
-		
-		return $questionSetType;
-	}
-	
-	/**
-	 * Returns the fact wether this test is a fixed question set test or not
-	 *
-	 * @return boolean $isFixedTest
-	 */
-	public function isFixedTest()
-	{
-		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_FIXED;
-	}
+    
+    /**
+     * setter for question set type
+     *
+     * @param string $questionSetType
+     */
+    public function setQuestionSetType($questionSetType)
+    {
+        $this->questionSetType = $questionSetType;
+    }
+    
+    /**
+     * getter for question set type
+     *
+     * @return string $questionSetType
+     */
+    public function getQuestionSetType()
+    {
+        return $this->questionSetType;
+    }
+    
+    /**
+     * lookup-er for question set type
+     *
+     * @global ilDBInterface $ilDB
+     * @param integer $objId
+     * @return string $questionSetType
+     */
+    public static function lookupQuestionSetType($objId)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        
+        $query = "SELECT question_set_type FROM tst_tests WHERE obj_fi = %s";
+        
+        $res = $ilDB->queryF($query, array('integer'), array($objId));
+        
+        $questionSetType = null;
+        
+        while ($row = $ilDB->fetchAssoc($res)) {
+            $questionSetType = $row['question_set_type'];
+        }
+        
+        return $questionSetType;
+    }
+    
+    /**
+     * Returns the fact wether this test is a fixed question set test or not
+     *
+     * @return boolean $isFixedTest
+     */
+    public function isFixedTest()
+    {
+        return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_FIXED;
+    }
 
-	/**
-	 * Returns the fact wether this test is a random questions test or not
-	 *
-	 * @return boolean $isRandomTest
-	 */
-	public function isRandomTest()
-	{
-		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_RANDOM;
-	}
+    /**
+     * Returns the fact wether this test is a random questions test or not
+     *
+     * @return boolean $isRandomTest
+     */
+    public function isRandomTest()
+    {
+        return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_RANDOM;
+    }
 
-	/**
-	 * Returns the fact wether this test is a dynamic question set test or not
-	 *
-	 * @return boolean $isDynamicTest
-	 */
-	public function isDynamicTest()
-	{
-		return $this->getQuestionSetType() == ilTestQuestionSetConfig::TYPE_DYNAMIC;
-	}
-	
-	/**
-	 * Returns the fact wether the test with passed obj id is a random questions test or not
-	 * 
-	 * @param integer $a_obj_id
-	 * @return boolean $isRandomTest
-	 * @deprecated
-	 */
-	public static function _lookupRandomTest($a_obj_id)
-	{
-		return self::lookupQuestionSetType($a_obj_id) == ilTestQuestionSetConfig::TYPE_RANDOM;
-	}
+    /**
+     * Returns the fact wether this test is a dynamic question set test or not
+     *
+     * @return boolean $isDynamicTest
+     */
+    public function isDynamicTest()
+    {
+        return $this->getQuestionSetType() == self::QUESTION_SET_TYPE_DYNAMIC;
+    }
+    
+    /**
+     * Returns the fact wether the test with passed obj id is a random questions test or not
+     *
+     * @param integer $a_obj_id
+     * @return boolean $isRandomTest
+     * @deprecated
+     */
+    public static function _lookupRandomTest($a_obj_id)
+    {
+        return self::lookupQuestionSetType($a_obj_id) == self::QUESTION_SET_TYPE_RANDOM;
+    }
 
-	public function getQuestionSetTypeTranslation(ilLanguage $lng, $questionSetType)
-	{
-		switch( $questionSetType )
-		{
-			case ilTestQuestionSetConfig::TYPE_FIXED:
-				return $lng->txt('tst_question_set_type_fixed');
+    public function getQuestionSetTypeTranslation(ilLanguage $lng, $questionSetType)
+    {
+        switch ($questionSetType) {
+            case ilObjTest::QUESTION_SET_TYPE_FIXED:
+                return $lng->txt('tst_question_set_type_fixed');
 
-			case ilTestQuestionSetConfig::TYPE_RANDOM:
-				return $lng->txt('tst_question_set_type_random');
+            case ilObjTest::QUESTION_SET_TYPE_RANDOM:
+                return $lng->txt('tst_question_set_type_random');
 
-			case ilTestQuestionSetConfig::TYPE_DYNAMIC:
-				return $lng->txt('tst_question_set_type_dynamic');
-		}
+            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
+                return $lng->txt('tst_question_set_type_dynamic');
+        }
 
 		throw new ilTestException('invalid question set type value given: '.$questionSetType);
 	}

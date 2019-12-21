@@ -7,14 +7,13 @@
 
 class ilBiblOverviewModel extends ActiveRecord implements ilBiblOverviewModelInterface
 {
-
     const TABLE_NAME = 'il_bibl_overview_model';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }

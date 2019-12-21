@@ -11,7 +11,6 @@
  */
 class ilDclContentExporter
 {
-
     const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
     const EXPORT_EXCEL = 'xlsx';
     const IN_PROGRESS_POSTFIX = '.prog';
@@ -132,7 +131,9 @@ class ilDclContentExporter
      * @param $worksheet
      * @param $row
      */
-    protected function fillMetaExcel($table, $worksheet, $row) { }
+    protected function fillMetaExcel($table, $worksheet, $row)
+    {
+    }
 
 
     /**
@@ -146,7 +147,6 @@ class ilDclContentExporter
      */
     public function export($format = self::EXPORT_EXCEL, $filepath = null, $send = false)
     {
-
         if (count($this->tables) == 0) {
             return;
         }

@@ -6,20 +6,19 @@
  */
 class ilChatroomServerConnectorMock extends ilChatroomServerConnector
 {
-	protected $error;
+    protected $error;
 
-	public function __construct()
-	{
-		$settings = new ilChatroomServerSettings();
-		parent::__construct($settings);
-	}
+    public function __construct()
+    {
+        $settings = new ilChatroomServerSettings();
+        parent::__construct($settings);
+    }
 
-	/**
-	 * @param boolean $error
-	 */
-	public function setError($error)
-	{
-		$this->error = $error;
-	}
-
+    /**
+     * @param boolean $error
+     */
+    public function setError($error)
+    {
+        $this->error = $error;
+    }
 }

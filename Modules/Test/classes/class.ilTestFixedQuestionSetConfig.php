@@ -198,34 +198,4 @@ class ilTestFixedQuestionSetConfig extends ilTestQuestionSetConfig
 	{
 		return false;
 	}
-
-	public function registerCreatedQuestion(\ILIAS\AssessmentQuestion\DomainModel\QuestionDto $questionDto)
-    {
-        $testQuestion = $this->getTestQuestionList()->appendQuestion(
-            $questionDto->getQuestionIntId(), $questionDto->getId());
-
-        if (ilObjAssessmentFolder::_enabledAssessmentLogging())
-        {
-            global $DIC; /* @var \ILIAS\DI\Container $DIC */
-            $logMsg = $DIC->language()->txtlng("assessment", "log_question_added", ilObjAssessmentFolder::_getLogLanguage());
-            $logMsg .= ": {$testQuestion->getSequencePosition()}";
-            $this->testOBJ->logAction($logMsg, $testQuestion->getQuestionId());
-        }
-
-		$this->testOBJ->loadQuestions();
-		$this->testOBJ->saveCompleteStatus($this);
-    }
-
-    public function updateRevisionId(string $questionUid, string $questionRevisionId): void {
-        global $DIC;
-
-        $DIC->database()->update( 'tst_test_question',
-            [
-                'revision_id' => ['text', $questionRevisionId],
-            ],
-            [
-                'question_uid' => ['text', $questionUid]
-            ]
-        );
-    }
 }

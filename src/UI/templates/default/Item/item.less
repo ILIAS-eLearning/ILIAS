@@ -34,12 +34,12 @@
 
 	.il-item-property-name {
 		font-size: @font-size-small;
+		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
 		font-size: @font-size-small;
-		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
@@ -71,6 +71,22 @@
 
 .il-item-group-items {
 	clear: both;
+}
+.il-item-notification-replacement-container:not(:first-child){
+	.il-notification-item{
+		margin-top: @padding-large-vertical;
+	}
+}
+
+.il-notification-item{
+	.il-item-additional-content{
+		clear:both;
+	}
+
+	.dropdown{
+		margin-top: -(@font-size-base+@padding-large-vertical);
+	}
+
 }
 
 /* this is currently experimental, could be removed */
@@ -168,7 +184,7 @@
 }
 
 /* otherwise dropdowns in items with icon do not work */
-.il-std-item .media .media-body, .il-std-item .media {
+.il-std-item .media .media-body, .il-std-item .media, .il-notification-item .media, .il-notification-item .media .media-body {
 	overflow: visible;
 }
 

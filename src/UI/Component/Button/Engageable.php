@@ -13,22 +13,22 @@ namespace ILIAS\UI\Component\Button;
  */
 interface Engageable
 {
-	/**
-	 * Returns whether the button is stateful or not.
-	 * Engageable must be explicitely turned on by initializing the Button with
-	 * a state (withEngagedState), since not all Buttons are used as toggles
-	 * and thus should not bear an aria-pressed attribute.
-	 */
-	public function isEngageable(): bool;
+    /**
+     * Returns whether the button is stateful or not.
+     * Engageable must be explicitely turned on by initializing the Button with
+     * a state (withEngagedState), since not all Buttons are used as toggles
+     * and thus should not bear an aria-pressed attribute.
+     */
+    public function isEngageable() : bool;
 
-	/**
-	 * Get a copy of the Engageable Button with engaged state for $state=true
-	 * and with disengaged state for $state=false.
-	 */
-	public function withEngagedState(bool $state): Engageable;
+    /**
+     * Get a copy of the Engageable Button with engaged state for $state=true
+     * and with disengaged state for $state=false.
+     */
+    public function withEngagedState(bool $state) : Engageable;
 
-	/**
-	 * Returns whether the button is currently engaged or not.
-	 */
-	public function isEngaged(): bool;
+    /**
+     * Returns whether the button is currently engaged or not.
+     */
+    public function isEngaged() : bool;
 }

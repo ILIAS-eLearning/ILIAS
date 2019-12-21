@@ -1,4 +1,4 @@
-//out: delos.css, sourcemap: true, compress: true
+//out: delos.css, sourcemap: true, compress: false
 
 @import "less/font.less";
  /* rtl-review is this font safe for RTL languages? */
@@ -18,6 +18,7 @@ to elements with different left/right margin, padding, border, position, float, 
 In theory, you should also invert shadow... but i think we could postpone this to another release...
 All parts that aren't checked yet are actually marked with "rtl-review"
 */
+
 
 @bsbase: "../../libs/bower/bower_components/bootstrap/less/";
 
@@ -97,6 +98,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Input/input.less";
 @import "@{uibase}Table/table.less";
 @import "@{uibase}Listing/workflow.less";
+@import "@{uibase}Listing/characteristic_value.less";
 @import "@{uibase}MessageBox/messagebox.less";
 @import "@{uibase}Modal/modal.less";
 @import "@{uibase}Tree/tree.less";
@@ -361,6 +363,7 @@ span.ilAlert {
 
 html, body {
 	height:100%;
+	overflow: hidden;
 }
 html {
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
@@ -1086,7 +1089,6 @@ h3.ilHeader {
 	display: inline;
 	font-size: @font-size-h3;
 	color: lighten(@mid-gray,30%);
-	text-transform: uppercase;
 }
 
 #headerimage {
@@ -1656,7 +1658,7 @@ div.ilTopBarRight span#ilAdvSelListAnchorElement_asl {
 }
 
 div.ilSideBarHead{
-	background-color: #f0f0f0;
+	margin-top: 10px;
 	margin-bottom: 5px;
 	padding: 5px;
 }
@@ -1665,6 +1667,7 @@ div.ilSideBarHead h3{
 	font-size: 110%;
 	color: #606060;
 	display: inline;
+	padding: 0;
 }
 
 div.ilSideBarContent{
@@ -1817,7 +1820,6 @@ span.ilIcalIcon {
 @import "less/Modules/Chatroom/delos.less";
 @import "less/Services/Container/delos.less";
 @import "less/Modules/LearningModule/delos.less";
-@import "less/Services/PersonalDesktop/delos.less";
 @import "less/Services/UIComponent/AdvancedSelectionList/delos.less";
 @import "less/Services/Object/delos.less";
 @import "less/Services/Navigation/delos.less";
@@ -1849,8 +1851,8 @@ span.ilIcalIcon {
 @import "less/Services/UIComponent/Modal/delos.less";
 @import "less/Services/Badge/delos.less";
 @import "less/Services/Calendar/bootstrap-datetimepicker.less";
-@import "less/Services/BackgroundTasks/delos.less";
 @import "less/Modules/OrgUnit/delos.less";
+@import "less/Modules/LTIConsumer/delos.less";
 @import "less/Services/Like/delos.less";
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";

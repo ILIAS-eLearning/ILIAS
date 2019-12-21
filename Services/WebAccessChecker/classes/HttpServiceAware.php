@@ -20,25 +20,26 @@ use ILIAS\HTTP\GlobalHttpState;
  *
  * @Internal
  */
-trait HttpServiceAware {
+trait HttpServiceAware
+{
+    private static $http;
 
-	private static $http;
 
+    /**
+     * Fetches the global http state from ILIAS.
+     *
+     * The GlobalHttpStore is stored after the first
+     * invocation.
+     *
+     * @return GlobalHttpState  The current http global state of ILIAS.
+     * @since 5.3
+     */
+    protected static function http()
+    {
+        if (self::$http === null) {
+            self::$http = $GLOBALS['DIC']['http'];
+        }
 
-	/**
-	 * Fetches the global http state from ILIAS.
-	 *
-	 * The GlobalHttpStore is stored after the first
-	 * invocation.
-	 *
-	 * @return GlobalHttpState  The current http global state of ILIAS.
-	 * @since 5.3
-	 */
-	protected static function http()
-	{
-		if(self::$http === NULL)
-			self::$http = $GLOBALS['DIC']['http'];
-
-		return self::$http;
-	}
+        return self::$http;
+    }
 }

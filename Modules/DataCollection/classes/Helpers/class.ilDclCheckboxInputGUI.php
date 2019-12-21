@@ -7,7 +7,6 @@
  */
 class ilDclCheckboxInputGUI extends ilCheckboxInputGUI
 {
-
     public function checkInput()
     {
         if ($this->getRequired() && !isset($_POST[$this->getPostVar()])) {

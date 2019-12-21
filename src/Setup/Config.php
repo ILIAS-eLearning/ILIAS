@@ -7,5 +7,6 @@ namespace ILIAS\Setup;
 /**
  * A configuration for the setup.
  */
-interface Config {
+interface Config
+{
 }

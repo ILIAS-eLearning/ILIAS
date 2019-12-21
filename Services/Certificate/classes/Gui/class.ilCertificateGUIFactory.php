@@ -115,7 +115,52 @@ class ilCertificateGUIFactory
                     $DIC->toolbar(),
                     $placeholderDescriptionObject
                 );
+                break;
+            case 'lti':
+                $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
+                $placeholderValuesObject = new ilLTIConsumerPlaceholderValues();
 
+                $formFactory = new ilCertificateSettingsLTIConsumerFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'cmix':
+                $placeholderDescriptionObject = new ilCmiXapiPlaceholderDescription();
+                $placeholderValuesObject = new ilCmiXapiPlaceholderValues();
+
+                $formFactory = new ilCertificateSettingsCmiXapiFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'prg':
+                $placeholderDescriptionObject =
+                new ilStudyProgrammePlaceholderDescription();
+                $placeholderValuesObject =
+                new ilStudyProgrammePlaceholderValues();
+                $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                 );
                 break;
             default:
                 throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));

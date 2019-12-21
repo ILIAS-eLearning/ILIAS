@@ -8,7 +8,6 @@
  */
 class ilDclCache
 {
-
     const TYPE_DATACOLLECTION = 'dcl';
     const TYPE_TABLE = 'table';
     const TYPE_FIELD = 'field';

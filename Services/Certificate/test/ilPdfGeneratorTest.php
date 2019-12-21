@@ -11,6 +11,9 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
      */
     public function testGenerateSpecificCertificate()
     {
+        if (!defined('CLIENT_WEB_DIR')) {
+            define("CLIENT_WEB_DIR", 'my/client/web/dir');
+        }
         $certificate = new ilUserCertificate(
             3,
             20,
@@ -49,11 +52,16 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $language = $this->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
             $logger,
             $rpcHelper,
-            $pdfFileNameFactory
+            $pdfFileNameFactory,
+            $language
         );
 
         $pdfGenerator->generate(100);
@@ -64,6 +72,9 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
      */
     public function testGenerateCurrentActiveCertificate()
     {
+        if (!defined('CLIENT_WEB_DIR')) {
+            define("CLIENT_WEB_DIR", 'my/client/web/dir');
+        }
         $certificate = new ilUserCertificate(
             3,
             20,
@@ -102,11 +113,16 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $language = $this->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $pdfGenerator = new ilPdfGenerator(
             $userCertificateRepository,
             $logger,
             $rpcHelper,
-            $pdfFileNameFactory
+            $pdfFileNameFactory,
+            $language
         );
 
         $pdfGenerator->generateCurrentActiveCertificate(100, 200);

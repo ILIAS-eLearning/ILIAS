@@ -7,264 +7,282 @@ require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
  * @author Michael Herren <mh@studer-raimann.ch>
  * @version 1.0.0
  */
-class ilAsyncPropertyFormGUI extends ilPropertyFormGUI {
-	/**
-	 * @var string Path to the async-form js
-	 */
-	protected static $js_path = "./Modules/StudyProgramme/templates/js/";
+class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
+{
+    /**
+     * @var string Path to the async-form js
+     */
+    protected static $js_path = "./Modules/StudyProgramme/templates/js/";
 
-	/**
-	 * @var string Default form name (used for jquery-selection)
-	 */
-	protected static $default_from_name = "async_form";
+    /**
+     * @var string Default form name (used for jquery-selection)
+     */
+    protected static $default_from_name = "async_form";
 
-	/**
-	 * @var array Added js-onload codes
-	 */
-	protected static $js_on_load_added = array();
+    /**
+     * @var array Added js-onload codes
+     */
+    protected static $js_on_load_added = array();
 
-	/**
-	 * @var bool Indicates if the form has an error
-	 */
-	protected $has_errors = false;
+    /**
+     * @var bool Indicates if the form has an error
+     */
+    protected $has_errors = false;
 
-	/**
-	 * @var bool Indicates if form is async
-	 */
-	protected $is_async = true;
+    /**
+     * @var bool Indicates if form is async
+     */
+    protected $is_async = true;
 
-	public function __construct(array $config = array(), $is_async = true) {
-		parent::__construct();
+    public function __construct(array $config = array(), $is_async = true)
+    {
+        parent::__construct();
 
-		foreach($config as $key=>$value) {
-			$setterMethod = "set".ucfirst($key);
-			if(method_exists($this, $setterMethod)) {
-				$setterMethod($value);
-			}
-		}
+        foreach ($config as $key=>$value) {
+            $setterMethod = "set" . ucfirst($key);
+            if (method_exists($this, $setterMethod)) {
+                $setterMethod($value);
+            }
+        }
 
-		$this->setAsync($is_async);
-		$this->setName(self::$default_from_name);
-	}
-
-
-	/**
-	 * Adds all needed js
-	 * By default is called by ilAsyncPropertyFormGUI::getHTML()
-	 *
-	 * @param bool $add_form_loader
-	 * @param null $js_base_path
-	 */
-	public static function addJavaScript($add_form_loader = false, $js_base_path = null) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
-
-		$js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
-
-		$tpl->addJavaScript($js_path.'ilAsyncPropertyFormGUI.js');
-
-		$global_config = "$.ilAsyncPropertyForm.global_config.error_message_template = '".self::getErrorMessageTemplate()."'; $.ilAsyncPropertyForm.global_config.async_form_name = '".self::$default_from_name."';";
-		self::addOnLoadCode('global_config', $global_config);
-
-		if($add_form_loader) {
-			self::addOnLoadCode('form_loader', '$("body").ilAsyncPropertyForm();');
-		}
-	}
+        $this->setAsync($is_async);
+        $this->setName(self::$default_from_name);
+    }
 
 
-	/**
-	 * Saves the change input result into a property
-	 *
-	 * @return bool
-	 */
-	public function checkInput() {
-		$result = parent::checkInput();
-		$this->has_errors = $result;
+    /**
+     * Adds all needed js
+     * By default is called by ilAsyncPropertyFormGUI::getHTML()
+     *
+     * @param bool $add_form_loader
+     * @param null $js_base_path
+     */
+    public static function addJavaScript($add_form_loader = false, $js_base_path = null)
+    {
+        global $DIC;
+        $tpl = $DIC['tpl'];
 
-		return $result;
-	}
+        $js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
 
-	/**
-	 * Return errors of the form as array
-	 *
-	 * @return array Array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
-	 */
-	public function getErrors() {
-		if(!$this->check_input_called) {
-			$this->checkInput();
-		}
+        $tpl->addJavaScript($js_path . 'ilAsyncPropertyFormGUI.js');
 
-		$errors = array();
-		foreach($this->getItems() as $item) {
-			// We call method exists as there are items in the form (ilFormSectionHeaderGUI)
-			// that do not have alerts. (#16956)
-			if(method_exists($item, "getAlert") && $item->getAlert() != "") {
-				$errors[] = array('key'=>$item->getFieldId(), 'message'=>$item->getAlert());
-			}
-		}
-		return $errors;
-	}
+        $global_config = "$.ilAsyncPropertyForm.global_config.error_message_template = '" . self::getErrorMessageTemplate() . "'; $.ilAsyncPropertyForm.global_config.async_form_name = '" . self::$default_from_name . "';";
+        self::addOnLoadCode('global_config', $global_config);
 
-	/**
-	 * Return if there were errors on the last checkInput call
-	 *
-	 * @return boolean
-	 */
-	public function hasErrors() {
-		return $this->has_errors;
-	}
+        if ($add_form_loader) {
+            self::addOnLoadCode('form_loader', '$("body").ilAsyncPropertyForm();');
+        }
+    }
 
 
-	/**
-	 * Returns the error-message template for the client-side validation
-	 *
-	 * @return string
-	 */
-	public static function getErrorMessageTemplate() {
-		global $DIC;
-		$lng = $DIC['lng'];
+    /**
+     * Saves the change input result into a property
+     *
+     * @return bool
+     */
+    public function checkInput()
+    {
+        $result = parent::checkInput();
+        $this->has_errors = $result;
 
-		$tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
+        return $result;
+    }
 
-		$tpl->setCurrentBlock("alert");
-		$tpl->setVariable("IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
-		$tpl->setVariable("ALT_ALERT", $lng->txt("alert"));
-		$tpl->setVariable("TXT_ALERT", "[TXT_ALERT]");
-		$tpl->parseCurrentBlock();
-		$content = trim($tpl->get("alert"));
+    /**
+     * Return errors of the form as array
+     *
+     * @return array Array with field id and error message: array([]=>array('key'=>fieldId, 'message'=>error-message))
+     */
+    public function getErrors()
+    {
+        if (!$this->check_input_called) {
+            $this->checkInput();
+        }
 
-		return $content;
-	}
+        $errors = array();
+        foreach ($this->getItems() as $item) {
+            // We call method exists as there are items in the form (ilFormSectionHeaderGUI)
+            // that do not have alerts. (#16956)
+            if (method_exists($item, "getAlert") && $item->getAlert() != "") {
+                $errors[] = array('key'=>$item->getFieldId(), 'message'=>$item->getAlert());
+            }
+        }
+        return $errors;
+    }
 
-	/**
-	 * Copies form items, buttons and properties from another form
-	 *
-	 * @param ilPropertyFormGUI $form_to_clone
-	 *
-	 * @return $this
-	 * @throws ilException
-	 */
-	public function cloneForm(ilPropertyFormGUI $form_to_clone) {
-		if(count($this->getItems()) > 0) {
-			throw new ilException("You cannot clone into a already filled form!");
-		}
-
-		$reflect = new ReflectionClass($this);
-		$properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
-
-		foreach($properties as $property) {
-			$this->{$property->getName()} = $property->getValue($form_to_clone);
-		}
-
-		foreach($form_to_clone->getItems() as $item) {
-			$this->addItem($item);
-		}
-
-		foreach($form_to_clone->getCommandButtons() as $button) {
-			$this->addCommandButton($button['cmd'], $button['text']);
-		}
-
-		return $this;
-	}
+    /**
+     * Return if there were errors on the last checkInput call
+     *
+     * @return boolean
+     */
+    public function hasErrors()
+    {
+        return $this->has_errors;
+    }
 
 
-	/**
-	 * Adds onload code to the template
-	 *
-	 * @param $id
-	 * @param $content
-	 */
-	protected static function addOnLoadCode($id, $content) {
-		global $DIC;
-		$tpl = $DIC['tpl'];
+    /**
+     * Returns the error-message template for the client-side validation
+     *
+     * @return string
+     */
+    public static function getErrorMessageTemplate()
+    {
+        global $DIC;
+        $lng = $DIC['lng'];
 
-		if(!isset(self::$js_on_load_added[$id])) {
-			$tpl->addOnLoadCode($content);
-			self::$js_on_load_added[$id] = $content;
-		}
-	}
+        $tpl = new ilTemplate("tpl.property_form.html", true, true, "Services/Form");
 
-	/**
-	 * Returns the rendered form content
-	 *
-	 * @return string
-	 */
-	public function getHTML() {
-		self::addJavaScript($this->isAsync());
+        $tpl->setCurrentBlock("alert");
+        $tpl->setVariable("IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
+        $tpl->setVariable("ALT_ALERT", $lng->txt("alert"));
+        $tpl->setVariable("TXT_ALERT", "[TXT_ALERT]");
+        $tpl->parseCurrentBlock();
+        $content = trim($tpl->get("alert"));
 
-		return parent::getHTML();
-	}
+        return $content;
+    }
 
-	/**
-	 * Checks if the form was submitted
-	 *
-	 * @return bool
-	 */
-	public function isSubmitted() {
-		if(isset($_POST['cmd'])) {
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Copies form items, buttons and properties from another form
+     *
+     * @param ilPropertyFormGUI $form_to_clone
+     *
+     * @return $this
+     * @throws ilException
+     */
+    public function cloneForm(ilPropertyFormGUI $form_to_clone)
+    {
+        if (count($this->getItems()) > 0) {
+            throw new ilException("You cannot clone into a already filled form!");
+        }
 
+        $reflect = new ReflectionClass($this);
+        $properties = $reflect->getProperties(ReflectionProperty::IS_PUBLIC);
 
-	/**
-	 * Sets the form action
-	 * If the form is set to async, the cmdMode=asynch is added to the url
-	 *
-	 * @param string $a_formaction
-	 */
-	public function setFormAction($a_formaction) {
-		if($this->isAsync()) {
-			$a_formaction .= "&cmdMode=asynch";
-		}
+        foreach ($properties as $property) {
+            $this->{$property->getName()} = $property->getValue($form_to_clone);
+        }
 
-		$this->formaction = $a_formaction;
-	}
+        foreach ($form_to_clone->getItems() as $item) {
+            $this->addItem($item);
+        }
 
-	/**
-	 * @return mixed
-	 */
-	public function getJsPath() {
-		return $this->js_path;
-	}
+        foreach ($form_to_clone->getCommandButtons() as $button) {
+            $this->addCommandButton($button['cmd'], $button['text']);
+        }
 
-	/**
-	 * @param mixed $js_path
-	 */
-	public function setJsPath($js_path) {
-		$this->js_path = $js_path;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getDefaultFormName() {
-		return self::$default_from_name;
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function isAsync() {
-		return $this->is_async;
-	}
+        return $this;
+    }
 
 
-	/**
-	 * @param boolean $is_async
-	 */
-	public function setAsync($is_async) {
-		$this->is_async = $is_async;
-	}
+    /**
+     * Adds onload code to the template
+     *
+     * @param $id
+     * @param $content
+     */
+    protected static function addOnLoadCode($id, $content)
+    {
+        global $DIC;
+        $tpl = $DIC['tpl'];
+
+        if (!isset(self::$js_on_load_added[$id])) {
+            $tpl->addOnLoadCode($content);
+            self::$js_on_load_added[$id] = $content;
+        }
+    }
+
+    /**
+     * Returns the rendered form content
+     *
+     * @return string
+     */
+    public function getHTML()
+    {
+        self::addJavaScript($this->isAsync());
+
+        return parent::getHTML();
+    }
+
+    /**
+     * Checks if the form was submitted
+     *
+     * @return bool
+     */
+    public function isSubmitted()
+    {
+        if (isset($_POST['cmd'])) {
+            return true;
+        }
+        return false;
+    }
 
 
-	/**
-	 * @param string $a_name
-	 */
-	public function setName($a_name) {
-		self::$default_from_name = $a_name;
+    /**
+     * Sets the form action
+     * If the form is set to async, the cmdMode=asynch is added to the url
+     *
+     * @param string $a_formaction
+     */
+    public function setFormAction($a_formaction)
+    {
+        if ($this->isAsync()) {
+            $a_formaction .= "&cmdMode=asynch";
+        }
 
-		parent::setName($a_name);
-	}
+        $this->formaction = $a_formaction;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJsPath()
+    {
+        return $this->js_path;
+    }
+
+    /**
+     * @param mixed $js_path
+     */
+    public function setJsPath($js_path)
+    {
+        $this->js_path = $js_path;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDefaultFormName()
+    {
+        return self::$default_from_name;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isAsync()
+    {
+        return $this->is_async;
+    }
+
+
+    /**
+     * @param boolean $is_async
+     */
+    public function setAsync($is_async)
+    {
+        $this->is_async = $is_async;
+    }
+
+
+    /**
+     * @param string $a_name
+     */
+    public function setName($a_name)
+    {
+        self::$default_from_name = $a_name;
+
+        parent::setName($a_name);
+    }
 }

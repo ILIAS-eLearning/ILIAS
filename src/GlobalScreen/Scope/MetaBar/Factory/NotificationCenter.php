@@ -13,10 +13,23 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
 {
 
     /**
+     * Amount of notifications already consulted by the user (will spawn
+     * status counters)
+     *
      * @var int
      */
-    private $amount_of_notifications = 0;
+    private $amount_of_old_notifications = 0;
+
     /**
+     * Amount of notifications not yet consulted by the user (will spawn
+     * novelty counters)
+     *
+     * @var int
+     */
+    private $amount_of_new_notifications = 0;
+
+    /**
+     * Set of notifications in the center.
      * @var isItem[]
      */
     private $notifications = [];
@@ -80,7 +93,14 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
     {
         global $DIC;
 
-        return $DIC->ui()->factory()->symbol()->glyph()->notification()->withCounter($DIC->ui()->factory()->counter()->novelty($this->getAmountOfNotifications()));
+        $f = $DIC->ui()->factory();
+        $new = $this->getAmountOfNewNotifications();
+        $old = $this->getAmountOfOldNotifications() - $new;
+        $glyph = $f->symbol()->glyph()->notification()->withCounter($f->counter()->novelty($new));
+        if ($old > 0) {
+            $glyph = $glyph->withCounter($f->counter()->status($old));
+        }
+        return $glyph;
     }
 
 
@@ -92,21 +112,51 @@ class NotificationCenter extends AbstractBaseItem implements isItem, hasSymbol
         return 1;
     }
 
-
-    public function withAmountOfNotifications(int $amount_of_notifications) : NotificationCenter
+    /**
+     * Get a Center like this, but with a given amount of old notifications
+     *
+     * @param int $amount
+     * @return NotificationCenter
+     */
+    public function withAmountOfOldNotifications(int $amount) : NotificationCenter
     {
         $clone = clone($this);
-        $clone->amount_of_notifications = $amount_of_notifications;
+        $clone->amount_of_old_notifications = $amount;
 
         return $clone;
     }
 
-
     /**
+     * Get the amount of old notifications
+     *
      * @return int
      */
-    public function getAmountOfNotifications() : int
+    public function getAmountOfOldNotifications() : int
     {
-        return $this->amount_of_notifications;
+        return $this->amount_of_old_notifications;
+    }
+
+    /**
+     * Get a Center like this, but with a given amount of new notifications
+     *
+     * @param int $amount
+     * @return NotificationCenter
+     */
+    public function withAmountOfNewNotifications(int $amount) : NotificationCenter
+    {
+        $clone = clone($this);
+        $clone->amount_of_new_notifications = $amount;
+
+        return $clone;
+    }
+
+    /**
+     * Get the amount of new notifications
+     *
+     * @return int
+     */
+    public function getAmountOfNewNotifications() : int
+    {
+        return $this->amount_of_new_notifications;
     }
 }

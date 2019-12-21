@@ -64,7 +64,7 @@ class ilDclTableFieldSetting extends ActiveRecord
      * @return string
      * @description Return the Name of your Database Table
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return "il_dcl_tfield_set";
     }

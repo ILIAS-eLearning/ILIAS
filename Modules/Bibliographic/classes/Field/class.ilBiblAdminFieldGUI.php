@@ -8,7 +8,6 @@
  */
 abstract class ilBiblAdminFieldGUI
 {
-
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const CMD_INIT_OVERVIEW_MODELS = 'initOverviewModels';
     const CMD_INIT_DEFAULT_FIELDS_AND_SORTING = 'initDefaultFieldsAndSorting';
@@ -133,9 +132,11 @@ abstract class ilBiblAdminFieldGUI
             while ($d = $ilDB->fetchObject($res)) {
                 $type_id = (int) $type($d->filetype);
                 $ilDB->update(
-                    "il_bibl_overview_model", [
+                    "il_bibl_overview_model",
+                    [
                     "file_type_id" => ["integer", $type_id],
-                ], ["ovm_id" => ["integer", $d->ovm_id]]
+                ],
+                    ["ovm_id" => ["integer", $d->ovm_id]]
                 );
             }
             //			$ilDB->dropTableColumn('il_bibl_overview_model', 'filetype');
@@ -191,29 +192,35 @@ abstract class ilBiblAdminFieldGUI
     protected function setSubTabs()
     {
         $this->tabs()->addSubTab(
-            self::SUBTAB_RIS, $this->lng()->txt('ris'), $this->ctrl()->getLinkTargetByClass(
-            array(
+            self::SUBTAB_RIS,
+            $this->lng()->txt('ris'),
+            $this->ctrl()->getLinkTargetByClass(
+                array(
                 ilObjBibliographicAdminGUI::class,
                 ilBiblAdminRisFieldGUI::class,
-            ), ilBiblAdminRisFieldGUI::CMD_STANDARD
+            ),
+                ilBiblAdminRisFieldGUI::CMD_STANDARD
         )
 
         );
         $this->tabs()->activateSubTab(self::SUBTAB_RIS);
 
         $this->tabs()->addSubTab(
-            self::SUBTAB_BIBTEX, $this->lng()->txt('bibtex'), $this->ctrl()->getLinkTargetByClass(
-            array(
+            self::SUBTAB_BIBTEX,
+            $this->lng()->txt('bibtex'),
+            $this->ctrl()->getLinkTargetByClass(
+                array(
                 ilObjBibliographicAdminGUI::class,
                 ilBiblAdminBibtexFieldGUI::class,
-            ), ilBiblAdminBibtexFieldGUI::CMD_STANDARD
+            ),
+                ilBiblAdminBibtexFieldGUI::CMD_STANDARD
         )
         );
         switch ($this->facade->type()->getId()) {
-            case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX;
+            case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 $this->tabs()->activateSubTab(self::SUBTAB_BIBTEX);
                 break;
-            case ilBiblTypeFactoryInterface::DATA_TYPE_RIS;
+            case ilBiblTypeFactoryInterface::DATA_TYPE_RIS:
                 $this->tabs()->activateSubTab(self::SUBTAB_RIS);
                 break;
         }

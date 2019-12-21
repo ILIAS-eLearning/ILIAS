@@ -52,6 +52,11 @@ class ilCertificateTemplatePreviewAction
     private $rootDirectory;
 
     /**
+     * @var ilCertificatePdfFileNameFactory
+     */
+    private $pdfFileNameFactory;
+
+    /**
      * @param ilCertificateTemplateRepository $templateRepository
      * @param ilCertificatePlaceholderValues $placeholderValuesObject
      * @param ilLogger|null $logger
@@ -61,6 +66,7 @@ class ilCertificateTemplatePreviewAction
      * @param ilCertificateUserDefinedFieldsHelper|null $userDefinedFieldsHelper
      * @param ilCertificateRpcClientFactoryHelper|null $rpcClientFactoryHelper
      * @param string $rootDirectory
+     * @param ilCertificatePdfFileNameFactory|null $pdfFileNameFactory
      */
     public function __construct(
         ilCertificateTemplateRepository $templateRepository,
@@ -71,19 +77,20 @@ class ilCertificateTemplatePreviewAction
         ilCertificateMathJaxHelper $mathJaxHelper = null,
         ilCertificateUserDefinedFieldsHelper $userDefinedFieldsHelper = null,
         ilCertificateRpcClientFactoryHelper $rpcClientFactoryHelper = null,
-        string $rootDirectory = CLIENT_WEB_DIR
+        string $rootDirectory = CLIENT_WEB_DIR,
+        ilCertificatePdfFileNameFactory $pdfFileNameFactory = null
     ) {
+        global $DIC;
+
         $this->templateRepository = $templateRepository;
         $this->placeholderValuesObject = $placeholderValuesObject;
 
         if (null === $logger) {
-            global $DIC;
             $logger = $DIC->logger()->cert();
         }
         $this->logger = $logger;
 
         if (null === $user) {
-            global $DIC;
             $user = $DIC->user();
         }
         $this->user = $user;
@@ -107,6 +114,11 @@ class ilCertificateTemplatePreviewAction
             $rpcClientFactoryHelper = new ilCertificateRpcClientFactoryHelper();
         }
         $this->rpcClientFactoryHelper = $rpcClientFactoryHelper;
+
+        if (null === $pdfFileNameFactory) {
+            $pdfFileNameFactory = new ilCertificatePdfFileNameFactory($DIC->language());
+        }
+        $this->pdfFileNameFactory = $pdfFileNameFactory;
 
         $this->rootDirectory = $rootDirectory;
     }
@@ -132,9 +144,17 @@ class ilCertificateTemplatePreviewAction
             $pdf_base64 = $this->rpcClientFactoryHelper
                 ->ilFO2PDF('RPCTransformationHandler', $xlsfo);
 
+            $pdfPresentation = new ilUserCertificatePresentation(
+                $template->getObjId(),
+                $template->getObjType(),
+                null,
+                '',
+                ''
+            );
+
             $this->utilHelper->deliverData(
                 $pdf_base64->scalar,
-                'Certificate.pdf',
+                $this->pdfFileNameFactory->create($pdfPresentation),
                 'application/pdf'
             );
         } catch (Exception $e) {

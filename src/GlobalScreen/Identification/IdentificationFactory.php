@@ -53,7 +53,7 @@ class IdentificationFactory
      *
      * @param ProviderFactory $provider_factory
      */
-    public final function __construct(ProviderFactory $provider_factory)
+    final public function __construct(ProviderFactory $provider_factory)
     {
         $this->serializer_factory = new SerializerFactory();
         $this->map = new IdentificationMap();
@@ -69,9 +69,23 @@ class IdentificationFactory
      *
      * @return IdentificationProviderInterface
      */
-    public final function core(Provider $provider) : IdentificationProviderInterface
+    final public function core(Provider $provider) : IdentificationProviderInterface
     {
         return new CoreIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
+    }
+
+
+    /**
+     * Returns a IdentificationProvider for core tools, only a Provider
+     * is needed.
+     *
+     * @param Provider $provider
+     *
+     * @return IdentificationProviderInterface
+     */
+    final public function tool(Provider $provider) : IdentificationProviderInterface
+    {
+        return new ToolIdentificationProvider($provider, $this->serializer_factory->core(), $this->map);
     }
 
 
@@ -81,14 +95,14 @@ class IdentificationFactory
      * comes from (e.g. to disable or delete all elements when a plugin is
      * deleted or deactivated).
      *
-     * @param \ilPlugin $plugin
-     * @param Provider  $provider
+     * @param string   $plugin_id
+     * @param Provider $provider
      *
      * @return IdentificationProviderInterface
      */
-    public final function plugin(\ilPlugin $plugin, Provider $provider) : IdentificationProviderInterface
+    final public function plugin(string $plugin_id, Provider $provider) : IdentificationProviderInterface
     {
-        return new PluginIdentificationProvider($provider, $plugin->getId(), $this->serializer_factory->plugin(), $this->map);
+        return new PluginIdentificationProvider($provider, $plugin_id, $this->serializer_factory->plugin(), $this->map);
     }
 
 
@@ -97,7 +111,7 @@ class IdentificationFactory
      *
      * @return IdentificationInterface
      */
-    public final function fromSerializedIdentification($serialized_string) : IdentificationInterface
+    final public function fromSerializedIdentification($serialized_string) : IdentificationInterface
     {
         if ($serialized_string === null || $serialized_string === "") {
             return new NullIdentification();
@@ -109,4 +123,3 @@ class IdentificationFactory
         return $this->serializer_factory->fromSerializedIdentification($serialized_string)->unserialize($serialized_string, $this->map, $this->provider_factory);
     }
 }
-

@@ -30,7 +30,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
     protected $parent_gui;
 
 
-    function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
+    public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
     {
         global $DIC;
         $lng = $DIC['lng'];

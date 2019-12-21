@@ -106,7 +106,9 @@ class ilDclBaseRecordModel
             ),
         );
         $ilDB->update(
-            "il_dcl_record", $values, array(
+            "il_dcl_record",
+            $values,
+            array(
                 "id" => array(
                     "integer",
                     $this->id,
@@ -514,6 +516,27 @@ class ilDclBaseRecordModel
 
 
     /**
+     * @param int|string $field_id
+     *
+     * @return array|mixed|string
+     */
+    public function getRecordFieldFormulaValue($field_id)
+    {
+        $this->loadRecordFields();
+        if (ilDclStandardField::_isStandardField($field_id)) {
+            $value = $this->getStandardFieldFormulaValue($field_id);
+        } else {
+            if (is_object($this->recordfields[$field_id])) {
+                $value = $this->recordfields[$field_id]->getFormulaValue();
+            } else {
+                $value = '';
+            }
+        }
+
+        return $value;
+    }
+
+    /**
      * @param       $field_id
      * @param array $options
      *
@@ -676,6 +699,16 @@ class ilDclBaseRecordModel
 
 
     /**
+     * @param $field_id
+     *
+     * @return array|string
+     */
+    public function getStandardFieldFormulaValue($field_id)
+    {
+        return $this->getStandardFieldHTML($field_id);
+    }
+
+    /**
      * @param string $field_id
      * @param array  $options
      *
@@ -697,8 +730,13 @@ class ilDclBaseRecordModel
             case 'comments':
                 $nComments = count($this->getComments());
                 $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
-                    1, $_GET['ref_id'], 'dcl', $this->table->getCollectionObject()
-                    ->getId(), 'dcl', $this->getId()
+                    1,
+                    $_GET['ref_id'],
+                    'dcl',
+                    $this->table->getCollectionObject()
+                    ->getId(),
+                    'dcl',
+                    $this->getId()
                 );
                 $ajax_link = ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
 
@@ -718,8 +756,17 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'comments':
-                return count(ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(), "dcl", 2,
-                    false, "", "y", true, true));
+                return count(ilNote::_getNotesOfObject(
+                    $this->table->getCollectionObject()->getId(),
+                    $this->getId(),
+                    "dcl",
+                    2,
+                    false,
+                    "",
+                    "y",
+                    true,
+                    true
+                ));
             default:
                 return strip_tags($this->getStandardFieldHTML($field_id));
         }
@@ -782,7 +829,6 @@ class ilDclBaseRecordModel
 
         $this->loadRecordFields();
         foreach ($this->recordfields as $recordfield) {
-
             if ($recordfield->getField()->getDatatypeId() == ilDclDatatype::INPUTFORMAT_FILE) {
                 $this->deleteFile($recordfield->getValue());
             }

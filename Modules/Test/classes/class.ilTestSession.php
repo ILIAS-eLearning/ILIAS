@@ -85,27 +85,27 @@ class ilTestSession
 	
 	private $objectiveOrientedContainerId;
 
-	/**
-	* ilTestSession constructor
-	*
-	* The constructor takes possible arguments an creates an instance of 
-	* the ilTestSession object.
-	*
-	* @access public
-	*/
-	public function __construct()
-	{
-		$this->active_id = 0;
-		$this->user_id = 0;
-		$this->anonymous_id = 0;
-		$this->test_id = 0;
-		$this->lastsequence = 0;
-		$this->lastPresentationMode = null;
-		$this->submitted = FALSE;
-		$this->submittedTimestamp = "";
-		$this->pass = 1;
-		$this->ref_id = 0;
-		$this->tstamp = 0;
+    /**
+    * ilTestSession constructor
+    *
+    * The constructor takes possible arguments an creates an instance of
+    * the ilTestSession object.
+    *
+    * @access public
+    */
+    public function __construct()
+    {
+        $this->active_id = 0;
+        $this->user_id = 0;
+        $this->anonymous_id = 0;
+        $this->test_id = 0;
+        $this->lastsequence = 0;
+        $this->lastPresentationMode = null;
+        $this->submitted = false;
+        $this->submittedTimestamp = "";
+        $this->pass = 0;
+        $this->ref_id = 0;
+        $this->tstamp = 0;
 
 		$this->lastStartedPass = null;
 		$this->lastFinishedPass = null;

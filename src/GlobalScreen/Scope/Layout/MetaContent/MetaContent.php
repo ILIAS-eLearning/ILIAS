@@ -16,7 +16,6 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
  */
 class MetaContent
 {
-
     const MEDIA_SCREEN = "screen";
     /**
      * @var InlineCssCollection
@@ -51,6 +50,16 @@ class MetaContent
         $this->inline_css = new InlineCssCollection();
     }
 
+    /**
+     * Reset
+     */
+    public function reset()
+    {
+        $this->css = new CssCollection();
+        $this->js = new JsCollection();
+        $this->on_load_code = new OnLoadCodeCollection();
+        $this->inline_css = new InlineCssCollection();
+    }
 
     /**
      * @param string $path

@@ -90,7 +90,7 @@ class ilSessionReminder
     /**
      *
      */
-    public function calculateSecondsUntilReminder(): void
+    public function calculateSecondsUntilReminder() : void
     {
         $this->setSecondsUntilReminder($this->getSecondsUntilExpiration() - $this->getLeadTime());
     }

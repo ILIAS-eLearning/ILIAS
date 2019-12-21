@@ -93,6 +93,14 @@ class ilMMItemStorage extends CachedActiveRecord
     protected $parent_identification = '';
     /**
      * @var string
+     *
+     * @con_has_field  true
+     * @con_fieldtype  text
+     * @con_length     256
+     */
+    protected $icon_id = '';
+    /**
+     * @var string
      */
     protected $connector_container_name = "il_mm_items";
 
@@ -166,5 +174,27 @@ class ilMMItemStorage extends CachedActiveRecord
     public function setParentIdentification(string $parent_identification)
     {
         $this->parent_identification = $parent_identification;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getIconId() : ?string
+    {
+        return $this->icon_id;
+    }
+
+
+    /**
+     * @param string $icon_id
+     *
+     * @return ilMMItemStorage
+     */
+    public function setIconId(string $icon_id) : ilMMItemStorage
+    {
+        $this->icon_id = $icon_id;
+
+        return $this;
     }
 }

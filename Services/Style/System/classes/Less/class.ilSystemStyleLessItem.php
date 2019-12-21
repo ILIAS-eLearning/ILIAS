@@ -8,5 +8,5 @@
  */
 abstract class ilSystemStyleLessItem
 {
-	abstract function __toString();
+    abstract public function __toString();
 }

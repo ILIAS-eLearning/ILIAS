@@ -10,7 +10,6 @@ use ILIAS\GlobalScreen\SingletonTrait;
  */
 class NotificationServices
 {
-
     use SingletonTrait;
 
 

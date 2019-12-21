@@ -5,475 +5,453 @@
 * Class ilExerciseMembers
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ingroup ModulesExercise
 */
 class ilExerciseMembers
 {
-	/**
-	 * @var ilDB
-	 */
-	protected $db;
+    /**
+     * @var ilDB
+     */
+    protected $db;
 
-	var $ref_id;
-	var $obj_id;
-	var $members;
-	var $status;
-//	var $status_feedback;
-//	var $status_sent;
-//	var $status_returned;
-//	var $notice;
+    public $ref_id;
+    public $obj_id;
+    public $members;
+    public $status;
+    //	var $status_feedback;
+    //	var $status_sent;
+    //	var $status_returned;
+    //	var $notice;
 
-	function __construct($a_exc)
-	{
-		global $DIC;
+    /**
+     * @var ilRecommendedContentManager
+     */
+    protected $recommended_content_manager;
 
-		$this->db = $DIC->database();
-		$this->exc = $a_exc;
-		$this->obj_id = $a_exc->getId();
-		$this->ref_id = $a_exc->getRefId();
-		$this->read();
-	}
+    public function __construct($a_exc)
+    {
+        global $DIC;
 
-	/**
-	 * Get exercise ref id
-	 */
-	function getRefId()
-	{
-		return $this->ref_id;
-	}
+        $this->db = $DIC->database();
+        $this->exc = $a_exc;
+        $this->obj_id = $a_exc->getId();
+        $this->ref_id = $a_exc->getRefId();
+        $this->read();
 
-	/**
-	 * Get exercise id
-	 */
-	function getObjId()
-	{
-		return $this->obj_id;
-	}
-	
-	/**
-	 * Set exercise id
-	 */
-	function setObjId($a_obj_id)
-	{
-		$this->obj_id = $a_obj_id;
-	}
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    }
 
-	/**
-	 * Get members array
-	 */
-	function getMembers()
-	{
-		return $this->members ? $this->members : array();
-	}
-	
-	/**
-	 * Set members array
-	 */
-	function setMembers($a_members)
-	{
-		$this->members = $a_members;
-	}
+    /**
+     * Get exercise ref id
+     */
+    public function getRefId()
+    {
+        return $this->ref_id;
+    }
 
-	/**
-	* Assign a user to the exercise
-	*
-	* @param	int		$a_usr_id		user id
-	*/
-	function assignMember($a_usr_id)
-	{
-		$ilDB = $this->db;
+    /**
+     * Get exercise id
+     */
+    public function getObjId()
+    {
+        return $this->obj_id;
+    }
+    
+    /**
+     * Set exercise id
+     */
+    public function setObjId($a_obj_id)
+    {
+        $this->obj_id = $a_obj_id;
+    }
 
-		if($this->exc->hasAddToDesktop())
-		{
-			$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
-			$tmp_user->addDesktopItem($this->getRefId(),"exc");
-		}
+    /**
+     * Get members array
+     */
+    public function getMembers()
+    {
+        return $this->members ? $this->members : array();
+    }
+    
+    /**
+     * Set members array
+     */
+    public function setMembers($a_members)
+    {
+        $this->members = $a_members;
+    }
 
-		$ilDB->manipulate("DELETE FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id, "integer")." ");
+    /**
+    * Assign a user to the exercise
+    *
+    * @param	int		$a_usr_id		user id
+    */
+    public function assignMember($a_usr_id)
+    {
+        $ilDB = $this->db;
 
-// @todo: some of this fields may not be needed anymore
-		$ilDB->manipulateF("INSERT INTO exc_members (obj_id, usr_id, status, sent, feedback) ".
-			" VALUES (%s,%s,%s,%s,%s)",
-			array("integer", "integer", "text", "integer", "integer"),
-			array($this->getObjId(), $a_usr_id, 'notgraded', 0, 0));
+        /*if($this->exc->hasAddToDesktop())
+        {
+        }*/
 
-		include_once("./Modules/Exercise/classes/class.ilExAssignment.php");
-		ilExAssignment::createNewUserRecords($a_usr_id, $this->getObjId());
-		
-		$this->read();
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
+        $ilDB->manipulate("DELETE FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer") . " " .
+            "AND usr_id = " . $ilDB->quote($a_usr_id, "integer") . " ");
 
-		return true;
-	}
-	
-	/**
-	 * Is user assigned to exercise?
-	 */
-	function isAssigned($a_id)
-	{
-		return in_array($a_id,$this->getMembers());
-	}
+        // @todo: some of this fields may not be needed anymore
+        $ilDB->manipulateF(
+            "INSERT INTO exc_members (obj_id, usr_id, status, sent, feedback) " .
+            " VALUES (%s,%s,%s,%s,%s)",
+            array("integer", "integer", "text", "integer", "integer"),
+            array($this->getObjId(), $a_usr_id, 'notgraded', 0, 0)
+        );
 
-	/**
-	 * Assign members to exercise
-	 */
-	function assignMembers($a_members)
-	{
-		$assigned = 0;
-		if(is_array($a_members))
-		{
-			foreach($a_members as $member)
-			{
-				if(!$this->isAssigned($member))
-				{
-					$this->assignMember($member);
-				}
-				else
-				{
-					++$assigned;
-				}
-			}
-		}
-		if($assigned == count($a_members))
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+        ilExAssignment::createNewUserRecords($a_usr_id, $this->getObjId());
+        
+        $this->read();
+        
+        ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
 
-	/**
-	 * Detaches a user from an exercise
-	 *
-	 * @param	int		$a_usr_id		user id
-	 */
-	function deassignMember($a_usr_id)
-	{
-		$ilDB = $this->db;
+        return true;
+    }
+    
+    /**
+     * Is user assigned to exercise?
+     */
+    public function isAssigned($a_id)
+    {
+        return in_array($a_id, $this->getMembers());
+    }
 
-		$tmp_user = ilObjectFactory::getInstanceByObjId($a_usr_id);
-		$tmp_user->dropDesktopItem($this->getRefId(),"exc");
+    /**
+     * Assign members to exercise
+     */
+    public function assignMembers($a_members)
+    {
+        $assigned = 0;
+        if (is_array($a_members)) {
+            foreach ($a_members as $member) {
+                if (!$this->isAssigned($member)) {
+                    $this->assignMember($member);
+                } else {
+                    ++$assigned;
+                }
+            }
+        }
+        if ($assigned == count($a_members)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-		$query = "DELETE FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer")." ".
-			"AND usr_id = ".$ilDB->quote($a_usr_id, "integer")." ";
+    /**
+     * Detaches a user from an exercise
+     *
+     * @param	int		$a_usr_id		user id
+     */
+    public function deassignMember($a_usr_id)
+    {
+        $ilDB = $this->db;
 
-		$ilDB->manipulate($query);
-		
-		$this->read();
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
-		
-		// delete all delivered files of the member
-		include_once("./Modules/Exercise/classes/class.ilExSubmission.php");
-		ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
+        $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->getRefId());
 
-// @todo: delete all assignment associations (and their files)
-		
-		return false;
-	}
+        $query = "DELETE FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer") . " " .
+            "AND usr_id = " . $ilDB->quote($a_usr_id, "integer") . " ";
 
-	/**
-	 * Deassign members
-	 */
-	function deassignMembers($a_members)
-	{
-		if(is_array($a_members))
-		{
-			foreach($a_members as $member)
-			{
-				$this->deassignMember($member);
-			}
-		}
-		else
-		{
-			return false;
-		}
-	}
+        $ilDB->manipulate($query);
+        
+        $this->read();
+        
+        ilLPStatusWrapper::_updateStatus($this->getObjId(), $a_usr_id);
+        
+        // delete all delivered files of the member
+        ilExSubmission::deleteUser($this->exc->getId(), $a_usr_id);
 
-	/**
-	 * Read all members
-	 */
-	function read()
-	{
-		$ilDB = $this->db;
+        // @todo: delete all assignment associations (and their files)
+        
+        return false;
+    }
 
-		$tmp_arr_members = array();
+    /**
+     * Deassign members
+     */
+    public function deassignMembers($a_members)
+    {
+        if (is_array($a_members)) {
+            foreach ($a_members as $member) {
+                $this->deassignMember($member);
+            }
+        } else {
+            return false;
+        }
+    }
 
-		$query = "SELECT * FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer");
+    /**
+     * Read all members
+     */
+    public function read()
+    {
+        $ilDB = $this->db;
 
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			if (ilObject::_lookupType($row->usr_id) == "usr") {
+        $tmp_arr_members = array();
+
+        $query = "SELECT * FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer");
+
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            if (ilObject::_lookupType($row->usr_id) == "usr") {
                 $tmp_arr_members[] = $row->usr_id;
             }
-		}
-		$this->setMembers($tmp_arr_members);
+        }
+        $this->setMembers($tmp_arr_members);
 
-		return true;
-	}
+        return true;
+    }
 
-// @todo: clone also assignments
-	function ilClone($a_new_id)
-	{
-		$ilDB = $this->db;
+    // @todo: clone also assignments
+    public function ilClone($a_new_id)
+    {
+        $ilDB = $this->db;
 
-		$data = array();
+        $data = array();
 
-		$query = "SELECT * FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($this->getObjId(), "integer");
+        $query = "SELECT * FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($this->getObjId(), "integer");
 
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$data[] = array("usr_id" => $row->usr_id,
-							"notice" => $row->notice,
-							"returned" => $row->returned,
-							"status" => $row->status,
-							"sent"	 => $row->sent,
-							"feedback"	 => $row->feedback
-							);
-		}
-		foreach($data as $row)
-		{
-			$ilDB->manipulateF("INSERT INTO exc_members ".
-				" (obj_id, usr_id, notice, returned, status, feedback, sent) VALUES ".
-				" (%s,%s,%s,%s,%s,%s,%s)",
-				array ("integer", "integer", "text", "integer", "text", "integer", "integer"),
-				array ($a_new_id, $row["usr_id"], $row["notice"], (int) $row["returned"],
-					$row["status"], (int) $row["feedback"], (int) $row["sent"])
-					);
-			
-			include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-			ilLPStatusWrapper::_updateStatus($a_new_id, $row["usr_id"]);
-		}
-		return true;
-	}
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            $data[] = array("usr_id" => $row->usr_id,
+                            "notice" => $row->notice,
+                            "returned" => $row->returned,
+                            "status" => $row->status,
+                            "sent"	 => $row->sent,
+                            "feedback"	 => $row->feedback
+                            );
+        }
+        foreach ($data as $row) {
+            $ilDB->manipulateF(
+                "INSERT INTO exc_members " .
+                " (obj_id, usr_id, notice, returned, status, feedback, sent) VALUES " .
+                " (%s,%s,%s,%s,%s,%s,%s)",
+                array("integer", "integer", "text", "integer", "text", "integer", "integer"),
+                array($a_new_id, $row["usr_id"], $row["notice"], (int) $row["returned"],
+                    $row["status"], (int) $row["feedback"], (int) $row["sent"])
+                    );
+            
+            ilLPStatusWrapper::_updateStatus($a_new_id, $row["usr_id"]);
+        }
+        return true;
+    }
 
-// @todo: delete also assignments
-	function delete()
-	{
-		$ilDB = $this->db;
+    // @todo: delete also assignments
+    public function delete()
+    {
+        $ilDB = $this->db;
 
-		$query = "DELETE FROM exc_members WHERE obj_id = ".
-			$ilDB->quote($this->getObjId(), "integer");
-		$ilDB->manipulate($query);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_refreshStatus($this->getObjId());
+        $query = "DELETE FROM exc_members WHERE obj_id = " .
+            $ilDB->quote($this->getObjId(), "integer");
+        $ilDB->manipulate($query);
+        
+        ilLPStatusWrapper::_refreshStatus($this->getObjId());
 
-		return true;
-	}
+        return true;
+    }
 
-	static function _getMembers($a_obj_id)
-	{
-		global $DIC;
+    public static function _getMembers($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		// #14963 - see ilExAssignment::getMemberListData()
-		$query = "SELECT DISTINCT(excm.usr_id) ud".
-			" FROM exc_members excm".
-			" JOIN object_data od ON (od.obj_id = excm.usr_id)".
-			" WHERE excm.obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND od.type = ".$ilDB->quote("usr", "text");
+        // #14963 - see ilExAssignment::getMemberListData()
+        $query = "SELECT DISTINCT(excm.usr_id) ud" .
+            " FROM exc_members excm" .
+            " JOIN object_data od ON (od.obj_id = excm.usr_id)" .
+            " WHERE excm.obj_id = " . $ilDB->quote($a_obj_id, "integer") .
+            " AND od.type = " . $ilDB->quote("usr", "text");
 
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$usr_ids[] = $row->ud;
-		}
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            $usr_ids[] = $row->ud;
+        }
 
-		return $usr_ids ? $usr_ids : array();
-	}
+        return $usr_ids ? $usr_ids : array();
+    }
 
-	/**
-	 * Lookup current status (notgraded|passed|failed)
-	 *
-	 * This information is determined by the assignment status and saved
-	 * redundtantly in this table for performance reasons.
-	 *
-	 * @param	int		$a_obj_id	exercise id
-	 * @param	int		$a_user_id	member id
-	 * @return	mixed	false (if user is no member) or notgraded|passed|failed
-	 */
-	static function _lookupStatus($a_obj_id, $a_user_id)
-	{
-		global $DIC;
+    /**
+     * Lookup current status (notgraded|passed|failed)
+     *
+     * This information is determined by the assignment status and saved
+     * redundtantly in this table for performance reasons.
+     *
+     * @param	int		$a_obj_id	exercise id
+     * @param	int		$a_user_id	member id
+     * @return	mixed	false (if user is no member) or notgraded|passed|failed
+     */
+    public static function _lookupStatus($a_obj_id, $a_user_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT status FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer");
+        $query = "SELECT status FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
+            " AND usr_id = " . $ilDB->quote($a_user_id, "integer");
 
-		$res = $ilDB->query($query);
-		if($row = $ilDB->fetchAssoc($res))
-		{
-			return $row["status"];
-		}
+        $res = $ilDB->query($query);
+        if ($row = $ilDB->fetchAssoc($res)) {
+            return $row["status"];
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Write user status
-	 *
-	 * This information is determined by the assignment status and saved
-	 * redundtantly in this table for performance reasons.
-	 * See ilObjExercise->updateUserStatus().
-	 *
-	 * @param	int		exercise id
-	 * @param	int		user id
-	 * @param	text	status
-	 */
-	static function _writeStatus($a_obj_id, $a_user_id, $a_status)
-	{
-		global $DIC;
+    /**
+     * Write user status
+     *
+     * This information is determined by the assignment status and saved
+     * redundtantly in this table for performance reasons.
+     * See ilObjExercise->updateUserStatus().
+     *
+     * @param	int		exercise id
+     * @param	int		user id
+     * @param	text	status
+     */
+    public static function _writeStatus($a_obj_id, $a_user_id, $a_status)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
-		
-		$ilDB->manipulate("UPDATE exc_members SET ".
-			" status = ".$ilDB->quote($a_status, "text").
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
-	}
-	
-	/**
-	 * Write returned status
-	 *
-	 * The returned status is initially 0. If the first file is returned
-	 * by a user for any assignment of the exercise, the returned status
-	 * is set to 1 and it will stay that way, even if this file is deleted again.
-	 * -> learning progress uses this to determine "in progress" status
-	 *
-	 * @param	int		exercise id
-	 * @param	int		user id
-	 * @param	text	status
-	 */
-	static function _writeReturned($a_obj_id, $a_user_id, $a_status)
-	{
-		global $DIC;
+        $ilDB = $DIC->database();
+        
+        $ilDB->manipulate(
+            "UPDATE exc_members SET " .
+            " status = " . $ilDB->quote($a_status, "text") .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
+            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
+            );
+        
+        ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+    }
+    
+    /**
+     * Write returned status
+     *
+     * The returned status is initially 0. If the first file is returned
+     * by a user for any assignment of the exercise, the returned status
+     * is set to 1 and it will stay that way, even if this file is deleted again.
+     * -> learning progress uses this to determine "in progress" status
+     *
+     * @param	int		exercise id
+     * @param	int		user id
+     * @param	text	status
+     */
+    public static function _writeReturned($a_obj_id, $a_user_id, $a_status)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
-		
-		$ilDB->manipulate("UPDATE exc_members SET ".
-			" returned = ".$ilDB->quote($a_status, "integer").
-			" WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer").
-			" AND usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
-		ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
-	}
-	
-	
-	// 
-	// LP
-	//
-	
-	/**
-	 * Get returned status for all members (if they have anything returned for
-	 * any assignment)
-	 */
-	static function _getReturned($a_obj_id)
-	{
-		global $DIC;
+        $ilDB = $DIC->database();
+        
+        $ilDB->manipulate(
+            "UPDATE exc_members SET " .
+            " returned = " . $ilDB->quote($a_status, "integer") .
+            " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
+            " AND usr_id = " . $ilDB->quote($a_user_id, "integer")
+            );
+        
+        ilLPStatusWrapper::_updateStatus($a_obj_id, $a_user_id);
+    }
+    
+    
+    //
+    // LP
+    //
+    
+    /**
+     * Get returned status for all members (if they have anything returned for
+     * any assignment)
+     */
+    public static function _getReturned($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT DISTINCT(usr_id) as ud FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
-			"AND returned = 1";
+        $query = "SELECT DISTINCT(usr_id) as ud FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") . " " .
+            "AND returned = 1";
 
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$usr_ids[] = $row->ud;
-		}
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            $usr_ids[] = $row->ud;
+        }
 
-		return $usr_ids ? $usr_ids : array();
-	}
+        return $usr_ids ? $usr_ids : array();
+    }
 
-	/**
-	 * Has user returned anything in any assignment?
-	 *
-	 * @param		integer		object id
-	 * @param		integer		user id
-	 * @return		boolean		true/false
-	 */
-	static function _hasReturned($a_obj_id, $a_user_id)
-	{
-		global $DIC;
+    /**
+     * Has user returned anything in any assignment?
+     *
+     * @param		integer		object id
+     * @param		integer		user id
+     * @return		boolean		true/false
+     */
+    public static function _hasReturned($a_obj_id, $a_user_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
-	
-		$set = $ilDB->query("SELECT DISTINCT(usr_id) FROM exc_members WHERE ".
-			" obj_id = ".$ilDB->quote($a_obj_id, "integer")." AND ".
-			" returned = ".$ilDB->quote(1, "integer")." AND ".
-			" usr_id = ".$ilDB->quote($a_user_id, "integer")
-			);
-		if ($rec = $ilDB->fetchAssoc($set))
-		{
-			return true;
-		}
-		return false;
-	}
+        $ilDB = $DIC->database();
+    
+        $set = $ilDB->query(
+            "SELECT DISTINCT(usr_id) FROM exc_members WHERE " .
+            " obj_id = " . $ilDB->quote($a_obj_id, "integer") . " AND " .
+            " returned = " . $ilDB->quote(1, "integer") . " AND " .
+            " usr_id = " . $ilDB->quote($a_user_id, "integer")
+            );
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return true;
+        }
+        return false;
+    }
 
-	/**
-	 * Get all users that passed the exercise
-	 */
-	static function _getPassedUsers($a_obj_id)
-	{
-		global $DIC;
+    /**
+     * Get all users that passed the exercise
+     */
+    public static function _getPassedUsers($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
-			"AND status = ".$ilDB->quote("passed", "text");
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$usr_ids[] = $row->usr_id;
-		}
-		return $usr_ids ? $usr_ids : array();
-	}
+        $query = "SELECT DISTINCT(usr_id) FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") . " " .
+            "AND status = " . $ilDB->quote("passed", "text");
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            $usr_ids[] = $row->usr_id;
+        }
+        return $usr_ids ? $usr_ids : array();
+    }
 
-	/**
-	 * Get all users that failed the exercise
-	 */
-	static function _getFailedUsers($a_obj_id)
-	{
-		global $DIC;
+    /**
+     * Get all users that failed the exercise
+     */
+    public static function _getFailedUsers($a_obj_id)
+    {
+        global $DIC;
 
-		$ilDB = $DIC->database();
+        $ilDB = $DIC->database();
 
-		$query = "SELECT DISTINCT(usr_id) FROM exc_members ".
-			"WHERE obj_id = ".$ilDB->quote($a_obj_id, "integer")." ".
-			"AND status = ".$ilDB->quote("failed", "text");
-		$res = $ilDB->query($query);
-		while($row = $ilDB->fetchObject($res))
-		{
-			$usr_ids[] = $row->usr_id;
-		}
-		return $usr_ids ? $usr_ids : array();
-	}
-
+        $query = "SELECT DISTINCT(usr_id) FROM exc_members " .
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") . " " .
+            "AND status = " . $ilDB->quote("failed", "text");
+        $res = $ilDB->query($query);
+        while ($row = $ilDB->fetchObject($res)) {
+            $usr_ids[] = $row->usr_id;
+        }
+        return $usr_ids ? $usr_ids : array();
+    }
 } //END class.ilObjExercise
-?>

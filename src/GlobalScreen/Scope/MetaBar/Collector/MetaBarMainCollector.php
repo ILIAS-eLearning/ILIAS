@@ -1,8 +1,8 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use Closure;
-use ILIAS\GlobalScreen\Collector\Collector;
-use ILIAS\GlobalScreen\Collector\LogicException;
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class MetaBarMainCollector implements Collector
+class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollector
 {
 
     /**
@@ -36,30 +36,35 @@ class MetaBarMainCollector implements Collector
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function collect() : void
+    public function collectStructure() : void
     {
-        $items = [];
+        $items_to_merge = [];
         foreach ($this->providers as $provider) {
-            $items = array_merge($items, $provider->getMetaBarItems());
+            $items_to_merge[] = $provider->getMetaBarItems();
         }
+        $this->items = array_merge([], ...$items_to_merge);
+    }
 
-        $this->sortItems($items);
 
-        array_walk($items, $this->getChildSorter());
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    {
+        $this->items = array_filter($this->items, $this->getVisibleFilter());
+    }
 
-        $this->items = array_filter($items, $this->getVisibleFilter());
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        $this->sortItems($this->items);
+        array_walk($this->items, $this->getChildSorter());
     }
 
 
     /**
-     * @return isItem[]
+     * @return \Generator
      */
-    public function getItems() : array
+    public function getItemsForUIRepresentation() : \Generator
     {
-        return $this->items;
+        yield from $this->items;
     }
 
 
@@ -113,7 +118,9 @@ class MetaBarMainCollector implements Collector
     protected function getVisibleFilter() : Closure
     {
         return function (isItem $item) {
-            return ($item->isAvailable() && $item->isVisible());
+            $b = ($item->isAvailable() && $item->isVisible());
+
+            return $b;
         };
     }
 }

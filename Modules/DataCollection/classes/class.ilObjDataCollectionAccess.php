@@ -27,7 +27,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      *        array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *    );
      */
-    static function _getCommands()
+    public static function _getCommands()
     {
         $commands = array(
             array("permission" => "read", "cmd" => "render", "lang_var" => "show", "default" => true),
@@ -42,7 +42,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    static function _checkGoto($a_target)
+    public static function _checkGoto($a_target)
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -366,7 +366,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         // check access
         return self::hasWriteAccess($ref_id)
             || (
-                self::hasReadAccess($ref_id) && self::hasAccessToTable($table_id) && self::hasAccessToTableView($tableview));
+                self::hasReadAccess($ref_id) && self::hasAccessToTable($table_id) && self::hasAccessToTableView($tableview)
+            );
     }
 
 
@@ -427,5 +428,3 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             || (ilObjDataCollectionAccess::hasAddRecordAccess($ref_id) && $table->getAddPerm() && $table->checkLimit());
     }
 }
-
-?>

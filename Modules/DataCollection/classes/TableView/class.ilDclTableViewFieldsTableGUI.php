@@ -8,7 +8,6 @@
  */
 class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 {
-
     public function __construct(ilDclTableViewEditGUI $a_parent_obj)
     {
         global $DIC;

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Mail/classes/class.ilMailTemplateContext.php';
+use OrgUnit\PublicApi\OrgUnitUserService;
 
 /**
  * Handles exercise Submit reminder mail placeholders
@@ -22,13 +22,20 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
      */
     protected $obj_data_cache;
 
-
-    /**
-     * Constructor
-     */
-    function __construct()
-    {
+    public function __construct(
+        OrgUnitUserService $orgUnitUserService = null,
+        ilMailEnvironmentHelper $envHelper = null,
+        ilMailUserHelper $usernameHelper = null,
+        ilMailLanguageHelper $languageHelper = null
+    ) {
         global $DIC;
+
+        parent::__construct(
+            $orgUnitUserService,
+            $envHelper,
+            $usernameHelper,
+            $languageHelper
+        );
 
         $this->lng = $DIC->language();
         if (isset($DIC["ilObjDataCache"])) {
@@ -114,12 +121,14 @@ class ilExcMailTemplateSubmitReminderContext extends ilMailTemplateContext
         } else {
             if ($placeholder_id == 'exc_title') {
                 return $ilObjDataCache->lookupTitle($context_parameters["exc_id"]);
-
             } else {
                 if ($placeholder_id == 'ass_link') {
-                    require_once './Services/Link/classes/class.ilLink.php';
-                    return ilLink::_getLink($context_parameters["exc_ref"], "exc", array(),
-                        "_" . $context_parameters["ass_id"]);
+                    return ilLink::_getLink(
+                        $context_parameters["exc_ref"],
+                        "exc",
+                        array(),
+                        "_" . $context_parameters["ass_id"]
+                    );
                 }
             }
         }

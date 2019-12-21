@@ -17,7 +17,6 @@ use ILIAS\Filesystem\Util\LegacyPathHelper;
  */
 class ilDownloadZipInteraction extends AbstractUserInteraction
 {
-
     const OPTION_DOWNLOAD = 'download';
     const OPTION_CANCEL = 'cancel';
     /**

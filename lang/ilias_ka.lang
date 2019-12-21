@@ -3493,8 +3493,8 @@ common#:#webfolder_dir_info#:#თქვენ აქ იმყოფებით
 common#:#webfolder_index_of#:#ინდექსი %s 1$
 common#:#webfolder_instructions#:#ვებფოლდერის ინსტრუქციები
 common#:#webfolder_instructions_info#:#
-common#:#webfolder_instructions_text#:#<br/><b>[WEBFOLDER_URI]</b><br/>and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/IF_MAC][IF_LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address
-common#:#webfolder_instructions_titletext#:#ვებფოლდერის გახსნა  %s 1 $
+common#:#webfolder_instructions_text#:#<br/><b>[WEBFOLDER_URI]</b><br/>and select 'Connect'.</li><li>Enter your login and password, and select 'OK'.</li></ol>[/MAC][LINUX]<h3>Instructions for Linux with Konqueror</h3><ol><li>Start the Konqueror browser</li><li>In the address field enter the following address
+common#:#webfolder_instructions_titletext#:#ვებფოლდერის გახსნა
 common#:#webfolder_mount_dir_with#:#
 common#:#webr#:#ვებლინკი
 common#:#webr_active#:#აქტიური

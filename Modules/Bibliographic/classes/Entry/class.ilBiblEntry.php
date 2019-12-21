@@ -10,14 +10,13 @@
  */
 class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
 {
-
     const TABLE_NAME = 'il_bibl_entry';
 
 
     /**
      * @return string
      */
-    static function returnDbTableName()
+    public static function returnDbTableName()
     {
         return self::TABLE_NAME;
     }
