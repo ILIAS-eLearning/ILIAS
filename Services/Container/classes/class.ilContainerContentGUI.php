@@ -778,6 +778,12 @@ abstract class ilContainerContentGUI
         $modified_link =
             $item_list_gui->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
 
+        // workaround for #26205
+        // we should get rid of _top links completely and gifure our how
+        // to manage scorm links better
+        if ($def_command["frame"] == "_top") {
+            $def_command["frame"] = "";
+        }
 
         $image = $f->image()->responsive($path, "");
         if ($def_command["link"] != "") {	// #24256
