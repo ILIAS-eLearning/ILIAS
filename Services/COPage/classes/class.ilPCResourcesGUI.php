@@ -138,9 +138,16 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $sub_objs = $objDefinition->getGroupedRepositoryObjectTypes($obj_type);
         $types = array();
         foreach ($sub_objs as $k => $so) {
-            if ($k != "itgr") {
-                $types[$k] = $this->lng->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
+            if (!$objDefinition->isPlugin($k)) {
+                if ($k != "itgr") {
+                    $types[$k] = $this->lng->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
+                }
+            } else {
+                include_once("./Services/Component/classes/class.ilPlugin.php");
+                $pl = ilObjectPlugin::getRepoPluginObjectByType($k);
+                $types[$k] = $pl->txt("objs_" . $k) . " (" . (int) $type_counts[$k] . ")";
             }
+
         }
         $type_prop->setOptions($types);
         $selected = ($a_insert)
