@@ -16041,3 +16041,4 @@ rep#:#rep_fav_intro2#:#Klicken Sie auf '%s' und wählen Sie aus dem verfügbaren
 rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, können Sie es ganz einfach zu Ihren Favoriten hinzufügen. Wählen Sie beim gewünschten Objekt im <i>Aktionen</i>-Menü die Option "<i>Zu Favoriten hinzufügen</i>".
 rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
 task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
