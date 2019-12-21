@@ -1332,7 +1332,13 @@ if(!$ilDB->tableExists('crs_timings_started'))
 ?>
 <#5516>
 <?php
-$ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+$setting = new ilSetting();
+$idx = $setting->get('ilfrmposidx5', 0);
+if (!$idx) {
+    $ilDB->addIndex('frm_posts', ['pos_thr_fk', 'pos_date'], 'i5');
+} else {
+    $setting->delete('ilfrmposidx5');
+}
 ?>
 <#5517>
 <?php
@@ -1367,7 +1373,9 @@ $ilDB->modifyTableColumn('il_cert_template', 'version', array(
 ?>
 <#5521>
 <?php
-$ilDB->addIndex('rbac_log', ['created'], 'i2');
+if(!$ilDB->indexExistsByFields('rbac_log',['created'])) {
+    $ilDB->addIndex('rbac_log', ['created'], 'i2');
+}
 ?>
 <#5522>
 <?php

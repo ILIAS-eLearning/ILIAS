@@ -12,6 +12,11 @@ interface ilAccessibilityCriterionTypeFactoryInterface
     public function getTypesByIdentMap() : array;
 
     /**
+     * @return bool
+     */
+    public function hasOnlyOneCriterion() : bool;
+
+    /**
      * @param string $typeIdent
      * @param bool   $useFallback
      * @return ilAccessibilityCriterionType
