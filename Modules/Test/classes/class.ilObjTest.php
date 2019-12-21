@@ -723,17 +723,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         return ilUtil::getASCIIFilename($this->getTitle());
     }
-	
-	/**
-	 * returns the object title prepared to be used as a filename
-	 *
-	 * @return string
-	 */
-	public function getTitleFilenameCompliant()
-	{
-		require_once 'Services/Utilities/classes/class.ilUtil.php';
-		return ilUtil::getASCIIFilename($this->getTitle());
-	}
 
 	/**
 	 * @return int
