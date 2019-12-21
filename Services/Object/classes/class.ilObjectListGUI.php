@@ -3893,6 +3893,13 @@ class ilObjectListGUI
             }
         }
 
+        // workaround for #26205
+        // we should get rid of _top links completely and gifure our how
+        // to manage scorm links better
+        if ($def_command["frame"] == "_top") {
+            $def_command["frame"] = "";
+        }
+
         // workaround for scorm
         $modified_link =
             $this->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
