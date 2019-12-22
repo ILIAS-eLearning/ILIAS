@@ -198,3 +198,6 @@ Phase B (only remaining users with no valid options)
 * Assign t with minimum a(t) to u
 * remove user and topic from list, start from the beginning
 
+#### Notifications
+
+
