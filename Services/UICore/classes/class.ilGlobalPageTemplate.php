@@ -226,7 +226,8 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
         PageContentProvider::setShortTitle($short_title);
         PageContentProvider::setViewTitle((string) $a_title);
-        PageContentProvider::setTitle($short_title);
+        $header_title = ilObjSystemFolder::_getHeaderTitle();
+        PageContentProvider::setTitle($header_title);
     }
 
 
