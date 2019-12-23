@@ -1,14 +1,14 @@
 {
-  "maintenance_model": "Classic",
-  "first_maintainer": "fschmid(21087)",
-  "second_maintainer": "",
-  "implicit_maintainers": [
-    "nschaefli(51205)"
-  ],
-  "coordinator": [],
-  "tester": "",
-  "testcase_writer": "",
-  "path": "src/HTTP",
-  "belong_to_component": "HTTP-Request",
-  "used_in_components": []
+    "maintenance_model": "Classic",
+    "first_maintainer": "fschmid(21087)",
+    "second_maintainer": "",
+    "implicit_maintainers": [
+        "nschaefli(51205)"
+    ],
+    "coordinator": [],
+    "tester": "",
+    "testcase_writer": "",
+    "path": "src/HTTP",
+    "belong_to_component": "HTTP-Request",
+    "used_in_components": []
 }

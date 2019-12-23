@@ -1,6 +1,6 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "fschmid(21087)",
+    "first_maintainer": "rschenk(18065)",
     "second_maintainer": "akill(149)",
     "implicit_maintainers": [],
     "coordinator": [
@@ -9,6 +9,6 @@
     "tester": "tloewen(41553)",
     "testcase_writer": "tloewen(41553)",
     "path": "Services/VirusScanner",
-    "belong_to_component": "File",
+    "belong_to_component": "VirusScanner",
     "used_in_components": []
 }
