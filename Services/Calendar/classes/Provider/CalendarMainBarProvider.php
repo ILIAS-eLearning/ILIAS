@@ -27,8 +27,7 @@ class CalendarMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $title = $this->dic->language()->txt("mm_calendar");
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cals", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/calender.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cals", $title)->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_cal'))

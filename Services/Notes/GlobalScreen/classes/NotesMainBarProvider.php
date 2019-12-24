@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class NotesMainBarProvider
@@ -30,7 +31,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
 
         // Comments
         $title = $dic->language()->txt("mm_comments");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/speech.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::COMS, $title)->withIsOutlined(true);
         $comments = $this->mainmenu->link($this->if->identifier('mm_pd_comments'))
             ->withTitle($title)
             ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPublicComments"))
@@ -45,7 +46,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $dic->language()->txt("mm_notes");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/note.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::NOTS, $title)->withIsOutlined(true);
 
         // Notes
         $notes = $this->mainmenu->link($this->if->identifier('mm_pd_notes'))

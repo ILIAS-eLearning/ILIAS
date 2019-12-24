@@ -28,8 +28,7 @@ class NewsMainBarProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_news");
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("nwss", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/feed.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("nwss", $title)->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_news'))

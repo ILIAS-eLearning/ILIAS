@@ -207,7 +207,8 @@ class IconTest extends ILIAS_UI_TestBase
         $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
 
         foreach ($default_icons_abr as $icon_abr) {
-            $this->assertTrue(file_exists(self::ICON_PATH . "icon_" . $icon_abr . ".svg"));
+            $path = self::ICON_PATH . "icon_" . $icon_abr . ".svg";
+            $this->assertTrue(file_exists($path), "Missing Standard Icon: ".$path);
         }
     }
 
@@ -217,7 +218,9 @@ class IconTest extends ILIAS_UI_TestBase
         $default_icons_abr = $f->standard("nothing", "nothing")->getAllStandardHandles();
 
         foreach ($default_icons_abr as $icon_abr) {
-            $this->assertTrue(file_exists(self::ICON_OUTLINED_PATH . "icon_" . $icon_abr . ".svg"));
+            $path = self::ICON_OUTLINED_PATH . "icon_" . $icon_abr . ".svg";
+
+            $this->assertTrue(file_exists($path),"Missing Outlined Icon: ".$path);
         }
     }
 }

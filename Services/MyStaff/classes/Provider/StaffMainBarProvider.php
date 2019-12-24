@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListUsers\ilMStListUsers;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMStListCertificatesGUI;
 use ilMStListCompetencesGUI;
 use ilMStListCompetencesSkillsGUI;
@@ -43,7 +44,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
         $top = StandardTopItemsProvider::getInstance()->getOrganisationIdentification();
 
         $title = $this->dic->language()->txt("mm_staff_list");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("simpleline/people.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_stff.svg"), $title);
 
         // My Staff
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_mst'))
@@ -68,7 +69,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
         $title = $this->dic->language()->txt("mm_enrolments");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("simpleline/notebook.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_enrl.svg"), $title);
 
         // My Enrolments
         $items[] = $this->mainmenu->link($this->if->identifier('mm_pd_enrol'))
@@ -93,7 +94,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
         // My Certificates
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("simpleline/badge.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CERT, $title)->withIsOutlined(true);
         $items[] = $this->mainmenu->link($this->if->identifier("mm_pd_cert"))
             ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_certificates"))
@@ -117,7 +118,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
 
 
         // My Competences
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(ilUtil::getImagePath("simpleline/plus.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
         $items[] = $this->mainmenu->link($this->if->identifier("mm_pd_comp"))
             ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_skills"))

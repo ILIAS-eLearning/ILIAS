@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 
 /**
@@ -29,7 +30,8 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_mail");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/envolope-letter.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, $title)
+                                                             ->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))

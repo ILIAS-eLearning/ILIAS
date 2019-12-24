@@ -30,8 +30,6 @@ interface Standard extends Icon
     const GLO  	= 'glo';	//Glossary
     const ROOT  = 'root';	//Root Folder Object
     const LM  	= 'lm';		//Learning module Object
-    const NOTF  = 'notf';	//Note Folder Object
-    const NOTE  = 'note';	//Note Object
     const FRM  	= 'frm';	//Forum object
     const EXC  	= 'exc';	//Exercise object
     const AUTH  = 'auth';	//Authentication settings
@@ -118,6 +116,17 @@ interface Standard extends Icon
     const IASS  = 'iass';	//Individual Assessment
     const COPA  = 'copa';	//Content Page
     const BGTK  = 'bgtk';	//Background Task
+    const MME   = 'mme';	//Main Menu
+    const PDFG  = 'pdfg';	//PDF Generation
+    const DSHS  = 'dshs';	//Dashboard
+    const PRSS  = 'prss';	//Personal Ressources
+    const NOTS  = 'nots';	//Notes
+    const LHTS  = 'lhts';	//Learning History
+    const COMS  = 'coms';	//Comments
+    const LTIS  = 'ltis';	//LTI
+    const CMIS  = 'cmis';	//xAPI/cmi5
+    const REP   = 'rep';	//Repository
+    const TASK  = 'task';   //Task
 
     /**
      * Is this an outlined Icon?

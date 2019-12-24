@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilLink;
 use ilObject;
 use ilUtil;
@@ -37,7 +38,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
 
         $title = $this->getHomeItem()->getTitle();
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title)->withIsOutlined(true);
 
         // Home
         $entries[] = $this->getHomeItem()
@@ -56,7 +57,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             : $this->dic->language()->txt("mm_repo_tree_view_deact");
 
         $title = $this->dic->language()->txt("mm_rep_tree_view");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/direction.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
         /*
         if ($_GET["baseClass"] == "ilRepositoryGUI") {
@@ -80,6 +81,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withParent($top)
             ->withPosition(20);
 
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_lstv.svg"), $title);
+
         $p = $this;
         $entries[] = $this->mainmenu
             ->complex($this->if->identifier('last_visited'))
@@ -87,6 +90,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withSupportsAsynchronousLoading(true)
             ->withVisibilityCallable($access_helper->isUserLoggedIn())
             ->withPosition(40)
+            ->withSymbol($icon)
             ->withParent($top)
             ->withContentWrapper(function () use ($p) {
                 return $this->dic->ui()->factory()->legacy($p->renderLastVisited());
