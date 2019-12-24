@@ -994,20 +994,27 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $this->ctrl->redirect($this, "create");
         }
 
-        // import from basic zip file
-        $imp = new ilImport();
-        $style_id = $imp->importObject(
-            null,
-            ilObjStyleSheet::getBasicZipPath(),
-            "style.zip",
-            "sty",
-            $a_comp = "Services/Style",
-            true
-        );
+        // copy from default style or ... see #11330
+        $default_style = $this->settings->get("default_content_style_id");
+        if (ilObject::_lookupType($default_style) == "sty") {
+            $style_obj = ilObjectFactory::getInstanceByObjId($default_style);
+            $new_id    = $style_obj->ilClone();
+            $newObj    = new ilObjStyleSheet($new_id);
+        } else {
+            // ... import from basic zip file
+            $imp = new ilImport();
+            $style_id = $imp->importObject(
+                null,
+                ilObjStyleSheet::getBasicZipPath(),
+                "style.zip",
+                "sty",
+                $a_comp = "Services/Style",
+                true
+            );
 
-        require_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $newObj = new ilObjStyleSheet($style_id);
-        //$newObj->create();
+            $newObj = new ilObjStyleSheet($style_id);
+        }
+
         $newObj->setTitle(ilUtil::stripSlashes($_POST["style_title"]));
         $newObj->setDescription(ilUtil::stripSlashes($_POST["style_description"]));
         $newObj->update();
