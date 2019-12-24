@@ -33,7 +33,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
         $f = $this->dic->ui()->factory();
 
         $title = $this->dic->language()->txt("mm_favorites");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/heart.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fav.svg"), $title);
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_pd_sel_items'))

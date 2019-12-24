@@ -5,6 +5,7 @@ namespace ILIAS\Contact\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class ContactNotificationProvider
@@ -64,9 +65,10 @@ class ContactNotificationProvider extends AbstractNotificationProvider implement
         $factory = $this->globalScreen()->notifications()->factory();
 
         $icon = $this->dic->ui()->factory()
-            ->symbol()
-            ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/people.svg'), 'contacts');
+                          ->symbol()
+                          ->icon()
+                          ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
+
         $title = $this->dic->ui()->factory()
             ->link()
             ->standard(

@@ -9,7 +9,7 @@ use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 
 /**
- * Class MailNotificationProvider
+ * Class BadgeNotificationProvider
  */
 class BadgeNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
@@ -36,13 +36,13 @@ class BadgeNotificationProvider extends AbstractNotificationProvider implements 
             return [];
         }
 
-        //Creating a mail Notification Item
-        $mail_icon = $ui->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/badge.svg"), $lng->txt("badge_badge"));
-        $mail_title = $ui->factory()->link()->standard(
+        //Creating a badge Notification Item
+        $badge_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $lng->txt("badge_badge"))->withIsOutlined(true);
+        $badge_title = $ui->factory()->link()->standard(
             $lng->txt("mm_badges"),
             $ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")
         );
-        $badge_notification_item = $ui->factory()->item()->notification($mail_title, $mail_icon)
+        $badge_notification_item = $ui->factory()->item()->notification($badge_title, $badge_icon)
             ->withDescription(str_replace("%1", $new_badges, $lng->txt("badge_new_badges")));
         //->withProperties(["Time" => "3 days ago"]);
 

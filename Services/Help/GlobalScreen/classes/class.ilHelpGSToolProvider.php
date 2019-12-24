@@ -37,7 +37,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         $title = $lng->txt("help");
-        $icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/info.svg"), $title);
+        $icon = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
 
         if ($this->showHelpTool()) {
             $iff = function ($id) {

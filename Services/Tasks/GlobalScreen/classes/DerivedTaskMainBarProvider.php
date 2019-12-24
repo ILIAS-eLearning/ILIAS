@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Main menu entry for derived tasks
@@ -28,7 +29,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_task_derived_tasks");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/check.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TASK, $title)->withIsOutlined(true);
 
         // derived tasks list
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_derived_task_list'))

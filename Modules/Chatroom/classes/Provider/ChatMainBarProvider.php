@@ -3,6 +3,7 @@
 namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class ChatMainBarProvider
@@ -33,7 +34,7 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'), $title);
+            ->standard(Standard::CHTA,$title)->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_public_chat'))

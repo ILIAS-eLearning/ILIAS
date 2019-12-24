@@ -104,13 +104,13 @@ class StandardPagePartProvider implements PagePartProvider
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);
             }
         }
-
-        $grid_icon = $f->symbol()->icon()->custom("./src/UI/examples/Layout/Page/Standard/grid.svg", 'more', "small");
+        $more_glyph = $f->symbol()->glyph()->more("#");
         $main_bar = $main_bar->withMoreButton(
-            $f->button()->bulky($grid_icon, "More", "#")
+            $f->button()->bulky($more_glyph, "More", "#")
         );
 
         // Tools
+        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"),"More");
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, "Tools", "#")->withEngagedState(true);

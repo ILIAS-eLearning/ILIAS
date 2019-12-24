@@ -5,6 +5,7 @@ namespace ILIAS\Mail\Provider;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class MailNotificationProvider
@@ -70,7 +71,8 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             )
         );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/envolope-letter.svg"), 'mail');
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail')
+                          ->withIsOutlined(true);
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
             $mailUrl

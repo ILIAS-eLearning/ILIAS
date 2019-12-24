@@ -3,6 +3,7 @@
 use ILIAS\DI\Exceptions\Exception;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Class AdministrationMainBarProvider
@@ -43,8 +44,6 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         continue;
                     }
 
-                    //$path = \ilObject::_getIcon("", "tiny", $titems[$group_item]["type"]);
-                    //$icon = $this->dic->ui()->factory()->symbol()->icon()->custom($path, $titems[$group_item]["type"]);
                     $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
                         ->withIsOutlined(true);
 
@@ -65,12 +64,14 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 }
 
                 // Main entry
+                $title = $this->dic->language()->txt("adm_" . $group);
                 $entries[] = $this->globalScreen()
                     ->mainBar()
                     ->linkList($this->if->identifier('adm_content_' . $group))
                     ->withSupportsAsynchronousLoading(true)
                     ->withLinks($links)
-                    ->withTitle($this->dic->language()->txt("adm_" . $group))
+                    ->withTitle($title)
+                    ->withSymbol($this->getIconForGroup($group,$title))
                     ->withParent($top)
                     ->withPosition($position)
                     ->withAlwaysAvailable(true)
@@ -89,6 +90,23 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         }
 
         return $entries;
+    }
+
+    protected function getIconForGroup(string $group,string $title) : Icon
+    {
+        $icon_map = array(
+            "maintenance" =>"icon_sysa",
+            "layout_and_navigation" => "icon_laya",
+            "user_administration" =>"icon_usra",
+            "personal_workspace" =>"icon_pwsa",
+            "achievements" =>"icon_achva",
+            "communication" =>"icon_coma",
+            "search_and_find" =>"icon_safa",
+            "extending_ilias" => "icon_exta",
+            "repository_and_objects" =>"icon_repa"
+        );
+        $icon_path = \ilUtil::getImagePath("outlined/".$icon_map[$group].".svg");
+        return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path,$title);
     }
 
 

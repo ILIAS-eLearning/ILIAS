@@ -32,7 +32,7 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TREE, true)) {
             $title = $this->dic->language()->txt('objs_st');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/list.svg"), $title);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_chp.svg"), $title);
 
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id);

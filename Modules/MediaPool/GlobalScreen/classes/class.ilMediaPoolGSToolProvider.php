@@ -39,8 +39,12 @@ class ilMediaPoolGSToolProvider extends AbstractDynamicToolProvider
                 return $this->dic->ui()->factory()->legacy($content);
             };
             $ref_id = $called_contexts->current()->getReferenceId()->toInt();
+
+            $title = "Folders";
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_fldm.svg"),$title);
             $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle("Folders")
+                ->withTitle($title)
+                ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l, $ref_id) {
                     return $l($this->getTree($ref_id));
                 });
