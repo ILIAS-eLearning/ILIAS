@@ -30,8 +30,6 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_learning_progress");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("trac", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/graph.svg"), $title);
-
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))

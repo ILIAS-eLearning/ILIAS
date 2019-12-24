@@ -2,6 +2,8 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilSetting;
 
 /**
@@ -30,7 +32,7 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_skills");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/magic-wand.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
 
         $ctrl = $DIC->ctrl();
         return [

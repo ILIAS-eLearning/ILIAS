@@ -4,6 +4,7 @@ use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMyStaffAccess;
 
 /**
@@ -90,7 +91,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
         // Dashboard
         $title = $this->dic->language()->txt("mm_dashboard");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/home.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::DSHS, $title)->withIsOutlined(true);
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
             ->withSymbol($icon)
             ->withTitle($title)
@@ -109,7 +110,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $f("mm_repository");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/layers.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::REP, $title)->withIsOutlined(true);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
             // ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
@@ -118,7 +119,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(20);
 
         $title = $f("mm_personal_workspace");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_wksp.svg"), $title);
 
         $personal_workspace = $this->mainmenu->topParentItem($this->getPersonalWorkspaceIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
@@ -127,7 +128,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(30);
 
         $title = $f("mm_achievements");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/trophy.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_achv.svg"), $title);
 
         $achievements = $this->mainmenu->topParentItem($this->getAchievementsIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
@@ -136,7 +137,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(40);
 
         $title = $f("mm_communication");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/bubbles.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_comu.svg"), $title);
 
         $communication = $this->mainmenu->topParentItem($this->getCommunicationIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn())
@@ -145,7 +146,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(50);
 
         $title = $f("mm_organisation");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/organization.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
@@ -161,7 +162,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $f("mm_administration");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/settings.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
             ->withSymbol($icon)

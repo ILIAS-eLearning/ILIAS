@@ -27,8 +27,7 @@ class BadgeMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $title = $this->dic->language()->txt("mm_badges");
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/badge.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $title)->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_badges'))

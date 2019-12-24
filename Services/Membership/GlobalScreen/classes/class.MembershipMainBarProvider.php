@@ -30,7 +30,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
 
         $title = $this->dic->language()->txt("my_courses_groups");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/user-following.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_crgr.svg"), $title);
 
         // derived tasks list
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_memberships'))

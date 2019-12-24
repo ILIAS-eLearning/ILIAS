@@ -28,8 +28,7 @@ class PortfolioMainBarProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_portfolio");
-        //$icon = $this->dic->ui()->factory()->symbol()->icon()->standard("prfa", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("simpleline/book-open.svg"), $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("prfa", $title)->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_port'))

@@ -54,22 +54,15 @@
 		padding: 0;
 		width: @il-mainbar-btn-height;
 		width: 100%;
-		img {
+		.icon {
 			filter: invert(100%);
-		}
-		.icon.outlined {
-			filter: brightness(100);
 		}
 		&:hover,
 		&.engaged {
 			background-color: @il-mainbar-btn-bg-color-engaged;
 			color: @il-mainbar-btn-bg-color;
-			img {
+			.icon {
 				filter: invert(50%);
-
-			}
-			.icon.outlined {
-				filter: brightness(0);
 			}
 			.bulky-label {
 				color: @il-mainbar-btn-bg-color;
@@ -103,7 +96,7 @@
 			&:hover {
 				background-color: @il-mainbar-btn-bg-color;
 				color: @il-mainbar-btn-bg-color-engaged;
-				img {
+				.icon {
 					filter: invert(100%);
 				}
 				.bulky-label {
@@ -113,7 +106,7 @@
 			&.engaged {
 				background-color: @il-mainbar-btn-bg-color-engaged;
 				color: @il-mainbar-btn-bg-color;
-				img {
+				.icon  {
 					filter: invert(50%);
 				}
 				.bulky-label {
@@ -145,14 +138,14 @@
 		border: 0;
 		color: @il-mainbar-btn-color;
 		padding: 0;
-		img {
+		.icon  {
 			filter: invert(100%);
 		}
 	}
 	.btn-bulky.engaged {
 		background-color: lighten(@brand-primary, 45%);
 		color: @il-mainbar-btn-color-engaged;
-		img {
+		.icon  {
 			filter: invert(35%);
 		}
 	}

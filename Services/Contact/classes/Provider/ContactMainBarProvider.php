@@ -3,6 +3,7 @@
 use ilBuddySystem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\UI\Component\Symbol\Icon\Standard;
 
 /**
  * Class ContactMainBarProvider
@@ -31,7 +32,7 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/people.svg'), 'contacts');
+            ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_contacts'))
