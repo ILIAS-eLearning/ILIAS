@@ -2122,6 +2122,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         // media query
         $ti = new ilTextInputGUI("@media", "mquery");
         $ti->setMaxLength(2000);
+        $ti->setInfo($lng->txt("sty_add_media_query_info"));
         $this->form_gui->addItem($ti);
 
 
