@@ -16042,3 +16042,4 @@ rep#:#rep_fav_intro3#:#Wenn Sie etwas gefunden haben, das Sie interessiert, kön
 rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder einer Gruppe.
 task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
