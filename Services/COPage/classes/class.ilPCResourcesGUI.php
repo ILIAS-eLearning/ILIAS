@@ -227,7 +227,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
     }
     
     /**
-     * Insert resources
+     * Insert resources (see also ilContainerContentGUI::determinePageEmbeddedBlocks for presentation)
      *
      * @param
      * @return

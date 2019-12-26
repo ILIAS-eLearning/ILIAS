@@ -133,7 +133,10 @@ class ilWikiHTMLExport
         include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
         $this->co_page_html_export = new ilCOPageHTMLExport($this->export_dir);
         $this->co_page_html_export->setContentStyleId(
-            $this->wiki->getStyleSheetId()
+            ilObjStyleSheet::getEffectiveContentStyleId(
+                $this->wiki->getStyleSheetId(),
+                $this->wiki->getType()
+            )
         );
         $this->co_page_html_export->createDirectories();
         $this->co_page_html_export->exportStyles();
