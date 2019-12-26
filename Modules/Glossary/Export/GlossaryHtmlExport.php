@@ -89,7 +89,7 @@ class GlossaryHtmlExport
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->glossary->getStyleSheetId());
+        $this->export_util->exportCOPageFiles($this->glossary->getStyleSheetId(), "glo");
 
         // export terms
         $this->exportHTMLGlossaryTerms();

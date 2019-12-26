@@ -129,7 +129,7 @@ class BlogHtmlExport
     {
         $this->initDirectories();
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->blog->getStyleSheetId());
+        $this->export_util->exportCOPageFiles($this->blog->getStyleSheetId(), "blog");
 
         // export banner
         $this->exportBanner();

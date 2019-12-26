@@ -57,12 +57,15 @@ class Util
     /**
      * Export content style
      */
-    public function exportCOPageFiles($style_sheet_id = 0)
+    public function exportCOPageFiles($style_sheet_id = 0, $obj_type = "")
     {
         \ilMathJax::getInstance()->init(\ilMathJax::PURPOSE_EXPORT);
 
         // init co page html exporter
-        $this->co_page_html_export->setContentStyleId($style_sheet_id);
+        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
+            $style_sheet_id,
+            $obj_type
+        ));
         $this->co_page_html_export->createDirectories();
         $this->co_page_html_export->exportStyles();
         $this->co_page_html_export->exportSupportScripts();

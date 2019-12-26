@@ -539,13 +539,9 @@ class ilObjContentObject extends ilObject
         $ilErr = $this->error;
 
         $lm_data_dir = ilUtil::getDataDir() . "/lm_data";
-        if (!is_writable($lm_data_dir)) {
-            $ilErr->raiseError("Content object Data Directory (" . $lm_data_dir
-                . ") not writeable.", $ilErr->FATAL);
-        }
         // create learning module directory (data_dir/lm_data/lm_<id>)
         $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
-        ilUtil::makeDir($lm_dir);
+        ilUtil::makeDirParents($lm_dir);
         if (!@is_dir($lm_dir)) {
             $ilErr->raiseError("Creation of Learning Module Directory failed.", $ilErr->FATAL);
         }

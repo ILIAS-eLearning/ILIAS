@@ -98,7 +98,10 @@ class LMHtmlExport
         $this->lang = $lang;
         $this->target_dir = $export_dir . "/" . $sub_dir;
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId());
-        $this->co_page_html_export->setContentStyleId($this->lm->getStyleSheetId());
+        $this->co_page_html_export->setContentStyleId(\ilObjStyleSheet::getEffectiveContentStyleId(
+            $this->lm->getStyleSheetId(),
+            "lm"
+            ));
         $this->export_format = $export_format;
 
         // get learning module presentation gui class
@@ -296,7 +299,7 @@ class LMHtmlExport
         $this->initDirectories();
 
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->lm->getStyleSheetId());
+        $this->export_util->exportCOPageFiles($this->lm->getStyleSheetId(), "lm");
 
         $lang_iterator = $this->getLanguageIterator();
 
@@ -487,6 +490,7 @@ class LMHtmlExport
             }
         }
 
+        // check, why these do not come with the gs meta collector
         $scripts[] = [
             "source" => "src/UI/templates/js/MainControls/mainbar.js",
             "type" => "js"
@@ -501,6 +505,10 @@ class LMHtmlExport
         ];
         $scripts[] = [
             "source" => "src/UI/templates/js/Page/stdpage.js",
+            "type" => "js"
+        ];
+        $scripts[] = [
+            "source" => "src/GlobalScreen/Client/dist/GS.js",
             "type" => "js"
         ];
 

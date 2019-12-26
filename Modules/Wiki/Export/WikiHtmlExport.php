@@ -91,8 +91,6 @@ class WikiHtmlExport
         $this->log = \ilLoggerFactory::getLogger('wiki');
         $this->global_screen = $DIC->globalScreen();
         $this->main_tpl = $DIC->ui()->mainTemplate();
-
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util();
     }
     
     /**
@@ -157,27 +155,19 @@ class WikiHtmlExport
         }
         $this->export_dir = $exp_dir . "/" . $subdir;
 
+        $this->export_util = new \ILIAS\Services\Export\HTML\Util($exp_dir, $subdir);
+
         // initialize temporary target directory
         \ilUtil::delDir($this->export_dir);
         \ilUtil::makeDir($this->export_dir);
 
         $this->log->debug("export directory: " . $this->export_dir);
 
-        // system style html exporter
-        include_once("./Services/Style/System/classes/class.ilSystemStyleHTMLExport.php");
-        $sys_style_html_export = new \ilSystemStyleHTMLExport($this->export_dir);
-        $sys_style_html_export->addImage("icon_wiki.svg");
-        $sys_style_html_export->export();
 
-        // init co page html exporter
-        include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
+        $this->export_util->exportSystemStyle();
+        $this->export_util->exportCOPageFiles($this->wiki->getStyleSheetId(), "wiki");
+
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->export_dir);
-        $this->co_page_html_export->setContentStyleId(
-            $this->wiki->getStyleSheetId()
-        );
-        $this->co_page_html_export->createDirectories();
-        $this->co_page_html_export->exportStyles();
-        $this->co_page_html_export->exportSupportScripts();
 
         // export pages
         $this->log->debug("export pages");
@@ -299,7 +289,7 @@ class WikiHtmlExport
         $this->log->debug("set title");
         $tpl->setTitle($this->wiki->getTitle());
         $tpl->setTitleIcon(
-            "./images/icon_wiki.svg",
+            \ilUtil::getImagePath("icon_wiki.svg"),
             $lng->txt("obj_wiki")
         );
 
