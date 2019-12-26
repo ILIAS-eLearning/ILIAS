@@ -149,7 +149,8 @@ class PortfolioHtmlExport
         $this->initDirectories();
 
         $this->export_util->exportSystemStyle();
-        $this->export_util->exportCOPageFiles($this->portfolio->getStyleSheetId());
+        $this->export_util->exportCOPageFiles($this->portfolio->getStyleSheetId(),
+            $this->portfolio->getType());
 
         $this->exportBanner();
 

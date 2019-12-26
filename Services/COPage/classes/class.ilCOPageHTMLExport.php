@@ -182,8 +182,7 @@ class ilCOPageHTMLExport
             //fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
-            $style->writeCSSFile($this->content_style_dir . "/content.css", "images");
-            $style->copyImagesToDir($this->content_style_img_dir);
+            $style->copyImagesToDir($this->exp_dir ."/".$style->getImagesDirectory());
         }
         
         // export syntax highlighting style
@@ -377,6 +376,11 @@ class ilCOPageHTMLExport
             //$tpl->setVariable("CSS_FILE", $css);
             //$tpl->parseCurrentBlock();
         }
+
+        $tpl->addCss(\ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath($this->getContentStyleId()));
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+
 
         return $tpl;
     }
