@@ -394,6 +394,9 @@ class ilObjectTranslation
         if ($this->getContentActivated() &&
             isset($langs[$a_lang]) &&
             ilPageObject::_exists($a_parent_type, $this->getObjId(), $a_lang)) {
+            if ($a_lang == $this->getMasterLanguage()) {
+                return "-";
+            }
             return $a_lang;
         }
         return "-";
