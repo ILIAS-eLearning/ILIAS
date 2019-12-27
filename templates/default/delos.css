@@ -9632,9 +9632,9 @@ footer {
   margin-right: 5px;
 }
 .il-mode-info {
-  border-top: 3px solid #f14956;
-  border-left: 3px solid #f14956;
-  border-right: 3px solid #f14956;
+  border-top: 3px solid #fa8228;
+  border-left: 3px solid #fa8228;
+  border-right: 3px solid #fa8228;
   text-align: center;
   height: 30px;
   margin-bottom: -30px;
@@ -9642,7 +9642,7 @@ footer {
   position: static;
 }
 .il-mode-info + div {
-  border: 3px solid #f14956;
+  border: 3px solid #fa8228;
   border-top: 0 none;
 }
 .il-layout-page-content > div {
@@ -9651,7 +9651,7 @@ footer {
 }
 .il-mode-info span.il-mode-info-content {
   margin: auto;
-  background-color: #f14956;
+  background-color: #fa8228;
   padding: 3px 8px 3px 8px;
   -webkit-box-shadow: 0px 2px 2px 0px #808080;
   -moz-box-shadow: 0px 2px 2px 0px #808080;
