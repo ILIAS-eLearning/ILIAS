@@ -1044,13 +1044,15 @@ th {
 .glyphicon-object-align-right:before {
   content: "\e249";
 }
-.glyphicon-triangle-right:before {
+.glyphicon-triangle-right:before,
+.il-tree li.il-tree-node.expandable > .node-line:before {
   content: "\e250";
 }
 .glyphicon-triangle-left:before {
   content: "\e251";
 }
-.glyphicon-triangle-bottom:before {
+.glyphicon-triangle-bottom:before,
+.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
   content: "\e252";
 }
 .glyphicon-triangle-top:before {
@@ -8507,13 +8509,8 @@ div.alert ul > li:before {
   background-color: #ffffd0;
 }
 .il-tree li.il-tree-node.expandable > .node-line:before {
-  font-family: 'Glyphicons Halflings';
-  content: "\e250";
   position: absolute;
   margin-left: -20px;
-}
-.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
-  content: "\e252";
 }
 .il-tree li.il-tree-node:not(.expanded) > ul {
   display: none;
@@ -10716,6 +10713,16 @@ footer {
 .glyphicon-plus-sign:before {
   font-family: il-icons;
   content: "\e095";
+}
+.glyphicon-triangle-bottom:before,
+.il-tree li.il-tree-node.expandable.expanded > .node-line:before {
+  font-family: il-icons;
+  content: "\e604";
+}
+.glyphicon-triangle-right:before,
+.il-tree li.il-tree-node.expandable > .node-line:before {
+  font-family: il-icons;
+  content: "\e606";
 }
 .glyphicon-user:before {
   font-family: il-icons;
