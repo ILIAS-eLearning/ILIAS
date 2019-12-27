@@ -17592,7 +17592,13 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 30px;
 }
 #il_awrn_filer_btn {
-  width: 30px;
+  width: 45px;
+  margin-left: 0;
+}
+#il_awrn_filer_btn .glyphicon {
+  filter: invert(0);
+  margin-right: 0;
+  font-family: 'Glyphicons Halflings';
 }
 #il_awrn_filer_btn img {
   width: 10px;
