@@ -154,7 +154,7 @@ class Renderer extends AbstractComponentRenderer
         //add "more"-slate
         $more_slate = $f->maincontrols()->slate()->combined(
             $component->getMoreButton()->getLabel(),
-            $f->symbol()->glyph()->disclosure()
+            $f->symbol()->glyph()->more()
         );
         $component = $component->withAdditionalEntry(
             '_mb_more_entry',
@@ -212,7 +212,7 @@ class Renderer extends AbstractComponentRenderer
         $entries = $component->getEntries();
 
         $more_label = 'more';
-        $more_symbol = $f->symbol()->glyph()->more()
+        $more_symbol = $f->symbol()->glyph()->disclosure()
             ->withCounter($f->counter()->novelty(0))
             ->withCounter($f->counter()->status(0));
         $more_slate = $f->maincontrols()->slate()->combined($more_label, $more_symbol, $f->legacy(''));
