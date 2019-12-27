@@ -21,13 +21,12 @@
 		}
 		&.expandable {
 			> .node-line:before {
-				font-family: 'Glyphicons Halflings';
-				content: "\e250";
+				&:extend(.glyphicon-triangle-right:before);
 				position: absolute;
 				margin-left: -@il-tree-node-indentation;
 			}
 			&.expanded > .node-line:before {
-				content: "\e252";
+				&:extend(.glyphicon-triangle-bottom:before);
 			}
 		}
 		&:not(.expanded) > ul{
