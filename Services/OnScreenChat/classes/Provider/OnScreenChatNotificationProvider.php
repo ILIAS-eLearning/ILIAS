@@ -144,9 +144,10 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $conversationIds = array_filter(explode(',', $conversationIds));
 
         $icon = $this->dic->ui()->factory()
-            ->symbol()
-            ->icon()
-            ->custom(\ilUtil::getImagePath('simpleline/bubbles.svg'), 'conversations');
+                          ->symbol()
+                          ->icon()
+                          ->standard(Standard::CHTA, 'conversations')->withIsOutlined(true);
+        
         $title = $this->dic->language()->txt('chat_osc_conversations');
         if ($withAggregates && count($conversationIds) > 0) {
             $title = $this->dic->ui()->factory()
