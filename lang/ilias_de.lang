@@ -6422,6 +6422,7 @@ feed#:#block_feed_block_feed_url_info#:#Gültige RSS/Atom-URL erforderlich
 feed#:#block_feed_block_head#:#Externer Webfeed
 feed#:#block_feed_block_title#:#Titel
 feed#:#feed_disable_rep_feeds#:#Externe Webfeeds deaktivieren
+feed#:#feed_disable_rep_feeds_info#:#Deaktiviert die Präsentation aller externer Webfeeds im Magazin, z. B. für den Fall     eines Problems mit einer externen Feed-Quelle.
 feed#:#feed_feed_items#:#Webfeed-Themen
 feed#:#feed_import#:#Webfeed importieren
 feed#:#feed_loading_feed#:#Newsfeed wird geladen ...
