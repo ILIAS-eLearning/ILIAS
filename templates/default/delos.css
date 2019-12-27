@@ -8489,12 +8489,18 @@ div.alert ul > li:before {
 }
 .il-tree {
   list-style-type: none;
+  padding: 0 3px 0 3px;
+  margin-left: 0;
 }
 .il-tree ul {
+  padding-left: 14px;
   list-style-type: none;
-  padding: 4px 0 4px 20px;
+}
+.il-tree li.il-tree-node {
+  padding: 0 0px;
 }
 .il-tree li.il-tree-node .node-line {
+  padding-left: 14px;
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
@@ -8509,8 +8515,9 @@ div.alert ul > li:before {
   background-color: #ffffd0;
 }
 .il-tree li.il-tree-node.expandable > .node-line:before {
+  color: #777777;
   position: absolute;
-  margin-left: -20px;
+  margin-left: -14px;
 }
 .il-tree li.il-tree-node:not(.expanded) > ul {
   display: none;
@@ -13535,6 +13542,13 @@ img.il_ExplorerIcon {
 .jstree-default .jstree-node,
 .jstree-default .jstree-anchor {
   line-height: inherit;
+}
+.il-maincontrols-slate-content .jstree-default > ul > li.jstree-node {
+  margin-left: 0;
+}
+.il-maincontrols-slate-content .jstree-default li.jstree-node {
+  margin-left: 14px;
+  padding: 0 0px;
 }
 /* Modules/Forum */
 a.postread,

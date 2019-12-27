@@ -349,3 +349,13 @@ img.il_ExplorerIcon {
 .jstree-default .jstree-node, .jstree-default .jstree-anchor {
 	line-height: inherit;
 }
+
+.il-maincontrols-slate-content .jstree-default{
+	>ul>li.jstree-node{
+		margin-left: 0;
+	}
+	li.jstree-node{
+		margin-left: @il-tree-node-indentation;
+		padding: 0 @il-tree-node-vertical-spacing;
+	}
+}
