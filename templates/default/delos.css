@@ -6796,7 +6796,7 @@ button.close {
   margin: 16px 0 2px 0;
   font-size: 17px;
   font-weight: normal;
-  padding: 0;
+  padding: 0 0 0 12px;
   color: #707070;
 }
 .il-panel-listing-std-container > h3 {
@@ -6825,8 +6825,14 @@ button.close {
   font-size: 17px;
 }
 .panel-secondary .panel-body {
-  padding: 0;
+  padding: 6px 12px;
   overflow: hidden;
+}
+.panel-secondary .panel-body .il-item-group {
+  margin: -6px -12px;
+}
+.panel-secondary .panel-body .il-item-group .il-item {
+  padding-left: 12px;
 }
 .panel-primary h3.ilHeader {
   color: #707070;
