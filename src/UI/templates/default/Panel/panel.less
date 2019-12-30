@@ -36,7 +36,7 @@
 .il-panel-listing-std-container {
 	background-color: @il-secondary-container-bg;
 	> .il-item-group > h4 {
-		margin: @il-panel-listing-std-container-h4-margin;
+		margin: @padding-large-vertical 0 @padding-small-vertical 0;
 		font-size: @font-size-h4;
 		font-weight: normal;
 		padding: 0 0 0 @padding-large-horizontal;
@@ -48,14 +48,14 @@
 		font-weight: 600;
 		float: left;
 		padding: @padding-large-vertical @padding-large-horizontal;
-		margin: @il-panel-listing-std-container-h3-margin;
+		margin: @padding-large-vertical 0 @padding-small-vertical 0;
 	}
 
 	.dropdown {
 		float: right;
 	}
 	> .dropdown {
-		padding: @il-item-padding @il-item-padding 0 0;
+		padding: (2 * @padding-large-vertical) @il-item-padding 0 0;
 	}
 }
 

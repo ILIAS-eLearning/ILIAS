@@ -6793,7 +6793,7 @@ button.close {
   background-color: #f9f9f9;
 }
 .il-panel-listing-std-container > .il-item-group > h4 {
-  margin: 16px 0 2px 0;
+  margin: 6px 0 3px 0;
   font-size: 17px;
   font-weight: normal;
   padding: 0 0 0 12px;
@@ -6805,13 +6805,13 @@ button.close {
   font-weight: 600;
   float: left;
   padding: 6px 12px;
-  margin: 8px 0 2px 0;
+  margin: 6px 0 3px 0;
 }
 .il-panel-listing-std-container .dropdown {
   float: right;
 }
 .il-panel-listing-std-container > .dropdown {
-  padding: 20px 20px 0 0;
+  padding: 12px 12px 0 0;
 }
 .panel-secondary .il-panel-listing-std-container > h3,
 .panel-secondary .panel-body h4 {
@@ -7432,7 +7432,7 @@ hr.il-divider-with-label {
 .il-item {
   background-color: white;
   position: relative;
-  padding: 20px;
+  padding: 12px;
 }
 .il-item:before,
 .il-item:after {
