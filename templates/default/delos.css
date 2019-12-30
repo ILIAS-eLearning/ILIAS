@@ -6791,6 +6791,7 @@ button.close {
 }
 .il-panel-listing-std-container {
   background-color: #f9f9f9;
+  margin-bottom: 20px;
 }
 .il-panel-listing-std-container > .il-item-group > h4 {
   margin: 6px 0 3px 0;
