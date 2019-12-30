@@ -68,10 +68,25 @@
 	margin: 0;
 }
 
-.panel-secondary .panel-body {
-	padding: 0;
-	overflow: hidden;
+.panel-secondary{
+	h3.ilHeader {
+		font-size: @font-size-h4;
+	}
+
+	.panel-body {
+		padding: 0;
+		overflow: hidden;
+	}
 }
+
+.panel-primary{
+	h3.ilHeader {
+		color: @panel-heading-color;
+		font-size: @font-size-h3;
+		font-weight: 600;
+	}
+}
+
 
 .panel-primary,
 .panel-secondary {
@@ -82,7 +97,6 @@
 	h3.ilHeader {
 		flex-grow: 99;
 		flex-shrink: 1;
-		font-size: @font-size-h4;
 		line-height: ceil(@font-size-h4 * 1.235);
 		order: 1;
 		padding: @padding-large-vertical @padding-large-horizontal;
