@@ -7420,6 +7420,22 @@ hr.il-divider-with-label {
   position: relative;
   padding: 20px;
 }
+.il-item:before,
+.il-item:after {
+  content: " ";
+  display: table;
+}
+.il-item:after {
+  clear: both;
+}
+.il-item:before,
+.il-item:after {
+  content: " ";
+  display: table;
+}
+.il-item:after {
+  clear: both;
+}
 .il-item h5 {
   margin: 4px 0px 2px 0px;
   font-size: 16px;
