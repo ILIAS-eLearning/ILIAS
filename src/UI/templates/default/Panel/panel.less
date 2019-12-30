@@ -39,7 +39,7 @@
 		margin: @il-panel-listing-std-container-h4-margin;
 		font-size: @font-size-h4;
 		font-weight: normal;
-		padding: 0;
+		padding: 0 0 0 @padding-large-horizontal;
 		color: @il-panel-listing-std-container-h4-color;
 	}
 	> h3 {
@@ -74,8 +74,17 @@
 	}
 
 	.panel-body {
-		padding: 0;
+		padding: @padding-large-vertical @padding-large-horizontal;
 		overflow: hidden;
+
+		.il-item-group{
+			margin: -@padding-large-vertical -@padding-large-horizontal;
+
+			.il-item{
+				padding-left: @padding-large-horizontal;
+			}
+		}
+
 	}
 }
 
