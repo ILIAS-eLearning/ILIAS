@@ -6821,9 +6821,17 @@ button.close {
   color: #909090;
   margin: 0;
 }
+.panel-secondary h3.ilHeader {
+  font-size: 17px;
+}
 .panel-secondary .panel-body {
   padding: 0;
   overflow: hidden;
+}
+.panel-primary h3.ilHeader {
+  color: #707070;
+  font-size: 19px;
+  font-weight: 600;
 }
 .panel-primary .panel-heading,
 .panel-secondary .panel-heading {
@@ -6834,7 +6842,6 @@ button.close {
 .panel-secondary h3.ilHeader {
   flex-grow: 99;
   flex-shrink: 1;
-  font-size: 17px;
   line-height: 21px;
   order: 1;
   padding: 6px 12px;
