@@ -487,6 +487,7 @@ assessment#:#tst_conflict_reset_fbh_force#:#The setting "Lock Answers" was adjus
 assessment#:#enlarge#:#Enlarge
 assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
+assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
 assessment#:#error_importing_question#:#There was an error importing the question(s) from the file you have selected!
 assessment#:#error_open_image_file#:#Error opening an image file!
@@ -6943,7 +6944,7 @@ style#:#sty_media_char#:#Media
 style#:#sty_min_height#:#Minimum Height
 style#:#sty_move_lm_styles#:#Change Style of Learning Modules
 style#:#sty_move_style#:#Change Style
-style#:#sty_msg_characteristic_must_only_include#:#The title of style classes may only include the following characters:
+style#:#sty_msg_characteristic_must_only_include#:#The title of style classes must start with a letter and only include the following characters:
 style#:#sty_msg_color_must_only_include#:#The color name may only include the following characters:
 style#:#sty_msg_input_must_be_numeric#:#Input must be numeric.
 style#:#sty_name#:#Name
@@ -7626,20 +7627,20 @@ style#:#sty_glo_char#:#Glossary
 style#:#sty_type_glo_overlay#:#Glossary Overlay
 style#:#sty_type_glo_ovtitle#:#Term/Title (Overlay)
 content#:#cont_sco_glossary#:#Unit Glossary
-common#:#delete_inactive_user_accounts#:#Delete inactive user accounts
-common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of the last login.
+common#:#delete_inactive_user_accounts#:#Delete user accounts with no login for a long time
+common#:#delete_inactive_user_accounts_desc#:#If enabled, user accounts will be deleted depending on the date of their last login.
 common#:#delete_inactive_user_accounts_period#:#Days passed since last login
-common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined period of time will be deleted.
-common#:#delete_inactive_user_accounts_include_roles#:#Included roles
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactive_user_accounts_period_desc#:#All user accounts without login within the defined number of days will be deleted automatically.
+common#:#delete_inactive_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 common#:#update_orgunits#:#Update assigned organisational units
 common#:#update_orgunits_desc#:#If enabled, the field 'Organisational Units' will be updated for all user accounts.
 common#:#delete_inactivated_user_accounts#:#Delete inactivated user accounts
-common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after inactivation.
+common#:#delete_inactivated_user_accounts_desc#:#If enabled, user accounts will be deleted %s days after their inactivation.
 common#:#delete_inactivated_user_accounts_period#:#Days passed since inactivation
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this period of time has passed since inactivation.
-common#:#delete_inactivated_user_accounts_include_roles#:#Included roles
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Defines the roles that will participate in the deletion.
+common#:#delete_inactivated_user_accounts_period_desc#:#Accounts will be deleted if this number of days has passed since inactivation.
+common#:#delete_inactivated_user_accounts_include_roles#:#Considered roles
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Only user accounts with one of the marked roles will be checked and deleted if maximum number of days is exceeded.
 mail#:#mail_allow_external#:#External E-Mails
 mail#:#mail_allow_external_info#:#If disabled, the delivery of external e-mails (via SMTP) is globally disabled.
 mail#:#mail_settings_general_tab#:#General
@@ -9170,6 +9171,7 @@ skmg#:#skmg_sktr#:#Competence Template Reference
 skmg#:#skmg_items#:#Items
 skmg#:#skmg_create_sctp#:#Create Template Category
 skmg#:#skmg_sctp#:#Competence Template Category
+skmg#:#skmg_edit_sctp#:#Edit Template Category
 skmg#:#skmg_insert_skill_template_from_clip#:#Insert Competence Template from Clipboard
 skmg#:#skmg_insert_template_category_from_clip#:#Insert Template Category from Clipboard
 skmg#:#skmg_insert_please_choose_one_type_only#:#Please choose only one type of items.
@@ -13250,6 +13252,7 @@ logging#:#log_error_settings#:#Error logging settings
 logging#:#error_settings_saved#:#Saved settings
 logging#:#log_error_file_cleanup_title#:#Delete old or orphaned error log files
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
+logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 blog#:#blog_show_latest#:#Show latest postings/drafts
@@ -14247,3 +14250,4 @@ lti#:#lti_cron_title_desc#:#Synchronizes the learning progress of LTI users with
 dateplaner#:#cal_usr_info#:#Appointment Information
 content#:#msg_no_page_access#:#You do not have the permission to access this page.
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.

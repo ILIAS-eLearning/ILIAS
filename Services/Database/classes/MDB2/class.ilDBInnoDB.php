@@ -15,51 +15,56 @@ include_once("./Services/Database/classes/MDB2/class.ilDBMySQL.php");
  *
  * @ingroup ServicesDatabase
  */
-class ilDBInnoDB extends ilDBMySQL {
+class ilDBInnoDB extends ilDBMySQL
+{
 
-	/**
-	 * Get DB Type
-	 */
-	function getDBType() {
-		return "innodb";
-	}
-
-
-	/**
-	 * Initialize the database connection
-	 */
-	function initConnection() {
-		// SET 'max_allowed_packet' (only possible for mysql version 4)
-		$this->setMaxAllowedPacket();
-
-		// NOTE: Two sourcecodes use this or a similar handling:
-		// - classes/class.ilDB.php
-		// - setup/classes/class.ilClient.php
-
-		$this->query("SET NAMES utf8");
-		if (DEVMODE == 1) {
-			$this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
-		}
-		$this->setStorageEngine('INNODB');
-	}
+    /**
+     * Get DB Type
+     */
+    public function getDBType()
+    {
+        return "innodb";
+    }
 
 
-	/**
-	 * Is fulltext index supported?
-	 */
-	function supportsFulltext() {
-		return false;
-	}
+    /**
+     * Initialize the database connection
+     */
+    public function initConnection()
+    {
+        // SET 'max_allowed_packet' (only possible for mysql version 4)
+        $this->setMaxAllowedPacket();
+
+        // NOTE: Two sourcecodes use this or a similar handling:
+        // - classes/class.ilDB.php
+        // - setup/classes/class.ilClient.php
+
+        $this->query("SET NAMES utf8");
+        if (DEVMODE == 1) {
+            $this->query("SET SESSION SQL_MODE = 'ONLY_FULL_GROUP_BY'");
+        }
+        $this->setStorageEngine('INNODB');
+    }
 
 
-	protected function getCreateTableOptions() {
-		// InnoDB is default engine for MySQL >= 5.5
-		return array( 'type' => 'InnoDB' );
-	}
+    /**
+     * Is fulltext index supported?
+     */
+    public function supportsFulltext()
+    {
+        return false;
+    }
 
 
-	public function getStorageEngine() {
-		return 'InnoDB';
-	}
+    protected function getCreateTableOptions()
+    {
+        // InnoDB is default engine for MySQL >= 5.5
+        return array( 'type' => 'InnoDB' );
+    }
+
+
+    public function getStorageEngine()
+    {
+        return 'InnoDB';
+    }
 }
-

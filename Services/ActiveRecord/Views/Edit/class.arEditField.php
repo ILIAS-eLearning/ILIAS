@@ -8,90 +8,99 @@ require_once('./Services/ActiveRecord/Views/class.arViewField.php');
  * @version 2.0.7
  *
  */
-class arEditField extends arViewField {
+class arEditField extends arViewField
+{
 
-	/**
-	 * @var ilPropertyFormGUI
-	 */
-	protected $form_element = NULL;
-	/**
-	 * @var arEditField
-	 */
-	protected $subelement_of = NULL;
-
-
-	/**
-	 * @param \arEditField $is_subelement_of
-	 */
-	public function setSubelementOf($is_subelement_of) {
-		$this->subelement_of = $is_subelement_of;
-	}
+    /**
+     * @var ilPropertyFormGUI
+     */
+    protected $form_element = null;
+    /**
+     * @var arEditField
+     */
+    protected $subelement_of = null;
 
 
-	/**
-	 * @return \arEditField
-	 */
-	public function getSubelementOf() {
-		return $this->subelement_of;
-	}
+    /**
+     * @param \arEditField $is_subelement_of
+     */
+    public function setSubelementOf($is_subelement_of)
+    {
+        $this->subelement_of = $is_subelement_of;
+    }
 
 
-	/**
-	 * @param \ilPropertyFormGUI $form_element
-	 */
-	public function setFormElement($form_element) {
-		$this->form_element = $form_element;
-	}
+    /**
+     * @return \arEditField
+     */
+    public function getSubelementOf()
+    {
+        return $this->subelement_of;
+    }
 
 
-	/**
-	 * @return \ilPropertyFormGUI
-	 */
-	public function getFormElement() {
-		return $this->form_element;
-	}
+    /**
+     * @param \ilPropertyFormGUI $form_element
+     */
+    public function setFormElement($form_element)
+    {
+        $this->form_element = $form_element;
+    }
 
 
-	/**
-	 * @param boolean $is_created_by_field
-	 */
-	public function setIsCreatedByField($is_created_by_field) {
-		if ($is_created_by_field) {
-			$this->setVisible(false);
-		}
-		$this->is_created_by_field = $is_created_by_field;
-	}
+    /**
+     * @return \ilPropertyFormGUI
+     */
+    public function getFormElement()
+    {
+        return $this->form_element;
+    }
 
 
-	/**
-	 * @param boolean $is_modified_by_field
-	 */
-	public function setIsModifiedByField($is_modified_by_field) {
-		if ($is_modified_by_field) {
-			$this->setVisible(false);
-		}
-		$this->is_modified_by_field = $is_modified_by_field;
-	}
+    /**
+     * @param boolean $is_created_by_field
+     */
+    public function setIsCreatedByField($is_created_by_field)
+    {
+        if ($is_created_by_field) {
+            $this->setVisible(false);
+        }
+        $this->is_created_by_field = $is_created_by_field;
+    }
 
 
-	/**
-	 * @param $is_modification_date_field
-	 */
-	public function setIsModificationDateField($is_modification_date_field) {
-		if ($is_modification_date_field) {
-			$this->setVisible(false);
-		}
-		$this->is_modification_date_field = $is_modification_date_field;
-	}
+    /**
+     * @param boolean $is_modified_by_field
+     */
+    public function setIsModifiedByField($is_modified_by_field)
+    {
+        if ($is_modified_by_field) {
+            $this->setVisible(false);
+        }
+        $this->is_modified_by_field = $is_modified_by_field;
+    }
 
 
-	/**
-	 * @param $is_creation_date_field
-	 */
-	public function setIsCreationDateField($is_creation_date_field) {
-		if ($is_creation_date_field) {
-			$this->setVisible(false);
-		}
-		$this->is_creation_date_field = $is_creation_date_field;
-	}
+    /**
+     * @param $is_modification_date_field
+     */
+    public function setIsModificationDateField($is_modification_date_field)
+    {
+        if ($is_modification_date_field) {
+            $this->setVisible(false);
+        }
+        $this->is_modification_date_field = $is_modification_date_field;
+    }
+
+
+    /**
+     * @param $is_creation_date_field
+     */
+    public function setIsCreationDateField($is_creation_date_field)
+    {
+        if ($is_creation_date_field) {
+            $this->setVisible(false);
+        }
+        $this->is_creation_date_field = $is_creation_date_field;
+    }
 }

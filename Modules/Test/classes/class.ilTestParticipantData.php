@@ -10,66 +10,66 @@
  */
 class ilTestParticipantData
 {
-	/**
-	 * @var ilDBInterface
-	 */
-	protected $db;
+    /**
+     * @var ilDBInterface
+     */
+    protected $db;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var array
-	 */
-	private $activeIds;
+    /**
+     * @var array
+     */
+    private $activeIds;
 
-	/**
-	 * @var array
-	 */
-	private $userIds;
+    /**
+     * @var array
+     */
+    private $userIds;
 
-	/**
-	 * @var array
-	 */
-	private $anonymousIds;
+    /**
+     * @var array
+     */
+    private $anonymousIds;
 
-	/**
-	 * @var array
-	 */
-	private $byActiveId;
+    /**
+     * @var array
+     */
+    private $byActiveId;
 
-	/**
-	 * @var array
-	 */
-	private $byUserId;
+    /**
+     * @var array
+     */
+    private $byUserId;
 
-	/**
-	 * @var array
-	 */
-	private $byAnonymousId;
-	
-	public function __construct(ilDBInterface $db, ilLanguage $lng)
-	{
-		$this->db = $db;
-		$this->lng = $lng;
+    /**
+     * @var array
+     */
+    private $byAnonymousId;
+    
+    public function __construct(ilDBInterface $db, ilLanguage $lng)
+    {
+        $this->db = $db;
+        $this->lng = $lng;
 
-		$this->activeIds = array();
-		$this->userIds = array();
-		$this->anonymousIds = array();
+        $this->activeIds = array();
+        $this->userIds = array();
+        $this->anonymousIds = array();
 
-		$this->byActiveId = array();
-		$this->byUserId = array();
-		$this->byAnonymousId = array();
-	}
-	
-	public function load($testId)
-	{
-		$this->byActiveId = array();
-		$this->byUserId   = array();
+        $this->byActiveId = array();
+        $this->byUserId = array();
+        $this->byAnonymousId = array();
+    }
+    
+    public function load($testId)
+    {
+        $this->byActiveId = array();
+        $this->byUserId   = array();
 
-		$query = "
+        $query = "
 			SELECT		ta.active_id,
 						ta.user_fi user_id,
 						ta.anonymous_id,
@@ -83,157 +83,147 @@ class ilTestParticipantData
 			WHERE		test_fi = %s
 			AND			{$this->getConditionalExpression()}
 		";
-		
-		$res = $this->db->queryF($query, array('integer'), array($testId));
-		
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$this->byActiveId[ $row['active_id'] ] = $row;
-			
-			if( $row['user_id'] == ANONYMOUS_USER_ID )
-			{
-				$this->byAnonymousId[ $row['anonymous_id'] ] = $row;
-			}
-			else
-			{
-				$this->byUserId[ $row['user_id'] ] = $row;
-			}
-		}
+        
+        $res = $this->db->queryF($query, array('integer'), array($testId));
+        
+        while ($row = $this->db->fetchAssoc($res)) {
+            $this->byActiveId[ $row['active_id'] ] = $row;
+            
+            if ($row['user_id'] == ANONYMOUS_USER_ID) {
+                $this->byAnonymousId[ $row['anonymous_id'] ] = $row;
+            } else {
+                $this->byUserId[ $row['user_id'] ] = $row;
+            }
+        }
 
-		$this->setActiveIds(array_keys($this->byActiveId));
-		$this->setUserIds(array_keys($this->byUserId));
-		$this->setAnonymousIds(array_keys($this->byAnonymousId));
-	}
-	
-	public function getConditionalExpression()
-	{
-		$conditions = array();
-		
-		if( count($this->getActiveIds()) )
-		{
-			$conditions[] = $this->db->in('active_id', $this->getActiveIds(), false, 'integer');
-		}
+        $this->setActiveIds(array_keys($this->byActiveId));
+        $this->setUserIds(array_keys($this->byUserId));
+        $this->setAnonymousIds(array_keys($this->byAnonymousId));
+    }
+    
+    public function getConditionalExpression()
+    {
+        $conditions = array();
+        
+        if (count($this->getActiveIds())) {
+            $conditions[] = $this->db->in('active_id', $this->getActiveIds(), false, 'integer');
+        }
 
-		if( count($this->getUserIds()) )
-		{
-			$conditions[] = $this->db->in('user_fi', $this->getUserIds(), false, 'integer');
-		}
+        if (count($this->getUserIds())) {
+            $conditions[] = $this->db->in('user_fi', $this->getUserIds(), false, 'integer');
+        }
 
-		if( count($this->getAnonymousIds()) )
-		{
-			$conditions[] = $this->db->in('anonymous_id', $this->getAnonymousIds(), false, 'integer');
-		}
+        if (count($this->getAnonymousIds())) {
+            $conditions[] = $this->db->in('anonymous_id', $this->getAnonymousIds(), false, 'integer');
+        }
 
-		if( count($conditions) )
-		{
-			return '('.implode(' OR ', $conditions).')';
-		}
+        if (count($conditions)) {
+            return '(' . implode(' OR ', $conditions) . ')';
+        }
 
-		return '1 = 1';
-	}
+        return '1 = 1';
+    }
 
-	public function setActiveIds($activeIds)
-	{
-		$this->activeIds = $activeIds;
-	}
+    public function setActiveIds($activeIds)
+    {
+        $this->activeIds = $activeIds;
+    }
 
-	public function getActiveIds()
-	{
-		return $this->activeIds;
-	}
+    public function getActiveIds()
+    {
+        return $this->activeIds;
+    }
 
-	public function setUserIds($userIds)
-	{
-		$this->userIds = $userIds;
-	}
+    public function setUserIds($userIds)
+    {
+        $this->userIds = $userIds;
+    }
 
-	public function getUserIds()
-	{
-		return $this->userIds;
-	}
+    public function getUserIds()
+    {
+        return $this->userIds;
+    }
 
-	public function setAnonymousIds($anonymousIds)
-	{
-		$this->anonymousIds = $anonymousIds;
-	}
+    public function setAnonymousIds($anonymousIds)
+    {
+        $this->anonymousIds = $anonymousIds;
+    }
 
-	public function getAnonymousIds()
-	{
-		return $this->anonymousIds;
-	}
-	
-	public function getUserIdByActiveId($activeId)
-	{
-		return $this->byActiveId[$activeId]['user_id'];
-	}
+    public function getAnonymousIds()
+    {
+        return $this->anonymousIds;
+    }
+    
+    public function getUserIdByActiveId($activeId)
+    {
+        return $this->byActiveId[$activeId]['user_id'];
+    }
 
-	public function getActiveIdByUserId($userId)
-	{
-		return $this->byUserId[$userId]['active_id'];
-	}
-	
-	public function getConcatedFullnameByActiveId($activeId)
-	{
-		return "{$this->byActiveId[$activeId]['firstname']} {$this->byActiveId[$activeId]['lastname']}";
-	}
+    public function getActiveIdByUserId($userId)
+    {
+        return $this->byUserId[$userId]['active_id'];
+    }
+    
+    public function getConcatedFullnameByActiveId($activeId)
+    {
+        return "{$this->byActiveId[$activeId]['firstname']} {$this->byActiveId[$activeId]['lastname']}";
+    }
 
-	public function getFormatedFullnameByActiveId($activeId)
-	{
-		return $this->buildFormatedFullname($this->byActiveId[$activeId]);
-	}
+    public function getFormatedFullnameByActiveId($activeId)
+    {
+        return $this->buildFormatedFullname($this->byActiveId[$activeId]);
+    }
 
-	public function getFileSystemCompliantFullnameByActiveId($activeId)
-	{
-		$fullname = str_replace(' ', '', $this->byActiveId[$activeId]['lastname']);
-		$fullname .= '_'.str_replace(' ', '', $this->byActiveId[$activeId]['firstname']);
-		$fullname .= '_'.$this->byActiveId[$activeId]['login'];
-		
-		return ilUtil::getASCIIFilename($fullname);
-	}
-	
-	public function getOptionArray()
-	{
-		$options = array();
-		
-		foreach($this->byActiveId as $activeId => $usrData)
-		{
-			$options[$activeId] = $this->buildFormatedFullname($usrData);
-		}
-		
-		asort($options);
-		
-		return $options;
-	}
-	
-	private function buildFormatedFullname($usrData)
-	{
-		return sprintf(
-			$this->lng->txt('tst_participant_fullname_pattern'), $usrData['firstname'], $usrData['lastname']
-		);
-	}
-	
-	public function getAnonymousActiveIds()
-	{
-		$anonymousActiveIds = array();
-		
-		foreach($this->byActiveId as $activeId => $active)
-		{
-			if($active['user_id'] == ANONYMOUS_USER_ID)
-			{
-				$anonymousActiveIds[] = $activeId;
-			}
-		}
-		
-		return $anonymousActiveIds;
-	}
-	
-	public function getUserDataByActiveId($activeId)
-	{
-		if( isset($this->byActiveId[$activeId]) )
-		{
-			return $this->byActiveId[$activeId];
-		}
-		
-		return null;
-	}
+    public function getFileSystemCompliantFullnameByActiveId($activeId)
+    {
+        $fullname = str_replace(' ', '', $this->byActiveId[$activeId]['lastname']);
+        $fullname .= '_' . str_replace(' ', '', $this->byActiveId[$activeId]['firstname']);
+        $fullname .= '_' . $this->byActiveId[$activeId]['login'];
+        
+        return ilUtil::getASCIIFilename($fullname);
+    }
+    
+    public function getOptionArray()
+    {
+        $options = array();
+        
+        foreach ($this->byActiveId as $activeId => $usrData) {
+            $options[$activeId] = $this->buildFormatedFullname($usrData);
+        }
+        
+        asort($options);
+        
+        return $options;
+    }
+    
+    private function buildFormatedFullname($usrData)
+    {
+        return sprintf(
+            $this->lng->txt('tst_participant_fullname_pattern'),
+            $usrData['firstname'],
+            $usrData['lastname']
+        );
+    }
+    
+    public function getAnonymousActiveIds()
+    {
+        $anonymousActiveIds = array();
+        
+        foreach ($this->byActiveId as $activeId => $active) {
+            if ($active['user_id'] == ANONYMOUS_USER_ID) {
+                $anonymousActiveIds[] = $activeId;
+            }
+        }
+        
+        return $anonymousActiveIds;
+    }
+    
+    public function getUserDataByActiveId($activeId)
+    {
+        if (isset($this->byActiveId[$activeId])) {
+            return $this->byActiveId[$activeId];
+        }
+        
+        return null;
+    }
 }

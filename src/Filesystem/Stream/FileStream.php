@@ -17,6 +17,6 @@ use Psr\Http\Message\StreamInterface;
  *
  * @public
  */
-interface FileStream extends StreamInterface {
-
+interface FileStream extends StreamInterface
+{
 }

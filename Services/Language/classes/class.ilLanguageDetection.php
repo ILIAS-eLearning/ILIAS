@@ -11,48 +11,43 @@ require_once 'Services/Language/classes/class.ilLanguageDetectorFactory.php';
  */
 class ilLanguageDetection
 {
-	/**
-	 * @var ilLanguageDetectorFactory
-	 */
-	protected $factory;
+    /**
+     * @var ilLanguageDetectorFactory
+     */
+    protected $factory;
 
-	/**
-	 * 
-	 */
-	public function __construct()
-	{
-		$this->factory  = new ilLanguageDetectorFactory();
-	}
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->factory  = new ilLanguageDetectorFactory();
+    }
 
-	/**
-	 * @return string 
-	 */
-	public function detect()
-	{
-		/**
-		 * @var $ilLog ilLog
-		 */
-		global $ilLog;
+    /**
+     * @return string
+     */
+    public function detect()
+    {
+        /**
+         * @var $ilLog ilLog
+         */
+        global $ilLog;
 
-		$installed_languages = ilLanguage::_getInstalledLanguages();
-		$detected_language   = $installed_languages[0];
+        $installed_languages = ilLanguage::_getInstalledLanguages();
+        $detected_language   = $installed_languages[0];
 
-		foreach($this->factory->getValidInstances() as $detector)
-		{
-			try
-			{
-				$language = $detector->getIso2LanguageCode();
-				if(in_array($language, $installed_languages))
-				{
-					$detected_language = $language;
-				}
-			}
-			catch(ilLanguageException $e)
-			{
-				$ilLog->write(__METHOD__ . ' ' . $e->getMessage());
-			}
-		}
+        foreach ($this->factory->getValidInstances() as $detector) {
+            try {
+                $language = $detector->getIso2LanguageCode();
+                if (in_array($language, $installed_languages)) {
+                    $detected_language = $language;
+                }
+            } catch (ilLanguageException $e) {
+                $ilLog->write(__METHOD__ . ' ' . $e->getMessage());
+            }
+        }
 
-		return $detected_language;
-	}
+        return $detected_language;
+    }
 }

@@ -11,6 +11,4 @@
  */
 class ilCalCategoriesInitializedMultipleException extends ilException
 {
-
 }
-?>

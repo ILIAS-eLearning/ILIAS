@@ -11,6 +11,6 @@ namespace ILIAS\Filesystem\Exception;
  * @since 5.3
  * @version 1.0
  */
-class DirectoryNotFoundException extends IOException {
-
+class DirectoryNotFoundException extends IOException
+{
 }

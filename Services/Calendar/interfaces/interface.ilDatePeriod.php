@@ -31,31 +31,30 @@
 
 interface ilDatePeriod
 {
-	/**
-	 * Interface method get start
-	 *
-	 * @access public
-	 * @return ilDateTime
-	 * @static
-	 */
-	public function getStart();
-	
-	/**
-	 * Interface method get end
-	 *
-	 * @access public
-	 * @return ilDateTime
-	 * @static
-	 */
-	public function getEnd();
-	
-	
-	/**
-	 * is fullday
-	 *
-	 * @access public
-	 * @return bool fullday or not
-	 */
-	public function isFullday();
+    /**
+     * Interface method get start
+     *
+     * @access public
+     * @return ilDateTime
+     * @static
+     */
+    public function getStart();
+    
+    /**
+     * Interface method get end
+     *
+     * @access public
+     * @return ilDateTime
+     * @static
+     */
+    public function getEnd();
+    
+    
+    /**
+     * is fullday
+     *
+     * @access public
+     * @return bool fullday or not
+     */
+    public function isFullday();
 }
-?>

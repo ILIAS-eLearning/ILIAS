@@ -7,8 +7,7 @@
  * @author Thomas Joußen <tjoussen@databay.de>
  */
 
-interface ilAssLacQuestionExpressionInterface {
-
-
-	public function getQuestionIndex();
-} 
+interface ilAssLacQuestionExpressionInterface
+{
+    public function getQuestionIndex();
+}

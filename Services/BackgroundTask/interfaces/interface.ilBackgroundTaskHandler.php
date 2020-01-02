@@ -8,46 +8,46 @@
  * @ingroup ServicesBackgroundTask
  */
 interface ilBackgroundTaskHandler
-{		
-	/**
-	 * Constructor/Factory
-	 * @param ilBackgroundTask $a_task
-	 * @return \self
-	 */	
-	public static function getInstanceFromTask(ilBackgroundTask $a_task);
-	
-	/**
-	 * Get current task instance
-	 * 
-	 * @return \ilBackgroundTask
-	 */
-	public function getTask();
-		
-	/**
-	 * Init background task
-	 * 
-	 * @param mixed $a_params
-	 * @return \stdClass json
-	 */
-	public function init($a_params);
-	
-	/**
-	 * Process the task
-	 */
-	public function process();
-	
-	/**
-	 * Cancel the task
-	 */
-	public function cancel();
-	
-	/**
-	 * Finish the task
-	 */
-	public function finish();
-	
-	/**
-	 * Remove task and its files
-	 */
-	public function deleteTaskAndFiles();
+{
+    /**
+     * Constructor/Factory
+     * @param ilBackgroundTask $a_task
+     * @return \self
+     */
+    public static function getInstanceFromTask(ilBackgroundTask $a_task);
+    
+    /**
+     * Get current task instance
+     *
+     * @return \ilBackgroundTask
+     */
+    public function getTask();
+        
+    /**
+     * Init background task
+     *
+     * @param mixed $a_params
+     * @return \stdClass json
+     */
+    public function init($a_params);
+    
+    /**
+     * Process the task
+     */
+    public function process();
+    
+    /**
+     * Cancel the task
+     */
+    public function cancel();
+    
+    /**
+     * Finish the task
+     */
+    public function finish();
+    
+    /**
+     * Remove task and its files
+     */
+    public function deleteTaskAndFiles();
 }

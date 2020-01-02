@@ -7,25 +7,24 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableM
  *
  * @package     Modules/TestQuestionPool
  */
-class ilAssLongMenuFeedback  extends ilAssMultiOptionQuestionFeedback
+class ilAssLongMenuFeedback extends ilAssMultiOptionQuestionFeedback
 {
+    const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_lome';
 
-	const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_lome';
+    protected function getSpecificQuestionTableName()
+    {
+        return self::SPECIFIC_QUESTION_TABLE_NAME;
+    }
+    
+    public function getAnswerOptionsByAnswerIndex()
+    {
+        return $this->questionOBJ->getAnswers();
+    }
 
-	protected function getSpecificQuestionTableName()
-	{
-		return self::SPECIFIC_QUESTION_TABLE_NAME;
-	}
-	
-	public function getAnswerOptionsByAnswerIndex()
-	{
-		return $this->questionOBJ->getAnswers();
-	}
-
-	protected function buildAnswerOptionLabel($index, $answers)
-	{
-		$counter = $index + 1;
-		$caption = 'Longmenu '. $counter ;
-		return $caption;
-	}
+    protected function buildAnswerOptionLabel($index, $answers)
+    {
+        $counter = $index + 1;
+        $caption = 'Longmenu ' . $counter ;
+        return $caption;
+    }
 }

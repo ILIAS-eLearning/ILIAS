@@ -19,17 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class Output_css
 {
-	function __construct()
-	{
-		$this->code		= '_WORD_';
-		$this->linecomment 	= '<span class="ilc_CodeLinecomment">_WORD_</span>';
-		$this->blockcomment 	= '<span class="ilc_CodeBlockcomment">_WORD_</span>';
-		$this->prepro 		= '<span class="ilc_CodePrepro">_WORD_</span>';
-		$this->select 		= '<span class="ilc_CodeSelect">_WORD_</span>';
-		$this->quote 		= '<span class="ilc_CodeQuote">_WORD_</span>';
-		$this->category_1 	= '<span class="ilc_CodeCategory_1">_WORD_</span>';
-		$this->category_2 	= '<span class="ilc_CodeCategory_2">_WORD_</span>';
-		$this->category_3 	= '<span class="ilc_CodeCategory_3">_WORD_</span>';
-	}
+    public function __construct()
+    {
+        $this->code		= '_WORD_';
+        $this->linecomment 	= '<span class="ilc_CodeLinecomment">_WORD_</span>';
+        $this->blockcomment 	= '<span class="ilc_CodeBlockcomment">_WORD_</span>';
+        $this->prepro 		= '<span class="ilc_CodePrepro">_WORD_</span>';
+        $this->select 		= '<span class="ilc_CodeSelect">_WORD_</span>';
+        $this->quote 		= '<span class="ilc_CodeQuote">_WORD_</span>';
+        $this->category_1 	= '<span class="ilc_CodeCategory_1">_WORD_</span>';
+        $this->category_2 	= '<span class="ilc_CodeCategory_2">_WORD_</span>';
+        $this->category_3 	= '<span class="ilc_CodeCategory_3">_WORD_</span>';
+    }
 }
-?>

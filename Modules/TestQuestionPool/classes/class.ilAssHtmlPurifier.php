@@ -11,43 +11,43 @@ require_once 'Services/Html/classes/class.ilHtmlPurifierAbstractLibWrapper.php';
  */
 abstract class ilAssHtmlPurifier extends ilHtmlPurifierAbstractLibWrapper
 {
-	protected function getPurifierType()
-	{
-		return 'assessment';
-	}
+    protected function getPurifierType()
+    {
+        return 'assessment';
+    }
 
-	/**
-	 * @return	HTMLPurifier_Config Instance of HTMLPurifier_Config
-	 */
-	protected function getPurifierConfigInstance()
-	{
-		$config = HTMLPurifier_Config::createDefault();
-		$config->set('HTML.DefinitionID', $this->getPurifierType());
-		$config->set('HTML.DefinitionRev', 1);
-		$config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
-		$config->set('HTML.Doctype', 'XHTML 1.0 Strict');
-		$config->set('HTML.AllowedElements', $this->getAllowedElements());
-		$config->set('HTML.ForbiddenAttributes', 'div@style');
-		if ($def = $config->maybeGetRawHTMLDefinition()) {
-			$def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
-		}
+    /**
+     * @return	HTMLPurifier_Config Instance of HTMLPurifier_Config
+     */
+    protected function getPurifierConfigInstance()
+    {
+        $config = HTMLPurifier_Config::createDefault();
+        $config->set('HTML.DefinitionID', $this->getPurifierType());
+        $config->set('HTML.DefinitionRev', 1);
+        $config->set('Cache.SerializerPath', ilHtmlPurifierAbstractLibWrapper::_getCacheDirectory());
+        $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
+        $config->set('HTML.AllowedElements', $this->getAllowedElements());
+        $config->set('HTML.ForbiddenAttributes', 'div@style');
+        if ($def = $config->maybeGetRawHTMLDefinition()) {
+            $def->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
+        }
 
-		return $config;
-	}
-	
-	private function getAllowedElements()
-	{
-		$allowedElements = $this->getElementsUsedForAdvancedEditing();
-		
-		$allowedElements = $this->makeElementListTinyMceCompliant($allowedElements);
-		$allowedElements = $this->removeUnsupportedElements($allowedElements);
-		
-		return $allowedElements;
-	}
-	
-	private function getElementsUsedForAdvancedEditing()
-	{
-		include_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
-		return ilObjAdvancedEditing::_getUsedHTMLTags($this->getPurifierType());
-	}
-} 
+        return $config;
+    }
+    
+    private function getAllowedElements()
+    {
+        $allowedElements = $this->getElementsUsedForAdvancedEditing();
+        
+        $allowedElements = $this->makeElementListTinyMceCompliant($allowedElements);
+        $allowedElements = $this->removeUnsupportedElements($allowedElements);
+        
+        return $allowedElements;
+    }
+    
+    private function getElementsUsedForAdvancedEditing()
+    {
+        include_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+        return ilObjAdvancedEditing::_getUsedHTMLTags($this->getPurifierType());
+    }
+}

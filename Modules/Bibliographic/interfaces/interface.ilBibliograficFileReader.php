@@ -5,17 +5,18 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilBibliograficFileReader {
+interface ilBibliograficFileReader
+{
 
-	/**
-	 * @param $path_to_file
-	 * @return bool
-	 */
-	public function readContent($path_to_file);
+    /**
+     * @param $path_to_file
+     * @return bool
+     */
+    public function readContent($path_to_file);
 
 
-	/**
-	 * @return array
-	 */
-	public function parseContent();
+    /**
+     * @return array
+     */
+    public function parseContent();
 }

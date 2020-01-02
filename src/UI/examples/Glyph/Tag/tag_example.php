@@ -1,8 +1,9 @@
 <?php
-function tag_example() {
-	global $DIC;
-	$f = $DIC->ui()->factory();
-	$renderer = $DIC->ui()->renderer();
+function tag_example()
+{
+    global $DIC;
+    $f = $DIC->ui()->factory();
+    $renderer = $DIC->ui()->renderer();
 
-	return $renderer->render($f->glyph()->tag("#"));
+    return $renderer->render($f->glyph()->tag("#"));
 }

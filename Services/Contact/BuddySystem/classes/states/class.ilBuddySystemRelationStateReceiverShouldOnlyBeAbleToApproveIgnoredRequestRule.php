@@ -9,35 +9,32 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRel
  */
 class ilBuddySystemRelationStateReceiverShouldOnlyBeAbleToApproveIgnoredRequestRule extends ilBuddySystemRelationStateFilterRule
 {
-	/**
-	 * @return bool
-	 */
-	public function matches()
-	{
-		if(!$this->relation->isIgnored())
-		{
-			return false;
-		}
+    /**
+     * @return bool
+     */
+    public function matches()
+    {
+        if (!$this->relation->isIgnored()) {
+            return false;
+        }
 
-		if($this->relation->isOwnedByRequest())
-		{
-			return false;
-		}
+        if ($this->relation->isOwnedByRequest()) {
+            return false;
+        }
 
-		return true;
-	}
+        return true;
+    }
 
-	/**
-	 * @param ilBuddySystemRelationState $state
-	 * @return boolean
-	 */
-	public function __invoke(ilBuddySystemRelationState $state)
-	{
-		if($state instanceof ilBuddySystemLinkedRelationState)
-		{
-			return true;
-		}
+    /**
+     * @param ilBuddySystemRelationState $state
+     * @return boolean
+     */
+    public function __invoke(ilBuddySystemRelationState $state)
+    {
+        if ($state instanceof ilBuddySystemLinkedRelationState) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 }

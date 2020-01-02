@@ -9,76 +9,76 @@ require_once 'Services/Mail/interfaces/interface.ilMailAddressType.php';
  */
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
-	/**
-	 * @var \ilMailAddress
-	 */
-	protected $address;
+    /**
+     * @var \ilMailAddress
+     */
+    protected $address;
 
-	/**
-	 * @var \ilRbacSystem
-	 */
-	protected $rbacsystem;
+    /**
+     * @var \ilRbacSystem
+     */
+    protected $rbacsystem;
 
-	/**
-	 * @var \ilRbacReview
-	 */
-	protected $rbacreview;
+    /**
+     * @var \ilRbacReview
+     */
+    protected $rbacreview;
 
-	/**
-	 * @var array
-	 */
-	protected $errors = array();
+    /**
+     * @var array
+     */
+    protected $errors = array();
 
-	/**
-	 * ilBaseMailAddressType constructor.
-	 * @param \ilMailAddress $a_address
-	 */
-	public function __construct(\ilMailAddress $a_address)
-	{
-		global $DIC;
+    /**
+     * ilBaseMailAddressType constructor.
+     * @param \ilMailAddress $a_address
+     */
+    public function __construct(\ilMailAddress $a_address)
+    {
+        global $DIC;
 
-		$this->rbacsystem = $DIC->rbac()->system();
-		$this->rbacreview = $DIC->rbac()->review();
+        $this->rbacsystem = $DIC->rbac()->system();
+        $this->rbacreview = $DIC->rbac()->review();
 
-		$this->address = $a_address;
-		$this->init();
-	}
+        $this->address = $a_address;
+        $this->init();
+    }
 
-	/**
-	 * 
-	 */
-	protected function init()
-	{
-	}
+    /**
+     *
+     */
+    protected function init()
+    {
+    }
 
-	/**
-	 * @param $a_sender_id integer
-	 * @return boolean
-	 */
-	abstract protected function isValid($a_sender_id);
+    /**
+     * @param $a_sender_id integer
+     * @return boolean
+     */
+    abstract protected function isValid($a_sender_id);
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function validate($a_sender_id)
-	{
-		$this->resetErrors();
-		return $this->isValid($a_sender_id);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function validate($a_sender_id)
+    {
+        $this->resetErrors();
+        return $this->isValid($a_sender_id);
+    }
 
-	/**
-	 * 
-	 */
-	private function resetErrors()
-	{
-		$this->errors = array();
-	}
+    /**
+     *
+     */
+    private function resetErrors()
+    {
+        $this->errors = array();
+    }
 
-	/**
-	 * @return array
-	 */
-	public function getErrors()
-	{
-		return $this->errors;
-	}
+    /**
+     * @return array
+     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
 }

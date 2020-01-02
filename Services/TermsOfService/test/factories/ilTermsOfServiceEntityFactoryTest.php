@@ -11,44 +11,44 @@ require_once 'Services/TermsOfService/test/ilTermsOfServiceBaseTest.php';
  */
 class ilTermsOfServiceEntityFactoryTest extends ilTermsOfServiceBaseTest
 {
-	/**
-	 * @var bool
-	 */
-	protected $backupGlobals = false;
+    /**
+     * @var bool
+     */
+    protected $backupGlobals = false;
 
-	/**
-	 *
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-	}
+    /**
+     *
+     */
+    public function setUp()
+    {
+        parent::setUp();
+    }
 
-	/**
-	 *
-	 */
-	public function testInstanceCanBeCreated()
-	{
-		$factory = new ilTermsOfServiceEntityFactory();
-		$this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
-	}
+    /**
+     *
+     */
+    public function testInstanceCanBeCreated()
+    {
+        $factory = new ilTermsOfServiceEntityFactory();
+        $this->assertInstanceOf('ilTermsOfServiceEntityFactory', $factory);
+    }
 
-	/**
-	 * @expectedException InvalidArgumentException
-	 */
-	public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
-	{
-		$this->assertException(InvalidArgumentException::class);
-		$factory = new ilTermsOfServiceEntityFactory();
-		$factory->getByName('PHP Unit');
-	}
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testExceptionIsRaisedWhenUnknowEntityIsRequested()
+    {
+        $this->assertException(InvalidArgumentException::class);
+        $factory = new ilTermsOfServiceEntityFactory();
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 *
-	 */
-	public function testAcceptanceEntityIsReturnedWhenRequestedByName()
-	{
-		$factory = new ilTermsOfServiceEntityFactory();
-		$this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $factory->getByName('ilTermsOfServiceAcceptanceEntity'));
-	}
+    /**
+     *
+     */
+    public function testAcceptanceEntityIsReturnedWhenRequestedByName()
+    {
+        $factory = new ilTermsOfServiceEntityFactory();
+        $this->assertInstanceOf('ilTermsOfServiceAcceptanceEntity', $factory->getByName('ilTermsOfServiceAcceptanceEntity'));
+    }
 }

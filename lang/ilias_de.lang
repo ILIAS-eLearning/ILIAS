@@ -497,7 +497,7 @@ assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den 
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Test noch keine Fragen und/oder Noten hinzugefügt wurden!
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da dem Test noch keine Fragen und/oder Noten hinzugefügt wurden!
 assessment#:#changeSuggestedSolution#:#Art der Inhalte zur Wiederholung auswählen
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
@@ -586,6 +586,7 @@ assessment#:#tst_conflict_reset_fbh_force#:#Die Einstellung "Antworten nach Rüc
 assessment#:#enlarge#:#vergrößern
 assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
+assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erziehlen. Bitte geben Sie eine positive Punktezahl für das Auwählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
 assessment#:#error_importing_question#:#Beim Importieren der Frage(n) ist ein Fehler aufgetreten!
 assessment#:#error_open_image_file#:#Fehler beim Öffnen einer Bilddatei!
@@ -2476,20 +2477,20 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
+common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
-common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -5051,7 +5052,7 @@ content#:#glo_presentation_view#:#Präsentationsansicht
 content#:#glo_quick_navigation#:#Schnellzugriff
 content#:#glo_table_form#:#Tabelle
 content#:#glo_table_form_info#:#Begriffe und gekürzte Definitionen werden in einer Übersichtstabelle dargestellt. Beim Anklicken eines Begriffes wird dieser mit der vollständigen Definition angezeigt.
-content#:#glo_term_is_used_n_times#:#Der Begriff wird %s in Lernmodulen verwendet.
+content#:#glo_term_is_used_n_times#:#Der Begriff wird %s Mal verwendet.
 content#:#glo_term_used_in#:#Folgende Ressourcen verweisen auf diesen Begriff
 content#:#glo_text_snippet_length#:#Länge der gekürzten Definitionen
 content#:#glo_text_snippet_length_info#:#Anzahl der Zeichen, nach der Definitionen in der Übersichtstabelle abgeschnitten werden.
@@ -8250,6 +8251,7 @@ skmg#:#skmg_cert_skill_level_title#:#Titel Kompetenzausprägung
 skmg#:#skmg_cert_skill_title#:#Titel Kompetenz
 skmg#:#skmg_cert_skill_trigger_title#:#Titel Auslöser
 skmg#:#skmg_create_sctp#:#Vorlagenkategorie erstellen
+skmg#:#skmg_edit_sctp#:#Vorlagenkategorie bearbeiten
 skmg#:#skmg_create_skill_category#:#Kategorie erstellen
 skmg#:#skmg_create_skill_template#:#Vorlage erstellen
 skmg#:#skmg_create_skill_template_category#:#Vorlagenkategorie erstellen
@@ -8418,7 +8420,7 @@ style#:#sty_media_char#:#Medien
 style#:#sty_min_height#:#Minimale Höhe
 style#:#sty_move_lm_styles#:#Stylesheets der Lernmodule ändern
 style#:#sty_move_style#:#Stylesheet ändern
-style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles darf nur die folgenden Zeichen enthalten
+style#:#sty_msg_characteristic_must_only_include#:#Der Titel des Styles muss mit einem Buchstaben beginnen und darf nur die folgenden Zeichen enthalten
 style#:#sty_msg_color_must_only_include#:#Der Farbname darf nur folgende Buchstaben/Zeichen enthalten
 style#:#sty_msg_input_must_be_numeric#:#Numerische Eingabe erforderlich.
 style#:#sty_name#:#Name
@@ -13269,6 +13271,7 @@ logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
 logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
@@ -14247,3 +14250,4 @@ lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.

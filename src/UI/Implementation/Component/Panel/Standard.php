@@ -5,10 +5,11 @@
 namespace ILIAS\UI\Implementation\Component\Panel;
 
 use ILIAS\UI\Component as C;
+
 /**
  * Class Standard
  * @package ILIAS\UI\Implementation\Component\Standard
  */
-class Standard extends Panel implements C\Panel\Standard {
+class Standard extends Panel implements C\Panel\Standard
+{
 }
-?>

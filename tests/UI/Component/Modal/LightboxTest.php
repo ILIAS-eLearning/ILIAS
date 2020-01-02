@@ -9,34 +9,39 @@ use \ILIAS\UI\Component as C;
  *
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class LightboxTest extends ModalBase {
+class LightboxTest extends ModalBase
+{
+    public function test_get_single_page()
+    {
+        $page = $this->getLightboxPage();
+        $lightbox = $this->getModalFactory()->lightbox($page);
+        $this->assertEquals([$page], $lightbox->getPages());
+    }
 
-	public function test_get_single_page() {
-		$page = $this->getLightboxPage();
-		$lightbox = $this->getModalFactory()->lightbox($page);
-		$this->assertEquals([$page], $lightbox->getPages());
-	}
+    public function test_get_multiple_page()
+    {
+        $pages = [$this->getLightboxPage(), $this->getLightboxPage()];
+        $lightbox = $this->getModalFactory()->lightbox($pages);
+        $this->assertEquals($pages, $lightbox->getPages());
+    }
 
-	public function test_get_multiple_page() {
-		$pages = [$this->getLightboxPage(), $this->getLightboxPage()];
-		$lightbox = $this->getModalFactory()->lightbox($pages);
-		$this->assertEquals($pages, $lightbox->getPages());
-	}
+    public function test_simple_rendering()
+    {
+        $image = $this->getUIFactory()->image()->responsive('src/fake/image.jpg', 'description');
+        $lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxImagePage($image, 'title'));
+        $expected = $this->normalizeHTML($this->getExpectedHTML());
+        $actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
+        $this->assertEquals($expected, $actual);
+    }
 
-	public function test_simple_rendering() {
-		$image = $this->getUIFactory()->image()->responsive('src/fake/image.jpg', 'description');
-		$lightbox = $this->getModalFactory()->lightbox($this->getUIFactory()->modal()->lightboxImagePage($image, 'title'));
-		$expected = $this->normalizeHTML($this->getExpectedHTML());
-		$actual = $this->normalizeHTML($this->getDefaultRenderer()->render($lightbox));
-		$this->assertEquals($expected, $actual);
-	}
+    protected function getLightboxPage()
+    {
+        return new LightboxMockPage();
+    }
 
-	protected function getLightboxPage() {
-		return new LightboxMockPage();
-	}
-
-	protected function getExpectedHTML() {
-		$expected = <<<EOT
+    protected function getExpectedHTML()
+    {
+        $expected = <<<EOT
 <div class="modal fade il-modal-lightbox" tabindex="-1" role="dialog" id="id_1">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content il-modal-lightbox-page">
@@ -84,21 +89,24 @@ class LightboxTest extends ModalBase {
 </script>
 EOT;
 
-		return $expected;
-	}
+        return $expected;
+    }
 }
 
-class LightboxMockPage implements C\Modal\LightboxPage {
+class LightboxMockPage implements C\Modal\LightboxPage
+{
+    public function getTitle()
+    {
+        return 'title';
+    }
 
-	public function getTitle() {
-		return 'title';
-	}
+    public function getDescription()
+    {
+        return 'description';
+    }
 
-	public function getDescription() {
-		return 'description';
-	}
-
-	public function getComponent() {
-		return new ComponentDummy();
-	}
+    public function getComponent()
+    {
+        return new ComponentDummy();
+    }
 }

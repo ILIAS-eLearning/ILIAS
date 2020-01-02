@@ -16,6 +16,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixLengthsPsr4 = array (
+        'e' => 
+        array (
+            'enshrined\\svgSanitize\\' => 22,
+        ),
         'c' => 
         array (
             'cweagans\\Composer\\' => 18,
@@ -81,6 +85,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
     );
 
     public static $prefixDirsPsr4 = array (
+        'enshrined\\svgSanitize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
+        ),
         'cweagans\\Composer\\' => 
         array (
             0 => __DIR__ . '/..' . '/cweagans/composer-patches/src',
@@ -956,6 +964,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ILIAS\\FileUpload\\Processor\\WhitelistFileHeaderPreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistFileHeaderPreProcessor.php',
         'ILIAS\\FileUpload\\Processor\\WhitelistMimeTypePreProcessor' => __DIR__ . '/../..' . '/../../src/FileUpload/Processor/WhitelistMimeTypePreProcessor.php',
         'ILIAS\\FileUpload\\ScalarTypeCheckAware' => __DIR__ . '/../..' . '/../../src/FileUpload/ScalarTypeCheckAware.php',
+        'ILIAS\\File\\Sanitation\\FilePathSanitizer' => __DIR__ . '/../..' . '/../../Modules/File/classes/Sanitation/FilePathSanitizer.php',
         'ILIAS\\Filesystem\\DTO\\Metadata' => __DIR__ . '/../..' . '/../../src/Filesystem/DTO/Metadata.php',
         'ILIAS\\Filesystem\\Decorator\\FilesystemWhitelistDecorator' => __DIR__ . '/../..' . '/../../src/Filesystem/Decorator/FilesystemWhitelistDecorator.php',
         'ILIAS\\Filesystem\\Decorator\\ReadOnlyDecorator' => __DIR__ . '/../..' . '/../../src/Filesystem/Decorator/ReadOnlyDecorator.php',
@@ -1684,6 +1693,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'Psr\\Log\\Test\\LoggerInterfaceTest' => __DIR__ . '/..' . '/psr/log/Psr/Log/Test/LoggerInterfaceTest.php',
         'QRcode' => __DIR__ . '/..' . '/tecnickcom/tcpdf/include/barcodes/qrcode.php',
         'RSSCache' => __DIR__ . '/../..' . '/../../Services/Feeds/magpierss/rss_cache.inc',
+        'RobRichards\\XMLSecLibs\\Utils\\XPath' => __DIR__ . '/..' . '/robrichards/xmlseclibs/src/Utils/XPath.php',
         'RobRichards\\XMLSecLibs\\XMLSecEnc' => __DIR__ . '/..' . '/robrichards/xmlseclibs/src/XMLSecEnc.php',
         'RobRichards\\XMLSecLibs\\XMLSecurityDSig' => __DIR__ . '/..' . '/robrichards/xmlseclibs/src/XMLSecurityDSig.php',
         'RobRichards\\XMLSecLibs\\XMLSecurityKey' => __DIR__ . '/..' . '/robrichards/xmlseclibs/src/XMLSecurityKey.php',
@@ -2593,6 +2603,11 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'cweagans\\Composer\\PatchEvent' => __DIR__ . '/..' . '/cweagans/composer-patches/src/PatchEvent.php',
         'cweagans\\Composer\\PatchEvents' => __DIR__ . '/..' . '/cweagans/composer-patches/src/PatchEvents.php',
         'cweagans\\Composer\\Patches' => __DIR__ . '/..' . '/cweagans/composer-patches/src/Patches.php',
+        'enshrined\\svgSanitize\\Sanitizer' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/Sanitizer.php',
+        'enshrined\\svgSanitize\\data\\AllowedAttributes' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedAttributes.php',
+        'enshrined\\svgSanitize\\data\\AllowedTags' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AllowedTags.php',
+        'enshrined\\svgSanitize\\data\\AttributeInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/AttributeInterface.php',
+        'enshrined\\svgSanitize\\data\\TagInterface' => __DIR__ . '/..' . '/enshrined/svg-sanitize/src/data/TagInterface.php',
         'getID3' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/getid3.php',
         'getID3_cached_dbm' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/extension.cache.dbm.php',
         'getID3_cached_mysql' => __DIR__ . '/..' . '/james-heinrich/getid3/getid3/extension.cache.mysql.php',
@@ -5437,7 +5452,6 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilObjectTranslationTableGUI' => __DIR__ . '/../..' . '/../../Services/Object/classes/class.ilObjectTranslationTableGUI.php',
         'ilObjectTypeMismatchException' => __DIR__ . '/../..' . '/../../Services/Object/exceptions/class.ilObjectTypeMismatchException.php',
         'ilObjectivesAlignmentTableGUI' => __DIR__ . '/../..' . '/../../Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
-        'ilOnScreenChat' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChat.php',
         'ilOnScreenChatAppEventListener' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatAppEventListener.php',
         'ilOnScreenChatGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
         'ilOnScreenChatMenuGUI' => __DIR__ . '/../..' . '/../../Services/OnScreenChat/classes/class.ilOnScreenChatMenuGUI.php',
@@ -6445,6 +6459,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTestPassFinishTasks' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPassFinishTasks.php',
         'ilTestPassManualScoringOverviewTableGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php',
         'ilTestPassOverviewTableGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php',
+        'ilTestPassWorkingTimeRecord' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPassWorkingTimeRecord.php',
+        'ilTestPassWorkingTimeRecordList' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPassWorkingTimeRecordList.php',
         'ilTestPassesSelector' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPassesSelector.php',
         'ilTestPasswordChecker' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPasswordChecker.php',
         'ilTestPasswordProtectionGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestPasswordProtectionGUI.php',
@@ -6478,6 +6494,8 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTestQuestionSetConfig' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestQuestionSetConfig.php',
         'ilTestQuestionSetConfigFactory' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php',
         'ilTestQuestionSideListGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestQuestionSideListGUI.php',
+        'ilTestQuestionWorkingTimeRecord' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestQuestionWorkingTimeRecord.php',
+        'ilTestQuestionWorkingTimeRecordList' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestQuestionWorkingTimeRecordList.php',
         'ilTestQuestionsTableGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php',
         'ilTestRandomQuestionCollectionSubsetApplication' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestRandomQuestionCollectionSubsetApplication.php',
         'ilTestRandomQuestionCollectionSubsetApplicationList' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestRandomQuestionCollectionSubsetApplicationList.php',
@@ -6554,6 +6572,10 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilTestVerificationTableGUI' => __DIR__ . '/../..' . '/../../Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php',
         'ilTestVirtualSequence' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestVirtualSequence.php',
         'ilTestVirtualSequenceRandomQuestionSet' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestVirtualSequenceRandomQuestionSet.php',
+        'ilTestWorkingTimeDbStore' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestWorkingTimeDbStore.php',
+        'ilTestWorkingTimeManager' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestWorkingTimeManager.php',
+        'ilTestWorkingTimeRecord' => __DIR__ . '/../..' . '/../../Modules/Test/interfaces/interface.ilTestWorkingTimeRecord.php',
+        'ilTestWorkingTimeRecordList' => __DIR__ . '/../..' . '/../../Modules/Test/classes/class.ilTestWorkingTimeRecordList.php',
         'ilTestingHandler' => __DIR__ . '/../..' . '/../../Services/Exceptions/classes/class.ilTestingHandler.php',
         'ilTextAnnotationElement' => __DIR__ . '/../..' . '/../../Services/WorkflowEngine/classes/parser/elements/annotation/class.ilTextAnnotationElement.php',
         'ilTextAreaInputGUI' => __DIR__ . '/../..' . '/../../Services/Form/classes/class.ilTextAreaInputGUI.php',
@@ -6699,6 +6721,7 @@ class ComposerStaticInit2fffdf922cf8fdbf1f62eec345993c83
         'ilWaitingListTableGUI' => __DIR__ . '/../..' . '/../../Services/Membership/classes/class.ilWaitingListTableGUI.php',
         'ilWebAccessChecker' => __DIR__ . '/../..' . '/../../Services/WebAccessChecker/classes/class.ilWebAccessChecker.php',
         'ilWebAccessCheckerDelivery' => __DIR__ . '/../..' . '/../../Services/WebAccessChecker/classes/class.ilWebAccessCheckerDelivery.php',
+        'ilWebDAVAuthentication' => __DIR__ . '/../..' . '/../../Services/WebDAV/classes/auth/class.ilWebDAVAuthentication.php',
         'ilWebLinkXmlParser' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParser.php',
         'ilWebLinkXmlParserException' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlParserException.php',
         'ilWebLinkXmlWriter' => __DIR__ . '/../..' . '/../../Modules/WebResource/classes/class.ilWebLinkXmlWriter.php',

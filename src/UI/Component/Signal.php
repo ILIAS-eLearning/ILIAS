@@ -10,20 +10,20 @@ namespace ILIAS\UI\Component;
  *
  * @package ILIAS\UI\Component
  */
-interface Signal {
+interface Signal
+{
 
-	/**
-	 * Get the ID of this signal
-	 *
-	 * @return string
-	 */
-	public function getId();
+    /**
+     * Get the ID of this signal
+     *
+     * @return string
+     */
+    public function getId();
 
-	/**
-	 * Get the options of this signal
-	 *
-	 * @return array
-	 */
-	public function getOptions();
-
+    /**
+     * Get the options of this signal
+     *
+     * @return array
+     */
+    public function getOptions();
 }

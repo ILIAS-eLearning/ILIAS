@@ -4,4 +4,3 @@
  * - security issues
  * - php7 compatibility
  */
-?>

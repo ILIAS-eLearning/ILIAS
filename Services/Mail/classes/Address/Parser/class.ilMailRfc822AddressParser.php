@@ -9,26 +9,26 @@ require_once 'Services/Mail/classes/Address/Parser/class.ilBaseMailRfc822Address
  */
 class ilMailRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
-	/**
-	 * @var ilBaseMailRfc822AddressParser
-	 */
-	protected $aggregated_parser;
+    /**
+     * @var ilBaseMailRfc822AddressParser
+     */
+    protected $aggregated_parser;
 
-	/**
-	 * @param ilBaseMailRfc822AddressParser $a_addresses
-	 */
-	public function __construct(ilBaseMailRfc822AddressParser $a_addresses)
-	{
-		parent::__construct($a_addresses->getAddresses());
-		$this->aggregated_parser = $a_addresses;
-	}
+    /**
+     * @param ilBaseMailRfc822AddressParser $a_addresses
+     */
+    public function __construct(ilBaseMailRfc822AddressParser $a_addresses)
+    {
+        parent::__construct($a_addresses->getAddresses());
+        $this->aggregated_parser = $a_addresses;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function parseAddressString($a_addresses)
-	{
-		// @todo: Use an own ILIAS parser instead
-		return $this->aggregated_parser->parse();
-	}
+    /**
+     * {@inheritdoc}
+     */
+    protected function parseAddressString($a_addresses)
+    {
+        // @todo: Use an own ILIAS parser instead
+        return $this->aggregated_parser->parse();
+    }
 }

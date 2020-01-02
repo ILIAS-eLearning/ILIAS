@@ -12,22 +12,21 @@
 */
 interface ilMembershipRegistrationCodes
 {
-	/**
-	 * Lookup all objects with reg_access_code enabled and 
-	 * @param object $a_code
-	 * @return 
-	 */
-	public static function lookupObjectsByCode($a_code);
-	
-	
-	/**
-	 * Register an user.
-	 * 
-	 * @todo Throw exeption if registration is impossible due to other restrictions.
-	 * 
-	 * @param object $a_user_id
-	 * @return 
-	 */
-	public function register($a_user_id);
+    /**
+     * Lookup all objects with reg_access_code enabled and
+     * @param object $a_code
+     * @return
+     */
+    public static function lookupObjectsByCode($a_code);
+    
+    
+    /**
+     * Register an user.
+     *
+     * @todo Throw exeption if registration is impossible due to other restrictions.
+     *
+     * @param object $a_user_id
+     * @return
+     */
+    public function register($a_user_id);
 }
-?>

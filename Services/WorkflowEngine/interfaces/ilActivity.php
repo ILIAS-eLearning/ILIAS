@@ -6,7 +6,7 @@
  *
  * Please see the reference implemenations for details:
  * @see class.ilLoggingActivity.php
- * 
+ *
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$
  *
@@ -14,8 +14,8 @@
  */
 interface ilActivity
 {
-	/**
-	 * @return mixed
-	 */
-	public function execute();
+    /**
+     * @return mixed
+     */
+    public function execute();
 }

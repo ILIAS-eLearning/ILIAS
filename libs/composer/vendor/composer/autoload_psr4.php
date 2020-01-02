@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'enshrined\\svgSanitize\\' => array($vendorDir . '/enshrined/svg-sanitize/src'),
     'cweagans\\Composer\\' => array($vendorDir . '/cweagans/composer-patches/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'WhiteHat101\\Crypt\\' => array($vendorDir . '/whitehat101/apr1-md5/src'),

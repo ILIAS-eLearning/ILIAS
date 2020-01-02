@@ -11,20 +11,22 @@ require_once('./Services/UIComponent/classes/class.ilUIHookProcessor.php');
  *
  * @ingroup ServicesRouter
  */
-class ilUIPluginRouterGUI {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+class ilUIPluginRouterGUI
+{
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
 
     /** @var  ilCtrl */
     protected $ilCtrl;
 
-    function __construct() {
-		global $DIC;
+    public function __construct()
+    {
+        global $DIC;
 
-		$ilCtrl = $DIC->ctrl();
+        $ilCtrl = $DIC->ctrl();
 
         $this->ctrl = $ilCtrl;
     }
@@ -32,7 +34,8 @@ class ilUIPluginRouterGUI {
     /**
      * The only thing this execute Command does is forward the command in the command chain.
      */
-    function executeCommand() {
+    public function executeCommand()
+    {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             default:
@@ -42,7 +45,7 @@ class ilUIPluginRouterGUI {
                     $gui = new $next_class();
                     $this->ctrl->forwardCommand($gui);
                 } else {
-                    ilUtil::sendFailure('Plugin GUI-Class not found! ('.$next_class.')');
+                    ilUtil::sendFailure('Plugin GUI-Class not found! (' . $next_class . ')');
                 }
                 break;
         }

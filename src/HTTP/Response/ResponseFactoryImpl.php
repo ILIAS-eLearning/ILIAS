@@ -17,12 +17,14 @@ use GuzzleHttp\Psr7\Response;
  *
  * @author  Nicolas Schaefli <ns@studer-raimann.ch>
  */
-class ResponseFactoryImpl implements ResponseFactory {
+class ResponseFactoryImpl implements ResponseFactory
+{
 
-	/**
-	 * @inheritdoc
-	 */
-	public function create() {
-		return new Response();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function create()
+    {
+        return new Response();
+    }
 }

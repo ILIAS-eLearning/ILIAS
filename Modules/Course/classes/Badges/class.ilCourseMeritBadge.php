@@ -5,7 +5,7 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
 
 /**
  * Class ilCourseMeritBadge
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
@@ -13,29 +13,29 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeType.php";
  */
 class ilCourseMeritBadge implements ilBadgeType
 {
-	public function getId()
-	{
-		return "merit";
-	}
-	
-	public function getCaption()
-	{
-		global $lng;
-		return $lng->txt("badge_crs_merit");
-	}
-	
-	public function isSingleton()
-	{
-		return true;
-	}
-	
-	public function getValidObjectTypes()
-	{
-		return array("crs", "grp");
-	}
-	
-	public function getConfigGUIInstance()
-	{
-		// no config
-	}
+    public function getId()
+    {
+        return "merit";
+    }
+    
+    public function getCaption()
+    {
+        global $lng;
+        return $lng->txt("badge_crs_merit");
+    }
+    
+    public function isSingleton()
+    {
+        return true;
+    }
+    
+    public function getValidObjectTypes()
+    {
+        return array("crs", "grp");
+    }
+    
+    public function getConfigGUIInstance()
+    {
+        // no config
+    }
 }

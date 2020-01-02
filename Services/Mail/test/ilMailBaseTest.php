@@ -8,29 +8,29 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 abstract class ilMailBaseTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * 
-	 */
-	protected function setUp()
-	{
-		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
+    /**
+     *
+     */
+    protected function setUp()
+    {
+        $GLOBALS['DIC'] = new \ILIAS\DI\Container();
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    protected function setGlobalVariable($name, $value)
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        $GLOBALS[$name] = $value;
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 }

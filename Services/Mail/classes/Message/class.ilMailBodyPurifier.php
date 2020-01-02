@@ -5,17 +5,17 @@
  */
 class ilMailBodyPurifier
 {
-	/**
-	 * @param string $content
-	 * @return string
-	 */
-	public function purify($content)
-	{
-		$sanitizedContent = \ilUtil::stripSlashes($content);
-		if ($sanitizedContent !== $content) {
-			$sanitizedContent = \ilUtil::stripSlashes(str_replace('<', '< ', $content));
-		}
-		$sanitizedContent = str_replace("\r", '', $sanitizedContent);
-		return $sanitizedContent;
-	}
+    /**
+     * @param string $content
+     * @return string
+     */
+    public function purify($content)
+    {
+        $sanitizedContent = \ilUtil::stripSlashes($content);
+        if ($sanitizedContent !== $content) {
+            $sanitizedContent = \ilUtil::stripSlashes(str_replace('<', '< ', $content));
+        }
+        $sanitizedContent = str_replace("\r", '', $sanitizedContent);
+        return $sanitizedContent;
+    }
 }

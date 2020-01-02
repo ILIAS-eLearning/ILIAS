@@ -11,12 +11,14 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone;
 
-class Factory implements \ILIAS\UI\Component\Dropzone\Factory {
+class Factory implements \ILIAS\UI\Component\Dropzone\Factory
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function file() {
-		return new File\Factory();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function file()
+    {
+        return new File\Factory();
+    }
 }

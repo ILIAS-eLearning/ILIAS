@@ -36,7 +36,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Edit Settings. This commands uses the form class to display an input form.
      */
-    function editSettings()
+    public function editSettings()
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -45,13 +45,11 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
         $ilTabs->activateTab("settings");
 
-        try
-        {
+        try {
             $this->initSettingsForm();
             $this->getSettingsValues();
             $tpl->setContent($this->form->getHTML());
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
     }
@@ -78,8 +76,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
         $this->form->addItem($cb);
 
         $folder = new ilTextInputGUI($lng->txt("cld_root_folder"), "root_folder");
-        if(!$this->cloud_object->currentUserIsOwner())
-        {
+        if (!$this->cloud_object->currentUserIsOwner()) {
             $folder->setDisabled(true);
             $folder->setInfo($lng->txt("cld_only_owner_has_permission_to_change_root_path"));
         }
@@ -98,17 +95,18 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     }
     protected function createPluginSection()
     {
-        if(get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection())
-        {
+        if (get_class($this) != "ilCloudPluginSettingsGUI" && $this->getMakeOwnPluginSection()) {
             global $DIC;
             $lng = $DIC['lng'];
             $section = new ilFormSectionHeaderGUI();
-            $section->setTitle($this->cloud_object->getServiceName()." ".$lng->txt("cld_service_specific_settings"));
+            $section->setTitle($this->cloud_object->getServiceName() . " " . $lng->txt("cld_service_specific_settings"));
             $this->form->addItem($section);
         }
     }
 
-    protected function initPluginSettings(){}
+    protected function initPluginSettings()
+    {
+    }
 
     protected function getMakeOwnPluginSection()
     {
@@ -118,7 +116,7 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     /**
      * Get values for edit Settings form
      */
-    function getSettingsValues()
+    public function getSettingsValues()
     {
         $values["title"]       = $this->cloud_object->getTitle();
         $values["desc"]        = $this->cloud_object->getDescription();
@@ -129,7 +127,9 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
     }
 
 
-    protected function getPluginSettingsValues(&$values){}
+    protected function getPluginSettingsValues(&$values)
+    {
+    }
     /**
      * Update Settings
      */
@@ -143,16 +143,13 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
 
         $ilTabs->activateTab("settings");
 
-        try
-        {
+        try {
             $this->initSettingsForm();
-            if ($this->form->checkInput())
-            {
+            if ($this->form->checkInput()) {
                 $this->cloud_object->setTitle($this->form->getInput("title"));
                 $this->cloud_object->setDescription($this->form->getInput("desc"));
                 $this->updatePluginSettings();
-                if (ilCloudUtil::normalizePath($this->form->getInput("root_folder")) != $this->cloud_object->getRootFolder())
-                {
+                if (ilCloudUtil::normalizePath($this->form->getInput("root_folder")) != $this->cloud_object->getRootFolder()) {
                     $this->cloud_object->setRootFolder($this->form->getInput("root_folder"));
                     $this->cloud_object->setRootId($this->getService()->getRootId($this->cloud_object->getRootFolder()));
                 }
@@ -162,16 +159,14 @@ class ilCloudPluginSettingsGUI extends ilCloudPluginGUI
                 ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
                 $ilCtrl->redirect($this, 'editSettings');
             }
-        } catch (Exception $e)
-        {
+        } catch (Exception $e) {
             ilUtil::sendFailure($e->getMessage());
         }
 
         $this->form->setValuesByPost();
         $tpl->setContent($this->form->getHtml());
     }
-    protected function updatePluginSettings(){}
-
+    protected function updatePluginSettings()
+    {
+    }
 }
-
-?>

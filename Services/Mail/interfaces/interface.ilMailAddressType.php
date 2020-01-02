@@ -7,15 +7,15 @@
  */
 interface ilMailAddressType
 {
-	/**
-	 * Returns an array of resolved user ids
-	 * @return int[]
-	 */
-	public function resolve();
+    /**
+     * Returns an array of resolved user ids
+     * @return int[]
+     */
+    public function resolve();
 
-	/**
-	 * @param $a_sender_id integer
-	 * @return bool
-	 */
-	public function validate($a_sender_id);
+    /**
+     * @param $a_sender_id integer
+     * @return bool
+     */
+    public function validate($a_sender_id);
 }

@@ -8,52 +8,50 @@ require_once 'Services/User/classes/class.ilUserRequestTargetAdjustmentCase.php'
  */
 class ilTermsOfServiceRequestTargetAdjustmentCase extends ilUserRequestTargetAdjustmentCase
 {
-	/**
-	 * @return boolean
-	 */
-	public function shouldStoreRequestTarget()
-	{
-		return true;
-	}
+    /**
+     * @return boolean
+     */
+    public function shouldStoreRequestTarget()
+    {
+        return true;
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function isInFulfillment()
-	{
-		return (
-			strtolower($this->ctrl->getCmdClass()) == 'ilstartupgui' &&
-			strtolower($this->ctrl->getCmd()) == 'getacceptance'
-		);
-	}
+    /**
+     * @return boolean
+     */
+    public function isInFulfillment()
+    {
+        return (
+            strtolower($this->ctrl->getCmdClass()) == 'ilstartupgui' &&
+            strtolower($this->ctrl->getCmd()) == 'getacceptance'
+        );
+    }
 
-	/**
-	 * @return boolean
-	 */
-	public function shouldAdjustRequest()
-	{
-		if($this->isInFulfillment())
-		{
-			return false;
-		}
+    /**
+     * @return boolean
+     */
+    public function shouldAdjustRequest()
+    {
+        if ($this->isInFulfillment()) {
+            return false;
+        }
 
-		if(
-			$this->user->hasToAcceptTermsOfService() &&
-			$this->user->checkTimeLimit() &&
-			$this->user->hasToAcceptTermsOfServiceInSession()
-		)
-		{
-			return true;
-		}
+        if (
+            $this->user->hasToAcceptTermsOfService() &&
+            $this->user->checkTimeLimit() &&
+            $this->user->hasToAcceptTermsOfServiceInSession()
+        ) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * @return void
-	 */
-	public function adjust()
-	{
-		ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
-	}
+    /**
+     * @return void
+     */
+    public function adjust()
+    {
+        ilUtil::redirect('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
+    }
 }

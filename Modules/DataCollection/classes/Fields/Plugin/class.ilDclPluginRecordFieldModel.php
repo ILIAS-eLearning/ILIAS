@@ -7,6 +7,4 @@
  */
 class ilDclPluginRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
-
 }
