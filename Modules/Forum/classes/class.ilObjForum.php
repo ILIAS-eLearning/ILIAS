@@ -353,16 +353,15 @@ class ilObjForum extends ilObject
 
         $this->db->replace(
             'frm_thread_access',
-            array(
-                'usr_id'    => array('integer', $a_usr_id),
-                'obj_id'    => array('integer', $this->getId()),
-                'thread_id' => array('integer', $a_thread_id)
-            ),
-            array(
-                'access_last'   => array('integer', time()),
-                'access_old'    => array('integer', isset($data['access_old']) ? (int) $data['access_old'] : 0),
-                'access_old_ts' => array('integer', (int) $data['access_old_ts'])
-            )
+            [
+                'usr_id'    => ['integer', $a_usr_id],
+                'obj_id'    => ['integer', $this->getId()],
+                'thread_id' => ['integer', $a_thread_id]
+            ],
+            [
+                'access_last'   => ['integer', time()],
+                'access_old'    => ['integer', (int) $data['access_old']]
+            ]
         );
 
         return true;
@@ -385,20 +384,6 @@ class ilObjForum extends ilObject
             array('integer'),
             array($a_usr_id)
         );
-
-        $set = $ilDB->query(
-            "SELECT * FROM frm_thread_access " .
-                " WHERE usr_id = " . $ilDB->quote($a_usr_id, "integer")
-        );
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $ilDB->manipulate(
-                "UPDATE frm_thread_access SET " .
-                    " access_old_ts = " . $ilDB->quote($rec["access_old"], "integer") .
-                    " WHERE usr_id = " . $ilDB->quote($rec["usr_id"], "integer") .
-                    " AND obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                    " AND thread_id = " . $ilDB->quote($rec["thread_id"], "integer")
-            );
-        }
 
         $new_deadline = time() - 60 * 60 * 24 * 7 * ($DIC->settings()->get('frm_store_new') ?
             $DIC->settings()->get('frm_store_new') :
@@ -1026,7 +1011,7 @@ class ilObjForum extends ilObject
 				LEFT JOIN frm_user_read ON (post_id = frm_posts.pos_pk AND frm_user_read.usr_id = %s)
 				LEFT JOIN frm_thread_access ON (frm_thread_access.thread_id = frm_posts.pos_thr_fk AND frm_thread_access.usr_id = %s)
 				WHERE frm_posts.pos_top_fk = %s
-				AND ( (frm_posts.pos_update > frm_thread_access.access_old_ts)
+				AND ( (frm_posts.pos_update > frm_thread_access.access_old)
 						OR (frm_thread_access.access_old IS NULL AND frm_posts.pos_update > %s)
 					)
 				AND frm_posts.pos_author_id != %s 

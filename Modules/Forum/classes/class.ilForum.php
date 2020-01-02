@@ -1121,7 +1121,7 @@ class ilForum
 						LEFT JOIN frm_thread_access iacc ON (iacc.thread_id = ipos.pos_thr_fk AND iacc.usr_id = %s)
 						WHERE ipos.pos_thr_fk = thr_pk
 						 
-						AND (ipos.pos_update > iacc.access_old_ts
+						AND (ipos.pos_update > iacc.access_old
 							OR
 							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(NEW_DEADLINE, 'integer') . "))
 							)
