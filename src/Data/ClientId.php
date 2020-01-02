@@ -10,41 +10,41 @@ namespace ILIAS\Data;
  */
 class ClientId
 {
-	/**
-	 * @var string
-	 */
-	private $clientId = '';
+    /**
+     * @var string
+     */
+    private $clientId = '';
 
-	/**
-	 * ClientId constructor.
-	 * @param string $clientId
-	 */
-	public function __construct($clientId)
-	{
-		if (!is_string($clientId)) {
-			throw new \InvalidArgumentException('Invalid value for $clientId');
-		}
+    /**
+     * ClientId constructor.
+     * @param string $clientId
+     */
+    public function __construct($clientId)
+    {
+        if (!is_string($clientId)) {
+            throw new \InvalidArgumentException('Invalid value for $clientId');
+        }
 
-		if (preg_match('/[^A-Za-z0-9#_\.\-]/', $clientId)) {
-			throw new \InvalidArgumentException('Invalid value for $clientId');
-		}
+        if (preg_match('/[^A-Za-z0-9#_\.\-]/', $clientId)) {
+            throw new \InvalidArgumentException('Invalid value for $clientId');
+        }
 
-		$this->clientId = $clientId;
-	}
+        $this->clientId = $clientId;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function toString()
-	{
-		return $this->clientId;
-	}
+    /**
+     * @return string
+     */
+    public function toString()
+    {
+        return $this->clientId;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->toString();
-	}
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->toString();
+    }
 }

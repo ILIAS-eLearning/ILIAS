@@ -9,19 +9,20 @@ use ILIAS\UI\Component\Component;
 /**
  * Horizontal Divider
  */
-interface Horizontal extends Component {
-	/**
-	 * Get the label of the divider
-	 *
-	 * @return	string
-	 */
-	public function getLabel();
+interface Horizontal extends Component
+{
+    /**
+     * Get the label of the divider
+     *
+     * @return	string
+     */
+    public function getLabel();
 
-	/**
-	 * Get a divider like this, but with another label
-	 *
-	 * @param	string	$label
-	 * @return	Horizontal
-	 */
-	public function withLabel($label);
+    /**
+     * Get a divider like this, but with another label
+     *
+     * @param	string	$label
+     * @return	Horizontal
+     */
+    public function withLabel($label);
 }

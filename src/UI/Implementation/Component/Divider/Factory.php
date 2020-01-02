@@ -6,11 +6,13 @@ namespace ILIAS\UI\Implementation\Component\Divider;
 
 use ILIAS\UI\Component\Divider as D;
 
-class Factory implements D\Factory {
-	/**
-	 * @inheritdoc
-	 */
-	public function horizontal() {
-		return new Horizontal();
-	}
+class Factory implements D\Factory
+{
+    /**
+     * @inheritdoc
+     */
+    public function horizontal()
+    {
+        return new Horizontal();
+    }
 }

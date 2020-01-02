@@ -1,25 +1,25 @@
 <?php
 // BEGIN WebDAV: Null Object.
 /*
-	+-----------------------------------------------------------------------------+
-	| ILIAS open source                                                           |
-	+-----------------------------------------------------------------------------+
-	| Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-	|                                                                             |
-	| This program is free software; you can redistribute it and/or               |
-	| modify it under the terms of the GNU General Public License                 |
-	| as published by the Free Software Foundation; either version 2              |
-	| of the License, or (at your option) any later version.                      |
-	|                                                                             |
-	| This program is distributed in the hope that it will be useful,             |
-	| but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-	| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-	| GNU General Public License for more details.                                |
-	|                                                                             |
-	| You should have received a copy of the GNU General Public License           |
-	| along with this program; if not, write to the Free Software                 |
-	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-	+-----------------------------------------------------------------------------+
+    +-----------------------------------------------------------------------------+
+    | ILIAS open source                                                           |
+    +-----------------------------------------------------------------------------+
+    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
+    |                                                                             |
+    | This program is free software; you can redistribute it and/or               |
+    | modify it under the terms of the GNU General Public License                 |
+    | as published by the Free Software Foundation; either version 2              |
+    | of the License, or (at your option) any later version.                      |
+    |                                                                             |
+    | This program is distributed in the hope that it will be useful,             |
+    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+    | GNU General Public License for more details.                                |
+    |                                                                             |
+    | You should have received a copy of the GNU General Public License           |
+    | along with this program; if not, write to the Free Software                 |
+    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
+    +-----------------------------------------------------------------------------+
 */
 
 
@@ -51,7 +51,7 @@
 * having been successfully executed upon it then the resource MUST return to the null state."
 *
 * Null-resources are used by class.ilDAVSerrev.php for the following use cases:
-* 
+*
 * Use case 1: Creating a new file resource
 * 1. Client sends a PROPFIND request on the name of the resource
 * 2. Server returns 404 (Not Found)
@@ -97,41 +97,39 @@ require_once "./Services/Object/classes/class.ilObject.php";
 
 class ilObjNull extends ilObject
 {
-	/**
-	* Constructor
-	* @access	public
-	* @param	integer	reference_id or object_id
-	* @param	boolean	treat the id as reference_id (true) or object_id (false)
-	*/
-	function __construct($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "null";
-		parent::__construct($a_id,$a_call_by_reference);
-	}
-	/**
-	* update object in db
-	* 
-	* Note: This is mostly the same as method update in class.ilObject.php.
-	*       In addition to updating descriptional properties, we also update the
-	*       "type" property. This is needed, because a Null Resource can be converted
-	*       into another resource type using a PUT or a MKCOL request by a WebDAV client.
-	*
-	* @access	public
-	* @return	boolean	true on success
-	*/
-	function update()
-	{
-		parent::update();
+    /**
+    * Constructor
+    * @access	public
+    * @param	integer	reference_id or object_id
+    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = "null";
+        parent::__construct($a_id, $a_call_by_reference);
+    }
+    /**
+    * update object in db
+    *
+    * Note: This is mostly the same as method update in class.ilObject.php.
+    *       In addition to updating descriptional properties, we also update the
+    *       "type" property. This is needed, because a Null Resource can be converted
+    *       into another resource type using a PUT or a MKCOL request by a WebDAV client.
+    *
+    * @access	public
+    * @return	boolean	true on success
+    */
+    public function update()
+    {
+        parent::update();
 
-		$q = "UPDATE object_data"
-			." SET"
-			." type = '".ilUtil::prepareDBString($this->getType())."'"
-			." WHERE obj_id = '".$this->getId()."'";
-		$this->ilias->db->query($q);
+        $q = "UPDATE object_data"
+            . " SET"
+            . " type = '" . ilUtil::prepareDBString($this->getType()) . "'"
+            . " WHERE obj_id = '" . $this->getId() . "'";
+        $this->ilias->db->query($q);
 
-		return true;
-	}
-
+        return true;
+    }
 } // END class.ilObjNull
 // END WebDAV: Null Object.
-?>

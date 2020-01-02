@@ -15,29 +15,27 @@ include_once("./Services/Component/classes/class.ilService.php");
 class ilUIComponentService extends ilService
 {
 
-	/**
-	 * Constructor: read information on component
-	 */
-	function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Constructor: read information on component
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
-	/**
-	 * Core modules vs. plugged in modules
-	 */
-	function isCore()
-	{
-		return true;
-	}
+    /**
+     * Core modules vs. plugged in modules
+     */
+    public function isCore()
+    {
+        return true;
+    }
 
-	/**
-	 * Get version of service.
-	 */
-	function getVersion()
-	{
-		return "-";
-	}
-
+    /**
+     * Get version of service.
+     */
+    public function getVersion()
+    {
+        return "-";
+    }
 }
-?>

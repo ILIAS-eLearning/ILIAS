@@ -17,250 +17,251 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssMultiOptionQu
  */
 abstract class ilAssConfigurableMultiOptionQuestionFeedback extends ilAssMultiOptionQuestionFeedback
 {
-	const FEEDBACK_SETTING_ALL = 1;
-	const FEEDBACK_SETTING_CHECKED = 2;
-	const FEEDBACK_SETTING_CORRECT = 3;
+    const FEEDBACK_SETTING_ALL = 1;
+    const FEEDBACK_SETTING_CHECKED = 2;
+    const FEEDBACK_SETTING_CORRECT = 3;
 
-	/**
-	 * returns the name of question specific table
-	 *
-	 * @return string
-	 */
-	abstract protected function getSpecificQuestionTableName();
+    /**
+     * returns the name of question specific table
+     *
+     * @return string
+     */
+    abstract protected function getSpecificQuestionTableName();
 
-	/**
-	 * completes a given form object with the specific form properties
-	 * required by this question type
-	 *
-	 * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-	 *
-	 * @access public
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function completeSpecificFormProperties(ilPropertyFormGUI $form)
-	{
-		if( !$this->questionOBJ->getSelfAssessmentEditingMode() )
-		{
-			$header = new ilFormSectionHeaderGUI();
-			$header->setTitle($this->lng->txt('feedback_answers'));
-			$form->addItem($header);
+    /**
+     * completes a given form object with the specific form properties
+     * required by this question type
+     *
+     * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
+     *
+     * @access public
+     * @param ilPropertyFormGUI $form
+     */
+    public function completeSpecificFormProperties(ilPropertyFormGUI $form)
+    {
+        if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
+            $header = new ilFormSectionHeaderGUI();
+            $header->setTitle($this->lng->txt('feedback_answers'));
+            $form->addItem($header);
 
-			require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
-			require_once './Services/Form/classes/class.ilRadioOption.php';
+            require_once './Services/Form/classes/class.ilRadioGroupInputGUI.php';
+            require_once './Services/Form/classes/class.ilRadioOption.php';
 
-			$feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
-			$feedback->addOption(
-				new ilRadioOption($this->lng->txt('feedback_all'), self::FEEDBACK_SETTING_ALL), true
-			);
-			$feedback->addOption(
-				new ilRadioOption($this->lng->txt('feedback_checked'), self::FEEDBACK_SETTING_CHECKED)
-			);
-			$feedback->addOption(
-				new ilRadioOption($this->lng->txt($this->questionOBJ->getSpecificFeedbackAllCorrectOptionLabel()), self::FEEDBACK_SETTING_CORRECT)
-			);
-			
-			$feedback->setRequired(true);
-			$form->addItem($feedback);
+            $feedback = new ilRadioGroupInputGUI($this->lng->txt('feedback_setting'), 'feedback_setting');
+            $feedback->addOption(
+                new ilRadioOption($this->lng->txt('feedback_all'), self::FEEDBACK_SETTING_ALL),
+                true
+            );
+            $feedback->addOption(
+                new ilRadioOption($this->lng->txt('feedback_checked'), self::FEEDBACK_SETTING_CHECKED)
+            );
+            $feedback->addOption(
+                new ilRadioOption($this->lng->txt($this->questionOBJ->getSpecificFeedbackAllCorrectOptionLabel()), self::FEEDBACK_SETTING_CORRECT)
+            );
+            
+            $feedback->setRequired(true);
+            $form->addItem($feedback);
 
-			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
-			{
-				$propertyLabel = $this->questionOBJ->prepareTextareaOutput(
-					$this->buildAnswerOptionLabel($index, $answer), true
-				);
+            foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
+                $propertyLabel = $this->questionOBJ->prepareTextareaOutput(
+                    $this->buildAnswerOptionLabel($index, $answer),
+                    true
+                );
 
-				$propertyPostVar = "feedback_answer_$index";
+                $propertyPostVar = "feedback_answer_$index";
 
-				$form->addItem($this->buildFeedbackContentFormProperty(
-					$propertyLabel , $propertyPostVar, $this->questionOBJ->isAdditionalContentEditingModePageObject()
-				));
-			}
-		}
-	}
+                $form->addItem($this->buildFeedbackContentFormProperty(
+                    $propertyLabel,
+                    $propertyPostVar,
+                    $this->questionOBJ->isAdditionalContentEditingModePageObject()
+                ));
+            }
+        }
+    }
 
-	/**
-	 * initialises a given form object's specific form properties
-	 * relating to this question type
-	 *
-	 * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-	 *
-	 * @access public
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function initSpecificFormProperties(ilPropertyFormGUI $form)
-	{
-		if (!$this->questionOBJ->getSelfAssessmentEditingMode())
-		{
-			$form->getItemByPostVar('feedback_setting')->setValue(
-				$this->questionOBJ->getSpecificFeedbackSetting()
-			);
+    /**
+     * initialises a given form object's specific form properties
+     * relating to this question type
+     *
+     * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
+     *
+     * @access public
+     * @param ilPropertyFormGUI $form
+     */
+    public function initSpecificFormProperties(ilPropertyFormGUI $form)
+    {
+        if (!$this->questionOBJ->getSelfAssessmentEditingMode()) {
+            $form->getItemByPostVar('feedback_setting')->setValue(
+                $this->questionOBJ->getSpecificFeedbackSetting()
+            );
 
-			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
-			{
-				if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
-				{
-					$value = $this->getPageObjectNonEditableValueHTML(
-						$this->getSpecificAnswerFeedbackPageObjectType(),
-						$this->getSpecificAnswerFeedbackPageObjectId($this->questionOBJ->getId(), $index)
-					);
-				}
-				else
-				{
-					$value = $this->questionOBJ->prepareTextareaOutput(
-						$this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), $index)
-					);
-				}
+            foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
+                if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+                    $value = $this->getPageObjectNonEditableValueHTML(
+                        $this->getSpecificAnswerFeedbackPageObjectType(),
+                        $this->getSpecificAnswerFeedbackPageObjectId($this->questionOBJ->getId(), $index)
+                    );
+                } else {
+                    $value = $this->questionOBJ->prepareTextareaOutput(
+                        $this->getSpecificAnswerFeedbackContent($this->questionOBJ->getId(), $index)
+                    );
+                }
 
-				$form->getItemByPostVar("feedback_answer_$index")->setValue($value);
-			}
-		}
-	}
+                $form->getItemByPostVar("feedback_answer_$index")->setValue($value);
+            }
+        }
+    }
 
-	/**
-	 * saves a given form object's specific form properties
-	 * relating to this question type
-	 *
-	 * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
-	 *
-	 * @access public
-	 * @param ilPropertyFormGUI $form
-	 */
-	public function saveSpecificFormProperties(ilPropertyFormGUI $form)
-	{
-		$this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
-		
-		if( !$this->questionOBJ->isAdditionalContentEditingModePageObject() )
-		{
-			foreach( $this->getAnswerOptionsByAnswerIndex() as $index => $answer )
-			{
-				$this->saveSpecificAnswerFeedbackContent(
-					$this->questionOBJ->getId(), $index, $form->getInput("feedback_answer_$index")
-				);
-			}
-		}
-	}
+    /**
+     * saves a given form object's specific form properties
+     * relating to this question type
+     *
+     * (overwrites the method from ilAssMultiOptionQuestionFeedback, because of individual setting)
+     *
+     * @access public
+     * @param ilPropertyFormGUI $form
+     */
+    public function saveSpecificFormProperties(ilPropertyFormGUI $form)
+    {
+        $this->saveSpecificFeedbackSetting($this->questionOBJ->getId(), $form->getInput('feedback_setting'));
+        
+        if (!$this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+            foreach ($this->getAnswerOptionsByAnswerIndex() as $index => $answer) {
+                $this->saveSpecificAnswerFeedbackContent(
+                    $this->questionOBJ->getId(),
+                    $index,
+                    $form->getInput("feedback_answer_$index")
+                );
+            }
+        }
+    }
 
-	/**
-	 * returns the fact that the feedback editing form is saveable in page object editing mode,
-	 * because this question type has additional feedback settings
-	 *
-	 * @access public
-	 * @return boolean
-	 */
-	public function isSaveableInPageObjectEditingMode()
-	{
-		return true;
-	}
+    /**
+     * returns the fact that the feedback editing form is saveable in page object editing mode,
+     * because this question type has additional feedback settings
+     *
+     * @access public
+     * @return boolean
+     */
+    public function isSaveableInPageObjectEditingMode()
+    {
+        return true;
+    }
 
-	/**
-	 * saves the given specific feedback setting for the given question id to the db.
-	 * (It#s stored to dataset of question itself)
-	 * @access public
-	 * @param integer $questionId
-	 * @param integer $specificFeedbackSetting
-	 */
-	public function saveSpecificFeedbackSetting($questionId, $specificFeedbackSetting)
-	{
-		$this->db->update($this->getSpecificQuestionTableName(),
-			array('feedback_setting' => array('integer', $specificFeedbackSetting)),
-			array('question_fi' => array('integer', $questionId))
-		);
-	}
+    /**
+     * saves the given specific feedback setting for the given question id to the db.
+     * (It#s stored to dataset of question itself)
+     * @access public
+     * @param integer $questionId
+     * @param integer $specificFeedbackSetting
+     */
+    public function saveSpecificFeedbackSetting($questionId, $specificFeedbackSetting)
+    {
+        $this->db->update(
+            $this->getSpecificQuestionTableName(),
+            array('feedback_setting' => array('integer', $specificFeedbackSetting)),
+            array('question_fi' => array('integer', $questionId))
+        );
+    }
 
-	/**
-	 * duplicates the SPECIFIC feedback relating to the given original question id
-	 * and saves it for the given duplicate question id
-	 *
-	 * (overwrites the method from parent class, because of individual setting)
-	 *
-	 * @access protected
-	 * @param integer $originalQuestionId
-	 * @param integer $duplicateQuestionId
-	 */
-	protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
-	{
-		// sync specific feedback setting to duplicated question
-		
-		$this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
+    /**
+     * duplicates the SPECIFIC feedback relating to the given original question id
+     * and saves it for the given duplicate question id
+     *
+     * (overwrites the method from parent class, because of individual setting)
+     *
+     * @access protected
+     * @param integer $originalQuestionId
+     * @param integer $duplicateQuestionId
+     */
+    protected function duplicateSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    {
+        // sync specific feedback setting to duplicated question
+        
+        $this->syncSpecificFeedbackSetting($originalQuestionId, $duplicateQuestionId);
 
-		// sync specific answer feedback to duplicated question
+        // sync specific answer feedback to duplicated question
 
-		$res = $this->db->queryF(
-			"SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s", array('integer'), array($originalQuestionId)
-		);
+        $res = $this->db->queryF(
+            "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            array('integer'),
+            array($originalQuestionId)
+        );
 
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
+        while ($row = $this->db->fetchAssoc($res)) {
+            $nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
 
-			$this->db->insert($this->getSpecificFeedbackTableName(), array(
-				'feedback_id' => array('integer', $nextId),
-				'question_fi' => array('integer', $duplicateQuestionId),
-				'answer' => array('integer', $row['answer']),
-				'feedback' => array('text', $row['feedback']),
-				'tstamp' => array('integer', time())
-			));
+            $this->db->insert($this->getSpecificFeedbackTableName(), array(
+                'feedback_id' => array('integer', $nextId),
+                'question_fi' => array('integer', $duplicateQuestionId),
+                'answer' => array('integer', $row['answer']),
+                'feedback' => array('text', $row['feedback']),
+                'tstamp' => array('integer', time())
+            ));
 
-			if( $this->questionOBJ->isAdditionalContentEditingModePageObject() )
-			{
-				$pageObjectType = $this->getSpecificAnswerFeedbackPageObjectType();
-				$this->duplicatePageObject($pageObjectType, $row['feedback_id'], $nextId, $duplicateQuestionId);
-			}
-		}
-	}
+            if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
+                $pageObjectType = $this->getSpecificAnswerFeedbackPageObjectType();
+                $this->duplicatePageObject($pageObjectType, $row['feedback_id'], $nextId, $duplicateQuestionId);
+            }
+        }
+    }
 
-	/**
-	 * syncs the SPECIFIC feedback from a duplicated question back to the original question
-	 *
-	 * (overwrites the method from parent class, because of individual setting)
-	 *
-	 * @access protected
-	 * @param integer $originalQuestionId
-	 * @param integer $duplicateQuestionId
-	 */
-	protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
-	{
-		// sync specific feedback setting to the original
-		$this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
+    /**
+     * syncs the SPECIFIC feedback from a duplicated question back to the original question
+     *
+     * (overwrites the method from parent class, because of individual setting)
+     *
+     * @access protected
+     * @param integer $originalQuestionId
+     * @param integer $duplicateQuestionId
+     */
+    protected function syncSpecificFeedback($originalQuestionId, $duplicateQuestionId)
+    {
+        // sync specific feedback setting to the original
+        $this->syncSpecificFeedbackSetting($duplicateQuestionId, $originalQuestionId);
 
-		// delete specific feedback of the original
-		$this->db->manipulateF(
-			"DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-			array('integer'), array($originalQuestionId)
-		);
+        // delete specific feedback of the original
+        $this->db->manipulateF(
+            "DELETE FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            array('integer'),
+            array($originalQuestionId)
+        );
 
-		// get specific feedback of the actual question
-		$res = $this->db->queryF(
-			"SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
-			array('integer'), array($duplicateQuestionId)
-		);
+        // get specific feedback of the actual question
+        $res = $this->db->queryF(
+            "SELECT * FROM {$this->getSpecificFeedbackTableName()} WHERE question_fi = %s",
+            array('integer'),
+            array($duplicateQuestionId)
+        );
 
-		// save specific feedback to the original
-		while( $row = $this->db->fetchAssoc($res) )
-		{
-			$nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
+        // save specific feedback to the original
+        while ($row = $this->db->fetchAssoc($res)) {
+            $nextId = $this->db->nextId($this->getSpecificFeedbackTableName());
 
-			$this->db->insert($this->getSpecificFeedbackTableName(), array(
-				'feedback_id' => array('integer', $nextId),
-				'question_fi' => array('integer', $originalQuestionId),
-				'answer' => array('integer',$row['answer']),
-				'feedback' => array('text',$row['feedback']),
-				'tstamp' => array('integer',time())
-			));
-		}
-	}
-	
-	private function syncSpecificFeedbackSetting($sourceQuestionId, $targetQuestionId)
-	{
-		$res = $this->db->queryF(
-			"SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
-			array('integer'), array($sourceQuestionId)
-		);
+            $this->db->insert($this->getSpecificFeedbackTableName(), array(
+                'feedback_id' => array('integer', $nextId),
+                'question_fi' => array('integer', $originalQuestionId),
+                'answer' => array('integer',$row['answer']),
+                'feedback' => array('text',$row['feedback']),
+                'tstamp' => array('integer',time())
+            ));
+        }
+    }
+    
+    private function syncSpecificFeedbackSetting($sourceQuestionId, $targetQuestionId)
+    {
+        $res = $this->db->queryF(
+            "SELECT feedback_setting FROM {$this->getSpecificQuestionTableName()} WHERE question_fi = %s",
+            array('integer'),
+            array($sourceQuestionId)
+        );
 
-		$row = $this->db->fetchAssoc($res);
+        $row = $this->db->fetchAssoc($res);
 
-		$this->db->update( $this->getSpecificQuestionTableName(),
-			array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),
-			array( 'question_fi' => array('integer', $targetQuestionId) )
-		);
-	}
+        $this->db->update(
+            $this->getSpecificQuestionTableName(),
+            array( 'feedback_setting' => array('integer', $row['feedback_setting']) ),
+            array( 'question_fi' => array('integer', $targetQuestionId) )
+        );
+    }
 }

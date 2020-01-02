@@ -14,9 +14,10 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
  *
  * @Internal
  */
-interface DeliveryMethod {
-	const PHP = 'php';
-	const PHP_CHUNKED = 'php_chunked';
-	const XACCEL = 'x-accel-redirect';
-	const XSENDFILE = 'mod_xsendfile';
+interface DeliveryMethod
+{
+    const PHP = 'php';
+    const PHP_CHUNKED = 'php_chunked';
+    const XACCEL = 'x-accel-redirect';
+    const XSENDFILE = 'mod_xsendfile';
 }

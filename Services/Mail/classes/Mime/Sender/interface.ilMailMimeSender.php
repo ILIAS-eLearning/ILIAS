@@ -6,38 +6,38 @@
  */
 interface ilMailMimeSender
 {
-	/**
-	 * @return bool
-	 */
-	public function hasReplyToAddress();
+    /**
+     * @return bool
+     */
+    public function hasReplyToAddress();
 
-	/**
-	 * @return string
-	 */
-	public function getReplyToAddress();
+    /**
+     * @return string
+     */
+    public function getReplyToAddress();
 
-	/**
-	 * @return string
-	 */
-	public function getReplyToName();
+    /**
+     * @return string
+     */
+    public function getReplyToName();
 
-	/**
-	 * @return bool
-	 */
-	public function hasEnvelopFromAddress();
+    /**
+     * @return bool
+     */
+    public function hasEnvelopFromAddress();
 
-	/**
-	 * @return string
-	 */
-	public function getEnvelopFromAddress();
+    /**
+     * @return string
+     */
+    public function getEnvelopFromAddress();
 
-	/**
-	 * @return string
-	 */
-	public function getFromAddress();
+    /**
+     * @return string
+     */
+    public function getFromAddress();
 
-	/**
-	 * @return string
-	 */
-	public function getFromName();
+    /**
+     * @return string
+     */
+    public function getFromName();
 }

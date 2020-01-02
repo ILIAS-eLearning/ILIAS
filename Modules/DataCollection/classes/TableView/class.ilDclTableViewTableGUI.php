@@ -43,11 +43,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
         $this->lng = $lng;
 
 
-	    $this->setExternalSegmentation(true);
-	    $this->setExternalSorting(true);
+        $this->setExternalSegmentation(true);
+        $this->setExternalSorting(true);
 
-        if ($this->parent_obj instanceof ilDclTableViewGUI)
-        {
+        if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $ilCtrl->setParameterByClass('ildcltableviewgui', 'table_id', $table->getId());
             $this->setFormAction($ilCtrl->getFormActionByClass('ildcltableviewgui'));
             $this->addMultiCommand('confirmDeleteTableviews', $lng->txt('dcl_delete_views'));
@@ -57,21 +56,18 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->setFormName('tableview_list');
 
             $this->addColumn('', '', '1', true);
-            $this->addColumn($lng->txt('dcl_order'), NULL, '30px');
+            $this->addColumn($lng->txt('dcl_order'), null, '30px');
 
             $this->setRowTemplate('tpl.tableview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getTableViews());
-        }
-        elseif ($this->parent_obj instanceof ilDclDetailedViewGUI)
-        {
+        } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
             $this->setRowTemplate('tpl.detailview_list_row.html', 'Modules/DataCollection');
             $this->setData($this->table->getVisibleTableViews($this->parent_obj->parent_obj->ref_id, true));
-
         }
 
-        $this->addColumn($lng->txt('title'), NULL, 'auto');
-        $this->addColumn($lng->txt('description'), NULL, 'auto');
-        $this->addColumn($lng->txt('actions'), NULL, '30px');
+        $this->addColumn($lng->txt('title'), null, 'auto');
+        $this->addColumn($lng->txt('description'), null, 'auto');
+        $this->addColumn($lng->txt('actions'), null, '30px');
 
 
         $this->setTopCommands(true);
@@ -99,11 +95,10 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $this->tpl->setVariable("ORDER_VALUE", $a_set->getOrder());
         }
         $this->tpl->setVariable("TITLE", $a_set->getTitle());
-	    $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
+        $this->ctrl->setParameterByClass('ilDclTableViewEditGUI', 'tableview_id', $a_set->getId());
         $this->tpl->setVariable("TITLE_LINK", $this->ctrl->getLinkTargetByClass('ilDclTableViewEditGUI'));
         $this->tpl->setVariable("DESCRIPTION", $a_set->getDescription());
         $this->tpl->setVariable('ACTIONS', $this->buildAction($a_set->getId()));
-
     }
 
     /**
@@ -111,10 +106,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      * @param $id
      * @return string
      */
-    protected function buildAction($id) {
-        
-        if ($this->parent_obj instanceof ilDclTableViewGUI)
-        {
+    protected function buildAction($id)
+    {
+        if ($this->parent_obj instanceof ilDclTableViewGUI) {
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($id);
             $alist->setListTitle($this->lng->txt('actions'));
@@ -125,9 +119,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $alist->addItem($this->lng->txt('dcl_detailed_view'), '', $this->ctrl->getLinkTargetByClass(array('ildcltablevieweditgui', 'ilDclDetailedViewDefinitionGUI'), 'edit'));
             $alist->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTargetByClass('ildcltablevieweditgui', 'confirmDelete'));
             return $alist->getHTML();
-        }
-        elseif ($this->parent_obj instanceof ilDclDetailedViewGUI)
-        {
+        } elseif ($this->parent_obj instanceof ilDclDetailedViewGUI) {
             $button = ilDclLinkButton::getInstance();
             $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $id);
             $this->ctrl->saveParameterByClass('ilDclDetailedViewGUI', 'record_id');
@@ -135,8 +127,5 @@ class ilDclTableViewTableGUI extends ilTable2GUI
             $button->setCaption('view');
             return $button->getToolbarHTML();
         }
-        
-
     }
-
 }

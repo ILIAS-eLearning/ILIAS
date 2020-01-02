@@ -36,91 +36,89 @@ include_once './Services/Calendar/classes/class.ilCalendarViewGUI.php';
 * @version $Id$
 *
 * @ilCtrl_Calls ilCalendarInboxGUI: ilCalendarAppointmentGUI, ilCalendarAgendaListGUI
-* 
+*
 * @ingroup ServicesCalendar
 */
 class ilCalendarInboxGUI extends ilCalendarViewGUI
 {
-	protected $user_settings = null;
-		
-	protected $lng;
-	protected $ctrl;
-	protected $tabs_gui;
-	protected $tpl;
-	protected $user;
-	protected $toolbar;
-	protected $timezone = 'UTC';
+    protected $user_settings = null;
+        
+    protected $lng;
+    protected $ctrl;
+    protected $tabs_gui;
+    protected $tpl;
+    protected $user;
+    protected $toolbar;
+    protected $timezone = 'UTC';
 
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @todo make parent constructor (initialize) and init also seed and other common stuff
-	 */
-	public function __construct(ilDate $seed_date)
-	{
-		parent::__construct($seed_date,ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
-		$this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
-		$this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
-		$this->timezone = $this->user->getTimeZone();
-	}
-	
-	/**
-	 * Execute command
-	 *
-	 * @access public
-	 * 
-	 */
-	public function executeCommand()
-	{
-		global $ilCtrl,$tpl;
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param
+     * @todo make parent constructor (initialize) and init also seed and other common stuff
+     */
+    public function __construct(ilDate $seed_date)
+    {
+        parent::__construct($seed_date, ilCalendarViewGUI::CAL_PRESENTATION_AGENDA_LIST);
+        $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
+        $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
+        $this->timezone = $this->user->getTimeZone();
+    }
+    
+    /**
+     * Execute command
+     *
+     * @access public
+     *
+     */
+    public function executeCommand()
+    {
+        global $ilCtrl,$tpl;
 
-		$next_class = $ilCtrl->getNextClass();
-		switch($next_class)
-		{
-			case 'ilcalendarappointmentgui':
-				$this->ctrl->setReturn($this,'');
-				$this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
-				
-				include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
+        $next_class = $ilCtrl->getNextClass();
+        switch ($next_class) {
+            case 'ilcalendarappointmentgui':
+                $this->ctrl->setReturn($this, '');
+                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+                
+                include_once('./Services/Calendar/classes/class.ilCalendarAppointmentGUI.php');
 
-				ilLoggerFactory::getRootLogger()->debug("****** inbox seed 0 ".$this->seed);
+                ilLoggerFactory::getRootLogger()->debug("****** inbox seed 0 " . $this->seed);
 
-				$app = new ilCalendarAppointmentGUI($this->seed,$this->seed, (int) $_GET['app_id']);
-				$this->ctrl->forwardCommand($app);
-				break;
+                $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, (int) $_GET['app_id']);
+                $this->ctrl->forwardCommand($app);
+                break;
 
-			case 'ilcalendaragendalistgui':
-				include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
-				$cal_list = new ilCalendarAgendaListGUI($this->seed);
-				$html = $this->ctrl->forwardCommand($cal_list);
-				$tpl->setContent($html);
-				break;
+            case 'ilcalendaragendalistgui':
+                include_once("./Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php");
+                $cal_list = new ilCalendarAgendaListGUI($this->seed);
+                $html = $this->ctrl->forwardCommand($cal_list);
+                $tpl->setContent($html);
+                break;
 
-			default:
-				$cmd = $this->ctrl->getCmd("inbox");
-				$this->$cmd();
-				$tpl->setContent($this->tpl->get());
-				break;
-		}
-		
-		return true;
-	}
-	
-	/**
-	 * show inbox
-	 */
-	protected function inbox()
-	{
-		global $ilCtrl;
+            default:
+                $cmd = $this->ctrl->getCmd("inbox");
+                $this->$cmd();
+                $tpl->setContent($this->tpl->get());
+                break;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * show inbox
+     */
+    protected function inbox()
+    {
+        global $ilCtrl;
 
-		$this->tpl = new ilTemplate('tpl.inbox.html',true,true,'Services/Calendar');
+        $this->tpl = new ilTemplate('tpl.inbox.html', true, true, 'Services/Calendar');
 
-		// agenda list
-		$cal_list = new ilCalendarAgendaListGUI($this->seed);
-		$html = $ilCtrl->getHTML($cal_list);
-		$this->tpl->setVariable('CHANGED_TABLE', $html);
-	}
+        // agenda list
+        $cal_list = new ilCalendarAgendaListGUI($this->seed);
+        $html = $ilCtrl->getHTML($cal_list);
+        $this->tpl->setVariable('CHANGED_TABLE', $html);
+    }
 }
-?>

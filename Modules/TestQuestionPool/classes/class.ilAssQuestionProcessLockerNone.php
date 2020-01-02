@@ -11,4 +11,4 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.
  */
 class ilAssQuestionProcessLockerNone extends ilAssQuestionProcessLocker
 {
-} 
+}

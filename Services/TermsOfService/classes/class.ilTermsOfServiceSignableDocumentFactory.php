@@ -7,24 +7,21 @@
  */
 class ilTermsOfServiceSignableDocumentFactory
 {
-	/**
-	 * @param ilLanguage $lng
-	 * @return ilTermsOfServiceSignableDocument
-	 */
-	public static function getByLanguageObject(ilLanguage $lng)
-	{
-		try
-		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
-			$document = new ilTermsOfServiceFileSystemDocument($lng);
-			$document->determine();
-		}
-		catch(ilTermsOfServiceNoSignableDocumentFoundException $e)
-		{
-			require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceNullDocument.php';
-			$document = new ilTermsOfServiceNullDocument();
-		}
+    /**
+     * @param ilLanguage $lng
+     * @return ilTermsOfServiceSignableDocument
+     */
+    public static function getByLanguageObject(ilLanguage $lng)
+    {
+        try {
+            require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceFileSystemDocument.php';
+            $document = new ilTermsOfServiceFileSystemDocument($lng);
+            $document->determine();
+        } catch (ilTermsOfServiceNoSignableDocumentFoundException $e) {
+            require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceNullDocument.php';
+            $document = new ilTermsOfServiceNullDocument();
+        }
 
-		return $document;
-	}
+        return $document;
+    }
 }

@@ -8,7 +8,8 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
-class Close implements C\Button\Close {
-	use JavaScriptBindable;
-	use ComponentHelper;
+class Close implements C\Button\Close
+{
+    use JavaScriptBindable;
+    use ComponentHelper;
 }

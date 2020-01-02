@@ -6,87 +6,85 @@
  */
 class ilMailMimeSenderFactory
 {
-	/**
-	 * @var \ilSetting
-	 */
-	protected $settings;
+    /**
+     * @var \ilSetting
+     */
+    protected $settings;
 
-	/**
-	 * @var ilMailMimeSender[]
-	 */
-	protected $senders = array();
+    /**
+     * @var ilMailMimeSender[]
+     */
+    protected $senders = array();
 
-	/**
-	 * ilMailMimeSenderFactory constructor.
-	 * @param ilSetting $settings
-	 */
-	public function __construct(\ilSetting $settings)
-	{
-		$this->settings = $settings;
-	}
+    /**
+     * ilMailMimeSenderFactory constructor.
+     * @param ilSetting $settings
+     */
+    public function __construct(\ilSetting $settings)
+    {
+        $this->settings = $settings;
+    }
 
-	/**
-	 * @param int $usrId
-	 * @return bool
-	 */
-	protected function isSystemMail($usrId)
-	{
-		return $usrId == ANONYMOUS_USER_ID;
-	}
+    /**
+     * @param int $usrId
+     * @return bool
+     */
+    protected function isSystemMail($usrId)
+    {
+        return $usrId == ANONYMOUS_USER_ID;
+    }
 
-	/**
-	 * @param int $usrId
-	 * @return ilMailMimeSender
-	 */
-	public function getSenderByUsrId($usrId)
-	{
-		if(array_key_exists($usrId, $this->senders))
-		{
-			return $this->senders[$usrId];
-		}
+    /**
+     * @param int $usrId
+     * @return ilMailMimeSender
+     */
+    public function getSenderByUsrId($usrId)
+    {
+        if (array_key_exists($usrId, $this->senders)) {
+            return $this->senders[$usrId];
+        }
 
-		switch(true)
-		{
-			case $this->isSystemMail($usrId):
-				$sender = $this->system();
-				break;
+        switch (true) {
+            case $this->isSystemMail($usrId):
+                $sender = $this->system();
+                break;
 
-			default:
-				$sender = $this->user($usrId);
-				break;
-		}
+            default:
+                $sender = $this->user($usrId);
+                break;
+        }
 
-		$this->senders[$usrId] = $sender;
+        $this->senders[$usrId] = $sender;
 
-		return $sender;
-	}
+        return $sender;
+    }
 
-	/**
-	 * @return ilMailMimeSenderSystem
-	 */
-	public function system()
-	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderSystem.php';
-		return new ilMailMimeSenderSystem($this->settings);
-	}
+    /**
+     * @return ilMailMimeSenderSystem
+     */
+    public function system()
+    {
+        require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderSystem.php';
+        return new ilMailMimeSenderSystem($this->settings);
+    }
 
-	/**
-	 * @param int $usrId
-	 * @return ilMailMimeSenderUser
-	 */
-	public function user($usrId)
-	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
-		return ilMailMimeSenderUser::byUsrId($this->settings, $usrId);
-	}
+    /**
+     * @param int $usrId
+     * @return ilMailMimeSenderUser
+     */
+    public function user($usrId)
+    {
+        require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
+        return ilMailMimeSenderUser::byUsrId($this->settings, $usrId);
+    }
 
-	/**
-	 * @param $emailAddress
-	 * @return ilMailMimeSenderUser
-	 */
-	public function userByEmailAddress($emailAddress)
-	{
-		require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
-		return ilMailMimeSenderUser::byEmailAddress($this->settings, $emailAddress);
-	}
+    /**
+     * @param $emailAddress
+     * @return ilMailMimeSenderUser
+     */
+    public function userByEmailAddress($emailAddress)
+    {
+        require_once 'Services/Mail/classes/Mime/Sender/class.ilMailMimeSenderUser.php';
+        return ilMailMimeSenderUser::byEmailAddress($this->settings, $emailAddress);
+    }
 }

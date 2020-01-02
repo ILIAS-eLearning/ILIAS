@@ -9,7 +9,6 @@
  */
 class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 {
-
     public function __construct(ilDclTableViewEditGUI $a_parent_obj)
     {
         global $DIC;
@@ -19,11 +18,11 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
 
         $this->setId('dcl_tableviews');
         $this->setTitle($lng->txt('dcl_tableview_fieldsettings'));
-        $this->addColumn($lng->txt('dcl_fieldtitle'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_field_visible'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_filter'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_std_filter'), NULL, 'auto');
-        $this->addColumn($lng->txt('dcl_filter_changeable'), NULL, 'auto');
+        $this->addColumn($lng->txt('dcl_fieldtitle'), null, 'auto');
+        $this->addColumn($lng->txt('dcl_field_visible'), null, 'auto');
+        $this->addColumn($lng->txt('dcl_filter'), null, 'auto');
+        $this->addColumn($lng->txt('dcl_std_filter'), null, 'auto');
+        $this->addColumn($lng->txt('dcl_filter_changeable'), null, 'auto');
 
 
         $ilCtrl->saveParameter($this, 'tableview_id');
@@ -45,7 +44,8 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-    public function parseData($data) {
+    public function parseData($data)
+    {
         //enable/disable comments
         if (!$this->parent_obj->table->getPublicCommentsEnabled()) {
             foreach ($data as $key => $rec) {
@@ -71,17 +71,13 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ID', $a_set->getId());
         $this->tpl->setVariable('FIELD_ID', $a_set->getField());
         $this->tpl->setVariable('VISIBLE', $a_set->isVisible() ? 'checked' : '');
-        if ($field->allowFilterInListView())
-        {
+        if ($field->allowFilterInListView()) {
             $this->tpl->setVariable('IN_FILTER', $a_set->isInFilter() ? 'checked' : '');
             $this->tpl->setVariable('FILTER_VALUE', $this->getStandardFilterHTML($field, $a_set->getFilterValue()));
             $this->tpl->setVariable('FILTER_CHANGEABLE', $a_set->isFilterChangeable() ? 'checked' : '');
-        }
-        else
-        {
+        } else {
             $this->tpl->setVariable('NO_FILTER', '');
         }
-
     }
 
     /**
@@ -99,5 +95,4 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
         $filter->setValueByArray($value);
         return $filter->render();
     }
-
 }

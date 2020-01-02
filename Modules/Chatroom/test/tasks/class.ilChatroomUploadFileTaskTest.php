@@ -8,19 +8,19 @@ require_once dirname(__FILE__) . '/../class.ilChatroomAbstractTaskTest.php';
  */
 class ilChatroomUploadFileTaskTest extends ilChatroomAbstractTaskTest
 {
-	protected function setUp()
-	{
-		parent::setUp();
+    protected function setUp()
+    {
+        parent::setUp();
 
-		require_once './Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php';
+        require_once './Modules/Chatroom/classes/gui/class.ilChatroomUploadFileGUI.php';
 
-		$this->createIlObjChatroomMock(15);
-		$this->createIlObjChatroomGUIMock($this->object);
-	}
+        $this->createIlObjChatroomMock(15);
+        $this->createIlObjChatroomGUIMock($this->object);
+    }
 
-	public function testConstructorDies()
-	{
-		$this->setExpectedException('Exception', 'METHOD_NOT_IN_USE');
-		$task = new ilChatroomUploadFileGUI();
-	}
+    public function testConstructorDies()
+    {
+        $this->setExpectedException('Exception', 'METHOD_NOT_IN_USE');
+        $task = new ilChatroomUploadFileGUI();
+    }
 }

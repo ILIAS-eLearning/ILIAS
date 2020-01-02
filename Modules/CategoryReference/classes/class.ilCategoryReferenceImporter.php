@@ -16,22 +16,21 @@ include_once './Services/ContainerReference/classes/class.ilContainerReferenceIm
 */
 class ilCategoryReferenceImporter extends ilContainerReferenceImporter
 {
-		
-	/**
-	 * Get reference type
-	 */
-	protected function getType()
-	{
-		return 'catr';
-	}
-	
-	/**
-	 * Init xml parser
-	 */
-	protected function initParser($a_xml)
-	{
-		include_once './Modules/CategoryReference/classes/class.ilCategoryReferenceXmlParser.php';
-		return new ilCategoryReferenceXmlParser($a_xml);
-	}
+        
+    /**
+     * Get reference type
+     */
+    protected function getType()
+    {
+        return 'catr';
+    }
+    
+    /**
+     * Init xml parser
+     */
+    protected function initParser($a_xml)
+    {
+        include_once './Modules/CategoryReference/classes/class.ilCategoryReferenceXmlParser.php';
+        return new ilCategoryReferenceXmlParser($a_xml);
+    }
 }
-?>

@@ -19,17 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class Output_xml
 {
-	function Output_xml()
-	{
-		$this->code		= '_WORD_';
-		$this->linecomment 	= '<Category Type="Linecomment">_WORD_</Category>';
-		$this->blockcomment 	= '<Category Type="Blockcomment">_WORD_</Category>';
-		$this->prepro 		= '<Category Type="Prepro">_WORD_</Category>';
-		$this->select 		= '<Category Type="Select">_WORD_</Category>';
-		$this->quote 		= '<Category Type="Quote">_WORD_</Category>';
-		$this->category_1 	= '<Category Type="Category_1">_WORD_</Category>';
-		$this->category_2 	= '<Category Type="Category_2">_WORD_</Category>';
-		$this->category_3 	= '<Category Type="Category_3">_WORD_</Category>';
-	}
+    public function Output_xml()
+    {
+        $this->code		= '_WORD_';
+        $this->linecomment 	= '<Category Type="Linecomment">_WORD_</Category>';
+        $this->blockcomment 	= '<Category Type="Blockcomment">_WORD_</Category>';
+        $this->prepro 		= '<Category Type="Prepro">_WORD_</Category>';
+        $this->select 		= '<Category Type="Select">_WORD_</Category>';
+        $this->quote 		= '<Category Type="Quote">_WORD_</Category>';
+        $this->category_1 	= '<Category Type="Category_1">_WORD_</Category>';
+        $this->category_2 	= '<Category Type="Category_2">_WORD_</Category>';
+        $this->category_3 	= '<Category Type="Category_3">_WORD_</Category>';
+    }
 }
-?>

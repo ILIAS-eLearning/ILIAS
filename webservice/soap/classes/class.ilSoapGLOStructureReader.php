@@ -38,36 +38,40 @@ include_once "./Modules/Glossary/classes/class.ilGlossaryDefinition.php";
 
 class ilSoapGLOStructureReader extends ilSoapStructureReader
 {
-	function _parseStructure () 
-	{
-	    /* @var $object ilObjGlossary */
+    public function _parseStructure()
+    {
+        /* @var $object ilObjGlossary */
 
-	    $terms = $this->object->getTermlist();
+        $terms = $this->object->getTermlist();
 
-	    foreach ($terms as $term)
-		{
+        foreach ($terms as $term) {
 
-		    /* @var $termStructureObject ilSoapGLOTermStructureObject*/
-		    $termStructureObject = ilSoapStructureObjectFactory::getInstance (
-		      $term["id"], "git", $term["term"], "", $this->getObject()->getRefId());
+            /* @var $termStructureObject ilSoapGLOTermStructureObject*/
+            $termStructureObject = ilSoapStructureObjectFactory::getInstance(
+                $term["id"],
+                "git",
+                $term["term"],
+                "",
+                $this->getObject()->getRefId()
+            );
 
-		    $this->structureObject->addStructureObject($termStructureObject);
+            $this->structureObject->addStructureObject($termStructureObject);
 
-		    $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
+            $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
 
-		    foreach ($defs as $def) {
-		        $defStructureObject = ilSoapStructureObjectFactory::getInstance(
-		          $def["id"], "gdf", $def["short_text"], "", $this->getObject()->getRefId());
+            foreach ($defs as $def) {
+                $defStructureObject = ilSoapStructureObjectFactory::getInstance(
+                    $def["id"],
+                    "gdf",
+                    $def["short_text"],
+                    "",
+                    $this->getObject()->getRefId()
+                );
 
                 $termStructureObject->addStructureObject($defStructureObject);
-		    }
+            }
 
-		   // print_r($defs);
-
-		}
-
-
-	}
+            // print_r($defs);
+        }
+    }
 }
-
-?>

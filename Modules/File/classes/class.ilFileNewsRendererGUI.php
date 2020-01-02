@@ -26,5 +26,3 @@ class ilFileNewsRendererGUI extends ilNewsDefaultRendererGUI
         $list->addItem($this->lng->txt("download"), "", $url);
     }
 }
-
-?>

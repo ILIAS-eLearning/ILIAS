@@ -13,16 +13,16 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesMembershipExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('membership');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('membership');
 
-		return $this->ilExtractedParams;
-	}
+        return $this->ilExtractedParams;
+    }
 }

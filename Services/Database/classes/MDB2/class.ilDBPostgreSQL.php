@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once ("./Services/Database/classes/MDB2/class.ilDB.php");
+include_once("./Services/Database/classes/MDB2/class.ilDB.php");
 
 /**
 * PostreSQL Database Wrapper
@@ -18,282 +18,277 @@ include_once ("./Services/Database/classes/MDB2/class.ilDB.php");
 class ilDBPostgreSQL extends ilDB
 {
 
-	/**
-	 * @param $module
-	 * @return mixed
-	 */
-	public function loadModule($module) {
-		return $this->db->loadModule($module);
-	}
+    /**
+     * @param $module
+     * @return mixed
+     */
+    public function loadModule($module)
+    {
+        return $this->db->loadModule($module);
+    }
 
 
 
 
-	/**
-	* Get DSN.
-	*/
-	function getDSN()
-	{
-		return "pgsql://".$this->getDBUser().":".$this->getDBPassword()."@".
-			$this->getDBHost()."/".$this->getDBName();
-	}
+    /**
+    * Get DSN.
+    */
+    public function getDSN()
+    {
+        return "pgsql://" . $this->getDBUser() . ":" . $this->getDBPassword() . "@" .
+            $this->getDBHost() . "/" . $this->getDBName();
+    }
 
-	/**
-	* Get DB Type
-	*/
-	function getDBType()
-	{
-		return "postgres";
-	}
-	
-	/**
-	* Get reserved words
-	*/
-	static function getReservedWords()
-	{
-		// version: 8.3.6
-		// url: http://www.postgresql.org/docs/current/static/sql-keywords-appendix.html
-		return array(
-			"ALL", "ANALYSE", "ANALYZE", "AND", "ANY", "ARRAY",
-			"AS", "ASC", "ASYMMETRIC", "AUTHORIZATION", "BETWEEN", "BINARY", "BOTH",
-			"CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "CONSTRAINT", "CREATE",
-			"CROSS", "CURRENT_DATE", "CURRENT_ROLE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "DEFAULT",
-			"DEFERRABLE", "DESC", "DISTINCT", "DO", "ELSE", "END", "EXCEPT",
-			"FALSE", "FOR", "FOREIGN", "FREEZE", "FROM", "FULL", "GRANT",
-			"GROUP", "HAVING", "ILIKE", "IN", "INITIALLY", "INNER", "INTERSECT",
-			"INTO", "IS", "ISNULL", "JOIN", "LEADING", "LEFT", "LIKE",
-			"LIMIT", "LOCALTIME", "LOCALTIMESTAMP", "NATURAL", "NEW", "NOT", "NOTNULL",
-			"NULL", "OFF", "OFFSET", "OLD", "ON", "ONLY", "OR",
-			"ORDER", "OUTER", "OVERLAPS", "PLACING", "PRIMARY", "REFERENCES", "RETURNING",
-			"RIGHT", "SELECT", "SESSION_USER", "SIMILAR", "SOME", "SYMMETRIC", "TABLE",
-			"THEN", "TO", "TRAILING", "TRUE", "UNION", "UNIQUE", "USER",
-			"USING", "VERBOSE", "WHEN", "WHERE", "WITH"
-		);
-	}
+    /**
+    * Get DB Type
+    */
+    public function getDBType()
+    {
+        return "postgres";
+    }
+    
+    /**
+    * Get reserved words
+    */
+    public static function getReservedWords()
+    {
+        // version: 8.3.6
+        // url: http://www.postgresql.org/docs/current/static/sql-keywords-appendix.html
+        return array(
+            "ALL", "ANALYSE", "ANALYZE", "AND", "ANY", "ARRAY",
+            "AS", "ASC", "ASYMMETRIC", "AUTHORIZATION", "BETWEEN", "BINARY", "BOTH",
+            "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "CONSTRAINT", "CREATE",
+            "CROSS", "CURRENT_DATE", "CURRENT_ROLE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "CURRENT_USER", "DEFAULT",
+            "DEFERRABLE", "DESC", "DISTINCT", "DO", "ELSE", "END", "EXCEPT",
+            "FALSE", "FOR", "FOREIGN", "FREEZE", "FROM", "FULL", "GRANT",
+            "GROUP", "HAVING", "ILIKE", "IN", "INITIALLY", "INNER", "INTERSECT",
+            "INTO", "IS", "ISNULL", "JOIN", "LEADING", "LEFT", "LIKE",
+            "LIMIT", "LOCALTIME", "LOCALTIMESTAMP", "NATURAL", "NEW", "NOT", "NOTNULL",
+            "NULL", "OFF", "OFFSET", "OLD", "ON", "ONLY", "OR",
+            "ORDER", "OUTER", "OVERLAPS", "PLACING", "PRIMARY", "REFERENCES", "RETURNING",
+            "RIGHT", "SELECT", "SESSION_USER", "SIMILAR", "SOME", "SYMMETRIC", "TABLE",
+            "THEN", "TO", "TRAILING", "TRUE", "UNION", "UNIQUE", "USER",
+            "USING", "VERBOSE", "WHEN", "WHERE", "WITH"
+        );
+    }
 
-	/**
-	* Initialize the database connection
-	*/
-	function initConnection()
-	{
-	}
+    /**
+    * Initialize the database connection
+    */
+    public function initConnection()
+    {
+    }
 
-	/**
-	* now()
-	* @todo fix this
-	*/
-	function now()
-	{
-		return "now()";
-	}
-	
-	/**
-	 * Constraint names must be "globally" unique in oracle.
-	 */
-	function constraintName($a_table, $a_constraint)
-	{
-		$a_constraint = str_replace($a_table . '_', '', $a_constraint);
+    /**
+    * now()
+    * @todo fix this
+    */
+    public function now()
+    {
+        return "now()";
+    }
+    
+    /**
+     * Constraint names must be "globally" unique in oracle.
+     */
+    public function constraintName($a_table, $a_constraint)
+    {
+        $a_constraint = str_replace($a_table . '_', '', $a_constraint);
 
-		return $a_table . "_" . $a_constraint;
-	}
+        return $a_table . "_" . $a_constraint;
+    }
 
-	/**
-	 * Primary key identifier
-	 */
-	function getPrimaryKeyIdentifier()
-	{
-		return "pk";
-	}
+    /**
+     * Primary key identifier
+     */
+    public function getPrimaryKeyIdentifier()
+    {
+        return "pk";
+    }
 
-	/**
-	* Is fulltext index supported?
-	*/
-	function supportsFulltext()
-	{
-		return false;
-	}
-	
-	/**
-	* Replace into method.
-	*
-	* @param	string		table name
-	* @param	array		primary key values: array("field1" => array("text", $name), "field2" => ...)
-	* @param	array		other values: array("field1" => array("text", $name), "field2" => ...)
-	*/
-	function replace($a_table, $a_pk_columns, $a_other_columns)
-	{
-		$a_columns = array_merge($a_pk_columns, $a_other_columns);
-		$fields = array();
-		$field_values = array();
-		$placeholders = array();
-		$types = array();
-		$values = array();
-		$lobs = false;
-		$lob = array();
-		$val_field = array();
-		$a = array();
-		$b = array();
-		foreach ($a_columns as $k => $col)
-		{
-			if($col[0] == 'clob' or $col[0] == 'blob')
-			{
-				$val_field[] = $this->quote($col[1], 'text')." ".$k;
-			}
-			else
-			{
-				$val_field[] = $this->quote($col[1], $col[0])." ".$k;
-			}
-			$fields[] = $k;
-			$placeholders[] = "%s";
-			$placeholders2[] = ":$k";
-			$types[] = $col[0];
-			$values[] = $col[1];
-			$field_values[$k] = $col[1];
-			if ($col[0] == "blob" || $col[0] == "clob")
-			{
-				$lobs = true;
-				$lob[$k] = $k;
-			}
-			$a[] = "a.".$k;
-			$b[] = "b.".$k;
-		}
-		$abpk = array();
-		$aboc = array();
-		$delwhere = array();
-		foreach ($a_pk_columns as $k => $col)
-		{
-			$abpk[] = "a.".$k." = b.".$k;
-			$delwhere[] = $k." = ".$this->quote($col[1], $col[0]);
-		}
-		foreach ($a_other_columns as $k => $col)
-		{
-			$aboc[] = "a.".$k." = b.".$k;
-		}
-//		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
-//		{
-			$this->manipulate("DELETE FROM ".$a_table." WHERE ".
-				implode ($delwhere, " AND ")
-				);
-			$this->insert($a_table, $a_columns);
-			
-			//$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
-			$this->handleError($r, "replace, delete/insert(".$a_table.")");
-//		}
-/*		else	// if no lobs are used, use manipulate
-		{
-			$q = "MERGE INTO ".$a_table." a ".
-				"USING (SELECT ".implode($val_field, ", ")." ".
-				"FROM DUAL) b ON (".implode($abpk, " AND ").") ".
-				"WHEN MATCHED THEN UPDATE SET ".implode($aboc, ", ")." ".
-				"WHEN NOT MATCHED THEN INSERT (".implode($a, ",").") VALUES (".implode($b, ",").")";
-			$r = $this->manipulate($q);
-		}*/
-		return $r;
-	}
+    /**
+    * Is fulltext index supported?
+    */
+    public function supportsFulltext()
+    {
+        return false;
+    }
+    
+    /**
+    * Replace into method.
+    *
+    * @param	string		table name
+    * @param	array		primary key values: array("field1" => array("text", $name), "field2" => ...)
+    * @param	array		other values: array("field1" => array("text", $name), "field2" => ...)
+    */
+    public function replace($a_table, $a_pk_columns, $a_other_columns)
+    {
+        $a_columns = array_merge($a_pk_columns, $a_other_columns);
+        $fields = array();
+        $field_values = array();
+        $placeholders = array();
+        $types = array();
+        $values = array();
+        $lobs = false;
+        $lob = array();
+        $val_field = array();
+        $a = array();
+        $b = array();
+        foreach ($a_columns as $k => $col) {
+            if ($col[0] == 'clob' or $col[0] == 'blob') {
+                $val_field[] = $this->quote($col[1], 'text') . " " . $k;
+            } else {
+                $val_field[] = $this->quote($col[1], $col[0]) . " " . $k;
+            }
+            $fields[] = $k;
+            $placeholders[] = "%s";
+            $placeholders2[] = ":$k";
+            $types[] = $col[0];
+            $values[] = $col[1];
+            $field_values[$k] = $col[1];
+            if ($col[0] == "blob" || $col[0] == "clob") {
+                $lobs = true;
+                $lob[$k] = $k;
+            }
+            $a[] = "a." . $k;
+            $b[] = "b." . $k;
+        }
+        $abpk = array();
+        $aboc = array();
+        $delwhere = array();
+        foreach ($a_pk_columns as $k => $col) {
+            $abpk[] = "a." . $k . " = b." . $k;
+            $delwhere[] = $k . " = " . $this->quote($col[1], $col[0]);
+        }
+        foreach ($a_other_columns as $k => $col) {
+            $aboc[] = "a." . $k . " = b." . $k;
+        }
+        //		if ($lobs)	// lobs -> use prepare execute (autoexecute broken in PEAR 2.4.1)
+        //		{
+        $this->manipulate(
+                "DELETE FROM " . $a_table . " WHERE " .
+                implode($delwhere, " AND ")
+            );
+        $this->insert($a_table, $a_columns);
+            
+        //$r = $this->db->extended->autoExecute($a_table, $field_values, MDB2_AUTOQUERY_INSERT, null, $types);
+        $this->handleError($r, "replace, delete/insert(" . $a_table . ")");
+        //		}
+        /*		else	// if no lobs are used, use manipulate
+                {
+                    $q = "MERGE INTO ".$a_table." a ".
+                        "USING (SELECT ".implode($val_field, ", ")." ".
+                        "FROM DUAL) b ON (".implode($abpk, " AND ").") ".
+                        "WHEN MATCHED THEN UPDATE SET ".implode($aboc, ", ")." ".
+                        "WHEN NOT MATCHED THEN INSERT (".implode($a, ",").") VALUES (".implode($b, ",").")";
+                    $r = $this->manipulate($q);
+                }*/
+        return $r;
+    }
 
-	/**
-	 * Lock table
-	 *
-	 * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
-	 * @param array $a_tables
-	 * @param int $a_mode
-	 * @param string $a_alias
-	 * @deprecated Use ilAtomQuery instead
-	 * @return
-	 */
-	public function lockTables($a_tables)
-	{
-		global $ilLog;
-		
-		$locks = array();
+    /**
+     * Lock table
+     *
+     * E.g $ilDB->lockTable('tree',ilDBConstants::LOCK_WRITE,'t1')
+     * @param array $a_tables
+     * @param int $a_mode
+     * @param string $a_alias
+     * @deprecated Use ilAtomQuery instead
+     * @return
+     */
+    public function lockTables($a_tables)
+    {
+        global $ilLog;
+        
+        $locks = array();
 
-		$counter = 0;
-		foreach($a_tables as $table)
-		{
-			$lock = 'LOCK TABLE ';
+        $counter = 0;
+        foreach ($a_tables as $table) {
+            $lock = 'LOCK TABLE ';
 
-			$lock .= ($table['name'].' ');
+            $lock .= ($table['name'] . ' ');
 
-			switch($table['type'])
-			{
-				case ilDBConstants::LOCK_READ:
-					$lock .= ' IN SHARE MODE ';
-					break;
-				
-				case ilDBConstants::LOCK_WRITE:
-					$lock .= ' IN EXCLUSIVE MODE ';
-					break;
-			}
-			
-			$locks[] = $lock;
-		}
+            switch ($table['type']) {
+                case ilDBConstants::LOCK_READ:
+                    $lock .= ' IN SHARE MODE ';
+                    break;
+                
+                case ilDBConstants::LOCK_WRITE:
+                    $lock .= ' IN EXCLUSIVE MODE ';
+                    break;
+            }
+            
+            $locks[] = $lock;
+        }
 
-		// @TODO use and store a unique identifier to allow nested lock/unlocks
-		$this->db->beginTransaction();
-		foreach($locks as $lock)
-		{
-			$this->db->query($lock);
-			if ($ilLog instanceof ilLog) {
-				$ilLog->write(__METHOD__ . ': ' . $lock);
-			}
-		}
-		return true;
-	}
-	
-	/**
-	 * Unlock tables
-	 * @deprecated Use ilAtomQuery instead
-	 * @return 
-	 */
-	public function unlockTables()
-	{
-		$this->db->commit();
-	}
+        // @TODO use and store a unique identifier to allow nested lock/unlocks
+        $this->db->beginTransaction();
+        foreach ($locks as $lock) {
+            $this->db->query($lock);
+            if ($ilLog instanceof ilLog) {
+                $ilLog->write(__METHOD__ . ': ' . $lock);
+            }
+        }
+        return true;
+    }
+    
+    /**
+     * Unlock tables
+     * @deprecated Use ilAtomQuery instead
+     * @return
+     */
+    public function unlockTables()
+    {
+        $this->db->commit();
+    }
 
 
-	public function getStorageEngine() {
-		return null;
-	}
+    public function getStorageEngine()
+    {
+        return null;
+    }
 
 
-	public function dropFulltextIndex($a_table, $a_name) {
-		return false;
-	}
+    public function dropFulltextIndex($a_table, $a_name)
+    {
+        return false;
+    }
 
 
-	public function setStorageEngine($storage_engine) {
-		return false;
-	}
+    public function setStorageEngine($storage_engine)
+    {
+        return false;
+    }
 
 
-	/**
-	 * 
-	 * @param string $a_field_name
-	 * @param string $a_seperator
-	 * @param string $a_order
-	 * @return string
-	 */
-	public function groupConcat($a_field_name, $a_seperator = ",", $a_order = NULL) {
-		if ($a_order === NULL) {
-			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . ")";
-		} else {
-			$sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . " ORDER BY " . $a_order . ")";
-			
-		}
-		return $sql;
-	}
+    /**
+     *
+     * @param string $a_field_name
+     * @param string $a_seperator
+     * @param string $a_order
+     * @return string
+     */
+    public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null)
+    {
+        if ($a_order === null) {
+            $sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . ")";
+        } else {
+            $sql = "STRING_AGG(" . $a_field_name . ", " . $this->quote($a_seperator, "text") . " ORDER BY " . $a_order . ")";
+        }
+        return $sql;
+    }
 
 
-	/**
-	 * 
-	 * @param string $a_needle
-	 * @param string $a_string
-	 * @param int $a_start_pos
-	 * @return string
-	 */
-	public function locate($a_needle, $a_string, $a_start_pos = 1): string {
-		$manager = $this->db->loadModule('Manager');
-		return $manager->getQueryUtils()->locate($a_needle, $a_string, $a_start_pos);		
-	}
-
+    /**
+     *
+     * @param string $a_needle
+     * @param string $a_string
+     * @param int $a_start_pos
+     * @return string
+     */
+    public function locate($a_needle, $a_string, $a_start_pos = 1) : string
+    {
+        $manager = $this->db->loadModule('Manager');
+        return $manager->getQueryUtils()->locate($a_needle, $a_string, $a_start_pos);
+    }
 }

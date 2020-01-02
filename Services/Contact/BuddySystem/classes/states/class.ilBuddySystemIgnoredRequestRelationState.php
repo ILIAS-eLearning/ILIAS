@@ -9,47 +9,47 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddyS
  */
 class ilBuddySystemIgnoredRequestRelationState extends ilAbstractBuddySystemRelationState
 {
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getName()
-	{
-		return 'IgnoredRequest';
-	}
+    /**
+     *  {@inheritDoc}
+     */
+    public function getName()
+    {
+        return 'IgnoredRequest';
+    }
 
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getAction()
-	{
-		return 'ignore';
-	}
+    /**
+     *  {@inheritDoc}
+     */
+    public function getAction()
+    {
+        return 'ignore';
+    }
 
-	/**
-	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
-	 */
-	public function getPossibleTargetStates()
-	{
-		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateCollection.php';
-		return new ilBuddySystemRelationStateCollection(array(
-			new ilBuddySystemUnlinkedRelationState(),
-			new ilBuddySystemLinkedRelationState()
-		));
-	}
+    /**
+     * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
+     */
+    public function getPossibleTargetStates()
+    {
+        require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateCollection.php';
+        return new ilBuddySystemRelationStateCollection(array(
+            new ilBuddySystemUnlinkedRelationState(),
+            new ilBuddySystemLinkedRelationState()
+        ));
+    }
 
-	/**
-	 * @param ilBuddySystemRelation
-	 */
-	public function unlink(ilBuddySystemRelation $relation)
-	{
-		$relation->setState(new ilBuddySystemUnlinkedRelationState());
-	}
+    /**
+     * @param ilBuddySystemRelation
+     */
+    public function unlink(ilBuddySystemRelation $relation)
+    {
+        $relation->setState(new ilBuddySystemUnlinkedRelationState());
+    }
 
-	/**
-	 * @param ilBuddySystemRelation
-	 */
-	public function link(ilBuddySystemRelation $relation)
-	{
-		$relation->setState(new ilBuddySystemLinkedRelationState());
-	}
+    /**
+     * @param ilBuddySystemRelation
+     */
+    public function link(ilBuddySystemRelation $relation)
+    {
+        $relation->setState(new ilBuddySystemLinkedRelationState());
+    }
 }

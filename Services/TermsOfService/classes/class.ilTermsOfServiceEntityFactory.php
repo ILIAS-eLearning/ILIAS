@@ -7,21 +7,20 @@
  */
 class ilTermsOfServiceEntityFactory
 {
-	/**
-	 * @param string $name
-	 * @return ilTermsOfServiceAcceptanceEntity
-	 * @throws InvalidArgumentException
-	 */
-	public function getByName($name)
-	{
-		switch(strtolower($name))
-		{
-			case 'iltermsofserviceacceptanceentity':
-				require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
-				return new ilTermsOfServiceAcceptanceEntity();
+    /**
+     * @param string $name
+     * @return ilTermsOfServiceAcceptanceEntity
+     * @throws InvalidArgumentException
+     */
+    public function getByName($name)
+    {
+        switch (strtolower($name)) {
+            case 'iltermsofserviceacceptanceentity':
+                require_once 'Services/TermsOfService/classes/class.ilTermsOfServiceAcceptanceEntity.php';
+                return new ilTermsOfServiceAcceptanceEntity();
 
-			default:
-				throw new InvalidArgumentException('Entity not supported');
-		}
-	}
+            default:
+                throw new InvalidArgumentException('Entity not supported');
+        }
+    }
 }

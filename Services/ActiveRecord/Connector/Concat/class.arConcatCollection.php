@@ -8,33 +8,34 @@ require_once('class.arConcat.php');
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @version 2.0.7
  */
-class arConcatCollection extends arStatementCollection {
+class arConcatCollection extends arStatementCollection
+{
 
-	/**
-	 * @return string
-	 */
-	public function asSQLStatement() {
-		$return = '';
-		if ($this->hasStatements()) {
-			$return = ', ';
-			foreach ($this->getConcats() as $concat) {
-				$return .= $concat->asSQLStatement($this->getAr());
-				if ($concat != end($this->getConcats())) {
-					$return .= ', ';
-				}
-			}
-		}
+    /**
+     * @return string
+     */
+    public function asSQLStatement()
+    {
+        $return = '';
+        if ($this->hasStatements()) {
+            $return = ', ';
+            foreach ($this->getConcats() as $concat) {
+                $return .= $concat->asSQLStatement($this->getAr());
+                if ($concat != end($this->getConcats())) {
+                    $return .= ', ';
+                }
+            }
+        }
 
-		return $return;
-	}
+        return $return;
+    }
 
 
-	/**
-	 * @return arConcat[]
-	 */
-	public function getConcats() {
-		return $this->statements;
-	}
+    /**
+     * @return arConcat[]
+     */
+    public function getConcats()
+    {
+        return $this->statements;
+    }
 }
-
-?>

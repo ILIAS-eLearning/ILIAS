@@ -15,48 +15,47 @@ require_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessItem.p
 class ilSystemStyleLessComment extends ilSystemStyleLessItem
 {
 
-	/**
-	 * Random content of the less file being neither part of a variable or category
-	 *
-	 * @var string
-	 */
-	protected $comment = "";
+    /**
+     * Random content of the less file being neither part of a variable or category
+     *
+     * @var string
+     */
+    protected $comment = "";
 
-	/**
-	 * ilSystemStyleLessComment constructor.
-	 * @param string $comment
-	 */
-	public function __construct($comment)
-	{
-		$this->setComment($comment);
-	}
+    /**
+     * ilSystemStyleLessComment constructor.
+     * @param string $comment
+     */
+    public function __construct($comment)
+    {
+        $this->setComment($comment);
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getComment()
-	{
-		return $this->comment;
-	}
+    /**
+     * @return string
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
 
-	/**
-	 * @param string $comment
-	 */
-	public function setComment($comment)
-	{
+    /**
+     * @param string $comment
+     */
+    public function setComment($comment)
+    {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment  = str_replace("\n", '', $comment);
-	}
+    }
 
-	/**
-	 * This function will be needed to write the comment back to the less file and restore it's initial structure
-	 * in less.
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		return $this->getComment()."\n";
-	}
-
+    /**
+     * This function will be needed to write the comment back to the less file and restore it's initial structure
+     * in less.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getComment() . "\n";
+    }
 }

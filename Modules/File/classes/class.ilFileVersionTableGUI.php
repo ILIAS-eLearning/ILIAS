@@ -18,9 +18,8 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
  */
 class ilFileVersionTableGUI extends ilTable2GUI
 {
-
-    var $confirmDelete = false;
-    var $current_version = 0;
+    public $confirmDelete = false;
+    public $current_version = 0;
 
 
     /**
@@ -30,7 +29,7 @@ class ilFileVersionTableGUI extends ilTable2GUI
      * @param string       $a_parent_cmd The parent command.
      * @param int          $a_file_id    The id of the file object
      */
-    function __construct($a_parent_obj, $a_parent_cmd, $confirmDelete = false)
+    public function __construct($a_parent_obj, $a_parent_cmd, $confirmDelete = false)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -174,5 +173,3 @@ class ilFileVersionTableGUI extends ilTable2GUI
         }
     }
 }
-
-?>

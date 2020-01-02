@@ -7,19 +7,19 @@
  */
 interface ilTermsOfServiceAcceptanceDataGateway
 {
-	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
-	 */
-	public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity);
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     */
+    public function trackAcceptance(ilTermsOfServiceAcceptanceEntity $entity);
 
-	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
-	 * @return ilTermsOfServiceAcceptanceEntity
-	 */
-	public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity);
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     * @return ilTermsOfServiceAcceptanceEntity
+     */
+    public function loadCurrentAcceptanceOfUser(ilTermsOfServiceAcceptanceEntity $entity);
 
-	/**
-	 * @param ilTermsOfServiceAcceptanceEntity $entity
-	 */
-	public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity);
+    /**
+     * @param ilTermsOfServiceAcceptanceEntity $entity
+     */
+    public function deleteAcceptanceHistoryByUser(ilTermsOfServiceAcceptanceEntity $entity);
 }

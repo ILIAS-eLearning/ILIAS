@@ -4,7 +4,7 @@
 
 
 /**
- * View definition page configuration 
+ * View definition page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -12,18 +12,15 @@
  */
 class ilDclDetailedViewDefinitionConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
+    /**
+     * Init
+     */
+    public function init()
+    {
         // config
-		$this->setPreventHTMLUnmasking(true);
-		$this->setEnableInternalLinks(false);
-		$this->setEnableWikiLinks(false);						
-		$this->setEnableActivation(false);
-	}
-	
+        $this->setPreventHTMLUnmasking(true);
+        $this->setEnableInternalLinks(false);
+        $this->setEnableWikiLinks(false);
+        $this->setEnableActivation(false);
+    }
 }
-
-?>

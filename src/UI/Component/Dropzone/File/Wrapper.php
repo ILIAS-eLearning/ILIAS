@@ -14,22 +14,23 @@ use ILIAS\UI\Component\Component;
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
-interface Wrapper extends File {
+interface Wrapper extends File
+{
 
-	/**
-	 * Get a wrapper dropzone like this, wrapping around the given component(s).
-	 *
-	 * @param Component[]|Component $content
-	 *
-	 * @return $this
-	 */
-	public function withContent($content);
+    /**
+     * Get a wrapper dropzone like this, wrapping around the given component(s).
+     *
+     * @param Component[]|Component $content
+     *
+     * @return $this
+     */
+    public function withContent($content);
 
 
-	/**
-	 * Get the components being wrapped by this dropzone.
-	 *
-	 * @return Component[]
-	 */
-	public function getContent();
+    /**
+     * Get the components being wrapped by this dropzone.
+     *
+     * @return Component[]
+     */
+    public function getContent();
 }

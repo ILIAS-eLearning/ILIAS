@@ -10,20 +10,20 @@ use ILIAS\UI\Component as C;
  *
  * @package namespace ILIAS\UI\Implementation\Component
  */
-interface TriggeredSignalInterface {
+interface TriggeredSignalInterface
+{
 
-	/**
-	 * Get the signal that will be triggered
-	 *
-	 * @return C\Signal
-	 */
-	public function getSignal();
+    /**
+     * Get the signal that will be triggered
+     *
+     * @return C\Signal
+     */
+    public function getSignal();
 
-	/**
-	 * Get the event triggering the signal
-	 *
-	 * @return string
-	 */
-	public function getEvent();
-
+    /**
+     * Get the event triggering the signal
+     *
+     * @return string
+     */
+    public function getEvent();
 }

@@ -17,17 +17,17 @@
 
 // Retrieve the client id from PATH_INFO
 // Component 1 contains the ILIAS client_id.
-$path_info_components = explode('/',$_SERVER['PATH_INFO']);
+$path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 
-// For all requests, except for GET-Requests for files, we enforce HTTP 
+// For all requests, except for GET-Requests for files, we enforce HTTP
 // authentication for the WebDAV protocol.
-#if ($_SERVER['REQUEST_METHOD'] != 'GET' || 
+#if ($_SERVER['REQUEST_METHOD'] != 'GET' ||
 #	count($path_info_components) < 3 ||
 #	substr($path_info_components[2],0,5) != 'file_') {
 #	define ('WebDAV_Authentication', 'HTTP');
 #}
-define ('WebDAV_Authentication', 'HTTP');
+define('WebDAV_Authentication', 'HTTP');
 
 // Set context for authentication
 include_once 'Services/Authentication/classes/class.ilAuthFactory.php';
@@ -49,4 +49,3 @@ include_once "Services/WebDAV/classes/class.ilDAVServer.php";
 $server =  ilDAVServer::getInstance();
 $server->ServeRequest();
 // END WebDAV
-?>

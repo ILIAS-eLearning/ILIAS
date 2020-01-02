@@ -7,78 +7,88 @@ namespace ILIAS\Modules\OrgUnit\ARHelper;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-trait DIC {
+trait DIC
+{
 
-	/**
-	 * @return \ILIAS\DI\Container
-	 */
-	public function dic() {
-		return $GLOBALS['DIC'];
-	}
-
-
-	/**
-	 * @return \ilCtrl
-	 */
-	protected function ctrl() {
-		return $this->dic()->ctrl();
-	}
+    /**
+     * @return \ILIAS\DI\Container
+     */
+    public function dic()
+    {
+        return $GLOBALS['DIC'];
+    }
 
 
-	/**
-	 * @param $variable
-	 *
-	 * @return string
-	 */
-	public function txt($variable) {
-		return $this->lng()->txt($variable);
-	}
+    /**
+     * @return \ilCtrl
+     */
+    protected function ctrl()
+    {
+        return $this->dic()->ctrl();
+    }
 
 
-	/**
-	 * @return \ilTemplate
-	 */
-	protected function tpl() {
-		return $this->dic()->ui()->mainTemplate();
-	}
+    /**
+     * @param $variable
+     *
+     * @return string
+     */
+    public function txt($variable)
+    {
+        return $this->lng()->txt($variable);
+    }
 
 
-	/**
-	 * @return \ilLanguage
-	 */
-	protected function lng() {
-		return $this->dic()->language();
-	}
+    /**
+     * @return \ilTemplate
+     */
+    protected function tpl()
+    {
+        return $this->dic()->ui()->mainTemplate();
+    }
 
 
-	/**
-	 * @return \ilTabsGUI
-	 */
-	protected function tabs() {
-		return $this->dic()->tabs();
-	}
+    /**
+     * @return \ilLanguage
+     */
+    protected function lng()
+    {
+        return $this->dic()->language();
+    }
 
 
-	/**
-	 * @return \ILIAS\DI\UIServices
-	 */
-	protected function ui() {
-		return $this->dic()->ui();
-	}
+    /**
+     * @return \ilTabsGUI
+     */
+    protected function tabs()
+    {
+        return $this->dic()->tabs();
+    }
 
 
-	/**
-	 * @return \ilObjUser
-	 */
-	protected function user() {
-		return $this->dic()->user();
-	}
+    /**
+     * @return \ILIAS\DI\UIServices
+     */
+    protected function ui()
+    {
+        return $this->dic()->ui();
+    }
 
 
-	/**
-	 * @return \ILIAS\DI\HTTPServices
-	 */
-	protected function http() {
-		return $this->dic()->http();
-	}
+    /**
+     * @return \ilObjUser
+     */
+    protected function user()
+    {
+        return $this->dic()->user();
+    }
+
+
+    /**
+     * @return \ILIAS\DI\HTTPServices
+     */
+    protected function http()
+    {
+        return $this->dic()->http();
+    }
 }

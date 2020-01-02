@@ -11,92 +11,86 @@ include_once './Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilExerciseVerificationTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /**
+     * @var ilObjUser
+     */
+    protected $user;
 
-	/**
-	 * Constructor
-	 *
-	 * @param ilObject $a_parent_obj
-	 * @param string $a_parent_cmd
-	 */
-	public function  __construct($a_parent_obj, $a_parent_cmd = "")
-	{
-		global $DIC;
+    /**
+     * Constructor
+     *
+     * @param ilObject $a_parent_obj
+     * @param string $a_parent_cmd
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    {
+        global $DIC;
 
-		$this->ctrl = $DIC->ctrl();
-		$this->user = $DIC->user();
-		$ilCtrl = $DIC->ctrl();
-		
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $ilCtrl = $DIC->ctrl();
+        
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$this->addColumn($this->lng->txt("title"), "title");
-		$this->addColumn($this->lng->txt("passed"), "passed");
-		$this->addColumn($this->lng->txt("action"), "");
+        $this->addColumn($this->lng->txt("title"), "title");
+        $this->addColumn($this->lng->txt("passed"), "passed");
+        $this->addColumn($this->lng->txt("action"), "");
 
-		$this->setTitle($this->lng->txt("excv_create"));
-		$this->setDescription($this->lng->txt("excv_create_info"));
-		
-		$this->setRowTemplate("tpl.exc_verification_row.html", "Modules/Exercise");
-		$this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->setTitle($this->lng->txt("excv_create"));
+        $this->setDescription($this->lng->txt("excv_create_info"));
+        
+        $this->setRowTemplate("tpl.exc_verification_row.html", "Modules/Exercise");
+        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, $a_parent_cmd));
 
-		$this->getItems();
-	}
+        $this->getItems();
+    }
 
-	/**
-	 * Get all completed tests
-	 */
-	protected function getItems()
-	{
-		$ilUser = $this->user;
+    /**
+     * Get all completed tests
+     */
+    protected function getItems()
+    {
+        $ilUser = $this->user;
 
-		include_once "Modules/Exercise/classes/class.ilObjExercise.php";
-		include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
-		include_once "./Services/Certificate/classes/class.ilCertificate.php";
+        include_once "Modules/Exercise/classes/class.ilObjExercise.php";
+        include_once "./Modules/Exercise/classes/class.ilExerciseCertificateAdapter.php";
+        include_once "./Services/Certificate/classes/class.ilCertificate.php";
 
-		$data = array();
-		foreach(ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed)
-		{			
-			// #11210 - only available certificates!
-			$exc = new ilObjExercise($exercise_id, false);				
-			if($exc->hasUserCertificate($ilUser->getId()))
-			{						
-				$adapter = new ilExerciseCertificateAdapter($exc);
-				if(ilCertificate::_isComplete($adapter))
-				{							
-					$data[] = array("id" => $exercise_id,
-						"title" => ilObject::_lookupTitle($exercise_id),
-						"passed" => $passed);
-				}
-			}
-		}
+        $data = array();
+        foreach (ilObjExercise::_lookupFinishedUserExercises($ilUser->getId()) as $exercise_id => $passed) {
+            // #11210 - only available certificates!
+            $exc = new ilObjExercise($exercise_id, false);
+            if ($exc->hasUserCertificate($ilUser->getId())) {
+                $adapter = new ilExerciseCertificateAdapter($exc);
+                if (ilCertificate::_isComplete($adapter)) {
+                    $data[] = array("id" => $exercise_id,
+                        "title" => ilObject::_lookupTitle($exercise_id),
+                        "passed" => $passed);
+                }
+            }
+        }
 
-		$this->setData($data);
-	}
+        $this->setData($data);
+    }
 
-	/**
-	 * Fill template row
-	 * 
-	 * @param array $a_set
-	 */
-	protected function fillRow($a_set)
-	{
-		$ilCtrl = $this->ctrl;
+    /**
+     * Fill template row
+     *
+     * @param array $a_set
+     */
+    protected function fillRow($a_set)
+    {
+        $ilCtrl = $this->ctrl;
 
-		$this->tpl->setVariable("TITLE", $a_set["title"]);
-		$this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
-			$this->lng->txt("no"));
-		
-		if($a_set["passed"])
-		{
-			$ilCtrl->setParameter($this->parent_obj, "exc_id", $a_set["id"]);
-			$action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
-			$this->tpl->setVariable("URL_SELECT", $action);
-			$this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
-		}
-	}
+        $this->tpl->setVariable("TITLE", $a_set["title"]);
+        $this->tpl->setVariable("PASSED", ($a_set["passed"]) ? $this->lng->txt("yes") :
+            $this->lng->txt("no"));
+        
+        if ($a_set["passed"]) {
+            $ilCtrl->setParameter($this->parent_obj, "exc_id", $a_set["id"]);
+            $action = $ilCtrl->getLinkTarget($this->parent_obj, "save");
+            $this->tpl->setVariable("URL_SELECT", $action);
+            $this->tpl->setVariable("TXT_SELECT", $this->lng->txt("select"));
+        }
+    }
 }
-
-?>

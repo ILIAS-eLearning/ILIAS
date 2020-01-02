@@ -8,24 +8,25 @@ include_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Op
  * Date: 25.03.13
  * Time: 14:57
  * @author Thomas Joußen <tjoussen@databay.de>
- */ 
-class ilAssLacLesserOperation extends ilAssLacAbstractOperation{
+ */
+class ilAssLacLesserOperation extends ilAssLacAbstractOperation
+{
 
-	/**
-	 * @var string
-	 */
-	public static $pattern = "<";
+    /**
+     * @var string
+     */
+    public static $pattern = "<";
 
-	function getDescription()
-	{
-		return "mit weniger als ";
-	}
+    public function getDescription()
+    {
+        return "mit weniger als ";
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getPattern()
-	{
-		return self::$pattern;
-	}
+    /**
+     * @return string
+     */
+    public function getPattern()
+    {
+        return self::$pattern;
+    }
 }

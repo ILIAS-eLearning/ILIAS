@@ -10,7 +10,8 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param $form ilPropertyFormGUI
      */
-    public function setValueFromForm($form) {
+    public function setValueFromForm($form)
+    {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = array(
                 "link" => $form->getInput("field_" . $this->getField()->getId()),
@@ -26,7 +27,8 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
      * @param $row
      * @param $col
      */
-    public function fillExcelExport(ilExcel $worksheet, &$row, &$col) {
+    public function fillExcelExport(ilExcel $worksheet, &$row, &$col)
+    {
         $value = $this->getExportValue();
 
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -46,39 +48,42 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
 
-	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
-		if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
-			$value = $this->getValue();
-			if (is_array($value)) {
-				$confirmation->addHiddenItem('field_'.$this->field->getId(), $value['link']);
-				$confirmation->addHiddenItem('field_'.$this->field->getId().'_title', $value['title']);
-			}
-			return;
-		}
-		parent::addHiddenItemsToConfirmation($confirmation);
-	}
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    {
+        if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
+            $value = $this->getValue();
+            if (is_array($value)) {
+                $confirmation->addHiddenItem('field_' . $this->field->getId(), $value['link']);
+                $confirmation->addHiddenItem('field_' . $this->field->getId() . '_title', $value['title']);
+            }
+            return;
+        }
+        parent::addHiddenItemsToConfirmation($confirmation);
+    }
 
 
-	/**
-	 * @return string
-	 */
-	public function getPlainText() {
-		$value = $this->getValue();
+    /**
+     * @return string
+     */
+    public function getPlainText()
+    {
+        $value = $this->getValue();
 
-		if (is_array($value)) {
-			if ($value['title']) {
-				return $value['title'];
-			}
-			return isset($value['link']) ? $value['link'] : '';
-		} else {
-			return $value;
-		}
-	}
+        if (is_array($value)) {
+            if ($value['title']) {
+                return $value['title'];
+            }
+            return isset($value['link']) ? $value['link'] : '';
+        } else {
+            return $value;
+        }
+    }
 
-	/**
+    /**
      * @return mixed|string
      */
-    public function getExportValue() {
+    public function getExportValue()
+    {
         $value = $this->getValue();
 
         // TODO: Handle line-breaks for excel
@@ -89,11 +94,12 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getValueFromExcel($excel, $row, $col) {
+    public function getValueFromExcel($excel, $row, $col)
+    {
         $value = parent::getValueFromExcel($excel, $row, $col);
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $title = '';
-            if ($excel->getCell(1, $col+1) == $this->getField()->getTitle().'_title') {
+            if ($excel->getCell(1, $col+1) == $this->getField()->getTitle() . '_title') {
                 $title = $excel->getCell($row, $col + 1);
             }
             $value = array('link' => $value, 'title' => $title);
@@ -101,9 +107,10 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         return $value;
     }
 
-    public function parseValue($value) {
+    public function parseValue($value)
+    {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
-	        && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
+            && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             return nl2br($value);
         }
 
@@ -119,7 +126,8 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
      *
      * @return int|string
      */
-    public function parseSortingValue($value, $link = true) {
+    public function parseSortingValue($value, $link = true)
+    {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
                 return isset($value['title']) ? $value['title'] : $value['link'];

@@ -11,20 +11,16 @@
  */
 class ilLineFormatter extends \Monolog\Formatter\LineFormatter
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	public function format(array $record)
-	{
-		if (isset($record["extra"]["trace"]))
-		{
-			$record["message"] = $record["extra"]["trace"]." ".$record["message"];
-			$record["extra"] = array();
-		}
+    /**
+     * {@inheritdoc}
+     */
+    public function format(array $record)
+    {
+        if (isset($record["extra"]["trace"])) {
+            $record["message"] = $record["extra"]["trace"] . " " . $record["message"];
+            $record["extra"] = array();
+        }
 
-		return parent::format($record);
-	}
-
+        return parent::format($record);
+    }
 }
-
-?>

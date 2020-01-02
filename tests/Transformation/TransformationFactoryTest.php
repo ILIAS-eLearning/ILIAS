@@ -9,27 +9,34 @@ use ILIAS\Transformation;
  *
  * @author Stefan Hecken <stefan.hecken@concepts-and-training.de>
  */
-class TransformationFactoryTest extends PHPUnit_Framework_TestCase {
-	protected function setUp() {
-		$this->f = new Transformation\Factory();
-	}
+class TransformationFactoryTest extends PHPUnit_Framework_TestCase
+{
+    protected function setUp()
+    {
+        $this->f = new Transformation\Factory();
+    }
 
-	protected function tearDown() {
-		$this->f = null;
-	}
+    protected function tearDown()
+    {
+        $this->f = null;
+    }
 
-	public function testAddLabels() {
-		$add_label = $this->f->addLabels(array("A", "B", "C"));
-		$this->assertInstanceOf(Transformation\Transformation::class, $add_label);
-	}
+    public function testAddLabels()
+    {
+        $add_label = $this->f->addLabels(array("A", "B", "C"));
+        $this->assertInstanceOf(Transformation\Transformation::class, $add_label);
+    }
 
-	public function testSplitString() {
-		$split_string = $this->f->splitString("#");
-		$this->assertInstanceOf(Transformation\Transformation::class, $split_string);
-	}
+    public function testSplitString()
+    {
+        $split_string = $this->f->splitString("#");
+        $this->assertInstanceOf(Transformation\Transformation::class, $split_string);
+    }
 
-	public function testCustom() {
-		$custom = $this->f->custom(function() {});
-		$this->assertInstanceOf(Transformation\Transformation::class, $custom);
-	}
+    public function testCustom()
+    {
+        $custom = $this->f->custom(function () {
+        });
+        $this->assertInstanceOf(Transformation\Transformation::class, $custom);
+    }
 }

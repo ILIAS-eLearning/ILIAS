@@ -11,125 +11,124 @@
 */
 class ilTableTemplatesStorage
 {
-	/**
-	 * @var ilDB
-	 */
-	protected $db;
+    /**
+     * @var ilDB
+     */
+    protected $db;
 
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->db = $DIC->database();
-	}
+        $this->db = $DIC->database();
+    }
 
-	/**
-	 * Store table template
-	 *
-	 * @param	string	$a_context
-	 * @param	int		$a_user_id
-	 * @param	string	$a_name
-	 * @param	array	$a_state
-	 */
-	function store($a_context, $a_user_id, $a_name, array $a_state)
-	{
-		$ilDB = $this->db;
+    /**
+     * Store table template
+     *
+     * @param	string	$a_context
+     * @param	int		$a_user_id
+     * @param	string	$a_name
+     * @param	array	$a_state
+     */
+    public function store($a_context, $a_user_id, $a_name, array $a_state)
+    {
+        $ilDB = $this->db;
 
-		if ($a_context == "" || $a_name == "")
-		{
-			return;
-		}
+        if ($a_context == "" || $a_name == "") {
+            return;
+        }
 
-		$ilDB->replace("table_templates", array(
-				"name" => array("text", $a_name),
-				"user_id" => array("integer", $a_user_id),
-				"context" => array("text", $a_context)),
-			array(
-				"value" => array("text", serialize($a_state))
-			));
-	}
+        $ilDB->replace(
+            "table_templates",
+            array(
+                "name" => array("text", $a_name),
+                "user_id" => array("integer", $a_user_id),
+                "context" => array("text", $a_context)),
+            array(
+                "value" => array("text", serialize($a_state))
+            )
+        );
+    }
 
-	/**
-	 * Get table template
-	 *
-	 * @param	string	$a_context
-	 * @param	int		$a_user_id
-	 * @param	string	$a_name
-	 * @return	array
-	 */
-	function load($a_context, $a_user_id, $a_name)
-	{
-		$ilDB = $this->db;
+    /**
+     * Get table template
+     *
+     * @param	string	$a_context
+     * @param	int		$a_user_id
+     * @param	string	$a_name
+     * @return	array
+     */
+    public function load($a_context, $a_user_id, $a_name)
+    {
+        $ilDB = $this->db;
 
-		if ($a_context == "" || $a_name == "")
-		{
-			return;
-		}
+        if ($a_context == "" || $a_name == "") {
+            return;
+        }
 
-		$set = $ilDB->query("SELECT value FROM table_templates ".
-			" WHERE name = ".$ilDB->quote($a_name, "text").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND context = ".$ilDB->quote($a_context, "text")
-			);
-		$rec  = $ilDB->fetchAssoc($set);
-		return unserialize($rec["value"]);
-	}
+        $set = $ilDB->query(
+            "SELECT value FROM table_templates " .
+            " WHERE name = " . $ilDB->quote($a_name, "text") .
+            " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
+            " AND context = " . $ilDB->quote($a_context, "text")
+        );
+        $rec  = $ilDB->fetchAssoc($set);
+        return unserialize($rec["value"]);
+    }
 
-	/**
-	 * Delete table template
-	 *
-	 * @param	string	$a_context
-	 * @param	int		$a_user_id
-	 * @param	string	$a_name
-	 */
-	function delete($a_context, $a_user_id, $a_name)
-	{
-		$ilDB = $this->db;
+    /**
+     * Delete table template
+     *
+     * @param	string	$a_context
+     * @param	int		$a_user_id
+     * @param	string	$a_name
+     */
+    public function delete($a_context, $a_user_id, $a_name)
+    {
+        $ilDB = $this->db;
 
-		if ($a_context == "" || $a_name == "")
-		{
-			return;
-		}
+        if ($a_context == "" || $a_name == "") {
+            return;
+        }
 
-		$ilDB->query("DELETE FROM table_templates ".
-			" WHERE name = ".$ilDB->quote($a_name, "text").
-			" AND user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND context = ".$ilDB->quote($a_context, "text")
-			);
-	}
+        $ilDB->query(
+            "DELETE FROM table_templates " .
+            " WHERE name = " . $ilDB->quote($a_name, "text") .
+            " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
+            " AND context = " . $ilDB->quote($a_context, "text")
+        );
+    }
 
-	/**
-	 * List templates
-	 *
-	 * @param	string	$a_context
-	 * @param	int		$a_user_id
-	 * @return array
-	 */
-	function getNames($a_context, $a_user_id)
-	{
-		$ilDB = $this->db;
+    /**
+     * List templates
+     *
+     * @param	string	$a_context
+     * @param	int		$a_user_id
+     * @return array
+     */
+    public function getNames($a_context, $a_user_id)
+    {
+        $ilDB = $this->db;
 
-		if ($a_context == "")
-		{
-			return;
-		}
+        if ($a_context == "") {
+            return;
+        }
 
-		$set = $ilDB->query("SELECT name FROM table_templates ".
-			" WHERE user_id = ".$ilDB->quote($a_user_id, "integer").
-			" AND context = ".$ilDB->quote($a_context, "text").
-			" ORDER BY name"
-			);
-		$result = array();
-		while ($rec  = $ilDB->fetchAssoc($set))
-		{
-			$result[] = $rec["name"];
-		}
-		return $result;
-	}
+        $set = $ilDB->query(
+            "SELECT name FROM table_templates " .
+            " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
+            " AND context = " . $ilDB->quote($a_context, "text") .
+            " ORDER BY name"
+        );
+        $result = array();
+        while ($rec  = $ilDB->fetchAssoc($set)) {
+            $result[] = $rec["name"];
+        }
+        return $result;
+    }
 }
-
-?>

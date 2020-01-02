@@ -6,46 +6,53 @@ namespace ILIAS\UI\Implementation\Component\Button;
 
 use ILIAS\UI\Component\Button as B;
 
-class Factory implements B\Factory {
-	/**
-	 * @inheritdoc
-	 */
-	public function standard($label, $action) {
-		return new Standard($label, $action);
-	}
+class Factory implements B\Factory
+{
+    /**
+     * @inheritdoc
+     */
+    public function standard($label, $action)
+    {
+        return new Standard($label, $action);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function primary($label, $action) {
-		return new Primary($label, $action);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function primary($label, $action)
+    {
+        return new Primary($label, $action);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function close() {
-		return new Close();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function close()
+    {
+        return new Close();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function tag($label, $action) {
-		return new Tag($label, $action);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function tag($label, $action)
+    {
+        return new Tag($label, $action);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function shy($label, $action) {
-		return new Shy($label, $action);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function shy($label, $action)
+    {
+        return new Shy($label, $action);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function month($default) {
-		return new Month($default);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function month($default)
+    {
+        return new Month($default);
+    }
 }

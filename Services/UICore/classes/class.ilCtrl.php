@@ -120,7 +120,7 @@ class ilCtrl
             $this->module_dir = $m_rec["type"] . "/" . $m_rec["name"];
             include_once $this->module_dir . "/" . $class_dir . "/class." . $class . ".php";
         } else {		// check whether class belongs to a service
-//			$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
+            //			$mc_set = $ilDB->query("SELECT * FROM service_class WHERE LOWER(class) = ".
             //				$ilDB->quote($baseClass, "text"));
             //			$mc_rec = $ilDB->fetchAssoc($mc_set);
 
@@ -544,9 +544,9 @@ class ilCtrl
     /*	function storeCommonStructures()
         {
             global $ilDB;
-    
+
             $ilDB->manipulate("DELETE FROM ctrl_structure");
-    
+
             foreach ($this->stored_trees as $root_gui_class)
             {
                 $this->call_node = array();
@@ -1891,7 +1891,7 @@ class ilCtrl
             " parent = " . $ilDB->quote($a_parent, "text") . " AND " .
             " child = " . $ilDB->quote($a_child, "text") . " AND " .
             " comp_prefix = " . $ilDB->quote($a_comp_prefix, "text")
-            );
+        );
         if ($rec = $ilDB->fetchAssoc($set)) {
             return;
         }

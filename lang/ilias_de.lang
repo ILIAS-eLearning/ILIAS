@@ -497,7 +497,7 @@ assessment#:#cannot_edit_test#:#Sie besitzen keine ausreichenden Rechte, um den 
 assessment#:#cannot_execute_test#:#Sie besitzen keine ausreichenden Rechte, um den Test auszuführen!
 assessment#:#cannot_read_questionpool#:#Sie besitzen keine ausreichenden Rechte, um auf den Fragenpool zuzugreifen!
 assessment#:#cannot_save_metaobject#:#Sie besitzen keine ausreichenden Rechte, um die Metadaten zu speichern!
-assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Der Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da der Test noch keine Fragen und/oder Noten hinzugefügt wurden!
+assessment#:#cannot_switch_to_online_no_questions_andor_no_mark_steps#:#Status kann nicht auf &quot;online (aktiviert)&quot; geändert werden, da dem Test noch keine Fragen und/oder Noten hinzugefügt wurden!
 assessment#:#changeSuggestedSolution#:#Art der Inhalte zur Wiederholung auswählen
 assessment#:#checkbox_checked#:#Ausgewählt
 assessment#:#checkbox_unchecked#:#Nicht ausgewählt
@@ -2477,20 +2477,20 @@ common#:#default_style#:#Standard-Stylesheet
 common#:#defaults#:#Standardeinstellungen
 common#:#delete#:#Löschen
 common#:#delete_existing_file#:#Bestehende Datei löschen
-common#:#delete_inactive_user_accounts#:#Benutzerzugänge nach Inaktivität löschen
+common#:#delete_inactive_user_accounts#:#Benutzer mit lange zurückliegendem Login löschen
 common#:#delete_inactive_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge abhängig vom Zeitpunkt des letzten Logins gelöscht.
 common#:#delete_inactive_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactive_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactive_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden bei der Überprüfung berücksichtigt und gegebenenfalls gelöscht.
 common#:#delete_inactive_user_accounts_period#:#Vergangene Tage seit letzter Anmeldung
-common#:#delete_inactive_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der letzten Anmeldung diese Zeitspanne verstrichen ist.
+common#:#delete_inactive_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit der letzten Anmeldung diese Anzahl an Tagen verstrichen ist.
 common#:#update_orgunits#:#Benutzerfeld 'Organisationseinheiten' aktualisieren
 common#:#update_orgunits_desc#:#Wenn eingeschaltet, werden bei allen Benutzern das Feld 'Organisationseinheiten' aktualisiert und so allfällige Fehler behoben.
-common#:#delete_inactivated_user_accounts#:#Benutzerzugänge nach Inaktivierung löschen
-common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach der Inaktivierung gelöscht.
+common#:#delete_inactivated_user_accounts#:#Inaktive Benutzerzugänge löschen
+common#:#delete_inactivated_user_accounts_desc#:#Wenn eingeschaltet, werden Benutzerzugänge %s Tage nach ihrer Inaktivierung gelöscht.
 common#:#delete_inactivated_user_accounts_include_roles#:#Berücksichtigte Rollen
-common#:#delete_inactivated_user_accounts_include_roles_desc#:#Definiert, welche Rollen beim Löschen berücksichtigt werden sollen.
+common#:#delete_inactivated_user_accounts_include_roles_desc#:#Benutzer, die mindestens eine der ausgewählten globalen Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.
 common#:#delete_inactivated_user_accounts_period#:#Vergangene Tage seit Inaktivierung
-common#:#delete_inactivated_user_accounts_period_desc#:#Accounts werden gelöscht, wenn seit der Inaktivierung diese Zeitspanne verstrichen ist.
+common#:#delete_inactivated_user_accounts_period_desc#:#Benutzerzugang wird gelöscht, wenn seit dessen Inaktivierung diese Anzahl an Tagen verstrichen ist.
 common#:#delete_parameter#:#Parameter löschen
 common#:#delete_selected_items#:#Löschen
 common#:#deleted#:#Gelöscht
@@ -13271,6 +13271,7 @@ logging#:#log_error_settings#:#Einstellungen zum Fehlerprotokoll
 logging#:#error_settings_saved#:#Einstellungen gespeichert
 logging#:#log_error_file_cleanup_title#:#Löschen alter oder verwaister Errorlog-Dateien
 logging#:#log_error_file_cleanup_info#:#Löscht alte oder verwaiste Dateien des Errorlog.
+logging#:#log_error_path_not_configured_or_wrong#:#Der Pfad zu den Errorlogs (error_path) ist nicht gesetzt oder nicht erreichbar.
 logging#:#frm_clear_older_then#:#Dateien löschen die älter sind als
 logging#:#frm_clear_older_then_info#:#Bitte geben Sie den Zeitraum in Tagen ein.
 blog#:#blog_show_latest#:#Neueste Beiträge/Entwürfe anzeigen
@@ -14249,3 +14250,4 @@ lti#:#lti_cron_title_desc#:#Überträgt den Lernfortschritt von LTI-Benutzern an
 dateplaner#:#cal_usr_info#:#Informationen zum Termin
 content#:#msg_no_page_access#:#Sie sind nicht berechtigt auf diese Seite zuzugreifen.
 forum#:#frm_move_invalid_file_type#:#Das ausgewählte Thema "%s" hat einen nicht unterstützten Dateitypen im Dateianhang. Entfernen Sie diese Datei oder kontaktieren Sie den Administrator, um den Dateitypen zur Positivliste hinzuzufügen.
+exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
