@@ -7,30 +7,29 @@
  */
 class ilBuddySystemBaseTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    protected function setGlobalVariable($name, $value)
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        $GLOBALS[$name] = $value;
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
+    /**
+     * @param string $exception_class
+     */
+    protected function assertException($exception_class)
+    {
+        if (version_compare(PHPUnit_Runner_Version::id(), '5.0', '>=')) {
+            $this->setExpectedException($exception_class);
+        }
+    }
 }

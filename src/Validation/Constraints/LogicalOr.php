@@ -13,41 +13,41 @@ use ILIAS\Data;
  */
 class LogicalOr extends Custom implements Constraint
 {
-	/**
-	 * @var Constraint[]
-	 */
-	protected $other = [];
+    /**
+     * @var Constraint[]
+     */
+    protected $other = [];
 
-	/**
-	 * LogicalOr constructor.
-	 * @param Constraint[] $other
-	 * @param Data\Factory $data_factory
-	 */
-	public function __construct(array $other, Data\Factory $data_factory, \ilLanguage $lng)
-	{
-		$this->other = $other;
+    /**
+     * LogicalOr constructor.
+     * @param Constraint[] $other
+     * @param Data\Factory $data_factory
+     */
+    public function __construct(array $other, Data\Factory $data_factory, \ilLanguage $lng)
+    {
+        $this->other = $other;
 
-		parent::__construct(
-			function ($value) {
-				foreach ($this->other as $constraint) {
-					if ($constraint->accepts($value)) {
-						return true;
-					}
-				}
+        parent::__construct(
+            function ($value) {
+                foreach ($this->other as $constraint) {
+                    if ($constraint->accepts($value)) {
+                        return true;
+                    }
+                }
 
-				return false;
-			},
-			function ($value) {
-				$problems = [];
+                return false;
+            },
+            function ($value) {
+                $problems = [];
 
-				foreach ($this->other as $constraint) {
-					$problems[] = (string)$constraint->problemWith($value);
-				}
+                foreach ($this->other as $constraint) {
+                    $problems[] = (string) $constraint->problemWith($value);
+                }
 
-				return 'Please fix one of these: ' . implode(', ', array_filter($problems));
-			},
-			$data_factory,
-			$lng
-		);
-	}
+                return 'Please fix one of these: ' . implode(', ', array_filter($problems));
+            },
+            $data_factory,
+            $lng
+        );
+    }
 }

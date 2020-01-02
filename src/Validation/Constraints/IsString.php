@@ -14,21 +14,23 @@ use ILIAS\Data\Result;
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
-class IsString extends Custom implements Constraint {
+class IsString extends Custom implements Constraint
+{
 
-	/**
-	 * IsString constructor.
-	 */
-	public function __construct(Data\Factory $data_factory, \ilLanguage $lng) {
-		parent::__construct(
-			function ($value) {
-				return is_string($value);
-			},
-			function ($txt, $value) {
-				return $txt("not_a_string", gettype($value));
-			},
-			$data_factory,
-			$lng
-		);
-	}
+    /**
+     * IsString constructor.
+     */
+    public function __construct(Data\Factory $data_factory, \ilLanguage $lng)
+    {
+        parent::__construct(
+            function ($value) {
+                return is_string($value);
+            },
+            function ($txt, $value) {
+                return $txt("not_a_string", gettype($value));
+            },
+            $data_factory,
+            $lng
+        );
+    }
 }

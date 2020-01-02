@@ -12,25 +12,23 @@ include_once("./Services/Export/classes/class.ilImportConfig.php");
  */
 class ilSurveyImportConfig extends ilImportConfig
 {
-	protected $svy_qpl_id = -1;
+    protected $svy_qpl_id = -1;
 
-	/**
-	 * Set survey question pool id
-	 * @param integer $a_svy_qpl_id
-	 */
-	function setQuestionPoolID($a_svy_qpl_id)
-	{
-		$this->svy_qpl_id = $a_svy_qpl_id;
-	}
+    /**
+     * Set survey question pool id
+     * @param integer $a_svy_qpl_id
+     */
+    public function setQuestionPoolID($a_svy_qpl_id)
+    {
+        $this->svy_qpl_id = $a_svy_qpl_id;
+    }
 
-	/**
-	 * Get survey question pool id
-	 * @return  integer survey pool id
-	 */
-	function getQuestionPoolID()
-	{
-		return $this->svy_qpl_id;
-	}
-
+    /**
+     * Get survey question pool id
+     * @return  integer survey pool id
+     */
+    public function getQuestionPoolID()
+    {
+        return $this->svy_qpl_id;
+    }
 }
-?>

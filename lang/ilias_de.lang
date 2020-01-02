@@ -4854,7 +4854,7 @@ common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#salutation_n#:#Keine Angabe
 common#:#saml_log_in#:#Login
-common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
+common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#save#:#Speichern
 common#:#save_and_back#:#Speichern und zurück
@@ -15065,3 +15065,5 @@ crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benöt
 crs#:#crs_objective_result_details#:#« Details anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
+style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.

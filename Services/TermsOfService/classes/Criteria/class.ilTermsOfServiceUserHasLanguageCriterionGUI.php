@@ -10,86 +10,85 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasLanguageCriterionGUI implements \ilTermsOfServiceCriterionTypeGUI
 {
-	/** @var \ilTermsOfServiceUserHasLanguageCriterion */
-	protected $type;
+    /** @var \ilTermsOfServiceUserHasLanguageCriterion */
+    protected $type;
 
-	/** @var \ilLanguage */
-	protected $lng;
+    /** @var \ilLanguage */
+    protected $lng;
 
-	/**
-	 * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
-	 * @param ilTermsOfServiceUserHasLanguageCriterion $type
-	 * @param ilLanguage $lng
-	 */
-	public function __construct(
-		\ilTermsOfServiceUserHasLanguageCriterion $type,
-		\ilLanguage $lng
-	)
-	{
-		$this->type = $type;
-		$this->lng = $lng;
-	}
+    /**
+     * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
+     * @param ilTermsOfServiceUserHasLanguageCriterion $type
+     * @param ilLanguage $lng
+     */
+    public function __construct(
+        \ilTermsOfServiceUserHasLanguageCriterion $type,
+        \ilLanguage $lng
+    ) {
+        $this->type = $type;
+        $this->lng = $lng;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function appendOption(\ilRadioGroupInputGUI $group, \ilTermsOfServiceCriterionConfig $config)
-	{
-		$option = new \ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
-		$option->setInfo($this->lng->txt('tos_crit_type_usr_language_info'));
+    /**
+     * @inheritdoc
+     */
+    public function appendOption(\ilRadioGroupInputGUI $group, \ilTermsOfServiceCriterionConfig $config)
+    {
+        $option = new \ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
+        $option->setInfo($this->lng->txt('tos_crit_type_usr_language_info'));
 
-		$languageSelection = new \ilSelectInputGUI(
-			$this->lng->txt('language'),
-			$this->type->getTypeIdent() . '_lng'
-		);
-		$languageSelection->setRequired(true);
+        $languageSelection = new \ilSelectInputGUI(
+            $this->lng->txt('language'),
+            $this->type->getTypeIdent() . '_lng'
+        );
+        $languageSelection->setRequired(true);
 
-		$options = [];
-		foreach ($this->lng->getInstalledLanguages() as $lng) {
-			$options[$lng] = $this->lng->txt('meta_l_' . $lng);
-		}
+        $options = [];
+        foreach ($this->lng->getInstalledLanguages() as $lng) {
+            $options[$lng] = $this->lng->txt('meta_l_' . $lng);
+        }
 
-		asort($options);
+        asort($options);
 
-		$languageSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-		$languageSelection->setValue((string)($config['lng'] ?? ''));
+        $languageSelection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
+        $languageSelection->setValue((string) ($config['lng'] ?? ''));
 
-		$option->addSubItem($languageSelection);
+        $option->addSubItem($languageSelection);
 
-		$group->addOption($option);
-	}
+        $group->addOption($option);
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getConfigByForm(\ilPropertyFormGUI $form): \ilTermsOfServiceCriterionConfig
-	{
-		$config = new \ilTermsOfServiceCriterionConfig([
-			'lng' => (string)$form->getInput($this->type->getTypeIdent() . '_lng')
-		]);
+    /**
+     * @inheritdoc
+     */
+    public function getConfigByForm(\ilPropertyFormGUI $form) : \ilTermsOfServiceCriterionConfig
+    {
+        $config = new \ilTermsOfServiceCriterionConfig([
+            'lng' => (string) $form->getInput($this->type->getTypeIdent() . '_lng')
+        ]);
 
-		return $config;
-	}
+        return $config;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getIdentPresentation(): string
-	{
-		return $this->lng->txt('tos_crit_type_usr_language');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getIdentPresentation() : string
+    {
+        return $this->lng->txt('tos_crit_type_usr_language');
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getValuePresentation(\ilTermsOfServiceCriterionConfig $config, Factory $uiFactory): Component
-	{
-		$lng = $config['lng'] ?? '';
+    /**
+     * @inheritdoc
+     */
+    public function getValuePresentation(\ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
+    {
+        $lng = $config['lng'] ?? '';
 
-		if (!is_string($lng) || 2 !== strlen($lng)) {
-			return $uiFactory->legacy('');
-		}
+        if (!is_string($lng) || 2 !== strlen($lng)) {
+            return $uiFactory->legacy('');
+        }
 
-		return $uiFactory->legacy($this->lng->txt('meta_l_' . (string)$lng));
-	}
+        return $uiFactory->legacy($this->lng->txt('meta_l_' . (string) $lng));
+    }
 }

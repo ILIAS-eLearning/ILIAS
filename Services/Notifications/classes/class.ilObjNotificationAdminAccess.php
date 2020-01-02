@@ -11,24 +11,22 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
 *
 * @ingroup ModulesNotification
 */
-class ilObjNotificationAdminAccess extends ilObjectAccess {
-	/**
-	 * get commands
-	 * 
-	 * this method returns an array of all possible commands/permission combinations
-	 * 
-	 * example:	
-	 * $commands = array
-	 *	(
-	 *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-	 *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-	 *	);
-	 */
-	static function _getCommands() {
-
-            return array();
-
-        }
-	
+class ilObjNotificationAdminAccess extends ilObjectAccess
+{
+    /**
+     * get commands
+     *
+     * this method returns an array of all possible commands/permission combinations
+     *
+     * example:
+     * $commands = array
+     *	(
+     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
+     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
+     *	);
+     */
+    public static function _getCommands()
+    {
+        return array();
+    }
 }
-?>

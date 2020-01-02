@@ -11,34 +11,34 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetBuilder.php';
  */
 class ilTestRandomQuestionSetBuilderWithAmountPerTest extends ilTestRandomQuestionSetBuilder
 {
-	/**
-	 * @return bool
-	 */
-	public function checkBuildable()
-	{
-		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
+    /**
+     * @return bool
+     */
+    public function checkBuildable()
+    {
+        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
-		if( $questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest()) )
-		{
-			return false;
-		}
+        if ($questionStage->isSmallerThan($this->questionSetConfig->getQuestionAmountPerTest())) {
+            return false;
+        }
 
-		return true;
-	}
-	
-	/**
-	 * @param ilTestSession $testSession
-	 */
-	public function performBuild(ilTestSession $testSession)
-	{
-		$questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
+        return true;
+    }
+    
+    /**
+     * @param ilTestSession $testSession
+     */
+    public function performBuild(ilTestSession $testSession)
+    {
+        $questionStage = $this->getSrcPoolDefListRelatedQuestUniqueCollection($this->sourcePoolDefinitionList);
 
-		$questionSet = $this->fetchQuestionsFromStageRandomly(
-			$questionStage, $this->questionSetConfig->getQuestionAmountPerTest()
-		);
-		
-		$this->handleQuestionOrdering($questionSet);
+        $questionSet = $this->fetchQuestionsFromStageRandomly(
+            $questionStage,
+            $this->questionSetConfig->getQuestionAmountPerTest()
+        );
+        
+        $this->handleQuestionOrdering($questionSet);
 
-		$this->storeQuestionSet($testSession, $questionSet);
-	}
+        $this->storeQuestionSet($testSession, $questionSet);
+    }
 }

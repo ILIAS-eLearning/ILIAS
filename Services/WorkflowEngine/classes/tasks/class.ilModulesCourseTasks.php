@@ -10,16 +10,16 @@
 */
 class ilModulesCourseTasks
 {
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 *
-	 * @return array
-	 */
-	public static function readLearnersFromCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     *
+     * @return array
+     */
+    public static function readLearnersFromCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -27,28 +27,28 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+         */
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		$learners = $participants->getMembers();
-		$retval = array($output_params[0] => $learners);
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        $learners = $participants->getMembers();
+        $retval = array($output_params[0] => $learners);
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 *
-	 * @return array
-	 */
-	public static function readTutorsFromCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     *
+     * @return array
+     */
+    public static function readTutorsFromCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -56,29 +56,29 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		$tutors = $participants->getTutors();
-		$retval = array($output_params[0] => $tutors);
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        $tutors = $participants->getTutors();
+        $retval = array($output_params[0] => $tutors);
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 *
-	 * @return array
-	 */
-	public static function readAdminsFromCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     *
+     * @return array
+     */
+    public static function readAdminsFromCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -86,29 +86,29 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		$admins = $participants->getAdmins();
-		$retval = array($output_params[0] => $admins);
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        $admins = $participants->getAdmins();
+        $retval = array($output_params[0] => $admins);
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 *
-	 * @return array
-	 */
-	public static function createCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     *
+     * @return array
+     */
+    public static function createCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -116,38 +116,38 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
 
-		$input_params = $params[0];
-		$output_params =$params[1];
+        $input_params = $params[0];
+        $output_params =$params[1];
 
-		require_once './Modules/Course/classes/class.ilObjCourse.php';
+        require_once './Modules/Course/classes/class.ilObjCourse.php';
 
-		$course_object = new ilObjCourse();
-		$course_object->setType('crs');
-		$course_object->setTitle($input_params['crsTitle']);
-		$course_object->setDescription("");
-		$course_object->create(true); // true for upload
-		$course_object->createReference();
-		$course_object->putInTree($input_params['destRefId']);
-		$course_object->setPermissions($input_params['destRefId']);
+        $course_object = new ilObjCourse();
+        $course_object->setType('crs');
+        $course_object->setTitle($input_params['crsTitle']);
+        $course_object->setDescription("");
+        $course_object->create(true); // true for upload
+        $course_object->createReference();
+        $course_object->putInTree($input_params['destRefId']);
+        $course_object->setPermissions($input_params['destRefId']);
 
-		$retval = array($output_params[0] => $course_object->getRefId());
+        $retval = array($output_params[0] => $course_object->getRefId());
 
-		return $retval;
-	}
+        return $retval;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 *
-	 * @return array
-	 */
-	public static function assignLearnersToCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     *
+     * @return array
+     */
+    public static function assignLearnersToCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -155,29 +155,28 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		foreach($input_params['usrIdList'] as $user_id)
-		{
-			$participants->add($user_id, IL_CRS_MEMBER);
-		}
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        foreach ($input_params['usrIdList'] as $user_id) {
+            $participants->add($user_id, IL_CRS_MEMBER);
+        }
 
-		return;
-	}
+        return;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 */
-	public static function assignTutorsToCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     */
+    public static function assignTutorsToCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -185,28 +184,27 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		foreach($input_params['usrIdList'] as $user_id)
-		{
-			$participants->add($user_id, IL_CRS_TUTOR);
-		}
-		return;
-	}
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        foreach ($input_params['usrIdList'] as $user_id) {
+            $participants->add($user_id, IL_CRS_TUTOR);
+        }
+        return;
+    }
 
-	/**
-	 * @param ilNode $context
-	 * @param array  $params
-	 */
-	public static function assignAdminsToCourse($context, $params)
-	{
-		/*
-		 * Modelling:
+    /**
+     * @param ilNode $context
+     * @param array  $params
+     */
+    public static function assignAdminsToCourse($context, $params)
+    {
+        /*
+         * Modelling:
 
       <bpmn2:extensionElements>
           <ilias:properties>
@@ -214,18 +212,16 @@ class ilModulesCourseTasks
           </ilias:properties>
       </bpmn2:extensionElements>
 
-		 */
+         */
 
-		require_once './Modules/Course/classes/class.ilCourseParticipants.php';
-		$input_params = $params[0];
-		$output_params = $params[1];
+        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
+        $input_params = $params[0];
+        $output_params = $params[1];
 
-		$participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
-		foreach($input_params['usrIdList'] as $user_id)
-		{
-			$participants->add($user_id, IL_CRS_ADMIN);
-		}
-		return;
-	}
-
+        $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
+        foreach ($input_params['usrIdList'] as $user_id) {
+            $participants->add($user_id, IL_CRS_ADMIN);
+        }
+        return;
+    }
 }

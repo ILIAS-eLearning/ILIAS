@@ -6,19 +6,19 @@
  */
 class ilContentPagePageConfig extends ilPageConfig
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function init()
-	{
-		$this->setEnableInternalLinks(true);
-		$this->setIntLinkHelpDefaultType('RepositoryItem');
-		$this->setSinglePageMode(true);
-		$this->setEnablePermissionChecks(true);
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        $this->setEnableInternalLinks(true);
+        $this->setIntLinkHelpDefaultType('RepositoryItem');
+        $this->setSinglePageMode(true);
+        $this->setEnablePermissionChecks(true);
 
-		$mediaPoolSettings = new ilSetting('mobs');
-		if ($mediaPoolSettings->get('mep_activate_pages')) {
-			$this->setEnablePCType('ContentInclude', true);
-		}
-	}
+        $mediaPoolSettings = new ilSetting('mobs');
+        if ($mediaPoolSettings->get('mep_activate_pages')) {
+            $this->setEnablePCType('ContentInclude', true);
+        }
+    }
 }

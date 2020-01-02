@@ -9,13 +9,13 @@ require_once 'Services/Math/test/ilMathBaseAdapterTest.php';
  */
 class ilMathPhpAdapterTest extends ilMathBaseAdapterTest
 {
-	/**
-	 * @inheritDoc
-	 */
-	protected function setUp()
-	{
-		require_once 'Services/Math/classes/class.ilMathPhpAdapter.php';
-		$this->mathAdapter = new ilMathPhpAdapter();
-		parent::setUp();
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function setUp()
+    {
+        require_once 'Services/Math/classes/class.ilMathPhpAdapter.php';
+        $this->mathAdapter = new ilMathPhpAdapter();
+        parent::setUp();
+    }
 }

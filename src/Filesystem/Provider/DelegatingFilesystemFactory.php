@@ -20,42 +20,44 @@ use ILIAS\Filesystem\Security\Sanitizing\FilenameSanitizer;
  * @since   5.3
  * @version 1.1.0
  */
-final class DelegatingFilesystemFactory implements FilesystemFactory {
-
-	private $implementation;
-	/**
-	 * @var FilenameSanitizer $sanitizer
-	 */
-	private $sanitizer;
-
-
-	/**
-	 * DelegatingFilesystemFactory constructor.
-	 *
-	 * @param FilenameSanitizer $sanitizer
-	 */
-	public function __construct(FilenameSanitizer $sanitizer) {
-
-		/*
-		 * ---------- ABSTRACTION SWITCH -------------
-		 * Change the factory to switch to another filesystem abstraction!
-		 * current: FlySystem from the php league
-		 * -------------------------------------------
-		 */
-		$this->implementation = new FlySystemFilesystemFactory();
-
-		$this->sanitizer = $sanitizer;
-	}
+final class DelegatingFilesystemFactory implements FilesystemFactory
+{
+    private $implementation;
+    /**
+     * @var FilenameSanitizer $sanitizer
+     */
+    private $sanitizer;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getLocal(LocalConfig $config, bool $read_only = false): Filesystem {
-		if ($read_only) {
-			return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));
-		} else {
-			return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
-		}
-	}
+    /**
+     * DelegatingFilesystemFactory constructor.
+     *
+     * @param FilenameSanitizer $sanitizer
+     */
+    public function __construct(FilenameSanitizer $sanitizer)
+    {
+
+        /*
+         * ---------- ABSTRACTION SWITCH -------------
+         * Change the factory to switch to another filesystem abstraction!
+         * current: FlySystem from the php league
+         * -------------------------------------------
+         */
+        $this->implementation = new FlySystemFilesystemFactory();
+
+        $this->sanitizer = $sanitizer;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getLocal(LocalConfig $config, bool $read_only = false) : Filesystem
+    {
+        if ($read_only) {
+            return new ReadOnlyDecorator(new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer));
+        } else {
+            return new FilesystemWhitelistDecorator($this->implementation->getLocal($config), $this->sanitizer);
+        }
+    }
 }

@@ -80,7 +80,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction
     /**
      * @return string
      */
-    public final function getAction() : string
+    final public function getAction() : string
     {
         return ilLink::_getLink($this->ref_id);
     }

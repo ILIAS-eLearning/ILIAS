@@ -5,6 +5,6 @@
  *
  * @author  Michael Herren <mh@studer-raimann.ch>
  */
-class ilDclPluginRecordFieldModel extends ilDclBaseRecordFieldModel {
-
+class ilDclPluginRecordFieldModel extends ilDclBaseRecordFieldModel
+{
 }

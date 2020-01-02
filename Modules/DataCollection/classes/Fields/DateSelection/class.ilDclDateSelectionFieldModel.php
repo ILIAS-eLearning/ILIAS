@@ -6,8 +6,8 @@
  *
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class ilDclDateSelectionFieldModel extends ilDclSelectionFieldModel {
-
-	const PROP_SELECTION_TYPE = 'date_selection_type';
-	const PROP_SELECTION_OPTIONS = 'date_selection_options';
+class ilDclDateSelectionFieldModel extends ilDclSelectionFieldModel
+{
+    const PROP_SELECTION_TYPE = 'date_selection_type';
+    const PROP_SELECTION_OPTIONS = 'date_selection_options';
 }

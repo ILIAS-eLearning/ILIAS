@@ -5,7 +5,7 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeProvider.php";
 
 /**
  * Class ilCourseBadgeProvider
- * 
+ *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @version $Id:$
  *
@@ -13,13 +13,13 @@ require_once "./Services/Badge/interfaces/interface.ilBadgeProvider.php";
  */
 class ilCourseBadgeProvider implements ilBadgeProvider
 {
-	public function getBadgeTypes() 
-	{
-		include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
-		include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
-		return array(
-			new ilCourseMeritBadge() 
-			,new ilCourseLPBadge()
-		);
-	}	
+    public function getBadgeTypes()
+    {
+        include_once "Modules/Course/classes/Badges/class.ilCourseMeritBadge.php";
+        include_once "Modules/Course/classes/Badges/class.ilCourseLPBadge.php";
+        return array(
+            new ilCourseMeritBadge()
+            ,new ilCourseLPBadge()
+        );
+    }
 }

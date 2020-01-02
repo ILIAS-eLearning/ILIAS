@@ -11,26 +11,28 @@ use ILIAS\BackgroundTasks\Implementation\Bucket\State;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-trait StateTranslator {
+trait StateTranslator
+{
 
-	/**
-	 * @param $state int
-	 * @param $lng   \ilLanguage
-	 *
-	 * @return string
-	 */
-	public function translateState($state, \ilLanguage $lng) {
-		switch ($state) {
-			case State::SCHEDULED;
-				return $lng->txt("observer_state_scheduled");
-			case State::RUNNING;
-				return $lng->txt("observer_state_running");
-			case State::USER_INTERACTION;
-				return $lng->txt("observer_state_user_interaction");
-			case State::FINISHED;
-				return $lng->txt("observer_state_finished");
-			case State::ERROR;
-				return $lng->txt("observer_state_error");
-		}
-	}
+    /**
+     * @param $state int
+     * @param $lng   \ilLanguage
+     *
+     * @return string
+     */
+    public function translateState($state, \ilLanguage $lng)
+    {
+        switch ($state) {
+            case State::SCHEDULED:
+                return $lng->txt("observer_state_scheduled");
+            case State::RUNNING:
+                return $lng->txt("observer_state_running");
+            case State::USER_INTERACTION:
+                return $lng->txt("observer_state_user_interaction");
+            case State::FINISHED:
+                return $lng->txt("observer_state_finished");
+            case State::ERROR:
+                return $lng->txt("observer_state_error");
+        }
+    }
 }
