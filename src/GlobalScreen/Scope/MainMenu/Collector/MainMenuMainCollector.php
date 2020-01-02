@@ -371,7 +371,6 @@ class MainMenuMainCollector
                     unset($children[$position]);
                     continue;
                 }
-
             }
         }
 

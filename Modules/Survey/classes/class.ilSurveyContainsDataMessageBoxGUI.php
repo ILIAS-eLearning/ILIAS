@@ -12,49 +12,50 @@
  */
 class ilSurveyContainsDataMessageBoxGUI
 {
-	/**
-	 * @var \ILIAS\DI\UIServices
-	 */
-	protected $ui;
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		$this->ui = $DIC->ui();
-		$this->lng = $DIC->language();
-		$this->ctrl = $DIC->ctrl();
-	}
+        $this->ui = $DIC->ui();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+    }
 
-	/**
-	 * Get HTML
-	 *
-	 * @return string
-	 */
-	public function getHTML()
-	{
-		$ctrl = $this->ctrl;
-		$lng = $this->lng;
-		$ui = $this->ui;
+    /**
+     * Get HTML
+     *
+     * @return string
+     */
+    public function getHTML()
+    {
+        $ctrl = $this->ctrl;
+        $lng = $this->lng;
+        $ui = $this->ui;
 
-		$mbox = $ui->factory()->messageBox()->info($lng->txt("survey_has_datasets_warning_page_view"))
-			->withLinks([$ui->factory()->link()->standard($lng->txt("survey_has_datasets_warning_page_view_link"),
-				$ctrl->getLinkTargetByClass(["ilObjSurveyGUI", "ilSurveyParticipantsGUI"], "maintenance"))]);
+        $mbox = $ui->factory()->messageBox()->info($lng->txt("survey_has_datasets_warning_page_view"))
+            ->withLinks([$ui->factory()->link()->standard(
+                $lng->txt("survey_has_datasets_warning_page_view_link"),
+                $ctrl->getLinkTargetByClass(["ilObjSurveyGUI", "ilSurveyParticipantsGUI"], "maintenance")
+            )]);
 
-		return $ui->renderer()->render($mbox);
-	}
-
+        return $ui->renderer()->render($mbox);
+    }
 }

@@ -12,38 +12,34 @@ include_once("./Modules/Exercise/AssignmentTypes/GUI/traits/trait.ilExAssignment
  */
 class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
 {
-	use ilExAssignmentTypeGUIBase;
+    use ilExAssignmentTypeGUIBase;
 
-	/**
-	 * @inheritdoc
-	 */
-	function addEditFormCustomProperties(ilPropertyFormGUI $form)
-	{
+    /**
+     * @inheritdoc
+     */
+    public function addEditFormCustomProperties(ilPropertyFormGUI $form)
+    {
+    }
 
-	}
+    /**
+     * @inheritdoc
+     */
+    public function importFormToAssignment(ilExAssignment $ass, ilPropertyFormGUI $form)
+    {
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	function importFormToAssignment(ilExAssignment $ass , ilPropertyFormGUI $form)
-	{
+    /**
+     * @inheritdoc
+     */
+    public function getFormValuesArray(ilExAssignment $ass)
+    {
+        return [];
+    }
 
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	function getFormValuesArray(ilExAssignment $ass)
-	{
-		return [];
-	}
-
-	/**
-	 * @inheritdoc
-	 */
-	function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
-	{
-
-	}
-
+    /**
+     * @inheritdoc
+     */
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    {
+    }
 }

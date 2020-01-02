@@ -8,59 +8,54 @@ require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableM
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- * 
+ *
  * @package		Modules/TestQuestionPool
  */
 class ilAssSingleChoiceFeedback extends ilAssConfigurableMultiOptionQuestionFeedback
 {
-	/**
-	 * @var assSingleChoice
-	 */
-	protected $questionOBJ;
-	
-	/**
-	 * table name for specific feedback
-	 */
-	const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_sc';
+    /**
+     * @var assSingleChoice
+     */
+    protected $questionOBJ;
+    
+    /**
+     * table name for specific feedback
+     */
+    const SPECIFIC_QUESTION_TABLE_NAME = 'qpl_qst_sc';
 
-	/**
-	 * returns the table name for specific question itself
-	 *
-	 * @return string $specificFeedbackTableName
-	 */
-	protected function getSpecificQuestionTableName()
-	{
-		return self::SPECIFIC_QUESTION_TABLE_NAME;
-	}
-	
-	/**
-	 * @param int $index
-	 * @param mixed $answer
-	 * @return string
-	 */
-	protected function buildAnswerOptionLabel($index, $answer)
-	{
-		$label = array();
-		
-		if( strlen($answer->getImage()) )
-		{
-			if( $this->questionOBJ->getThumbSize() )
-			{
-				$src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
-			}
-			else
-			{
-				$src = $this->questionOBJ->getImagePathWeb() . $answer->getImage();
-			}
-			
-			$label[] = "<img src='{$src}' />";
-		}
-		
-		if( strlen($answer->getAnswertext()) )
-		{
-			$label[] = $answer->getAnswertext();
-		}
-		
-		return implode('<br />', $label);
-	}
+    /**
+     * returns the table name for specific question itself
+     *
+     * @return string $specificFeedbackTableName
+     */
+    protected function getSpecificQuestionTableName()
+    {
+        return self::SPECIFIC_QUESTION_TABLE_NAME;
+    }
+    
+    /**
+     * @param int $index
+     * @param mixed $answer
+     * @return string
+     */
+    protected function buildAnswerOptionLabel($index, $answer)
+    {
+        $label = array();
+        
+        if (strlen($answer->getImage())) {
+            if ($this->questionOBJ->getThumbSize()) {
+                $src = $this->questionOBJ->getImagePathWeb() . $this->questionOBJ->getThumbPrefix() . $answer->getImage();
+            } else {
+                $src = $this->questionOBJ->getImagePathWeb() . $answer->getImage();
+            }
+            
+            $label[] = "<img src='{$src}' />";
+        }
+        
+        if (strlen($answer->getAnswertext())) {
+            $label[] = $answer->getAnswertext();
+        }
+        
+        return implode('<br />', $label);
+    }
 }

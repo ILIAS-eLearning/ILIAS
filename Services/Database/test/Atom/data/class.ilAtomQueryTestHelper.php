@@ -4,12 +4,14 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilAtomQueryTestHelper {
+class ilAtomQueryTestHelper
+{
 
-	/**
-	 * @param \ilDBInterface $ilDB
-	 */
-	public function __invoke(ilDBInterface $ilDB) {
-		$ilDB->listTables();
-	}
+    /**
+     * @param \ilDBInterface $ilDB
+     */
+    public function __invoke(ilDBInterface $ilDB)
+    {
+        $ilDB->listTables();
+    }
 }

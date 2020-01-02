@@ -52,21 +52,17 @@ class ilCloudException extends ilException
      */
     public function __construct($exception_code, $exception_info = "")
     {
-
-
         $this->code = $exception_code;
         $this->add_info = $exception_info;
         $this->assignMessageToCode();
         parent::__construct($this->message, $this->code);
-
     }
 
     protected function assignMessageToCode()
     {
         global $DIC;
         $lng = $DIC['lng'];
-        switch ($this->code)
-        {
+        switch ($this->code) {
             case self::NO_SERVICE_ACTIVE:
                 $this->message = $lng->txt("cld_no_service_active");
                 break;
@@ -134,7 +130,7 @@ class ilCloudException extends ilException
                 $this->message = $lng->txt("cld_unknown_exception");
                 break;
         }
-	    $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
+        $this->message .= ($this->add_info ? ": " : "") . $this->add_info;
     }
 
     public function __toString()
@@ -142,6 +138,4 @@ class ilCloudException extends ilException
         return get_class($this) . " '{$this->message}' in {$this->file}({$this->line})\n"
             . "{$this->getTraceAsString()}";
     }
-
 }
-?>

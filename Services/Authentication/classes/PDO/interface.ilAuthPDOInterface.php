@@ -1,7 +1,8 @@
 <?php
 
-interface ilAuthPDOInterface {
-	
+interface ilAuthPDOInterface
+{
+    
     /**
      * Set maximum idle time.
      * @param int $time Time in seconds.
@@ -32,17 +33,17 @@ interface ilAuthPDOInterface {
      *
      * @return bool  True if the user is logged in, otherwise false.
      */
-    function getAuth();
+    public function getAuth();
 
     /**
      * @return string
      */
-    function getStatus();
+    public function getStatus();
 
     /**
      * @return string
      */
-    function getUsername();
+    public function getUsername();
 
     /**
      * Returns the time up to the session is valid
@@ -50,11 +51,10 @@ interface ilAuthPDOInterface {
      * @access public
      * @return integer
      */
-    function sessionValidThru();
+    public function sessionValidThru();
 
     /**
      * @return void
      */
-    function logout();
-
+    public function logout();
 }

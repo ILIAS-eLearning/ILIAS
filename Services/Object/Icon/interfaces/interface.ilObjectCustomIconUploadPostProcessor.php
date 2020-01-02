@@ -6,8 +6,8 @@
  */
 interface ilObjectCustomIconUploadPostProcessor
 {
-	/**
-	 * @param string $fileName
-	 */
-	public function process(string $fileName);
+    /**
+     * @param string $fileName
+     */
+    public function process(string $fileName);
 }

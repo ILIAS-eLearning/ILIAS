@@ -7,57 +7,55 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
- * @ingroup 
+ * @ingroup
  */
 class ilSkillManagementSettings extends ilSetting
 {
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		parent::__construct("skmg");
-	}
-	
-	/**
-	 * Activate skill management
-	 *
-	 * @param
-	 * @return
-	 */
-	function activate($a_active)
-	{
-		$this->set("enable_skmg", (int) $a_active);
-	}
-	
-	
-	/**
-	 * Is activated
-	 */
-	function isActivated()
-	{
-		return $this->get("enable_skmg");
-	}
-	
-	/**
-	 * Set hide profile values before self evaluations
-	 *
-	 * @param bool $a_val hide profile	
-	 */
-	function setHideProfileBeforeSelfEval($a_val)
-	{
-		$this->set("hide_profile_self_eval", (int) $a_val);
-	}
-	
-	/**
-	 * Get hide profile values before self evaluations
-	 *
-	 * @return bool hide profile
-	 */
-	function getHideProfileBeforeSelfEval()
-	{
-		return $this->get("hide_profile_self_eval");
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        parent::__construct("skmg");
+    }
+    
+    /**
+     * Activate skill management
+     *
+     * @param
+     * @return
+     */
+    public function activate($a_active)
+    {
+        $this->set("enable_skmg", (int) $a_active);
+    }
+    
+    
+    /**
+     * Is activated
+     */
+    public function isActivated()
+    {
+        return $this->get("enable_skmg");
+    }
+    
+    /**
+     * Set hide profile values before self evaluations
+     *
+     * @param bool $a_val hide profile
+     */
+    public function setHideProfileBeforeSelfEval($a_val)
+    {
+        $this->set("hide_profile_self_eval", (int) $a_val);
+    }
+    
+    /**
+     * Get hide profile values before self evaluations
+     *
+     * @return bool hide profile
+     */
+    public function getHideProfileBeforeSelfEval()
+    {
+        return $this->get("hide_profile_self_eval");
+    }
 }
-
-?>

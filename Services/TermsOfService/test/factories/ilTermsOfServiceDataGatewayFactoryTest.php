@@ -7,62 +7,62 @@
  */
 class ilTermsOfServiceDataGatewayFactoryTest extends \ilTermsOfServiceBaseTest
 {
-	/**
-	 *
-	 */
-	public function testInstanceCanBeCreated()
-	{
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$this->assertInstanceOf('ilTermsOfServiceDataGatewayFactory', $factory);
-	}
+    /**
+     *
+     */
+    public function testInstanceCanBeCreated()
+    {
+        $factory = new \ilTermsOfServiceDataGatewayFactory();
+        $this->assertInstanceOf('ilTermsOfServiceDataGatewayFactory', $factory);
+    }
 
-	/**
-	 * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
-	 */
-	public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies()
-	{
-		$this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
+    /**
+     * @expectedException \ilTermsOfServiceMissingDatabaseAdapterException
+     */
+    public function testExceptionIsRaisedWhenGatewayIsRequestedWithMissingDependencies()
+    {
+        $this->assertException(\ilTermsOfServiceMissingDatabaseAdapterException::class);
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->getByName('PHP Unit');
-	}
+        $factory = new \ilTermsOfServiceDataGatewayFactory();
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 * @expectedException \InvalidArgumentException
-	 */
-	public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested()
-	{
-		$this->assertException(\InvalidArgumentException::class);
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testExceptionIsRaisedWhenUnknownDataGatewayIsRequested()
+    {
+        $this->assertException(\InvalidArgumentException::class);
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
-		$factory->getByName('PHP Unit');
-	}
+        $factory = new \ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+        $factory->getByName('PHP Unit');
+    }
 
-	/**
-	 *
-	 */
-	public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName()
-	{
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
+    /**
+     *
+     */
+    public function testAcceptanceDatabaseGatewayIsReturnedWhenRequestedByName()
+    {
+        $factory = new \ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($this->getMockBuilder(\ilDBInterface::class)->getMock());
 
-		$this->assertInstanceOf(
-			'ilTermsOfServiceAcceptanceDatabaseGateway',
-			$factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway')
-		);
-	}
+        $this->assertInstanceOf(
+            'ilTermsOfServiceAcceptanceDatabaseGateway',
+            $factory->getByName('ilTermsOfServiceAcceptanceDatabaseGateway')
+        );
+    }
 
-	/**
-	 *
-	 */
-	public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet()
-	{
-		$expected = $this->getMockBuilder(\ilDBInterface::class)->getMock();
+    /**
+     *
+     */
+    public function testFactoryShouldReturnDatabaseAdapterWhenDatabaseAdapterIsSet()
+    {
+        $expected = $this->getMockBuilder(\ilDBInterface::class)->getMock();
 
-		$factory = new \ilTermsOfServiceDataGatewayFactory();
-		$factory->setDatabaseAdapter($expected);
+        $factory = new \ilTermsOfServiceDataGatewayFactory();
+        $factory->setDatabaseAdapter($expected);
 
-		$this->assertEquals($expected, $factory->getDatabaseAdapter());
-	}
+        $this->assertEquals($expected, $factory->getDatabaseAdapter());
+    }
 }

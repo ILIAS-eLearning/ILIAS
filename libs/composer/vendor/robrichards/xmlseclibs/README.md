@@ -5,7 +5,7 @@ xmlseclibs is a library written in PHP for working with XML Encryption and Signa
 The author of xmlseclibs is Rob Richards.
 
 # Branches
-Both the master and the 2.0 branches are actively maintained. The 1.4 branch is only updated for security related issues.
+Master is currently the only actively maintained branch.
 * master: Removes mcrypt usage requiring 5.4+ (5.6.24+ recommended for security reasons)
 * 2.0: Contains namespace support requiring 5.3+
 * 1.4: Contains auto-loader support while also maintaining backwards compatiblity with the older 1.3 version using the xmlseclibs.php file. Supports PHP 5.2+

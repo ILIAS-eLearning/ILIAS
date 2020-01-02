@@ -15,16 +15,17 @@ namespace ILIAS\Filesystem;
  *
  * @public
  */
-interface Visibility {
+interface Visibility
+{
 
-	/**
-	 * Public file visibility.
-	 * @since 5.3
-	 */
-	const PUBLIC_ACCESS = 'public';
-	/**
-	 * Private file visibility.
-	 * @since 5.3
-	 */
-	const PRIVATE_ACCESS = 'private';
+    /**
+     * Public file visibility.
+     * @since 5.3
+     */
+    const PUBLIC_ACCESS = 'public';
+    /**
+     * Private file visibility.
+     * @since 5.3
+     */
+    const PRIVATE_ACCESS = 'private';
 }

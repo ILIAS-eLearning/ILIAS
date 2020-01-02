@@ -3,14 +3,14 @@
 /**
  * This class contains some functions from the old ilDAVServer.
  * Sadly I wasn't able to refactor all of it. Some functions are still used in other classes. Will be refactored
- * 
+ *
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  *
  * TODO: Check for refactoring potential
  */
 class ilWebDAVUtil
-{    
+{
     protected static $clientBrowser = "firefox";
     protected static $clientOS = "windows";
     protected static $clientFlavor = "nichtxp";
@@ -23,7 +23,7 @@ class ilWebDAVUtil
     public static function _isActionsVisible()
     {
         global $DIC;
-        return $DIC->clientIni()->readVariable('file_access','webdav_actions_visible') == '1';
+        return $DIC->clientIni()->readVariable('file_access', 'webdav_actions_visible') == '1';
     }
     
     /**
@@ -48,75 +48,75 @@ class ilWebDAVUtil
         
         // Construct a (possibly) full DAV path from the object path.
         $fullPath = '';
-        foreach ($objectPath as $object)
-        {
-            if ($object->getRefId() == 1 && $this->isFileHidden($object))
-            {
+        foreach ($objectPath as $object) {
+            if ($object->getRefId() == 1 && $this->isFileHidden($object)) {
                 // If the repository root object is hidden, we can not
                 // create a full path, because nothing would appear in the
                 // webfolder. We resort to a shortened path instead.
                 $fullPath .= '/ref_1';
-            }
-            else
-            {
-                $fullPath .= '/'.$this->davUrlEncode($object->getResourceName());
+            } else {
+                $fullPath .= '/' . $this->davUrlEncode($object->getResourceName());
             }
         }
         
         // Construct a shortened DAV path from the object path.
-        $shortenedPath = '/ref_'.
+        $shortenedPath = '/ref_' .
             $objectPath[count($objectPath) - 1]->getRefId();
             
-            if ($objDAV->isCollection())
-            {
-                $shortenedPath .= '/';
-                $fullPath .= '/';
-            }
+        if ($objDAV->isCollection()) {
+            $shortenedPath .= '/';
+            $fullPath .= '/';
+        }
             
-            // Prepend client id to path
-            $shortenedPath = '/'.CLIENT_ID.$shortenedPath;
-            $fullPath = '/'.CLIENT_ID.$fullPath;
+        // Prepend client id to path
+        $shortenedPath = '/' . CLIENT_ID . $shortenedPath;
+        $fullPath = '/' . CLIENT_ID . $fullPath;
             
-            // Construct webfolder URI's. The URI's are used for mounting the
-            // webfolder. Since mounting using URI's is not standardized, we have
-            // to create different URI's for different browsers.
-            $webfolderURI = $this->base_uri.$shortenedPath;
-            $webfolderURI_Konqueror = ($this->isWebDAVoverHTTPS() ? "webdavs" : "webdav").
-            substr($this->base_uri, strrpos($this->base_uri,':')).
+        // Construct webfolder URI's. The URI's are used for mounting the
+        // webfolder. Since mounting using URI's is not standardized, we have
+        // to create different URI's for different browsers.
+        $webfolderURI = $this->base_uri . $shortenedPath;
+        $webfolderURI_Konqueror = ($this->isWebDAVoverHTTPS() ? "webdavs" : "webdav") .
+            substr($this->base_uri, strrpos($this->base_uri, ':')) .
             $shortenedPath;
-            ;
-            $webfolderURI_Nautilus = ($this->isWebDAVoverHTTPS() ? "davs" : "dav").
-            substr($this->base_uri, strrpos($this->base_uri,':')).
+        ;
+        $webfolderURI_Nautilus = ($this->isWebDAVoverHTTPS() ? "davs" : "dav") .
+            substr($this->base_uri, strrpos($this->base_uri, ':')) .
             $shortenedPath
             ;
-            $webfolderURI_IE = $this->base_uri.$shortenedPath;
+        $webfolderURI_IE = $this->base_uri . $shortenedPath;
             
-            $webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
+        $webfolderTitle = $objectPath[count($objectPath) - 1]->getResourceName();
             
-            header('Content-Type: text/html; charset=UTF-8');
-            echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
-            echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
-            echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-            echo "  <head>\n";
-            echo "  <title>".sprintf($lng->txt('webfolder_instructions_titletext'), $webfolderTitle)."</title>\n";
-            echo "  </head>\n";
-            echo "  <body>\n";
+        header('Content-Type: text/html; charset=UTF-8');
+        echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN\"\n";
+        echo "	\"http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd\">\n";
+        echo "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+        echo "  <head>\n";
+        echo "  <title>" . sprintf($lng->txt('webfolder_instructions_titletext'), $webfolderTitle) . "</title>\n";
+        echo "  </head>\n";
+        echo "  <body>\n";
             
-            echo ilDAVServer::_getWebfolderInstructionsFor($webfolderTitle,
-                $webfolderURI, $webfolderURI_IE, $webfolderURI_Konqueror, $webfolderURI_Nautilus,
-                $this->clientOS,$this->clientOSFlavor);
+        echo ilDAVServer::_getWebfolderInstructionsFor(
+                $webfolderTitle,
+                $webfolderURI,
+                $webfolderURI_IE,
+                $webfolderURI_Konqueror,
+                $webfolderURI_Nautilus,
+                $this->clientOS,
+                $this->clientOSFlavor
+            );
             
-            echo "  </body>\n";
-            echo "</html>\n";
+        echo "  </body>\n";
+        echo "</html>\n";
             
-            // Logout anonymous user to force authentication after calling mount uri
-            if($ilUser->getId() == ANONYMOUS_USER_ID)
-            {
-                $DIC['ilAuthSession']->logout();
-            }
+        // Logout anonymous user to force authentication after calling mount uri
+        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
+            $DIC['ilAuthSession']->logout();
+        }
             
-            exit;
+        exit;
     }
     
     /**
@@ -136,7 +136,7 @@ class ilWebDAVUtil
     {
         global $DIC;
 
-        $this->writelog('checkLock('.$path.')');
+        $this->writelog('checkLock(' . $path . ')');
         $result = null;
         
         // get dav object for path
@@ -144,25 +144,21 @@ class ilWebDAVUtil
         
         // convert DAV path into ilObjectDAV path
         $objPath = $this->toObjectPath($path);
-        if (! is_null($objPath))
-        {
+        if (!is_null($objPath)) {
             $objDAV = $objPath[count($objPath) - 1];
             $locks = $this->locks->getLocksOnPathDAV($objPath);
-            foreach ($locks as $lock)
-            {
+            foreach ($locks as $lock) {
                 $isLastPathComponent = $lock['obj_id'] == $objDAV->getObjectId()
                 && $lock['node_id'] == $objDAV->getNodeId();
                 
                 // Check all locks on last object in path,
                 // but only locks with depth infinity on parent objects.
-                if ($isLastPathComponent || $lock['depth'] == 'infinity')
-                {
+                if ($isLastPathComponent || $lock['depth'] == 'infinity') {
                     // DAV Clients expects to see their own owner name in
                     // the locks. Since these names are not unique (they may
                     // just be the name of the local user running the DAV client)
                     // we return the ILIAS user name in all other cases.
-                    if ($lock['ilias_owner'] == $DIC->user()->getId())
-                    {
+                    if ($lock['ilias_owner'] == $DIC->user()->getId()) {
                         $owner = $lock['dav_owner'];
                     } else {
                         $owner = $this->getLogin($lock['ilias_owner']);
@@ -180,8 +176,7 @@ class ilWebDAVUtil
                         "token"   => $lock['token'],
                         "expires" => $lock['expires']
                     );
-                    if ($lock['scope'] == 'exclusive')
-                    {
+                    if ($lock['scope'] == 'exclusive') {
                         // If there is an exclusive lock in the path, it
                         // takes precedence over all non-exclusive locks in
                         // parent nodes. Therefore we can can finish collecting
@@ -191,7 +186,7 @@ class ilWebDAVUtil
                 }
             }
         }
-        $this->writelog('checkLock('.$path.'):'.var_export($result,true));
+        $this->writelog('checkLock(' . $path . '):' . var_export($result, true));
         
         return $result;
     }
@@ -204,7 +199,7 @@ class ilWebDAVUtil
     protected function getLogin($userId)
     {
         $login = ilObjUser::_lookupLogin($userId);
-        $this->writelog('getLogin('.$userId.'):'.var_export($login,true));
+        $this->writelog('getLogin(' . $userId . '):' . var_export($login, true));
         return $login;
     }
     
@@ -225,32 +220,27 @@ class ilWebDAVUtil
         // If the second path elements starts with 'file_', the following
         // characters of the path element directly identify the ref_id of
         // a file object.
-        $davPathComponents = explode('/',substr($davPath,1));
+        $davPathComponents = explode('/', substr($davPath, 1));
         
         if (count($davPathComponents) > 1 &&
-            substr($davPathComponents[1],0,5) == 'file_')
-        {
-            $ref_id = substr($davPathComponents[1],5);
+            substr($davPathComponents[1], 0, 5) == 'file_') {
+            $ref_id = substr($davPathComponents[1], 5);
             $nodePath = $tree->getNodePath($ref_id, $tree->root_id);
             
             // Poor IE needs this, in order to successfully display
             // PDF documents
             header('Pragma: private');
-        }
-        else
-        {
+        } else {
             $nodePath = $this->toNodePath($davPath);
-            if ($nodePath == null && count($davPathComponents) == 1)
-            {
-                return ilObjectDAV::createObject(-1,'mountPoint');
+            if ($nodePath == null && count($davPathComponents) == 1) {
+                return ilObjectDAV::createObject(-1, 'mountPoint');
             }
         }
-        if (is_null($nodePath))
-        {
+        if (is_null($nodePath)) {
             return null;
         } else {
             $top = $nodePath[count($nodePath)  - 1];
-            return ilObjectDAV::createObject($top['child'],$top['type']);
+            return ilObjectDAV::createObject($top['child'], $top['type']);
         }
     }
     /**
@@ -262,20 +252,17 @@ class ilWebDAVUtil
      */
     private function toObjectPath($davPath)
     {
-        $this->writelog('toObjectPath('.$davPath);
+        $this->writelog('toObjectPath(' . $davPath);
 
         $nodePath = $this->toNodePath($davPath);
         
-        if (is_null($nodePath))
-        {
+        if (is_null($nodePath)) {
             return null;
         } else {
             $objectPath = array();
-            foreach ($nodePath as $node)
-            {
-                $pathElement = ilObjectDAV::createObject($node['child'],$node['type']);
-                if (is_null($pathElement))
-                {
+            foreach ($nodePath as $node) {
+                $pathElement = ilObjectDAV::createObject($node['child'], $node['type']);
+                if (is_null($pathElement)) {
                     break;
                 }
                 $objectPath[] = $pathElement;
@@ -301,27 +288,24 @@ class ilWebDAVUtil
         global $DIC;
         $tree = $DIC->repositoryTree();
 
-        $this->writelog('toNodePath('.$davPath.')...');
+        $this->writelog('toNodePath(' . $davPath . ')...');
         
         // Split the davPath into path titles
-        $titlePath = explode('/',substr($davPath,1));
+        $titlePath = explode('/', substr($davPath, 1));
         
         // Remove the client id from the beginning of the title path
-        if (count($titlePath) > 0)
-        {
+        if (count($titlePath) > 0) {
             array_shift($titlePath);
         }
         
         // If the last path title is empty, remove it
-        if (count($titlePath) > 0 && $titlePath[count($titlePath) - 1] == '')
-        {
+        if (count($titlePath) > 0 && $titlePath[count($titlePath) - 1] == '') {
             array_pop($titlePath);
         }
         
         // If the path is empty, return null
-        if (count($titlePath) == 0)
-        {
-            $this->writelog('toNodePath('.$davPath.'):null, because path is empty.');
+        if (count($titlePath) == 0) {
+            $this->writelog('toNodePath(' . $davPath . '):null, because path is empty.');
             return null;
         }
         
@@ -329,15 +313,14 @@ class ilWebDAVUtil
         $ref_id = null;
         
         // If the path is a relative folder path, convert it into an absolute path
-        if (count($titlePath) > 0 && substr($titlePath[0],0,4) == 'ref_')
-        {
-            $ref_id = substr($titlePath[0],4);
+        if (count($titlePath) > 0 && substr($titlePath[0], 0, 4) == 'ref_') {
+            $ref_id = substr($titlePath[0], 4);
             array_shift($titlePath);
         }
         
         $nodePath = $tree->getNodePathForTitlePath($titlePath, $ref_id);
         
-        $this->writelog('toNodePath():'.var_export($nodePath,true));
+        $this->writelog('toNodePath():' . var_export($nodePath, true));
         return $nodePath;
     }
     
@@ -353,7 +336,7 @@ class ilWebDAVUtil
         $path = UtfNormal::toNFC($path);
         
         if ($path[strlen($path)-1] == '/') {
-            $path = substr($path,0, strlen($path) - 1);
+            $path = substr($path, 0, strlen($path) - 1);
         }
         return $path;
     }
@@ -367,7 +350,7 @@ class ilWebDAVUtil
      */
     private function davBasename($path)
     {
-        $components = explode('/',$path);
+        $components = explode('/', $path);
         return count($components) == 0 ? '' : $components[count($components) - 1];
     }
     
@@ -391,10 +374,10 @@ class ilWebDAVUtil
         if (self::$clientOS == 'windows') {
             $baseUri = "https:";
             $query = null;
-        } else if (self::$clientBrowser == 'konqueror') {
+        } elseif (self::$clientBrowser == 'konqueror') {
             $baseUri = "webdavs:";
             $query = null;
-        } else if (self::$clientBrowser == 'nautilus') {
+        } elseif (self::$clientBrowser == 'nautilus') {
             $baseUri = "davs:";
             $query = null;
         } else {
@@ -402,12 +385,11 @@ class ilWebDAVUtil
             $query = null;
         }
         $baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-        $baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+        $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
         
-        $uri = $baseUri.'/ref_'.$refId.'/';
-        if ($query != null)
-        {
-            $uri .= '?'.$query;
+        $uri = $baseUri . '/ref_' . $refId . '/';
+        if ($query != null) {
+            $uri .= '?' . $query;
         }
         
         return $uri;
@@ -433,13 +415,13 @@ class ilWebDAVUtil
         if ($genericURI) {
             $baseUri = "https:";
             $query = null;
-        } else if (self::$clientOS == 'windows') {
+        } elseif (self::$clientOS == 'windows') {
             $baseUri = "http:";
             $query = 'mount-instructions';
-        } else if (self::$clientBrowser == 'konqueror') {
+        } elseif (self::$clientBrowser == 'konqueror') {
             $baseUri = "webdavs:";
             $query = null;
-        } else if (self::$clientBrowser == 'nautilus') {
+        } elseif (self::$clientBrowser == 'nautilus') {
             $baseUri = "davs:";
             $query = null;
         } else {
@@ -447,12 +429,11 @@ class ilWebDAVUtil
             $query = 'mount-instructions';
         }
         $baseUri.= "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-        $baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+        $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
         
-        $uri = $baseUri.'/ref_'.$refId.'/';
-        if ($query != null)
-        {
-            $uri .= '?'.$query;
+        $uri = $baseUri . '/ref_' . $refId . '/';
+        if ($query != null) {
+            $uri .= '?' . $query;
         }
         
         return $uri;
@@ -474,24 +455,22 @@ class ilWebDAVUtil
     {
         global $DIC;
         $nodeId = 0;
-        $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
+        $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:") .
         "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-        $baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+        $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
         
-        if (! is_null($ressourceName) && ! is_null($parentRefId))
-        {
+        if (!is_null($ressourceName) && !is_null($parentRefId)) {
             // Quickly create URI from the known data without needing SQL queries
-            $uri = $baseUri.'/ref_'.$parentRefId.'/'.$this->davUrlEncode($ressourceName);
+            $uri = $baseUri . '/ref_' . $parentRefId . '/' . $this->davUrlEncode($ressourceName);
         } else {
             // Create URI and use some SQL queries to get the missing data
             $nodePath = $DIC->repositoryTree()->getNodePath($refId);
             
-            if (is_null($nodePath) || count($nodePath) < 2)
-            {
+            if (is_null($nodePath) || count($nodePath) < 2) {
                 // No object path? Return null - file is not in repository.
                 $uri = null;
             } else {
-                $uri = $baseUri.'/ref_'.$nodePath[count($nodePath) - 2]['child'].'/'.
+                $uri = $baseUri . '/ref_' . $nodePath[count($nodePath) - 2]['child'] . '/' .
                     $this->davUrlEncode($nodePath[count($nodePath) - 1]['title']);
             }
         }
@@ -520,24 +499,22 @@ class ilWebDAVUtil
     {
         global $DIC;
         $nodeId = 0;
-        $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:").
+        $baseUri = ($this->isWebDAVoverHTTPS() ? "https:" : "http:") .
         "//$_SERVER[HTTP_HOST]$_SERVER[SCRIPT_NAME]";
-        $baseUri = substr($baseUri,0,strrpos($baseUri,'/')).'/webdav.php/'.CLIENT_ID;
+        $baseUri = substr($baseUri, 0, strrpos($baseUri, '/')) . '/webdav.php/' . CLIENT_ID;
 
-        if (! is_null($ressourceName) && ! is_null($parentRefId))
-        {
+        if (!is_null($ressourceName) && !is_null($parentRefId)) {
             // Quickly create URI from the known data without needing SQL queries
-            $uri = $baseUri.'/file_'.$refId.'/'.$this->davUrlEncode($ressourceName);
+            $uri = $baseUri . '/file_' . $refId . '/' . $this->davUrlEncode($ressourceName);
         } else {
             // Create URI and use some SQL queries to get the missing data
             $nodePath = $DIC->repositoryTree()->getNodePath($refId);
             
-            if (is_null($nodePath) || count($nodePath) < 2)
-            {
+            if (is_null($nodePath) || count($nodePath) < 2) {
                 // No object path? Return null - file is not in repository.
                 $uri = null;
             } else {
-                $uri = $baseUri.'/file_'.$nodePath[count($nodePath) - 1]['child'].'/'.
+                $uri = $baseUri . '/file_' . $nodePath[count($nodePath) - 1]['child'] . '/' .
                     $this->davUrlEncode($nodePath[count($nodePath) - 1]['title']);
             }
         }
@@ -550,7 +527,8 @@ class ilWebDAVUtil
      *
      * @return boolean Returns true if HTTPS is active.
      */
-    public function isWebDAVoverHTTPS() {
+    public function isWebDAVoverHTTPS()
+    {
         if ($this->isHTTPS == null) {
             global $DIC;
             $ilSetting = $DIC->settings();
@@ -573,7 +551,7 @@ class ilWebDAVUtil
     public static function _isActive()
     {
         global $DIC;
-        return $DIC->clientIni()->readVariable('file_access','webdav_enabled') == '1';
+        return $DIC->clientIni()->readVariable('file_access', 'webdav_enabled') == '1';
     }
 
     /**
@@ -582,17 +560,20 @@ class ilWebDAVUtil
      *
      * @return int Upload Max Filesize in bytes.
      */
-    private function getUploadMaxFilesize() {
+    private function getUploadMaxFilesize()
+    {
         $val = ini_get('upload_max_filesize');
 
         $val = trim($val);
         $last = strtolower($val[strlen($val)-1]);
-        switch($last) {
+        switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             case 'g':
                 $val *= 1024;
+                // no break
             case 'm':
                 $val *= 1024;
+                // no break
             case 'k':
                 $val *= 1024;
         }
@@ -610,7 +591,6 @@ class ilWebDAVUtil
      */
     private function __construct()
     {
-
     }
 
     /**
@@ -619,8 +599,7 @@ class ilWebDAVUtil
      */
     public static function getInstance()
     {
-        if(self::$instance)
-        {
+        if (self::$instance) {
             return self::$instance;
         }
         return self::$instance = new ilWebDAVUtil();
@@ -635,14 +614,12 @@ class ilWebDAVUtil
         global $DIC;
         $ilUser = $DIC->user();
 
-        if($this->pwd_instruction !== NULL)
-        {
+        if ($this->pwd_instruction !== null) {
             return $this->pwd_instruction;
         }
         include_once './Services/Authentication/classes/class.ilAuthUtils.php';
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
-        if($status != ilAuthUtils::LOCAL_PWV_USER)
-        {
+        if ($status != ilAuthUtils::LOCAL_PWV_USER) {
             return $this->pwd_instruction = false;
         }
         // Check if user has local password

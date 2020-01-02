@@ -8,10 +8,9 @@ require_once 'Services/Exceptions/classes/class.ilException.php';
  *
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
- * 
+ *
  * @package		Modules/TestQuestionPool
  */
 class ilTestQuestionPoolException extends ilException
 {
 }
-

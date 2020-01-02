@@ -12,26 +12,26 @@
  */
 class ilTestReindexedSequencePositionMap
 {
-	/**
-	 * @var array
-	 */
-	protected $sequencePositionMap = array();
-	
-	/**
-	 * @param int $oldSequencePosition
-	 * @param int $newSequencePosition
-	 */
-	public function	addPositionMapping($oldSequencePosition, $newSequencePosition)
-	{
-		$this->sequencePositionMap[$oldSequencePosition] = $newSequencePosition;
-	}
-	
-	/**
-	 * @param int $oldSequencePosition
-	 * @return int
-	 */
-	public function getNewSequencePosition($oldSequencePosition)
-	{
-		return $this->sequencePositionMap[$oldSequencePosition];
-	}
+    /**
+     * @var array
+     */
+    protected $sequencePositionMap = array();
+    
+    /**
+     * @param int $oldSequencePosition
+     * @param int $newSequencePosition
+     */
+    public function addPositionMapping($oldSequencePosition, $newSequencePosition)
+    {
+        $this->sequencePositionMap[$oldSequencePosition] = $newSequencePosition;
+    }
+    
+    /**
+     * @param int $oldSequencePosition
+     * @return int
+     */
+    public function getNewSequencePosition($oldSequencePosition)
+    {
+        return $this->sequencePositionMap[$oldSequencePosition];
+    }
 }

@@ -16,115 +16,120 @@ require_once 'Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php
  */
 class ilTestInfoScreenToolbarFactory
 {
-	/**
-	 * @var integer
-	 */
-	private $testRefId;
-	
-	/**
-	 * @var ilObjTest
-	 */
-	private $testOBJ;
+    /**
+     * @var integer
+     */
+    private $testRefId;
+    
+    /**
+     * @var ilObjTest
+     */
+    private $testOBJ;
 
-	/**
-	 * @var ilTestQuestionSetConfigFactory
-	 */
-	private $testQuestionSetConfigFactory;
+    /**
+     * @var ilTestQuestionSetConfigFactory
+     */
+    private $testQuestionSetConfigFactory;
 
-	/**
-	 * @var ilTestPlayerFactory
-	 */
-	private $testPlayerFactory;
+    /**
+     * @var ilTestPlayerFactory
+     */
+    private $testPlayerFactory;
 
-	/**
-	 * @var ilTestSessionFactory
-	 */
-	private $testSessionFactory;
+    /**
+     * @var ilTestSessionFactory
+     */
+    private $testSessionFactory;
 
-	/**
-	 * @var ilTestSequenceFactory
-	 */
-	private $testSequenceFactory;
+    /**
+     * @var ilTestSequenceFactory
+     */
+    private $testSequenceFactory;
 
-	/**
-	 * @return int
-	 */
-	public function getTestRefId()
-	{
-		return $this->testRefId;
-	}
+    /**
+     * @return int
+     */
+    public function getTestRefId()
+    {
+        return $this->testRefId;
+    }
 
-	/**
-	 * @param int $testRefId
-	 */
-	public function setTestRefId($testRefId)
-	{
-		$this->testRefId = $testRefId;
-	}
+    /**
+     * @param int $testRefId
+     */
+    public function setTestRefId($testRefId)
+    {
+        $this->testRefId = $testRefId;
+    }
 
-	/**
-	 * @return ilObjTest
-	 */
-	public function getTestOBJ()
-	{
-		return $this->testOBJ;
-	}
+    /**
+     * @return ilObjTest
+     */
+    public function getTestOBJ()
+    {
+        return $this->testOBJ;
+    }
 
-	/**
-	 * @param ilObjTest $testOBJ
-	 */
-	public function setTestOBJ($testOBJ)
-	{
-		$this->testOBJ = $testOBJ;
-	}
-	
-	protected function ensureInitialised()
-	{
-		$this->ensureTestObjectInitialised();
-		
-		$d = $GLOBALS['DIC'];
+    /**
+     * @param ilObjTest $testOBJ
+     */
+    public function setTestOBJ($testOBJ)
+    {
+        $this->testOBJ = $testOBJ;
+    }
+    
+    protected function ensureInitialised()
+    {
+        $this->ensureTestObjectInitialised();
+        
+        $d = $GLOBALS['DIC'];
 
-		$this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
-			$d['tree'], $d['ilDB'], $d['ilPluginAdmin'], $this->getTestOBJ()
-		);
-		
-		$this->testPlayerFactory = new ilTestPlayerFactory($this->getTestOBJ());
-		$this->testSessionFactory = new ilTestSessionFactory($this->getTestOBJ());
-		
-		$this->testSequenceFactory = new ilTestSequenceFactory(
-			$d['ilDB'], $d['lng'], $d['ilPluginAdmin'], $this->getTestOBJ()
-		);
-	}
-	
-	private function ensureTestObjectInitialised()
-	{
-		if( !($this->testOBJ instanceof ilObjTest) )
-		{
-			$this->testOBJ = ilObjectFactory::getInstanceByRefId($this->testRefId);
-		}
-	}
-	
-	public function getToolbarInstance()
-	{
-		$this->ensureInitialised();
-		
-		$d = $GLOBALS['DIC'];
-		
-		$toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['ilPluginAdmin']);
-		
-		$toolbar->setTestOBJ($this->getTestOBJ());
-		$toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory(
+            $d['tree'],
+            $d['ilDB'],
+            $d['ilPluginAdmin'],
+            $this->getTestOBJ()
+        );
+        
+        $this->testPlayerFactory = new ilTestPlayerFactory($this->getTestOBJ());
+        $this->testSessionFactory = new ilTestSessionFactory($this->getTestOBJ());
+        
+        $this->testSequenceFactory = new ilTestSequenceFactory(
+            $d['ilDB'],
+            $d['lng'],
+            $d['ilPluginAdmin'],
+            $this->getTestOBJ()
+        );
+    }
+    
+    private function ensureTestObjectInitialised()
+    {
+        if (!($this->testOBJ instanceof ilObjTest)) {
+            $this->testOBJ = ilObjectFactory::getInstanceByRefId($this->testRefId);
+        }
+    }
+    
+    public function getToolbarInstance()
+    {
+        $this->ensureInitialised();
+        
+        $d = $GLOBALS['DIC'];
+        
+        $toolbar = new ilTestInfoScreenToolbarGUI($d['ilDB'], $d['ilAccess'], $d['ilCtrl'], $d['lng'], $d['ilPluginAdmin']);
+        
+        $toolbar->setTestOBJ($this->getTestOBJ());
+        $toolbar->setTestPlayerGUI($this->testPlayerFactory->getPlayerGUI());
 
-		$testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
-		$testSession = $this->testSessionFactory->getSession();
-		$testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
-		$testSequence->loadFromDb();
-		$testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+        $testQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfig();
+        $testSession = $this->testSessionFactory->getSession();
+        $testSequence = $this->testSequenceFactory->getSequenceByTestSession($testSession);
+        $testSequence->loadFromDb();
+        $testSequence->loadQuestions($testQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
 
-		$toolbar->setTestQuestionSetConfig($testQuestionSetConfig);
-		$toolbar->setTestSession($testSession);
-		$toolbar->setTestSequence($testSequence);
-		
-		return $toolbar;
-	}
+        $toolbar->setTestQuestionSetConfig($testQuestionSetConfig);
+        $toolbar->setTestSession($testSession);
+        $toolbar->setTestSequence($testSequence);
+        
+        return $toolbar;
+    }
 }

@@ -13,56 +13,55 @@
 class ilChatroomSmiliesCurrentSmileyFormElement extends ilCustomInputGUI
 {
 
-	/**
-	 * Returns template HTML.
-	 * @return string
-	 */
-	public function getHtml()
-	{
-		global $DIC;
+    /**
+     * Returns template HTML.
+     * @return string
+     */
+    public function getHtml()
+    {
+        global $DIC;
 
-		$tpl = new ilTemplate("tpl.chatroom_current_smiley_image.html", true, true, "Modules/Chatroom");
-		$tpl->setVariable("IMAGE_ALT", $DIC->language()->txt("chatroom_current_smiley_image"));
-		$tpl->setVariable("IMAGE_PATH", $this->value);
+        $tpl = new ilTemplate("tpl.chatroom_current_smiley_image.html", true, true, "Modules/Chatroom");
+        $tpl->setVariable("IMAGE_ALT", $DIC->language()->txt("chatroom_current_smiley_image"));
+        $tpl->setVariable("IMAGE_PATH", $this->value);
 
-		return $tpl->get();
-	}
+        return $tpl->get();
+    }
 
-	/**
-	 * Returns $this->value of ilChatroomSmiliesCurrentSmileyFormElement
-	 * @return string
-	 */
-	public function getValue()
-	{
-		return $this->value;
-	}
+    /**
+     * Returns $this->value of ilChatroomSmiliesCurrentSmileyFormElement
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
 
-	/**
-	 * Sets given value as $this->value in
-	 * ilChatroomSmiliesCurrentSmileyFormElement
-	 * @param string $a_value
-	 */
-	public function setValue($a_value)
-	{
-		$this->value = $a_value;
-	}
+    /**
+     * Sets given value as $this->value in
+     * ilChatroomSmiliesCurrentSmileyFormElement
+     * @param string $a_value
+     */
+    public function setValue($a_value)
+    {
+        $this->value = $a_value;
+    }
 
-	/**
-	 * Set value by array
-	 * @param    array $a_values value array
-	 */
-	/*function setValueByArray($a_values)
-	 {
-		$this->setValue( $a_values[$this->getPostVar()] );
-		}*/
+    /**
+     * Set value by array
+     * @param    array $a_values value array
+     */
+    /*function setValueByArray($a_values)
+     {
+        $this->setValue( $a_values[$this->getPostVar()] );
+        }*/
 
-	/**
-	 * Check Input
-	 * @return boolean
-	 */
-	public function checkInput()
-	{
-		return true;
-	}
-
+    /**
+     * Check Input
+     * @return boolean
+     */
+    public function checkInput()
+    {
+        return true;
+    }
 }
