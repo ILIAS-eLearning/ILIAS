@@ -95,9 +95,8 @@ if ($ilDB->tableColumnExists('frm_posts_tree', 'fpt_date')) {
 ?>
 <#9>
 <?php
-// TODO: Implement migration depending on JF decision
 if ($ilDB->tableColumnExists('frm_thread_access', 'access_old_ts')) {
-
+    $ilDB->dropTableColumn('frm_thread_access', 'access_old_ts');
 }
 ?>
 <#10>
