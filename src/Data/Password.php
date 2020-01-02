@@ -10,26 +10,29 @@ namespace ILIAS\Data;
  *
  * @author Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-class Password {
+class Password
+{
 
-	/**
-	 * @var string
-	 */
-	private $pass;
+    /**
+     * @var string
+     */
+    private $pass;
 
-	public function __construct($pass) {
-		if(!is_string($pass)) {
-			throw new \InvalidArgumentException('Invalid value for $pass');
-		}
-		$this->pass = $pass;
-	}
+    public function __construct($pass)
+    {
+        if (!is_string($pass)) {
+            throw new \InvalidArgumentException('Invalid value for $pass');
+        }
+        $this->pass = $pass;
+    }
 
-	/**
-	 * Get the password-string.
-	 *
-	 * @return  string
-	 */
-	public function toString() {
-		return $this->pass;
-	}
+    /**
+     * Get the password-string.
+     *
+     * @return  string
+     */
+    public function toString()
+    {
+        return $this->pass;
+    }
 }

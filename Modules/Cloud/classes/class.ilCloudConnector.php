@@ -40,13 +40,11 @@ class ilCloudConnector
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
         $cloud_services = $ilPluginAdmin->getActivePluginsForSlot("Modules", "Cloud", "cldh");
-        if (!$cloud_services)
-        {
+        if (!$cloud_services) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_ACTIVE);
         }
         $services_names = array();
-        foreach ($cloud_services as $service)
-        {
+        foreach ($cloud_services as $service) {
             $services_names[$service] = $service;
         }
         return $services_names;
@@ -59,16 +57,13 @@ class ilCloudConnector
      */
     public static function checkServiceActive($name)
     {
-        if (!$name)
-        {
+        if (!$name) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_SELECTED);
         }
 
-        if (array_key_exists($name, ilCloudConnector::getActiveServices()))
-        {
+        if (array_key_exists($name, ilCloudConnector::getActiveServices())) {
             return true;
-        } else
-        {
+        } else {
             throw new ilCloudException(ilCloudException::SERVICE_NOT_ACTIVE, $name);
         }
     }
@@ -80,13 +75,12 @@ class ilCloudConnector
      */
     protected static function getFullClassName($service_name, $class_name)
     {
-        if (file_exists("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" .$service_name . $class_name.".php"))
-        {
-            include_once("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" .$service_name . $class_name.".php");
+        if (file_exists("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . $class_name . ".php")) {
+            include_once("./Customizing/global/plugins/Modules/Cloud/CloudHook/" . $service_name . "/classes/class.il" . $service_name . $class_name . ".php");
             $class_full_name = "il" . $service_name . $class_name;
             return $class_full_name;
         }
-        return "ilCloudPlugin" .$class_name;
+        return "ilCloudPlugin" . $class_name;
     }
     /**
      * @param string $name
@@ -97,17 +91,14 @@ class ilCloudConnector
      */
     public static function getServiceClass($service_name, $obj_id, $connect = true)
     {
-        if (!$service_name)
-        {
+        if (!$service_name) {
             throw new ilCloudException(ilCloudException::NO_SERVICE_SELECTED);
         }
 
-        if (array_key_exists($service_name, ilCloudConnector::getActiveServices()))
-        {
+        if (array_key_exists($service_name, ilCloudConnector::getActiveServices())) {
             $class_name    = ilCloudConnector::getFullClassName($service_name, "Service");
             return new $class_name($service_name, $obj_id);
-        } else
-        {
+        } else {
             throw new ilCloudException(ilCloudException::SERVICE_NOT_ACTIVE, $service_name);
         }
     }
@@ -187,7 +178,7 @@ class ilCloudConnector
     public static function getFileTreeGUIClass(ilCloudPluginService $plugin_service_class, ilCloudFileTree $file_tree)
     {
         $class_name = ilCloudConnector::getFullClassName($plugin_service_class->getPluginHookObject()->getPluginName(), "FileTreeGUI");
-        return new $class_name($plugin_service_class,  $file_tree);
+        return new $class_name($plugin_service_class, $file_tree);
     }
 
     /**
@@ -252,4 +243,3 @@ class ilCloudConnector
         return new $class_name($plugin_service_class);
     }
 }
-?>

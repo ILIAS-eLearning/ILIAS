@@ -3,14 +3,14 @@
 
 interface ilQuestionEditingFormConsumer
 {
-	/**
-	 * @return string
-	 */
-	public function getQuestionEditingFormBackTargetLabel();
+    /**
+     * @return string
+     */
+    public function getQuestionEditingFormBackTargetLabel();
 
-	/**
-	 * @param $context
-	 * @return string
-	 */
-	public function getQuestionEditingFormBackTarget($context);
-} 
+    /**
+     * @param $context
+     * @return string
+     */
+    public function getQuestionEditingFormBackTarget($context);
+}

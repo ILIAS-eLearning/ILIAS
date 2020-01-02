@@ -20,28 +20,27 @@ include_once "./Services/Xml/classes/class.ilXmlWriter.php";
  */
 class ilFileXMLWriter extends ilXmlWriter
 {
-
-    static $CONTENT_ATTACH_NO = 0;
-    static $CONTENT_ATTACH_ENCODED = 1;
-    static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
-    static $CONTENT_ATTACH_GZIP_ENCODED = 3;
-    static $CONTENT_ATTACH_COPY = 4;
+    public static $CONTENT_ATTACH_NO = 0;
+    public static $CONTENT_ATTACH_ENCODED = 1;
+    public static $CONTENT_ATTACH_ZLIB_ENCODED = 2;
+    public static $CONTENT_ATTACH_GZIP_ENCODED = 3;
+    public static $CONTENT_ATTACH_COPY = 4;
     // begin-patch fm
-    static $CONTENT_ATTACH_REST = 5;
+    public static $CONTENT_ATTACH_REST = 5;
     // end-patch fm
     /**
      * if true, file contents will be attached as base64
      *
      * @var int
      */
-    var $attachFileContents;
+    public $attachFileContents;
     /**
      * Exercise Object
      *
      * @var ilObjFile
      */
-    var $file;
-    var $omit_header = false;
+    public $file;
+    public $omit_header = false;
 
 
     /**
@@ -53,14 +52,14 @@ class ilFileXMLWriter extends ilXmlWriter
      *
      * @access    public
      */
-    function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->attachFileContents = ilFileXMLWriter::$CONTENT_ATTACH_NO;
     }
 
 
-    function setFile(ilObjFile $file)
+    public function setFile(ilObjFile $file)
     {
         $this->file = &$file;
     }
@@ -71,7 +70,7 @@ class ilFileXMLWriter extends ilXmlWriter
      *
      * @param boolean    omit header
      */
-    function setOmitHeader($a_val)
+    public function setOmitHeader($a_val)
     {
         $this->omit_header = $a_val;
     }
@@ -82,7 +81,7 @@ class ilFileXMLWriter extends ilXmlWriter
      *
      * @return    boolean    omit header
      */
-    function getOmitHeader()
+    public function getOmitHeader()
     {
         return $this->omit_header;
     }
@@ -94,7 +93,7 @@ class ilFileXMLWriter extends ilXmlWriter
      * @param string    relative file target directory
      * @param string    absolute file target directory
      */
-    function setFileTargetDirectories($a_rel, $a_abs)
+    public function setFileTargetDirectories($a_rel, $a_abs)
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
@@ -108,19 +107,19 @@ class ilFileXMLWriter extends ilXmlWriter
      *
      * @throws  ilExerciseException if mode is not supported
      */
-    function setAttachFileContents($attachFileContents)
+    public function setAttachFileContents($attachFileContents)
     {
         if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_GZIP_ENCODED && !function_exists("gzencode")) {
-            throw new ilFileException ("Inflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+            throw new ilFileException("Inflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
         }
         if ($attachFileContents == ilFileXMLWriter::$CONTENT_ATTACH_ZLIB_ENCODED && !function_exists("gzcompress")) {
-            throw new ilFileException ("Inflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+            throw new ilFileException("Inflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
         }
         $this->attachFileContents = $attachFileContents;
     }
 
 
-    function start()
+    public function start()
     {
         $this->__buildHeader();
 
@@ -174,7 +173,8 @@ class ilFileXMLWriter extends ilXmlWriter
                             $attribs ['mode'] = "REST";
                             include_once './Services/WebServices/Rest/classes/class.ilRestFileStorage.php';
                             $fs = new ilRestFileStorage();
-                            $content = $fs->storeFileForRest(base64_encode(@file_get_contents($filename)));;
+                            $content = $fs->storeFileForRest(base64_encode(@file_get_contents($filename)));
+                            ;
                         } // end-patch fm
                         else {
                             $content = @file_get_contents($filename);
@@ -204,13 +204,13 @@ class ilFileXMLWriter extends ilXmlWriter
     }
 
 
-    function getXML()
+    public function getXML()
     {
         return $this->xmlDumpMem(false);
     }
 
 
-    function __buildHeader()
+    public function __buildHeader()
     {
         if (!$this->getOmitHeader()) {
             $this->xmlSetDtdDef("<!DOCTYPE File PUBLIC \"-//ILIAS//DTD FileAdministration//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_file_3_8.dtd\">");
@@ -222,9 +222,7 @@ class ilFileXMLWriter extends ilXmlWriter
     }
 
 
-    function __buildFooter()
+    public function __buildFooter()
     {
-
     }
 }
-

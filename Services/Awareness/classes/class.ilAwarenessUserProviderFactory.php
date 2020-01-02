@@ -11,65 +11,61 @@
  */
 class ilAwarenessUserProviderFactory
 {
-	protected static $providers = array(
-		array (
-			"component" => "Services/Contact/BuddySystem",
-			"class" => "ilAwarenessUserProviderContactRequests"
-		),
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderSystemContacts"
-		),
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderCourseContacts"
-		),
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderCurrentCourse"
-		),
-		array (
-			"component" => "Services/Contact/BuddySystem",
-			"class" => "ilAwarenessUserProviderApprovedContacts"
-		),
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderMemberships"
-		),
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderAllUsers"
-		)
-	);
+    protected static $providers = array(
+        array(
+            "component" => "Services/Contact/BuddySystem",
+            "class" => "ilAwarenessUserProviderContactRequests"
+        ),
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderSystemContacts"
+        ),
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderCourseContacts"
+        ),
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderCurrentCourse"
+        ),
+        array(
+            "component" => "Services/Contact/BuddySystem",
+            "class" => "ilAwarenessUserProviderApprovedContacts"
+        ),
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderMemberships"
+        ),
+        array(
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderAllUsers"
+        )
+    );
 
-	/*protected static $providers = array(
-		array (
-			"component" => "Services/Awareness",
-			"class" => "ilAwarenessUserProviderCourseContacts"
-		)
-	);*/
+    /*protected static $providers = array(
+        array (
+            "component" => "Services/Awareness",
+            "class" => "ilAwarenessUserProviderCourseContacts"
+        )
+    );*/
 
-	/**
-	 * Get all awareness providers
-	 *
-	 * @return \ilAwarenessUserProvider[] array of ilAwarenessProvider all providers
-	 */
-	static function getAllProviders(): array
-	{
-		$providers = array();
+    /**
+     * Get all awareness providers
+     *
+     * @return \ilAwarenessUserProvider[] array of ilAwarenessProvider all providers
+     */
+    public static function getAllProviders() : array
+    {
+        $providers = array();
 
-		foreach (self::$providers as $p)
-		{
-			$dir = (isset($p["dir"]))
-				? $p["dir"]
-				: "classes";
-			include_once("./".$p["component"]."/".$dir."/class.".$p["class"].".php");
-			$providers[] = new $p["class"]();
-		}
+        foreach (self::$providers as $p) {
+            $dir = (isset($p["dir"]))
+                ? $p["dir"]
+                : "classes";
+            include_once("./" . $p["component"] . "/" . $dir . "/class." . $p["class"] . ".php");
+            $providers[] = new $p["class"]();
+        }
 
-		return $providers;
-	}
-
+        return $providers;
+    }
 }
-
-?>

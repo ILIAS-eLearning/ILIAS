@@ -8,18 +8,18 @@
  */
 interface ilUserAvatar
 {
-	/**
-	 * @return string
-	 */
-	public function getUrl();
+    /**
+     * @return string
+     */
+    public function getUrl();
 
-	/**
-	 * @param int $usrId
-	 */
-	public function setUsrId($usrId);
+    /**
+     * @param int $usrId
+     */
+    public function setUsrId($usrId);
 
-	/**
-	 * @param string $name
-	 */
-	public function setName($name);
+    /**
+     * @param string $name
+     */
+    public function setName($name);
 }

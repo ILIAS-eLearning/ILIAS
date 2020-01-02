@@ -17,7 +17,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    function init()
+    public function init()
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -41,11 +41,11 @@ class ilObjFileListGUI extends ilObjectListGUI
      *
      * @return    string        command target frame
      */
-    function getCommandFrame($a_cmd)
+    public function getCommandFrame($a_cmd)
     {
         $frame = "";
         switch ($a_cmd) {
-            case 'sendfile' :
+            case 'sendfile':
                 require_once('Modules/File/classes/class.ilObjFileAccess.php');
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
@@ -69,7 +69,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      * e.g. 'crs_offline", and/or to express a specific kind of object, e.g.
      * 'file_inline'.
      */
-    function getIconImageType()
+    public function getIconImageType()
     {
         include_once('Modules/File/classes/class.ilObjFileAccess.php');
 
@@ -175,7 +175,7 @@ class ilObjFileListGUI extends ilObjectListGUI
     /**
      * Get command icon image
      */
-    function getCommandImage($a_cmd)
+    public function getCommandImage($a_cmd)
     {
         switch ($a_cmd) {
             default:
@@ -191,7 +191,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      *
      * @return string The command link.
      */
-    function getCommandLink($a_cmd)
+    public function getCommandLink($a_cmd)
     {
         // overwritten to always return the permanent download link
 

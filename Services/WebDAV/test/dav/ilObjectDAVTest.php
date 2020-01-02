@@ -1,18 +1,19 @@
 <?php
 use\PHPUnit\Framework\TestCase;
 use Sabre\DAV\Exception\Forbidden;
+
 require_once('./libs/composer/vendor/autoload.php');
 
 /**
  * TestCase for the ilObjectDAVTest
  *
  * I name the test-methods like this: MethodName_TestedBehavior_Expectation
- * 
+ *
  * For example setName_NoWriteAccess_ThrowForbidden means:
  * - I test the method setName
  * - I will test the behavior if I dont have write access to this object
  * - I expect a Forbidden-Exception
- * 
+ *
  * @author                 Raphael Heer <raphael.heer@hslu.ch>
  * @version                1.0.0
  *
@@ -41,12 +42,12 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
     protected $dav_obj;
 
 
-	/**
-	 * Setup
-	 */
-	protected function setUp()
-	{
-		require_once('./Services/WebDAV/classes/dav/class.ilObjectDAV.php');
+    /**
+     * Setup
+     */
+    protected function setUp()
+    {
+        require_once('./Services/WebDAV/classes/dav/class.ilObjectDAV.php');
         require_once('./Services/WebDAV/classes/class.ilWebDAVRepositoryHelper.php');
         require_once('./Services/WebDAV/classes/class.ilWebDAVObjDAVHelper.php');
 
@@ -60,7 +61,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
 
         $this->dav_obj = $this->setUpObjectDAV($this->mocked_obj, $this->mocked_dav_repo_helper, $this->mocked_dav_obj_helper);
 
-		parent::setUp();
+        parent::setUp();
     }
     
     /**
@@ -68,15 +69,16 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
      */
     protected function setUpObjectDAV($mocked_obj, $mocked_repo_helper, $mockes_dav_helper)
     {
-        return new class($mocked_obj, $mocked_repo_helper, $mockes_dav_helper) extends ilObjectDAV {};
+        return new class($mocked_obj, $mocked_repo_helper, $mockes_dav_helper) extends ilObjectDAV {
+        };
     }
 
     /**
      * @test
      * @small
      */
-	public function setName_NoWriteAccess_ThrowForbidden()
-	{
+    public function setName_NoWriteAccess_ThrowForbidden()
+    {
         // Arrange
         $exception_thrown = false;
         $title = 'Test';
@@ -87,12 +89,9 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
 
 
         // Act
-        try
-        {
+        try {
             $this->dav_obj->setName($title);
-        }
-        catch (Forbidden $e)
-        {
+        } catch (Forbidden $e) {
             $exception_thrown = $e->getMessage() == 'Permission denied';
         }
 
@@ -117,12 +116,9 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_obj->shouldNotReceive('setTitle');
 
         // Act
-        try
-        {
+        try {
             $this->dav_obj->setName($title);
-        }
-        catch (Forbidden $e)
-        {
+        } catch (Forbidden $e) {
             $exception_thrown = $e->getMessage() == 'Forbidden characters in title';
         }
 
@@ -134,7 +130,7 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
      * Requirements:
      * - Write permission for this object
      * - No forbidden characters in title
-     * 
+     *
      * @test
      * @small
      */
@@ -169,12 +165,9 @@ class ilObjectDAVTest extends PHPUnit_Framework_TestCase
         $this->mocked_dav_repo_helper->shouldReceive('checkAccess')->withAnyArgs()->andReturn(false);
 
         // Act
-        try
-        {
+        try {
             $this->dav_obj->delete();
-        }
-        catch(Forbidden $e)
-        {
+        } catch (Forbidden $e) {
             $exception_thrown = $e->getMessage() == "Permission denied";
         }
 

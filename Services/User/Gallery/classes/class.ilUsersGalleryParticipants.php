@@ -7,84 +7,79 @@ require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryCollecti
  */
 class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvider
 {
-	/**
-	 * @var ilParticipants
-	 */
-	protected $participants;
+    /**
+     * @var ilParticipants
+     */
+    protected $participants;
 
-	/**
-	 * @var array
-	 */
-	protected $users = array();
+    /**
+     * @var array
+     */
+    protected $users = array();
 
-	/**
-	 * @param ilParticipants $participants
-	 */
-	public function __construct(ilParticipants $participants)
-	{
-		$this->participants = $participants;
-	}
+    /**
+     * @param ilParticipants $participants
+     */
+    public function __construct(ilParticipants $participants)
+    {
+        $this->participants = $participants;
+    }
 
-	/**
-	 * @param int[] $usr_ids
-	 * @return ilObjUser[]
-	 */
-	protected function getUsers(array $usr_ids)
-	{
-		$users = [];
+    /**
+     * @param int[] $usr_ids
+     * @return ilObjUser[]
+     */
+    protected function getUsers(array $usr_ids)
+    {
+        $users = [];
 
-		foreach($usr_ids as $usr_id)
-		{
-			if(isset($this->users[$usr_id]))
-			{
-				continue;
-			}
+        foreach ($usr_ids as $usr_id) {
+            if (isset($this->users[$usr_id])) {
+                continue;
+            }
 
-			/**
-			 * @var $user ilObjUser
-			 */
-			if(!($user = ilObjectFactory::getInstanceByObjId($usr_id, false)))
-			{
-				continue;
-			}
+            /**
+             * @var $user ilObjUser
+             */
+            if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false))) {
+                continue;
+            }
 
-			if(!$user->getActive())
-			{
-				continue;
-			}
+            if (!$user->getActive()) {
+                continue;
+            }
 
-			$users[$user->getId()] = $user;
-			$this->users[$user->getId()] = true;
-		}
+            $users[$user->getId()] = $user;
+            $this->users[$user->getId()] = true;
+        }
 
-		return $users;
-	}
+        return $users;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getGroupedCollections()
-	{
-		/**
-		 * @var $DIC ILIAS\DI\Container
-		 */
-		global $DIC;
+    /**
+     * @inheritdoc
+     */
+    public function getGroupedCollections()
+    {
+        /**
+         * @var $DIC ILIAS\DI\Container
+         */
+        global $DIC;
 
-		$groups = [];
+        $groups = [];
 
-		foreach([
-			array($this->participants->getContacts(), true, $DIC->language()->txt('crs_mem_contact')),
-			array($this->participants->getAdmins()  , false, ''),
-			array($this->participants->getTutors()  , false, ''),
-			array($this->participants->getMembers() , false, '')
-		] as $users)
-		{
-			$group = $this->getPopulatedGroup($this->getUsers($users[0]));
-			$group->setHighlighted($users[1]);
-			$group->setLabel($users[2]);
-			$groups[] = $group;
-		}
+        foreach ([
+            array($this->participants->getContacts(), true, $DIC->language()->txt('crs_mem_contact')),
+            array($this->participants->getAdmins()  , false, ''),
+            array($this->participants->getTutors()  , false, ''),
+            array($this->participants->getMembers() , false, '')
+        ] as $users) {
+            $group = $this->getPopulatedGroup($this->getUsers($users[0]));
+            $group->setHighlighted($users[1]);
+            $group->setLabel($users[2]);
+            $groups[] = $group;
+        }
 
-		return $groups;
-	}
-} 
+        return $groups;
+    }
+}

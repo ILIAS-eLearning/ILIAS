@@ -14,26 +14,25 @@ include_once("./Services/Export/classes/class.ilXmlImporter.php");
 */
 class ilAccessControlImporter extends ilXmlImporter
 {
-	public function init()
-	{
-	}
-	
-	/**
-	 * Import XML
-	 *
-	 * @param
-	 * @return
-	 */
-	function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{
-		$role_folder_id = $a_mapping->getMapping('Services/AccessControl','rolf',0);
-		
-		include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
-		include_once './Services/AccessControl/classes/class.ilObjRole.php';
-		$importer = new ilRoleXmlImporter($role_folder_id);
-		$importer->setXml($a_xml);
-		$importer->setRole(new ilObjRole());
-		$importer->import();
-	}
+    public function init()
+    {
+    }
+    
+    /**
+     * Import XML
+     *
+     * @param
+     * @return
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        $role_folder_id = $a_mapping->getMapping('Services/AccessControl', 'rolf', 0);
+        
+        include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
+        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        $importer = new ilRoleXmlImporter($role_folder_id);
+        $importer->setXml($a_xml);
+        $importer->setRole(new ilObjRole());
+        $importer->import();
+    }
 }
-?>

@@ -14,78 +14,71 @@ include_once("./Services/Awareness/classes/class.ilAwarenessUserProvider.php");
 class ilAwarenessUserProviderAllUsers extends ilAwarenessUserProvider
 {
 
-	/**
-	 * Constructor
-	 */
-	function __construct()
-	{
-		global $DIC;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->db = $DIC->database();
-	}
+        $this->db = $DIC->database();
+    }
 
-	/**
-	 * Get provider id
-	 *
-	 * @return string provider id
-	 */
-	function getProviderId()
-	{
-		return "user_all";
-	}
+    /**
+     * Get provider id
+     *
+     * @return string provider id
+     */
+    public function getProviderId()
+    {
+        return "user_all";
+    }
 
-	/**
-	 * Provider title (used in awareness overlay and in administration settings)
-	 *
-	 * @return string provider title
-	 */
-	function getTitle()
-	{
-		$this->lng->loadLanguageModule("user");
-		return $this->lng->txt("user_awrn_all_users");
-	}
+    /**
+     * Provider title (used in awareness overlay and in administration settings)
+     *
+     * @return string provider title
+     */
+    public function getTitle()
+    {
+        $this->lng->loadLanguageModule("user");
+        return $this->lng->txt("user_awrn_all_users");
+    }
 
-	/**
-	 * Provider info (used in administration settings)
-	 *
-	 * @return string provider info text
-	 */
-	function getInfo()
-	{
-		$this->lng->loadLanguageModule("user");
-		return $this->lng->txt("user_awrn_all_users_info");
-	}
+    /**
+     * Provider info (used in administration settings)
+     *
+     * @return string provider info text
+     */
+    public function getInfo()
+    {
+        $this->lng->loadLanguageModule("user");
+        return $this->lng->txt("user_awrn_all_users_info");
+    }
 
-	/**
-	 * Get initial set of users
-	 *
-	 * @return array array of user IDs
-	 */
-	function getInitialUserSet()
-	{
-		$ilDB = $this->db;
+    /**
+     * Get initial set of users
+     *
+     * @return array array of user IDs
+     */
+    public function getInitialUserSet()
+    {
+        $ilDB = $this->db;
 
-		$ub = array();
-		// all online users
-		if ($this->getOnlineUserFilter() !== false)
-		{
-			foreach ($this->getOnlineUserFilter() as $u)
-			{
-				$ub[] = $u;
-			}
-		}
-		else	// all users
-		{
-			$set = $ilDB->query("SELECT usr_id FROM usr_data ");
-			while ($rec = $ilDB->fetchAssoc($set))
-			{
-				$ub[] = $rec["usr_id"];
-			}
-		}
-		return $ub;
-	}
-
+        $ub = array();
+        // all online users
+        if ($this->getOnlineUserFilter() !== false) {
+            foreach ($this->getOnlineUserFilter() as $u) {
+                $ub[] = $u;
+            }
+        } else {	// all users
+            $set = $ilDB->query("SELECT usr_id FROM usr_data ");
+            while ($rec = $ilDB->fetchAssoc($set)) {
+                $ub[] = $rec["usr_id"];
+            }
+        }
+        return $ub;
+    }
 }
-?>

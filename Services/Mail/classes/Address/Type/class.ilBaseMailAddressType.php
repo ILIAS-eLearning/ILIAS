@@ -7,80 +7,80 @@
  */
 abstract class ilBaseMailAddressType implements \ilMailAddressType
 {
-	/** @var \ilMailAddressTypeHelper */
-	protected $typeHelper;
+    /** @var \ilMailAddressTypeHelper */
+    protected $typeHelper;
 
-	/** @var \ilMailAddress */
-	protected $address;
+    /** @var \ilMailAddress */
+    protected $address;
 
-	/** @var \ilLogger */
-	protected $logger;
+    /** @var \ilLogger */
+    protected $logger;
 
-	/** @var \ilMailError[] */
-	private $errors = [];
+    /** @var \ilMailError[] */
+    private $errors = [];
 
-	/**
-	 * ilBaseMailAddressType constructor.
-	 * @param \ilMailAddressTypeHelper $typeHelper
-	 * @param \ilMailAddress           $address
-	 * @param \ilLogger                 $logger
-	 */
-	public function __construct(
-		\ilMailAddressTypeHelper $typeHelper,
-		\ilMailAddress $address,
-		\ilLogger $logger
-	) {
-		$this->address    = $address;
-		$this->typeHelper = $typeHelper;
-		$this->logger = $logger;
-	}
+    /**
+     * ilBaseMailAddressType constructor.
+     * @param \ilMailAddressTypeHelper $typeHelper
+     * @param \ilMailAddress           $address
+     * @param \ilLogger                 $logger
+     */
+    public function __construct(
+        \ilMailAddressTypeHelper $typeHelper,
+        \ilMailAddress $address,
+        \ilLogger $logger
+    ) {
+        $this->address    = $address;
+        $this->typeHelper = $typeHelper;
+        $this->logger = $logger;
+    }
 
-	/**
-	 * @param $senderId integer
-	 * @return bool
-	 */
-	abstract protected function isValid(int $senderId): bool;
+    /**
+     * @param $senderId integer
+     * @return bool
+     */
+    abstract protected function isValid(int $senderId) : bool;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function validate(int $senderId): bool
-	{
-		$this->resetErrors();
+    /**
+     * @inheritdoc
+     */
+    public function validate(int $senderId) : bool
+    {
+        $this->resetErrors();
 
-		return $this->isValid($senderId);
-	}
+        return $this->isValid($senderId);
+    }
 
-	/**
-	 * @param string $languageVariable
-	 * @param array $placeHolderValues
-	 */
-	protected function pushError(string $languageVariable, array $placeHolderValues = [])
-	{
-		$this->errors[] = new \ilMailError($languageVariable, $placeHolderValues);
-	}
+    /**
+     * @param string $languageVariable
+     * @param array $placeHolderValues
+     */
+    protected function pushError(string $languageVariable, array $placeHolderValues = [])
+    {
+        $this->errors[] = new \ilMailError($languageVariable, $placeHolderValues);
+    }
 
-	/**
-	 *
-	 */
-	private function resetErrors()
-	{
-		$this->errors = [];
-	}
+    /**
+     *
+     */
+    private function resetErrors()
+    {
+        $this->errors = [];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getErrors(): array
-	{
-		return $this->errors;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getErrors() : array
+    {
+        return $this->errors;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAddress(): \ilMailAddress
-	{
-		return $this->address;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getAddress() : \ilMailAddress
+    {
+        return $this->address;
+    }
 }

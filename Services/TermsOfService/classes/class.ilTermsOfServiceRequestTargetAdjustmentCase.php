@@ -7,50 +7,50 @@
  */
 class ilTermsOfServiceRequestTargetAdjustmentCase extends \ilUserRequestTargetAdjustmentCase
 {
-	/**
-	 * @inheritdoc
-	 */
-	public function shouldStoreRequestTarget()
-	{
-		return true;
-	}
+    /**
+     * @inheritdoc
+     */
+    public function shouldStoreRequestTarget()
+    {
+        return true;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function isInFulfillment()
-	{
-		return (
-			strtolower($this->ctrl->getCmdClass()) == 'ilstartupgui' &&
-			strtolower($this->ctrl->getCmd()) == 'getacceptance'
-		);
-	}
+    /**
+     * @inheritdoc
+     */
+    public function isInFulfillment()
+    {
+        return (
+            strtolower($this->ctrl->getCmdClass()) == 'ilstartupgui' &&
+            strtolower($this->ctrl->getCmd()) == 'getacceptance'
+        );
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function shouldAdjustRequest()
-	{
-		if ($this->isInFulfillment()) {
-			return false;
-		}
+    /**
+     * @inheritdoc
+     */
+    public function shouldAdjustRequest()
+    {
+        if ($this->isInFulfillment()) {
+            return false;
+        }
 
-		if (
-			$this->user->hasToAcceptTermsOfService() &&
-			$this->user->checkTimeLimit() &&
-			$this->user->hasToAcceptTermsOfServiceInSession()
-		) {
-			return true;
-		}
+        if (
+            $this->user->hasToAcceptTermsOfService() &&
+            $this->user->checkTimeLimit() &&
+            $this->user->hasToAcceptTermsOfServiceInSession()
+        ) {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function adjust()
-	{
-		$this->ctrl->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
-	}
+    /**
+     * @inheritdoc
+     */
+    public function adjust()
+    {
+        $this->ctrl->redirectToURL('ilias.php?baseClass=ilStartUpGUI&cmdClass=ilStartupGUI&cmd=getAcceptance');
+    }
 }

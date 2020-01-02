@@ -60,7 +60,7 @@ class BasicPersistence implements Persistence
      *
      * @param $connector \arConnector
      */
-    function setConnector(\arConnector $connector)
+    public function setConnector(\arConnector $connector)
     {
         $this->connector = $connector;
     }
@@ -453,19 +453,27 @@ class BasicPersistence implements Persistence
     {
         /** @var BucketContainer $bucket */
         $buckets = BucketContainer::where(['id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $buckets);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $buckets);
 
         /** @var TaskContainer $tasks */
         $tasks = TaskContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $tasks);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $tasks);
 
         /** @var ValueContainer $values */
         $values = ValueContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $values);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $values);
 
         /** @var ValueToTaskContainer $valueToTasks */
         $valueToTasks = ValueToTaskContainer::where(['bucket_id' => $bucket_id])->get();
-        array_map(function (\ActiveRecord $item) { $item->delete(); }, $valueToTasks);
+        array_map(function (\ActiveRecord $item) {
+            $item->delete();
+        }, $valueToTasks);
     }
 
 

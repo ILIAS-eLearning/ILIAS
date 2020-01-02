@@ -5,6 +5,6 @@
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
  */
-class ilOrgUnitExtensionAccess extends ilObjectPluginAccess {
-
+class ilOrgUnitExtensionAccess extends ilObjectPluginAccess
+{
 }

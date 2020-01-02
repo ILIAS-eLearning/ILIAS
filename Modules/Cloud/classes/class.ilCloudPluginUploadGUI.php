@@ -30,15 +30,14 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
         $cmd = $ilCtrl->getCmd();
 
-        switch ($cmd)
-        {
+        switch ($cmd) {
             default:
                 $this->$cmd();
                 break;
         }
     }
 
-    function asyncUploadFile()
+    public function asyncUploadFile()
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -111,21 +110,16 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         $response->debug = null;
 
         $this->initUploadForm();
-        if ($this->form->checkInput())
-        {
-            try
-            {
+        if ($this->form->checkInput()) {
+            try {
                 $fileresult = $this->handleFileUpload($this->form->getInput("upload_files"));
-                if ($fileresult)
-                {
-                    $response = (object)array_merge((array)$response, (array)$fileresult);
+                if ($fileresult) {
+                    $response = (object) array_merge((array) $response, (array) $fileresult);
                 }
-            } catch (ilException $e)
-            {
+            } catch (ilException $e) {
                 $response->error = $e->getMessage();
             }
-        } else
-        {
+        } else {
             $error = new ilCloudException(ilCloudException::UPLOAD_FAILED);
             $response->error = $error->getMessage();
         }
@@ -137,7 +131,7 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         exit;
     }
 
-    function handleFileUpload($file_upload)
+    public function handleFileUpload($file_upload)
     {
         // create answer object
         $response               = new stdClass();
@@ -149,29 +143,22 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
         $file_tree = ilCloudFileTree::getFileTreeFromSession();
 
-        if ($file_upload["extract"])
-        {
+        if ($file_upload["extract"]) {
             $newdir = ilUtil::ilTempnam();
             ilUtil::makeDir($newdir);
 
             include_once './Services/Utilities/classes/class.ilFileUtils.php';
-            try
-            {
+            try {
                 ilFileUtils::processZipFile($newdir, $file_upload["tmp_name"], $file_upload["keep_structure"]);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $response->error = $e->getMessage();
                 ilUtil::delDir($newdir);
                 exit;
             }
 
-            try
-            {
+            try {
                 $this->uploadDirectory($newdir, $_SESSION["cld_folder_id"], $file_tree, $file_upload["keep_structure"]);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $response->error = $e->getMessage();
                 ilUtil::delDir($newdir);
                 exit;
@@ -179,13 +166,10 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
 
             ilUtil::delDir($newdir);
             return $response;
-        }
-        else
-        {
+        } else {
             $file_tree->uploadFileToService($_SESSION["cld_folder_id"], $file_upload["tmp_name"], $_POST["title"]);
             return $response;
         }
-
     }
 
     /**
@@ -197,35 +181,26 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
      * @param bool $keep_structure if false, only files will be extracted, without folder structure
      * @throws ilCloudException
      */
-    protected function uploadDirectory($dir, $parent_id, $file_tree, $keep_structure = true) {
+    protected function uploadDirectory($dir, $parent_id, $file_tree, $keep_structure = true)
+    {
         $dirlist = opendir($dir);
 
-        while (false !== ($file = readdir ($dirlist)))
-        {
-
-            if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file))
-            {
+        while (false !== ($file = readdir($dirlist))) {
+            if (!is_file($dir . "/" . $file) && !is_dir($dir . "/" . $file)) {
                 global $DIC;
                 $lng = $DIC['lng'];
-                throw new ilCloudException($lng->txt("filenames_not_supported") , ilFileUtilsException::$BROKEN_FILE);
+                throw new ilCloudException($lng->txt("filenames_not_supported"), ilFileUtilsException::$BROKEN_FILE);
             }
-            if ($file != '.' && $file != '..')
-            {
-                $newpath = $dir.'/'.$file;
-                if (is_dir($newpath))
-                {
-                    if($keep_structure)
-                    {
+            if ($file != '.' && $file != '..') {
+                $newpath = $dir . '/' . $file;
+                if (is_dir($newpath)) {
+                    if ($keep_structure) {
                         $newnode = $file_tree->addFolderToService($parent_id, basename($newpath));
                         $this->uploadDirectory($newpath, $newnode->getId(), $file_tree);
-                    }
-                    else
-                    {
+                    } else {
                         $this->uploadDirectory($newpath, $parent_id, $file_tree, false);
                     }
-                }
-                else
-                {
+                } else {
                     $file_tree->uploadFileToService($parent_id, $newpath, basename($newpath));
                 }
             }
@@ -233,5 +208,3 @@ class ilCloudPluginUploadGUI extends ilCloudPluginGUI
         closedir($dirlist);
     }
 }
-
-?>

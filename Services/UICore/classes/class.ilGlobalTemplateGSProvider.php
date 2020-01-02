@@ -7,20 +7,23 @@ use ILIAS\GlobalScreen\Scope\Context\ContextInterface;
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilGlobalTemplateGSProvider extends AbstractDynamicContextProvider {
+class ilGlobalTemplateGSProvider extends AbstractDynamicContextProvider
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getGeneralContextsForComponent(): array {
-		return [];
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getGeneralContextsForComponent() : array
+    {
+        return [];
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function enrichContextWithCurrentSituation(ContextInterface $context): ContextInterface {
-		return $context;
-	}
+    /**
+     * @inheritDoc
+     */
+    public function enrichContextWithCurrentSituation(ContextInterface $context) : ContextInterface
+    {
+        return $context;
+    }
 }

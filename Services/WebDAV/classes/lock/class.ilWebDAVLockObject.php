@@ -4,7 +4,7 @@ require_once('Services/ActiveRecord/Connector/class.arConnectorSession.php');
 
 /**
  * Represents a lock on an ilias object. Objects from this class are immutable!
- * 
+ *
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$
  *
@@ -12,8 +12,8 @@ require_once('Services/ActiveRecord/Connector/class.arConnectorSession.php');
 class ilWebDAVLockObject
 {
     /**
-     * 
-     * @param string $token     example: 
+     *
+     * @param string $token     example:
      * @param int $obj_id       example: 1111
      * @param int $ilias_owner  example: 2222
      * @param string $dav_owner example: 'Desktop\Raphi'
@@ -22,7 +22,8 @@ class ilWebDAVLockObject
      * @param string $type      example: 'w'
      * @param string $scope     example: 'x'
      */
-    public function __construct($token, $obj_id, $ilias_owner, $dav_owner, $expires, $depth, $type, $scope){
+    public function __construct($token, $obj_id, $ilias_owner, $dav_owner, $expires, $depth, $type, $scope)
+    {
         $this->token = $token;
         $this->obj_id = $obj_id;
         $this->ilias_owner = $ilias_owner;
@@ -108,22 +109,24 @@ class ilWebDAVLockObject
     
     public static function createFromAssocArray($assoc_array)
     {
-        return new ilWebDAVLockObject($assoc_array['token'], 
-            $assoc_array['obj_id'], 
-            $assoc_array['ilias_owner'], 
-            $assoc_array['dav_owner'], 
-            $assoc_array['expires'], 
-            $assoc_array['depth'], 
-            $assoc_array['type'], 
-            $assoc_array['scope']);
+        return new ilWebDAVLockObject(
+            $assoc_array['token'],
+            $assoc_array['obj_id'],
+            $assoc_array['ilias_owner'],
+            $assoc_array['dav_owner'],
+            $assoc_array['expires'],
+            $assoc_array['depth'],
+            $assoc_array['type'],
+            $assoc_array['scope']
+        );
     }
     
     /**
      * Creates an ILIAS lock object from a sabreDAV lock object
-     * 
+     *
      * IMPORTANT: This method just creates and initializes an object. It does not
      * create any record in the database!
-     * 
+     *
      * @param Sabre\DAV\Locks\LockInfo $lock_info
      */
     public static function createFromSabreLock(Sabre\DAV\Locks\LockInfo $lock_info, $obj_id)
@@ -138,7 +141,8 @@ class ilWebDAVLockObject
             time() + 360,              // expires (hard coded like in the old webdav)
             $lock_info->depth,                  // depth
             'w',                          // type
-            $lock_info->scope);                 // scope
+            $lock_info->scope
+        );                 // scope
             
         return $ilias_lock;
     }

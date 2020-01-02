@@ -20,14 +20,17 @@ class ConcatenationJob extends AbstractJob
      *
      * @return StringValue
      */
-    public function run(Array $input, Observer $observer)
+    public function run(array $input, Observer $observer)
     {
         /** @var ScalarValue[] $list */
         $list = $input[0]->getList();
         /** @var ScalarValue[] $values */
         $values = array_map(
-            function ($a) { return $a->getValue(); },
-            $list);
+            function ($a) {
+                return $a->getValue();
+            },
+            $list
+        );
 
         $string_value = new StringValue();
         $string_value->setValue(implode(', ', $values));

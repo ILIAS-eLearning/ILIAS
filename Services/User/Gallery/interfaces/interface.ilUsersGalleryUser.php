@@ -6,23 +6,23 @@
  */
 interface ilUsersGalleryUser
 {
-	/**
-	 * @return boolean
-	 */
-	public function hasPublicProfile();
+    /**
+     * @return boolean
+     */
+    public function hasPublicProfile();
 
-	/**
-	 * @return string
-	 */
-	public function getPublicName();
+    /**
+     * @return string
+     */
+    public function getPublicName();
 
-	/**
-	 * @return string
-	 */
-	public function getSortablePublicName();
+    /**
+     * @return string
+     */
+    public function getSortablePublicName();
 
-	/**
-	 * @return ilObjUser
-	 */
-	public function getAggregatedUser();
+    /**
+     * @return ilObjUser
+     */
+    public function getAggregatedUser();
 }

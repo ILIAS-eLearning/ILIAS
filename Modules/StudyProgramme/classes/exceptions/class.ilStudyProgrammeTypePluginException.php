@@ -6,5 +6,6 @@ require_once("./Services/Exceptions/classes/class.ilException.php");
 /**
  * Exception is thrown when errors occurs relating the plugin type-hook
  */
-class ilStudyProgrammeTypePluginException extends ilException {
+class ilStudyProgrammeTypePluginException extends ilException
+{
 }

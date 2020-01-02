@@ -7,47 +7,47 @@
  */
 class ilMailOnlyExternalAddressList implements \ilMailAddressList
 {
-	/** @var \ilMailAddressList */
-	protected $origin;
+    /** @var \ilMailAddressList */
+    protected $origin;
 
-	/** @var string */
-	protected $installationHost;
+    /** @var string */
+    protected $installationHost;
 
-	/**
-	 * ilMailOnlyExternalAddressList constructor.
-	 * @param \ilMailAddressList $origin
-	 * @param string $installationHost
-	 */
-	public function __construct(\ilMailAddressList $origin, string $installationHost)
-	{
-		$this->origin = $origin;
-		$this->installationHost = $installationHost;
-	}
+    /**
+     * ilMailOnlyExternalAddressList constructor.
+     * @param \ilMailAddressList $origin
+     * @param string $installationHost
+     */
+    public function __construct(\ilMailAddressList $origin, string $installationHost)
+    {
+        $this->origin = $origin;
+        $this->installationHost = $installationHost;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function value(): array
-	{
-		$addresses = $this->origin->value();
+    /**
+     * @inheritdoc
+     */
+    public function value() : array
+    {
+        $addresses = $this->origin->value();
 
-		$filteredAddresses = array_filter($addresses, function(\ilMailAddress $address) {
-			if (\ilObjUser::_lookupId((string)$address)) {
-				// Fixed mantis bug #5875
-				return false;
-			}
+        $filteredAddresses = array_filter($addresses, function (\ilMailAddress $address) {
+            if (\ilObjUser::_lookupId((string) $address)) {
+                // Fixed mantis bug #5875
+                return false;
+            }
 
-			if ($address->getHost() === $this->installationHost) {
-				return false;
-			}
+            if ($address->getHost() === $this->installationHost) {
+                return false;
+            }
 
-			if('#' === substr($address->getMailbox(), 0, 1)) {
-				return false;
-			}
+            if ('#' === substr($address->getMailbox(), 0, 1)) {
+                return false;
+            }
 
-			return true;
-		});
+            return true;
+        });
 
-		return $filteredAddresses;
-	}
+        return $filteredAddresses;
+    }
 }

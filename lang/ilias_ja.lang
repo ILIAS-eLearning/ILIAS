@@ -398,7 +398,7 @@ assessment#:#answer_options#:#解答オプション:
 assessment#:#answer_question#:#問題回答
 assessment#:#answer_text#:#答案テキスト
 assessment#:#answer_types#:#答案タイプ
-assessment#:#answered#:#解答
+assessment#:#answered#:#回答数
 assessment#:#answers_multiline#:#複数行の答案
 assessment#:#answers_of#:#解答:
 assessment#:#answers_select#:#選択
@@ -538,7 +538,7 @@ assessment#:#confirm_delete_all_user_data#:#本当に全ユーザのテストデ
 assessment#:#confirm_delete_single_user_data#:#本当に選択したユーザのテストデータを削除しますか?
 assessment#:#confirm_sync_questions#:#変更した問題は実際のテストで使用するために作成したコピーです。オリジナルの問題も合わせて変更しますか?
 assessment#:#coordinates#:#座標
-assessment#:#copy_and_link_to_questionpool#:#コピーして問題集をへンク
+assessment#:#copy_and_link_to_questionpool#:#問題集へ追加
 assessment#:#copy_no_questions_selected#:#コピーするには問題のどれかひとつを選択してください。
 assessment#:#copy_questions_success#:#問題がコピーされました。
 assessment#:#correct_answers#:#正解:
@@ -586,7 +586,7 @@ assessment#:#ects_grade_d_desc#:#かなりの欠点はるものの妥当
 assessment#:#ects_grade_desc_prefix#:#グレードの意味:
 assessment#:#ects_grade_e_desc#:#最低判断基準を満たすパフォーマンス
 assessment#:#ects_grade_f_desc#:#今後相当の努力が必須
-assessment#:#ects_grade_fx_desc#:#クレジットを受賞するにはさｒくぁなる努力を要する
+assessment#:#ects_grade_fx_desc#:#クレジットを受賞するにはさらなる努力を要する
 assessment#:#ects_output_of_ects_grades#:#ECTS成績の出力
 assessment#:#edit_answer#:#回答を編集
 assessment#:#edit_page#:#ページ編集
@@ -600,6 +600,7 @@ assessment#:#end_tag#:#エンドタグ
 assessment#:#enlarge#:#拡大
 assessment#:#enter_anonymous_code#:#匿名アクセスコードを入力
 assessment#:#enter_enough_positive_points#:#最高点は0以上にしなけれなりません! 答案に対する妥当な点数を入力してください。
+assessment#:#enter_enough_positive_points_checked#:#得点には回答が一つは必要です。回答選択肢として正の点数を入力してください。
 assessment#:#enter_valid_values#:#値を入力してください。不正な文字はチエックされます!
 assessment#:#err_category_in_use#:#カテゴリが一つは削除できません。複数のカテゴリのユニットがすでに使用中です。
 assessment#:#err_duplicate_results#:#利用可能な結果を複数回使用しています。問題文章中にこれは使用できません。
@@ -692,7 +693,7 @@ assessment#:#gap_combination#:#ギャップ組合せ
 assessment#:#general#:#全般
 assessment#:#glossary_term#:#索引
 assessment#:#grading_mark_msg#:#結果: &quot;[mark]&quot;
-assessment#:#grading_obligations_answered_listentry#:#解答
+assessment#:#grading_obligations_answered_listentry#:#回答数
 assessment#:#grading_obligations_answered_msg#:#全ての必須問題を解答しました。
 assessment#:#grading_obligations_listlabel#:#必須問題
 assessment#:#grading_obligations_missing_listentry#:#オープン
@@ -1620,8 +1621,8 @@ assessment#:#tst_remove_question#:#テストから次の問題を本当に削除
 assessment#:#tst_remove_questions#:#本当にテストから次の問題を削除しますか?
 assessment#:#tst_remove_questions_and_results#:#テストはすでにユーザ %s によって実行されました。テストから問題を削除すると、ユーザの全てのテスト結果を削除します。本当にテストから次の問題を削除しますか?
 assessment#:#tst_report_after_date#:#成績確定報告日の後
-assessment#:#tst_report_after_first_question#:#テストが開始された時のテスト結果を提供
-assessment#:#tst_report_after_passed#:#Offer test results when the test has been passed
+assessment#:#tst_report_after_first_question#:#テストが開始されたらテスト結果を提示する
+assessment#:#tst_report_after_passed#:#テストが終わったらテスト結果を提示する
 assessment#:#tst_report_after_test#:#テスト終了時にテスト結果を表示
 assessment#:#tst_report_never#:#利用可能なテスト結果がありません
 assessment#:#tst_reporting_date#:#日付
@@ -1630,11 +1631,11 @@ assessment#:#tst_res_jump_to_participant_hint_opt#:#--受験者へジャンプ--
 assessment#:#tst_res_lo_objectives_header#:#関連する学習目標
 assessment#:#tst_res_lo_try_header#:#試み
 assessment#:#tst_res_lo_try_n#:#試み%s
-assessment#:#tst_res_tab_msg_res_after_date#:#テスト結果は次の日付でここへ提供されます。: %s
-assessment#:#tst_res_tab_msg_res_after_date_no_res#:#テストヲ受験するとテスト結果は次の日付でここへ提供されます: %s
-assessment#:#tst_res_tab_msg_res_after_finish_test#:#終了後にテスト結果はここへ提供されます。
-assessment#:#tst_res_tab_msg_res_after_taking_test#:#テスト受験後にテスト結果はここへ提供されます。
-assessment#:#tst_res_tab_msg_res_after_test_passed#:#テスト実施後テスト結果はここへ提供されます。
+assessment#:#tst_res_tab_msg_res_after_date#:#テスト結果は次の日付でここへ提示されます。: %s
+assessment#:#tst_res_tab_msg_res_after_date_no_res#:#テストを受験するとテスト結果は次の日付でここへ提示されます: %s
+assessment#:#tst_res_tab_msg_res_after_finish_test#:#終了後にテスト結果はここへ提示されます。
+assessment#:#tst_res_tab_msg_res_after_taking_test#:#テスト受験後にテスト結果はここへ提示されます。
+assessment#:#tst_res_tab_msg_res_after_test_passed#:#テスト実施後テスト結果はここへ提示されます。
 assessment#:#tst_reset_processing_time#:#試験毎に時間をリセット
 assessment#:#tst_reset_processing_time_desc#:#受験時間はテストごとに最長規定でリセットされます。この設定は有効になるように複数試験に要求されます。
 assessment#:#tst_result#:#テスト結果
@@ -1664,7 +1665,7 @@ assessment#:#tst_results_grading_opt_show_status_desc#:#合格/"不合格"ステ
 assessment#:#tst_results_overview#:#テスト結果全般
 assessment#:#tst_results_print_best_solution#:#模範解答
 assessment#:#tst_results_print_best_solution_info#:#各問題用に加えて考えられるベスト解答が表示されます。
-assessment#:#tst_results_tax_filters#:#結果フィールター
+assessment#:#tst_results_tax_filters#:#結果フィルター
 assessment#:#tst_resume_dyn_test_with_cur_quest_sel#:#現在の問題選択でテストを再開
 assessment#:#tst_resume_test#:#テストを再開
 assessment#:#tst_revert_changes#:#編集をUndo
@@ -1726,7 +1727,7 @@ assessment#:#tst_show_solution_details_desc#:#問題ごとの達成点テーブ�
 assessment#:#tst_show_solution_feedback#:#フィードバック
 assessment#:#tst_show_solution_feedback_desc#:#受験者の解答に関連したフィードバックが表示されます。"受験者の解答点数"が有効でかつフィードバックが最初の場所内の問題に沿って準備された場合のみ有効になることに留意願います。
 assessment#:#tst_show_solution_printview#:#追加の印刷用の"解答リスト"
-assessment#:#tst_show_solution_printview_desc#:#対象の受験者の解答付問題の概要が作成されます。このリストは"Info"タブへテスト終了時の最終提出前に提供されます。
+assessment#:#tst_show_solution_printview_desc#:#対象の受験者の解答付問題の概要が作成されます。このリストは"Info"タブへテスト終了時の最終提出前に提示されます。
 assessment#:#tst_show_solution_signature#:#署名記入欄
 assessment#:#tst_show_solution_signature_desc#:#準備した印刷バージョンは受験者用の署名記入欄に含まれます。この機能を使用するには"問題ごとに達成度を印刷"を有効にしてください。
 assessment#:#tst_show_solution_suggested#:#要約用のコンテンツ
@@ -1795,7 +1796,7 @@ assessment#:#tst_title_output_hide_points#:#問題タイトルのみ
 assessment#:#tst_title_output_no_title#:#問題タイトルも配点どちらも
 assessment#:#tst_trigger_result_refreshing#:#結果は再計算される必要があります。しばらく時間がかかります。
 assessment#:#tst_type#:#テストタイプ
-assessment#:#tst_unchanged_answer_is_correct#:#プリセット解答回答は正しい
+assessment#:#tst_unchanged_answer_is_correct#:#プリセット回答は正しい
 assessment#:#tst_unchanged_order_is_correct#:#プリセット順番は正しい
 assessment#:#tst_use_previous_answers#:#前回の解答を使用
 assessment#:#tst_use_previous_answers_description#:#受験者には以前のテスト解答が表示されます。このオプションはテスト開始前に受験者個々によりInfoタブを有効する必要があります。
@@ -1860,7 +1861,8 @@ assessment#:#with_solutions_participants#:#解答ありの受験者
 assessment#:#without_solutions_participants#:#解答なしの受験者
 assessment#:#worked_through#:#答案済
 assessment#:#working_time#:#答案時間
-assessment#:#you_received_a_of_b_points#:#得点可能な%sの%を得ました。
+assessment#:#you_received_a_of_b_points#:#ポイントは配点%s中の%s です。
+assessment#:#tst_tbl_col_pass_finished#:#Pass完了
 auth#:#auth_account_code#:#コード
 auth#:#auth_account_code_info#:#アカウントを再設定するとILIASアカウントコードを利用できます。
 auth#:#auth_account_code_title#:#アカウントコード
@@ -1968,6 +1970,7 @@ auth#:#login_page_switch_ipe#:#ILIASページエディタを使用
 auth#:#login_page_switch_rte#:#Rich-Text-Editorを使用
 auth#:#lti_consumer_inactive#:#LTI tool consumerは無効です。
 auth#:#saml_tab_head_idp#:#IDP
+auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee")
 awrn#:#awareness_now_online#:#現在オンライン中
 awrn#:#awareness_now_online_users#:#[ONLINE_USER_NAMES]
 awrn#:#awareness_settings#:#設定
@@ -1990,7 +1993,7 @@ awrn#:#awrn_use_osd#:#ポップアップオンラインユーザ
 awrn#:#awrn_use_osd_info#:#オンラインはだれ?'リスト上へ新しいオンラインユーザを示すポップアップを表示する。
 background_tasks#:#abort#:#強制終了
 background_tasks#:#background_tasks#:#バックグランドタスク
-background_tasks#:#background_tasks_running#:#実行中のタスク
+background_tasks#:#background_tasks_running#:#バックグランドタスク
 background_tasks#:#completed#:#完了しました
 background_tasks#:#proceed_job#:#続行
 background_tasks#:#remove#:#削除
@@ -2034,7 +2037,7 @@ badge#:#badge_notification_parent_goto#:#リポジトリへ
 badge#:#badge_notification_reason#:#プロファイルへバッジ追加が可能になるのでこのメッセージを受信しています。
 badge#:#badge_notification_subject#:#バッジを受領しました
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructureを有効にします
-badge#:#badge_obi_activate_info#:#ユーザはiliasからバッジをエクスポートできます。他のwenアプリケーションへ認定を提供するためにバッジを利用することができます。
+badge#:#badge_obi_activate_info#:#ユーザはiliasからバッジをエクスポートできます。他のwebアプリケーションへ認定を提供するためにバッジを利用することができます。
 badge#:#badge_obi_contact#:#連絡先メールアドレス
 badge#:#badge_obi_contact_info#:#このE-mailアドレスはバッジの背面以外は表示されません。
 badge#:#badge_obi_organisation#:#組織
@@ -2121,6 +2124,7 @@ bibl#:#bibl_settings_new#:#ライブラリーを追加
 bibl#:#bibl_translation_desc#:#Description
 bibl#:#bibl_translation_lang#:#Language
 bibl#:#bibl_translation_trans#:#Translation
+bibl#:#bibliography_file#:#Bibliography File
 bibl#:#bibtex#:#Bibtex
 bibl#:#changes_saved#:#変更が保存されました。
 bibl#:#custom#:#Custom
@@ -2567,6 +2571,7 @@ certificate#:#certificate_visibility_passed#:#テスト合格者のみに表示�
 certificate#:#certificate_visibility_passed_exercise#:#演習問題に合格したユーザのみ表示
 certificate#:#default_background_info#:#この背景イメージは全ての証明書の背景として選択されます。証明書に別の背景イメージが必要な場合は証明書エディターで一つにしてアップロードしなければなりません。
 certificate#:#download_certificate#:#証明書をダウンロード
+certificate#:#learning_progress_deactivated#:#このオブジェクトの学習進捗は解除されます。証明書テンプレートを編集してユーザの証明書はアーカイブするにはこのオブジェクトの学習進捗を有効にする必要があります。
 certificate#:#persistent_certificate_mode#:#ユーザ証明書作成
 certificate#:#persistent_certificate_mode_cron#:#Cron Job
 certificate#:#persistent_certificate_mode_cron_info#:#このオプションは高いユーザ相互作用のシステム用として推奨します。
@@ -2996,7 +3001,7 @@ common#:#all_topics#:#すべてのトピックス
 common#:#all_users#:#全ユーザ
 common#:#allow_assign_users#:#ローカル管理者へユーザ割当てを許可
 common#:#allow_override_alert#:#.htaccessルールは完全に翻訳されていません。
-common#:#allow_register#:#新規ユーザへ登録フォームを提供
+common#:#allow_register#:#新規ユーザの登録フォームを利用可能
 common#:#allow_user_toggle_noti#:#メンバーに通知解除を許可
 common#:#already_delivered_files#:#提出済ファイル
 common#:#and#:#and
@@ -3466,8 +3471,8 @@ common#:#enable#:#有効にする
 common#:#enable_anonymous_fora#:#ペンネームでの投稿を許可
 common#:#enable_anonymous_fora_desc#:#無効にすると掲示板における"ペンネームでの投稿"機能は以降機能しなくなります。
 common#:#enable_calendar#:#カレンダーを有効
-common#:#enable_course_group_notifications#:#グループとコースニュース用の毎日メール
-common#:#enable_course_group_notifications_desc#:#有効にすると受講者は毎日のニュースサマリーを購読できます。
+common#:#enable_course_group_notifications#:#グループとコースニュース用の日刊メール
+common#:#enable_course_group_notifications_desc#:#有効にすると受講者は日刊ニュースサマリーを購読できます。
 common#:#enable_custom_icons#:#カスタムアイコンを有効
 common#:#enable_custom_icons_info#:#シングルのカテゴリ、コースやグループ用のカスタムアイコンを定義できます。カテゴリ、コースやグループのプロパティセクションがイメージアップロードダイアログで提供されます。
 common#:#enable_disk_quota_reminder_mail#:#ディスク クォータ 注意喚起メールを送る
@@ -4151,10 +4156,10 @@ common#:#movePage#:#移動
 common#:#msg_cancel#:#アクションキャンセル
 common#:#msg_clear_clipboard#:#クリップボードを消去しました
 common#:#msg_cloned#:#選択したオブジェクトのコピー
-common#:#msg_copy_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"ペースト"ボタンをクリックしてください。
+common#:#msg_copy_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"貼り付け"ボタンをクリックしてください。
 common#:#msg_copy_clipboard_container#:#選択されたオブジェクトがペーストされる希望の場所を選択して"継続"ボタンをクリックしてください。
 common#:#msg_copy_clipboard_source#:#選択されたオブジェクトがペーストされる希望の場所を選択して"次へ"ボタンをクリックしてください。
-common#:#msg_cut_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"ペースト"ボタンをクリックしてください。
+common#:#msg_cut_clipboard#:#選択されたオブジェクトがペーストされる希望の場所を選択して"貼り付け"ボタンをクリックしてください。
 common#:#msg_cut_copied#:#選択したオブジェクトを移動しました。
 common#:#msg_deleted_export_files#:#エクスポートファイルを削除しました
 common#:#msg_deleted_role#:#役割削除
@@ -4828,8 +4833,8 @@ common#:#rolt#:#役割テンプレート
 common#:#rolt_added#:#役割テンプレート追加
 common#:#rolt_edit#:#役割 テンプレート編集
 common#:#rolt_new#:#新規役割 テンプレート
-common#:#row#:#列
-common#:#rows#:#列
+common#:#row#:#行
+common#:#rows#:#行
 common#:#rpc_pdf_font#:#Fonts
 common#:#rpc_pdf_font_info#:#PDFファイル作成用の追加フォントです。"Helvetica" と "unifont"以外のフォントはILIASサーバ上にインストールする必要があります。
 common#:#rpc_pdf_generation#:#PDF－作成
@@ -4843,7 +4848,7 @@ common#:#sahs_insert_sco_from_clip#:#クリップボードのSCOを貼付ける
 common#:#salutation#:#挨拶
 common#:#salutation_f#:#Ms./Mrs.
 common#:#salutation_m#:#Mr.
-common#:#salutation_n#:#Not Applicable
+common#:#salutation_n#:#非適用
 common#:#saml_log_in#:#ダイレクトログイン
 common#:#saml_login_form_info_txt#:#ユーザ名やパスワードの入力なしでダイレクトログインボタン使ってログインすることができます。
 common#:#saml_login_form_txt#:#SAML経由でILIASへログインする
@@ -4907,8 +4912,8 @@ common#:#send#:#送信
 common#:#send_mail#:#メールを送信
 common#:#sender#:#発信者
 common#:#sent#:#送信済
-common#:#sequence#:#シ－ケンス
-common#:#sequences#:#シ－ケンス
+common#:#sequence#:#シーケンス
+common#:#sequences#:#シーケンス
 common#:#server#:#サーバー
 common#:#server_data#:#サーバーデータ
 common#:#server_disabled#:#チャットはオフです
@@ -5148,7 +5153,7 @@ common#:#ums_explanation_3#:#外部アカウントはILIASアカウントへマ�
 common#:#ums_explanation_4#:#どれもあなたのアカウントではない場合は'新規アカウントを作成'を押してください。
 common#:#unambiguousness#:#識別マーク
 common#:#uncheck_all#:#すべてをチェックしない
-common#:#unchecked#:#全てをチェック済
+common#:#unchecked#:#未チェック
 common#:#uninstall#:#アンインストール
 common#:#uninstalled#:#アンインストール済
 common#:#unknown#:#不明
@@ -6418,6 +6423,7 @@ content#:#mob_upload_dir_info#:#複数ファイルからサーバディレクト
 content#:#msg_entry_added#:#メニューエントリー追加
 content#:#msg_entry_removed#:#メニューエントリー削除
 content#:#msg_entry_updated#:#メニューエントリー更新
+content#:#msg_no_page_access#:#このページへのアクセス権限がありません。
 content#:#msg_page_no_public_access#:#コールしたページはパブリックエリアでは利用できません。登録済ユーザのみがこのページを表示できます。最初にログインしてこのページへアクセスしてください。
 content#:#msg_page_not_public#:#ページはパブリックではありません
 content#:#offline_mode_manager#:#オフライン利用
@@ -6653,7 +6659,7 @@ crs#:#crs_info_reg_direct#:#直接このコースへ参加できます。
 crs#:#crs_info_reg_password#:#コース管理者からコースのパスワードを入手するとこのコースへ参加できます。
 crs#:#crs_info_settings#:#コース情報
 crs#:#crs_info_start#:#以下に列記されている全てのコース科目を完了してください。<br />マークされている全てのオブジェクトを完了すると新規コース科目が使用可能になります。
-crs#:#crs_intro_course_group_notification_for#:#日刊ニュースダイジェスト:%s
+crs#:#crs_intro_course_group_notification_for#:#通知を有効にしているコースとグループのニュースです。
 crs#:#crs_intro_course_group_notification_index#:#次のコースとグループには%1$sから%2$sの期間内にニュースがあります:
 crs#:#crs_item_presetting_info#:#選択すると学習者へ標準の編集時間を表示します。
 crs#:#crs_join_request#:#送る
@@ -6847,6 +6853,9 @@ crs#:#crs_objective_pretest#:#初回テストの後
 crs#:#crs_objective_qst_summary#:#問題割り当ての概要
 crs#:#crs_objective_random_warn#:#学習目標と組合わせたランダムテストを使用する事はできません。
 crs#:#crs_objective_result#:#前回テストの後
+crs#:#crs_objective_result_details#:#« 詳細表示
+crs#:#crs_objective_result_summary_initial#:#実力試験: %1$s (%2$s 必須)
+crs#:#crs_objective_result_summary_qualifying#:#学力試験: %1$s (%2$s 必須)
 crs#:#crs_objective_saved_sorting#:#並び替えを保存しました。
 crs#:#crs_objective_self_assessment#:#配置テスト問題
 crs#:#crs_objective_status#:#目標状況
@@ -6942,7 +6951,7 @@ crs#:#crs_status_determination_lp_info#:#学習進捗を"完了"にするとコ�
 crs#:#crs_status_determination_manual#:#個別学習進捗
 crs#:#crs_status_determination_sync#:#全メンバの学習進捗の入った合格状況をすぐに同期する
 crs#:#crs_structure#:#コース構造
-crs#:#crs_subject_course_group_notification#:#%sの一日のメール
+crs#:#crs_subject_course_group_notification#:#%sの日刊メール
 crs#:#crs_subscribe_member#:#コース "%s" の登録
 crs#:#crs_subscribe_member_body#:#コース "%s"への登録が確認された事をご案内します。
 crs#:#crs_subscribe_wl#:#コース "%s"の登録
@@ -7129,8 +7138,14 @@ crs#:#timing_tutor_visible#:#備考をコース指導教員に表示
 crs#:#timing_user_accept#:#日程を了承
 crs#:#timing_user_accepted#:#日程が了承されました
 crs#:#timings#:#タイミング
+crs#:#timings_cron_reminder_exceeded_start#:#処理期間からすでに次の期間が過ぎています。
+crs#:#timings_cron_reminder_exceeded_subject#:#処理期間外
+crs#:#timings_cron_reminder_freshly_start#:#処理期間:
+crs#:#timings_cron_reminder_started_subject#:#処理期間を開始
 crs#:#timings_edit#:#日程を編集
 crs#:#timings_of#:#タイミングをオフ
+crs#:#timings_reminder_notifications#:#コースタイミング通知
+crs#:#timings_reminder_notifications_info#:#有効にするとコース参加者は超過タイミング教材について通知されます。
 crs#:#timings_timings#:#タイミング
 crs#:#timings_timings_off#:#日程調整管理を止める
 crs#:#timings_timings_on#:#日程調整管理を行う
@@ -7181,7 +7196,7 @@ dateplaner#:#cal_booking_confirmation_link#:#予定へのリンク
 dateplaner#:#cal_booking_confirmation_subject#:#予定 "%s" が予約されました
 dateplaner#:#cal_booking_confirmation_user#:#ユーザへのオリジナルメールのコピーです。
 dateplaner#:#cal_booking_confirmed#:#予定を正しく予約しました。
-dateplaner#:#cal_booking_failed_info#:#この予約はもれています。他の予約を選択してください。
+dateplaner#:#cal_booking_failed_info#:#この予約は満席です。他の予約を選択してください。
 dateplaner#:#cal_cache#:#カレンダー キャッシュ
 dateplaner#:#cal_cache_disabled#:#無効
 dateplaner#:#cal_cache_enabled#:#設定
@@ -7228,7 +7243,7 @@ dateplaner#:#cal_ch_cron_reminder#:#会議時間注意喚起を送信
 dateplaner#:#cal_ch_cron_reminder_days#:#日数
 dateplaner#:#cal_ch_cron_reminder_info#:#有効にすると予定されている会議時間イベントに関するメール通知が送信されます。
 dateplaner#:#cal_ch_current_bookings#:#現在の予約
-dateplaner#:#cal_ch_deadline#:#最新登録
+dateplaner#:#cal_ch_deadline#:#最終登録
 dateplaner#:#cal_ch_deadline_info#:#登録がブロックされるまでの時間を設定してください。
 dateplaner#:#cal_ch_delete_app_booking_info#:#次の予定は既存の予定に存在します。これらの予定を削除するにはユーザへ通知されません。
 dateplaner#:#cal_ch_delete_booking#:#予約を削除
@@ -7245,7 +7260,7 @@ dateplaner#:#cal_ch_grp_add_tbl#:#新規会議時間グループを作成
 dateplaner#:#cal_ch_grp_delete_sure#:#本当に次の会議時間グループを削除しますか?
 dateplaner#:#cal_ch_grp_header#:#会議時間グループ
 dateplaner#:#cal_ch_grp_multiple#:#ユーザ当たりの予約
-dateplaner#:#cal_ch_grp_multiple_info#:#ユーザ当たりの最大予約数を定義できます。
+dateplaner#:#cal_ch_grp_multiple_info#:#ユーザごとの最大予約数を定義できます。
 dateplaner#:#cal_ch_grp_no_assignment#:#-- 割り当てがありません --
 dateplaner#:#cal_ch_grp_selection#:#会議時間グループの割り当て
 dateplaner#:#cal_ch_grp_update_tbl#:#会議時間グループを編集
@@ -7261,7 +7276,7 @@ dateplaner#:#cal_ch_personal_book#:#パーソナル予約
 dateplaner#:#cal_ch_personal_ch#:#パーソナル会議時間
 dateplaner#:#cal_ch_reject_booking#:#予約をキャンセル
 dateplaner#:#cal_ch_target_object#:#リポジトリオブジェクト
-dateplaner#:#cal_ch_target_object_info#:#既知のリポジトリオブジェクトに対する予定登録を制限します。
+dateplaner#:#cal_ch_target_object_info#:#会議時間はコース／グループコンテンツの右の方のブロック内へ表示されます。特定のコースまたはブループへ会議時間を表示制限するには、申し立てのオブジェクトのRef-IＤを入力してください。複数のRef-IDを入力するにはコンマで区切ります。それとは関係なく会議時間はe-ポートフォリオ内へ表示されます。
 dateplaner#:#cal_ch_unknown_repository_object#:#そのオブジェクトref-idは有効ではありません。
 dateplaner#:#cal_ch_unknown_user#:#そのログインユーザはいません
 dateplaner#:#cal_ch_user_assignment_failed_info#:#最大予約数を超えているため次のユーザを日程へ割り当てできませんでした。
@@ -7289,11 +7304,11 @@ dateplaner#:#cal_daily#:#毎日
 dateplaner#:#cal_date_booked#:#予約済み
 dateplaner#:#cal_date_format_info#:#日付入力形式を選択してください。
 dateplaner#:#cal_day_end#:#一日の終わり時間
-dateplaner#:#cal_day_of_month#:#月の日
-dateplaner#:#cal_day_overview#:#日のあらまし
+dateplaner#:#cal_day_of_month#:#月の特定の日
+dateplaner#:#cal_day_overview#:#一日の概要
 dateplaner#:#cal_day_s#:#日
 dateplaner#:#cal_day_selection#:#日を選択
-dateplaner#:#cal_day_start#:#一日の開始時間
+dateplaner#:#cal_day_start#:#開始日
 dateplaner#:#cal_day_week_view#:#日・週間表示設定
 dateplaner#:#cal_deadline#:#期限
 dateplaner#:#cal_declined#:#拒否
@@ -7691,7 +7706,7 @@ dcl#:#dcl_no_read_access_on_any_standard_view#:#表のどのスタンダード�
 dcl#:#dcl_no_search_results_found_for#:#モジュールが見つかりません
 dcl#:#dcl_no_such_reference#:#レファレンステーブル中に次の値はありません:
 dcl#:#dcl_no_warnings#:#警告無しにインポートを完了しました。
-dcl#:#dcl_not_checked#:#チェックされていません
+dcl#:#dcl_not_checked#:#未チェック
 dcl#:#dcl_not_supported_in_import#:#このタイプのフィールドはインポートではサポートされません。
 dcl#:#dcl_notification_activate_dcl#:#データ収集用の通知を有効にする
 dcl#:#dcl_notification_activated#:#通知が有効化されました
@@ -8218,7 +8233,7 @@ exc#:#exc_msg_public_submission#:#すべての応募締め切り後に公開さ�
 exc#:#exc_msg_saved_grades#:#グレードとコメントが保存されました。
 exc#:#exc_msg_sure_to_deassign_participant#:#本当に全ての演習の課題から受講者を削除しますか？ これによりリソースの全ての手動設定も削除されます。
 exc#:#exc_multi_feedb_info#:#この画面では1個のファイルに複数フィードバックをアップロードできます。最初に"ZIP構造をダウンロード"をクリックしてZIPファイルを保存してローカルコンピュータ上に展開します。フィードバックファイルを対象のユーザディレクトリへ置きます。全ディレクトリが1個のZIPファイルへ再度圧縮されます。ローカルファイルシステムのファイルを参照して以下のフォームの"マルチ-フィードバックファイル"を選択します。その後"アップロード"をクリックします。確認画面にファイル一覧が表示されます。ファイル名には特殊文字を使わないでください。
-exc#:#exc_multi_feedback#:#大量受験者用の評価
+exc#:#exc_multi_feedback#:#大量受験者の評価
 exc#:#exc_multi_feedback_file#:#マルチ-フィードバックファイル
 exc#:#exc_multi_feedback_files#:#マルチ-フィードバックファイル
 exc#:#exc_needs_deadline#:#この機能は課題締切り一つでのみしか動作しません。
@@ -8480,6 +8495,8 @@ exc#:#not_yet#:#未着手
 exc#:#submissions_feedback#:#提出とフィードバック
 exc#:#submissions_only#:#提出のみ
 exc#:#text_assignment#:#テキスト割当て
+exc#:#exc_team_by_random_add_info#:#このノードの利用前に全受講者を割当てる必要があります。
+exc#:#exc_text_saved#:#テキストは保存されました。
 excv#:#excv_create#:#演習問題証明書の作成
 excv#:#excv_create_info#:#証明書を作成するには完了した演習問題を選択します
 exercise#:#exc_admin_settings#:#ステートメントの演習
@@ -8548,12 +8565,15 @@ file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
 file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
+file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
 file#:#personal_workspace_disk_quota#:#パーソナルワークスペースのハードディスククォータ
 file#:#personal_workspace_quota_exceeded_warning#:#パーソナルワークスペースのディスククォータを越えています。
 file#:#personal_workspace_quota_status_legend#:#利用可能な%2$sのディスククォータの%1$sを使用中です (%3$d%%)。
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
 file#:#repository_disk_quota#:#リポジトリのソフトクォータ
 file#:#repository_disk_quota_info#:#有効にすると、各ユーザ毎にマガジンのディスククォータがチェックされてオプションで管理者とユーザ宛にメールが送信されます。
+file#:#upload_info#:#Upload
+file#:#upload_info_desc#:#アップロードと"Versions"タブの版数を管理
 fm#:#fm_settings_active#:#ファイルマネージャを有効化
 fm#:#fm_settings_active_info#:#ユーザは"ファイルマネージャで開く"を使用してカテゴリ、コース、グループ、フォルダを開くことができます。
 fm#:#fm_settings_filesize#:#最大アップロードファイルサイズ
@@ -8725,6 +8745,7 @@ forum#:#frm_moderators_detached_role_successfully#:#モデレータの役割が�
 forum#:#frm_moderators_not_exist_yet#:#モデレータを選んでください。
 forum#:#frm_moderators_select_at_least_one#:#モデレータを一人は選んでください。
 forum#:#frm_moderators_select_one#:#ユーザを一人選んでください。
+forum#:#frm_move_invalid_file_type#:#スレッド "%s" はサポートされていないファイルタイプが添付されています。ファイルを削除するかシステム管理者へコンタクトしてファイルタイプホワイトリストへこのファイルタイプを追加してください。
 forum#:#frm_my_posting_drafts#:#自分の投稿ドラフト
 forum#:#frm_noti_message#:#メッセージ:
 forum#:#frm_noti_new_post#:#新しい投稿が掲示板"%1$s"内に作成されました。
@@ -9362,6 +9383,7 @@ logging#:#log_error_message#:#エラー %s が発生しました。
 logging#:#log_error_message_send_mail#:#メールをここへ送って下さい<a href="mailto:%s?subject=code: %s">%s</a>
 logging#:#log_error_settings#:#エラーロギング設定
 logging#:#logs_settings#:#ロギング設定
+logging#:#log_error_path_not_configured_or_wrong#:#エラーへのPath (error_path)が未設定またはアクセスできません。
 lso#:#abstract#:#要約
 lso#:#abstract_img#:#要約のイメージ
 lso#:#avail_time_period#:#期間
@@ -9442,7 +9464,7 @@ lso#:#lso_users_already_assigned#:#ユーザはこの学習シーケンスへ既
 lso#:#mail_lso_roles#:#学習シーケンスの役割へメールを送信
 lso#:#manage#:#管理
 lso#:#manage_content_maintab#:#コンテンツ
-lso#:#members_gallery#:#メｍバーギャラリー
+lso#:#members_gallery#:#メンバーギャラリー
 lso#:#no_entries_selected_for_delete#:#エントリーを一つは選択する必要があります
 lso#:#not_finished#:#未終了
 lso#:#participate#:#購読
@@ -9517,7 +9539,7 @@ mail#:#mail_allow_external_info#:#無効にすると外部email(SMTP経由)の�
 mail#:#mail_assign_entry_to_mailing_list#:#メーリングリストに連絡先のエントリーを割当てます
 mail#:#mail_attachment_file_not_exist#:#次の添付のいずれかがありません: %1$s
 mail#:#mail_attachments#:#添付
-mail#:#mail_auto_generated_info#:#このメールはIIASシステム%s,%sが自動送信したものです。
+mail#:#mail_auto_generated_info#:#これは自動送信メールです。ILIASシステム %s, %s
 mail#:#mail_both_email#:#両方のemailアドレス
 mail#:#mail_change_to_folder#:#フォルダ切替
 mail#:#mail_create_tpl#:#Textテンプレートを作成
@@ -10643,6 +10665,8 @@ mst#:#mst_opt_all#:#全て
 mst#:#mst_please_select_course#:#コースを選択してください。
 mst#:#mst_select_course#:#コースを選択
 mst#:#mst_show_courses#:#登録
+news#:#lso_news_online_title#:#新しい学習シーケンスオブジェクトはオンラインです!
+news#:#lso_news_online_txt#:#学習シーケンス用の新しいオブジェクトは公開されたばかりです。
 news#:#new_test_online#:#オンラインに設定されました。
 news#:#news_1_file_created#:#ファイルが1個追加されました。
 news#:#news_1_file_updated#:#ファイルが1個更新されました。
@@ -12983,6 +13007,7 @@ skmg#:#skmg_delete_profiles#:#本当にこの次のプロファイルを削除�
 skmg#:#skmg_edit_level#:#レベル編集
 skmg#:#skmg_edit_profile#:#プロファイル編集
 skmg#:#skmg_edit_scat#:#能力カテゴリ編集
+skmg#:#skmg_edit_sctp#:#テンプレートカテゴリを編集
 skmg#:#skmg_edit_skll#:#能力設定を編集
 skmg#:#skmg_edit_sktr#:#能力テンプレートレファレンスを編集
 skmg#:#skmg_enable_skmg#:#能力管理を稼動
@@ -13504,7 +13529,7 @@ style#:#sty_white_space#:#空白
 style#:#sty_width#:#幅
 style#:#sty_width_height#:#幅 x 高さ
 style#:#sty_word_spacing#:#文字の間隔
-style#:#style#:#スタイル
+style#:#style#:#Style
 style#:#Style#:#Style
 style#:#style_assignments_deleted#:#次のサブスタイルのスタイル割当ては削除されました:
 style#:#style_copied#:#スタイルは正しくコピーされました。
@@ -14376,8 +14401,8 @@ tos#:#tos_tbl_hist_head_firstname#:#Firstname
 tos#:#tos_tbl_hist_head_lastname#:#Lastname
 tos#:#tos_tbl_hist_head_login#:#Login
 tos#:#tos_tos_settings#:#設定
-trac#:#create_date_max#:#最新登録
-trac#:#create_date_min#:#初期登録
+trac#:#create_date_max#:#一番遅い登録
+trac#:#create_date_min#:#一番早い登録
 trac#:#info_valid_request#:#1ユーザによる二つのリクエスト間の最大有効時間
 trac#:#last_login#:#前回ログイン
 trac#:#meta_typical_learning_time#:#標準学習時間
@@ -15026,7 +15051,7 @@ wsp#:#wsp_shared_resources#:#リソースを共有
 wsp#:#wsp_shared_table_title#:#共有する
 wsp#:#wsp_shared_title#:#リソースタイトル
 wsp#:#wsp_shared_type#:#共有者
-wsp#:#wsp_shared_user_filter#:#ログイン/名前
+wsp#:#wsp_shared_user_filter#:#Login/Name
 wsp#:#wsp_shared_with#:#共有者
 wsp#:#wsp_status_shared#:#共有しました
 wsp#:#wsp_tab_ownership#:#マイリポジトリオブジェクト
@@ -15040,28 +15065,3 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-news#:#lso_news_online_title#:#A new learning sequence object is online!###04 07 2019 new variable
-news#:#lso_news_online_txt#:#A new object for your learning sequence was just published.###04 07 2019 new variable
-bibl#:#bibliography_file#:#Bibliography File###04 07 2019 new variable
-certificate#:#learning_progress_deactivated#:#The Learning Progress for this object is deactivated. To edit the certificate template and achieve user certificates the learning progress for this object must be activated.###04 07 2019 new variable
-content#:#msg_no_page_access#:#You do not have the permission to access this page.###04 07 2019 new variable
-forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###22 07 2019 new variable
-crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:###29 08 2019 new variable
-crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen###29 08 2019 new variable
-crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten###29 08 2019 new variable
-crs#:#timings_cron_reminder_exceeded_start#:#Der Bearbeitungszeitraum ist überfällig bei:###29 08 2019 new variable
-crs#:#timings_reminder_notifications#:#Course Timings Notifications###29 08 2019 new variable
-crs#:#timings_reminder_notifications_info#:#If enabled, course participants will be notified about exceeded timing materials.###29 08 2019 new variable
-assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###29 08 2019 new variable
-file#:#upload_info#:#Upload###29 08 2019 new variable
-file#:#upload_info_desc#:#Manage Uploads and Versions in Tab "Versions"###29 08 2019 new variable
-file#:#generate_sanitize_report#:#Report about inaccessible files###29 08 2019 new variable
-skmg#:#skmg_edit_sctp#:#Edit Template Category###29 08 2019 new variable
-crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###29 08 2019 new variable
-crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###29 08 2019 new variable
-crs#:#crs_objective_result_details#:#« Show Details###29 08 2019 new variable
-auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").###11 10 2019 new variable
-assessment#:#tst_tbl_col_pass_finished#:#Pass Finished###11 10 2019 new variable
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###11 10 2019 new variable
-exc#:#exc_text_saved#:#Text has been saved.###11 10 2019 new variable
-exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.###11 10 2019 new variable

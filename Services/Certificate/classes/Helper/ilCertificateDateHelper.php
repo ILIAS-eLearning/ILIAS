@@ -6,46 +6,46 @@
  */
 class ilCertificateDateHelper
 {
-	/**
-	 * @param string $date
-	 * @param int $dateFormat
-	 * @return string
-	 */
-	public function formatDate(string $date, $dateFormat = null): string
-	{
-		if (null === $dateFormat) {
-			$dateFormat = IL_CAL_DATETIME;
-		}
+    /**
+     * @param string $date
+     * @param int $dateFormat
+     * @return string
+     */
+    public function formatDate(string $date, $dateFormat = null) : string
+    {
+        if (null === $dateFormat) {
+            $dateFormat = IL_CAL_DATETIME;
+        }
 
-		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
+        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(false);
 
-		$date = ilDatePresentation::formatDate(new ilDate($date, $dateFormat));
+        $date = ilDatePresentation::formatDate(new ilDate($date, $dateFormat));
 
-		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
-		return $date;
-	}
+        return $date;
+    }
 
-	/**
-	 * @param string $dateTime
-	 * @param int $format
-	 * @return string
-	 * @throws ilDateTimeException
-	 */
-	public function formatDateTime(string $dateTime, $dateFormat = null): string
-	{
-		if (null === $dateFormat) {
-			$dateFormat = IL_CAL_DATETIME;
-		}
+    /**
+     * @param string $dateTime
+     * @param int $format
+     * @return string
+     * @throws ilDateTimeException
+     */
+    public function formatDateTime(string $dateTime, $dateFormat = null) : string
+    {
+        if (null === $dateFormat) {
+            $dateFormat = IL_CAL_DATETIME;
+        }
 
-		$oldDatePresentationValue = ilDatePresentation::useRelativeDates();
-		ilDatePresentation::setUseRelativeDates(false);
+        $oldDatePresentationValue = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(false);
 
-		$date = ilDatePresentation::formatDate(new ilDateTime($dateTime, $dateFormat));
+        $date = ilDatePresentation::formatDate(new ilDateTime($dateTime, $dateFormat));
 
-		ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
+        ilDatePresentation::setUseRelativeDates($oldDatePresentationValue);
 
-		return $date;
-	}
+        return $date;
+    }
 }

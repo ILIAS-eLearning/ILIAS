@@ -76,4 +76,3 @@ class ilMMItemFacade extends ilMMAbstractItemFacade implements ilMMItemFacadeInt
         return;
     }
 }
-

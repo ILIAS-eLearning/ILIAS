@@ -6,13 +6,13 @@
  */
 class ilCertificateExerciseMembersHelper
 {
-	/**
-	 * @param int $objectId
-	 * @param int $userId
-	 * @return mixed
-	 */
-	public function lookUpStatus(int $objectId, int $userId)
-	{
-		return ilExerciseMembers::_lookupStatus($objectId, $userId);
-	}
+    /**
+     * @param int $objectId
+     * @param int $userId
+     * @return mixed
+     */
+    public function lookUpStatus(int $objectId, int $userId)
+    {
+        return ilExerciseMembers::_lookupStatus($objectId, $userId);
+    }
 }
