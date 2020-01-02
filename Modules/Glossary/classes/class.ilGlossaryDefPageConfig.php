@@ -5,7 +5,7 @@
 include_once("./Services/COPage/classes/class.ilPageConfig.php");
 
 /**
- * Glossary definition page configuration 
+ * Glossary definition page configuration
  *
  * @author Alex Killing <alex.killing@gmx.de>
  * @version $Id$
@@ -13,17 +13,14 @@ include_once("./Services/COPage/classes/class.ilPageConfig.php");
  */
 class ilGlossaryDefPageConfig extends ilPageConfig
 {
-	/**
-	 * Init
-	 */
-	function init()
-	{
-		$this->setEnableKeywords(true);
-		$this->setEnableInternalLinks(true);
-		$this->setIntLinkHelpDefaultType("GlossaryItem");
-		$this->setIntLinkHelpDefaultId($_GET["ref_id"]);
-	}
-	
+    /**
+     * Init
+     */
+    public function init()
+    {
+        $this->setEnableKeywords(true);
+        $this->setEnableInternalLinks(true);
+        $this->setIntLinkHelpDefaultType("GlossaryItem");
+        $this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+    }
 }
-
-?>

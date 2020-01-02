@@ -20,137 +20,138 @@ use PHPUnit\Framework\TestCase;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class PreProcessorManagerImplTest extends TestCase {
+class PreProcessorManagerImplTest extends TestCase
+{
+    use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
-	use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
-	/**
-	 * @var PreProcessorManager $subject
-	 */
-	private $subject;
+    /**
+     * @var PreProcessorManager $subject
+     */
+    private $subject;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function setUp() {
-		parent::setUp();
+    /**
+     * @inheritDoc
+     */
+    protected function setUp()
+    {
+        parent::setUp();
 
-		$this->subject = new PreProcessorManagerImpl();
-	}
+        $this->subject = new PreProcessorManagerImpl();
+    }
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testProcessValidFileWhichShouldSucceed() {
+    /**
+     * @Test
+     * @small
+     */
+    public function testProcessValidFileWhichShouldSucceed()
+    {
+        $response = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
+        $metadata = new Metadata('test.txt', 4500, 'text/plain');
 
-		$response = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
-		$metadata = new Metadata('test.txt', 4500, 'text/plain');
+        $processor = Mockery::mock(PreProcessor::class);
+        $processor->shouldReceive('process')
+            ->withAnyArgs()
+            ->times(3)
+            ->andReturn($response);
 
-		$processor = Mockery::mock(PreProcessor::class);
-		$processor->shouldReceive('process')
-			->withAnyArgs()
-			->times(3)
-			->andReturn($response);
+        $stream = Mockery::mock(FileStream::class);
+        $stream->shouldReceive('rewind')
+            ->withNoArgs()
+            ->times(3);
 
-		$stream = Mockery::mock(FileStream::class);
-		$stream->shouldReceive('rewind')
-			->withNoArgs()
-			->times(3);
+        $this->subject->with($processor);
+        $this->subject->with($processor);
+        $this->subject->with($processor);
 
-		$this->subject->with($processor);
-		$this->subject->with($processor);
-		$this->subject->with($processor);
+        $result = $this->subject->process($stream, $metadata);
 
-		$result = $this->subject->process($stream, $metadata);
+        $this->assertSame(ProcessingStatus::OK, $result->getCode());
+        $this->assertSame('All green!', $result->getMessage());
+    }
 
-		$this->assertSame(ProcessingStatus::OK, $result->getCode());
-		$this->assertSame('All green!', $result->getMessage());
-	}
+    /**
+     * @Test
+     * @small
+     */
+    public function testProcessWithoutProcessorsWhichShouldSucceed()
+    {
+        $expectedResponse = new ProcessingStatus(ProcessingStatus::OK, 'No processors were registered.');
+        $metadata = new Metadata('test.txt', 4500, 'text/plain');
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testProcessWithoutProcessorsWhichShouldSucceed() {
+        $stream = Mockery::mock(FileStream::class);
 
-		$expectedResponse = new ProcessingStatus(ProcessingStatus::OK, 'No processors were registered.');
-		$metadata = new Metadata('test.txt', 4500, 'text/plain');
+        $result = $this->subject->process($stream, $metadata);
 
-		$stream = Mockery::mock(FileStream::class);
+        $this->assertSame($expectedResponse->getCode(), $result->getCode());
+        $this->assertSame($expectedResponse->getMessage(), $result->getMessage());
+    }
 
-		$result = $this->subject->process($stream, $metadata);
+    /**
+     * @Test
+     * @small
+     */
+    public function testProcessInvalidFileWhichShouldGetRejected()
+    {
+        $responseGood = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
+        $responseBad = new ProcessingStatus(ProcessingStatus::REJECTED, 'Fail all red!');
 
-		$this->assertSame($expectedResponse->getCode(), $result->getCode());
-		$this->assertSame($expectedResponse->getMessage(), $result->getMessage());
-	}
+        $metadata = new Metadata('test.txt', 4500, 'text/plain');
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testProcessInvalidFileWhichShouldGetRejected() {
+        $processor = Mockery::mock(PreProcessor::class);
+        $processor->shouldReceive('process')
+            ->withAnyArgs()
+            ->times(2)
+            ->andReturnValues([$responseGood, $responseBad, $responseGood]);
 
-		$responseGood = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
-		$responseBad = new ProcessingStatus(ProcessingStatus::REJECTED, 'Fail all red!');
+        $stream = Mockery::mock(FileStream::class);
+        $stream->shouldReceive('rewind')
+            ->withNoArgs()
+            ->times(2);
 
-		$metadata = new Metadata('test.txt', 4500, 'text/plain');
+        $this->subject->with($processor);
+        $this->subject->with($processor);
+        $this->subject->with($processor);
 
-		$processor = Mockery::mock(PreProcessor::class);
-		$processor->shouldReceive('process')
-			->withAnyArgs()
-			->times(2)
-			->andReturnValues([$responseGood, $responseBad, $responseGood]);
+        $result = $this->subject->process($stream, $metadata);
 
-		$stream = Mockery::mock(FileStream::class);
-		$stream->shouldReceive('rewind')
-			->withNoArgs()
-			->times(2);
+        $this->assertSame($responseBad->getCode(), $result->getCode());
+        $this->assertSame($responseBad->getMessage(), $result->getMessage());
+    }
 
-		$this->subject->with($processor);
-		$this->subject->with($processor);
-		$this->subject->with($processor);
+    /**
+     * @Test
+     * @small
+     */
+    public function testProcessValidFileWithFailingProcessorWhichShouldGetRejected()
+    {
+        $responseGood = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
 
-		$result = $this->subject->process($stream, $metadata);
+        $metadata = new Metadata('test.txt', 4500, 'text/plain');
 
-		$this->assertSame($responseBad->getCode(), $result->getCode());
-		$this->assertSame($responseBad->getMessage(), $result->getMessage());
-	}
+        $processor = Mockery::mock(PreProcessor::class);
+        $processor->shouldReceive('process')
+            ->withAnyArgs()
+            ->times(2)
+            ->andReturn($responseGood);
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testProcessValidFileWithFailingProcessorWhichShouldGetRejected() {
+        $processor->shouldReceive('process')
+            ->withAnyArgs()
+            ->once()
+            ->andThrow(\RuntimeException::class, 'Bad stuff happened!');
 
-		$responseGood = new ProcessingStatus(ProcessingStatus::OK, 'All green!');
+        $stream = Mockery::mock(FileStream::class);
+        $stream->shouldReceive('rewind')
+            ->withNoArgs()
+            ->times(3);
 
-		$metadata = new Metadata('test.txt', 4500, 'text/plain');
+        $this->subject->with($processor);
+        $this->subject->with($processor);
+        $this->subject->with($processor);
 
-		$processor = Mockery::mock(PreProcessor::class);
-		$processor->shouldReceive('process')
-			->withAnyArgs()
-			->times(2)
-			->andReturn($responseGood);
+        $result = $this->subject->process($stream, $metadata);
 
-		$processor->shouldReceive('process')
-			->withAnyArgs()
-			->once()
-			->andThrow(\RuntimeException::class, 'Bad stuff happened!');
-
-		$stream = Mockery::mock(FileStream::class);
-		$stream->shouldReceive('rewind')
-			->withNoArgs()
-			->times(3);
-
-		$this->subject->with($processor);
-		$this->subject->with($processor);
-		$this->subject->with($processor);
-
-		$result = $this->subject->process($stream, $metadata);
-
-		$this->assertSame(ProcessingStatus::REJECTED, $result->getCode());
-		$this->assertSame('Processor failed with exception message "Bad stuff happened!"', $result->getMessage());
-	}
+        $this->assertSame(ProcessingStatus::REJECTED, $result->getCode());
+        $this->assertSame('Processor failed with exception message "Bad stuff happened!"', $result->getMessage());
+    }
 }

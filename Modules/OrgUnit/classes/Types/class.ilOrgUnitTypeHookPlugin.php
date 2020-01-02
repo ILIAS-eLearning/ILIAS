@@ -16,7 +16,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      *
      * @return        string        Component Type
      */
-    final function getComponentType()
+    final public function getComponentType()
     {
         return IL_COMP_MODULE;
     }
@@ -26,7 +26,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      *
      * @return        string        Component Name
      */
-    final function getComponentName()
+    final public function getComponentName()
     {
         return 'OrgUnit';
     }
@@ -36,7 +36,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      *
      * @return        string        Slot Name
      */
-    final function getSlot()
+    final public function getSlot()
     {
         return 'OrgUnitTypeHook';
     }
@@ -46,7 +46,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      *
      * @return        string        Slot Id
      */
-    final function getSlotId()
+    final public function getSlotId()
     {
         return 'orgutypehk';
     }
@@ -54,7 +54,7 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    protected final function slotInit()
+    final protected function slotInit()
     {
         // nothing to do here
     }
@@ -73,7 +73,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param string $a_title
      * @return bool
      */
-    public function allowSetTitle($a_type_id, $a_lang_code, $a_title) {
+    public function allowSetTitle($a_type_id, $a_lang_code, $a_title)
+    {
         return true;
     }
 
@@ -85,7 +86,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param string $a_description
      * @return bool
      */
-    public function allowSetDescription($a_type_id, $a_lang_code, $a_description) {
+    public function allowSetDescription($a_type_id, $a_lang_code, $a_description)
+    {
         return true;
     }
 
@@ -96,7 +98,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param string $a_lang_code
      * @return bool
      */
-    public function allowSetDefaultLanguage($a_type_id, $a_lang_code) {
+    public function allowSetDefaultLanguage($a_type_id, $a_lang_code)
+    {
         return true;
     }
 
@@ -106,7 +109,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param int $a_type_id
      * @return bool
      */
-    public function allowDelete($a_type_id) {
+    public function allowDelete($a_type_id)
+    {
         return true;
     }
 
@@ -116,7 +120,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param int $a_type_id
      * @return bool
      */
-    public function allowUpdate($a_type_id) {
+    public function allowUpdate($a_type_id)
+    {
         return true;
     }
 
@@ -127,7 +132,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param int $a_record_id
      * @return bool
      */
-    public function allowAssignAdvancedMDRecord($a_type_id, $a_record_id) {
+    public function allowAssignAdvancedMDRecord($a_type_id, $a_record_id)
+    {
         return true;
     }
 
@@ -138,9 +144,8 @@ abstract class ilOrgUnitTypeHookPlugin extends ilPlugin
      * @param int $a_record_id
      * @return bool
      */
-    public function allowDeassignAdvancedMDRecord($a_type_id, $a_record_id) {
+    public function allowDeassignAdvancedMDRecord($a_type_id, $a_record_id)
+    {
         return true;
     }
-
-
 }

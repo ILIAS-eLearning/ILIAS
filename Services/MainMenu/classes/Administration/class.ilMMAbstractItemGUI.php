@@ -9,7 +9,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
  */
 class ilMMAbstractItemGUI
 {
-
     const IDENTIFIER = 'identifier';
     use Hasher;
     /**
@@ -125,7 +124,6 @@ class ilMMAbstractItemGUI
             $string = $post['interruptive_items'][0];
             $identification = $this->unhash($string);
         } else {
-
             $identification = $this->unhash($get[self::IDENTIFIER]);
         }
 

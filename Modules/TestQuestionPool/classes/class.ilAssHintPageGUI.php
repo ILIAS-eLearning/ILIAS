@@ -6,8 +6,8 @@ include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
 
 /**
  * Assessment hint page GUI class
- * 
- * @author Alex Killing <alex.killing@gmx.de> 
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
  *
  * @ilCtrl_Calls ilAssHintPageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilAssHintPageGUI: ilPublicUserProfileGUI, ilNoteGUI
@@ -18,18 +18,16 @@ include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
  */
 class ilAssHintPageGUI extends ilPageObjectGUI
 {
-	/**
-	 * Constructor
-	 */
-	function __construct($a_id = 0, $a_old_nr = 0)
-	{
-		global $DIC;
-		$tpl = $DIC['tpl'];
+    /**
+     * Constructor
+     */
+    public function __construct($a_id = 0, $a_old_nr = 0)
+    {
+        global $DIC;
+        $tpl = $DIC['tpl'];
 
-		parent::__construct("qht", $a_id, $a_old_nr);
-		$this->setTemplateTargetVar('ADM_CONTENT');
-		$this->setTemplateOutput(true);
-	}
-	
-} 
-?>
+        parent::__construct("qht", $a_id, $a_old_nr);
+        $this->setTemplateTargetVar('ADM_CONTENT');
+        $this->setTemplateOutput(true);
+    }
+}

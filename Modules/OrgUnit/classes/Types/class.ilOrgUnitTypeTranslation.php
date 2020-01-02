@@ -6,8 +6,8 @@
  *
  * @author: Stefan Wanzenried <sw@studer-raimann.ch>
  */
-class ilOrgUnitTypeTranslation {
-
+class ilOrgUnitTypeTranslation
+{
     const TABLE_NAME = 'orgu_types_trans';
 
     /**
@@ -48,10 +48,11 @@ class ilOrgUnitTypeTranslation {
     /**
      * @var array
      */
-    static protected $instances = array();
+    protected static $instances = array();
 
 
-    public function __construct($a_org_type_id=0, $a_lang_code='') {
+    public function __construct($a_org_type_id=0, $a_lang_code='')
+    {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC['ilLog'];
@@ -78,7 +79,8 @@ class ilOrgUnitTypeTranslation {
      * @param string $a_lang_code Language code
      * @return ilOrgUnitTypeTranslation|null
      */
-    public static function getInstance($a_orgu_type_id, $a_lang_code) {
+    public static function getInstance($a_orgu_type_id, $a_lang_code)
+    {
         if (!$a_orgu_type_id || !$a_lang_code) {
             return null;
         }
@@ -102,7 +104,8 @@ class ilOrgUnitTypeTranslation {
      * @param int $a_orgu_type_id
      * @return array
      */
-    public static function getAllTranslations($a_orgu_type_id) {
+    public static function getAllTranslations($a_orgu_type_id)
+    {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         /** @var ilDB $ilDB */
@@ -128,7 +131,8 @@ class ilOrgUnitTypeTranslation {
      * @param string $a_lang
      * @return bool
      */
-    public static function exists($a_orgu_type_id, $a_member, $a_lang, $a_value) {
+    public static function exists($a_orgu_type_id, $a_member, $a_lang, $a_value)
+    {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         /** @var ilDB $ilDB */
@@ -148,7 +152,8 @@ class ilOrgUnitTypeTranslation {
      * @param string $a_member Name of the variable, e.g. title,description
      * @return string|null
      */
-    public function getMember($a_member) {
+    public function getMember($a_member)
+    {
         return (isset($this->members[$a_member])) ? (string) $this->members[$a_member] : null;
     }
 
@@ -158,7 +163,8 @@ class ilOrgUnitTypeTranslation {
      * @param string $a_member Name of the variable, e.g. title,description
      * @param string $a_value Value of the translation
      */
-    public function setMember($a_member, $a_value){
+    public function setMember($a_member, $a_value)
+    {
         $is_new = !isset($this->members[$a_member]);
         $this->members[$a_member] = (string) $a_value;
         $this->trackChange($a_member, $is_new);
@@ -167,7 +173,8 @@ class ilOrgUnitTypeTranslation {
     /**
      * Insert all translated member into database
      */
-    public function create() {
+    public function create()
+    {
         foreach ($this->members as $member => $value) {
             $this->insertMember($member, $value);
         }
@@ -177,7 +184,8 @@ class ilOrgUnitTypeTranslation {
     /**
      * Update translations in database. Newly added members are inserted.
      */
-    public function update() {
+    public function update()
+    {
         foreach ($this->changes as $changed_member) {
             // Check if the member needs to be updated or inserted into database
             if (in_array($changed_member, $this->members_new)) {
@@ -192,7 +200,8 @@ class ilOrgUnitTypeTranslation {
     /**
      * Delete object
      */
-    public function delete() {
+    public function delete()
+    {
         $sql = 'DELETE FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->getOrguTypeId(), 'integer') .
             ' AND lang = ' . $this->db->quote($this->getLang(), 'text');
         $this->db->manipulate($sql);
@@ -204,7 +213,8 @@ class ilOrgUnitTypeTranslation {
      *
      * @param $a_orgu_type_id
      */
-    public static function deleteAllTranslations($a_orgu_type_id) {
+    public static function deleteAllTranslations($a_orgu_type_id)
+    {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         /** @var $ilDB ilDB */
@@ -223,7 +233,8 @@ class ilOrgUnitTypeTranslation {
      * @param $member
      * @param $value
      */
-    protected function insertMember($member, $value){
+    protected function insertMember($member, $value)
+    {
         $this->db->insert(self::TABLE_NAME, array(
             'orgu_type_id' => array('integer', $this->getOrguTypeId()),
             'lang' => array('text', $this->getLang()),
@@ -239,7 +250,8 @@ class ilOrgUnitTypeTranslation {
      * @param $member
      * @param $value
      */
-    protected function updateMember($member, $value) {
+    protected function updateMember($member, $value)
+    {
         $this->db->update(self::TABLE_NAME, array(
             'value' => array('text', $value),
         ), array(
@@ -255,7 +267,8 @@ class ilOrgUnitTypeTranslation {
      * @param string $a_member Name of a variable, e.g. title,description
      * @param bool $is_new True if the member did not exist before
      */
-    protected function trackChange($a_member, $is_new) {
+    protected function trackChange($a_member, $is_new)
+    {
         if (!in_array($a_member, $this->changes)) {
             $this->changes[] = $a_member;
         }
@@ -267,7 +280,8 @@ class ilOrgUnitTypeTranslation {
     /**
      * Reset tracked members
      */
-    protected function resetTrackChanges() {
+    protected function resetTrackChanges()
+    {
         $this->changes = array();
         $this->members_new = array();
     }
@@ -277,7 +291,8 @@ class ilOrgUnitTypeTranslation {
      *
      * @throws ilOrgUnitTypeException
      */
-    protected function read() {
+    protected function read()
+    {
         $sql = 'SELECT * FROM ' . self::TABLE_NAME . ' WHERE orgu_type_id = ' . $this->db->quote($this->orgu_type_id, 'integer') .
             ' AND lang = ' . $this->db->quote($this->lang, 'text');
         $set = $this->db->query($sql);
@@ -332,8 +347,8 @@ class ilOrgUnitTypeTranslation {
     /**
      * @param int $id
      */
-    public function setOrguTypeId($id) {
+    public function setOrguTypeId($id)
+    {
         $this->orgu_type_id = (int) $id;
     }
-
 }

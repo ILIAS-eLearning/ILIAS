@@ -9,12 +9,12 @@
 
 interface ilAssLacSolutionExpressionInterface
 {
-	/**
-	 * @param ilUserQuestionResult $result
-	 * @param string $comperator
-	 * @param null|int $index
-	 *
-	 * @return bool
-	 */
-	public function checkResult($result, $comperator, $index = null);
-} 
+    /**
+     * @param ilUserQuestionResult $result
+     * @param string $comperator
+     * @param null|int $index
+     *
+     * @return bool
+     */
+    public function checkResult($result, $comperator, $index = null);
+}

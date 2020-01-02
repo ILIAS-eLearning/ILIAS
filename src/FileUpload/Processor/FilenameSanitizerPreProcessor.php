@@ -16,14 +16,16 @@ use League\Flysystem\Util;
  * @since   5.3
  * @version 1.0.0
  */
-final class FilenameSanitizerPreProcessor implements PreProcessor {
+final class FilenameSanitizerPreProcessor implements PreProcessor
+{
 
-	/**
-	 * @inheritDoc
-	 */
-	public function process(FileStream $stream, Metadata $metadata) {
-		$metadata->setFilename(Util::normalizeRelativePath($metadata->getFilename()));
+    /**
+     * @inheritDoc
+     */
+    public function process(FileStream $stream, Metadata $metadata)
+    {
+        $metadata->setFilename(Util::normalizeRelativePath($metadata->getFilename()));
 
-		return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
-	}
+        return new ProcessingStatus(ProcessingStatus::OK, 'Filename changed');
+    }
 }

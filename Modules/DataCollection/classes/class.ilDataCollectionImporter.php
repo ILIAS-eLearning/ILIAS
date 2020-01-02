@@ -7,61 +7,66 @@
  * @author Stefan Wanzenried <sw@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilDataCollectionImporter extends ilXmlImporter {
+class ilDataCollectionImporter extends ilXmlImporter
+{
 
-	/**
-	 * @var ilDataCollectionDataSet
-	 */
-	protected $ds;
-
-
-	public function init() {
-		$this->ds = new ilDataCollectionDataSet();
-		$this->ds->setDSPrefix("ds");
-		$this->ds->setImportDirectory($this->getImportDirectory());
-	}
+    /**
+     * @var ilDataCollectionDataSet
+     */
+    protected $ds;
 
 
-	/**
-	 * Executes the Import
-	 *
-	 * @param $a_entity
-	 * @param $a_id
-	 * @param $a_xml
-	 * @param $a_mapping
-	 *
-	 * @return string|void
-	 */
-	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping) {
-		$parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
-	}
+    public function init()
+    {
+        $this->ds = new ilDataCollectionDataSet();
+        $this->ds->setDSPrefix("ds");
+        $this->ds->setImportDirectory($this->getImportDirectory());
+    }
 
 
-	/**
-	 * Called before finishing the import
-	 *
-	 * @param $a_mapping
-	 */
-	public function finalProcessing($a_mapping) {
-		$this->ds->beforeFinishImport($a_mapping);
-	}
+    /**
+     * Executes the Import
+     *
+     * @param $a_entity
+     * @param $a_id
+     * @param $a_xml
+     * @param $a_mapping
+     *
+     * @return string|void
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
+    }
 
 
-	/**
-	 * @param $int
-	 *
-	 * @return string
-	 */
-	public static function getExcelCharForInteger($int) {
-		$char = "";
-		$rng = range("A", "Z");
-		while ($int > 0) {
-			$diff = $int % 26;
-			$char = $rng[$diff - 1] . $char;
-			$int -= $char;
-			$int /= 26;
-		}
+    /**
+     * Called before finishing the import
+     *
+     * @param $a_mapping
+     */
+    public function finalProcessing($a_mapping)
+    {
+        $this->ds->beforeFinishImport($a_mapping);
+    }
 
-		return $char;
-	}
+
+    /**
+     * @param $int
+     *
+     * @return string
+     */
+    public static function getExcelCharForInteger($int)
+    {
+        $char = "";
+        $rng = range("A", "Z");
+        while ($int > 0) {
+            $diff = $int % 26;
+            $char = $rng[$diff - 1] . $char;
+            $int -= $char;
+            $int /= 26;
+        }
+
+        return $char;
+    }
 }

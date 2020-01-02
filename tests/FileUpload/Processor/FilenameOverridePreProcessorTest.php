@@ -19,21 +19,22 @@ use PHPUnit\Framework\TestCase;
  * @backupGlobals          disabled
  * @backupStaticAttributes disabled
  */
-class FilenameOverridePreProcessorTest extends TestCase {
+class FilenameOverridePreProcessorTest extends TestCase
+{
 
-	/**
-	 * @Test
-	 * @small
-	 */
-	public function testProcessWhichShouldSucceed() {
-		$filename = 'renamed.ogg';
+    /**
+     * @Test
+     * @small
+     */
+    public function testProcessWhichShouldSucceed()
+    {
+        $filename = 'renamed.ogg';
 
-		$subject = new FilenameSanitizerPreProcessor($filename);
-		$stream = Streams::ofString('Awesome stuff');
-		$result = $subject->process($stream, new Metadata($filename, $stream->getSize(), 'audio/ogg'));
+        $subject = new FilenameSanitizerPreProcessor($filename);
+        $stream = Streams::ofString('Awesome stuff');
+        $result = $subject->process($stream, new Metadata($filename, $stream->getSize(), 'audio/ogg'));
 
-		$this->assertSame(ProcessingStatus::OK, $result->getCode());
-		$this->assertSame('Filename changed', $result->getMessage());
-	}
-
+        $this->assertSame(ProcessingStatus::OK, $result->getCode());
+        $this->assertSame('Filename changed', $result->getMessage());
+    }
 }

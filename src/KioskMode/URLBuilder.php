@@ -9,10 +9,10 @@ use ILIAS\Data;
  * The URLBuilder allows views to get links that are used somewhere inline in
  * the content.
  */
-interface URLBuilder {
+interface URLBuilder
+{
     /**
      * Get an URL for the provided command and params.
      */
     public function getURL(string $command, int $param = null) : Data\URI;
 }
-

@@ -14,344 +14,341 @@ require_once("./Modules/ScormAicc/classes/SCORM/class.ilSCORMObject.php");
 */
 class ilSCORMItem extends ilSCORMObject
 {
-	var $import_id;
-	var $identifierref;
-	var $isvisible;
-	var $parameters;
-	var $prereq_type;
-	var $prerequisites;
-	var $maxtimeallowed;
-	var $timelimitaction;
-	var $datafromlms;
-	var $masteryscore;
+    public $import_id;
+    public $identifierref;
+    public $isvisible;
+    public $parameters;
+    public $prereq_type;
+    public $prerequisites;
+    public $maxtimeallowed;
+    public $timelimitaction;
+    public $datafromlms;
+    public $masteryscore;
 
-	/**
-	* Constructor
-	*
-	* @param	int		$a_id		Object ID
-	* @access	public
-	*/
-	function __construct($a_id = 0)
-	{
-		parent::__construct($a_id);
-		$this->setType("sit");
-	}
+    /**
+    * Constructor
+    *
+    * @param	int		$a_id		Object ID
+    * @access	public
+    */
+    public function __construct($a_id = 0)
+    {
+        parent::__construct($a_id);
+        $this->setType("sit");
+    }
 
-	function getImportId()
-	{
-		return $this->import_id;
-	}
+    public function getImportId()
+    {
+        return $this->import_id;
+    }
 
-	function setImportId($a_import_id)
-	{
-		$this->import_id = $a_import_id;
-	}
+    public function setImportId($a_import_id)
+    {
+        $this->import_id = $a_import_id;
+    }
 
-	function getIdentifierRef()
-	{
-		return $this->identifierref;
-	}
+    public function getIdentifierRef()
+    {
+        return $this->identifierref;
+    }
 
-	function setIdentifierRef($a_id_ref)
-	{
-		$this->identifierref = $a_id_ref;
-	}
+    public function setIdentifierRef($a_id_ref)
+    {
+        $this->identifierref = $a_id_ref;
+    }
 
-	function getVisible()
-	{
-		return $this->isvisible;
-	}
+    public function getVisible()
+    {
+        return $this->isvisible;
+    }
 
-	function setVisible($a_visible)
-	{
-		$this->isvisible = $a_visible;
-	}
+    public function setVisible($a_visible)
+    {
+        $this->isvisible = $a_visible;
+    }
 
-	function getParameters()
-	{
-		return $this->parameters;
-	}
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
 
-	function setParameters($a_par)
-	{
-		$this->parameters = $a_par;
-	}
+    public function setParameters($a_par)
+    {
+        $this->parameters = $a_par;
+    }
 
-	function getPrereqType()
-	{
-		return $this->prereq_type;
-	}
+    public function getPrereqType()
+    {
+        return $this->prereq_type;
+    }
 
-	function setPrereqType($a_p_type)
-	{
-		$this->prereq_type = $a_p_type;
-	}
+    public function setPrereqType($a_p_type)
+    {
+        $this->prereq_type = $a_p_type;
+    }
 
-	function getPrerequisites()
-	{
-		return $this->prerequisites;
-	}
+    public function getPrerequisites()
+    {
+        return $this->prerequisites;
+    }
 
-	function setPrerequisites($a_pre)
-	{
-		$this->prerequisites = $a_pre;
-	}
+    public function setPrerequisites($a_pre)
+    {
+        $this->prerequisites = $a_pre;
+    }
 
-	function getMaxTimeAllowed()
-	{
-		return $this->maxtimeallowed;
-	}
+    public function getMaxTimeAllowed()
+    {
+        return $this->maxtimeallowed;
+    }
 
-	function setMaxTimeAllowed($a_max)
-	{
-		$this->maxtimeallowed = $a_max;
-	}
+    public function setMaxTimeAllowed($a_max)
+    {
+        $this->maxtimeallowed = $a_max;
+    }
 
-	function getTimeLimitAction()
-	{
-		return $this->timelimitaction;
-	}
+    public function getTimeLimitAction()
+    {
+        return $this->timelimitaction;
+    }
 
-	function setTimeLimitAction($a_lim_act)
-	{
-		$this->timelimitaction = $a_lim_act;
-	}
+    public function setTimeLimitAction($a_lim_act)
+    {
+        $this->timelimitaction = $a_lim_act;
+    }
 
-	function getDataFromLms()
-	{
-		return $this->datafromlms;
-	}
+    public function getDataFromLms()
+    {
+        return $this->datafromlms;
+    }
 
-	function setDataFromLms($a_data)
-	{
-		$this->datafromlms = $a_data;
-	}
+    public function setDataFromLms($a_data)
+    {
+        $this->datafromlms = $a_data;
+    }
 
-	function getMasteryScore()
-	{
-		return $this->masteryscore;
-	}
+    public function getMasteryScore()
+    {
+        return $this->masteryscore;
+    }
 
-	function setMasteryScore($a_score)
-	{
-		$this->masteryscore = $a_score;
-	}
+    public function setMasteryScore($a_score)
+    {
+        $this->masteryscore = $a_score;
+    }
 
-	function read()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		parent::read();
+    public function read()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        
+        parent::read();
 
-		$obj_set = $ilDB->queryF('SELECT * FROM sc_item WHERE obj_id = %s',
-		array('integer'),array($this->getId()));
-		$obj_rec = $ilDB->fetchAssoc($obj_set);
-		
-		$this->setImportId($obj_rec["import_id"]);
-		$this->setIdentifierRef($obj_rec["identifierref"]);
-		if (strtolower($obj_rec["isvisible"]) == "false")
-		{
-			$this->setVisible(false);
-		}
-		else
-		{
-			$this->setVisible(true);
-		}
-		$this->setParameters($obj_rec["parameters"]);
-		$this->setPrereqType($obj_rec["prereq_type"]);
-		$this->setPrerequisites($obj_rec["prerequisites"]);
-		$this->setMaxTimeAllowed($obj_rec["maxtimeallowed"]);
-		$this->setTimeLimitAction($obj_rec["timelimitaction"]);
-		$this->setDataFromLms($obj_rec["datafromlms"]);
-		$this->setMasteryScore($obj_rec["masteryscore"]);
-	}
+        $obj_set = $ilDB->queryF(
+            'SELECT * FROM sc_item WHERE obj_id = %s',
+            array('integer'),
+            array($this->getId())
+        );
+        $obj_rec = $ilDB->fetchAssoc($obj_set);
+        
+        $this->setImportId($obj_rec["import_id"]);
+        $this->setIdentifierRef($obj_rec["identifierref"]);
+        if (strtolower($obj_rec["isvisible"]) == "false") {
+            $this->setVisible(false);
+        } else {
+            $this->setVisible(true);
+        }
+        $this->setParameters($obj_rec["parameters"]);
+        $this->setPrereqType($obj_rec["prereq_type"]);
+        $this->setPrerequisites($obj_rec["prerequisites"]);
+        $this->setMaxTimeAllowed($obj_rec["maxtimeallowed"]);
+        $this->setTimeLimitAction($obj_rec["timelimitaction"]);
+        $this->setDataFromLms($obj_rec["datafromlms"]);
+        $this->setMasteryScore($obj_rec["masteryscore"]);
+    }
 
-	function create()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		
-		parent::create();
+    public function create()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        
+        parent::create();
 
-		$str_visible = ($this->getVisible()) ? 'true' : 'false';
-		
-		$ilDB->insert('sc_item', array(
-			'obj_id'			=> array('integer', $this->getId()),
-			'import_id'			=> array('text', $this->getImportId()),
-			'identifierref'		=> array('text', $this->getIdentifierRef()),
-			'isvisible'			=> array('text', $str_visible),
-			'parameters'		=> array('text', $this->getParameters()),
-			'prereq_type'		=> array('text', $this->getPrereqType()),
-			'prerequisites'		=> array('text', $this->getPrerequisites()),
-			'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
-			'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
-			'datafromlms'		=> array('clob', $this->getDataFromLms()),
-			'masteryscore'		=> array('text', $this->getMasteryScore())
-		));			
-	}
+        $str_visible = ($this->getVisible()) ? 'true' : 'false';
+        
+        $ilDB->insert('sc_item', array(
+            'obj_id'			=> array('integer', $this->getId()),
+            'import_id'			=> array('text', $this->getImportId()),
+            'identifierref'		=> array('text', $this->getIdentifierRef()),
+            'isvisible'			=> array('text', $str_visible),
+            'parameters'		=> array('text', $this->getParameters()),
+            'prereq_type'		=> array('text', $this->getPrereqType()),
+            'prerequisites'		=> array('text', $this->getPrerequisites()),
+            'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
+            'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
+            'datafromlms'		=> array('clob', $this->getDataFromLms()),
+            'masteryscore'		=> array('text', $this->getMasteryScore())
+        ));
+    }
 
-	function update()
-	{
-		global $DIC;		
-		$ilDB = $DIC['ilDB'];
+    public function update()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
-		parent::update();
-		
-		$str_visible = ($this->getVisible()) ? 'true' : 'false';
-		
-		$ilDB->update('sc_item', 
-			array(
-				'import_id'			=> array('text', $this->getImportId()),
-				'identifierref'		=> array('text', $this->getIdentifierRef()),
-				'isvisible'			=> array('text', $str_visible),
-				'parameters'		=> array('text', $this->getParameters()),
-				'prereq_type'		=> array('text', $this->getPrereqType()),
-				'prerequisites'		=> array('text', $this->getPrerequisites()),
-				'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
-				'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
-				'datafromlms'		=> array('clob', $this->getDataFromLms()),
-				'masteryscore'		=> array('text', $this->getMasteryScore())
-			),
-			array(
-				'obj_id'			=> array('integer', $this->getId())
-			)
-		);
-	}
+        parent::update();
+        
+        $str_visible = ($this->getVisible()) ? 'true' : 'false';
+        
+        $ilDB->update(
+            'sc_item',
+            array(
+                'import_id'			=> array('text', $this->getImportId()),
+                'identifierref'		=> array('text', $this->getIdentifierRef()),
+                'isvisible'			=> array('text', $str_visible),
+                'parameters'		=> array('text', $this->getParameters()),
+                'prereq_type'		=> array('text', $this->getPrereqType()),
+                'prerequisites'		=> array('text', $this->getPrerequisites()),
+                'maxtimeallowed'	=> array('text', $this->getMaxTimeAllowed()),
+                'timelimitaction'	=> array('text', $this->getTimeLimitAction()),
+                'datafromlms'		=> array('clob', $this->getDataFromLms()),
+                'masteryscore'		=> array('text', $this->getMasteryScore())
+            ),
+            array(
+                'obj_id'			=> array('integer', $this->getId())
+            )
+        );
+    }
 
-	/**
-	* get tracking data of specified or current user
-	*
-	*
-	*/
-	function getTrackingDataOfUser($a_user_id = 0)
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+    /**
+    * get tracking data of specified or current user
+    *
+    *
+    */
+    public function getTrackingDataOfUser($a_user_id = 0)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC['ilUser'];
 
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
-		
-		$track_set = $ilDB->queryF('
+        if ($a_user_id == 0) {
+            $a_user_id = $ilUser->getId();
+        }
+        
+        $track_set = $ilDB->queryF(
+            '
 			SELECT lvalue, rvalue FROM scorm_tracking 
 			WHERE sco_id = %s 
 			AND user_id =  %s
 			AND obj_id = %s',
-			array('integer', 'integer', 'integer'),
-			array($this->getId(), $a_user_id, $this->getSLMId())
-		);
-		
-		$trdata = array();
-		while ($track_rec = $ilDB->fetchAssoc($track_set))
-		{
-			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
-		}
+            array('integer', 'integer', 'integer'),
+            array($this->getId(), $a_user_id, $this->getSLMId())
+        );
+        
+        $trdata = array();
+        while ($track_rec = $ilDB->fetchAssoc($track_set)) {
+            $trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
+        }
 
-		return $trdata;
-	}
+        return $trdata;
+    }
 
-	static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilUser = $DIC['ilUser'];
+    public static function _lookupTrackingDataOfUser($a_item_id, $a_user_id = 0, $a_obj_id = 0)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilUser = $DIC['ilUser'];
 
-		if ($a_user_id == 0)
-		{
-			$a_user_id = $ilUser->getId();
-		}
+        if ($a_user_id == 0) {
+            $a_user_id = $ilUser->getId();
+        }
 
-		$track_set = $ilDB->queryF('
+        $track_set = $ilDB->queryF(
+            '
 			SELECT lvalue, rvalue FROM scorm_tracking 
 			WHERE sco_id = %s 
 			AND user_id =  %s
 			AND obj_id = %s',
-			array('integer', 'integer', 'integer'),
-			array($a_item_id, $a_user_id, $a_obj_id)
-		);
-		
-		$trdata = array();
-		while ($track_rec = $ilDB->fetchAssoc($track_set))
-		{
-			$trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
-		}
+            array('integer', 'integer', 'integer'),
+            array($a_item_id, $a_user_id, $a_obj_id)
+        );
+        
+        $trdata = array();
+        while ($track_rec = $ilDB->fetchAssoc($track_set)) {
+            $trdata[$track_rec["lvalue"]] = $track_rec["rvalue"];
+        }
 
-		return $trdata;
-	}
+        return $trdata;
+    }
 
-	function delete()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilLog = $DIC['ilLog'];
+    public function delete()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilLog = $DIC['ilLog'];
 
-		parent::delete();
+        parent::delete();
 
-		$ilDB->manipulateF(
-			'DELETE FROM sc_item WHERE obj_id = %s',
-			array('integer'),
-			array($this->getId())
-		);	
-		
-		$ilLog->write("SAHS Delete(ScormItem): ".
-			'DELETE FROM scorm_tracking WHERE sco_id = '.$this->getId().' AND obj_id = '.$this->getSLMId());
-		$ilDB->manipulateF(
-			'DELETE FROM scorm_tracking WHERE sco_id = %s AND obj_id = %s',
-			array('integer', 'integer'),
-			array($this->getId(), $this->getSLMId())
-		);
-		
-		include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");	
-		ilLPStatusWrapper::_refreshStatus($this->getSLMId());
-	}
+        $ilDB->manipulateF(
+            'DELETE FROM sc_item WHERE obj_id = %s',
+            array('integer'),
+            array($this->getId())
+        );
+        
+        $ilLog->write("SAHS Delete(ScormItem): " .
+            'DELETE FROM scorm_tracking WHERE sco_id = ' . $this->getId() . ' AND obj_id = ' . $this->getSLMId());
+        $ilDB->manipulateF(
+            'DELETE FROM scorm_tracking WHERE sco_id = %s AND obj_id = %s',
+            array('integer', 'integer'),
+            array($this->getId(), $this->getSLMId())
+        );
+        
+        include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+        ilLPStatusWrapper::_refreshStatus($this->getSLMId());
+    }
 
-	//function insertTrackData($a_lval, $a_rval, $a_ref_id)
-	function insertTrackData($a_lval, $a_rval, $a_obj_id)
-	{
-		require_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
-		//ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
-		ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
-	}
+    //function insertTrackData($a_lval, $a_rval, $a_ref_id)
+    public function insertTrackData($a_lval, $a_rval, $a_obj_id)
+    {
+        require_once("./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMTracking.php");
+        //ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
+        ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_obj_id);
+    }
 
-	// Static
-	static function _getItems($a_obj_id)
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+    // Static
+    public static function _getItems($a_obj_id)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
-		$res = $ilDB->queryF('
+        $res = $ilDB->queryF(
+            '
 			SELECT obj_id FROM scorm_object 
 			WHERE slm_id = %s
 			AND c_type = %s',
-			array('integer', 'text'),
-			array($a_obj_id, 'sit')
-		);
-		while($row = $ilDB->fetchObject($res))		
-		{
-			$item_ids[] = $row->obj_id;
-		}
-		return $item_ids ? $item_ids : array();
-	}
+            array('integer', 'text'),
+            array($a_obj_id, 'sit')
+        );
+        while ($row = $ilDB->fetchObject($res)) {
+            $item_ids[] = $row->obj_id;
+        }
+        return $item_ids ? $item_ids : array();
+    }
 
-	static function _lookupTitle($a_obj_id)
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+    public static function _lookupTitle($a_obj_id)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
 
-		$res = $ilDB->queryF(
-			'SELECT title FROM scorm_object WHERE obj_id = %s',
-			array('integer'),
-			array($a_obj_id)
-		);
-		
-		while($row = $ilDB->fetchObject($res))
-		{
-			return $row->title;
-		}
-		return '';
-	}
+        $res = $ilDB->queryF(
+            'SELECT title FROM scorm_object WHERE obj_id = %s',
+            array('integer'),
+            array($a_obj_id)
+        );
+        
+        while ($row = $ilDB->fetchObject($res)) {
+            return $row->title;
+        }
+        return '';
+    }
 }
-?>

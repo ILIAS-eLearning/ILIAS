@@ -61,7 +61,16 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
                     $tooltip = ilHelp::getMainMenuTooltip($identifier);
                     $a_id = "mm_" . $identifier;
                     $gl->addEntry(
-                        $DIC->ui()->renderer()->render($com), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
+                        $DIC->ui()->renderer()->render($com),
+                        $href,
+                        $target,
+                        "",
+                        "",
+                        $a_id,
+                        $tooltip,
+                        "left center",
+                        "right center",
+                        false
                     );
 
                     break;
@@ -99,7 +108,16 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
         $tooltip = ilHelp::getMainMenuTooltip($identifier);
         $a_id = "mm_" . $identifier;
         $gl->addEntry(
-            $child->getTitle(), $href, $target, "", "", $a_id, $tooltip, "left center", "right center", false
+            $child->getTitle(),
+            $href,
+            $target,
+            "",
+            "",
+            $a_id,
+            $tooltip,
+            "left center",
+            "right center",
+            false
         );
     }
 
@@ -116,7 +134,16 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
         $atpl = new ilTemplate("tpl.self_loading_item.html", false, false, 'Services/MainMenu');
         $atpl->setVariable("ASYNC_URL", $child->getAsyncContentURL());
         $gl->addEntry(
-            $atpl->get(), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+            $atpl->get(),
+            "#",
+            "_top",
+            "",
+            "",
+            $identifier,
+            ilHelp::getMainMenuTooltip($identifier),
+            "left center",
+            "right center",
+            false
         );
     }
 
@@ -132,7 +159,16 @@ class ilMMTopParentItemRenderer extends BaseTypeRenderer
         global $DIC;
         $identifier = $child->getProviderIdentification()->getInternalIdentifier();
         $gl->addEntry(
-            $DIC->ui()->renderer()->render($child->getContent()), "#", "_top", "", "", $identifier, ilHelp::getMainMenuTooltip($identifier), "left center", "right center", false
+            $DIC->ui()->renderer()->render($child->getContent()),
+            "#",
+            "_top",
+            "",
+            "",
+            $identifier,
+            ilHelp::getMainMenuTooltip($identifier),
+            "left center",
+            "right center",
+            false
         );
     }
 

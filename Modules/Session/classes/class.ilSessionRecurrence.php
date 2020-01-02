@@ -33,46 +33,45 @@ include_once('./Services/Calendar/classes/class.ilCalendarRecurrence.php');
 
 class ilSessionRecurrence extends ilCalendarRecurrence
 {
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
-	/**
-	 * save => no db storage
-	 *
-	 * @access public
-	 */
-	public function save()
-	{
-		return false;
-	}
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+    
+    /**
+     * save => no db storage
+     *
+     * @access public
+     */
+    public function save()
+    {
+        return false;
+    }
 
-	/**
-	 * update => no db storage
-	 *
-	 * @access public
-	 */
-	public function update()
-	{
-		return false;
-	}
+    /**
+     * update => no db storage
+     *
+     * @access public
+     */
+    public function update()
+    {
+        return false;
+    }
 
-	/**
-	 * delete => no db storage
-	 *
-	 * @access public
-	 */
-	public function delete()
-	{
-		return false;
-	}
+    /**
+     * delete => no db storage
+     *
+     * @access public
+     */
+    public function delete()
+    {
+        return false;
+    }
 }
-?>

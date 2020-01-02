@@ -162,13 +162,13 @@ We RECOMMEND to clone from GitHub as this will offer some kind of autoupdate for
 <a name="git-clonecheckout"></a>
 ## Git Clone/Checkout
 
-To checkout the ILIAS release 5.2 in ```/var/www/html/ilias/``` use the following commands:
+To checkout the ILIAS release 5.4 in ```/var/www/html/ilias/``` use the following commands:
 
 ```
 cd /var/www/html/
 git clone https://github.com/ILIAS-eLearning/ILIAS.git ilias
 cd ilias
-git checkout release_5-2
+git checkout release_5-4
 chown www-data:www-data /var/www/html/ilias -R
 ```
 The files SHOULD be owned by your webserver user/group (e.g. ```www-data``` or ```apache```) the mode SHOULD be 644 for files and 755 for directories. 

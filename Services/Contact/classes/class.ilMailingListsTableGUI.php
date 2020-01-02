@@ -10,47 +10,47 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilMailingListsTableGUI extends ilTable2GUI
 {
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /**
+     * @var ilLanguage
+     */
+    protected $lng;
 
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
-	/**
-	 * @param        $a_parent_obj
-	 * @param string $a_parent_cmd
-	 * @param string $a_template_context
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
-	{
-		global $DIC;
+    /**
+     * @param        $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param string $a_template_context
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd = '', $a_template_context = '')
+    {
+        global $DIC;
 
-		$this->lng  = $DIC['lng'];
-		$this->ctrl = $DIC['ilCtrl'];
+        $this->lng  = $DIC['lng'];
+        $this->ctrl = $DIC['ilCtrl'];
 
-		$this->setId('show_mlng_lists_tbl');
-		parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+        $this->setId('show_mlng_lists_tbl');
+        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj), 'showForm');
-		$this->setTitle($this->lng->txt('mail_mailing_lists'));
-		$this->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');
-		$this->setDefaultOrderField('title');
-		$this->setSelectAllCheckbox('ml_id');
-		$this->setNoEntriesText($this->lng->txt('mail_search_no'));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj), 'showForm');
+        $this->setTitle($this->lng->txt('mail_mailing_lists'));
+        $this->setRowTemplate('tpl.mail_mailing_lists_listrow.html', 'Services/Contact');
+        $this->setDefaultOrderField('title');
+        $this->setSelectAllCheckbox('ml_id');
+        $this->setNoEntriesText($this->lng->txt('mail_search_no'));
 
-		$this->initColumns();
-	}
+        $this->initColumns();
+    }
 
-	protected function initColumns()
-	{
-		$this->addColumn('', 'check', '10%', true);
-		$this->addColumn($this->lng->txt('title'), 'title', '30%');
-		$this->addColumn($this->lng->txt('description'), 'description', '30%');
-		$this->addColumn($this->lng->txt('members'), 'members', '20%');
-		$this->addColumn($this->lng->txt('actions'), '', '10%');
-	}
+    protected function initColumns()
+    {
+        $this->addColumn('', 'check', '10%', true);
+        $this->addColumn($this->lng->txt('title'), 'title', '30%');
+        $this->addColumn($this->lng->txt('description'), 'description', '30%');
+        $this->addColumn($this->lng->txt('members'), 'members', '20%');
+        $this->addColumn($this->lng->txt('actions'), '', '10%');
+    }
 }

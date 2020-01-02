@@ -13,6 +13,4 @@ include_once("./Services/Object/classes/class.ilObjectAccess.php");
  */
 class ilObjBadgeAdministrationAccess extends ilObjectAccess
 {
-
-
 }

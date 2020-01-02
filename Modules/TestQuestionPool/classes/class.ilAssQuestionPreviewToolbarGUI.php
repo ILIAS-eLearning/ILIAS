@@ -11,32 +11,32 @@ require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
  */
 class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
 {
-	/**
-	 * @var ilLanguage
-	 */
-	public $lng = null;
+    /**
+     * @var ilLanguage
+     */
+    public $lng = null;
 
-	private $resetPreviewCmd;
+    private $resetPreviewCmd;
 
-	public function __construct(ilLanguage $lng)
-	{
-		$this->lng = $lng;
+    public function __construct(ilLanguage $lng)
+    {
+        $this->lng = $lng;
 
-		parent::__construct();
-	}
-	
-	public function build()
-	{
-		$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', true);
-	}
+        parent::__construct();
+    }
+    
+    public function build()
+    {
+        $this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', true);
+    }
 
-	public function setResetPreviewCmd($resetPreviewCmd)
-	{
-		$this->resetPreviewCmd = $resetPreviewCmd;
-	}
+    public function setResetPreviewCmd($resetPreviewCmd)
+    {
+        $this->resetPreviewCmd = $resetPreviewCmd;
+    }
 
-	public function getResetPreviewCmd()
-	{
-		return $this->resetPreviewCmd;
-	}
-} 
+    public function getResetPreviewCmd()
+    {
+        return $this->resetPreviewCmd;
+    }
+}

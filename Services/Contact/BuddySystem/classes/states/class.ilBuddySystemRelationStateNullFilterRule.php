@@ -9,20 +9,20 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRel
  */
 class ilBuddySystemRelationStateNullFilterRule extends ilBuddySystemRelationStateFilterRule
 {
-	/**
-	 * @return bool
-	 */
-	public function matches()
-	{
-		return true;
-	}
+    /**
+     * @return bool
+     */
+    public function matches()
+    {
+        return true;
+    }
 
-	/**
-	 * @param ilBuddySystemRelationState $state
-	 * @return boolean
-	 */
-	public function __invoke(ilBuddySystemRelationState $state)
-	{
-		return true;
-	}
+    /**
+     * @param ilBuddySystemRelationState $state
+     * @return boolean
+     */
+    public function __invoke(ilBuddySystemRelationState $state)
+    {
+        return true;
+    }
 }

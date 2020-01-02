@@ -11,21 +11,21 @@ require_once 'Modules/Test/classes/class.ilTestExport.php';
  */
 class ilTestExportDynamicQuestionSet extends ilTestExport
 {
-	protected function initXmlExport()
-	{
-	}
+    protected function initXmlExport()
+    {
+    }
 
-	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
-	{
-	}
+    protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+    {
+    }
 
-	protected function getQuestionsQtiXml()
-	{
-		return '';
-	}
-	
-	protected function getQuestionIds()
-	{
-		return array();
-	}
+    protected function getQuestionsQtiXml()
+    {
+        return '';
+    }
+    
+    protected function getQuestionIds()
+    {
+        return array();
+    }
 }

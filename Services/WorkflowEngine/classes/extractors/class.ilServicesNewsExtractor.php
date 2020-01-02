@@ -13,33 +13,32 @@ require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor
  */
 class ilServicesNewsExtractor extends ilBaseExtractor
 {
-	/**
-	 * @param string $event
-	 * @param array  $parameters
-	 *
-	 * @return \ilExtractedParams
-	 */
-	public function extract($event, $parameters)
-	{
-		$this->ilExtractedParams->setSubjectType('news');
+    /**
+     * @param string $event
+     * @param array  $parameters
+     *
+     * @return \ilExtractedParams
+     */
+    public function extract($event, $parameters)
+    {
+        $this->ilExtractedParams->setSubjectType('news');
 
-		switch($event)
-		{
-			case 'readNews':
-			case 'unreadNews':
-				$this->extractNews($parameters);
-				break;
-		}
-		return $this->ilExtractedParams;
-	}
+        switch ($event) {
+            case 'readNews':
+            case 'unreadNews':
+                $this->extractNews($parameters);
+                break;
+        }
+        return $this->ilExtractedParams;
+    }
 
-	/**
-	 * @param array $parameters
-	 */
-	protected function extractNews($parameters)
-	{
-		$this->ilExtractedParams->setSubjectId(0);
-		$this->ilExtractedParams->setContextType('news_ids');
-		$this->ilExtractedParams->setContextId(implode(',', $parameters['news_ids']));
-	}
+    /**
+     * @param array $parameters
+     */
+    protected function extractNews($parameters)
+    {
+        $this->ilExtractedParams->setSubjectId(0);
+        $this->ilExtractedParams->setContextType('news_ids');
+        $this->ilExtractedParams->setContextId(implode(',', $parameters['news_ids']));
+    }
 }

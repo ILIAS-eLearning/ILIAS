@@ -11,8 +11,4 @@
 */
 class ilObjForumAdministrationAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

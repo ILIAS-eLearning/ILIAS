@@ -5,9 +5,9 @@ require_once("./Services/Object/classes/class.ilObjectAccess.php");
 
 /**
  * Class ilObjRootFolderAccess
- * 
+ *
  * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
- * 
+ *
  * @version $Id$
  *
  * @ingroup ModulesTest

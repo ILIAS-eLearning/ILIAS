@@ -9,312 +9,298 @@
  */
 class ilOpenIdConnectUserSync
 {
-	const AUTH_MODE = 'oidc';
+    const AUTH_MODE = 'oidc';
 
-	/**
-	 * @var ilOpenIdConnectSettings
-	 */
-	protected $settings;
+    /**
+     * @var ilOpenIdConnectSettings
+     */
+    protected $settings;
 
-	/**
-	 * @var \ilLogger
-	 */
-	protected $logger;
+    /**
+     * @var \ilLogger
+     */
+    protected $logger;
 
-	/**
-	 * @var \ilXmlWriter
-	 */
-	private $writer;
-	/**
-	 * @var array
-	 */
-	private $user_info = [];
+    /**
+     * @var \ilXmlWriter
+     */
+    private $writer;
+    /**
+     * @var array
+     */
+    private $user_info = [];
 
-	/**
-	 * @var string
-	 */
-	private $ext_account = '';
-
-
-	/**
-	 * @var string
-	 */
-	private $int_account = '';
-
-	/**
-	 * @var int
-	 */
-	private $usr_id = 0;
+    /**
+     * @var string
+     */
+    private $ext_account = '';
 
 
-	/**
-	 * ilOpenIdConnectUserSync constructor.
-	 * @param ilOpenIdConnectSettings $settings
-	 */
-	public function __construct(\ilOpenIdConnectSettings $settings, $user_info)
-	{
-		global $DIC;
+    /**
+     * @var string
+     */
+    private $int_account = '';
 
-		$this->settings = $settings;
-		$this->logger = $DIC->logger()->auth();
-
-		$this->writer = new ilXmlWriter();
-
-		$this->user_info = $user_info;
-	}
-
-	/**
-	 * @param string $ext_account
-	 */
-	public function setExternalAccount(string $ext_account)
-	{
-		$this->ext_account = $ext_account;
-	}
-
-	/**
-	 * @param string $int_account
-	 */
-	public function setInternalAccount(string $int_account)
-	{
-		$this->int_account = $int_account;
-		$this->usr_id = ilObjUser::_lookupId($this->int_account);
-	}
-
-	/**
-	 * @return int
-	 */
-	public function getUserId() : int
-	{
-		return $this->usr_id;
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function needsCreation() : bool
-	{
-		$this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
-		return strlen($this->int_account) == 0;
-	}
-
-	/**
-	 * @return bool
-	 * @throws ilOpenIdConnectSyncForbiddenException
-	 */
-	public function updateUser()
-	{
-		if($this->needsCreation() && !$this->settings->isSyncAllowed())
-		{
-			throw new ilOpenIdConnectSyncForbiddenException('No internal account given.');
-		}
-
-		$this->transformToXml();
-
-		$importParser = new ilUserImportParser();
-		$importParser->setXMLContent($this->writer->xmlDumpMem(false));
-
-		$roles = $this->parseRoleAssignments();
-		$importParser->setRoleAssignment($roles);
-
-		$importParser->setFolderId(USER_FOLDER_ID);
-		$importParser->startParsing();
-		$debug = $importParser->getProtocol();
+    /**
+     * @var int
+     */
+    private $usr_id = 0;
 
 
-		// lookup internal account
-		$int_account = ilObjUser::_checkExternalAuthAccount(
-			self::AUTH_MODE,
-			$this->ext_account
-		);
-		$this->setInternalAccount($int_account);
-		return true;
-	}
+    /**
+     * ilOpenIdConnectUserSync constructor.
+     * @param ilOpenIdConnectSettings $settings
+     */
+    public function __construct(\ilOpenIdConnectSettings $settings, $user_info)
+    {
+        global $DIC;
 
-	/**
-	 * transform user data to xml
-	 */
-	protected function transformToXml()
-	{
-		$this->writer->xmlStartTag('Users');
+        $this->settings = $settings;
+        $this->logger = $DIC->logger()->auth();
 
-		if($this->needsCreation())
-		{
-			$this->writer->xmlStartTag('User',['Action' => 'Insert']);
-			$this->writer->xmlElement('Login',[],ilAuthUtils::_generateLogin($this->ext_account));
-		}
-		else
-		{
-			$this->writer->xmlStartTag(
-				'User',
-				[
-					'Id' => $this->getUserId(),
-					'Action' => 'Update'
-				]);
-			$this->writer->xmlElement('Login',[],$this->int_account);
-		}
+        $this->writer = new ilXmlWriter();
 
-		$this->writer->xmlElement('ExternalAccount',array(),$this->ext_account);
-		$this->writer->xmlElement('AuthMode',array('type' => self::AUTH_MODE),null);
+        $this->user_info = $user_info;
+    }
 
-		$this->parseRoleAssignments();
+    /**
+     * @param string $ext_account
+     */
+    public function setExternalAccount(string $ext_account)
+    {
+        $this->ext_account = $ext_account;
+    }
 
-		$this->writer->xmlElement('Active',array(),"true");
-		$this->writer->xmlElement('TimeLimitOwner',array(),7);
-		$this->writer->xmlElement('TimeLimitUnlimited',array(),1);
-		$this->writer->xmlElement('TimeLimitFrom',array(),time());
-		$this->writer->xmlElement('TimeLimitUntil',array(),time());
+    /**
+     * @param string $int_account
+     */
+    public function setInternalAccount(string $int_account)
+    {
+        $this->int_account = $int_account;
+        $this->usr_id = ilObjUser::_lookupId($this->int_account);
+    }
 
-		foreach($this->settings->getProfileMappingFields() as $field => $lng_key)
-		{
-			$connect_name = $this->settings->getProfileMappingFieldValue($field);
-			if(!$connect_name)
-			{
-				$this->logger->debug('Ignoring unconfigured field: ' . $field);
-				continue;
+    /**
+     * @return int
+     */
+    public function getUserId() : int
+    {
+        return $this->usr_id;
+    }
 
-			}
-			if(!$this->needsCreation() && !$this->settings->getProfileMappingFieldUpdate($field))
-			{
-				$this->logger->debug('Ignoring '. $field . ' for update.');
-				continue;
-			}
+    /**
+     * @return bool
+     */
+    public function needsCreation() : bool
+    {
+        $this->logger->dump($this->int_account, \ilLogLevel::DEBUG);
+        return strlen($this->int_account) == 0;
+    }
 
-			$value = $this->valueFrom($connect_name);
-			if(!strlen($value))
-			{
-				$this->logger->debug('Cannot find user data in '. $connect_name);
-				continue;
-			}
+    /**
+     * @return bool
+     * @throws ilOpenIdConnectSyncForbiddenException
+     */
+    public function updateUser()
+    {
+        if ($this->needsCreation() && !$this->settings->isSyncAllowed()) {
+            throw new ilOpenIdConnectSyncForbiddenException('No internal account given.');
+        }
 
-			switch($field)
-			{
-				case 'firstname':
-					$this->writer->xmlElement('Firstname',[], $value);
-					break;
+        $this->transformToXml();
 
-				case 'lastname':
-					$this->writer->xmlElement('Lastname',[], $value);
-					break;
+        $importParser = new ilUserImportParser();
+        $importParser->setXMLContent($this->writer->xmlDumpMem(false));
 
-				case 'email':
-					$this->writer->xmlElement('Email',[], $value);
-					break;
+        $roles = $this->parseRoleAssignments();
+        $importParser->setRoleAssignment($roles);
 
-				case 'birthday':
-					$this->writer->xmlElement('Birthday',[], $value);
-					break;
-			}
-		}
-		$this->writer->xmlEndTag('User');
-		$this->writer->xmlEndTag('Users');
-
-		$this->logger->debug($this->writer->xmlDumpMem());
-	}
-
-	/**
-	 * Parse role assignments
-	 * @return array array of role assignments
-	 */
-	protected function parseRoleAssignments() : array
-	{
-		$this->logger->debug('Parsing role assignments');
-
-		$found_role = false;
-
-		$roles_assignable[$this->settings->getRole()] = $this->settings->getRole();
+        $importParser->setFolderId(USER_FOLDER_ID);
+        $importParser->startParsing();
+        $debug = $importParser->getProtocol();
 
 
-		$this->logger->dump($this->settings->getRoleMappings(),\ilLogLevel::DEBUG);
+        // lookup internal account
+        $int_account = ilObjUser::_checkExternalAuthAccount(
+            self::AUTH_MODE,
+            $this->ext_account
+        );
+        $this->setInternalAccount($int_account);
+        return true;
+    }
 
-		foreach($this->settings->getRoleMappings() as $role_id => $role_info) {
+    /**
+     * transform user data to xml
+     */
+    protected function transformToXml()
+    {
+        $this->writer->xmlStartTag('Users');
 
-			$this->logger->dump($role_id);
-			$this->logger->dump($role_info);
+        if ($this->needsCreation()) {
+            $this->writer->xmlStartTag('User', ['Action' => 'Insert']);
+            $this->writer->xmlElement('Login', [], ilAuthUtils::_generateLogin($this->ext_account));
+        } else {
+            $this->writer->xmlStartTag(
+                'User',
+                [
+                    'Id' => $this->getUserId(),
+                    'Action' => 'Update'
+                ]
+            );
+            $this->writer->xmlElement('Login', [], $this->int_account);
+        }
 
-			list($role_attribute, $role_value) = explode('::', $role_info['value']);
+        $this->writer->xmlElement('ExternalAccount', array(), $this->ext_account);
+        $this->writer->xmlElement('AuthMode', array('type' => self::AUTH_MODE), null);
 
-			if(
-				!$role_attribute ||
-				!$role_value
-			) {
-				$this->logger->debug('No valid role mapping configuration for: ' . $role_id);
-				continue;
-			}
+        $this->parseRoleAssignments();
 
-			if(!isset($this->user_info->$role_attribute)) {
-				$this->logger->debug('No user info passed');
-				continue;
-			}
+        $this->writer->xmlElement('Active', array(), "true");
+        $this->writer->xmlElement('TimeLimitOwner', array(), 7);
+        $this->writer->xmlElement('TimeLimitUnlimited', array(), 1);
+        $this->writer->xmlElement('TimeLimitFrom', array(), time());
+        $this->writer->xmlElement('TimeLimitUntil', array(), time());
 
-			if(
-				!$this->needsCreation() &&
-				!$role_info['update']
-			) {
-				$this->logger->debug('No user role update for role: ' . $role_id);
-				continue;
-			}
+        foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
+            $connect_name = $this->settings->getProfileMappingFieldValue($field);
+            if (!$connect_name) {
+                $this->logger->debug('Ignoring unconfigured field: ' . $field);
+                continue;
+            }
+            if (!$this->needsCreation() && !$this->settings->getProfileMappingFieldUpdate($field)) {
+                $this->logger->debug('Ignoring ' . $field . ' for update.');
+                continue;
+            }
 
-			if(is_array($this->user_info->$role_attribute)) {
-				if(!in_array($role_value, $this->user_info->$role_attribute)) {
-					$this->logger->debug('User account has no ' . $role_value);
-					continue;
-				}
-			}
-			elseif(strcmp($this->user_info->$role_attribute, $role_value) !== 0) {
-				$this->logger->debug('User account has no ' . $role_value);
-				continue;
-			}
-			$this->logger->debug('Matching role mapping for role_id: ' . $role_id);
+            $value = $this->valueFrom($connect_name);
+            if (!strlen($value)) {
+                $this->logger->debug('Cannot find user data in ' . $connect_name);
+                continue;
+            }
 
-			$found_role = true;
-			$roles_assignable[$role_id] = $role_id;
-			$long_role_id = ('il_' . IL_INST_ID . '_role_'.$role_id);
+            switch ($field) {
+                case 'firstname':
+                    $this->writer->xmlElement('Firstname', [], $value);
+                    break;
 
-			$this->writer->xmlElement(
-				'Role',
-				[
-					'Id' => $long_role_id,
-					'Type' => 'Global',
-					'Action' => 'Assign'
-				],
-				null
-			);
-		}
+                case 'lastname':
+                    $this->writer->xmlElement('Lastname', [], $value);
+                    break;
 
-		if($this->needsCreation() && !$found_role)
-		{
-			$long_role_id = ('il_' . IL_INST_ID . '_role_'.$this->settings->getRole());
+                case 'email':
+                    $this->writer->xmlElement('Email', [], $value);
+                    break;
 
-			// add default role
-			$this->writer->xmlElement(
-				'Role',
-				[
-					'Id' => $long_role_id,
-					'Type' => 'Global',
-					'Action' => 'Assign'
-				],
-				null
-			);
-		}
-		return $roles_assignable;
-	}
+                case 'birthday':
+                    $this->writer->xmlElement('Birthday', [], $value);
+                    break;
+            }
+        }
+        $this->writer->xmlEndTag('User');
+        $this->writer->xmlEndTag('Users');
+
+        $this->logger->debug($this->writer->xmlDumpMem());
+    }
+
+    /**
+     * Parse role assignments
+     * @return array array of role assignments
+     */
+    protected function parseRoleAssignments() : array
+    {
+        $this->logger->debug('Parsing role assignments');
+
+        $found_role = false;
+
+        $roles_assignable[$this->settings->getRole()] = $this->settings->getRole();
 
 
-	/**
-	 * @param string $connect_name
-	 */
-	protected function valueFrom(string $connect_name) : string
-	{
-		if(!$connect_name)
-		{
-			return '';
-		}
-		if(!property_exists($this->user_info,$connect_name))
-		{
-			$this->logger->debug('Cannot find property ' . $connect_name .' in user info ');
-			return '';
-		}
-		$val = $this->user_info->$connect_name;
-		return $val;
-	}
+        $this->logger->dump($this->settings->getRoleMappings(), \ilLogLevel::DEBUG);
+
+        foreach ($this->settings->getRoleMappings() as $role_id => $role_info) {
+            $this->logger->dump($role_id);
+            $this->logger->dump($role_info);
+
+            list($role_attribute, $role_value) = explode('::', $role_info['value']);
+
+            if (
+                !$role_attribute ||
+                !$role_value
+            ) {
+                $this->logger->debug('No valid role mapping configuration for: ' . $role_id);
+                continue;
+            }
+
+            if (!isset($this->user_info->$role_attribute)) {
+                $this->logger->debug('No user info passed');
+                continue;
+            }
+
+            if (
+                !$this->needsCreation() &&
+                !$role_info['update']
+            ) {
+                $this->logger->debug('No user role update for role: ' . $role_id);
+                continue;
+            }
+
+            if (is_array($this->user_info->$role_attribute)) {
+                if (!in_array($role_value, $this->user_info->$role_attribute)) {
+                    $this->logger->debug('User account has no ' . $role_value);
+                    continue;
+                }
+            } elseif (strcmp($this->user_info->$role_attribute, $role_value) !== 0) {
+                $this->logger->debug('User account has no ' . $role_value);
+                continue;
+            }
+            $this->logger->debug('Matching role mapping for role_id: ' . $role_id);
+
+            $found_role = true;
+            $roles_assignable[$role_id] = $role_id;
+            $long_role_id = ('il_' . IL_INST_ID . '_role_' . $role_id);
+
+            $this->writer->xmlElement(
+                'Role',
+                [
+                    'Id' => $long_role_id,
+                    'Type' => 'Global',
+                    'Action' => 'Assign'
+                ],
+                null
+            );
+        }
+
+        if ($this->needsCreation() && !$found_role) {
+            $long_role_id = ('il_' . IL_INST_ID . '_role_' . $this->settings->getRole());
+
+            // add default role
+            $this->writer->xmlElement(
+                'Role',
+                [
+                    'Id' => $long_role_id,
+                    'Type' => 'Global',
+                    'Action' => 'Assign'
+                ],
+                null
+            );
+        }
+        return $roles_assignable;
+    }
+
+
+    /**
+     * @param string $connect_name
+     */
+    protected function valueFrom(string $connect_name) : string
+    {
+        if (!$connect_name) {
+            return '';
+        }
+        if (!property_exists($this->user_info, $connect_name)) {
+            $this->logger->debug('Cannot find property ' . $connect_name . ' in user info ');
+            return '';
+        }
+        $val = $this->user_info->$connect_name;
+        return $val;
+    }
 }

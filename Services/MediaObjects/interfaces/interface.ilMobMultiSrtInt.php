@@ -7,13 +7,13 @@
  */
 interface ilMobMultiSrtInt
 {
-	/**
-	 * @return string upload directory
-	 */
-	function getUploadDir();
+    /**
+     * @return string upload directory
+     */
+    public function getUploadDir();
 
-	/**
-	 * @return array array of target media objects ids
-	 */
-	function getMobIds();
+    /**
+     * @return array array of target media objects ids
+     */
+    public function getMobIds();
 }
