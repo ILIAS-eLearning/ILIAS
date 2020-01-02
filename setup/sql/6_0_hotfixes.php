@@ -27,3 +27,87 @@ while ($rec = $ilDB->fetchAssoc($set))
     );
 }
 ?>
+<#3>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_data', 'top_date')) {
+    
+}
+
+if ($ilDB->tableColumnExists('frm_data', 'top_update')) {
+
+}
+?>
+<#4>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_drafts_history', 'draft_date')) {
+
+}
+?>
+<#5>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_posts', 'pos_date')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_posts', 'pos_update')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_posts', 'pos_cens_date')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_posts', 'pos_activation_date')) {
+
+}
+?>
+<#6>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_posts_deleted', 'deleted_date')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_posts_deleted', 'post_date')) {
+
+}
+?>
+<#7>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_posts_drafts', 'post_date')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_posts_drafts', 'post_update')) {
+
+}
+?>
+<#8>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_posts_tree', 'fpt_date')) {
+
+}
+?>
+<#9>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_thread_access', 'access_old_ts')) {
+
+}
+?>
+<#10>
+<?php
+// TODO: Implement migration depending on JF decision
+if ($ilDB->tableColumnExists('frm_threads', 'thr_date')) {
+
+}
+
+if ($ilDB->tableColumnExists('frm_threads', 'thr_update')) {
+
+}
+?>
