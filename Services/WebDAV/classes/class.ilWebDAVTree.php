@@ -20,8 +20,7 @@ class ilWebDAVTree
     
     public static function getInstance()
     {
-        if(!isset(self::$instance))
-        {
+        if (!isset(self::$instance)) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -52,8 +51,7 @@ class ilWebDAVTree
         $splitted_path = explode('/', $a_uri, 3);
         
         // Early exit for bad request
-        if(count($splitted_path) < 2)
-        {
+        if (count($splitted_path) < 2) {
             throw new BadRequest();
         }
         
@@ -62,41 +60,30 @@ class ilWebDAVTree
         
         // Since we already know our client, we only have to check the requested root for our path
         // if second string = 'ilias', the request was for the ilias root
-        if($repository_mountpoint == 'ilias')
-        {
-            if($path_in_mountpoint != '')
-            {
+        if ($repository_mountpoint == 'ilias') {
+            if ($path_in_mountpoint != '') {
                 $ref_path = self::getRefIdForGivenRootAndPath(ROOT_FOLDER_ID, $path_in_mountpoint);
                 $searched_node = $ref_path[count($ref_path)-1];
                 $ref_id = $searched_node['child'];
-            }
-            else
-            {
+            } else {
                 $ref_id = ROOT_FOLDER_ID;
             }
         }
         // if the first 4 letters are 'ref_', we are searching for a ref ID in the tree
-        else if(substr($splitted_path[1], 0, 4) == 'ref_')
-        {
+        elseif (substr($splitted_path[1], 0, 4) == 'ref_') {
             // Make a 'ref_1234' to a '1234'
             // Since we already tested for 'ref_', we can be sure there is at least one '_' character
-            $start_node = (int)explode('_',$repository_mountpoint)[1];
-            if($path_in_mountpoint != '' && $start_node > 0)
-            {
+            $start_node = (int) explode('_', $repository_mountpoint)[1];
+            if ($path_in_mountpoint != '' && $start_node > 0) {
                 $ref_id = self::getRefIdForGivenRootAndPath($start_node, $path_in_mountpoint);
-            }
-            else if($path_in_mountpoint == '')
-            {
+            } elseif ($path_in_mountpoint == '') {
                 $ref_id = $start_node;
-            }
-            else
-            {
+            } else {
                 throw new NotFound();
             }
         }
         // if there was no 'ilias' and no 'ref_' in the second string, this was a bad request...
-        else
-        {
+        else {
             throw new BadRequest();
         }
         
@@ -110,7 +97,7 @@ class ilWebDAVTree
      */
     public static function getRefIdForGivenRootAndPath(int $start_ref, string $path_from_startnode)
     {
-        return self::iterateRecursiveThroughTree(explode('/',$path_from_startnode), 0, $start_ref);
+        return self::iterateRecursiveThroughTree(explode('/', $path_from_startnode), 0, $start_ref);
     }
 
     /**
@@ -126,25 +113,19 @@ class ilWebDAVTree
         global $DIC;
 
         // Check if last element was already found
-        if($path_title_array[$searched_element_index] == '' || count($path_title_array) == $searched_element_index)
-        {
+        if ($path_title_array[$searched_element_index] == '' || count($path_title_array) == $searched_element_index) {
             return $parent_ref_id;
         }
 
         // Search if any child of the given ref has the name of the given searched element
-        foreach($DIC->repositoryTree()->getChildIds($parent_ref_id) as $child_ref)
-        {
+        foreach ($DIC->repositoryTree()->getChildIds($parent_ref_id) as $child_ref) {
             $child_obj_id = ilObject::_lookupObjectId($child_ref);
             $child_title = strtolower(ilObject::_lookupTitle($child_obj_id));
-            if($path_title_array[$searched_element_index] == $child_title)
-            {
-                if(count($path_title_array)-1 == $searched_element_index)
-                {
+            if ($path_title_array[$searched_element_index] == $child_title) {
+                if (count($path_title_array)-1 == $searched_element_index) {
                     // Last element found. Return ref_id
                     return $child_ref;
-                }
-                else 
-                {
+                } else {
                     // Search next element in path
                     return self::iterateRecursiveThroughTree($path_title_array, $searched_element_index+1, $child_ref);
                 }
@@ -153,5 +134,4 @@ class ilWebDAVTree
         
         return -1;
     }
-    
 }

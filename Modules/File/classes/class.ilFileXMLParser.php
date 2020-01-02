@@ -19,39 +19,38 @@ include_once 'Services/Utilities/classes/class.ilFileUtils.php';
 
 class ilFileXMLParser extends ilSaxParser
 {
-
-    static $CONTENT_NOT_COMPRESSED = 0;
-    static $CONTENT_GZ_COMPRESSED = 1;
-    static $CONTENT_ZLIB_COMPRESSED = 2;
-    static $CONTENT_COPY = 4;
+    public static $CONTENT_NOT_COMPRESSED = 0;
+    public static $CONTENT_GZ_COMPRESSED = 1;
+    public static $CONTENT_ZLIB_COMPRESSED = 2;
+    public static $CONTENT_COPY = 4;
     // begin-patch fm
-    static $CONTENT_REST = 5;
+    public static $CONTENT_REST = 5;
     // end-patch fm
     /**
      * Exercise object which has been parsed
      *
      * @var ilObjFile
      */
-    var $file;
+    public $file;
     /**
      * this will be matched against the id in the xml
      * in case we want to update an exercise
      *
      * @var int
      */
-    var $obj_id;
+    public $obj_id;
     /**
      * result of parsing and updating
      *
      * @var boolean
      */
-    var $result;
+    public $result;
     /**
      * Content compression mode, defaults to no compression
      *
      * @var int
      */
-    var $mode;
+    public $mode;
     /**
      * file contents, base64 encoded
      *
@@ -64,7 +63,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @var string
      */
-    var $tmpFilename;
+    public $tmpFilename;
     /**
      * file contents, base64 encoded
      *
@@ -115,7 +114,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @access    public
      */
-    function __construct(& $file, $a_xml_data, $obj_id = -1, $mode = 0)
+    public function __construct(&$file, $a_xml_data, $obj_id = -1, $mode = 0)
     {
         parent::__construct();
         $this->file = $file;
@@ -131,7 +130,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @param string    import directory
      */
-    function setImportDirectory($a_val)
+    public function setImportDirectory($a_val)
     {
         $this->importDirectory = $a_val;
     }
@@ -142,7 +141,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @return    string    import directory
      */
-    function getImportDirectory()
+    public function getImportDirectory()
     {
         return $this->importDirectory;
     }
@@ -155,7 +154,7 @@ class ilFileXMLParser extends ilSaxParser
      *
      * @access    private
      */
-    function setHandlers($a_xml_parser)
+    public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
@@ -173,7 +172,7 @@ class ilFileXMLParser extends ilSaxParser
      * @throws   ilFileException   when obj id != - 1 and if it it does not match the id in the xml
      *                              or deflation mode is not supported
      */
-    function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
         global $DIC;
         $ilErr = $DIC['ilErr'];
@@ -186,8 +185,9 @@ class ilFileXMLParser extends ilSaxParser
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
                     if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id) {
-                        throw new ilFileException (
-                            "Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!", ilFileException::$ID_MISMATCH
+                        throw new ilFileException(
+                            "Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!",
+                            ilFileException::$ID_MISMATCH
                         );
                     }
                 }
@@ -222,13 +222,13 @@ class ilFileXMLParser extends ilSaxParser
                 if (isset($a_attribs["mode"])) {
                     if ($a_attribs["mode"] == "GZIP") {
                         if (!function_exists("gzread")) {
-                            throw new ilFileException ("Deflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+                            throw new ilFileException("Deflating with gzip is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
                         }
 
                         $this->mode = ilFileXMLParser::$CONTENT_GZ_COMPRESSED;
                     } elseif ($a_attribs["mode"] == "ZLIB") {
                         if (!function_exists("gzuncompress")) {
-                            throw new ilFileException ("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
+                            throw new ilFileException("Deflating with zlib (compress/uncompress) is not supported", ilFileException::$ID_DEFLATE_METHOD_MISMATCH);
                         }
 
                         $this->mode = ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED;
@@ -265,7 +265,7 @@ class ilFileXMLParser extends ilSaxParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_name       element name
      */
-    function handlerEndTag($a_xml_parser, $a_name)
+    public function handlerEndTag($a_xml_parser, $a_name)
     {
         $this->cdata = trim($this->cdata);
 
@@ -318,16 +318,16 @@ class ilFileXMLParser extends ilSaxParser
                 else {
                     $this->tmpFilename = ilUtil::ilTempnam();
                     if (!ilFileUtils::fastBase64Decode($this->tmpFilename, $baseDecodedFilename)) {
-                        throw new ilFileException ("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
+                        throw new ilFileException("Base64-Decoding failed", ilFileException::$DECOMPRESSION_FAILED);
                     }
                     if ($this->mode == ilFileXMLParser::$CONTENT_GZ_COMPRESSED) {
                         if (!ilFileUtils::fastGunzip($baseDecodedFilename, $this->tmpFilename)) {
-                            throw new ilFileException ("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);
+                            throw new ilFileException("Deflating with fastzunzip failed", ilFileException::$DECOMPRESSION_FAILED);
                         }
                         unlink($baseDecodedFilename);
                     } elseif ($this->mode == ilFileXMLParser::$CONTENT_ZLIB_COMPRESSED) {
                         if (!ilFileUtils::fastGunzip($baseDecodedFilename, $this->tmpFilename)) {
-                            throw new ilFileException ("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);
+                            throw new ilFileException("Deflating with fastDecompress failed", ilFileException::$DECOMPRESSION_FAILED);
                         }
                         unlink($baseDecodedFilename);
                     } else {
@@ -382,14 +382,13 @@ class ilFileXMLParser extends ilSaxParser
      * @param resource $a_xml_parser xml parser
      * @param string   $a_data       character data
      */
-    function handlerCharacterData($a_xml_parser, $a_data)
+    public function handlerCharacterData($a_xml_parser, $a_data)
     {
         if ($a_data != "\n") {
             // begin-patch fm
             if ($this->isReadingFile && $this->mode != ilFileXMLParser::$CONTENT_COPY
                 && $this->mode != ilFileXMLParser::$CONTENT_REST
-            ) // begin-patch fm
-            {
+            ) { // begin-patch fm
                 $handle = fopen($this->tmpFilename, "a");
                 fwrite($handle, $a_data);
                 fclose($handle);
@@ -438,17 +437,16 @@ class ilFileXMLParser extends ilSaxParser
 
             // Add version history
             // bugfix mantis 26236: add rollback info to version instead of max_version to ensure compatibility with older ilias versions
-            if ($version["rollback_version"] != "" AND $version["rollback_version"] != null
-                AND $version["rollback_user_id"] != "" AND $version["rollback_user_id"] != null
+            if ($version["rollback_version"] != "" and $version["rollback_version"] != null
+                and $version["rollback_user_id"] != "" and $version["rollback_user_id"] != null
             ) {
-
                 ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . ","
                     . $version["version"] . "|"
                     . $version["rollback_version"] . "|"
                     . $version["rollback_user_id"] . ","
                     . $version["max_version"]);
             } else {
-                if ($version["action"] != "" AND $version["action"] != null) {
+                if ($version["action"] != "" and $version["action"] != null) {
                     ilHistory::_createEntry($this->file->getId(), $version["action"], basename($filename) . ","
                         . $version["version"] . ","
                         . $version["max_version"]);
@@ -471,13 +469,13 @@ class ilFileXMLParser extends ilSaxParser
     {
         if ($this->setFileContents()) {
             require_once("./Services/History/classes/class.ilHistory.php");
-            if ($this->file->getRollbackVersion() != "" AND $this->file->getRollbackVersion() != null
-                AND $this->file->getRollbackUserId() != "" AND $this->file->getRollbackUserId() != null
+            if ($this->file->getRollbackVersion() != "" and $this->file->getRollbackVersion() != null
+                and $this->file->getRollbackUserId() != "" and $this->file->getRollbackUserId() != null
             ) {
                 ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion()
                     . "|" . $this->file->getRollbackVersion() . "|" . $this->file->getRollbackUserId());
             } else {
-                if ($this->file->getAction() != "" AND $this->file->getAction() != null) {
+                if ($this->file->getAction() != "" and $this->file->getAction() != null) {
                     ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
                 } else {
                     ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());

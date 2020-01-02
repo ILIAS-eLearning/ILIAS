@@ -7,52 +7,52 @@
  */
 abstract class ilBaseMailRfc822AddressParser implements \ilMailRecipientParser
 {
-	/** @var string */
-	protected $addresses = '';
+    /** @var string */
+    protected $addresses = '';
 
-	/** @var string */
-	protected $installationHost = '';
+    /** @var string */
+    protected $installationHost = '';
 
-	/**
-	 * @param string $a_addresses A comma separated list of email addresses
-	 * @param string $installationHost
-	 */
-	public function __construct(string $a_addresses, string $installationHost = \ilMail::ILIAS_HOST)
-	{
-		$this->addresses = $a_addresses;
-		$this->installationHost = $installationHost;
-	}
+    /**
+     * @param string $a_addresses A comma separated list of email addresses
+     * @param string $installationHost
+     */
+    public function __construct(string $a_addresses, string $installationHost = \ilMail::ILIAS_HOST)
+    {
+        $this->addresses = $a_addresses;
+        $this->installationHost = $installationHost;
+    }
 
-	/**
-	 * @return string
-	 */
-	public function getAddresses(): string
-	{
-		return $this->addresses;
-	}
+    /**
+     * @return string
+     */
+    public function getAddresses() : string
+    {
+        return $this->addresses;
+    }
 
-	/**
-	 * A comma separated list of email addresses
-	 * @param string $addresses
-	 */
-	public function setAddresses(string $addresses)
-	{
-		$this->addresses = $addresses;
-	}
+    /**
+     * A comma separated list of email addresses
+     * @param string $addresses
+     */
+    public function setAddresses(string $addresses)
+    {
+        $this->addresses = $addresses;
+    }
 
-	/**
-	 * @param string $a_addresses A comma separated list of email addresses
-	 * @return \ilMailAddress[]
-	 */
-	protected abstract function parseAddressString(string $a_addresses): array;
+    /**
+     * @param string $a_addresses A comma separated list of email addresses
+     * @return \ilMailAddress[]
+     */
+    abstract protected function parseAddressString(string $a_addresses) : array;
 
-	/**
-	 * @inheritdoc
-	 */
-	public function parse(): array
-	{
-		$addresses = preg_replace('/;/', ',', trim($this->addresses));
+    /**
+     * @inheritdoc
+     */
+    public function parse() : array
+    {
+        $addresses = preg_replace('/;/', ',', trim($this->addresses));
 
-		return $this->parseAddressString($addresses);
-	}
+        return $this->parseAddressString($addresses);
+    }
 }

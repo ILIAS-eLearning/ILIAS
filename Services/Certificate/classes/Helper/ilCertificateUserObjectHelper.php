@@ -6,8 +6,8 @@
  */
 class ilCertificateUserObjectHelper
 {
-	public function lookupFields($user_id)
-	{
-		return ilObjUser::_lookupFields($user_id);
-	}
+    public function lookupFields($user_id)
+    {
+        return ilObjUser::_lookupFields($user_id);
+    }
 }

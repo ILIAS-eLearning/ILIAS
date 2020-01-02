@@ -7,9 +7,9 @@
  */
 interface ilTermsOfServiceEquatable
 {
-	/**
-	 * @param mixed $other
-	 * @return bool
-	 */
-	public function equals($other): bool;
+    /**
+     * @param mixed $other
+     * @return bool
+     */
+    public function equals($other) : bool;
 }

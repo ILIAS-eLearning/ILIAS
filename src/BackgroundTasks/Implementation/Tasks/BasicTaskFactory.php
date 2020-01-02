@@ -11,7 +11,6 @@ use ILIAS\BackgroundTasks\Value;
 
 class BasicTaskFactory implements TaskFactory
 {
-
     use BasicScalarValueFactory;
     /**
      * @var Injector

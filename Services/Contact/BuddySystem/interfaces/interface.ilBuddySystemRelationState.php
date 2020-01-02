@@ -7,43 +7,43 @@
  */
 interface ilBuddySystemRelationState
 {
-	/**
-	 * @return boolean
-	 */
-	public function isInitial();
+    /**
+     * @return boolean
+     */
+    public function isInitial();
 
-	/**
-	 * @return string
-	 */
-	public function getName();
+    /**
+     * @return string
+     */
+    public function getName();
 
-	/**
-	 * @return string
-	 */
-	public function getAction();
+    /**
+     * @return string
+     */
+    public function getAction();
 
-	/**
-	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
-	 */
-	public function getPossibleTargetStates();
+    /**
+     * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
+     */
+    public function getPossibleTargetStates();
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	public function link(ilBuddySystemRelation $relation);
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    public function link(ilBuddySystemRelation $relation);
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	public function unlink(ilBuddySystemRelation $relation);
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    public function unlink(ilBuddySystemRelation $relation);
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	public function request(ilBuddySystemRelation $relation);
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    public function request(ilBuddySystemRelation $relation);
 
-	/**
-	 * @param ilBuddySystemRelation $relation
-	 */
-	public function ignore(ilBuddySystemRelation $relation);
+    /**
+     * @param ilBuddySystemRelation $relation
+     */
+    public function ignore(ilBuddySystemRelation $relation);
 }

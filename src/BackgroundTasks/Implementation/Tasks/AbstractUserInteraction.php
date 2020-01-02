@@ -6,5 +6,4 @@ use ILIAS\BackgroundTasks\Task\UserInteraction;
 
 abstract class AbstractUserInteraction extends AbstractTask implements UserInteraction
 {
-
 }

@@ -100,7 +100,7 @@ class ThunkValue extends AbstractValue
      *
      * @return
      */
-    function setValue($value)
+    public function setValue($value)
     {
         // TODO: Implement setValue() method.
     }

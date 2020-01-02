@@ -33,55 +33,54 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilSurveySavePhraseTableGUI extends ilTable2GUI
 {
-	protected $confirmdelete;
-	
-	/**
-	 * Constructor
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd)
-	{
-		global $DIC;
+    protected $confirmdelete;
+    
+    /**
+     * Constructor
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd)
+    {
+        global $DIC;
 
-		parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
-		$lng = $DIC->language();
-		$ilCtrl = $DIC->ctrl();
+        $lng = $DIC->language();
+        $ilCtrl = $DIC->ctrl();
 
-		$this->lng = $lng;
-		$this->ctrl = $ilCtrl;
-		$this->confirmdelete = $confirmdelete;
-	
-		$this->setFormName('phrases');
-		$this->setStyle('table', 'fullwidth');
+        $this->lng = $lng;
+        $this->ctrl = $ilCtrl;
+        $this->confirmdelete = $confirmdelete;
+    
+        $this->setFormName('phrases');
+        $this->setStyle('table', 'fullwidth');
 
-		$this->addColumn($this->lng->txt("answer"),'', '');
-		$this->addColumn($this->lng->txt("use_other_answer"),'', '');
-		$this->addColumn($this->lng->txt("scale"),'', '');
+        $this->addColumn($this->lng->txt("answer"), '', '');
+        $this->addColumn($this->lng->txt("use_other_answer"), '', '');
+        $this->addColumn($this->lng->txt("scale"), '', '');
 
-		$this->setRowTemplate("tpl.il_svy_qpl_phrase_save_row.html", "Modules/SurveyQuestionPool");
+        $this->setRowTemplate("tpl.il_svy_qpl_phrase_save_row.html", "Modules/SurveyQuestionPool");
 
-		$this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
-		$this->disable('sort');
-		$this->disable('select_all');
-		$this->enable('header');
-	}
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
+        $this->disable('sort');
+        $this->disable('select_all');
+        $this->enable('header');
+    }
 
-	/**
-	 * fill row 
-	 *
-	 * @access public
-	 * @param
-	 * @return
-	 */
-	public function fillRow($data)
-	{
-		$this->tpl->setVariable("ANSWER", $data["answer"]);
-		$this->tpl->setVariable("OPEN_ANSWER", ($data["other"]) ? $this->lng->txt('yes') : $this->lng->txt('no'));
-		$this->tpl->setVariable("SCALE", $data["scale"]);
-	}
+    /**
+     * fill row
+     *
+     * @access public
+     * @param
+     * @return
+     */
+    public function fillRow($data)
+    {
+        $this->tpl->setVariable("ANSWER", $data["answer"]);
+        $this->tpl->setVariable("OPEN_ANSWER", ($data["other"]) ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable("SCALE", $data["scale"]);
+    }
 }
-?>

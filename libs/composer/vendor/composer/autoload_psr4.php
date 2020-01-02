@@ -33,6 +33,7 @@ return array(
     'PhpOffice\\PhpSpreadsheet\\' => array($vendorDir . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Matrix\\' => array($vendorDir . '/markbaker/matrix/classes/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'JaimePerez\\TwigConfigurableI18n\\' => array($vendorDir . '/jaimeperez/twig-configurable-i18n/src'),
     'Interop\\Container\\' => array($vendorDir . '/container-interop/container-interop/src/Interop/Container'),

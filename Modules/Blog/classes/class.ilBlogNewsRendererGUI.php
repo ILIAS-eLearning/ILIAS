@@ -12,25 +12,21 @@ include_once("./Services/News/classes/class.ilNewsDefaultRendererGUI.php");
  */
 class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
-	/**
-	 * Get object link
-	 *
-	 * @return string link href url
-	 */
-	function getObjectLink()
-	{
-		include_once("./Services/Link/classes/class.ilLink.php");
-		$n = $this->getNewsItem();
-		$add = "";
-		if ($n->getContextSubObjType() == "blp"
-			&& $n->getContextSubObjId() > 0)
-		{
-			$add = "_".$n->getContextSubObjId();
-		}
+    /**
+     * Get object link
+     *
+     * @return string link href url
+     */
+    public function getObjectLink()
+    {
+        include_once("./Services/Link/classes/class.ilLink.php");
+        $n = $this->getNewsItem();
+        $add = "";
+        if ($n->getContextSubObjType() == "blp"
+            && $n->getContextSubObjId() > 0) {
+            $add = "_" . $n->getContextSubObjId();
+        }
 
-		return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
-	}
-
+        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+    }
 }
-
-?>

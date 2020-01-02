@@ -10,24 +10,22 @@
  */
 class ilContextNewsData
 {
-	/**
-	 * @var ilNewsServiceDependencies
-	 */
-	protected $_deps;
+    /**
+     * @var ilNewsServiceDependencies
+     */
+    protected $_deps;
 
-	/**
-	 * @var ilNewsService
-	 */
-	protected $service;
+    /**
+     * @var ilNewsService
+     */
+    protected $service;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct(int $obj_id, string $obj_type,  int $subtype, string $subid, ilNewsService $service, $_deps)
-	{
-		$this->service = $service;
-		$this->_deps = $_deps;
-	}
-
-
+    /**
+     * Constructor
+     */
+    public function __construct(int $obj_id, string $obj_type, int $subtype, string $subid, ilNewsService $service, $_deps)
+    {
+        $this->service = $service;
+        $this->_deps = $_deps;
+    }
 }

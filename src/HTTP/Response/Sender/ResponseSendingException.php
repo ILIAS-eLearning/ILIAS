@@ -9,6 +9,6 @@ namespace ILIAS\HTTP\Response\Sender;
  *
  * @package ILIAS\HTTP\Response
  */
-class ResponseSendingException extends \ilException {
-
+class ResponseSendingException extends \ilException
+{
 }

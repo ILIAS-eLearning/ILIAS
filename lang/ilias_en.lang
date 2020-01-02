@@ -5685,7 +5685,7 @@ mail#:#mail_add_subject#:#Please enter a subject
 mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to Mailing List
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
-mail#:#mail_change_to_folder#:#Switch to folder:
+mail#:#mail_change_to_folder#:#Switch to folder: %s
 mail#:#mail_cronjob_notification_info#:#You can activate a periodic notification about new mail here.
 mail#:#mail_crs_list_members_not_available_for_at_least_one_crs#:#The members of at least one selected course can not be listed.
 mail#:#mail_crs_list_members_not_available#:#It is not possible to list the members of the marked courses.
@@ -13608,7 +13608,7 @@ badge#:#badge_subtype_manual#:#manual
 badge#:#badge_subtype_auto#:#automatic
 badge#:#badge_course_lp_invalid#:#The following objects have a LP mode which is not supported: %s.
 trac#:#trac_defaults#:#Completion Status
-trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types.
+trac#:#trac_defaults_info#:#Set the completion status determination mode for supported object types. Used by certain badge types and certificates.
 trac#:#trac_defaults_inactive#:#Inactive
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
 assessment#:#tst_revert_changes#:#Undo Editing###fau: testNav
@@ -15065,3 +15065,5 @@ crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s req
 crs#:#crs_objective_result_details#:#« Show Details
 exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.

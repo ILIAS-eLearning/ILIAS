@@ -8,74 +8,72 @@
  */
 interface ilContextTemplate
 {
-	/**
-	 * Are redirects supported?
-	 *
-	 * @return bool
-	 */
-	public static function supportsRedirects();
+    /**
+     * Are redirects supported?
+     *
+     * @return bool
+     */
+    public static function supportsRedirects();
 
-	/**
-	 * Based on user authentication?
-	 *
-	 * @return bool
-	 */
-	public static function hasUser();
+    /**
+     * Based on user authentication?
+     *
+     * @return bool
+     */
+    public static function hasUser();
 
-	/**
-	 * Uses HTTP aka browser
-	 *
-	 * @return bool
-	 */
-	public static function usesHTTP();
+    /**
+     * Uses HTTP aka browser
+     *
+     * @return bool
+     */
+    public static function usesHTTP();
 
-	/**
-	 * Has HTML output
-	 *
-	 * @return bool
-	 */
-	public static function hasHTML();
+    /**
+     * Has HTML output
+     *
+     * @return bool
+     */
+    public static function hasHTML();
 
-	/**
-	 * Uses template engine
-	 *
-	 * @return bool
-	 */
-	public static function usesTemplate();
+    /**
+     * Uses template engine
+     *
+     * @return bool
+     */
+    public static function usesTemplate();
 
-	/**
-	 * Init client
-	 *
-	 * @return bool
-	 */
-	public static function initClient();
+    /**
+     * Init client
+     *
+     * @return bool
+     */
+    public static function initClient();
 
-	/**
-	 * Try authentication
-	 *
-	 * @return bool
-	 */
-	public static function doAuthentication();
-	
-	
-	/**
-	 * Check if persistent sessions are supported
-	 * false for context cli 
-	 */
-	public static function supportsPersistentSessions();
+    /**
+     * Try authentication
+     *
+     * @return bool
+     */
+    public static function doAuthentication();
+    
+    
+    /**
+     * Check if persistent sessions are supported
+     * false for context cli
+     */
+    public static function supportsPersistentSessions();
 
-	/**
-	 * Check if push messages are supported, see #0018206
-	 * @return bool
-	 */
-	public static function supportsPushMessages();
+    /**
+     * Check if push messages are supported, see #0018206
+     * @return bool
+     */
+    public static function supportsPushMessages();
 
-	/**
-	 * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
-	 *
-	 * @return bool
-	 */
-	public static function isSessionMainContext();
-
-
+    /**
+     * Context that are not only temporary in a session (e.g. WAC is, Cron is not)
+     *
+     * @return bool
+     */
+    public static function isSessionMainContext();
 }

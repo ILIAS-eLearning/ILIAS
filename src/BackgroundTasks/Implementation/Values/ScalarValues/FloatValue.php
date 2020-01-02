@@ -4,7 +4,6 @@ namespace ILIAS\BackgroundTasks\Implementation\Values\ScalarValues;
 
 class FloatValue extends ScalarValue
 {
-
     public function setValue($float)
     {
         if (!is_float($float)) {

@@ -10,52 +10,54 @@
  * @version $Id: $
  * @ingroup ModulesBibliographic
  */
-class ilBibliographicExporter extends ilXmlExporter {
+class ilBibliographicExporter extends ilXmlExporter
+{
 
-	/**
-	 * @var ilBibliographicDataSet
-	 */
-	protected $ds;
-	/**
-	 * @var ilDB
-	 */
-	protected $db;
-
-
-	public function init() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$this->ds = new ilBibliographicDataSet();
-		$this->ds->setDSPrefix('ds');
-		$this->db = $ilDB;
-	}
+    /**
+     * @var ilBibliographicDataSet
+     */
+    protected $ds;
+    /**
+     * @var ilDB
+     */
+    protected $db;
 
 
-	/**
-	 * @param string $a_entity
-	 *
-	 * @return array
-	 */
-	public function getValidSchemaVersions($a_entity) {
-		return array(
-			'4.5.0' => array(
-				'namespace'    => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
-				'xsd_file" => "ilias_dcl_4_5.xsd',
-				'uses_dataset' => true,
-				'min'          => '4.5.0',
-				'max'          => '',
-			),
-		);
-	}
+    public function init()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $this->ds = new ilBibliographicDataSet();
+        $this->ds->setDSPrefix('ds');
+        $this->db = $ilDB;
+    }
 
 
-	public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) {
-		ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
-		$this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-		$this->ds->exportLibraryFile($a_id);
+    /**
+     * @param string $a_entity
+     *
+     * @return array
+     */
+    public function getValidSchemaVersions($a_entity)
+    {
+        return array(
+            '4.5.0' => array(
+                'namespace'    => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
+                'xsd_file" => "ilias_dcl_4_5.xsd',
+                'uses_dataset' => true,
+                'min'          => '4.5.0',
+                'max'          => '',
+            ),
+        );
+    }
 
-		return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
-	}
+
+    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    {
+        ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
+        $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
+        $this->ds->exportLibraryFile($a_id);
+
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
+    }
 }
-
-?>

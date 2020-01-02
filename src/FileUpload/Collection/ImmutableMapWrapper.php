@@ -14,44 +14,51 @@ namespace ILIAS\FileUpload\Collection;
  *
  * @Internal
  */
-final class ImmutableMapWrapper implements ImmutableStringMap {
+final class ImmutableMapWrapper implements ImmutableStringMap
+{
 
-	/**
-	 * @var StringMap
-	 */
-	private $map;
-
-
-	/**
-	 * ImmutableMapWrapper constructor.
-	 *
-	 * @param StringMap $map The mutable map which should be wrapped.
-	 *
-	 * @since 5.3
-	 */
-	public function __construct(StringMap $map) { $this->map = $map; }
+    /**
+     * @var StringMap
+     */
+    private $map;
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function get($key) {
-		return $this->map->get($key);
-	}
+    /**
+     * ImmutableMapWrapper constructor.
+     *
+     * @param StringMap $map The mutable map which should be wrapped.
+     *
+     * @since 5.3
+     */
+    public function __construct(StringMap $map)
+    {
+        $this->map = $map;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function toArray() {
-		return $this->map->toArray();
-	}
+    /**
+     * @inheritDoc
+     */
+    public function get($key)
+    {
+        return $this->map->get($key);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function has($key) {
-		return $this->map->has($key);
-	}
+    /**
+     * @inheritDoc
+     */
+    public function toArray()
+    {
+        return $this->map->toArray();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function has($key)
+    {
+        return $this->map->has($key);
+    }
 }
