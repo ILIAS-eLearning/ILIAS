@@ -56,22 +56,22 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
      */
     protected $post_message = '';
     /**
-     * @var null
+     * @var int
      */
-    protected $post_date = null;
+    protected $post_creation_timestamp = 0;
     /**
-     * @var null
+     * @var int
      */
-    protected $post_update = null;
+    protected $post_modification_timestamp = 0;
 
     /**
      * @var bool
      */
     protected $post_censored = false;
     /**
-     * @var null
+     * @var int
      */
-    protected $post_censored_date = null;
+    protected $post_censorship_timestamp = 0;
     /**
      * @var string
      */
@@ -159,12 +159,12 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         $this->post_id     = $row['pos_pk'];
         $this->post_title  = $row['pos_subject'];
         $this->post_message  = $row['pos_message'];
-        $this->post_date   = $row['pos_date'];
-        $this->post_update = $row['pos_update'];
+        $this->post_creation_timestamp   = (int) $row['pos_date'];
+        $this->post_modification_timestamp = (int) $row['pos_update'];
         $this->post_update_user_id = $row['update_user'];
 
         $this->post_censored         = $row['pos_cens'];
-        $this->post_censored_date    = $row['pos_cens_date'];
+        $this->post_censorship_timestamp    = (int) $row['pos_cens_date'];
         $this->post_censored_comment = $row['pos_cens_com'];
 
         $this->pos_usr_alias       = $row['pos_usr_alias'];
@@ -303,19 +303,19 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return string frm_posts.pos_date
+     * @inheritDoc
      */
-    public function getPostDate()
+    public function getPostCreationTimestamp() : int
     {
-        return $this->post_date;
+        return $this->post_creation_timestamp;
     }
 
     /**
-     * @return string frm_posts.pos_update
+     * @inheritDoc
      */
-    public function getPostUpdate()
+    public function getPostModificationTimestamp() : int
     {
-        return $this->post_update;
+        return $this->post_modification_timestamp;
     }
 
     /**
@@ -327,11 +327,11 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return string frm_posts.pos_cens_date
+     * @inheritDoc
      */
-    public function getPostCensoredDate()
+    public function getPostCensorshipTimestamp() : int
     {
-        return $this->post_censored_date;
+        return $this->post_censorship_timestamp;
     }
 
     /**

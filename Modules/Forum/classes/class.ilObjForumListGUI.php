@@ -157,7 +157,7 @@ class ilObjForumListGUI extends ilObjectListGUI
             );
 
             $lpCont .= $authorinfo->getLinkedAuthorName();
-            $lpCont .= ', ' . ilDatePresentation::formatDate(new ilDateTime($last_post['pos_date'], IL_CAL_DATETIME));
+            $lpCont .= ', ' . ilDatePresentation::formatDate(new ilDateTime($last_post['pos_date'], IL_CAL_UNIX));
 
             $props[] = array(
                 'alert'	=> false,

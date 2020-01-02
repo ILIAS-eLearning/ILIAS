@@ -894,7 +894,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                         $spanClass = 'moderator_small';
                     }
 
-                    $draft->setPostUpdate($draft->getPostUpdate());
+                    $draft->setPostModificationTimestamp($draft->getPostModificationTimestamp());
 
                     $this->ctrl->setParameter($this, 'backurl', $backurl);
                     $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
@@ -915,7 +915,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                     $tpl->setVariable(
                         'POST_UPDATE_TXT',
-                        $this->lng->txt('edited_on') . ': ' . $frm->convertDate($draft->getPostUpdate()) . ' - ' . strtolower($this->lng->txt('by'))
+                        $this->lng->txt('edited_on') . ': ' . $frm->formatTimestamp($draft->getPostModificationTimestamp()) . ' - ' . strtolower($this->lng->txt('by'))
                     );
                     $tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
                     if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized() && !$authorinfo->hasSuffix()) {
@@ -928,7 +928,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                 $draft->setPostMessage($frm->prepareText($draft->getPostMessage()));
 
                 $tpl->setVariable('SUBJECT', $draft->getPostSubject());
-                $tpl->setVariable('POST_DATE', $frm->convertDate($draft->getPostDate()));
+                $tpl->setVariable('POST_DATE', $frm->formatTimestamp($draft->getPostCreationTimestamp()));
 
                 if (!$node->isCensored() || ($this->objCurrentPost->getId() == $node->getId() && $action === 'censor')) {
                     $spanClass = "";
@@ -1105,7 +1105,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
         }
 
         if ($node->getUpdateUserId() > 0) {
-            $node->setChangeDate($node->getChangeDate());
+            $node->setModificationTimestamp($node->getModificationTimestamp());
 
             $this->ctrl->setParameter($this, 'backurl', $backurl);
             $this->ctrl->setParameter($this, 'thr_pk', $node->getThreadId());
@@ -1127,7 +1127,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
             $tpl->setVariable(
                 'POST_UPDATE_TXT',
-                $this->lng->txt('edited_on') . ': ' . $frm->convertDate($node->getChangeDate()) . ' - ' . strtolower($this->lng->txt('by'))
+                $this->lng->txt('edited_on') . ': ' . $frm->formatTimestamp($node->getModificationTimestamp()) . ' - ' . strtolower($this->lng->txt('by'))
             );
             $tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized() && !$authorinfo->hasSuffix()) {
@@ -1157,7 +1157,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             );
         }
 
-        $tpl->setVariable('POST_DATE', $frm->convertDate($node->getCreateDate()));
+        $tpl->setVariable('POST_DATE', $frm->formatTimestamp($node->getCreationTimestamp()));
 
         if (!$node->isCensored() || ($this->objCurrentPost->getId() == $node->getId() && $action === 'censor')) {
             $spanClass = "";
@@ -2556,7 +2556,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
                     0
                 ));
                 $this->objCurrentPost->setNotification((int) $oReplyEditForm->getInput('notify'));
-                $this->objCurrentPost->setChangeDate(date('Y-m-d H:i:s'));
+                $this->objCurrentPost->setModificationTimestamp(time());
                 $this->objCurrentPost->setUpdateUserId($this->user->getId());
 
                 // edit: update post
@@ -4214,7 +4214,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
             return;
         }
 
-        if (\ilForumTopic::_lookupDate($sourceThreadId) < ilForumTopic::_lookupDate($targetThreadId)) {
+        if (\ilForumTopic::lookupCreationTimestamp($sourceThreadId) < ilForumTopic::lookupCreationTimestamp($targetThreadId)) {
             \ilUtil::sendInfo($this->lng->txt('switch_threads_for_merge'));
         }
 
@@ -5289,7 +5289,7 @@ class ilObjForumGUI extends \ilObjectGUI implements \ilDesktopItemHandling
 
                 $history_date = ilDatePresentation::formatDate(new ilDateTime(
                     $history_instance->getDraftDate(),
-                    IL_CAL_DATETIME
+                    IL_CAL_UNIX
                 ));
                 $this->ctrl->setParameter($this, 'history_id', $history_instance->getHistoryId());
                 $header = $history_date . ' - ' . $history_instance->getPostSubject();

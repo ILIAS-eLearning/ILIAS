@@ -23,9 +23,9 @@ class ilForumPost
     
     private $message = '';
     
-    private $createdate = '0000-00-00 00:00:00';
+    private $creation_timestamp = 0;
     
-    private $changedate = '0000-00-00 00:00:00';
+    private $modification_timestamp = 0;
     
     private $user_id_update = 0;
     
@@ -33,7 +33,7 @@ class ilForumPost
     
     private $censorship_comment = '';
     
-    private $censored_date = '0000-00-00 00:00:00';
+    private $censorship_timestamp = 0;
     
     private $notification = 0;
     
@@ -79,7 +79,7 @@ class ilForumPost
     
     private $pos_author_id = 0;
     
-    private $post_activation_date = null;
+    private $post_activation_timestamp = 0;
     
     /**
      * ilForumPost constructor.
@@ -110,27 +110,27 @@ class ilForumPost
     {
         if ($this->forum_id && $this->thread_id) {
             $this->id = $this->db->nextId('frm_posts');
-            
-            $this->db->insert('frm_posts', array(
-                'pos_pk'		=> array('integer', $this->id),
-                'pos_top_fk'	=> array('integer', $this->forum_id),
-                'pos_thr_fk'	=> array('integer', $this->thread_id),
-                'pos_display_user_id'	=> array('integer', $this->display_user_id),
-                'pos_usr_alias'	=> array('text', $this->user_alias),
-                'pos_subject'	=> array('text', $this->subject),
-                'pos_message'	=> array('clob', $this->message),
-                'pos_date'		=> array('timestamp', $this->createdate),
-                'pos_update'	=> array('timestamp', $this->createdate),
-                'update_user'	=> array('integer', $this->user_id_update),
-                'pos_cens'		=> array('integer', $this->censored),
-                'notify'		=> array('integer', (int) $this->notification),
-                'import_name'	=> array('text', (string) $this->import_name),
-                'pos_status'	=> array('integer', (int) $this->status),
-                'pos_author_id' => array('integer', (int) $this->pos_author_id),
-                'is_author_moderator' => array('integer', $this->is_author_moderator),
-                'pos_activation_date' => array('timestamp', $this->createdate)
-            ));
-            
+
+            $this->db->insert('frm_posts', [
+                'pos_pk' => ['integer', $this->id],
+                'pos_top_fk' => ['integer', $this->forum_id],
+                'pos_thr_fk' => ['integer', $this->thread_id],
+                'pos_display_user_id' => ['integer', $this->display_user_id],
+                'pos_usr_alias' => ['text', $this->user_alias],
+                'pos_subject' => ['text', $this->subject],
+                'pos_message' => ['clob', $this->message],
+                'pos_date' => ['integer', $this->creation_timestamp],
+                'pos_update' => ['integer', $this->creation_timestamp],
+                'update_user' => ['integer', $this->user_id_update],
+                'pos_cens' => ['integer', $this->censored],
+                'notify' => ['integer', (int) $this->notification],
+                'import_name' => ['text', (string) $this->import_name],
+                'pos_status' => ['integer', (int) $this->status],
+                'pos_author_id' => ['integer', (int) $this->pos_author_id],
+                'is_author_moderator' => ['integer', $this->is_author_moderator],
+                'pos_activation_date' => ['integer', $this->creation_timestamp]
+            ]);
+
             return true;
         }
         
@@ -142,22 +142,22 @@ class ilForumPost
         if ($this->id) {
             $this->db->update(
                 'frm_posts',
-                array(
-                    'pos_top_fk'	=> array('integer', $this->forum_id),
-                    'pos_thr_fk'	=> array('integer', $this->thread_id),
-                    'pos_subject'	=> array('text', $this->subject),
-                    'pos_message'	=> array('clob', $this->message),
-                    'pos_update'	=> array('timestamp', $this->changedate),
-                    'update_user'	=> array('integer', $this->user_id_update),
-                    'pos_cens'		=> array('integer', $this->censored),
-                    'pos_cens_date' => array('timestamp', $this->censored_date),
-                    'pos_cens_com'	=> array('text', $this->censorship_comment),
-                    'notify'		=> array('integer', (int) $this->notification),
-                    'pos_status'	=> array('integer', (int) $this->status)
-                ),
-                array(
-                    'pos_pk'		=> array('integer', (int) $this->id)
-                )
+                [
+                    'pos_top_fk' => ['integer', $this->forum_id],
+                    'pos_thr_fk' => ['integer', $this->thread_id],
+                    'pos_subject' => ['text', $this->subject],
+                    'pos_message' => ['clob', $this->message],
+                    'pos_update' => ['integer', $this->modification_timestamp],
+                    'update_user' => ['integer', $this->user_id_update],
+                    'pos_cens' => ['integer', $this->censored],
+                    'pos_cens_date' => ['integer', $this->censorship_timestamp],
+                    'pos_cens_com' => ['text', $this->censorship_comment],
+                    'notify' => ['integer', (int) $this->notification],
+                    'pos_status' => ['integer', (int) $this->status]
+                ],
+                [
+                    'pos_pk' => ['integer', (int) $this->id]
+                ]
             );
             
             if ($this->objThread->getFirstPostId() == $this->id) {
@@ -184,32 +184,32 @@ class ilForumPost
                 array($this->id)
             );
             $row = $this->db->fetchObject($res);
-            
+
             if (is_object($row)) {
-                $this->id                 = $row->pos_pk;
-                $this->forum_id           = $row->pos_top_fk;
-                $this->thread_id          = $row->pos_thr_fk;
-                $this->display_user_id    = $row->pos_display_user_id;
-                $this->user_alias         = $row->pos_usr_alias;
-                $this->subject            = $row->pos_subject;
-                $this->message            = $row->pos_message;
-                $this->createdate         = $row->pos_date;
-                $this->changedate         = $row->pos_update;
-                $this->user_id_update     = $row->update_user;
-                $this->censored           = $row->pos_cens;
-                $this->censored_date      = $row->pos_cens_date;
+                $this->id = $row->pos_pk;
+                $this->forum_id = $row->pos_top_fk;
+                $this->thread_id = $row->pos_thr_fk;
+                $this->display_user_id = $row->pos_display_user_id;
+                $this->user_alias = $row->pos_usr_alias;
+                $this->subject = $row->pos_subject;
+                $this->message = $row->pos_message;
+                $this->creation_timestamp = (int) $row->pos_date;
+                $this->modification_timestamp = (int) $row->pos_update;
+                $this->user_id_update = $row->update_user;
+                $this->censored = $row->pos_cens;
+                $this->censorship_timestamp = (int) $row->pos_cens_date;
                 $this->censorship_comment = $row->pos_cens_com;
-                $this->notification       = $row->notify;
-                $this->import_name        = $row->import_name;
-                $this->status             = $row->pos_status;
-                $this->tree_id            = $row->fpt_pk;
-                $this->parent_id          = $row->parent_pos;
-                $this->lft                = $row->lft;
-                $this->rgt                = $row->rgt;
-                $this->depth              = $row->depth;
-                $this->pos_author_id      = $row->pos_author_id;
+                $this->notification = $row->notify;
+                $this->import_name = $row->import_name;
+                $this->status = $row->pos_status;
+                $this->tree_id = $row->fpt_pk;
+                $this->parent_id = $row->parent_pos;
+                $this->lft = $row->lft;
+                $this->rgt = $row->rgt;
+                $this->depth = $row->depth;
+                $this->pos_author_id = $row->pos_author_id;
                 $this->is_author_moderator = $row->is_author_moderator;
-                $this->post_activation_date = $row->pos_activation_date;
+                $this->post_activation_timestamp = (int) $row->pos_activation_date;
                 $this->getUserData();
                 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
@@ -302,16 +302,18 @@ class ilForumPost
     public function activatePost()
     {
         if ($this->id) {
-            $now = date("Y-m-d H:i:s");
+            $current_timestamp = time();
             $this->db->update(
                 'frm_posts',
-                array('pos_status'	=>	array('integer', 1),
-                      'pos_activation_date' => array('timestamp', $now)),
-                array('pos_pk'		=>	array('integer', $this->id))
+                [
+                    'pos_status' => ['integer', 1],
+                    'pos_activation_date' => ['integer', $current_timestamp]
+                ],
+                ['pos_pk' => ['integer', $this->id]]
             );
 
             $this->activateParentPosts();
-            $this->setPostActivationDate($now);
+            $this->setPostActivationTimestamp($current_timestamp);
             $this->setStatus(1);
             return true;
         }
@@ -329,17 +331,18 @@ class ilForumPost
                    . "WHERE treea.pos_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
-            $now = date("Y-m-d H:i:s");
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    [
+                        'pos_status' => ['integer', 1],
+                        'pos_activation_date' => ['integer', time()]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
             
@@ -359,17 +362,18 @@ class ilForumPost
                    . "WHERE lft < %s AND rgt > %s AND thr_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer', 'integer', 'integer'),
-                array($this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer'],
+                [$this->lft, $this->rgt, $this->thread_id]
             );
-            
-            $now = date("Y-m-d H:i:s");
+
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status'	=>	array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)),
-                    array('pos_pk'		=>	array('integer', $row['pos_pk']))
+                    [
+                        'pos_status' => ['integer', 1],
+                        'pos_activation_date' => ['integer', time()]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
             
@@ -487,21 +491,21 @@ class ilForumPost
     {
         return $this->message;
     }
-    public function setCreateDate($a_createdate)
+    public function setCreationTimestamp(int $timestamp)
     {
-        $this->createdate = $a_createdate;
+        $this->creation_timestamp = $timestamp;
     }
-    public function getCreateDate()
+    public function getCreationTimestamp() : int
     {
-        return $this->createdate;
+        return $this->creation_timestamp;
     }
-    public function setChangeDate($a_changedate)
+    public function setModificationTimestamp(int $timestamp)
     {
-        $this->changedate = $a_changedate;
+        $this->modification_timestamp = $timestamp;
     }
-    public function getChangeDate()
+    public function getModificationTimestamp() : int
     {
-        return $this->changedate;
+        return $this->modification_timestamp;
     }
     public function setUpdateUserId($a_user_id_update)
     {
@@ -643,35 +647,35 @@ class ilForumPost
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getCensoredDate()
+    public function getCensorshipTimestamp() : int
     {
-        return $this->censored_date;
+        return $this->censorship_timestamp;
     }
     
     /**
-     * @return string
+     * @return int
      */
-    public function getPostActivationDate()
+    public function getPostActivationTimestamp() : int
     {
-        return $this->post_activation_date;
+        return $this->post_activation_timestamp;
     }
     
     /**
-     * @param string $post_activation_date
+     * @param int $timestamp
      */
-    public function setPostActivationDate($post_activation_date)
+    public function setPostActivationTimestamp(int $timestamp)
     {
-        $this->post_activation_date = $post_activation_date;
+        $this->post_activation_timestamp = $timestamp;
     }
 
     /**
-     * @param string $censored_date
+     * @param int $timestamp
      */
-    public function setCensoredDate($censored_date)
+    public function setCensorshipTimestamp(int $timestamp)
     {
-        $this->censored_date = $censored_date;
+        $this->censorship_timestamp = $timestamp;
     }
     
     /**
@@ -681,14 +685,14 @@ class ilForumPost
     {
         $this->setUserAlias($row['pos_usr_alias']);
         $this->setSubject($row['pos_subject']);
-        $this->setCreateDate($row['pos_date']);
+        $this->setCreationTimestamp((int) $row['pos_date']);
         $this->setMessage($row['pos_message']);
         $this->setForumId($row['pos_top_fk']);
         $this->setThreadId($row['pos_thr_fk']);
-        $this->setChangeDate($row['pos_update']);
+        $this->setModificationTimestamp((int) $row['pos_update']);
         $this->setUpdateUserId($row['update_user']);
         $this->setCensorship($row['pos_cens']);
-        $this->setCensoredDate($row['pos_cens_date']);
+        $this->setCensorshipTimestamp((int) $row['pos_cens_date']);
         $this->setCensorshipComment($row['pos_cens_com']);
         $this->setNotification($row['notify']);
         $this->setImportName($row['import_name']);
@@ -702,6 +706,7 @@ class ilForumPost
         $this->setDisplayUserId($row['pos_display_user_id']);
         $this->setPosAuthorId($row['pos_author_id']);
         $this->setIsAuthorModerator($row['is_author_moderator']);
+        $this->setPostActivationTimestamp((int) $row['pos_activation_date']);
         $this->buildUserRelatedData($row);
     }
     

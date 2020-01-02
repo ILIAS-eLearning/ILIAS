@@ -193,7 +193,7 @@ class ilForumExportGUI
                 $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('registered_since'));
                 $tpl->setVariable(
                     'REGISTERED_SINCE',
-                    $this->frm->convertDate($authorinfo->getAuthor()->getCreateDate())
+                    $this->frm->formatTimestamp(strtotime($authorinfo->getAuthor()->getCreateDate()))
                 );
             }
 
@@ -233,7 +233,7 @@ class ilForumExportGUI
                 $spanClass = 'moderator_small';
             }
 
-            $post->setChangeDate($post->getChangeDate());
+            $post->setModificationTimestamp($post->getModificationTimestamp());
 
             $authorinfo = new ilForumAuthorInformation(
                 $post->getPosAuthorId(),
@@ -244,7 +244,7 @@ class ilForumExportGUI
 
             $tpl->setVariable(
                 'POST_UPDATE_TXT',
-                $this->lng->txt('edited_on') . ': ' . $this->frm->convertDate($post->getChangeDate()) . ' - ' . strtolower($this->lng->txt('by'))
+                $this->lng->txt('edited_on') . ': ' . $this->frm->formatTimestamp($post->getModificationTimestamp()) . ' - ' . strtolower($this->lng->txt('by'))
             );
             $tpl->setVariable('UPDATE_AUTHOR', $authorinfo->getLinkedAuthorShortName());
             if ($authorinfo->getAuthorName(true) && !$this->objProperties->isAnonymized()) {
@@ -254,7 +254,7 @@ class ilForumExportGUI
 
         // prepare post
         $post->setMessage($this->frm->prepareText($post->getMessage()));
-        $tpl->setVariable('POST_DATE', $this->frm->convertDate($post->getCreateDate()));
+        $tpl->setVariable('POST_DATE', $this->frm->formatTimestamp($post->getCreationTimestamp()));
         $tpl->setVariable('SUBJECT', $post->getSubject());
 
         if (!$post->isCensored()) {

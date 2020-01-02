@@ -157,8 +157,13 @@ class ilForumMailNotification extends ilMailNotification
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $customText = sprintf($this->getLanguageText('post_updated_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
-                    $date = $this->provider->getPostUpdate();
-                    $this->sendMailWithAttachments('frm_noti_subject_upt_post', (int) $rcp, (string) $customText, 'content_post_updated', $date);
+                    $this->sendMailWithAttachments(
+                        'frm_noti_subject_upt_post',
+                        (int) $rcp,
+                        (string) $customText,
+                        'content_post_updated',
+                        $this->provider->getPostModificationTimestamp()
+                    );
                 }
                 break;
 
@@ -166,8 +171,13 @@ class ilForumMailNotification extends ilMailNotification
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $customText = sprintf($this->getLanguageText('post_censored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()), $this->provider->getForumTitle());
-                    $date = $this->provider->getPostCensoredDate();
-                    $this->sendMailWithAttachments('frm_noti_subject_cens_post', (int) $rcp, (string) $customText, 'content_censored_post', $date);
+                    $this->sendMailWithAttachments(
+                        'frm_noti_subject_cens_post',
+                        (int) $rcp,
+                        (string) $customText,
+                        'content_censored_post',
+                        $this->provider->getPostCensorshipTimestamp()
+                    );
                 }
                 break;
 
@@ -175,8 +185,13 @@ class ilForumMailNotification extends ilMailNotification
                 foreach ($this->getRecipients() as $rcp) {
                     $this->initLanguage($rcp);
                     $customText = sprintf($this->getLanguageText('post_uncensored_by'), $this->provider->getPostUpdateUserName($this->getLanguage()));
-                    $date = $this->provider->getPostCensoredDate();
-                    $this->sendMailWithAttachments('frm_noti_subject_uncens_post', (int) $rcp, (string) $customText, 'forums_the_post', $date);
+                    $this->sendMailWithAttachments(
+                        'frm_noti_subject_uncens_post',
+                        (int) $rcp,
+                        (string) $customText,
+                        'forums_the_post',
+                        $this->provider->getPostCensorshipTimestamp()
+                    );
                 }
                 break;
 
@@ -297,16 +312,16 @@ class ilForumMailNotification extends ilMailNotification
      * @param int $userId - id of the user recipient of the mail
      * @param string $customText - mail text after salutation
      * @param string $action - Language id of action
-     * @param string|null $date - date to be added in mail
+     * @param int $timestamp - timestamp to be added in mail
      */
     private function sendMailWithAttachments(
         string $subjectLanguageId,
         int $userId,
         string $customText,
         string $action,
-        string $date = ''
+        int $timestamp = 0
     ) {
-        $this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
+        $this->createMail($subjectLanguageId, $userId, $customText, $action, $timestamp);
         $this->appendAttachments();
         $this->addLinkToMail();
         $this->sendMail(array($userId));
@@ -319,16 +334,16 @@ class ilForumMailNotification extends ilMailNotification
      * @param int $userId - id of the user recipient of the mail
      * @param string $customText - mail text after salutation
      * @param string $action - Language id of action
-     * @param string|null $date - date to be added in mail
+     * @param int $timestamp - timestamp to be added in mail
      */
     private function sendMailWithoutAttachments(
         string $subjectLanguageId,
         int $userId,
         string $customText,
         string $action,
-        string $date = ''
+        int $timestamp = 0
     ) {
-        $this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
+        $this->createMail($subjectLanguageId, $userId, $customText, $action, $timestamp);
         $this->addLinkToMail();
         $this->sendMail(array($userId));
     }
@@ -340,16 +355,16 @@ class ilForumMailNotification extends ilMailNotification
      * @param int $userId - id of the user recipient of the mail
      * @param string $customText - mail text after salutation
      * @param string $action - Language id of action
-     * @param string|null $date - date to be added in mail
+     * @param int $timestamp - timestamp to be added in mail
      */
     private function createMail(
         string $subject,
         int $userId,
         string $customText,
         string $action,
-        string $date
+        int $timestamp
     ) {
-        $date = $this->createMailDate($date);
+        $date = $this->createMailDate($timestamp);
 
         $this->addMailSubject($subject);
 
@@ -400,18 +415,18 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @internal
      *
-     * @param string $date
+     * @param int $timestamp
      * @return string
      */
-    private function createMailDate(string $date) : string
+    private function createMailDate(int $timestamp) : string
     {
         ilDatePresentation::setLanguage($this->language);
 
-        if ($date === '') {
-            $date = $this->provider->getPostDate();
+        if (0 === $timestamp) {
+            $timestamp = $this->provider->getPostCreationTimestamp();
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
+        $date = ilDatePresentation::formatDate(new ilDateTime($timestamp, IL_CAL_UNIX));
 
         return $date;
     }

@@ -53,28 +53,35 @@ class ilForumExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions($a_entity)
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "4.1.0" => [
                 "namespace"    => "http://www.ilias.de/Modules/Forum/frm/4_1",
                 "xsd_file"     => "ilias_frm_4_1.xsd",
                 "uses_dataset" => false,
                 "min"          => "4.1.0",
                 "max"          => "4.4.999"
-            ),
-            "4.5.0" => array(
+            ],
+            "4.5.0" => [
                 "namespace"    => "http://www.ilias.de/Modules/Forum/frm/4_5",
                 "xsd_file"     => "ilias_frm_4_5.xsd",
                 "uses_dataset" => false,
                 "min"          => "4.5.0",
                 "max"          => "5.0.999"
-            ),
-            "5.1.0" => array(
+            ],
+            "5.1.0" => [
                 "namespace"    => "http://www.ilias.de/Modules/Forum/frm/5_1",
                 "xsd_file"     => "ilias_frm_5_1.xsd",
                 "uses_dataset" => false,
                 "min"          => "5.1.0",
                 "max"          => ""
-            )
-        );
+            ],
+            "6.0" => [
+                "namespace"    => "http://www.ilias.de/Modules/Forum/frm/6",
+                "xsd_file"     => "ilias_frm_6.xsd",
+                "uses_dataset" => false,
+                "min"          => "6.0",
+                "max"          => ""
+            ]
+        ];
     }
 }

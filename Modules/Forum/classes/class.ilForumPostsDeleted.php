@@ -12,9 +12,9 @@ class ilForumPostsDeleted
      */
     protected $deleted_id = 0;
     /**
-     * @var null
+     * @var int
      */
-    protected $deleted_date = null;
+    protected $deletion_timestamp = 0;
     /**
      * @var string
      */
@@ -39,9 +39,9 @@ class ilForumPostsDeleted
     protected $post_message = '';
 
     /**
-     * @var string
+     * @var int
      */
-    protected $post_date = '';
+    protected $post_creation_timestamp = 0;
 
     /**
      * @var int
@@ -95,7 +95,7 @@ class ilForumPostsDeleted
                 $this->setDeletedBy($this->user->getLogin());
             }
             
-            $this->setDeletedDate(date('Y-m-d H:i:s'));
+            $this->setDeletionTimestamp(time());
             $this->setForumTitle($provider->getForumTitle());
             $this->setThreadTitle($provider->getThreadTitle());
             $this->setPostTitle($provider->getPostTitle());
@@ -106,7 +106,7 @@ class ilForumPostsDeleted
                 $this->setPostMessage($provider->getPostMessage());
             }
             
-            $this->setPostDate($provider->getPostDate());
+            $this->setPostCreationTimestamp($provider->getPostCreationTimestamp());
             $this->setObjId($provider->getObjId());
             $this->setRefId($provider->getRefId());
             $this->setThreadId($provider->getThreadId());
@@ -123,24 +123,23 @@ class ilForumPostsDeleted
     {
         $next_id = $this->db->nextId('frm_posts_deleted');
 
-        $this->db->insert('frm_posts_deleted', array(
-            'deleted_id'   => array('integer', $next_id),
-            'deleted_date' => array('timestamp', $this->getDeletedDate()),
-            'deleted_by'   => array('text', $this->getDeletedBy()),
-            'forum_title'  => array('text', $this->getForumTitle()),
-            'thread_title' => array('text', $this->getThreadTitle()),
-            'post_title'   => array('text', $this->getPostTitle()),
-            'post_message' => array('text', $this->getPostMessage()),
-
-            'post_date'    => array('timestamp', $this->getPostDate()),
-            'obj_id'       => array('integer', $this->getObjId()),
-            'ref_id'       => array('integer', $this->getRefId()),
-            'thread_id'    => array('integer', $this->getThreadId()),
-            'forum_id'	   => array('integer', $this->getForumId()),
-            'pos_display_user_id' => array('integer', $this->getPosDisplayUserId()),
-            'pos_usr_alias'		=> array('text', $this->getPosUserAlias()),
-            'is_thread_deleted'	=> array('integer', $this->isThreadDeleted())
-        ));
+        $this->db->insert('frm_posts_deleted', [
+            'deleted_id' => ['integer', $next_id],
+            'deleted_date' => ['integer', $this->getDeletionTimestamp()],
+            'deleted_by' => ['text', $this->getDeletedBy()],
+            'forum_title' => ['text', $this->getForumTitle()],
+            'thread_title' => ['text', $this->getThreadTitle()],
+            'post_title' => ['text', $this->getPostTitle()],
+            'post_message' => ['text', $this->getPostMessage()],
+            'post_date' => ['integer', $this->getPostCreationTimestamp()],
+            'obj_id' => ['integer', $this->getObjId()],
+            'ref_id' => ['integer', $this->getRefId()],
+            'thread_id' => ['integer', $this->getThreadId()],
+            'forum_id' => ['integer', $this->getForumId()],
+            'pos_display_user_id' => ['integer', $this->getPosDisplayUserId()],
+            'pos_usr_alias' => ['text', $this->getPosUserAlias()],
+            'is_thread_deleted' => ['integer', $this->isThreadDeleted()]
+        ]);
     }
 
     /**
@@ -170,19 +169,19 @@ class ilForumPostsDeleted
     }
 
     /**
-     * @return null
+     * @return int
      */
-    public function getDeletedDate()
+    public function getDeletionTimestamp() : int
     {
-        return $this->deleted_date;
+        return $this->deletion_timestamp;
     }
 
     /**
-     * @param null $deleted_date
+     * @param int $timestamp
      */
-    public function setDeletedDate($deleted_date)
+    public function setDeletionTimestamp(int $timestamp)
     {
-        $this->deleted_date = $deleted_date;
+        $this->deletion_timestamp = $timestamp;
     }
 
     /**
@@ -266,19 +265,19 @@ class ilForumPostsDeleted
     }
 
     /**
-     * @return string
+     * @return int
      */
-    public function getPostDate()
+    public function getPostCreationTimestamp(): int
     {
-        return $this->post_date;
+        return $this->post_creation_timestamp;
     }
 
     /**
-     * @param string $post_date
+     * @param int $timestamp
      */
-    public function setPostDate($post_date)
+    public function setPostCreationTimestamp(int $timestamp)
     {
-        $this->post_date = $post_date;
+        $this->post_creation_timestamp = $timestamp;
     }
 
     /**

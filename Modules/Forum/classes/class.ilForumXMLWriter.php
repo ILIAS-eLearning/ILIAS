@@ -89,8 +89,8 @@ class ilForumXMLWriter extends ilXmlWriter
         $this->xmlElement("ToggleNotification", null, (int) $row->user_toggle_noti);
         $this->xmlElement("LastPost", null, $row->top_last_post);
         $this->xmlElement("Moderator", null, (int) $row->top_mods);
-        $this->xmlElement("CreateDate", null, $row->top_date);
-        $this->xmlElement("UpdateDate", null, $row->top_update);
+        $this->xmlElement("CreateDateTs", null, (int) $row->top_date);
+        $this->xmlElement("UpdateDateTs", null, (int) $row->top_update);
         $this->xmlElement("FileUpload", null, (int) $row->file_upload_allowed);
         $this->xmlElement("UpdateUserId", null, $row->update_user);
         $this->xmlElement("UserId", null, (int) $row->top_usr_id);
@@ -112,8 +112,8 @@ class ilForumXMLWriter extends ilXmlWriter
             $this->xmlElement("AuthorId", null, (int) $row->thr_author_id);
             $this->xmlElement("Alias", null, $row->thr_usr_alias);
             $this->xmlElement("LastPost", null, $row->thr_last_post);
-            $this->xmlElement("CreateDate", null, $row->thr_date);
-            $this->xmlElement("UpdateDate", null, $row->thr_date);
+            $this->xmlElement("CreateDateTs", null, (int) $row->thr_date);
+            $this->xmlElement("UpdateDateTs", null, (int) $row->thr_update);
             $this->xmlElement("ImportName", null, $row->import_name);
             $this->xmlElement("Sticky", null, (int) $row->is_sticky);
             $this->xmlElement("Closed", null, (int) $row->is_closed);
@@ -146,8 +146,8 @@ class ilForumXMLWriter extends ilXmlWriter
                 $this->xmlElement("AuthorId", null, (int) $rowPost->pos_author_id);
                 $this->xmlElement("Alias", null, $rowPost->pos_usr_alias);
                 $this->xmlElement("Subject", null, $rowPost->pos_subject);
-                $this->xmlElement("CreateDate", null, $rowPost->pos_date);
-                $this->xmlElement("UpdateDate", null, $rowPost->pos_update);
+                $this->xmlElement("CreateDateTs", null, (int) $rowPost->pos_date);
+                $this->xmlElement("UpdateDateTs", null, (int) $rowPost->pos_update);
                 $this->xmlElement("UpdateUserId", null, (int) $rowPost->update_user);
                 $this->xmlElement("Censorship", null, (int) $rowPost->pos_cens);
                 $this->xmlElement("CensorshipMessage", null, $rowPost->pos_cens_com);

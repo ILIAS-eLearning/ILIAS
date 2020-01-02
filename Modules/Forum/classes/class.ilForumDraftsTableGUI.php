@@ -55,7 +55,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('VAL_UNLINKED_SUBJECT', $draft['subject']);
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_DATETIME));
+        $date = ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_UNIX));
         $this->tpl->setVariable('VAL_DATE', $date);
     }
 }

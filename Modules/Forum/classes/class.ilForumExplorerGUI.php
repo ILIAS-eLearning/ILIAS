@@ -131,7 +131,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
                 'pos_author_id' => $this->root_node->getPosAuthorId(),
                 'pos_display_user_id' => $this->root_node->getDisplayUserId(),
                 'pos_usr_alias' => $this->root_node->getUserAlias(),
-                'pos_date' => $this->root_node->getCreateDate(),
+                'pos_date' => $this->root_node->getCreationTimestamp(),
                 'import_name' => $this->root_node->getImportName(),
                 'post_read' => $this->root_node->isPostRead()
             ]
@@ -167,7 +167,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
             $node = $factory->simple($this->getNodeContent($record), $icon);
         } else {
             $authorInfo = $this->getAuthorInformationByNode($record);
-            $creationDate = ilDatePresentation::formatDate(new ilDateTime($record['pos_date'], IL_CAL_DATETIME));
+            $creationDate = ilDatePresentation::formatDate(new ilDateTime($record['pos_date'], IL_CAL_UNIX));
             $bylineString = $authorInfo->getAuthorShortName() . ', ' . $creationDate;
 
             $node = $factory->bylined($this->getNodeContent($record), $bylineString, $icon);

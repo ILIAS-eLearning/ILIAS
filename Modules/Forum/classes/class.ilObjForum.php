@@ -360,8 +360,8 @@ class ilObjForum extends ilObject
             ),
             array(
                 'access_last'   => array('integer', time()),
-                'access_old'    => array('integer', isset($data['access_old']) ? $data['access_old'] : 0),
-                'access_old_ts' => array('timestamp', $data['access_old_ts'])
+                'access_old'    => array('integer', isset($data['access_old']) ? (int) $data['access_old'] : 0),
+                'access_old_ts' => array('integer', (int) $data['access_old_ts'])
             )
         );
 
@@ -393,7 +393,7 @@ class ilObjForum extends ilObject
         while ($rec = $ilDB->fetchAssoc($set)) {
             $ilDB->manipulate(
                 "UPDATE frm_thread_access SET " .
-                    " access_old_ts = " . $ilDB->quote(date('Y-m-d H:i:s', $rec["access_old"]), "timestamp") .
+                    " access_old_ts = " . $ilDB->quote($rec["access_old"], "integer") .
                     " WHERE usr_id = " . $ilDB->quote($rec["usr_id"], "integer") .
                     " AND obj_id = " . $ilDB->quote($rec["obj_id"], "integer") .
                     " AND thread_id = " . $ilDB->quote($rec["thread_id"], "integer")
@@ -493,14 +493,14 @@ class ilObjForum extends ilObject
 					top_update = %s,
 					update_user = %s
 				WHERE top_frm_fk =%s',
-                array('text', 'text', 'timestamp', 'integer', 'integer'),
-                array(
+                ['text', 'text', 'integer', 'integer', 'integer'],
+                [
                     $this->getTitle(),
                     $this->getDescription(),
-                    date("Y-m-d H:i:s"),
+                    time(),
                     (int) $a_update_user_id,
                     (int) $this->getId()
-                )
+                ]
             );
 
             return true;
@@ -525,20 +525,20 @@ class ilObjForum extends ilObject
         $this->Forum->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($this->getId()));
         $topData = $this->Forum->getOneTopic();
 
-        $this->db->update('frm_data', array(
-            'top_name'        => array('text', $topData['top_name']),
-            'top_description' => array('text', $topData['top_description']),
-            'top_num_posts'   => array('integer', $topData['top_num_posts']),
-            'top_num_threads' => array('integer', $topData['top_num_threads']),
-            'top_last_post'   => array('text', $topData['top_last_post']),
-            'top_date'        => array('timestamp', $topData['top_date']),
-            'visits'          => array('integer', $topData['visits']),
-            'top_update'      => array('timestamp', $topData['top_update']),
-            'update_user'     => array('integer', $topData['update_user']),
-            'top_usr_id'      => array('integer', $topData['top_usr_id'])
-        ), array(
-            'top_frm_fk'      => array('integer', $new_obj->getId())
-        ));
+        $this->db->update('frm_data', [
+            'top_name' => ['text', $topData['top_name']],
+            'top_description' => ['text', $topData['top_description']],
+            'top_num_posts' => ['integer', $topData['top_num_posts']],
+            'top_num_threads' => ['integer', $topData['top_num_threads']],
+            'top_last_post' => ['text', $topData['top_last_post']],
+            'top_date' => ['integer', $topData['top_date']],
+            'visits' => ['integer', $topData['visits']],
+            'top_update' => ['integer', $topData['top_update']],
+            'update_user' => ['integer', $topData['update_user']],
+            'top_usr_id' => ['integer', $topData['top_usr_id']]
+        ], [
+            'top_frm_fk' => ['integer', $new_obj->getId()]
+        ]);
 
         // read options
         $cwo     = ilCopyWizardOptions::_getInstance($a_copy_id);
@@ -569,7 +569,7 @@ class ilObjForum extends ilObject
             $newThread->setDisplayUserId($old_thread['thr_display_user_id']);
             $newThread->setSubject($old_thread['thr_subject']);
             $newThread->setUserAlias($old_thread['thr_usr_alias']);
-            $newThread->setCreateDate($old_thread['thr_date']);
+            $newThread->setCreationTimestamp((int) $old_thread['thr_date']);
 
             $newPostId = $new_frm->generateThread(
                 $newThread,
@@ -789,11 +789,11 @@ class ilObjForum extends ilObject
         return true;
     }
 
-    public function saveData($a_roles = array())
+    public function saveData($a_roles = [])
     {
         $nextId = $this->db->nextId('frm_data');
 
-        $top_data = array(
+        $top_data = [
             'top_frm_fk'           => $this->getId(),
             'top_name'             => $this->getTitle(),
             'top_description'      => $this->getDescription(),
@@ -802,8 +802,8 @@ class ilObjForum extends ilObject
             'top_last_post'        => null,
             'top_mods'             => !is_numeric($a_roles[0]) ? 0 : $a_roles[0],
             'top_usr_id'           => $this->user->getId(),
-            'top_date'             => ilUtil::now()
-        );
+            'top_date'             => time(),
+        ];
 
         $this->db->manipulateF(
             '
@@ -821,8 +821,8 @@ class ilObjForum extends ilObject
         		top_usr_id
         	)
         	VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
-            array('integer', 'integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'timestamp', 'integer'),
-            array(
+            ['integer', 'integer', 'text', 'text', 'integer', 'integer', 'text', 'integer', 'integer', 'integer'],
+            [
                 $nextId,
                 $top_data['top_frm_fk'],
                 $top_data['top_name'],
@@ -833,7 +833,7 @@ class ilObjForum extends ilObject
                 $top_data['top_mods'],
                 $top_data['top_date'],
                 $top_data['top_usr_id']
-            )
+            ]
         );
     }
 
@@ -983,7 +983,7 @@ class ilObjForum extends ilObject
             $act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1, "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
         }
 
-        $new_deadline = date('Y-m-d H:i:s', time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));
+        $new_deadline = time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8);
 
         if (!$ilUser->isAnonymous()) {
             $query = "
@@ -1012,7 +1012,7 @@ class ilObjForum extends ilObject
 
             $forum_overview_setting = (int) $ilSetting::_lookupValue('frma', 'forum_overview');
             if ($forum_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
-                $news_types = array('integer', 'integer', 'integer', 'timestamp', 'integer');
+                $news_types = array('integer', 'integer', 'integer', 'integer', 'integer');
                 $news_values = array($ilUser->getId(), $ilUser->getId(), $forumId,  $new_deadline, $ilUser->getId());
 
                 $query .= " 

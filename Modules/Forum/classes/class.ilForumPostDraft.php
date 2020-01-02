@@ -32,13 +32,13 @@ class ilForumPostDraft
      */
     protected $post_message = '';
     /**
-     * @var string
+     * @var int
      */
-    protected $post_date = '0000-00-00 00:00:00';
+    protected $post_creation_timestamp = 0;
     /**
-     * @var string
+     * @var int
      */
-    protected $post_update = '0000-00-00 00:00:00';
+    protected $post_modification_timestamp = 0;
     /**
      * @var int
      */
@@ -87,12 +87,12 @@ class ilForumPostDraft
         $draft->setDraftId($row['draft_id']);
         $draft->setForumId($row['forum_id']);
         $draft->setPostAuthorId($row['post_author_id']);
-        $draft->setPostDate($row['post_date']);
+        $draft->setPostCreationTimestamp((int) $row['post_date']);
         $draft->setPostDisplayUserId($row['pos_display_usr_id']);
         $draft->setPostId($row['post_id']);
         $draft->setPostMessage($row['post_message']);
         $draft->setPostSubject($row['post_subject']);
-        $draft->setPostUpdate($row['post_update']);
+        $draft->setPostModificationTimestamp((int) $row['post_update']);
         $draft->setPostUserAlias($row['post_user_alias']);
         $draft->setThreadId($row['thread_id']);
         $draft->setUpdateUserId($row['update_user_id']);
@@ -213,35 +213,35 @@ class ilForumPostDraft
     }
     
     /**
-     * @return string
+     * @return int
      */
-    public function getPostDate()
+    public function getPostCreationTimestamp() : int
     {
-        return $this->post_date;
+        return $this->post_creation_timestamp;
     }
     
     /**
-     * @param string $post_date
+     * @param int $timestamp
      */
-    public function setPostDate($post_date)
+    public function setPostCreationTimestamp(int $timestamp)
     {
-        $this->post_date = $post_date;
+        $this->post_creation_timestamp = $timestamp;
     }
     
     /**
-     * @return string
+     * @return int
      */
-    public function getPostUpdate()
+    public function getPostModificationTimestamp() : int
     {
-        return $this->post_update;
+        return $this->post_modification_timestamp;
     }
     
     /**
-     * @param string $post_update
+     * @param int $timestamp
      */
-    public function setPostUpdate($post_update)
+    public function setPostModificationTimestamp(int $timestamp)
     {
-        $this->post_update = $post_update;
+        $this->post_modification_timestamp = $timestamp;
     }
     
     /**
@@ -466,24 +466,23 @@ class ilForumPostDraft
     public function saveDraft()
     {
         $draft_id = $this->db->nextId('frm_posts_drafts');
-        $post_date = date("Y-m-d H:i:s");
-        
-        $this->db->insert('frm_posts_drafts', array(
-            'draft_id' => array('integer', $draft_id),
-            'post_id' => array('integer', $this->getPostId()),
-            'thread_id' => array('integer', $this->getThreadId()),
-            'forum_id' => array('integer', $this->getForumId()),
-            'post_author_id' => array('integer', $this->getPostAuthorId()),
-            'post_subject' => array('text', $this->getPostSubject()),
-            'post_message' => array('clob', $this->getPostMessage()),
-            'notify' => array('integer', $this->getNotify()),
-            'post_notify' => array('integer', $this->getPostNotify()),
-            'post_date' => array('timestamp', $post_date),
-            'post_update' => array('timestamp', $post_date),
-//			'update_user_id' => array('integer', $this->getUpdateUserId()),
-            'post_user_alias' => array('text', $this->getPostUserAlias()),
-            'pos_display_usr_id' => array('integer', $this->getPostDisplayUserId())
-        ));
+        $current_timestamp = time();
+
+        $this->db->insert('frm_posts_drafts', [
+            'draft_id' => ['integer', $draft_id],
+            'post_id' => ['integer', $this->getPostId()],
+            'thread_id' => ['integer', $this->getThreadId()],
+            'forum_id' => ['integer', $this->getForumId()],
+            'post_author_id' => ['integer', $this->getPostAuthorId()],
+            'post_subject' => ['text', $this->getPostSubject()],
+            'post_message' => ['clob', $this->getPostMessage()],
+            'notify' => ['integer', $this->getNotify()],
+            'post_notify' => ['integer', $this->getPostNotify()],
+            'post_date' => ['integer', $current_timestamp],
+            'post_update' => ['integer', $current_timestamp],
+            'post_user_alias' => ['text', $this->getPostUserAlias()],
+            'pos_display_usr_id' => ['integer', $this->getPostDisplayUserId()]
+        ]);
         $this->setDraftId($draft_id);
         return $draft_id;
     }
@@ -492,17 +491,17 @@ class ilForumPostDraft
     {
         $this->db->update(
             'frm_posts_drafts',
-            array(
-            'post_subject' => array('text', $this->getPostSubject()),
-            'post_message' => array('clob', $this->getPostMessage()),
-            'notify' => array('integer', $this->getNotify()),
-            'post_notify' => array('integer', $this->getPostNotify()),
-            'post_update' => array('timestamp', date("Y-m-d H:i:s")),
-            'update_user_id' => array('integer', $this->getUpdateUserId()),
-            'post_user_alias' => array('text', $this->getPostUserAlias()),
-            'pos_display_usr_id' => array('integer', $this->getPostDisplayUserId())
-        ),
-            array('draft_id' => array('integer', $this->getDraftId()))
+            [
+                'post_subject' => ['text', $this->getPostSubject()],
+                'post_message' => ['clob', $this->getPostMessage()],
+                'notify' => ['integer', $this->getNotify()],
+                'post_notify' => ['integer', $this->getPostNotify()],
+                'post_update' => ['integer', time()],
+                'update_user_id' => ['integer', $this->getUpdateUserId()],
+                'post_user_alias' => ['text', $this->getPostUserAlias()],
+                'pos_display_usr_id' => ['integer', $this->getPostDisplayUserId()]
+            ],
+            ['draft_id' => ['integer', $this->getDraftId()]]
         );
     }
     
@@ -740,7 +739,7 @@ class ilForumPostDraft
         while ($row = $ilDB->fetchAssoc($res)) {
             $tmp_obj = new self;
             self::populateWithDatabaseRecord($tmp_obj, $row);
-            $draft_data[] = array('subject'=> $tmp_obj->getPostSubject(), 'post_update' => $tmp_obj->getPostUpdate(), 'draft_id' => $tmp_obj->getDraftId());
+            $draft_data[] = array('subject'=> $tmp_obj->getPostSubject(), 'post_update' => $tmp_obj->getPostModificationTimestamp(), 'draft_id' => $tmp_obj->getDraftId());
         }
         return $draft_data;
     }

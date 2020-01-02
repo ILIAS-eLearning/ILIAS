@@ -147,31 +147,35 @@ class ilForumCronNotification extends ilCronJob
 
         $this->logger->info('Started forum notification job ...');
 
-        if (!($last_run_datetime = $ilSetting->get('cron_forum_notification_last_date'))) {
-            $last_run_datetime = null;
+        $last_run_information = $ilSetting->get('cron_forum_notification_last_date', null);
+        if (!$last_run_information) {
+            $last_run_information = null;
+        }
+
+        if ($last_run_information !== null && !is_numeric($last_run_information)) {
+            // The last runtime information was stored as a datetime until ILIAS <= 5.4.x, so we'll have to convert it
+            $last_run_information = strtotime($last_run_information);
         }
 
         $this->num_sent_messages = 0;
-        $cj_start_date = date('Y-m-d H:i:s');
+        $cj_start_date = time();
 
-        if ($last_run_datetime != null &&
-            checkDate(date('m', strtotime($last_run_datetime)), date('d', strtotime($last_run_datetime)), date('Y', strtotime($last_run_datetime)))) {
-            $threshold = max(strtotime($last_run_datetime), strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time()));
+        if ($last_run_information !== null &&
+            checkDate(date('m', $last_run_information), date('d', $last_run_information), date('Y', $last_run_information))) {
+            $threshold = max($last_run_information, strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time()));
         } else {
             $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time());
         }
 
         $this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
 
-        $threshold_date =  date('Y-m-d H:i:s', $threshold);
+        $this->sendNotificationForNewPosts($threshold);
 
-        $this->sendNotificationForNewPosts($threshold_date);
+        $this->sendNotificationForUpdatedPosts($threshold);
 
-        $this->sendNotificationForUpdatedPosts($threshold_date);
+        $this->sendNotificationForCensoredPosts($threshold);
 
-        $this->sendNotificationForCensoredPosts($threshold_date);
-
-        $this->sendNotificationForUncensoredPosts($threshold_date);
+        $this->sendNotificationForUncensoredPosts($threshold);
 
         $this->sendNotificationForDeletedThreads();
 
@@ -413,17 +417,17 @@ class ilForumCronNotification extends ilCronJob
     }
 
     /**
-     * @param $threshold_date
+     * @param int $threshold_timestamp
      */
-    private function sendNotificationForNewPosts(string $threshold_date)
+    private function sendNotificationForNewPosts(int $threshold_timestamp)
     {
         $condition = '
 			frm_posts.pos_status = %s AND (
 				(frm_posts.pos_date >= %s AND frm_posts.pos_date = frm_posts.pos_activation_date) OR 
 				(frm_posts.pos_activation_date >= %s AND frm_posts.pos_date < frm_posts.pos_activation_date)
 			) ';
-        $types = array('integer', 'timestamp', 'timestamp');
-        $values = array(1, $threshold_date, $threshold_date);
+        $types = ['integer', 'integer', 'integer'];
+        $values = [1, $threshold_timestamp, $threshold_timestamp];
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -439,15 +443,15 @@ class ilForumCronNotification extends ilCronJob
     }
 
     /**
-     * @param $threshold_date
+     * @param int $threshold_timestamp
      */
-    private function sendNotificationForUpdatedPosts(string $threshold_date)
+    private function sendNotificationForUpdatedPosts(int $threshold_timestamp)
     {
         $condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND 
 			(frm_posts.pos_update > frm_posts.pos_date AND frm_posts.pos_update >= %s) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(0, 1, $threshold_date);
+        $types = ['integer', 'integer', 'integer'];
+        $values = [0, 1, $threshold_timestamp];
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -463,15 +467,15 @@ class ilForumCronNotification extends ilCronJob
     }
 
     /**
-     * @param $threshold_date
+     * @param int $threshold_timestamp
      */
-    private function sendNotificationForCensoredPosts(string $threshold_date)
+    private function sendNotificationForCensoredPosts(int $threshold_timestamp)
     {
         $condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
-            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(1, 1, $threshold_date);
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date) ';
+        $types = ['integer', 'integer', 'integer'];
+        $values = [1, 1, $threshold_timestamp];
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),
@@ -487,15 +491,15 @@ class ilForumCronNotification extends ilCronJob
     }
 
     /**
-     * @param $threshold_date
+     * @param int $threshold_timestamp
      */
-    private function sendNotificationForUncensoredPosts(string $threshold_date)
+    private function sendNotificationForUncensoredPosts(int $threshold_timestamp)
     {
         $condition = '
 			frm_posts.pos_cens = %s AND frm_posts.pos_status = %s AND  
-            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date ) ';
-        $types = array('integer', 'integer', 'timestamp');
-        $values = array(0, 1, $threshold_date);
+            (frm_posts.pos_cens_date >= %s AND frm_posts.pos_cens_date > frm_posts.pos_activation_date) ';
+        $types = ['integer', 'integer', 'integer'];
+        $values = [0, 1, $threshold_timestamp];
 
         $res = $this->ilDB->queryf(
             $this->createForumPostSql($condition),

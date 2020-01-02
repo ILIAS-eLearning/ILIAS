@@ -378,7 +378,7 @@ class ilForum
 
         $row = $this->db->fetchAssoc($res);
         
-        $row["pos_date"] = $this->convertDate($row["pos_date"]);
+        $row["pos_date"] = $this->formatTimestamp($row["pos_date"]);
         $row["pos_message"] = nl2br($row["pos_message"]);
                     
         return $row;
@@ -413,12 +413,12 @@ class ilForum
      * @param int    $notify
      * @param string $subject
      * @param string $alias
-     * @param string $date datetime|timestamp
+     * @param int $timestamp
      * @param int    $status
      * @param int    $send_activation_mail
      * @return int   new post_id
      */
-    public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $date = '', $status = 1, $send_activation_mail = 0)
+    public function generatePost($forum_id, $thread_id, $author_id, $display_user_id, $message, $parent_pos, $notify, $subject = '', $alias = '', $timestamp = 0, $status = 1, $send_activation_mail = 0)
     {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
@@ -437,18 +437,15 @@ class ilForum
             $is_moderator = false;
         }
         $objNewPost->setIsAuthorModerator($is_moderator);
-        
-        if ($date == "") {
-            $objNewPost->setCreateDate(date("Y-m-d H:i:s"));
+
+        if ($timestamp) {
+            $objNewPost->setCreationTimestamp($timestamp);
         } else {
-            if (strpos($date, "-") >  0) {		// in mysql format
-                $objNewPost->setCreateDate($date);
-            } else {								// a timestamp
-                $objNewPost->setCreateDate(date("Y-m-d H:i:s", $date));
-            }
+            $objNewPost->setCreationTimestamp(time());
         }
+
         if ($status == 1) {
-            $objNewPost->setPostActivationDate($objNewPost->getCreateDate());
+            $objNewPost->setPostActivationTimestamp($objNewPost->getCreationTimestamp());
         }
 
         $objNewPost->setImportName($this->getImportName());
@@ -458,9 +455,9 @@ class ilForum
         
         // entry in tree-table
         if ($parent_pos == 0) {
-            $this->addPostTree($objNewPost->getThreadId(), $objNewPost->getId(), $objNewPost->getCreateDate());
+            $this->addPostTree($objNewPost->getThreadId(), $objNewPost->getId(), $objNewPost->getCreationTimestamp());
         } else {
-            $this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreateDate());
+            $this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(), $objNewPost->getCreationTimestamp());
         }
         
         // string last post
@@ -521,8 +518,8 @@ class ilForum
      */
     public function generateThread(ilForumTopic $thread, $message, $notify, $notify_posts, $status = 1)
     {
-        if (!$thread->getCreateDate()) {
-            $thread->setCreateDate(date('Y-m-d H:i:s'));
+        if (!$thread->getCreationTimestamp()) {
+            $thread->setCreationTimestamp(time());
         }
 
         $thread->setImportName($this->getImportName());
@@ -551,7 +548,7 @@ class ilForum
             0,
             $thread->getSubject(),
             $thread->getUserAlias(),
-            $thread->getCreateDate(),
+            $thread->getCreationTimestamp(),
             1,
             0
         );
@@ -566,7 +563,7 @@ class ilForum
             $notify,
             $thread->getSubject(),
             $thread->getUserAlias(),
-            $thread->getCreateDate(),
+            $thread->getCreationTimestamp(),
             $status,
             0
         );
@@ -709,7 +706,7 @@ class ilForum
     */
     public function postCensorship($message, $pos_pk, $cens = 0)
     {
-        $cens_date = date("Y-m-d H:i:s");
+        $censorship_timestamp = time();
 
         $this->db->manipulateF(
             '
@@ -719,8 +716,8 @@ class ilForum
 				pos_cens = %s,
 				update_user = %s
 			WHERE pos_pk = %s',
-            array('text', 'timestamp', 'integer', 'integer', 'integer'),
-            array($message, $cens_date, $cens, $GLOBALS['DIC']['ilUser']->getId(), $pos_pk)
+            ['text', 'integer', 'integer', 'integer', 'integer'],
+            [$message, $censorship_timestamp, $cens, $GLOBALS['DIC']['ilUser']->getId(), $pos_pk]
         );
         
         // Change news item accordingly
@@ -1126,7 +1123,7 @@ class ilForum
 						 
 						AND (ipos.pos_update > iacc.access_old_ts
 							OR
-							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp') . "))
+							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(NEW_DEADLINE, 'integer') . "))
 							)
 						 
 						AND ipos.pos_author_id != %s
@@ -1267,7 +1264,7 @@ class ilForum
             $tmp_obj->setUserAlias($post_row['pos_usr_alias']);
             $tmp_obj->setImportName($post_row['import_name']);
             $tmp_obj->setId($post_row['pos_pk']);
-            $tmp_obj->setCreateDate($post_row['pos_date']);
+            $tmp_obj->setCreationTimestamp((int) $post_row['pos_date']);
 
             $threads[$post_row['pos_thr_fk']]->setLastPostForThreadOverview($tmp_obj);
         }
@@ -1466,14 +1463,12 @@ class ilForum
     }
 
     /**
-     * converts the date format
-     * @param	string	$date
-     * @return	string	formatted datetime
-     * @access	public
+     * @param int $timestamp
+     * @return string
      */
-    public function convertDate($date)
+    public function formatTimestamp(int $timestamp) : string
     {
-        return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
+        return ilDatePresentation::formatDate(new ilDateTime($timestamp, IL_CAL_UNIX));
     }
     
     /**
@@ -1483,10 +1478,10 @@ class ilForum
     * @return	boolean		true on success
     * @access	public
     */
-    public function addPostTree($a_tree_id, $a_node_id = -1, $a_date = '')
+    public function addPostTree($a_tree_id, $a_node_id = -1, $a_timestamp = 0)
     {
-        $a_date = $a_date ? $a_date : date("Y-m-d H:i:s");
-        
+        $a_timestamp = $a_timestamp ? $a_timestamp : time();
+
         if ($a_node_id <= 0) {
             $a_node_id = $a_tree_id;
         }
@@ -1506,8 +1501,8 @@ class ilForum
 				fpt_date
 			)
 			VALUES(%s, %s, %s, %s,  %s,  %s, %s, %s )',
-            array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
-            array($nextId, $a_tree_id, $a_node_id, '0', '1', '2', '1', $a_date)
+            ['integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+            [$nextId, $a_tree_id, $a_node_id, '0', '1', '2', '1', $a_timestamp]
         );
         
         return true;
@@ -1520,10 +1515,10 @@ class ilForum
     * @param	integer		tree_id
     * @param	integer		parent_id (optional)
     */
-    public function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_date = '')
+    public function insertPostNode($a_node_id, $a_parent_id, $tree_id, $a_timestamp = 0)
     {
-        $a_date = $a_date ? $a_date : date("Y-m-d H:i:s");
-        
+        $a_timestamp = $a_timestamp ? $a_timestamp : time();
+
         // get left value
         $sql_res = $this->db->queryf(
             '
@@ -1559,13 +1554,12 @@ class ilForum
             array('integer', 'integer', 'integer'),
             array($left, $left, $tree_id)
         );
-        
+
         $depth = $this->getPostDepth($a_parent_id, $tree_id) + 1;
-    
-        // insert node
+
         $nextId = $this->db->nextId('frm_posts_tree');
         $this->db->manipulateF(
-             '
+            '
 			INSERT INTO frm_posts_tree
 			(	fpt_pk,
 				thr_fk,
@@ -1577,15 +1571,17 @@ class ilForum
 				fpt_date
 			)
 			VALUES(%s,%s,%s, %s, %s, %s,%s, %s)',
-             array('integer','integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'timestamp'),
-             array(	$nextId,
-                    $tree_id,
-                    $a_node_id,
-                    $a_parent_id,
-                    $lft,
-                    $rgt,
-                    $depth,
-                    $a_date)
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+            [
+                $nextId,
+                $tree_id,
+                $a_node_id,
+                $a_parent_id,
+                $lft,
+                $rgt,
+                $depth,
+                $a_timestamp
+            ]
         );
     }
 
@@ -1689,10 +1685,9 @@ class ilForum
                     "subject"		=> $a_row->pos_subject,
                     "pos_cens_com"	=> $a_row->pos_cens_com,
                     "pos_cens"		=> $a_row->pos_cens,
-                //	"date"			=> $a_row->date,
-                    "date"			=> $a_row->fpt_date,
-                    "create_date"	=> $a_row->pos_date,
-                    "update"		=> $a_row->pos_update,
+                    "date"			=> (int) $a_row->fpt_date,
+                    "create_date"	=> (int) $a_row->pos_date,
+                    "update"		=> (int) $a_row->pos_update,
                     "update_user"	=> $a_row->update_user,
                     "tree"			=> $a_row->thr_fk,
                     "parent"		=> $a_row->parent_pos,
@@ -2198,7 +2193,7 @@ class ilForum
         }
 
         // use the "older" thread as target
-        if ($sourceThread->getCreateDate() > $targetThread->getCreateDate()) {
+        if ($sourceThread->getCreationTimestamp() > $targetThread->getCreationTimestamp()) {
             $sourceThreadForMerge = $sourceThread;
             $targetThreadForMerge = $targetThread;
         } else {

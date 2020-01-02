@@ -26,9 +26,9 @@ class ilForumDraftsHistory
     protected $post_message = '';
     
     /**
-     * @var string
+     * @var int
      */
-    protected $draft_date = '0000-00-00 00:00:00';
+    protected $draft_creation_timestamp = 0;
     
     public $db;
     
@@ -97,19 +97,19 @@ class ilForumDraftsHistory
     }
     
     /**
-     * @return string
+     * @return int
      */
-    public function getDraftDate()
+    public function getDraftCreationTimestamp() : int
     {
-        return $this->draft_date;
+        return $this->draft_creation_timestamp;
     }
     
     /**
-     * @param string $draft_date
+     * @param int $timestamp
      */
-    public function setDraftDate($draft_date)
+    public function setDraftCreationTimestamp(int $timestamp)
     {
-        $this->draft_date = $draft_date;
+        $this->draft_creation_timestamp = $timestamp;
     }
     
     /**
@@ -143,7 +143,7 @@ class ilForumDraftsHistory
             $this->setDraftId($row['draft_id']);
             $this->setPostMessage($row['post_message']);
             $this->setPostSubject($row['post_subject']);
-            $this->setDraftDate($row['draft_date']);
+            $this->setDraftCreationTimestamp((int) $row['draft_date']);
         }
     }
     
@@ -179,7 +179,7 @@ class ilForumDraftsHistory
         $history_draft->setDraftId($row['draft_id']);
         $history_draft->setPostMessage($row['post_message']);
         $history_draft->setPostSubject($row['post_subject']);
-        $history_draft->setDraftDate($row['draft_date']);
+        $history_draft->setDraftCreationTimestamp((int) $row['draft_date']);
         
         return $history_draft;
     }
@@ -237,12 +237,13 @@ class ilForumDraftsHistory
         $next_id = $this->db->nextId('frm_drafts_history');
         $this->db->insert(
             'frm_drafts_history',
-            array('history_id'   => array('integer', $next_id),
-                  'draft_id'     => array('integer', $this->getDraftId()),
-                  'post_subject' => array('text', $this->getPostSubject()),
-                  'post_message' => array('text', $this->getPostMessage()),
-                  'draft_date'   => array('timestamp', date("Y-m-d H:i:s"))
-            )
+            [
+                'history_id' => ['integer', $next_id],
+                'draft_id' => ['integer', $this->getDraftId()],
+                'post_subject' => ['text', $this->getPostSubject()],
+                'post_message' => ['text', $this->getPostMessage()],
+                'draft_date' => ['integer', time()]
+            ]
         );
         $this->setHistoryId($next_id);
     }

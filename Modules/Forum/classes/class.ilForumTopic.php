@@ -21,9 +21,9 @@ class ilForumTopic
     
     private $subject = '';
     
-    private $createdate = null;
+    private $creation_timestamp = 0;
     
-    private $changedate = null;
+    private $modification_timestamp = 0;
     
     private $num_posts = 0;
     
@@ -94,8 +94,8 @@ class ilForumTopic
         $this->setDisplayUserId((int) $data['thr_display_user_id']);
         $this->setUserAlias($data['thr_usr_alias']);
         $this->setLastPostString($data['last_post_string']);
-        $this->setCreateDate($data['thr_date']);
-        $this->setChangeDate($data['thr_update']);
+        $this->setCreationTimestamp((int) $data['thr_date']);
+        $this->setModificationTimestamp((int) $data['thr_update']);
         $this->setVisits((int) $data['visits']);
         $this->setImportName($data['import_name']);
         $this->setSticky((int) $data['is_sticky']);
@@ -120,25 +120,25 @@ class ilForumTopic
     {
         if ($this->forum_id) {
             $nextId = $this->db->nextId('frm_threads');
-                        
+
             $this->db->insert(
                 'frm_threads',
-                array(
-                'thr_pk'        => array('integer', $nextId),
-                'thr_top_fk'    => array('integer', $this->forum_id),
-                'thr_subject'   => array('text', $this->subject),
-                'thr_display_user_id'    => array('integer', $this->display_user_id),
-                'thr_usr_alias' => array('text', $this->user_alias),
-                'thr_num_posts' => array('integer', $this->num_posts),
-                'thr_last_post' => array('text', $this->last_post_string),
-                'thr_date'      => array('timestamp', $this->createdate),
-                'thr_update'    => array('timestamp', null),
-                'import_name'   => array('text', $this->import_name),
-                'is_sticky'     => array('integer', $this->is_sticky),
-                'is_closed'     => array('integer', $this->is_closed),
-                'avg_rating'    => array('float', $this->average_rating),
-                'thr_author_id' => array('integer', $this->thr_author_id)
-            )
+                [
+                    'thr_pk' => ['integer', $nextId],
+                    'thr_top_fk' => ['integer', $this->forum_id],
+                    'thr_subject' => ['text', $this->subject],
+                    'thr_display_user_id' => ['integer', $this->display_user_id],
+                    'thr_usr_alias' => ['text', $this->user_alias],
+                    'thr_num_posts' => ['integer', $this->num_posts],
+                    'thr_last_post' => ['text', $this->last_post_string],
+                    'thr_date' => ['integer', $this->creation_timestamp],
+                    'thr_update' => ['integer', 0],
+                    'import_name' => ['text', $this->import_name],
+                    'is_sticky' => ['integer', $this->is_sticky],
+                    'is_closed' => ['integer', $this->is_closed],
+                    'avg_rating' => ['float', $this->average_rating],
+                    'thr_author_id' => ['integer', $this->thr_author_id]
+                ]
             );
 
             $this->id = $nextId;
@@ -168,21 +168,21 @@ class ilForumTopic
 					thr_last_post = %s,
 					avg_rating = %s
 				WHERE thr_pk = %s',
-                array('integer', 'text','timestamp', 'integer', 'text', 'float', 'integer'),
-                array(	$this->forum_id,
-                        $this->subject,
-            /*			$this->changedate, */
-                        date('Y-m-d H:i:s'),
-                        $this->num_posts,
-                        $this->last_post_string,
-                        $this->average_rating,
-                        $this->id
-            )
+                ['integer', 'text', 'integer', 'integer', 'text', 'float', 'integer'],
+                [
+                    $this->forum_id,
+                    $this->subject,
+                    time(),
+                    $this->num_posts,
+                    $this->last_post_string,
+                    $this->average_rating,
+                    $this->id
+                ]
             );
-            
+
             return true;
         }
-        
+
         return false;
     }
     
@@ -209,23 +209,23 @@ class ilForumTopic
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
             if (is_object($row)) {
-                $this->thr_pk           = $row->pos_pk;   // thr_pk = pos_pk ??!??!
-                $this->forum_id         = $row->thr_top_fk;
-                $this->display_user_id  = $row->thr_display_user_id;
-                $this->user_alias       = $row->thr_usr_alias;
-                $this->subject          = html_entity_decode($row->thr_subject);
-                $this->createdate       = $row->thr_date;
-                $this->changedate       = $row->thr_update;
-                $this->import_name      = $row->import_name;
-                $this->num_posts        = $row->thr_num_posts;
+                $this->thr_pk = $row->pos_pk;   // thr_pk = pos_pk ??!??!
+                $this->forum_id = $row->thr_top_fk;
+                $this->display_user_id = $row->thr_display_user_id;
+                $this->user_alias = $row->thr_usr_alias;
+                $this->subject = html_entity_decode($row->thr_subject);
+                $this->creation_timestamp = (int) $row->thr_date;
+                $this->modification_timestamp = (int) $row->thr_update;
+                $this->import_name = $row->import_name;
+                $this->num_posts = $row->thr_num_posts;
                 $this->last_post_string = $row->thr_last_post;
-                $this->visits           = $row->visits;
-                $this->is_sticky        = $row->is_sticky;
-                $this->is_closed        = $row->is_closed;
-                $this->frm_obj_id       = $row->frm_obj_id;
-                $this->average_rating   = $row->avg_rating;
-                $this->thr_author_id    = $row->thr_author_id;
-                
+                $this->visits = $row->visits;
+                $this->is_sticky = $row->is_sticky;
+                $this->is_closed = $row->is_closed;
+                $this->frm_obj_id = $row->frm_obj_id;
+                $this->average_rating = $row->avg_rating;
+                $this->thr_author_id = $row->thr_author_id;
+
                 return true;
             }
             $this->id = 0;
@@ -465,7 +465,7 @@ class ilForumTopic
         $query = '
 			SELECT 			is_author_moderator, pos_author_id, pos_pk, fpt_date, rgt, pos_top_fk, pos_thr_fk, 
 							pos_display_user_id, pos_usr_alias, pos_subject,
-							pos_status, pos_message, pos_date, pos_update,
+							pos_status, pos_message, pos_date, pos_update, pos_activation_date,
 							update_user, pos_cens, pos_cens_com, notify,
 							import_name, fpt_pk, parent_pos, lft, depth,
 							(CASE
@@ -1041,25 +1041,21 @@ class ilForumTopic
     {
         return $this->subject;
     }
-    public function setCreateDate($a_createdate)
+    public function setCreationTimestamp(int $creation_timestamp)
     {
-        $this->createdate = $a_createdate;
+        $this->creation_timestamp = $creation_timestamp;
     }
-    public function getCreateDate()
+    public function getCreationTimestamp() : int
     {
-        return $this->createdate;
+        return $this->creation_timestamp;
     }
-    public function setChangeDate($a_changedate)
+    public function setModificationTimestamp(int $modification_timestamp)
     {
-        if ($a_changedate == '0000-00-00 00:00:00') {
-            $this->changedate = null;
-        } else {
-            $this->changedate = $a_changedate;
-        }
+        $this->modification_timestamp = $modification_timestamp;
     }
-    public function getChangeDate()
+    public function getModificationTimestamp() : int
     {
-        return $this->changedate;
+        return $this->modification_timestamp;
     }
     public function setImportName($a_import_name)
     {
@@ -1303,23 +1299,24 @@ class ilForumTopic
     }
 
     /**
-     * @param integer $thread_id
-     * @return string datetime
+     * @param int $thread_id
+     * @return int 
      */
-    public static function _lookupDate($thread_id)
+    public static function lookupCreationTimestamp($thread_id) : int
     {
         global $DIC;
+
         $ilDB = $DIC->database();
-        
+
         $res = $ilDB->queryF(
             'SELECT thr_date FROM frm_threads WHERE thr_pk = %s',
             array('integer'),
             array((int) $thread_id)
         );
-        
+
         $row = $ilDB->fetchAssoc($res);
-        
-        return $row['thr_date'] ? $row['thr_date'] : '0000-00-00 00:00:00';
+
+        return (int) $row['thr_date'];
     }
 
     /**

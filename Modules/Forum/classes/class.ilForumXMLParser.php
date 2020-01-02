@@ -251,6 +251,14 @@ class ilForumXMLParser extends ilSaxParser
                 $x['UpdateDate'] = $this->cdata;
                 break;
 
+            case 'CreateDateTs':
+                $x['CreateDateTs'] = $this->cdata;
+                break;
+
+            case 'UpdateDateTs':
+                $x['UpdateDateTs'] = $this->cdata;
+                break;
+
             case 'FileUpload':
                 $x['FileUpload'] = $this->cdata;
                 break;
@@ -361,8 +369,19 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumThread->setSubject($this->threadArray['Subject']);
                     $this->forumThread->setSticky($this->threadArray['Sticky']);
                     $this->forumThread->setClosed($this->threadArray['Closed']);
-                    $this->forumThread->setCreateDate($this->threadArray['CreateDate']);
-                    $this->forumThread->setChangeDate($this->threadArray['UpdateDate']);
+                    if (isset($this->threadArray['CreateDate'])) {
+                        // TODO: Implement migration depending on JF decision
+                        $this->forumThread->setCreationTimestamp(strtotime($this->threadArray['CreateDate']));
+                    } else {
+                        $this->forumThread->setCreationTimestamp((int) $this->threadArray['CreateDateTs']);
+                    }
+
+                    if (isset($this->threadArray['UpdateDateTs'])) {
+                        // TODO: Implement migration depending on JF decision
+                        $this->forumThread->setModificationTimestamp(strtotime($this->threadArray['UpdateDate']));
+                    } else {
+                        $this->forumThread->setModificationTimestamp((int) $this->threadArray['UpdateDateTs']);
+                    }
                     $this->forumThread->setImportName($this->threadArray['ImportName']);
                     
                     $usr_data = $this->getUserIdAndAlias(
@@ -451,8 +470,19 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumPost->setThread($this->forumThread);
                     $this->forumPost->setThreadId($this->lastHandledThreadId);
                     $this->forumPost->setForumId($this->lastHandledForumId);
-                    $this->forumPost->setCreateDate($this->postArray['CreateDate']);
-                    $this->forumPost->setChangeDate($this->postArray['UpdateDate']);
+                    if (isset($this->threadArray['CreateDate'])) {
+                        // TODO: Implement migration depending on JF decision
+                        $this->forumPost->setCreationTimestamp(strtotime($this->postArray['CreateDate']));
+                    } else {
+                        $this->forumPost->setCreationTimestamp((int) $this->postArray['CreateDateTs']);
+                    }
+
+                    if (isset($this->threadArray['UpdateDate'])) {
+                        // TODO: Implement migration depending on JF decision
+                        $this->forumPost->setModificationTimestamp(strtotime($this->postArray['UpdateDate']));
+                    } else {
+                        $this->forumPost->setModificationTimestamp((int) $this->postArray['UpdateDateTs']);
+                    }
 
                     $usr_data = $this->getUserIdAndAlias(
                         $this->postArray['UserId'],
@@ -488,16 +518,16 @@ class ilForumXMLParser extends ilSaxParser
                     }
 
                     $postTreeNodeId = $this->db->nextId('frm_posts_tree');
-                    $this->db->insert('frm_posts_tree', array(
-                        'fpt_pk'		=> array('integer', $postTreeNodeId),
-                        'thr_fk'		=> array('integer', $this->lastHandledThreadId),
-                        'pos_fk'		=> array('integer', $this->forumPost->getId()),
-                        'parent_pos'	=> array('integer', $parentId),
-                        'lft'			=> array('integer', $this->postArray['Lft']),
-                        'rgt'			=> array('integer', $this->postArray['Rgt']),
-                        'depth'			=> array('integer', $this->postArray['Depth']),
-                        'fpt_date'		=> array('timestamp', date('Y-m-d H:i:s'))
-                    ));
+                    $this->db->insert('frm_posts_tree', [
+                        'fpt_pk' => ['integer', $postTreeNodeId],
+                        'thr_fk' => ['integer', $this->lastHandledThreadId],
+                        'pos_fk' => ['integer', $this->forumPost->getId()],
+                        'parent_pos' => ['integer', $parentId],
+                        'lft' => ['integer', $this->postArray['Lft']],
+                        'rgt' => ['integer', $this->postArray['Rgt']],
+                        'depth' => ['integer', $this->postArray['Depth']],
+                        'fpt_date' => ['integer', time()]
+                    ]);
 
                     $this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
                     $this->lastHandledPostId = $this->forumPost->getId();

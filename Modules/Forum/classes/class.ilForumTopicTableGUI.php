@@ -311,7 +311,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
                 $this->tpl->setVariable(
                     'VAL_LP_DATE',
-                    '<div class="ilWhiteSpaceNowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(), IL_CAL_DATETIME)) . '</div>' .
+                    '<div class="ilWhiteSpaceNowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreationTimestamp(), IL_CAL_UNIX)) . '</div>' .
                     '<div class="ilWhiteSpaceNowrap">' . $this->lng->txt('from') . ' ' . $authorinfo->getLinkedAuthorName() . '</div>'
                 );
             }

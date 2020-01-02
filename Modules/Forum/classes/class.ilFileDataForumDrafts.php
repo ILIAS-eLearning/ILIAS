@@ -92,13 +92,13 @@ class ilFileDataForumDrafts extends ilFileData
                 continue;
             }
 
-            $files[] = array(
+            $files[] = [
                 'path'  => $file->getPathname(),
                 'md5'   => md5($file->getFilename()),
                 'name'  => $file->getFilename(),
                 'size'  => $file->getSize(),
-                'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            );
+                'ctime' => $file->getCTime()
+            ];
         }
         
         return $files;
@@ -120,13 +120,13 @@ class ilFileDataForumDrafts extends ilFileData
                 continue;
             }
 
-            $files[$file->getFilename()] = array(
+            $files[$file->getFilename()] = [
                 'path'  => $file->getPathname(),
                 'md5'   => md5($file->getFilename()),
                 'name'  => $file->getFilename(),
                 'size'  => $file->getSize(),
-                'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            );
+                'ctime' => $file->getCTime()
+            ];
         }
         
         return $files;

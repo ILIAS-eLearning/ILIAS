@@ -169,19 +169,19 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return string frm_posts.pos_date
+     * @inheritDoc
      */
-    public function getPostDate()
+    public function getPostCreationTimestamp() : int
     {
-        return $this->objPost->getCreateDate();
+        return $this->objPost->getCreationTimestamp();
     }
 
     /**
-     * @return string frm_posts.pos_update
+     * @inheritDoc
      */
-    public function getPostUpdate()
+    public function getPostModificationTimestamp() : int 
     {
-        return $this->objPost->getChangeDate();
+        return $this->objPost->getModificationTimestamp();
     }
     /**
      * @return bool frm_posts.pos_cens
@@ -192,11 +192,11 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     }
 
     /**
-     * @return string frm_posts.pos_cens_date
+     * @inheritDoc
      */
-    public function getPostCensoredDate()
+    public function getPostCensorshipTimestamp() : int
     {
-        return $this->objPost->getCensoredDate();
+        return $this->objPost->getCensorshipTimestamp();
     }
 
     public function getCensorshipComment()

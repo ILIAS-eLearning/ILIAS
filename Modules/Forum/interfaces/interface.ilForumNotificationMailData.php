@@ -79,14 +79,14 @@ interface ilForumNotificationMailData
     public function getPostUserName(\ilLanguage $user_lang);
 
     /**
-     * @return string frm_posts.pos_date
+     * @return int
      */
-    public function getPostDate();
+    public function getPostCreationTimestamp() : int;
 
     /**
-     * @return string frm_posts.pos_update
+     * @return int
      */
-    public function getPostUpdate();
+    public function getPostModificationTimestamp() : int;
 
     /**
      * @param \ilLanguage $user_lang
@@ -100,9 +100,9 @@ interface ilForumNotificationMailData
     public function getPostCensored();
 
     /**
-     * @return string frm_posts.pos_cens_date
+     * @return int
      */
-    public function getPostCensoredDate();
+    public function getPostCensorshipTimestamp() : int;
 
     /**
      * @return string
