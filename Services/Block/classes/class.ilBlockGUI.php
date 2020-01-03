@@ -1153,10 +1153,17 @@ abstract class ilBlockGUI
         // check for empty list panel
         if (in_array($this->getPresentation(), [self::PRES_SEC_LIST, self::PRES_MAIN_LIST]) &&
             (count($panel->getItemGroups()) == 0 || (count($panel->getItemGroups()) == 1 && count($panel->getItemGroups()[0]->getItems()) == 0))) {
-            $panel = $factory->panel()->standard(
-                $this->getTitle(),
-                $factory->legacy($this->getNoItemFoundContent())
-            );
+            if ($this->getPresentation() == self::PRES_SEC_LIST) {
+                $panel = $factory->panel()->secondary()->legacy(
+                    $this->getTitle(),
+                    $factory->legacy($this->getNoItemFoundContent())
+                );
+            } else {
+                $panel = $factory->panel()->standard(
+                    $this->getTitle(),
+                    $factory->legacy($this->getNoItemFoundContent())
+                );
+            }
         }
 
 
