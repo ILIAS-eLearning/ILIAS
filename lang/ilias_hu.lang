@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	6.0.x 2019-12-02
+* @version	6.0.x 2019-12-20
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -20,10 +20,11 @@ dash#:#dash_item_removed#:#Az ajánlást sikeresen törölték a listáról.
 dash#:#dash_added_to_favs#:#Az ajánlást sikeresen hozzáadta a kedvenceihez.
 common#:#obj_nots_desc#:#Jegyzetek beállításai
 common#:#obj_nots#:#Jegyzetek
-note#:#note_enable_notes#:#Jegyzetek bekapcsolásai
+note#:#note_enable_notes#:#Jegyzetek bekapcsolása
 common#:#obj_coms_desc#:#Hozzászólások beállításai
 common#:#obj_coms#:#Hozzászólások
 note#:#note_enable_comments#:#Hozzászólások bekapcsolása
+administration#:#org_op_edit_user_accounts#:#Felhasználói fiókok módosítása
 administration#:#adm_communication#:#Kommunikáció
 note#:#note_enable_comments_del_user#:#A szerzők törlhetik hozzászólásaikat
 note#:#note_enable_comments_del_tutor#:#A tutorok törlhetik bármelyik hozzászólást
@@ -122,6 +123,8 @@ crs#:#timings_cron_reminder_exceeded_subject#:#Túllépte a feldolgozási idősz
 crs#:#timings_cron_reminder_exceeded_start#:#A feldolgozási időszak vége:
 crs#:#timings_reminder_notifications#:#A kurzusértesítések időzítése
 crs#:#timings_reminder_notifications_info#:#Ha be van kapcsolva, a kurzusrésztvevők értesítést kapnak a lejárú határidejű segédanyagokról.
+meta#:#udf_type_address#:#Cím
+meta#:#md_adv_edit_complex_option#:#Tulajdonságok módosítása
 meta#:#meta_oer_harvester#:#NyOE-összegyűjtő
 meta#:#meta_oer_harvester_desc#:#NyOE-tartalmak (Nyílt Oktatási Erőforrások, OER) összegyűjtéséré szolgáltatás
 meta#:#meta_oer_copyright_selection#:#Licenc kiválasztása
@@ -139,6 +142,26 @@ meta#:#meta_save_order#:#Rendezés mentése
 meta#:#meta_order#:#Rendezés
 meta#:#meta_copyright_change_warning_title#:#Szerzői jogi beállítások módosítása
 meta#:#meta_copyright_change_info#:#Módosítani fogja az ehhez a tartalomhoz rendelt licencet. Ez csak a szerzői jog tulajdonosának a belegyezésével történhet csak meg, továbbá az új licenc nem lehet szigorúbb, korlátozóbb, mint a jelenlegi.
+survey#:#svy_mail_context_reminder_title#:#Kérdőív-emlékeztető
+survey#:#svy_mail_context_reminder_info#:#Emlékeztető felhasználóknak kérdőívben való résztvételre
+survey#:#svy_mail_context_reminder_survey_title#:#Kérdőív címe
+survey#:#svy_reminder_mail_template#:#Levélsablon
+survey#:#svy_reminder_mail_template_none#:#Ne használjon levélsablont
+survey#:#svy_eval_view#:#Megjelenítés
+survey#:#svy_eval_view_tables_charts#:#Táblázat és diagram
+survey#:#svy_eval_view_tables#:#Táblázat
+survey#:#svy_eval_view_charts#:#Diagram
+survey#:#svy_eval_captions#:#Ábrák
+survey#:#svy_eval_captions_abs_perc#:#Abszolút és százalék
+survey#:#svy_eval_captions_abs#:#Abszolút
+survey#:#svy_eval_captions_perc#:#Százalék
+survey#:#svy_chart_download#:#Diagram letöltése
+survey#:#svy_export_pdf#:#Exportálás PDF-ként
+survey#:#svy_notification_tutor_results#:#Egy e-Mail a kérdőív eredményeivel
+survey#:#svy_notification_tutor_results_info#:#A feladatütemező el fogja küldeni csatolmányként a kérdőv részletes eredményeit a záró dátumkor.
+survey#:#svy_notification_tutor_results_alert#:#Adjon meg záró dátumot.
+survey#:#survey_results_tutor_subject#:#'%s' kérdőív eredményei
+survey#:#survey_results_tutor_body#:#ezúton küldjük csatolmányban az alábbi kérdőív részletes eredményeit
 auth#:#auth_oidc_role_info#:#OpenID csatlakozási attribútum::Érték (például: "szabályok::alkalmazottak").
 auth#:#auth_oidconnect#:#OpenID
 auth#:#auth_oidc_settings_title#:#OpenID hitelesítés beállításai
@@ -200,6 +223,9 @@ cont#:#cont_std_record_title#:#Standard
 cont#:#cont_filter_record#:#Bejegyzések
 cont#:#cont_filter_field#:#Szűrő
 cont#:#cont_filter_fields#:#Szűrőmezők
+sess#:#sess_participation_refused_info#:#A jelentkezését elutasították erre az eseményre.
+sess#:#sess_bt_refuse#:#Nem vehet részt
+sess#:#sess_part_table_excused#:#Elutasítva
 sess#:#notification#:#Értesítés
 sess#:#sess_registration_notification#:#Értesítés
 sess#:#sess_registration_notification_info#:#Egy oszlop megjelenítése a 'Résztvevők' fül alatt, ahol az új vagy távozó résztvevőkról értesítendő személyeket ki lehet választani
@@ -243,6 +269,7 @@ lti#:#lti_admin#:#LTI-rendszergazda
 lti#:#lti_tutor#:#LTI-instruktor
 lti#:#lti_member#:#LTI-címke
 auth#:#lti_consumer_inactive#:#LTI-eszközfogyasztó ki van kapcsolva.
+crs#:#crs_target_group#:#Célcsoport
 crs#:#crs_timings_days_after_subsription#:#A kurzusra regisztrálás után napokban
 crs#:#crs_timings_short_active_tt#:#Időzítés aktiválása
 crs#:#crs_timings_short_start_end_tt_rel#:#Az ajánlott kezdés a kurzusra regisztrálás után
@@ -345,6 +372,43 @@ acc#:#acc_previous#:#Előző
 acc#:#acc_reply#:#Válasz
 acc#:#acc_tree_off#:#Fa kikapcsolása
 acc#:#acc_tree_on#:#Fa bekapcsolása
+acc#:#acc_ctrl_cpt_txt#:#Hozzáférés-vezérlés koncepciója
+acc#:#acc_add_document_btn_label#:#Dokumentum hozzáadása
+acc#:#acc_form_new_doc_head#:#Dokumentum létrehozása
+acc#:#acc_form_edit_doc_head#:#Dokumentum módosítása
+acc#:#acc_form_document_title#:#Cím
+acc#:#acc_form_document_title_info#:#Adja meg a dokumentum címét.
+acc#:#acc_form_document#:#Dokumentum
+acc#:#acc_form_document_info#:#Válasszon egy fájlt a helyi fájlrendszerből. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájlok tisztításra kerülnek, csak a törzselem tartalmát használjuk.
+acc#:#acc_form_document_new#:#Tartalom módosítása
+acc#:#acc_form_document_new_info#:#Válasszon egy fájlt a helyi fájlrendszerből. Feltölthet egy egyszerű szöveges fájlt vagy egy egyszerű HTML-fájlt. A HTML fájlok tisztításra kerülnek, csak a törzselem tartalmát használjuk. A már létező tartalmat lecseréljük.
+acc#:#acc_form_document_content_changed#:#Az ILIAS megtisztította a feltöltött fájl tartalmát. Kérjük, ellenőrizze a végeredményt és szükség esetén töltsön fel új fájlt.
+acc#:#acc_tbl_docs_title#:#Dokumentumok
+acc#:#acc_tbl_docs_head_sorting#:#Rendezés
+acc#:#acc_tbl_docs_head_title#:#Cím
+acc#:#acc_tbl_docs_head_created#:#Létrehozása dátuma
+acc#:#acc_tbl_docs_head_last_change#:#Utolsó módosítás
+acc#:#acc_tbl_docs_head_criteria#:#Feltételek
+acc#:#acc_tbl_docs_action_add_criterion#:#Feltétel hozzáadása
+acc#:#acc_tbl_docs_cell_not_criterion#:#Egy feltétel sincs hozzárendelve
+acc#:#acc_doc_detach_crit_confirm_title#:#Feltétel eltávolítása
+acc#:#acc_doc_delete#:#Dokumentum törlése
+acc#:#acc_doc_sure_detach_crit#:#Biztos, hogy eltávolítja ezt a feltételt?
+acc#:#acc_doc_crit_detached#:#A feltételt sikeresen eltávolította.
+acc#:#acc_doc_crit_attached#:#A feltételt sikeresen hozzárendelte.
+acc#:#acc_doc_crit_changed#:#A feltételt sikeresen módosította.
+acc#:#acc_form_attach_criterion_head#:#Feltétel hozzárendelése
+acc#:#acc_form_edit_criterion_head#:#Feltétel hozzárendelése módosítása
+acc#:#acc_form_criterion#:#Feltétel
+acc#:#acc_document#:#Dokumentum
+acc#:#acc_sure_delete_documents_s#:#Biztos, hogy törli a kiválasztott dokumentumot?
+acc#:#acc_sure_delete_documents_p#:#Biztos, hogy törli a kiválasztott dokumentumokat?
+acc#:#acc_deleted_documents_s#:#A dokumentumot sikeresen törölte.
+acc#:#acc_deleted_documents_p#:#A dokumentumokat sikeresen törölte.
+acc#:#acc_saved_sorting#:#A rendezést sikeresen mentette.
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#Ezt a feltételt nem csatolhatja ehhez az értékhez. Már létezik egy ugyanilyen kritérium.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#Nem változtathatja meg a kritériumot kívánt módon. Már létezik egy ugyanilyen kritérium.
+acc#:#acc_crit_type_usr_language#:#A profil nyelve
 administration#:#adm_pub_section_domain_filter#:#Domain szűrő
 administration#:#adm_pub_section_domain_filter_info#:#A domain szűrők engedélyezik az anonymous hozzáférést. Adjon meg egy vagy több domaint, melyekről engedélyezett az anonymous hozzáférés.
 administration#:#adm_item_cmd_asynch_info#:#A Műveletek listája (például a Taneszköztárolóban) aszinkron töltődik. Ez általában növeli a teljesítményt, de kissé lassítja a Műveletek listaelemeinek betöltését.
@@ -412,7 +476,7 @@ administration#:#language_scope_local#:#Csak a helyi változatok
 administration#:#language_scope_unchanged#:#Csak a nem változtatott bejegyzések
 administration#:#language_settings#:#Nyelvi beállítások
 administration#:#language_statistics#:#Statisztika
-administration#:#language_translation_enabled#:#Oldalfordító bekapcsolva
+administration#:#language_translation_enabled#:#Oldalfordító
 administration#:#log_scan_desc#:#Vizsgálati eredmények mentése a kliens adatmappa 'scanlog.log' fájljába.
 administration#:#log_scan#:#Vizsgálati eredmények naplózása
 administration#:#loginname_change_blocking_time_info#:#Adjon meg időtartamot napban, ameddig a felhasználók nem változtathatják meg felhasználónevüket. Ha 0-t ad meg, a felhasználók bármikor megváltoztathatják felhasználónevüket.
@@ -3177,6 +3241,7 @@ rbac#:#nwss_read#:#A felhasználónak olvasási hozzáférése van a Rendszerbe�
 rbac#:#nwss_visible#:#A felhasználó láthatja a Rendszerbeállítások » Hírek és webhírforrások menüpontot
 rbac#:#nwss_write#:#A felhasználó módosíthatja a Rendszerbeállítások » Hírek és webhírforrások beállításait
 common#:#obj_accs_desc#:#Könnyű kezelés beállításai
+common#:#obj_accs_captcha#:#Captchák
 common#:#obj_accs#:#Könnyű kezelés
 common#:#obj_adm_desc#:#Itt talál mindent az ILIAS rendszerbeállításainak kezeléséhez.
 common#:#obj_adm#:#Rendszerbeállítások
@@ -3611,7 +3676,7 @@ common#:#seconds#:#másodperc
 common#:#select_all#:#Összes kijelölése
 common#:#select_at_least_one_object#:#Legalább egy objektumot jelöljön ki!
 common#:#select_file#:#Fájl kijelölése
-common#:#select_max_one_item#:#Kérem, Csak egy elemet válasszon ki
+common#:#select_max_one_item#:#Kérem, csak egy elemet válasszon ki
 common#:#select_object_to_link#:#Kérem, válassza ki a linkelni kívánt objektumot.
 common#:#select_one#:#Kérem, válasszon egyet.
 common#:#select_questionpool#:#Kérdések beszúrása ide:
@@ -3989,11 +4054,28 @@ common#:#webdav_problem_info_duplicate#:#Létezik egy, az információs fájllal
 common#:#webdav_problem_free_container#:#Egy hibát okozó objektum sincs a tárolóban.
 common#:#webdav_enable_versioning#:#Fájlverzió-támogatás
 common#:#webdav_versioning_info#:#Ha be van kapcsolva, a már létező fájlok a felülírás helyett új verziót kapnak.
-common#:#webfolder_dir_info#:#Böngészője nem tud webmappákat megnyitni. Olvassa el az <a href="%1$s">utasításokat a webmappák megnyitásához</a>.
+common#:#webdav_add_instructions_btn_label#:#WebDAV csatolási útmutató hozzáadása
+common#:#webdav_docs_mount_instructions#:#A WebDAV csatolási útmutató dokumentumok
+common#:#webdav_general_settings#:#Általános beállítások
+common#:#webdav_form_document#:#Útmutató dokumentum
+common#:#webdav_form_document_info#:#Töltsön fel egy szöveges vagy HTML-fájlt. A feltöltés után a fájlt elemezzük és feldolgozzuk. További információkért
+common#:#webdav_form_document_title#:#Cím
+common#:#webdav_form_document_title_info#:#Ez lesz az ablak címe, amikor a WebDAV csatolási útmutatót megnyitják
+common#:#webdav_form_new_doc_head#:#Új WebDAV csatolási útmutató hozzáadása
+common#:#webdav_form_edit_doc_head#:#WebDAV csatolási útmutató módosítása
+common#:#webdav_mount_instructions#:#WebDAV csatolási útmutató
+common#:#webdav_sure_delete_documents_s#:#Biztos, hogy törli a következő című WebDAV csatolási útmutatót:
+common#:#webdav_tbl_docs_title#:#A feltöltött WebDAV csatolási útmutatók
+common#:#webdav_tbl_docs_head_title#:#Dokumentum címe
+common#:#webdav_upload_instructions#:#Útmutató feltöltése
+common#:#webdav_chosen_language_already_used#:#A kiválasztott nyelven már létezik ilyen útmutató.
+common#:#webdav_missing_lang#:#Nincs angol nyelvű verziója a WebDAV csatolási útmutatójának
+common#:#webdav_doc_delete#:#WebDav csatolási útmutató törlése
+common#:#webfolder_dir_info#:#Böngészője nem tud webmappákat megnyitni. Olvassa el az <a href="%1$s">útmutatót a webmappák megnyitásához</a>.
 common#:#webfolder_index_of#:#%1$s indexe
 common#:#webfolder_instructions_info#:#Azokban a böngészőkben, amelyek nem tudnak webmappákat közvetlenül megnyitni, a webmappa-utasítások láthatók. HTML-kódot és az alábbi dzsókerelemeket használhatja: <b>[WEBFOLDER_TITLE]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI]</b>, <b>[WEBFOLDER_URI_KONQUEROR]</b>, <b>[WEBFOLDER_URI_NAUTILUS]</b>, <b>[ADMIN_MAIL]</b>, <b>[WINDOWS]</b>...<b>[/WINDOWS]</b>, <b>[MAC]</b>...<b>[/MAC]</b>, <b>[LINUX]</b>...<b>[/LINUX]</b>. Törölje ki a mezőt, hogy megkapja az alapértelmezett utasításokat!
 common#:#webfolder_instructions_text#:#[WINDOWS]	<h3>Utasítások Windows rendszerrel történő csatlakozáshoz</h3>	<ol>	<li>Nyissa meg a Fájlkezelőt (például Windows + E billentyűkombináció).</li>	<li>Válassza a 'Hálózati meghajtó csatlakoztatása' opciót.</li>	<li>Adja a meg hálózati csatlakoztatandó mappának az következőt (másolja majd illessze be az URL-t):<br /><br />	<b>[WEBFOLDER_URI]</b><br /><br /></li>	<li>Kattintson a 'Befejezés' gombra.</li>	<li>Amennyiben szükséges, adja meg felhasználónevét és jelszavát.</li>	<li>Ezután a hálózati meghajtót a többi meghajtók között megtalálja.</li>	</ol>	<br />	Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a személyes beállításai alatt tudja megváltoztatni.[/WINDOWS][MAC]	<h3>Utasítások Mac OS X rendszerrel történő csatlakozáshoz</h3>	<ol>	<li>Nyissa meg a Keresőt (Finder).</li>	<li>Válassza a 'Menj &gt; Kapcsolódás Szerverhez...' menüt.<br/>Erre a 'Kapcsolódás szerverhez' dialógusablak nyílik meg.</li>	<li>Szerver URL-nek a következő URL-t adja meg:<br/><b>[WEBFOLDER_URI]</b><br/> és válassza a ’Kapcsolódás’-t.</li>	<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>	</ol>	<br />	Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/MAC][LINUX]		<h3>Utasítások Linux rendszerhez Konquerorral történő csatlakozáshoz</h3>		<ol>		<li>Indítsa el a Konqueror böngészőt.</li>		<li>Szerver URL-nek a következő URL-t adja meg:<br />		<b>[WEBFOLDER_URI_KONQUEROR]</b><br/>majd nyomja meg az Enter billentyűt.</li>		<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>		</ol>		<h3>Utasítások Linux rendszerhez Nautilus-szal történő csatlakozáshoz</h3>		<ol>		<li>Indítsa el a Nautilus böngészőt.</li>		<li>Szerver URL-nek a következő URL-t adja meg:<br />		<b>[WEBFOLDER_URI_NAUTILUS]</b><br/>majd nyomja meg az Enter billentyűt..</li>		<li>Adja meg felhasználónevét és jelszavát, majd nyomja meg az 'OK' gombot.</li>		</ol>		<br />		Felhasználóneve és jelszava ugyanaz, mint amivel az ILIAS-ba be tud jelentkezni. Jelszavát a 'Munkaasztal' 'Beállítások' menüben alatt tudja megváltoztatni.[/LINUX]				<h3>Tippek &amp; támogatás</h3>		<ul>		<li>Ezeket a lépéséket <b>csak egyszer</b> szükséges végrehajtani. Később is elérheti ezt a kapcsolatot.</li>		</ul>		<ul>		<li>Almappához csatlakozhat, de a mappától felfelé már nem tud lépni.</li>		</ul>		<ul>		<li>Ha nem sikerül elérnie a hálózati meghajtót, vegye fel a kapcsolatot egy rendszergazdával.</li>		</ul>
-common#:#webfolder_instructions_titletext#:#Webmappaként megnyitása
+common#:#webfolder_instructions_titletext#:#Megnyitás webmappaként
 common#:#webfolder_instructions#:#Leírás webmappa használatához
 common#:#webfolder_mount_dir_with#:#Nyissa meg webmappaként ezt a lapot <a href="%1$s">Internet Explorerrel</a>, <a href="%2$s">Konquerorral</a>, <a href="%3$s">Nautilusszal</a>, <a href="%4$s">más böngészővel</a>.
 common#:#webr_active#:#Aktív
@@ -8707,6 +8789,8 @@ rbac#:#precondition_num_optional_info#:#Adja meg az anyagok minimumszámát az e
 trac#:#trac_min_passed#:#Teljesített anyagok minimális száma:
 crs#:#crs_auto_notification#:#Új tagoknak üdvözlőlevél
 crs#:#crs_auto_notification_info#:#Kurzuscsatlakozáskor levelet küldünk az új tagoknak.
+grp#:#grp_auto_notification#:#Új tagoknak üdvözlőlevél
+grp#:#grp_auto_notification_info#:#Csoportcsatlakozáskor levelet küldünk az új tagoknak.
 wsp#:#wsp_type_tstv#:#Igazolás: teszt
 content#:#cont_par_format#:#Bekezdés
 content#:#cont_char_format#:#Karakter
@@ -8853,6 +8937,8 @@ survey#:#survey_sync_question_copies#:#Kérdésmásolatok szinkronizálása
 survey#:#survey_sync_question_copies_info#:#A kiválasztott kérdőívkérdések frissítése a gyűjteményben lévő jelenlegi változatra.
 survey#:#survey_sync_insufficient_permissions#:#Nincs elegendő jogosultság
 survey#:#survey_sync_success#:#A kiválasztott kérdések frissültek.
+ecs#:#ecs_cron_task_scheduler#:#ECS-feladatütemező
+ecs#:#ecs_cron_task_scheduler_info#:#z ECS-feladatütemező a beállításai szerint fog lefutni. Ez csak akkor szükséges, amikor be van állítva ECS-szerver.
 ecs#:#ecs_add_new_ecs#:#Új ECS létrehozása
 ecs#:#ecs_available_ecs#:#Elérthető ECS
 ecs#:#ecs_tbl_active#:#Aktív
@@ -9655,6 +9741,7 @@ rbac#:#rbac_create_chtr#:#Csevegőszoba létrehozása
 search#:#search_err_user_not_exist#:#Nincs azzal a bejelentkező névvel felhasználó.
 blog#:#blog_draft#:#Piszkozat
 blog#:#blog_draft_info#:#Ezt a bejegyzéspiszkozatot csak a szerző látja.
+blog#:#blog_task_publishing_draft_title#:#'%s' bejegyzéspiszkozat közzététele
 blog#:#blog_toggle_draft#:#Közzététel visszavonása
 blog#:#blog_toggle_final#:#Bejegyzés közzététele
 dateplaner#:#cal_cal_deleted#:#A naptárat sikeresen törölte
@@ -11206,7 +11293,7 @@ wsp#:#wsp_shared_type#:#Megosztva az alábbival
 wsp#:#wsp_shared_object_type#:#Erőforrás típusa
 wsp#:#wsp_shared_user_filter#:#Felhasználónév/Név
 wsp#:#wsp_shared_date_filter#:#Megosztva ez után
-wsp#:#wsp_shared_mandatory_filter_info#:#Állítson be szűrőt a keresési méret csökkentéséért.
+wsp#:#wsp_shared_mandatory_filter_info#:#Legalább egy szűrőattribútumot célszerű használni. A szövegszűrőknek legalább 4 karakter hosszúnak kell lenniük.
 wsp#:#wsp_shared_member_filter#:#Kurzusok/Csoportok tagjai
 blog#:#blog_allow_html_info#:#Engedélyezi, hogy a felhasználók HTML és JavaScript kódokat használhassanak a blogbejegyzéseikben. Ez biztonsági problémákhoz vezethet.
 common#:#scorm_without_session#:#SCORM: munkamenet nélkül lehetséges az adattárolás
@@ -11382,6 +11469,8 @@ common#:#my_staff#:#Munkatárs
 mst#:#mst_my_staff#:#Munkatárs
 mst#:#mst_list_users#:#Munkatársak listája
 mst#:#mst_list_courses#:#Beiratkozások
+mst#:#mst_list_certificates#:#Tanúsítványok
+mst#:#mst_list_competences#:#Kompetenciák
 mst#:#mst_select_course#:#Válasszon kurzust
 mst#:#mst_please_select_course#:#Kérem, válasszon egy kurzust.
 mst#:#mst_opt_all#:#Összes
@@ -11390,6 +11479,10 @@ mst#:#mst_memb_status_waitinglist#:#Várólista
 mst#:#mst_memb_status_registered#:#Regisztrált
 mst#:#mst_show_courses#:#Felvételek
 mst#:#mst_courses_of#:#%s beiratkozásai
+mst#:#mst_profile_fulfilled#:#Teljesített
+mst#:#mst_profile_not_fulfilled#:#Még nem teljesített
+mst#:#mst_cert_issued_on#:#Kiállítás dátuma
+mst#:#mst_download_certificate#:#Tanúsítvány letöltése
 orgu#:#msg_position_udpated#:#A pozíciót sikeresen módosította
 orgu#:#remove_successful#:#A felhasználót sikeresen eltávolította.
 orgu#:#orgu_enable_my_staff#:#A 'Munkatársak' bekapcsolása
@@ -11407,6 +11500,10 @@ orgu#:#org_op_write_learning_progress#:#Más felhasználók tanulási haladásá
 rbac#:#org_op_write_learning_progress#:#Alárendelt felhasználók tanulási haladásának módosítása
 rbac#:#org_op_edit_submissions_grades#:#Más felhasználók beküldésének módosítása
 orgu#:#org_op_edit_submissions_grades#:#Más felhasználók beküldésének módosítása
+orgu#:#org_op_view_certificates#:#Más felhasználók tanúsítványainak megtekintése
+rbac#:#org_op_view_certificates#:#Alárendelt felhasználók tanúsítványainak megtekintése
+orgu#:#org_op_view_competences#:#Más felhasználók kompetenciáinak megtekintése
+rbac#:#org_op_view_competences#:#Alárendelt felhasználók kompetenciáinak megtekintése
 orgu#:#form_title_org_default_permissions_update#:#Alapértelmezett jogosultságok
 orgu#:#view_learning_progress#:#Tanulási haladás megjelenítése
 orgu#:#il_orgu_employee#:#Beosztott
@@ -13220,6 +13317,8 @@ awrn#:#awrn_incl_offline#:#Online és offline
 adm#:#adm_support_contacts#:#Technikai segítségnyújtók
 adm#:#adm_awrn_support_contacts_info#:#Az összes technikai segítségnyújtót felsoroljuk. Ezek az 'Általános beállítások' » 'Elérhetőségek' » 'Technikai segítségnyújtók' részben található felhasználók.
 adm#:#adm_support_contacts_info#:#A támogatási kapcsolatok - ami vesszővel elválasztott felhasználói fiókok felsorolása - a 'Ki van online?'-eszköz láblécébe kerülnek (ha az be van kapcsolva).
+adm#:#adm_accessibility_contacts#:#A kapcsolat hozzáférési pontja
+adm#:#adm_accessibility_contacts_info#:#Kapcsolatok a hozzáférési problémák jelentéséhez, láblécben lévő link. Felhasználónevek vesszővel elválasztott felsorolása.
 mmbr#:#mmbr_awrn_my_groups_courses#:#Csoportjaim és kurzusaim
 mmbr#:#mmbr_awrn_my_groups_courses_info#:#A jelenlegi felhasználó kurzusainak vagy csoportjainak összes tagját felsoroljuk itt.
 crs#:#crs_awrn_current_course#:#Jelenlegi kurzus
@@ -13232,6 +13331,10 @@ awrn#:#awrn_max_nr_entries_info#:#Maximum ennyi elem legyen a 'Ki van online?' f
 awrn#:#awrn_hide_from_awareness#:#Rejtsen el engem a 'Ki van online?'-eszközben
 awrn#:#awrn_hide_from_awareness_info#:#A 'Ki van online?'-eszköz a felső sávban található és felhasználókat jelenít meg (például kurzusai tagjait).
 common#:#contact_sysadmin#:#Kapcsolat
+common#:#report_accessibility_issue#:#Hozzáférési probléma jelzése
+common#:#report_accessibility_link#:#Bejelentett link:
+common#:#accessibility_control_concept#:#Hozzáférés-vezérlés koncepciója
+common#:#no_accessibility_control_concept_description#:#Jelenleg nincs hozzáférés-vezérlés koncepciója ennek a telepítésnek. Kérem, további információkért lépjen kapcsolatba a <a href="%1$s">kapcsolat hozzáférési pontjával</a>.
 ldap#:#ldap_servers#:#LDAP Szerver
 ldap#:#add_ldap_server#:#Szerver hozzáadása
 ldap#:#ldap_username_filter#:#Felhasználónév szűrése
@@ -13758,19 +13861,6 @@ glo#:#glo_reference#:#Hivatkozás
 glo#:#glo_selected_terms_have_been_copied#:#A kiválasztott kifejezéseket a vágólapra másoltuk. Nyissa meg a cél fogalomtárat, majd nyomja meg a 'Beillesztés' gombot.
 prg#:#prg_assign_date#:#Hozzárendelés dátuma
 prg#:#prg_assigned_by#:#Hozzárendelte
-survey#:#svy_mail_context_reminder_title#:#Kérdőív-emlékeztető
-survey#:#svy_mail_context_reminder_info#:#Emlékeztető felhasználóknak kérdőívben való résztvételre
-survey#:#svy_mail_context_reminder_survey_title#:#Kérdőív címe
-survey#:#svy_reminder_mail_template#:#Levélsablon
-survey#:#svy_reminder_mail_template_none#:#Ne használjon levélsablont
-survey#:#svy_eval_view#:#Megjelenítés
-survey#:#svy_eval_view_tables_charts#:#Táblázat és diagram
-survey#:#svy_eval_view_tables#:#Táblázat
-survey#:#svy_eval_view_charts#:#Diagram
-survey#:#svy_eval_captions#:#Ábrák
-survey#:#svy_eval_captions_abs_perc#:#Abszolút és százalék
-survey#:#svy_eval_captions_abs#:#Abszolút
-survey#:#svy_eval_captions_perc#:#Százalék
 style#:#add_system_style#:#Rendszerstílus létrehozása
 style#:#add_substyle#:#Alstílus létrehozása
 style#:#skin_id#:#Skin ID
@@ -14073,12 +14163,12 @@ chatroom#:#chatroom_enable_osc_info#:#Ha be van kapcsolva, az összes felhaszná
 chatroom#:#chat_osc_start_conversation#:#Beszélgetés indítása
 chatroom#:#chat_osc_nc_prop_time#:#Idő
 chatroom#:#chat_osc_nc_no_conv#:#Egy beszélgetés sem érhető el
-chatroom#:#chat_osc_nc_conv_x_s#:#Egy rejtett beszélgetés van
-chatroom#:#chat_osc_nc_conv_x_p#:#%s Egy rejtett beszélgetés van
+chatroom#:#chat_osc_nc_conv_x_s#:#Egy rejtett beszélgetése van.
+chatroom#:#chat_osc_nc_conv_x_p#:#%s rejtett beszélgetése van.
 chatroom#:#chat_osc_accept_msg#:#Képernyőbeszélgetések bekapcsolása
 chatroom#:#chat_osc_accept_msg_info#:#Ha be van kapcsolva, mások beszélgetést kezdeményezhetnek Önnel.
-chatroom#:#chat_osc_accepts_messages_no#:#Üzeneteket nem fogad
-chatroom#:#chat_osc_accepts_messages_yes#:#Üzeneteket fogad
+chatroom#:#chat_osc_accepts_messages_no#:#Nem fogad üzeneteket
+chatroom#:#chat_osc_accepts_messages_yes#:#Fogad üzeneteket
 chatroom#:#chat_osc_conversations#:#Beszélgetések
 chatroom#:#chat_osc_send#:#Küldés
 chatroom#:#chat_osc_invite_to_conversation#:#Beszélgetéshez hozzáadás
@@ -14851,7 +14941,7 @@ prtf#:#prtf_set_online#:#Legyen online
 prtf#:#prtf_set_offline#:#Legyen offline
 prtf#:#prtf_no_submission#:#Nincs beküldve
 prtf#:#prtf_submission_on#:#Beküldve: $1
-prtf#:#prtf_no_offline_share_info#:#A portfóliónak online-nak kell lennie, hogy a többi felhasználó megoszthassa.
+prtf#:#prtf_no_offline_share_info#:#A portfóliónak online-nak kell lennie, hogy megoszthassa másokkal.
 prtf#:#prtf_has_been_set_online#:#A portfóliónak online-nak kell lennie.
 user#:#user_prompting_recurrence#:#Felkérés ismétlődése
 user#:#user_prompting_settings#:#Felkérés beállításai
@@ -15289,8 +15379,8 @@ content#:#cont_tool_media#:#Média
 content#:#cont_tool_faq#:#GyÍK
 exc#:#exc_text_saved#:#A szöveget sikeresen mentette.
 common#:#nc_contact_requests_headline#:#Kapcsolatfelvételi kérés
-common#:#nc_contact_requests_number_s#:#%s kapcsolatfelvételi kérése van
-common#:#nc_contact_requests_number_p#:#%s kapcsolatfelvételi kérése van
+common#:#nc_contact_requests_number_s#:#%s kapcsolatfelvételi kérése van.
+common#:#nc_contact_requests_number_p#:#%s kapcsolatfelvételi kérése van.
 common#:#nc_contact_requests_prop_time#:#Időpont
 exc#:#exc_team_by_random_add_info#:#Ezen mód használata előtt az összes felhasználót hozzá kell rendelnie.
 forum#:#sorting#:#Rendezés
@@ -15357,6 +15447,8 @@ wsp#:#wsp_personal_resources_description#:#Itt kezelheti személyes fájljait, b
 administration#:#adm_personal_workspace#:#Személyes munkaterület
 dash#:#dash_favourites#:#Kedvenceim
 dash#:#dash_memberships#:#Kurzusaim és csoportjaim
+dash#:#dash_learningsequences#:#Tanulási soraim
+dash#:#dash_studyprogramme#:#Tanulmányi programjaim
 rbac#:#read_outcomes#:#A többi felhasználó tanulási tapasztalatának megtekintése
 rbac#:#add_consume_provider#:#Saját LTI-Kiszolgáló beállításai
 rbac#:#ltis_add_consume_provider#:#User can add own provider settings for LTI Fogyasztók
@@ -15525,7 +15617,7 @@ lti#:#conf_user_name_none_info#:#'-'-et küldjük a név helyett
 lti#:#conf_user_name_firstname#:#Utónév
 lti#:#conf_user_name_firstname_info#:#A felhasználó utónevét küldjük
 lti#:#conf_user_name_lastname#:#Titulus és családnév
-lti#:#conf_user_name_lastname_info#:#Hölgy vagy Úr megszólítást (eltérő rendelkezés hiányában) és a családnevet küldjük
+lti#:#conf_user_name_lastname_info#:#Asszony vagy Úr megszólítást (eltérő rendelkezés hiányában) és a családnevet küldjük
 lti#:#conf_user_name_fullname#:#Teljes név
 lti#:#conf_user_name_fullname_info#:#A titulust, a családi és az utónevet is küldjük
 lti#:#lti_con_prov_privacy_setting_conf#:#Beállítási lehetőségek
@@ -15645,59 +15737,59 @@ cmix#:#xapi_statements_fetched_successfully#:#Results from Learning Record Store
 cmix#:#xapi_statements_last_fetch_date#:#Last fetch of Results:
 cmix#:#tab_info#:#Info
 cmix#:#tab_settings#:#Beállítások
-cmix#:#tab_statements#:#Learning Experiences
+cmix#:#tab_statements#:#Tanulási tapasztalatok
 cmix#:#tab_export#:#Export
-cmix#:#tab_scoring#:#Ranking
+cmix#:#tab_scoring#:#Rangsor
 cmix#:#tbl_statements_date#:#Dátum
 cmix#:#tbl_statements_actor#:#Felhasználó
 cmix#:#tbl_statements_verb#:#Ige
 cmix#:#tbl_statements_object#:#Objektum
-cmix#:#tbl_action_raw_data#:#View Raw Data
+cmix#:#tbl_action_raw_data#:#Nyers adatok megtekintése
 cmix#:#tab_lrs_types#:#LRS-típus
 cmix#:#btn_create_lrs_type#:#LRS-típus hozzáadása
 cmix#:#tbl_lrs_types_header#:#LRS-típusok
 cmix#:#tbl_lrs_type_title#:#Cím
 cmix#:#tbl_lrs_type_availability#:#Elérhetőség
-cmix#:#tbl_lrs_type_usages#:#Usages Count
+cmix#:#tbl_lrs_type_usages#:#Felhasználások száma
 cmix#:#create_lrs_type_form#:#Új LRS-típus
 cmix#:#edit_lrs_type_form#:#LRS-típus
 cmix#:#lrs_authentication#:#Hitelesítés
-cmix#:#sect_learning_progress_options#:#Options for Learning Progress
+cmix#:#sect_learning_progress_options#:#Tanulási haladás lehetőségei
 cmix#:#conf_title#:#Cím
-cmix#:#info_title#:#This title will be shown when choosing the típus for new objects.
-cmix#:#conf_description#:#Description
-cmix#:#info_description#:#This description will be shown when choosing the típus for new objects.
-cmix#:#conf_availability#:#Availability
-cmix#:#info_availability#:#Hereby you can operate the availability of the LRS-típus within the magazine. All types can set on "allow existing ones" instead of being deleted.
-cmix#:#conf_availability_0#:#Not available
-cmix#:#conf_availability_1#:#Existing ones allowed
-cmix#:#conf_availability_2#:#New producible
-cmix#:#conf_lrs_endpoint#:#Endpoint
-cmix#:#info_lrs_endpoint#:#URL of the endpoint without '/' at the end
-cmix#:#conf_lrs_key#:#Kulcs / Login
-cmix#:#info_lrs_key#:#Kulcs or login for access, i.e. 12345
-cmix#:#conf_lrs_secret#:#Secret / Password
-cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret
-cmix#:#conf_own_window#:#Own Window
-cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
-cmix#:#conf_any_window#:#Any Window
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.
-cmix#:#conf_launch_mode#:#Launch Mode
+cmix#:#info_title#:#Ez a cím jelenik meg új objektumok típúsának kiválasztásakor.
+cmix#:#conf_description#:#Leírás
+cmix#:#info_description#:#Ez a leírás jelenik meg új objektumok típúsának kiválasztásakor.
+cmix#:#conf_availability#:#Elérhetőség
+cmix#:#info_availability#:#Itt állítható a az LRS-típus elérhetősége a Taneszköztárolóban. Az összes típus a törlés helyett lehet 'A már lézetők engedélyzettek'.
+cmix#:#conf_availability_0#:#Nem érhető el
+cmix#:#conf_availability_1#:#A már lézetők engedélyzettek
+cmix#:#conf_availability_2#:#Új létrehozható
+cmix#:#conf_lrs_endpoint#:#Zárópont
+cmix#:#info_lrs_endpoint#:#A zárópont URL-je '/' nélkül a végén
+cmix#:#conf_lrs_key#:#Kulcs / Bejelentkezés
+cmix#:#info_lrs_key#:#Kulcs vagy bejelentkezés a hozzáféréshez, például 12345
+cmix#:#conf_lrs_secret#:#Titok / Jelszó
+cmix#:#info_lrs_secret#:#Megosztott titok / Jelszó, például titok
+cmix#:#conf_own_window#:#Egy ablak
+cmix#:#conf_own_window_info#:#A tartalom ugyanabban az ablakban nyílik meg, lecserélve az ILIAS képernyőjét. A tartalom elhagyásakor a felhasználó visszatér az ILIAS-ba.
+cmix#:#conf_any_window#:#Akárhány ablak
+cmix#:#conf_any_window_info#:#A tartalom egy új ablakban nyílik meg, ami az elhagyásakor bezárul.
+cmix#:#conf_launch_mode#:#Indítási mód
 cmix#:#conf_launch_mode_normal#:#Normál
 cmix#:#conf_launch_mode_browse#:#Böngészés
 cmix#:#conf_launch_mode_review#:#Felülvizsgálat
-cmix#:#conf_keep_lp#:#Keep Learning Progress
-cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
+cmix#:#conf_keep_lp#:#A tanulási folyamat megtartása
+cmix#:#conf_keep_lp_info#:#Az ILIAS tanulási folyamatának 'Teljesítve' állapotát befagyasztjuk.
 cmix#:#conf_external_lrs#:#Külső LRS
-cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an Külső LRS. An Külső LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.
-cmix#:#conf_user_ident#:#User identification
-cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
-cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Külső User Id combined with a unique ILIAS platform id formated as an email adress.
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
+cmix#:#info_external_lrs#:#A tipp jelenik meg a felhasználónak, amikor egy külső LRS-vel foglalkozik. A külső LRS-t az ILIAS-telepítés üzemeltetője által az LRS-re gyakorolt nem megfelelő befolyása jellemzi. Ez az eset áll fenn, ha nincs törlés joga.
+cmix#:#conf_user_ident#:#Felhasználó azonosítása
+cmix#:#conf_user_ident_info#:#A leggyakrabban használat az e-mail cím. Az egyedi ILIAS platform id:
+cmix#:#conf_user_ident_il_uuid_user_id#:#Az ILIAS user id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_user_id_info#:#Ez azonosítja az összes hívást, de nem enged következtetni az ILIAS felhasználóra.
+cmix#:#conf_user_ident_il_uuid_login#:#Az ILIAS felhasználónév és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_login_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged az ILIAS felhasználóra.
+cmix#:#conf_user_ident_il_uuid_ext_account#:#A külső user id és az egyedi ILIAS platform id e-mail cím formátumban.
+cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ez azonosítja az összes hívást, de esetleg következtetni enged a felhasználóra.
 cmix#:#conf_user_ident_real_email#:#E-mail cím
 cmix#:#conf_user_ident_real_email_info#:#A felhasználó e-mail címét küldi azonosításként (Figyelem: egy e-mail címet több felhasználó is használhat!)
 cmix#:#conf_user_name#:#Felhasználó neve
@@ -15707,7 +15799,7 @@ cmix#:#conf_user_name_none_info#:#'-'-et küldjük a név helyett
 cmix#:#conf_user_name_firstname#:#Utónév
 cmix#:#conf_user_name_firstname_info#:#A felhasználó utónevét küldjük
 cmix#:#conf_user_name_lastname#:#Titulus és családnév
-cmix#:#conf_user_name_lastname_info#:#Hölgy vagy Úr megszólítást (eltérő rendelkezés hiányában) és a családnevet küldjük
+cmix#:#conf_user_name_lastname_info#:#Asszony vagy Úr megszólítást (eltérő rendelkezés hiányában) és a családnevet küldjük
 cmix#:#conf_user_name_fullname#:#Teljes név
 cmix#:#conf_user_name_fullname_info#:#A titulust, a családi és az utónevet is küldjük
 cmix#:#conf_privacy_setting_conf#:#Beállítási lehetőségek
@@ -15800,3 +15892,154 @@ style#:#style_page_layout_module_learning_module#:#ILIAS-tananyag
 content#:#cont_insert_pagelayout#:#Oldalsablon beszúrása
 content#:#cont_page_template#:#Oldalsablon
 content#:#cont_page_created#:#Az oldal létrehozva
+prg#:#assignment_date#:#Assignment Date###XXX
+prg#:#completion_date#:#Completion Date
+prg#:#prg_no_deadline#:#No fixed prozessing time
+prg#:#prg_deadline_period#:#Processing time is determined inividually
+prg#:#prg_deadline_period_desc#:#The programme must be finished within a given timespan.
+prg#:#prg_deadline_date#:#Processing time expires at fixed date
+prg#:#prg_deadline_date_desc#:#The programme must be finished until a given date.
+prg#:#prg_no_validity_qalification#:#Long-Lasting qualification
+prg#:#prg_validity_of_qualification#:#Validity of Achieved Qualifications
+prg#:#validity_qalification_period#:#Qualification expires individually
+prg#:#validity_qalification_period_desc#:#days after completion
+prg#:#validity_qalification_date#:#Qualification expires at fixed date
+prg#:#validity_qalification_date_desc#:#expiry date
+prg#:#prg_no_restart#:#No restart required
+prg#:#restart_period#:#Restart obligatory
+prg#:#restart_period_desc#:#days before expiry
+prg#:#sp_certificate_title#:#Title of the Study Programme
+prg#:#sp_certificate_description#:#Description of the Study Programme
+prg#:#sp_certificate_type#:#Type of the Study Programme
+prg#:#sp_certificate_points#:#Amount of points that have been acquired
+prg#:#sp_certificate_completion_date#:#Date of completion
+prg#:#sp_certificate_progress_expires_at#:#Date of expiry of qualification
+prg#:#prg_completion_date#:#Completion date
+prg#:#prg_expiry_date#:#Expiry date
+prg#:#prg_validity#:#Validity
+prg#:#prg_still_valid#:#still valid
+prg#:#prg_renewal_required#:#renewal required
+prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
+prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
+prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
+prg#:#prg_invalidate_expired_progresses_desc#:#Marks expired progresses at Studyprogrammes as 'not passed'
+prg#:#prg_orgus#:#Organisational Units
+prg#:#content_automation_title#:#Automatically add and remove Courses from these categories
+prg#:#content_automation#:#Content Automation
+prg#:#last_edited_by#:#Last Editor
+prg#:#last_edited#:#Last edited
+prg#:#add_category#:#Add Category
+prg#:#modal_categories_title#:#Category to be monitored
+prg#:#category#:#Category RefId
+common#:#obj_prgr#:#Tanulási programra mutató link
+common#:#obj_prgrs#:#Tanulási programokra mutató linkek
+prg#:#prgr_new#:#Create Study Programme Link
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.
+prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.
+prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry
+prg#:#prg_validity_of_qualification_restart#:#Restart
+prg#:#prg_deadline_settings#:#Processing Period
+prg#:#edit_participants#:#Edit Members
+prg#:#auto_memberships#:#Membership Automation
+prg#:#orgu#:#Organisational Unit
+prg#:#rol#:#Role
+prg#:#auto_membership_title#:#Sources for Membership Automation
+prg#:#add_automembership_source#:#Add Source
+prg#:#auto_membership_src_type#:#Type
+prg#:#membership_source_id#:#Id
+prg#:#membership_source_id_byline_objid#:#Please use the <b>object-id</b>
+prg#:#membership_source_id_byline_refid#:#Please use the <b>reference-id</b>
+prg#:#modal_automembership_title#:#Automatismus hinzufügen
+prg#:#membership_source_type#:#Source
+prg#:#prg_autoassignment#:#(auto)
+prg#:#some_users_may_not_be_accredited#:#Partially marked users accredited.
+prg#:#some_users_may_not_be_unmarked_accredited#:#Partially unmarked users accredited.
+prg#:#some_users_may_not_be_marked_relevant#:#Partially marked relevant.
+prg#:#some_users_may_not_be_marked_not_relevant#:#Partially unmarked relevant.
+orgu#:#org_op_view_members#:#Tagok megtekintése
+orgu#:#org_op_view_individual_plan#:#Egyedi terv megtekintése
+orgu#:#org_op_edit_individual_plan#:#Egyedi terv módosítása
+prg#:#prg_formatted_period#:#%d days
+prg#:#deadline_information#:#Information regarding processing period
+prg#:#dealine_period_info#:#Days to process after assignment
+prg#:#dealine_date_info#:#Deadline date
+prg#:#vq_information#:#Information regarding validity of achived qualification
+prg#:#vq_period_info#:#Days until qualification will expire after achivement
+prg#:#vq_date_info#:#Qualification expires at fixed date
+prg#:#restart_information#:#Information regarding automatic restart upon pending qualification expiration
+prg#:#restart_period_info#:#Days before qualification expiration to restart qualification
+prg#:#access_ctr_by_orgu_position#:#Access control according to Organisational Unit Positions
+prg#:#could_not_add_users_no_permissons#:#Could not assign %d Users due to lacking permissions.
+prg#:#not_a_valid_cat_id#:#%s is not a valid ref-id of a category.
+prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
+prg#:#prg_title#:#Title
+prg#:#re_assigned_mail_subject#:#Renewed participation in the study programm
+prg#:#re_assigned_mail_body#:#%s %s,<br \><br \>you were reassigned to study program '%s' as participants.
+prg#:#info_to_re_assign_mail_subject#:#Reminder of renewed participation in the study programm
+prg#:#info_to_re_assign_mail_body#:#%s %s,<br \><br \>The validity of their participation in the study programm '% s' expires soon. Please sign in again.
+prg#:#prg_user_not_restarted_time_input#:#Reminder mail restart
+prg#:#prg_user_not_restarted_time_input_info#:#Reminder Mail Reminds the user x days before the invalidation that he must restart the programm.
+prg#:#prg_processing_ends_no_success#:#Reminder mail failing
+prg#:#prg_processing_ends_no_success_info#:#Reminds the user x days before the program expires that he is at risk of failing.
+prg#:#prg_cron_job_configuration#:#Configuration automatic Mails
+prg#:#send_re_assigned_mail#:#E-mail renewed participation
+prg#:#send_re_assigned_mail_info#:#Send an e-mail to automatically re-join the sudy program.
+prg#:#send_info_to_re_assign_mail#:#E-mail reminder restart
+prg#:#send_info_to_re_assign_mail_info#:#Send an e-mail to remind the user to restart the study program.
+prg#:#prg_user_risky_to_fail_title#:#Send warning mail about possible failure
+prg#:#prg_user_risky_to_fail_desc#:#Sends users a warning mail if they are at the risk to fail a study programme due to a deadline.
+prg#:#prg_user_not_restarted_title#:#Send warning mail about restart
+prg#:#prg_user_not_restarted_desc#:#Sends users a warning mail if a qualification at a study programme expires and they haven't restarted the program yet.
+prg#:#send_risky_to_fail_mail#:#E-mail in case of failure
+prg#:#send_risky_to_fail_mail_info#:#Send an e-mail if the user is at risk of failure of the study program.
+search#:#search_for_orgu_members#:#Szervezeti egységek keresése
+search#:#select_orgu#:#Válasszon szervezeti egységeket
+prg#:#prg_dash_label_valid#:#Érvényes:
+prg#:#prg_dash_label_minimum#:#Minimális teljesítettség:
+prg#:#prg_dash_label_gain#:#Jelenlegi teljesítettség:
+prg#:#prg_dash_label_status#:#Állapot:
+prg#:#prg_dash_label_finish_until#:#Befejezés eddig:
+prg#:#prg_dash_label_restart_from#:#Újrakezdés innen:
+prg#:#percentage#:#%
+prg#:#prg_status_1#:#Folyamatban
+prg#:#prg_status_2#:#Teljesítve
+prg#:#prg_status_3#:#Akkreditált
+prg#:#prg_status_4#:#Nem releváns
+prg#:#prg_status_5#:#sikertelen
+prg#:#prg_multi_change_deadline#:#Határidő módosítása
+prg#:#prg_multi_change_expire_date#:#Lejárati idő módosítása
+prg#:#update_expire_date#:#A lejárati időt sikeresen módosította.
+prg#:#update_deadline#:#A határidőt sikeresen módosította.
+prg#:#error_updating_expire_date#:#Hiba a lejárati idő módosításakor.
+prg#:#error_updating_deadline#:#Hiba a határidő módosításakor.
+prg#:#select_crs#:#Kurzusok keresése
+prg#:#select_grp#:#Csoportok keresése
+prg#:#select_role#:#Szerepek keresése
+prg#:#select_org#:#Szervezeti egységek keresése
+prg#:#label_crs#:#Kurzus neve
+prg#:#label_grp#:#Csoport neve
+prg#:#label_role#:#Szerep neve
+prg#:#modal_member_auto_select_title#:#Válassza ki az automatikus összerendelés forrását
+prg#:#prg_auto_member_select_crs#:#Kurzusok
+prg#:#prg_auto_member_select_grp#:#Csoportok
+prg#:#prg_auto_member_select_role#:#Szerepek
+badge#:#badge_new_badges#:#%1 új érdemérme van.
+content#:#cont_no_read#:#Nincs olvasási jogosultsága
+content#:#cont_grid_t_two_column#:#Kétoszlopos elrendezés
+content#:#cont_grid_t_two_column_info#:#Kettő ugyanolyan széles oszlop jön létre egymás mellett, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi).
+content#:#cont_grid_t_three_column#:#Háromoszlopos elrendezés
+content#:#cont_grid_t_three_column_info#:#Három ugyanolyan széles oszlop jön létre egymás mellett, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi).
+content#:#cont_grid_t_main_side#:#Fő- és oldalblokk
+content#:#cont_grid_t_main_side_info#:#Egy széles oszlop a bal oldalon és egy keskenyebb oszlop a jobb oldalon jön létre, ami egyoszlopos elrendezése módosul mobil nézetben (kicsi).
+content#:#cont_grid_t_two_by_two#:#Kétszer kettő doboz
+content#:#cont_grid_t_two_by_two_info#:#Két sor jön létre két azonos szélességű oszloppal, ami egyoszlopos elrendezésre módosul mobil nézetben (kicsi) és négyoszlopos elrendezésre extra széles képernyőkön (extra nagy).
+content#:#cont_grid_t_manual#:#Kézzel készített oldalelrendezés
+content#:#cont_grid_t_manual_info#:#Lehetővé teszi az oszlopok számának és szélességének szabad megtervezését.
+dateplaner#:#cal_no_events_block#:#Egy eseménye sincs.
+rep#:#rep_fav_intro1#:#Még nem választott ki egy kedvencet sem. Ehhez két lépést kell tennie:
+rep#:#rep_fav_intro2#:#Kattintson '%s' elemre és válasszon egy tanulási objektumot a rendelkezésre álló ajánlatból, például egy tananyagot vagy egy fórumot.
+rep#:#rep_fav_intro3#:#Amikor olyasmire bukkan, ami felkeltette az érdeklődését, adja hozzá a kedvenceihez: válassza a kívánt objektum <i>Műveletek</i> menüjéből a '<i>Hozzáadás a kedvencekhez</i>' lehetőséget.
+rep#:#rep_mo_mem_dash#:#Jelenleg egy kurzusnak, illetve csoportnak sem tagja.
+task#:#task_no_task_items#:#Nincsenek teendők.
+exc#:#exc_members_already_assigned_team#:#Ez a felhasználó már tagja ennek a csapatnak.
+style#:#sty_add_media_query_info#:#Péládul 'csak képernyő és (max-szélesség: 600px)' 600px-nél kisebb böngészőablakokhoz vagy 'nyomtatás' nyomtatókhoz.
