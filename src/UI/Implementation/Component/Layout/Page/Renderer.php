@@ -55,9 +55,14 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
-        $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
-        if($slates_cookie && json_decode($slates_cookie,true)['engaged']) {
-            $tpl->touchBlock('slates_engaged');
+        if($component->hasMainbar()) {
+            $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED];
+            if($slates_cookie && json_decode($slates_cookie,true)['engaged']) {
+                $tpl->touchBlock('slates_engaged');
+            }
+        } else {
+            $tpl->touchBlock('no_mainbar');
+            $tpl->touchBlock('nav_no_mainbar');
         }
 
         $tpl->setVariable("TITLE", $component->getTitle());
