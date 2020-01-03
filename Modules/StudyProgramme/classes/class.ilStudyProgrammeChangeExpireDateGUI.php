@@ -173,7 +173,7 @@ class ilStudyProgrammeChangeExpireDateGUI
             $this->refinery_factory->custom()->transformation(function ($values) {
                 $return = [];
                 foreach ($this->getGetPrgsIds() as $user_id) {
-                    $progress = $this->getObject()->getProgressForAssignment($user_id);
+                    $progress = $this->getObject()->getProgressForAssignment((int)$user_id);
 
                     $status = $progress->getStatus();
                     if (
@@ -270,7 +270,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         }
 
         ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
-        $this->ctrl->redirectByClass($this, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
 
     public function setRefId(int $ref_id) : void

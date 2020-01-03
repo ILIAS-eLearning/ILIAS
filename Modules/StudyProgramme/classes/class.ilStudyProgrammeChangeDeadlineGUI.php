@@ -173,7 +173,7 @@ class ilStudyProgrammeChangeDeadlineGUI
             $this->refinery_factory->custom()->transformation(function ($values) {
                 $return = [];
                 foreach ($this->getGetPrgsIds() as $user_id) {
-                    $progress = $this->getObject()->getProgressForAssignment($user_id);
+                    $progress = $this->getObject()->getProgressForAssignment((int)$user_id);
                     $deadline_data = $values[0][self::PROP_DEADLINE];
                     $deadline_type = $deadline_data[0];
                     switch ($deadline_type) {
@@ -264,7 +264,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         }
 
         ilUtil::sendFailure($this->lng->txt('error_updating_deadline'), true);
-        $this->ctrl->redirectByClass($this, self::CMD_SHOW_DEADLINE_CONFIG);
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
     }
 
     public function setRefId(int $ref_id) : void
