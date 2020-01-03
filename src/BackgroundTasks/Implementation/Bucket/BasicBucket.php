@@ -312,9 +312,7 @@ class BasicBucket implements Bucket
      */
     public function heartbeat()
     {
-        $timezone_identifier = ini_get('date.timezone');
-        date_default_timezone_set($timezone_identifier ? $timezone_identifier : 'UTC');
-        $now = new \DateTime();
+        $now = new \DateTime('now', new \DateTimeZone('UTC'));
         $this->lastHeartbeat = $now->getTimestamp();
     }
 
