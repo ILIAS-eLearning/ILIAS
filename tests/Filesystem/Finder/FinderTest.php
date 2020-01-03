@@ -195,11 +195,7 @@ class FinderTest extends TestCase
      */
     public function testFinderWillFilterFilesAndFoldersByCreationTimestamp() : Filesystem\Filesystem
     {
-        $timezone = date_default_timezone_get();
-        date_default_timezone_set("Europe/Berlin");
-
-        // 30.03.2019 13:00:00 Europe/Berlin
-        $now = 1553947200;
+        $now = new \DateTimeImmutable('2019-03-30 13:00:00');
 
         $fs = $this->getNestedFileSystemStructure();
         $fs
@@ -211,25 +207,25 @@ class FinderTest extends TestCase
             ->will($this->returnCallback(function ($path) use ($now) {
                 switch ($path) {
                     case'file_1.txt':
-                        return new \DateTimeImmutable('@' . $now);
+                        return $now;
 
                     case 'file_2.mp3':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 1));
+                        return $now->modify('+1 hour');
 
                     case 'dir_1/file_3.log':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 2));
+                        return $now->modify('+2 hour');
 
                     case 'dir_1/file_4.php':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 3));
+                        return $now->modify('+3 hour');
 
                     case 'dir_1/dir_1_1/file_5.cpp':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 4));
+                        return $now->modify('+4 hour');
 
                     case 'dir_1/dir_1_2/file_6.py':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 5));
+                        return $now->modify('+5 hour');
 
                     case 'dir_1/dir_1_2/file_7.cpp':
-                        return new \DateTimeImmutable('@' . ($now + 60 * 60 * 6));
+                        return $now->modify('+6 hour');
 
                     default:
                         return new \DateTimeImmutable('now');
@@ -247,8 +243,6 @@ class FinderTest extends TestCase
         $this->assertCount(2, $finder->date('< 2019-03-30 15:00')->files());
         $this->assertCount(3, $finder->date('<= 2019-03-30 15:00')->files());
         $this->assertCount(2, $finder->date('<= 2019-03-30 15:00 - 1minute')->files());
-
-        date_default_timezone_set($timezone);
 
         return $fs;
     }
