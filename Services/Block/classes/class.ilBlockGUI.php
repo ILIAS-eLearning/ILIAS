@@ -14,7 +14,7 @@ abstract class ilBlockGUI
     const PRES_MAIN_LEG = 0;		// main legacy panel
     const PRES_SEC_LEG = 1;			// secondary legacy panel
     const PRES_SEC_LIST = 2;		// secondary list panel
-    const PRES_MAIN_LIST = 3;		// main stndard list panel
+    const PRES_MAIN_LIST = 3;		// main standard list panel
 
     /**
      * @var \ILIAS\DI\UIServices
@@ -1124,6 +1124,14 @@ abstract class ilBlockGUI
                 break;
 
             case self::PRES_MAIN_LIST:
+                $this->handleNavigation();
+                $panel = $factory->panel()->listing()->standard(
+                    $this->getTitle(),
+                    $this->getListItemGroups()
+                );
+                break;
+
+            case self::PRES_MAIN_TILE:
                 $this->handleNavigation();
                 $panel = $factory->panel()->listing()->standard(
                     $this->getTitle(),
