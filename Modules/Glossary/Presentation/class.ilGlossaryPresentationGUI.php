@@ -735,9 +735,10 @@ class ilGlossaryPresentationGUI
             }
             $this->fill_on_load_code = true;
         }
-
-        if ($this->offlineMode() || $a_get_html) {
+        if ($this->offlineMode()) {
             return $tpl->printToString();
+        } else if ($a_get_html) {
+            return $tpl->get();
         }
     }
     
