@@ -48,7 +48,6 @@ class ilPDObjectsListRenderer extends ilPDBaseObjectsRenderer implements ilPDObj
             if (0 == count($itemHtml)) {
                 continue;
             }
-
             if ($showHeader) {
                 $this->addSectionHeader($group);
                 $this->resetRowType();

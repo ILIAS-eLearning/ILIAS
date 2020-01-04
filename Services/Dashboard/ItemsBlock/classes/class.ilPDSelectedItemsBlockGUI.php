@@ -737,9 +737,34 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     /**
      * @inheritdoc
      */
+    protected function getCardForData(array $item) : \ILIAS\UI\Implementation\Component\Card\RepositoryObject
+    {
+        $listFactory = $this->list_factory;
+
+        /** @var ilObjectListGUI $itemListGui */
+        $itemListGui = $listFactory->byType($item['type']);
+        ilObjectActivation::addListGUIActivationProperty($itemListGui, $item);
+
+        $card = $itemListGui->getAsCard(
+            (int) $item['ref_id'],
+            (int) $item['obj_id'],
+            (string) $item['type'],
+            (string) $item['title'],
+            (string) $item['description']
+        );
+
+        return $card;
+    }
+
+    /**
+     * @inheritdoc
+     */
     protected function getLegacyContent() : string
     {
-        $listFactory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
+        $renderer = $this->ui->renderer();
+        $factory = $this->ui->factory();
+
+        $this->list_factory = new ilPDSelectedItemsBlockListGUIFactory($this, $this->blockView);
 
         $groupedCommands = $this->getGroupedCommandsForView();
         foreach ($groupedCommands as $group) {
@@ -752,20 +777,30 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-        $grouped_items = $this->blockView->getItemGroups();
+        $groupedItems = $this->blockView->getItemGroups();
 
-        $renderer = new ilPDObjectsTileRenderer(
-            $this->blockView,
-            $this->ui->factory(),
-            $this->ui->renderer(),
-            $listFactory,
-            $this->user,
-            $this->lng,
-            $this->objectService,
-            $this->ctrl
-        );
+        $subs = [];
+        foreach ($groupedItems as $group) {
+            $cards = [];
 
-        return $renderer->render($grouped_items, false);
+            foreach ($group->getItems() as $item) {
+                try {
+                    $itemListGUI = $this->list_factory->byType($item['type']);
+                    ilObjectActivation::addListGUIActivationProperty($itemListGUI, $item);
+
+                    $cards[] = $this->getCardForData($item);
+                } catch (ilException $e) {
+                    continue;
+                }
+            }
+            if (count($cards) > 0) {
+                $subs[] = $factory->panel()->sub($group->getLabel(),
+                    $factory->deck($cards)->withNormalCardsSize());
+            }
+        }
+
+
+        return $renderer->render($subs);
     }
 
     protected function renderManageList() : string
