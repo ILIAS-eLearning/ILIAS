@@ -22,7 +22,6 @@ class ilUserProfileBadgeGUI implements ilBadgeTypeGUI
         $fields = new ilCheckboxGroupInputGUI($lng->txt("profile"), "profile");
         $a_form->addItem($fields);
         
-        include_once "Services/User/classes/class.ilPersonalProfileGUI.php";
         $gui = new ilPersonalProfileGUI();
         $gui->showPublicProfileFields($a_form, array(), $fields, true);
     }

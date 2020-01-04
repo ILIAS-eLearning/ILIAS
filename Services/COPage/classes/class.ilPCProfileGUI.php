@@ -170,7 +170,6 @@ class ilPCProfileGUI extends ilPageContentGUI
             }
         }
 
-        include_once "Services/User/classes/class.ilPersonalProfileGUI.php";
         $profile = new ilPersonalProfileGUI();
         $profile->showPublicProfileFields($form, $prefs, $mode_manual, $is_template);
 
