@@ -636,7 +636,7 @@ class ilObjMediaObject extends ilObject
     public function createDirectory()
     {
         $path = ilObjMediaObject::_getDirectory($this->getId());
-        ilUtil::createDirectory($path);
+        ilUtil::makeDirParents($path);
         if (!is_dir($path)) {
             $this->ilias->raiseError("Failed to create directory $path.", $this->ilias->error_obj->FATAL);
         }
