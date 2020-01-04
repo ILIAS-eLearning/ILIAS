@@ -29,7 +29,11 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
+        global $DIC;
+
         $entries = [];
+
+        $settings = $DIC->settings();
 
         $title = $this->dic->language()->txt("mm_learning_history");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::LHTS, $title)->withIsOutlined(true);
@@ -45,10 +49,8 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withPosition(10)
             ->withSymbol($icon)
             ->withAvailableCallable(
-                function () {
-                    $achievements = new \ilAchievements();
-
-                    return (bool) $achievements->isAnyActive();
+                function () use ($settings) {
+                    return (bool) $settings->get("enable_learning_history");
                 }
             );
 
