@@ -2276,35 +2276,34 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
-        
-        include_once("./Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php");
-        
+
         $arr_templates = ilPageLayout::activeLayouts($a_special_page, ilPageLayout::MODULE_SCORM);
 
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_page_layout_chooser.html", "Modules/Scorm2004");
+        //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.scormeditor_page_layout_chooser.html",
+        //"Modules/Scorm2004");
 
-        $this->tpl->setCurrentBlock("option_item");
+        $ftpl = new ilTemplate("tpl.scormeditor_page_layout_chooser.html", true, true, "Modules/Scorm2004");
 
         $count = 0;
         foreach ($arr_templates as $templ) {
             $count++;
             $sel= "";
             $templ->readObject();
-            $this->tpl->setVariable("VAL_LAYOUT_TITLE", $templ->getTitle());
-            $this->tpl->setVariable("VAL_LAYOUT_IMAGE", $templ->getPreview());
-            $this->tpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
-            $this->tpl->setVariable("VAL_DISPLAY", "inline");
+            $ftpl->setCurrentBlock("option_item2");
+            $ftpl->setVariable("VAL_LAYOUT_TITLE", $templ->getTitle());
+            $ftpl->setVariable("VAL_LAYOUT_IMAGE", $templ->getPreview());
+            $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
+            $ftpl->setVariable("VAL_DISPLAY", "inline");
             if ($count==1) {
-                $this->tpl->setVariable("VAL_CHECKED", "checked");
+                $ftpl->setVariable("VAL_CHECKED", "checked");
             }
             if ($count%4 == 0) {
-                $this->tpl->setVariable("END_ROW", "</tr>");
+                $ftpl->setVariable("END_ROW", "</tr>");
             }
             if ($count == 1 || ($count-1)%4 == 0) {
-                $this->tpl->setVariable("BEGIN_ROW", "<tr>");
+                $ftpl->setVariable("BEGIN_ROW", "<tr>");
             }
-            $this->tpl->parseCurrentBlock();
+            $ftpl->parseCurrentBlock();
         }
         
         //matrix table
@@ -2315,39 +2314,41 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
         
         for ($i=1;$i<=$rest;$i++) {
-            $this->tpl->setVariable("VAL_DISPLAY", "none");
-            $this->tpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
+            $ftpl->setVariable("VAL_DISPLAY", "none");
+            $ftpl->setVariable("VAL_LAYOUT_ID", $templ->getId());
             
             if ($i == $rest) {
-                $this->tpl->setVariable("END_ROW", "</tr>");
+                $ftpl->setVariable("END_ROW", "</tr>");
             }
             $this->tpl->parseCurrentBlock();
         }
         
         //empty cells and closing <tr>
-        
-        $this->tpl->setVariable("VAL_NODE_ID", ilSCORM2004OrganizationHFormGUI::getPostNodeId());
-        $this->tpl->setVariable("VAL_MULTI", ilSCORM2004OrganizationHFormGUI::getPostMulti());
-        $this->tpl->setVariable("VAL_FIRST_CHILD", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
-        $this->tpl->setVariable("VAL_OBJ_ID", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
+
+        $ftpl->setVariable("VAL_NODE_ID", ilSCORM2004OrganizationHFormGUI::getPostNodeId());
+        $ftpl->setVariable("VAL_MULTI", ilSCORM2004OrganizationHFormGUI::getPostMulti());
+        $ftpl->setVariable("VAL_FIRST_CHILD", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
+        $ftpl->setVariable("VAL_OBJ_ID", ilSCORM2004OrganizationHFormGUI::getPostFirstChild());
     
         $ilCtrl->saveParameter($this, "obj_id");
-    
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-        $this->tpl->setVariable("BTN_NAME", "insertTemplate");
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
-        $this->tpl->setVariable("CMD_CANCEL", "showOrganization");
+        $ftpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-        $this->tpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
-        $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
+        $ftpl->setVariable("BTN_NAME", "insertTemplate");
+        $ftpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+        $ftpl->setVariable("TXT_INSERT", $this->lng->txt("create"));
+        $ftpl->setVariable("CMD_CANCEL", "showOrganization");
+
+        $ftpl->setVariable("TXT_CANCEL", $this->lng->txt("cancel"));
+        $ftpl->setVariable("TXT_INSERT", $this->lng->txt("insert"));
+        $ftpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
         if ($a_special_page) {
-            $this->tpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_special_page"));
+            $ftpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_special_page"));
         } else {
-            $this->tpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_page_template"));
+            $ftpl->setVariable("TXT_TITLE", $this->lng->txt("sahs_choose_page_template"));
         }
+
+        $this->tpl->setContent($ftpl->get());
     }
     
     
