@@ -1342,13 +1342,13 @@ assessment#:#tst_finished#:#Finished
 assessment#:#unfinished_passes#:#Unfinished Passes
 assessment#:#finish_pass_for_user_confirmation#:#Are you sure you want to finish this test pass for the participant "%s"?
 assessment#:#finish_pass_for_all_users#:#Are you sure you want to finish the test passes for all Users?
-assessment#:#finish_all_user_passes#:#Finish all test Passes
-assessment#:#finish_unfinished_passes#:#Finish open Passes
-assessment#:#finish_unfinished_passes_desc#:#Passes which have a Finishing time or a Duration limit configured will be closed by this cron job.
+assessment#:#finish_all_user_passes#:#Finish all Test Passes
+assessment#:#finish_unfinished_passes#:#Finish Open Passes
+assessment#:#finish_unfinished_passes_desc#:#Passes which have a finishing time or a duration limit configured will be closed by this cron job.
 assessment#:#tst_general_properties#:#General Settings
 assessment#:#tst_heading_scoring#:#Scoring
 assessment#:#tst_hide_side_list#:#Hide List of Questions
-news#:#new_test_online#:#The Test was set online.
+news#:#new_test_online#:#The test was set online.
 assessment#:#tst_import_verify_found_questions#:#ILIAS found the following questions in the test import file. Please select the questions you want to import with this test.
 assessment#:#tst_insert_missing_question#:#Please select at least one question to insert it into the test!
 assessment#:#tst_insert_questions_and_results#:#This test was already executed by %s user(s). Inserting questions to this test will remove all test results of these users. Are you sure you want to insert the following question(s) to the test?
@@ -1359,9 +1359,9 @@ assessment#:#tst_instant_feedback_answer_specific#:#Specific Feedback for Each A
 assessment#:#tst_instant_feedback_answer_specific_desc#:#On clicking the ‘Check’-button, ILIAS will show a specific feedback for every answer option selected by the participant. The feedback has to be prepared along with the question. This specific feedback is not supported for all question types.
 assessment#:#tst_instant_feedback_forced#:#Force Instant Feedback
 assessment#:#tst_instant_feedback_results#:#Points Attained
-assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’-button ILIAS will display how many points were attained by answering this question.
+assessment#:#tst_instant_feedback_results_desc#:#On clicking the ‘Check’ button ILIAS will display how many points were attained by answering this question.
 assessment#:#tst_instant_feedback_solution#:#Show Best Possible Answer
-assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’-button ILIAS will display the best possible answer to the question.
+assessment#:#tst_instant_feedback_solution_desc#:#On clicking the ‘Check’ button ILIAS will display the best possible answer to the question.
 assessment#:#tst_instant_feedback#:#Instant Feedback
 assessment#:#tst_instant_feedback_desc#:#When questions are configured with feedback it is provided to participants during the test pass.
 assessment#:#tst_instant_feedback_contents#:#Included Contents
