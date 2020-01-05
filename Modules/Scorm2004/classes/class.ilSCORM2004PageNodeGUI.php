@@ -136,7 +136,9 @@ class ilSCORM2004PageNodeGUI extends ilSCORM2004NodeGUI
                 
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 $this->setTabs();
-                $tpl->setContent($ret);
+                if ($ret != "") {
+                    $tpl->setContent($ret);
+                }
                 break;
 
             default:
