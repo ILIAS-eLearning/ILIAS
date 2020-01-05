@@ -213,7 +213,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "extending_ilias" =>
                 array('ecss', "ltis", "cmis", "cmps", "extt"),
             "repository_and_objects" =>
-                array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "excs", "facs", "frma", "lrss",
+                array("reps", "crss", "grps", "prgs", "bibs", "blga", "chta", "facs", "frma", "lrss",
                     "mcts", "mobs", "svyf", "assf", "wbrs", "wiks"),
         );
         $groups = [];
