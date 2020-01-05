@@ -67,7 +67,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         if ($_GET["style_type"] != "") {
             $this->super_type = ilObjStyleSheet::_getStyleSuperTypeForType($_GET["style_type"]);
         }
-        
         $this->type = "sty";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
@@ -933,8 +932,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     */
     public function deleteObject($a_error = false)
     {
-        //$this->setTabs();
-        
         // display confirmation message
         include_once("./Services/Utilities/classes/class.ilConfirmationGUI.php");
         $cgui = new ilConfirmationGUI();
@@ -1149,21 +1146,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $this->getTabs();
     }
 
-    /**
-    * output tabs
-    */
-    public function setTabs()
-    {
-        $lng = $this->lng;
-
-        $this->getTabs($this->tabs_gui);
-
-        if (strtolower(get_class($this->object)) == "ilobjstylesheet") {
-            $this->tpl->setVariable("HEADER", $this->object->getTitle());
-        } else {
-            $this->tpl->setVariable("HEADER", $lng->txt("create_stylesheet"));
-        }
-    }
 
     /**
     * adds tabs to tab gui object

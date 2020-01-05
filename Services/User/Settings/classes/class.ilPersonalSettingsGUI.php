@@ -10,7 +10,12 @@
  */
 class ilPersonalSettingsGUI
 {
-    public $tpl;
+    /**
+     * @var ilTemplate
+     */
+    protected $tpl;
+
+
     public $lng;
     public $ilias;
     public $ctrl;
@@ -28,23 +33,19 @@ class ilPersonalSettingsGUI
         global $DIC;
 
         $ilias = $DIC['ilias'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilCtrl = $DIC['ilCtrl'];
 
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields =&ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
-        $this->tpl =&$tpl;
-        $this->lng =&$lng;
-        $this->ilias =&$ilias;
-        $this->ctrl =&$ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
+        $this->ilias = $ilias;
+        $this->ctrl = $DIC->ctrl();
+
         $this->settings = $ilias->getAllSettings();
         $this->upload_error = "";
         $this->password_error = "";
-        $lng->loadLanguageModule("user");
-        $ilCtrl->saveParameter($this, "user_page");
+        $this->lng->loadLanguageModule("user");
+        $this->ctrl->saveParameter($this, "user_page");
 
         $this->user_settings_config = new ilUserSettingsConfig();
     }
@@ -174,8 +175,9 @@ class ilPersonalSettingsGUI
      */
     public function setHeader()
     {
-        $this->tpl->setVariable('HEADER', $this->lng->txt('personal_settings'));
+        $this->tpl->setTitle($this->lng->txt('personal_settings'));
     }
+
     //
     //
     //	PASSWORD FORM
