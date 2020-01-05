@@ -168,7 +168,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
             $mob = $this->content_obj->getMediaObject();
             if (is_object($mob)) {
-                $tpl->setVariable("HEADER", $lng->txt("mob") . ": " .
+                $tpl->setTitle($lng->txt("mob") . ": " .
                     $this->content_obj->getMediaObject()->getTitle());
                 $mob_gui = new ilObjMediaObjectGUI("", $this->content_obj->getMediaObject()->getId(), false, false);
                 $mob_gui->setBackTitle($this->page_back_title);
