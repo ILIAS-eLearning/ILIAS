@@ -19,7 +19,7 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
     /**
      * @var Symbol
      */

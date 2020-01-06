@@ -18,7 +18,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
     /**
      * @var Link[]
      */

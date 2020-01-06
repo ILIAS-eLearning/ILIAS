@@ -34,11 +34,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @var string
      */
-    private $title = "";
-    /**
-     * @var Symbol
-     */
-    private $symbol;
+    private $title = '';
 
 
     /**
