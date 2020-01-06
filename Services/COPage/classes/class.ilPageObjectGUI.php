@@ -1300,7 +1300,6 @@ class ilPageObjectGUI
 
             // get js files for JS enabled editing
             if ($sel_js_mode == "enable") {
-                $this->insertHelp($tpl);
                 include_once("./Services/YUI/classes/class.ilYuiUtil.php");
                 ilYuiUtil::initDragDrop();
                 ilYuiUtil::initConnection();
@@ -2824,20 +2823,6 @@ class ilPageObjectGUI
         return $a_output;
     }
     
-    /**
-    * Insert help texts
-    */
-    public function insertHelp($a_tpl)
-    {
-        $a_tpl->setCurrentBlock("help");
-        $a_tpl->setVariable("TXT_ADD_EL", $this->lng->txt("cont_add_elements"));
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-        $a_tpl->setVariable("PLUS", ilGlyphGUI::get(ilGlyphGUI::ADD));
-        $a_tpl->setVariable("DRAG_ARROW", ilGlyphGUI::get(ilGlyphGUI::DRAG));
-        $a_tpl->setVariable("TXT_DRAG", $this->lng->txt("cont_drag_and_drop_elements"));
-        $a_tpl->setVariable("TXT_SEL", $this->lng->txt("cont_double_click_to_delete"));
-        $a_tpl->parseCurrentBlock();
-    }
 
     /**
      * Preview history
