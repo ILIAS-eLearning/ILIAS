@@ -109,6 +109,9 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
         PageContentProvider::setContent($this->legacy_content_template->renderPage("DEFAULT", true, false));
         print $this->ui->renderer()->render($this->gs->collector()->layout()->getFinalPage());
+
+        // see #26968
+        $this->handleReferer();
     }
 
 
@@ -600,4 +603,65 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     { //
         throw new NotImplementedException();
     }
+
+    /**
+     * Old method from global template
+     * fixing #26968
+     */
+    private function handleReferer()
+    {
+        if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
+            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
+            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))) {
+            $_SESSION["post_vars"] = $_POST;
+
+            // referer is modified if query string contains cmd=gateway and $_POST is not empty.
+            // this is a workaround to display formular again in case of error and if the referer points to another page
+            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
+            if (!$url_parts) {
+                $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
+                $host = $_SERVER['HTTP_HOST'];
+                $path = $_SERVER['REQUEST_URI'];
+                $url_parts = @parse_url($protocol . $host . $path);
+            }
+
+            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+                foreach ($_POST as $key => $val) {
+                    if (is_array($val)) {
+                        $val = key($val);
+                    }
+
+                    $str .= "&" . $key . "=" . $val;
+                }
+
+                $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
+                $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+            } elseif (isset($url_parts["query"]) && preg_match("/cmd=post/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+                foreach ($_POST as $key => $val) {
+                    if (is_array($val)) {
+                        $val = key($val);
+                    }
+
+                    $str .= "&" . $key . "=" . $val;
+                }
+
+                $_SESSION["referer"] = preg_replace("/cmd=post/", substr($str, 1), $_SERVER["REQUEST_URI"]);
+                if (isset($_GET['ref_id'])) {
+                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+                } else {
+                    $_SESSION['referer_ref_id'] = 0;
+                }
+            } else {
+                $_SESSION["referer"] = $_SERVER["REQUEST_URI"];
+                if (isset($_GET['ref_id'])) {
+                    $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
+                } else {
+                    $_SESSION['referer_ref_id'] = 0;
+                }
+            }
+
+            unset($_SESSION["error_post_vars"]);
+        }
+    }
+
 }

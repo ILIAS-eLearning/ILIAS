@@ -299,7 +299,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         }
         
         $this->addHeaderAction();
-        
+
         return true;
     }
 

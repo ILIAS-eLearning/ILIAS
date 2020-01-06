@@ -1486,7 +1486,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     public function printToStdout($part = "DEFAULT", $a_fill_tabs = true, $a_skip_main_menu = false)
     {
         global $DIC;
-
         $http = $DIC->http();
         switch ($http->request()->getHeaderLine('Accept')) {
             case 'application/json':
