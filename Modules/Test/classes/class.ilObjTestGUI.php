@@ -246,8 +246,8 @@ class ilObjTestGUI extends ilObjectGUI
         );
 
         /* @var ilTestFixedQuestionSetConfig $questionSetConfig */
-        $questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->object)->getQuestionSetConfig();
-        $questionSetConfig->registerCreatedQuestion($questionService->getQuestionDto());
+        //$questionSetConfig = ilTestQuestionSetConfigFactory::getInstance($this->object)->getQuestionSetConfig();
+        //$questionSetConfig->registerCreatedQuestion($questionService->getQuestionDto());
 
         $DIC->ctrl()->redirectToURL(str_replace(
             '&amp;', '&', $questionService->getEditLink([])->getAction()

@@ -6,6 +6,7 @@
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\AsqPageObject;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\AsqPageObjectFactory;
 
 /**
  * Class ilAsqQuestionPageGUI
@@ -82,35 +83,16 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      *
      * @param AsqPageObject $page
      */
-    function __construct(AsqPageObject $page)
+    function __construct(int $parent_int_id, int $page_int_id, string $lng_key)
     {
         /**
           * @var \ILIAS\DI\Container $DIC
         **/
         global $DIC;
 
-        $this->setParentType($page->getParentType());
-        $this->setId($page->getId());
-        $this->setLanguage($page->getLanguage());
-
-        $this->setPageObject($page);
-        $this->setPageConfig($this->getPageObject()->getPageConfig());
-
-        $this->tool_context = $DIC->globalScreen()->tool()->context();
-        $this->log = $DIC->logger()->root();
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-        $this->user = $DIC->user();
-        $this->help = $DIC->help();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->page_linker = new ilPageLinker(get_class($this));
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
+        parent::__construct(self::PAGE_TYPE, $page_int_id, 0, false, $lng_key);
 
         $this->page_back_title = $this->lng->txt("page");
-        $this->lng->loadLanguageModule("content");
-        $this->lng->loadLanguageModule("copg");
-
-        $this->ctrl->saveParameter($this, "transl");
 
         // content and syntax styles
         $DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
@@ -198,26 +180,6 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     public function setQuestionActionsHTML($a_html)
     {
         $this->questionActionsHTML = $a_html;
-    }
-
-    /**
-     * Set page config object
-     *
-     * @param PageConfig
-     */
-    function setPageConfig($page_config)
-    {
-        $this->page_config = $page_config;
-    }
-
-    /**
-     * Get page config object
-     *
-     * @return	PageConfig
-     */
-    function getPageConfig()
-    {
-        return $this->page_config;
     }
 
     function setQuestionComponent(QuestionComponent $component) {

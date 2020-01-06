@@ -106,9 +106,7 @@ class ProcessingApplicationService
     {
         global $DIC;
         
-        $page = AsqPageObject::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
-        $page_gui = ilAsqQuestionPageGUI::getGUI($page);
-
+        $page_gui = new ilAsqQuestionPageGUI($question_dto->getContainerObjId(), $question_dto->getQuestionIntId(), $this->lng_key);
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
         $page_gui->setEnabledTabs(false);

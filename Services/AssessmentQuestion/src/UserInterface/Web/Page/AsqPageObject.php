@@ -18,7 +18,7 @@ use ilAsqQuestionFeedbackEditorGUI;
  */
 class AsqPageObject extends \ilPageObject
 {
-    public $parent_type = AsqPageObjectFactory::ASQ_PAGE_TYPE_QUESTION;
+    public $parent_type = 'asqq';
 
 
     /**

@@ -11,9 +11,8 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Page;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class PageConfig extends \ilPageConfig
+class AsqPageObjectConfig extends \ilPageConfig
 {
-
     public function init()
     {
         $this->setEnablePCType('Tabs', true);
