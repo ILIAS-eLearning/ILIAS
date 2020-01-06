@@ -21,9 +21,13 @@ class ilStudyProgrammeDIC
         global $DIC;
         $dic = new Container();
 
-        $dic['ilStudyProgrammeEvents'] = function ($dic) use ($DIC) {
+        $dic['ilAppEventHandler'] = function ($dic) use ($DIC) {
+            return $DIC->offsetExists('ilAppEventHandler') ?
+                $DIC['ilAppEventHandler'] : new \ilAppEventHandler();
+        };
+        $dic['ilStudyProgrammeEvents'] = function ($dic) {
             return new ilStudyProgrammeEvents(
-                $DIC['ilAppEventHandler'],
+                $dic['ilAppEventHandler'],
                 $dic['model.Assignment.ilStudyProgrammeAssignmentRepository']
             );
         };
@@ -159,20 +163,34 @@ class ilStudyProgrammeDIC
             return new \ILIAS\Data\Factory();
         };
         $dic['ilStudyProgrammeUserProgressDB'] = function ($dic) use ($DIC) {
+
+            $lng = $DIC['lng'];
+            if(strpos(get_class($lng), 'class@anonymous') === 0) {
+                $lng =  new \ilSetupLanguage("en");
+            }
+
             return new ilStudyProgrammeUserProgressDB(
                 $dic['model.Progress.ilStudyProgrammeProgressRepository'],
                 $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
-                $DIC['lng'],
+                $lng,
                 $dic['ilStudyProgrammeEvents']
             );
         };
         $dic['ilStudyProgrammeUserAssignmentDB'] = function ($dic) use ($DIC) {
+            $tree = $DIC->offsetExists('tree') ?
+                $DIC['tree'] : new ilTree(ROOT_FOLDER_ID);
+
+            $logger = $DIC['ilLog'];
+            if(strpos(get_class($logger), 'class@anonymous') === 0) {
+                $logger = ilLoggerFactory::getLogger('setup');
+            }
+
             return new ilStudyProgrammeUserAssignmentDB(
                 $dic['ilStudyProgrammeUserProgressDB'],
                 $dic['model.Assignment.ilStudyProgrammeAssignmentRepository'],
                 $dic['model.Progress.ilStudyProgrammeProgressRepository'],
-                $DIC['tree'],
-                $DIC['ilLog'],
+                $tree,
+                $logger,
                 $dic['ilStudyProgrammeEvents']
             );
         };

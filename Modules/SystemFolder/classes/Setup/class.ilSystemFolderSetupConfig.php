@@ -108,7 +108,7 @@ class ilSystemFolderSetupConfig implements Setup\Config
         $this->contact_email = trim($contact_email);
     }
 
-    public function getClientName() : string
+    public function getClientName() : ?string
     {
         return $this->client_name;
     }

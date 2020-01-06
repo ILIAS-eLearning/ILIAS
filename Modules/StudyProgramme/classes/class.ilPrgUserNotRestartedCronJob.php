@@ -15,11 +15,6 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
     protected $user_assignments_db;
 
     /**
-     * @var ilObjUser
-     */
-    protected $usr;
-
-    /**
      * @var ilLog
      */
     protected $log;
@@ -34,7 +29,6 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
         global $DIC;
 
         $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
-        $this->usr = $DIC['ilUser'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
     }
