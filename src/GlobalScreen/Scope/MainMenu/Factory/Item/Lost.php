@@ -32,7 +32,7 @@ class Lost extends AbstractBaseItem implements hasAsyncContent, hasContent, isTo
     /**
      * @var string
      */
-    private $title = "";
+    private $title = '';
 
 
     /**
