@@ -36,7 +36,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withAction("login.php?client_id=" . rawurlencode(CLIENT_ID) . "&cmd=force_login&lang=" . $this->dic->user()->getCurrentLanguage())
             ->withSymbol($login_glyph)
             ->withPosition(2)
-            ->withTitle($txt('login'))
+            ->withTitle($txt('log_in'))
             ->withAvailableCallable(function () {
                 return !$this->isUserLoggedIn();
             })
@@ -54,7 +54,7 @@ class StartUpMetaBarProvider extends AbstractStaticMetaBarProvider
             ->withVisibilityCallable(function () {
                 return true;
             })
-            ->withTitle($txt('language_selection'));
+            ->withTitle($txt('language'));
 
         $base = $this->getBaseURL();
 
