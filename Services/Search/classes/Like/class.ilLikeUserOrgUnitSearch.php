@@ -12,7 +12,7 @@ include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
  */
 class ilLikeUserOrgUnitSearch extends ilAbstractSearch
 {
-    const ORG_ASSIGNMENTS_TABLE = 'orgu_user_assignments';
+    const ORG_ASSIGNMENTS_TABLE = 'orgu_user_assignements';
     
     /**
      * @var ilObjOrgUnitTree
