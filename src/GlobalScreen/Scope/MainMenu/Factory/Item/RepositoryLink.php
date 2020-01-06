@@ -28,7 +28,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
 
 
     /**
