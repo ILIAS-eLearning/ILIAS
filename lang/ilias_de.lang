@@ -2481,7 +2481,7 @@ certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Hintergrundbild
-certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kacheldarstellung
 certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
 certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
 certificate#:#certificate_custom#:#Eigenes Format...
