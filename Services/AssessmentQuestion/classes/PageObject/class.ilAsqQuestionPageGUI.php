@@ -5,8 +5,6 @@
 
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\AsqPageObject;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\AsqPageObjectFactory;
 
 /**
  * Class ilAsqQuestionPageGUI
@@ -35,38 +33,6 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      * @var string
      */
     public $originalPresentationTitle = '';
-    /**
-     * @var string
-     */
-    public $questionInfoHTML = '';
-    /**
-     * @var string
-     */
-    public $questionActionsHTML = '';
-    /**
-     * @var string
-     */
-    public $question_html = '';
-    /**
-     * @var string
-     */
-    public $question_xml = '';
-    /**
-     * @var bool
-     */
-    public $output2template = false;
-    /**
-     * @var string
-     */
-    public $template_output_var = "PAGE_CONTENT";
-    /**
-     * @var string
-     */
-    public $output_mode = ilPageObjectGUI::PRESENTATION;
-    /**
-     * @var bool
-     */
-    public $enabledpagefocus = true;
     /**
      * @var bool
      */
@@ -120,23 +86,6 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
             $page->create();
         }
     }
-    
-    
-    //Reset Page GUI Stuffs
-    function determineFileDownloadLink() { return ""; }
-    function determineFullscreenLink() { return ""; }
-    function determineSourcecodeDownloadScript() { return ""; }
-
-
-
-    /**
-     * @param AsqPageObject $page
-     *
-     * @return ilAsqQuestionPageGUI
-     */
-    public static function getGUI(AsqPageObject $page):ilAsqQuestionPageGUI {
-        return new self($page);
-    }
 
     public function getOriginalPresentationTitle()
     {
@@ -166,18 +115,6 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
 
         return parent::showPage();
     }
-
-    function postOutputProcessing($output)
-    {
-        $output = str_replace(
-            self::TEMP_PRESENTATION_TITLE_PLACEHOLDER, $this->getOriginalPresentationTitle(), $output
-        );
-
-        $output = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $output);
-
-        return $output;
-    }
-
 
     /**
      * support the addition of question info and actions below the title
@@ -213,28 +150,4 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     function getEnteredAnswer() : string {
         return $this->component->readAnswer();
     }
-    
-    /**
-     * Replace page toc placeholder with question info and actions
-     *
-     * @todo: 	support question info and actions in the page XSL directly
-     * 			the current workaround avoids changing the COPage service
-     *
-     * @param $a_output
-     * @return mixed
-     */
-    function insertPageToc($a_output)
-    {
-        if (!empty($this->questionInfoHTML) || !empty($this->questionActionsHTML))
-        {
-            $tpl = new ilTemplate('tpl.tst_question_subtitle_blocks.html', true, true, 'Modules/TestQuestionPool');
-            $tpl->setVariable('QUESTION_INFO',$this->questionInfoHTML);
-            $tpl->setVariable('QUESTION_ACTIONS',$this->questionActionsHTML);
-
-            return str_replace("{{{{{PageTOC}}}}}",  $tpl->get(), $a_output);
-        }
-
-        return str_replace("{{{{{PageTOC}}}}}",  '', $a_output);
-    }
-
 }

@@ -71,24 +71,4 @@ class AsqPageObject extends \ilPageObject
 
         return $DIC->ui()->renderer()->render($link);
     }
-
-    /**
-     * @param string $pageObjectType
-     * @param int    $feedbackIntId
-     *
-     * @return string
-     */
-    public function getPageContent()
-    {
-        global $DIC;
-        $class = $DIC->ctrl()->getCmdClass();
-        /**
-         * @var \ilPageObjectGUI $page_object_gui
-         */
-        $page_object_gui = new $class($this->getId());
-        $page_object_gui->setOutputMode(IL_PAGE_PRESENTATION);
-
-        return $page_object_gui->presentation(IL_PAGE_PRESENTATION);
-    }
-
 }
