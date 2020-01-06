@@ -47,6 +47,11 @@ abstract class ilBlockGUI
     protected $nav_value = "";
     protected $css_row = "";
 
+    /**
+     * @var string
+     */
+    protected $title = "";
+
 
     /**
      * @var bool
@@ -224,7 +229,7 @@ abstract class ilBlockGUI
      */
     public function getTitle()
     {
-        return $this->title;
+        return (string) $this->title;
     }
 
     /**
