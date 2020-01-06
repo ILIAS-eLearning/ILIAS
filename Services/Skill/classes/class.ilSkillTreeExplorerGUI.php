@@ -34,8 +34,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $this->ctrl = $DIC->ctrl();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
 
-        // node should be hidden #26849
-        $this->setSkipRootNode(true);
+        // node should be hidden #26849 (not not hidden, see discussion in #26813 and JF 6 Jan 2020)
+        $this->setSkipRootNode(false);
         $this->setAjax(false);
         $this->setShowDraftNodes(true);
         $this->setShowOutdatedNodes(true);
