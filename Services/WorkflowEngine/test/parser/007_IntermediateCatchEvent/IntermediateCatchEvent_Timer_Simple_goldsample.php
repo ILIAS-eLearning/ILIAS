@@ -32,7 +32,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 			$_v_IntermediateCatchEvent_2_detector->setEvent(			"time_passed", 			"time_passed");
 			$_v_IntermediateCatchEvent_2_detector->setEventSubject(	"none", 	"0");
 			$_v_IntermediateCatchEvent_2_detector->setEventContext(	"none", 	"0");
-			$_v_IntermediateCatchEvent_2_detector->setListeningTimeframe(1299841994, 0);
+			$_v_IntermediateCatchEvent_2_detector->setListeningTimeframe(1299845594, 0);
 			$_v_IntermediateCatchEvent_2->addDetector($_v_IntermediateCatchEvent_2_detector);
 			
 			$_v_IntermediateCatchEvent_2_detector = new ilSimpleDetector($_v_IntermediateCatchEvent_2);

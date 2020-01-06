@@ -43,7 +43,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilEventDetector.
 			$_v_StartEvent_1_detector->setEvent(			"time_passed", 			"time_passed");
 			$_v_StartEvent_1_detector->setEventSubject(	"none", 	"0");
 			$_v_StartEvent_1_detector->setEventContext(	"none", 	"0");
-			$_v_StartEvent_1_detector->setListeningTimeframe(1399889594, 0);
+			$_v_StartEvent_1_detector->setListeningTimeframe(1399896794, 0);
 			$_v_StartEvent_2 = new ilBasicNode($this);
 			$this->addNode($_v_StartEvent_2);
 			$_v_StartEvent_2->setName('$_v_StartEvent_2');
