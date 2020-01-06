@@ -2343,6 +2343,7 @@ common#:#accessFree#:#Befristung des Zugriffs aufheben
 common#:#accessRestrict#:#Zugriff befristen
 common#:#account_expires_body#:#Ihr Benutzerzugang ist zeitlich begrenzt. Ablauftermin:
 common#:#account_expires_subject#:#Benutzerzugang
+common#:#account#:#Mein Konto
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
 rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!
@@ -2529,6 +2530,7 @@ common#:#author#:#Autor
 common#:#authoring_mode#:#Autorenmodus
 common#:#authors#:#Autoren
 common#:#available#:#Verfügbar
+common#:#awra#:#Wer ist online?
 common#:#back#:#Zurück
 common#:#back_to_crs_content#:#Zurück zum Inhalt des Kurses
 common#:#back_to_fold_content#:#Zurück zum Inhalt des Ordners
@@ -3692,6 +3694,7 @@ common#:#no_start_file#:#Keine Startdatei
 common#:#no_title#:#Kein Titel
 common#:#no_users_selected#:#Bitte wählen Sie mindestens einen Benutzer aus.
 common#:#no_xml_file_found_in_zip#:#Die XML-Datei konnte nicht innerhalb der ZIP-Datei gefunden werden:
+common#:#noc#:#Notification Center
 common#:#non_internal_local_roles_only#:#Lokale Rollen (nur selbsterstellte)
 common#:#none#:#Keine
 common#:#normal#:#Normal
