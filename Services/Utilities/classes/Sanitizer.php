@@ -452,7 +452,7 @@ class Sanitizer
                         } elseif (in_array($t, $tagstack) &&
                         !isset($htmlnest [$t ])) {
                             $badtag = 1 ;
-                        # Is it a self closed htmlpair ? (bug 5487)
+                        # Is it a self closed htmlpair ? (bug 5487)
                         } elseif ($brace == '/>' &&
                         isset($htmlpairs[$t])) {
                             $badtag = 1;
@@ -612,7 +612,7 @@ class Sanitizer
         }
         return $out;
     }
-    
+
     /**
      * Pick apart some CSS and check it for forbidden or unsafe structures.
      * Returns a sanitized string, or false if it was just too evil.
@@ -628,7 +628,7 @@ class Sanitizer
 
         // Remove any comments; IE gets token splitting wrong
         $stripped = StringUtils::delimiterReplace('/*', '*/', ' ', $stripped);
-        
+
         $value = $stripped;
 
         // ... and continue checks
@@ -647,7 +647,7 @@ class Sanitizer
             # haxx0r
             return false;
         }
-        
+
         return $value;
     }
 
@@ -898,7 +898,7 @@ class Sanitizer
             )
         );
     }
-    
+
     private static function normalizeWhitespace($text)
     {
         return preg_replace(
@@ -1074,7 +1074,7 @@ class Sanitizer
     public static function decodeEntity($name)
     {
         global $wgHtmlEntities, $wgHtmlEntityAliases;
-        
+
         if (isset($wgHtmlEntityAliases[$name])) {
             $name = $wgHtmlEntityAliases[$name];
         }

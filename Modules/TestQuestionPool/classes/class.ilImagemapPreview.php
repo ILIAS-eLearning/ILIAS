@@ -51,12 +51,12 @@ class ilImagemapPreview
         $this->linewidth_outer = 4;
         $this->linewidth_inner = 2;
     }
-    
+
     public function getAreaCount()
     {
         return count($this->areas);
     }
-    
+
     public function getPointCount()
     {
         return count($this->points);
@@ -75,7 +75,7 @@ class ilImagemapPreview
         $fillcolor = "#FFFFFFA0"
     ) {
         if (ini_get("safe_mode")) {
-            if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
+            if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
             }
         }
@@ -91,7 +91,7 @@ class ilImagemapPreview
             "visible" => (int) $visible
         );
     }
-    
+
     public function addPoint(
         $index,
         $coords,
@@ -108,13 +108,13 @@ class ilImagemapPreview
             "visible" => (int) $visible
         );
     }
-    
+
     public function getAreaIdent()
     {
         if (count($this->areas)+count($this->points) > 0) {
             $arr = array_merge(array_keys($this->areas), array_keys($this->points));
             sort($arr, SORT_NUMERIC);
-            
+
             $inner = join("_", $arr);
             if (strlen($inner) > 32) {
                 $inner = md5($inner);
@@ -191,7 +191,7 @@ class ilImagemapPreview
                 $convert_cmd .= "\" ";
             }
         }
-        
+
         $source = ilUtil::escapeShellCmd($this->imagemap_filename);
         $target = ilUtil::escapeShellCmd($this->preview_filename);
         $convert_cmd = $source . "[0] " . $convert_cmd . " " . $target;
