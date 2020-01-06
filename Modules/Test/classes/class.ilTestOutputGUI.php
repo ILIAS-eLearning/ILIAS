@@ -241,7 +241,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 		ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
 	}
 	
-	private function isValidSequenceElement($sequenceElement)
+	protected function isValidSequenceElement($sequenceElement)
 	{
 		if( $sequenceElement === false )
 		{

@@ -62,7 +62,7 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     /**
      * @var string
      */
-    public $output_mode = IL_PAGE_PRESENTATION;
+    public $output_mode = ilPageObjectGUI::PRESENTATION;
     /**
      * @var bool
      */
@@ -77,6 +77,7 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
      */
     private $component;
 
+    //TODO fix this, so that it properly inherits from pageobjectgui instead to copy the constructor (badly)
     /**
      * ilAsqQuestionPageGUI constructor.
      *
@@ -102,7 +103,8 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
         $this->help = $DIC->help();
-
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->page_linker = new ilPageLinker(get_class($this));
         $this->plugin_admin = $DIC["ilPluginAdmin"];
 
         $this->page_back_title = $this->lng->txt("page");
