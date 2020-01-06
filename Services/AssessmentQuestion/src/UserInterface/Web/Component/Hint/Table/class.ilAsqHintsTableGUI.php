@@ -2,13 +2,12 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Hint\Table;
 
-use ilAdvancedSelectionListGUI;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
+use ILIAS\AssessmentQuestion\DomainModel\Hint\Hint;
 use AsqQuestionHintEditorGUI;
+use ilAdvancedSelectionListGUI;
 use ilAssQuestionHintRequestGUI;
 use ilAssQuestionHintsGUI;
-use ILIAS\AssessmentQuestion\DomainModel\Hint\Hint;
-use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Component\Hint\Field\HintFieldOrderNumber;
 use ilTable2GUI;
 
 

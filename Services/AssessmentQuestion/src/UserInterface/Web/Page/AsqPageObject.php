@@ -8,7 +8,7 @@ use ilAsqAnswerOptionFeedbackPageGUI;
 use ilAsqQuestionFeedbackEditorGUI;
 
 /**
- * Class Page
+ * Class AsqPageObject
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  * @author  Adrian Lüthi <al@studer-raimann.ch>
@@ -16,23 +16,23 @@ use ilAsqQuestionFeedbackEditorGUI;
  * @author  Martin Studer <ms@studer-raimann.ch>
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
-class Page extends \ilPageObject
+class AsqPageObject extends \ilPageObject
 {
-    public $parent_type = PageFactory::ASQ_PAGE_TYPE_QUESTION;
+    public $parent_type = AsqPageObjectFactory::ASQ_PAGE_TYPE_QUESTION;
 
 
     /**
      * @param int $question_id
      *
-     * @return Page
+     * @return AsqPageObject
      */
-    public static function getPage(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key) : Page
+    public static function getPage(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key) : AsqPageObject
     {
         self::createPageIfNotExists($page_type, $parent_int_id, $page_int_id, $lng_key);
 
         $reflector = new ReflectionClass(self::class);
         /**
-         * @var Page $page
+         * @var AsqPageObject $page
          */
         $page = $reflector->newInstanceWithoutConstructor();
 

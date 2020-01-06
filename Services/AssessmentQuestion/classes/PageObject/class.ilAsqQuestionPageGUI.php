@@ -4,9 +4,8 @@
 
 
 use ILIAS\AssessmentQuestion\UserInterface\Web\Component\QuestionComponent;
-use ILIAS\AssessmentQuestion\UserInterface\Web\Page\Page;
+use ILIAS\AssessmentQuestion\UserInterface\Web\Page\AsqPageObject;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Page\PageConfig;
-use ILIAS\AssessmentQuestion\DomainModel\Answer\Answer;
 
 /**
  * Class ilAsqQuestionPageGUI
@@ -81,9 +80,9 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
     /**
      * ilAsqQuestionPageGUI constructor.
      *
-     * @param Page $page
+     * @param AsqPageObject $page
      */
-    function __construct(Page $page)
+    function __construct(AsqPageObject $page)
     {
         /**
           * @var \ILIAS\DI\Container $DIC
@@ -130,11 +129,11 @@ class ilAsqQuestionPageGUI extends ilPageObjectGUI
 
 
     /**
-     * @param Page $page
+     * @param AsqPageObject $page
      *
      * @return ilAsqQuestionPageGUI
      */
-    public static function getGUI(Page $page):ilAsqQuestionPageGUI {
+    public static function getGUI(AsqPageObject $page):ilAsqQuestionPageGUI {
         return new self($page);
     }
 

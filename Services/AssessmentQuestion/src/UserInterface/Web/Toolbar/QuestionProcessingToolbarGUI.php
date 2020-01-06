@@ -4,6 +4,7 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Toolbar;
 
 use ilAsqQuestionProcessingGUI;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
+use ilTestPlayerCommands;
 use ilTestPlayerNavButton;
 use ilToolbarGUI;
 

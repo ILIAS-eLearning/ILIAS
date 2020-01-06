@@ -2,7 +2,16 @@
 
 namespace ILIAS\AssessmentQuestion\UserInterface\Web\Page;
 
-class PageFactory
+/**
+ * Class AsqPageObjectFactory
+ *
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  Adrian Lüthi <al@studer-raimann.ch>
+ * @author  Björn Heyser <bh@bjoernheyser.de>
+ * @author  Martin Studer <ms@studer-raimann.ch>
+ * @author  Theodor Truffer <tt@studer-raimann.ch>
+ */
+class AsqPageObjectFactory
 {
 
     const ASQ_PAGE_TYPE_PREFIX = 'asq';
@@ -49,33 +58,33 @@ class PageFactory
     }
 
     public function getPage() {
-        Page::getPage( $this->page_type,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
+        AsqPageObject::getPage( $this->page_type,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
     }
 
     /**
-     * @return Page
+     * @return AsqPageObject
      */
-    public function getAnswerOptionFeedbackPage():Page
+    public function getAnswerOptionFeedbackPage():AsqPageObject
     {
-        return Page::getPage(self::ASQ_PAGE_TYPE_ANSWER_OPTION_FEEDBACK,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
-    }
-
-
-    /**
-     * @return Page
-     */
-    public function getFeedbackPage():Page
-    {
-        return Page::getPage(self::ASQ_PAGE_TYPE_GENERIC_FEEDBACK,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
+        return AsqPageObject::getPage(self::ASQ_PAGE_TYPE_ANSWER_OPTION_FEEDBACK,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
     }
 
 
     /**
-     * @return Page
+     * @return AsqPageObject
      */
-    public function getQuestionPage():Page
+    public function getFeedbackPage():AsqPageObject
     {
-        return Page::getPage(self::ASQ_PAGE_TYPE_QUESTION,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
+        return AsqPageObject::getPage(self::ASQ_PAGE_TYPE_GENERIC_FEEDBACK,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
+    }
+
+
+    /**
+     * @return AsqPageObject
+     */
+    public function getQuestionPage():AsqPageObject
+    {
+        return AsqPageObject::getPage(self::ASQ_PAGE_TYPE_QUESTION,$this->page_parent_int_id,$this->page_int_id,$this->lng_key);
     }
 
 }

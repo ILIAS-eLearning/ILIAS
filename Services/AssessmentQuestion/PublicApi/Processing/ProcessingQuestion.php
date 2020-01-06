@@ -112,11 +112,9 @@ class ProcessingQuestion
      * @param                            $image_path
      * @param                            $a_mode
      * @param                            $a_no_interaction
-     *
-     * @return QuestionFormDto
      */
     //TODO
-    public function getStandaloneQuestionExportPresentation(QuestionResourcesDto $collector, $image_path, $a_mode, $a_no_interaction) : QuestionFormDto
+    public function getStandaloneQuestionExportPresentation(QuestionResourcesDto $collector, $image_path, $a_mode, $a_no_interaction)
     {
         // TODO: Implement GetStandaloneQuestionExportPresentation() method.
     }

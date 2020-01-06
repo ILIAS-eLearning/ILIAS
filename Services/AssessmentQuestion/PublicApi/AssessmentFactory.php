@@ -4,10 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\Services\AssessmentQuestion\PublicApi\Factory;
 
 use ILIAS\Services\AssessmentQuestion\PublicApi\Authoring\AuthoringService;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\AssessmentEntityId;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Common\entityIdBuilder;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Common\QuestionConfig;
-use ILIAS\Services\AssessmentQuestion\PublicApi\Evaluation\EvaluationService;
 use ILIAS\Services\AssessmentQuestion\PublicApi\Processing\ProcessingService;
 
 /**
