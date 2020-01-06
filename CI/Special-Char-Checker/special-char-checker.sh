@@ -40,11 +40,11 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 FILES=()
 cd $PATH_TO_SRC
 
-AMOUNT_OF_FILES=$(find . -type f  -name '*.\'"$EXTENSION" | wc -l)
+AMOUNT_OF_FILES=$(find . -path ./libs -prune -o -type f -name '*.\'"$EXTENSION" | wc -l)
 echo "Found $AMOUNT_OF_FILES files."
 
 COUNTER=0
-for PHPFILE in $(find . -type f  -name '*.'"$EXTENSION");
+for PHPFILE in $(find . -path ./libs -prune -o -type f -name '*.'"$EXTENSION");
 do
     COUNTER=$((COUNTER + 1))
     echo -ne "Scanning $COUNTER of $AMOUNT_OF_FILES"'\r';
