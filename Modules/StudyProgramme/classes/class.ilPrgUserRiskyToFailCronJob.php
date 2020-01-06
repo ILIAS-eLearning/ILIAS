@@ -16,11 +16,6 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
     protected $user_progress_db;
 
     /**
-     * @var ilObjUser
-     */
-    protected $usr;
-
-    /**
      * @var ilLog
      */
     protected $log;
@@ -35,7 +30,6 @@ class ilPrgUserRiskyToFailCronJob extends ilCronJob
         global $DIC;
 
         $this->user_progress_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB'];
-        $this->usr = $DIC['ilUser'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
         $this->lng->loadLanguageModule('prg');
