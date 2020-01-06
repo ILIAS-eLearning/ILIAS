@@ -1945,6 +1945,7 @@ common#:#accessFree#:#Remove 'Valid Until' Date
 common#:#accessRestrict#:#Set 'Valid Until' Date
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#Your account expires
+common#:#account#:#My Account
 rbac#:#accs_edit_permission#:#User can change permissions of Accessibility Settings  in Administration.
 rbac#:#accs_read#:#User has read access to Accessibility Settings in Administration.
 rbac#:#accs_visible#:#Accessibility Settings are visible in Administration.
@@ -2127,6 +2128,7 @@ common#:#author#:#Author
 common#:#authoring_mode#:#Authoring Mode
 common#:#authors#:#Authors
 common#:#available#:#Available
+common#:#awra#:#Who is online?
 common#:#back_to_crs_content#:#Back to Course Content
 common#:#back_to_fold_content#:#Back to Folder Content
 common#:#back_to_grp_content#:#Back to Group Content
@@ -3223,6 +3225,7 @@ common#:#no_title#:#No Title
 common#:#no_users_selected#:#Please select one user.
 common#:#no_xml_file_found_in_zip#:#XML file within zip file not found:
 common#:#no#:#No
+common#:#noc#:#Notification Center
 common#:#non_internal_local_roles_only#:#Local roles (only user defined)
 common#:#none#:#None
 common#:#normal#:#Normal
