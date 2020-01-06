@@ -247,8 +247,7 @@ class AuthoringApplicationService
 
     public function getQuestionPage(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $page = AsqPageObject::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $this->container_obj_id, $question_int_id, $this->lng_key);
-        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
+        $page_gui = new ilAsqQuestionPageGUI($this->container_obj_id, $question_int_id, $this->lng_key);
 
         $page_gui->setRenderPageContainer(false);
         $page_gui->setEditPreview(true);
@@ -260,8 +259,7 @@ class AuthoringApplicationService
 
     public function getQuestionPageEditor(int $question_int_id) : \ilAsqQuestionPageGUI
     {
-        $page = AsqPageObject::getPage(ilAsqQuestionPageGUI::PAGE_TYPE, $this->container_obj_id, $question_int_id, $this->lng_key);
-        $page_gui = \ilAsqQuestionPageGUI::getGUI($page);
+        $page_gui = new ilAsqQuestionPageGUI($this->container_obj_id, $question_int_id, $this->lng_key);
 
         $page_gui->setOutputMode('edit');
         $page_gui->setEditPreview(true);

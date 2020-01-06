@@ -20,28 +20,6 @@ class AsqPageObject extends \ilPageObject
 {
     public $parent_type = 'asqq';
 
-
-    /**
-     * @param int $question_id
-     *
-     * @return AsqPageObject
-     */
-    public static function getPage(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key) : AsqPageObject
-    {
-        self::createPageIfNotExists($page_type, $parent_int_id, $page_int_id, $lng_key);
-
-        $reflector = new ReflectionClass(self::class);
-        /**
-         * @var AsqPageObject $page
-         */
-        $page = $reflector->newInstanceWithoutConstructor();
-
-        $page->setParentType($page_type);
-        $page->__construct($page_int_id,0,$lng_key);
-
-        return $page;
-    }
-
     /**
      * @return string parent type
      */
@@ -56,24 +34,6 @@ class AsqPageObject extends \ilPageObject
     public function setParentType($parent_type) : void
     {
         $this->parent_type = $parent_type;
-    }
-
-
-
-    public static function createPageIfNotExists(string $page_type, int $parent_int_id, int $page_int_id, string $lng_key)
-    {
-        if (parent::_exists($page_type, $page_int_id, $lng_key) === false) {
-            /**
-             * @var \ilPageObject $page
-             */
-            $page = new self();
-            $page->setParentType($page_type);
-            $page->setParentId($parent_int_id);
-            $page->setId($page_int_id);
-            $page->setLanguage($lng_key);
-
-            $page->create();
-        }
     }
 
     /**
