@@ -105,27 +105,13 @@ var ilCOPage =
 
 	setEditStatus: function(status)
 	{
-		if (status)
-		{
-//			YAHOO.util.DragDropMgr.lock();
-		}
-		else
-		{
-//			YAHOO.util.DragDropMgr.unlock();
-		}
-		var elements = YAHOO.util.Dom.getElementsByClassName('il_droparea');
-
-		for (k in elements)
-		{
-			elements[k].style.visibility = 'hidden';
-		}
+		
+		$(".il_droparea").css('visibility', 'hidden');
 		var obj = document.getElementById('ilPageEditModeMenu');
 		if (obj) obj.style.visibility = 'hidden';
 		var obj = document.getElementById('ilPageEditActionBar');
 		if (obj) obj.style.visibility = 'hidden';
 		$("#ilPageEditTopActionBar").css("visibility", "hidden");
-		var obj = document.getElementById('ilPageEditLegend');
-		if (obj) obj.style.visibility = 'hidden';
 		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_cont_PageContainer');
 		for (k in elements)
 		{
@@ -2779,6 +2765,7 @@ function showToolbar(ed_id) {
 		obj = document.getElementById('iltinymenu');
 		//$(obj).appendTo("body");
 		$(obj).appendTo("#copg-editor-slate-content");
+		$("#copg-editor-help").css("display", "none");
 
 		obj = document.getElementById('ilEditorPanel');
 		// if statement added since this may miss if internal links not supported?
@@ -2805,6 +2792,8 @@ function showToolbar(ed_id) {
 function hideToolbar () {
 	obj = document.getElementById('iltinymenu');
 	obj.style.display = "none";
+	$("#copg-editor-help").css("display", "");
+	$(".il_droparea").css('visibility', '');
 }
 
 function removeToolbar () {
@@ -2812,6 +2801,8 @@ function removeToolbar () {
 	if (ilCOPage.menu_panel) {
 		var obj = document.getElementById('iltinymenu');
 		$(obj).remove();
+		$("#copg-editor-help").css("display", "");
+		$(".il_droparea").css('visibility', '');
 
 		ilCOPage.menu_panel = null;
 
