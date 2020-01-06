@@ -467,8 +467,10 @@
 					), doCloseNotificationCenter = false;
 
 				if (currentNotificationItemsAdded > 0 && 0 === conversations.length) {
+					notificationContainer.getCounterObjectIfAny().decrementNoveltyCount(1);
 					doCloseNotificationCenter = true;
 				} else if (0 === currentNotificationItemsAdded && conversations.length > 0) {
+					notificationContainer.getCounterObjectIfAny().incrementNoveltyCount(1);
 				}
 
 				getModule().notificationItemsAdded = conversations.length;
@@ -486,7 +488,8 @@
 						let $aggregateItem = $("#" + getModule().conversationToUiIdMap[conversation.id]),
 							aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
 								$aggregateItem
-							);
+							),
+							$aggregateContainer = $aggregateItem.closest(".il-aggregate-notifications");
 
 						aggregateNotificationItem.closeItem();
 						if (getModule().conversationMessageTimes.hasOwnProperty(conversation.id)) {
