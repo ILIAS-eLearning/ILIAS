@@ -63,8 +63,8 @@ grid-based layout
 	display: -ms-grid;
 	display: grid;
 	grid-gap: 0px;
-	-ms-grid-columns: @il-mainbar-btn-width 1fr;
-    grid-template-columns: @il-mainbar-btn-width 1fr;
+	-ms-grid-columns: auto 1fr;
+    grid-template-columns: auto 1fr;
 	-ms-grid-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
     grid-template-rows: @il-standard-page-header-height @il-standard-page-breadcrumbs-height 1fr;
     height: 100%;
@@ -77,8 +77,8 @@ grid-based layout
 	}
 	// main grid with active slates
 	&.with-mainbar-slates-engaged {
-		-ms-grid-columns: @il-standard-page-slate-width + @il-mainbar-btn-width 1fr;
-		grid-template-columns: @il-standard-page-slate-width + @il-mainbar-btn-width 1fr;
+		-ms-grid-columns: auto 1fr;
+		grid-template-columns: auto 1fr;
 		.il-maincontrols-mainbar {
 			width: @il-standard-page-slate-width + @il-mainbar-btn-width;
 

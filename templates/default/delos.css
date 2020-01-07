@@ -8600,8 +8600,8 @@ grid-based layout
   display: -ms-grid;
   display: grid;
   grid-gap: 0px;
-  -ms-grid-columns: 80px 1fr;
-  grid-template-columns: 80px 1fr;
+  -ms-grid-columns: auto 1fr;
+  grid-template-columns: auto 1fr;
   -ms-grid-rows: 60px 33px 1fr;
   grid-template-rows: 60px 33px 1fr;
   height: 100%;
@@ -8612,8 +8612,8 @@ grid-based layout
   display: none;
 }
 .il-layout-page.with-mainbar-slates-engaged {
-  -ms-grid-columns: 409px 1fr;
-  grid-template-columns: 409px 1fr;
+  -ms-grid-columns: auto 1fr;
+  grid-template-columns: auto 1fr;
 }
 .il-layout-page.with-mainbar-slates-engaged .il-maincontrols-mainbar {
   width: 409px;
@@ -18855,4 +18855,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
