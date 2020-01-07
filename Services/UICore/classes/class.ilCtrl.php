@@ -1207,10 +1207,11 @@ class ilCtrl
                     return $rec["token"];
                 }
                 //echo "new rtoken, new entry for :".$ilUser->getId().":".session_id().":"; exit;
-                $this->rtoken = md5(uniqid(rand(), true));
+                $random = new \ilRandom();
+                $this->rtoken = md5(uniqid($random->int(), true));
                 
                 // delete entries older than one and a half days
-                if (rand(1, 200) == 2) {
+                if ($random->int(1, 200) == 2) {
                     $dt = new ilDateTime(time(), IL_CAL_UNIX);
                     $dt->increment(IL_CAL_DAY, -1);
                     $dt->increment(IL_CAL_HOUR, -12);

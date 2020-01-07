@@ -303,7 +303,8 @@ class ilDAVLocks
         $success = $aff > 0;
         
         // clean up expired locks in 1 out of 100 unlock requests
-        if (rand(1, 100) == 1) {
+        $random = new \ilRandom();
+        if ($random->int(1, 100) == 1) {
             $this->cleanUp();
         }
         

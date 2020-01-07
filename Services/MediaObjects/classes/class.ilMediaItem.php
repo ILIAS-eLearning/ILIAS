@@ -833,13 +833,15 @@ class ilMediaItem
 
             if ($a_size == "small") {
                 if (is_file($thumb_file_small)) {
+                    $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . "_small.jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . "_small.jpeg?dummy=" . $random->int(1, 999999);
                 }
             } else {
                 if (is_file($thumb_file)) {
+                    $random = new \ilRandom();
                     return $this->getThumbnailDirectory("output") . "/" .
-                        $this->getPurpose() . ".jpeg?dummy=" . rand(1, 999999);
+                        $this->getPurpose() . ".jpeg?dummy=" . $random->int(1, 999999);
                 }
             }
         }
