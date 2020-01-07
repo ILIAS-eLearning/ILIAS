@@ -11,7 +11,7 @@
             <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
             <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
             <bpmn2:timerEventDefinition id="TimerEventDefinition_1">
-                <bpmn2:timeDate xsi:type="bpmn2:tFormalExpression">2011-03-11T12:13:14</bpmn2:timeDate>
+                <bpmn2:timeDate xsi:type="bpmn2:tFormalExpression">2011-03-11T12:13:14Z</bpmn2:timeDate>
             </bpmn2:timerEventDefinition>
         </bpmn2:intermediateCatchEvent>
         <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="StartEvent_1" targetRef="IntermediateCatchEvent_2"/>

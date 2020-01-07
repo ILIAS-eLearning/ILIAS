@@ -14170,9 +14170,7 @@ a.nostyle:hover {
   z-index: 2000 !important;
 }
 #ilPageEditLegend {
-  background-color: #f9f9f9;
   padding: 10px;
-  margin-top: 30px;
 }
 #ilPageEditLegend > div {
   margin: 5px 0;
@@ -14186,6 +14184,13 @@ a.nostyle:hover {
   background-color: #fcfcfc;
   cursor: default;
   height: 21px;
+}
+#ilPageEditLegend tr > td {
+  padding: 9px;
+}
+#ilPageEditLegend tr > td:first-child {
+  white-space: nowrap;
+  text-align: right;
 }
 .ilPageEditLegendElement {
   width: 40px;

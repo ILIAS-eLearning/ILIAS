@@ -71,6 +71,7 @@ class ilMMTabHandling
      */
     public function initTabs(string $tab, string $subtab = null, bool $backtab = false, $calling_class = "")
     {
+        $this->tabs->clearTargets();
         if ($this->rbacsystem->checkAccess('visible,read', $this->ref_id)) {
             $this->tabs->addTab(
                 ilObjMainMenuGUI::TAB_MAIN,
@@ -112,6 +113,6 @@ class ilMMTabHandling
                 $this->tabs->setBackTarget($this->lng->txt('tab_back'), $this->ctrl->getLinkTargetByClass(ilObjMainMenuGUI::class, $subtab));
             }
         }
-        $this->tabs->setTabActive($tab);
+        $this->tabs->activateTab($tab);
     }
 }

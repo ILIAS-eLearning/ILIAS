@@ -27,3 +27,7 @@ while ($rec = $ilDB->fetchAssoc($set))
     );
 }
 ?>
+<#3>
+<?php
+	$ilCtrlStructureReader->getStructure();
+?>

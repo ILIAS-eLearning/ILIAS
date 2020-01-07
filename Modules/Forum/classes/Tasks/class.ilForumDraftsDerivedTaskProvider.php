@@ -71,7 +71,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
                 $title,
                 $refId,
                 0,
-                strtotime($draft->getPostDate())
+                0
             );
 
             $isThread = false;

@@ -79,7 +79,7 @@ class ilBlogDraftsDerivedTaskProvider implements ilDerivedTaskProvider
                         $title,
                         $refId,
                         0,
-                        strtotime($post['date']),
+                        0,
                         $wspId
                     );
 

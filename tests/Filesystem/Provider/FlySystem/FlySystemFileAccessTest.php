@@ -47,7 +47,7 @@ class FlySystemFileAccessTest extends TestCase
     protected function setUp() : void
     {
         parent::setUp();
-        date_default_timezone_set('Africa/Lagos');
+
         $this->filesystemMock = Mockery::mock(FilesystemInterface::class);
         $this->subject = new FlySystemFileAccess($this->filesystemMock);
     }

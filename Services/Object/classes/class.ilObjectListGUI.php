@@ -3972,7 +3972,7 @@ class ilObjectListGUI
 
         $lp = ilLPStatus::getListGUIStatus($obj_id, false);
         if (is_array($lp) && array_key_exists('status', $lp)) {
-            $percentage = (int) ilLPStatus::_lookupPercentage($item['obj_id'], $this->user->getId());
+            $percentage = (int) ilLPStatus::_lookupPercentage($obj_id, $this->user->getId());
             if ($lp['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                 $percentage = 100;
             }
