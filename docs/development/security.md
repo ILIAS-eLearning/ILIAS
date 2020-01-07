@@ -9,9 +9,15 @@
 ## Reporting Security Issues
 Please make sure to understand, that treating security issues confidentially is required to keep ILIAS installations as safe as possible until the issue is fixed.
 
-Please write an email to security@lists.ilias.de about your discovery, containing a description of the issue with the scenario in which the problem is triggered and a description of its implications. **Do not file an issue in the bugtracker!**
+Please follow the process described in detail below. You will receive an answer from a member of the ILIAS security group about further steps.
 
-You will receive an answer from a member of the ILIAS security group about further steps.
+**Do not file an issue in the bugtracker!**
+
+1. Write an email to security@lists.ilias.de about your discovery, containing a description of the issue with the scenario in which the problem is triggered and a description of its implications. We kindly ask you to withhold full disclosure of the issue until a fix is ready and the new release as been build and made available to everyone.
+2. The Security Group will assign an issue manager.
+3. The issue manager will contact you on behalf of the ILIAS e.V. by email. We are grateful for any further help/information you can provide during the analysis and bugfixing process.
+4. Depending on the severity and impact of the issue at hand, the developers will build a new release ASAP or continue with the default roadmap.
+5. Optional: We are very interested in giving proper credit for your finding and your support for the project. If you want to, we can include your name and/or instituion in our release notes.
 
 ## Publishing Fixes for Security Issues
 We are delighted when solutions are offered together with the initial report. Please be aware, however, that our repository in GitHub is also open to the general public: commits, commit-messages and pull-requests can be viewed by anyone. It is therefore also better in this case to get in touch with security@lists.ilias.de in order to discuss further steps with us.
