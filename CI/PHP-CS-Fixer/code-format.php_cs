@@ -26,5 +26,6 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => true,
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
+        'whitespace_after_comma_in_array' => true
 	])
 	->setFinder($finder);
