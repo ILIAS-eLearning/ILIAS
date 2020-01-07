@@ -85,8 +85,8 @@ class ilOpenLayersMapGUI extends ilMapGUI
 
 
         $lng->loadLanguageModule("maps");
-        $tpl->addCss("libs/bower/bower_components/OpenLayers/ol.css");
-        $tpl->addJavaScript("libs/bower/bower_components/OpenLayers/ol.js");
+        $tpl->addCss("libs/bower/bower_components/openlayers/build/ol.css");
+        $tpl->addJavaScript("libs/bower/bower_components/openlayers/build/ol.js");
         $tpl->addCss("Services/Maps/css/service_openlayers.css");
         $tpl->addJavaScript("Services/Maps/js/ServiceOpenLayers.js");
 
