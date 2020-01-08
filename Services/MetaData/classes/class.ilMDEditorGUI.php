@@ -2740,8 +2740,8 @@ class ilMDEditorGUI
             $res_idents = $relation->getIdentifier_Ids();
             foreach ($res_idents as $res_id) {
                 $ident = $relation->getIdentifier_($res_id);
-                $ident->setCatalog(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id][Catalog]));
-                $ident->setEntry(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id][Entry]));
+                $ident->setCatalog(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id]['Catalog']));
+                $ident->setEntry(ilUtil::stripSlashes($_POST['relation']['Resource']['Identifier'][$res_id]['Entry']));
                 $ident->update();
             }
             
@@ -2749,7 +2749,7 @@ class ilMDEditorGUI
             $res_dess = $relation->getDescriptionIds();
             foreach ($res_dess as $res_des) {
                 $des = $relation->getDescription($res_des);
-                $des->setDescription(ilUtil::stripSlashes($_POST['relation']['Resource']['Description'][$res_des][Value]));
+                $des->setDescription(ilUtil::stripSlashes($_POST['relation']['Resource']['Description'][$res_des]['Value']));
                 $des->setDescriptionLanguage(
                     new ilMDLanguageItem($_POST['relation']['Resource']['Description'][$res_des]['Language'])
                 );
