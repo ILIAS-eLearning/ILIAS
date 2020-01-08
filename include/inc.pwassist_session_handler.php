@@ -170,6 +170,8 @@ function db_pwassist_session_gc()
 {
     global $DIC;
 
+    $ilDB = $DIC->database();
+
     $q = "DELETE FROM usr_pwassist " .
          "WHERE expires < " . $ilDB->quote(time(), "integer");
     $ilDB->manipulate($q);
