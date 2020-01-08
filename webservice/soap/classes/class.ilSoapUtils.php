@@ -165,13 +165,16 @@ class ilSoapUtils extends ilSoapAdministration
      * @param
      *
      */
-    public function ilCloneDependencies($sid, $copy_identifier)
+    public function ilCloneDependencies($sid, $copy_identifier, $is_initialized = false)
     {
-        $this->initAuth($sid);
-        $this->initIlias();
+        if(!$is_initialized) {
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+            $this->initAuth($sid);
+            $this->initIlias();
+
+            if (!$this->__checkSession($sid)) {
+                return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+            }
         }
 
         global $DIC;
@@ -259,7 +262,7 @@ class ilSoapUtils extends ilSoapAdministration
         // Fetch first node
         if (($node = $cp_options->fetchFirstNode()) === false) {
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 1. Starting copying of object dependencies...');
-            return $this->ilCloneDependencies($sid, $copy_identifier);
+            return $this->ilCloneDependencies($sid, $copy_identifier, true);
         }
     
         // Check options of this node
