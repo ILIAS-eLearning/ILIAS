@@ -767,7 +767,7 @@ class ilNoteGUI
                         $tpl->setCurrentBlock("user_img");
                         $tpl->setVariable(
                             "USR_IMG",
-                            ilObjUser::_getPersonalPicturePath($note->getAuthor(), "xxsmall")
+                            ilObjUser::_getPersonalPicturePath($note->getAuthor(), "xsmall")
                         );
                         $tpl->setVariable("USR_ALT", $lng->txt("user_image") . ": " .
                             ilObjUser::_lookupLogin($note->getAuthor()));
