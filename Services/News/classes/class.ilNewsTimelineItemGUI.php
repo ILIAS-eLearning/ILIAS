@@ -197,7 +197,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("USER_IMAGE", ilObjUser::_getPersonalPicturePath($i->getUserId(), "xsmall"));
+        $tpl->setVariable("USER_IMAGE", ilObjUser::_getPersonalPicturePath($i->getUserId(), "small"));
         $tpl->setVariable(
             "TITLE",
             ilNewsItem::determineNewsTitle($i->getContextObjType(), $i->getTitle(), $i->getContentIsLangVar())
