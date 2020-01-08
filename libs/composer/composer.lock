@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dc1b921cffeb68499f384ed953a3ad69",
+    "content-hash": "86d662bf3a98372acf70186ef7a4704f",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -136,17 +136,21 @@
         },
         {
             "name": "enshrined/svg-sanitize",
-            "version": "0.10.0",
+            "version": "0.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-                "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82"
+                "reference": "51ca4b713f3706d6b27769c6296bbc0c28a5bbd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/5344d8511e494adf160f71f4b34024d3a3c66c82",
-                "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82",
+                "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/51ca4b713f3706d6b27769c6296bbc0c28a5bbd0",
+                "reference": "51ca4b713f3706d6b27769c6296bbc0c28a5bbd0",
                 "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-libxml": "*"
             },
             "require-dev": {
                 "codeclimate/php-test-reporter": "^0.1.2",
@@ -160,7 +164,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-2.0+"
+                "GPL-2.0-or-later"
             ],
             "authors": [
                 {
@@ -169,7 +173,7 @@
                 }
             ],
             "description": "An SVG sanitizer for PHP",
-            "time": "2019-01-11T12:31:32+00:00"
+            "time": "2019-10-21T22:39:08+00:00"
         },
         {
             "name": "ezyang/htmlpurifier",
@@ -294,7 +298,7 @@
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.2"
             },
             "type": "library",
             "autoload": {
@@ -384,12 +388,12 @@
             "version": "2.3.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mlocati/cldr-to-gettext-plural-rules.git",
+                "url": "https://github.com/php-gettext/Languages.git",
                 "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
+                "url": "https://api.github.com/repos/php-gettext/Languages/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
                 "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7",
                 "shasum": ""
             },
@@ -1067,11 +1071,6 @@
                 "symfony/polyfill-mbstring": "To support UTF-8 if the Mbstring PHP extension is not enabled (^1.2)"
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "PHPMailer\\PHPMailer\\": "src/"
@@ -1099,7 +1098,12 @@
                 }
             ],
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
-            "time": "2018-11-16T00:41:32+00:00"
+            "time": "2018-11-16T00:41:32+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS PhpMailer Patches": "patches/phpmailer.patch"
+                }
+            }
         },
         {
             "name": "phpoffice/phpspreadsheet",
@@ -2104,11 +2108,6 @@
                 "phpunit/phpunit": "~4.8.35"
             },
             "type": "project",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
-                }
-            },
             "autoload": {
                 "psr-4": {
                     "SimpleSAML\\": "lib/SimpleSAML"
@@ -2145,7 +2144,12 @@
                 "sp",
                 "ws-federation"
             ],
-            "time": "2018-09-28T13:06:14+00:00"
+            "time": "2018-09-28T13:06:14+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS SimpleSAMLphp Patches": "patches/simplesamlphp.patch"
+                }
+            }
         },
         {
             "name": "slim/slim",
@@ -2329,11 +2333,6 @@
                 "php": ">=5.3.0"
             },
             "type": "library",
-            "extra": {
-                "patches_applied": {
-                    "ILIAS TCPDF Patches": "patches/tcpdf.patch"
-                }
-            },
             "autoload": {
                 "classmap": [
                     "fonts",
@@ -2377,7 +2376,12 @@
                 "pdf417",
                 "qrcode"
             ],
-            "time": "2015-09-12T10:08:34+00:00"
+            "time": "2015-09-12T10:08:34+00:00",
+            "extra": {
+                "patches_applied": {
+                    "ILIAS TCPDF Patches": "patches/tcpdf.patch"
+                }
+            }
         },
         {
             "name": "twig/extensions",
