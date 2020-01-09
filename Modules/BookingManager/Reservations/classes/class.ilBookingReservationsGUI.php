@@ -87,7 +87,7 @@ class ilBookingReservationsGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("log", "logDetails", "changeStatusObject",
+                if (in_array($cmd, array("log", "logDetails", "changeStatusObject", "rsvConfirmCancelUser", "rsvCancelUser",
                     "applyLogFilter", "resetLogFilter", "rsvConfirmCancel", "rsvCancel", "back"))) {
                     $this->$cmd();
                 }
@@ -233,7 +233,6 @@ class ilBookingReservationsGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $tpl = $this->tpl;
-
         $id = $this->book_obj_id;
         if (!$id) {
             return;
@@ -277,7 +276,7 @@ class ilBookingReservationsGUI
         $obj->setStatus(ilBookingReservation::STATUS_CANCELLED);
         $obj->update();
 
-        ilUtil::sendSuccess($lng->txt('settings_saved'));
+        ilUtil::sendSuccess($lng->txt('settings_saved'), true);
         $this->back();
     }
 
