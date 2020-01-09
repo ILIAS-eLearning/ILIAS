@@ -4122,6 +4122,7 @@ class ilObjUser extends ilObject
             $body .= ($language->txt("create_date") . ": " . $date . "\n");
         }
 
+        $gr = [];
         foreach ($rbacreview->getGlobalRoles() as $role) {
             if ($rbacreview->isAssigned($this->getId(), $role)) {
                 $gr[] = ilObjRole::_lookupTitle($role);
