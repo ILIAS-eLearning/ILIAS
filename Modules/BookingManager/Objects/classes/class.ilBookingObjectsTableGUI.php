@@ -377,7 +377,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                     $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'displayPostInfo')
                 );
             }
-            $items[] = $this->ui_factory->button()->shy($lng->txt('book_set_cancel'), $ilCtrl->getLinkTarget($this->parent_obj, 'rsvConfirmCancelUser'));
+            $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', $a_set['booking_object_id']);
+            $items[] = $this->ui_factory->button()->shy($lng->txt('book_set_cancel'), $ilCtrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser'));
+            $ilCtrl->setParameterByClass("ilbookingreservationsgui", 'object_id', "");
         }
             
         if ($this->may_edit || $has_booking) {

@@ -219,18 +219,18 @@ class ilBookingParticipant
 
 
             if ($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $val['obj_count'] == 1) {
-                $ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $val['user_id']);
-                $ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $val['object_ids'][0]);
-                $ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', $val['user_id']);
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', $val['object_ids'][0]);
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
 
                 $actions[] = array(
                     'text' => $lng->txt("book_deassign"),
-                    'url' => $ctrl->getLinkTargetByClass("ilbookingobjectgui", 'rsvConfirmCancelUser')
+                    'url' => $ctrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser')
                 );
 
-                $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
-                $ctrl->setParameterByClass('ilbookingparticipantgui', 'object_id', '');
-                $ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', '');
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', '');
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', '');
+                $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', '');
             } elseif ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $res[$index]['obj_count'] > 1) {
                 $ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $val['user_id']);
                 $actions[] = array(
@@ -241,7 +241,7 @@ class ilBookingParticipant
             }
 
             //add the actions
-            $res[$index]['actions'] = $actions;
+            //$res[$index]['actions'] = $actions;
             $res[$index]['object_ids'][] = $row['object_id'];
         }
         //echo "<pre>"; print_r($res); exit;
