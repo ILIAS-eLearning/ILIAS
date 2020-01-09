@@ -894,7 +894,7 @@ class ilPersonalSettingsGUI
         
         $ilUser->activateDeletionFlag();
                 
-        // see ilStartupGUI::showLogout()
+        // see ilStartupGUI::doLogout()
         ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
         $GLOBALS['DIC']['ilAuthSession']->logout();
         
