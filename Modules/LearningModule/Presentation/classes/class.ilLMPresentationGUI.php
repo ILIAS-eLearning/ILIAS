@@ -571,6 +571,7 @@ class ilLMPresentationGUI
                         $this->setHeader();
                         $this->ilLMMenu();
                         $content = $this->getContent();
+                        $content.= $this->ilLMNotes();
                         $this->tpl->setContent($content);
                         break;
 
@@ -1079,15 +1080,14 @@ class ilLMPresentationGUI
     /**
     * output notes of page
     */
-    public function ilLMNotes()
+    public function ilLMNotes(): string
     {
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
-        
-        
+
         // no notes in offline (export) mode
         if ($this->offlineMode()) {
-            return;
+            return "";
         }
         
         // output notes (on top)
@@ -1099,20 +1099,19 @@ class ilLMPresentationGUI
         // now output comments
         
         if ($ilSetting->get("disable_comments")) {
-            return;
+            return "";
+        }
+        if (!$this->lm->publicNotes()) {
+            return "";
         }
 
-        if (!$this->lm->publicNotes()) {
-            return;
-        }
-        
         $next_class = $this->ctrl->getNextClass($this);
 
         $pg_id = $this->getCurrentPageId();
+
         if ($pg_id == 0) {
-            return;
+            return "";
         }
-        
         $notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
         
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
@@ -1136,7 +1135,7 @@ class ilLMPresentationGUI
         } else {
             $html = $notes_gui->getNotesHTML();
         }
-        $this->tpl->setVariable("NOTES", $html);
+        return $html;
     }
 
 
@@ -1255,6 +1254,8 @@ class ilLMPresentationGUI
      */
     public function getCurrentPageId()
     {
+        return $this->service->getNavigationStatus()->getCurrentPage();
+
         $ilUser = $this->user;
 
         if (!$this->offlineMode() && $this->current_page_id !== false) {
