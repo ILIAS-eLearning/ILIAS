@@ -2,6 +2,7 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
+use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\UI\Component\Component;
 
@@ -10,6 +11,7 @@ use ILIAS\UI\Component\Component;
  */
 class RepositoryLinkItemRenderer extends BaseTypeRenderer
 {
+    use ComponentDecoratorApplierTrait;
 
     /**
      * @inheritDoc

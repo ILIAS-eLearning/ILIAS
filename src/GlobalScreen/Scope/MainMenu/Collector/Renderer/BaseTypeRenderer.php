@@ -13,7 +13,6 @@ use ILIAS\UI\Factory;
 
 /**
  * Class BaseTypeRenderer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class BaseTypeRenderer implements TypeRenderer
@@ -30,7 +29,6 @@ class BaseTypeRenderer implements TypeRenderer
      */
     protected $ui_factory;
 
-
     /**
      * BaseTypeRenderer constructor.
      */
@@ -40,15 +38,13 @@ class BaseTypeRenderer implements TypeRenderer
         $this->ui_factory = $DIC->ui()->factory();
     }
 
-
     /**
      * @inheritDoc
      */
     public function getComponentForItem(isItem $item, bool $with_content = true) : Component
     {
-        return $with_content ? $this->getComponentWithContent($item) : $this->getComponentWithoutContent($item);
+        return $this->applyDecorator($with_content ? $this->getComponentWithContent($item) : $this->getComponentWithoutContent($item), $item);
     }
-
 
     /**
      * @inheritDoc
@@ -57,7 +53,6 @@ class BaseTypeRenderer implements TypeRenderer
     {
         return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }
-
 
     /**
      * @inheritDoc
@@ -68,26 +63,21 @@ class BaseTypeRenderer implements TypeRenderer
             return $this->getComponentWithContent($item);
         }
         $content = $this->ui_factory->legacy("...");
-        $name = $item instanceof hasTitle ? $item->getTitle() : "-";
-        $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
-        $slate = $this->addAsyncLoadingCode($slate, $item);
-        $slate = $this->addOnloadCode($slate, $item);
-
-        $slate = $this->applyDecorator($slate, $item);
+        $name    = $item instanceof hasTitle ? $item->getTitle() : "-";
+        $slate   = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
+        $slate   = $this->addAsyncLoadingCode($slate, $item);
+        $slate   = $this->addOnloadCode($slate, $item);
 
         return $slate;
     }
-
 
     private function supportsAsyncContent(isItem $item) : bool
     {
         return $item instanceof supportsAsynchronousLoading && $item->supportsAsynchronousLoading();
     }
 
-
     /**
      * @param isItem $item
-     *
      * @return Symbol
      */
     protected function getStandardSymbol(isItem $item) : Symbol
@@ -104,10 +94,8 @@ class BaseTypeRenderer implements TypeRenderer
         return $this->ui_factory->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
     }
 
-
     /**
      * @param string $uri_string
-     *
      * @return URI
      */
     protected function getURI(string $uri_string) : URI
