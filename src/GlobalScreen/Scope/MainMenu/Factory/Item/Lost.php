@@ -12,17 +12,17 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Lost
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
-
+    use SymbolDecoratorTrait;
     /**
      * @var isChild[]
      */
@@ -36,7 +36,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
      */
     private $title = '';
 
-
     /**
      * @inheritDoc
      */
@@ -45,7 +44,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         parent::__construct($provider_identification);
         $this->parent = new NullIdentification();
     }
-
 
     /**
      * @inheritDoc
@@ -57,7 +55,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -65,7 +62,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return $this->title;
     }
-
 
     /**
      * @inheritDoc
@@ -75,7 +71,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -83,7 +78,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return $this;
     }
-
 
     /**
      * @inheritDoc
@@ -95,7 +89,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $DIC->ui()->factory()->legacy("");
     }
 
-
     /**
      * @inheritDoc
      */
@@ -106,7 +99,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -115,7 +107,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this->parent instanceof isParent;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -123,7 +114,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return $this->parent;
     }
-
 
     /**
      * @inheritDoc
@@ -135,7 +125,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -143,7 +132,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return $this->children;
     }
-
 
     /**
      * @inheritDoc
@@ -155,7 +143,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -166,7 +153,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -174,7 +160,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return count($this->children) > 0;
     }
-
 
     /**
      * @inheritDoc
@@ -185,7 +170,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -193,7 +177,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return "#";
     }
-
 
     /**
      * @inheritDoc
@@ -204,7 +187,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -212,7 +194,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return false;
     }
-
 
     /**
      * @inheritDoc
@@ -222,7 +203,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
         return $this;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -230,7 +210,6 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     {
         return null;
     }
-
 
     /**
      * @inheritDoc
