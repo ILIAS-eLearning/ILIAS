@@ -18,7 +18,7 @@ Please follow the process described in detail below. You will receive an answer 
 3. The issue manager will look into the issue and try and reproduce the problem.
 4. The issue manager will contact you on behalf of the ILIAS e.V. by email. We are grateful for any further help/information you can provide during the analysis and bugfixing process.
 5. Depending on the severity and impact of the issue at hand, the developers will build a new release ASAP or continue with the default roadmap.
-6. Optional: We are very interested in giving proper credit for your finding and your support for the project. If you want to, we can include your name and/or instituion in our release notes. We will not publish your name or the name of your institution without your consent.
+6. Optional: We are very interested in giving proper credit for your finding and your support for the project. If you want to, we can include your name and/or institution in our release notes. We will not publish your name or the name of your institution without your consent.
 
 ## Publishing Fixes for Security Issues
 We are delighted when solutions are offered together with the initial report. Please be aware, however, that our repository in GitHub is also open to the general public: commits, commit-messages and pull-requests can be viewed by anyone. It is therefore also better in this case to get in touch with security@lists.ilias.de in order to discuss further steps with us.
