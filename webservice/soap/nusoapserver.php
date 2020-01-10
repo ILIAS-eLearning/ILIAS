@@ -31,7 +31,7 @@
 * @package ilias
 */
 
-if (ILIAS_MODULE != "webservice/soap") {
+if (!defined('ILIAS_MODULE') || (defined('ILIAS_MODULE') && ILIAS_MODULE != "webservice/soap")) {
     //direct call to this endpoint
     chdir("../..");
     define("ILIAS_MODULE", "webservice/soap");
