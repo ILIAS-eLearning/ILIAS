@@ -43,6 +43,14 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("DISABLED", " disabled");
         }
 
+        $id = $this->bindJavaScript($component);
+
+        if ($id !== null) {
+            $tpl->setCurrentBlock("with_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+        }
+
         return $tpl->get();
     }
 

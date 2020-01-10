@@ -17,6 +17,16 @@ il.Tooltip = {
 	},
 
 	/**
+	 * Add a tooltip to the nearest element given
+	 *
+	 * @param string el_id element id
+	 * @param object cfg configuration object
+	 */
+	addToNearest: function (el_id, nearest_element_selector, cfg) {
+		this.tooltips.push({el_id: $("#" + el_id).closest(nearest_element_selector), cfg: cfg});
+	},
+
+	/**
 	 * Add a tooltip
 	 *
 	 * @param string selector

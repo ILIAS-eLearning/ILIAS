@@ -83,7 +83,13 @@ class BaseTypeRenderer implements TypeRenderer
     protected function getStandardSymbol(isItem $item) : Symbol
     {
         if ($item instanceof hasSymbol && $item->hasSymbol()) {
+            $c = $item->getSymbolDecorator();
+            if ($c !== null) {
+                return $c($item->getSymbol());
+            }
+
             return $item->getSymbol();
+
         }
         if ($item instanceof hasTitle) {
             $abbr = strtoupper(substr($item->getTitle(), 0, 1));
