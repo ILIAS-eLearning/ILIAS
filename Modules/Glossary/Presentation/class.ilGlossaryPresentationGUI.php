@@ -1461,7 +1461,7 @@ class ilGlossaryPresentationGUI
                     );
 
                 $tax_exp = new ilTaxonomyExplorerGUI(
-                    $this,
+                    get_class($this),
                     "showTaxonomy",
                     $tax_id,
                     "ilglossarypresentationgui",

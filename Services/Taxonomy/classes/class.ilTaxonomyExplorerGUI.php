@@ -33,7 +33,6 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         $a_id = ""
     ) {
         global $DIC;
-
         $this->ctrl = $DIC->ctrl();
         include_once("./Services/Taxonomy/classes/class.ilTaxonomyTree.php");
         $this->tax_tree = new ilTaxonomyTree($a_tax_id);
@@ -81,7 +80,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     public function getNodeHref($a_node)
     {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$this->onclick && $this->target_gui != "") {
             $ilCtrl->setParameterByClass($this->target_gui, "tax_node", $a_node["child"]);
             $href = $ilCtrl->getLinkTargetByClass($this->parent_obj, $this->target_cmd);
