@@ -22,15 +22,15 @@ class Link extends AbstractChildItem implements hasTitle, hasAction
     /**
      * @var string
      */
-    protected $action = "";
+    protected $action = '';
     /**
      * @var string
      */
-    protected $alt_text = "";
+    protected $alt_text = '';
     /**
      * @var string
      */
-    protected $title = "";
+    protected $title = '';
 
 
     /**

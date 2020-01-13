@@ -2481,7 +2481,7 @@ certificate#:#certificate_a4_landscape#:#A4 Quer (210 mm x 297 mm)
 certificate#:#certificate_a5#:#A5 (210 mm x 148 mm)
 certificate#:#certificate_a5_landscape#:#A5 Quer (148 mm x 210 mm)
 certificate#:#certificate_background_image#:#Hintergrundbild
-certificate#:#certificate_card_thumbnail_image#:#Bild für Kartendarstellung
+certificate#:#certificate_card_thumbnail_image#:#Bild für Kacheldarstellung
 certificate#:#certificate_change_active_status#:#Der Aktiv-Status des Zertifikats wurde geändert
 certificate#:#certificate_confirm_deletion_text#:#Wollen Sie wirklich die Zertifikat-Vorlage und alle zugehörigen Daten löschen?
 certificate#:#certificate_custom#:#Eigenes Format...
@@ -3649,7 +3649,7 @@ common#:#flatview#:#Baumansicht aus
 common#:#fm_start#:#Mit Dateimanager öffnen
 common#:#fold#:#Ordner
 common#:#fold_add#:#Ordner anlegen
-common#:#fold_added#:#Ordner angelegt-
+common#:#fold_added#:#Ordner angelegt   
 common#:#fold_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien kopiert, verknüpft oder aber beim Kopiervorgang ausgelassen werden sollen.
 common#:#fold_edit#:#Ordner bearbeiten
 common#:#fold_new#:#Neuen Ordner anlegen
@@ -4854,7 +4854,7 @@ common#:#salutation_f#:#Frau
 common#:#salutation_m#:#Herr
 common#:#salutation_n#:#Keine Angabe
 common#:#saml_log_in#:#Login
-common#:#saml_login_form_info_txt#:#Um sich ber SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
+common#:#saml_login_form_info_txt#:#Um sich über SAML anzumelden, klicken Sie bitte den 'Anmelde'-Button.
 common#:#saml_login_form_txt#:#Bei ILIAS anmelden über SAML
 common#:#save#:#Speichern
 common#:#save_and_back#:#Speichern und zurück
@@ -11412,7 +11412,7 @@ pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken
 pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken.\nILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können.\nFalls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
 pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
 pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein.\nDer Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
-pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein:\n\t%1$s\n\nDiese Nachricht wurde automatisch generiert von der ILIAS-Installation:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachen Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
+pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort für Ihr Benutzerkonto ein:\n\t%1$s\n\nDiese Nachricht wurde automatisch generiert von der ILIAS-Installation:\n\t%2$s\n\nSie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert.\n\nBitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:\n\n-Sie haben die Passwort-Unterstützung auf dem Server versehentlich benutzt:\nLöschen Sie diese Mail.\n\n-Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben:\nBitte nehmen Sie mit %5$s Kontakt auf.\n\n- Sie haben um Passwort-Unterstützung angefragt.\nBitte gehen Sie wie folgt vor:\n\n1. Starten Sie Ihren Browser.\n\n2. Geben Sie folgende Adresse in Ihrem Browser ein:\n\t%6$s\n\nWichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.\n\n3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.\n\nBitte beachten Sie:\nAus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt.\nWeitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_subject#:#ILIAS-Passwort-Unterstützung
@@ -13775,7 +13775,7 @@ survey#:#message_content_info#:#Geben Sie einen Benachrichtigungstext für das V
 survey#:#metric_question_floating_point#:#Der angegebene Wert ist eine Fließkommazahl. Fließkommazahlen sind für diesen Fragetyp nicht erlaubt!
 survey#:#metric_question_not_a_value#:#Der angegebene Wert ist kein numerischer Wert!
 survey#:#metric_question_out_of_bounds#:#Der von Ihnen eingegebene Wert liegt nicht zwischen dem Minimalwert und dem Maximalwert!
-survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temparatur der Celsius-Skala.
+survey#:#metric_subtype_description_interval#:#Ein Merkmal heißt intervallskaliert, falls es lediglich die definierenden Eigenschaften eines quantitativen Merkmals erfüllt. Insbesondere müssen die Abstände (Differenzen) sinnvoll interpretierbar sein. Der Begriff dient lediglich zur Abgrenzung gegenüber Merkmalen, deren Ausprägungen zusätzlich weitere Eigenschaften aufweisen. Es ist wichtig zu betonen, dass die Skalen, die zur Messung eines intervallskalierten Merkmals verwendet werden, keinen natürlichen Nullpunkt besitzen müssen. Beispiele für intervallskalierte Merkmale sind z.B. die Jahre in Kalendern oder die Temperatur der Celsius-Skala.
 survey#:#metric_subtype_description_ratioabsolute#:#Ein quantitatives Merkmal heißt absolutskaliert, wenn nur eine einzige sinnvolle Skala zu dessen Messung verwendet werden kann. Dies ist gleichbedeutend mit der Tatsache, dass nur eine sinnvolle Einheit für das Merkmal in Frage kommt, wie z.B. die Anzahl der Kinder einer Familie. Auch Merkmale, deren Ausprägungen in Prozent gemessen werden, sind absolutskaliert (z.B. Wahrscheinlichkeiten).
 survey#:#metric_subtype_description_rationonabsolute#:#Ein quantitatives Merkmal heißt verhältnisskaliert, wenn die zur Messung verwendeten Skalen einen gemeinsamen natürlichen Nullpunkt aufweisen. Verhältnissen (Quotienten) von Merkmalsausprägungen eines verhältnisskalierten Merkmals kann eine sinnvolle Bedeutung zugewiesen werden. Der natürliche Nullpunkt garantiert nämlich, dass Verhältnisse von einander entsprechenden Ausprägungen, die auf unterschiedlichen Skalen (d.h. in anderen Maßeinheiten) gemessen wurden, immer gleich sind. Die meisten physikalischen Mengenangaben (Geschwindigkeit in m/s oder km/h sind verhältnisskaliert).
 survey#:#minimum#:#Minimalwert
@@ -15065,3 +15065,5 @@ crs#:#crs_objective_result_summary_qualifying#:#Abschlusstest: %1$s (%2$s benöt
 crs#:#crs_objective_result_details#:#« Details anzeigen
 exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
+exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
+style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.

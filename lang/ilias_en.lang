@@ -15065,3 +15065,5 @@ crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s req
 crs#:#crs_objective_result_details#:#« Show Details
 exc#:#exc_text_saved#:#Text has been saved.
 exc#:#exc_team_by_random_add_info#:#Please note that you have to assign all participants first before using this mode.
+exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
+style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.

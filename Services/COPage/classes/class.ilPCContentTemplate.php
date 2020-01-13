@@ -51,62 +51,34 @@ class ilPCContentTemplate extends ilPageContent
         foreach ($hier_ids as $hier_id) {
             // move top level nodes only
             if (!is_int(strpos($hier_id, "_"))) {
-                if ($hier_id != "pg" && $hier_id >= $a_hid) {
+                if ($hier_id != "pg") {
                     $copy_ids[] = $hier_id;
                 }
             }
         }
-        asort($copy_ids);
-
-        // get the target parent node
-        $pos = explode("_", $a_pos);
-        array_pop($pos);
-        $parent_pos = implode($pos, "_");
-        if ($parent_pos != "") {
-            $target_parent = $a_pg_obj->getContentNode($parent_pos);
-        } else {
-            $target_parent = $a_pg_obj->getNode();
-        }
-
-        //$source_parent = $source_page->getContentNode("pg");
-
-        $curr_node = $a_pg_obj->getContentNode($a_hier_id, $a_pcid);
+        arsort($copy_ids);
 
         foreach ($copy_ids as $copy_id) {
-            $source_node = $source_page->getContentNode($copy_id);
-            $new_node = $source_node->clone_node(true);
-            $new_node->unlink_node($new_node);
+            $source_content = $source_page->getContentObject($copy_id);
 
-            if ($succ_node = $curr_node->next_sibling()) {
-                $succ_node->insert_before($new_node, $succ_node);
-            } else {
-                //echo "movin doin append_child";
-                $target_parent->append_child($new_node);
-            }
+            $source_node = $source_content->getNode();
+            $clone_node  = $source_node->clone_node(true);
+            $clone_node->unlink_node($clone_node);
 
-            //$xpc = xpath_new_context($a_pg_obj->getDomDoc());
-            $xpath = new DOMXpath($a_pg_obj->getDomDoc());
-            //var_dump($new_node->myDOMNode);
-            //echo "-".$new_node->get_attribute("PCID")."-"; exit;
-            if ($new_node->get_attribute("PCID") != "") {
-                $new_node->set_attribute("PCID", "");
+            // insert cloned node at target
+            $source_content->setNode($clone_node);
+            $this->getPage()->insertContent($source_content, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
+
+            $xpath = new DOMXpath($this->getPage()->getDomDoc());
+            if ($clone_node->get_attribute("PCID") != "") {
+                $clone_node->set_attribute("PCID", "");
             }
-            $els = $xpath->query(".//*[@PCID]", $new_node->myDOMNode);
+            $els = $xpath->query(".//*[@PCID]", $clone_node->myDOMNode);
             foreach ($els as $el) {
                 $el->setAttribute("PCID", "");
             }
-            $curr_node = $new_node;
         }
 
-        $a_pg_obj->update();
-
-        //$this->node = $this->createPageContentNode();
-
-        /*$a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
-        $this->map_node =& $this->dom->create_element("Map");
-        $this->map_node =& $this->node->append_child($this->map_node);
-        $this->map_node->set_attribute("Latitude", "0");
-        $this->map_node->set_attribute("Longitude", "0");
-        $this->map_node->set_attribute("Zoom", "3");*/
+        $this->getPage()->update();
     }
 }

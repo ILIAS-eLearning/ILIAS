@@ -23212,7 +23212,9 @@ if ($ilDB->tableExists('certificate_template')) {
         'exc'  => '/exercise/certificates/',
         'crs'  => '/course/certificates/',
         'tst'  => '/assessment/certificates/',
-        'sahs' => '/certificates/scorm/'
+        'sahs' => '/certificates/scorm/',
+        'lti' => '/lti_data/certficates/',
+        'cmix' => '/cmix_data/certficates/',
     );
 
     $GLOBALS['ilLog']->info(sprintf(

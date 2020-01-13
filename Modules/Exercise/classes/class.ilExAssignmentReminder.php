@@ -228,18 +228,22 @@ class ilExAssignmentReminder
     public function getReminders($a_type = "")
     {
         $now = time();
+        $today = date("Y-m-d");
+
+        $this->log->debug("Get reminders $a_type.");
+
         //remove time from the timestamp (86400 = 24h)
-        $now = floor($now/86400)*86400;
+        //$now = floor($now/86400)*86400;
         $and_type = "";
         if ($a_type == self::SUBMIT_REMINDER || $a_type == self::GRADE_REMINDER || $a_type == self::FEEDBACK_REMINDER) {
             $and_type = " AND type = '" . $a_type . "'";
         }
 
-        $query = "SELECT ass_id, exc_id, status, start, freq, end, type, last_send, template_id" .
+        $query = "SELECT last_send_day, ass_id, exc_id, status, start, freq, end, type, last_send, template_id" .
             " FROM exc_ass_reminders" .
             " WHERE status = 1" .
             " AND start <= " . $now .
-            " AND end > " . $now .
+            " AND end > " . ($now - 86400) .
             $and_type;
 
 
@@ -255,13 +259,26 @@ class ilExAssignmentReminder
                 "freq" => $rec["freq"],
                 "type" => $rec["type"],
                 "last_send" => $rec["last_send"],
+                "last_send_day" => $rec["last_send_day"],
                 "template_id" => $rec["template_id"]
             );
 
+            $end_day = date("Y-m-d", $rec["end"]);
+
             //frequency
-            $next_send = strtotime("-" . $rec["freq"] . " day", $now);
-            if (!$rec["last_send"] || $next_send >= floor($rec["last_send"]/86400)*86400) {
-                array_push($array_data, $rem);
+            $next_send = "";
+            if ($rec["last_send_day"] != "") {
+                $date = new DateTime($rec["last_send_day"]);
+                $date->add(new DateInterval('P'.$rec["freq"].'D'));
+                $next_send = $date->format('Y-m-d');
+            }
+            $this->log->debug("ass: ".$rec["ass_id"].", last send: ".$rec["last_send_day"].
+                ", freq: ".$rec["freq"].", end_day: $end_day, today: ".$today.", next send: $next_send");
+            if ($rec["last_send_day"] == "" || $next_send <= $today) {
+                if ($end_day >= $today) {
+                    $this->log->debug("included");
+                    array_push($array_data, $rem);
+                }
             }
         }
 
@@ -288,12 +305,14 @@ class ilExAssignmentReminder
             $exc_refs = ilObject::_getAllReferences($exc_id);
             foreach ($exc_refs as $exc_ref) {
 
-                //$this->log->debug("Reference => ".$exc_ref);
+                // check if we have an upper course
                 if ($course_ref_id = $this->tree->checkForParentType($exc_ref, 'crs')) {
                     $obj = new ilObjCourse($course_ref_id);
                     $participants_class = "ilCourseParticipants";
                     $parent_ref_id = $course_ref_id;
                     $parent_obj_type = 'crs';
+
+                // check if we have an upper group
                 } elseif ($group_ref_id = $parent_ref_id = $this->tree->checkForParentType($exc_ref, 'grp')) {
                     $obj = new ilObjGroup($group_ref_id);
                     $participants_class = "ilGroupParticipants";
@@ -303,18 +322,29 @@ class ilExAssignmentReminder
                     continue;
                 }
 
+                // get participants
                 $parent_obj_id = $obj->getId();
                 $participants_ids = $participants_class::getInstance($parent_ref_id)->getMembers();
 
                 foreach ($participants_ids as $member_id) {
                     $this->log->debug("submission reminder: ass: $ass_id, member: $member_id.");
+
+                    // check read permission
                     if ($this->access->checkAccessOfUser($member_id, "read", "", $exc_ref)) {
                         $state = ilExcAssMemberState::getInstanceByIds($ass_id, $member_id);
-                        $days_diff = (($state->getOfficialDeadline() - time()) / (60*60*24));
-                        $this->log->debug("diff: " . $days_diff . ", start: " . $rem["start"] . ", submission allowed: " . $state->isSubmissionAllowed());
-                        if ($state->isSubmissionAllowed() && $days_diff < $rem["start"]) {
+
+                        $deadline_day = date("Y-m-d", $state->getOfficialDeadline());
+                        $today = date("Y-m-d");
+                        $date = new DateTime($deadline_day);
+                        $date->sub(new DateInterval('P'.$rem["start"].'D'));
+                        $send_from = $date->format('Y-m-d');
+                        $this->log->debug("today: $today, send from: $send_from, start: " . $rem["start"] . ", submission allowed: " . $state->isSubmissionAllowed());
+
+                        // check if user can submit and difference in days is smaller than reminder start
+                        if ($state->isSubmissionAllowed() && $send_from <= $today) {
                             $submission = new ilExSubmission($ass_obj, $member_id);
 
+                            // check if user has submitted anything
                             if (!$submission->getLastSubmission()) {
                                 $member_data = array(
                                     "parent_type" => $parent_obj_type,
@@ -591,9 +621,11 @@ class ilExAssignmentReminder
      */
     protected function updateRemindersLastDate($a_reminders)
     {
+        $today = date("Y-m-d");
         foreach ($a_reminders as $reminder) {
             $sql = "UPDATE exc_ass_reminders" .
                 " SET last_send = " . $this->db->quote(time(), 'integer') .
+                " , last_send_day = " . $this->db->quote($today, 'date') .
                 " WHERE type = " . $this->db->quote($reminder["reminder_type"], 'text') .
                 " AND ass_id = " . $this->db->quote($reminder["ass_id"], 'integer') .
                 " AND exc_id = " . $this->db->quote($reminder["exc_id"], 'integer');

@@ -521,6 +521,27 @@ class ilDclBaseRecordModel
 
 
     /**
+     * @param int|string $field_id
+     *
+     * @return array|mixed|string
+     */
+    public function getRecordFieldFormulaValue($field_id)
+    {
+        $this->loadRecordFields();
+        if (ilDclStandardField::_isStandardField($field_id)) {
+            $value = $this->getStandardFieldFormulaValue($field_id);
+        } else {
+            if (is_object($this->recordfields[$field_id])) {
+                $value = $this->recordfields[$field_id]->getFormulaValue();
+            } else {
+                $value = '';
+            }
+        }
+
+        return $value;
+    }
+
+    /**
      * @param       $field_id
      * @param array $options
      *
@@ -681,6 +702,16 @@ class ilDclBaseRecordModel
         return $this->$field_id;
     }
 
+
+    /**
+     * @param $field_id
+     *
+     * @return array|string
+     */
+    public function getStandardFieldFormulaValue($field_id)
+    {
+        return $this->getStandardFieldHTML($field_id);
+    }
 
     /**
      * @param string $field_id

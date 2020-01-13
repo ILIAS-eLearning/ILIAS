@@ -290,9 +290,9 @@ class ilExSubmissionTeamGUI
                 $this->submission->validatePeerReviews()
             );
             // :TODO: notification?
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
         }
-        
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+
         $this->ctrl->redirect($this, "submissionScreenTeam");
     }
     
