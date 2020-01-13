@@ -86,7 +86,18 @@ class ilObjExercise extends ilObject
         $this->webFilesystem = $DIC->filesystem()->web();
 
         parent::__construct($a_id, $a_call_by_reference);
+        $this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this);
+    }
 
+    /**
+     * Set id
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        global $DIC;
+        parent::setId($id);
+        // this is needed, since e.g. ilObjectFactory initialises the object with id 0 and later sets the id
         $this->mandatory_manager = $DIC->exercise()->internal()->service()->getMandatoryAssignmentManager($this);
     }
 
@@ -560,7 +571,7 @@ class ilObjExercise extends ilObject
             "overall_status" => $overall_stat,
             "failed_a_mandatory" => $failed_a_mandatory);
         //echo "<br>p:".$cnt_passed.":ng:".$cnt_notgraded;
-        //var_dump($ret);
+        //var_dump($ret); exit;
         return $ret;
     }
     
@@ -582,6 +593,8 @@ class ilObjExercise extends ilObject
             $a_user_id,
             $st["overall_status"]
         );
+
+
     }
     
     /**
