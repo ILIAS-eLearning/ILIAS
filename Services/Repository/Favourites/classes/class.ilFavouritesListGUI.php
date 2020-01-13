@@ -36,6 +36,7 @@ class ilFavouritesListGUI
             $user = $DIC->user();
         }
         $settings = new ilPDSelectedItemsBlockViewSettings($user);
+        $settings->parse();
         $this->block_view = ilPDSelectedItemsBlockViewGUI::bySettings($settings);
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
@@ -58,7 +59,9 @@ class ilFavouritesListGUI
                     $f->button()->shy($item["title"], ilLink::_getLink($item["ref_id"]))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
             }
-            $item_groups[] = $f->item()->group($group->getLabel(), $items);
+            if (count($items) > 0) {
+                $item_groups[] = $f->item()->group($group->getLabel(), $items);
+            }
         }
         $panel = $f->panel()->secondary()->listing("", $item_groups);
         //$panel = $panel->withActions($f->dropdown()->standard([$f->link()->standard("Configure", "#")]));
