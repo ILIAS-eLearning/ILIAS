@@ -703,9 +703,9 @@ class ilObjGlossaryGUI extends ilObjectGUI
     */
     public function listTerms()
     {
-        if ($_GET["show_tax"]) {
+        //if ($_GET["show_tax"]) {
             $this->showTaxonomy();
-        }
+        //}
         
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_new_term"), "new_term");
@@ -748,6 +748,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             );
         }
 
+        /* this is done by collapsing the tool now
         if (is_object($this->tax)) {
             $this->toolbar->addSeparator();
             if ($_GET["show_tax"]) {
@@ -761,7 +762,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
                     $this->ctrl->getLinkTarget($this, "actTaxonomy")
                 );
             }
-        }
+        }*/
 
         $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
         $this->tpl->setContent($tab->getHTML());
@@ -1584,15 +1585,46 @@ class ilObjGlossaryGUI extends ilObjectGUI
     /**
      * Show taxonomy
      *
-     * @param
-     * @return
+     * @throws ilCtrlException
      */
     public function showTaxonomy()
     {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
         $tax_ids = ilObjTaxonomy::getUsageOfObject($this->object->getId());
         if (count($tax_ids) > 0) {
+            $tax_id = $tax_ids[0];
+            $DIC->globalScreen()->tool()->context()->current()
+                ->addAdditionalData(
+                    ilTaxonomyGSToolProvider::SHOW_TAX_TREE,
+                    true
+                );
+            $DIC->globalScreen()->tool()->context()->current()
+                ->addAdditionalData(
+                    ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
+                    $ctrl->getCurrentClassPath()
+                );
+            $DIC->globalScreen()->tool()->context()->current()
+                ->addAdditionalData(
+                    ilTaxonomyGSToolProvider::TAX_ID,
+                    $tax_id
+                );
+            $DIC->globalScreen()->tool()->context()->current()
+                ->addAdditionalData(
+                    ilTaxonomyGSToolProvider::TAX_TREE_CMD,
+                    "listTerms"
+                );
+            $DIC->globalScreen()->tool()->context()->current()
+                ->addAdditionalData(
+                    ilTaxonomyGSToolProvider::TAX_TREE_PARENT_CMD,
+                    "showTaxonomy"
+                );
+
+
             $tax_exp = new ilTaxonomyExplorerGUI(
-                $this,
+                get_class($this),
                 "showTaxonomy",
                 $tax_ids[0],
                 "ilobjglossarygui",
@@ -1600,7 +1632,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             );
             if (!$tax_exp->handleCommand()) {
                 //$this->tpl->setLeftNavContent($tax_exp->getHTML());
-                $this->tpl->setLeftNavContent($tax_exp->getHTML() . "&nbsp;");
+                //$this->tpl->setLeftNavContent($tax_exp->getHTML() . "&nbsp;");
             }
         }
     }
