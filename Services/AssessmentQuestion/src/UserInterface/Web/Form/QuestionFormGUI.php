@@ -276,7 +276,7 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
     protected function hideColumn(array $definitions, string $post_var, $value) : array {
         $new_definitions = [];
         
-        /** @var $definition AnswerOptionFormFieldDefinition */
+        /** @var $definition AsqTableInputFieldDefinition */
         foreach ($definitions as $definition) {
             if ($definition->getPostVar() === $post_var) {
                 $new_definitions[] = new AsqTableInputFieldDefinition(
@@ -302,7 +302,7 @@ abstract class QuestionFormGUI extends ilPropertyFormGUI {
     protected function renameColumn(array $definitions, string $post_var, string $new_name) : array {
         $new_definitions = [];
         
-        /** @var $definition AnswerOptionFormFieldDefinition */
+        /** @var $definition AsqTableInputFieldDefinition */
         foreach ($definitions as $definition) {
             if ($definition->getPostVar() === $post_var) {
                 $new_definitions[] = new AsqTableInputFieldDefinition(

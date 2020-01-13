@@ -10,7 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Answer\Option\AnswerOptions;
 use ilNumberInputGUI;
 
 /**
- * Class KprimChoiceScoring
+ * Class ErrorTextScoring
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
