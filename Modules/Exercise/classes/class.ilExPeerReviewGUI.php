@@ -96,7 +96,7 @@ class ilExPeerReviewGUI
 
                 $valid = false;
                 $peer_items = $this->submission->getPeerReview()->getPeerReviewsByPeerId($peer_id, true);
-                if (sizeof($peer_items)) {
+                if (is_array($peer_items)) {
                     foreach ($peer_items as $item) {
                         if ($item["giver_id"] == $giver_id) {
                             $valid = true;
@@ -774,7 +774,7 @@ class ilExPeerReviewGUI
         
         $panel = "";
         $panel_data = $tbl->getPanelInfo();
-        if (sizeof($panel_data)) {
+        if (is_array($panel_data) && count($panel_data) > 0) {
             $ptpl = new ilTemplate("tpl.exc_peer_review_overview_panel.html", true, true, "Modules/Exercise");
             foreach ($panel_data as $item) {
                 $ptpl->setCurrentBlock("user_bl");

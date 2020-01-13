@@ -66,14 +66,8 @@ function db_pwassist_session_close()
 */
 function db_pwassist_create_id()
 {
-    // Implementation note: we use the PHP Session id
-    // generation mechanism to create the session id.
-    $old_session_id = session_id();
-    session_regenerate_id();
-    $pwassist_id = session_id();
-    session_id($old_session_id);
-
-    return $pwassist_id;
+    // #26009 we use ilSession to duplicate the existing session
+    return \ilSession::_duplicate(session_id());
 }
 
 /*
@@ -85,7 +79,9 @@ function db_pwassist_create_id()
 */
 function db_pwassist_session_read($pwassist_id)
 {
-    global $ilDB;
+    global $DIC;
+
+    $ilDB = $DIC->database();
 
     $q = "SELECT * FROM usr_pwassist " .
         "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
@@ -105,7 +101,9 @@ function db_pwassist_session_read($pwassist_id)
 **/
 function db_pwassist_session_find($user_id)
 {
-    global $ilDB;
+    global $DIC;
+
+    $ilDB = $DIC->database();
 
     $q = "SELECT * FROM usr_pwassist " .
         "WHERE user_id = " . $ilDB->quote($user_id, "integer");
@@ -124,7 +122,9 @@ function db_pwassist_session_find($user_id)
 */
 function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 {
-    global $ilDB;
+    global $DIC;
+
+    $ilDB = $DIC->database();
 
     $q = "DELETE FROM usr_pwassist " .
          "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text") . " " .
@@ -151,7 +151,9 @@ function db_pwassist_session_write($pwassist_id, $maxlifetime, $user_id)
 */
 function db_pwassist_session_destroy($pwassist_id)
 {
-    global $ilDB;
+    global $DIC;
+
+    $ilDB = $DIC->database();
 
     $q = "DELETE FROM usr_pwassist " .
          "WHERE pwassist_id = " . $ilDB->quote($pwassist_id, "text");
@@ -166,7 +168,9 @@ function db_pwassist_session_destroy($pwassist_id)
 */
 function db_pwassist_session_gc()
 {
-    global $pear_session_db,$ilDB;
+    global $DIC;
+
+    $ilDB = $DIC->database();
 
     $q = "DELETE FROM usr_pwassist " .
          "WHERE expires < " . $ilDB->quote(time(), "integer");

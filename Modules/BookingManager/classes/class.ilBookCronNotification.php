@@ -135,7 +135,19 @@ class ilBookCronNotification extends ilCronJob
             $to_ts = mktime(0, 0, 0, date('n'), date('j') + $p["reminder_day"] + 1);
             $res = [];
 
-            $log->debug("pool id: " . $p["booking_pool_id"] . ", " . $from_ts . "-" . $to_ts);
+            // overwrite from to current time, see #26216, this ensures
+            // that all reservations are sent, some multiple times (each day)
+            // we include all reservations from now to the period set in the pool settings
+            $from_ts = time();
+
+            // additional logging info, see #26216
+            $log->debug("pool id: "
+                . $p["booking_pool_id"]
+                . "(".ilObject::_lookupTitle($p["booking_pool_id"]).") "
+                . ", "
+                . date("Y-m-d, H:i:s", $from_ts)
+                . " to " . date("Y-m-d, H:i:s", $to_ts));
+
 
             if ($to_ts > $from_ts) {
                 $res = ilBookingReservation::getListByDate(true, null, [
@@ -160,6 +172,7 @@ class ilBookCronNotification extends ilCronJob
                 $log->debug("check notification of user id: " . $r["user_id"]);
                 if (in_array($r["user_id"], $user_ids)) {
                     if ($this->checkAccess("read", $r["user_id"], $p["booking_pool_id"])) {
+                        $log->debug("got read");
                         $notifications[$r["user_id"]]["personal"][$r["pool_id"]][] = $r;
                     }
                 }

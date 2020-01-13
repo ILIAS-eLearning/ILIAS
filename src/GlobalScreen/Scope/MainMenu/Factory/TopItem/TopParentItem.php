@@ -15,11 +15,11 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle
     /**
      * @var string
      */
-    protected $title;
+    protected $title = '';
     /**
      * @var string
      */
-    protected $icon_path = "";
+    protected $icon_path = '';
 
 
     /**

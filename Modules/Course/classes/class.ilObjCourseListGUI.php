@@ -87,13 +87,18 @@ class ilObjCourseListGUI extends ilObjectListGUI
         $ilUser = $DIC['ilUser'];
 
         $props = parent::getProperties();
-        
+
         // check activation
-        include_once 'Modules/Course/classes/class.ilObjCourseAccess.php';
-        if (!ilObjCourseAccess::_isActivated($this->obj_id)) {
+        if (
+            !ilObjCourseAccess::_isActivated($this->obj_id) &&
+            !ilObject::lookupOfflineStatus($this->obj_id)
+        ) {
             $showRegistrationInfo = false;
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("offline"));
+            $props[]              = array(
+                "alert"    => true,
+                "property" => $lng->txt("status"),
+                "value"    => $lng->txt("offline")
+            );
         }
 
         // blocked

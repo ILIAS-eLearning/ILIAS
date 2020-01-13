@@ -19,6 +19,21 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     protected $export_all_languages;
 
     /**
+     * @var ilPageActivationDBRepository
+     */
+    protected $activation_repo;
+
+    /**
+     * @var array
+     */
+    protected $complete_tree;
+
+    /**
+     * @var array
+     */
+    protected $activation_data;
+
+    /**
      * Constructor
      *
      * @param object $a_parent_obj parent gui object
@@ -53,6 +68,66 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         }
         $this->focus_id = $a_focus_id;
         $this->export_all_languages = $export_all_languages;
+
+        $this->activation_repo = new ilPageActivationDBRepository();
+
+        $this->initTreeData();
+
+    }
+
+    /**
+     * Init tree data
+     * @param
+     * @return
+     */
+    protected function initTreeData()
+    {
+        $nodes = $this->tree->getCompleteTree();
+        foreach ($nodes as $node) {
+            $this->complete_tree["childs"][$node["parent"]][] = $node;
+            $this->complete_tree["parent"][$node["child"]] = $node["parent"];
+            $this->complete_tree["nodes"][$node["child"]] = $node;
+        }
+
+        $page_ids = array_column($this->complete_tree["nodes"], "child");
+        $this->activation_data = $this->activation_repo->get("lm", $page_ids,
+            $this->lm_set->get("time_scheduled_page_activation"), $this->lang);
+        $this->initVisibilityData($this->tree->readRootId());
+    }
+
+    /**
+     * Init visibility data
+     * @param int $node_id
+     */
+    protected function initVisibilityData($node_id)
+    {
+        $current_node = $this->complete_tree["nodes"][$node_id];
+
+        if (is_array($this->complete_tree["childs"][$node_id])) {
+            foreach ($this->complete_tree["childs"][$node_id] as $node) {
+                $this->initVisibilityData($node["child"]);
+            }
+        }
+
+        // pages are visible if they are active or activation info should be shown
+        if ($current_node["type"] == "pg") {
+            $this->complete_tree["visibility"][$node_id] = ($this->activation_data[$node_id]["active"] ||
+                $this->activation_data[$node_id]["show_info"]);
+        } else if ($current_node["type"] == "st") {
+
+            // make chapters visible as soon as there is one visible child
+            $this->complete_tree["visibility"][$node_id] = false;
+            if (is_array($this->complete_tree["childs"][$node_id])) {
+                foreach ($this->complete_tree["childs"][$node_id] as $node) {
+                    if (isset($this->complete_tree["visibility"][$node["child"]]) &&
+                        $this->complete_tree["visibility"][$node["child"]]) {
+                        $this->complete_tree["visibility"][$node_id] = true;
+                    }
+                }
+            }
+        } else {
+            $this->complete_tree["visibility"][$node_id] = true;
+        }
     }
 
     /**
@@ -360,7 +435,8 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
      */
     public function isNodeVisible($a_node)
     {
-        include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
-        return ilLMTracker::_isNodeVisible($a_node);
+        return (bool) $this->complete_tree["visibility"][$a_node["child"]];
+        //include_once("./Modules/LearningModule/classes/class.ilLMTracker.php");
+        //return ilLMTracker::_isNodeVisible($a_node);
     }
 }

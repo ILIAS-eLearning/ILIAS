@@ -45,13 +45,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
      */
     public function login($client, $username, $password)
     {
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
         unset($_COOKIE[session_name()]);
         $_COOKIE['ilClientId'] = $client;
 
