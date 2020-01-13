@@ -49,7 +49,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
                 $data["database"] ?? "ilias",
                 $data["user"] ?? null,
                 $data["password"] ? $password->transform($data["password"]) : null,
-                $data["create_database"] ?? null,
+                $data["create_database"] ?? true,
                 $data["collation"] ?? null,
                 $data["port"] ?? null,
                 $data["path_to_db_dump"] ?? null
