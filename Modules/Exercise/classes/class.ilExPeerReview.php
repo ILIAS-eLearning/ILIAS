@@ -62,7 +62,7 @@ class ilExPeerReview
         return $user_ids;
     }
     
-    protected function initPeerReviews()
+    public function initPeerReviews()
     {
         $ilDB = $this->db;
                 
