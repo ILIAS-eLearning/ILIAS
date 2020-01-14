@@ -1159,7 +1159,7 @@ class ilGlossaryPresentationGUI
         $terms = $this->glossary->getTermList();
 
         $this->form = new ilPropertyFormGUI();
-        $this->form->setTarget("print_view");
+        //$this->form->setTarget("print_view");
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         
         // selection type
@@ -1227,6 +1227,9 @@ class ilGlossaryPresentationGUI
         $ilAccess = $this->access;
         $tpl = $this->tpl;
 
+        $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "printViewSelection"));
+
         if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             return;
         }
@@ -1263,27 +1266,16 @@ class ilGlossaryPresentationGUI
                 break;
         }
 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+        //$tpl->addCss(ilObjStyleSheet::getContentPrintStyle());
+        $tpl->addOnLoadCode("il.Util.print();");
 
-
-        iljQueryUtil::initjQuery($tpl);
-        
         // determine target frames for internal links
 
+        $page_content = "";
         foreach ($terms as $t_id) {
             $page_content.= $this->listDefinitions($this->requested_ref_id, $t_id, true, ilPageObjectGUI::PRINTING);
         }
-        $tpl->setVariable("CONTENT", $page_content .
-        '<script type="text/javascript" language="javascript1.2">
-		<!--
-			il.Util.addOnLoad(function () {
-				il.Util.print();
-			});
-		//-->
-		</script>');
-        $tpl->printToStdout(false);
-        exit;
+        $tpl->setContent($page_content);
     }
 
     /**
