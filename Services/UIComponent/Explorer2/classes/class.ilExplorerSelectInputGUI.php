@@ -154,7 +154,8 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initPanel();
         $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Explorer2/js/Explorer2.js");
-        
+        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
+
         $tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
 
         if ($a_mode != "property_form") {
