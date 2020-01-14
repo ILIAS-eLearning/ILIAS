@@ -17316,6 +17316,13 @@ a.ilTreeView:hover {
   background-color: #0057a2;
   border-color: #0057a2;
 }
+.input-group-btn {
+  font-size: 100%;
+}
+/*Forms*/
+.form-control {
+  height: 28px;
+}
 /**********HEADER**********/
 @media (max-width: 767px) {
   #ilTopBar.ilTopBar {
