@@ -7824,7 +7824,7 @@ prtf#:#prtf_no_blogs_info#:#Wenn Sie im Bereich "%s" einen Blog anlegen, können
 prtf#:#prtf_page_created#:#Seite wurde hinzugefügt
 prtf#:#prtf_pages_copied#:#Die Seiten wurden kopiert.
 prtf#:#prtf_portfolio_created#:#Portfolio wurde hinzugefügt
-prtf#:#prtf_portfolio_deleted#:#Portfolios wurden gelöscht
+prtf#:#prtf_portfolio_deleted#:#Portfolio wurde gelöscht
 prtf#:#prtf_portfolio_page_deleted#:#Portfolio- bzw. Blog-Seiten wurden gelöscht.
 prtf#:#prtf_portfolios#:#Portfolios
 prtf#:#prtf_preview_banner#:#Personalisiertes Banner
@@ -7838,7 +7838,7 @@ prtf#:#prtf_set_as_default#:#Als Mein Profil setzen
 prtf#:#prtf_set_default_publish_confirmation#:#Das Portfolio muss mindestens für alle registrierten Benutzer freigegeben werden. Soll es auch für das ganze Internet ohne Registrierung sichtbar sein?
 prtf#:#prtf_settings#:#Portfolio Administration
 prtf#:#prtf_sure_delete_portfolio_pages#:#Wollen Sie die folgenden Portfolio- bzw. Blog-Seiten wirklich löschen?
-prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie die folgenden Portfolios wirklich löschen?
+prtf#:#prtf_sure_delete_portfolios#:#Wollen Sie das folgende Portfolio wirklich löschen?
 prtf#:#prtf_tab_other_users#:#Portfolios anderer Benutzer
 prtf#:#prtf_tab_portfolios#:#Meine Portfolios
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
