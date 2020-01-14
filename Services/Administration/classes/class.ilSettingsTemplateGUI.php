@@ -106,9 +106,9 @@ class ilSettingsTemplateGUI
     public function readSettingsTemplate()
     {
         if ($this->getConfig()) {
-            $this->settings_template = new ilSettingsTemplate((int) $_GET[templ_id], $this->getConfig());
+            $this->settings_template = new ilSettingsTemplate((int) $_GET["templ_id"], $this->getConfig());
         } else {
-            $this->settings_template = new ilSettingsTemplate((int) $_GET[templ_id]);
+            $this->settings_template = new ilSettingsTemplate((int) $_GET["templ_id"]);
         }
     }
 

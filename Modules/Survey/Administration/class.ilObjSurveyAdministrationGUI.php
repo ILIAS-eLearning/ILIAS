@@ -108,10 +108,11 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $form->setTitle($lng->txt("survey_defaults"));
         
         // unlimited invitation
+        /*
         $enable = new ilCheckboxInputGUI($lng->txt("survey_unlimited_invitation"), "unlimited_invitation");
         $enable->setChecked($unlimited_invitation);
         $enable->setInfo($lng->txt("survey_unlimited_invitation_desc"));
-        $form->addItem($enable);
+        $form->addItem($enable);*/
         
         // Survey Code
         $code = new ilCheckboxInputGUI($lng->txt("use_anonymous_id"), "use_anonymous_id");
@@ -174,7 +175,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             $surveySetting = new ilSetting("survey");
-            $surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
+            //$surveySetting->set("unlimited_invitation", ($_POST["unlimited_invitation"]) ? "1" : "0");
             $surveySetting->set("use_anonymous_id", ($_POST["use_anonymous_id"]) ? "1" : "0");
             $surveySetting->set("anonymous_participants", ($_POST["anon_part"]) ? "1" : "0");
             $surveySetting->set("anonymous_participants_min", (trim($_POST["anon_part_min"])) ? (int) $_POST["anon_part_min"] : null);
@@ -252,7 +253,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
 
         $config->addHidableTab("survey_question_editor", $lng->txt("survey_question_editor_settings_template"));
         $config->addHidableTab("constraints", $lng->txt("constraints"));
-        $config->addHidableTab("invitation", $lng->txt("invitation"));
+        //$config->addHidableTab("invitation", $lng->txt("invitation"));
         $config->addHidableTab("meta_data", $lng->txt("meta_data"));
         $config->addHidableTab("export", $lng->txt("export"));
 
