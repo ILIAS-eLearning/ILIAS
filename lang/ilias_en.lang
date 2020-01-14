@@ -8845,8 +8845,8 @@ prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the followi
 prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
-prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages and/or blog pages?
-prtf#:#prtf_portfolio_page_deleted#:#Portfolio and/or blog pages deleted.
+prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio page / blog page?
+prtf#:#prtf_portfolio_page_deleted#:#Portfolio / blog page deleted.
 content#:#cont_ed_insert_profile#:#Insert Personal Data
 content#:#cont_pc_prof#:#Personal Data
 content#:#cont_insert_profile#:#Publish Personal Data
