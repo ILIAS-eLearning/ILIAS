@@ -8841,8 +8841,8 @@ prtf#:#prtf_edit_portfolio#:#Edit Portfolio
 prtf#:#prtf_create_portfolio#:#Add Portfolio
 prtf#:#prtf_portfolio_created#:#Portfolio added
 prtf#:#prtf_set_as_default#:#Set As My Profile
-prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolios?
-prtf#:#prtf_portfolio_deleted#:#Portfolios deleted
+prtf#:#prtf_sure_delete_portfolios#:#Are you sure you want to delete the following portfolio?
+prtf#:#prtf_portfolio_deleted#:#Portfolio deleted
 prtf#:#prtf_add_page#:#Add Page
 prtf#:#prtf_page_created#:#Page created
 prtf#:#prtf_sure_delete_portfolio_pages#:#Are you sure you want to delete the following portfolio pages and/or blog pages?
