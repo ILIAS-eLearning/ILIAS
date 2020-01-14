@@ -8,9 +8,9 @@ class ilWebDAVUriBuilder
 
     /** @var array */
     protected $schemas = array(
-            'default' => 'https',
-            'konqueror' => 'webdavs',
-            'nautilus' => 'davs'
+            'default' => 'http',
+            'konqueror' => 'webdav',
+            'nautilus' => 'dav'
         );
 
     protected $mount_instructions_query = 'mount-instructions';
@@ -36,13 +36,13 @@ class ilWebDAVUriBuilder
      */
     protected function changePathToWebDavScript(string $a_original_path)
     {
-        // Caution: Its stRRpos (with two 'r'). So the last '/' will be found instead of the first
-        $last_slash_pos = strrpos($a_original_path, '/');
-
-        // Cuts of last part of the path to replace it with later with "webdav.php"
-        $path_without_script = substr($a_original_path, 0, $last_slash_pos + 1);
-
-        return $path_without_script . $this->webdav_script_name;
+        $exploded_path = explode('/', $a_original_path);
+        
+        if (in_array($this->webdav_script_name, $exploded_path)) {
+            return implode('/', array_splice($exploded_path, 0, -2));
+        }
+                
+        return implode('/', array_splice($exploded_path, 0, -1)) . '/' . $this->webdav_script_name;
     }
 
     /**
@@ -70,7 +70,11 @@ class ilWebDAVUriBuilder
      */
     protected function getWebDavUriByPlaceholderName(string $placeholder_name, int $a_ref_id)
     {
-        return $this->schemas[$placeholder_name] . '://' . $this->host . $this->getWebDavPathToRef($a_ref_id);
+        $scheme = $this->schemas[$placeholder_name];
+        if ($this->uri->getScheme() == 'https') {
+            $scheme .= 's';
+        }
+        return $scheme . '://' . $this->host . $this->getWebDavPathToRef($a_ref_id);
     }
 
     /**
