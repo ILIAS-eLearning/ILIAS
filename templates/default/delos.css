@@ -7105,26 +7105,26 @@ input.btn {
 }
 .btn-default {
   color: white;
-  background-color: #708bae;
-  border-color: #708bae;
+  background-color: #4c6586;
+  border-color: #4c6586;
 }
 .btn-default:focus,
 .btn-default.focus {
   color: white;
-  background-color: #557196;
-  border-color: #3a4c65;
+  background-color: #3a4c65;
+  border-color: #1e2835;
 }
 .btn-default:hover {
   color: white;
-  background-color: #557196;
-  border-color: #526c90;
+  background-color: #3a4c65;
+  border-color: #36485f;
 }
 .btn-default:active,
 .btn-default.active,
 .open > .dropdown-toggle.btn-default {
   color: white;
-  background-color: #557196;
-  border-color: #526c90;
+  background-color: #3a4c65;
+  border-color: #36485f;
 }
 .btn-default:active:hover,
 .btn-default.active:hover,
@@ -7136,8 +7136,8 @@ input.btn {
 .btn-default.active.focus,
 .open > .dropdown-toggle.btn-default.focus {
   color: white;
-  background-color: #48607f;
-  border-color: #3a4c65;
+  background-color: #2d3b4f;
+  border-color: #1e2835;
 }
 .btn-default:active,
 .btn-default.active,
@@ -7153,35 +7153,35 @@ fieldset[disabled] .btn-default:focus,
 .btn-default.disabled.focus,
 .btn-default[disabled].focus,
 fieldset[disabled] .btn-default.focus {
-  background-color: #708bae;
-  border-color: #708bae;
+  background-color: #4c6586;
+  border-color: #4c6586;
 }
 .btn-default .badge {
-  color: #708bae;
+  color: #4c6586;
   background-color: white;
 }
 .btn-primary {
   color: white;
-  background-color: #6ea03c;
-  border-color: #6ea03c;
+  background-color: #3b5620;
+  border-color: #3b5620;
 }
 .btn-primary:focus,
 .btn-primary.focus {
   color: white;
-  background-color: #557b2e;
-  border-color: #2e4319;
+  background-color: #223112;
+  border-color: #000000;
 }
 .btn-primary:hover {
   color: white;
-  background-color: #557b2e;
-  border-color: #4f732b;
+  background-color: #223112;
+  border-color: #1c290f;
 }
 .btn-primary:active,
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: white;
-  background-color: #557b2e;
-  border-color: #4f732b;
+  background-color: #223112;
+  border-color: #1c290f;
 }
 .btn-primary:active:hover,
 .btn-primary.active:hover,
@@ -7193,8 +7193,8 @@ fieldset[disabled] .btn-default.focus {
 .btn-primary.active.focus,
 .open > .dropdown-toggle.btn-primary.focus {
   color: white;
-  background-color: #436124;
-  border-color: #2e4319;
+  background-color: #101709;
+  border-color: #000000;
 }
 .btn-primary:active,
 .btn-primary.active,
@@ -7210,11 +7210,11 @@ fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus,
 .btn-primary[disabled].focus,
 fieldset[disabled] .btn-primary.focus {
-  background-color: #6ea03c;
-  border-color: #6ea03c;
+  background-color: #3b5620;
+  border-color: #3b5620;
 }
 .btn-primary .badge {
-  color: #6ea03c;
+  color: #3b5620;
   background-color: white;
 }
 .btn[disabled],
@@ -8155,25 +8155,25 @@ ul.breadcrumb li:hover {
 .il-table-presentation-viewcontrols .btn-default:not(.disabled) {
   color: #4c6586;
   background-color: white;
-  border-color: #708bae;
+  border-color: #4c6586;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):focus,
 .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
   color: #4c6586;
   background-color: #e6e6e6;
-  border-color: #3a4c65;
+  border-color: #1e2835;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):hover {
   color: #4c6586;
   background-color: #e6e6e6;
-  border-color: #526c90;
+  border-color: #36485f;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
 .il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
 .open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled) {
   color: #4c6586;
   background-color: #e6e6e6;
-  border-color: #526c90;
+  border-color: #36485f;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):active:hover,
 .il-table-presentation-viewcontrols .btn-default:not(.disabled).active:hover,
@@ -8186,7 +8186,7 @@ ul.breadcrumb li:hover {
 .open > .dropdown-toggle.il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
   color: #4c6586;
   background-color: #d4d4d4;
-  border-color: #3a4c65;
+  border-color: #1e2835;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled):active,
 .il-table-presentation-viewcontrols .btn-default:not(.disabled).active,
@@ -8203,7 +8203,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 .il-table-presentation-viewcontrols .btn-default:not(.disabled)[disabled].focus,
 fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disabled).focus {
   background-color: white;
-  border-color: #708bae;
+  border-color: #4c6586;
 }
 .il-table-presentation-viewcontrols .btn-default:not(.disabled) .badge {
   color: white;
