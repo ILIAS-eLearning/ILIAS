@@ -155,17 +155,23 @@ class ilDerivedTasksGUI
                 $list_items_without_deadline[] = $item;
             }
         }
-        if (count($list_items_with_deadline) > 0) {
-            $item_groups[] = $f->item()->group($lng->txt("task_tasks_with_deadline"), $list_items_with_deadline);
-        }
-        if (count($list_items_without_deadline) > 0) {
-            $item_groups[] = $f->item()->group($lng->txt("task_tasks_without_deadline"), $list_items_without_deadline);
-        }
 
         // output list panel or info message
-        if (count($item_groups) > 0) {
-            $std_list = $f->panel()->listing()->standard("", $item_groups);
-            $main_tpl->setContent($renderer->render($std_list));
+        if (count($list_items_with_deadline) > 0 || count($list_items_without_deadline) > 0) {
+
+            $panels = [];
+
+            if (count($list_items_with_deadline) > 0) {
+                $panels[] = $f->panel()->listing()->standard($lng->txt("task_tasks_with_deadline"),
+                    [$f->item()->group("", $list_items_with_deadline)]);
+            }
+            if (count($list_items_without_deadline) > 0) {
+                $panels[] = $f->panel()->listing()->standard($lng->txt("task_tasks_without_deadline"),
+                    [$f->item()->group("", $list_items_without_deadline)]);
+            }
+
+
+            $main_tpl->setContent($renderer->render($panels));
         } else {
             ilUtil::sendInfo($lng->txt("task_no_tasks"));
         }
