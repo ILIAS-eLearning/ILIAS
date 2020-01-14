@@ -7636,20 +7636,41 @@ hr.il-divider-with-label {
   color: #557196;
   padding: 3px 3px;
 }
-ul.breadcrumb {
+.breadcrumbs {
+  -ms-flex-align: center;
+  align-items: center;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  -ms-grid-row: 2;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  grid-row: 2;
+  z-index: 998;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.breadcrumbs ul.breadcrumb {
   margin: 0;
   font-weight: 600;
-  padding-left: 12px;
   font-size: 12px;
+  padding-left: 100px;
 }
-ul.breadcrumb li {
+.breadcrumbs ul.breadcrumb li {
   color: #557196;
 }
-ul.breadcrumb li:hover {
+.breadcrumbs ul.breadcrumb li:hover {
   color: #3a4c65;
 }
-[dir="rtl"] ul.breadcrumb {
-  padding-right: 12px;
+.breadcrumbs ul.breadcrumb > li + li:before {
+  content: " \e606";
+  color: #bbb;
+  padding: 8px 10px;
+  font-family: "il-icons";
 }
 /************/
 /* ScaleBar */
@@ -8668,32 +8689,6 @@ header {
   font-size: 15.988px;
   align-items: flex-end;
   padding-left: 35px;
-}
-.breadcrumbs {
-  -ms-flex-align: center;
-  align-items: center;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 2;
-  -ms-grid-row: 2;
-  grid-column-start: 1;
-  grid-column-end: 3;
-  grid-row: 2;
-  z-index: 998;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-.breadcrumbs ul.breadcrumb {
-  padding-left: 100px;
-}
-.breadcrumbs ul.breadcrumb > li + li:before {
-  content: " \e606";
-  color: #bbb;
-  font-family: "il-icons";
 }
 nav.il-maincontrols {
   -ms-grid-column: 1;
@@ -18852,4 +18847,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
