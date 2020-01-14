@@ -1108,6 +1108,16 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         $href = $ilCtrl->getLinkTargetByClass(array("ilPortfolioPageGUI", "ilPageEditorGUI", "ilPCPlaceHolderGUI", "ilpcmediaobjectgui"), "insert");
                         $html = "<a href='" . $href . "'>" . $html . "</a>";
                         break;
+
+                    case "Verification":
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "prt_id", $_GET["prt_id"]);
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "ppage", $this->getId());
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "pl_pc_id", $param[0]);
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "pl_hier_id", $param[1]);
+                        $ilCtrl->setParameterByClass("ilPCVerificationGUI", "subCmd", "insertNew");
+                        $href = $ilCtrl->getLinkTargetByClass(array("ilPortfolioPageGUI", "ilPageEditorGUI", "ilPCPlaceHolderGUI", "ilPCVerificationGUI"), "insert");
+                        $html = "<a href='" . $href . "'>" . $html . "</a>";
+                        break;
                 }
             }
 
