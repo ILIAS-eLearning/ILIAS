@@ -7606,9 +7606,6 @@ hr.il-divider-with-label {
     font-size: 14px;
     float: none;
   }
-  .il-item .il-item-description {
-    display: none;
-  }
   .il-item .il-item-divider {
     padding: 10px 0 0 0;
     margin: 0;
