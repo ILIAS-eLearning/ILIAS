@@ -480,9 +480,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     public function setPermanentLink($a_type, $a_id, $a_append = "", $a_target = "", $a_title = "")
     {
         $href = ilLink::_getStaticLink($a_id, $a_type, true, $a_append);
-        if ($a_target != "") {
-            $href = $a_target;
-        }
         PageContentProvider::setPermaLink($href);
     }
 
