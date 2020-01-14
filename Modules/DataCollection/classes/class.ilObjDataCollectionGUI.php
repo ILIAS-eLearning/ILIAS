@@ -68,6 +68,8 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             ilYuiUtil::initConnection();
             ilOverlayGUI::initJavascript();
             $DIC->ui()->mainTemplate()->addJavaScript('Modules/DataCollection/js/ilDataCollection.js');
+            // # see  https://mantis.ilias.de/view.php?id=26463
+            $DIC->ui()->mainTemplate()->addJavaScript("./Services/UIComponent/Modal/js/Modal.js");
             $DIC->ui()->mainTemplate()->addJavaScript("Modules/DataCollection/js/datacollection.js");
             $this->tpl->addOnLoadCode(
                 "ilDataCollection.setEditUrl('" . $DIC->ctrl()->getLinkTargetByClass(
