@@ -442,7 +442,7 @@ class ilGlossaryTermGUI
         );
         $tpl->setVariable("BTN_ADD", "addDefinition");
         $tpl->parseCurrentBlock();
-        $tpl->setCurrentBlock("def_list");
+//        $tpl->setCurrentBlock("def_list");
 
         $defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
