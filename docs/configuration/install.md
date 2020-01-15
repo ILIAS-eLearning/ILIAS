@@ -90,10 +90,10 @@ We RECOMMEND at least 100 Mbit/sec. for the web server WAN connection.
 
 For best results we RECOMMEND:
 
-  * Debian GNU Linux 8 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
+  * Debian GNU Linux 9 / Red Hat Enterprise Linux 7 / Ubuntu 16.04 LTS
   * MySQL 5.6+
   * MariaDB 10.2
-  * PHP 7.1
+  * PHP 7.0
   * Apache 2.4.18 with mod_php
   * ImageMagick 6.8+
   * php-gd, php-xml, php-mysql, php-mbstring
@@ -237,7 +237,7 @@ systemctl restart httpd.service
 
 On Debian/Ubuntu 14.04 or 16.04 execute:
 ```
-apt-get install libapache2-mod-php7.1 php7.1-gd php7.1-mysql php7.1-mbstring php-xml
+apt-get install libapache2-mod-php7.0 php7.0-gd php7.0-mysql php7.0-mbstring php-xml
 ```
 
 On RHEL/CentOS execute: 
