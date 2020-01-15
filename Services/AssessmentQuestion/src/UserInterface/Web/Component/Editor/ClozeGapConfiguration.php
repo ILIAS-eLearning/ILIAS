@@ -56,6 +56,19 @@ class ClozeGapConfiguration extends AbstractValueObject {
     {
         return $this->items;
     }
+    
+    /**
+     * @return array
+     */
+    public function getItemsArray(): array {
+        $var_array = [];
+        
+        foreach($this->items as $variable) {
+            $var_array[] = $variable->getAsArray();
+        }
+        
+        return $var_array;
+    }
 
     public function equals(AbstractValueObject $other): bool
     {

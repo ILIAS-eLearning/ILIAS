@@ -49,7 +49,23 @@ class ClozeEditorConfiguration extends AbstractConfiguration {
      */
     public function getGaps()
     {
-        return $this->gaps;
+        //return $this->gaps;
+        
+        $gaps = [];
+        
+        $gaps[] = ClozeGapConfiguration::create(ClozeGapConfiguration::TYPE_TEXT, [
+            ClozeGapItem::create('Text Richtig', 2),
+            ClozeGapItem::create('Text Halb', 1),
+            ClozeGapItem::create('Text Falsch', 0)
+        ]);
+        
+        $gaps[] = ClozeGapConfiguration::create(ClozeGapConfiguration::TYPE_DROPDOWN, [
+            ClozeGapItem::create('Drop Richtig', 2),
+            ClozeGapItem::create('Drop Halb', 1),
+            ClozeGapItem::create('Drop Falsch', 0)
+        ]);
+        
+        return $gaps;
     }
 
     public function equals(AbstractValueObject $other): bool

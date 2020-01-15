@@ -15,6 +15,9 @@ use ILIAS\AssessmentQuestion\CQRS\Aggregate\AbstractValueObject;
  * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class ClozeGapItem extends AbstractValueObject {
+    const VAR_TEXT = 'cgi_text';
+    const VAR_POINTS = 'cgi_points';
+    
     /**
      * @var string
      */
@@ -23,17 +26,17 @@ class ClozeGapItem extends AbstractValueObject {
     /**
      * @var int
      */
-    protected $score;
+    protected $points;
     
     /**
      * @param string $text
-     * @param int $score
+     * @param int $points
      * @return ClozeGapItem
      */
-    public static function create(string $text, int $score) : ClozeGapItem {
+    public static function create(string $text, int $points) : ClozeGapItem {
         $item = new ClozeGapItem();
         $item->text = $text;
-        $item->score = $score;
+        $item->points = $points;
         return $item;
     }
 
@@ -48,16 +51,23 @@ class ClozeGapItem extends AbstractValueObject {
     /**
      * @return number
      */
-    public function getScore()
+    public function getPoints()
     {
-        return $this->score;
+        return $this->points;
     }
 
+    public function getAsArray() : array {
+        return [
+            self::VAR_TEXT => $this->text,
+            self::VAR_POINTS => $this->points
+        ];
+    }
+    
     public function equals(AbstractValueObject $other): bool
     {
         /** @var ClozeGapItem $other */
         return get_class($this) === get_class($other) &&
                $this->text === $other->text &&
-               $this->score === $other->score;
+               $this->points === $other->points;
     }
 }
