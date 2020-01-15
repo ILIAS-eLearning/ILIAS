@@ -18690,6 +18690,9 @@ table.mceToolbar td {
     margin: 0;
   }
 }
+.code-container {
+  display: grid;
+}
 @media only screen and (max-width: 768px) {
   div.ilGoogleMap {
     max-width: 100%;
