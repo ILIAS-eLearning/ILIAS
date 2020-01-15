@@ -743,7 +743,7 @@ The ILIAS Testserver (https://test54.ilias.de) is currently configured as follow
 | Distribution   | Ubuntu 16.04.1 LTS          |
 | MySQL          | MySQL 5.5.58                |
 | MariaDB        | 10.1                        |
-| PHP            | 7.1.20                      |
+| PHP            | 7.0.33                      |
 | Apache         | 2.4.7                       |
 | Nginx          | 1.4.6                       |
 | zip            | 3.0                         |
