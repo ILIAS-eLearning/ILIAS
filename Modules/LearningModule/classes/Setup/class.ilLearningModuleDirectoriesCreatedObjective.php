@@ -28,7 +28,7 @@ class ilLearningModuleDirectoriesCreatedObjective implements Setup\Objective
         $common_config = $environment->getConfigFor("common");
         $fs_config = $environment->getConfigFor("filesystem");
 
-        $data_dir = $fs_config->getDataDir();
+        $data_dir = $fs_config->getWebDir();
         $client_data_dir = $data_dir .'/' .$common_config->getClientId();
         $new_dir = $client_data_dir .'/' .self::LMDIR;
 
