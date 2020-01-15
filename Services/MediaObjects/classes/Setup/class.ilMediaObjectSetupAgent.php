@@ -56,7 +56,8 @@ class ilMediaObjectSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/MediaObject",
             false,
-            new ilMediaObjectConfigStoredObjective($config)
+            new ilMediaObjectConfigStoredObjective($config),
+            new ilMediaObjectDirectoriesCreatedObjective()
         );
     }
 
