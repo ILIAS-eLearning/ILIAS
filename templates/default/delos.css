@@ -14048,17 +14048,6 @@ li.ilc_page_toc_PageTOCItem {
   padding: 0;
   white-space: nowrap;
 }
-a.ilc_page_toc_PageTOCLink {
-  color: #03a;
-  font-weight: normal;
-  text-decoration: none;
-}
-a.ilc_page_toc_PageTOCLink:hover {
-  color: black;
-}
-a.ilc_page_toc_PageTOCLink:visited {
-  color: blue;
-}
 /* --- content styles (will move to content.css) --- */
 td.ilc_PageDisabled {
   padding: 20px;
@@ -18847,3 +18836,4 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
+/*# sourceMappingURL=delos.css.map */

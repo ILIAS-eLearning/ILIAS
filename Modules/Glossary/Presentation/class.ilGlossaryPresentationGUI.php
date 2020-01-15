@@ -523,6 +523,8 @@ class ilGlossaryPresentationGUI
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilErr = $this->error;
+        $tpl = $this->tpl;
+
         if ($a_ref_id == 0) {
             $ref_id = (int) $this->requested_ref_id;
         } else {
@@ -546,7 +548,6 @@ class ilGlossaryPresentationGUI
         $term = new ilGlossaryTerm($term_id);
         
         if (!$a_get_html) {
-            $tpl = $this->tpl;
 
             $tpl->loadStandardTemplate();
 
@@ -572,7 +573,7 @@ class ilGlossaryPresentationGUI
         $def_tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
 
         $defs = ilGlossaryDefinition::getDefinitionList($term_id);
-        $tpl->setVariable("TXT_TERM", $term->getTerm());
+        $def_tpl->setVariable("TXT_TERM", $term->getTerm());
         $this->mobs = array();
 
         // toc
