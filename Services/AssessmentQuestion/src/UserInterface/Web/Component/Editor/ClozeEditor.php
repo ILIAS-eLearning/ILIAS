@@ -5,11 +5,13 @@ namespace ILIAS\AssessmentQuestion\UserInterface\Web\Component\Editor;
 use ILIAS\AssessmentQuestion\ilAsqHtmlPurifier;
 use ILIAS\AssessmentQuestion\DomainModel\AbstractConfiguration;
 use ILIAS\AssessmentQuestion\DomainModel\Question;
+use ILIAS\AssessmentQuestion\DomainModel\QuestionDto;
 use ilTextAreaInputGUI;
 use ilSelectInputGUI;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInput;
 use ILIAS\AssessmentQuestion\UserInterface\Web\Fields\AsqTableInputFieldDefinition;
 use ilFormSectionHeaderGUI;
+use ILIAS\AssessmentQuestion\DomainModel\Scoring\ClozeScoringConfiguration;
 
 /**
  * Class ClozeEditor
@@ -26,8 +28,32 @@ class ClozeEditor extends AbstractEditor {
     const VAR_GAP_TYPE = 'cze_gap_type';
     const VAR_GAP_ITEMS = 'cze_gap_items';
     
+    /**
+     * @var ClozeEditorConfiguration
+     */
+    private $configuration;
+    /**
+     * @var array
+     */
+    private $answers;
+    
+    public function __construct(QuestionDto $question) {
+        $this->answers = [];
+        $this->configuration = $question->getPlayConfiguration()->getEditorConfiguration();
+        
+        parent::__construct($question);
+    }
+    
     public function readAnswer(): string
-    {}
+    {
+        $this->answers = [];
+        
+        for ($i = 1; $i <= count($this->configuration->getGaps()); $i += 1) {
+            $this->answers[$i] = ilAsqHtmlPurifier::getInstance()->purify($_POST[$this->getPostVariable($i)]);
+        }
+        
+        return json_encode($this->answers);
+    }
 
     public static function readConfig()
     {
@@ -37,11 +63,87 @@ class ClozeEditor extends AbstractEditor {
     }
 
     public function setAnswer(string $answer): void
-    {}
+    {
+        $this->answers = json_decode($answer, true);
+    }
 
     public function generateHtml(): string
-    {}
+    {
+        $output = $this->configuration->getClozeText();
+        
+        for ($i = 1; $i <= count($this->configuration->getGaps()); $i += 1) {
+            $gap_config = $this->configuration->getGaps()[$i - 1];
+            
+            if ($gap_config->getType() === ClozeGapConfiguration::TYPE_DROPDOWN) {
+                $output = $this->createDropdown($i, $gap_config, $output);
+            }
+            else if ($gap_config->getType() === ClozeGapConfiguration::TYPE_NUMBER) {
+                // TODO implement number
+                $output = $this->createText($i, $gap_config, $output);
+            }
+            else if ($gap_config->getType() === ClozeGapConfiguration::TYPE_TEXT) {
+                $output = $this->createText($i, $gap_config, $output);
+            }
+        }
+        
+        return $output;
+    }
+    
+    /**
+     * @param int $index
+     * @param ClozeGapConfiguration $gap_config
+     * @param string $output
+     * @return string
+     */
+    private function createDropdown(int $index, ClozeGapConfiguration $gap_config, string $output) : string{
+        $name = '{' . $index . '}';
+        
+        $html = sprintf('<select length="20" name="%s">%s</select>',
+            $this->getPostVariable($index),
+            $this->createOptions($gap_config->getItems(), $index));
+        
+        return str_replace($name, $html, $output);
+    }
+    
+    /**
+     * @param ClozeGapItem[] $gapItems
+     * @return string
+     */
+    private function createOptions(array $gap_items, int $index) : string {
+        return implode(array_map(
+            function(ClozeGapItem $gap_item) use ($index) {
+                return sprintf('<option value="%1$s" %2$s>%1$s</option>', 
+                               $gap_item->getText(),
+                               $gap_item->getText() === $this->answers[$index] ? 'selected="selected"' : '');
+            }, 
+            $gap_items
+        ));
+    }
+    
+    /**
+     * @param int $index
+     * @param ClozeGapConfiguration $gap_config
+     * @param string $output
+     * @return string
+     */
+    private function createText(int $index, ClozeGapConfiguration $gap_config, string $output) : string {
+        $name = '{' . $index . '}';
+        
+        $html = sprintf('<input type="text" length="20" name="%s" value="%s" />',
+            $this->getPostVariable($index),
+            $this->answers[$index] ?? '');
+        
+        return str_replace($name, $html, $output);
+    }
 
+    /**
+     * @param int $index
+     * @return string
+     */
+    private function getPostVariable(int $index) {
+        return $index . $this->question->getId();
+    }
+    
     public static function isComplete(Question $question): bool
     {
         return true;

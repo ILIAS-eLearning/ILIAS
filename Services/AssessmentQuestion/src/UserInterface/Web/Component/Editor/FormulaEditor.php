@@ -10,7 +10,7 @@ use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringDefinition;
 use ILIAS\AssessmentQuestion\DomainModel\Scoring\FormulaScoringVariable;
 
 /**
- * Class FileUploadEditor
+ * Class FormulaEditor
  *
  * @package ILIAS\AssessmentQuestion\Authoring\DomainModel\Question\Answer\Option;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
@@ -30,7 +30,7 @@ class FormulaEditor extends AbstractEditor {
     private $answers;
     
     public function __construct(QuestionDto $question) {      
-        $this->selected_answers = [];
+        $this->answers = [];
         $this->configuration = $question->getPlayConfiguration()->getScoringConfiguration();
         
         parent::__construct($question);
