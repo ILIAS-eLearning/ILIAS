@@ -170,4 +170,32 @@ class ImageTest extends ILIAS_UI_TestBase
 
         $this->assertEquals($expected, $html);
     }
+
+    public function test_with_empty_action_and_no_additional_on_load_code()
+    {
+        $f = $this->getImageFactory();
+        $r = $this->getDefaultRenderer();
+
+        $i = $f->standard("source", "alt")->withAction("#");
+
+        $html = $this->normalizeHTML($r->render($i));
+
+        $expected = "<a href=\"#\"><img src=\"source\" class=\"img-standard\" alt=\"alt\" /></a>";
+
+        $this->assertEquals($expected, $html);
+    }
+
+    public function test_with_additional_on_load_code()
+    {
+        $f = $this->getImageFactory();
+        $r = $this->getDefaultRenderer();
+
+        $i = $f->standard("source", "alt")->withAction("#")->withOnLoadCode(function($id){return "Something";});
+
+        $html = $this->normalizeHTML($r->render($i));
+
+        $expected = "<a href=\"#\"><img src=\"source\" class=\"img-standard\" id='id_1'  alt=\"alt\" /></a>";
+
+        $this->assertEquals($expected, $html);
+    }
 }
