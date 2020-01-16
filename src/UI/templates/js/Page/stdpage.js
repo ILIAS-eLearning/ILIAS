@@ -5,6 +5,8 @@ il.UI = il.UI || {};
 
 		var breakpoint_max_width = 768, //this corresponds to @grid-float-breakpoint-max, see mainbar.less/metabar.less
 			mq_orientation = window.matchMedia("(orientation: portrait)");
+			//attach orientation-change listeners directly to mediaquery:
+			//*mq_orientation.addListener(function(mq) {...});
 
 		var isSmallScreen = function() {
 			var media_query = "only screen"
@@ -22,14 +24,7 @@ il.UI = il.UI || {};
 			return isPortrait() ? 'portrait' : 'landscape';
 		};
 
-		var init = function() {
-			mq_orientation.addListener(function(mq) {
-				window.location.reload();
-			});
-		};
-
 		return {
-			init: init,
 			isSmallScreen: isSmallScreen,
 			getOrientation: getOrientation,
 			isPortrait: isPortrait,
