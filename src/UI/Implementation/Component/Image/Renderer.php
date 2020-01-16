@@ -34,13 +34,13 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("HREF", $component->getAction());
                 $tpl->parseCurrentBlock();
             }
-
-            if (is_array($component->getAction())) {
-                $tpl->setCurrentBlock("with_id");
-                $tpl->setVariable("ID", $id);
-                $tpl->parseCurrentBlock();
-            }
         }
+        if ($id !== null) {
+            $tpl->setCurrentBlock("with_id");
+            $tpl->setVariable("ID", $id);
+            $tpl->parseCurrentBlock();
+        }
+
 
         $tpl->setCurrentBlock($component->getType());
         $tpl->setVariable("SOURCE", $component->getSource());
