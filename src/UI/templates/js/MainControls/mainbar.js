@@ -21,6 +21,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					this.model.actions.disengageAll();
 					this.renderer.render(this.model.getState());
 				},
+				/*
+				 * clear all (active) stored states, used in e.g. logout
+				 */
+				clearStates: function() {
+					this.model.actions.disengageAll();
+					this.persistence.store(this.model.getState());
+				}
 			},
 			construction = {
 				/**
@@ -216,7 +223,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				adjustToScreenSize: adjustToScreenSize,
 				init: init,
 				engageTool: external_commands.engageTool,
-				disengageAll: external_commands.disengageAll
+				disengageAll: external_commands.disengageAll,
+				clearStates: external_commands.clearStates
 			};
 
 		return public_interface;
