@@ -2,6 +2,10 @@
 
 Being a classic PHP web application, ILIAS relies on the availability of a network connection between the web browser of the user and a web server with almost every user interaction. The goal of this paper is to outline possibilities to deal with slow, unreliable or even non-available network connections to prevent data loss or to provide certain functionalities offline.
 
+* [Current State](#current-state)
+* [Scenarios](#scenarios)
+* [Requirements](#requirements)
+
 ## Current State
 
 ### Temporarily Unavailable Connections
@@ -42,51 +46,80 @@ Being able to work through learning content during a **long offline time period*
 
 ## Requirements
 
-Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. This results in handle any connection based problem in a user friendly and common way.
+Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. All connection based problems should be handled in a user friendly and common way.
 
-Since the server cannot take care of situations if it is unreachable, the client-side part of the application has to take care of many connection based problems. It has to handle temporatily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
+Since the server cannot take care of situations when it is unreachable, the client-side part of the application has to take care of many connection based problems. It has to handle temporarily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
 
-For ILIAS this means that a substantial part of the solution needs to be implemented in client-side code using Javascript. Since ILIAS suffers from a lack of guidelines for the organisation of complex client side code, a number of technical requirements is not directly related to offline scenarios, instead the originate from the need to provide larger client side components.
+For ILIAS this means that a substantial part of the solution needs to be implemented in client-side code using Javascript. ILIAS currently suffers from a lack of guidelines for the organisation of complex client side code.
+ 
+This results in a set of JS coding requirements outlined in chapter [JS Coding Requirements](#js-coding-requirements).
 
-These two categories of requirements are separated in the two subsequent chapters.
+After that the chapter [Service Requirements](#service-requirements) adresses service needs that are originated from the offline scenarios. Central services should provide solutions for these needs to enable higher level components like tests or learning modules to implement their scenarios.
 
-### General Requirements
+### JS Coding Requirements
 
 #### JS Coding Style
 
-Having a common coding style greatly improves readability of the code and fosters collaboration e.g. via pull request. Chances are high that offline capability implementation will add a decent amount of client side code to ILIAS, so having a Coding Style would be a huge benefit.
+Having a common coding style greatly improves readability of the code and fosters collaboration e.g. via pull request. Chances are high that offline capability implementation will add a decent amount of client side code to ILIAS, so **having a Coding Style** would be a huge benefit.
 
 #### JS File Naming Conventions
 
-Similar to the coding style a set of naming conventions for Javascript files and directory structure should be established.
+Similar to the coding style a set of **naming conventions** for Javascript files and directory structure should be established.
 
 #### JS Code Pattern Documentation
 
 Developer often face similar problems and often implement similar solutions for these problems. Having a common coding pattern documentation enables a common understanding of complex structures and supports the maintainability of the code.
 
-In ILIAS there are already some typical coding patterns dealing with modularisation. At least these existing patterns should be streamlined documented and before a substantial amount of new code is added.
+In ILIAS there are already some typical coding patterns dealing with modularisation. At least these existing patterns should be **streamlined and documented** before a substantial amount of new code is added.
 
 #### JS API Guidelines
 
 The outlined scenarios for offline use show that different ILIAS components would greatly benefit from a set of basic services that enable these components e.g. to handle and react upon the current network connection state or to tackle communication and synchronisation with the server.
 
-Guidelines on how client side APIs should be provided should be outlined before the implementation of these APIs.
+**Guidelines** on how **client side APIs** should be provided should be outlined before the implementation of these APIs.
 
 #### JS Unit Testing
 
+When adding more dependencies between components on the client by providing client side APIs, unit test for these services become more important, since errors in central services may potentially break a larger number of consuming components.
+
+At least a basic **guideline** should support the creation of unit tests in a consistent way throughout all client side components.
+
 #### JS Packaging and Minification
 
-#### Client/Server Communication
+Currently ILIAS serves a high number (e.g. > 40 in 5.4 repository views) of Javascript files individually to the client. Additionally there is no defined practice how to split larger chunks of Javascript code into multiple code files and build a distribution package later.
 
-#### Client/Server Implementation Consistency
+This results in either large complex Javascript code files or an even higher number of separately deliverd files for the client. To increase the efficiency and handle complexity a **guideline on packaging and minification** is needed.
 
-
-### Requirements of Offline Use
-
-#### Client Side Data/Asset Management
-
-#### Client Server Data Synchronisation
+### Service Requirements
 
 #### Connection/Offline State Management
 
-#### Application State Consistency
+A general **service** should manage the connection state and support communication or synchronisation services to reliably hold and resume their processes. It should also support to present general user information if connections are interrupted or re-established.
+
+#### Client/Server Communication
+
+Currently most existing Javascript request in ILIAS to the server are ajax/xhr calls that retrieve HTML snippets for replacements in the current document. If the connection is interrupted, these calls silently fail immediately.
+
+A **service** should support general and common way to transfer data between client and server. The service should take care of connection issues and ensure that all data packages are transfered and processed on the server.
+
+#### Client Server Data Synchronisation / Application State Consistency
+
+Scenarios that support user interactions on the client during a longer offline period, e.g. user entering answers for test questions, need to push these changes back to the server once the connection is re-established.
+
+Conflicts may arise if the same entities are modified in the same time period on the server, too. We need **guidelines and/or services** that help to avoid or to cope with these kind of problems.
+
+#### Client Side Data/Asset Management
+
+Any presentation for long offline periods will need to manage static assets like HTML, Javascrip, CSS or media files. A **common service** should support components to deal with assets in client side storage.
+
+#### Client/Server Implementation Consistency
+
+The need to present content and process user input during longer offline periods (e.g. Offline Reader or E-Exam scenario), can lead to redundant rendering and/or business logic on the server (PHP code) and client (Javascript code). This is currently the case for assessment questions that are processed and evaluated on the server side during test runs (PHP implementation) and on the client side (Javascript implementation) when appearing in SCORM or ILIAS learning module content.
+
+Similar cases may arise if input checks in forms (currently processed on the server) are done on the client side, too, e.g. to improve user experience.
+
+Inconsistencies in these redundant implementations may lead to subtle errors.
+
+We need to evaluate **technical concepts** and options that help to avoid or otherwise cope with these redundancies.
+
+
