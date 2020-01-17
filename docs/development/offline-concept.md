@@ -18,11 +18,11 @@ If background Ajax calls are involved to save data, e.g. when using the ILIAS pa
 
 ### Slow Connections
 
-Slow connections may be a result of low bandwith internet connections, high traffic load on the web server or similar bootlenecks in the network infrastructure. This usually results in decreased responsiveness on the client side. In extreme cases server timeouts may lead to data loss. But depending on the scenario already a higher response time can be a severe issue for the users, e.g. during an online exam.
+Slow connections may be a result of low bandwidth internet connections, high traffic load on the web server or similar bottlenecks in the network infrastructure. This usually results in decreased responsiveness on the client side. In extreme cases server timeouts may lead to data loss. But depending on the scenario already a higher response time can be a severe issue for the users, e.g. during an online exam.
 
 ### Long Offline Time Periods
 
-In some cases users would like to be able to use some features of the system even if they are offline for a longer time period. E.g. when they go on vacation to a place where they do not have access to internet connectivity or during a trip in a train or on a plane. ILIAS offers some solutions like the SCORM offline player or the HTML export of learning modules. Both these solutions currently suffer from differenty technical (using outdated web techniques) or usability issues (lack of progress synchronisation).
+In some cases users would like to be able to use some features of the system even if they are offline for a longer time period. E.g. when they go on vacation to a place where they do not have access to internet connectivity or during a trip in a train or on a plane. ILIAS offers some solutions like the SCORM offline player or the HTML export of learning modules. Both these solutions currently suffer from differently technical (using outdated web techniques) or usability issues (lack of progress synchronisation).
 
 ## Scenarios
 
@@ -42,19 +42,19 @@ E-Exams have a special need for high availability of the application. Any delaye
 
 ### Offline Reader
 
-Being able to work through learning content during a **long offline time period** is a typical scenario that has already some support in ILIAS as outlined in the [Current State](#current-state) chapter. A browser based offline player is provided for SCORM content, HTML exports are e.g. available for ILIAS learning modules and glossaries. These are components with no or a low user-to-user interaction. The users mostly work through content and do not interact with other users. Additionally the content does not change often, so cloning it temporarily to the client side is not a huge issue. Similar to the E-Exams scenario data synchronisation once the connection is re-established is an important aspect, e.g. for storing answers given in self-assessment questions.
+Being able to work through learning content during a **long offline time period** is a typical scenario that has already some support in ILIAS as outlined in the [Current State](#current-state) chapter. A browser based offline player is provided for SCORM content, HTML exports are e.g. available for ILIAS learning modules and glossaries. These are components with no or a low user-to-user interaction. The users mostly work through content and do not interact with other users. Furthermore, the content does not change often, so cloning it temporarily to the client side is not a huge issue. Similar to the E-Exams scenario data synchronisation once the connection is re-established is an important aspect, e.g. for storing answers given in self-assessment questions.
 
 ## Requirements
 
-Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. All connection based problems should be handled in a user friendly and common way.
+Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. All connection-based problems should be handled in a user friendly and common way.
 
-Since the server cannot take care of situations when it is unreachable, the client-side part of the application has to take care of many connection based problems. It has to handle temporarily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
+Since the server cannot take care of situations when it is unreachable, the client-side part of the application has to take care of many connection-based problems. It has to handle temporarily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
 
 For ILIAS this means that a substantial part of the solution needs to be implemented in client-side code using Javascript. ILIAS currently suffers from a lack of guidelines for the organisation of complex client side code.
  
 This results in a set of JS coding requirements outlined in chapter [JS Coding Requirements](#js-coding-requirements).
 
-After that the chapter [Service Requirements](#service-requirements) adresses service needs that are originated from the offline scenarios. Central services should provide solutions for these needs to enable higher level components like tests or learning modules to implement their scenarios.
+After that the chapter [Service Requirements](#service-requirements) addresses service needs that are originated from the offline scenarios. Central services should provide solutions for these needs to enable higher level components like tests or learning modules to implement their scenarios.
 
 ### JS Coding Requirements
 
@@ -86,9 +86,9 @@ At least a basic **guideline** should support the creation of unit tests in a co
 
 #### JS Packaging and Minification
 
-Currently ILIAS serves a high number (e.g. > 40 in 5.4 repository views) of Javascript files individually to the client. Additionally there is no defined practice how to split larger chunks of Javascript code into multiple code files and build a distribution package later.
+Currently ILIAS serves a high number (e.g. > 40 in 5.4 repository views) of Javascript files individually to the client. Furthermore, there is no defined practice how to split larger chunks of Javascript code into multiple code files and build a distribution package later.
 
-This results in either large complex Javascript code files or an even higher number of separately deliverd files for the client. To increase the efficiency and handle complexity a **guideline on packaging and minification** is needed.
+This results in either large complex Javascript code files or an even higher number of separately delivered files for the client. To increase the efficiency and handle complexity a **guideline on packaging and minification** is needed.
 
 ### Service Requirements
 
@@ -100,7 +100,7 @@ A general **service** should manage the connection state and support communicati
 
 Currently most existing Javascript request in ILIAS to the server are ajax/xhr calls that retrieve HTML snippets for replacements in the current document. If the connection is interrupted, these calls silently fail immediately.
 
-A **service** should support general and common way to transfer data between client and server. The service should take care of connection issues and ensure that all data packages are transfered and processed on the server.
+A **service** should support general and common way to transfer data between client and server. The service should take care of connection issues and ensure that all data packages are transferred and processed on the server.
 
 #### Client Server Data Synchronisation / Application State Consistency
 
@@ -110,7 +110,7 @@ Conflicts may arise if the same entities are modified in the same time period on
 
 #### Client Side Data/Asset Management
 
-Any presentation for long offline periods will need to manage static assets like HTML, Javascrip, CSS or media files. A **common service** should support components to deal with assets in client side storage.
+Any presentation for long offline periods will need to manage static assets like HTML, Javascript, CSS or media files. A **common service** should support components to deal with assets in client-side storage.
 
 #### Client/Server Implementation Consistency
 
