@@ -18,7 +18,7 @@ If background Ajax calls are involved to save data, e.g. when using the ILIAS pa
 
 ### Slow Connections
 
-Slow connections may be a result of low bandwidth internet connections, high traffic load on the web server or similar bottlenecks in the network infrastructure. This usually results in decreased responsiveness on the client side. In extreme cases server timeouts may lead to data loss. But depending on the scenario already a higher response time can be a severe issue for the users, e.g. during an online exam.
+Slow connections may be a result of low bandwidth internet connections, high traffic load on the web server or similar bottlenecks in the network infrastructure. This usually results in decreased responsiveness on the client-side. In extreme cases server timeouts may lead to data loss. But depending on the scenario already a higher response time can be a severe issue for the users, e.g. during an online exam.
 
 ### Long Offline Time Periods
 
@@ -42,7 +42,7 @@ E-Exams have a special need for high availability of the application. Any delaye
 
 ### Offline Reader
 
-Being able to work through learning content during a **long offline time period** is a typical scenario that has already some support in ILIAS as outlined in the [Current State](#current-state) chapter. A browser based offline player is provided for SCORM content, HTML exports are e.g. available for ILIAS learning modules and glossaries. These are components with no or a low user-to-user interaction. The users mostly work through content and do not interact with other users. Furthermore, the content does not change often, so cloning it temporarily to the client side is not a huge issue. Similar to the E-Exams scenario data synchronisation once the connection is re-established is an important aspect, e.g. for storing answers given in self-assessment questions.
+Being able to work through learning content during a **long offline time period** is a typical scenario that has already some support in ILIAS as outlined in the [Current State](#current-state) chapter. A browser based offline player is provided for SCORM content, HTML exports are e.g. available for ILIAS learning modules and glossaries. These are components with no or a low user-to-user interaction. The users mostly work through content and do not interact with other users. Furthermore, the content does not change often, so cloning it temporarily to the client-side is not a huge issue. Similar to the E-Exams scenario data synchronisation once the connection is re-established is an important aspect, e.g. for storing answers given in self-assessment questions.
 
 ## Requirements
 
@@ -50,7 +50,7 @@ Common to all scenarios is the goal to provide a reliable user experience indepe
 
 Since the server cannot take care of situations when it is unreachable, the client-side part of the application has to take care of many connection-based problems. It has to handle temporarily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
 
-For ILIAS this means that a substantial part of the solution needs to be implemented in client-side code using Javascript. ILIAS currently suffers from a lack of guidelines for the organisation of complex client side code.
+For ILIAS this means that a substantial part of the solution needs to be implemented in client-side code using Javascript. ILIAS currently suffers from a lack of guidelines for the organisation of complex client-side code.
  
 This results in a set of JS coding requirements outlined in chapter [JS Coding Requirements](#js-coding-requirements).
 
@@ -60,7 +60,7 @@ After that the chapter [Service Requirements](#service-requirements) addresses s
 
 #### JS Coding Style
 
-Having a common coding style greatly improves readability of the code and fosters collaboration e.g. via pull request. Chances are high that offline capability implementation will add a decent amount of client side code to ILIAS, so **having a Coding Style** would be a huge benefit.
+Having a common coding style greatly improves readability of the code and fosters collaboration e.g. via pull request. Chances are high that offline capability implementation will add a decent amount of client-side code to ILIAS, so **having a Coding Style** would be a huge benefit.
 
 #### JS File Naming Conventions
 
@@ -76,13 +76,13 @@ In ILIAS there are already some typical coding patterns dealing with modularisat
 
 The outlined scenarios for offline use show that different ILIAS components would greatly benefit from a set of basic services that enable these components e.g. to handle and react upon the current network connection state or to tackle communication and synchronisation with the server.
 
-**Guidelines** on how **client side APIs** should be provided should be outlined before the implementation of these APIs.
+**Guidelines** on how **client-side APIs** should be provided should be outlined before the implementation of these APIs.
 
 #### JS Unit Testing
 
-When adding more dependencies between components on the client by providing client side APIs, unit test for these services become more important, since errors in central services may potentially break a larger number of consuming components.
+When adding more dependencies between components on the client by providing client-side APIs, unit test for these services become more important, since errors in central services may potentially break a larger number of consuming components.
 
-At least a basic **guideline** should support the creation of unit tests in a consistent way throughout all client side components.
+At least a basic **guideline** should support the creation of unit tests in a consistent way throughout all client-side components.
 
 #### JS Packaging and Minification
 
@@ -108,15 +108,15 @@ Scenarios that support user interactions on the client during a longer offline p
 
 Conflicts may arise if the same entities are modified in the same time period on the server, too. We need **guidelines and/or services** that help to avoid or to cope with these kind of problems.
 
-#### Client Side Data/Asset Management
+#### Client-Side Data/Asset Management
 
 Any presentation for long offline periods will need to manage static assets like HTML, Javascript, CSS or media files. A **common service** should support components to deal with assets in client-side storage.
 
 #### Client/Server Implementation Consistency
 
-The need to present content and process user input during longer offline periods (e.g. Offline Reader or E-Exam scenario), can lead to redundant rendering and/or business logic on the server (PHP code) and client (Javascript code). This is currently the case for assessment questions that are processed and evaluated on the server side during test runs (PHP implementation) and on the client side (Javascript implementation) when appearing in SCORM or ILIAS learning module content.
+The need to present content and process user input during longer offline periods (e.g. Offline Reader or E-Exam scenario), can lead to redundant rendering and/or business logic on the server (PHP code) and client (Javascript code). This is currently the case for assessment questions that are processed and evaluated on the server-side during test runs (PHP implementation) and on the client-side (Javascript implementation) when appearing in SCORM or ILIAS learning module content.
 
-Similar cases may arise if input checks in forms (currently processed on the server) are done on the client side, too, e.g. to improve user experience.
+Similar cases may arise if input checks in forms (currently processed on the server) are done on the client-side, too, e.g. to improve user experience.
 
 Inconsistencies in these redundant implementations may lead to subtle errors.
 
