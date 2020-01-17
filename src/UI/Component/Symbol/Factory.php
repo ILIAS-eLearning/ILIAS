@@ -129,12 +129,11 @@ interface Factory
      *     Glyph: >
      *       Glyphs are typographical characters that act as a trigger for
      *       some action. There is a user Glyph as well.
-     *     Picture: >
+     *     Image: >
      *       Images belong to the content and can be purely decorative.
      *     Icon: >
-     *       The is a user Icon as well which illustrates users in general.
-     *
-     *
+     *       Avatars represent a User in the System, Icons just an Object which is
+     *       not defined further.
      * rules:
      *   usage:
      *     1: Avatars MUST be used to represent a specific user.
@@ -145,7 +144,6 @@ interface Factory
      *     1: The aria-label MUST state the represented user(-name).
      *     2: The abbreviation SHOULD consist of two letters.
      * ---
-     *
      * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
      **/
     public function avatar() : Avatar\Factory;
