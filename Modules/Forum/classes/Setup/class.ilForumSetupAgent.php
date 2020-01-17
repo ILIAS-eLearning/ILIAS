@@ -37,10 +37,15 @@ class ilForumSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+            'forum',
+            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
+        );
+
         return new Setup\ObjectiveCollection(
-            "Complete objetives from Modules/Forum",
+            "Complete objectives from Modules/Forum",
             false,
-            new ilForumlDirectoriesCreatedObjective()
+            $dir_objective
         );
     }
 

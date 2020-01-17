@@ -4,7 +4,6 @@
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
 use ILIAS\UI;
 
 class ilMailSetupAgent implements Setup\Agent
@@ -38,10 +37,15 @@ class ilMailSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+            'mail',
+            ilFileSystemComponentDataDirectoryCreatedObjective::DATADIR
+        );
+
         return new Setup\ObjectiveCollection(
-            "Complete objetives from Services/Mail",
+            "Complete objectives from Services/Mail",
             false,
-            new ilMailDirectoriesCreatedObjective()
+            $dir_objective
         );
     }
 

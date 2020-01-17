@@ -37,10 +37,14 @@ class ilLearningModuleSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        $dir_objective = new ilFileSystemComponentDataDirectoryCreatedObjective(
+            'lm_data',
+            ilFileSystemComponentDataDirectoryCreatedObjective::WEBDIR
+        );
         return new Setup\ObjectiveCollection(
-            "Complete objetives from Modules/LearningModule",
+            "Complete objectives from Modules/LearningModule",
             false,
-            new ilLearningModuleDirectoriesCreatedObjective()
+            $dir_objective
         );
     }
 
