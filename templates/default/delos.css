@@ -10775,6 +10775,172 @@ footer {
   font-family: il-icons;
   content: "\e001";
 }
+.il-avatar {
+  height: 45px;
+  width: 45px;
+  border-radius: 50%;
+  overflow: hidden;
+  line-height: 1;
+}
+.il-avatar.il-avatar-picture img {
+  height: 45px;
+  width: 45px;
+  vertical-align: top;
+  border: 50%;
+  overflow: hidden;
+}
+.il-avatar.il-avatar-letter span.abbreviation {
+  font-weight: lighter;
+  text-transform: uppercase;
+  font-size: calc(20.5px);
+  line-height: 1;
+  position: relative;
+  top: calc(10.25px);
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-26 {
+  background-color: #a94136;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-25 {
+  background-color: #b49255;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-24 {
+  background-color: #b49255;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-23 {
+  background-color: #9ba37e;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-22 {
+  background-color: #f69785;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-21 {
+  background-color: #d870ad;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-20 {
+  background-color: #ec87bf;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-19 {
+  background-color: #7f8c8d;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-18 {
+  background-color: #95a5a6;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-17 {
+  background-color: #2c3e50;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-16 {
+  background-color: #34495e;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-15 {
+  background-color: #3b3b3b;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-14 {
+  background-color: #8e44ad;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-13 {
+  background-color: #9b59b6;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-12 {
+  background-color: #c0392b;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-11 {
+  background-color: #e74c3c;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-10 {
+  background-color: #2980b9;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-9 {
+  background-color: #3498db;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-8 {
+  background-color: #d35400;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-7 {
+  background-color: #e67e22;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-6 {
+  background-color: #27ae60;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-5 {
+  background-color: #2ecc71;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-4 {
+  background-color: #f39c12;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-3 {
+  background-color: #f1c40f;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-2 {
+  background-color: #16a085;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-1 {
+  background-color: #1abc9c;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+@media only screen and (max-width: 768px) {
+  .il-avatar {
+    height: 18.5px;
+    width: 18.5px;
+  }
+  .il-avatar.il-avatar-picture img {
+    height: 18.5px;
+    width: 18.5px;
+  }
+  .il-avatar.il-avatar-letter span.abbreviation {
+    font-size: calc(12.33333333px);
+    top: calc(4.625px);
+  }
+}
 .il-link.link-bulky {
   display: flex;
   text-decoration: none;
@@ -18839,4 +19005,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */

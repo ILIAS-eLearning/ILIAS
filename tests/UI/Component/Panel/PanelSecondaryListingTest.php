@@ -37,7 +37,8 @@ class PanelSecodaryListingTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
         };

@@ -1525,10 +1525,14 @@ class ilInitialisation
         $c["ui.factory.symbol.icon"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Icon\Factory();
         };
+        $c["ui.factory.symbol.avatar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory();
+        };
         $c["ui.factory.symbol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Symbol\Factory(
                 $c["ui.factory.symbol.icon"],
-                $c["ui.factory.symbol.glyph"]
+                $c["ui.factory.symbol.glyph"],
+                $c["ui.factory.symbol.avatar"]
             );
         };
         $c["ui.factory.progressmeter"] = function ($c) {
