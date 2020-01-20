@@ -75,6 +75,11 @@ class ilAuthProviderFactory
                 $this->getLogger()->debug('Using local database authentication');
                 include_once './Services/Authentication/classes/Provider/class.ilAuthProviderDatabase.php';
                 return new ilAuthProviderDatabase($credentials);
+
+            case AUTH_SOAP:
+                $this->getLogger()->debug('Using SOAP authentication.');
+                include_once './Services/SOAPAuth/classes/class.ilAuthProviderSoap.php';
+                return new ilAuthProviderSoap($credentials);
                 
             case AUTH_APACHE:
                 $this->getLogger()->debug('Using apache authentication.');
