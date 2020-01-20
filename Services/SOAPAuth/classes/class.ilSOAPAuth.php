@@ -22,7 +22,6 @@
 */
 
 
-include_once("Auth/Auth.php");
 include_once("./webservice/soap/lib/nusoap.php");
 
 /**
@@ -31,7 +30,7 @@ include_once("./webservice/soap/lib/nusoap.php");
 * SOAP Authentication class.
 *
 */
-class ilSOAPAuth extends Auth
+class ilSOAPAuth
 {
     public $valid 	= array();
     

@@ -34,8 +34,11 @@ chdir('../..');
 
 global $HTTP_RAW_POST_DATA;
 
+ini_set("display_errors", 0);
+error_reporting(E_ALL & ~E_NOTICE);
+
 include_once './Services/SOAPAuth/classes/class.ilSoapDummyAuthServer.php';
-$server =& new ilSoapDummyAuthServer();
+$server = new ilSoapDummyAuthServer();
 $server->start();
 
 ?>
