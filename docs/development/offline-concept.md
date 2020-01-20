@@ -1,6 +1,6 @@
 # ILIAS Offline Capabilities
 
-Being a classic PHP web application, ILIAS relies on the availability of a network connection between the web browser of the user and a web server with almost every user interaction. The goal of this paper is to outline possibilities to deal with slow, unreliable or even non-available network connections to prevent data loss or to provide certain functionalities offline.
+Being a classic PHP web application, ILIAS relies on the availability of a network connection between the web browser of the user and a web server for almost every user interaction. The goal of this paper is to outline possibilities to deal with slow, unreliable or even unavailable network connections to prevent data loss or to provide certain functionalities offline.
 
 * [Current State](#current-state)
 * [Scenarios](#scenarios)
@@ -22,7 +22,7 @@ Slow connections may be a result of low bandwidth internet connections, high tra
 
 ### Long Offline Time Periods
 
-In some cases users would like to be able to use some features of the system even if they are offline for a longer time period. E.g. when they go on vacation to a place where they do not have access to internet connectivity or during a trip in a train or on a plane. ILIAS offers some solutions like the SCORM offline player or the HTML export of learning modules. Both these solutions currently suffer from differently technical (using outdated web techniques) or usability issues (lack of progress synchronisation).
+In some cases users would like to be able to use some features of the system even if they are offline for a longer time period. E.g. when they go on vacation to a place where they do not have access to internet connectivity or during a trip in a train or on a plane. ILIAS offers some solutions like the SCORM offline player or the HTML export of learning modules. Both these solutions currently suffer from technical issues (using outdated web techniques) or usability issues (lack of progress synchronisation).
 
 ## Scenarios
 
@@ -30,7 +30,7 @@ During a requirements workshop in January 2020 we collected a set of use case sc
 
 ### General Form Handling
 
-A large amount of user data is entered using a standard HTML form / POST request scenario. In the cases of **temporarily unavailable connections** and **slow connections** potential data loss is an issue. Standard browser messages are not suitable to inform the user on what is happening and what they should do. The application should provide means to prevent data loss and better information of the current connection status for the user.
+A large amount of user data is entered using a standard HTML form / POST request scenario. In the cases of **temporarily unavailable connections** and **slow connections** potential data loss is an issue. The standard browser message ("No Internet...") is not suitable to inform the user on what is happening and what they should do to save their data. The application should provide means to prevent data loss and provide better information of the current connection status for the user.
 
 ### Page Editor / Ajax Background Requests
 
@@ -46,7 +46,7 @@ Being able to work through learning content during a **long offline time period*
 
 ## Requirements
 
-Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. All connection-based problems should be handled in a user friendly and common way.
+Common to all scenarios is the goal to provide a reliable user experience independent from the network connection quality. All connection-based problems should be handled in a user friendly and consistent way.
 
 Since the server cannot take care of situations when it is unreachable, the client-side part of the application has to take care of many connection-based problems. It has to handle temporarily cloned content, recognise issues with the connection, provide information to the user and prevent the loss of data.
 
@@ -68,7 +68,7 @@ Similar to the coding style a set of **naming conventions** for Javascript files
 
 #### JS Code Pattern Documentation
 
-Developer often face similar problems and often implement similar solutions for these problems. Having a common coding pattern documentation enables a common understanding of complex structures and supports the maintainability of the code.
+Developer often face similar problems and often implement similar solutions for these problems. Having a common coding pattern documentation enables a shared understanding of complex structures and supports the maintainability of the code.
 
 In ILIAS there are already some typical coding patterns dealing with modularisation. At least these existing patterns should be **streamlined and documented** before a substantial amount of new code is added.
 
@@ -80,7 +80,7 @@ The outlined scenarios for offline use show that different ILIAS components woul
 
 #### JS Unit Testing
 
-When adding more dependencies between components on the client by providing client-side APIs, unit test for these services become more important, since errors in central services may potentially break a larger number of consuming components.
+When adding more dependencies between components on the client by providing client-side APIs, unit tests for these services become more important, since errors in central services may potentially break a larger number of consuming components.
 
 At least a basic **guideline** should support the creation of unit tests in a consistent way throughout all client-side components.
 
@@ -94,7 +94,7 @@ This results in either large complex Javascript code files or an even higher num
 
 #### Connection/Offline State Management
 
-A general **service** should manage the connection state and support communication or synchronisation services to reliably hold and resume their processes. It should also support to present general user information if connections are interrupted or re-established.
+A general connection **service** should manage the connection state and support communication or synchronisation services to reliably hold and resume their processes. It should also support to present general user information if connections are interrupted or re-established.
 
 #### Client/Server Communication
 
@@ -110,7 +110,7 @@ Conflicts may arise if the same entities are modified in the same time period on
 
 #### Client-Side Data/Asset Management
 
-Any presentation for long offline periods will need to manage static assets like HTML, Javascript, CSS or media files. A **common service** should support components to deal with assets in client-side storage.
+Any presentation for long offline periods will need to manage static assets like HTML, Javascript, CSS or media files. A common storage **service** should support components to deal with assets in client-side storage.
 
 #### Client/Server Implementation Consistency
 
