@@ -10937,11 +10937,13 @@ footer {
     height: 22.5px;
     width: 22.5px;
     margin-top: auto;
-    border: none;
   }
   .il-avatar.il-avatar-picture img {
     height: 22.5px;
     width: 22.5px;
+  }
+  .il-avatar.il-avatar-letter {
+    border: none;
   }
   .il-avatar.il-avatar-letter span.abbreviation {
     font-size: calc(11.25px);
