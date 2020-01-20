@@ -10781,6 +10781,7 @@ footer {
   border-radius: 50%;
   overflow: hidden;
   line-height: 1;
+  text-align: center;
 }
 .il-avatar.il-avatar-picture img {
   height: 45px;
@@ -10796,11 +10797,6 @@ footer {
   line-height: 1;
   position: relative;
   top: calc(10.25px);
-}
-.il-avatar.il-avatar-letter.il-avatar-letter-color-26 {
-  background-color: #a94136;
-  border: 2px solid #ffffff;
-  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-25 {
   background-color: #b49255;
@@ -10924,6 +10920,11 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-1 {
   background-color: #1abc9c;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+.il-avatar.il-avatar-letter.il-avatar-letter-color-0 {
+  background-color: #a94136;
   border: 2px solid #ffffff;
   color: #ffffff;
 }
