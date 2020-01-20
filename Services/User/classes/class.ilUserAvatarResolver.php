@@ -13,10 +13,6 @@ class ilUserAvatarResolver
      */
     private $user_id;
     /**
-     * @var bool
-     */
-    private $has_public_upload = false;
-    /**
      * @var string
      */
     private $login;
@@ -29,9 +25,29 @@ class ilUserAvatarResolver
      */
     private $lastname;
     /**
-     * @var Avatar
+     * @var bool
      */
-    private $avatar;
+    private $has_public_profile = false;
+    /**
+     * @var bool
+     */
+    private $has_public_upload = false;
+    /**
+     * @var string
+     */
+    private $uploaded_file;
+    /**
+     * @var string
+     */
+    private $abbreviation;
+    /**
+     * @var bool
+     */
+    private $force_image = false;
+    /**
+     * @var string
+     */
+    private $size = 'small';
 
     /**
      *  constructor.
@@ -68,30 +84,81 @@ class ilUserAvatarResolver
                     $this->has_public_upload = $row['value'] === 'y';
                     break;
                 case 'public_profile':
-                    $this->has_public_upload = ($row['value'] === 'y' || $row['value'] === 'g');
+                    $this->has_public_profile = ($row['value'] === 'y' || $row['value'] === 'g');
                     break;
             }
         }
 
-        if ($this->has_public_upload) {
-            $webspace_dir = '';
-            if (defined('ILIAS_MODULE')) {
-                $webspace_dir = ('.' . $webspace_dir);
-            }
-            $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
-
-            $image_dir  = $webspace_dir . '/usr_images';
-            $thumb_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
-
-            $this->avatar = $this->ui->symbol()->avatar()->image($thumb_file, $this->login);
-        } else {
-            $this->avatar = $this->ui->symbol()->avatar()->letter($this->login);
+        // Uploaded file
+        $webspace_dir = '';
+        if (defined('ILIAS_MODULE')) {
+            $webspace_dir = ('.' . $webspace_dir);
         }
+        $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
+
+        $image_dir  = $webspace_dir . '/usr_images';
+        $thumb_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
+
+        if ($this->has_public_upload && $this->has_public_profile) {
+            $this->uploaded_file = $thumb_file; // . "?t=" . rand(1, 99999)
+        }
+
+        if ($this->has_public_profile) {
+            $this->abbreviation = ilStr::subStr($this->firstname, 0, 1) . ilStr::subStr($this->lastname, 0, 1);
+        } else {
+            $this->abbreviation = ilStr::subStr($this->login, 0, 2);
+        }
+
+    }
+
+    private function useUploadedFile() : bool
+    {
+        return ($this->has_public_upload && $this->has_public_profile && is_file($this->uploaded_file)) || $this->force_image;
     }
 
     public function getAvatar() : Avatar
     {
-        return $this->avatar;
+        if ($this->useUploadedFile()) {
+            return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->abbreviation);
+        } else {
+            return $this->ui->symbol()->avatar()->letter($this->abbreviation);
+        }
+    }
+
+    public function getLegacyPictureURL() : string
+    {
+        global $DIC;
+        if ($this->useUploadedFile()) {
+            return $this->uploaded_file . '?t=' . rand(1, 99999);;
+        }
+        /** @var $avatar ilUserAvatarBase */
+
+        $avatar = $DIC["user.avatar.factory"]->avatar($this->size);
+        $avatar->setName($this->abbreviation);
+        $avatar->setUsrId($this->user_id);
+
+        return $avatar->getUrl();
+
+    }
+
+    /**
+     * @param bool $force_image
+     */
+    public function setForcePicture(bool $force_image) : void
+    {
+        $this->force_image = $force_image;
+    }
+
+    /**
+     * @param string $size
+     */
+    public function setSize(string $size) : void
+    {
+        if ($size === 'small' || $size === 'big') {
+            $size = 'xsmall';
+        }
+
+        $this->size = $size;
     }
 
 }

@@ -10797,7 +10797,7 @@ footer {
 }
 .il-avatar.il-avatar-letter span.abbreviation {
   font-weight: lighter;
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-size: calc(20.5px);
   line-height: 1;
   position: relative;
@@ -10805,98 +10805,98 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-1 {
   background-color: #1abc9c;
-  border-color: #98f1df;
-  color: #98f1df;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-2 {
   background-color: #16a085;
-  border-color: #7cedd7;
-  color: #7cedd7;
+  border-color: #ecfcf9;
+  color: #ecfcf9;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-3 {
   background-color: #f1c40f;
-  border-color: #493b04;
-  color: #493b04;
+  border-color: #000000;
+  color: #000000;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-4 {
   background-color: #f39c12;
-  border-color: #fce3bc;
-  color: #fce3bc;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-5 {
   background-color: #2ecc71;
-  border-color: #0d3a20;
-  color: #0d3a20;
+  border-color: #000000;
+  color: #000000;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-6 {
   background-color: #27ae60;
-  border-color: #9ee9be;
-  color: #9ee9be;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-7 {
   background-color: #e67e22;
-  border-color: #f8dcc2;
-  color: #f8dcc2;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-8 {
   background-color: #d35400;
-  border-color: #ffb686;
-  color: #ffb686;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-9 {
   background-color: #3498db;
-  border-color: #cce5f6;
-  color: #cce5f6;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-10 {
   background-color: #2980b9;
-  border-color: #a9d1ec;
-  color: #a9d1ec;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-11 {
   background-color: #e74c3c;
-  border-color: #fbdedb;
-  color: #fbdedb;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-12 {
   background-color: #c0392b;
-  border-color: #edb6b0;
-  color: #edb6b0;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-13 {
   background-color: #9b59b6;
-  border-color: #e6d5ed;
-  color: #e6d5ed;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-14 {
   background-color: #8e44ad;
-  border-color: #dabee5;
-  color: #dabee5;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-15 {
   background-color: #bdc3c7;
-  border-color: #606a71;
-  color: #606a71;
+  border-color: #262a2c;
+  color: #262a2c;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-16 {
   background-color: #34495e;
-  border-color: #88a2bd;
-  color: #88a2bd;
+  border-color: #dae2ea;
+  color: #dae2ea;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-17 {
   background-color: #2c3e50;
-  border-color: #7997b5;
-  color: #7997b5;
+  border-color: #cbd7e3;
+  color: #cbd7e3;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-18 {
   background-color: #95a5a6;
-  border-color: #f6f7f7;
-  color: #f6f7f7;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-19 {
   background-color: #7f8c8d;
-  border-color: #dde1e1;
-  color: #dde1e1;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-20 {
   background-color: #ec87bf;
@@ -10905,33 +10905,33 @@ footer {
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-21 {
   background-color: #d870ad;
-  border-color: #fefcfd;
-  color: #fefcfd;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-22 {
   background-color: #f69785;
-  border-color: #bb290e;
-  color: #bb290e;
+  border-color: #440f05;
+  color: #440f05;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-23 {
   background-color: #9ba37e;
-  border-color: #ecede6;
-  color: #ecede6;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-24 {
   background-color: #b49255;
-  border-color: #ebe1d1;
-  color: #ebe1d1;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-25 {
   background-color: #b49255;
-  border-color: #ebe1d1;
-  color: #ebe1d1;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-26 {
   background-color: #a94136;
-  border-color: #e5b2ad;
-  color: #e5b2ad;
+  border-color: #ffffff;
+  color: #ffffff;
 }
 @media only screen and (max-width: 768px) {
   .il-avatar {
