@@ -10779,8 +10779,6 @@ footer {
   height: 45px;
   width: 45px;
   border-radius: 50%;
-  border-style: solid;
-  border-width: 2px;
   overflow: hidden;
   line-height: 1;
   text-align: center;
@@ -10791,6 +10789,10 @@ footer {
   vertical-align: top;
   border: 50%;
   overflow: hidden;
+}
+.il-avatar.il-avatar-letter {
+  border-style: solid;
+  border-width: 2px;
 }
 .il-avatar.il-avatar-letter span.abbreviation {
   font-weight: lighter;

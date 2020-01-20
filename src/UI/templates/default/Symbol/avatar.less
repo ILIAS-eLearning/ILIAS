@@ -34,8 +34,6 @@
 	height: @avatar-size;
 	width: @avatar-size;
 	border-radius: @avatar-border-radius;
-	border-style: @avatar-letter-border-style;
-	border-width: @avatar-letter-border-size;
 	overflow: hidden;
 	line-height: 1;
 	text-align: center;
@@ -51,6 +49,9 @@
 	}
 
 	&.il-avatar-letter {
+		border-style: @avatar-letter-border-style;
+		border-width: @avatar-letter-border-size;
+
 		span.abbreviation {
 			font-weight: @avatar-letter-abbreviation-font-weight;
 			text-transform: @avatar-letter-abbreviation-font-transform;
