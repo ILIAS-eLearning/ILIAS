@@ -287,7 +287,7 @@ EOT;
 				<div class="col-md-6">
 					<div class="row">
 						<div class="col-sm-5 col-lg-4 il-item-property-name">test</div>
-						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_2"  >GitHub</button></div>
+						<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"><button class="btn btn-link" data-action="https://www.github.com" id="id_1">GitHub</button></div>
 					</div>
 				</div>
 				<div class="col-md-6">
