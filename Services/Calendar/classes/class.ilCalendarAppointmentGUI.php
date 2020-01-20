@@ -1512,7 +1512,6 @@ class ilCalendarAppointmentGUI
 
         // do NOT delete original entry
         } elseif ($category->getType() == ilCalendarCategory::TYPE_BOOK) {
-            include_once 'Modules/BookingManager/classes/class.ilBookingReservation.php';
             $booking = new ilBookingReservation($entry->getContextId());
             $booking->setStatus(ilBookingReservation::STATUS_CANCELLED);
             $booking->update();
