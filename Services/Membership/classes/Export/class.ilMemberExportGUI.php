@@ -409,7 +409,7 @@ class ilMemberExportGUI
      */
     public function confirmDeleteExportFile()
     {
-        if (!count($_POST['id'])) {
+        if (!array_key_exists('id', $_POST) || !is_array($_POST['id']) || !count($_POST['id'])) {
             ilUtil::sendFailure($this->lng->txt('ps_select_one'), true);
             $this->ctrl->redirect($this, 'show');
         }
