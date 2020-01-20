@@ -6,16 +6,16 @@
 @avatar-color5: #2ecc71;
 @avatar-color6: #27ae60;
 @avatar-color7: #e67e22;
-@avatar-color8: #d35400;
+@avatar-color8: #2980b9;
 @avatar-color9: #3498db;
-@avatar-color10: #2980b9;
+@avatar-color10: #d35400;
 @avatar-color11: #e74c3c;
 @avatar-color12: #c0392b;
 @avatar-color13: #9b59b6;
 @avatar-color14: #8e44ad;
 @avatar-color15: #3b3b3b;
 @avatar-color16: #34495e;
-@avatar-color17: #2c3e50;
+@avatar-color17: #6b93bd;
 @avatar-color18: #95a5a6;
 @avatar-color19: #7f8c8d;
 @avatar-color20: #ec87bf;
@@ -23,7 +23,7 @@
 @avatar-color22: #f69785;
 @avatar-color23: #9ba37e;
 @avatar-color24: #b49255;
-@avatar-color25: #b49255;
+@avatar-color25: #7fff88;
 
 
 @avatar-inner-size: (@avatar-size - (2 * @avatar-letter-border-size));
@@ -34,7 +34,8 @@
 	height: @avatar-size;
 	width: @avatar-size;
 	border-radius: @avatar-border-radius;
-	border-style: @avatar-letter-border-size @avatar-letter-border-style;
+	border-style: @avatar-letter-border-style;
+	border-width: @avatar-letter-border-size;
 	overflow: hidden;
 	line-height: 1;
 	text-align: center;
@@ -65,10 +66,14 @@
 		.avatar-color-variant(@number) {
 			@number_text: ~"@{number}";
 			@variant: "avatar-color@{number}";
+			// This would be an other version to generate the colors dynamicly
+			// @color: tint(fade(darken(spin(#F0F, @number*156), 15%), 75%), 20%);
+			@color: @@variant;
+			@contrast: contrast(@color, lighten(@color, @avatar-letter-border-color-contrast), darken(@color, @avatar-letter-border-color-contrast));
 			&.il-avatar-letter-color-@{number_text} {
-				background-color: @@variant;
-				border-color: darken(@@variant, @avatar-letter-border-color-darken);
-				color: darken(@@variant, @avatar-letter-border-color-darken);
+				background-color: @color;
+				border-color: @contrast;
+				color: @contrast;
 			}
 		}
 

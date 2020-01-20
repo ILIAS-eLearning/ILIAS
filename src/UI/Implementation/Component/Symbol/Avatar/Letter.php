@@ -15,7 +15,10 @@ class Letter extends AbstractAvatar implements C\Symbol\Avatar\Letter
 
     public function getBackgroundColorVariant() : int
     {
-        return ord($this->getUsername()) % 26;
+        $plit = str_split($this->getAbbreviation());
+
+
+        return (ord($plit[0]) + ord($plit[1])) % 26;
     }
 
 }
