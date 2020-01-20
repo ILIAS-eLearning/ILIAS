@@ -2,10 +2,10 @@
 function base()
 {
     global $DIC;
-    $f = $DIC->ui()->factory();
+    $f        = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $image_avatar = $f->symbol()->avatar()->image('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
+    $picture_avatar = $f->symbol()->avatar()->picture('./templates/default/images/no_photo_xsmall.jpg', 'demo.user');
 
-    return $renderer->render($image_avatar);
+    return $renderer->render($picture_avatar);
 }

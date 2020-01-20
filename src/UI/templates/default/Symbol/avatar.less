@@ -1,3 +1,4 @@
+@avatar-color0: #a94136;
 @avatar-color1: #1abc9c;
 @avatar-color2: #16a085;
 @avatar-color3: #f1c40f;
@@ -23,7 +24,7 @@
 @avatar-color23: #9ba37e;
 @avatar-color24: #b49255;
 @avatar-color25: #b49255;
-@avatar-color26: #a94136;
+
 
 @avatar-inner-size: (@avatar-size - (2 * @avatar-letter-border-size));
 @avatar-inner-mobile-size: (@avatar-size / 2 - (2 * @avatar-letter-border-size));
@@ -35,6 +36,7 @@
 	border-radius: @avatar-border-radius;
 	overflow: hidden;
 	line-height: 1;
+	text-align: center;
 
 	&.il-avatar-picture {
 		img {
@@ -69,11 +71,11 @@
 			}
 		}
 
-		.for-loop(@index) when (@index > 0) {
+		.for-loop(@index) when (@index >= 0) {
 			.avatar-color-variant(@index);
 			.for-loop(@index - 1);
 		}
-		.for-loop(26);
+		.for-loop(25);
 	}
 }
 
@@ -97,8 +99,6 @@
 			}
 		}
 	}
-
-
 }
 
 
