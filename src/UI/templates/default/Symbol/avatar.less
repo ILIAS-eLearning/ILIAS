@@ -27,13 +27,14 @@
 
 
 @avatar-inner-size: (@avatar-size - (2 * @avatar-letter-border-size));
-@avatar-inner-mobile-size: (@avatar-size / 2 - (2 * @avatar-letter-border-size));
+@avatar-inner-mobile-size: (@avatar-size / 2 );
 
 
 .il-avatar {
 	height: @avatar-size;
 	width: @avatar-size;
 	border-radius: @avatar-border-radius;
+	border-style: @avatar-letter-border-size @avatar-letter-border-style;
 	overflow: hidden;
 	line-height: 1;
 	text-align: center;
@@ -66,7 +67,7 @@
 			@variant: "avatar-color@{number}";
 			&.il-avatar-letter-color-@{number_text} {
 				background-color: @@variant;
-				border: @avatar-letter-border-size @avatar-letter-border-style darken(@@variant, @avatar-letter-border-color-darken);
+				border-color: darken(@@variant, @avatar-letter-border-color-darken);
 				color: darken(@@variant, @avatar-letter-border-color-darken);
 			}
 		}
@@ -84,6 +85,8 @@
 	.il-avatar {
 		height: @avatar-inner-mobile-size;
 		width: @avatar-inner-mobile-size;
+		margin-top: auto;
+		border: none;
 
 		&.il-avatar-picture {
 			img {
@@ -94,7 +97,7 @@
 
 		&.il-avatar-letter {
 			span.abbreviation {
-				font-size: calc(@avatar-inner-mobile-size / 1.5);
+				font-size: calc(@avatar-inner-mobile-size / 2);
 				top: calc(@avatar-inner-mobile-size / 4);
 			}
 		}
