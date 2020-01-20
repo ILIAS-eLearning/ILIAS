@@ -36,6 +36,24 @@ class ilChatroomExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
+    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    {
+        $deps = [];
+
+        if ('chtr' === $a_entity) {
+            $deps[] = [
+                'component' => 'Services/Object',
+                'entity' => 'common',
+                'ids' => $a_ids
+            ];
+        }
+
+        return $deps;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getValidSchemaVersions($a_entity)
     {
         return array(
