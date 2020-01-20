@@ -9,9 +9,9 @@ use ILIAS\UI\Component\Symbol\Avatar\Letter;
 class Factory implements A\Factory
 {
 
-    public function image(string $path_to_user_image, string $username) : Picture
+    public function picture(string $path_to_user_picture, string $username) : Picture
     {
-        return new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Picture($path_to_user_image, $username);
+        return new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Picture($path_to_user_picture, $username);
     }
 
     public function letter(string $username) : Letter
