@@ -96,24 +96,19 @@ class ilUserAvatarResolver
         }
         $webspace_dir .= ('./' . ltrim(ilUtil::getWebspaceDir(), "./"));
 
-        $image_dir  = $webspace_dir . '/usr_images';
-        $thumb_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
-
-        if ($this->has_public_upload && $this->has_public_profile) {
-            $this->uploaded_file = $thumb_file; // . "?t=" . rand(1, 99999)
-        }
+        $image_dir           = $webspace_dir . '/usr_images';
+        $this->uploaded_file = $image_dir . '/usr_' . $this->user_id . '.jpg';
 
         if ($this->has_public_profile) {
             $this->abbreviation = ilStr::subStr($this->firstname, 0, 1) . ilStr::subStr($this->lastname, 0, 1);
         } else {
             $this->abbreviation = ilStr::subStr($this->login, 0, 2);
         }
-
     }
 
     private function useUploadedFile() : bool
     {
-        return ($this->has_public_upload && $this->has_public_profile && is_file($this->uploaded_file)) || $this->force_image;
+        return (($this->has_public_upload && $this->has_public_profile) || $this->force_image) && is_file($this->uploaded_file);
     }
 
     public function getAvatar() : Avatar
