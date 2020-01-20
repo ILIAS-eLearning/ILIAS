@@ -33,7 +33,7 @@ interface Factory
      *     Glyph: >
      *       Glyphs are typographical characters that act as a trigger for
      *       some action.
-     *     Picture: >
+     *     Image: >
      *       Images belong to the content and can be purely decorative.
      *
      *
@@ -113,7 +113,7 @@ interface Factory
      * description:
      *   purpose: >
      *     Avatars are graphical representations of a user. They contain a
-     *     user-defined image, a deputy-image or an abbreviation for it's username.
+     *     user-defined picture, a deputy-picture or an abbreviation for it's username.
      *     Avatars are used in places where there is a direct reference to a user
      *     (-account), such as the entries in the Metabar entry "user", a members
      *     gallery the of a course or the avatar in a forum-post.
@@ -140,9 +140,6 @@ interface Factory
      *     2: Avatars MUST be used in combination with the represented username.
      *   accessibility:
      *     1: Avatars MUST bear an aria-label with the username.
-     *   wording:
-     *     1: The aria-label MUST state the represented user(-name).
-     *     2: The abbreviation SHOULD consist of two letters.
      * ---
      * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
      **/
