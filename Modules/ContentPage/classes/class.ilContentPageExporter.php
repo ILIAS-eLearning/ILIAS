@@ -89,6 +89,14 @@ class ilContentPageExporter extends \ilXmlExporter implements \ilContentPageObje
             ];
         }
 
+        if (self::OBJ_TYPE === $a_entity) {
+            $deps[] = [
+                'component' => 'Services/Object',
+                'entity' => 'common',
+                'ids' => $a_ids
+            ];
+        }
+
         return $deps;
     }
 }
