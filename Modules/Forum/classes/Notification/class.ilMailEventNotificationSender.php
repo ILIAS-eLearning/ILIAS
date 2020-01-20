@@ -463,7 +463,7 @@ class ilMailEventNotificationSender extends ilMailNotification
             '',
             $subjectText,
             $bodyText,
-            '',
+            [],
             false,
             false
         );
