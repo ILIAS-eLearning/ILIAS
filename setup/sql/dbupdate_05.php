@@ -4139,3 +4139,40 @@ while ($rec = $ilDB->fetchAssoc($set))
     );
 }
 ?>
+<#5652>
+<?php
+$ilDB->manipulateF(
+    'DELETE FROM ctrl_classfile WHERE class = %s',
+    ['text'],
+    ['ilwkhtmltopdfconfigformgui']
+);
+?>
+<#5653>
+<?php
+$ilDB->manipulateF(
+    'DELETE FROM pdfgen_renderer WHERE renderer = %s',
+    ['text'],
+    ['WkhtmlToPdf']
+);
+?>
+<#5654>
+<?php
+$ilDB->manipulateF(
+    'DELETE FROM pdfgen_renderer_avail WHERE renderer = %s',
+    ['text'],
+    ['WkhtmlToPdf']
+);
+?>
+<#5655>
+<?php
+require_once './Services/PDFGeneration/classes/class.ilPDFCompInstaller.php';
+$renderer = 'WkhtmlToPdf';
+$path =  'Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfRenderer.php';
+ilPDFCompInstaller::registerRenderer($renderer, $path);
+$service = 'Test';
+$purpose = 'UserResult'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+
+$purpose = 'PrintViewOfQuestions'; // According to name given. Call multiple times.
+ilPDFCompInstaller::registerRendererAvailability($renderer, $service, $purpose);
+?>

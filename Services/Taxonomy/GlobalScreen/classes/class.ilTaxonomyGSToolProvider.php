@@ -37,6 +37,9 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
         $lng = $DIC->language();
         $lng->loadLanguageModule("tax");
 
+        $title = $lng->txt("tax_taxonomy");
+        $icon = $DIC->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tax.svg"), $title);
+
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_TAX_TREE, true)) {
@@ -47,7 +50,8 @@ class ilTaxonomyGSToolProvider extends AbstractDynamicToolProvider
                 return $this->dic->ui()->factory()->legacy($content);
             };
             $tools[] = $this->factory->tool($iff("tree"))
-                ->withTitle($lng->txt("tax_taxonomy"))
+                ->withTitle($title)
+                ->withSymbol($icon)
                 ->withContentWrapper(function () use ($additional_data, $l) {
                     return $l($this->getEditTree(
                         $additional_data->get(self::TAX_TREE_GUI_PATH),

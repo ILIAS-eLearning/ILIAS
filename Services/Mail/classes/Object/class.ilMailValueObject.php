@@ -21,8 +21,8 @@ class ilMailValueObject
     /** @var string */
     private $body;
 
-    /** @var */
-    private $attachment;
+    /** @var string[] */
+    private $attachments = [];
 
     /** @var bool */
     private $usePlaceholders;
@@ -40,7 +40,7 @@ class ilMailValueObject
      * @param string $recipientsBCC
      * @param string $subject
      * @param string $body
-     * @param $attachment
+     * @param string[] $attachments
      * @param bool $usePlaceholders
      * @param bool $saveInSentBox
      */
@@ -51,19 +51,19 @@ class ilMailValueObject
         string $recipientsBCC,
         string $subject,
         string $body,
-        $attachment,
+        array $attachments,
         bool $usePlaceholders = false,
         bool $saveInSentBox = false
     ) {
-        $this->from             = $from;
-        $this->recipients       = $recipients;
-        $this->recipientsCC     = $recipientsCC;
-        $this->recipientsBCC    = $recipientsBCC;
-        $this->subject          = $subject;
-        $this->body             = $body;
-        $this->attachment       = $attachment;
-        $this->usePlaceholders  = $usePlaceholders;
-        $this->saveInSentBox        = $saveInSentBox;
+        $this->from = $from;
+        $this->recipients = $recipients;
+        $this->recipientsCC = $recipientsCC;
+        $this->recipientsBCC = $recipientsBCC;
+        $this->subject = $subject;
+        $this->body = $body;
+        $this->attachments = array_filter(array_map('trim', $attachments));
+        $this->usePlaceholders = $usePlaceholders;
+        $this->saveInSentBox = $saveInSentBox;
     }
 
     /**
@@ -107,11 +107,11 @@ class ilMailValueObject
     }
 
     /**
-     * @return mixed
+     * @return string[]
      */
-    public function getAttachment()
+    public function getAttachments() : array
     {
-        return $this->attachment;
+        return $this->attachments;
     }
 
     /**

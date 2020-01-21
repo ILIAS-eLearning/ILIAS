@@ -327,9 +327,11 @@ class ilCtrl
      * At last the method searches for the given class along the path from
      * the current node to the root class of the call structure.
      *
-     * @param	string		id of starting node for the search
-     * @param	string		class that should be searched
-     * @return	int			id of target node that has been found
+     * @param string $a_par_node id of starting node for the search
+     * @param string $a_class class that should be searched
+     * @param bool $a_check
+     * @return array|bool id of target node that has been found
+     * @throws ilCtrlException
      */
     private function getNodeIdForTargetClass($a_par_node, $a_class, $a_check = false)
     {
@@ -338,7 +340,7 @@ class ilCtrl
         
         if ($a_par_node === 0 || $a_par_node == "") {
             return array("node_id" => $this->getCidForClass($class),
-                "base_class" => "");
+                "base_class" => $class);
         }
         
         $this->readNodeInfo($a_par_node);

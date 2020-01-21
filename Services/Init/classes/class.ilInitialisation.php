@@ -993,6 +993,7 @@ class ilInitialisation
     {
         if (is_object($GLOBALS['ilLog'])) {
             $GLOBALS['ilLog']->write("Fatal Error: ilInitialisation - " . $a_message);
+            $GLOBALS['ilLog']->logStack();
         }
         die($a_message);
     }
@@ -1821,7 +1822,8 @@ class ilInitialisation
             if (
                 $cmd == "showTermsOfService" || $cmd == "showClientList" ||
                 $cmd == 'showAccountMigration' || $cmd == 'migrateAccount' ||
-                $cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
+                $cmd == 'processCode' || $cmd == 'showLoginPage' || $cmd == 'showLogout' ||
+                $cmd == 'doStandardAuthentication' || $cmd == 'doCasAuthentication'
             ) {
                 ilLoggerFactory::getLogger('auth')->debug('Blocked authentication for cmd: ' . $cmd);
                 return true;

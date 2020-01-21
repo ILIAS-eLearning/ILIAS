@@ -303,7 +303,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     /**
      * @return array
      */
-    protected function getGroupedCommandsForView() : array
+    protected function getGroupedCommandsForView($manage = false) : array
     {
         $commandGroups = [];
 
@@ -324,6 +324,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         if (count($sortingCommands) > 0) {
             $commandGroups[] = $sortingCommands;
+        }
+
+        if ($manage) {
+            return $commandGroups;
         }
 
         $presentationCommands = [];
@@ -476,12 +480,18 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             exit;
         }
 
+        if ($_GET["manage"]) {
+            $this->ctrl->redirect($this, 'manage');
+        }
+
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
     public function manageObject()
     {
+        $this->main_tpl->setTitle($this->lng->txt("dash_favourites"));
+
         $this->blockView->setIsInManageMode(true);
 
         $top_tb = new ilToolbarGUI();
@@ -805,7 +815,10 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     protected function renderManageList() : string
     {
-        $groupedCommands = $this->getGroupedCommandsForView();
+        $ui = $this->ui;
+
+        $this->ctrl->setParameter($this, "manage", "1");
+        $groupedCommands = $this->getGroupedCommandsForView(true);
         foreach ($groupedCommands as $group) {
             foreach ($group as $command) {
                 $this->addBlockCommand(
@@ -813,6 +826,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                     (string) $command['txt'],
                     (string) $command['asyncUrl']
                 );
+            }
+        }
+
+        // action drop down
+        if (is_array($groupedCommands[0])) {
+            $actions = array_map(function ($item) use ($ui) {
+                return $ui->factory()->link()->standard($item["txt"], $item["url"]);
+            }, $groupedCommands[0]);
+            if (count($actions) > 0) {
+                $dd = $this->ui->factory()->dropdown()->standard($actions);
+                $this->main_tpl->setHeaderActionMenu($ui->renderer()->render($dd));
             }
         }
 

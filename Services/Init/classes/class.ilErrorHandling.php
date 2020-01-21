@@ -480,7 +480,8 @@ class ilErrorHandling extends PEAR
             global $ilLog;
 
             if (is_object($ilLog)) {
-                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ":" . $exception->getLine();
+                $message = $exception->getMessage() . ' in ' . $exception->getFile() . ":" . $exception->getLine() ;
+                $message .= $exception->getTraceAsString();
                 $ilLog->error($exception->getCode() . ' ' . $message);
             }
             

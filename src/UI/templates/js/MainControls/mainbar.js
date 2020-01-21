@@ -21,6 +21,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 					this.model.actions.disengageAll();
 					this.renderer.render(this.model.getState());
 				},
+				/*
+				 * clear all (active) stored states, used in e.g. logout
+				 */
+				clearStates: function() {
+					this.model.actions.disengageAll();
+					this.persistence.store(this.model.getState());
+				}
 			},
 			construction = {
 				/**
@@ -160,7 +167,6 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 				init_state = mb.model.getState();
 				first_tool_id = helper.getFirstEngagedToolId(init_state.tools);
-
 				/**
 				 * initially active (from mainbar-component) will override everything (but tools)
 				 */
@@ -182,7 +188,13 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				} else {
 					//tools engaged, but none active: take the first one:
 					if(mb.model.getState().tools_engaged) {
-						mb.model.actions.engageTool(Object.keys(init_state.tools).shift());
+						//are there any tools?
+						if(Object.keys(mb.model.getState().tools).length === 0) {
+							mb.model.actions.disengageTools();
+							mb.model.actions.disengageAll();
+						} else {
+							mb.model.actions.engageTool(Object.keys(init_state.tools).shift());
+						}
 					}
 				}
 
@@ -211,7 +223,8 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				adjustToScreenSize: adjustToScreenSize,
 				init: init,
 				engageTool: external_commands.engageTool,
-				disengageAll: external_commands.disengageAll
+				disengageAll: external_commands.disengageAll,
+				clearStates: external_commands.clearStates
 			};
 
 		return public_interface;
@@ -374,6 +387,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				},
 				engageTools: function() {
 					state = reducers.bar.engageTools(state);
+				},
+				disengageTools: function() {
+					state = reducers.bar.disengageTools(state)
 				},
 				removeTool: function (entry_id) {
 					state.tools[entry_id] = reducers.entry.mb_hide(state.tools[entry_id]);

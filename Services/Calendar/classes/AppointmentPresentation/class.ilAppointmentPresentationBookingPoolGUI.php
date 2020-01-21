@@ -22,8 +22,6 @@ class ilAppointmentPresentationBookingPoolGUI extends ilAppointmentPresentationG
 
         // context id is reservation id (see ilObjBookingPoolGUI->processBooking)
         $res_id = $a_app['event']->getContextId();
-        include_once("./Modules/BookingManager/classes/class.ilBookingReservation.php");
-        include_once("./Modules/BookingManager/classes/class.ilBookingObject.php");
         $res = new ilBookingReservation($res_id);
         $b_obj = new ilBookingObject($res->getObjectId());
         $obj_id = $b_obj->getPoolId();

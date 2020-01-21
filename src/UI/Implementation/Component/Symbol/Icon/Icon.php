@@ -5,10 +5,12 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
 abstract class Icon implements C\Symbol\Icon\Icon
 {
     use ComponentHelper;
+    use JavaScriptBindable;
 
     /**
      * @var	string

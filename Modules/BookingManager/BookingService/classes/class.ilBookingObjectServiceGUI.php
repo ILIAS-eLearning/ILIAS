@@ -39,8 +39,9 @@ class ilBookingObjectServiceGUI extends ilBookingObjectGUI
         string $sseed,
         ilBookingHelpAdapter $help
     ) {
+        $this->pool_gui = new ilObjBookingPoolGUI("", $current_pool_ref_id, true, false);
         parent::__construct(
-            null,
+            $this->pool_gui,
             $seed,
             $sseed,
             $help,
@@ -48,7 +49,7 @@ class ilBookingObjectServiceGUI extends ilBookingObjectGUI
         );
         $this->host_obj_ref_id = (int) $host_obj_ref_id;
         $this->use_book_repo = $use_book_repo;
-        $this->pool_gui = new ilObjBookingPoolGUI("", $current_pool_ref_id, true, false);
+
         $this->activateManagement(false);
     }
 }

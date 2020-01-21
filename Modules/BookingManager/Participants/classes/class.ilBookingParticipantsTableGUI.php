@@ -185,25 +185,25 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
 
         $bp = new ilObjBookingPool($this->pool_id, false);
         if ($bp->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE && $a_set['obj_count'] == 1) {
-            $ctrl->setParameterByClass('ilbookingobjectgui', 'bkusr', $a_set['user_id']);
-            $ctrl->setParameterByClass('ilbookingobjectgui', 'object_id', $a_set['object_ids'][0]);
-            $ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', $a_set['user_id']);
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', $a_set['object_ids'][0]);
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', ilBookingParticipantGUI::PARTICIPANT_VIEW);
 
             $actions[] = array(
                 'text' => $lng->txt("book_deassign"),
-                'url' => $ctrl->getLinkTargetByClass("ilbookingobjectgui", 'rsvConfirmCancelUser')
+                'url' => $ctrl->getLinkTargetByClass("ilbookingreservationsgui", 'rsvConfirmCancelUser')
             );
 
-            $ctrl->setParameterByClass('ilbookingparticipantgui', 'bkusr', '');
-            $ctrl->setParameterByClass('ilbookingparticipantgui', 'object_id', '');
-            $ctrl->setParameterByClass('ilbookingobjectgui', 'part_view', '');
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'bkusr', '');
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'object_id', '');
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'part_view', '');
         } elseif ($bp->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE || $a_set['obj_count'] > 1) {
-            $ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', $a_set['user_id']);
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'user_id', $a_set['user_id']);
             $actions[] = array(
                 'text' => $lng->txt("book_deassign"),
-                'url' => $ctrl->getLinkTargetByClass("ilobjbookingpoolgui", 'log')
+                'url' => $ctrl->getLinkTargetByClass("ilbookingreservationsgui", 'log')
             );
-            $ctrl->setParameterByClass('ilobjbookingpoolgui', 'user_id', '');
+            $ctrl->setParameterByClass('ilbookingreservationsgui', 'user_id', '');
         }
 
         $this->tpl->setCurrentBlock('actions');

@@ -38,6 +38,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->main_menu = $DIC["ilMainMenu"];
         $this->tpl = $DIC["tpl"];
         $ilUser = $DIC->user();
+        $this->ui = $DIC->ui();
         
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -722,12 +723,32 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                                         
             $this->setContentStyleSheet($this->tpl);
         }
-    
+
+        $this->showEditButton($current_page);
+
         // #10717
         $this->tpl->setContent($content .
             '<div class="ilClearFloat">' . $notes . '</div>');
     }
-    
+
+
+    /**
+     * Show edit button
+     */
+    protected function showEditButton($page_id)
+    {
+        $page_class = ($this->getType() == "prtt")
+            ? "ilPortfolioTemplatePageGUI"
+            : "ilportfoliopagegui";
+
+        $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
+        $button = $this->ui->factory()->button()->standard($this->lng->txt("edit"),
+            $this->ctrl->getLinkTargetByClass($page_class, "edit"));
+        if ($this->checkPermissionBool("write")) {
+            $this->tpl->setHeaderActionMenu($this->ui->renderer()->render($button));
+        }
+    }
+
     /**
      * Render banner, user name
      *

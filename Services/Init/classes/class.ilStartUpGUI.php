@@ -1242,49 +1242,19 @@ class ilStartUpGUI
         }
     }
 
-
-
     /**
-    * show logout screen
-    */
-    public function showLogout()
+     * Show logout screen
+     */
+    protected function showLogout()
     {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
         $lng = $DIC->language();
         $ilIliasIniFile = $DIC['ilIliasIniFile'];
-        $ilAppEventHandler = $DIC['ilAppEventHandler'];
 
-        $ilAppEventHandler->raise(
-            'Services/Authentication',
-            'beforeLogout',
-            [
-                'user_id' => $this->user->getId()
-            ]
-        );
-
-        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-        $GLOBALS['DIC']['ilAuthSession']->logout();
-
-        $GLOBALS['ilAppEventHandler']->raise(
-            'Services/Authentication',
-            'afterLogout',
-            array(
-                'username' => $this->user->getLogin()
-            )
-        );
-
-        // reset cookie
-        $client_id = $_COOKIE["ilClientId"];
-        ilUtil::setCookie("ilClientId", "");
-
-        if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
-            $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
-        }
-
-        //instantiate logout template
         $tpl = self::initStartUpTemplate("tpl.logout.html");
+
+        $client_id = $_GET['client_id'];
 
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
             $tpl->setCurrentBlock("homelink");
@@ -1311,6 +1281,56 @@ class ilStartUpGUI
         $tpl->setVariable("CLIENT_ID", "?client_id=" . $client_id . "&lang=" . $lng->getLangKey());
 
         self::printToGlobalTemplate($tpl);
+    }
+
+
+
+    /**
+    * show logout screen
+    */
+    public function doLogout()
+    {
+        global $DIC;
+
+        $ilSetting = $DIC->settings();
+        $user = $DIC->user();
+        $lng = $DIC->language();
+        $ilIliasIniFile = $DIC['ilIliasIniFile'];
+        $ilAppEventHandler = $DIC['ilAppEventHandler'];
+
+        $ilAppEventHandler->raise(
+            'Services/Authentication',
+            'beforeLogout',
+            [
+                'user_id' => $this->user->getId()
+            ]
+        );
+
+        $user_language = $user->getLanguage();
+
+        ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
+        $GLOBALS['DIC']['ilAuthSession']->logout();
+
+        $GLOBALS['ilAppEventHandler']->raise(
+            'Services/Authentication',
+            'afterLogout',
+            array(
+                'username' => $this->user->getLogin()
+            )
+        );
+
+        // reset cookie
+        $client_id = $_COOKIE["ilClientId"];
+        ilUtil::setCookie("ilClientId", "");
+
+        if ((int) $this->user->getAuthMode(true) == AUTH_SAML && ilSession::get('used_external_auth')) {
+            $this->ctrl->redirectToURL('saml.php?action=logout&logout_url=' . urlencode(ILIAS_HTTP_PATH . '/login.php'));
+        }
+
+        // redirect and show logout information
+        $this->ctrl->setParameter($this, 'client_id', $client_id);
+        $this->ctrl->setParameter($this, 'lang', $user_language);
+        $this->ctrl->redirect($this, 'showLogout');
     }
 
     /**

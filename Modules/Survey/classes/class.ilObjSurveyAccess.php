@@ -416,7 +416,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         );
         return (bool) $ilDB->numRows($result);
     }
-    
+
     /**
     * check whether goto script will succeed
     */

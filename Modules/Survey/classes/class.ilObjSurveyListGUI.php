@@ -107,7 +107,14 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                     'propertyNameVisible' => false);
             } else {
                 if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-                    if (!ilObjSurveyAccess::_lookup360Mode($this->obj_id)) {
+                    $mode = ilObjSurveyAccess::_lookupMode($this->obj_id);
+                    if ($mode == ilObjSurvey::MODE_360) {
+                        $props[] = array("alert" => false, "property" => $lng->txt("type"),
+                                         "value" => $lng->txt("survey_360_mode"), 'propertyNameVisible' => true);
+                    } else if ($mode == ilObjSurvey::MODE_SELF_EVAL) {
+                        $props[] = array("alert" => false, "property" => $lng->txt("type"),
+                                         "value" => $lng->txt("survey_360_self_evaluation"), 'propertyNameVisible' => true);
+                    } else {
                         $finished = ilObjSurveyAccess::_lookupFinished($this->obj_id, $ilUser->id);
 
                         // finished
@@ -123,10 +130,7 @@ class ilObjSurveyListGUI extends ilObjectListGUI
                             $stat = $this->lng->txt("svy_not_started");
                         }
                         $props[] = array("alert" => false, "property" => $lng->txt("svy_participation"),
-                            "value" => $stat, 'propertyNameVisible' => false);
-                    } else {
-                        $props[] = array("alert" => false, "property" => "",
-                            "value" => $lng->txt("survey_360_list_title"), 'propertyNameVisible' => false);
+                            "value" => $stat, 'propertyNameVisible' => true);
                     }
                 }
             }

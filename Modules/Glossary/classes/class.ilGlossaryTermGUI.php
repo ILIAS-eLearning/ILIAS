@@ -421,45 +421,32 @@ class ilGlossaryTermGUI
         $ilTabs->activateTab("definitions");
 
         // content style
-        $this->tpl->setCurrentBlock("ContentStyle");
-        $this->tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId())
-        );
-        $this->tpl->parseCurrentBlock();
+        $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->term_glossary->getStyleSheetId()));
+        $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-        // syntax style
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        $this->tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $this->tpl->parseCurrentBlock();
 
         // load template for table
-        $this->tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
-        //$this->tpl->addBlockfile("CONTENT", "def_list", "tpl.glossary_definition_list.html", true);
-        //ilUtil::sendInfo();
-        //		$this->tpl->addBlockfile("STATUSLINE", "statusline", "tpl.statusline.html");
+        $tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
+
         $this->tpl->setTitle(
             $this->lng->txt("cont_term") . ": " . $this->term->getTerm()
         );
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
 
-        $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-        $this->tpl->setCurrentBlock("add_def");
-        $this->tpl->setVariable(
+        $tpl->setCurrentBlock("add_def");
+        $tpl->setVariable(
             "TXT_ADD_DEFINITION",
             $this->lng->txt("cont_add_definition")
         );
-        $this->tpl->setVariable("BTN_ADD", "addDefinition");
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock("def_list");
+        $tpl->setVariable("BTN_ADD", "addDefinition");
+        $tpl->parseCurrentBlock();
+//        $tpl->setCurrentBlock("def_list");
 
         $defs = ilGlossaryDefinition::getDefinitionList($_GET["term_id"]);
 
-        $this->tpl->setVariable("TXT_TERM", $this->term->getTerm());
+        $tpl->setVariable("TXT_TERM", $this->term->getTerm());
 
         for ($j=0; $j<count($defs); $j++) {
             $def = $defs[$j];
@@ -470,54 +457,57 @@ class ilGlossaryTermGUI
             $output = $page_gui->preview();
 
             if (count($defs) > 1) {
-                $this->tpl->setCurrentBlock("definition_header");
-                $this->tpl->setVariable(
+                $tpl->setCurrentBlock("definition_header");
+                $tpl->setVariable(
                     "TXT_DEFINITION",
                     $this->lng->txt("cont_definition") . " " . ($j+1)
                         );
-                $this->tpl->parseCurrentBlock();
+                $tpl->parseCurrentBlock();
             }
 
             if ($j > 0) {
-                $this->tpl->setCurrentBlock("up");
-                $this->tpl->setVariable("TXT_UP", $this->lng->txt("up"));
+                $tpl->setCurrentBlock("up");
+                $tpl->setVariable("TXT_UP", $this->lng->txt("up"));
                 $this->ctrl->setParameter($this, "def", $def["id"]);
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "LINK_UP",
                     $this->ctrl->getLinkTarget($this, "moveUp")
                 );
-                $this->tpl->parseCurrentBlock();
+                $tpl->parseCurrentBlock();
             }
 
             if ($j+1 < count($defs)) {
-                $this->tpl->setCurrentBlock("down");
-                $this->tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
+                $tpl->setCurrentBlock("down");
+                $tpl->setVariable("TXT_DOWN", $this->lng->txt("down"));
                 $this->ctrl->setParameter($this, "def", $def["id"]);
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "LINK_DOWN",
                     $this->ctrl->getLinkTarget($this, "moveDown")
                 );
-                $this->tpl->parseCurrentBlock();
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("submit_btns");
-            $this->tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
+            $tpl->setCurrentBlock("submit_btns");
+            $tpl->setVariable("TXT_EDIT", $this->lng->txt("edit"));
             $this->ctrl->setParameter($this, "def", $def["id"]);
             $this->ctrl->setParameterByClass("ilTermDefinitionEditorGUI", "def", $def["id"]);
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "LINK_EDIT",
                 $this->ctrl->getLinkTargetByClass(array("ilTermDefinitionEditorGUI", "ilGlossaryDefPageGUI"), "edit")
             );
-            $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
-            $this->tpl->setVariable(
+            $tpl->setVariable("TXT_DELETE", $this->lng->txt("delete"));
+            $tpl->setVariable(
                 "LINK_DELETE",
                 $this->ctrl->getLinkTarget($this, "confirmDefinitionDeletion")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
 
-            $this->tpl->setCurrentBlock("definition");
-            $this->tpl->setVariable("PAGE_CONTENT", $output);
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("definition");
+            $tpl->setVariable("PAGE_CONTENT", $output);
+            $tpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($tpl->get());
+
         //$this->tpl->setCurrentBlock("def_list");
         //$this->tpl->parseCurrentBlock();
 

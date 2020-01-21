@@ -45,7 +45,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withVisibilityCallable($access_helper->isRepositoryReadable())
             ->withParent($top)
             ->withSymbol($icon)
-            ->withPosition(20);
+            ->withPosition(10);
 
         // Tree-View
         $mode = ($_SESSION["il_rep_mode"] == "flat")
@@ -89,7 +89,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withTitle($this->dic->language()->txt('last_visited'))
             ->withSupportsAsynchronousLoading(true)
             ->withVisibilityCallable($access_helper->isUserLoggedIn())
-            ->withPosition(40)
+            ->withPosition(30)
             ->withSymbol($icon)
             ->withParent($top)
             ->withContentWrapper(function () use ($p) {

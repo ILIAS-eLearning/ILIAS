@@ -151,7 +151,7 @@ class ilFooGUI
 - `forwardCommand()` **forwards** the control flow to the next responsible class.
 - `getCmd()` returns the **action command** that should be performed.
 
-###Saving parameters between and setting parameters for requests
+### Saving parameters between and setting parameters for requests
 
 To preserve the value of a GET parameter for the subsequent request, use `saveParameter()` or `saveParameterByClass()`.
 
@@ -182,7 +182,8 @@ $ctrl->setParameterByClass("ilbargui", "obj_id", $obj_id);
 [...]
 ```
 
-###Getting link href attributes or form action attributes
+### Getting link href attributes or form action attributes
+
 Many times you need `$ilCtrl` to generate the **href** attribute for a link. Before doing so you need to ensure that all parameters that should be included as GET parameters in the request are either set by using `setParameter()` or have been saved by using `saveParameter()`.
 
 Links refer always to commands that are performed by a GUI class. If the command should be performed by the current GUI class, use `getLinkTarget($this, $cmd)`, where $cmd contains the command that should be performed as a string, usually this is a method name of the current GUI class. If the link should execute a command of another GUI class use `getLinkTargetByClass("class_name", $cmd)`.
@@ -209,7 +210,8 @@ $tpl->setVariable("ACTION", $ctrl->getFormAction($this))
 $tpl->setVariable("ACTION", $ctrl->getFormActionByClass("ilbargui"));
 ```
 
-###Performing Redirects
+### Performing Redirects
+
 Often you need to perform HTTP redirects to commands of either the current GUI class or to commands of other GUI classes. This can be done by `redirect()` or `redirectByClass()`.
 
 ```

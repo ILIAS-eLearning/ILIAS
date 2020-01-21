@@ -4,15 +4,15 @@ namespace ILIAS\GlobalScreen\Scope\Tool\Factory;
 
 use Closure;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractParentItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
 
 /**
  * Class AbstractBaseTool
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
 {
-
+    use SymbolDecoratorTrait;
     /**
      * @var Closure
      */
@@ -22,18 +22,16 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
      */
     protected $initially_hidden = false;
 
-
     /**
      * @inheritDoc
      */
     public function withInitiallyHidden(bool $initially_hidden) : isToolItem
     {
-        $clone = clone($this);
+        $clone                   = clone($this);
         $clone->initially_hidden = $initially_hidden;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -43,18 +41,16 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
         return $this->initially_hidden;
     }
 
-
     /**
      * @inheritDoc
      */
     public function withCloseCallback(Closure $close_callback) : isToolItem
     {
-        $clone = clone($this);
+        $clone                 = clone($this);
         $clone->close_callback = $close_callback;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -63,7 +59,6 @@ abstract class AbstractBaseTool extends AbstractParentItem implements isToolItem
     {
         return $this->close_callback;
     }
-
 
     /**
      * @inheritDoc

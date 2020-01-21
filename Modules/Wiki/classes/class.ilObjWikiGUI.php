@@ -1593,31 +1593,21 @@ class ilObjWikiGUI extends ilObjectGUI
     public function printViewObject($a_pdf_export = false)
     {
         $tpl = $this->tpl;
+
+        $tabs = $this->tabs_gui;
+
+        $tabs->clearTargets();
+        $tabs->setBackTarget($this->lng->txt("back"),
+            $this->ctrl->getLinkTargetByClass("ilwikipagegui", "printViewSelection"));
         
         $page_ids = $this->getPrintPageIds();
         if (!$page_ids) {
             $this->ctrl->redirect($this, "");
         }
                                 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
         $this->setContentStyleSheet($tpl);
 
-        // syntax style
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
-            "LOCATION_SYNTAX_STYLESHEET",
-            ilObjStyleSheet::getSyntaxStylePath()
-        );
-        $tpl->parseCurrentBlock();
-
-
-        // determine target frames for internal links
-        
-        include_once("./Modules/Wiki/classes/class.ilWikiPageGUI.php");
-        
         $page_content = "";
-
         foreach ($page_ids as $p_id) {
             $page_gui = new ilWikiPageGUI($p_id);
             $page_gui->setWiki($this->object);
@@ -1629,25 +1619,18 @@ class ilObjWikiGUI extends ilObjectGUI
             }
         }
         
-        $page_content = '<div class="ilInvisibleBorder">' . $page_content . '</div>';
+        //$page_content = '<div class="ilInvisibleBorder">' . $page_content . '</div>';
         
         if (!$a_pdf_export) {
-            $page_content .= '<script type="text/javascript" language="javascript1.2">
-				<!--
-					il.Util.addOnLoad(function () {
-						il.Util.print();
-					});
-				//-->
-				</script>';
+            $tpl->addOnLoadCode("il.Util.print();");
         }
         
-        $tpl->setVariable("CONTENT", $page_content);
+        $tpl->setContent($page_content);
         
         if (!$a_pdf_export) {
-            $tpl->printToStdout(false);
-            exit;
+//            $tpl->printToStdout(false);
         } else {
-            return $tpl->getSpecial("DEFAULT", false, false, false, true, false, false);
+            return $tpl->printToString();
         }
     }
     
@@ -1726,24 +1709,23 @@ class ilObjWikiGUI extends ilObjectGUI
     }
 
     /**
-    * Set content style sheet
-    */
-    public function setContentStyleSheet($a_tpl = null)
+     * Set content style sheet
+     */
+    public function setContentStyleSheet($tpl = null)
     {
         $tpl = $this->tpl;
 
-        if ($a_tpl != null) {
-            $ctpl = $a_tpl;
-        } else {
-            $ctpl = $tpl;
+        if ($tpl == null) {
+            $tpl = $this->tpl;
         }
 
-        $ctpl->setCurrentBlock("ContentStyle");
-        $ctpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->object->getStyleSheetId())
-        );
-        $ctpl->parseCurrentBlock();
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath(
+            ilObjStyleSheet::getEffectiveContentStyleId(
+                $this->object->getStyleSheetId(),
+                "wiki"
+            )
+        ));
+        $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
     }
     
     
