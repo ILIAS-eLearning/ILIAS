@@ -17785,6 +17785,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   -webkit-hyphens: auto;
   hyphens: auto;
   cursor: text;
+  padding-right: 26px;
 }
 #onscreenchat-container .chat-window-wrapper .osc_truncate_username {
   width: 150px;
@@ -17848,10 +17849,11 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .chat li.message.right .chat-body {
   text-align: justify;
   float: right;
-  max-width: 80%;
+  max-width: 85%;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.message.left .chat-body {
-  width: 80%;
+  text-align: justify;
+  width: 85%;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
   font-size: .8em;
@@ -17917,9 +17919,9 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel {
   position: absolute;
   float: right;
-  bottom: 16px;
+  bottom: 21px;
   z-index: 3;
-  right: 18px;
+  right: 28px;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatEmoticonsPanel > a {
   display: block;
