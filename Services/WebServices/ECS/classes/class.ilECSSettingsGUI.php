@@ -462,7 +462,7 @@ class ilECSSettingsGUI
         $pol->setShowSeconds(true);
         $pol->setSeconds($this->settings->getPollingTimeSeconds());
         $pol->setMinutes($this->settings->getPollingTimeMinutes());
-        $pol->setRequired(true);
+        $pol->setRequired(false);
         $pol->setInfo($this->lng->txt('ecs_polling_info'));
         $this->form->addItem($pol);
         
