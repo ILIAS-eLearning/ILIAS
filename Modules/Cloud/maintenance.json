@@ -1,11 +1,9 @@
 {
     "maintenance_model": "Classic",
-    "first_maintainer": "fschmid(21087)",
+    "first_maintainer": "ttruffer(42894)",
     "second_maintainer": "amstutz(26468)",
     "implicit_maintainers": [
-        "mstuder(8473)",
-        "otruffer(29130)",
-        "ttruffer(42894)"
+        "mstuder(8473)"
     ],
     "coordinator": [
         ""

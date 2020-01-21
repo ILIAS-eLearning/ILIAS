@@ -1,8 +1,11 @@
 <script type="text/javascript">
 
+<!-- BEGIN counter_js -->
+
 <!-- BEGIN tinymce_handler -->
 
 var updateAssTextQuestionLetterCounter = 0;
+var updateAssTextQuestionWordCounter = function() {}; // gets overwritten when tpl block word_counter_js is parsed
 
 var charCounter = function(e) // default handler hard coded to tinymce config
 {
@@ -16,17 +19,17 @@ var charCounter = function(e) // default handler hard coded to tinymce config
         {
             updateAssTextQuestionLetterCounter();
         }
+
+        updateAssTextQuestionWordCounter();
     }
 };
 
 <!-- END tinymce_handler -->
 
-<!-- BEGIN letter_counter_js -->
-
 (function($)
 {
+
     var qId = {QID};
-    var maxL = {MAXCHARS};
 
     var stripAndDecode = function(string)
     {
@@ -38,7 +41,11 @@ var charCounter = function(e) // default handler hard coded to tinymce config
             .replace(/&nbsp;/gi, " ")
             .replace(/&amp;/gi, "&");
     };
-    
+
+<!-- BEGIN letter_counter_js -->
+
+    var maxL = {MAXCHARS};
+
     updateAssTextQuestionLetterCounter = function()
     {
         var ccContainer = $('#assTextQuestionLetterCounterContainer_'+qId);
@@ -68,9 +75,61 @@ var charCounter = function(e) // default handler hard coded to tinymce config
 
         updateAssTextQuestionLetterCounter();
     });
-    
-})(jQuery);
 
 <!-- END letter_counter_js -->
 
+<!-- BEGIN word_counter_js -->
+
+    var countWords = function(s)
+    {
+        s = s.replace(/&nbsp;/g, ' '); // &nbsp; to white space
+        s = s.replace(/[.,:;!?\-_#'"+*\\/=()&%$§]/g, ''); // remove any sonderzeichen
+        s = s.replace(/^\s*/, ''); // remove start white-space
+        s = s.replace(/\s*$/, ''); // remove end white-space
+        s = s.replace(/\s+/g, ' '); // 2 ore more white space to 1
+
+        if( !s.length )
+        {
+            return 0;
+        }
+
+        return s.split(' ').length;
+    };
+
+    updateAssTextQuestionWordCounter = function()
+    {
+        var wcContainer = $('#assTextQuestionWordCounterContainer_'+qId);
+
+        if( wcContainer )
+        {
+            wcContainer.show();
+        }
+
+        var wordCounter = $('#assTextQuestionWordCounter_'+qId);
+
+        if( wordCounter )
+        {
+            wordCounter.html( countWords(
+                stripAndDecode($('#assTextQuestionContent_'+qId).val())
+            ));
+        }
+
+        return true;
+
+    };
+
+    $().ready(function(){
+
+        $('textarea#assTextQuestionContent_'+qId).on('keyup', function(event) {
+            updateAssTextQuestionWordCounter();
+        });
+
+        updateAssTextQuestionWordCounter();
+    });
+
+<!-- END word_counter_js -->
+
+<!-- END counter_js -->
+
+})(jQuery);
 </script>

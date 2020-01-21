@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns = 'http://www.w3.org/2001/XMLSchema'
+	targetNamespace = "http://www.ilias.de/Modules/LearningModule/lm/5_4"
+	xmlns:t = 'http://www.ilias.de/Modules/LearningModule/lm/5_4'>
+
+	<!-- t:Data type -->
+	<complexType name='Data' mixed='true'>
+	</complexType>
+
+
+	<!-- Lm -->
+	<element name='Lm'>
+		<complexType>
+		<sequence>
+			<element ref='t:Id' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Description' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:DefaultLayout' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PageHeader' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TocActive' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:LMMenuActive' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:TOCMode' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PrintViewActive' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Numbering' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:HistUserComments' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PublicAccessMode' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:NoGloAppendix' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:PubNotes' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:HeaderPage' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:FooterPage' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:LayoutPerPage' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:Rating' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:HideHeadFootPrint' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:DisableDefFeedback' minOccurs='1' maxOccurs='1'/>
+			<element ref='t:RatingPages' minOccurs='1' maxOccurs='1'/>
+		</sequence>
+		</complexType>
+	</element>
+
+	<element name='LmTree'>
+		<complexType>
+			<sequence>
+				<element ref='t:LmId' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Child' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Parent' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Depth' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Type' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:ShortTitle' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:PublicAccess' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Active' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Layout' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:ImportId' minOccurs='1' maxOccurs='1'/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name='LmMenu'>
+		<complexType>
+			<sequence>
+				<element ref='t:LmId' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:LinkType' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Title' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Target' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:LinkRefId' minOccurs='1' maxOccurs='1'/>
+				<element ref='t:Active' minOccurs='1' maxOccurs='1'/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<element name='Id' type='t:Data' />
+	<element name='Title' type='t:Data' />
+	<element name='Description' type='t:Data' />
+	<element name='DefaultLayout' type='t:Data' />
+	<element name='PageHeader' type='t:Data' />
+	<element name='TocActive' type='t:Data' />
+	<element name='LMMenuActive' type='t:Data' />
+	<element name='TOCMode' type='t:Data' />
+	<element name='PrintViewActive' type='t:Data' />
+	<element name='NoGloAppendix' type='t:Data' />
+	<element name='Numbering' type='t:Data' />
+	<element name='HistUserComments' type='t:Data' />
+	<element name='PublicAccessMode' type='t:Data' />
+	<element name='PubNotes' type='t:Data' />
+	<element name='HeaderPage' type='t:Data' />
+	<element name='FooterPage' type='t:Data' />
+	<element name='LayoutPerPage' type='t:Data' />
+	<element name='Rating' type='t:Data' />
+	<element name='HideHeadFootPrint' type='t:Data' />
+	<element name='DisableDefFeedback' type='t:Data' />
+	<element name='RatingPages' type='t:Data' />
+
+	<element name='LmId' type='t:Data' />
+	<element name='Child' type='t:Data' />
+	<element name='Parent' type='t:Data' />
+	<element name='Depth' type='t:Data' />
+	<element name='Type' type='t:Data' />
+	<element name='ShortTitle' type='t:Data' />
+	<element name='PublicAccess' type='t:Data' />
+	<element name='Active' type='t:Data' />
+	<element name='Layout' type='t:Data' />
+	<element name='ImportId' type='t:Data' />
+
+	<element name='LinkType' type='t:Data' />
+	<element name='Target' type='t:Data' />
+	<element name='LinkRefId' type='t:Data' />
+
+
+</schema>

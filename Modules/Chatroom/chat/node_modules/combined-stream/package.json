@@ -2,7 +2,7 @@
   "author": "Felix Geisendörfer <felix@debuggable.com> (http://debuggable.com/)",
   "name": "combined-stream",
   "description": "A stream that emits multiple other streams one after another.",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "homepage": "https://github.com/felixge/node-combined-stream",
   "repository": {
     "type": "git",

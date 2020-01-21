@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,53 +8,53 @@
  */
 class ilGroupNameAsMailValidator
 {
-	/** @var string */
-	protected $host;
-	
-	/** @var callable */
-	protected $groupNameCheckCallable;
+    /** @var string */
+    protected $host;
 
-	/**
-	 * @param string $host
-	 * @param callable|null $groupNameCheckCallable
-	 */
-	public function __construct(string $host, callable $groupNameCheckCallable = null)
-	{
-		$this->host = $host;
+    /** @var callable */
+    protected $groupNameCheckCallable;
 
-		if (null === $groupNameCheckCallable) {
-			$groupNameCheckCallable = function (string $groupName) {
-				return \ilUtil::groupNameExists($groupName);
-			};
-		}
+    /**
+     * @param string $host
+     * @param callable|null $groupNameCheckCallable
+     */
+    public function __construct(string $host, callable $groupNameCheckCallable = null)
+    {
+        $this->host = $host;
 
-		$this->groupNameCheckCallable = $groupNameCheckCallable;
-	}
+        if (null === $groupNameCheckCallable) {
+            $groupNameCheckCallable = function (string $groupName) {
+                return ilUtil::groupNameExists($groupName);
+            };
+        }
 
-	/**
-	 * Validates if the given address contains a valid group name to send an email
-	 * @param \ilMailAddress $address
-	 * @return bool
-	 */
-	public function validate(\ilMailAddress $address): bool 
-	{
-		$groupName = substr($address->getMailbox(), 1);
+        $this->groupNameCheckCallable = $groupNameCheckCallable;
+    }
 
-		$func = $this->groupNameCheckCallable;
-		if ($func($groupName) && $this->isHostValid($address->getHost())) {
-			return true;
-		}
+    /**
+     * Validates if the given address contains a valid group name to send an email
+     * @param ilMailAddress $address
+     * @return bool
+     */
+    public function validate(ilMailAddress $address) : bool
+    {
+        $groupName = substr($address->getMailbox(), 1);
 
-		return false;
-	}
+        $func = $this->groupNameCheckCallable;
+        if ($func($groupName) && $this->isHostValid($address->getHost())) {
+            return true;
+        }
 
-	/**
-	 * Checks if the given host is valid in the email context
-	 * @param string $host
-	 * @return bool
-	 */
-	private function isHostValid(string $host): bool 
-	{
-		return ($host == $this->host || 0 === strlen($host));
-	}
+        return false;
+    }
+
+    /**
+     * Checks if the given host is valid in the email context
+     * @param string $host
+     * @return bool
+     */
+    private function isHostValid(string $host) : bool
+    {
+        return ($host == $this->host || 0 === strlen($host));
+    }
 }

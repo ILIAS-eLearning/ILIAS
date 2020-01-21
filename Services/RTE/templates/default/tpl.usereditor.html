@@ -1,11 +1,8 @@
 <!-- BEGIN tinymce -->
-<script language="javascript" type="text/javascript" src="{JAVASCRIPT_LOCATION}"></script>
-<script language="javascript" type="text/javascript">
-
 	function ilTinyMceInitCallback(ed) {
 		// Add hook for onContextMenu so that Insert Image can be removed
 		<!-- BEGIN remove_img_context_menu_item -->
-		ed.plugins.contextmenu.onContextMenu.add(function(sender, menu) {
+		if (ed.plugins.contextmenu) ed.plugins.contextmenu.onContextMenu.add(function(sender, menu) {
 			// create a new object
 			var otherItems = {};
 			var lastItem = null;
@@ -62,6 +59,5 @@
 			ed.onInit.add(ilTinyMceInitCallback);
 		}
 	});
-</script>
 <!-- END tinymce -->
 

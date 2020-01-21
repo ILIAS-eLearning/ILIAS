@@ -1,212 +1,344 @@
-<?php
+<?php declare(strict_types=1);
 
-require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * Class ilPersonalChatSettingsFormGUI
+ * @author Michael Jansen <mjansen@databay.de>
  * @ilCtrl_IsCalledBy ilPersonalChatSettingsFormGUI: ilPersonalSettingsGUI
  */
-class ilPersonalChatSettingsFormGUI extends ilPropertyFormGUI
+class ilPersonalChatSettingsFormGUI
 {
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    const PROP_ENABLE_OSC = 'chat_osc_accept_msg';
+    const PROP_ENABLE_BROWSER_NOTIFICATIONS = 'chat_osc_browser_notifications';
+    const PROP_ENABLE_SOUND = 'play_invitation_sound';
 
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+    /** @var ilLanguage */
+    protected $lng;
 
-	/**
-	 * @var ilObjUser
-	 */
-	protected $user;
+    /** @var ilCtrl */
+    protected $ctrl;
 
-	/**
-	 * @var ilTemplate
-	 */
-	protected $mainTpl;
+    /** @var ilObjUser */
+    protected $user;
 
-	/**
-	 * @var ilSetting
-	 */
-	protected $settings;
+    /** @var ilTemplate */
+    protected $mainTpl;
 
-	/**
-	 * @var array
-	 */
-	protected $chatSettings = array();
+    /** @var ilSetting */
+    protected $settings;
 
-	/**
-	 * @var array
-	 */
-	protected $notificationSettings = array();
+    /** @var array */
+    protected $chatSettings = array();
 
-	/**
-	 * @var \ilAppEventHandler
-	 */
-	protected $event;
+    /** @var array */
+    protected $notificationSettings = array();
 
-	/**
-	 * ilPersonalChatSettingsFormGUI constructor.
-	 * @param bool $init_form
-	 */
-	public function __construct($init_form = true)
-	{
-		global $DIC;
-		
-		parent::__construct();
+    /** @var ilAppEventHandler */
+    protected $event;
 
-		$this->user     = $DIC->user();
-		$this->ctrl     = $DIC->ctrl();
-		$this->settings = $DIC['ilSetting'];
-		$this->mainTpl  = $DIC['tpl'];
-		$this->lng      = $DIC['lng'];
-		$this->event    = $DIC->event();
+    /** @var Factory */
+    private $uiFactory;
 
-		$this->chatSettings         = new ilSetting('chatroom');
-		$this->notificationSettings = new ilSetting('notifications');
+    /** @var Renderer */
+    private $uiRenderer;
 
-		if($init_form)
-		{
-			$this->initForm();
-		}
-	}
+    /** @var ServerRequestInterface */
+    private $httpRequest;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeCommand()
-	{
-		switch($this->ctrl->getCmd())
-		{
-			case 'saveChatOptions':
-				$this->saveChatOptions();
-				break;
+    /** @var \ILIAS\Refinery\Factory */
+    private $refinery;
 
-			case 'showChatOptions':
-			default:
-				$this->showChatOptions();
-				break;
-		}
-	}
+    /**
+     * ilPersonalChatSettingsFormGUI constructor.
+     */
+    public function __construct()
+    {
+        global $DIC;
 
-	/**
-	 * @return bool
-	 */
-	public function isAccessible()
-	{
-		return (
-			$this->chatSettings->get('chat_enabled', false) && (
-				$this->shouldShowNotificationOptions() || $this->shouldShowOnScreenChatOptions()
-			)
-		);
-	}
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
+        $this->settings = $DIC['ilSetting'];
+        $this->mainTpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->event = $DIC->event();
+        $this->uiFactory = $DIC->ui()->factory();
+        $this->uiRenderer = $DIC->ui()->renderer();
+        $this->httpRequest = $DIC->http()->request();
+        $this->refinery = $DIC->refinery();
 
-	/**
-	 * @return bool
-	 */
-	protected function shouldShowNotificationOptions()
-	{
-		return $this->notificationSettings->get('enable_osd', false) && $this->chatSettings->get('play_invitation_sound', false);
-	}
+        $this->lng->loadLanguageModule('chatroom');
+        $this->lng->loadLanguageModule('chatroom_adm');
 
-	/**
-	 * @return bool
-	 */
-	protected function shouldShowOnScreenChatOptions()
-	{
-		return (
-			$this->chatSettings->get('enable_osc', false) &&
-			!(bool)$this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
-		);
-	}
+        $this->chatSettings = new ilSetting('chatroom');
+        $this->notificationSettings = new ilSetting('notifications');
+    }
 
-	/**
-	 * 
-	 */
-	protected function initForm()
-	{
-		$this->lng->loadLanguageModule('chatroom');
+    /**
+     *
+     */
+    public function executeCommand() : void
+    {
+        switch ($this->ctrl->getCmd()) {
+            case 'saveChatOptions':
+                $this->saveChatOptions();
+                break;
 
-		$this->setFormAction($this->ctrl->getFormAction($this, 'saveChatOptions'));
-		$this->setTitle($this->lng->txt("chat_settings"));
+            case 'showChatOptions':
+            default:
+                $this->showChatOptions();
+                break;
+        }
+    }
 
-		if($this->shouldShowNotificationOptions())
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-			$chb->setInfo($this->lng->txt('play_invitation_sound_info'));
-			$this->addItem($chb);
-		}
+    /**
+     * @return bool
+     */
+    public function isAccessible() : bool
+    {
+        return (
+            $this->chatSettings->get('chat_enabled', false) && (
+                $this->shouldShowNotificationOptions() || $this->shouldShowOnScreenChatOptions()
+            )
+        );
+    }
 
-		if($this->shouldShowOnScreenChatOptions())
-		{
-			$chb = new ilCheckboxInputGUI($this->lng->txt('chat_osc_accept_msg'), 'chat_osc_accept_msg');
-			$chb->setInfo($this->lng->txt('chat_osc_accept_msg_info'));
-			$chb->setDisabled((bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false));
-			$this->addItem($chb);
-		}
+    /**
+     * @return bool
+     */
+    private function shouldShowNotificationOptions() : bool
+    {
+        return (
+            $this->notificationSettings->get('enable_osd', false) &&
+            $this->chatSettings->get('play_invitation_sound', false)
+        );
+    }
 
-		$this->addCommandButton('saveChatOptions', $this->lng->txt('save'));
-	}
+    /**
+     * @return bool
+     */
+    private function shouldShowOnScreenChatOptions() : bool
+    {
+        return (
+            $this->chatSettings->get('enable_osc', false) &&
+            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
+        );
+    }
 
-	/**
-	 * 
-	 */
-	protected function showChatOptions()
-	{
-		if(!$this->isAccessible())
-		{
-			$this->ctrl->returnToParent($this);
-		}
+    /**
+     * @return Standard
+     */
+    private function buildForm() : Standard
+    {
+        $fieldFactory = $this->uiFactory->input()->field();
 
-		$this->setValuesByArray(array(
-			'play_invitation_sound' => $this->user->getPref('chat_play_invitation_sound'),
-			'chat_osc_accept_msg'   => ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
-		));
+        $fields = [];
 
-		$this->mainTpl->setContent($this->getHTML());
-		$this->mainTpl->printToStdout();
-	}
+        $checkboxStateToBooleanTrafo = $this->refinery->custom()->transformation(function ($v) {
+            if (is_array($v)) {
+                return $v;
+            }
 
-	/**
-	 *
-	 */
-	protected function saveChatOptions()
-	{
-		if(!$this->isAccessible())
-		{
-			$this->ctrl->returnToParent($this);
-		}
+            if (is_bool($v)) {
+                return $v;
+            }
 
-		if(!$this->checkInput())
-		{
-			$this->showChatOptions();
-			return;
-		}
+            return $v === 'checked';
+        });
 
-		if($this->shouldShowNotificationOptions())
-		{
-			$this->user->setPref('chat_play_invitation_sound', (int)$this->getInput('play_invitation_sound'));
-		}
+        if ($this->shouldShowOnScreenChatOptions()) {
+            $oscAvailable = (bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', false);
+            $oscSubFormGroup = [];
 
-		if($this->shouldShowOnScreenChatOptions() && !(bool)$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false))
-		{
-			$this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn((bool)$this->getInput('chat_osc_accept_msg')));
-		}
+            if ($this->chatSettings->get('enable_browser_notifications', false)) {
+                $enabledBrowserNotifications = $fieldFactory
+                    ->checkbox(
+                        $this->lng->txt('osc_enable_browser_notifications_label'),
+                        sprintf(
+                            $this->lng->txt('osc_enable_browser_notifications_info'),
+                            (int) $this->chatSettings->get('conversation_idle_state_in_minutes')
+                        )
+                    )
+                    ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
+                    ->withDisabled($oscAvailable);
 
-		$this->user->writePrefs();
+                $oscSubFormGroup[self::PROP_ENABLE_BROWSER_NOTIFICATIONS] = $enabledBrowserNotifications;
 
-		$this->event->raise(
-			'Services/User',
-			'chatSettingsChanged',
-			[
-				'user' => $this->user
-			]
-		);
+                $groupValue = null;
+                if (ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))) {
+                    $groupValue = [
+                        self::PROP_ENABLE_BROWSER_NOTIFICATIONS => ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications')),
+                    ];
+                }
+                $enabledOsc = $fieldFactory
+                    ->optionalGroup(
+                        $oscSubFormGroup,
+                        $this->lng->txt('chat_osc_accept_msg'),
+                        $this->lng->txt('chat_osc_accept_msg_info')
+                    )
+                    ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
+                    ->withDisabled($oscAvailable)
+                    ->withValue($groupValue);
+            } else {
+                $enabledOsc = $fieldFactory
+                    ->checkbox(
+                        $this->lng->txt('chat_osc_accept_msg'),
+                        $this->lng->txt('chat_osc_accept_msg_info')
+                    )
+                    ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
+                    ->withDisabled($oscAvailable)
+                    ->withValue(ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg')));
+            }
 
-		ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
-		$this->showChatOptions();
-	}
+            $fields[self::PROP_ENABLE_OSC] = $enabledOsc;
+        }
+
+        if ($this->shouldShowNotificationOptions()) {
+            $fields[self::PROP_ENABLE_SOUND] = $fieldFactory
+                ->checkbox($this->lng->txt('play_invitation_sound'), $this->lng->txt('play_invitation_sound_info'))
+                ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
+                ->withValue((bool) $this->user->getPref('chat_play_invitation_sound'));
+        }
+
+        $section = $fieldFactory
+            ->section($fields, $this->lng->txt('chat_settings'), '');
+
+        return $this->uiFactory->input()
+            ->container()
+            ->form()
+            ->standard(
+                $this->ctrl->getFormAction($this, 'saveChatOptions'),
+                [$section]
+            )
+            ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($values) {
+                return call_user_func_array('array_merge', $values);
+            }));
+    }
+
+    /**
+     * @param Standard|null $form
+     * @throws ilTemplateException
+     */
+    public function showChatOptions(Standard $form = null) : void
+    {
+        if (!$this->isAccessible()) {
+            $this->ctrl->returnToParent($this);
+        }
+
+        if (null === $form) {
+            $form = $this->buildForm();
+        }
+
+        $tpl = new ilTemplate('tpl.personal_chat_settings_form.html', true, true, 'Modules/Chatroom');
+        if ($this->shouldShowOnScreenChatOptions() && $this->chatSettings->get('enable_browser_notifications', false)) {
+            $this->mainTpl->addJavascript('./Services/Notifications/js/browser_notifications.js');
+
+            $tpl->setVariable('ALERT_IMAGE_SRC', ilUtil::getImagePath('icon_alert.svg'));
+
+            $this->lng->toJSMap([
+                'osc_browser_noti_no_permission_error' => $this->lng->txt('osc_browser_noti_no_permission_error'),
+                'osc_browser_noti_no_support_error' => $this->lng->txt('osc_browser_noti_no_support_error'),
+                'osc_browser_noti_req_permission_error' => $this->lng->txt('osc_browser_noti_req_permission_error'),
+            ], $this->mainTpl);
+        }
+
+        $this->mainTpl->setContent($this->uiRenderer->render([
+            $form,
+            $this->uiFactory->legacy($tpl->get())
+        ]));
+        $this->mainTpl->printToStdout();
+    }
+
+    /**
+     *
+     */
+    public function saveChatOptions() : void
+    {
+        if (!$this->isAccessible()) {
+            $this->ctrl->returnToParent($this);
+        }
+
+        $form = $this->buildForm();
+
+        if ('POST' === $this->httpRequest->getMethod()) {
+            $form = $form->withRequest($this->httpRequest);
+
+            $formData = $form->getData();
+            $update_possible = !is_null($formData);
+            if ($update_possible) {
+                $this->saveFormData($formData);
+            }
+        }
+
+        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
+        $this->showChatOptions($form);
+    }
+
+    private function saveFormData(array $formData) : void
+    {
+        $preferencesUpdated = false;
+
+        if ($this->shouldShowNotificationOptions()) {
+            $oldPlaySoundValue = (int) $this->user->getPref('chat_play_invitation_sound');
+            $playASound = (int) ($formData[self::PROP_ENABLE_SOUND] ?? 0);
+
+            if ($oldPlaySoundValue !== $playASound) {
+                $this->user->setPref('chat_play_invitation_sound', $playASound);
+                $preferencesUpdated = true;
+            }
+        }
+
+        if ($this->shouldShowOnScreenChatOptions()) {
+            $oldEnableOscValue = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'));
+            $enableOsc = $formData[self::PROP_ENABLE_OSC] ?? null;
+            if (!is_bool($enableOsc)) {
+                $enableOsc = is_array($enableOsc);
+            }
+
+            if (!(bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
+                $preferencesUpdated = true;
+                if ($oldEnableOscValue !== $enableOsc) {
+                    $this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn($enableOsc));
+                    $preferencesUpdated = true;
+                }
+            }
+
+            if ($this->chatSettings->get('enable_browser_notifications', false) && $enableOsc) {
+                $oldBrowserNotificationValue = ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications'));
+
+                $sendBrowserNotifications = false;
+                if (is_array($formData[self::PROP_ENABLE_OSC])) {
+                    if (true === $formData[self::PROP_ENABLE_OSC][self::PROP_ENABLE_BROWSER_NOTIFICATIONS]) {
+                        $sendBrowserNotifications = true;
+                    }
+                }
+
+                if ($oldBrowserNotificationValue !== $sendBrowserNotifications) {
+                    $this->user->setPref('chat_osc_browser_notifications', ilUtil::tf2yn($sendBrowserNotifications));
+                    $preferencesUpdated = true;
+                }
+            }
+        }
+
+        if ($preferencesUpdated) {
+            $this->user->writePrefs();
+
+            $this->event->raise(
+                'Modules/Chatroom',
+                'chatSettingsChanged',
+                [
+                    'user' => $this->user
+                ]
+            );
+        }
+
+        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this);
+    }
 }

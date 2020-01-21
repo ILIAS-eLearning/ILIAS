@@ -5,9 +5,7 @@
     "implicit_maintainers": [
         "nschaefli(51205)"
     ],
-    "coordinator": [
-        "fschmid(21087)"
-    ],
+    "coordinator": [],
     "tester": "",
     "testcase_writer": "",
     "path": "src/HTTP",

@@ -10,54 +10,86 @@ declare(strict_types=1);
 
 class ilLearningSequenceAppEventListener
 {
+    public static function handleEvent($component, $event, $parameter)
+    {
+        switch ($component) {
+            case "Services/Tracking":
+                switch ($event) {
+                    case "updateStatus":
+                        self::onServiceTrackingUpdateStatus($parameter);
+                        break;
+                }
+                break;
+            case "Services/Object":
+                switch ($event) {
+                    case "beforeDeletion":
+                        self::onObjectDeletion($parameter);
+                        break;
+                    case "toTrash":
+                        self::onObjectToTrash($parameter);
+                        break;
+                }
+                break;
 
-	public static function handleEvent($component, $event, $parameter)
-	{
-		switch ($component) {
-			case "Services/Tracking":
-				switch ($event) {
-					case "updateStatus":
-						self::onServiceTrackingUpdateStatus($parameter);
-						break;
-				}
-				break;
-			case "Services/Object":
-				switch ($event) {
-					case "beforeDeletion":
-						self::onObjectDeletion($parameter);
-						break;
-				}
-				break;
-			default:
-				throw new ilException(
-					"ilLearningSequenceAppEventListener::handleEvent: ".
-					"Won't handle events of '$component'."
-				);
-		}
-	}
+            case "Modules/LearningSequence":
+                switch ($event) {
+                    case "deleteParticipant":
+                        self::onParticipantDeletion($parameter);
+                        break;
+                    case "addParticipant":
+                    default:
+                        break;
+                }
+                break;
 
-	private static function onServiceTrackingUpdateStatus($parameter)
-	{
-		$handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
-		$handler->updateLPForChildEvent($parameter);
-	}
+            default:
+                throw new ilException(
+                    "ilLearningSequenceAppEventListener::handleEvent: " .
+                    "Won't handle events of '$component'."
+                );
+        }
+    }
 
-	private static function onObjectDeletion($parameter)
-	{
-		$handler = new ilLSEventHandler(self::getIlTree());
-		$handler->handleObjectDeletion($parameter);
-	}
+    private static function onServiceTrackingUpdateStatus(array $parameter)
+    {
+        $handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
+        $handler->updateLPForChildEvent($parameter);
+    }
 
+    private static function onObjectDeletion(array $parameter)
+    {
+        $handler = self::getLSEventHandler();
+        $handler->handleObjectDeletion($parameter);
+    }
 
-	protected static function getIlTree(): ilTree
-	{
-		global $DIC;
-		return $DIC['tree'];
-	}
+    private static function onObjectToTrash(array $parameter)
+    {
+        $handler = self::getLSEventHandler();
+        $handler->handleObjectToTrash($parameter);
+    }
 
-	protected static function getIlLPStatusWrapper(): ilLPStatusWrapper
-	{
-		return new ilLPStatusWrapper();
-	}
+    private static function onParticipantDeletion(array $parameter)
+    {
+        $handler = self::getLSEventHandler();
+        $obj_id = (int) $parameter['obj_id'];
+        $usr_id = (int) $parameter['usr_id'];
 
+        $handler->handleParticipantDeletion($obj_id, $usr_id);
+    }
+
+    protected static function getLSEventHandler() : ilLSEventHandler
+    {
+        return new ilLSEventHandler(self::getIlTree());
+    }
+
+    protected static function getIlTree() : ilTree
+    {
+        global $DIC;
+        return $DIC['tree'];
+    }
+
+    protected static function getIlLPStatusWrapper() : ilLPStatusWrapper
+    {
+        return new ilLPStatusWrapper();
+    }
 }

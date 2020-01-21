@@ -42,7 +42,7 @@
 				}
 			}
 		};
-		
+
 		var internals = {
 			log: function(message) {
 				if (this.properties.debug) {
@@ -134,6 +134,7 @@
 								client_id   :"",
 								session_name:"",
 								session_id  :"",
+								session_id_hash  :"",
 								frequency   :60,
 								debug       :0
 							},
@@ -155,11 +156,11 @@
 					});
 
 					internals.log("Session reminder started");
-					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id") != YAHOO.util.Cookie.get(properties.session_name)) {
+					if (YAHOO.util.Cookie.get(cookie_prefix + "session_id_hash") !== properties.session_id_hash) {
 						YAHOO.util.Cookie.set(cookie_prefix + "activation", "enabled");
 						YAHOO.util.Cookie.set(cookie_prefix + "status", "unlocked");
-						YAHOO.util.Cookie.set(cookie_prefix + "session_id", YAHOO.util.Cookie.get(properties.session_name));
-						internals.log("Cookied changed after new login or session reminder initially started for current session: Release lock and enabled reminder");
+						YAHOO.util.Cookie.set(cookie_prefix + "session_id_hash", properties.session_id_hash);
+						internals.log("Session cookie changed after new login or session reminder initially started for current session: Release lock and enabled reminder");
 					}
 
 					session_reminder_executer = new PeriodicalExecuter(

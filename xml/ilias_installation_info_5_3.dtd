@@ -1,0 +1,19 @@
+<!ELEMENT Installation (Settings, Clients)>
+<!ATTLIST Installation
+	version CDATA #REQUIRED
+	path	CDATA #REQUIRED
+>
+
+<!ELEMENT Clients (Client*)>	
+<!ELEMENT Client  EMPTY>
+<!ATTLIST Client
+	inst_id CDATA #REQUIRED
+	id ID #REQUIRED
+	enabled (TRUE|FALSE) #REQUIRED
+	default_lang    CDATA #REQUIRED
+	>	
+<!ELEMENT Settings (Setting*)>
+<!ELEMENT Setting (#PCDATA)>
+<!ATTLIST Setting
+	key CDATA #REQUIRED>
+      

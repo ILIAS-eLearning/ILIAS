@@ -6,140 +6,176 @@
  */
 class ilCertificateGUIFactory
 {
-	/**
-	 * @var
-	 */
-	private $dic;
+    /**
+     * @var
+     */
+    private $dic;
 
-	/**
-	 * @param \ILIAS\DI\Container|null $dic
-	 */
-	public function __construct(\ILIAS\DI\Container $dic = null)
-	{
-		if (null === $dic) {
-			global $DIC;
-			$dic = $DIC;
-		}
-		$this->dic = $dic;
-	}
+    /**
+     * @param \ILIAS\DI\Container|null $dic
+     */
+    public function __construct(\ILIAS\DI\Container $dic = null)
+    {
+        if (null === $dic) {
+            global $DIC;
+            $dic = $DIC;
+        }
+        $this->dic = $dic;
+    }
 
-	/**
-	 * @param ilObject $object
-	 * @return ilCertificateGUI
-	 * @throws ilException
-	 */
-	public function create(\ilObject $object) : ilCertificateGUI
-	{
-		global $DIC;
+    /**
+     * @param ilObject $object
+     * @return ilCertificateGUI
+     * @throws ilException
+     */
+    public function create(\ilObject $object) : ilCertificateGUI
+    {
+        global $DIC;
 
-		$type = $object->getType();
-		$objectId = $object->getId();
+        $type = $object->getType();
+        $objectId = $object->getId();
 
-		$logger = $DIC->logger()->cert();
+        $logger = $DIC->logger()->cert();
 
-		$templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
-		$deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+        $templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
+        $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
+        $pathFactory = new ilCertificatePathFactory();
 
-		switch ($type) {
-			case 'tst':
-				$placeholderDescriptionObject = new ilTestPlaceholderDescription();
-				$placeholderValuesObject = new ilTestPlaceHolderValues();
-				$adapter = new ilTestCertificateAdapter($object);
+        $certificatePath = $pathFactory->create($object);
 
-				$certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
+        switch ($type) {
+            case 'tst':
+                $placeholderDescriptionObject = new ilTestPlaceholderDescription();
+                $placeholderValuesObject = new ilTestPlaceHolderValues();
 
-				$formFactory = new ilCertificateSettingsTestFormRepository(
-					$objectId,
-					$certificatePath,
-					$object,
-					$DIC->language(),
-					$DIC->ctrl(),
-					$DIC->access(),
-					$DIC->toolbar(),
-					$placeholderDescriptionObject
-				);
+                $formFactory = new ilCertificateSettingsTestFormRepository(
+                    $objectId,
+                    $certificatePath,
+                    false,
+                    $object,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
 
-				$certificatePath = ilCertificatePathConstants::TEST_PATH . $objectId . '/';
+                $deleteAction = new ilCertificateTestTemplateDeleteAction(
+                    $deleteAction,
+                    new ilCertificateObjectHelper()
+                );
 
-				$deleteAction = new ilCertificateTestTemplateDeleteAction(
-					$deleteAction,
-					new ilCertificateObjectHelper()
-				);
+                break;
+            case 'crs':
+                $hasAdditionalElements = true;
 
-				break;
-			case 'crs':
-				$adapter = new ilCourseCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilCoursePlaceholderDescription();
-				$placeholderValuesObject = new ilCoursePlaceholderValues();
+                $placeholderDescriptionObject = new ilCoursePlaceholderDescription();
+                $placeholderValuesObject = new ilCoursePlaceholderValues();
 
-				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
 
-				$formFactory = new ilCertificateSettingsCourseFormRepository(
-					$object,
-					$certificatePath,
-					$DIC->language(),
-					$DIC->ctrl(),
-					$DIC->access(),
-					$DIC->toolbar(),
-					$placeholderDescriptionObject
-				);
+                $formFactory = new ilCertificateSettingsCourseFormRepository(
+                    $object,
+                    $certificatePath,
+                    false,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
 
-				$certificatePath = ilCertificatePathConstants::COURSE_PATH . $objectId . '/';
-				break;
-			case 'exc':
-				$adapter = new ilExerciseCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilExercisePlaceholderDescription();
-				$placeholderValuesObject = new ilExercisePlaceHolderValues();
+                break;
+            case 'exc':
+                $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
+                $placeholderValuesObject = new ilExercisePlaceHolderValues();
 
-				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
+                $formFactory = new ilCertificateSettingsExerciseRepository(
+                    $object,
+                    $certificatePath,
+                    false,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
 
-				$formFactory = new ilCertificateSettingsExerciseRepository(
-					$object,
-					$certificatePath,
-					$DIC->language(),
-					$DIC->ctrl(),
-					$DIC->access(),
-					$DIC->toolbar(),
-					$placeholderDescriptionObject
-				);
+                break;
+            case 'sahs':
+                $placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
+                $placeholderValuesObject = new ilScormPlaceholderValues();
 
-				$certificatePath = ilCertificatePathConstants::EXERCISE_PATH . $objectId . '/';
-				break;
-			case 'sahs':
-				$adapter = new ilSCORMCertificateAdapter($object);
-				$placeholderDescriptionObject = new ilScormPlaceholderDescription($object);
-				$placeholderValuesObject = new ilScormPlaceholderValues();
+                $formFactory = new ilCertificateSettingsScormFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'lti':
+                $placeholderDescriptionObject = new ilLTIConsumerPlaceholderDescription();
+                $placeholderValuesObject = new ilLTIConsumerPlaceholderValues();
 
-				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
+                $formFactory = new ilCertificateSettingsLTIConsumerFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'cmix':
+                $placeholderDescriptionObject = new ilCmiXapiPlaceholderDescription();
+                $placeholderValuesObject = new ilCmiXapiPlaceholderValues();
 
-				$formFactory = new ilCertificateSettingsScormFormRepository(
-					$object,
-					$certificatePath,
-					$DIC->language(),
-					$DIC->ctrl(),
-					$DIC->access(),
-					$DIC->toolbar(),
-					$placeholderDescriptionObject
-				);
+                $formFactory = new ilCertificateSettingsCmiXapiFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                );
+                break;
+            case 'prg':
+                $placeholderDescriptionObject =
+                new ilStudyProgrammePlaceholderDescription();
+                $placeholderValuesObject =
+                new ilStudyProgrammePlaceholderValues();
+                $formFactory = new ilCertificateSettingsStudyProgrammeFormRepository(
+                    $object,
+                    $certificatePath,
+                    true,
+                    $DIC->language(),
+                    $DIC->ctrl(),
+                    $DIC->access(),
+                    $DIC->toolbar(),
+                    $placeholderDescriptionObject
+                 );
+                break;
+            default:
+                throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
+                break;
+        }
 
-				$certificatePath = ilCertificatePathConstants::SCORM_PATH . $objectId . '/';
+        $gui = new ilCertificateGUI(
+            $placeholderDescriptionObject,
+            $placeholderValuesObject,
+            $objectId,
+            $certificatePath,
+            $formFactory,
+            $deleteAction
+        );
 
-				break;
-			default:
-				throw new ilException(sprintf('The type "%s" is currently not defined for certificates', $type));
-				break;
-		}
-
-		$gui = new ilCertificateGUI(
-			$adapter,
-			$placeholderDescriptionObject,
-			$placeholderValuesObject,
-			$objectId,
-			$certificatePath,
-			$formFactory,
-			$deleteAction
-		);
-
-		return $gui;
-	}
+        return $gui;
+    }
 }

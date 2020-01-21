@@ -1,0 +1,273 @@
+<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
+
+use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
+use ILIAS\GlobalScreen\Collector\ItemCollector;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Provider\Provider;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\BaseTypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Handler\TypeHandler;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformationCollection;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
+
+/**
+ * Class MainMenuMainCollector
+ *
+ * This Collector will collect and then provide all available slates from the
+ * providers in the whole system, stack them and enrich them will their content
+ * based on the configuration in "Administration".
+ *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollector
+{
+
+    /**
+     * @var TypeInformationCollection
+     */
+    private $type_information_collection;
+    /**
+     * @var ItemInformation|null
+     */
+    private $information;
+    /**
+     * @var array|Provider[]
+     */
+    protected $providers;
+    /**
+     * @var Map
+     */
+    private $map;
+
+
+    /**
+     * MainMenuMainCollector constructor.
+     *
+     * @param array                $providers
+     * @param ItemInformation|null $information
+     *
+     * @throws \Throwable
+     */
+    public function __construct(array $providers, ItemInformation $information = null)
+    {
+        $this->information = $information;
+        $this->providers = $providers;
+        $this->type_information_collection = new TypeInformationCollection();
+        $this->map = new Map();
+    }
+
+
+    /**
+     * @return \Generator|StaticMainMenuProvider[]
+     */
+    private function getProvidersFromList() : \Generator
+    {
+        yield from $this->providers;
+    }
+
+
+    public function collectStructure() : void
+    {
+        foreach ($this->getProvidersFromList() as $provider) {
+            $this->type_information_collection->append($provider->provideTypeInformation());
+            $this->map->addMultiple(...$provider->getStaticTopItems());
+            $this->map->addMultiple(...$provider->getStaticSubItems());
+        }
+    }
+
+
+    public function filterItemsByVisibilty(bool $skip_async = false) : void
+    {
+        // apply filter
+        $this->map->filter(function (isItem $item) : bool {
+            // make parent available if one child is always available
+            if ($item instanceof isParent) {
+                foreach ($item->getChildren() as $child) {
+                    if ($child->isAlwaysAvailable()) {
+                        return true;
+                    }
+                }
+            }
+
+            $is_visible = $item->isVisible();
+            $is_item_active = $this->information->isItemActive($item);
+            $is_always_available = $item->isAlwaysAvailable();
+
+            $b = ($is_visible && $is_item_active) || (!$is_item_active && $is_always_available);
+
+            return $b;
+        });
+
+        // apply special filters such as double dividers etc.
+
+        // TODO!!
+    }
+
+
+    public function prepareItemsForUIRepresentation() : void
+    {
+        // filter empty slates
+        $this->map->filter(static function (isItem $i) : bool {
+            if ($i instanceof isParent) {
+                return count($i->getChildren()) > 0;
+            }
+
+            return true;
+        });
+
+        /*$this->map->walk(static function (isItem &$i) {
+            if ($i instanceof isParent) {
+                $separators = 0;
+                $children = [];
+                foreach ($i->getChildren() as $position => $child) {
+                    if ($child instanceof Separator) {
+                        $separators++;
+                    } else {
+                        $separators = 0;
+                    }
+                    if ($separators > 1) {
+                        continue;
+                    }
+                    $children[] = $child;
+                }
+                $i = $i->withChildren($children);
+            }
+        });*/
+
+        $this->map->walk(function (isItem &$item) {
+            $item->setTypeInformation($this->getTypeInformationForItem($item));
+
+            // Apply the TypeHandler
+            $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
+            // Translate Item
+            if ($item instanceof hasTitle) {
+                $item = $this->getItemInformation()->customTranslationForUser($item);
+            }
+            // Custom Symbol
+            if ($item instanceof hasSymbol) {
+                $item = $this->getItemInformation()->customSymbol($item);
+            }
+            // Custom Position
+            $item = $this->getItemInformation()->customPosition($item);
+        });
+
+        $this->map->sort();
+
+        $this->map->walk(function (isItem &$item) {
+            if ($item instanceof isChild && $item->hasParent() && $item->isVisible()) {
+                $parent = $this->map->get($this->information->getParent($item));
+                if ($parent instanceof isParent) {
+                    $parent->appendChild($item);
+                    $item->overrideParent($parent->getProviderIdentification());
+                }
+                // TODO if parent is NullIdentification, add to map
+            }
+        });
+    }
+
+
+    /**
+     * This will return all available topitems, stacked based on the configuration
+     * in "Administration" and for the visibility of the currently user.
+     * Additionally this will filter sequent Separators to avoid double Separators
+     * in the UI.
+     *
+     * @return \Generator|isTopItem[]
+     * @throws \Throwable
+     */
+    public function getItemsForUIRepresentation() : \Generator
+    {
+        foreach ($this->map->getFiltered() as $item) {
+            if ($item instanceof isTopItem) {
+                yield $item;
+            }
+        }
+    }
+
+
+    /**
+     * @return \Generator|isItem[]
+     */
+    public function getRawItems() : \Generator
+    {
+        yield from $this->map->getAll();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function hasItems() : bool
+    {
+        return $this->map->has();
+    }
+
+
+    /**
+     * @param IdentificationInterface $identification
+     *
+     * @return isItem
+     * @throws \Throwable
+     *
+     * @deprecated
+     */
+    public function getSingleItem(IdentificationInterface $identification) : isItem
+    {
+        return $this->map->get($identification);
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return TypeHandler
+     */
+    public function getTypeHandlerForItem(isItem $item) : TypeHandler
+    {
+        $type_information = $this->getTypeInformationForItem($item);
+        if ($type_information === null) {
+            return new BaseTypeHandler();
+        }
+
+        return $type_information->getTypeHandler();
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return ItemInformation
+     */
+    public function getItemInformation() : ItemInformation
+    {
+        return $this->information;
+    }
+
+
+    /**
+     * @param isItem $item
+     *
+     * @return TypeInformation
+     */
+    public function getTypeInformationForItem(isItem $item) : TypeInformation
+    {
+        return $this->getTypeInformationCollection()->get(get_class($item));
+    }
+
+
+    /**
+     * @return TypeInformationCollection
+     */
+    public function getTypeInformationCollection() : TypeInformationCollection
+    {
+        return $this->type_information_collection;
+    }
+}

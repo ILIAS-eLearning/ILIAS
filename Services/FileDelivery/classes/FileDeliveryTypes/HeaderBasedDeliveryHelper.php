@@ -18,22 +18,24 @@ namespace ILIAS\FileDelivery\FileDeliveryTypes;
  *
  * @Internal
  */
-trait HeaderBasedDeliveryHelper {
+trait HeaderBasedDeliveryHelper
+{
 
-	/**
-	 * @param \Closure $closure which sets the output-headers, e.g.
-	 *                          $response = $response->withHeader(self::X_SENDFILE,
-	 *                          realpath($path_to_file));
-	 */
-	protected function sendFileUnbufferedUsingHeaders(\Closure $closure) {
-		ignore_user_abort(true);
-		set_time_limit(0);
-		ob_start();
+    /**
+     * @param \Closure $closure which sets the output-headers, e.g.
+     *                          $response = $response->withHeader(self::X_SENDFILE,
+     *                          realpath($path_to_file));
+     */
+    protected function sendFileUnbufferedUsingHeaders(\Closure $closure)
+    {
+        ignore_user_abort(true);
+        set_time_limit(0);
+        ob_start();
 
-		$closure();
+        $closure();
 
-		ob_flush();
-		ob_end_flush();
-		flush();
-	}
+        ob_flush();
+        ob_end_flush();
+        flush();
+    }
 }

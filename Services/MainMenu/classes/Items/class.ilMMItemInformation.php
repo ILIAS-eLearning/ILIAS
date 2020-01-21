@@ -1,124 +1,159 @@
 <?php
 
-use ILIAS\GlobalScreen\Collector\MainMenu\Information\ItemInformation;
-use ILIAS\GlobalScreen\Collector\MainMenu\Handler\TypeHandler;
 use ILIAS\GlobalScreen\Collector\StorageFacade;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
-use ILIAS\GlobalScreen\MainMenu\hasTitle;
-use ILIAS\GlobalScreen\MainMenu\isChild;
-use ILIAS\GlobalScreen\MainMenu\isItem;
-use ILIAS\GlobalScreen\MainMenu\isTopItem;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
+use ILIAS\MainMenu\Storage\Services;
+use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 
 /**
  * Class ilMMItemInformation
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilMMItemInformation implements ItemInformation {
-
-	/**
-	 * @var array
-	 */
-	private $translations = [];
-	/**
-	 * @var array
-	 */
-	private $items = [];
-	/**
-	 * @var StorageFacade
-	 */
-	private $storage;
-
-
-	/**
-	 * ilMMItemInformation constructor.
-	 *
-	 * @param StorageFacade $storage
-	 */
-	public function __construct(StorageFacade $storage) {
-		$this->storage = $storage;
-		$this->items = ilMMItemStorage::getArray('identification');
-		$this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
-	}
+class ilMMItemInformation implements ItemInformation
+{
+    private const ICON_ID = 'icon_id';
+    /**
+     * @var \ILIAS\UI\Factory
+     */
+    private $ui_factory;
+    /**
+     * @var Services
+     */
+    private $storage;
+    /**
+     * @var array
+     */
+    private $translations = [];
+    /**
+     * @var array
+     */
+    private $items = [];
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function translateItemForUser(hasTitle $item): hasTitle {
-		/**
-		 * @var $item isItem
-		 */
-		global $DIC;
-		static $usr_language_key;
-		static $default_language;
-		if (!$usr_language_key) {
-			$usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
-		}
-		if (!$default_language) {
-			$default_language = ilMMItemTranslationStorage::getDefaultLanguage();
-		}
-
-		if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])) {
-			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
-		} elseif ($item instanceof hasTitle && ilMMItemTranslationStorage::hasDefaultTranslation($item->getProviderIdentification())) {
-			$item = $item->withTitle((string)$this->translations["{$item->getProviderIdentification()->serialize()}|$default_language"]);
-		}
-
-		return $item;
-	}
+    /**
+     * ilMMItemInformation constructor.
+     */
+    public function __construct()
+    {
+        $this->items = ilMMItemStorage::getArray('identification');
+        $this->translations = ilMMItemTranslationStorage::getArray('id', 'translation');
+        $this->storage = new Services();
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getPositionOfSubItem(isChild $child): int {
-		$position = $this->getPosition($child);
+    /**
+     * @inheritDoc
+     */
+    public function customTranslationForUser(hasTitle $item) : hasTitle
+    {
+        /**
+         * @var $item isItem
+         */
+        global $DIC;
+        static $usr_language_key;
+        static $default_language;
 
-		return $position;
-	}
+        if (!$usr_language_key) {
+            $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
+        }
+        if (!$default_language) {
+            $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
+        }
 
+        if ($item instanceof hasTitle && isset($this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"])
+            && $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"] !== ''
+        ) {
+            $item = $item->withTitle((string) $this->translations["{$item->getProviderIdentification()->serialize()}|$usr_language_key"]);
+        }
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getPositionOfTopItem(isTopItem $top_item): int {
-		return $this->getPosition($top_item);
-	}
-
-
-	private function getPosition(isItem $item): int {
-		if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
-			return (int)$this->items[$item->getProviderIdentification()->serialize()]['position'];
-		}
-
-		return 99;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function isItemActive(isItem $item): bool {
-		$serialize = $item->getProviderIdentification()->serialize();
-		if (isset($this->items[$serialize]['active'])) {
-			return $this->items[$serialize]['active'] === "1";
-		}
-
-		return false;
-	}
+        return $item;
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function getParent(isChild $item): IdentificationInterface {
-		global $DIC;
-		$parent_string = $item->getProviderIdentification()->serialize();
-		if (isset($this->items[$parent_string]['parent_identification'])) {
-			return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
-		}
+    /**
+     * @inheritDoc
+     */
+    public function customPosition(isItem $item) : isItem
+    {
+        return $item->withPosition($this->getPosition($item));
+    }
 
-		return $item->getParent();
-	}
+
+    private function getPosition(isItem $item) : int
+    {
+        if (isset($this->items[$item->getProviderIdentification()->serialize()]['position'])) {
+            return (int) $this->items[$item->getProviderIdentification()->serialize()]['position'];
+        }
+
+        return $item->getPosition();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function isItemActive(isItem $item) : bool
+    {
+        $serialize = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$serialize]['active'])) {
+            return $this->items[$serialize]['active'] === "1";
+        }
+
+        return $item->isActive();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getParent(isChild $item) : IdentificationInterface
+    {
+        global $DIC;
+        $parent_string = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$parent_string]['parent_identification'])) {
+            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
+        }
+
+        return $item->getParent();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function customSymbol(hasSymbol $item) : hasSymbol
+    {
+        $id = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$id][self::ICON_ID]) && strlen($this->items[$id][self::ICON_ID]) > 1) {
+            global $DIC;
+
+            $ri = $this->storage->find($this->items[$id][self::ICON_ID]);
+            if (!$ri) {
+                return $item;
+            }
+            $stream = $this->storage->stream($ri)->getStream();
+            $data = 'data:' . $this->storage->getRevision($ri)->getInformation()->getMimeType() . ';base64,' . base64_encode($stream->getContents());
+            $old_symbol = $item->hasSymbol() ? $item->getSymbol() : null;
+            if ($old_symbol instanceof Glyph || $old_symbol instanceof Icon) {
+                $aria_label = $old_symbol->getAriaLabel();
+            } elseif ($item instanceof hasTitle) {
+                $aria_label = $item->getTitle();
+            } else {
+                $aria_label = 'Custom icon';
+            }
+
+            $symbol = $DIC->ui()->factory()->symbol()->icon()->custom($data, $aria_label);
+
+            return $item->withSymbol($symbol);
+        }
+
+        return $item;
+    }
 }

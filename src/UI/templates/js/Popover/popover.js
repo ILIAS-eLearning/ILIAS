@@ -73,12 +73,25 @@ il.UI = il.UI || {};
          * @returns {boolean} True if the popover has already been initialized, false otherwise
          */
         var show = function($triggerer, options) {
+
             if (WebuiPopovers.isCreated('#' + $triggerer.attr('id'))) {
                 return true;
             }
+            // webui is moving the content at the end of the document which makes it impossible to use
+            // popovers in forms without specifying a container here. We search for upper il-popover-container.
+            // If given we use this element as a container for the popover
+            var container;
+            if (container = $('#' + $triggerer.attr('id')).parents(".il-popover-container")[0]) {
+				options = $.extend({}, {container: container}, options);
+            }
+			options = $.extend({}, {onShow: function($el) {
+					$el.trigger("il.ui.popover.show");}}, options);
+
             options = $.extend({}, defaultOptions, options);
             // Extend options with data from the signal
             $triggerer.webuiPopover(options).webuiPopover('show');
+
+
             return false;
         };
 

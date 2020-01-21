@@ -14,7 +14,7 @@ il.UI = il.UI || {};
             fileSizeLimit: 0, // Max file size in bytes
             identifier: 'files', // Input name used when sending files back to the server. Corresponds to the key in $_FILES array
             selectFilesButton: null, // A JQuery object acting as select files button. Cannot be a <button>
-            interceptSubmit: false
+            interceptSubmit: true
         };
 
         // Stores all the different upload instances with a unique uploadId
@@ -178,7 +178,7 @@ il.UI = il.UI || {};
                 return '0 kB';
             }
             var i = Math.floor(Math.log(size) / Math.log(1024));
-            return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+            return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         };
 
         /**
@@ -220,28 +220,35 @@ il.UI = il.UI || {};
                     sizeLimit: options.fileSizeLimit,
                     itemLimit: options.maxFiles
                 },
+                messages: {
+                    typeError: options.typeError
+                },
                 callbacks: {
                     onUpload: function (fileId, name) {
                         // Register additional name + description parameters for the upload request
                         addAdditionalParametersToUploadRequest(uploadId, fileId);
                     },
                     onComplete: function (fileId, fileName, response, xmlHttpRequest) {
-                        // Errors are rendered in the onError callback
                         if (response.success && response.redirect_url) {
-                            window.location.replace(response.redirect_url);
+                            instances[uploadId].lastRedirect = response.redirect_url;
                         }
+                        // Errors are rendered in the onError callback
                         if (response.success) {
                             // console.log('Successfully uploaded file ' + fileName);
                             renderFileSuccess(uploadId, fileId);
                         }
                     },
                     onAllComplete: function (succeeded, failed) {
+                        if (instances[uploadId].lastRedirect !== 'undefined') {
+                            window.location.replace(instances[uploadId].lastRedirect);
+                        }
                         var succeededFiles = succeeded.map(function (fileId) {
-                            return uploader.getFile(fileId).name;
+                            //return uploader.getFile(fileId).name;
                         });
                         var failedFiles = failed.map(function (fileId) {
-                            return uploader.getFile(fileId).name;
+                            //return uploader.getFile(fileId).name;
                         });
+
 
                         // console.log('Successfully uploaded files: ' + succeededFiles.join(', '));
                         // console.log('Failed to upload files: ' + failedFiles.join(', '));
@@ -320,7 +327,8 @@ il.UI = il.UI || {};
                     'onSubmitFile': [],
                     'onError': []
                 },
-                'uploadButtons': []
+                'uploadButtons': [],
+                'lastRedirectURL': null
             };
 
             if (options.uploadButton !== null) {
@@ -455,6 +463,10 @@ il.UI = il.UI || {};
             instances[uploadId].callbacks['onFileAdded'].push(callback);
         };
 
+        var addForm = function (uploadId, formElementId) {
+            instances[uploadId].uploader.setForm(formElementId);
+        };
+
         return {
             init: init,
             addFile: addFile,
@@ -467,7 +479,8 @@ il.UI = il.UI || {};
             bindUploadButton: bindUploadButton,
             onAllUploadCompleted: onAllUploadCompleted,
             onError: onError,
-            onSubmitFile: onSubmitFile
+            onSubmitFile: onSubmitFile,
+            addForm: addForm
         }
     })($);
 

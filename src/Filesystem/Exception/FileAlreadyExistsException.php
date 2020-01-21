@@ -9,6 +9,6 @@ namespace ILIAS\Filesystem\Exception;
  * @since 5.3
  * @version 1.0
  */
-class FileAlreadyExistsException extends IOException {
-
+class FileAlreadyExistsException extends IOException
+{
 }

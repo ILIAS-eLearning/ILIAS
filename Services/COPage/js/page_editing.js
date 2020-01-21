@@ -105,26 +105,13 @@ var ilCOPage =
 
 	setEditStatus: function(status)
 	{
-		if (status)
-		{
-//			YAHOO.util.DragDropMgr.lock();
-		}
-		else
-		{
-//			YAHOO.util.DragDropMgr.unlock();
-		}
-		var elements = YAHOO.util.Dom.getElementsByClassName('il_droparea');
-
-		for (k in elements)
-		{
-			elements[k].style.visibility = 'hidden';
-		}
+		
+		$(".il_droparea").css('visibility', 'hidden');
 		var obj = document.getElementById('ilPageEditModeMenu');
 		if (obj) obj.style.visibility = 'hidden';
 		var obj = document.getElementById('ilPageEditActionBar');
 		if (obj) obj.style.visibility = 'hidden';
-		var obj = document.getElementById('ilPageEditLegend');
-		if (obj) obj.style.visibility = 'hidden';
+		$("#ilPageEditTopActionBar").css("visibility", "hidden");
 		elements = YAHOO.util.Dom.getElementsByClassName('ilc_page_cont_PageContainer');
 		for (k in elements)
 		{
@@ -346,7 +333,8 @@ var ilCOPage =
 		 st_sel.select('style_' + stype[t]); // Must be runned after */
 
 		tinymce.activeEditor.formatter.toggle(t);
-
+		ed.focus();
+		ed.selection.collapse(false);
 		this.autoResize(ed);
 	},
 
@@ -1489,6 +1477,7 @@ var ilCOPage =
 			}
 
 			$('#ilsaving').addClass("ilNoDisplay");
+			$("#ilPageEditTopActionBar").css("visibility", "");
 
 			if (ilCOPage.error_str != "")
 			{
@@ -1537,6 +1526,7 @@ var ilCOPage =
 			}
 			//console.log(o.responseText);
 			removeToolbar();
+			$("#ilPageEditTopActionBar").css("visibility", "");
 			$('#il_EditPage').replaceWith(o.responseText);
 			ilCOPage.initDragElements();
 			il.Tooltip.init();
@@ -2408,9 +2398,9 @@ function editParagraph(div_id, mode, switched)
 					// removing does not seem to work, also the functions do not
 					// seem to be executed, but this way the shortcut is at least disabled
 					// on chrome/mac, see also 0008662
-					ed.shortcuts.add('meta+b', function() {tinymce.activeEditor.formatter.toggle("Strong");});
-					ed.shortcuts.add('meta+u', function() {console.log("test 1");});
-					ed.shortcuts.add('meta+i', function() {console.log("test 2");});
+					ed.shortcuts.add('meta+b', '', function() {ilCOPage.cmdSpan('Strong');});
+					ed.shortcuts.add('meta+u', '', function() {ilCOPage.cmdSpan('Important');});
+					ed.shortcuts.add('meta+i', '', function() {ilCOPage.cmdSpan('Emph');});
 
 					ilCOPage.setEditFrameSize(width, height);
 					if (mode == 'edit')
@@ -2761,9 +2751,7 @@ function ilEditMultiAction(cmd)
 //
 
 // copied from TinyMCE editor_template_src.js
-function showToolbar(ed_id)
-{
-// todo tinynew
+function showToolbar(ed_id) {
 
     //#0017152
     $('#tinytarget_ifr').contents().find("html").attr('lang', $('html').attr('lang'));
@@ -2772,60 +2760,31 @@ function showToolbar(ed_id)
 	$("#tinytarget_ifr").parent().css("border-width", "0px");
 	$("#tinytarget_ifr").parent().parent().parent().css("border-width", "0px");
 
-	/*	var DOM = tinyMCE.DOM, obj;
-	 var Event = tinyMCE.dom.Event;
-	 var e = DOM.get(ed_id + '_external');
-	 DOM.show(e);
-
-
-	 var f = Event.add(ed_id + '_external_close', 'click', function() {
-	 DOM.hide(ed_id + '_external');
-	 Event.remove(ed_id + '_external_close', 'click', f);
-	 });
-
-	 DOM.show(e);*/
-
-	if (false)
-	{
-		DOM.setStyle(e, 'top', 0 - DOM.getRect(ed_id + '_tblext').h - 1);
-	}
-	else
-	{
-		// move parent node to end of body to ensure layer being on top
-		if (!ilCOPage.menu_panel) {
-			obj = document.getElementById('iltinymenu');
-			$(obj).appendTo("body");
-			obj = document.getElementById('ilEditorPanel');
-			// if statement added since this may miss if internal links not supported?
-			// e.g. table editing
-			if (obj) {
-				$(obj.parentNode).appendTo("body");
-			}
-		}
-
-		$('#ilsaving').addClass("ilNoDisplay");
-
-		// make tinymenu a panel
+	// move parent node to end of body to ensure layer being on top
+	if (!ilCOPage.menu_panel) {
 		obj = document.getElementById('iltinymenu');
-		obj.style.display = "";
-		ilCOPage.menu_panel = true;
+		//$(obj).appendTo("body");
+		$(obj).appendTo("#copg-editor-slate-content");
+		$("#copg-editor-help").css("display", "none");
 
-// todo tinynew
-//		DOM.setStyle(e, 'left', -6000);
-//		var ed_el = document.getElementById(ed_id + '_parent');
-		var m_el = document.getElementById('iltinymenu');
-//		var ed_reg = YAHOO.util.Region.getRegion(ed_el);
-		var m_reg = YAHOO.util.Region.getRegion(m_el);
-		var debug = 0;
-
+		obj = document.getElementById('ilEditorPanel');
+		// if statement added since this may miss if internal links not supported?
+		// e.g. table editing
+		if (obj) {
+			$(obj.parentNode).appendTo("body");
+		}
 	}
 
-// todo tinynew
-	// Fixes IE rendering bug
-//	DOM.hide(e);
-//	DOM.show(e);
-//	e.style.filter = '';
+	$('#ilsaving').addClass("ilNoDisplay");
 
+	// make tinymenu a panel
+	obj = document.getElementById('iltinymenu');
+	obj.style.display = "";
+	ilCOPage.menu_panel = true;
+
+	var m_el = document.getElementById('iltinymenu');
+	var m_reg = YAHOO.util.Region.getRegion(m_el);
+	var debug = 0;
 
 	e = null;
 };
@@ -2833,6 +2792,8 @@ function showToolbar(ed_id)
 function hideToolbar () {
 	obj = document.getElementById('iltinymenu');
 	obj.style.display = "none";
+	$("#copg-editor-help").css("display", "");
+	$(".il_droparea").css('visibility', '');
 }
 
 function removeToolbar () {
@@ -2840,6 +2801,8 @@ function removeToolbar () {
 	if (ilCOPage.menu_panel) {
 		var obj = document.getElementById('iltinymenu');
 		$(obj).remove();
+		$("#copg-editor-help").css("display", "");
+		$(".il_droparea").css('visibility', '');
 
 		ilCOPage.menu_panel = null;
 

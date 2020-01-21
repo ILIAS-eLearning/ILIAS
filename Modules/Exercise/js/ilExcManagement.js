@@ -42,6 +42,6 @@ il.ExcManagement = {
 	
 	showComment: function (id) {
 		$("#" + id).modal('show');
-		return false;	
+		return false;
 	}
 }

@@ -4,110 +4,132 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilPdfGeneratorTest extends PHPUnit_Framework_TestCase
+class ilPdfGeneratorTest extends ilCertificateBaseTestCase
 {
-	public function testGenerateSpecificCertificate()
-	{
-		$certificate = new ilUserCertificate(
-			3,
-			20,
-			'crs',
-			50,
-			'ilyas',
-			123456789,
-			'<xml> Some content </xml>',
-			'[]',
-			null,
-			'3',
-			'v5.4.0',
-			true,
-			'/some/where/background.jpg',
-			300
-		);
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testGenerateSpecificCertificate()
+    {
+        if (!defined('CLIENT_WEB_DIR')) {
+            define("CLIENT_WEB_DIR", 'my/client/web/dir');
+        }
+        $certificate = new ilUserCertificate(
+            3,
+            20,
+            'crs',
+            50,
+            'ilyas',
+            123456789,
+            '<xml> Some content </xml>',
+            '[]',
+            null,
+            '3',
+            'v5.4.0',
+            true,
+            '/some/where/background.jpg',
+            300
+        );
 
-		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
-			->disableOriginalConstructor()
-			->getMock();
+        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$userCertificateRepository->method('fetchCertificate')
-			->willReturn($certificate);
+        $userCertificateRepository->method('fetchCertificate')
+            ->willReturn($certificate);
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
-			->getMock();
+        $rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
+            ->getMock();
 
-		$rpcHelper->method('ilFO2PDF')
-			->willReturn(new ScalarPdf());
+        $rpcHelper->method('ilFO2PDF')
+            ->willReturn(new ScalarPdf());
 
-		$pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
-			->disableOriginalConstructor()
-			->getMock();
+        $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$pdfGenerator = new ilPdfGenerator(
-			$userCertificateRepository,
-			$logger,
-			$rpcHelper,
-			$pdfFileNameFactory
-		);
+        $language = $this->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$pdfGenerator->generate(100);
-	}
+        $pdfGenerator = new ilPdfGenerator(
+            $userCertificateRepository,
+            $logger,
+            $rpcHelper,
+            $pdfFileNameFactory,
+            $language
+        );
 
-	public function testGenerateCurrentActiveCertificate()
-	{
-		$certificate = new ilUserCertificate(
-			3,
-			20,
-			'crs',
-			50,
-			'ilyas',
-			123456789,
-			'<xml> Some content </xml>',
-			'[]',
-			null,
-			'3',
-			'v5.4.0',
-			true,
-			'/some/where/background.jpg',
-			300
-		);
+        $pdfGenerator->generate(100);
+    }
 
-		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
-			->disableOriginalConstructor()
-			->getMock();
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testGenerateCurrentActiveCertificate()
+    {
+        if (!defined('CLIENT_WEB_DIR')) {
+            define("CLIENT_WEB_DIR", 'my/client/web/dir');
+        }
+        $certificate = new ilUserCertificate(
+            3,
+            20,
+            'crs',
+            50,
+            'ilyas',
+            123456789,
+            '<xml> Some content </xml>',
+            '[]',
+            null,
+            '3',
+            'v5.4.0',
+            true,
+            '/some/where/background.jpg',
+            300
+        );
 
-		$userCertificateRepository->method('fetchActiveCertificate')
-			->willReturn($certificate);
+        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$logger = $this->getMockBuilder('ilLogger')
-			->disableOriginalConstructor()
-			->getMock();
+        $userCertificateRepository->method('fetchActiveCertificate')
+            ->willReturn($certificate);
 
-		$rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
-			->getMock();
+        $logger = $this->getMockBuilder('ilLogger')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$rpcHelper->method('ilFO2PDF')
-			->willReturn(new ScalarPdf());
+        $rpcHelper = $this->getMockBuilder('ilCertificateRpcClientFactoryHelper')
+            ->getMock();
 
-		$pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
-			->disableOriginalConstructor()
-			->getMock();
+        $rpcHelper->method('ilFO2PDF')
+            ->willReturn(new ScalarPdf());
 
-		$pdfGenerator = new ilPdfGenerator(
-			$userCertificateRepository,
-			$logger,
-			$rpcHelper,
-			$pdfFileNameFactory
-		);
+        $pdfFileNameFactory = $this->getMockBuilder('ilCertificatePdfFileNameFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$pdfGenerator->generateCurrentActiveCertificate(100, 200);
-	}
+        $language = $this->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $pdfGenerator = new ilPdfGenerator(
+            $userCertificateRepository,
+            $logger,
+            $rpcHelper,
+            $pdfFileNameFactory,
+            $language
+        );
+
+        $pdfGenerator->generateCurrentActiveCertificate(100, 200);
+    }
 }
 
 class ScalarPdf
 {
-	public $scalar = 'Some scalar';
+    public $scalar = 'Some scalar';
 }

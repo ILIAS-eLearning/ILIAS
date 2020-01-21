@@ -1,20 +1,12 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilObjPortfolioAdministrationAccess
-*
-* @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version $Id:$
-*
-* @ingroup ModulesPortfolio
-*/
+ * Class ilObjPortfolioAdministrationAccess
+ *
+ * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ */
 class ilObjPortfolioAdministrationAccess extends ilObjectAccess
 {
-
-
 }
-
-?>

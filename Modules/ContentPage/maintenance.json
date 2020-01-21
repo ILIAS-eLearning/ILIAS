@@ -9,6 +9,6 @@
     "tester": "",
     "testcase_writer": "",
     "path": "Modules/ContentPage",
-    "belong_to_component": "None",
+    "belong_to_component": "ContentPage",
     "used_in_components": []
 }

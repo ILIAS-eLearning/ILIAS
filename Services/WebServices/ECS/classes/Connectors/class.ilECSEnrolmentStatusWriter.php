@@ -6,24 +6,23 @@
  */
 class ilECSEnrolmentStatusWriter
 {
-	protected $server = NULL;
-	protected $obj_id = 0;
-	
-	/**
-	 * Constructor
-	 */
-	public function __construct($a_obj_id)
-	{
-		$this->obj_id = 0;
-	}
-	
-	/**
-	 * ECS server settings 
-	 * @return ilECSSetting 
-	 */
-	public function getServer()
-	{
-		return $this->server;
-	}
+    protected $server = null;
+    protected $obj_id = 0;
+    
+    /**
+     * Constructor
+     */
+    public function __construct($a_obj_id)
+    {
+        $this->obj_id = 0;
+    }
+    
+    /**
+     * ECS server settings
+     * @return ilECSSetting
+     */
+    public function getServer()
+    {
+        return $this->server;
+    }
 }
-?>

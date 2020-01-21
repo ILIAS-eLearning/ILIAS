@@ -2,9 +2,6 @@
 
 namespace ILIAS\BackgroundTasks;
 
-use ILIAS\BackgroundTasks\Exceptions\Exception;
-use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
-
 /**
  * Interface Observer
  *
@@ -12,55 +9,56 @@ use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
  *
  * A meta bucket contains infos about a bucket like its percentage, name etc.
  */
-interface BucketMeta {
+interface BucketMeta
+{
 
-	/**
-	 * @return int
-	 */
-	public function getUserId();
-
-
-	/**
-	 * @param int $user_id
-	 */
-	public function setUserId($user_id);
+    /**
+     * @return int
+     */
+    public function getUserId();
 
 
-	/**
-	 * @return integer
-	 */
-	public function getOverallPercentage();
+    /**
+     * @param int $user_id
+     */
+    public function setUserId($user_id);
 
 
-	/**
-	 * @param $percentage int
-	 *
-	 */
-	public function setOverallPercentage($percentage);
+    /**
+     * @return integer
+     */
+    public function getOverallPercentage();
 
 
-	/**
-	 * @param $state int From Observer\State
-	 *
-	 * @return void
-	 */
-	public function setState($state);
+    /**
+     * @param $percentage int
+     *
+     */
+    public function setOverallPercentage($percentage);
 
 
-	/**
-	 * @return int
-	 */
-	public function getState();
+    /**
+     * @param $state int From Observer\State
+     *
+     * @return void
+     */
+    public function setState($state);
 
 
-	/**
-	 * @return string
-	 */
-	public function getDescription();
+    /**
+     * @return int
+     */
+    public function getState();
 
 
-	/**
-	 * @return string
-	 */
-	public function getTitle();
+    /**
+     * @return string
+     */
+    public function getDescription();
+
+
+    /**
+     * @return string
+     */
+    public function getTitle();
 }

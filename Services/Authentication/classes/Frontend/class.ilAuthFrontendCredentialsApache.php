@@ -1,171 +1,151 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
-include_once './Services/Authentication/interfaces/interface.ilAuthCredentials.php';
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Description of class class 
+ * Description of class class
  *
- * @author Stefan Meyer <smeyer.ilias@gmx.de> 
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Michael Jansen <mjansen@databay.de>
  *
  */
 class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implements ilAuthCredentials
 {
-	private $settings = null;
+    /** @var ServerRequestInterface */
+    private $httpRequest;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
+    /** @var \ilCtrl */
+    private $ctrl;
+    
+    private $settings = null;
 
-		include_once './Services/Administration/classes/class.ilSetting.php';
-		$this->settings = new ilSetting('apache_auth');
-	}
-	
-	/**
-	 * Check if an authentication attempt should be done when login page has been called.
-	 * Redirects in case no apache authentication has been tried before (GET['passed_sso'])
-	 */
-	public function tryAuthenticationOnLoginPage()
-	{
-		if(strcmp((string) $_REQUEST['cmd'], 'force_login') === 0)
-		{
-			return false;
-		}
+    /**
+     * ilAuthFrontendCredentialsApache constructor.
+     * @param ServerRequestInterface $httpRequest
+     * @param \ilCtrl                $ctrl
+     */
+    public function __construct(ServerRequestInterface $httpRequest, \ilCtrl $ctrl)
+    {
+        $this->httpRequest = $httpRequest;
+        $this->ctrl = $ctrl;
+        parent::__construct();
 
-		if(!$this->getSettings()->get('apache_enable_auth',false))
-		{
-			return false;
-		}
+        $this->settings = new \ilSetting('apache_auth');
+    }
+    
+    /**
+     * Check if an authentication attempt should be done when login page has been called.
+     * Redirects in case no apache authentication has been tried before (GET['passed_sso'])
+     */
+    public function tryAuthenticationOnLoginPage()
+    {
+        $cmd = (string) ($this->httpRequest->getQueryParams()['cmd'] ?? '');
+        if ('' === $cmd) {
+            $cmd = (string) ($this->httpRequest->getParsedBody()['cmd'] ?? '');
+        }
 
-		if(!$this->getSettings()->get('apache_auth_authenticate_on_login_page',false))
-		{
-			return false;
-		}
+        if ('force_login' === $cmd) {
+            return false;
+        }
 
-		if(
-			!ilContext::supportsRedirects() || 
-			isset($_GET['passed_sso']) ||
-			(defined('IL_CERT_SSO') && IL_CERT_SSO == '1')
-		)
-		{
-			return false;
-		}
+        if (!$this->getSettings()->get('apache_enable_auth', false)) {
+            return false;
+        }
 
-		$path = $_SERVER['REQUEST_URI'];
-		if(substr($path,0,1) === '/')
-		{
-			$path = substr($path, 1);
-		}
+        if (!$this->getSettings()->get('apache_auth_authenticate_on_login_page', false)) {
+            return false;
+        }
 
-		if(substr($path, 0, 4) !== 'http')
-		{
-			$parts = parse_url(ILIAS_HTTP_PATH);
-			$path = $parts['scheme'] . '://'. $parts['host'] . '/' . $path;
-		}
+        if (
+            !\ilContext::supportsRedirects() ||
+            isset($this->httpRequest->getQueryParams()['passed_sso']) ||
+            (defined('IL_CERT_SSO') && IL_CERT_SSO == '1')
+        ) {
+            return false;
+        }
 
-		ilUtil::redirect(
-			ilUtil::getHtmlPath(
-				'./sso/index.php?force_mode_apache=1&' .
-				'r=' . urlencode($path) .
-				'&cookie_path=' . urlencode(IL_COOKIE_PATH) .
-				'&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
-			)
-		);
-	}
+        $path = (string) ($this->httpRequest->getServerParams()['REQUEST_URI'] ?? '');
+        if (substr($path, 0, 1) === '/') {
+            $path = substr($path, 1);
+        }
 
-	/**
-	 * @return \ilSetting
-	 */
-	protected function getSettings()
-	{
-		return $this->settings;
-	}
+        if (substr($path, 0, 4) !== 'http') {
+            $parts = parse_url(ILIAS_HTTP_PATH);
+            $path  = $parts['scheme'] . '://' . $parts['host'] . '/' . $path;
+        }
 
-	/**
-	 * Init credentials from request
-	 */
-	public function initFromRequest()
-	{
-		$this->getLogger()->dump($_SERVER, ilLogLevel::DEBUG);
-		$this->getLogger()->debug($this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', ''));
+        $this->ctrl->redirectToURL(
+            \ilUtil::getHtmlPath(
+                './sso/index.php?force_mode_apache=1&' .
+                'r=' . urlencode($path) .
+                '&cookie_path=' . urlencode(IL_COOKIE_PATH) .
+                '&ilias_path=' . urlencode(ILIAS_HTTP_PATH)
+            )
+        );
+    }
 
-		include_once './Services/AuthApache/classes/class.ilAuthProviderApache.php';
+    /**
+     * @return \ilSetting
+     */
+    protected function getSettings() : \ilSetting
+    {
+        return $this->settings;
+    }
 
-		switch($this->getSettings()->get('apache_auth_username_config_type'))
-		{
-			case ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
-				if(array_key_exists($this->getSettings()->get('apache_auth_username_direct_mapping_fieldname'), $_SERVER))
-				{
-					$this->setUsername($_SERVER[$this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '')]);
-				}
-				break;
+    /**
+     * Init credentials from request
+     */
+    public function initFromRequest()
+    {
+        $mappingFieldName = $this->getSettings()->get('apache_auth_username_direct_mapping_fieldname', '');
 
-			case ilAuthProviderApache::APACHE_AUTH_TYPE_BY_FUNCTION:
-				include_once 'Services/AuthApache/classes/custom_username_func.php';
-				$this->setUsername(ApacheCustom::getUsername());
-				break;
-		}
-	}
+        $this->getLogger()->dump($this->httpRequest->getServerParams(), \ilLogLevel::DEBUG);
+        $this->getLogger()->debug($mappingFieldName);
 
-	/**
-	 * @return bool
-	 */
-	public function hasValidTargetUrl()
-	{
-		if(!isset($_GET['r']) || 0 == strlen(trim($_GET['r'])))
-		{
-			return false;
-		}
+        switch ($this->getSettings()->get('apache_auth_username_config_type')) {
+            case \ilAuthProviderApache::APACHE_AUTH_TYPE_DIRECT_MAPPING:
+                if (isset($this->httpRequest->getServerParams()[$mappingFieldName])) {
+                    $this->setUsername($this->httpRequest->getServerParams()[$mappingFieldName]);
+                }
+                break;
 
-		$url = trim($_GET['r']);
+            case \ilAuthProviderApache::APACHE_AUTH_TYPE_BY_FUNCTION:
+                $this->setUsername((string) \ApacheCustom::getUsername());
+                break;
+        }
+    }
 
-		$validDomains = array();
-		$path         = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
-		if(file_exists($path) && is_readable($path))
-		{
-			foreach(file($path) as $line)
-			{
-				if(trim($line))
-				{
-					$validDomains[] = trim($line);
-				}
-			}
-		}
+    /**
+     * @return bool
+     */
+    public function hasValidTargetUrl() : bool
+    {
+        $targetUrl = trim((string) ($this->httpRequest->getQueryParams()['r'] ?? ''));
+        if (0 == strlen($targetUrl)) {
+            return false;
+        }
 
-		$urlParts       = parse_url($url);
-		$redirectDomain = $urlParts['host'];
+        $validDomains = array();
+        $path         = ILIAS_DATA_DIR . '/' . CLIENT_ID . '/apache_auth_allowed_domains.txt';
+        if (file_exists($path) && is_readable($path)) {
+            foreach (file($path) as $line) {
+                if (trim($line)) {
+                    $validDomains[] = trim($line);
+                }
+            }
+        }
 
-		$validRedirect = false;
-		foreach($validDomains as $validDomain)
-		{
-			if($redirectDomain === $validDomain)
-			{
-				$validRedirect = true;
-				break;
-			}
+        $validator = new \ilWhiteListUrlValidator($targetUrl, $validDomains);
 
-			if(strlen($redirectDomain) > (strlen($validDomain) + 1))
-			{
-				if(substr($redirectDomain, (0 - strlen($validDomain) - 1)) === '.' . $validDomain)
-				{
-					$validRedirect = true;
-					break;
-				}
-			}
-		}
+        return $validator->isValid();
+    }
 
-		return $validRedirect;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getTargetUrl()
-	{
-		return ilUtil::appendUrlParameterString(trim($_GET['r']), 'passed_sso=1');
-	}
+    /**
+     * @return string
+     */
+    public function getTargetUrl() : string
+    {
+        return \ilUtil::appendUrlParameterString(trim($this->httpRequest->getQueryParams()['r']), 'passed_sso=1');
+    }
 }

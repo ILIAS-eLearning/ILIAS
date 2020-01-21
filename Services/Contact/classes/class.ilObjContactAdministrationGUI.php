@@ -12,167 +12,181 @@ require_once 'Services/Contact/BuddySystem/classes/class.ilBuddySystem.php';
  */
 class ilObjContactAdministrationGUI extends ilObject2GUI
 {
-	/**
-	 * @param int $a_id
-	 * @param int $a_id_type
-	 * @param int $a_parent_node_id
-	 */
-	public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
-	{
-		parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-		$this->lng->loadLanguageModule('buddysystem');
-	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getType()
-	{
-		return 'cadm';
-	}
+    /**
+     * @var \ILIAS\DI\Container
+     */
+    protected $dic;
+    /**
+     * @var ilRbacSystem
+     */
+    protected $rbacsystem;
+    /**
+     * @var ilSetupErrorHandling
+     */
+    protected $error;
+    /**
+     * @var ilLanguage
+     */
+    public $lng;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getAdminTabs()
-	{
-		if($this->checkPermissionBool('read'))
-		{
-			$this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), array('', 'view', 'showConfigurationForm', 'saveConfigurationForm'), __CLASS__);
-		}
+    /**
+     * @param int $a_id
+     * @param int $a_id_type
+     * @param int $a_parent_node_id
+     */
+    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    {
+        global $DIC, $ilErr;
 
-		if($this->checkPermissionBool('edit_permission'))
-		{
-			$this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
-		}
-	}
+        $this->dic = $DIC;
+        $this->rbacsystem = $this->dic->rbac()->system();
+        $this->lng = $this->dic->language();
+        $this->error = $ilErr;
+        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+        $this->lng->loadLanguageModule('buddysystem');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function executeCommand()
-	{
-		$next_class = $this->ctrl->getNextClass($this);
-		$cmd        = $this->ctrl->getCmd();
-		$this->prepareOutput();
+    /**
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return 'cadm';
+    }
 
-		switch($next_class)
-		{
-			case 'ilpermissiongui':
-				require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
-				$perm_gui = new ilPermissionGUI($this);
-				$this->ctrl->forwardCommand($perm_gui);
-				break;
+    /**
+     * {@inheritdoc}
+     */
+    public function getAdminTabs()
+    {
+        if ($this->checkPermissionBool('read')) {
+            $this->tabs_gui->addTarget('settings', $this->ctrl->getLinkTarget($this, 'showConfigurationForm'), array('', 'view', 'showConfigurationForm', 'saveConfigurationForm'), __CLASS__);
+        }
 
-			default:
-				if($cmd == '' || $cmd == 'view')
-				{
-					$cmd = 'showConfigurationForm';
-				}
-				$this->$cmd();
-				break;
-		}
-	}
+        if ($this->checkPermissionBool('edit_permission')) {
+            $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
+        }
+    }
 
-	/**
-	 * @return ilPropertyFormGUI 
-	 */
-	protected function getConfigurationForm()
-	{
-		require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-		$form = new ilPropertyFormGUI();
-		$form->setTitle($this->lng->txt('settings'));
-		$form->setFormAction($this->ctrl->getFormAction($this, 'saveConfigurationForm'));
+    /**
+     * {@inheritdoc}
+     */
+    public function executeCommand()
+    {
+        $next_class = $this->ctrl->getNextClass($this);
+        $cmd        = $this->ctrl->getCmd();
+        $this->prepareOutput();
 
-		$enabled = new ilCheckboxInputGUI($this->lng->txt('buddy_enable'), 'enable');
-		$enabled->setValue(1);
-		$enabled->setInfo($this->lng->txt('buddy_enable_info'));
-		$enabled->setDisabled(!$this->checkPermissionBool('write'));
+        switch ($next_class) {
+            case 'ilpermissiongui':
+                require_once 'Services/AccessControl/classes/class.ilPermissionGUI.php';
+                $perm_gui = new ilPermissionGUI($this);
+                $this->ctrl->forwardCommand($perm_gui);
+                break;
 
-		$notification = new ilCheckboxInputGUI($this->lng->txt('buddy_use_osd'), 'use_osd');
-		$notification->setValue(1);
-		$notification->setInfo($this->lng->txt('buddy_use_osd_info'));
-		$notification->setDisabled(!$this->checkPermissionBool('write'));
-		$enabled->addSubItem($notification);
+            default:
+                if ($cmd == '' || $cmd == 'view') {
+                    $cmd = 'showConfigurationForm';
+                }
+                $this->$cmd();
+                break;
+        }
+    }
 
-		$form->addItem($enabled);
+    /**
+     * @return ilPropertyFormGUI
+     */
+    protected function getConfigurationForm()
+    {
+        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
+        $form = new ilPropertyFormGUI();
+        $form->setTitle($this->lng->txt('settings'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'saveConfigurationForm'));
 
-		if ($this->checkPermissionBool('write')) {
-			$form->addCommandButton('saveConfigurationForm', $this->lng->txt('save'));
-		}
+        $enabled = new ilCheckboxInputGUI($this->lng->txt('buddy_enable'), 'enable');
+        $enabled->setValue(1);
+        $enabled->setInfo($this->lng->txt('buddy_enable_info'));
+        $enabled->setDisabled(!$this->checkPermissionBool('write'));
 
-		return $form;
-	}
+        $notification = new ilCheckboxInputGUI($this->lng->txt('buddy_use_osd'), 'use_osd');
+        $notification->setValue(1);
+        $notification->setInfo($this->lng->txt('buddy_use_osd_info'));
+        $notification->setDisabled(!$this->checkPermissionBool('write'));
+        $enabled->addSubItem($notification);
 
-	/**
-	 * @param ilPropertyFormGUI|null $form
-	 */
-	protected function showConfigurationForm(ilPropertyFormGUI $form = null)
-	{
-		$this->checkPermission('read');
+        $form->addItem($enabled);
 
-		if(!($form instanceof ilPropertyFormGUI))
-		{
-			require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-			$cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
+        if ($this->checkPermissionBool('write')) {
+            $form->addCommandButton('saveConfigurationForm', $this->lng->txt('save'));
+        }
 
-			$form = $this->getConfigurationForm();
-			$form->setValuesByArray(array(
-				'enable'  => (bool)ilBuddySystem::getInstance()->getSetting('enabled', 0),
-				'use_osd' => isset($cfg['buddysystem_request']) && array_search('osd', $cfg['buddysystem_request']) !== false
-			));
-		}
+        return $form;
+    }
 
-		$this->tpl->setContent($form->getHTML());
-	}
+    /**
+     * @param ilPropertyFormGUI|null $form
+     */
+    protected function showConfigurationForm(ilPropertyFormGUI $form = null)
+    {
+        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+            $this->error->raiseError($this->lng->txt("no_permission"), $this->error->WARNING);
+        }
 
-	/**
-	 * 
-	 */
-	protected function saveConfigurationForm()
-	{
-		$this->checkPermission('write');
+        if (!($form instanceof ilPropertyFormGUI)) {
+            require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+            $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
-		$form = $this->getConfigurationForm();
-		if(!$form->checkInput())
-		{
-			$form->setValuesByPost();
-			$this->showConfigurationForm($form);
-			return;
-		}
+            $form = $this->getConfigurationForm();
+            $form->setValuesByArray(array(
+                'enable'  => (bool) ilBuddySystem::getInstance()->getSetting('enabled', 0),
+                'use_osd' => isset($cfg['buddysystem_request']) && array_search('osd', $cfg['buddysystem_request']) !== false
+            ));
+        }
 
-		ilBuddySystem::getInstance()->setSetting('enabled', (bool)$form->getInput('enable') ? 1 : 0);
+        $this->tpl->setContent($form->getHTML());
+    }
 
-		require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
-		$cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
+    /**
+     *
+     */
+    protected function saveConfigurationForm()
+    {
+        $this->checkPermission('write');
 
-		$new_cfg = array();
-		foreach($cfg as $type => $channels)
-		{
-			$new_cfg[$type] = array();
-			foreach($channels as $channel)
-			{
-				$new_cfg[$type][$channel] = true;
-			}
-		}
+        $form = $this->getConfigurationForm();
+        if (!$form->checkInput()) {
+            $form->setValuesByPost();
+            $this->showConfigurationForm($form);
+            return;
+        }
 
-		if(!isset($new_cfg['buddysystem_request']) || !is_array($new_cfg['buddysystem_request']))
-		{
-			$new_cfg['buddysystem_request'] = array();
-		}
+        ilBuddySystem::getInstance()->setSetting('enabled', (bool) $form->getInput('enable') ? 1 : 0);
 
-		if((bool)$form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request']))
-		{
-			$new_cfg['buddysystem_request']['osd'] = true;
-		}
-		else if(!(bool)$form->getInput('use_osd') && array_key_exists('osd', $new_cfg['buddysystem_request']))
-		{
-			$new_cfg['buddysystem_request']['osd'] = false;
-		}
+        require_once 'Services/Notifications/classes/class.ilNotificationDatabaseHelper.php';
+        $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
-		ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
+        $new_cfg = array();
+        foreach ($cfg as $type => $channels) {
+            $new_cfg[$type] = array();
+            foreach ($channels as $channel) {
+                $new_cfg[$type][$channel] = true;
+            }
+        }
 
-		ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
-		$this->ctrl->redirect($this);
-	}
+        if (!isset($new_cfg['buddysystem_request']) || !is_array($new_cfg['buddysystem_request'])) {
+            $new_cfg['buddysystem_request'] = array();
+        }
+
+        if ((bool) $form->getInput('use_osd') && !array_key_exists('osd', $new_cfg['buddysystem_request'])) {
+            $new_cfg['buddysystem_request']['osd'] = true;
+        } elseif (!(bool) $form->getInput('use_osd') && array_key_exists('osd', $new_cfg['buddysystem_request'])) {
+            $new_cfg['buddysystem_request']['osd'] = false;
+        }
+
+        ilNotificationDatabaseHandler::setUserConfig(-1, $new_cfg);
+
+        ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
+        $this->ctrl->redirect($this);
+    }
 }

@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddySystemRelationState.php';
 
 /**
  * Class ilBuddySystemLinkedState
@@ -9,38 +7,37 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddyS
  */
 class ilBuddySystemLinkedRelationState extends ilAbstractBuddySystemRelationState
 {
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getName()
-	{
-		return 'Linked';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getName() : string
+    {
+        return 'Linked';
+    }
 
-	/**
-	 *  {@inheritDoc}
-	 */
-	public function getAction()
-	{
-		return 'link';
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getAction() : string
+    {
+        return 'link';
+    }
 
-	/**
-	 * @return ilBuddySystemCollection|ilBuddySystemRelationState[]
-	 */
-	public function getPossibleTargetStates()
-	{
-		require_once 'Services/Contact/BuddySystem/classes/states/class.ilBuddySystemRelationStateCollection.php';
-		return new ilBuddySystemRelationStateCollection(array(
-			new ilBuddySystemUnlinkedRelationState()
-		));
-	}
+    /**
+     * @inheritDoc
+     */
+    public function getPossibleTargetStates() : ilBuddySystemRelationStateCollection
+    {
+        return new ilBuddySystemRelationStateCollection([
+            new ilBuddySystemUnlinkedRelationState()
+        ]);
+    }
 
-	/**
-	 * @param ilBuddySystemRelation
-	 */
-	public function unlink(ilBuddySystemRelation $relation)
-	{
-		$relation->setState(new ilBuddySystemUnlinkedRelationState());
-	}
+    /**
+     * @inheritDoc
+     */
+    public function unlink(ilBuddySystemRelation $relation) : void
+    {
+        $relation->setState(new ilBuddySystemUnlinkedRelationState());
+    }
 }

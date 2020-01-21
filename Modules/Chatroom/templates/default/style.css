@@ -233,28 +233,6 @@ h2.current_room_title {
 	border: 1px solid silver;
 }
 
-#ilChatBlockRoomSelect {
-	width: 100% !important;
-}
-
-#ilChatBlockMessageBody {
-	overflow: auto;
-	height: 240px;
-	font-size: 0.85em;
-	font-style: italic;
-}
-
-#ilChatBlockMessageBody .size_small {
-	font-size: 0.85em !important;
-}
-
-#ilChatBlockMessageBody .size_normal {
-	font-size: 1em !important;
-}
-
-#ilChatBlockMessageBody .size_large {
-	font-size: 1.1em !important;
-}
 
 .ilNoDisplayChat {
 	display: none;

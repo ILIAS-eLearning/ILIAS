@@ -13,98 +13,106 @@
  *
  * @ingroup ModulesDataCollection
  */
-class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel {
+class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
+{
 
-	/**
-	 * @var bool
-	 */
-	protected $rated;
-	/**
-	 * @var int
-	 */
-	protected $dcl_obj_id;
-
-
-	public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) {
-		parent::__construct($record, $field);
-
-		$dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
-		$this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
-	}
+    /**
+     * @var bool
+     */
+    protected $rated;
+    /**
+     * @var int
+     */
+    protected $dcl_obj_id;
 
 
-	public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) {
-		return;
-	}
+    public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
+    {
+        parent::__construct($record, $field);
+
+        $dclTable = ilDclCache::getTableCache($this->getField()->getTableId());
+        $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
+    }
 
 
-	/**
-	 * override the loadValue.
-	 */
-	protected function loadValue() {
-		// explicitly do nothing. we don't have to load the value as it is saved somewhere else.
-	}
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    {
+        return;
+    }
 
 
-	/**
-	 * Set value for record field
-	 *
-	 * @param mixed $value
-	 * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
-	 */
-	public function setValue($value, $omit_parsing = false) {
-		// explicitly do nothing. the value is handled via the model and gui of ilRating.
-	}
+    /**
+     * override the loadValue.
+     */
+    protected function loadValue()
+    {
+        // explicitly do nothing. we don't have to load the value as it is saved somewhere else.
+    }
 
 
-	public function doUpdate() {
-		// explicitly do nothing. the value is handled via the model and gui of ilRating.
-	}
+    /**
+     * Set value for record field
+     *
+     * @param mixed $value
+     * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
+     */
+    public function setValue($value, $omit_parsing = false)
+    {
+        // explicitly do nothing. the value is handled via the model and gui of ilRating.
+    }
 
 
-	public function doRead() {
-		// explicitly do nothing. the value is handled via the model and gui of ilRating.
-	}
+    public function doUpdate()
+    {
+        // explicitly do nothing. the value is handled via the model and gui of ilRating.
+    }
 
 
-	/**
-	 * return Export values
-	 *
-	 * @return string
-	 */
-	public function getExportValue() {
-		$val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record", $this->getField()->getId(), "dcl_field");
-
-		return round($val["avg"], 1) . " (" . $val["cnt"] . ")";
-	}
+    public function doRead()
+    {
+        // explicitly do nothing. the value is handled via the model and gui of ilRating.
+    }
 
 
-	/**
-	 * @return array
-	 */
-	public function getValue() {
-		return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record", $this->getField()->getId(), "dcl_field");
-	}
+    /**
+     * return Export values
+     *
+     * @return string
+     */
+    public function getExportValue()
+    {
+        $val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record", $this->getField()->getId(), "dcl_field");
+
+        return round($val["avg"], 1) . " (" . $val["cnt"] . ")";
+    }
 
 
-	/**
-	 * delete
-	 */
-	public function delete() {
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
+    /**
+     * @return array
+     */
+    public function getValue()
+    {
+        return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record", $this->getField()->getId(), "dcl_field");
+    }
 
-		$ilDB->manipulate(
-			"DELETE FROM il_rating WHERE " .
-			"obj_id = " . $ilDB->quote((int)$this->getRecord()->getId(), "integer") . " AND " .
-			"obj_type = " . $ilDB->quote("dcl_record", "text") . " AND " .
-			"sub_obj_id = " . $ilDB->quote((int)$this->getField()->getId(), "integer") . " AND " .
-			$ilDB->equals("sub_obj_type", "dcl_field", "text", true)
-		);
 
-		$query2 = "DELETE FROM il_dcl_record_field WHERE id = " . $ilDB->quote($this->getId(), "integer");
-		$ilDB->manipulate($query2);
-	}
+    /**
+     * delete
+     */
+    public function delete()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        $ilDB->manipulate(
+            "DELETE FROM il_rating WHERE " .
+            "obj_id = " . $ilDB->quote((int) $this->getRecord()->getId(), "integer") . " AND " .
+            "obj_type = " . $ilDB->quote("dcl_record", "text") . " AND " .
+            "sub_obj_id = " . $ilDB->quote((int) $this->getField()->getId(), "integer") . " AND " .
+            $ilDB->equals("sub_obj_type", "dcl_field", "text", true)
+        );
+
+        $query2 = "DELETE FROM il_dcl_record_field WHERE id = " . $ilDB->quote($this->getId(), "integer");
+        $ilDB->manipulate($query2);
+    }
 }
-
-?>

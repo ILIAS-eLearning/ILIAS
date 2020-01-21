@@ -28,10 +28,15 @@ This rules are to be understood according to [RFC2119](https://www.ietf.org/rfc/
    part of the public interface, as well as all entities that are reachable via
    entities on the top level.
 8. The public interface of the libraries MUST be documented with Doc-Blocks.
-   Classes, interfaces or traits MUST at least be documented with one sentence
-   telling the purpose of the entity. Functions and Methods MUST at least be 
-   documented with one sentence giving the semantics and the in- and outputs in
-   PHP-Doc-format.
+   Classes, interfaces or traits SHOULD be documented with at least one sentence
+   telling the purpose of the entity - repeating the class's name is not enough. 
+   Functions and Methods MUST at least be documented with one sentence giving 
+   the semantics and the in- and outputs in PHP-Doc-format.
+   This MAY be ommited (in the respective parts) if the docs would not further 
+   clarify information given by the functions's name or explicitly distinguishable
+   typehinting. 
+   Example: "public function withTitle(string $title): myObject"  does not need 
+   a Doc-Block, but "public function calculate(array $params)" does!
 9. Libraries MUST NOT be subject to a breaking change in an ILIAS release-branch.
 10. Breaking changes to a library MUST be announced at least one month in advance
    on the Jour Fixe. Breaking changes to a library MUST be made in the trunk.

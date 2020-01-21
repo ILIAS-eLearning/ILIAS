@@ -7,6 +7,10 @@ proposed changes to `composer.json`, name it like "Add library XYZ" and assign
 the "jour fixe"-label.
 
 ## Composer dependency management
+ILIAS uses composer https://getcomposer.org/ to manage PHP dependencies. Server administrators
+who manage their installation via the Git repository will have to use composer to manage
+dependencies. See https://getcomposer.org/doc/ for more information.
+
 Composer distinguishes between two different category of dependencies the 
 production and dev dependencies.
 
@@ -62,15 +66,26 @@ composer remove --dev <DEPENDENCY_NAME>
 ```
 Afterwards all changes should be committed.
 
-# Updating Class-Map
-The composer classmap holds information (besides the PHP-dependencies) on all ILIAS-classnames and 
-provides autoloading for them. There is no need to require_once or include_once ILIAS-Classes 
-anymore.
-Whenever a new ILIAS-Class in /Services\/* or /Modules\/* is introduced, the classmap should be 
-updated with the following command. 
+# Populate the Vendor-Directory
+The vendor-directory contains code for the dependencies managed by composer and
+the autoloader that allows PHP to automatically find classes. These need to be
+created by composer before ILIAS will work.
+
+To populate the vendor-directory for a production environment call in `lib\composer`:
+
 ```bash
-$ composer dump-autoload
+composer install --no-dev
+composer dump-autoload
 ```
+
+To populate the vendor-directory for a development environment, use
+
+```bash
+composer install --dev
+composer dump-autoload
+```
+
+instead.
 
 # Create library patch
 

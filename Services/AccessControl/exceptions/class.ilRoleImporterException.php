@@ -8,9 +8,6 @@ include_once './Services/Exceptions/classes/class.ilException.php';
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class  ilRoleImporterException extends ilException 
+class ilRoleImporterException extends ilException
 {
-
-	
 }
-?>

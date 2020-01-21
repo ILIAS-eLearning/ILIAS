@@ -8,7 +8,7 @@
 <a {TREE_ACC_KEY} class="ilTreeView{RIGHT}<!-- BEGIN tree_lns --> kilLeftNavSpace<!-- END tree_lns -->" href="{LINK_MODE}" target="{TARGET_TREE}" id="imgtree">
 	<img id="ilSideBarIcon" src="{IMG_TREE}" alt="{ALT_TREE}" title="{ALT_TREE}" /></a>
 <!-- END tree_mode -->
-<div id="mainspacekeeper" class="container-fluid ilContainerWidth {MAINMENU_SPACER}">
+<div id="mainspacekeeper" class="container-fluid {MAINMENU_SPACER}">
 	<div class="row" style="position: relative;">
 	<!-- BEGIN left_nav -->
 	<div id="left_nav" class="ilLeftNav hidden-print">{LEFT_NAV_CONTENT}</div>
@@ -69,12 +69,11 @@
 {SUB_TABS}
 <span class="ilAccHidden"><a id="after_sub_tabs" name="after_sub_tabs"></a></span>
 <!-- BEGIN tabs_inner_start --><!-- END tabs_inner_start -->
+<!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
 <!-- BEGIN page_form_start -->
 <form id="main_page_form" action="{PAGE_FORM_ACTION}" method="post">
 	<!-- END page_form_start -->
-
 <div>
-	<!-- BEGIN mess --><div class="ilAdminRow">{MESSAGE}</div><!-- END mess -->
 	<!-- BEGIN adm_view_components -->
 	<div class="ilAdminRow">{ADM_PANEL1}</div>
 	<!-- END adm_view_components -->

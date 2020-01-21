@@ -7,7 +7,6 @@ require_once 'Services/Object/classes/class.ilObjectAccess.php';
  * Class ilObjPDFGenerationAccess
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilObjPDFGenerationAccess  extends ilObjectAccess
+class ilObjPDFGenerationAccess extends ilObjectAccess
 {
-
 }

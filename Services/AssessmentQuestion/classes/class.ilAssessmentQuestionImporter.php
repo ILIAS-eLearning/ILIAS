@@ -12,14 +12,14 @@
  */
 class ilAssessmentQuestionImporter extends ilXmlImporter
 {
-	/**
-	 * @param string $a_entity
-	 * @param int $a_id
-	 * @param string $a_xml
-	 * @param array $a_mapping
-	 */
-	public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
-	{
-		// TODO: Implement importXmlRepresentation() method.
-	}
+    /**
+     * @param string $a_entity
+     * @param int $a_id
+     * @param string $a_xml
+     * @param array $a_mapping
+     */
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    {
+        // TODO: Implement importXmlRepresentation() method.
+    }
 }

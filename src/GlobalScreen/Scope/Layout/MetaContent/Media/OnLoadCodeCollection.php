@@ -1,0 +1,27 @@
+<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+
+/**
+ * Class OnLoadCodeCollection
+ *
+ * @package ILIAS\Services\UICore\Page\Media
+ */
+class OnLoadCodeCollection extends AbstractCollection
+{
+
+    /**
+     * @param OnLoadCode $item
+     */
+    public function addItem(OnLoadCode $item)
+    {
+        $this->items[] = $item;
+    }
+
+
+    /**
+     * @return OnLoadCode[]
+     */
+    public function getItemsInOrderOfDelivery() : array
+    {
+        return parent::getItemsInOrderOfDelivery();
+    }
+}

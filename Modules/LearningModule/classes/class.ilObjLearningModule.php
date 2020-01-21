@@ -1,8 +1,6 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
 * Class ilObjLearningModule
@@ -15,16 +13,13 @@ require_once("./Modules/LearningModule/classes/class.ilObjContentObject.php");
 class ilObjLearningModule extends ilObjContentObject
 {
 
-	/**
-	* Constructor
-	* @access	public
-	*/
-	function __construct($a_id = 0,$a_call_by_reference = true)
-	{
-		$this->type = "lm";
-		parent::__construct($a_id, $a_call_by_reference);
-	}
-
+    /**
+    * Constructor
+    * @access	public
+    */
+    public function __construct($a_id = 0, $a_call_by_reference = true)
+    {
+        $this->type = "lm";
+        parent::__construct($a_id, $a_call_by_reference);
+    }
 }
-
-?>

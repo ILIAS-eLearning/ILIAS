@@ -2,37 +2,34 @@
 require_once('./Services/UIComponent/classes/class.ilUIHookProcessor.php');
 
 /**
- * Service ilRouterGUI
+ * Class ilUIPluginRouterGUI
+ *
  * This service is used by plugins. It allows any plugin to get called by a http request without dependencies to a
  * certain module or service other than this.
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>, Oskar Truffer <ot@studer-raimann.ch>
- * @version $Id:
- *
- * @ingroup ServicesRouter
  */
-class ilUIPluginRouterGUI {
-	/**
-	 * @var ilCtrl
-	 */
-	protected $ctrl;
+class ilUIPluginRouterGUI
+{
+
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
 
 
-    /** @var  ilCtrl */
-    protected $ilCtrl;
-
-    function __construct() {
-		global $DIC;
-
-		$ilCtrl = $DIC->ctrl();
-
-        $this->ctrl = $ilCtrl;
+    public function __construct()
+    {
+        global $DIC;
+        $this->ctrl = $DIC->ctrl();
     }
+
 
     /**
      * The only thing this execute Command does is forward the command in the command chain.
      */
-    function executeCommand() {
+    public function executeCommand()
+    {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             default:
@@ -42,7 +39,7 @@ class ilUIPluginRouterGUI {
                     $gui = new $next_class();
                     $this->ctrl->forwardCommand($gui);
                 } else {
-                    ilUtil::sendFailure('Plugin GUI-Class not found! ('.$next_class.')');
+                    ilUtil::sendFailure('Plugin GUI-Class not found! (' . $next_class . ')');
                 }
                 break;
         }

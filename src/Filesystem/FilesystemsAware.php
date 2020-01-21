@@ -13,25 +13,26 @@ namespace ILIAS\Filesystem;
  * @since 5.3
  * @version 1.0.0
  */
-trait FilesystemsAware {
+trait FilesystemsAware
+{
 
-	/**
-	 * @var Filesystems $filesystems
-	 */
-	private static $filesystems;
+    /**
+     * @var Filesystems $filesystems
+     */
+    private static $filesystems;
 
-	/**
-	 * Returns the loaded filesystems.
-	 *
-	 * @return Filesystems
-	 */
-	private static function filesystems(): Filesystems {
-		if(is_null(self::$filesystems)) {
-			global $DIC;
-			self::$filesystems = $DIC->filesystem();
-		}
+    /**
+     * Returns the loaded filesystems.
+     *
+     * @return Filesystems
+     */
+    private static function filesystems() : Filesystems
+    {
+        if (is_null(self::$filesystems)) {
+            global $DIC;
+            self::$filesystems = $DIC->filesystem();
+        }
 
-		return self::$filesystems;
-	}
-
+        return self::$filesystems;
+    }
 }

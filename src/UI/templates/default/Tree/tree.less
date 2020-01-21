@@ -1,0 +1,43 @@
+.il-tree {
+	list-style-type: none;
+	padding: 0 @padding-small-vertical 0 @padding-small-vertical;
+	margin-left: 0;
+	ul {
+		padding-left: @il-tree-node-indentation;
+		list-style-type: none;
+	}
+	li.il-tree-node {
+		padding: 0 @il-tree-node-vertical-spacing;
+
+		.node-line {
+			padding-left: @il-tree-node-indentation;
+			cursor: pointer;
+			display: flex;
+			flex-wrap: wrap;
+			> .node-label .icon{
+				vertical-align: text-bottom;
+			}
+			> .node-byline {
+				width: 100%;
+			}
+		}
+		&.highlighted > .node-line {
+			background-color: @il-highlight-bg;
+		}
+		&.expandable {
+			> .node-line:before {
+				color: @gray-light;
+				&:extend(.glyphicon-triangle-right:before);
+				position: absolute;
+				margin-left: -@il-tree-node-indentation;
+			}
+			&.expanded > .node-line:before {
+				&:extend(.glyphicon-triangle-bottom:before);
+			}
+		}
+		&:not(.expanded) > ul{
+			display: none;
+		}
+	}
+}
+

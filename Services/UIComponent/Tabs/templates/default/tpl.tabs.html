@@ -1,15 +1,15 @@
 <h2 class="ilAccHeadingHidden">{TXT_TABS}</h2>
 <ul id="ilTab" class="nav nav-tabs ilCollapsable hidden-print" role="tablist">
 	<!-- BEGIN back_2_tab -->
-	<li><a href="{BACK_2_TAB_LINK}" target="{BACK_2_TAB_TARGET}">{BACK_2_ICON} {BACK_2_TAB_TEXT}</a></li>
+	<li role="tab"><a href="{BACK_2_TAB_LINK}" target="{BACK_2_TAB_TARGET}">{BACK_2_ICON} {BACK_2_TAB_TEXT}</a></li>
 	<!-- END back_2_tab -->
 	<!-- BEGIN back_tab -->
-	<li><a href="{BACK_TAB_LINK}" target="{BACK_TAB_TARGET}">{BACK_ICON} {BACK_TAB_TEXT}</a></li>
+	<li role="tab"><a href="{BACK_TAB_LINK}" target="{BACK_TAB_TARGET}">{BACK_ICON} {BACK_TAB_TEXT}</a></li>
 	<!-- END back_tab -->
 	<!-- BEGIN tab -->
-	<li id="{ID}" class="{TAB_TYPE}"><a href="{TAB_LINK}" target="{TAB_TARGET}">{TAB_TEXT}{TAB_ICON}</a><!-- BEGIN sel_text --> <span class="ilAccHidden">({TXT_SELECTED})</span><!-- END sel_text --></li>
+	<li role="tab" id="{ID}" class="{TAB_TYPE}"><a href="{TAB_LINK}" target="{TAB_TARGET}">{TAB_TEXT}{TAB_ICON}</a><!-- BEGIN sel_text --> <span class="ilAccHidden">({TXT_SELECTED})</span><!-- END sel_text --></li>
 	<!-- END tab -->
-	<li id="ilLastTab">
+	<li role="tab" id="ilLastTab">
 		<a class="btn dropdown-toggle ilNoDisplay" data-toggle="dropdown" href="#">
 			... <span class="caret"></span>
 		</a>

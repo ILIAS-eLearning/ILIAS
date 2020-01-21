@@ -2,6 +2,7 @@
 	background-color: @il-primary-container-bg;
 	position: relative;
 	padding: @il-item-padding;
+	.clearfix();
 
 	h5 {
 		margin: @il-item-h5-margin;
@@ -34,12 +35,12 @@
 
 	.il-item-property-name {
 		font-size: @font-size-small;
+		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
 		font-size: @font-size-small;
-		color: @il-light-text-color;
 		overflow: hidden;
 	}
 
@@ -57,10 +58,6 @@
 	border-left: @il-item-marker-border-left;
 }
 
-.il-narrow-content .il-item:hover {
-	background-color: @il-highlight-bg;
-}
-
 .il-item-group {
 	clear: both;
 }
@@ -76,90 +73,119 @@
 .il-item-group-items {
 	clear: both;
 }
+.il-item-notification-replacement-container:not(:first-child){
+	.il-notification-item{
+		margin-top: @padding-large-vertical;
+	}
+}
+
+.il-notification-item{
+	.il-item-additional-content{
+		clear:both;
+	}
+
+	.dropdown{
+		margin-top: -(@font-size-base+@padding-large-vertical);
+	}
+
+}
 
 /* this is currently experimental, could be removed */
-.il-narrow-content .il-item {
-	padding: 0px;
-	display: table;
-	width: 100%;
+@media only screen and (min-width: (@grid-float-breakpoint-max + 1)) {
 
-	h5 {
-		margin-top: 3px;
-		font-size: 100%;
-		float: none;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	.il-item-description {
-		padding-top: 1px;
-		font-size: 80%;
-	}
-
-	.il-item-divider, .il-item-property-name, .il-item-property-value {
-		display:none;
-	}
-
-	.row {
-		display: table-row;
-	}
-
-	.col-sm-3 {
-		display: table-cell;
-		height: 100%;
-		padding: 0;
-		float: none;
-		vertical-align: top;
-		width: 45px;
-	}
-
-	.col-sm-3 img {
-		width: 40px;
-	}
-
-	.col-sm-9 {
-		position: static;
-		display: table-cell;
-		padding: 0 5px 0 5px;
-		overflow: hidden;
-		max-width: 0;
-		float: none;
-		zoom: 1;
-		vertical-align: top;
-		width: auto;
-	}
-
-	.dropdown {
-		position:static;
-	}
-
-	.dropdown-menu.pull-right {
-		width:100%;
-	}
-
-	.dropdown-toggle {
-		position: absolute;
-		left: 0px;
+	.panel-secondary .il-item {
+		padding: @padding-large-vertical @padding-small-horizontal;
+		display: table;
 		width: 100%;
-		height: 100%;
-		margin-top: -20px;
-		z-index: 1;
+
+		h5 {
+			margin-top: 0;
+			font-size: 100%;
+			float: none;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
+		.il-item-description {
+			padding-top: 0;
+			font-size: @font-size-xs;
+		}
+
+		.il-item-divider, .il-item-property-name, .il-item-property-value {
+			display: none;
+		}
+
+		.row {
+			display: table-row;
+		}
+
+		.col-sm-3 {
+			display: table-cell;
+			height: 100%;
+			padding: 0;
+			float: none;
+			vertical-align: top;
+			width: 45px;
+		}
+
+		.col-sm-3 img {
+			width: 40px;
+		}
+
+		.col-sm-9 {
+			position: static;
+			display: table-cell;
+			padding: 0 @padding-small-horizontal;
+			overflow: hidden;
+			max-width: 0;
+			float: none;
+			zoom: 1;
+			vertical-align: top;
+			/* using auto has issues on firefox, using calc(100%-45px) seems to have issues on IE,
+				see known issues at https://caniuse.com/#search=calc */
+			width: 100%;
+		}
+
+		.dropdown {
+			position: static;
+		}
+
+		.dropdown-menu  {
+			width: 100%;
+		}
+
+		.dropdown-toggle {
+			position: absolute;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			margin-top: -20px;
+			z-index: 1;
+		}
+
+		.open > .dropdown-toggle.btn-default:hover, .open > .dropdown-toggle.btn-default {
+			background-color: transparent;
+		}
+
+		button.dropdown-toggle {
+			background-color: transparent;
+			border: 0;
+		}
+
+		button.dropdown-toggle > span {
+			display: none;
+		}
 	}
 
-	button.dropdown-toggle {
-		background-color: transparent;
-		border: 0;
-	}
-
-	button.dropdown-toggle > span {
-		display: none;
+	.panel-secondary .il-item:hover {
+		background-color: @il-highlight-bg;
 	}
 
 }
 
 /* otherwise dropdowns in items with icon do not work */
-.il-std-item .media .media-body, .il-std-item .media {
+.il-std-item .media .media-body, .il-std-item .media, .il-notification-item .media, .il-notification-item .media .media-body {
 	overflow: visible;
 }
 
@@ -169,10 +195,6 @@
 		div.col-sm-3 > h5 {
 			font-size: @font-size-h6;
 			float: none;
-		}
-
-		.il-item-description {
-			display: none;
 		}
 
 		.il-item-divider {

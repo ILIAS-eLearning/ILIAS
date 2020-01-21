@@ -19,14 +19,22 @@ if (!window.console) {
 }
 
 // global il namespace, additional objects usually should be added to this one
-il = {};
+if (typeof il === 'undefined') {
+	il = {}
+}
 
 // utility functions
 il.Util = {
 	
 	addOnLoad: function(func)
 	{
-		$().ready(func);
+		$().ready(function() {
+			try {
+				func();
+			} catch (err) {
+				console.error(err);
+			}
+		});
 /*		if (!document.getElementById | !document.getElementsByTagName) return;
 	
 		var oldonload=window.onload;
@@ -108,6 +116,7 @@ il.Util = {
 	
 	ajaxReplace: function(url, el_id)
 	{
+		console.log(url);
 		this.sendAjaxGetRequestToUrl (url, {}, {el_id: el_id, inner: false}, this.ajaxReplaceSuccess)
 	},
 	
@@ -419,6 +428,23 @@ il.UICore = {
 
 	right_panel_wrapper: "",
 
+	is_page_visible: true,
+
+	/**
+	 * 
+	 * @param {boolean} status
+	 */
+	setPageVisibilityStatus: function(status) {
+		il.UICore.is_page_visible = status
+	},
+
+	/**
+	 * 
+	 * @returns {boolean}
+	 */
+	isPageVisible: function() {
+		return il.UICore.is_page_visible;
+	},
 
 	scrollToHash: function () {
 		var h = self.location.hash;
@@ -631,6 +657,16 @@ il.UICore = {
 	},
 
 	showRightPanel: function () {
+
+		this.right_panel = il.Modal.dialogue({
+			id:       "il_right_panel",
+			show: true,
+			body: "<div id='ilRightPanel'></div>",
+			buttons:  {
+			}
+		});
+		return;
+		/*
 		var n = document.getElementById('ilRightPanel');
 		if (!n) {
 			var b = $("body");
@@ -652,6 +688,8 @@ il.UICore = {
 		n = document.getElementById('ilRightPanel');
 		n.style.width = '500px';
 		n.style.height = '100%';
+
+		 */
 	},
 	
 	setRightPanelContent: function (c) {
@@ -674,10 +712,20 @@ il.UICore = {
 	
 	hideRightPanel: function () {
 		il.UICore.unloadWrapperFromRightPanel();
+
+		if (this.right_panel) {
+			this.right_panel.hide();
+		}
+		return;
+
 		il.Overlay.hide(null, "ilRightPanel");
 	}
 
 };
+
+$(document).on("visibilitychange", function () {
+	il.UICore.setPageVisibilityStatus(!document["hidden"]);
+});
 
 // fixing anchor links presentation, unfortunately there
 // is no event after browsers have scrolled to an anchor hash

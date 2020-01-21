@@ -1,46 +1,39 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilMailBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilMailBaseTest extends \PHPUnit_Framework_TestCase
+abstract class ilMailBaseTest extends TestCase
 {
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$GLOBALS['DIC'] = new \ILIAS\DI\Container();
+    /**
+     * @inheritdoc
+     */
+    protected function setUp() : void
+    {
+        $GLOBALS['DIC'] = new Container();
 
-		parent::setUp();
-	}
+        parent::setUp();
+    }
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param $value
+     */
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        $GLOBALS[$name] = $value;
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
-
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 }

@@ -1,88 +1,99 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\DI\Container;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilTermsOfServiceBaseTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-abstract class ilTermsOfServiceBaseTest extends \PHPUnit_Framework_TestCase
+abstract class ilTermsOfServiceBaseTest extends TestCase
 {
-	/**
-	 * @var Container
-	 */
-	protected $dic;
+    /** @var Container */
+    protected $dic;
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function setUp()
-	{
-		$this->dic = new Container();
-		$GLOBALS['DIC'] = $this->dic;
+    /**
+     * @inheritdoc
+     * @throws ReflectionException
+     */
+    protected function setUp() : void
+    {
+        $this->dic      = new Container();
+        $GLOBALS['DIC'] = $this->dic;
 
-		$initRefl = new \ReflectionClass(\ilInitialisation::class);
-		$method = $initRefl->getMethod('initUIFramework');
-		$method->setAccessible(true);
-		$method->invoke($initRefl, $this->dic);
+        $this->setGlobalVariable('lng', $this->getLanguageMock());
+        $this->setGlobalVariable(
+            'ilCtrl',
+            $this->getMockBuilder(ilCtrl::class)->disableOriginalConstructor()->getMock()
+        );
 
-		$this->setGlobalVariable('lng', $this->getLanguageMock());
-		$this->setGlobalVariable('ilCtrl', $this->getMockBuilder(\ilCtrl::class)->disableOriginalConstructor()->getMock());
+        parent::setUp();
+    }
 
-		parent::setUp();
-	}
+    /**
+     * @return MockObject|ilLanguage
+     * @throws ReflectionException
+     */
+    protected function getLanguageMock() : ilLanguage
+    {
+        $lng = $this
+            ->getMockBuilder(ilLanguage::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
+            ->getMock();
 
-	/**
-	 * @return PHPUnit_Framework_MockObject_MockObject|\ilLanguage
-	 */
-	protected function getLanguageMock(): \ilLanguage
-	{
-		$lng = $this
-			->getMockBuilder(\ilLanguage::class)
-			->disableOriginalConstructor()
-			->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
-			->getMock();
+        return $lng;
+    }
 
-		return $lng;
-	}
+    /**
+     * @return MockObject|\ILIAS\UI\Factory
+     */
+    protected function getUiFactoryMock() : \ILIAS\UI\Factory
+    {
+        $ui = $this
+            ->getMockBuilder(\ILIAS\UI\Factory::class)
+            ->getMock();
 
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable(string $name, $value)
-	{
-		global $DIC;
+        $ui->expects($this->any())->method('legacy')->will($this->returnCallback(function ($content) {
+            $legacyMock = $this
+                ->getMockBuilder(\ILIAS\UI\Component\Legacy\Legacy::class)
+                ->getMock();
+            $legacyMock->expects($this->any())->method('getContent')->willReturn($content);
 
-		$GLOBALS[$name] = $value;
+            return $legacyMock;
+        }));
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
+        return $ui;
+    }
 
-	/**
-	 * @param string $exceptionClass
-	 */
-	protected function assertException(string $exceptionClass)
-	{
-		if (version_compare(\PHPUnit_Runner_Version::id(), '5.0', '>=')) {
-			$this->setExpectedException($exceptionClass);
-		}
-	}
+    /**
+     * @param string $name
+     * @param mixed  $value
+     */
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
 
-	/**
-	 * @param mixed $value
-	 * @return \ilTermsOfServiceCriterionConfig
-	 */
-	protected function getCriterionConfig($value = null): \ilTermsOfServiceCriterionConfig
-	{
-		if (null === $value) {
-			return new \ilTermsOfServiceCriterionConfig();
-		}
+        $GLOBALS[$name] = $value;
 
-		return new \ilTermsOfServiceCriterionConfig($value);
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
+
+    /**
+     * @param mixed $value
+     * @return ilTermsOfServiceCriterionConfig
+     */
+    protected function getCriterionConfig($value = null) : ilTermsOfServiceCriterionConfig
+    {
+        if (null === $value) {
+            return new ilTermsOfServiceCriterionConfig();
+        }
+
+        return new ilTermsOfServiceCriterionConfig($value);
+    }
 }

@@ -7,37 +7,37 @@
  */
 class ilStrictCliCronManager implements \ilCronManagerInterface
 {
-	/**
-	 * @var \ilCronManagerInterface
-	 */
-	protected $cronManager;
+    /**
+     * @var \ilCronManagerInterface
+     */
+    protected $cronManager;
 
-	/**
-	 * ilStrictCliCronManager constructor.
-	 * @param ilCronManagerInterface $cronManager
-	 */
-	public function __construct(\ilCronManagerInterface $cronManager)
-	{
-		$this->cronManager = $cronManager;
-	}
+    /**
+     * ilStrictCliCronManager constructor.
+     * @param ilCronManagerInterface $cronManager
+     */
+    public function __construct(\ilCronManagerInterface $cronManager)
+    {
+        $this->cronManager = $cronManager;
+    }
 
-	/**
-	 * @return string[]
-	 */
-	private function getValidPhpApis(): array
-	{
-		return [
-			'cli'
-		];
-	}
+    /**
+     * @return string[]
+     */
+    private function getValidPhpApis() : array
+    {
+        return [
+            'cli'
+        ];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function runActiveJobs()
-	{
-		if (in_array(php_sapi_name(), array_map('strtolower', $this->getValidPhpApis()))) {
-			$this->cronManager->runActiveJobs();
-		}
-	}
+    /**
+     * @inheritdoc
+     */
+    public function runActiveJobs()
+    {
+        if (in_array(php_sapi_name(), array_map('strtolower', $this->getValidPhpApis()))) {
+            $this->cronManager->runActiveJobs();
+        }
+    }
 }

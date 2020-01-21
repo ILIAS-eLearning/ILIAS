@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddySystemRelationState.php';
 
 /**
  * Class ilBuddySystemRelationStateFactory
@@ -9,151 +7,106 @@ require_once 'Services/Contact/BuddySystem/classes/states/class.ilAbstractBuddyS
  */
 class ilBuddySystemRelationStateFactory
 {
-	/**
-	 * @var self
-	 */
-	protected static $instance;
+    /** @var self */
+    protected static $instance;
 
-	/**
-	 * @var array|null
-	 */
-	protected static $valid_states;
+    /** @var array|null */
+    protected static $validStates;
 
-	/**
-	 * @var array|null
-	 */
-	protected static $state_option_array;
+    /** @var array|null */
+    protected static $stateOptions;
 
-	/**
-	 * @var ilLanguage
-	 */
-	protected $lng;
+    /** @var ilLanguage */
+    protected $lng;
 
-	/**
-	 *
-	 */
-	protected function __construct()
-	{
-		global $DIC;
+    /**
+     * ilBuddySystemRelationStateFactory constructor.
+     */
+    protected function __construct()
+    {
+        global $DIC;
 
-		$this->lng = $DIC['lng'];
-	}
+        $this->lng = $DIC['lng'];
+    }
 
-	/**
-	 * @return self
-	 */
-	public static function getInstance()
-	{
-		if(null === self::$instance)
-		{
-			self::$instance = new self;
-		}
+    /**
+     * @return self
+     */
+    public static function getInstance() : self
+    {
+        if (null === self::$instance) {
+            self::$instance = new self;
+        }
 
-		return self::$instance;
-	}
+        return self::$instance;
+    }
 
-	/**
-	 * Get all valid states
-	 * @return ilBuddySystemRelationState[]
-	 */
-	public function getValidStates()
-	{
-		if(null !== self::$valid_states)
-		{
-			return self::$valid_states;
-		}
+    /**
+     * Get all valid states
+     * @return ilBuddySystemRelationState[]
+     */
+    public function getValidStates() : array
+    {
+        if (null !== self::$validStates) {
+            return self::$validStates;
+        }
 
-		$states = array();
-		$iter = new DirectoryIterator(dirname(__FILE__));
-		foreach($iter as $file)
-		{
-			/**
-			 * @var $file SplFileInfo
-			 */
-			if($file->isDir())
-			{
-				continue;
-			}
+        return (self::$validStates = [
+            new ilBuddySystemUnlinkedRelationState(),
+            new ilBuddySystemRequestedRelationState(),
+            new ilBuddySystemIgnoredRequestRelationState(),
+            new ilBuddySystemLinkedRelationState(),
+        ]);
+    }
 
-			require_once $file->getFilename();
-			$class      = str_replace(array('class.', '.php'), '', $file->getBasename());
-			$reflection = new ReflectionClass($class);
-			if(
-				!$reflection->isAbstract() &&
-				$reflection->isSubclassOf('ilBuddySystemRelationState')
-			)
-			{
-				$states[] = new $class();
-			}
-		}
+    /**
+     * @return ilBuddySystemRelationState
+     * @throws ilBuddySystemException
+     */
+    public function getInitialState() : ilBuddySystemRelationState
+    {
+        foreach ($this->getValidStates() as $state) {
+            if ($state->isInitial()) {
+                return $state;
+            }
+        }
 
-		return (self::$valid_states = $states);
-	}
+        throw new ilBuddySystemException("Could not find an initial state class");
+    }
 
-	/**
-	 * @return ilBuddySystemRelationState
-	 * @throws ilBuddySystemException
-	 */
-	public function getInitialState()
-	{
-		foreach($this->getValidStates() as $state)
-		{
-			if($state->isInitial())
-			{
-				return $state;
-			}
-		}
+    /**
+     * @param bool $withInitialState
+     * @return string[]
+     */
+    public function getStatesAsOptionArray($withInitialState = false) : array
+    {
+        if (null !== self::$stateOptions[$withInitialState]) {
+            return self::$stateOptions[$withInitialState];
+        }
 
-		throw new ilBuddySystemException("Could not find an initial state class");
-	}
+        $options = [];
 
-	/**
-	 * @param bool $with_initial_state
-	 * @return array
-	 */
-	public function getStatesAsOptionArray($with_initial_state = false)
-	{
-		if(null !== self::$state_option_array[$with_initial_state])
-		{
-			return self::$state_option_array[$with_initial_state];
-		}
+        foreach ($this->getValidStates() as $state) {
+            if ($withInitialState || !$state->isInitial()) {
+                $options[get_class($state)] = $this->lng->txt('buddy_bs_state_' . strtolower($state->getName()));
+            }
+        }
 
-		$options = array();
+        return (self::$stateOptions[$withInitialState] = $options);
+    }
 
-		foreach($this->getValidStates() as $state)
-		{
-			if($with_initial_state || !$state->isInitial())
-			{
-				$options[get_class($state)] = $this->lng->txt('buddy_bs_state_' . strtolower($state->getName()));
-			}
-		}
+    /**
+     * @param int $ownerId
+     * @param ilBuddySystemRelation $relation
+     * @return ilBuddySystemRelationStateButtonRenderer
+     */
+    public function getRendererByOwnerAndRelation(
+        int $ownerId,
+        ilBuddySystemRelation $relation
+    ) : ilBuddySystemRelationStateButtonRenderer {
+        $stateClass = get_class($relation->getState());
+        $rendererClass = $stateClass . 'ButtonRenderer';
 
-		return (self::$state_option_array[$with_initial_state] = $options);
-	}
-
-	/**
-	 * @param int                   $owner_id
-	 * @param ilBuddySystemRelation $relation
-	 * @return ilBuddySystemRelationStateButtonRenderer
-	 * @throws ilBuddySystemException
-	 */
-	public function getRendererByOwnerAndRelation($owner_id, ilBuddySystemRelation $relation)
-	{
-		$state_class    = get_class($relation->getState());
-		$renderer_class = $state_class . 'ButtonRenderer';
-		$renderer_path  = "Services/Contact/BuddySystem/classes/states/renderer/class.{$renderer_class}.php";
-
-		if(!file_exists($renderer_path))
-		{
-			throw new ilBuddySystemException(sprintf("Could not find a renderer file for state: %s", $state_class));
-		}
-
-		require_once $renderer_path;
-		if(!class_exists($renderer_class))
-		{
-			throw new ilBuddySystemException(sprintf("Could not find a renderer class for state: %s in file: %s", $state_class, $renderer_path));
-		}
-
-		return new $renderer_class($owner_id, $relation);
-	}
+        return new $rendererClass($ownerId, $relation);
+    }
 }

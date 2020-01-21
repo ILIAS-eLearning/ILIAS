@@ -114,41 +114,8 @@
 							</xsl:choose>
 						</xsl:if>
 						<xsl:if test="@font-size">
-							<xsl:choose>
-								<xsl:when test="@font-size='8pt'">
-									<xsl:text>font-size: 8pt;</xsl:text>
-								</xsl:when>
-								<xsl:when test="@font-size='10pt'">
-
-									<xsl:text>font-size: 10pt;</xsl:text>
-
-								</xsl:when>
-								<xsl:when test="@font-size='12pt'">
-
-									<xsl:text>font-size: 12pt;</xsl:text>
-
-								</xsl:when>
-								<xsl:when test="@font-size='14pt'">
-
-									<xsl:text>font-size: 14pt;</xsl:text>
-
-								</xsl:when>
-								<xsl:when test="@font-size='18pt'">
-
-									<xsl:text>font-size: 18pt;</xsl:text>
-
-								</xsl:when>
-								<xsl:when test="@font-size='24pt'">
-
-									<xsl:text>font-size: 24pt;</xsl:text>
-
-								</xsl:when>
-								<xsl:when test="@font-size='36pt'">
-
-									<xsl:text>font-size: 36pt;</xsl:text>
-
-								</xsl:when>
-							</xsl:choose>
+							<xsl:text>font-size: </xsl:text>
+							<xsl:value-of select="@font-size"/>
 						</xsl:if>
 						<xsl:if test="@padding">
 							<xsl:text>padding: </xsl:text>

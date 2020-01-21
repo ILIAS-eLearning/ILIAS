@@ -36,10 +36,6 @@ il.Explorer2 = {
 
 		}).on("open_node.jstree close_node.jstree", function (event, data) {
 				il.Explorer2.toggle(event, data);
-			}).jstree(js_tree_config).bind("select_node.jstree", function (e, data) {
-			// not working, if node is disabled by data attribute us on click above
-			//var href = data.node.a_attr.href;
-			//document.location.href = href;
 		}).on('ready.jstree', function (e, data) {
 
 			il.Explorer2.setEvents("#" + config.container_id, config.container_id);
@@ -52,7 +48,7 @@ il.Explorer2 = {
 					il.Explorer2.setEvents(p, config.container_id);
 				}, 500);
 			}
-		});
+		}).jstree(js_tree_config);
 	},
 
 	setEvents: function(p, cid) {

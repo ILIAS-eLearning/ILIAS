@@ -478,7 +478,7 @@ col or row span. -->
 
 <!ELEMENT Verification EMPTY>
 <!ATTLIST Verification
-	Type (excv | tstv | crsv | scov) #REQUIRED
+	Type (excv | tstv | crsv | scov | crta) #REQUIRED
 	Id CDATA #REQUIRED
 	User CDATA #REQUIRED
 >

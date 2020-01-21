@@ -11,115 +11,104 @@ require_once 'Services/Saml/classes/class.ilSamlIdp.php';
  */
 class ilSamlIdpTableGUI extends ilTable2GUI
 {
-	/** @var bool */
-	protected $mayEdit = true;
+    /**
+     * @var ilCtrl
+     */
+    protected $ctrl;
+    /**
+     * @var ILIAS\DI\Container
+     */
+    protected $dic;
 
-	/**
-	 * ilSamlIdpTableGUI constructor.
-	 * @param        $a_parent_obj
-	 * @param string $a_parent_cmd
-	 * @param string $a_template_context
-	 * @param bool   $mayEdit
-	 */
-	public function __construct($a_parent_obj, $a_parent_cmd = "", $mayEdit = true)
-	{
-		global $DIC;
+    /**
+     * ilSamlIdpTableGUI constructor.
+     * @param        $a_parent_obj
+     * @param string $a_parent_cmd
+     * @param string $a_template_context
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd = "", $mayEdit = true)
+    {
+        global $DIC;
 
-		$f        = $DIC->ui()->factory();
-		$renderer = $DIC->ui()->renderer();
-		$this->mayEdit = $mayEdit;
+        $this->dic = $DIC;
 
-		$this->setId('saml_idp_list');
-		parent::__construct($a_parent_obj, $a_parent_cmd, '');
+        $f        = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
 
-		$this->ctrl = $GLOBALS['DIC']->ctrl();
+        $this->mayEdit = $mayEdit;
 
-		$this->setTitle($this->lng->txt('auth_saml_idps'));
+        $this->setId('saml_idp_list');
+        parent::__construct($a_parent_obj, $a_parent_cmd, '');
 
-		$federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
+        $this->ctrl = $GLOBALS['DIC']->ctrl();
 
-		$this->setDescription(sprintf(
-			$this->lng->txt('auth_saml_idps_info'),
-			'auth/saml/config/config.php',
-			'auth/saml/config/authsources.php',
-			$renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp')),
-			$renderer->render($f->link()->standard($federationMdUrl, $federationMdUrl))
-		));
-		$this->setRowTemplate('tpl.saml_idp_row.html','Services/Saml');
+        $this->setTitle($this->lng->txt('auth_saml_idps'));
 
-		$this->addColumn($this->lng->txt('saml_tab_head_idp'), '','80%');
-		$this->addColumn($this->lng->txt('active'), '', '5%');
-		$this->addColumn($this->lng->txt('actions'), '', '15%');
+        $federationMdUrl = rtrim(ILIAS_HTTP_PATH, '/') . '/Services/Saml/lib/metadata.php?client_id=' . CLIENT_ID;
 
-		$this->getItems();
-	}
+        $this->setDescription(sprintf(
+            $this->lng->txt('auth_saml_idps_info'),
+            'auth/saml/config/config.php',
+            'auth/saml/config/authsources.php',
+            $renderer->render($f->link()->standard('https://simplesamlphp.org/docs/stable/simplesamlphp-sp', 'https://simplesamlphp.org/docs/stable/simplesamlphp-sp')),
+            $renderer->render($f->link()->standard($federationMdUrl, $federationMdUrl))
+        ));
+        $this->setRowTemplate('tpl.saml_idp_row.html', 'Services/Saml');
 
-	/**
-	 * 
-	 */
-	protected function getItems()
-	{
-		$idp_data = array();
+        $this->addColumn($this->lng->txt('saml_tab_head_idp'), '', '80%');
+        $this->addColumn($this->lng->txt('active'), '', '5%');
+        $this->addColumn($this->lng->txt('actions'), '', '15%');
 
-		foreach(ilSamlIdp::getAllIdps() as $idp)
-		{
-			$idp_data[] = $idp->toArray();
-		}
+        $this->getItems();
+    }
 
-		$this->setData($idp_data);
-	}
+    /**
+     *
+     */
+    protected function getItems()
+    {
+        $idp_data = array();
 
-	/**
-	 * @param array $a_set
-	 */
-	protected function fillRow($a_set)
-	{
-		if($a_set['is_active'])
-		{
-			$this->tpl->setVariable('IMAGE_OK',  ilUtil::getImagePath('icon_ok.svg'));
-			$this->tpl->setVariable('TXT_OK', $this->lng->txt('active'));
-		}
-		else
-		{
-			$this->tpl->setVariable('IMAGE_OK',  ilUtil::getImagePath('icon_not_ok.svg'));
-			$this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
-		}
+        foreach (ilSamlIdp::getAllIdps() as $idp) {
+            $idp_data[] = $idp->toArray();
+        }
 
-		$this->tpl->setVariable('NAME', $a_set['entity_id']);
+        $this->setData($idp_data);
+    }
 
-		$list = new ilAdvancedSelectionListGUI();
-		$list->setSelectionHeaderClass('small');
-		$list->setItemLinkClass('small');
-		$list->setId('actl_' . $a_set['idp_id']);
-		$list->setListTitle($this->lng->txt('actions'));
+    /**
+     * @param array $a_set
+     */
+    protected function fillRow($a_set)
+    {
+        if ($a_set['is_active']) {
+            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_ok.svg'));
+            $this->tpl->setVariable('TXT_OK', $this->lng->txt('active'));
+        } else {
+            $this->tpl->setVariable('IMAGE_OK', ilUtil::getImagePath('icon_not_ok.svg'));
+            $this->tpl->setVariable('TXT_OK', $this->lng->txt('inactive'));
+        }
 
-		$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', $a_set['idp_id']);
+        $this->tpl->setVariable('NAME', $a_set['entity_id']);
 
-		$list->addItem(
-			$this->lng->txt('edit'), '',
-			$this->ctrl->getLinkTarget($this->getParentObject(), 'showIdpSettings')
-		);
+        if ($this->dic->rbac()->system()->checkAccess('write', $_GET['ref_id'])) {
+            $list = new ilAdvancedSelectionListGUI();
+            $list->setSelectionHeaderClass('small');
+            $list->setItemLinkClass('small');
+            $list->setId('actl_' . $a_set['idp_id']);
+            $list->setListTitle($this->lng->txt('actions'));
 
-		if ($a_set['is_active']) {
-			$list->addItem(
-				$this->lng->txt('deactivate'), '',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateIdp')
-			);
-		} else {
-			$list->addItem(
-				$this->lng->txt('activate'), '',
-				$this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp')
-			);
-		}
+            $this->ctrl->setParameter($this->getParentObject(), 'saml_idp_id', $a_set['idp_id']);
+            $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'showIdpSettings'));
+            if ($a_set['is_active']) {
+                $list->addItem($this->lng->txt('deactivate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'deactivateIdp'));
+            } else {
+                $list->addItem($this->lng->txt('activate'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'activateIdp'));
+            }
+            $list->addItem($this->lng->txt('delete'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp'));
+            $this->ctrl->setParameter($this->getParentObject(), 'saml_idp_id', '');
 
-		$list->addItem(
-			$this->lng->txt('delete'), '',
-			$this->ctrl->getLinkTarget($this->getParentObject(), 'confirmDeleteIdp')
-		);
-		$this->ctrl->setParameter($this->getParentObject(),'saml_idp_id', '');
-
-		if ($this->mayEdit) {
-			$this->tpl->setVariable('ACTIONS', $list->getHTML());
-		}
-	}
+            $this->tpl->setVariable('ACTIONS', $list->getHTML());
+        }
+    }
 }

@@ -1,83 +1,84 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailCachedAddressType
  */
-class ilMailCachedAddressType implements \ilMailAddressType
+class ilMailCachedAddressType implements ilMailAddressType
 {
-	/** @var array[] */
-	protected static $usrIdsByAddressCache = [];
+    /** @var array[] */
+    protected static $usrIdsByAddressCache = [];
 
-	/** @var bool[] */
-	protected static $isValidCache = [];
-	
-	/** @var \ilMailAddressType */
-	protected $inner;
+    /** @var bool[] */
+    protected static $isValidCache = [];
 
-	/** @var bool */
-	protected $useCache = true;
+    /** @var ilMailAddressType */
+    protected $inner;
 
-	/**
-	 * ilMailCachedRoleAddressType constructor.
-	 * @param \ilMailAddressType $inner
-	 * @param bool               $useCache
-	 */
-	public function __construct(\ilMailAddressType $inner, bool $useCache) {
-		$this->inner = $inner;
-		$this->useCache = $useCache;
-	}
+    /** @var bool */
+    protected $useCache = true;
 
-	/**
-	 * @return string
-	 */
-	private function getCacheKey(): string
-	{
-		$address = $this->getAddress();
-		return (string)$address;
-	}
+    /**
+     * ilMailCachedRoleAddressType constructor.
+     * @param ilMailAddressType $inner
+     * @param bool $useCache
+     */
+    public function __construct(ilMailAddressType $inner, bool $useCache)
+    {
+        $this->inner = $inner;
+        $this->useCache = $useCache;
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function validate(int $senderId): bool
-	{
-		$cacheKey = $this->getCacheKey();
+    /**
+     * @return string
+     */
+    private function getCacheKey() : string
+    {
+        $address = $this->getAddress();
+        return (string) $address;
+    }
 
-		if (!$this->useCache || !isset(self::$isValidCache[$cacheKey])) {
-			self::$isValidCache[$cacheKey] = $this->inner->validate($senderId);
-		}
+    /**
+     * @inheritdoc
+     */
+    public function validate(int $senderId) : bool
+    {
+        $cacheKey = $this->getCacheKey();
 
-		return self::$isValidCache[$cacheKey];
-	}
+        if (!$this->useCache || !isset(self::$isValidCache[$cacheKey])) {
+            self::$isValidCache[$cacheKey] = $this->inner->validate($senderId);
+        }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getErrors(): array
-	{
-		return $this->inner->getErrors();
-	}
+        return self::$isValidCache[$cacheKey];
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function getAddress(): \ilMailAddress
-	{
-		return $this->inner->getAddress();
-	}
+    /**
+     * @inheritdoc
+     */
+    public function getErrors() : array
+    {
+        return $this->inner->getErrors();
+    }
 
-	/**
-	 * @inheritdoc
-	 */
-	public function resolve(): array
-	{
-		$cacheKey = $this->getCacheKey();
+    /**
+     * @inheritdoc
+     */
+    public function getAddress() : ilMailAddress
+    {
+        return $this->inner->getAddress();
+    }
 
-		if (!$this->useCache || !isset(self::$usrIdsByAddressCache[$cacheKey])) {
-			self::$usrIdsByAddressCache[$cacheKey] = $this->inner->resolve();
-		}
+    /**
+     * @inheritdoc
+     */
+    public function resolve() : array
+    {
+        $cacheKey = $this->getCacheKey();
 
-		return self::$usrIdsByAddressCache[$cacheKey];
-	}
+        if (!$this->useCache || !isset(self::$usrIdsByAddressCache[$cacheKey])) {
+            self::$usrIdsByAddressCache[$cacheKey] = $this->inner->resolve();
+        }
+
+        return self::$usrIdsByAddressCache[$cacheKey];
+    }
 }

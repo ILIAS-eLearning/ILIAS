@@ -387,8 +387,12 @@ If you would like to implement a new component to the framework you should perfo
     ``` less
     @import "@{uibase}Demo/demo.less";
     ```
-
-16. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
+16. Formulate at least one test-case for your new component on testrail.ilias.de](https://testrail.ilias.de).
+    Best, try to formulate a testcase for each relevant client-side interaction. E.g. if 
+    your component contains a button, that triggers a modal on-click, write a test-case for this
+    interaction. Post the the link to this test-case in a comment/the description of your PR.
+    
+17. Optional add the new variables to the variables.less file (located at templates/default/less/variables.less):
     ``` less
     //== Demo Component
     //
@@ -396,9 +400,9 @@ If you would like to implement a new component to the framework you should perfo
     //** Color of the text shown in the demo
     @il-demo-color: @brand-danger;
     ```
-17. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
+18. Optional: Recompile the less to see the effect by typing lessc templates/default/delos.less > templates/default/delos.css
 
-18. Optional: If your component introduces a new factory, do not forget to wire it up in the according
+19. Optional: If your component introduces a new factory, do not forget to wire it up in the according
     location of the initialisation. Have a look into `ilInitialisation::initUIFramework` in
     `Services/Init/class/class.ilInitialisation.php`.
 

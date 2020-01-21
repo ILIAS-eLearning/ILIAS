@@ -1,4 +1,5 @@
 # IDEs and Development
+/.env
 /.floo
 /.flooignore
 /.project
@@ -25,6 +26,8 @@
 /db_template_writer.php
 /setup/sql/dbupdate_custom.php
 /install_client.php
+/Services/GlobalScreen/artifacts/global_screen_providers.php
+/Services/Style/System/data/data.php
 
 # Directories
 /data
@@ -32,6 +35,7 @@
 /Customizing/clients
 /setup/sql/ilDBTemplate
 virtual-data
+/libs/composer/vendor
 
 # /dicto
 /dicto/results/*

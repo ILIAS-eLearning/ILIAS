@@ -4,6 +4,7 @@
 .il-item h4 {
   font-size: 120%;
   float: left;
+  padding-left: @padding-large-horizontal;
 }
 .il-item .il-item-divider {
   clear: both;

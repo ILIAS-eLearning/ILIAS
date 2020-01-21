@@ -15,30 +15,38 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilWorkflowEngineSettingsForm
 {
-	/** @var ilPropertyFormGUI $form */
-	protected $form;
+    /** @var ilPropertyFormGUI $form */
+    protected $form;
 
-	/** @var \ilLanguage $lng */
-	protected $lng;
+    /**
+     * @var \ILIAS\DI\Container
+     */
+    protected $dic;
 
-	public function __construct()
-	{
-		global $DIC;
-		$this->lng = $DIC['lng'];
-	}
+    /** @var \ilLanguage $lng */
+    protected $lng;
 
-	public function getForm($action)
-	{
-		$this->form = new ilPropertyFormGUI();
-		$this->form->setFormAction($action);
-		$this->form->setTitle($this->lng->txt('settings'));
+    public function __construct()
+    {
+        global $DIC;
+        $this->dic = $DIC;
+        $this->lng = $this->dic->language();
+    }
 
-		$activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
-		$this->form->addItem($activation_checkbox);
+    public function getForm($action)
+    {
+        $this->form = new ilPropertyFormGUI();
+        $this->form->setFormAction($action);
+        $this->form->setTitle($this->lng->txt('settings'));
 
-		$this->form->addCommandButton('save',$this->lng->txt('save'));
-		$this->form->addCommandButton('cancel',$this->lng->txt('cancel'));
+        $activation_checkbox = new ilCheckboxInputGUI($this->lng->txt('activate'), 'activate');
+        $this->form->addItem($activation_checkbox);
 
-		return $this->form;
-	}
+        if (!$this->dic->rbac()->system()->checkAccess("visible,read", $_GET['ref_id'])) {
+            $this->form->addCommandButton('save', $this->lng->txt('save'));
+            $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
+        }
+
+        return $this->form;
+    }
 }

@@ -5,24 +5,100 @@
 				<table border="0" cellpadding="0" cellspacing="0" width="100%">
 					<tr>
 						<td>
-							<div class="ilc_PageTitle">{QUESTION_TITLE}</div>
-							<!-- BEGIN objectives -->
+							<h1 class="ilc_PageTitle">{QUESTION_TITLE}</h1>
+<!-- BEGIN objectives -->
 							<div>{OBJECTIVES}</div>
-							<!-- END objectives -->
-							<p>{TEXT_YOUR_SOLUTION}:</p>
+<!-- END objectives -->
+							<h2>{TEXT_SOLUTION_OUTPUT}:</h2>
 							{SOLUTION_OUTPUT}
+							<hr>
+							<h2>{TEXT_RECEIVED_POINTS}:</h2>
+							<p>{RECEIVED_POINTS}</p>
+							<hr>
+<!-- BEGIN best_solution -->
+							<h2>{TEXT_BEST_SOLUTION}:</h2>
+							{BEST_OUTPUT}
+							<hr>
+<!-- END best_solution -->
+<!-- BEGIN solution_hint -->
+							<h2>{TEXT_SOLUTION_HINT}:</h2>
+							{SOLUTION_HINT}
+							<hr>
+<!-- END solution_hint -->
 <!-- BEGIN outline_specific_feedback -->
 							<p>{OUTLINE_SPECIFIC_FEEDBACK}</p>
 <!-- END outline_specific_feedback -->
-<!-- BEGIN best_solution -->
-							<p>{TEXT_BEST_SOLUTION}:</p>
-							{BEST_OUTPUT}
-<!-- END best_solution -->
-							<p>{RECEIVED_POINTS}</p>
 						</td>
 					</tr>
 				</table>
+				<!-- BEGIN manual_feedback -->
+				<p>{MANUAL_FEEDBACK}</p>
+				<!-- END manual_feedback -->
 			</div>
 		</td>
 	</tr>
 </table>
+<script>
+	$( document ).ready(function() {
+
+		$('input[name="cmd[checkConstraintsBeforeSaving]"]').off("click");
+
+		$('input[name="cmd[checkConstraintsBeforeSaving]"]').on("click", function(e) {
+			e.preventDefault();
+			if (typeof tinyMCE !== 'undefined'){
+				tinyMCE.triggerSave();
+			}
+			$.post( "{MODAL_AJAX_URL}", $('.modal.fade.in #form_').serialize(), function() {})
+				.done(function(data) {
+					il.TestScoringByQuestion.correctTableData(data);
+					$('.modal.fade.in .close').click();
+					$('.modal.fade.in').remove();
+				});
+		});
+
+		var name 		= $('#qst_hidden_points_name').val();
+		var feedback 	= $('#qst_hidden_feedback_name').val();
+		var feedback_id = $('#qst_hidden_feedback_id').val();
+
+		$('.modal [name="'+ name +'"]').bind('input', function(){
+			var disable = false;
+			var element = $('.modal [name="'+ name +'"]').parent().find('.help-block');
+
+			if(parseFloat($(this).val()) > parseFloat($('.modal #qst_max_points').val()))
+			{
+				var info_div 	= $('.maximum_points_exceeds').html();
+				disable 		= true;
+				element.prepend(info_div);
+				$('.modal .maximum_points_exceeds_remover').remove();
+				element.find('.maximum_points_exceeds_info').addClass('maximum_points_exceeds_remover');
+			}
+			else
+			{
+				$('.modal .maximum_points_exceeds_remover').remove();
+			}
+
+			$('[name="cmd[checkConstraintsBeforeSaving]"]').attr('disabled', disable);
+		});
+
+		if (typeof tinyMCE !== 'undefined' && $('#' + feedback_id).prop('disabled') != true){
+			if( feedback_id.indexOf('m_feedback__') == 0) {
+				var dt 			= new Date().getTime();
+				var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+					var r = (dt + Math.random()*16)%16 | 0;
+					dt = Math.floor(dt/16);
+					return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+				});
+				var unique_id 	= '_';
+				unique_id 		+= uuid;
+				$('#' +feedback_id).attr('id', unique_id);
+			}
+
+			tinyMCE.init({
+				selector: '[name="'+ feedback +'"]',
+				fix_list_elements : true,
+				theme: 'simple'
+			});
+		}
+
+	});
+</script>

@@ -30,71 +30,71 @@
 */
 interface ilCalendarRecurrenceCalculation
 {
-	/**
-	 * Get Frequence type of recurrence
-	 */
-	public function getFrequenceType();
+    /**
+     * Get Frequence type of recurrence
+     */
+    public function getFrequenceType();
 
-	/**
-	 * Get timezone of recurrence
-	 */
-	public function getTimeZone();
+    /**
+     * Get timezone of recurrence
+     */
+    public function getTimeZone();
 
-	/**
-	 * Get number of recurrences
-	 */
-	public function getFrequenceUntilCount();
-
-
-	/**
-	 * Get end data of recurrence
-	 */
-	public function getFrequenceUntilDate();
-
-	/**
-	 * Get interval of recurrence
-	 */
-	public function getInterval();
-
-	/**
-	 * Get BYMONTHList
-	 */
-	public function getBYMONTHList();
-
-	/**
-	 * Get BYWEEKNOList
-	 */
-	public function getBYWEEKNOList();
-
-	/**
-	 * Get BYYEARDAYLIST
-	 */
-	public function getBYYEARDAYList();
-
-	/**
-	 * GEt BYMONTHDAY List
-	 */
-	public function getBYMONTHDAYList();
+    /**
+     * Get number of recurrences
+     */
+    public function getFrequenceUntilCount();
 
 
-	/**
-	 * Get BYDAY List
-	 */
-	public function getBYDAYList();
+    /**
+     * Get end data of recurrence
+     */
+    public function getFrequenceUntilDate();
 
-	/**
-	 * Get BYSETPOS List
-	 */
-	public function getBYSETPOSList();
+    /**
+     * Get interval of recurrence
+     */
+    public function getInterval();
 
-	/**
-	 * Get exclusion dates
-	 */
-	public function getExclusionDates();
+    /**
+     * Get BYMONTHList
+     */
+    public function getBYMONTHList();
+
+    /**
+     * Get BYWEEKNOList
+     */
+    public function getBYWEEKNOList();
+
+    /**
+     * Get BYYEARDAYLIST
+     */
+    public function getBYYEARDAYList();
+
+    /**
+     * GEt BYMONTHDAY List
+     */
+    public function getBYMONTHDAYList();
 
 
-	/**
-	 * validate recurrence
-	 */
-	public function validate();
+    /**
+     * Get BYDAY List
+     */
+    public function getBYDAYList();
+
+    /**
+     * Get BYSETPOS List
+     */
+    public function getBYSETPOSList();
+
+    /**
+     * Get exclusion dates
+     */
+    public function getExclusionDates();
+
+
+    /**
+     * validate recurrence
+     */
+    public function validate();
 }

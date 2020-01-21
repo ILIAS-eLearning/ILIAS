@@ -189,13 +189,27 @@ var ilPhantomJsHelper =  (function () {
 
 	pub.Init = function(src_file, out_file, json)
 	{
-		try{
-			pro.json = JSON.parse(json);
+		if (json == 'defaults') {
+			pro.json = {
+				page_size: "A4",
+				orientation: "Portrait",
+				margin: "1cm",
+				delay: "200",
+				viewport: "",
+				header: null,
+				footer: null,
+				page_type: "0"
+			}
+		} else {
+			try {
+				pro.json = JSON.parse(json);
+			}
+			catch(error){
+				console.log('Config error no valid JSON given: ' + error);
+				ilPhantomJsWrapper.exitPhantom(1);
+			}
 		}
-		catch(error){
-			console.log('Config error no valid JSON given: ' + error);
-			ilPhantomJsWrapper.exitPhantom(1);
-		}
+
 		pro.src_file = src_file;
 		pro.out_file = out_file;
 		ilPhantomJsWrapper.initWebPageObject();

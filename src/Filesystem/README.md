@@ -416,6 +416,185 @@ $stream = Streams::ofPsr7Stream($stream->getBody());
 //write stream to file ...
 ```
 
+## Finder
+
+For an easy access to files and directories a `Finder` is provided for each `Filesystem` given
+in the `$DIC`.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+```
+
+The finder offers multiple methods to find and list files and directories (recursively), using a bunch of optional
+filters and options for the sorting of the determined `Metadata` collection. The finder is completely
+immutable and provides a fluent interface.
+
+The `Finder` instance itself is iterable. It implements the `\IteratorAggregate` interface and only operates
+on the filesystem (via the `\ILIAS\Filesystem\Filesystem`) when an iteration is triggered.
+
+By default the finder ignores DOT and VCS files.
+
+Please have a also look at the [tests](/tests/Filesystem/Finder/FinderTest.php) to see how it works. 
+
+### Directory Filter
+
+#### Whitelisting
+
+The only *mandatory* criterion is the location the finder should use for the search.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->in(['/']) as $metadata) {
+}
+
+
+foreach ($finder->files()->in(['/', 'dir_1/dir_1_1']) as $metadata) {
+}
+```
+
+#### Blacklisting
+
+You can exclude directories from matching by calling `exclude()`;
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->exclude(['dir_1/dir_1_1']) as $metadata) {
+}
+```
+
+### Metadata Types Filter
+
+By default, the `Finder` iterates over both, files and directories.
+It provides methods to find only files, only directories or both (to reset the filter).
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files() as $metadata) {
+}
+
+foreach ($finder->directories() as $metadata) {
+}
+
+foreach ($finder->allTypes() as $metadata) {
+} 
+```
+
+### Depth Filter
+
+By default the `Finder` scans directories recursively. The depth of traversing
+through the `\ILIAS\Filesystem\Filesystem` can be restricted/limited with `depth()`.
+The depth starts at index 0 (root directory).
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->depth(0) as $metadata) {
+}
+
+foreach ($finder->files()->depth('> 2')->depth('< 5') as $metadata) {
+}
+```
+
+### Date Filter
+
+The search can be restricted to files with a certain 'last modified' date by calling `date()`.
+The following operators are supported: > (since), >=, < (until), <=, ==.
+The provided value MUST be parsable by `strtotime()`.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->date('since yesterday') as $metadata) {
+}
+
+foreach ($finder->files()->date('< 2018-31-32') as $metadata) {
+}
+
+foreach ($finder->files()->date('>= 2019-03-30 15:00 + 2hours') as $metadata) {
+}
+
+```
+
+### Size Filter
+
+A restriction to files with a certain file size can be achieved by calling `size()`.
+The following operators are supported: : >, >=, <, <=, ==, !=.
+Please provide magnitudes of kilobytes (ki, k), megabytes (mi, m)
+or gigabytes (gi, g) as value.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->size('> 1Mi') as $metadata) {
+}
+```
+
+### Sorting
+
+The found `Metadata` can be sorted by time (see: `\ILIAS\Filesystem\Provider\FileReadAccess::getTimestamp`),
+name or by type (1st directories, 2nd files). The sorting can also be reversed.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+foreach ($finder->files()->sortByType() as $metadata) {
+}
+
+foreach ($finder->files()->sortByName()->reverseSorting() as $metadata) {
+}
+
+foreach ($finder->files()->sortByTime() as $metadata) {
+}
+```
+
+Furthermore you can provide a custom callback, accepting two `Metadata` instances
+as the only arguments. The callback must return -1, 0 or 1.
+
+```php
+<?php
+/** @var ILIAS\Filesystem\Filesystem $web */
+$web = $DIC->filesystem()->web();
+$finder = $web->finder();
+
+$cb = function(Filesystem\DTO\Metadata $left, Filesystem\DTO\Metadata $right) : int {
+    if ('dir_1/dir_1_1/file_5.cpp' === $left->getPath()) {
+        return -1;
+    }
+
+    return 1;
+};
+
+foreach ($finder->files()->sort($cb) as $metadata) {
+}
+```
+
 ## Authors
 
 * **Nicolas Schaefli** - *interface definition* - [d3r1w](https://github.com/d3r1w)

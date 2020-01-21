@@ -12,50 +12,60 @@ use ILIAS\UI\Component;
  * Class Renderer
  * @package ILIAS\UI\Implementation\Component\Image
  */
-class Renderer extends AbstractComponentRenderer {
-	/**
-	 * @inheritdocs
-	 */
-	public function render(Component\Component $component, RendererInterface $default_renderer) {
-		/**
-		 * @var Component\Image\Image $component
-		 */
-		$this->checkComponent($component);
-		$tpl = $this->getTemplate("tpl.image.html", true, true);
+class Renderer extends AbstractComponentRenderer
+{
+    /**
+     * @inheritdocs
+     */
+    public function render(Component\Component $component, RendererInterface $default_renderer)
+    {
+        /**
+         * @var Component\Image\Image $component
+         */
+        $this->checkComponent($component);
+        $tpl = $this->getTemplate("tpl.image.html", true, true);
 
-		$id = $this->bindJavaScript($component);
-		if (!empty($component->getAction())) {
-			$tpl->touchBlock("action_begin");
+        $id = $this->bindJavaScript($component);
+        if (!empty($component->getAction())) {
+            $tpl->touchBlock("action_begin");
 
-			if (is_string($component->getAction())) {
-				$tpl->setCurrentBlock("with_href");
-				$tpl->setVariable("HREF", $component->getAction());
-				$tpl->parseCurrentBlock();
-			}
+            if (is_string($component->getAction())) {
+                $tpl->setCurrentBlock("with_href");
+                $tpl->setVariable("HREF", $component->getAction());
+                $tpl->parseCurrentBlock();
+            }
 
-			if (is_array($component->getAction())) {
-				$tpl->setCurrentBlock("with_id");
-				$tpl->setVariable("ID", $id);
-				$tpl->parseCurrentBlock();
-			}
-		}
+            if (is_array($component->getAction())) {
+                $tpl->setCurrentBlock("with_href");
+                $tpl->setVariable("HREF", "#");
+                $tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("with_id");
+                $tpl->setVariable("ID", $id);
+                $tpl->parseCurrentBlock();
+            }
+        }
 
-		$tpl->setCurrentBlock($component->getType());
-		$tpl->setVariable("SOURCE",$component->getSource());
-		$tpl->setVariable("ALT",htmlspecialchars($component->getAlt()));
-		$tpl->parseCurrentBlock();
+        if (!is_array($component->getAction()) && $id !== null) {
+            $tpl->setVariable("IMG_ID", " id='" . $id . "' ");
+        }
 
-		if (!empty($component->getAction())) {
-			$tpl->touchBlock("action_end");
-		}
+        $tpl->setCurrentBlock($component->getType());
+        $tpl->setVariable("SOURCE", $component->getSource());
+        $tpl->setVariable("ALT", htmlspecialchars($component->getAlt()));
+        $tpl->parseCurrentBlock();
 
-		return $tpl->get();
-	}
+        if (!empty($component->getAction())) {
+            $tpl->touchBlock("action_end");
+        }
 
-	/**
-	 * @inheritdocs
-	 */
-	protected function getComponentInterfaceName() {
-		return [Component\Image\Image::class];
-	}
+        return $tpl->get();
+    }
+
+    /**
+     * @inheritdocs
+     */
+    protected function getComponentInterfaceName()
+    {
+        return [Component\Image\Image::class];
+    }
 }

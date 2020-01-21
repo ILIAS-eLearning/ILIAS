@@ -1,20 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-abstract class ilPasswordBaseTest extends PHPUnit_Framework_TestCase
+abstract class ilPasswordBaseTest extends TestCase
 {
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
 }

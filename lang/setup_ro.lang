@@ -105,7 +105,6 @@ disable_check#:#Dezactivare selectie
 disable_logging#:#Dezactivare logare
 disabled#:#Dezactivat
 display_clientlist#:#Afiseaza selectia clientului
-duplicate_ctrl#:#Error: Duplicate call structure definition found (Class %s) in files:<br /><br />- %s<br />- %s<br /><br />Please remove the file, that does not belong to the official ILIAS distribution.<br />After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup.###10 Jul 2006 new variable
 email#:#Email
 email_not_valid#:#Adresa de email invalida
 en_by_default#:#(Limba engleza este instalata implicit si nu poate fi stearsa).

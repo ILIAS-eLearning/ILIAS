@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,14 +7,14 @@
  */
 interface ilTermsOfServiceDocumentEvaluation
 {
-	/**
-	 * @return \ilTermsOfServiceSignableDocument
-	 * @throws \ilTermsOfServiceNoSignableDocumentFoundException
-	 */
-	public function document(): \ilTermsOfServiceSignableDocument;
+    /**
+     * @return ilTermsOfServiceSignableDocument
+     * @throws ilTermsOfServiceNoSignableDocumentFoundException
+     */
+    public function document() : ilTermsOfServiceSignableDocument;
 
-	/**
-	 * @return bool
-	 */
-	public function hasDocument(): bool;
+    /**
+     * @return bool
+     */
+    public function hasDocument() : bool;
 }

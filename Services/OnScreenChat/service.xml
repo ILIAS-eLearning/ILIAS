@@ -4,6 +4,7 @@
 		<baseclass name="ilOnScreenChatGUI" dir="classes" />
 	</baseclasses>
 	<events>
-		<event type="listen" id="Services/User" />
+		<event type="listen" id="Modules/Chatroom" />
 	</events>
+	<logging />
 </service>

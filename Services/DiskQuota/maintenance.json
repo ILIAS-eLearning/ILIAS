@@ -3,7 +3,9 @@
     "first_maintainer": "",
     "second_maintainer": "",
     "implicit_maintainers": [],
-    "coordinator": [],
+    "coordinator": [
+        ""
+    ],
     "tester": "",
     "testcase_writer": "",
     "path": "Services/DiskQuota",

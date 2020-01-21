@@ -2,6 +2,18 @@ var Buffer = require('safe-buffer').Buffer;
 var Crypto = require('crypto');
 var Auth   = exports;
 
+function auth(name, data, options) {
+  options = options || {};
+
+  switch (name) {
+    case 'mysql_native_password':
+      return Auth.token(options.password, data.slice(0, 20));
+    default:
+      return undefined;
+  }
+}
+Auth.auth = auth;
+
 function sha1(msg) {
   var hash = Crypto.createHash('sha1');
   hash.update(msg, 'binary');
@@ -86,6 +98,10 @@ Auth.myRnd = function(r){
 };
 
 Auth.scramble323 = function(message, password) {
+  if (!password) {
+    return Buffer.alloc(0);
+  }
+
   var to          = Buffer.allocUnsafe(8);
   var hashPass    = this.hashPassword(password);
   var hashMessage = this.hashPassword(message.slice(0, 8));

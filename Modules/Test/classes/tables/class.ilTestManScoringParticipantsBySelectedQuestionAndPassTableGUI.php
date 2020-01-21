@@ -12,204 +12,197 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTable2GUI
 {
-	const PARENT_DEFAULT_CMD      = 'showManScoringByQuestionParticipantsTable';
-	const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
-	const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
-	const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
-	
-	private $manPointsPostData = array();
-	
-	private $curQuestionMaxPoints = null;
-	
-	/**
-	 * @var bool
-	 */
-	protected $first_row_rendered = false;
+    const PARENT_DEFAULT_CMD      = 'showManScoringByQuestionParticipantsTable';
+    const PARENT_APPLY_FILTER_CMD = 'applyManScoringByQuestionFilter';
+    const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
+    const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
+    
+    private $manPointsPostData = array();
+    
+    private $curQuestionMaxPoints = null;
+    
+    /**
+     * @var bool
+     */
+    protected $first_row_rendered = false;
 
-	public function __construct($parentObj)
-	{
-		$this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
-		$this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
+    /**
+     * @var bool
+     */
+    protected $first_row = true;
 
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
+    public function __construct($parentObj)
+    {
+        $this->setFilterCommand(self::PARENT_APPLY_FILTER_CMD);
+        $this->setResetCommand(self::PARENT_RESET_FILTER_CMD);
+        global $DIC;
 
-		$this->setId('man_scor_by_qst_' . $parentObj->object->getId());
+        $ilCtrl = $DIC->ctrl();
+        $tpl = $DIC->ui()->mainTemplate();
+        $tpl->addJavaScript('./Services/RTE/tiny_mce_3_5_11/tiny_mce.js');
+        $this->setId('man_scor_by_qst_' . $parentObj->object->getId());
 
-		parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
+        parent::__construct($parentObj, self::PARENT_DEFAULT_CMD);
 
-		$this->disable('sort');
+        $this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
+        $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
+        $this->setShowRowsSelector(true);
 
-		$this->setFormAction($ilCtrl->getFormAction($parentObj, self::PARENT_DEFAULT_CMD));
+        $this->initColumns();
+        $this->initFilter();
+    }
 
-		$this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
+    private function initColumns()
+    {
+        $this->addColumn($this->lng->txt('name'), 'lastname');
+        $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points');
+        $this->addColumn($this->lng->txt('tst_maximum_points'), 'max_points');
+        $this->addColumn($this->lng->txt('tst_feedback'), 'feedback', '30%');
+        $this->addColumn($this->lng->txt('finalized_evaluation'), 'finalized_evaluation');
+        $this->addColumn($this->lng->txt('finalized_by'), 'finalized_by');
+        $this->addColumn($this->lng->txt('finalized_on'), 'finalized_on');
+        $this->addColumn('', '');
+    }
 
-		$this->setShowRowsSelector(true);
+    public function initFilter()
+    {
+        $this->setDisableFilterHiding(true);
 
-		$this->addCommandButton(self::PARENT_SAVE_SCORING_CMD, $this->lng->txt('save'));
+        include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
+        $available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
+        $select_questions    = array();
+        if (!$this->getParentObject()->object->isRandomTest()) {
+            $questions = $this->getParentObject()->object->getTestQuestions();
+        } else {
+            $questions = $this->getParentObject()->object->getPotentialRandomTestQuestions();
+        }
+        $scoring = ilObjAssessmentFolder::_getManualScoring();
+        foreach ($questions as $data) {
+            include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
+            $info = assQuestion::_getQuestionInfo($data['question_id']);
+            $type = $info["question_type_fi"];
+            if (in_array($type, $scoring)) {
+                $maxpoints = assQuestion::_getMaximumPoints($data["question_id"]);
+                if ($maxpoints == 1) {
+                    $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
+                } else {
+                    $maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
+                }
+                
+                $select_questions[$data["question_id"]] = $data['title'] . $maxpoints . ' [' . $this->lng->txt('question_id_short') . ': ' . $data["question_id"] . ']';
+            }
+        }
+        if (!$select_questions) {
+            $select_questions[0] = $this->lng->txt('tst_no_scorable_qst_available');
+        }
+        $available_questions->setOptions(array('' => $this->lng->txt('please_choose')) + $select_questions);
+        $this->addFilterItem($available_questions);
+        $available_questions->readFromSession();
+        $this->filter['question'] = $available_questions->getValue();
 
-		$this->initColumns();
-		$this->initFilter();
-	}
+        $pass     = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
+        $passes   = array();
+        $max_pass = $this->getParentObject()->object->getMaxPassOfTest();
+        for ($i = 1; $i <= $max_pass; $i++) {
+            $passes[$i] = $i;
+        }
+        $pass->setOptions($passes);
+        $this->addFilterItem($pass);
+        $pass->readFromSession();
+        $this->filter['pass'] 	= $pass->getValue();
+        $correction 			= new ilSelectInputGUI(
+            $this->lng->txt('finalized_evaluation'),
+            'finalize_evaluation'
+        );
+        $evaluated 				= array(
+            $this->lng->txt('all_users'),
+            $this->lng->txt('evaluated_users'),
+            $this->lng->txt('not_evaluated_users')
+        );
+        $correction->setOptions($evaluated);
+        $this->addFilterItem($correction);
+        $correction->readFromSession();
+        $this->filter['finalize_evaluation'] = $correction->getValue();
+    }
 
-	private function initColumns()
-	{
-		$this->addColumn($this->lng->txt('name'), 'lastname', '40%');
-		$this->addColumn($this->lng->txt('tst_reached_points'), 'lastname', '40%');
-		$this->addColumn('', '', '20%');
-	}
+    /**
+     * @param array $row
+     */
+    public function fillRow($row)
+    {
+        global $DIC;
+        $ilCtrl = $DIC->ctrl();
+        $ilAccess = $DIC->access();
 
-	public function initFilter()
-	{
-		$this->setDisableFilterHiding(true);
+        $this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
+        if (
+            $this->getParentObject()->object->anonymity == 1  ||
+            (
+                $this->getParentObject()->object->getAnonymity() == 2 &&
+                false == $ilAccess->checkAccess('write', '', $this->getParentObject()->object->getRefId())
+            )
+        ) {
+            $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
+        }
 
-		include_once 'Services/Form/classes/class.ilSelectInputGUI.php';
-		$available_questions = new ilSelectInputGUI($this->lng->txt('question'), 'question');
-		$select_questions    = array();
-		if(!$this->getParentObject()->object->isRandomTest())
-		{
-			$questions = $this->getParentObject()->object->getTestQuestions();
-		}
-		else
-		{
-			$questions = $this->getParentObject()->object->getPotentialRandomTestQuestions();
-		}
-		$scoring = ilObjAssessmentFolder::_getManualScoring();
-		foreach($questions as $data)
-		{
-			include_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
-			$info = assQuestion::_getQuestionInfo($data['question_id']);
-			$type = $info["question_type_fi"];
-			if(in_array($type, $scoring))
-			{
-				$maxpoints = assQuestion::_getMaximumPoints($data["question_id"]);
-				if($maxpoints == 1)
-				{
-					$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('point') . ')';
-				}
-				else
-				{
-					$maxpoints = ' (' . $maxpoints . ' ' . $this->lng->txt('points') . ')';
-				}
-				
-				$select_questions[$data["question_id"]] = $data['title'] . $maxpoints. ' ['. $this->lng->txt('question_id_short') . ': ' . $data["question_id"]  . ']';
-			}
-		}
-		if(!$select_questions)
-		{
-			$select_questions[0] = $this->lng->txt('tst_no_scorable_qst_available');
-		}
-		$available_questions->setOptions(array('' => $this->lng->txt('please_choose')) + $select_questions);
-		$this->addFilterItem($available_questions);
-		$available_questions->readFromSession();
-		$this->filter['question'] = $available_questions->getValue();
+        if (!$this->first_row_rendered) {
+            $this->first_row_rendered = true;
+            $this->tpl->touchBlock('row_js');
+        }
 
-		$pass     = new ilSelectInputGUI($this->lng->txt('pass'), 'pass');
-		$passes   = array();
-		$max_pass = $this->getParentObject()->object->getMaxPassOfTest();
-		for($i = 1; $i <= $max_pass; $i++)
-		{
-			$passes[$i] = $i;
-		}
-		$pass->setOptions($passes);
-		$this->addFilterItem($pass);
-		$pass->readFromSession();
-		$this->filter['pass'] = $pass->getValue();
-	}
+        $this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
+        $this->tpl->setVariable('VAL_REACHED_POINTS', $row['reached_points']);
+        $this->tpl->setVariable('VAL_MAX_POINTS', $row['maximum_points']);
+        $finalized = (isset($row['feedback']['finalized_evaluation']) && $row['feedback']['finalized_evaluation'] == 1);
+        $this->tpl->setVariable(
+            'VAL_EVALUATED',
+            ($finalized) ? $this->lng->txt('yes') : $this->lng->txt('no')
+        );
+        $fin_usr_id = $row['feedback']['finalized_by_usr_id'];
 
-	/**
-	 * @global    ilCtrl     $ilCtrl
-	 * @global    ilLanguage $lng
-	 * @param    array       $row
-	 */
-	public function fillRow($row)
-	{
-		/**
-		 * @var $ilCtrl ilCtrl
-		 */
-		global $DIC;
-		$ilCtrl = $DIC['ilCtrl'];
+        $this->tpl->setVariable('VAL_MODAL_CORRECTION', $row['feedback']['feedback']);
+        if ($fin_usr_id > 0) {
+            $this->tpl->setVariable('VAL_FINALIZED_BY', ilObjUser::_lookupFullname($fin_usr_id));
+        }
+        $fin_timestamp = $row['feedback']['finalized_tstamp'];
+        if ($fin_timestamp > 0) {
+            $time = new ilDateTime($fin_timestamp, 3);
+            $this->tpl->setVariable('VAL_FINALIZED_ON', \ilDatePresentation::formatDate($time));
+        }
 
-		if(!$this->first_row_rendered)
-		{
-			$this->first_row_rendered = true;
-			$this->tpl->touchBlock('row_js');
-		}
+        $this->tpl->setVariable('VAL_PASS', $row['pass_id']);
+        $this->tpl->setVariable('VAL_ACTIVE_ID', $row['active_id']);
+        $this->tpl->setVariable('VAL_QUESTION_ID', $row['qst_id']);
 
-		$this->tpl->setVariable('VAL_NAME', $row['participant']->getName());
-		$reached_points = new ilNumberInputGUI('', 'scoring[' . $row['pass_id'] . '][' . $row['active_id'] . '][' . $row['qst_id'] . ']');
-		$reached_points->allowDecimals(true);
-		$reached_points->setSize(5);
-		if( count($this->manPointsPostData) )
-		{
-			if( $this->isMaxPointsExceededByPostValue($row['pass_id'], $row['active_id'], $row['qst_id']) )
-			{
-				$reached_points->setAlert( sprintf(
-						$this->lng->txt('tst_manscoring_maxpoints_exceeded_input_alert'), $row['maximum_points']
-				));
-				
-				$this->tpl->setCurrentBlock("reached_points_alert");
-				$this->tpl->setVariable("REACHED_POINTS_IMG_ALERT", ilUtil::getImagePath("icon_alert.svg"));
-				$this->tpl->setVariable("REACHED_POINTS_ALT_ALERT", $this->lng->txt("alert"));
-				$this->tpl->setVariable("REACHED_POINTS_TXT_ALERT", $reached_points->getAlert());
-				$this->tpl->parseCurrentBlock();
-			}
-			
-			$reached_points->setValue($this->manPointsPostData[$row['pass_id']][$row['active_id']][$row['qst_id']]);
-		}
-		else
-		{
-			$reached_points->setValue($row['reached_points']);
-		}
-		$this->tpl->setVariable('VAL_REACHED_POINTS', $reached_points->render());
+        if ($this->first_row) {
+            $this->tpl->touchBlock('scoring_by_question_refresher');
+            $this->tpl->parseCurrentBlock();
+            $this->first_row = false;
+        }
 
-		$ilCtrl->setParameter($this->getParentObject(), 'qst_id', $row['qst_id']);
-		$ilCtrl->setParameter($this->getParentObject(), 'active_id', $row['active_id']);
-		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', $row['pass_id']);
-		$this->tpl->setVariable('VAL_LINK_ANSWER', $ilCtrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail', '', true, false));
-		$ilCtrl->setParameter($this->getParentObject(), 'qst_id', '');
-		$ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
-		$ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
-		$this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
-	}
-	
-	private function isMaxPointsExceededByPostValue($pass_id, $active_id, $qst_id)
-	{
-		if( !isset($this->manPointsPostData[$pass_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id]) )
-		{
-			return false;
-		}
-		
-		if( !isset($this->manPointsPostData[$pass_id][$active_id][$qst_id]) )
-		{
-			return false;
-		}
-		
-		$submittedPoints = $this->manPointsPostData[$pass_id][$active_id][$qst_id];
-		
-		return $submittedPoints > $this->getCurQuestionMaxPoints();
-	}
-	
-	public function setManualScoringPointsPostData($manPointsPostData)
-	{
-		$this->manPointsPostData = $manPointsPostData;
-	}
+        $ilCtrl->setParameter($this->getParentObject(), 'qst_id', $row['qst_id']);
+        $ilCtrl->setParameter($this->getParentObject(), 'active_id', $row['active_id']);
+        $ilCtrl->setParameter($this->getParentObject(), 'pass_id', $row['pass_id']);
+        $this->tpl->setVariable('VAL_LINK_ANSWER', $ilCtrl->getLinkTarget($this->getParentObject(), 'getAnswerDetail', '', true, false));
+        $ilCtrl->setParameter($this->getParentObject(), 'qst_id', '');
+        $ilCtrl->setParameter($this->getParentObject(), 'active_id', '');
+        $ilCtrl->setParameter($this->getParentObject(), 'pass_id', '');
+        $this->tpl->setVariable('VAL_TXT_ANSWER', $this->lng->txt('tst_eval_show_answer'));
+        $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $row['participant']->getName());
+    }
+    
+    public function setManualScoringPointsPostData($manPointsPostData)
+    {
+        $this->manPointsPostData = $manPointsPostData;
+    }
 
-	public function getCurQuestionMaxPoints()
-	{
-		return $this->curQuestionMaxPoints;
-	}
+    public function getCurQuestionMaxPoints()
+    {
+        return $this->curQuestionMaxPoints;
+    }
 
-	public function setCurQuestionMaxPoints($curQuestionMaxPoints)
-	{
-		$this->curQuestionMaxPoints = $curQuestionMaxPoints;
-	}
+    public function setCurQuestionMaxPoints($curQuestionMaxPoints)
+    {
+        $this->curQuestionMaxPoints = $curQuestionMaxPoints;
+    }
 }

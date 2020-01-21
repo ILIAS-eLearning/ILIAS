@@ -15,54 +15,51 @@ include_once "./Modules/Test/classes/class.ilStatistics.php";
 */
 class ilTestStatistics
 {
-	var $test_id;
-	var $statistics;
-	
-/**
-* ilTestStatistics constructor
-*
-* The constructor takes the id of an existing test object 
-*
-* @param integer $eval_data Complete test data as ilTestEvaluationData object
-* @access public
-*/
-	public function __construct($eval_data)
-	{
-		$this->statistics = NULL;
-		$this->calculateStatistics($eval_data);
-	}
+    public $test_id;
+    public $statistics;
+    
+    /**
+    * ilTestStatistics constructor
+    *
+    * The constructor takes the id of an existing test object
+    *
+    * @param integer $eval_data Complete test data as ilTestEvaluationData object
+    * @access public
+    */
+    public function __construct($eval_data)
+    {
+        $this->statistics = null;
+        $this->calculateStatistics($eval_data);
+    }
 
-	/**
-	* Returns the statistics object
-	*
-	* @return object ilStatistics object
-	* @access public
-	* @see $statistics
-	*/
-	function getStatistics()
-	{
-		return $this->statistics;
-	}
+    /**
+    * Returns the statistics object
+    *
+    * @return object ilStatistics object
+    * @access public
+    * @see $statistics
+    */
+    public function getStatistics()
+    {
+        return $this->statistics;
+    }
 
-	/**
-	* Instanciates the statistics object
-	*
-	* @access private
-	* @see $statistics
-	*/
-	function calculateStatistics($eval_data)
-	{
-		$median_array = array();
+    /**
+    * Instanciates the statistics object
+    *
+    * @access private
+    * @see $statistics
+    */
+    public function calculateStatistics($eval_data)
+    {
+        $median_array = array();
 
-		foreach ($eval_data->getParticipantIds() as $active_id)
-		{
-			$participant =& $eval_data->getParticipant($active_id);
-			array_push($median_array, $participant->getReached());
-		}
+        foreach ($eval_data->getParticipantIds() as $active_id) {
+            $participant =&$eval_data->getParticipant($active_id);
+            array_push($median_array, $participant->getReached());
+        }
 
-		$this->statistics = new ilStatistics();
-		$this->statistics->setData($median_array);
-	}
+        $this->statistics = new ilStatistics();
+        $this->statistics->setData($median_array);
+    }
 }
-
-?>

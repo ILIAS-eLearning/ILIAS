@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr" id="{ID}">
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- BEGIN base -->
+	<base href="{BASE}" />
+	<!-- END base -->
+
+	<title>{SHORT_TITLE}: {VIEW_TITLE}</title>
+
+	<style type="text/css">
+		{CSS_INLINE}
+	</style>
+
+	<!-- BEGIN css_file -->
+	<link rel="stylesheet" type="text/css" href="{CSS_FILE}" />
+	<!-- END css_file -->
+
+	<!-- BEGIN js_file -->
+	<script type="text/javascript" src="{JS_FILE}"></script>
+	<!-- END js_file -->
+</head>
+
+<body>
+
+	<section class="il-layout-page<!-- BEGIN slates_engaged --> with-mainbar-slates-engaged<!-- END slates_engaged -->">
+
+		<header>
+			<div class="header-inner">
+				<div class="il-logo">
+					{LOGO}
+					<div class="il-pagetitle">
+						{TITLE}
+					</div>
+				</div>
+
+				<!-- BEGIN header_locator -->
+				<nav class="il-header-locator">
+					{HEADER_BREADCRUMBS}
+				</nav>
+				<!-- END header_locator -->
+				{METABAR}
+			</div>
+		</header>
+
+		<nav class="breadcrumbs">
+			{BREADCRUMBS}
+		</nav>
+
+		<nav class="nav il-maincontrols">
+			{MAINBAR}
+		</nav>
+
+		<!-- html5 main-tag is not supported in IE / div is needed -->
+		<main class="il-layout-page-content">
+			<div>
+				<!-- BEGIN mode_info -->
+				{MODEINFO}
+				<!-- END mode_info -->
+				{CONTENT}
+			</div>
+
+
+			<footer>
+				{FOOTER}
+			</footer>
+		</main>
+
+
+	</section>
+
+
+<!-- BEGIN on_load_code -->
+<script type="text/javascript">
+	<!-- BEGIN on_load_code_inner -->
+		il.Util.addOnLoad(function() {
+			{OLCODE}
+		});
+	<!-- END on_load_code_inner -->
+</script>
+<!-- END on_load_code -->
+
+</body>
+</html>

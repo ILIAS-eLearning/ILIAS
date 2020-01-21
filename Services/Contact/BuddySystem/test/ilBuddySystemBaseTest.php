@@ -1,36 +1,33 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\DI\Container;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
  * @version $Id$
  */
-class ilBuddySystemBaseTest extends PHPUnit_Framework_TestCase
+class ilBuddySystemBaseTest extends TestCase
 {
-	/**
-	 * @param string $name
-	 * @param mixed $value
-	 */
-	protected function setGlobalVariable($name, $value)
-	{
-		global $DIC;
+    /**
+     * @param string $name
+     * @param mixed $value
+     */
+    protected function setGlobalVariable(string $name, $value) : void
+    {
+        global $DIC;
 
-		$GLOBALS[$name] = $value;
+        if (!$DIC) {
+            $DIC = new Container();
+        }
 
-		unset($DIC[$name]);
-		$DIC[$name] = function ($c) use ($name) {
-			return $GLOBALS[$name];
-		};
-	}
+        $GLOBALS[$name] = $value;
 
-	/**
-	 * @param string $exception_class
-	 */
-	protected function assertException($exception_class)
-	{
-		if(version_compare(PHPUnit_Runner_Version::id(), '5.0', '>='))
-		{
-			$this->setExpectedException($exception_class);
-		}
-	}
+        unset($DIC[$name]);
+        $DIC[$name] = function ($c) use ($name) {
+            return $GLOBALS[$name];
+        };
+    }
 }

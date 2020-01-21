@@ -98,6 +98,7 @@
 						while ($("[name='"+name+"']").length) {     // while element with this id already exists, take next id
 							name = id + '[' + (counter + i) + ']' + matches[1];
 							console.log('element exists: ' + (counter + i));
+							i++;
 						}
 						$(this).attr('name', name);
 					});

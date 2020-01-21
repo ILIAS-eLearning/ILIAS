@@ -3,9 +3,6 @@
 	id="trac">
 	<baseclasses>
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilLPGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="trac" class_name="UserTracking" dir="classes"
 			checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">

@@ -1,8 +1,8 @@
 # mysql
 
-[![NPM Version][npm-image]][npm-url]
-[![NPM Downloads][downloads-image]][downloads-url]
-[![Node.js Version][node-version-image]][node-version-url]
+[![NPM Version][npm-version-image]][npm-url]
+[![NPM Downloads][npm-downloads-image]][npm-url]
+[![Node.js Version][node-image]][node-url]
 [![Linux Build][travis-image]][travis-url]
 [![Windows Build][appveyor-image]][appveyor-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
@@ -221,7 +221,7 @@ issue [#501](https://github.com/mysqljs/mysql/issues/501). (Default: `false`)
   objects only when they cannot be accurately represented with [JavaScript Number objects] (http://ecma262-5.com/ELS5_HTML.htm#Section_8.5)
   (which happens when they exceed the [-2^53, +2^53] range), otherwise they will be returned as
   Number objects. This option is ignored if `supportBigNumbers` is disabled.
-* `dateStrings`: Force date types (TIMESTAMP, DATETIME, DATE) to be returned as strings rather then
+* `dateStrings`: Force date types (TIMESTAMP, DATETIME, DATE) to be returned as strings rather than
    inflated into JavaScript Date objects. Can be `true`/`false` or an array of type names to keep as
    strings. (Default: `false`)
 * `debug`: Prints protocol details to stdout. Can be `true`/`false` or an array of packet type names
@@ -381,7 +381,9 @@ constructor. In addition to those options pools accept a few extras:
 
 * `acquireTimeout`: The milliseconds before a timeout occurs during the connection
   acquisition. This is slightly different from `connectTimeout`, because acquiring
-  a pool connection does not always involve making a connection. (Default: `10000`)
+  a pool connection does not always involve making a connection. If a connection
+  request is queued, the time the request spends in the queue does not count
+  towards this timeout. (Default: `10000`)
 * `waitForConnections`: Determines the pool's action when no connections are
   available and the limit has been reached. If `true`, the pool will queue the
   connection request and call it when one becomes available. If `false`, the
@@ -1155,11 +1157,14 @@ review carefully in order to write solid applications.
 Most errors created by this module are instances of the JavaScript [Error][]
 object. Additionally they typically come with two extra properties:
 
-* `err.code`: Either a [MySQL server error][] (e.g.
-  `'ER_ACCESS_DENIED_ERROR'`), a Node.js error (e.g. `'ECONNREFUSED'`) or an
-  internal error (e.g. `'PROTOCOL_CONNECTION_LOST'`).
+* `err.code`: String, contains the MySQL server error symbol if the error is
+  a [MySQL server error][] (e.g. `'ER_ACCESS_DENIED_ERROR'`), a Node.js error
+  code if it is a Node.js error (e.g. `'ECONNREFUSED'`), or an internal error
+  code (e.g. `'PROTOCOL_CONNECTION_LOST'`).
+* `err.errno`: Number, contains the MySQL server error number. Only populated
+  from [MySQL server error][].
 * `err.fatal`: Boolean, indicating if this error is terminal to the connection
-  object. If the error is not from a MySQL protocol operation, this properly
+  object. If the error is not from a MySQL protocol operation, this property
   will not be defined.
 * `err.sql`: String, contains the full SQL of the failed query. This can be
   useful when using a higher level interface like an ORM that is generating
@@ -1169,7 +1174,7 @@ object. Additionally they typically come with two extra properties:
   textual description of the error. Only populated from [MySQL server error][].
 
 [Error]: https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error
-[MySQL server error]: http://dev.mysql.com/doc/refman/5.5/en/error-messages-server.html
+[MySQL server error]: https://dev.mysql.com/doc/refman/5.5/en/server-error-reference.html
 
 Fatal errors are propagated to *all* pending callbacks. In the example below, a
 fatal error is triggered by trying to connect to an invalid port. Therefore the
@@ -1303,37 +1308,58 @@ var query = connection.query(options, function (error, results, fields) {
 });
 ```
 
+### Custom type casting
+
 You can also pass a function and handle type casting yourself. You're given some
 column information like database, table and name and also type and length. If you
 just want to apply a custom type casting to a specific type you can do it and then
-fallback to the default. Here's an example of converting `TINYINT(1)` to boolean:
+fallback to the default.
+
+The function is provided two arguments `field` and `next` and is expected to
+return the value for the given field by invoking the parser functions through
+the `field` object.
+
+The `field` argument is a `Field` object and contains data about the field that
+need to be parsed. The following are some of the properties on a `Field` object:
+
+  * `db` - a string of the database the field came from.
+  * `table` - a string of the table the field came from.
+  * `name` - a string of the field name.
+  * `type` - a string of the field type in all caps.
+  * `length` - a number of the field length, as given by the database.
+
+The `next` argument is a `function` that, when called, will return the default
+type conversaion for the given field.
+
+When getting the field data, the following helper methods are present on the
+`field` object:
+
+  * `.string()` - parse the field into a string.
+  * `.buffer()` - parse the field into a `Buffer`.
+  * `.geometry()` - parse the field as a geometry value.
+
+The MySQL protocol is a text-based protocol. This means that over the wire, all
+field types are represented as a string, which is why only string-like functions
+are available on the `field` object. Based on the type information (like `INT`),
+the type cast should convert the string field into a different JavaScript type
+(like a `number`).
+
+Here's an example of converting `TINYINT(1)` to boolean:
 
 ```js
-connection.query({
-  sql: '...',
+connection = mysql.createConnection({
   typeCast: function (field, next) {
-    if (field.type == 'TINY' && field.length == 1) {
-      return (field.string() == '1'); // 1 = true, 0 = false
+    if (field.type === 'TINY' && field.length === 1) {
+      return (field.string() === '1'); // 1 = true, 0 = false
+    } else {
+      return next();
     }
-    return next();
   }
 });
 ```
-__WARNING: YOU MUST INVOKE the parser using one of these three field functions in your custom typeCast callback. They can only be called once. (see [#539](https://github.com/mysqljs/mysql/issues/539) for discussion)__
 
-```
-field.string()
-field.buffer()
-field.geometry()
-```
-are aliases for
-```
-parser.parseLengthCodedString()
-parser.parseLengthCodedBuffer()
-parser.parseGeometryValue()
-```
-__You can find which field function you need to use by looking at: [RowDataPacket.prototype._typeCast](https://github.com/mysqljs/mysql/blob/master/lib/protocol/packets/RowDataPacket.js#L41)__
-
+__WARNING: YOU MUST INVOKE the parser using one of these three field functions
+in your custom typeCast callback. They can only be called once.__
 
 ## Connection Flags
 
@@ -1430,8 +1456,8 @@ opening a GitHub issue simply asking to whom a security issues should be
 addressed to without disclosing the issue or type of issue.
 
 An ideal report would include a clear indication of what the security issue is
-and how it would be exploited, ideally with an accompaning proof of concept
-("PoC") for collaborators to work again and validate potentional fixes against.
+and how it would be exploited, ideally with an accompanying proof of concept
+("PoC") for collaborators to work against and validate potentional fixes against.
 
 ## Contributing
 
@@ -1490,15 +1516,14 @@ $ MYSQL_HOST=localhost MYSQL_PORT=3306 MYSQL_DATABASE=node_mysql_test MYSQL_USER
 * Prepared statements
 * Support for encodings other than UTF-8 / ASCII
 
-[npm-image]: https://img.shields.io/npm/v/mysql.svg
-[npm-url]: https://npmjs.org/package/mysql
-[node-version-image]: https://img.shields.io/node/v/mysql.svg
-[node-version-url]: https://nodejs.org/en/download/
-[travis-image]: https://img.shields.io/travis/mysqljs/mysql/master.svg?label=linux
-[travis-url]: https://travis-ci.org/mysqljs/mysql
-[appveyor-image]: https://img.shields.io/appveyor/ci/dougwilson/node-mysql/master.svg?label=windows
+[appveyor-image]: https://badgen.net/appveyor/ci/dougwilson/node-mysql/master?label=windows
 [appveyor-url]: https://ci.appveyor.com/project/dougwilson/node-mysql
-[coveralls-image]: https://img.shields.io/coveralls/mysqljs/mysql/master.svg
+[coveralls-image]: https://badgen.net/coveralls/c/github/mysqljs/mysql/master
 [coveralls-url]: https://coveralls.io/r/mysqljs/mysql?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/mysql.svg
-[downloads-url]: https://npmjs.org/package/mysql
+[node-image]: https://badgen.net/npm/node/mysql
+[node-url]: https://nodejs.org/en/download
+[npm-downloads-image]: https://badgen.net/npm/dm/mysql
+[npm-url]: https://npmjs.org/package/mysql
+[npm-version-image]: https://badgen.net/npm/v/mysql
+[travis-image]: https://badgen.net/travis/mysqljs/mysql/master
+[travis-url]: https://travis-ci.org/mysqljs/mysql

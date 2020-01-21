@@ -4,78 +4,85 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilCertificateDownloadValidatorTest extends PHPUnit_Framework_TestCase
+class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
-	public function testValidationSucceedsAndReturnsTrue()
-	{
-		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testValidationSucceedsAndReturnsTrue()
+    {
+        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$userCertificateRepository->method('fetchActiveCertificate');
 
-		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
-			->disableOriginalConstructor()
-			->getMock();
+        $userCertificateRepository->method('fetchActiveCertificate');
 
-		$activeValidator->method('validate')
-			->willReturn(true);
+        $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$result = $validator->isCertificateDownloadable(100, 100);
+        $activeValidator->method('validate')
+            ->willReturn(true);
 
-		$this->assertTrue($result);
-	}
+        $validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
 
-	public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated()
-	{
-		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
-			->disableOriginalConstructor()
-			->getMock();
+        $result = $validator->isCertificateDownloadable(100, 100);
 
-		$userCertificateRepository
-			->expects($this->never())
-			->method('fetchActiveCertificate');
+        $this->assertTrue($result);
+    }
 
-		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
-			->disableOriginalConstructor()
-			->getMock();
+    public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated()
+    {
+        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$activeValidator
-			->method('validate')
-			->willReturn(false);
+        $userCertificateRepository
+            ->expects($this->never())
+            ->method('fetchActiveCertificate');
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+        $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-		$result = $validator->isCertificateDownloadable(100, 100);
+        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$this->assertFalse($result);
-	}
+        $activeValidator
+            ->method('validate')
+            ->willReturn(false);
 
-	public function testValidationReturnedFalseBecauseJavaServerIsNotActive()
-	{
-		$userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
-			->disableOriginalConstructor()
-			->getMock();
+        $validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
 
-		$userCertificateRepository
-			->expects($this->once())
-			->method('fetchActiveCertificate')
-			->willThrowException(new ilRpcClientException('Client not active'));
+        $result = $validator->isCertificateDownloadable(100, 100);
 
-		$activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
-			->disableOriginalConstructor()
-			->getMock();
+        $this->assertFalse($result);
+    }
 
-		$activeValidator
-			->method('validate')
-			->willReturn(true);
+    public function testValidationReturnedFalseBecauseJavaServerIsNotActive()
+    {
+        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+            ->disableOriginalConstructor()
+            ->getMock();
 
-		$validator = new ilCertificateDownloadValidator($userCertificateRepository, $activeValidator);
+        $userCertificateRepository
+            ->expects($this->once())
+            ->method('fetchActiveCertificate')
+            ->willThrowException(new ilRpcClientException('Client not active'));
 
-		$result = $validator->isCertificateDownloadable(100, 100);
+        $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-		$this->assertFalse($result);
-	}
+        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $activeValidator
+            ->method('validate')
+            ->willReturn(true);
+
+        $validator = new ilCertificateDownloadValidator($accessValidator, $activeValidator);
+
+        $result = $validator->isCertificateDownloadable(100, 100);
+
+        $this->assertFalse($result);
+    }
 }

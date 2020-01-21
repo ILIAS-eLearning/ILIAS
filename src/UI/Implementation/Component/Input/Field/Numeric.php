@@ -7,49 +7,67 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
-use ILIAS\Validation\Factory as ValidationFactory;
-use ILIAS\Transformation\Factory as TransformationFactory;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This implements the numeric input.
  */
-class Numeric extends Input implements C\Input\Field\Numeric {
+class Numeric extends Input implements C\Input\Field\Numeric
+{
 
-	/**
-	 * Numeric constructor.
-	 *
-	 * @param DataFactory $data_factory
-	 * @param             $label
-	 * @param             $byline
-	 */
-	public function __construct(
-		DataFactory $data_factory,
-		ValidationFactory $validation_factory,
-		TransformationFactory $transformation_factory,
-		$label,
-		$byline
-	) {
-
-		parent::__construct($data_factory, $validation_factory, $transformation_factory, $label, $byline);
-
-		//TODO: Is there a better way to do this? Note, that "withConstraint" is not
-		// usable here (clone).
-		$this->setAdditionalConstraint($this->validation_factory->isNumeric());
-	}
-
-
-	/**
-	 * @inheritdoc
-	 */
-	protected function isClientSideValueOk($value) {
-		return is_numeric($value);
-	}
+    /**
+     * Numeric constructor.
+     *
+     * @param DataFactory $data_factory
+     * @param ValidationFactory $validation_factory
+     * @param \ILIAS\Refinery\Factory $refinery
+     * @param             $label
+     * @param             $byline
+     */
+    public function __construct(
+        DataFactory $data_factory,
+        \ILIAS\Refinery\Factory $refinery,
+        $label,
+        $byline
+    ) {
+        parent::__construct($data_factory, $refinery, $label, $byline);
+        $this->setAdditionalTransformation(
+            $this->refinery->logical()->logicalOr([
+                $this->refinery->numeric()->isNumeric(),
+                $this->refinery->null()
+            ])
+        );
+    }
 
 
-	/**
-	 * @inheritdoc
-	 */
-	protected function getConstraintForRequirement() {
-		return $this->validation_factory->isNumeric();
-	}
+    /**
+     * @inheritdoc
+     */
+    protected function isClientSideValueOk($value) : bool
+    {
+        return is_numeric($value) || $value === "" || $value === null;
+    }
+
+
+    /**
+     * @inheritdoc
+     */
+    protected function getConstraintForRequirement()
+    {
+        return $this->refinery->numeric()->isNumeric();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getUpdateOnLoadCode() : \Closure
+    {
+        return function ($id) {
+            $code = "$('#$id').on('input', function(event) {
+				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
+			});
+			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
+            return $code;
+        };
+    }
 }

@@ -1,8 +1,12 @@
 <?php
+
+use PHPUnit\Framework\TestSuite;
+
 /**
  * @author Richard Klees <richard.klees@concepts-and-training.de>
  */
-class ilServicesInitSuite extends PHPUnit_Framework_TestSuite {
+class ilServicesInitSuite extends TestSuite
+{
     public static function suite()
     {
         $suite = new ilServicesInitSuite();
@@ -13,4 +17,4 @@ class ilServicesInitSuite extends PHPUnit_Framework_TestSuite {
 
         return $suite;
     }
-} 
+}

@@ -260,6 +260,8 @@
 @il-footer-bg-color: @brand-primary;
 //** controls the color of the text in the footer.
 @il-footer-color: white;
+@il-footer-height: 70px;
+@il-footer-padding: 20px 0 15px 5px;
 
 //== Navs
 //
@@ -280,16 +282,16 @@
 //** Text color of the standard button (most button instances)
 @il-btn-standard-color:           white;
 //** Background color of the standard button (most button instances)
-@il-btn-standard-bg:              lighten(@brand-primary, 15%);
+@il-btn-standard-bg:              @brand-primary;
 //** Border color of the standard button (most button instances)
-@il-btn-standard-border:          lighten(@brand-primary, 15%);
+@il-btn-standard-border:          @brand-primary;
 
 //** Text color of the primary button (most important button on the screen)
 @il-btn-primary-color:           white;
 //** Background color of the primary button (most important button on the screen)
-@il-btn-primary-bg:              @brand-secondary;
+@il-btn-primary-bg:              darken(@brand-secondary, 10%);
 //** Border color of the primary button (most important button on the screen)
-@il-btn-primary-border:          @brand-secondary;
+@il-btn-primary-border:          darken(@brand-secondary, 10%);
 
 //** Text color of inactive buttons
 @il-disabled-btn-color:          white;
@@ -297,6 +299,30 @@
 @il-disabled-btn-bg:             #b0b0b0;
 //** Border color of inactive buttons
 @il-disabled-btn-border:         #e0e0e0;
+
+@btn-default-color:             @link-color;
+@btn-default-border:            #d0d0d0;
+@btn-default-bg:                #fefefe;
+@disabled-btn-bg:               #b0b0b0;
+@disabled-btn-border:           #b0b0b0;
+@disabled-btn-color:            #e0e0e0;
+//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
+@btn-tag-bg:                    #75deea;
+@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
+@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
+@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
+@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
+@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
+//** Foreground colors for tags; usually black/white depending on the background color
+@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
+@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
+@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
+@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
+@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
+//** Border radius of tags
+@btn-tag-border-radius: 3px;
+//** margin of tags
+@btn-tag-margin: 2px 4px 2px 0;
 
 
 //== Toggle Buttons
@@ -352,34 +378,6 @@
 //** Textual separator for between breadcrumb elements
 @breadcrumb-separator:          "»";
 
-//== Buttons
-//
-//##
-
-@btn-default-color:             @link-color;
-@btn-default-border:            #d0d0d0;
-@btn-default-bg:                #fefefe;
-@disabled-btn-bg:               #b0b0b0;
-@disabled-btn-border:           #b0b0b0;
-@disabled-btn-color:            #e0e0e0;
-//** Background color for tags with relevance 5; by default, color is desaturated in steps of 20%.
-@btn-tag-bg:                    #75deea;
-@btn-tag-bg-relevance-verylow:  desaturate(@btn-tag-bg, 80%);
-@btn-tag-bg-relevance-low:      desaturate(@btn-tag-bg, 60%);
-@btn-tag-bg-relevance-middle:   desaturate(@btn-tag-bg, 40%);
-@btn-tag-bg-relevance-high:     desaturate(@btn-tag-bg, 20%);
-@btn-tag-bg-relevance-veryhigh: @btn-tag-bg;
-//** Foreground colors for tags; usually black/white depending on the background color
-@btn-tag-fg-relevance-verylow:  contrast(desaturate(@btn-tag-bg, 80%));
-@btn-tag-fg-relevance-low:      contrast(desaturate(@btn-tag-bg, 60%));
-@btn-tag-fg-relevance-middle:   contrast(desaturate(@btn-tag-bg, 40%));
-@btn-tag-fg-relevance-high:     contrast(desaturate(@btn-tag-bg, 20%));
-@btn-tag-fg-relevance-veryhigh: contrast(@btn-tag-bg);
-//** Border radius of tags
-@btn-tag-border-radius: 3px;
-//** margin of tags
-@btn-tag-margin: 2px 4px 2px 0;
-
 
 //== Badges
 //
@@ -432,6 +430,39 @@
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 	  60px;
 
+//== Standard Filter
+//
+//## Variables used to style the ILIAS Standard Filter
+
+//** Filter Bar
+@il-standard-filter-bar-btn-toggle-height: (@il-btn-toggle-height)-6px;
+@il-standard-filter-bar-btn-toggle-padding: (@il-btn-toggle-padding)-10px;
+@il-standard-filter-bar-btn-toggle-switch-width: (@il-btn-toggle-switch-size)-6px;
+@il-standard-filter-bar-btn-bulky-font-size: 14px;
+@il-standard-filter-bar-btn-bulky-border-width: 0;
+@il-standard-filter-bar-glyph-padding: 0.3em;
+
+//** Input Fields Area
+@il-standard-filter-input-section-border: 1px solid #dddddd;
+@il-standard-filter-input-group-width: 100%;
+@il-standard-filter-input-group-height: 25px;
+@il-standard-filter-label-width: 30%;
+@il-standard-filter-input-remove-width: 10%;
+@il-standard-filter-font-color-disabled: #b0b0b0;
+
+//** Division with active inputs under Filter Bar
+@il-standard-filter-active-inputs-margin-left: 0;
+@il-standard-filter-active-inputs-padding-vertical: 0;
+@il-standard-filter-active-inputs-font-size: 0.8em;
+
+//** Popovers
+@il-standard-filter-screen-sm-input-popover-padding: 4px;
+@il-standard-filter-screen-sm-input-popover-margin-top: 0;
+@il-standard-filter-screen-sm-input-popover-border: 0;
+@il-standard-filter-add-input-popover-list-margin: 0;
+@il-standard-filter-add-input-popover-list-padding: 0;
+@il-standard-filter-add-input-popover-list-button-width: 100%;
+
 //== Input Fields
 //
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
@@ -454,6 +485,7 @@
 
 @panel-bg:                    @il-secondary-container-bg;
 @panel-body-padding:          15px;
+@panel-heading-color:		  #707070;
 @panel-heading-padding:       10px 15px;
 @panel-footer-padding:        @panel-heading-padding;
 @panel-border-radius:         @border-radius-base;
@@ -585,6 +617,7 @@
 
 //** Default background color used for dropzones.
 @il-dropzone-bg: white;
+@il-dropzone-bg-inactive: #F4F4F4;
 //** Background color used when a dropzone is highlighted (not when hovered).
 @il-dropzone-highlight-bg: #FFFFD6;
 //** Background color used when a dropzone is hovered.
@@ -660,7 +693,7 @@
 @il-item-divider-margin: 0 0 10px 0;
 @il-item-divider-border-bottom: dashed 0.5px #E0E0E0;
 @il-item-description-padding: 10px 0 0 0;
-@il-item-padding: 20px;
+@il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
 
@@ -668,12 +701,10 @@
 //== Listing Panel
 //
 //##
-@il-panel-listing-std-container-h4-margin: 16px 0 2px 0;
-@il-panel-listing-std-container-h3-margin: 8px 0 2px 0;
-@il-panel-listing-std-container-h3-text-transform: uppercase;
-@il-panel-listing-std-container-h4-text-transform: uppercase;
-@il-panel-listing-std-container-h3-color: @il-light-text-color;
-@il-panel-listing-std-container-h4-color: @il-light-text-color;
+@il-panel-listing-std-container-h3-text-transform: none;
+@il-panel-listing-std-container-h4-text-transform: none;
+@il-panel-listing-std-container-h3-color: @panel-heading-color;
+@il-panel-listing-std-container-h4-color: @panel-heading-color;
 @il-panel-listing-std-item-container-margin: 0 0 1px 0;
 
 
@@ -742,6 +773,8 @@
 //
 //## Icons are used to represent (and quickly identify) objects.
 
+//** Size for icons: xsmall is used in the tree. e.g.
+@icon-size-xsmall: 17px;
 //** Size for icons: Small is used in the tree. e.g.
 @icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
@@ -774,10 +807,12 @@
 @il-card-highlight-bg: @brand-warning;
 @il-card-highlight-height: @padding-large-vertical;
 @il-card-list-key-color: @il-light-text-color;
-@il-card-repository-head-color: rgba(0,0,0,0.3);
+@il-card-repository-head-color: rgba(0,0,0,0.5);
 @il-card-repository-dropdown-border: #e0e0e0 1px solid;
-@il-card-repository-outlined-icon-filter: brightness(1);
+@il-card-repository-outlined-icon-filter: invert(1);
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
+//** Sets the maximum width of cards in small screens
+@il-card-max-width-xs: 350px;
 
 //== Workflow
 //
@@ -799,3 +834,96 @@
 //## Variables that modify and minpulate the appearance of modals
 //** Controls the speed of the fade in/out of the modal
 @il-modal-transition-speed: 0.15s;
+
+//== Layout (UI Layout Page)
+//
+//## Variables to modify the appearance of the page generated by the UI Framework.
+//** header, footer and logo
+@grid-float-breakpoint-max: 768px;
+
+@il-standard-page-logo-height: 45px;
+@il-standard-page-logo-width: 45px;
+@il-standard-page-header-height: 60px;
+@il-standard-page-header-bg-color: #fff;
+@il-standard-page-border-light-color: #ddd;
+@il-standard-page-content-padding: 20px;
+
+//** metabar
+@il-metabar-entry-height: 60px;
+@il-metabar-entry-width: 60px;
+@il-metabar-glyph-size: 2.3rem;
+@il-metabar-glyph-color: #aaa;
+@il-metabar-slates-width: 500px;
+
+//** breadcrumbs
+@il-standard-page-breadcrumbs-height: 33px;
+@il-standard-page-breadcrumbs-bg-color: #fff;
+@il-standard-page-breadcrumbs-divider-color: #bbb;
+
+//** mainbar
+@il-maincontrols-mainbar-bg-color: #fff;
+@il-mainbar-btn-height: 80px;
+@il-mainbar-btn-width: 80px;
+@il-mainbar-btn-color: #fff;
+@il-mainbar-btn-bg-color: #4a4a4a;
+@il-mainbar-btn-color-engaged: #4a4a4a;
+@il-mainbar-btn-bg-color-engaged: #fff;
+@il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
+@il-mainbar-btn-label-size: .9rem;
+@il-mainbar-bulky-label-margin-top: 5px;
+@il-mainbar-tools-bg: @body-bg;
+@il-mainbar-tools-item-gap: 3px;
+
+//** tools
+@il-mainbar-remove-tools-btn-height: 45px;
+
+//** modeinfo
+@il-mode-info-color: @brand-warning;
+@il-mode-info-border: 3px solid @il-mode-info-color;
+@il-mode-info-height: 30px;
+@il-mode-info-shadow: 0px 2px 2px 0px rgba(128, 128, 128, 1);
+@il-mode-info-text-color: white;
+
+//** slates
+@il-slate-bulky-bg-color: #f2f2f2;
+@il-slate-bulky-level2-bg-color: #e3e3e3;
+@il-slate-bulky-bg-color-engaged: fade(@brand-primary, 30%);
+@il-slate-content-padding: 10px 20px;
+@il-slate-tree-padding: 4px 0;
+@il-slate-bulky-padding: 10px 40px 15px 10px;
+@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-bulky-glyph-size: 2rem;
+@il-slate-bulky-glyph-margin-right: 5px;
+@il-slate-bulky-label-size: 1.5rem;
+@il-slate-content-spacing: 2px;
+@il-standard-page-slate-width: 329px;
+@il-mainbar-slates-bg-color: #fff;
+@il-metabar-slates-bg-color: #fafafa;
+@il-mainbar-close-slate-btn-height: 45px;
+@il-metabar-close-slate-btn-height: 30px;
+
+//** shadows
+@il-standard-page-shadow-color: rgba(0,0,0,.1);
+@il-mainbar-shadow-right: 1px 3px 4px @il-standard-page-shadow-color;
+@il-mainbar-shadow-top: 0 0 4px @il-standard-page-shadow-color;
+@il-standard-page-header-shadow-bottom: 0 1px 2px @il-standard-page-shadow-color;
+
+//** for mobile (small devices)
+@il-standard-page-small-header-height: 45px;
+@il-standard-page-small-mainbar-height: 50px;
+@il-mainbar-small-btn-height: @il-standard-page-small-mainbar-height;
+@il-mainbar-small-btn-width: 75px;
+@il-metabar-small-entry-height: @il-standard-page-small-header-height;
+@il-metabar-small-entry-width: @il-standard-page-small-header-height;
+@il-metabar-small-glyph-size: 2rem;
+
+//== Tree
+//
+//## Basic adjustments for the tree
+@il-tree-node-indentation: @font-size-base;
+//** Vertical Space between nodes
+@il-tree-node-vertical-spacing: 0px;
+
+//== Characteristic Value Listing
+//** item rows layout
+@characteristic-value-border-color: #ddd;

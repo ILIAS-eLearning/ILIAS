@@ -1,5 +1,6 @@
 var Container  = require('../AppContainer');
 var HTMLEscape = require('../Helper/HTMLEscape');
+var UUID = require('node-uuid');
 
 module.exports = function(conversationId, userId, message) {
 	function shouldPersistMessage(conversation) {
@@ -31,7 +32,8 @@ module.exports = function(conversationId, userId, message) {
 				conversationId: conversationId,
 				userId: userId,
 				message: HTMLEscape.escape(message),
-				timestamp: (new Date).getTime()
+				timestamp: (new Date).getTime(),
+				id: UUID.v4()
 			};
 
 			if (participant.getAcceptsMessages()) {

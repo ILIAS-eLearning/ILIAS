@@ -7,6 +7,6 @@
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler {
-
+interface ilAccessHandler extends ilRBACAccessHandler, ilOrgUnitPositionAccessHandler, ilOrgUnitPositionAndRBACAccessHandler
+{
 }

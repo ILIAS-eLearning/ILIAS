@@ -1,0 +1,43 @@
+.il-maincontrols-footer {
+	color: white;
+	font-size: 0.9em;
+	padding: 2px 10px;
+
+	.il-footer-content div {
+		display: inline-block;
+	}
+
+	.il-footer-links {
+		ul {
+			list-style: none;
+			padding: 0px;
+			margin: 0px;
+		}
+		li {
+			display: inline-block;
+			margin-right: 5px;
+			a {
+				color: white;
+			}
+		}
+		li:first-child:before {
+			content: "\00b7";
+			margin-right: 10px;
+		}
+		li:after {
+			content: "\00b7";
+			margin-left: 10px;
+		}
+		li:last-child:after {
+			content: " ";
+		}
+	}
+
+	.il-footer-permanent-url {
+		margin-right: 5px;
+	}
+
+	.il-footer-text {
+		margin-right: 5px;
+	}
+}

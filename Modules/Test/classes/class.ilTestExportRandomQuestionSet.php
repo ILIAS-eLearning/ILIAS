@@ -11,170 +11,170 @@ require_once 'Modules/Test/classes/class.ilTestExport.php';
  */
 class ilTestExportRandomQuestionSet extends ilTestExport
 {
-	/**
-	 * @var ilTestRandomQuestionSetSourcePoolDefinitionList
-	 */
-	protected $srcPoolDefList;
+    /**
+     * @var ilTestRandomQuestionSetSourcePoolDefinitionList
+     */
+    protected $srcPoolDefList;
 
-	/**
-	 * @var array[ilTestRandomQuestionSetStagingPoolQuestionList]
-	 */
-	protected $stagingPoolQuestionListByPoolId;
-	
-	protected function initXmlExport()
-	{
-		global $DIC;
-		$ilDB = $DIC['ilDB'];
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
+    /**
+     * @var array[ilTestRandomQuestionSetStagingPoolQuestionList]
+     */
+    protected $stagingPoolQuestionListByPoolId;
+    
+    protected function initXmlExport()
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
 
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
-		$srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
-			$ilDB, $this->test_obj
-		);
-		
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
-		$this->srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
-			$ilDB, $this->test_obj, $srcPoolDefFactory
-		);
+        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionFactory.php';
+        $srcPoolDefFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
+            $ilDB,
+            $this->test_obj
+        );
+        
+        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
+        $this->srcPoolDefList = new ilTestRandomQuestionSetSourcePoolDefinitionList(
+            $ilDB,
+            $this->test_obj,
+            $srcPoolDefFactory
+        );
 
-		$this->srcPoolDefList->loadDefinitions();
-		
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
+        $this->srcPoolDefList->loadDefinitions();
 
-		$this->stagingPoolQuestionListByPoolId = array();
-	}
+        // fau: fixRandomTestExportPages - use the complete random question list
+        //		ilObjTest::exportPagesXML() uses $this->questions
+        //		ilObjTest::loadQuestions() loads only those of the current active_id of ilUser
+        $this->test_obj->questions = $this->getQuestionIds();
+        // fau.
+        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetStagingPoolQuestionList.php';
 
-	protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
-	{
-		$xmlWriter->xmlStartTag('RandomQuestionSetConfig');
-		$this->populateCommonSettings($xmlWriter);
-		$this->populateQuestionStages($xmlWriter);
-		$this->populateSelectionDefinitions($xmlWriter);
-		$xmlWriter->xmlEndTag('RandomQuestionSetConfig');
-	}
-	
-	protected function populateCommonSettings(ilXmlWriter $xmlWriter)
-	{
-		global $DIC;
-		$tree = $DIC['tree'];
-		$ilDB = $DIC['ilDB'];
-		$ilPluginAdmin = $DIC['ilPluginAdmin'];
-		
-		require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
-		$questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
-		$questionSetConfig->loadFromDb();
+        $this->stagingPoolQuestionListByPoolId = array();
+    }
 
-		$xmlWriter->xmlElement('RandomQuestionSetSettings', array(
-			'amountMode' => $questionSetConfig->getQuestionAmountConfigurationMode(),
-			'questAmount' => $questionSetConfig->getQuestionAmountPerTest(),
-			'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(),
-			'synctimestamp' => $questionSetConfig->getLastQuestionSyncTimestamp()
-		));
-	}
-	
-	protected function populateQuestionStages(ilXmlWriter $xmlWriter)
-	{
-		$xmlWriter->xmlStartTag('RandomQuestionStage');
-			
-		foreach($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId)
-		{
-			$questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-			
-			$xmlWriter->xmlStartTag('RandomQuestionStagingPool', array('poolId' => $poolId));
-			$xmlWriter->xmlData(implode(',', $questionList->getQuestions()));
-			$xmlWriter->xmlEndTag('RandomQuestionStagingPool');
-		}
+    protected function populateQuestionSetConfigXml(ilXmlWriter $xmlWriter)
+    {
+        $xmlWriter->xmlStartTag('RandomQuestionSetConfig');
+        $this->populateCommonSettings($xmlWriter);
+        $this->populateQuestionStages($xmlWriter);
+        $this->populateSelectionDefinitions($xmlWriter);
+        $xmlWriter->xmlEndTag('RandomQuestionSetConfig');
+    }
+    
+    protected function populateCommonSettings(ilXmlWriter $xmlWriter)
+    {
+        global $DIC;
+        $tree = $DIC['tree'];
+        $ilDB = $DIC['ilDB'];
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        
+        require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
+        $questionSetConfig = new ilTestRandomQuestionSetConfig($tree, $ilDB, $ilPluginAdmin, $this->test_obj);
+        $questionSetConfig->loadFromDb();
 
-		$xmlWriter->xmlEndTag('RandomQuestionStage');
-	}
+        $xmlWriter->xmlElement('RandomQuestionSetSettings', array(
+            'amountMode' => $questionSetConfig->getQuestionAmountConfigurationMode(),
+            'questAmount' => $questionSetConfig->getQuestionAmountPerTest(),
+            'homogeneous' => $questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired(),
+            'synctimestamp' => $questionSetConfig->getLastQuestionSyncTimestamp()
+        ));
+    }
+    
+    protected function populateQuestionStages(ilXmlWriter $xmlWriter)
+    {
+        $xmlWriter->xmlStartTag('RandomQuestionStage');
+            
+        foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
+            $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
+            
+            $xmlWriter->xmlStartTag('RandomQuestionStagingPool', array('poolId' => $poolId));
+            $xmlWriter->xmlData(implode(',', $questionList->getQuestions()));
+            $xmlWriter->xmlEndTag('RandomQuestionStagingPool');
+        }
 
-	protected function populateSelectionDefinitions(ilXmlWriter $xmlWriter)
-	{
-		$xmlWriter->xmlStartTag('RandomQuestionSelectionDefinitions');
-		
-		foreach($this->srcPoolDefList as $definition)
-		{
-			$attributes = array(
-				'id' => $definition->getId(),
-				'poolId' => $definition->getPoolId(),
-				'poolQuestCount' => $definition->getPoolQuestionCount(),
-				'questAmount' => $definition->getQuestionAmount(),
-				'position' => $definition->getSequencePosition()
-			);
+        $xmlWriter->xmlEndTag('RandomQuestionStage');
+    }
 
-			// #21330
-			$mappedTaxFilter   = $definition->getMappedTaxonomyFilter();
-			if( is_array($mappedTaxFilter) && count($mappedTaxFilter) > 0 )
-			{
-				$attributes['taxFilter'] = serialize($mappedTaxFilter);
-			}
+    protected function populateSelectionDefinitions(ilXmlWriter $xmlWriter)
+    {
+        $xmlWriter->xmlStartTag('RandomQuestionSelectionDefinitions');
+        
+        foreach ($this->srcPoolDefList as $definition) {
+            $attributes = array(
+                'id' => $definition->getId(),
+                'poolId' => $definition->getPoolId(),
+                'poolQuestCount' => $definition->getPoolQuestionCount(),
+                'questAmount' => $definition->getQuestionAmount(),
+                'position' => $definition->getSequencePosition()
+            );
 
-			$xmlWriter->xmlStartTag('RandomQuestionSelectionDefinition', $attributes);
-			$xmlWriter->xmlElement('RandomQuestionSourcePoolTitle', null, $definition->getPoolTitle());
-			$xmlWriter->xmlElement('RandomQuestionSourcePoolPath', null, $definition->getPoolPath());
-			$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition');
-		}
-		
-		$xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');
-	}
+            // #21330
+            $mappedTaxFilter   = $definition->getMappedTaxonomyFilter();
+            if (is_array($mappedTaxFilter) && count($mappedTaxFilter) > 0) {
+                $attributes['taxFilter'] = serialize($mappedTaxFilter);
+            }
 
-	protected function getQuestionsQtiXml()
-	{
-		$questionQtiXml = '';
+            $xmlWriter->xmlStartTag('RandomQuestionSelectionDefinition', $attributes);
+            $xmlWriter->xmlElement('RandomQuestionSourcePoolTitle', null, $definition->getPoolTitle());
+            $xmlWriter->xmlElement('RandomQuestionSourcePoolPath', null, $definition->getPoolPath());
+            $xmlWriter->xmlEndTag('RandomQuestionSelectionDefinition');
+        }
+        
+        $xmlWriter->xmlEndTag('RandomQuestionSelectionDefinitions');
+    }
 
-		foreach($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId)
-		{
-			$questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-			
-			foreach ($questionList as $questionId)
-			{
-				$questionQtiXml .= $this->getQuestionQtiXml($questionId);
-			}
-		}
+    protected function getQuestionsQtiXml()
+    {
+        $questionQtiXml = '';
 
-		return $questionQtiXml;
-	}
-	
-	/**
-	 * @return array
-	 */
-	protected function getQuestionIds()
-	{
-		$questionIds = array();
-		
-		foreach($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId)
-		{
-			$questionList = $this->getLoadedStagingPoolQuestionList($poolId);
-			
-			foreach ($questionList as $questionId)
-			{
-				$questionIds[] = $questionId;
-			}
-		}
-		
-		return $questionIds;
-	}
+        foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
+            $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
+            
+            foreach ($questionList as $questionId) {
+                $questionQtiXml .= $this->getQuestionQtiXml($questionId);
+            }
+        }
 
-	/**
-	 * @param $poolId
-	 * @return ilTestRandomQuestionSetStagingPoolQuestionList
-	 */
-	protected function getLoadedStagingPoolQuestionList($poolId)
-	{
-		if( !isset($this->stagingPoolQuestionListByPoolId[$poolId]) )
-		{
-			global $DIC;
-			$ilDB = $DIC['ilDB'];
-			$ilPluginAdmin = $DIC['ilPluginAdmin'];
-			
-			$questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
-			$questionList->setTestId($this->test_obj->getTestId());
-			$questionList->setPoolId($poolId);
-			$questionList->loadQuestions();
-			
-			$this->stagingPoolQuestionListByPoolId[$poolId] = $questionList;
-		}
+        return $questionQtiXml;
+    }
+    
+    /**
+     * @return array
+     */
+    protected function getQuestionIds()
+    {
+        $questionIds = array();
+        
+        foreach ($this->srcPoolDefList->getInvolvedSourcePoolIds() as $poolId) {
+            $questionList = $this->getLoadedStagingPoolQuestionList($poolId);
+            
+            foreach ($questionList as $questionId) {
+                $questionIds[] = $questionId;
+            }
+        }
+        
+        return $questionIds;
+    }
 
-		return $this->stagingPoolQuestionListByPoolId[$poolId];
-	}
+    /**
+     * @param $poolId
+     * @return ilTestRandomQuestionSetStagingPoolQuestionList
+     */
+    protected function getLoadedStagingPoolQuestionList($poolId)
+    {
+        if (!isset($this->stagingPoolQuestionListByPoolId[$poolId])) {
+            global $DIC;
+            $ilDB = $DIC['ilDB'];
+            $ilPluginAdmin = $DIC['ilPluginAdmin'];
+            
+            $questionList = new ilTestRandomQuestionSetStagingPoolQuestionList($ilDB, $ilPluginAdmin);
+            $questionList->setTestId($this->test_obj->getTestId());
+            $questionList->setPoolId($poolId);
+            $questionList->loadQuestions();
+            
+            $this->stagingPoolQuestionListByPoolId[$poolId] = $questionList;
+        }
+
+        return $this->stagingPoolQuestionListByPoolId[$poolId];
+    }
 }

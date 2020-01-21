@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://projecttincan.com/tincan.xsd" elementFormDefault="qualified" xmlns="http://projecttincan.com/tincan.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tc="http://projecttincan.com/tincan.xsd">
+	<xs:element name="tincan" type="tincan">
+	</xs:element>
+	<xs:complexType name="tincan">
+		<xs:sequence>
+			<xs:element name="activities" type="activities" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="activity">
+		<xs:sequence>
+			<xs:element name="name" type="langstring" maxOccurs="unbounded"/>
+			<xs:element name="description" type="langstring" maxOccurs="unbounded"/>
+			<xs:element name="launch" type="langURI" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element name="resource" type="langURI" maxOccurs="unbounded" minOccurs="0"/>
+			<xs:element name="interactionType" type="xs:string" minOccurs="0"/>
+      <!-- CMI Interaction fields -->
+      <xs:element name="correctResponsePatterns" type="correctResponsePatternList" minOccurs="0" />
+      <xs:element name="choices" type="interactionComponentList" minOccurs="0" />
+      <xs:element name="scale" type="interactionComponentList" minOccurs="0" />
+      <xs:element name="source" type="interactionComponentList" minOccurs="0" />
+      <xs:element name="target" type="interactionComponentList" minOccurs="0" />
+      <xs:element name="steps" type="interactionComponentList" minOccurs="0" />
+      <!-- Extensions-->
+      <xs:element name="extensions" type="extensions" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:anyURI"/>
+		<xs:attribute name="type" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="activities">
+		<xs:sequence>
+			<xs:sequence>
+				<xs:element name="activity" type="activity" maxOccurs="unbounded"/>
+				<xs:element name="provider" type="provider" minOccurs="0"/>
+			</xs:sequence>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="provider">
+		<xs:all>
+			<xs:element name="name" type="langstring"/>
+			<xs:element name="id" type="xs:string" />
+			<xs:element name="secret" type="xs:string" minOccurs="0"/>
+			<xs:element name="public_key" type="xs:string" minOccurs="0"/>
+			<xs:element name="info" type="xs:anyURI" minOccurs="0"/>
+		</xs:all>
+	</xs:complexType>
+  <xs:complexType name="correctResponsePatternList">
+    <xs:sequence>
+      <xs:element name="correctResponsePattern" type="xs:string" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="interactionComponentList">
+    <xs:sequence>
+      <xs:element name="component" type="interactionComponentType" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="interactionComponentType">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" />
+      <xs:element name="description" type="langstring" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+	<xs:complexType name="langstring">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="lang" type="xs:language"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="extensions">
+		<xs:sequence>
+			<xs:element name="extension" type="extension" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="extension">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="key" type="xs:string" use="required"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="langURI">
+		<xs:simpleContent>
+			<xs:extension base="xs:anyURI">
+				<xs:attribute name="lang" type="xs:language"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+</xs:schema>

@@ -11,6 +11,6 @@ namespace ILIAS\BackgroundTasks\Dependencies\Exceptions;
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  */
-class NoSuchServiceException extends Exception {
-
+class NoSuchServiceException extends Exception
+{
 }

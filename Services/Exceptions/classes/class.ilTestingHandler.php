@@ -14,14 +14,15 @@
 
 require_once("Services/Exceptions/classes/class.ilPlainTextHandler.php");
 
-class ilTestingHandler extends ilPlainTextHandler {
-	/**
-	 * Get the header for the page.
-	 *
-	 * @return string
-	 */
-	protected function pageHeader() {
-		return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n";
-	}
-
+class ilTestingHandler extends ilPlainTextHandler
+{
+    /**
+     * Get the header for the page.
+     *
+     * @return string
+     */
+    protected function pageHeader()
+    {
+        return "DEAR TESTER! AN ERROR OCCURRED... PLEASE INCLUDE THE FOLLOWING OUTPUT AS ADDITIONAL INFORMATION IN YOUR BUG REPORT.\n\n";
+    }
 }

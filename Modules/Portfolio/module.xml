@@ -5,9 +5,6 @@
 		<baseclass name="ilObjPortfolioGUI" dir="classes" />
 		<baseclass name="ilPortfolioRepositoryGUI" dir="classes" />
 	</baseclasses>
-	<gsproviders>
-		<gsprovider purpose="mainmenu" class_name="ilPrtfGlobalScreenProvider" />
-	</gsproviders>
 	<objects>
 		<object id="prtf" class_name="Portfolio" dir="classes"
 			checkbox="0" inherit="0" translate="0" rbac="0" workspace="0" repository="0">

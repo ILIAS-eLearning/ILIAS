@@ -6,103 +6,126 @@
  */
 class ilCertificateCourseLearningProgressEvaluation
 {
-	/**
-	 * @var ilCertificateTemplateRepository
-	 */
-	private $templateRepository;
+    /**
+     * @var ilCertificateTemplateRepository
+     */
+    private $templateRepository;
 
-	/**
-	 * @var ilSetting
-	 */
-	private $setting;
+    /**
+     * @var ilSetting
+     */
+    private $setting;
 
-	/**
-	 * @var ilCertificateObjectHelper
-	 */
-	private $objectHelper;
+    /**
+     * @var ilCertificateObjectHelper
+     */
+    private $objectHelper;
 
-	/**
-	 * @var ilCertificateLPStatusHelper
-	 */
-	private $statusHelper;
+    /**
+     * @var ilCertificateLPStatusHelper
+     */
+    private $statusHelper;
 
-	/**
-	 * @param ilCertificateTemplateRepository $templateRepository
-	 * @param ilSetting|null $setting
-	 * @param ilCertificateObjectHelper|null $objectHelper
-	 * @param ilCertificateLPStatusHelper|null $statusHelper
-	 */
-	public function __construct(
-		ilCertificateTemplateRepository $templateRepository,
-		ilSetting $setting = null,
-		ilCertificateObjectHelper $objectHelper = null,
-		ilCertificateLPStatusHelper $statusHelper = null
-	) {
-		$this->templateRepository = $templateRepository;
+    /**
+     * @var ilCertificateObjUserTrackingHelper
+     */
+    private $trackingHelper;
 
-		if (null === $setting) {
-			$setting = new ilSetting('crs');
-		}
-		$this->setting = $setting;
+    /**
+     * @param ilCertificateTemplateRepository $templateRepository
+     * @param ilSetting|null $setting
+     * @param ilCertificateObjectHelper|null $objectHelper
+     * @param ilCertificateLPStatusHelper|null $statusHelper
+     */
+    public function __construct(
+        ilCertificateTemplateRepository $templateRepository,
+        ilSetting $setting = null,
+        ilCertificateObjectHelper $objectHelper = null,
+        ilCertificateLPStatusHelper $statusHelper = null,
+        ilCertificateObjUserTrackingHelper $trackingHelper = null
+    ) {
+        $this->templateRepository = $templateRepository;
 
-		if (null === $objectHelper) {
-			$objectHelper = new ilCertificateObjectHelper();
-		}
-		$this->objectHelper = $objectHelper;
+        if (null === $setting) {
+            $setting = new ilSetting('crs');
+        }
+        $this->setting = $setting;
 
-		if (null === $statusHelper) {
-			$statusHelper = new ilCertificateLPStatusHelper();
-		}
-		$this->statusHelper = $statusHelper;
-	}
+        if (null === $objectHelper) {
+            $objectHelper = new ilCertificateObjectHelper();
+        }
+        $this->objectHelper = $objectHelper;
 
-	/**
-	 * @param $refId
-	 * @param $userId
-	 * @return array
-	 */
-	public function evaluate(int $refId, int $userId) : array
-	{
-		$courseObjectIds = $this->templateRepository->fetchAllObjectIdsByType('crs');
+        if (null === $statusHelper) {
+            $statusHelper = new ilCertificateLPStatusHelper();
+        }
+        $this->statusHelper = $statusHelper;
+        if (null === $trackingHelper) {
+            $trackingHelper = new ilCertificateObjUserTrackingHelper();
+        }
+        $this->trackingHelper = $trackingHelper;
+    }
 
-		$completedCourses = array();
-		foreach ($courseObjectIds as $courseObjectId) {
-			$subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
+    /**
+     * @param $refId
+     * @param $userId
+     * @return ilCertificateTemplate[]
+     */
+    public function evaluate(int $refId, int $userId) : array
+    {
+        $courseTemplates = $this->templateRepository->fetchActiveTemplatesByType('crs');
 
-			if (false === $subItems || $subItems === null) {
-				continue;
-			}
+        $enabledGlobalLearningProgress = $this->trackingHelper->enabledLearningProgress();
 
-			$subItems = json_decode($subItems);
+        $templatesOfCompletedCourses = array();
+        foreach ($courseTemplates as $courseTemplate) {
+            $courseObjectId = $courseTemplate->getObjId();
 
-			if (!is_array($subItems)) {
-				continue;
-			}
+            if ($enabledGlobalLearningProgress) {
+                $objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
+                $mode = $objectLearningProgressSettings->getMode();
 
-			$subitem_obj_ids = array();
-			foreach($subItems as $subItemRefId) {
-				$subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
-			}
+                if (ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
+                    continue;
+                }
+            }
 
-			if(in_array($refId, $subItems)) {
-				$completed = true;
+            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
 
-				// check if all subitems are completed now
-				foreach($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
-					$status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
+            if (false === $subItems || $subItems === null) {
+                continue;
+            }
 
-					if($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
-						$completed = false;
-						break;
-					}
-				}
+            $subItems = json_decode($subItems);
 
-				if (true === $completed) {
-					$completedCourses[] = $courseObjectId;
-				}
-			}
-		}
+            if (!is_array($subItems)) {
+                continue;
+            }
 
-		return $completedCourses;
-	}
+            $subitem_obj_ids = array();
+            foreach ($subItems as $subItemRefId) {
+                $subitem_obj_ids[$subItemRefId] = $this->objectHelper->lookupObjId((int) $subItemRefId);
+            }
+
+            if (in_array($refId, $subItems)) {
+                $completed = true;
+
+                // check if all subitems are completed now
+                foreach ($subitem_obj_ids as $subitem_ref_id => $subitem_id) {
+                    $status = $this->statusHelper->lookUpStatus($subitem_id, $userId);
+
+                    if ($status != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                        $completed = false;
+                        break;
+                    }
+                }
+
+                if (true === $completed) {
+                    $templatesOfCompletedCourses[] = $courseTemplate;
+                }
+            }
+        }
+
+        return $templatesOfCompletedCourses;
+    }
 }

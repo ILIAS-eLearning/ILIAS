@@ -27,11 +27,18 @@ il.Awareness = {
 	},
 
 	init: function() {
+		if (!$('#awareness_trigger a').popover) {
+			return;
+		}
 		$('#awareness_trigger a').popover({
 			html : true,
 			placement : "bottom",
 			viewport : { selector: 'body', padding: 10 },
 			title: " "
+		});
+
+		$('#awareness_trigger > a').on('click', function (e) {
+			e.preventDefault();
 		});
 
 		$('#awareness_trigger a').on('show.bs.popover', function () {

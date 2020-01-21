@@ -3,21 +3,23 @@
 
 require_once 'libs/composer/vendor/autoload.php';
 
+use PHPUnit\Framework\TestSuite;
+
 /**
  * Class ilServicesUtilitiesSuite
  */
-class ilServicesUtilitiesSuite extends \PHPUnit_Framework_TestSuite
+class ilServicesUtilitiesSuite extends TestSuite
 {
-	/**
-	 * @return \PHPUnit_Framework_TestSuite
-	 */
-	public static function suite()
-	{
-		$suite = new self();
+    /**
+     * @return \PHPUnit_Framework_TestSuite
+     */
+    public static function suite()
+    {
+        $suite = new self();
 
-		require 'Services/Utilities/test/ilMimeTypeTest.php';
-		$suite->addTestSuite('ilMimeTypeTest');
+        require 'Services/Utilities/test/ilMimeTypeTest.php';
+        $suite->addTestSuite('ilMimeTypeTest');
 
-		return $suite;
-	}
+        return $suite;
+    }
 }

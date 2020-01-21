@@ -2,14 +2,15 @@
 <phpunit
 		colors="true"
 		stopOnFailure="true"
-		syntaxCheck="false"
-		backupGlobals="false">
+		backupGlobals="false"
+		bootstrap="./test/bootstrap.php">
+	<testsuite name="ilServicesMailSuite">
+		<file>./test/ilServicesPasswordSuite.php</file>
+	</testsuite>
 	<logging>
 		<log type="coverage-html"
 			 target="build/coverage"
-			 charset="UTF-8"
-			 highLowerBound="80"
-			 highlight="true" />
+			 highLowerBound="80" />
 		<log type="testdox-html"
 			 target="build/dox.html" />
 	</logging>
