@@ -407,27 +407,17 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *       The Notification Glyph allows users to activate / deactivate the notification service for a specific object or sub-item.
-     *       It is a toggle indicating by colour  whether it is activated or not.
+     *       The Notification Glyph indicates and controls functionality that allows the system to send notifications
+     *       to the user, such as the notification center in the Meta Bar or the notification service at individual
+     *       objects.
      *   composition: >
-     *       The Notification Glyph uses the glyphicon-bell in link-color if notifications are not active or brand-warning color if they are.
-     *   effect: >
-     *       Upon clicking the notification activation is toggled: Clicking the Notification Glyph activates respectively
-     *       deactivates the notification service for the current object or sub-item.
+     *       If used to toggle the notifications at an individual object, the Notification Glyph uses link-color to
+     *       indicate inactivity and the brand-warning color to indicate activity.
      *
      * rules:
-     *   usage:
-     *       1: >
-     *          The Notification Glyph MUST only be used in the Content Top Actions.
-     *   interaction:
-     *       1: >
-     *          Clicking the Notification Glyph MUST toggle the activation of Notifications.
-     *   style:
-     *       1: >
-     *          If notifications are activated the Notification Glyph MUST use the brand-warning color.
      *   accessibility:
-     *       1: >
-     *          The aria-label MUST be ‘Notifications'.
+     *       2: >
+     *          The aria-label MUST be "Notifications".
      * ---
      * @param	string|null	$action
      * @return 	\ILIAS\UI\Component\Symbol\Glyph\Glyph

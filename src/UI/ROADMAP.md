@@ -167,6 +167,16 @@ block-element, respectively an UI-Component on its own.
 
 ## Long Term
 
+### Glyphs as Toggle
+
+Currently, the Notification Glyph (and maybe others) is used to toggle the activation
+of the notification service at individual objects. The activity then is indicated
+by color only, which violates the general accessibility rule that ["Color MUST not be
+used as the only visual means of conveying information"](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/accessibility.md).
+However, a quick fix seems not to be possible atm, because there also is no other
+means to convey the notion of (in-)activity for a general Glyph, or even only the
+specific Notification Glyph.
+
 ### Tooltips and Tooltippable
 
 Tooltips are currently not yet implemented as UI components. Since 
