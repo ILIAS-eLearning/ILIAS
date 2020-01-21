@@ -5,41 +5,61 @@
  * Class ilAuthProviderSoap
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterface 
+class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterface
 {
-    protected $server_host	= '';
-    protected $server_port	= '';
-    protected $server_uri	= '';
-    protected $server_https	= '';
-    protected $server_nms	= '';
-    protected $use_dot_net	= false;
+    /** @var string */
+    protected $server_host = '';
+    /** @var string */
+    protected $server_port = '';
+    /** @var string */
+    protected $server_uri = '';
+    /** @var string */
+    protected $server_https = '';
+    /** @var string */
+    protected $server_nms = '';
+    /** @var string */
+    protected $use_dot_net = false;
+    /** @var string */
     protected $uri = '';
-    protected $client = null;
+    /** @var nusoap_client */
+    protected $client;
+    /** @var ilLogger */
+    protected $logger;
+    /** @var ilSetting */
+    protected $settings;
+    /** @var ilLanguage */
+    protected $language;
+    /** @var ilRbacAdmin */
+    protected $rbacAdmin;
 
     /**
      * @inheritDoc
      */
     public function __construct(ilAuthCredentials $credentials)
     {
+        global $DIC;
+
+        $this->settings = $DIC->settings();
+        $this->logger = $DIC->logger()->auth();
+        $this->language = $DIC->language();
+        $this->rbacAdmin = $DIC->rbac()->admin();
+
         parent::__construct($credentials);
     }
 
     /**
-     * Init soap client
-     * @return
+     *
      */
-    public function initClient()
+    private function initClient()
     {
-        global $DIC;
+        $this->server_host = (string) $this->settings->get('soap_auth_server', '');
+        $this->server_port = (string) $this->settings->get('soap_auth_port', '');
+        $this->server_uri = (string) $this->settings->get('soap_auth_uri', '');
+        $this->server_nms = (string) $this->settings->get('soap_auth_namespace', '');
+        $this->server_https = (bool) $this->settings->get('soap_auth_use_https', false);
+        $this->use_dot_net = (bool) $this->settings->get('use_dotnet', false);
 
-        $this->server_host = $DIC->settings()->get('soap_auth_server');
-        $this->server_port = $DIC->settings()->get('soap_auth_port');
-        $this->server_uri = $DIC->settings()->get('soap_auth_uri');
-        $this->server_https = $DIC->settings()->get('soap_auth_use_https');
-        $this->server_nms = $DIC->settings()->get('soap_auth_namespace');
-        $this->use_dot_net = (bool) $DIC->settings()->get('use_dotnet');
-
-        $this->uri  = $this->server_https ? 'https://' : 'http://';
+        $this->uri = $this->server_https ? 'https://' : 'http://';
         $this->uri .= $this->server_host;
 
         if ($this->server_port > 0) {
@@ -49,7 +69,7 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
             $this->uri .= ('/' . $this->server_uri);
         }
 
-        include_once './webservice/soap/lib/nusoap.php';
+        require_once './webservice/soap/lib/nusoap.php';
         $this->client = new nusoap_client($this->uri);
     }
 
@@ -60,155 +80,147 @@ class ilAuthProviderSoap extends ilAuthProvider implements ilAuthProviderInterfa
     {
         try {
             $this->initClient();
-
-            return $this->handleSoapAuth($status);
-        } catch (\ilException $e) {
-            $this->getLogger()->warning($e->getMessage());
-            $this->handleAuthenticationFail($status, 'err_wrong_login');
-            return false;
+            $this->handleSoapAuth($status);
+        } catch (Exception $e) {
+            $this->getLogger()->error($e->getMessage());
+            $status->setTranslatedReason($e->getMessage());
         }
+
+        if ($status->getAuthenticatedUserId() > 0) {
+            $this->logger->info('Successfully authenticated user via SOAP: ' . $this->getCredentials()->getUsername());
+            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
+            ilSession::set('used_external_auth', true);
+
+            return true;
+        }
+
+        $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATION_FAILED);
+
+        return false;
     }
 
     /**
      * @param ilAuthStatus $status
+     * @return bool
      */
-    private function handleSoapAuth(ilAuthStatus $status)
+    private function handleSoapAuth(ilAuthStatus $status) : bool
     {
-        global $DIC;
-
-        ilLoggerFactory::getLogger('auth')->debug(sprintf(
+        $this->logger->debug(sprintf(
             'Login observer called for SOAP authentication request of ext_account "%s" and auth_mode "%s".',
             $this->getCredentials()->getUsername(),
             'soap'
         ));
-        ilLoggerFactory::getLogger('auth')->debug(sprintf(
+        $this->logger->debug(sprintf(
             'Trying to find ext_account "%s" for auth_mode "%s".',
             $this->getCredentials()->getUsername(),
             'soap'
         ));
 
-        $local_user = ilObjUser::_checkExternalAuthAccount(
+        $internalLogin = ilObjUser::_checkExternalAuthAccount(
             'soap',
             $this->getCredentials()->getUsername()
         );
 
-        if ('' === $local_user || false === $local_user) {
-            $new_user = true;
-        } else {
-            $new_user = false;
+        $isNewUser = false;
+        if ('' === $internalLogin || false === $internalLogin) {
+            $isNewUser = true;
         }
 
-        $soapAction = "";
-        $nspref = "";
+        $soapAction = '';
+        $nspref = '';
         if ($this->use_dot_net) {
-            $soapAction = $this->server_nms . "/isValidSession";
-            $nspref = "ns1:";
+            $soapAction = $this->server_nms . '/isValidSession';
+            $nspref = 'ns1:';
         }
+
         $valid = $this->client->call(
             'isValidSession',
             [
                 $nspref . 'ext_uid' => $this->getCredentials()->getUsername(),
                 $nspref . 'soap_pw' => $this->getCredentials()->getPassword(),
-                $nspref . 'new_user' => $new_user
+                $nspref . 'new_user' => $isNewUser
             ],
             $this->server_nms,
             $soapAction
         );
 
-        if ($valid["valid"] !== true) {
-            $valid["valid"] = false;
+        if ($valid['valid'] !== true) {
+            $valid['valid'] = false;
         }
 
         if (!$valid['valid']) {
-            throw new ilException("Authentication failed");
+            $status->setReason('err_wrong_login');
+            return false;
         }
 
-        if (!$new_user) {
-            $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
-            $status->setAuthenticatedUserId(ilObjUser::_lookupId($local_user));
-            ilSession::set('used_external_auth', true);
+        if (!$isNewUser) {
+            $status->setAuthenticatedUserId(ilObjUser::_lookupId($internalLogin));
             return true;
-        } elseif (!$DIC->settings()->get("soap_auth_create_users")) {
-            throw new ilException("Authentication succeeded, but creation of new accounts is disabled in the administration");
+        } elseif (!$this->settings->get('soap_auth_create_users')) {
+            // Translate the reasons, otherwise the default failure is displayed
+            $status->setTranslatedReason($this->language->txt('err_valid_login_account_creation_disabled'));
+            return false;
         }
 
         $userObj = new ilObjUser();
-        $local_user = ilAuthUtils::_generateLogin($this->getCredentials()->getUsername());
+        $internalLogin = ilAuthUtils::_generateLogin($this->getCredentials()->getUsername());
 
-        $newUser["firstname"] = $valid["firstname"];
-        $newUser["lastname"] = $valid["lastname"];
-        $newUser["email"] = $valid["email"];
-        $newUser["login"] = $local_user;
+        $usrData = [];
+        $usrData['firstname'] = $valid['firstname'];
+        $usrData['lastname'] = $valid['lastname'];
+        $usrData['email'] = $valid['email'];
+        $usrData['login'] = $internalLogin;
+        $usrData['passwd'] = '';
+        $usrData['passwd_type'] = IL_PASSWD_CRYPTED;
 
-        // to do: set valid password and send mail
-        $newUser["passwd"] = "";
-        $newUser["passwd_type"] = IL_PASSWD_CRYPTED;
-
-        // generate password, if local authentication is allowed
-        // and account mail is activated
-        $pw = "";
-
-        if ($DIC->settings()->get("soap_auth_allow_local") &&
-            $DIC->settings()->get("soap_auth_account_mail")) {
-            $pw = ilUtil::generatePasswords(1);
-            $pw = $pw[0];
-            $newUser["passwd"] = $pw;
-            $newUser["passwd_type"] = IL_PASSWD_PLAIN;
+        $password = '';
+        if ($this->settings->get('soap_auth_allow_local')) {
+            $passwords = ilUtil::generatePasswords(1);
+            $password = $passwords[0];
+            $usrData['passwd'] = $password;
+            $usrData['passwd_type'] = IL_PASSWD_PLAIN;
         }
 
-        //$newUser["gender"] = "m";
-        $newUser["auth_mode"] = "soap";
-        $newUser["ext_account"] = $this->getCredentials()->getUsername();
-        $newUser["profile_incomplete"] = 1;
+        $usrData['auth_mode'] = 'soap';
+        $usrData['ext_account'] = $this->getCredentials()->getUsername();
+        $usrData['profile_incomplete'] = 1;
 
-        // system data
-        $userObj->assignData($newUser);
+        $userObj->assignData($usrData);
         $userObj->setTitle($userObj->getFullname());
         $userObj->setDescription($userObj->getEmail());
+        $userObj->setLanguage($this->language->getDefaultLanguage());
 
-        // set user language to system language
-        $userObj->setLanguage($DIC->language()->getDefaultLanguage());
-
-        // Time limit
-        $userObj->setTimeLimitOwner(7);
+        $userObj->setTimeLimitOwner(USER_FOLDER_ID);
         $userObj->setTimeLimitUnlimited(1);
         $userObj->setTimeLimitFrom(time());
         $userObj->setTimeLimitUntil(time());
-
-        // Create user in DB
         $userObj->setOwner(0);
         $userObj->create();
         $userObj->setActive(1);
-
         $userObj->updateOwner();
-
-        //insert user data in table user_data
         $userObj->saveAsNew(false);
-
-        // setup user preferences
         $userObj->writePrefs();
 
-        // to do: test this
-        $DIC->rbac()->admin()->assignUser($DIC->settings()->get('soap_auth_user_default_role'), $userObj->getId());
+        $this->rbacAdmin->assignUser(
+            $this->settings->get('soap_auth_user_default_role', 4),
+            $userObj->getId()
+        );
 
-        // send account mail
-        if ($DIC->settings()->get("soap_auth_account_mail")) {
-            include_once('./Services/User/classes/class.ilObjUserFolder.php');
-            $amail = ilObjUserFolder::_lookupNewAccountMail($DIC->settings()->get("language"));
-            if (trim($amail["body"]) != "" && trim($amail["subject"]) != "") {
-                include_once("Services/Mail/classes/class.ilAccountMail.php");
-                $acc_mail = new ilAccountMail();
+        if ($this->settings->get('soap_auth_account_mail', false)) {
+            $registrationSettings = new ilRegistrationSettings();
+            $registrationSettings->setPasswordGenerationStatus(true);
 
-                if ($pw != "") {
-                    $acc_mail->setUserPassword($pw);
-                }
-                $acc_mail->setUser($userObj);
-                $acc_mail->send();
-            }
+            $accountMail = new ilAccountRegistrationMail(
+                $registrationSettings,
+                $this->language,
+                $this->logger
+            );
+            $accountMail
+                ->withDirectRegistrationMode()
+                ->send($userObj, $password, false);
         }
 
-        $this->getLogger()->debug('Successfully authenticated user: ' . $this->getCredentials()->getUsername());
-        $status->setStatus(ilAuthStatus::STATUS_AUTHENTICATED);
         $status->setAuthenticatedUserId($userObj->getId());
+        return true;
     }
 }
