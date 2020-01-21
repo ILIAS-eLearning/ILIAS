@@ -156,30 +156,19 @@ class ilCOPageHTMLExport
     /**
      * Export content style
      *
-     * @param
-     * @return
+     * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
+     * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function exportStyles()
     {
         $this->log->debug("export styles");
 
-        include_once "Services/Style/Content/classes/class.ilObjStyleSheet.php";
-        
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            $cont_stylesheet = "./Services/COPage/css/content.css";
-            $css = fread(fopen($cont_stylesheet, 'r'), filesize($cont_stylesheet));
-            preg_match_all("/url\(([^\)]*)\)/", $css, $files);
-            foreach (array_unique($files[1]) as $fileref) {
-                ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
-                //if (is_file(str_replace("..", ".", $fileref)))
-                //{
-                //	copy(str_replace("..", ".", $fileref), $this->content_style_img_dir."/".basename($fileref));
-                //}
-
-                //$css = str_replace($fileref, "images/".basename($fileref),$css);
-            }
-            //fwrite(fopen($this->content_style_dir."/content.css",'w'),$css);
+            ilUtil::rCopy(ilObjStyleSheet::getBasicImageDir(), $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilUtil::makeDirParents($this->exp_dir . "/Services/COPage/css");
+            copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
             $style = new ilObjStyleSheet($this->getContentStyleId());
             $style->copyImagesToDir($this->exp_dir ."/".$style->getImagesDirectory());
