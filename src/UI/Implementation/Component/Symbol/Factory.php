@@ -5,8 +5,8 @@ namespace ILIAS\UI\Implementation\Component\Symbol;
 
 use ILIAS\UI\Component;
 use ILIAS\UI\Component\Symbol\Avatar;
-use ILIAS\UI\Component\Symbol\Icon as IIcon;
 use ILIAS\UI\Component\Symbol\Glyph as IGlyph;
+use ILIAS\UI\Component\Symbol\Icon as IIcon;
 
 class Factory implements Component\Symbol\Factory
 {
@@ -25,9 +25,8 @@ class Factory implements Component\Symbol\Factory
      */
     protected $avatar_factory;
 
-
     /**
-     * @param Icon\Factory $icon_factory
+     * @param Icon\Factory  $icon_factory
      * @param Glyph\Factory $glyph_factory
      */
     public function __construct(
@@ -35,8 +34,8 @@ class Factory implements Component\Symbol\Factory
         Glyph\Factory $glyph_factory,
         Component\Symbol\Avatar\Factory $avatar_factory
     ) {
-        $this->icon_factory = $icon_factory;
-        $this->glyph_factory = $glyph_factory;
+        $this->icon_factory   = $icon_factory;
+        $this->glyph_factory  = $glyph_factory;
         $this->avatar_factory = $avatar_factory;
     }
 
