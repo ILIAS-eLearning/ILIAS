@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Symbol;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Symbol\Icon as IIcon;
+use ILIAS\UI\Component\Symbol\Avatar;
 use ILIAS\UI\Component\Symbol\Glyph as IGlyph;
+use ILIAS\UI\Component\Symbol\Icon as IIcon;
+use ILIAS\UI\NotImplementedException;
 
 class Factory implements Component\Symbol\Factory
 {
@@ -48,4 +50,13 @@ class Factory implements Component\Symbol\Factory
     {
         return $this->glyph_factory;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function avatar() : Avatar\Factory
+    {
+        throw new NotImplementedException();
+    }
+
 }
