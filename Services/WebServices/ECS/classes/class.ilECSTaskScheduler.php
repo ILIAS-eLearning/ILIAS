@@ -367,6 +367,9 @@ class ilECSTaskScheduler
             $this->log->warning('Import ID is deleted or not of type "category". Aborting');
             return false;
         }
+        if (!$this->settings->getPollingTime()) {
+            return false;
+        }
 
         // check next task excecution time:
         // If it's greater than time() directly increase this value with the polling time
