@@ -7,13 +7,7 @@ $finder = PhpCsFixer\Finder::create()
 		__DIR__ . '/../../setup/sql'
 	))
 	->in(array(
-		__DIR__ .  '/../../cron',
-		__DIR__ .  '/../../include',
-		__DIR__ .  '/../../Modules',
-		__DIR__ .  '/../../Services',
-		__DIR__ .  '/../../setup',
 		__DIR__ .  '/../../src',
-		__DIR__ .  '/../../tests'
 	))
 ;
 
@@ -26,6 +20,12 @@ return PhpCsFixer\Config::create()
         'unary_operator_spaces' => true,
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
-        'whitespace_after_comma_in_array' => true
+        'binary_operator_spaces' => [
+         'operators' => ['=' => 'align']
+         ],
+         'ordered_imports' => [
+          'sort_algorithm' => 'alpha'
+         ],
+         'no_extra_consecutive_blank_lines' => true
 	])
 	->setFinder($finder);
