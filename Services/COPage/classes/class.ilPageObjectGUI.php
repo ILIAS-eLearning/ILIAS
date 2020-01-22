@@ -2264,7 +2264,7 @@ class ilPageObjectGUI
         
         // debug ghost element
         if (DEVMODE == 1) {
-            $btpl->touchBlock("debug_ghost");
+//            $btpl->touchBlock("debug_ghost");
         }
 
         // bullet list
@@ -2433,26 +2433,53 @@ class ilPageObjectGUI
         );
 
         include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+        $split_button = ilSplitButtonGUI::getInstance();
+        $split_button->isPrimary(true);
+        $split_button_items = [];
+
+
         $sdd = new ilAdvancedSelectionListGUI();
         $sdd->setPullRight(false);
         $sdd->setListTitle($lng->txt("save") . "...");
 
         if ($a_save_return) {
-            $btpl->setCurrentBlock("save_return");
-            $btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
-            $btpl->parseCurrentBlock();
+            //$btpl->setCurrentBlock("save_return");
+            //$btpl->setVariable("TXT_SAVE_RETURN", $lng->txt("save_return"));
+            //$btpl->parseCurrentBlock();
             $sdd->addItem($lng->txt("save_return"), "", "#", "", "", "", "", "", "ilCOPage.cmdSaveReturn(false); return false;");
+
+            $item = ilLinkButton::getInstance();
+            $item->setCaption('save_return');
+            $item->setOnClick("ilCOPage.cmdSaveReturn(false); return false;");
+            $split_button_items[] = $item;
         }
 
         if ($a_save_new) {
-            $btpl->setCurrentBlock("save_new");
-            $btpl->setVariable("TXT_SAVE_NEW", $lng->txt("save_new"));
-            $btpl->parseCurrentBlock();
+            //$btpl->setCurrentBlock("save_new");
+            //$btpl->setVariable("TXT_SAVE_NEW", $lng->txt("save_new"));
+            //$btpl->parseCurrentBlock();
             $sdd->addItem($lng->txt("save_new"), "", "#", "", "", "", "", "", "ilCOPage.cmdSaveReturn(true); return false;");
+            $item = ilLinkButton::getInstance();
+            $item->setCaption('save_new');
+            $item->setOnClick("ilCOPage.cmdSaveReturn(true); return false;");
+            $split_button_items[] = $item;
+
         }
 
         $sdd->addItem($lng->txt("save"), "", "#", "", "", "", "", "", "ilCOPage.cmdSave(null); return false;");
+        $item = ilLinkButton::getInstance();
+        $item->setCaption('save');
+        $item->setOnClick("ilCOPage.cmdSave(null); return false;");
+        $split_button_items[] = $item;
+
         $sdd->addItem($lng->txt("cancel"), "", "#", "", "", "", "", "", "ilCOPage.cmdCancel(); return false;");
+        /*
+        $item = ilLinkButton::getInstance();
+        $item->setCaption('cancel');
+        $item->setOnClick("\"ilCOPage.cmdCancel(); return false;");
+        $split_button_items[] = $item;*/
+
 
         if ($a_anchors) {
             $btpl->setCurrentBlock("bb_anc_button");
@@ -2465,7 +2492,18 @@ class ilPageObjectGUI
             );
         }
 
-        $btpl->setVariable("SAVE_DROPDOWN", $sdd->getHTML());
+        $first = true;
+        foreach ($split_button_items as $item) {
+            if ($first) {
+                $item->setPrimary(true);
+                $split_button->setDefaultButton($item);
+            } else {
+                $split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));
+            }
+            $first = false;
+        }
+        $btpl->setVariable("SPLIT_BUTTON", $split_button->render());
+        //$btpl->setVariable("SAVE_DROPDOWN", $sdd->getHTML());
 
         /*		// footnote
                 $btpl->setVariable("TXT_ILN", $this->lng->txt("cont_text_iln"));
