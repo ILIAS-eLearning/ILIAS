@@ -19,8 +19,8 @@
     <option name="ALIGN_KEY_VALUE_PAIRS" value="true" />
     <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
     <option name="ALIGN_PHPDOC_COMMENTS" value="true" />
-    <option name="ALIGN_ASSIGNMENTS" value="true" />
     <option name="PHPDOC_KEEP_BLANK_LINES" value="false" />
+    <option name="IMPORT_SORTING" value="DONT_SORT" />
     <option name="LOWER_CASE_BOOLEAN_CONST" value="true" />
     <option name="LOWER_CASE_NULL_CONST" value="true" />
     <option name="ELSE_IF_STYLE" value="COMBINE" />
