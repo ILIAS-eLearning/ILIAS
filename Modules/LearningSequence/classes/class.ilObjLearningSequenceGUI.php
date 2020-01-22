@@ -513,7 +513,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                 || (
                     $this->getObject()->getLSSettings()->getMembersGallery()
                     &&
-                    $this->object->isMember((int) $this->user->getId())
+                    $this->getObject()->getLSRoles()->isMember((int) $this->user->getId())
                 )
             ) {
                 $this->tabs->addTab(
