@@ -593,7 +593,7 @@ class ilNoteGUI
                     $ilCtrl->getFormActionByClass("ilnotegui", "", "", true) .
                     "'); return false;\"";
                 $tpl->setVariable("ON_SUBMIT_FORM", $os);
-                $tpl->setVariable("FORM_ID", "Ajax");
+                $tpl->setVariable("FORM_ID", "id='ilNoteFormAjax'");
             }
         }
 
@@ -603,6 +603,7 @@ class ilNoteGUI
         }
         
         // show add new note button
+        /*
         if (!$this->add_note_form && !$this->edit_note_form && !$this->delete_note &&
             !$this->export_html && !$this->print &&	$ilUser->getId() != ANONYMOUS_USER_ID && !$this->hide_new_form) {
             if (!$this->inc_sub) {	// we cannot offer add button if aggregated notes
@@ -619,7 +620,7 @@ class ilNoteGUI
                     $tpl->parseCurrentBlock();
                 }
             }
-        }
+        }*/
         
         // show show/hide button for note list
         if (count($notes) > 0 && $this->enable_hiding && !$this->delete_note
