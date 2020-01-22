@@ -157,10 +157,17 @@ class ilKioskPageRenderer
 
     protected function getJsFiles()
     {
-        $il_js_files = $this->il_tpl->js_files_batch;
-        //asort($il_js_files);
+        $js_files = $this->il_tpl->js_files_batch;
+        $sorted = [
+            [],[],[],[]
+        ];
+        foreach ($js_files as $file => $order) {
+            $order = min($order, 3);
+            $sorted[$order][] = $file;
+        }
+        $js_files = array_merge($sorted[0],$sorted[1],$sorted[2],$sorted[3]);
         $js_files = array_filter(
-            array_keys($il_js_files),
+            $js_files,
             function ($js_file) {
                 return strpos($js_file, 'Services/FileUpload/js') === false;
             }
