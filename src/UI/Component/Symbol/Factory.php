@@ -106,4 +106,42 @@ interface Factory
      * @return  \ILIAS\UI\Component\Symbol\Glyph\Factory
      */
     public function glyph() : Glyph\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Avatars are graphical representations of a user. They contain a
+     *     user-defined picture, a deputy-picture or an abbreviation for it's username.
+     *     Avatars are used in places where there is a direct reference to a user
+     *     (-account), such as the entries in the Metabar entry "user", a members
+     *     gallery the of a course or the avatar in a forum-post.
+     *   composition: >
+     *     Avatars are available in a fixed size. They always contain either a
+     *     picture (defined by the user himself or a general replacement) or an
+     *     abbreviation that indicates the username of the user.
+     *     In the case of abbreviations, the avatar receives a colored background.
+     *   effect: >
+     *     Avatars themselves are not interactive; however they are allowed
+     *     within interactive containers.
+     *   rivals:
+     *     Glyph: >
+     *       Glyphs are typographical characters that act as a trigger for
+     *       some action. There is a user Glyph as well.
+     *     Image: >
+     *       Images belong to the content and can be purely decorative.
+     *     Icon: >
+     *       Avatars represent a User in the System, Icons just an Object which is
+     *       not defined further.
+     * rules:
+     *   usage:
+     *     1: Avatars MUST be used to represent a specific user.
+     *     2: Avatars MUST be used in combination with the represented username.
+     *   accessibility:
+     *     1: Avatars MUST bear an aria-label with the username.
+     * ---
+     * @return \ILIAS\UI\Component\Symbol\Avatar\Factory
+     **/
+    public function avatar() : Avatar\Factory;
 }
