@@ -105,7 +105,7 @@ class ilUserDefinedFieldsPlaceholderValues implements ilCertificatePlaceholderVa
             if ($field['certificate']) {
                 $placeholderText = '#' . str_replace(' ', '_', strtoupper($field['field_name']));
 
-                $placeholder[$placeholderText] = '';
+                $placeholder[$placeholderText] = $field['field_name'];
             }
         }
 
