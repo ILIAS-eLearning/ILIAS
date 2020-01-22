@@ -27,11 +27,7 @@ return PhpCsFixer\Config::create()
         'function_typehint_space' => true,
         'return_type_declaration' => ['space_before' => 'one'],
         'binary_operator_spaces' => [
-         'operators' => ['=' => 'align']
-         ],
-         'ordered_imports' => [
-          'sort_algorithm' => 'alpha'
-         ],
-         'no_extra_consecutive_blank_lines' => true
+         'operators' => ['=' => 'align_single_space']
+         ]
 	])
 	->setFinder($finder);
