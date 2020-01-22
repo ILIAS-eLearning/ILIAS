@@ -99,13 +99,13 @@ class ilWebDAVUtil
         echo "  <body>\n";
             
         echo ilDAVServer::_getWebfolderInstructionsFor(
-                $webfolderTitle,
-                $webfolderURI,
-                $webfolderURI_IE,
-                $webfolderURI_Konqueror,
-                $webfolderURI_Nautilus,
-                $this->clientOS,
-                $this->clientOSFlavor
+            $webfolderTitle,
+            $webfolderURI,
+            $webfolderURI_IE,
+            $webfolderURI_Konqueror,
+            $webfolderURI_Nautilus,
+            $this->clientOS,
+            $this->clientOSFlavor
             );
             
         echo "  </body>\n";
