@@ -147,10 +147,15 @@ div.il_ContainerListItem {
 }
 
 .ilContainerBlockHeader {
+	background-color: @il-secondary-container-bg;
+	padding: @panel-heading-padding;
 	font-weight: 400;
-	padding: 5px 10px;
 	text-align: left;
 	vertical-align: middle;
+	h3{
+		margin: 0;
+		color: @panel-heading-color;
+	}
 }
 
 .ilContainerBlockHeaderExpanded, .ilContainerBlockHeaderCollapsed {
@@ -223,6 +228,10 @@ div#ilContRepIntro img {
 
 .ilContainerTileRows {
 	margin: 10px -20px 0 -20px;
+
+	>.il-deck{
+		margin: 0 5px;
+	}
 }
 
 .ilContainerTileRows .card-no-highlight {
