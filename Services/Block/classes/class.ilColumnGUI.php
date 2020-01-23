@@ -960,11 +960,13 @@ class ilColumnGUI
                 include_once 'Services/Container/classes/class.ilContainer.php';
                 return
                     $ilSetting->get('block_activated_news') &&
-                    ilContainer::_lookupContainerSetting(
+
+                    (!in_array($ilCtrl->getContextObjType(), ["grp", "crs"]) ||
+                        ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         ilObjectServiceSettingsGUI::USE_NEWS,
                         true
-                    )   &&
+                    ))   &&
                     ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         'cont_show_news',

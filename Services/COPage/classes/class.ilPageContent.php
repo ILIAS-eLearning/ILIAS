@@ -453,10 +453,12 @@ abstract class ilPageContent
     /**
      * Modify page content after xsl
      *
-     * @param string $a_output
+     * @param      $a_output
+     * @param      $a_mode
+     * @param bool $a_abstract_only
      * @return string
      */
-    public function modifyPageContentPostXsl($a_output, $a_mode)
+    public function modifyPageContentPostXsl($a_output, $a_mode, $a_abstract_only = false)
     {
         return $a_output;
     }
