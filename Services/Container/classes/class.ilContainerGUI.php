@@ -3063,6 +3063,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function showPasswordInstructionObject($a_init = true)
     {
+        global $DIC;
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         
@@ -3070,17 +3071,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ilUtil::sendInfo($this->lng->txt('webdav_pwd_instruction'));
             $this->initFormPasswordInstruction();
         }
-        
-        include_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-        $dav_util = ilWebDAVUtil::getInstance();
-        $ilToolbar->addButton(
-            $this->lng->txt('mount_webfolder'),
-            $dav_util->getMountURI($this->object->getRefId()),
-            '_blank',
-            '',
-            $dav_util->getFolderURI($this->object->getRefId())
-        );
 
+        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
+
+        $btn = ilButton::getInstance();
+        $btn->setCaption('mount_webfolder');
+        $btn->setOnClick("triggerWebDAVModal('$href')");
+        $ilToolbar->addButtonInstance($btn);
 
         $tpl->setContent($this->form->getHTML());
     }
