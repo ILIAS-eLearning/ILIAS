@@ -1531,7 +1531,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             #"objective_view = '0', ".
             "1, " .
             "1," .
-            '1,' .
+            '0,' .
             $ilDB->quote($this->isSessionLimitEnabled(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
