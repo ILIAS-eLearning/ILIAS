@@ -50,7 +50,8 @@ Note that not all problems are fixable automatically (e.g. using `==` instead of
 
 ### Declare Globals
 
-If global identifiers like `$`or `il` are being used the should be declared at the top of the file
+If global identifiers like `$`or `il` are being used, they should be declared at the top of the file.
+
 ```
 /* global $, il */
 ``` 
