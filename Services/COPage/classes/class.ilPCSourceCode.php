@@ -34,12 +34,9 @@ class ilPCSourceCode extends ilPCParagraph
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_output, $outputmode = "presentation")
+    public function modifyPageContentPostXsl($a_output, $outputmode = "presentation", $a_abstract_only = false)
     {
         $dom = $this->getPage()->getDom();
 

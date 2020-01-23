@@ -289,12 +289,9 @@ class ilPCQuestion extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_output, $a_mode)
+    public function modifyPageContentPostXsl($a_output, $a_mode, $a_abstract_only = false)
     {
         $lng = $this->lng;
 
