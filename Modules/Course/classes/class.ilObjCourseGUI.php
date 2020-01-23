@@ -933,8 +933,10 @@ class ilObjCourseGUI extends ilContainerGUI
         
         $this->object->setAboStatus((int) $form->getInput('abo'));
         $this->object->setShowMembers((int) $form->getInput('show_members'));
-        
-        $this->object->setShowMembersExport((int) $form->getInput('show_members_export'));
+
+        if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+            $this->object->setShowMembersExport((int) $form->getInput('show_members_export'));
+        }
         $this->object->setMailToMembersType((int) $form->getInput('mail_type'));
         
         $this->object->enableSessionLimit((int) $form->getInput('sl'));
@@ -1456,12 +1458,14 @@ class ilObjCourseGUI extends ilContainerGUI
         $mem->setChecked($this->object->getShowMembers());
         $mem->setInfo($this->lng->txt('crs_show_members_info'));
         $form->addItem($mem);
-        
-        $part_list = new ilCheckboxInputGUI($this->lng->txt('crs_show_member_export'), 'show_members_export');
-        $part_list->setChecked($this->object->getShowMembersExport());
-        $part_list->setInfo($this->lng->txt('crs_show_member_export_info'));
-        $mem->addSubItem($part_list);
-        
+
+        // check privacy
+        if(\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+            $part_list = new ilCheckboxInputGUI($this->lng->txt('crs_show_member_export'), 'show_members_export');
+            $part_list->setChecked($this->object->getShowMembersExport());
+            $part_list->setInfo($this->lng->txt('crs_show_member_export_info'));
+            $mem->addSubItem($part_list);
+        }
 
         // Show members type
         $mail_type = new ilRadioGroupInputGUI($this->lng->txt('crs_mail_type'), 'mail_type');
