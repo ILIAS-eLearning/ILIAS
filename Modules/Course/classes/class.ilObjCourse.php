@@ -1584,7 +1584,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableWaitingList($row->waiting_list);
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
+
+            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
             $this->setShowMembersExport($row->show_members_export);
+            }
+            else {
+                $this->setShowMembersExport(false);
+            }
             $this->setLatitude($row->latitude);
             $this->setLongitude($row->longitude);
             $this->setLocationZoom($row->location_zoom);

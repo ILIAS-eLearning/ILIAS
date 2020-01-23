@@ -7844,6 +7844,7 @@ prtf#:#prtf_tab_portfolios#:#Meine Portfolios
 prtf#:#prtf_unset_as_default#:#Nicht als Mein Profil verwenden
 prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte überprüfen Sie die aktuellen Freigaben für das Portfolio.
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
+ps#:#ps_participants_list_courses#:#Aktivierung der Teilnehmerliste der Mitgliedergalerie in Kursen zulassen
 ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
 ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
 ps#:#grp_ps_cdf_info#:#Weitere gruppenspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
