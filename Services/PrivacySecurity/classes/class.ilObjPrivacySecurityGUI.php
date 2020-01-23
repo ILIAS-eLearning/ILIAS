@@ -409,7 +409,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                     'ps_export_course' => array($privacy->enabledCourseExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
                     'ps_export_confirm' => array($privacy->courseConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
                     'ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'participants_list_courses' => [$privacy->participantsListInCoursesEnabled(), \ilAdministrationSettingsFormHandler::VALUE_BOOL]
+                    'ps_participants_list_courses' => [$privacy->participantsListInCoursesEnabled(), \ilAdministrationSettingsFormHandler::VALUE_BOOL]
                 );
                 $fields = array(
                     'ps_profile_export' => array(null, null, $subitems)
