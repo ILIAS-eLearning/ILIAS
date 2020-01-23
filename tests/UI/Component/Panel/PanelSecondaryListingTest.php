@@ -130,7 +130,7 @@ class PanelSecodaryListingTest extends ILIAS_UI_TestBase
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
@@ -163,7 +163,7 @@ EOT;
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-sortation" id="">
@@ -202,7 +202,7 @@ EOT;
         $html = $this->getDefaultRenderer()->render($sec);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-pagination">
@@ -246,7 +246,7 @@ EOT;
         $html = $this->getDefaultRenderer()->render($secondary_panel);
 
         $expected_html = <<<EOT
-<div class="panel panel-secondary">
+<div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="il-viewcontrol-section">
