@@ -5454,7 +5454,7 @@ button.list-group-item-danger.active:focus {
   padding: 15px;
 }
 .panel-heading {
-  padding: 10px 15px;
+  padding: 9px 12px;
   border-bottom: 1px solid transparent;
   border-top-right-radius: -1px;
   border-top-left-radius: -1px;
@@ -5476,7 +5476,7 @@ button.list-group-item-danger.active:focus {
   color: inherit;
 }
 .panel-footer {
-  padding: 10px 15px;
+  padding: 9px 12px;
   background-color: #f5f5f5;
   border-top: 1px solid #ddd;
   border-bottom-right-radius: -1px;
@@ -5695,8 +5695,7 @@ button.list-group-item-danger.active:focus {
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: none;
 }
-.panel-primary,
-.panel-sub {
+.panel-primary {
   border-color: none;
 }
 .panel-primary > .panel-heading {
@@ -6765,115 +6764,72 @@ button.close {
   margin-top: 10px;
   background-color: #a9a9a9;
 }
-.il-panel-report .thumbnail {
-  margin-bottom: 0;
+.panel .panel-heading.ilHeader,
+.panel .panel-heading.ilBlockHeader {
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 9px 12px;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
-.il-panel-report > .panel-body > .panel {
-  margin-bottom: 10px;
+.panel .panel-heading.ilHeader h3,
+.panel .panel-heading.ilBlockHeader h3,
+.panel .panel-heading.ilHeader h3.ilHeader,
+.panel .panel-heading.ilBlockHeader h3.ilHeader {
+  margin: 0;
+  color: #707070;
+  font-size: 19px;
 }
-.il-panel-report .panel-heading {
-  min-height: 34px;
+.panel .panel-heading.ilHeader h4,
+.panel .panel-heading.ilBlockHeader h4,
+.panel .panel-heading.ilHeader h4.ilBlockHeader,
+.panel .panel-heading.ilBlockHeader h4.ilBlockHeader {
+  margin: 0;
+  color: #707070;
+  font-size: 17px;
 }
-.panel-heading > h3 {
-  float: left;
-}
-.panel-heading > h4 {
-  float: left;
-}
-.panel-heading .dropdown {
+.panel .panel-heading.ilHeader .dropdown,
+.panel .panel-heading.ilBlockHeader .dropdown {
   float: right;
 }
-.panel-heading .dropdown > button.dropdown-toggle {
+.panel .panel-heading.ilHeader .dropdown > button.dropdown-toggle,
+.panel .panel-heading.ilBlockHeader .dropdown > button.dropdown-toggle {
   color: white;
 }
-.il-panel-listing-std-item-container {
-  margin: 0 0 1px 0;
-}
-.il-panel-listing-std-container {
-  background-color: #f9f9f9;
-  margin-bottom: 20px;
-}
-.il-panel-listing-std-container > .il-item-group > h4 {
-  margin: 6px 0 3px 0;
-  font-size: 17px;
-  font-weight: normal;
-  padding: 0 0 0 12px;
-  color: #707070;
-}
-.il-panel-listing-std-container > h3 {
-  color: #707070;
-  font-size: 19px;
-  font-weight: 600;
-  float: left;
+.panel .panel-body {
   padding: 6px 12px;
-  margin: 6px 0 3px 0;
+  background-color: white;
 }
-.il-panel-listing-std-container .dropdown {
-  float: right;
-}
-.il-panel-listing-std-container > .dropdown {
-  padding: 12px 12px 0 0;
-}
-.panel-secondary .il-panel-listing-std-container > h3,
-.panel-secondary .panel-body h4 {
-  display: block;
-  padding: 6px 12px;
-  font-size: 12px;
-  color: #909090;
-  margin: 0;
-}
-.panel-secondary h3.ilHeader {
-  font-size: 17px;
-}
-.panel-secondary .panel-body {
-  padding: 6px 12px;
-  overflow: hidden;
-}
-.panel-secondary .panel-body .il-item-group {
-  margin: -6px -12px;
-}
-.panel-secondary .panel-body .il-item-group .il-item {
-  padding-left: 12px;
-}
-.panel-primary h3.ilHeader {
-  color: #707070;
-  font-size: 19px;
-  font-weight: 600;
-}
-.panel-primary .panel-heading,
-.panel-secondary .panel-heading {
+.panel-flex .panel-heading {
   display: flex;
   flex-flow: row wrap;
 }
-.panel-primary h3.ilHeader,
-.panel-secondary h3.ilHeader {
+.panel-flex .ilHeader {
+  display: flex;
+}
+.panel-flex h3.ilHeader {
   flex-grow: 99;
   flex-shrink: 1;
   line-height: 21px;
   order: 1;
-  padding: 6px 12px;
 }
-.panel-primary .panel-heading .dropdown,
-.panel-secondary .panel-heading .dropdown {
+.panel-flex .panel-heading .dropdown {
   flex-grow: 1;
   flex-shrink: 0;
   order: 3;
 }
-.panel-primary .panel-heading .dropdown .dropdown-toggle,
-.panel-secondary .panel-heading .dropdown .dropdown-toggle {
+.panel-flex .panel-heading .dropdown .dropdown-toggle {
   float: right;
 }
-.panel-primary .il-viewcontrol-sortation,
-.panel-secondary .il-viewcontrol-sortation {
+.panel-flex .il-viewcontrol-sortation {
   flex-grow: 1;
   flex-shrink: 0;
   order: 2;
-  margin-right: 5px;
+  margin-right: 8px;
 }
-.panel-primary .il-viewcontrol-pagination,
-.panel-secondary .il-viewcontrol-pagination,
-.panel-primary .il-viewcontrol-section,
-.panel-secondary .il-viewcontrol-section {
+.panel-flex .il-viewcontrol-pagination,
+.panel-flex .il-viewcontrol-section {
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 100%;
@@ -6882,15 +6838,81 @@ button.close {
   text-align: center;
   padding-top: 8px;
 }
-.panel-primary .panel-heading.ilHeader,
-.panel-secondary .panel-heading.ilHeader {
-  background-color: #f9f9f9;
-  padding-bottom: 5px;
-  border: none;
+.panel-primary h3.ilHeader {
+  font-weight: 600;
 }
-.panel-primary .panel-heading.ilHeader .ilHeader,
-.panel-secondary .panel-heading.ilHeader .ilHeader {
-  width: 87%;
+.panel-secondary .panel-heading.ilHeader {
+  padding: 6px 12px;
+}
+.panel-secondary .panel-heading.ilHeader h3.ilHeader {
+  font-size: 17px;
+}
+.panel-secondary .panel-body {
+  overflow: hidden;
+}
+.panel-secondary .panel-body .il-item-group {
+  margin: 0 -12px;
+}
+.panel-secondary .panel-body .il-item-group h4 {
+  padding: 6px 12px;
+}
+.panel-secondary .panel-body .il-item-group:first-child {
+  margin: -6px -12px 0 -12px;
+}
+.panel-secondary .panel-body .il-item-group .il-item {
+  padding-left: 12px;
+}
+.panel-secondary .il-panel-listing-std-container > h3,
+.panel-secondary .panel-body h4 {
+  display: block;
+  padding: 6px 0;
+  font-size: 14px;
+  color: #707070;
+  margin: 0;
+}
+.panel-secondary .il-std-item-container:not(:last-child) {
+  border-bottom: 1px solid #f0f0f0;
+}
+.panel-sub {
+  margin: -6px -12px;
+}
+.panel-sub .panel-body {
+  margin: 0;
+}
+.panel-sub:first-child .panel-heading {
+  padding-top: 3px;
+}
+.il-panel-report .thumbnail {
+  margin-bottom: 0;
+}
+.il-panel-report > .panel-body > .panel {
+  margin-bottom: 6px;
+}
+.il-panel-report .panel-heading {
+  min-height: 34px;
+}
+.il-panel-listing-std-container {
+  background-color: #f9f9f9;
+  margin-bottom: 20px;
+}
+.il-panel-listing-std-container > h3 {
+  color: #707070;
+  font-size: 19px;
+  font-weight: 600;
+  float: left;
+  padding: 9px 12px;
+  padding-bottom: 3px;
+  margin: 0;
+  line-height: 1.33;
+}
+.il-panel-listing-std-container .dropdown {
+  float: right;
+}
+.il-panel-listing-std-container > .dropdown {
+  padding: 9px 12px;
+}
+.il-panel-listing-std-container > .dropdown:not(:last-child) {
+  padding-bottom: 3px;
 }
 .il-card {
   padding: 0;
@@ -6993,7 +7015,7 @@ button.close {
   }
 }
 .il-deck .row {
-  margin-left: 0;
+  margin-left: -5px;
   margin-right: 0;
 }
 .il-deck .row > div {
@@ -7430,6 +7452,9 @@ hr.il-divider-with-label {
   color: #262626;
   background-color: #ecf0f4;
 }
+.il-std-item-container:not(:last-child) {
+  border-bottom: 2px solid #f0f0f0;
+}
 .il-item {
   background-color: white;
   position: relative;
@@ -7452,8 +7477,8 @@ hr.il-divider-with-label {
   clear: both;
 }
 .il-item h5 {
-  margin: 4px 0px 2px 0px;
-  font-size: 16px;
+  margin: 0;
+  font-size: 14px;
   float: left;
 }
 .il-item h5 .btn-link {
@@ -7495,9 +7520,15 @@ hr.il-divider-with-label {
 }
 .il-item-group {
   clear: both;
+  background-color: #f9f9f9;
 }
-.il-item-group h4 {
+.il-item-group > h4 {
   float: left;
+  color: #707070;
+  font-size: 17px;
+  font-weight: normal;
+  padding: 9px 12px;
+  margin: 0;
 }
 .il-item-group .dropdown {
   float: right;
@@ -7523,7 +7554,7 @@ hr.il-divider-with-label {
   }
   .panel-secondary .il-item h5 {
     margin-top: 0;
-    font-size: 100%;
+    font-size: 14px;
     float: none;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -7589,9 +7620,6 @@ hr.il-divider-with-label {
   }
   .panel-secondary .il-item button.dropdown-toggle > span {
     display: none;
-  }
-  .panel-secondary .il-item:hover {
-    background-color: #ffffd0;
   }
 }
 /* otherwise dropdowns in items with icon do not work */
@@ -8560,7 +8588,7 @@ div.alert ul > li:before {
   width: 100%;
 }
 .il-tree li.il-tree-node.highlighted > .node-line {
-  background-color: #ffffd0;
+  background-color: #dfe3e6;
 }
 .il-tree li.il-tree-node.expandable > .node-line:before {
   color: #777777;
@@ -8770,7 +8798,20 @@ footer {
        mobile Layout
 **************************************************************
 */
+@media (min-width: 768px) {
+  #il_right_col {
+    padding-left: 0;
+  }
+}
 @media only screen and (max-width: 1199px) {
+  .il-layout-page.with-mainbar-slates-engaged #il_right_col {
+    padding-left: 15px;
+  }
+}
+@media only screen and (max-width: 1199px) {
+  .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9 {
+    padding-right: 15px;
+  }
   .il-layout-page.with-mainbar-slates-engaged #il_center_col.col-sm-9,
   .il-layout-page.with-mainbar-slates-engaged #il_right_col.col-sm-3 {
     float: none !important;
@@ -12092,8 +12133,7 @@ div.ilCommandRow.one_side_col {
   padding-left: 22%;
 }
 div.ilAdminRow {
-  margin: 10px 1% 20px;
-  width: 98%;
+  margin: 10px 15px 20px 15px;
 }
 table.std {
   color: #222;
@@ -12975,24 +13015,28 @@ span.ilIcalIcon {
 /* Services/Accordion */
 .il_VAccordionHead,
 .il_HAccordionHead {
-  padding: 5px 5px 5px 30px;
+  padding: 5px 5px 5px 35px;
   text-align: left;
   cursor: pointer;
   color: #557196;
   font-size: 110%;
-  background: url("images/tree_col.svg") no-repeat 9px 10px white;
+  background-image: url("images/tree_col.svg");
+  background-repeat: no-repeat;
+  background-color: white;
+  background-position: 15px 8px;
+  background-size: 20px 20px;
 }
 .il_VAccordionInnerContainer {
   margin-bottom: 10px;
 }
 .il_HAccordionHead:hover,
 .il_VAccordionHead:hover {
-  background-color: #ffffd0;
+  background-color: #dfe3e6;
 }
 .il_HAccordionHeadActive,
 .il_VAccordionHeadActive {
   background-image: url("images/tree_exp.svg");
-  background-color: #ffffd0;
+  background-color: #dfe3e6;
 }
 .ilAccHideContent {
   width: 0px;
@@ -13327,13 +13371,13 @@ li.il_Explorer {
 }
 a.il_HighlightedNode,
 .ilHighlighted {
-  background-color: #ffff9d;
+  background-color: #dfe3e6;
   padding: 0 5px;
 }
 li.ilExplSecHighlight {
   background-color: white !important;
-  border-top: solid 2px #e9ea00;
-  border-bottom: solid 2px #e9ea00;
+  border-top: solid 2px #62727d;
+  border-bottom: solid 2px #62727d;
 }
 div.il_ExplorerItemDescription {
   margin-left: 40px;
@@ -14198,7 +14242,7 @@ a.nostyle:hover {
   cursor: pointer;
 }
 .ilCOPgEditStyleSelectionItem:hover {
-  background-color: #ffffd0;
+  background-color: #dfe3e6;
 }
 ul#ilAdvSelListTable_style_selection {
   overflow: auto;
@@ -14270,12 +14314,10 @@ div#block_cal_sel_0 div.ilBlockContent {
   padding: 0;
 }
 div.ilCalSelAct {
-  background-color: #f0f0f0;
   font-size: 90%;
   padding: 2px 2px 3px 0;
 }
 div.ilCalSelSelAll {
-  background-color: #f8f8f8;
   font-size: 80%;
   padding: 3px 2px 2px 0;
 }
@@ -15173,9 +15215,8 @@ ul.il-mm-selfloading {
 }
 /* Services/UIComponent/GroupedLists */
 div.ilGroupedListH {
-  padding: 2px 10px;
-  background-color: #f0f0f0;
-  font-size: 85%;
+  padding: 6px 0 3px 0;
+  color: #707070;
 }
 div.ilGroupedListSep {
   padding-bottom: 3px;
@@ -15489,9 +15530,6 @@ div.ilBlogListItemCommtensPerma {
   font-size: 90%;
   margin-top: 15px;
   min-height: 15px;
-}
-div.ilBlogSideBlocks {
-  margin-left: 5px;
 }
 td.ilBlogSideBlockContent {
   padding: 10px;
@@ -16308,7 +16346,7 @@ div.ilPreconditionItem {
 }
 /* Repository */
 div.ilContainerListItemOuter {
-  padding: 15px 10px;
+  padding: 15px 12px;
   zoom: 1;
   /* background-color: lighten(@mid-gray, 75%); */
 }
@@ -16413,20 +16451,25 @@ div.il_ContainerListItem {
   padding-right: 8px;
 }
 .ilContainerBlockHeader {
+  background-color: #f9f9f9;
+  padding: 9px 12px;
   font-weight: 400;
-  padding: 5px 10px;
   text-align: left;
   vertical-align: middle;
+}
+.ilContainerBlockHeader h3 {
+  margin: 0;
+  color: #707070;
 }
 .ilContainerBlockHeaderExpanded,
 .ilContainerBlockHeaderCollapsed {
   background-repeat: no-repeat;
-  background-position: 20px 8px;
-  padding-left: 50px;
+  background-position: 15px 10px;
+  background-size: 20px 20px;
+  padding-left: 45px;
   /* padding-top: 6px; */
   background-color: #f9f9f9;
   cursor: pointer;
-  margin-bottom: 1px;
 }
 .ilContainerBlockHeaderExpanded {
   background-image: url("images/tree_exp.svg");
@@ -16434,10 +16477,6 @@ div.il_ContainerListItem {
 .ilContainerBlockHeaderCollapsed {
   background-image: url("images/tree_col.svg");
   /* background-color: @il-secondary-container-bg; */
-}
-.ilContainerBlockHeaderExpanded:hover,
-.ilContainerBlockHeaderCollapsed:hover {
-  background-color: #ffffd0;
 }
 [dir="rtl"] .ilContainerBlockHeader {
   text-align: right;
@@ -16478,6 +16517,9 @@ div#ilContRepIntro img {
 }
 .ilContainerTileRows {
   margin: 10px -20px 0 -20px;
+}
+.ilContainerTileRows > .il-deck {
+  margin: 0 5px;
 }
 .ilContainerTileRows .card-no-highlight {
   height: 0px;
@@ -16673,11 +16715,8 @@ div.ilCreationFormSection .form-horizontal {
   padding-top: 1px;
 }
 .ilObjListRow {
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 2px solid #f0f0f0;
   background-color: white;
-}
-.ilObjListRow:hover {
-  background-color: #ffffea;
 }
 .table-striped {
   border-collapse: separate;
@@ -16686,10 +16725,10 @@ div.ilCreationFormSection .form-horizontal {
   background-color: white;
 }
 .table-striped > tbody > tr.ilObjListRow:hover > td {
-  background-color: #ffffea;
+  background-color: #edf0f1;
 }
 .table-striped > tbody > tr.ilObjListRow:hover:nth-child(2n+1) > td {
-  background-color: #ffffea;
+  background-color: #edf0f1;
 }
 /* Services/Navigation */
 form.ilNavHistoryForm {
@@ -16784,8 +16823,7 @@ div.ilBlockContent {
   border-bottom: 1px solid #f0f0f0;
 }
 div.ilBlockPropertyCaption {
-  color: #696969;
-  font-style: italic;
+  color: #909090;
 }
 /* Services/UIComponent/Lightbox */
 .ilLightbox {
@@ -17037,20 +17075,6 @@ div.ilRatingOverlay {
   z-index: 1000 !important;
   padding: 0 5px;
   display: none;
-}
-.panel {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  border: 0 none;
-}
-.panel.panel-primary,
-.panel-sub {
-  background: white;
-}
-.panel-heading.ilHeader {
-  background: #f0f0f0;
-  padding-left: 0;
-  padding-bottom: 5px;
 }
 /* Modules/Excercise */
 .ilExcAssignmentBody {
@@ -17435,7 +17459,7 @@ div.ilChecklist ul a:hover {
   color: #557196;
 }
 div.ilChecklist ul li a:hover {
-  background-color: #ffffd0;
+  background-color: #dfe3e6;
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
@@ -17656,7 +17680,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   height: 10px;
 }
 #awareness-content .ilHighlighted {
-  background-color: #ffff9d;
+  background-color: #dfe3e6;
   color: #606060;
 }
 .ilAwrnBadgeHidden {
@@ -18584,7 +18608,7 @@ img[src$="icon_checked.svg"] {
 div.ilNewObjectSelector {
   display: inline-block;
   margin-bottom: 8px;
-  padding: 0 10px;
+  padding: 0;
   width: 100%;
 }
 div.ilNewObjectSelector > .btn-group {
@@ -18841,4 +18865,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
