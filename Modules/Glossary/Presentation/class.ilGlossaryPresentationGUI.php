@@ -410,7 +410,9 @@ class ilGlossaryPresentationGUI
         
         // show taxonomy
         $this->showTaxonomy();
-        
+
+        $this->tpl->setPermanentLink("glo", $this->glossary->getRefId());
+
         return $ret;
     }
 
@@ -436,32 +438,7 @@ class ilGlossaryPresentationGUI
         //		$this->tpl->addBlockfile("ADM_CONTENT", "adm_content", "tpl.table.html");
 
         if ($this->glossary->getPresentationMode() == "full_def") {
-            // content style
-            $this->tpl->setCurrentBlock("ContentStyle");
-            if (!$this->offlineMode()) {
-                $this->tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId())
-                );
-            } else {
-                $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
-            }
-            $this->tpl->parseCurrentBlock();
-
-            // syntax style
-            $this->tpl->setCurrentBlock("SyntaxStyle");
-            if (!$this->offlineMode()) {
-                $this->tpl->setVariable(
-                    "LOCATION_SYNTAX_STYLESHEET",
-                    ilObjStyleSheet::getSyntaxStylePath()
-                );
-            } else {
-                $this->tpl->setVariable(
-                    "LOCATION_SYNTAX_STYLESHEET",
-                    "syntaxhighlight.css"
-                );
-            }
-            $this->tpl->parseCurrentBlock();
+            $this->setContentStyles();
         }
 
         $table = $this->getPresentationTable();
@@ -471,6 +448,25 @@ class ilGlossaryPresentationGUI
         } else {
             $this->tpl->setVariable("ADM_CONTENT", $table->getHTML());
             return $this->tpl->printToString();
+        }
+    }
+
+    /**
+     * Set content styles
+     */
+    protected function setContentStyles()
+    {
+        $tpl = $this->tpl;
+
+        if (!$this->offlineMode()) {
+            $tpl->addCss(ilObjStyleSheet::getContentStylePath(ilObjStyleSheet::getEffectiveContentStyleId(
+                $this->glossary->getStyleSheetId(),
+                "glo"
+            )));
+            $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
+        } else {
+            $tpl->addCss("content.css");
+            $tpl->addCss("syntaxhighlight.css");
         }
     }
 
@@ -527,7 +523,6 @@ class ilGlossaryPresentationGUI
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilErr = $this->error;
-
         if ($a_ref_id == 0) {
             $ref_id = (int) $this->requested_ref_id;
         } else {
@@ -554,42 +549,12 @@ class ilGlossaryPresentationGUI
             $tpl = $this->tpl;
 
             $tpl->loadStandardTemplate();
-            //			$this->setTabs();
 
-            if ($this->offlineMode()) {
-                $style_name = $ilUser->prefs["style"] . ".css";
-                ;
-                $tpl->setVariable("LOCATION_STYLESHEET", "./" . $style_name);
-            } else {
+            $this->setContentStyles();
+
+            if (!$this->offlineMode()) {
                 $this->setLocator();
             }
-
-            // content style
-            $tpl->setCurrentBlock("ContentStyle");
-            if (!$this->offlineMode()) {
-                $tpl->setVariable(
-                    "LOCATION_CONTENT_STYLESHEET",
-                    ilObjStyleSheet::getContentStylePath($this->glossary->getStyleSheetId())
-                );
-            } else {
-                $tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content.css");
-            }
-            $tpl->parseCurrentBlock();
-
-            // syntax style
-            $tpl->setCurrentBlock("SyntaxStyle");
-            if (!$this->offlineMode()) {
-                $tpl->setVariable(
-                    "LOCATION_SYNTAX_STYLESHEET",
-                    ilObjStyleSheet::getSyntaxStylePath()
-                );
-            } else {
-                $tpl->setVariable(
-                    "LOCATION_SYNTAX_STYLESHEET",
-                    "syntaxhighlight.css"
-                );
-            }
-            $tpl->parseCurrentBlock();
 
             $tpl->setTitleIcon(ilUtil::getImagePath("icon_glo.svg"));
             $tpl->setTitle($this->lng->txt("cont_term") . ": " . $term->getTerm());
@@ -602,11 +567,9 @@ class ilGlossaryPresentationGUI
             $mdgui = new ilObjectMetaDataGUI($this->glossary, "term", $term->getId());
             $tpl->setRightContent($mdgui->getBlockHTML($cmd));
 
-            // load template for table
-            $tpl->addBlockfile("ADM_CONTENT", "def_list", "tpl.glossary_definition_list.html", "Modules/Glossary");
-        } else {
-            $tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
         }
+
+        $def_tpl = new ilTemplate("tpl.glossary_definition_list.html", true, true, "Modules/Glossary");
 
         $defs = ilGlossaryDefinition::getDefinitionList($term_id);
         $tpl->setVariable("TXT_TERM", $term->getTerm());
@@ -614,15 +577,15 @@ class ilGlossaryPresentationGUI
 
         // toc
         if (count($defs) > 1 && $a_page_mode == ilPageObjectGUI::PRESENTATION) {
-            $tpl->setCurrentBlock("toc");
+            $def_tpl->setCurrentBlock("toc");
             for ($j=1; $j<=count($defs); $j++) {
-                $tpl->setCurrentBlock("toc_item");
-                $tpl->setVariable("TOC_DEF_NR", $j);
-                $tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
-                $tpl->parseCurrentBlock();
+                $def_tpl->setCurrentBlock("toc_item");
+                $def_tpl->setVariable("TOC_DEF_NR", $j);
+                $def_tpl->setVariable("TOC_DEF", $lng->txt("cont_definition"));
+                $def_tpl->parseCurrentBlock();
             }
-            $tpl->setCurrentBlock("toc");
-            $tpl->parseCurrentBlock();
+            $def_tpl->setCurrentBlock("toc");
+            $def_tpl->parseCurrentBlock();
         }
 
         for ($j=0; $j<count($defs); $j++) {
@@ -652,18 +615,18 @@ class ilGlossaryPresentationGUI
             }
 
             if (count($defs) > 1) {
-                $tpl->setCurrentBlock("definition_header");
-                $tpl->setVariable(
+                $def_tpl->setCurrentBlock("definition_header");
+                $def_tpl->setVariable(
                     "TXT_DEFINITION",
                     $this->lng->txt("cont_definition") . " " . ($j+1)
                 );
-                $tpl->setVariable("DEF_NR", ($j+1));
-                $tpl->parseCurrentBlock();
+                $def_tpl->setVariable("DEF_NR", ($j+1));
+                $def_tpl->parseCurrentBlock();
             }
-            
-            $tpl->setCurrentBlock("definition");
-            $tpl->setVariable("PAGE_CONTENT", $output);
-            $tpl->parseCurrentBlock();
+
+            $def_tpl->setCurrentBlock("definition");
+            $def_tpl->setVariable("PAGE_CONTENT", $output);
+            $def_tpl->parseCurrentBlock();
         }
         
         // display possible backlinks
@@ -679,7 +642,7 @@ class ilGlossaryPresentationGUI
                         $title = ilLMPageObject::_getPresentationTitle($src['id']);
                         $lm_id = ilLMObject::_lookupContObjID($src['id']);
                         $lm_title = ilObject::_lookupTitle($lm_id);
-                        $tpl->setCurrentBlock('backlink_item');
+                        $def_tpl->setCurrentBlock('backlink_item');
                         $ref_ids = ilObject::_getAllReferences($lm_id);
                         $access = false;
                         foreach ($ref_ids as $rid) {
@@ -688,31 +651,27 @@ class ilGlossaryPresentationGUI
                             }
                         }
                         if ($access) {
-                            $tpl->setCurrentBlock("backlink_item");
-                            $tpl->setVariable("BACKLINK_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . $type[1] . "_" . $src['id']);
-                            $tpl->setVariable("BACKLINK_ITEM", $lm_title . ": " . $title);
-                            $tpl->parseCurrentBlock();
+                            $def_tpl->setCurrentBlock("backlink_item");
+                            $def_tpl->setVariable("BACKLINK_LINK", ILIAS_HTTP_PATH . "/goto.php?target=" . $type[1] . "_" . $src['id']);
+                            $def_tpl->setVariable("BACKLINK_ITEM", $lm_title . ": " . $title);
+                            $def_tpl->parseCurrentBlock();
                             $backlist_shown = true;
                         }
                     }
                 }
             }
             if ($backlist_shown) {
-                $tpl->setCurrentBlock("backlink_list");
-                $tpl->setVariable("BACKLINK_TITLE", $this->lng->txt('glo_term_used_in'));
-                $tpl->parseCurrentBlock();
+                $def_tpl->setCurrentBlock("backlink_list");
+                $def_tpl->setVariable("BACKLINK_TITLE", $this->lng->txt('glo_term_used_in'));
+                $def_tpl->parseCurrentBlock();
             }
         }
 
         if (!$a_get_html) {
-            $tpl->setCurrentBlock("perma_link");
-            $tpl->setVariable("PERMA_LINK", ILIAS_HTTP_PATH .
+            $tpl->setPermanentLink("git", $term_id, "", ILIAS_HTTP_PATH .
                 "/goto.php?target=" .
                 "git" .
                 "_" . $term_id . "_" . $ref_id . "&client_id=" . CLIENT_ID);
-            $tpl->setVariable("TXT_PERMA_LINK", $this->lng->txt("perma_link"));
-            $tpl->setVariable("PERMA_TARGET", "_top");
-            $tpl->parseCurrentBlock();
 
             // show taxonomy
             $this->showTaxonomy();
@@ -735,10 +694,11 @@ class ilGlossaryPresentationGUI
             }
             $this->fill_on_load_code = true;
         }
+        $tpl->setContent($def_tpl->get());
         if ($this->offlineMode()) {
             return $tpl->printToString();
         } else if ($a_get_html) {
-            return $tpl->get();
+            return $def_tpl->get();
         }
     }
     
@@ -1159,7 +1119,7 @@ class ilGlossaryPresentationGUI
         $terms = $this->glossary->getTermList();
 
         $this->form = new ilPropertyFormGUI();
-        $this->form->setTarget("print_view");
+        //$this->form->setTarget("print_view");
         $this->form->setFormAction($ilCtrl->getFormAction($this));
         
         // selection type
@@ -1227,6 +1187,9 @@ class ilGlossaryPresentationGUI
         $ilAccess = $this->access;
         $tpl = $this->tpl;
 
+        $this->tabs_gui->setBackTarget($this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "printViewSelection"));
+
         if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             return;
         }
@@ -1263,27 +1226,16 @@ class ilGlossaryPresentationGUI
                 break;
         }
 
-        $tpl = new ilGlobalTemplate("tpl.main.html", true, true);
-        $tpl->setVariable("LOCATION_STYLESHEET", ilObjStyleSheet::getContentPrintStyle());
+        //$tpl->addCss(ilObjStyleSheet::getContentPrintStyle());
+        $tpl->addOnLoadCode("il.Util.print();");
 
-
-        iljQueryUtil::initjQuery($tpl);
-        
         // determine target frames for internal links
 
+        $page_content = "";
         foreach ($terms as $t_id) {
             $page_content.= $this->listDefinitions($this->requested_ref_id, $t_id, true, ilPageObjectGUI::PRINTING);
         }
-        $tpl->setVariable("CONTENT", $page_content .
-        '<script type="text/javascript" language="javascript1.2">
-		<!--
-			il.Util.addOnLoad(function () {
-				il.Util.print();
-			});
-		//-->
-		</script>');
-        $tpl->printToStdout(false);
-        exit;
+        $tpl->setContent($page_content);
     }
 
     /**
@@ -1461,7 +1413,7 @@ class ilGlossaryPresentationGUI
                     );
 
                 $tax_exp = new ilTaxonomyExplorerGUI(
-                    $this,
+                    get_class($this),
                     "showTaxonomy",
                     $tax_id,
                     "ilglossarypresentationgui",

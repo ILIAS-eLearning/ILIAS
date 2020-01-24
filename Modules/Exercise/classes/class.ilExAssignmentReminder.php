@@ -430,7 +430,13 @@ class ilExAssignmentReminder
         $reminders = $a_reminders;
         $users_to_remind = array();
 
+        $this->log->debug("Peer Reminders: ".count($a_reminders));
+
         foreach ($reminders as $reminder) {
+
+            $this->log->debug("Init peer review: ".$reminder["ass_id"]);
+            $pr = new ilExPeerReview(new ilExAssignment($reminder["ass_id"]));
+            $pr->initPeerReviews();
             $giver_ids = array_unique(ilExPeerReview::lookupGiversWithPendingFeedback($reminder["ass_id"]));
             foreach ($giver_ids as $giver_id) {
                 $state = ilExcAssMemberState::getInstanceByIds($reminder["ass_id"], $giver_id);

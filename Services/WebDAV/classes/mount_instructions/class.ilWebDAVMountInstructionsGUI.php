@@ -21,6 +21,7 @@ class ilWebDAVMountInstructionsGUI
     protected $mount_instruction;
     protected $il_lang;
     protected $ui;
+    protected $http;
     
     public function __construct(ilWebDAVBaseMountInstructions $a_mount_instruction)
     {
@@ -30,10 +31,13 @@ class ilWebDAVMountInstructionsGUI
         $this->mount_instruction = $a_mount_instruction;
         $this->il_lang = $DIC->language();
         $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
     }
 
     public function buildGUIFromGivenMountInstructions($a_mount_instructions, $a_render_async = false)
     {
+        $os = $this->determineOSfromUserAgent();
+        
         $f = $this->ui->factory();
         $r = $this->ui->renderer();
 
@@ -73,10 +77,34 @@ class ilWebDAVMountInstructionsGUI
          *      "LINUX" => signal_for_linux_legacy_component);
          */
         $view_control_actions = array();
-
-        // Used to hide all <div>'s except for the first one
-        $hidden = "";
+        
+        /*
+         * If we can determine the os and we find a corresponding string in the
+         * title of the instructions we automatically set it.
+         */
+        
+        foreach ($a_mount_instructions as $key => $value) {
+            $selected = $a_mount_instructions[$key];
+            break;
+        }
+        
+        
         foreach ($a_mount_instructions as $title => $text) {
+            foreach ($os as $os_string) {
+                if (stristr($title, $os_string) !== false) {
+                    $selected = $title;
+                    break 2;
+                }
+            }
+        }
+        
+        foreach ($a_mount_instructions as $title => $text) {
+            if ($title == $selected) {
+                $hidden = '';
+            } else {
+                $hidden = 'style="display: none;"';
+            }
+            
             // Create legacy component for mount instructions. Mount instructions text is wrapped in a <div>-tag
             $legacy = $f->legacy("<div id='$title' class='instructions' $hidden>$text</div>")
                 ->withCustomSignal($title, "il.UI.showMountInstructions(event, '$title');");
@@ -86,14 +114,9 @@ class ilWebDAVMountInstructionsGUI
 
             // Add signal to the list for the view control
             $view_control_actions[$title] = $legacy->getCustomSignal($title);
-
-            // Used to hide all <div>'s except for the first one
-            if ($hidden == "") {
-                $hidden = 'style="display: none;"';
-            }
         }
 
-        $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons");
+        $view_control = $f->viewControl()->mode($view_control_actions, "mount-instruction-buttons")->withActive($selected);
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
         $header_comps = array(
@@ -122,5 +145,31 @@ class ilWebDAVMountInstructionsGUI
 
         echo $this->buildGUIFromGivenMountInstructions($instructions, true);
         exit;
+    }
+    
+    private function determineOSfromUserAgent() : array
+    {
+        $ua = $this->http->request()->getHeader('User-Agent')[0];
+        
+        if (stristr($ua, 'windows') !== false
+            || strpos($ua, 'microsoft') !== false) {
+            return ['win'];
+        }
+        
+        if (stristr($this->user_agent, 'darwin') !== false
+            || stristr($ua, 'macintosh') !== false) {
+            return ['mac', 'osx'];
+        }
+            
+        if (stristr($ua, 'linux') !== false
+            || stristr($ua, 'solaris') !== false
+            || stristr($ua, 'aix') !== false
+            || stristr($ua, 'unix') !== false
+            || stristr($ua, 'gvfs') !== false // nautilus browser uses this ID
+            ) {
+            return ['linux'];
+        }
+
+        return ['unknown'];
     }
 }

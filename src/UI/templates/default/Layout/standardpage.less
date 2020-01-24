@@ -149,34 +149,6 @@ header {
 	padding-left: 35px; // dynamic value desirable
 }
 
-// breadcrumbs
-.breadcrumbs {
-	-ms-flex-align: center;
-	align-items: center;
-	background-color: @il-standard-page-breadcrumbs-bg-color;
-	border-top: 1px solid @il-standard-page-border-light-color;
-	display: -ms-flexbox;
-	display: flex;
-	-ms-flex-direction: row;
-	flex-direction: row;
-	-ms-grid-column: 1;
-	-ms-grid-column-span: 2;
-	-ms-grid-row: 2;
-	grid-column-start: 1;
-	grid-column-end: 3;
-	grid-row: 2;
-	z-index: @il-standard-page-zindex-breadcrumbs;
-	.shadow-bottom();
-	ul.breadcrumb {
-		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
-		&>li+li:before {
-			content: " \e606";
-			color: @il-standard-page-breadcrumbs-divider-color;
-			font-family: "il-icons";
-		}
-	}
-}
-
 // mainbar
 nav.il-maincontrols {
 	-ms-grid-column: 1;
@@ -287,8 +259,24 @@ footer {
 
 // Sidepanel in right column under content
 //
+#il_right_col {
+	@media (min-width: @grid-float-breakpoint) {
+		padding-left: 0; //See: #https://mantis.ilias.de/view.php?id=27109
+	}
+}
 @media only screen and (max-width: (@screen-lg-desktop - 1px)) {
 	.il-layout-page.with-mainbar-slates-engaged {
+		#il_right_col {
+			padding-left: 15px;
+		}
+	}
+}
+
+@media only screen and (max-width: (@screen-lg-desktop - 1px)) {
+	.il-layout-page.with-mainbar-slates-engaged {
+		#il_center_col.col-sm-9{
+			padding-right: 15px;
+		}
 		#il_center_col.col-sm-9,
 		#il_right_col.col-sm-3 {
 			float: none !important;

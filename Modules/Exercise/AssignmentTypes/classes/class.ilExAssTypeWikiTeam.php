@@ -84,8 +84,11 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
      * @param int $a_ass_id
      * @param int $a_user_id
      * @param int $a_wiki_ref_id
+     * @return bool|void
+     * @throws ilTemplateException
+     * @throws ilWikiExportException
      */
-    public function submitWiki($a_ass_id, $a_user_id, $a_wiki_ref_id)
+    public function submitWiki(int $a_ass_id, int $a_user_id, int $a_wiki_ref_id)
     {
         $ass = new ilExAssignment($a_ass_id);
         $submission = new ilExSubmission($ass, $a_user_id);
@@ -95,7 +98,7 @@ class ilExAssTypeWikiTeam implements ilExAssignmentTypeInterface
         }
 
         $wiki = new ilObjWiki((int) $a_wiki_ref_id);
-        $exp = new ilWikiHTMLExport($wiki);
+        $exp = new \ILIAS\Wiki\Export\WikiHtmlExport($wiki);
         //$exp->setMode(ilWikiHTMLExport::MODE_USER);
         $file = $exp->buildExportFile();
 

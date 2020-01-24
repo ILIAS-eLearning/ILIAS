@@ -950,7 +950,8 @@ class ilColumnGUI
 
         if (isset($this->check_global_activation[$a_type]) && $this->check_global_activation[$a_type]) {
             if ($a_type == 'pdnews') {
-                return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS);
+                return ($this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::NEWS) &&
+                    $ilSetting->get('block_activated_news'));
             } elseif ($a_type == 'pdmail') {
                 return $this->dash_side_panel_settings->isEnabled($this->dash_side_panel_settings::MAIL);
             } elseif ($a_type == 'pdtasks') {
@@ -959,6 +960,13 @@ class ilColumnGUI
                 include_once 'Services/Container/classes/class.ilContainer.php';
                 return
                     $ilSetting->get('block_activated_news') &&
+
+                    (!in_array($ilCtrl->getContextObjType(), ["grp", "crs"]) ||
+                        ilContainer::_lookupContainerSetting(
+                        $GLOBALS['ilCtrl']->getContextObjId(),
+                        ilObjectServiceSettingsGUI::USE_NEWS,
+                        true
+                    ))   &&
                     ilContainer::_lookupContainerSetting(
                         $GLOBALS['ilCtrl']->getContextObjId(),
                         'cont_show_news',

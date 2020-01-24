@@ -1320,7 +1320,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 (
                     $this->adminCommands ||
                 (is_object($this->object) &&
-                ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())))
+                ($this->rbacsystem->checkAccess("write", $this->object->getRefId())))
                                         ||
                 (is_object($this->object) &&
                 ($this->object->getHiddenFilesFound())) ||
@@ -1335,14 +1335,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             is_object($this->object) &&
-            $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId()) /* &&
+            $this->rbacsystem->checkAccess("write", $this->object->getRefId()) /* &&
             $this->object->getOrderType() == ilContainer::SORT_MANUAL */ // always on because of custom block order
             ) {
             $ilTabs->addSubTab("ordering", $lng->txt("cntr_ordering"), $ilCtrl->getLinkTarget($this, "editOrder"));
         }
         if ($ilUser->getId() != ANONYMOUS_USER_ID &&
             is_object($this->object) &&
-            $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())
+            $this->rbacsystem->checkAccess("write", $this->object->getRefId())
             ) {
             if ($ilSetting->get("enable_cat_page_edit")) {
                 $ilTabs->addSubTab(
@@ -3063,6 +3063,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     protected function showPasswordInstructionObject($a_init = true)
     {
+        global $DIC;
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
         
@@ -3071,16 +3072,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->initFormPasswordInstruction();
         }
         
-        include_once('Services/WebDAV/classes/class.ilWebDAVUtil.php');
-        $dav_util = ilWebDAVUtil::getInstance();
-        $ilToolbar->addButton(
-            $this->lng->txt('mount_webfolder'),
-            $dav_util->getMountURI($this->object->getRefId()),
-            '_blank',
-            '',
-            $dav_util->getFolderURI($this->object->getRefId())
-        );
+        $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
+        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
 
+        $btn = ilButton::getInstance();
+        $btn->setCaption('mount_webfolder');
+        $btn->setOnClick("triggerWebDAVModal('$href')");
+        $ilToolbar->addButtonInstance($btn);
 
         $tpl->setContent($this->form->getHTML());
     }

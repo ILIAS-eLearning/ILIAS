@@ -224,9 +224,9 @@ class ilDashboardGUI
 
             case "ilpdselecteditemsblockgui":
                 $block = new ilPDSelectedItemsBlockGUI();
+                $this->displayHeader();
                 $ret = $this->ctrl->forwardCommand($block);
                 if ($ret!= "") {
-                    $this->displayHeader();
                     $this->tpl->setContent($ret);
                     $this->tpl->printToStdout();
                 }

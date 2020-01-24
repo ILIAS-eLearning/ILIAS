@@ -205,7 +205,7 @@ class ilExAssignmentMemberStatus
             ,"sent" => array("integer", $this->getSent())
             ,"sent_time" => array("timestamp", $this->getSentTime())
             ,"feedback_time" => array("timestamp", $this->getFeedbackTime())
-            ,"feedback" => array("integer", $this->getFeedback())
+            ,"feedback" => array("integer", (int) $this->getFeedback())
             ,"status" => array("text", $this->getStatus())
             ,"mark" => array("text", $this->getMark())
             ,"u_comment" => array("text", $this->getComment())

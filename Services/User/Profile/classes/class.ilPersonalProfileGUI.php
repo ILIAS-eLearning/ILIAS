@@ -1211,7 +1211,6 @@ class ilPersonalProfileGUI
             }
         }
         
-        // :TODO: badges
         if (!$anonymized) {
             include_once "Services/Badge/classes/class.ilBadgeHandler.php";
             $handler = ilBadgeHandler::getInstance();
@@ -1229,7 +1228,7 @@ class ilPersonalProfileGUI
                 }
 
                 if (sizeof($badge_options) > 1) {
-                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos");
+                    $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos".$key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
                     $badge_order->setMulti(true, true, false);
@@ -1290,14 +1289,22 @@ class ilPersonalProfileGUI
             }
 
             $ilUser->update();
-            
-            // :TODO: badges
+
+            switch ($_POST["public_profile"]) {
+                case "y":
+                    $key_suffix = "-1";
+                    break;
+                case "g":
+                    $key_suffix = "-2";
+                    break;
+            }
+
             include_once "Services/Badge/classes/class.ilBadgeHandler.php";
             $handler = ilBadgeHandler::getInstance();
             if ($handler->isActive()) {
                 $badgePositions = [];
-                if (isset($_POST["bpos"]) && is_array($_POST["bpos"])) {
-                    $badgePositions = $_POST["bpos"];
+                if (isset($_POST["bpos".$key_suffix]) && is_array($_POST["bpos".$key_suffix])) {
+                    $badgePositions = $_POST["bpos".$key_suffix];
                 }
 
                 if (count($badgePositions) > 0) {

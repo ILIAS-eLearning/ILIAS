@@ -1,16 +1,39 @@
-ul.breadcrumb {
-	margin: 0;
-	font-weight: @breadcrumb-font-weight;
-	padding-left: @padding-large-horizontal;
-	font-size: @font-size-small;
-	li {
-		color: @breadcrumb-color;
-		&:hover {
-			color: @breadcrumb-active-color;
+// breadcrumbs
+.breadcrumbs {
+	-ms-flex-align: center;
+	align-items: center;
+	background-color: @il-standard-page-breadcrumbs-bg-color;
+	border-top: 1px solid @il-standard-page-border-light-color;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	-ms-grid-column: 1;
+	-ms-grid-column-span: 2;
+	-ms-grid-row: 2;
+	grid-column-start: 1;
+	grid-column-end: 3;
+	grid-row: 2;
+	z-index: @il-standard-page-zindex-breadcrumbs;
+	.shadow-bottom();
+	ul.breadcrumb {
+		margin: 0;
+		font-weight: @breadcrumb-font-weight;
+		font-size: @font-size-small;
+		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
+
+		li {
+			color: @breadcrumb-color;
+			&:hover {
+				color: @breadcrumb-active-color;
+			}
+		}
+
+		&>li+li:before {
+			content: " \e606";
+			color: @il-standard-page-breadcrumbs-divider-color;
+			padding: 8px 10px;
+			font-family: "il-icons";
 		}
 	}
-}
-
-[dir="rtl"] ul.breadcrumb {
-	padding-right: @padding-large-horizontal;
 }

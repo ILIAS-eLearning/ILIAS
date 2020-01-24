@@ -45,12 +45,13 @@ class Renderer extends AbstractComponentRenderer
             }
         }
 
+        if (!is_array($component->getAction()) && $id !== null) {
+            $tpl->setVariable("IMG_ID", " id='" . $id . "' ");
+        }
+
         $tpl->setCurrentBlock($component->getType());
         $tpl->setVariable("SOURCE", $component->getSource());
         $tpl->setVariable("ALT", htmlspecialchars($component->getAlt()));
-        if (empty($component->getAction()) && $id !== null) {
-            $tpl->setVariable("IMG_ID", " id='" . $id . "' ");
-        }
         $tpl->parseCurrentBlock();
 
         if (!empty($component->getAction())) {
