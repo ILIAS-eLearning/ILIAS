@@ -27,7 +27,7 @@ Javascript code should be written using [StandardJS](https://standardjs.com/rule
 
 ### Check Code Style
 
-The following two commands are equivalent. The check all .js files within the current working directory.
+The following two commands are equivalent. They check all .js files within the current working directory.
 
 ```
 > standard
