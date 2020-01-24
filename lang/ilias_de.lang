@@ -14,7 +14,6 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-ps#:#ps_participants_list_courses#:#Aktivierung der Teilnehmerliste der Mitgliedergalerie in Kursen zulassen
 crs#:#timings_cron_reminder_freshly_start#:#Der Bearbeitungszeitraum hat begonnen bei:
 crs#:#timings_cron_reminder_started_subject#:#Der Bearbeitungszeitraum hat begonnen
 crs#:#timings_cron_reminder_exceeded_subject#:#Sie haben den Bearbeitungszeitraum überschritten
@@ -15068,3 +15067,4 @@ exc#:#exc_text_saved#:#Der Text wurde gespeichert.
 exc#:#exc_team_by_random_add_info#:#Bitte beachten Sie, dass Sie der Übung zunächst alle Teilnehmer zuordnen müssen, bevor Sie diese Option sinnvoll nutzen können.
 exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
 style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.
+ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses###24 01 2020 new variable
