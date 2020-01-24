@@ -22,7 +22,7 @@ If global identifiers like `$`or `il` are being used, they should be declared at
 /* global $, il */
 ``` 
 
-This will prevent any "... is not defined" in the StandardJS syntax checker (see next chapter).
+This will prevent any "... is not defined" errors in the StandardJS syntax checker (see next chapter).
 
 ## StandardJS
 
