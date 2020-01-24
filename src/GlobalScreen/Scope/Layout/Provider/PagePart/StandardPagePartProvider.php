@@ -98,7 +98,7 @@ class StandardPagePartProvider implements PagePartProvider
              * @var $component Combined
              */
             $component = $item->getTypeInformation()->getRenderer()->getComponentForItem($item, false);
-            $identifier = $item->getProviderIdentification()->getInternalIdentifier();
+            $identifier = $this->hash($item->getProviderIdentification()->serialize());
 
             if ($this->isComponentSupportedForCombinedSlate($component)) {
                 $main_bar = $main_bar->withAdditionalEntry($identifier, $component);

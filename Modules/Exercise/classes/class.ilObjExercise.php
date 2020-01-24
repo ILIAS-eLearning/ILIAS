@@ -562,7 +562,7 @@ class ilObjExercise extends ilObject
             $overall_stat = "notgraded";
             if ($failed_a_mandatory) {
                 $overall_stat = "failed";
-            } elseif ($passed_all_mandatory) {
+            } elseif ($passed_all_mandatory && $cnt_passed > 0) {
                 $overall_stat = "passed";
             }
         }

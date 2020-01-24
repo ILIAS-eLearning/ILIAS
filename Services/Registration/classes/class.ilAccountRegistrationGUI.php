@@ -66,9 +66,8 @@ class ilAccountRegistrationGUI
     {
         global $DIC;
 
-        $ilErr = $DIC['ilErr'];
-
         if ($this->registration_settings->getRegistrationType() == IL_REG_DISABLED) {
+            $ilErr = $DIC['ilErr'];
             $ilErr->raiseError($this->lng->txt('reg_disabled'), $ilErr->FATAL);
         }
 
@@ -81,7 +80,8 @@ class ilAccountRegistrationGUI
                 $tpl = $this->displayForm();
         }
 
-        //$tpl->setPermanentLink('usr', null, 'registration');
+        $gtpl = $DIC['tpl'];
+        $gtpl->setPermanentLink('usr', null, 'registration');
         ilStartUpGUI::printToGlobalTemplate($tpl);
     }
 

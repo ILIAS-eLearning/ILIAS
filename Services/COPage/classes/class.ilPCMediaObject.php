@@ -422,12 +422,9 @@ class ilPCMediaObject extends ilPageContent
     }
 
     /**
-     * Modify page content after xsl
-     *
-     * @param string $a_output
-     * @return string
+     * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $ilUser = $this->user;
 
@@ -450,6 +447,10 @@ class ilPCMediaObject extends ilPageContent
                     }
                 }
             }
+        }
+
+        if ($a_abstract_only) {
+            return $a_html;
         }
 
         // add fullscreen modals

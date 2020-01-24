@@ -729,7 +729,7 @@ class ilStudyProgrammeUserProgress
      * @throws ilException
      * @return bool | void
      */
-    public function setLPCompleted(int $a_obj_id, int $a_usr_id)
+    public function setLPCompleted(int $obj_id, int $usr_id)
     {
         if ($this->isSuccessful() || !$this->isRelevant()) {
             return true;

@@ -49,6 +49,8 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
             $linkXml = $this->getLinkXML();
 
             try {
+                $linkXml = str_replace('<LinkTargets></LinkTargets>', '', $linkXml);
+                
                 $domDoc = new DOMDocument();
                 $domDoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $linkXml);
 

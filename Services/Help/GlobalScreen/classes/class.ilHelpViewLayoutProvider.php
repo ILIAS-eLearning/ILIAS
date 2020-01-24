@@ -37,15 +37,17 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
             $tt_text = ilHelp::getMainMenuTooltip($p->getInternalIdentifier());
             $tt_text = htmlspecialchars(str_replace(array("\n", "\r"), '', $tt_text));
 
-            if ($item instanceof hasSymbol && $item->hasSymbol()) {
-                $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text) : Symbol {
-                    if ($symbol instanceof JavaScriptBindable) {
-                        return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
-                            return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
-                        });
-                    }
-                    return $symbol;
-                });
+            if ($tt_text != "") {
+                if ($item instanceof hasSymbol && $item->hasSymbol()) {
+                    $item->addSymbolDecorator(static function (Symbol $symbol) use ($tt_text) : Symbol {
+                        if ($symbol instanceof JavaScriptBindable) {
+                            return $symbol->withAdditionalOnLoadCode(static function ($id) use ($tt_text) : string {
+                                return "il.Tooltip.addToNearest('$id', 'button,a', { context:'', my:'bottom center', at:'top center', text:'$tt_text' });";
+                            });
+                        }
+                        return $symbol;
+                    });
+                }
             }
         }
 
