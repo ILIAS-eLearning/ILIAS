@@ -7,7 +7,6 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Class TopLinkItemRenderer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class TopLinkItemRenderer extends BaseTypeRenderer
@@ -18,7 +17,6 @@ class TopLinkItemRenderer extends BaseTypeRenderer
      */
     const BLANK = "_blank";
     const TOP = "_top";
-
 
     /**
      * @inheritDoc
