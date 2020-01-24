@@ -1,32 +1,7 @@
-/*
-header {
-    display: none;
-}
-nav {
-    display: none;
-}
-footer {
-    display: none;
-}
-section.il-layout-page {
-    display: block;
-}
-main.il-layout-page-content {
-    height: 100%;
-}
-#fixed_content {
-    margin-top: 70px;
-}
-*/
-footer {
-    display: none;
-}
-
 .ltiMetaBarExit {
     position: absolute;
     overflow: hidden;
     text-overflow: clip;
     right: 70px;
     top: 18px;
-    /*display:none;*/
 }
