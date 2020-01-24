@@ -14,6 +14,15 @@ All other cases should declare strict mode in the first line of the code file.
 'use strict';
 ```
 
+## Declare Globals
+
+If global identifiers like `$`or `il` are being used, they should be declared at the top of the file.
+
+```
+/* global $, il */
+``` 
+
+This will prevent any "... is not defined" in the StandardJS syntax checker (see next chapter).
 
 ## StandardJS
 
@@ -47,16 +56,6 @@ Checking a single file:
 ```
 
 Note that not all problems are fixable automatically (e.g. using `==` instead of `===`).
-
-### Declare Globals
-
-If global identifiers like `$`or `il` are being used, they should be declared at the top of the file.
-
-```
-/* global $, il */
-``` 
-
-This will prevent any "... is not defined" errors.
 
 ### PHPStorm
 
