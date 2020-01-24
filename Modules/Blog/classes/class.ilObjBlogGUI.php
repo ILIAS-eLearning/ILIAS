@@ -2063,7 +2063,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
                 $link = $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                 $toolbar->addSeparator();
-                $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
 
         } else {		// month view
