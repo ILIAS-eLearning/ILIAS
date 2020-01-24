@@ -214,8 +214,11 @@ class ilPCAMDPageList extends ilPageContent
             
         return $found_result;
     }
-    
-    public function modifyPageContentPostXsl($a_html, $a_mode)
+
+    /**
+     * @inheritDoc
+     */
+    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
     {
         $lng = $this->lng;
         

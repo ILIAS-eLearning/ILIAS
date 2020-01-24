@@ -82,7 +82,12 @@ class ilWebDAVMountInstructionsGUI
          * If we can determine the os and we find a corresponding string in the
          * title of the instructions we automatically set it.
          */
-        $selected = array_key_first($a_mount_instructions);
+        
+        foreach ($a_mount_instructions as $key => $value) {
+            $selected = $a_mount_instructions[$key];
+            break;
+        }
+        
         
         foreach ($a_mount_instructions as $title => $text) {
             foreach ($os as $os_string) {

@@ -22,14 +22,7 @@ il.UI = il.UI || {};
 			return isPortrait() ? 'portrait' : 'landscape';
 		};
 
-		var init = function() {
-			mq_orientation.addListener(function(mq) {
-				window.location.reload();
-			});
-		};
-
 		return {
-			init: init,
 			isSmallScreen: isSmallScreen,
 			getOrientation: getOrientation,
 			isPortrait: isPortrait,

@@ -3073,14 +3073,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
         
         $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
-        $ilToolbar->addButton(
-            $this->lng->txt('mount_webfolder'),
-            $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId()),
-            '_blank',
-            '',
-            $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId())
-        );
+        $href = $uri_builder->getUriToMountInstructionModalByRef($this->object->getRefId());
 
+        $btn = ilButton::getInstance();
+        $btn->setCaption('mount_webfolder');
+        $btn->setOnClick("triggerWebDAVModal('$href')");
+        $ilToolbar->addButtonInstance($btn);
 
         $tpl->setContent($this->form->getHTML());
     }

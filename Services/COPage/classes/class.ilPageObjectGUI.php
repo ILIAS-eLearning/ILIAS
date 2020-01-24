@@ -1913,7 +1913,7 @@ class ilPageObjectGUI
             $pc_obj->setFullscreenLink($this->determineFullscreenLink());
 
             // post xsl page content modification by pc elements
-            $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode());
+            $output = $pc_obj->modifyPageContentPostXsl($output, $this->getOutputMode(), $this->getAbstractOnly());
             
             // javascript files
             $js_files = $pc_obj->getJavascriptFiles($this->getOutputMode());
