@@ -14,10 +14,9 @@ use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * Class Tool
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol, supportsTerminating, isToolItem
+class Tool extends AbstractBaseTool implements isTopItem, hasContent, supportsTerminating
 {
 
     /**
@@ -45,20 +44,17 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
      */
     protected $close_callback;
 
-
     /**
      * @param string $title
-     *
      * @return Tool
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone = clone($this);
+        $clone        = clone($this);
         $clone->title = $title;
 
         return $clone;
     }
-
 
     /**
      * @return string
@@ -68,30 +64,27 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $this->title;
     }
 
-
     /**
      * @inheritDoc
      */
     public function withContentWrapper(Closure $content_wrapper) : hasContent
     {
-        $clone = clone($this);
+        $clone                  = clone($this);
         $clone->content_wrapper = $content_wrapper;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
      */
     public function withContent(Component $ui_component) : hasContent
     {
-        $clone = clone($this);
+        $clone          = clone($this);
         $clone->content = $ui_component;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -107,7 +100,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $this->content;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -120,12 +112,11 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
             throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
 
-        $clone = clone($this);
+        $clone         = clone($this);
         $clone->symbol = $symbol;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -135,7 +126,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return $this->symbol;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -144,18 +134,16 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
         return ($this->symbol instanceof Symbol);
     }
 
-
     /**
      * @inheritDoc
      */
     public function withTerminatedCallback(Closure $callback) : supportsTerminating
     {
-        $clone = clone $this;
+        $clone                      = clone $this;
         $clone->terminated_callback = $callback;
 
         return $clone;
     }
-
 
     /**
      * @return Closure|null
@@ -164,7 +152,6 @@ class Tool extends AbstractBaseTool implements isTopItem, hasContent, hasSymbol,
     {
         return $this->terminated_callback;
     }
-
 
     /**
      * @return bool
