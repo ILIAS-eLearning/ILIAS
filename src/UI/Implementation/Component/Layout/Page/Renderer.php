@@ -70,16 +70,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
         }
 
-        $component = $component->withOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-					il.UI.page.init();
-				});";
-            }
-        );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
-
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
         }
