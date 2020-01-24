@@ -16064,3 +16064,4 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
 exc#:#exc_members_already_assigned_team#:#Dieser Benutzer ist bereits einem Team zugeordnet.
 style#:#sty_add_media_query_info#:#Z.B. "only screen and (max-width: 600px)" für Fenstergrößen kleiner als 600px oder "print" für Druckausgaben.
+prg#:#prg_cron_job_configuration#:#Automatische Mails
