@@ -382,7 +382,7 @@ class ilNewsItemGUI
      * FORM NewsItem: Get current values for NewsItem form.
      *
      */
-    public function getValuesNewsItem($a_form)
+    public function getValuesNewsItem(\ilPropertyFormGUI $a_form)
     {
         $values = array();
 
@@ -393,6 +393,11 @@ class ilNewsItemGUI
         $values["news_content_long"] = "";
 
         $a_form->setValuesByArray($values);
+
+        if ($this->news_item->getMobId() > 0) {
+            $fi = $a_form->getItemByPostVar("media");
+            $fi->setValue(ilObject::_lookupTitle($this->news_item->getMobId()));
+        }
     }
 
     /**
@@ -417,6 +422,11 @@ class ilNewsItemGUI
             //			$data = $form->getInput('media');
             //			var_dump($data);
 
+            $media = $_FILES["media"];
+            if ($media["name"] != "") {
+                $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+                $this->news_item->setMobId($mob->getId());
+            }
 
 
             $this->news_item->setContentLong("");
@@ -478,10 +488,33 @@ class ilNewsItemGUI
             $this->news_item->setVisibility($form->getInput("news_visibility"));
             //$this->news_item->setContentLong($form->getInput("news_content_long"));
             $this->news_item->setContentLong("");
+
+            $media = $_FILES["media"];
+            $old_mob_id = 0;
+
+            // delete old media object
+            if ($media["name"] != "" || $_POST["media_delete"] != "") {
+                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) == "mob") {
+                    $old_mob_id = $this->news_item->getMobId();
+                }
+                $this->news_item->setMobId(0);
+            }
+
+            if ($media["name"] != "") {
+                $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
+                $this->news_item->setMobId($mob->getId());
+            }
+
             if (self::isRteActivated()) {
                 $this->news_item->setContentHtml(true);
             }
             $this->news_item->update();
+
+            if ($old_mob_id > 0) {
+                $old_mob = new ilObjMediaObject($old_mob_id);
+                $old_mob->delete();
+            }
+
             $this->exitUpdateNewsItem();
         } else {
             $form->setValuesByPost();
