@@ -8,6 +8,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\ComplexItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LinkListItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\LostItemRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\SeparatorItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopLinkItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\RepositoryLinkItemRenderer;
@@ -154,7 +155,7 @@ class CustomMainBarProvider extends AbstractStaticMainMenuProvider implements St
         $link_list->setCreationPrevented(true);
         $c->add($link_list);
         // Separator
-        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), null, new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
+        $c->add(new TypeInformation(Separator::class, $this->translateType(Separator::class), new SeparatorItemRenderer(), new ilMMTypeHandlerSeparator(), $this->translateByline(Separator::class)));
         // RepositoryLink
         $c->add(new TypeInformation(RepositoryLink::class, $this->translateType(RepositoryLink::class), new RepositoryLinkItemRenderer(), new ilMMTypeHandlerRepositoryLink()));
         // Lost
