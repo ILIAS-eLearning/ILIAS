@@ -1,4 +1,4 @@
-/* Copyright (c) 1998-2019 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2020 ILIAS open source e-Learning e.V., Extended GPL, see docs/LICENSE */
 /**
 * ILIAS language file
 *
@@ -1777,7 +1777,7 @@ common#:#course#:#Curso
 common#:#courses#:#Cursos
 common#:#create#:#crear
 common#:#create_date#:#Creado el
-common#:#created#:#Crear fecha
+common#:#created#:#Fecha de creación
 common#:#create_export_file#:#Crear archivo de exportación
 common#:#create_stylesheet#:#Crear Estilo
 common#:#cron_forum_notification_desc#:#Si se habilita, todos los usuarios que quieren ser informados sobre nuevos mensajes en los asuntos de foros especificados, recibiran notificación por e-mail.
@@ -3165,10 +3165,10 @@ common#:#session_max_idle_info#:#Define el periodo máximo de inactividad que un
 common#:#session_max_idle#:#Máximo tiempo de sesión inactiva (en minutos)
 common#:#session_min_idle_info#:#Cuando un usuario alcanza al menos este tiempo de inactividad la sesión puede ser destruida si otra sesión debe ser abierta para otro usuario cuando se ha alcanzado el número máximo de sesiones existentes.
 common#:#session_min_idle#:#Mínimo tiempo de sesión inactiva (en minutos)
-common#:#session_reminder_alert#:#Tu sesión finaliza en %1$s en %2$s!\n\nPulsa OK para continuar.\nSi pulsas Cancel no volveremos a avisarte durante la sesión.\n\nInstalación: %3$s.
+common#:#session_reminder_alert#:#¡Tu sesión finalizará en %1$s a las %2$s!\n\nPulsa Aceptar para que te volvamos a avisar.\nSi pulsas Cancelar no volveremos a avisarte durante tu sesión.\n\nInstalación: %3$s.
 common#:#session_reminder_info#:#Si está habilitado, recibirá un aviso antes de que expire su sesión.
-common#:#session_reminder_lead_time_info#:#Por favor especifique, la cantidad de segundos para mostrar el aviso del recordatorio de sesión antes de que expire el período de sesión. El valor actual de una sesión de usuario es %s.
-common#:#session_reminder_lead_time#:#Plazo de entrega
+common#:#session_reminder_lead_time_info#:#Por favor especifique la cantidad de minutos de sesión restantes antes de mostrarle un aviso de recordatorio de fin de sesión. El valor debe se menor que el tiempo máximo de inactividad permitido en la plataforma que es de %s. Se recomiendan al menos 5 minutos.
+common#:#session_reminder_lead_time#:#Periodo de aviso
 common#:#session_reminder#:#Recordatorio de fin de sesión
 common#:#session_reminder_session_duration#:#(Duración de la sesión: %s).
 common#:#sess_load_dependent_session_handling#:#Manejo de carga de sesión dependiente
@@ -3808,7 +3808,7 @@ content#:#cont_enter_a_dir_name#:#Por favor, introduzca un nombre de directorio.
 content#:#cont_enter_a_file#:#Por favor, seleccione un archivo.
 content#:#content_page_history#:#Historial de páginas
 content#:#content_some_export_ids_multiple_times#:#Algunos IDs de exportación se utilizan varias veces. Esto ocasiona que falten páginas en la exportación
-content#:#cont_Example#:#ej.
+content#:#cont_Example#:#Ejemplo
 content#:#cont_Excursus#:#Excursus
 content#:#cont_exp_ids_not_resp_format1#:#los IDs de exportación solo podrán utilizar los siguientes caracteres
 content#:#cont_exp_ids_not_resp_format2#:#Por favor, revise y corrija su entrada
@@ -4664,11 +4664,11 @@ crs#:#crs_unblocked#:#Entrada Libre
 crs#:#crs_unblocked_member_body#:#Su pertenencia al curso "%s" ha sido restaurada
 crs#:#crs_unblocked_member#:#Estado en el Curso "%s"
 crs#:#crs_unlimited#:#Ilimitado
-crs#:#crs_unsubscribed_from_crs#:#Se ha suscrito en este curso
-crs#:#crs_unsubscribe_member_body#:#confirmamos tu cancelación de pertenencia al curso "%s". Esperamos que hayas encontrado la oportunidad de participar en otro curso.
-crs#:#crs_unsubscribe_member#:#Tu membresía ha sido cancelada en el curso "%s"
+crs#:#crs_unsubscribed_from_crs#:#Se ha dado de baja en este curso
+crs#:#crs_unsubscribe_member_body#:#confirmamos tu cancelación de pertenencia al curso "%s".
+crs#:#crs_unsubscribe_member#:#Tu pertenencia al curso "%s" ha finalizado.
 crs#:#crs_unsubscribe_sure#:#¿Quiere darse de baja en este curso?
-crs#:#crs_update_subscr_request#:#Actualizar Peticiones de Membresía
+crs#:#crs_update_subscr_request#:#Actualizar solicitudes de pertenencia
 crs#:#crs_user_agreement_info#:#Datos personales visibles para administradores del Curso
 crs#:#crs_user_agreement#:#Tipos de datos liberados
 crs#:#crs_user_already_assigned#:#El usuario elegido ya está asignado a este curso
@@ -6933,7 +6933,7 @@ objref#:#objref_edit_ref#:#Configuración del elemento seleccionado
 objref#:#objref_edit_title#:#Configuración de título
 objref#:#objref_reuse_title#:#Reutilizar título de la referencia
 objref#:#objref_title_settings#:#Editar título de la referencia
-pd#:#block_create_pdfeed#:#Crear nuevo documento web
+pd#:#block_create_pdfeed#:#Crear nuevo visor de noticias rss
 pd#:#block_show_chatviewer#:#Mostrar visor del chat
 pd#:#block_show_pdbookm#:#Mostrar marcadores
 pd#:#block_show_pdcal#:#Mostrar calendario
@@ -7183,7 +7183,7 @@ rbac#:#accs_write#:#Editar opciones de accesibilidad.
 rbac#:#active_preconditions#:#Activar precondiciones
 rbac#:#add_consultation_hours#:#Añadir calendario de horas de tutoría
 rbac#:#add_reply#:#Añadir respuesta
-rbac#:#add_thread#:#Añadir hilo
+rbac#:#add_thread#:#Añadir tema
 rbac#:#adm_edit_permission#:#Modificar configuración de permisos
 rbac#:#adm_read#:#Acceso de lectura a la configuración básica del sistema
 rbac#:#adm_visible#:#Configuración del sistema visible
@@ -9630,8 +9630,8 @@ forum#:#sorting_manual_sticky#:#Ordenación manual de los temas resaltados
 forum#:#sticky_threads_always_on_top#:#Los temas resaltados siempre se muestran en lo alto de la lista de temas. Dentro de los "temas resaltados" es posible ordenarlos de forma manual, si has elegido esa opción.
 forum#:#merge#:#Combinar
 forum#:#please_choose_target#:#Por favor, seleccione el tema destino de la combinación
-forum#:#frm_sure_merge_threads#:#¿Está seguro de que desea combinar los hilos seleccionados? Advertencia: ¡Esta acción no se puede deshacer! Eventualmente ILIAS  puede intercambiar el tema origen y destino si el primer mensaje del tema origen fue creado antes que el primer mensaje del tema destino.
-forum#:#not_allowed_to_merge_into_another_forum#:#No es posible unir hilos de distintos foros
+forum#:#frm_sure_merge_threads#:#¿Está seguro de que desea combinar los temas seleccionados? Advertencia: ¡Esta acción no se puede deshacer! Eventualmente ILIAS  puede intercambiar el tema origen y destino si el primer mensaje del tema origen fue creado antes que el primer mensaje del tema destino.
+forum#:#not_allowed_to_merge_into_another_forum#:#No es posible unir temas de distintos foros
 forum#:#frm_selected_merge_src#:#Tema seleccionado para combinar: %s
 forum#:#error_same_thread_ids#:#El tema origen y el tema destino tienen que ser diferentes.
 forum#:#frm_merge_src#:#Tema seleccionado: %s
@@ -9914,8 +9914,8 @@ file#:#repository_disk_quota#:#Cuota de disco permisiva para el repositorio
 file#:#personal_workspace_quota_exceeded_warning#:#Ha excedido la cuota de disco de su espacio de trabajo personal
 file#:#personal_workspace_quota_status_legend#:#Esta usando %1$s de su cuota de disco disponible de %2$s (%3$d%%).
 pd#:#pd_remove_multiple#:#Eliminar varios elementos.
-pd#:#pd_unsubscribe_multiple_memberships#:#Dar de baja varios miembros
-pd#:#pd_unsubscribe_memberships#:#Dar de baja un miembro
+pd#:#pd_unsubscribe_multiple_memberships#:#Darse de baja de varios elementos
+pd#:#pd_unsubscribe_memberships#:#Darse de baja
 survey#:#survey_360_mode_info#:#Usar para crear encuestas de evaluación de personas entre pares (o autoevaluación)
 assessment#:#tst_extratime_added#:#Se han añadido %s minutos al tiempo de trabajo del participante.
 assessment#:#tst_extratime_notavailable#:#Se puede añadir tiempo extra solo a los tests que se pueden ejecutar sólo una vez y tienen tiempo de procesamiento máximo.
@@ -11446,7 +11446,7 @@ assessment#:#tst_allowed_users_desc#:#ILIAS controlará el número de participan
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_settings_header_test_run#:#Administración del Test: Realización del Test
 assessment#:#tst_nr_of_tries_desc#:#Número máximo de veces que un participante puede realizar un test.
-assessment#:#tst_final_information#:#Finalización del Test: Información Despúes de Terminar
+assessment#:#tst_final_information#:#Finalización del Test: Información Después de Terminar
 assessment#:#test_question_pool_usage_optional#:#Las preguntas se pueden añadir opcionalmente a un banco de preguntas
 assessment#:#test_question_pool_usage_optional_info#:#Las preguntas se puede reusar en otros tests.
 assessment#:#test_question_pool_usage_tst_directly#:#Las preguntas se crean directamente en el test
@@ -12463,7 +12463,7 @@ assessment#:#tst_pass_finished_on#:#Test Final
 assessment#:#passed_status#:#Estado de superación
 assessment#:#skip_question#:#No responder y Siguiente
 assessment#:#tst_instant_feedback_handling_force#:#No bloquear respuestas pero forzar sugerencias
-assessment#:#tst_instant_feedback_handling_force_desc#:#Cuando los participantes pulsen "Responder", se les presentará automáticamente la comprobación tal y como esté configurada en "Retroalimentación instantánea". No obstante, ellos pueden cambiar sus respuestas después.
+assessment#:#tst_instant_feedback_handling_force_desc#:#Cuando los participantes pulsen "Responder", se les presentará automáticamente la comprobación del modo en que esté configurada en "Retroalimentación instantánea". Sin embargo, después de verlo pueden cambiar sus respuestas.
 dcl#:#dcl_locked_tooltip#:#Desactivar este campo para que los usuarios puedan editar. No incluye a los roles con permisos de "Editar configuración"
 forum#:#forums_thread_deleted#:#El tema seleccionado y todos sus envíos han sido borrados.
 forum#:#forums_threads_deleted#:#Los temas seleccionados y todos sus envíos han sido borrados.
@@ -13080,7 +13080,7 @@ survey#:#svy_eval_view#:#Vista
 survey#:#svy_eval_view_tables_charts#:#Tabla y gráfico
 survey#:#svy_eval_view_tables#:#Tabla
 survey#:#svy_eval_view_charts#:#Gráfico
-survey#:#svy_eval_captions#:#Figulas
+survey#:#svy_eval_captions#:#Figuras
 survey#:#svy_eval_captions_abs_perc#:#Absoluto y porcentaje
 survey#:#svy_eval_captions_abs#:#Absoluto
 survey#:#svy_eval_captions_perc#:#Porcentaje
@@ -13212,7 +13212,7 @@ exc#:#exc_tbl_mark#:#Puntuación
 exc#:#exc_tbl_comment#:#Comentario de evaluación
 exc#:#exc_tbl_notice#:#Nota para tutores
 exc#:#exc_tbl_feedback_time#:#Evaluado el
-exc#:#exc_tbl_sent_time#:#Ejercicio enviado el
+exc#:#exc_tbl_sent_time#:#Asignado al estudiante
 exc#:#exc_tbl_team#:#Equipo
 exc#:#exc_tbl_individual_deadline#:#Fecha límite individual
 exc#:#exc_tbl_action_download_files#:#Descargar envíos
@@ -13255,11 +13255,11 @@ rbac#:#news_add_news#:#Añadir noticias
 rbac#:#grp_news_add_news#:#Añadir y editar las noticias propias en el grupo
 news#:#news_timline_add_entries_info#:#No hay noticias disponibles todavía. Pulse "Añadir" para crear nuevas entradas.
 obj#:#obj_tool_setting_use_news#:#Noticias
-obj#:#obj_tool_setting_use_news_info#:#Activar el bloque de noticias y/o la vista con la cronología.
+obj#:#obj_tool_setting_use_news_info#:#Activar el bloque de noticias y/o la vista de la cronología.
 obj#:#obj_tool_setting_use_news_open_settings#:#Abrir configuración
 cont#:#cont_news_settings#:#Configuración de noticias
 cont#:#cont_news_timeline_landing_page#:#Página de inicio
-cont#:#cont_news_timeline_landing_page_info#:#La página con la cronología será la página de inicio.
+cont#:#cont_news_timeline_landing_page_info#:#La cronología será la página de inicio.
 cont#:#cont_news_timeline_tab#:#Cronología
 cont#:#cont_news_edited#:#Editado
 news#:#news_really_delete_news#:#¿Está seguro de que desea borrar esta noticia?
@@ -13488,7 +13488,7 @@ crs#:#crs_show_member_export_settings#:#Lista de Participantes
 crs#:#crs_show_member_export#:#Lista de Participantes
 crs#:#crs_show_member_export_info#:#Los miembros del Curso pueden imprimir un lista de participantes.
 mem#:#mmbr_gallery_user_actions#:#Acciones de la Orla del Curso
-forum#:#forums_thread_drafts_deleted#:#El hilo seleccionado incluyendo todos los envíos y borradores ha sido borrado.
+forum#:#forums_thread_drafts_deleted#:#El tema seleccionado incluyendo todos los envíos y borradores ha sido borrado.
 common#:#pwsp_recalculate_disk_quota#:#Recursos Personales: Recálculo de la Cuota de Disco
 common#:#pwsp_recalculate_disk_quota_desc#:#Recalcula todos los valores de cuota de disco para los Recursos Personales.
 itgr#:#itgr_show_title#:#Mostrar Título
@@ -14204,14 +14204,14 @@ common#:#select_question_pool_info#:#Mientras que el fichero de importación con
 common#:#salutation_n#:#No aplicable
 form#:#form_msg_file_missing_file_ext#:#El fichero enviado no tiene una extensión.
 forum#:#frm_moderator_n#:#Moderación
-wiki#:#wiki_change_notification_page_body_comment#:#un comentario se ha añadido a la siguiente página de wiki
-wiki#:#wiki_change_notification_page_body_delete#:#la siguiente página de wiki ha sido borrada
+wiki#:#wiki_change_notification_page_body_comment#:#un comentario se ha añadido a la siguiente página de la wiki
+wiki#:#wiki_change_notification_page_body_delete#:#la siguiente página de la wiki ha sido borrada
 dcl#:#dcl_list_visibility_and_filter#:#Visibilidad y filtrado
 pd#:#block_show_pdfrmpostdraft#:#Mostrar borradores de envios
 sop#:#sop_system_check_error#:#Tu navegador no soporta las características de HTML5 necesarias.
 sop#:#sop_system_check_https#:#Debes utilizar https en vez de http para las carcterísticas HTML5 necesarias.
-forum#:#frm_action_not_possible_thr_deleted#:#No es posible realizar la acción, el hilo ha sido borrado.
-forum#:#frm_action_not_possible_thr_closed#:#No es posible realizar la acción, el hilo ha sido cerrado.
+forum#:#frm_action_not_possible_thr_deleted#:#No es posible realizar la acción, el tema ha sido borrado.
+forum#:#frm_action_not_possible_thr_closed#:#No es posible realizar la acción, el tema ha sido cerrado.
 forum#:#frm_action_not_possible_parent_deleted#:#No es posible realizar la acción, el envío padre ha sido borrado.
 style#:#less_variables_empty_might_have_changed#:#Hay variables vacías en tu formulario. Debes haber cambiado tu fichero variables.less desde que cargaste este formulario. Se han establecido los valores por defecto para los campos vacíos. Por favor, comprueba los campos vacíos marcados y guarda los valores al fichero variables.less.
 style#:#less_variable_empty#:#Esta variable está vacía. Se ha establecido el valor por defecto de tu fichero variables.less. Por favor, comprueba si esto es así antes de compilar.
@@ -14233,22 +14233,22 @@ rbac#:#lso_edit_learning_progress#:#El usuario puede editar la configuración de
 rbac#:#mcst_edit_learning_progress#:#El usuario puede editar la configuración de progreso de aprendizaje
 user#:#obj_ref_id_not_exist#:#El identificador de referencia introducido no existe
 user#:#msg_spoint_not_modified#:#Punto de inicio no modificado
-lti#:#lti_cron_title#:#Servicio de producción LTI
-lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de usuarios LTI con el consumidor LTI, si este soporta el servicio de producción. Esta tarea cron solo es necesaria para transferir actualizaciones de estado después de actualizar la configuración del progreso de aprendizaje.
-common#:#msg_wrong_filetypes#:#Allowed Files-Types:###04 04 2019 new variable
-assessment#:#tst_show_solution_printview_desc#:#An overview of all questions with the answers of the respective participant is generated. This list will be offered on the ‘Info’-tab.###04 04 2019 new variable
-assessment#:#tst_show_solution_feedback_desc#:#Feedback related to the answers provided by the participant is displayed. Please mind  that this option becomes effective only if you have activated ‘Scored Answers of Participant’  and feedback was prepared along with the questions in the first place.###04 04 2019 new variable
-assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Answers without any checked option are not saved. Participants get 0 points on these questions.###fau: testNav
-assessment#:#tst_highscore_anon_description#:#Ranking is displayed without listing the names of the other participants. This will be the case anyway if the test was taken anonymously.###04 04 2019 new variable
-crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.###04 04 2019 new variable
-common#:#webdav_additional_information#:#To be sure, that Windows Explorer can add a WebDAV connection, read the installation instruction file <a href="%s" target="_blank">install.md</a> chapter: "WebDAV Configuration (OPTIONAL)"###04 04 2019 new variable
-assessment#:#tst_results_print_best_solution_info#:#Additionally for each question the best possible solution will be displayed.###04 04 2019 new variable
-skmg#:#skmg_usage_type_info_seval#:#Self Evaluations###04 04 2019 new variable
-grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".###09 05 2019 new variable
-buddysystem#:#buddy_noti_cr_profile_not_published#:#Profile not published###09 05 2019 new variable
-dateplaner#:#cal_usr_info#:#Appointment Information###09 05 2019 new variable
-content#:#msg_no_page_access#:#You do not have the permission to access this page.###06 06 2019 new variable
-skmg#:#skmg_edit_sctp#:#Edit Template Category###15 08 2019 new variable
-forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.###15 08 2019 new variable
-assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.###18 10 2019 new variable
-logging#:#log_error_path_not_configured_or_wrong#:#Path to errors (error_path) is not configured or unreachable.###18 10 2019 new variable
+lti#:#lti_cron_title#:#Servicio de resultados LTI
+lti#:#lti_cron_title_desc#:#Sincroniza el progreso de aprendizaje de usuarios LTI con el consumidor LTI, si este soporta el servicio de resultados. Esta tarea cron solo es necesaria para transferir actualizaciones de estado después de actualizar la configuración del progreso de aprendizaje.
+common#:#msg_wrong_filetypes#:#Tipos de ficheros permitidos:
+assessment#:#tst_show_solution_printview_desc#:#Se genera un resumen de todas las preguntas con las respuestas de cada participante. La lista se mostrará en la pestaña de información.
+assessment#:#tst_show_solution_feedback_desc#:#Se muestran los comentarios del profesor relacionados con las respuestas proporcionadas por el participante. Tenga en cuenta que esta opción solo es efectiva si se ha seleccionado "Respuestas puntuadas del participante" y se añadieron comentarios a las preguntas.
+assessment#:#tst_score_mcmr_zero_points_when_unanswered_desc#:#Las respuestas sin ninguna opción seleccionada no se guardarán. Los participantes obtendrán 0 puntos en estas preguntas.
+assessment#:#tst_highscore_anon_description#:#Se muestra una clasificación sin mostrar los nombres de otros participantes. Esto ocurrirá de todas formas si el test se ha realizado anónimamente.
+crs#:#grp_grp_already_assigned#:#Tú ya eres miembro de esta agrupación de grupos
+common#:#webdav_additional_information#:#Para estar seguro que el explorador de windows puede añadir una coneción WebDAV, lea el fichero de instrucciones de instalación  <a href="%s" target="_blank">install.md</a> capítulo: "WebDAV Configuration (OPTIONAL)"
+assessment#:#tst_results_print_best_solution_info#:#Adicionalmente, para cada pregunta se mostrará la mejor solución posible
+skmg#:#skmg_usage_type_info_seval#:#Autoevaluaciones
+grp#:#grp_lim_assigned#:#Ya está asignado al grupo asociado  "%s".
+buddysystem#:#buddy_noti_cr_profile_not_published#:#Perfil no publicado
+dateplaner#:#cal_usr_info#:#Información de la cita
+content#:#msg_no_page_access#:#No tienes permisos para acceder a esta página
+skmg#:#skmg_edit_sctp#:#Editar plantilla de categoría
+forum#:#frm_move_invalid_file_type#:#El tema "%s" tiene un fichero adjunto no aceptado. Elimine el fichero o contacte con el responsable de la plataforma para añadir este tipo de fichero a la lista de ficheros aceptados.
+assessment#:#enter_enough_positive_points_checked#:#Al menos una respuesta necesita puntuación. Por favor, introduzca una puntuación positiva para la selección de alguna respuesta.
+logging#:#log_error_path_not_configured_or_wrong#:#La ruta a los ficheros de error no está configurada o es inalcanzable
