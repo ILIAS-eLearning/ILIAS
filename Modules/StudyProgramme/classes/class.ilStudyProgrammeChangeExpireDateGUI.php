@@ -173,7 +173,7 @@ class ilStudyProgrammeChangeExpireDateGUI
             $this->refinery_factory->custom()->transformation(function ($values) {
                 $return = [];
                 foreach ($this->getGetPrgsIds() as $user_id) {
-                    $progress = $this->getObject()->getProgressForAssignment((int)$user_id);
+                    $progress = $this->getObject()->getProgressForAssignment($user_id);
 
                     $status = $progress->getStatus();
                     if (
@@ -292,7 +292,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         if (is_null($prgrs_ids)) {
             return array();
         }
-        return explode(',', $prgrs_ids);
+        return array_map('intval', explode(',', $prgrs_ids));
     }
 
     protected function redirectToParent() : void

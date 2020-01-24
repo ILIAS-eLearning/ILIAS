@@ -173,7 +173,7 @@ class ilStudyProgrammeChangeDeadlineGUI
             $this->refinery_factory->custom()->transformation(function ($values) {
                 $return = [];
                 foreach ($this->getGetPrgsIds() as $user_id) {
-                    $progress = $this->getObject()->getProgressForAssignment((int)$user_id);
+                    $progress = $this->getObject()->getProgressForAssignment($user_id);
                     $deadline_data = $values[0][self::PROP_DEADLINE];
                     $deadline_type = $deadline_data[0];
                     switch ($deadline_type) {
@@ -286,7 +286,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         if (is_null($prgrs_ids)) {
             return array();
         }
-        return explode(',', $prgrs_ids);
+        return array_map('intval', explode(',', $prgrs_ids));
     }
 
     protected function redirectToParent() : void
