@@ -16,7 +16,7 @@ All other cases should declare strict mode in the first line of the code file.
 
 ## Declare Globals
 
-If global identifiers like `$`or `il` are being used, they should be declared at the top of the file.
+If global identifiers like `$`or `il` are being used, they should be declared at the top of the file (after `use strict`).
 
 ```
 /* global $, il */
