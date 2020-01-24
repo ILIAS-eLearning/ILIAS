@@ -479,7 +479,7 @@ class ilMailSearchGroupsGUI
     {
         if ($_GET["view"] == "mygroups") {
             $ids = $_REQUEST["search_grp"];
-            if (sizeof($ids)) {
+            if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_course"));
@@ -487,7 +487,7 @@ class ilMailSearchGroupsGUI
             }
         } elseif ($_GET["view"] == "grp_members") {
             $ids = $_REQUEST["search_members"];
-            if (sizeof($ids)) {
+            if (is_array($ids) && count($ids)) {
                 $this->addPermission($ids);
             } else {
                 ilUtil::sendInfo($this->lng->txt("mail_select_one_entry"));
