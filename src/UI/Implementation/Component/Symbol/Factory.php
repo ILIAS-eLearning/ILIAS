@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace ILIAS\UI\Implementation\Component\Symbol;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Component\Symbol\Avatar;
+use ILIAS\UI\Component\Symbol\Avatar as IAvatar;
 use ILIAS\UI\Component\Symbol\Glyph as IGlyph;
 use ILIAS\UI\Component\Symbol\Icon as IIcon;
 
@@ -21,18 +21,19 @@ class Factory implements Component\Symbol\Factory
      */
     protected $glyph_factory;
     /**
-     * @var Component\Symbol\Avatar\Factory
+     * @var Avatar\Factory
      */
     protected $avatar_factory;
 
     /**
-     * @param Icon\Factory  $icon_factory
-     * @param Glyph\Factory $glyph_factory
+     * @param Icon\Factory   $icon_factory
+     * @param Glyph\Factory  $glyph_factory
+     * @param Avatar\Factory $avatar_factory
      */
     public function __construct(
         Icon\Factory $icon_factory,
         Glyph\Factory $glyph_factory,
-        Component\Symbol\Avatar\Factory $avatar_factory
+        Avatar\Factory $avatar_factory
     ) {
         $this->icon_factory   = $icon_factory;
         $this->glyph_factory  = $glyph_factory;
@@ -58,7 +59,7 @@ class Factory implements Component\Symbol\Factory
     /**
      * @inheritdoc
      */
-    public function avatar() : Avatar\Factory
+    public function avatar() : IAvatar\Factory
     {
         return $this->avatar_factory;
     }

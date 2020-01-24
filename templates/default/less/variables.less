@@ -796,14 +796,19 @@
 //
 //** Size for avatars: used in the header. e.g. standard (and recommended) is @icon-size-large
 @avatar-size: @icon-size-large;
+@avatar-size-small: @avatar-size / 2;
+@avatar-size-large: @avatar-size * 2;
 //** border-radius for image avatar
 @avatar-border-radius: 50%;
 //** border size for letter avatars
-@avatar-letter-border-size: 2px;
+@avatar-border-size: 2px;
+@avatar-small-border-size: 0px;
 //** border style for letter avatars
-@avatar-letter-border-style: solid;
+@avatar-border-style: solid;
+//** border color for picture avatars
+@avatar-picture-border-color: #dddddd;
 //** there are 26 colors for letter avatar backgrounds, this is for the abbreviation ant the border color
-@avatar-letter-border-color-contrast: 60%;
+@avatar-letter-border-color-contrast: 40%;
 //** change the abbreviations font weight
 @avatar-letter-abbreviation-font-weight: lighter;
 //** change the abbreviations font transform

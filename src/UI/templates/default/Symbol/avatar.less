@@ -1,31 +1,39 @@
 @avatar-colors: @avatar-letter-color-variants;
-@avatar-inner-size: (@avatar-size - (2 * @avatar-letter-border-size));
+@avatar-inner-size: (@avatar-size - (2 * @avatar-border-size));
 @avatar-inner-mobile-size: (@avatar-size / 2 );
 
+
+@zoom-small: @avatar-size-small / @avatar-size;
+@zoom-large: @avatar-size-large / @avatar-size;
 
 .il-avatar {
 	height: @avatar-size;
 	width: @avatar-size;
+
 	border-radius: @avatar-border-radius;
+	border-style: @avatar-border-style;
+	border-width: @avatar-border-size;
+
 	overflow: hidden;
 	line-height: 1;
 	text-align: center;
 	pointer-events: none;
 
+
 	&.il-avatar-picture {
+		border-color: @avatar-picture-border-color;
+
 		img {
 			height: @avatar-size;
 			width: @avatar-size;
 			vertical-align: top;
 			border: @avatar-border-radius;
 			overflow: hidden;
+			object-fit: cover;
 		}
 	}
 
 	&.il-avatar-letter {
-		border-style: @avatar-letter-border-style;
-		border-width: @avatar-letter-border-size;
-
 		span.abbreviation {
 			font-weight: @avatar-letter-abbreviation-font-weight;
 			text-transform: @avatar-letter-abbreviation-font-transform;
@@ -56,6 +64,7 @@
 		height: @avatar-inner-mobile-size;
 		width: @avatar-inner-mobile-size;
 		margin-top: auto;
+		border-width: @avatar-small-border-size;
 
 		&.il-avatar-picture {
 			img {
@@ -65,8 +74,6 @@
 		}
 
 		&.il-avatar-letter {
-			border: none;
-
 			span.abbreviation {
 				font-size: calc(@avatar-inner-mobile-size / 2);
 				top: calc(@avatar-inner-mobile-size / 4);
