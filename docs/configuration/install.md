@@ -215,6 +215,14 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 </VirtualHost>
 ```
 
+In order to secure access to the files in your `data` directory, you SHOULD
+enable `mod\_rewrite` on Debian/Ubuntu (should be enabled by default on
+RHEL/CentOS):
+
+```
+a2enmod rewrite
+```
+
 Please take care to [restrict access to the setup-folder](#secure-installation-files)
 Normal users should not be able to access the setup at all. Also see
 [Hardening and Security Guidance](#hardening-and-security-guidance) for further
