@@ -443,7 +443,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             }
 
             if ($rec['vq_date']) {
-                $rec['prg_validity'] = $this->lng->txt('prg_renewal_required');
+                $rec['prg_validity'] = $this->lng->txt('prg_not_valid');
                 if ($rec["vq_date"] > $now) {
                     $rec['prg_validity'] = $this->lng->txt('prg_still_valid');
                 }
@@ -563,7 +563,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         return [
             self::VALIDITY_OPTION_VALID => $this->lng->txt("prg_still_valid"),
-            self::VALIDITY_OPTION_RENEWAL_REQUIRED => $this->lng->txt("prg_renewal_required")
+            self::VALIDITY_OPTION_RENEWAL_REQUIRED => $this->lng->txt("prg_not_valid")
         ];
     }
 
