@@ -3,9 +3,9 @@
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\AbstractAvatar;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
 
-class Letter extends AbstractAvatar implements C\Symbol\Avatar\Letter
+class Letter extends Avatar implements C\Symbol\Avatar\Letter
 {
 
     public function getAbbreviation() : string

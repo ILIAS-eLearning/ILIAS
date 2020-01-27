@@ -7,7 +7,7 @@ use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 
-abstract class AbstractAvatar implements C\Symbol\Avatar\Avatar
+abstract class Avatar implements C\Symbol\Avatar\Avatar
 {
 
     use ComponentHelper;
@@ -19,7 +19,6 @@ abstract class AbstractAvatar implements C\Symbol\Avatar\Avatar
 
     public function __construct(string $username)
     {
-        $this->checkStringArg('string', $username);
         $this->username = $username;
     }
 

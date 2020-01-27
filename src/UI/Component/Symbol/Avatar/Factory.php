@@ -15,11 +15,14 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Picture Avatar is used to represent a specific user whenever an user-uploaded picture is available or a deputy-picture is used.
+     *     The Picture Avatar is used to represent a specific user whenever an
+     *     user-uploaded picture is available or a deputy-picture is used.
      *   effect: >
-     *     The Avatar itself has no own interaction but can be used in a context which triggers further actions (such as a Bulky Button in the Meta Bar).
+     *     The Avatar itself has no own interaction but can be used in a context
+     *     which triggers further actions (such as a Bulky Button in the Meta Bar).
      *   rivals:
-     *     Letter Avatar: if the user has no self uploaded user picture, the Letter Avatar MUST be used.
+     *     Letter Avatar: if the user has no self uploaded user picture, the
+     *     Letter Avatar MUST be used.
      * context:
      *   1: user slate in the Meta Bar
      *   2: members gallery in a course
@@ -43,11 +46,14 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     The Letter Avatar is used to represent a specific user whenever no picture is available.
+     *     The Letter Avatar is used to represent a specific user whenever no
+     *     picture is available.
      *   effect: >
-     *     The Avatar itself has no own interaction but can be used in a context which triggers further actions (such as a Bulky Button in the Meta Bar).
+     *     The Avatar itself has no own interaction but can be used in a context
+     *     which triggers further actions (such as a Bulky Button in the Meta Bar).
      *   rivals:
-     *     Picture Avatar: if the user has no self uploaded user picture, the Letter Avatar MUST be used.
+     *     Picture Avatar: if the user has no self uploaded user picture, the
+     *     Letter Avatar MUST be used.
      *   composition: >
      *     The abbreviation is displayed with two letters in white color.
      *     the background is colored in one of
@@ -57,7 +63,8 @@ interface Factory
      *   3: forum posts
      * rules:
      *   usage:
-     *     1: whenever a specific user is represented with a graphical item and no specific picture can be used.
+     *     1: whenever a specific user is represented with a graphical item and
+     *     no specific picture can be used.
      *   responsiveness:
      *     1: the avatar MUST adjust it's size to the parent container.
      *   accessibility:

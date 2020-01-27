@@ -3,38 +3,29 @@
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Symbol\Icon\AbstractAvatar;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Avatar;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
 
-    protected function getTemplateFilename()
-    {
-        return 'tpl.avatar.html';
-    }
-
-    /**
-     * @inheritdocs
-     */
     public function render(Component\Component $component, RendererInterface $default_renderer)
     {
         $this->checkComponent($component);
         /**
-         * @var $component AbstractAvatar
+         * @var $component Avatar
          */
 
-        $tpl_file = $this->getTemplateFilename();
-        $tpl      = $this->getTemplate($tpl_file, true, true);
-
-        $tpl->setVariable('ARIA_LABEL', $component->getUsername());
-
         if ($component instanceof Component\Symbol\Avatar\Letter) {
+            $tpl = $this->getTemplate('tpl.avatar_letter.html', true, true);
+            $tpl->setVariable('ARIA_LABEL', $component->getUsername());
             $tpl->setVariable('MODE', 'letter');
             $tpl->setVariable('TEXT', $component->getAbbreviation());
-            $tpl->setVariable('COLOR', (string)$component->getBackgroundColorVariant());
+            $tpl->setVariable('COLOR', (string) $component->getBackgroundColorVariant());
         } elseif ($component instanceof Component\Symbol\Avatar\Picture) {
+            $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
+            $tpl->setVariable('ARIA_LABEL', $component->getUsername());
             $tpl->setVariable('MODE', 'picture');
             $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
         }
@@ -44,9 +35,6 @@ class Renderer extends AbstractComponentRenderer
         return $str;
     }
 
-    /**
-     * @inheritdocs
-     */
     protected function getComponentInterfaceName()
     {
         return array(
