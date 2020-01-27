@@ -11316,6 +11316,7 @@ prtt#:#prtt_new#:#Neue Portfoliovorlage anlegen
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
 prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
+ps#:#ps_participants_list_courses#:#Aktivierung der Teilnehmerliste der Mitgliedergalerie in Kursen zulassen
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
 ps#:#crs_ps_required_info#:#Für die Teilnahme an diesem Kurs werden weitere Informationen benötigt.
