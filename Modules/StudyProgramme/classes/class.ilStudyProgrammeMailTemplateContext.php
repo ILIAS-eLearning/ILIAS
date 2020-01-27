@@ -195,9 +195,9 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $now = (new DateTime())->format('Y-m-d H:i:s');
                 $vq_date = $progress->getValidityOfQualification()->format('Y-m-d H:i:s');
 
-                $string = $this->lng->txt('prg_renewal_required');
+                $string = $this->lng->txt('prg_quali_not_valid');
                 if ($vq_date > $now) {
-                    $string = $this->lng->txt('prg_still_valid');
+                    $string = $this->lng->txt('prg_quali_still_valid');
                 }
                 break;
             case self::VALIDITY:
