@@ -135,24 +135,28 @@
     },
     {
         "name": "enshrined/svg-sanitize",
-        "version": "0.10.0",
-        "version_normalized": "0.10.0.0",
+        "version": "0.13.3",
+        "version_normalized": "0.13.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/darylldoyle/svg-sanitizer.git",
-            "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82"
+            "reference": "bc66593f255b7d2613d8f22041180036979b6403"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/5344d8511e494adf160f71f4b34024d3a3c66c82",
-            "reference": "5344d8511e494adf160f71f4b34024d3a3c66c82",
+            "url": "https://api.github.com/repos/darylldoyle/svg-sanitizer/zipball/bc66593f255b7d2613d8f22041180036979b6403",
+            "reference": "bc66593f255b7d2613d8f22041180036979b6403",
             "shasum": ""
+        },
+        "require": {
+            "ext-dom": "*",
+            "ext-libxml": "*"
         },
         "require-dev": {
             "codeclimate/php-test-reporter": "^0.1.2",
             "phpunit/phpunit": "^6"
         },
-        "time": "2019-01-11T12:31:32+00:00",
+        "time": "2020-01-20T01:34:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -162,7 +166,7 @@
         },
         "notification-url": "https://packagist.org/downloads/",
         "license": [
-            "GPL-2.0+"
+            "GPL-2.0-or-later"
         ],
         "authors": [
             {
@@ -394,12 +398,12 @@
         "version_normalized": "2.3.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/mlocati/cldr-to-gettext-plural-rules.git",
+            "url": "https://github.com/php-gettext/Languages.git",
             "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/mlocati/cldr-to-gettext-plural-rules/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
+            "url": "https://api.github.com/repos/php-gettext/Languages/zipball/49c39e51569963cc917a924b489e7025bfb9d8c7",
             "reference": "49c39e51569963cc917a924b489e7025bfb9d8c7",
             "shasum": ""
         },

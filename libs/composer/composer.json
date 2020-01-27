@@ -29,7 +29,7 @@
 		"jumbojett/openid-connect-php": "^0.7.0",
 		"sabre/dav": "~3.2.2",
 		"slim/slim": "^3.11",
-		"enshrined/svg-sanitize": "^0.10.0"
+		"enshrined/svg-sanitize": "^0.13.0"
 	},
 	"require-dev": {
 		"mikey179/vfsStream": "^1.6",
