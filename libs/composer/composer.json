@@ -384,7 +384,7 @@
 		},
 		"enshrined/svg-sanitize" : {
 			"source" : "https://github.com/darylldoyle/svg-sanitizer",
-			"used_version" : "v0.13.x",
+			"used_version" : "v0.13.3",
 			"wrapped_by" : "Services/MediaObject",
 			"added_by" : "Alex Killing <killing@leifos.de>",
 			"last_update" : "2020-01-27",
