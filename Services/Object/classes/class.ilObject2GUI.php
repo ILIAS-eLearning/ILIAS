@@ -655,7 +655,6 @@ abstract class ilObject2GUI extends ilObjectGUI
     }
     final protected function getTabs()
     {
-        nj();
         die("ilObject2GUI::getTabs() is deprecated.");
     }
     final protected function __showButton($a_cmd, $a_text, $a_target = '')

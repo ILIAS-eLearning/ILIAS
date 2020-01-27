@@ -1425,7 +1425,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             #"objective_view = '0', ".
             "1, " .
             "1," .
-            '1,' .
+            '0,' .
             $ilDB->quote($this->isSessionLimitEnabled(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
@@ -1477,7 +1477,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableWaitingList($row->waiting_list);
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
-            $this->setShowMembersExport($row->show_members_export);
+
+            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+                $this->setShowMembersExport($row->show_members_export);
+            }
+            else {
+                $this->setShowMembersExport(false);
+            }
             $this->setLatitude($row->latitude);
             $this->setLongitude($row->longitude);
             $this->setLocationZoom($row->location_zoom);

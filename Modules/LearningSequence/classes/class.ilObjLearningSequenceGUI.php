@@ -65,6 +65,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     const CMD_CANCEL_DELETE = "cancelDelete";
     const CMD_DELETE_CONFIRMED = "confirmedDelete";
     const CMD_PERFORM_PASTE = 'performPasteIntoMultipleObjects';
+    const CMD_SHOW_TRASH = 'trash';
+    const CMD_UNDELETE = 'undelete';
 
     const TAB_VIEW_CONTENT = "view_content";
     const TAB_MANAGE = "manage";
@@ -248,6 +250,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
                         break;
                     case self::CMD_PERFORM_PASTE:
                         $this->performPasteIntoMultipleObjectsObject();
+                        break;
+                    case self::CMD_SHOW_TRASH:
+                        $this->trashObject();
+                        break;
+                    case self::CMD_UNDELETE:
+                        $this->undeleteObject();
                         break;
 
                     case self::CMD_CANCEL_CUT:
