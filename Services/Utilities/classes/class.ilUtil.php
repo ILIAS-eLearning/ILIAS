@@ -3840,7 +3840,7 @@ class ilUtil
             $UploadResult = $upload->getResults()[$a_file];
             $ProcessingStatus = $UploadResult->getStatus();
             if ($ProcessingStatus->getCode() === ProcessingStatus::REJECTED) {
-                throw new ilException($ProcessingStatus->getMessage());
+                throw new ilException($ProcessingStatus->getMessage()." ($targetFilename)");
             }
         } catch (ilException $e) {
             if ($a_raise_errors) {
