@@ -16,6 +16,7 @@ use ILIAS\UI\Component\Symbol\Symbol;
 class ilHelpViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+    use ilHelpDisplayed;
 
     /**
      * @inheritDoc
@@ -30,6 +31,9 @@ class ilHelpViewLayoutProvider extends AbstractModificationProvider implements M
      */
     public function getMainBarModification(CalledContexts $called_contexts) : ?MainBarModification
     {
+        if (!$this->showHelpTool()) {
+            return null;
+        }
         $this->globalScreen()->collector()->mainmenu()->collectOnce();
         foreach ($this->globalScreen()->collector()->mainmenu()->getRawItems() as $item) {
             $p = $item->getProviderIdentification();
