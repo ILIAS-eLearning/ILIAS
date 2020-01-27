@@ -201,7 +201,7 @@ Usually Apache ships with a default configuration (e.g. ```/etc/apache2/sites-en
 
     DocumentRoot /var/www/html/ilias/
     <Directory /var/www/html/>
-        Options FollowSymLinks
+        Options FollowSymLinks -Indexes
         AllowOverride All
         Require all granted
     </Directory>
