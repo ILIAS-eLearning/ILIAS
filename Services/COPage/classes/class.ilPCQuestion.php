@@ -367,7 +367,7 @@ class ilPCQuestion extends ilPageContent
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             $js_files[] = "./Modules/Scorm2004/scripts/questions/pure.js";
             $js_files[] = "./Modules/Scorm2004/scripts/questions/question_handling.js";
-            //$js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
+            $js_files[] = "Modules/TestQuestionPool/js/ilMatchingQuestion.js";
             
             foreach ($this->getPage()->getQuestionIds() as $qId) {
                 $qstGui = assQuestionGUI::_getQuestionGUI('', $qId);
