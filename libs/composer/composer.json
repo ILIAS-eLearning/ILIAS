@@ -384,10 +384,10 @@
 		},
 		"enshrined/svg-sanitize" : {
 			"source" : "https://github.com/darylldoyle/svg-sanitizer",
-			"used_version" : "v0.10.0",
+			"used_version" : "v0.13.x",
 			"wrapped_by" : "Services/MediaObject",
 			"added_by" : "Alex Killing <killing@leifos.de>",
-			"last_update" : "2019-09-19",
+			"last_update" : "2020-01-27",
 			"last_update_by" : "Alex Killing <killing@leifos.de>",
 			"approved-by": "see security issue 20339",
 			"approved-date": "2017-04-05"
