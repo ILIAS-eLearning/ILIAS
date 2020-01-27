@@ -1,18 +1,21 @@
 <?php
 
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
 
 /**
  * Class ilHelpGSToolProvider
- *
  * @author Alex Killing <killing@leifos.com>
  */
 class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 {
     const SHOW_HELP_TOOL = 'show_help_tool';
-
+    use ilHelpDisplayed;
+    use Hasher;
 
     /**
      * @inheritDoc
@@ -21,7 +24,6 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
     {
         return $this->context_collection->main();
     }
-
 
     /**
      * @inheritDoc
@@ -37,86 +39,59 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $tools = [];
 
         $title = $lng->txt("help");
-        $icon = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
+        $icon  = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
 
         if ($this->showHelpTool()) {
             $iff = function ($id) {
                 return $this->identification_provider->contextAwareIdentifier($id, true);
             };
-            $l = function (string $content) {
+            $l   = function (string $content) {
                 return $this->dic->ui()->factory()->legacy($content);
             };
 
-            $tools[] = $this->factory->tool($iff("help"))
-                ->withInitiallyHidden(false)
-                ->withTitle($title)
-                ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l) {
-                    return $l($this->getHelpContent());
-                })
-                ->withPosition(90);
+            $identification = $iff("help");
+            //$hashed = $this->hash($identification->serialize());
+            $tools[]        = $this->factory->tool($identification)
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+                                         if ($c instanceof LegacySlate) {
+                                             $signal_id = $c->getToggleSignal()->getId();
+                                             return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $signal_id){
+                                                 return "
+                                                 $('body').on('il-help-toggle-slate', function(){
+                                                    $(document).trigger('$signal_id',
+                                                    {
+                                                        'id' : '$signal_id', 'event' : 'click',
+                                                        'triggerer' : $(document),
+                                                        'options' : JSON.parse('[]')
+                                                    }
+                                                    );
+                                                 });";
+                                             });
+                                         }
+                                         return $c;
+                                     })
+                                     ->withInitiallyHidden(false)
+                                     ->withTitle($title)
+                                     ->withSymbol($icon)
+                                     ->withContentWrapper(function () use ($l) {
+                                         return $l($this->getHelpContent());
+                                     })
+                                     ->withPosition(90);
         }
 
         return $tools;
     }
 
-
-    /**
-     * Show help tool?
-     *
-     * @param
-     *
-     * @return
-     */
-    protected function showHelpTool() : bool
-    {
-        static $show;
-        if (!isset($show)) {
-            global $DIC;
-
-            $user = $DIC->user();
-            $settings = $DIC->settings();
-
-            if ($user->getLanguage() != "de") {
-                return $show = false;
-            }
-
-            if (ilSession::get("show_help_tool") != "1") {
-                return $show = false;
-            }
-
-            if ($settings->get("help_mode") == "2") {
-                return $show = false;
-            }
-
-            if ((defined("OH_REF_ID") && OH_REF_ID > 0)) {
-                return $show = true;
-            } else {
-                $module = (int) $settings->get("help_module");
-                if ($module == 0) {
-                    return $show = false;
-                }
-            }
-
-            return $show = true;
-        }
-
-        return $show;
-    }
-
-
     /**
      * help
-     *
      * @param int $ref_id
-     *
      * @return string
      */
     private function getHelpContent() : string
     {
         global $DIC;
 
-        $ctrl = $DIC->ctrl();
+        $ctrl     = $DIC->ctrl();
         $main_tpl = $DIC->ui()->mainTemplate();
 
         /** @var ilHelpGUI $help_gui */
