@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "93545d02a1b6a175c1bb7f24acb5123a",
+    "content-hash": "c59f025bfbd9e444c7e1fe85b59b83be",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -285,20 +285,20 @@
         },
         {
             "name": "geshi/geshi",
-            "version": "dev-master",
+            "version": "v1.0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GeSHi/geshi-1.0.git",
-                "reference": "5861c58981244ab6ee0dd337f096ff14bf15b1eb"
+                "reference": "fd22ab78481bf90337862b590e6f7517863926b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/5861c58981244ab6ee0dd337f096ff14bf15b1eb",
-                "reference": "5861c58981244ab6ee0dd337f096ff14bf15b1eb",
+                "url": "https://api.github.com/repos/GeSHi/geshi-1.0/zipball/fd22ab78481bf90337862b590e6f7517863926b8",
+                "reference": "fd22ab78481bf90337862b590e6f7517863926b8",
                 "shasum": ""
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.7"
+                "phpunit/phpunit": "^5.7 || ^6.5 || ^7.5 || ^8.2"
             },
             "type": "library",
             "autoload": {
@@ -321,7 +321,7 @@
             ],
             "description": "Generic Syntax Highlighter",
             "homepage": "http://qbnz.com/highlighter/",
-            "time": "2018-10-01T23:49:06+00:00"
+            "time": "2019-10-20T20:54:46+00:00"
         },
         {
             "name": "gettext/gettext",
@@ -5713,9 +5713,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "geshi/geshi": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
