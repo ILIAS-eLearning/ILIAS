@@ -9547,6 +9547,12 @@ footer {
 .il-mainbar-tools-entries .il-link.link-bulky .icon {
   filter: invert(100%);
 }
+.il-mainbar-tools-entries .btn-bulky .bulky-label,
+.il-mainbar-tools-entries .btn-bulky .bulky-label,
+.il-mainbar-tools-entries .il-link.link-bulky .bulky-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 .il-mainbar-tools-entries .btn-bulky.engaged,
 .il-mainbar-tools-entries .btn-bulky.engaged,
 .il-mainbar-tools-entries .il-link.link-bulky.engaged {
@@ -9669,6 +9675,15 @@ footer {
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
     font-size: 4rem;
     height: 50px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .il-mainbar-tool-trigger-item:nth-of-type(1):nth-last-of-type(5) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(2):nth-last-of-type(4) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(3):nth-last-of-type(3) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(4):nth-last-of-type(2) .btn-bulky,
+  .il-mainbar-tool-trigger-item:nth-of-type(5):nth-last-of-type(1) .btn-bulky {
+    width: 63px;
   }
 }
 .il-maincontrols-footer {
@@ -18876,4 +18891,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
