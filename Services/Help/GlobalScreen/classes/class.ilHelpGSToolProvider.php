@@ -50,27 +50,25 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             };
 
             $identification = $iff("help");
-            //$hashed = $this->hash($identification->serialize());
+            $hashed = $this->hash($identification->serialize());
             $tools[]        = $this->factory->tool($identification)
-                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
                                          if ($c instanceof LegacySlate) {
                                              $signal_id = $c->getToggleSignal()->getId();
                                              return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $signal_id){
                                                  return "
                                                  $('body').on('il-help-toggle-slate', function(){
-                                                    $(document).trigger('$signal_id',
-                                                    {
-                                                        'id' : '$signal_id', 'event' : 'click',
-                                                        'triggerer' : $(document),
-                                                        'options' : JSON.parse('[]')
+                                                    if (!$('#$id').hasClass('disengaged')) {
+                                                        il.UI.maincontrols.mainbar.disengageAll();
+                                                    } else {
+                                                        il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                     }
-                                                    );
                                                  });";
                                              });
                                          }
                                          return $c;
                                      })
-                                     ->withInitiallyHidden(false)
+                                     ->withInitiallyHidden(true)
                                      ->withTitle($title)
                                      ->withSymbol($icon)
                                      ->withContentWrapper(function () use ($l) {
