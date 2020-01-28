@@ -6814,6 +6814,11 @@ button.close {
   line-height: 21px;
   order: 1;
 }
+.panel-flex .ilBlockHeader h4 {
+  flex-grow: 99;
+  flex-shrink: 1;
+  order: 1;
+}
 .panel-flex .panel-heading .dropdown {
   flex-grow: 1;
   flex-shrink: 0;
@@ -18880,4 +18885,3 @@ table.mceToolbar td {
   border: 1px solid #ddd;
   border-radius: .25em;
 }
-/*# sourceMappingURL=delos.css.map */
