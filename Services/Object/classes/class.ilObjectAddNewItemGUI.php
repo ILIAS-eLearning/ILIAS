@@ -308,7 +308,7 @@ class ilObjectAddNewItemGUI
         
         include_once("./Services/UIComponent/GroupedList/classes/class.ilGroupedListGUI.php");
         $gl = new ilGroupedListGUI();
-        $gl->setAsDropDown(true, true);
+        $gl->setAsDropDown(true, false);
 
         foreach ($this->sub_objects as $item) {
             switch ($item["type"]) {
