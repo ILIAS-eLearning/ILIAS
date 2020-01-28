@@ -9361,6 +9361,14 @@ footer {
   .il-metabar-slates .il-counter-spacer {
     margin-left: -18px;
   }
+  .il-metabar-more-slate .btn-bulky:after {
+    content: "\e606";
+    font-family: "il-icons";
+    font-size: 1.7rem;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+  }
 }
 /*end of hack*/
 .il-maincontrols-mainbar .btn-bulky,
