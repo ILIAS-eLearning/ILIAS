@@ -55,9 +55,6 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             };
 
             $identification = $iff("help");
-            //var_dump($hidden);
-            //exit;
-            $hidden = false;
             $hashed = $this->hash($identification->serialize());
             $tools[]        = $this->factory->tool($identification)
                                             ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden): ILIAS\UI\Component\Component {
