@@ -264,11 +264,23 @@ class ilPortfolioPage extends ilPageObject
     /**
      * Lookup title
      *
-     * @param int $a_page_id
+     * @param $a_page_id
+     * @return mixed
      */
     public static function lookupTitle($a_page_id)
     {
         return self::lookupProperty($a_page_id, "title");
+    }
+
+    /**
+     * Lookup type
+     *
+     * @param $a_page_id
+     * @return mixed
+     */
+    public static function lookupType($a_page_id)
+    {
+        return self::lookupProperty($a_page_id, "type");
     }
 
     /**
