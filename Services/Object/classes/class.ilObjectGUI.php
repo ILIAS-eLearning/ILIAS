@@ -1030,27 +1030,27 @@ class ilObjectGUI
             $newObj->setType($new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
-            $newObj->create();
-            
-            $this->putObjectInTree($newObj);
+            if($newObj->create()) {
+                $this->putObjectInTree($newObj);
 
-            // apply didactic template?
-            $dtpl = $this->getDidacticTemplateVar("dtpl");
-            if ($dtpl) {
-                $newObj->applyDidacticTemplate($dtpl);
+                // apply didactic template?
+                $dtpl = $this->getDidacticTemplateVar("dtpl");
+                if ($dtpl) {
+                    $newObj->applyDidacticTemplate($dtpl);
+                }
+
+                // auto rating
+                $this->handleAutoRating($newObj);
+
+                // additional paramters are added to afterSave()
+                $args = func_get_args();
+                if ($args) {
+                    $this->afterSave($newObj, $args);
+                } else {
+                    $this->afterSave($newObj);
+                }
+                return;
             }
-            
-            // auto rating
-            $this->handleAutoRating($newObj);
-            
-            // additional paramters are added to afterSave()
-            $args = func_get_args();
-            if ($args) {
-                $this->afterSave($newObj, $args);
-            } else {
-                $this->afterSave($newObj);
-            }
-            return;
         }
 
         // display only this form to correct input

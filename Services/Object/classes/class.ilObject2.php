@@ -142,6 +142,7 @@ abstract class ilObject2 extends ilObject
                 return $id;
             }
         }
+        return false;
     }
 
     protected function doCreate()
