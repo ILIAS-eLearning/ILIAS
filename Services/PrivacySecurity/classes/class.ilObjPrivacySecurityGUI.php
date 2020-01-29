@@ -175,6 +175,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($privacy->enabledCourseAccessTimes()) {
             $value[] = "crs_access_times";
         }
+        if ($privacy->participantsListInCoursesEnabled()) {
+            $value[] = 'participants_list_courses';
+        }
         $group = new ilCheckboxGroupInputGUI($this->lng->txt('ps_profile_export'), 'profile_protection');
         $group->setValue($value);
         $check = new ilCheckboxOption();
@@ -202,7 +205,11 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check->setValue('crs_access_times');
         $group->addOption($check);
         $form->addItem($group);
-        
+        $check = new \ilCheckboxOption();
+        $check->setTitle($this->lng->txt('ps_participants_list_courses'));
+        $check->setValue('participants_list_courses');
+        $group->addOption($check);
+
         include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_PRIVACY,
@@ -285,7 +292,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             'export_confirm_course' => $privacy->courseConfirmationRequired(),
             'export_confirm_group' => $privacy->groupConfirmationRequired(),
             'crs_access_times' => $privacy->enabledCourseAccessTimes(),
-            'grp_access_times' => $privacy->enabledGroupAccessTimes()
+            'grp_access_times' => $privacy->enabledGroupAccessTimes(),
+            'participants_list_courses' => $privacy->participantsListInCoursesEnabled()
         );
     
         $privacy->enableCourseExport((int) in_array('export_course', $_POST['profile_protection']));
@@ -294,6 +302,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $privacy->setGroupConfirmationRequired((int) in_array('export_confirm_group', $_POST['profile_protection']));
         $privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
         $privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
+        $privacy->enableParticipantsListInCourses((bool) in_array('participants_list_courses', $_POST['profile_protection']));
         
         // validate settings
         $code = $privacy->validate();
@@ -399,7 +408,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                 $subitems = array(
                     'ps_export_course' => array($privacy->enabledCourseExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
                     'ps_export_confirm' => array($privacy->courseConfirmationRequired(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
-                    'ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
+                    'ps_show_crs_access' => array($privacy->enabledCourseAccessTimes(), ilAdministrationSettingsFormHandler::VALUE_BOOL),
+                    'ps_participants_list_courses' => [$privacy->participantsListInCoursesEnabled(), \ilAdministrationSettingsFormHandler::VALUE_BOOL]
                 );
                 $fields = array(
                     'ps_profile_export' => array(null, null, $subitems)
