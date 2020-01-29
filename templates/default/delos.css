@@ -7126,6 +7126,10 @@ button.close {
 .btn {
   font-size: 12px;
 }
+.btn:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
 input.btn {
   display: inline-block;
   min-width: 60px;
@@ -7279,8 +7283,6 @@ fieldset[disabled] .btn.btn-tag.active {
 .btn.btn-tag.engaged,
 .btn.engaged:hover,
 .btn.btn-tag.engaged:hover,
-.btn.engaged:focus,
-.btn.btn-tag.engaged:focus,
 .btn.engaged:active,
 .btn.btn-tag.engaged:active,
 .btn.engaged.active,
@@ -9202,8 +9204,7 @@ footer {
   background-color: #fff;
   border: 0;
 }
-.il-maincontrols-slate-close .btn-bulky:active,
-.il-maincontrols-slate-close .btn-bulky:focus {
+.il-maincontrols-slate-close .btn-bulky:active {
   outline: none;
 }
 @media only screen and (max-width: 768px) {
@@ -9279,8 +9280,7 @@ footer {
 .il-metabar-entries .btn-bulky:active {
   box-shadow: none;
 }
-.il-metabar-entries .btn-bulky.engaged,
-.il-metabar-entries .btn-bulky.engaged:focus {
+.il-metabar-entries .btn-bulky.engaged {
   box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.1);
   background-color: #fafafa;
   border: none;
@@ -9400,8 +9400,6 @@ footer {
   margin-top: 5px;
   display: block;
 }
-.il-maincontrols-mainbar .btn:focus,
-.il-maincontrols-metabar .btn:focus,
 .il-maincontrols-mainbar .btn:active,
 .il-maincontrols-metabar .btn:active {
   outline: 0;
@@ -9466,10 +9464,6 @@ footer {
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover {
   transition: all 0.15s ease-in;
-}
-.il-mainbar-triggers .btn-bulky:focus,
-.il-mainbar-triggers .il-link.link-bulky:focus {
-  outline: none;
 }
 .il-mainbar-triggers .btn-bulky .glyph,
 .il-mainbar-triggers .il-link.link-bulky .glyph {
@@ -9613,9 +9607,6 @@ footer {
   height: 80px;
   padding: 0 20px;
   width: auto;
-}
-.il-mainbar-remove-tool .close:focus {
-  outline: none;
 }
 .il-mainbar-close-slates {
   align-items: flex-end;
@@ -10849,6 +10840,10 @@ footer {
 .glyphicon-user:before {
   font-family: il-icons;
   content: "\e001";
+}
+.il-link:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
 }
 .il-link.link-bulky {
   display: flex;
