@@ -49,9 +49,6 @@ interface Factory
      *     1: >
      *        Scrollable areas of the Standard Page MUST be scrollable by only using
      *        the keyboard.
-     *     2: >
-     *        The element carrying the focus (e.g. by tabbing) in the Standard Layout
-     *        MUST always be visibly marked (e.g. by some sort of highlighting).
      * ----
      *
      * @param  \ILIAS\UI\Component\Component[] $content
