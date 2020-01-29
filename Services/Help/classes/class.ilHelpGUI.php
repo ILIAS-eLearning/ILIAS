@@ -444,7 +444,17 @@ class ilHelpGUI
             }
         }
     }
-    
+
+    /**
+     * Is help page active?
+     * @param
+     * @return
+     */
+    public function isHelpPageActive()
+    {
+        return (ilSession::get("help_pg") > 0);
+    }
+
     /**
      * Deactivate tooltips
      *
