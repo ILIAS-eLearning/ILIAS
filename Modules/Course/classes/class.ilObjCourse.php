@@ -1149,6 +1149,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $crs_objective = new ilCourseObjective($this);
         $crs_objective->ilClone($a_target_id, $a_copy_id);
         
+        // clone membership limitation
+        foreach (\ilObjCourseGrouping::_getGroupings($this->getId()) as $grouping_id) {
+            \ilLoggerFactory::getLogger('crs')->info('Handling grouping id: ' . $grouping_id);
+            $grouping = new \ilObjCourseGrouping($grouping_id);
+            $grouping->cloneGrouping($a_target_id, $a_copy_id);
+        }
+
         return true;
     }
     
