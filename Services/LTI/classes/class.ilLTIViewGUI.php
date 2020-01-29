@@ -21,6 +21,8 @@
 	+-----------------------------------------------------------------------------+
 */
 
+use ILIAS\LTI\Screen\LtiViewLayoutProvider;
+
 /**
  * @classDescription class for ILIAS ViewLTI
  * 
@@ -111,14 +113,12 @@ class ilLTIViewGUI
 		*/ 
 	}
 
-	/**
-	 * for ctrl commands
-	 */ 
 	public function executeCommand() {
 		global $ilCtrl;
 		$cmd = $ilCtrl->getCmd();
 		switch ($cmd) {
 			case 'exit' :
+				$this->logout();
 				$this->exitLti();
 			break;
 		}
@@ -151,11 +151,8 @@ class ilLTIViewGUI
 		$this->log->info("lti view deactivated");
 	}
 
-	/** 
-	 * LTI is active
-	 * @return boolean
-	 * */
-	public function isActive() 
+
+	public function isActive() : bool
 	{
 		return (isset($_SESSION['il_lti_mode']));
 	}
@@ -189,9 +186,6 @@ class ilLTIViewGUI
 		}
 	}
 
-	/**
-	 * helper function for home link creation
-	 */ 
 	public function getHomeLink() 
 	{
 		return $_SESSION['lti_link_dir']."goto.php?target=".$_SESSION['lti_home_type']."_".$_SESSION['lti_home_id'];
@@ -199,31 +193,26 @@ class ilLTIViewGUI
 
 	public function getHomeTitle() 
 	{
-		return ilObject::_lookupTitle($_SESSION['lti_home_obj_id']);
-	}
-	
-	public function getTitleBar($withExitText) {
-		$tplMetaBar = new ilTemplate("tpl.lti_metabar.html", true, true, "Services/LTI");
-		$tplMetaBar->setVariable('LTI_METABAR_TITLE',$this->getTitle());
-		if ($withExitText) {
-			$tplMetaBar->setVariable('LTI_METABAR_EXIT',$this->lng->txt('lti_exit'));
-		}
-		else {
-			$tplMetaBar->setVariable('LTI_METABAR_EXIT','');
-		}
-		$html = $tplMetaBar->get();
-		return $html;
+		return ilObject::_lookupTitle($_SESSION['lti_home_obj_id']) ?? '';
 	}
 
-	public function getTitle() {
+	public function getTitle(): string
+	{
 		return $this->getShortTitle() . ": " . $this->getViewTitle();
 	}
 
-	public function getShortTitle() {
+	public function getTitleForExitPage(): string
+	{
+		return $this->lng->txt('lti_exited');
+	}
+
+	public function getShortTitle(): string
+	{
 		return $this->lng->txt('lti_mode'); 
 	}
 
-	public function getViewTitle() {
+	public function getViewTitle(): string
+	{
 		return $this->getHomeTitle(); 
 	}
 
@@ -233,21 +222,23 @@ class ilLTIViewGUI
 	 */
 	public function exitLti() 
 	{
-		$this->dic->logger()->lti()->info("exitLTI");
-		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') { // ToDo
-			$tplExit = new ilTemplate("tpl.lti_exit.html", true, true, "Services/LTI");
-			$tplExit->setVariable('TXT_LTI_EXITED',$this->lng->txt('lti_exited'));
-			$tplExit->setVariable('LTI_EXITED_INFO',$this->lng->txt('lti_exited_info'));
-			$html = $tplExit->get();
-			$this->logout();
-			print $html;
-			exit;
-		}
-		else {
-			$this->logout();
+		if ($this->getSessionValue('lti_launch_presentation_return_url') === '') {
+			$cc = $this->dic->globalScreen()->tool()->context()->current();
+			$cc->addAdditionalData(LtiViewLayoutProvider::GS_EXIT_LTI, true);
+
+			$ui_factory = $this->dic->ui()->factory();
+			$renderer = $this->dic->ui()->renderer();
+			$content = [
+				$ui_factory->messageBox()->info($this->lng->txt('lti_exited_info'))
+			];
+
+			$tpl = $this->dic["tpl"];
+			$tpl->setContent($renderer->render($content));
+			$tpl->printToStdout();
+
+		} else {
 			header('Location: ' . $_SESSION['lti_launch_presentation_return_url']);
-			exit; 
-		}	
+		}
 	}
 
 	/**
@@ -258,9 +249,7 @@ class ilLTIViewGUI
 		$this->dic->logger()->lti()->info("logout");
 		$this->deactivate();
 		ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER);
-		//$this->dic['ilAuthSession']->logout();
 		$GLOBALS['DIC']['ilAuthSession']->logout();
-		// reset cookie
 		$client_id = $_COOKIE["ilClientId"];
 		ilUtil::setCookie("ilClientId","");
 	}

@@ -5,3 +5,7 @@
     right: 70px;
     top: 18px;
 }
+
+.il-maincontrols-metabar .il-metabar-entries .btn-bulky .bulky-label {
+	display: block !important;
+}
