@@ -59,7 +59,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                                  return "
                                                  $('body').on('il-help-toggle-slate', function(){
                                                     if (!$('#$id').hasClass('disengaged')) {
-                                                        il.UI.maincontrols.mainbar.disengageAll();
+                                                        il.UI.maincontrols.mainbar.removeTool('$hashed');
                                                     } else {
                                                         il.UI.maincontrols.mainbar.engageTool('$hashed');
                                                     }
