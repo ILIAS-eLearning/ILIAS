@@ -31,16 +31,16 @@ class LtiViewLayoutProvider extends AbstractModificationProvider implements Modi
 
     protected function isLTIMode(): bool
     {
-        return true;
-        return false;
-        //return $this->dic["lti"]->isActive();
+        //return true;
+        //return false;
+        return $this->dic["lti"]->isActive();
     }
 
 
     public function isInterestedInContexts() : ContextCollection
     {
-        return $this->context_collection->main();
-        //return $this->context_collection->lti();
+        //return $this->context_collection->main();
+        return $this->context_collection->lti();
     }
 
     /**
