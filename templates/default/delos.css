@@ -6920,10 +6920,11 @@ button.close {
   padding-bottom: 3px;
 }
 .il-card {
-  padding: 0;
+  padding: 0 0 6px 0;
   width: 100%;
   position: relative;
-  background-color: white;
+  background-color: #f9f9f9;
+  border: none;
   /* see bug #24947 */
 }
 .il-card img {
@@ -6945,16 +6946,18 @@ button.close {
   height: 3px;
   width: 100%;
 }
+.il-card .caption {
+  padding-top: 6px;
+}
+.il-card .caption h5 {
+  margin: 6px 0 0 0;
+}
 .il-card .caption .card-title {
   overflow-wrap: break-word;
-}
-.il-card .caption:nth-of-type(1n+3) {
-  border-top: 1px solid #ddd;
 }
 .il-card .caption dl dt {
   font-weight: normal;
   color: #909090;
-  font-size: 12px;
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
