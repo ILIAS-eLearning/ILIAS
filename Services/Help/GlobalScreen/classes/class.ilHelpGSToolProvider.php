@@ -32,11 +32,16 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
 
+        /** @var ilHelpGUI $help_gui */
+        $help_gui = $DIC["ilHelp"];
+
         $lng = $DIC->language();
         $lng->loadLanguageModule("help");
         $f = $DIC->ui()->factory();
 
         $tools = [];
+
+        $hidden = !$help_gui->isHelpPageActive();
 
         $title = $lng->txt("help");
         $icon  = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
@@ -50,15 +55,18 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
             };
 
             $identification = $iff("help");
+            //var_dump($hidden);
+            //exit;
             $hashed = $this->hash($identification->serialize());
             $tools[]        = $this->factory->tool($identification)
-                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed): ILIAS\UI\Component\Component {
+                                            ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) use ($hashed, $hidden): ILIAS\UI\Component\Component {
                                          if ($c instanceof LegacySlate) {
                                              $signal_id = $c->getToggleSignal()->getId();
-                                             return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $signal_id){
+                                             return $c->withAdditionalOnLoadCode(static function ($id) use ($hashed, $hidden){
                                                  return "
                                                  $('body').on('il-help-toggle-slate', function(){
                                                     if (!$('#$id').hasClass('disengaged')) {
+                                                        il.Help.resetCurrentPage();
                                                         il.UI.maincontrols.mainbar.removeTool('$hashed');
                                                     } else {
                                                         il.UI.maincontrols.mainbar.engageTool('$hashed');
@@ -68,7 +76,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
                                          }
                                          return $c;
                                      })
-                                     ->withInitiallyHidden(true)
+                                     ->withInitiallyHidden($hidden)
                                      ->withTitle($title)
                                      ->withSymbol($icon)
                                      ->withContentWrapper(function () use ($l) {
