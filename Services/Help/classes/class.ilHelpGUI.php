@@ -420,6 +420,8 @@ class ilHelpGUI
         ilYuiUtil::initConnection();
         $a_tpl->addJavascript("./Services/Help/js/ilHelp.js");
         $a_tpl->addJavascript("./Services/Accordion/js/accordion.js");
+        iljQueryUtil::initMaphilight();
+        $a_tpl->addJavascript("./Services/COPage/js/ilCOPagePres.js");
 
         $this->setCtrlPar();
         $a_tpl->addOnLoadCode(
