@@ -6764,6 +6764,9 @@ button.close {
   margin-top: 10px;
   background-color: #a9a9a9;
 }
+.panel {
+  border: none;
+}
 .panel .panel-heading.ilHeader,
 .panel .panel-heading.ilBlockHeader {
   background-color: #f9f9f9;
