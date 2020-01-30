@@ -1120,10 +1120,12 @@ class ilForum
                 $query .= "
 					  (SELECT COUNT(DISTINCT(ipos.pos_pk))
 						FROM frm_posts ipos
+						INNER JOIN frm_posts_tree treenew
+							ON treenew.pos_fk = ipos.pos_pk 
 						LEFT JOIN frm_user_read iread ON iread.post_id = ipos.pos_pk AND iread.usr_id = %s
 						LEFT JOIN frm_thread_access iacc ON (iacc.thread_id = ipos.pos_thr_fk AND iacc.usr_id = %s)
 						WHERE ipos.pos_thr_fk = thr_pk
-						 
+						AND treenew.parent_pos != 0
 						AND (ipos.pos_update > iacc.access_old_ts
 							OR
 							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date('Y-m-d H:i:s', NEW_DEADLINE), 'timestamp') . "))
