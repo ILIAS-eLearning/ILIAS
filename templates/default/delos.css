@@ -7130,6 +7130,11 @@ button.close {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
+@-moz-document url-prefix() {
+  .btn:focus {
+    outline: 1px dotted #9ecaed;
+  }
+}
 input.btn {
   display: inline-block;
   min-width: 60px;
@@ -10841,9 +10846,14 @@ footer {
   font-family: il-icons;
   content: "\e001";
 }
-.il-link:focus {
+.il-link:focus:focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+}
+@-moz-document url-prefix() {
+  .il-link:focus:focus {
+    outline: 1px dotted #9ecaed;
+  }
 }
 .il-link.link-bulky {
   display: flex;
