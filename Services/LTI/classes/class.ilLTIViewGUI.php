@@ -120,7 +120,8 @@ class ilLTIViewGUI
 			case 'exit' :
 				$this->logout();
 				$this->exitLti();
-			break;
+				unset($_SESSION['il_lti_mode']);
+				break;
 		}
 	}
 
@@ -143,7 +144,6 @@ class ilLTIViewGUI
 	 * */
 	public function deactivate() 
 	{
-		unset($_SESSION['il_lti_mode']);
 		unset($_SESSION['lti_home_id']);
 		unset($_SESSION['lti_home_obj_id']);
 		unset($_SESSION['lti_home_url']);
@@ -235,7 +235,6 @@ class ilLTIViewGUI
 			$tpl = $this->dic["tpl"];
 			$tpl->setContent($renderer->render($content));
 			$tpl->printToStdout();
-
 		} else {
 			header('Location: ' . $_SESSION['lti_launch_presentation_return_url']);
 		}
