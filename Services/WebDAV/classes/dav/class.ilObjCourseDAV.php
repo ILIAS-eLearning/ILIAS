@@ -1,7 +1,5 @@
 <?php
 
-require_once 'Modules/Course/classes/class.ilObjCourse.php';
-
 /**
  * Class ilObjCourseDAV
  *

@@ -2,8 +2,6 @@
 
 use Sabre\DAV\Exception\Forbidden;
 
-include_once 'Modules/RootFolder/classes/class.ilObjRootFolder.php';
-
 /**
  * Class ilObjRepositoryRootDAV
  *

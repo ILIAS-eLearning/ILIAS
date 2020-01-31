@@ -48,7 +48,6 @@ class ilWebDAVUtil
         if ($this->pwd_instruction !== null) {
             return $this->pwd_instruction;
         }
-        include_once './Services/Authentication/classes/class.ilAuthUtils.php';
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
         if ($status != ilAuthUtils::LOCAL_PWV_USER) {
             return $this->pwd_instruction = false;

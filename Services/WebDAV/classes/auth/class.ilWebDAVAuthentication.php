@@ -76,19 +76,15 @@ class ilWebDAVAuthentication
             ilSession::enableWebAccessWithoutSession(true);
         }
        
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsHTTP.php';
         $credentials = new ilAuthFrontendCredentialsHTTP();
         $credentials->setUsername($a_username);
         $credentials->setPassword($a_password);
         
-        include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
         $provider_factory = new ilAuthProviderFactory();
         $providers = $provider_factory->getProviders($credentials);
         
-        include_once './Services/Authentication/classes/class.ilAuthStatus.php';
         $status = ilAuthStatus::getInstance();
         
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
         $frontend_factory = new ilAuthFrontendFactory();
         $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_HTTP);
         $frontend = $frontend_factory->getFrontend(
