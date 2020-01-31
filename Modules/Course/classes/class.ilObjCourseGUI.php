@@ -2092,12 +2092,15 @@ class ilObjCourseGUI extends ilContainerGUI
             ilObjectServiceSettingsGUI::SKILLS,
             false
         )) {
-            $this->tabs_gui->addTarget(
-                "obj_tool_setting_skills",
-                $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
-                "",
-                array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
-            );
+            $skmg_set = new ilSetting("skmg");
+            if ($skmg_set->get("enable_skmg")) {
+                $this->tabs_gui->addTarget(
+                    "obj_tool_setting_skills",
+                    $this->ctrl->getLinkTargetByClass(array("ilcontainerskillgui", "ilcontskillpresentationgui"), ""),
+                    "",
+                    array("ilcontainerskillgui", "ilcontskillpresentationgui", "ilcontskilladmingui")
+                );
+            }
         }
 
         // learning progress
