@@ -63,21 +63,12 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("TITLE", $component->getTitle());
         $tpl->setVariable("SHORT_TITLE", $component->getShortTitle());
         $tpl->setVariable("VIEW_TITLE", $component->getViewTitle());
+        $tpl->setVariable("LANGUAGE", $this->getLangKey());
         $tpl->setVariable('CONTENT', $default_renderer->render($component->getContent()));
 
         if ($component->hasFooter()) {
             $tpl->setVariable('FOOTER', $default_renderer->render($component->getFooter()));
         }
-
-        $component = $component->withOnLoadCode(
-            function ($id) {
-                return "$(document).ready(function() {
-					il.UI.page.init();
-				});";
-            }
-        );
-        $id = $this->bindJavaScript($component);
-        $tpl->setVariable('ID', $id);
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());

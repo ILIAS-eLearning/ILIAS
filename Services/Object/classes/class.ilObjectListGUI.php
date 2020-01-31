@@ -3859,7 +3859,7 @@ class ilObjectListGUI
 
         // description, @todo: move to new ks element
         if ($description != "") {
-            $sections[] = $ui->factory()->legacy("<div class='il_info il-multi-line-cap-3'>" . $description . "</div>");
+            $sections[] = $ui->factory()->legacy("<div class='il-multi-line-cap-3'>" . $description . "</div>");
         }
 
         $this->insertCommands();

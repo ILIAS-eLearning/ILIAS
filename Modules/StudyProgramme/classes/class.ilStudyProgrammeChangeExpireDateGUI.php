@@ -270,7 +270,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         }
 
         ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
-        $this->ctrl->redirectByClass($this, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
+        $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
 
     public function setRefId(int $ref_id) : void
@@ -292,7 +292,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         if (is_null($prgrs_ids)) {
             return array();
         }
-        return explode(',', $prgrs_ids);
+        return array_map('intval', explode(',', $prgrs_ids));
     }
 
     protected function redirectToParent() : void

@@ -6755,6 +6755,7 @@ pd#:#pd_my_memberships_intro2#:#This is your personal space for all courses and 
 pd#:#pd_personal_items_default_view_info#:#Choose the preferred view of Personal Items.
 pd#:#pd_personal_items_default_view#:#Default View
 pd#:#pd_view_select_at_least_one#:#You have to select at least one view, either ‘Selected Items’ and/or ‘My Memberships’.
+ps#:#participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
 ps#:#ps_agreement_accepted#:#User Agreement Accepted
 ps#:#ps_auto_https_description#:#If enabled, ILIAS tries to detect the HTTPs Status by analysing the header value specified below.
 ps#:#ps_auto_https_header_name#:#Header Name
@@ -15921,7 +15922,7 @@ prg#:#prg_completion_date#:#Completion date
 prg#:#prg_expiry_date#:#Expiry date
 prg#:#prg_validity#:#Validity
 prg#:#prg_still_valid#:#still valid
-prg#:#prg_renewal_required#:#renewal required
+prg#:#prg_not_valid#:#not valid
 prg#:#prg_restart_assignments_temporal_progress_title#:#Restart Studyprogramme assignments
 prg#:#prg_restart_assignments_temporal_progress_desc#:#Restart Studyprogramme assignments with progresses about to expire
 prg#:#prg_invalidate_expired_progresses_title#:#Limited validity of Studyprogramme progress
@@ -16046,3 +16047,5 @@ rep#:#rep_mo_mem_dash#:#Sie sind aktuell noch nicht Mitglied eines Kurses oder e
 task#:#task_no_task_items#:#Es sind keine To-Dos für Sie vorhanden.
 exc#:#exc_members_already_assigned_team#:#This user is already assigned to a team.
 style#:#sty_add_media_query_info#:#E.g. "only screen and (max-width: 600px)" for browser window smaller than 600px or "print" for printing devices.
+prg#:#prg_quali_still_valid#:#Qualification still valid
+prg#:#prg_quali_not_valid#:#Qualification not valid

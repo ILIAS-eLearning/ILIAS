@@ -1149,6 +1149,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $crs_objective = new ilCourseObjective($this);
         $crs_objective->ilClone($a_target_id, $a_copy_id);
         
+        // clone membership limitation
+        foreach (\ilObjCourseGrouping::_getGroupings($this->getId()) as $grouping_id) {
+            \ilLoggerFactory::getLogger('crs')->info('Handling grouping id: ' . $grouping_id);
+            $grouping = new \ilObjCourseGrouping($grouping_id);
+            $grouping->cloneGrouping($a_target_id, $a_copy_id);
+        }
+
         return true;
     }
     
@@ -1531,7 +1538,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             #"objective_view = '0', ".
             "1, " .
             "1," .
-            '1,' .
+            '0,' .
             $ilDB->quote($this->isSessionLimitEnabled(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
             $ilDB->quote($this->getNumberOfPreviousSessions(), 'integer') . ', ' .
@@ -1584,7 +1591,13 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableWaitingList($row->waiting_list);
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
+
+            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
             $this->setShowMembersExport($row->show_members_export);
+            }
+            else {
+                $this->setShowMembersExport(false);
+            }
             $this->setLatitude($row->latitude);
             $this->setLongitude($row->longitude);
             $this->setLocationZoom($row->location_zoom);

@@ -40,8 +40,6 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
      */
     public function __construct(ilObject $a_obj, ilWebDAVRepositoryHelper $repo_helper, ilWebDAVObjDAVHelper $dav_helper)
     {
-        global $DIC;
-        
         $this->obj =&$a_obj;
         $this->ref_id = $a_obj->getRefId();
 

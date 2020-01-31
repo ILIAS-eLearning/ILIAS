@@ -179,7 +179,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary">
+<div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
@@ -211,7 +211,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-sub">
+<div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader clearfix">
 		<h4>Title</h4>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
@@ -252,13 +252,13 @@ EOT;
         $html = $r->render($report);
 
         $expected_html =
-                "<div class=\"panel panel-primary il-panel-report\">" .
+                "<div class=\"panel panel-primary il-panel-report panel-flex\">" .
                 "   <div class=\"panel-heading ilHeader\">" .
                 "<h3 class=\"ilHeader\">Title</h3>" .
                 "   </div>" .
                 "   <div class=\"panel-body\">" .
                 "
-             <div class=\"panel panel-sub\">" .
+             <div class=\"panel panel-sub panel-flex\">" .
                 "           <div class=\"panel-heading ilBlockHeader clearfix\">" .
                 "               <h4>Title</h4>" .
                 "           </div>" .
@@ -309,7 +309,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary">
+<div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3> 
 		<div class="il-viewcontrol-sortation" id="">
@@ -347,7 +347,7 @@ EOT;
         $html = $r->render($p);
 
         $expected_html = <<<EOT
-<div class="panel panel-primary">
+<div class="panel panel-primary panel-flex">
 	<div class="panel-heading ilHeader clearfix">
 		<h3 class="ilHeader">Title</h3> 
 		<div class="il-viewcontrol-pagination">

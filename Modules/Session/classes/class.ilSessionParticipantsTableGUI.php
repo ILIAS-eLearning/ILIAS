@@ -160,7 +160,6 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         }
 
         $this->addColumn($this->lng->txt('sess_contact'), 'contact');
-        $this->addColumn($this->lng->txt('trac_mark'), 'mark');
         if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
             $this->addColumn($this->lng->txt('notification'), 'notification');
         }

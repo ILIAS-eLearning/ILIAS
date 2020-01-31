@@ -8,7 +8,6 @@ use ILIAS\UI\Component\Component;
 
 /**
  * Class TopParentItemRenderer
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class TopParentItemRenderer extends BaseTypeRenderer
@@ -19,13 +18,12 @@ class TopParentItemRenderer extends BaseTypeRenderer
     }
     use isSupportedTrait;
 
-
     /**
      * @inheritDoc
      */
     public function getComponentWithContent(isItem $item) : Component
     {
-        $f = $this->ui_factory;
+        $f     = $this->ui_factory;
         $slate = $f->mainControls()->slate()->combined($item->getTitle(), $this->getStandardSymbol($item));
         /**
          * @var $child isItem
